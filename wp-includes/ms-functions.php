@@ -1116,8 +1116,9 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $s
 	if ( domain_exists($domain, $path, $site_id) )
 		return new WP_Error( 'blog_taken', __( 'Sorry, that site already exists!' ) );
 
-	if ( !defined('WP_INSTALLING') )
-		define( 'WP_INSTALLING', true );
+	if ( ! wp_installing() ) {
+		wp_installing( true );
+	}
 
 	if ( ! $blog_id = insert_blog($domain, $path, $site_id) )
 		return new WP_Error('insert_blog', __('Could not create site.'));
@@ -2172,7 +2173,7 @@ function wp_schedule_update_network_counts() {
 	if ( !is_main_site() )
 		return;
 
-	if ( !wp_next_scheduled('update_network_counts') && !defined('WP_INSTALLING') )
+	if ( ! wp_next_scheduled('update_network_counts') && ! wp_installing() )
 		wp_schedule_event(time(), 'twicedaily', 'update_network_counts');
 }
 

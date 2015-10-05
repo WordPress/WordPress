@@ -261,7 +261,7 @@ function update_recently_edited( $file ) {
  * @param string $value
  */
 function update_home_siteurl( $old_value, $value ) {
-	if ( defined( "WP_INSTALLING" ) )
+	if ( wp_installing() )
 		return;
 
 	if ( is_multisite() && ms_is_switched() ) {

@@ -1260,6 +1260,37 @@ function do_robots() {
 }
 
 /**
+ * Check or set whether WordPress is in "installation" mode.
+ *
+ * If the `WP_INSTALLING` constant is defined during the bootstrap, `wp_installing()` will default to `true`.
+ *
+ * @since 4.4.0
+ *
+ * @staticvar bool $installing
+ *
+ * @param bool $is_installing Optional. True to set WP into Installing mode, false to turn Installing mode off.
+ *                            Omit this parameter if you only want to fetch the current status.
+ * @return bool True if WP is installing, otherwise false. When a `$is_installing` is passed, the function will
+ *              report whether WP was in installing mode prior to the change to `$is_installing`.
+ */
+function wp_installing( $is_installing = null ) {
+	static $installing = null;
+
+	// Support for the `WP_INSTALLING` constant, defined before WP is loaded.
+	if ( is_null( $installing ) ) {
+		$installing = defined( 'WP_INSTALLING' ) && WP_INSTALLING;
+	}
+
+	if ( ! is_null( $is_installing ) ) {
+		$old_installing = $installing;
+		$installing = $is_installing;
+		return (bool) $old_installing;
+	}
+
+	return (bool) $installing;
+}
+
+/**
  * Test whether blog is already installed.
  *
  * The cache will be checked first. If you have a cache plugin, which saves
@@ -1285,7 +1316,7 @@ function is_blog_installed() {
 		return true;
 
 	$suppress = $wpdb->suppress_errors();
-	if ( ! defined( 'WP_INSTALLING' ) ) {
+	if ( ! wp_installing() ) {
 		$alloptions = wp_load_alloptions();
 	}
 	// If siteurl is not set to autoload, check it specifically
@@ -3337,7 +3368,7 @@ function dead_db() {
 	}
 
 	// If installing or in the admin, provide the verbose message.
-	if ( defined('WP_INSTALLING') || defined('WP_ADMIN') )
+	if ( wp_installing() || defined( 'WP_ADMIN' ) )
 		wp_die($wpdb->error);
 
 	// Otherwise, be terse.

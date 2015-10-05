@@ -53,7 +53,7 @@ function get_option( $option, $default = false ) {
 	if ( defined( 'WP_SETUP_CONFIG' ) )
 		return false;
 
-	if ( ! defined( 'WP_INSTALLING' ) ) {
+	if ( ! wp_installing() ) {
 		// prevent non-existent options from triggering multiple queries
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
 		if ( isset( $notoptions[ $option ] ) ) {
@@ -171,7 +171,7 @@ function form_option( $option ) {
 function wp_load_alloptions() {
 	global $wpdb;
 
-	if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
+	if ( ! wp_installing() || ! is_multisite() )
 		$alloptions = wp_cache_get( 'alloptions', 'options' );
 	else
 		$alloptions = false;
@@ -185,7 +185,7 @@ function wp_load_alloptions() {
 		foreach ( (array) $alloptions_db as $o ) {
 			$alloptions[$o->option_name] = $o->option_value;
 		}
-		if ( !defined( 'WP_INSTALLING' ) || !is_multisite() )
+		if ( ! wp_installing() || ! is_multisite() )
 			wp_cache_add( 'alloptions', $alloptions, 'options' );
 	}
 
@@ -204,7 +204,7 @@ function wp_load_alloptions() {
 function wp_load_core_site_options( $site_id = null ) {
 	global $wpdb;
 
-	if ( !is_multisite() || wp_using_ext_object_cache() || defined( 'WP_INSTALLING' ) )
+	if ( ! is_multisite() || wp_using_ext_object_cache() || wp_installing() )
 		return;
 
 	if ( empty($site_id) )
@@ -332,7 +332,7 @@ function update_option( $option, $value, $autoload = null ) {
 		wp_cache_set( 'notoptions', $notoptions, 'options' );
 	}
 
-	if ( ! defined( 'WP_INSTALLING' ) ) {
+	if ( ! wp_installing() ) {
 		$alloptions = wp_load_alloptions();
 		if ( isset( $alloptions[$option] ) ) {
 			$alloptions[ $option ] = $serialized_value;
@@ -433,7 +433,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	if ( ! $result )
 		return false;
 
-	if ( ! defined( 'WP_INSTALLING' ) ) {
+	if ( ! wp_installing() ) {
 		if ( 'yes' == $autoload ) {
 			$alloptions = wp_load_alloptions();
 			$alloptions[ $option ] = $serialized_value;
@@ -509,7 +509,7 @@ function delete_option( $option ) {
 	do_action( 'delete_option', $option );
 
 	$result = $wpdb->delete( $wpdb->options, array( 'option_name' => $option ) );
-	if ( ! defined( 'WP_INSTALLING' ) ) {
+	if ( ! wp_installing() ) {
 		if ( 'yes' == $row->autoload ) {
 			$alloptions = wp_load_alloptions();
 			if ( is_array( $alloptions ) && isset( $alloptions[$option] ) ) {
@@ -629,7 +629,7 @@ function get_transient( $transient ) {
 		$value = wp_cache_get( $transient, 'transient' );
 	} else {
 		$transient_option = '_transient_' . $transient;
-		if ( ! defined( 'WP_INSTALLING' ) ) {
+		if ( ! wp_installing() ) {
 			// If option is not in alloptions, it is not autoloaded and thus has a timeout
 			$alloptions = wp_load_alloptions();
 			if ( !isset( $alloptions[$transient_option] ) ) {

@@ -136,7 +136,7 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 	}
 
 	// @todo Investigate when exactly this can occur.
-	if ( empty( $current_blog ) && defined( 'WP_INSTALLING' ) ) {
+	if ( empty( $current_blog ) && wp_installing() ) {
 		$current_blog = new stdClass;
 		$current_blog->blog_id = $blog_id = 1;
 	}
