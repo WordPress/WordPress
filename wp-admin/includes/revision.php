@@ -216,7 +216,20 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param array   $revisions_data The bootstrapped data for the revisions screen.
+		 * @param array   $revisions_data {
+		 *     The bootstrapped data for the revisions screen.
+		 *
+		 *     @type int        $id         Revision ID.
+		 *     @type string     $title      Title for the revision's parent WP_Post object.
+		 *     @type int        $author     Revision post author ID.
+		 *     @type string     $date       Date the revision was modified.
+		 *     @type string     $dateShort  Short-form version of the date the revision was modified.
+		 *     @type string     $timeAgo    GMT-aware amount of time ago the revision was modified.
+		 *     @type bool       $autosave   Whether the revision is an autosave.
+		 *     @type bool       $current    Whether the revision is both not an autosave and the post
+		 *                                  modified date matches the revision modified date (GMT-aware).
+		 *     @type bool|false $restoreUrl URL if the revision can be restored, false otherwise.
+		 * }
 		 * @param WP_Post $post           The revision's parent WP_Post object.
 		 */
 		$revisions[ $revision->ID ] = apply_filters( 'wp_prepare_revision_for_js', $revisions_data, $post );
