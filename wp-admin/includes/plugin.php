@@ -1839,7 +1839,7 @@ function unregister_setting( $option_group, $option_name, $sanitize_callback = '
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Refreshes the value of the options whitelist available via the 'whitelist_options' filter.
  *
  * @since 2.7.0
  *
@@ -1858,7 +1858,7 @@ function option_update_filter( $options ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Adds an array of options to the options whitelist.
  *
  * @since 2.7.0
  *
@@ -1891,7 +1891,7 @@ function add_option_whitelist( $new_options, $options = '' ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Removes a list of options from the options whitelist.
  *
  * @since 2.7.0
  *
