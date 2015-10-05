@@ -230,9 +230,10 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 		 *                                  modified date matches the revision modified date (GMT-aware).
 		 *     @type bool|false $restoreUrl URL if the revision can be restored, false otherwise.
 		 * }
+		 * @param WP_Post $revision       The revision's WP_Post object.
 		 * @param WP_Post $post           The revision's parent WP_Post object.
 		 */
-		$revisions[ $revision->ID ] = apply_filters( 'wp_prepare_revision_for_js', $revisions_data, $post );
+		$revisions[ $revision->ID ] = apply_filters( 'wp_prepare_revision_for_js', $revisions_data, $revision, $post );
 	}
 
 	/**
