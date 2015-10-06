@@ -8,6 +8,7 @@
 		l10n;
 
 	api.Widgets = api.Widgets || {};
+	api.Widgets.savedWidgetIds = {};
 
 	// Link settings
 	api.Widgets.data = _wpCustomizeWidgetsSettings || {};
@@ -522,8 +523,6 @@
 		 */
 		_setupModel: function() {
 			var self = this, rememberSavedWidgetId;
-
-			api.Widgets.savedWidgetIds = api.Widgets.savedWidgetIds || [];
 
 			// Remember saved widgets so we know which to trash (move to inactive widgets sidebar)
 			rememberSavedWidgetId = function() {
