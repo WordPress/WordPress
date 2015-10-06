@@ -2002,8 +2002,8 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *
  * @since 3.0.0
  * @since 4.1.0 Introduced the 'class_submit' argument.
- * @since 4.2.0 Introduced 'submit_button' and 'submit_fields' arguments.
- * @since 4.4.0 Introduced 'title_reply_before', 'title_reply_after',
+ * @since 4.2.0 Introduced the 'submit_button' and 'submit_fields' arguments.
+ * @since 4.4.0 Introduced the 'class_form', 'title_reply_before', 'title_reply_after',
  *              'cancel_reply_before', and 'cancel_reply_after' arguments.
  *
  * @param array       $args {
@@ -2024,6 +2024,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *     @type string $comment_notes_after  HTML element for a message displayed after the comment form.
  *     @type string $id_form              The comment form element id attribute. Default 'commentform'.
  *     @type string $id_submit            The comment submit element id attribute. Default 'submit'.
+ *     @type string $class_form           The comment form element class attribute. Default 'comment-form'.
  *     @type string $class_submit         The comment submit element class attribute. Default 'submit'.
  *     @type string $name_submit          The comment submit element name attribute. Default 'submit'.
  *     @type string $title_reply          The translatable 'reply' button label. Default 'Leave a Reply'.
@@ -2092,6 +2093,7 @@ function comment_form( $args = array(), $post_id = null ) {
 		'comment_notes_after'  => '',
 		'id_form'              => 'commentform',
 		'id_submit'            => 'submit',
+		'class_form'           => 'comment-form',
 		'class_submit'         => 'submit',
 		'name_submit'          => 'submit',
 		'title_reply'          => __( 'Leave a Reply' ),
@@ -2153,7 +2155,7 @@ function comment_form( $args = array(), $post_id = null ) {
 				 */
 				do_action( 'comment_form_must_log_in_after' );
 			else : ?>
-				<form action="<?php echo site_url( '/wp-comments-post.php' ); ?>" method="post" id="<?php echo esc_attr( $args['id_form'] ); ?>" class="comment-form"<?php echo $html5 ? ' novalidate' : ''; ?>>
+				<form action="<?php echo site_url( '/wp-comments-post.php' ); ?>" method="post" id="<?php echo esc_attr( $args['id_form'] ); ?>" class="<?php echo esc_attr( $args['class_form'] ); ?>"<?php echo $html5 ? ' novalidate' : ''; ?>>
 					<?php
 					/**
 					 * Fires at the top of the comment form, inside the form tag.
