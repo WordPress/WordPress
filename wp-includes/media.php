@@ -992,7 +992,7 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium' ) {
  */
 function wp_get_attachment_image_sizes( $attachment_id, $size = 'medium', $args = null ) {
 
-	// Try to get the image width from $args before calling image_downsize().
+	// Try to get the image width from $args.
 	if ( is_array( $args ) && ! empty( $args['width'] ) ) {
 		$img_width = (int) $args['width'];
 	} elseif ( $img = image_get_intermediate_size( $attachment_id, $size ) ) {
