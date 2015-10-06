@@ -555,19 +555,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	 * spring them from jail.
 	 */
 	if ( ! is_subdomain_install() ) {
-		$illegal_names = array_merge(
-			$illegal_names,
-			/**
-			 * Filter reserved site names on a sub-directory Multisite install.
-			 *
-			 * @since 3.0.0
-			 * @since 4.4.0 'wp-admin', 'wp-content', 'wp-includes', 'wp-json', and 'embed' were added
-			 *              to the reserved names list.
-			 *
-			 * @param array $subdirectory_reserved_names Array of reserved names.
-			 */
-			apply_filters( 'subdirectory_reserved_names', array( 'page', 'comments', 'blog', 'files', 'feed', 'wp-admin', 'wp-content', 'wp-includes', 'wp-json', 'embed' ) )
-		);
+		$illegal_names = array_merge( $illegal_names, get_subdirectory_reserved_names() );
 	}
 
 	if ( empty( $blogname ) )
@@ -2467,4 +2455,29 @@ function wp_get_sites( $args = array() ) {
 	$site_results = $wpdb->get_results( $query, ARRAY_A );
 
 	return $site_results;
+}
+
+/**
+ * Retrieves a list of reserved site on a sub-directory Multisite install.
+ *
+ * @since 4.4.0
+ *
+ * @return array $names Array of reserved subdirectory names.
+ */
+function get_subdirectory_reserved_names() {
+	$names = array(
+		'page', 'comments', 'blog', 'files', 'feed', 'wp-admin',
+		'wp-content', 'wp-includes', 'wp-json', 'embed'
+	);
+
+	/**
+	 * Filter reserved site names on a sub-directory Multisite install.
+	 *
+	 * @since 3.0.0
+	 * @since 4.4.0 'wp-admin', 'wp-content', 'wp-includes', 'wp-json', and 'embed' were added
+	 *              to the reserved names list.
+	 *
+	 * @param array $subdirectory_reserved_names Array of reserved names.
+	 */
+	return apply_filters( 'subdirectory_reserved_names', $names );
 }
