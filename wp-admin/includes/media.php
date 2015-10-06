@@ -2969,13 +2969,19 @@ function wp_add_id3_tag_data( &$metadata, $data ) {
  * @return array|bool Returns array of metadata, if found.
  */
 function wp_read_video_metadata( $file ) {
-	if ( ! file_exists( $file ) )
+	if ( ! file_exists( $file ) ) {
 		return false;
+	}
 
 	$metadata = array();
 
-	if ( ! class_exists( 'getID3', false ) )
+	if ( ! defined( 'GETID3_TEMP_DIR' ) ) {
+		define( 'GETID3_TEMP_DIR', get_temp_dir() );
+	}
+
+	if ( ! class_exists( 'getID3', false ) ) {
 		require( ABSPATH . WPINC . '/ID3/getid3.php' );
+	}
 	$id3 = new getID3();
 	$data = $id3->analyze( $file );
 
@@ -3025,12 +3031,18 @@ function wp_read_video_metadata( $file ) {
  * @return array|bool Returns array of metadata, if found.
  */
 function wp_read_audio_metadata( $file ) {
-	if ( ! file_exists( $file ) )
+	if ( ! file_exists( $file ) ) {
 		return false;
+	}
 	$metadata = array();
 
-	if ( ! class_exists( 'getID3', false ) )
+	if ( ! defined( 'GETID3_TEMP_DIR' ) ) {
+		define( 'GETID3_TEMP_DIR', get_temp_dir() );
+	}
+
+	if ( ! class_exists( 'getID3', false ) ) {
 		require( ABSPATH . WPINC . '/ID3/getid3.php' );
+	}
 	$id3 = new getID3();
 	$data = $id3->analyze( $file );
 
