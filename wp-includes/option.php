@@ -1603,7 +1603,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 	$expiration = (int) $expiration;
 
 	/**
-	 * Filter the expiration for a transient before its value is set.
+	 * Filter the expiration for a site transient before its value is set.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
