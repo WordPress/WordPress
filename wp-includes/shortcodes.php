@@ -530,13 +530,16 @@ function shortcode_atts( $pairs, $atts, $shortcode = '' ) {
 	 * The third parameter, $shortcode, is the name of the shortcode.
 	 *
 	 * @since 3.6.0
+	 * @since 4.4.0 Added the `$shortcode` parameter.
 	 *
-	 * @param array $out   The output array of shortcode attributes.
-	 * @param array $pairs The supported attributes and their defaults.
-	 * @param array $atts  The user defined shortcode attributes.
+	 * @param array  $out       The output array of shortcode attributes.
+	 * @param array  $pairs     The supported attributes and their defaults.
+	 * @param array  $atts      The user defined shortcode attributes.
+	 * @param string $shortcode The shortcode name.
 	 */
-	if ( $shortcode )
-		$out = apply_filters( "shortcode_atts_{$shortcode}", $out, $pairs, $atts );
+	if ( $shortcode ) {
+		$out = apply_filters( "shortcode_atts_{$shortcode}", $out, $pairs, $atts, $shortcode );
+	}
 
 	return $out;
 }
