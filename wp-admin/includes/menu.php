@@ -181,12 +181,11 @@ unset($id, $data, $subs, $first_sub);
 // Remove any duplicated separators
 $separator_found = false;
 foreach ( $menu as $id => $data ) {
-	if ( 0 == strcmp('wp-menu-separator', $data[4] ) ) {
+	if ( false !== strpos( $data[4], 'wp-menu-separator' ) ) {
 		if ( ! $separator_found ) {
 			$separator_found = true;
 		} else {
 			unset($menu[$id]);
-			$separator_found = false;
 		}
 	} else {
 		$separator_found = false;
