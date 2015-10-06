@@ -316,3 +316,19 @@ if ( ! function_exists( 'json_last_error_msg' ) ) :
 		}
 	}
 endif;
+
+if ( ! interface_exists( 'JsonSerializable' ) ) {
+	define( 'WP_JSON_SERIALIZE_COMPATIBLE', true );
+	/**
+	 * JsonSerializable interface.
+	 *
+	 * Compatibility shim for PHP <5.4
+	 *
+     * @link http://php.net/jsonserializable
+	 *
+	 * @since 4.4.0
+	 */
+	interface JsonSerializable {
+		public function jsonSerialize();
+	}
+}
