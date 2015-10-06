@@ -295,8 +295,12 @@ function retrieve_password() {
 	 * Fires before errors are returned from a password reset request.
 	 *
 	 * @since 2.1.0
+	 * @since 4.4.0 Added the `$errors` parameter.
+	 *
+	 * @param WP_Error $errors A WP_Error object containing any errors generated
+	 *                         by using invalid credentials.
 	 */
-	do_action( 'lostpassword_post' );
+	do_action( 'lostpassword_post', $errors );
 
 	if ( $errors->get_error_code() )
 		return $errors;
