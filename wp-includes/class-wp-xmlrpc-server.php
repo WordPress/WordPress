@@ -1705,7 +1705,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string $username Username.
 	 *     @type string $password Password.
 	 *     @type array  $filter   Optional. Modifies the query used to retrieve posts. Accepts 'post_type',
-	 *                            'post_status', 'number', 'offset', 'orderby', and 'order'.
+	 *                            'post_status', 'number', 'offset', 'orderby', 's', and 'order'.
 	 *                            Default empty array.
 	 *     @type array  $fields   Optional. The subset of post type fields to return in the response array.
 	 * }
