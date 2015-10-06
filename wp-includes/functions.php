@@ -680,15 +680,15 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
  *     add_query_arg( 'key', 'value', 'http://example.com' );
  *
  * Using an associative array:
- * 
+ *
  *     add_query_arg( array(
  *         'key1' => 'value1',
  *         'key2' => 'value2',
  *     ), 'http://example.com' );
- * 
+ *
  * Omitting the URL from either use results in the current URL being used
  * (the value of `$_SERVER['REQUEST_URI']`).
- * 
+ *
  * Values are expected to be encoded appropriately with urlencode() or rawurlencode().
  *
  * Setting any query variable's value to boolean false removes the key (see remove_query_arg()).
@@ -5021,4 +5021,22 @@ function wp_post_preview_js() {
 	}());
 	</script>
 	<?php
+}
+
+/**
+ * Parses and formats a MySQL datetime (Y-m-d H:i:s) for ISO8601/RFC3339.
+ *
+ * Explicitly strips timezones, as datetimes are not saved with any timezone
+ * information. Including any information on the offset could be misleading.
+ *
+ * @since 4.4.0
+ *
+ * @param string $date_string Date string to parse and format.
+ * @return string Date formatted for ISO8601/RFC3339.
+ */
+function mysql_to_rfc3339( $date_string ) {
+	$formatted = mysql2date( 'c', $date_string, false );
+
+	// Strip timezone information
+	return preg_replace( '/(?:Z|[+-]\d{2}(?::\d{2})?)$/', '', $formatted );
 }
