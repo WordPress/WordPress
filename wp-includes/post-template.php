@@ -451,11 +451,17 @@ function get_post_class( $class = '', $post_id = null ) {
 			$classes[] = 'format-standard';
 	}
 
-	// Post requires password
-	if ( post_password_required( $post->ID ) ) {
+	$post_password_required = post_password_required( $post->ID );
+
+	// Post requires password.
+	if ( $post_password_required ) {
 		$classes[] = 'post-password-required';
-	// Post thumbnails
-	} elseif ( ! is_attachment( $post ) && current_theme_supports( 'post-thumbnails' ) && has_post_thumbnail( $post->ID ) ) {
+	} elseif ( ! empty( $post->post_password ) ) {
+		$classes[] = 'post-password-protected';
+	}
+
+	// Post thumbnails.
+	if ( current_theme_supports( 'post-thumbnails' ) && has_post_thumbnail( $post->ID ) && ! is_attachment( $post ) && ! $post_password_required ) {
 		$classes[] = 'has-post-thumbnail';
 	}
 
