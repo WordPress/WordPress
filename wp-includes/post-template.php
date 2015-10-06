@@ -1656,7 +1656,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
 	 * @param string  $revision_date_author The formatted string.
 	 * @param WP_Post $revision             The revision object.
 	 * @param bool    $link                 Whether to link to the revisions page, as passed into
-	 * wp_post_revision_title_expanded().
+	 *                                      wp_post_revision_title_expanded().
 	 */
 	return apply_filters( 'wp_post_revision_title_expanded', $revision_date_author, $revision, $link );
 }
