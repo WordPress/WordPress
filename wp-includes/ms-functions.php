@@ -100,7 +100,7 @@ function get_active_blog_for_user( $user_id ) {
  * @return int
  */
 function get_user_count() {
-	return get_network_option( 'user_count' );
+	return get_site_option( 'user_count' );
 }
 
 /**
@@ -117,7 +117,7 @@ function get_blog_count( $network_id = 0 ) {
 	if ( func_num_args() )
 		_deprecated_argument( __FUNCTION__, '3.1' );
 
-	return get_network_option( 'blog_count' );
+	return get_site_option( 'blog_count' );
 }
 
 /**
@@ -344,7 +344,7 @@ function get_blog_id_from_url( $domain, $path = '/' ) {
  * @return bool Returns true when the email address is banned.
  */
 function is_email_address_unsafe( $user_email ) {
-	$banned_names = get_network_option( 'banned_email_domains' );
+	$banned_names = get_site_option( 'banned_email_domains' );
 	if ( $banned_names && ! is_array( $banned_names ) )
 		$banned_names = explode( "\n", $banned_names );
 
@@ -422,10 +422,10 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	if ( empty( $user_name ) )
 	   	$errors->add('user_name', __( 'Please enter a username.' ) );
 
-	$illegal_names = get_network_option( 'illegal_names' );
+	$illegal_names = get_site_option( 'illegal_names' );
 	if ( ! is_array( $illegal_names ) ) {
 		$illegal_names = array(  'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' );
-		add_network_option( 'illegal_names', $illegal_names );
+		add_site_option( 'illegal_names', $illegal_names );
 	}
 	if ( in_array( $user_name, $illegal_names ) )
 		$errors->add('user_name',  __( 'That username is not allowed.' ) );
@@ -450,7 +450,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	if ( !is_email( $user_email ) )
 		$errors->add('user_email', __( 'Please enter a valid email address.' ) );
 
-	$limited_email_domains = get_network_option( 'limited_email_domains' );
+	$limited_email_domains = get_site_option( 'limited_email_domains' );
 	if ( is_array( $limited_email_domains ) && ! empty( $limited_email_domains ) ) {
 		$emaildomain = substr( $user_email, 1 + strpos( $user_email, '@' ) );
 		if ( ! in_array( $emaildomain, $limited_email_domains ) ) {
@@ -544,10 +544,10 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	$blog_title = strip_tags( $blog_title );
 
 	$errors = new WP_Error();
-	$illegal_names = get_network_option( 'illegal_names' );
+	$illegal_names = get_site_option( 'illegal_names' );
 	if ( $illegal_names == false ) {
 		$illegal_names = array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' );
-		add_network_option( 'illegal_names', $illegal_names );
+		add_site_option( 'illegal_names', $illegal_names );
 	}
 
 	/*
@@ -789,10 +789,10 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
 		$activate_url = "http://{$domain}{$path}wp-activate.php?key=$key"; // @todo use *_url() API
 
 	$activate_url = esc_url($activate_url);
-	$admin_email = get_network_option( 'admin_email' );
+	$admin_email = get_site_option( 'admin_email' );
 	if ( $admin_email == '' )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
-	$from_name = get_network_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_network_option( 'site_name' ) );
+	$from_name = get_site_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf(
 		/**
@@ -882,10 +882,10 @@ function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array(
 		return false;
 
 	// Send email with activation link.
-	$admin_email = get_network_option( 'admin_email' );
+	$admin_email = get_site_option( 'admin_email' );
 	if ( $admin_email == '' )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
-	$from_name = get_network_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_network_option( 'site_name' ) );
+	$from_name = get_site_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf(
 		/**
@@ -1124,7 +1124,7 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $s
 			update_option( $key, $value );
 	}
 
-	add_option( 'WPLANG', get_network_option( 'WPLANG' ) );
+	add_option( 'WPLANG', get_site_option( 'WPLANG' ) );
 	update_option( 'blog_public', (int) $meta['public'] );
 
 	if ( ! is_super_admin( $user_id ) && ! get_user_meta( $user_id, 'primary_blog', true ) )
@@ -1160,10 +1160,10 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $s
  * @return bool
  */
 function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
-	if ( get_network_option( 'registrationnotification' ) != 'yes' )
+	if ( get_site_option( 'registrationnotification' ) != 'yes' )
 		return false;
 
-	$email = get_network_option( 'admin_email' );
+	$email = get_site_option( 'admin_email' );
 	if ( is_email($email) == false )
 		return false;
 
@@ -1205,10 +1205,10 @@ Disable these notifications: %4$s' ), $blogname, $siteurl, wp_unslash( $_SERVER[
  * @return bool
  */
 function newuser_notify_siteadmin( $user_id ) {
-	if ( get_network_option( 'registrationnotification' ) != 'yes' )
+	if ( get_site_option( 'registrationnotification' ) != 'yes' )
 		return false;
 
-	$email = get_network_option( 'admin_email' );
+	$email = get_site_option( 'admin_email' );
 
 	if ( is_email($email) == false )
 		return false;
@@ -1344,7 +1344,7 @@ function install_blog( $blog_id, $blog_title = '' ) {
 	update_option( 'siteurl', $url );
 	update_option( 'home', $url );
 
-	if ( get_network_option( 'ms_files_rewriting' ) )
+	if ( get_site_option( 'ms_files_rewriting' ) )
 		update_option( 'upload_path', UPLOADBLOGSDIR . "/$blog_id/files" );
 	else
 		update_option( 'upload_path', get_blog_option( get_current_site()->blog_id, 'upload_path' ) );
@@ -1420,7 +1420,7 @@ function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta
 	if ( ! apply_filters( 'wpmu_welcome_notification', $blog_id, $user_id, $password, $title, $meta ) )
 		return false;
 
-	$welcome_email = get_network_option( 'welcome_email' );
+	$welcome_email = get_site_option( 'welcome_email' );
 	if ( $welcome_email == false ) {
 		/* translators: Do not translate USERNAME, SITE_NAME, BLOG_URL, PASSWORD: those are placeholders. */
 		$welcome_email = __( 'Howdy USERNAME,
@@ -1463,12 +1463,12 @@ We hope you enjoy your new site. Thanks!
 	 * @param array  $meta          Signup meta data.
 	 */
 	$welcome_email = apply_filters( 'update_welcome_email', $welcome_email, $blog_id, $user_id, $password, $title, $meta );
-	$admin_email = get_network_option( 'admin_email' );
+	$admin_email = get_site_option( 'admin_email' );
 
 	if ( $admin_email == '' )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 
-	$from_name = get_network_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_network_option( 'site_name' ) );
+	$from_name = get_site_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = $welcome_email;
 
@@ -1519,7 +1519,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	if ( ! apply_filters( 'wpmu_welcome_user_notification', $user_id, $password, $meta ) )
 		return false;
 
-	$welcome_email = get_network_option( 'welcome_user_email' );
+	$welcome_email = get_site_option( 'welcome_user_email' );
 
 	$user = get_userdata( $user_id );
 
@@ -1541,12 +1541,12 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	$welcome_email = str_replace( 'PASSWORD', $password, $welcome_email );
 	$welcome_email = str_replace( 'LOGINLINK', wp_login_url(), $welcome_email );
 
-	$admin_email = get_network_option( 'admin_email' );
+	$admin_email = get_site_option( 'admin_email' );
 
 	if ( $admin_email == '' )
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 
-	$from_name = get_network_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_network_option( 'site_name' ) );
+	$from_name = get_site_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = $welcome_email;
 
@@ -1718,7 +1718,7 @@ function recurse_dirsize( $directory, $exclude = null ) {
  * @return array
  */
 function check_upload_mimes( $mimes ) {
-	$site_exts = explode( ' ', get_network_option( 'upload_filetypes', 'jpg jpeg png gif' ) );
+	$site_exts = explode( ' ', get_site_option( 'upload_filetypes', 'jpg jpeg png gif' ) );
 	$site_mimes = array();
 	foreach ( $site_exts as $ext ) {
 		foreach ( $mimes as $ext_pattern => $mime ) {
@@ -1859,11 +1859,11 @@ function redirect_this_site( $deprecated = '' ) {
  * @return string|array If the upload is under the size limit, $upload is returned. Otherwise returns an error message.
  */
 function upload_is_file_too_big( $upload ) {
-	if ( ! is_array( $upload ) || defined( 'WP_IMPORTING' ) || get_network_option( 'upload_space_check_disabled' ) )
+	if ( ! is_array( $upload ) || defined( 'WP_IMPORTING' ) || get_site_option( 'upload_space_check_disabled' ) )
 		return $upload;
 
-	if ( strlen( $upload['bits'] )  > ( 1024 * get_network_option( 'fileupload_maxk', 1500 ) ) )
-		return sprintf( __( 'This file is too big. Files must be less than %d KB in size.' ) . '<br />', get_network_option( 'fileupload_maxk', 1500 ) );
+	if ( strlen( $upload['bits'] )  > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
+		return sprintf( __( 'This file is too big. Files must be less than %d KB in size.' ) . '<br />', get_site_option( 'fileupload_maxk', 1500 ));
 
 	return $upload;
 }
@@ -2076,7 +2076,7 @@ function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
  * @return bool
  */
 function users_can_register_signup_filter() {
-	$registration = get_network_option( 'registration' );
+	$registration = get_site_option('registration');
 	return ( $registration == 'all' || $registration == 'user' );
 }
 
@@ -2105,7 +2105,7 @@ LOGINLINK
 Thanks!
 
 --The Team @ SITE_NAME' );
-		update_network_option( 'welcome_user_email', $text );
+		update_site_option( 'welcome_user_email', $text );
 	}
 	return $text;
 }
@@ -2231,7 +2231,7 @@ function wp_update_network_site_counts() {
 	global $wpdb;
 
 	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(blog_id) as c FROM $wpdb->blogs WHERE site_id = %d AND spam = '0' AND deleted = '0' and archived = '0'", $wpdb->siteid) );
-	update_network_option( 'blog_count', $count );
+	update_site_option( 'blog_count', $count );
 }
 
 /**
@@ -2245,7 +2245,7 @@ function wp_update_network_user_counts() {
 	global $wpdb;
 
 	$count = $wpdb->get_var( "SELECT COUNT(ID) as c FROM $wpdb->users WHERE spam = '0' AND deleted = '0'" );
-	update_network_option( 'user_count', $count );
+	update_site_option( 'user_count', $count );
 }
 
 /**
@@ -2283,7 +2283,7 @@ function get_space_allowed() {
 	$space_allowed = get_option( 'blog_upload_space' );
 
 	if ( ! is_numeric( $space_allowed ) )
-		$space_allowed = get_network_option( 'blog_upload_space' );
+		$space_allowed = get_site_option( 'blog_upload_space' );
 
 	if ( empty( $space_allowed ) || ! is_numeric( $space_allowed ) )
 		$space_allowed = 100;
@@ -2311,7 +2311,7 @@ function get_upload_space_available() {
 		$allowed = 0;
 	}
 	$space_allowed = $allowed * 1024 * 1024;
-	if ( get_network_option( 'upload_space_check_disabled' ) )
+	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return $space_allowed;
 
 	$space_used = get_space_used() * 1024 * 1024;
@@ -2329,7 +2329,7 @@ function get_upload_space_available() {
  * @return bool True if space is available, false otherwise.
  */
 function is_upload_space_available() {
-	if ( get_network_option( 'upload_space_check_disabled' ) )
+	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return true;
 
 	return (bool) get_upload_space_available();
@@ -2341,8 +2341,8 @@ function is_upload_space_available() {
  * @return int of upload size limit in bytes
  */
 function upload_size_limit_filter( $size ) {
-	$fileupload_maxk = 1024 * get_network_option( 'fileupload_maxk', 1500 );
-	if ( get_network_option( 'upload_space_check_disabled' ) )
+	$fileupload_maxk = 1024 * get_site_option( 'fileupload_maxk', 1500 );
+	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return min( $size, $fileupload_maxk );
 
 	return min( $size, $fileupload_maxk, get_upload_space_available() );

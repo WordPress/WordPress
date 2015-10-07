@@ -25,7 +25,7 @@
  */
 function get_dashboard_blog() {
     _deprecated_function( __FUNCTION__, '3.1' );
-    if ( $blog = get_network_option( 'dashboard_blog' ) )
+    if ( $blog = get_site_option( 'dashboard_blog' ) )
         return get_blog_details( $blog );
 
     return get_blog_details( $GLOBALS['current_site']->blog_id );

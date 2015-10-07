@@ -1163,13 +1163,13 @@ function script_concat_settings() {
 
 	if ( ! isset($compress_scripts) ) {
 		$compress_scripts = defined('COMPRESS_SCRIPTS') ? COMPRESS_SCRIPTS : true;
-		if ( $compress_scripts && ( ! get_network_option( 'can_compress_scripts' ) || $compressed_output ) )
+		if ( $compress_scripts && ( ! get_site_option('can_compress_scripts') || $compressed_output ) )
 			$compress_scripts = false;
 	}
 
 	if ( ! isset($compress_css) ) {
 		$compress_css = defined('COMPRESS_CSS') ? COMPRESS_CSS : true;
-		if ( $compress_css && ( ! get_network_option( 'can_compress_scripts' ) || $compressed_output ) )
+		if ( $compress_css && ( ! get_site_option('can_compress_scripts') || $compressed_output ) )
 			$compress_css = false;
 	}
 }

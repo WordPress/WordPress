@@ -1191,7 +1191,7 @@ final class WP_Theme implements ArrayAccess {
 	public static function get_allowed_on_network() {
 		static $allowed_themes;
 		if ( ! isset( $allowed_themes ) )
-			$allowed_themes = (array) get_network_option( 'allowedthemes' );
+			$allowed_themes = (array) get_site_option( 'allowedthemes' );
 		return $allowed_themes;
 	}
 

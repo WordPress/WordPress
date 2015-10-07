@@ -88,7 +88,7 @@ function get_option( $option, $default = false ) {
 					wp_cache_add( $option, $value, 'options' );
 				} else { // option does not exist, so we must cache its non-existence
 					if ( ! is_array( $notoptions ) ) {
-						$notoptions = array();
+						 $notoptions = array();
 					}
 					$notoptions[$option] = true;
 					wp_cache_set( 'notoptions', $notoptions, 'options' );
@@ -1480,9 +1480,9 @@ function delete_site_transient( $transient ) {
 	} else {
 		$option_timeout = '_site_transient_timeout_' . $transient;
 		$option = '_site_transient_' . $transient;
-		$result = delete_network_option( $option );
+		$result = delete_site_option( $option );
 		if ( $result )
-			delete_network_option( $option_timeout );
+			delete_site_option( $option_timeout );
 	}
 	if ( $result ) {
 
@@ -1543,16 +1543,16 @@ function get_site_transient( $transient ) {
 		$transient_option = '_site_transient_' . $transient;
 		if ( ! in_array( $transient, $no_timeout ) ) {
 			$transient_timeout = '_site_transient_timeout_' . $transient;
-			$timeout = get_network_option( $transient_timeout );
+			$timeout = get_site_option( $transient_timeout );
 			if ( false !== $timeout && $timeout < time() ) {
-				delete_network_option( $transient_option  );
-				delete_network_option( $transient_timeout );
+				delete_site_option( $transient_option  );
+				delete_site_option( $transient_timeout );
 				$value = false;
 			}
 		}
 
 		if ( ! isset( $value ) )
-			$value = get_network_option( $transient_option );
+			$value = get_site_option( $transient_option );
 	}
 
 	/**
@@ -1620,14 +1620,14 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 	} else {
 		$transient_timeout = '_site_transient_timeout_' . $transient;
 		$option = '_site_transient_' . $transient;
-		if ( false === get_network_option( $option ) ) {
+		if ( false === get_site_option( $option ) ) {
 			if ( $expiration )
-				add_network_option( $transient_timeout, time() + $expiration );
-			$result = add_network_option( $option, $value );
+				add_site_option( $transient_timeout, time() + $expiration );
+			$result = add_site_option( $option, $value );
 		} else {
 			if ( $expiration )
-				update_network_option( $transient_timeout, time() + $expiration );
-			$result = update_network_option( $option, $value );
+				update_site_option( $transient_timeout, time() + $expiration );
+			$result = update_site_option( $option, $value );
 		}
 	}
 	if ( $result ) {

@@ -54,7 +54,7 @@ function get_locale() {
 	if ( is_multisite() ) {
 		// Don't check blog option when installing.
 		if ( wp_installing() || ( false === $ms_locale = get_option( 'WPLANG' ) ) ) {
-			$ms_locale = get_network_option( 'WPLANG' );
+			$ms_locale = get_site_option( 'WPLANG' );
 		}
 
 		if ( $ms_locale !== false ) {

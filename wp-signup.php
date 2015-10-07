@@ -7,7 +7,7 @@ add_action( 'wp_head', 'wp_no_robots' );
 
 require( dirname( __FILE__ ) . '/wp-blog-header.php' );
 
-if ( is_array( get_network_option( 'illegal_names' ) ) && isset( $_GET[ 'new' ] ) && in_array( $_GET[ 'new' ], get_network_option( 'illegal_names' ) ) ) {
+if ( is_array( get_site_option( 'illegal_names' )) && isset( $_GET[ 'new' ] ) && in_array( $_GET[ 'new' ], get_site_option( 'illegal_names' ) ) ) {
 	wp_redirect( network_home_url() );
 	die();
 }
@@ -673,7 +673,7 @@ function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $use
 }
 
 // Main
-$active_signup = get_network_option( 'registration', 'none' );
+$active_signup = get_site_option( 'registration', 'none' );
 /**
  * Filter the type of site sign-up.
  *

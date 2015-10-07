@@ -1961,19 +1961,19 @@ function wp_salt( $scheme = 'auth' ) {
 			if ( defined( $const ) && constant( $const ) && empty( $duplicated_keys[ constant( $const ) ] ) ) {
 				$values[ $type ] = constant( $const );
 			} elseif ( ! $values[ $type ] ) {
-				$values[ $type ] = get_network_option( "{$scheme}_{$type}" );
+				$values[ $type ] = get_site_option( "{$scheme}_{$type}" );
 				if ( ! $values[ $type ] ) {
 					$values[ $type ] = wp_generate_password( 64, true, true );
-					update_network_option( "{$scheme}_{$type}", $values[ $type ] );
+					update_site_option( "{$scheme}_{$type}", $values[ $type ] );
 				}
 			}
 		}
 	} else {
 		if ( ! $values['key'] ) {
-			$values['key'] = get_network_option( 'secret_key' );
+			$values['key'] = get_site_option( 'secret_key' );
 			if ( ! $values['key'] ) {
 				$values['key'] = wp_generate_password( 64, true, true );
-				update_network_option( 'secret_key', $values['key'] );
+				update_site_option( 'secret_key', $values['key'] );
 			}
 		}
 		$values['salt'] = hash_hmac( 'md5', $scheme, $values['key'] );

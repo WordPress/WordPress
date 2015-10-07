@@ -336,7 +336,7 @@ function map_meta_cap( $cap, $user_id ) {
 		$caps[] = $cap;
 		if ( is_multisite() ) {
 			// update_, install_, and delete_ are handled above with is_super_admin().
-			$menu_perms = get_network_option( 'menu_items', array() );
+			$menu_perms = get_site_option( 'menu_items', array() );
 			if ( empty( $menu_perms['plugins'] ) )
 				$caps[] = 'manage_network_plugins';
 		}
@@ -352,7 +352,7 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'create_users':
 		if ( !is_multisite() )
 			$caps[] = $cap;
-		elseif ( is_super_admin( $user_id ) || get_network_option( 'add_new_users' ) )
+		elseif ( is_super_admin( $user_id ) || get_site_option( 'add_new_users' ) )
 			$caps[] = $cap;
 		else
 			$caps[] = 'do_not_allow';
@@ -578,7 +578,7 @@ function get_super_admins() {
 	if ( isset($super_admins) )
 		return $super_admins;
 	else
-		return get_network_option( 'site_admins', array('admin') );
+		return get_site_option( 'site_admins', array('admin') );
 }
 
 /**

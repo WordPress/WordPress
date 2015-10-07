@@ -130,7 +130,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		set_transient( 'plugin_slugs', array_keys( $plugins['all'] ), DAY_IN_SECONDS );
 
 		if ( $screen->in_admin( 'network' ) ) {
-			$recently_activated = get_network_option( 'recently_activated', array() );
+			$recently_activated = get_site_option( 'recently_activated', array() );
 		} else {
 			$recently_activated = get_option( 'recently_activated', array() );
 		}
@@ -142,7 +142,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		}
 
 		if ( $screen->in_admin( 'network' ) ) {
-			update_network_option( 'recently_activated', $recently_activated );
+			update_site_option( 'recently_activated', $recently_activated );
 		} else {
 			update_option( 'recently_activated', $recently_activated );
 		}
