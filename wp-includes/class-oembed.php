@@ -93,10 +93,11 @@ class WP_oEmbed {
 		self::$early_providers = array();
 
 		/**
-		 * Filter the list of oEmbed providers.
+		 * Filter the list of whitelisted oEmbed providers.
 		 *
-		 * Discovery is disabled for users lacking the unfiltered_html capability.
-		 * Only providers in this array will be used for those users.
+		 * Since WordPress 4.4, oEmbed discovery is enabled for all users and allows embedding of sanitized
+		 * iframes. The providers in this list are whitelisted, meaning they are trusted and allowed to
+		 * embed any content, such as iframes, videos, JavaScript, and arbitrary HTML.
 		 *
 		 * Supported providers:
 		 *
