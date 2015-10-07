@@ -1317,7 +1317,7 @@ function insert_blog($domain, $path, $site_id) {
  * @param string $blog_title The title of the new site.
  */
 function install_blog( $blog_id, $blog_title = '' ) {
-	global $wpdb, $wp_roles;
+	global $wpdb, $wp_roles, $current_site;
 
 	// Cast for security
 	$blog_id = (int) $blog_id;
@@ -1339,10 +1339,21 @@ function install_blog( $blog_id, $blog_title = '' ) {
 	// populate_roles() clears previous role definitions so we start over.
 	$wp_roles = new WP_Roles();
 
-	$url = untrailingslashit( $url );
+	$siteurl = $home = untrailingslashit( $url );
 
-	update_option( 'siteurl', $url );
-	update_option( 'home', $url );
+	if ( ! is_subdomain_install() ) {
+
+ 		if ( 'https' === parse_url( get_network_option( 'siteurl' ), PHP_URL_SCHEME ) ) {
+ 			$siteurl = set_url_scheme( $siteurl, 'https' );
+ 		}
+ 		if ( 'https' === parse_url( get_home_url( $current_site->blog_id ), PHP_URL_SCHEME ) ) {
+ 			$home = set_url_scheme( $home, 'https' );
+ 		}
+
+	}
+
+	update_option( 'siteurl', $siteurl );
+	update_option( 'home', $home );
 
 	if ( get_site_option( 'ms_files_rewriting' ) )
 		update_option( 'upload_path', UPLOADBLOGSDIR . "/$blog_id/files" );
