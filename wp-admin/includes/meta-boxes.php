@@ -3,15 +3,23 @@
 // -- Post related Meta Boxes
 
 /**
- * Display post submit form fields.
+ * Displays post submit form fields.
  *
  * @since 2.7.0
  *
  * @global string $action
  *
- * @param object $post
+ * @param WP_Post  $post Current post object.
+ * @param array    $args {
+ *     Array of arguments for building the post submit meta box.
+ *
+ *     @type string   $id       Meta box ID.
+ *     @type string   $title    Meta box title.
+ *     @type callable $callback Meta box display callback.
+ *     @type array    $args     Extra meta box arguments.
+ * }
  */
-function post_submit_meta_box($post, $args = array() ) {
+function post_submit_meta_box( $post, $args = array() ) {
 	global $action;
 
 	$post_type = $post->post_type;
