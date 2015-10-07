@@ -8,6 +8,21 @@
  */
 
 /**
+ * Return the HTTP protocol sent by the server.
+ *
+ * @since 4.4.0
+ *
+ * @return string The HTTP protocol. Default: HTTP/1.0.
+ */
+function wp_get_server_protocol() {
+	$protocol = $_SERVER['SERVER_PROTOCOL'];
+	if ( ! in_array( $protocol, array( 'HTTP/1.1', 'HTTP/2', 'HTTP/2.0' ) ) ) {
+		$protocol = 'HTTP/1.0';
+	}
+	return $protocol;
+}
+
+/**
  * Turn register globals off.
  *
  * @since 2.1.0
@@ -112,10 +127,7 @@ function wp_check_php_mysql_versions() {
 	if ( version_compare( $required_php_version, $php_version, '>' ) ) {
 		wp_load_translations_early();
 
-		$protocol = $_SERVER['SERVER_PROTOCOL'];
-		if ( 'HTTP/1.1' !== $protocol && 'HTTP/1.0' !== $protocol ) {
-			$protocol = 'HTTP/1.0';
-		}
+		$protocol = wp_get_server_protocol();
 		header( sprintf( '%s 500 Internal Server Error', $protocol ), true, 500 );
 		header( 'Content-Type: text/html; charset=utf-8' );
 		die( sprintf( __( 'Your server is running PHP version %1$s but WordPress %2$s requires at least %3$s.' ), $php_version, $wp_version, $required_php_version ) );
@@ -124,10 +136,7 @@ function wp_check_php_mysql_versions() {
 	if ( ! extension_loaded( 'mysql' ) && ! extension_loaded( 'mysqli' ) && ! file_exists( WP_CONTENT_DIR . '/db.php' ) ) {
 		wp_load_translations_early();
 
-		$protocol = $_SERVER['SERVER_PROTOCOL'];
-		if ( 'HTTP/1.1' !== $protocol && 'HTTP/1.0' !== $protocol ) {
-			$protocol = 'HTTP/1.0';
-		}
+		$protocol = wp_get_server_protocol();
 		header( sprintf( '%s 500 Internal Server Error', $protocol ), true, 500 );
 		header( 'Content-Type: text/html; charset=utf-8' );
 		die( __( 'Your PHP installation appears to be missing the MySQL extension which is required by WordPress.' ) );
@@ -182,9 +191,7 @@ function wp_maintenance() {
 
 	wp_load_translations_early();
 
-	$protocol = $_SERVER["SERVER_PROTOCOL"];
-	if ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol )
-		$protocol = 'HTTP/1.0';
+	$protocol = wp_get_server_protocol();
 	header( "$protocol 503 Service Unavailable", true, 503 );
 	header( 'Content-Type: text/html; charset=utf-8' );
 	header( 'Retry-After: 600' );
