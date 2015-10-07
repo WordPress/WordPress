@@ -733,8 +733,8 @@ case 'register' :
 	$user_login = '';
 	$user_email = '';
 	if ( $http_post ) {
-		$user_login = $_POST['user_login'];
-		$user_email = $_POST['user_email'];
+		$user_login = isset( $_POST['user_login'] ) ? $_POST['user_login'] : '';
+		$user_email = isset( $_POST['user_email'] ) ? $_POST['user_email'] : '';
 		$errors = register_new_user($user_login, $user_email);
 		if ( !is_wp_error($errors) ) {
 			$redirect_to = !empty( $_POST['redirect_to'] ) ? $_POST['redirect_to'] : 'wp-login.php?checkemail=registered';
