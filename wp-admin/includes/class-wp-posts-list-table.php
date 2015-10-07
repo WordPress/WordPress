@@ -326,7 +326,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$class = '';
 		}
 
-		if ( empty( $class ) && ( ( $this->is_base_request() && ! $this->user_posts_count ) || isset( $_REQUEST['all_posts'] ) ) ) {
+		if ( empty( $class ) && ( $this->is_base_request() || isset( $_REQUEST['all_posts'] ) ) ) {
 			$class = 'current';
 		}
 
