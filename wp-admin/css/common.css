@@ -1831,13 +1831,15 @@ html.wp-toolbar {
 }
 
 .postbox .handlediv {
+	display: none;
 	float: right;
-	width: 33px;
+	width: 36px;
 	height: 36px;
+	padding: 0;
 }
 
 .js .postbox .handlediv {
-	cursor: pointer;
+	display: block;
 }
 
 .sortable-placeholder {
@@ -2770,17 +2772,21 @@ img {
 
 /* Metabox collapse arrow indicators */
 .js .sidebar-name .sidebar-name-arrow:before,
-.js .meta-box-sortables .postbox .handlediv:before {
-	right: 12px;
+.js .meta-box-sortables .postbox .toggle-indicator:before {
+	position: relative;
+	left: -1px; /* fix the dashicon horizontal alignment */
+	display: inline-block;
 	font: normal 20px/1 dashicons;
 	speak: none;
-	display: inline-block;
-	padding: 8px 10px;
-	top: 0;
-	position: relative;
+	padding: 8px;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
+}
+
+.js .sidebar-name .sidebar-name-arrow:before {
+	padding: 10px;
+	left: 0;
 }
 
 .js #widgets-left .sidebar-name .sidebar-name-arrow {
@@ -2794,12 +2800,12 @@ img {
 
 /* Show the arrow only on hover */
 .js .sidebar-name .sidebar-name-arrow:before,
-.js .meta-box-sortables .postbox .handlediv:before {
+.js .meta-box-sortables .postbox .toggle-indicator:before {
 	content: "\f142";
 }
 
 .js .widgets-holder-wrap.closed .sidebar-name-arrow:before,
-.js .meta-box-sortables .postbox.closed .handlediv:before {
+.js .meta-box-sortables .postbox.closed .handlediv .toggle-indicator:before {
 	content: "\f140";
 }
 
@@ -2925,6 +2931,7 @@ img {
 
 .widget-action:hover,
 .handlediv:hover,
+.handlediv:focus,
 .item-edit:hover,
 .sidebar-name:hover .sidebar-name-arrow,
 .accordion-section-title:hover:after {

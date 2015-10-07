@@ -147,10 +147,8 @@ div#widgets-left .sidebar-name h3 {
 	margin: 0 0 0 10px;
 }
 
-div#widgets-left .sidebar-name .sidebar-name-arrow:before {
-	left: 0;
-	top: 4px;
-	padding: 4px 4px 4px 6px;
+#widgets-left .sidebar-name .sidebar-name-arrow:before {
+	padding: 9px;
 }
 
 #widgets-left #available-widgets,
@@ -250,8 +248,7 @@ div#widgets-right .sidebar-name h3 {
 }
 
 div#widgets-right .sidebar-name .sidebar-name-arrow:before {
-	left: 0;
-	top: 4px;
+	top: 2px;
 }
 
 div#widgets-right .widget-top {
