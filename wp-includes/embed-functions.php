@@ -423,7 +423,7 @@ function get_oembed_endpoint_url( $permalink = '', $format = 'json' ) {
 
 	if ( '' !== $permalink ) {
 		$url = add_query_arg( array(
-			'url'    => $permalink,
+			'url'    => urlencode( $permalink ),
 			'format' => $format,
 		), $url );
 	}
