@@ -258,6 +258,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		/** This filter is documented in wp-admin/inclues/class-wp-list-table.php */
 		$views = apply_filters( "views_{$this->screen->id}", $views );
 
+		$this->screen->render_screen_reader_content( 'heading_views' );
 ?>
 <div class="wp-filter">
 	<ul class="filter-links">
@@ -292,7 +293,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 ?>
 <div class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
-
+<?php
+	$this->screen->render_screen_reader_content( 'heading_list' );
+?>
 	<div id="the-list"<?php echo $data_attr; ?>>
 		<?php $this->display_rows_or_placeholder(); ?>
 	</div>

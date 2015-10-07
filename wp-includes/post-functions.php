@@ -1322,6 +1322,9 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - remove_featured_image - Default is Remove featured image.
  * - use_featured_image - Default is Use as featured image.
  * - menu_name - Default is the same as `name`.
+ * - views - String for the table views hidden heading.
+ * - pagination - String for the table pagination hidden heading.
+ * - list - String for the table hidden heading.
  *
  * Above, the first default value is for non-hierarchical post types (like posts)
  * and the second one is for hierarchical post types (like pages).
@@ -1356,6 +1359,9 @@ function get_post_type_labels( $post_type_object ) {
 		'set_featured_image' => array( __( 'Set featured image' ), __( 'Set featured image' ) ),
 		'remove_featured_image' => array( __( 'Remove featured image' ), __( 'Remove featured image' ) ),
 		'use_featured_image' => array( __( 'Use as featured image' ), __( 'Use as featured image' ) ),
+		'views' => array( __( 'Filter posts list' ), __( 'Filter pages list' ) ),
+		'pagination' => array( __( 'Posts list navigation' ), __( 'Pages list navigation' ) ),
+		'list' => array( __( 'Posts list' ), __( 'Pages list' ) ),
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 

@@ -36,6 +36,12 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://wordpress.org/support/forum/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+get_current_screen()->set_screen_reader_content( array(
+	'heading_views'      => __( 'Filter site users list' ),
+	'heading_pagination' => __( 'Site users list navigation' ),
+	'heading_list'       => __( 'Site users list' ),
+) );
+
 $_SERVER['REQUEST_URI'] = remove_query_arg( 'update', $_SERVER['REQUEST_URI'] );
 $referer = remove_query_arg( 'update', wp_get_referer() );
 

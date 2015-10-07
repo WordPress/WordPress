@@ -426,6 +426,12 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+get_current_screen()->set_screen_reader_content( array(
+	'heading_views'      => __( 'Filter plugins list' ),
+	'heading_pagination' => __( 'Plugins list navigation' ),
+	'heading_list'       => __( 'Plugins list' ),
+) );
+
 $title = __('Plugins');
 $parent_file = 'plugins.php';
 

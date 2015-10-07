@@ -495,6 +495,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * - choose_from_most_used - This string isn't used on hierarchical taxonomies. Default is "Choose from the most used tags", used in the meta box.
  * - not_found - Default is "No tags found"/"No categories found", used in the meta box and taxonomy list table.
  * - no_terms - Default is "No tags"/"No categories", used in the posts and media list tables.
+ * - pagination - String for the table pagination hidden heading.
+ * - list - String for the table hidden heading.
  *
  * Above, the first default value is for non-hierarchical taxonomies (like tags) and the second one is for hierarchical taxonomies (like categories).
  *
@@ -534,6 +536,8 @@ function get_taxonomy_labels( $tax ) {
 		'choose_from_most_used' => array( __( 'Choose from the most used tags' ), null ),
 		'not_found' => array( __( 'No tags found.' ), __( 'No categories found.' ) ),
 		'no_terms' => array( __( 'No tags' ), __( 'No categories' ) ),
+		'pagination' => array( __( 'Tags list navigation' ), __( 'Categories list navigation' ) ),
+		'list' => array( __( 'Tags list' ), __( 'Categories list' ) ),
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 

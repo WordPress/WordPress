@@ -142,6 +142,15 @@ final class WP_Screen {
 	 */
 	private $_help_sidebar = '';
 
+ 	/**
+	 * The accessible hidden headings and text associated with the screen, if any.
+	 *
+	 * @since 4.4.0
+	 * @access private
+	 * @var array
+	 */
+	private $_screen_reader_content = array();
+
 	/**
 	 * Stores old string-based help.
 	 *
@@ -644,6 +653,70 @@ final class WP_Screen {
 		return $this->columns;
 	}
 
+ 	/**
+	 * Get the accessible hidden headings and text used in the screen.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @see set_screen_reader_content() For more information on the array format.
+	 *
+	 * @return array An associative array of screen reader text strings.
+	 */
+	public function get_screen_reader_content() {
+		return $this->_screen_reader_content;
+	}
+
+	/**
+	 * Get a screen reader text string.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $key Screen reader text array named key.
+	 * @return string Screen reader text string.
+	 */
+	public function get_screen_reader_text( $key ) {
+		if ( ! isset( $this->_screen_reader_content[ $key ] ) ) {
+			return null;
+		}
+		return $this->_screen_reader_content[ $key ];
+	}
+
+	/**
+	 * Add accessible hidden headings and text for the screen.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $content {
+	 *     An associative array of screen reader text strings.
+	 *
+	 *     @type string $heading_views      Screen reader text for the filter links heading.
+	 *                                      Default 'Filter items list'.
+	 *     @type string $heading_pagination Screen reader text for the pagination heading.
+	 *                                      Default 'Items list navigation'.
+	 *     @type string heading_list        Screen reader text for the items list heading.
+	 *                                      Default 'Items list'.
+	 * }
+	 */
+	public function set_screen_reader_content( $content = array() ) {
+		$defaults = array(
+			'heading_views'      => __( 'Filter items list' ),
+			'heading_pagination' => __( 'Items list navigation' ),
+			'heading_list'       => __( 'Items list' ),
+		);
+		$content = wp_parse_args( $content, $defaults );
+
+		$this->_screen_reader_content = $content;
+	}
+
+	/**
+	 * Remove all the accessible hidden headings and text for the screen.
+	 *
+	 * @since 4.4.0
+	 */
+	public function remove_screen_reader_content() {
+		$this->_screen_reader_content = array();
+	}
+
 	/**
 	 * Render the screen's help section.
 	 *
@@ -1063,5 +1136,21 @@ final class WP_Screen {
 			<input type="hidden" name="wp_screen_options[option]" value="<?php echo esc_attr( $option ); ?>" />
 		</div>
 		<?php
+	}
+
+	/**
+	 * Render screen reader text.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $key The screen reader text array named key.
+	 * @param string $tag Optional. The HTML tag to wrap the screen reader text. Default h2.
+	 */
+	public function render_screen_reader_content( $key = '', $tag = 'h2' ) {
+
+		if ( ! isset( $this->_screen_reader_content[ $key ] ) ) {
+			return;
+		}
+		echo "<$tag class='screen-reader-text'>" . $this->_screen_reader_content[ $key ] . "</$tag>";
 	}
 }

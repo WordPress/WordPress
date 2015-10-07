@@ -128,6 +128,8 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	<?php install_themes_upload(); ?>
 	</div>
 
+	<h2 class="screen-reader-text"><?php _e( 'Filter themes list' ); ?></h2>
+
 	<div class="wp-filter">
 		<div class="filter-count">
 			<span class="count theme-count"></span>
@@ -171,6 +173,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			</div>
 		</div>
 	</div>
+	<h2 class="screen-reader-text"><?php _e( 'Themes list' ); ?></h2>
 	<div class="theme-browser content-filterable"></div>
 	<div class="theme-install-overlay wp-full-overlay expanded"></div>
 

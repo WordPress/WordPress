@@ -217,6 +217,8 @@ class WP_Media_List_Table extends WP_List_Table {
 		global $mode;
 
 		$views = $this->get_views();
+
+		$this->screen->render_screen_reader_content( 'heading_views' );
 ?>
 <div class="wp-filter">
 	<div class="filter-items">

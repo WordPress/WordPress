@@ -443,6 +443,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		$this->display_tablenav( 'top' );
 
+		$this->screen->render_screen_reader_content( 'heading_list' );
+
 ?>
 <table class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
 	<thead>
