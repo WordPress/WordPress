@@ -484,7 +484,7 @@ JS;
 		esc_url( $embed_url ),
 		absint( $width ),
 		absint( $height ),
-		esc_attr__( 'Embedded WordPress Post', 'oembed-api' )
+		esc_attr__( 'Embedded WordPress Post' )
 	);
 
 	/**
@@ -748,11 +748,11 @@ function wp_oembed_excerpt_more( $more_string ) {
 	}
 
 	return sprintf(
-		_x( '&hellip; %s', 'read more link', 'oembed-api' ),
+		_x( '&hellip; %s', 'read more link' ),
 		sprintf(
 			'<a class="wp-embed-more" href="%s" target="_top">%s</a>',
 			get_the_permalink(),
-			__( 'Read more', 'oembed-api' )
+			__( 'Read more' )
 		)
 	);
 }

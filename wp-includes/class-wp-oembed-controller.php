@@ -88,7 +88,7 @@ final class WP_oEmbed_Controller {
 
 		if ( false === $data ) {
 			status_header( 404 );
-			return __( 'Invalid URL.', 'oembed-api' );
+			return __( 'Invalid URL.' );
 		}
 
 		if ( 'json' === $request['format'] ) {
