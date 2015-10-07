@@ -181,9 +181,8 @@ p.wp-embed-heading {
 	background-color: rgba(10, 10, 10, 0.9);
 	color: #fff;
 	opacity: 1;
-	transition: opacity .25s ease-in-out;
-	-moz-transition: opacity .25s ease-in-out;
 	-webkit-transition: opacity .25s ease-in-out;
+	transition: opacity .25s ease-in-out;
 }
 
 .wp-embed-share-dialog.hidden {
