@@ -472,6 +472,11 @@ $interim_login = isset($_REQUEST['interim-login']);
 switch ($action) {
 
 case 'postpass' :
+	if ( ! array_key_exists( 'post_password', $_POST ) ) {
+		wp_safe_redirect( wp_get_referer() );
+		exit();
+	}
+
 	require_once ABSPATH . WPINC . '/class-phpass.php';
 	$hasher = new PasswordHash( 8, true );
 
