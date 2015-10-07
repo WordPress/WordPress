@@ -2137,15 +2137,17 @@ function _make_web_ftp_clickable_cb( $matches ) {
 	$ret = '';
 	$dest = $matches[2];
 	$dest = 'http://' . $dest;
-	$dest = esc_url($dest);
-	if ( empty($dest) )
-		return $matches[0];
 
 	// removed trailing [.,;:)] from URL
 	if ( in_array( substr($dest, -1), array('.', ',', ';', ':', ')') ) === true ) {
 		$ret = substr($dest, -1);
 		$dest = substr($dest, 0, strlen($dest)-1);
 	}
+
+	$dest = esc_url($dest);
+	if ( empty($dest) )
+		return $matches[0];
+
 	return $matches[1] . "<a href=\"$dest\" rel=\"nofollow\">$dest</a>$ret";
 }
 
@@ -3352,7 +3354,7 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 		return $url;
 
 	$url = str_replace( ' ', '%20', $url );
-	$url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%@$\|*\'()\\x80-\\xff]|i', '', $url);
+	$url = preg_replace('|[^a-z0-9-~+_.?#=!&;,/:%@$\|*\'()\[\]\\x80-\\xff]|i', '', $url);
 
 	if ( '' === $url ) {
 		return $url;
@@ -3365,7 +3367,7 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 
 	$url = str_replace(';//', '://', $url);
 	/* If the URL doesn't appear to contain a scheme, we
-	 * presume it needs http:// appended (unless a relative
+	 * presume it needs http:// prepended (unless a relative
 	 * link starting with /, # or ? or a php file).
 	 */
 	if ( strpos($url, ':') === false && ! in_array( $url[0], array( '/', '#', '?' ) ) &&
@@ -3377,6 +3379,43 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 		$url = wp_kses_normalize_entities( $url );
 		$url = str_replace( '&amp;', '&#038;', $url );
 		$url = str_replace( "'", '&#039;', $url );
+	}
+
+	if ( ( false !== strpos( $url, '[' ) ) || ( false !== strpos( $url, ']' ) ) ) {
+
+		$parsed = parse_url( $url );
+		$front  = '';
+
+		if ( isset( $parsed['scheme'] ) ) {
+			$front .= $parsed['scheme'] . '://';
+		} elseif ( '/' === $url[0] ) {
+			$front .= '//';
+		}
+
+		if ( isset( $parsed['user'] ) ) {
+			$front .= $parsed['user'];
+		}
+
+		if ( isset( $parsed['pass'] ) ) {
+			$front .= ':' . $parsed['pass'];
+		}
+
+		if ( isset( $parsed['user'] ) || isset( $parsed['pass'] ) ) {
+			$front .= '@';
+		}
+
+		if ( isset( $parsed['host'] ) ) {
+			$front .= $parsed['host'];
+		}
+
+		if ( isset( $parsed['port'] ) ) {
+			$front .= ':' . $parsed['port'];
+		}
+
+		$end_dirty = str_replace( $front, '', $url );
+		$end_clean = str_replace( array( '[', ']' ), array( '%5B', '%5D' ), $end_dirty );
+		$url       = str_replace( $end_dirty, $end_clean, $url );
+
 	}
 
 	if ( '/' === $url[0] ) {
