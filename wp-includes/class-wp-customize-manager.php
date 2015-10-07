@@ -1389,9 +1389,11 @@ final class WP_Customize_Manager {
 	 */
 	public function get_document_title_template() {
 		if ( $this->is_theme_active() ) {
-			$document_title_tmpl = _x( 'Customize: %s', 'Placeholder is the document title from the preview' );
+			/* translators: %s: document title from the preview */
+			$document_title_tmpl = __( 'Customize: %s' );
 		} else {
-			$document_title_tmpl = _x( 'Live Preview: %s', 'Placeholder is the document title from the preview' );
+			/* translators: %s: document title from the preview */
+			$document_title_tmpl = __( 'Live Preview: %s' );
 		}
 		$document_title_tmpl = html_entity_decode( $document_title_tmpl, ENT_QUOTES, 'UTF-8' ); // Because exported to JS and assigned to document.title.
 		return $document_title_tmpl;
