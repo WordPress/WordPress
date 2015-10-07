@@ -1960,15 +1960,20 @@ html.wp-toolbar {
 	border-bottom: none;
 	background: #e4e4e4;
 	color: #555;
-	font-size: 12px;
-	line-height: 16px;
-	display: inline-block;
-	padding: 4px 14px 6px;
-	text-decoration: none;
-	margin: -4px 4px -1px 0;
 }
 
-.nav-tab:hover {
+.nav-tab,
+.nav-tab-small .nav-tab {
+	display: inline-block;
+	margin: -4px 4px -1px 0;
+	padding: 5px 14px;
+	font-size: 12px;
+	line-height: 16px;
+	text-decoration: none;
+}
+
+.nav-tab:hover,
+.nav-tab:focus {
 	background-color: #fff;
 	color: #464646;
 }
@@ -1978,7 +1983,8 @@ html.wp-toolbar {
 }
 
 .nav-tab-active,
-.nav-tab-active:hover {
+.nav-tab-active:hover,
+.nav-tab-active:focus {
 	border-bottom: 1px solid #f1f1f1;
 	background: #f1f1f1;
 	color: #000;
@@ -1995,7 +2001,7 @@ h3.nav-tab-wrapper {
 h1 .nav-tab,
 h2 .nav-tab {
 	padding: 6px 10px;
-	font-weight: bold;
+	font-weight: 600;
 	font-size: 15px;
 	line-height: 24px;
 }

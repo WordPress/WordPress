@@ -149,7 +149,7 @@ require( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 <div class="wrap">
 <h1 id="edit-site"><?php echo $title; ?></h1>
 <p class="edit-site-actions"><a href="<?php echo esc_url( get_home_url( $id, '/' ) ); ?>"><?php _e( 'Visit' ); ?></a> | <a href="<?php echo esc_url( get_admin_url( $id ) ); ?>"><?php _e( 'Dashboard' ); ?></a></p>
-<h3 class="nav-tab-wrapper">
+<h2 class="nav-tab-wrapper nav-tab-small">
 <?php
 $tabs = array(
 	'site-info'     => array( 'label' => __( 'Info' ),     'url' => 'site-info.php'     ),
@@ -162,7 +162,7 @@ foreach ( $tabs as $tab_id => $tab ) {
 	echo '<a href="' . $tab['url'] . '?id=' . $id .'" class="nav-tab' . $class . '">' . esc_html( $tab['label'] ) . '</a>';
 }
 ?>
-</h3><?php
+</h2><?php
 
 if ( isset( $_GET['enabled'] ) ) {
 	$enabled = absint( $_GET['enabled'] );
