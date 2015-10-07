@@ -719,6 +719,26 @@ function is_404() {
 }
 
 /**
+ * Is the query for an embedded post?
+ *
+ * @since 4.4.0
+ *
+ * @global WP_Query $wp_query Global WP_Query instance.
+ *
+ * @return bool Whether we're in an embedded post or not.
+ */
+function is_embed() {
+	global $wp_query;
+
+	if ( ! isset( $wp_query ) ) {
+		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the query is run. Before then, they always return false.' ), '3.1' );
+		return false;
+	}
+
+	return $wp_query->is_embed();
+}
+
+/**
  * Is the query the main query?
  *
  * @since 3.3.0
@@ -1199,6 +1219,15 @@ class WP_Query {
 	 * @var bool
 	 */
 	public $is_404 = false;
+
+	/**
+	 * Set if query is embed.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 * @var bool
+	 */
+	public $is_embed = false;
 
 	/**
 	 * Set if query is within comments popup window.
@@ -1844,6 +1873,8 @@ class WP_Query {
 
 		if ( '404' == $qv['error'] )
 			$this->set_404();
+
+		$this->is_embed = isset( $qv['embed'] ) && ( $this->is_singular || $this->is_404 );
 
 		$this->query_vars_hash = md5( serialize( $this->query_vars ) );
 		$this->query_vars_changed = false;
@@ -4635,6 +4666,17 @@ class WP_Query {
 	}
 
 	/**
+	 * Is the query for an embedded post?
+	 *
+	 * @since 3.1.0
+	 *
+	 * @return bool
+	 */
+	public function is_embed() {
+		return (bool) $this->is_embed;
+	}
+
+	/**
 	 * Is the query the main query?
 	 *
 	 * @since 3.3.0
@@ -4935,6 +4977,8 @@ function wp_old_slug_redirect() {
 			$link = user_trailingslashit( trailingslashit( $link ) . 'feed' );
 		} elseif ( isset( $GLOBALS['wp_query']->query_vars['paged'] ) && $GLOBALS['wp_query']->query_vars['paged'] > 1 ) {
 			$link = user_trailingslashit( trailingslashit( $link ) . 'page/' . $GLOBALS['wp_query']->query_vars['paged'] );
+		} elseif( is_embed() ) {
+			$link = user_trailingslashit( trailingslashit( $link ) . 'embed' );
 		} elseif ( is_404() ) {
 			// Add rewrite endpoints if necessary.
 			foreach ( $wp_rewrite->endpoints as $endpoint ) {

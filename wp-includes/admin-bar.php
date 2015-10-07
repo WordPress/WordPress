@@ -898,6 +898,10 @@ function is_admin_bar_showing() {
 	if ( defined('XMLRPC_REQUEST') || defined('DOING_AJAX') || defined('IFRAME_REQUEST') )
 		return false;
 
+	if ( is_embed() ) {
+		return false;
+	}
+
 	// Integrated into the admin.
 	if ( is_admin() )
 		return true;
