@@ -153,9 +153,11 @@ class WP_Rewrite {
 	 * is "/archive/". If the permalink structure is "/%year%/%postname%/"
 	 * then the front is "/".
 	 *
-	 * @see WP_Rewrite::init()
 	 * @since 1.5.0
+	 * @access public
 	 * @var string
+	 *
+	 * @see WP_Rewrite::init()
 	 */
 	public $front;
 
@@ -166,10 +168,12 @@ class WP_Rewrite {
 	 * `WP_Rewrite::$index` with a trailing slash appended. Otherwise the root
 	 * will be empty.
 	 *
+	 * @since 1.5.0
+	 * @access public
+	 * @var string
+	 *
 	 * @see WP_Rewrite::init()
 	 * @see WP_Rewrite::using_index_permalinks()
-	 * @since 1.5.0
-	 * @var string
 	 */
 	public $root = '';
 
