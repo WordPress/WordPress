@@ -14,13 +14,13 @@
 define( 'REST_API_VERSION', '2.0' );
 
 /** WP_REST_Server class */
-require_once( ABSPATH . WPINC . '/rest-api/lib/class-wp-rest-server.php' );
+require_once( ABSPATH . WPINC . '/rest-api/class-wp-rest-server.php' );
 
 /** WP_REST_Response class */
-require_once( ABSPATH . WPINC . '/rest-api/lib/class-wp-rest-response.php' );
+require_once( ABSPATH . WPINC . '/rest-api/class-wp-rest-response.php' );
 
 /** WP_REST_Request class */
-require_once( ABSPATH . WPINC . '/rest-api/lib/class-wp-rest-request.php' );
+require_once( ABSPATH . WPINC . '/rest-api/class-wp-rest-request.php' );
 
 /** REST functions */
 require_once( ABSPATH . WPINC . '/rest-api/rest-functions.php' );
