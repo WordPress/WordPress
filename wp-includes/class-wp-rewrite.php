@@ -163,8 +163,8 @@ class WP_Rewrite {
 	 * The prefix for all permalink structures.
 	 *
 	 * If PATHINFO/index permalinks are in use then the root is the value of
-	 * {@link WP_Rewrite::$index} with a trailing slash appended. Otherwise
-	 * the root will be empty.
+	 * `WP_Rewrite::$index` with a trailing slash appended. Otherwise the root
+	 * will be empty.
 	 *
 	 * @see WP_Rewrite::init()
 	 * @see WP_Rewrite::using_index_permalinks()
@@ -226,7 +226,7 @@ class WP_Rewrite {
 	 * Rules that don't redirect to WordPress' index.php.
 	 *
 	 * These rules are written to the mod_rewrite portion of the .htaccess,
-	 * and are added by {@link add_external_rule()}.
+	 * and are added by add_external_rule().
 	 *
 	 * @since 2.1.0
 	 * @access private
@@ -235,7 +235,7 @@ class WP_Rewrite {
 	var $non_wp_rules = array();
 
 	/**
-	 * Extra permalink structures, e.g. categories, added by {@link add_permastruct()}.
+	 * Extra permalink structures, e.g. categories, added by add_permastruct().
 	 *
 	 * @since 2.1.0
 	 * @access private
@@ -244,7 +244,7 @@ class WP_Rewrite {
 	var $extra_permastructs = array();
 
 	/**
-	 * Endpoints (like /trackback/) added by {@link add_rewrite_endpoint()}.
+	 * Endpoints (like /trackback/) added by add_rewrite_endpoint().
 	 *
 	 * @since 2.1.0
 	 * @access private
@@ -272,14 +272,14 @@ class WP_Rewrite {
 	 * also match a page name (e.g. %postname% or %author%) then this flag is
 	 * set to true. Prior to WordPress 3.3 this flag indicated that every page
 	 * would have a set of rules added to the top of the rewrite rules array.
-	 * Now it tells {@link WP::parse_request()} to check if a URL matching the
-	 * page permastruct is actually a page before accepting it.
+	 * Now it tells WP::parse_request() to check if a URL matching the page
+	 * permastruct is actually a page before accepting it.
 	 *
-	 * @link https://core.trac.wordpress.org/ticket/16687
-	 * @see WP_Rewrite::init()
 	 * @since 2.5.0
 	 * @access public
 	 * @var bool
+	 *
+	 * @see WP_Rewrite::init()
 	 */
 	public $use_verbose_page_rules = true;
 
@@ -287,10 +287,10 @@ class WP_Rewrite {
 	 * Rewrite tags that can be used in permalink structures.
 	 *
 	 * These are translated into the regular expressions stored in
-	 * {@link WP_Rewrite::$rewritereplace} and are rewritten to the
-	 * query variables listed in {@link WP_Rewrite::$queryreplace}.
+	 * `WP_Rewrite::$rewritereplace` and are rewritten to the query
+	 * variables listed in WP_Rewrite::$queryreplace.
 	 *
-	 * Additional tags can be added with {@link add_rewrite_tag()}.
+	 * Additional tags can be added with add_rewrite_tag().
 	 *
 	 * @since 1.5.0
 	 * @access private
@@ -312,7 +312,7 @@ class WP_Rewrite {
 
 	/**
 	 * Regular expressions to be substituted into rewrite rules in place
-	 * of rewrite tags, see {@link WP_Rewrite::$rewritecode}.
+	 * of rewrite tags, see WP_Rewrite::$rewritecode.
 	 *
 	 * @since 1.5.0
 	 * @access private
@@ -333,7 +333,7 @@ class WP_Rewrite {
 	);
 
 	/**
-	 * Query variables that rewrite tags map to, see {@link WP_Rewrite::$rewritecode}.
+	 * Query variables that rewrite tags map to, see WP_Rewrite::$rewritecode.
 	 *
 	 * @since 1.5.0
 	 * @access private
@@ -1138,13 +1138,14 @@ class WP_Rewrite {
 	/**
 	 * Generate Rewrite rules with permalink structure and walking directory only.
 	 *
-	 * Shorten version of {@link WP_Rewrite::generate_rewrite_rules()} that
-	 * allows for shorter list of parameters. See the method for longer
-	 * description of what generating rewrite rules does.
+	 * Shorten version of WP_Rewrite::generate_rewrite_rules() that allows for shorter
+	 * list of parameters. See the method for longer description of what generating
+	 * rewrite rules does.
 	 *
-	 * @uses WP_Rewrite::generate_rewrite_rules() See for long description and rest of parameters.
 	 * @since 1.5.0
 	 * @access public
+	 *
+	 * @see WP_Rewrite::generate_rewrite_rules() See for long description and rest of parameters.
 	 *
 	 * @param string $permalink_structure The permalink structure to generate rules.
 	 * @param bool   $walk_dirs           Optional, default is false. Whether to create list of directories to walk over.
@@ -1363,11 +1364,10 @@ class WP_Rewrite {
 	/**
 	 * Retrieve the rewrite rules.
 	 *
-	 * The difference between this method and {@link
-	 * WP_Rewrite::rewrite_rules()} is that this method stores the rewrite rules
-	 * in the 'rewrite_rules' option and retrieves it. This prevents having to
-	 * process all of the permalinks to get the rewrite rules in the form of
-	 * caching.
+	 * The difference between this method and WP_Rewrite::rewrite_rules() is that
+	 * this method stores the rewrite rules in the 'rewrite_rules' option and retrieves
+	 * it. This prevents having to process all of the permalinks to get the rewrite rules
+	 * in the form of caching.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -1622,14 +1622,14 @@ class WP_Rewrite {
 	/**
 	 * Add a new permalink structure.
 	 *
-	 * A permalink structure (permastruct) is an abstract definition of a set of rewrite rules; it
-	 * is an easy way of expressing a set of regular expressions that rewrite to a set of query strings.
-	 * The new permastruct is added to the {@link WP_Rewrite::$extra_permastructs} array. When the
-	 * rewrite rules are built by {@link WP_Rewrite::rewrite_rules()} all of these extra permastructs
-	 * are passed to {@link WP_Rewrite::generate_rewrite_rules()} which transforms them into the
-	 * regular expressions that many love to hate.
+	 * A permalink structure (permastruct) is an abstract definition of a set of rewrite rules;
+	 * it is an easy way of expressing a set of regular expressions that rewrite to a set of
+	 * query strings. The new permastruct is added to the WP_Rewrite::$extra_permastructs array.
+	 * When the rewrite rules are built by WP_Rewrite::rewrite_rules(), all of these extra
+	 * permastructs are passed to WP_Rewrite::generate_rewrite_rules() which transforms them
+	 * into the regular expressions that many love to hate.
 	 *
-	 * The $args parameter gives you control over how {@link WP_Rewrite::generate_rewrite_rules()}
+	 * The `$args` parameter gives you control over how WP_Rewrite::generate_rewrite_rules()
 	 * works on the new permastruct.
 	 *
 	 * @since 2.5.0
@@ -1678,9 +1678,8 @@ class WP_Rewrite {
 	/**
 	 * Remove rewrite rules and then recreate rewrite rules.
 	 *
-	 * Calls {@link WP_Rewrite::wp_rewrite_rules()} after removing the
-	 * 'rewrite_rules' option. If the function named 'save_mod_rewrite_rules'
-	 * exists, it will be called.
+	 * Calls WP_Rewrite::wp_rewrite_rules() after removing the 'rewrite_rules' option.
+	 * If the function named 'save_mod_rewrite_rules' exists, it will be called.
 	 *
 	 * @since 2.0.1
 	 * @access public
@@ -1761,7 +1760,7 @@ class WP_Rewrite {
 	 *
 	 * Will update the 'permalink_structure' option, if there is a difference
 	 * between the current permalink structure and the parameter value. Calls
-	 * {@link WP_Rewrite::init()} after the option is updated.
+	 * WP_Rewrite::init() after the option is updated.
 	 *
 	 * Fires the 'permalink_structure_changed' action once the init call has
 	 * processed passing the old and new values
@@ -1793,8 +1792,8 @@ class WP_Rewrite {
 	 * Set the category base for the category permalink.
 	 *
 	 * Will update the 'category_base' option, if there is a difference between
-	 * the current category base and the parameter value. Calls
-	 * {@link WP_Rewrite::init()} after the option is updated.
+	 * the current category base and the parameter value. Calls WP_Rewrite::init()
+	 * after the option is updated.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -1812,8 +1811,8 @@ class WP_Rewrite {
 	 * Set the tag base for the tag permalink.
 	 *
 	 * Will update the 'tag_base' option, if there is a difference between the
-	 * current tag base and the parameter value. Calls
-	 * {@link WP_Rewrite::init()} after the option is updated.
+	 * current tag base and the parameter value. Calls WP_Rewrite::init() after
+	 * the option is updated.
 	 *
 	 * @since 2.3.0
 	 * @access public
