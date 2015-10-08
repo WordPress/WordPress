@@ -381,7 +381,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Determins whether permalinks are being used and rewrite module is not enabled.
+	 * Determines whether permalinks are being used and rewrite module is not enabled.
 	 *
 	 * Means that permalink links are enabled and index.php is in the URL.
 	 *
