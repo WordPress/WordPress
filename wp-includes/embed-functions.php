@@ -353,7 +353,7 @@ function wp_oembed_add_discovery_links() {
 	}
 
 	/**
-	 * Filter the oEmbed discovery links.
+	 * Filter the oEmbed discovery links HTML.
 	 *
 	 * @since 4.4.0
 	 *
