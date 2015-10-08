@@ -41,32 +41,32 @@ input[type=radio]:checked:before {
 /* Core UI */
 .wp-core-ui .button-primary {
   background: #c7a589;
-  border-color: #b78b66;
+  border-color: #b78b66 #ae7d55 #ae7d55;
   color: white;
-  -webkit-box-shadow: inset 0 1px 0 #e0cdbd, 0 1px 0 rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0 1px 0 #e0cdbd, 0 1px 0 rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: 0 1px 0 #ae7d55;
+  box-shadow: 0 1px 0 #ae7d55;
+  text-shadow: 0 -1px 1px #ae7d55, 1px 0 1px #ae7d55, 0 1px 1px #ae7d55, -1px 0 1px #ae7d55;
 }
 
 .wp-core-ui .button-primary:hover,
 .wp-core-ui .button-primary:focus {
-  background: #bf9878;
+  background: #ccad93;
   border-color: #ae7d55;
   color: white;
-  -webkit-box-shadow: inset 0 1px 0 #d7bfac;
-  box-shadow: inset 0 1px 0 #d7bfac;
+  -webkit-box-shadow: 0 1px 0 #ae7d55;
+  box-shadow: 0 1px 0 #ae7d55;
 }
 
 .wp-core-ui .button-primary:focus {
-  -webkit-box-shadow: inset 0 1px 0 #d7bfac, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
-  box-shadow: inset 0 1px 0 #d7bfac, 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+  -webkit-box-shadow: inset 0 1px 0 #b78b66, 0 0 2px 1px #33b3db;
+  box-shadow: inset 0 1px 0 #b78b66, 0 0 2px 1px #33b3db;
 }
 
 .wp-core-ui .button-primary:active {
   background: #b78b66;
   border-color: #ae7d55;
-  color: white;
-  -webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
-  box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, 0.8);
+  -webkit-box-shadow: inset 0 2px 0 #ae7d55;
+  box-shadow: inset 0 2px 0 #ae7d55;
 }
 
 .wp-core-ui .button-primary[disabled],
@@ -77,6 +77,16 @@ input[type=radio]:checked:before {
   background: #ba906d !important;
   border-color: #ae7d55 !important;
   text-shadow: none !important;
+}
+
+.wp-core-ui .button-primary.button-hero {
+  -webkit-box-shadow: 0 2px 0 #ae7d55 !important;
+  box-shadow: 0 2px 0 #ae7d55 !important;
+}
+
+.wp-core-ui .button-primary.button-hero:active {
+  -webkit-box-shadow: inset 0 3px 0 #ae7d55 !important;
+  box-shadow: inset 0 3px 0 #ae7d55 !important;
 }
 
 .wp-core-ui .wp-ui-primary {
