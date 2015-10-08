@@ -1242,19 +1242,21 @@ class WP_Rewrite {
 		$home_path = parse_url( home_url() );
 		$robots_rewrite = ( empty( $home_path['path'] ) || '/' == $home_path['path'] ) ? array( 'robots\.txt$' => $this->index . '?robots=1' ) : array();
 
-		// Old feed and service files
+		// Old feed and service files.
 		$deprecated_files = array(
 			'.*wp-(atom|rdf|rss|rss2|feed|commentsrss2)\.php$' => $this->index . '?feed=old',
 			'.*wp-app\.php(/.*)?$' => $this->index . '?error=403',
 		);
 
-		// Registration rules
+		// Registration rules.
 		$registration_pages = array();
 		if ( is_multisite() && is_main_site() ) {
 			$registration_pages['.*wp-signup.php$'] = $this->index . '?signup=true';
 			$registration_pages['.*wp-activate.php$'] = $this->index . '?activate=true';
 		}
-		$registration_pages['.*wp-register.php$'] = $this->index . '?register=true'; // Deprecated
+
+		// Deprecated.
+		$registration_pages['.*wp-register.php$'] = $this->index . '?register=true';
 
 		// Post rewrite rules.
 		$post_rewrite = $this->generate_rewrite_rules( $this->permalink_structure, EP_PERMALINK );
@@ -1475,18 +1477,14 @@ class WP_Rewrite {
 		$rules = "<IfModule mod_rewrite.c>\n";
 		$rules .= "RewriteEngine On\n";
 		$rules .= "RewriteBase $home_root\n";
-		$rules .= "RewriteRule ^index\.php$ - [L]\n"; // Prevent -f checks on index.php.
 
-		//add in the rules that don't redirect to WP's index.php (and thus shouldn't be handled by WP at all)
+		// Prevent -f checks on index.php.
+		$rules .= "RewriteRule ^index\.php$ - [L]\n";
+
+		// Add in the rules that don't redirect to WP's index.php (and thus shouldn't be handled by WP at all).
 		foreach ( (array) $this->non_wp_rules as $match => $query) {
 			// Apache 1.3 does not support the reluctant (non-greedy) modifier.
 			$match = str_replace('.+?', '.+', $match);
-
-			// If the match is unanchored and greedy, prepend rewrite conditions
-			// to avoid infinite redirects and eclipsing of real files.
-			//if ($match == '(.+)/?$' || $match == '([^/]+)/?$' ) {
-				//nada.
-			//}
 
 			$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA,L]\n";
 		}
@@ -1503,12 +1501,6 @@ class WP_Rewrite {
 				// Apache 1.3 does not support the reluctant (non-greedy) modifier.
 				$match = str_replace('.+?', '.+', $match);
 
-				// If the match is unanchored and greedy, prepend rewrite conditions
-				// to avoid infinite redirects and eclipsing of real files.
-				//if ($match == '(.+)/?$' || $match == '([^/]+)/?$' ) {
-					//nada.
-				//}
-
 				if ( strpos($query, $this->index) !== false )
 					$rules .= 'RewriteRule ^' . $match . ' ' . $home_root . $query . " [QSA,L]\n";
 				else
@@ -1523,7 +1515,6 @@ class WP_Rewrite {
 		$rules .= "</IfModule>\n";
 
 		/**
-		 *
 		 * Filter the list of rewrite rules formatted for output to an .htaccess file.
 		 *
 		 * @since 1.5.0
@@ -1619,7 +1610,7 @@ class WP_Rewrite {
 			$external = $front != $this->index;
 		}
 
-		// "external" = it doesn't correspond to index.php
+		// "external" = it doesn't correspond to index.php.
 		if ( $external ) {
 			$this->add_external_rule( $regex, $query );
 		} else {
@@ -1664,7 +1655,7 @@ class WP_Rewrite {
 	public function add_endpoint( $name, $places, $query_var = true ) {
 		global $wp;
 
-		// For backward compatibility, if `null` has explicitly been passed as `$query_var`, assume `true`.
+		// For backward compatibility, if null has explicitly been passed as `$query_var`, assume `true`.
 		if ( true === $query_var || null === func_get_arg( 2 ) ) {
 			$query_var = $name;
 		}
@@ -1704,7 +1695,7 @@ class WP_Rewrite {
 	 *     - endpoints (bool) - Should endpoints be applied to the generated rewrite rules? Default is true.
 	 */
 	public function add_permastruct( $name, $struct, $args = array() ) {
-		// backwards compatibility for the old parameters: $with_front and $ep_mask
+		// Backwards compatibility for the old parameters: $with_front and $ep_mask.
 		if ( ! is_array( $args ) )
 			$args = array( 'with_front' => $args );
 		if ( func_num_args() == 4 )
@@ -1747,7 +1738,7 @@ class WP_Rewrite {
 	public function flush_rules( $hard = true ) {
 		static $do_hard_later = null;
 
-		// Prevent this action from running before everyone has registered their rewrites
+		// Prevent this action from running before everyone has registered their rewrites.
 		if ( ! did_action( 'wp_loaded' ) ) {
 			add_action( 'wp_loaded', array( $this, 'flush_rules' ) );
 			$do_hard_later = ( isset( $do_hard_later ) ) ? $do_hard_later || $hard : $hard;
@@ -1761,6 +1752,7 @@ class WP_Rewrite {
 
 		delete_option('rewrite_rules');
 		$this->wp_rewrite_rules();
+
 		/**
 		 * Filter whether a "hard" rewrite rule flush should be performed when requested.
 		 *
