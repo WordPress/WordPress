@@ -5325,6 +5325,22 @@ function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
  * @return string The timestamp.
  */
 function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
+	/**
+	 * Pre-filter the return value of get_lastpostmodified() before the query is run.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $lastpostmodified Date the last post was modified.
+	 *                                 Returning anything other than false will short-circuit the function.
+	 * @param string $timezone         Location to use for getting the post modified date.
+	 *                                 See {@see get_lastpostdate()} for accepted `$timezone` values.
+	 * @param string $post_type        The post type to check.
+	 */
+	$lastpostmodified = apply_filters( 'pre_get_lastpostmodified', false, $timezone, $post_type );
+	if ( false !== $lastpostmodified ) {
+		return $lastpostmodified;
+	}
+
 	$lastpostmodified = _get_last_post_time( $timezone, 'modified', $post_type );
 
 	$lastpostdate = get_lastpostdate($timezone);
