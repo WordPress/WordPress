@@ -321,11 +321,11 @@ if ( $action ) {
 						foreach ( $plugin_info as $plugin ) {
 							if ( $plugin['is_uninstallable'] ) {
 								/* translators: 1: plugin name, 2: plugin author */
-								echo '<li>', sprintf( __( '<strong>%1$s</strong> by <em>%2$s</em> (will also <strong>delete its data</strong>)' ), esc_html($plugin['Name']), esc_html($plugin['AuthorName']) ), '</li>';
+								echo '<li>', sprintf( __( '<strong>%1$s</strong> by <em>%2$s</em> (will also <strong>delete its data</strong>)' ), $plugin['Name'], $plugin['AuthorName'] ), '</li>';
 								$data_to_delete = true;
 							} else {
 								/* translators: 1: plugin name, 2: plugin author */
-								echo '<li>', sprintf( __('<strong>%1$s</strong> by <em>%2$s</em>' ), esc_html($plugin['Name']), esc_html($plugin['AuthorName']) ), '</li>';
+								echo '<li>', sprintf( __('<strong>%1$s</strong> by <em>%2$s</em>' ), $plugin['Name'], $plugin['AuthorName'] ), '</li>';
 							}
 						}
 						?>
