@@ -451,6 +451,17 @@ function unescape_invalid_shortcodes( $content ) {
 }
 
 /**
+ * Retrieve the shortcode attributes regex.
+ *
+ * @since 4.4.0
+ *
+ * @return string The shortcode attribute regular expression
+ */
+function get_shortcode_atts_regex() {
+	return '/([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*\'([^\']*)\'(?:\s|$)|([\w-]+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+}
+
+/**
  * Retrieve all attributes from the shortcodes tag.
  *
  * The attributes list has the attribute name as the key and the value of the
@@ -467,7 +478,7 @@ function unescape_invalid_shortcodes( $content ) {
  */
 function shortcode_parse_atts($text) {
 	$atts = array();
-	$pattern = '/([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*\'([^\']*)\'(?:\s|$)|([\w-]+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+	$pattern = get_shortcode_atts_regex();
 	$text = preg_replace("/[\x{00a0}\x{200b}]+/u", " ", $text);
 	if ( preg_match_all($pattern, $text, $match, PREG_SET_ORDER) ) {
 		foreach ($match as $m) {
