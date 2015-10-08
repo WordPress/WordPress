@@ -332,7 +332,7 @@ function wp_embed_handler_video( $matches, $attr, $url, $rawattr ) {
  *
  * @since 4.4.0
  *
- * @see WP_oEmbed_Controller
+ * @see WP_oEmbed_Controller::parse_query()
  *
  * @param WP_Query $wp_query The current WP_Query instance.
  */
@@ -526,12 +526,16 @@ function get_oembed_response_data( $post = null, $width ) {
 	/**
 	 * Filter the allowed minimum width for the oEmbed response.
 	 *
+	 * @since 4.4.0
+	 *
 	 * @param int $width The minimum width. Defaults to 200.
 	 */
 	$minwidth = apply_filters( 'oembed_minwidth', 200 );
 
 	/**
 	 * Filter the allowed maximum width for the oEmbed response.
+	 *
+	 * @since 4.4.0
 	 *
 	 * @param int $width The maximum width. Defaults to 600.
 	 */
