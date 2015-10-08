@@ -365,7 +365,7 @@ function wp_oembed_add_discovery_links() {
 }
 
 /**
- * Add the necessary JavaScript to communicate with the embedded iframes.
+ * Adds the necessary JavaScript to communicate with the embedded iframes.
  *
  * @since 4.4.0
  */
@@ -375,7 +375,7 @@ function wp_oembed_add_host_js() {
 
 
 /**
- * Get the URL to embed a specific post in an iframe.
+ * Retrieves the URL to embed a specific post in an iframe.
  *
  * @since 4.4.0
  *
@@ -407,10 +407,9 @@ function get_post_embed_url( $post = null ) {
 }
 
 /**
- * Get the oEmbed endpoint URL for a given permalink.
+ * Retrieves the oEmbed endpoint URL for a given permalink.
  *
- * Pass an empty string as the first argument
- * to get the endpoint base URL.
+ * Pass an empty string as the first argument to get the endpoint base URL.
  *
  * @since 4.4.0
  *
@@ -445,7 +444,7 @@ function get_oembed_endpoint_url( $permalink = '', $format = 'json' ) {
 }
 
 /**
- * Get the embed code for a specific post.
+ * Retrieves the embed code for a specific post.
  *
  * @since 4.4.0
  *
@@ -492,7 +491,7 @@ JS;
 	);
 
 	/**
-	 * Filters the oEmbed HTML output.
+	 * Filter the oEmbed HTML output.
 	 *
 	 * @since 4.4.0
 	 *
@@ -505,7 +504,7 @@ JS;
 }
 
 /**
- * Get the oEmbed response data for a given post.
+ * Retrieves the oEmbed response data for a given post.
  *
  * @since 4.4.0
  *
@@ -628,7 +627,7 @@ function get_oembed_response_data_rich( $data, $post, $width, $height ) {
  *
  * @since 4.4.0
  *
- * @param string $format The oEmbed response format. Accepts 'json', 'xml'.
+ * @param string $format The oEmbed response format. Accepts 'json' or 'xml'.
  * @return string The format, either 'xml' or 'json'. Default 'json'.
  */
 function wp_oembed_ensure_format( $format ) {
@@ -675,7 +674,7 @@ function _oembed_create_xml( $data, $node = null ) {
 }
 
 /**
- * Filters the returned oEmbed HTML.
+ * Filters the given oEmbed HTML.
  *
  * If the $url isn't on the trusted providers list,
  * we need to filter the HTML heavily for security.
@@ -762,7 +761,9 @@ function wp_oembed_excerpt_more( $more_string ) {
 }
 
 /**
- * Display the post excerpt for the embed template.
+ * Displays the post excerpt for the embed template.
+ *
+ * Intended to be used in 'The Loop'.
  *
  * @since 4.4.0
  */
@@ -796,7 +797,7 @@ function wp_oembed_excerpt_attachment( $content ) {
 }
 
 /**
- * Print the CSS in the embed iframe header.
+ * Prints the CSS in the embed iframe header.
  *
  * @since 4.4.0
  */
@@ -827,7 +828,7 @@ function print_oembed_embed_styles() {
 }
 
 /**
- * Print the CSS in the embed iframe header.
+ * Prints the CSS in the embed iframe header.
  *
  * @since 4.4.0
  */
