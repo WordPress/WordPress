@@ -367,7 +367,7 @@ class WP_Rewrite {
 	public $feeds = array( 'feed', 'rdf', 'rss', 'rss2', 'atom' );
 
 	/**
-	 * Whether permalinks are being used.
+	 * Determines whether permalinks are being used.
 	 *
 	 * This can be either rewrite module or permalink in the HTTP query string.
 	 *
@@ -381,14 +381,14 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Whether permalinks are being used and rewrite module is not enabled.
+	 * Determins whether permalinks are being used and rewrite module is not enabled.
 	 *
 	 * Means that permalink links are enabled and index.php is in the URL.
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return bool
+	 * @return bool Whether permalink links are enabled and index.php is in the URL.
 	 */
 	public function using_index_permalinks() {
 		if ( empty( $this->permalink_structure ) ) {
@@ -399,21 +399,21 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Whether permalinks are being used and rewrite module is enabled.
+	 * Determines whether permalinks are being used and rewrite module is enabled.
 	 *
 	 * Using permalinks and index.php is not in the URL.
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return bool
+	 * @return bool Whether permalink links are enabled and index.php is NOT in the URL.
 	 */
 	public function using_mod_rewrite_permalinks() {
 		return $this->using_permalinks() && ! $this->using_index_permalinks();
 	}
 
 	/**
-	 * Index for matches for usage in preg_*() functions.
+	 * Indexes for matches for usage in preg_*() functions.
 	 *
 	 * The format of the string is, with empty matches property value, '$NUM'.
 	 * The 'NUM' will be replaced with the value in the $number parameter. With
@@ -441,7 +441,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve all page and attachments for pages URIs.
+	 * Retrieves all page and attachments for pages URIs.
 	 *
 	 * The attachments are for those that have pages as parents and will be
 	 * retrieved.
@@ -449,7 +449,7 @@ class WP_Rewrite {
 	 * @since 2.5.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @return array Array of page URIs as first element and attachment URIs as second element.
 	 */
@@ -488,12 +488,12 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve all of the rewrite rules for pages.
+	 * Retrieves all of the rewrite rules for pages.
 	 *
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @return array
+	 * @return array Page rewrite rules.
 	 */
 	public function page_rewrite_rules() {
 		// the extra .? at the beginning prevents clashes with other regular expressions in the rules array
@@ -503,7 +503,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve date permalink structure, with year, month, and day.
+	 * Retrieves date permalink structure, with year, month, and day.
 	 *
 	 * The permalink structure for the date, if not set already depends on the
 	 * permalink structure. It can be one of three formats. The first is year,
@@ -566,7 +566,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the year permalink structure without month and day.
+	 * Retrieves the year permalink structure without month and day.
 	 *
 	 * Gets the date permalink structure and strips out the month and day
 	 * permalink structures.
@@ -590,7 +590,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the month permalink structure without day and with year.
+	 * Retrieves the month permalink structure without day and with year.
 	 *
 	 * Gets the date permalink structure and strips out the day permalink
 	 * structures. Keeps the year permalink structure.
@@ -613,7 +613,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the day permalink structure with month and year.
+	 * Retrieves the day permalink structure with month and year.
 	 *
 	 * Keeps date permalink structure with all year, month, and day.
 	 *
@@ -627,7 +627,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the permalink structure for categories.
+	 * Retrieves the permalink structure for categories.
 	 *
 	 * If the category_base property has no value, then the category structure
 	 * will have the front property value, followed by 'category', and finally
@@ -661,7 +661,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve extra permalink structure by name.
+	 * Retrieves an extra permalink structure by name.
 	 *
 	 * @since 2.5.0
 	 * @access public
@@ -680,7 +680,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the author permalink structure.
+	 * Retrieves the author permalink structure.
 	 *
 	 * The permalink structure is front property, author base, and finally
 	 * '/%author%'. Will set the author_structure property and then return it
@@ -706,7 +706,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the search permalink structure.
+	 * Retrieves the search permalink structure.
 	 *
 	 * The permalink structure is root property, search base, and finally
 	 * '/%search%'. Will set the search_structure property and then return it
@@ -732,7 +732,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the page permalink structure.
+	 * Retrieves the page permalink structure.
 	 *
 	 * The permalink structure is root property, and '%pagename%'. Will set the
 	 * page_structure property and then return it without attempting to set the
@@ -758,7 +758,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the feed permalink structure.
+	 * Retrieves the feed permalink structure.
 	 *
 	 * The permalink structure is root property, feed base, and finally
 	 * '/%feed%'. Will set the feed_structure property and then return it
@@ -784,7 +784,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the comment feed permalink structure.
+	 * Retrieves the comment feed permalink structure.
 	 *
 	 * The permalink structure is root property, comment base property, feed
 	 * base and finally '/%feed%'. Will set the comment_feed_structure property
@@ -810,7 +810,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Add or update existing rewrite tags (e.g. %postname%).
+	 * Adds or updates existing rewrite tags (e.g. %postname%).
 	 *
 	 * If the tag already exists, replace the existing pattern and query for
 	 * that tag, otherwise add the new tag.
@@ -839,7 +839,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Generate rewrite rules from a permalink structure.
+	 * Generates rewrite rules from a permalink structure.
 	 *
 	 * The main WP_Rewrite function for building the rewrite rule list. The
 	 * contents of the function is a mix of black magic and regular expressions,
@@ -1142,7 +1142,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Generate Rewrite rules with permalink structure and walking directory only.
+	 * Generates rewrite rules with permalink structure and walking directory only.
 	 *
 	 * Shorten version of WP_Rewrite::generate_rewrite_rules() that allows for shorter
 	 * list of parameters. See the method for longer description of what generating
@@ -1162,7 +1162,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Construct rewrite matches and queries from permalink structure.
+	 * Constructs rewrite matches and queries from permalink structure.
 	 *
 	 * Runs the action 'generate_rewrite_rules' with the parameter that is an
 	 * reference to the current WP_Rewrite instance to further manipulate the
@@ -1368,7 +1368,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve the rewrite rules.
+	 * Retrieves the rewrite rules.
 	 *
 	 * The difference between this method and WP_Rewrite::rewrite_rules() is that
 	 * this method stores the rewrite rules in the 'rewrite_rules' option and retrieves
@@ -1392,7 +1392,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve mod_rewrite formatted rewrite rules to write to .htaccess.
+	 * Retrieves mod_rewrite-formatted rewrite rules to write to .htaccess.
 	 *
 	 * Does not actually write to the .htaccess file, but creates the rules for
 	 * the process that will.
@@ -1491,7 +1491,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Retrieve IIS7 URL Rewrite formatted rewrite rules to write to web.config file.
+	 * Retrieves IIS7 URL Rewrite formatted rewrite rules to write to web.config file.
 	 *
 	 * Does not actually write to the web.config file, but creates the rules for
 	 * the process that will.
@@ -1541,7 +1541,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Add a straight rewrite rule.
+	 * Adds a straight rewrite rule.
 	 *
 	 * Any value in the $after parameter that isn't 'bottom' will be placed at
 	 * the top of the rules.
@@ -1579,7 +1579,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Add a rule that doesn't redirect to index.php.
+	 * Adds a rule that doesn't redirect to index.php.
 	 *
 	 * Can redirect to any place.
 	 *
@@ -1594,7 +1594,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Add an endpoint, like /trackback/.
+	 * Adds an endpoint, like /trackback/.
 	 *
 	 * @since 2.1.0
 	 * @since 3.9.0 $query_var parameter added.
@@ -1625,7 +1625,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Add a new permalink structure.
+	 * Adds a new permalink structure.
 	 *
 	 * A permalink structure (permastruct) is an abstract definition of a set of rewrite rules;
 	 * it is an easy way of expressing a set of regular expressions that rewrite to a set of
@@ -1681,7 +1681,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Remove rewrite rules and then recreate rewrite rules.
+	 * Removes rewrite rules and then recreate rewrite rules.
 	 *
 	 * Calls WP_Rewrite::wp_rewrite_rules() after removing the 'rewrite_rules' option.
 	 * If the function named 'save_mod_rewrite_rules' exists, it will be called.
@@ -1761,7 +1761,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Set the main permalink structure for the blog.
+	 * Sets the main permalink structure for the site.
 	 *
 	 * Will update the 'permalink_structure' option, if there is a difference
 	 * between the current permalink structure and the parameter value. Calls
@@ -1794,7 +1794,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Set the category base for the category permalink.
+	 * Sets the category base for the category permalink.
 	 *
 	 * Will update the 'category_base' option, if there is a difference between
 	 * the current category base and the parameter value. Calls WP_Rewrite::init()
@@ -1813,7 +1813,7 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Set the tag base for the tag permalink.
+	 * Sets the tag base for the tag permalink.
 	 *
 	 * Will update the 'tag_base' option, if there is a difference between the
 	 * current tag base and the parameter value. Calls WP_Rewrite::init() after
