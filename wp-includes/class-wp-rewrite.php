@@ -852,13 +852,21 @@ class WP_Rewrite {
 	 * @access public
 	 *
 	 * @param string $permalink_structure The permalink structure.
-	 * @param int    $ep_mask             Endpoint mask defining what endpoints are added to the structure. Default is EP_NONE.
-	 * @param bool   $paged               Should archive pagination rules be added for the structure? Default is true.
-	 * @param bool   $feed                Should feed rewrite rules be added for the structure? Default is true.
-	 * @param bool   $forcomments         Should the feed rules be a query for a comments feed? Default is false.
-	 * @param bool   $walk_dirs           Should the 'directories' making up the structure be walked over and rewrite rules
-	 *                                    built for each in turn? Default is true.
-	 * @param bool   $endpoints           Should endpoints be applied to the generated rewrite rules? Default is true.
+	 * @param int    $ep_mask             Optional. Endpoint mask defining what endpoints are added to the structure.
+	 *                                    Accepts `EP_NONE`, `EP_PERMALINK`, `EP_ATTACHMENT`, `EP_DATE`, `EP_YEAR`,
+	 *                                    `EP_MONTH`, `EP_DAY`, `EP_ROOT`, `EP_COMMENTS`, `EP_SEARCH`, `EP_CATEGORIES`,
+	 *                                    `EP_TAGS`, `EP_AUTHORS`, `EP_PAGES`, `EP_ALL_ARCHIVES`, and `EP_ALL`.
+	 *                                    Default `EP_NONE`.
+	 * @param bool   $paged               Optional. Whether archive pagination rules should be added for the structure.
+	 *                                    Default true.
+	 * @param bool   $feed                Optional Whether feed rewrite rules should be added for the structure.
+	 *                                    Default true.
+	 * @param bool   $forcomments         Optional. Whether the feed rules should be a query for a comments feed.
+	 *                                    Default false.
+	 * @param bool   $walk_dirs           Optional. Whether the 'directories' making up the structure should be walked
+	 *                                    over and rewrite rules built for each in-turn. Default true.
+	 * @param bool   $endpoints           Optional. Whether endpoints should be applied to the generated rewrite rules.
+	 *                                    Default true.
 	 * @return array Rewrite rule list.
 	 */
 	public function generate_rewrite_rules($permalink_structure, $ep_mask = EP_NONE, $paged = true, $feed = true, $forcomments = false, $walk_dirs = true, $endpoints = true) {
@@ -1673,6 +1681,7 @@ class WP_Rewrite {
 	 * A permalink structure (permastruct) is an abstract definition of a set of rewrite rules;
 	 * it is an easy way of expressing a set of regular expressions that rewrite to a set of
 	 * query strings. The new permastruct is added to the WP_Rewrite::$extra_permastructs array.
+	 *
 	 * When the rewrite rules are built by WP_Rewrite::rewrite_rules(), all of these extra
 	 * permastructs are passed to WP_Rewrite::generate_rewrite_rules() which transforms them
 	 * into the regular expressions that many love to hate.
@@ -1799,6 +1808,7 @@ class WP_Rewrite {
 		$this->root = '';
 		if ( $this->using_index_permalinks() )
 			$this->root = $this->index . '/';
+
 		unset($this->author_structure);
 		unset($this->date_structure);
 		unset($this->page_structure);
