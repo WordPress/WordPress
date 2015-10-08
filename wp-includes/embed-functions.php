@@ -524,27 +524,26 @@ function get_oembed_response_data( $post = null, $width ) {
 	}
 
 	/**
-	 * Filter the allowed minimum width for the oEmbed response.
+	 * Filter the allowed minimum and maximum widths for the oEmbed response.
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param int $width The minimum width. Defaults to 200.
-	 */
-	$minwidth = apply_filters( 'oembed_minwidth', 200 );
-
-	/**
-	 * Filter the allowed maximum width for the oEmbed response.
+	 * @param array $min_max_width {
+	 *     Minimum and maximum widths for the oEmbed response.
 	 *
-	 * @since 4.4.0
-	 *
-	 * @param int $width The maximum width. Defaults to 600.
+	 *     @type int $min Minimum width. Default 200.
+	 *     @type int $max Maximum width. Default 600.
+	 * }
 	 */
-	$maxwidth = apply_filters( 'oembed_maxwidth', 600 );
+	$min_max_width = apply_filters( 'oembed_min_max_width', array(
+		'min' => 200,
+		'max' => 600
+	) );
 
-	if ( $width < $minwidth ) {
-		$width = $minwidth;
-	} else if ( $width > $maxwidth ) {
-		$width = $maxwidth;
+	if ( $width < $min_max_width['min'] ) {
+		$width = $min_max_width['min'];
+	} elseif ( $width > $min_max_width['max'] ) {
+		$width = $min_max_width['max'];
 	}
 
 	$height = ceil( $width / 16 * 9 );
