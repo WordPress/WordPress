@@ -1806,6 +1806,7 @@ class WP_Rewrite {
 		$this->permalink_structure = get_option('permalink_structure');
 		$this->front = substr($this->permalink_structure, 0, strpos($this->permalink_structure, '%'));
 		$this->root = '';
+
 		if ( $this->using_index_permalinks() )
 			$this->root = $this->index . '/';
 
@@ -1843,6 +1844,7 @@ class WP_Rewrite {
 		if ( $permalink_structure != $this->permalink_structure ) {
 			$old_permalink_structure = $this->permalink_structure;
 			update_option('permalink_structure', $permalink_structure);
+
 			$this->init();
 
 			/**
