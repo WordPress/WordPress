@@ -440,7 +440,12 @@ case 'postpass' :
 	 * @param int $expires The expiry time, as passed to setcookie().
 	 */
 	$expire = apply_filters( 'post_password_expires', time() + 10 * DAY_IN_SECONDS );
-	$secure = ( 'https' === parse_url( home_url(), PHP_URL_SCHEME ) );
+	$referer = wp_get_referer();
+	if ( $referer ) {
+		$secure = ( 'https' === parse_url( $referer, PHP_URL_SCHEME ) );
+	} else {
+		$secure = false;
+	}
 	setcookie( 'wp-postpass_' . COOKIEHASH, $hasher->HashPassword( wp_unslash( $_POST['post_password'] ) ), $expire, COOKIEPATH, COOKIE_DOMAIN, $secure );
 
 	wp_safe_redirect( wp_get_referer() );
