@@ -62,7 +62,7 @@ function wp_get_db_schema( $scope = 'all', $blog_id = null ) {
   term_id bigint(20) unsigned NOT NULL default '0',
   meta_key varchar(255) default NULL,
   meta_value longtext,
-  PRIMARY KEY (meta_id),
+  PRIMARY KEY  (meta_id),
   KEY term_id (term_id),
   KEY meta_key (meta_key($max_index_length))
 ) $charset_collate;
