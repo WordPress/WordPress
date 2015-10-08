@@ -394,6 +394,7 @@ class WP_Rewrite {
 		if ( empty( $this->permalink_structure ) ) {
 			return false;
 		}
+
 		// If the index is not in the permalink, we're using mod_rewrite.
 		return preg_match( '#^/*' . $this->index . '#', $this->permalink_structure );
 	}
@@ -1684,15 +1685,25 @@ class WP_Rewrite {
 	 *
 	 * @param string $name   Name for permalink structure.
 	 * @param string $struct Permalink structure (e.g. category/%category%)
-	 * @param array  $args   Optional configuration for building the rules from the permalink structure:
-	 *     - with_front (bool) - Should the structure be prepended with WP_Rewrite::$front? Default is true.
-	 *     - ep_mask (int) - Endpoint mask defining what endpoints are added to the structure. Default is EP_NONE.
-	 *     - paged (bool) - Should archive pagination rules be added for the structure? Default is true.
-	 *     - feed (bool) - Should feed rewrite rules be added for the structure? Default is true.
-	 *     - forcomments (bool) - Should the feed rules be a query for a comments feed? Default is false.
-	 *     - walk_dirs (bool) - Should the 'directories' making up the structure be walked over and rewrite
-	 *                          rules built for each in turn? Default is true.
-	 *     - endpoints (bool) - Should endpoints be applied to the generated rewrite rules? Default is true.
+	 * @param array  $args   {
+	 *     Optional. Arguments for building rewrite rules based on the permalink structure.
+	 *     Default empty array.
+	 *
+	 *     @type bool $with_front  Whether the structure should be prepended with `WP_Rewrite::$front`.
+	 *                             Default true.
+	 *     @type int  $ep_mask     The endpoint mask defining which endpoints are added to the structure.
+	 *                             Accepts `EP_NONE`, `EP_PERMALINK`, `EP_ATTACHMENT`, `EP_DATE`, `EP_YEAR`,
+	 *                             `EP_MONTH`, `EP_DAY`, `EP_ROOT`, `EP_COMMENTS`, `EP_SEARCH`, `EP_CATEGORIES`,
+	 *                             `EP_TAGS`, `EP_AUTHORS`, `EP_PAGES`, `EP_ALL_ARCHIVES`, and `EP_ALL`.
+	 *                             Default `EP_NONE`.
+	 *     @type bool $paged       Whether archive pagination rules should be added for the structure.
+	 *                             Default true.
+	 *     @type bool $feed        Whether feed rewrite rules should be added for the structure. Default true.
+	 *     @type bool $forcomments Whether the feed rules should be a query for a comments feed. Default false.
+	 *     @type bool $walk_dirs   Whether the 'directories' making up the structure should be walked over
+	 *                             and rewrite rules built for each in-turn. Default true.
+	 *     @type bool $endpoints   Whether endpoints should be applied to the generated rules. Default true.
+	 * }
 	 */
 	public function add_permastruct( $name, $struct, $args = array() ) {
 		// Backwards compatibility for the old parameters: $with_front and $ep_mask.
