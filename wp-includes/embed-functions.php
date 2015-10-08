@@ -776,6 +776,8 @@ function the_excerpt_embed() {
 	/**
 	 * Filter the post excerpt for the embed template.
 	 *
+	 * @since 4.4.0
+	 *
 	 * @param string $output The current post excerpt.
 	 */
 	echo apply_filters( 'the_excerpt_embed', $output );
