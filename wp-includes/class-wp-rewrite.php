@@ -1,6 +1,14 @@
 <?php
 /**
- * WordPress Rewrite Component.
+ * Rewrite API: WP_Rewrite class
+ *
+ * @package WordPress
+ * @subpackage Rewrite
+ * @since 1.5.0
+ */
+
+/**
+ * Core class used to implement a rewrite component API.
  *
  * The WordPress Rewrite class writes the rewrite module rules to the .htaccess
  * file. It also handles parsing the request to get the correct setup for the
@@ -13,8 +21,6 @@
  * rules.
  *
  * @since 1.5.0
- * @package WordPress
- * @subpackage Rewrite
  */
 class WP_Rewrite {
 	/**
@@ -1110,7 +1116,14 @@ class WP_Rewrite {
 					//add regexes/queries for attachments, attachment trackbacks and so on
 					if ( ! $page ) {
 						//require <permalink>/attachment/stuff form for pages because of confusion with subpages
-						$rewrite = array_merge( $rewrite, array($sub1 => $subquery, $sub1tb => $subtbquery, $sub1feed => $subfeedquery, $sub1feed2 => $subfeedquery, $sub1comment => $subcommentquery, $sub1embed => $subembedquery ) );
+						$rewrite = array_merge( $rewrite, array(
+							$sub1        => $subquery,
+							$sub1tb      => $subtbquery,
+							$sub1feed    => $subfeedquery,
+							$sub1feed2   => $subfeedquery,
+							$sub1comment => $subcommentquery,
+							$sub1embed   => $subembedquery
+						) );
 					}
 
 					$rewrite = array_merge( array( $sub2 => $subquery, $sub2tb => $subtbquery, $sub2feed => $subfeedquery, $sub2feed2 => $subfeedquery, $sub2comment => $subcommentquery, $sub2embed => $subembedquery ), $rewrite );
