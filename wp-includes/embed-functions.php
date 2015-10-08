@@ -332,10 +332,12 @@ function wp_embed_handler_video( $matches, $attr, $url, $rawattr ) {
  *
  * @since 4.4.0
  *
+ * @see WP_oEmbed_Controller
+ *
  * @param WP_Query $wp_query The current WP_Query instance.
  */
 function wp_oembed_parse_query( $wp_query ) {
-	$controller = new WP_oEmbed_Controller;
+	$controller = new WP_oEmbed_Controller();
 	$controller->parse_query( $wp_query );
 }
 
