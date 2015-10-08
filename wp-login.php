@@ -313,62 +313,11 @@ function retrieve_password() {
 	// Redefining user_login ensures we return the right case in the email.
 	$user_login = $user_data->user_login;
 	$user_email = $user_data->user_email;
+	$key = get_password_reset_key( $user_data );
 
-	/**
-	 * Fires before a new password is retrieved.
-	 *
-	 * @since 1.5.0
-	 * @deprecated 1.5.1 Misspelled. Use 'retrieve_password' hook instead.
-	 *
-	 * @param string $user_login The user login name.
-	 */
-	do_action( 'retreive_password', $user_login );
-
-	/**
-	 * Fires before a new password is retrieved.
-	 *
-	 * @since 1.5.1
-	 *
-	 * @param string $user_login The user login name.
-	 */
-	do_action( 'retrieve_password', $user_login );
-
-	/**
-	 * Filter whether to allow a password to be reset.
-	 *
-	 * @since 2.7.0
-	 *
-	 * @param bool true           Whether to allow the password to be reset. Default true.
-	 * @param int  $user_data->ID The ID of the user attempting to reset a password.
-	 */
-	$allow = apply_filters( 'allow_password_reset', true, $user_data->ID );
-
-	if ( ! $allow ) {
-		return new WP_Error( 'no_password_reset', __('Password reset is not allowed for this user') );
-	} elseif ( is_wp_error( $allow ) ) {
-		return $allow;
+	if ( is_wp_error( $key ) ) {
+		return $key;
 	}
-
-	// Generate something random for a password reset key.
-	$key = wp_generate_password( 20, false );
-
-	/**
-	 * Fires when a password reset key is generated.
-	 *
-	 * @since 2.5.0
-	 *
-	 * @param string $user_login The username for the user.
-	 * @param string $key        The generated password reset key.
-	 */
-	do_action( 'retrieve_password_key', $user_login, $key );
-
-	// Now insert the key, hashed, into the DB.
-	if ( empty( $wp_hasher ) ) {
-		require_once ABSPATH . WPINC . '/class-phpass.php';
-		$wp_hasher = new PasswordHash( 8, true );
-	}
-	$hashed = time() . ':' . $wp_hasher->HashPassword( $key );
-	$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user_login ) );
 
 	$message = __('Someone requested that the password be reset for the following account:') . "\r\n\r\n";
 	$message .= network_home_url( '/' ) . "\r\n\r\n";
