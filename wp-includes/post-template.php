@@ -1275,6 +1275,11 @@ function wp_page_menu( $args = array() ) {
 
 	$container = sanitize_text_field( $args['container'] );
 
+	// Fallback in case `wp_nav_menu()` was called without a container.
+	if ( empty( $container ) ) {
+		$container = 'div';
+	}
+
 	if ( $menu ) {
 
 		// wp_nav_menu doesn't set before and after
