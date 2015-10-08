@@ -52,6 +52,15 @@ class WP_User_Query {
 	 */
 	public $meta_query = false;
 
+	/**
+	 * The SQL query used to fetch matching users.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 * @var string
+	 */
+	public $request;
+
 	private $compat_fields = array( 'results', 'total_users' );
 
 	// SQL clauses
@@ -442,12 +451,12 @@ class WP_User_Query {
 
 		$qv =& $this->query_vars;
 
-		$query = "SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit";
+		$this->request = "SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit";
 
 		if ( is_array( $qv['fields'] ) || 'all' == $qv['fields'] ) {
-			$this->results = $wpdb->get_results( $query );
+			$this->results = $wpdb->get_results( $this->request );
 		} else {
-			$this->results = $wpdb->get_col( $query );
+			$this->results = $wpdb->get_col( $this->request );
 		}
 
 		/**
