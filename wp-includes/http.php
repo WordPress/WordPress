@@ -30,3 +30,6 @@ require_once( ABSPATH . WPINC . '/class-wp-http-cookie.php' );
 
 /** WP_Http_Encoding class */
 require_once( ABSPATH . WPINC . '/class-wp-http-encoding.php' );
+
+/** WP_HTTP_Response class */
+require_once( ABSPATH . WPINC . '/class-wp-http-response.php' );
