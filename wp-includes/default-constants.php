@@ -11,6 +11,8 @@
  * @see wp_debug_mode()
  *
  * @since 3.0.0
+ *
+ * @global int $blog_id
  */
 function wp_initial_constants() {
 	global $blog_id;
@@ -28,13 +30,6 @@ function wp_initial_constants() {
 		define( 'WP_MAX_MEMORY_LIMIT', '256M' );
 	}
 
-	/**
-	 * The $blog_id global, which you can change in the config allows you to create a simple
-	 * multiple blog installation using just one WordPress and changing $blog_id around.
-	 *
-	 * @global int $blog_id
-	 * @since 2.0.0
-	 */
 	if ( ! isset($blog_id) )
 		$blog_id = 1;
 
