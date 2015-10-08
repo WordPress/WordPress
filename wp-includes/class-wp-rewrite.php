@@ -258,10 +258,11 @@ class WP_Rewrite {
 	 * This is off by default, turning it on might print a lot of rewrite rules
 	 * to the .htaccess file.
 	 *
-	 * @see WP_Rewrite::mod_rewrite_rules()
 	 * @since 2.0.0
 	 * @access public
 	 * @var bool
+	 *
+	 * @see WP_Rewrite::mod_rewrite_rules()
 	 */
 	public $use_verbose_rules = false;
 
@@ -810,11 +811,12 @@ class WP_Rewrite {
 	 * If the tag already exists, replace the existing pattern and query for
 	 * that tag, otherwise add the new tag.
 	 *
+	 * @since 1.5.0
+	 * @access public
+	 *
 	 * @see WP_Rewrite::$rewritecode
 	 * @see WP_Rewrite::$rewritereplace
 	 * @see WP_Rewrite::$queryreplace
-	 * @since 1.5.0
-	 * @access public
 	 *
 	 * @param string $tag   Name of the rewrite tag to add or update.
 	 * @param string $regex Regular expression to substitute the tag for in rewrite rules.
@@ -1596,7 +1598,6 @@ class WP_Rewrite {
 	 * @access public
 	 *
 	 * @see add_rewrite_endpoint() for full documentation.
-	 *
 	 * @global WP $wp
 	 *
 	 * @param string      $name      Name of the endpoint.
