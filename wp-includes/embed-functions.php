@@ -679,21 +679,21 @@ function _oembed_create_xml( $data, $node = null ) {
 /**
  * Filters the given oEmbed HTML.
  *
- * If the $url isn't on the trusted providers list,
+ * If the `$url` isn't on the trusted providers list,
  * we need to filter the HTML heavily for security.
  *
  * Only filters 'rich' and 'html' response types.
  *
  * @since 4.4.0
  *
- * @param string $return The returned oEmbed HTML.
+ * @param string $result The oEmbed HTML result.
  * @param object $data   A data object result from an oEmbed provider.
  * @param string $url    The URL of the content to be embedded.
  * @return string The filtered and sanitized oEmbed result.
  */
-function wp_filter_oembed_result( $return, $data, $url ) {
-	if ( false === $return || ! in_array( $data->type, array( 'rich', 'video' ) ) ) {
-		return $return;
+function wp_filter_oembed_result( $result, $data, $url ) {
+	if ( false === $result || ! in_array( $data->type, array( 'rich', 'video' ) ) ) {
+		return $result;
 	}
 
 	require_once( ABSPATH . WPINC . '/class-oembed.php' );
@@ -701,7 +701,7 @@ function wp_filter_oembed_result( $return, $data, $url ) {
 
 	// Don't modify the HTML for trusted providers.
 	if ( false !== $wp_oembed->get_provider( $url, array( 'discover' => false ) ) ) {
-		return $return;
+		return $result;
 	}
 
 	$allowed_html = array(
@@ -718,7 +718,7 @@ function wp_filter_oembed_result( $return, $data, $url ) {
 		),
 	);
 
-	$html = wp_kses( $return, $allowed_html );
+	$html = wp_kses( $result, $allowed_html );
 	preg_match( '|^.*(<iframe.*?></iframe>).*$|m', $html, $iframes );
 
 	if ( empty( $iframes ) ) {
