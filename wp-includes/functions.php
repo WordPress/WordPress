@@ -3177,6 +3177,24 @@ function wp_array_slice_assoc( $array, $keys ) {
 }
 
 /**
+ * Determines if the variable is a numeric-indexed array.
+ *
+ * @since 4.4.0
+ *
+ * @param mixed $data Variable to check.
+ * @return bool Whether the variable is a list.
+ */
+function wp_is_numeric_array( $data ) {
+	if ( ! is_array( $data ) ) {
+		return false;
+	}
+
+	$keys = array_keys( $data );
+	$string_keys = array_filter( $keys, 'is_string' );
+	return count( $string_keys ) === 0;
+}
+
+/**
  * Filters a list of objects, based on a set of key => value arguments.
  *
  * @since 3.0.0
