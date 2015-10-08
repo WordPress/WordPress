@@ -87,13 +87,23 @@ class WP_Users_List_Table extends WP_List_Table {
 
 		$paged = $this->get_pagenum();
 
-		$args = array(
-			'number' => $users_per_page,
-			'offset' => ( $paged-1 ) * $users_per_page,
-			'role' => $role,
-			'search' => $usersearch,
-			'fields' => 'all_with_meta'
-		);
+		if ( 'none' === $role ) {
+			$args = array(
+				'number' => $users_per_page,
+				'offset' => ( $paged-1 ) * $users_per_page,
+				'include' => wp_get_users_with_no_role(),
+				'search' => $usersearch,
+				'fields' => 'all_with_meta'
+			);
+		} else {
+			$args = array(
+				'number' => $users_per_page,
+				'offset' => ( $paged-1 ) * $users_per_page,
+				'role' => $role,
+				'search' => $usersearch,
+				'fields' => 'all_with_meta'
+			);
+		}
 
 		if ( '' !== $args['search'] )
 			$args['search'] = '*' . $args['search'] . '*';
@@ -166,6 +176,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			$url = 'users.php';
 			$users_of_blog = count_users();
 		}
+
 		$total_users = $users_of_blog['total_users'];
 		$avail_roles =& $users_of_blog['avail_roles'];
 		unset($users_of_blog);
@@ -187,6 +198,21 @@ class WP_Users_List_Table extends WP_List_Table {
 			/* translators: User role name with count */
 			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, number_format_i18n( $avail_roles[$this_role] ) );
 			$role_links[$this_role] = "<a href='" . esc_url( add_query_arg( 'role', $this_role, $url ) ) . "'$class>$name</a>";
+		}
+
+		if ( ! empty( $avail_roles['none' ] ) ) {
+
+			$class = '';
+
+			if ( 'none' === $role ) {
+				$class = ' class="current"';
+			}
+
+			$name = __( 'No role' );
+			/* translators: User role name with count */
+			$name = sprintf( __('%1$s <span class="count">(%2$s)</span>'), $name, number_format_i18n( $avail_roles['none' ] ) );
+			$role_links['none'] = "<a href='" . esc_url( add_query_arg( 'role', 'none', $url ) ) . "'$class>$name</a>";
+
 		}
 
 		return $role_links;

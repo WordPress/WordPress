@@ -735,6 +735,7 @@ function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
  * Using $strategy = 'memory' this is memory-intensive and should handle around 10^5 users, but see WP Bug #12257.
  *
  * @since 3.0.0
+ * @since 4.4.0 The number of users with no role is now included in the `none` element.
  *
  * @global wpdb $wpdb
  *
@@ -775,10 +776,14 @@ function count_users($strategy = 'time') {
 		// Get the meta_value index from the end of the result set.
 		$total_users = (int) $row[$col];
 
+		$role_counts['none'] = ( $total_users - array_sum( $role_counts ) );
+
 		$result['total_users'] = $total_users;
 		$result['avail_roles'] =& $role_counts;
 	} else {
-		$avail_roles = array();
+		$avail_roles = array(
+			'none' => 0,
+		);
 
 		$users_of_blog = $wpdb->get_col( "SELECT meta_value FROM $wpdb->usermeta WHERE meta_key = '{$blog_prefix}capabilities'" );
 
@@ -786,6 +791,9 @@ function count_users($strategy = 'time') {
 			$b_roles = maybe_unserialize($caps_meta);
 			if ( ! is_array( $b_roles ) )
 				continue;
+			if ( empty( $b_roles ) ) {
+				$avail_roles['none']++;
+			}
 			foreach ( $b_roles as $b_role => $val ) {
 				if ( isset($avail_roles[$b_role]) ) {
 					$avail_roles[$b_role]++;
@@ -797,6 +805,10 @@ function count_users($strategy = 'time') {
 
 		$result['total_users'] = count( $users_of_blog );
 		$result['avail_roles'] =& $avail_roles;
+	}
+
+	if ( is_multisite() ) {
+		$result['avail_roles']['none'] = 0;
 	}
 
 	return $result;
@@ -2230,4 +2242,33 @@ function wp_destroy_other_sessions() {
 function wp_destroy_all_sessions() {
 	$manager = WP_Session_Tokens::get_instance( get_current_user_id() );
 	$manager->destroy_all();
+}
+
+/**
+ * Get the user IDs of all users with no role on this site.
+ *
+ * This function returns an empty array when used on Multisite.
+ *
+ * @since 4.4.0
+ *
+ * @return array Array of user IDs.
+ */
+function wp_get_users_with_no_role() {
+	global $wpdb;
+
+	if ( is_multisite() ) {
+		return array();
+	}
+
+	$prefix = $wpdb->get_blog_prefix();
+	$regex  = implode( '|', wp_roles()->get_names() );
+	$regex  = preg_replace( '/[^a-zA-Z_\|-]/', '', $regex );
+	$users  = $wpdb->get_col( $wpdb->prepare( "
+		SELECT user_id
+		FROM $wpdb->usermeta
+		WHERE meta_key = '{$prefix}capabilities'
+		AND meta_value NOT REGEXP %s
+	", $regex ) );
+
+	return $users;
 }
