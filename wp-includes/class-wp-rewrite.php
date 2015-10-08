@@ -1541,56 +1541,54 @@ class WP_Rewrite {
 	}
 
 	/**
-	 * Adds a straight rewrite rule.
+	 * Adds a rewrite rule that transforms a URL structure to a set of query vars.
 	 *
-	 * Any value in the $after parameter that isn't 'bottom' will be placed at
-	 * the top of the rules.
+	 * Any value in the $after parameter that isn't 'bottom' will result in the rule
+	 * being placed at the top of the rewrite rules.
 	 *
 	 * @since 2.1.0
-	 * @since 4.4.0 Array support was added to the `$redirect` parameter.
+	 * @since 4.4.0 Array support was added to the `$query` parameter.
 	 * @access public
 	 *
-	 * @param string       $regex    Regular expression to match against request.
-	 * @param string|array $redirect URL regex redirects to when regex matches request, or array
-	 *                               of query vars and values.
-	 * @param string       $after    Optional, default is bottom. Location to place rule.
+	 * @param string       $regex Regular expression to match request against.
+	 * @param string|array $query The corresponding query vars for this rewrite rule.
+	 * @param string       $after Optional. Priority of the new rule. Accepts 'top'
+	 *                            or 'bottom'. Default 'bottom'.
 	 */
-	public function add_rule( $regex, $redirect, $after = 'bottom' ) {
-		if ( is_array( $redirect ) ) {
+	public function add_rule( $regex, $query, $after = 'bottom' ) {
+		if ( is_array( $query ) ) {
 			$external = false;
-			$redirect = add_query_arg( $redirect, 'index.php' );
+			$query = add_query_arg( $query, 'index.php' );
 		} else {
-			$index = false === strpos( $redirect, '?' ) ? strlen( $redirect ) : strpos( $redirect, '?' );
-			$front = substr( $redirect, 0, $index );
+			$index = false === strpos( $query, '?' ) ? strlen( $query ) : strpos( $query, '?' );
+			$front = substr( $query, 0, $index );
 
 			$external = $front != $this->index;
 		}
 
-		// "external" = it doesn't redirect to index.php
+		// "external" = it doesn't correspond to index.php
 		if ( $external ) {
-			$this->add_external_rule( $regex, $redirect );
+			$this->add_external_rule( $regex, $query );
 		} else {
 			if ( 'bottom' == $after ) {
-				$this->extra_rules = array_merge( $this->extra_rules, array( $regex => $redirect ) );
+				$this->extra_rules = array_merge( $this->extra_rules, array( $regex => $query ) );
 			} else {
-				$this->extra_rules_top = array_merge( $this->extra_rules_top, array( $regex => $redirect ) );
+				$this->extra_rules_top = array_merge( $this->extra_rules_top, array( $regex => $query ) );
 			}
 		}
 	}
 
 	/**
-	 * Adds a rule that doesn't redirect to index.php.
-	 *
-	 * Can redirect to any place.
+	 * Adds a rewrite rule that doesn't correspond to index.php.
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @param string $regex    Regular expression to match against request.
-	 * @param string $redirect URL regex redirects to when regex matches request.
+	 * @param string $regex Regular expression to match request against.
+	 * @param string $query The corresponding query vars for this rewrite rule.
 	 */
-	public function add_external_rule($regex, $redirect) {
-		$this->non_wp_rules[$regex] = $redirect;
+	public function add_external_rule( $regex, $query ) {
+		$this->non_wp_rules[ $regex ] = $query;
 	}
 
 	/**
