@@ -332,8 +332,3 @@ if ( ! interface_exists( 'JsonSerializable' ) ) {
 		public function jsonSerialize();
 	}
 }
-
-// random_int was introduced in PHP 7.0
-if ( ! function_exists( 'random_int' ) ) {
-	require ABSPATH . WPINC . '/random_compat/random.php';
-}
