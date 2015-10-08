@@ -197,7 +197,7 @@ $form_extra .= "<input type='hidden' id='post_ID' name='post_ID' value='" . esc_
 
 // Detect if there exists an autosave newer than the post and if that autosave is different than the post
 if ( $autosave && mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false ) ) {
-	foreach ( _wp_post_revision_fields( $post ) as $autosave_field => $_autosave_field ) {
+	foreach ( _wp_post_revision_fields() as $autosave_field => $_autosave_field ) {
 		if ( normalize_whitespace( $autosave->$autosave_field ) != normalize_whitespace( $post->$autosave_field ) ) {
 			$notice = sprintf( __( 'There is an autosave of this post that is more recent than the version below. <a href="%s">View the autosave</a>' ), get_edit_post_link( $autosave->ID ) );
 			break;

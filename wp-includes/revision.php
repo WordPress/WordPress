@@ -14,21 +14,16 @@
  * an array whose keys are the post fields to be saved for post revisions.
  *
  * @since 2.6.0
- * @since 4.4.0 A `WP_Post` object can now be passed to the `$post` parameter.
  * @access private
  *
  * @staticvar array $fields
  *
- * @param array|WP_Post $post     Optional. A post array, or a WP_Post object to be processed for insertion as a post revision.
- * @param bool          $autosave Optional. Is the revision an autosave? Default false.
+ * @param array $post     Optional. A post array to be processed for insertion as a post revision.
+ * @param bool  $autosave Optional. Is the revision an autosave?
  * @return array Post array ready to be inserted as a post revision or array of fields that can be versioned.
  */
 function _wp_post_revision_fields( $post = null, $autosave = false ) {
 	static $fields = null;
-
-	if ( is_object( $post ) ) {
-		$post = get_post( $post, ARRAY_A );
-	}
 
 	if ( is_null( $fields ) ) {
 		// Allow these to be versioned
@@ -48,13 +43,11 @@ function _wp_post_revision_fields( $post = null, $autosave = false ) {
 		 * and 'post_author'.
 		 *
 		 * @since 2.6.0
-		 * @since 4.4.0 The `$post` parameter was added.
 		 *
 		 * @param array $fields List of fields to revision. Contains 'post_title',
 		 *                      'post_content', and 'post_excerpt' by default.
-		 * @param array $post   A post array being processed for insertion as a post revision.
 		 */
-		$fields = apply_filters( '_wp_post_revision_fields', $fields, $post );
+		$fields = apply_filters( '_wp_post_revision_fields', $fields );
 
 		// WP uses these internally either in versioning or elsewhere - they cannot be versioned
 		foreach ( array( 'ID', 'post_name', 'post_parent', 'post_date', 'post_date_gmt', 'post_status', 'post_type', 'comment_count', 'post_author' ) as $protect )
@@ -134,7 +127,7 @@ function wp_save_post_revision( $post_id ) {
 		if ( isset( $last_revision ) && apply_filters( 'wp_save_post_revision_check_for_changes', $check_for_changes = true, $last_revision, $post ) ) {
 			$post_has_changed = false;
 
-			foreach ( array_keys( _wp_post_revision_fields( $post ) ) as $field ) {
+			foreach ( array_keys( _wp_post_revision_fields() ) as $field ) {
 				if ( normalize_whitespace( $post->$field ) != normalize_whitespace( $last_revision->$field ) ) {
 					$post_has_changed = true;
 					break;
@@ -340,7 +333,7 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 		return $revision;
 
 	if ( !is_array( $fields ) )
-		$fields = array_keys( _wp_post_revision_fields( $revision ) );
+		$fields = array_keys( _wp_post_revision_fields() );
 
 	$update = array();
 	foreach ( array_intersect( array_keys( $revision ), $fields ) as $field ) {

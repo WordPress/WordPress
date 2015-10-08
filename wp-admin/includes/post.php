@@ -1656,7 +1656,7 @@ function wp_create_post_autosave( $post_data ) {
 		// If the new autosave has the same content as the post, delete the autosave.
 		$post = get_post( $post_id );
 		$autosave_is_different = false;
-		foreach ( array_intersect( array_keys( $new_autosave ), array_keys( _wp_post_revision_fields( $post ) ) ) as $field ) {
+		foreach ( array_intersect( array_keys( $new_autosave ), array_keys( _wp_post_revision_fields() ) ) as $field ) {
 			if ( normalize_whitespace( $new_autosave[ $field ] ) != normalize_whitespace( $post->$field ) ) {
 				$autosave_is_different = true;
 				break;
