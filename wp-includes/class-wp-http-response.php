@@ -1,9 +1,9 @@
 <?php
 /**
- * REST API: WP_HTTP_Response class
+ * HTTP API: WP_HTTP_Response class
  *
  * @package WordPress
- * @subpackage REST_API
+ * @subpackage HTTP
  * @since 4.4.0
  */
 
