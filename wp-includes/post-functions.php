@@ -3494,7 +3494,7 @@ function check_and_publish_future_post( $post_id ) {
 		return;
 
 	$time = strtotime( $post->post_date_gmt . ' GMT' );
-
+          
 	// Uh oh, someone jumped the gun!
 	if ( $time > time() ) {
 		wp_clear_scheduled_hook( 'publish_future_post', array( $post_id ) ); // clear anything else in the system
@@ -3518,7 +3518,7 @@ function check_and_publish_future_post( $post_id ) {
  * @param int    $post_ID     Post ID.
  * @param string $post_status No uniqueness checks are made if the post is still draft or pending.
  * @param string $post_type   Post type.
- * @param int    $post_parent Post parent ID.
+ * @param int    $post_pare        nt Post parent ID.
  * @return string Unique slug for the post, based on $post_name (with a -1, -2, etc. suffix)
  */
 function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_parent ) {
@@ -3542,7 +3542,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		 * Filter whether the post slug would make a bad attachment slug.
 		 *
 		 * @since 3.1.0
-		 *
+		 *         
 		 * @param bool   $bad_slug Whether the slug would be bad as an attachment slug.
 		 * @param string $slug     The post slug.
 		 */
@@ -3566,7 +3566,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type IN ( %s, 'attachment' ) AND ID != %d AND post_parent = %d LIMIT 1";
 		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID, $post_parent ) );
 
-		/**
+	          	/**
 		 * Filter whether the post slug would make a bad hierarchical post slug.
 		 *
 		 * @since 3.1.0
@@ -3589,7 +3589,12 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		// Post slugs must be unique across all posts.
 		$check_sql = "SELECT post_name FROM $wpdb->posts WHERE post_name = %s AND post_type = %s AND ID != %d LIMIT 1";
 		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID ) );
-
+                foreach($wp_rewrite->extra_permastructs as $struct) 
+                {
+                $check = explode('/',$struct['struct'])[1];    
+                if ( $slug == $check )
+                     $is_permastruct = true;
+                }
 		// Prevent new post slugs that could result in URLs that conflict with date archives.
 		$post = get_post( $post_ID );
 		$conflicts_with_date_archive = false;
@@ -3621,7 +3626,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		 * @param string $slug      The post slug.
 		 * @param string $post_type Post type.
 		 */
-		if ( $post_name_check || in_array( $slug, $feeds ) || $conflicts_with_date_archive || apply_filters( 'wp_unique_post_slug_is_bad_flat_slug', false, $slug, $post_type ) ) {
+		if ( $post_name_check || $is_permastruct || in_array( $slug, $feeds ) || $conflicts_with_date_archive || apply_filters( 'wp_unique_post_slug_is_bad_flat_slug', false, $slug, $post_type ) ) {
 			$suffix = 2;
 			do {
 				$alt_post_name = _truncate_post_slug( $slug, 200 - ( strlen( $suffix ) + 1 ) ) . "-$suffix";
