@@ -3675,7 +3675,7 @@ function the_shortlink( $text = '', $title = '', $before = '', $after = '' ) {
  *     @type string $default        URL for the default image or a default type. Accepts '404' (return
  *                                  a 404 instead of a default image), 'retro' (8bit), 'monsterid' (monster),
  *                                  'wavatar' (cartoon face), 'indenticon' (the "quilt"), 'mystery', 'mm',
- *                                  or 'mysterman' (The Oyster Man), 'blank' (transparent GIF), or
+ *                                  or 'mysteryman' (The Oyster Man), 'blank' (transparent GIF), or
  *                                  'gravatar_default' (the Gravatar logo). Default is the value of the
  *                                  'avatar_default' option, with a fallback of 'mystery'.
  *     @type bool   $force_default  Whether to always show the default image, never the Gravatar. Default false.
@@ -3709,7 +3709,7 @@ function get_avatar_url( $id_or_email, $args = null ) {
  *     @type string $default        URL for the default image or a default type. Accepts '404' (return
  *                                  a 404 instead of a default image), 'retro' (8bit), 'monsterid' (monster),
  *                                  'wavatar' (cartoon face), 'indenticon' (the "quilt"), 'mystery', 'mm',
- *                                  or 'mysterman' (The Oyster Man), 'blank' (transparent GIF), or
+ *                                  or 'mysteryman' (The Oyster Man), 'blank' (transparent GIF), or
  *                                  'gravatar_default' (the Gravatar logo). Default is the value of the
  *                                  'avatar_default' option, with a fallback of 'mystery'.
  *     @type bool   $force_default  Whether to always show the default image, never the Gravatar. Default false.
