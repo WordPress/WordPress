@@ -992,7 +992,7 @@ class WP_Date_Query {
 		$format = $time = '';
 
 		// Hour
-		if ( $hour ) {
+		if ( null !== $hour ) {
 			$format .= '%H.';
 			$time   .= sprintf( '%02d', $hour ) . '.';
 		} else {
