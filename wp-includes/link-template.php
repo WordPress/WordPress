@@ -10,8 +10,11 @@
  * Display the permalink for the current post.
  *
  * @since 1.2.0
+ * @since 4.4.0 Added `$id` parameter.
+ *
+ * @param int|WP_Post $id Optional. Post ID or post object. Default current post.
  */
-function the_permalink() {
+function the_permalink( $id = 0 ) {
 	/**
 	 * Filter the display of the permalink for the current post.
 	 *
@@ -19,7 +22,7 @@ function the_permalink() {
 	 *
 	 * @param string $permalink The permalink for the current post.
 	 */
-	echo esc_url( apply_filters( 'the_permalink', get_permalink() ) );
+	echo esc_url( apply_filters( 'the_permalink', get_permalink( $id ) ) );
 }
 
 /**
@@ -91,7 +94,7 @@ function permalink_anchor( $mode = 'id' ) {
  *
  * @see get_permalink()
  *
- * @param int|WP_Post $id        Optional. Post ID or post object. Default is the current post.
+ * @param int|WP_Post $id        Optional. Post ID or post object. Default current post.
  * @param bool        $leavename Optional. Whether to keep post name or page name. Default false.
  * @return string|false The permalink URL or false if post does not exist.
  */
