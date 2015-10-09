@@ -847,6 +847,10 @@ function media_sideload_image( $file, $post_id, $desc = null, $return = 'html' )
 
 		// Set variables for storage, fix file filename for query strings.
 		preg_match( '/[^\?]+\.(jpe?g|jpe|gif|png)\b/i', $file, $matches );
+		if ( ! $matches ) {
+			return new WP_Error( 'image_sideload_failed', __( 'Invalid image URL' ) );
+		}
+
 		$file_array = array();
 		$file_array['name'] = basename( $matches[0] );
 
