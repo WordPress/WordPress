@@ -349,7 +349,7 @@
 	display: none;
 	background: #fff;
 	border-top: 1px solid #ddd;
-	padding: 4px 15px 0;
+	padding: 4px 15px 15px;
 }
 
 .wp-customizer .metabox-prefs label {

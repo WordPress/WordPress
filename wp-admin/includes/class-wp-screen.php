@@ -918,9 +918,9 @@ final class WP_Screen {
 				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
 				break;
 			case 'post' :
-				$expand = '<div class="editor-expand hidden"><label for="editor-expand-toggle">';
+				$expand = '<fieldset class="editor-expand hidden"><legend>' . __( 'Additional settings' ) . '</legend><label for="editor-expand-toggle">';
 				$expand .= '<input type="checkbox" id="editor-expand-toggle"' . checked( get_user_setting( 'editor_expand', 'on' ), 'on', false ) . ' />';
-				$expand .= __( 'Enable full-height editor and distraction-free functionality.' ) . '</label></div>';
+				$expand .= __( 'Enable full-height editor and distraction-free functionality.' ) . '</label></fieldset>';
 				$this->_screen_settings = $expand;
 				break;
 			default:
@@ -969,82 +969,109 @@ final class WP_Screen {
 	 */
 	public function render_screen_options( $options = array() ) {
 		global $wp_meta_boxes;
+
 		$options = wp_parse_args( $options, array(
 			'wrap' => true,
 		) );
 
-		$columns = get_column_headers( $this );
-		$hidden  = get_hidden_columns( $this );
+		$wrapper_start = $wrapper_end = $form_start = $form_end = '';
 
-		?>
-		<?php if ( $options['wrap'] ) : ?>
-			<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>">
-		<?php endif; ?>
-		<form id="adv-settings" method="post">
-		<?php if ( isset( $wp_meta_boxes[ $this->id ] ) || $this->get_option( 'per_page' ) || ( $columns && empty( $columns['_title'] ) ) ) : ?>
-			<h5><?php _e( 'Show on screen' ); ?></h5>
-		<?php
-		endif;
+		// Output optional wrapper.
+		if ( $options['wrap'] ) {
+			$wrapper_start = '<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="' . esc_attr__( 'Screen Options Tab' ) . '">';
+			$wrapper_end = '</div>';
+		}
 
-		if ( isset( $wp_meta_boxes[ $this->id ] ) ) : ?>
-			<div class="metabox-prefs">
-				<?php
-					meta_box_prefs( $this );
+		// Don't output the form and nonce for the widgets accessibility mode links.
+		if ( 'widgets' !== $this->base ) {
+			$form_start = "\n<form id='adv-settings' method='post'>\n";
+			$form_end = "\n" . wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false, false ) . "\n</form>\n";
+		}
 
-					if ( 'dashboard' === $this->id && has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) {
-						if ( isset( $_GET['welcome'] ) ) {
-							$welcome_checked = empty( $_GET['welcome'] ) ? 0 : 1;
-							update_user_meta( get_current_user_id(), 'show_welcome_panel', $welcome_checked );
-						} else {
-							$welcome_checked = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
-							if ( 2 == $welcome_checked && wp_get_current_user()->user_email != get_option( 'admin_email' ) )
-								$welcome_checked = false;
-						}
-						echo '<label for="wp_welcome_panel-hide">';
-						echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false ) . ' />';
-						echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
-					}
-				?>
-				<br class="clear" />
-			</div>
-			<?php endif;
-			if ( $columns ) :
-				if ( ! empty( $columns['_title'] ) ) : ?>
-			<h5><?php echo $columns['_title']; ?></h5>
-			<?php endif; ?>
-			<div class="metabox-prefs">
-				<?php
-				$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname');
+		echo $wrapper_start . $form_start;
 
-				foreach ( $columns as $column => $title ) {
-					// Can't hide these for they are special
-					if ( in_array( $column, $special ) )
-						continue;
-					if ( empty( $title ) )
-						continue;
-
-					if ( 'comments' == $column )
-						$title = __( 'Comments' );
-					$id = "$column-hide";
-					echo '<label for="' . $id . '">';
-					echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked( !in_array($column, $hidden), true, false ) . ' />';
-					echo "$title</label>\n";
-				}
-				?>
-				<br class="clear" />
-			</div>
-		<?php endif;
-
+		$this->render_meta_boxes_preferences();
+		$this->render_list_table_columns_preferences();
 		$this->render_screen_layout();
 		$this->render_per_page_options();
 		echo $this->_screen_settings;
 
-		?>
-		<div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
-		</form>
-		<?php if ( $options['wrap'] ) : ?>
-			</div>
+		echo $form_end . $wrapper_end;
+	}
+
+	/**
+	 * Render the meta boxes preferences.
+	 *
+	 * @since 4.4.0
+	 */
+	public function render_meta_boxes_preferences() {
+		global $wp_meta_boxes;
+
+		if ( isset( $wp_meta_boxes[ $this->id ] ) ) : ?>
+			<fieldset class="metabox-prefs">
+			<legend><?php _e( 'Boxes' ); ?></legend>
+			<?php
+				meta_box_prefs( $this );
+
+				if ( 'dashboard' === $this->id && has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) {
+					if ( isset( $_GET['welcome'] ) ) {
+						$welcome_checked = empty( $_GET['welcome'] ) ? 0 : 1;
+						update_user_meta( get_current_user_id(), 'show_welcome_panel', $welcome_checked );
+					} else {
+						$welcome_checked = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
+						if ( 2 == $welcome_checked && wp_get_current_user()->user_email != get_option( 'admin_email' ) )
+							$welcome_checked = false;
+					}
+					echo '<label for="wp_welcome_panel-hide">';
+					echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false ) . ' />';
+					echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
+				}
+			?>
+			</fieldset>
 		<?php endif;
+	}
+
+	/**
+	 * Render the list table columns preferences.
+	 *
+	 * @since 4.4.0
+	 */
+	public function render_list_table_columns_preferences() {
+
+		$columns = get_column_headers( $this );
+		$hidden  = get_hidden_columns( $this );
+
+		if ( $columns ) {
+			$legend = ! empty( $columns['_title'] ) ? $columns['_title'] : __( 'Columns' );
+			?>
+			<fieldset class="metabox-prefs">
+			<legend><?php echo $legend; ?></legend>
+			<?php
+			$special = array( '_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname' );
+
+			foreach ( $columns as $column => $title ) {
+				// Can't hide these for they are special
+				if ( in_array( $column, $special ) ) {
+						continue;
+				}
+
+				if ( empty( $title ) ) {
+						continue;
+				}
+
+				if ( 'comments' == $column ) {
+						$title = __( 'Comments' );
+				}
+
+				$id = "$column-hide";
+				echo '<label>';
+				echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" value="' . $column . '"' . checked( ! in_array( $column, $hidden ), true, false ) . ' />';
+				echo "$title</label>\n";
+			}
+			?>
+			</fieldset>
+		<?php
+		}
 	}
 
 	/**
@@ -1053,26 +1080,26 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 */
 	public function render_screen_layout() {
-		if ( ! $this->get_option('layout_columns') )
+		if ( ! $this->get_option( 'layout_columns' ) ) {
 			return;
+		}
 
 		$screen_layout_columns = $this->get_columns();
 		$num = $this->get_option( 'layout_columns', 'max' );
 
 		?>
-		<h5 class="screen-layout"><?php _e('Screen Layout'); ?></h5>
-		<div class='columns-prefs'><?php
-			_e('Number of Columns:');
+		<fieldset class='columns-prefs'>
+		<legend class="screen-layout"><?php _e( 'Layout' ); ?></legend><?php
 			for ( $i = 1; $i <= $num; ++$i ):
 				?>
 				<label class="columns-prefs-<?php echo $i; ?>">
 					<input type='radio' name='screen_columns' value='<?php echo esc_attr( $i ); ?>'
 						<?php checked( $screen_layout_columns, $i ); ?> />
-					<?php echo esc_html( $i ); ?>
+					<?php printf( _n( '%s column', '%s columns', $i ), number_format_i18n( $i ) ); ?>
 				</label>
 				<?php
 			endfor; ?>
-		</div>
+		</fieldset>
 		<?php
 	}
 
@@ -1119,12 +1146,13 @@ final class WP_Screen {
 
 		// Back compat
 		if ( isset( $this->post_type ) ) {
-			/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
+			/** This filter is documented in wp-admin/includes/post.php */
 			$per_page = apply_filters( 'edit_posts_per_page', $per_page, $this->post_type );
 		}
 
 		?>
-		<div class="screen-options">
+		<fieldset class="screen-options">
+		<legend><?php _e( 'Pagination' ); ?></legend>
 			<?php if ( $per_page_label ) : ?>
 				<label for="<?php echo esc_attr( $option ); ?>"><?php echo $per_page_label; ?></label>
 				<input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]"
@@ -1134,7 +1162,7 @@ final class WP_Screen {
 
 			echo get_submit_button( __( 'Apply' ), 'button', 'screen-options-apply', false ); ?>
 			<input type="hidden" name="wp_screen_options[option]" value="<?php echo esc_attr( $option ); ?>" />
-		</div>
+		</fieldset>
 		<?php
 	}
 
