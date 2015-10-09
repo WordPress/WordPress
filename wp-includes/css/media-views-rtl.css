@@ -1209,9 +1209,15 @@
 	padding: 12px;
 	margin-bottom: 12px;
 	background: #fff;
-	border-right: 4px solid #dd3d36;
+	border-right: 4px solid #dc3232;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.uploader-inline .upload-errors .upload-error {
+	background-color: #fbeaea;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .upload-errors .upload-error-filename {
