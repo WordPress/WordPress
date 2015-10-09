@@ -132,8 +132,11 @@ class Walker_Comment extends Walker {
 
 		parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
 
-		// If we're at the max depth, and the current element still has children, loop over those and display them at this level
-		// This is to prevent them being orphaned to the end of the list.
+		/*
+		 * If we're at the max depth, and the current element still has children,
+		 * loop over those and display them at this level. This is to prevent them
+		 * being orphaned to the end of the list.
+		 */
 		if ( $max_depth <= $depth + 1 && isset( $children_elements[$id]) ) {
 			foreach ( $children_elements[ $id ] as $child )
 				$this->display_element( $child, $children_elements, $max_depth, $depth, $args, $output );
