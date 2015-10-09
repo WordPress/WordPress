@@ -484,16 +484,6 @@ body.more-filters-opened .more-filters:focus:before {
 	color: $menu-highlight-text;
 }
 
-/* jQuery UI Slider */
-
-.wp-slider .ui-slider-handle,
-.wp-slider .ui-slider-handle.ui-state-hover,
-.wp-slider .ui-slider-handle.focus {
-	background: $button-color;
-	border-color: darken( $button-color, 10% );
-	box-shadow: inset 0 1px 0 lighten( $button-color, 15% ), 0 1px 0 rgba(0,0,0,.15);
-}
-
 /* Responsive Component */
 
 div#wp-responsive-toggle a:before {

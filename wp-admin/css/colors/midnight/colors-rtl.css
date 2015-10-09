@@ -516,16 +516,6 @@ body.more-filters-opened .more-filters:focus:before {
   color: #fff;
 }
 
-/* jQuery UI Slider */
-.wp-slider .ui-slider-handle,
-.wp-slider .ui-slider-handle.ui-state-hover,
-.wp-slider .ui-slider-handle.focus {
-  background: #e14d43;
-  border-color: #d02c21;
-  -webkit-box-shadow: inset 0 1px 0 #ec8b85, 0 1px 0 rgba(0, 0, 0, 0.15);
-  box-shadow: inset 0 1px 0 #ec8b85, 0 1px 0 rgba(0, 0, 0, 0.15);
-}
-
 /* Responsive Component */
 div#wp-responsive-toggle a:before {
   color: #f1f2f3;
