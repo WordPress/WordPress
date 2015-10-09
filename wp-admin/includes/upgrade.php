@@ -2630,10 +2630,11 @@ function pre_schema_upgrade() {
 	}
 
 	// Upgrade versions prior to 4.4.
-	if ( $wp_current_db_version < 34370 ) {
-		// If compatible termmeta table is found, use it, but enforce a proper index.
+	if ( $wp_current_db_version < 34978 ) {
+		// If compatible termmeta table is found, use it, but enforce a proper index and update collation.
 		if ( $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->termmeta}'" ) && $wpdb->get_results( "SHOW INDEX FROM {$wpdb->termmeta} WHERE Column_name = 'meta_key'" ) ) {
 			$wpdb->query( "ALTER TABLE $wpdb->termmeta DROP INDEX meta_key, ADD INDEX meta_key(meta_key(191))" );
+			maybe_convert_table_to_utf8mb4( $wpdb->termmeta );
 		}
 	}
 }
