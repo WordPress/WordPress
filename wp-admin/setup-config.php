@@ -143,7 +143,7 @@ switch($step) {
 	<strong><?php _e( "If for any reason this automatic file creation doesn&#8217;t work, don&#8217;t worry. All this does is fill in the database information to a configuration file. You may also simply open <code>wp-config-sample.php</code> in a text editor, fill in your information, and save it as <code>wp-config.php</code>." ); ?></strong>
 	<?php _e( "Need more help? <a href='https://codex.wordpress.org/Editing_wp-config.php'>We got it</a>." ); ?>
 </p>
-<p><?php _e( "In all likelihood, these items were supplied to you by your Web Host. If you do not have this information, then you will need to contact them before you can continue. If you&#8217;re all ready&hellip;" ); ?></p>
+<p><?php _e( "In all likelihood, these items were supplied to you by your Web Host. If you don&#8217;t have this information, then you will need to contact them before you can continue. If you&#8217;re all ready&hellip;" ); ?></p>
 
 <p class="step"><a href="<?php echo $step_1; ?>" class="button button-large"><?php _e( 'Let&#8217;s go!' ); ?></a></p>
 <?php
@@ -176,7 +176,7 @@ switch($step) {
 		<tr>
 			<th scope="row"><label for="dbhost"><?php _e( 'Database Host' ); ?></label></th>
 			<td><input name="dbhost" id="dbhost" type="text" size="25" value="localhost" /></td>
-			<td><?php _e( 'You should be able to get this info from your web host, if <code>localhost</code> does not work.' ); ?></td>
+			<td><?php _e( 'You should be able to get this info from your web host, if <code>localhost</code> doesn&#8217;t work.' ); ?></td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="prefix"><?php _e( 'Table Prefix' ); ?></label></th>
