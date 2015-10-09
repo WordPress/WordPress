@@ -101,15 +101,15 @@ class Walker_Comment extends Walker {
 	 * at the end of the comment list.
 	 *
 	 * Example: max_depth = 2, with 5 levels of nested content.
-	 * 1
-	 *  1.1
-	 *    1.1.1
-	 *    1.1.1.1
-	 *    1.1.1.1.1
-	 *    1.1.2
-	 *    1.1.2.1
-	 * 2
-	 *  2.2
+	 *     1
+	 *      1.1
+	 *        1.1.1
+	 *        1.1.1.1
+	 *        1.1.1.1.1
+	 *        1.1.2
+	 *        1.1.2.1
+	 *     2
+	 *      2.2
 	 *
 	 * @see Walker::display_element()
 	 * @see wp_list_comments()
