@@ -67,7 +67,8 @@ jQuery(document).ready( function($) {
 
 		$( '#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]' ).prop( 'disabled' , false );
 
-		t = $('#quick-press').submit( function() {
+		t = $('#quick-press').submit( function( e ) {
+			e.preventDefault();
 			$('#dashboard_quick_press #publishing-action .spinner').show();
 			$('#quick-press .submit input[type="submit"], #quick-press .submit input[type="reset"]').prop('disabled', true);
 
@@ -87,8 +88,6 @@ jQuery(document).ready( function($) {
 					latestPost.css('background', 'none');
 				}, 1000);
 			}
-
-			return false;
 		} );
 
 		$('#publish').click( function() { act.val( 'post-quickpress-publish' ); } );

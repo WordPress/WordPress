@@ -38,15 +38,14 @@ jQuery( document ).ready( function( $ ) {
 		tb_position();
 	});
 
-	$( '.plugin-card, .plugins .plugin-version-author-uri' ).on( 'click', 'a.thickbox', function() {
+	$( '.plugin-card, .plugins .plugin-version-author-uri' ).on( 'click', 'a.thickbox', function( e ) {
+		e.preventDefault();
 		tb_click.call(this);
 
 		$('#TB_title').css({'background-color':'#23282d','color':'#cfcfcf'});
 		$('#TB_ajaxWindowTitle').html( '<strong>' + plugininstallL10n.plugin_information + '</strong>&nbsp;' + $(this).data( 'title' ) );
 		$('#TB_iframeContent').attr( 'title', plugininstallL10n.plugin_information + ' ' + $(this).data( 'title' ) );
 		$('#TB_closeWindowButton').focus();
-
-		return false;
 	});
 
 	/* Plugin install related JS */

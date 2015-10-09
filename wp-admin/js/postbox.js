@@ -56,10 +56,10 @@ var postboxes;
 				e.stopPropagation();
 			});
 
-			$( '.postbox a.dismiss' ).bind( 'click.postboxes', function() {
+			$( '.postbox a.dismiss' ).on( 'click.postboxes', function( e ) {
 				var hide_id = $(this).parents('.postbox').attr('id') + '-hide';
+				e.preventDefault();
 				$( '#' + hide_id ).prop('checked', false).triggerHandler('click');
-				return false;
 			});
 
 			$('.hide-postbox-tog').bind('click.postboxes', function() {

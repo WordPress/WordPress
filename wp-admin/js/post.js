@@ -432,7 +432,8 @@ jQuery(document).ready( function($) {
 			settingName = 'cats';
 
 		// TODO: move to jQuery 1.3+, support for multiple hierarchical taxonomies, see wp-lists.js
-		$('a', '#' + taxonomy + '-tabs').click( function(){
+		$('a', '#' + taxonomy + '-tabs').click( function( e ) {
+			e.preventDefault();
 			var t = $(this).attr('href');
 			$(this).parent().addClass('tabs').siblings('li').removeClass('tabs');
 			$('#' + taxonomy + '-tabs').siblings('.tabs-panel').hide();
@@ -441,7 +442,6 @@ jQuery(document).ready( function($) {
 				deleteUserSetting( settingName );
 			else
 				setUserSetting( settingName, 'pop' );
-			return false;
 		});
 
 		if ( getUserSetting( settingName ) )
@@ -483,11 +483,11 @@ jQuery(document).ready( function($) {
 			addAfter: catAddAfter
 		});
 
-		$('#' + taxonomy + '-add-toggle').click( function() {
+		$('#' + taxonomy + '-add-toggle').click( function( e ) {
+			e.preventDefault();
 			$('#' + taxonomy + '-adder').toggleClass( 'wp-hidden-children' );
 			$('a[href="#' + taxonomy + '-all"]', '#' + taxonomy + '-tabs').click();
 			$('#new'+taxonomy).focus();
-			return false;
 		});
 
 		$('#' + taxonomy + 'checklist, #' + taxonomy + 'checklist-pop').on( 'click', 'li.popular-category > label input[type="checkbox"]', function() {
@@ -608,7 +608,8 @@ jQuery(document).ready( function($) {
 			return true;
 		};
 
-		$( '#visibility .edit-visibility').click( function () {
+		$( '#visibility .edit-visibility').click( function( e ) {
+			e.preventDefault();
 			if ( $postVisibilitySelect.is(':hidden') ) {
 				updateVisibility();
 				$postVisibilitySelect.slideDown( 'fast', function() {
@@ -616,7 +617,6 @@ jQuery(document).ready( function($) {
 				} );
 				$(this).hide();
 			}
-			return false;
 		});
 
 		$postVisibilitySelect.find('.cancel-post-visibility').click( function( event ) {
@@ -742,11 +742,12 @@ jQuery(document).ready( function($) {
 		revert_e = e.html();
 
 		buttons.html('<button type="button" class="save button button-small">'+postL10n.ok+'</button> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
-		buttons.children('.save').click(function() {
+		buttons.children('.save').click( function( e ) {
 			var new_slug = e.children('input').val();
+			e.preventDefault();
 			if ( new_slug == $('#editable-post-name-full').text() ) {
 				buttons.children('.cancel').click();
-				return false;
+				return;
 			}
 			$.post(ajaxurl, {
 				action: 'sample-permalink',
@@ -768,17 +769,16 @@ jQuery(document).ready( function($) {
 				real_slug.val(new_slug);
 				$( '.edit-slug' ).focus();
 			});
-			return false;
 		});
 
-		buttons.children('.cancel').click(function() {
+		buttons.children('.cancel').click( function( e ) {
+			e.preventDefault();
 			$('#view-post-btn').show();
 			e.html(revert_e);
 			buttons.html(buttonsOrig);
 			permalink.html(permalinkOrig);
 			real_slug.val(revert_slug);
 			$( '.edit-slug' ).focus();
-			return false;
 		});
 
 		for ( i = 0; i < full.length; ++i ) {

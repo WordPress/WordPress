@@ -48,9 +48,9 @@ inlineEditPost = {
 		});
 
 		// add events
-		$('#the-list').on('click', 'a.editinline', function(){
+		$('#the-list').on( 'click', 'a.editinline', function( e ) {
+			e.preventDefault();
 			inlineEditPost.edit(this);
-			return false;
 		});
 
 		$('#bulk-edit').find('fieldset:first').after(
