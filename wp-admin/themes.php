@@ -308,7 +308,6 @@ $can_delete = current_user_can( 'delete_themes' );
 		<?php if ( $can_delete ) { ?>
 			<td></td>
 		<?php } ?>
-		</tr>
 	</tr>
 	<?php foreach ( $broken_themes as $broken_theme ) : ?>
 		<tr>
