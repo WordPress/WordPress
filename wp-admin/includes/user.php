@@ -125,25 +125,13 @@ function edit_user( $user_id = 0 ) {
 	 */
 	do_action_ref_array( 'check_passwords', array( $user->user_login, &$pass1, &$pass2 ) );
 
-	if ( $update ) {
-		if ( empty($pass1) && !empty($pass2) )
-			$errors->add( 'pass', __( '<strong>ERROR</strong>: You entered your new password only once.' ), array( 'form-field' => 'pass1' ) );
-		elseif ( !empty($pass1) && empty($pass2) )
-			$errors->add( 'pass', __( '<strong>ERROR</strong>: You entered your new password only once.' ), array( 'form-field' => 'pass2' ) );
-	} else {
-		if ( empty($pass1) )
-			$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter your password.' ), array( 'form-field' => 'pass1' ) );
-		elseif ( empty($pass2) )
-			$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter your password twice.' ), array( 'form-field' => 'pass2' ) );
-	}
-
 	/* Check for "\" in password */
 	if ( false !== strpos( wp_unslash( $pass1 ), "\\" ) )
 		$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
 
 	/* checking the password has been typed twice the same */
 	if ( $pass1 != $pass2 )
-		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter the same password in the two password fields.' ), array( 'form-field' => 'pass1' ) );
+		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter the same password in both password fields.' ), array( 'form-field' => 'pass1' ) );
 
 	if ( !empty( $pass1 ) )
 		$user->user_pass = $pass1;
