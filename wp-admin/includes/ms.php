@@ -417,9 +417,9 @@ function upload_is_user_over_quota( $echo = true ) {
 		return false;
 
 	$space_allowed = get_space_allowed();
-	if ( empty( $space_allowed ) || !is_numeric( $space_allowed ) )
+	if ( ! is_numeric( $space_allowed ) ) {
 		$space_allowed = 10; // Default space allowed is 10 MB
-
+	}
 	$space_used = get_space_used();
 
 	if ( ( $space_allowed - $space_used ) < 0 ) {
