@@ -7855,6 +7855,10 @@ EditorUploader = View.extend({
 
 		this.$document.on( 'dragstart dragend drop', _.bind( function( event ) {
 			this.localDrag = event.type === 'dragstart';
+
+			if ( event.type === 'drop' ) {
+				this.containerDragleave();
+			}
 		}, this ) );
 
 		this.initialized = true;
