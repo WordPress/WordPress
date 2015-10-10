@@ -154,8 +154,8 @@ class Walker_Comment extends Walker {
 	 * @see Walker::start_el()
 	 * @see wp_list_comments()
 	 *
-	 * @global int    $comment_depth
-	 * @global object $comment
+	 * @global int        $comment_depth
+	 * @global WP_Comment $comment
 	 *
 	 * @param string $output  Passed by reference. Used to append additional content.
 	 * @param object $comment Comment data object.

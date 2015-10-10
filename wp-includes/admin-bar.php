@@ -530,7 +530,7 @@ function wp_admin_bar_shortlink_menu( $wp_admin_bar ) {
  *
  * @since 3.1.0
  *
- * @global object   $tag
+ * @global WP_Term  $tag
  * @global WP_Query $wp_the_query
  *
  * @param WP_Admin_Bar $wp_admin_bar

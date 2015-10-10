@@ -317,8 +317,8 @@ All at ###SITENAME###
  *
  * @since 3.0.0
  *
- * @global object $errors WP_Error object.
- * @global object $wpdb   WordPress database object.
+ * @global WP_Error $errors WP_Error object.
+ * @global wpdb     $wpdb   WordPress database object.
  */
 function send_confirmation_on_profile_email() {
 	global $errors, $wpdb;

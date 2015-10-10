@@ -1219,15 +1219,15 @@ function wp_comment_form_unfiltered_html_nonce() {
  *
  * @since 1.5.0
  *
- * @global WP_Query $wp_query
- * @global WP_Post  $post
- * @global wpdb     $wpdb
- * @global int      $id
- * @global object   $comment
- * @global string   $user_login
- * @global int      $user_ID
- * @global string   $user_identity
- * @global bool     $overridden_cpage
+ * @global WP_Query   $wp_query
+ * @global WP_Post    $post
+ * @global wpdb       $wpdb
+ * @global int        $id
+ * @global WP_Comment $comment
+ * @global string     $user_login
+ * @global int        $user_ID
+ * @global string     $user_identity
+ * @global bool       $overridden_cpage
  *
  * @param string $file              Optional. The file to load. Default '/comments.php'.
  * @param bool   $separate_comments Optional. Whether to separate the comments by comment type.

@@ -162,7 +162,7 @@ function get_approved_comments( $post_id, $args = array() ) {
  *
  * @since 2.0.0
  *
- * @global object $comment
+ * @global WP_Comment $comment
  *
  * @param WP_Comment|string|int $comment Comment to retrieve.
  * @param string $output Optional. OBJECT or ARRAY_A or ARRAY_N constants.

@@ -538,7 +538,7 @@ function locate_template($template_names, $load = false, $require_once = true ) 
  * @global string     $wp_version
  * @global WP         $wp
  * @global int        $id
- * @global object     $comment
+ * @global WP_Comment $comment
  * @global int        $user_ID
  *
  * @param string $_template_file Path to template file.
