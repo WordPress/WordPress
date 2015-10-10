@@ -1154,57 +1154,23 @@ body.show-upload-theme p.no-themes {
 	}
 }
 
+.theme-details .theme-rating {
+	line-height: 23px;
+}
+
 .theme-details .star-rating {
-	margin: 15px 0 0;
+	display: inline;
 }
 
-.theme-details .star-rating span:before {
-	color: #ffb900;
-	content: "\f154";
-	display: inline-block;
-	-webkit-font-smoothing: antialiased;
-	font: normal 20px/1 dashicons;
-	vertical-align: top;
+.theme-details .num-ratings,
+.theme-details .no-rating {
+	font-size: 11px;
+	color: #999;
 }
 
-/* Half stars */
-.star-rating.rating-10 span.one:before,
-.star-rating.rating-30 span.two:before,
-.star-rating.rating-50 span.three:before,
-.star-rating.rating-70 span.four:before,
-.star-rating.rating-90 span.five:before {
-	content: "\f459";
-}
-
-/* Full stars */
-.star-rating.rating-20 span.one:before,
-.star-rating.rating-30 span.one:before,
-.star-rating.rating-40 span.one:before,
-.star-rating.rating-40 span.two:before,
-.star-rating.rating-50 span.one:before,
-.star-rating.rating-50 span.two:before,
-.star-rating.rating-60 span.one:before,
-.star-rating.rating-60 span.two:before,
-.star-rating.rating-60 span.three:before,
-.star-rating.rating-70 span.one:before,
-.star-rating.rating-70 span.two:before,
-.star-rating.rating-70 span.three:before,
-.star-rating.rating-80 span.one:before,
-.star-rating.rating-80 span.two:before,
-.star-rating.rating-80 span.three:before,
-.star-rating.rating-80 span.four:before,
-.star-rating.rating-90 span.one:before,
-.star-rating.rating-90 span.two:before,
-.star-rating.rating-90 span.three:before,
-.star-rating.rating-90 span.four:before,
-.star-rating.rating-100 > span:before {
-	content: "\f155";
-}
-
-.theme-details .star-rating .ratings {
+.theme-details .no-rating {
 	display: block;
 	line-height: 20px;
-	color: #999;
 }
 
 /*------------------------------------------------------------------------------
@@ -1628,7 +1594,7 @@ body.full-overlay-active {
 }
 
 .install-theme-info .theme-screenshot {
-	margin-top: 15px;
+	margin: 15px 0;
 	width: 258px;
 	border: 1px solid #ccc;
 }

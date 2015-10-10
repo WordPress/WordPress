@@ -242,14 +242,12 @@ if ( $tab ) {
 
 				<div class="theme-details">
 					<# if ( data.rating ) { #>
-						<div class="star-rating rating-{{ Math.round( data.rating / 10 ) * 10 }}">
-							<span class="one"></span><span class="two"></span><span class="three"></span><span class="four"></span><span class="five"></span>
-							<small class="ratings">{{ data.num_ratings }}</small>
+						<div class="theme-rating">
+							{{{ data.stars }}}
+							<span class="num-ratings">({{ data.num_ratings }})</span>
 						</div>
 					<# } else { #>
-						<div class="star-rating">
-							<small class="ratings"><?php _e( 'This theme has not been rated yet.' ); ?></small>
-						</div>
+						<span class="no-rating"><?php _e( 'This theme has not been rated yet.' ); ?></span>
 					<# } #>
 					<div class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></div>
 					<div class="theme-description">{{{ data.description }}}</div>
