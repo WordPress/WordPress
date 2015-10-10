@@ -90,6 +90,10 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	$password = 'N/A';
 	$user_id = email_exists($email);
 	if ( !$user_id ) { // Create a new user with a random password
+		$user_id = username_exists( $domain );
+		if ( $user_id ) {
+			wp_die( __( 'The domain or path entered conflicts with an existing username.' ) );
+		}
 		$password = wp_generate_password( 12, false );
 		$user_id = wpmu_create_user( $domain, $password, $email );
 		if ( false === $user_id ) {
