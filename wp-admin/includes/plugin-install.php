@@ -214,7 +214,7 @@ function install_dashboard() {
 
 	<?php display_plugins_table(); ?>
 
-	<h3><?php _e( 'Popular tags' ) ?></h3>
+	<h2><?php _e( 'Popular tags' ) ?></h2>
 	<p><?php _e( 'You may also browse based on the most popular tags in the Plugin Directory:' ) ?></p>
 	<?php
 

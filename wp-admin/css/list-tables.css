@@ -1436,11 +1436,11 @@ tr.active + tr.plugin-update-tr:not(.updated) .plugin-update .update-message {
 	background-color: #fcf3ef;
 }
 
-.plugin-install-php h3 {
+.plugin-install-php h2 {
 	clear: both;
 }
 
-.plugin-install-php h4 {
+.plugin-install-php h3 {
 	margin: 2.5em 0 8px;
 }
 
@@ -1517,7 +1517,7 @@ div.action-links,
 	margin: 0; /* Override existing margins */
 }
 
-.plugin-card h4 {
+.plugin-card h3 {
 	margin: 0 0 12px;
 	font-size: 18px;
 	line-height: 1.3;
