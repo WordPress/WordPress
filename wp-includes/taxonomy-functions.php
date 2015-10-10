@@ -991,7 +991,8 @@ function get_term_to_edit( $id, $taxonomy ) {
  * @since 2.3.0
  * @since 4.2.0 Introduced 'name' and 'childless' parameters.
  * @since 4.4.0 Introduced the ability to pass 'term_id' as an alias of 'id' for the `orderby` parameter.
- *              Introduced the 'meta_query' and 'update_term_meta_cache' parameters.
+ *              Introduced the 'meta_query' and 'update_term_meta_cache' parameters. Converted to return
+ *              a list of WP_Term objects.
  *
  * @global wpdb  $wpdb WordPress database abstraction object.
  * @global array $wp_filter
@@ -1052,8 +1053,8 @@ function get_term_to_edit( $id, $taxonomy ) {
  *     @type array        $meta_query             Meta query clauses to limit retrieved terms by.
  *                                                See `WP_Meta_Query`. Default empty.
  * }
- * @return array|int|WP_Error List of Term Objects and their children. Will return WP_Error, if any of $taxonomies
- *                        do not exist.
+ * @return array|int|WP_Error List of WP_Term instances and their children. Will return WP_Error, if any of $taxonomies
+ *                            do not exist.
  */
 function get_terms( $taxonomies, $args = '' ) {
 	global $wpdb;
@@ -1493,6 +1494,8 @@ function get_terms( $taxonomies, $args = '' ) {
 		foreach ( $terms as $term ) {
 			$_terms[ $term->term_id ] = $term->slug;
 		}
+	} else {
+		$_terms = array_map( 'get_term', $terms );
 	}
 
 	if ( ! empty( $_terms ) ) {
