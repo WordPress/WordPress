@@ -722,7 +722,7 @@ jQuery(document).ready( function($) {
 	// permalink
 	function editPermalink() {
 		var i, slug_value,
-			e, revert_e,
+			$el, revert_e,
 			c = 0,
 			real_slug = $('#post_name'),
 			revert_slug = real_slug.val(),
@@ -738,12 +738,12 @@ jQuery(document).ready( function($) {
 		full = full.html();
 
 		permalink.html( permalinkInner );
-		e = $('#editable-post-name');
-		revert_e = e.html();
+		$el = $( '#editable-post-name' );
+		revert_e = $el.html();
 
 		buttons.html('<button type="button" class="save button button-small">'+postL10n.ok+'</button> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
 		buttons.children('.save').click( function( e ) {
-			var new_slug = e.children('input').val();
+			var new_slug = $el.children( 'input' ).val();
 			e.preventDefault();
 			if ( new_slug == $('#editable-post-name-full').text() ) {
 				buttons.children('.cancel').click();
@@ -774,7 +774,7 @@ jQuery(document).ready( function($) {
 		buttons.children('.cancel').click( function( e ) {
 			e.preventDefault();
 			$('#view-post-btn').show();
-			e.html(revert_e);
+			$el.html(revert_e);
 			buttons.html(buttonsOrig);
 			permalink.html(permalinkOrig);
 			real_slug.val(revert_slug);
@@ -787,7 +787,7 @@ jQuery(document).ready( function($) {
 		}
 
 		slug_value = ( c > full.length / 4 ) ? '' : full;
-		e.html('<input type="text" id="new-post-slug" value="'+slug_value+'" autocomplete="off" />').children('input').keypress(function(e) {
+		$el.html( '<input type="text" id="new-post-slug" value="'+slug_value+'" autocomplete="off" />').children('input').keypress(function(e) {
 			var key = e.keyCode || 0;
 			// on enter, just save the new slug, don't save the post
 			if ( 13 == key ) {
