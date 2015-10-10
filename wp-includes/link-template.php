@@ -19,10 +19,12 @@ function the_permalink( $post = 0 ) {
 	 * Filter the display of the permalink for the current post.
 	 *
 	 * @since 1.5.0
+	 * @since 4.4.0 Added the `$post` parameter.
 	 *
-	 * @param string $permalink The permalink for the current post.
+	 * @param string      $permalink The permalink for the current post.
+	 * @param int|WP_Post $post      Post ID, WP_Post object, or 0. Default 0.
 	 */
-	echo esc_url( apply_filters( 'the_permalink', get_permalink( $post ) ) );
+	echo esc_url( apply_filters( 'the_permalink', get_permalink( $post ), $post ) );
 }
 
 /**
