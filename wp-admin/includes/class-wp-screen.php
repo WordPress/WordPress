@@ -965,11 +965,8 @@ final class WP_Screen {
 	 * @param array $options {
 	 *     @type bool $wrap  Whether the screen-options-wrap div will be included. Defaults to true.
 	 * }
-	 * @global array $wp_meta_boxes
 	 */
 	public function render_screen_options( $options = array() ) {
-		global $wp_meta_boxes;
-
 		$options = wp_parse_args( $options, array(
 			'wrap' => true,
 		) );
@@ -1003,32 +1000,38 @@ final class WP_Screen {
 	 * Render the meta boxes preferences.
 	 *
 	 * @since 4.4.0
+	 *
+	 * @global array $wp_meta_boxes
 	 */
 	public function render_meta_boxes_preferences() {
 		global $wp_meta_boxes;
 
-		if ( isset( $wp_meta_boxes[ $this->id ] ) ) : ?>
-			<fieldset class="metabox-prefs">
-			<legend><?php _e( 'Boxes' ); ?></legend>
-			<?php
-				meta_box_prefs( $this );
+		if ( ! isset( $wp_meta_boxes[ $this->id ] ) ) {
+			return;
+		}
+		?>
+		<fieldset class="metabox-prefs">
+		<legend><?php _e( 'Boxes' ); ?></legend>
+		<?php
+			meta_box_prefs( $this );
 
-				if ( 'dashboard' === $this->id && has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) {
-					if ( isset( $_GET['welcome'] ) ) {
-						$welcome_checked = empty( $_GET['welcome'] ) ? 0 : 1;
-						update_user_meta( get_current_user_id(), 'show_welcome_panel', $welcome_checked );
-					} else {
-						$welcome_checked = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
-						if ( 2 == $welcome_checked && wp_get_current_user()->user_email != get_option( 'admin_email' ) )
-							$welcome_checked = false;
+			if ( 'dashboard' === $this->id && has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) {
+				if ( isset( $_GET['welcome'] ) ) {
+					$welcome_checked = empty( $_GET['welcome'] ) ? 0 : 1;
+					update_user_meta( get_current_user_id(), 'show_welcome_panel', $welcome_checked );
+				} else {
+					$welcome_checked = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
+					if ( 2 == $welcome_checked && wp_get_current_user()->user_email != get_option( 'admin_email' ) ) {
+						$welcome_checked = false;
 					}
-					echo '<label for="wp_welcome_panel-hide">';
-					echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false ) . ' />';
-					echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
 				}
-			?>
-			</fieldset>
-		<?php endif;
+				echo '<label for="wp_welcome_panel-hide">';
+				echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false ) . ' />';
+				echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
+			}
+		?>
+		</fieldset>
+		<?php
 	}
 
 	/**
@@ -1041,37 +1044,39 @@ final class WP_Screen {
 		$columns = get_column_headers( $this );
 		$hidden  = get_hidden_columns( $this );
 
-		if ( $columns ) {
-			$legend = ! empty( $columns['_title'] ) ? $columns['_title'] : __( 'Columns' );
-			?>
-			<fieldset class="metabox-prefs">
-			<legend><?php echo $legend; ?></legend>
-			<?php
-			$special = array( '_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname' );
-
-			foreach ( $columns as $column => $title ) {
-				// Can't hide these for they are special
-				if ( in_array( $column, $special ) ) {
-						continue;
-				}
-
-				if ( empty( $title ) ) {
-						continue;
-				}
-
-				if ( 'comments' == $column ) {
-						$title = __( 'Comments' );
-				}
-
-				$id = "$column-hide";
-				echo '<label>';
-				echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" value="' . $column . '"' . checked( ! in_array( $column, $hidden ), true, false ) . ' />';
-				echo "$title</label>\n";
-			}
-			?>
-			</fieldset>
-		<?php
+		if ( ! $columns ) {
+			return;
 		}
+
+		$legend = ! empty( $columns['_title'] ) ? $columns['_title'] : __( 'Columns' );
+		?>
+		<fieldset class="metabox-prefs">
+		<legend><?php echo $legend; ?></legend>
+		<?php
+		$special = array( '_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname' );
+
+		foreach ( $columns as $column => $title ) {
+			// Can't hide these for they are special
+			if ( in_array( $column, $special ) ) {
+				continue;
+			}
+
+			if ( empty( $title ) ) {
+				continue;
+			}
+
+			if ( 'comments' == $column ) {
+				$title = __( 'Comments' );
+			}
+
+			$id = "$column-hide";
+			echo '<label>';
+			echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" value="' . $column . '"' . checked( ! in_array( $column, $hidden ), true, false ) . ' />';
+			echo "$title</label>\n";
+		}
+		?>
+		</fieldset>
+		<?php
 	}
 
 	/**
