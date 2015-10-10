@@ -319,18 +319,19 @@ function clean_category_cache( $id ) {
  * pass to it. This is one of the features with using pass by reference in PHP.
  *
  * @since 2.3.0
+ * @since 4.4.0 The `$category` parameter now also accepts a WP_Term object.
  * @access private
  *
- * @param array|object $category Category Row object or array
+ * @param array|object|WP_Term $category Category Row object or array
  */
 function _make_cat_compat( &$category ) {
 	if ( is_object( $category ) && ! is_wp_error( $category ) ) {
-		$category->cat_ID = &$category->term_id;
-		$category->category_count = &$category->count;
-		$category->category_description = &$category->description;
-		$category->cat_name = &$category->name;
-		$category->category_nicename = &$category->slug;
-		$category->category_parent = &$category->parent;
+		$category->cat_ID = $category->term_id;
+		$category->category_count = $category->count;
+		$category->category_description = $category->description;
+		$category->cat_name = $category->name;
+		$category->category_nicename = $category->slug;
+		$category->category_parent = $category->parent;
 	} elseif ( is_array( $category ) && isset( $category['term_id'] ) ) {
 		$category['cat_ID'] = &$category['term_id'];
 		$category['category_count'] = &$category['count'];

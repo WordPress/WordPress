@@ -10,5 +10,8 @@
 /** Core taxonomy functionality */
 require_once( ABSPATH . WPINC . '/taxonomy-functions.php' );
 
+/** WP_Term class */
+require_once( ABSPATH . WPINC . '/class-wp-term.php' );
+
 /** WP_Tax_Query class */
 require_once( ABSPATH . WPINC . '/class-wp-tax-query.php' );
