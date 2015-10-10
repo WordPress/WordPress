@@ -1984,6 +1984,8 @@ function _local_storage_notice() {
  * number of ratings may also be displayed by passing the $number parameter.
  *
  * @since 3.8.0
+ * @since 4.4.0 Introduced the `echo` parameter.
+ *
  * @param array $args {
  *     Optional. Array of star ratings arguments.
  *
@@ -1992,13 +1994,16 @@ function _local_storage_notice() {
  *     @type string $type   Format that the $rating is in. Valid values are 'rating' (default),
  *                          or, 'percent'. Default 'rating'.
  *     @type int    $number The number of ratings that makes up this rating. Default 0.
+ *     @type bool   $echo   Whether to echo the generated markup. False to return the markup instead
+ *                          of echoing it. Default true.
  * }
  */
 function wp_star_rating( $args = array() ) {
 	$defaults = array(
 		'rating' => 0,
-		'type' => 'rating',
+		'type'   => 'rating',
 		'number' => 0,
+		'echo'   => true,
 	);
 	$r = wp_parse_args( $args, $defaults );
 
@@ -2024,12 +2029,18 @@ function wp_star_rating( $args = array() ) {
 		$title = sprintf( __( '%s rating' ), number_format_i18n( $rating, 1 ) );
 	}
 
-	echo '<div class="star-rating" title="' . esc_attr( $title ) . '">';
-	echo '<span class="screen-reader-text">' . $title . '</span>';
-	echo str_repeat( '<div class="star star-full"></div>', $full_stars );
-	echo str_repeat( '<div class="star star-half"></div>', $half_stars );
-	echo str_repeat( '<div class="star star-empty"></div>', $empty_stars);
-	echo '</div>';
+	$output = '<div class="star-rating" title="' . esc_attr( $title ) . '">';
+	$output .= '<span class="screen-reader-text">' . $title . '</span>';
+	$output .= str_repeat( '<div class="star star-full"></div>', $full_stars );
+	$output .= str_repeat( '<div class="star star-half"></div>', $half_stars );
+	$output .= str_repeat( '<div class="star star-empty"></div>', $empty_stars );
+	$output .= '</div>';
+
+	if ( $r['echo'] ) {
+		echo $output;
+	}
+
+	return $output;
 }
 
 /**
