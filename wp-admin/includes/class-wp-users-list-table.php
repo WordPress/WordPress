@@ -524,13 +524,11 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since 4.4.0
 	 * @access protected
 	 *
-	 * @global WP_Roles $wp_roles WP_Roles instance.
-	 *
 	 * @param WP_User $user_object The WP_User object.
 	 * @return array An array of user roles.
 	 */
 	protected function get_role_list( $user_object ) {
-		global $wp_roles;
+		$wp_roles = wp_roles();
 
 		$role_list = array();
 
