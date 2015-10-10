@@ -374,8 +374,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @return string Output for a single row.
 	 */
 	public function single_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
-		$wp_roles = wp_roles();
-
 		if ( ! ( $user_object instanceof WP_User ) ) {
 			$user_object = get_userdata( (int) $user_object );
 		}
@@ -431,7 +429,6 @@ class WP_Users_List_Table extends WP_List_Table {
 		} else {
 			$edit = '<strong>' . $user_object->user_login . '</strong>';
 		}
-		$role_name = isset( $wp_roles->role_names[$role] ) ? translate_user_role( $wp_roles->role_names[$role] ) : __( 'None' );
 		$avatar = get_avatar( $user_object->ID, 32 );
 
 		// Comma-separated list of user roles.
@@ -526,6 +523,8 @@ class WP_Users_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.4.0
 	 * @access protected
+	 *
+	 * @global WP_Roles $wp_roles WP_Roles instance.
 	 *
 	 * @param WP_User $user_object The WP_User object.
 	 * @return array An array of user roles.
