@@ -244,7 +244,7 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	<div class="wrap">
 	<h1><?php echo esc_html( $title ); ?></h1>
 	<div class="editwidget"<?php echo $width; ?>>
-	<h3><?php printf( __( 'Widget %s' ), $name ); ?></h3>
+	<h2><?php printf( __( 'Widget %s' ), $name ); ?></h2>
 
 	<form action="widgets.php" method="post">
 	<div class="widget-inside">
@@ -361,7 +361,7 @@ do_action( 'widgets_admin_page' ); ?>
 	<div id="available-widgets" class="widgets-holder-wrap">
 		<div class="sidebar-name">
 			<div class="sidebar-name-arrow"><br /></div>
-			<h3><?php _e('Available Widgets'); ?> <span id="removing-widget"><?php _ex('Deactivate', 'removing-widget'); ?> <span></span></span></h3>
+			<h2><?php _e( 'Available Widgets' ); ?> <span id="removing-widget"><?php _ex( 'Deactivate', 'removing-widget' ); ?> <span></span></span></h2>
 		</div>
 		<div class="widget-holder">
 			<div class="sidebar-description">

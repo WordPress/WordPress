@@ -22,9 +22,11 @@
 	text-decoration: none;
 }
 
+.widget-title h3,
 .widget-title h4 {
 	margin: 0;
 	padding: 15px;
+	font-size: 1em;
 	line-height: 1;
 	overflow: hidden;
 	white-space: nowrap;
@@ -100,6 +102,7 @@
 	cursor: pointer;
 }
 
+.sidebar-name h2,
 .sidebar-name h3 {
 	margin: 0;
 	padding: 8px 10px;
@@ -142,6 +145,7 @@ div#widgets-left .inactive-sidebar.closed .sidebar-name {
 	margin-bottom: 10px;
 }
 
+div#widgets-left .sidebar-name h2,
 div#widgets-left .sidebar-name h3 {
 	padding: 10px 0;
 	margin: 0 10px 0 0;
@@ -243,6 +247,7 @@ div#widgets-right .sidebar-description {
 	margin-top: -5px;
 }
 
+div#widgets-right .sidebar-name h2,
 div#widgets-right .sidebar-name h3 {
 	padding: 15px 7px;
 }
