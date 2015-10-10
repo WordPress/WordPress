@@ -522,6 +522,16 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 			'orderby'        => 'modified',
 			'order'          => 'DESC'
 		);
+
+		/**
+		 * Filter the post query arguments for the 'Recent Drafts' dashboard widget.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array $query_args The query arguments for the recent drafts dashboard widget.
+		 */
+		$query_args = apply_filters( 'dashboard_recent_drafts_query_args', $query_args );
+
 		$drafts = get_posts( $query_args );
 		if ( ! $drafts ) {
 			return;
