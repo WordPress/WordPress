@@ -2194,7 +2194,8 @@ function wp_delete_category( $cat_ID ) {
  * @since 2.3.0
  * @since 4.2.0 Added support for 'taxonomy', 'parent', and 'term_taxonomy_id' values of `$orderby`.
  *              Introduced `$parent` argument.
- * @since 4.4.0 Introduced `$meta_query` and `$update_term_meta_cache` arguments.
+ * @since 4.4.0 Introduced `$meta_query` and `$update_term_meta_cache` arguments. When `$fields` is 'all' or
+ *              'all_with_object_id', an array of `WP_Term` objects will be returned.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -2336,12 +2337,31 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	$objects = false;
 	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
 		$_terms = $wpdb->get_results( $query );
+		$object_id_index = array();
 		foreach ( $_terms as $key => $term ) {
-			$_terms[$key] = sanitize_term( $term, $taxonomy, 'raw' );
+			$term = sanitize_term( $term, $taxonomy, 'raw' );
+			$_terms[ $key ] = $term;
+
+			if ( isset( $term->object_id ) ) {
+				$object_id_index[ $key ] = $term->object_id;
+			}
 		}
+
+		update_term_cache( $_terms );
+		$_terms = array_map( 'get_term', $_terms );
+
+		// Re-add the object_id data, which is lost when fetching terms from cache.
+		if ( 'all_with_object_id' === $fields ) {
+			foreach ( $_terms as $key => $_term ) {
+				if ( isset( $object_id_index[ $key ] ) ) {
+					$_term->object_id = $object_id_index[ $key ];
+				}
+			}
+		}
+
 		$terms = array_merge( $terms, $_terms );
-		update_term_cache( $terms );
 		$objects = true;
+
 	} elseif ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
 		$_terms = $wpdb->get_col( $query );
 		$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
@@ -3555,11 +3575,13 @@ function update_object_term_cache($object_ids, $object_type) {
  */
 function update_term_cache( $terms, $taxonomy = '' ) {
 	foreach ( (array) $terms as $term ) {
-		$term_taxonomy = $taxonomy;
-		if ( empty($term_taxonomy) )
-			$term_taxonomy = $term->taxonomy;
+		// Create a copy in case the array was passed by reference.
+		$_term = $term;
 
-		wp_cache_add( $term->term_id, $term, 'terms' );
+		// Object ID should not be cached.
+		unset( $_term->object_id );
+
+		wp_cache_add( $term->term_id, $_term, 'terms' );
 	}
 }
 
