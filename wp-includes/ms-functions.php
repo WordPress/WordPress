@@ -1343,7 +1343,7 @@ function install_blog( $blog_id, $blog_title = '' ) {
 
 	if ( ! is_subdomain_install() ) {
 
- 		if ( 'https' === parse_url( get_network_option( 'siteurl' ), PHP_URL_SCHEME ) ) {
+ 		if ( 'https' === parse_url( get_site_option( 'siteurl' ), PHP_URL_SCHEME ) ) {
  			$siteurl = set_url_scheme( $siteurl, 'https' );
  		}
  		if ( 'https' === parse_url( get_home_url( $current_site->blog_id ), PHP_URL_SCHEME ) ) {

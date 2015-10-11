@@ -145,7 +145,7 @@ class WP_Network {
 		}
 
 		$default = ucfirst( $this->domain );
-		$this->site_name = get_network_option( 'site_name', $default, $this->id );
+		$this->site_name = get_network_option( $this->id, 'site_name', $default );
 	}
 
 	/**

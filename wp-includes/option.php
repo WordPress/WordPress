@@ -999,7 +999,7 @@ function delete_all_user_settings() {
  * @return mixed Value set for the option.
  */
 function get_site_option( $option, $default = false, $deprecated = true ) {
-	return get_network_option( $option, $default );
+	return get_network_option( null, $option, $default );
 }
 
 /**
@@ -1017,7 +1017,7 @@ function get_site_option( $option, $default = false, $deprecated = true ) {
  * @return bool False if the option was not added. True if the option was added.
  */
 function add_site_option( $option, $value ) {
-	return add_network_option( $option, $value );
+	return add_network_option( null, $option, $value );
 }
 
 /**
@@ -1032,7 +1032,7 @@ function add_site_option( $option, $value ) {
  * @return bool True, if succeed. False, if failure.
  */
 function delete_site_option( $option ) {
-	return delete_network_option( $option );
+	return delete_network_option( null, $option );
 }
 
 /**
@@ -1048,7 +1048,7 @@ function delete_site_option( $option ) {
  * @return bool False if value was not updated. True if value was updated.
  */
 function update_site_option( $option, $value ) {
-	return update_network_option( $option, $value );
+	return update_network_option( null, $option, $value );
 }
 
 /**
@@ -1061,12 +1061,12 @@ function update_site_option( $option, $value ) {
  * @global wpdb   $wpdb
  * @global object $current_site
  *
+ * @param int      $network_id ID of the network. Can be null to default to the current network ID.
  * @param string   $option     Name of option to retrieve. Expected to not be SQL-escaped.
  * @param mixed    $default    Optional. Value to return if the option doesn't exist. Default false.
- * @param int|bool $network_id Optional. ID of the network. Defaults to current network ID.
  * @return mixed Value set for the option.
  */
-function get_network_option( $option, $default = false, $network_id = false ) {
+function get_network_option( $network_id, $option, $default = false ) {
 	global $wpdb, $current_site;
 
 	$network_id = (int) $network_id;
@@ -1174,12 +1174,12 @@ function get_network_option( $option, $default = false, $network_id = false ) {
  * @global wpdb   $wpdb
  * @global object $current_site
  *
- * @param  string   $option     Name of option to add. Expected to not be SQL-escaped.
- * @param  mixed    $value      Option value, can be anything. Expected to not be SQL-escaped.
- * @param  int|bool $network_id Optional. ID of the network. Defaults to current network ID.
+ * @param int    $network_id ID of the network. Can be null to default to the current network ID.
+ * @param string $option     Name of option to add. Expected to not be SQL-escaped.
+ * @param mixed  $value      Option value, can be anything. Expected to not be SQL-escaped.
  * @return bool False if option was not added and true if option was added.
  */
-function add_network_option( $option, $value, $network_id = false ) {
+function add_network_option( $network_id, $option, $value ) {
 	global $wpdb, $current_site;
 
 	$network_id = (int) $network_id;
@@ -1215,7 +1215,7 @@ function add_network_option( $option, $value, $network_id = false ) {
 		// Make sure the option doesn't already exist. We can check the 'notoptions' cache before we ask for a db query
 		$notoptions = wp_cache_get( $notoptions_key, 'site-options' );
 		if ( ! is_array( $notoptions ) || ! isset( $notoptions[ $option ] ) ) {
-			if ( false !== get_network_option( $option, false, $network_id ) ) {
+			if ( false !== get_network_option( $network_id, $option, false ) ) {
 				return false;
 			}
 		}
@@ -1280,11 +1280,11 @@ function add_network_option( $option, $value, $network_id = false ) {
  * @global wpdb   $wpdb
  * @global object $current_site
  *
- * @param  string   $option     Name of option to remove. Expected to not be SQL-escaped.
- * @param  int|bool $network_id Optional. ID of the network. Defaults to current network ID.
+ * @param int    $network_id ID of the network. Can be null to default to the current network ID.
+ * @param string $option     Name of option to remove. Expected to not be SQL-escaped.
  * @return bool True, if succeed. False, if failure.
  */
-function delete_network_option( $option, $network_id = false ) {
+function delete_network_option( $network_id, $option ) {
 	global $wpdb, $current_site;
 
 	$network_id = (int) $network_id;
@@ -1358,12 +1358,12 @@ function delete_network_option( $option, $network_id = false ) {
  * @global wpdb   $wpdb
  * @global object $current_site
  *
+ * @param int      $network_id ID of the network. Can be null to default to the current network ID.
  * @param string   $option     Name of option. Expected to not be SQL-escaped.
  * @param mixed    $value      Option value. Expected to not be SQL-escaped.
- * @param int|bool $network_id Optional. ID of the network. Defaults to current network ID.
  * @return bool False if value was not updated and true if value was updated.
  */
-function update_network_option( $option, $value, $network_id = false ) {
+function update_network_option( $network_id, $option, $value ) {
 	global $wpdb, $current_site;
 
 	$network_id = (int) $network_id;
@@ -1375,7 +1375,7 @@ function update_network_option( $option, $value, $network_id = false ) {
 
 	wp_protect_special_option( $option );
 
-	$old_value = get_network_option( $option, false, $network_id );
+	$old_value = get_network_option( $network_id, $option, false );
 
 	/**
 	 * Filter a specific network option before its value is updated.
@@ -1397,7 +1397,7 @@ function update_network_option( $option, $value, $network_id = false ) {
 	}
 
 	if ( false === $old_value ) {
-		return add_network_option( $option, $value, $network_id );
+		return add_network_option( $network_id, $option, $value );
 	}
 
 	$notoptions_key = "$network_id:notoptions";
