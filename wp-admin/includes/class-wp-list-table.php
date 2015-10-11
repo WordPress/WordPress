@@ -11,55 +11,56 @@
 class WP_List_Table {
 
 	/**
-	 * The current list of items
+	 * The current list of items.
 	 *
 	 * @since 3.1.0
-	 * @var array
 	 * @access public
+	 * @var array
 	 */
 	public $items;
 
 	/**
-	 * Various information about the current table
+	 * Various information about the current table.
 	 *
 	 * @since 3.1.0
-	 * @var array
 	 * @access protected
+	 * @var array
 	 */
 	protected $_args;
 
 	/**
-	 * Various information needed for displaying the pagination
+	 * Various information needed for displaying the pagination.
 	 *
 	 * @since 3.1.0
+	 * @access protected
 	 * @var array
 	 */
 	protected $_pagination_args = array();
 
 	/**
-	 * The current screen
+	 * The current screen.
 	 *
 	 * @since 3.1.0
-	 * @var object
 	 * @access protected
+	 * @var object
 	 */
 	protected $screen;
 
 	/**
-	 * Cached bulk actions
+	 * Cached bulk actions.
 	 *
 	 * @since 3.1.0
-	 * @var array
 	 * @access private
+	 * @var array
 	 */
 	private $_actions;
 
 	/**
-	 * Cached pagination output
+	 * Cached pagination output.
 	 *
 	 * @since 3.1.0
-	 * @var string
 	 * @access private
+	 * @var string
 	 */
 	private $_pagination;
 
@@ -67,20 +68,34 @@ class WP_List_Table {
 	 * The view switcher modes.
 	 *
 	 * @since 4.1.0
-	 * @var array
 	 * @access protected
+	 * @var array
 	 */
 	protected $modes = array();
 
 	/**
-	 * Stores the value returned by ->get_column_info()
+	 * Stores the value returned by ->get_column_info().
 	 *
+	 * @since 4.1.0
+	 * @access protected
 	 * @var array
 	 */
 	protected $_column_headers;
 
+	/**
+	 * {@internal Missing Summary}
+	 *
+	 * @access protected
+	 * @var array
+	 */
 	protected $compat_fields = array( '_args', '_pagination_args', 'screen', '_actions', '_pagination' );
 
+	/**
+	 * {@internal Missing Summary}
+	 *
+	 * @access protected
+	 * @var array
+	 */
 	protected $compat_methods = array( 'set_pagination_args', 'get_views', 'get_bulk_actions', 'bulk_actions',
 		'row_actions', 'months_dropdown', 'view_switcher', 'comments_bubble', 'get_items_per_page', 'pagination',
 		'get_sortable_columns', 'get_column_info', 'get_table_classes', 'display_tablenav', 'extra_tablenav',
