@@ -1394,10 +1394,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 	);
 
 	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
-		$old_content_width = $content_width;
-		$content_width = 266;
-
-		$size = isset( $_wp_additional_image_sizes['post-thumbnail'] ) ? 'post-thumbnail' : array( $content_width, $content_width );
+		$size = isset( $_wp_additional_image_sizes['post-thumbnail'] ) ? 'post-thumbnail' : array( 266, 266 );
 
 		/**
 		 * Filter the size used to display the post thumbnail image in the 'Featured Image' meta box.
@@ -1409,11 +1406,10 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param string|array $size         Post thumbnail image size to display in the meta box. Accepts
-		 *                                   any valid image size, or an array of height and width values.
-		 *                                   If the 'post-thumbnail' size is set, default is 'post-thumbnail'.
-		 *                                   Otherwise, default is an array with `$content_width` as the
-		 *                                   height and width values.
+		 * @param string|array $size         Post thumbnail image size to display in the meta box. Accepts any valid
+		 *                                   image size, or an array of height and width values in pixels. If the
+		 *                                   'post-thumbnail' size is set, default is 'post-thumbnail'. Otherwise,
+		 *                                   default is an array with 266 as both the height and width values.
 		 * @param int          $thumbnail_id Post thumbnail attachment ID.
 		 * @param WP_Post      $post         The post object associated with the thumbnail.
 		 */
@@ -1430,7 +1426,6 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 			);
 			$content .= '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail(\'' . $ajax_nonce . '\');return false;">' . esc_html( $post_type_object->labels->remove_featured_image ) . '</a></p>';
 		}
-		$content_width = $old_content_width;
 	}
 
 	/**
