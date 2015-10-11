@@ -1069,6 +1069,10 @@ function update_site_option( $option, $value ) {
 function get_network_option( $network_id, $option, $default = false ) {
 	global $wpdb, $current_site;
 
+	if ( $network_id && ! is_numeric( $network_id ) ) {
+		return false;
+	}
+
 	$network_id = (int) $network_id;
 
 	// Fallback to the current network if a network ID is not specified.
@@ -1182,6 +1186,10 @@ function get_network_option( $network_id, $option, $default = false ) {
 function add_network_option( $network_id, $option, $value ) {
 	global $wpdb, $current_site;
 
+	if ( $network_id && ! is_numeric( $network_id ) ) {
+		return false;
+	}
+
 	$network_id = (int) $network_id;
 
 	// Fallback to the current network if a network ID is not specified.
@@ -1287,6 +1295,10 @@ function add_network_option( $network_id, $option, $value ) {
 function delete_network_option( $network_id, $option ) {
 	global $wpdb, $current_site;
 
+	if ( $network_id && ! is_numeric( $network_id ) ) {
+		return false;
+	}
+
 	$network_id = (int) $network_id;
 
 	// Fallback to the current network if a network ID is not specified.
@@ -1365,6 +1377,10 @@ function delete_network_option( $network_id, $option ) {
  */
 function update_network_option( $network_id, $option, $value ) {
 	global $wpdb, $current_site;
+
+	if ( $network_id && ! is_numeric( $network_id ) ) {
+		return false;
+	}
 
 	$network_id = (int) $network_id;
 
