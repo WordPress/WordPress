@@ -147,8 +147,9 @@ function image_hwstring( $width, $height ) {
  * @since 2.5.0
  *
  * @param int          $id   Attachment ID for image.
- * @param array|string $size Optional. Image size to scale to. Accepts a registered image size
- *                           or flat array of height and width values. Default 'medium'.
+ * @param array|string $size Optional. Image size to scale to. Accepts any valid image size,
+ *                           or an array of width and height values in pixels (in that order).
+ *                           Default 'medium'.
  * @return false|array Array containing the image URL, width, height, and boolean for whether
  *                     the image is an intermediate size. False on failure.
  */
