@@ -258,7 +258,7 @@ uksort($menu, "strnatcasecmp"); // make it all pretty
 /**
  * Filter whether to enable custom ordering of the administration menu.
  *
- * See the 'menu_order' filter for reordering menu items.
+ * See the {@see 'menu_order'} filter for reordering menu items.
  *
  * @since 2.8.0
  *
@@ -275,7 +275,7 @@ if ( apply_filters( 'custom_menu_order', false ) ) {
 	/**
 	 * Filter the order of administration menu items.
 	 *
-	 * A truthy value must first be passed to the 'custom_menu_order' filter
+	 * A truthy value must first be passed to the {@see 'custom_menu_order'} filter
 	 * for this filter to work. Use the following to enable custom menu ordering:
 	 *
 	 *     add_filter( 'custom_menu_order', '__return_true' );
