@@ -123,7 +123,8 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param string $size The post thumbnail size.
+	 * @param string $size The post thumbnail size. Image size or array of width and height
+	 *                     values (in that order). Default 'post-thumbnail'.
 	 */
 	$size = apply_filters( 'post_thumbnail_size', $size );
 
