@@ -758,9 +758,11 @@ function get_site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
 /**
  * Displays the Site Icon URL.
  *
- * @param  int    $size    Size of the site icon.
- * @param  string $url     Fallback url if no site icon is found.
- * @param  int    $blog_id Id of the blog to get the site icon for.
+ * @since 4.3.0
+ *
+ * @param int    $size    Optional. Size of the site icon. Default 512 (pixels).
+ * @param string $url     Optional. Fallback url if no site icon is found. Default empty.
+ * @param int    $blog_id Optional. ID of the blog to get the site icon for. Default current blog.
  */
 function site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
 	echo esc_url( get_site_icon_url( $size, $url, $blog_id ) );
@@ -769,8 +771,10 @@ function site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
 /**
  * Whether the site has a Site Icon.
  *
- * @param int $blog_id Optional. Blog ID. Default: Current blog.
- * @return bool
+ * @since 4.3.0
+ *
+ * @param int $blog_id Optional. ID of the blog in question. Default current blog.
+ * @return bool Whether the site has a site icon or not.
  */
 function has_site_icon( $blog_id = 0 ) {
 	return (bool) get_site_icon_url( 512, '', $blog_id );
