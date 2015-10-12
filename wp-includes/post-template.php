@@ -1437,13 +1437,13 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string      $link_html The page link HTML output.
-	 * @param int         $id        Post ID.
-	 * @param string|array $size     Size of the image. Image size or array of width and height values (in that order).
-	 *                               Default 'thumbnail'.
-	 * @param bool        $permalink Whether to add permalink to image. Default false.
-	 * @param bool        $icon      Whether to include an icon. Default false.
-	 * @param string|bool $text      If string, will be link text. Default false.
+	 * @param string       $link_html The page link HTML output.
+	 * @param int          $id        Post ID.
+	 * @param string|array $size      Size of the image. Image size or array of width and height values (in that order).
+	 *                                Default 'thumbnail'.
+	 * @param bool         $permalink Whether to add permalink to image. Default false.
+	 * @param bool         $icon      Whether to include an icon. Default false.
+	 * @param string|bool  $text      If string, will be link text. Default false.
 	 */
 	return apply_filters( 'wp_get_attachment_link', "<a href='$url'>$link_text</a>", $id, $size, $permalink, $icon, $text );
 }
