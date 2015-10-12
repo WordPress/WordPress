@@ -561,7 +561,7 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
  * @param string $file   File path.
  * @param int    $width  Image width.
  * @param int    $height Image height.
- * @param bool   $crop   Optional. Whether to crop image to specified height and width or resize.
+ * @param bool   $crop   Optional. Whether to crop image to specified width and height or resize.
  *                       Default false.
  * @return false|array False, if no image was created. Metadata array on success.
  */
