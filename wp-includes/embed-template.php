@@ -224,11 +224,7 @@ else :
 		<div class="wp-embed-footer">
 			<div class="wp-embed-site-title">
 				<?php
-				$site_icon_url = admin_url( 'images/w-logo-blue.png' );
-
-				if ( function_exists( 'get_site_icon_url' ) ) {
-					$site_icon_url = get_site_icon_url( 32, $site_icon_url );
-				}
+				$site_icon_url = get_site_icon_url( 32, admin_url( 'images/w-logo-blue.png' ) );
 
 				/**
 				 * Filters the site icon URL for use in the embed template.
