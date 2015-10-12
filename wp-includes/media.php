@@ -315,8 +315,9 @@ function set_post_thumbnail_size( $width = 0, $height = 0, $crop = false ) {
  * @param string       $alt   Image Description for the alt attribute.
  * @param string       $title Image Description for the title attribute.
  * @param string       $align Part of the class name for aligning the image.
- * @param string|array $size  Optional. Registered image size to retrieve a tag for, or flat array
- *                            of height and width values. Default 'medium'.
+ * @param string|array $size  Optional. Registered image size to retrieve a tag for. Accepts any
+ *                            valid image size, or an array of width and height values in pixels
+ *                            (in that order). Default 'medium'.
  * @return string HTML IMG element for given image attachment
  */
 function get_image_tag( $id, $alt, $title, $align, $size = 'medium' ) {
