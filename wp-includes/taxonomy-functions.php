@@ -927,10 +927,10 @@ function get_term_children( $term_id, $taxonomy ) {
  *
  * @see sanitize_term_field()
  *
- * @param string $field Term field to fetch.
- * @param int|WP_Term $term Term ID or object.
- * @param string $taxonomy Optional. Taxonomy Name. Default empty.
- * @param string $context  Optional, default is display. Look at sanitize_term_field() for available options.
+ * @param string      $field    Term field to fetch.
+ * @param int|WP_Term $term     Term ID or object.
+ * @param string      $taxonomy Optional. Taxonomy Name. Default empty.
+ * @param string      $context  Optional, default is display. Look at sanitize_term_field() for available options.
  * @return string|int|null|WP_Error Will return an empty string if $term is not an object or if $field is not set in $term.
  */
 function get_term_field( $field, $term, $taxonomy = '', $context = 'display' ) {
