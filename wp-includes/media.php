@@ -354,7 +354,8 @@ function get_image_tag( $id, $alt, $title, $align, $size = 'medium' ) {
 	 * @param string $alt   Alternate text.
 	 * @param string $title Attachment title.
 	 * @param string $align Part of the class name for aligning the image.
-	 * @param string $size  Optional. Default is 'medium'.
+	 * @param string $size  Size of image. Image size or array of width and height values (in that order).
+	 *                      Default 'medium'.
 	 */
 	return apply_filters( 'get_image_tag', $html, $id, $alt, $title, $align, $size );
 }
