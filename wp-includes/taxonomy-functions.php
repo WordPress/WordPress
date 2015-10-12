@@ -920,20 +920,20 @@ function get_term_children( $term_id, $taxonomy ) {
 /**
  * Get sanitized Term field.
  *
- * Does checks for $term, based on the $taxonomy. The function is for contextual
- * reasons and for simplicity of usage. See sanitize_term_field() for more
- * information.
+ * The function is for contextual reasons and for simplicity of usage.
  *
  * @since 2.3.0
+ * @since 4.4.0 The `$taxonomy` parameter was made optional. `$term` can also now accept a WP_Term object.
  *
- * @param string $field    Term field to fetch.
- * @param int    $term     Term ID.
- * @param string $taxonomy Taxonomy Name.
+ * @see sanitize_term_field()
+ *
+ * @param string $field Term field to fetch.
+ * @param int|WP_Term $term Term ID or object.
+ * @param string $taxonomy Optional. Taxonomy Name. Default empty.
  * @param string $context  Optional, default is display. Look at sanitize_term_field() for available options.
  * @return string|int|null|WP_Error Will return an empty string if $term is not an object or if $field is not set in $term.
  */
-function get_term_field( $field, $term, $taxonomy, $context = 'display' ) {
-	$term = (int) $term;
+function get_term_field( $field, $term, $taxonomy = '', $context = 'display' ) {
 	$term = get_term( $term, $taxonomy );
 	if ( is_wp_error($term) )
 		return $term;
@@ -944,7 +944,7 @@ function get_term_field( $field, $term, $taxonomy, $context = 'display' ) {
 	if ( !isset($term->$field) )
 		return '';
 
-	return sanitize_term_field($field, $term->$field, $term->term_id, $taxonomy, $context);
+	return sanitize_term_field( $field, $term->$field, $term->term_id, $term->taxonomy, $context );
 }
 
 /**
