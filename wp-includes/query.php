@@ -4692,7 +4692,7 @@ class WP_Query {
 	/**
 	 * Is the query for an embedded post?
 	 *
-	 * @since 3.1.0
+	 * @since 4.4.0
 	 *
 	 * @return bool
 	 */
