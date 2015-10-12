@@ -139,7 +139,10 @@ final class WP_Term {
 			wp_cache_add( $term_id, $_term, 'terms' );
 		}
 
-		return new WP_Term( $_term );
+		$term_obj = new WP_Term( $_term );
+		$term_obj->filter( $term_obj->filter );
+
+		return $term_obj;
 	}
 
 	/**
@@ -165,11 +168,6 @@ final class WP_Term {
 	 * @param string $filter Filter context. Accepts 'edit', 'db', 'display', 'attribute', 'js', 'raw'.
 	 */
 	public function filter( $filter ) {
-		// Term has already been filtered - nothing more to do.
-		if ( isset( $this->filter ) && $this->filter === $filter ) {
-			return;
-		}
-
 		sanitize_term( $this, $this->taxonomy, $filter );
 	}
 
