@@ -168,7 +168,8 @@ function image_downsize( $id, $size = 'medium' ) {
 	 *
 	 * @param bool         $downsize Whether to short-circuit the image downsize. Default false.
 	 * @param int          $id       Attachment ID for image.
-	 * @param array|string $size     Size of image, either array or string. Default 'medium'.
+	 * @param array|string $size     Size of image. Image size or array of width and height values (in that order).
+	 *                               Default 'medium'.
 	 */
 	if ( $out = apply_filters( 'image_downsize', false, $id, $size ) ) {
 		return $out;
