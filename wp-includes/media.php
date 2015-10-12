@@ -334,11 +334,11 @@ function get_image_tag( $id, $alt, $title, $align, $size = 'medium' ) {
 	 *
 	 * @since 2.6.0
 	 *
-	 * @param string $class CSS class name or space-separated list of classes.
-	 * @param int    $id    Attachment ID.
-	 * @param string $align Part of the class name for aligning the image.
-	 * @param string $size  Size of image. Image size or array of width and height values (in that order).
-	 *                      Default 'medium'.
+	 * @param string       $class CSS class name or space-separated list of classes.
+	 * @param int          $id    Attachment ID.
+	 * @param string       $align Part of the class name for aligning the image.
+	 * @param string|array $size  Size of image. Image size or array of width and height values (in that order).
+	 *                            Default 'medium'.
 	 */
 	$class = apply_filters( 'get_image_tag_class', $class, $id, $align, $size );
 
