@@ -53,8 +53,9 @@ function get_post_thumbnail_id( $post = null ) {
  *
  * @see get_the_post_thumbnail()
  *
- * @param string|array $size Optional. Registered image size to use, or flat array of height
- *                           and width values. Default 'post-thumbnail'.
+ * @param string|array $size Optional. Image size to use. Accepts any valid image size, or
+ *                           an array of width and height values in pixels (in that order).
+ *                           Default 'post-thumbnail'.
  * @param string|array $attr Optional. Query string or array of attributes. Default empty.
  */
 function the_post_thumbnail( $size = 'post-thumbnail', $attr = '' ) {
