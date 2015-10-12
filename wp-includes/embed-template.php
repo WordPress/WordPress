@@ -200,7 +200,7 @@ if ( have_posts() ) :
 							</p>
 						</div>
 						<div id="wp-embed-share-tab-html" class="wp-embed-share-tab" role="tabpanel" aria-labelledby="wp-embed-share-tab-button-html" aria-hidden="true">
-							<textarea class="wp-embed-share-input" tabindex="0" readonly><?php echo esc_attr( get_post_embed_html( null, 600, 400 ) ); ?></textarea>
+							<textarea class="wp-embed-share-input" tabindex="0" readonly><?php echo esc_textarea( get_post_embed_html( null, 600, 400 ) ); ?></textarea>
 
 							<p class="wp-embed-share-description">
 								<?php _e( 'Copy and paste this code into your site to embed' ); ?>
@@ -247,7 +247,7 @@ else :
 					'<a href="%s" target="_top"><img src="%s" width="32" height="32" alt="" class="wp-embed-site-icon"/><span>%s</span></a>',
 					esc_url( home_url() ),
 					esc_url( $site_icon_url ),
-					esc_attr( get_bloginfo( 'name' ) )
+					esc_html( get_bloginfo( 'name' ) )
 				);
 				?>
 			</div>
