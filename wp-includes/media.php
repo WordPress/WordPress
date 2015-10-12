@@ -921,7 +921,11 @@ function wp_get_attachment_image_srcset_array( $attachment_id, $size = 'medium' 
 		$candidate_url = path_join( dirname( $img_url ), $img['file'] );
 
 		// Calculate the new image ratio.
-		$img_ratio_compare = $img['height'] / $img['width'];
+		if ( $img['width'] ) {
+			$img_ratio_compare = $img['height'] / $img['width'];
+		} else {
+			$img_ratio_compare = 0;
+		}
 
 		// If the new ratio differs by less than 0.01, use it.
 		if ( abs( $img_ratio - $img_ratio_compare ) < 0.01 && ! in_array( $candidate_url, $candidates ) ) {
