@@ -604,8 +604,9 @@ function image_make_intermediate_size( $file, $width, $height, $crop = false ) {
  * @since 2.5.0
  *
  * @param int          $post_id Attachment ID.
- * @param array|string $size    Optional. Registered image size to retrieve or flat array of height
- *                              and width dimensions. Default 'thumbnail'.
+ * @param array|string $size    Optional. Image size. Accepts any valid image size, or an array
+ *                              of width and height values in pixels (in that order).
+ *                              Default 'thumbnail'.
  * @return false|array False on failure or array of file path, width, and height on success.
  */
 function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
