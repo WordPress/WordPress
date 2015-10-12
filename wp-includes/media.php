@@ -1388,7 +1388,8 @@ add_shortcode('gallery', 'gallery_shortcode');
  *     @type string $captiontag HTML tag to use for each image's caption.
  *                              Default 'dd', or 'figcaption' when the theme registers HTML5 gallery support.
  *     @type int    $columns    Number of columns of images to display. Default 3.
- *     @type string $size       Size of the images to display. Default 'thumbnail'.
+ *     @type string|array $size Size of the images to display. Accepts any valid image size, or an array of width
+ *                              and height values in pixels (in that order). Default 'thumbnail'.
  *     @type string $ids        A comma-separated list of IDs of attachments to display. Default empty.
  *     @type string $include    A comma-separated list of IDs of attachments to include. Default empty.
  *     @type string $exclude    A comma-separated list of IDs of attachments to exclude. Default empty.
