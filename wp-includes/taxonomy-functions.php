@@ -3062,7 +3062,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	$term_id = (int) $term_id;
 
 	// First, get all of the original args
-	$term = get_term( $term_id, $taxonomy, ARRAY_A );
+	$term = get_term( $term_id, $taxonomy );
 
 	if ( is_wp_error( $term ) ) {
 		return $term;
@@ -3072,8 +3072,10 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 		return new WP_Error( 'invalid_term', __( 'Empty Term' ) );
 	}
 
+	$term = (array) $term->data;
+
 	// Escape data pulled from DB.
-	$term = wp_slash($term);
+	$term = wp_slash( $term );
 
 	// Merge old and new args with new args overwriting old ones.
 	$args = array_merge($term, $args);

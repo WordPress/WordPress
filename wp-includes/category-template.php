@@ -1137,8 +1137,14 @@ function get_the_terms( $post, $taxonomy ) {
 	$terms = get_object_term_cache( $post->ID, $taxonomy );
 	if ( false === $terms ) {
 		$terms = wp_get_object_terms( $post->ID, $taxonomy );
-		wp_cache_add($post->ID, $terms, $taxonomy . '_relationships');
+		$to_cache = array();
+		foreach ( $terms as $key => $term ) {
+			$to_cache[ $key ] = $term->data;
+		}
+		wp_cache_add( $post->ID, $to_cache, $taxonomy . '_relationships' );
 	}
+
+	$terms = array_map( 'get_term', $terms );
 
 	/**
 	 * Filter the list of terms attached to the given post.
