@@ -1402,7 +1402,9 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
  * @since 4.4.0 The `$id` parameter can now accept either a post ID or `WP_Post` object.
  *
  * @param int|WP_Post  $id        Optional. Post ID or post object.
- * @param string       $size      Optional, default is 'thumbnail'. Size of image, either array or string.
+ * @param string|array $size      Optional. Image size. Accepts any valid image size, or an array
+ *                                of width and height values in pixels (in that order).
+ *                                Default 'thumbnail'.
  * @param bool         $permalink Optional, default is false. Whether to add permalink to image.
  * @param bool         $icon      Optional, default is false. Whether to include icon.
  * @param string|bool  $text      Optional, default is false. If string, then will be link text.
