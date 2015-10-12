@@ -170,7 +170,8 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 	 * @param string $html              The post thumbnail HTML.
 	 * @param int    $post_id           The post ID.
 	 * @param string $post_thumbnail_id The post thumbnail ID.
-	 * @param string $size              The post thumbnail size.
+	 * @param string|array $size        The post thumbnail size. Image size or array of width and height
+	 *                                  values (in that order). Default 'post-thumbnail'.
 	 * @param string $attr              Query string of attributes.
 	 */
 	return apply_filters( 'post_thumbnail_html', $html, $post->ID, $post_thumbnail_id, $size, $attr );
