@@ -142,7 +142,7 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
 	 * @param string       $align   The image alignment.
 	 * @param string       $url     The image source URL.
 	 * @param string|array $size    Size of image. Image size or array of width and height values
-	 *                              (in that order).
+	 *                              (in that order). Default 'medium'.
 	 * @param string       $alt     The image alternative, or alt, text.
 	 */
 	$html = apply_filters( 'image_send_to_editor', $html, $id, $caption, $title, $align, $url, $size, $alt );
