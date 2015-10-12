@@ -65,6 +65,8 @@ if ( have_posts() ) :
 			/**
 			 * Filter the thumbnail image size for use in the embed template.
 			 *
+			 * @since 4.4.0
+			 * 
 			 * @param string $image_size Thumbnail image size.
 			 */
 			$image_size = apply_filters( 'oembed_thumbnail_image_size', $image_size );
@@ -129,6 +131,8 @@ if ( have_posts() ) :
 
 					/**
 					 * Filters the site icon URL for use in the embed template.
+					 *
+					 * @since 4.4.0
 					 *
 					 * @param string $site_icon_url The site icon URL.
 					 */
@@ -232,6 +236,8 @@ else :
 
 				/**
 				 * Filters the site icon URL for use in the embed template.
+				 *
+				 * @since 4.4.0
 				 *
 				 * @param string $site_icon_url The site icon URL.
 				 */
