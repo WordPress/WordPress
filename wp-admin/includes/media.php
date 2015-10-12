@@ -135,15 +135,15 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $html    The image HTML markup to send.
-	 * @param int    $id      The attachment id.
-	 * @param string $caption The image caption.
-	 * @param string $title   The image title.
-	 * @param string $align   The image alignment.
-	 * @param string $url     The image source URL.
-	 * @param string|array $size Size of image. Image size or array of width and height values
- *                               (in that order).
-	 * @param string $alt     The image alternative, or alt, text.
+	 * @param string       $html    The image HTML markup to send.
+	 * @param int          $id      The attachment id.
+	 * @param string       $caption The image caption.
+	 * @param string       $title   The image title.
+	 * @param string       $align   The image alignment.
+	 * @param string       $url     The image source URL.
+	 * @param string|array $size    Size of image. Image size or array of width and height values
+	 *                              (in that order).
+	 * @param string       $alt     The image alternative, or alt, text.
 	 */
 	$html = apply_filters( 'image_send_to_editor', $html, $id, $caption, $title, $align, $url, $size, $alt );
 
