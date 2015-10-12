@@ -137,10 +137,10 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param int    $post_id           The post ID.
-		 * @param string $post_thumbnail_id The post thumbnail ID.
-		 * @param string $size              The post thumbnail size. Image size or array of width
-		 *                                  and height values (in that order). Default 'post-thumbnail'.
+		 * @param int          $post_id           The post ID.
+		 * @param string       $post_thumbnail_id The post thumbnail ID.
+		 * @param string|array $size              The post thumbnail size. Image size or array of width
+		 *                                        and height values (in that order). Default 'post-thumbnail'.
 		 */
 		do_action( 'begin_fetch_post_thumbnail_html', $post->ID, $post_thumbnail_id, $size );
 		if ( in_the_loop() )
@@ -152,10 +152,10 @@ function get_the_post_thumbnail( $post = null, $size = 'post-thumbnail', $attr =
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param int    $post_id           The post ID.
-		 * @param string $post_thumbnail_id The post thumbnail ID.
-		 * @param string $size              The post thumbnail size. Image size or array of width
-		 *                                  and height values (in that order). Default 'post-thumbnail'.
+		 * @param int          $post_id           The post ID.
+		 * @param string       $post_thumbnail_id The post thumbnail ID.
+		 * @param string|array $size              The post thumbnail size. Image size or array of width
+		 *                                        and height values (in that order). Default 'post-thumbnail'.
 		 */
 		do_action( 'end_fetch_post_thumbnail_html', $post->ID, $post_thumbnail_id, $size );
 
