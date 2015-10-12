@@ -105,8 +105,9 @@ function update_post_thumbnail_cache( $wp_query = null ) {
  * @since 4.4.0 `$post` can be a post ID or WP_Post object.
  *
  * @param int|WP_Post  $post Optional. Post ID or WP_Post object.  Default is global `$post`.
- * @param string|array $size Optional. Registered image size to use, or flat array of height
- *                           and width values. Default 'post-thumbnail'.
+ * @param string|array $size Optional. Image size to use. Accepts any valid image size, or
+ *                           an array of width and height values in pixels (in that order).
+ *                           Default 'post-thumbnail'.
  * @param string|array $attr Optional. Query string or array of attributes. Default empty.
  * @return string The post thumbnail image tag.
  */
