@@ -200,8 +200,9 @@ function get_the_post_thumbnail_url( $post = null, $size = 'post-thumbnail' ) {
  *
  * @since 4.4.0
  *
- * @param string|array $size Optional. Registered image size to retrieve the source for or a flat
- *                           array of height and width dimensions. Default 'post-thumbnail'.
+ * @param string|array $size Optional. Image size to use. Accepts any valid image size,
+ *                           or an array of width and height values in pixels (in that order).
+ *                           Default 'post-thumbnail'.
  */
 function the_post_thumbnail_url( $size = 'post-thumbnail' ) {
 	$url = get_the_post_thumbnail_url( null, $size );
