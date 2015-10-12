@@ -277,9 +277,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *     maintain aspect ratio according to the provided dimension.
 	 *
 	 *     @type array $size {
-	 *         @type int  ['width']  Optional. Image width.
-	 *         @type int  ['height'] Optional. Image height.
-	 *         @type bool $crop   Optional. Whether to crop the image. Default false.
+	 *         Optional. Array of height, width values, and whether to crop.
+	 *
+	 *         @type int  $width  Image width.
+	 *         @type int  $height Image height.
+	 *         @type bool $crop   Whether to crop the image. Default false.
 	 *     }
 	 * }
 	 * @return array An array of resized images' metadata by size.
