@@ -325,15 +325,9 @@ h6 {
 }
 
 h1 {
+	color: #23282d;
 	font-size: 2em;
 	margin: .67em 0;
-}
-
-.wrap > h1 {
-	color: #23282d;
-	font-size: 1.5em;
-	margin: .83em 0;
-	font-weight: 400;
 }
 
 h2,
@@ -568,12 +562,14 @@ code {
 	margin: 10px 2px 0 20px;
 }
 
+.wrap > h2:first-child, /* Back-compat for old plugins */
 .wrap h1,
 .subtitle {
 	font-weight: normal;
 	margin: 0;
 }
 
+.wrap > h2:first-child, /* Back-compat for old plugins */
 .wrap h1 {
 	font-size: 23px;
 	font-weight: 400;
@@ -2004,15 +2000,18 @@ html.wp-toolbar {
 	color: #000;
 }
 
-h1.nav-tab-wrapper,
+h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 h2.nav-tab-wrapper,
 h3.nav-tab-wrapper {
 	border-bottom: 1px solid #ccc;
-	padding-bottom: 0;
-	padding-right: 10px;
+	margin: 0;
+	padding: 9px 10px 0 15px;
+	font-size: 23px;
+	font-weight: 400;
+	line-height: 29px;
 }
 
-h1 .nav-tab,
+h1 .nav-tab, /* Back-compat for pre-4.4 */
 h2 .nav-tab {
 	padding: 6px 10px;
 	font-weight: 600;
