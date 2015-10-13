@@ -1144,33 +1144,6 @@ function get_terms( $taxonomies, $args = '' ) {
 		}
 	}
 
-	// $args can be whatever, only use the args defined in defaults to compute the key.
-	$filter_key = ( has_filter('list_terms_exclusions') ) ? serialize($GLOBALS['wp_filter']['list_terms_exclusions']) : '';
-	$key = md5( serialize( wp_array_slice_assoc( $args, array_keys( $defaults ) ) ) . serialize( $taxonomies ) . $filter_key );
-	$last_changed = wp_cache_get( 'last_changed', 'terms' );
-	if ( ! $last_changed ) {
-		$last_changed = microtime();
-		wp_cache_set( 'last_changed', $last_changed, 'terms' );
-	}
-	$cache_key = "get_terms:$key:$last_changed";
-	$cache = wp_cache_get( $cache_key, 'terms' );
-	if ( false !== $cache ) {
-		if ( 'all' === $args['fields'] ) {
-			$cache = array_map( 'get_term', $cache );
-		}
-
-		/**
-		 * Filter the given taxonomy's terms cache.
-		 *
-		 * @since 2.3.0
-		 *
-		 * @param array $cache      Cached array of terms for the given taxonomy.
-		 * @param array $taxonomies An array of taxonomies.
-		 * @param array $args       An array of get_terms() arguments.
-		 */
-		return apply_filters( 'get_terms', $cache, $taxonomies, $args );
-	}
-
 	$_orderby = strtolower( $args['orderby'] );
 	if ( 'count' == $_orderby ) {
 		$orderby = 'tt.count';
@@ -1417,6 +1390,32 @@ function get_terms( $taxonomies, $args = '' ) {
 	$limits = isset( $clauses[ 'limits' ] ) ? $clauses[ 'limits' ] : '';
 
 	$query = "SELECT $fields FROM $wpdb->terms AS t $join WHERE $where $orderby $order $limits";
+
+	// $args can be anything. Only use the args defined in defaults to compute the key.
+	$key = md5( serialize( wp_array_slice_assoc( $args, array_keys( $defaults ) ) ) . serialize( $taxonomies ) . $query );
+	$last_changed = wp_cache_get( 'last_changed', 'terms' );
+	if ( ! $last_changed ) {
+		$last_changed = microtime();
+		wp_cache_set( 'last_changed', $last_changed, 'terms' );
+	}
+	$cache_key = "get_terms:$key:$last_changed";
+	$cache = wp_cache_get( $cache_key, 'terms' );
+	if ( false !== $cache ) {
+		if ( 'all' === $_fields ) {
+			$cache = array_map( 'get_term', $cache );
+		}
+
+		/**
+		 * Filter the given taxonomy's terms cache.
+		 *
+		 * @since 2.3.0
+		 *
+		 * @param array $cache      Cached array of terms for the given taxonomy.
+		 * @param array $taxonomies An array of taxonomies.
+		 * @param array $args       An array of get_terms() arguments.
+		 */
+		return apply_filters( 'get_terms', $cache, $taxonomies, $args );
+	}
 
 	if ( 'count' == $_fields ) {
 		return $wpdb->get_var( $query );
