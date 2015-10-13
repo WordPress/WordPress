@@ -1155,6 +1155,9 @@ function get_terms( $taxonomies, $args = '' ) {
 	$cache_key = "get_terms:$key:$last_changed";
 	$cache = wp_cache_get( $cache_key, 'terms' );
 	if ( false !== $cache ) {
+		if ( 'all' === $args['fields'] ) {
+			$cache = array_map( 'get_term', $cache );
+		}
 
 		/**
 		 * Filter the given taxonomy's terms cache.
@@ -1494,8 +1497,6 @@ function get_terms( $taxonomies, $args = '' ) {
 		foreach ( $terms as $term ) {
 			$_terms[ $term->term_id ] = $term->slug;
 		}
-	} else {
-		$_terms = array_map( 'get_term', $terms );
 	}
 
 	if ( ! empty( $_terms ) ) {
@@ -1507,6 +1508,10 @@ function get_terms( $taxonomies, $args = '' ) {
 	}
 
 	wp_cache_add( $cache_key, $terms, 'terms', DAY_IN_SECONDS );
+
+	if ( 'all' === $_fields ) {
+		$terms = array_map( 'get_term', $terms );
+	}
 
 	/** This filter is documented in wp-includes/taxonomy */
 	return apply_filters( 'get_terms', $terms, $taxonomies, $args );
