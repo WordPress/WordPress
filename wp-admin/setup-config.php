@@ -46,7 +46,7 @@ if ( file_exists( ABSPATH . 'wp-config-sample.php' ) )
 elseif ( file_exists( dirname( ABSPATH ) . '/wp-config-sample.php' ) )
 	$config_file = file( dirname( ABSPATH ) . '/wp-config-sample.php' );
 else
-	wp_die( __( 'Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file from your WordPress installation.' ) );
+	wp_die( __( 'Sorry, I need a wp-config-sample.php file to work from. Please re-upload this file to your WordPress installation.' ) );
 
 // Check if wp-config.php has been created
 if ( file_exists( ABSPATH . 'wp-config.php' ) )
