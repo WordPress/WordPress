@@ -96,13 +96,14 @@ function register_sidebars( $number = 1, $args = array() ) {
 		if ( isset($args['id']) ) {
 			$_args['id'] = $args['id'];
 			$n = 2; // Start at -2 for conflicting custom ID's
-			while ( isset($wp_registered_sidebars[$_args['id']]) )
+			while ( is_registered_sidebar( $_args['id'] ) ) {
 				$_args['id'] = $args['id'] . '-' . $n++;
+			}
 		} else {
-			$n = count($wp_registered_sidebars);
+			$n = count( $wp_registered_sidebars );
 			do {
 				$_args['id'] = 'sidebar-' . ++$n;
-			} while ( isset($wp_registered_sidebars[$_args['id']]) );
+			} while ( is_registered_sidebar( $_args['id'] ) );
 		}
 		register_sidebar($_args);
 	}
@@ -203,6 +204,22 @@ function unregister_sidebar( $name ) {
 	global $wp_registered_sidebars;
 
 	unset( $wp_registered_sidebars[ $name ] );
+}
+
+/**
+ * Checks if a sidebar is registered.
+ *
+ * @since 4.4.0
+ *
+ * @global array $wp_registered_sidebars Registered sidebars.
+ *
+ * @param string $name The ID of the sidebar when it was added.
+ *
+ * @return bool True if the sidebar is registered, false otherwise.
+ */
+function is_registered_sidebar( $name ) {
+	global $wp_registered_sidebars;
+	return isset( $wp_registered_sidebars[ $name ] );
 }
 
 /**

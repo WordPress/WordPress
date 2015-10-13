@@ -365,7 +365,7 @@ final class WP_Customize_Widgets {
 				$sidebar_widget_ids = array();
 			}
 
-			$is_registered_sidebar = isset( $wp_registered_sidebars[ $sidebar_id ] );
+			$is_registered_sidebar = is_registered_sidebar( $sidebar_id );
 			$is_inactive_widgets   = ( 'wp_inactive_widgets' === $sidebar_id );
 			$is_active_sidebar     = ( $is_registered_sidebar && ! $is_inactive_widgets );
 
@@ -1102,14 +1102,12 @@ final class WP_Customize_Widgets {
 	 * @since 3.9.0
 	 * @access public
 	 *
-	 * @global array $wp_registered_sidebars
-	 *
 	 * @param bool   $is_active  Whether the sidebar is active.
 	 * @param string $sidebar_id Sidebar ID.
 	 * @return bool
 	 */
 	public function tally_sidebars_via_is_active_sidebar_calls( $is_active, $sidebar_id ) {
-		if ( isset( $GLOBALS['wp_registered_sidebars'][$sidebar_id] ) ) {
+		if ( is_registered_sidebar( $sidebar_id ) ) {
 			$this->rendered_sidebars[] = $sidebar_id;
 		}
 		/*
@@ -1130,14 +1128,12 @@ final class WP_Customize_Widgets {
 	 * @since 3.9.0
 	 * @access public
 	 *
-	 * @global array $wp_registered_sidebars
-	 *
 	 * @param bool   $has_widgets Whether the current sidebar has widgets.
 	 * @param string $sidebar_id  Sidebar ID.
 	 * @return bool
 	 */
 	public function tally_sidebars_via_dynamic_sidebar_calls( $has_widgets, $sidebar_id ) {
-		if ( isset( $GLOBALS['wp_registered_sidebars'][$sidebar_id] ) ) {
+		if ( is_registered_sidebar( $sidebar_id ) ) {
 			$this->rendered_sidebars[] = $sidebar_id;
 		}
 
