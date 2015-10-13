@@ -96,14 +96,21 @@ function add_permastruct( $name, $struct, $args = array() ) {
  * @param callable $function Callback to run on feed display.
  * @return string Feed action name.
  */
-function add_feed($feedname, $function) {
+function add_feed( $feedname, $function ) {
 	global $wp_rewrite;
-	if ( ! in_array($feedname, $wp_rewrite->feeds) ) //override the file if it is
+
+	if ( ! in_array( $feedname, $wp_rewrite->feeds ) ) {
+		// Override the file if it is
 		$wp_rewrite->feeds[] = $feedname;
+	}
+
 	$hook = 'do_feed_' . $feedname;
+
 	// Remove default function hook
-	remove_action($hook, $hook);
-	add_action($hook, $function, 10, 1);
+	remove_action( $hook, $hook );
+
+	add_action( $hook, $function, 10, 2 );
+
 	return $hook;
 }
 
