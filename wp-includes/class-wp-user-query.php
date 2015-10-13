@@ -422,7 +422,7 @@ class WP_User_Query {
 		$this->query_orderby = 'ORDER BY ' . implode( ', ', $orderby_array );
 
 		// limit
-		if ( isset( $qv['number'] ) && $qv['number'] ) {
+		if ( isset( $qv['number'] ) && $qv['number'] > 0 ) {
 			if ( $qv['offset'] ) {
 				$this->query_limit = $wpdb->prepare("LIMIT %d, %d", $qv['offset'], $qv['number']);
 			} else {
