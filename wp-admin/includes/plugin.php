@@ -824,6 +824,16 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 			$deleted = $wp_filesystem->delete( $plugins_dir . $plugin_file );
 		}
 
+		/**
+		 * Fires immediately after a plugin deletion attempt.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string $plugin_file Plugin file name.
+		 * @param bool   $deleted     Whether the plugin deletion was successful.
+		 */
+		do_action( 'delete_plugin', $plugin_file, $deleted );
+
 		if ( ! $deleted ) {
 			$errors[] = $plugin_file;
 			continue;
