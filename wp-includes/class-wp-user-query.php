@@ -304,7 +304,7 @@ class WP_User_Query {
 				foreach ( $roles as $role ) {
 					$roles_clauses[] = array(
 						'key'     => $wpdb->get_blog_prefix( $blog_id ) . 'capabilities',
-						'value'   => $role,
+						'value'   => '"' . $role . '"',
 						'compare' => 'LIKE',
 					);
 				}
@@ -317,7 +317,7 @@ class WP_User_Query {
 				foreach ( $role__in as $role ) {
 					$role__in_clauses[] = array(
 						'key'     => $wpdb->get_blog_prefix( $blog_id ) . 'capabilities',
-						'value'   => $role,
+						'value'   => '"' . $role . '"',
 						'compare' => 'LIKE',
 					);
 				}
@@ -330,7 +330,7 @@ class WP_User_Query {
 				foreach ( $role__not_in as $role ) {
 					$role__not_in_clauses[] = array(
 						'key'     => $wpdb->get_blog_prefix( $blog_id ) . 'capabilities',
-						'value'   => $role,
+						'value'   => '"' . $role . '"',
 						'compare' => 'NOT LIKE',
 					);
 				}
