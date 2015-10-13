@@ -1658,10 +1658,6 @@ body.full-overlay-active {
 	.theme-install-overlay .wp-full-overlay-main {
 		background-image: url(../images/spinner-2x.gif);
 	}
-
-	.theme-install-overlay .wp-full-overlay-header .theme-install {
-		margin-top: 2px;
-	}
 }
 
 @media screen and ( max-width: 782px ) {
