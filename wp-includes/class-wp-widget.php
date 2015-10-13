@@ -539,8 +539,13 @@ class WP_Widget {
 
 		$settings = get_option( $this->option_name );
 
-		if ( false === $settings && isset( $this->alt_option_name ) ) {
-			$settings = get_option( $this->alt_option_name );
+		if ( false === $settings ) {
+			if ( isset( $this->alt_option_name ) ) {
+				$settings = get_option( $this->alt_option_name );
+			} else {
+				// Save an option so it can be autoloaded next time.
+				$this->save_settings( array() );
+			}
 		}
 
 		if ( ! is_array( $settings ) && ! ( $settings instanceof ArrayObject || $settings instanceof ArrayIterator ) ) {
