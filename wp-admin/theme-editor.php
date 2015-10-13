@@ -45,24 +45,35 @@ get_current_screen()->set_help_sidebar(
 
 wp_reset_vars( array( 'action', 'error', 'file', 'theme' ) );
 
-if ( $theme )
+if ( $theme ) {
 	$stylesheet = $theme;
-else
+} else {
 	$stylesheet = get_stylesheet();
+}
 
 $theme = wp_get_theme( $stylesheet );
 
-if ( ! $theme->exists() )
+if ( ! $theme->exists() ) {
 	wp_die( __( 'The requested theme does not exist.' ) );
+}
 
-if ( $theme->errors() && 'theme_no_stylesheet' == $theme->errors()->get_error_code() )
+if ( $theme->errors() && 'theme_no_stylesheet' == $theme->errors()->get_error_code() ) {
 	wp_die( __( 'The requested theme does not exist.' ) . ' ' . $theme->errors()->get_error_message() );
+}
 
 $allowed_files = $theme->get_files( 'php', 1 );
 $has_templates = ! empty( $allowed_files );
 $style_files = $theme->get_files( 'css' );
 $allowed_files['style.css'] = $style_files['style.css'];
-$allowed_files += $style_files;
+/**
+ * Filter the allowed files.
+ *
+ * @since 4.4.0
+ *
+ * @param array  $style_files List of style files.
+ * @param object $theme       The current Theme object.
+ */
+$allowed_files += apply_filters( 'wp_theme_editor_filetypes', $style_files, $theme );
 
 if ( empty( $file ) ) {
 	$relative_file = 'style.css';
