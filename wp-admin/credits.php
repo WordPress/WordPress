@@ -60,7 +60,7 @@ foreach ( $credits['groups'] as $group_slug => $group_data ) {
 			$title = translate( $group_data['name'] );
 		}
 
-		echo '<h4 class="wp-people-group">' . esc_html( $title ) . "</h4>\n";
+		echo '<h3 class="wp-people-group">' . esc_html( $title ) . "</h3>\n";
 	}
 
 	if ( ! empty( $group_data['shuffle'] ) )
