@@ -341,10 +341,13 @@ function retrieve_password() {
 	 * Filter the subject of the password reset email.
 	 *
 	 * @since 2.8.0
+	 * @since 4.4.0 Added the `$user_login` and `$user_data` parameters.
 	 *
-	 * @param string $title Default email title.
+	 * @param string  $title      Default email title.
+	 * @param string  $user_login The username for the user.
+	 * @param WP_User $user_data  WP_User object.
 	 */
-	$title = apply_filters( 'retrieve_password_title', $title );
+	$title = apply_filters( 'retrieve_password_title', $title, $user_login, $user_data );
 
 	/**
 	 * Filter the message body of the password reset mail.
