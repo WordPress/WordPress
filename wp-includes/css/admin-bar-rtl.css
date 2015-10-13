@@ -862,7 +862,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 	#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper .ab-item {
 		font-size: 16px;
-		padding: 6px 15px 12px;
+		padding: 8px 16px;
 	}
 
 	#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper a:empty {
