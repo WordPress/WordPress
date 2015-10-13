@@ -213,13 +213,13 @@ function unregister_sidebar( $name ) {
  *
  * @global array $wp_registered_sidebars Registered sidebars.
  *
- * @param string $name The ID of the sidebar when it was added.
- *
+ * @param string|int $sidebar_id The ID of the sidebar when it was registered.
  * @return bool True if the sidebar is registered, false otherwise.
  */
-function is_registered_sidebar( $name ) {
+function is_registered_sidebar( $sidebar_id ) {
 	global $wp_registered_sidebars;
-	return isset( $wp_registered_sidebars[ $name ] );
+
+	return isset( $wp_registered_sidebars[ $sidebar_id ] );
 }
 
 /**
