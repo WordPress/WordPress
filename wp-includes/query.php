@@ -4854,10 +4854,6 @@ class WP_Query {
 				$posts[] = $post;
 			}
 		}
-		$_p = array();
-		foreach ( $posts as $post ) {
-			$_p[] = $post->ID;
-		}
 
 		if ( ! empty( $posts ) ) {
 			// Fetch cached term_ids for each post. Keyed by term_id for faster lookup.
