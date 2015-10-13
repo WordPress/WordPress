@@ -881,6 +881,11 @@ p.pagenav {
 	padding: 2px 0 0;
 }
 
+.row-actions .network_only,
+.row-actions .network_active {
+	color: #000;
+}
+
 tr:hover .row-actions,
 .mobile .row-actions,
 .row-actions.visible,

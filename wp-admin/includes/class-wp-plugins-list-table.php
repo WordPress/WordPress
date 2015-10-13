@@ -127,6 +127,24 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			}
 		}
 
+		if ( ! $screen->in_admin( 'network' ) ) {
+			$show = current_user_can( 'manage_network_plugins' );
+			/**
+			 * Filter whether to display network-active plugins alongside plugins active for the current site.
+			 *
+			 * This also controls the display of inactive network-only plugins (plugins with
+			 * "Network: true" in the plugin header).
+			 *
+			 * Plugins cannot be network-activated or network-deactivated from this screen.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param bool $show Whether to show network-active plugins. Default is whether the current
+			 *                   user can manage network plugins (ie. a Super Admin).
+			 */
+			$show_network_active = apply_filters( 'show_network_active_plugins', $show );
+		}
+
 		set_transient( 'plugin_slugs', array_keys( $plugins['all'] ), DAY_IN_SECONDS );
 
 		if ( $screen->in_admin( 'network' ) ) {
@@ -168,11 +186,21 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 			// Filter into individual sections
 			if ( is_multisite() && ! $screen->in_admin( 'network' ) && is_network_only_plugin( $plugin_file ) && ! is_plugin_active( $plugin_file ) ) {
-				// On the non-network screen, filter out network-only plugins as long as they're not individually activated
-				unset( $plugins['all'][ $plugin_file ] );
+				if ( $show_network_active ) {
+					// On the non-network screen, show inactive network-only plugins if allowed
+					$plugins['inactive'][ $plugin_file ] = $plugin_data;
+				} else {
+					// On the non-network screen, filter out network-only plugins as long as they're not individually active
+					unset( $plugins['all'][ $plugin_file ] );
+				}
 			} elseif ( ! $screen->in_admin( 'network' ) && is_plugin_active_for_network( $plugin_file ) ) {
-				// On the non-network screen, filter out network activated plugins
-				unset( $plugins['all'][ $plugin_file ] );
+				if ( $show_network_active ) {
+					// On the non-network screen, show network-active plugins if allowed
+					$plugins['active'][ $plugin_file ] = $plugin_data;
+				} else {
+					// On the non-network screen, filter out network-active plugins
+					unset( $plugins['all'][ $plugin_file ] );
+				}
 			} elseif ( ( ! $screen->in_admin( 'network' ) && is_plugin_active( $plugin_file ) )
 				|| ( $screen->in_admin( 'network' ) && is_plugin_active_for_network( $plugin_file ) ) ) {
 				// On the non-network screen, populate the active list with plugins that are individually activated
@@ -487,10 +515,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			if ( $plugin_data['Description'] )
 				$description .= '<p>' . $plugin_data['Description'] . '</p>';
 		} else {
-			if ( $screen->in_admin( 'network' ) )
+			if ( $screen->in_admin( 'network' ) ) {
 				$is_active = is_plugin_active_for_network( $plugin_file );
-			else
+				$restrict_network_active = false;
+				$restrict_network_only = false;
+			} else {
 				$is_active = is_plugin_active( $plugin_file );
+				$restrict_network_active = ( is_multisite() && is_plugin_active_for_network( $plugin_file ) );
+				$restrict_network_only = ( is_multisite() && is_network_only_plugin( $plugin_file ) && ! $is_active );
+			}
 
 			if ( $screen->in_admin( 'network' ) ) {
 				if ( $is_active ) {
@@ -509,7 +542,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					}
 				}
 			} else {
-				if ( $is_active ) {
+				if ( $restrict_network_active ) {
+					$actions = array(
+						'network_active' => __( 'Network Active' ),
+					);
+				} elseif ( $restrict_network_only ) {
+					$actions = array(
+						'network_only' => __( 'Network Only' ),
+					);
+				} elseif ( $is_active ) {
 					/* translators: %s: plugin name */
 					$actions['deactivate'] = '<a href="' . wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file ) . '" aria-label="' . esc_attr( sprintf( __( 'Deactivate %s' ), $plugin_data['Name'] ) ) . '">' . __( 'Deactivate' ) . '</a>';
 				} else {
@@ -613,7 +654,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$class = $is_active ? 'active' : 'inactive';
 		$checkbox_id =  "checkbox_" . md5($plugin_data['Name']);
-		if ( in_array( $status, array( 'mustuse', 'dropins' ) ) ) {
+		if ( $restrict_network_active || $restrict_network_only || in_array( $status, array( 'mustuse', 'dropins' ) ) ) {
 			$checkbox = '';
 		} else {
 			$checkbox = "<label class='screen-reader-text' for='" . $checkbox_id . "' >" . sprintf( __( 'Select %s' ), $plugin_data['Name'] ) . "</label>"
