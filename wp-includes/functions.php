@@ -1169,10 +1169,12 @@ function do_feed() {
 	 * Possible values include: 'rdf', 'rss', 'rss2', and 'atom'.
 	 *
 	 * @since 2.1.0
+	 * @since 4.4.0 The `$feed` parameter was added.
 	 *
-	 * @param bool $is_comment_feed Whether the feed is a comment feed.
+	 * @param bool   $is_comment_feed Whether the feed is a comment feed.
+	 * @param string $feed            The feed name.
 	 */
-	do_action( "do_feed_{$feed}", $wp_query->is_comment_feed );
+	do_action( "do_feed_{$feed}", $wp_query->is_comment_feed, $feed );
 }
 
 /**
