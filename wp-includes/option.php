@@ -673,7 +673,7 @@ function get_transient( $transient ) {
  *                           172 characters or fewer in length.
  * @param mixed  $value      Transient value. Must be serializable if non-scalar.
  *                           Expected to not be SQL-escaped.
- * @param int    $expiration Optional. Time until expiration in seconds. Default 0.
+ * @param int    $expiration Optional. Time until expiration in seconds. Default 0 (no expiration).
  * @return bool False if value was not set and true if value was set.
  */
 function set_transient( $transient, $value, $expiration = 0 ) {
@@ -702,7 +702,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param int    $expiration Time until expiration in seconds.
+	 * @param int    $expiration Time until expiration in seconds. Use 0 for no expiration.
 	 * @param mixed  $value      New value of transient.
 	 * @param string $transient  Transient name.
 	 */
@@ -752,7 +752,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 		 * @since 4.4.0 The `$transient` parameter was added.
 		 *
 		 * @param mixed  $value      Transient value.
-		 * @param int    $expiration Time until expiration in seconds. Default 0.
+		 * @param int    $expiration Time until expiration in seconds.
 		 * @param string $transient  The name of the transient.
 		 */
 		do_action( 'set_transient_' . $transient, $value, $expiration, $transient );
@@ -765,7 +765,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 		 *
 		 * @param string $transient  The name of the transient.
 		 * @param mixed  $value      Transient value.
-		 * @param int    $expiration Time until expiration in seconds. Default 0.
+		 * @param int    $expiration Time until expiration in seconds.
 		 */
 		do_action( 'setted_transient', $transient, $value, $expiration );
 	}
@@ -1602,7 +1602,7 @@ function get_site_transient( $transient ) {
  * @param string $transient  Transient name. Expected to not be SQL-escaped. Must be
  *                           40 characters or fewer in length.
  * @param mixed  $value      Transient value. Expected to not be SQL-escaped.
- * @param int    $expiration Optional. Time until expiration in seconds. Default 0.
+ * @param int    $expiration Optional. Time until expiration in seconds. Default 0 (no expiration).
  * @return bool False if value was not set and true if value was set.
  */
 function set_site_transient( $transient, $value, $expiration = 0 ) {
@@ -1629,7 +1629,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param int    $expiration Time until expiration in seconds.
+	 * @param int    $expiration Time until expiration in seconds. Use 0 for no expiration.
 	 * @param mixed  $value      New value of site transient.
 	 * @param string $transient  Transient name.
 	 */
@@ -1661,7 +1661,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 		 * @since 4.4.0 The `$transient` parameter was added
 		 *
 		 * @param mixed  $value      Site transient value.
-		 * @param int    $expiration Time until expiration in seconds. Default 0.
+		 * @param int    $expiration Time until expiration in seconds.
 		 * @param string $transient  Transient name.
 		 */
 		do_action( 'set_site_transient_' . $transient, $value, $expiration, $transient );
@@ -1673,7 +1673,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 		 *
 		 * @param string $transient  The name of the site transient.
 		 * @param mixed  $value      Site transient value.
-		 * @param int    $expiration Time until expiration in seconds. Default 0.
+		 * @param int    $expiration Time until expiration in seconds.
 		 */
 		do_action( 'setted_site_transient', $transient, $value, $expiration );
 	}
