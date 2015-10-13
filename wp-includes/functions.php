@@ -1158,9 +1158,9 @@ function do_feed() {
 	if ( $feed == '' || $feed == 'feed' )
 		$feed = get_default_feed();
 
-	$hook = 'do_feed_' . $feed;
-	if ( ! has_action( $hook ) )
+	if ( ! has_action( "do_feed_{$feed}" ) ) {
 		wp_die( __( 'ERROR: This is not a valid feed template.' ), '', array( 'response' => 404 ) );
+	}
 
 	/**
 	 * Fires once the given feed is loaded.
