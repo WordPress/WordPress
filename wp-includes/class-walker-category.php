@@ -189,6 +189,8 @@ class Walker_Category extends Walker {
 
 			$output .=  ' class="' . $css_classes . '"';
 			$output .= ">$link\n";
+		} elseif ( isset( $args['separator'] ) ) {
+			$output .= "\t$link" . $args['separator'] . "\n";
 		} else {
 			$output .= "\t$link<br />\n";
 		}

@@ -474,7 +474,7 @@ function wp_dropdown_categories( $args = '' ) {
  * Display or retrieve the HTML list of categories.
  *
  * @since 2.1.0
- * @since 4.4.0 Introduced the `hide_title_if_empty` argument. The `current_category` argument was modified to
+ * @since 4.4.0 Introduced the `hide_title_if_empty` and `separator` arguments. The `current_category` argument was modified to
  *              optionally accept an array of values.
  *
  * @param string|array $args {
@@ -530,6 +530,7 @@ function wp_list_categories( $args = '' ) {
 		'hierarchical' => true, 'title_li' => __( 'Categories' ),
 		'hide_title_if_empty' => false,
 		'echo' => 1, 'depth' => 0,
+		'separator' => '<br />',
 		'taxonomy' => 'category'
 	);
 
