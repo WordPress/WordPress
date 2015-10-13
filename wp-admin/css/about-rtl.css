@@ -292,9 +292,10 @@
 
 /* Credits */
 
-.about-wrap h4.wp-people-group {
-	margin-top: 2.6em;
+.about-wrap h3.wp-people-group {
+	margin: 2.6em 0 1.33em;
 	font-size: 16px;
+	line-height: inherit;
 }
 
 .about-wrap ul.wp-people-group {
