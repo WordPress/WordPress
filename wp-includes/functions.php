@@ -1165,13 +1165,14 @@ function do_feed() {
 	/**
 	 * Fires once the given feed is loaded.
 	 *
-	 * The dynamic hook name, $hook, refers to the feed name.
+	 * The dynamic portion of the hook name, `$feed`, refers to the feed template name.
+	 * Possible values include: 'rdf', 'rss', 'rss2', and 'atom'.
 	 *
 	 * @since 2.1.0
 	 *
 	 * @param bool $is_comment_feed Whether the feed is a comment feed.
 	 */
-	do_action( $hook, $wp_query->is_comment_feed );
+	do_action( "do_feed_{$feed}", $wp_query->is_comment_feed );
 }
 
 /**
