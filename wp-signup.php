@@ -56,6 +56,7 @@ function wpmu_signup_stylesheet() {
 			.mu_register #user_email,
 			.mu_register #blogname,
 			.mu_register #user_name { width:100%; font-size: 24px; margin:5px 0; }
+		.mu_register #site-language { display: block; }
 		.mu_register .prefix_address,
 			.mu_register .suffix_address {font-size: 18px;display:inline; }
 		.mu_register label { font-weight:700; font-size:15px; display:block; margin:10px 0; }
@@ -120,6 +121,38 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	<?php }
 	echo '<input name="blog_title" type="text" id="blog_title" value="'.esc_attr($blog_title).'" />';
 	?>
+
+	<?php
+	// Site Language.
+	$languages = signup_get_available_languages();
+
+	if ( ! empty( $languages ) ) :
+		?>
+		<p>
+			<label for="site-language"><?php _e( 'Site Language:' ); ?></label>
+			<?php
+			// Network default.
+			$lang = get_site_option( 'WPLANG' );
+
+			if ( isset( $_POST['WPLANG'] ) ) {
+				$lang = $_POST['WPLANG'];
+			}
+
+			// Use US English if the default isn't available.
+			if ( ! in_array( $lang, $languages ) ) {
+				$lang = '';
+			}
+
+			wp_dropdown_languages( array(
+				'name'                        => 'WPLANG',
+				'id'                          => 'site-language',
+				'selected'                    => $lang,
+				'languages'                   => $languages,
+				'show_available_translations' => false,
+			) );
+			?>
+		</p>
+	<?php endif; // Languages. ?>
 
 	<div id="privacy">
         <p class="privacy-intro">
@@ -330,6 +363,21 @@ function validate_another_blog_signup() {
 		'public'  => $public
 	);
 
+	// Handle the language setting for the new site.
+	if ( ! empty( $_POST['WPLANG'] ) ) {
+
+		$languages = signup_get_available_languages();
+
+		if ( in_array( $_POST['WPLANG'], $languages ) ) {
+			$language = wp_unslash( sanitize_text_field( $_POST['WPLANG'] ) );
+
+			if ( $language ) {
+				$blog_meta_defaults['WPLANG'] = $language;
+			}
+		}
+
+	}
+
 	/**
 	 * Filter the new site meta variables.
 	 *
@@ -339,6 +387,7 @@ function validate_another_blog_signup() {
 	 * @param array $blog_meta_defaults An array of default blog meta variables.
 	 */
 	$meta_defaults = apply_filters( 'signup_create_blog_meta', $blog_meta_defaults );
+
 	/**
 	 * Filter the new default site meta variables.
 	 *
@@ -631,6 +680,21 @@ function validate_blog_signup() {
 	$public = (int) $_POST['blog_public'];
 	$signup_meta = array ('lang_id' => 1, 'public' => $public);
 
+	// Handle the language setting for the new site.
+	if ( ! empty( $_POST['WPLANG'] ) ) {
+
+		$languages = signup_get_available_languages();
+
+		if ( in_array( $_POST['WPLANG'], $languages ) ) {
+			$language = wp_unslash( sanitize_text_field( $_POST['WPLANG'] ) );
+
+			if ( $language ) {
+				$signup_meta['WPLANG'] = $language;
+			}
+		}
+
+	}
+
 	/** This filter is documented in wp-signup.php */
 	$meta = apply_filters( 'add_signup_meta', $signup_meta );
 
@@ -670,6 +734,39 @@ function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $use
 	<?php
 	/** This action is documented in wp-signup.php */
 	do_action( 'signup_finished' );
+}
+
+/**
+ * Retrieves languages available during the site/user signup process.
+ *
+ * @since 4.4.0
+ *
+ * @see get_available_languages()
+ *
+ * @return array List of available languages.
+ */
+function signup_get_available_languages() {
+	/**
+	 * Filter the list of available languages for front-end site signups.
+	 *
+	 * Passing an empty array to this hook will disable output of the setting on the
+	 * signup form, and the default language will be used when creating the site.
+	 *
+	 * Languages not already installed will be stripped.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $available_languages Available languages.
+	 */
+	$languages = (array) apply_filters( 'signup_get_available_languages', get_available_languages() );
+
+	/*
+	 * Strip any non-installed languages and return.
+	 *
+	 * Re-call get_available_languages() here in case a language pack was installed
+	 * in a callback hooked to the 'signup_get_available_languages' filter before this point.
+	 */
+	return array_intersect_assoc( $languages, get_available_languages() );
 }
 
 // Main
