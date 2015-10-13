@@ -1602,7 +1602,7 @@ function wp_update_user($userdata) {
 	// Escape data pulled from DB.
 	$user = add_magic_quotes( $user );
 
-	if ( ! empty($userdata['user_pass']) ) {
+	if ( ! empty( $userdata['user_pass'] ) && $userdata['user_pass'] !== $user_obj->user_pass ) {
 		// If password is changing, hash it now
 		$plaintext_pass = $userdata['user_pass'];
 		$userdata['user_pass'] = wp_hash_password( $userdata['user_pass'] );
