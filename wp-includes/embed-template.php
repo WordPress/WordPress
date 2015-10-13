@@ -163,7 +163,7 @@ if ( have_posts() ) :
 										'%s <span class="screen-reader-text">Comments</span>',
 										get_comments_number()
 									),
-									absint( get_comments_number() )
+									number_format_i18n( get_comments_number() )
 								);
 								?>
 							</a>
