@@ -128,8 +128,10 @@ class WP_User_Query {
 	 * @since 4.2.0 Added 'meta_value_num' support for `$orderby` parameter. Added multi-dimensional array syntax
 	 *              for `$orderby` parameter.
 	 * @since 4.3.0 Added 'has_published_posts' parameter.
-	 * @since 4.4.0 Added 'paged', 'role__in', and 'role__not_in' parameters. 'role' parameter was updated to
-	 *              permit an array or comma-separated list of values.
+	 * @since 4.4.0 Added 'paged', 'role__in', and 'role__not_in' parameters. The 'role' parameter was updated to
+	 *              permit an array or comma-separated list of values. The 'number' parameter was updated to support
+	 *              querying for all users with using -1.
+	 *
 	 * @access public
 	 *
 	 * @global wpdb $wpdb
@@ -175,7 +177,8 @@ class WP_User_Query {
 	 *     @type int          $offset              Number of users to offset in retrieved results. Can be used in
 	 *                                             conjunction with pagination. Default 0.
 	 *     @type int          $number              Number of users to limit the query for. Can be used in
-	 *                                             conjunction with pagination. Value -1 (all) is not supported.
+	 *                                             conjunction with pagination. Value -1 (all) is supported, but
+	 *                                             should be used with caution on larger sites.
 	 *                                             Default empty (all users).
 	 *     @type int          $paged               When used with number, defines the page of results to return.
 	 *                                             Default 1.
@@ -419,7 +422,7 @@ class WP_User_Query {
 		$this->query_orderby = 'ORDER BY ' . implode( ', ', $orderby_array );
 
 		// limit
-		if ( isset( $qv['number'] ) && $qv['number'] > 0 ) {
+		if ( isset( $qv['number'] ) && $qv['number'] ) {
 			if ( $qv['offset'] ) {
 				$this->query_limit = $wpdb->prepare("LIMIT %d, %d", $qv['offset'], $qv['number']);
 			} else {
