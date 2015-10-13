@@ -314,8 +314,13 @@ function get_inline_data($post) {
 
 		} elseif ( $taxonomy->show_ui ) {
 
+			$terms_to_edit = get_terms_to_edit( $post->ID, $taxonomy_name );
+			if ( ! is_string( $terms_to_edit ) ) {
+				$terms_to_edit = '';
+			}
+
 			echo '<div class="tags_input" id="'.$taxonomy_name.'_'.$post->ID.'">'
-				. esc_html( str_replace( ',', ', ', get_terms_to_edit( $post->ID, $taxonomy_name ) ) ) . '</div>';
+				. esc_html( str_replace( ',', ', ', $terms_to_edit ) ) . '</div>';
 
 		}
 	}

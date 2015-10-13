@@ -427,12 +427,16 @@ function post_tags_meta_box( $post, $box ) {
 	$taxonomy = get_taxonomy( $r['taxonomy'] );
 	$user_can_assign_terms = current_user_can( $taxonomy->cap->assign_terms );
 	$comma = _x( ',', 'tag delimiter' );
+	$terms_to_edit = get_terms_to_edit( $post->ID, $tax_name );
+	if ( ! is_string( $terms_to_edit ) ) {
+		$terms_to_edit = '';
+	}
 ?>
 <div class="tagsdiv" id="<?php echo $tax_name; ?>">
 	<div class="jaxtag">
 	<div class="nojs-tags hide-if-js">
 	<p><?php echo $taxonomy->labels->add_or_remove_items; ?></p>
-	<textarea name="<?php echo "tax_input[$tax_name]"; ?>" rows="3" cols="20" class="the-tags" id="tax-input-<?php echo $tax_name; ?>" <?php disabled( ! $user_can_assign_terms ); ?>><?php echo str_replace( ',', $comma . ' ', get_terms_to_edit( $post->ID, $tax_name ) ); // textarea_escaped by esc_attr() ?></textarea></div>
+	<textarea name="<?php echo "tax_input[$tax_name]"; ?>" rows="3" cols="20" class="the-tags" id="tax-input-<?php echo $tax_name; ?>" <?php disabled( ! $user_can_assign_terms ); ?>><?php echo str_replace( ',', $comma . ' ', $terms_to_edit ); // textarea_escaped by esc_attr() ?></textarea></div>
  	<?php if ( $user_can_assign_terms ) : ?>
 	<div class="ajaxtag hide-if-no-js">
 		<label class="screen-reader-text" for="new-tag-<?php echo $tax_name; ?>"><?php echo $box['title']; ?></label>
