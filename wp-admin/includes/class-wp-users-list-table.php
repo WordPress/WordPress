@@ -333,9 +333,6 @@ class WP_Users_List_Table extends WP_List_Table {
 			'email'    => 'email',
 		);
 
-		if ( $this->is_site_users )
-			unset( $c['posts'] );
-
 		return $c;
 	}
 
