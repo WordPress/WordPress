@@ -413,7 +413,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	$user_name = preg_replace( '/\s+/', '', sanitize_user( $user_name, true ) );
 
 	if ( $user_name != $orig_username || preg_match( '/[^a-z0-9]/', $user_name ) ) {
-		$errors->add( 'user_name', __( 'Only lowercase letters (a-z) and numbers are allowed.' ) );
+		$errors->add( 'user_name', __( 'Usernames can only contain lowercase letters (a-z) and numbers.' ) );
 		$user_name = $orig_username;
 	}
 
@@ -439,9 +439,6 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	if ( strlen( $user_name ) > 60 ) {
 		$errors->add( 'user_name', __( 'Username may not be longer than 60 characters.' ) );
 	}
-
-	if ( strpos( $user_name, '_' ) !== false )
-		$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character &#8220;_&#8221;!' ) );
 
 	// all numeric?
 	if ( preg_match( '/^[0-9]*$/', $user_name ) )
@@ -561,17 +558,15 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	if ( empty( $blogname ) )
 		$errors->add('blogname', __( 'Please enter a site name.' ) );
 
-	if ( preg_match( '/[^a-z0-9]+/', $blogname ) )
-		$errors->add('blogname', __( 'Only lowercase letters (a-z) and numbers are allowed.' ) );
+	if ( preg_match( '/[^a-z0-9]+/', $blogname ) ) {
+		$errors->add( 'blogname', __( 'Site names can only contain lowercase letters (a-z) and numbers.' ) );
+	}
 
 	if ( in_array( $blogname, $illegal_names ) )
 		$errors->add('blogname',  __( 'That name is not allowed.' ) );
 
 	if ( strlen( $blogname ) < 4 && !is_super_admin() )
 		$errors->add('blogname',  __( 'Site name must be at least 4 characters.' ) );
-
-	if ( strpos( $blogname, '_' ) !== false )
-		$errors->add( 'blogname', __( 'Sorry, site names may not contain the character &#8220;_&#8221;!' ) );
 
 	// do not allow users to create a blog that conflicts with a page on the main blog.
 	if ( !is_subdomain_install() && $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM " . $wpdb->get_blog_prefix( $current_site->blog_id ) . "posts WHERE post_type = 'page' AND post_name = %s", $blogname ) ) )
