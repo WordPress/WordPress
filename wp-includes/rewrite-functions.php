@@ -100,7 +100,6 @@ function add_feed( $feedname, $function ) {
 	global $wp_rewrite;
 
 	if ( ! in_array( $feedname, $wp_rewrite->feeds ) ) {
-		// Override the file if it is
 		$wp_rewrite->feeds[] = $feedname;
 	}
 
