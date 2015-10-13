@@ -329,8 +329,8 @@ html:lang(he-il) .rtl #wpadminbar *  {
 }
 
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item:before {
-	top: 5px;
-	right: 3px;
+	top: 1px;
+	right: 6px;
 	content: "\f139";
 }
 
