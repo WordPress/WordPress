@@ -2048,11 +2048,19 @@ h2 .nav-tab {
 	margin-left: 190px;
 }
 
-.metabox-holder h3 {
+.metabox-holder h3.hndle, /* Back-compat for pre-4.4 */
+.metabox-holder .stuffbox > h3, /* Back-compat for pre-4.4 */
+.metabox-holder h2 {
 	font-size: 14px;
 	padding: 8px 12px;
 	margin: 0;
 	line-height: 1.4;
+}
+
+/* Back-compat for nav-menus screen */
+.nav-menus-php .metabox-holder h3 {
+	padding: 10px 14px 11px 10px;
+	line-height: 21px;
 }
 
 #templateside ul li a {
@@ -3420,7 +3428,9 @@ img {
 		font-size: 14px;
 	}
 
-	.metabox-holder h3 {
+	.metabox-holder h3.hndle, /* Back-compat for pre-4.4 */
+	.metabox-holder .stuffbox > h3, /* Back-compat for pre-4.4 */
+	.metabox-holder h2 {
 		padding: 12px;
 	}
 

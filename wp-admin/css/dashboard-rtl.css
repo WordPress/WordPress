@@ -947,12 +947,12 @@ a.rsswidget {
 	box-shadow: none;
 }
 
-#dashboard_browser_nag.postbox.browser-insecure h3 {
+#dashboard_browser_nag.postbox.browser-insecure h2 {
 	border-bottom-color: #cd5a5a;
 	color: #fff;
 }
 
-#dashboard_browser_nag.postbox h3 {
+#dashboard_browser_nag.postbox h2 {
 	border-bottom-color: #f6e2ac;
 	background: transparent none;
 	color: #fff;
@@ -966,7 +966,7 @@ a.rsswidget {
 
 /* Make the browser nags easier to read with Open Sans */
 
-#dashboard_browser_nag h3.hndle {
+#dashboard_browser_nag h2.hndle {
 	border: none;
 	font-weight: 600;
 	font-size: 20px;
