@@ -171,8 +171,14 @@ default:
 <?php elseif (isset($_GET['phperror'])) : ?>
  <div id="message" class="updated"><p><?php _e('This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.') ?></p>
 	<?php
-		if ( wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $file) ) { ?>
-	<iframe style="border:0" width="100%" height="70px" src="<?php bloginfo('wpurl'); ?>/wp-admin/plugins.php?action=error_scrape&amp;plugin=<?php echo esc_attr($file); ?>&amp;_wpnonce=<?php echo esc_attr($_GET['_error_nonce']); ?>"></iframe>
+		if ( wp_verify_nonce( $_GET['_error_nonce'], 'plugin-activation-error_' . $file ) ) {
+			$iframe_url = add_query_arg( array(
+				'action'   => 'error_scrape',
+				'plugin'   => urlencode( $file ),
+				'_wpnonce' => urlencode( $_GET['_error_nonce'] ),
+			), admin_url( 'plugins.php' ) );
+			?>
+	<iframe style="border:0" width="100%" height="70px" src="<?php echo esc_url( $iframe_url ); ?>"></iframe>
 	<?php } ?>
 </div>
 <?php endif; ?>
