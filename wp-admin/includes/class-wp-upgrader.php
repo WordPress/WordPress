@@ -2854,6 +2854,18 @@ class WP_Automatic_Updater {
 		if ( ! $this->should_update( $type, $item, $context ) )
 			return false;
 
+		/**
+		 * Fires immediately prior to an auto-update.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string $type    The type of update being checked: 'core', 'theme', 'plugin', or 'translation'.
+		 * @param object $item    The update offer.
+		 * @param string $context The filesystem context (a path) against which filesystem access and status
+		 *                        should be checked.
+		 */
+		do_action( 'pre_auto_update', $type, $item, $context );
+
 		$upgrader_item = $item;
 		switch ( $type ) {
 			case 'core':
