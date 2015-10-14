@@ -2124,7 +2124,8 @@ body.iframe {
 	width: auto;
 }
 
-#post-body #post-body-content #namediv h3 {
+#post-body #post-body-content #namediv h3, /* Back-compat for pre-4.4 */
+#post-body #post-body-content #namediv h2 {
 	margin-top: 0;
 }
 
@@ -2136,7 +2137,8 @@ body.iframe {
 	margin: 2px 0 0 9px;
 }
 
-#namediv h3 label {
+#namediv h3 label, /* Back-compat for pre-4.4 */
+#namediv h2 label {
 	vertical-align: baseline;
 }
 
