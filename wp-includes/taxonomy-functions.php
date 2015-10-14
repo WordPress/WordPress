@@ -113,7 +113,7 @@ function create_initial_taxonomies() {
 		'query_var' => false,
 		'rewrite' => false,
 		'public' => false,
-		'show_ui' => false,
+		'show_ui' => true,
 		'_builtin' => true,
 	) );
 
