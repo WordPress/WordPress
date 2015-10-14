@@ -1,8 +1,10 @@
 <?php
 /**
- * Admin Bar
+ * Toolbar API: Top-level Toolbar functionality
  *
- * This code handles the building and rendering of the press bar.
+ * @package WordPress
+ * @subpackage Toolbar
+ * @since 3.1.0
  */
 
 /**
