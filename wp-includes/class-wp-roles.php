@@ -138,7 +138,7 @@ class WP_Roles {
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function reinit() {
 		// There is no need to reinit if using the wp_user_roles global.

@@ -134,7 +134,7 @@ class WP_User_Query {
 	 *
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 * @global int  $blog_id
 	 *
 	 * @param string|array $query {
@@ -514,7 +514,7 @@ class WP_User_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @global wpdb $wpdb WordPress database object for queries.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function query() {
 		global $wpdb;
@@ -594,7 +594,7 @@ class WP_User_Query {
 	 * @access protected
 	 * @since 3.1.0
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $string
 	 * @param array  $cols

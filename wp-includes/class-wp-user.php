@@ -102,14 +102,14 @@ class WP_User {
 	private static $back_compat_keys;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * Retrieves the userdata and passes it to {@link WP_User::init()}.
+	 * Retrieves the userdata and passes it to WP_User::init().
 	 *
 	 * @since 2.0.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
 	 * @param string $name Optional. User's username
@@ -175,7 +175,7 @@ class WP_User {
 	 *
 	 * @static
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $field The field to query against: 'id', 'ID', 'slug', 'email' or 'login'.
 	 * @param string|int $value The field value
@@ -418,7 +418,7 @@ class WP_User {
 	 * @access protected
 	 * @since 2.1.0
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $cap_key Optional capability key
 	 */
@@ -608,7 +608,7 @@ class WP_User {
 	 * @since 2.0.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function update_user_level_from_caps() {
 		global $wpdb;
@@ -656,7 +656,7 @@ class WP_User {
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function remove_all_caps() {
 		global $wpdb;
@@ -745,7 +745,7 @@ class WP_User {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int $blog_id Optional Blog ID, defaults to current blog.
 	 */

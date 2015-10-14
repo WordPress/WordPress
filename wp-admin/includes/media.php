@@ -36,7 +36,7 @@ function media_upload_tabs() {
  *
  * @since 2.5.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $tabs
  * @return array $tabs with gallery if post has image attachment

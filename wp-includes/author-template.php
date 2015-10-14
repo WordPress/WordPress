@@ -319,7 +319,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
  *
  * @since 1.2.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string|array $args {
  *     Optional. Array or string of default arguments.
@@ -453,7 +453,7 @@ function wp_list_authors( $args = '' ) {
  *
  * @since 3.2.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @return bool Whether or not we have more than one author
  */

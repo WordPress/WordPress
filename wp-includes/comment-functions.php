@@ -832,7 +832,8 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
  *
  * @since 2.7.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @param int   $comment_ID Comment ID.
  * @param array $args {
  *      Array of optional arguments.
@@ -1632,8 +1633,7 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  * @since 4.3.0 'comment_agent' and 'comment_author_IP' can be set via `$commentdata`.
  *
  * @see wp_insert_comment()
- *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $commentdata {
  *     Comment data.

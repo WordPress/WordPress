@@ -13,7 +13,7 @@
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function wpmu_update_blogs_date() {
 	global $wpdb;
@@ -68,7 +68,7 @@ function get_blogaddress_by_name( $blogname ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $slug
  * @return int A blog id
@@ -101,7 +101,7 @@ function get_id_from_blogname( $slug ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|string|array $fields  Optional. A blog ID, a blog slug, or an array of fields to query against.
  *                                  If not specified the current blog ID is used.
@@ -280,7 +280,7 @@ function refresh_blog_details( $blog_id = 0 ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int   $blog_id Blog ID
  * @param array $details Array of details keyed by blogs table field names.
@@ -781,7 +781,7 @@ function update_archived( $id, $archived ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $blog_id BLog ID
  * @param string $pref    A field name
@@ -857,7 +857,7 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $id   The blog id
  * @param string $pref A field name
@@ -878,7 +878,7 @@ function get_blog_status( $id, $pref ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param mixed $deprecated Not used
  * @param int   $start      The offset

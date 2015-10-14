@@ -556,7 +556,7 @@ function metadata_exists( $meta_type, $object_id, $meta_key ) {
  *
  * @since 3.3.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int    $meta_id   ID for a specific meta row
@@ -597,7 +597,7 @@ function get_metadata_by_mid( $meta_type, $meta_id ) {
  *
  * @since 3.3.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $meta_type  Type of object metadata is for (e.g., comment, post, or user)
  * @param int    $meta_id    ID for a specific meta row
@@ -690,7 +690,7 @@ function update_metadata_by_mid( $meta_type, $meta_id, $meta_value, $meta_key = 
  *
  * @since 3.3.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $meta_type Type of object metadata is for (e.g., comment, post, or user)
  * @param int    $meta_id   ID for a specific meta row

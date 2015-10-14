@@ -454,7 +454,7 @@ class WP_Comment_Query {
 	 * @since 4.4.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	protected function get_comment_ids() {
 		global $wpdb;
@@ -941,7 +941,7 @@ class WP_Comment_Query {
 	 * @since 3.1.0
 	 * @access protected
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $string
 	 * @param array $cols

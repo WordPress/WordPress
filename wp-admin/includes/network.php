@@ -12,7 +12,7 @@
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @return Whether a network exists.
  */
@@ -45,7 +45,7 @@ function allow_subdomain_install() {
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @return bool Whether subdirectory install is allowed
  */
@@ -293,7 +293,7 @@ function network_step1( $errors = false ) {
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param WP_Error $errors
  */

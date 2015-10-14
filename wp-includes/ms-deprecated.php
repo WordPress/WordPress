@@ -399,7 +399,7 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
  * @since MU 1.0
  * @deprecated 4.4.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $sitedomain Optional. Site domain.
  * @param string $path       Optional. Site path.

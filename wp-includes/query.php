@@ -2127,7 +2127,8 @@ class WP_Query {
 	 *
 	 * @since 3.7.0
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @param array $q Query variables.
 	 * @return string WHERE clause.
 	 */
@@ -2268,7 +2269,7 @@ class WP_Query {
 	/**
 	 * Generate SQL for the ORDER BY condition based on passed search terms.
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param array $q Query variables.
 	 * @return string ORDER BY clause.
@@ -2478,7 +2479,7 @@ class WP_Query {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @return array List of posts.
 	 */
@@ -3789,7 +3790,7 @@ class WP_Query {
 	 * @since 3.5.0
 	 * @access private
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	private function set_found_posts( $q, $limits ) {
 		global $wpdb;

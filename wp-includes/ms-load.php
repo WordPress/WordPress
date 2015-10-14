@@ -148,7 +148,7 @@ function wp_get_network( $network ) {
  *
  * @since 3.9.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string   $domain   Domain to check.
  * @param string   $path     Path to check.
@@ -262,7 +262,7 @@ function get_site_by_path( $domain, $path, $segments = null ) {
  * @since 3.0.0
  * @since 4.4.0 The `$domain` and `$path` parameters were added.
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $domain The requested domain for the error to reference.
  * @param string $path   The requested path for the error to reference.

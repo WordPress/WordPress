@@ -593,7 +593,7 @@ function allowed_http_request_hosts( $is_external, $host ) {
  *
  * @since 3.6.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  * @staticvar array $queried
  *
  * @param bool   $is_external

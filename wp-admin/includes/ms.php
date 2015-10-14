@@ -47,7 +47,7 @@ function check_upload_size( $file ) {
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int  $blog_id Blog ID.
  * @param bool $drop    True if blog's table should be dropped. Default is false.
@@ -177,7 +177,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
  *
  * @todo Merge with wp_delete_user() ?
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $id The user ID.
  * @return bool True if the user was deleted, otherwise false.
@@ -505,7 +505,7 @@ function upload_space_setting( $id ) {
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $id         The user ID.
  * @param string $pref       The column in the wp_users table to update the user's status
@@ -936,7 +936,7 @@ function revoke_super_admin( $user_id ) {
  *
  * @since 3.1.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $site_id The network/site ID to check.
  * @return bool True if network can be edited, otherwise false.
