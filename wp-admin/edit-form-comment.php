@@ -73,7 +73,7 @@ if ( $comment->comment_post_ID > 0 ):
 
 <div id="postbox-container-1" class="postbox-container">
 <div id="submitdiv" class="stuffbox" >
-<h3><span class="hndle"><?php _e('Status') ?></span></h3>
+<h2><?php _e( 'Status' ) ?></h2>
 <div class="inside">
 <div class="submitbox" id="submitcomment">
 <div id="minor-publishing">
