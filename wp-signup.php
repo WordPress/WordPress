@@ -41,6 +41,13 @@ if ( !is_main_site() ) {
 $wp_query->is_404 = false;
 
 /**
+ * Fires before the Site Signup page is loaded.
+ *
+ * @since 4.4.0
+ */
+do_action( 'before_signup_header' );
+
+/**
  * Prints styles for front-end Multisite signup pages
  *
  * @since MU
