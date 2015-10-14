@@ -993,6 +993,21 @@ final class WP_Screen {
 		$this->render_per_page_options();
 		echo $this->_screen_settings;
 
+		/**
+		 * Filter whether to show the Screen Options submit button.
+		 *
+		 * @since 4.4.0
+		 * 
+		 * @param bool      $show_button Whether to show Screen Options submit button.
+		 *                               Default false.
+		 * @param WP_Screen $this        Current WP_Screen instance.
+		 */
+		$show_button = apply_filters( 'screen_options_show_submit', false, $this );
+
+		if ( $show_button ) {
+			submit_button( __( 'Apply' ), 'primary', 'screen-options-apply', true );
+		}
+
 		echo $form_end . $wrapper_end;
 	}
 
@@ -1155,6 +1170,9 @@ final class WP_Screen {
 			$per_page = apply_filters( 'edit_posts_per_page', $per_page, $this->post_type );
 		}
 
+		// This needs a submit button
+		add_filter( 'screen_options_show_submit', '__return_true' );
+
 		?>
 		<fieldset class="screen-options">
 		<legend><?php _e( 'Pagination' ); ?></legend>
@@ -1163,10 +1181,8 @@ final class WP_Screen {
 				<input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]"
 					id="<?php echo esc_attr( $option ); ?>" maxlength="3"
 					value="<?php echo esc_attr( $per_page ); ?>" />
-			<?php endif;
-
-			echo get_submit_button( __( 'Apply' ), 'button', 'screen-options-apply', false ); ?>
-			<input type="hidden" name="wp_screen_options[option]" value="<?php echo esc_attr( $option ); ?>" />
+			<?php endif; ?>
+				<input type="hidden" name="wp_screen_options[option]" value="<?php echo esc_attr( $option ); ?>" />
 		</fieldset>
 		<?php
 	}
