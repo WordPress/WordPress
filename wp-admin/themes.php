@@ -300,12 +300,16 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 
 <?php
 $can_delete = current_user_can( 'delete_themes' );
+$can_install = current_user_can( 'install_themes' );
 ?>
 <table>
 	<tr>
 		<th><?php _ex('Name', 'theme name'); ?></th>
 		<th><?php _e('Description'); ?></th>
 		<?php if ( $can_delete ) { ?>
+			<td></td>
+		<?php } ?>
+		<?php if ( $can_install ) { ?>
 			<td></td>
 		<?php } ?>
 	</tr>
@@ -324,6 +328,22 @@ $can_delete = current_user_can( 'delete_themes' );
 				?>
 				<td><a href="<?php echo esc_url( $delete_url ); ?>" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a></td>
 				<?php
+			}
+
+			if ( $can_install && 'theme_no_parent' === $broken_theme->errors()->get_error_code() ) {
+				$parent_theme_name = $broken_theme->get( 'Template' );
+				$parent_theme = themes_api( 'theme_information', array( 'slug' => urlencode( $parent_theme_name ) ) );
+
+				if ( ! is_wp_error( $parent_theme ) ) {
+					$install_url = add_query_arg( array(
+						'action' => 'install-theme',
+						'theme'  => urlencode( $parent_theme_name ),
+					), admin_url( 'update.php' ) );
+					$install_url = wp_nonce_url( $install_url, 'install-theme_' . $parent_theme_name );
+					?>
+					<td><a href="<?php echo esc_url( $install_url ); ?>" class="button button-secondary install-theme"><?php _e( 'Install Parent Theme' ); ?></a></td>
+					<?php
+				}
 			}
 			?>
 		</tr>
