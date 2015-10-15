@@ -1315,6 +1315,17 @@ function wp_insert_user( $userdata ) {
 		return new WP_Error( 'existing_user_login', __( 'Sorry, that username already exists!' ) );
 	}
 
+	/**
+	 * Filter the list of blacklisted usernames.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $usernames Array of blacklisted usernames.
+	 */
+	if ( in_array( $user_login, apply_filters( 'illegal_user_logins', array() ) ) ) {
+		return new WP_Error( 'illegal_user_login', __( 'Sorry, that username is not allowed.' ) );
+	}	
+
 	/*
 	 * If a nicename is provided, remove unsafe user characters before using it.
 	 * Otherwise build a nicename from the user_login.

@@ -142,6 +142,12 @@ function edit_user( $user_id = 0 ) {
 	if ( !$update && username_exists( $user->user_login ) )
 		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is already registered. Please choose another one.' ));
 
+	/** This filter is documented in wp-includes/user-functions.php */
+	$usernames = apply_filters( 'illegal_user_logins', array() );
+	if ( in_array( $user->user_login, $usernames ) ) {
+		$errors->add( 'illegal_user_login', __( '<strong>ERROR</strong>: Sorry, that username is not allowed.' ) );
+	}
+
 	/* checking email address */
 	if ( empty( $user->user_email ) ) {
 		$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please enter an email address.' ), array( 'form-field' => 'email' ) );

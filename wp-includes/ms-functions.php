@@ -427,8 +427,14 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		$illegal_names = array(  'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' );
 		add_site_option( 'illegal_names', $illegal_names );
 	}
-	if ( in_array( $user_name, $illegal_names ) )
-		$errors->add('user_name',  __( 'That username is not allowed.' ) );
+	if ( in_array( $user_name, $illegal_names ) ) {
+		$errors->add( 'user_name',  __( 'Sorry, that username is not allowed.' ) );
+	}
+
+	/** This filter is documented in wp-includes/user-functions.php */
+	if ( in_array( $user_name, apply_filters( 'illegal_user_logins', array() ) ) ) {
+		$errors->add( 'user_name',  __( 'Sorry, that username is not allowed.' ) );
+	}
 
 	if ( is_email_address_unsafe( $user_email ) )
 		$errors->add('user_email',  __('You cannot use that email address to signup. We are having problems with them blocking some of our email. Please use another email provider.'));
