@@ -209,8 +209,15 @@ class WP {
 
 						if ( $wp_rewrite->use_verbose_page_rules && preg_match( '/pagename=\$matches\[([0-9]+)\]/', $query, $varmatch ) ) {
 							// This is a verbose page match, let's check to be sure about it.
-							if ( ! get_page_by_path( $matches[ $varmatch[1] ] ) )
+							$page = get_page_by_path( $matches[ $varmatch[1] ] );
+							if ( ! $page ) {
 						 		continue;
+							}
+
+							$post_status_obj = get_post_status_object( $page->post_status );
+							if ( ! $post_status_obj->public && ! $post_status_obj->protected && ! $post_status_obj->private ) {
+								continue;
+							}
 						}
 
 						// Got a match.
