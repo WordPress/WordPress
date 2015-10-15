@@ -282,7 +282,7 @@ case 'delete':
 	do_action( 'delete_user_form', $current_user );
 	?>
 	<input type="hidden" name="action" value="dodelete" />
-	<?php submit_button( __('Confirm Deletion'), 'secondary' ); ?>
+	<?php submit_button( __('Confirm Deletion'), 'primary' ); ?>
 <?php else : ?>
 	<p><?php _e('There are no valid users selected for deletion.'); ?></p>
 <?php endif; ?>
@@ -380,7 +380,7 @@ case 'remove':
 </ul>
 <?php if ( $go_remove ) : ?>
 		<input type="hidden" name="action" value="doremove" />
-		<?php submit_button( __('Confirm Removal'), 'secondary' ); ?>
+		<?php submit_button( __('Confirm Removal'), 'primary' ); ?>
 <?php else : ?>
 	<p><?php _e('There are no valid users selected for removal.'); ?></p>
 <?php endif; ?>

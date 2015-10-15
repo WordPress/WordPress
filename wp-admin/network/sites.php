@@ -107,7 +107,7 @@ if ( isset( $_GET['action'] ) ) {
 					<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
 					<?php wp_nonce_field( $site_action . '_' . $id, '_wpnonce', false ); ?>
 					<p><?php echo sprintf( $manage_actions[ $site_action ], $site_address ); ?></p>
-					<?php submit_button( __( 'Confirm' ), 'button' ); ?>
+					<?php submit_button( __( 'Confirm' ), 'primary' ); ?>
 				</form>
 			</div>
 		<?php
