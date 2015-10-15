@@ -40,6 +40,8 @@ jQuery( document ).ready( function( $ ) {
 
 	$( '.plugin-card, .plugins .plugin-version-author-uri' ).on( 'click', 'a.thickbox', function( e ) {
 		e.preventDefault();
+		e.stopPropagation();
+
 		tb_click.call(this);
 
 		$('#TB_title').css({'background-color':'#23282d','color':'#cfcfcf'});
