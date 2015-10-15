@@ -579,7 +579,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 /* Menu item controls */
 .item-type {
 	display: inline-block;
-	padding: 12px 10px;
+	padding: 12px 16px;
 	color: #666;
 	font-size: 12px;
 	line-height: 18px;
@@ -616,6 +616,28 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	outline: none;
 	overflow: hidden;
 	white-space: nowrap;
+}
+
+.nav-menus-php .item-edit:before {
+	margin-top: 10px;
+	margin-left: 4px;
+	width: 20px;
+	border-radius: 50%;
+	text-indent: -1px; /* account for the dashicon alignment */
+}
+
+.nav-menus-php .item-edit:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.nav-menus-php .item-edit:focus:before {
+	-webkit-box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+    box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 /* Menu editing */
