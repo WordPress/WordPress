@@ -143,8 +143,7 @@ function edit_user( $user_id = 0 ) {
 		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is already registered. Please choose another one.' ));
 
 	/** This filter is documented in wp-includes/user-functions.php */
-	$usernames = apply_filters( 'illegal_user_logins', array() );
-	if ( in_array( $user->user_login, $usernames ) ) {
+	if ( in_array( $user->user_login, apply_filters( 'illegal_user_logins', array() ) ) ) {
 		$errors->add( 'illegal_user_login', __( '<strong>ERROR</strong>: Sorry, that username is not allowed.' ) );
 	}
 
