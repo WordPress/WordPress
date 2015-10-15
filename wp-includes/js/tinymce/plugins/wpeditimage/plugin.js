@@ -782,15 +782,6 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			}
 		});
 
-		dom.bind( editor.getDoc(), 'dragstart', function( event ) {
-			var node = editor.selection.getNode();
-
-			// Prevent dragging images out of the caption elements
-			if ( node.nodeName === 'IMG' && dom.getParent( node, '.wp-caption' ) ) {
-				event.preventDefault();
-			}
-		});
-
 		// Prevent IE11 from making dl.wp-caption resizable
 		if ( tinymce.Env.ie && tinymce.Env.ie > 10 ) {
 			// The 'mscontrolselect' event is supported only in IE11+
@@ -963,6 +954,36 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			event.content = editor.wpGetImgCaption( event.content );
 		}
 	});
+
+	( function() {
+		var wrap;
+
+		editor.on( 'dragstart', function() {
+			var node = editor.selection.getNode();
+
+			if ( node.nodeName === 'IMG' ) {
+				wrap = editor.dom.getParent( node, '.mceTemp' );
+			}
+		} );
+
+		editor.on( 'drop', function( event ) {
+			var rng;
+
+			if ( wrap && ( rng = tinymce.dom.RangeUtils.getCaretRangeFromPoint( event.clientX, event.clientY, editor.getDoc() ) ) ) {
+				event.preventDefault();
+
+				if ( ! editor.dom.getParent( rng.startContainer, '.mceTemp' ) ) {
+					editor.undoManager.transact( function() {
+						editor.selection.setRng( rng );
+						editor.selection.setNode( wrap );
+						editor.dom.remove( wrap );
+					} );
+				}
+			}
+
+			wrap = null;
+		} );
+	} )();
 
 	// Add to editor.wp
 	editor.wp = editor.wp || {};
