@@ -628,9 +628,6 @@ body.adding-widget #customize-preview {
 	.widget-title h3 {
 		padding: 13px 15px;
 	}
-	.widget-top a.widget-action:after {
-		padding-top: 9px;
-	}
 	.widget-reorder-nav span {
 		height: 39px;
 	}
