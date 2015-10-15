@@ -3,7 +3,7 @@
  * Navigation Menu API: Walker_Nav_Menu_Edit class
  *
  * @package WordPress
- * @subpackage Nav_Menus
+ * @subpackage Administration
  * @since 4.4.0
  */
 
