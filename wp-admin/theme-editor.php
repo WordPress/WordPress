@@ -61,19 +61,39 @@ if ( $theme->errors() && 'theme_no_stylesheet' == $theme->errors()->get_error_co
 	wp_die( __( 'The requested theme does not exist.' ) . ' ' . $theme->errors()->get_error_message() );
 }
 
-$allowed_files = $theme->get_files( 'php', 1 );
-$has_templates = ! empty( $allowed_files );
-$style_files = $theme->get_files( 'css' );
-$allowed_files['style.css'] = $style_files['style.css'];
+$allowed_files = $style_files = array();
+$has_templates = false;
+$default_types = array( 'php', 'css' );
+
 /**
- * Filter the allowed files.
+ * Filter the list of file types allowed for editing in the Theme editor.
  *
  * @since 4.4.0
  *
- * @param array  $style_files List of style files.
- * @param object $theme       The current Theme object.
+ * @param array    $default_types List of file types. Default types include 'php' and 'css'.
+ * @param WP_Theme $theme         The current Theme object.
  */
-$allowed_files += apply_filters( 'wp_theme_editor_filetypes', $style_files, $theme );
+$file_types = apply_filters( 'wp_theme_editor_filetypes', $default_types, $theme );
+
+// Ensure that default types are still there.
+$file_types = array_unique( array_merge( $file_types, $default_types ) );
+
+foreach ( $file_types as $type ) {
+	switch ( $type ) {
+		case 'php':
+			$allowed_files += $theme->get_files( 'php', 1 );
+			$has_templates = ! empty( $allowed_files );
+			break;
+		case 'css':
+			$style_files = $theme->get_files( 'css' );
+			$allowed_files['style.css'] = $style_files['style.css'];
+			$allowed_files += $style_files;
+			break;
+		default:
+			$allowed_files += $theme->get_files( $type );
+			break;
+	}
+}
 
 if ( empty( $file ) ) {
 	$relative_file = 'style.css';
@@ -174,20 +194,42 @@ if ( $theme->errors() )
 	<div id="templateside">
 <?php
 if ( $allowed_files ) :
-	if ( $has_templates || $theme->parent() ) :
-?>
-	<h2><?php _e( 'Templates' ); ?></h2>
-	<?php if ( $theme->parent() ) : ?>
-	<p class="howto"><?php printf( __( 'This child theme inherits templates from a parent theme, %s.' ), '<a href="' . self_admin_url('theme-editor.php?theme=' . urlencode( $theme->get_template() ) ) . '">' . $theme->parent()->display('Name') . '</a>' ); ?></p>
-	<?php endif; ?>
-	<ul>
-<?php
-	endif;
+	$previous_file_type = '';
 
 	foreach ( $allowed_files as $filename => $absolute_filename ) :
-		if ( 'style.css' == $filename )
-			echo "\t</ul>\n\t<h2>" . _x( 'Styles', 'Theme stylesheets in theme editor' ) . "</h2>\n\t<ul>\n";
+		$file_type = substr( $filename, strrpos( $filename, '.' ) );
 
+		if ( $file_type !== $previous_file_type ) {
+			if ( '' !== $previous_file_type ) {
+				echo "\t</ul>\n";
+			}
+
+			switch ( $file_type ) {
+				case '.php':
+					if ( $has_templates || $theme->parent() ) :
+						echo "\t<h2>" . __( 'Templates' ) . "</h2>\n";
+						if ( $theme->parent() ) {
+							echo '<p class="howto">' . sprintf( __( 'This child theme inherits templates from a parent theme, %s.' ),
+								sprintf( '<a href="%s">%s</a>',
+									self_admin_url( 'theme-editor.php?theme=' . urlencode( $theme->get_template() ) ),
+									$theme->parent()->display( 'Name' )
+								)
+							) . "</p>\n";
+						}
+					endif;
+					break;
+				case '.css':
+					echo "\t<h2>" . _x( 'Styles', 'Theme stylesheets in theme editor' ) . "</h2>\n";
+					break;
+				default:
+					/* translators: %s: file extension */
+					echo "\t<h2>" . sprintf( __( '%s files' ), $file_type ) . "</h2>\n";
+					break;
+			}
+
+			echo "\t<ul>\n";
+		}
+		
 		$file_description = get_file_description( $filename );
 		if ( $filename !== basename( $absolute_filename ) || $file_description !== $filename ) {
 			$file_description .= '<br /><span class="nonessential">(' . $filename . ')</span>';
@@ -196,6 +238,8 @@ if ( $allowed_files ) :
 		if ( $absolute_filename === $file ) {
 			$file_description = '<span class="highlight">' . $file_description . '</span>';
 		}
+
+		$previous_file_type = $file_type;
 ?>
 		<li><a href="theme-editor.php?file=<?php echo urlencode( $filename ) ?>&amp;theme=<?php echo urlencode( $stylesheet ) ?>"><?php echo $file_description; ?></a></li>
 <?php
