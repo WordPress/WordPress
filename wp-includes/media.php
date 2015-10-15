@@ -868,7 +868,7 @@ function wp_get_attachment_image_srcset_array( $attachment_id, $size = 'medium' 
 	$img_width  = ( $image ) ? $image['width']  : $img_meta['width'];
 	$img_height = ( $image ) ? $image['height'] : $img_meta['height'];
 
-	// Bail early if the width isn't greater that zero.
+	// Bail early if the width isn't greater than zero.
 	if ( ! $img_width > 0 ) {
 		return false;
 	}
