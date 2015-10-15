@@ -2834,6 +2834,7 @@ img {
 .js .postbox .handlediv .toggle-indicator:before {
 	margin-top: 4px;
 	width: 20px;
+	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	text-indent: -1px; /* account for the dashicon alignment */
 }
@@ -2985,6 +2986,7 @@ img {
 	padding: 1px 0px 1px 2px;
 	margin-top: 10px;
 	margin-left: 10px;
+	-webkit-border-radius: 50%;
 	border-radius: 50%;
 }
 

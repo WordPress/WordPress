@@ -622,6 +622,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	margin-top: 10px;
 	margin-left: 4px;
 	width: 20px;
+	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	text-indent: -1px; /* account for the dashicon alignment */
 }
