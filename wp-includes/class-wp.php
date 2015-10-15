@@ -215,7 +215,8 @@ class WP {
 							}
 
 							$post_status_obj = get_post_status_object( $page->post_status );
-							if ( ! $post_status_obj->public && ! $post_status_obj->protected && ! $post_status_obj->private ) {
+							if ( ! $post_status_obj->public && ! $post_status_obj->protected
+								&& ! $post_status_obj->private && $post_status_obj->exclude_from_search ) {
 								continue;
 							}
 						}
