@@ -751,9 +751,9 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 		// If there are two terms with the same ID, split the other one to a new term.
 		$new_term_id = _split_shared_term( $_term->term_id, $_term->term_taxonomy_id );
 
-		// If no split occurred, this is an invalid request.
+		// If no split occurred, this is an invalid request. Return null (not WP_Error) for back compat.
 		if ( $new_term_id === $_term->term_id ) {
-			return new WP_Error( 'invalid_term', __( 'Empty Term' ) );
+			return null;
 
 		// The term has been split. Refetch the term from the proper taxonomy.
 		} else {
