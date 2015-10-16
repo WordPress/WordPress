@@ -627,6 +627,10 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	text-indent: -1px; /* account for the dashicon alignment */
 }
 
+.rtl .nav-menus-php .item-edit:before {
+	text-indent: 1px; /* account for the dashicon alignment */
+}
+
 .nav-menus-php .item-edit:focus {
 	-webkit-box-shadow: none;
 	box-shadow: none;

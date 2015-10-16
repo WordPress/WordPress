@@ -342,6 +342,10 @@
 	text-indent: -1px; /* account for the dashicon alignment */
 }
 
+.rtl .wp-customizer .toggle-indicator {
+	text-indent: 1px; /* account for the dashicon alignment */
+}
+
 .wp-customizer .toggle-indicator:after {
 	content: "\f140";
 	speak: none;
