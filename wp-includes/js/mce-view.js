@@ -120,7 +120,7 @@
 
 						// Add the processed piece for the match.
 						pieces.push( {
-							content: '<p data-wpview-marker="' + instance.encodedText + '">' + text + '</p>',
+							content: instance.ignore ? text : '<p data-wpview-marker="' + instance.encodedText + '">' + text + '</p>',
 							processed: true
 						} );
 
@@ -816,6 +816,7 @@
 			} )
 			.fail( function( response ) {
 				if ( self.url ) {
+					self.ignore = true;
 					self.removeMarkers();
 				} else {
 					self.setError( response.message || response.statusText, 'admin-media' );
