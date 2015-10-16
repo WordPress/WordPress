@@ -543,6 +543,7 @@ final class _WP_Editors {
 					'wpeditimage_disable_captions' => $no_captions,
 					'wpeditimage_html5_captions' => current_theme_supports( 'html5', 'caption' ),
 					'plugins' => implode( ',', $plugins ),
+					'wp_lang_attr' => get_bloginfo( 'language' )
 				);
 
 				if ( ! empty( $mce_external_plugins ) ) {

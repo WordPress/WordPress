@@ -428,6 +428,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			dom.setAttrib( doc.documentElement, 'dir', 'rtl' );
 		}
 
+		dom.setAttrib( doc.documentElement, 'lang', editor.getParam( 'wp_lang_attr' ) );
+
 		if ( env.ie ) {
 			if ( parseInt( env.ie, 10 ) === 9 ) {
 				bodyClass.push('ie9');
