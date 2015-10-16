@@ -10,7 +10,7 @@
 class WP_Posts_List_Table extends WP_List_Table {
 
 	/**
-	 * Whether the items should be displayed hierarchically or linearly
+	 * Whether the items should be displayed hierarchically or linearly.
 	 *
 	 * @since 3.1.0
 	 * @var bool
@@ -19,16 +19,16 @@ class WP_Posts_List_Table extends WP_List_Table {
 	protected $hierarchical_display;
 
 	/**
-	 * Holds the number of pending comments for each post
+	 * Holds the number of pending comments for each post.
 	 *
 	 * @since 3.1.0
-	 * @var int
+	 * @var array
 	 * @access protected
 	 */
 	protected $comment_pending_count;
 
 	/**
-	 * Holds the number of posts for this user
+	 * Holds the number of posts for this user.
 	 *
 	 * @since 3.1.0
 	 * @var int
