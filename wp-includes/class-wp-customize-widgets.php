@@ -355,9 +355,11 @@ final class WP_Customize_Widgets {
 		}
 
 		$this->manager->add_panel( 'widgets', array(
-			'title'       => __( 'Widgets' ),
-			'description' => __( 'Widgets are independent sections of content that can be placed into widgetized areas provided by your theme (commonly called sidebars).' ),
-			'priority'    => 110,
+			'type'            => 'widgets',
+			'title'           => __( 'Widgets' ),
+			'description'     => __( 'Widgets are independent sections of content that can be placed into widgetized areas provided by your theme (commonly called sidebars).' ),
+			'priority'        => 110,
+			'active_callback' => array( $this, 'is_panel_active' ),
 		) );
 
 		foreach ( $sidebars_widgets as $sidebar_id => $sidebar_widget_ids ) {
@@ -452,6 +454,22 @@ final class WP_Customize_Widgets {
 		}
 
 		add_filter( 'sidebars_widgets', array( $this, 'preview_sidebars_widgets' ), 1 );
+	}
+
+	/**
+	 * Return whether the widgets panel is active, based on whether there are sidebars registered.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @see WP_Customize_Panel::$active_callback
+	 *
+	 * @global array $wp_registered_sidebars
+	 * @return bool Active.
+	 */
+	public function is_panel_active() {
+		global $wp_registered_sidebars;
+		return ! empty( $wp_registered_sidebars );
 	}
 
 	/**
@@ -655,6 +673,7 @@ final class WP_Customize_Widgets {
 				'error'            => __( 'An error has occurred. Please reload the page and try again.' ),
 				'widgetMovedUp'    => __( 'Widget moved up' ),
 				'widgetMovedDown'  => __( 'Widget moved down' ),
+				'noAreasRendered'  => __( 'There are no widget areas currently rendered in the preview. Navigate in the preview to a template that makes use of a widget area in order to access its widgets here.' ),
 			),
 			'tpl' => array(
 				'widgetReorderNav' => $widget_reorder_nav_tpl,

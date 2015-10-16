@@ -1506,6 +1506,77 @@
 	} );
 
 	/**
+	 * wp.customize.Widgets.WidgetsPanel
+	 *
+	 * Customizer panel containing the widget area sections.
+	 *
+	 * @since 4.4.0
+	 */
+	api.Widgets.WidgetsPanel = api.Panel.extend({
+
+		/**
+		 * Add and manage the display of the no-rendered-areas notice.
+		 *
+		 * @since 4.4.0
+		 */
+		ready: function () {
+			var panel = this;
+
+			api.Panel.prototype.ready.call( panel );
+
+			panel.deferred.embedded.done(function() {
+				var panelMetaContainer, noRenderedAreasNotice, shouldShowNotice;
+				panelMetaContainer = panel.container.find( '.panel-meta' );
+				noRenderedAreasNotice = $( '<div></div>', {
+					'class': 'no-widget-areas-rendered-notice'
+				});
+				noRenderedAreasNotice.append( $( '<em></em>', {
+					text: l10n.noAreasRendered
+				} ) );
+				panelMetaContainer.append( noRenderedAreasNotice );
+
+				shouldShowNotice = function() {
+					return ( 0 === _.filter( panel.sections(), function( section ) {
+						return section.active();
+					} ).length );
+				};
+
+				/*
+				 * Set the initial visibility state for rendered notice.
+				 * Update the visibility of the notice whenever a reflow happens.
+				 */
+				noRenderedAreasNotice.toggle( shouldShowNotice() );
+				api.previewer.deferred.active.done( function () {
+					noRenderedAreasNotice.toggle( shouldShowNotice() );
+				});
+				api.bind( 'pane-contents-reflowed', function() {
+					var duration = ( 'resolved' === api.previewer.deferred.active.state() ) ? 'fast' : 0;
+					if ( shouldShowNotice() ) {
+						noRenderedAreasNotice.slideDown( duration );
+					} else {
+						noRenderedAreasNotice.slideUp( duration );
+					}
+				});
+			});
+		},
+
+		/**
+		 * Allow an active widgets panel to be contextually active even when it has no active sections (widget areas).
+		 *
+		 * This ensures that the widgets panel appears even when there are no
+		 * sidebars displayed on the URL currently being previewed.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @returns {boolean}
+		 */
+		isContextuallyActive: function() {
+			var panel = this;
+			return panel.active();
+		}
+	});
+
+	/**
 	 * wp.customize.Widgets.SidebarSection
 	 *
 	 * Customizer section representing a widget area widget
@@ -1968,7 +2039,10 @@
 		}
 	} );
 
-	// Register models for custom section and control types
+	// Register models for custom panel, section, and control types
+	$.extend( api.panelConstructor, {
+		widgets: api.Widgets.WidgetsPanel
+	});
 	$.extend( api.sectionConstructor, {
 		sidebar: api.Widgets.SidebarSection
 	});

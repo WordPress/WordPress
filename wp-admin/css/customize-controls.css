@@ -123,12 +123,16 @@ body {
 	color: #0073aa;
 }
 
-#customize-controls .customize-info .customize-panel-description {
+#customize-controls .customize-info .customize-panel-description,
+#customize-controls .no-widget-areas-rendered-notice {
 	color: #555;
 	display: none;
 	background: #fff;
 	padding: 12px 15px;
 	border-top: 1px solid #ddd;
+}
+#customize-controls .customize-info .customize-panel-description.open + .no-widget-areas-rendered-notice {
+	border-top: none;
 }
 
 #customize-controls .customize-info .customize-panel-description p:first-child {
