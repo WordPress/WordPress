@@ -810,7 +810,7 @@ function print_oembed_embed_styles() {
 	?>
 	<style type="text/css">
 	<?php
-		if ( WP_DEBUG ) {
+		if ( SCRIPT_DEBUG ) {
 			readfile( ABSPATH . WPINC . "/css/wp-oembed-embed.css" );
 		} else {
 			/*
@@ -820,7 +820,7 @@ function print_oembed_embed_styles() {
 			 * readfile() method from above.
 			 *
 			 * If you're looking at a build version of this file, you'll see a string of
-			 * minified CSS. If you need to debug it, please turn on WP_DEBUG
+			 * minified CSS. If you need to debug it, please turn on SCRIPT_DEBUG
 			 * and edit wp-oembed-embed.css directly.
 			 */
 			?>
