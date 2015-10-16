@@ -741,10 +741,10 @@ jQuery(document).ready( function($) {
 		$el = $( '#editable-post-name' );
 		revert_e = $el.html();
 
-		buttons.html('<button type="button" class="save button button-small">'+postL10n.ok+'</button> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
-		buttons.children('.save').click( function( e ) {
+		buttons.html( '<button type="button" class="save button button-small">' + postL10n.ok + '</button> <button type="button" class="cancel button-link">' + postL10n.cancel + '</button>' );
+		buttons.children( '.save' ).click( function() {
 			var new_slug = $el.children( 'input' ).val();
-			e.preventDefault();
+
 			if ( new_slug == $('#editable-post-name-full').text() ) {
 				buttons.children('.cancel').click();
 				return;
@@ -768,11 +768,11 @@ jQuery(document).ready( function($) {
 				permalink.html(permalinkOrig);
 				real_slug.val(new_slug);
 				$( '.edit-slug' ).focus();
+				wp.a11y.speak( postL10n.permalinkSaved );
 			});
 		});
 
-		buttons.children('.cancel').click( function( e ) {
-			e.preventDefault();
+		buttons.children( '.cancel' ).click( function() {
 			$('#view-post-btn').show();
 			$el.html(revert_e);
 			buttons.html(buttonsOrig);
@@ -787,23 +787,22 @@ jQuery(document).ready( function($) {
 		}
 
 		slug_value = ( c > full.length / 4 ) ? '' : full;
-		$el.html( '<input type="text" id="new-post-slug" value="'+slug_value+'" autocomplete="off" />').children('input').keypress(function(e) {
-			var key = e.keyCode || 0;
-			// on enter, just save the new slug, don't save the post
-			if ( 13 == key ) {
-				buttons.children('.save').click();
-				return false;
+		$el.html( '<input type="text" id="new-post-slug" value="' + slug_value + '" autocomplete="off" />' ).children( 'input' ).keydown( function( e ) {
+			var key = e.which;
+			// On enter, just save the new slug, don't save the post.
+			if ( 13 === key ) {
+				e.preventDefault();
+				buttons.children( '.save' ).click();
 			}
-			if ( 27 == key ) {
-				buttons.children('.cancel').click();
-				return false;
+			if ( 27 === key ) {
+				buttons.children( '.cancel' ).click();
 			}
 		} ).keyup( function() {
-			real_slug.val(this.value);
+			real_slug.val( this.value );
 		}).focus();
 	}
 
-	$('#edit-slug-box').on( 'click', '.edit-slug', function() {
+	$( '#titlediv' ).on( 'click', '.edit-slug', function() {
 		editPermalink();
 	});
 

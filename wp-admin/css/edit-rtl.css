@@ -104,7 +104,10 @@ input#link_url {
 
 #edit-slug-box .cancel {
 	margin-left: 10px;
+	padding: 0;
 	font-size: 11px;
+	text-decoration: underline;
+	color: #0073aa;
 }
 
 #comment-link-box {
