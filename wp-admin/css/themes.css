@@ -753,10 +753,11 @@ body.folded .theme-overlay .theme-wrap {
 }
 
 .theme-overlay .theme-author {
+	margin: 15px 0 25px;
 	color: #686868;
 	font-size: 16px;
 	font-weight: 400;
-	margin: 15px 0 25px;
+	line-height: inherit;
 }
 
 .theme-overlay .theme-author a {
