@@ -2009,10 +2009,7 @@ function addslashes_gpc($gpc) {
 }
 
 /**
- * Navigates through an array and removes slashes from the values.
- *
- * If an array is passed, the array_map() function causes a callback to pass the
- * value back to the function. The slashes from this value will removed.
+ * Navigates through an array, object, or scalar, and removes slashes from the values.
  *
  * @since 2.0.0
  *
@@ -2020,43 +2017,55 @@ function addslashes_gpc($gpc) {
  * @return mixed Stripped value.
  */
 function stripslashes_deep( $value ) {
-	if ( is_array($value) ) {
-		$value = array_map('stripslashes_deep', $value);
-	} elseif ( is_object($value) ) {
-		$vars = get_object_vars( $value );
-		foreach ($vars as $key=>$data) {
-			$value->{$key} = stripslashes_deep( $data );
-		}
-	} elseif ( is_string( $value ) ) {
-		$value = stripslashes($value);
-	}
-
-	return $value;
+	return map_deep( $value, 'stripslashes_from_strings_only' );
 }
 
 /**
- * Navigates through an array and encodes the values to be used in a URL.
+ * Callback function for `stripslashes_deep()` which strips slashes from strings.
  *
+ * @since 4.4.0
+ *
+ * @param mixed $value The array or string to be stripped.
+ * @return mixed $value The stripped value.
+ */
+function stripslashes_from_strings_only( $value ) {
+	return is_string( $value ) ? stripslashes( $value ) : $value;
+}
+
+/**
+ * Navigates through an array, object, or scalar, and encodes the values to be used in a URL.
  *
  * @since 2.2.0
  *
- * @param array|string $value The array or string to be encoded.
- * @return array|string $value The encoded array (or string from the callback).
+ * @param mixed $value The array or string to be encoded.
+ * @return mixed $value The encoded value.
  */
 function urlencode_deep( $value ) {
-	return is_array( $value ) ? array_map( 'urlencode_deep', $value ) : urlencode( $value );
+	return map_deep( $value, 'urlencode' );
 }
 
 /**
- * Navigates through an array and raw encodes the values to be used in a URL.
+ * Navigates through an array, object, or scalar, and raw-encodes the values to be used in a URL.
  *
  * @since 3.4.0
  *
- * @param array|string $value The array or string to be encoded.
- * @return array|string $value The encoded array (or string from the callback).
+ * @param mixed $value The array or string to be encoded.
+ * @return mixed $value The encoded value.
  */
 function rawurlencode_deep( $value ) {
-	return is_array( $value ) ? array_map( 'rawurlencode_deep', $value ) : rawurlencode( $value );
+	return map_deep( $value, 'rawurlencode' );
+}
+
+/**
+ * Navigates through an array, object, or scalar, and decodes URL-encoded values
+ *
+ * @since 4.4.0
+ *
+ * @param mixed $value The array or string to be decoded.
+ * @return mixed $value The decoded value.
+ */
+function urldecode_deep( $value ) {
+	return map_deep( $value, 'urldecode' );
 }
 
 /**
@@ -3860,6 +3869,28 @@ function sanitize_option( $option, $value ) {
 	 * @param string $original_value The original value passed to the function.
 	 */
 	return apply_filters( "sanitize_option_{$option}", $value, $option, $original_value );
+}
+
+/**
+ * Maps a function to all non-iterable elements of an array or an object.
+ *
+ * This is similar to `array_walk_recursive()` but acts upon objects too.
+ *
+ * @since 4.4.0 
+ * 
+ * @param mixed    $value    The array, object, or scalar.
+ * @param callable $function The function to map onto $value.
+ * @return The value with the callback applied to all non-arrays and non-objects inside it.
+ */
+function map_deep( $value, $callback ) {
+	if ( is_array( $value ) || is_object( $value ) ) {
+		foreach ( $value as &$item ) {
+			$item = map_deep( $item, $callback );
+		}
+		return $value;
+	} else {
+		return call_user_func( $callback, $value );
+	}
 }
 
 /**
