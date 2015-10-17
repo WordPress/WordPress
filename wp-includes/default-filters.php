@@ -456,7 +456,7 @@ add_action( 'embed_head',           'wp_no_robots'                         );
 add_action( 'embed_head',           'rel_canonical'                        );
 add_action( 'embed_head',           'locale_stylesheet'                    );
 
-add_action( 'oembed_footer',        'wp_print_footer_scripts',       20    );
+add_action( 'embed_footer',         'wp_print_footer_scripts',       20    );
 
 add_filter( 'excerpt_more',         'wp_embed_excerpt_more',         20    );
 add_filter( 'the_excerpt_embed',    'wptexturize'                          );

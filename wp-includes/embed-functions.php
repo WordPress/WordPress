@@ -370,7 +370,7 @@ function wp_oembed_add_discovery_links() {
  * @since 4.4.0
  */
 function wp_oembed_add_host_js() {
-	wp_enqueue_script( 'wp-oembed' );
+	wp_enqueue_script( 'wp-embed' );
 }
 
 
