@@ -976,6 +976,16 @@
 		},
 
 		/**
+		 * Recalculate the top margin.
+		 *
+		 * @since 4.4.0
+		 * @private
+		 */
+		_recalculateTopMargin: function() {
+			api.Panel.prototype._recalculateTopMargin.call( this );
+		},
+
+		/**
 		 * Render control's screenshot if the control comes into view.
 		 *
 		 * @since 4.2.0
