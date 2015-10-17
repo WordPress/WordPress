@@ -1003,12 +1003,12 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium' ) {
  * @return string|bool A valid source size value for use in a 'sizes' attribute or false.
  */
 function wp_get_attachment_image_sizes( $attachment_id, $size = 'medium', $args = null ) {
-
+	$img_width = 0;
 	// Try to get the image width from $args.
 	if ( is_array( $args ) && ! empty( $args['width'] ) ) {
 		$img_width = (int) $args['width'];
 	} elseif ( $img = image_get_intermediate_size( $attachment_id, $size ) ) {
-		list( $img_width, $img_height ) = image_constrain_size_for_editor( $img['width'], $img['height'], $size );
+		list( $img_width ) = image_constrain_size_for_editor( $img['width'], $img['height'], $size );
 	}
 
 	// Bail early if $image_width isn't set.
