@@ -1,12 +1,19 @@
 <?php
 /**
- * Users List Table class.
+ * List Table API: WP_Users_List_Table class
+ *
+ * @package WordPress
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying users in a list table.
  *
  * @since 3.1.0
  * @access private
  *
- * @package WordPress
- * @subpackage List_Table
+ * @see WP_List_Table
  */
 class WP_Users_List_Table extends WP_List_Table {
 

@@ -1,11 +1,19 @@
 <?php
 /**
- * Plugins List Table class.
+ * List Table API: WP_Plugins_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying installed plugins in a list table.
+ *
  * @since 3.1.0
  * @access private
+ *
+ * @see WP_List_Table
  */
 class WP_Plugins_List_Table extends WP_List_Table {
 

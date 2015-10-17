@@ -1,11 +1,19 @@
 <?php
 /**
- * Multisite Users List Table class.
+ * List Table API: WP_MS_Users_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying users in a list table for the network admin.
+ *
  * @since 3.1.0
  * @access private
+ *
+ * @see WP_List_Table
  */
 class WP_MS_Users_List_Table extends WP_List_Table {
 	/**

@@ -1,11 +1,19 @@
 <?php
 /**
- * Theme Installer List Table class.
+ * List Table API: WP_Theme_Install_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying themes to install in a list table.
+ *
  * @since 3.1.0
  * @access private
+ *
+ * @see WP_Thenes_List_Table
  */
 class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 

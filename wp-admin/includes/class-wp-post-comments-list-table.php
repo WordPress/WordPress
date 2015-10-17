@@ -1,14 +1,14 @@
 <?php
 /**
- * Comment API: WP_Post_Comments_List_Table class
+ * List Table API: WP_Post_Comments_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
  * @since 4.4.0
  */
 
 /**
- * Core list table class used to output the post comments list table.
+ * Core class used to implement displaying post comments in a list table.
  *
  * @since 3.1.0
  * @access private
