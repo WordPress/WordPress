@@ -574,11 +574,12 @@ function get_post_status( $ID = '' ) {
 	}
 
 	/**
-	 * Filters the post status.
+	 * Filter the post status.
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string  $post->post_status The status of the post.
+	 * @param string  $post_status The post status.
+	 * @param WP_Post $post        The post object.
 	 */
 	return apply_filters( 'get_post_status', $post->post_status, $post );
 }
