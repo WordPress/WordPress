@@ -1130,7 +1130,7 @@ function do_accordion_sections( $screen, $context, $object ) {
 					<li class="control-section accordion-section <?php echo $hidden_class; ?> <?php echo $open_class; ?> <?php echo esc_attr( $box['id'] ); ?>" id="<?php echo esc_attr( $box['id'] ); ?>">
 						<h3 class="accordion-section-title hndle" tabindex="0">
 							<?php echo esc_html( $box['title'] ); ?>
-							<span class="screen-reader-text"><?php _e( 'Press return or enter to expand' ); ?></span>
+							<span class="screen-reader-text"><?php _e( 'Press return or enter to open this section' ); ?></span>
 						</h3>
 						<div class="accordion-section-content <?php postbox_classes( $box['id'], $page ); ?>">
 							<div class="inside">
