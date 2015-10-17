@@ -345,8 +345,10 @@ window.autosave = function() {
 					excerpt: excerpt
 				};
 
-				$notice = $( '#local-storage-notice' );
-				$('.wrap h2').first().after( $notice.addClass( 'notice-warning' ).show() );
+				$notice = $( '#local-storage-notice' )
+					.insertAfter( $( '.wrap' ).children( ':header' ).first() )
+					.addClass( 'notice-warning' )
+					.show();
 
 				$notice.on( 'click.autosave-local', function( event ) {
 					var $target = $( event.target );
