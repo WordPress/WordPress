@@ -573,7 +573,14 @@ function get_post_status( $ID = '' ) {
 
 	}
 
-	return $post->post_status;
+	/**
+	 * Filters the post status.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string  $post->post_status The status of the post.
+	 */
+	return apply_filters( 'get_post_status', $post->post_status, $post );
 }
 
 /**
