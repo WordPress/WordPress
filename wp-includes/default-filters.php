@@ -446,24 +446,24 @@ add_action( 'parse_query',          'wp_oembed_parse_query'                );
 add_action( 'wp_head',              'wp_oembed_add_discovery_links'        );
 add_action( 'wp_head',              'wp_oembed_add_host_js'                );
 
-add_action( 'oembed_head',          'print_emoji_detection_script'         );
-add_action( 'oembed_head',          'print_emoji_styles'                   );
-add_action( 'oembed_head',          'print_oembed_embed_styles'            );
-add_action( 'oembed_head',          'print_oembed_embed_scripts'           );
-add_action( 'oembed_head',          'wp_print_head_scripts',         20    );
-add_action( 'oembed_head',          'wp_print_styles',               20    );
-add_action( 'oembed_head',          'wp_no_robots'                         );
-add_action( 'oembed_head',          'rel_canonical'                        );
-add_action( 'oembed_head',          'locale_stylesheet'                    );
+add_action( 'embed_head',           'print_emoji_detection_script'         );
+add_action( 'embed_head',           'print_emoji_styles'                   );
+add_action( 'embed_head',           'print_embed_styles'                   );
+add_action( 'embed_head',           'print_embed_scripts'                  );
+add_action( 'embed_head',           'wp_print_head_scripts',         20    );
+add_action( 'embed_head',           'wp_print_styles',               20    );
+add_action( 'embed_head',           'wp_no_robots'                         );
+add_action( 'embed_head',           'rel_canonical'                        );
+add_action( 'embed_head',           'locale_stylesheet'                    );
 
 add_action( 'oembed_footer',        'wp_print_footer_scripts',       20    );
 
-add_filter( 'excerpt_more',         'wp_oembed_excerpt_more',        20    );
+add_filter( 'excerpt_more',         'wp_embed_excerpt_more',         20    );
 add_filter( 'the_excerpt_embed',    'wptexturize'                          );
 add_filter( 'the_excerpt_embed',    'convert_chars'                        );
 add_filter( 'the_excerpt_embed',    'wpautop'                              );
 add_filter( 'the_excerpt_embed',    'shortcode_unautop'                    );
-add_filter( 'the_excerpt_embed',    'wp_oembed_excerpt_attachment'         );
+add_filter( 'the_excerpt_embed',    'wp_embed_excerpt_attachment'          );
 
 add_filter( 'oembed_dataparse',     'wp_filter_oembed_result',       10, 3 );
 add_filter( 'oembed_response_data', 'get_oembed_response_data_rich', 10, 4 );

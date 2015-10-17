@@ -8,7 +8,7 @@
 			var scriptElm = editor.dom.create( 'script', {
 				id: scriptId,
 				type: 'text/javascript',
-				src: url + '/../../../wp-oembed.js'
+				src: url + '/../../../wp-embed.js'
 			} );
 
 			editor.getDoc().getElementsByTagName( 'head' )[ 0 ].appendChild( scriptElm );

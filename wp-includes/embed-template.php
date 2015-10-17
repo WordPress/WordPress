@@ -11,7 +11,7 @@
  */
 
 if ( ! headers_sent() ) {
-	header( 'X-WP-oembed: true' );
+	header( 'X-WP-embed: true' );
 }
 
 wp_enqueue_style( 'open-sans' );
@@ -28,7 +28,7 @@ wp_enqueue_style( 'open-sans' );
 	 *
 	 * @since 4.4.0
 	 */
-	do_action( 'oembed_head' );
+	do_action( 'embed_head' );
 	?>
 </head>
 <body <?php body_class(); ?>>
@@ -66,10 +66,10 @@ if ( have_posts() ) :
 			 * Filter the thumbnail image size for use in the embed template.
 			 *
 			 * @since 4.4.0
-			 * 
+			 *
 			 * @param string $image_size Thumbnail image size.
 			 */
-			$image_size = apply_filters( 'oembed_thumbnail_image_size', $image_size );
+			$image_size = apply_filters( 'embed_thumbnail_image_size', $image_size );
 
 			$shape = $measurements[0] / $measurements[1] >= 1.75 ? 'rectangular' : 'square';
 
@@ -83,7 +83,7 @@ if ( have_posts() ) :
 			 *
 			 * @param string $shape Thumbnail image shape. Either 'rectangular' or 'square'.
 			 */
-			$shape = apply_filters( 'oembed_thumbnail_image_shape', $shape );
+			$shape = apply_filters( 'embed_thumbnail_image_shape', $shape );
 		}
 		?>
 		<div <?php post_class( 'wp-embed' ); ?>>
@@ -117,7 +117,7 @@ if ( have_posts() ) :
 			 *
 			 * @since 4.4.0
 			 */
-			do_action( 'oembed_content' );
+			do_action( 'embed_content' );
 			?>
 
 			<div class="wp-embed-footer">
@@ -132,7 +132,7 @@ if ( have_posts() ) :
 					 *
 					 * @param string $site_icon_url The site icon URL.
 					 */
-					$site_icon_url = apply_filters( 'oembed_site_icon_url', $site_icon_url );
+					$site_icon_url = apply_filters( 'embed_site_icon_url', $site_icon_url );
 
 					printf(
 						'<a href="%s" target="_top"><img src="%s" width="32" height="32" alt="" class="wp-embed-site-icon"/><span>%s</span></a>',
@@ -150,7 +150,7 @@ if ( have_posts() ) :
 					 *
 					 * @since 4.4.0
 					 */
-					do_action( 'oembed_content_meta');
+					do_action( 'embed_content_meta');
 					?>
 					<?php if ( get_comments_number() || comments_open() ) : ?>
 						<div class="wp-embed-comments">
@@ -233,7 +233,7 @@ else :
 				 *
 				 * @param string $site_icon_url The site icon URL.
 				 */
-				$site_icon_url = apply_filters( 'oembed_site_icon_url', $site_icon_url );
+				$site_icon_url = apply_filters( 'embed_site_icon_url', $site_icon_url );
 
 				printf(
 					'<a href="%s" target="_top"><img src="%s" width="32" height="32" alt="" class="wp-embed-site-icon"/><span>%s</span></a>',
@@ -253,7 +253,7 @@ endif;
  *
  * @since 4.4.0
  */
-do_action( 'oembed_footer' );
+do_action( 'embed_footer' );
 ?>
 </body>
 </html>
