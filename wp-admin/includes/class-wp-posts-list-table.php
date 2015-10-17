@@ -1315,8 +1315,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 			echo $bulk ? " bulk-edit-row bulk-edit-row-$hclass bulk-edit-{$screen->post_type}" : " quick-edit-row quick-edit-row-$hclass inline-edit-{$screen->post_type}";
 		?>" style="display: none"><td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
 
-		<fieldset class="inline-edit-col-left"><div class="inline-edit-col">
-			<h4><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></h4>
+		<fieldset class="inline-edit-col-left">
+			<legend class="inline-edit-legend"><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></legend>
+			<div class="inline-edit-col">
 	<?php
 
 	if ( post_type_supports( $screen->post_type, 'title' ) ) :

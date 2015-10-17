@@ -988,11 +988,19 @@ tr.inline-edit-row td,
 }
 
 /*	Positioning */
-.inline-edit-row h4 {
-	margin: .2em 0;
-	padding: 0;
+
+/* Needs higher specificity for the padding */
+#the-list .inline-edit-row .inline-edit-legend {
+	margin: 0;
+	padding: 0.2em 0.5em 0;
 	line-height: 2.5;
+	font-weight: 600;
 }
+
+#the-list #bulk-edit.inline-edit-row .inline-edit-legend {
+	padding: 0.2em 0.5em;
+}
+
 .inline-edit-row fieldset span.title,
 .inline-edit-row fieldset span.checkbox-title {
 	margin: 0;
@@ -1082,7 +1090,7 @@ tr.inline-edit-row td,
 }
 
 /*	Styling */
-.inline-edit-row h4 {
+.inline-edit-row .inline-edit-legend {
 	text-transform: uppercase;
 }
 
