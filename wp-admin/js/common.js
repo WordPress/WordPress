@@ -172,7 +172,7 @@ $('.contextual-help-tabs').delegate('a', 'click', function(e) {
 });
 
 $(document).ready( function() {
-	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions, $firstHeading,
+	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions,
 		lastClicked = false,
 		pageInput = $('input.current-page'),
 		currentPage = pageInput.val(),
