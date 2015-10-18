@@ -263,7 +263,7 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'json' ) {
 	 *
 	 * @param string $url     REST URL.
 	 * @param string $path    REST route.
-	 * @param int    $blod_ig Blog ID.
+	 * @param int    $blog_id Blog ID.
 	 * @param string $scheme  Sanitization scheme.
 	 */
 	return apply_filters( 'rest_url', $url, $path, $blog_id, $scheme );
