@@ -485,6 +485,15 @@ class WP_Posts_List_Table extends WP_List_Table {
 ?>
 		</div>
 <?php
+		/**
+		 * Fires immediately following the closing "actions" div in the tablenav for the posts
+		 * list table.
+		 *
+		 * @since 4.4.0
+		 * 
+		 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
+		 */
+		do_action( 'manage_posts_extra_tablenav', $which );
 	}
 
 	/**
