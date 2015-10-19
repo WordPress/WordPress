@@ -96,15 +96,6 @@ final class WP_Term {
 	public $count = 0;
 
 	/**
-	 * Info about the term, as stored in the database.
-	 *
-	 * @since 4.4.0
-	 * @access protected
-	 * @var array
-	 */
-	protected $data = array();
-
-	/**
 	 * Stores the term object's sanitization level.
 	 *
 	 * Does not correspond to a database field.
@@ -166,8 +157,6 @@ final class WP_Term {
 		foreach ( get_object_vars( $term ) as $key => $value ) {
 			$this->$key = $value;
 		}
-
-		$this->data = sanitize_term( $term, $this->taxonomy, $this->filter );
 	}
 
 	/**
@@ -205,7 +194,13 @@ final class WP_Term {
 	public function __get( $key ) {
 		switch ( $key ) {
 			case 'data' :
-				return sanitize_term( $this->{$key}, $this->data->taxonomy, 'raw' );
+				$data = new stdClass();
+				$columns = array( 'term_id', 'name', 'slug', 'term_group', 'term_taxonomy_id', 'taxonomy', 'description', 'parent', 'count' );
+				foreach ( $columns as $column ) {
+					$data->{$column} = isset( $this->{$column} ) ? $this->{$column} : null;
+				}
+
+				return sanitize_term( $data, $data->taxonomy, 'raw' );
 				break;
 		}
 	}
