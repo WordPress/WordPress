@@ -1,6 +1,14 @@
 <?php
 /**
- * Class for implementing site icon functionality.
+ * Administration API: WP_Site_Icon class
+ *
+ * @package WordPress
+ * @subpackage Administration
+ * @since 4.3.0
+ */
+
+/**
+ * Core class used to implement site icon functionality.
  *
  * @since 4.3.0
  */
