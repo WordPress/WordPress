@@ -2920,9 +2920,9 @@ function get_shortcut_link() {
  *
  * @since 3.0.0
  *
- * @param  string $path   Optional. Path relative to the home url. Default empty.
- * @param  string $scheme Optional. Scheme to give the home url context. Accepts
- *                        'http', 'https', or 'relative'. Default null.
+ * @param  string      $path   Optional. Path relative to the home url. Default empty.
+ * @param  string|null $scheme Optional. Scheme to give the home url context. Accepts
+ *                             'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home url link with optional path appended.
 */
 function home_url( $path = '', $scheme = null ) {
@@ -2944,7 +2944,7 @@ function home_url( $path = '', $scheme = null ) {
  * @param  int         $blog_id     Optional. Blog ID. Default null (current blog).
  * @param  string      $path        Optional. Path relative to the home URL. Default empty.
  * @param  string|null $orig_scheme Optional. Scheme to give the home URL context. Accepts
- *                                  'http', 'https', 'relative', or null. Default null.
+ *                                  'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home URL link with optional path appended.
 */
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
@@ -2979,7 +2979,8 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	 *
 	 * @param string      $url         The complete home URL including scheme and path.
 	 * @param string      $path        Path relative to the home URL. Blank string if no path is specified.
-	 * @param string|null $orig_scheme Scheme to give the home URL context. Accepts 'http', 'https', 'relative' or null.
+	 * @param string|null $orig_scheme Scheme to give the home URL context. Accepts 'http', 'https',
+	 *                                 'relative', 'rest', or null.
 	 * @param int|null    $blog_id     Blog ID, or null for the current blog.
 	 */
 	return apply_filters( 'home_url', $url, $path, $orig_scheme, $blog_id );
@@ -3356,12 +3357,14 @@ function self_admin_url($path = '', $scheme = 'admin') {
 }
 
 /**
- * Set the scheme for a URL
+ * Sets the scheme for a URL.
  *
  * @since 3.4.0
+ * @since 4.4.0 The 'rest' scheme was added.
  *
- * @param string $url    Absolute url that includes a scheme
- * @param string $scheme Optional. Scheme to give $url. Currently 'http', 'https', 'login', 'login_post', 'admin', or 'relative'.
+ * @param string      $url    Absolute url that includes a scheme
+ * @param string|null $scheme Optional. Scheme to give $url. Currently 'http', 'https', 'login',
+ *                            'login_post', 'admin', 'relative', 'rest', 'rpc', or null. Default null.
  * @return string $url URL with chosen scheme.
  */
 function set_url_scheme( $url, $scheme = null ) {
@@ -3392,10 +3395,10 @@ function set_url_scheme( $url, $scheme = null ) {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param string $url         The complete URL including scheme and path.
-	 * @param string $scheme      Scheme applied to the URL. One of 'http', 'https', or 'relative'.
-	 * @param string $orig_scheme Scheme requested for the URL. One of 'http', 'https', 'login',
-	 *                            'login_post', 'admin', 'rpc', or 'relative'.
+	 * @param string      $url         The complete URL including scheme and path.
+	 * @param string      $scheme      Scheme applied to the URL. One of 'http', 'https', or 'relative'.
+	 * @param string|null $orig_scheme Scheme requested for the URL. One of 'http', 'https', 'login',
+	 *                                 'login_post', 'admin', 'relative', 'rest', 'rpc', or null.
 	 */
 	return apply_filters( 'set_url_scheme', $url, $scheme, $orig_scheme );
 }

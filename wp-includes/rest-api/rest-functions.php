@@ -235,10 +235,10 @@ function rest_get_url_prefix() {
  *
  * @param int    $blog_id Optional. Blog ID. Default of null returns URL for current blog.
  * @param string $path    Optional. REST route. Default '/'.
- * @param string $scheme  Optional. Sanitization scheme. Default 'json'.
+ * @param string $scheme  Optional. Sanitization scheme. Default 'rest'.
  * @return string Full URL to the endpoint.
  */
-function get_rest_url( $blog_id = null, $path = '/', $scheme = 'json' ) {
+function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 	if ( empty( $path ) ) {
 		$path = '/';
 	}
