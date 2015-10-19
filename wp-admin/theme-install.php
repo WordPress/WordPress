@@ -153,17 +153,17 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 		<?php
 		$feature_list = get_theme_feature_list();
 		foreach ( $feature_list as $feature_name => $features ) {
-			echo '<div class="filter-group">';
+			echo '<fieldset class="filter-group">';
 			$feature_name = esc_html( $feature_name );
-			echo '<h4>' . $feature_name . '</h4>';
-			echo '<ol class="feature-group">';
+			echo '<legend>' . $feature_name . '</legend>';
+			echo '<div class="filter-group-feature">';
 			foreach ( $features as $feature => $feature_name ) {
 				$feature = esc_attr( $feature );
-				echo '<li><input type="checkbox" id="filter-id-' . $feature . '" value="' . $feature . '" /> ';
-				echo '<label for="filter-id-' . $feature . '">' . $feature_name . '</label></li>';
+				echo '<input type="checkbox" id="filter-id-' . $feature . '" value="' . $feature . '" /> ';
+				echo '<label for="filter-id-' . $feature . '">' . $feature_name . '</label><br>';
 			}
-			echo '</ol>';
 			echo '</div>';
+			echo '</fieldset>';
 		}
 		?>
 			<div class="filtered-by">

@@ -1126,9 +1126,10 @@ th.action-links {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	position: relative;
 	float: right;
 	margin: 0 0 0 1%;
-	padding: 10px;
+	padding: 20px 10px 10px;
 	width: 24%;
 	background: #fff;
 	border: 1px solid #e5e5e5;
@@ -1136,24 +1137,27 @@ th.action-links {
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 }
 
-.filter-group h4 {
-	position: relative;
+.filter-group legend {
+	position: absolute;
+	top: 10px;
+	display: block;
 	margin: 0;
+	padding: 0;
+	font-size: 1em;
+	font-weight: 600;
 }
 
-.filter-drawer ol {
-	margin: 20px 0 0;
+.filter-drawer .filter-group-feature {
+	margin: 28px 0 0;
 	list-style-type: none;
 	font-size: 12px;
 }
 
-.filter-drawer li {
+.filter-drawer .filter-group-feature input,
+.filter-drawer .filter-group-feature label {
 	display: inline-block;
-	vertical-align: top;
-	margin: 5px 0;
-	padding-left: 25px;
-	width: 160px;
-	list-style-type: none;
+	margin: 7px 0 7px 4px;
+	line-height: 16px;
 }
 
 .filter-drawer .buttons {
@@ -3517,6 +3521,11 @@ img {
 
 	.edit-comment-author {
 		margin: 2px 0 0;
+	}
+
+	.filter-drawer .filter-group-feature input,
+	.filter-drawer .filter-group-feature label {
+		line-height: 25px;
 	}
 }
 

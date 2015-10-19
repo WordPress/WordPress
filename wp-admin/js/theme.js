@@ -960,7 +960,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 		}
 
 		// Make sure the add-new stays at the end
-		if ( page >= 1 ) {
+		if ( ! themes.isInstall && page >= 1 ) {
 			$( '.add-new-theme' ).remove();
 		}
 
@@ -982,7 +982,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 		});
 
 		// 'Add new theme' element shown at the end of the grid
-		if ( themes.data.settings.canInstall ) {
+		if ( ! themes.isInstall && themes.data.settings.canInstall ) {
 			this.$el.append( '<div class="theme add-new-theme"><a href="' + themes.data.settings.installURI + '"><div class="theme-screenshot"><span></span></div><h2 class="theme-name">' + l10n.addNew + '</h2></a></div>' );
 		}
 
