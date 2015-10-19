@@ -2908,6 +2908,8 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 		do_action( 'delete_term_relationships', $object_id, $tt_ids );
 		$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id ) );
 
+		wp_cache_delete( $object_id, $taxonomy . '_relationships' );
+
 		/**
 		 * Fires immediately after an object-term relationship is deleted.
 		 *
