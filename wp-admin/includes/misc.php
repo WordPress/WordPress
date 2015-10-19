@@ -96,18 +96,25 @@ function extract_from_markers( $filename, $marker ) {
  *
  * @since 1.5.0
  *
- * @param string $filename
- * @param string $marker
- * @param array  $insertion
+ * @param string       $filename  Filename to alter.
+ * @param string       $marker    The marker to alter.
+ * @param array|string $insertion The new content to insert.
  * @return bool True on write success, false on failure.
  */
 function insert_with_markers( $filename, $marker, $insertion ) {
-	if ( ! is_writeable( $filename ) ) {
+	if ( ! file_exists( $filename ) ) {
+		if ( ! is_writable( dirname( $filename ) ) ) {
+			return false;
+		}
+		if ( ! touch( $filename ) ) {
+			return false;
+		}
+	} elseif ( ! is_writeable( $filename ) ) {
 		return false;
 	}
 
 	if ( ! is_array( $insertion ) ) {
-		$insertion = array( $insertion );
+		$insertion = explode( "\n", $insertion );
 	}
 
 	$start_marker = "# BEGIN {$marker}";
@@ -127,7 +134,7 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 	}
 
 	// Split out the existing file into the preceeding lines, and those that appear after the marker
-	$pre_lines = $post_lines = array();
+	$pre_lines = $post_lines = $existing_lines = array();
 	$found_marker = $found_end_marker = false;
 	foreach ( $lines as $line ) {
 		if ( ! $found_marker && false !== strpos( $line, $start_marker ) ) {
@@ -141,7 +148,17 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 			$pre_lines[] = $line;
 		} elseif ( $found_marker && $found_end_marker ) {
 			$post_lines[] = $line;
+		} else {
+			$existing_lines[] = $line;
 		}
+	}
+
+	// Check to see if there was a change
+	if ( $existing_lines === $insertion ) {
+		flock( $fp, LOCK_UN );
+		fclose( $fp );
+
+		return true;
 	}
 
 	// Generate the new file data
@@ -157,9 +174,9 @@ function insert_with_markers( $filename, $marker, $insertion ) {
 	fseek( $fp, 0 );
 	$bytes = fwrite( $fp, $new_file_data );
 	if ( $bytes ) {
-		ftruncate( $fp, $bytes );
+		ftruncate( $fp, ftell( $fp ) );
 	}
-
+	fflush( $fp );
 	flock( $fp, LOCK_UN );
 	fclose( $fp );
 
