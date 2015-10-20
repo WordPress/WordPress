@@ -279,7 +279,7 @@ $_old_files = array(
 'wp-admin/images/logo-login.gif',
 'wp-admin/images/star.gif',
 'wp-admin/js/list-table.dev.js',
-//'wp-admin/js/list-table.js', // restored in 4.4
+'wp-admin/js/list-table.js',
 'wp-includes/default-embeds.php',
 'wp-includes/js/tinymce/plugins/wordpress/img/help.gif',
 'wp-includes/js/tinymce/plugins/wordpress/img/more.gif',
