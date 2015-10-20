@@ -1275,11 +1275,17 @@ function wp_insert_user( $userdata ) {
 	} elseif ( $userdata instanceof WP_User ) {
 		$userdata = $userdata->to_array();
 	}
+
 	// Are we updating or creating?
 	if ( ! empty( $userdata['ID'] ) ) {
 		$ID = (int) $userdata['ID'];
 		$update = true;
-		$old_user_data = WP_User::get_data_by( 'id', $ID );
+		$old_user_data = get_userdata( $ID );
+
+		if ( ! $old_user_data ) {
+			return new WP_Error( 'invalid_user_id', __( 'Invalid user ID.' ) );
+		}
+
 		// hashed in wp_update_user(), plaintext if called directly
 		$user_pass = $userdata['user_pass'];
 	} else {
