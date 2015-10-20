@@ -607,7 +607,18 @@ function image_make_intermediate_size( $file, $width, $height, $crop = false ) {
  * @param array|string $size    Optional. Image size. Accepts any valid image size, or an array
  *                              of width and height values in pixels (in that order).
  *                              Default 'thumbnail'.
- * @return false|array False on failure or array of file path, width, and height on success.
+ * @return false|array $data {
+ *     Array of file relative path, width, and height on success. Additionally includes absolute
+ *     path and URL if registered size is passed to $size parameter. False on failure.
+ *
+ *     @type string $file   Image's path relative to uploads directory
+ *     @type int    $width  Width of image
+ *     @type int    $height Height of image
+ *     @type string $path   Optional. Image's absolute filesystem path. Only returned if registered
+ *                          size is passed to `$size` parameter.
+ *     @type string $url    Optional. Image's URL. Only returned if registered size is passed to `$size`
+ *                          parameter.
+ * }
  */
 function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
 	if ( !is_array( $imagedata = wp_get_attachment_metadata( $post_id ) ) )
@@ -620,9 +631,10 @@ function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
 		foreach ( $imagedata['sizes'] as $_size => $data ) {
 			// If there's an exact match to an existing image size, short circuit.
 			if ( $data['width'] == $size[0] && $data['height'] == $size[1] ) {
-				$file = $data['file'];
-				list($width, $height) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
-				return compact( 'file', 'width', 'height' );
+				list( $data['width'], $data['height'] ) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
+
+				/** This filter is documented in wp-includes/media.php */
+				return apply_filters( 'image_get_intermediate_size', $data, $post_id, $size );
 			}
 			// If it's not an exact match but it's at least the dimensions requested.
 			if ( $data['width'] >= $size[0] && $data['height'] >= $size[1] ) {
@@ -647,10 +659,11 @@ function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
 				  ) ) {
 				  continue;
 				}
-				// If we're still here, then we're going to use this size
-				$file = $data['file'];
-				list( $width, $height ) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
-				return compact( 'file', 'width', 'height' );
+				// If we're still here, then we're going to use this size.
+				list( $data['width'], $data['height'] ) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
+
+				/** This filter is documented in wp-includes/media.php */
+				return apply_filters( 'image_get_intermediate_size', $data, $post_id, $size );
 			}
 		}
 	}
@@ -665,7 +678,21 @@ function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
 		$data['path'] = path_join( dirname($imagedata['file']), $data['file'] );
 		$data['url'] = path_join( dirname($file_url), $data['file'] );
 	}
-	return $data;
+
+	/**
+	 * Filter the output of image_get_intermediate_size()
+	 *
+	 * @since 4.4.0
+	 *
+	 * @see image_get_intermediate_size()
+	 *
+	 * @param array        $data    Array of file relative path, width, and height on success. May also include
+	 *                              file absolute path and URL.
+	 * @param int          $post_id The post_id of the image attachment
+	 * @param string|array $size    Registered image size or flat array of initially-requested height and width
+	 *                              dimensions (in that order).
+	 */
+	return apply_filters( 'image_get_intermediate_size', $data, $post_id, $size );
 }
 
 /**
