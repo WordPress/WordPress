@@ -91,9 +91,9 @@ function get_default_feed() {
  * Retrieve the blog title for the feed title.
  *
  * @since 2.2.0
- * @since 4.4.0 Deprecated argument.
+ * @since 4.4.0 The optional `$sep` parameter was deprecated and renamed to `$deprecated`.
  *
- * @param string $deprecated Deprecated.
+ * @param string $deprecated Unused..
  * @return string The document title.
  */
 function get_wp_title_rss( $deprecated = '&#8211;' ) {
@@ -105,10 +105,10 @@ function get_wp_title_rss( $deprecated = '&#8211;' ) {
 	 * Filter the blog title for use as the feed title.
 	 *
 	 * @since 2.2.0
-	 * @since 4.4.0 Deprecated argument.
+	 * @since 4.4.0 The `$sep` parameter was deprecated and renamed to `$deprecated`.
 	 *
 	 * @param string $title      The current blog title.
-	 * @param string $deprecated Deprecated.
+	 * @param string $deprecated Unused.
 	 */
 	return apply_filters( 'get_wp_title_rss', wp_get_document_title(), $deprecated );
 }
@@ -117,9 +117,9 @@ function get_wp_title_rss( $deprecated = '&#8211;' ) {
  * Display the blog title for display of the feed title.
  *
  * @since 2.2.0
- * @since 4.4.0 Deprecated argument.
+ * @since 4.4.0 The optional `$sep` parameter was deprecated and renamed to `$deprecated`.
  *
- * @param string $deprecated Optional.
+ * @param string $deprecated Unused.
  */
 function wp_title_rss( $deprecated = '&#8211;' ) {
 	if ( '&#8211;' !== $deprecated ) {
@@ -130,12 +130,12 @@ function wp_title_rss( $deprecated = '&#8211;' ) {
 	 * Filter the blog title for display of the feed title.
 	 *
 	 * @since 2.2.0
-	 * @since 4.4.0 Deprecated argument.
+	 * @since 4.4.0 The `$sep` parameter was deprecated and renamed to `$deprecated`.
 	 *
 	 * @see get_wp_title_rss()
 	 *
 	 * @param string $wp_title_rss The current blog title.
-	 * @param string $deprecated   Deprecated.
+	 * @param string $deprecated   Unused.
 	 */
 	echo apply_filters( 'wp_title_rss', get_wp_title_rss(), $deprecated );
 }
@@ -149,6 +149,7 @@ function wp_title_rss( $deprecated = '&#8211;' ) {
  */
 function get_the_title_rss() {
 	$title = get_the_title();
+
 	/**
 	 * Filter the post title for use in a feed.
 	 *
