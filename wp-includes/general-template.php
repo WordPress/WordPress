@@ -793,7 +793,10 @@ function has_site_icon( $blog_id = 0 ) {
 function wp_get_document_title() {
 
 	/**
-	 * Allows to short-circuit the title generation.
+	 * Filter the document title before it is generated.
+	 *
+	 * Passing a non-empty value will short-circuit wp_get_document_title(),
+	 * returning that value instead.
 	 *
 	 * @since 4.4.0
 	 *
