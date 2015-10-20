@@ -38,7 +38,7 @@ do_action( 'rss_tag_pre', 'rss2' );
 >
 
 <channel>
-	<title><?php bloginfo_rss('name'); wp_title_rss(); ?></title>
+	<title><?php wp_title_rss(); ?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss("description") ?></description>

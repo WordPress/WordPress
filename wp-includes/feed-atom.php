@@ -27,7 +27,7 @@ do_action( 'rss_tag_pre', 'atom' );
   do_action( 'atom_ns' );
   ?>
  >
-	<title type="text"><?php bloginfo_rss('name'); wp_title_rss(); ?></title>
+	<title type="text"><?php wp_title_rss(); ?></title>
 	<subtitle type="text"><?php bloginfo_rss("description") ?></subtitle>
 
 	<updated><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></updated>
