@@ -1151,6 +1151,11 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 				$this->value[ $key ] = intval( $this->value[ $key ] );
 			}
 		}
+		foreach ( array( 'classes', 'xfn' ) as $key ) {
+			if ( is_array( $this->value[ $key ] ) ) {
+				$this->value[ $key ] = implode( ' ', $this->value[ $key ] );
+			}
+		}
 
 		if ( ! isset( $this->value['_invalid'] ) ) {
 			$this->value['_invalid'] = (
