@@ -873,16 +873,16 @@ function wp_get_document_title() {
 	}
 
 	/**
-	 * Filters the separator for the document title.
+	 * Filter the separator for the document title.
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string $sep The separator. Default '-'.
+	 * @param string $sep Document title separator. Default '-'.
 	 */
 	$sep = apply_filters( 'document_title_separator', '-' );
 
 	/**
-	 * Filters the parts of the document title.
+	 * Filter the parts of the document title.
 	 *
 	 * @since 4.4.0
 	 *
