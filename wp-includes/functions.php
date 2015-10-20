@@ -537,6 +537,19 @@ function do_enclose( $content, $post_ID ) {
 		}
 	}
 
+	/**
+	 * Filter the list of enclosure links before querying the database.
+	 *
+	 * Allows for the addition and/or removal of potential enclosures to save
+	 * to postmeta before checking the database for existing enclosures.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $post_links An array of enclosure links.
+	 * @param int   $post_ID    Post ID.
+	 */
+	$post_links = apply_filters( 'enclosure_links', $post_links, $post_ID );
+
 	foreach ( (array) $post_links as $url ) {
 		if ( $url != '' && !$wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'enclosure' AND meta_value LIKE %s", $post_ID, $wpdb->esc_like( $url ) . '%' ) ) ) {
 
