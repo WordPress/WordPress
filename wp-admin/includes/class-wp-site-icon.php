@@ -229,10 +229,12 @@ class WP_Site_Icon {
 	 * @return array|null|string The attachment metadata value, array of values, or null.
 	 */
 	public function get_post_metadata( $value, $post_id, $meta_key, $single ) {
-		$site_icon_id = get_option( 'site_icon' );
+		if ( $single && '_wp_attachment_backup_sizes' === $meta_key ) {
+			$site_icon_id = get_option( 'site_icon' );
 
-		if ( $post_id == $site_icon_id && '_wp_attachment_backup_sizes' == $meta_key && $single ) {
-			add_filter( 'intermediate_image_sizes', array( $this, 'intermediate_image_sizes' ) );
+			if ( $post_id == $site_icon_id ) {
+				add_filter( 'intermediate_image_sizes', array( $this, 'intermediate_image_sizes' ) );
+			}
 		}
 
 		return $value;
