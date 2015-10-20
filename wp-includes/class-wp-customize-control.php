@@ -474,7 +474,16 @@ class WP_Customize_Control {
 				<?php
 				break;
 			case 'dropdown-pages':
-				$dropdown = wp_dropdown_pages(
+				?>
+				<label>
+				<?php if ( ! empty( $this->label ) ) : ?>
+					<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
+				<?php endif;
+				if ( ! empty( $this->description ) ) : ?>
+					<span class="description customize-control-description"><?php echo $this->description; ?></span>
+				<?php endif; ?>
+
+				<?php $dropdown = wp_dropdown_pages(
 					array(
 						'name'              => '_customize-dropdown-pages-' . $this->id,
 						'echo'              => 0,
@@ -486,12 +495,10 @@ class WP_Customize_Control {
 
 				// Hackily add in the data link parameter.
 				$dropdown = str_replace( '<select', '<select ' . $this->get_link(), $dropdown );
-
-				printf(
-					'<label class="customize-control-select"><span class="customize-control-title">%s</span> %s</label>',
-					$this->label,
-					$dropdown
-				);
+				echo $dropdown;
+				?>
+				</label>
+				<?php
 				break;
 			default:
 				?>
