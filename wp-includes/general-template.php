@@ -813,38 +813,39 @@ function wp_get_document_title() {
 		'title' => '',
 	);
 
+	// If on the home or front page, use the site title.
 	if ( is_home() && is_front_page() ) {
 		$title['title'] = get_bloginfo( 'name', 'display' );
 
-		/*
-		 * If we're on the blog page and that page is not the homepage or a single page that is designated as
-		 * the homepage, use the container page's title.
-		 */
+	/*
+	 * If we're on the blog page and that page is not the homepage or a single
+	 * page that is designated as the homepage, use the container page's title.
+	 */
 	} elseif ( ( is_home() && ! is_front_page() ) || ( ! is_home() && is_front_page() ) ) {
 		$title['title'] = single_post_title( '', false );
 
-		// If we're on a post / page.
+	// If on a single post of any post type, use the post title.
 	} elseif ( is_singular() ) {
 		$title['title'] = single_post_title( '', false );
 
-		// If we're on a category or tag or taxonomy archive.
+	// If on a category or tag or taxonomy archive, use the archive title.
 	} elseif ( is_category() || is_tag() || is_tax() ) {
 		$title['title'] = single_term_title( '', false );
 
-		// If it's a search.
+	// If it's a search, use a dynamic search results title.
 	} elseif ( is_search() ) {
 		/* translators: %s: search phrase */
 		$title['title'] = sprintf( __( 'Search Results for &#8220;%s&#8221;' ), get_search_query() );
 
-		// If we're on an author archive.
+	// If on an author archive, use the author's display name.
 	} elseif ( is_author() && $author = get_queried_object() ) {
 		$title['title'] = $author->display_name;
 
-		// If we're on a post type archive.
+	// If on a post type archive, use the post type archive title.
 	} elseif ( is_post_type_archive() ) {
 		$title['title'] = post_type_archive_title( '', false );
 
-		// If it's a date archive.
+	// If it's a date archive, use the date as the title.
 	} elseif ( is_year() ) {
 		$title['title'] = get_the_date( _x( 'Y', 'yearly archives date format' ) );
 
@@ -854,7 +855,7 @@ function wp_get_document_title() {
 	} elseif ( is_day() ) {
 		$title['title'] = get_the_date();
 
-		// If it's a 404 page.
+	// If it's a 404 page, use a "Page not found" title.
 	} elseif ( is_404() ) {
 		$title['title'] = __( 'Page not found' );
 	}
