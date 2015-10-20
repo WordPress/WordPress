@@ -1250,16 +1250,21 @@
 					return;
 				}
 
-				var titleEl = control.container.find( '.menu-item-title' );
+				var titleEl = control.container.find( '.menu-item-title' ),
+				    titleText = item.title || api.Menus.data.l10n.untitled;
+
+				if ( item._invalid ) {
+					titleText = api.Menus.data.l10n.invalidTitleTpl.replace( '%s', titleText );
+				}
 
 				// Don't update to an empty title.
 				if ( item.title ) {
 					titleEl
-						.text( item.title )
+						.text( titleText )
 						.removeClass( 'no-title' );
 				} else {
 					titleEl
-						.text( api.Menus.data.l10n.untitled )
+						.text( titleText )
 						.addClass( 'no-title' );
 				}
 			} );
@@ -1303,9 +1308,9 @@
 				'menu-item-edit-inactive'
 			];
 
-			if ( settingValue.invalid ) {
-				containerClasses.push( 'invalid' );
-				control.params.title = api.Menus.data.invalidTitleTpl.replace( '%s', control.params.title );
+			if ( settingValue._invalid ) {
+				containerClasses.push( 'menu-item-invalid' );
+				control.params.title = api.Menus.data.l10n.invalidTitleTpl.replace( '%s', control.params.title );
 			} else if ( 'draft' === settingValue.status ) {
 				containerClasses.push( 'pending' );
 				control.params.title = api.Menus.data.pendingTitleTpl.replace( '%s', control.params.title );

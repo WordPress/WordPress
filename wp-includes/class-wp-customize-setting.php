@@ -885,7 +885,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		'status'           => 'publish',
 		'original_title'   => '',
 		'nav_menu_term_id' => 0, // This will be supplied as the $menu_id arg for wp_update_nav_menu_item().
-		// @todo also expose invalid?
+		'_invalid'         => false,
 	);
 
 	/**
@@ -1144,6 +1144,14 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			}
 		}
 
+		if ( ! isset( $this->value['_invalid'] ) ) {
+			$this->value['_invalid'] = (
+				( 'post_type' === $this->value['type'] && ! post_type_exists( $this->value['object'] ) )
+				||
+				( 'taxonomy' === $this->value['type'] && ! taxonomy_exists( $this->value['object'] ) )
+			);
+		}
+
 		// Remove remaining properties available on a setup nav_menu_item post object which aren't relevant to the setting value.
 		$irrelevant_properties = array(
 			'ID',
@@ -1245,6 +1253,8 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		// Handle deleted menu item, or menu item moved to another menu.
 		$should_remove = (
 			false === $this_item
+			||
+			true === $this_item['_invalid']
 			||
 			(
 				$this->original_nav_menu_term_id === $menu->term_id
@@ -1417,6 +1427,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			'status'           => 'publish',
 			'original_title'   => '',
 			'nav_menu_term_id' => 0,
+			'_invalid'         => false,
 		);
 		$menu_item_value = array_merge( $default, $menu_item_value );
 		$menu_item_value = wp_array_slice_assoc( $menu_item_value, array_keys( $default ) );
@@ -1448,6 +1459,8 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		if ( ! get_post_status_object( $menu_item_value['status'] ) ) {
 			$menu_item_value['status'] = 'publish';
 		}
+
+		$menu_item_value['_invalid'] = (bool) $menu_item_value['_invalid'];
 
 		/** This filter is documented in wp-includes/class-wp-customize-setting.php */
 		return apply_filters( "customize_sanitize_{$this->id}", $menu_item_value, $this );
