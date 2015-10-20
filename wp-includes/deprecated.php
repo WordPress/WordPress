@@ -3652,11 +3652,12 @@ function force_ssl_login( $force = null ) {
  * important.
  *
  * @since 1.0.0
- * @deprecated 4.4.0
- * @deprecated Use add_theme_support( 'title-tag' );
+ * @deprecated 4.4.0 Use `add_theme_support( 'title-tag' )`
+ * @see add_theme_support()
  *
- * @param string $sep Optional, default is '&raquo;'. How to separate the various items within the page title.
- * @param bool $display Optional, default is true. Whether to display or retrieve title.
+ * @param string $sep         Optional, default is '&raquo;'. How to separate the various items
+ *                            within the page title.
+ * @param bool   $display     Optional, default is true. Whether to display or retrieve title.
  * @param string $seplocation Optional. Direction to display title, 'right'.
  * @return string|null String on retrieve, null when displaying.
  */
