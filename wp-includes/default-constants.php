@@ -99,6 +99,8 @@ function wp_initial_constants() {
 	 * YEAR_IN_SECONDS does not take leap years into account.
 	 *
 	 * If you need more accuracy please consider using the DateTime class (http://php.net/manual/class.datetime.php).
+	 *
+	 * @since 3.5.0
 	 */
 	define( 'MINUTE_IN_SECONDS', 60 );
 	define( 'HOUR_IN_SECONDS',   60 * MINUTE_IN_SECONDS );
