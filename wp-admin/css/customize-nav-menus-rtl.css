@@ -612,18 +612,6 @@
 	background: transparent;
 }
 
-button.not-a-button {
-	background: transparent;
-	border: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	-webkit-border-radius: 0;
-	border-radius: 0;
-	outline: 0;
-	padding: 0;
-	margin: 0;
-}
-
 #available-menu-items .accordion-section-title button {
 	display: block;
 	width: 28px;

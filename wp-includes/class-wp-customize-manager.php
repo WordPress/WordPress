@@ -191,11 +191,32 @@ final class WP_Customize_Manager {
 		require_once( ABSPATH . WPINC . '/class-wp-customize-panel.php' );
 		require_once( ABSPATH . WPINC . '/class-wp-customize-section.php' );
 		require_once( ABSPATH . WPINC . '/class-wp-customize-control.php' );
-		require_once( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
-		require_once( ABSPATH . WPINC . '/class-wp-customize-nav-menus.php' );
 
-		$this->widgets = new WP_Customize_Widgets( $this );
-		$this->nav_menus = new WP_Customize_Nav_Menus( $this );
+		/**
+		 * Filter the core Customizer components to load.
+		 *
+		 * This allows Core components to be excluded from being instantiated by
+		 * filtering them out of the array. Note that this filter generally runs
+		 * during the <code>plugins_loaded</code> action, so it cannot be added
+		 * in a theme.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @see WP_Customize_Manager::__construct()
+		 *
+		 * @param array                $components List of core components to load.
+		 * @param WP_Customize_Manager $this       WP_Customize_Manager instance.
+		 */
+		$components = apply_filters( 'customize_loaded_components', array( 'widgets', 'nav_menus' ), $this );
+
+		if ( in_array( 'widgets', $components ) ) {
+			require_once( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
+			$this->widgets = new WP_Customize_Widgets( $this );
+		}
+		if ( in_array( 'nav_menus', $components ) ) {
+			require_once( ABSPATH . WPINC . '/class-wp-customize-nav-menus.php' );
+			$this->nav_menus = new WP_Customize_Nav_Menus( $this );
+		}
 
 		add_filter( 'wp_die_handler', array( $this, 'wp_die_handler' ) );
 
