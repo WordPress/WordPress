@@ -674,6 +674,10 @@ final class WP_Customize_Widgets {
 				'widgetMovedUp'    => __( 'Widget moved up' ),
 				'widgetMovedDown'  => __( 'Widget moved down' ),
 				'noAreasRendered'  => __( 'There are no widget areas currently rendered in the preview. Navigate in the preview to a template that makes use of a widget area in order to access its widgets here.' ),
+				'reorderModeOn'    => __( 'Reorder mode enabled' ),
+				'reorderModeOff'   => __( 'Reorder mode closed' ),
+				'reorderLabelOn'   => esc_attr__( 'Reorder widgets' ),
+				'reorderLabelOff'  => esc_attr__( 'Close reorder mode' ),
 			),
 			'tpl' => array(
 				'widgetReorderNav' => $widget_reorder_nav_tpl,

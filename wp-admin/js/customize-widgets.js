@@ -1789,11 +1789,7 @@
 			/**
 			 * Keyboard-accessible reordering
 			 */
-			this.container.find( '.reorder-toggle' ).on( 'click keydown', function( event ) {
-				if ( event.type === 'keydown' && ! ( event.which === 13 || event.which === 32 ) ) { // Enter or Spacebar
-					return;
-				}
-
+			this.container.find( '.reorder-toggle' ).on( 'click', function() {
 				self.toggleReordering( ! self.isReordering );
 			} );
 		},
@@ -1804,18 +1800,18 @@
 		_setupAddition: function() {
 			var self = this;
 
-			this.container.find( '.add-new-widget' ).on( 'click keydown', function( event ) {
-				if ( event.type === 'keydown' && ! ( event.which === 13 || event.which === 32 ) ) { // Enter or Spacebar
-					return;
-				}
+			this.container.find( '.add-new-widget' ).on( 'click', function() {
+				var addNewWidgetBtn = $( this );
 
 				if ( self.$sectionContent.hasClass( 'reordering' ) ) {
 					return;
 				}
 
 				if ( ! $( 'body' ).hasClass( 'adding-widget' ) ) {
+					addNewWidgetBtn.attr( 'aria-expanded', 'true' );
 					api.Widgets.availableWidgetsPanel.open( self );
 				} else {
+					addNewWidgetBtn.attr( 'aria-expanded', 'false' );
 					api.Widgets.availableWidgetsPanel.close();
 				}
 			} );
@@ -1869,6 +1865,10 @@
 		 * @todo We should have a reordering state instead and rename this to onChangeReordering
 		 */
 		toggleReordering: function( showOrHide ) {
+			var addNewWidgetBtn = this.$sectionContent.find( '.add-new-widget' ),
+				reorderBtn = this.container.find( '.reorder-toggle' ),
+				widgetsTitle = this.$sectionContent.find( '.widget-title' );
+
 			showOrHide = Boolean( showOrHide );
 
 			if ( showOrHide === this.$sectionContent.hasClass( 'reordering' ) ) {
@@ -1883,10 +1883,16 @@
 					formControl.collapse();
 				} );
 
-				this.$sectionContent.find( '.first-widget .move-widget' ).focus();
-				this.$sectionContent.find( '.add-new-widget' ).prop( 'tabIndex', -1 );
+				addNewWidgetBtn.attr({ 'tabindex': '-1', 'aria-hidden': 'true' });
+				reorderBtn.attr( 'aria-label', l10n.reorderLabelOff );
+				wp.a11y.speak( l10n.reorderModeOn );
+				// Hide widget titles while reordering: title is already in the reorder controls.
+				widgetsTitle.attr( 'aria-hidden', 'true' );
 			} else {
-				this.$sectionContent.find( '.add-new-widget' ).prop( 'tabIndex', 0 );
+				addNewWidgetBtn.removeAttr( 'tabindex aria-hidden' );
+				reorderBtn.attr( 'aria-label', l10n.reorderLabelOn );
+				wp.a11y.speak( l10n.reorderModeOff );
+				widgetsTitle.attr( 'aria-hidden', 'false' );
 			}
 		},
 

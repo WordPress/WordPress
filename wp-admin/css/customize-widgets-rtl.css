@@ -117,44 +117,8 @@
 }
 
 /**
-* Widget reordering styles
-**/
-
-.reorder-toggle {
-	float: left;
-	padding: 5px 8px;
-	text-decoration: none;
-	cursor: pointer;
-	outline: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-.reorder-toggle:focus {
-	outline: 1px dotted;
-}
-
-.reorder-done,
-.reordering .reorder {
-	display: none;
-}
-
-.reordering .reorder-done {
-	display: block;
-	color: #0073aa;
-}
-
-.reordering .reorder-done:hover,
-.reordering .reorder-done:active {
-	color: #00a0d2;
-}
-
-#customize-theme-controls .reordering .add-new-widget {
-	opacity: 0.2;
-	pointer-events: none;
-	cursor: not-allowed;
-}
+ * Widget reordering styles
+ */
 
 #customize-theme-controls .widget-reorder-nav {
 	display: none;
@@ -213,7 +177,7 @@
 	cursor: default;
 }
 
-#customize-theme-controls  .move-widget-area {
+#customize-theme-controls .move-widget-area {
 	display: none;
 	background: #fff;
 	border: 1px solid #dedede;
@@ -288,40 +252,13 @@
 	display: block;
 }
 
-
 /**
  * Styles for new widget addition panel
  */
+
 .wp-full-overlay-main {
 	left: auto; /* this overrides a right: 0; which causes the preview to resize, I'd rather have it go off screen at the normal size. */
 	width: 100%;
-}
-
-#customize-theme-controls .add-new-widget {
-	cursor: pointer;
-	float: left;
-	margin-right: 10px;
-	-webkit-transition: all 0.2s;
-	transition: all 0.2s;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	outline: none;
-}
-
-.add-new-widget:before {
-	content: "\f132";
-	display: inline-block;
-	position: relative;
-	right: -2px;
-	top: -1px;
-	font: normal 20px/1 dashicons;
-	vertical-align: middle;
-	-webkit-transition: all 0.2s;
-	transition: all 0.2s;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 
 body.adding-widget .add-new-widget,
@@ -456,7 +393,8 @@ body.adding-widget #customize-preview {
  * Widget Icon styling
  * No plurals in naming.
  * Ordered from lowest to highest specificity.
- **/
+ */
+
 #available-widgets .widget-title {
 	position: relative;
 }

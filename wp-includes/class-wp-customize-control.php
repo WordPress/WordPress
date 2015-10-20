@@ -344,7 +344,7 @@ class WP_Customize_Control {
 	 * @since 3.4.0
 	 */
 	protected function render() {
-		$id    = 'customize-control-' . str_replace( '[', '-', str_replace( ']', '', $this->id ) );
+		$id    = 'customize-control-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );
 		$class = 'customize-control customize-control-' . $this->type;
 
 		?><li id="<?php echo esc_attr( $id ); ?>" class="<?php echo esc_attr( $class ); ?>">
@@ -1312,7 +1312,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 					</span>
 				</label>
 				<div class="container">
-				</div>				
+				</div>
 			</div>
 			<div class="actions">
 				<?php if ( current_user_can( 'upload_files' ) ): ?>
@@ -1465,15 +1465,16 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 	 * @access public
 	 */
 	public function render_content() {
+		$id = 'reorder-widgets-desc-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );
 		?>
-		<span class="button-secondary add-new-widget" tabindex="0">
+		<button type="button" class="button-secondary add-new-widget" aria-expanded="false" aria-controls="available-widgets">
 			<?php _e( 'Add a Widget' ); ?>
-		</span>
-
-		<span class="reorder-toggle" tabindex="0">
+		</button>
+		<button type="button" class="not-a-button reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder widgets' ); ?>" aria-describedby="<?php echo esc_attr( $id ); ?>">
 			<span class="reorder"><?php _ex( 'Reorder', 'Reorder widgets in Customizer' ); ?></span>
 			<span class="reorder-done"><?php _ex( 'Done', 'Cancel reordering widgets in Customizer' ); ?></span>
-		</span>
+		</button>
+		<p class="screen-reader-text" id="<?php echo esc_attr( $id ); ?>"><?php _e( 'When in reorder mode, additional controls to reorder widgets will be available in the widgets list above.' ); ?></p>
 		<?php
 	}
 

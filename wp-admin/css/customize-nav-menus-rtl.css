@@ -90,17 +90,9 @@
 	box-shadow: 0 0 0 1px #5b9dd9, 0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
-/* Menu-item reordering nav. */
-.reordering .customize-control-nav_menu .reorder,
-.customize-control-nav_menu .reorder-done {
-	display: none;
-}
-
-.customize-control-nav_menu .reorder,
-.reordering .customize-control-nav_menu .reorder-done {
-	display: inline-block;
-	padding: 5px 8px;
-}
+/**
+ * Menu items reordering styles
+ */
 
 .menu-item-reorder-nav {
 	display: none;
@@ -108,12 +100,6 @@
 	position: absolute;
 	top: 0;
 	left: 0;
-}
-
-#customize-theme-controls .reordering .add-new-menu-item {
-	opacity: 0.2;
-	pointer-events: none;
-	cursor: not-allowed;
 }
 
 .menu-item-reorder-nav button {
@@ -361,10 +347,10 @@
 
 .wp-customizer button:focus .toggle-indicator:after {
 	-webkit-box-shadow:
-    	0 0 0 1px #5b9dd9,
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
-    box-shadow:
-    	0 0 0 1px #5b9dd9,
+	box-shadow:
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
@@ -479,9 +465,10 @@
 	margin-top: 0;
 }
 
-/*
- * Add-menu-items mode.
+/**
+ * Add-menu-items mode
  */
+
 .wp-full-overlay-main {
 	left: auto; /* This overrides a right: 0; which causes the preview to resize rather than slide off screen at the normal size. */
 	width: 100%;
@@ -494,34 +481,6 @@
 .adding-menu-items .control-panel.control-section,
 .adding-menu-items .control-section.open {
 	opacity: 1;
-}
-
-/* Add-new button. */
-#customize-theme-controls .add-new-menu-item {
-	cursor: pointer;
-	float: left;
-	margin-right: 10px;
-	-webkit-transition: all 0.2s;
-	transition: all 0.2s;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	outline: none;
-}
-
-.add-new-menu-item:before {
-	content: "\f132";
-	display: inline-block;
-	position: relative;
-	right: -2px;
-	top: -1px;
-	font: normal 20px/1 dashicons;
-	vertical-align: middle;
-	-webkit-transition: all 0.2s;
-	transition: all 0.2s;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 
 .adding-menu-items .add-new-menu-item,

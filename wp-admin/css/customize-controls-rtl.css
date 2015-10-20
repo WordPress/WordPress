@@ -615,9 +615,10 @@ p.customize-section-description {
 
 /* Style for custom settings */
 
-/*
+/**
  * Dropdowns
  */
+
 .accordion-section .dropdown {
 	float: right;
 	display: block;
@@ -698,6 +699,7 @@ p.customize-section-description {
  * iOS can't scroll iframes,
  * instead it expands the iframe size to match the size of the content
  */
+
 .ios .wp-full-overlay {
 	position: relative;
 }
@@ -710,7 +712,7 @@ p.customize-section-description {
 	-webkit-overflow-scrolling: touch;
 }
 
-/** Media controls **/
+/* Media controls */
 
 .customize-control-media .current,
 .customize-control-upload .current,
@@ -995,6 +997,7 @@ p.customize-section-description {
 /**
  * Themes
  */
+
 @-webkit-keyframes customize-reload {
 	0%   { opacity: 0; }
 	100% { opacity: 1; }
@@ -1226,6 +1229,82 @@ body.cheatin p {
 	font-size: 14px;
 	line-height: 1.5;
 	margin: 25px 0 20px;
+}
+
+/**
+ * Widgets and Menus common styles
+ */
+
+/* higher specificity than .wp-core-ui .button-secondary */
+#customize-theme-controls .add-new-widget,
+#customize-theme-controls .add-new-menu-item {
+	cursor: pointer;
+	float: left;
+	margin-right: 10px;
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	outline: none;
+}
+
+.reordering .add-new-widget,
+.reordering .add-new-menu-item {
+	opacity: 0.2;
+	pointer-events: none;
+	cursor: not-allowed; /* doesn't work in conjunction with pointer-events */
+}
+
+.add-new-widget:before,
+.add-new-menu-item:before {
+	content: "\f132";
+	display: inline-block;
+	position: relative;
+	right: -2px;
+	top: -1px;
+	font: normal 20px/1 dashicons;
+	vertical-align: middle;
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Reordering */
+.reorder-toggle {
+	float: left;
+	padding: 5px 8px;
+	text-decoration: none;
+	cursor: pointer;
+	outline: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.reorder-toggle:focus {
+	outline: 1px dotted;
+}
+
+.reorder,
+.reordering .reorder-done {
+	display: block;
+	padding: 5px 8px;
+}
+
+.reorder-done,
+.reordering .reorder {
+	display: none;
+	color: #0073aa;
+}
+
+.reorder-toggle:hover .reorder-done,
+.reorder-toggle:active .reorder-done,
+.reorder-toggle:focus .reorder-done {
+	color: #00a0d2;
 }
 
 /* Responsive */
