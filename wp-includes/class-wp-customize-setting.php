@@ -143,6 +143,11 @@ class WP_Customize_Setting {
 		if ( 'option' === $this->type || 'theme_mod' === $this->type ) {
 			// Other setting types can opt-in to aggregate multidimensional explicitly.
 			$this->aggregate_multidimensional();
+
+			// Allow option settings to indicate whether they should be autoloaded.
+			if ( 'option' === $this->type && isset( $args['autoload'] ) ) {
+				self::$aggregated_multidimensionals[ $this->type ][ $this->id_data['base'] ]['autoload'] = $args['autoload'];
+			}
 		}
 	}
 
@@ -173,10 +178,6 @@ class WP_Customize_Setting {
 	 * @access protected
 	 */
 	protected function aggregate_multidimensional() {
-		if ( empty( $this->id_data['keys'] ) ) {
-			return;
-		}
-
 		$id_base = $this->id_data['base'];
 		if ( ! isset( self::$aggregated_multidimensionals[ $this->type ] ) ) {
 			self::$aggregated_multidimensionals[ $this->type ] = array();
@@ -188,7 +189,10 @@ class WP_Customize_Setting {
 				'root_value'                => $this->get_root_value( array() ), // Root value for initial state, manipulated by preview and update calls.
 			);
 		}
-		$this->is_multidimensional_aggregated = true;
+
+		if ( ! empty( $this->id_data['keys'] ) ) {
+			$this->is_multidimensional_aggregated = true;
+		}
 	}
 
 	/**
@@ -502,7 +506,11 @@ class WP_Customize_Setting {
 	protected function set_root_value( $value ) {
 		$id_base = $this->id_data['base'];
 		if ( 'option' === $this->type ) {
-			return update_option( $id_base, $value );
+			$autoload = true;
+			if ( isset( self::$aggregated_multidimensionals[ $this->type ][ $this->id_data['base'] ]['autoload'] ) ) {
+				$autoload = self::$aggregated_multidimensionals[ $this->type ][ $this->id_data['base'] ]['autoload'];
+			}
+			return update_option( $id_base, $value, $autoload );
 		} else if ( 'theme_mod' ) {
 			set_theme_mod( $id_base, $value );
 			return true;
