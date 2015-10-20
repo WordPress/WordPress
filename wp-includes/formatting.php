@@ -611,7 +611,7 @@ function get_html_split_regex() {
 			. ')*+'         // Loop possessively.
 			. '(?:]]>)?';   // End of comment. If not found, match all input.
 
-		$escaped = 
+		$escaped =
 			  '(?='           // Is the element escaped?
 			.    '!--'
 			. '|'
@@ -2587,13 +2587,19 @@ function get_gmt_from_date( $string, $format = 'Y-m-d H:i:s' ) {
 	$tz = get_option( 'timezone_string' );
 	if ( $tz ) {
 		$datetime = date_create( $string, new DateTimeZone( $tz ) );
-		if ( ! $datetime )
+		if ( ! $datetime ) {
 			return gmdate( $format, 0 );
+		}
 		$datetime->setTimezone( new DateTimeZone( 'UTC' ) );
 		$string_gmt = $datetime->format( $format );
 	} else {
-		if ( ! preg_match( '#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches ) )
-			return gmdate( $format, 0 );
+		if ( ! preg_match( '#([0-9]{1,4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})#', $string, $matches ) ) {
+			$datetime = strtotime( $string );
+			if ( false === $datetime ) {
+				return gmdate( $format, 0 );
+			}
+			return gmdate( $format, $datetime );
+		}
 		$string_time = gmmktime( $matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1] );
 		$string_gmt = gmdate( $format, $string_time - get_option( 'gmt_offset' ) * HOUR_IN_SECONDS );
 	}
@@ -3876,10 +3882,10 @@ function sanitize_option( $option, $value ) {
  *
  * This is similar to `array_walk_recursive()` but acts upon objects too.
  *
- * @since 4.4.0 
- * 
+ * @since 4.4.0
+ *
  * @param mixed    $value    The array, object, or scalar.
- * @param callable $function The function to map onto $value.
+ * @param callable $callback The function to map onto $value.
  * @return The value with the callback applied to all non-arrays and non-objects inside it.
  */
 function map_deep( $value, $callback ) {
