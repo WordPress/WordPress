@@ -4771,8 +4771,6 @@ class WP_Query {
 
 		$content = $post->post_content;
 		if ( false !== strpos( $content, '<!--nextpage-->' ) ) {
-			if ( $page > 1 )
-				$more = 1;
 			$content = str_replace( "\n<!--nextpage-->\n", '<!--nextpage-->', $content );
 			$content = str_replace( "\n<!--nextpage-->", '<!--nextpage-->', $content );
 			$content = str_replace( "<!--nextpage-->\n", '<!--nextpage-->', $content );
@@ -4782,12 +4780,34 @@ class WP_Query {
 				$content = substr( $content, 15 );
 
 			$pages = explode('<!--nextpage-->', $content);
-			$numpages = count($pages);
-			if ( $numpages > 1 )
-				$multipage = 1;
 		} else {
 			$pages = array( $post->post_content );
 		}
+
+		/**
+		 * Filter the "pages" derived from splitting the post content.
+		 *
+		 * "Pages" are determined by splitting the post content based on the presence
+		 * of `<!-- nextpage -->` tags.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array   $pages Array of "pages" derived from the post content.
+		 *                       of `<!-- nextpage -->` tags..
+		 * @param WP_Post $post  Current post object.
+		 */
+		$pages = apply_filters( 'content_pagination', $pages, $post );
+
+		$numpages = count( $pages );
+
+		if ( $numpages > 1 ) {
+			if ( $page > 1 ) {
+				$more = 1;
+			}
+			$multipage = 1;
+		} else {
+	 		$multipage = 0;
+	 	}
 
 		/**
 		 * Fires once the post data has been setup.
