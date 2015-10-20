@@ -1634,9 +1634,29 @@ body.full-overlay-active {
 }
 
 .theme-install-overlay .wp-full-overlay-main {
+	position: relative;
+	z-index: 0;
+	background-color: #fff;
+}
+
+.theme-install-overlay .wp-full-overlay-main:before {
+	content: '';
+	display: block;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: -1;
+	margin: -10px 0 0 -10px;
+	transform: translateZ(0);
 	background: #fff url(../images/spinner.gif) no-repeat center center;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
+}
+
+.theme-install-overlay.iframe-ready .wp-full-overlay-main:before {
+	background-image: none;
 }
 
 /* =Media Queries
@@ -1656,7 +1676,7 @@ body.full-overlay-active {
 
 	#customize-preview.wp-full-overlay-main,
 	.customize-loading #customize-container,
-	.theme-install-overlay .wp-full-overlay-main {
+	.theme-install-overlay .wp-full-overlay-main:before {
 		background-image: url(../images/spinner-2x.gif);
 	}
 }

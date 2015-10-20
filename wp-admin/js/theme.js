@@ -766,9 +766,10 @@ themes.view.Preview = themes.view.Details.extend({
 	html: themes.template( 'theme-preview' ),
 
 	render: function() {
-		var data = this.model.toJSON();
+		var self = this,
+			data = this.model.toJSON();
 
-		this.$el.html( this.html( data ) );
+		this.$el.removeClass( 'iframe-ready' ).html( this.html( data ) );
 
 		themes.router.navigate( themes.router.baseUrl( themes.router.themePath + this.model.get( 'id' ) ), { replace: true } );
 
@@ -776,6 +777,14 @@ themes.view.Preview = themes.view.Details.extend({
 			$( 'body' ).addClass( 'theme-installer-active full-overlay-active' );
 			$( '.close-full-overlay' ).focus();
 		});
+
+		this.$el.find( 'iframe' ).one( 'load', function() {
+			self.iframeLoaded();
+		});
+	},
+
+	iframeLoaded: function() {
+		this.$el.addClass( 'iframe-ready' );
 	},
 
 	close: function() {
@@ -786,7 +795,7 @@ themes.view.Preview = themes.view.Details.extend({
 			if ( themes.focusedTheme ) {
 				themes.focusedTheme.focus();
 			}
-		});
+		}).removeClass( 'iframe-ready' );
 
 		themes.router.navigate( themes.router.baseUrl( '' ) );
 		this.trigger( 'preview:close' );
