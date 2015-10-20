@@ -71,7 +71,7 @@ case 'post-quickdraft-save':
 	if ( ! wp_verify_nonce( $nonce, 'add-post' ) )
 		$error_msg = __( 'Unable to submit this form, please refresh and try again.' );
 
-	if ( ! current_user_can( 'edit_posts' ) ) {
+	if ( ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
 		exit;
 	}
 

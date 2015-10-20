@@ -47,7 +47,7 @@ function wp_dashboard_setup() {
 	}
 
 	// QuickPress Widget
-	if ( is_blog_admin() && current_user_can( 'edit_posts' ) ) {
+	if ( is_blog_admin() && current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
 		$quick_draft_title = sprintf( '<span class="hide-if-no-js">%1$s</span> <span class="hide-if-js">%2$s</span>', __( 'Quick Draft' ), __( 'Drafts' ) );
 		wp_add_dashboard_widget( 'dashboard_quick_press', $quick_draft_title, 'wp_dashboard_quick_press' );
 	}
