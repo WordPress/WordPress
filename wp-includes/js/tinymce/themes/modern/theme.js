@@ -552,7 +552,7 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			return null;
 		}
 
-		editor.on('click keyup blur', function() {
+		editor.on('click keyup', function() {
 			// Needs to be delayed to avoid Chrome img focus out bug
 			window.setTimeout(function() {
 				var match;
@@ -569,6 +569,8 @@ tinymce.ThemeManager.add('modern', function(editor) {
 				}
 			}, 0);
 		});
+
+		editor.on('blur hide', hideAllContextToolbars);
 
 		editor.on('ObjectResizeStart', function() {
 			var match = findFrontMostMatch(editor.selection.getNode());

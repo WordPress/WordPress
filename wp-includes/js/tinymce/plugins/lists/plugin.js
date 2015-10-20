@@ -33,6 +33,16 @@ tinymce.PluginManager.add('lists', function(editor) {
 	editor.on('init', function() {
 		var dom = editor.dom, selection = editor.selection;
 
+		function isEmpty(elm, keepBookmarks) {
+			var empty = dom.isEmpty(elm);
+
+			if (keepBookmarks && dom.select('span[data-mce-type=bookmark]').length > 0) {
+				return false;
+			}
+
+			return empty;
+		}
+
 		/**
 		 * Returns a range bookmark. This will convert indexed bookmarks into temporary span elements with
 		 * index 0 so that they can be restored properly after the DOM has been modified. Text bookmarks will not have spans
@@ -237,13 +247,13 @@ tinymce.PluginManager.add('lists', function(editor) {
 
 			dom.insertAfter(newBlock, ul);
 
-			if (dom.isEmpty(li.parentNode)) {
+			if (isEmpty(li.parentNode)) {
 				removeAndKeepBookmarks(li.parentNode);
 			}
 
 			dom.remove(li);
 
-			if (dom.isEmpty(ul)) {
+			if (isEmpty(ul)) {
 				dom.remove(ul);
 			}
 		}
@@ -283,7 +293,7 @@ tinymce.PluginManager.add('lists', function(editor) {
 					if (sibling && sibling.nodeName == 'LI') {
 						sibling.appendChild(ul);
 
-						if (dom.isEmpty(parentNode)) {
+						if (isEmpty(parentNode)) {
 							dom.remove(parentNode);
 						}
 					}
@@ -303,7 +313,7 @@ tinymce.PluginManager.add('lists', function(editor) {
 			var ul = li.parentNode, ulParent = ul.parentNode, newBlock;
 
 			function removeEmptyLi(li) {
-				if (dom.isEmpty(li)) {
+				if (isEmpty(li)) {
 					dom.remove(li);
 				}
 			}
@@ -592,7 +602,7 @@ tinymce.PluginManager.add('lists', function(editor) {
 			tinymce.each(getSelectedListItems(), function(li) {
 				var node, rootList;
 
-				if (dom.isEmpty(li)) {
+				if (isEmpty(li)) {
 					outdent(li);
 					return;
 				}
@@ -672,11 +682,11 @@ tinymce.PluginManager.add('lists', function(editor) {
 					dom.remove(node);
 				}
 
-				if (dom.isEmpty(toElm)) {
+				if (isEmpty(toElm, true)) {
 					dom.$(toElm).empty();
 				}
 
-				if (!dom.isEmpty(fromElm)) {
+				if (!isEmpty(fromElm, true)) {
 					while ((node = fromElm.firstChild)) {
 						toElm.appendChild(node);
 					}
@@ -688,7 +698,7 @@ tinymce.PluginManager.add('lists', function(editor) {
 
 				dom.remove(fromElm);
 
-				if (dom.isEmpty(ul)) {
+				if (isEmpty(ul)) {
 					dom.remove(ul);
 				}
 			}
