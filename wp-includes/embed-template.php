@@ -20,7 +20,7 @@ wp_enqueue_style( 'open-sans' );
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-	<title><?php wp_title( '-', true, 'right' ); ?></title>
+	<title><?php echo wp_get_document_title(); ?></title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<?php
 	/**
