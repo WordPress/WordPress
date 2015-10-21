@@ -4769,3 +4769,23 @@ function wp_staticize_emoji_for_email( $mail ) {
 
 	return $mail;
 }
+
+/**
+ * Shorten an URL, to be used as link text
+ *
+ * @since 1.2.0
+ * @since 4.4.0 Moved to wp-includes/formatting.php from wp-admin/includes/misc.php and added $length param
+ *
+ * @param string $url URL to shorten
+ * @param  int $length Maxiumum length of url to return
+ * @return string
+*/
+function url_shorten( $url, $length = 35 ) {
+	$stripped = str_replace( array( 'https://', 'http://', 'www.' ), '', $url );
+	$short_url = untrailingslashit( $stripped );
+
+	if ( strlen( $short_url ) > $length ) {
+		$short_url = substr( $short_url, 0, $length - 3 ) . '&hellip;';
+	}
+	return $short_url;
+}

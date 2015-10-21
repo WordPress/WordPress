@@ -288,21 +288,6 @@ function update_home_siteurl( $old_value, $value ) {
 	}
 }
 
-/**
- * Shorten an URL, to be used as link text
- *
- * @since 1.2.0
- *
- * @param string $url
- * @return string
- */
-function url_shorten( $url ) {
-	$short_url = str_replace( array( 'http://', 'www.' ), '', $url );
-	$short_url = untrailingslashit( $short_url );
-	if ( strlen( $short_url ) > 35 )
-		$short_url = substr( $short_url, 0, 32 ) . '&hellip;';
-	return $short_url;
-}
 
 /**
  * Resets global variables based on $_GET and $_POST
