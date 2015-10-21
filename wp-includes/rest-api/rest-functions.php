@@ -575,8 +575,8 @@ function rest_cookie_check_errors( $result ) {
 	// Determine if there is a nonce.
 	$nonce = null;
 
-	if ( isset( $_REQUEST['_wp_rest_nonce'] ) ) {
-		$nonce = $_REQUEST['_wp_rest_nonce'];
+	if ( isset( $_REQUEST['_wpnonce'] ) ) {
+		$nonce = $_REQUEST['_wpnonce'];
 	} elseif ( isset( $_SERVER['HTTP_X_WP_NONCE'] ) ) {
 		$nonce = $_SERVER['HTTP_X_WP_NONCE'];
 	}
