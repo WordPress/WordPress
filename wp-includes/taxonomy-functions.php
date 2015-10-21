@@ -1510,7 +1510,7 @@ function get_terms( $taxonomies, $args = '' ) {
 		$terms = array_map( 'get_term', $terms );
 	}
 
-	/** This filter is documented in wp-includes/taxonomy */
+	/** This filter is documented in wp-includes/taxonomy-functions.php */
 	return apply_filters( 'get_terms', $terms, $taxonomies, $args );
 }
 
