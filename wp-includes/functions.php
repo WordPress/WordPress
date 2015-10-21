@@ -2555,15 +2555,25 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			font-size: 14px ;
 		}
 		a {
-			color: #21759B;
+			color: #0073aa;
 			text-decoration: none;
 		}
 		a:hover {
-			color: #D54E21;
+			color: #00a0d2;
+		}
+		a:focus {
+			color: #124964;
+		    -webkit-box-shadow:
+		    	0 0 0 1px #5b9dd9,
+				0 0 2px 1px rgba(30, 140, 190, .8);
+		    box-shadow:
+		    	0 0 0 1px #5b9dd9,
+				0 0 2px 1px rgba(30, 140, 190, .8);
+			outline: none;
 		}
 		.button {
 			background: #f7f7f7;
-			border: 1px solid #cccccc;
+			border: 1px solid #ccc;
 			color: #555;
 			display: inline-block;
 			text-decoration: none;
@@ -2581,35 +2591,42 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			-moz-box-sizing:    border-box;
 			box-sizing:         border-box;
 
-			-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
-			box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+			-webkit-box-shadow: 0 1px 0 #ccc;
+			box-shadow: 0 1px 0 #ccc;
 		 	vertical-align: top;
 		}
 
 		.button.button-large {
-			height: 29px;
+			height: 30px;
 			line-height: 28px;
-			padding: 0 12px;
+			padding: 0 12px 2px;
 		}
 
 		.button:hover,
 		.button:focus {
 			background: #fafafa;
 			border-color: #999;
-			color: #222;
+			color: #23282d;
 		}
 
 		.button:focus  {
-			-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
-			box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+			-webkit-box-shadow:
+				0 0 0 1px #5b9dd9,
+				0 0 2px 1px rgba(0, 115, 170, .8);
+			box-shadow:
+				0 0 0 1px #5b9dd9,
+				0 0 2px 1px rgba(0, 115, 170, .8);
+			outline: none;
 		}
 
 		.button:active {
 			background: #eee;
 			border-color: #999;
-			color: #333;
-			-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+		 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 		 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+		 	-webkit-transform: translateY(1px);
+		 	-ms-transform: translateY(1px);
+		 	transform: translateY(1px);
 		}
 
 		<?php
