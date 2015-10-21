@@ -807,6 +807,10 @@ function get_comment_pages_count( $comments = null, $per_page = null, $threaded 
 	if ( empty($comments) )
 		return 0;
 
+	if ( ! get_option( 'page_comments' ) ) {
+		return 1;
+	}
+
 	if ( !isset($per_page) )
 		$per_page = (int) get_query_var('comments_per_page');
 	if ( 0 === $per_page )
@@ -860,12 +864,14 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 	$original_args = $args;
 
 	// Order of precedence: 1. `$args['per_page']`, 2. 'comments_per_page' query_var, 3. 'comments_per_page' option.
-	if ( '' === $args['per_page'] ) {
-		$args['per_page'] = get_query_var( 'comments_per_page' );
-	}
+	if ( get_option( 'page_comments' ) ) {
+		if ( '' === $args['per_page'] ) {
+			$args['per_page'] = get_query_var( 'comments_per_page' );
+		}
 
-	if ( '' === $args['per_page'] ) {
-		$args['per_page'] = get_option( 'comments_per_page' );
+		if ( '' === $args['per_page'] ) {
+			$args['per_page'] = get_option( 'comments_per_page' );
+		}
 	}
 
 	if ( empty($args['per_page']) ) {

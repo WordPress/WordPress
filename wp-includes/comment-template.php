@@ -706,7 +706,7 @@ function get_comment_link( $comment = null, $args = array() ) {
 
 	// No 'cpage' is provided, so we calculate one.
 	} else {
-		if ( '' === $args['per_page'] ) {
+		if ( '' === $args['per_page'] && get_option( 'page_comments' ) ) {
 			$args['per_page'] = get_option('comments_per_page');
 		}
 
@@ -1268,6 +1268,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 
 	$comment_args = array(
 		'orderby' => 'comment_date_gmt',
+		'order' => 'ASC',
 		'status'  => 'approve',
 		'post_id' => $post->ID,
 		'hierarchical' => 'threaded',
@@ -1281,30 +1282,32 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		$comment_args['include_unapproved'] = array( $comment_author_email );
 	}
 
-	$per_page = (int) get_query_var( 'comments_per_page' );
-	if ( 0 === $per_page ) {
-		$per_page = (int) get_option( 'comments_per_page' );
-	}
+	$per_page = 0;
+	if ( get_option( 'page_comments' ) ) {
+		$per_page = (int) get_query_var( 'comments_per_page' );
+		if ( 0 === $per_page ) {
+			$per_page = (int) get_option( 'comments_per_page' );
+		}
 
-	$comment_args['order']  = 'ASC';
-	$comment_args['number'] = $per_page;
-	$page = (int) get_query_var( 'cpage' );
+		$comment_args['number'] = $per_page;
+		$page = (int) get_query_var( 'cpage' );
 
-	if ( $page ) {
-		$comment_args['offset'] = ( $page - 1 ) * $per_page;
-	} elseif ( 'oldest' === get_option( 'default_comments_page' ) ) {
-		$comment_args['offset'] = 0;
-	} else {
-		// If fetching the first page of 'newest', we need a top-level comment count.
-		$top_level_query = new WP_Comment_Query();
-		$top_level_count = $top_level_query->query( array(
-			'count'   => true,
-			'orderby' => false,
-			'post_id' => $post->ID,
-			'parent'  => 0,
-		) );
+		if ( $page ) {
+			$comment_args['offset'] = ( $page - 1 ) * $per_page;
+		} elseif ( 'oldest' === get_option( 'default_comments_page' ) ) {
+			$comment_args['offset'] = 0;
+		} else {
+			// If fetching the first page of 'newest', we need a top-level comment count.
+			$top_level_query = new WP_Comment_Query();
+			$top_level_count = $top_level_query->query( array(
+				'count'   => true,
+				'orderby' => false,
+				'post_id' => $post->ID,
+				'parent'  => 0,
+			) );
 
-		$comment_args['offset'] = ( ceil( $top_level_count / $per_page ) - 1 ) * $per_page;
+			$comment_args['offset'] = ( ceil( $top_level_count / $per_page ) - 1 ) * $per_page;
+		}
 	}
 
 	$comment_query = new WP_Comment_Query( $comment_args );
@@ -1345,7 +1348,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	}
 
 	$overridden_cpage = false;
-	if ( '' == get_query_var('cpage') ) {
+	if ( '' == get_query_var( 'cpage' ) && $wp_query->max_num_comment_pages > 1 ) {
 		set_query_var( 'cpage', 'newest' == get_option('default_comments_page') ? get_comment_pages_count() : 1 );
 		$overridden_cpage = true;
 	}
@@ -1941,8 +1944,9 @@ function wp_list_comments( $args = array(), $comments = null ) {
 		}
 	}
 
-	if ( '' === $r['per_page'] )
+	if ( '' === $r['per_page'] && get_option( 'page_comments' ) ) {
 		$r['per_page'] = get_query_var('comments_per_page');
+	}
 
 	if ( empty($r['per_page']) ) {
 		$r['per_page'] = 0;
