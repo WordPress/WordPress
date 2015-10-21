@@ -1649,6 +1649,7 @@ body.full-overlay-active {
 	top: 50%;
 	z-index: -1;
 	margin: -10px -10px 0 0;
+	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
 	background: #fff url(../images/spinner.gif) no-repeat center center;
 	-webkit-background-size: 20px 20px;
