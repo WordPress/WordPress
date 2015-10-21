@@ -372,18 +372,41 @@ function wp_registration_url() {
 }
 
 /**
- * Provides a simple login form for use anywhere within WordPress. By default, it echoes
- * the HTML immediately. Pass array('echo'=>false) to return the string instead.
+ * Provides a simple login form for use anywhere within WordPress.
+ *
+ * The login format HTML is echoed by default. Pass a false value for `$echo` to return it instead.
  *
  * @since 3.0.0
  *
- * @param array $args Configuration options to modify the form output.
+ * @param array $args {
+ *     Optional. Array of options to control the form output. Default empty array.
+ *
+ *     @type bool   $echo           Whether to display the login form or return the form HTML code.
+ *                                  Default true (echo).
+ *     @type string $redirect       URL to redirect to. Must be absolute, as in "https://example.com/mypage/".
+ *                                  Default is to redirect back to the request URI.
+ *     @type string $form_id        ID attribute value for the form. Default 'loginform'.
+ *     @type string $label_username Label for the username field. Default 'Username'.
+ *     @type string $label_password Label for the password field. Default 'Password'.
+ *     @type string $label_remember Label for the remember field. Default 'Remember Me'.
+ *     @type string $label_log_in   Label for the submit button. Default 'Log In'.
+ *     @type string $id_username    ID attribute value for the username field. Default 'user_login'.
+ *     @type string $id_password    ID attribute value for the password field. Default 'user_pass'.
+ *     @type string $id_remember    ID attribute value for the remember field. Default 'rememberme'.
+ *     @type string $id_submit      ID attribute value for the submit button. Default 'wp-submit'.
+ *     @type bool   $remember       Whether to display the "rememberme" checkbox in the form.
+ *     @type string $value_username Default value for the username field. Default empty.
+ *     @type bool   $value_remember Whether the "Remember Me" checkbox should be checked by default.
+ *                                  Default false (unchecked).
+ *
+ * }
  * @return string|void String when retrieving.
  */
 function wp_login_form( $args = array() ) {
 	$defaults = array(
 		'echo' => true,
-		'redirect' => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'], // Default redirect is back to the current page
+		// Default 'redirect' value takes the user back to the request URI.
+		'redirect' => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
 		'form_id' => 'loginform',
 		'label_username' => __( 'Username' ),
 		'label_password' => __( 'Password' ),
@@ -395,7 +418,8 @@ function wp_login_form( $args = array() ) {
 		'id_submit' => 'wp-submit',
 		'remember' => true,
 		'value_username' => '',
-		'value_remember' => false, // Set this to true to default the "Remember me" checkbox to checked
+		// Set 'value_remember' to true to default the "Remember me" checkbox to checked.
+		'value_remember' => false,
 	);
 
 	/**
