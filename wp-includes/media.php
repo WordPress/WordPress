@@ -2638,11 +2638,11 @@ function wp_convert_hr_to_bytes( $size ) {
 	$size  = strtolower( $size );
 	$bytes = (int) $size;
 	if ( strpos( $size, 'k' ) !== false )
-		$bytes = intval( $size ) * 1024;
+		$bytes = intval( $size ) * KB_IN_BYTES;
 	elseif ( strpos( $size, 'm' ) !== false )
-		$bytes = intval($size) * 1024 * 1024;
+		$bytes = intval($size) * MB_IN_BYTES;
 	elseif ( strpos( $size, 'g' ) !== false )
-		$bytes = intval( $size ) * 1024 * 1024 * 1024;
+		$bytes = intval( $size ) * GB_IN_BYTES;
 	return $bytes;
 }
 

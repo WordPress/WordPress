@@ -210,12 +210,11 @@ function number_format_i18n( $number, $decimals = 0 ) {
  */
 function size_format( $bytes, $decimals = 0 ) {
 	$quant = array(
-		// ========================= Origin ====
-		'TB' => 1099511627776,  // pow( 1024, 4)
-		'GB' => 1073741824,     // pow( 1024, 3)
-		'MB' => 1048576,        // pow( 1024, 2)
-		'kB' => 1024,           // pow( 1024, 1)
-		'B'  => 1,              // pow( 1024, 0)
+		'TB' => TB_IN_BYTES,
+		'GB' => GB_IN_BYTES,
+		'MB' => MB_IN_BYTES,
+		'kB' => KB_IN_BYTES,
+		'B'  => 1,
 	);
 
 	foreach ( $quant as $unit => $mag ) {

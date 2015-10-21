@@ -28,13 +28,18 @@ function check_upload_size( $file ) {
 	$space_left = get_upload_space_available();
 
 	$file_size = filesize( $file['tmp_name'] );
-	if ( $space_left < $file_size )
-		$file['error'] = sprintf( __( 'Not enough space to upload. %1$s KB needed.' ), number_format( ($file_size - $space_left) /1024 ) );
-	if ( $file_size > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
-		$file['error'] = sprintf(__('This file is too big. Files must be less than %1$s KB in size.'), get_site_option( 'fileupload_maxk', 1500 ) );
+	if ( $space_left < $file_size ) {
+		$file['error'] = sprintf( __( 'Not enough space to upload. %1$s KB needed.' ), number_format( ( $file_size - $space_left ) / KB_IN_BYTES ) );
+	}
+
+	if ( $file_size > ( KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 ) ) ) {
+		$file['error'] = sprintf( __( 'This file is too big. Files must be less than %1$s KB in size.' ), get_site_option( 'fileupload_maxk', 1500 ) );
+	}
+
 	if ( upload_is_user_over_quota( false ) ) {
 		$file['error'] = __( 'You have used your space quota. Please delete files before uploading.' );
 	}
+
 	if ( $file['error'] != '0' && ! isset( $_POST['html-upload'] ) && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 		wp_die( $file['error'] . ' <a href="javascript:history.go(-1)">' . __( 'Back' ) . '</a>' );
 	}
@@ -443,7 +448,7 @@ function display_space_usage() {
 	$percent_used = ( $space_used / $space_allowed ) * 100;
 
 	if ( $space_allowed > 1000 ) {
-		$space = number_format( $space_allowed / 1024 );
+		$space = number_format( $space_allowed / KB_IN_BYTES );
 		/* translators: Gigabytes */
 		$space .= __( 'GB' );
 	} else {

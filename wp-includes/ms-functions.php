@@ -1874,8 +1874,9 @@ function upload_is_file_too_big( $upload ) {
 	if ( ! is_array( $upload ) || defined( 'WP_IMPORTING' ) || get_site_option( 'upload_space_check_disabled' ) )
 		return $upload;
 
-	if ( strlen( $upload['bits'] )  > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
-		return sprintf( __( 'This file is too big. Files must be less than %d KB in size.' ) . '<br />', get_site_option( 'fileupload_maxk', 1500 ));
+	if ( strlen( $upload['bits'] )  > ( KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 ) ) ) {
+		return sprintf( __( 'This file is too big. Files must be less than %d KB in size.' ) . '<br />', get_site_option( 'fileupload_maxk', 1500 ) );
+	}
 
 	return $upload;
 }
@@ -2278,7 +2279,7 @@ function get_space_used() {
 	$space_used = apply_filters( 'pre_get_space_used', false );
 	if ( false === $space_used ) {
 		$upload_dir = wp_upload_dir();
-		$space_used = get_dirsize( $upload_dir['basedir'] ) / 1024 / 1024;
+		$space_used = get_dirsize( $upload_dir['basedir'] ) / MB_IN_BYTES;
 	}
 
 	return $space_used;
@@ -2322,11 +2323,11 @@ function get_upload_space_available() {
 	if ( $allowed < 0 ) {
 		$allowed = 0;
 	}
-	$space_allowed = $allowed * 1024 * 1024;
+	$space_allowed = $allowed * MB_IN_BYTES;
 	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return $space_allowed;
 
-	$space_used = get_space_used() * 1024 * 1024;
+	$space_used = get_space_used() * MB_IN_BYTES;
 
 	if ( ( $space_allowed - $space_used ) <= 0 )
 		return 0;
@@ -2353,7 +2354,7 @@ function is_upload_space_available() {
  * @return int of upload size limit in bytes
  */
 function upload_size_limit_filter( $size ) {
-	$fileupload_maxk = 1024 * get_site_option( 'fileupload_maxk', 1500 );
+	$fileupload_maxk = KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 );
 	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return min( $size, $fileupload_maxk );
 

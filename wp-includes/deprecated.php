@@ -3284,9 +3284,9 @@ function wp_convert_bytes_to_hr( $bytes ) {
 	_deprecated_function( __FUNCTION__, '3.6', 'size_format()' );
 
 	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB', 4 => 'TB' );
-	$log   = log( $bytes, 1024 );
+	$log   = log( $bytes, KB_IN_BYTES );
 	$power = (int) $log;
-	$size  = pow( 1024, $log - $power );
+	$size  = pow( KB_IN_BYTES, $log - $power );
 
 	if ( ! is_nan( $size ) && array_key_exists( $power, $units ) ) {
 		$unit = $units[ $power ];
