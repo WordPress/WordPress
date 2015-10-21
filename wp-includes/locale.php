@@ -42,6 +42,14 @@ class WP_Locale {
 	public $weekday_abbrev;
 
 	/**
+	 * Stores the default start of the week.
+	 *
+	 * @since 4.4.0
+	 * @var string
+	 */
+	public $start_of_week;
+
+	/**
 	 * Stores the translated strings for the full month names.
 	 *
 	 * @since 2.1.0
@@ -117,6 +125,9 @@ class WP_Locale {
 		$this->weekday_initial[ __( 'Thursday' ) ]  = /* translators: one-letter abbreviation of the weekday */ _x( 'T', 'Thursday initial' );
 		$this->weekday_initial[ __( 'Friday' ) ]    = /* translators: one-letter abbreviation of the weekday */ _x( 'F', 'Friday initial' );
 		$this->weekday_initial[ __( 'Saturday' ) ]  = /* translators: one-letter abbreviation of the weekday */ _x( 'S', 'Saturday initial' );
+
+		// Start of the week.
+		$this->start_of_week = /* translators: default start of the week. 0 = Sunday, 1 = Monday */ _x( '1', 'start of week' );
 
 		// Abbreviations for each day.
 		$this->weekday_abbrev[__('Sunday')]    = /* translators: three-letter abbreviation of the weekday */ __('Sun');
