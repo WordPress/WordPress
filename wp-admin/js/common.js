@@ -269,7 +269,7 @@ $document.ready( function() {
 			// When expanded or in responsive view, reset aria-haspopup.
 			$current.attr( 'aria-haspopup', 'false' );
 		}
-	};
+	}
 
 	$document.on( 'wp-window-resized wp-responsive-activate wp-responsive-deactivate', currentMenuItemHasPopup );
 
