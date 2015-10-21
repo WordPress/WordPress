@@ -1095,7 +1095,17 @@ function get_terms( $taxonomies, $args = '' ) {
 		'meta_query'             => ''
 	);
 
-	$args = wp_parse_args( $args, $defaults );
+	/**
+	 * Filter the terms query default arguments.
+	 *
+	 * Use 'get_terms_args' to filter the passed arguments.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $defaults   An array of default get_terms() arguments.
+	 * @param array $taxonomies An array of taxonomies.
+	 */
+	$args = wp_parse_args( $args, apply_filters( 'get_terms_defaults', $defaults, $taxonomies ) );
 
 	$args['number'] = absint( $args['number'] );
 	$args['offset'] = absint( $args['offset'] );
