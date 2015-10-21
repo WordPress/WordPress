@@ -923,7 +923,8 @@ dd {
 
 .tagcloud-link {
 	display: block;
-	padding: 0 16px;
+	margin: 0 16px 5px;
+	padding: 0;
 	text-decoration: none;
 	outline: 0;
 }
