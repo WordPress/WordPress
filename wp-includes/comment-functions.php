@@ -1758,7 +1758,12 @@ function wp_new_comment_notify_moderator( $comment_ID ) {
 	$comment = get_comment( $comment_ID );
 
 	// Only send notifications for pending comments.
-	if ( '0' != $comment->comment_approved ) {
+	$maybe_notify = ( '0' == $comment->comment_approved );
+
+	/** This filter is documented in wp-includes/comment-functions.php */
+	$maybe_notify = apply_filters( 'notify_moderator', $maybe_notify, $comment_ID );
+
+	if ( ! $maybe_notify ) {
 		return false;
 	}
 
@@ -1770,17 +1775,33 @@ function wp_new_comment_notify_moderator( $comment_ID ) {
  *
  * @since 4.4.0
  *
- * @param int $comment_ID ID of the comment.
+ * Uses the {@see 'notify_post_author'} filter to determine whether the post author
+ * should be notified when a new comment is added, overriding site setting.
+ *
+ * @param int $comment_ID Comment ID.
  * @return bool True on success, false on failure.
  */
 function wp_new_comment_notify_postauthor( $comment_ID ) {
 	$comment = get_comment( $comment_ID );
 
+	$maybe_notify = get_option( 'comments_notify' );
+
+	/**
+	 * Filter whether to send the post author new comment notification emails,
+	 * overriding the site setting.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param bool $maybe_notify Whether to notify the post author about the new comment.
+	 * @param int  $comment_ID   The ID of the comment for the notification.
+	 */
+	$maybe_notify = apply_filters( 'notify_post_author', $maybe_notify, $comment_ID );
+
 	/*
-	 * `wp_notify_postauthor()` checks if notifying the author of their own comment.
+	 * wp_notify_postauthor() checks if notifying the author of their own comment.
 	 * By default, it won't, but filters can override this.
 	 */
-	if ( ! get_option( 'comments_notify' ) ) {
+	if ( ! $maybe_notify ) {
 		return false;
 	}
 
@@ -1800,7 +1821,7 @@ function wp_new_comment_notify_postauthor( $comment_ID ) {
  *
  * @since 1.0.0
  *
- * global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|WP_Comment $comment_id     Comment ID or WP_Comment object.
  * @param string         $comment_status New comment status, either 'hold', 'approve', 'spam', or 'trash'.

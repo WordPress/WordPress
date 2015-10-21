@@ -1561,20 +1561,36 @@ endif;
 
 if ( !function_exists('wp_notify_moderator') ) :
 /**
- * Notifies the moderator of the blog about a new comment that is awaiting approval.
+ * Notifies the moderator of the site about a new comment that is awaiting approval.
  *
  * @since 1.0.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int $comment_id Comment ID
- * @return true Always returns true
+ * Uses the {@see 'notify_moderator'} filter to determine whether the site moderator
+ * should be notified, overriding the site setting.
+ *
+ * @param int $comment_id Comment ID.
+ * @return true Always returns true.
  */
 function wp_notify_moderator($comment_id) {
 	global $wpdb;
 
-	if ( 0 == get_option( 'moderation_notify' ) )
+	$maybe_notify = get_option( 'moderation_notify' );
+
+	/**
+	 * Filter whether to send the site moderator email notifications, overriding the site setting.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param bool $maybe_notify Whether to notify blog moderator.
+	 * @param int  $comment_ID   The id of the comment for the notification.
+	 */
+	$maybe_notify = apply_filters( 'notify_moderator', $maybe_notify, $comment_id );
+
+	if ( ! $maybe_notify ) {
 		return true;
+	}
 
 	$comment = get_comment($comment_id);
 	$post = get_post($comment->comment_post_ID);
@@ -2172,7 +2188,7 @@ function wp_rand( $min = 0, $max = 0 ) {
 			} else {
 				$use_random_int_functionality = false;
 			}
-		} catch ( Throwable $t ) { 
+		} catch ( Throwable $t ) {
 			$use_random_int_functionality = false;
 		} catch ( Exception $e ) {
 			$use_random_int_functionality = false;
