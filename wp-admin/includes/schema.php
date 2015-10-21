@@ -506,6 +506,7 @@ function populate_options() {
 
 	// 4.3.0
 	'finished_splitting_shared_terms' => 1,
+	'site_icon' => 0,
 	);
 
 	// 3.3
