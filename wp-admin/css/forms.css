@@ -753,6 +753,18 @@ table.form-table td .updated p {
 	line-height: 24px;
 }
 
+.label-responsive {
+	vertical-align: middle;
+}
+
+#export-filters p {
+	margin: 0 0 1em;
+}
+
+#export-filters p.submit {
+	margin: 7px 0 5px;
+}
+
 /* Card styles */
 
 .card {
@@ -1110,10 +1122,19 @@ table.form-table td .updated p {
 	}
 
 	.form-table th,
-	.form-table td {
+	.form-table td,
+	.label-responsive {
 		display: block;
 		width: auto;
 		vertical-align: middle;
+	}
+
+	.label-responsive {
+		margin: 0.5em 0;
+	}
+
+	.export-filters li {
+		margin-bottom: 0;
 	}
 
 	.form-table .color-palette td {

@@ -92,12 +92,12 @@ if ( isset( $_GET['download'] ) ) {
 			$args['status'] = $_GET['page_status'];
 	} elseif ( 'attachment' == $_GET['content'] ) {
 		$args['content'] = 'attachment';
-		
+
 		if ( $_GET['attachment_start_date'] || $_GET['attachment_end_date'] ) {
 			$args['start_date'] = $_GET['attachment_start_date'];
 			$args['end_date'] = $_GET['attachment_end_date'];
 		}
-	} 
+	}
 	else {
 		$args['content'] = $_GET['content'];
 	}
@@ -160,37 +160,45 @@ function export_date_options( $post_type = 'post' ) {
 
 <h2><?php _e( 'Choose what to export' ); ?></h2>
 <form method="get" id="export-filters">
+<fieldset>
+<legend class="screen-reader-text"><?php _e( 'Content to export' ); ?></legend>
 <input type="hidden" name="download" value="true" />
-<p><label><input type="radio" name="content" value="all" checked="checked" /> <?php _e( 'All content' ); ?></label></p>
-<p class="description"><?php _e( 'This will contain all of your posts, pages, comments, custom fields, terms, navigation menus, and custom posts.' ); ?></p>
+<p><label><input type="radio" name="content" value="all" checked="checked" aria-describedby="all-content-desc" /> <?php _e( 'All content' ); ?></label></p>
+<p class="description" id="all-content-desc"><?php _e( 'This will contain all of your posts, pages, comments, custom fields, terms, navigation menus and custom posts.' ); ?></p>
 
 <p><label><input type="radio" name="content" value="posts" /> <?php _e( 'Posts' ); ?></label></p>
 <ul id="post-filters" class="export-filters">
 	<li>
-		<label><?php _e( 'Categories:' ); ?></label>
+		<label><span class="label-responsive"><?php _e( 'Categories:' ); ?></span>
 		<?php wp_dropdown_categories( array( 'show_option_all' => __('All') ) ); ?>
+		</label>
 	</li>
 	<li>
-		<label><?php _e( 'Authors:' ); ?></label>
-<?php
+		<label><span class="label-responsive"><?php _e( 'Authors:' ); ?></span>
+		<?php
 		$authors = $wpdb->get_col( "SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'post'" );
 		wp_dropdown_users( array( 'include' => $authors, 'name' => 'post_author', 'multi' => true, 'show_option_all' => __('All') ) );
-?>
+		?>
+		</label>
 	</li>
 	<li>
-		<label><?php _e( 'Date range:' ); ?></label>
-		<select name="post_start_date">
-			<option value="0"><?php _e( 'Start Date' ); ?></option>
+		<fieldset>
+		<legend class="screen-reader-text"><?php _e( 'Date range:' ); ?></legend>
+		<label for="post-start-date" class="label-responsive"><?php _e( 'Start date:' ); ?></label>
+		<select name="post_start_date" id="post-start-date">
+			<option value="0"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 			<?php export_date_options(); ?>
 		</select>
-		<select name="post_end_date">
-			<option value="0"><?php _e( 'End Date' ); ?></option>
+		<label for="post-end-date" class="label-responsive"><?php _e( 'End date:' ); ?></label>
+		<select name="post_end_date" id="post-end-date">
+			<option value="0"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 			<?php export_date_options(); ?>
 		</select>
+		</fieldset>
 	</li>
 	<li>
-		<label><?php _e( 'Status:' ); ?></label>
-		<select name="post_status">
+		<label for="post-status" class="label-responsive"><?php _e( 'Status:' ); ?></label>
+		<select name="post_status" id="post-status">
 			<option value="0"><?php _e( 'All' ); ?></option>
 			<?php $post_stati = get_post_stati( array( 'internal' => false ), 'objects' );
 			foreach ( $post_stati as $status ) : ?>
@@ -203,26 +211,31 @@ function export_date_options( $post_type = 'post' ) {
 <p><label><input type="radio" name="content" value="pages" /> <?php _e( 'Pages' ); ?></label></p>
 <ul id="page-filters" class="export-filters">
 	<li>
-		<label><?php _e( 'Authors:' ); ?></label>
-<?php
+		<label><span class="label-responsive"><?php _e( 'Authors:' ); ?></span>
+		<?php
 		$authors = $wpdb->get_col( "SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'page'" );
 		wp_dropdown_users( array( 'include' => $authors, 'name' => 'page_author', 'multi' => true, 'show_option_all' => __('All') ) );
-?>
+		?>
+		</label>
 	</li>
 	<li>
-		<label><?php _e( 'Date range:' ); ?></label>
-		<select name="page_start_date">
-			<option value="0"><?php _e( 'Start Date' ); ?></option>
+		<fieldset>
+		<legend class="screen-reader-text"><?php _e( 'Date range:' ); ?></legend>
+		<label for="page-start-date" class="label-responsive"><?php _e( 'Start date:' ); ?></label>
+		<select name="page_start_date" id="page-start-date">
+			<option value="0"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 			<?php export_date_options( 'page' ); ?>
 		</select>
-		<select name="page_end_date">
-			<option value="0"><?php _e( 'End Date' ); ?></option>
+		<label for="page-end-date" class="label-responsive"><?php _e( 'End date:' ); ?></label>
+		<select name="page_end_date" id="page-end-date">
+			<option value="0"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 			<?php export_date_options( 'page' ); ?>
 		</select>
+		</fieldset>
 	</li>
 	<li>
-		<label><?php _e( 'Status:' ); ?></label>
-		<select name="page_status">
+		<label for="page-status" class="label-responsive"><?php _e( 'Status:' ); ?></label>
+		<select name="page_status" id="page-status">
 			<option value="0"><?php _e( 'All' ); ?></option>
 			<?php foreach ( $post_stati as $status ) : ?>
 			<option value="<?php echo esc_attr( $status->name ); ?>"><?php echo esc_html( $status->label ); ?></option>
@@ -234,23 +247,30 @@ function export_date_options( $post_type = 'post' ) {
 <?php foreach ( get_post_types( array( '_builtin' => false, 'can_export' => true ), 'objects' ) as $post_type ) : ?>
 <p><label><input type="radio" name="content" value="<?php echo esc_attr( $post_type->name ); ?>" /> <?php echo esc_html( $post_type->label ); ?></label></p>
 <?php endforeach; ?>
+
 <p><label><input type="radio" name="content" value="attachment" /> <?php _e( 'Media' ); ?></label></p>
 <ul id="attachment-filters" class="export-filters">
 	<li>
-		<label><?php _e( 'Date range:' ); ?></label>
-		<select name="attachment_start_date">
-			<option value="0"><?php _e( 'Start Date' ); ?></option>
+		<fieldset>
+		<legend class="screen-reader-text"><?php _e( 'Date range:' ); ?></legend>
+		<label for="attachment-start-date" class="label-responsive"><?php _e( 'Start date:' ); ?></label>
+		<select name="attachment_start_date" id="attachment-start-date">
+			<option value="0"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 			<?php export_date_options( 'attachment' ); ?>
 		</select>
-		<select name="attachment_end_date">
-			<option value="0"><?php _e( 'End Date' ); ?></option>
+		<label for="attachment-end-date" class="label-responsive"><?php _e( 'End date:' ); ?></label>
+		<select name="attachment_end_date" id="attachment-end-date">
+			<option value="0"><?php _e( '&mdash; Select &mdash;' ); ?></option>
 			<?php export_date_options( 'attachment' ); ?>
 		</select>
+		</fieldset>
 	</li>
 </ul>
+
+</fieldset>
 <?php
 /**
- * Fires after the export filters form.
+ * Fires at the end of the export filters form.
  *
  * @since 3.5.0
  */
