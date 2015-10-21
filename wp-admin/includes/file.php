@@ -1001,6 +1001,8 @@ function get_filesystem_method( $args = array(), $context = false, $allow_relaxe
  *
  * @todo Properly mark optional arguments as such
  *
+ * @global string $pagenow
+ *
  * @param string $form_post    the URL to post the form to
  * @param string $type         the chosen Filesystem method in use
  * @param bool   $error        if the current request has failed to connect
@@ -1010,6 +1012,7 @@ function get_filesystem_method( $args = array(), $context = false, $allow_relaxe
  * @return bool False on failure. True on success.
  */
 function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false, $extra_fields = null, $allow_relaxed_file_ownership = false ) {
+	global $pagenow;
 
 	/**
 	 * Filter the filesystem credentials form output.
@@ -1141,7 +1144,14 @@ jQuery(function($){
 </script>
 <form action="<?php echo esc_url( $form_post ) ?>" method="post">
 <div id="request-filesystem-credentials-form" class="request-filesystem-credentials-form">
-<h3 id="request-filesystem-credentials-title"><?php _e( 'Connection Information' ) ?></h3>
+<?php
+// Print a H1 heading in the FTP credentials modal dialog, default is a H2.
+$heading_tag = 'h2';
+if ( 'plugins.php' === $pagenow || 'plugin-install.php' === $pagenow ) {
+	$heading_tag = 'h1';
+}
+echo "<$heading_tag id='request-filesystem-credentials-title'>" . __( 'Connection Information' ) . "</$heading_tag>";
+?>
 <p id="request-filesystem-credentials-desc"><?php
 	$label_user = __('Username');
 	$label_pass = __('Password');
@@ -1179,7 +1189,8 @@ jQuery(function($){
 	</label>
 </div>
 <?php if ( isset($types['ssh']) ) : ?>
-<h4><?php _e('Authentication Keys') ?></h4>
+<fieldset>
+<legend><?php _e( 'Authentication Keys' ); ?></legend>
 <label for="public_key">
 	<span class="field-title"><?php _e('Public Key:') ?></span>
 	<input name="public_key" type="text" id="public_key" aria-describedby="auth-keys-desc" value="<?php echo esc_attr($public_key) ?>"<?php disabled( defined('FTP_PUBKEY') ); ?> />
@@ -1188,10 +1199,11 @@ jQuery(function($){
 	<span class="field-title"><?php _e('Private Key:') ?></span>
 	<input name="private_key" type="text" id="private_key" value="<?php echo esc_attr($private_key) ?>"<?php disabled( defined('FTP_PRIKEY') ); ?> />
 </label>
+</fieldset>
 <span id="auth-keys-desc"><?php _e('Enter the location on the server where the public and private keys are located. If a passphrase is needed, enter that in the password field above.') ?></span>
 <?php endif; ?>
-<h4><?php _e('Connection Type') ?></h4>
-<fieldset><legend class="screen-reader-text"><span><?php _e('Connection Type') ?></span></legend>
+<fieldset>
+<legend><?php _e( 'Connection Type' ); ?></legend>
 <?php
 	$disabled = disabled( (defined('FTP_SSL') && FTP_SSL) || (defined('FTP_SSH') && FTP_SSH), true, false );
 	foreach ( $types as $name => $text ) : ?>

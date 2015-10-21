@@ -957,6 +957,17 @@ table.form-table td .updated p {
 	margin: 25px;
 }
 
+#request-filesystem-credentials-title {
+    font-size: 1.3em;
+    margin: 1em 0;
+}
+
+.request-filesystem-credentials-form legend {
+	font-size: 1em;
+	padding: 1.33em 0;
+	font-weight: 600;
+}
+
 .request-filesystem-credentials-form input[type="text"],
 .request-filesystem-credentials-form input[type="password"] {
 	display: block;
