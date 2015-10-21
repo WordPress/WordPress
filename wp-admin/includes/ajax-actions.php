@@ -1934,6 +1934,41 @@ function wp_ajax_update_widget() {
 }
 
 /**
+ * Ajax handler for removing inactive widgets.
+ *
+ * @since 4.4.0
+ */
+function wp_ajax_delete_inactive_widgets() {
+	check_ajax_referer( 'remove-inactive-widgets', 'removeinactivewidgets' );
+
+	if ( ! current_user_can( 'edit_theme_options' ) ) {
+		wp_die( -1 );
+	}
+
+	unset( $_POST['removeinactivewidgets'], $_POST['action'] );
+
+	do_action( 'load-widgets.php' );
+	do_action( 'widgets.php' );
+	do_action( 'sidebar_admin_setup' );
+
+	$sidebars_widgets = wp_get_sidebars_widgets();
+
+	foreach ( $sidebars_widgets['wp_inactive_widgets'] as $key => $widget_id ) {
+		$pieces = explode( '-', $widget_id );
+		$multi_number = array_pop( $pieces );
+		$id_base = implode( '-', $pieces );
+		$widget = get_option( 'widget_' . $id_base );
+		unset( $widget[$multi_number] );
+		update_option( 'widget_' . $id_base, $widget );
+		unset( $sidebars_widgets['wp_inactive_widgets'][$key] );
+	}
+
+	wp_set_sidebars_widgets( $sidebars_widgets );
+
+	wp_die();
+}
+
+/**
  * Ajax handler for uploading attachments
  *
  * @since 3.3.0

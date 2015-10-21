@@ -194,6 +194,28 @@ if ( isset($_POST['savewidget']) || isset($_POST['removewidget']) ) {
 	exit;
 }
 
+// Remove inactive widgets without js
+if ( isset( $_POST['removeinactivewidgets'] ) ) {
+	check_admin_referer( 'remove-inactive-widgets', '_wpnonce_remove_inactive_widgets' );
+
+	if ( $_POST['removeinactivewidgets'] ) {
+		foreach ( $sidebars_widgets['wp_inactive_widgets'] as $key => $widget_id ) {
+			$pieces = explode( '-', $widget_id );
+			$multi_number = array_pop( $pieces );
+			$id_base = implode( '-', $pieces );
+			$widget = get_option( 'widget_' . $id_base );
+			unset( $widget[$multi_number] );
+			update_option( 'widget_' . $id_base, $widget );
+			unset( $sidebars_widgets['wp_inactive_widgets'][$key] );
+		}
+
+		wp_set_sidebars_widgets( $sidebars_widgets );
+	}
+
+	wp_redirect( admin_url( 'widgets.php?message=0' ) );
+	exit;
+}
+
 // Output the widget form without js
 if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	$widget_id = $_GET['editwidget'];
@@ -388,8 +410,25 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 		<div class="<?php echo esc_attr( $wrap_class ); ?>">
 			<div class="widget-holder inactive">
 				<?php wp_list_widget_controls( $registered_sidebar['id'], $registered_sidebar['name'] ); ?>
-				<div class="clear"></div>
+				<div class="remove-inactive-widgets">
+					<form action="" method="post">
+						<p>
+							<?php
+							$attributes = array( 'id' => 'inactive-widgets-control-remove' );
+
+							if ( empty($sidebars_widgets['wp_inactive_widgets']) ) {
+								$attributes['disabled'] = '';
+							}
+
+							submit_button( __( 'Clear Inactive Widgets' ), 'delete', 'removeinactivewidgets', false, $attributes );
+							?>
+							<span class="spinner">
+						</p>
+						<?php wp_nonce_field( 'remove-inactive-widgets', '_wpnonce_remove_inactive_widgets' ); ?>
+					</form>
+				</div>
 			</div>
+			<p class="description"><?php _e( 'This will clear all items from the inactive widgets list. You will not be able to restore any customizations.' ); ?></p>
 		</div>
 		<?php
 

@@ -272,7 +272,8 @@ div#widgets-right .closed .widgets-sortables {
 	margin-bottom: 0;
 }
 
-.sidebar-name .spinner {
+.sidebar-name .spinner,
+.remove-inactive-widgets .spinner {
 	float: none;
 	position: relative;
 	top: -2px;
@@ -348,6 +349,7 @@ div#widgets-right .closed .widgets-sortables {
 
 .js .widgets-holder-wrap.closed .widget,
 .js .widgets-holder-wrap.closed .sidebar-description,
+.js .widgets-holder-wrap.closed .remove-inactive-widgets,
 .js .closed br.clear {
 	display: none;
 }
