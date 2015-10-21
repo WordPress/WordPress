@@ -311,12 +311,10 @@ class WP {
 		// Don't allow non-public taxonomies to be queried from the front-end.
 		if ( ! is_admin() ) {
 			foreach ( get_taxonomies( array( 'public' => false ), 'objects' ) as $taxonomy => $t ) {
-				// Check first for taxonomy-specific query_var.
-				if ( $t->query_var && isset( $this->query_vars[ $t->query_var ] ) ) {
-					unset( $this->query_vars[ $t->query_var ] );
-				}
-
-				// Next, check the 'taxonomy' query_var.
+				/*
+				 * Disallow when set to the 'taxonomy' query var.
+				 * Non-public taxonomies cannot register custom query vars. See register_taxonomy().
+				 */
 				if ( isset( $this->query_vars['taxonomy'] ) && $taxonomy === $this->query_vars['taxonomy'] ) {
 					unset( $this->query_vars['taxonomy'], $this->query_vars['term'] );
 				}
