@@ -35,11 +35,23 @@
 
 .media-frame a {
 	border-bottom: none;
-	color: #21759b;
+	color: #0073aa;
 }
 
-.media-frame a:hover {
-	color: #d54e21;
+.media-frame a:hover,
+.media-frame a:active {
+	color: #00a0d2;
+}
+
+.media-frame a:focus {
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	outline: none;
+	color: #124964;
 }
 
 .media-frame a.button {
@@ -503,7 +515,7 @@
 }
 
 .media-menu > a:hover {
-	color: #21759B;
+	color: #0073aa;
 	background: rgba( 0, 0, 0, 0.04 );
 }
 
@@ -817,10 +829,10 @@
 .wp-core-ui .attachment.details {
 	-webkit-box-shadow:
 		inset 0 0 0 3px #fff,
-		inset 0 0 0 7px #1e8cbe;
+		inset 0 0 0 7px #0073aa;
 	box-shadow:
 		inset 0 0 0 3px #fff,
-		inset 0 0 0 7px #1e8cbe;
+		inset 0 0 0 7px #0073aa;
 }
 
 .wp-core-ui .attachment-preview {
@@ -990,13 +1002,13 @@
 .wp-core-ui .attachment.details .check,
 .wp-core-ui .attachment.selected .check:focus,
 .wp-core-ui .media-frame.mode-grid .attachment.selected .check {
-	background-color: #1e8cbe;
+	background-color: #0073aa;
 	-webkit-box-shadow:
 		0 0 0 1px #fff,
-		0 0 0 2px #1e8cbe;
+		0 0 0 2px #0073aa;
 	box-shadow:
 		0 0 0 1px #fff,
-		0 0 0 2px #1e8cbe;
+		0 0 0 2px #0073aa;
 }
 
 .wp-core-ui .attachment.details .check .media-modal-icon,
@@ -1132,7 +1144,7 @@
 	height: 10px;
 	min-width: 20px;
 	width: 0;
-	background: #1e8cbe;
+	background: #0073aa;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 	-webkit-transition: width 300ms;
@@ -1392,14 +1404,12 @@
 	margin: 1px 8px 1px -8px;
 	line-height: 16px;
 	border-right: 1px solid #dfdfdf;
-	color: #21759B;
+	color: #0073aa;
 }
 
 .media-selection .button-link:hover,
 .media-selection .button-link:focus {
-	background: #21759B;
-	color: #fff;
-	border-color: transparent;
+	color: #00a0d2;
 }
 
 .media-selection .button-link:last-child {
@@ -1408,13 +1418,12 @@
 }
 
 .selection-info .clear-selection {
-	color: red;
+	color: #bc0b0b;
 }
 
 .selection-info .clear-selection:hover,
 .selection-info .clear-selection:focus {
-	background: red;
-	color: #fff;
+	color: red;
 }
 
 .media-selection .selection-view {
@@ -1473,10 +1482,10 @@
 .wp-core-ui .media-selection .attachment.details {
 	-webkit-box-shadow:
 		0 0 0 1px #fff,
-		0 0 0 3px #1e8cbe;
+		0 0 0 3px #0073aa;
 	box-shadow:
 		0 0 0 1px #fff,
-		0 0 0 3px #1e8cbe;
+		0 0 0 3px #0073aa;
 }
 
 .media-selection:after {
@@ -2230,7 +2239,6 @@
 
 	.media-frame:not(.hide-menu) .media-frame-title {
 		left: 0;
-		color: #21759b;
 	}
 
 	.media-frame:not(.hide-menu) .media-frame-title .dashicons {
@@ -2239,6 +2247,7 @@
 	}
 
 	.media-frame:not(.hide-menu) .media-frame-title h1 {
+		color: #0073aa;
 		line-height: 3;
 		font-size: 18px;
 		float: left;
