@@ -1110,7 +1110,7 @@ function get_terms( $taxonomies, $args = '' ) {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param array $args       An array of get_term() arguments.
+	 * @param array $args       An array of get_terms() arguments.
 	 * @param array $taxonomies An array of taxonomies.
 	 */
 	$args = apply_filters( 'get_terms_args', $args, $taxonomies );
