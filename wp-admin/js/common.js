@@ -1,6 +1,10 @@
 /* global setUserSetting, ajaxurl, commonL10n, alert, confirm, pagenow */
 var showNotice, adminMenu, columns, validateForm, screenMeta;
 ( function( $, window, undefined ) {
+	var $document = $( document ),
+		$window = $( window ),
+		$body = $( document.body );
+
 // Removed in 3.3.
 // (perhaps) needed for back-compat
 adminMenu = {
@@ -70,7 +74,7 @@ columns = {
 	}
 };
 
-$(document).ready(function(){columns.init();});
+$document.ready(function(){columns.init();});
 
 validateForm = function( form ) {
 	return !$( form )
@@ -133,7 +137,7 @@ screenMeta = {
 			button.addClass( 'screen-meta-active' ).attr( 'aria-expanded', true );
 		});
 
-		$( document ).trigger( 'screen:options:open' );
+		$document.trigger( 'screen:options:open' );
 	},
 
 	close: function( panel, button ) {
@@ -143,7 +147,7 @@ screenMeta = {
 			panel.parent().hide();
 		});
 
-		$( document ).trigger( 'screen:options:close' );
+		$document.trigger( 'screen:options:close' );
 	}
 };
 
@@ -171,7 +175,7 @@ $('.contextual-help-tabs').delegate('a', 'click', function(e) {
 	panel.addClass('active').show();
 });
 
-$(document).ready( function() {
+$document.ready( function() {
 	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions,
 		lastClicked = false,
 		pageInput = $('input.current-page'),
@@ -179,9 +183,6 @@ $(document).ready( function() {
 		isIOS = /iPhone|iPad|iPod/.test( navigator.userAgent ),
 		isAndroid = navigator.userAgent.indexOf( 'Android' ) !== -1,
 		isIE8 = $( document.documentElement ).hasClass( 'ie8' ),
-		$document = $( document ),
-		$window = $( window ),
-		$body = $( document.body ),
 		$adminMenuWrap = $( '#adminmenuwrap' ),
 		$wpwrap = $( '#wpwrap' ),
 		$adminmenu = $( '#adminmenu' ),
@@ -210,7 +211,7 @@ $(document).ready( function() {
 	});
 
 	$('#collapse-menu').on('click.collapse-menu', function() {
-		var body = $( document.body ), respWidth, state;
+		var respWidth, state;
 
 		// reset any compensation for submenus near the bottom of the screen
 		$('#adminmenu div.wp-submenu').css('margin-top', '');
@@ -224,30 +225,53 @@ $(document).ready( function() {
 		}
 
 		if ( respWidth && respWidth < 960 ) {
-			if ( body.hasClass('auto-fold') ) {
-				body.removeClass('auto-fold').removeClass('folded');
+			if ( $body.hasClass('auto-fold') ) {
+				$body.removeClass('auto-fold').removeClass('folded');
 				setUserSetting('unfold', 1);
 				setUserSetting('mfold', 'o');
 				state = 'open';
 			} else {
-				body.addClass('auto-fold');
+				$body.addClass('auto-fold');
 				setUserSetting('unfold', 0);
 				state = 'folded';
 			}
 		} else {
-			if ( body.hasClass('folded') ) {
-				body.removeClass('folded');
+			if ( $body.hasClass('folded') ) {
+				$body.removeClass('folded');
 				setUserSetting('mfold', 'o');
 				state = 'open';
 			} else {
-				body.addClass('folded');
+				$body.addClass('folded');
 				setUserSetting('mfold', 'f');
 				state = 'folded';
 			}
 		}
 
-		$( document ).trigger( 'wp-collapse-menu', { state: state } );
+		currentMenuItemHasPopup();
+		$document.trigger( 'wp-collapse-menu', { state: state } );
 	});
+
+	// Handle the `aria-haspopup` attribute on the current menu item when it has a sub-menu.
+	function currentMenuItemHasPopup() {
+		var respWidth,
+			$current = $( 'a.wp-has-current-submenu' );
+
+		if ( window.innerWidth ) {
+			respWidth = Math.max( window.innerWidth, document.documentElement.clientWidth );
+		} else {
+			respWidth = 961;
+		}
+
+		if ( $body.hasClass( 'folded' ) || ( $body.hasClass( 'auto-fold' ) && respWidth && respWidth <= 960 && respWidth > 782 ) ) {
+			// When folded or auto-folded and not responsive view, the current menu item does have a fly-out sub-menu.
+			$current.attr( 'aria-haspopup', 'true' );
+		} else {
+			// When expanded or in responsive view, reset aria-haspopup.
+			$current.attr( 'aria-haspopup', 'false' );
+		}
+	};
+
+	$document.on( 'wp-window-resized wp-responsive-activate wp-responsive-deactivate', currentMenuItemHasPopup );
 
 	/**
 	 * Ensure an admin submenu is within the visual viewport.
@@ -289,7 +313,7 @@ $(document).ready( function() {
 		mobileEvent = isIOS ? 'touchstart' : 'click';
 
 		// close any open submenus when touch/click is not on the menu
-		$(document.body).on( mobileEvent+'.wp-mobile-hover', function(e) {
+		$body.on( mobileEvent+'.wp-mobile-hover', function(e) {
 			if ( $adminmenu.data('wp-responsive') ) {
 				return;
 			}
@@ -866,6 +890,7 @@ $(document).ready( function() {
 
 	window.wpResponsive.init();
 	setPinMenu();
+	currentMenuItemHasPopup();
 
 	$document.on( 'wp-pin-menu wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu wp-collapse-menu.pin-menu wp-scroll-start.pin-menu', setPinMenu );
 });
@@ -875,7 +900,7 @@ $(document).ready( function() {
 	var timeout;
 
 	function triggerEvent() {
-		$(document).trigger( 'wp-window-resized' );
+		$document.trigger( 'wp-window-resized' );
 	}
 
 	function fireOnce() {
@@ -883,7 +908,7 @@ $(document).ready( function() {
 		timeout = window.setTimeout( triggerEvent, 200 );
 	}
 
-	$(window).on( 'resize.wp-fire-once', fireOnce );
+	$window.on( 'resize.wp-fire-once', fireOnce );
 }());
 
 // Make Windows 8 devices play along nicely.
