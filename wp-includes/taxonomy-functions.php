@@ -1069,13 +1069,34 @@ function get_terms( $taxonomies, $args = '' ) {
 		}
 	}
 
-	$defaults = array('orderby' => 'name', 'order' => 'ASC',
-		'hide_empty' => true, 'exclude' => array(), 'exclude_tree' => array(), 'include' => array(),
-		'number' => '', 'fields' => 'all', 'name' => '', 'slug' => '', 'parent' => '', 'childless' => false,
-		'hierarchical' => true, 'child_of' => 0, 'get' => '', 'name__like' => '', 'description__like' => '',
-		'pad_counts' => false, 'offset' => '', 'search' => '', 'cache_domain' => 'core',
-		'update_term_meta_cache' => true, 'meta_query' => '' );
+	$defaults = array(
+		'orderby'                => 'name',
+		'order'                  => 'ASC',
+		'hide_empty'             => true,
+		'include'                => array(),
+		'exclude'                => array(),
+		'exclude_tree'           => array(),
+		'number'                 => '',
+		'offset'                 => '',
+		'fields'                 => 'all',
+		'name'                   => '',
+		'slug'                   => '',
+		'hierarchical'           => true,
+		'search'                 => '',
+		'name__like'             => '',
+		'description__like'      => '',
+		'pad_counts'             => false,
+		'get'                    => '',
+		'child_of'               => 0,
+		'parent'                 => '',
+		'childless'              => false,
+		'cache_domain'           => 'core',
+		'update_term_meta_cache' => true,
+		'meta_query'             => ''
+	);
+
 	$args = wp_parse_args( $args, $defaults );
+
 	$args['number'] = absint( $args['number'] );
 	$args['offset'] = absint( $args['offset'] );
 
