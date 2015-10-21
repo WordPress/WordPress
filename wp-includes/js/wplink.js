@@ -382,7 +382,7 @@ var wpLink;
 				editor.dom.setAttribs( link, attrs );
 			} else {
 				if ( text ) {
-					editor.selection.setNode( editor.dom.create( 'a', attrs, text ) );
+					editor.selection.setNode( editor.dom.create( 'a', attrs, editor.dom.encode( text ) ) );
 				} else {
 					editor.execCommand( 'mceInsertLink', false, attrs );
 				}

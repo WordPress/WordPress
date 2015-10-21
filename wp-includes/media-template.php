@@ -1216,7 +1216,7 @@ function wp_print_media_templates() {
 						</dt>
 						<# if ( attachment.caption ) { #>
 							<dd class="wp-caption-text gallery-caption">
-								{{ attachment.caption }}
+								{{{ data.verifyHTML( attachment.caption ) }}}
 							</dd>
 						<# } #>
 					</dl>
