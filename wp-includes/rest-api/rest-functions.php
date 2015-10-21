@@ -449,7 +449,7 @@ function rest_handle_options_request( $response, $handler, $request ) {
  * @param WP_REST_Response $response Current response being served.
  * @param WP_REST_Server   $server   ResponseHandler instance (usually WP_REST_Server).
  * @param WP_REST_Request  $request  The request that was used to make current response.
- * @return WP_REST_Response Current response being served.
+ * @return WP_REST_Response Response to be served, with "Allow" header if route has allowed methods.
  */
 function rest_send_allow_header( $response, $server, $request ) {
 	$matched_route = $response->get_matched_route();
