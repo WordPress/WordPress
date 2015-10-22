@@ -503,6 +503,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			'delete' => '',
 		);
 
+		// Do not restrict by default
+		$restrict_network_active = false;
+		$restrict_network_only = false;
+
 		if ( 'mustuse' === $context ) {
 			$is_active = true;
 		} elseif ( 'dropins' === $context ) {
@@ -525,8 +529,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		} else {
 			if ( $screen->in_admin( 'network' ) ) {
 				$is_active = is_plugin_active_for_network( $plugin_file );
-				$restrict_network_active = false;
-				$restrict_network_only = false;
 			} else {
 				$is_active = is_plugin_active( $plugin_file );
 				$restrict_network_active = ( is_multisite() && is_plugin_active_for_network( $plugin_file ) );
