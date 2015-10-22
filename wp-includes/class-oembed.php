@@ -76,6 +76,7 @@ class WP_oEmbed {
 			'#https?://cloudup\.com/.*#i'                         => array( 'https://cloudup.com/oembed',                                true  ),
 			'#https?://(www\.)?reverbnation\.com/.*#i'            => array( 'https://www.reverbnation.com/oembed',                       true  ),
 			'#https?://videopress.com/v/.*#'                      => array( 'https://public-api.wordpress.com/oembed/1.0/?for=' . $host, true  ),
+			'#https?://(www\.)?reddit\.com/r/[^/]+/comments/.*#i' => array( 'https://www.reddit.com/oembed',                             true  ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
@@ -143,6 +144,7 @@ class WP_oEmbed {
 		 * | Cloudup      | cloudup.com          |  Yes  | 4.4.0     |
 		 * | ReverbNation | reverbnation.com     |  Yes  | 4.4.0     |
 		 * | VideoPress   | videopress.com       |  Yes  | 4.4.0     |
+		 * | Reddit       | reddit.com           |  Yes  | 4.4.0     |
 		 *
 		 * No longer supported providers:
 		 *
