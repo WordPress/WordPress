@@ -142,12 +142,17 @@ final class WP_oEmbed_Controller {
 	 * @return string The XML response data.
 	 */
 	public function xml_response( $data ) {
+		if ( ! class_exists( 'SimpleXMLElement' ) ) {
+			status_header( 501 );
+			return get_status_header_desc( 501 );
+		}
+
 		$result = _oembed_create_xml( $data );
 
 		// Bail if there's no XML.
 		if ( ! $result ) {
 			status_header( 501 );
-			return 'Not implemented';
+			return get_status_header_desc( 501 );
 		}
 
 		if ( ! headers_sent() ) {

@@ -351,7 +351,10 @@ function wp_oembed_add_discovery_links() {
 
 	if ( is_singular() ) {
 		$output .= '<link rel="alternate" type="application/json+oembed" href="' . esc_url( get_oembed_endpoint_url( get_permalink() ) ) . '" />' . "\n";
-		$output .= '<link rel="alternate" type="text/xml+oembed" href="' . esc_url( get_oembed_endpoint_url( get_permalink(), 'xml' ) ) . '" />' . "\n";
+
+		if ( class_exists( 'SimpleXMLElement' ) ) {
+			$output .= '<link rel="alternate" type="text/xml+oembed" href="' . esc_url( get_oembed_endpoint_url( get_permalink(), 'xml' ) ) . '" />' . "\n";
+		}
 	}
 
 	/**
