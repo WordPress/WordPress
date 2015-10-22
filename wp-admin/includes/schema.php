@@ -420,13 +420,11 @@ function populate_options() {
 	'comment_moderation' => 0,
 	'moderation_notify' => 1,
 	'permalink_structure' => '',
-	'gzipcompression' => 0,
 	'blog_charset' => 'UTF-8',
 	'moderation_keys' => '',
 	'active_plugins' => array(),
 	'category_base' => '',
 	'ping_sites' => 'http://rpc.pingomatic.com/',
-	'advanced_edit' => 0,
 	'comment_max_links' => 2,
 	'gmt_offset' => $gmt_offset,
 
@@ -568,7 +566,7 @@ function populate_options() {
 		'can_compress_scripts', 'page_uris', 'update_core', 'update_plugins', 'update_themes', 'doing_cron',
 		'random_seed', 'rss_excerpt_length', 'secret', 'use_linksupdate', 'default_comment_status_page',
 		'wporg_popular_tags', 'what_to_show', 'rss_language', 'language', 'enable_xmlrpc', 'enable_app',
-		'embed_autourls', 'default_post_edit_rows',
+		'embed_autourls', 'default_post_edit_rows', 'gzipcompression', 'advanced_edit'
 	);
 	foreach ( $unusedoptions as $option )
 		delete_option($option);
