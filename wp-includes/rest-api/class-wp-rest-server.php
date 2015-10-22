@@ -7,9 +7,6 @@
  * @since 4.4.0
  */
 
-/** Admin bootstrap */
-require_once( ABSPATH . 'wp-admin/includes/admin.php' );
-
 /**
  * Core class used to implement the WordPress REST API server.
  *
