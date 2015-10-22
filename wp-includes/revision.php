@@ -18,8 +18,8 @@
  *
  * @staticvar array $fields
  *
- * @param array $post     Optional. A post array to be processed for insertion as a post revision.
- * @param bool  $autosave Optional. Is the revision an autosave?
+ * @param array|null $post     Optional. A post array to be processed for insertion as a post revision. Default null.
+ * @param bool       $autosave Optional. Is the revision an autosave? Default false.
  * @return array Post array ready to be inserted as a post revision or array of fields that can be versioned.
  */
 function _wp_post_revision_fields( $post = null, $autosave = false ) {
