@@ -928,6 +928,15 @@ function wp_get_attachment_image_srcset_array( $attachment_id, $size = 'medium' 
 	 */
 	$img_edited = preg_match( '/-e[0-9]{13}/', $img_url, $img_edit_hash );
 
+	/**
+	 * Filter the maximum width included in a srcset attribute.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array|string $size Size of image, either array or string.
+	 */
+	$max_srcset_width = apply_filters( 'max_srcset_image_width', 1600, $size );
+
 	/*
 	 * Set up arrays to hold url candidates and matched image sources so
 	 * we can avoid duplicates without looping through the full sources array
@@ -943,6 +952,11 @@ function wp_get_attachment_image_srcset_array( $attachment_id, $size = 'medium' 
 		// Filter out images that are leftovers from previous renditions.
 		if ( $img_edited && ! strpos( $img['file'], $img_edit_hash[0] ) ) {
 			continue;
+		}
+
+		// Filter out images that are wider than $max_srcset_width.
+		if ( $max_srcset_width && $img['width'] > $max_srcset_width ) {
+			$contiue;
 		}
 
 		$candidate_url = path_join( dirname( $img_url ), $img['file'] );
