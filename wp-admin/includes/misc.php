@@ -461,7 +461,13 @@ function set_screen_options() {
 		}
 
 		update_user_meta($user->ID, $option, $value);
-		wp_safe_redirect( remove_query_arg( array('pagenum', 'apage', 'paged'), wp_get_referer() ) );
+
+		$url = remove_query_arg( array( 'pagenum', 'apage', 'paged' ), wp_get_referer() );
+		if ( isset( $_POST['mode'] ) ) {
+			$url = add_query_arg( array( 'mode' => $_POST['mode'] ), $url );
+		}
+
+		wp_safe_redirect( $url );
 		exit;
 	}
 }

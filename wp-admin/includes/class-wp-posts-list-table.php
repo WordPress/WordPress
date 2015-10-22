@@ -515,9 +515,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 		global $mode;
 
 		parent::pagination( $which );
-
-		if ( 'top' === $which && ! is_post_type_hierarchical( $this->screen->post_type ) )
-			$this->view_switcher( $mode );
 	}
 
 	/**
