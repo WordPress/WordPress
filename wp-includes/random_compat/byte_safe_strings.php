@@ -27,7 +27,10 @@
  */
 
 if (!function_exists('RandomCompat_strlen')) {
-    if (defined('MB_OVERLOAD_STRING') && ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING) {
+    if (
+        defined('MB_OVERLOAD_STRING') &&
+        ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING
+    ) {
         /**
          * strlen() implementation that isn't brittle to mbstring.func_overload
          *
@@ -74,7 +77,10 @@ if (!function_exists('RandomCompat_strlen')) {
 }
 
 if (!function_exists('RandomCompat_substr')) {
-    if (defined('MB_OVERLOAD_STRING') && ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING) {
+    if (
+        defined('MB_OVERLOAD_STRING') &&
+        ini_get('mbstring.func_overload') & MB_OVERLOAD_STRING
+    ) {
         /**
          * substr() implementation that isn't brittle to mbstring.func_overload
          *

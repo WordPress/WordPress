@@ -26,17 +26,17 @@
  * SOFTWARE.
  */
 
-
 /**
- * Powered by ext/mcrypt (and thankfully NOT libmcrypt)
- * 
- * @ref https://bugs.php.net/bug.php?id=55169
- * @ref https://github.com/php/php-src/blob/c568ffe5171d942161fc8dda066bce844bdef676/ext/mcrypt/mcrypt.c#L1321-L1386
- * 
+ * If the libsodium PHP extension is loaded, we'll use it above any other
+ * solution.
+ *
+ * libsodium-php project:
+ * @ref https://github.com/jedisct1/libsodium-php
+ *
  * @param int $bytes
- * 
+ *
  * @throws Exception
- * 
+ *
  * @return string
  */
 function random_bytes($bytes)
@@ -53,16 +53,28 @@ function random_bytes($bytes)
             'Length must be greater than 0'
         );
     }
+    /**
+     * \Sodium\randombytes_buf() doesn't allow more than 2147483647 bytes to be
+     * generated in one invocation.
+     */
+    if ($bytes > 2147483647) {
+        $buf = '';
+        for ($i = 0; $i < $bytes; $i += 1073741824) {
+            $n = ($bytes - $i) > 1073741824
+                ? 1073741824
+                : $bytes - $i;
+            $buf .= \Sodium\randombytes_buf($n);
+        }
+    } else {
+        $buf = \Sodium\randombytes_buf($bytes);
+    }
 
-    $buf = @mcrypt_create_iv($bytes, MCRYPT_DEV_URANDOM);
     if ($buf !== false) {
         if (RandomCompat_strlen($buf) === $bytes) {
-            /**
-             * Return our random entropy buffer here:
-             */
             return $buf;
         }
     }
+
     /**
      * If we reach here, PHP has failed us.
      */

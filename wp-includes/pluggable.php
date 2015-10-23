@@ -2188,7 +2188,7 @@ function wp_rand( $min = 0, $max = 0 ) {
 			} else {
 				$use_random_int_functionality = false;
 			}
-		} catch ( Throwable $t ) {
+		} catch ( Error $e ) {
 			$use_random_int_functionality = false;
 		} catch ( Exception $e ) {
 			$use_random_int_functionality = false;
