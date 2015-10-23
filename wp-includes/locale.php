@@ -176,12 +176,16 @@ class WP_Locale {
 		// See http://php.net/number_format
 
 		/* translators: $thousands_sep argument for http://php.net/number_format, default is , */
-		$trans = __('number_format_thousands_sep');
-		$this->number_format['thousands_sep'] = ('number_format_thousands_sep' == $trans) ? ',' : $trans;
+		$thousands_sep = __( 'number_format_thousands_sep' );
+		// Replace space with a non-breaking space to avoid wrapping. Also replace entities with actual character.
+		$thousands_sep = str_replace( array( ' ', '&nbsp;', '&#160;' ), "\xA0", $thousands_sep );
+
+		$this->number_format['thousands_sep'] = ( 'number_format_thousands_sep' === $thousands_sep ) ? ',' : $thousands_sep;
 
 		/* translators: $dec_point argument for http://php.net/number_format, default is . */
-		$trans = __('number_format_decimal_point');
-		$this->number_format['decimal_point'] = ('number_format_decimal_point' == $trans) ? '.' : $trans;
+		$decimal_point = __( 'number_format_decimal_point' );
+
+		$this->number_format['decimal_point'] = ( 'number_format_decimal_point' === $decimal_point ) ? '.' : $decimal_point;
 
 		// Set text direction.
 		if ( isset( $GLOBALS['text_direction'] ) )
