@@ -46,6 +46,14 @@ class wp_xmlrpc_server extends IXR_Server {
 	public $error;
 
 	/**
+	 * Flags that the user authentication has failed in this instance of wp_xmlrpc_server.
+	 *
+	 * @access protected
+	 * @var bool
+	 */
+	protected $auth_failed = false;
+
+	/**
 	 * Register all of the XMLRPC methods that XMLRPC server understands.
 	 *
 	 * Sets up server and method property. Passes XMLRPC
@@ -251,10 +259,17 @@ class wp_xmlrpc_server extends IXR_Server {
 			return false;
 		}
 
-		$user = wp_authenticate($username, $password);
+		if ( $this->auth_failed ) {
+			$user = new WP_Error( 'login_prevented' );
+		} else {
+			$user = wp_authenticate( $username, $password );
+		}
 
-		if (is_wp_error($user)) {
+		if ( is_wp_error( $user ) ) {
 			$this->error = new IXR_Error( 403, __( 'Incorrect username or password.' ) );
+
+			// Flag that authentication has failed once on this wp_xmlrpc_server instance
+			$this->auth_failed = true;
 
 			/**
 			 * Filter the XML-RPC user login error message.
