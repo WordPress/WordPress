@@ -956,7 +956,7 @@ function wp_get_attachment_image_srcset_array( $attachment_id, $size = 'medium' 
 
 		// Filter out images that are wider than $max_srcset_width.
 		if ( $max_srcset_width && $img['width'] > $max_srcset_width ) {
-			$contiue;
+			continue;
 		}
 
 		$candidate_url = path_join( dirname( $img_url ), $img['file'] );
