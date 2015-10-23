@@ -270,16 +270,16 @@ class IXR_Message
         xml_set_character_data_handler($this->_parser, 'cdata');
 
         // 256Kb, parse in chunks to avoid the RAM usage on very large messages
-        $xmlrpc_memory_limit = 262144;
+        $chunk_size = 262144;
 
         /**
          * Filter the chunk size that can be used to parse an XML-RPC reponse message.
          *
          * @since 4.4.0
          *
-         * @param int $xmlrpc_memory_limit Default value of memory allotted.
+         * @param int $chunk_size Chunk size to parse in bytes.
          */
-        $chunk_size = apply_filters( 'xmlrpc_chunk_parsing_size', $xmlrpc_memory_limit );
+        $chunk_size = apply_filters( 'xmlrpc_chunk_parsing_size', $chunk_size );
 
         $final = false;
         do {
