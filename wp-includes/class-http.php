@@ -686,10 +686,11 @@ class WP_Http {
 	}
 
 	/**
-	 * A wrapper for PHP's parse_url() function that handles edgecases in < PHP 5.4.7
+	 * Used as a wrapper for PHP's parse_url() function that handles edgecases in < PHP 5.4.7.
 	 *
 	 * @access protected
-	 * @deprecated 4.4.0 See wp_parse_url()
+	 * @deprecated 4.4.0 Use wp_parse_url()
+	 * @see wp_parse_url()
 	 *
 	 * @param string $url The URL to parse.
 	 * @return bool|array False on failure; Array of URL components on success;
