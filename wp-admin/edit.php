@@ -249,9 +249,9 @@ if ( 'post' == $post_type ) {
 }
 
 get_current_screen()->set_screen_reader_content( array(
-	'heading_views'      => $post_type_object->labels->views,
-	'heading_pagination' => $post_type_object->labels->pagination,
-	'heading_list'       => $post_type_object->labels->list,
+	'heading_views'      => $post_type_object->labels->filter_items_list,
+	'heading_pagination' => $post_type_object->labels->items_list_navigation,
+	'heading_list'       => $post_type_object->labels->items_list,
 ) );
 
 add_screen_option( 'per_page', array( 'default' => 20, 'option' => 'edit_' . $post_type . '_per_page' ) );
