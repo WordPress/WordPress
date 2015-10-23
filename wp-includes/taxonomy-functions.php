@@ -503,6 +503,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  *
  * @since 3.0.0
  * @since 4.3.0 Added the `no_terms` label.
+ * @since 4.4.0 Added the `items_list_navigation` and `items_list` labels.
  *
  * @param object $tax Taxonomy object.
  * @return object object with all the labels as member variables.
