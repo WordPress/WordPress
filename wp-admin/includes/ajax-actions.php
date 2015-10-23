@@ -3098,6 +3098,7 @@ function wp_ajax_update_plugin() {
 		 * For now, surface some sort of error here.
 		 */
 		if ( $plugin_update_data === true ) {
+			$status['error'] = __( 'Plugin update failed.' );
  			wp_send_json_error( $status );
 		}
 
@@ -3124,6 +3125,10 @@ function wp_ajax_update_plugin() {
 
 		wp_send_json_error( $status );
 
+	} else {
+		// An unhandled error occured
+		$status['error'] = __( 'Plugin update failed.' );
+		wp_send_json_error( $status );
 	}
 }
 
