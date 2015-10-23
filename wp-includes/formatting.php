@@ -3398,7 +3398,7 @@ function esc_url( $url, $protocols = null, $_context = 'display' ) {
 
 	if ( ( false !== strpos( $url, '[' ) ) || ( false !== strpos( $url, ']' ) ) ) {
 
-		$parsed = parse_url( $url );
+		$parsed = wp_parse_url( $url );
 		$front  = '';
 
 		if ( isset( $parsed['scheme'] ) ) {
