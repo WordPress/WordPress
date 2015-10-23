@@ -776,7 +776,16 @@ function get_site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
 		}
 	}
 
-	return $url;
+	/**
+	 * Filter the site icon URL.
+	 *
+	 * @site 4.4.0
+	 *
+	 * @param string $url     Site icon URL.
+	 * @param int    $size    Size of the site icon.
+	 * @param int    $blog_id ID of the blog to get the site icon for.
+	 */
+	return apply_filters( 'get_site_icon_url', $url, $size, $blog_id );
 }
 
 /**

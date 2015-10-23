@@ -123,21 +123,10 @@ if ( have_posts() ) :
 			<div class="wp-embed-footer">
 				<div class="wp-embed-site-title">
 					<?php
-					$site_icon_url = get_site_icon_url( 32, admin_url( 'images/w-logo-blue.png' ) );
-
-					/**
-					 * Filters the site icon URL for use in the embed template.
-					 *
-					 * @since 4.4.0
-					 *
-					 * @param string $site_icon_url The site icon URL.
-					 */
-					$site_icon_url = apply_filters( 'embed_site_icon_url', $site_icon_url );
-
 					printf(
 						'<a href="%s" target="_top"><img src="%s" width="32" height="32" alt="" class="wp-embed-site-icon"/><span>%s</span></a>',
 						esc_url( home_url() ),
-						esc_url( $site_icon_url ),
+						esc_url( get_site_icon_url( 32, admin_url( 'images/w-logo-blue.png' ) ) ),
 						esc_attr( get_bloginfo( 'name' ) )
 					);
 					?>
@@ -224,21 +213,10 @@ else :
 		<div class="wp-embed-footer">
 			<div class="wp-embed-site-title">
 				<?php
-				$site_icon_url = get_site_icon_url( 32, admin_url( 'images/w-logo-blue.png' ) );
-
-				/**
-				 * Filters the site icon URL for use in the embed template.
-				 *
-				 * @since 4.4.0
-				 *
-				 * @param string $site_icon_url The site icon URL.
-				 */
-				$site_icon_url = apply_filters( 'embed_site_icon_url', $site_icon_url );
-
 				printf(
 					'<a href="%s" target="_top"><img src="%s" width="32" height="32" alt="" class="wp-embed-site-icon"/><span>%s</span></a>',
 					esc_url( home_url() ),
-					esc_url( $site_icon_url ),
+					esc_url( get_site_icon_url( 32, admin_url( 'images/w-logo-blue.png' ) ) ),
 					esc_html( get_bloginfo( 'name' ) )
 				);
 				?>
