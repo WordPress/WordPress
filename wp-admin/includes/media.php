@@ -662,8 +662,8 @@ function media_upload_form_handler() {
 		 *
 		 * @see wp_get_attachment_metadata()
 		 *
-		 * @param WP_Post $post       The WP_Post object.
-		 * @param array   $attachment An array of attachment metadata.
+		 * @param array $post       An array of post data.
+		 * @param array $attachment An array of attachment metadata.
 		 */
 		$post = apply_filters( 'attachment_fields_to_save', $post, $attachment );
 
