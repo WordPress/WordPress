@@ -2518,7 +2518,7 @@ function wp_site_icon() {
  * @return bool
  */
 function user_can_richedit() {
-	global $wp_rich_edit, $is_gecko, $is_opera, $is_safari, $is_chrome, $is_IE;
+	global $wp_rich_edit, $is_gecko, $is_opera, $is_safari, $is_chrome, $is_IE, $is_edge;
 
 	if ( !isset($wp_rich_edit) ) {
 		$wp_rich_edit = false;
@@ -2526,7 +2526,7 @@ function user_can_richedit() {
 		if ( get_user_option( 'rich_editing' ) == 'true' || ! is_user_logged_in() ) { // default to 'true' for logged out users
 			if ( $is_safari ) {
 				$wp_rich_edit = ! wp_is_mobile() || ( preg_match( '!AppleWebKit/(\d+)!', $_SERVER['HTTP_USER_AGENT'], $match ) && intval( $match[1] ) >= 534 );
-			} elseif ( $is_gecko || $is_chrome || $is_IE || ( $is_opera && !wp_is_mobile() ) ) {
+			} elseif ( $is_gecko || $is_chrome || $is_IE || $is_edge || ( $is_opera && !wp_is_mobile() ) ) {
 				$wp_rich_edit = true;
 			}
 		}
