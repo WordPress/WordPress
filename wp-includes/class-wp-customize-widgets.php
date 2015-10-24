@@ -164,8 +164,8 @@ final class WP_Customize_Widgets {
 	 * @since 4.2.0
 	 * @access public
 	 *
-	 * @param false|array $setting_args The arguments to the WP_Customize_Setting constructor.
-	 * @param string      $setting_id   ID for dynamic setting, usually coming from `$_POST['customized']`.
+	 * @param false|array $args       The arguments to the WP_Customize_Setting constructor.
+	 * @param string      $setting_id ID for dynamic setting, usually coming from `$_POST['customized']`.
 	 * @return false|array Setting arguments, false otherwise.
 	 */
 	public function filter_customize_dynamic_setting_args( $args, $setting_id ) {
