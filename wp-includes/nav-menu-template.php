@@ -578,6 +578,13 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			$active_parent_object_ids[] = (int) $menu_item->post_parent;
 			$active_object = $menu_item->object;
 
+		// if the menu item corresponds to the currently-queried post type archive
+		} elseif (
+			'post_type_archive' == $menu_item->type &&
+			is_post_type_archive( array( $menu_item->object ) )
+		) {
+			$classes[] = 'current-menu-item';
+			$menu_items[$key]->current = true;
 		// if the menu item corresponds to the currently-requested URL
 		} elseif ( 'custom' == $menu_item->object && isset( $_SERVER['HTTP_HOST'] ) ) {
 			$_root_relative_current = untrailingslashit( $_SERVER['REQUEST_URI'] );

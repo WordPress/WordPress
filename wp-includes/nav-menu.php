@@ -403,6 +403,9 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 			$original_object = get_post( $args['menu-item-object-id'] );
 			$original_parent = (int) $original_object->post_parent;
 			$original_title = $original_object->post_title;
+		} elseif ( 'post_type_archive' == $args['menu-item-type'] ) {
+			$original_object = get_post_type_object( $args['menu-item-object'] );
+			$original_title = $original_object->labels->archives;
 		}
 
 		if ( $args['menu-item-title'] == $original_title )
@@ -731,6 +734,17 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
 
+			} elseif ( 'post_type_archive' == $menu_item->type ) {
+				$object =  get_post_type_object( $menu_item->object );
+				if ( $object ) {
+					$menu_item->title = '' == $menu_item->post_title ? $object->labels->archives : $menu_item->post_title;
+				} else {
+					$menu_item->_invalid = true;
+				}
+
+				$menu_item->type_label = __( 'Post Type Archive' );
+				$menu_item->description = '';
+				$menu_item->url = get_post_type_archive_link( $menu_item->object );
 			} elseif ( 'taxonomy' == $menu_item->type ) {
 				$object = get_taxonomy( $menu_item->object );
 				if ( $object ) {

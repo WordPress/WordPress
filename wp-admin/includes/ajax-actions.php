@@ -1159,6 +1159,10 @@ function wp_ajax_add_menu_item() {
 					$_object = get_post( $menu_item_data['menu-item-object-id'] );
 				break;
 
+				case 'post_type_archive' :
+					$_object = get_post_type_object( $menu_item_data['menu-item-object'] );
+				break;
+
 				case 'taxonomy' :
 					$_object = get_term( $menu_item_data['menu-item-object-id'], $menu_item_data['menu-item-object'] );
 				break;

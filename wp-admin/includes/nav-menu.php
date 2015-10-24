@@ -493,6 +493,23 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 					}
 				}
 
+				$post_type = get_post_type_object( $post_type_name );
+				$archive_link = get_post_type_archive_link( $post_type_name );
+				if ( $post_type->has_archive ) {
+					$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval($_nav_menu_placeholder) - 1 : -1;
+					array_unshift( $posts, (object) array(
+						'ID' => 0,
+						'object_id' => $_nav_menu_placeholder,
+						'object'     => $post_type_name,
+						'post_content' => '',
+						'post_excerpt' => '',
+						'post_title' => $post_type->labels->archives,
+						'post_type' => 'nav_menu_item',
+						'type' => 'post_type_archive',
+						'url' => get_post_type_archive_link( $post_type_name ),
+					) );
+				}
+
 				/**
 				 * Filter the posts displayed in the 'View All' tab of the current
 				 * post type's menu items meta box.

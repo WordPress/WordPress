@@ -1323,6 +1323,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical
  *                       ones the default is 'Parent Page:'.
  * - all_items - String for the submenu. Default is All Posts/All Pages.
+ * - archives - String for use with archives in nav menus. Default is Post Archives/Page Archives.
  * - insert_into_item - String for the media frame button. Default is Insert into post/Insert into page.
  * - uploaded_to_this_item - String for the media frame filter. Default is Uploaded to this post/Uploaded to this page.
  * - featured_image - Default is Featured Image.
@@ -1362,6 +1363,7 @@ function get_post_type_labels( $post_type_object ) {
 		'not_found_in_trash' => array( __('No posts found in Trash.'), __('No pages found in Trash.') ),
 		'parent_item_colon' => array( null, __('Parent Page:') ),
 		'all_items' => array( __( 'All Posts' ), __( 'All Pages' ) ),
+		'archives' => array( __( 'Post Archives' ), __( 'Page Archives' ) ),
 		'insert_into_item' => array( __( 'Insert into post' ), __( 'Insert into page' ) ),
 		'uploaded_to_this_item' => array( __( 'Uploaded to this post' ), __( 'Uploaded to this page' ) ),
 		'featured_image' => array( __( 'Featured Image' ), __( 'Featured Image' ) ),
@@ -1427,6 +1429,10 @@ function _get_custom_object_labels( $object, $nohier_vs_hier_defaults ) {
 
 	if ( !isset( $object->labels['all_items'] ) && isset( $object->labels['menu_name'] ) )
 		$object->labels['all_items'] = $object->labels['menu_name'];
+
+	if ( !isset( $object->labels['archives'] ) && isset( $object->labels['all_items'] ) ) {
+		$object->labels['archives'] = $object->labels['all_items'];
+	}
 
 	$defaults = array();
 	foreach ( $nohier_vs_hier_defaults as $key => $value ) {
