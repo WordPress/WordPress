@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Customize Setting classes
+ * Customize API: WP_Customize_Nav_Menu_Setting class
  *
  * @package WordPress
  * @subpackage Customize

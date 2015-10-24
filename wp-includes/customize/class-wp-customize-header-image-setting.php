@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Customize Setting classes
+ * Customize API: WP_Customize_Header_Image_Setting class
  *
  * @package WordPress
  * @subpackage Customize
