@@ -735,9 +735,6 @@ final class WP_Customize_Manager {
 			'activePanels' => array(),
 			'activeSections' => array(),
 			'activeControls' => array(),
-			'l10n' => array(
-				'loading'  => __( 'Loading...' ), // no ellipsis
-			),
 		);
 
 		if ( 2 == $this->nonce_tick ) {
