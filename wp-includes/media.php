@@ -1043,10 +1043,10 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium' ) {
  * @return string|bool A valid source size value for use in a 'sizes' attribute or false.
  */
 function wp_get_attachment_image_sizes( $attachment_id, $size = 'medium', $width = null ) {
-	// Try to get the image width from $args parameter.
+	// Try to get the image width from the $width parameter.
 	if ( is_numeric( $width ) ) {
 		$img_width = (int) $width;
-	// Next, use see if a width value was passed in the $size parameter.
+	// Next, see if a width value was passed in the $size parameter.
 	} elseif ( is_array( $size ) ) {
 		$img_width = $size[0];
 	// Finally, use the $size name to return the width of the image.
@@ -1055,7 +1055,7 @@ function wp_get_attachment_image_sizes( $attachment_id, $size = 'medium', $width
 		$img_width = $image ? $image['width'] : false;
 	}
 
-	// Bail early if $image_width isn't set.
+	// Bail early if $img_width isn't set.
 	if ( ! $img_width ) {
 		return false;
 	}
