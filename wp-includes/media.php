@@ -809,10 +809,12 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 		if ( empty($default_attr['alt']) )
 			$default_attr['alt'] = trim(strip_tags( $attachment->post_title )); // Finally, use the title
 
-		$attr = wp_parse_args($attr, $default_attr);
+		$attr   = wp_parse_args( $attr, $default_attr );
+		$srcset = wp_get_attachment_image_srcset( $attachment_id, $size );
+		$sizes  = wp_get_attachment_image_sizes( $attachment_id, $size, $width );
 
 		// Generate srcset and sizes if not already present.
-		if ( empty( $attr['srcset'] ) && ( $srcset = wp_get_attachment_image_srcset( $attachment_id, $size ) ) && ( $sizes = wp_get_attachment_image_sizes( $attachment_id, $size, $width ) ) ) {
+		if ( empty( $attr['srcset'] ) && $srcset && $sizes ) {
 			$attr['srcset'] = $srcset;
 
 			if ( empty( $attr['sizes'] ) ) {
@@ -1148,11 +1150,13 @@ function wp_img_add_srcset_and_sizes( $image ) {
 		}
 	}
 
+	$meta = wp_get_attachment_metadata( $id );
+
 	/*
 	 * If attempts to parse the size value failed, attempt to use the image
 	 * metadata to match the 'src' against the available sizes for an attachment.
 	 */
-	if ( ! $size && ! empty( $id ) && is_array( $meta = wp_get_attachment_metadata( $id ) ) ) {
+	if ( ! $size && ! empty( $id ) && is_array( $meta ) ) {
 		// Parse the image src value from the img element.
 		$src = preg_match( '/src="([^"]+)"/', $image, $match_src ) ? $match_src[1] : false;
 
@@ -1180,8 +1184,11 @@ function wp_img_add_srcset_and_sizes( $image ) {
 
 	}
 
+	$srcset = wp_get_attachment_image_srcset( $id, $size );
+	$sizes  = wp_get_attachment_image_sizes( $id, $size, $width );
+
 	// If ID and size exist, try for 'srcset' and 'sizes' and update the markup.
-	if ( $id && $size && ( $srcset = wp_get_attachment_image_srcset( $id, $size ) ) && ( $sizes = wp_get_attachment_image_sizes( $id, $size, $width ) ) ) {
+	if ( $id && $size && $srcset && $sizes ) {
 		// Format the srcset and sizes string and escape attributes.
 		$srcset_and_sizes = sprintf( ' srcset="%s" sizes="%s"', esc_attr( $srcset ), esc_attr( $sizes) );
 
