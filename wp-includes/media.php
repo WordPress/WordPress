@@ -809,16 +809,19 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 		if ( empty($default_attr['alt']) )
 			$default_attr['alt'] = trim(strip_tags( $attachment->post_title )); // Finally, use the title
 
-		$attr   = wp_parse_args( $attr, $default_attr );
-		$srcset = wp_get_attachment_image_srcset( $attachment_id, $size );
-		$sizes  = wp_get_attachment_image_sizes( $attachment_id, $size, $width );
+		$attr = wp_parse_args( $attr, $default_attr );
 
 		// Generate srcset and sizes if not already present.
-		if ( empty( $attr['srcset'] ) && $srcset && $sizes ) {
-			$attr['srcset'] = $srcset;
+		if ( empty( $attr['srcset'] ) ) {
+			$srcset = wp_get_attachment_image_srcset( $attachment_id, $size );
+			$sizes  = wp_get_attachment_image_sizes( $attachment_id, $size, $width );
 
-			if ( empty( $attr['sizes'] ) ) {
-				$attr['sizes'] = $sizes;
+			if ( $srcset && $sizes ) {
+				$attr['srcset'] = $srcset;
+
+				if ( empty( $attr['sizes'] ) ) {
+					$attr['sizes'] = $sizes;
+				}
 			}
 		}
 
