@@ -1,7 +1,7 @@
 (function ( tinymce ) {
 	'use strict';
 
-	tinymce.PluginManager.add( 'wpoembed', function ( editor, url ) {
+	tinymce.PluginManager.add( 'wpembed', function ( editor, url ) {
 		editor.on( 'init', function () {
 			var scriptId = editor.dom.uniqueId();
 

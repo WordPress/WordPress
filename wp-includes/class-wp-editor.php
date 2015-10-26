@@ -402,7 +402,7 @@ final class _WP_Editors {
 						'wpdialogs',
 						'wptextpattern',
 						'wpview',
-						'wpoembed',
+						'wpembed',
 					);
 
 					if ( ! self::$has_medialib ) {
