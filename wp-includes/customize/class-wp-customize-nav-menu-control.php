@@ -56,7 +56,6 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 			<span class="reorder-done"><?php _ex( 'Done', 'Cancel reordering menu items in Customizer' ); ?></span>
 		</button>
 		<p class="screen-reader-text" id="reorder-items-desc-{{ data.menu_id }}"><?php _e( 'When in reorder mode, additional controls to reorder menu items will be available in the items list above.' ); ?></p>
-		<span class="add-menu-item-loading spinner"></span>
 		<span class="menu-delete-item">
 			<button type="button" class="not-a-button menu-delete">
 				<?php _e( 'Delete menu' ); ?> <span class="screen-reader-text">{{ data.menu_name }}</span>
