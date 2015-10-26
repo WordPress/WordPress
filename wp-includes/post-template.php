@@ -728,8 +728,8 @@ function get_body_class( $class = '' ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array  $classes An array of body classes.
-	 * @param string $class   A comma-separated list of additional classes added to the body.
+	 * @param array $classes An array of body classes.
+	 * @param array $class   An array of additional classes added to the body.
 	 */
 	$classes = apply_filters( 'body_class', $classes, $class );
 
