@@ -511,9 +511,9 @@ function get_post_class( $class = '', $post_id = null ) {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param array  $classes An array of post classes.
-	 * @param string $class   A comma-separated list of additional classes added to the post.
-	 * @param int    $post_id The post ID.
+	 * @param array $classes An array of post classes.
+	 * @param array $class   An array of additional classes added to the post.
+	 * @param int   $post_id The post ID.
 	 */
 	$classes = apply_filters( 'post_class', $classes, $class, $post->ID );
 
