@@ -429,6 +429,9 @@ function get_post_class( $class = '', $post_id = null ) {
 			$class = preg_split( '#\s+#', $class );
 		}
 		$classes = array_map( 'esc_attr', $class );
+	} else {
+		// Ensure that we always coerce class to being an array.
+		$class = array();
 	}
 
 	if ( ! $post ) {
