@@ -466,6 +466,7 @@ function get_post_embed_html( $post = null, $width, $height ) {
 	$embed_url = get_post_embed_url( $post );
 
 	$output = "<script type='text/javascript'>\n";
+	$output .= "<!--//--><![CDATA[//><!--\n";
 	if ( SCRIPT_DEBUG ) {
 		$output .= file_get_contents( ABSPATH . WPINC . '/js/wp-embed.js' );
 	} else {
@@ -483,6 +484,7 @@ function get_post_embed_html( $post = null, $width, $height ) {
 		!function(a,b){"use strict";function c(){var a=-1!==navigator.appVersion.indexOf("MSIE 10"),c=!!navigator.userAgent.match(/Trident.*rv\:11\./);if(a||c)for(var d,e=b.querySelectorAll(".wp-embedded-content[security]"),f=0;f<e.length;f++)d=e[f].cloneNode(!0),d.removeAttribute("security"),e[f].parentNode.insertBefore(d,e[f].nextSibling),e[f].parentNode.removeChild(e[f])}a.wp=a.wp||{},a.wp.receiveEmbedMessage||(a.wp.receiveEmbedMessage=function(c){var d=c.data;if(d.secret||d.message||d.value)for(var e=b.querySelectorAll('.wp-embedded-content[data-secret="'+d.secret+'"]'),f=0;f<e.length;f++){var g=e[f];if("height"===d.message){var h=d.value;h>1e3?h=1e3:200>h&&(h=200),g.height=h+"px"}if("link"===d.message){var i=b.createElement("a"),j=b.createElement("a");i.href=g.getAttribute("src"),j.href=d.value,j.host===i.host&&b.activeElement===g&&(a.top.location.href=d.value)}}},a.addEventListener("message",a.wp.receiveEmbedMessage,!1),b.addEventListener("DOMContentLoaded",c,!1))}(window,document);
 JS;
 	}
+	$output .= "\n//--><!]]>";
 	$output .= "\n</script>";
 
 	$output .= sprintf(
