@@ -836,7 +836,7 @@ function print_embed_styles() {
 }
 
 /**
- * Prints the CSS in the embed iframe header.
+ * Prints the JavaScript in the embed iframe header.
  *
  * @since 4.4.0
  */
