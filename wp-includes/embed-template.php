@@ -124,10 +124,11 @@ if ( have_posts() ) :
 				<div class="wp-embed-site-title">
 					<?php
 					printf(
-						'<a href="%s" target="_top"><img src="%s" width="32" height="32" alt="" class="wp-embed-site-icon"/><span>%s</span></a>',
+						'<a href="%s" target="_top"><img src="%s" srcset="%s 2x" width="32" height="32" alt="" class="wp-embed-site-icon"/><span>%s</span></a>',
 						esc_url( home_url() ),
 						esc_url( get_site_icon_url( 32, admin_url( 'images/w-logo-blue.png' ) ) ),
-						esc_attr( get_bloginfo( 'name' ) )
+						esc_url( get_site_icon_url( 64, admin_url( 'images/w-logo-blue.png' ) ) ),
+						esc_html( get_bloginfo( 'name' ) )
 					);
 					?>
 				</div>
@@ -214,9 +215,10 @@ else :
 			<div class="wp-embed-site-title">
 				<?php
 				printf(
-					'<a href="%s" target="_top"><img src="%s" width="32" height="32" alt="" class="wp-embed-site-icon"/><span>%s</span></a>',
+					'<a href="%s" target="_top"><img src="%s" srcset="%s 2x" width="32" height="32" alt="" class="wp-embed-site-icon"/><span>%s</span></a>',
 					esc_url( home_url() ),
 					esc_url( get_site_icon_url( 32, admin_url( 'images/w-logo-blue.png' ) ) ),
+					esc_url( get_site_icon_url( 64, admin_url( 'images/w-logo-blue.png' ) ) ),
 					esc_html( get_bloginfo( 'name' ) )
 				);
 				?>
