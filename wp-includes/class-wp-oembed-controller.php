@@ -32,7 +32,7 @@ final class WP_oEmbed_Controller {
 
 		if ( false === $wp_query->get( 'url', false ) ) {
 			status_header( 400 );
-			echo 'URL parameter missing';
+			return get_status_header_desc( 400 );
 			exit;
 		}
 
@@ -88,7 +88,7 @@ final class WP_oEmbed_Controller {
 
 		if ( false === $data ) {
 			status_header( 404 );
-			return __( 'Invalid URL.' );
+			return get_status_header_desc( 404 );
 		}
 
 		if ( 'json' === $request['format'] ) {
@@ -117,7 +117,7 @@ final class WP_oEmbed_Controller {
 		// Bail if the result couldn't be JSON encoded.
 		if ( ! $result || ! is_array( $data ) || empty( $data ) ) {
 			status_header( 501 );
-			return 'Not implemented';
+			return get_status_header_desc( 501 );
 		}
 
 		if ( ! headers_sent() ) {
