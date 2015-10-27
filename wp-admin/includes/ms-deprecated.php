@@ -1,8 +1,9 @@
 <?php
 /**
- * Deprecated multisite admin functions from past WordPress versions and WordPress MU.
- * You shouldn't use these functions and look for the alternatives instead. The functions
- * will be removed in a later version.
+ * Multisite: Deprecated admin functions from past versions and WordPress MU
+ *
+ * These functions should not be used and will be removed in a later version.
+ * It is suggested to use for the alternatives instead when available.
  *
  * @package WordPress
  * @subpackage Deprecated
