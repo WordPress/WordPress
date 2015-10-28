@@ -2694,21 +2694,50 @@ body.import-php #TB_window,
 body.plugins-php #TB_window,
 body.update-core-php #TB_window,
 body.index-php #TB_window {
-	background: #fcfcfc url( ../images/spinner.gif ) no-repeat center;
+	background: #fcfcfc;
+}
+
+/* IE 8 needs a change in the pseudo element content */
+.ie8 body.plugin-install-php #TB_window:before,
+.ie8 body.import-php #TB_window:before,
+.ie8 body.plugins-php #TB_window:before,
+.ie8 body.update-core-php #TB_window:before,
+.ie8 body.index-php #TB_window:before {
+	content: " ";
+	background: none;
+}
+
+body.plugin-install-php #TB_window.thickbox-loading:before,
+body.import-php #TB_window.thickbox-loading:before,
+body.plugins-php #TB_window.thickbox-loading:before,
+body.update-core-php #TB_window.thickbox-loading:before,
+body.index-php #TB_window.thickbox-loading:before {
+	content: "";
+	display: block;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: 50%;
+	top: 50%;
+	z-index: -1;
+	margin: -10px -10px 0 0;
+	background: #fcfcfc url(../images/spinner.gif) no-repeat center;
+	-webkit-background-size: 20px 20px;
+	background-size: 20px 20px;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
 }
 
 @media print,
 	(-webkit-min-device-pixel-ratio: 1.25),
 	(min-resolution: 120dpi) {
 
-	body.plugin-install-php #TB_window,
-	body.import-php #TB_window,
-	body.plugins-php #TB_window,
-	body.update-core-php #TB_window,
-	body.index-php #TB_window {
-		background: #fcfcfc url( ../images/spinner-2x.gif ) no-repeat center;
-		-webkit-background-size: 20px 20px;
-		background-size: 20px 20px;
+	body.plugin-install-php #TB_window.thickbox-loading:before,
+	body.import-php #TB_window.thickbox-loading:before,
+	body.plugins-php #TB_window.thickbox-loading:before,
+	body.update-core-php #TB_window.thickbox-loading:before,
+	body.index-php #TB_window.thickbox-loading:before {
+		background: #fcfcfc url(../images/spinner-2x.gif) no-repeat center;
 	}
 }
 

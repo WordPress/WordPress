@@ -12,7 +12,7 @@
 
 #TB_window {
 	position: fixed;
-	background: #fff;
+	background-color: #fff;
 	z-index: 100050; /* Above DFW. */
 	visibility: hidden;
 	text-align: left;
@@ -55,7 +55,7 @@
 	float: left;
 	font-weight: 600;
 	line-height: 29px;
-	overflow: hidden; 
+	overflow: hidden;
 	padding: 0 29px 0 10px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
