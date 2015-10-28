@@ -171,7 +171,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-uploader-window">
 		<div class="uploader-window-content">
-			<h3><?php _e( 'Drop files to upload' ); ?></h3>
+			<h1><?php _e( 'Drop files to upload' ); ?></h1>
 		</div>
 	</script>
 
@@ -188,19 +188,19 @@ function wp_print_media_templates() {
 		<# } #>
 		<div class="uploader-inline-content {{ messageClass }}">
 		<# if ( data.message ) { #>
-			<h3 class="upload-message">{{ data.message }}</h3>
+			<h2 class="upload-message">{{ data.message }}</h2>
 		<# } #>
-		<?php if ( ! _device_can_upload() ) : ?>
-			<h3 class="upload-instructions"><?php printf( __('The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.'), 'https://apps.wordpress.org/' ); ?></h3>
-		<?php elseif ( is_multisite() && ! is_upload_space_available() ) : ?>
-			<h3 class="upload-instructions"><?php _e( 'Upload Limit Exceeded' ); ?></h3>
+
+			<h2 class="upload-instructions"><?php printf( __( 'The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.' ), 'https://apps.wordpress.org/' ); ?></h2>
+		<?php if ( is_multisite() && ! is_upload_space_available() ) : ?>
+			<h2 class="upload-instructions"><?php _e( 'Upload Limit Exceeded' ); ?></h2>
 			<?php
 			/** This action is documented in wp-admin/includes/media.php */
 			do_action( 'upload_ui_over_quota' ); ?>
 
 		<?php else : ?>
 			<div class="upload-ui">
-				<h3 class="upload-instructions drop-instructions"><?php _e( 'Drop files anywhere to upload' ); ?></h3>
+				<h2 class="upload-instructions drop-instructions"><?php _e( 'Drop files anywhere to upload' ); ?></h2>
 				<p class="upload-instructions drop-instructions"><?php _ex( 'or', 'Uploader: Drop files here - or - Select Files' ); ?></p>
 				<button type="button" class="browser button button-hero"><?php _e( 'Select Files' ); ?></button>
 			</div>
@@ -257,7 +257,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-uploader-status">
-		<h3><?php _e( 'Uploading' ); ?></h3>
+		<h2><?php _e( 'Uploading' ); ?></h2>
 		<button type="button" class="button-link upload-dismiss-errors"><span class="screen-reader-text"><?php _e( 'Dismiss Errors' ); ?></span></button>
 
 		<div class="media-progress-bar"><div></div></div>
@@ -490,14 +490,13 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-details">
-		<h3>
-			<?php _e('Attachment Details'); ?>
-
+		<h2>
+			<?php _e( 'Attachment Details' ); ?>
 			<span class="settings-save-status">
 				<span class="spinner"></span>
 				<span class="saved"><?php esc_html_e('Saved.'); ?></span>
 			</span>
-		</h3>
+		</h2>
 		<div class="attachment-info">
 			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
@@ -599,7 +598,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-attachment-display-settings">
-		<h3><?php _e('Attachment Display Settings'); ?></h3>
+		<h2><?php _e( 'Attachment Display Settings' ); ?></h2>
 
 		<# if ( 'image' === data.type ) { #>
 			<label class="setting">
@@ -706,7 +705,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-gallery-settings">
-		<h3><?php _e('Gallery Settings'); ?></h3>
+		<h2><?php _e( 'Gallery Settings' ); ?></h2>
 
 		<label class="setting">
 			<span><?php _e('Link To'); ?></span>
@@ -776,7 +775,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-playlist-settings">
-		<h3><?php _e( 'Playlist Settings' ); ?></h3>
+		<h2><?php _e( 'Playlist Settings' ); ?></h2>
 
 		<# var emptyModel = _.isEmpty( data.model ),
 			isVideo = 'video' === data.controller.get('library').props.get('type'); #>
@@ -903,7 +902,7 @@ function wp_print_media_templates() {
 						<input type="text" data-setting="alt" value="{{ data.model.alt }}" />
 					</label>
 
-					<h3><?php _e( 'Display Settings' ); ?></h3>
+					<h2><?php _e( 'Display Settings' ); ?></h2>
 					<div class="setting align">
 						<span><?php _e('Align'); ?></span>
 						<div class="button-group button-large" data-setting="align">
@@ -985,7 +984,7 @@ function wp_print_media_templates() {
 						<input type="text" class="link-to-custom" data-setting="linkUrl" />
 					</div>
 					<div class="advanced-section">
-						<h3><button type="button" class="button-link advanced-toggle"><?php _e( 'Advanced Options' ); ?></button></h3>
+						<h2><button type="button" class="button-link advanced-toggle"><?php _e( 'Advanced Options' ); ?></button></h2>
 						<div class="advanced-settings hidden">
 							<div class="advanced-image">
 								<label class="setting title-text">

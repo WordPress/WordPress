@@ -500,7 +500,8 @@ border color while dragging a file over the uploader drop area */
 	color: #c00;
 }
 
-.upload-php .mode-grid .media-sidebar .media-uploader-status.errors h3 {
+.upload-php .mode-grid .media-sidebar .media-uploader-status.errors h3, /* Back-compat for pre-4.4 */
+.upload-php .mode-grid .media-sidebar .media-uploader-status.errors h2 {
 	display: none;
 }
 
@@ -1017,11 +1018,16 @@ border color while dragging a file over the uploader drop area */
 	margin: 0 8px 0 0;
 }
 
-#poststuff .imgedit-group-top h3 {
+#poststuff .imgedit-group-top h3, /* Back-compat for pre-4.4 */
+#poststuff .imgedit-group-top h2 {
+	margin: 0;
 	padding: 0;
+	font-size: 14px;
+	line-height: 1.4;
 }
 
-.imgedit-group-top h3 a {
+.imgedit-group-top h3 a, /* Back-compat for pre-4.4 */
+.imgedit-group-top h2 a {
 	text-decoration: none;
 }
 
