@@ -83,7 +83,9 @@ if ( get_option( 'start_of_week' ) != $wp_locale->start_of_week ) {
 <tr>
 <th scope="row"><label for="home"><?php _e('Site Address (URL)') ?></label></th>
 <td><input name="home" type="url" id="home" aria-describedby="home-description" value="<?php form_option( 'home' ); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( defined( 'WP_HOME' ) ) echo ' disabled' ?>" />
+<?php if ( ! defined( 'WP_HOME' ) ) : ?> 
 <p class="description" id="home-description"><?php _e( 'Enter the address here if you <a href="https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">want your site home page to be different from your WordPress installation directory.</a>' ); ?></p></td>
+<?php endif; ?>
 </tr>
 <tr>
 <th scope="row"><label for="admin_email"><?php _e('Email Address') ?> </label></th>
