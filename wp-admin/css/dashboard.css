@@ -115,14 +115,14 @@
 	line-height: 2.1em;
 }
 
-.welcome-panel h3 {
+.welcome-panel h2 {
 	margin: 0;
 	font-size: 21px;
 	font-weight: normal;
 	line-height: 1.2;
 }
 
-.welcome-panel h4 {
+.welcome-panel h3 {
 	margin: 1.33em 0 0;
 	font-size: 16px;
 }
@@ -360,8 +360,11 @@ body #dashboard-widgets .postbox form .submit {
 	overflow: hidden;
 }
 
-#dashboard-widgets h4.mu-storage {
-	margin-bottom: 10px;
+#dashboard-widgets h3.mu-storage {
+	margin: 0 0 10px;
+	padding: 0;
+	font-size: 14px;
+	font-weight: normal;
 }
 
 /* Dashboard right now - Colors */
@@ -378,7 +381,7 @@ body #dashboard-widgets .postbox form .submit {
 	padding: 10px 12px 6px 12px;
 }
 
-#dashboard_right_now .sub h4 {
+#dashboard_right_now .sub h3 {
 	color: #555;
 }
 
@@ -537,11 +540,6 @@ form.initial-form.quickpress-open input#title {
 	border: none;
 }
 
-#dashboard_quick_press .drafts h4 {
-	margin: 0 12px 8px;
-	font-weight: normal;
-}
-
 #dashboard_quick_press .drafts .view-all {
 	float: right;
 	margin: 0 12px 0 0;
@@ -576,20 +574,25 @@ form.initial-form.quickpress-open input#title {
 	margin: 0 5px 0 0;
 }
 
-/* Dashboard activity widget */
+/* Dashboard common styles */
 
-#dashboard-widgets #dashboard_activity h4 {
-	margin: 0 0 8px 12px;
+#dashboard-widgets h4, /* Back-compat for pre-4.4 */
+#dashboard-widgets h3,
+#dashboard_quick_press .drafts h2 {
+	margin: 0 12px 8px;
+	padding: 0;
+	font-size: 14px;
 	font-weight: normal;
+	color: #23282d;
 }
 
-#dashboard-widgets #dashboard_activity h4.comment-meta {
-	margin: 0;
+#dashboard-widgets .inside h4, /* Back-compat for pre-4.4 */
+#dashboard-widgets .inside h3 {
+	margin-left: 0;
+	margin-right: 0;
 }
 
-#dashboard_activity h4.comment-meta {
-	margin-bottom: 4px;
-}
+/* Dashboard activity widget */
 
 #dashboard_activity ul {
 	padding: 0 12px;
@@ -708,11 +711,6 @@ form.initial-form.quickpress-open input#title {
 	margin: 1em 0;
 }
 
-#activity-widget #the-comment-list .comment-item h4 {
-	font-size: 13px;
-	color: #999;
-}
-
 #activity-widget #the-comment-list .comment-item p.row-actions {
 	margin: 4px 0 0 0;
 }
@@ -794,14 +792,6 @@ h3:hover .edit-box {
 	right: 33px;
 }
 
-#dashboard-widgets h4 {
-	color: #23282d;
-	font-weight: normal;
-	font-size: 14px;
-	margin: 0 0 .2em;
-	padding: 0;
-}
-
 #dashboard_plugins h5 {
 	font-size: 14px;
 }
@@ -834,13 +824,13 @@ h3:hover .edit-box {
 	border-top: none;
 }
 
-#latest-comments #the-comment-list .comment-item h4 {
+#latest-comments #the-comment-list .comment-meta {
 	line-height: 1.5em;
-	margin-top: 0;
+	margin: 0;
 	color: #666;
 }
 
-#latest-comments #the-comment-list .comment-item h4 cite {
+#latest-comments #the-comment-list .comment-meta cite {
 	font-style: normal;
 	font-weight: normal;
 }

@@ -564,25 +564,23 @@ code {
 	margin: 10px 2px 0 20px;
 }
 
-.wrap > h2:first-child, /* Back-compat for old plugins */
-.wrap h1,
-.subtitle {
-	font-weight: normal;
-	margin: 0;
-}
-
-.wrap > h2:first-child, /* Back-compat for old plugins */
+.wrap > h2:first-child, /* Back-compat for pre-4.4 */
+.wrap [class$="icon32"] + h2, /* Back-compat for pre-4.4 */
+.postbox .inside h2, /* Back-compat for pre-4.4 */
 .wrap h1 {
 	font-size: 23px;
 	font-weight: 400;
+	margin: 0;
 	padding: 9px 0 4px 15px;
 	line-height: 29px;
 }
 
 .subtitle {
+	margin: 0;
+	padding-right: 25px;
 	color: #777;
 	font-size: 14px;
-	padding-right: 25px;
+	font-weight: normal;
 }
 
 .wrap .add-new-h2, /* deprecated */
@@ -2058,10 +2056,10 @@ h2 .nav-tab {
 	margin-left: 190px;
 }
 
-.metabox-holder h3.hndle, /* Back-compat for pre-4.4 */
 .metabox-holder .stuffbox > h3, /* Back-compat for pre-4.4 */
 .metabox-holder .postbox > h3, /* Back-compat for pre-4.4 */
-.metabox-holder h2 {
+.metabox-holder h3.hndle, /* Back-compat for pre-4.4 */
+.metabox-holder h2.hndle {
 	font-size: 14px;
 	padding: 8px 12px;
 	margin: 0;

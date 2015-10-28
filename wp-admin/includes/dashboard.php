@@ -540,9 +540,9 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 
 	echo '<div class="drafts">';
 	if ( count( $drafts ) > 3 ) {
-		echo '<p class="view-all"><a href="' . esc_url( admin_url( 'edit.php?post_status=draft' ) ) . '">' . _x( 'View all', 'drafts' ) . "</a></p>\n";
+		echo '<p class="view-all"><a href="' . esc_url( admin_url( 'edit.php?post_status=draft' ) ) . '" aria-label="' . __( 'View all drafts' ) . '">' . _x( 'View all', 'drafts' ) . "</a></p>\n";
  	}
-	echo '<h4 class="hide-if-no-js">' . __( 'Drafts' ) . "</h4>\n<ul>";
+	echo '<h2 class="hide-if-no-js">' . __( 'Drafts' ) . "</h2>\n<ul>";
 
 	$drafts = array_slice( $drafts, 0, 3 );
 	foreach ( $drafts as $draft ) {
@@ -648,7 +648,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			<?php if ( !$comment->comment_type || 'comment' == $comment->comment_type ) : ?>
 
 			<div class="dashboard-comment-wrap has-row-actions">
-			<h4 class="comment-meta">
+			<p class="comment-meta">
 				<?php
 				if ( $comment_post_link ) {
 					printf(
@@ -667,7 +667,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 					);
 				}
 				?>
-			</h4>
+			</p>
 
 			<?php
 			else :
@@ -685,7 +685,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			?>
 			<div class="dashboard-comment-wrap has-row-actions">
 			<?php /* translators: %1$s is type of comment, %2$s is link to the post */ ?>
-			<h4 class="comment-meta"><?php printf( _x( '%1$s on %2$s', 'dashboard' ), "<strong>$type</strong>", $comment_post_link ); ?></h4>
+			<p class="comment-meta"><?php printf( _x( '%1$s on %2$s', 'dashboard' ), "<strong>$type</strong>", $comment_post_link ); ?></p>
 			<p class="comment-author"><?php comment_author_link( $comment ); ?></p>
 
 			<?php endif; // comment_type ?>
@@ -775,7 +775,7 @@ function wp_dashboard_recent_posts( $args ) {
 
 		echo '<div id="' . $args['id'] . '" class="activity-block">';
 
-		echo '<h4>' . $args['title'] . '</h4>';
+		echo '<h3>' . $args['title'] . '</h3>';
 
 		echo '<ul>';
 
@@ -854,7 +854,7 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 
 	if ( $comments ) {
 		echo '<div id="latest-comments" class="activity-block">';
-		echo '<h4>' . __( 'Comments' ) . '</h4>';
+		echo '<h3>' . __( 'Comments' ) . '</h3>';
 
 		echo '<div id="the-comment-list" data-wp-lists="list:comment">';
 		foreach ( $comments as $comment )
@@ -1224,7 +1224,7 @@ function wp_dashboard_quota() {
 	$percentused = number_format( $percentused );
 
 	?>
-	<h4 class="mu-storage"><?php _e( 'Storage Space' ); ?></h4>
+	<h3 class="mu-storage"><?php _e( 'Storage Space' ); ?></h3>
 	<div class="mu-storage">
 	<ul>
 		<li class="storage-count">
@@ -1378,12 +1378,12 @@ function wp_dashboard_empty() {}
 function wp_welcome_panel() {
 	?>
 	<div class="welcome-panel-content">
-	<h3><?php _e( 'Welcome to WordPress!' ); ?></h3>
+	<h2><?php _e( 'Welcome to WordPress!' ); ?></h2>
 	<p class="about-description"><?php _e( 'We&#8217;ve assembled some links to get you started:' ); ?></p>
 	<div class="welcome-panel-column-container">
 	<div class="welcome-panel-column">
 		<?php if ( current_user_can( 'customize' ) ): ?>
-			<h4><?php _e( 'Get Started' ); ?></h4>
+			<h3><?php _e( 'Get Started' ); ?></h3>
 			<a class="button button-primary button-hero load-customize hide-if-no-customize" href="<?php echo wp_customize_url(); ?>"><?php _e( 'Customize Your Site' ); ?></a>
 		<?php endif; ?>
 		<a class="button button-primary button-hero hide-if-customize" href="<?php echo admin_url( 'themes.php' ); ?>"><?php _e( 'Customize Your Site' ); ?></a>
@@ -1392,7 +1392,7 @@ function wp_welcome_panel() {
 		<?php endif; ?>
 	</div>
 	<div class="welcome-panel-column">
-		<h4><?php _e( 'Next Steps' ); ?></h4>
+		<h3><?php _e( 'Next Steps' ); ?></h3>
 		<ul>
 		<?php if ( 'page' == get_option( 'show_on_front' ) && ! get_option( 'page_for_posts' ) ) : ?>
 			<li><?php printf( '<a href="%s" class="welcome-icon welcome-edit-page">' . __( 'Edit your front page' ) . '</a>', get_edit_post_link( get_option( 'page_on_front' ) ) ); ?></li>
@@ -1409,7 +1409,7 @@ function wp_welcome_panel() {
 		</ul>
 	</div>
 	<div class="welcome-panel-column welcome-panel-last">
-		<h4><?php _e( 'More Actions' ); ?></h4>
+		<h3><?php _e( 'More Actions' ); ?></h3>
 		<ul>
 		<?php if ( current_theme_supports( 'widgets' ) || current_theme_supports( 'menus' ) ) : ?>
 			<li><div class="welcome-icon welcome-widgets-menus"><?php
