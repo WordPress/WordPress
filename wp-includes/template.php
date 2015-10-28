@@ -35,6 +35,9 @@ function get_query_template( $type, $templates = array() ) {
 	 * extension and any non-alphanumeric characters delimiting words -- of the file to load.
 	 * This hook also applies to various types of files loaded as part of the Template Hierarchy.
 	 *
+	 * Possible values for `$type` include: 'index', '404', 'archive', 'author', 'category', 'tag', 'taxonomy', 'date',
+	 * 'home', 'front_page', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
+	 *
 	 * @since 1.5.0
 	 *
 	 * @param string $template Path to the template. See locate_template().
