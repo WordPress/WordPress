@@ -178,21 +178,6 @@ foreach ( $menu as $id => $data ) {
 }
 unset($id, $data, $subs, $first_sub);
 
-// Remove any duplicated separators
-$separator_found = false;
-foreach ( $menu as $id => $data ) {
-	if ( false !== strpos( $data[4], 'wp-menu-separator' ) ) {
-		if ( ! $separator_found ) {
-			$separator_found = true;
-		} else {
-			unset($menu[$id]);
-		}
-	} else {
-		$separator_found = false;
-	}
-}
-unset($id, $data);
-
 /**
  *
  * @param string $add
@@ -317,6 +302,26 @@ if ( apply_filters( 'custom_menu_order', false ) ) {
 	usort($menu, 'sort_menu');
 	unset($menu_order, $default_menu_order);
 }
+
+// Prevent adjacent separators
+$prev_menu_was_separator = false;
+foreach ( $menu as $id => $data ) {
+	if ( false === stristr( $data[4], 'wp-menu-separator' ) ) {
+
+		// This item is not a separator, so falsey the toggler and do nothing
+		$prev_menu_was_separator = false;
+	} else {
+
+		// The previous item was a separator, so unset this one
+		if ( true === $prev_menu_was_separator ) {
+			unset( $menu[ $id ] );
+		}
+
+		// This item is a separator, so truthy the toggler and move on
+		$prev_menu_was_separator = true;
+	}
+}
+unset( $id, $data, $prev_menu_was_separator );
 
 // Remove the last menu item if it is a separator.
 $last_menu_key = array_keys( $menu );
