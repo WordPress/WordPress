@@ -1535,6 +1535,12 @@ form.upgrade .hint {
 	color: #32373c;
 }
 
+#screen-meta-links .show-settings:active {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	transform: none;
+}
+
 #screen-meta-links .show-settings:after {
 	left: 0;
 	content: "\f140";
