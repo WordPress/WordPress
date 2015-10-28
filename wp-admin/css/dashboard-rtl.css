@@ -586,6 +586,10 @@ form.initial-form.quickpress-open input#title {
 	color: #23282d;
 }
 
+#dashboard_quick_press .drafts h2 {
+	line-height: inherit;
+}
+
 #dashboard-widgets .inside h4, /* Back-compat for pre-4.4 */
 #dashboard-widgets .inside h3 {
 	margin-right: 0;
@@ -593,10 +597,6 @@ form.initial-form.quickpress-open input#title {
 }
 
 /* Dashboard activity widget */
-
-#dashboard_activity ul {
-	padding: 0 12px;
-}
 
 #dashboard_activity .comment-meta span.approve:before {
 	content: "\f227";
@@ -609,13 +609,12 @@ form.initial-form.quickpress-open input#title {
 }
 
 #dashboard_activity .inside {
-	padding: 0;
 	margin: 0;
 }
 
 #dashboard_activity .no-activity {
 	overflow: hidden;
-	padding: 0 12px 12px;
+	padding: 0 0 12px;
 	text-align: center;
 }
 
@@ -646,7 +645,7 @@ form.initial-form.quickpress-open input#title {
 	float: none;
 	border-top: 1px solid #eeeeee;
 	margin-top: 0;
-	padding: 8px 12px 4px;
+	padding: 8px 0 4px;
 }
 
 #future-posts ul,
@@ -670,7 +669,6 @@ form.initial-form.quickpress-open input#title {
 
 .activity-block {
 	border-bottom: 1px solid #eee;
-	overflow: hidden;
 	padding: 8px 0 4px;
 }
 
@@ -800,6 +798,7 @@ h3:hover .edit-box {
 
 #latest-comments #the-comment-list {
 	position: relative;
+	margin: 0 -12px;
 }
 
 #activity-widget #the-comment-list .comment,
