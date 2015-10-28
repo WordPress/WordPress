@@ -869,7 +869,12 @@ function wp_get_attachment_image_url( $attachment_id, $size = 'thumbnail', $icon
 }
 
 /**
- * Private, do not use
+ * Caches and returns the base URL of the uploads directory.
+ *
+ * @since 4.4.0
+ * @access private
+ *
+ * @return string The base URL, cached.
  */
 function _wp_upload_dir_baseurl() {
 	static $baseurl = null;
@@ -883,18 +888,28 @@ function _wp_upload_dir_baseurl() {
 }
 
 /**
- * Private, do not use
+ * Get the image size as array from its meta data.
+ *
+ * Used for responsive images.
+ *
+ * @since 4.4.0
+ * @access private
+ *
+ * @param string $size_name  Image size. Accepts any valid image size name (thumbnail, medium, etc.).
+ * @param array  $image_meta The image meta data.
+ * @return array|bool Array of width and height values in pixels (in that order)
+ *                    or false if the size doesn't exist.
  */
-function _wp_get_image_size_from_meta( $size, $image_meta ) {
-	if ( $size === 'full' ) {
+function _wp_get_image_size_from_meta( $size_name, $image_meta ) {
+	if ( $size_name === 'full' ) {
 		return array(
 			absint( $image_meta['width'] ),
 			absint( $image_meta['height'] ),
 		);
-	} elseif ( ! empty( $image_meta['sizes'][$size] ) ) {
+	} elseif ( ! empty( $image_meta['sizes'][$size_name] ) ) {
 		return array(
-			absint( $image_meta['sizes'][$size]['width'] ),
-			absint( $image_meta['sizes'][$size]['height'] ),
+			absint( $image_meta['sizes'][$size_name]['width'] ),
+			absint( $image_meta['sizes'][$size_name]['height'] ),
 		);
 	}
 
