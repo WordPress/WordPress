@@ -162,12 +162,9 @@ TABLE OF CONTENTS:
 .wp-core-ui .button:focus,
 .wp-core-ui .button-secondary:focus,
 .wp-core-ui .button-link:focus {
-	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(0, 115, 170, .8);
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(0, 115, 170, .8);
+	border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 
 .wp-core-ui .button.active,
@@ -184,14 +181,13 @@ TABLE OF CONTENTS:
 }
 
 .wp-core-ui .button.active:focus {
+	border-color: #5b9dd9;
 	-webkit-box-shadow:
 		inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 ),
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(0, 115, 170, .8);
+		0 0 3px rgba( 0, 115, 170, .8 );
 	box-shadow:
 		inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 ),
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(0, 115, 170, .8);
+		0 0 3px rgba( 0, 115, 170, .8 );
 }
 
 .wp-core-ui .button[disabled],
