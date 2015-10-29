@@ -328,17 +328,13 @@ function wp_embed_handler_video( $matches, $attr, $url, $rawattr ) {
 }
 
 /**
- * Parses an oEmbed API query.
+ * Registers the oEmbed REST API route.
  *
  * @since 4.4.0
- *
- * @see WP_oEmbed_Controller::parse_query()
- *
- * @param WP_Query $wp_query The current WP_Query instance.
  */
-function wp_oembed_parse_query( $wp_query ) {
+function wp_oembed_register_route() {
 	$controller = new WP_oEmbed_Controller();
-	$controller->parse_query( $wp_query );
+	$controller->register_routes();
 }
 
 /**
@@ -421,7 +417,7 @@ function get_post_embed_url( $post = null ) {
  * @return string The oEmbed endpoint URL.
  */
 function get_oembed_endpoint_url( $permalink = '', $format = 'json' ) {
-	$url = add_query_arg( array( 'oembed' => 'true' ), home_url( '/' ) );
+	$url = rest_url( 'oembed/1.0/embed' );
 
 	if ( 'json' === $format ) {
 		$format = false;
@@ -545,17 +541,8 @@ function get_oembed_response_data( $post = null, $width ) {
 		'max' => 600
 	) );
 
-	if ( $width < $min_max_width['min'] ) {
-		$width = $min_max_width['min'];
-	} elseif ( $width > $min_max_width['max'] ) {
-		$width = $min_max_width['max'];
-	}
-
-	$height = ceil( $width / 16 * 9 );
-
-	if ( 200 > $height ) {
-		$height = 200;
-	}
+	$width  = min( max( $min_max_width['min'], $width ), $min_max_width['max'] );
+	$height = max( ceil( $width / 16 * 9 ), 200 );
 
 	$data = array(
 		'version'       => '1.0',
@@ -644,6 +631,61 @@ function wp_oembed_ensure_format( $format ) {
 	}
 
 	return $format;
+}
+
+/**
+ * Hooks into the REST API output to print XML instead of JSON.
+ *
+ * This is only done for the oEmbed API endpoint,
+ * which supports both formats.
+ *
+ * @access private
+ * @since 4.4.0
+ *
+ * @param bool                      $served  Whether the request has already been served.
+ * @param WP_HTTP_ResponseInterface $result  Result to send to the client. Usually a WP_REST_Response.
+ * @param WP_REST_Request           $request Request used to generate the response.
+ * @param WP_REST_Server            $server  Server instance.
+ * @return true
+ */
+function _oembed_rest_pre_serve_request( $served, $result, $request, $server ) {
+	$params = $request->get_params();
+
+	if ( '/oembed/1.0/embed' !== $request->get_route() || 'GET' !== $request->get_method() ) {
+		return $served;
+	}
+
+	if ( ! isset( $params['format'] ) || 'xml' !== $params['format'] ) {
+		return $served;
+	}
+
+	// Embed links inside the request.
+	$data = $server->response_to_data( $result, false );
+
+	if ( 404 === $result->get_status() ) {
+		$data = $data[0];
+	}
+
+	if ( ! class_exists( 'SimpleXMLElement' ) ) {
+		status_header( 501 );
+		die( get_status_header_desc( 501 ) );
+	}
+
+	$result = _oembed_create_xml( $data );
+
+	// Bail if there's no XML.
+	if ( ! $result ) {
+		status_header( 501 );
+		return get_status_header_desc( 501 );
+	}
+
+	if ( ! headers_sent() ) {
+		$server->send_header( 'Content-Type', 'text/xml; charset=' . get_option( 'blog_charset' ) );
+	}
+
+	echo $result;
+
+	return true;
 }
 
 /**
