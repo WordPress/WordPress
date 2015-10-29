@@ -461,7 +461,9 @@ function get_post_embed_html( $post = null, $width, $height ) {
 
 	$embed_url = get_post_embed_url( $post );
 
-	$output = "<script type='text/javascript'>\n";
+	$output = '<blockquote><a href="' . get_permalink( $post ) . '">' . get_the_title( $post ) . "</a></blockquote>\n";
+
+	$output .= "<script type='text/javascript'>\n";
 	$output .= "<!--//--><![CDATA[//><!--\n";
 	if ( SCRIPT_DEBUG ) {
 		$output .= file_get_contents( ABSPATH . WPINC . '/js/wp-embed.js' );
@@ -477,7 +479,7 @@ function get_post_embed_html( $post = null, $width, $height ) {
 		 * and edit wp-embed.js directly.
 		 */
 		$output .=<<<JS
-		!function(a,b){"use strict";function c(){var a=-1!==navigator.appVersion.indexOf("MSIE 10"),c=!!navigator.userAgent.match(/Trident.*rv\:11\./);if(a||c)for(var d,e=b.querySelectorAll(".wp-embedded-content[security]"),f=0;f<e.length;f++)d=e[f].cloneNode(!0),d.removeAttribute("security"),e[f].parentNode.insertBefore(d,e[f].nextSibling),e[f].parentNode.removeChild(e[f])}a.wp=a.wp||{},a.wp.receiveEmbedMessage||(a.wp.receiveEmbedMessage=function(c){var d=c.data;if(d.secret||d.message||d.value)for(var e=b.querySelectorAll('.wp-embedded-content[data-secret="'+d.secret+'"]'),f=0;f<e.length;f++){var g=e[f];if("height"===d.message){var h=d.value;h>1e3?h=1e3:200>h&&(h=200),g.height=h+"px"}if("link"===d.message){var i=b.createElement("a"),j=b.createElement("a");i.href=g.getAttribute("src"),j.href=d.value,j.host===i.host&&b.activeElement===g&&(a.top.location.href=d.value)}}},a.addEventListener("message",a.wp.receiveEmbedMessage,!1),b.addEventListener("DOMContentLoaded",c,!1))}(window,document);
+		!function(a,b){"use strict";function c(){var a,c,d,e=-1!==navigator.appVersion.indexOf("MSIE 10"),f=!!navigator.userAgent.match(/Trident.*rv\:11\./);if(e||f)for(a=b.querySelectorAll(".wp-embedded-content[security]"),d=0;d<a.length;d++)c=a[d].cloneNode(!0),c.removeAttribute("security"),a[d].parentNode.insertBefore(c,a[d].nextSibling),a[d].parentNode.removeChild(a[d])}a.wp=a.wp||{},a.wp.receiveEmbedMessage||(a.wp.receiveEmbedMessage=function(c){var d=c.data;if(d.secret||d.message||d.value){var e,f,g,h,i,j=b.querySelectorAll('iframe[data-secret="'+d.secret+'"]'),k=b.querySelectorAll('blockquote[data-secret="'+d.secret+'"]');for(e=0;e<k.length;e++)k[e].style.display="none";for(e=0;e<j.length;e++)f=j[e],f.style.display="","height"===d.message&&(g=d.value,g>1e3?g=1e3:200>g&&(g=200),f.height=g+"px"),"link"===d.message&&(h=b.createElement("a"),i=b.createElement("a"),h.href=f.getAttribute("src"),i.href=d.value,i.host===h.host&&b.activeElement===f&&(a.top.location.href=d.value))}},a.addEventListener("message",a.wp.receiveEmbedMessage,!1),b.addEventListener("DOMContentLoaded",c,!1))}(window,document);
 JS;
 	}
 	$output .= "\n//--><!]]>";
@@ -752,7 +754,11 @@ function wp_filter_oembed_result( $result, $data, $url ) {
 	}
 
 	$allowed_html = array(
-		'iframe' => array(
+		'a'          => array(
+			        'href' => true,
+		),
+		'blockquote' => array(),
+		'iframe'     => array(
 			'src'          => true,
 			'width'        => true,
 			'height'       => true,
@@ -766,13 +772,20 @@ function wp_filter_oembed_result( $result, $data, $url ) {
 	);
 
 	$html = wp_kses( $result, $allowed_html );
-	preg_match( '|^.*(<iframe.*?></iframe>).*$|m', $html, $iframes );
 
-	if ( empty( $iframes ) ) {
+	preg_match( '|(<blockquote>.*?</blockquote>)?.*(<iframe.*?></iframe>)|ms', $html, $content );
+	// We require at least the iframe to exist.
+	if ( empty( $content[2] ) ) {
 		return false;
 	}
+	$html = $content[1] . $content[2];
 
-	$html = str_replace( '<iframe', '<iframe sandbox="allow-scripts" security="restricted"', $iframes[1] );
+	if ( ! empty( $content[1] ) ) {
+		// We have a blockquote to fall back on. Hide the iframe by default.
+		$html = str_replace( '<iframe', '<iframe style="display:none;"', $html );
+	}
+
+	$html = str_replace( '<iframe', '<iframe sandbox="allow-scripts" security="restricted"', $html );
 
 	preg_match( '/ src=[\'"]([^\'"]*)[\'"]/', $html, $results );
 
@@ -782,6 +795,7 @@ function wp_filter_oembed_result( $result, $data, $url ) {
 		$url = esc_url( "{$results[1]}#?secret=$secret" );
 
 		$html = str_replace( $results[0], " src=\"$url\" data-secret=\"$secret\"", $html );
+		$html = str_replace( '<blockquote', "<blockquote data-secret=\"$secret\"", $html );
 	}
 
 	return $html;
@@ -909,4 +923,17 @@ function print_embed_scripts() {
 	?>
 	</script>
 	<?php
+}
+
+/**
+ * Prepare the oembed HTML to be displayed in an RSS feed.
+ *
+ * @since 4.4.0
+ * @access private
+ *
+ * @param string $content The content to filter.
+ * @return string The filtered content.
+ */
+function _oembed_filter_feed_content( $content ) {
+	return str_replace( '<iframe sandbox="allow-scripts" security="restricted" style="display:none;"', '<iframe sandbox="allow-scripts" security="restricted"', $content );
 }

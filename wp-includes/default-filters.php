@@ -165,6 +165,7 @@ add_filter( 'the_title_rss',      'ent2ncr',                    8 );
 add_filter( 'the_title_rss',      'esc_html'                      );
 add_filter( 'the_content_rss',    'ent2ncr',                    8 );
 add_filter( 'the_content_feed',   'wp_staticize_emoji'            );
+add_filter( 'the_content_feed',   '_oembed_filter_feed_content'   );
 add_filter( 'the_excerpt_rss',    'convert_chars'                 );
 add_filter( 'the_excerpt_rss',    'ent2ncr',                    8 );
 add_filter( 'comment_author_rss', 'ent2ncr',                    8 );

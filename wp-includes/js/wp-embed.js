@@ -13,14 +13,22 @@
 			return;
 		}
 
-		var iframes = document.querySelectorAll( '.wp-embedded-content[data-secret="' + data.secret + '"]' );
+		var iframes = document.querySelectorAll( 'iframe[data-secret="' + data.secret + '"]' ),
+			blockquotes = document.querySelectorAll( 'blockquote[data-secret="' + data.secret + '"]' ),
+			i, source, height, sourceURL, targetURL;
 
-		for ( var i = 0; i < iframes.length; i++ ) {
-			var source = iframes[ i ];
+		for ( i = 0; i < blockquotes.length; i++ ) {
+			blockquotes[ i ].style.display = 'none';
+		}
+
+		for ( i = 0; i < iframes.length; i++ ) {
+			source = iframes[ i ];
+
+			source.style.display = '';
 
 			/* Resize the iframe on request. */
 			if ( 'height' === data.message ) {
-				var height = data.value;
+				height = data.value;
 				if ( height > 1000 ) {
 					height = 1000;
 				} else if ( height < 200 ) {
@@ -32,7 +40,9 @@
 
 			/* Link to a specific URL on request. */
 			if ( 'link' === data.message ) {
-				var sourceURL = document.createElement( 'a' ), targetURL = document.createElement( 'a' );
+				sourceURL = document.createElement( 'a' );
+				targetURL = document.createElement( 'a' );
+
 				sourceURL.href = source.getAttribute( 'src' );
 				targetURL.href = data.value;
 
@@ -48,13 +58,14 @@
 
 	function onLoad() {
 		var isIE10 = -1 !== navigator.appVersion.indexOf( 'MSIE 10' ),
-			isIE11 = !!navigator.userAgent.match( /Trident.*rv\:11\./ );
+			isIE11 = !!navigator.userAgent.match( /Trident.*rv\:11\./ ),
+			iframes, iframeClone, i;
 
 		/* Remove security attribute from iframes in IE10 and IE11. */
 		if ( isIE10 || isIE11 ) {
-			var iframes = document.querySelectorAll( '.wp-embedded-content[security]' ), iframeClone;
+			iframes = document.querySelectorAll( '.wp-embedded-content[security]' );
 
-			for ( var i = 0; i < iframes.length; i++ ) {
+			for ( i = 0; i < iframes.length; i++ ) {
 				iframeClone = iframes[ i ].cloneNode( true );
 				iframeClone.removeAttribute( 'security' );
 				iframes[ i ].parentNode.insertBefore( iframeClone, iframes[ i ].nextSibling );
