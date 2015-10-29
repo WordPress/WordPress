@@ -361,8 +361,10 @@ function rest_ensure_response( $response ) {
  */
 function rest_handle_deprecated_function( $function, $replacement, $version ) {
 	if ( ! empty( $replacement ) ) {
+		/* translators: 1: function name, 2: WordPress version number, 3: new function name */
 		$string = sprintf( __( '%1$s (since %2$s; use %3$s instead)' ), $function, $version, $replacement );
 	} else {
+		/* translators: 1: function name, 2: WordPress version number */
 		$string = sprintf( __( '%1$s (since %2$s; no alternative available)' ), $function, $version );
 	}
 
@@ -380,8 +382,10 @@ function rest_handle_deprecated_function( $function, $replacement, $version ) {
  */
 function rest_handle_deprecated_argument( $function, $replacement, $version ) {
 	if ( ! empty( $replacement ) ) {
+		/* translators: 1: function name, 2: WordPress version number, 3: new argument name */
 		$string = sprintf( __( '%1$s (since %2$s; %3$s)' ), $function, $version, $replacement );
 	} else {
+		/* translators: 1: function name, 2: WordPress version number */
 		$string = sprintf( __( '%1$s (since %2$s; no alternative available)' ), $function, $version );
 	}
 
