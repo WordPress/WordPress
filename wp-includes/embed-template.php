@@ -205,10 +205,17 @@ if ( have_posts() ) :
 else :
 	?>
 	<div class="wp-embed">
-		<p class="wp-embed-heading"><?php _e( 'Page not found' ); ?></p>
+		<p class="wp-embed-heading"><?php _e( 'Oops! That embed can’t be found.' ); ?></p>
 
 		<div class="wp-embed-excerpt">
-			<p><?php _e( 'Error 404! The requested content was not found.' ) ?></p>
+			<p>
+				<?php
+				printf(
+					__( 'It looks like nothing was found at this location. Maybe try visiting %s directly?' ),
+					'<strong><a href="' . esc_url( home_url() ) . '">' . esc_html( get_bloginfo( 'name' ) ) . '</a></strong>'
+				);
+				?>
+			</p>
 		</div>
 
 		<div class="wp-embed-footer">
