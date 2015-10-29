@@ -746,26 +746,27 @@ function wp_filter_oembed_result( $result, $data, $url ) {
 }
 
 /**
- * Filters the string in the "more" link displayed after a trimmed excerpt.
+ * Filters the string in the 'more' link displayed after a trimmed excerpt.
+ *
+ * Replaces '[...]' (appended to automatically generated excerpts) with an
+ * ellipsis and a "Continue reading" link in the embed template.
  *
  * @since 4.4.0
  *
- * @param string $more_string The string shown within the more link.
- * @return string The modified excerpt.
+ * @param string $more_string Default 'more' string.
+ * @return string 'Continue reading' link prepended with an ellipsis.
  */
 function wp_embed_excerpt_more( $more_string ) {
 	if ( ! is_embed() ) {
 		return $more_string;
 	}
 
-	return sprintf(
-		_x( '&hellip; %s', 'read more link' ),
-		sprintf(
-			'<a class="wp-embed-more" href="%s" target="_top">%s</a>',
-			get_the_permalink(),
-			__( 'Read more' )
-		)
+	$link = sprintf( '<a href="%1$s" class="wp-embed-more" target="_top">%2$s</a>',
+		esc_url( get_permalink() ),
+		/* translators: %s: Name of current post */
+		sprintf( __( 'Continue reading %s' ), '<span class="screen-reader-text">' . get_the_title() . '</span>' )
 	);
+	return ' &hellip; ' . $link;
 }
 
 /**
