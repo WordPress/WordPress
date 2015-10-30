@@ -895,7 +895,7 @@ function _wp_upload_dir_baseurl() {
  * @since 4.4.0
  * @access private
  *
- * @param string $size_name  Image size. Accepts any valid image size name (thumbnail, medium, etc.).
+ * @param string $size_name  Image size. Accepts any valid image size name ('thumbnail', 'medium', etc.).
  * @param array  $image_meta The image meta data.
  * @return array|bool Array of width and height values in pixels (in that order)
  *                    or false if the size doesn't exist.
@@ -921,7 +921,6 @@ function _wp_get_image_size_from_meta( $size_name, $image_meta ) {
  *
  * @since 4.4.0
  *
-
  * @param int          $attachment_id Optional. Image attachment ID.
  * @param array|string $size          Image size. Accepts any valid image size, or an array of width and height
  *                                    values in pixels (in that order). Default 'medium'.
@@ -973,7 +972,7 @@ function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $atta
 		return false;
 	}
 
-	// Add full size to the '$img_sizes' array.
+	// Add full size to the '$image_sizes' array.
 	$image_sizes['full'] = array(
 		'width'  => $image_meta['width'],
 		'height' => $image_meta['height'],
@@ -1099,9 +1098,9 @@ function wp_get_attachment_image_sizes( $size, $image_meta = null, $attachment_i
 		}
 
 		if ( is_array( $image_meta ) ) {
-			$width = _wp_get_image_size_from_meta( $size, $image_meta );
-			if ( $width ) {
-				$width = absint( $width[0] );
+			$size_array = _wp_get_image_size_from_meta( $size, $image_meta );
+			if ( $size_array ) {
+				$width = absint( $size_array[0] );
 			}
 		}
 	}
