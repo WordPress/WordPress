@@ -1043,7 +1043,12 @@ function wp_nav_menu_update_menu_items ( $nav_menu_selected_id, $nav_menu_select
 	/** This action is documented in wp-includes/nav-menu.php */
 	do_action( 'wp_update_nav_menu', $nav_menu_selected_id );
 
-	$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( __( '<strong>%1$s</strong> has been updated.' ), $nav_menu_selected_title ) . '</p></div>';
+	$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' .
+		/* translators: %s: nav menu title */
+		sprintf( __( '%s has been updated.' ),
+			'<strong>' . $nav_menu_selected_title . '</strong>'
+		) . '</p></div>';
+
 	unset( $menu_items, $unsorted_menu_items );
 
 	return $messages;
