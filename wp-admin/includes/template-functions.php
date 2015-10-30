@@ -1248,7 +1248,7 @@ function add_settings_field($id, $title, $callback, $page, $section = 'default',
  * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
  * @since 2.7.0
  *
- * @param string $page The slug name of the page whos settings sections you want to output
+ * @param string $page The slug name of the page whose settings sections you want to output
  */
 function do_settings_sections( $page ) {
 	global $wp_settings_sections, $wp_settings_fields;
@@ -1258,7 +1258,7 @@ function do_settings_sections( $page ) {
 
 	foreach ( (array) $wp_settings_sections[$page] as $section ) {
 		if ( $section['title'] )
-			echo "<h3>{$section['title']}</h3>\n";
+			echo "<h2>{$section['title']}</h2>\n";
 
 		if ( $section['callback'] )
 			call_user_func( $section['callback'], $section );
