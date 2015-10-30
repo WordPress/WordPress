@@ -38,8 +38,16 @@ function wpmu_update_blogs_date() {
  * @return string Full URL of the blog if found. Empty string if not.
  */
 function get_blogaddress_by_id( $blog_id ) {
-	$bloginfo = get_blog_details( (int) $blog_id, false ); // only get bare details!
-	return ( $bloginfo ) ? esc_url( 'http://' . $bloginfo->domain . $bloginfo->path ) : '';
+	$bloginfo = get_blog_details( (int) $blog_id );
+
+	if ( empty( $bloginfo ) ) {
+		return '';
+	}
+
+	$scheme = parse_url( $bloginfo->home, PHP_URL_SCHEME );
+	$scheme = empty( $scheme ) ? 'http' : $scheme;
+
+	return esc_url( $scheme . '://' . $bloginfo->domain . $bloginfo->path );
 }
 
 /**
@@ -216,9 +224,10 @@ function get_blog_details( $fields = null, $get_all = true ) {
 	}
 
 	switch_to_blog( $blog_id );
-	$details->blogname		= get_option( 'blogname' );
-	$details->siteurl		= get_option( 'siteurl' );
-	$details->post_count	= get_option( 'post_count' );
+	$details->blogname   = get_option( 'blogname' );
+	$details->siteurl    = get_option( 'siteurl' );
+	$details->post_count = get_option( 'post_count' );
+	$details->home       = get_option( 'home' );
 	restore_current_blog();
 
 	/**
