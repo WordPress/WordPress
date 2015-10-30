@@ -831,6 +831,7 @@ function wp_removable_query_args() {
 		'untrashed',
 		'update',
 		'updated',
+		'wp-post-new-reload',
 	);
 
 	/**
