@@ -529,9 +529,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			} else {
 				$is_active = false;
 				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . ' <span class="error-message">' . __( 'Inactive:' ) . '</span></strong> ' .
-					/* translators: %s: drop-in constant name */
-					sprintf( __( 'Requires %s in <code>wp-config.php</code>.' ),
-						"<code>define('" . $dropins[ $plugin_file ][1] . "', true);</code>"
+					/* translators: 1: drop-in constant name, 2: wp-config.php */
+					sprintf( __( 'Requires %1$s in %2$s file.' ),
+						"<code>define('" . $dropins[ $plugin_file ][1] . "', true);</code>",
+						'<code>wp-config.php</code>'
 					) . '</p>';
 			}
 			if ( $plugin_data['Description'] )
