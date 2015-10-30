@@ -1538,6 +1538,8 @@ form.upgrade .hint {
 #screen-meta-links .show-settings:active {
 	-webkit-box-shadow: none;
 	box-shadow: none;
+	-webkit-transform: none;
+	-ms-transform: none;
 	transform: none;
 }
 
