@@ -448,9 +448,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( 'recently_activated' == $status ) {
 			submit_button( __( 'Clear List' ), 'button', 'clear-recent-list', false );
 		} elseif ( 'top' === $which && 'mustuse' === $status ) {
-			echo '<p>' . sprintf( __( 'Files in the <code>%s</code> directory are executed automatically.' ), str_replace( ABSPATH, '/', WPMU_PLUGIN_DIR ) ) . '</p>';
+			/* translators: %s: mu-plugins directory name */
+			echo '<p>' . sprintf( __( 'Files in the %s directory are executed automatically.' ),
+				'<code>' . str_replace( ABSPATH, '/', WPMU_PLUGIN_DIR ) . '</code>'
+			) . '</p>';
 		} elseif ( 'top' === $which && 'dropins' === $status ) {
-			echo '<p>' . sprintf( __( 'Drop-ins are advanced plugins in the <code>%s</code> directory that replace WordPress functionality when present.' ), str_replace( ABSPATH, '', WP_CONTENT_DIR ) ) . '</p>';
+			/* translators: %s: wp-content directory name */
+			echo '<p>' . sprintf( __( 'Drop-ins are advanced plugins in the %s directory that replace WordPress functionality when present.' ),
+				'<code>' . str_replace( ABSPATH, '', WP_CONTENT_DIR ) . '</code>'
+			) . '</p>';
 		}
 		echo '</div>';
 	}
@@ -522,7 +528,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . '</strong></p>';
 			} else {
 				$is_active = false;
-				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . ' <span class="error-message">' . __('Inactive:') . '</span></strong> ' . sprintf( __( 'Requires <code>%s</code> in <code>wp-config.php</code>.' ), "define('" . $dropins[ $plugin_file ][1] . "', true);" ) . '</p>';
+				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . ' <span class="error-message">' . __( 'Inactive:' ) . '</span></strong> ' .
+					/* translators: %s: drop-in constant name */
+					sprintf( __( 'Requires %s in <code>wp-config.php</code>.' ),
+						"define('" . $dropins[ $plugin_file ][1] . "', true);"
+					) . '</p>';
 			}
 			if ( $plugin_data['Description'] )
 				$description .= '<p>' . $plugin_data['Description'] . '</p>';
