@@ -845,9 +845,15 @@ if ( $active_signup == 'none' ) {
 				$newblog = get_blogaddress_by_name( $newblogname );
 
 				if ( $active_signup == 'blog' || $active_signup == 'all' )
-					printf( '<p><em>' . __( 'The site you were looking for, <strong>%s</strong>, does not exist, but you can create it now!' ) . '</em></p>', $newblog );
+					/* translators: %s: site address */
+					printf( '<p><em>' . __( 'The site you were looking for, %s, does not exist, but you can create it now!' ) . '</em></p>',
+						'<strong>' . $newblog . '</strong>'
+					);
 				else
-					printf( '<p><em>' . __( 'The site you were looking for, <strong>%s</strong>, does not exist.' ) . '</em></p>', $newblog );
+					/* translators: %s: site address */
+					printf( '<p><em>' . __( 'The site you were looking for, %s, does not exist.' ) . '</em></p>',
+						'<strong>' . $newblog . '</strong>'
+					);
 			}
 			break;
 	}
