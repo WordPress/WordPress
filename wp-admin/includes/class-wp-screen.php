@@ -1194,6 +1194,13 @@ final class WP_Screen {
 	 * @since 4.4.0
 	 */
 	public function render_view_mode() {
+		$screen = get_current_screen();
+
+		// Currently only enabled for posts lists
+		if ( 'edit' !== $screen->base ) {
+			return;
+		}
+
 		/**
 		 * Filter the post types that have different view mode options.
 		 *
