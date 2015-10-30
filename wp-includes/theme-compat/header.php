@@ -7,7 +7,14 @@
  * This file is here for Backwards compatibility with old themes and will be removed in a future version
  *
  */
-_deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.0', null, sprintf( __('Please include a %1$s template in your theme.'), basename(__FILE__) ) );
+_deprecated_file(
+	/* translators: %s: template name */
+	sprintf( __( 'Theme without %s' ), basename( __FILE__ ) ),
+	'3.0',
+	null,
+	/* translators: %s: template name */
+	sprintf( __( 'Please include a %s template in your theme.' ), basename( __FILE__ ) )
+);
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
