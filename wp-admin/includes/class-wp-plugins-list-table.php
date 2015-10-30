@@ -531,7 +531,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 				$description = '<p><strong>' . $dropins[ $plugin_file ][0] . ' <span class="error-message">' . __( 'Inactive:' ) . '</span></strong> ' .
 					/* translators: %s: drop-in constant name */
 					sprintf( __( 'Requires %s in <code>wp-config.php</code>.' ),
-						"define('" . $dropins[ $plugin_file ][1] . "', true);"
+						"<code>define('" . $dropins[ $plugin_file ][1] . "', true);</code>"
 					) . '</p>';
 			}
 			if ( $plugin_data['Description'] )
