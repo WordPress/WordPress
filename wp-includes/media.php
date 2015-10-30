@@ -817,11 +817,11 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 
 			if ( is_array( $image_meta ) ) {
 				$size_array = array( absint( $width ), absint( $height ) );
-				$sources    = wp_calculate_image_srcset( $src, $size_array, $image_meta, $attachment_id );
-				$sizes      = wp_get_attachment_image_sizes( $size_array, $image_meta, $attachment_id );
+				$srcset = wp_calculate_image_srcset( $src, $size_array, $image_meta, $attachment_id );
+				$sizes = wp_get_attachment_image_sizes( $size_array, $image_meta, $attachment_id );
 
-				if ( count( $sources ) > 1 && ( $sizes || ! empty( $attr['sizes'] ) ) ) {
-					$attr['srcset'] = wp_image_srcset_attr( $sources, $size_array, $image_meta, $attachment_id );
+				if ( $srcset && ( $sizes || ! empty( $attr['sizes'] ) ) ) {
+					$attr['srcset'] = $srcset;
 
 					if ( empty( $attr['sizes'] ) ) {
 						$attr['sizes'] = $sizes;
@@ -943,48 +943,7 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $imag
 		absint( $image[2] )
 	);
 
-	// Calculate the sources for the 'srcset'.
-	$sources = wp_calculate_image_srcset( $image_url, $size_array, $image_meta, $attachment_id );
-
-	// Only return a 'srcset' value if there is more than one source.
-	if ( count( $sources ) < 2 ) {
-		return false;
-	}
-
-	return wp_image_srcset_attr( $sources, $size_array, $image_meta, $attachment_id );
-}
-
-
-/**
- * A helper function to concatenate and filter the 'srcset' attribute value.
- *
- * @since 4.4.0
- *
- * @param array   $sources       The array containing image sizes data as returned by 'wp_calculate_image_srcset()'.
- * @param array   $size_array    Array of width and height values in pixels (in that order).
- * @param array   $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
- * @param int     $attachment_id The image attachment ID to pass to the filter.
- * @return string The 'srcset' attribute value.
- */
-function wp_image_srcset_attr( $sources, $size_array, $image_meta, $attachment_id ) {
-	$srcset = '';
-
-	foreach ( $sources as $source ) {
-		$srcset .= $source['url'] . ' ' . $source['value'] . $source['descriptor'] . ', ';
-	}
-
-	/**
-	 * Filter the output of 'wp_image_srcset_attr()'.
-	 *
-	 * @since 4.4.0
-	 *
-	 * @param string       $srcset        A source set formatted for a 'srcset' attribute.
-	 * @param int          $attachment_id Image attachment ID.
-	 * @param array|string $size          Image size. Image size name, or an array of width and height
-	 *                                    values in pixels (in that order).
-	 * @param array        $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
-	 */
-	return apply_filters( 'wp_image_srcset', rtrim( $srcset, ', ' ), $attachment_id, $size_array, $image_meta );
+	return wp_calculate_image_srcset( $image_url, $size_array, $image_meta, $attachment_id );
 }
 
 /**
@@ -996,17 +955,7 @@ function wp_image_srcset_attr( $sources, $size_array, $image_meta, $attachment_i
  * @param array  $size_array    Array of width and height values in pixels (in that order).
  * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
  * @param int    $attachment_id Optional. The image attachment ID to pass to the filter.
- * @return array|bool $sources {
- *     Array image candidate values containing a URL, descriptor type, and
- *     descriptor value. False if none exist.
- *
- *     @type array $values {
- *        @type string $url        An image URL.
- *        @type string $descriptor A width or density descriptor used in a 'srcset'.
- *        @type int    $value      The descriptor value representing a width or
- *                                 or pixel density.
- *     }
- * }
+ * @return string|bool          The 'srcset' attribute value. False on error or when only one source exists.
  */
 function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $attachment_id = 0 ) {
 	if ( empty( $image_meta['sizes'] ) ) {
@@ -1102,14 +1051,26 @@ function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $atta
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array        $sources       An array of image URLs and widths.
-	 * @param int          $attachment_id Image attachment ID.
-	 * @param array|string $size          Image size. Image size name, or an array of width and height
-	 *                                    values in pixels (in that order).
-	 * @param array        $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
+	 * @param array $sources       An array of image URLs and widths.
+	 * @param int   $attachment_id Image attachment ID.
+	 * @param array $size_array    Array of width and height values in pixels (in that order).
+	 * @param array $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
 
 	 */
-	return apply_filters( 'wp_calculate_image_srcset', array_values( $sources ), $attachment_id, $size_array, $image_meta );
+	$sources = apply_filters( 'wp_calculate_image_srcset', $sources, $attachment_id, $size_array, $image_meta );
+
+	// Only return a 'srcset' value if there is more than one source.
+	if ( count( $sources ) < 2 ) {
+		return false;
+	}
+
+	$srcset = '';
+
+	foreach ( $sources as $source ) {
+		$srcset .= $source['url'] . ' ' . $source['value'] . $source['descriptor'] . ', ';
+	}
+
+	return rtrim( $srcset, ', ' );
 }
 
 /**
@@ -1276,12 +1237,9 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 	}
 
 	$size_array = array( $width, $height );
-	$sources = wp_calculate_image_srcset( $src, $size_array, $image_meta, $attachment_id );
+	$srcset = wp_calculate_image_srcset( $src, $size_array, $image_meta, $attachment_id );
 
-	$srcset = $sizes = '';
-	// Only calculate 'srcset' and 'sizes' values if there is more than one source.
-	if ( count( $sources ) > 1 ) {
-		$srcset = wp_image_srcset_attr( $sources, $size_array, $image_meta, $attachment_id );
+	if ( $srcset ) {
 		$sizes = wp_get_attachment_image_sizes( $size_array, $image_meta, $attachment_id );
 	}
 
