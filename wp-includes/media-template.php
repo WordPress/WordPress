@@ -190,9 +190,9 @@ function wp_print_media_templates() {
 		<# if ( data.message ) { #>
 			<h2 class="upload-message">{{ data.message }}</h2>
 		<# } #>
-
+		<?php if ( ! _device_can_upload() ) : ?>
 			<h2 class="upload-instructions"><?php printf( __( 'The web browser on your device cannot be used to upload files. You may be able to use the <a href="%s">native app for your device</a> instead.' ), 'https://apps.wordpress.org/' ); ?></h2>
-		<?php if ( is_multisite() && ! is_upload_space_available() ) : ?>
+		<?php elseif ( is_multisite() && ! is_upload_space_available() ) : ?>
 			<h2 class="upload-instructions"><?php _e( 'Upload Limit Exceeded' ); ?></h2>
 			<?php
 			/** This action is documented in wp-admin/includes/media.php */
