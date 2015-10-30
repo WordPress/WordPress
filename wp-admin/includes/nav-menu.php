@@ -202,7 +202,7 @@ function wp_nav_menu_post_type_meta_boxes() {
 			$id = $post_type->name;
 			// Give pages a higher priority.
 			$priority = ( 'page' == $post_type->name ? 'core' : 'default' );
-			add_meta_box( "add-{$id}", $post_type->labels->name, 'wp_nav_menu_item_post_type_meta_box', 'nav-menus', 'side', $priority, $post_type );
+			add_meta_box( "add-post-type-{$id}", $post_type->labels->name, 'wp_nav_menu_item_post_type_meta_box', 'nav-menus', 'side', $priority, $post_type );
 		}
 	}
 }
