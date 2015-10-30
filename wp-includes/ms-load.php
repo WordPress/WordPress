@@ -93,10 +93,17 @@ function ms_site_check() {
 	}
 
 	if ( '2' == $blog->deleted ) {
-		if ( file_exists( WP_CONTENT_DIR . '/blog-inactive.php' ) )
+		if ( file_exists( WP_CONTENT_DIR . '/blog-inactive.php' ) ) {
 			return WP_CONTENT_DIR . '/blog-inactive.php';
-		else
-			wp_die( sprintf( __( 'This site has not been activated yet. If you are having problems activating your site, please contact <a href="mailto:%1$s">%1$s</a>.' ), str_replace( '@', ' AT ', get_site_option( 'admin_email', 'support@' . get_current_site()->domain ) ) ) );
+		} else {
+			$admin_email = str_replace( '@', ' AT ', get_site_option( 'admin_email', 'support@' . get_current_site()->domain ) );
+			wp_die(
+				/* translators: %s: admin email link */
+				sprintf( __( 'This site has not been activated yet. If you are having problems activating your site, please contact %s.' ),
+					sprintf( '<a href="mailto:%s">%s</a>', $admin_email )
+				)
+			);
+		}
 	}
 
 	if ( $blog->archived == '1' || $blog->spam == '1' ) {
