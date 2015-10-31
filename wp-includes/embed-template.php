@@ -184,7 +184,7 @@ if ( have_posts() ) :
 							</p>
 						</div>
 						<div id="wp-embed-share-tab-html" class="wp-embed-share-tab" role="tabpanel" aria-labelledby="wp-embed-share-tab-button-html" aria-hidden="true">
-							<textarea class="wp-embed-share-input" tabindex="0" readonly><?php echo esc_textarea( get_post_embed_html( null, 600, 400 ) ); ?></textarea>
+							<textarea class="wp-embed-share-input" tabindex="0" readonly><?php echo esc_textarea( get_post_embed_html( 600, 400 ) ); ?></textarea>
 
 							<p class="wp-embed-share-description">
 								<?php _e( 'Copy and paste this code into your site to embed' ); ?>
