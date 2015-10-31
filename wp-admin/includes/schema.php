@@ -506,6 +506,10 @@ function populate_options() {
 	// 4.3.0
 	'finished_splitting_shared_terms' => 1,
 	'site_icon' => 0,
+
+	// 4.4.0
+	'medium_large_size_w' => 768,
+	'medium_large_size_h' => 0,
 	);
 
 	// 3.3

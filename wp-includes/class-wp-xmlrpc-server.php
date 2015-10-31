@@ -513,6 +513,16 @@ class wp_xmlrpc_server extends IXR_Server {
 				'readonly'      => false,
 				'option'        => 'medium_size_h'
 			),
+			'medium_large_size_w'   => array(
+				'desc'          => __( 'Medium-Large size image width' ),
+				'readonly'      => false,
+				'option'        => 'medium_large_size_w'
+			),
+			'medium_large_size_h'   => array(
+				'desc'          => __( 'Medium-Large size image height' ),
+				'readonly'      => false,
+				'option'        => 'medium_large_size_h'
+			),
 			'large_size_w'      => array(
 				'desc'          => __( 'Large size image width' ),
 				'readonly'      => false,

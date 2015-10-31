@@ -14,7 +14,7 @@
  * The `$size` parameter accepts either an array or a string. The supported string
  * values are 'thumb' or 'thumbnail' for the given thumbnail size or defaults at
  * 128 width and 96 height in pixels. Also supported for the string value is
- * 'medium' and 'full'. The 'full' isn't actually supported, but any value other
+ * 'medium', 'medium_large' and 'full'. The 'full' isn't actually supported, but any value other
  * than the supported will result in the content_width size or 500 if that is
  * not set.
  *
@@ -60,7 +60,15 @@ function image_constrain_size_for_editor( $width, $height, $size = 'medium', $co
 	elseif ( $size == 'medium' ) {
 		$max_width = intval(get_option('medium_size_w'));
 		$max_height = intval(get_option('medium_size_h'));
-		// if no width is set, default to the theme content width if available
+
+	}
+	elseif ( $size == 'medium_large' ) {
+		$max_width = intval( get_option( 'medium_large_size_w' ) );
+		$max_height = intval( get_option( 'medium_large_size_h' ) );
+
+		if ( intval( $content_width ) > 0 ) {
+			$max_width = min( intval( $content_width ), $max_width );
+		}
 	}
 	elseif ( $size == 'large' ) {
 		/*
@@ -71,8 +79,9 @@ function image_constrain_size_for_editor( $width, $height, $size = 'medium', $co
 		 */
 		$max_width = intval(get_option('large_size_w'));
 		$max_height = intval(get_option('large_size_h'));
-		if ( intval($content_width) > 0 )
+		if ( intval($content_width) > 0 ) {
 			$max_width = min( intval($content_width), $max_width );
+		}
 	} elseif ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) && in_array( $size, array_keys( $_wp_additional_image_sizes ) ) ) {
 		$max_width = intval( $_wp_additional_image_sizes[$size]['width'] );
 		$max_height = intval( $_wp_additional_image_sizes[$size]['height'] );
@@ -706,7 +715,7 @@ function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
  */
 function get_intermediate_image_sizes() {
 	global $_wp_additional_image_sizes;
-	$image_sizes = array('thumbnail', 'medium', 'large'); // Standard sizes
+	$image_sizes = array('thumbnail', 'medium', 'medium_large', 'large'); // Standard sizes
 	if ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) )
 		$image_sizes = array_merge( $image_sizes, array_keys( $_wp_additional_image_sizes ) );
 
@@ -716,7 +725,7 @@ function get_intermediate_image_sizes() {
 	 * @since 2.5.0
 	 *
 	 * @param array $image_sizes An array of intermediate image sizes. Defaults
-	 *                           are 'thumbnail', 'medium', 'large'.
+	 *                           are 'thumbnail', 'medium', 'medium_large', 'large'.
 	 */
 	return apply_filters( 'intermediate_image_sizes', $image_sizes );
 }
