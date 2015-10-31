@@ -31,14 +31,14 @@
 
 			/* Resize the iframe on request. */
 			if ( 'height' === data.message ) {
-				height = data.value;
+				height = parseInt( data.value, 10 );
 				if ( height > 1000 ) {
 					height = 1000;
-				} else if ( height < 200 ) {
+				} else if ( ~~height < 200 ) {
 					height = 200;
 				}
 
-				source.height = (height) + 'px';
+				source.height = height;
 			}
 
 			/* Link to a specific URL on request. */
