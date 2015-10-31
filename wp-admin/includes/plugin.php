@@ -1052,10 +1052,14 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 
 	$new_menu = array( $menu_title, $capability, $menu_slug, $page_title, 'menu-top ' . $icon_class . $hookname, $hookname, $icon_url );
 
-	if ( null === $position )
+	if ( null === $position ) {
 		$menu[] = $new_menu;
-	else
-		$menu[$position] = $new_menu;
+	} elseif ( isset( $menu[ "$position" ] ) ) {
+	 	$position = $position + substr( base_convert( md5( $menu_slug . $menu_title ), 16, 10 ) , -5 ) * 0.00001;
+		$menu[ "$position" ] = $new_menu;
+	} else {
+		$menu[ $position ] = $new_menu;
+	}
 
 	$_registered_pages[$hookname] = true;
 
