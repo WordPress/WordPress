@@ -510,11 +510,11 @@ JS;
  *
  * @since 4.4.0
  *
- * @param WP_Post|int $post  Optional. Post object or ID. Default is global `$post`.
+ * @param WP_Post|int $post  Post object or ID.
  * @param int         $width The requested width.
  * @return array|false Response data on success, false if post doesn't exist.
  */
-function get_oembed_response_data( $post = null, $width ) {
+function get_oembed_response_data( $post, $width ) {
 	$post = get_post( $post );
 
 	if ( ! $post ) {
