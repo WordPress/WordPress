@@ -1,6 +1,9 @@
 (function ( window, document ) {
 	'use strict';
 
+	var supportedBrowser = ( document.querySelector && window.addEventListener ),
+		loaded = false;
+
 	window.wp = window.wp || {};
 
 	if ( !! window.wp.receiveEmbedMessage ) {
@@ -54,9 +57,12 @@
 		}
 	};
 
-	window.addEventListener( 'message', window.wp.receiveEmbedMessage, false );
-
 	function onLoad() {
+		if ( loaded ) {
+			return;
+		}
+		loaded = true;
+
 		var isIE10 = -1 !== navigator.appVersion.indexOf( 'MSIE 10' ),
 			isIE11 = !!navigator.userAgent.match( /Trident.*rv\:11\./ ),
 			iframes, iframeClone, i;
@@ -68,11 +74,14 @@
 			for ( i = 0; i < iframes.length; i++ ) {
 				iframeClone = iframes[ i ].cloneNode( true );
 				iframeClone.removeAttribute( 'security' );
-				iframes[ i ].parentNode.insertBefore( iframeClone, iframes[ i ].nextSibling );
-				iframes[ i ].parentNode.removeChild( iframes[ i ] );
+				iframes[ i ].parentNode.replaceChild( iframeClone, iframes[ i ] );
 			}
 		}
 	}
 
-	document.addEventListener( 'DOMContentLoaded', onLoad, false );
+	if ( supportedBrowser ) {
+		window.addEventListener( 'message', window.wp.receiveEmbedMessage, false );
+		document.addEventListener( 'DOMContentLoaded', onLoad, false );
+		window.addEventListener( 'load', onLoad, false );
+	}
 })( window, document );

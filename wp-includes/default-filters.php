@@ -447,8 +447,8 @@ add_filter( 'rest_pre_serve_request', '_oembed_rest_pre_serve_request', 10, 4 );
 add_action( 'wp_head',                'wp_oembed_add_discovery_links'         );
 add_action( 'wp_head',                'wp_oembed_add_host_js'                 );
 
+add_action( 'embed_head',             'enqueue_embed_scripts',           1    );
 add_action( 'embed_head',             'print_emoji_detection_script'          );
-add_action( 'embed_head',             'print_emoji_styles'                    );
 add_action( 'embed_head',             'print_embed_styles'                    );
 add_action( 'embed_head',             'wp_print_head_scripts',          20    );
 add_action( 'embed_head',             'wp_print_styles',                20    );

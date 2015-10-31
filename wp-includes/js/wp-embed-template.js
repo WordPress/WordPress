@@ -2,6 +2,8 @@
 	'use strict';
 
 	var secret = window.location.hash.replace( /.*secret=([\d\w]{10}).*/, '$1' ),
+		supportedBrowser = ( document.querySelector && window.addEventListener ),
+		loaded = false,
 		resizing;
 
 	function sendEmbedMessage( message, value ) {
@@ -13,6 +15,11 @@
 	}
 
 	function onLoad() {
+		if ( loaded ) {
+			return;
+		}
+		loaded = true;
+
 		var share_dialog = document.querySelector( '.wp-embed-share-dialog' ),
 			share_dialog_open = document.querySelector( '.wp-embed-share-dialog-open' ),
 			share_dialog_close = document.querySelector( '.wp-embed-share-dialog-close' ),
@@ -141,8 +148,6 @@
 		}
 	}
 
-	document.addEventListener( 'DOMContentLoaded', onLoad, false );
-
 	/**
 	 * Iframe resize handler.
 	 */
@@ -158,5 +163,10 @@
 		}, 100 );
 	}
 
-	window.addEventListener( 'resize', onResize, false );
+	if ( supportedBrowser ) {
+		document.documentElement.className = document.documentElement.className.replace( /\bno-js\b/, '' ) + ' js';
+		document.addEventListener( 'DOMContentLoaded', onLoad, false );
+		window.addEventListener( 'load', onLoad, false );
+		window.addEventListener( 'resize', onResize, false );
+	}
 })( window, document );
