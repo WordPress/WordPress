@@ -117,7 +117,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		$id = max( get_query_var('p'), get_query_var('page_id'), get_query_var('attachment_id') );
 		if ( $id && $redirect_post = get_post($id) ) {
 			$post_type_obj = get_post_type_object($redirect_post->post_type);
-			if ( $post_type_obj->public ) {
+			if ( $post_type_obj->public && 'auto-draft' != $redirect_post->post_status ) {
 				$redirect_url = get_permalink($redirect_post);
 				$redirect['query'] = _remove_qs_args_if_not_in_url( $redirect['query'], array( 'p', 'page_id', 'attachment_id', 'pagename', 'name', 'post_type' ), $redirect_url );
 			}
