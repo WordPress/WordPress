@@ -67,12 +67,12 @@ final class WP_oEmbed_Controller {
 		$post_id = url_to_postid( $request['url'] );
 
 		/**
-		 * Filter the determined post id.
+		 * Filter the determined post ID.
 		 *
 		 * @since 4.4.0
 		 *
 		 * @param int    $post_id The post ID.
-		 * @param string $url     The requestd URL.
+		 * @param string $url     The requested URL.
 		 */
 		$post_id = apply_filters( 'oembed_request_post_id', $post_id, $request['url'] );
 
