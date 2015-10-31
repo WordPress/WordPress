@@ -132,9 +132,10 @@ function rest_api_register_rewrites() {
 /**
  * Registers the default REST API filters.
  *
- * @since 4.4.0
+ * Attached to the {@see 'rest_api_init'} action
+ * to make testing and disabling these filters easier.
  *
- * @internal This will live in default-filters.php
+ * @since 4.4.0
  */
 function rest_api_default_filters() {
 	// Deprecated reporting.
