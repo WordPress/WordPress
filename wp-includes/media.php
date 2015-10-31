@@ -822,12 +822,12 @@ function wp_get_attachment_image($attachment_id, $size = 'thumbnail', $icon = fa
 
 		// Generate 'srcset' and 'sizes' if not already present.
 		if ( empty( $attr['srcset'] ) ) {
-			$image_meta = wp_get_attachment_metadata( $attachment_id );
+			$image_meta = get_post_meta( $attachment_id, '_wp_attachment_metadata', true );
 
 			if ( is_array( $image_meta ) ) {
 				$size_array = array( absint( $width ), absint( $height ) );
 				$srcset = wp_calculate_image_srcset( $src, $size_array, $image_meta, $attachment_id );
-				$sizes = wp_get_attachment_image_sizes( $size_array, $image_meta, $attachment_id );
+				$sizes = wp_get_attachment_image_sizes( $size_array, $image_meta, $attachment_id, $src );
 
 				if ( $srcset && ( $sizes || ! empty( $attr['sizes'] ) ) ) {
 					$attr['srcset'] = $srcset;
@@ -1091,10 +1091,11 @@ function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $atta
  * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
  * @param int          $attachment_id Optional. Image attachment ID. Either `$image_meta` or `$attachment_id` is needed
  *                                    when using the image size name as argument for `$size`.
+ * @param string       $image_url     Optional. The URL to the image file.
  *
  * @return string|bool A valid source size value for use in a 'sizes' attribute or false.
  */
-function wp_get_attachment_image_sizes( $size, $image_meta = null, $attachment_id = 0 ) {
+function wp_get_attachment_image_sizes( $size, $image_meta = null, $attachment_id = 0, $image_url = null ) {
 	$width = 0;
 
 	if ( is_numeric( $size ) ) {
@@ -1131,8 +1132,9 @@ function wp_get_attachment_image_sizes( $size, $image_meta = null, $attachment_i
 	 *                                    values in pixels (in that order).
 	 * @param array        $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
 	 * @param int          $attachment_id Image attachment ID of the original image.
+	 * @param string       $image_url     Optional. The URL to the image file.
 	 */
-	return apply_filters( 'wp_get_attachment_image_sizes', $sizes, $size, $image_meta, $attachment_id );
+	return apply_filters( 'wp_get_attachment_image_sizes', $sizes, $size, $image_meta, $attachment_id, $image_url );
 }
 
 /**
@@ -1248,7 +1250,7 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 	$srcset = wp_calculate_image_srcset( $src, $size_array, $image_meta, $attachment_id );
 
 	if ( $srcset ) {
-		$sizes = wp_get_attachment_image_sizes( $size_array, $image_meta, $attachment_id );
+		$sizes = wp_get_attachment_image_sizes( $size_array, $image_meta, $attachment_id, $src );
 	}
 
 	if ( $srcset && $sizes ) {
