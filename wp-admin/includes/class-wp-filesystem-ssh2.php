@@ -149,7 +149,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 *
 	 * @access public
 	 *
-	 * @since 4.4
+	 * @since 4.4.0
 	 *
 	 * @param string $path The File/Directory path on the remote server to return
 	 * @return string The ssh2.sftp:// wrapped path to use.

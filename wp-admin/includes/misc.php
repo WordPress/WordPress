@@ -875,7 +875,7 @@ function heartbeat_autosave( $response, $data ) {
  * as they disregard the autocomplete setting on the editor textarea. That can break the editor
  * when the user navigates to it with the browser's Back button. See #28037
  *
- * @since 4.0
+ * @since 4.0.0
  *
  * @global bool $is_safari
  * @global bool $is_chrome
