@@ -787,6 +787,24 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 /* =Media Queries
 -------------------------------------------------------------- */
 
+@media only screen and (min-width: 769px) and (max-width: 1000px){
+	body.menu-max-depth-0 {
+		min-width: 0 !important;
+	}
+
+	#menu-management-liquid{
+		width: 100%;
+	}
+
+	.nav-menus-php #post-body-content{
+		min-width: 0;
+	}
+
+	.menu-item-bar .menu-item-handle{
+		width: 90%;
+	}
+}
+
 @media screen and ( max-width: 782px ) {
 	body.nav-menus-php {
 		min-width: 0 !important;
