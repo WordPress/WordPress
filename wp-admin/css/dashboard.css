@@ -610,6 +610,7 @@ form.initial-form.quickpress-open input#title {
 
 #dashboard_activity .inside {
 	margin: 0;
+	padding-bottom: 0;
 }
 
 #dashboard_activity .no-activity {
@@ -643,9 +644,9 @@ form.initial-form.quickpress-open input#title {
 
 #dashboard_activity .subsubsub {
 	float: none;
-	border-top: 1px solid #eeeeee;
-	margin-top: 0;
-	padding: 8px 0 4px;
+	border-top: 1px solid #eee;
+	margin: 0 -12px;
+	padding: 8px 12px 4px;
 }
 
 #future-posts ul,
@@ -669,7 +670,8 @@ form.initial-form.quickpress-open input#title {
 
 .activity-block {
 	border-bottom: 1px solid #eee;
-	padding: 8px 0 4px;
+	margin: 0 -12px;
+	padding: 8px 12px 4px;
 }
 
 .activity-block:last-child {
