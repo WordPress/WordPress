@@ -2592,6 +2592,11 @@ function _close_comments_for_old_post( $open, $post_id ) {
 	if ( ! in_array( $post->post_type, $post_types ) )
 		return $open;
 
+	// Undated drafts should not show up as comments closed.
+	if ( '0000-00-00 00:00:00' === $post->post_date_gmt ) {
+		return $open;
+	}
+
 	if ( time() - strtotime( $post->post_date_gmt ) > ( $days_old * DAY_IN_SECONDS ) )
 		return false;
 
