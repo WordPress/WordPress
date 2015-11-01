@@ -2001,7 +2001,8 @@
 					is_new: ! isExistingWidget,
 					width: widget.get( 'width' ),
 					height: widget.get( 'height' ),
-					is_wide: widget.get( 'is_wide' )
+					is_wide: widget.get( 'is_wide' ),
+					active: true
 				},
 				previewer: self.setting.previewer
 			} );
