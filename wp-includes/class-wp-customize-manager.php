@@ -1473,14 +1473,15 @@ final class WP_Customize_Manager {
 	 * @return string URL for link to close Customizer.
 	 */
 	public function get_return_url() {
+		$referer = wp_get_referer();
 		if ( $this->return_url ) {
 			$return_url = $this->return_url;
+		} else if ( $referer ) {
+			$return_url = $referer;
 		} else if ( $this->preview_url ) {
 			$return_url = $this->preview_url;
-		} else if ( current_user_can( 'edit_theme_options' ) || current_user_can( 'switch_themes' ) ) {
-			$return_url = admin_url( 'themes.php' );
 		} else {
-			$return_url = admin_url();
+			$return_url = home_url( '/' );
 		}
 		return $return_url;
 	}
