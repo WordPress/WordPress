@@ -1686,8 +1686,8 @@ function _post_states($post) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array $post_states An array of post display states.
-	 * @param int   $post        The post ID.
+	 * @param array   $post_states An array of post display states.
+	 * @param WP_Post $post        The current post object.
 	 */
 	$post_states = apply_filters( 'display_post_states', $post_states, $post );
 
