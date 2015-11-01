@@ -2195,6 +2195,7 @@ function dbDelta( $queries = '', $execute = true ) {
 				$keyname = $tableindex->Key_name;
 				$index_ary[$keyname]['columns'][] = array('fieldname' => $tableindex->Column_name, 'subpart' => $tableindex->Sub_part);
 				$index_ary[$keyname]['unique'] = ($tableindex->Non_unique == 0)?true:false;
+				$index_ary[$keyname]['index_type'] = $tableindex->Index_type;
 			}
 
 			// For each actual index in the index array.
@@ -2206,6 +2207,9 @@ function dbDelta( $queries = '', $execute = true ) {
 					$index_string .= 'PRIMARY ';
 				} elseif ( $index_data['unique'] ) {
 					$index_string .= 'UNIQUE ';
+				}
+				if ( 'FULLTEXT' === strtoupper( $index_data['index_type'] ) ) {
+					$index_string .= 'FULLTEXT ';
 				}
 				$index_string .= 'KEY ';
 				if ($index_name != 'PRIMARY') {
