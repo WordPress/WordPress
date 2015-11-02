@@ -268,10 +268,10 @@ class WP_List_Table {
 	/**
 	 * An internal method that sets all the necessary pagination arguments
 	 *
-	 * @param array $args An associative array with information about the pagination
+	 * @since 3.1.0
 	 * @access protected
 	 *
-	 * @param array|string $args
+	 * @param array|string $args Array or string of arguments with information about the pagination.
 	 */
 	protected function set_pagination_args( $args ) {
 		$args = wp_parse_args( $args, array(
