@@ -508,6 +508,8 @@ class WP_Comments_List_Table extends WP_List_Table {
  	 * @since 4.3.0
  	 * @access protected
  	 *
+ 	 * @global string $comment_status Status for the current listed comments.
+ 	 *
  	 * @param object $comment     Comment being acted upon.
  	 * @param string $column_name Current column name.
  	 * @param string $primary     Primary column name.
