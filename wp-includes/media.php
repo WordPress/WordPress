@@ -930,7 +930,7 @@ function _wp_get_image_size_from_meta( $size_name, $image_meta ) {
  *
  * @since 4.4.0
  *
- * @param int          $attachment_id Optional. Image attachment ID.
+ * @param int          $attachment_id Image attachment ID.
  * @param array|string $size          Image size. Accepts any valid image size, or an array of width and height
  *                                    values in pixels (in that order). Default 'medium'.
  * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
@@ -1059,7 +1059,16 @@ function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $atta
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $sources       An array of image URLs and widths.
+	 * @param array $sources       An array of sources to include in the 'srcset'. Each source
+	 *                             consists of an array containing the URL and the descriptor
+	 *                             type and value (default: the image width):
+	 *
+	 *                             image width => array(
+	 *                                 'url'        => string,
+	 *                                 'descriptor' => string ('w' or 'x'),
+	 *                                 'value'      => integer (width or pixel density)
+	 *                             },
+	 *
 	 * @param int   $attachment_id Image attachment ID.
 	 * @param array $size_array    Array of width and height values in pixels (in that order).
 	 * @param array $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
@@ -1098,13 +1107,11 @@ function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $atta
 function wp_get_attachment_image_sizes( $size, $image_meta = null, $attachment_id = 0, $image_url = null ) {
 	$width = 0;
 
-	if ( is_numeric( $size ) ) {
-		$width = absint( $size );
-	} elseif ( is_array( $size ) ) {
+	if ( is_array( $size ) ) {
 		$width = absint( $size[0] );
 	} elseif ( is_string( $size ) ) {
 		if ( ! $image_meta && $attachment_id ) {
-			$image_meta = wp_get_attachment_metadata( $attachment_id );
+			$image_meta = get_post_meta( $attachment_id, '_wp_attachment_metadata', true );
 		}
 
 		if ( is_array( $image_meta ) ) {
