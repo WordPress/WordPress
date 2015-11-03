@@ -2778,7 +2778,7 @@ function edit_form_image_editor( $post ) {
 		);
 	?>
 
-	<label for="content"><strong><?php _e( 'Description' ); ?></strong><?php
+	<label for="attachment_content"><strong><?php _e( 'Description' ); ?></strong><?php
 	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ) {
 		echo ': ' . __( 'Displayed on attachment pages.' );
 	} ?></label>
@@ -2812,8 +2812,8 @@ function attachment_submitbox_metadata() {
 	$att_url = wp_get_attachment_url( $post->ID );
 ?>
 	<div class="misc-pub-section misc-pub-attachment">
-			<label for="attachment_url"><?php _e( 'File URL:' ); ?></label>
-			<input type="text" class="widefat urlfield" readonly="readonly" name="attachment_url" value="<?php echo esc_attr($att_url); ?>" />
+		<label for="attachment_url"><?php _e( 'File URL:' ); ?></label>
+		<input type="text" class="widefat urlfield" readonly="readonly" name="attachment_url" id="attachment_url" value="<?php echo esc_attr( $att_url ); ?>" />
 	</div>
 	<div class="misc-pub-section misc-pub-filename">
 		<?php _e( 'File name:' ); ?> <strong><?php echo $filename; ?></strong>
