@@ -107,10 +107,9 @@ final class WP_Customize_Nav_Menus {
 		$items = array();
 
 		if ( 'post_type' === $type ) {
-			if ( ! get_post_type_object( $object ) ) {
+			$post_type = get_post_type_object( $object );
+			if ( ! $post_type ) {
 				return new WP_Error( 'nav_menus_invalid_post_type' );
-			} else {
-				$post_type = get_post_type_object( $object );
 			}
 
 			if ( 0 === $page && 'page' === $object ) {
