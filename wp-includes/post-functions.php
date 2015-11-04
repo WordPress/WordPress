@@ -4288,7 +4288,15 @@ function get_page_uri( $page ) {
 		}
 	}
 
-	return $uri;
+	/**
+	 * Filter the URI for a page.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string  $uri  Page URI.
+	 * @param WP_Post $page Page object.
+	 */
+	return apply_filters( 'get_page_uri', $uri, $page );
 }
 
 /**
