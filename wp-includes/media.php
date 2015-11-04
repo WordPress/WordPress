@@ -886,14 +886,16 @@ function wp_get_attachment_image_url( $attachment_id, $size = 'thumbnail', $icon
  * @return string The base URL, cached.
  */
 function _wp_upload_dir_baseurl() {
-	static $baseurl = null;
+	static $baseurl = array();
 
-	if ( ! $baseurl ) {
+	$blog_id = get_current_blog_id();
+
+	if ( empty( $baseurl[$blog_id] ) ) {
 		$uploads_dir = wp_upload_dir();
-		$baseurl = $uploads_dir['baseurl'];
+		$baseurl[$blog_id] = $uploads_dir['baseurl'];
 	}
 
-	return $baseurl;
+	return $baseurl[$blog_id];
 }
 
 /**
@@ -945,13 +947,13 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $imag
 		$image_meta = get_post_meta( $attachment_id, '_wp_attachment_metadata', true );
 	}
 
-	$image_url = $image[0];
+	$image_src = $image[0];
 	$size_array = array(
 		absint( $image[1] ),
 		absint( $image[2] )
 	);
 
-	return wp_calculate_image_srcset( $image_url, $size_array, $image_meta, $attachment_id );
+	return wp_calculate_image_srcset( $image_src, $size_array, $image_meta, $attachment_id );
 }
 
 /**
@@ -959,13 +961,13 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $imag
  *
  * @since 4.4.0
  *
- * @param string $image_name    The file name, path, URL, or partial path or URL, of the image being matched.
+ * @param string $image_src     The 'src' of the image.
  * @param array  $size_array    Array of width and height values in pixels (in that order).
  * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
  * @param int    $attachment_id Optional. The image attachment ID to pass to the filter.
  * @return string|bool          The 'srcset' attribute value. False on error or when only one source exists.
  */
-function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $attachment_id = 0 ) {
+function wp_calculate_image_srcset( $image_src, $size_array, $image_meta, $attachment_id = 0 ) {
 	if ( empty( $image_meta['sizes'] ) ) {
 		return false;
 	}
@@ -981,19 +983,26 @@ function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $atta
 		return false;
 	}
 
+	$image_basename = wp_basename( $image_meta['file'] );
+	$image_baseurl = _wp_upload_dir_baseurl();
+
 	// Add full size to the '$image_sizes' array.
 	$image_sizes['full'] = array(
 		'width'  => $image_meta['width'],
 		'height' => $image_meta['height'],
-		'file'   => wp_basename( $image_meta['file'] ),
+		'file'   => $image_basename,
 	);
 
-	$image_baseurl = _wp_upload_dir_baseurl();
-	$dirname = dirname( $image_meta['file'] );
+	// Uploads are (or have been) in year/month sub-directories.
+	if ( $image_basename !== $image_meta['file'] ) {
+		$dirname = dirname( $image_meta['file'] );
 
-	if ( $dirname !== '.' ) {
-		$image_baseurl = path_join( $image_baseurl, $dirname );
+		if ( $dirname !== '.' ) {
+			$image_baseurl = trailingslashit( $image_baseurl ) . $dirname;
+		}
 	}
+
+	$image_baseurl = trailingslashit( $image_baseurl );
 
 	// Calculate the image aspect ratio.
 	$image_ratio = $image_height / $image_width;
@@ -1003,7 +1012,7 @@ function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $atta
 	 * contain a unique hash. Look for that hash and use it later to filter
 	 * out images that are leftovers from previous versions.
 	 */
-	$image_edited = preg_match( '/-e[0-9]{13}/', $image_name, $image_edit_hash );
+	$image_edited = preg_match( '/-e[0-9]{13}/', wp_basename( $image_src ), $image_edit_hash );
 
 	/**
 	 * Filter the maximum image width to be included in a 'srcset' attribute.
@@ -1034,8 +1043,6 @@ function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $atta
 			continue;
 		}
 
-		$candidate_url = $image['file'];
-
 		// Calculate the new image ratio.
 		if ( $image['width'] ) {
 			$image_ratio_compare = $image['height'] / $image['width'];
@@ -1044,10 +1051,10 @@ function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $atta
 		}
 
 		// If the new ratio differs by less than 0.01, use it.
-		if ( abs( $image_ratio - $image_ratio_compare ) < 0.01 && ! array_key_exists( $candidate_url, $sources ) ) {
+		if ( abs( $image_ratio - $image_ratio_compare ) < 0.01 ) {
 			// Add the URL, descriptor, and value to the sources array to be returned.
 			$sources[ $image['width'] ] = array(
-				'url'        => path_join( $image_baseurl, $candidate_url ),
+				'url'        => $image_baseurl . $image['file'],
 				'descriptor' => 'w',
 				'value'      => $image['width'],
 			);
@@ -1100,11 +1107,11 @@ function wp_calculate_image_srcset( $image_name, $size_array, $image_meta, $atta
  * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
  * @param int          $attachment_id Optional. Image attachment ID. Either `$image_meta` or `$attachment_id` is needed
  *                                    when using the image size name as argument for `$size`.
- * @param string       $image_url     Optional. The URL to the image file.
+ * @param string       $image_src     Optional. The URL to the image file.
  *
  * @return string|bool A valid source size value for use in a 'sizes' attribute or false.
  */
-function wp_get_attachment_image_sizes( $size, $image_meta = null, $attachment_id = 0, $image_url = null ) {
+function wp_get_attachment_image_sizes( $size, $image_meta = null, $attachment_id = 0, $image_src = null ) {
 	$width = 0;
 
 	if ( is_array( $size ) ) {
@@ -1139,9 +1146,9 @@ function wp_get_attachment_image_sizes( $size, $image_meta = null, $attachment_i
 	 *                                    values in pixels (in that order).
 	 * @param array        $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
 	 * @param int          $attachment_id Image attachment ID of the original image.
-	 * @param string       $image_url     Optional. The URL to the image file.
+	 * @param string       $image_src     Optional. The URL to the image file.
 	 */
-	return apply_filters( 'wp_get_attachment_image_sizes', $sizes, $size, $image_meta, $attachment_id, $image_url );
+	return apply_filters( 'wp_get_attachment_image_sizes', $sizes, $size, $image_meta, $attachment_id, $image_src );
 }
 
 /**
