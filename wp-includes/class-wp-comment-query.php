@@ -412,7 +412,7 @@ class WP_Comment_Query {
 		// Fetch full comment objects from the primed cache.
 		$_comments = array();
 		foreach ( $comment_ids as $comment_id ) {
-			if ( $_comment = wp_cache_get( $comment_id, 'comment' ) ) {
+			if ( $_comment = get_comment( $comment_id ) ) {
 				$_comments[] = $_comment;
 			}
 		}
