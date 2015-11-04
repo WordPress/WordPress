@@ -88,7 +88,7 @@ function setup_config_display_header( $body_classes = array() ) {
 	<?php wp_admin_css( 'install', true ); ?>
 </head>
 <body class="<?php echo implode( ' ', $body_classes ); ?>">
-<h1 id="logo"><a href="<?php esc_attr_e( 'https://wordpress.org/' ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></h1>
+<p id="logo"><a href="<?php esc_attr_e( 'https://wordpress.org/' ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></p>
 <?php
 } // end function setup_config_display_header();
 
@@ -103,6 +103,7 @@ switch($step) {
 	case -1:
 		if ( wp_can_install_language_pack() && empty( $language ) && ( $languages = wp_get_available_translations() ) ) {
 			setup_config_display_header( 'language-chooser' );
+			echo '<h1 class="screen-reader-text">Select a default language</h1>';
 			echo '<form id="setup" method="post" action="?step=0">';
 			wp_install_language_form( $languages );
 			echo '</form>';
@@ -129,7 +130,7 @@ switch($step) {
 			$step_1 .= '&amp;language=' . $loaded_language;
 		}
 ?>
-
+<h1 class="screen-reader-text"><?php _e( 'Before getting started' ) ?></h1>
 <p><?php _e( 'Welcome to WordPress. Before getting started, we need some information on the database. You will need to know the following items before proceeding.' ) ?></p>
 <ol>
 	<li><?php _e( 'Database name' ); ?></li>
@@ -155,6 +156,7 @@ switch($step) {
 
 		setup_config_display_header();
 	?>
+<h1 class="screen-reader-text"><?php _e( 'Setup your database connection' ) ?></h1>
 <form method="post" action="setup-config.php?step=2">
 	<p><?php _e( "Below you should enter your database connection details. If you&#8217;re not sure about these, contact your host." ); ?></p>
 	<table class="form-table">
@@ -344,6 +346,7 @@ if ( ! /iPad|iPod|iPhone/.test( navigator.userAgent ) ) {
 		chmod( $path_to_wp_config, 0666 );
 		setup_config_display_header();
 ?>
+<h1 class="screen-reader-text"><?php _e( 'Successful database connection' ) ?></h1>
 <p><?php _e( "All right, sparky! You&#8217;ve made it through this part of the installation. WordPress can now communicate with your database. If you are ready, time now to&hellip;" ); ?></p>
 
 <p class="step"><a href="<?php echo $install; ?>" class="button button-large"><?php _e( 'Run the install' ); ?></a></p>

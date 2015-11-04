@@ -67,11 +67,11 @@ else
 	?>
 </head>
 <body class="wp-core-ui">
-<h1 id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></h1>
+<p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></p>
 
 <?php if ( get_option( 'db_version' ) == $wp_db_version || !is_blog_installed() ) : ?>
 
-<h2><?php _e( 'No Update Required' ); ?></h2>
+<h1><?php _e( 'No Update Required' ); ?></h1>
 <p><?php _e( 'Your WordPress database is already up-to-date!' ); ?></p>
 <p class="step"><a class="button button-large" href="<?php echo get_option( 'home' ); ?>/"><?php _e( 'Continue' ); ?></a></p>
 
@@ -92,7 +92,7 @@ switch ( $step ) :
 			$goback = urlencode( $goback );
 		}
 ?>
-<h2><?php _e( 'Database Update Required' ); ?></h2>
+<h1><?php _e( 'Database Update Required' ); ?></h1>
 <p><?php _e( 'WordPress has been updated! Before we send you on your way, we have to update your database to the newest version.' ); ?></p>
 <p><?php _e( 'The database update process may take a little while, so please be patient.' ); ?></p>
 <p class="step"><a class="button button-large button-primary" href="upgrade.php?step=1&amp;backto=<?php echo $goback; ?>"><?php _e( 'Update WordPress Database' ); ?></a></p>
@@ -105,7 +105,7 @@ switch ( $step ) :
 			$backto = esc_url( $backto );
 			$backto = wp_validate_redirect($backto, __get_option( 'home' ) . '/');
 ?>
-<h2><?php _e( 'Update Complete' ); ?></h2>
+<h1><?php _e( 'Update Complete' ); ?></h1>
 	<p><?php _e( 'Your WordPress database has been successfully updated!' ); ?></p>
 	<p class="step"><a class="button button-large" href="<?php echo $backto; ?>"><?php _e( 'Continue' ); ?></a></p>
 

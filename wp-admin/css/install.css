@@ -38,7 +38,7 @@ a:focus {
 	outline: #5b9dd9 solid 1px;
 }
 
-h1 {
+h1, h2 {
 	border-bottom: 1px solid #dedede;
 	clear: both;
 	color: #666;
@@ -49,7 +49,7 @@ h1 {
 	font-weight: normal;
 }
 
-h2 {
+h3 {
 	font-size: 16px;
 }
 
@@ -87,6 +87,7 @@ label {
 
 #logo {
 	margin: 6px 0 14px 0;
+	padding: 0 0 7px 0;
 	border-bottom: none;
 	text-align:center
 }
