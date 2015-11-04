@@ -324,12 +324,20 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			}
 		}
 
+		if ( ! isset( $this->value['title'] ) ) {
+			$this->value['title'] = '';
+		}
+
 		if ( ! isset( $this->value['_invalid'] ) ) {
-			$this->value['_invalid'] = (
-				( 'post_type' === $this->value['type'] && ! post_type_exists( $this->value['object'] ) )
+			$this->value['_invalid'] = false;
+			$is_known_invalid = (
+				( ( 'post_type' === $this->value['type'] || 'post_type_archive' === $this->value['type'] ) && ! post_type_exists( $this->value['object'] ) )
 				||
 				( 'taxonomy' === $this->value['type'] && ! taxonomy_exists( $this->value['object'] ) )
 			);
+			if ( $is_known_invalid ) {
+				$this->value['_invalid'] = true;
+			}
 		}
 
 		// Remove remaining properties available on a setup nav_menu_item post object which aren't relevant to the setting value.
