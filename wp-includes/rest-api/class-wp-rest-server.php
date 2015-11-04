@@ -763,17 +763,17 @@ class WP_REST_Server {
 		$path   = $request->get_route();
 
 		foreach ( $this->get_routes() as $route => $handlers ) {
+			$match = preg_match( '@^' . $route . '$@i', $path, $args );
+
+			if ( ! $match ) {
+				continue;
+			}
+
 			foreach ( $handlers as $handler ) {
 				$callback  = $handler['callback'];
 				$response = null;
 
 				if ( empty( $handler['methods'][ $method ] ) ) {
-					continue;
-				}
-
-				$match = preg_match( '@^' . $route . '$@i', $path, $args );
-
-				if ( ! $match ) {
 					continue;
 				}
 
