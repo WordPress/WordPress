@@ -540,7 +540,29 @@ function get_taxonomy_labels( $tax ) {
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 
-	return _get_custom_object_labels( $tax, $nohier_vs_hier_defaults );
+	$labels = _get_custom_object_labels( $tax, $nohier_vs_hier_defaults );
+
+	$taxonomy = $tax->name;
+
+	$default_labels = clone $labels;
+
+	/**
+	 * Filter the labels of a specific taxonomy.
+	 *
+	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @see get_taxonomy_labels() for the full list of taxonomy labels.
+	 *
+	 * @param object $labels Object with labels for the taxonomy as member variables.
+	 */
+	$labels = apply_filters( "taxonomy_labels_{$taxonomy}", $labels );
+
+	// Ensure that the filtered labels contain all required default values.
+	$labels = (object) array_merge( (array) $default_labels, (array) $labels );
+
+	return $labels;
 }
 
 /**
