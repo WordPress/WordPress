@@ -28,7 +28,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 
 if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 
-	echo '<h1 class="screen-reader-text">' . __( 'Allow automatic repair database' ) . '</h1>';
+	echo '<h1 class="screen-reader-text">' . __( 'Allow automatic database repair' ) . '</h1>';
 
 	echo '<p>' . __( 'To allow use of this page to automatically repair database problems, please add the following line to your <code>wp-config.php</code> file. Once this line is added to your config, reload this page.' ) . "</p><p><code>define('WP_ALLOW_REPAIR', true);</code></p>";
 
@@ -64,7 +64,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 
 } elseif ( isset( $_GET['repair'] ) ) {
 
-	echo '<h1 class="screen-reader-text">' . __( 'Results database repair' ) . '</h1>';
+	echo '<h1 class="screen-reader-text">' . __( 'Database repair results' ) . '</h1>';
 
 	$optimize = 2 == $_GET['repair'];
 	$okay = true;
