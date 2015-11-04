@@ -1358,7 +1358,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 		'click .filter-drawer .clear-filters': 'clearFilters',
 		'click .filtered-by': 'backToFilters',
 		'click .favorites-form-submit' : 'saveUsername',
-		'keyup #wporg-username-input': 'saveUsername',
+		'keyup #wporg-username-input': 'saveUsername'
 	},
 
 	// Initial render method
