@@ -752,9 +752,9 @@
 .media-frame select.attachment-filters {
 	margin-top: 11px;
 	margin-left: 2%;
-	max-width: 42%;
-	max-width: -webkit-calc(48% - 12px);
-	max-width: calc(48% - 12px);
+	width: 42%;
+	width: -webkit-calc(48% - 12px);
+	width: calc(48% - 12px);
 }
 
 .media-frame select.attachment-filters:last-of-type {
@@ -1081,11 +1081,15 @@
 }
 
 .attachments-browser .media-toolbar-primary {
-	max-width: 33%;
+	width: 33%;
 }
 
 .attachments-browser .media-toolbar-secondary {
-	max-width: 66%;
+	width: 66%;
+}
+
+.attachments-browser .search {
+	width: 100%;
 }
 
 .uploader-inline .close {
