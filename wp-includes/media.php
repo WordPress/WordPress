@@ -983,6 +983,13 @@ function wp_calculate_image_srcset( $image_src, $size_array, $image_meta, $attac
 		return false;
 	}
 
+	// Don't add srcset attributes to (animated) gifs that are inserted at full size.
+	if ( isset( $image_sizes['thumbnail']['mime-type'] ) && 'image/gif' === $image_sizes['thumbnail']['mime-type'] &&
+		false !== strpos( $image_src, $image_meta['file'] ) ) {
+
+		return false;
+	}
+
 	$image_basename = wp_basename( $image_meta['file'] );
 	$image_baseurl = _wp_upload_dir_baseurl();
 
