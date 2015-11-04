@@ -78,10 +78,13 @@ do_action( 'rss_tag_pre', 'atom' );
 	 * @since 2.0.0
 	 */
 	do_action( 'atom_entry' );
+
+	if ( get_comments_number() || comments_open() ) :
 		?>
 		<link rel="replies" type="<?php bloginfo_rss('html_type'); ?>" href="<?php the_permalink_rss() ?>#comments" thr:count="<?php echo get_comments_number()?>"/>
 		<link rel="replies" type="application/atom+xml" href="<?php echo esc_url( get_post_comments_feed_link(0, 'atom') ); ?>" thr:count="<?php echo get_comments_number()?>"/>
 		<thr:total><?php echo get_comments_number()?></thr:total>
+	<?php endif; ?>
 	</entry>
 	<?php endwhile ; ?>
 </feed>
