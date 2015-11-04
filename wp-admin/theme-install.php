@@ -139,11 +139,26 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			<li><a href="#" data-sort="featured"><?php _ex( 'Featured', 'themes' ); ?></a></li>
 			<li><a href="#" data-sort="popular"><?php _ex( 'Popular', 'themes' ); ?></a></li>
 			<li><a href="#" data-sort="new"><?php _ex( 'Latest', 'themes' ); ?></a></li>
+			<li><a href="#" data-sort="favorites"><?php _ex( 'Favorites', 'themes' ); ?></a></li>
 		</ul>
 
 		<a class="drawer-toggle" href="#"><?php _e( 'Feature Filter' ); ?></a>
 
 		<div class="search-form"></div>
+
+		<div class="favorites-form">
+			<?php
+			$user = isset( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
+			update_user_meta( get_current_user_id(), 'wporg_favorites', $user );
+			?>
+			<p class="install-help"><?php _e( 'If you have marked themes as favorites on WordPress.org, you can browse them here.' ); ?></p>
+
+			<p>
+				<label for="user"><?php _e( 'Your WordPress.org username:' ); ?></label>
+				<input type="search" id="wporg-username-input" value="<?php echo esc_attr( $user ); ?>" />
+				<input type="button" class="button button-secondary favorites-form-submit" value="<?php esc_attr_e( 'Get Favorites' ); ?>" />
+			</p>
+		</div>
 
 		<div class="filter-drawer">
 			<div class="buttons">

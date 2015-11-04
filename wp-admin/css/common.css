@@ -1085,6 +1085,20 @@ th.action-links {
 	color: #fff;
 }
 
+.wp-filter .favorites-form {
+	display: none;
+	margin: 0 -20px;
+	padding: 20px;
+	border-top: 1px solid #eee;
+	background: #fafafa;
+	overflow: hidden;
+	width: 100%;
+}
+
+.show-favorites-form .wp-filter .favorites-form {
+	display: block;
+}
+
 .filter-drawer {
 	display: none;
 	margin: 0 -20px;
