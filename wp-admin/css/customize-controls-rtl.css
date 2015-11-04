@@ -94,7 +94,7 @@ button.not-a-button {
 #customize-controls .customize-info .panel-title {
 	font-size: 20px;
 	font-weight: 200;
-	line-height: 24px;
+	line-height: 26px;
 	display: block;
 	overflow: hidden;
 	white-space: nowrap;
@@ -223,7 +223,7 @@ button.not-a-button {
 	right: 100%;
 	width: 100%;
 	margin: 0;
- 	padding: 12px;
+	padding: 12px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -334,7 +334,7 @@ h3.customize-section-title {
 	display: block;
 	float: right;
 	width: 48px;
-	height: 69px;
+	height: 71px;
 	padding: 0 0 0 24px;
 	margin: 0;
 	background: #fff;
@@ -348,7 +348,7 @@ h3.customize-section-title {
 }
 
 .customize-section-back {
-	height: 70px;
+	height: 74px;
 }
 
 .ios .customize-panel-back,
@@ -407,7 +407,7 @@ h3.customize-section-title {
 
 .customize-panel-back:before,
 .customize-section-back:before {
-	font: normal 20px/69px dashicons;
+	font: normal 20px/72px dashicons;
 	content: "\f345";
 	position: relative;
 	right: 13px;
