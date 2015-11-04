@@ -159,6 +159,47 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 }
 
 /**
+ * Determines if the date should be declined.
+ *
+ * If the locale specifies that month names require a genitive case in certain
+ * formats (like 'j F Y'), the month name will be replaced with a correct form.
+ *
+ * @since 4.4.0
+ *
+ * @param string $date Formatted date string.
+ * @return string The date, declined if locale specifies it.
+ */
+function wp_maybe_decline_date( $date ) {
+	global $wp_locale;
+
+	/* translators: If months in your language require a genitive case,
+	 * translate this to 'on'. Do not translate into your own language.
+	 */
+	if ( 'on' === _x( 'off', 'decline months names: on or off' ) ) {
+		// Match a format like 'j F Y' or 'j. F'
+		if ( @preg_match( '#^\d{1,2}\.? \w+#u', $date ) ) {
+			$months = $wp_locale->month;
+
+			foreach ( $months as $key => $month ) {
+				$months[ $key ] = '#' . $month . '#';
+			}
+
+			$date = preg_replace( $months, $wp_locale->month_genitive, $date );
+		}
+	}
+
+	// Used for locale-specific rules
+	$locale = get_locale();
+
+	if ( 'ca' === $locale ) {
+		// " de abril| de agost| de octubre..." -> " d'abril| d'agost| d'octubre..."
+		$date = preg_replace( '# de ([ao])#i', " d'\\1", $date );
+	}
+
+	return $date;
+}
+
+/**
  * Convert integer number to format based on the locale.
  *
  * @since 2.3.0

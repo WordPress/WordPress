@@ -159,6 +159,8 @@ add_filter( 'wp_sprintf', 'wp_sprintf_l', 10, 2 );
 
 add_filter( 'widget_text', 'balanceTags' );
 
+add_filter( 'date_i18n', 'wp_maybe_decline_date' );
+
 // RSS filters
 add_filter( 'the_title_rss',      'strip_tags'                    );
 add_filter( 'the_title_rss',      'ent2ncr',                    8 );
