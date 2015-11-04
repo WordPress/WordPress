@@ -1586,7 +1586,7 @@ function wp_ajax_sample_permalink() {
  * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_inline_save() {
-	global $wp_list_table;
+	global $wp_list_table, $mode;
 
 	check_ajax_referer( 'inlineeditnonce', '_inline_edit' );
 
@@ -1658,6 +1658,8 @@ function wp_ajax_inline_save() {
 	edit_post();
 
 	$wp_list_table = _get_list_table( 'WP_Posts_List_Table', array( 'screen' => $_POST['screen'] ) );
+
+	$mode = $_POST['post_view'] === 'excerpt' ? 'excerpt' : 'list';
 
 	$level = 0;
 	$request_post = array( get_post( $_POST['post_ID'] ) );

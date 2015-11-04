@@ -490,7 +490,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		 * list table.
 		 *
 		 * @since 4.4.0
-		 * 
+		 *
 		 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
 		 */
 		do_action( 'manage_posts_extra_tablenav', $which );
@@ -505,16 +505,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 			return 'delete_all';
 
 		return parent::current_action();
-	}
-
-	/**
-	 * @global string $mode
-	 * @param string $which
-	 */
-	protected function pagination( $which ) {
-		global $mode;
-
-		parent::pagination( $which );
 	}
 
 	/**
@@ -647,13 +637,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global string $mode
 	 * @param array $posts
 	 * @param int $level
 	 */
 	private function _display_rows( $posts, $level = 0 ) {
-		global $mode;
-
 		// Create array of post IDs.
 		$post_ids = array();
 
