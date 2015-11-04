@@ -848,13 +848,6 @@ function populate_roles_300() {
 		$role->add_cap( 'update_core' );
 		$role->add_cap( 'list_users' );
 		$role->add_cap( 'remove_users' );
-
-		/*
-		 * Never used, will be removed. create_users or promote_users
-		 * is the capability you're looking for.
-		 */
-		$role->add_cap( 'add_users' );
-
 		$role->add_cap( 'promote_users' );
 		$role->add_cap( 'edit_theme_options' );
 		$role->add_cap( 'delete_themes' );

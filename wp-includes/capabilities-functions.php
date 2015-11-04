@@ -34,6 +34,7 @@ function map_meta_cap( $cap, $user_id ) {
 		$caps[] = 'remove_users';
 		break;
 	case 'promote_user':
+	case 'add_users':
 		$caps[] = 'promote_users';
 		break;
 	case 'edit_user':
