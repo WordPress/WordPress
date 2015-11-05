@@ -46,7 +46,9 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 				}
 				?>
 
-				<button type="button" class="button change-theme" tabindex="0"><?php _ex( 'Change', 'theme' ); ?></button>
+				<?php if ( count( $this->controls ) > 1 ) : ?>
+					<button type="button" class="button change-theme" tabindex="0"><?php _ex( 'Change', 'theme' ); ?></button>
+				<?php endif; ?>
 			</h3>
 			<div class="customize-themes-panel control-panel-content themes-php">
 				<h3 class="accordion-section-title customize-section-title">
