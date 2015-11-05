@@ -11,9 +11,7 @@ a {
   color: #0073aa;
 }
 
-a:hover,
-a:active,
-a:focus {
+a:hover, a:active, a:focus {
   color: #0096dd;
 }
 
@@ -48,8 +46,7 @@ input[type=radio]:checked:before {
   text-shadow: 0 -1px 1px #719a74, -1px 0 1px #719a74, 0 1px 1px #719a74, 1px 0 1px #719a74;
 }
 
-.wp-core-ui .button-primary:hover,
-.wp-core-ui .button-primary:focus {
+.wp-core-ui .button-primary:hover, .wp-core-ui .button-primary:focus {
   background: #a7c0a9;
   border-color: #719a74;
   color: white;
@@ -69,10 +66,7 @@ input[type=radio]:checked:before {
   box-shadow: inset 0 2px 0 #719a74;
 }
 
-.wp-core-ui .button-primary[disabled],
-.wp-core-ui .button-primary:disabled,
-.wp-core-ui .button-primary.button-primary-disabled,
-.wp-core-ui .button-primary.disabled {
+.wp-core-ui .button-primary[disabled], .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary.button-primary-disabled, .wp-core-ui .button-primary.disabled {
   color: #c7d1c8 !important;
   background: #86a989 !important;
   border-color: #719a74 !important;
@@ -121,7 +115,8 @@ input[type=radio]:checked:before {
 }
 
 /* List tables */
-.wrap .add-new-h2:hover, .wrap .page-title-action:hover,
+.wrap .add-new-h2:hover,
+.wrap .page-title-action:hover,
 .tablenav .tablenav-pages a:hover,
 .tablenav .tablenav-pages a:focus {
   color: #fff;
@@ -197,15 +192,15 @@ input[type=radio]:checked:before {
   color: #d5dde0;
 }
 
-#adminmenu .wp-submenu a:focus,
-#adminmenu .wp-submenu a:hover,
+#adminmenu .wp-submenu a:focus, #adminmenu .wp-submenu a:hover,
 #adminmenu .wp-has-current-submenu .wp-submenu a:focus,
 #adminmenu .wp-has-current-submenu .wp-submenu a:hover,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu a:focus,
 .folded #adminmenu .wp-has-current-submenu .wp-submenu a:hover,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu a:focus,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu a:hover,
-#adminmenu .wp-has-current-submenu.opensub .wp-submenu a:focus, #adminmenu .wp-has-current-submenu.opensub .wp-submenu a:hover {
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu a:focus,
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu a:hover {
   color: #9ebaa0;
 }
 
@@ -216,11 +211,11 @@ input[type=radio]:checked:before {
   color: #fff;
 }
 
-#adminmenu .wp-submenu li.current a:hover,
-#adminmenu .wp-submenu li.current a:focus,
+#adminmenu .wp-submenu li.current a:hover, #adminmenu .wp-submenu li.current a:focus,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu li.current a:hover,
 #adminmenu a.wp-has-current-submenu:focus + .wp-submenu li.current a:focus,
-#adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a:hover, #adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a:focus {
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a:hover,
+#adminmenu .wp-has-current-submenu.opensub .wp-submenu li.current a:focus {
   color: #9ebaa0;
 }
 
