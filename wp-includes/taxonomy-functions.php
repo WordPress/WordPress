@@ -764,25 +764,12 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 			$_term = WP_Term::get_instance( $term->term_id );
 		}
 	} else {
-		$_term = WP_Term::get_instance( $term );
+		$_term = WP_Term::get_instance( $term, $taxonomy );
 	}
 
-	// If `$taxonomy` was provided, make sure it matches the taxonomy of the located term.
-	if ( $_term && $taxonomy && $taxonomy !== $_term->taxonomy ) {
-		// If there are two terms with the same ID, split the other one to a new term.
-		$new_term_id = _split_shared_term( $_term->term_id, $_term->term_taxonomy_id );
-
-		// If no split occurred, this is an invalid request. Return null (not WP_Error) for back compat.
-		if ( $new_term_id === $_term->term_id ) {
-			return null;
-
-		// The term has been split. Refetch the term from the proper taxonomy.
-		} else {
-			return get_term( $_term->term_id, $taxonomy, $output, $filter );
-		}
-	}
-
-	if ( ! $_term ) {
+	if ( is_wp_error( $_term ) ) {
+		return $_term;
+	} elseif ( ! $_term ) {
 		return null;
 	}
 
