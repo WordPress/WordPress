@@ -1132,6 +1132,7 @@ class wpdb {
 
 		$class = get_class( $this );
 		if ( function_exists( '__' ) ) {
+			/* translators: %s: database access abstraction class, usually wpdb or a class extending wpdb */
 			_doing_it_wrong( $class, sprintf( __( '%s must set a database connection for use with escaping.' ), $class ), E_USER_NOTICE );
 		} else {
 			_doing_it_wrong( $class, sprintf( '%s must set a database connection for use with escaping.', $class ), E_USER_NOTICE );
