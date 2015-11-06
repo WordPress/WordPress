@@ -301,8 +301,8 @@ function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
 	// The most recent week start day on or before $day.
 	$start = $day - DAY_IN_SECONDS * ( $weekday - $start_of_week );
 
-	// $start + 7 days - 1 second.
-	$end = $start + 7 * DAY_IN_SECONDS - 1;
+	// $start + 1 week - 1 second.
+	$end = $start + WEEK_IN_SECONDS - 1;
 	return compact( 'start', 'end' );
 }
 
