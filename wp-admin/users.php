@@ -4,6 +4,7 @@
  *
  * @package WordPress
  * @subpackage Administration
+ * @since 1.0.0
  */
 
 /** WordPress Administration Bootstrap */
