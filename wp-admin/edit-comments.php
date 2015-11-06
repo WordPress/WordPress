@@ -117,19 +117,22 @@ if ( $post_id ) {
 	$comments_count = wp_count_comments( $post_id );
 	$draft_or_post_title = wp_html_excerpt( _draft_or_post_title( $post_id ), 50, '&hellip;' );
 	if ( $comments_count->moderated > 0 ) {
-		$title = sprintf(
-			__( 'Comments (%s) on &#8220;%s&#8221;' ),
+		/* translators: 1: comments count 2: post title */
+		$title = sprintf( __( 'Comments (%1$s) on &#8220;%2$s&#8221;' ),
 			number_format_i18n( $comments_count->moderated ),
 			$draft_or_post_title
 		);
 	} else {
-		$title = sprintf( __( 'Comments on &#8220;%s&#8221;' ), $draft_or_post_title );
+		/* translators: %s: post title */
+		$title = sprintf( __( 'Comments on &#8220;%s&#8221;' ),
+			$draft_or_post_title
+		);
 	}
 } else {
 	$comments_count = wp_count_comments();
 	if ( $comments_count->moderated > 0 ) {
-		$title = sprintf(
-			__( 'Comments (%s)' ),
+		/* translators: %s: comments count */
+		$title = sprintf( __( 'Comments (%s)' ),
 			number_format_i18n( $comments_count->moderated )
 		);
 	} else {
@@ -176,19 +179,27 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 <div class="wrap">
 <h1><?php
-if ( $post_id )
-	echo sprintf( __( 'Comments on &#8220;%s&#8221;' ),
-		sprintf( '<a href="%s">%s</a>',
+if ( $post_id ) {
+	/* translators: %s: link to post */
+	printf( __( 'Comments on &#8220;%s&#8221;' ),
+		sprintf( '<a href="%1$s">%2$s</a>',
 			get_edit_post_link( $post_id ),
 			wp_html_excerpt( _draft_or_post_title( $post_id ), 50, '&hellip;' )
 		)
 	);
-else
+} else {
 	_e( 'Comments' );
+}
 
-if ( isset($_REQUEST['s']) && $_REQUEST['s'] )
-	echo '<span class="subtitle">' . sprintf( __( 'Search results for &#8220;%s&#8221;' ), wp_html_excerpt( esc_html( wp_unslash( $_REQUEST['s'] ) ), 50, '&hellip;' ) ) . '</span>'; ?>
-</h1>
+if ( isset($_REQUEST['s']) && $_REQUEST['s'] ) {
+	echo '<span class="subtitle">';
+	/* translators: %s: search keywords */
+	printf( __( 'Search results for &#8220;%s&#8221;' ),
+		wp_html_excerpt( esc_html( wp_unslash( $_REQUEST['s'] ) ), 50, '&hellip;' )
+	);
+	echo '</span>';
+}
+?></h1>
 
 <?php
 if ( isset( $_REQUEST['error'] ) ) {
@@ -216,27 +227,37 @@ if ( isset($_REQUEST['approved']) || isset($_REQUEST['deleted']) || isset($_REQU
 	$same      = isset( $_REQUEST['same'] )      ? (int) $_REQUEST['same']      : 0;
 
 	if ( $approved > 0 || $deleted > 0 || $trashed > 0 || $untrashed > 0 || $spammed > 0 || $unspammed > 0 || $same > 0 ) {
-		if ( $approved > 0 )
+		if ( $approved > 0 ) {
+			/* translators: %s: number of comments approved */
 			$messages[] = sprintf( _n( '%s comment approved', '%s comments approved', $approved ), $approved );
+		}
 
 		if ( $spammed > 0 ) {
 			$ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
+			/* translators: %s: number of comments marked as spam */
 			$messages[] = sprintf( _n( '%s comment marked as spam.', '%s comments marked as spam.', $spammed ), $spammed ) . ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=unspam&ids=$ids", "bulk-comments" ) ) . '">' . __('Undo') . '</a><br />';
 		}
 
-		if ( $unspammed > 0 )
+		if ( $unspammed > 0 ) {
+			/* translators: %s: number of comments restored from the spam */
 			$messages[] = sprintf( _n( '%s comment restored from the spam', '%s comments restored from the spam', $unspammed ), $unspammed );
+		}
 
 		if ( $trashed > 0 ) {
 			$ids = isset($_REQUEST['ids']) ? $_REQUEST['ids'] : 0;
+			/* translators: %s: number of comments moved to the Trash */
 			$messages[] = sprintf( _n( '%s comment moved to the Trash.', '%s comments moved to the Trash.', $trashed ), $trashed ) . ' <a href="' . esc_url( wp_nonce_url( "edit-comments.php?doaction=undo&action=untrash&ids=$ids", "bulk-comments" ) ) . '">' . __('Undo') . '</a><br />';
 		}
 
-		if ( $untrashed > 0 )
+		if ( $untrashed > 0 ) {
+			/* translators: %s: number of comments restored from the Trash */
 			$messages[] = sprintf( _n( '%s comment restored from the Trash', '%s comments restored from the Trash', $untrashed ), $untrashed );
+		}
 
-		if ( $deleted > 0 )
+		if ( $deleted > 0 ) {
+			/* translators: %s: number of comments permanently deleted */
 			$messages[] = sprintf( _n( '%s comment permanently deleted', '%s comments permanently deleted', $deleted ), $deleted );
+		}
 
 		if ( $same > 0 && $comment = get_comment( $same ) ) {
 			switch ( $comment->comment_approved ) {
