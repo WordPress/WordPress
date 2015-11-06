@@ -159,17 +159,38 @@ function network_step1( $errors = false ) {
 		$subdomain_install = true;
 	} else {
 		$subdomain_install = false;
-		if ( $got_mod_rewrite = got_mod_rewrite() ) // dangerous assumptions
-			echo '<div class="updated inline"><p><strong>' . __( 'Note:' ) . '</strong> ' . __( 'Please make sure the Apache <code>mod_rewrite</code> module is installed as it will be used at the end of this installation.' ) . '</p>';
-		elseif ( $is_apache )
-			echo '<div class="error inline"><p><strong>' . __( 'Warning!' ) . '</strong> ' . __( 'It looks like the Apache <code>mod_rewrite</code> module is not installed.' ) . '</p>';
-		if ( $got_mod_rewrite || $is_apache ) // Protect against mod_rewrite mimicry (but ! Apache)
-			echo '<p>' . __( 'If <code>mod_rewrite</code> is disabled, ask your administrator to enable that module, or look at the <a href="http://httpd.apache.org/docs/mod/mod_rewrite.html">Apache documentation</a> or <a href="http://www.google.com/search?q=apache+mod_rewrite">elsewhere</a> for help setting it up.' ) . '</p></div>';
+		if ( $got_mod_rewrite = got_mod_rewrite() ) { // dangerous assumptions 
+			echo '<div class="updated inline"><p><strong>' . __( 'Note:' ) . '</strong> ';
+			/* translators: %s: mod_rewrite */
+			printf( __( 'Please make sure the Apache %s module is installed as it will be used at the end of this installation.' ),
+				'<code>mod_rewrite</code>'
+			);
+			echo '</p>';
+		} elseif ( $is_apache ) {
+			echo '<div class="error inline"><p><strong>' . __( 'Warning!' ) . '</strong> ';
+			/* translators: %s: mod_rewrite */
+			printf( __( 'It looks like the Apache %s module is not installed.' ),
+				'<code>mod_rewrite</code>'
+			);
+			echo '</p>';
+		}
+
+		if ( $got_mod_rewrite || $is_apache ) { // Protect against mod_rewrite mimicry (but ! Apache)
+			echo '<p>';
+			/* translators: 1: mod_rewrite, 2: mod_rewrite documentation URL, 3: Google search for mod_rewrite */
+			printf( __( 'If %1$s is disabled, ask your administrator to enable that module, or look at the <a href="%2$s">Apache documentation</a> or <a href="%3$s">elsewhere</a> for help setting it up.' ),
+				'<code>mod_rewrite</code>',
+				'http://httpd.apache.org/docs/mod/mod_rewrite.html',
+				'http://www.google.com/search?q=apache+mod_rewrite'
+			);
+			echo '</p></div>';
+		}
 	}
 
 	if ( allow_subdomain_install() && allow_subdirectory_install() ) : ?>
 		<h3><?php esc_html_e( 'Addresses of Sites in your Network' ); ?></h3>
-		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories. <strong>You cannot change this later.</strong>' ); ?></p>
+		<p><?php _e( 'Please choose whether you would like sites in your WordPress network to use sub-domains or sub-directories.' ); ?>
+			<strong><?php _e( 'You cannot change this later.' ); ?></strong></p>
 		<p><?php _e( 'You will need a wildcard DNS record if you are going to use the virtual host (sub-domain) functionality.' ); ?></p>
 		<?php // @todo: Link to an MS readme? ?>
 		<table class="form-table">
@@ -228,7 +249,12 @@ function network_step1( $errors = false ) {
 			<tr>
 				<th scope="row"><?php esc_html_e( 'Sub-directory Install' ); ?></th>
 				<td><?php
-					_e( 'Because you are using <code>localhost</code>, the sites in your WordPress network must use sub-directories. Consider using <code>localhost.localdomain</code> if you wish to use sub-domains.' );
+					printf(
+						/* translators: 1: localhost 2: localhost.localdomain */
+						__( 'Because you are using %1$s, the sites in your WordPress network must use sub-directories. Consider using %2$s if you wish to use sub-domains.' ),
+						'<code>localhost</code>',
+						'<code>localhost.localdomain</code>'
+					);
 					// Uh oh:
 					if ( !allow_subdirectory_install() )
 						echo ' <strong>' . __( 'Warning!' ) . ' ' . __( 'The main site in a sub-directory install will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';
