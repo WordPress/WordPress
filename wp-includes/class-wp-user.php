@@ -269,7 +269,13 @@ class WP_User {
 	 */
 	public function __isset( $key ) {
 		if ( 'id' == $key ) {
-			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
+			_deprecated_argument( 'WP_User->id', '2.1',
+				sprintf(
+					/* translators: %s: WP_User->ID */
+					__( 'Use %s instead.' ),
+					'<code>WP_User->ID</code>'
+				)
+			);
 			$key = 'ID';
 		}
 
@@ -293,7 +299,13 @@ class WP_User {
 	 */
 	public function __get( $key ) {
 		if ( 'id' == $key ) {
-			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
+			_deprecated_argument( 'WP_User->id', '2.1',
+				sprintf(
+					/* translators: %s: WP_User->ID */
+					__( 'Use %s instead.' ),
+					'<code>WP_User->ID</code>'
+				)
+			);
 			return $this->ID;
 		}
 
@@ -326,7 +338,13 @@ class WP_User {
 	 */
 	public function __set( $key, $value ) {
 		if ( 'id' == $key ) {
-			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
+			_deprecated_argument( 'WP_User->id', '2.1',
+				sprintf(
+					/* translators: %s: WP_User->ID */
+					__( 'Use %s instead.' ),
+					'<code>WP_User->ID</code>'
+				)
+			);
 			$this->ID = $value;
 			return;
 		}
@@ -344,7 +362,13 @@ class WP_User {
 	 */
 	public function __unset( $key ) {
 		if ( 'id' == $key ) {
-			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
+			_deprecated_argument( 'WP_User->id', '2.1',
+				sprintf(
+					/* translators: %s: WP_User->ID */
+					__( 'Use %s instead.' ),
+					'<code>WP_User->ID</code>'
+				)
+			);
 		}
 
 		if ( isset( $this->data->$key ) ) {
