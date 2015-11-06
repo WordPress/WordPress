@@ -1302,7 +1302,7 @@ final class WP_Customize_Manager {
 	 */
 	protected function _cmp_priority( $a, $b ) {
 		if ( $a->priority === $b->priority ) {
-			return $a->instance_number - $a->instance_number;
+			return $a->instance_number - $b->instance_number;
 		} else {
 			return $a->priority - $b->priority;
 		}
