@@ -1672,7 +1672,7 @@ function wp_underscore_playlist_templates() {
 ?>
 <script type="text/html" id="tmpl-wp-playlist-current-item">
 	<# if ( data.image ) { #>
-	<img src="{{ data.thumb.src }}"/>
+	<img src="{{ data.thumb.src }}" alt="" />
 	<# } #>
 	<div class="wp-playlist-caption">
 		<span class="wp-playlist-item-meta wp-playlist-item-title"><?php

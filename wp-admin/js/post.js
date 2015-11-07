@@ -131,7 +131,7 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 				}
 
 				if ( received.lock_error.avatar_src ) {
-					avatar = $('<img class="avatar avatar-64 photo" width="64" height="64" />').attr( 'src', received.lock_error.avatar_src.replace(/&amp;/g, '&') );
+					avatar = $( '<img class="avatar avatar-64 photo" width="64" height="64" alt="" />' ).attr( 'src', received.lock_error.avatar_src.replace( /&amp;/g, '&' ) );
 					wrap.find('div.post-locked-avatar').empty().append( avatar );
 				}
 

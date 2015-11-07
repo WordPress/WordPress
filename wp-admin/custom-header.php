@@ -771,7 +771,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<p class="hide-if-js"><strong><?php _e( 'You need JavaScript to choose a part of the image.'); ?></strong></p>
 
 	<div id="crop_image" style="position: relative">
-		<img src="<?php echo esc_url( $url ); ?>" id="upload" width="<?php echo $width; ?>" height="<?php echo $height; ?>" />
+		<img src="<?php echo esc_url( $url ); ?>" id="upload" width="<?php echo $width; ?>" height="<?php echo $height; ?>" alt="" />
 	</div>
 
 	<input type="hidden" name="x1" id="x1" value="0"/>

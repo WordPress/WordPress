@@ -291,11 +291,11 @@ function wp_print_media_templates() {
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
 				<# } else if ( 'image' === data.type && data.sizes && data.sizes.large ) { #>
-					<img class="details-image" src="{{ data.sizes.large.url }}" draggable="false" />
+					<img class="details-image" src="{{ data.sizes.large.url }}" draggable="false" alt="" />
 				<# } else if ( 'image' === data.type && data.sizes && data.sizes.full ) { #>
-					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" />
+					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" alt="" />
 				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
-					<img class="details-image icon" src="{{ data.icon }}" draggable="false" />
+					<img class="details-image icon" src="{{ data.icon }}" draggable="false" alt="" />
 				<# } #>
 
 				<# if ( 'audio' === data.type ) { #>
@@ -453,9 +453,9 @@ function wp_print_media_templates() {
 				<# } else { #>
 					<div class="centered">
 						<# if ( data.image && data.image.src && data.image.src !== data.icon ) { #>
-							<img src="{{ data.image.src }}" class="thumbnail" draggable="false" />
+							<img src="{{ data.image.src }}" class="thumbnail" draggable="false" alt="" />
 						<# } else { #>
-							<img src="{{ data.icon }}" class="icon" draggable="false" />
+							<img src="{{ data.icon }}" class="icon" draggable="false" alt="" />
 						<# } #>
 					</div>
 					<div class="filename">
@@ -502,9 +502,9 @@ function wp_print_media_templates() {
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
 				<# } else if ( 'image' === data.type && data.sizes ) { #>
-					<img src="{{ data.size.url }}" draggable="false" />
+					<img src="{{ data.size.url }}" draggable="false" alt="" />
 				<# } else { #>
-					<img src="{{ data.icon }}" class="icon" draggable="false" />
+					<img src="{{ data.icon }}" class="icon" draggable="false" alt="" />
 				<# } #>
 			</div>
 			<div class="details">
@@ -820,7 +820,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-embed-image-settings">
 		<div class="thumbnail">
-			<img src="{{ data.model.url }}" draggable="false" />
+			<img src="{{ data.model.url }}" draggable="false" alt="" />
 		</div>
 
 		<?php
@@ -877,7 +877,7 @@ function wp_print_media_templates() {
 			<div class="embed-media-settings">
 				<div class="column-image">
 					<div class="image">
-						<img src="{{ data.model.url }}" draggable="false" />
+						<img src="{{ data.model.url }}" draggable="false" alt="" />
 
 						<# if ( data.attachment && window.imageEdit ) { #>
 							<div class="actions">
@@ -1208,9 +1208,9 @@ function wp_print_media_templates() {
 					<dl class="gallery-item">
 						<dt class="gallery-icon">
 							<# if ( attachment.thumbnail ) { #>
-								<img src="{{ attachment.thumbnail.url }}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" />
+								<img src="{{ attachment.thumbnail.url }}" width="{{ attachment.thumbnail.width }}" height="{{ attachment.thumbnail.height }}" alt="" />
 							<# } else { #>
-								<img src="{{ attachment.url }}" />
+								<img src="{{ attachment.url }}" alt="" />
 							<# } #>
 						</dt>
 						<# if ( attachment.caption ) { #>
@@ -1232,7 +1232,7 @@ function wp_print_media_templates() {
 	</script>
 
 	<script type="text/html" id="tmpl-crop-content">
-		<img class="crop-image" src="{{ data.url }}">
+		<img class="crop-image" src="{{ data.url }}" alt="">
 		<div class="upload-errors"></div>
 	</script>
 
@@ -1240,7 +1240,7 @@ function wp_print_media_templates() {
 		<h2><?php _e( 'Preview' ); ?></h2>
 		<strong><?php _e( 'As a browser icon' ); ?></strong>
 		<div class="favicon-preview">
-			<img src="images/browser.png" class="browser-preview" width="182" height="" alt=""/>
+			<img src="images/browser.png" class="browser-preview" width="182" height="" alt="" />
 
 			<div class="favicon">
 				<img id="preview-favicon" src="{{ data.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>

@@ -1615,7 +1615,7 @@ function _admin_notice_post_locked() {
 			<div class="post-locked-avatar"></div>
 			<p class="wp-tab-first" tabindex="0">
 			<span class="currently-editing"></span><br />
-			<span class="locked-saving hidden"><img src="<?php echo esc_url( admin_url( 'images/spinner-2x.gif' ) ); ?>" width="16" height="16" /> <?php _e('Saving revision&hellip;'); ?></span>
+			<span class="locked-saving hidden"><img src="<?php echo esc_url( admin_url( 'images/spinner-2x.gif' ) ); ?>" width="16" height="16" alt="" /> <?php _e( 'Saving revision&hellip;' ); ?></span>
 			<span class="locked-saved hidden"><?php _e('Your latest changes were saved as a revision.'); ?></span>
 			</p>
 			<?php

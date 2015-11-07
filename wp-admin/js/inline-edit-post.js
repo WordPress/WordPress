@@ -332,7 +332,7 @@ $( document ).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
 				row.find('.check-column checkbox').prop('checked', false);
 
 				if ( lock_data.avatar_src ) {
-					avatar = $('<img class="avatar avatar-18 photo" width="18" height="18" />').attr( 'src', lock_data.avatar_src.replace(/&amp;/g, '&') );
+					avatar = $( '<img class="avatar avatar-18 photo" width="18" height="18" alt="" />' ).attr( 'src', lock_data.avatar_src.replace( /&amp;/g, '&' ) );
 					row.find('.column-title .locked-avatar').empty().append( avatar );
 				}
 				row.addClass('wp-locked');

@@ -157,14 +157,14 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 					<div class="attachment-media-view attachment-media-view-{{ data.attachment.type }} {{ data.attachment.orientation }}">
 						<div class="thumbnail thumbnail-{{ data.attachment.type }}">
 							<# if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.medium ) { #>
-								<img class="attachment-thumb" src="{{ data.attachment.sizes.medium.url }}" draggable="false" />
+								<img class="attachment-thumb" src="{{ data.attachment.sizes.medium.url }}" draggable="false" alt="" />
 							<# } else if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.full ) { #>
-								<img class="attachment-thumb" src="{{ data.attachment.sizes.full.url }}" draggable="false" />
+								<img class="attachment-thumb" src="{{ data.attachment.sizes.full.url }}" draggable="false" alt="" />
 							<# } else if ( 'audio' === data.attachment.type ) { #>
 								<# if ( data.attachment.image && data.attachment.image.src && data.attachment.image.src !== data.attachment.icon ) { #>
-									<img src="{{ data.attachment.image.src }}" class="thumbnail" draggable="false" />
+									<img src="{{ data.attachment.image.src }}" class="thumbnail" draggable="false" alt="" />
 								<# } else { #>
-									<img src="{{ data.attachment.icon }}" class="attachment-thumb type-icon" draggable="false" />
+									<img src="{{ data.attachment.icon }}" class="attachment-thumb type-icon" draggable="false" alt="" />
 								<# } #>
 								<p class="attachment-meta attachment-meta-title">&#8220;{{ data.attachment.title }}&#8221;</p>
 								<# if ( data.attachment.album || data.attachment.meta.album ) { #>
@@ -184,7 +184,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 									</video>
 								</div>
 							<# } else { #>
-								<img class="attachment-thumb type-icon icon" src="{{ data.attachment.icon }}" draggable="false" />
+								<img class="attachment-thumb type-icon icon" src="{{ data.attachment.icon }}" draggable="false" alt="" />
 								<p class="attachment-title">{{ data.attachment.title }}</p>
 							<# } #>
 						</div>

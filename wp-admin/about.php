@@ -134,7 +134,7 @@ $tech_features = array(
 					// Image.
 					else:
 					?>
-					<img src="<?php echo esc_url( $feature['src'] ); ?>" />
+					<img src="<?php echo esc_url( $feature['src'] ); ?>" alt="" />
 					<?php endif; ?>
 				</div>
 				<h3><?php echo $feature['heading']; ?></h3>
@@ -147,7 +147,7 @@ $tech_features = array(
 			<?php foreach ( $minor_features as $feature ) : ?>
 			<div class="col">
 				<div class="svg-container">
-					<img src="<?php echo esc_attr( $feature['src'] ); ?>" />
+					<img src="<?php echo esc_attr( $feature['src'] ); ?>" alt="" />
 				</div>
 				<h3><?php echo $feature['heading']; ?></h3>
 				<p><?php echo $feature['description']; ?></p>
