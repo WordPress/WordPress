@@ -172,10 +172,9 @@
 	left: -10px;
 	width: 10px;
 	height: 40px;
-	background: -webkit-linear-gradient(left, rgba(250,250,250,0) 0%,rgba(250,250,250,1) 100%);
 	background: -webkit-gradient(linear, left top, right top, from(rgba(250,250,250,0)), to(rgba(250,250,250,1)));
 	background: -webkit-linear-gradient(left, rgba(250,250,250,0) 0%, rgba(250,250,250,1) 100%);
-	background: linear-gradient(to right, rgba(250,250,250,0) 0%,rgba(250,250,250,1) 100%);
+	background: linear-gradient(to right, rgba(250,250,250,0) 0%, rgba(250,250,250,1) 100%);
 }
 
 .reordering .menu-item .item-controls,
