@@ -983,22 +983,23 @@ function wp_calculate_image_srcset( $image_src, $size_array, $image_meta, $attac
 		return false;
 	}
 
-	// Don't add srcset attributes to (animated) gifs that are inserted at full size.
-	if ( isset( $image_sizes['thumbnail']['mime-type'] ) && 'image/gif' === $image_sizes['thumbnail']['mime-type'] &&
-		false !== strpos( $image_src, $image_meta['file'] ) ) {
-
-		return false;
-	}
-
 	$image_basename = wp_basename( $image_meta['file'] );
 	$image_baseurl = _wp_upload_dir_baseurl();
 
-	// Add full size to the '$image_sizes' array.
-	$image_sizes['full'] = array(
-		'width'  => $image_meta['width'],
-		'height' => $image_meta['height'],
-		'file'   => $image_basename,
-	);
+	/*
+	 * WordPress flattens animated GIFs into one frame when generating intermediate sizes.
+	 * To avoid hiding animation in user content, if src is a full size GIF, a srcset attribute is not generated.
+	 * If src is an intermediate size GIF, the full size is excluded from srcset to keep a flattened GIF from becoming animated.
+	 */
+	if ( ! isset( $image_sizes['thumbnail']['mime-type'] ) || 'image/gif' !== $image_sizes['thumbnail']['mime-type'] ) {
+		$image_sizes['full'] = array(
+			'width'  => $image_meta['width'],
+			'height' => $image_meta['height'],
+			'file'   => $image_basename,
+		);
+	} elseif ( strpos( $image_src, $image_meta['file'] ) ) {
+		return false;
+	}
 
 	// Uploads are (or have been) in year/month sub-directories.
 	if ( $image_basename !== $image_meta['file'] ) {
