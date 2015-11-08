@@ -770,10 +770,7 @@ function get_site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
 		} else {
 			$size_data = array( $size, $size );
 		}
-		$url_data = wp_get_attachment_image_src( $site_icon_id, $size_data );
-		if ( $url_data ) {
-			$url = $url_data[0];
-		}
+		$url = wp_get_attachment_image_url( $site_icon_id, $size_data );
 	}
 
 	/**
