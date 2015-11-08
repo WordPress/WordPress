@@ -758,11 +758,11 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
  * @return string Site Icon URL.
  */
 function get_site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
-	if ( $blog_id && is_multisite() ) {
-		$site_icon_id = get_blog_option( $blog_id, 'site_icon' );
-	} else {
-		$site_icon_id = get_option( 'site_icon' );
+	if ( is_multisite() && (int) $blog_id !== get_current_blog_id() ) {
+		switch_to_blog( $blog_id );
 	}
+
+	$site_icon_id = get_option( 'site_icon' );
 
 	if ( $site_icon_id ) {
 		if ( $size >= 512 ) {
@@ -771,6 +771,10 @@ function get_site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
 			$size_data = array( $size, $size );
 		}
 		$url = wp_get_attachment_image_url( $site_icon_id, $size_data );
+	}
+
+	if ( is_multisite() && ms_is_switched() ) {
+		restore_current_blog();
 	}
 
 	/**
