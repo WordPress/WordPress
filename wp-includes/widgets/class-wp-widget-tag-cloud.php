@@ -129,7 +129,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 		// No tag cloud supporting taxonomies found, display error message
 		case 0:
-			echo '<p>' . __( 'The tag cloud will not be displayed since their are no taxonomies that support the tag cloud widget.' ) . '</p>';
+			echo '<p>' . __( 'The tag cloud will not be displayed since there are no taxonomies that support the tag cloud widget.' ) . '</p>';
 			printf( $input, '' );
 			break;
 
