@@ -117,7 +117,7 @@ function ms_site_check() {
 }
 
 /**
- * Retrieve a network object by its domain and path.
+ * Retrieve the closest matching network for a domain and path.
  *
  * @since 3.9.0
  * @since 4.4.0 Converted to a wrapper for WP_Network::get_by_path()

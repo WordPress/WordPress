@@ -169,7 +169,14 @@ class WP_Network {
 	}
 
 	/**
-	 * Retrieve a network by its domain and path.
+	 * Retrieve the closest matching network for a domain and path.
+	 *
+	 * This will not necessarily return an exact match for a domain and path. Instead, it
+	 * breaks the domain and path into pieces that are then used to match the closest
+	 * possibility from a query.
+	 *
+	 * The intent of this method is to match a network during bootstrap for a
+	 * requested site address.
 	 *
 	 * @since 4.4.0
 	 * @access public
