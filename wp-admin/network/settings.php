@@ -137,7 +137,13 @@ if ( isset( $_GET['updated'] ) ) {
 					<label><input name="registration" type="radio" id="registration3" value="blog"<?php checked( $reg, 'blog') ?> /> <?php _e( 'Logged in users may register new sites.' ); ?></label><br />
 					<label><input name="registration" type="radio" id="registration4" value="all"<?php checked( $reg, 'all') ?> /> <?php _e( 'Both sites and user accounts can be registered.' ); ?></label>
 					<?php if ( is_subdomain_install() ) {
-						echo '<p class="description">' . __( 'If registration is disabled, please set <code>NOBLOGREDIRECT</code> in <code>wp-config.php</code> to a URL you will redirect visitors to if they visit a non-existent site.' ) . '</p>';
+						echo '<p class="description">';
+						/* translators: 1: NOBLOGREDIRECT 2: wp-config.php */
+						printf( __( 'If registration is disabled, please set %1$s in %2$s to a URL you will redirect visitors to if they visit a non-existent site.' ),
+							'<code>NOBLOGREDIRECT</code>',
+							'<code>wp-config.php</code>'
+						);
+						echo '</p>';
 					} ?>
 					</fieldset>
 				</td>
