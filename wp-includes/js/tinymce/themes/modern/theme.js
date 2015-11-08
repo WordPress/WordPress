@@ -41,8 +41,8 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			function bindSelectorChanged() {
 				var selection = editor.selection;
 
-				if (itemName == "bullist") {
-					selection.selectorChanged('ul > li', function(state, args) {
+				function setActiveItem(name) {
+					return function(state, args) {
 						var nodeName, i = args.parents.length;
 
 						while (i--) {
@@ -52,23 +52,16 @@ tinymce.ThemeManager.add('modern', function(editor) {
 							}
 						}
 
-						item.active(state && nodeName == "UL");
-					});
+						item.active(state && nodeName == name);
+					};
+				}
+
+				if (itemName == "bullist") {
+					selection.selectorChanged('ul > li', setActiveItem("UL"));
 				}
 
 				if (itemName == "numlist") {
-					selection.selectorChanged('ol > li', function(state, args) {
-						var nodeName, i = args.parents.length;
-
-						while (i--) {
-							nodeName = args.parents[i].nodeName;
-							if (nodeName == "OL" || nodeName == "UL") {
-								break;
-							}
-						}
-
-						item.active(state && nodeName == "OL");
-					});
+					selection.selectorChanged('ol > li', setActiveItem("OL"));
 				}
 
 				if (item.settings.stateSelector) {

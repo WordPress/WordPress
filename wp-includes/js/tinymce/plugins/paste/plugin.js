@@ -1411,7 +1411,9 @@ define("tinymce/pasteplugin/WordFilter", [
 				}
 
 				// Serialize DOM back to HTML
-				e.content = new Serializer({}, schema).serialize(rootNode);
+				e.content = new Serializer({
+					validate: settings.validate
+				}, schema).serialize(rootNode);
 			}
 		});
 	}
