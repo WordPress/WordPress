@@ -2454,7 +2454,7 @@
 	 */
 	api.Menus.applySavedData = function( data ) {
 
-		var insertedMenuIdMapping = {};
+		var insertedMenuIdMapping = {}, insertedMenuItemIdMapping = {};
 
 		_( data.nav_menu_updates ).each(function( update ) {
 			var oldCustomizeId, newCustomizeId, customizeId, oldSetting, newSetting, setting, settingValue, oldSection, newSection, wasSaved, widgetTemplate, navMenuCount;
@@ -2585,6 +2585,13 @@
 			}
 		} );
 
+		// Build up mapping of nav_menu_item placeholder IDs to inserted IDs.
+		_( data.nav_menu_item_updates ).each(function( update ) {
+			if ( update.previous_post_id ) {
+				insertedMenuItemIdMapping[ update.previous_post_id ] = update.post_id;
+			}
+		});
+
 		_( data.nav_menu_item_updates ).each(function( update ) {
 			var oldCustomizeId, newCustomizeId, oldSetting, newSetting, settingValue, oldControl, newControl;
 			if ( 'inserted' === update.status ) {
@@ -2609,6 +2616,14 @@
 					throw new Error( 'Did not expect setting to be empty (deleted).' );
 				}
 				settingValue = _.clone( settingValue );
+
+				// If the parent menu item was also inserted, update the menu_item_parent to the new ID.
+				if ( settingValue.menu_item_parent < 0 ) {
+					if ( ! insertedMenuItemIdMapping[ settingValue.menu_item_parent ] ) {
+						throw new Error( 'inserted ID for menu_item_parent not available' );
+					}
+					settingValue.menu_item_parent = insertedMenuItemIdMapping[ settingValue.menu_item_parent ];
+				}
 
 				// If the menu was also inserted, then make sure it uses the new menu ID for nav_menu_term_id.
 				if ( insertedMenuIdMapping[ settingValue.nav_menu_term_id ] ) {
