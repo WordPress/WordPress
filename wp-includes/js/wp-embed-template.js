@@ -1,9 +1,10 @@
 (function ( window, document ) {
 	'use strict';
 
-	var secret = window.location.hash.replace( /.*secret=([\d\w]{10}).*/, '$1' ),
-		supportedBrowser = ( document.querySelector && window.addEventListener ),
+	var supportedBrowser = ( document.querySelector && window.addEventListener ),
 		loaded = false,
+		secret,
+		secretTimeout,
 		resizing;
 
 	function sendEmbedMessage( message, value ) {
@@ -177,7 +178,25 @@
 		}, 100 );
 	}
 
+	/**
+	 * Re-get the secret when it was added later on.
+	 */
+	function getSecret() {
+		if ( window.self === window.top || !!secret ) {
+			return;
+		}
+
+		secret = window.location.hash.replace( /.*secret=([\d\w]{10}).*/, '$1' );
+
+		clearTimeout( secretTimeout );
+
+		secretTimeout = setTimeout( function () {
+			getSecret();
+		}, 100 );
+	}
+
 	if ( supportedBrowser ) {
+		getSecret();
 		document.documentElement.className = document.documentElement.className.replace( /\bno-js\b/, '' ) + ' js';
 		document.addEventListener( 'DOMContentLoaded', onLoad, false );
 		window.addEventListener( 'load', onLoad, false );

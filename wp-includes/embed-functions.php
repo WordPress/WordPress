@@ -460,7 +460,7 @@ function get_post_embed_html( $width, $height, $post = null ) {
 
 	$embed_url = get_post_embed_url( $post );
 
-	$output = '<blockquote><a href="' . get_permalink( $post ) . '">' . get_the_title( $post ) . "</a></blockquote>\n";
+	$output = '<blockquote class="wp-embedded-content"><a href="' . esc_url( get_permalink( $post ) ) . '">' . get_the_title( $post ) . "</a></blockquote>\n";
 
 	$output .= "<script type='text/javascript'>\n";
 	$output .= "<!--//--><![CDATA[//><!--\n";
@@ -478,7 +478,7 @@ function get_post_embed_html( $width, $height, $post = null ) {
 		 * and edit wp-embed.js directly.
 		 */
 		$output .=<<<JS
-		!function(a,b){"use strict";function c(){if(!e){e=!0;var a,c,d,f=-1!==navigator.appVersion.indexOf("MSIE 10"),g=!!navigator.userAgent.match(/Trident.*rv\:11\./);if(f||g)for(a=b.querySelectorAll(".wp-embedded-content[security]"),d=0;d<a.length;d++)c=a[d].cloneNode(!0),c.removeAttribute("security"),a[d].parentNode.replaceChild(c,a[d])}}var d=b.querySelector&&a.addEventListener,e=!1;a.wp=a.wp||{},a.wp.receiveEmbedMessage||(a.wp.receiveEmbedMessage=function(c){var d=c.data;if(d.secret||d.message||d.value){var e,f,g,h,i,j=b.querySelectorAll('iframe[data-secret="'+d.secret+'"]'),k=b.querySelectorAll('blockquote[data-secret="'+d.secret+'"]');for(e=0;e<k.length;e++)k[e].style.display="none";for(e=0;e<j.length;e++)f=j[e],f.style.display="","height"===d.message&&(g=parseInt(d.value,10),g>1e3?g=1e3:200>~~g&&(g=200),f.height=g),"link"===d.message&&(h=b.createElement("a"),i=b.createElement("a"),h.href=f.getAttribute("src"),i.href=d.value,i.host===h.host&&b.activeElement===f&&(a.top.location.href=d.value))}},d&&(a.addEventListener("message",a.wp.receiveEmbedMessage,!1),b.addEventListener("DOMContentLoaded",c,!1),a.addEventListener("load",c,!1)))}(window,document);
+		!function(a,b){"use strict";function c(){if(!e){e=!0;var a,c,d,f,g=-1!==navigator.appVersion.indexOf("MSIE 10"),h=!!navigator.userAgent.match(/Trident.*rv:11\./),i=b.querySelectorAll("iframe.wp-embedded-content"),j=b.querySelectorAll("blockquote.wp-embedded-content");for(c=0;c<j.length;c++)j[c].style.display="none";for(c=0;c<i.length;c++)d=i[c],d.style.display="",d.getAttribute("data-secret")||(f=Math.random().toString(36).substr(2,10),d.src+="#?secret="+f,d.setAttribute("data-secret",f)),(g||h)&&d.getAttribute("security")&&(a=d.cloneNode(!0),a.removeAttribute("security"),d.parentNode.replaceChild(a,d))}}var d=b.querySelector&&a.addEventListener,e=!1;a.wp=a.wp||{},a.wp.receiveEmbedMessage||(a.wp.receiveEmbedMessage=function(c){var d=c.data;if(d.secret||d.message||d.value){var e,f,g,h,i,j=b.querySelectorAll('iframe[data-secret="'+d.secret+'"]'),k=b.querySelectorAll('blockquote[data-secret="'+d.secret+'"]');for(e=0;e<k.length;e++)k[e].style.display="none";for(e=0;e<j.length;e++)f=j[e],f.style.display="","height"===d.message&&(g=parseInt(d.value,10),g>1e3?g=1e3:200>~~g&&(g=200),f.height=g),"link"===d.message&&(h=b.createElement("a"),i=b.createElement("a"),h.href=f.getAttribute("src"),i.href=d.value,i.host===h.host&&b.activeElement===f&&(a.top.location.href=d.value))}},d&&(a.addEventListener("message",a.wp.receiveEmbedMessage,!1),b.addEventListener("DOMContentLoaded",c,!1),a.addEventListener("load",c,!1)))}(window,document);
 JS;
 	}
 	$output .= "\n//--><!]]>";
@@ -754,7 +754,7 @@ function wp_filter_oembed_result( $result, $data, $url ) {
 
 	$allowed_html = array(
 		'a'          => array(
-			        'href' => true,
+			'href'         => true,
 		),
 		'blockquote' => array(),
 		'iframe'     => array(
@@ -766,7 +766,6 @@ function wp_filter_oembed_result( $result, $data, $url ) {
 			'marginheight' => true,
 			'scrolling'    => true,
 			'title'        => true,
-			'class'        => true,
 		),
 	);
 
@@ -782,9 +781,10 @@ function wp_filter_oembed_result( $result, $data, $url ) {
 	if ( ! empty( $content[1] ) ) {
 		// We have a blockquote to fall back on. Hide the iframe by default.
 		$html = str_replace( '<iframe', '<iframe style="display:none;"', $html );
+		$html = str_replace( '<blockquote', '<blockquote class="wp-embedded-content"', $html );
 	}
 
-	$html = str_replace( '<iframe', '<iframe sandbox="allow-scripts" security="restricted"', $html );
+	$html = str_replace( '<iframe', '<iframe class="wp-embedded-content" sandbox="allow-scripts" security="restricted"', $html );
 
 	preg_match( '/ src=[\'"]([^\'"]*)[\'"]/', $html, $results );
 
@@ -938,7 +938,7 @@ function print_embed_scripts() {
 			 * and edit wp-embed-template.js directly.
 			 */
 			?>
-			!function(a,b){"use strict";function c(b,c){a.parent.postMessage({message:b,value:c,secret:g},"*")}function d(){function d(){l.className=l.className.replace("hidden",""),b.querySelector('.wp-embed-share-tab-button [aria-selected="true"]').focus()}function e(){l.className+=" hidden",b.querySelector(".wp-embed-share-dialog-open").focus()}function f(a){var c=b.querySelector('.wp-embed-share-tab-button [aria-selected="true"]');c.setAttribute("aria-selected","false"),b.querySelector("#"+c.getAttribute("aria-controls")).setAttribute("aria-hidden","true"),a.target.setAttribute("aria-selected","true"),b.querySelector("#"+a.target.getAttribute("aria-controls")).setAttribute("aria-hidden","false")}function g(a){var c,d,e=a.target,f=e.parentElement.previousElementSibling,g=e.parentElement.nextElementSibling;if(37===a.keyCode)c=f;else{if(39!==a.keyCode)return!1;c=g}"rtl"===b.documentElement.getAttribute("dir")&&(c=c===f?g:f),c&&(d=c.firstElementChild,e.setAttribute("tabindex","-1"),e.setAttribute("aria-selected",!1),b.querySelector("#"+e.getAttribute("aria-controls")).setAttribute("aria-hidden","true"),d.setAttribute("tabindex","0"),d.setAttribute("aria-selected","true"),d.focus(),b.querySelector("#"+d.getAttribute("aria-controls")).setAttribute("aria-hidden","false"))}function h(a){var c=b.querySelector('.wp-embed-share-tab-button [aria-selected="true"]');n!==a.target||a.shiftKey?c===a.target&&a.shiftKey&&(n.focus(),a.preventDefault()):(c.focus(),a.preventDefault())}function j(a){var b,d=a.target;b=d.hasAttribute("href")?d.getAttribute("href"):d.parentElement.getAttribute("href"),c("link",b),a.preventDefault()}if(!i){i=!0;var k,l=b.querySelector(".wp-embed-share-dialog"),m=b.querySelector(".wp-embed-share-dialog-open"),n=b.querySelector(".wp-embed-share-dialog-close"),o=b.querySelectorAll(".wp-embed-share-input"),p=b.querySelectorAll(".wp-embed-share-tab-button button"),q=b.getElementsByTagName("a");if(o)for(k=0;k<o.length;k++)o[k].addEventListener("click",function(a){a.target.select()});if(m&&m.addEventListener("click",function(){d()}),n&&n.addEventListener("click",function(){e()}),p)for(k=0;k<p.length;k++)p[k].addEventListener("click",f),p[k].addEventListener("keydown",g);if(b.addEventListener("keydown",function(a){27===a.keyCode&&-1===l.className.indexOf("hidden")?e():9===a.keyCode&&h(a)},!1),a.self!==a.top)for(c("height",Math.ceil(b.body.getBoundingClientRect().height)),k=0;k<q.length;k++)q[k].addEventListener("click",j)}}function e(){a.self!==a.top&&(clearTimeout(f),f=setTimeout(function(){c("height",Math.ceil(b.body.getBoundingClientRect().height))},100))}var f,g=a.location.hash.replace(/.*secret=([\d\w]{10}).*/,"$1"),h=b.querySelector&&a.addEventListener,i=!1;h&&(b.documentElement.className=b.documentElement.className.replace(/\bno-js\b/,"")+" js",b.addEventListener("DOMContentLoaded",d,!1),a.addEventListener("load",d,!1),a.addEventListener("resize",e,!1))}(window,document);
+			!function(a,b){"use strict";function c(b,c){a.parent.postMessage({message:b,value:c,secret:g},"*")}function d(){function d(){l.className=l.className.replace("hidden",""),b.querySelector('.wp-embed-share-tab-button [aria-selected="true"]').focus()}function e(){l.className+=" hidden",b.querySelector(".wp-embed-share-dialog-open").focus()}function f(a){var c=b.querySelector('.wp-embed-share-tab-button [aria-selected="true"]');c.setAttribute("aria-selected","false"),b.querySelector("#"+c.getAttribute("aria-controls")).setAttribute("aria-hidden","true"),a.target.setAttribute("aria-selected","true"),b.querySelector("#"+a.target.getAttribute("aria-controls")).setAttribute("aria-hidden","false")}function g(a){var c,d,e=a.target,f=e.parentElement.previousElementSibling,g=e.parentElement.nextElementSibling;if(37===a.keyCode)c=f;else{if(39!==a.keyCode)return!1;c=g}"rtl"===b.documentElement.getAttribute("dir")&&(c=c===f?g:f),c&&(d=c.firstElementChild,e.setAttribute("tabindex","-1"),e.setAttribute("aria-selected",!1),b.querySelector("#"+e.getAttribute("aria-controls")).setAttribute("aria-hidden","true"),d.setAttribute("tabindex","0"),d.setAttribute("aria-selected","true"),d.focus(),b.querySelector("#"+d.getAttribute("aria-controls")).setAttribute("aria-hidden","false"))}function h(a){var c=b.querySelector('.wp-embed-share-tab-button [aria-selected="true"]');n!==a.target||a.shiftKey?c===a.target&&a.shiftKey&&(n.focus(),a.preventDefault()):(c.focus(),a.preventDefault())}function i(a){var b,d=a.target;b=d.hasAttribute("href")?d.getAttribute("href"):d.parentElement.getAttribute("href"),c("link",b),a.preventDefault()}if(!k){k=!0;var j,l=b.querySelector(".wp-embed-share-dialog"),m=b.querySelector(".wp-embed-share-dialog-open"),n=b.querySelector(".wp-embed-share-dialog-close"),o=b.querySelectorAll(".wp-embed-share-input"),p=b.querySelectorAll(".wp-embed-share-tab-button button"),q=b.getElementsByTagName("a");if(o)for(j=0;j<o.length;j++)o[j].addEventListener("click",function(a){a.target.select()});if(m&&m.addEventListener("click",function(){d()}),n&&n.addEventListener("click",function(){e()}),p)for(j=0;j<p.length;j++)p[j].addEventListener("click",f),p[j].addEventListener("keydown",g);if(b.addEventListener("keydown",function(a){27===a.keyCode&&-1===l.className.indexOf("hidden")?e():9===a.keyCode&&h(a)},!1),a.self!==a.top)for(c("height",Math.ceil(b.body.getBoundingClientRect().height)),j=0;j<q.length;j++)q[j].addEventListener("click",i)}}function e(){a.self!==a.top&&(clearTimeout(i),i=setTimeout(function(){c("height",Math.ceil(b.body.getBoundingClientRect().height))},100))}function f(){a.self===a.top||g||(g=a.location.hash.replace(/.*secret=([\d\w]{10}).*/,"$1"),clearTimeout(h),h=setTimeout(function(){f()},100))}var g,h,i,j=b.querySelector&&a.addEventListener,k=!1;j&&(f(),b.documentElement.className=b.documentElement.className.replace(/\bno-js\b/,"")+" js",b.addEventListener("DOMContentLoaded",d,!1),a.addEventListener("load",d,!1),a.addEventListener("resize",e,!1))}(window,document);
 			<?php
 		}
 	?>
@@ -956,5 +956,5 @@ function print_embed_scripts() {
  * @return string The filtered content.
  */
 function _oembed_filter_feed_content( $content ) {
-	return str_replace( '<iframe sandbox="allow-scripts" security="restricted" style="display:none;"', '<iframe sandbox="allow-scripts" security="restricted"', $content );
+	return str_replace( '<iframe class="wp-embedded-content" sandbox="allow-scripts" security="restricted" style="display:none;"', '<iframe class="wp-embedded-content" sandbox="allow-scripts" security="restricted"', $content );
 }
