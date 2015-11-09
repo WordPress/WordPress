@@ -558,7 +558,7 @@ function metadata_exists( $meta_type, $object_id, $meta_key ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $meta_type Type of object metadata is for (e.g., comment, post, meta, or user).
+ * @param string $meta_type Type of object metadata is for (e.g., comment, post, term, or user).
  * @param int    $meta_id   ID for a specific meta row
  * @return object|false Meta object or false.
  */
