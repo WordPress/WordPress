@@ -462,7 +462,7 @@ class WP_Upgrader {
 		 * @since 2.8.0
 		 *
 		 * @param string      $source        File source location.
-		 * @param string      $remote_source Remove file source location.
+		 * @param string      $remote_source Remote file source location.
 		 * @param WP_Upgrader $this          WP_Upgrader instance.
 		 */
 		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this );
