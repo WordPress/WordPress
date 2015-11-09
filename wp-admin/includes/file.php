@@ -345,7 +345,9 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	if ( 'wp_handle_upload' === $action ) {
 		$move_new_file = @ move_uploaded_file( $file['tmp_name'], $new_file );
 	} else {
-		$move_new_file = @ rename( $file['tmp_name'], $new_file );
+		// use copy and unlink because rename breaks streams.
+		$move_new_file = @ copy( $file['tmp_name'], $new_file );
+		unlink( $file['tmp_name'] );
 	}
 
 	if ( false === $move_new_file ) {
