@@ -2054,6 +2054,8 @@ function wp_delete_object_term_relationships( $object_id, $taxonomies ) {
  * If the term is a parent of other terms, then the children will be updated to
  * that term's parent.
  *
+ * Metadata associated with the term will be deleted.
+ *
  * The `$args` 'default' will only override the terms found, if there is only one
  * term found. Any other and the found terms are used.
  *
@@ -2171,6 +2173,11 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	$tax_object = get_taxonomy( $taxonomy );
 	foreach ( $tax_object->object_type as $object_type )
 		clean_object_term_cache( $objects, $object_type );
+
+	$term_meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $wpdb->termmeta WHERE term_id = %d ", $term ) );
+	foreach ( $term_meta_ids as $mid ) {
+		delete_metadata_by_mid( 'term', $mid );
+	}
 
 	/**
 	 * Fires immediately before a term taxonomy ID is deleted.
