@@ -1074,22 +1074,23 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $sources       An array of sources to include in the 'srcset'. Each source
-	 *                             consists of an array containing the URL and the descriptor
-	 *                             type and value (default: the image width):
+	 * @param array  $sources {
+	 *     An array of sources to include in the 'srcset'.
 	 *
-	 *                             image width => array(
-	 *                                 'url'        => string,
-	 *                                 'descriptor' => string ('w' or 'x'),
-	 *                                 'value'      => integer (width or pixel density)
-	 *                             },
-	 *
-	 * @param int   $attachment_id Image attachment ID.
-	 * @param array $size_array    Array of width and height values in pixels (in that order).
-	 * @param array $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
+	 *     @type type array $width {
+	 *          @type type string $url        The URL of an image source in the .
+	 *          @type type string $descriptor The descriptor type used in the image candidate string, either 'w' or 'x'.
+	 *          @type type int    $value      The source width, if paired with a 'w' descriptor or a pixel density value
+	 *                                        if paired with an 'x' descriptor.
+	 *     }
+	 * }
+	 * @param array  $size_array    Array of width and height values in pixels (in that order).
+	 * @param string $image_src     The 'src' of the image.
+	 * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
+ 	 * @param int    $attachment_id Image attachment ID.
 
 	 */
-	$sources = apply_filters( 'wp_calculate_image_srcset', $sources, $attachment_id, $size_array, $image_meta );
+	$sources = apply_filters( 'wp_calculate_image_srcset', $sources, $size_array, $image_src, $image_meta, $attachment_id );
 
 	// Only return a 'srcset' value if there is more than one source.
 	if ( count( $sources ) < 2 ) {
