@@ -1012,7 +1012,7 @@
 				return;
 			}
 			section = api.section( sectionId );
-			if ( section && section.expanded() ) {
+			if ( ( section && section.expanded() ) || api.settings.autofocus.control === control.id ) {
 				control.actuallyEmbed();
 			}
 		},
@@ -1433,9 +1433,12 @@
 		 * the first input in the control.
 		 */
 		focus: function() {
-			this.expandControlSection();
-			this.expandForm();
-			this.container.find( '.menu-item-settings :focusable:first' ).focus();
+			var control = this, focusable;
+			control.expandControlSection();
+			control.expandForm();
+			// Note that we can't use :focusable due to a jQuery UI issue. See: https://github.com/jquery/jquery-ui/pull/1583
+			focusable = control.container.find( '.menu-item-settings' ).find( 'input, select, textarea, button, object, a[href], [tabindex]' ).filter( ':visible' );
+			focusable.first().focus();
 		},
 
 		/**
