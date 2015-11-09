@@ -728,6 +728,7 @@ $_new_bundled_files = array(
 	'themes/twentythirteen/' => '3.6',
 	'themes/twentyfourteen/' => '3.8',
 	'themes/twentyfifteen/'  => '4.1',
+	'themes/twentysixteen/'  => '4.4',
 );
 
 /**
@@ -1072,6 +1073,9 @@ function update_core($from, $to) {
 	// Remove any Genericons example.html's from the filesystem
 	_upgrade_422_remove_genericons();
 
+	// Remove the REST API plugin if its version is Beta 4 or lower
+	_upgrade_440_force_deactivate_incompatible_plugins();
+
 	// Upgrade DB with separate request
 	/** This filter is documented in wp-admin/includes/update-core.php */
 	apply_filters( 'update_feedback', __( 'Upgrading database&#8230;' ) );
@@ -1285,4 +1289,14 @@ function _upgrade_422_find_genericons_files_in_folder( $directory ) {
 	}
 
 	return $files;
+}
+
+/**
+ * @ignore
+ * @since 4.4.0
+ */
+function _upgrade_440_force_deactivate_incompatible_plugins() {
+	if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0-beta4', '<=' ) ) {
+		deactivate_plugins( array( 'rest-api/plugin.php' ), true );
+	}
 }
