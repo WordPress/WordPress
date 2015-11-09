@@ -86,6 +86,7 @@ foreach ( array_merge( $builtin, $types ) as $ptype ) {
 	$ptype_menu_position = is_int( $ptype_obj->menu_position ) ? $ptype_obj->menu_position : ++$_wp_last_object_menu; // If we're to use $_wp_last_object_menu, increment it first.
 	$ptype_for_id = sanitize_html_class( $ptype );
 
+	$menu_icon = 'dashicons-admin-post';
 	if ( is_string( $ptype_obj->menu_icon ) ) {
 		// Special handling for data:image/svg+xml and Dashicons.
 		if ( 0 === strpos( $ptype_obj->menu_icon, 'data:image/svg+xml;base64,' ) || 0 === strpos( $ptype_obj->menu_icon, 'dashicons-' ) ) {
