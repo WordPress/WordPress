@@ -111,7 +111,7 @@ if (PHP_VERSION_ID < 70000) {
                     PHP_VERSION_ID >= 50300
                 ) ||
                 // Windows with PHP >= 5.3.4
-                PHP_VERSION_ID >= 50304
+                PHP_VERSION_ID >= 50401 // Modification from upstream, see #34409
             )
         ) {
             // See random_bytes_openssl.php
