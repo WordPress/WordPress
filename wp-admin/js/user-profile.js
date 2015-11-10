@@ -195,6 +195,11 @@
 			}
 		} );
 
+		// Disable the hidden inputs to prevent autofill and submission.
+		$pass1.prop( 'disabled', true );
+		$pass2.prop( 'disabled', true );
+		$pass1Text.prop( 'disabled', true );
+
 		$passwordWrapper = $pass1Row.find( '.wp-pwd' );
 		$generateButton  = $pass1Row.find( 'button.wp-generate-pw' );
 
@@ -210,6 +215,11 @@
 
 			$generateButton.hide();
 			$passwordWrapper.show();
+
+			// Enable the inputs when showing.
+			$pass1.attr( 'disabled', false );
+			$pass2.attr( 'disabled', false );
+			$pass1Text.attr( 'disabled', false );
 
 			if ( $pass1Text.val().length === 0 ) {
 				generatePassword();
@@ -238,6 +248,11 @@
 
 			$generateButton.show();
 			$passwordWrapper.hide();
+
+			// Disable the inputs when hiding to prevent autofill and submission.
+			$pass1.prop( 'disabled', true );
+			$pass2.prop( 'disabled', true );
+			$pass1Text.prop( 'disabled', true );
 
 			resetToggle();
 
