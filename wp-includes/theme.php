@@ -994,12 +994,13 @@ function get_header_image() {
 }
 
 /**
- * Create image markup for a custom header image.
+ * Create image tag markup for a custom header image.
  *
  * @since 4.4.0
  *
- * @param array $attr Optional. Attributes for the image markup. Default empty.
- * @return string HTML element or empty string on failure.
+ * @param array $attr Optional. Additional attributes for the image tag. Can be used
+ *                              to override the default attributes. Default empty.
+ * @return string HTML image element markup or empty string on failure.
  */
 function get_header_image_tag( $attr = array() ) {
 	$header = get_custom_header();
@@ -1027,15 +1028,12 @@ function get_header_image_tag( $attr = array() ) {
 		$size_array = array( $width, $height );
 
 		if ( is_array( $image_meta ) ) {
-			$srcset = wp_calculate_image_srcset( $header->url, $size_array, $image_meta, $header->attachment_id );
-			$sizes = wp_get_attachment_image_sizes( $size_array, $image_meta, $header->attachment_id, $header->url );
+			$srcset = wp_calculate_image_srcset( $size_array, $header->url, $image_meta, $header->attachment_id );
+			$sizes = ! empty( $attr['sizes'] ) ? $attr['sizes'] : wp_calculate_image_sizes( $size_array, $header->url, $image_meta, $header->attachment_id );
 
-			if ( $srcset && ( $sizes || ! empty( $attr['sizes'] ) ) ) {
+			if ( $srcset && $sizes ) {
 				$attr['srcset'] = $srcset;
-
-				if ( empty( $attr['sizes'] ) ) {
-					$attr['sizes'] = $sizes;
-				}
+				$attr['sizes'] = $sizes;
 			}
 		}
 	}
@@ -1054,9 +1052,9 @@ function get_header_image_tag( $attr = array() ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string $html   The HTML markup being filtered.
-	 * @param object $header The custom header object returned by 'get_custom_header()'
-	 * @param array  $attr   An array of attributes for the image markup.
+	 * @param string $html   The HTML image tag markup being filtered.
+	 * @param object $header The custom header object returned by 'get_custom_header()'.
+	 * @param array  $attr   Array of the attributes for the image tag.
 	 */
 	return apply_filters( 'get_header_image_tag', $html, $header, $attr );
 }
