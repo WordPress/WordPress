@@ -1089,7 +1089,6 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 * @param string $image_src     The 'src' of the image.
 	 * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
  	 * @param int    $attachment_id Image attachment ID.
-
 	 */
 	$sources = apply_filters( 'wp_calculate_image_srcset', $sources, $size_array, $image_src, $image_meta, $attachment_id );
 
