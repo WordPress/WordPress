@@ -472,16 +472,19 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}
 
 		if ( editor.getParam( 'wp_paste_filters', true ) ) {
-			if ( ! tinymce.Env.webkit ) {
-				// In WebKit handled by removeWebKitStyles()
-				editor.on( 'PastePreProcess', function( event ) {
+			editor.on( 'PastePreProcess', function( event ) {
+				// Remove trailing <br> added by WebKit browsers to the clipboard
+				event.content = event.content.replace( /<br class="?Apple-interchange-newline"?>/gi, '' );
+
+				// In WebKit this is handled by removeWebKitStyles()
+				if ( ! tinymce.Env.webkit ) {
 					// Remove all inline styles
 					event.content = event.content.replace( /(<[^>]+) style="[^"]*"([^>]*>)/gi, '$1$2' );
 
 					// Put back the internal styles
 					event.content = event.content.replace(/(<[^>]+) data-mce-style=([^>]+>)/gi, '$1 style=$2' );
-				});
-			}
+				}
+			});
 
 			editor.on( 'PastePostProcess', function( event ) {
 				// Remove empty paragraphs
