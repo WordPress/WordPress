@@ -738,9 +738,12 @@ class WP_User {
 		 * @param array   $args    Optional parameters passed to has_cap(), typically object ID.
 		 * @param WP_User $user    The user object.
 		 */
-		// Must have ALL requested caps
 		$capabilities = apply_filters( 'user_has_cap', $this->allcaps, $caps, $args, $this );
-		$capabilities['exist'] = true; // Everyone is allowed to exist
+
+		// Everyone is allowed to exist.
+		$capabilities['exist'] = true;
+
+		// Must have ALL requested caps.
 		foreach ( (array) $caps as $cap ) {
 			if ( empty( $capabilities[ $cap ] ) )
 				return false;
