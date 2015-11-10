@@ -27,7 +27,7 @@ get_current_screen()->add_help_tab( array(
 	'id'      => 'permalink-settings',
 	'title'   => __('Permalink Settings'),
 	'content' => '<p>' . __( 'Permalinks can contain useful information, such as the post date, title, or other elements. You can choose from any of the suggested permalink formats, or you can craft your own if you select Custom Structure.' ) . '</p>' .
-		'<p>' . __( 'If you pick an option other than None, your general URL path with structure tags (terms surrounded by <code>%</code>) will also appear in the custom structure field and your path can be further modified there.' ) . '</p>' .
+		'<p>' . __( 'If you pick an option other than Plain, your general URL path with structure tags (terms surrounded by <code>%</code>) will also appear in the custom structure field and your path can be further modified there.' ) . '</p>' .
 		'<p>' . __('When you assign multiple categories or tags to a post, only one can show up in the permalink: the lowest numbered category. This applies if your custom structure includes <code>%category%</code> or <code>%tag%</code>.') . '</p>' .
 		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
 ) );
@@ -187,7 +187,7 @@ $structures = array(
 <h2 class="title"><?php _e('Common Settings'); ?></h2>
 <table class="form-table permalink-structure">
 	<tr>
-		<th><label><input name="selection" type="radio" value="" <?php checked('', $permalink_structure); ?> /> <?php _e( 'None' ); ?></label></th>
+		<th><label><input name="selection" type="radio" value="" <?php checked('', $permalink_structure); ?> /> <?php _e( 'Plain' ); ?></label></th>
 		<td><code><?php echo get_option('home'); ?>/?p=123</code></td>
 	</tr>
 	<tr>
