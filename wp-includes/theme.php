@@ -994,6 +994,85 @@ function get_header_image() {
 }
 
 /**
+ * Create image markup for a custom header image.
+ *
+ * @since 4.4.0
+ *
+ * @param array $attr Optional. Attributes for the image markup. Default empty.
+ * @return string HTML element or empty string on failure.
+ */
+function get_header_image_tag( $attr = array() ) {
+	$header = get_custom_header();
+
+	if ( empty( $header->url ) ) {
+		return '';
+	}
+
+	$width = absint( $header->width );
+	$height = absint( $header->height );
+
+	$attr = wp_parse_args(
+		$attr,
+		array(
+			'src' => $header->url,
+			'width' => $width,
+			'height' => $height,
+			'alt' => get_bloginfo( 'name' ),
+		)
+	);
+
+	// Generate 'srcset' and 'sizes' if not already present.
+	if ( empty( $attr['srcset'] ) && ! empty( $header->attachment_id ) ) {
+		$image_meta = get_post_meta( $header->attachment_id, '_wp_attachment_metadata', true );
+		$size_array = array( $width, $height );
+
+		if ( is_array( $image_meta ) ) {
+			$srcset = wp_calculate_image_srcset( $header->url, $size_array, $image_meta, $header->attachment_id );
+			$sizes = wp_get_attachment_image_sizes( $size_array, $image_meta, $header->attachment_id, $header->url );
+
+			if ( $srcset && ( $sizes || ! empty( $attr['sizes'] ) ) ) {
+				$attr['srcset'] = $srcset;
+
+				if ( empty( $attr['sizes'] ) ) {
+					$attr['sizes'] = $sizes;
+				}
+			}
+		}
+	}
+
+	$attr = array_map( 'esc_attr', $attr );
+	$html = '<img';
+
+	foreach ( $attr as $name => $value ) {
+		$html .= ' ' . $name . '="' . $value . '"';
+	}
+
+	$html .= ' />';
+
+	/**
+	 * Filter the markup of header images.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $html   The HTML markup being filtered.
+	 * @param object $header The custom header object returned by 'get_custom_header()'
+	 * @param array  $attr   An array of attributes for the image markup.
+	 */
+	return apply_filters( 'get_header_image_tag', $html, $header, $attr );
+}
+
+/**
+ * Display the image markup for a custom header image.
+ *
+ * @since 4.4.0
+ *
+ * @param array $attr Optional. Attributes for the image markup. Default empty.
+ */
+function the_header_image_tag( $attr = array() ) {
+	echo get_header_image_tag( $attr );
+}
+
+/**
  * Get random header image data from registered images in theme.
  *
  * @since 3.4.0
