@@ -110,8 +110,8 @@ if (PHP_VERSION_ID < 70000) {
                     DIRECTORY_SEPARATOR === '/' &&
                     PHP_VERSION_ID >= 50300
                 ) ||
-                // Windows with PHP >= 5.3.4
-                PHP_VERSION_ID >= 50401 // Modification from upstream, see #34409
+                // Windows with PHP >= 5.4.1
+                PHP_VERSION_ID >= 50401
             )
         ) {
             // See random_bytes_openssl.php

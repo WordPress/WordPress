@@ -71,6 +71,6 @@ function random_bytes($bytes)
      * If we reach here, PHP has failed us.
      */
     throw new Exception(
-        'PHP failed to generate random data.'
+        'Could not gather sufficient random data'
     );
 }
