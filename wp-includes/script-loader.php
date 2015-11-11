@@ -487,6 +487,9 @@ function wp_default_scripts( &$scripts ) {
 			'replyApprove' => __( 'Approve and Reply' ),
 			'reply' => __( 'Reply' ),
 			'warnQuickEdit' => __( "Are you sure you want to edit this comment?\nThe changes you made will be lost." ),
+			'docTitleComments' => __( 'Comments' ),
+			/* translators: %s: comments count */
+			'docTitleCommentsCount' => __( 'Comments (%s)' ),
 		) );
 
 		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", array('jquery'), false, 1 );

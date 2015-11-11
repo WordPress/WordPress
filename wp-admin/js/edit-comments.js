@@ -98,7 +98,7 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 	updateHtmlTitle = function ( diff ) {
 		var newTitle, regExMatch, titleCount, commentFrag;
 
-		titleRegEx = titleRegEx || new RegExp( 'Comments (\\([0-9' + thousandsSeparator + ']+\\))?' );
+		titleRegEx = titleRegEx || new RegExp( adminCommentsL10n.docTitleCommentsCount.replace( '%s', '\\([0-9' + thousandsSeparator + ']+\\)' ) + '?' );
 		// count funcs operate on a $'d element
 		titleDiv = titleDiv || $( '<div />' );
 		newTitle = adminTitle;
@@ -117,12 +117,12 @@ var getCount, updateCount, updateCountText, updatePending, updateApproved,
 			updateCount( titleDiv, titleCount );
 			regExMatch = titleRegEx.exec( document.title );
 			if ( regExMatch ) {
-				newTitle = document.title.replace( regExMatch[0], 'Comments (' + titleDiv.text() + ') ' );
+				newTitle = document.title.replace( regExMatch[0], adminCommentsL10n.docTitleCommentsCount.replace( '%s', titleDiv.text() ) + ' ' );
 			}
 		} else {
 			regExMatch = titleRegEx.exec( newTitle );
 			if ( regExMatch ) {
-				newTitle = newTitle.replace( regExMatch[0], 'Comments' );
+				newTitle = newTitle.replace( regExMatch[0], adminCommentsL10n.docTitleComments );
 			}
 		}
 		document.title = newTitle;
