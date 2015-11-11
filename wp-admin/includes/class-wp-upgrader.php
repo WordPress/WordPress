@@ -3415,24 +3415,6 @@ class WP_Automatic_Updater {
 
 		// Plugins, Themes, Translations
 		foreach ( array( 'plugin', 'theme', 'translation' ) as $type ) {
-
-			/**
-			 * Filter to control whether a notification email is sent to the site admin email address for
-			 * plugin, theme, and translation updates.
-			 *
-			 * By default, this only has an effect when automatic background updates are enabled and a
-			 * development version of WordPress is in use.
-			 *
-			 * @since 4.4.0
-			 *
-			 * @param bool                 $notify Whether the site administrator is notified.
-			 * @param string               $type   The type of update. One of 'plugin', 'theme', or 'translation'.
-			 * @param WP_Automatic_Updater $this   The WP_Automatic_Updater instance.
-			 */
-			if ( ! apply_filters( 'send_update_notification_email', true, $type, $this ) ) {
-				continue;
-			}
-
 			if ( ! isset( $this->update_results[ $type ] ) )
 				continue;
 			$success_items = wp_list_filter( $this->update_results[ $type ], array( 'result' => true ) );
@@ -3465,10 +3447,6 @@ class WP_Automatic_Updater {
 				}
 			}
 			$body[] = '';
-		}
-
-		if ( empty( $body ) ) {
-			return;
 		}
 
 		$site_title = wp_specialchars_decode( get_bloginfo( 'name' ), ENT_QUOTES );
