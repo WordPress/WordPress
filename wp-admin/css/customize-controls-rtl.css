@@ -546,13 +546,23 @@ p.customize-section-description {
 }
 
 .customize-control-color .color-picker,
-.customize-control-checkbox label,
 .customize-control-upload div {
 	line-height: 28px;
 }
 
-.customize-control-checkbox input {
-	margin-left: 5px;
+.customize-control-checkbox label,
+.customize-control-nav_menu_auto_add label {
+	line-height: 20px;
+	display: block;
+	margin-right: 24px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+.customize-control-checkbox input,
+.customize-control-nav_menu_auto_add input {
+	margin-left: 4px;
+	margin-right: -24px;
 }
 
 .customize-control-radio {
