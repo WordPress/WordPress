@@ -739,32 +739,40 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					spaceBottom = windowHeight - iframeRect.top - selection.bottom - blockedBottom,
 					editorHeight = windowHeight - blockedTop - blockedBottom,
 					className = '',
+					iosOffsetTop = 0,
+					iosOffsetBottom = 0,
 					top, left;
 
 				if ( spaceTop >= editorHeight || spaceBottom >= editorHeight ) {
 					return this.hide();
 				}
 
+				// Add offset in iOS to move the menu over the image, out of the way of the default iOS menu.
+				if ( tinymce.Env.iOS && currentSelection.nodeName === 'IMG' ) {
+					iosOffsetTop = 54;
+					iosOffsetBottom = 46;
+				}
+
 				if ( this.bottom ) {
 					if ( spaceBottom >= spaceNeeded ) {
 						className = ' mce-arrow-up';
-						top = selection.bottom + iframeRect.top + scrollY;
+						top = selection.bottom + iframeRect.top + scrollY - iosOffsetBottom;
 					} else if ( spaceTop >= spaceNeeded ) {
 						className = ' mce-arrow-down';
-						top = selection.top + iframeRect.top + scrollY - toolbarHeight - margin;
+						top = selection.top + iframeRect.top + scrollY - toolbarHeight - margin + iosOffsetTop;
 					}
 				} else {
 					if ( spaceTop >= spaceNeeded ) {
 						className = ' mce-arrow-down';
-						top = selection.top + iframeRect.top + scrollY - toolbarHeight - margin;
+						top = selection.top + iframeRect.top + scrollY - toolbarHeight - margin + iosOffsetTop;
 					} else if ( spaceBottom >= spaceNeeded && editorHeight / 2 > selection.bottom + iframeRect.top - blockedTop ) {
 						className = ' mce-arrow-up';
-						top = selection.bottom + iframeRect.top + scrollY;
+						top = selection.bottom + iframeRect.top + scrollY - iosOffsetBottom;
 					}
 				}
 
 				if ( typeof top === 'undefined' ) {
-					top = scrollY + blockedTop + buffer;
+					top = scrollY + blockedTop + buffer + iosOffsetBottom;
 				}
 
 				left = selectionMiddle - toolbarWidth / 2 + iframeRect.left + scrollX;
@@ -782,6 +790,11 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				} else if ( left + toolbarWidth > iframeRect.width + iframeRect.left + scrollX ) {
 					className += ' mce-arrow-right';
 					left = selection.right - toolbarWidth + iframeRect.left + scrollX;
+				}
+
+				// No up/down arrows on the menu over images in iOS.
+				if ( tinymce.Env.iOS && currentSelection.nodeName === 'IMG' ) {
+					className = className.replace( / ?mce-arrow-(up|down)/g, '' );
 				}
 
 				toolbar.className = toolbar.className.replace( / ?mce-arrow-[\w]+/g, '' ) + className;

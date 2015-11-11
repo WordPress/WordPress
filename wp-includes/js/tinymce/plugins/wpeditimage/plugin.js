@@ -1,6 +1,6 @@
 /* global tinymce */
 tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
-	var toolbar, serializer,
+	var toolbar, serializer, touchOnImage,
 		each = tinymce.each,
 		trim = tinymce.trim,
 		iOS = tinymce.Env.iOS;
@@ -79,21 +79,37 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 	} );
 
-	// Safari on iOS fails to select image nodes in contentEditoble mode on touch/click.
+	// Safari on iOS fails to select images in contentEditoble mode on touch.
 	// Select them again.
 	if ( iOS ) {
-		editor.on( 'click', function( event ) {
-			if ( event.target.nodeName === 'IMG' ) {
-				var node = event.target;
+		editor.on( 'init', function() {
+			editor.on( 'touchstart', function( event ) {
+				if ( event.target.nodeName === 'IMG' ) {
+					touchOnImage = true;
+				}
+			});
 
-				window.setTimeout( function() {
-					editor.selection.select( node );
-					editor.nodeChanged();
-				}, 200 );
-			} else if ( toolbar ) {
-				toolbar.hide();
-			}
-		} );
+			editor.dom.bind( editor.getDoc(), 'touchmove', function( event ) {
+				if ( event.target.nodeName === 'IMG' ) {
+					touchOnImage = false;
+				}
+			});
+
+			editor.on( 'touchend', function( event ) {
+				if ( touchOnImage && event.target.nodeName === 'IMG' ) {
+					var node = event.target;
+
+					touchOnImage = false;
+
+					window.setTimeout( function() {
+						editor.selection.select( node );
+						editor.nodeChanged();
+					}, 200 );
+				} else if ( toolbar ) {
+					toolbar.hide();
+				}
+			});
+		});
 	}
 
 	function parseShortcode( content ) {
