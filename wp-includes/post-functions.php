@@ -2951,7 +2951,6 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 	$maybe_empty = 'attachment' !== $post_type
 		&& ! $post_content && ! $post_title && ! $post_excerpt
-		&& ! $update
 		&& post_type_supports( $post_type, 'editor' )
 		&& post_type_supports( $post_type, 'title' )
 		&& post_type_supports( $post_type, 'excerpt' );
