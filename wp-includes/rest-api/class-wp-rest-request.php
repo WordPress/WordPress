@@ -341,7 +341,7 @@ class WP_REST_Request implements ArrayAccess {
 	 * Used when checking parameters in get_param().
 	 *
 	 * @since 4.4.0
-	 * @access public
+	 * @access protected
 	 *
 	 * @return array List of types to check, in order of priority.
 	 */
