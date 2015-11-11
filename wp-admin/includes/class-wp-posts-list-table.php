@@ -175,6 +175,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		if ( $this->hierarchical_display ) {
 			$total_items = $wp_query->post_count;
+		} elseif ( isset( $_REQUEST['s'] ) ) {
+			$total_items = $wp_query->found_posts;
 		} else {
 			$post_counts = (array) wp_count_posts( $post_type, 'readable' );
 
