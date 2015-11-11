@@ -148,7 +148,7 @@
 							return false;
 					}
 
-					if ( ! settings.supports.flag && settings.supports.simple &&
+					if ( ! settings.supports.flag && settings.supports.simple && settings.supports.unicode8 &&
 						! /^1f1(?:e[6-9a-f]|f[0-9a-f])-1f1(?:e[6-9a-f]|f[0-9a-f])$/.test( icon ) ) {
 
 						return false;
@@ -171,7 +171,7 @@
 		 * Initialize our emoji support, and set up listeners.
 		 */
 		if ( settings ) {
-			replaceEmoji = ! settings.supports.simple || ! settings.supports.flag;
+			replaceEmoji = ! settings.supports.simple || ! settings.supports.flag || ! settings.supports.unicode8;
 
 			if ( settings.DOMReady ) {
 				load();
