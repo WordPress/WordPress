@@ -59,7 +59,7 @@ class WP_oEmbed {
 			'#https?://vine.co/v/.*#i'                            => array( 'https://vine.co/oembed.{format}',                           true  ),
 			'#https?://(www\.)?soundcloud\.com/.*#i'              => array( 'http://soundcloud.com/oembed',                              true  ),
 			'#https?://(.+?\.)?slideshare\.net/.*#i'              => array( 'https://www.slideshare.net/api/oembed/2',                   true  ),
-			'#https?://instagr(\.am|am\.com)/p/.*#i'              => array( 'https://api.instagram.com/oembed',                          true  ),
+			'#https?://(www\.)?instagr(\.am|am\.com)/p/.*#i'      => array( 'https://api.instagram.com/oembed',                          true  ),
 			'#https?://(www\.)?rdio\.com/.*#i'                    => array( 'http://www.rdio.com/api/oembed/',                           true  ),
 			'#https?://rd\.io/x/.*#i'                             => array( 'http://www.rdio.com/api/oembed/',                           true  ),
 			'#https?://(open|play)\.spotify\.com/.*#i'            => array( 'https://embed.spotify.com/oembed/',                         true  ),
