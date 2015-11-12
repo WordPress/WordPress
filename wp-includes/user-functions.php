@@ -1328,7 +1328,7 @@ function wp_insert_user( $userdata ) {
 	 *
 	 * @param array $usernames Array of blacklisted usernames.
 	 */
-	$illegal_logins = apply_filters( 'illegal_user_logins', array() );
+	$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
 
 	if ( in_array( strtolower( $user_login ), array_map( 'strtolower', $illegal_logins ) ) ) {
 		return new WP_Error( 'illegal_user_login', __( 'Sorry, that username is not allowed.' ) );
