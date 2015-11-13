@@ -1476,7 +1476,7 @@ final class WP_Customize_Manager {
 		$referer = wp_get_referer();
 		if ( $this->return_url ) {
 			$return_url = $this->return_url;
-		} else if ( $referer ) {
+		} else if ( $referer && 'customize.php' !== basename( parse_url( $referer, PHP_URL_PATH ) ) ) {
 			$return_url = $referer;
 		} else if ( $this->preview_url ) {
 			$return_url = $this->preview_url;
