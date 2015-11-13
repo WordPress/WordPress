@@ -199,6 +199,8 @@
 	width: 30px;
 	height: 38px;
 	margin-right: 0 !important;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 	outline: none;
 	overflow: hidden;
 	cursor: pointer;
@@ -529,6 +531,9 @@
 
 .menu-item-bar .item-delete:hover,
 .menu-item-bar .item-delete:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none;
 	color: #f00;
 }
 
@@ -618,6 +623,9 @@
 	position: absolute;
 	top: 5px;
 	right: 5px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none;
 	cursor: pointer;
 }
 
@@ -724,6 +732,9 @@
 	color: #82878c;
 	width: 30px;
 	height: 38px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none;
 	cursor: pointer;
 }
 

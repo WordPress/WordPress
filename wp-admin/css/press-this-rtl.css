@@ -312,7 +312,6 @@ strong {
 * Pushing buttons is what I do.
 */
 
-.button-subtle,
 .scan-submit {
 	display: inline-block;
 	margin: 0;
@@ -327,67 +326,6 @@ strong {
 	white-space: nowrap;
 	cursor: pointer;
 	-webkit-appearance: none;
-}
-
-.button-subtle {
-	background: none;
-	border: 0;
-	color: #0073aa;
-}
-
-.button-subtle:visited {
-	color: #0073aa;
-}
-
-.button-subtle:focus,
-.button-subtle:hover,
-.button-subtle:active,
-.edit-post-link:focus,
-.edit-post-link:hover,
-.edit-post-link:active {
-	color: #00a0d2;
-}
-
-.button-subtle:focus,
-.button-subtle:active,
-.edit-post-link:focus,
-.edit-post-link:active {
-	outline: 0;
-	text-decoration: underline;
-}
-
-.preview-button {
-	margin-left: 5px;
-}
-
-.button-reset {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background: none;
-	cursor: pointer;
-	-webkit-appearance: none;
-}
-
-.button-reset:focus {
-	outline: 0;
-}
-
-.button-link {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background: none;
-	color: #0073aa;
-	cursor: pointer;
-	-webkit-appearance: none;
-}
-
-.button-link:hover,
-.button-link:active,
-.button-link:focus {
-	color: #00a0d2;
-	text-decoration: underline;
 }
 
 .split-button {
@@ -443,6 +381,7 @@ strong {
 	margin: 0;
 	width: 100%;
 	text-align: right;
+	line-height: 2;
 }
 
 .is-open .split-button-body {
@@ -921,7 +860,7 @@ dd {
 	margin: 0;
 }
 
-.tagcloud-link {
+.press-this .tagcloud-link {
 	display: block;
 	margin: 0 16px 5px;
 	padding: 0;
@@ -991,23 +930,24 @@ input[type="search"].categories-search,
 	}
 }
 
-.add-cat-toggle {
+.press-this .add-cat-toggle {
 	float: left;
 	margin-top: -45px;
 	line-height: 20px;
 	padding: 12px 10px 8px;
+	color: #0073aa;
 }
 
-.add-cat-toggle:focus {
+.press-this .add-cat-toggle:focus {
 	text-decoration: none;
 	color: #00a0d2;
 }
 
-.add-cat-toggle.is-toggled {
+.press-this .add-cat-toggle.is-toggled {
 	padding: 10px;
 }
 
-.add-cat-toggle.is-toggled .dashicons:before {
+.press-this .add-cat-toggle.is-toggled .dashicons:before {
 	content: "\f179";
 }
 
@@ -1261,11 +1201,13 @@ html {
 	color: #999;
 }
 
-.adminbar button {
+.press-this .adminbar button {
 	position: absolute;
 	top: 50%;
 	left: 6px;
 	margin-top: -13px;
+	padding: 0 10px 1px;
+	font-size: 13px;
 }
 
 @media (max-width: 320px) {
@@ -1881,13 +1823,6 @@ html {
 	}
 }
 
-.edit-post-link {
-	font-size: 13px;
-	display: inline-block;
-	text-decoration: none;
-	padding: 0 10px;
-}
-
 .publish-button .saving-draft,
 .publish-button.is-saving .publish {
 	display: none;
@@ -2101,6 +2036,7 @@ html {
 	outline: 0;
 	-webkit-box-shadow: inset -5px 0 0 #00a0d2;
 	box-shadow: inset -5px 0 0 #00a0d2;
+	border-color: #e5e5e5;
 }
 
 .is-off-screen > .post-option {
@@ -2157,7 +2093,7 @@ html {
 	}
 }
 
-.modal-close {
+.press-this .modal-close {
 	display: block;
 	width: 100%;
 	padding: 13px 14px;
@@ -2167,10 +2103,11 @@ html {
 	text-align: right;
 }
 
-.modal-close:focus {
+.press-this .modal-close:focus {
 	outline: 0;
 	-webkit-box-shadow: inset -5px 0 0 #00a0d2;
 	box-shadow: inset -5px 0 0 #00a0d2;
+	border-color: #e5e5e5;
 }
 
 .setting-title {
