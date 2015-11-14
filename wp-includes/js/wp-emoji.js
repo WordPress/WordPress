@@ -58,7 +58,8 @@
 							ii === 1 && removedNodes.length === 1 &&
 							addedNodes[0].nodeType === 3 &&
 							removedNodes[0].nodeName === 'IMG' &&
-							addedNodes[0].data === removedNodes[0].alt
+							addedNodes[0].data === removedNodes[0].alt &&
+							'load-failed' === removedNodes[0].getAttribute( 'data-error' )
 						) {
 							return;
 						}
@@ -155,6 +156,12 @@
 					}
 
 					return ''.concat( options.base, icon, options.ext );
+				},
+				onerror: function() {
+					if ( twemoji.parentNode ) {
+						this.setAttribute( 'data-error', 'load-failed' );
+						twemoji.parentNode.replaceChild( document.createTextNode( twemoji.alt ), twemoji );
+					}
 				}
 			};
 
