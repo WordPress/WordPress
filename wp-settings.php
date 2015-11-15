@@ -46,7 +46,6 @@ wp_check_php_mysql_versions();
 
 // Disable magic quotes at runtime. Magic quotes are added using wpdb later in wp-settings.php.
 @ini_set( 'magic_quotes_runtime', 0 );
-@ini_set( 'magic_quotes_sybase',  0 );
 
 // WordPress calculates offsets from UTC.
 date_default_timezone_set( 'UTC' );

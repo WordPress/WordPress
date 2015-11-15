@@ -603,6 +603,9 @@ function wp_magic_quotes() {
 		$_COOKIE = stripslashes_deep( $_COOKIE );
 	}
 
+	// Turn off sybase quoting after stripslashes has run
+	@ini_set( 'magic_quotes_sybase', 0 );
+
 	// Escape with wpdb.
 	$_GET    = add_magic_quotes( $_GET    );
 	$_POST   = add_magic_quotes( $_POST   );
