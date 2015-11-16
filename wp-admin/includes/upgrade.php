@@ -545,9 +545,12 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 33056 )
 		upgrade_431();
 
+<<<<<<< HEAD
 	if ( $wp_current_db_version < 34030 )
 		upgrade_440();
 
+=======
+>>>>>>> refs/remotes/origin/4.3-branch
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1606,6 +1609,7 @@ function upgrade_431() {
 }
 
 /**
+<<<<<<< HEAD
  * Executes changes made in WordPress 4.4.0.
  *
  * @since 4.4.0
@@ -1622,6 +1626,8 @@ function upgrade_440() {
 }
 
 /**
+=======
+>>>>>>> refs/remotes/origin/4.3-branch
  * Executes network-level upgrade routines.
  *
  * @since 3.0.0

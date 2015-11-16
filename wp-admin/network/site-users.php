@@ -83,6 +83,10 @@ if ( $action ) {
 				if ( false === $user_id ) {
 		 			$update = 'err_new_dup';
 				} else {
+<<<<<<< HEAD
+=======
+					wp_new_user_notification( $user_id, null, 'both' );
+>>>>>>> refs/remotes/origin/4.3-branch
 					add_user_to_blog( $id, $user_id, $_POST['new_role'] );
 					$update = 'newuser';
 					/**

@@ -300,7 +300,11 @@
 		 * @param {Object}  args.completeCallback
 		 */
 		onChangeActive: function( active, args ) {
+<<<<<<< HEAD
 			var duration, construct = this, expandedOtherPanel;
+=======
+			var duration, construct = this;
+>>>>>>> refs/remotes/origin/4.3-branch
 			if ( args.unchanged ) {
 				if ( args.completeCallback ) {
 					args.completeCallback();
@@ -1612,7 +1616,11 @@
 				return;
 			}
 
+<<<<<<< HEAD
 			if ( ! $.contains( document, this.container[0] ) ) {
+=======
+			if ( ! $.contains( document, this.container ) ) {
+>>>>>>> refs/remotes/origin/4.3-branch
 				// jQuery.fn.slideUp is not hiding an element if it is not in the DOM
 				this.container.toggle( active );
 				if ( args.completeCallback ) {

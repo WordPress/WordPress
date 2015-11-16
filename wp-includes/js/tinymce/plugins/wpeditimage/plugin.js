@@ -89,6 +89,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				}
 			});
 
+<<<<<<< HEAD
 			editor.dom.bind( editor.getDoc(), 'touchmove', function( event ) {
 				if ( event.target.nodeName === 'IMG' ) {
 					touchOnImage = false;
@@ -110,6 +111,16 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				}
 			});
 		});
+=======
+				window.setTimeout( function() {
+					editor.selection.select( node );
+					editor.nodeChanged();
+				}, 200 );
+			} else if ( toolbar ) {
+				toolbar.hide();
+			}
+		} );
+>>>>>>> refs/remotes/origin/4.3-branch
 	}
 
 	function parseShortcode( content ) {
