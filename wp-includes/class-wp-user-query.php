@@ -186,9 +186,10 @@ class WP_User_Query {
 	 *                                             is not needed, setting this to false can improve performance.
 	 *                                             Default true.
 	 *     @type string|array $fields              Which fields to return. Single or all fields (string), or array
-	 *                                             of fields. Accepts 'ID', 'display_name', 'login', 'nicename',
-	 *                                             'email', 'url', 'registered'. Use 'all' for all fields and
-	 *                                             'all_with_meta' to include meta fields. Default 'all'.
+	 *                                             of fields. Accepts 'ID', 'display_name', 'user_login',
+	 *                                             'user_nicename', 'user_email', 'user_url', 'user_registered'.
+	 *                                             Use 'all' for all fields and 'all_with_meta' to include
+	 *                                             meta fields. Default 'all'.
 	 *     @type string       $who                 Type of users to query. Accepts 'authors'.
 	 *                                             Default empty (all users).
 	 *     @type bool|array   $has_published_posts Pass an array of post types to filter results to users who have
