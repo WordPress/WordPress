@@ -2764,7 +2764,7 @@ body.index-php #TB_window.thickbox-loading:before {
 	body.plugins-php #TB_window.thickbox-loading:before,
 	body.update-core-php #TB_window.thickbox-loading:before,
 	body.index-php #TB_window.thickbox-loading:before {
-		background: #fcfcfc url(../images/spinner-2x.gif) no-repeat center;
+		background-image: url(../images/spinner-2x.gif);
 	}
 }
 
