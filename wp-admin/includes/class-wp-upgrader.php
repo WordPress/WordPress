@@ -460,12 +460,14 @@ class WP_Upgrader {
 		 * Filter the source file location for the upgrade package.
 		 *
 		 * @since 2.8.0
+		 * @since 4.4.0 The $hook_extra parameter became available.
 		 *
 		 * @param string      $source        File source location.
 		 * @param string      $remote_source Remote file source location.
 		 * @param WP_Upgrader $this          WP_Upgrader instance.
+		 * @param array       $hook_extra    Extra arguments passed to hooked filters.
 		 */
-		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this );
+		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this, $args['hook_extra'] );
 
 		if ( is_wp_error( $source ) ) {
 			return $source;
