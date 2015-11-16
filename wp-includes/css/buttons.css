@@ -100,10 +100,6 @@ TABLE OF CONTENTS:
 	outline: none;
 }
 
-.ie8 .wp-core-ui .button-link:focus {
-	outline: #5b9dd9 solid 1px;
-}
-
 .wp-core-ui .button.hidden {
 	display: none;
 }
@@ -138,13 +134,6 @@ TABLE OF CONTENTS:
 
 .wp-core-ui p .button {
 	vertical-align: baseline;
-}
-
-.wp-core-ui .button-link {
-	border: 0;
-	background: none;
-	outline: none;
-	cursor: pointer;
 }
 
 .wp-core-ui .button.hover,
@@ -204,6 +193,24 @@ TABLE OF CONTENTS:
 	box-shadow: none !important;
 	text-shadow: 0 1px 0 #fff !important;
 	cursor: default;
+}
+
+/* Buttons that look like links, for a cross of good semantics with the visual */
+.wp-core-ui .button-link {
+	margin: 0;
+	padding: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	background: none;
+	outline: none;
+	cursor: pointer;
+}
+
+.wp-core-ui .button-link:focus {
+	outline: #5b9dd9 solid 1px;
 }
 
 /* ----------------------------------------------------------------------------

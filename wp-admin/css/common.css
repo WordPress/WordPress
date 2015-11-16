@@ -1997,20 +1997,25 @@ html.wp-toolbar {
 ------------------------------------------------------------------------------*/
 
 .nav-tab {
+	display: inline-block;
 	border: 1px solid #ccc;
 	border-bottom: none;
+	margin: 0 5px 0 0;
+	padding: 6px 10px;
+	font-size: 15px;
+	line-height: 24px;
+	font-weight: 600;
 	background: #e4e4e4;
 	color: #555;
+	text-decoration: none;
+	white-space: nowrap;
 }
 
-.nav-tab,
+h3 .nav-tab, /* Back-compat for pre-4.4 */
 .nav-tab-small .nav-tab {
-	display: inline-block;
-	margin: -4px 4px -1px 0;
 	padding: 5px 14px;
 	font-size: 12px;
 	line-height: 16px;
-	text-decoration: none;
 }
 
 .nav-tab:hover,
@@ -2019,35 +2024,35 @@ html.wp-toolbar {
 	color: #464646;
 }
 
+.nav-tab-active,
+.nav-tab:focus:active {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
 .nav-tab-active {
+	margin-bottom: -1px;
 	color: #464646;
 }
 
 .nav-tab-active,
 .nav-tab-active:hover,
-.nav-tab-active:focus {
+.nav-tab-active:focus,
+.nav-tab-active:focus:active {
 	border-bottom: 1px solid #f1f1f1;
 	background: #f1f1f1;
 	color: #000;
 }
 
+/* @todo: consider to use flexbox to reset white space between inline-block elements. */
 h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 .wrap h2.nav-tab-wrapper, /* higher specificity to override .wrap > h2:first-child */
 h3.nav-tab-wrapper {
 	border-bottom: 1px solid #ccc;
 	margin: 0;
-	padding: 9px 15px 0 10px;
-	font-size: 23px;
-	font-weight: 400;
-	line-height: 29px;
-}
-
-h1 .nav-tab, /* Back-compat for pre-4.4 */
-h2 .nav-tab {
-	padding: 6px 10px;
-	font-weight: 600;
-	font-size: 15px;
-	line-height: 24px;
+	padding: 9px 15px 0 6px;
+	font-size: 1px; /* normalize white space between inline-block elements */
+	line-height: inherit;
 }
 
 
@@ -3596,6 +3601,21 @@ img {
 	/* Keep full-width boxes on Edit Post page from causing horizontal scroll */
 	div#post-body.metabox-holder.columns-1 {
 		overflow-x: hidden;
+	}
+
+	h1.nav-tab-wrapper,
+	.wrap h2.nav-tab-wrapper,
+	h3.nav-tab-wrapper {
+		padding-left: 0;
+		border-bottom: 0;
+	}
+
+	h1 .nav-tab,
+	h2 .nav-tab,
+	h3 .nav-tab {
+		margin-top: 10px;
+		margin-right: 10px;
+		border-bottom: 1px solid #ccc;
 	}
 }
 

@@ -876,7 +876,7 @@ class WP_Press_This {
 
 		if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
 			?>
-			<button type="button" class="add-cat-toggle button-subtle" aria-expanded="false">
+			<button type="button" class="add-cat-toggle button-link" aria-expanded="false">
 				<span class="dashicons dashicons-plus"></span><span class="screen-reader-text"><?php _e( 'Toggle add category' ); ?></span>
 			</button>
 			<div class="add-category is-hidden">
@@ -961,7 +961,7 @@ class WP_Press_This {
 
 		if ( $user_can_assign_terms ) {
 			?>
-			<button type="button" class="button-reset button-link tagcloud-link" id="link-post_tag"><?php echo $taxonomy->labels->choose_from_most_used; ?></button>
+			<button type="button" class="button-link tagcloud-link" id="link-post_tag"><?php echo $taxonomy->labels->choose_from_most_used; ?></button>
 			<?php
 		}
 	}
@@ -1341,7 +1341,7 @@ class WP_Press_This {
 				<span class="current-site-name"><?php bloginfo( 'name' ); ?></span>
 			</a>
 		</h1>
-		<button type="button" class="options button-subtle closed">
+		<button type="button" class="options button-link closed">
 			<span class="dashicons dashicons-tag on-closed"></span>
 			<span class="screen-reader-text on-closed"><?php _e( 'Show post options' ); ?></span>
 			<span aria-hidden="true" class="on-open"><?php _e( 'Done' ); ?></span>
@@ -1430,7 +1430,7 @@ class WP_Press_This {
 			<div class="post-options">
 
 				<?php if ( $supports_formats ) : ?>
-					<button type="button" class="button-reset post-option">
+					<button type="button" class="button-link post-option">
 						<span class="dashicons dashicons-admin-post"></span>
 						<span class="post-option-title"><?php _ex( 'Format', 'post format' ); ?></span>
 						<span class="post-option-contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
@@ -1438,13 +1438,13 @@ class WP_Press_This {
 					</button>
 				<?php endif; ?>
 
-				<button type="button" class="button-reset post-option">
+				<button type="button" class="button-link post-option">
 					<span class="dashicons dashicons-category"></span>
 					<span class="post-option-title"><?php _e( 'Categories' ); ?></span>
 					<span class="dashicons post-option-forward"></span>
 				</button>
 
-				<button type="button" class="button-reset post-option">
+				<button type="button" class="button-link post-option">
 					<span class="dashicons dashicons-tag"></span>
 					<span class="post-option-title"><?php _e( 'Tags' ); ?></span>
 					<span class="dashicons post-option-forward"></span>
@@ -1453,7 +1453,7 @@ class WP_Press_This {
 
 			<?php if ( $supports_formats ) : ?>
 				<div class="setting-modal is-off-screen is-hidden">
-					<button type="button" class="button-reset modal-close">
+					<button type="button" class="button-link modal-close">
 						<span class="dashicons post-option-back"></span>
 						<span class="setting-title" aria-hidden="true"><?php _ex( 'Format', 'post format' ); ?></span>
 						<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
@@ -1463,7 +1463,7 @@ class WP_Press_This {
 			<?php endif; ?>
 
 			<div class="setting-modal is-off-screen is-hidden">
-				<button type="button" class="button-reset modal-close">
+				<button type="button" class="button-link modal-close">
 					<span class="dashicons post-option-back"></span>
 					<span class="setting-title" aria-hidden="true"><?php _e( 'Categories' ); ?></span>
 					<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
@@ -1472,7 +1472,7 @@ class WP_Press_This {
 			</div>
 
 			<div class="setting-modal tags is-off-screen is-hidden">
-				<button type="button" class="button-reset modal-close">
+				<button type="button" class="button-link modal-close">
 					<span class="dashicons post-option-back"></span>
 					<span class="setting-title" aria-hidden="true"><?php _e( 'Tags' ); ?></span>
 					<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
@@ -1484,7 +1484,7 @@ class WP_Press_This {
 
 	<div class="press-this-actions">
 		<div class="pressthis-media-buttons">
-			<button type="button" class="insert-media button-subtle" data-editor="pressthis">
+			<button type="button" class="insert-media button-link" data-editor="pressthis">
 				<span class="dashicons dashicons-admin-media"></span>
 				<span class="screen-reader-text"><?php _e( 'Add Media' ); ?></span>
 			</button>
@@ -1502,9 +1502,9 @@ class WP_Press_This {
 					</button>
 				</div>
 				<ul class="split-button-body">
-					<li><button type="button" class="button-subtle draft-button split-button-option"><?php _e( 'Save Draft' ); ?></button></li>
-					<li><button type="button" class="button-subtle standard-editor-button split-button-option"><?php _e( 'Standard Editor' ); ?></button></li>
-					<li><button type="button" class="button-subtle preview-button split-button-option"><?php _e( 'Preview' ); ?></button></li>
+					<li><button type="button" class="button-link draft-button split-button-option"><?php _e( 'Save Draft' ); ?></button></li>
+					<li><button type="button" class="button-link standard-editor-button split-button-option"><?php _e( 'Standard Editor' ); ?></button></li>
+					<li><button type="button" class="button-link preview-button split-button-option"><?php _e( 'Preview' ); ?></button></li>
 				</ul>
 			</div>
 		</div>

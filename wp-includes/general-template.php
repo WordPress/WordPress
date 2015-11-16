@@ -957,6 +957,158 @@ function _wp_render_title_tag() {
 }
 
 /**
+ * Display or retrieve page title for all areas of blog.
+ *
+ * By default, the page title will display the separator before the page title,
+ * so that the blog title will be before the page title. This is not good for
+ * title display, since the blog title shows up on most tabs and not what is
+ * important, which is the page that the user is looking at.
+ *
+ * There are also SEO benefits to having the blog title after or to the 'right'
+ * or the page title. However, it is mostly common sense to have the blog title
+ * to the right with most browsers supporting tabs. You can achieve this by
+ * using the seplocation parameter and setting the value to 'right'. This change
+ * was introduced around 2.5.0, in case backwards compatibility of themes is
+ * important.
+ *
+ * @since 1.0.0
+ *
+ * @global WP_Locale $wp_locale
+ *
+ * @param string $sep         Optional, default is '&raquo;'. How to separate the various items
+ *                            within the page title.
+ * @param bool   $display     Optional, default is true. Whether to display or retrieve title.
+ * @param string $seplocation Optional. Direction to display title, 'right'.
+ * @return string|null String on retrieve, null when displaying.
+ */
+function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
+	global $wp_locale;
+
+	$m        = get_query_var( 'm' );
+	$year     = get_query_var( 'year' );
+	$monthnum = get_query_var( 'monthnum' );
+	$day      = get_query_var( 'day' );
+	$search   = get_query_var( 's' );
+	$title    = '';
+
+	$t_sep = '%WP_TITILE_SEP%'; // Temporary separator, for accurate flipping, if necessary
+
+	// If there is a post
+	if ( is_single() || ( is_home() && ! is_front_page() ) || ( is_page() && ! is_front_page() ) ) {
+		$title = single_post_title( '', false );
+	}
+
+	// If there's a post type archive
+	if ( is_post_type_archive() ) {
+		$post_type = get_query_var( 'post_type' );
+		if ( is_array( $post_type ) ) {
+			$post_type = reset( $post_type );
+		}
+		$post_type_object = get_post_type_object( $post_type );
+		if ( ! $post_type_object->has_archive ) {
+			$title = post_type_archive_title( '', false );
+		}
+	}
+
+	// If there's a category or tag
+	if ( is_category() || is_tag() ) {
+		$title = single_term_title( '', false );
+	}
+
+	// If there's a taxonomy
+	if ( is_tax() ) {
+		$term = get_queried_object();
+		if ( $term ) {
+			$tax   = get_taxonomy( $term->taxonomy );
+			$title = single_term_title( $tax->labels->name . $t_sep, false );
+		}
+	}
+
+	// If there's an author
+	if ( is_author() && ! is_post_type_archive() ) {
+		$author = get_queried_object();
+		if ( $author ) {
+			$title = $author->display_name;
+		}
+	}
+
+	// Post type archives with has_archive should override terms.
+	if ( is_post_type_archive() && $post_type_object->has_archive ) {
+		$title = post_type_archive_title( '', false );
+	}
+
+	// If there's a month
+	if ( is_archive() && ! empty( $m ) ) {
+		$my_year  = substr( $m, 0, 4 );
+		$my_month = $wp_locale->get_month( substr( $m, 4, 2 ) );
+		$my_day   = intval( substr( $m, 6, 2 ) );
+		$title    = $my_year . ( $my_month ? $t_sep . $my_month : '' ) . ( $my_day ? $t_sep . $my_day : '' );
+	}
+
+	// If there's a year
+	if ( is_archive() && ! empty( $year ) ) {
+		$title = $year;
+		if ( ! empty( $monthnum ) ) {
+			$title .= $t_sep . $wp_locale->get_month( $monthnum );
+		}
+		if ( ! empty( $day ) ) {
+			$title .= $t_sep . zeroise( $day, 2 );
+		}
+	}
+
+	// If it's a search
+	if ( is_search() ) {
+		/* translators: 1: separator, 2: search phrase */
+		$title = sprintf( __( 'Search Results %1$s %2$s' ), $t_sep, strip_tags( $search ) );
+	}
+
+	// If it's a 404 page
+	if ( is_404() ) {
+		$title = __( 'Page not found' );
+	}
+
+	$prefix = '';
+	if ( ! empty( $title ) ) {
+		$prefix = " $sep ";
+	}
+
+	/**
+	 * Filter the parts of the page title.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param array $title_array Parts of the page title.
+	 */
+	$title_array = apply_filters( 'wp_title_parts', explode( $t_sep, $title ) );
+
+	// Determines position of the separator and direction of the breadcrumb
+	if ( 'right' == $seplocation ) { // sep on right, so reverse the order
+		$title_array = array_reverse( $title_array );
+		$title       = implode( " $sep ", $title_array ) . $prefix;
+	} else {
+		$title = $prefix . implode( " $sep ", $title_array );
+	}
+
+	/**
+	 * Filter the text of the page title.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $title Page title.
+	 * @param string $sep Title separator.
+	 * @param string $seplocation Location of the separator (left or right).
+	 */
+	$title = apply_filters( 'wp_title', $title, $sep, $seplocation );
+
+	// Send it out
+	if ( $display ) {
+		echo $title;
+	} else {
+		return $title;
+	}
+}
+
+/**
  * Display or retrieve page title for post.
  *
  * This is optimized for single.php template file for displaying the post title.

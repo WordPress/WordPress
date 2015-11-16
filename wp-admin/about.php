@@ -185,13 +185,19 @@ include( ABSPATH . 'wp-admin/admin-footer.php' );
 // These are strings we may use to describe maintenance/security releases, where we aim for no new strings.
 return;
 
-_n_noop( 'Maintenance Release', 'Maintenance Releases' );
-_n_noop( 'Security Release', 'Security Releases' );
-_n_noop( 'Maintenance and Security Release', 'Maintenance and Security Releases' );
+__( 'Maintenance Release' );
+__( 'Maintenance Releases' );
 
-/* translators: 1: WordPress version number. */
-_n_noop( '<strong>Version %1$s</strong> addressed a security issue.',
-         '<strong>Version %1$s</strong> addressed some security issues.' );
+__( 'Security Release' );
+__( 'Security Releases' );
+
+__( 'Maintenance and Security Release' );
+__( 'Maintenance and Security Releases' );
+
+/* translators: %s: WordPress version number */
+__( '<strong>Version %s</strong> addressed one security issue.' );
+/* translators: %s: WordPress version number */
+__( '<strong>Version %s</strong> addressed some security issues.' );
 
 /* translators: 1: WordPress version number, 2: plural number of bugs. */
 _n_noop( '<strong>Version %1$s</strong> addressed %2$s bug.',
@@ -205,4 +211,5 @@ _n_noop( '<strong>Version %1$s</strong> addressed a security issue and fixed %2$
 _n_noop( '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
          '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.' );
 
+/* translators: %s: Codex URL */
 __( 'For more information, see <a href="%s">the release notes</a>.' );

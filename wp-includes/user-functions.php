@@ -1287,7 +1287,7 @@ function wp_insert_user( $userdata ) {
 		}
 
 		// hashed in wp_update_user(), plaintext if called directly
-		$user_pass = $userdata['user_pass'];
+		$user_pass = ! empty( $userdata['user_pass'] ) ? $userdata['user_pass'] : $old_user_data->user_pass;
 	} else {
 		$update = false;
 		// Hash the password
@@ -1328,9 +1328,11 @@ function wp_insert_user( $userdata ) {
 	 *
 	 * @param array $usernames Array of blacklisted usernames.
 	 */
-	if ( in_array( $user_login, apply_filters( 'illegal_user_logins', array() ) ) ) {
+	$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
+
+	if ( in_array( strtolower( $user_login ), array_map( 'strtolower', $illegal_logins ) ) ) {
 		return new WP_Error( 'illegal_user_login', __( 'Sorry, that username is not allowed.' ) );
-	}	
+	}
 
 	/*
 	 * If a nicename is provided, remove unsafe user characters before using it.

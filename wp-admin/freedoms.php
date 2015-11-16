@@ -24,13 +24,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 <h2 class="nav-tab-wrapper">
-	<a href="about.php" class="nav-tab">
-		<?php _e( 'What&#8217;s New' ); ?>
-	</a><a href="credits.php" class="nav-tab">
-		<?php _e( 'Credits' ); ?>
-	</a><a href="freedoms.php" class="nav-tab nav-tab-active">
-		<?php _e( 'Freedoms' ); ?>
-	</a>
+	<a href="about.php" class="nav-tab"><?php _e( 'What&#8217;s New' ); ?></a>
+	<a href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
+	<a href="freedoms.php" class="nav-tab nav-tab-active"><?php _e( 'Freedoms' ); ?></a>
 </h2>
 
 <p class="about-description"><?php printf( __( 'WordPress is Free and open source software, built by a distributed community of mostly volunteer developers from around the world. WordPress comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.' ), 'https://wordpress.org/about/license/' ); ?></p>

@@ -60,7 +60,7 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 		<button type="button" class="button-secondary add-new-widget" aria-expanded="false" aria-controls="available-widgets">
 			<?php _e( 'Add a Widget' ); ?>
 		</button>
-		<button type="button" class="not-a-button reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder widgets' ); ?>" aria-describedby="<?php echo esc_attr( $id ); ?>">
+		<button type="button" class="button-link reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder widgets' ); ?>" aria-describedby="<?php echo esc_attr( $id ); ?>">
 			<span class="reorder"><?php _ex( 'Reorder', 'Reorder widgets in Customizer' ); ?></span>
 			<span class="reorder-done"><?php _ex( 'Done', 'Cancel reordering widgets in Customizer' ); ?></span>
 		</button>

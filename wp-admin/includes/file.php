@@ -164,9 +164,18 @@ function wp_tempnam( $filename = '', $dir = '' ) {
 		return wp_tempnam( dirname( $filename ), $dir );
 	}
 
+	// Suffix some random data to avoid filename conflicts
+	$temp_filename .= '-' . wp_generate_password( 6, false );
 	$temp_filename .= '.tmp';
 	$temp_filename = $dir . wp_unique_filename( $dir, $temp_filename );
-	touch( $temp_filename );
+
+	$fp = @fopen( $temp_filename, 'x' );
+	if ( ! $fp && is_writable( $dir ) && file_exists( $temp_filename ) ) {
+		return wp_tempnam( $filename, $dir );
+	}
+	if ( $fp ) {
+		fclose( $fp );
+	}
 
 	return $temp_filename;
 }

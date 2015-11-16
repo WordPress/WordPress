@@ -3,18 +3,6 @@ body {
 	-webkit-text-size-adjust: 100%;
 }
 
-button.not-a-button {
-	background: transparent;
-	border: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	-webkit-border-radius: 0;
-	border-radius: 0;
-	outline: 0;
-	padding: 0;
-	margin: 0;
-}
-
 #customize-controls a {
 	text-decoration: none;
 }
@@ -546,13 +534,25 @@ p.customize-section-description {
 }
 
 .customize-control-color .color-picker,
-.customize-control-checkbox label,
 .customize-control-upload div {
 	line-height: 28px;
 }
 
-.customize-control-checkbox input {
-	margin-left: 5px;
+.customize-control-radio label,
+.customize-control-checkbox label,
+.customize-control-nav_menu_auto_add label {
+	line-height: 20px;
+	display: block;
+	margin-right: 24px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.customize-control-radio input,
+.customize-control-checkbox input,
+.customize-control-nav_menu_auto_add input {
+	margin-left: 4px;
+	margin-right: -24px;
 }
 
 .customize-control-radio {
@@ -566,14 +566,6 @@ p.customize-section-description {
 
 .customize-control-radio .customize-control-title + .customize-control-description {
 	margin-top: 7px;
-}
-
-.customize-control-radio label {
-	line-height: 32px;
-}
-
-.customize-control-radio input {
-	margin-left: 5px;
 }
 
 .customize-control .attachment-thumb.type-icon {
@@ -1324,7 +1316,7 @@ body.cheatin p {
 	display: none;
 }
 
-@media only screen and (max-width: 780px) {
+@media only screen and (max-width: 782px) {
 	.wp-customizer .theme:not(.active):hover .theme-actions,
 	.wp-customizer .theme:not(.active):focus .theme-actions {
 		display: block;
@@ -1332,6 +1324,23 @@ body.cheatin p {
 
 	.wp-customizer .theme-browser .theme.active .theme-name span {
 		display: inline;
+	}
+
+	.customize-control-radio label,
+	.customize-control-checkbox label,
+	.customize-control-nav_menu_auto_add label {
+		margin-right: 32px;
+	}
+
+	.customize-control-radio input,
+	.customize-control-checkbox input,
+	.customize-control-nav_menu_auto_add input {
+		margin-right: -32px;
+	}
+
+	.customize-control input[type="radio"] + label,
+	.customize-control input[type="checkbox"] + label {
+		line-height: 32px;
 	}
 }
 
