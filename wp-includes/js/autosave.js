@@ -286,7 +286,8 @@ window.autosave = function() {
 						});
 					}
 
-					wpCookies.set( 'wp-saving-post', post_id + '-check', 24 * 60 * 60 );
+					var secure = ( 'https:' === window.location.protocol );
+					wpCookies.set( 'wp-saving-post', post_id + '-check', 24 * 60 * 60, false, false, secure );
 				});
 			}
 
@@ -344,8 +345,10 @@ window.autosave = function() {
 					excerpt: excerpt
 				};
 
-				$notice = $( '#local-storage-notice' );
-				$('.wrap h2').first().after( $notice.addClass( 'notice-warning' ).show() );
+				$notice = $( '#local-storage-notice' )
+					.insertAfter( $( '.wrap' ).children( ':header' ).first() )
+					.addClass( 'notice-warning' )
+					.show();
 
 				$notice.on( 'click.autosave-local', function( event ) {
 					var $target = $( event.target );

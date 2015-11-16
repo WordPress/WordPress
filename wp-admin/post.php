@@ -38,55 +38,6 @@ if ( $post ) {
 	$post_type_object = get_post_type_object( $post_type );
 }
 
-/**
- * Redirect to previous page.
- *
- * @param int $post_id Optional. Post ID.
- */
-function redirect_post($post_id = '') {
-	if ( isset($_POST['save']) || isset($_POST['publish']) ) {
-		$status = get_post_status( $post_id );
-
-		if ( isset( $_POST['publish'] ) ) {
-			switch ( $status ) {
-				case 'pending':
-					$message = 8;
-					break;
-				case 'future':
-					$message = 9;
-					break;
-				default:
-					$message = 6;
-			}
-		} else {
-			$message = 'draft' == $status ? 10 : 1;
-		}
-
-		$location = add_query_arg( 'message', $message, get_edit_post_link( $post_id, 'url' ) );
-	} elseif ( isset($_POST['addmeta']) && $_POST['addmeta'] ) {
-		$location = add_query_arg( 'message', 2, wp_get_referer() );
-		$location = explode('#', $location);
-		$location = $location[0] . '#postcustom';
-	} elseif ( isset($_POST['deletemeta']) && $_POST['deletemeta'] ) {
-		$location = add_query_arg( 'message', 3, wp_get_referer() );
-		$location = explode('#', $location);
-		$location = $location[0] . '#postcustom';
-	} else {
-		$location = add_query_arg( 'message', 4, get_edit_post_link( $post_id, 'url' ) );
-	}
-
-	/**
-	 * Filter the post redirect destination URL.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param string $location The destination URL.
-	 * @param int    $post_id  The post ID.
-	 */
-	wp_redirect( apply_filters( 'redirect_post_location', $location, $post_id ) );
-	exit;
-}
-
 if ( isset( $_POST['deletepost'] ) )
 	$action = 'delete';
 elseif ( isset($_POST['wp-preview']) && 'dopreview' == $_POST['wp-preview'] )
@@ -120,7 +71,7 @@ case 'post-quickdraft-save':
 	if ( ! wp_verify_nonce( $nonce, 'add-post' ) )
 		$error_msg = __( 'Unable to submit this form, please refresh and try again.' );
 
-	if ( ! current_user_can( 'edit_posts' ) ) {
+	if ( ! current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
 		exit;
 	}
 
@@ -157,6 +108,10 @@ case 'edit':
 
 	if ( ! $post_type_object )
 		wp_die( __( 'Unknown post type.' ) );
+
+	if ( ! in_array( $typenow, get_post_types( array( 'show_ui' => true ) ) ) ) {
+		wp_die( __( 'You are not allowed to edit posts in this post type.' ) );
+	}
 
 	if ( ! current_user_can( 'edit_post', $post_id ) )
 		wp_die( __( 'You are not allowed to edit this item.' ) );
@@ -239,7 +194,7 @@ case 'editpost':
 
 	// Session cookie flag that the post was saved
 	if ( isset( $_COOKIE['wp-saving-post'] ) && $_COOKIE['wp-saving-post'] === $post_id . '-check' ) {
-		setcookie( 'wp-saving-post', $post_id . '-saved', time() + DAY_IN_SECONDS );
+		setcookie( 'wp-saving-post', $post_id . '-saved', time() + DAY_IN_SECONDS, ADMIN_COOKIE_PATH, COOKIE_DOMAIN, is_ssl() );
 	}
 
 	redirect_post($post_id); // Send user on their way while we keep working
@@ -299,13 +254,12 @@ case 'delete':
 	if ( ! current_user_can( 'delete_post', $post_id ) )
 		wp_die( __( 'You are not allowed to delete this item.' ) );
 
-	$force = ! EMPTY_TRASH_DAYS;
 	if ( $post->post_type == 'attachment' ) {
-		$force = ( $force || ! MEDIA_TRASH );
+		$force = ( ! MEDIA_TRASH );
 		if ( ! wp_delete_attachment( $post_id, $force ) )
 			wp_die( __( 'Error in deleting.' ) );
 	} else {
-		if ( ! wp_delete_post( $post_id, $force ) )
+		if ( ! wp_delete_post( $post_id, true ) )
 			wp_die( __( 'Error in deleting.' ) );
 	}
 

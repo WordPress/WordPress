@@ -53,7 +53,7 @@ if ( $action ) {
 				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
-			foreach( (array) $themes as $theme )
+			foreach ( (array) $themes as $theme )
 				$allowed_themes[ $theme ] = true;
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_safe_redirect( add_query_arg( 'enabled', count( $themes ), $referer ) );
@@ -65,7 +65,7 @@ if ( $action ) {
 				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
-			foreach( (array) $themes as $theme )
+			foreach ( (array) $themes as $theme )
 				unset( $allowed_themes[ $theme ] );
 			update_site_option( 'allowedthemes', $allowed_themes );
 			wp_safe_redirect( add_query_arg( 'disabled', count( $themes ), $referer ) );
@@ -250,6 +250,12 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://codex.wordpress.org/Network_Admin_Themes_Screen" target="_blank">Documentation on Network Themes</a>') . '</p>' .
 	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
+
+get_current_screen()->set_screen_reader_content( array(
+	'heading_views'      => __( 'Filter themes list' ),
+	'heading_pagination' => __( 'Themes list navigation' ),
+	'heading_list'       => __( 'Themes list' ),
+) );
 
 $title = __('Themes');
 $parent_file = 'themes.php';

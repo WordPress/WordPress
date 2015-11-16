@@ -1,13 +1,29 @@
 <?php
 /**
- * Media Library List Table class.
+ * List Table API: WP_Media_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying media items in a list table.
+ *
  * @since 3.1.0
  * @access private
+ *
+ * @see WP_List_Table
  */
 class WP_Media_List_Table extends WP_List_Table {
+	/**
+	 * Holds the number of pending comments for each post.
+	 *
+	 * @since 4.4.0
+	 * @var array
+	 * @access protected
+	 */
+	protected $comment_pending_count = array();
 
 	private $detached;
 
@@ -57,7 +73,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		list( $post_mime_types, $avail_post_mime_types ) = wp_edit_attachments_query( $_REQUEST );
 
- 		$this->is_trash = isset( $_REQUEST['attachment-filter'] ) && 'trash' == $_REQUEST['attachment-filter'];
+ 		$this->is_trash = isset( $_REQUEST['attachment-filter'] ) && 'trash' === $_REQUEST['attachment-filter'];
 
  		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
 
@@ -69,43 +85,51 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
-	 * @global wpdb  $wpdb
 	 * @global array $post_mime_types
 	 * @global array $avail_post_mime_types
 	 * @return array
 	 */
 	protected function get_views() {
-		global $wpdb, $post_mime_types, $avail_post_mime_types;
+		global $post_mime_types, $avail_post_mime_types;
 
 		$type_links = array();
-		$_num_posts = (array) wp_count_attachments();
-		$_total_posts = array_sum($_num_posts) - $_num_posts['trash'];
-		$total_orphans = $wpdb->get_var( "SELECT COUNT( * ) FROM $wpdb->posts WHERE post_type = 'attachment' AND post_status != 'trash' AND post_parent < 1" );
-		$matches = wp_match_mime_types(array_keys($post_mime_types), array_keys($_num_posts));
-		$num_posts = array();
-		foreach ( $matches as $type => $reals ) {
-			foreach ( $reals as $real ) {
-				$num_posts[$type] = ( isset( $num_posts[$type] ) ) ? $num_posts[$type] + $_num_posts[$real] : $_num_posts[$real];
-			}
-		}
-		$selected = empty( $_GET['attachment-filter'] ) ? ' selected="selected"' : '';
-		$type_links['all'] = "<option value=''$selected>" . sprintf( _nx( 'All (%s)', 'All (%s)', $_total_posts, 'uploaded files' ), number_format_i18n( $_total_posts ) ) . '</option>';
+
+		$filter = empty( $_GET['attachment-filter'] ) ? '' : $_GET['attachment-filter'];
+
+		$type_links['all'] = sprintf(
+			'<option value=""%s>%s</option>',
+			selected( $filter, true, false ),
+			__( 'All media items' )
+		);
+
 		foreach ( $post_mime_types as $mime_type => $label ) {
-			if ( !wp_match_mime_types($mime_type, $avail_post_mime_types) )
+			if ( ! wp_match_mime_types( $mime_type, $avail_post_mime_types ) ) {
 				continue;
+			}
 
-			$selected = '';
-			if ( !empty( $_GET['attachment-filter'] ) && strpos( $_GET['attachment-filter'], 'post_mime_type:' ) === 0 && wp_match_mime_types( $mime_type, str_replace( 'post_mime_type:', '', $_GET['attachment-filter'] ) ) )
-				$selected = ' selected="selected"';
-			if ( !empty( $num_posts[$mime_type] ) )
-				$type_links[$mime_type] = '<option value="post_mime_type:' . esc_attr( $mime_type ) . '"' . $selected . '>' . sprintf( translate_nooped_plural( $label[2], $num_posts[$mime_type] ), number_format_i18n( $num_posts[$mime_type] )) . '</option>';
+			$selected = selected(
+				$filter && 0 === strpos( $filter, 'post_mime_type:' ) &&
+					wp_match_mime_types( $mime_type, str_replace( 'post_mime_type:', '', $filter ) ),
+				true,
+				false
+			);
+
+			$type_links[$mime_type] = sprintf(
+				'<option value="post_mime_type:%s"%s>%s</option>',
+				esc_attr( $mime_type ),
+				$selected,
+				$label[0]
+			);
 		}
-		$type_links['detached'] = '<option value="detached"' . ( $this->detached ? ' selected="selected"' : '' ) . '>' . sprintf( _nx( 'Unattached (%s)', 'Unattached (%s)', $total_orphans, 'detached files' ), number_format_i18n( $total_orphans ) ) . '</option>';
+		$type_links['detached'] = '<option value="detached"' . ( $this->detached ? ' selected="selected"' : '' ) . '>' . __( 'Unattached' ) . '</option>';
 
-		if ( !empty($_num_posts['trash']) )
-			$type_links['trash'] = '<option value="trash"' . ( (isset($_GET['attachment-filter']) && $_GET['attachment-filter'] == 'trash' ) ? ' selected="selected"' : '') . '>' . sprintf( _nx( 'Trash (%s)', 'Trash (%s)', $_num_posts['trash'], 'uploaded files' ), number_format_i18n( $_num_posts['trash'] ) ) . '</option>';
-
+		if ( $this->is_trash ) {
+			$type_links['trash'] = sprintf(
+				'<option value="trash"%s>%s</option>',
+				selected( 'trash' === $filter, true, false ),
+				__( 'Trash' )
+			);
+		}
 		return $type_links;
 	}
 
@@ -127,7 +151,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		}
 
 		if ( $this->detached )
-			$actions['attach'] = __( 'Attach to a post' );
+			$actions['attach'] = __( 'Attach' );
 
 		return $actions;
 	}
@@ -148,7 +172,8 @@ class WP_Media_List_Table extends WP_List_Table {
 			}
 
 			/** This action is documented in wp-admin/includes/class-wp-posts-list-table.php */
-			do_action( 'restrict_manage_posts' );
+			do_action( 'restrict_manage_posts', $this->screen->post_type );
+
 			submit_button( __( 'Filter' ), 'button', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 		}
 
@@ -200,6 +225,8 @@ class WP_Media_List_Table extends WP_List_Table {
 		global $mode;
 
 		$views = $this->get_views();
+
+		$this->screen->render_screen_reader_content( 'heading_views' );
 ?>
 <div class="wp-filter">
 	<div class="filter-items">
@@ -266,13 +293,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		$taxonomies = array_filter( $taxonomies, 'taxonomy_exists' );
 
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( 'category' == $taxonomy )
+			if ( 'category' === $taxonomy ) {
 				$column_key = 'categories';
-			elseif ( 'post_tag' == $taxonomy )
+			} elseif ( 'post_tag' === $taxonomy ) {
 				$column_key = 'tags';
-			else
+			} else {
 				$column_key = 'taxonomy-' . $taxonomy;
-
+			}
 			$posts_columns[ $column_key ] = get_taxonomy( $taxonomy )->labels->name;
 		}
 
@@ -361,7 +388,13 @@ class WP_Media_List_Table extends WP_List_Table {
 			<?php echo $link_end; ?>
 			<?php _media_states( $post ); ?>
 		</strong>
-		<p class="filename"><span class="screen-reader-text"><?php _e( 'File name:' ); ?> </span><?php echo wp_basename( $post->guid ); ?></p>
+		<p class="filename">
+			<span class="screen-reader-text"><?php _e( 'File name:' ); ?> </span>
+			<?php
+			$file = get_attached_file( $post->ID );
+			echo wp_basename( $file );
+			?>
+		</p>
 		<?php
 	}
 
@@ -401,7 +434,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_date( $post ) {
-		if ( '0000-00-00 00:00:00' == $post->post_date ) {
+		if ( '0000-00-00 00:00:00' === $post->post_date ) {
 			$h_time = __( 'Unpublished' );
 		} else {
 			$m_time = $post->post_date;
@@ -447,8 +480,8 @@ class WP_Media_List_Table extends WP_List_Table {
 					<?php echo $title ?></a><?php
 			} else {
 				echo $title;
-			} ?></strong>,
-			<?php echo get_the_time( __( 'Y/m/d' ) ); ?><br />
+			} ?></strong>
+			<br />
 			<?php
 			if ( $user_can_edit ):
 				$detach_url = add_query_arg( array(
@@ -480,7 +513,12 @@ class WP_Media_List_Table extends WP_List_Table {
 	public function column_comments( $post ) {
 		echo '<div class="post-com-count-wrapper">';
 
-		$pending_comments = get_pending_comments_num( $post->ID );
+		if ( isset( $this->comment_pending_count[ $post->ID ] ) ) {
+			$pending_comments = $this->comment_pending_count[ $post->ID ];
+		} else {
+			$pending_comments = get_pending_comments_num( $post->ID );
+		}
+
 		$this->comments_bubble( $post->ID, $pending_comments );
 
 		echo '</div>';
@@ -496,9 +534,9 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @param string  $column_name Current column name.
 	 */
 	public function column_default( $post, $column_name ) {
-		if ( 'categories' == $column_name ) {
+		if ( 'categories' === $column_name ) {
 			$taxonomy = 'category';
-		} elseif ( 'tags' == $column_name ) {
+		} elseif ( 'tags' === $column_name ) {
 			$taxonomy = 'post_tag';
 		} elseif ( 0 === strpos( $column_name, 'taxonomy-' ) ) {
 			$taxonomy = substr( $column_name, 9 );
@@ -547,14 +585,19 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @global WP_Post $post
 	 */
 	public function display_rows() {
-		global $post;
+		global $post, $wp_query;
+
+		$post_ids = wp_list_pluck( $wp_query->posts, 'ID' );
+		reset( $wp_query->posts );
+
+		$this->comment_pending_count = get_pending_comments_num( $post_ids );
 
 		add_filter( 'the_title','esc_html' );
 
 		while ( have_posts() ) : the_post();
 			if (
 				( $this->is_trash && $post->post_status != 'trash' )
-				|| ( ! $this->is_trash && $post->post_status == 'trash' )
+				|| ( ! $this->is_trash && $post->post_status === 'trash' )
 			) {
 				continue;
 			}

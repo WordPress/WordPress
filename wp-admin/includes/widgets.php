@@ -67,8 +67,8 @@ function _sort_name_callback( $a, $b ) {
  *
  * @since 2.5.0
  *
- * @param string $sidebar id slug of the sidebar
- * @param string optional $sidebar_name Include the HTML for the sidebar name
+ * @param string $sidebar      Sidebar ID.
+ * @param string $sidebar_name Optional. Sidebar name. Default empty.
  */
 function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 	add_filter( 'dynamic_sidebar_params', 'wp_list_widget_controls_dynamic_sidebar' );
@@ -81,18 +81,18 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 		?>
 		<div class="sidebar-name">
 			<div class="sidebar-name-arrow"><br /></div>
-			<h3><?php echo esc_html( $sidebar_name ); ?> <span class="spinner"></span></h3>
+			<h2><?php echo esc_html( $sidebar_name ); ?> <span class="spinner"></span></h2>
 		</div>
 		<?php
 	}
 
-	echo '<div class="sidebar-description">';
-
 	if ( ! empty( $description ) ) {
-		echo '<p class="description">' . $description . '</p>';
+		?>
+		<div class="sidebar-description">
+			<p class="description"><?php echo $description; ?></p>
+		</div>
+		<?php
 	}
-
-	echo '</div>';
 
 	dynamic_sidebar( $sidebar );
 
@@ -100,7 +100,7 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Retrieves the widget control arguments.
  *
  * @since 2.5.0
  *
@@ -181,6 +181,11 @@ function wp_widget_control( $sidebar_args ) {
 	$multi_number = isset($sidebar_args['_multi_num']) ? $sidebar_args['_multi_num'] : '';
 	$add_new = isset($sidebar_args['_add']) ? $sidebar_args['_add'] : '';
 
+	$before_form = isset( $sidebar_args['before_form'] ) ? $sidebar_args['before_form'] : '<form method="post">';
+	$after_form = isset( $sidebar_args['after_form'] ) ? $sidebar_args['after_form'] : '</form>';
+	$before_widget_content = isset( $sidebar_args['before_widget_content'] ) ? $sidebar_args['before_widget_content'] : '<div class="widget-content">';
+	$after_widget_content = isset( $sidebar_args['after_widget_content'] ) ? $sidebar_args['after_widget_content'] : '</div>';
+
 	$query_arg = array( 'editwidget' => $widget['id'] );
 	if ( $add_new ) {
 		$query_arg['addnew'] = 1;
@@ -221,18 +226,20 @@ function wp_widget_control( $sidebar_args ) {
 			<span class="screen-reader-text"><?php echo $widget_title; ?></span>
 		</a>
 	</div>
-	<div class="widget-title"><h4><?php echo $widget_title ?><span class="in-widget-title"></span></h4></div>
+	<div class="widget-title"><h3><?php echo $widget_title; ?><span class="in-widget-title"></span></h3></div>
 	</div>
 
 	<div class="widget-inside">
-	<form method="post">
-	<div class="widget-content">
-<?php
-	if ( isset($control['callback']) )
+	<?php echo $before_form; ?>
+	<?php echo $before_widget_content; ?>
+	<?php
+	if ( isset( $control['callback'] ) ) {
 		$has_form = call_user_func_array( $control['callback'], $control['params'] );
-	else
-		echo "\t\t<p>" . __('There are no options for this widget.') . "</p>\n"; ?>
-	</div>
+	} else {
+		echo "\t\t<p>" . __('There are no options for this widget.') . "</p>\n";
+	}
+	?>
+	<?php echo $after_widget_content; ?>
 	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo esc_attr($id_format); ?>" />
 	<input type="hidden" name="id_base" class="id_base" value="<?php echo esc_attr($id_base); ?>" />
 	<input type="hidden" name="widget-width" class="widget-width" value="<?php if (isset( $control['width'] )) echo esc_attr($control['width']); ?>" />
@@ -252,7 +259,7 @@ function wp_widget_control( $sidebar_args ) {
 		</div>
 		<br class="clear" />
 	</div>
-	</form>
+	<?php echo $after_form; ?>
 	</div>
 
 	<div class="widget-description">
@@ -262,4 +269,13 @@ function wp_widget_control( $sidebar_args ) {
 	echo $sidebar_args['after_widget'];
 
 	return $sidebar_args;
+}
+
+/**
+ *
+ * @param string $classes
+ * @return string
+ */
+function wp_widgets_access_body_class($classes) {
+	return "$classes widgets_access ";
 }

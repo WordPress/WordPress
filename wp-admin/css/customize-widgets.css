@@ -117,44 +117,8 @@
 }
 
 /**
-* Widget reordering styles
-**/
-
-.reorder-toggle {
-	float: right;
-	padding: 5px 8px;
-	text-decoration: none;
-	cursor: pointer;
-	outline: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-.reorder-toggle:focus {
-	outline: 1px dotted;
-}
-
-.reorder-done,
-.reordering .reorder {
-	display: none;
-}
-
-.reordering .reorder-done {
-	display: block;
-	color: #0073aa;
-}
-
-.reordering .reorder-done:hover,
-.reordering .reorder-done:active {
-	color: #00a0d2;
-}
-
-#customize-theme-controls .reordering .add-new-widget {
-	opacity: 0.2;
-	pointer-events: none;
-	cursor: not-allowed;
-}
+ * Widget reordering styles
+ */
 
 #customize-theme-controls .widget-reorder-nav {
 	display: none;
@@ -182,7 +146,7 @@
 	right: 0;
 	width: 100%;
 	height: 100%;
-	font: normal 20px/43px 'dashicons';
+	font: normal 20px/43px dashicons;
 	text-align: center;
 	text-indent: 0;
 	-webkit-font-smoothing: antialiased;
@@ -196,15 +160,15 @@
 }
 
 .move-widget:before {
-	content: '\f504';
+	content: "\f504";
 }
 
 .move-widget-down:before {
-	content: '\f347';
+	content: "\f347";
 }
 
 .move-widget-up:before {
-	content: '\f343';
+	content: "\f343";
 }
 
 #customize-theme-controls .first-widget .move-widget-up,
@@ -213,7 +177,7 @@
 	cursor: default;
 }
 
-#customize-theme-controls  .move-widget-area {
+#customize-theme-controls .move-widget-area {
 	display: none;
 	background: #fff;
 	border: 1px solid #dedede;
@@ -252,11 +216,11 @@
 
 #customize-theme-controls .widget-area-select li:before {
 	display: none;
-	content: '\f147';
+	content: "\f147";
 	position: absolute;
 	top: 12px;
 	left: 10px;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -288,40 +252,13 @@
 	display: block;
 }
 
-
 /**
  * Styles for new widget addition panel
  */
+
 .wp-full-overlay-main {
 	right: auto; /* this overrides a right: 0; which causes the preview to resize, I'd rather have it go off screen at the normal size. */
 	width: 100%;
-}
-
-#customize-theme-controls .add-new-widget {
-	cursor: pointer;
-	float: right;
-	margin-left: 10px;
-	-webkit-transition: all 0.2s;
-	transition: all 0.2s;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	outline: none;
-}
-
-.add-new-widget:before {
-	content: "\f132";
-	display: inline-block;
-	position: relative;
-	left: -2px;
-	top: -1px;
-	font: normal 20px/1 'dashicons';
-	vertical-align: middle;
-	-webkit-transition: all 0.2s;
-	transition: all 0.2s;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
 }
 
 body.adding-widget .add-new-widget,
@@ -419,7 +356,11 @@ body.adding-widget .add-new-widget:before {
 	box-shadow: none;
 }
 
-#available-widgets .widget-title h4 {
+#customize-controls .widget-title h3 {
+	font-size: 1em;
+}
+
+#available-widgets .widget-title h3 {
 	padding: 0 0 5px;
 	font-size: 14px;
 }
@@ -452,7 +393,8 @@ body.adding-widget #customize-preview {
  * Widget Icon styling
  * No plurals in naming.
  * Ordered from lowest to highest specificity.
- **/
+ */
+
 #available-widgets .widget-title {
 	position: relative;
 }
@@ -466,7 +408,7 @@ body.adding-widget #customize-preview {
 	width: 20px;
 	height: 20px;
 	color: #32373c;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	text-align: center;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -621,11 +563,8 @@ body.adding-widget #customize-preview {
 	.last-widget {
 		margin-bottom: 15px;
 	}
-	.widget-title h4 {
+	.widget-title h3 {
 		padding: 13px 15px;
-	}
-	.widget-top a.widget-action:after {
-		padding-top: 9px;
 	}
 	.widget-reorder-nav span {
 		height: 39px;

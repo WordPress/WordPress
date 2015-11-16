@@ -48,6 +48,17 @@ if ( 'category' == $taxonomy ) {
 	 */
 	do_action( 'edit_tag_form_pre', $tag );
 }
+
+/**
+ * Use with caution, see http://codex.wordpress.org/Function_Reference/wp_reset_vars
+ */
+wp_reset_vars( array( 'wp_http_referer' ) );
+
+$wp_http_referer = remove_query_arg( array( 'action', 'message', 'tag_ID' ), $wp_http_referer );
+
+/** Also used by Edit Tags */
+require_once( ABSPATH . 'wp-admin/includes/edit-tag-messages.php' );
+
 /**
  * Fires before the Edit Term form for all taxonomies.
  *
@@ -63,7 +74,20 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 
 <div class="wrap">
 <h1><?php echo $tax->labels->edit_item; ?></h1>
+
+<?php if ( $message ) : ?>
+<div id="message" class="updated">
+	<p><strong><?php echo $message; ?></strong></p>
+	<?php if ( $wp_http_referer ) { ?>
+	<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php printf( __( '&larr; Back to %s' ), $tax->labels->name ); ?></a></p>
+	<?php } else { ?>
+	<p><a href="<?php echo esc_url( wp_get_referer() ); ?>"><?php printf( __( '&larr; Back to %s' ), $tax->labels->name ); ?></a></p>
+	<?php } ?>
+</div>
+<?php endif; ?>
+
 <div id="ajax-response"></div>
+
 <form name="edittag" id="edittag" method="post" action="edit-tags.php" class="validate"
 <?php
 /**
@@ -97,11 +121,13 @@ do_action( "{$taxonomy}_term_edit_form_tag" );
 			 * post URIs and term slugs.
 			 *
 			 * @since 2.6.0
+			 * @since 4.4.0 The `$tag` parameter was added.
 			 *
-			 * @param string $slug The editable slug. Will be either a term slug or post URI depending
-			 *                     upon the context in which it is evaluated.
+			 * @param string         $slug The editable slug. Will be either a term slug or post URI depending
+			 *                             upon the context in which it is evaluated.
+			 * @param object|WP_Post $tag  Term or WP_Post object.
 			 */
-			$slug = isset( $tag->slug ) ? apply_filters( 'editable_slug', $tag->slug ) : '';
+			$slug = isset( $tag->slug ) ? apply_filters( 'editable_slug', $tag->slug, $tag ) : '';
 			?>
 			<td><input name="slug" id="slug" type="text" value="<?php echo esc_attr( $slug ); ?>" size="40" />
 			<p class="description"><?php _e('The &#8220;slug&#8221; is the URL-friendly version of the name. It is usually all lowercase and contains only letters, numbers, and hyphens.'); ?></p></td>

@@ -25,12 +25,19 @@ add_filter( 'wpmu_validate_user_signup', 'signup_nonce_check' );
 add_action( 'init', 'maybe_add_existing_user_to_blog' );
 add_action( 'wpmu_new_user', 'newuser_notify_siteadmin' );
 add_action( 'wpmu_activate_user', 'add_new_user_to_blog', 10, 3 );
+add_action( 'wpmu_activate_user', 'wpmu_welcome_user_notification', 10, 3 );
+add_action( 'after_signup_user', 'wpmu_signup_user_notification', 10, 4 );
+add_action( 'network_site_new_created_user',   'wp_send_new_user_notifications' );
+add_action( 'network_site_users_created_user', 'wp_send_new_user_notifications' );
+add_action( 'network_user_new_created_user',   'wp_send_new_user_notifications' );
 add_filter( 'sanitize_user', 'strtolower' );
 
 // Blogs
 add_filter( 'wpmu_validate_blog_signup', 'signup_nonce_check' );
 add_action( 'wpmu_new_blog', 'wpmu_log_new_registrations', 10, 2 );
 add_action( 'wpmu_new_blog', 'newblog_notify_siteadmin', 10, 2 );
+add_action( 'wpmu_activate_blog', 'wpmu_welcome_notification', 10, 5 );
+add_action( 'after_signup_site', 'wpmu_signup_blog_notification', 10, 7 );
 
 // Register Nonce
 add_action( 'signup_hidden_fields', 'signup_nonce_fields' );

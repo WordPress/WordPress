@@ -48,7 +48,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	public static function test( $args = array() ) {
 
 		// First, test Imagick's extension and classes.
-		if ( ! extension_loaded( 'imagick' ) || ! class_exists( 'Imagick' ) || ! class_exists( 'ImagickPixel' ) )
+		if ( ! extension_loaded( 'imagick' ) || ! class_exists( 'Imagick', false ) || ! class_exists( 'ImagickPixel', false ) )
 			return false;
 
 		if ( version_compare( phpversion( 'imagick' ), '2.2.0', '<' ) )
@@ -208,7 +208,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				$size = $this->image->getImageGeometry();
 			}
 			catch ( Exception $e ) {
-				return new WP_Error( 'invalid_image', __('Could not read image size'), $this->file );
+				return new WP_Error( 'invalid_image', __( 'Could not read image size.' ), $this->file );
 			}
 		}
 
@@ -270,15 +270,17 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @access public
 	 *
 	 * @param array $sizes {
-	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'large'.
+	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'medium_large', 'large'.
 	 *
 	 *     Either a height or width must be provided.
 	 *     If one of the two is set to null, the resize will
 	 *     maintain aspect ratio according to the provided dimension.
 	 *
 	 *     @type array $size {
-	 *         @type int  ['width']  Optional. Image width.
-	 *         @type int  ['height'] Optional. Image height.
+	 *         Array of height, width values, and whether to crop.
+	 *
+	 *         @type int  $width  Image width. Optional if `$height` is specified.
+	 *         @type int  $height Image height. Optional if `$width` is specified.
 	 *         @type bool $crop   Optional. Whether to crop the image. Default false.
 	 *     }
 	 * }

@@ -115,14 +115,14 @@
 	line-height: 2.1em;
 }
 
-.welcome-panel h3 {
+.welcome-panel h2 {
 	margin: 0;
 	font-size: 21px;
 	font-weight: normal;
 	line-height: 1.2;
 }
 
-.welcome-panel h4 {
+.welcome-panel h3 {
 	margin: 1.33em 0 0;
 	font-size: 16px;
 }
@@ -209,7 +209,7 @@
 
 .welcome-panel .welcome-icon:before {
 	color: #82878c;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0 0 0 10px;
@@ -223,31 +223,31 @@
 
 .welcome-panel .welcome-write-blog:before,
 .welcome-panel .welcome-edit-page:before {
-	content:'\f119';
+	content: "\f119";
 	top: -3px;
 }
 
 .welcome-panel .welcome-add-page:before {
-	content:'\f132';
+	content: "\f132";
 }
 
 .welcome-panel .welcome-view-site:before {
-	content:'\f115';
+	content: "\f115";
 	top: -2px;
 }
 
 .welcome-panel .welcome-widgets-menus:before {
-	content:'\f116';
+	content: "\f116";
 	top: -2px;
 }
 
 .welcome-panel .welcome-comments:before {
-	content:'\f117';
+	content: "\f117";
 	top: -1px;
 }
 
 .welcome-panel .welcome-learn-more:before {
-	content:'\f118';
+	content: "\f118";
 	top: -1px;
 }
 
@@ -360,8 +360,11 @@ body #dashboard-widgets .postbox form .submit {
 	overflow: hidden;
 }
 
-#dashboard-widgets h4.mu-storage {
-	margin-bottom: 10px;
+#dashboard-widgets h3.mu-storage {
+	margin: 0 0 10px;
+	padding: 0;
+	font-size: 14px;
+	font-weight: normal;
 }
 
 /* Dashboard right now - Colors */
@@ -378,7 +381,7 @@ body #dashboard-widgets .postbox form .submit {
 	padding: 10px 12px 6px 12px;
 }
 
-#dashboard_right_now .sub h4 {
+#dashboard_right_now .sub h3 {
 	color: #555;
 }
 
@@ -394,8 +397,8 @@ body #dashboard-widgets .postbox form .submit {
 /* Dashboard right now - Icons */
 #dashboard_right_now li a:before,
 #dashboard_right_now li span:before {
-	content: '\f159';
-	font: normal 20px/1 'dashicons';
+	content: "\f159";
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: block;
 	float: right;
@@ -410,28 +413,28 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_right_now .page-count a:before,
 #dashboard_right_now .page-count span:before {
-	content: '\f105';
+	content: "\f105";
 }
 
 #dashboard_right_now .post-count a:before,
 #dashboard_right_now .post-count span:before {
-	content: '\f109';
+	content: "\f109";
 }
 
 #dashboard_right_now .comment-count a:before {
-	content: '\f101';
+	content: "\f101";
 }
 
 #dashboard_right_now .comment-mod-count a:before {
-	content: '\f125';
+	content: "\f125";
 }
 
 #dashboard_right_now .storage-count a:before {
-	content: '\f104';
+	content: "\f104";
 }
 
 #dashboard_right_now .storage-count.warning a:before {
-	content: '\f153';
+	content: "\f153";
 }
 
 /* Dashboard Quick Draft */
@@ -537,11 +540,6 @@ form.initial-form.quickpress-open input#title {
 	border: none;
 }
 
-#dashboard_quick_press .drafts h4 {
-	margin: 0 12px 8px;
-	font-weight: normal;
-}
-
 #dashboard_quick_press .drafts .view-all {
 	float: left;
 	margin: 0 0 0 12px;
@@ -576,28 +574,33 @@ form.initial-form.quickpress-open input#title {
 	margin: 0 0 0 5px;
 }
 
+/* Dashboard common styles */
+
+#dashboard-widgets h4, /* Back-compat for pre-4.4 */
+#dashboard-widgets h3,
+#dashboard_quick_press .drafts h2 {
+	margin: 0 12px 8px;
+	padding: 0;
+	font-size: 14px;
+	font-weight: normal;
+	color: #23282d;
+}
+
+#dashboard_quick_press .drafts h2 {
+	line-height: inherit;
+}
+
+#dashboard-widgets .inside h4, /* Back-compat for pre-4.4 */
+#dashboard-widgets .inside h3 {
+	margin-right: 0;
+	margin-left: 0;
+}
+
 /* Dashboard activity widget */
 
-#dashboard-widgets #dashboard_activity h4 {
-	margin: 0 12px 8px 0;
-	font-weight: normal;
-}
-
-#dashboard-widgets #dashboard_activity h4.comment-meta {
-	margin: 0;
-}
-
-#dashboard_activity h4.comment-meta {
-	margin-bottom: 4px;
-}
-
-#dashboard_activity ul {
-	padding: 0 12px;
-}
-
 #dashboard_activity .comment-meta span.approve:before {
-	content: '\f227';
-	font: 20px/.5 "dashicons";
+	content: "\f227";
+	font: 20px/.5 dashicons;
 	margin-right: 12px;
 	vertical-align: middle;
 	position: relative;
@@ -606,13 +609,13 @@ form.initial-form.quickpress-open input#title {
 }
 
 #dashboard_activity .inside {
-	padding: 0;
 	margin: 0;
+	padding-bottom: 0;
 }
 
 #dashboard_activity .no-activity {
 	overflow: hidden;
-	padding: 0 12px 12px;
+	padding: 0 0 12px;
 	text-align: center;
 }
 
@@ -626,8 +629,8 @@ form.initial-form.quickpress-open input#title {
 }
 
 #dashboard_activity .no-activity .smiley:before {
-	content: '\f328';
-	font: normal 120px/1 'dashicons';
+	content: "\f328";
+	font: normal 120px/1 dashicons;
 	speak: none;
 	display: block;
 	margin: 0 0 0 5px;
@@ -641,8 +644,8 @@ form.initial-form.quickpress-open input#title {
 
 #dashboard_activity .subsubsub {
 	float: none;
-	border-top: 1px solid #eeeeee;
-	margin-top: 0;
+	border-top: 1px solid #eee;
+	margin: 0 -12px;
 	padding: 8px 12px 4px;
 }
 
@@ -667,8 +670,8 @@ form.initial-form.quickpress-open input#title {
 
 .activity-block {
 	border-bottom: 1px solid #eee;
-	overflow: hidden;
-	padding: 8px 0 4px;
+	margin: 0 -12px;
+	padding: 8px 12px 4px;
 }
 
 .activity-block:last-child {
@@ -706,11 +709,6 @@ form.initial-form.quickpress-open input#title {
 
 #activity-widget #the-comment-list .dashboard-comment-wrap blockquote {
 	margin: 1em 0;
-}
-
-#activity-widget #the-comment-list .comment-item h4 {
-	font-size: 13px;
-	color: #999;
 }
 
 #activity-widget #the-comment-list .comment-item p.row-actions {
@@ -794,14 +792,6 @@ h3:hover .edit-box {
 	left: 33px;
 }
 
-#dashboard-widgets h4 {
-	color: #23282d;
-	font-weight: normal;
-	font-size: 14px;
-	margin: 0 0 .2em;
-	padding: 0;
-}
-
 #dashboard_plugins h5 {
 	font-size: 14px;
 }
@@ -810,6 +800,7 @@ h3:hover .edit-box {
 
 #latest-comments #the-comment-list {
 	position: relative;
+	margin: 0 -12px;
 }
 
 #activity-widget #the-comment-list .comment,
@@ -834,13 +825,13 @@ h3:hover .edit-box {
 	border-top: none;
 }
 
-#latest-comments #the-comment-list .comment-item h4 {
+#latest-comments #the-comment-list .comment-meta {
 	line-height: 1.5em;
-	margin-top: 0;
+	margin: 0;
 	color: #666;
 }
 
-#latest-comments #the-comment-list .comment-item h4 cite {
+#latest-comments #the-comment-list .comment-meta cite {
 	font-style: normal;
 	font-weight: normal;
 }
@@ -908,7 +899,7 @@ a.rsswidget {
 }
 
 .rss-widget cite:before {
-	content: '\2014';
+	content: "\2014";
 }
 
 .dashboard-comment-wrap {
@@ -947,12 +938,12 @@ a.rsswidget {
 	box-shadow: none;
 }
 
-#dashboard_browser_nag.postbox.browser-insecure h3 {
+#dashboard_browser_nag.postbox.browser-insecure h2 {
 	border-bottom-color: #cd5a5a;
 	color: #fff;
 }
 
-#dashboard_browser_nag.postbox h3 {
+#dashboard_browser_nag.postbox h2 {
 	border-bottom-color: #f6e2ac;
 	background: transparent none;
 	color: #fff;
@@ -966,7 +957,7 @@ a.rsswidget {
 
 /* Make the browser nags easier to read with Open Sans */
 
-#dashboard_browser_nag h3.hndle {
+#dashboard_browser_nag h2.hndle {
 	border: none;
 	font-weight: 600;
 	font-size: 20px;

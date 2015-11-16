@@ -71,8 +71,11 @@ case 'update':
 			if ( is_plugin_active($file) )
 				deactivate_plugins($file, true);
 
-			if ( ! is_network_admin() )
+			if ( ! is_network_admin() ) {
 				update_option( 'recently_activated', array( $file => time() ) + (array) get_option( 'recently_activated' ) );
+			} else {
+				update_site_option( 'recently_activated', array( $file => time() ) + (array) get_site_option( 'recently_activated' ) );
+			}
 
 			wp_redirect(add_query_arg('_wpnonce', wp_create_nonce('edit-plugin-test_' . $file), "plugin-editor.php?file=$file&liveupdate=1&scrollto=$scrollto&networkwide=" . $network_wide));
 			exit;
@@ -168,8 +171,14 @@ default:
 <?php elseif (isset($_GET['phperror'])) : ?>
  <div id="message" class="updated"><p><?php _e('This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.') ?></p>
 	<?php
-		if ( wp_verify_nonce($_GET['_error_nonce'], 'plugin-activation-error_' . $file) ) { ?>
-	<iframe style="border:0" width="100%" height="70px" src="<?php bloginfo('wpurl'); ?>/wp-admin/plugins.php?action=error_scrape&amp;plugin=<?php echo esc_attr($file); ?>&amp;_wpnonce=<?php echo esc_attr($_GET['_error_nonce']); ?>"></iframe>
+		if ( wp_verify_nonce( $_GET['_error_nonce'], 'plugin-activation-error_' . $file ) ) {
+			$iframe_url = add_query_arg( array(
+				'action'   => 'error_scrape',
+				'plugin'   => urlencode( $file ),
+				'_wpnonce' => urlencode( $_GET['_error_nonce'] ),
+			), admin_url( 'plugins.php' ) );
+			?>
+	<iframe style="border:0" width="100%" height="70px" src="<?php echo esc_url( $iframe_url ); ?>"></iframe>
 	<?php } ?>
 </div>
 <?php endif; ?>
@@ -179,16 +188,22 @@ default:
 <div class="fileedit-sub">
 <div class="alignleft">
 <big><?php
-	if ( is_plugin_active($plugin) ) {
-		if ( is_writeable($real_file) )
-			echo sprintf(__('Editing <strong>%s</strong> (active)'), $file);
-		else
-			echo sprintf(__('Browsing <strong>%s</strong> (active)'), $file);
+	if ( is_plugin_active( $plugin ) ) {
+		if ( is_writeable( $real_file ) ) {
+			/* translators: %s: plugin file name */
+			echo sprintf( __( 'Editing %s (active)' ), '<strong>' . $file . '</strong>' );
+		} else {
+			/* translators: %s: plugin file name */
+			echo sprintf( __( 'Browsing %s (active)' ), '<strong>' . $file . '</strong>' );
+		}
 	} else {
-		if ( is_writeable($real_file) )
-			echo sprintf(__('Editing <strong>%s</strong> (inactive)'), $file);
-		else
-			echo sprintf(__('Browsing <strong>%s</strong> (inactive)'), $file);
+		if ( is_writeable( $real_file ) ) {
+			/* translators: %s: plugin file name */
+			echo sprintf( __( 'Editing %s (inactive)' ), '<strong>' . $file . '</strong>' );
+		} else {
+			/* translators: %s: plugin file name */
+			echo sprintf( __( 'Browsing %s (inactive)' ), '<strong>' . $file . '</strong>' );
+		}
 	}
 	?></big>
 </div>
@@ -216,7 +231,7 @@ default:
 </div>
 
 <div id="templateside">
-	<h3><?php _e('Plugin Files'); ?></h3>
+	<h2><?php _e( 'Plugin Files' ); ?></h2>
 
 	<ul>
 <?php
@@ -245,7 +260,7 @@ foreach ( $plugin_files as $plugin_file ) :
 		<input type="hidden" name="scrollto" id="scrollto" value="<?php echo $scrollto; ?>" />
 		</div>
 		<?php if ( !empty( $docs_select ) ) : ?>
-		<div id="documentation" class="hide-if-no-js"><label for="docs-list"><?php _e('Documentation:') ?></label> <?php echo $docs_select ?> <input type="button" class="button" value="<?php esc_attr_e( 'Look Up' ) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'http://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&amp;locale=<?php echo urlencode( get_locale() ) ?>&amp;version=<?php echo urlencode( $wp_version ) ?>&amp;redirect=true'); }" /></div>
+		<div id="documentation" class="hide-if-no-js"><label for="docs-list"><?php _e('Documentation:') ?></label> <?php echo $docs_select ?> <input type="button" class="button" value="<?php esc_attr_e( 'Look Up' ) ?> " onclick="if ( '' != jQuery('#docs-list').val() ) { window.open( 'https://api.wordpress.org/core/handbook/1.0/?function=' + escape( jQuery( '#docs-list' ).val() ) + '&amp;locale=<?php echo urlencode( get_locale() ) ?>&amp;version=<?php echo urlencode( $wp_version ) ?>&amp;redirect=true'); }" /></div>
 		<?php endif; ?>
 <?php if ( is_writeable($real_file) ) : ?>
 	<?php if ( in_array( $file, (array) get_option( 'active_plugins', array() ) ) ) { ?>

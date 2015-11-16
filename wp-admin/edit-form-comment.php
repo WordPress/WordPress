@@ -22,6 +22,17 @@ if ( !defined('ABSPATH') )
 
 <div id="post-body" class="metabox-holder columns-2">
 <div id="post-body-content" class="edit-form-section edit-comment-section">
+<?php
+if ( $comment->comment_post_ID > 0 ):
+	$comment_link = get_comment_link( $comment );
+?>
+<div class="inside">
+	<div id="comment-link-box">
+		<strong><?php _ex( 'Permalink:', 'comment' ); ?></strong>
+		<span id="sample-permalink"><a href="<?php echo $comment_link; ?>"><?php echo $comment_link; ?></a></span>
+	</div>
+</div>
+<?php endif; ?>
 <div id="namediv" class="stuffbox">
 <div class="inside">
 <fieldset>
@@ -33,7 +44,7 @@ if ( !defined('ABSPATH') )
 	<td><input type="text" name="newcomment_author" size="30" value="<?php echo esc_attr( $comment->comment_author ); ?>" id="name" /></td>
 </tr>
 <tr>
-	<td class="first"><label for="email"><?php _e( 'E-mail:' ); ?></label></td>
+	<td class="first"><label for="email"><?php _e( 'Email:' ); ?></label></td>
 	<td>
 		<input type="text" name="newcomment_author_email" size="30" value="<?php echo $comment->comment_author_email; ?>" id="email" />
 	</td>
@@ -62,17 +73,10 @@ if ( !defined('ABSPATH') )
 
 <div id="postbox-container-1" class="postbox-container">
 <div id="submitdiv" class="stuffbox" >
-<h3><span class="hndle"><?php _e('Status') ?></span></h3>
+<h2><?php _e( 'Status' ) ?></h2>
 <div class="inside">
 <div class="submitbox" id="submitcomment">
 <div id="minor-publishing">
-
-<div id="minor-publishing-actions">
-<div id="preview-action">
-<a class="preview button" href="<?php echo get_comment_link(); ?>" target="_blank"><?php _e('View Comment'); ?></a>
-</div>
-<div class="clear"></div>
-</div>
 
 <div id="misc-publishing-actions">
 
@@ -87,10 +91,14 @@ if ( !defined('ABSPATH') )
 <?php
 /* translators: Publish box date format, see http://php.net/date */
 $datef = __( 'M j, Y @ H:i' );
-$stamp = __('Submitted on: <b>%1$s</b>');
-$date = date_i18n( $datef, strtotime( $comment->comment_date ) );
 ?>
-<span id="timestamp"><?php printf( $stamp, $date ); ?></span>
+<span id="timestamp"><?php
+printf(
+	/* translators: %s: comment date */
+	__( 'Submitted on: %s' ),
+	'<b>' . date_i18n( $datef, strtotime( $comment->comment_date ) ) . '</b>'
+);
+?></span>
 <a href="#edit_timestamp" class="edit-timestamp hide-if-no-js"><span aria-hidden="true"><?php _e( 'Edit' ); ?></span> <span class="screen-reader-text"><?php _e( 'Edit date and time' ); ?></span></a>
 <fieldset id='timestampdiv' class='hide-if-js'>
 <legend class="screen-reader-text"><?php _e( 'Date and time' ); ?></legend>
@@ -110,7 +118,7 @@ if ( current_user_can( 'edit_post', $post_id ) ) {
 
 <div class="misc-pub-section misc-pub-response-to">
 	<?php printf(
-		/* translators: post link */
+		/* translators: %s: post link */
 		__( 'In response to: %s' ),
 		'<b>' . $post_link . '</b>'
 	); ?>
@@ -119,17 +127,19 @@ if ( current_user_can( 'edit_post', $post_id ) ) {
 <?php
 if ( $comment->comment_parent ) :
 	$parent      = get_comment( $comment->comment_parent );
-	$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
-	$name        = get_comment_author( $parent->comment_ID );
-?>
-<div class="misc-pub-section misc-pub-reply-to">
-	<?php printf(
-		/* translators: comment link */
-		__( 'In reply to: %s' ),
-		'<b><a href="' . $parent_link . '">' . $name . '</a></b>'
-	); ?>
-</div>
-<?php endif; ?>
+	if ( $parent ) :
+		$parent_link = esc_url( get_comment_link( $parent ) );
+		$name        = get_comment_author( $parent );
+	?>
+	<div class="misc-pub-section misc-pub-reply-to">
+		<?php printf(
+			/* translators: %s: comment link */
+			__( 'In reply to: %s' ),
+			'<b><a href="' . $parent_link . '">' . $name . '</a></b>'
+		); ?>
+	</div>
+<?php endif;
+endif; ?>
 
 <?php
 	/**
@@ -171,7 +181,7 @@ do_action( 'add_meta_boxes', 'comment', $comment );
  *
  * @since 3.0.0
  *
- * @param object $comment Comment object.
+ * @param WP_Comment $comment Comment object.
  */
 do_action( 'add_meta_boxes_comment', $comment );
 

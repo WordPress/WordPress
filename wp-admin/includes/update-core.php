@@ -43,7 +43,6 @@ $_old_files = array(
 'wp-admin/link-categories.php',
 'wp-admin/list-manipulation.js',
 'wp-admin/list-manipulation.php',
-'wp-includes/comment-functions.php',
 'wp-includes/feed-functions.php',
 'wp-includes/functions-compat.php',
 'wp-includes/functions-formatting.php',
@@ -729,6 +728,7 @@ $_new_bundled_files = array(
 	'themes/twentythirteen/' => '3.6',
 	'themes/twentyfourteen/' => '3.8',
 	'themes/twentyfifteen/'  => '4.1',
+	'themes/twentysixteen/'  => '4.4',
 );
 
 /**
@@ -881,7 +881,7 @@ function update_core($from, $to) {
 		if ( is_array( $checksums ) && isset( $checksums[ $wp_version ] ) )
 			$checksums = $checksums[ $wp_version ]; // Compat code for 3.7-beta2
 		if ( is_array( $checksums ) ) {
-			foreach( $checksums as $file => $checksum ) {
+			foreach ( $checksums as $file => $checksum ) {
 				if ( 'wp-content' == substr( $file, 0, 10 ) )
 					continue;
 				if ( ! file_exists( ABSPATH . $file ) )
@@ -1072,6 +1072,9 @@ function update_core($from, $to) {
 
 	// Remove any Genericons example.html's from the filesystem
 	_upgrade_422_remove_genericons();
+
+	// Remove the REST API plugin if its version is Beta 4 or lower
+	_upgrade_440_force_deactivate_incompatible_plugins();
 
 	// Upgrade DB with separate request
 	/** This filter is documented in wp-admin/includes/update-core.php */
@@ -1286,4 +1289,14 @@ function _upgrade_422_find_genericons_files_in_folder( $directory ) {
 	}
 
 	return $files;
+}
+
+/**
+ * @ignore
+ * @since 4.4.0
+ */
+function _upgrade_440_force_deactivate_incompatible_plugins() {
+	if ( defined( 'REST_API_VERSION' ) && version_compare( REST_API_VERSION, '2.0-beta4', '<=' ) ) {
+		deactivate_plugins( array( 'rest-api/plugin.php' ), true );
+	}
 }

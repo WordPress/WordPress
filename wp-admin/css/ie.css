@@ -396,13 +396,8 @@ p.search-box {
 	margin: -3px 0 4px;
 }
 
-#widget-list .widget,
-.feature-filter .feature-group li {
+#widget-list .widget {
 	display: inline;
-}
-
-.feature-filter .feature-group li input {
-	vertical-align: middle;
 }
 
 #editorcontainer #content {
@@ -693,10 +688,6 @@ input[type="password"],
 * html .stuffbox input,
 * html .stuffbox textarea {
 	border: 1px solid #DFDFDF;
-}
-
-* html .feature-filter .feature-group li {
-	width: 145px;
 }
 
 * html div.widget-liquid-left {

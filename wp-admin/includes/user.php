@@ -108,6 +108,11 @@ function edit_user( $user_id = 0 ) {
 	if ( $user->user_login == '' )
 		$errors->add( 'user_login', __( '<strong>ERROR</strong>: Please enter a username.' ) );
 
+	/* checking that nickname has been typed */
+	if ( $update && empty( $user->nickname ) ) {
+		$errors->add( 'nickname', __( '<strong>ERROR</strong>: Please enter a nickname.' ) );
+	}
+
 	/* checking the password has been typed twice */
 	/**
 	 * Fires before the password and confirm password fields are checked for congruity.
@@ -120,25 +125,13 @@ function edit_user( $user_id = 0 ) {
 	 */
 	do_action_ref_array( 'check_passwords', array( $user->user_login, &$pass1, &$pass2 ) );
 
-	if ( $update ) {
-		if ( empty($pass1) && !empty($pass2) )
-			$errors->add( 'pass', __( '<strong>ERROR</strong>: You entered your new password only once.' ), array( 'form-field' => 'pass1' ) );
-		elseif ( !empty($pass1) && empty($pass2) )
-			$errors->add( 'pass', __( '<strong>ERROR</strong>: You entered your new password only once.' ), array( 'form-field' => 'pass2' ) );
-	} else {
-		if ( empty($pass1) )
-			$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter your password.' ), array( 'form-field' => 'pass1' ) );
-		elseif ( empty($pass2) )
-			$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter your password twice.' ), array( 'form-field' => 'pass2' ) );
-	}
-
 	/* Check for "\" in password */
 	if ( false !== strpos( wp_unslash( $pass1 ), "\\" ) )
 		$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
 
 	/* checking the password has been typed twice the same */
 	if ( $pass1 != $pass2 )
-		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter the same password in the two password fields.' ), array( 'form-field' => 'pass1' ) );
+		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter the same password in both password fields.' ), array( 'form-field' => 'pass1' ) );
 
 	if ( !empty( $pass1 ) )
 		$user->user_pass = $pass1;
@@ -149,9 +142,16 @@ function edit_user( $user_id = 0 ) {
 	if ( !$update && username_exists( $user->user_login ) )
 		$errors->add( 'user_login', __( '<strong>ERROR</strong>: This username is already registered. Please choose another one.' ));
 
-	/* checking e-mail address */
+	/** This filter is documented in wp-includes/user-functions.php */
+	$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
+
+	if ( in_array( strtolower( $user->user_login ), array_map( 'strtolower', $illegal_logins ) ) ) {
+		$errors->add( 'illegal_user_login', __( '<strong>ERROR</strong>: Sorry, that username is not allowed.' ) );
+	}
+
+	/* checking email address */
 	if ( empty( $user->user_email ) ) {
-		$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please enter an e-mail address.' ), array( 'form-field' => 'email' ) );
+		$errors->add( 'empty_email', __( '<strong>ERROR</strong>: Please enter an email address.' ), array( 'form-field' => 'email' ) );
 	} elseif ( !is_email( $user->user_email ) ) {
 		$errors->add( 'invalid_email', __( '<strong>ERROR</strong>: The email address isn&#8217;t correct.' ), array( 'form-field' => 'email' ) );
 	} elseif ( ( $owner_id = email_exists($user->user_email) ) && ( !$update || ( $owner_id != $user->ID ) ) ) {
@@ -163,9 +163,9 @@ function edit_user( $user_id = 0 ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array   &$errors An array of user profile update errors, passed by reference.
-	 * @param bool    $update  Whether this is a user update.
-	 * @param WP_User &$user   WP_User object, passed by reference.
+	 * @param WP_Error &$errors WP_Error object, passed by reference.
+	 * @param bool     $update  Whether this is a user update.
+	 * @param WP_User  &$user   WP_User object, passed by reference.
 	 */
 	do_action_ref_array( 'user_profile_update_errors', array( &$errors, $update, &$user ) );
 
@@ -176,7 +176,18 @@ function edit_user( $user_id = 0 ) {
 		$user_id = wp_update_user( $user );
 	} else {
 		$user_id = wp_insert_user( $user );
+<<<<<<< HEAD
+		/**
+		  * Fires after a new user has been created.
+		  *
+		  * @since 4.4.0
+		  *
+		  * @param int $user_id ID of the newly created user.
+		  */
+		do_action( 'edit_user_created_user', $user_id );
+=======
 		wp_new_user_notification( $user_id, null, 'both' );
+>>>>>>> refs/remotes/origin/4.3-branch
 	}
 	return $user_id;
 }
@@ -234,7 +245,7 @@ function get_user_to_edit( $user_id ) {
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $user_id User ID.
  * @return array
@@ -264,7 +275,7 @@ function get_users_drafts( $user_id ) {
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $id User ID.
  * @param int $reassign Optional. Reassign posts and links to new User ID.
@@ -272,6 +283,10 @@ function get_users_drafts( $user_id ) {
  */
 function wp_delete_user( $id, $reassign = null ) {
 	global $wpdb;
+
+	if ( ! is_numeric( $id ) ) {
+		return false;
+	}
 
 	$id = (int) $id;
 	$user = new WP_User( $id );
@@ -445,4 +460,58 @@ function default_password_nag() {
 	printf( '<a href="%s">' . __('Yes, take me to my profile page') . '</a> | ', get_edit_profile_url() . '#password' );
 	printf( '<a href="%s" id="default-password-nag-no">' . __('No thanks, do not remind me again') . '</a>', '?default_password_nag=0' );
 	echo '</p></div>';
+}
+
+/**
+ * @since 3.5.0
+ * @access private
+ */
+function delete_users_add_js() { ?>
+<script>
+jQuery(document).ready( function($) {
+	var submit = $('#submit').prop('disabled', true);
+	$('input[name="delete_option"]').one('change', function() {
+		submit.prop('disabled', false);
+	});
+	$('#reassign_user').focus( function() {
+		$('#delete_option1').prop('checked', true).trigger('change');
+	});
+});
+</script>
+<?php
+}
+
+/**
+ * Optional SSL preference that can be turned on by hooking to the 'personal_options' action.
+ *
+ * @since 2.7.0
+ *
+ * @param object $user User data object
+ */
+function use_ssl_preference($user) {
+?>
+	<tr class="user-use-ssl-wrap">
+		<th scope="row"><?php _e('Use https')?></th>
+		<td><label for="use_ssl"><input name="use_ssl" type="checkbox" id="use_ssl" value="1" <?php checked('1', $user->use_ssl); ?> /> <?php _e('Always use https when visiting the admin'); ?></label></td>
+	</tr>
+<?php
+}
+
+/**
+ *
+ * @param string $text
+ * @return string
+ */
+function admin_created_user_email( $text ) {
+	$roles = get_editable_roles();
+	$role = $roles[ $_REQUEST['role'] ];
+	/* translators: 1: Site name, 2: site URL, 3: role */
+	return sprintf( __( 'Hi,
+You\'ve been invited to join \'%1$s\' at
+%2$s with the role of %3$s.
+If you do not want to join this site please ignore
+this email. This invitation will expire in a few days.
+
+Please click the following link to activate your user account:
+%%s' ), get_bloginfo( 'name' ), home_url(), wp_specialchars_decode( translate_user_role( $role['name'] ) ) );
 }

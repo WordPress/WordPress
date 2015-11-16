@@ -16,8 +16,8 @@ if ( false ) {
 	<title>Error: PHP is not running</title>
 </head>
 <body class="wp-core-ui">
-	<h1 id="logo"><a href="https://wordpress.org/">WordPress</a></h1>
-	<h2>Error: PHP is not running</h2>
+	<p id="logo"><a href="https://wordpress.org/">WordPress</a></p>
+	<h1>Error: PHP is not running</h1>
 	<p>WordPress requires that your web server is running PHP. Your server does not have PHP installed, or PHP is turned off.</p>
 </body>
 </html>
@@ -76,7 +76,7 @@ function display_header( $body_classes = '' ) {
 	?>
 </head>
 <body class="wp-core-ui<?php echo $body_classes ?>">
-<h1 id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></h1>
+<p id="logo"><a href="<?php echo esc_url( __( 'https://wordpress.org/' ) ); ?>" tabindex="-1"><?php _e( 'WordPress' ); ?></a></p>
 
 <?php
 } // end display_header()
@@ -106,6 +106,7 @@ function display_setup_form( $error = null ) {
 
 	if ( ! is_null( $error ) ) {
 ?>
+<h1><?php _ex( 'Welcome', 'Howdy' ); ?></h1>
 <p class="message"><?php echo $error; ?></p>
 <?php } ?>
 <form id="setup" method="post" action="install.php?step=2" novalidate="novalidate">
@@ -172,13 +173,32 @@ function display_setup_form( $error = null ) {
 		</tr>
 		<?php endif; ?>
 		<tr>
-			<th scope="row"><label for="admin_email"><?php _e( 'Your E-mail' ); ?></label></th>
+			<th scope="row"><label for="admin_email"><?php _e( 'Your Email' ); ?></label></th>
 			<td><input name="admin_email" type="email" id="admin_email" size="25" value="<?php echo esc_attr( $admin_email ); ?>" />
 			<p><?php _e( 'Double-check your email address before continuing.' ); ?></p></td>
 		</tr>
 		<tr>
-			<th scope="row"><?php _e( 'Privacy' ); ?></th>
-			<td colspan="2"><label><input type="checkbox" name="blog_public" id="blog_public" value="1" <?php checked( $blog_public ); ?> /> <?php _e( 'Allow search engines to index this site' ); ?></label></td>
+			<th scope="row"><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?></th>
+			<td>
+				<fieldset>
+					<legend class="screen-reader-text"><span><?php has_action( 'blog_privacy_selector' ) ? _e( 'Site Visibility' ) : _e( 'Search Engine Visibility' ); ?> </span></legend>
+					<?php
+					if ( has_action( 'blog_privacy_selector' ) ) { ?>
+						<input id="blog-public" type="radio" name="blog_public" value="1" <?php checked( 1, $blog_public ); ?> />
+						<label for="blog-public"><?php _e( 'Allow search engines to index this site' );?></label><br/>
+						<input id="blog-norobots" type="radio" name="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
+						<label for="blog-norobots"><?php _e( 'Discourage search engines from indexing this site' ); ?></label>
+						<p class="description"><?php _e( 'Note: Neither of these options blocks access to your site &mdash; it is up to search engines to honor your request.' ); ?></p>
+						<?php
+						/** This action is documented in wp-admin/options-reading.php */
+						do_action( 'blog_privacy_selector' );
+					 } else { ?>
+						<label for="blog_public"><input name="blog_public" type="checkbox" id="blog_public" value="0" <?php checked( 0, $blog_public ); ?> />
+						<?php _e( 'Discourage search engines from indexing this site' ); ?></label>
+						<p class="description"><?php _e( 'It is up to search engines to honor this request.' ); ?></p>
+					<?php } ?>
+				</fieldset>
+			</td>
 		</tr>
 	</table>
 	<p class="step"><?php submit_button( __( 'Install WordPress' ), 'large', 'Submit', false, array( 'id' => 'submit' ) ); ?></p>
@@ -190,7 +210,7 @@ function display_setup_form( $error = null ) {
 // Let's check to make sure WP isn't already installed.
 if ( is_blog_installed() ) {
 	display_header();
-	die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p><p class="step"><a href="../wp-login.php" class="button button-large">' . __( 'Log In' ) . '</a></p></body></html>' );
+	die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p><p class="step"><a href="' . esc_url( wp_login_url() ) . '" class="button button-large">' . __( 'Log In' ) . '</a></p></body></html>' );
 }
 
 /**
@@ -267,7 +287,7 @@ switch($step) {
 <h1><?php _ex( 'Welcome', 'Howdy' ); ?></h1>
 <p><?php _e( 'Welcome to the famous five-minute WordPress installation process! Just fill in the information below and you&#8217;ll be on your way to using the most extendable and powerful personal publishing platform in the world.' ); ?></p>
 
-<h1><?php _e( 'Information needed' ); ?></h1>
+<h2><?php _e( 'Information needed' ); ?></h2>
 <p><?php _e( 'Please provide the following information. Don&#8217;t worry, you can always change these settings later.' ); ?></p>
 
 <?php
@@ -291,9 +311,9 @@ switch($step) {
 		$admin_password = isset($_POST['admin_password']) ? wp_unslash( $_POST['admin_password'] ) : '';
 		$admin_password_check = isset($_POST['admin_password2']) ? wp_unslash( $_POST['admin_password2'] ) : '';
 		$admin_email  = isset( $_POST['admin_email'] ) ?trim( wp_unslash( $_POST['admin_email'] ) ) : '';
-		$public       = isset( $_POST['blog_public'] ) ? (int) $_POST['blog_public'] : 0;
+		$public       = isset( $_POST['blog_public'] ) ? (int) $_POST['blog_public'] : 1;
 
-		// Check e-mail address.
+		// Check email address.
 		$error = false;
 		if ( empty( $user_name ) ) {
 			// TODO: poka-yoke
@@ -341,7 +361,7 @@ switch($step) {
 	</tr>
 </table>
 
-<p class="step"><a href="../wp-login.php" class="button button-large"><?php _e( 'Log In' ); ?></a></p>
+<p class="step"><a href="<?php echo esc_url( wp_login_url() ); ?>" class="button button-large"><?php _e( 'Log In' ); ?></a></p>
 
 <?php
 		}

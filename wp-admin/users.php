@@ -1,16 +1,22 @@
 <?php
 /**
- * Users administration panel.
+ * User administration panel
  *
  * @package WordPress
  * @subpackage Administration
+ * @since 1.0.0
  */
 
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-if ( ! current_user_can( 'list_users' ) )
-	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+if ( ! current_user_can( 'list_users' ) ) {
+	wp_die(
+		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<p>' . __( 'You are not allowed to browse users.' ) . '</p>',
+		403
+	);
+}
 
 $wp_list_table = _get_list_table('WP_Users_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
@@ -63,6 +69,12 @@ get_current_screen()->set_help_sidebar(
     '<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+get_current_screen()->set_screen_reader_content( array(
+	'heading_views'      => __( 'Filter users list' ),
+	'heading_pagination' => __( 'Users list navigation' ),
+	'heading_list'       => __( 'Users list' ),
+) );
+
 if ( empty($_REQUEST) ) {
 	$referer = '<input type="hidden" name="wp_http_referer" value="'. esc_attr( wp_unslash( $_SERVER['REQUEST_URI'] ) ) . '" />';
 } elseif ( isset($_REQUEST['wp_http_referer']) ) {
@@ -74,25 +86,6 @@ if ( empty($_REQUEST) ) {
 }
 
 $update = '';
-
-/**
- * @since 3.5.0
- * @access private
- */
-function delete_users_add_js() { ?>
-<script>
-jQuery(document).ready( function($) {
-	var submit = $('#submit').prop('disabled', true);
-	$('input[name=delete_option]').one('change', function() {
-		submit.prop('disabled', false);
-	});
-	$('#reassign_user').focus( function() {
-		$('#delete_option1').prop('checked', true).trigger('change');
-	});
-});
-</script>
-<?php
-}
 
 switch ( $wp_list_table->current_action() ) {
 
@@ -109,8 +102,16 @@ case 'promote':
 	}
 
 	$editable_roles = get_editable_roles();
-	if ( empty( $editable_roles[$_REQUEST['new_role']] ) )
-		wp_die(__('You can&#8217;t give users that role.'));
+	$role = false;
+	if ( ! empty( $_REQUEST['new_role2'] ) ) {
+		$role = $_REQUEST['new_role2'];
+	} elseif ( ! empty( $_REQUEST['new_role'] ) ) {
+		$role = $_REQUEST['new_role'];
+	}
+
+	if ( ! $role || empty( $editable_roles[ $role ] ) ) {
+		wp_die( __( 'You can&#8217;t give users that role.' ) );
+	}
 
 	$userids = $_REQUEST['users'];
 	$update = 'promote';
@@ -120,18 +121,23 @@ case 'promote':
 		if ( ! current_user_can('promote_user', $id) )
 			wp_die(__('You can&#8217;t edit that user.'));
 		// The new role of the current user must also have the promote_users cap or be a multisite super admin
-		if ( $id == $current_user->ID && ! $wp_roles->role_objects[ $_REQUEST['new_role'] ]->has_cap('promote_users')
+		if ( $id == $current_user->ID && ! $wp_roles->role_objects[ $role ]->has_cap('promote_users')
 			&& ! ( is_multisite() && is_super_admin() ) ) {
 				$update = 'err_admin_role';
 				continue;
 		}
 
 		// If the user doesn't already belong to the blog, bail.
-		if ( is_multisite() && !is_user_member_of_blog( $id ) )
-			wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+		if ( is_multisite() && !is_user_member_of_blog( $id ) ) {
+			wp_die(
+				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+				'<p>' . __( 'One of the selected users is not a member of this site.' ) . '</p>',
+				403
+			);
+		}
 
 		$user = get_userdata( $id );
-		$user->set_role($_REQUEST['new_role']);
+		$user->set_role( $role );
 	}
 
 	wp_redirect(add_query_arg('update', $update, $redirect));
@@ -205,7 +211,15 @@ case 'delete':
 	else
 		$userids = array_map( 'intval', (array) $_REQUEST['users'] );
 
-	add_action( 'admin_head', 'delete_users_add_js' );
+	$users_posts = new WP_Query( array(
+		'post_type' => 'any',
+		'author' => implode( ',', $userids ),
+		'posts_per_page' => 1
+	) );
+
+	if ( $users_posts->have_posts() ) {
+		add_action( 'admin_head', 'delete_users_add_js' );
+	}
 
 	include( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
@@ -241,20 +255,24 @@ case 'delete':
 	}
 	?>
 	</ul>
-<?php if ( $go_delete ) : ?>
-	<?php if ( 1 == $go_delete ) : ?>
-		<fieldset><p><legend><?php _e( 'What should be done with content owned by this user?' ); ?></legend></p>
-	<?php else : ?>
-		<fieldset><p><legend><?php _e( 'What should be done with content owned by these users?' ); ?></legend></p>
-	<?php endif; ?>
-	<ul style="list-style:none;">
-		<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" />
-		<?php _e('Delete all content.'); ?></label></li>
-		<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" />
-		<?php echo '<label for="delete_option1">' . __( 'Attribute all content to:' ) . '</label> ';
-		wp_dropdown_users( array( 'name' => 'reassign_user', 'exclude' => array_diff( $userids, array($current_user->ID) ) ) ); ?></li>
-	</ul></fieldset>
-	<?php
+<?php if ( $go_delete ) :
+
+	if ( ! $users_posts->have_posts() ) : ?>
+		<input type="hidden" name="delete_option" value="delete" />
+	<?php else: ?>
+		<?php if ( 1 == $go_delete ) : ?>
+			<fieldset><p><legend><?php _e( 'What should be done with content owned by this user?' ); ?></legend></p>
+		<?php else : ?>
+			<fieldset><p><legend><?php _e( 'What should be done with content owned by these users?' ); ?></legend></p>
+		<?php endif; ?>
+		<ul style="list-style:none;">
+			<li><label><input type="radio" id="delete_option0" name="delete_option" value="delete" />
+			<?php _e('Delete all content.'); ?></label></li>
+			<li><input type="radio" id="delete_option1" name="delete_option" value="reassign" />
+			<?php echo '<label for="delete_option1">' . __( 'Attribute all content to:' ) . '</label> ';
+			wp_dropdown_users( array( 'name' => 'reassign_user', 'exclude' => array_diff( $userids, array($current_user->ID) ) ) ); ?></li>
+		</ul></fieldset>
+	<?php endif;
 	/**
 	 * Fires at the end of the delete users form prior to the confirm button.
 	 *
@@ -265,7 +283,7 @@ case 'delete':
 	do_action( 'delete_user_form', $current_user );
 	?>
 	<input type="hidden" name="action" value="dodelete" />
-	<?php submit_button( __('Confirm Deletion'), 'secondary' ); ?>
+	<?php submit_button( __('Confirm Deletion'), 'primary' ); ?>
 <?php else : ?>
 	<p><?php _e('There are no valid users selected for deletion.'); ?></p>
 <?php endif; ?>
@@ -363,7 +381,7 @@ case 'remove':
 </ul>
 <?php if ( $go_remove ) : ?>
 		<input type="hidden" name="action" value="doremove" />
-		<?php submit_button( __('Confirm Removal'), 'secondary' ); ?>
+		<?php submit_button( __('Confirm Removal'), 'primary' ); ?>
 <?php else : ?>
 	<p><?php _e('There are no valid users selected for removal.'); ?></p>
 <?php endif; ?>

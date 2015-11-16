@@ -82,7 +82,7 @@ body {
 #customize-controls .customize-info .panel-title {
 	font-size: 20px;
 	font-weight: 200;
-	line-height: 24px;
+	line-height: 26px;
 	display: block;
 	overflow: hidden;
 	white-space: nowrap;
@@ -123,12 +123,16 @@ body {
 	color: #0073aa;
 }
 
-#customize-controls .customize-info .customize-panel-description {
+#customize-controls .customize-info .customize-panel-description,
+#customize-controls .no-widget-areas-rendered-notice {
 	color: #555;
 	display: none;
 	background: #fff;
 	padding: 12px 15px;
 	border-top: 1px solid #ddd;
+}
+#customize-controls .customize-info .customize-panel-description.open + .no-widget-areas-rendered-notice {
+	border-top: none;
 }
 
 #customize-controls .customize-info .customize-panel-description p:first-child {
@@ -207,7 +211,7 @@ body {
 	left: 100%;
 	width: 100%;
 	margin: 0;
- 	padding: 12px;
+	padding: 12px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -318,7 +322,7 @@ h3.customize-section-title {
 	display: block;
 	float: left;
 	width: 48px;
-	height: 69px;
+	height: 71px;
 	padding: 0 24px 0 0;
 	margin: 0;
 	background: #fff;
@@ -332,7 +336,7 @@ h3.customize-section-title {
 }
 
 .customize-section-back {
-	height: 70px;
+	height: 74px;
 }
 
 .ios .customize-panel-back,
@@ -391,7 +395,7 @@ h3.customize-section-title {
 
 .customize-panel-back:before,
 .customize-section-back:before {
-	font: normal 20px/69px dashicons;
+	font: normal 20px/72px dashicons;
 	content: "\f341";
 	position: relative;
 	left: 13px;
@@ -530,13 +534,25 @@ p.customize-section-description {
 }
 
 .customize-control-color .color-picker,
-.customize-control-checkbox label,
 .customize-control-upload div {
 	line-height: 28px;
 }
 
-.customize-control-checkbox input {
-	margin-right: 5px;
+.customize-control-radio label,
+.customize-control-checkbox label,
+.customize-control-nav_menu_auto_add label {
+	line-height: 20px;
+	display: block;
+	margin-left: 24px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.customize-control-radio input,
+.customize-control-checkbox input,
+.customize-control-nav_menu_auto_add input {
+	margin-right: 4px;
+	margin-left: -24px;
 }
 
 .customize-control-radio {
@@ -550,14 +566,6 @@ p.customize-section-description {
 
 .customize-control-radio .customize-control-title + .customize-control-description {
 	margin-top: 7px;
-}
-
-.customize-control-radio label {
-	line-height: 32px;
-}
-
-.customize-control-radio input {
-	margin-right: 5px;
 }
 
 .customize-control .attachment-thumb.type-icon {
@@ -611,9 +619,10 @@ p.customize-section-description {
 
 /* Style for custom settings */
 
-/*
+/**
  * Dropdowns
  */
+
 .accordion-section .dropdown {
 	float: left;
 	display: block;
@@ -647,7 +656,7 @@ p.customize-section-description {
 
 .customize-control .dropdown-arrow:after {
 	content: "\f140";
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: block;
 	padding: 0;
@@ -694,6 +703,7 @@ p.customize-section-description {
  * iOS can't scroll iframes,
  * instead it expands the iframe size to match the size of the content
  */
+
 .ios .wp-full-overlay {
 	position: relative;
 }
@@ -706,7 +716,7 @@ p.customize-section-description {
 	-webkit-overflow-scrolling: touch;
 }
 
-/** Media controls **/
+/* Media controls */
 
 .customize-control-media .current,
 .customize-control-upload .current,
@@ -991,6 +1001,7 @@ p.customize-section-description {
 /**
  * Themes
  */
+
 @-webkit-keyframes customize-reload {
 	0%   { opacity: 0; }
 	100% { opacity: 1; }
@@ -1208,10 +1219,96 @@ body.cheatin {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.13);
 }
 
+body.cheatin h1 {
+	border-bottom: 1px solid #dadada;
+	clear: both;
+	color: #666;
+	font: 24px "Open Sans", sans-serif;
+	margin: 30px 0 0 0;
+	padding: 0;
+	padding-bottom: 7px;
+}
+
 body.cheatin p {
 	font-size: 14px;
 	line-height: 1.5;
 	margin: 25px 0 20px;
+}
+
+/**
+ * Widgets and Menus common styles
+ */
+
+/* higher specificity than .wp-core-ui .button-secondary */
+#customize-theme-controls .add-new-widget,
+#customize-theme-controls .add-new-menu-item {
+	cursor: pointer;
+	float: right;
+	margin-left: 10px;
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	outline: none;
+}
+
+.reordering .add-new-widget,
+.reordering .add-new-menu-item {
+	opacity: 0.2;
+	pointer-events: none;
+	cursor: not-allowed; /* doesn't work in conjunction with pointer-events */
+}
+
+.add-new-widget:before,
+.add-new-menu-item:before {
+	content: "\f132";
+	display: inline-block;
+	position: relative;
+	left: -2px;
+	top: -1px;
+	font: normal 20px/1 dashicons;
+	vertical-align: middle;
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Reordering */
+.reorder-toggle {
+	float: right;
+	padding: 5px 8px;
+	text-decoration: none;
+	cursor: pointer;
+	outline: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.reorder-toggle:focus {
+	outline: 1px dotted;
+}
+
+.reorder,
+.reordering .reorder-done {
+	display: block;
+	padding: 5px 8px;
+}
+
+.reorder-done,
+.reordering .reorder {
+	display: none;
+	color: #0073aa;
+}
+
+.reorder-toggle:hover .reorder-done,
+.reorder-toggle:active .reorder-done,
+.reorder-toggle:focus .reorder-done {
+	color: #00a0d2;
 }
 
 /* Responsive */
@@ -1219,7 +1316,7 @@ body.cheatin p {
 	display: none;
 }
 
-@media only screen and (max-width: 780px) {
+@media only screen and (max-width: 782px) {
 	.wp-customizer .theme:not(.active):hover .theme-actions,
 	.wp-customizer .theme:not(.active):focus .theme-actions {
 		display: block;
@@ -1227,6 +1324,23 @@ body.cheatin p {
 
 	.wp-customizer .theme-browser .theme.active .theme-name span {
 		display: inline;
+	}
+
+	.customize-control-radio label,
+	.customize-control-checkbox label,
+	.customize-control-nav_menu_auto_add label {
+		margin-left: 32px;
+	}
+
+	.customize-control-radio input,
+	.customize-control-checkbox input,
+	.customize-control-nav_menu_auto_add input {
+		margin-left: -32px;
+	}
+
+	.customize-control input[type="radio"] + label,
+	.customize-control input[type="checkbox"] + label {
+		line-height: 32px;
 	}
 }
 

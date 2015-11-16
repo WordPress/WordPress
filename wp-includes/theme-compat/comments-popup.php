@@ -7,7 +7,14 @@
  * This file is here for Backwards compatibility with old themes and will be removed in a future version
  *
  */
-_deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.0', null, sprintf( __('Please include a %1$s template in your theme.'), basename(__FILE__) ) );
+_deprecated_file(
+	/* translators: %s: template name */
+	sprintf( __( 'Theme without %s' ), basename( __FILE__ ) ),
+	'3.0',
+	null,
+	/* translators: %s: template name */
+	sprintf( __( 'Please include a %s template in your theme.' ), basename( __FILE__ ) )
+);
 ?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -34,10 +41,6 @@ while( have_posts()) : the_post();
 
 <p><a href="<?php echo esc_url( get_post_comments_feed_link($post->ID) ); ?>"><?php _e('<abbr title="Really Simple Syndication">RSS</abbr> feed for comments on this post.'); ?></a></p>
 
-<?php if ( pings_open() ) { ?>
-<p><?php printf(__('The <abbr title="Universal Resource Locator">URL</abbr> to TrackBack this entry is: <em>%s</em>'), get_trackback_url()); ?></p>
-<?php } ?>
-
 <?php
 // this line is WordPress' motor, do not delete it.
 $commenter = wp_get_current_commenter();
@@ -52,7 +55,7 @@ if ( post_password_required($post) ) {  // and it doesn't match the cookie
 <?php foreach ($comments as $comment) { ?>
 	<li id="comment-<?php comment_ID() ?>">
 	<?php comment_text() ?>
-	<p><cite><?php comment_type(); ?> <?php printf(__('by %1$s &#8212; %2$s @ <a href="#comment-%3$s">%4$s</a>'), get_comment_author_link(), get_comment_date(), get_comment_ID(), get_comment_time()); ?></cite></p>
+	<p><cite><?php comment_type(); ?> <?php printf(__('by %1$s &#8212; %2$s @ <a href="#comment-%3$s">%4$s</a>'), get_comment_author_link( $comment ), get_comment_date( '', $comment ), get_comment_ID(), get_comment_time()); ?></cite></p>
 	</li>
 
 <?php } // end for each comment ?>
@@ -63,7 +66,6 @@ if ( post_password_required($post) ) {  // and it doesn't match the cookie
 
 <?php if ( comments_open() ) { ?>
 <h2><?php _e('Leave a comment'); ?></h2>
-<p><?php printf(__('Line and paragraph breaks automatic, e-mail address never displayed, <acronym title="Hypertext Markup Language">HTML</acronym> allowed: <code>%s</code>'), allowed_tags()); ?></p>
 
 <form action="<?php echo site_url(); ?>/wp-comments-post.php" method="post" id="commentform">
 <?php if ( $user_ID ) : ?>
@@ -76,7 +78,7 @@ if ( post_password_required($post) ) {  // and it doesn't match the cookie
 
 	<p>
 	  <input type="text" name="email" id="email" value="<?php echo esc_attr( $commenter['comment_author_email'] ); ?>" size="28" tabindex="2" />
-	   <label for="email"><?php _e('E-mail'); ?></label>
+	   <label for="email"><?php _e('Email'); ?></label>
 	</p>
 
 	<p>

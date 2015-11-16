@@ -55,9 +55,9 @@
 		});
 
 		// WP default shortcut
-		editor.addShortcut( 'Alt+Shift+A', '', 'WP_Link' );
+		editor.addShortcut( 'access+a', '', 'WP_Link' );
 		// The "de-facto standard" shortcut, see #27305
-		editor.addShortcut( 'Meta+K', '', 'WP_Link' );
+		editor.addShortcut( 'meta+k', '', 'WP_Link' );
 
 		editor.addButton( 'link', {
 			icon: 'link',

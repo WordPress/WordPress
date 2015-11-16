@@ -128,33 +128,12 @@ for ( $i = 1; $i <= $count; $i++ ) {
 				}
 			}
 
-			if (preg_match('/Date: /i', $line)) { // of the form '20 Mar 2002 20:32:37'
-				$ddate = trim($line);
-				$ddate = str_replace('Date: ', '', $ddate);
-				if (strpos($ddate, ',')) {
-					$ddate = trim(substr($ddate, strpos($ddate, ',') + 1, strlen($ddate)));
-				}
-				$date_arr = explode(' ', $ddate);
-				$date_time = explode(':', $date_arr[3]);
-
-				$ddate_H = $date_time[0];
-				$ddate_i = $date_time[1];
-				$ddate_s = $date_time[2];
-
-				$ddate_m = $date_arr[1];
-				$ddate_d = $date_arr[0];
-				$ddate_Y = $date_arr[2];
-				for ( $j = 0; $j < 12; $j++ ) {
-					if ( $ddate_m == $dmonths[$j] ) {
-						$ddate_m = $j+1;
-					}
-				}
-
-				$time_zn = intval($date_arr[4]) * 36;
-				$ddate_U = gmmktime($ddate_H, $ddate_i, $ddate_s, $ddate_m, $ddate_d, $ddate_Y);
-				$ddate_U = $ddate_U - $time_zn;
-				$post_date = gmdate('Y-m-d H:i:s', $ddate_U + $time_difference);
-				$post_date_gmt = gmdate('Y-m-d H:i:s', $ddate_U);
+			if ( preg_match( '/Date: /i', $line ) ) { // of the form '20 Mar 2002 20:32:37 +0100'
+				$ddate = str_replace( 'Date: ', '', trim( $line ) );
+				$ddate = preg_replace( '!\s*\(.+\)\s*$!', '', $ddate );	// remove parenthesised timezone string if it exists, as this confuses strtotime
+				$ddate_U = strtotime( $ddate );
+				$post_date = gmdate( 'Y-m-d H:i:s', $ddate_U + $time_difference );
+				$post_date_gmt = gmdate( 'Y-m-d H:i:s', $ddate_U );
 			}
 		}
 	}
@@ -244,15 +223,23 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	 */
 	do_action( 'publish_phone', $post_ID );
 
-	echo "\n<p>" . sprintf(__('<strong>Author:</strong> %s'), esc_html($post_author)) . '</p>';
-	echo "\n<p>" . sprintf(__('<strong>Posted title:</strong> %s'), esc_html($post_title)) . '</p>';
+	echo "\n<p><strong>" . __( 'Author:' ) . '</strong> ' . esc_html( $post_author ) . '</p>';
+	echo "\n<p><strong>" . __( 'Posted title:' ) . '</strong> ' . esc_html( $post_title ) . '</p>';
 
 	if(!$pop3->delete($i)) {
-		echo '<p>' . sprintf(__('Oops: %s'), esc_html($pop3->ERROR)) . '</p>';
+		echo '<p>' . sprintf(
+			/* translators: %s: POP3 error */
+			__( 'Oops: %s' ),
+			esc_html( $pop3->ERROR )
+		) . '</p>';
 		$pop3->reset();
 		exit;
 	} else {
-		echo '<p>' . sprintf(__('Mission complete. Message <strong>%s</strong> deleted.'), $i) . '</p>';
+		echo '<p>' . sprintf(
+			/* translators: %s: the message ID */
+			__( 'Mission complete. Message %s deleted.' ),
+			'<strong>' . $i . '</strong>'
+		) . '</p>';
 	}
 
 }

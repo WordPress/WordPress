@@ -107,7 +107,8 @@ final class WP_Customize_Nav_Menus {
 		$items = array();
 
 		if ( 'post_type' === $type ) {
-			if ( ! get_post_type_object( $object ) ) {
+			$post_type = get_post_type_object( $object );
+			if ( ! $post_type ) {
 				return new WP_Error( 'nav_menus_invalid_post_type' );
 			}
 
@@ -120,6 +121,16 @@ final class WP_Customize_Nav_Menus {
 					'type_label' => __( 'Custom Link' ),
 					'object'     => '',
 					'url'        => home_url(),
+				);
+			} elseif ( 'post' !== $object && 0 === $page && $post_type->has_archive ) {
+				// Add a post type archive link.
+				$items[] = array(
+					'id'         => $object . '-archive',
+					'title'      => $post_type->labels->archives,
+					'type'       => 'post_type_archive',
+					'type_label' => __( 'Post Type Archive' ),
+					'object'     => $object,
+					'url'        => get_post_type_archive_link( $object ),
 				);
 			}
 
@@ -464,10 +475,14 @@ final class WP_Customize_Nav_Menus {
 		) ) );
 		$menus = wp_get_nav_menus();
 
-		// Menu loactions.
+		// Menu locations.
 		$locations     = get_registered_nav_menus();
 		$num_locations = count( array_keys( $locations ) );
-		$description   = '<p>' . sprintf( _n( 'Your theme contains %s menu location. Select which menu you would like to use.', 'Your theme contains %s menu locations. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) );
+		if ( 1 == $num_locations ) {
+			$description = '<p>' . __( 'Your theme supports one menu. Select which menu you would like to use.' );
+		} else {
+			$description = '<p>' . sprintf( _n( 'Your theme supports %s menu. Select which menu appears in each location.', 'Your theme supports %s menus. Select which menu appears in each location.', $num_locations ), number_format_i18n( $num_locations ) );
+		}
 		$description  .= '</p><p>' . __( 'You can also place menus in widget areas with the Custom Menu widget.' ) . '</p>';
 
 		$this->manager->add_section( 'menu_locations', array(
@@ -611,7 +626,7 @@ final class WP_Customize_Nav_Menus {
 		if ( $post_types ) {
 			foreach ( $post_types as $slug => $post_type ) {
 				$item_types[] = array(
-					'title'  => $post_type->labels->singular_name,
+					'title'  => $post_type->labels->name,
 					'type'   => 'post_type',
 					'object' => $post_type->name,
 				);
@@ -625,7 +640,7 @@ final class WP_Customize_Nav_Menus {
 					continue;
 				}
 				$item_types[] = array(
-					'title'  => $taxonomy->labels->singular_name,
+					'title'  => $taxonomy->labels->name,
 					'type'   => 'taxonomy',
 					'object' => $taxonomy->name,
 				);
@@ -662,7 +677,7 @@ final class WP_Customize_Nav_Menus {
 						<span class="item-title" aria-hidden="true">
 							<span class="menu-item-title<# if ( ! data.title ) { #> no-title<# } #>">{{ data.title || wp.customize.Menus.data.l10n.untitled }}</span>
 						</span>
-						<button type="button" class="not-a-button item-add">
+						<button type="button" class="button-link item-add">
 							<span class="screen-reader-text"><?php
 								/* translators: 1: Title of a menu item, 2: Type of a menu item */
 								printf( __( 'Add to menu: %1$s (%2$s)' ), '{{ data.title || wp.customize.Menus.data.l10n.untitled }}', '{{ data.type_label }}' );
@@ -725,7 +740,7 @@ final class WP_Customize_Nav_Menus {
 			<div id="new-custom-menu-item" class="accordion-section">
 				<h4 class="accordion-section-title" role="presentation">
 					<?php _e( 'Custom Links' ); ?>
-					<button type="button" class="not-a-button" aria-expanded="false">
+					<button type="button" class="button-link" aria-expanded="false">
 						<span class="screen-reader-text"><?php _e( 'Toggle section: Custom Links' ); ?></span>
 						<span class="toggle-indicator" aria-hidden="true"></span>
 					</button>
@@ -762,7 +777,7 @@ final class WP_Customize_Nav_Menus {
 						<?php echo esc_html( $available_item_type['title'] ); ?>
 						<span class="spinner"></span>
 						<span class="no-items"><?php _e( 'No items' ); ?></span>
-						<button type="button" class="not-a-button" aria-expanded="false">
+						<button type="button" class="button-link" aria-expanded="false">
 							<span class="screen-reader-text"><?php
 							/* translators: %s: Title of a section with menu items */
 							printf( __( 'Toggle section: %s' ), esc_html( $available_item_type['title'] ) ); ?></span>

@@ -28,7 +28,7 @@ function do_signup_header() {
 add_action( 'wp_head', 'do_signup_header' );
 
 if ( !is_multisite() ) {
-	wp_redirect( site_url('wp-login.php?action=register') );
+	wp_redirect( wp_registration_url() );
 	die();
 }
 
@@ -39,6 +39,13 @@ if ( !is_main_site() ) {
 
 // Fix for page title
 $wp_query->is_404 = false;
+
+/**
+ * Fires before the Site Signup page is loaded.
+ *
+ * @since 4.4.0
+ */
+do_action( 'before_signup_header' );
 
 /**
  * Prints styles for front-end Multisite signup pages
@@ -56,6 +63,7 @@ function wpmu_signup_stylesheet() {
 			.mu_register #user_email,
 			.mu_register #blogname,
 			.mu_register #user_name { width:100%; font-size: 24px; margin:5px 0; }
+		.mu_register #site-language { display: block; }
 		.mu_register .prefix_address,
 			.mu_register .suffix_address {font-size: 18px;display:inline; }
 		.mu_register label { font-weight:700; font-size:15px; display:block; margin:10px 0; }
@@ -66,7 +74,7 @@ function wpmu_signup_stylesheet() {
 }
 
 add_action( 'wp_head', 'wpmu_signup_stylesheet' );
-get_header();
+get_header( 'wp-signup' );
 
 /**
  * Fires before the site sign-up form.
@@ -75,8 +83,8 @@ get_header();
  */
 do_action( 'before_signup_form' );
 ?>
-<div id="content" class="widecolumn">
-<div class="mu_register">
+<div id="signup-content" class="widecolumn">
+<div class="mu_register wp-signup-container">
 <?php
 /**
  * Generates and displays the Signup and Create Site forms
@@ -120,6 +128,38 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	<?php }
 	echo '<input name="blog_title" type="text" id="blog_title" value="'.esc_attr($blog_title).'" />';
 	?>
+
+	<?php
+	// Site Language.
+	$languages = signup_get_available_languages();
+
+	if ( ! empty( $languages ) ) :
+		?>
+		<p>
+			<label for="site-language"><?php _e( 'Site Language:' ); ?></label>
+			<?php
+			// Network default.
+			$lang = get_site_option( 'WPLANG' );
+
+			if ( isset( $_POST['WPLANG'] ) ) {
+				$lang = $_POST['WPLANG'];
+			}
+
+			// Use US English if the default isn't available.
+			if ( ! in_array( $lang, $languages ) ) {
+				$lang = '';
+			}
+
+			wp_dropdown_languages( array(
+				'name'                        => 'WPLANG',
+				'id'                          => 'site-language',
+				'selected'                    => $lang,
+				'languages'                   => $languages,
+				'show_available_translations' => false,
+			) );
+			?>
+		</p>
+	<?php endif; // Languages. ?>
 
 	<div id="privacy">
         <p class="privacy-intro">
@@ -330,6 +370,21 @@ function validate_another_blog_signup() {
 		'public'  => $public
 	);
 
+	// Handle the language setting for the new site.
+	if ( ! empty( $_POST['WPLANG'] ) ) {
+
+		$languages = signup_get_available_languages();
+
+		if ( in_array( $_POST['WPLANG'], $languages ) ) {
+			$language = wp_unslash( sanitize_text_field( $_POST['WPLANG'] ) );
+
+			if ( $language ) {
+				$blog_meta_defaults['WPLANG'] = $language;
+			}
+		}
+
+	}
+
 	/**
 	 * Filter the new site meta variables.
 	 *
@@ -339,6 +394,7 @@ function validate_another_blog_signup() {
 	 * @param array $blog_meta_defaults An array of default blog meta variables.
 	 */
 	$meta_defaults = apply_filters( 'signup_create_blog_meta', $blog_meta_defaults );
+
 	/**
 	 * Filter the new default site meta variables.
 	 *
@@ -353,8 +409,13 @@ function validate_another_blog_signup() {
 	 */
 	$meta = apply_filters( 'add_signup_meta', $meta_defaults );
 
-	wpmu_create_blog( $domain, $path, $blog_title, $current_user->ID, $meta, $wpdb->siteid );
-	confirm_another_blog_signup($domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta);
+	$blog_id = wpmu_create_blog( $domain, $path, $blog_title, $current_user->ID, $meta, $wpdb->siteid );
+
+	if ( is_wp_error( $blog_id ) ) {
+		return false;
+	}
+
+	confirm_another_blog_signup( $domain, $path, $blog_title, $current_user->user_login, $current_user->user_email, $meta, $blog_id );
 	return true;
 }
 
@@ -362,18 +423,43 @@ function validate_another_blog_signup() {
  * Confirm a new site signup
  *
  * @since MU
+ * @since 4.4.0 Added the `$blog_id` parameter.
  *
  * @param string $domain The domain URL
  * @param string $path The site root path
+ * @param string $blog_title The blog title
  * @param string $user_name The username
  * @param string $user_email The user's email address
- * @param array $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
+ * @param array  $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
+ * @param int    $blog_id The blog ID
  */
-function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = array() ) {
+function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = array(), $blog_id = 0 ) {
+
+	if ( $blog_id ) {
+		switch_to_blog( $blog_id );
+		$home_url  = home_url( '/' );
+		$login_url = wp_login_url();
+		restore_current_blog();
+	} else {
+		$home_url  = 'http://' . $domain . $path;
+		$login_url = 'http://' . $domain . $path . 'wp-login.php';
+	}
+
+	$site = sprintf( '<a href="%1$s">%2$s</a>',
+		esc_url( $home_url ),
+		$blog_title
+	);
+
 	?>
-	<h2><?php printf( __( 'The site %s is yours.' ), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
+	<h2><?php printf( __( 'The site %s is yours.' ), $site ); ?></h2>
 	<p>
-		<?php printf( __( '<a href="http://%1$s">http://%2$s</a> is your new site. <a href="%3$s">Log in</a> as &#8220;%4$s&#8221; using your existing password.' ), $domain.$path, $domain.$path, "http://" . $domain.$path . "wp-login.php", $user_name ) ?>
+		<?php printf(
+			__( '<a href="%1$s">%2$s</a> is your new site. <a href="%3$s">Log in</a> as &#8220;%4$s&#8221; using your existing password.' ),
+			esc_url( $home_url ),
+			untrailingslashit( $domain . $path ),
+			esc_url( $login_url ),
+			$user_name
+		); ?>
 	</p>
 	<?php
 	/**
@@ -495,9 +581,11 @@ function validate_user_signup() {
  */
 function confirm_user_signup($user_name, $user_email) {
 	?>
-	<h2><?php printf( __( '%s is your new username' ), $user_name) ?></h2>
+	<h2><?php /* translators: %s: username */
+	printf( __( '%s is your new username' ), $user_name) ?></h2>
 	<p><?php _e( 'But, before you can start using your new username, <strong>you must activate it</strong>.' ) ?></p>
-	<p><?php printf( __( 'Check your inbox at <strong>%s</strong> and click the link given.' ), $user_email ); ?></p>
+	<p><?php /* translators: %s: email address */
+	printf( __( 'Check your inbox at %s and click the link given.' ), '<strong>' . $user_email . '</strong>' ); ?></p>
 	<p><?php _e( 'If you do not activate your username within two days, you will have to sign up again.' ); ?></p>
 	<?php
 	/** This action is documented in wp-signup.php */
@@ -601,6 +689,21 @@ function validate_blog_signup() {
 	$public = (int) $_POST['blog_public'];
 	$signup_meta = array ('lang_id' => 1, 'public' => $public);
 
+	// Handle the language setting for the new site.
+	if ( ! empty( $_POST['WPLANG'] ) ) {
+
+		$languages = signup_get_available_languages();
+
+		if ( in_array( $_POST['WPLANG'], $languages ) ) {
+			$language = wp_unslash( sanitize_text_field( $_POST['WPLANG'] ) );
+
+			if ( $language ) {
+				$signup_meta['WPLANG'] = $language;
+			}
+		}
+
+	}
+
 	/** This filter is documented in wp-signup.php */
 	$meta = apply_filters( 'add_signup_meta', $signup_meta );
 
@@ -623,10 +726,12 @@ function validate_blog_signup() {
  */
 function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $user_email = '', $meta = array() ) {
 	?>
-	<h2><?php printf( __( 'Congratulations! Your new site, %s, is almost ready.' ), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
+	<h2><?php /* translators: %s: site address */
+	printf( __( 'Congratulations! Your new site, %s, is almost ready.' ), "<a href='http://{$domain}{$path}'>{$blog_title}</a>" ) ?></h2>
 
 	<p><?php _e( 'But, before you can start using your site, <strong>you must activate it</strong>.' ) ?></p>
-	<p><?php printf( __( 'Check your inbox at <strong>%s</strong> and click the link given.' ),  $user_email) ?></p>
+	<p><?php /* translators: %s: email address */
+	printf( __( 'Check your inbox at %s and click the link given.' ), '<strong>' . $user_email . '</strong>' ); ?></p>
 	<p><?php _e( 'If you do not activate your site within two days, you will have to sign up again.' ); ?></p>
 	<h2><?php _e( 'Still waiting for your email?' ); ?></h2>
 	<p>
@@ -640,6 +745,39 @@ function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $use
 	<?php
 	/** This action is documented in wp-signup.php */
 	do_action( 'signup_finished' );
+}
+
+/**
+ * Retrieves languages available during the site/user signup process.
+ *
+ * @since 4.4.0
+ *
+ * @see get_available_languages()
+ *
+ * @return array List of available languages.
+ */
+function signup_get_available_languages() {
+	/**
+	 * Filter the list of available languages for front-end site signups.
+	 *
+	 * Passing an empty array to this hook will disable output of the setting on the
+	 * signup form, and the default language will be used when creating the site.
+	 *
+	 * Languages not already installed will be stripped.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $available_languages Available languages.
+	 */
+	$languages = (array) apply_filters( 'signup_get_available_languages', get_available_languages() );
+
+	/*
+	 * Strip any non-installed languages and return.
+	 *
+	 * Re-call get_available_languages() here in case a language pack was installed
+	 * in a callback hooked to the 'signup_get_available_languages' filter before this point.
+	 */
+	return array_intersect_assoc( $languages, get_available_languages() );
 }
 
 // Main
@@ -669,7 +807,7 @@ $current_user = wp_get_current_user();
 if ( $active_signup == 'none' ) {
 	_e( 'Registration has been disabled.' );
 } elseif ( $active_signup == 'blog' && !is_user_logged_in() ) {
-	$login_url = site_url( 'wp-login.php?redirect_to=' . urlencode( network_site_url( 'wp-signup.php' ) ) );
+	$login_url = wp_login_url( network_site_url( 'wp-signup.php' ) );
 	echo sprintf( __( 'You must first <a href="%s">log in</a>, and then you can create a new site.' ), $login_url );
 } else {
 	$stage = isset( $_POST['stage'] ) ?  $_POST['stage'] : 'default';
@@ -711,9 +849,15 @@ if ( $active_signup == 'none' ) {
 				$newblog = get_blogaddress_by_name( $newblogname );
 
 				if ( $active_signup == 'blog' || $active_signup == 'all' )
-					printf( '<p><em>' . __( 'The site you were looking for, <strong>%s</strong>, does not exist, but you can create it now!' ) . '</em></p>', $newblog );
+					/* translators: %s: site address */
+					printf( '<p><em>' . __( 'The site you were looking for, %s, does not exist, but you can create it now!' ) . '</em></p>',
+						'<strong>' . $newblog . '</strong>'
+					);
 				else
-					printf( '<p><em>' . __( 'The site you were looking for, <strong>%s</strong>, does not exist.' ) . '</em></p>', $newblog );
+					/* translators: %s: site address */
+					printf( '<p><em>' . __( 'The site you were looking for, %s, does not exist.' ) . '</em></p>',
+						'<strong>' . $newblog . '</strong>'
+					);
 			}
 			break;
 	}
@@ -729,4 +873,4 @@ if ( $active_signup == 'none' ) {
  */
 do_action( 'after_signup_form' ); ?>
 
-<?php get_footer(); ?>
+<?php get_footer( 'wp-signup' );

@@ -44,8 +44,13 @@ if ( empty($option_page) ) {
 	$capability = apply_filters( "option_page_capability_{$option_page}", $capability );
 }
 
-if ( !current_user_can( $capability ) )
-	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+if ( ! current_user_can( $capability ) ) {
+	wp_die(
+		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<p>' . __( 'You are not allowed to manage these items.' ) . '</p>',
+		403
+	);
+}
 
 // Handle admin email change requests
 if ( is_multisite() ) {
@@ -68,13 +73,18 @@ if ( is_multisite() ) {
 	}
 }
 
-if ( is_multisite() && !is_super_admin() && 'update' != $action )
-	wp_die( __( 'Cheatin&#8217; uh?' ), 403 );
+if ( is_multisite() && ! is_super_admin() && 'update' != $action ) {
+	wp_die(
+		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+		'<p>' . __( 'You are not allowed to delete these items.' ) . '</p>',
+		403
+	);
+}
 
 $whitelist_options = array(
-	'general' => array( 'blogname', 'blogdescription', 'gmt_offset', 'date_format', 'time_format', 'start_of_week', 'timezone_string', 'WPLANG' ),
+	'general' => array( 'blogname', 'blogdescription', 'gmt_offset', 'date_format', 'time_format', 'timezone_string', 'WPLANG' ),
 	'discussion' => array( 'default_pingback_flag', 'default_ping_status', 'default_comment_status', 'comments_notify', 'moderation_notify', 'comment_moderation', 'require_name_email', 'comment_whitelist', 'comment_max_links', 'moderation_keys', 'blacklist_keys', 'show_avatars', 'avatar_rating', 'avatar_default', 'close_comments_for_old_posts', 'close_comments_days_old', 'thread_comments', 'thread_comments_depth', 'page_comments', 'comments_per_page', 'default_comments_page', 'comment_order', 'comment_registration' ),
-	'media' => array( 'thumbnail_size_w', 'thumbnail_size_h', 'thumbnail_crop', 'medium_size_w', 'medium_size_h', 'large_size_w', 'large_size_h', 'image_default_size', 'image_default_align', 'image_default_link_type' ),
+	'media' => array( 'thumbnail_size_w', 'thumbnail_size_h', 'thumbnail_crop', 'medium_size_w', 'medium_size_h', 'medium_large_size_w', 'medium_large_size_h', 'large_size_w', 'large_size_h', 'image_default_size', 'image_default_align', 'image_default_link_type' ),
 	'reading' => array( 'posts_per_page', 'posts_per_rss', 'rss_use_excerpt', 'show_on_front', 'page_on_front', 'page_for_posts', 'blog_public' ),
 	'writing' => array( 'default_category', 'default_email_category', 'default_link_category', 'default_post_format' )
 );
@@ -82,8 +92,17 @@ $whitelist_options['misc'] = $whitelist_options['options'] = $whitelist_options[
 
 $mail_options = array('mailserver_url', 'mailserver_port', 'mailserver_login', 'mailserver_pass');
 
-if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) )
+if ( ! in_array( get_option( 'blog_charset' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
 	$whitelist_options['reading'][] = 'blog_charset';
+}
+
+/**
+ * @global WP_Locale $wp_locale
+ */
+global $wp_locale;
+if ( get_option( 'start_of_week' ) != $wp_locale->start_of_week ) {
+	$whitelist_options['general'][] = 'start_of_week';
+}
 
 if ( get_site_option( 'initial_db_version' ) < 32453 ) {
 	$whitelist_options['writing'][] = 'use_smilies';
@@ -184,8 +203,15 @@ if ( 'update' == $action ) {
 
 	if ( $options ) {
 		foreach ( $options as $option ) {
-			if ( $unregistered )
-				_deprecated_argument( 'options.php', '2.7', sprintf( __( 'The <code>%1$s</code> setting is unregistered. Unregistered settings are deprecated. See https://codex.wordpress.org/Settings_API' ), $option, $option_page ) );
+			if ( $unregistered ) {
+				_deprecated_argument( 'options.php', '2.7',
+					sprintf(
+						/* translators: %s: the option/setting */
+						__( 'The %s setting is unregistered. Unregistered settings are deprecated. See https://codex.wordpress.org/Settings_API' ),
+						'<code>' . $option . '</code>'
+					)
+				);
+			}
 
 			$option = trim( $option );
 			$value = null;

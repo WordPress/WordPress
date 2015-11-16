@@ -18,8 +18,8 @@
  *
  * @staticvar array $fields
  *
- * @param array $post     Optional. A post array to be processed for insertion as a post revision.
- * @param bool  $autosave Optional. Is the revision an autosave?
+ * @param array|null $post     Optional. A post array to be processed for insertion as a post revision. Default null.
+ * @param bool       $autosave Optional. Is the revision an autosave? Default false.
  * @return array Post array ready to be inserted as a post revision or array of fields that can be versioned.
  */
 function _wp_post_revision_fields( $post = null, $autosave = false ) {
@@ -336,7 +336,7 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 		$fields = array_keys( _wp_post_revision_fields() );
 
 	$update = array();
-	foreach( array_intersect( array_keys( $revision ), $fields ) as $field ) {
+	foreach ( array_intersect( array_keys( $revision ), $fields ) as $field ) {
 		$update[$field] = $revision[$field];
 	}
 
@@ -582,7 +582,7 @@ function _wp_get_post_revision_version( $revision ) {
  * @since 3.6.0
  * @access private
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param WP_Post $post      Post object
  * @param array   $revisions Current revisions of the post

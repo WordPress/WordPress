@@ -10,8 +10,13 @@
  * @since 3.0.0
  */
 
-/** Include Multisite initialization functions */
+/** WP_Network class */
+require_once( ABSPATH . WPINC . '/class-wp-network.php' );
+
+/** Multisite loader */
 require_once( ABSPATH . WPINC . '/ms-load.php' );
+
+/** Default Multisite constants */
 require_once( ABSPATH . WPINC . '/ms-default-constants.php' );
 
 if ( defined( 'SUNRISE' ) ) {
@@ -75,18 +80,31 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			// Are there even two networks installed?
 			$one_network = $wpdb->get_row( "SELECT * FROM $wpdb->site LIMIT 2" ); // [sic]
 			if ( 1 === $wpdb->num_rows ) {
-				$current_site = wp_get_network( $one_network );
+				$current_site = new WP_Network( $one_network );
 				wp_cache_add( 'current_network', $current_site, 'site-options' );
 			} elseif ( 0 === $wpdb->num_rows ) {
-				ms_not_installed();
+				ms_not_installed( $domain, $path );
 			}
 		}
 		if ( empty( $current_site ) ) {
-			$current_site = get_network_by_path( $domain, $path, 1 );
+			$current_site = WP_Network::get_by_path( $domain, $path, 1 );
 		}
 
 		if ( empty( $current_site ) ) {
-			ms_not_installed();
+			/**
+			 * Fires when a network cannot be found based on the requested domain and path.
+			 *
+			 * At the time of this action, the only recourse is to redirect somewhere
+			 * and exit. If you want to declare a particular network, do so earlier.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param string $domain       The domain used to search for a network.
+			 * @param string $path         The path used to search for a path.
+			 */
+			do_action( 'ms_network_not_found', $domain, $path );
+
+			ms_not_installed( $domain, $path );
 		} elseif ( $path === $current_site->path ) {
 			$current_blog = get_site_by_path( $domain, $path );
 		} else {
@@ -97,25 +115,28 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 		// Find the site by the domain and at most the first path segment.
 		$current_blog = get_site_by_path( $domain, $path, 1 );
 		if ( $current_blog ) {
-			$current_site = wp_get_network( $current_blog->site_id ? $current_blog->site_id : 1 );
+			$current_site = WP_Network::get_instance( $current_blog->site_id ? $current_blog->site_id : 1 );
 		} else {
 			// If you don't have a site with the same domain/path as a network, you're pretty screwed, but:
-			$current_site = get_network_by_path( $domain, $path, 1 );
+			$current_site = WP_Network::get_by_path( $domain, $path, 1 );
 		}
 	}
 
 	// The network declared by the site trumps any constants.
 	if ( $current_blog && $current_blog->site_id != $current_site->id ) {
-		$current_site = wp_get_network( $current_blog->site_id );
+		$current_site = WP_Network::get_instance( $current_blog->site_id );
 	}
 
 	// No network has been found, bail.
 	if ( empty( $current_site ) ) {
-		ms_not_installed();
+		/** This action is documented in wp-includes/ms-settings.php */
+		do_action( 'ms_network_not_found', $domain, $path );
+
+		ms_not_installed( $domain, $path );
 	}
 
 	// @todo Investigate when exactly this can occur.
-	if ( empty( $current_blog ) && defined( 'WP_INSTALLING' ) ) {
+	if ( empty( $current_blog ) && wp_installing() ) {
 		$current_blog = new stdClass;
 		$current_blog->blog_id = $blog_id = 1;
 	}
@@ -156,21 +177,15 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 			 * it's no use redirecting back to ourselves -- it'll cause a loop.
 			 * As we couldn't find a site, we're simply not installed.
 			 */
-			ms_not_installed();
+			ms_not_installed( $domain, $path );
 		}
 
 		header( 'Location: ' . $destination );
 		exit;
 	}
 
-	// @todo What if the domain of the network doesn't match the current site?
-	$current_site->cookie_domain = $current_site->domain;
-	if ( 'www.' === substr( $current_site->cookie_domain, 0, 4 ) ) {
-		$current_site->cookie_domain = substr( $current_site->cookie_domain, 4 );
-	}
-
 	// Figure out the current network's main site.
-	if ( ! isset( $current_site->blog_id ) ) {
+	if ( empty( $current_site->blog_id ) ) {
 		if ( $current_blog->domain === $current_site->domain && $current_blog->path === $current_site->path ) {
 			$current_site->blog_id = $current_blog->blog_id;
 		} elseif ( ! $current_site->blog_id = wp_cache_get( 'network:' . $current_site->id . ':main_site', 'site-options' ) ) {
@@ -202,11 +217,8 @@ $switched = false;
 // need to init cache again after blog_id is set
 wp_start_object_cache();
 
-if ( ! isset( $current_site->site_name ) ) {
-	$current_site->site_name = get_site_option( 'site_name' );
-	if ( ! $current_site->site_name ) {
-		$current_site->site_name = ucfirst( $current_site->domain );
-	}
+if ( ! $current_site instanceof WP_Network ) {
+	$current_site = new WP_Network( $current_site );
 }
 
 // Define upload directory constants

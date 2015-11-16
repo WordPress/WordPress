@@ -91,53 +91,55 @@ function get_default_feed() {
  * Retrieve the blog title for the feed title.
  *
  * @since 2.2.0
+ * @since 4.4.0 The optional `$sep` parameter was deprecated and renamed to `$deprecated`.
  *
- * @param string $sep Optional. How to separate the title. See wp_title() for more info.
- * @return string Error message on failure or blog title on success.
+ * @param string $deprecated Unused..
+ * @return string The document title.
  */
-function get_wp_title_rss( $sep = '&#187;' ) {
-	$title = wp_title( $sep, false );
-
-	if ( is_wp_error( $title ) ) {
-		return $title->get_error_message();
-	}
-
-	if ( $title && $sep && ' ' !== substr( $title, 0, 1 ) ) {
-		$title = " $sep " . $title;
+function get_wp_title_rss( $deprecated = '&#8211;' ) {
+	if ( '&#8211;' !== $deprecated ) {
+		/* translators: %s: 'document_title_separator' filter name */
+		_deprecated_argument( __FUNCTION__, '4.4.0', sprintf( __( 'Use the %s filter instead.' ), '<code>document_title_separator</code>' ) );
 	}
 
 	/**
 	 * Filter the blog title for use as the feed title.
 	 *
 	 * @since 2.2.0
+	 * @since 4.4.0 The `$sep` parameter was deprecated and renamed to `$deprecated`.
 	 *
-	 * @param string $title The current blog title.
-	 * @param string $sep   Separator used by wp_title().
+	 * @param string $title      The current blog title.
+	 * @param string $deprecated Unused.
 	 */
-	$title = apply_filters( 'get_wp_title_rss', $title, $sep );
-	return $title;
+	return apply_filters( 'get_wp_title_rss', wp_get_document_title(), $deprecated );
 }
 
 /**
  * Display the blog title for display of the feed title.
  *
  * @since 2.2.0
- * @see wp_title() $sep parameter usage.
+ * @since 4.4.0 The optional `$sep` parameter was deprecated and renamed to `$deprecated`.
  *
- * @param string $sep Optional.
+ * @param string $deprecated Unused.
  */
-function wp_title_rss( $sep = '&#187;' ) {
+function wp_title_rss( $deprecated = '&#8211;' ) {
+	if ( '&#8211;' !== $deprecated ) {
+		/* translators: %s: 'document_title_separator' filter name */
+		_deprecated_argument( __FUNCTION__, '4.4.0', sprintf( __( 'Use the %s filter instead.' ), '<code>document_title_separator</code>' ) );
+	}
+
 	/**
 	 * Filter the blog title for display of the feed title.
 	 *
 	 * @since 2.2.0
+	 * @since 4.4.0 The `$sep` parameter was deprecated and renamed to `$deprecated`.
 	 *
 	 * @see get_wp_title_rss()
 	 *
-	 * @param string $wp_title The current blog title.
-	 * @param string $sep      Separator used by wp_title().
+	 * @param string $wp_title_rss The current blog title.
+	 * @param string $deprecated   Unused.
 	 */
-	echo apply_filters( 'wp_title_rss', get_wp_title_rss( $sep ), $sep );
+	echo apply_filters( 'wp_title_rss', get_wp_title_rss(), $deprecated );
 }
 
 /**
@@ -149,6 +151,7 @@ function wp_title_rss( $sep = '&#187;' ) {
  */
 function get_the_title_rss() {
 	$title = get_the_title();
+
 	/**
 	 * Filter the post title for use in a feed.
 	 *
@@ -264,7 +267,7 @@ function comments_link_feed() {
  *
  * @since 2.5.0
  *
- * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
+ * @param int|WP_Comment $comment_id Optional comment object or id. Defaults to global comment object.
  */
 function comment_guid($comment_id = null) {
 	echo esc_url( get_comment_guid($comment_id) );
@@ -275,7 +278,7 @@ function comment_guid($comment_id = null) {
  *
  * @since 2.5.0
  *
- * @param int|object $comment_id Optional comment object or id. Defaults to global comment object.
+ * @param int|WP_Comment $comment_id Optional comment object or id. Defaults to global comment object.
  * @return false|string false on failure or guid for comment on success.
  */
 function get_comment_guid($comment_id = null) {
@@ -291,8 +294,11 @@ function get_comment_guid($comment_id = null) {
  * Display the link to the comments.
  *
  * @since 1.5.0
+ * @since 4.4.0 Introduced the `$comment` argument.
+ *
+ * @param int|WP_Comment $comment Optional. Comment object or id. Defaults to global comment object.
  */
-function comment_link() {
+function comment_link( $comment = null ) {
 	/**
 	 * Filter the current comment's permalink.
 	 *
@@ -302,7 +308,7 @@ function comment_link() {
 	 *
 	 * @param string $comment_permalink The current comment permalink.
 	 */
-	echo esc_url( apply_filters( 'comment_link', get_comment_link() ) );
+	echo esc_url( apply_filters( 'comment_link', get_comment_link( $comment ) ) );
 }
 
 /**

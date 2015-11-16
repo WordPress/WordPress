@@ -18,9 +18,10 @@
  * Dashboard blog functionality was removed in WordPress 3.1, replaced by the user admin.
  *
  * @since MU
- * @deprecated 3.1.0
+ * @deprecated 3.1.0 Use get_blog_details()
  * @see get_blog_details()
- * @return int
+ *
+ * @return int Current site ID.
  */
 function get_dashboard_blog() {
     _deprecated_function( __FUNCTION__, '3.1' );
@@ -31,9 +32,10 @@ function get_dashboard_blog() {
 }
 
 /**
+ * Generates a random password.
+ *
  * @since MU
- * @deprecated 3.0.0
- * @deprecated Use wp_generate_password()
+ * @deprecated 3.0.0 Use wp_generate_password()
  * @see wp_generate_password()
  */
 function generate_random_password( $len = 8 ) {
@@ -51,11 +53,8 @@ function generate_random_password( $len = 8 ) {
  * legacy function_exists() checks to determine if multisite is enabled.
  *
  * @since MU
- * @deprecated 3.0.0
- * @deprecated Use is_super_admin()
+ * @deprecated 3.0.0 Use is_super_admin()
  * @see is_super_admin()
- * @see is_multisite()
- *
  */
 function is_site_admin( $user_login = '' ) {
 	_deprecated_function( __FUNCTION__, '3.0', 'is_super_admin()' );
@@ -76,9 +75,10 @@ function is_site_admin( $user_login = '' ) {
 
 if ( !function_exists( 'graceful_fail' ) ) :
 /**
+ * Deprecated functionality to gracefully fail.
+ *
  * @since MU
- * @deprecated 3.0.0
- * @deprecated Use wp_die()
+ * @deprecated 3.0.0 Use wp_die()
  * @see wp_die()
  */
 function graceful_fail( $message ) {
@@ -113,9 +113,10 @@ text-align: center;
 endif;
 
 /**
+ * Deprecated functionality to retrieve user information.
+ *
  * @since MU
- * @deprecated 3.0.0
- * @deprecated Use get_user_by()
+ * @deprecated 3.0.0 Use get_user_by()
  * @see get_user_by()
  */
 function get_user_details( $username ) {
@@ -124,9 +125,10 @@ function get_user_details( $username ) {
 }
 
 /**
+ * Deprecated functionality to clear the global post cache.
+ *
  * @since MU
- * @deprecated 3.0.0
- * @deprecated Use clean_post_cache()
+ * @deprecated 3.0.0 Use clean_post_cache()
  * @see clean_post_cache()
  */
 function clear_global_post_cache( $post_id ) {
@@ -134,9 +136,10 @@ function clear_global_post_cache( $post_id ) {
 }
 
 /**
+ * Deprecated functionality to determin if the current site is the main site.
+ *
  * @since MU
- * @deprecated 3.0.0
- * @deprecated Use is_main_site()
+ * @deprecated 3.0.0 Use is_main_site()
  * @see is_main_site()
  */
 function is_main_blog() {
@@ -145,9 +148,10 @@ function is_main_blog() {
 }
 
 /**
+ * Deprecated functionality to validate an email address.
+ *
  * @since MU
- * @deprecated 3.0.0
- * @deprecated Use is_email()
+ * @deprecated 3.0.0 Use is_email()
  * @see is_email()
  */
 function validate_email( $email, $check_domain = true) {
@@ -156,9 +160,11 @@ function validate_email( $email, $check_domain = true) {
 }
 
 /**
+ * Deprecated functionality to retrieve a list of all sites.
+ *
  * @since MU
- * @deprecated 3.0.0
- * @deprecated No alternative available. For performance reasons this function is not recommended.
+ * @deprecated 3.0.0 Use wp_get_sites()
+ * @see wp_get_sites()
  */
 function get_blog_list( $start = 0, $num = 10, $deprecated = '' ) {
 	_deprecated_function( __FUNCTION__, '3.0', 'wp_get_sites()' );
@@ -184,9 +190,12 @@ function get_blog_list( $start = 0, $num = 10, $deprecated = '' ) {
 }
 
 /**
+ * Deprecated functionality to retrieve a list of the most active sites.
+ *
  * @since MU
  * @deprecated 3.0.0
- * @deprecated No alternative available. For performance reasons this function is not recommended.
+ *
+ * @return array List of "most active" sites.
  */
 function get_most_active_blogs( $num = 10, $display = true ) {
 	_deprecated_function( __FUNCTION__, '3.0' );
@@ -234,8 +243,8 @@ function get_most_active_blogs( $num = 10, $display = true ) {
  * 6) $url
  *
  * @since MU
- * @deprecated 3.3.0
- * @deprecated Use wp_redirect()
+ * @deprecated 3.3.0 Use wp_redirect()
+ * @see wp_redirect()
  *
  * @param string $url
  */
@@ -273,8 +282,8 @@ function wpmu_admin_do_redirect( $url = '' ) {
  * Adds an 'updated=true' argument to a URL.
  *
  * @since MU
- * @deprecated 3.3.0
- * @deprecated Use add_query_arg()
+ * @deprecated 3.3.0 Use add_query_arg()
+ * @see add_query_arg()
  *
  * @param string $url
  * @return string
@@ -298,8 +307,8 @@ function wpmu_admin_redirect_add_updated_param( $url = '' ) {
  * and is simply returned as such.
  *
  * @since MU
- * @deprecated 3.6.0
- * @deprecated Use get_user_by()
+ * @deprecated 3.6.0 Use get_user_by()
+ * @see get_user_by()
  *
  * @param string $string Either an email address or a login.
  * @return int
@@ -346,4 +355,68 @@ function get_blogaddress_by_domain( $domain, $path ) {
 		}
 	}
 	return esc_url_raw( $url );
+}
+
+/**
+ * Create an empty blog.
+ *
+ * @since MU 1.0
+ * @deprecated 4.4.0
+ *
+ * @param string $domain       The new blog's domain.
+ * @param string $path         The new blog's path.
+ * @param string $weblog_title The new blog's title.
+ * @param int    $site_id      Optional. Defaults to 1.
+ * @return string|int The ID of the newly created blog
+ */
+function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
+	_deprecated_function( __FUNCTION__, '4.4' );
+
+	if ( empty($path) )
+		$path = '/';
+
+	// Check if the domain has been used already. We should return an error message.
+	if ( domain_exists($domain, $path, $site_id) )
+		return __( '<strong>ERROR</strong>: Site URL already taken.' );
+
+	// Need to back up wpdb table names, and create a new wp_blogs entry for new blog.
+	// Need to get blog_id from wp_blogs, and create new table names.
+	// Must restore table names at the end of function.
+
+	if ( ! $blog_id = insert_blog($domain, $path, $site_id) )
+		return __( '<strong>ERROR</strong>: problem creating site entry.' );
+
+	switch_to_blog($blog_id);
+	install_blog($blog_id);
+	restore_current_blog();
+
+	return $blog_id;
+}
+
+/**
+ * Get the admin for a domain/path combination.
+ *
+ * @since MU 1.0
+ * @deprecated 4.4.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param string $sitedomain Optional. Site domain.
+ * @param string $path       Optional. Site path.
+ * @return array|false The network admins
+ */
+function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
+	_deprecated_function( __FUNCTION__, '4.4' );
+
+	global $wpdb;
+
+	if ( ! $sitedomain )
+		$site_id = $wpdb->siteid;
+	else
+		$site_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path ) );
+
+	if ( $site_id )
+		return $wpdb->get_results( $wpdb->prepare( "SELECT u.ID, u.user_login, u.user_pass FROM $wpdb->users AS u, $wpdb->sitemeta AS sm WHERE sm.meta_key = 'admin_user_id' AND u.ID = sm.meta_value AND sm.site_id = %d", $site_id ), ARRAY_A );
+
+	return false;
 }

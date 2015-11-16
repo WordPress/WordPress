@@ -71,6 +71,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @see Walker::start_el()
 	 *
 	 * @since 3.0.0
+	 * @since 4.4.0 'nav_menu_item_args' filter was added.
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $item   Menu item data object.
@@ -83,6 +84,17 @@ class Walker_Nav_Menu extends Walker {
 
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes[] = 'menu-item-' . $item->ID;
+
+		/**
+		 * Filter the arguments for a single nav menu item.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array  $args  An array of arguments.
+		 * @param object $item  Menu item data object.
+		 * @param int    $depth Depth of menu item. Used for padding.
+		 */
+		$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
 
 		/**
 		 * Filter the CSS class(es) applied to a menu item's list item element.
@@ -148,10 +160,24 @@ class Walker_Nav_Menu extends Walker {
 			}
 		}
 
+		/** This filter is documented in wp-includes/post-template.php */
+		$title = apply_filters( 'the_title', $item->title, $item->ID );
+
+		/**
+		 * Filter a menu item's title.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string $title The menu item's title.
+		 * @param object $item  The current menu item.
+		 * @param array  $args  An array of {@see wp_nav_menu()} arguments.
+		 * @param int    $depth Depth of menu item. Used for padding.
+		 */
+		$title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
+
 		$item_output = $args->before;
 		$item_output .= '<a'. $attributes .'>';
-		/** This filter is documented in wp-includes/post-template.php */
-		$item_output .= $args->link_before . apply_filters( 'the_title', $item->title, $item->ID ) . $args->link_after;
+		$item_output .= $args->link_before . $title . $args->link_after;
 		$item_output .= '</a>';
 		$item_output .= $args->after;
 
@@ -185,7 +211,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @param array  $args   An array of arguments. @see wp_nav_menu()
 	 */
 	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
-		$output .= "</li>\n";
+		$output .= '</li>';
 	}
 
 } // Walker_Nav_Menu
@@ -207,7 +233,7 @@ class Walker_Nav_Menu extends Walker {
  *     @type string        $container       Whether to wrap the ul, and what to wrap it with. Default 'div'.
  *     @type string        $container_class Class that is applied to the container. Default 'menu-{menu slug}-container'.
  *     @type string        $container_id    The ID that is applied to the container. Default empty.
- *     @type callback|bool $fallback_cb     If the menu doesn't exists, a callback function will fire.
+ *     @type callable|bool $fallback_cb     If the menu doesn't exists, a callback function will fire.
  *                                          Default is 'wp_page_menu'. Set to false for no fallback.
  *     @type string        $before          Text before the link text. Default empty.
  *     @type string        $after           Text after the link text. Default empty.
@@ -322,7 +348,7 @@ function wp_nav_menu( $args = array() ) {
 		 *                    Default is array containing 'div' and 'nav'.
 		 */
 		$allowed_tags = apply_filters( 'wp_nav_menu_container_allowedtags', array( 'div', 'nav' ) );
-		if ( in_array( $args->container, $allowed_tags ) ) {
+		if ( is_string( $args->container ) && in_array( $args->container, $allowed_tags ) ) {
 			$show_container = true;
 			$class = $args->container_class ? ' class="' . esc_attr( $args->container_class ) . '"' : ' class="menu-'. $menu->slug .'-container"';
 			$id = $args->container_id ? ' id="' . esc_attr( $args->container_id ) . '"' : '';
@@ -552,8 +578,15 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 			$active_parent_object_ids[] = (int) $menu_item->post_parent;
 			$active_object = $menu_item->object;
 
+		// if the menu item corresponds to the currently-queried post type archive
+		} elseif (
+			'post_type_archive' == $menu_item->type &&
+			is_post_type_archive( array( $menu_item->object ) )
+		) {
+			$classes[] = 'current-menu-item';
+			$menu_items[$key]->current = true;
 		// if the menu item corresponds to the currently-requested URL
-		} elseif ( 'custom' == $menu_item->object ) {
+		} elseif ( 'custom' == $menu_item->object && isset( $_SERVER['HTTP_HOST'] ) ) {
 			$_root_relative_current = untrailingslashit( $_SERVER['REQUEST_URI'] );
 			$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_root_relative_current );
 			$raw_item_url = strpos( $menu_item->url, '#' ) ? substr( $menu_item->url, 0, strpos( $menu_item->url, '#' ) ) : $menu_item->url;

@@ -54,13 +54,35 @@ if ( ! isset( $wp_current_filter ) )
  *     }
  *     add_filter( 'example_filter', 'example_callback' );
  *
- * Since WordPress 1.5.1, bound callbacks can take as many arguments as are
- * passed as parameters in the corresponding apply_filters() call. The `$accepted_args`
- * parameter allows for calling functions only when the number of args match.
+ * Bound callbacks can accept from none to the total number of arguments passed as parameters
+ * in the corresponding apply_filters() call.
  *
- * *Note:* the function will return true whether or not the callback is valid.
- * It is up to you to take care. This is done for optimization purposes,
- * so everything is as quick as possible.
+ * In other words, if an apply_filters() call passes four total arguments, callbacks bound to
+ * it can accept none (the same as 1) of the arguments or up to four. The important part is that
+ * the `$accepted_args` value must reflect the number of arguments the bound callback *actually*
+ * opted to accept. If no arguments were accepted by the callback that is considered to be the
+ * same as accepting 1 argument. For example:
+ *
+ *     // Filter call.
+ *     $value = apply_filters( 'hook', $value, $arg2, $arg3 );
+ *
+ *     // Accepting zero/one arguments.
+ *     function example_callback() {
+ *         ...
+ *         return 'some value';
+ *     }
+ *     add_filter( 'hook', 'example_callback' ); // Where $priority is default 10, $accepted_args is default 1.
+ *
+ *     // Accepting two arguments (three possible).
+ *     function example_callback( $value, $arg2 ) {
+ *         ...
+ *         return $maybe_modified_value;
+ *     }
+ *     add_filter( 'hook', 'example_callback', 10, 2 ); // Where $priority is 10, $accepted_args is 2.
+ *
+ * *Note:* The function will return true whether or not the callback is valid.
+ * It is up to you to take care. This is done for optimization purposes, so
+ * everything is as quick as possible.
  *
  * @since 0.71
  *
@@ -69,7 +91,7 @@ if ( ! isset( $wp_current_filter ) )
  *                               it doesn't need to run through that process.
  *
  * @param string   $tag             The name of the filter to hook the $function_to_add callback to.
- * @param callback $function_to_add The callback to be run when the filter is applied.
+ * @param callable $function_to_add The callback to be run when the filter is applied.
  * @param int      $priority        Optional. Used to specify the order in which the functions
  *                                  associated with a particular action are executed. Default 10.
  *                                  Lower numbers correspond with earlier execution,
@@ -95,7 +117,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  * @global array $wp_filter Stores all of the filters.
  *
  * @param string        $tag               The name of the filter hook.
- * @param callback|bool $function_to_check Optional. The callback to check for. Default false.
+ * @param callable|bool $function_to_check Optional. The callback to check for. Default false.
  * @return false|int If $function_to_check is omitted, returns boolean for whether the hook has
  *                   anything registered. When checking a specific function, the priority of that
  *                   hook is returned, or false if the function is not attached. When using the
@@ -207,7 +229,7 @@ function apply_filters( $tag, $value ) {
 		$args = func_get_args();
 
 	do {
-		foreach( (array) current($wp_filter[$tag]) as $the_ )
+		foreach ( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) ){
 				$args[1] = $value;
 				$value = call_user_func_array($the_['function'], array_slice($args, 1, (int) $the_['accepted_args']));
@@ -264,7 +286,7 @@ function apply_filters_ref_array($tag, $args) {
 	reset( $wp_filter[ $tag ] );
 
 	do {
-		foreach( (array) current($wp_filter[$tag]) as $the_ )
+		foreach ( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) )
 				$args[0] = call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
 
@@ -292,7 +314,7 @@ function apply_filters_ref_array($tag, $args) {
  * @global array $merged_filters    Merges the filter hooks using this function.
  *
  * @param string   $tag                The filter hook to which the function to be removed is hooked.
- * @param callback $function_to_remove The name of the function which should be removed.
+ * @param callable $function_to_remove The name of the function which should be removed.
  * @param int      $priority           Optional. The priority of the function. Default 10.
  * @return bool    Whether the function existed before it was removed.
  */
@@ -423,7 +445,7 @@ function doing_action( $action = null ) {
  * @since 1.2.0
  *
  * @param string   $tag             The name of the action to which the $function_to_add is hooked.
- * @param callback $function_to_add The name of the function you wish to be called.
+ * @param callable $function_to_add The name of the function you wish to be called.
  * @param int      $priority        Optional. Used to specify the order in which the functions
  *                                  associated with a particular action are executed. Default 10.
  *                                  Lower numbers correspond with earlier execution,
@@ -574,7 +596,7 @@ function do_action_ref_array($tag, $args) {
 	reset( $wp_filter[ $tag ] );
 
 	do {
-		foreach( (array) current($wp_filter[$tag]) as $the_ )
+		foreach ( (array) current($wp_filter[$tag]) as $the_ )
 			if ( !is_null($the_['function']) )
 				call_user_func_array($the_['function'], array_slice($args, 0, (int) $the_['accepted_args']));
 
@@ -591,7 +613,7 @@ function do_action_ref_array($tag, $args) {
  * @see has_filter() has_action() is an alias of has_filter().
  *
  * @param string        $tag               The name of the action hook.
- * @param callback|bool $function_to_check Optional. The callback to check for. Default false.
+ * @param callable|bool $function_to_check Optional. The callback to check for. Default false.
  * @return bool|int If $function_to_check is omitted, returns boolean for whether the hook has
  *                  anything registered. When checking a specific function, the priority of that
  *                  hook is returned, or false if the function is not attached. When using the
@@ -613,7 +635,7 @@ function has_action($tag, $function_to_check = false) {
  * @since 1.2.0
  *
  * @param string   $tag                The action hook to which the function to be removed is hooked.
- * @param callback $function_to_remove The name of the function which should be removed.
+ * @param callable $function_to_remove The name of the function which should be removed.
  * @param int      $priority           Optional. The priority of the function. Default 10.
  * @return bool Whether the function is removed.
  */
@@ -749,7 +771,7 @@ function plugin_dir_url( $file ) {
  * @since 2.0.0
  *
  * @param string   $file     The filename of the plugin including the path.
- * @param callback $function The function hooked to the 'activate_PLUGIN' action.
+ * @param callable $function The function hooked to the 'activate_PLUGIN' action.
  */
 function register_activation_hook($file, $function) {
 	$file = plugin_basename($file);
@@ -772,7 +794,7 @@ function register_activation_hook($file, $function) {
  * @since 2.0.0
  *
  * @param string   $file     The filename of the plugin including the path.
- * @param callback $function The function hooked to the 'deactivate_PLUGIN' action.
+ * @param callable $function The function hooked to the 'deactivate_PLUGIN' action.
  */
 function register_deactivation_hook($file, $function) {
 	$file = plugin_basename($file);
@@ -802,7 +824,7 @@ function register_deactivation_hook($file, $function) {
  * @since 2.7.0
  *
  * @param string   $file     Plugin file.
- * @param callback $callback The callback to run when the hook is called. Must be
+ * @param callable $callback The callback to run when the hook is called. Must be
  *                           a static method or function.
  */
 function register_uninstall_hook( $file, $callback ) {
@@ -845,7 +867,7 @@ function _wp_call_all_hook($args) {
 
 	reset( $wp_filter['all'] );
 	do {
-		foreach( (array) current($wp_filter['all']) as $the_ )
+		foreach ( (array) current($wp_filter['all']) as $the_ )
 			if ( !is_null($the_['function']) )
 				call_user_func_array($the_['function'], $args);
 
@@ -878,7 +900,7 @@ function _wp_call_all_hook($args) {
  * @staticvar int $filter_id_count
  *
  * @param string   $tag      Used in counting how many hooks were applied
- * @param callback $function Used for creating unique id
+ * @param callable $function Used for creating unique id
  * @param int|bool $priority Used in counting how many hooks were applied. If === false
  *                           and $function is an object reference, we return the unique
  *                           id only if it already has one, false otherwise.

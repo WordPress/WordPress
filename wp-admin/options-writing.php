@@ -27,7 +27,7 @@ if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'options-postemail',
 		'title'   => __( 'Post Via Email' ),
-		'content' => '<p>' . __( 'Post via email settings allow you to send your WordPress install an email with the content of your post. You must set up a secret e-mail account with POP3 access to use this, and any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret.' ) . '</p>',
+		'content' => '<p>' . __( 'Post via email settings allow you to send your WordPress install an email with the content of your post. You must set up a secret email account with POP3 access to use this, and any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret.' ) . '</p>',
 	) );
 }
 
@@ -113,8 +113,8 @@ do_settings_fields('writing', 'remote_publishing'); // A deprecated section.
 /** This filter is documented in wp-admin/options.php */
 if ( apply_filters( 'enable_post_by_email_configuration', true ) ) {
 ?>
-<h3 class="title"><?php _e('Post via e-mail') ?></h3>
-<p><?php printf(__('To post to WordPress by e-mail you must set up a secret e-mail account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <kbd>%s</kbd>, <kbd>%s</kbd>, <kbd>%s</kbd>.'), wp_generate_password(8, false), wp_generate_password(8, false), wp_generate_password(8, false)) ?></p>
+<h2 class="title"><?php _e( 'Post via email' ) ?></h2>
+<p><?php printf(__('To post to WordPress by email you must set up a secret email account with POP3 access. Any mail received at this address will be posted, so it&#8217;s a good idea to keep this address very secret. Here are three random strings you could use: <kbd>%s</kbd>, <kbd>%s</kbd>, <kbd>%s</kbd>.'), wp_generate_password(8, false), wp_generate_password(8, false), wp_generate_password(8, false)) ?></p>
 
 <table class="form-table">
 <tr>
@@ -156,7 +156,7 @@ wp_dropdown_categories(array('hide_empty' => 0, 'name' => 'default_email_categor
  */
 if ( apply_filters( 'enable_update_services_configuration', true ) ) {
 ?>
-<h3 class="title"><?php _e('Update Services') ?></h3>
+<h2 class="title"><?php _e( 'Update Services' ) ?></h2>
 
 <?php if ( 1 == get_option('blog_public') ) : ?>
 

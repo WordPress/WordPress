@@ -93,7 +93,7 @@ window.wp = window.wp || {};
 	 *
 	 * @since 3.9.0
 	 *
-	 * @param {string} updateType
+	 * @param {string} upgradeType
 	 */
 	wp.updates.decrementCount = function( upgradeType ) {
 		var count,
@@ -552,7 +552,7 @@ window.wp = window.wp || {};
 					// trigger the update
 					$( '.plugin-update-tr[data-slug="' + message.slug + '"]' ).find( '.update-link' ).trigger( 'click' );
 				} else if ( 'plugin-install' === pagenow ) {
-					$( '.plugin-card-' + message.slug ).find( 'h4 a' ).focus();
+					$( '.plugin-card-' + message.slug ).find( '.column-name a' ).focus();
 					$( '.plugin-card-' + message.slug ).find( '[data-slug="' + message.slug + '"]' ).trigger( 'click' );
 				}
 				break;

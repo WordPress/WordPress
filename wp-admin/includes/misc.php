@@ -56,7 +56,7 @@ function got_url_rewrite() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Extracts strings from between the BEGIN and END markers in the .htaccess file.
  *
  * @since 1.5.0
  *
@@ -88,64 +88,99 @@ function extract_from_markers( $filename, $marker ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
  * Inserts an array of strings into a file (.htaccess ), placing it between
- * BEGIN and END markers. Replaces existing marked info. Retains surrounding
+ * BEGIN and END markers.
+ *
+ * Replaces existing marked info. Retains surrounding
  * data. Creates file if none exists.
  *
  * @since 1.5.0
  *
- * @param string $filename
- * @param string $marker
- * @param array  $insertion
+ * @param string       $filename  Filename to alter.
+ * @param string       $marker    The marker to alter.
+ * @param array|string $insertion The new content to insert.
  * @return bool True on write success, false on failure.
  */
 function insert_with_markers( $filename, $marker, $insertion ) {
-	if (!file_exists( $filename ) || is_writeable( $filename ) ) {
-		if (!file_exists( $filename ) ) {
-			$markerdata = '';
-		} else {
-			$markerdata = explode( "\n", implode( '', file( $filename ) ) );
-		}
-
-		if ( !$f = @fopen( $filename, 'w' ) )
+	if ( ! file_exists( $filename ) ) {
+		if ( ! is_writable( dirname( $filename ) ) ) {
 			return false;
-
-		$foundit = false;
-		if ( $markerdata ) {
-			$state = true;
-			foreach ( $markerdata as $n => $markerline ) {
-				if (strpos($markerline, '# BEGIN ' . $marker) !== false)
-					$state = false;
-				if ( $state ) {
-					if ( $n + 1 < count( $markerdata ) )
-						fwrite( $f, "{$markerline}\n" );
-					else
-						fwrite( $f, "{$markerline}" );
-				}
-				if (strpos($markerline, '# END ' . $marker) !== false) {
-					fwrite( $f, "# BEGIN {$marker}\n" );
-					if ( is_array( $insertion ))
-						foreach ( $insertion as $insertline )
-							fwrite( $f, "{$insertline}\n" );
-					fwrite( $f, "# END {$marker}\n" );
-					$state = true;
-					$foundit = true;
-				}
-			}
 		}
-		if (!$foundit) {
-			fwrite( $f, "\n# BEGIN {$marker}\n" );
-			foreach ( $insertion as $insertline )
-				fwrite( $f, "{$insertline}\n" );
-			fwrite( $f, "# END {$marker}\n" );
+		if ( ! touch( $filename ) ) {
+			return false;
 		}
-		fclose( $f );
-		return true;
-	} else {
+	} elseif ( ! is_writeable( $filename ) ) {
 		return false;
 	}
+
+	if ( ! is_array( $insertion ) ) {
+		$insertion = explode( "\n", $insertion );
+	}
+
+	$start_marker = "# BEGIN {$marker}";
+	$end_marker   = "# END {$marker}";
+
+	$fp = fopen( $filename, 'r+' );
+	if ( ! $fp ) {
+		return false;
+	}
+
+	// Attempt to get a lock. If the filesystem supports locking, this will block until the lock is acquired.
+	flock( $fp, LOCK_EX );
+
+	$lines = array();
+	while ( ! feof( $fp ) ) {
+		$lines[] = rtrim( fgets( $fp ), "\r\n" );
+	}
+
+	// Split out the existing file into the preceeding lines, and those that appear after the marker
+	$pre_lines = $post_lines = $existing_lines = array();
+	$found_marker = $found_end_marker = false;
+	foreach ( $lines as $line ) {
+		if ( ! $found_marker && false !== strpos( $line, $start_marker ) ) {
+			$found_marker = true;
+			continue;
+		} elseif ( ! $found_end_marker && false !== strpos( $line, $end_marker ) ) {
+			$found_end_marker = true;
+			continue;
+		}
+		if ( ! $found_marker ) {
+			$pre_lines[] = $line;
+		} elseif ( $found_marker && $found_end_marker ) {
+			$post_lines[] = $line;
+		} else {
+			$existing_lines[] = $line;
+		}
+	}
+
+	// Check to see if there was a change
+	if ( $existing_lines === $insertion ) {
+		flock( $fp, LOCK_UN );
+		fclose( $fp );
+
+		return true;
+	}
+
+	// Generate the new file data
+	$new_file_data = implode( "\n", array_merge(
+		$pre_lines,
+		array( $start_marker ),
+		$insertion,
+		array( $end_marker ),
+		$post_lines
+	) );
+
+	// Write to the start of the file, and truncate it to that length
+	fseek( $fp, 0 );
+	$bytes = fwrite( $fp, $new_file_data );
+	if ( $bytes ) {
+		ftruncate( $fp, ftell( $fp ) );
+	}
+	fflush( $fp );
+	flock( $fp, LOCK_UN );
+	fclose( $fp );
+
+	return (bool) $bytes;
 }
 
 /**
@@ -213,7 +248,7 @@ function iis7_save_url_rewrite_rules(){
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Update the "recently-edited" file for the plugin or theme editor.
  *
  * @since 1.5.0
  *
@@ -235,7 +270,7 @@ function update_recently_edited( $file ) {
 }
 
 /**
- * If siteurl, home or page_on_front changed, flush rewrite rules.
+ * Flushes rewrite rules if siteurl, home or page_on_front changed.
  *
  * @since 2.1.0
  *
@@ -243,28 +278,16 @@ function update_recently_edited( $file ) {
  * @param string $value
  */
 function update_home_siteurl( $old_value, $value ) {
-	if ( defined( "WP_INSTALLING" ) )
+	if ( wp_installing() )
 		return;
 
-	// If home changed, write rewrite rules to new location.
-	flush_rewrite_rules();
+	if ( is_multisite() && ms_is_switched() ) {
+		delete_option( 'rewrite_rules' );
+	} else {
+		flush_rewrite_rules();
+	}
 }
 
-/**
- * Shorten an URL, to be used as link text
- *
- * @since 1.2.0
- *
- * @param string $url
- * @return string
- */
-function url_shorten( $url ) {
-	$short_url = str_replace( array( 'http://', 'www.' ), '', $url );
-	$short_url = untrailingslashit( $short_url );
-	if ( strlen( $short_url ) > 35 )
-		$short_url = substr( $short_url, 0, 32 ) . '&hellip;';
-	return $short_url;
-}
 
 /**
  * Resets global variables based on $_GET and $_POST
@@ -292,7 +315,7 @@ function wp_reset_vars( $vars ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Displays the given administration message.
  *
  * @since 2.1.0
  *
@@ -438,7 +461,13 @@ function set_screen_options() {
 		}
 
 		update_user_meta($user->ID, $option, $value);
-		wp_safe_redirect( remove_query_arg( array('pagenum', 'apage', 'paged'), wp_get_referer() ) );
+
+		$url = remove_query_arg( array( 'pagenum', 'apage', 'paged' ), wp_get_referer() );
+		if ( isset( $_POST['mode'] ) ) {
+			$url = add_query_arg( array( 'mode' => $_POST['mode'] ), $url );
+		}
+
+		wp_safe_redirect( $url );
 		exit;
 	}
 }
@@ -454,8 +483,9 @@ function set_screen_options() {
 function iis7_rewrite_rule_exists($filename) {
 	if ( ! file_exists($filename) )
 		return false;
-	if ( ! class_exists('DOMDocument') )
+	if ( ! class_exists( 'DOMDocument', false ) ) {
 		return false;
+	}
 
 	$doc = new DOMDocument();
 	if ( $doc->load($filename) === false )
@@ -481,8 +511,9 @@ function iis7_delete_rewrite_rule($filename) {
 	if ( ! file_exists($filename) )
 		return true;
 
-	if ( ! class_exists('DOMDocument') )
+	if ( ! class_exists( 'DOMDocument', false ) ) {
 		return false;
+	}
 
 	$doc = new DOMDocument();
 	$doc->preserveWhiteSpace = false;
@@ -511,8 +542,9 @@ function iis7_delete_rewrite_rule($filename) {
  * @return bool
  */
 function iis7_add_rewrite_rule($filename, $rewrite_rule) {
-	if ( ! class_exists('DOMDocument') )
+	if ( ! class_exists( 'DOMDocument', false ) ) {
 		return false;
+	}
 
 	// If configuration file does not exist then we create one.
 	if ( ! file_exists($filename) ) {
@@ -843,7 +875,7 @@ function heartbeat_autosave( $response, $data ) {
  * as they disregard the autocomplete setting on the editor textarea. That can break the editor
  * when the user navigates to it with the browser's Back button. See #28037
  *
- * @since 4.0
+ * @since 4.0.0
  *
  * @global bool $is_safari
  * @global bool $is_chrome
@@ -865,23 +897,7 @@ function post_form_autocomplete_off() {
  * @since 4.2.0
  */
 function wp_admin_canonical_url() {
-	$removable_query_args = array(
-		'message', 'settings-updated', 'saved',
-		'update', 'updated', 'activated',
-		'activate', 'deactivate', 'locked',
-		'deleted', 'trashed', 'untrashed',
-		'enabled', 'disabled', 'skipped',
-		'spammed', 'unspammed',
-	);
-
-	/**
-	 * Filter the list of URL parameters to remove.
-	 *
-	 * @since 4.2.0
-	 *
-	 * @param array $removable_query_args An array of parameters to remove from the URL.
-	 */
-	$removable_query_args = apply_filters( 'removable_query_args', $removable_query_args );
+	$removable_query_args = wp_removable_query_args();
 
 	if ( empty( $removable_query_args ) ) {
 		return;

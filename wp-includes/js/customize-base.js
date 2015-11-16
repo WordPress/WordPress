@@ -74,6 +74,14 @@ window.wp = window.wp || {};
 		}
 
 		magic = this;
+
+		/*
+		 * If the class has a method called "instance",
+		 * the return value from the class' constructor will be a function that
+		 * calls the "instance" method.
+		 *
+		 * It is also an object that has properties and methods inside it.
+		 */
 		if ( this.instance ) {
 			magic = function() {
 				return magic.instance.apply( magic, arguments );
@@ -101,6 +109,11 @@ window.wp = window.wp || {};
 
 	api.Class.applicator = {};
 
+	/**
+	 * Initialize a class instance.
+	 *
+	 * Override this function in a subclass as needed.
+	 */
 	api.Class.prototype.initialize = function() {};
 
 	/*
@@ -155,6 +168,10 @@ window.wp = window.wp || {};
 	 * @constuctor
 	 */
 	api.Value = api.Class.extend({
+		/**
+		 * @param {mixed}  initial The initial value.
+		 * @param {object} options
+		 */
 		initialize: function( initial, options ) {
 			this._value = initial; // @todo: potentially change this to a this.set() call.
 			this.callbacks = $.Callbacks();
@@ -173,10 +190,20 @@ window.wp = window.wp || {};
 			return arguments.length ? this.set.apply( this, arguments ) : this.get();
 		},
 
+		/**
+		 * Get the value.
+		 *
+		 * @return {mixed}
+		 */
 		get: function() {
 			return this._value;
 		},
 
+		/**
+		 * Set the value and trigger all bound callbacks.
+		 *
+		 * @param {object} to New value.
+		 */
 		set: function( to ) {
 			var from = this._value;
 
@@ -219,11 +246,21 @@ window.wp = window.wp || {};
 			return value;
 		},
 
+		/**
+		 * Bind a function to be invoked whenever the value changes.
+		 *
+		 * @param {...Function} A function, or multiple functions, to add to the callback stack.
+		 */
 		bind: function() {
 			this.callbacks.add.apply( this.callbacks, arguments );
 			return this;
 		},
 
+		/**
+		 * Unbind a previously bound function.
+		 *
+		 * @param {...Function} A function, or multiple functions, to remove from the callback stack.
+		 */
 		unbind: function() {
 			this.callbacks.remove.apply( this.callbacks, arguments );
 			return this;
@@ -272,6 +309,12 @@ window.wp = window.wp || {};
 	 * @mixes wp.customize.Events
 	 */
 	api.Values = api.Class.extend({
+
+		/**
+		 * The default constructor for items of the collection.
+		 *
+		 * @type {object}
+		 */
 		defaultConstructor: api.Value,
 
 		initialize: function( options ) {
@@ -281,6 +324,21 @@ window.wp = window.wp || {};
 			this._deferreds = {};
 		},
 
+		/**
+		 * Get the instance of an item from the collection if only ID is specified.
+		 *
+		 * If more than one argument is supplied, all are expected to be IDs and
+		 * the last to be a function callback that will be invoked when the requested
+		 * items are available.
+		 *
+		 * @see {api.Values.when}
+		 *
+		 * @param  {string}   id ID of the item.
+		 * @param  {...}         Zero or more IDs of items to wait for and a callback
+		 *                       function to invoke when they're available. Optional.
+		 * @return {mixed}    The item instance if only one ID was supplied.
+		 *                    A Deferred Promise object if a callback function is supplied.
+		 */
 		instance: function( id ) {
 			if ( arguments.length === 1 )
 				return this.value( id );
@@ -288,35 +346,72 @@ window.wp = window.wp || {};
 			return this.when.apply( this, arguments );
 		},
 
+		/**
+		 * Get the instance of an item.
+		 *
+		 * @param  {string} id The ID of the item.
+		 * @return {[type]}    [description]
+		 */
 		value: function( id ) {
 			return this._value[ id ];
 		},
 
+		/**
+		 * Whether the collection has an item with the given ID.
+		 *
+		 * @param  {string}  id The ID of the item to look for.
+		 * @return {Boolean}
+		 */
 		has: function( id ) {
 			return typeof this._value[ id ] !== 'undefined';
 		},
 
+		/**
+		 * Add an item to the collection.
+		 *
+		 * @param {string} id    The ID of the item.
+		 * @param {mixed}  value The item instance.
+		 * @return {mixed} The new item's instance.
+		 */
 		add: function( id, value ) {
 			if ( this.has( id ) )
 				return this.value( id );
 
 			this._value[ id ] = value;
 			value.parent = this;
+
+			// Propagate a 'change' event on an item up to the collection.
 			if ( value.extended( api.Value ) )
 				value.bind( this._change );
 
 			this.trigger( 'add', value );
 
+			// If a deferred object exists for this item,
+			// resolve it.
 			if ( this._deferreds[ id ] )
 				this._deferreds[ id ].resolve();
 
 			return this._value[ id ];
 		},
 
+		/**
+		 * Create a new item of the collection using the collection's default constructor
+		 * and store it in the collection.
+		 *
+		 * @param  {string} id    The ID of the item.
+		 * @param  {mixed}  value Any extra arguments are passed into the item's initialize method.
+		 * @return {mixed}  The new item's instance.
+		 */
 		create: function( id ) {
 			return this.add( id, new this.defaultConstructor( api.Class.applicator, slice.call( arguments, 1 ) ) );
 		},
 
+		/**
+		 * Iterate over all items in the collection invoking the provided callback.
+		 *
+		 * @param  {Function} callback Function to invoke.
+		 * @param  {object}   context  Object context to invoke the function with. Optional.
+		 */
 		each: function( callback, context ) {
 			context = typeof context === 'undefined' ? this : context;
 
@@ -325,6 +420,11 @@ window.wp = window.wp || {};
 			});
 		},
 
+		/**
+		 * Remove an item from the collection.
+		 *
+		 * @param  {string} id The ID of the item to remove.
+		 */
 		remove: function( id ) {
 			var value;
 
@@ -359,10 +459,18 @@ window.wp = window.wp || {};
 			if ( $.isFunction( ids[ ids.length - 1 ] ) )
 				dfd.done( ids.pop() );
 
+			/*
+			 * Create a stack of deferred objects for each item that is not
+			 * yet available, and invoke the supplied callback when they are.
+			 */
 			$.when.apply( $, $.map( ids, function( id ) {
 				if ( self.has( id ) )
 					return;
 
+				/*
+				 * The requested item is not available yet, create a deferred
+				 * object to resolve when it becomes available.
+				 */
 				return self._deferreds[ id ] = self._deferreds[ id ] || $.Deferred();
 			})).done( function() {
 				var values = $.map( ids, function( id ) {
@@ -385,11 +493,16 @@ window.wp = window.wp || {};
 			return dfd.promise();
 		},
 
+		/**
+		 * A helper function to propagate a 'change' event from an item
+		 * to the collection itself.
+		 */
 		_change: function() {
 			this.parent.trigger( 'change', this );
 		}
 	});
 
+	// Create a global events bus on the Customizer.
 	$.extend( api.Values.prototype, api.Events );
 
 
@@ -502,7 +615,7 @@ window.wp = window.wp || {};
 	$.support.postMessage = !! window.postMessage;
 
 	/**
-	 * Messenger for postMessage.
+	 * A communicator for sending data from one window to another over postMessage.
 	 *
 	 * @constuctor
 	 * @augments wp.customize.Class
@@ -581,6 +694,11 @@ window.wp = window.wp || {};
 			$( window ).off( 'message', this.receive );
 		},
 
+		/**
+		 * Receive data from the other window.
+		 *
+		 * @param  {jQuery.Event} event Event with embedded data.
+		 */
 		receive: function( event ) {
 			var message;
 
@@ -611,6 +729,12 @@ window.wp = window.wp || {};
 			this.trigger( message.id, message.data );
 		},
 
+		/**
+		 * Send data to the other window.
+		 *
+		 * @param  {string} id   The event name.
+		 * @param  {object} data Data.
+		 */
 		send: function( id, data ) {
 			var message;
 
@@ -630,8 +754,14 @@ window.wp = window.wp || {};
 	// Add the Events mixin to api.Messenger.
 	$.extend( api.Messenger.prototype, api.Events );
 
-	// Core customize object.
+	// The main API object is also a collection of all customizer settings.
 	api = $.extend( new api.Values(), api );
+
+	/**
+	 * Get all customize settings.
+	 *
+	 * @return {object}
+	 */
 	api.get = function() {
 		var result = {};
 

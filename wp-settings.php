@@ -29,6 +29,15 @@ require( ABSPATH . WPINC . '/default-constants.php' );
 global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version;
 require( ABSPATH . WPINC . '/version.php' );
 
+/**
+ * If not already configured, `$blog_id` will default to 1 in a single site
+ * configuration. In multisite, it will be overridden by default in ms-settings.php.
+ *
+ * @global int $blog_id
+ * @since 2.0.0
+ */
+global $blog_id;
+
 // Set initial default constants including WP_MEMORY_LIMIT, WP_MAX_MEMORY_LIMIT, WP_DEBUG, SCRIPT_DEBUG, WP_CONTENT_DIR and WP_CACHE.
 wp_initial_constants();
 
@@ -146,13 +155,15 @@ require( ABSPATH . WPINC . '/update.php' );
 require( ABSPATH . WPINC . '/canonical.php' );
 require( ABSPATH . WPINC . '/shortcodes.php' );
 require( ABSPATH . WPINC . '/class-wp-embed.php' );
+require( ABSPATH . WPINC . '/embed-functions.php' );
+require( ABSPATH . WPINC . '/class-wp-oembed-controller.php' );
 require( ABSPATH . WPINC . '/media.php' );
 require( ABSPATH . WPINC . '/http.php' );
-require( ABSPATH . WPINC . '/class-http.php' );
 require( ABSPATH . WPINC . '/widgets.php' );
 require( ABSPATH . WPINC . '/nav-menu.php' );
 require( ABSPATH . WPINC . '/nav-menu-template.php' );
 require( ABSPATH . WPINC . '/admin-bar.php' );
+require( ABSPATH . WPINC . '/rest-api.php' );
 
 // Load multisite-specific files.
 if ( is_multisite() ) {
@@ -175,7 +186,7 @@ unset( $mu_plugin );
 
 // Load network activated plugins.
 if ( is_multisite() ) {
-	foreach( wp_get_active_network_plugins() as $network_plugin ) {
+	foreach ( wp_get_active_network_plugins() as $network_plugin ) {
 		wp_register_plugin_realpath( $network_plugin );
 		include_once( $network_plugin );
 	}
@@ -251,7 +262,7 @@ do_action( 'sanitize_comment_cookies' );
 
 /**
  * WordPress Query object
- * @global object $wp_the_query
+ * @global WP_Query $wp_the_query
  * @since 2.0.0
  */
 $GLOBALS['wp_the_query'] = new WP_Query();
@@ -259,35 +270,35 @@ $GLOBALS['wp_the_query'] = new WP_Query();
 /**
  * Holds the reference to @see $wp_the_query
  * Use this global for WordPress queries
- * @global object $wp_query
+ * @global WP_Query $wp_query
  * @since 1.5.0
  */
 $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
 
 /**
  * Holds the WordPress Rewrite object for creating pretty URLs
- * @global object $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite
  * @since 1.5.0
  */
 $GLOBALS['wp_rewrite'] = new WP_Rewrite();
 
 /**
  * WordPress Object
- * @global object $wp
+ * @global WP $wp
  * @since 2.0.0
  */
 $GLOBALS['wp'] = new WP();
 
 /**
  * WordPress Widget Factory Object
- * @global object $wp_widget_factory
+ * @global WP_Widget_Factory $wp_widget_factory
  * @since 2.8.0
  */
 $GLOBALS['wp_widget_factory'] = new WP_Widget_Factory();
 
 /**
  * WordPress User Roles
- * @global object $wp_roles
+ * @global WP_Roles $wp_roles
  * @since 2.0.0
  */
 $GLOBALS['wp_roles'] = new WP_Roles();
@@ -316,13 +327,13 @@ require_once( ABSPATH . WPINC . '/locale.php' );
 
 /**
  * WordPress Locale object for loading locale domain date and various strings.
- * @global object $wp_locale
+ * @global WP_Locale $wp_locale
  * @since 2.1.0
  */
 $GLOBALS['wp_locale'] = new WP_Locale();
 
 // Load the functions for the active theme, for both parent and child theme if applicable.
-if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
+if ( ! wp_installing() || 'wp-activate.php' === $pagenow ) {
 	if ( TEMPLATEPATH !== STYLESHEETPATH && file_exists( STYLESHEETPATH . '/functions.php' ) )
 		include( STYLESHEETPATH . '/functions.php' );
 	if ( file_exists( TEMPLATEPATH . '/functions.php' ) )

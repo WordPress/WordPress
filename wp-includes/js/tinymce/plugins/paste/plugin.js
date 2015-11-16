@@ -513,13 +513,63 @@ define("tinymce/pasteplugin/Clipboard", [
 		}
 
 		/**
+		 * Some Windows 10/Edge versions will return a double encoded string. This checks if the
+		 * content has this odd encoding and decodes it.
+		 */
+		function decodeEdgeData(data) {
+			var i, out, fingerprint, code;
+
+			// Check if data is encoded
+			fingerprint = [25942, 29554, 28521, 14958];
+			for (i = 0; i < fingerprint.length; i++) {
+				if (data.charCodeAt(i) != fingerprint[i]) {
+					return data;
+				}
+			}
+
+			// Decode UTF-16 to UTF-8
+			out = '';
+			for (i = 0; i < data.length; i++) {
+				code = data.charCodeAt(i);
+
+				/*eslint no-bitwise:0*/
+				out += String.fromCharCode((code & 0x00FF));
+				out += String.fromCharCode((code & 0xFF00) >> 8);
+			}
+
+			// Decode UTF-8
+			return decodeURIComponent(escape(out));
+		}
+
+		/**
+		 * Extracts HTML contents from within a fragment.
+		 */
+		function extractFragment(data) {
+			var idx, startFragment, endFragment;
+
+			startFragment = '<!--StartFragment-->';
+			idx = data.indexOf(startFragment);
+			if (idx !== -1) {
+				data = data.substr(idx + startFragment.length);
+			}
+
+			endFragment = '<!--EndFragment-->';
+			idx = data.indexOf(endFragment);
+			if (idx !== -1) {
+				data = data.substr(0, idx);
+			}
+
+			return data;
+		}
+
+		/**
 		 * Gets various content types out of a datatransfer object.
 		 *
 		 * @param {DataTransfer} dataTransfer Event fired on paste.
 		 * @return {Object} Object with mime types and data for those mime types.
 		 */
 		function getDataTransferItems(dataTransfer) {
-			var data = {};
+			var items = {};
 
 			if (dataTransfer) {
 				// Use old WebKit/IE API
@@ -527,20 +577,26 @@ define("tinymce/pasteplugin/Clipboard", [
 					var legacyText = dataTransfer.getData('Text');
 					if (legacyText && legacyText.length > 0) {
 						if (legacyText.indexOf(mceInternalUrlPrefix) == -1) {
-							data['text/plain'] = legacyText;
+							items['text/plain'] = legacyText;
 						}
 					}
 				}
 
 				if (dataTransfer.types) {
 					for (var i = 0; i < dataTransfer.types.length; i++) {
-						var contentType = dataTransfer.types[i];
-						data[contentType] = dataTransfer.getData(contentType);
+						var contentType = dataTransfer.types[i],
+							data = dataTransfer.getData(contentType);
+
+						if (contentType == 'text/html') {
+							data = extractFragment(decodeEdgeData(data));
+						}
+
+						items[contentType] = data;
 					}
 				}
 			}
 
-			return data;
+			return items;
 		}
 
 		/**
@@ -1355,7 +1411,9 @@ define("tinymce/pasteplugin/WordFilter", [
 				}
 
 				// Serialize DOM back to HTML
-				e.content = new Serializer({}, schema).serialize(rootNode);
+				e.content = new Serializer({
+					validate: settings.validate
+				}, schema).serialize(rootNode);
 			}
 		});
 	}

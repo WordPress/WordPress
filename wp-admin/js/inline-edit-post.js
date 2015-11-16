@@ -48,9 +48,9 @@ inlineEditPost = {
 		});
 
 		// add events
-		$('#the-list').on('click', 'a.editinline', function(){
+		$('#the-list').on( 'click', 'a.editinline', function( e ) {
+			e.preventDefault();
 			inlineEditPost.edit(this);
-			return false;
 		});
 
 		$('#bulk-edit').find('fieldset:first').after(
@@ -268,6 +268,7 @@ inlineEditPost = {
 		$.post( ajaxurl, params,
 			function(r) {
 				$( 'table.widefat .spinner' ).removeClass( 'is-active' );
+				$( '.ac_results' ).hide();
 
 				if (r) {
 					if ( -1 !== r.indexOf( '<tr' ) ) {
@@ -287,13 +288,15 @@ inlineEditPost = {
 	},
 
 	revert : function(){
-		var id = $('table.widefat tr.inline-editor').attr('id');
+		var $tableWideFat = $( '.widefat' ),
+			id = $( '.inline-editor', $tableWideFat ).attr( 'id' );
 
 		if ( id ) {
-			$( 'table.widefat .spinner' ).removeClass( 'is-active' );
+			$( '.spinner', $tableWideFat ).removeClass( 'is-active' );
+			$( '.ac_results' ).hide();
 
 			if ( 'bulk-edit' === id ) {
-				$('table.widefat #bulk-edit').removeClass('inline-editor').hide().siblings('tr.hidden').remove();
+				$( '#bulk-edit', $tableWideFat ).removeClass( 'inline-editor' ).hide().siblings( '.hidden' ).remove();
 				$('#bulk-titles').empty();
 				$('#inlineedit').append( $('#bulk-edit') );
 			} else {
@@ -329,7 +332,7 @@ $( document ).on( 'heartbeat-tick.wp-check-locked-posts', function( e, data ) {
 				row.find('.check-column checkbox').prop('checked', false);
 
 				if ( lock_data.avatar_src ) {
-					avatar = $('<img class="avatar avatar-18 photo" width="18" height="18" />').attr( 'src', lock_data.avatar_src.replace(/&amp;/g, '&') );
+					avatar = $( '<img class="avatar avatar-18 photo" width="18" height="18" alt="" />' ).attr( 'src', lock_data.avatar_src.replace( /&amp;/g, '&' ) );
 					row.find('.column-title .locked-avatar').empty().append( avatar );
 				}
 				row.addClass('wp-locked');

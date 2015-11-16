@@ -58,19 +58,18 @@ p {
 	line-height: 1.5;
 }
 
-.login .message {
+.login .message,
+.login #login_error {
 	border-right: 4px solid #00a0d2;
-	padding: 1px 12px;
+	padding: 12px;
+	margin-right: 0;
 	background-color: #fff;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
 }
 
 .login #login_error {
-	border-right: 4px solid #dd3d36;
-	background: #fff;
-	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
+	border-right-color: #dc3232;
 }
 
 #loginform p.submit,
@@ -156,12 +155,6 @@ p {
 	margin: auto;
 }
 
-#login_error,
-.login .message {
-	margin-right: 0;
-	padding: 12px;
-}
-
 .login #nav,
 .login #backtoblog {
 	font-size: 13px;
@@ -173,7 +166,7 @@ p {
 }
 
 #backtoblog {
-	margin: 16px 0 0 0;
+	margin: 16px 0;
 }
 
 .login #nav a,
@@ -231,9 +224,7 @@ p {
 	padding: 20px 0;
 }
 
-.mobile #login form,
-.mobile #login .message,
-.mobile #login_error {
+.mobile #login form {
 	margin-right: 0;
 }
 
@@ -276,7 +267,7 @@ body.interim-login {
 
 	.interim-login input[type=checkbox]:checked:before {
 		width: 16px;
-		font: normal 21px/1 'dashicons';
+		font: normal 21px/1 dashicons;
 		margin: -3px -4px 0 0;
 	}
 }

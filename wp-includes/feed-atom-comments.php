@@ -33,7 +33,7 @@ do_action( 'rss_tag_pre', 'atom-comments' );
 		elseif ( is_search() )
 			printf( ent2ncr( __( 'Comments for %1$s searching on %2$s' ) ), get_bloginfo_rss( 'name' ), get_search_query() );
 		else
-			printf( ent2ncr( __( 'Comments for %s' ) ), get_bloginfo_rss( 'name' ) . get_wp_title_rss() );
+			printf( ent2ncr( __( 'Comments for %s' ) ), get_wp_title_rss() );
 	?></title>
 	<subtitle type="text"><?php bloginfo_rss('description'); ?></subtitle>
 

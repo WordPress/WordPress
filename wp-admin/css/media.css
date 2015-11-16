@@ -315,12 +315,12 @@
 }
 
 #find-posts-close:before {
-	font: normal 20px/36px 'dashicons';
+	font: normal 20px/36px dashicons;
 	vertical-align: top;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	content: '\f158';
+	content: "\f158";
 }
 
 .find-box-buttons {
@@ -384,8 +384,6 @@ form.upgrade .hint {
 	border: 1px solid #ddd;
 	line-height: 1.8em;
 	word-spacing: 3px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
 }
 
 .drag-drop #drag-drop-area {
@@ -502,7 +500,8 @@ border color while dragging a file over the uploader drop area */
 	color: #c00;
 }
 
-.upload-php .mode-grid .media-sidebar .media-uploader-status.errors h3 {
+.upload-php .mode-grid .media-sidebar .media-uploader-status.errors h3, /* Back-compat for pre-4.4 */
+.upload-php .mode-grid .media-sidebar .media-uploader-status.errors h2 {
 	display: none;
 }
 
@@ -633,7 +632,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .upload-php .media-modal-close .media-modal-icon:before {
-	content: '\f335';
+	content: "\f335";
 	font-size: 22px;
 }
 
@@ -674,7 +673,7 @@ border color while dragging a file over the uploader drop area */
 
 .edit-attachment-frame .edit-media-header .right:before,
 .edit-attachment-frame .edit-media-header .left:before {
-	font: normal 20px/50px 'dashicons' !important;
+	font: normal 20px/50px dashicons !important;
 	display: inline;
 	font-weight: 300;
 }
@@ -700,12 +699,12 @@ border color while dragging a file over the uploader drop area */
 
 .edit-attachment-frame .edit-media-header .left:before,
 .rtl .edit-attachment-frame .edit-media-header .right:before {
-	content: '\f341';
+	content: "\f341";
 }
 
 .edit-attachment-frame .edit-media-header .right:before,
 .rtl .edit-attachment-frame .edit-media-header .left:before {
-	content: '\f345';
+	content: "\f345";
 }
 
 .edit-attachment-frame .edit-media-header .left.disabled,
@@ -935,7 +934,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-menu div:before {
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: middle;
 }
@@ -956,31 +955,31 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-crop:before {
-	content:'\f165';
+	content: "\f165";
 }
 
 .imgedit-rleft:before {
-	content:'\f166';
+	content: "\f166";
 }
 
 .imgedit-rright:before {
-	content:'\f167';
+	content: "\f167";
 }
 
 .imgedit-flipv:before {
-	content:'\f168';
+	content: "\f168";
 }
 
 .imgedit-fliph:before {
-	content:'\f169';
+	content: "\f169";
 }
 
 .imgedit-undo:before {
-	content:'\f171';
+	content: "\f171";
 }
 
 .imgedit-redo:before {
-	content:'\f172';
+	content: "\f172";
 }
 
 .imgedit-crop-wrap {
@@ -1019,11 +1018,16 @@ border color while dragging a file over the uploader drop area */
 	margin: 0 8px 0 0;
 }
 
-#poststuff .imgedit-group-top h3 {
+#poststuff .imgedit-group-top h3, /* Back-compat for pre-4.4 */
+#poststuff .imgedit-group-top h2 {
+	margin: 0;
 	padding: 0;
+	font-size: 14px;
+	line-height: 1.4;
 }
 
-.imgedit-group-top h3 a {
+.imgedit-group-top h3 a, /* Back-compat for pre-4.4 */
+.imgedit-group-top h2 a {
 	text-decoration: none;
 }
 

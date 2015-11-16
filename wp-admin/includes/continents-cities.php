@@ -1,7 +1,12 @@
 <?php
-
-/* Continent and city translations for timezone selection.
+/**
+ * Translation API: Continent and city translations for timezone selection
+ *
  * This file is not included anywhere. It exists solely for use by xgettext.
+ *
+ * @package WordPress
+ * @subpackage i18n
+ * @since 2.8.0
  */
 
 __('Africa', 'continents-cities');

@@ -405,7 +405,7 @@ ul.add-menu-item-tabs li {
 
 .quick-search-wrap .spinner {
 	float: none;
-	margin: 0 5px;
+	margin: -3px -10px 0 0;
 }
 
 .nav-menus-php .list-wrap {
@@ -579,7 +579,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 /* Menu item controls */
 .item-type {
 	display: inline-block;
-	padding: 12px 10px;
+	padding: 12px 16px;
 	color: #666;
 	font-size: 12px;
 	line-height: 18px;
@@ -616,6 +616,33 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	outline: none;
 	overflow: hidden;
 	white-space: nowrap;
+}
+
+.nav-menus-php .item-edit:before {
+	margin-top: 10px;
+	margin-left: 4px;
+	width: 20px;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	text-indent: -1px; /* account for the dashicon alignment */
+}
+
+.rtl .nav-menus-php .item-edit:before {
+	text-indent: 1px; /* account for the dashicon alignment */
+}
+
+.nav-menus-php .item-edit:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.nav-menus-php .item-edit:focus:before {
+	-webkit-box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+    box-shadow:
+    	0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 /* Menu editing */
@@ -759,6 +786,24 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 /* =Media Queries
 -------------------------------------------------------------- */
+
+@media only screen and (min-width: 769px) and (max-width: 1000px){
+	body.menu-max-depth-0 {
+		min-width: 0 !important;
+	}
+
+	#menu-management-liquid{
+		width: 100%;
+	}
+
+	.nav-menus-php #post-body-content{
+		min-width: 0;
+	}
+
+	.menu-item-bar .menu-item-handle{
+		width: 90%;
+	}
+}
 
 @media screen and ( max-width: 782px ) {
 	body.nav-menus-php {

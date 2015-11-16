@@ -390,8 +390,8 @@ class WP_Press_This {
 	/**
 	 * Utility method to limit image source URLs.
 	 *
-	 * Excluded URLs include share-this type buttons, loaders, spinners, spacers, WP interface images,
-	 * tiny buttons or thumbs, mathtag.com or quantserve.com images, or the WP stats gif.
+	 * Excluded URLs include share-this type buttons, loaders, spinners, spacers, WordPress interface images,
+	 * tiny buttons or thumbs, mathtag.com or quantserve.com images, or the WordPress.com stats gif.
 	 *
 	 * @ignore
 	 * @since 4.2.0
@@ -402,32 +402,32 @@ class WP_Press_This {
 	private function _limit_img( $src ) {
 		$src = $this->_limit_url( $src );
 
-		if ( preg_match( '/\/ad[sx]{1}?\//', $src ) ) {
+		if ( preg_match( '!/ad[sx]?/!i', $src ) ) {
 			// Ads
 			return '';
-		} else if ( preg_match( '/(\/share-?this[^\.]+?\.[a-z0-9]{3,4})(\?.*)?$/', $src ) ) {
+		} else if ( preg_match( '!(/share-?this[^.]+?\.[a-z0-9]{3,4})(\?.*)?$!i', $src ) ) {
 			// Share-this type button
 			return '';
-		} else if ( preg_match( '/\/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)/', $src ) ) {
+		} else if ( preg_match( '!/(spinner|loading|spacer|blank|rss)\.(gif|jpg|png)!i', $src ) ) {
 			// Loaders, spinners, spacers
 			return '';
-		} else if ( preg_match( '/\/([^\.\/]+[-_]{1})?(spinner|loading|spacer|blank)s?([-_]{1}[^\.\/]+)?\.[a-z0-9]{3,4}/', $src ) ) {
+		} else if ( preg_match( '!/([^./]+[-_])?(spinner|loading|spacer|blank)s?([-_][^./]+)?\.[a-z0-9]{3,4}!i', $src ) ) {
 			// Fancy loaders, spinners, spacers
 			return '';
-		} else if ( preg_match( '/([^\.\/]+[-_]{1})?thumb[^.]*\.(gif|jpg|png)$/', $src ) ) {
+		} else if ( preg_match( '!([^./]+[-_])?thumb[^.]*\.(gif|jpg|png)$!i', $src ) ) {
 			// Thumbnails, too small, usually irrelevant to context
 			return '';
-		} else if ( preg_match( '/\/wp-includes\//', $src ) ) {
-			// Classic WP interface images
+		} else if ( false !== stripos( $src, '/wp-includes/' ) ) {
+			// Classic WordPress interface images
 			return '';
-		} else if ( preg_match( '/[^\d]{1}\d{1,2}x\d+\.(gif|jpg|png)$/', $src ) ) {
+		} else if ( preg_match( '![^\d]\d{1,2}x\d+\.(gif|jpg|png)$!i', $src ) ) {
 			// Most often tiny buttons/thumbs (< 100px wide)
 			return '';
-		} else if ( preg_match( '/\/pixel\.(mathtag|quantserve)\.com/', $src ) ) {
+		} else if ( preg_match( '!/pixel\.(mathtag|quantserve)\.com!i', $src ) ) {
 			// See mathtag.com and https://www.quantcast.com/how-we-do-it/iab-standard-measurement/how-we-collect-data/
 			return '';
-		} else if ( preg_match( '/\/[gb]\.gif(\?.+)?$/', $src ) ) {
-			// Classic WP stats gif
+		} else if ( preg_match( '!/[gb]\.gif(\?.+)?$!i', $src ) ) {
+			// WordPress.com stats gif
 			return '';
 		}
 
@@ -452,19 +452,19 @@ class WP_Press_This {
 		if ( empty( $src ) )
 			return '';
 
-		if ( preg_match( '/\/\/(m|www)\.youtube\.com\/(embed|v)\/([^\?]+)\?.+$/', $src, $src_matches ) ) {
+		if ( preg_match( '!//(m|www)\.youtube\.com/(embed|v)/([^?]+)\?.+$!i', $src, $src_matches ) ) {
 			// Embedded Youtube videos (www or mobile)
 			$src = 'https://www.youtube.com/watch?v=' . $src_matches[3];
-		} else if ( preg_match( '/\/\/player\.vimeo\.com\/video\/([\d]+)([\?\/]{1}.*)?$/', $src, $src_matches ) ) {
+		} else if ( preg_match( '!//player\.vimeo\.com/video/([\d]+)([?/].*)?$!i', $src, $src_matches ) ) {
 			// Embedded Vimeo iframe videos
 			$src = 'https://vimeo.com/' . (int) $src_matches[1];
-		} else if ( preg_match( '/\/\/vimeo\.com\/moogaloop\.swf\?clip_id=([\d]+)$/', $src, $src_matches ) ) {
+		} else if ( preg_match( '!//vimeo\.com/moogaloop\.swf\?clip_id=([\d]+)$!i', $src, $src_matches ) ) {
 			// Embedded Vimeo Flash videos
 			$src = 'https://vimeo.com/' . (int) $src_matches[1];
-		} else if ( preg_match( '/\/\/vine\.co\/v\/([^\/]+)\/embed/', $src, $src_matches ) ) {
+		} else if ( preg_match( '!//vine\.co/v/([^/]+)/embed!i', $src, $src_matches ) ) {
 			// Embedded Vine videos
 			$src = 'https://vine.co/v/' . $src_matches[1];
-		} else if ( preg_match( '/\/\/(www\.)?dailymotion\.com\/embed\/video\/([^\/\?]+)([\/\?]{1}.+)?/', $src, $src_matches ) ) {
+		} else if ( preg_match( '!//(www\.)?dailymotion\.com/embed/video/([^/?]+)([/?].+)?!i', $src, $src_matches ) ) {
 			// Embedded Daily Motion videos
 			$src = 'https://www.dailymotion.com/video/' . $src_matches[2];
 		} else {
@@ -876,7 +876,7 @@ class WP_Press_This {
 
 		if ( current_user_can( $taxonomy->cap->edit_terms ) ) {
 			?>
-			<button type="button" class="add-cat-toggle button-subtle" aria-expanded="false">
+			<button type="button" class="add-cat-toggle button-link" aria-expanded="false">
 				<span class="dashicons dashicons-plus"></span><span class="screen-reader-text"><?php _e( 'Toggle add category' ); ?></span>
 			</button>
 			<div class="add-category is-hidden">
@@ -961,7 +961,7 @@ class WP_Press_This {
 
 		if ( $user_can_assign_terms ) {
 			?>
-			<button type="button" class="button-reset button-link tagcloud-link" id="link-post_tag"><?php echo $taxonomy->labels->choose_from_most_used; ?></button>
+			<button type="button" class="button-link tagcloud-link" id="link-post_tag"><?php echo $taxonomy->labels->choose_from_most_used; ?></button>
 			<?php
 		}
 	}
@@ -984,7 +984,7 @@ class WP_Press_This {
 		}
 
 		if ( ! empty( $data['_embeds'] ) ) {
-			foreach( $data['_embeds'] as $src ) {
+			foreach ( $data['_embeds'] as $src ) {
 				$prot_relative_src = preg_replace( '/^https?:/', '', $src );
 
 				if ( in_array( $prot_relative_src, $this->embeds ) ) {
@@ -1012,7 +1012,7 @@ class WP_Press_This {
 		$selected_images = array();
 
 		if ( ! empty( $data['_images'] ) ) {
-			foreach( $data['_images'] as $src ) {
+			foreach ( $data['_images'] as $src ) {
 				if ( false !== strpos( $src, 'gravatar.com' ) ) {
 					$src = preg_replace( '%http://[\d]+\.gravatar\.com/%', 'https://secure.gravatar.com/', $src );
 				}
@@ -1341,7 +1341,7 @@ class WP_Press_This {
 				<span class="current-site-name"><?php bloginfo( 'name' ); ?></span>
 			</a>
 		</h1>
-		<button type="button" class="options button-subtle closed">
+		<button type="button" class="options button-link closed">
 			<span class="dashicons dashicons-tag on-closed"></span>
 			<span class="screen-reader-text on-closed"><?php _e( 'Show post options' ); ?></span>
 			<span aria-hidden="true" class="on-open"><?php _e( 'Done' ); ?></span>
@@ -1430,7 +1430,7 @@ class WP_Press_This {
 			<div class="post-options">
 
 				<?php if ( $supports_formats ) : ?>
-					<button type="button" class="button-reset post-option">
+					<button type="button" class="button-link post-option">
 						<span class="dashicons dashicons-admin-post"></span>
 						<span class="post-option-title"><?php _ex( 'Format', 'post format' ); ?></span>
 						<span class="post-option-contents" id="post-option-post-format"><?php echo esc_html( get_post_format_string( $post_format ) ); ?></span>
@@ -1438,13 +1438,13 @@ class WP_Press_This {
 					</button>
 				<?php endif; ?>
 
-				<button type="button" class="button-reset post-option">
+				<button type="button" class="button-link post-option">
 					<span class="dashicons dashicons-category"></span>
 					<span class="post-option-title"><?php _e( 'Categories' ); ?></span>
 					<span class="dashicons post-option-forward"></span>
 				</button>
 
-				<button type="button" class="button-reset post-option">
+				<button type="button" class="button-link post-option">
 					<span class="dashicons dashicons-tag"></span>
 					<span class="post-option-title"><?php _e( 'Tags' ); ?></span>
 					<span class="dashicons post-option-forward"></span>
@@ -1453,7 +1453,7 @@ class WP_Press_This {
 
 			<?php if ( $supports_formats ) : ?>
 				<div class="setting-modal is-off-screen is-hidden">
-					<button type="button" class="button-reset modal-close">
+					<button type="button" class="button-link modal-close">
 						<span class="dashicons post-option-back"></span>
 						<span class="setting-title" aria-hidden="true"><?php _ex( 'Format', 'post format' ); ?></span>
 						<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
@@ -1463,7 +1463,7 @@ class WP_Press_This {
 			<?php endif; ?>
 
 			<div class="setting-modal is-off-screen is-hidden">
-				<button type="button" class="button-reset modal-close">
+				<button type="button" class="button-link modal-close">
 					<span class="dashicons post-option-back"></span>
 					<span class="setting-title" aria-hidden="true"><?php _e( 'Categories' ); ?></span>
 					<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
@@ -1472,7 +1472,7 @@ class WP_Press_This {
 			</div>
 
 			<div class="setting-modal tags is-off-screen is-hidden">
-				<button type="button" class="button-reset modal-close">
+				<button type="button" class="button-link modal-close">
 					<span class="dashicons post-option-back"></span>
 					<span class="setting-title" aria-hidden="true"><?php _e( 'Tags' ); ?></span>
 					<span class="screen-reader-text"><?php _e( 'Back to post options' ) ?></span>
@@ -1484,7 +1484,7 @@ class WP_Press_This {
 
 	<div class="press-this-actions">
 		<div class="pressthis-media-buttons">
-			<button type="button" class="insert-media button-subtle" data-editor="pressthis">
+			<button type="button" class="insert-media button-link" data-editor="pressthis">
 				<span class="dashicons dashicons-admin-media"></span>
 				<span class="screen-reader-text"><?php _e( 'Add Media' ); ?></span>
 			</button>
@@ -1495,16 +1495,16 @@ class WP_Press_This {
 				<div class="split-button-head">
 					<button type="button" class="publish-button split-button-primary" aria-live="polite">
 						<span class="publish"><?php echo ( current_user_can( 'publish_posts' ) ) ? __( 'Publish' ) : __( 'Submit for Review' ); ?></span>
-						<span class="saving-draft"><?php _e( 'Saving...' ); ?></span>
+						<span class="saving-draft"><?php _e( 'Saving&hellip;' ); ?></span>
 					</button><button type="button" class="split-button-toggle" aria-haspopup="true" aria-expanded="false">
 						<i class="dashicons dashicons-arrow-down-alt2"></i>
 						<span class="screen-reader-text"><?php _e('More actions'); ?></span>
 					</button>
 				</div>
 				<ul class="split-button-body">
-					<li><button type="button" class="button-subtle draft-button split-button-option"><?php _e( 'Save Draft' ); ?></button></li>
-					<li><button type="button" class="button-subtle standard-editor-button split-button-option"><?php _e( 'Standard Editor' ); ?></button></li>
-					<li><button type="button" class="button-subtle preview-button split-button-option"><?php _e( 'Preview' ); ?></button></li>
+					<li><button type="button" class="button-link draft-button split-button-option"><?php _e( 'Save Draft' ); ?></button></li>
+					<li><button type="button" class="button-link standard-editor-button split-button-option"><?php _e( 'Standard Editor' ); ?></button></li>
+					<li><button type="button" class="button-link preview-button split-button-option"><?php _e( 'Preview' ); ?></button></li>
 				</ul>
 			</div>
 		</div>

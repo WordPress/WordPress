@@ -61,7 +61,10 @@ if ( isset($_REQUEST['attachment_id']) && ($id = intval($_REQUEST['attachment_id
 			if ( $thumb_url = wp_get_attachment_image_src( $id, 'thumbnail', true ) )
 				echo '<img class="pinkynail" src="' . esc_url( $thumb_url[0] ) . '" alt="" />';
 			echo '<a class="edit-attachment" href="' . esc_url( get_edit_post_link( $id ) ) . '" target="_blank">' . _x( 'Edit', 'media item' ) . '</a>';
-			$title = $post->post_title ? $post->post_title : wp_basename( $post->guid ); // title shouldn't ever be empty, but use filename just in cas.e
+
+			// Title shouldn't ever be empty, but use filename just in case.
+			$file = get_attached_file( $post->ID );
+			$title = $post->post_title ? $post->post_title : wp_basename( $file );
 			echo '<div class="filename new"><span class="title">' . esc_html( wp_html_excerpt( $title, 60, '&hellip;' ) ) . '</span></div>';
 			break;
 		case 2 :
@@ -89,7 +92,7 @@ $id = media_handle_upload( 'async-upload', $post_id );
 if ( is_wp_error($id) ) {
 	echo '<div class="error-div error">
 	<a class="dismiss" href="#" onclick="jQuery(this).parents(\'div.media-item\').slideUp(200, function(){jQuery(this).remove();});">' . __('Dismiss') . '</a>
-	<strong>' . sprintf(__('&#8220;%s&#8221; has failed to upload due to an error'), esc_html($_FILES['async-upload']['name']) ) . '</strong><br />' .
+	<strong>' . sprintf(__('&#8220;%s&#8221; has failed to upload.'), esc_html($_FILES['async-upload']['name']) ) . '</strong><br />' .
 	esc_html($id->get_error_message()) . '</div>';
 	exit;
 }

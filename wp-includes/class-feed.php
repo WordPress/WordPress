@@ -1,6 +1,6 @@
 <?php
 
-if ( !class_exists('SimplePie') )
+if ( ! class_exists( 'SimplePie', false ) )
 	require_once( ABSPATH . WPINC . '/class-simplepie.php' );
 
 class WP_Feed_Cache extends SimplePie_Cache {

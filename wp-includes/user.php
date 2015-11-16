@@ -1,9 +1,12 @@
 <?php
 /**
- * WordPress User API
+ * Core User API
  *
  * @package WordPress
  * @subpackage Users
+<<<<<<< HEAD
+ * @since 2.1.0
+=======
  */
 
 /**
@@ -2651,34 +2654,11 @@ function wp_get_all_sessions() {
  * Remove the current session token from the database.
  *
  * @since 4.0.0
+>>>>>>> refs/remotes/origin/4.3-branch
  */
-function wp_destroy_current_session() {
-	$token = wp_get_session_token();
-	if ( $token ) {
-		$manager = WP_Session_Tokens::get_instance( get_current_user_id() );
-		$manager->destroy( $token );
-	}
-}
 
-/**
- * Remove all but the current session token for the current user for the database.
- *
- * @since 4.0.0
- */
-function wp_destroy_other_sessions() {
-	$token = wp_get_session_token();
-	if ( $token ) {
-		$manager = WP_Session_Tokens::get_instance( get_current_user_id() );
-		$manager->destroy_others( $token );
-	}
-}
+/** Core users functionality */
+require_once( ABSPATH . WPINC . '/user-functions.php' );
 
-/**
- * Remove all session tokens for the current user from the database.
- *
- * @since 4.0.0
- */
-function wp_destroy_all_sessions() {
-	$manager = WP_Session_Tokens::get_instance( get_current_user_id() );
-	$manager->destroy_all();
-}
+/** WP_User_Query class */
+require_once( ABSPATH . WPINC . '/class-wp-user-query.php' );

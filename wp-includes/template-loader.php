@@ -39,6 +39,20 @@ elseif ( is_feed() ) :
 elseif ( is_trackback() ) :
 	include( ABSPATH . 'wp-trackback.php' );
 	return;
+elseif ( is_embed() ) :
+	$template = ABSPATH . WPINC . '/embed-template.php';
+
+	/**
+	 * Filter the template used for embedded posts.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $template Path to the template file.
+	 */
+	$template = apply_filters( 'embed_template', $template );
+
+	include ( $template );
+	return;
 endif;
 
 if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
