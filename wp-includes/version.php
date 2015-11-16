@@ -5,10 +5,14 @@
  * @global string $wp_version
  */
 <<<<<<< HEAD
+<<<<<<< HEAD
 $wp_version = '4.4-beta4-35644';
 =======
 $wp_version = '4.3.2-alpha';
 >>>>>>> refs/remotes/origin/4.3-branch
+=======
+$wp_version = '4.4-beta4-35646';
+>>>>>>> refs/remotes/WordPress/master
 
 /**
  * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.
