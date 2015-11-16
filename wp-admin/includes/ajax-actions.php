@@ -2821,7 +2821,7 @@ function wp_ajax_query_themes() {
 		'fields'   => $theme_field_defaults
 	) );
 
-	if ( 'favorites' === $args['browse'] && ! isset( $args['user'] ) ) {
+	if ( isset( $args['browse'] ) && 'favorites' === $args['browse'] && ! isset( $args['user'] ) ) {
 		$user = get_user_option( 'wporg_favorites' );
 		if ( $user ) {
 			$args['user'] = $user;
