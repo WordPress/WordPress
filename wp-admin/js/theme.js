@@ -1333,7 +1333,7 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 		}
 
 		$( '.filter-links li > a.current' ).removeClass( 'current' );
-		$( 'body' ).removeClass( 'show-filters filters-applied' );
+		$( 'body' ).removeClass( 'show-filters filters-applied show-favorites-form' );
 
 		// Get the themes by sending Ajax POST request to api.wordpress.org/themes
 		// or searching the local cache
