@@ -1184,7 +1184,7 @@
 				$document.on( 'dfw-on.focus', mceBind ).on( 'dfw-off.focus', mceUnbind );
 
 				// Make sure the body focuses when clicking outside it.
-				editor.on( 'click', function( event ) {
+				editor.on( 'click', function( event ) {
 					if ( event.target === editor.getDoc().documentElement ) {
 						editor.focus();
 					}

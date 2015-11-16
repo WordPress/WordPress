@@ -142,7 +142,7 @@
 }
 
 .theme-browser .theme .theme-screenshot:after {
-	content: '';
+	content: "";
 	display: block;
 	padding-top: 66.66666%; /* using a 3/2 aspect ratio */
 }
@@ -235,9 +235,9 @@
 
 .theme-browser .theme .theme-update:before,
 .theme-browser .theme .theme-installed:before {
-	content: '\f463';
+	content: "\f463";
 	display: inline-block;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	margin: 0 0 0 6px;
 	opacity: 0.8;
 	position: relative;
@@ -316,7 +316,7 @@
 
 .theme-browser .theme.add-new-theme a:after {
 	display: block;
-	content: '';
+	content: "";
 	background: transparent;
 	background: rgba(0, 0, 0, 0);
 	position: absolute;
@@ -339,9 +339,9 @@
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	display: inline-block;
-	content: '\f132';
+	content: "\f132";
 	-webkit-font-smoothing: antialiased;
-	font: normal 74px/115px 'dashicons';
+	font: normal 74px/115px dashicons;
 	width: 100px;
 	height: 100px;
 	vertical-align: middle;
@@ -377,7 +377,7 @@
 	border-color: transparent;
 	color: #fff;
 	background: #0073aa;
-	content: '';
+	content: "";
 }
 
 .theme-browser .theme.add-new-theme .theme-name {
@@ -441,10 +441,10 @@
 }
 
 .theme-overlay .theme-header .close:before {
-	font: normal 22px/50px 'dashicons' !important;
+	font: normal 22px/50px dashicons !important;
 	color: #777;
 	display: inline-block;
-	content: '\f335';
+	content: "\f335";
 	font-weight: 300;
 }
 
@@ -499,7 +499,7 @@
 
 .theme-overlay .theme-header .right:before,
 .theme-overlay .theme-header .left:before {
-	font: normal 20px/50px 'dashicons' !important;
+	font: normal 20px/50px dashicons !important;
 	display: inline;
 	font-weight: 300;
 }
@@ -647,7 +647,7 @@ body.folded .theme-overlay .theme-wrap {
 }
 
 .theme-overlay .screenshot:after {
-	content: '';
+	content: "";
 	display: block;
 	padding-top: 75%; /* using a 4/3 aspect ratio */
 }
@@ -682,7 +682,7 @@ body.folded .theme-overlay .theme-wrap {
 }
 
 .theme-overlay .screenshot.thumb:after {
-	content: '';
+	content: "";
 	display: block;
 	padding-top: 100%; /* using a 1/1 aspect ratio */
 }
@@ -753,10 +753,11 @@ body.folded .theme-overlay .theme-wrap {
 }
 
 .theme-overlay .theme-author {
+	margin: 15px 0 25px;
 	color: #686868;
 	font-size: 16px;
 	font-weight: 400;
-	margin: 15px 0 25px;
+	line-height: inherit;
 }
 
 .theme-overlay .theme-author a {
@@ -784,24 +785,6 @@ body.folded .theme-overlay .theme-wrap {
 	color: #444;
 	font-weight: bold;
 	margin-left: 5px;
-}
-
-/* Theme Updates info */
-.theme-overlay .theme-update-message {
-	background: #fef7f1;
-	border: 1px solid #eee;
-	border-right: 4px solid #d54e21;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
-	padding: 5px 20px 10px;
-}
-
-.theme-overlay .theme-update {
-	color: #23282d;
-	font-size: 18px;
-	display: inline-block;
-	line-height: 40px;
-	margin: 0;
 }
 
 .theme-overlay .parent-theme {
@@ -1033,7 +1016,7 @@ body.folded .theme-overlay .theme-wrap {
 	}
 
 	.theme-browser .theme.add-new-theme span:after {
-		font: normal 60px/90px 'dashicons';
+		font: normal 60px/90px dashicons;
 		width: 80px;
 		height: 80px;
 		top: 30%;
@@ -1079,7 +1062,7 @@ body.folded .theme-overlay .theme-wrap {
 	background: #0073aa;
 }
 .theme-browser .theme .theme-installed:before {
-	content: '\f147';
+	content: "\f147";
 }
 .theme-browser .theme.is-installed .theme-actions .button-primary {
 	display: none !important;
@@ -1172,57 +1155,23 @@ body.show-upload-theme p.no-themes {
 	}
 }
 
+.theme-details .theme-rating {
+	line-height: 23px;
+}
+
 .theme-details .star-rating {
-	margin: 15px 0 0;
+	display: inline;
 }
 
-.theme-details .star-rating span:before {
-	color: #ffb900;
-	content: "\f154";
-	display: inline-block;
-	-webkit-font-smoothing: antialiased;
-	font: normal 20px/1 'dashicons';
-	vertical-align: top;
+.theme-details .num-ratings,
+.theme-details .no-rating {
+	font-size: 11px;
+	color: #999;
 }
 
-/* Half stars */
-.star-rating.rating-10 span.one:before,
-.star-rating.rating-30 span.two:before,
-.star-rating.rating-50 span.three:before,
-.star-rating.rating-70 span.four:before,
-.star-rating.rating-90 span.five:before {
-	content: "\f459";
-}
-
-/* Full stars */
-.star-rating.rating-20 span.one:before,
-.star-rating.rating-30 span.one:before,
-.star-rating.rating-40 span.one:before,
-.star-rating.rating-40 span.two:before,
-.star-rating.rating-50 span.one:before,
-.star-rating.rating-50 span.two:before,
-.star-rating.rating-60 span.one:before,
-.star-rating.rating-60 span.two:before,
-.star-rating.rating-60 span.three:before,
-.star-rating.rating-70 span.one:before,
-.star-rating.rating-70 span.two:before,
-.star-rating.rating-70 span.three:before,
-.star-rating.rating-80 span.one:before,
-.star-rating.rating-80 span.two:before,
-.star-rating.rating-80 span.three:before,
-.star-rating.rating-80 span.four:before,
-.star-rating.rating-90 span.one:before,
-.star-rating.rating-90 span.two:before,
-.star-rating.rating-90 span.three:before,
-.star-rating.rating-90 span.four:before,
-.star-rating.rating-100 > span:before {
-	content: "\f155";
-}
-
-.theme-details .star-rating .ratings {
+.theme-details .no-rating {
 	display: block;
 	line-height: 20px;
-	color: #999;
 }
 
 /*------------------------------------------------------------------------------
@@ -1330,7 +1279,7 @@ body.full-overlay-active {
 }
 
 .wp-full-overlay-sidebar:after {
-	content: '';
+	content: "";
 	display: block;
 	position: absolute;
 	top: 0;
@@ -1527,7 +1476,7 @@ body.full-overlay-active {
 	display: block;
 	content: "\f148";
 	background: #eee;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	padding: 0;
 	-webkit-font-smoothing: antialiased;
@@ -1646,7 +1595,7 @@ body.full-overlay-active {
 }
 
 .install-theme-info .theme-screenshot {
-	margin-top: 15px;
+	margin: 15px 0;
 	width: 258px;
 	border: 1px solid #ccc;
 }
@@ -1657,7 +1606,6 @@ body.full-overlay-active {
 
 .theme-details .theme-version {
 	margin: 15px 0;
-	float: right;
 }
 
 .theme-details .theme-description {
@@ -1686,9 +1634,30 @@ body.full-overlay-active {
 }
 
 .theme-install-overlay .wp-full-overlay-main {
+	position: relative;
+	z-index: 0;
+	background-color: #fff;
+}
+
+.theme-install-overlay .wp-full-overlay-main:before {
+	content: '';
+	display: block;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: 50%;
+	top: 50%;
+	z-index: -1;
+	margin: -10px -10px 0 0;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
 	background: #fff url(../images/spinner.gif) no-repeat center center;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
+}
+
+.theme-install-overlay.iframe-ready .wp-full-overlay-main:before {
+	background-image: none;
 }
 
 /* =Media Queries
@@ -1708,12 +1677,8 @@ body.full-overlay-active {
 
 	#customize-preview.wp-full-overlay-main,
 	.customize-loading #customize-container,
-	.theme-install-overlay .wp-full-overlay-main {
+	.theme-install-overlay .wp-full-overlay-main:before {
 		background-image: url(../images/spinner-2x.gif);
-	}
-
-	.theme-install-overlay .wp-full-overlay-header .theme-install {
-		margin-top: 2px;
 	}
 }
 

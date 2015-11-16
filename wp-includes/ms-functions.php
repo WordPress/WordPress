@@ -24,31 +24,6 @@ function get_sitestats() {
 }
 
 /**
- * Get the admin for a domain/path combination.
- *
- * @since MU 1.0
- *
- * @global wpdb $wpdb
- *
- * @param string $sitedomain Optional. Site domain.
- * @param string $path       Optional. Site path.
- * @return array|false The network admins
- */
-function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
-	global $wpdb;
-
-	if ( ! $sitedomain )
-		$site_id = $wpdb->siteid;
-	else
-		$site_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path ) );
-
-	if ( $site_id )
-		return $wpdb->get_results( $wpdb->prepare( "SELECT u.ID, u.user_login, u.user_pass FROM $wpdb->users AS u, $wpdb->sitemeta AS sm WHERE sm.meta_key = 'admin_user_id' AND u.ID = sm.meta_value AND sm.site_id = %d", $site_id ), ARRAY_A );
-
-	return false;
-}
-
-/**
  * Get one of a user's active blogs
  *
  * Returns the user's primary blog, if they have one and
@@ -59,7 +34,7 @@ function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
  *
  * @since MU 1.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $user_id The unique ID of the user
  * @return object|void The blog object
@@ -220,7 +195,7 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
  *
  * @since MU 1.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $user_id  ID of the user you're removing.
  * @param int    $blog_id  ID of the blog you're removing the user from.
@@ -297,39 +272,6 @@ function remove_user_from_blog($user_id, $blog_id = '', $reassign = '') {
 }
 
 /**
- * Create an empty blog.
- *
- * @since MU 1.0
- *
- * @param string $domain       The new blog's domain.
- * @param string $path         The new blog's path.
- * @param string $weblog_title The new blog's title.
- * @param int    $site_id      Optional. Defaults to 1.
- * @return string|int The ID of the newly created blog
- */
-function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
-	if ( empty($path) )
-		$path = '/';
-
-	// Check if the domain has been used already. We should return an error message.
-	if ( domain_exists($domain, $path, $site_id) )
-		return __( '<strong>ERROR</strong>: Site URL already taken.' );
-
-	// Need to back up wpdb table names, and create a new wp_blogs entry for new blog.
-	// Need to get blog_id from wp_blogs, and create new table names.
-	// Must restore table names at the end of function.
-
-	if ( ! $blog_id = insert_blog($domain, $path, $site_id) )
-		return __( '<strong>ERROR</strong>: problem creating site entry.' );
-
-	switch_to_blog($blog_id);
-	install_blog($blog_id);
-	restore_current_blog();
-
-	return $blog_id;
-}
-
-/**
  * Get the permalink for a post on another blog.
  *
  * @since MU 1.0
@@ -356,7 +298,7 @@ function get_blog_permalink( $blog_id, $post_id ) {
  *
  * @since MU 2.6.5
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $domain
  * @param string $path   Optional. Not required for subdomain installations.
@@ -456,7 +398,7 @@ function is_email_address_unsafe( $user_email ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $user_name  The login name provided by the user.
  * @param string $user_email The email provided by the user.
@@ -471,7 +413,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	$user_name = preg_replace( '/\s+/', '', sanitize_user( $user_name, true ) );
 
 	if ( $user_name != $orig_username || preg_match( '/[^a-z0-9]/', $user_name ) ) {
-		$errors->add( 'user_name', __( 'Only lowercase letters (a-z) and numbers are allowed.' ) );
+		$errors->add( 'user_name', __( 'Usernames can only contain lowercase letters (a-z) and numbers.' ) );
 		$user_name = $orig_username;
 	}
 
@@ -485,8 +427,16 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		$illegal_names = array(  'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator' );
 		add_site_option( 'illegal_names', $illegal_names );
 	}
-	if ( in_array( $user_name, $illegal_names ) )
-		$errors->add('user_name',  __( 'That username is not allowed.' ) );
+	if ( in_array( $user_name, $illegal_names ) ) {
+		$errors->add( 'user_name',  __( 'Sorry, that username is not allowed.' ) );
+	}
+
+	/** This filter is documented in wp-includes/user-functions.php */
+	$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
+
+	if ( in_array( strtolower( $user_name ), array_map( 'strtolower', $illegal_logins ) ) ) {
+		$errors->add( 'user_name',  __( 'Sorry, that username is not allowed.' ) );
+	}
 
 	if ( is_email_address_unsafe( $user_email ) )
 		$errors->add('user_email',  __('You cannot use that email address to signup. We are having problems with them blocking some of our email. Please use another email provider.'));
@@ -497,9 +447,6 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	if ( strlen( $user_name ) > 60 ) {
 		$errors->add( 'user_name', __( 'Username may not be longer than 60 characters.' ) );
 	}
-
-	if ( strpos( $user_name, '_' ) !== false )
-		$errors->add( 'user_name', __( 'Sorry, usernames may not contain the character &#8220;_&#8221;!' ) );
 
 	// all numeric?
 	if ( preg_match( '/^[0-9]*$/', $user_name ) )
@@ -588,8 +535,9 @@ function wpmu_validate_user_signup($user_name, $user_email) {
  * @global wpdb   $wpdb
  * @global string $domain
  *
- * @param string $blogname   The blog name provided by the user. Must be unique.
- * @param string $blog_title The blog title provided by the user.
+ * @param string         $blogname   The blog name provided by the user. Must be unique.
+ * @param string         $blog_title The blog title provided by the user.
+ * @param WP_User|string $user       Optional. The user object to check against the new site name.
  * @return array Contains the new site data and error messages.
  */
 function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
@@ -599,7 +547,6 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	$base = $current_site->path;
 
 	$blog_title = strip_tags( $blog_title );
-	$blog_title = substr( $blog_title, 0, 50 );
 
 	$errors = new WP_Error();
 	$illegal_names = get_site_option( 'illegal_names' );
@@ -613,33 +560,21 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	 * spring them from jail.
 	 */
 	if ( ! is_subdomain_install() ) {
-		$illegal_names = array_merge(
-			$illegal_names,
-			/**
-			 * Filter reserved site names on a sub-directory Multisite install.
-			 *
-			 * @since 3.0.0
-			 *
-			 * @param array $subdirectory_reserved_names Array of reserved names.
-			 */
-			apply_filters( 'subdirectory_reserved_names', array( 'page', 'comments', 'blog', 'files', 'feed' ) )
-		);
+		$illegal_names = array_merge( $illegal_names, get_subdirectory_reserved_names() );
 	}
 
 	if ( empty( $blogname ) )
 		$errors->add('blogname', __( 'Please enter a site name.' ) );
 
-	if ( preg_match( '/[^a-z0-9]+/', $blogname ) )
-		$errors->add('blogname', __( 'Only lowercase letters (a-z) and numbers are allowed.' ) );
+	if ( preg_match( '/[^a-z0-9]+/', $blogname ) ) {
+		$errors->add( 'blogname', __( 'Site names can only contain lowercase letters (a-z) and numbers.' ) );
+	}
 
 	if ( in_array( $blogname, $illegal_names ) )
 		$errors->add('blogname',  __( 'That name is not allowed.' ) );
 
 	if ( strlen( $blogname ) < 4 && !is_super_admin() )
 		$errors->add('blogname',  __( 'Site name must be at least 4 characters.' ) );
-
-	if ( strpos( $blogname, '_' ) !== false )
-		$errors->add( 'blogname', __( 'Sorry, site names may not contain the character &#8220;_&#8221;!' ) );
 
 	// do not allow users to create a blog that conflicts with a page on the main blog.
 	if ( !is_subdomain_install() && $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM " . $wpdb->get_blog_prefix( $current_site->blog_id ) . "posts WHERE post_type = 'page' AND post_name = %s", $blogname ) ) )
@@ -703,12 +638,12 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	 * @param array $result {
 	 *     Array of domain, path, blog name, blog title, user and error messages.
 	 *
-	 *     @type string   $domain     Domain for the site.
-	 *     @type string   $path       Path for the site. Used in subdirectory installs.
-	 *     @type string   $blogname   The unique site name (slug).
-	 *     @type string   $blog_title Blog title.
-	 *     @type string   $user       User email address.
-	 *     @type WP_Error $errors     WP_Error containing any errors found.
+	 *     @type string         $domain     Domain for the site.
+	 *     @type string         $path       Path for the site. Used in subdirectory installs.
+	 *     @type string         $blogname   The unique site name (slug).
+	 *     @type string         $blog_title Blog title.
+	 *     @type string|WP_User $user       By default, an empty string. A user object if provided.
+	 *     @type WP_Error       $errors     WP_Error containing any errors found.
 	 * }
 	 */
 	return apply_filters( 'wpmu_validate_blog_signup', $result );
@@ -719,7 +654,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $domain     The requested domain.
  * @param string $path       The requested path.
@@ -745,7 +680,20 @@ function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = a
 		'meta' => $meta
 	) );
 
-	wpmu_signup_blog_notification($domain, $path, $title, $user, $user_email, $key, $meta);
+	/**
+	 * Fires after site signup information has been written to the database.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $domain     The requested domain.
+	 * @param string $path       The requested path.
+	 * @param string $title      The requested site title.
+	 * @param string $user       The user's requested login name.
+	 * @param string $user_email The user's email address.
+	 * @param string $key        The user's activation key
+	 * @param array  $meta       By default, contains the requested privacy setting and lang_id.
+	 */
+	do_action( 'after_signup_site', $domain, $path, $title, $user, $user_email, $key, $meta );
 }
 
 /**
@@ -756,7 +704,7 @@ function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = a
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $user       The user's requested login name.
  * @param string $user_email The user's email address.
@@ -782,7 +730,17 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 		'meta' => $meta
 	) );
 
-	wpmu_signup_user_notification($user, $user_email, $key, $meta);
+	/**
+	 * Fires after a user's signup information has been written to the database.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $user       The user's requested login name.
+	 * @param string $user_email The user's email address.
+	 * @param string $key        The user's activation key
+	 * @param array  $meta       Additional signup meta. By default, this is an empty array.
+	 */
+	do_action( 'after_signup_user', $user, $user_email, $key, $meta );
 }
 
 /**
@@ -986,7 +944,7 @@ function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array(
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $key The activation key provided to the user.
  * @return array|WP_Error An array containing information about the activated user and/or blog
@@ -1027,7 +985,6 @@ function wpmu_activate_signup($key) {
 		if ( isset( $user_already_exists ) )
 			return new WP_Error( 'user_already_exists', __( 'That username is already activated.' ), $signup);
 
-		wpmu_welcome_user_notification( $user_id, $password, $meta );
 		/**
 		 * Fires immediately after a new user is activated.
 		 *
@@ -1055,7 +1012,6 @@ function wpmu_activate_signup($key) {
 	}
 
 	$wpdb->update( $wpdb->signups, array('active' => 1, 'activated' => $now), array('activation_key' => $key) );
-	wpmu_welcome_notification($blog_id, $user_id, $password, $signup->title, $meta);
 	/**
 	 * Fires immediately after a site is activated.
 	 *
@@ -1151,8 +1107,9 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $s
 	if ( domain_exists($domain, $path, $site_id) )
 		return new WP_Error( 'blog_taken', __( 'Sorry, that site already exists!' ) );
 
-	if ( !defined('WP_INSTALLING') )
-		define( 'WP_INSTALLING', true );
+	if ( ! wp_installing() ) {
+		wp_installing( true );
+	}
 
 	if ( ! $blog_id = insert_blog($domain, $path, $site_id) )
 		return new WP_Error('insert_blog', __('Could not create site.'));
@@ -1289,7 +1246,7 @@ Disable these notifications: %3$s'), $user->user_login, wp_unslash( $_SERVER['RE
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $domain  The domain to be checked.
  * @param string $path    The path to be checked.
@@ -1322,7 +1279,7 @@ function domain_exists($domain, $path, $site_id = 1) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $domain  The domain of the new site.
  * @param string $path    The path of the new site.
@@ -1363,7 +1320,7 @@ function insert_blog($domain, $path, $site_id) {
  * @param string $blog_title The title of the new site.
  */
 function install_blog( $blog_id, $blog_title = '' ) {
-	global $wpdb, $wp_roles;
+	global $wpdb, $wp_roles, $current_site;
 
 	// Cast for security
 	$blog_id = (int) $blog_id;
@@ -1385,10 +1342,21 @@ function install_blog( $blog_id, $blog_title = '' ) {
 	// populate_roles() clears previous role definitions so we start over.
 	$wp_roles = new WP_Roles();
 
-	$url = untrailingslashit( $url );
+	$siteurl = $home = untrailingslashit( $url );
 
-	update_option( 'siteurl', $url );
-	update_option( 'home', $url );
+	if ( ! is_subdomain_install() ) {
+
+ 		if ( 'https' === parse_url( get_site_option( 'siteurl' ), PHP_URL_SCHEME ) ) {
+ 			$siteurl = set_url_scheme( $siteurl, 'https' );
+ 		}
+ 		if ( 'https' === parse_url( get_home_url( $current_site->blog_id ), PHP_URL_SCHEME ) ) {
+ 			$home = set_url_scheme( $home, 'https' );
+ 		}
+
+	}
+
+	update_option( 'siteurl', $siteurl );
+	update_option( 'home', $home );
 
 	if ( get_site_option( 'ms_files_rewriting' ) )
 		update_option( 'upload_path', UPLOADBLOGSDIR . "/$blog_id/files" );
@@ -1413,7 +1381,7 @@ function install_blog( $blog_id, $blog_title = '' ) {
  * @deprecated MU
  * @deprecated Use wp_install_defaults()
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $blog_id Ignored in this function.
  * @param int $user_id
@@ -1638,7 +1606,7 @@ function get_current_site() {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $user_id
  * @return array Contains the blog_id, post_id, post_date_gmt, and post_gmt_ts
@@ -1785,7 +1753,7 @@ function check_upload_mimes( $mimes ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function update_posts_count( $deprecated = '' ) {
 	global $wpdb;
@@ -1797,7 +1765,7 @@ function update_posts_count( $deprecated = '' ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $blog_id
  * @param int $user_id
@@ -1816,7 +1784,7 @@ function wpmu_log_new_registrations( $blog_id, $user_id ) {
  *
  * @see term_id_filter
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  * @staticvar int $global_terms_recurse
  *
  * @param int $term_id An ID for a term on the current blog.
@@ -1899,6 +1867,8 @@ function redirect_this_site( $deprecated = '' ) {
  *
  * @since MU
  *
+ * @blessed
+ *
  * @param array $upload
  * @return string|array If the upload is under the size limit, $upload is returned. Otherwise returns an error message.
  */
@@ -1906,8 +1876,9 @@ function upload_is_file_too_big( $upload ) {
 	if ( ! is_array( $upload ) || defined( 'WP_IMPORTING' ) || get_site_option( 'upload_space_check_disabled' ) )
 		return $upload;
 
-	if ( strlen( $upload['bits'] )  > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
-		return sprintf( __( 'This file is too big. Files must be less than %d KB in size.' ) . '<br />', get_site_option( 'fileupload_maxk', 1500 ));
+	if ( strlen( $upload['bits'] )  > ( KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 ) ) ) {
+		return sprintf( __( 'This file is too big. Files must be less than %d KB in size.' ) . '<br />', get_site_option( 'fileupload_maxk', 1500 ) );
+	}
 
 	return $upload;
 }
@@ -2093,7 +2064,7 @@ function update_blog_public( $old_value, $value ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $key
  * @param int    $user_id Optional. Defaults to current user.
@@ -2205,7 +2176,7 @@ function wp_schedule_update_network_counts() {
 	if ( !is_main_site() )
 		return;
 
-	if ( !wp_next_scheduled('update_network_counts') && !defined('WP_INSTALLING') )
+	if ( ! wp_next_scheduled('update_network_counts') && ! wp_installing() )
 		wp_schedule_event(time(), 'twicedaily', 'update_network_counts');
 }
 
@@ -2269,7 +2240,7 @@ function wp_maybe_update_network_user_counts() {
  *
  * @since 3.7.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function wp_update_network_site_counts() {
 	global $wpdb;
@@ -2283,7 +2254,7 @@ function wp_update_network_site_counts() {
  *
  * @since 3.7.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function wp_update_network_user_counts() {
 	global $wpdb;
@@ -2310,7 +2281,7 @@ function get_space_used() {
 	$space_used = apply_filters( 'pre_get_space_used', false );
 	if ( false === $space_used ) {
 		$upload_dir = wp_upload_dir();
-		$space_used = get_dirsize( $upload_dir['basedir'] ) / 1024 / 1024;
+		$space_used = get_dirsize( $upload_dir['basedir'] ) / MB_IN_BYTES;
 	}
 
 	return $space_used;
@@ -2329,7 +2300,7 @@ function get_space_allowed() {
 	if ( ! is_numeric( $space_allowed ) )
 		$space_allowed = get_site_option( 'blog_upload_space' );
 
-	if ( empty( $space_allowed ) || ! is_numeric( $space_allowed ) )
+	if ( ! is_numeric( $space_allowed ) )
 		$space_allowed = 100;
 
 	/**
@@ -2350,11 +2321,15 @@ function get_space_allowed() {
  * @return int of upload space available in bytes
  */
 function get_upload_space_available() {
-	$space_allowed = get_space_allowed() * 1024 * 1024;
+	$allowed = get_space_allowed();
+	if ( $allowed < 0 ) {
+		$allowed = 0;
+	}
+	$space_allowed = $allowed * MB_IN_BYTES;
 	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return $space_allowed;
 
-	$space_used = get_space_used() * 1024 * 1024;
+	$space_used = get_space_used() * MB_IN_BYTES;
 
 	if ( ( $space_allowed - $space_used ) <= 0 )
 		return 0;
@@ -2381,7 +2356,7 @@ function is_upload_space_available() {
  * @return int of upload size limit in bytes
  */
 function upload_size_limit_filter( $size ) {
-	$fileupload_maxk = 1024 * get_site_option( 'fileupload_maxk', 1500 );
+	$fileupload_maxk = KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 );
 	if ( get_site_option( 'upload_space_check_disabled' ) )
 		return min( $size, $fileupload_maxk );
 
@@ -2424,7 +2399,7 @@ function wp_is_large_network( $using = 'sites' ) {
  *
  * @since 3.7.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $args {
  *     Array of default arguments. Optional.
@@ -2495,4 +2470,29 @@ function wp_get_sites( $args = array() ) {
 	$site_results = $wpdb->get_results( $query, ARRAY_A );
 
 	return $site_results;
+}
+
+/**
+ * Retrieves a list of reserved site on a sub-directory Multisite install.
+ *
+ * @since 4.4.0
+ *
+ * @return array $names Array of reserved subdirectory names.
+ */
+function get_subdirectory_reserved_names() {
+	$names = array(
+		'page', 'comments', 'blog', 'files', 'feed', 'wp-admin',
+		'wp-content', 'wp-includes', 'wp-json', 'embed'
+	);
+
+	/**
+	 * Filter reserved site names on a sub-directory Multisite install.
+	 *
+	 * @since 3.0.0
+	 * @since 4.4.0 'wp-admin', 'wp-content', 'wp-includes', 'wp-json', and 'embed' were added
+	 *              to the reserved names list.
+	 *
+	 * @param array $subdirectory_reserved_names Array of reserved names.
+	 */
+	return apply_filters( 'subdirectory_reserved_names', $names );
 }

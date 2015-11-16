@@ -312,7 +312,6 @@ strong {
 * Pushing buttons is what I do.
 */
 
-.button-subtle,
 .scan-submit {
 	display: inline-block;
 	margin: 0;
@@ -327,67 +326,6 @@ strong {
 	white-space: nowrap;
 	cursor: pointer;
 	-webkit-appearance: none;
-}
-
-.button-subtle {
-	background: none;
-	border: 0;
-	color: #0073aa;
-}
-
-.button-subtle:visited {
-	color: #0073aa;
-}
-
-.button-subtle:focus,
-.button-subtle:hover,
-.button-subtle:active,
-.edit-post-link:focus,
-.edit-post-link:hover,
-.edit-post-link:active {
-	color: #00a0d2;
-}
-
-.button-subtle:focus,
-.button-subtle:active,
-.edit-post-link:focus,
-.edit-post-link:active {
-	outline: 0;
-	text-decoration: underline;
-}
-
-.preview-button {
-	margin-right: 5px;
-}
-
-.button-reset {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background: none;
-	cursor: pointer;
-	-webkit-appearance: none;
-}
-
-.button-reset:focus {
-	outline: 0;
-}
-
-.button-link {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	background: none;
-	color: #0073aa;
-	cursor: pointer;
-	-webkit-appearance: none;
-}
-
-.button-link:hover,
-.button-link:active,
-.button-link:focus {
-	color: #00a0d2;
-	text-decoration: underline;
 }
 
 .split-button {
@@ -421,7 +359,7 @@ strong {
 	height: 0;
 	border-style: solid;
 	border-color: transparent;
-	content: '';
+	content: "";
 }
 
 .split-button-body:before {
@@ -443,6 +381,7 @@ strong {
 	margin: 0;
 	width: 100%;
 	text-align: left;
+	line-height: 2;
 }
 
 .is-open .split-button-body {
@@ -462,13 +401,17 @@ strong {
 	-webkit-appearance: none;
 	line-height: 2;
 	padding: 0 10px 1px;
-	background: #00a0d2;
-	border-color: #0073aa;
+	background: #0085ba;
+	border-color: #0073aa #006799 #006799;
 	border-width: 1px;
 	border-style: solid;
-	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.5), 0 1px 0 rgba( 0, 0, 0, 0.15 );
-	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.5 ), 0 1px 0 rgba( 0, 0, 0, 0.15 );
+	-webkit-box-shadow: 0 1px 0 #006799;
+ 	box-shadow: 0 1px 0 #006799;
 	color: #fff;
+	text-shadow: 0 -1px 1px #006799,
+		1px 0 1px #006799,
+		0 1px 1px #006799,
+		-1px 0 1px #006799;
 }
 
 .split-button-primary {
@@ -486,42 +429,37 @@ strong {
 	border-top-right-radius: 3px;
 	-webkit-border-bottom-right-radius: 3px;
 	border-bottom-right-radius: 3px;
-	border-left: 0 none;
+	border-left: 1px solid #006799;
 	float: right;
 }
 
 .split-button-toggle i {
 	margin: 4px 20px 3px 0;
 	padding: 0 10px;
-	border-left: 1px solid #fff;
 }
 
 .split-button-primary:hover,
 .split-button-toggle:hover {
 	outline: none;
-	background: #0091cd;
-	border-color: #0073aa;
+	background: #008ec2;
+	border-color: #006799;
 }
 
 .split-button-primary:focus,
 .split-button-toggle:focus {
 	outline: none;
-	border-color: #0e3950;
-	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 ),
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
-	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 ),
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
+	-webkit-box-shadow: 0 1px 0 #0073aa,
+		0 0 2px 1px #33b3db;
+	box-shadow: 0 1px 0 #0073aa,
+		0 0 2px 1px #33b3db;
 }
 
 .split-button-primary:active,
 .split-button-toggle:active {
 	background: #0073aa;
-	border-color: #005082;
-	color: rgba( 255, 255, 255, 0.95 );
-	-webkit-box-shadow: inset 0 1px 0 rgba( 0, 0, 0, 0.1 );
-	box-shadow: inset 0 1px 0 rgba( 0, 0, 0, 0.1 );
+	border-color: #006799;
+	-webkit-box-shadow: inset 0 2px 10px #006799, 0 1px 0 #0073aa;
+ 	box-shadow: inset 0 2px 10px #006799, 0 1px 0 #0073aa;
 }
 
 /**
@@ -899,7 +837,7 @@ dd {
 }
 
 .tagchecklist .ntdelbutton:before {
-	content: '\f153';
+	content: "\f153";
 	display: block;
 	margin: 2px 0;
 	height: 20px;
@@ -922,9 +860,10 @@ dd {
 	margin: 0;
 }
 
-.tagcloud-link {
+.press-this .tagcloud-link {
 	display: block;
-	padding: 0 16px;
+	margin: 0 16px 5px;
+	padding: 0;
 	text-decoration: none;
 	outline: 0;
 }
@@ -991,23 +930,24 @@ input[type="search"].categories-search,
 	}
 }
 
-.add-cat-toggle {
+.press-this .add-cat-toggle {
 	float: right;
 	margin-top: -45px;
 	line-height: 20px;
 	padding: 12px 10px 8px;
+	color: #0073aa;
 }
 
-.add-cat-toggle:focus {
+.press-this .add-cat-toggle:focus {
 	text-decoration: none;
 	color: #00a0d2;
 }
 
-.add-cat-toggle.is-toggled {
+.press-this .add-cat-toggle.is-toggled {
 	padding: 10px;
 }
 
-.add-cat-toggle.is-toggled .dashicons:before {
+.press-this .add-cat-toggle.is-toggled .dashicons:before {
 	content: "\f179";
 }
 
@@ -1261,11 +1201,13 @@ html {
 	color: #999;
 }
 
-.adminbar button {
+.press-this .adminbar button {
 	position: absolute;
 	top: 50%;
 	right: 6px;
 	margin-top: -13px;
+	padding: 0 10px 1px;
+	font-size: 13px;
 }
 
 @media (max-width: 320px) {
@@ -1364,7 +1306,7 @@ html {
 }
 
 .alert:before {
-	content: '';
+	content: "";
 	position: absolute;
 	top: 50%;
 	left: 30px;
@@ -1438,15 +1380,15 @@ html {
 
 .scan-submit:hover,
 .scan-submit:focus {
-	background: #2991b7;
-	border-color: #20708e;
+	background: #008ec2;
+	border-color: #006799;
 	color: #fff;
 	outline: 0;
 }
 
 .scan-submit:active {
-	background: #2581a2;
-	border-color: #20708e;
+	background: #0073aa;
+	border-color: #006799;
 	color: #fff;
 }
 
@@ -1596,7 +1538,7 @@ html {
 
 .post-title:before {
 	/* Keeps empty container from collapsing */
-	content: '\a0';
+	content: "\a0";
 	display: inline-block;
 	width: 0;
 	speak: none;
@@ -1799,7 +1741,9 @@ html {
 		-ms-transform: translateY(0);
 		transform: translateY(0);
 		-webkit-transition: -webkit-transform .3s ease-in-out;
+		transition: -webkit-transform .3s ease-in-out;
 		transition: transform .3s ease-in-out;
+		transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
 	}
 	.press-this-actions.is-hidden {
 		-webkit-transform: translateY(100%);
@@ -1877,13 +1821,6 @@ html {
 	.post-actions {
 		margin: 10px 10px 10px 0;
 	}
-}
-
-.edit-post-link {
-	font-size: 13px;
-	display: inline-block;
-	text-decoration: none;
-	padding: 0 10px;
 }
 
 .publish-button .saving-draft,
@@ -2010,7 +1947,9 @@ html {
 		-ms-transform: translateX(-100%);
 		transform: translateX(-100%);
 		-webkit-transition: -webkit-transform .3s ease-in-out;
+		transition: -webkit-transform .3s ease-in-out;
 		transition: transform .3s ease-in-out;
+		transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
 	}
 
 	.options-panel.is-hidden {
@@ -2088,13 +2027,16 @@ html {
 	white-space: nowrap;
 	overflow: hidden;
 	-webkit-transition: -webkit-transform .3s ease-in-out;
+	transition: -webkit-transform .3s ease-in-out;
 	transition: transform .3s ease-in-out;
+	transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
 }
 
 .post-options .post-option:focus {
 	outline: 0;
 	-webkit-box-shadow: inset 5px 0 0 #00a0d2;
 	box-shadow: inset 5px 0 0 #00a0d2;
+	border-color: #e5e5e5;
 }
 
 .is-off-screen > .post-option {
@@ -2128,7 +2070,9 @@ html {
 	width: 100%;
 	overflow: hidden;
 	-webkit-transition: -webkit-transform .3s ease-in-out;
+	transition: -webkit-transform .3s ease-in-out;
 	transition: transform .3s ease-in-out;
+	transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
 }
 
 .setting-modal.is-hidden {
@@ -2149,7 +2093,7 @@ html {
 	}
 }
 
-.modal-close {
+.press-this .modal-close {
 	display: block;
 	width: 100%;
 	padding: 13px 14px;
@@ -2159,10 +2103,11 @@ html {
 	text-align: left;
 }
 
-.modal-close:focus {
+.press-this .modal-close:focus {
 	outline: 0;
 	-webkit-box-shadow: inset 5px 0 0 #00a0d2;
 	box-shadow: inset 5px 0 0 #00a0d2;
+	border-color: #e5e5e5;
 }
 
 .setting-title {

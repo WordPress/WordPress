@@ -110,10 +110,12 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		 * Filter the image sizes automatically generated when uploading an image.
 		 *
 		 * @since 2.9.0
+		 * @since 4.4.0 The `$metadata` argument was addeed
 		 *
-		 * @param array $sizes An associative array of image sizes.
+		 * @param array $sizes    An associative array of image sizes.
+		 * @param array $metadata An associative array of image metadata: width, height, file.
 		 */
-		$sizes = apply_filters( 'intermediate_image_sizes_advanced', $sizes );
+		$sizes = apply_filters( 'intermediate_image_sizes_advanced', $sizes, $metadata );
 
 		if ( $sizes ) {
 			$editor = wp_get_image_editor( $file );
@@ -192,7 +194,9 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	}
 
 	// Remove the blob of binary data from the array.
-	unset( $metadata['image']['data'] );
+	if ( $metadata ) {
+		unset( $metadata['image']['data'] );
+	}
 
 	/**
 	 * Filter the generated attachment meta data.
@@ -275,8 +279,10 @@ function wp_read_image_metadata( $file ) {
 		'shutter_speed' => 0,
 		'title' => '',
 		'orientation' => 0,
+		'keywords' => array(),
 	);
 
+	$iptc = array();
 	/*
 	 * Read IPTC first, since it might contain data not available in exif such
 	 * as caption, description etc.
@@ -323,6 +329,10 @@ function wp_read_image_metadata( $file ) {
 
 			if ( ! empty( $iptc['2#116'][0] ) ) // copyright
 				$meta['copyright'] = trim( $iptc['2#116'][0] );
+
+			if ( ! empty( $iptc['2#025'][0] ) ) { // keywords array
+				$meta['keywords'] = array_values( $iptc['2#025'] );
+			}
 		 }
 	}
 
@@ -408,12 +418,14 @@ function wp_read_image_metadata( $file ) {
 	 * Filter the array of meta data read from an image's exif data.
 	 *
 	 * @since 2.5.0
+	 * @since 4.4.0 The `$iptc` parameter was added.
 	 *
 	 * @param array  $meta            Image meta data.
 	 * @param string $file            Path to image file.
 	 * @param int    $sourceImageType Type of image.
+	 * @param array  $iptc            IPTC data.
 	 */
-	return apply_filters( 'wp_read_image_metadata', $meta, $file, $sourceImageType );
+	return apply_filters( 'wp_read_image_metadata', $meta, $file, $sourceImageType, $iptc );
 
 }
 

@@ -670,6 +670,7 @@
 		 */
 		frame: function() {
 			if ( this._frame ) {
+				wp.media.frame = this._frame;
 				return this._frame;
 			}
 
@@ -1066,6 +1067,8 @@
 			if ( ! workflow || ( workflow.options && options.state !== workflow.options.state ) ) {
 				workflow = this.add( id, options );
 			}
+
+			wp.media.frame = workflow;
 
 			return workflow.open();
 		},

@@ -24,9 +24,13 @@
 }
 
 #save-action .spinner,
-#show-comments a,
-#show-comments .spinner {
+#show-comments a {
 	float: left;
+}
+
+#show-comments .spinner {
+	float: none;
+	margin-top: 0;
 }
 
 #lost-connection-notice .spinner {
@@ -89,7 +93,8 @@ input#link_url {
 	margin-top: -1px;
 }
 
-#edit-slug-box {
+#edit-slug-box,
+#comment-link-box {
 	line-height: 24px;
 	min-height: 25px; /* Yes, line-height + 1 */
 	margin-top: 5px;
@@ -99,7 +104,15 @@ input#link_url {
 
 #edit-slug-box .cancel {
 	margin-right: 10px;
+	padding: 0;
 	font-size: 11px;
+	text-decoration: underline;
+	color: #0073aa;
+}
+
+#comment-link-box {
+	margin: 5px 0;
+	padding: 0 5px;
 }
 
 #editable-post-name-full {
@@ -107,11 +120,12 @@ input#link_url {
 }
 
 #editable-post-name {
-	background-color: #fffbcc;
+	font-weight: bold;
 }
 
 #editable-post-name input {
 	font-size: 13px;
+	font-weight: normal;
 	height: 22px;
 	margin: 0;
 	width: 16em;
@@ -228,8 +242,15 @@ ul.category-tabs li,
 	margin: 8px 0 5px;
 }
 
+/* Back-compat for pre-4.4 */
 #category-adder h4 {
+    margin: 0;
+}
+
+.taxonomy-add-new {
+	display: inline-block;
 	margin: 10px 0;
+	font-weight: 600;
 }
 
 #side-sortables .add-menu-item-tabs,
@@ -240,7 +261,8 @@ ul.category-tabs li,
 #normal-sortables .postbox #replyrow .submit {
 	float: none;
 	margin: 0;
-	padding: 0 7px 5px;
+	padding: 5px 7px 10px;
+	overflow: hidden;
 }
 
 #side-sortables .submitbox .submit input,
@@ -285,6 +307,11 @@ ul.wp-tab-bar li {
 	max-width: 100%;
 	height: auto;
 	width: auto;
+	background-image: -webkit-linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), -webkit-linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
+	background-image: linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
+	background-position: 0 0, 10px 10px;
+	-webkit-background-size: 20px 20px;
+	background-size: 20px 20px;
 }
 
 form#tags-filter {
@@ -469,7 +496,7 @@ span.wp-media-buttons-icon:before {
 #post-body #visibility:before,
 .curtime #timestamp:before,
 #post-body .misc-pub-revisions:before {
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0 2px 0 0;
@@ -483,16 +510,16 @@ span.wp-media-buttons-icon:before {
 }
 
 #post-body #visibility:before {
-	content: '\f177';
+	content: "\f177";
 }
 
 .curtime #timestamp:before {
-	content: '\f145';
+	content: "\f145";
 	top: -1px;
 }
 
 #post-body .misc-pub-revisions:before {
-	content: '\f321';
+	content: "\f321";
 }
 
 #timestampdiv {
@@ -610,15 +637,9 @@ span.wp-media-buttons-icon:before {
 	position: absolute;
 }
 
+#poststuff h3.hndle, /* Back-compat for pre-4.4 */
+#poststuff .stuffbox > h3, /* Back-compat for pre-4.4 */
 #poststuff h2 {
-	margin-top: 20px;
-	font-size: 1.5em;
-	margin-bottom: 15px;
-	padding: 0 0 3px;
-	clear: left;
-}
-
-#poststuff h3 {
 	font-size: 14px;
 	padding: 8px 12px;
 	margin: 0;
@@ -802,7 +823,7 @@ span.wp-media-buttons-icon:before {
 	display: block;
 	height: 20px;
 	width: 20px;
-	font: normal 20px/1 'dashicons' !important;
+	font: normal 20px/1 dashicons !important;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -841,7 +862,7 @@ label.post-format-icon {
 	position: relative;
 	display: inline-block;
 	margin-right: 7px;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -850,61 +871,61 @@ label.post-format-icon {
 .post-state-format.post-format-standard:before,
 .post-format-icon.post-format-standard:before,
 a.post-state-format.format-standard:before {
-	content: '\f109';
+	content: "\f109";
 }
 
 .post-state-format.post-format-image:before,
 .post-format-icon.post-format-image:before,
 a.post-state-format.format-image:before {
-	content: '\f128';
+	content: "\f128";
 }
 
 .post-state-format.post-format-gallery:before,
 .post-format-icon.post-format-gallery:before,
 a.post-state-format.format-gallery:before {
-	content: '\f161';
+	content: "\f161";
 }
 
 .post-state-format.post-format-audio:before,
 .post-format-icon.post-format-audio:before,
 a.post-state-format.format-audio:before {
-	content: '\f127';
+	content: "\f127";
 }
 
 .post-state-format.post-format-video:before,
 .post-format-icon.post-format-video:before,
 a.post-state-format.format-video:before {
-	content: '\f126';
+	content: "\f126";
 }
 
 .post-state-format.post-format-chat:before,
 .post-format-icon.post-format-chat:before,
 a.post-state-format.format-chat:before {
-	content: '\f125';
+	content: "\f125";
 }
 
 .post-state-format.post-format-status:before,
 .post-format-icon.post-format-status:before,
 a.post-state-format.format-status:before {
-	content: '\f130';
+	content: "\f130";
 }
 
 .post-state-format.post-format-aside:before,
 .post-format-icon.post-format-aside:before,
 a.post-state-format.format-aside:before {
-	content: '\f123';
+	content: "\f123";
 }
 
 .post-state-format.post-format-quote:before,
 .post-format-icon.post-format-quote:before,
 a.post-state-format.format-quote:before {
-	content: '\f122';
+	content: "\f122";
 }
 
 .post-state-format.post-format-link:before,
 .post-format-icon.post-format-link:before,
 a.post-state-format.format-link:before {
-	content: '\f103';
+	content: "\f103";
 }
 
 /*------------------------------------------------------------------------------
@@ -1018,7 +1039,7 @@ span.description,
 	max-width: 100%;
 }
 
-.col-wrap h3 {
+.col-wrap h2 {
 	margin: 12px 0;
 	font-size: 1.1em;
 }
@@ -1073,7 +1094,7 @@ p.popular-tags a {
 	text-align: justify;
 }
 
-.tagcloud h3 {
+.tagcloud h2 {
 	margin: 2px 0 12px;
 }
 
@@ -1251,7 +1272,9 @@ table.links-table {
 	-webkit-transition-duration: 0.6s;
 	transition-duration: 0.6s;
 	-webkit-transition-property: -webkit-transform;
+	transition-property: -webkit-transform;
 	transition-property: transform;
+	transition-property: transform, -webkit-transform;
 	-webkit-transition-timing-function: ease-in-out;
 	transition-timing-function: ease-in-out;
 }
@@ -1271,7 +1294,9 @@ table.links-table {
 	-webkit-transition-duration: 0.2s;
 	transition-duration: 0.2s;
 	-webkit-transition-property: -webkit-transform;
+	transition-property: -webkit-transform;
 	transition-property: transform;
+	transition-property: transform, -webkit-transform;
 	-webkit-transition-timing-function: ease-in-out;
 	transition-timing-function: ease-in-out;
 }
@@ -1341,7 +1366,9 @@ table.links-table {
 		padding: 10px 10px;
 	}
 
-	#poststuff h3 {
+	#poststuff h3.hndle, /* Back-compat for pre-4.4 */
+	#poststuff .stuffbox > h3, /* Back-compat for pre-4.4 */
+	#poststuff h2 {
 		padding: 12px;
 	}
 

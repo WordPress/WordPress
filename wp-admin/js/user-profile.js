@@ -98,24 +98,31 @@
 		} );
 	}
 
+	function resetToggle() {
+		$toggleButton
+			.data( 'toggle', 0 )
+			.attr({
+				'aria-label': userProfileL10n.ariaHide
+			})
+			.find( '.text' )
+				.text( userProfileL10n.hide )
+			.end()
+			.find( '.dashicons' )
+				.removeClass( 'dashicons-visibility' )
+				.addClass( 'dashicons-hidden' );
+
+		$pass1Text.focus();
+
+		$pass1Label.attr( 'for', 'pass1-text' );
+	}
+
 	function bindToggleButton() {
 		$toggleButton = $pass1Row.find('.wp-hide-pw');
 		$toggleButton.show().on( 'click', function () {
 			if ( 1 === parseInt( $toggleButton.data( 'toggle' ), 10 ) ) {
 				$pass1Wrap.addClass( 'show-password' );
-				$toggleButton
-					.data( 'toggle', 0 )
-					.attr({
-						'aria-label': userProfileL10n.ariaHide
-					})
-					.find( '.text' )
-						.text( userProfileL10n.hide )
-					.end()
-					.find( '.dashicons' )
-						.removeClass('dashicons-visibility')
-						.addClass('dashicons-hidden');
 
-				$pass1Text.focus();
+				resetToggle();
 
 				$pass1Label.attr( 'for', 'pass1-text' );
 
@@ -190,16 +197,31 @@
 			}
 		} );
 
-		$passwordWrapper = $pass1Row.find('.wp-pwd').hide();
+		// Disable the hidden inputs to prevent autofill and submission.
+		$pass1.prop( 'disabled', true );
+		$pass2.prop( 'disabled', true );
+		$pass1Text.prop( 'disabled', true );
+
+		$passwordWrapper = $pass1Row.find( '.wp-pwd' );
+		$generateButton  = $pass1Row.find( 'button.wp-generate-pw' );
 
 		bindToggleButton();
 
-		$generateButton = $pass1Row.find( 'button.wp-generate-pw' ).show();
+		if ( $generateButton.length ) {
+			$passwordWrapper.hide();
+		}
+
+		$generateButton.show();
 		$generateButton.on( 'click', function () {
 			updateLock = true;
 
 			$generateButton.hide();
 			$passwordWrapper.show();
+
+			// Enable the inputs when showing.
+			$pass1.attr( 'disabled', false );
+			$pass2.attr( 'disabled', false );
+			$pass1Text.attr( 'disabled', false );
 
 			if ( $pass1Text.val().length === 0 ) {
 				generatePassword();
@@ -217,9 +239,28 @@
 		$cancelButton.on( 'click', function () {
 			updateLock = false;
 
+			// Clear any entered password.
+			$pass1Text.val( '' );
+
+			// Generate a new password.
+			wp.ajax.post( 'generate-password' )
+				.done( function( data ) {
+					$pass1.data( 'pw', data );
+				} );
+
 			$generateButton.show();
 			$passwordWrapper.hide();
 
+<<<<<<< HEAD
+			// Disable the inputs when hiding to prevent autofill and submission.
+			$pass1.prop( 'disabled', true );
+			$pass2.prop( 'disabled', true );
+			$pass1Text.prop( 'disabled', true );
+
+			resetToggle();
+
+=======
+>>>>>>> refs/remotes/origin/4.3-branch
 			// Clear password field to prevent update
 			$pass1.val( '' ).trigger( 'pwupdate' );
 			$submitButtons.prop( 'disabled', false );

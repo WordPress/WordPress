@@ -97,6 +97,9 @@ if ( ! CUSTOM_TAGS ) {
 			'src' => true,
 		),
 		'b' => array(),
+		'bdo' => array(
+			'dir' => true,
+		),
 		'big' => array(),
 		'blockquote' => array(
 			'cite' => true,
@@ -1694,10 +1697,10 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	'border-right-style', 'border-right-width', 'border-spacing', 'border-style', 'border-top',
 	'border-top-color', 'border-top-style', 'border-top-width', 'border-width', 'caption-side',
 	'clear', 'cursor', 'direction', 'font', 'font-family', 'font-size', 'font-style',
-	'font-variant', 'font-weight', 'height', 'letter-spacing', 'line-height', 'margin-bottom',
+	'font-variant', 'font-weight', 'height', 'min-height','max-height' , 'letter-spacing', 'line-height', 'margin-bottom',
 	'margin-left', 'margin-right', 'margin-top', 'overflow', 'padding', 'padding-bottom',
 	'padding-left', 'padding-right', 'padding-top', 'text-decoration', 'text-indent', 'vertical-align',
-	'width' ) );
+	'width', 'min-width', 'max-width' ) );
 
 	if ( empty($allowed_attr) )
 		return $css;

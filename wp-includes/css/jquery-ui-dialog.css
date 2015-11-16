@@ -306,7 +306,7 @@
 }
 
 .ui-dialog-titlebar-close:before {
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	vertical-align: top;
 	speak: none;
 	-webkit-font-smoothing: antialiased;

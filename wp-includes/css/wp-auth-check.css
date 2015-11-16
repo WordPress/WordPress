@@ -71,9 +71,9 @@
 }
 
 #wp-auth-check-wrap .wp-auth-check-close:before {
-	content: '\f158';
+	content: "\f158";
 	display: block !important;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	height: 22px;
 	margin: 2px 0;

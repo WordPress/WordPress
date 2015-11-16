@@ -136,7 +136,7 @@ class Services_JSON
     *                                   from encode() should be checked with isError()
     *                           - SERVICES_JSON_USE_TO_JSON:  call toJSON when serializing objects
     *                                   It serializes the return value from the toJSON call rather 
-    *                                   than the object it'self,  toJSON can return associative arrays, 
+    *                                   than the object itself, toJSON can return associative arrays, 
     *                                   strings or numbers, if you return an object, make sure it does
     *                                   not have a toJSON method, otherwise an error will occur.
     */

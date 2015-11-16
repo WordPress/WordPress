@@ -19,15 +19,15 @@ get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
 	'title'   => __('Overview'),
 	'content' => '<p>' . __('Permalinks are the permanent URLs to your individual pages and blog posts, as well as your category and tag archives. A permalink is the web address used to link to your content. The URL to each post should be permanent, and never change &#8212; hence the name permalink.') . '</p>' .
-		'<p>' . __('This screen allows you to choose your default permalink structure. You can choose from common settings or create custom URL structures.') . '</p>' .
+		'<p>' . __( 'This screen allows you to choose your permalink structure. You can choose from common settings or create custom URL structures.' ) . '</p>' .
 		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
 ) );
 
 get_current_screen()->add_help_tab( array(
-	'id'      => 'common-settings',
-	'title'   => __('Common Settings'),
-	'content' => '<p>' . __('Many people choose to use &#8220;pretty permalinks,&#8221; URLs that contain useful information such as the post title rather than generic post ID numbers. You can choose from any of the permalink formats under Common Settings, or can craft your own if you select Custom Structure.') . '</p>' .
-		'<p>' . __('If you pick an option other than Default, your general URL path with structure tags, terms surrounded by <code>%</code>, will also appear in the custom structure field and your path can be further modified there.') . '</p>' .
+	'id'      => 'permalink-settings',
+	'title'   => __('Permalink Settings'),
+	'content' => '<p>' . __( 'Permalinks can contain useful information, such as the post date, title, or other elements. You can choose from any of the suggested permalink formats, or you can craft your own if you select Custom Structure.' ) . '</p>' .
+		'<p>' . __( 'If you pick an option other than Plain, your general URL path with structure tags (terms surrounded by <code>%</code>) will also appear in the custom structure field and your path can be further modified there.' ) . '</p>' .
 		'<p>' . __('When you assign multiple categories or tags to a post, only one can show up in the permalink: the lowest numbered category. This applies if your custom structure includes <code>%category%</code> or <code>%tag%</code>.') . '</p>' .
 		'<p>' . __('You must click the Save Changes button at the bottom of the screen for new settings to take effect.') . '</p>',
 ) );
@@ -46,37 +46,25 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-/**
- * Display JavaScript on the page.
- *
- * @since 3.5.0
- */
-function options_permalink_add_js() {
-	?>
-<script type="text/javascript">
-jQuery(document).ready(function() {
-	jQuery('.permalink-structure input:radio').change(function() {
-		if ( 'custom' == this.value )
-			return;
-		jQuery('#permalink_structure').val( this.value );
-	});
-	jQuery('#permalink_structure').focus(function() {
-		jQuery("#custom_selection").attr('checked', 'checked');
-	});
-});
-</script>
-<?php
-}
 add_filter('admin_head', 'options_permalink_add_js');
 
 $home_path = get_home_path();
 $iis7_permalinks = iis7_supports_permalinks();
+$permalink_structure = get_option( 'permalink_structure' );
 
 $prefix = $blog_prefix = '';
 if ( ! got_url_rewrite() )
 	$prefix = '/index.php';
-if ( is_multisite() && !is_subdomain_install() && is_main_site() )
+
+/**
+ * In a subdirectory configuration of multisite, the `/blog` prefix is used by
+ * default on the main site to avoid collisions with other sites created on that
+ * network. If the `permalink_structure` option has been changed to remove this
+ * base prefix, WordPress core can no longer account for the possible collision.
+ */
+if ( is_multisite() && ! is_subdomain_install() && is_main_site() && 0 === strpos( $permalink_structure, '/blog/' ) ) {
 	$blog_prefix = '/blog';
+}
 
 if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	check_admin_referer('update-permalink');
@@ -115,7 +103,6 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	exit;
 }
 
-$permalink_structure = get_option( 'permalink_structure' );
 $category_base       = get_option( 'category_base' );
 $tag_base            = get_option( 'tag_base' );
 $update_required     = false;
@@ -180,10 +167,10 @@ if ( ! is_multisite() ) {
 <form name="form" action="options-permalink.php" method="post">
 <?php wp_nonce_field('update-permalink') ?>
 
-  <p><?php _e('By default WordPress uses web <abbr title="Universal Resource Locator">URL</abbr>s which have question marks and lots of numbers in them; however, WordPress offers you the ability to create a custom URL structure for your permalinks and archives. This can improve the aesthetics, usability, and forward-compatibility of your links. A <a href="https://codex.wordpress.org/Using_Permalinks">number of tags are available</a>, and here are some examples to get you started.'); ?></p>
+  <p><?php _e( 'WordPress offers you the ability to create a custom URL structure for your permalinks and archives. Custom URL structures can improve the aesthetics, usability, and forward-compatibility of your links. A <a href="https://codex.wordpress.org/Using_Permalinks">number of tags are available</a>, and here are some examples to get you started.' ); ?></p>
 
 <?php
-if ( is_multisite() && !is_subdomain_install() && is_main_site() ) {
+if ( is_multisite() && ! is_subdomain_install() && is_main_site() && 0 === strpos( $permalink_structure, '/blog/' ) ) {
 	$permalink_structure = preg_replace( '|^/?blog|', '', $permalink_structure );
 	$category_base = preg_replace( '|^/?blog|', '', $category_base );
 	$tag_base = preg_replace( '|^/?blog|', '', $tag_base );
@@ -197,10 +184,10 @@ $structures = array(
 	4 => $prefix . '/%postname%/',
 );
 ?>
-<h3 class="title"><?php _e('Common Settings'); ?></h3>
+<h2 class="title"><?php _e('Common Settings'); ?></h2>
 <table class="form-table permalink-structure">
 	<tr>
-		<th><label><input name="selection" type="radio" value="" <?php checked('', $permalink_structure); ?> /> <?php _e('Default'); ?></label></th>
+		<th><label><input name="selection" type="radio" value="" <?php checked('', $permalink_structure); ?> /> <?php _e( 'Plain' ); ?></label></th>
 		<td><code><?php echo get_option('home'); ?>/?p=123</code></td>
 	</tr>
 	<tr>
@@ -232,7 +219,7 @@ $structures = array(
 	</tr>
 </table>
 
-<h3 class="title"><?php _e('Optional'); ?></h3>
+<h2 class="title"><?php _e('Optional'); ?></h2>
 <p><?php
 /* translators: %s is a placeholder that must come at the start of the URL. */
 printf( __('If you like, you may enter custom structures for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>topics</code> as your category base would make your category links like <code>%s/topics/uncategorized/</code>. If you leave these blank the defaults will be used.'), get_option('home') . $blog_prefix . $prefix ); ?></p>
@@ -272,7 +259,9 @@ printf( __('If you like, you may enter custom structures for your category and t
 <p><?php _e('If you temporarily make your site&#8217;s root directory writable for us to generate the <code>web.config</code> file automatically, do not forget to revert the permissions after the file has been created.') ?></p>
 		<?php endif; ?>
 	<?php endif; ?>
-<?php elseif ( ! $is_nginx ) :
+<?php elseif ( $is_nginx ) : ?>
+	<p><?php _e( '<a href="https://codex.wordpress.org/Nginx">Documentation on Nginx configuration</a>.' ); ?></p>
+<?php else:
 	if ( $permalink_structure && ! $usingpi && ! $writable && $update_required ) : ?>
 <p><?php _e('If your <code>.htaccess</code> file were <a href="https://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
 <form action="options-permalink.php" method="post">

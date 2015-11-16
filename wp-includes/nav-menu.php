@@ -277,15 +277,27 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
 		! is_wp_error( $_possible_existing ) &&
 		isset( $_possible_existing->term_id ) &&
 		$_possible_existing->term_id != $menu_id
-	)
-		return new WP_Error( 'menu_exists', sprintf( __('The menu name <strong>%s</strong> conflicts with another menu name. Please try another.'), esc_html( $menu_data['menu-name'] ) ) );
+	) {
+		return new WP_Error( 'menu_exists',
+			/* translators: %s: menu name */
+			sprintf( __( 'The menu name %s conflicts with another menu name. Please try another.' ),
+				'<strong>' . esc_html( $menu_data['menu-name'] ) . '</strong>'
+			)
+		);
+	}
 
 	// menu doesn't already exist, so create a new menu
 	if ( ! $_menu || is_wp_error( $_menu ) ) {
 		$menu_exists = get_term_by( 'name', $menu_data['menu-name'], 'nav_menu' );
 
-		if ( $menu_exists )
-			return new WP_Error( 'menu_exists', sprintf( __('The menu name <strong>%s</strong> conflicts with another menu name. Please try another.'), esc_html( $menu_data['menu-name'] ) ) );
+		if ( $menu_exists ) {
+			return new WP_Error( 'menu_exists',
+				/* translators: %s: menu name */
+				sprintf( __( 'The menu name %s conflicts with another menu name. Please try another.' ),
+					'<strong>' . esc_html( $menu_data['menu-name'] ) . '</strong>'
+				)
+			);
+		}
 
 		$_menu = wp_insert_term( $menu_data['menu-name'], 'nav_menu', $args );
 
@@ -403,6 +415,9 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 			$original_object = get_post( $args['menu-item-object-id'] );
 			$original_parent = (int) $original_object->post_parent;
 			$original_title = $original_object->post_title;
+		} elseif ( 'post_type_archive' == $args['menu-item-type'] ) {
+			$original_object = get_post_type_object( $args['menu-item-object'] );
+			$original_title = $original_object->labels->archives;
 		}
 
 		if ( $args['menu-item-title'] == $original_title )
@@ -433,6 +448,19 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 		$menu_item_db_id = wp_insert_post( $post );
 		if ( ! $menu_item_db_id	|| is_wp_error( $menu_item_db_id ) )
 			return $menu_item_db_id;
+
+		/**
+		 * Fires immediately after a new navigation menu item has been added.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @see wp_update_nav_menu_item()
+		 *
+		 * @param int   $menu_id         ID of the updated menu.
+		 * @param int   $menu_item_db_id ID of the new menu item.
+		 * @param array $args            An array of arguments used to update/add the menu item.
+		 */
+		do_action( 'wp_add_nav_menu_item', $menu_id, $menu_item_db_id, $args );
 	}
 
 	// Associate the menu item with the menu term
@@ -644,7 +672,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 		$GLOBALS['_menu_item_sort_prop'] = $args['output_key'];
 		usort($items, '_sort_nav_menu_items');
 		$i = 1;
-		foreach( $items as $k => $item ) {
+		foreach ( $items as $k => $item ) {
 			$items[$k]->{$args['output_key']} = $i++;
 		}
 	}
@@ -718,6 +746,17 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 				$menu_item->title = '' == $menu_item->post_title ? $original_title : $menu_item->post_title;
 
+			} elseif ( 'post_type_archive' == $menu_item->type ) {
+				$object =  get_post_type_object( $menu_item->object );
+				if ( $object ) {
+					$menu_item->title = '' == $menu_item->post_title ? $object->labels->archives : $menu_item->post_title;
+				} else {
+					$menu_item->_invalid = true;
+				}
+
+				$menu_item->type_label = __( 'Post Type Archive' );
+				$menu_item->description = '';
+				$menu_item->url = get_post_type_archive_link( $menu_item->object );
 			} elseif ( 'taxonomy' == $menu_item->type ) {
 				$object = get_taxonomy( $menu_item->object );
 				if ( $object ) {
@@ -848,7 +887,7 @@ function wp_get_associated_nav_menu_items( $object_id = 0, $object_type = 'post_
 			'posts_per_page' => -1,
 		)
 	);
-	foreach( (array) $menu_items as $menu_item ) {
+	foreach ( (array) $menu_items as $menu_item ) {
 		if ( isset( $menu_item->ID ) && is_nav_menu_item( $menu_item->ID ) ) {
 			$menu_item_type = get_post_meta( $menu_item->ID, '_menu_item_type', true );
 			if (
@@ -883,7 +922,7 @@ function _wp_delete_post_menu_item( $object_id = 0 ) {
 
 	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id, 'post_type' );
 
-	foreach( (array) $menu_item_ids as $menu_item_id ) {
+	foreach ( (array) $menu_item_ids as $menu_item_id ) {
 		wp_delete_post( $menu_item_id, true );
 	}
 }
@@ -902,7 +941,7 @@ function _wp_delete_tax_menu_item( $object_id = 0, $tt_id, $taxonomy ) {
 
 	$menu_item_ids = wp_get_associated_nav_menu_items( $object_id, 'taxonomy', $taxonomy );
 
-	foreach( (array) $menu_item_ids as $menu_item_id ) {
+	foreach ( (array) $menu_item_ids as $menu_item_id ) {
 		wp_delete_post( $menu_item_id, true );
 	}
 }

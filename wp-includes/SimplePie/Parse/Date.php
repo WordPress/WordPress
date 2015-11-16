@@ -331,6 +331,7 @@ class SimplePie_Parse_Date
 		'CCT' => 23400,
 		'CDT' => -18000,
 		'CEDT' => 7200,
+		'CEST' => 7200,
 		'CET' => 3600,
 		'CGST' => -7200,
 		'CGT' => -10800,
@@ -613,7 +614,7 @@ class SimplePie_Parse_Date
 	 *
 	 * @final
 	 * @access public
-	 * @param callback $callback
+	 * @param callable $callback
 	 */
 	public function add_callback($callback)
 	{

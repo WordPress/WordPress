@@ -14,7 +14,7 @@ require( dirname(__FILE__) . '/wp-load.php' );
 require( dirname( __FILE__ ) . '/wp-blog-header.php' );
 
 if ( !is_multisite() ) {
-	wp_redirect( site_url( '/wp-login.php?action=register' ) );
+	wp_redirect( wp_registration_url() );
 	die();
 }
 
@@ -58,16 +58,17 @@ function wpmu_activate_stylesheet() {
 		#submit, #key { width: 90%; font-size: 24px; }
 		#language { margin-top: .5em; }
 		.error { background: #f66; }
-		span.h3 { padding: 0 8px; font-size: 1.3em; font-family: "Lucida Grande", Verdana, Arial, "Bitstream Vera Sans", sans-serif; font-weight: bold; color: #333; }
+		span.h3 { padding: 0 8px; font-size: 1.3em; font-weight: bold; }
 	</style>
 	<?php
 }
 add_action( 'wp_head', 'wpmu_activate_stylesheet' );
 
-get_header();
+get_header( 'wp-activate' );
 ?>
 
-<div id="content" class="widecolumn">
+<div id="signup-content" class="widecolumn">
+	<div class="wp-activate-container">
 	<?php if ( empty($_GET['key']) && empty($_POST['key']) ) { ?>
 
 		<h2><?php _e('Activation Key Required') ?></h2>
@@ -115,17 +116,22 @@ get_header();
 				<p><span class="h3"><?php _e('Password:'); ?></span> <?php echo $result['password']; ?></p>
 			</div>
 
-			<?php if ( $url && $url != network_home_url( '', 'http' ) ) : ?>
-				<p class="view"><?php printf( __('Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Log in</a>'), $url, $url . 'wp-login.php' ); ?></p>
+			<?php if ( $url && $url != network_home_url( '', 'http' ) ) :
+				switch_to_blog( (int) $result['blog_id'] ); 
+				$login_url = wp_login_url(); 
+				restore_current_blog(); 
+				?>
+				<p class="view"><?php printf( __( 'Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Log in</a>' ), $url, esc_url( $login_url ) ); ?></p>
 			<?php else: ?>
 				<p class="view"><?php printf( __('Your account is now activated. <a href="%1$s">Log in</a> or go back to the <a href="%2$s">homepage</a>.' ), network_site_url('wp-login.php', 'login'), network_home_url() ); ?></p>
 			<?php endif;
 		}
 	}
 	?>
+	</div>
 </div>
 <script type="text/javascript">
 	var key_input = document.getElementById('key');
 	key_input && key_input.focus();
 </script>
-<?php get_footer();
+<?php get_footer( 'wp-activate' );

@@ -135,7 +135,7 @@ function dismissed_updates() {
 	<?php
 		echo '<p class="hide-if-no-js"><a id="show-dismissed" href="#">'.__('Show hidden updates').'</a></p>';
 		echo '<ul id="dismissed-updates" class="core-updates dismissed">';
-		foreach( (array) $dismissed as $update) {
+		foreach ( (array) $dismissed as $update) {
 			echo '<li>';
 			list_core_update( $update );
 			echo '</li>';
@@ -159,7 +159,7 @@ function core_upgrade_preamble() {
 	$updates = get_core_updates();
 
 	if ( !isset($updates[0]->response) || 'latest' == $updates[0]->response ) {
-		echo '<h3>';
+		echo '<h2>';
 		_e('You have the latest version of WordPress.');
 
 		if ( wp_http_supports( array( 'ssl' ) ) ) {
@@ -175,15 +175,15 @@ function core_upgrade_preamble() {
 			if ( $should_auto_update )
 				echo ' ' . __( 'Future security updates will be applied automatically.' );
 		}
-		echo '</h3>';
+		echo '</h2>';
 	} else {
 		echo '<div class="notice notice-warning"><p>';
 		_e('<strong>Important:</strong> before updating, please <a href="https://codex.wordpress.org/WordPress_Backups">back up your database and files</a>. For help with updates, visit the <a href="https://codex.wordpress.org/Updating_WordPress">Updating WordPress</a> Codex page.');
 		echo '</p></div>';
 
-		echo '<h3 class="response">';
+		echo '<h2 class="response">';
 		_e( 'An updated version of WordPress is available.' );
-		echo '</h3>';
+		echo '</h2>';
 	}
 
 	if ( isset( $updates[0] ) && $updates[0]->response == 'development' ) {
@@ -197,7 +197,7 @@ function core_upgrade_preamble() {
 	}
 
 	echo '<ul class="core-updates">';
-	foreach( (array) $updates as $update ) {
+	foreach ( (array) $updates as $update ) {
 		echo '<li>';
 		list_core_update( $update );
 		echo '</li>';
@@ -225,7 +225,7 @@ function list_plugin_updates() {
 	require_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
 	$plugins = get_plugin_updates();
 	if ( empty( $plugins ) ) {
-		echo '<h3>' . __( 'Plugins' ) . '</h3>';
+		echo '<h2>' . __( 'Plugins' ) . '</h2>';
 		echo '<p>' . __( 'Your plugins are all up to date.' ) . '</p>';
 		return;
 	}
@@ -237,7 +237,7 @@ function list_plugin_updates() {
 	else
 		$core_update_version = $core_updates[0]->current;
 	?>
-<h3><?php _e( 'Plugins' ); ?></h3>
+<h2><?php _e( 'Plugins' ); ?></h2>
 <p><?php _e( 'The following plugins have new versions available. Check the ones you want to update and then click &#8220;Update Plugins&#8221;.' ); ?></p>
 <form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-plugins" class="upgrade">
 <?php wp_nonce_field('upgrade-core'); ?>
@@ -252,8 +252,25 @@ function list_plugin_updates() {
 
 	<tbody class="plugins">
 <?php
-	foreach ( (array) $plugins as $plugin_file => $plugin_data) {
-		$info = plugins_api('plugin_information', array('slug' => $plugin_data->update->slug ));
+	foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
+		$info = plugins_api( 'plugin_information', array(
+			'slug' => $plugin_data->update->slug,
+			'fields' => array(
+				'short_description' => false,
+				'sections' => false,
+				'requires' => false,
+				'rating' => false,
+				'ratings' => false,
+				'downloaded' => false,
+				'downloadlink' => false,
+				'last_updated' => false,
+				'added' => false,
+				'tags' => false,
+				'homepage' => false,
+				'donate_link' => false,
+			),
+		) );
+
 		if ( is_wp_error( $info ) ) {
 			$info = false;
 		}
@@ -269,7 +286,9 @@ function list_plugin_updates() {
 		}
 		// Get plugin compat for updated version of WordPress.
 		if ( $core_update_version ) {
-			if ( isset($info->compatibility[$core_update_version][$plugin_data->update->new_version]) ) {
+			if ( isset( $info->tested ) && version_compare( $info->tested, $core_update_version, '>=' ) ) {
+				$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $core_update_version );
+			} elseif ( isset( $info->compatibility[ $core_update_version ][ $plugin_data->update->new_version ] ) ) {
 				$update_compat = $info->compatibility[$core_update_version][$plugin_data->update->new_version];
 				$compat .= '<br />' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)'), $core_update_version, $update_compat[0], $update_compat[2], $update_compat[1]);
 			} else {
@@ -284,8 +303,8 @@ function list_plugin_updates() {
 		}
 
 		$details_url = self_admin_url('plugin-install.php?tab=plugin-information&plugin=' . $plugin_data->update->slug . '&section=changelog&TB_iframe=true&width=640&height=662');
-		$details_text = sprintf(__('View version %1$s details'), $plugin_data->update->new_version);
-		$details = sprintf('<a href="%1$s" class="thickbox" title="%2$s">%3$s</a>.', esc_url($details_url), esc_attr($plugin_data->Name), $details_text);
+		$details_text = sprintf(__('View version %1$s details.'), $plugin_data->update->new_version);
+		$details = sprintf('<a href="%1$s" class="thickbox" title="%2$s">%3$s</a>', esc_url($details_url), esc_attr($plugin_data->Name), $details_text);
 
 		echo "
 	<tr>
@@ -314,14 +333,14 @@ function list_plugin_updates() {
 function list_theme_updates() {
 	$themes = get_theme_updates();
 	if ( empty( $themes ) ) {
-		echo '<h3>' . __( 'Themes' ) . '</h3>';
+		echo '<h2>' . __( 'Themes' ) . '</h2>';
 		echo '<p>' . __( 'Your themes are all up to date.' ) . '</p>';
 		return;
 	}
 
 	$form_action = 'update-core.php?action=do-theme-upgrade';
 ?>
-<h3><?php _e( 'Themes' ); ?></h3>
+<h2><?php _e( 'Themes' ); ?></h2>
 <p><?php _e( 'The following themes have new versions available. Check the ones you want to update and then click &#8220;Update Themes&#8221;.' ); ?></p>
 <p><?php printf( __( '<strong>Please Note:</strong> Any customizations you have made to theme files will be lost. Please consider using <a href="%s">child themes</a> for modifications.' ), __( 'https://codex.wordpress.org/Child_Themes' ) ); ?></p>
 <form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-themes" class="upgrade">
@@ -341,7 +360,7 @@ function list_theme_updates() {
 		echo "
 	<tr>
 		<th scope='row' class='check-column'><input type='checkbox' name='checked[]' value='" . esc_attr( $stylesheet ) . "' /></th>
-		<td class='plugin-title'><img src='" . esc_url( $theme->get_screenshot() ) . "' width='85' height='64' style='float:left; padding: 0 5px 5px' /><strong>" . $theme->display('Name') . '</strong> ' . sprintf( __( 'You have version %1$s installed. Update to %2$s.' ), $theme->display('Version'), $theme->update['new_version'] ) . "</td>
+		<td class='plugin-title'><img src='" . esc_url( $theme->get_screenshot() ) . "' width='85' height='64' style='float:left; padding: 0 5px 5px' alt='' /><strong>" . $theme->display('Name') . '</strong> ' . sprintf( __( 'You have version %1$s installed. Update to %2$s.' ), $theme->display('Version'), $theme->update['new_version'] ) . "</td>
 	</tr>";
 	}
 ?>
@@ -366,7 +385,7 @@ function list_translation_updates() {
 	$updates = wp_get_translation_updates();
 	if ( ! $updates ) {
 		if ( 'en_US' != get_locale() ) {
-			echo '<h3>' . __( 'Translations' ) . '</h3>';
+			echo '<h2>' . __( 'Translations' ) . '</h2>';
 			echo '<p>' . __( 'Your translations are all up to date.' ) . '</p>';
 		}
 		return;
@@ -374,7 +393,7 @@ function list_translation_updates() {
 
 	$form_action = 'update-core.php?action=do-translation-upgrade';
 	?>
-	<h3><?php _e( 'Translations' ); ?></h3>
+	<h2><?php _e( 'Translations' ); ?></h2>
 	<form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-translations" class="upgrade">
 		<p><?php _e( 'New translations are available.' ); ?></p>
 		<?php wp_nonce_field( 'upgrade-translations' ); ?>
@@ -506,7 +525,7 @@ if ( ( 'do-theme-upgrade' == $action || ( 'do-plugin-upgrade' == $action && ! is
 $title = __('WordPress Updates');
 $parent_file = 'index.php';
 
-$updates_overview  = '<p>' . __( 'On this screen, you can update to the latest version of WordPress, as well as update your themes and plugins from the WordPress.org repositories.' ) . '</p>';
+$updates_overview  = '<p>' . __( 'On this screen, you can update to the latest version of WordPress, as well as update your themes, plugins, and translations from the WordPress.org repositories.' ) . '</p>';
 $updates_overview .= '<p>' . __( 'If an update is available, you&#8127;ll see a notification appear in the Toolbar and navigation menu.' ) . ' ' . __( 'Keeping your site updated is important for security. It also makes the internet a safer place for you and your readers.' ) . '</p>';
 
 get_current_screen()->add_help_tab( array(

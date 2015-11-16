@@ -460,7 +460,7 @@ abstract class WP_Image_Editor {
 		$mime_types = wp_get_mime_types();
 		$extensions = array_keys( $mime_types );
 
-		foreach( $extensions as $_extension ) {
+		foreach ( $extensions as $_extension ) {
 			if ( preg_match( "/{$extension}/i", $_extension ) ) {
 				return $mime_types[$_extension];
 			}

@@ -117,6 +117,11 @@
 	text-align: center;
 }
 
+.column-response .post-com-count-no-pending,
+.column-comments .post-com-count-no-pending {
+	display: none;
+}
+
 /* comments */
 
 .commentlist li {
@@ -147,7 +152,8 @@
 
 #replysubmit {
 	margin: 0;
-	padding: 0 5px 3px;
+	padding: 5px 7px 10px;
+	overflow: hidden;
 	text-align: center;
 }
 
@@ -161,11 +167,23 @@
 	text-align: center;
 }
 
-#replyrow h5 {
-	margin: .2em 0 0;
-	padding: 0 5px;
-	line-height: 1.4em;
-	font-size: 1em;
+#replyrow.inline-edit-row fieldset.comment-reply {
+	font-size: inherit;
+	line-height: inherit;
+}
+
+#replyrow legend {
+	margin: 0;
+	padding: .2em 5px 0;
+	font-size: 13px;
+	line-height: 1.4;
+	font-weight: 600;
+}
+
+#replyrow.inline-edit-row label {
+	display: inline;
+	vertical-align: baseline;
+	line-height: inherit;
 }
 
 #edithead .inside,
@@ -260,8 +278,8 @@ th .comment-grey-bubble {
 }
 
 th .comment-grey-bubble:before {
-	content: '\f101';
-	font: normal 20px/.5 'dashicons';
+	content: "\f101";
+	font: normal 20px/.5 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0;
@@ -381,6 +399,10 @@ table.media .column-title .filename {
 	width: 20%;
 }
 
+#comments-form .fixed .column-date {
+	width: 14%;
+}
+
 #commentsdiv.postbox .inside {
 	margin: 0;
 	padding: 0;
@@ -424,12 +446,12 @@ table.media .column-title .filename {
 }
 
 #commentsdiv #edithead .inside input {
-	vertical-align: middle;
 	width: 160px;
 }
 
 .sorting-indicator {
-	display: none;
+	display: block;
+	visibility: hidden;
 	width: 10px;
 	height: 4px;
 	margin-top: 8px;
@@ -437,8 +459,8 @@ table.media .column-title .filename {
 }
 
 .sorting-indicator:before {
-	content: '\f142';
-	font: normal 20px/1 'dashicons';
+	content: "\f142";
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0;
@@ -462,13 +484,13 @@ table.media .column-title .filename {
 th.sorted.asc .sorting-indicator:before,
 th.desc:hover span.sorting-indicator:before,
 th.desc a:focus span.sorting-indicator:before {
-	content: '\f142';
+	content: "\f142";
 }
 
 th.sorted.desc .sorting-indicator:before,
 th.asc:hover span.sorting-indicator:before,
 th.asc a:focus span.sorting-indicator:before {
-	content: '\f140';
+	content: "\f140";
 }
 
 .wp-list-table .toggle-row {
@@ -515,8 +537,8 @@ th.asc a:focus span.sorting-indicator:before {
 	display: block;
 	padding: 1px 0 1px 2px;
 	color: #666;
-	content: '\f140';
-	font: normal 20px/1 'dashicons';
+	content: "\f140";
+	font: normal 20px/1 dashicons;
 	line-height: 1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -524,7 +546,7 @@ th.asc a:focus span.sorting-indicator:before {
 }
 
 .wp-list-table .is-expanded .toggle-row:before {
-	content: '\f142';
+	content: "\f142";
 }
 
 tr.wp-locked .locked-indicator {
@@ -535,10 +557,10 @@ tr.wp-locked .locked-indicator {
 
 tr.wp-locked .locked-indicator:before {
 	color: #82878c;
-	content: '\f160';
+	content: "\f160";
 	display: inline-block;
 	float: right;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: middle;
 	margin-right: 0;
@@ -590,7 +612,7 @@ th.sortable a,
 th.sorted a {
 	display: block;
 	overflow: hidden;
-	padding: 7px 10px 8px 7px;
+	padding: 8px;
 }
 
 .fixed .column-comments.sortable a,
@@ -609,7 +631,7 @@ th.desc:hover span.sorting-indicator,
 th.desc a:focus span.sorting-indicator,
 th.asc:hover span.sorting-indicator,
 th.asc a:focus span.sorting-indicator {
-	display: block;
+	visibility: visible;
 }
 
 /* Bulk Actions */
@@ -770,7 +792,7 @@ classes exist in paginate_links() but not seen in list table output. */
 .view-switch a:before {
 	color: #b4b9be;
 	display: inline-block;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: middle;
 	-webkit-font-smoothing: antialiased;
@@ -787,15 +809,15 @@ classes exist in paginate_links() but not seen in list table output. */
 }
 
 .view-switch .view-list:before {
-	content: '\f163';
+	content: "\f163";
 }
 
 .view-switch .view-excerpt:before {
-	content: '\f164';
+	content: "\f164";
 }
 
 .view-switch .view-grid:before {
-	content: '\f509';
+	content: "\f509";
 }
 
 .filter {
@@ -857,6 +879,16 @@ p.pagenav {
 	font-size: 13px;
 	visibility: hidden;
 	padding: 2px 0 0;
+}
+
+/* ticket #34150 */
+.rtl .row-actions a {
+	display: inline-block;
+}
+
+.row-actions .network_only,
+.row-actions .network_active {
+	color: #000;
 }
 
 tr:hover .row-actions,
@@ -961,11 +993,19 @@ tr.inline-edit-row td,
 }
 
 /*	Positioning */
-.inline-edit-row h4 {
-	margin: .2em 0;
-	padding: 0;
+
+/* Needs higher specificity for the padding */
+#the-list .inline-edit-row .inline-edit-legend {
+	margin: 0;
+	padding: 0.2em 0.5em 0;
 	line-height: 2.5;
+	font-weight: 600;
 }
+
+#the-list #bulk-edit.inline-edit-row .inline-edit-legend {
+	padding: 0.2em 0.5em;
+}
+
 .inline-edit-row fieldset span.title,
 .inline-edit-row fieldset span.checkbox-title {
 	margin: 0;
@@ -1055,7 +1095,7 @@ tr.inline-edit-row td,
 }
 
 /*	Styling */
-.inline-edit-row h4 {
+.inline-edit-row .inline-edit-legend {
 	text-transform: uppercase;
 }
 
@@ -1342,7 +1382,7 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 .plugin-card .install-now:before {
 	color: #d54e21;
 	display: inline-block;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -1351,7 +1391,7 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 
 .plugin-update-tr .update-message:before,
 .plugin-card .update-now:before {
-	content: '\f463';
+	content: "\f463";
 }
 
 .plugin-update-tr .update-message:before {
@@ -1365,7 +1405,7 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 
 .plugin-update-tr .updating-message:before,
 .plugin-card .updating-message:before {
-	content: '\f463';
+	content: "\f463";
 	-webkit-animation: rotation 2s infinite linear;
 	animation: rotation 2s infinite linear;
 }
@@ -1395,7 +1435,7 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 .plugin-update-tr .updated-message:before,
 .plugin-card .updated-message:before {
 	color: #79ba49;
-	content: '\f147';
+	content: "\f147";
 }
 
 .wp-list-table.plugins tbody tr.plugin-update-tr td.plugin-update {
@@ -1414,11 +1454,11 @@ tr.active + tr.plugin-update-tr:not(.updated) .plugin-update .update-message {
 	background-color: #fcf3ef;
 }
 
-.plugin-install-php h3 {
+.plugin-install-php h2 {
 	clear: both;
 }
 
-.plugin-install-php h4 {
+.plugin-install-php h3 {
 	margin: 2.5em 0 8px;
 }
 
@@ -1495,7 +1535,7 @@ div.action-links,
 	margin: 0; /* Override existing margins */
 }
 
-.plugin-card h4 {
+.plugin-card h3 {
 	margin: 0 0 12px;
 	font-size: 18px;
 	line-height: 1.3;
@@ -1565,7 +1605,7 @@ div.action-links,
 }
 
 .plugin-card .column-compatibility span:before {
-	font: normal 20px/.5 'dashicons';
+	font: normal 20px/.5 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0;
@@ -1580,11 +1620,11 @@ div.action-links,
 }
 
 .plugin-card .compatibility-incompatible:before {
-	content: '\f158';
+	content: "\f158";
 }
 
 .plugin-card .compatibility-compatible:before {
-	content: '\f147';
+	content: "\f147";
 }
 
 .plugin-icon {
@@ -1594,11 +1634,6 @@ div.action-links,
 	width: 128px;
 	height: 128px;
 	margin: 0 0 20px 20px;
-}
-
-.plugin-icon img {
-	width: 128px;
-	height: 128px;
 }
 
 .no-plugin-results {
@@ -1612,16 +1647,16 @@ div.action-links,
 
 /* ms */
 /* Background Color for Site Status */
-.wp-list-table tr.site-deleted {
+.wp-list-table .site-deleted {
 	background: #ff8573;
 }
-.wp-list-table tr.site-spammed {
+.wp-list-table .site-spammed {
 	background: #faafaa;
 }
-.wp-list-table tr.site-archived {
+.wp-list-table .site-archived {
 	background: #ffebe8;
 }
-.wp-list-table tr.site-mature {
+.wp-list-table .site-mature {
 	background: #fecac2;
 }
 
@@ -1666,6 +1701,10 @@ div.action-links,
 
 	.plugin-card .desc p:first-of-type {
 		margin-top: 0;
+	}
+
+	.fixed .column-date {
+		width: 14%;
 	}
 }
 
@@ -1742,7 +1781,7 @@ div.action-links,
 
 	.tablenav-pages .pagination-links a,
 	.tablenav-pages-navspan {
-		padding: 9px 16px 12px;
+		padding: 9px 11px 12px;
 		font-size: 18px;
 	}
 
@@ -1898,8 +1937,9 @@ div.action-links,
 		color: #dc3232;
 	}
 
-	.widefat thead .check-column, .widefat tfoot .check-column {
-		padding: 10px 0 10px;
+	.widefat thead td.check-column,
+	.widefat tfoot td.check-column {
+		padding-top: 10px;
 	}
 
 	.widefat * {
@@ -2002,6 +2042,7 @@ div.action-links,
 	/* Updates */
 	#wpbody-content #update-themes-table .plugin-title {
 		width: auto;
+		white-space: normal;
 	}
 
 	/* Links */
@@ -2067,7 +2108,7 @@ div.action-links,
 
 	/* mimic the checkbox th */
 	.plugins .plugin-update-tr:before {
-		content: '';
+		content: "";
 		display: table-cell;
 	}
 

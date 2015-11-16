@@ -18,6 +18,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	public $link;
 
 	/**
+	 * @access public
 	 *
 	 * @param array $opt
 	 */
@@ -63,6 +64,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @return bool
 	 */
@@ -91,8 +93,14 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
-	 * @param string $file
-	 * @return false|string
+	 * Retrieves the file contents.
+	 *
+	 * @since 2.5.0
+	 * @access public
+	 *
+	 * @param string $file Filename.
+	 * @return string|false File contents on success, false if no temp file could be opened,
+	 *                      or if the file couldn't be retrieved.
 	 */
 	public function get_contents( $file ) {
 		$tempfile = wp_tempnam($file);
@@ -116,6 +124,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return array
 	 */
@@ -124,6 +134,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @param string $contents
 	 * @param bool|int $mode
@@ -161,6 +173,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @return string
 	 */
 	public function cwd() {
@@ -171,6 +185,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $dir
 	 * @return bool
 	 */
@@ -179,6 +195,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @param int $mode
 	 * @param bool $recursive
@@ -208,6 +226,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return string
 	 */
@@ -216,6 +236,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		return $dir[$file]['owner'];
 	}
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return string
 	 */
@@ -223,7 +245,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		$dir = $this->dirlist($file);
 		return $dir[$file]['permsn'];
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return string
 	 */
@@ -233,6 +258,7 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @param string $source
 	 * @param string $destination
@@ -248,7 +274,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			return false;
 		return $this->put_contents($destination, $content, $mode);
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $source
 	 * @param string $destination
 	 * @param bool $overwrite
@@ -257,7 +286,10 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	public function move($source, $destination, $overwrite = false) {
 		return ftp_rename($this->link, $source, $destination);
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @param bool $recursive
 	 * @param string $type
@@ -277,27 +309,38 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 				$this->delete( trailingslashit($file) . $delete_file['name'], $recursive, $delete_file['type'] );
 		return @ftp_rmdir($this->link, $file);
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return bool
 	 */
-	public function exists($file) {
-		$list = @ftp_nlist($this->link, $file);
+	public function exists( $file ) {
+		$path = dirname( $file );
+		$filename = basename( $file );
 
-		if ( empty( $list ) && $this->is_dir( $file ) ) {
-			return true; // File is an empty directory.
+		$file_list = @ftp_nlist( $this->link, '-a ' . $path );
+		if ( $file_list ) {
+			$file_list = array_map( 'basename', $file_list );
 		}
 
-		return !empty($list); //empty list = no file, so invert.
+		return $file_list && in_array( $filename, $file_list );
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return bool
 	 */
 	public function is_file($file) {
 		return $this->exists($file) && !$this->is_dir($file);
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $path
 	 * @return bool
 	 */
@@ -312,41 +355,58 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return bool
 	 */
 	public function is_readable($file) {
 		return true;
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return bool
 	 */
 	public function is_writable($file) {
 		return true;
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return bool
 	 */
 	public function atime($file) {
 		return false;
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return int
 	 */
 	public function mtime($file) {
 		return ftp_mdtm($this->link, $file);
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return int
 	 */
 	public function size($file) {
 		return ftp_size($this->link, $file);
 	}
+
 	/**
+	 * @access public
+	 *
 	 * @param string $file
 	 * @return bool
 	 */
@@ -355,6 +415,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $path
 	 * @param mixed $chmod
 	 * @param mixed $chown
@@ -373,6 +435,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $path
 	 * @param bool $recursive
 	 * @return bool
@@ -382,6 +446,8 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @staticvar bool $is_windows
 	 * @param string $line
 	 * @return array
@@ -454,13 +520,16 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		}
 
 		// Replace symlinks formatted as "source -> target" with just the source name
-		if ( $b['islink'] )
+		if ( isset( $b['islink'] ) && $b['islink'] ) {
 			$b['name'] = preg_replace( '/(\s*->\s*.*)$/', '', $b['name'] );
+		}
 
 		return $b;
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $path
 	 * @param bool $include_hidden
 	 * @param bool $recursive

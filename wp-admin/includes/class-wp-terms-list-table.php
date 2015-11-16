@@ -1,11 +1,19 @@
 <?php
 /**
- * Terms List Table class.
+ * List Table API: WP_Terms_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying terms in a list table.
+ *
  * @since 3.1.0
  * @access private
+ *
+ * @see WP_List_Table
  */
 class WP_Terms_List_Table extends WP_List_Table {
 
@@ -69,7 +77,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		$tags_per_page = $this->get_items_per_page( 'edit_' . $this->screen->taxonomy . '_per_page' );
 
-		if ( 'post_tag' == $this->screen->taxonomy ) {
+		if ( 'post_tag' === $this->screen->taxonomy ) {
 			/**
 			 * Filter the number of terms displayed per page for the Tags list table.
 			 *
@@ -88,7 +96,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			 * @param int $tags_per_page Number of tags to be displayed. Default 20.
 			 */
 			$tags_per_page = apply_filters( 'tagsperpage', $tags_per_page );
-		} elseif ( 'category' == $this->screen->taxonomy ) {
+		} elseif ( 'category' === $this->screen->taxonomy ) {
 			/**
 			 * Filter the number of terms displayed per page for the Categories list table.
 			 *
@@ -153,7 +161,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function current_action() {
-		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['delete_tags'] ) && ( 'delete' == $_REQUEST['action'] || 'delete' == $_REQUEST['action2'] ) )
+		if ( isset( $_REQUEST['action'] ) && isset( $_REQUEST['delete_tags'] ) && ( 'delete' === $_REQUEST['action'] || 'delete' === $_REQUEST['action2'] ) )
 			return 'bulk-delete';
 
 		return parent::current_action();
@@ -171,7 +179,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			'slug'        => __( 'Slug' ),
 		);
 
-		if ( 'link_category' == $this->screen->taxonomy ) {
+		if ( 'link_category' === $this->screen->taxonomy ) {
 			$columns['links'] = __( 'Links' );
 		} else {
 			$columns['posts'] = _x( 'Count', 'Number/count of items' );
@@ -358,15 +366,22 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$name = apply_filters( 'term_name', $pad . ' ' . $tag->name, $tag );
 
 		$qe_data = get_term( $tag->term_id, $taxonomy, OBJECT, 'edit' );
-		$edit_link = esc_url( get_edit_term_link( $tag->term_id, $taxonomy, $this->screen->post_type ) );
 
-		$out = '<strong><a class="row-title" href="' . $edit_link . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $name ) ) . '">' . $name . '</a></strong><br />';
+		$uri = ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ? wp_get_referer() : $_SERVER['REQUEST_URI'];
+
+		$edit_link = add_query_arg(
+			'wp_http_referer',
+			urlencode( wp_unslash( $uri ) ),
+			get_edit_term_link( $tag->term_id, $taxonomy, $this->screen->post_type )
+		);
+
+		$out = '<strong><a class="row-title" href="' . esc_url( $edit_link ) . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $name ) ) . '">' . $name . '</a></strong><br />';
 
 		$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
 		$out .= '<div class="name">' . $qe_data->name . '</div>';
 
 		/** This filter is documented in wp-admin/edit-tag-form.php */
-		$out .= '<div class="slug">' . apply_filters( 'editable_slug', $qe_data->slug ) . '</div>';
+		$out .= '<div class="slug">' . apply_filters( 'editable_slug', $qe_data->slug, $qe_data ) . '</div>';
 		$out .= '<div class="parent">' . $qe_data->parent . '</div></div>';
 
 		return $out;
@@ -404,11 +419,17 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$tax = get_taxonomy( $taxonomy );
 		$default_term = get_option( 'default_' . $taxonomy );
 
-		$edit_link = esc_url( get_edit_term_link( $tag->term_id, $taxonomy, $this->screen->post_type ) );
+		$uri = ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ? wp_get_referer() : $_SERVER['REQUEST_URI'];
+
+		$edit_link = add_query_arg(
+			'wp_http_referer',
+			urlencode( wp_unslash( $uri ) ),
+			get_edit_term_link( $tag->term_id, $taxonomy, $this->screen->post_type )
+		);
 
 		$actions = array();
 		if ( current_user_can( $tax->cap->edit_terms ) ) {
-			$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
+			$actions['edit'] = '<a href="' . esc_url( $edit_link ) . '">' . __( 'Edit' ) . '</a>';
 			$actions['inline hide-if-no-js'] = '<a href="#" class="editinline">' . __( 'Quick&nbsp;Edit' ) . '</a>';
 		}
 		if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term )
@@ -458,7 +479,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 */
 	public function column_slug( $tag ) {
 		/** This filter is documented in wp-admin/edit-tag-form.php */
-		return apply_filters( 'editable_slug', $tag->slug );
+		return apply_filters( 'editable_slug', $tag->slug, $tag );
 	}
 
 	/**
@@ -483,7 +504,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		if ( 'post' != $this->screen->post_type )
 			$args['post_type'] = $this->screen->post_type;
 
-		if ( 'attachment' == $this->screen->post_type )
+		if ( 'attachment' === $this->screen->post_type )
 			return "<a href='" . esc_url ( add_query_arg( $args, 'upload.php' ) ) . "'>$count</a>";
 
 		return "<a href='" . esc_url ( add_query_arg( $args, 'edit.php' ) ) . "'>$count</a>";
@@ -536,9 +557,9 @@ class WP_Terms_List_Table extends WP_List_Table {
 	<form method="get"><table style="display: none"><tbody id="inlineedit">
 		<tr id="inline-edit" class="inline-edit-row" style="display: none"><td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
 
-			<fieldset><div class="inline-edit-col">
-				<h4><?php _e( 'Quick Edit' ); ?></h4>
-
+			<fieldset>
+				<legend class="inline-edit-legend"><?php _e( 'Quick Edit' ); ?></legend>
+				<div class="inline-edit-col">
 				<label>
 					<span class="title"><?php _ex( 'Name', 'term name' ); ?></span>
 					<span class="input-text-wrap"><input type="text" name="name" class="ptitle" value="" /></span>
@@ -567,8 +588,8 @@ class WP_Terms_List_Table extends WP_List_Table {
 	?>
 
 		<p class="inline-edit-save submit">
-			<a href="#inline-edit" class="cancel button-secondary alignleft"><?php _e( 'Cancel' ); ?></a>
-			<a href="#inline-edit" class="save button-primary alignright"><?php echo $tax->labels->update_item; ?></a>
+			<button type="button" class="cancel button-secondary alignleft"><?php _e( 'Cancel' ); ?></button>
+			<button type="button" class="save button-primary alignright"><?php echo $tax->labels->update_item; ?></button>
 			<span class="spinner"></span>
 			<span class="error" style="display:none;"></span>
 			<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>

@@ -789,5 +789,10 @@ tinymce.PluginManager.add('media', function(editor, url) {
 		prependToContext: true
 	});
 
+<<<<<<< HEAD
+	editor.addCommand('mceMedia', showDialog);
+
+=======
+>>>>>>> refs/remotes/origin/4.3-branch
 	this.showDialog = showDialog;
 });

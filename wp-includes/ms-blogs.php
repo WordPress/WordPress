@@ -13,7 +13,7 @@
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function wpmu_update_blogs_date() {
 	global $wpdb;
@@ -38,8 +38,16 @@ function wpmu_update_blogs_date() {
  * @return string Full URL of the blog if found. Empty string if not.
  */
 function get_blogaddress_by_id( $blog_id ) {
-	$bloginfo = get_blog_details( (int) $blog_id, false ); // only get bare details!
-	return ( $bloginfo ) ? esc_url( 'http://' . $bloginfo->domain . $bloginfo->path ) : '';
+	$bloginfo = get_blog_details( (int) $blog_id );
+
+	if ( empty( $bloginfo ) ) {
+		return '';
+	}
+
+	$scheme = parse_url( $bloginfo->home, PHP_URL_SCHEME );
+	$scheme = empty( $scheme ) ? 'http' : $scheme;
+
+	return esc_url( $scheme . '://' . $bloginfo->domain . $bloginfo->path );
 }
 
 /**
@@ -68,7 +76,7 @@ function get_blogaddress_by_name( $blogname ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $slug
  * @return int A blog id
@@ -101,7 +109,7 @@ function get_id_from_blogname( $slug ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|string|array $fields  Optional. A blog ID, a blog slug, or an array of fields to query against.
  *                                  If not specified the current blog ID is used.
@@ -216,9 +224,10 @@ function get_blog_details( $fields = null, $get_all = true ) {
 	}
 
 	switch_to_blog( $blog_id );
-	$details->blogname		= get_option( 'blogname' );
-	$details->siteurl		= get_option( 'siteurl' );
-	$details->post_count	= get_option( 'post_count' );
+	$details->blogname   = get_option( 'blogname' );
+	$details->siteurl    = get_option( 'siteurl' );
+	$details->post_count = get_option( 'post_count' );
+	$details->home       = get_option( 'home' );
 	restore_current_blog();
 
 	/**
@@ -280,7 +289,7 @@ function refresh_blog_details( $blog_id = 0 ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int   $blog_id Blog ID
  * @param array $details Array of details keyed by blogs table field names.
@@ -781,7 +790,7 @@ function update_archived( $id, $archived ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $blog_id BLog ID
  * @param string $pref    A field name
@@ -857,7 +866,7 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $id   The blog id
  * @param string $pref A field name
@@ -878,7 +887,7 @@ function get_blog_status( $id, $pref ) {
  *
  * @since MU
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param mixed $deprecated Not used
  * @param int   $start      The offset

@@ -46,7 +46,7 @@ function wp_image_editor($post_id, $msg = false) {
 	<div class="imgedit-settings">
 	<div class="imgedit-group">
 	<div class="imgedit-group-top">
-		<h3><?php _e( 'Scale Image' ); ?> <a href="#" class="dashicons dashicons-editor-help imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;"></a></h3>
+		<h2><?php _e( 'Scale Image' ); ?> <a href="#" class="dashicons dashicons-editor-help imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;"></a></h2>
 		<div class="imgedit-help">
 		<p><?php _e('You can proportionally scale the original image. For best results, scaling should be done before you crop, flip, or rotate. Images can only be scaled down, not up.'); ?></p>
 		</div>
@@ -65,7 +65,7 @@ function wp_image_editor($post_id, $msg = false) {
 
 	<div class="imgedit-group">
 	<div class="imgedit-group-top">
-		<h3><a onclick="imageEdit.toggleHelp(this);return false;" href="#"><?php _e('Restore Original Image'); ?> <span class="dashicons dashicons-arrow-down imgedit-help-toggle"></span></a></h3>
+		<h2><a onclick="imageEdit.toggleHelp(this);return false;" href="#"><?php _e('Restore Original Image'); ?> <span class="dashicons dashicons-arrow-down imgedit-help-toggle"></span></a></h2>
 		<div class="imgedit-help">
 		<p><?php _e('Discard any changes and restore the original image.');
 
@@ -84,7 +84,7 @@ function wp_image_editor($post_id, $msg = false) {
 
 	<div class="imgedit-group">
 	<div class="imgedit-group-top">
-		<h3><?php _e('Image Crop'); ?> <a href="#" class="dashicons dashicons-editor-help imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;"></a></h3>
+		<h2><?php _e( 'Image Crop' ); ?> <a href="#" class="dashicons dashicons-editor-help imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;"></a></h2>
 
 		<div class="imgedit-help">
 		<p><?php _e('To crop the image, click on it and drag to make your selection.'); ?></p>
@@ -122,7 +122,7 @@ function wp_image_editor($post_id, $msg = false) {
 
 	<div class="imgedit-group imgedit-applyto">
 	<div class="imgedit-group-top">
-		<h3><?php _e('Thumbnail Settings'); ?> <a href="#" class="dashicons dashicons-editor-help imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;"></a></h3>
+		<h2><?php _e( 'Thumbnail Settings' ); ?> <a href="#" class="dashicons dashicons-editor-help imgedit-help-toggle" onclick="imageEdit.toggleHelp(this);return false;"></a></h2>
 		<p class="imgedit-help"><?php _e('You can edit the image while preserving the thumbnail. For example, you may wish to have a square thumbnail that displays just a section of the image.'); ?></p>
 	</div>
 
@@ -184,7 +184,7 @@ function wp_image_editor($post_id, $msg = false) {
 		<input type="hidden" id="imgedit-y-<?php echo $post_id; ?>" value="<?php echo isset( $meta['height'] ) ? $meta['height'] : 0; ?>" />
 
 		<div id="imgedit-crop-<?php echo $post_id; ?>" class="imgedit-crop-wrap">
-		<img id="image-preview-<?php echo $post_id; ?>" onload="imageEdit.imgLoaded('<?php echo $post_id; ?>')" src="<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>?action=imgedit-preview&amp;_ajax_nonce=<?php echo $nonce; ?>&amp;postid=<?php echo $post_id; ?>&amp;rand=<?php echo rand(1, 99999); ?>" />
+		<img id="image-preview-<?php echo $post_id; ?>" onload="imageEdit.imgLoaded('<?php echo $post_id; ?>')" src="<?php echo admin_url( 'admin-ajax.php', 'relative' ); ?>?action=imgedit-preview&amp;_ajax_nonce=<?php echo $nonce; ?>&amp;postid=<?php echo $post_id; ?>&amp;rand=<?php echo rand(1, 99999); ?>" alt="<?php esc_attr_e( 'Image preview' ); ?>" />
 		</div>
 
 		<div class="imgedit-submit">
@@ -614,7 +614,7 @@ function wp_restore_image($post_id) {
 		if ( $parts['basename'] != $data['file'] ) {
 			if ( defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE ) {
 
-				// Delete only if it's edited image.
+				// Delete only if it's an edited image.
 				if ( preg_match('/-e[0-9]{13}\./', $parts['basename']) ) {
 					wp_delete_file( $file );
 				}
@@ -637,7 +637,7 @@ function wp_restore_image($post_id) {
 			if ( isset($meta['sizes'][$default_size]) && $meta['sizes'][$default_size]['file'] != $data['file'] ) {
 				if ( defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE ) {
 
-					// Delete only if it's edited image
+					// Delete only if it's an edited image.
 					if ( preg_match('/-e[0-9]{13}-/', $meta['sizes'][$default_size]['file']) ) {
 						$delete_file = path_join( $parts['dirname'], $meta['sizes'][$default_size]['file'] );
 						wp_delete_file( $delete_file );

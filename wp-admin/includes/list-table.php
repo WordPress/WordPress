@@ -27,7 +27,7 @@ function _get_list_table( $class, $args = array() ) {
 		'WP_Terms_List_Table' => 'terms',
 		'WP_Users_List_Table' => 'users',
 		'WP_Comments_List_Table' => 'comments',
-		'WP_Post_Comments_List_Table' => 'comments',
+		'WP_Post_Comments_List_Table' => array( 'comments', 'post-comments' ),
 		'WP_Links_List_Table' => 'links',
 		'WP_Plugin_Install_List_Table' => 'plugin-install',
 		'WP_Themes_List_Table' => 'themes',
@@ -110,8 +110,9 @@ class _WP_List_Table_Compat extends WP_List_Table {
 		$columns = get_column_headers( $this->_screen );
 		$hidden = get_hidden_columns( $this->_screen );
 		$sortable = array();
+		$primary = $this->get_default_primary_column_name();
 
-		return array( $columns, $hidden, $sortable );
+		return array( $columns, $hidden, $sortable, $primary );
 	}
 
 	/**

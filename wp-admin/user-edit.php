@@ -60,22 +60,6 @@ $wp_http_referer = remove_query_arg(array('update', 'delete_count'), $wp_http_re
 $user_can_edit = current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' );
 
 /**
- * Optional SSL preference that can be turned on by hooking to the 'personal_options' action.
- *
- * @since 2.7.0
- *
- * @param object $user User data object
- */
-function use_ssl_preference($user) {
-?>
-	<tr class="user-use-ssl-wrap">
-		<th scope="row"><?php _e('Use https')?></th>
-		<td><label for="use_ssl"><input name="use_ssl" type="checkbox" id="use_ssl" value="1" <?php checked('1', $user->use_ssl); ?> /> <?php _e('Always use https when visiting the admin'); ?></label></td>
-	</tr>
-<?php
-}
-
-/**
  * Filter whether to allow administrators on Multisite to edit every user.
  *
  * Enabling the user editing form via this filter also hinges on the user holding
@@ -230,7 +214,7 @@ if ( ! IS_PROFILE_PAGE ) {
 <input type="hidden" name="checkuser_id" value="<?php echo get_current_user_id(); ?>" />
 </p>
 
-<h3><?php _e('Personal Options'); ?></h3>
+<h2><?php _e( 'Personal Options' ); ?></h2>
 
 <table class="form-table">
 <?php if ( ! ( IS_PROFILE_PAGE && ! $user_can_edit ) ) : ?>
@@ -301,7 +285,7 @@ do_action( 'personal_options', $profileuser );
 	}
 ?>
 
-<h3><?php _e('Name') ?></h3>
+<h2><?php _e( 'Name' ); ?></h2>
 
 <table class="form-table">
 	<tr class="user-user-login-wrap">
@@ -392,11 +376,11 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 </tr>
 </table>
 
-<h3><?php _e('Contact Info') ?></h3>
+<h2><?php _e( 'Contact Info' ); ?></h2>
 
 <table class="form-table">
 <tr class="user-email-wrap">
-	<th><label for="email"><?php _e('E-mail'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
+	<th><label for="email"><?php _e('Email'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
 	<td><input type="email" name="email" id="email" value="<?php echo esc_attr( $profileuser->user_email ) ?>" class="regular-text ltr" />
 	<?php
 	$new_email = get_option( $current_user->ID . '_new_email' );
@@ -404,7 +388,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	<div class="updated inline">
 	<p><?php
 		printf(
-			__( 'There is a pending change of your e-mail to %1$s. <a href="%2$s">Cancel</a>' ),
+			__( 'There is a pending change of your email to %1$s. <a href="%2$s">Cancel</a>' ),
 			'<code>' . $new_email['newemail'] . '</code>',
 			esc_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ) )
 	); ?></p>
@@ -444,7 +428,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 ?>
 </table>
 
-<h3><?php IS_PROFILE_PAGE ? _e('About Yourself') : _e('About the user'); ?></h3>
+<h2><?php IS_PROFILE_PAGE ? _e( 'About Yourself' ) : _e( 'About the user' ); ?></h2>
 
 <table class="form-table">
 <tr class="user-description-wrap">
@@ -453,14 +437,50 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	<p class="description"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></p></td>
 </tr>
 
+<?php if ( get_option( 'show_avatars' ) ) : ?>
+<tr class="user-profile-picture">
+	<th><?php _e( 'Profile Picture' ); ?></th>
+	<td>
+		<?php echo get_avatar( $user_id ); ?>
+		<p class="description"><?php
+			if ( IS_PROFILE_PAGE ) {
+				/* translators: %s: Gravatar URL */
+				$description = sprintf( __( 'You can change your profile picture on <a href="%s">Gravatar</a>.' ),
+					__( 'https://en.gravatar.com/' )
+				);
+			} else {
+				$description = '';
+			}
+
+			/**
+			 * Filter the user profile picture description displayed under the Gravatar.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param string $description The description that will be printed.
+			 */
+			echo apply_filters( 'user_profile_picture_description', $description );
+		?></p>
+	</td>
+</tr>
+<?php endif; ?>
+
 <?php
-/** This filter is documented in wp-admin/user-new.php */
-$show_password_fields = apply_filters( 'show_password_fields', true, $profileuser );
-if ( $show_password_fields ) :
+/**
+ * Filter the display of the password fields.
+ *
+ * @since 1.5.1
+ * @since 2.8.0 Added the `$profileuser` parameter.
+ * @since 4.4.0 Now evaluated only in user-edit.php.
+ *
+ * @param bool    $show        Whether to show the password fields. Default true.
+ * @param WP_User $profileuser User object for the current user to edit.
+ */
+if ( $show_password_fields = apply_filters( 'show_password_fields', true, $profileuser ) ) :
 ?>
 </table>
 
-<h3><?php _e('Account Management'); ?></h3>
+<h2><?php _e( 'Account Management' ); ?></h2>
 <table class="form-table">
 <tr id="password" class="user-pass1-wrap">
 	<th><label for="pass1"><?php _e( 'New Password' ); ?></label></th>
@@ -568,7 +588,7 @@ if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) : ?>
  *
  * The 'Additional Capabilities' section will only be enabled if
  * the number of the user's capabilities exceeds their number of
- * of roles.
+ * roles.
  *
  * @since 2.8.0
  *
@@ -578,7 +598,7 @@ if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) : ?>
 if ( count( $profileuser->caps ) > count( $profileuser->roles )
 	&& apply_filters( 'additional_capabilities_display', true, $profileuser )
 ) : ?>
-<h3><?php _e( 'Additional Capabilities' ); ?></h3>
+<h2><?php _e( 'Additional Capabilities' ); ?></h2>
 <table class="form-table">
 <tr class="user-capabilities-wrap">
 	<th scope="row"><?php _e( 'Capabilities' ); ?></th>

@@ -16,6 +16,8 @@ if ( ! is_multisite() )
 if ( ! current_user_can( 'manage_network_users' ) )
 	wp_die( __( 'You do not have permission to access this page.' ), 403 );
 
+<<<<<<< HEAD
+=======
 /**
  *
  * @param array $users
@@ -125,6 +127,7 @@ function confirm_delete_users( $users ) {
 	return true;
 }
 
+>>>>>>> refs/remotes/origin/4.3-branch
 if ( isset( $_GET['action'] ) ) {
 	/** This action is documented in wp-admin/network/edit.php */
 	do_action( 'wpmuadminedit' );
@@ -232,7 +235,7 @@ if ( isset( $_GET['action'] ) ) {
 			}
 			$i = 0;
 			if ( is_array( $_POST['user'] ) && ! empty( $_POST['user'] ) )
-				foreach( $_POST['user'] as $id ) {
+				foreach ( $_POST['user'] as $id ) {
 					if ( ! current_user_can( 'delete_user', $id ) )
 						continue;
 					wpmu_delete_user( $id );
@@ -280,6 +283,12 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://codex.wordpress.org/Network_Admin_Users_Screen" target="_blank">Documentation on Network Users</a>') . '</p>' .
 	'<p>' . __('<a href="https://wordpress.org/support/forum/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
+
+get_current_screen()->set_screen_reader_content( array(
+	'heading_views'      => __( 'Filter users list' ),
+	'heading_pagination' => __( 'Users list navigation' ),
+	'heading_list'       => __( 'Users list' ),
+) );
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 

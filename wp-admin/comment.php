@@ -33,17 +33,6 @@ if ( isset( $_GET['dt'] ) ) {
 		$action = 'trash';
 }
 
-/**
- * Display error message at bottom of comments.
- *
- * @param string $msg Error Message. Assumed to contain HTML and be sanitized.
- */
-function comment_footer_die( $msg ) {
-	echo "<div class='wrap'><p>$msg</p></div>";
-	include( ABSPATH . 'wp-admin/admin-footer.php' );
-	die;
-}
-
 switch( $action ) {
 
 case 'editcomment' :
@@ -166,7 +155,7 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 </tr>
 <?php if ( $comment->comment_author_email ) { ?>
 <tr>
-<th scope="row"><?php _e('E-mail'); ?></th>
+<th scope="row"><?php _e('Email'); ?></th>
 <td><?php echo $comment->comment_author_email; ?></td>
 </tr>
 <?php } ?>
@@ -191,9 +180,13 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 
 		if ( $comment->comment_parent ) {
 			$parent      = get_comment( $comment->comment_parent );
-			$parent_link = esc_url( get_comment_link( $comment->comment_parent ) );
-			$name        = get_comment_author( $parent->comment_ID );
-			printf( ' | ' . __( 'In reply to <a href="%1$s">%2$s</a>.' ), $parent_link, $name );
+			$parent_link = esc_url( get_comment_link( $parent ) );
+			$name        = get_comment_author( $parent );
+			printf(
+				/* translators: %s: comment link */
+				' | ' . __( 'In reply to %s.' ),
+				'<a href="' . $parent_link . '">' . $name . '</a>'
+			);
 		}
 	?>
 	</td>
@@ -204,10 +197,10 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 	<?php
 		/* translators: 2: comment date, 3: comment time */
 		printf( __( '<a href="%1$s">%2$s at %3$s</a>' ),
-			esc_url( get_comment_link( $comment->comment_ID ) ),
+			esc_url( get_comment_link( $comment ) ),
 			/* translators: comment date format. See http://php.net/date */
-			get_comment_date( __( 'Y/m/d' ) ),
-			get_comment_date( get_option( 'time_format' ) )
+			get_comment_date( __( 'Y/m/d' ), $comment ),
+			get_comment_date( get_option( 'time_format' ), $comment )
 		);
 	?>
 	</td>
@@ -269,31 +262,31 @@ case 'unapprovecomment' :
 
 	switch ( $action ) {
 		case 'deletecomment' :
-			wp_delete_comment( $comment_id );
+			wp_delete_comment( $comment );
 			$redir = add_query_arg( array('deleted' => '1'), $redir );
 			break;
 		case 'trashcomment' :
-			wp_trash_comment($comment_id);
+			wp_trash_comment( $comment );
 			$redir = add_query_arg( array('trashed' => '1', 'ids' => $comment_id), $redir );
 			break;
 		case 'untrashcomment' :
-			wp_untrash_comment($comment_id);
+			wp_untrash_comment( $comment );
 			$redir = add_query_arg( array('untrashed' => '1'), $redir );
 			break;
 		case 'spamcomment' :
-			wp_spam_comment($comment_id);
+			wp_spam_comment( $comment );
 			$redir = add_query_arg( array('spammed' => '1', 'ids' => $comment_id), $redir );
 			break;
 		case 'unspamcomment' :
-			wp_unspam_comment($comment_id);
+			wp_unspam_comment( $comment );
 			$redir = add_query_arg( array('unspammed' => '1'), $redir );
 			break;
 		case 'approvecomment' :
-			wp_set_comment_status( $comment_id, 'approve' );
+			wp_set_comment_status( $comment, 'approve' );
 			$redir = add_query_arg( array( 'approved' => 1 ), $redir );
 			break;
 		case 'unapprovecomment' :
-			wp_set_comment_status( $comment_id, 'hold' );
+			wp_set_comment_status( $comment, 'hold' );
 			$redir = add_query_arg( array( 'unapproved' => 1 ), $redir );
 			break;
 	}

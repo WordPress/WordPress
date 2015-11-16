@@ -1,9 +1,10 @@
 <?php
 /**
- * Includes all of the WordPress Administration API files.
+ * Core Administration API
  *
  * @package WordPress
  * @subpackage Administration
+ * @since 2.3.0
  */
 
 if ( ! defined('WP_ADMIN') ) {
@@ -39,6 +40,9 @@ require_once(ABSPATH . 'wp-admin/includes/import.php');
 /** WordPress Misc Administration API */
 require_once(ABSPATH . 'wp-admin/includes/misc.php');
 
+/** WordPress Options Administration API */
+require_once(ABSPATH . 'wp-admin/includes/options.php');
+
 /** WordPress Plugin Administration API */
 require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 
@@ -46,6 +50,7 @@ require_once(ABSPATH . 'wp-admin/includes/plugin.php');
 require_once(ABSPATH . 'wp-admin/includes/post.php');
 
 /** WordPress Administration Screen API */
+require_once(ABSPATH . 'wp-admin/includes/class-wp-screen.php');
 require_once(ABSPATH . 'wp-admin/includes/screen.php');
 
 /** WordPress Taxonomy Administration API */

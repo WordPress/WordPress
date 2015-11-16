@@ -59,6 +59,11 @@ commentsBox = {
 		);
 
 		return false;
+	},
+
+	load: function(total){
+		this.st = jQuery('#the-comment-list tr.comment:visible').length;
+		this.get(total);
 	}
 };
 
@@ -126,7 +131,7 @@ $(document).on( 'heartbeat-send.refresh-lock', function( e, data ) {
 				}
 
 				if ( received.lock_error.avatar_src ) {
-					avatar = $('<img class="avatar avatar-64 photo" width="64" height="64" />').attr( 'src', received.lock_error.avatar_src.replace(/&amp;/g, '&') );
+					avatar = $( '<img class="avatar avatar-64 photo" width="64" height="64" alt="" />' ).attr( 'src', received.lock_error.avatar_src.replace( /&amp;/g, '&' ) );
 					wrap.find('div.post-locked-avatar').empty().append( avatar );
 				}
 
@@ -205,7 +210,6 @@ jQuery(document).ready( function($) {
 		sticky = '',
 		$textarea = $('#content'),
 		$document = $(document),
-		$editSlugWrap = $('#edit-slug-box'),
 		postId = $('#post_ID').val() || 0,
 		$submitpost = $('#submitpost'),
 		releaseLock = true,
@@ -428,7 +432,8 @@ jQuery(document).ready( function($) {
 			settingName = 'cats';
 
 		// TODO: move to jQuery 1.3+, support for multiple hierarchical taxonomies, see wp-lists.js
-		$('a', '#' + taxonomy + '-tabs').click( function(){
+		$('a', '#' + taxonomy + '-tabs').click( function( e ) {
+			e.preventDefault();
 			var t = $(this).attr('href');
 			$(this).parent().addClass('tabs').siblings('li').removeClass('tabs');
 			$('#' + taxonomy + '-tabs').siblings('.tabs-panel').hide();
@@ -437,7 +442,6 @@ jQuery(document).ready( function($) {
 				deleteUserSetting( settingName );
 			else
 				setUserSetting( settingName, 'pop' );
-			return false;
 		});
 
 		if ( getUserSetting( settingName ) )
@@ -479,11 +483,11 @@ jQuery(document).ready( function($) {
 			addAfter: catAddAfter
 		});
 
-		$('#' + taxonomy + '-add-toggle').click( function() {
+		$('#' + taxonomy + '-add-toggle').click( function( e ) {
+			e.preventDefault();
 			$('#' + taxonomy + '-adder').toggleClass( 'wp-hidden-children' );
 			$('a[href="#' + taxonomy + '-all"]', '#' + taxonomy + '-tabs').click();
 			$('#new'+taxonomy).focus();
-			return false;
 		});
 
 		$('#' + taxonomy + 'checklist, #' + taxonomy + 'checklist-pop').on( 'click', 'li.popular-category > label input[type="checkbox"]', function() {
@@ -604,7 +608,8 @@ jQuery(document).ready( function($) {
 			return true;
 		};
 
-		$( '#visibility .edit-visibility').click( function () {
+		$( '#visibility .edit-visibility').click( function( e ) {
+			e.preventDefault();
 			if ( $postVisibilitySelect.is(':hidden') ) {
 				updateVisibility();
 				$postVisibilitySelect.slideDown( 'fast', function() {
@@ -612,7 +617,6 @@ jQuery(document).ready( function($) {
 				} );
 				$(this).hide();
 			}
-			return false;
 		});
 
 		$postVisibilitySelect.find('.cancel-post-visibility').click( function( event ) {
@@ -718,26 +722,32 @@ jQuery(document).ready( function($) {
 	// permalink
 	function editPermalink() {
 		var i, slug_value,
+			$el, revert_e,
 			c = 0,
-			e = $('#editable-post-name'),
-			revert_e = e.html(),
 			real_slug = $('#post_name'),
 			revert_slug = real_slug.val(),
-			b = $('#edit-slug-buttons'),
-			revert_b = b.html(),
+			permalink = $( '#sample-permalink' ),
+			permalinkOrig = permalink.html(),
+			permalinkInner = $( '#sample-permalink a' ).html(),
+			buttons = $('#edit-slug-buttons'),
+			buttonsOrig = buttons.html(),
 			full = $('#editable-post-name-full');
 
 		// Deal with Twemoji in the post-name
 		full.find( 'img' ).replaceWith( function() { return this.alt; } );
 		full = full.html();
 
-		$('#view-post-btn').hide();
-		b.html('<a href="#" class="save button button-small">'+postL10n.ok+'</a> <a class="cancel" href="#">'+postL10n.cancel+'</a>');
-		b.children('.save').click(function() {
-			var new_slug = e.children('input').val();
+		permalink.html( permalinkInner );
+		$el = $( '#editable-post-name' );
+		revert_e = $el.html();
+
+		buttons.html( '<button type="button" class="save button button-small">' + postL10n.ok + '</button> <button type="button" class="cancel button-link">' + postL10n.cancel + '</button>' );
+		buttons.children( '.save' ).click( function() {
+			var new_slug = $el.children( 'input' ).val();
+
 			if ( new_slug == $('#editable-post-name-full').text() ) {
-				b.children('.cancel').click();
-				return false;
+				buttons.children('.cancel').click();
+				return;
 			}
 			$.post(ajaxurl, {
 				action: 'sample-permalink',
@@ -754,19 +764,21 @@ jQuery(document).ready( function($) {
 					});
 				}
 
-				b.html(revert_b);
+				buttons.html(buttonsOrig);
+				permalink.html(permalinkOrig);
 				real_slug.val(new_slug);
-				$('#view-post-btn').show();
+				$( '.edit-slug' ).focus();
+				wp.a11y.speak( postL10n.permalinkSaved );
 			});
-			return false;
 		});
 
-		b.children('.cancel').click(function() {
+		buttons.children( '.cancel' ).click( function() {
 			$('#view-post-btn').show();
-			e.html(revert_e);
-			b.html(revert_b);
+			$el.html(revert_e);
+			buttons.html(buttonsOrig);
+			permalink.html(permalinkOrig);
 			real_slug.val(revert_slug);
-			return false;
+			$( '.edit-slug' ).focus();
 		});
 
 		for ( i = 0; i < full.length; ++i ) {
@@ -775,31 +787,24 @@ jQuery(document).ready( function($) {
 		}
 
 		slug_value = ( c > full.length / 4 ) ? '' : full;
-		e.html('<input type="text" id="new-post-slug" value="'+slug_value+'" />').children('input').keypress(function(e) {
-			var key = e.keyCode || 0;
-			// on enter, just save the new slug, don't save the post
-			if ( 13 == key ) {
-				b.children('.save').click();
-				return false;
+		$el.html( '<input type="text" id="new-post-slug" value="' + slug_value + '" autocomplete="off" />' ).children( 'input' ).keydown( function( e ) {
+			var key = e.which;
+			// On enter, just save the new slug, don't save the post.
+			if ( 13 === key ) {
+				e.preventDefault();
+				buttons.children( '.save' ).click();
 			}
-			if ( 27 == key ) {
-				b.children('.cancel').click();
-				return false;
+			if ( 27 === key ) {
+				buttons.children( '.cancel' ).click();
 			}
 		} ).keyup( function() {
-			real_slug.val(this.value);
+			real_slug.val( this.value );
 		}).focus();
 	}
 
-	if ( $editSlugWrap.length ) {
-		$editSlugWrap.on( 'click', function( event ) {
-			var $target = $( event.target );
-
-			if ( $target.is('#editable-post-name') || $target.hasClass('edit-slug') ) {
-				editPermalink();
-			}
-		});
-	}
+	$( '#titlediv' ).on( 'click', '.edit-slug', function() {
+		editPermalink();
+	});
 
 	wptitlehint = function(id) {
 		id = id || 'title';
@@ -929,6 +934,18 @@ jQuery(document).ready( function($) {
 			event.preventDefault();
 		}
 	});
+
+	if ( $( '#original_post_status' ).val() === 'auto-draft' && window.history.replaceState ) {
+		var location;
+
+		$( '#publish' ).on( 'click', function() {
+			location = window.location.href;
+			location += ( location.indexOf( '?' ) !== -1 ) ? '&' : '?';
+			location += 'wp-post-new-reload=true';
+
+			window.history.replaceState( null, null, location );
+		});
+	}
 });
 
 ( function( $, counter ) {
