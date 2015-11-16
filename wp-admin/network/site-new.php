@@ -98,6 +98,7 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 		$user_id = wpmu_create_user( $domain, $password, $email );
 		if ( false === $user_id ) {
 			wp_die( __( 'There was an error creating the user.' ) );
+<<<<<<< HEAD
 		}
 
 		/**
@@ -108,6 +109,10 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 		  * @param int $user_id ID of the newly created user.
 		  */
 		do_action( 'network_site_new_created_user', $user_id );
+=======
+		else
+			wp_new_user_notification( $user_id, null, 'both' );
+>>>>>>> refs/remotes/origin/4.3-branch
 	}
 
 	$wpdb->hide_errors();

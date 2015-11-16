@@ -124,6 +124,8 @@
 
 				resetToggle();
 
+				$pass1Label.attr( 'for', 'pass1-text' );
+
 				if ( ! _.isUndefined( $pass1Text[0].setSelectionRange ) ) {
 					$pass1Text[0].setSelectionRange( 0, 100 );
 				}
@@ -249,6 +251,7 @@
 			$generateButton.show();
 			$passwordWrapper.hide();
 
+<<<<<<< HEAD
 			// Disable the inputs when hiding to prevent autofill and submission.
 			$pass1.prop( 'disabled', true );
 			$pass2.prop( 'disabled', true );
@@ -256,6 +259,8 @@
 
 			resetToggle();
 
+=======
+>>>>>>> refs/remotes/origin/4.3-branch
 			// Clear password field to prevent update
 			$pass1.val( '' ).trigger( 'pwupdate' );
 			$submitButtons.prop( 'disabled', false );
