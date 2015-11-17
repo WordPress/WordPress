@@ -1064,6 +1064,12 @@ class WP_REST_Server {
 					if ( isset( $opts['default'] ) ) {
 						$arg_data['default'] = $opts['default'];
 					}
+					if ( isset( $opts['enum'] ) ) {
+						$arg_data['enum'] = $opts['enum'];
+					}
+					if ( isset( $opts['description'] ) ) {
+						$arg_data['description'] = $opts['description'];
+					}
 					$endpoint_data['args'][ $key ] = $arg_data;
 				}
 			}
