@@ -663,10 +663,6 @@ function _oembed_rest_pre_serve_request( $served, $result, $request, $server ) {
 	// Embed links inside the request.
 	$data = $server->response_to_data( $result, false );
 
-	if ( 404 === $result->get_status() ) {
-		$data = $data[0];
-	}
-
 	if ( ! class_exists( 'SimpleXMLElement' ) ) {
 		status_header( 501 );
 		die( get_status_header_desc( 501 ) );
