@@ -20,10 +20,24 @@
  *                          multiple methods. Default empty array.
  * @param bool   $override  Optional. If the route already exists, should we override it? True overrides,
  *                          false merges (with newer overriding if duplicate keys exist). Default false.
+ * @return bool True on success, false on error.
  */
 function register_rest_route( $namespace, $route, $args = array(), $override = false ) {
 	/** @var WP_REST_Server $wp_rest_server */
 	global $wp_rest_server;
+
+	if ( empty( $namespace ) ) {
+		/*
+		 * Non-namespaced routes are not allowed, with the exception of the main
+		 * and namespace indexes. If you really need to register a
+		 * non-namespaced route, call `WP_REST_Server::register_route` directly.
+		 */
+		_doing_it_wrong( 'register_rest_route', 'Routes must be namespaced with plugin or theme name and version.', '4.4.0' );
+		return false;
+	} else if ( empty( $route ) ) {
+		_doing_it_wrong( 'register_rest_route', 'Route must be specified.', '4.4.0' );
+		return false;
+	}
 
 	if ( isset( $args['callback'] ) ) {
 		// Upgrade a single set to multiple.
@@ -44,20 +58,9 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 		$arg_group = array_merge( $defaults, $arg_group );
 	}
 
-	if ( $namespace ) {
-		$full_route = '/' . trim( $namespace, '/' ) . '/' . trim( $route, '/' );
-	} else {
-		/*
-		 * Non-namespaced routes are not allowed, with the exception of the main
-		 * and namespace indexes. If you really need to register a
-		 * non-namespaced route, call `WP_REST_Server::register_route` directly.
-		 */
-		_doing_it_wrong( 'register_rest_route', 'Routes must be namespaced with plugin name and version', '4.4.0' );
-
-		$full_route = '/' . trim( $route, '/' );
-	}
-
+	$full_route = '/' . trim( $namespace, '/' ) . '/' . trim( $route, '/' );
 	$wp_rest_server->register_route( $namespace, $full_route, $args, $override );
+	return true;
 }
 
 /**
