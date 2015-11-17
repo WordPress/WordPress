@@ -193,6 +193,9 @@ TABLE OF CONTENTS:
 	box-shadow: none !important;
 	text-shadow: 0 1px 0 #fff !important;
 	cursor: default;
+	-webkit-transform: none !important;
+	-ms-transform: none !important;
+	transform: none !important;
 }
 
 /* Buttons that look like links, for a cross of good semantics with the visual */
