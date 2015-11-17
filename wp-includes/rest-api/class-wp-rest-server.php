@@ -162,12 +162,19 @@ class WP_REST_Server {
 			$status = 500;
 		}
 
-		$data = array();
+		$errors = array();
 
 		foreach ( (array) $error->errors as $code => $messages ) {
 			foreach ( (array) $messages as $message ) {
-				$data[] = array( 'code' => $code, 'message' => $message, 'data' => $error->get_error_data( $code ) );
+				$errors[] = array( 'code' => $code, 'message' => $message, 'data' => $error->get_error_data( $code ) );
 			}
+		}
+
+		$data = $errors[0];
+		if ( count( $errors ) > 1 ) {
+			// Remove the primary error.
+			array_shift( $errors );
+			$data['additional_errors'] = $errors;
 		}
 
 		$response = new WP_REST_Response( $data, $status );
@@ -198,7 +205,7 @@ class WP_REST_Server {
 
 		$error = compact( 'code', 'message' );
 
-		return wp_json_encode( array( $error ) );
+		return wp_json_encode( $error );
 	}
 
 	/**
