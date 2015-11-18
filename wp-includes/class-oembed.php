@@ -77,6 +77,7 @@ class WP_oEmbed {
 			'#https?://(www\.)?reverbnation\.com/.*#i'            => array( 'https://www.reverbnation.com/oembed',                       true  ),
 			'#https?://videopress.com/v/.*#'                      => array( 'https://public-api.wordpress.com/oembed/1.0/?for=' . $host, true  ),
 			'#https?://(www\.)?reddit\.com/r/[^/]+/comments/.*#i' => array( 'https://www.reddit.com/oembed',                             true  ),
+			'#https?://(www\.)?speakerdeck\.com/.*#i'             => array( 'https://speakerdeck.com/oembed.{format}',                   true  ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
@@ -145,6 +146,7 @@ class WP_oEmbed {
 		 * | ReverbNation | reverbnation.com     |  Yes  | 4.4.0     |
 		 * | VideoPress   | videopress.com       |  Yes  | 4.4.0     |
 		 * | Reddit       | reddit.com           |  Yes  | 4.4.0     |
+		 * | Speaker Deck | speakerdeck.com      |  Yes  | 4.4.0     |
 		 *
 		 * No longer supported providers:
 		 *
