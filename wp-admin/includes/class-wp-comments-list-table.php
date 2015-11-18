@@ -474,12 +474,15 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global WP_Post $post
+	 * @global WP_Post    $post
+	 * @global WP_Comment $comment
 	 *
-	 * @param object $comment
+	 * @param WP_Comment $item
 	 */
-	public function single_row( $comment ) {
-		global $post;
+	public function single_row( $item ) {
+		global $post, $comment;
+
+		$comment = $item;
 
 		$the_comment_class = wp_get_comment_status( $comment );
 		if ( ! $the_comment_class ) {
@@ -496,7 +499,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$this->single_row_columns( $comment );
 		echo "</tr>\n";
 
-		$post = null;
+		unset( $post, $comment );
 	}
 
  	/**
