@@ -243,8 +243,12 @@ class WP_REST_Response extends WP_HTTP_Response {
 		$error = new WP_Error;
 
 		if ( is_array( $this->get_data() ) ) {
-			foreach ( $this->get_data() as $err ) {
-				$error->add( $err['code'], $err['message'], $err['data'] );
+			$data = $this->get_data();
+			$error->add( $data['code'], $data['message'], $data['data'] );
+			if ( ! empty( $data['additional_errors'] ) ) {
+				foreach( $data['additional_errors'] as $err ) {
+					$error->add( $err['code'], $err['message'], $err['data'] );
+				}
 			}
 		} else {
 			$error->add( $this->get_status(), '', array( 'status' => $this->get_status() ) );
