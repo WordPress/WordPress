@@ -265,9 +265,9 @@ TABLE OF CONTENTS:
 .wp-core-ui .button-primary:disabled,
 .wp-core-ui .button-primary-disabled,
 .wp-core-ui .button-primary.disabled {
-	color: #94cde7 !important;
-	background: #298cba !important;
-	border-color: #1b607f !important;
+	color: #66c6e4 !important;
+	background: #008ec2 !important;
+	border-color: #007cb2 !important;
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 	text-shadow: 0 -1px 0 rgba( 0, 0, 0, 0.1 ) !important;
