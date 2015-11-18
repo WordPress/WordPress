@@ -75,12 +75,22 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$this->link = @ftp_connect($this->options['hostname'], $this->options['port'], FS_CONNECT_TIMEOUT);
 
 		if ( ! $this->link ) {
-			$this->errors->add('connect', sprintf(__('Failed to connect to FTP Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
+			$this->errors->add( 'connect',
+				/* translators: %s: hostname:port */
+				sprintf( __( 'Failed to connect to FTP Server %s' ),
+					$this->options['hostname'] . ':' . $this->options['port']
+				)
+			);
 			return false;
 		}
 
-		if ( ! @ftp_login($this->link,$this->options['username'], $this->options['password']) ) {
-			$this->errors->add('auth', sprintf(__('Username/Password incorrect for %s'), $this->options['username']));
+		if ( ! @ftp_login( $this->link,$this->options['username'], $this->options['password'] ) ) {
+			$this->errors->add( 'auth',
+				/* translators: %s: username */
+				sprintf( __( 'Username/Password incorrect for %s' ),
+					$this->options['username']
+				)
+			);
 			return false;
 		}
 

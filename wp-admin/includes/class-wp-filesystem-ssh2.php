@@ -117,7 +117,7 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			$this->errors->add( 'connect',
 				/* translators: %s: hostname:port */
 				sprintf( __( 'Failed to connect to SSH2 Server %s' ),
-					$this->options['hostname'].':'.$this->options['port']
+					$this->options['hostname'] . ':' . $this->options['port']
 				)
 			);
 			return false;
