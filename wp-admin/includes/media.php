@@ -248,7 +248,7 @@ function media_send_to_editor($html) {
 ?>
 <script type="text/javascript">
 var win = window.dialogArguments || opener || parent || top;
-win.send_to_editor('<?php echo addslashes($html); ?>');
+win.send_to_editor( <?php echo wp_json_encode( $html ); ?> );
 </script>
 <?php
 	exit;
