@@ -1833,11 +1833,25 @@ class WP_Query {
 		}
 
 		if ( '' != $qv['pagename'] ) {
-			$this->queried_object = get_page_by_path($qv['pagename']);
-			if ( !empty($this->queried_object) )
+			$this->queried_object = get_page_by_path( $qv['pagename'] );
+
+			if ( $this->queried_object && 'attachment' == $this->queried_object->post_type ) {
+				if ( preg_match( "/^[^%]*%(?:postname)%/", get_option( 'permalink_structure' ) ) ) {
+					// See if we also have a post with the same slug
+					$post = get_page_by_path( $qv['pagename'], OBJECT, 'post' );
+					if ( $post ) {
+						$this->queried_object = $post;
+						$this->is_page = false;
+						$this->is_single = true;
+					}
+				}
+			}
+
+			if ( ! empty( $this->queried_object ) ) {
 				$this->queried_object_id = (int) $this->queried_object->ID;
-			else
-				unset($this->queried_object);
+			} else {
+				unset( $this->queried_object );
+			}
 
 			if  ( 'page' == get_option('show_on_front') && isset($this->queried_object_id) && $this->queried_object_id == get_option('page_for_posts') ) {
 				$this->is_page = false;
