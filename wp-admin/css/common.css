@@ -1997,12 +1997,12 @@ html.wp-toolbar {
 ------------------------------------------------------------------------------*/
 
 .nav-tab {
-	display: inline-block;
+	float: left;
 	border: 1px solid #ccc;
 	border-bottom: none;
-	margin: 0 5px 0 0;
-	padding: 6px 10px;
-	font-size: 15px;
+	margin-left: 0.5em; /* half the font size so set the font size properly */
+	padding: 5px 10px;
+	font-size: 14px;
 	line-height: 24px;
 	font-weight: 600;
 	background: #e4e4e4;
@@ -2044,17 +2044,21 @@ h3 .nav-tab, /* Back-compat for pre-4.4 */
 	color: #000;
 }
 
-/* @todo: consider to use flexbox to reset white space between inline-block elements. */
 h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 .wrap h2.nav-tab-wrapper, /* higher specificity to override .wrap > h2:first-child */
 h3.nav-tab-wrapper {
 	border-bottom: 1px solid #ccc;
 	margin: 0;
-	padding: 9px 15px 0 6px;
-	font-size: 1px; /* normalize white space between inline-block elements */
+	padding: 9px 15px 0 0;
 	line-height: inherit;
 }
 
+/* contain floats */
+.nav-tab-wrapper:after {
+	content: "";
+	display: table;
+	clear: both;
+}
 
 /*------------------------------------------------------------------------------
   26.0 - Misc

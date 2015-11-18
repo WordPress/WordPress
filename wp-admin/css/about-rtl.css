@@ -79,7 +79,9 @@
 
 /* Tabs */
 
-.about-wrap h2 .nav-tab {
+.about-wrap .nav-tab {
+	padding-left: 15px;
+	padding-right: 15px;
 	font-size: 18px;
 }
 
