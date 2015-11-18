@@ -789,6 +789,8 @@ class WP_REST_Server {
 				}
 
 				if ( ! is_wp_error( $response ) ) {
+					// Remove the redundant preg_match argument.
+					unset( $args[0] );
 
 					$request->set_url_params( $args );
 					$request->set_attributes( $handler );
