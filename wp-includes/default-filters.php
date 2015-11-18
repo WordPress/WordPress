@@ -458,6 +458,10 @@ add_action( 'embed_head',             'wp_no_robots'                          );
 add_action( 'embed_head',             'rel_canonical'                         );
 add_action( 'embed_head',             'locale_stylesheet'                     );
 
+add_action( 'embed_content_meta',     'print_embed_comments_button'           );
+add_action( 'embed_content_meta',     'print_embed_sharing_button'            );
+
+add_action( 'embed_footer',           'print_embed_sharing_dialog'            );
 add_action( 'embed_footer',           'print_embed_scripts'                   );
 add_action( 'embed_footer',           'wp_print_footer_scripts',        20    );
 
