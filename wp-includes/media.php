@@ -936,6 +936,7 @@ function _wp_get_image_size_from_meta( $size_name, $image_meta ) {
  * @param array|string $size          Optional. Image size. Accepts any valid image size, or an array of
  *                                    width and height values in pixels (in that order). Default 'medium'.
  * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
+ *                                    Default null.
  * @return string|bool A 'srcset' value string or false.
  */
 function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $image_meta = null ) {
@@ -964,7 +965,7 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $imag
  * @param array  $size_array    Array of width and height values in pixels (in that order).
  * @param string $image_src     The 'src' of the image.
  * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
- * @param int    $attachment_id Optional. The image attachment ID to pass to the filter.
+ * @param int    $attachment_id Optional. The image attachment ID to pass to the filter. Default 0.
  * @return string|bool          The 'srcset' attribute value. False on error or when only one source exists.
  */
 function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attachment_id = 0 ) {
@@ -1088,7 +1089,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 * @param array  $size_array    Array of width and height values in pixels (in that order).
 	 * @param string $image_src     The 'src' of the image.
 	 * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
- 	 * @param int    $attachment_id Image attachment ID.
+ 	 * @param int    $attachment_id Image attachment ID or 0.
 	 */
 	$sources = apply_filters( 'wp_calculate_image_srcset', $sources, $size_array, $image_src, $image_meta, $attachment_id );
 
@@ -1115,7 +1116,8 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
  * @param array|string $size          Optional. Image size. Accepts any valid image size, or an array of width
  *                                    and height values in pixels (in that order). Default 'medium'.
  * @param array        $image_meta    Optional. The image meta data as returned by 'wp_get_attachment_metadata()'.
- * @return string|bool A 'srcset' value string or false.
+ *                                    Default null.
+ * @return string|bool A valid source size value for use in a 'sizes' attribute or false.
  */
 function wp_get_attachment_image_sizes( $attachment_id, $size = 'medium', $image_meta = null ) {
 	if ( ! $image = wp_get_attachment_image_src( $attachment_id, $size ) ) {
