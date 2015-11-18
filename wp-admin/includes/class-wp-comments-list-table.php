@@ -204,45 +204,39 @@ class WP_Comments_List_Table extends WP_List_Table {
 		//, number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
 		//, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
 		$stati = array(
-			'all' => str_replace( '%s', '<span class="all-count">%s</span>',
-				/* translators: %s: all comments count */
-				_nx_noop(
-					'All <span class="count">(%s)</span>',
-					'All <span class="count">(%s)</span>',
-					'comments'
-				)
+			/* translators: %s: all comments count */
+			'all' => _nx_noop(
+				'All <span class="count">(%s)</span>',
+				'All <span class="count">(%s)</span>',
+				'comments'
 			), // singular not used
-			'moderated' => str_replace( '%s', '<span class="pending-count">%s</span>',
-				/* translators: %s: pending comments count */
-				_nx_noop(
-					'Pending <span class="count">(%s)</span>',
-					'Pending <span class="count">(%s)</span>',
-					'comments'
-				)
+
+			/* translators: %s: pending comments count */
+			'moderated' => _nx_noop(
+				'Pending <span class="count">(%s)</span>',
+				'Pending <span class="count">(%s)</span>',
+				'comments'
 			),
-			'approved' => str_replace( '%s', '<span class="approved-count">%s</span>',
-				/* translators: %s: approved comments count */
-				_nx_noop(
-					'Approved <span class="count">(%s)</span>',
-					'Approved <span class="count">(%s)</span>',
-					'comments'
-				)
+
+			/* translators: %s: approved comments count */
+			'approved' => _nx_noop(
+				'Approved <span class="count">(%s)</span>',
+				'Approved <span class="count">(%s)</span>',
+				'comments'
 			),
-			'spam' => str_replace( '%s', '<span class="spam-count">%s</span>',
-				/* translators: %s: spam comments count */
-				_nx_noop(
-					'Spam <span class="count">(%s)</span>',
-					'Spam <span class="count">(%s)</span>',
-					'comments'
-				)
+
+			/* translators: %s: spam comments count */
+			'spam' => _nx_noop(
+				'Spam <span class="count">(%s)</span>',
+				'Spam <span class="count">(%s)</span>',
+				'comments'
 			),
-			'trash' => str_replace( '%s', '<span class="trash-count">%s</span>',
-				/* translators: %s: trashed comments count */
-				_nx_noop(
-					'Trash <span class="count">(%s)</span>',
-					'Trash <span class="count">(%s)</span>',
-					'comments'
-				)
+
+			/* translators: %s: trashed comments count */
+			'trash' => _nx_noop(
+				'Trash <span class="count">(%s)</span>',
+				'Trash <span class="count">(%s)</span>',
+				'comments'
 			)
 		);
 
@@ -266,9 +260,12 @@ class WP_Comments_List_Table extends WP_List_Table {
 			if ( !empty( $_REQUEST['s'] ) )
 				$link = add_query_arg( 's', esc_attr( wp_unslash( $_REQUEST['s'] ) ), $link );
 			*/
-			$status_links[$status] = "<a href='$link'$class>" . sprintf(
+			$status_links[ $status ] = "<a href='$link'$class>" . sprintf(
 				translate_nooped_plural( $label, $num_comments->$status ),
-				number_format_i18n( $num_comments->$status )
+				sprintf( '<span class="%s-count">%s</span>',
+					$status,
+					number_format_i18n( $num_comments->$status )
+				)
 			) . '</a>';
 		}
 
