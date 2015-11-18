@@ -902,6 +902,10 @@ class WP_List_Table {
 		$columns = $this->get_columns();
 		$column = '';
 
+		if ( empty( $columns ) ) {
+			return $column;
+		}
+
 		// We need a primary defined so responsive views show something,
 		// so let's fall back to the first non-checkbox column.
 		foreach ( $columns as $col => $column_name ) {
