@@ -151,7 +151,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		if ( $this->hierarchical_display ) {
 			$total_items = $wp_query->post_count;
-		} elseif ( isset( $_REQUEST['s'] ) ) {
+		} elseif ( $wp_query->found_posts || $this->get_pagenum() === 1 ) {
 			$total_items = $wp_query->found_posts;
 		} else {
 			$post_counts = (array) wp_count_posts( $post_type, 'readable' );
@@ -172,8 +172,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 			}
 		}
 
-		$total_pages = ceil( $total_items / $per_page );
-
 		if ( ! empty( $_REQUEST['mode'] ) ) {
 			$mode = $_REQUEST['mode'] === 'excerpt' ? 'excerpt' : 'list';
 			set_user_setting ( 'posts_list_mode', $mode );
@@ -185,7 +183,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$this->set_pagination_args( array(
 			'total_items' => $total_items,
-			'total_pages' => $total_pages,
 			'per_page' => $per_page
 		) );
 	}
