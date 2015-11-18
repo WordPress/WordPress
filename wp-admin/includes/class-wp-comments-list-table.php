@@ -714,14 +714,15 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * @access public
 	 */
 	public function column_date( $comment ) {
-		$comment_url = esc_url( get_comment_link( $comment ) );
 		echo '<div class="submitted-on">';
-		/* translators: 2: comment date, 3: comment time */
-		printf( __( '<a href="%1$s">%2$s at %3$s</a>' ), $comment_url,
+		echo '<a href="' . esc_url( get_comment_link( $comment ) ) . '">';
+		/* translators: 1: comment date, 2: comment time */
+		printf( __( '%1$s at %2$s' ),
 			/* translators: comment date format. See http://php.net/date */
 			get_comment_date( __( 'Y/m/d' ), $comment ),
 			get_comment_date( get_option( 'time_format' ), $comment )
 		);
+		echo '</a>';
 		echo '</div>';
 	}
 
