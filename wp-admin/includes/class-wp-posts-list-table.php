@@ -129,30 +129,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Get the value of the 'orderby' query var.
-	 *
-	 * @access protected
-	 * @since 4.4.0
-	 *
-	 * @return string The value of 'orderby'.
-	 */
-	protected function get_orderby() {
-		return strtolower( get_query_var( 'orderby' ) );
-	}
-
-	/**
-	 * Get the value of the 'order' query var.
-	 *
-	 * @access protected
-	 * @since 4.4.0
-	 *
-	 * @return string The value of 'order'.
-	 */
-	protected function get_order() {
-		return strtolower( get_query_var( 'order' ) );
-	}
-
-	/**
 	 *
 	 * @global array    $avail_post_stati
 	 * @global WP_Query $wp_query
