@@ -146,13 +146,17 @@ window.wp = window.wp || {};
 	 * @param {string} slug
 	 */
 	wp.updates.updatePlugin = function( plugin, slug ) {
-		var $message, name;
+		var $message, name,
+			$card = $( '.plugin-card-' + slug );
+
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
 			$message = $( '[data-slug="' + slug + '"]' ).next().find( '.update-message' );
 		} else if ( 'plugin-install' === pagenow ) {
-			$message = $( '.plugin-card-' + slug ).find( '.update-now' );
+			$message = $card.find( '.update-now' );
 			name = $message.data( 'name' );
 			$message.attr( 'aria-label', wp.updates.l10n.updatingLabel.replace( '%s', name ) );
+			// Remove previous error messages, if any.
+			$card.removeClass( 'plugin-card-update-failed' ).find( '.notice.notice-error' ).remove();
 		}
 
 		$message.addClass( 'updating-message' );
@@ -248,23 +252,47 @@ window.wp = window.wp || {};
 	 * @param {object} response
 	 */
 	wp.updates.updateError = function( response ) {
-		var $message, name;
+		var $card = $( '.plugin-card-' + response.slug ),
+			$message,
+			$button,
+			name,
+			error_message;
+
 		wp.updates.updateDoneSuccessfully = false;
+
 		if ( response.errorCode && response.errorCode == 'unable_to_connect_to_filesystem' && wp.updates.shouldRequestFilesystemCredentials ) {
 			wp.updates.credentialError( response, 'update-plugin' );
 			return;
 		}
+
+		error_message = wp.updates.l10n.updateFailed.replace( '%s', response.error );
+
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
 			$message = $( '[data-slug="' + response.slug + '"]' ).next().find( '.update-message' );
+			$message.html( error_message ).removeClass( 'updating-message' );
 		} else if ( 'plugin-install' === pagenow ) {
-			$message = $( '.plugin-card-' + response.slug ).find( '.update-now' );
+			$button = $card.find( '.update-now' );
+			name = $button.data( 'name' );
 
-			name = $message.data( 'name' );
-			$message.attr( 'aria-label', wp.updates.l10n.updateFailedLabel.replace( '%s', name ) );
+			$card
+				.addClass( 'plugin-card-update-failed' )
+				.append( '<div class="notice notice-error is-dismissible"><p>' + error_message + '</p></div>' );
+
+			$button
+				.attr( 'aria-label', wp.updates.l10n.updateFailedLabel.replace( '%s', name ) )
+				.html( wp.updates.l10n.updateFailedShort ).removeClass( 'updating-message' );
+
+			$card.on( 'click', '.notice.is-dismissible .notice-dismiss', function() {
+				// Use same delay as the total duration of the notice fadeTo + slideUp animation.
+				setTimeout( function() {
+					$card
+						.removeClass( 'plugin-card-update-failed' )
+						.find( '.column-name a' ).focus();
+				}, 200 );
+			});
 		}
-		$message.removeClass( 'updating-message' );
-		$message.html( wp.updates.l10n.updateFailed.replace( '%s', response.error ) );
-		wp.a11y.speak( wp.updates.l10n.updateFailed );
+
+		wp.a11y.speak( error_message, 'assertive' );
 
 		/*
 		 * The lock can be released since this failure was

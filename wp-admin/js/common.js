@@ -400,24 +400,29 @@ $document.ready( function() {
 	$( 'div.updated, div.error, div.notice' ).not( '.inline, .below-h2' ).insertAfter( $( '.wrap' ).children( ':header' ).first() );
 
 	// Make notices dismissible
-	$( '.notice.is-dismissible' ).each( function() {
-		var $this = $( this ),
-			$button = $( '<button type="button" class="notice-dismiss"><span class="screen-reader-text"></span></button>' ),
-			btnText = commonL10n.dismiss || '';
+	function makeNoticesDismissible() {
+		$( '.notice.is-dismissible' ).each( function() {
+			var $el = $( this ),
+				$button = $( '<button type="button" class="notice-dismiss"><span class="screen-reader-text"></span></button>' ),
+				btnText = commonL10n.dismiss || '';
 
-		// Ensure plain text
-		$button.find( '.screen-reader-text' ).text( btnText );
-
-		$this.append( $button );
-
-		$button.on( 'click.wp-dismiss-notice', function( event ) {
-			event.preventDefault();
-			$this.fadeTo( 100 , 0, function() {
-				$(this).slideUp( 100, function() {
-					$(this).remove();
+			// Ensure plain text
+			$button.find( '.screen-reader-text' ).text( btnText );
+			$button.on( 'click.wp-dismiss-notice', function( event ) {
+				event.preventDefault();
+				$el.fadeTo( 100, 0, function() {
+					$el.slideUp( 100, function() {
+						$el.remove();
+					});
 				});
 			});
+
+			$el.append( $button );
 		});
+	}
+
+	$document.on( 'wp-plugin-update-error', function() {
+		makeNoticesDismissible();
 	});
 
 	// Init screen meta
@@ -895,6 +900,7 @@ $document.ready( function() {
 	window.wpResponsive.init();
 	setPinMenu();
 	currentMenuItemHasPopup();
+	makeNoticesDismissible();
 
 	$document.on( 'wp-pin-menu wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu wp-collapse-menu.pin-menu wp-scroll-start.pin-menu', setPinMenu );
 });

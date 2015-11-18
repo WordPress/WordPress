@@ -583,6 +583,7 @@ function wp_default_scripts( &$scripts ) {
 			'l10n'       => array(
 				'updating'          => __( 'Updating...' ), // no ellipsis
 				'updated'           => __( 'Updated!' ),
+				'updateFailedShort' => __( 'Update Failed!' ),
 				/* translators: Error string for a failed update */
 				'updateFailed'      => __( 'Update Failed: %s' ),
 				/* translators: Plugin name and version */

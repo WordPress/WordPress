@@ -1578,6 +1578,21 @@ div.action-links,
 	display: inline;
 }
 
+.plugin-card-update-failed .update-now {
+	font-weight: 600;
+}
+
+.plugin-card-update-failed .notice-error {
+	margin: 0;
+	padding-right: 16px;
+	-webkit-box-shadow: 0 -1px 0 #dedede;
+	box-shadow: 0 -1px 0 #dedede;
+}
+
+.plugin-card-update-failed .plugin-card-bottom {
+	display: none;
+}
+
 .plugin-card .column-rating {
 	line-height: 23px;
 }
