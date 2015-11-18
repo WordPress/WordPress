@@ -1205,7 +1205,7 @@ function wp_make_content_images_responsive( $content ) {
 	$selected_images = $attachment_ids = array();
 
 	foreach( $images as $image ) {
-		if ( false === strpos( $image, ' srcset="' ) && preg_match( '/wp-image-([0-9]+)/i', $image, $class_id ) &&
+		if ( false === strpos( $image, ' srcset=' ) && preg_match( '/wp-image-([0-9]+)/i', $image, $class_id ) &&
 			( $attachment_id = absint( $class_id[1] ) ) ) {
 
 			/*
@@ -1302,15 +1302,24 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 	$srcset = wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attachment_id );
 
 	if ( $srcset ) {
-		$sizes = wp_calculate_image_sizes( $size_array, $image_src, $image_meta, $attachment_id );
+		// Check if there is already a 'sizes' attribute.
+		$sizes = strpos( $image, ' sizes=' );
+
+		if ( ! $sizes ) {
+			$sizes = wp_calculate_image_sizes( $size_array, $image_src, $image_meta, $attachment_id );
+		}
 	}
 
 	if ( $srcset && $sizes ) {
 		// Format the 'srcset' and 'sizes' string and escape attributes.
-		$srcset_and_sizes = sprintf( ' srcset="%s" sizes="%s"', esc_attr( $srcset ), esc_attr( $sizes ) );
+		$attr = sprintf( ' srcset="%s"', esc_attr( $srcset ) );
+
+		if ( is_string( $sizes ) ) {
+			$attr .= sprintf( ' sizes="%s"', esc_attr( $sizes ) );
+		}
 
 		// Add 'srcset' and 'sizes' attributes to the image markup.
-		$image = preg_replace( '/<img ([^>]+?)[\/ ]*>/', '<img $1' . $srcset_and_sizes . ' />', $image );
+		$image = preg_replace( '/<img ([^>]+?)[\/ ]*>/', '<img $1' . $attr . ' />', $image );
 	}
 
 	return $image;
