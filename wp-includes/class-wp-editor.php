@@ -572,7 +572,7 @@ final class _WP_Editors {
 				 *
 				 * @since 2.1.0
 				 *
-				 * @param array $stylesheets Comma-delimited list of stylesheets.
+				 * @param string $stylesheets Comma-delimited list of stylesheets.
 				 */
 				$mce_css = trim( apply_filters( 'mce_css', implode( ',', $mce_css ) ), ' ,' );
 
