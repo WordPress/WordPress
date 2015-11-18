@@ -384,7 +384,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		return new WP_Error( 'taxonomy_length_invalid', __( 'Taxonomy names must be between 1 and 32 characters in length.' ) );
 	}
 
-	if ( false !== $args['query_var'] && false !== $args['public'] && ! empty( $wp ) ) {
+	// Non-public taxonomies should not register query vars, except in the admin.
+	if ( false !== $args['query_var'] && ( is_admin() || false !== $args['public'] ) && ! empty( $wp ) ) {
 		if ( true === $args['query_var'] )
 			$args['query_var'] = $taxonomy;
 		else
