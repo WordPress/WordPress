@@ -69,18 +69,33 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 		$this->ftp->setTimeout(FS_CONNECT_TIMEOUT);
 
-		if ( ! $this->ftp->SetServer($this->options['hostname'], $this->options['port']) ) {
-			$this->errors->add('connect', sprintf(__('Failed to connect to FTP Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
+		if ( ! $this->ftp->SetServer( $this->options['hostname'], $this->options['port'] ) ) {
+			$this->errors->add( 'connect',
+				/* translators: %s: hostname:port */
+				sprintf( __( 'Failed to connect to FTP Server %s' ),
+					$this->options['hostname'] . ':' . $this->options['port']
+				)
+			);
 			return false;
 		}
 
 		if ( ! $this->ftp->connect() ) {
-			$this->errors->add('connect', sprintf(__('Failed to connect to FTP Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
+			$this->errors->add( 'connect',
+				/* translators: %s: hostname:port */
+				sprintf( __( 'Failed to connect to FTP Server %s' ),
+					$this->options['hostname'] . ':' . $this->options['port']
+				)
+			);
 			return false;
 		}
 
-		if ( ! $this->ftp->login($this->options['username'], $this->options['password']) ) {
-			$this->errors->add('auth', sprintf(__('Username/Password incorrect for %s'), $this->options['username']));
+		if ( ! $this->ftp->login( $this->options['username'], $this->options['password'] ) ) {
+			$this->errors->add( 'auth',
+				/* translators: %s: username */
+				sprintf( __( 'Username/Password incorrect for %s' ),
+					$this->options['username']
+				)
+			);
 			return false;
 		}
 
