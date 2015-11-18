@@ -816,7 +816,17 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 			uninstall_plugin($plugin_file);
 		}
 
+		/**
+		 * Fires immediately before a plugin deletion attempt.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string $plugin_file Plugin file name.
+		 */
+		do_action( 'delete_plugin', $plugin_file );
+
 		$this_plugin_dir = trailingslashit( dirname( $plugins_dir . $plugin_file ) );
+
 		// If plugin is in its own directory, recursively delete the directory.
 		if ( strpos( $plugin_file, '/' ) && $this_plugin_dir != $plugins_dir ) { //base check on if plugin includes directory separator AND that it's not the root plugin folder
 			$deleted = $wp_filesystem->delete( $this_plugin_dir, true );
@@ -832,7 +842,7 @@ function delete_plugins( $plugins, $deprecated = '' ) {
 		 * @param string $plugin_file Plugin file name.
 		 * @param bool   $deleted     Whether the plugin deletion was successful.
 		 */
-		do_action( 'delete_plugin', $plugin_file, $deleted );
+		do_action( 'deleted_plugin', $plugin_file, $deleted );
 
 		if ( ! $deleted ) {
 			$errors[] = $plugin_file;
