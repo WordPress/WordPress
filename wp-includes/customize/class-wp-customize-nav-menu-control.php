@@ -71,7 +71,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 			<li class="customize-control customize-control-checkbox assigned-menu-location">
 				<label>
 					<input type="checkbox" data-menu-id="{{ data.menu_id }}" data-location-id="<?php echo esc_attr( $location ); ?>" class="menu-location" /> <?php echo $description; ?>
-					<span class="theme-location-set"><?php printf( _x( '(Current: %s)', 'Current menu location' ), '<span class="current-menu-location-name-' . esc_attr( $location ) . '"></span>' ); ?></span>
+					<span class="theme-location-set"><?php printf( /* translators: %s: menu name */ _x( '(Current: %s)', 'Current menu location' ), '<span class="current-menu-location-name-' . esc_attr( $location ) . '"></span>' ); ?></span>
 				</label>
 			</li>
 			<?php endforeach; ?>
