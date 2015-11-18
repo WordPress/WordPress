@@ -353,8 +353,6 @@ final class WP_Customize_Nav_Menus {
 				'invalidTitleTpl'   => __( '%s (Invalid)' ),
 				/* translators: %s: title of menu item in draft status */
 				'pendingTitleTpl'   => __( '%s (Pending)' ),
-				'taxonomyTermLabel' => __( 'Taxonomy' ),
-				'postTypeLabel'     => __( 'Post Type' ),
 				'itemsFound'        => __( 'Number of items found: %d' ),
 				'itemsFoundMore'    => __( 'Additional items found: %d' ),
 				'itemsLoadingMore'  => __( 'Loading more results... please wait.' ),
