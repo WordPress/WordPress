@@ -1,6 +1,6 @@
 var addComment = {
 	moveForm: function( commId, parentId, respondId, postId ) {
-		var div, element, node, style, cssHidden,
+		var div, element, style, cssHidden,
 			t           = this,
 			comm        = t.I( commId ),
 			respond     = t.I( respondId ),
@@ -47,40 +47,44 @@ var addComment = {
 			return false;
 		};
 
-		// Set initial focus to the first form focusable element.
+		/*
+		 * Set initial focus to the first form focusable element.
+		 * Try/catch used just to avoid errors in IE 7- which return visibility
+		 * 'inherit' when the visibility value is inherited from an ancestor.
+		 */
 		try {
 			for ( var i = 0; i < commentForm.elements.length; i++ ) {
 				element = commentForm.elements[i];
+				cssHidden = false;
 
-				// Skip form elements that are hidden or disabled.
-				if ( 'hidden' === element.type || element.hasAttribute( 'disabled' ) ) {
-					continue;
+				// Modern browsers.
+				if ( 'getComputedStyle' in window ) {
+					style = window.getComputedStyle( element );
+				// IE 8.
+				} else if ( document.documentElement.currentStyle ) {
+					style = element.currentStyle;
 				}
 
-				if ( 'getComputedStyle' in window ) {
-					node = element;
-					cssHidden = false;
+				/*
+				 * For display none, do the same thing jQuery does. For visibility,
+				 * check the element computed style since browsers are already doing
+				 * the job for us. In fact, the visibility computed style is the actual
+				 * computed value and already takes into account the element ancestors.
+				 */
+				if ( ( element.offsetWidth <= 0 && element.offsetHeight <= 0 ) || style.visibility === 'hidden' ) {
+					cssHidden = true;
+				}
 
-					while( node.parentNode ) {
-						style = window.getComputedStyle( node );
-
-						if ( style.display === 'none' || style.visibility === 'hidden' ) {
-							cssHidden = true;
-							break;
-						}
-
-						node = node.parentNode;
-					}
-
-					if ( cssHidden ) {
-						continue;
-					}
+				// Skip form elements that are hidden or disabled.
+				if ( 'hidden' === element.type || element.disabled || cssHidden ) {
+					continue;
 				}
 
 				element.focus();
 				// Stop after the first focusable element.
 				break;
 			}
+
 		} catch( er ) {}
 
 		return false;
