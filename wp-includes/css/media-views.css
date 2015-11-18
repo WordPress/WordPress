@@ -7,12 +7,12 @@
 	box-sizing: content-box;
 }
 
-.media-frame input,
-.media-frame select,
-.media-frame textarea {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+.media-modal input,
+.media-modal select,
+.media-modal textarea {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .media-modal,
