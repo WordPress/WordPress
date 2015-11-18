@@ -82,7 +82,6 @@ class Translations {
 	 */
 	function translate_entry(&$entry) {
 		$key = $entry->key();
-		$key = str_replace( "\r\n", "\n", $key );
 		return isset($this->entries[$key])? $this->entries[$key] : false;
 	}
 

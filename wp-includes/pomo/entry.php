@@ -69,8 +69,13 @@ class Translation_Entry {
 	 */
 	function key() {
 		if (is_null($this->singular)) return false;
-		// prepend context and EOT, like in MO files
-		return is_null($this->context)? $this->singular : $this->context.chr(4).$this->singular;
+
+		// Prepend context and EOT, like in MO files
+		$key = is_null($this->context)? $this->singular : $this->context.chr(4).$this->singular;
+		// Standardize on \n line endings
+		$key = str_replace( array( "\r\n", "\r" ), "\n", $key );
+
+		return $key;
 	}
 
 	/**
