@@ -114,25 +114,45 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 		}
 
 		if ( ! $this->link ) {
-			$this->errors->add('connect', sprintf(__('Failed to connect to SSH2 Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
+			$this->errors->add( 'connect',
+				/* translators: %s: hostname:port */
+				sprintf( __( 'Failed to connect to SSH2 Server %s' ),
+					$this->options['hostname'].':'.$this->options['port']
+				)
+			);
 			return false;
 		}
 
 		if ( !$this->keys ) {
 			if ( ! @ssh2_auth_password($this->link, $this->options['username'], $this->options['password']) ) {
-				$this->errors->add('auth', sprintf(__('Username/Password incorrect for %s'), $this->options['username']));
+				$this->errors->add( 'auth',
+					/* translators: %s: username */
+					sprintf( __( 'Username/Password incorrect for %s' ),
+						$this->options['username']
+					)
+				);
 				return false;
 			}
 		} else {
 			if ( ! @ssh2_auth_pubkey_file($this->link, $this->options['username'], $this->options['public_key'], $this->options['private_key'], $this->options['password'] ) ) {
-				$this->errors->add('auth', sprintf(__('Public and Private keys incorrect for %s'), $this->options['username']));
+				$this->errors->add( 'auth',
+					/* translators: %s: username */
+					sprintf( __( 'Public and Private keys incorrect for %s' ),
+						$this->options['username']
+					)
+				);
 				return false;
 			}
 		}
 
 		$this->sftp_link = ssh2_sftp( $this->link );
 		if ( ! $this->sftp_link ) {
-			$this->errors->add( 'connect', sprintf( __( 'Failed to initialize a SFTP subsystem session with the SSH2 Server %1$s:%2$s' ), $this->options['hostname'], $this->options['port'] ) );
+			$this->errors->add( 'connect',
+				/* translators: %s: hostname:port */
+				sprintf( __( 'Failed to initialize a SFTP subsystem session with the SSH2 Server %s' ),
+					$this->options['hostname'] . ':' . $this->options['port']
+				)
+			);
 			return false;
 		}
 
@@ -173,7 +193,12 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 			return false;
 
 		if ( ! ($stream = ssh2_exec($this->link, $command)) ) {
-			$this->errors->add('command', sprintf(__('Unable to perform command: %s'), $command));
+			$this->errors->add( 'command',
+				/* translators: %s: command */
+				sprintf( __( 'Unable to perform command: %s'),
+					$command
+				)
+			);
 		} else {
 			stream_set_blocking( $stream, true );
 			stream_set_timeout( $stream, FS_TIMEOUT );
