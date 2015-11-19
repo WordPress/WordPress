@@ -872,8 +872,8 @@ function wp_get_document_title() {
 		$title['title'] = sprintf( __( 'Search Results for &#8220;%s&#8221;' ), get_search_query() );
 
 	// If on an author archive, use the author's display name.
-	} elseif ( is_author() && $author = get_queried_object() ) {
-		$title['title'] = $author->display_name;
+	} elseif ( is_author() ) {
+		$title['title'] = get_the_author();
 
 	// If on a post type archive, use the post type archive title.
 	} elseif ( is_post_type_archive() ) {
