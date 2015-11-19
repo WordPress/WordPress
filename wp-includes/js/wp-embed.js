@@ -1,8 +1,14 @@
 (function ( window, document ) {
 	'use strict';
 
-	var supportedBrowser = ( document.querySelector && window.addEventListener ),
+	var supportedBrowser = false,
 		loaded = false;
+
+		if ( document.querySelector ) {
+			if ( window.addEventListener ) {
+				supportedBrowser = true;
+			}
+		}
 
 	window.wp = window.wp || {};
 
@@ -50,8 +56,10 @@
 				targetURL.href = data.value;
 
 				/* Only continue if link hostname matches iframe's hostname. */
-				if ( targetURL.host === sourceURL.host && document.activeElement === source ) {
-					window.top.location.href = data.value;
+				if ( targetURL.host === sourceURL.host ) {
+					if ( document.activeElement === source ) {
+						window.top.location.href = data.value;
+					}
 				}
 			}
 		}
@@ -77,15 +85,17 @@
 			source = iframes[ i ];
 			source.style.display = '';
 
-			if ( !source.getAttribute( 'data-secret' ) ) {
-				/* Add secret to iframe */
-				secret = Math.random().toString( 36 ).substr( 2, 10 );
-				source.src += '#?secret=' + secret;
-				source.setAttribute( 'data-secret', secret );
+			if ( source.getAttribute( 'data-secret' ) ) {
+				continue;
 			}
 
+			/* Add secret to iframe */
+			secret = Math.random().toString( 36 ).substr( 2, 10 );
+			source.src += '#?secret=' + secret;
+			source.setAttribute( 'data-secret', secret );
+
 			/* Remove security attribute from iframes in IE10 and IE11. */
-			if ( ( isIE10 || isIE11 ) && !!source.getAttribute( 'security' ) ) {
+			if ( ( isIE10 || isIE11 ) ) {
 				iframeClone = source.cloneNode( true );
 				iframeClone.removeAttribute( 'security' );
 				source.parentNode.replaceChild( iframeClone, source );
