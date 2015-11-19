@@ -143,18 +143,6 @@ class WP_Embed {
 			return '';
 		}
 
-		/**
-		 * Optionally allow or block non-SSL embeds.
-		 *
-		 * @since 4.4.0
-		 *
-		 * @param bool   $allowed Flag to determine if non-SSL embeds should be allowed. Default true.
-		 * @param string $url     The URL being embedded.
-		 */
-		if ( 0 !== strpos( $url, 'https://' ) && ! apply_filters( 'allow_insecure_embeds', true, $url ) ) {
-			return false;
-		}
-
 		$rawattr = $attr;
 		$attr = wp_parse_args( $attr, wp_embed_defaults( $url ) );
 
