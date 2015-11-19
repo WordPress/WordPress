@@ -758,6 +758,7 @@ function count_users($strategy = 'time') {
 		foreach ( $avail_roles as $this_role => $name ) {
 			$select_count[] = $wpdb->prepare( "COUNT(NULLIF(`meta_value` LIKE %s, false))", '%' . $wpdb->esc_like( '"' . $this_role . '"' ) . '%');
 		}
+		$select_count[] = "COUNT(NULLIF(`meta_value` = 'a:0:{}', false))";
 		$select_count = implode(', ', $select_count);
 
 		// Add the meta_value index to the selection list, then run the query.
@@ -773,10 +774,10 @@ function count_users($strategy = 'time') {
 			}
 		}
 
+		$role_counts['none'] = (int) $row[$col++];
+
 		// Get the meta_value index from the end of the result set.
 		$total_users = (int) $row[$col];
-
-		$role_counts['none'] = ( $total_users - array_sum( $role_counts ) );
 
 		$result['total_users'] = $total_users;
 		$result['avail_roles'] =& $role_counts;
