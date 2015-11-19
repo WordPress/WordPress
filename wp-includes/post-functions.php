@@ -1012,6 +1012,8 @@ function register_post_type( $post_type, $args = array() ) {
 	 */
 	$args = apply_filters( 'register_post_type_args', $args, $post_type );
 
+	$has_edit_link = ! empty( $args['_edit_link'] );
+
 	// Args prefixed with an underscore are reserved for internal use.
 	$defaults = array(
 		'labels'               => array(),
@@ -1081,6 +1083,11 @@ function register_post_type( $post_type, $args = array() ) {
 	// If not set, default to false.
 	if ( null === $args->map_meta_cap )
 		$args->map_meta_cap = false;
+
+	// If there's no specified edit link and no UI, remove the edit link.
+	if ( ! $args->show_ui && ! $has_edit_link ) {
+		$args->_edit_link = '';
+	}
 
 	$args->cap = get_post_type_capabilities( $args );
 	unset( $args->capabilities );

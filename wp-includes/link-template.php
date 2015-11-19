@@ -937,7 +937,11 @@ function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
 		$args['post_type'] = reset( $tax->object_type );
 	}
 
-	$location = add_query_arg( $args, admin_url( 'edit-tags.php' ) );
+	if ( $tax->show_ui ) {
+		$location = add_query_arg( $args, admin_url( 'edit-tags.php' ) );
+	} else {
+		$location = '';
+	}
 
 	/**
 	 * Filter the edit link for a term.
@@ -1254,14 +1258,10 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	if ( !current_user_can( 'edit_post', $post->ID ) )
 		return;
 
-	$allowed = array_merge( array(
-		'revision',
-	), get_post_types( array(
-		'show_ui' => true,
-	) ) );
-
-	if ( ! in_array( $post->post_type, $allowed ) ) {
-		return;
+	if ( $post_type_object->_edit_link ) {
+		$link = admin_url( sprintf( $post_type_object->_edit_link . $action, $post->ID ) );
+	} else {
+		$link = '';
 	}
 
 	/**
@@ -1274,7 +1274,7 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
 	 * @param string $context The link context. If set to 'display' then ampersands
 	 *                        are encoded.
 	 */
-	return apply_filters( 'get_edit_post_link', admin_url( sprintf( $post_type_object->_edit_link . $action, $post->ID ) ), $post->ID, $context );
+	return apply_filters( 'get_edit_post_link', $link, $post->ID, $context );
 }
 
 /**
