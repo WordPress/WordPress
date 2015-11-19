@@ -545,7 +545,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 33056 )
 		upgrade_431();
 
-	if ( $wp_current_db_version < 34030 )
+	if ( $wp_current_db_version < 35700 )
 		upgrade_440();
 
 	maybe_disable_link_manager();
@@ -1618,6 +1618,14 @@ function upgrade_440() {
 
 	if ( $wp_current_db_version < 34030 ) {
 		$wpdb->query( "ALTER TABLE {$wpdb->options} MODIFY option_name VARCHAR(191)" );
+	}
+
+	// Remove the unused 'add_users' role.
+	$roles = wp_roles();
+	foreach ( $roles->role_objects as $role ) {
+		if ( $role->has_cap( 'add_users' ) ) {
+			$role->remove_cap( 'add_users' );
+		}
 	}
 }
 
