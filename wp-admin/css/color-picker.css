@@ -24,8 +24,8 @@
 	vertical-align: bottom;
 	display: inline-block;
 	padding-left: 30px;
-	-webkit-box-shadow: 0 1px 0 rgba(0,0,0,.08);
-	box-shadow: 0 1px 0 rgba(0,0,0,.08);
+	-webkit-box-shadow: 0 1px 0 #ccc;
+	box-shadow: 0 1px 0 #ccc;
 }
 
 .wp-color-result:after {
@@ -43,8 +43,6 @@
 	right: 0;
 	text-align: center;
 	top: 0;
-	-webkit-box-shadow: inset 0 1px 0 #fff;
-	box-shadow: inset 0 1px 0 #fff;
 }
 
 .wp-color-result:hover,
@@ -75,12 +73,9 @@
 }
 
 .wp-color-result:focus {
-	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
+	border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 
 .wp-picker-open + .wp-picker-input-wrap {
