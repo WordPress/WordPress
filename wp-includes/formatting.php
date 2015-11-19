@@ -276,12 +276,13 @@ function wptexturize( $text, $reset = false ) {
 				// Searching for a digit is 10 times more expensive than for the x, so we avoid doing this one!
 				$curl = preg_replace( '/\b(\d(?(?<=0)[\d\.,]+|[\d\.,]*))x(\d[\d\.,]*)\b/', '$1&#215;$2', $curl );
 			}
+
+			// Replace each & with &#038; unless it already looks like an entity.
+			$curl = preg_replace( '/&(?!#(?:\d+|x[a-f0-9]+);|[a-z1-4]{1,8};)/i', '&#038;', $curl );
 		}
 	}
-	$text = implode( '', $textarr );
 
-	// Replace each & with &#038; unless it already looks like an entity.
-	return preg_replace( '/&(?!#(?:\d+|x[a-f0-9]+);|[a-z1-4]{1,8};)/i', '&#038;', $text );
+	return implode( '', $textarr );
 }
 
 /**
