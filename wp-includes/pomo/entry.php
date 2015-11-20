@@ -2,7 +2,7 @@
 /**
  * Contains Translation_Entry class
  *
- * @version $Id: entry.php 718 2012-10-31 00:32:02Z nbachiyski $
+ * @version $Id: entry.php 1157 2015-11-20 04:30:11Z dd32 $
  * @package pomo
  * @subpackage entry
  */
@@ -49,7 +49,7 @@ class Translation_Entry {
 		foreach ($args as $varname => $value) {
 			$this->$varname = $value;
 		}
-		if (isset($args['plural'])) $this->is_plural = true;
+		if (isset($args['plural']) && $args['plural']) $this->is_plural = true;
 		if (!is_array($this->translations)) $this->translations = array();
 		if (!is_array($this->references)) $this->references = array();
 		if (!is_array($this->flags)) $this->flags = array();
@@ -68,10 +68,10 @@ class Translation_Entry {
 	 * @return string|bool the key or false if the entry is empty
 	 */
 	function key() {
-		if (is_null($this->singular)) return false;
+		if ( null === $this->singular || '' === $this->singular ) return false;
 
 		// Prepend context and EOT, like in MO files
-		$key = is_null($this->context)? $this->singular : $this->context.chr(4).$this->singular;
+		$key = !$this->context? $this->singular : $this->context.chr(4).$this->singular;
 		// Standardize on \n line endings
 		$key = str_replace( array( "\r\n", "\r" ), "\n", $key );
 
