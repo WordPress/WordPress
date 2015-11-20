@@ -58,6 +58,8 @@ require_once(ABSPATH . 'wp-admin/includes/taxonomy.php');
 
 /** WordPress Template Administration API */
 require_once(ABSPATH . 'wp-admin/includes/template.php');
+require_once(ABSPATH . 'wp-admin/includes/class-walker-category-checklist.php');
+require_once(ABSPATH . 'wp-admin/includes/class-wp-internal-pointers.php');
 
 /** WordPress List Table Administration API and base class */
 require_once(ABSPATH . 'wp-admin/includes/class-wp-list-table.php');

@@ -43,6 +43,7 @@ $_old_files = array(
 'wp-admin/link-categories.php',
 'wp-admin/list-manipulation.js',
 'wp-admin/list-manipulation.php',
+'wp-includes/comment-functions.php',
 'wp-includes/feed-functions.php',
 'wp-includes/functions-compat.php',
 'wp-includes/functions-formatting.php',
