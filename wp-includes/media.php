@@ -1080,12 +1080,12 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 * @param array  $sources {
 	 *     One or more arrays of source data to include in the 'srcset'.
 	 *
-	 *     @type type array $width {
-	 *          @type type string $url        The URL of an image source.
-	 *          @type type string $descriptor The descriptor type used in the image candidate string,
-	 *                                        either 'w' or 'x'.
-	 *          @type type int    $value      The source width, if paired with a 'w' descriptor or a
-	 *                                        pixel density value if paired with an 'x' descriptor.
+	 *     @type array $width {
+	 *         @type string $url        The URL of an image source.
+	 *         @type string $descriptor The descriptor type used in the image candidate string,
+	 *                                  either 'w' or 'x'.
+	 *         @type int    $value      The source width if paired with a 'w' descriptor, or a
+	 *                                  pixel density value if paired with an 'x' descriptor.
 	 *     }
 	 * }
 	 * @param array  $size_array    Array of width and height values in pixels (in that order).
