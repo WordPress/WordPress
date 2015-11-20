@@ -2909,6 +2909,7 @@ img {
 .js .postbox .handlediv:focus {
 	-webkit-box-shadow: none;
 	box-shadow: none;
+	outline: none;
 }
 
 .js .postbox .handlediv:focus .toggle-indicator:before {
