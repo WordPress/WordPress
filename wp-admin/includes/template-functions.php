@@ -577,21 +577,36 @@ function meta_form( $post = null ) {
 	$post = get_post( $post );
 
 	/**
-	 * Filter the number of custom fields to retrieve for the drop-down
-	 * in the Custom Fields meta box.
+	 * Filter values for the meta key dropdown in the Custom Fields meta box.
 	 *
-	 * @since 2.1.0
+	 * Returning a non-null value will effectively short-circuit and avoid a
+	 * potentially expensive query against postmeta.
 	 *
-	 * @param int $limit Number of custom fields to retrieve. Default 30.
+	 * @since 4.4.0
+	 *
+	 * @param array|null $keys Pre-defined meta keys to be used in place of a postmeta query. Default null.
 	 */
-	$limit = apply_filters( 'postmeta_form_limit', 30 );
-	$sql = "SELECT DISTINCT meta_key
-		FROM $wpdb->postmeta
-		WHERE meta_key NOT BETWEEN '_' AND '_z'
-		HAVING meta_key NOT LIKE %s
-		ORDER BY meta_key
-		LIMIT %d";
-	$keys = $wpdb->get_col( $wpdb->prepare( $sql, $wpdb->esc_like( '_' ) . '%', $limit ) );
+	$keys = apply_filters( 'postmeta_form_keys', null );
+
+	if ( null === $keys ) {
+		/**
+		 * Filter the number of custom fields to retrieve for the drop-down
+		 * in the Custom Fields meta box.
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param int $limit Number of custom fields to retrieve. Default 30.
+		 */
+		$limit = apply_filters( 'postmeta_form_limit', 30 );
+		$sql = "SELECT DISTINCT meta_key
+			FROM $wpdb->postmeta
+			WHERE meta_key NOT BETWEEN '_' AND '_z'
+			HAVING meta_key NOT LIKE %s
+			ORDER BY meta_key
+			LIMIT %d";
+		$keys = $wpdb->get_col( $wpdb->prepare( $sql, $wpdb->esc_like( '_' ) . '%', $limit ) );
+	}
+
 	if ( $keys ) {
 		natcasesort( $keys );
 		$meta_key_input_id = 'metakeyselect';
