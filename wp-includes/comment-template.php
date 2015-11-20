@@ -2037,9 +2037,10 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *     @type string $comment_field        The comment textarea field HTML.
  *     @type string $must_log_in          HTML element for a 'must be logged in to comment' message.
  *     @type string $logged_in_as         HTML element for a 'logged in as [user]' message.
- *     @type string $comment_notes_before HTML element for a message displayed before the comment form.
+ *     @type string $comment_notes_before HTML element for a message displayed before the comment fields
+ *                                        if the user is not logged in.
  *                                        Default 'Your email address will not be published.'.
- *     @type string $comment_notes_after  HTML element for a message displayed after the comment form.
+ *     @type string $comment_notes_after  HTML element for a message displayed after the textarea field.
  *     @type string $id_form              The comment form element id attribute. Default 'commentform'.
  *     @type string $id_submit            The comment submit element id attribute. Default 'submit'.
  *     @type string $class_form           The comment form element class attribute. Default 'comment-form'.
@@ -2214,25 +2215,51 @@ function comment_form( $args = array(), $post_id = null ) {
 
 					endif;
 
+					// Prepare an array of all fields, including the textarea
+					$comment_fields = array( 'comment' => $args['comment_field'] ) + (array) $args['fields'];
+
 					/**
-					 * Filter the content of the comment textarea field for display.
+					 * Filter the comment form fields.
 					 *
-					 * @since 3.0.0
+					 * @since 4.4.0
 					 *
-					 * @param string $args_comment_field The content of the comment textarea field.
+					 * @param array $comment_fields The comment fields.
 					 */
-					echo apply_filters( 'comment_form_field_comment', $args['comment_field'] );
+					$comment_fields = apply_filters( 'comment_form_fields', $comment_fields );
 
-					echo $args['comment_notes_after'];
+					// Get an array of field names, excluding the textarea
+					$comment_field_keys = array_diff( array_keys( $comment_fields ), array( 'comment' ) );
 
-					if ( ! is_user_logged_in() ) :
-						/**
-						 * Fires before the comment fields in the comment form.
-						 *
-						 * @since 3.0.0
-						 */
-						do_action( 'comment_form_before_fields' );
-						foreach ( (array) $args['fields'] as $name => $field ) {
+					// Get the first and the last field name, excluding the textarea
+					$first_field = reset( $comment_field_keys );
+					$last_field  = end( $comment_field_keys );
+
+					foreach ( $comment_fields as $name => $field ) {
+
+						if ( 'comment' === $name ) {
+
+							/**
+							 * Filter the content of the comment textarea field for display.
+							 *
+							 * @since 3.0.0
+							 *
+							 * @param string $args_comment_field The content of the comment textarea field.
+							 */
+							echo apply_filters( 'comment_form_field_comment', $field );
+
+							echo $args['comment_notes_after'];
+
+						} elseif ( ! is_user_logged_in() ) {
+
+							if ( $first_field === $name ) {
+								/**
+								 * Fires before the comment fields in the comment form, excluding the textarea.
+								 *
+								 * @since 3.0.0
+								 */
+								do_action( 'comment_form_before_fields' );
+							}
+
 							/**
 							 * Filter a comment form field for display.
 							 *
@@ -2244,15 +2271,17 @@ function comment_form( $args = array(), $post_id = null ) {
 							 * @param string $field The HTML-formatted output of the comment form field.
 							 */
 							echo apply_filters( "comment_form_field_{$name}", $field ) . "\n";
-						}
-						/**
-						 * Fires after the comment fields in the comment form.
-						 *
-						 * @since 3.0.0
-						 */
-						do_action( 'comment_form_after_fields' );
 
-					endif;
+							if ( $last_field === $name ) {
+								/**
+								 * Fires after the comment fields in the comment form, excluding the textarea.
+								 *
+								 * @since 3.0.0
+								 */
+								do_action( 'comment_form_after_fields' );
+							}
+						}
+					}
 
 					$submit_button = sprintf(
 						$args['submit_button'],
