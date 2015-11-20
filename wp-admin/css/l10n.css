@@ -68,6 +68,9 @@ body.locale-he-il .press-this a.wp-switch-editor {
 }
 
 /* ru_RU: Text needs more room to breathe. */
+.locale-ru-ru #adminmenu {
+	width: inherit; /* back-compat for pre-3.2 */
+}
 .locale-ru-ru #adminmenu,
 .locale-ru-ru #wpbody {
 	margin-left: 0; /* back-compat for pre-3.2 */
