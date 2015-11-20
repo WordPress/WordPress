@@ -68,6 +68,13 @@ body.locale-he-il .press-this a.wp-switch-editor {
 }
 
 /* ru_RU: Text needs more room to breathe. */
+.locale-ru-ru #adminmenu {
+	width: 160px; /* back-compat for pre-3.2 */
+	margin-right: 0; /* back-compat for pre-3.2 */
+}
+.locale-ru-ru #wpbody {
+	margin-right: 0; /* back-compat for pre-3.2 */
+}
 .locale-ru-ru .inline-edit-row fieldset label span.title,
 .locale-ru-ru .inline-edit-row fieldset.inline-edit-date legend {
 	width: 8em; /* default 6em */
