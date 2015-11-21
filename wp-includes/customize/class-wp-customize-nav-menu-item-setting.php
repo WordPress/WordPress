@@ -120,15 +120,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	public $original_nav_menu_term_id;
 
 	/**
-	 * Whether or not preview() was called.
-	 *
-	 * @since 4.3.0
-	 * @access protected
-	 * @var bool
-	 */
-	protected $is_previewed = false;
-
-	/**
 	 * Whether or not update() was called.
 	 *
 	 * @since 4.3.0

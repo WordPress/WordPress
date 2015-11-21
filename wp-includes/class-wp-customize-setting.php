@@ -82,6 +82,15 @@ class WP_Customize_Setting {
 	protected $id_data = array();
 
 	/**
+	 * Whether or not preview() was called.
+	 *
+	 * @since 4.4.0
+	 * @access protected
+	 * @var bool
+	 */
+	protected $is_previewed = false;
+
+	/**
 	 * Cache of multidimensional values to improve performance.
 	 *
 	 * @since 4.4.0
@@ -191,6 +200,8 @@ class WP_Customize_Setting {
 		}
 
 		if ( ! empty( $this->id_data['keys'] ) ) {
+			// Note the preview-applied flag is cleared at priority 9 to ensure it is cleared before a deferred-preview runs.
+			add_action( "customize_post_value_set_{$this->id}", array( $this, '_clear_aggregated_multidimensional_preview_applied_flag' ), 9 );
 			$this->is_multidimensional_aggregated = true;
 		}
 	}
@@ -245,6 +256,12 @@ class WP_Customize_Setting {
 		if ( ! isset( $this->_previewed_blog_id ) ) {
 			$this->_previewed_blog_id = get_current_blog_id();
 		}
+
+		// Prevent re-previewing an already-previewed setting.
+		if ( $this->is_previewed ) {
+			return true;
+		}
+
 		$id_base = $this->id_data['base'];
 		$is_multidimensional = ! empty( $this->id_data['keys'] );
 		$multidimensional_filter = array( $this, '_multidimensional_preview_filter' );
@@ -273,7 +290,11 @@ class WP_Customize_Setting {
 			$needs_preview = ( $undefined === $value ); // Because the default needs to be supplied.
 		}
 
+		// If the setting does not need previewing now, defer to when it has a value to preview.
 		if ( ! $needs_preview ) {
+			if ( ! has_action( "customize_post_value_set_{$this->id}", array( $this, 'preview' ) ) ) {
+				add_action( "customize_post_value_set_{$this->id}", array( $this, 'preview' ) );
+			}
 			return false;
 		}
 
@@ -327,7 +348,26 @@ class WP_Customize_Setting {
 				 */
 				do_action( "customize_preview_{$this->type}", $this );
 		}
+
+		$this->is_previewed = true;
+
 		return true;
+	}
+
+	/**
+	 * Clear out the previewed-applied flag for a multidimensional-aggregated value whenever its post value is updated.
+	 *
+	 * This ensures that the new value will get sanitized and used the next time
+	 * that <code>WP_Customize_Setting::_multidimensional_preview_filter()</code>
+	 * is called for this setting.
+	 *
+	 * @since 4.4.0
+	 * @access private
+	 * @see WP_Customize_Manager::set_post_value()
+	 * @see WP_Customize_Setting::_multidimensional_preview_filter()
+	 */
+	final public function _clear_aggregated_multidimensional_preview_applied_flag() {
+		unset( self::$aggregated_multidimensionals[ $this->type ][ $this->id_data['base'] ]['preview_applied_instances'][ $this->id ] );
 	}
 
 	/**
@@ -369,13 +409,13 @@ class WP_Customize_Setting {
 	 * the first setting previewed will be used to apply the values for the others.
 	 *
 	 * @since 4.4.0
-	 * @access public
+	 * @access private
 	 *
 	 * @see WP_Customize_Setting::$aggregated_multidimensionals
 	 * @param mixed $original Original root value.
 	 * @return mixed New or old value.
 	 */
-	public function _multidimensional_preview_filter( $original ) {
+	final public function _multidimensional_preview_filter( $original ) {
 		if ( ! $this->is_current_blog_previewed() ) {
 			return $original;
 		}

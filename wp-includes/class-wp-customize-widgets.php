@@ -1380,7 +1380,7 @@ final class WP_Customize_Widgets {
 		 * in place from WP_Customize_Setting::preview() will use this value
 		 * instead of the default widget instance value (an empty array).
 		 */
-		$this->manager->set_post_value( $setting_id, $instance );
+		$this->manager->set_post_value( $setting_id, $this->sanitize_widget_js_instance( $instance ) );
 
 		// Obtain the widget control with the updated instance in place.
 		ob_start();
