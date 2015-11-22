@@ -263,7 +263,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			$status_links[ $status ] = "<a href='$link'$class>" . sprintf(
 				translate_nooped_plural( $label, $num_comments->$status ),
 				sprintf( '<span class="%s-count">%s</span>',
-					$status,
+					( 'moderated' === $status ) ? 'pending' : $status,
 					number_format_i18n( $num_comments->$status )
 				)
 			) . '</a>';
