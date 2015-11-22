@@ -431,7 +431,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		$errors->add( 'user_name',  __( 'Sorry, that username is not allowed.' ) );
 	}
 
-	/** This filter is documented in wp-includes/user-functions.php */
+	/** This filter is documented in wp-includes/user.php */
 	$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
 
 	if ( in_array( strtolower( $user_name ), array_map( 'strtolower', $illegal_logins ) ) ) {

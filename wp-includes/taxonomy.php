@@ -1474,7 +1474,7 @@ function get_terms( $taxonomies, $args = '' ) {
 	if ( empty($terms) ) {
 		wp_cache_add( $cache_key, array(), 'terms', DAY_IN_SECONDS );
 
-		/** This filter is documented in wp-includes/taxonomy-functions.php */
+		/** This filter is documented in wp-includes/taxonomy.php */
 		return apply_filters( 'get_terms', array(), $taxonomies, $args );
 	}
 
@@ -1551,7 +1551,7 @@ function get_terms( $taxonomies, $args = '' ) {
 		$terms = array_map( 'get_term', $terms );
 	}
 
-	/** This filter is documented in wp-includes/taxonomy-functions.php */
+	/** This filter is documented in wp-includes/taxonomy.php */
 	return apply_filters( 'get_terms', $terms, $taxonomies, $args );
 }
 
@@ -2660,11 +2660,11 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	if ( empty($slug) ) {
 		$slug = sanitize_title($slug, $term_id);
 
-		/** This action is documented in wp-includes/taxonomy-functions.php */
+		/** This action is documented in wp-includes/taxonomy.php */
 		do_action( 'edit_terms', $term_id, $taxonomy );
 		$wpdb->update( $wpdb->terms, compact( 'slug' ), compact( 'term_id' ) );
 
-		/** This action is documented in wp-includes/taxonomy-functions.php */
+		/** This action is documented in wp-includes/taxonomy.php */
 		do_action( 'edited_terms', $term_id, $taxonomy );
 	}
 
@@ -3304,7 +3304,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 */
 	do_action( "edit_$taxonomy", $term_id, $tt_id );
 
-	/** This filter is documented in wp-includes/taxonomy-functions.php */
+	/** This filter is documented in wp-includes/taxonomy.php */
 	$term_id = apply_filters( 'term_id_filter', $term_id, $tt_id );
 
 	clean_term_cache($term_id, $taxonomy);
@@ -3862,11 +3862,11 @@ function _update_post_term_count( $terms, $taxonomy ) {
 		if ( $object_types )
 			$count += (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships, $wpdb->posts WHERE $wpdb->posts.ID = $wpdb->term_relationships.object_id AND post_status = 'publish' AND post_type IN ('" . implode("', '", $object_types ) . "') AND term_taxonomy_id = %d", $term ) );
 
-		/** This action is documented in wp-includes/taxonomy-functions.php */
+		/** This action is documented in wp-includes/taxonomy.php */
 		do_action( 'edit_term_taxonomy', $term, $taxonomy->name );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 
-		/** This action is documented in wp-includes/taxonomy-functions.php */
+		/** This action is documented in wp-includes/taxonomy.php */
 		do_action( 'edited_term_taxonomy', $term, $taxonomy->name );
 	}
 }
@@ -3889,11 +3889,11 @@ function _update_generic_term_count( $terms, $taxonomy ) {
 	foreach ( (array) $terms as $term ) {
 		$count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->term_relationships WHERE term_taxonomy_id = %d", $term ) );
 
-		/** This action is documented in wp-includes/taxonomy-functions.php */
+		/** This action is documented in wp-includes/taxonomy.php */
 		do_action( 'edit_term_taxonomy', $term, $taxonomy->name );
 		$wpdb->update( $wpdb->term_taxonomy, compact( 'count' ), array( 'term_taxonomy_id' => $term ) );
 
-		/** This action is documented in wp-includes/taxonomy-functions.php */
+		/** This action is documented in wp-includes/taxonomy.php */
 		do_action( 'edited_term_taxonomy', $term, $taxonomy->name );
 	}
 }
@@ -4599,7 +4599,7 @@ function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' )
 
 	if ( empty( $object_id ) ) {
 
-		/** This filter is documented in wp-includes/taxonomy-functions.php */
+		/** This filter is documented in wp-includes/taxonomy.php */
 		return apply_filters( 'get_ancestors', $ancestors, $object_id, $object_type, $resource_type );
 	}
 
