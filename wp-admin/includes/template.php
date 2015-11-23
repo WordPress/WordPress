@@ -584,8 +584,9 @@ function meta_form( $post = null ) {
 	 * @since 4.4.0
 	 *
 	 * @param array|null $keys Pre-defined meta keys to be used in place of a postmeta query. Default null.
+	 * @param WP_Post    $post The current post object.
 	 */
-	$keys = apply_filters( 'postmeta_form_keys', null );
+	$keys = apply_filters( 'postmeta_form_keys', null, $post );
 
 	if ( null === $keys ) {
 		/**
