@@ -1013,7 +1013,7 @@ function uninstall_plugin($plugin) {
 //
 
 /**
- * Add a top level menu page
+ * Add a top-level menu page.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1026,19 +1026,19 @@ function uninstall_plugin($plugin) {
  * @global array $_registered_pages
  * @global array $_parent_pages
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- * @param string $icon_url The url to the icon to be used for this menu.
- *     * Pass a base64-encoded SVG using a data URI, which will be colored to match the color scheme.
- *       This should begin with 'data:image/svg+xml;base64,'.
- *     * Pass the name of a Dashicons helper class to use a font icon, e.g. 'dashicons-chart-pie'.
- *     * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS.
- * @param int $position The position in the menu order this one should appear
- *
- * @return string The resulting page's hook_suffix
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
+ * @param string   $icon_url   The URL to the icon to be used for this menu.
+ *                             * Pass a base64-encoded SVG using a data URI, which will be colored to match
+ *                               the color scheme. This should begin with 'data:image/svg+xml;base64,'.
+ *                             * Pass the name of a Dashicons helper class to use a font icon,
+ *                               e.g. 'dashicons-chart-pie'.
+ *                             * Pass 'none' to leave div.wp-menu-image empty so an icon can be added via CSS.
+ * @param int      $position   The position in the menu order this one should appear.
+ * @return string The resulting page's hook_suffix.
  */
 function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '', $position = null ) {
 	global $menu, $admin_page_hooks, $_registered_pages, $_parent_pages;
@@ -1080,7 +1080,7 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 }
 
 /**
- * Add a top level menu page in the 'objects' section
+ * Add a top-level menu page in the 'objects' section.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1090,14 +1090,13 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
  *
  * @global int $_wp_last_object_menu
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- * @param string $icon_url The url to the icon to be used for this menu
- *
- * @return string The resulting page's hook_suffix
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
+ * @param string   $icon_url   The url to the icon to be used for this menu.
+ * @return string The resulting page's hook_suffix.
  */
 function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
 	global $_wp_last_object_menu;
@@ -1108,7 +1107,7 @@ function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $fu
 }
 
 /**
- * Add a top level menu page in the 'utility' section
+ * Add a top-level menu page in the 'utility' section.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1118,14 +1117,13 @@ function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $fu
  *
  * @global int $_wp_last_utility_menu
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- * @param string $icon_url The url to the icon to be used for this menu
- *
- * @return string The resulting page's hook_suffix
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
+ * @param string   $icon_url   The url to the icon to be used for this menu.
+ * @return string The resulting page's hook_suffix.
  */
 function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
 	global $_wp_last_utility_menu;
@@ -1136,7 +1134,7 @@ function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $f
 }
 
 /**
- * Add a sub menu page
+ * Add a submenu page.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1147,17 +1145,16 @@ function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * @global array $submenu
  * @global array $menu
  * @global array $_wp_real_parent_file
- * @global bool $_wp_submenu_nopriv
+ * @global bool  $_wp_submenu_nopriv
  * @global array $_registered_pages
  * @global array $_parent_pages
  *
- * @param string $parent_slug The slug name for the parent menu (or the file name of a standard WordPress admin page)
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $parent_slug The slug name for the parent menu (or the file name of a standard WordPress admin page).
+ * @param string   $page_title  The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title  The text to be used for the menu.
+ * @param string   $capability  The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug   The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function    The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1210,7 +1207,7 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
 }
 
 /**
- * Add sub menu page to the Tools main menu.
+ * Add submenu page to the Tools main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1218,12 +1215,11 @@ function add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, 
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_management_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1231,7 +1227,7 @@ function add_management_page( $page_title, $menu_title, $capability, $menu_slug,
 }
 
 /**
- * Add sub menu page to the Settings main menu.
+ * Add submenu page to the Settings main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1239,12 +1235,11 @@ function add_management_page( $page_title, $menu_title, $capability, $menu_slug,
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1252,7 +1247,7 @@ function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $f
 }
 
 /**
- * Add sub menu page to the Appearance main menu.
+ * Add submenu page to the Appearance main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1260,12 +1255,11 @@ function add_options_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1273,7 +1267,7 @@ function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $fun
 }
 
 /**
- * Add sub menu page to the Plugins main menu.
+ * Add submenu page to the Plugins main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1281,12 +1275,11 @@ function add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1294,7 +1287,7 @@ function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $f
 }
 
 /**
- * Add sub menu page to the Users/Profile main menu.
+ * Add submenu page to the Users/Profile main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1302,12 +1295,11 @@ function add_plugins_page( $page_title, $menu_title, $capability, $menu_slug, $f
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1318,7 +1310,7 @@ function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $fun
 	return add_submenu_page( $parent, $page_title, $menu_title, $capability, $menu_slug, $function );
 }
 /**
- * Add sub menu page to the Dashboard main menu.
+ * Add submenu page to the Dashboard main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1326,12 +1318,11 @@ function add_users_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1339,7 +1330,7 @@ function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, 
 }
 
 /**
- * Add sub menu page to the Posts main menu.
+ * Add submenu page to the Posts main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1347,12 +1338,11 @@ function add_dashboard_page( $page_title, $menu_title, $capability, $menu_slug, 
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1360,7 +1350,7 @@ function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $fun
 }
 
 /**
- * Add sub menu page to the Media main menu.
+ * Add submenu page to the Media main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1368,12 +1358,11 @@ function add_posts_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1381,7 +1370,7 @@ function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $fun
 }
 
 /**
- * Add sub menu page to the Links main menu.
+ * Add submenu page to the Links main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1389,12 +1378,11 @@ function add_media_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
 function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1402,7 +1390,7 @@ function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $fun
 }
 
 /**
- * Add sub menu page to the Pages main menu.
+ * Add submenu page to the Pages main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1410,12 +1398,11 @@ function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
 */
 function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1423,7 +1410,7 @@ function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $fun
 }
 
 /**
- * Add sub menu page to the Comments main menu.
+ * Add submenu page to the Comments main menu.
  *
  * This function takes a capability which will be used to determine whether
  * or not a page is included in the menu.
@@ -1431,12 +1418,11 @@ function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * The function which is hooked in to handle the output of the page must check
  * that the user has the required capability as well.
  *
- * @param string $page_title The text to be displayed in the title tags of the page when the menu is selected
- * @param string $menu_title The text to be used for the menu
- * @param string $capability The capability required for this menu to be displayed to the user.
- * @param string $menu_slug The slug name to refer to this menu by (should be unique for this menu)
- * @param callable $function The function to be called to output the content for this page.
- *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
 */
 function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
@@ -1444,14 +1430,14 @@ function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $
 }
 
 /**
- * Remove a top level admin menu
+ * Remove a top-level admin menu.
  *
  * @since 3.1.0
  *
  * @global array $menu
  *
- * @param string $menu_slug The slug of the menu
- * @return array|bool The removed menu on success, False if not found
+ * @param string $menu_slug The slug of the menu.
+ * @return array|bool The removed menu on success, false if not found.
  */
 function remove_menu_page( $menu_slug ) {
 	global $menu;
@@ -1467,15 +1453,15 @@ function remove_menu_page( $menu_slug ) {
 }
 
 /**
- * Remove an admin submenu
+ * Remove an admin submenu.
  *
  * @since 3.1.0
  *
  * @global array $submenu
  *
- * @param string $menu_slug The slug for the parent menu
- * @param string $submenu_slug The slug of the submenu
- * @return array|bool The removed submenu on success, False if not found
+ * @param string $menu_slug    The slug for the parent menu.
+ * @param string $submenu_slug The slug of the submenu.
+ * @return array|bool The removed submenu on success, false if not found.
  */
 function remove_submenu_page( $menu_slug, $submenu_slug ) {
 	global $submenu;
