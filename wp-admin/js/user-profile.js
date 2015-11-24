@@ -266,6 +266,8 @@
 		$pass1Row.closest('form').on( 'submit', function () {
 			updateLock = false;
 
+			$pass1.prop( 'disabled', false );
+			$pass2.prop( 'disabled', false );
 			$pass2.val( $pass1.val() );
 			$pass1Wrap.removeClass( 'show-password' );
 		});
