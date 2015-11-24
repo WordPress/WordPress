@@ -1458,7 +1458,7 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 	// we want to reverse this for the plain text arena of emails.
 	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 	$comment_content = wp_specialchars_decode( $comment->comment_content );
-	
+
 	switch ( $comment->comment_type ) {
 		case 'trackback':
 			$notify_message  = sprintf( __( 'New trackback on your post "%s"' ), $post->post_title ) . "\r\n";
@@ -1737,8 +1737,7 @@ if ( !function_exists('wp_new_user_notification') ) :
  * @param int    $user_id    User ID.
  * @param null   $deprecated Not used (argument deprecated).
  * @param string $notify     Optional. Type of notification that should happen. Accepts 'admin' or an empty
- *                           string (admin only), or 'both' (admin and user). The empty string value was kept
- *                           for backward-compatibility purposes with the renamed parameter. Default empty.
+ *                           string (admin only), or 'both' (admin and user). Default empty.
  */
 function wp_new_user_notification( $user_id, $deprecated = null, $notify = '' ) {
 	if ( $deprecated !== null ) {
@@ -1758,7 +1757,8 @@ function wp_new_user_notification( $user_id, $deprecated = null, $notify = '' ) 
 
 	@wp_mail(get_option('admin_email'), sprintf(__('[%s] New User Registration'), $blogname), $message);
 
-	if ( 'admin' === $notify || empty( $notify ) ) {
+	// `$deprecated was pre-4.3 `$plaintext_pass`. An empty `$plaintext_pass` didn't sent a user notifcation.
+	if ( 'admin' === $notify || ( empty( $deprecated ) && empty( $notify ) ) ) {
 		return;
 	}
 
