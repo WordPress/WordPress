@@ -1227,7 +1227,6 @@ function wp_page_menu( $args = array() ) {
 		'menu_class'  => 'menu',
 		'container'   => 'div',
 		'echo'        => true,
-		'show_home'   => false,
 		'link_before' => '',
 		'link_after'  => '',
 		'before'      => '<ul>',
