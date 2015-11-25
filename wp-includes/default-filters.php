@@ -357,7 +357,7 @@ add_action( 'comment_post', 'wp_new_comment_notify_moderator' );
 add_action( 'comment_post', 'wp_new_comment_notify_postauthor' );
 add_action( 'after_password_reset', 'wp_password_change_notification' );
 add_action( 'register_new_user',      'wp_send_new_user_notifications' );
-add_action( 'edit_user_created_user', 'wp_send_new_user_notifications' );
+add_action( 'edit_user_created_user', 'wp_send_new_user_notifications', 10, 2 );
 
 // REST API actions.
 add_action( 'init',          'rest_api_init' );

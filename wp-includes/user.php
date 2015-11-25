@@ -2198,10 +2198,12 @@ function register_new_user( $user_login, $user_email ) {
  *
  * @since 4.4.0
  *
- * @param int $user_id ID of the newly created user.
+ * @param int    $user_id ID of the newly created user.
+ * @param string $notify  Optional. Type of notification that should happen. Accepts 'admin' or an empty string
+ *                        (admin only), or 'both' (admin and user). Default 'both'.
  */
-function wp_send_new_user_notifications( $user_id ) {
-	wp_new_user_notification( $user_id, null, 'both' );
+function wp_send_new_user_notifications( $user_id, $notify = 'both' ) {
+	wp_new_user_notification( $user_id, null, $notify );
 }
 
 /**

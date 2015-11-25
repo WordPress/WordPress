@@ -368,7 +368,7 @@ $new_user_lastname = $creating && isset( $_POST['last_name'] ) ? wp_unslash( $_P
 $new_user_email = $creating && isset( $_POST['email'] ) ? wp_unslash( $_POST['email'] ) : '';
 $new_user_uri = $creating && isset( $_POST['url'] ) ? wp_unslash( $_POST['url'] ) : '';
 $new_user_role = $creating && isset( $_POST['role'] ) ? wp_unslash( $_POST['role'] ) : '';
-$new_user_send_password = $creating && isset( $_POST['send_password'] ) ? wp_unslash( $_POST['send_password'] ) : true;
+$new_user_send_notification = $creating && ! isset( $_POST['send_user_notification'] ) ? false : true;
 $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unslash( $_POST['noconfirmation'] ) : '';
 
 ?>
@@ -418,7 +418,6 @@ $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unsl
 				</button>
 				<div style="display:none" id="pass-strength-result" aria-live="polite"></div>
 			</div>
-			<p><span class="description"><?php _e( 'A password reset link will be sent to the user via email.' ); ?></span></p>
 		</td>
 	</tr>
 	<tr class="form-field form-required user-pass2-wrap hide-if-js">
@@ -435,6 +434,10 @@ $new_user_ignore_pass = $creating && isset( $_POST['noconfirmation'] ) ? wp_unsl
 				<?php _e( 'Confirm use of weak password' ); ?>
 			</label>
 		</td>
+	</tr>
+	<tr>
+		<th scope="row"><?php _e( 'Send User Notification' ) ?></th>
+		<td><label for="send_user_notification"><input type="checkbox" name="send_user_notification" id="send_user_notification" value="1" <?php checked( $new_user_send_notification ); ?> /> <?php _e( 'Send the new user an email about their account.' ); ?></label></td>
 	</tr>
 <?php } // !is_multisite ?>
 	<tr class="form-field">

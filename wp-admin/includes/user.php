@@ -176,14 +176,18 @@ function edit_user( $user_id = 0 ) {
 		$user_id = wp_update_user( $user );
 	} else {
 		$user_id = wp_insert_user( $user );
+		$notify  = isset( $_POST['send_user_notification'] ) ? 'both' : 'admin';
+
 		/**
 		  * Fires after a new user has been created.
 		  *
 		  * @since 4.4.0
 		  *
-		  * @param int $user_id ID of the newly created user.
+		  * @param int    $user_id ID of the newly created user.
+		  * @param string $notify  Type of notification that should happen. See {@see wp_send_new_user_notifications()}
+		  *                        for more information on possible values.
 		  */
-		do_action( 'edit_user_created_user', $user_id );
+		do_action( 'edit_user_created_user', $user_id, $notify );
 	}
 	return $user_id;
 }
