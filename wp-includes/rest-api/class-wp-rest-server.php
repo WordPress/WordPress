@@ -1158,7 +1158,7 @@ class WP_REST_Server {
 	 *
 	 * @return string Raw request data.
 	 */
-	public function get_raw_data() {
+	public static function get_raw_data() {
 		global $HTTP_RAW_POST_DATA;
 
 		/*
