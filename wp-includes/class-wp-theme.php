@@ -56,6 +56,7 @@ final class WP_Theme implements ArrayAccess {
 		'twentythirteen' => 'Twenty Thirteen',
 		'twentyfourteen' => 'Twenty Fourteen',
 		'twentyfifteen'  => 'Twenty Fifteen',
+		'twentysixteen'  => 'Twenty Sixteen',
 	);
 
 	/**
@@ -1147,6 +1148,23 @@ final class WP_Theme implements ArrayAccess {
 				return true;
 		}
 
+		return false;
+	}
+
+	/**
+	 * Determines the latest WordPress default theme that is installed.
+	 *
+	 * This hits the filesystem.
+	 *
+	 * @return WP_Theme|false Object, or false if no theme is installed, which would be bad.
+	 */
+	public static function get_core_default_theme() {
+		foreach ( array_reverse( self::$default_themes ) as $slug => $name ) {
+			$theme = wp_get_theme( $slug );
+			if ( $theme->exists() ) {
+				return $theme;
+			}
+		}
 		return false;
 	}
 

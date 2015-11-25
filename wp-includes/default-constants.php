@@ -348,8 +348,10 @@ function wp_templating_constants() {
 	/**
 	 * Slug of the default theme for this install.
 	 * Used as the default theme when installing new sites.
-	 * Will be used as the fallback if the current theme doesn't exist.
+	 * It will be used as the fallback if the current theme doesn't exist.
+	 *
 	 * @since 3.0.0
+	 * @see WP_Theme::get_core_default_theme()
 	 */
 	if ( !defined('WP_DEFAULT_THEME') )
 		define( 'WP_DEFAULT_THEME', 'twentyfifteen' );
