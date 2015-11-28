@@ -2670,6 +2670,10 @@ function wp_handle_comment_submission( $comment_data ) {
 	// get_post_status() will get the parent status for attachments.
 	$status = get_post_status( $post );
 
+	if ( ( 'private' == $status ) && ! current_user_can( 'read_post', $comment_post_ID ) ) {
+		return new WP_Error( 'comment_id_not_found' );
+	}
+
 	$status_obj = get_post_status_object( $status );
 
 	if ( ! comments_open( $comment_post_ID ) ) {
@@ -2756,7 +2760,7 @@ function wp_handle_comment_submission( $comment_data ) {
 			}
 		}
 	} else {
-		if ( get_option( 'comment_registration' ) || 'private' == $status ) {
+		if ( get_option( 'comment_registration' ) ) {
 			return new WP_Error( 'not_logged_in', __( 'Sorry, you must be logged in to post a comment.' ), 403 );
 		}
 	}
