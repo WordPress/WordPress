@@ -83,12 +83,15 @@ function map_meta_cap( $cap, $user_id ) {
 
 		// If the post author is set and the user is the author...
 		if ( $post->post_author && $user_id == $post->post_author ) {
-			// If the post is published...
-			if ( 'publish' == $post->post_status ) {
+			// If the post is published or scheduled...
+			if ( in_array( $post->post_status, array( 'publish', 'future' ), true ) ) {
 				$caps[] = $post_type->cap->delete_published_posts;
 			} elseif ( 'trash' == $post->post_status ) {
-				if ( 'publish' == get_post_meta( $post->ID, '_wp_trash_meta_status', true ) ) {
+				$status = get_post_meta( $post->ID, '_wp_trash_meta_status', true );
+				if ( in_array( $status, array( 'publish', 'future' ), true ) ) {
 					$caps[] = $post_type->cap->delete_published_posts;
+				} else {
+					$caps[] = $post_type->cap->delete_posts;
 				}
 			} else {
 				// If the post is draft...
@@ -97,8 +100,8 @@ function map_meta_cap( $cap, $user_id ) {
 		} else {
 			// The user is trying to edit someone else's post.
 			$caps[] = $post_type->cap->delete_others_posts;
-			// The post is published, extra cap required.
-			if ( 'publish' == $post->post_status ) {
+			// The post is published or scheduled, extra cap required.
+			if ( in_array( $post->post_status, array( 'publish', 'future' ), true ) ) {
 				$caps[] = $post_type->cap->delete_published_posts;
 			} elseif ( 'private' == $post->post_status ) {
 				$caps[] = $post_type->cap->delete_private_posts;
@@ -141,12 +144,15 @@ function map_meta_cap( $cap, $user_id ) {
 
 		// If the post author is set and the user is the author...
 		if ( $post->post_author && $user_id == $post->post_author ) {
-			// If the post is published...
-			if ( 'publish' == $post->post_status ) {
+			// If the post is published or scheduled...
+			if ( in_array( $post->post_status, array( 'publish', 'future' ), true ) ) {
 				$caps[] = $post_type->cap->edit_published_posts;
 			} elseif ( 'trash' == $post->post_status ) {
-				if ( 'publish' == get_post_meta( $post->ID, '_wp_trash_meta_status', true ) ) {
+				$status = get_post_meta( $post->ID, '_wp_trash_meta_status', true );
+				if ( in_array( $status, array( 'publish', 'future' ), true ) ) {
 					$caps[] = $post_type->cap->edit_published_posts;
+				} else {
+					$caps[] = $post_type->cap->edit_posts;
 				}
 			} else {
 				// If the post is draft...
@@ -155,8 +161,8 @@ function map_meta_cap( $cap, $user_id ) {
 		} else {
 			// The user is trying to edit someone else's post.
 			$caps[] = $post_type->cap->edit_others_posts;
-			// The post is published, extra cap required.
-			if ( 'publish' == $post->post_status ) {
+			// The post is published or scheduled, extra cap required.
+			if ( in_array( $post->post_status, array( 'publish', 'future' ), true ) ) {
 				$caps[] = $post_type->cap->edit_published_posts;
 			} elseif ( 'private' == $post->post_status ) {
 				$caps[] = $post_type->cap->edit_private_posts;
