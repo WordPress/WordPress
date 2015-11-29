@@ -184,7 +184,7 @@ function get_comment_author_email_link( $linktext = '', $before = '', $after = '
 	if ((!empty($email)) && ($email != '@')) {
 	$display = ($linktext != '') ? $linktext : $email;
 		$return  = $before;
-		$return .= "<a href='mailto:$email'>$display</a>";
+		$return .= sprintf( '<a href="%1$s">%2$s</a>', esc_url( 'mailto:' . $email ), esc_html( $display ) );
 	 	$return .= $after;
 		return $return;
 	} else {
@@ -278,7 +278,7 @@ function get_comment_author_IP( $comment_ID = 0 ) {
  *									 Default current comment.
  */
 function comment_author_IP( $comment_ID = 0 ) {
-	echo get_comment_author_IP( $comment_ID );
+	echo esc_html( get_comment_author_IP( $comment_ID ) );
 }
 
 /**

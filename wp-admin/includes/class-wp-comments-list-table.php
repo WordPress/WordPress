@@ -695,7 +695,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				$email = apply_filters( 'comment_email', $comment->comment_author_email, $comment );
 
 				if ( ! empty( $email ) && '@' !== $email ) {
-					printf( '<a href=\'mailto:%1$s\'>%1$s</a><br />', $email );
+					printf( '<a href="%1$s">%2$s</a><br />', esc_url( 'mailto:' . $email ), esc_html( $email ) );
 				}
 			}
 
@@ -705,7 +705,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				if ( 'spam' === $comment_status ) {
 					$author_ip_url = add_query_arg( 'comment_status', 'spam', $author_ip_url );
 				}
-				printf( '<a href="%s">%s</a>', esc_url( $author_ip_url ), $author_ip );
+				printf( '<a href="%1$s">%2$s</a>', esc_url( $author_ip_url ), esc_html( $author_ip ) );
 			}
 		}
 	}
