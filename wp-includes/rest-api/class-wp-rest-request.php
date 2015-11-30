@@ -847,7 +847,7 @@ class WP_REST_Request implements ArrayAccess {
 				$valid_check = call_user_func( $arg['validate_callback'], $param, $this, $key );
 
 				if ( false === $valid_check ) {
-					$invalid_params[ $key ] = __( 'Invalid param.' );
+					$invalid_params[ $key ] = __( 'Invalid parameter.' );
 				}
 
 				if ( is_wp_error( $valid_check ) ) {
