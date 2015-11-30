@@ -866,7 +866,7 @@ function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_own
 	if ( ! $method )
 		return false;
 
-	if ( ! class_exists( "WP_Filesystem_$method", false  ) ) {
+	if ( ! class_exists( "WP_Filesystem_$method" ) ) {
 
 		/**
 		 * Filter the path for a specific filesystem method class file.
