@@ -1061,8 +1061,8 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 			$image_ratio_compare = 0;
 		}
 
-		// If the new ratio differs by less than 0.01, use it.
-		if ( abs( $image_ratio - $image_ratio_compare ) < 0.01 ) {
+		// If the new ratio differs by less than 0.002, use it.
+		if ( abs( $image_ratio - $image_ratio_compare ) < 0.002 ) {
 			// Add the URL, descriptor, and value to the sources array to be returned.
 			$sources[ $image['width'] ] = array(
 				'url'        => $image_baseurl . $image['file'],
