@@ -1206,11 +1206,13 @@ function wp_calculate_image_sizes( $size, $image_src = null, $image_meta = null,
  * @return string Converted content with 'srcset' and 'sizes' attributes added to images.
  */
 function wp_make_content_images_responsive( $content ) {
-	$images = get_media_embedded_in_content( $content, 'img' );
+	if ( ! preg_match_all( '/<img [^>]+>/', $content, $matches ) ) {
+		return $content;
+	}
 
 	$selected_images = $attachment_ids = array();
 
-	foreach( $images as $image ) {
+	foreach( $matches[0] as $image ) {
 		if ( false === strpos( $image, ' srcset=' ) && preg_match( '/wp-image-([0-9]+)/i', $image, $class_id ) &&
 			( $attachment_id = absint( $class_id[1] ) ) ) {
 
@@ -3506,12 +3508,11 @@ function get_media_embedded_in_content( $content, $types = null ) {
 	 * Filter the embedded media types that are allowed to be returned from the content blob.
 	 *
 	 * @since 4.2.0
-	 * @since 4.4.0 Added 'img' to the allowed types.
 	 *
 	 * @param array $allowed_media_types An array of allowed media types. Default media types are
-	 *                                   'audio', 'video', 'object', 'embed', 'iframe', and 'img'.
+	 *                                   'audio', 'video', 'object', 'embed', and 'iframe'.
 	 */
-	$allowed_media_types = apply_filters( 'media_embedded_in_content_allowed_types', array( 'audio', 'video', 'object', 'embed', 'iframe', 'img' ) );
+	$allowed_media_types = apply_filters( 'media_embedded_in_content_allowed_types', array( 'audio', 'video', 'object', 'embed', 'iframe' ) );
 
 	if ( ! empty( $types ) ) {
 		if ( ! is_array( $types ) ) {
