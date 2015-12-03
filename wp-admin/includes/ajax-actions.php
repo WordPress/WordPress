@@ -2570,7 +2570,7 @@ function wp_ajax_send_attachment_to_editor() {
 	$rel = '';
 	$url = empty( $attachment['url'] ) ? '' : $attachment['url'];
 	if ( strpos( $url, 'attachment_id') || get_attachment_link( $id ) == $url ) {
-		$rel = ' rel="attachment wp-att-' . $id . '"';
+		$rel = 'attachment wp-att-' . $id;
 	}
 
 	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor' );
@@ -2593,7 +2593,7 @@ function wp_ajax_send_attachment_to_editor() {
 	} else {
 		$html = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
 		if ( ! empty( $url ) ) {
-			$html = '<a href="' . esc_url( $url ) . '"' . $rel . '>' . $html . '</a>';
+			$html = '<a href="' . esc_url( $url ) . '"' . 'rel="' . esc_attr( $rel ) . '">' . $html . '</a>';
 		}
 	}
 
