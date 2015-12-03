@@ -22,6 +22,10 @@
 			return;
 		}
 
+		if ( /[^a-zA-Z0-9]/.test( data.secret ) ) {
+			return;
+		}
+
 		var iframes = document.querySelectorAll( 'iframe[data-secret="' + data.secret + '"]' ),
 			blockquotes = document.querySelectorAll( 'blockquote[data-secret="' + data.secret + '"]' ),
 			i, source, height, sourceURL, targetURL;
@@ -32,6 +36,10 @@
 
 		for ( i = 0; i < iframes.length; i++ ) {
 			source = iframes[ i ];
+
+			if ( e.source !== source.contentWindow ) {
+				continue;
+			}
 
 			source.style.display = '';
 
