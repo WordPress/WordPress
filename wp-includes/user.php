@@ -1971,7 +1971,7 @@ function get_password_reset_key( $user ) {
 	$hashed = time() . ':' . $wp_hasher->HashPassword( $key );
 	$key_saved = $wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user->user_login ) );
 	if ( false === $key_saved ) {
-		return WP_Error( 'no_password_key_update', __( 'Could not save password reset key to database.' ) );
+		return new WP_Error( 'no_password_key_update', __( 'Could not save password reset key to database.' ) );
 	}
 
 	return $key;
