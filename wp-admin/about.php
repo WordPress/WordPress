@@ -93,7 +93,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					<?php echo wp_oembed_get( '' ); ?>
 				</div>
 				<h3><?php echo ( 'More third-party embeds' ); ?></h3>
-				<p><?php echo ( 'If the addition of post embeds weren’t enough, WordPress 4.4 also adds support for five new oEmbed providers: Cloudup, ReverbNation, Reddit Comments, VideoPress, and Speaker Deck.' ); ?></p>
+				<p><?php echo ( 'If the addition of post embeds weren’t enough, WordPress 4.4 also adds support for five new oEmbed providers: Cloudup, ReverbNation, Reddit&nbsp;Comments, VideoPress, and Speaker&nbsp;Deck.' ); ?></p>
 			</div>
 		</div>
 
