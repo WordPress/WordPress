@@ -877,8 +877,9 @@ p.pagenav {
 .row-actions {
 	color: #ddd;
 	font-size: 13px;
-	visibility: hidden;
 	padding: 2px 0 0;
+	position: relative;
+	left: -9999em;
 }
 
 /* ticket #34150 */
@@ -891,11 +892,12 @@ p.pagenav {
 	color: #000;
 }
 
+.no-js .row-actions,
 tr:hover .row-actions,
 .mobile .row-actions,
 .row-actions.visible,
 div.comment-item:hover .row-actions {
-	visibility: visible;
+	position: static;
 }
 
 /* deprecated */
