@@ -109,16 +109,21 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 						<p><?php echo ( 'WordPress 4.4 marks the beginning of a new era with integration of infrastructure for the new REST API. The REST API serves to provide developers with a robust path forward for building and extending RESTful APIs on top of WordPress.' ); ?></p>
 						<p><?php
 							if ( current_user_can( 'install_plugins' ) ) {
-								$plugin_link = '<a href="' . esc_url( network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=rest-api' .
-										'&TB_iframe=true&width=600&height=550' ) ) . '" class="thickbox">WordPress REST API</a>';
+								$url_args = array(
+									'tab'       => 'plugin-information',
+									'plugin'    => 'rest-api',
+									'TB_iframe' => true,
+									'width'     => 600,
+									'height'    => 550
+								);
+
+								$plugin_link = '<a href="' . esc_url( add_query_arg( $url_args, network_admin_url( 'plugin-install.php' ) ) ) . '" class="thickbox">WordPress REST API</a>';
 							} else {
 								$plugin_link = '<a href="https://wordpress.org/plugins/rest-api">WordPress REST API</a>';
 							}
 
 							/* translators: WordPress REST API plugin link */
-							printf( ( 'Infrastructure is the first part of a multi-stage rollout for the REST API, which also targets inclusion of core endpoints in an upcoming release. To get a sneak peek of the core endpoints, and for more on extending the REST API, check out the official %s plugin.' ),
-								$plugin_link
-							);
+							printf( ( 'Infrastructure is the first part of a multi-stage rollout for the REST API, which also targets inclusion of core endpoints in an upcoming release. To get a sneak peek of the core endpoints, and for more on extending the REST API, check out the official %s plugin.' ), $plugin_link );
 						?></p>
 					</div>
 				</div>
@@ -129,7 +134,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					<h4><?php echo ( 'Term meta' ); ?></h4>
 					<p><?php
 						/* translators: 1: add_term_meta() docs link, 2: get_term_meta() docs link, 3: update_term_meta() docs link */
-						printf( ( 'Terms now now support metadata, just like posts. See %1$s, %2$s, and %3$s for more information.' ),
+						printf( ( 'Terms now support metadata, just like posts. See %1$s, %2$s, and %3$s for more information.' ),
 							'<a href="https://developer.wordpress.org/reference/functions/add_term_meta"><code>add_term_meta()</code></a>',
 							'<a href="https://developer.wordpress.org/reference/functions/get_term_meta"><code>get_term_meta()</code></a>',
 							'<a href="https://developer.wordpress.org/reference/functions/update_term_meta"><code>update_term_meta()</code></a>'
@@ -140,7 +145,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					<h4><?php echo ( 'Comment query improvements' ); ?></h4>
 					<p><?php
 						/* translators: WP_Comment_Query class name */
-						printf( ( 'Comment queries now have improved cache handling and performance. New arguments in %s making crafting robust comment queries simpler.' ), '<code>WP_Comment_Query</code>' );
+						printf( ( 'Comment queries now have cache handling to improve performance. New arguments in %s make crafting robust comment queries simpler.' ), '<code>WP_Comment_Query</code>' );
 					?></p>
 				</div>
 				<div class="col">
