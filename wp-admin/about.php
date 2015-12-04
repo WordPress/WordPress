@@ -51,7 +51,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<div class="col">
 					<h3><?php echo ( 'Introducing Twenty Sixteen' ); ?></h3>
 					<p><?php echo ( 'Our newest default theme, Twenty Sixteen, is a modern take on a classic blog design.' ); ?></p>
-					<p><?php echo ( 'Twenty Sixteen was built with a mobile-first approach, ensuring your site will look great on any device. A harmonious fluid grid, fun color schemes, flexible mast head, and more make this a great addition to the default theme family.' ); ?></p>
+					<p><?php echo ( 'Twenty Sixteen was built to look great on any device. A fluid grid design, fun color schemes, a flexible header, and more, will make your content shine.' ); ?></p>
 					<div class="horizontal-image">
 						<div class="content">
 							<img class="feature-image horizontal-screen" src="https://cldup.com/J-zxmMqkXs.png" alt="" />
@@ -74,7 +74,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			</div>
 			<div class="col">
 				<h3><?php echo ( 'Responsive images' ); ?></h3>
-				<p><?php echo ( 'WordPress now takes a smarter approach to displaying device-appropriate image sizes, ensuring a perfect fit every time. You don&#8217;t need to do anything to your theme, it just works.' ); ?></p>
+				<p><?php echo ( 'WordPress now takes a smarter approach to displaying appropriate image sizes on any device, ensuring a perfect fit every time. You don&#8217;t need to do anything to your theme, it just works.' ); ?></p>
 			</div>
 		</div>
 
@@ -85,15 +85,15 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<div class="embed-container">
 					<?php echo wp_oembed_get( 'https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/' ); ?>
 				</div>
-				<h3><?php echo ( 'Embeddable WordPress content' ); ?></h3>
-				<p><?php echo ( 'Now you can embed WordPress content inside of other WordPress content. Simply drop a post URL into the editor and see an instant embed preview, complete with title, excerpt, comment and sharing links, even your site icon.' ); ?></p>
+				<h3><?php echo ( 'Embed your WordPress content' ); ?></h3>
+				<p><?php echo ( 'Now you can embed your posts on other sites, even other WordPress sites. Simply drop a post URL into the editor and see an instant embed preview, complete with the title, excerpt, and featured image if you&#8217;ve set one. We&#8217;ll even include your site icon and links for comments and sharing.' ); ?></p>
 			</div>
 			<div class="col">
 				<div class="embed-container">
 					<?php echo wp_oembed_get( '' ); ?>
 				</div>
-				<h3><?php echo ( 'More third-party embeds' ); ?></h3>
-				<p><?php echo ( 'If the addition of post embeds weren’t enough, WordPress 4.4 also adds support for five new oEmbed providers: Cloudup, ReverbNation, Reddit&nbsp;Comments, VideoPress, and Speaker&nbsp;Deck.' ); ?></p>
+				<h3><?php echo ( 'Even more embed providers' ); ?></h3>
+				<p><?php echo ( 'In addition to post embeds, WordPress 4.4 also adds support for five new oEmbed providers: Cloudup, Reddit&nbsp;Comments, ReverbNation, Speaker&nbsp;Deck, and VideoPress.' ); ?></p>
 			</div>
 		</div>
 
@@ -106,7 +106,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<div class="col">
 					<h4><?php echo ( 'REST API infrastructure' ); ?></h4>
 					<div class="two-col-text">
-						<p><?php echo ( 'WordPress 4.4 marks the beginning of a new era with integration of infrastructure for the new REST API. The REST API serves to provide developers with a robust path forward for building and extending RESTful APIs on top of WordPress.' ); ?></p>
+						<p><?php echo ( 'Infrastructure for the REST API has been integrated into core, marking a new era in developing with WordPress. The REST API serves to provide developers with a path forward for building and extending RESTful APIs on top of WordPress.' ); ?></p>
 						<p><?php
 							if ( current_user_can( 'install_plugins' ) ) {
 								$url_args = array(
@@ -123,7 +123,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 							}
 
 							/* translators: WordPress REST API plugin link */
-							printf( ( 'Infrastructure is the first part of a multi-stage rollout for the REST API, which also targets inclusion of core endpoints in an upcoming release. To get a sneak peek of the core endpoints, and for more on extending the REST API, check out the official %s plugin.' ), $plugin_link );
+							printf( ( 'Infrastructure is the first part of a multi-stage rollout for the REST API. Inclusion of core endpoints is targeted for an upcoming release. To get a sneak peek of the core endpoints, and for more information on extending the REST API, check out the official %s plugin.' ), $plugin_link );
 						?></p>
 					</div>
 				</div>
