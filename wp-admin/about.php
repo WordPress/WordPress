@@ -16,84 +16,19 @@ wp_localize_script( 'mediaelement', '_wpmejsSettings', array(
 	'pauseOtherPlayers' => ''
 ) );
 
+if ( current_user_can( 'install_plugins' ) ) {
+	add_thickbox();
+	wp_enqueue_script( 'plugin-install' );
+}
+
+
+wp_oembed_add_host_js();
+
 $title = __( 'About' );
 
 list( $display_version ) = explode( '-', $wp_version );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
-
-$video_url = 'https://videopress.com/embed/T54Iy7Tw';
-$locale    = str_replace( '_', '-', get_locale() );
-if ( 'en-AU' !== $locale ) {
-	list( $locale ) = explode( '-', $locale );
-}
-if ( 'en' !== $locale ) {
-	$video_url = add_query_arg( 'defaultLangCode', $locale, $video_url );
-}
-
-$major_features = array(
-	array(
-		'src'         => array(
-			'mp4'  => '//s.w.org/images/core/4.3/formatting.mp4',
-			'ogv'  => '//s.w.org/images/core/4.3/formatting.ogv',
-			'webm' => '//s.w.org/images/core/4.3/formatting.webm',
-		),
-		'heading'     => __( 'Formatting Shortcuts' ),
-		/* Translators: 1: asterisks; 2: number sign; */
-		'description' => sprintf( __( 'Your writing flow just got faster with new formatting shortcuts in WordPress 4.3. Use asterisks to create lists and number signs to make a heading. No more breaking your flow; your text looks great with a %1$s and a %2$s.' ), '<code>*</code>', '<code>#</code>' ),
-	),
-	array(
-		'src'         => '//s.w.org/images/core/4.3/menu-customizer.png',
-		'heading'     => __( 'Menus in the Customizer' ),
-		'description' => __( 'Create your menu, update it, and assign it, all while live-previewing in the customizer. The streamlined customizer design provides a mobile-friendly and accessible interface. With every release, it becomes easier and faster to make your site just the way you want it.' ),
-	),
-	array(
-		'src'         => '//s.w.org/images/core/4.3/better-passwords.png',
-		'heading'     => __( 'Better Passwords' ),
-		'description' => __( 'Keep your site more secure with WordPress&#8217; improved approach to passwords. Instead of receiving passwords via email, you&#8217;ll get a password reset link. When you add new users to your site or edit a user profile, WordPress will automatically generate a secure password.' ),
-	),
-	array(
-		'src'         => '//s.w.org/images/core/4.3/site-icon-customizer.png',
-		'heading'     => __( 'Site Icons' ),
-		'description' => __( 'Site icons represent your site in browser tabs, bookmark menus, and on the home screen of mobile devices. Add your unique site icon in the customizer; it will even stay in place when you switch themes. Make your whole site reflect your brand.' ),
-	),
-);
-shuffle( $major_features );
-
-$minor_features = array(
-	array(
-		'src'         => 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIj48cGF0aCBmaWxsPSIjMDBhMGQyIiBkPSJNNTAgMjE1aDI0MHYzMEg1MHpNNTAgMjc1aDI0MHYzMEg1MHpNNTAgMTU1aDI0MHYzMEg1MHpNNTAgOTVoMjQwdjMwSDUwek0zMTAuMSA5NWwxOS45IDMwIDIwLjEtMzAiLz48L3N2Zz4=',
-		'heading'     => __( 'A smoother admin experience' ),
-		'description' => __( 'Refinements to the list view across the admin make your WordPress more accessible and easier to work with on any device.' ),
-	),
-	array(
-		'src'         => 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZmlsbD0iIzAwYTBkMiIgZD0iTTUgMmgxMHEuODIgMCAxLjQxLjU5VDE3IDR2OHEwIC44Mi0uNTkgMS40MVQxNSAxNGgtMmwtNSA1di01SDVxLS44MiAwLTEuNDEtLjU5VDMgMTJWNHEwLS44Mi41OS0xLjQxVDUgMnptOC41IDguNUwxMSA4bDIuNS0yLjUtMS0xTDEwIDcgNy41IDQuNWwtMSAxTDkgOGwtMi41IDIuNSAxIDFMMTAgOWwyLjUgMi41eiIvPjwvc3ZnPg==',
-		'heading'     => __( 'Comments turned off on pages' ),
-		'description' => __( 'All new pages that you create will have comments turned off. Keep discussions to your blog, right where they&#8217;re supposed to happen.' ),
-	),
-	array(
-		'src'         => 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZmlsbD0iIzAwYTBkMiIgZD0iTTI5LjMyOCA1LjcxMnEuMDQ4LS4xNDQuMDk2LS4zODR0LS4wNjQtLjgxNi0uNTI4LS45NzZxLS4zODQtLjM2OC0uODcyLS40NjR0LS43OTIgMGwtLjI4OC4wOHEtMS40NTYuNzItNS44OCAzLjczNnQtNi4zOTIgNS4xNzZxLS43MzYuODMyLTEuNDA4IDIuMzJ0LS44OCAzIC41NDQgMi4zOTJxLjgzMi43MzYgMi4zNDQuNTc2dDMuMDcyLS44MjQgMi4yNDgtMS4zNTJxMi4xNDQtMi4xNDQgNS4xNjgtNi42NTZ0My42MzItNS44MDh6TTIuMjQgMjguMjRxMS4wNTYtLjY4OCAxLjcxMi0xLjUyOHQuOTUyLTEuNjE2LjU0NC0xLjUyLjcyLTEuNDggMS4yNC0xLjI4cTEuMDg4LS44IDIuNTA0LS43MDR0Mi40MjQgMS4xNjhxLjgxNi44OC44MjQgMi42NHQtMS4wOCAyLjg5NnEtMS4yMTYgMS4xMi0yLjkwNCAxLjYyNHQtMy40MjQuNDI0LTMuNTEyLS42MjR6Ii8+PC9zdmc+',
-		'heading'     => __( 'Customize your site quickly' ),
-		'description' => __( 'Wherever you are on the front-end, you can click the customize link in the toolbar to swiftly make changes to your site.' ),
-	),
-);
-
-$tech_features = array(
-	array(
-		'heading'     => __( 'Taxonomy Roadmap' ),
-		'description' => __( 'Terms shared across multiple taxonomies are now split into separate terms.' ),
-	),
-	array(
-		'heading'     => __( 'Template Hierarchy' ),
-		/* Translators: 1: singular.php; 2: single.php; 3:page.php */
-		'description' => sprintf( __( 'Added %1$s as a fallback for %2$s and %3$s' ), '<code>singular.php</code>', '<code>single.php</code>', '<code>page.php</code>' ),
-	),
-	array(
-		'heading'     => '<code>WP_List_Table</code>',
-		'description' => __( 'List tables can and should designate a primary column.' ),
-	),
-);
-
 ?>
 	<div class="wrap about-wrap">
 		<h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
@@ -107,64 +42,118 @@ $tech_features = array(
 			<a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
 		</h2>
 
-		<div class="headline-feature feature-video">
-			<iframe width="1050" height="591" src="<?php echo esc_url( $video_url ); ?>" frameborder="0" allowfullscreen></iframe>
-			<script src="https://videopress.com/videopress-iframe.js"></script>
+		<div class="headline-feature feature-section one-col">
+			<h2><?php echo ( 'Twenty Sixteen' ); ?></h2>
+			<div class="media-container">
+				<img src="https://cldup.com/K6k4JfS2nW.png" alt="" />
+			</div>
+			<div class="two-col">
+				<div class="col">
+					<h3><?php echo ( 'Introducing Twenty Sixteen' ); ?></h3>
+					<p><?php echo ( 'Our newest default theme, Twenty Sixteen, is a modern take on a classic blog design.' ); ?></p>
+					<p><?php echo ( 'Twenty Sixteen was built with a mobile-first approach, ensuring your site will look great on any device. A harmonious fluid grid, fun color schemes, flexible mast head, and more make this a great addition to the default theme family.' ); ?></p>
+					<div class="horizontal-image">
+						<div class="content">
+							<img class="feature-image horizontal-screen" src="https://cldup.com/J-zxmMqkXs.png" alt="" />
+						</div>
+					</div>
+				</div>
+				<div class="col feature-image">
+					<img class="vertical-screen" src="https://cldup.com/M8i_6X5LUL.png" alt="" />
+				</div>
+			</div>
 		</div>
 
-		<hr/>
+		<hr />
 
 		<div class="feature-section two-col">
-			<?php foreach ( $major_features as $feature ) : ?>
 			<div class="col">
 				<div class="media-container">
-					<?php
-					// Video.
-					if ( is_array( $feature['src'] ) ) :
-						echo wp_video_shortcode( array(
-							'mp4'      => $feature['src']['mp4'],
-							'ogv'      => $feature['src']['ogv'],
-							'webm'     => $feature['src']['webm'],
-							'loop'     => true,
-							'autoplay' => true,
-							'width'    => 500,
-							'height'   => 284
-						) );
-
-					// Image.
-					else:
-					?>
-					<img src="<?php echo esc_url( $feature['src'] ); ?>" alt="" />
-					<?php endif; ?>
+					<img src="https://cldup.com/av6MH44-Au.png" alt="" />
 				</div>
-				<h3><?php echo $feature['heading']; ?></h3>
-				<p><?php echo $feature['description']; ?></p>
 			</div>
-			<?php endforeach; ?>
-		</div>
-
-		<div class="feature-section three-col">
-			<?php foreach ( $minor_features as $feature ) : ?>
 			<div class="col">
-				<div class="svg-container">
-					<img src="<?php echo esc_attr( $feature['src'] ); ?>" alt="" />
-				</div>
-				<h3><?php echo $feature['heading']; ?></h3>
-				<p><?php echo $feature['description']; ?></p>
+				<h3><?php echo ( 'Responsive images' ); ?></h3>
+				<p><?php echo ( 'WordPress now takes a smarter approach to displaying device-appropriate image sizes, ensuring a perfect fit every time. You don&#8217;t need to do anything to your theme, it just works.' ); ?></p>
 			</div>
-			<?php endforeach; ?>
 		</div>
+
+		<hr />
+
+		<div class="feature-section two-col">
+			<div class="col">
+				<div class="embed-container">
+					<?php echo wp_oembed_get( 'https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/' ); ?>
+				</div>
+				<h3><?php echo ( 'Embeddable WordPress content' ); ?></h3>
+				<p><?php echo ( 'Now you can embed WordPress content inside of other WordPress content. Simply drop a post URL into the editor and see an instant embed preview, complete with title, excerpt, comment and sharing links, even your site icon.' ); ?></p>
+			</div>
+			<div class="col">
+				<div class="embed-container">
+					<?php echo wp_oembed_get( '' ); ?>
+				</div>
+				<h3><?php echo ( 'More third-party embeds' ); ?></h3>
+				<p><?php echo ( 'If the addition of post embeds weren’t enough, WordPress 4.4 also adds support for five new oEmbed providers: Cloudup, ReverbNation, Reddit Comments, VideoPress, and Speaker Deck.' ); ?></p>
+			</div>
+		</div>
+
+		<hr />
 
 		<div class="changelog">
 			<h3><?php _e( 'Under the Hood' ); ?></h3>
 
-			<div class="feature-section under-the-hood three-col">
-				<?php foreach ( $tech_features as $feature ) : ?>
+			<div class="feature-section under-the-hood one-col">
 				<div class="col">
-					<h4><?php echo $feature['heading']; ?></h4>
-					<p><?php echo $feature['description']; ?></p>
+					<h4><?php echo ( 'REST API infrastructure' ); ?></h4>
+					<div class="two-col-text">
+						<p><?php echo ( 'WordPress 4.4 marks the beginning of a new era with integration of infrastructure for the new REST API. The REST API serves to provide developers with a robust path forward for building and extending RESTful APIs on top of WordPress.' ); ?></p>
+						<p><?php
+							if ( current_user_can( 'install_plugins' ) ) {
+								$plugin_link = '<a href="' . esc_url( network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=rest-api' .
+										'&TB_iframe=true&width=600&height=550' ) ) . '" class="thickbox">WordPress REST API</a>';
+							} else {
+								$plugin_link = '<a href="https://wordpress.org/plugins/rest-api">WordPress REST API</a>';
+							}
+
+							/* translators: WordPress REST API plugin link */
+							printf( ( 'Infrastructure is the first part of a multi-stage rollout for the REST API, which also targets inclusion of core endpoints in an upcoming release. To get a sneak peek of the core endpoints, and for more on extending the REST API, check out the official %s plugin.' ),
+								$plugin_link
+							);
+						?></p>
+					</div>
 				</div>
-				<?php endforeach; ?>
+			</div>
+
+			<div class="feature-section under-the-hood three-col">
+				<div class="col">
+					<h4><?php echo ( 'Term meta' ); ?></h4>
+					<p><?php
+						/* translators: 1: add_term_meta() docs link, 2: get_term_meta() docs link, 3: update_term_meta() docs link */
+						printf( ( 'Terms now now support metadata, just like posts. See %1$s, %2$s, and %3$s for more information.' ),
+							'<a href="https://developer.wordpress.org/reference/functions/add_term_meta"><code>add_term_meta()</code></a>',
+							'<a href="https://developer.wordpress.org/reference/functions/get_term_meta"><code>get_term_meta()</code></a>',
+							'<a href="https://developer.wordpress.org/reference/functions/update_term_meta"><code>update_term_meta()</code></a>'
+				         );
+					?></p>
+				</div>
+				<div class="col">
+					<h4><?php echo ( 'Comment query improvements' ); ?></h4>
+					<p><?php
+						/* translators: WP_Comment_Query class name */
+						printf( ( 'Comment queries now have improved cache handling and performance. New arguments in %s making crafting robust comment queries simpler.' ), '<code>WP_Comment_Query</code>' );
+					?></p>
+				</div>
+				<div class="col">
+					<h4><?php echo ( 'Term, comment, and network objects' ); ?></h4>
+					<p><?php
+						/* translators: 1: WP_Term class name, WP_Comment class name, WP_Network class name */
+						printf( ( 'New %1$s, %2$s, and %3$s objects make interacting with terms, comments, and networks more predictable and intuitive in code.' ),
+							'<code>WP_Term</code>',
+							'<code>WP_Comment</code>',
+							'<code>WP_Network</code>'
+						);
+					?></p>
+				</div>
 			</div>
 
 			<div class="return-to-dashboard">

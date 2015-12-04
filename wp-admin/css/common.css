@@ -2720,6 +2720,7 @@ div.action-links {
 }
 
 /* Thickbox for Plugin Install screen */
+body.about-php #TB_window,
 body.plugin-install-php #TB_window,
 body.import-php #TB_window,
 body.plugins-php #TB_window,
@@ -2729,6 +2730,7 @@ body.index-php #TB_window {
 }
 
 /* IE 8 needs a change in the pseudo element content */
+.ie8 body.about-php #TB_window:before,
 .ie8 body.plugin-install-php #TB_window:before,
 .ie8 body.import-php #TB_window:before,
 .ie8 body.plugins-php #TB_window:before,
@@ -2738,6 +2740,7 @@ body.index-php #TB_window {
 	background: none;
 }
 
+body.about-php #TB_window.thickbox-loading:before,
 body.plugin-install-php #TB_window.thickbox-loading:before,
 body.import-php #TB_window.thickbox-loading:before,
 body.plugins-php #TB_window.thickbox-loading:before,
@@ -2763,6 +2766,7 @@ body.index-php #TB_window.thickbox-loading:before {
 	(-webkit-min-device-pixel-ratio: 1.25),
 	(min-resolution: 120dpi) {
 
+	body.about-php #TB_window.thickbox-loading:before,
 	body.plugin-install-php #TB_window.thickbox-loading:before,
 	body.import-php #TB_window.thickbox-loading:before,
 	body.plugins-php #TB_window.thickbox-loading:before,
@@ -2772,6 +2776,7 @@ body.index-php #TB_window.thickbox-loading:before {
 	}
 }
 
+body.about-php #TB_title,
 body.plugin-install-php #TB_title,
 body.import-php #TB_title,
 body.plugins-php #TB_title,
@@ -2781,6 +2786,7 @@ body.index-php #TB_title {
 	height: 1px;
 }
 
+body.about-php #TB_ajaxWindowTitle,
 body.plugin-install-php #TB_ajaxWindowTitle,
 body.import-php #TB_ajaxWindowTitle,
 body.plugins-php #TB_ajaxWindowTitle,
@@ -2789,6 +2795,7 @@ body.index-php #TB_ajaxWindowTitle {
 	display: none;
 }
 
+body.about-php .tb-close-icon,
 body.plugin-install-php .tb-close-icon,
 body.import-php .tb-close-icon,
 body.plugins-php .tb-close-icon,
@@ -2801,6 +2808,10 @@ body.index-php .tb-close-icon {
 	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
+body.about-php #TB_closeWindowButton:focus,
+body.about-php #TB_closeWindowButton:focus .tb-close-icon,
+body.about-php .tb-close-icon:focus,
+body.about-php .tb-close-icon:hover,
 body.plugin-install-php #TB_closeWindowButton:focus,
 body.plugin-install-php #TB_closeWindowButton:focus .tb-close-icon,
 body.plugin-install-php .tb-close-icon:focus,
@@ -2827,6 +2838,7 @@ body.index-php .tb-close-icon:hover {
 	box-shadow: none;
 }
 
+body.about-php .tb-close-icon:before,
 body.plugin-install-php .tb-close-icon:before,
 body.import-php .tb-close-icon:before,
 body.plugins-php .tb-close-icon:before,
@@ -2838,6 +2850,7 @@ body.index-php .tb-close-icon:before {
 
 /* move plugin install close icon to top on narrow screens */
 @media screen and ( max-width: 830px ) {
+	body.about-php .tb-close-icon,
 	body.plugin-install-php .tb-close-icon,
 	body.import-php .tb-close-icon,
 	body.plugins-php .tb-close-icon,
