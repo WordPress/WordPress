@@ -109,7 +109,20 @@ var postboxes;
 				distance: 2,
 				tolerance: 'pointer',
 				forcePlaceholderSize: true,
-				helper: 'clone',
+				helper: function( event, element ) {
+					// `helper: 'clone'` is equilavalent to `return element.clone();`
+					// Cloning a checked radio and then inserting that clone next to the original
+					// radio unchecks the original radio (since only one of the two can be checked).
+					// We get around this by renaming the helper's inputs' name attributes so that,
+					// when the helper is inserted into the DOM for the sortable, no radios are
+					// duplicated, and no original radio gets unchecked.
+					return element.clone()
+						.find( ':input' )
+							.attr( 'name', function( i, currentName ) {
+								return 'sort_' + parseInt( Math.random() * 100000, 10 ).toString() + '_' + currentName;
+							} )
+						.end();
+				},
 				opacity: 0.65,
 				stop: function() {
 					var $el = $( this );
