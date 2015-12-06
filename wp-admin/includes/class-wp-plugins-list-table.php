@@ -316,7 +316,16 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	public function no_items() {
 		global $plugins;
 
-		if ( !empty( $plugins['all'] ) )
+		if ( ! empty( $_REQUEST['s'] ) ) {
+			$s = esc_html( $_REQUEST['s'] );
+
+			printf( __( 'No plugins found for &#8220;%s&#8221;.' ), $s );
+
+			// We assume that somebody who can install plugins in multisite is experienced enough to not need this helper link.
+			if ( ! is_multisite() && current_user_can( 'install_plugins' ) ) {
+				echo ' <a href="' . esc_url( admin_url( 'plugin-install.php?tab=search&s=' . urlencode( $s ) ) ) . '">' . __( 'Search for plugins in the WordPress Plugin Directory.' ) . '</a>';
+			}
+		} elseif ( ! empty( $plugins['all'] ) )
 			_e( 'No plugins found.' );
 		else
 			_e( 'You do not appear to have any plugins available at this time.' );
