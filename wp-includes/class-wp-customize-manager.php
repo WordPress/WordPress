@@ -1049,7 +1049,15 @@ final class WP_Customize_Manager {
 		if ( $id instanceof WP_Customize_Setting ) {
 			$setting = $id;
 		} else {
-			$setting = new WP_Customize_Setting( $this, $id, $args );
+			$class = 'WP_Customize_Setting';
+
+			/** This filter is documented in wp-includes/class-wp-customize-manager.php */
+			$args = apply_filters( 'customize_dynamic_setting_args', $args, $id );
+
+			/** This filter is documented in wp-includes/class-wp-customize-manager.php */
+			$class = apply_filters( 'customize_dynamic_setting_class', $class, $id, $args );
+
+			$setting = new $class( $this, $id, $args );
 		}
 
 		$this->settings[ $setting->id ] = $setting;
