@@ -2872,7 +2872,8 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *     @type string $ping_status           Whether the post can accept pings. Accepts 'open' or 'closed'.
  *                                         Default is the value of 'default_ping_status' option.
  *     @type string $post_password         The password to access the post. Default empty.
- *     @type string $post_name             The post name. Default is the sanitized post title.
+ *     @type string $post_name             The post name. Default is the sanitized post title
+ *                                         when creating a new post.
  *     @type string $to_ping               Space or carriage return-separated list of URLs to ping.
  *                                         Default empty.
  *     @type string $pinged                Space or carriage return-separated list of URLs that have
@@ -2953,6 +2954,9 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	$post_excerpt = $postarr['post_excerpt'];
 	if ( isset( $postarr['post_name'] ) ) {
 		$post_name = $postarr['post_name'];
+	} elseif ( $update ) {
+		// For an update, don't modify the post_name if it wasn't supplied as an argument.
+		$post_name = $post_before->post_name;
 	}
 
 	$maybe_empty = 'attachment' !== $post_type
