@@ -86,14 +86,15 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	}
 
 	$query = array(
-		'version'           => $wp_version,
-		'php'               => $php_version,
-		'locale'            => $locale,
-		'mysql'             => $mysql_version,
-		'local_package'     => isset( $wp_local_package ) ? $wp_local_package : '',
-		'blogs'             => $num_blogs,
-		'users'             => $user_count,
-		'multisite_enabled' => $multisite_enabled,
+		'version'            => $wp_version,
+		'php'                => $php_version,
+		'locale'             => $locale,
+		'mysql'              => $mysql_version,
+		'local_package'      => isset( $wp_local_package ) ? $wp_local_package : '',
+		'blogs'              => $num_blogs,
+		'users'              => $user_count,
+		'multisite_enabled'  => $multisite_enabled,
+		'initial_db_version' => get_site_option( 'initial_db_version' ),
 	);
 
 	$post_body = array(
