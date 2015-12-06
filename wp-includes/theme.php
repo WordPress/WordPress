@@ -177,7 +177,7 @@ function get_stylesheet_directory() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $stylesheet_dir Absolute path to the current them.
+	 * @param string $stylesheet_dir Absolute path to the current theme.
 	 * @param string $stylesheet     Directory name of the current theme.
 	 * @param string $theme_root     Absolute path to themes directory.
 	 */
