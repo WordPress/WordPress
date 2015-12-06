@@ -91,13 +91,13 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	$user_id = email_exists($email);
 	if ( !$user_id ) { // Create a new user with a random password
 		/**
-		 * Fires when a new user will be created via the network site-new.php page.
+		 * Fires before a new user is created via the network site-new.php page.
 		 *
 		 * @since 4.5.0
 		 *
 		 * @param string $email Email of the non-existent user.
 		 */
-		do_action( 'network_site_new_created_user_pending', $email );
+		do_action( 'pre_network_site_new_created_user', $email );
 
 		$user_id = username_exists( $domain );
 		if ( $user_id ) {
