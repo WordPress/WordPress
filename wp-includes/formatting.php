@@ -3706,7 +3706,6 @@ function sanitize_option( $option, $value ) {
 			if ( is_wp_error( $value ) ) {
 				$error = $value->get_error_message();
 			} else {
-				$value = wp_kses_post( $value );
 				$value = esc_html( $value );
 			}
 			break;
