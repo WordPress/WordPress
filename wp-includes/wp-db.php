@@ -391,9 +391,9 @@ class wpdb {
 	 */
 	public $termmeta;
 
-	/*
-	 * Global and Multisite tables
-	 */
+	//
+	// Global and Multisite tables
+	//
 
 	/**
 	 * WordPress User Metadata table
