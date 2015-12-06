@@ -1335,7 +1335,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 					'name' => 'post_author',
 					'class'=> 'authors',
 					'multi' => 1,
-					'echo' => 0
+					'echo' => 0,
+					'show' => 'display_name_with_login',
 				);
 				if ( $bulk )
 					$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );

@@ -177,8 +177,13 @@ function export_date_options( $post_type = 'post' ) {
 		<label><span class="label-responsive"><?php _e( 'Authors:' ); ?></span>
 		<?php
 		$authors = $wpdb->get_col( "SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'post'" );
-		wp_dropdown_users( array( 'include' => $authors, 'name' => 'post_author', 'multi' => true, 'show_option_all' => __('All') ) );
-		?>
+		wp_dropdown_users( array(
+			'include' => $authors,
+			'name' => 'post_author',
+			'multi' => true,
+			'show_option_all' => __( 'All' ),
+			'show' => 'display_name_with_login',
+		) ); ?>
 		</label>
 	</li>
 	<li>
@@ -214,8 +219,13 @@ function export_date_options( $post_type = 'post' ) {
 		<label><span class="label-responsive"><?php _e( 'Authors:' ); ?></span>
 		<?php
 		$authors = $wpdb->get_col( "SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'page'" );
-		wp_dropdown_users( array( 'include' => $authors, 'name' => 'page_author', 'multi' => true, 'show_option_all' => __('All') ) );
-		?>
+		wp_dropdown_users( array(
+			'include' => $authors,
+			'name' => 'page_author',
+			'multi' => true,
+			'show_option_all' => __( 'All' ),
+			'show' => 'display_name_with_login',
+		) ); ?>
 		</label>
 	</li>
 	<li>

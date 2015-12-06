@@ -742,7 +742,8 @@ function post_author_meta_box($post) {
 		'who' => 'authors',
 		'name' => 'post_author_override',
 		'selected' => empty($post->ID) ? $user_ID : $post->post_author,
-		'include_selected' => true
+		'include_selected' => true,
+		'show' => 'display_name_with_login',
 	) );
 }
 

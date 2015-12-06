@@ -870,6 +870,7 @@ function setup_userdata($for_user_id = '') {
  * The available arguments are as follows:
  *
  * @since 2.3.0
+ * @since 4.5.0 Added the 'display_name_with_login' value for 'show'.
  *
  * @global int  $blog_id
  *
@@ -896,9 +897,11 @@ function setup_userdata($for_user_id = '') {
  *                                                 Default empty.
  *     @type bool|int     $multi                   Whether to skip the ID attribute on the 'select' element.
  *                                                 Accepts 1|true or 0|false. Default 0|false.
- *     @type string       $show                    User table column to display. If the selected item is empty
+ *     @type string       $show                    User data to display. If the selected item is empty
  *                                                 then the 'user_login' will be displayed in parentheses.
- *                                                 Accepts user fields. Default 'display_name'.
+ *                                                 Accepts any user field, or 'display_name_with_login' to show
+ *                                                 the display name with user_login in parentheses.
+ *                                                 Default 'display_name'.
  *     @type int|bool     $echo                    Whether to echo or return the drop-down. Accepts 1|true (echo)
  *                                                 or 0|false (return). Default 1|true.
  *     @type int          $selected                Which user ID should be selected. Default 0.
@@ -927,13 +930,23 @@ function wp_dropdown_users( $args = '' ) {
 	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
 
 	$r = wp_parse_args( $args, $defaults );
-	$show = $r['show'];
+
+	$query_args = wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order', 'who' ) );
+
+	$fields = array( 'ID', 'user_login' );
+
+	$show = ! empty( $r['show'] ) ? $r['show'] : 'display_name';
+	if ( 'display_name_with_login' === $show ) {
+		$fields[] = 'display_name';
+	} else {
+		$fields[] = $show;
+	}
+
+	$query_args['fields'] = $fields;
+
 	$show_option_all = $r['show_option_all'];
 	$show_option_none = $r['show_option_none'];
 	$option_none_value = $r['option_none_value'];
-
-	$query_args = wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order', 'who' ) );
-	$query_args['fields'] = array( 'ID', 'user_login', $show );
 
 	/**
 	 * Filter the query arguments for the user drop-down.
@@ -966,21 +979,32 @@ function wp_dropdown_users( $args = '' ) {
 			$output .= "\t<option value='" . esc_attr( $option_none_value ) . "'$_selected>$show_option_none</option>\n";
 		}
 
-		$found_selected = false;
-		foreach ( (array) $users as $user ) {
-			$user->ID = (int) $user->ID;
-			$_selected = selected( $user->ID, $r['selected'], false );
-			if ( $_selected ) {
-				$found_selected = true;
+		if ( $r['include_selected'] && ( $r['selected'] > 0 ) ) {
+			$found_selected = false;
+			$r['selected'] = (int) $r['selected'];
+			foreach ( (array) $users as $user ) {
+				$user->ID = (int) $user->ID;
+				if ( $user->ID === $r['selected'] ) {
+					$found_selected = true;
+				}
 			}
-			$display = ! empty( $user->$show ) ? $user->$show : '('. $user->user_login . ')';
-			$output .= "\t<option value='$user->ID'$_selected>" . esc_html( $display ) . "</option>\n";
+
+			if ( ! $found_selected ) {
+				$users[] = get_userdata( $r['selected'] );
+			}
 		}
 
-		if ( $r['include_selected'] && ! $found_selected && ( $r['selected'] > 0 ) ) {
-			$user = get_userdata( $r['selected'] );
+		foreach ( (array) $users as $user ) {
+			if ( 'display_name_with_login' === $show ) {
+				/* translators: 1: display name, 2: user_login */
+				$display = sprintf( _x( '%1$s (%2$s)', 'user dropdown' ), $user->display_name, $user->user_login );
+			} elseif ( ! empty( $user->$show ) ) {
+				$display = $user->$show;
+			} else {
+				$display = '(' . $user->user_login . ')';
+			}
+
 			$_selected = selected( $user->ID, $r['selected'], false );
-			$display = ! empty( $user->$show ) ? $user->$show : '('. $user->user_login . ')';
 			$output .= "\t<option value='$user->ID'$_selected>" . esc_html( $display ) . "</option>\n";
 		}
 
