@@ -1266,9 +1266,9 @@ function validate_username( $username ) {
  *     @type string      $user_url             The user URL.
  *     @type string      $user_email           The user email address.
  *     @type string      $display_name         The user's display name.
- *                                             Default is the the user's username.
+ *                                             Default is the user's username.
  *     @type string      $nickname             The user's nickname.
- *                                             Default is the the user's username.
+ *                                             Default is the user's username.
  *     @type string      $first_name           The user's first name. For new users, will be used
  *                                             to build the first part of the user's display name
  *                                             if `$display_name` is not specified.
@@ -1541,7 +1541,7 @@ function wp_insert_user( $userdata ) {
  	 * @param array $meta {
  	 *     Default meta values and keys for the user.
  	 *
- 	 *     @type string   $nickname             The user's nickname. Default is the the user's username.
+ 	 *     @type string   $nickname             The user's nickname. Default is the user's username.
 	 *     @type string   $first_name           The user's first name.
 	 *     @type string   $last_name            The user's last name.
 	 *     @type string   $description          The user's description.

@@ -343,7 +343,7 @@ final class WP_Customize_Widgets {
 
 		/*
 		 * Add a setting which will be supplied for the theme's sidebars_widgets
-		 * theme_mod when the the theme is switched.
+		 * theme_mod when the theme is switched.
 		 */
 		if ( ! $this->manager->is_theme_active() ) {
 			$setting_id = 'old_sidebars_widgets_data';
