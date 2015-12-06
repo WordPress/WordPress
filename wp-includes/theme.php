@@ -723,7 +723,7 @@ function switch_theme( $stylesheet ) {
 	} else {
 		/*
 		 * Since retrieve_widgets() is called when initializing a theme in the Customizer,
-		 * we need to to remove the theme mods to avoid overwriting changes made via
+		 * we need to remove the theme mods to avoid overwriting changes made via
 		 * the Customizer when accessing wp-admin/widgets.php.
 		 */
 		if ( 'wp_ajax_customize_save' === current_action() ) {

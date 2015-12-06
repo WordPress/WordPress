@@ -1176,7 +1176,7 @@ class WP_List_Table {
 	}
 
 	/**
-	 * Get a list of CSS classes for the list table table tag.
+	 * Get a list of CSS classes for the list table tag.
 	 *
 	 * @since 3.1.0
 	 * @access protected

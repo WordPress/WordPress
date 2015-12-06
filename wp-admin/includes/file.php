@@ -184,7 +184,7 @@ function wp_tempnam( $filename = '', $dir = '' ) {
 /**
  * Make sure that the file that was requested to edit, is allowed to be edited
  *
- * Function will die if if you are not allowed to edit the file
+ * Function will die if you are not allowed to edit the file
  *
  * @since 1.5.0
  *

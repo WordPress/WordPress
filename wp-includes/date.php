@@ -853,7 +853,7 @@ class WP_Date_Query {
 	 *
 	 * You can pass an array of values (year, month, etc.) with missing parameter values being defaulted to
 	 * either the maximum or minimum values (controlled by the $default_to parameter). Alternatively you can
-	 * pass a string that that will be run through strtotime().
+	 * pass a string that will be run through strtotime().
 	 *
 	 * @since 3.7.0
 	 * @access public
