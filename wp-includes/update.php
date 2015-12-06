@@ -26,7 +26,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		return;
 	}
 
-	global $wp_version, $wpdb, $wp_local_package;
+	global $wpdb, $wp_local_package;
 	// include an unmodified $wp_version
 	include( ABSPATH . WPINC . '/version.php' );
 	$php_version = phpversion();
@@ -192,7 +192,6 @@ function wp_update_plugins( $extra_stats = array() ) {
 		return;
 	}
 
-	global $wp_version;
 	// include an unmodified $wp_version
 	include( ABSPATH . WPINC . '/version.php' );
 
@@ -348,7 +347,7 @@ function wp_update_themes( $extra_stats = array() ) {
 	if ( wp_installing() ) {
 		return;
 	}
-	global $wp_version;
+
 	// include an unmodified $wp_version
 	include( ABSPATH . WPINC . '/version.php' );
 
@@ -586,8 +585,8 @@ function wp_get_update_data() {
  * @global string $wp_version
  */
 function _maybe_update_core() {
-	global $wp_version;
-	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
+	// include an unmodified $wp_version
+	include( ABSPATH . WPINC . '/version.php' );
 
 	$current = get_site_transient( 'update_core' );
 
