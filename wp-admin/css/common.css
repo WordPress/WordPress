@@ -593,9 +593,10 @@ code {
 	top: -3px;
 	text-decoration: none;
 	border: none;
+	border: 1px solid #ccc;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
-	background: #e0e0e0;
+	background: #f7f7f7;
 	text-shadow: none;
 	font-weight: 600;
 	font-size: 13px;
@@ -603,8 +604,15 @@ code {
 
 .wrap .add-new-h2:hover, /* deprecated */
 .wrap .page-title-action:hover {
+	border-color: #008EC2;
 	background: #00a0d2;
 	color: #fff;
+}
+
+.wrap .page-title-action:focus {
+	border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
+	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
 }
 
 .wrap h1.long-header {
