@@ -90,6 +90,15 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	$password = 'N/A';
 	$user_id = email_exists($email);
 	if ( !$user_id ) { // Create a new user with a random password
+		/**
+		 * Fires when a new user will be created via the network site-new.php page.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param string $email Email of the non-existent user.
+		 */
+		do_action( 'network_site_new_created_user_pending', $email );
+
 		$user_id = username_exists( $domain );
 		if ( $user_id ) {
 			wp_die( __( 'The domain or path entered conflicts with an existing username.' ) );
