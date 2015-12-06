@@ -228,15 +228,18 @@ if ( !function_exists('json_decode') ) {
 
 if ( ! function_exists( 'hash_equals' ) ) :
 /**
- * Compare two strings in constant time.
+ * Timing attack safe string comparison
+ *
+ * Compares two strings using the same time whether they're equal or not.
  *
  * This function was added in PHP 5.6.
- * It can leak the length of a string.
+ *
+ * Note: It can leak the length of a string when arguments of differing length are supplied.
  *
  * @since 3.9.2
  *
  * @param string $a Expected string.
- * @param string $b Actual string.
+ * @param string $b Actual, user supplied, string.
  * @return bool Whether strings are equal.
  */
 function hash_equals( $a, $b ) {
