@@ -1037,10 +1037,13 @@ final class WP_Customize_Manager {
 	 * Add a customize setting.
 	 *
 	 * @since 3.4.0
+	 * @since 4.5.0 Return added WP_Customize_Setting instance.
+	 * @access public
 	 *
-	 * @param WP_Customize_Setting|string $id Customize Setting object, or ID.
-	 * @param array $args                     Setting arguments; passed to WP_Customize_Setting
-	 *                                        constructor.
+	 * @param WP_Customize_Setting|string $id   Customize Setting object, or ID.
+	 * @param array                       $args Setting arguments; passed to WP_Customize_Setting
+	 *                                          constructor.
+	 * @return WP_Customize_Setting             The instance of the setting that was added.
 	 */
 	public function add_setting( $id, $args = array() ) {
 		if ( $id instanceof WP_Customize_Setting ) {
@@ -1048,7 +1051,9 @@ final class WP_Customize_Manager {
 		} else {
 			$setting = new WP_Customize_Setting( $this, $id, $args );
 		}
+
 		$this->settings[ $setting->id ] = $setting;
+		return $setting;
 	}
 
 	/**
@@ -1061,6 +1066,7 @@ final class WP_Customize_Manager {
 	 * even though they are not directly created statically with code.
 	 *
 	 * @since 4.2.0
+	 * @access public
 	 *
 	 * @param array $setting_ids The setting IDs to add.
 	 * @return array The WP_Customize_Setting objects added.
@@ -1141,10 +1147,13 @@ final class WP_Customize_Manager {
 	 * Add a customize panel.
 	 *
 	 * @since 4.0.0
+	 * @since 4.5.0 Return added WP_Customize_Panel instance.
 	 * @access public
 	 *
 	 * @param WP_Customize_Panel|string $id   Customize Panel object, or Panel ID.
 	 * @param array                     $args Optional. Panel arguments. Default empty array.
+	 *
+	 * @return WP_Customize_Panel             The instance of the panel that was added.
 	 */
 	public function add_panel( $id, $args = array() ) {
 		if ( $id instanceof WP_Customize_Panel ) {
@@ -1154,6 +1163,7 @@ final class WP_Customize_Manager {
 		}
 
 		$this->panels[ $panel->id ] = $panel;
+		return $panel;
 	}
 
 	/**
@@ -1216,9 +1226,13 @@ final class WP_Customize_Manager {
 	 * Add a customize section.
 	 *
 	 * @since 3.4.0
+	 * @since 4.5.0 Return added WP_Customize_Section instance.
+	 * @access public
 	 *
 	 * @param WP_Customize_Section|string $id   Customize Section object, or Section ID.
 	 * @param array                       $args Section arguments.
+	 *
+	 * @return WP_Customize_Section             The instance of the section that was added.
 	 */
 	public function add_section( $id, $args = array() ) {
 		if ( $id instanceof WP_Customize_Section ) {
@@ -1226,7 +1240,9 @@ final class WP_Customize_Manager {
 		} else {
 			$section = new WP_Customize_Section( $this, $id, $args );
 		}
+
 		$this->sections[ $section->id ] = $section;
+		return $section;
 	}
 
 	/**
@@ -1286,10 +1302,13 @@ final class WP_Customize_Manager {
 	 * Add a customize control.
 	 *
 	 * @since 3.4.0
+	 * @since 4.5.0 Return added WP_Customize_Control instance.
+	 * @access public
 	 *
 	 * @param WP_Customize_Control|string $id   Customize Control object, or ID.
 	 * @param array                       $args Control arguments; passed to WP_Customize_Control
 	 *                                          constructor.
+	 * @return WP_Customize_Control             The instance of the control that was added.
 	 */
 	public function add_control( $id, $args = array() ) {
 		if ( $id instanceof WP_Customize_Control ) {
@@ -1297,7 +1316,9 @@ final class WP_Customize_Manager {
 		} else {
 			$control = new WP_Customize_Control( $this, $id, $args );
 		}
+
 		$this->controls[ $control->id ] = $control;
+		return $control;
 	}
 
 	/**
