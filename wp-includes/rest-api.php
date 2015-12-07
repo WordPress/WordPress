@@ -39,10 +39,10 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 		 * and namespace indexes. If you really need to register a
 		 * non-namespaced route, call `WP_REST_Server::register_route` directly.
 		 */
-		_doing_it_wrong( 'register_rest_route', 'Routes must be namespaced with plugin or theme name and version.', '4.4.0' );
+		_doing_it_wrong( 'register_rest_route', __( 'Routes must be namespaced with plugin or theme name and version.' ), '4.4.0' );
 		return false;
 	} else if ( empty( $route ) ) {
-		_doing_it_wrong( 'register_rest_route', 'Route must be specified.', '4.4.0' );
+		_doing_it_wrong( 'register_rest_route', __( 'Route must be specified.' ), '4.4.0' );
 		return false;
 	}
 
