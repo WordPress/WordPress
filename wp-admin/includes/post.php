@@ -1008,16 +1008,12 @@ function wp_edit_posts_query( $q = false ) {
 		$orderby = $q['orderby'];
 	} elseif ( isset( $q['post_status'] ) && in_array( $q['post_status'], array( 'pending', 'draft' ) ) ) {
 		$orderby = 'modified';
-	} elseif ( ! is_post_type_hierarchical( $post_type ) ) {
-		$orderby = 'date';
 	}
 
 	if ( isset( $q['order'] ) ) {
 		$order = $q['order'];
 	} elseif ( isset( $q['post_status'] ) && 'pending' == $q['post_status'] ) {
 		$order = 'ASC';
-	} else {
-		$order = 'desc';
 	}
 
 	$per_page = "edit_{$post_type}_per_page";
