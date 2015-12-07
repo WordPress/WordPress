@@ -83,14 +83,34 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<div class="col">
 				<div class="embed-container">
-					<?php echo wp_oembed_get( 'https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/' ); ?>
+					<?php
+					$embed1 = get_site_transient( 'about-page-embed-1' );
+					if ( false === $embed1 ) {
+						$embed1 = wp_oembed_get( 'https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/' );
+						if ( ! $embed1 ) {
+							$embed1 = '{{unknown}}';
+						}
+						set_site_transient( 'about-page-embed-1', $embed1 );
+					}
+					echo '{{unknown}}' !== $embed1 ? $embed1 : '';
+					?>
 				</div>
 				<h3><?php _e( 'Embed your WordPress content' ); ?></h3>
 				<p><?php _e( 'Now you can embed your posts on other sites, even other WordPress sites. Simply drop a post URL into the editor and see an instant embed preview, complete with the title, excerpt, and featured image if you&#8217;ve set one. We&#8217;ll even include your site icon and links for comments and sharing.' ); ?></p>
 			</div>
 			<div class="col">
 				<div class="embed-container">
-					<?php echo wp_oembed_get( '' ); ?>
+					<?php
+					$embed2 = get_site_transient( 'about-page-embed-2' );
+					if ( false === $embed2 ) {
+						$embed2 = wp_oembed_get( 'https://cloudup.com/cD3duXiAI5k' );
+						if ( ! $embed2 ) {
+							$embed2 = '{{unknown}}';
+						}
+						set_site_transient( 'about-page-embed-2', $embed2 );
+					}
+					echo '{{unknown}}' !== $embed2 ? $embed2 : '';
+					?>
 				</div>
 				<h3><?php _e( 'Even more embed providers' ); ?></h3>
 				<p><?php _e( 'In addition to post embeds, WordPress 4.4 also adds support for five new oEmbed providers: Cloudup, Reddit&nbsp;Comments, ReverbNation, Speaker&nbsp;Deck, and VideoPress.' ); ?></p>
