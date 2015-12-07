@@ -2405,8 +2405,9 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 		// Point children of this page to its parent, also clean the cache of affected children.
 		$children_query = $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_parent = %d AND post_type = %s", $postid, $post->post_type );
 		$children = $wpdb->get_results( $children_query );
-
-		$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => $post->post_type ) );
+		if ( $children ) {
+			$wpdb->update( $wpdb->posts, $parent_data, $parent_where + array( 'post_type' => $post->post_type ) );
+		}
 	}
 
 	// Do raw query. wp_get_post_revisions() is filtered.
