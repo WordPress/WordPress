@@ -1278,6 +1278,28 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 		return $image;
 	}
 
+	$base_url = trailingslashit( _wp_upload_dir_baseurl() );
+	$image_base_url = $base_url;
+
+	$dirname = dirname( $image_meta['file'] );
+	if ( $dirname !== '.' ) {
+		$image_base_url .= trailingslashit( $dirname );
+	}
+
+	$all_sizes = wp_list_pluck( $image_meta['sizes'], 'file' );
+
+	foreach ( $all_sizes as $key => $file ) {
+		$all_sizes[ $key ] = $image_base_url . $file;
+	}
+
+	// Add the original image.
+	$all_sizes[] = $base_url . $image_meta['file'];
+
+	// Bail early if the image src doesn't match any of the known image sizes.
+	if ( ! in_array( $image_src, $all_sizes ) ) {
+		return $image;
+	}
+
 	$width  = preg_match( '/ width="([0-9]+)"/',  $image, $match_width  ) ? (int) $match_width[1]  : 0;
 	$height = preg_match( '/ height="([0-9]+)"/', $image, $match_height ) ? (int) $match_height[1] : 0;
 
