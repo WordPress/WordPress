@@ -199,7 +199,7 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 			printf( __( '%1$s at %2$s' ),
 				/* translators: comment date format. See http://php.net/date */
 				get_comment_date( __( 'Y/m/d' ), $comment ),
-				get_comment_date( get_option( 'time_format' ), $comment )
+				get_comment_date( __( 'g:i a' ), $comment )
 			);
 		?></a>
 	</td>
