@@ -1037,38 +1037,6 @@ class WP_List_Table {
 	}
 
 	/**
-	 * If 'orderby' is set, return it.
-	 *
-	 * @access protected
-	 * @since 4.4.0
-	 *
-	 * @return string The value of 'orderby' or empty string.
-	 */
-	protected function get_orderby() {
-		if ( isset( $_GET['orderby'] ) ) {
-			return $_GET['orderby'];
-		}
-
-		return '';
-	}
-
-	/**
-	 * If 'order' is 'desc', return it. Else return 'asc'.
-	 *
-	 * @access protected
-	 * @since 4.4.0
-	 *
-	 * @return string 'desc' or 'asc'.
-	 */
-	protected function get_order() {
-		if ( isset( $_GET['order'] ) && 'desc' === $_GET['order'] ) {
-			return 'desc';
-		}
-
-		return 'asc';
-	}
-
-	/**
 	 * Print column headers, accounting for hidden and sortable columns.
 	 *
 	 * @since 3.1.0
@@ -1084,8 +1052,17 @@ class WP_List_Table {
 		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
 		$current_url = remove_query_arg( 'paged', $current_url );
 
-		$current_orderby = $this->get_orderby();
-		$current_order = $this->get_order();
+		if ( isset( $_GET['orderby'] ) ) {
+			$current_orderby = $_GET['orderby'];
+		} else {
+			$current_orderby = '';
+		}
+
+		if ( isset( $_GET['order'] ) && 'desc' === $_GET['order'] ) {
+			$current_order = 'desc';
+		} else {
+			$current_order = 'asc';
+		}
 
 		if ( ! empty( $columns['cb'] ) ) {
 			static $cb_counter = 1;
