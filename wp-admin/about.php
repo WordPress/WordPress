@@ -59,7 +59,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					</div>
 				</div>
 				<div class="col feature-image">
-					<img class="vertical-screen" src="https://cldup.com/M8i_6X5LUL.png" alt="" />
+					<img class="vertical-screen" src="https://cldup.com/5mh4eg1O3o.png" alt="" />
 				</div>
 			</div>
 		</div>
