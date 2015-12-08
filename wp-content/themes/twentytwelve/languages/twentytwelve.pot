@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Twelve 1.8\n"
+"Project-Id-Version: Twenty Twelve 1.9\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentytwelve\n"
-"POT-Creation-Date: 2015-07-27 19:47:39+00:00\n"
+"POT-Creation-Date: 2015-12-08 15:15:37+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -139,7 +139,7 @@ msgstr ""
 msgid "View all posts by %s <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#. #-#-#-#-#  twentytwelve.pot (Twenty Twelve 1.8)  #-#-#-#-#
+#. #-#-#-#-#  twentytwelve.pot (Twenty Twelve 1.9)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:16
 msgid "https://wordpress.org/"
