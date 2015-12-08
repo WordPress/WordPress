@@ -85,23 +85,22 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<div class="embed-container">
 					<blockquote data-secret="OcUe7B6Edh" class="wp-embedded-content"><a href="https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/">New Embeds Feature in WordPress 4.4</a></blockquote><iframe class="wp-embedded-content" sandbox="allow-scripts" security="restricted" style="display:none;" src="https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/embed/#?secret=OcUe7B6Edh" data-secret="OcUe7B6Edh" width="600" height="338" title="Embedded WordPress Post" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
 				</div>
+			</div>
+			<div class="col">
 				<h3><?php _e( 'Embed your WordPress content' ); ?></h3>
 				<p><?php _e( 'Now you can embed your posts on other sites, even other WordPress sites. Simply drop a post URL into the editor and see an instant embed preview, complete with the title, excerpt, and featured image if you&#8217;ve set one. We&#8217;ll even include your site icon and links for comments and sharing.' ); ?></p>
 			</div>
+		</div>
+
+		<hr />
+
+		<div class="feature-section two-col">
 			<div class="col">
-				<div class="embed-container">
-					<?php
-					$embed2 = get_site_transient( 'about-page-embed-2' );
-					if ( false === $embed2 ) {
-						$embed2 = wp_oembed_get( 'https://cloudup.com/cD3duXiAI5k' );
-						if ( ! $embed2 ) {
-							$embed2 = '{{unknown}}';
-						}
-						set_site_transient( 'about-page-embed-2', $embed2 );
-					}
-					echo '{{unknown}}' !== $embed2 ? $embed2 : '';
-					?>
+				<div class="embed-container embed-reverbnation">
+					<iframe width="640" height="150" scrolling="no" frameborder="no" src="https://www.reverbnation.com/widget_code/html_widget/artist_607?widget_id=55&amp;pwc[song_ids]=3731874&amp;pwc[size]=small"></iframe>
 				</div>
+			</div>
+			<div class="col">
 				<h3><?php _e( 'Even more embed providers' ); ?></h3>
 				<p><?php _e( 'In addition to post embeds, WordPress 4.4 also adds support for five new oEmbed providers: Cloudup, Reddit&nbsp;Comments, ReverbNation, Speaker&nbsp;Deck, and VideoPress.' ); ?></p>
 			</div>
