@@ -83,17 +83,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<div class="col">
 				<div class="embed-container">
-					<?php
-					$embed1 = get_site_transient( 'about-page-embed-1' );
-					if ( false === $embed1 ) {
-						$embed1 = wp_oembed_get( 'https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/' );
-						if ( ! $embed1 ) {
-							$embed1 = '{{unknown}}';
-						}
-						set_site_transient( 'about-page-embed-1', $embed1 );
-					}
-					echo '{{unknown}}' !== $embed1 ? $embed1 : '';
-					?>
+					<blockquote data-secret="OcUe7B6Edh" class="wp-embedded-content"><a href="https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/">New Embeds Feature in WordPress 4.4</a></blockquote><iframe class="wp-embedded-content" sandbox="allow-scripts" security="restricted" style="display:none;" src="https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/embed/#?secret=OcUe7B6Edh" data-secret="OcUe7B6Edh" width="600" height="338" title="Embedded WordPress Post" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
 				</div>
 				<h3><?php _e( 'Embed your WordPress content' ); ?></h3>
 				<p><?php _e( 'Now you can embed your posts on other sites, even other WordPress sites. Simply drop a post URL into the editor and see an instant embed preview, complete with the title, excerpt, and featured image if you&#8217;ve set one. We&#8217;ll even include your site icon and links for comments and sharing.' ); ?></p>
