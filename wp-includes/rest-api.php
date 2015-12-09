@@ -324,8 +324,8 @@ function rest_ensure_response( $response ) {
  *
  * @since 4.4.0
  *
- * @param string $function    Function name.
- * @param string $replacement Replacement function name.
+ * @param string $function    The function that was called.
+ * @param string $replacement The function that should have been called.
  * @param string $version     Version.
  */
 function rest_handle_deprecated_function( $function, $replacement, $version ) {
@@ -345,14 +345,14 @@ function rest_handle_deprecated_function( $function, $replacement, $version ) {
  *
  * @since 4.4.0
  *
- * @param string $function    Function name.
- * @param string $replacement Replacement function name.
+ * @param string $function    The function that was called.
+ * @param string $message     A message regarding the change.
  * @param string $version     Version.
  */
-function rest_handle_deprecated_argument( $function, $replacement, $version ) {
-	if ( ! empty( $replacement ) ) {
-		/* translators: 1: function name, 2: WordPress version number, 3: new argument name */
-		$string = sprintf( __( '%1$s (since %2$s; %3$s)' ), $function, $version, $replacement );
+function rest_handle_deprecated_argument( $function, $message, $version ) {
+	if ( ! empty( $message ) ) {
+		/* translators: 1: function name, 2: WordPress version number, 3: error message */
+		$string = sprintf( __( '%1$s (since %2$s; %3$s)' ), $function, $version, $message );
 	} else {
 		/* translators: 1: function name, 2: WordPress version number */
 		$string = sprintf( __( '%1$s (since %2$s; no alternative available)' ), $function, $version );
