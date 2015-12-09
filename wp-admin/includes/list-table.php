@@ -87,7 +87,7 @@ function print_column_headers($screen, $id = true) {
  */
 class _WP_List_Table_Compat extends WP_List_Table {
 	public $_screen;
-	public $_columns;
+	public $_columns = array();
 
 	public function __construct( $screen, $columns = array() ) {
 		if ( is_string( $screen ) )
