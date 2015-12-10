@@ -891,7 +891,7 @@ function wp_get_installed_translations( $type ) {
 	$language_data = array();
 
 	foreach ( $files as $file ) {
-		if ( '.' === $file[0] || is_dir( $file ) ) {
+		if ( '.' === $file[0] || is_dir( WP_LANG_DIR . "$dir/$file" ) ) {
 			continue;
 		}
 		if ( substr( $file, -3 ) !== '.po' ) {
