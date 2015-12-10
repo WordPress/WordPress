@@ -19,7 +19,6 @@ $wp_file_descriptions = array(
 	'editor-style-rtl.css' => __( 'Visual Editor RTL Stylesheet' ),
 	'rtl.css' => __( 'RTL Stylesheet' ),
 	'comments.php' => __( 'Comments' ),
-	'comments-popup.php' => __( 'Popup Comments' ),
 	'footer.php' => __( 'Theme Footer' ),
 	'header.php' => __( 'Theme Header' ),
 	'sidebar.php' => __( 'Sidebar' ),
@@ -45,6 +44,7 @@ $wp_file_descriptions = array(
 	'wp-layout.css' => __( 'Stylesheet' ),
 	'wp-comments.php' => __( 'Comments Template' ),
 	'wp-comments-popup.php' => __( 'Popup Comments Template' ),
+	'comments-popup.php' => __( 'Popup Comments' ),
 );
 
 /**

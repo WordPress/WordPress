@@ -1388,45 +1388,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 }
 
 /**
- * Display the JS popup script to show a comment.
- *
- * If the $file parameter is empty, then the home page is assumed. The defaults
- * for the window are 400px by 400px.
- *
- * For the comment link popup to work, this function has to be called or the
- * normal comment link will be assumed.
- *
- * @global string $wpcommentspopupfile  The URL to use for the popup window.
- * @global int    $wpcommentsjavascript Whether to use JavaScript. Set when function is called.
- *
- * @since 0.71
- *
- * @param int $width  Optional. The width of the popup window. Default 400.
- * @param int $height Optional. The height of the popup window. Default 400.
- * @param string $file Optional. Sets the location of the popup window.
- */
-function comments_popup_script( $width = 400, $height = 400, $file = '' ) {
-	global $wpcommentspopupfile, $wpcommentsjavascript;
-
-	if (empty ($file)) {
-		$wpcommentspopupfile = '';  // Use the index.
-	} else {
-		$wpcommentspopupfile = $file;
-	}
-
-	$wpcommentsjavascript = 1;
-	$javascript = "<script type='text/javascript'>\nfunction wpopen (macagna) {\n    window.open(macagna, '_blank', 'width=$width,height=$height,scrollbars=yes,status=yes');\n}\n</script>\n";
-	echo $javascript;
-}
-
-/**
- * Displays the link to the comments popup window for the current post ID.
- *
- * Is not meant to be displayed on single posts and pages. Should be used
- * on the lists of posts
- *
- * @global string $wpcommentspopupfile  The URL to use for the popup window.
- * @global int    $wpcommentsjavascript Whether to use JavaScript. Set when function is called.
+ * Displays the link to the comments for the current post ID.
  *
  * @since 0.71
  *
@@ -1440,8 +1402,6 @@ function comments_popup_script( $width = 400, $height = 400, $file = '' ) {
  *                          Default false.
  */
 function comments_popup_link( $zero = false, $one = false, $more = false, $css_class = '', $none = false ) {
-	global $wpcommentspopupfile, $wpcommentsjavascript;
-
 	$id = get_the_ID();
 	$title = get_the_title();
 	$number = get_comments_number( $id );
@@ -1478,31 +1438,21 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	}
 
 	echo '<a href="';
-	if ( $wpcommentsjavascript ) {
-		if ( empty( $wpcommentspopupfile ) )
-			$home = home_url();
-		else
-			$home = get_option('siteurl');
-		echo $home . '/' . $wpcommentspopupfile . '?comments_popup=' . $id;
-		echo '" onclick="wpopen(this.href); return false"';
+	if ( 0 == $number ) {
+		$respond_link = get_permalink() . '#respond';
+		/**
+		 * Filter the respond link when a post has no comments.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string $respond_link The default response link.
+		 * @param integer $id The post ID.
+		 */
+		echo apply_filters( 'respond_link', $respond_link, $id );
 	} else {
-		// if comments_popup_script() is not in the template, display simple comment link
-		if ( 0 == $number ) {
-			$respond_link = get_permalink() . '#respond';
-			/**
-			 * Filter the respond link when a post has no comments.
-			 *
-			 * @since 4.4.0
-			 *
-			 * @param string $respond_link The default response link.
-			 * @param integer $id The post ID.
-			 */
-			echo apply_filters( 'respond_link', $respond_link, $id );
-		} else {
-			comments_link();
-		}
-		echo '"';
+		comments_link();
 	}
+	echo '"';
 
 	if ( !empty( $css_class ) ) {
 		echo ' class="'.$css_class.'" ';
@@ -1510,11 +1460,11 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 
 	$attributes = '';
 	/**
-	 * Filter the comments popup link attributes for display.
+	 * Filter the comments link attributes for display.
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $attributes The comments popup link attributes. Default empty.
+	 * @param string $attributes The comments link attributes. Default empty.
 	 */
 	echo apply_filters( 'comments_popup_link_attributes', $attributes );
 

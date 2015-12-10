@@ -700,6 +700,8 @@ $_old_files = array(
 'wp-admin/js/wp-fullscreen.min.js',
 'wp-includes/js/tinymce/wp-mce-help.php',
 'wp-includes/js/tinymce/plugins/wpfullscreen',
+// 4.5
+'wp-includes/theme-compat/comments-popup.php',
 );
 
 /**

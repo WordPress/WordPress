@@ -297,26 +297,6 @@ function is_tax( $taxonomy = '', $term = '' ) {
 }
 
 /**
- * Whether the current URL is within the comments popup window.
- *
- * @since 1.5.0
- *
- * @global WP_Query $wp_query Global WP_Query instance.
- *
- * @return bool
- */
-function is_comments_popup() {
-	global $wp_query;
-
-	if ( ! isset( $wp_query ) ) {
-		_doing_it_wrong( __FUNCTION__, __( 'Conditional query tags do not work before the query is run. Before then, they always return false.' ), '3.1' );
-		return false;
-	}
-
-	return $wp_query->is_comments_popup();
-}
-
-/**
  * Is the query for an existing date archive?
  *
  * @since 1.5.0
@@ -862,6 +842,7 @@ function the_comment() {
  * @link https://codex.wordpress.org/Function_Reference/WP_Query Codex page.
  *
  * @since 1.5.0
+ * @since 4.5.0 Removed the `$comments_popup` property.
  */
 class WP_Query {
 
@@ -1230,15 +1211,6 @@ class WP_Query {
 	public $is_embed = false;
 
 	/**
-	 * Set if query is within comments popup window.
-	 *
-	 * @since 1.5.0
-	 * @access public
-	 * @var bool
-	 */
-	public $is_comments_popup = false;
-
-	/**
 	 * Set if query is paged
 	 *
 	 * @since 1.5.0
@@ -1389,7 +1361,6 @@ class WP_Query {
 		$this->is_trackback = false;
 		$this->is_home = false;
 		$this->is_404 = false;
-		$this->is_comments_popup = false;
 		$this->is_paged = false;
 		$this->is_admin = false;
 		$this->is_attachment = false;
@@ -1441,6 +1412,7 @@ class WP_Query {
 	 * Fills in the query variables, which do not exist within the parameter.
 	 *
 	 * @since 2.1.0
+	 * @since 4.4.0 Removed the `comments_popup` public query variable.
 	 * @access public
 	 *
 	 * @param array $array Defined query variables.
@@ -1476,7 +1448,6 @@ class WP_Query {
 			, 'feed'
 			, 'tb'
 			, 'paged'
-			, 'comments_popup'
 			, 'meta_key'
 			, 'meta_value'
 			, 'preview'
@@ -1511,6 +1482,7 @@ class WP_Query {
 	 *              array key to `$orderby`.
 	 * @since 4.4.0 Introduced `$post_name__in` and `$title` parameters. `$s` was updated to support excluded
 	 *              search terms, by prepending a hyphen.
+	 * @since 4.5.0 Removed the `$comments_popup` parameter.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -1529,7 +1501,6 @@ class WP_Query {
 	 *     @type string       $category_name           Use category slug (not name, this or any children).
 	 *     @type int          $comments_per_page       The number of comments to return per page.
 	 *                                                 Default 'comments_per_page' option.
-	 *     @type int|string   $comments_popup          Whether the query is within the comments popup. Default empty.
 	 *     @type array        $date_query              An associative array of WP_Date_Query arguments.
 	 *                                                 {@see WP_Date_Query::__construct()}
 	 *     @type int          $day                     Day of the month. Default empty. Accepts numbers 1-31.
@@ -1791,9 +1762,6 @@ class WP_Query {
 		if ( '' != $qv['paged'] && ( intval($qv['paged']) > 1 ) )
 			$this->is_paged = true;
 
-		if ( '' != $qv['comments_popup'] )
-			$this->is_comments_popup = true;
-
 		// if we're previewing inside the write screen
 		if ( '' != $qv['preview'] )
 			$this->is_preview = true;
@@ -1811,7 +1779,7 @@ class WP_Query {
 		if ( $this->is_feed && ( !empty($qv['withcomments']) || ( empty($qv['withoutcomments']) && $this->is_singular ) ) )
 			$this->is_comment_feed = true;
 
-		if ( !( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_comments_popup || $this->is_robots ) )
+		if ( !( $this->is_singular || $this->is_archive || $this->is_search || $this->is_feed || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) || $this->is_trackback || $this->is_404 || $this->is_admin || $this->is_robots ) )
 			$this->is_home = true;
 
 		// Correct is_* for page_on_front and page_for_posts
@@ -2770,9 +2738,6 @@ class WP_Query {
 			$q['post_name__in'] = array_map( 'sanitize_title_for_query', $q['post_name__in'] );
 			$where .= " AND $wpdb->posts.post_name IN ('" . implode( "' ,'", $q['post_name__in'] ) . "')";
 		}
-
-		if ( intval($q['comments_popup']) )
-			$q['p'] = absint($q['comments_popup']);
 
 		// If an attachment is requested by number, let it supersede any post number.
 		if ( $q['attachment_id'] )
@@ -4384,11 +4349,14 @@ class WP_Query {
 	 * Whether the current URL is within the comments popup window.
 	 *
 	 * @since 3.1.0
+	 * @deprecated 4.5.0
 	 *
 	 * @return bool
 	 */
 	public function is_comments_popup() {
-		return (bool) $this->is_comments_popup;
+		_deprecated_function( __FUNCTION__, '4.5' );
+
+		return false;
 	}
 
 	/**

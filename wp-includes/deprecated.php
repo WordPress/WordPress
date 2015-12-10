@@ -3635,3 +3635,56 @@ function force_ssl_login( $force = null ) {
 	_deprecated_function( __FUNCTION__, '4.4', 'force_ssl_admin()' );
 	return force_ssl_admin( $force );
 }
+
+/**
+ * Retrieve path of comment popup template in current or parent template.
+ *
+ * @since 1.5.0
+ * @deprecated 4.5.0
+ *
+ * @return string Full path to comments popup template file.
+ */
+function get_comments_popup_template() {
+	_deprecated_function( __FUNCTION__, '4.5' );
+
+	return '';
+}
+
+/**
+ * Whether the current URL is within the comments popup window.
+ *
+ * @since 1.5.0
+ * @deprecated 4.5.0
+ *
+ * @return bool
+ */
+function is_comments_popup() {
+	_deprecated_function( __FUNCTION__, '4.5' );
+
+	return false;
+}
+
+/**
+ * Display the JS popup script to show a comment.
+ *
+ * @since 0.71
+ * @deprecated 4.5.0
+ */
+function comments_popup_script() {
+	_deprecated_function( __FUNCTION__, '4.5' );
+}
+
+/**
+ * Adds element attributes to open links in new windows.
+ *
+ * @since 0.71
+ * @deprecated 4.5.0
+ *
+ * @param string $text Content to replace links to open in a new window.
+ * @return string Content that has filtered links.
+ */
+function popuplinks( $text ) {
+	_deprecated_function( __FUNCTION__, '4.5' );
+	$text = preg_replace('/<a (.+?)>/i', "<a $1 target='_blank' rel='external'>", $text);
+	return $text;
+}

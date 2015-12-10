@@ -466,31 +466,6 @@ function get_attachment_template() {
 }
 
 /**
- * Retrieve path of comment popup template in current or parent template.
- *
- * Checks for comment popup template in current template, if it exists or in the
- * parent template.
- *
- * The template path is filterable via the dynamic {@see '$type_template'} hook,
- * e.g. 'commentspopup_template'.
- *
- * @since 1.5.0
- *
- * @see get_query_template()
- *
- * @return string Full path to comments popup template file.
- */
-function get_comments_popup_template() {
-	$template = get_query_template( 'comments_popup', array( 'comments-popup.php' ) );
-
-	// Backward compat code will be removed in a future release.
-	if ('' == $template)
-		$template = ABSPATH . WPINC . '/theme-compat/comments-popup.php';
-
-	return $template;
-}
-
-/**
  * Retrieve the name of the highest priority template file that exists.
  *
  * Searches in the STYLESHEETPATH before TEMPLATEPATH so that themes which

@@ -2692,23 +2692,6 @@ function iso8601_to_datetime( $date_string, $timezone = 'user' ) {
 }
 
 /**
- * Adds a element attributes to open links in new windows.
- *
- * Comment text in popup windows should be filtered through this. Right now it's
- * a moderately dumb function, ideally it would detect whether a target or rel
- * attribute was already there and adjust its actions accordingly.
- *
- * @since 0.71
- *
- * @param string $text Content to replace links to open in a new window.
- * @return string Content that has filtered links.
- */
-function popuplinks( $text ) {
-	$text = preg_replace('/<a (.+?)>/i', "<a $1 target='_blank' rel='external'>", $text);
-	return $text;
-}
-
-/**
  * Strips out all characters that are not allowable in an email.
  *
  * @since 1.5.0

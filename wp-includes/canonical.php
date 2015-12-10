@@ -17,7 +17,7 @@
  * prevents penalty for duplicate content by redirecting all incoming links to
  * one or the other.
  *
- * Prevents redirection for feeds, trackbacks, searches, comment popup, and
+ * Prevents redirection for feeds, trackbacks, searches, and
  * admin URLs. Does not redirect on non-pretty-permalink-supporting IIS 7+,
  * page/post previews, WP admin, Trackbacks, robots.txt, searches, or on POST
  * requests.
@@ -55,7 +55,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		}
 	}
 
-	if ( is_trackback() || is_search() || is_comments_popup() || is_admin() || is_preview() || is_robots() || ( $is_IIS && !iis7_supports_permalinks() ) ) {
+	if ( is_trackback() || is_search() || is_admin() || is_preview() || is_robots() || ( $is_IIS && !iis7_supports_permalinks() ) ) {
 		return;
 	}
 
