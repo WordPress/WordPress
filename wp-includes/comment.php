@@ -1904,7 +1904,7 @@ function wp_update_comment($commentarr) {
 	}
 
 	// Make sure that the comment post ID is valid (if specified).
-	if ( isset( $commentarr['comment_post_ID'] ) && ! get_post( $commentarr['comment_post_ID'] ) ) {
+	if ( ! empty( $commentarr['comment_post_ID'] ) && ! get_post( $commentarr['comment_post_ID'] ) ) {
 		return 0;
 	}
 
