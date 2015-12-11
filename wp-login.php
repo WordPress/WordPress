@@ -834,7 +834,7 @@ default:
 
 	if ( $interim_login ) {
 		if ( ! $errors->get_error_code() )
-			$errors->add('expired', __('Session expired. Please log in again. You will not move away from this page.'), 'message');
+			$errors->add( 'expired', __( 'Your session has expired. Please log in to continue where you left off.' ), 'message' );
 	} else {
 		// Some parts of this script use the main login form to display a message
 		if		( isset($_GET['loggedout']) && true == $_GET['loggedout'] )
