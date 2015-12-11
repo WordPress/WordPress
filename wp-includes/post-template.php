@@ -169,9 +169,14 @@ function get_the_title( $post = 0 ) {
  *
  * @since 1.5.0
  *
- * @param int|WP_Post $id Optional. Post ID or post object.
+ * @param int|WP_Post $post Optional. Post ID or post object. Default is global $post.
  */
-function the_guid( $id = 0 ) {
+function the_guid( $post = 0 ) {
+	$post = get_post( $post );
+
+	$guid = isset( $post->guid ) ? get_the_guid( $post ) : '';
+	$id   = isset( $post->ID ) ? $post->ID : 0;
+
 	/**
 	 * Filter the escaped Global Unique Identifier (guid) of the post.
 	 *
@@ -179,9 +184,10 @@ function the_guid( $id = 0 ) {
 	 *
 	 * @see get_the_guid()
 	 *
-	 * @param string $post_guid Escaped Global Unique Identifier (guid) of the post.
+	 * @param string $guid Escaped Global Unique Identifier (guid) of the post.
+	 * @param int    $id   The post ID.
 	 */
-	echo apply_filters( 'the_guid', get_the_guid( $id ) );
+	echo apply_filters( 'the_guid', $guid, $id );
 }
 
 /**
@@ -193,20 +199,24 @@ function the_guid( $id = 0 ) {
  *
  * @since 1.5.0
  *
- * @param int|WP_Post $id Optional. Post ID or post object.
+ * @param int|WP_Post $post Optional. Post ID or post object. Default is global $post.
  * @return string
  */
-function get_the_guid( $id = 0 ) {
-	$post = get_post($id);
+function get_the_guid( $post = 0 ) {
+	$post = get_post( $post );
+
+	$guid = isset( $post->guid ) ? $post->guid : '';
+	$id   = isset( $post->ID ) ? $post->ID : 0;
 
 	/**
 	 * Filter the Global Unique Identifier (guid) of the post.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $post_guid Global Unique Identifier (guid) of the post.
+	 * @param string $guid Global Unique Identifier (guid) of the post.
+	 * @param int    $id   The post ID.
 	 */
-	return apply_filters( 'get_the_guid', $post->guid );
+	return apply_filters( 'get_the_guid', $guid, $id );
 }
 
 /**
