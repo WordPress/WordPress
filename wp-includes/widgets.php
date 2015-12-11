@@ -445,16 +445,8 @@ function wp_unregister_sidebar_widget($id) {
 /**
  * Registers widget control callback for customizing options.
  *
- * The options contains the 'height', 'width', and 'id_base' keys. The 'height'
- * option is never used. The 'width' option is the width of the fully expanded
- * control form, but try hard to use the default width. The 'id_base' is for
- * multi-widgets (widgets which allow multiple instances such as the text
- * widget), an id_base must be provided. The widget id will end up looking like
- * `{$id_base}-{$unique_number}`.
- *
  * @since 2.2.0
  *
- * @todo Document `$options` as a hash notation, re: WP_Widget::__construct() cross-reference.
  * @todo `$params` parameter?
  *
  * @global array $wp_registered_widget_controls
@@ -465,7 +457,15 @@ function wp_unregister_sidebar_widget($id) {
  * @param int|string   $id               Sidebar ID.
  * @param string       $name             Sidebar display name.
  * @param callable     $control_callback Run when sidebar is displayed.
- * @param array|string $options          Optional. Widget options. See description above. Default empty array.
+ * @param array $options {
+ *     Optional. Array or string of control options. Default empty array.
+ *
+ *     @type int        $height  Never used. Default 200.
+ *     @type int        $width   Width of the fully expanded control form (but try hard to use the default width).
+ *                               Default 250.
+ *     @type int|string $id_base Required for multi-widgets, i.e widgets that allow multiple instances such as the
+ *                               text widget. The widget id will end up looking like `{$id_base}-{$unique_number}`.
+ * }
  */
 function wp_register_widget_control( $id, $name, $control_callback, $options = array() ) {
 	global $wp_registered_widget_controls, $wp_registered_widget_updates, $wp_registered_widgets, $_wp_deprecated_widgets_callbacks;
