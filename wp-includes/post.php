@@ -1327,7 +1327,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - not_found - Default is No posts found/No pages found.
  * - not_found_in_trash - Default is No posts found in Trash/No pages found in Trash.
  * - parent_item_colon - This string isn't used on non-hierarchical types. In hierarchical
- *                       ones the default is 'Parent Page:'.
+ * ones the default is 'Parent Page:'.
  * - all_items - String for the submenu. Default is All Posts/All Pages.
  * - archives - String for use with archives in nav menus. Default is Post Archives/Page Archives.
  * - insert_into_item - String for the media frame button. Default is Insert into post/Insert into page.
