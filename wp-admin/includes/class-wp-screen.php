@@ -693,7 +693,7 @@ final class WP_Screen {
 	 *                                      Default 'Filter items list'.
 	 *     @type string $heading_pagination Screen reader text for the pagination heading.
 	 *                                      Default 'Items list navigation'.
-	 *     @type string heading_list        Screen reader text for the items list heading.
+	 *     @type string $heading_list       Screen reader text for the items list heading.
 	 *                                      Default 'Items list'.
 	 * }
 	 */
