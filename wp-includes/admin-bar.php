@@ -574,7 +574,7 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 				) );
 			}
 		} elseif ( 'edit-tags' == $current_screen->base
-			&& isset( $tag ) && is_object( $tag )
+			&& isset( $tag ) && is_object( $tag ) && ! is_wp_error( $tag )
 			&& ( $tax = get_taxonomy( $tag->taxonomy ) )
 			&& $tax->public )
 		{

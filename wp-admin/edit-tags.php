@@ -152,6 +152,10 @@ case 'bulk-delete':
 case 'edit':
 	$title = $tax->labels->edit_item;
 
+	if ( ! isset( $_REQUEST['tag_ID'] ) ) {
+		break;
+	}
+
 	$tag_ID = (int) $_REQUEST['tag_ID'];
 
 	$tag = get_term( $tag_ID, $taxonomy, OBJECT, 'edit' );
