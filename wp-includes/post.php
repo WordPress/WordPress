@@ -4122,6 +4122,11 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 		if ( $page->post_name == $revparts[0] ) {
 			$count = 0;
 			$p = $page;
+
+			/*
+			 * Loop through the given path parts from right to left,
+			 * ensuring each matches the post ancestry.
+			 */
 			while ( $p->post_parent != 0 && isset( $pages[ $p->post_parent ] ) ) {
 				$count++;
 				$parent = $pages[ $p->post_parent ];
