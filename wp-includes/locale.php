@@ -187,23 +187,12 @@ class WP_Locale {
 		// See http://php.net/number_format
 
 		/* translators: $thousands_sep argument for http://php.net/number_format, default is , */
-		$thousands_sep = __( 'number_format_thousands_sep' );
-
-		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
-			// Replace space with a non-breaking space to avoid wrapping.
-			$non_breaking_space = html_entity_decode( '&nbsp;', ENT_QUOTES, get_option( 'blog_charset' ) );
-			$thousands_sep = str_replace( ' ', $non_breaking_space, $thousands_sep );
-		} else {
-			// PHP < 5.4.0 does not support multiple bytes in thousands separator.
-			$thousands_sep = str_replace( array( '&nbsp;', '&#160;' ), ' ', $thousands_sep );
-		}
-
-		$this->number_format['thousands_sep'] = ( 'number_format_thousands_sep' === $thousands_sep ) ? ',' : $thousands_sep;
+		$trans = __('number_format_thousands_sep');
+		$this->number_format['thousands_sep'] = ('number_format_thousands_sep' == $trans) ? ',' : $trans;
 
 		/* translators: $dec_point argument for http://php.net/number_format, default is . */
-		$decimal_point = __( 'number_format_decimal_point' );
-
-		$this->number_format['decimal_point'] = ( 'number_format_decimal_point' === $decimal_point ) ? '.' : $decimal_point;
+		$trans = __('number_format_decimal_point');
+		$this->number_format['decimal_point'] = ('number_format_decimal_point' == $trans) ? '.' : $trans;
 
 		// Set text direction.
 		if ( isset( $GLOBALS['text_direction'] ) )
