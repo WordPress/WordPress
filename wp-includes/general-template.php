@@ -1462,8 +1462,6 @@ function get_the_archive_description() {
  *
  * @since 1.0.0
  *
- * @todo Properly document optional arguments as such
- *
  * @param string $url    URL to archive.
  * @param string $text   Archive text description.
  * @param string $format Optional, default is 'html'. Can be 'link', 'option', 'html', or custom.
