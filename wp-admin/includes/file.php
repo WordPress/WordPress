@@ -1011,19 +1011,22 @@ function get_filesystem_method( $args = array(), $context = false, $allow_relaxe
  *
  * @since 2.5.
  *
- * @todo Properly mark optional arguments as such
- *
  * @global string $pagenow
  *
- * @param string $form_post    the URL to post the form to
- * @param string $type         the chosen Filesystem method in use
- * @param bool   $error        if the current request has failed to connect
- * @param string $context      The directory which is needed access to, The write-test will be performed on this directory by get_filesystem_method()
- * @param array  $extra_fields Extra POST fields which should be checked for to be included in the post.
- * @param bool   $allow_relaxed_file_ownership Whether to allow Group/World writable.
- * @return bool False on failure. True on success.
+ * @param string $form_post                    The URL to post the form to.
+ * @param string $type                         Optional. Chosen type of filesystem. Default empty.
+ * @param bool   $error                        Optional. Whether the current request has failed to connect.
+ *                                             Default false.
+ * @param string $context                      Optional. Full path to the directory that is tested
+ *                                             for being writable. Default false.
+ * @param array  $extra_fields                 Optional. Extra POST fields which should be checked for
+ *                                             to be included in the post. Default null.
+ * @param bool   $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable.
+ *                                             Default false.
+ *
+ * @return bool False on failure, true on success.
  */
-function request_filesystem_credentials($form_post, $type = '', $error = false, $context = false, $extra_fields = null, $allow_relaxed_file_ownership = false ) {
+function request_filesystem_credentials( $form_post, $type = '', $error = false, $context = false, $extra_fields = null, $allow_relaxed_file_ownership = false ) {
 	global $pagenow;
 
 	/**
@@ -1034,15 +1037,16 @@ function request_filesystem_credentials($form_post, $type = '', $error = false, 
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param mixed  $output       Form output to return instead. Default empty.
-	 * @param string $form_post    URL to POST the form to.
-	 * @param string $type         Chosen type of filesystem.
-	 * @param bool   $error        Whether the current request has failed to connect.
-	 *                             Default false.
-	 * @param string $context      Full path to the directory that is tested for
-	 *                             being writable.
-	 * @param bool $allow_relaxed_file_ownership Whether to allow Group/World writable.
-	 * @param array  $extra_fields Extra POST fields.
+	 * @param mixed  $output                       Form output to return instead. Default empty.
+	 * @param string $form_post                    The URL to post the form to.
+	 * @param string $type                         Chosen type of filesystem.
+	 * @param bool   $error                        Whether the current request has failed to connect.
+	 *                                             Default false.
+	 * @param string $context                      Full path to the directory that is tested for
+	 *                                             being writable.
+	 * @param bool   $allow_relaxed_file_ownership Whether to allow Group/World writable.
+	 *                                             Default false.
+	 * @param array  $extra_fields                 Extra POST fields.
 	 */
 	$req_cred = apply_filters( 'request_filesystem_credentials', '', $form_post, $type, $error, $context, $extra_fields, $allow_relaxed_file_ownership );
 	if ( '' !== $req_cred )
