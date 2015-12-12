@@ -1467,8 +1467,8 @@ function get_the_archive_description() {
  * @param string $url    URL to archive.
  * @param string $text   Archive text description.
  * @param string $format Optional, default is 'html'. Can be 'link', 'option', 'html', or custom.
- * @param string $before Optional.
- * @param string $after  Optional.
+ * @param string $before Optional. Content to prepend to the description. Default empty.
+ * @param string $after  Optional. Content to append to the description. Default empty.
  * @return string HTML link content for archive.
  */
 function get_archives_link($url, $text, $format = 'html', $before = '', $after = '') {
