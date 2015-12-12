@@ -2169,7 +2169,7 @@ function comment_form( $args = array(), $post_id = null ) {
 					$comment_fields = array( 'comment' => $args['comment_field'] ) + (array) $args['fields'];
 
 					/**
-					 * Filter the comment form fields.
+					 * Filter the comment form fields, including the textarea.
 					 *
 					 * @since 4.4.0
 					 *
