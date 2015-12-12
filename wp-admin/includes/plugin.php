@@ -1350,7 +1350,7 @@ function add_links_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
  * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
-*/
+ */
 function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'edit.php?post_type=page', $page_title, $menu_title, $capability, $menu_slug, $function );
 }
@@ -1370,7 +1370,7 @@ function add_pages_page( $page_title, $menu_title, $capability, $menu_slug, $fun
  * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
  * @param callable $function   The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
-*/
+ */
 function add_comments_page( $page_title, $menu_title, $capability, $menu_slug, $function = '' ) {
 	return add_submenu_page( 'edit-comments.php', $page_title, $menu_title, $capability, $menu_slug, $function );
 }

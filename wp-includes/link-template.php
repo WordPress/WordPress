@@ -685,7 +685,7 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
  * @param string $link_text Descriptive text.
  * @param int    $post_id   Optional post ID. Default to current post.
  * @param string $feed      Optional. Feed format.
-*/
+ */
 function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
 	$url = get_post_comments_feed_link( $post_id, $feed );
 	if ( empty( $link_text ) ) {
@@ -716,7 +716,7 @@ function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
  * @param int    $author_id ID of an author.
  * @param string $feed      Optional. Feed type.
  * @return string Link to the feed for the author specified by $author_id.
-*/
+ */
 function get_author_feed_link( $author_id, $feed = '' ) {
 	$author_id = (int) $author_id;
 	$permalink_structure = get_option('permalink_structure');
@@ -760,7 +760,7 @@ function get_author_feed_link( $author_id, $feed = '' ) {
  * @param int    $cat_id ID of a category.
  * @param string $feed   Optional. Feed type.
  * @return string Link to the feed for the category specified by $cat_id.
-*/
+ */
 function get_category_feed_link( $cat_id, $feed = '' ) {
 	return get_term_feed_link( $cat_id, 'category', $feed );
 }
@@ -777,7 +777,7 @@ function get_category_feed_link( $cat_id, $feed = '' ) {
  * @param string $taxonomy Optional. Taxonomy of $term_id
  * @param string $feed     Optional. Feed type.
  * @return string|false Link to the feed for the term specified by $term_id and $taxonomy.
-*/
+ */
 function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
 	$term_id = ( int ) $term_id;
 
@@ -2719,7 +2719,7 @@ function previous_comments_link( $label = '' ) {
  *
  * @param string|array $args Optional args. See paginate_links().
  * @return string|void Markup for pagination links.
-*/
+ */
 function paginate_comments_links($args = array()) {
 	global $wp_rewrite;
 
@@ -2924,7 +2924,7 @@ function get_shortcut_link() {
  * @param  string|null $scheme Optional. Scheme to give the home url context. Accepts
  *                             'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home url link with optional path appended.
-*/
+ */
 function home_url( $path = '', $scheme = null ) {
 	return get_home_url( null, $path, $scheme );
 }
@@ -2946,7 +2946,7 @@ function home_url( $path = '', $scheme = null ) {
  * @param  string|null $orig_scheme Optional. Scheme to give the home URL context. Accepts
  *                                  'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home URL link with optional path appended.
-*/
+ */
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	global $pagenow;
 
@@ -2998,7 +2998,7 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
  * @param string $path   Optional. Path relative to the site url.
  * @param string $scheme Optional. Scheme to give the site url context. See set_url_scheme().
  * @return string Site url link with optional path appended.
-*/
+ */
 function site_url( $path = '', $scheme = null ) {
 	return get_site_url( null, $path, $scheme );
 }
@@ -3018,7 +3018,7 @@ function site_url( $path = '', $scheme = null ) {
  *                        'http', 'https', 'login', 'login_post', 'admin', or
  *                        'relative'. Default null.
  * @return string Site url link with optional path appended.
-*/
+ */
 function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 	if ( empty( $blog_id ) || !is_multisite() ) {
 		$url = get_option( 'siteurl' );
@@ -3055,7 +3055,7 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
  * @param string $path   Optional path relative to the admin url.
  * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended.
-*/
+ */
 function admin_url( $path = '', $scheme = 'admin' ) {
 	return get_admin_url( null, $path, $scheme );
 }
@@ -3071,7 +3071,7 @@ function admin_url( $path = '', $scheme = 'admin' ) {
  *                        to force those schemes. Default 'admin', which obeys
  *                        {@see force_ssl_admin()} and {@see is_ssl()}.
  * @return string Admin url link with optional path appended.
-*/
+ */
 function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
 	$url = get_site_url($blog_id, 'wp-admin/', $scheme);
 
@@ -3098,7 +3098,7 @@ function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
  * @param string $path   Optional. Path relative to the includes url.
  * @param string $scheme Optional. Scheme to give the includes url context.
  * @return string Includes url link with optional path appended.
-*/
+ */
 function includes_url( $path = '', $scheme = null ) {
 	$url = site_url( '/' . WPINC . '/', $scheme );
 
@@ -3124,7 +3124,7 @@ function includes_url( $path = '', $scheme = null ) {
  *
  * @param string $path Optional. Path relative to the content url.
  * @return string Content url link with optional path appended.
-*/
+ */
 function content_url($path = '') {
 	$url = set_url_scheme( WP_CONTENT_URL );
 
@@ -3156,7 +3156,7 @@ function content_url($path = '') {
  *                        The URL will be relative to its directory. Default empty.
  *                        Typically this is done by passing `__FILE__` as the argument.
  * @return string Plugins URL link with optional paths appended.
-*/
+ */
 function plugins_url( $path = '', $plugin = '' ) {
 
 	$path = wp_normalize_path( $path );
@@ -3206,7 +3206,7 @@ function plugins_url( $path = '', $plugin = '' ) {
  * @param string $path   Optional. Path relative to the site url.
  * @param string $scheme Optional. Scheme to give the site url context. See set_url_scheme().
  * @return string Site url link with optional path appended.
-*/
+ */
 function network_site_url( $path = '', $scheme = null ) {
 	if ( ! is_multisite() )
 		return site_url($path, $scheme);
@@ -3248,7 +3248,7 @@ function network_site_url( $path = '', $scheme = null ) {
  * @param  string $scheme Optional. Scheme to give the home url context. Accepts
  *                        'http', 'https', or 'relative'. Default null.
  * @return string Home url link with optional path appended.
-*/
+ */
 function network_home_url( $path = '', $scheme = null ) {
 	if ( ! is_multisite() )
 		return home_url($path, $scheme);
@@ -3289,7 +3289,7 @@ function network_home_url( $path = '', $scheme = null ) {
  * @param string $path   Optional path relative to the admin url.
  * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended.
-*/
+ */
 function network_admin_url( $path = '', $scheme = 'admin' ) {
 	if ( ! is_multisite() )
 		return admin_url( $path, $scheme );
@@ -3319,7 +3319,7 @@ function network_admin_url( $path = '', $scheme = 'admin' ) {
  * @param string $path   Optional path relative to the admin url.
  * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended.
-*/
+ */
 function user_admin_url( $path = '', $scheme = 'admin' ) {
 	$url = network_site_url('wp-admin/user/', $scheme);
 
@@ -3346,7 +3346,7 @@ function user_admin_url( $path = '', $scheme = 'admin' ) {
  * @param string $path   Optional path relative to the admin url.
  * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended.
-*/
+ */
 function self_admin_url($path = '', $scheme = 'admin') {
 	if ( is_network_admin() )
 		return network_admin_url($path, $scheme);
@@ -3489,7 +3489,7 @@ function get_edit_profile_url( $user_id = 0, $scheme = 'admin' ) {
  * Output rel=canonical for singular queries.
  *
  * @since 2.9.0
-*/
+ */
 function rel_canonical() {
 	if ( ! is_singular() ) {
 		return;

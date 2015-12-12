@@ -224,7 +224,7 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
  * @param string      $action    Expected value for $_POST['action'].
  * @return array On success, returns an associative array of file attributes. On failure, returns
  *               $overrides['upload_error_handler'](&$file, $message ) or array( 'error'=>$message ).
-*/
+ */
 function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	// The default error handler.
 	if ( ! function_exists( 'wp_handle_upload_error' ) ) {

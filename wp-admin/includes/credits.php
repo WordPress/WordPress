@@ -15,7 +15,7 @@
  * @since 3.2.0
  *
  * @return array|false A list of all of the contributors, or false on error.
-*/
+ */
 function wp_credits() {
 	global $wp_version;
 	$locale = get_locale();

@@ -237,7 +237,7 @@ function wp_nav_menu_taxonomy_meta_boxes() {
  *
  * @param int|string $nav_menu_selected_id (id, name or slug) of the currently-selected menu
  * @return string Disabled attribute if at least one menu exists, false if not
-*/
+ */
 function wp_nav_menu_disabled_check( $nav_menu_selected_id ) {
 	global $one_theme_location_no_menus;
 

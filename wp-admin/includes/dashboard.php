@@ -1207,7 +1207,7 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
  * @since 3.0.0
  *
  * @return bool|null True if not multisite, user can't upload files, or the space check option is disabled.
-*/
+ */
 function wp_dashboard_quota() {
 	if ( !is_multisite() || !current_user_can( 'upload_files' ) || get_site_option( 'upload_space_check_disabled' ) )
 		return true;

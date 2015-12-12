@@ -1195,7 +1195,7 @@ function create_user($username, $password, $email) {
  * Unused function.
  *
  * @deprecated 2.5.0
-*/
+ */
 function gzip_compression() {
 	_deprecated_function( __FUNCTION__, '2.5' );
 	return false;
@@ -1613,7 +1613,7 @@ function get_the_author_ID() {
  * @since 0.71
  * @deprecated 2.8.0 Use the_author_meta()
  * @see the_author_meta()
-*/
+ */
 function the_author_ID() {
 	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'ID\')' );
 	the_author_meta('ID');
