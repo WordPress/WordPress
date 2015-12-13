@@ -610,7 +610,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		}
 
 		if ( '1' === $comment->comment_approved ) {
-			$actions['view'] = '<a class="comment-link" href="' . esc_url( get_comment_link( $comment ) ) . '">' . _x( 'View', 'verb' ) . '</a>';
+			$actions['view'] = '<a class="comment-link" href="' . esc_url( get_comment_link( $comment ) ) . '">' . __( 'View' ) . '</a>';
 		}
 
 		/**
