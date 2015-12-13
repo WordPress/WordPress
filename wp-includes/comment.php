@@ -231,13 +231,10 @@ function get_comments( $args = '' ) {
  */
 function get_comment_statuses() {
 	$status = array(
-		'hold'		=> __('Unapproved'),
-		/* translators: comment status  */
-		'approve'	=> _x('Approved', 'adjective'),
-		/* translators: comment status */
-		'spam'		=> _x('Spam', 'adjective'),
-		/* translators: comment status */
-		'trash'		=> _x('Trash', 'adjective'),
+		'hold'		=> __( 'Unapproved' ),
+		'approve'	=> _x( 'Approved', 'comment status' ),
+		'spam'		=> _x( 'Spam', 'comment status' ),
+		'trash'		=> _x( 'Trash', 'comment status' ),
 	);
 
 	return $status;
