@@ -56,10 +56,6 @@
 	min-height: 0;
 }
 
-/*------------------------------------------------------------------------------
-  9.0 - Dashboard
-------------------------------------------------------------------------------*/
-
 #dashboard-widgets-wrap {
 	overflow: hidden;
 	margin: 0 -8px;
@@ -203,23 +199,42 @@
 	color: #464646;
 }
 
+.welcome-panel .welcome-widgets-menus {
+	line-height: 16px;
+}
+
+.welcome-panel .welcome-panel-column ul {
+	margin: 0.8em 0 1em 1em;
+}
+
+.welcome-panel .welcome-panel-column li {
+	line-height: 16px;
+	list-style-type: none;
+	padding: 0 0 8px;
+}
+
 .welcome-panel .welcome-icon {
 	background: transparent !important;
 }
 
-.welcome-panel .welcome-icon:before {
+/* Welcome Panel and Right Now common Icons style */
+
+.welcome-panel .welcome-icon:before,
+#dashboard_right_now li a:before,
+#dashboard_right_now li span:before {
 	color: #82878c;
 	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0 0 0 10px;
-	top: -1px;
 	position: relative;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
 	vertical-align: top;
 }
+
+/* Welcome Panel specific Icons styles */
 
 .welcome-panel .welcome-write-blog:before,
 .welcome-panel .welcome-edit-page:before {
@@ -229,6 +244,7 @@
 
 .welcome-panel .welcome-add-page:before {
 	content: "\f132";
+	top: -1px;
 }
 
 .welcome-panel .welcome-view-site:before {
@@ -251,18 +267,38 @@
 	top: -1px;
 }
 
-.welcome-panel .welcome-widgets-menus {
-	line-height: 16px;
+/* Right Now specific Icons styles */
+
+#dashboard_right_now li a:before,
+#dashboard_right_now li span:before {
+	content: "\f159"; /* generic icon for items added by CPTs ? */
+	padding: 0 0 0 5px;
 }
 
-.welcome-panel .welcome-panel-column ul {
-	margin: 0.8em 0 1em 1em;
+#dashboard_right_now .page-count a:before,
+#dashboard_right_now .page-count span:before {
+	content: "\f105";
 }
 
-.welcome-panel .welcome-panel-column li {
-	line-height: 16px;
-	list-style-type: none;
-	padding: 0 0 8px;
+#dashboard_right_now .post-count a:before,
+#dashboard_right_now .post-count span:before {
+	content: "\f109";
+}
+
+#dashboard_right_now .comment-count a:before {
+	content: "\f101";
+}
+
+#dashboard_right_now .comment-mod-count a:before {
+	content: "\f125";
+}
+
+#dashboard_right_now .storage-count a:before {
+	content: "\f104";
+}
+
+#dashboard_right_now .storage-count.warning a:before {
+	content: "\f153";
 }
 
 /* Dashboard WordPress news */
@@ -369,11 +405,6 @@ body #dashboard-widgets .postbox form .submit {
 
 /* Dashboard right now - Colors */
 
-#dashboard_right_now li a:before,
-#dashboard_right_now li span:before {
-	color: #82878c;
-}
-
 #dashboard_right_now .sub {
 	color: #777;
 	background: #f5f5f5;
@@ -392,49 +423,6 @@ body #dashboard-widgets .postbox form .submit {
 #dashboard_right_now .warning a:before,
 #dashboard_right_now .warning span:before {
 	color: #d54e21;
-}
-
-/* Dashboard right now - Icons */
-#dashboard_right_now li a:before,
-#dashboard_right_now li span:before {
-	content: "\f159";
-	font: normal 20px/1 dashicons;
-	speak: none;
-	display: block;
-	float: right;
-	margin: 0 0 0 5px;
-	padding: 0;
-	text-indent: 0;
-	text-align: center;
-	position: relative;
-	-webkit-font-smoothing: antialiased;
-	text-decoration: none !important;
-}
-
-#dashboard_right_now .page-count a:before,
-#dashboard_right_now .page-count span:before {
-	content: "\f105";
-}
-
-#dashboard_right_now .post-count a:before,
-#dashboard_right_now .post-count span:before {
-	content: "\f109";
-}
-
-#dashboard_right_now .comment-count a:before {
-	content: "\f101";
-}
-
-#dashboard_right_now .comment-mod-count a:before {
-	content: "\f125";
-}
-
-#dashboard_right_now .storage-count a:before {
-	content: "\f104";
-}
-
-#dashboard_right_now .storage-count.warning a:before {
-	content: "\f153";
 }
 
 /* Dashboard Quick Draft */
