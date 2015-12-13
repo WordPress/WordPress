@@ -261,7 +261,9 @@ final class _WP_Editors {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param string $content Default editor content.
+		 * @param string $content        Default editor content.
+		 * @param string $default_editor The default editor for the current user.
+		 *                               Either 'html' or 'tinymce'.
 		 */
 		$content = apply_filters( 'the_editor_content', $content, $default_editor );
 
