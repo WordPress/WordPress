@@ -334,7 +334,7 @@ function attachment_submit_meta_box( $post ) {
 	<?php
 	if ( current_user_can( 'delete_post', $post->ID ) )
 		if ( EMPTY_TRASH_DAYS && MEDIA_TRASH ) {
-			echo "<a class='submitdelete deletion' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
+			echo "<a class='submitdelete deletion' href='" . get_delete_post_link( $post->ID ) . "'>" . _x( 'Trash', 'verb' ) . "</a>";
 		} else {
 			$delete_ays = ! MEDIA_TRASH ? " onclick='return showNotice.warn();'" : '';
 			echo  "<a class='submitdelete deletion'$delete_ays href='" . get_delete_post_link( $post->ID, null, true ) . "'>" . __( 'Delete Permanently' ) . "</a>";
