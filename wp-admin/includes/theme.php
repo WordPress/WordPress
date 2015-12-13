@@ -187,7 +187,7 @@ function get_theme_update_available( $theme ) {
  *
  * @since 3.1.0
  *
- * @param bool $api Optional. Whether try to fetch tags from the WP.org API. Defaults to true.
+ * @param bool $api Optional. Whether try to fetch tags from the WordPress.org API. Defaults to true.
  * @return array Array of features keyed by category with translations keyed by slug.
  */
 function get_theme_feature_list( $api = true ) {
@@ -296,27 +296,87 @@ function get_theme_feature_list( $api = true ) {
 }
 
 /**
- * Retrieve theme installer pages from WordPress Themes API.
+ * Retrieves theme installer pages from the WordPress.org Themes API.
  *
  * It is possible for a theme to override the Themes API result with three
  * filters. Assume this is for themes, which can extend on the Theme Info to
  * offer more choices. This is very powerful and must be used with care, when
  * overriding the filters.
  *
- * The first filter, 'themes_api_args', is for the args and gives the action as
- * the second parameter. The hook for 'themes_api_args' must ensure that an
- * object is returned.
+ * The first filter, {@see 'themes_api_args'}, is for the args and gives the action
+ * as the second parameter. The hook for {@see 'themes_api_args'} must ensure that
+ * an object is returned.
  *
- * The second filter, 'themes_api', is the result that would be returned.
+ * The second filter, {@see 'themes_api'}, allows a plugin to override the WordPress.org
+ * Theme API entirely. If `$action` is 'query_themes', 'theme_information', or 'feature_list',
+ * an object MUST be passed. If `$action` is 'hot_tags`, an array should be passed.
+ *
+ * Finally, the third filter, {@see 'themes_api_result'}, makes it possible to filter the
+ * response object or array, depending on the `$action` type.
+ *
+ * Supported arguments per action:
+ *
+ * | Argument Name      | 'query_themes' | 'theme_information' | 'hot_tags' | 'feature_list'   |
+ * | -------------------| :------------: | :-----------------: | :--------: | :--------------: |
+ * | `$slug`            | No             |  Yes                | No         | No               |
+ * | `$per_page`        | Yes            |  No                 | No         | No               |
+ * | `$page`            | Yes            |  No                 | No         | No               |
+ * | `$number`          | No             |  No                 | Yes        | No               |
+ * | `$search`          | Yes            |  No                 | No         | No               |
+ * | `$tag`             | Yes            |  No                 | No         | No               |
+ * | `$author`          | Yes            |  No                 | No         | No               |
+ * | `$user`            | Yes            |  No                 | No         | No               |
+ * | `$browse`          | Yes            |  No                 | No         | No               |
+ * | `$locale`          | Yes            |  Yes                | No         | No               |
+ * | `$fields`          | Yes            |  Yes                | No         | No               |
  *
  * @since 2.8.0
  *
- * @param string       $action The requested action. Likely values are 'theme_information',
- *                             'feature_list', or 'query_themes'.
- * @param array|object $args   Optional. Arguments to serialize for the Theme Info API.
- * @return mixed
+ * @param string       $action API action to perform: 'query_themes', 'theme_information',
+ *                             'hot_tags' or 'feature_list'.
+ * @param array|object $args   {
+ *     Optional. Array or object of arguments to serialize for the Plugin Info API.
+ *
+ *     @type string  $slug     The plugin slug. Default empty.
+ *     @type int     $per_page Number of themes per page. Default 24.
+ *     @type int     $page     Number of current page. Default 1.
+ *     @type int     $number   Number of tags to be queried.
+ *     @type string  $search   A search term. Default empty.
+ *     @type string  $tag      Tag to filter themes. Default empty.
+ *     @type string  $author   Username of an author to filter themes. Default empty.
+ *     @type string  $user     Username to query for their favorites. Default empty.
+ *     @type string  $browse   Browse view: 'featured', 'popular', 'updated', 'favorites'.
+ *     @type string  $locale   Locale to provide context-sensitive results. Default is the value of get_locale().
+ *     @type array   $fields   {
+ *         Array of fields which should or should not be returned.
+ *
+ *         @type bool $description        Whether to return the theme full description. Default false.
+ *         @type bool $sections           Whether to return the theme readme sections: description, installation,
+ *                                        FAQ, screenshots, other notes, and changelog. Default false.
+ *         @type bool $rating             Whether to return the rating in percent and total number of ratings.
+ *                                        Default false.
+ *         @type bool $ratings            Whether to return the number of rating for each star (1-5). Default false.
+ *         @type bool $downloaded         Whether to return the download count. Default false.
+ *         @type bool $downloadlink       Whether to return the download link for the package. Default false.
+ *         @type bool $last_updated       Whether to return the date of the last update. Default false.
+ *         @type bool $tags               Whether to return the assigned tags. Default false.
+ *         @type bool $homepage           Whether to return the theme homepage link. Default false.
+ *         @type bool $screenshots        Whether to return the screenshots. Default false.
+ *         @type int  $screenshot_count   Number of screenshots to return. Default 1.
+ *         @type bool $screenshot_url     Whether to return the URL of the first screenshot. Default false.
+ *         @type bool $photon_screenshots Whether to return the screenshots via Photon. Default false.
+ *         @type bool $template           Whether to return the slug of the parent theme. Default false.
+ *         @type bool $parent             Whether to return the slug, name and homepage of the parent theme. Default false.
+ *         @type bool $versions           Whether to return the list of all available versions. Default false.
+ *         @type bool $theme_url          Whether to return theme's URL. Default false.
+ *         @type bool $extended_author    Whether to return nicename or nicename and display name. Default false.
+ *     }
+ * }
+ * @return object|array|WP_Error Response object or array on success, WP_Error on failure. See the
+ *         {@link https://developer.wordpress.org/reference/functions/themes_api/ function reference article}
+ *         for more information on the make-up of possible return objects depending on the value of `$action`.
  */
-function themes_api( $action, $args = null ) {
+function themes_api( $action, $args = array() ) {
 
 	if ( is_array( $args ) ) {
 		$args = (object) $args;
@@ -346,15 +406,17 @@ function themes_api( $action, $args = null ) {
 	/**
 	 * Filter whether to override the WordPress.org Themes API.
 	 *
-	 * Returning a value of true to this filter allows a theme to completely
-	 * override the built-in WordPress.org API.
+	 * Passing a non-false value will effectively short-circuit the WordPress.org API request.
+	 *
+	 * If `$action` is 'query_themes', 'theme_information', or 'feature_list', an object MUST
+	 * be passed. If `$action` is 'hot_tags`, an array should be passed.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param bool   $bool   Whether to override the WordPress.org Themes API. Default false.
-	 * @param string $action Requested action. Likely values are 'theme_information',
-	 *                       'feature_list', or 'query_themes'.
-	 * @param object $args   Arguments used to query for installer pages from the Themes API.
+	 * @param false|object|array $override Whether to override the WordPress.org Themes API. Default false.
+	 * @param string             $action   Requested action. Likely values are 'theme_information',
+	 *                                    'feature_list', or 'query_themes'.
+	 * @param object             $args     Arguments used to query for installer pages from the Themes API.
 	 */
 	$res = apply_filters( 'themes_api', false, $action, $args );
 
@@ -463,6 +525,16 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			$parents[ $slug ] = $theme->parent()->get_stylesheet();
 		}
 
+		$customize_action = null;
+		if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) {
+			$customize_action = esc_url( add_query_arg(
+				array(
+					'return' => urlencode( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ),
+				),
+				wp_customize_url( $slug )
+			) );
+		}
+
 		$prepared_themes[ $slug ] = array(
 			'id'           => $slug,
 			'name'         => $theme->display( 'Name' ),
@@ -478,7 +550,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			'update'       => get_theme_update_available( $theme ),
 			'actions'      => array(
 				'activate' => current_user_can( 'switch_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug ), 'switch-theme_' . $slug ) : null,
-				'customize' => ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) ? wp_customize_url( $slug ) : null,
+				'customize' => $customize_action,
 				'delete'   => current_user_can( 'delete_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=delete&amp;stylesheet=' . $encoded_slug ), 'delete-theme_' . $slug ) : null,
 			),
 		);

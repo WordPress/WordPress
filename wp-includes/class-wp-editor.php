@@ -48,10 +48,10 @@ final class _WP_Editors {
 	 *     @type int        $textarea_rows     Number rows in the editor textarea. Default 20.
 	 *     @type string|int $tabindex          Tabindex value to use. Default empty.
 	 *     @type string     $tabfocus_elements The previous and next element ID to move the focus to
-	 *                                         when pressing the Tab key in TinyMCE. Defualt ':prev,:next'.
+	 *                                         when pressing the Tab key in TinyMCE. Default ':prev,:next'.
 	 *     @type string     $editor_css        Intended for extra styles for both Visual and Text editors.
 	 *                                         Should include `<style>` tags, and can use "scoped". Default empty.
-	 *     @type string     $editor_class      Extra classes to add to the editor textarea elemen. Default empty.
+	 *     @type string     $editor_class      Extra classes to add to the editor textarea element. Default empty.
 	 *     @type bool       $teeny             Whether to output the minimal editor config. Examples include
 	 *                                         Press This and the Comment editor. Default false.
 	 *     @type bool       $dfw               Deprecated in 4.1. Since 4.3 used only to enqueue wp-fullscreen-stub.js for backwards compatibility.
@@ -147,7 +147,7 @@ final class _WP_Editors {
 		$editor_class = ' class="' . trim( esc_attr( $set['editor_class'] ) . ' wp-editor-area' ) . '"';
 		$tabindex = $set['tabindex'] ? ' tabindex="' . (int) $set['tabindex'] . '"' : '';
 		$default_editor = 'html';
-		$toolbar = $buttons = $autocomplete = '';
+		$buttons = $autocomplete = '';
 		$editor_id_attr = esc_attr( $editor_id );
 
 		if ( $set['drag_drop_upload'] ) {
@@ -261,7 +261,9 @@ final class _WP_Editors {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param string $content Default editor content.
+		 * @param string $content        Default editor content.
+		 * @param string $default_editor The default editor for the current user.
+		 *                               Either 'html' or 'tinymce'.
 		 */
 		$content = apply_filters( 'the_editor_content', $content, $default_editor );
 
@@ -401,7 +403,8 @@ final class _WP_Editors {
 						'wplink',
 						'wpdialogs',
 						'wptextpattern',
-						'wpview'
+						'wpview',
+						'wpembed',
 					);
 
 					if ( ! self::$has_medialib ) {
@@ -542,6 +545,7 @@ final class _WP_Editors {
 					'wpeditimage_disable_captions' => $no_captions,
 					'wpeditimage_html5_captions' => current_theme_supports( 'html5', 'caption' ),
 					'plugins' => implode( ',', $plugins ),
+					'wp_lang_attr' => get_bloginfo( 'language' )
 				);
 
 				if ( ! empty( $mce_external_plugins ) ) {
@@ -570,7 +574,7 @@ final class _WP_Editors {
 				 *
 				 * @since 2.1.0
 				 *
-				 * @param array $stylesheets Comma-delimited list of stylesheets.
+				 * @param string $stylesheets Comma-delimited list of stylesheets.
 				 */
 				$mce_css = trim( apply_filters( 'mce_css', implode( ',', $mce_css ) ), ' ,' );
 

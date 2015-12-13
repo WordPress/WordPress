@@ -1,21 +1,29 @@
 <?php
 /**
- * Media Library List Table class.
+ * List Table API: WP_Media_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying media items in a list table.
+ *
  * @since 3.1.0
  * @access private
+ *
+ * @see WP_List_Table
  */
 class WP_Media_List_Table extends WP_List_Table {
 	/**
-	 * Store the pending comment count for each post
+	 * Holds the number of pending comments for each post.
 	 *
-	 * @access public
 	 * @since 4.4.0
 	 * @var array
+	 * @access protected
 	 */
-	public $pending_count = array();
+	protected $comment_pending_count = array();
 
 	private $detached;
 
@@ -65,7 +73,7 @@ class WP_Media_List_Table extends WP_List_Table {
 
 		list( $post_mime_types, $avail_post_mime_types ) = wp_edit_attachments_query( $_REQUEST );
 
- 		$this->is_trash = isset( $_REQUEST['attachment-filter'] ) && 'trash' == $_REQUEST['attachment-filter'];
+ 		$this->is_trash = isset( $_REQUEST['attachment-filter'] ) && 'trash' === $_REQUEST['attachment-filter'];
 
  		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
 
@@ -77,8 +85,6 @@ class WP_Media_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 *
-	 * @global wpdb  $wpdb
 	 * @global array $post_mime_types
 	 * @global array $avail_post_mime_types
 	 * @return array
@@ -105,7 +111,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				$filter && 0 === strpos( $filter, 'post_mime_type:' ) &&
 					wp_match_mime_types( $mime_type, str_replace( 'post_mime_type:', '', $filter ) ),
 				true,
-				false 	
+				false
 			);
 
 			$type_links[$mime_type] = sprintf(
@@ -117,11 +123,11 @@ class WP_Media_List_Table extends WP_List_Table {
 		}
 		$type_links['detached'] = '<option value="detached"' . ( $this->detached ? ' selected="selected"' : '' ) . '>' . __( 'Unattached' ) . '</option>';
 
-		if ( $this->is_trash ) {
+		if ( $this->is_trash || ( defined( 'MEDIA_TRASH') && MEDIA_TRASH ) ) {
 			$type_links['trash'] = sprintf(
 				'<option value="trash"%s>%s</option>',
 				selected( 'trash' === $filter, true, false ),
-				__( 'Trash' )
+				_x( 'Trash', 'attachment filter' )
 			);
 		}
 		return $type_links;
@@ -138,7 +144,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				$actions['untrash'] = __( 'Restore' );
 				$actions['delete'] = __( 'Delete Permanently' );
 			} else {
-				$actions['trash'] = __( 'Trash' );
+				$actions['trash'] = _x( 'Trash', 'verb' );
 			}
 		} else {
 			$actions['delete'] = __( 'Delete Permanently' );
@@ -219,6 +225,8 @@ class WP_Media_List_Table extends WP_List_Table {
 		global $mode;
 
 		$views = $this->get_views();
+
+		$this->screen->render_screen_reader_content( 'heading_views' );
 ?>
 <div class="wp-filter">
 	<div class="filter-items">
@@ -285,13 +293,13 @@ class WP_Media_List_Table extends WP_List_Table {
 		$taxonomies = array_filter( $taxonomies, 'taxonomy_exists' );
 
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( 'category' == $taxonomy )
+			if ( 'category' === $taxonomy ) {
 				$column_key = 'categories';
-			elseif ( 'post_tag' == $taxonomy )
+			} elseif ( 'post_tag' === $taxonomy ) {
 				$column_key = 'tags';
-			else
+			} else {
 				$column_key = 'taxonomy-' . $taxonomy;
-
+			}
 			$posts_columns[ $column_key ] = get_taxonomy( $taxonomy )->labels->name;
 		}
 
@@ -426,7 +434,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_date( $post ) {
-		if ( '0000-00-00 00:00:00' == $post->post_date ) {
+		if ( '0000-00-00 00:00:00' === $post->post_date ) {
 			$h_time = __( 'Unpublished' );
 		} else {
 			$m_time = $post->post_date;
@@ -472,8 +480,8 @@ class WP_Media_List_Table extends WP_List_Table {
 					<?php echo $title ?></a><?php
 			} else {
 				echo $title;
-			} ?></strong>,
-			<?php echo get_the_time( __( 'Y/m/d' ) ); ?><br />
+			} ?></strong>
+			<br />
 			<?php
 			if ( $user_can_edit ):
 				$detach_url = add_query_arg( array(
@@ -505,8 +513,8 @@ class WP_Media_List_Table extends WP_List_Table {
 	public function column_comments( $post ) {
 		echo '<div class="post-com-count-wrapper">';
 
-		if ( isset( $this->pending_count[ $post->ID ] ) ) {
-			$pending_comments = $this->pending_count[ $post->ID ];
+		if ( isset( $this->comment_pending_count[ $post->ID ] ) ) {
+			$pending_comments = $this->comment_pending_count[ $post->ID ];
 		} else {
 			$pending_comments = get_pending_comments_num( $post->ID );
 		}
@@ -526,9 +534,9 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @param string  $column_name Current column name.
 	 */
 	public function column_default( $post, $column_name ) {
-		if ( 'categories' == $column_name ) {
+		if ( 'categories' === $column_name ) {
 			$taxonomy = 'category';
-		} elseif ( 'tags' == $column_name ) {
+		} elseif ( 'tags' === $column_name ) {
 			$taxonomy = 'post_tag';
 		} elseif ( 0 === strpos( $column_name, 'taxonomy-' ) ) {
 			$taxonomy = substr( $column_name, 9 );
@@ -582,14 +590,14 @@ class WP_Media_List_Table extends WP_List_Table {
 		$post_ids = wp_list_pluck( $wp_query->posts, 'ID' );
 		reset( $wp_query->posts );
 
-		$this->pending_count = get_pending_comments_num( $post_ids );
+		$this->comment_pending_count = get_pending_comments_num( $post_ids );
 
 		add_filter( 'the_title','esc_html' );
 
 		while ( have_posts() ) : the_post();
 			if (
 				( $this->is_trash && $post->post_status != 'trash' )
-				|| ( ! $this->is_trash && $post->post_status == 'trash' )
+				|| ( ! $this->is_trash && $post->post_status === 'trash' )
 			) {
 				continue;
 			}
@@ -628,7 +636,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID ) . '">' . __( 'Edit' ) . '</a>';
 			if ( current_user_can( 'delete_post', $post->ID ) )
 				if ( EMPTY_TRASH_DAYS && MEDIA_TRASH ) {
-					$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
+					$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID ) . "'>" . _x( 'Trash', 'verb' ) . "</a>";
 				} else {
 					$delete_ays = !MEDIA_TRASH ? " onclick='return showNotice.warn();'" : '';
 					$actions['delete'] = "<a class='submitdelete'$delete_ays href='" . wp_nonce_url( "post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID ) . "'>" . __( 'Delete Permanently' ) . "</a>";
@@ -644,7 +652,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				if ( $this->is_trash )
 					$actions['untrash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=untrash&amp;post=$post->ID", 'untrash-post_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
 				elseif ( EMPTY_TRASH_DAYS && MEDIA_TRASH )
-					$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
+					$actions['trash'] = "<a class='submitdelete' href='" . wp_nonce_url( "post.php?action=trash&amp;post=$post->ID", 'trash-post_' . $post->ID ) . "'>" . _x( 'Trash', 'verb' ) . "</a>";
 				if ( $this->is_trash || !EMPTY_TRASH_DAYS || !MEDIA_TRASH ) {
 					$delete_ays = ( !$this->is_trash && !MEDIA_TRASH ) ? " onclick='return showNotice.warn();'" : '';
 					$actions['delete'] = "<a class='submitdelete'$delete_ays href='" . wp_nonce_url( "post.php?action=delete&amp;post=$post->ID", 'delete-post_' . $post->ID ) . "'>" . __( 'Delete Permanently' ) . "</a>";

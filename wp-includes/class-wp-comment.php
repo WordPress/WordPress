@@ -1,6 +1,6 @@
 <?php
 /**
- * Comments API: WP_Comment object class
+ * Comment API: WP_Comment class
  *
  * @package WordPress
  * @subpackage Comments
@@ -150,6 +150,33 @@ final class WP_Comment {
 	public $user_id = 0;
 
 	/**
+	 * Comment children.
+	 *
+	 * @since 4.4.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $children;
+
+	/**
+	 * Whether children have been populated for this comment object.
+	 *
+	 * @since 4.4.0
+	 * @access protected
+	 * @var bool
+	 */
+	protected $populated_children = false;
+
+	/**
+	 * Post fields.
+	 *
+	 * @since 4.4.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $post_fields = array( 'post_author', 'post_date', 'post_date_gmt', 'post_content', 'post_title', 'post_excerpt', 'post_status', 'comment_status', 'ping_status', 'post_name', 'to_ping', 'pinged', 'post_modified', 'post_modified_gmt', 'post_content_filtered', 'post_parent', 'guid', 'menu_order', 'post_type', 'post_mime_type', 'comment_count' );
+
+	/**
 	 * Retrieves a WP_Comment instance.
 	 *
 	 * @since 4.4.0
@@ -210,5 +237,157 @@ final class WP_Comment {
 	 */
 	public function to_array() {
 		return get_object_vars( $this );
+	}
+
+	/**
+	 * Get the children of a comment.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param array $args {
+	 *     Array of arguments used to pass to get_comments() and determine format.
+	 *
+	 *     @type string $format        Return value format. 'tree' for a hierarchical tree, 'flat' for a flattened array.
+	 *                                 Default 'tree'.
+	 *     @type string $status        Comment status to limit results by. Accepts 'hold' (`comment_status=0`),
+	 *                                 'approve' (`comment_status=1`), 'all', or a custom comment status.
+	 *                                 Default 'all'.
+	 *     @type string $hierarchical  Whether to include comment descendants in the results.
+	 *                                 'threaded' returns a tree, with each comment's children
+	 *                                 stored in a `children` property on the `WP_Comment` object.
+	 *                                 'flat' returns a flat array of found comments plus their children.
+	 *                                 Pass `false` to leave out descendants.
+	 *                                 The parameter is ignored (forced to `false`) when `$fields` is 'ids' or 'counts'.
+	 *                                 Accepts 'threaded', 'flat', or false. Default: 'threaded'.
+	 *     @type string|array $orderby Comment status or array of statuses. To use 'meta_value'
+	 *                                 or 'meta_value_num', `$meta_key` must also be defined.
+	 *                                 To sort by a specific `$meta_query` clause, use that
+	 *                                 clause's array key. Accepts 'comment_agent',
+	 *                                 'comment_approved', 'comment_author',
+	 *                                 'comment_author_email', 'comment_author_IP',
+	 *                                 'comment_author_url', 'comment_content', 'comment_date',
+	 *                                 'comment_date_gmt', 'comment_ID', 'comment_karma',
+	 *                                 'comment_parent', 'comment_post_ID', 'comment_type',
+	 *                                 'user_id', 'comment__in', 'meta_value', 'meta_value_num',
+	 *                                 the value of $meta_key, and the array keys of
+	 *                                 `$meta_query`. Also accepts false, an empty array, or
+	 *                                 'none' to disable `ORDER BY` clause.
+	 * }
+	 * @return array Array of `WP_Comment` objects.
+	 */
+	public function get_children( $args = array() ) {
+		$defaults = array(
+			'format' => 'tree',
+			'status' => 'all',
+			'hierarchical' => 'threaded',
+			'orderby' => '',
+		);
+
+		$_args = wp_parse_args( $args, $defaults );
+		$_args['parent'] = $this->comment_ID;
+
+		if ( is_null( $this->children ) ) {
+			if ( $this->populated_children ) {
+				$this->children = array();
+			} else {
+				$this->children = get_comments( $_args );
+			}
+		}
+
+		if ( 'flat' === $_args['format'] ) {
+			$children = array();
+			foreach ( $this->children as $child ) {
+				$child_args = $_args;
+				$child_args['format'] = 'flat';
+				// get_children() resets this value automatically.
+				unset( $child_args['parent'] );
+
+				$children = array_merge( $children, array( $child ), $child->get_children( $child_args ) );
+			}
+		} else {
+			$children = $this->children;
+		}
+
+		return $children;
+	}
+
+	/**
+	 * Add a child to the comment.
+	 *
+	 * Used by `WP_Comment_Query` when bulk-filling descendants.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param WP_Comment $child Child comment.
+	 */
+	public function add_child( WP_Comment $child ) {
+		$this->children[ $child->comment_ID ] = $child;
+	}
+
+	/**
+	 * Get a child comment by ID.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param int $child_id ID of the child.
+	 * @return WP_Comment|bool Returns the comment object if found, otherwise false.
+	 */
+	public function get_child( $child_id ) {
+		if ( isset( $this->children[ $child_id ] ) ) {
+			return $this->children[ $child_id ];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Set the 'populated_children' flag.
+	 *
+	 * This flag is important for ensuring that calling `get_children()` on a childless comment will not trigger
+	 * unneeded database queries.
+	 *
+	 * @since 4.4.0
+	 */
+	public function populated_children( $set ) {
+		$this->populated_children = (bool) $set;
+	}
+
+	/**
+	 * Check whether a non-public property is set.
+	 *
+	 * If `$name` matches a post field, the comment post will be loaded and the post's value checked.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param string $name Property name.
+	 * @return bool
+	 */
+	public function __isset( $name ) {
+		if ( in_array( $name, $this->post_fields ) && 0 !== (int) $this->comment_post_ID ) {
+			$post = get_post( $this->comment_post_ID );
+			return property_exists( $post, $name );
+		}
+	}
+
+	/**
+	 * Magic getter.
+	 *
+	 * If `$name` matches a post field, the comment post will be loaded and the post's value returned.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param string $name
+	 * @return mixed
+	 */
+	public function __get( $name ) {
+		if ( in_array( $name, $this->post_fields ) ) {
+			$post = get_post( $this->comment_post_ID );
+			return $post->$name;
+		}
 	}
 }

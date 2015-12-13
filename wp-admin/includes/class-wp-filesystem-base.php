@@ -251,8 +251,10 @@ class WP_Filesystem_Base {
 
 		$folder = untrailingslashit($folder);
 
-		if ( $this->verbose )
-			printf( "\n" . __('Looking for %1$s in %2$s') . "<br/>\n", $folder, $base );
+		if ( $this->verbose ) {
+			/* translators: 1: folder to locate, 2: folder to start searching from */
+			printf( "\n" . __( 'Looking for %1$s in %2$s' ) . "<br/>\n", $folder, $base );
+		}
 
 		$folder_parts = explode('/', $folder);
 		$folder_part_keys = array_keys( $folder_parts );
@@ -276,8 +278,10 @@ class WP_Filesystem_Base {
 
 				// Let's try that folder:
 				$newdir = trailingslashit(path_join($base, $key));
-				if ( $this->verbose )
-					printf( "\n" . __('Changing to %s') . "<br/>\n", $newdir );
+				if ( $this->verbose ) {
+					/* translators: %s: directory name */
+					printf( "\n" . __( 'Changing to %s' ) . "<br/>\n", $newdir );
+				}
 
 				// Only search for the remaining path tokens in the directory, not the full path again.
 				$newfolder = implode( '/', array_slice( $folder_parts, $index + 1 ) );
@@ -286,10 +290,13 @@ class WP_Filesystem_Base {
 			}
 		}
 
-		// Only check this as a last resort, to prevent locating the incorrect install. All above procedures will fail quickly if this is the right branch to take.
+		// Only check this as a last resort, to prevent locating the incorrect install.
+		// All above procedures will fail quickly if this is the right branch to take.
 		if (isset( $files[ $last_path ] ) ) {
-			if ( $this->verbose )
-				printf( "\n" . __('Found %s') . "<br/>\n",  $base . $last_path );
+			if ( $this->verbose ) {
+				/* translators: %s: directory name */
+				printf( "\n" . __( 'Found %s' ) . "<br/>\n",  $base . $last_path );
+			}
 			return trailingslashit($base . $last_path);
 		}
 

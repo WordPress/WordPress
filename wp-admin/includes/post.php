@@ -173,7 +173,7 @@ function _wp_translate_postdata( $update = false, $post_data = null ) {
  *
  * @since 1.5.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $post_data Optional.
  * @return int Post ID.
@@ -403,7 +403,7 @@ function edit_post( $post_data = null ) {
  *
  * @since 2.7.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $post_data Optional, the array of post data to process if not provided will use $_POST superglobal.
  * @return array
@@ -659,7 +659,7 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  *
  * @since 2.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $title Post title
  * @param string $content Optional post content
@@ -843,7 +843,7 @@ function delete_meta( $mid ) {
  *
  * @since 1.2.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @return mixed
  */
@@ -876,7 +876,7 @@ function get_post_meta_by_id( $mid ) {
  *
  * @since 1.2.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $postid
  * @return mixed
@@ -1004,15 +1004,17 @@ function wp_edit_posts_query( $q = false ) {
 		$perm = 'readable';
 	}
 
-	if ( isset($q['orderby']) )
+	if ( isset( $q['orderby'] ) ) {
 		$orderby = $q['orderby'];
-	elseif ( isset($q['post_status']) && in_array($q['post_status'], array('pending', 'draft')) )
+	} elseif ( isset( $q['post_status'] ) && in_array( $q['post_status'], array( 'pending', 'draft' ) ) ) {
 		$orderby = 'modified';
+	}
 
-	if ( isset($q['order']) )
+	if ( isset( $q['order'] ) ) {
 		$order = $q['order'];
-	elseif ( isset($q['post_status']) && 'pending' == $q['post_status'] )
+	} elseif ( isset( $q['post_status'] ) && 'pending' == $q['post_status'] ) {
 		$order = 'ASC';
+	}
 
 	$per_page = "edit_{$post_type}_per_page";
 	$posts_per_page = (int) get_user_option( $per_page );
@@ -1068,7 +1070,7 @@ function wp_edit_posts_query( $q = false ) {
  *
  * @since 2.5.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $type
  * @return mixed
@@ -1287,63 +1289,61 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 
 	list($permalink, $post_name) = get_sample_permalink($post->ID, $new_title, $new_slug);
 
+	$view_link = false;
+	$preview_target = '';
+
 	if ( current_user_can( 'read_post', $post->ID ) ) {
-		$ptype = get_post_type_object( $post->post_type );
-		$view_post = $ptype->labels->view_item;
+		if ( 'draft' === $post->post_status ) {
+			$draft_link = set_url_scheme( get_permalink( $post->ID ) );
+			$view_link = get_preview_post_link( $post, array(), $draft_link );
+			$preview_target = " target='wp-preview-{$post->ID}'";
+		} else {
+			if ( 'publish' === $post->post_status || 'attachment' === $post->post_type ) {
+				$view_link = get_permalink( $post );
+			} else {
+				// Allow non-published (private, future) to be viewed at a pretty permalink.
+				$view_link = str_replace( array( '%pagename%', '%postname%' ), $post->post_name, urldecode( $permalink ) );
+			}
+		}
 	}
 
-	if ( 'publish' == get_post_status( $post ) ) {
-		$title = __('Click to edit this part of the permalink');
-	} else {
-		$title = __('Temporary permalink. Click to edit this part.');
-	}
-
+	// Permalinks without a post/page name placeholder don't have anything to edit
 	if ( false === strpos( $permalink, '%postname%' ) && false === strpos( $permalink, '%pagename%' ) ) {
-		$return = '<strong>' . __('Permalink:') . "</strong>\n" . '<span id="sample-permalink" tabindex="-1">' . $permalink . "</span>\n";
+		$return = '<strong>' . __( 'Permalink:' ) . "</strong>\n";
+
+		if ( false !== $view_link ) {
+			$return .= '<a id="sample-permalink" href="' . esc_url( $view_link ) . '"' . $preview_target . '>' . $view_link . "</a>\n";
+		} else {
+			$return .= '<span id="sample-permalink">' . $permalink . "</span>\n";
+		}
+
+		// Encourage a pretty permalink setting
 		if ( '' == get_option( 'permalink_structure' ) && current_user_can( 'manage_options' ) && !( 'page' == get_option('show_on_front') && $id == get_option('page_on_front') ) ) {
 			$return .= '<span id="change-permalinks"><a href="options-permalink.php" class="button button-small" target="_blank">' . __('Change Permalinks') . "</a></span>\n";
 		}
 	} else {
 		if ( function_exists( 'mb_strlen' ) ) {
-			if ( mb_strlen( $post_name ) > 30 ) {
-				$post_name_abridged = mb_substr( $post_name, 0, 14 ) . '&hellip;' . mb_substr( $post_name, -14 );
+			if ( mb_strlen( $post_name ) > 34 ) {
+				$post_name_abridged = mb_substr( $post_name, 0, 16 ) . '&hellip;' . mb_substr( $post_name, -16 );
 			} else {
 				$post_name_abridged = $post_name;
 			}
 		} else {
-			if ( strlen( $post_name ) > 30 ) {
-				$post_name_abridged = substr( $post_name, 0, 14 ) . '&hellip;' . substr( $post_name, -14 );
+			if ( strlen( $post_name ) > 34 ) {
+				$post_name_abridged = substr( $post_name, 0, 16 ) . '&hellip;' . substr( $post_name, -16 );
 			} else {
 				$post_name_abridged = $post_name;
 			}
 		}
 
-		$post_name_html = '<span id="editable-post-name" title="' . $title . '">' . $post_name_abridged . '</span>';
+		$post_name_html = '<span id="editable-post-name">' . $post_name_abridged . '</span>';
 		$display_link = str_replace( array( '%pagename%', '%postname%' ), $post_name_html, urldecode( $permalink ) );
 
-		$return =  '<strong>' . __( 'Permalink:' ) . "</strong>\n";
-		$return .= '<span id="sample-permalink" tabindex="-1">' . $display_link . "</span>\n";
+		$return = '<strong>' . __( 'Permalink:' ) . "</strong>\n";
+		$return .= '<span id="sample-permalink"><a href="' . esc_url( $view_link ) . '"' . $preview_target . '>' . $display_link . "</a></span>\n";
 		$return .= '&lrm;'; // Fix bi-directional text display defect in RTL languages.
-		$return .= '<span id="edit-slug-buttons"><a href="#post_name" class="edit-slug button button-small hide-if-no-js" onclick="editPermalink(' . $id . '); return false;">' . __( 'Edit' ) . "</a></span>\n";
+		$return .= '<span id="edit-slug-buttons"><button type="button" class="edit-slug button button-small hide-if-no-js" aria-label="' . __( 'Edit permalink' ) . '">' . __( 'Edit' ) . "</button></span>\n";
 		$return .= '<span id="editable-post-name-full">' . $post_name . "</span>\n";
-	}
-
-	if ( isset( $view_post ) ) {
-		if ( 'draft' == $post->post_status || 'pending' == $post->post_status ) {
-			$draft_link = set_url_scheme( get_permalink( $post->ID ) );
-			$preview_link = get_preview_post_link( $post, array(), $draft_link );
-			$return .= "<span id='view-post-btn'><a href='" . esc_url( $preview_link ) . "' class='button button-small' target='wp-preview-{$post->ID}'>$view_post</a></span>\n";
-		} else {
-			if ( 'publish' === $post->post_status ) {
-				// View Post button should always go to the saved permalink.
-				$pretty_permalink = get_permalink( $post );
-			} else {
-				// Allow non-published (private, future) to be viewed at a pretty permalink.
-				$pretty_permalink = str_replace( array( '%pagename%', '%postname%' ), $post->post_name, urldecode( $permalink ) );
-			}
-
-			$return .= "<span id='view-post-btn'><a href='" . $pretty_permalink . "' class='button button-small'>$view_post</a></span>\n";
-		}
 	}
 
 	/**
@@ -1390,12 +1390,29 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 	);
 
 	if ( $thumbnail_id && get_post( $thumbnail_id ) ) {
-		$old_content_width = $content_width;
-		$content_width = 266;
-		if ( !isset( $_wp_additional_image_sizes['post-thumbnail'] ) )
-			$thumbnail_html = wp_get_attachment_image( $thumbnail_id, array( $content_width, $content_width ) );
-		else
-			$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'post-thumbnail' );
+		$size = isset( $_wp_additional_image_sizes['post-thumbnail'] ) ? 'post-thumbnail' : array( 266, 266 );
+
+		/**
+		 * Filter the size used to display the post thumbnail image in the 'Featured Image' meta box.
+		 *
+		 * Note: When a theme adds 'post-thumbnail' support, a special 'post-thumbnail'
+		 * image size is registered, which differs from the 'thumbnail' image size
+		 * managed via the Settings > Media screen. See the `$size` parameter description
+		 * for more information on default values.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string|array $size         Post thumbnail image size to display in the meta box. Accepts any valid
+		 *                                   image size, or an array of width and height values in pixels (in that order).
+		 *                                   If the 'post-thumbnail' size is set, default is 'post-thumbnail'. Otherwise,
+		 *                                   default is an array with 266 as both the height and width values.
+		 * @param int          $thumbnail_id Post thumbnail attachment ID.
+		 * @param WP_Post      $post         The post object associated with the thumbnail.
+		 */
+		$size = apply_filters( 'admin_post_thumbnail_size', $size, $thumbnail_id, $post );
+
+		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, $size );
+
 		if ( !empty( $thumbnail_html ) ) {
 			$ajax_nonce = wp_create_nonce( 'set_post_thumbnail-' . $post->ID );
 			$content = sprintf( $set_thumbnail_link,
@@ -1405,7 +1422,6 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 			);
 			$content .= '<p class="hide-if-no-js"><a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail(\'' . $ajax_nonce . '\');return false;">' . esc_html( $post_type_object->labels->remove_featured_image ) . '</a></p>';
 		}
-		$content_width = $old_content_width;
 	}
 
 	/**
@@ -1595,7 +1611,7 @@ function _admin_notice_post_locked() {
 			<div class="post-locked-avatar"></div>
 			<p class="wp-tab-first" tabindex="0">
 			<span class="currently-editing"></span><br />
-			<span class="locked-saving hidden"><img src="<?php echo esc_url( admin_url( 'images/spinner-2x.gif' ) ); ?>" width="16" height="16" /> <?php _e('Saving revision&hellip;'); ?></span>
+			<span class="locked-saving hidden"><img src="<?php echo esc_url( admin_url( 'images/spinner-2x.gif' ) ); ?>" width="16" height="16" alt="" /> <?php _e( 'Saving revision&hellip;' ); ?></span>
 			<span class="locked-saved hidden"><?php _e('Your latest changes were saved as a revision.'); ?></span>
 			</p>
 			<?php
@@ -1742,7 +1758,7 @@ function post_preview() {
  *
  * @param array $post_data Associative array of the submitted post data.
  * @return mixed The value 0 or WP_Error on failure. The saved post ID on success.
- *               Te ID can be the draft post_id or the autosave revision post_id.
+ *               The ID can be the draft post_id or the autosave revision post_id.
  */
 function wp_autosave( $post_data ) {
 	// Back-compat

@@ -29,6 +29,15 @@ require( ABSPATH . WPINC . '/default-constants.php' );
 global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version;
 require( ABSPATH . WPINC . '/version.php' );
 
+/**
+ * If not already configured, `$blog_id` will default to 1 in a single site
+ * configuration. In multisite, it will be overridden by default in ms-settings.php.
+ *
+ * @global int $blog_id
+ * @since 2.0.0
+ */
+global $blog_id;
+
 // Set initial default constants including WP_MEMORY_LIMIT, WP_MAX_MEMORY_LIMIT, WP_DEBUG, SCRIPT_DEBUG, WP_CONTENT_DIR and WP_CACHE.
 wp_initial_constants();
 
@@ -113,27 +122,41 @@ require( ABSPATH . WPINC . '/class-wp-walker.php' );
 require( ABSPATH . WPINC . '/class-wp-ajax-response.php' );
 require( ABSPATH . WPINC . '/formatting.php' );
 require( ABSPATH . WPINC . '/capabilities.php' );
+require( ABSPATH . WPINC . '/class-wp-roles.php' );
+require( ABSPATH . WPINC . '/class-wp-role.php' );
+require( ABSPATH . WPINC . '/class-wp-user.php' );
 require( ABSPATH . WPINC . '/query.php' );
 require( ABSPATH . WPINC . '/date.php' );
 require( ABSPATH . WPINC . '/theme.php' );
 require( ABSPATH . WPINC . '/class-wp-theme.php' );
 require( ABSPATH . WPINC . '/template.php' );
 require( ABSPATH . WPINC . '/user.php' );
+require( ABSPATH . WPINC . '/class-wp-user-query.php' );
 require( ABSPATH . WPINC . '/session.php' );
 require( ABSPATH . WPINC . '/meta.php' );
+require( ABSPATH . WPINC . '/class-wp-meta-query.php' );
 require( ABSPATH . WPINC . '/general-template.php' );
 require( ABSPATH . WPINC . '/link-template.php' );
 require( ABSPATH . WPINC . '/author-template.php' );
 require( ABSPATH . WPINC . '/post.php' );
+require( ABSPATH . WPINC . '/class-walker-page.php' );
+require( ABSPATH . WPINC . '/class-walker-page-dropdown.php' );
+require( ABSPATH . WPINC . '/class-wp-post.php' );
 require( ABSPATH . WPINC . '/post-template.php' );
 require( ABSPATH . WPINC . '/revision.php' );
 require( ABSPATH . WPINC . '/post-formats.php' );
 require( ABSPATH . WPINC . '/post-thumbnail-template.php' );
 require( ABSPATH . WPINC . '/category.php' );
+require( ABSPATH . WPINC . '/class-walker-category.php' );
+require( ABSPATH . WPINC . '/class-walker-category-dropdown.php' );
 require( ABSPATH . WPINC . '/category-template.php' );
 require( ABSPATH . WPINC . '/comment.php' );
+require( ABSPATH . WPINC . '/class-wp-comment.php' );
+require( ABSPATH . WPINC . '/class-wp-comment-query.php' );
+require( ABSPATH . WPINC . '/class-walker-comment.php' );
 require( ABSPATH . WPINC . '/comment-template.php' );
 require( ABSPATH . WPINC . '/rewrite.php' );
+require( ABSPATH . WPINC . '/class-wp-rewrite.php' );
 require( ABSPATH . WPINC . '/feed.php' );
 require( ABSPATH . WPINC . '/bookmark.php' );
 require( ABSPATH . WPINC . '/bookmark-template.php' );
@@ -142,16 +165,33 @@ require( ABSPATH . WPINC . '/cron.php' );
 require( ABSPATH . WPINC . '/deprecated.php' );
 require( ABSPATH . WPINC . '/script-loader.php' );
 require( ABSPATH . WPINC . '/taxonomy.php' );
+require( ABSPATH . WPINC . '/class-wp-term.php' );
+require( ABSPATH . WPINC . '/class-wp-tax-query.php' );
 require( ABSPATH . WPINC . '/update.php' );
 require( ABSPATH . WPINC . '/canonical.php' );
 require( ABSPATH . WPINC . '/shortcodes.php' );
+require( ABSPATH . WPINC . '/embed.php' );
 require( ABSPATH . WPINC . '/class-wp-embed.php' );
+require( ABSPATH . WPINC . '/class-wp-oembed-controller.php' );
 require( ABSPATH . WPINC . '/media.php' );
 require( ABSPATH . WPINC . '/http.php' );
+require( ABSPATH . WPINC . '/class-http.php' );
+require( ABSPATH . WPINC . '/class-wp-http-streams.php' );
+require( ABSPATH . WPINC . '/class-wp-http-curl.php' );
+require( ABSPATH . WPINC . '/class-wp-http-proxy.php' );
+require( ABSPATH . WPINC . '/class-wp-http-cookie.php' );
+require( ABSPATH . WPINC . '/class-wp-http-encoding.php' );
+require( ABSPATH . WPINC . '/class-wp-http-response.php' );
 require( ABSPATH . WPINC . '/widgets.php' );
+require( ABSPATH . WPINC . '/class-wp-widget.php' );
+require( ABSPATH . WPINC . '/class-wp-widget-factory.php' );
 require( ABSPATH . WPINC . '/nav-menu.php' );
 require( ABSPATH . WPINC . '/nav-menu-template.php' );
 require( ABSPATH . WPINC . '/admin-bar.php' );
+require( ABSPATH . WPINC . '/rest-api.php' );
+require( ABSPATH . WPINC . '/rest-api/class-wp-rest-server.php' );
+require( ABSPATH . WPINC . '/rest-api/class-wp-rest-response.php' );
+require( ABSPATH . WPINC . '/rest-api/class-wp-rest-request.php' );
 
 // Load multisite-specific files.
 if ( is_multisite() ) {
@@ -250,7 +290,7 @@ do_action( 'sanitize_comment_cookies' );
 
 /**
  * WordPress Query object
- * @global object $wp_the_query
+ * @global WP_Query $wp_the_query
  * @since 2.0.0
  */
 $GLOBALS['wp_the_query'] = new WP_Query();
@@ -258,35 +298,35 @@ $GLOBALS['wp_the_query'] = new WP_Query();
 /**
  * Holds the reference to @see $wp_the_query
  * Use this global for WordPress queries
- * @global object $wp_query
+ * @global WP_Query $wp_query
  * @since 1.5.0
  */
 $GLOBALS['wp_query'] = $GLOBALS['wp_the_query'];
 
 /**
  * Holds the WordPress Rewrite object for creating pretty URLs
- * @global object $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite
  * @since 1.5.0
  */
 $GLOBALS['wp_rewrite'] = new WP_Rewrite();
 
 /**
  * WordPress Object
- * @global object $wp
+ * @global WP $wp
  * @since 2.0.0
  */
 $GLOBALS['wp'] = new WP();
 
 /**
  * WordPress Widget Factory Object
- * @global object $wp_widget_factory
+ * @global WP_Widget_Factory $wp_widget_factory
  * @since 2.8.0
  */
 $GLOBALS['wp_widget_factory'] = new WP_Widget_Factory();
 
 /**
  * WordPress User Roles
- * @global object $wp_roles
+ * @global WP_Roles $wp_roles
  * @since 2.0.0
  */
 $GLOBALS['wp_roles'] = new WP_Roles();
@@ -315,13 +355,13 @@ require_once( ABSPATH . WPINC . '/locale.php' );
 
 /**
  * WordPress Locale object for loading locale domain date and various strings.
- * @global object $wp_locale
+ * @global WP_Locale $wp_locale
  * @since 2.1.0
  */
 $GLOBALS['wp_locale'] = new WP_Locale();
 
 // Load the functions for the active theme, for both parent and child theme if applicable.
-if ( ! defined( 'WP_INSTALLING' ) || 'wp-activate.php' === $pagenow ) {
+if ( ! wp_installing() || 'wp-activate.php' === $pagenow ) {
 	if ( TEMPLATEPATH !== STYLESHEETPATH && file_exists( STYLESHEETPATH . '/functions.php' ) )
 		include( STYLESHEETPATH . '/functions.php' );
 	if ( file_exists( TEMPLATEPATH . '/functions.php' ) )

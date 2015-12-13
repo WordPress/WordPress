@@ -1,6 +1,16 @@
 <?php
 /**
- * Class for generating SQL clauses that filter a primary query according to metadata keys and values.
+ * Meta API: WP_Meta_Query class
+ *
+ * @package WordPress
+ * @subpackage Meta
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement meta queries for the Meta API.
+ *
+ * Used for generating SQL clauses that filter a primary query according to metadata keys and values.
  *
  * `WP_Meta_Query` is a helper that allows primary query classes, such as {@see WP_Query} and {@see WP_User_Query},
  * to filter their results by object metadata, by generating `JOIN` and `WHERE` subclauses to be attached
@@ -474,7 +484,7 @@ class WP_Meta_Query {
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param array  $clause       Query clause, passed by reference.
 	 * @param array  $parent_query Parent query array.

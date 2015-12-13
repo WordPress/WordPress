@@ -91,7 +91,7 @@ if ( ! isset( $wp_current_filter ) )
  *                               it doesn't need to run through that process.
  *
  * @param string   $tag             The name of the filter to hook the $function_to_add callback to.
- * @param callback $function_to_add The callback to be run when the filter is applied.
+ * @param callable $function_to_add The callback to be run when the filter is applied.
  * @param int      $priority        Optional. Used to specify the order in which the functions
  *                                  associated with a particular action are executed. Default 10.
  *                                  Lower numbers correspond with earlier execution,
@@ -117,7 +117,7 @@ function add_filter( $tag, $function_to_add, $priority = 10, $accepted_args = 1 
  * @global array $wp_filter Stores all of the filters.
  *
  * @param string        $tag               The name of the filter hook.
- * @param callback|bool $function_to_check Optional. The callback to check for. Default false.
+ * @param callable|bool $function_to_check Optional. The callback to check for. Default false.
  * @return false|int If $function_to_check is omitted, returns boolean for whether the hook has
  *                   anything registered. When checking a specific function, the priority of that
  *                   hook is returned, or false if the function is not attached. When using the
@@ -314,7 +314,7 @@ function apply_filters_ref_array($tag, $args) {
  * @global array $merged_filters    Merges the filter hooks using this function.
  *
  * @param string   $tag                The filter hook to which the function to be removed is hooked.
- * @param callback $function_to_remove The name of the function which should be removed.
+ * @param callable $function_to_remove The name of the function which should be removed.
  * @param int      $priority           Optional. The priority of the function. Default 10.
  * @return bool    Whether the function existed before it was removed.
  */
@@ -445,7 +445,7 @@ function doing_action( $action = null ) {
  * @since 1.2.0
  *
  * @param string   $tag             The name of the action to which the $function_to_add is hooked.
- * @param callback $function_to_add The name of the function you wish to be called.
+ * @param callable $function_to_add The name of the function you wish to be called.
  * @param int      $priority        Optional. Used to specify the order in which the functions
  *                                  associated with a particular action are executed. Default 10.
  *                                  Lower numbers correspond with earlier execution,
@@ -613,7 +613,7 @@ function do_action_ref_array($tag, $args) {
  * @see has_filter() has_action() is an alias of has_filter().
  *
  * @param string        $tag               The name of the action hook.
- * @param callback|bool $function_to_check Optional. The callback to check for. Default false.
+ * @param callable|bool $function_to_check Optional. The callback to check for. Default false.
  * @return bool|int If $function_to_check is omitted, returns boolean for whether the hook has
  *                  anything registered. When checking a specific function, the priority of that
  *                  hook is returned, or false if the function is not attached. When using the
@@ -635,7 +635,7 @@ function has_action($tag, $function_to_check = false) {
  * @since 1.2.0
  *
  * @param string   $tag                The action hook to which the function to be removed is hooked.
- * @param callback $function_to_remove The name of the function which should be removed.
+ * @param callable $function_to_remove The name of the function which should be removed.
  * @param int      $priority           Optional. The priority of the function. Default 10.
  * @return bool Whether the function is removed.
  */
@@ -771,7 +771,7 @@ function plugin_dir_url( $file ) {
  * @since 2.0.0
  *
  * @param string   $file     The filename of the plugin including the path.
- * @param callback $function The function hooked to the 'activate_PLUGIN' action.
+ * @param callable $function The function hooked to the 'activate_PLUGIN' action.
  */
 function register_activation_hook($file, $function) {
 	$file = plugin_basename($file);
@@ -794,7 +794,7 @@ function register_activation_hook($file, $function) {
  * @since 2.0.0
  *
  * @param string   $file     The filename of the plugin including the path.
- * @param callback $function The function hooked to the 'deactivate_PLUGIN' action.
+ * @param callable $function The function hooked to the 'deactivate_PLUGIN' action.
  */
 function register_deactivation_hook($file, $function) {
 	$file = plugin_basename($file);
@@ -824,7 +824,7 @@ function register_deactivation_hook($file, $function) {
  * @since 2.7.0
  *
  * @param string   $file     Plugin file.
- * @param callback $callback The callback to run when the hook is called. Must be
+ * @param callable $callback The callback to run when the hook is called. Must be
  *                           a static method or function.
  */
 function register_uninstall_hook( $file, $callback ) {
@@ -900,7 +900,7 @@ function _wp_call_all_hook($args) {
  * @staticvar int $filter_id_count
  *
  * @param string   $tag      Used in counting how many hooks were applied
- * @param callback $function Used for creating unique id
+ * @param callable $function Used for creating unique id
  * @param int|bool $priority Used in counting how many hooks were applied. If === false
  *                           and $function is an object reference, we return the unique
  *                           id only if it already has one, false otherwise.

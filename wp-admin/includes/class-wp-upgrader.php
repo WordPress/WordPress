@@ -1,10 +1,10 @@
 <?php
 /**
- * A File upgrader class for WordPress.
+ * Upgrade API: WP_Upgrader, Plugin_Upgrader, Theme_Upgrader, Language_Pack_Upgrader,
+ * Core_Upgrader, File_Upload_Upgrader, and WP_Automatic_Updater classes
  *
- * This set of classes are designed to be used to upgrade/install a local set of files on the filesystem via the Filesystem Abstraction classes.
- *
- * @link https://core.trac.wordpress.org/ticket/7875 consolidate plugin/theme/core upgrade/install functions
+ * This set of classes are designed to be used to upgrade/install a local set of files
+ * on the filesystem via the Filesystem Abstraction classes.
  *
  * @package WordPress
  * @subpackage Upgrader
@@ -14,10 +14,9 @@
 require ABSPATH . 'wp-admin/includes/class-wp-upgrader-skins.php';
 
 /**
- * WordPress Upgrader class for Upgrading/Installing a local set of files via the Filesystem Abstraction classes from a Zip file.
+ * Core class used for upgrading/installing a local set of files via
+ * the Filesystem Abstraction classes from a Zip file.
  *
- * @package WordPress
- * @subpackage Upgrader
  * @since 2.8.0
  */
 class WP_Upgrader {
@@ -453,7 +452,7 @@ class WP_Upgrader {
 			$source = trailingslashit( $args['source'] ) . trailingslashit( $source_files[0] );
 		} elseif ( count( $source_files ) == 0 ) {
 			return new WP_Error( 'incompatible_archive_empty', $this->strings['incompatible_archive'], $this->strings['no_files'] ); // There are no files?
-		} else { //It's only a single file, the upgrader will use the foldername of this file as the destination folder. foldername is based on zip filename.
+		} else { // It's only a single file, the upgrader will use the folder name of this file as the destination folder. Folder name is based on zip filename.
 			$source = trailingslashit( $args['source'] );
 		}
 
@@ -461,12 +460,14 @@ class WP_Upgrader {
 		 * Filter the source file location for the upgrade package.
 		 *
 		 * @since 2.8.0
+		 * @since 4.4.0 The $hook_extra parameter became available.
 		 *
 		 * @param string      $source        File source location.
-		 * @param string      $remote_source Remove file source location.
+		 * @param string      $remote_source Remote file source location.
 		 * @param WP_Upgrader $this          WP_Upgrader instance.
+		 * @param array       $hook_extra    Extra arguments passed to hooked filters.
 		 */
-		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this );
+		$source = apply_filters( 'upgrader_source_selection', $source, $remote_source, $this, $args['hook_extra'] );
 
 		if ( is_wp_error( $source ) ) {
 			return $source;
@@ -753,11 +754,14 @@ class WP_Upgrader {
 }
 
 /**
- * Plugin Upgrader class for WordPress Plugins, It is designed to upgrade/install plugins from a local zip, remote zip URL, or uploaded zip file.
+ * Core class used for upgrading/installing plugins.
  *
- * @package WordPress
- * @subpackage Upgrader
+ * It is designed to upgrade/install plugins from a local zip, remote zip URL,
+ * or uploaded zip file.
+ *
  * @since 2.8.0
+ *
+ * @see WP_Upgrader
  */
 class Plugin_Upgrader extends WP_Upgrader {
 
@@ -842,6 +846,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->install_strings();
 
 		add_filter('upgrader_source_selection', array($this, 'check_package') );
+		// Clear cache so wp_update_plugins() knows about the new plugin.
+		add_action( 'upgrader_process_complete', 'wp_clean_plugins_cache', 9, 0 );
 
 		$this->run( array(
 			'package' => $package,
@@ -854,6 +860,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 			)
 		) );
 
+		remove_action( 'upgrader_process_complete', 'wp_clean_plugins_cache', 9 );
 		remove_filter('upgrader_source_selection', array($this, 'check_package') );
 
 		if ( ! $this->result || is_wp_error($this->result) )
@@ -874,7 +881,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *
 	 * @param string $plugin The basename path to the main plugin file.
 	 * @param array  $args {
-	 *     Optional. Other arguments for upgrading a plugin package. Defualt empty array.
+	 *     Optional. Other arguments for upgrading a plugin package. Default empty array.
 	 *
 	 *     @type bool $clear_update_cache Whether to clear the plugin updates cache if successful.
 	 *                                    Default true.
@@ -1214,11 +1221,14 @@ class Plugin_Upgrader extends WP_Upgrader {
 }
 
 /**
- * Theme Upgrader class for WordPress Themes, It is designed to upgrade/install themes from a local zip, remote zip URL, or uploaded zip file.
+ * Core class used for upgrading/installing themes.
  *
- * @package WordPress
- * @subpackage Upgrader
+ * It is designed to upgrade/install themes from a local zip, remote zip URL,
+ * or uploaded zip file.
+ *
  * @since 2.8.0
+ *
+ * @see WP_Upgrader
  */
 class Theme_Upgrader extends WP_Upgrader {
 
@@ -1227,7 +1237,7 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @access public
-	 * @var array|WP_Erorr $result
+	 * @var array|WP_Error $result
 	 * @see WP_Upgrader::$result
 	 */
 	public $result;
@@ -1403,6 +1413,8 @@ class Theme_Upgrader extends WP_Upgrader {
 
 		add_filter('upgrader_source_selection', array($this, 'check_package') );
 		add_filter('upgrader_post_install', array($this, 'check_parent_theme_filter'), 10, 3);
+		// Clear cache so wp_update_themes() knows about the new theme.
+		add_action( 'upgrader_process_complete', 'wp_clean_themes_cache', 9, 0 );
 
 		$this->run( array(
 			'package' => $package,
@@ -1415,6 +1427,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			),
 		) );
 
+		remove_action( 'upgrader_process_complete', 'wp_clean_themes_cache', 9 );
 		remove_filter('upgrader_source_selection', array($this, 'check_package') );
 		remove_filter('upgrader_post_install', array($this, 'check_parent_theme_filter'));
 
@@ -1638,17 +1651,35 @@ class Theme_Upgrader extends WP_Upgrader {
 			return $source;
 
 		// A proper archive should have a style.css file in the single subdirectory
-		if ( ! file_exists( $working_directory . 'style.css' ) )
-			return new WP_Error( 'incompatible_archive_theme_no_style', $this->strings['incompatible_archive'], __( 'The theme is missing the <code>style.css</code> stylesheet.' ) );
+		if ( ! file_exists( $working_directory . 'style.css' ) ) {
+			return new WP_Error( 'incompatible_archive_theme_no_style', $this->strings['incompatible_archive'],
+				/* translators: %s: style.css */
+				sprintf( __( 'The theme is missing the %s stylesheet.' ),
+					'<code>style.css</code>'
+				)
+			);
+		}
 
 		$info = get_file_data( $working_directory . 'style.css', array( 'Name' => 'Theme Name', 'Template' => 'Template' ) );
 
-		if ( empty( $info['Name'] ) )
-			return new WP_Error( 'incompatible_archive_theme_no_name', $this->strings['incompatible_archive'], __( "The <code>style.css</code> stylesheet doesn't contain a valid theme header." ) );
+		if ( empty( $info['Name'] ) ) {
+			return new WP_Error( 'incompatible_archive_theme_no_name', $this->strings['incompatible_archive'],
+				/* translators: %s: style.css */
+				sprintf( __( 'The %s stylesheet doesn&#8217;t contain a valid theme header.' ),
+					'<code>style.css</code>'
+				)
+			);
+		}
 
 		// If it's not a child theme, it must have at least an index.php to be legit.
-		if ( empty( $info['Template'] ) && ! file_exists( $working_directory . 'index.php' ) )
-			return new WP_Error( 'incompatible_archive_theme_no_index', $this->strings['incompatible_archive'], __( 'The theme is missing the <code>index.php</code> file.' ) );
+		if ( empty( $info['Template'] ) && ! file_exists( $working_directory . 'index.php' ) ) {
+			return new WP_Error( 'incompatible_archive_theme_no_index', $this->strings['incompatible_archive'],
+				/* translators: %s: index.php */
+				sprintf( __( 'The theme is missing the %s file.' ),
+					'<code>index.php</code>'
+				)
+			);
+		}
 
 		return $source;
 	}
@@ -1778,11 +1809,12 @@ class Theme_Upgrader extends WP_Upgrader {
 }
 
 /**
- * Language pack upgrader, for updating translations of plugins, themes, and core.
+ * Core class used for updating/installing language packs (translations)
+ * for plugins, themes, and core.
  *
- * @package WordPress
- * @subpackage Upgrader
  * @since 3.7.0
+ *
+ * @see WP_Upgrader
  */
 class Language_Pack_Upgrader extends WP_Upgrader {
 
@@ -1806,16 +1838,17 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	public $bulk = true;
 
 	/**
-	 * Asynchronously upgrade language packs after other upgrades have been made.
+	 * Asynchronously upgrades language packs after other upgrades have been made.
 	 *
 	 * Hooked to the {@see 'upgrader_process_complete'} action by default.
 	 *
 	 * @since 3.7.0
 	 * @access public
-	 *
 	 * @static
 	 *
-	 * @param false|WP_Upgrader $upgrader
+	 * @param false|WP_Upgrader $upgrader Optional. WP_Upgrader instance or false. If `$upgrader` is
+	 *                                    a Language_Pack_Upgrader instance, the method will bail to
+	 *                                    avoid recursion. Otherwise unused. Default false.
 	 */
 	public static function async_upgrade( $upgrader = false ) {
 		// Avoid recursion.
@@ -1829,8 +1862,10 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			return;
 		}
 
-		// Avoid messing with VCS installs, at least for now.
-		// Noted: this is not the ideal way to accomplish this.
+		/*
+		 * Avoid messing with VCS installs, at least for now.
+		 * Noted: this is not the ideal way to accomplish this.
+		 */
 		$check_vcs = new WP_Automatic_Updater;
 		if ( $check_vcs->is_vcs_checkout( WP_CONTENT_DIR ) ) {
 			return;
@@ -1858,9 +1893,14 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			return;
 		}
 
-		$skin = new Language_Pack_Upgrader_Skin( array(
-			'skip_header_footer' => true,
-		) );
+		// Re-use the automatic upgrader skin if the parent upgrader is using it.
+		if ( $upgrader && $upgrader->skin instanceof Automatic_Upgrader_Skin ) {
+			$skin = $upgrader->skin;
+		} else {
+			$skin = new Language_Pack_Upgrader_Skin( array(
+				'skip_header_footer' => true,
+			) );
+		}
 
 		$lp_upgrader = new Language_Pack_Upgrader( $skin );
 		$lp_upgrader->bulk_upgrade( $language_updates );
@@ -2064,9 +2104,15 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 				$mo = true;
 		}
 
-		if ( ! $mo || ! $po )
+		if ( ! $mo || ! $po ) {
 			return new WP_Error( 'incompatible_archive_pomo', $this->strings['incompatible_archive'],
-				__( 'The language pack is missing either the <code>.po</code> or <code>.mo</code> files.' ) );
+				/* translators: 1: .po 2: .mo */
+				sprintf( __( 'The language pack is missing either the %1$s or %2$s files.' ),
+					'<code>.po</code>',
+					'<code>.mo</code>'
+				)
+			);
+		}
 
 		return $source;
 	}
@@ -2103,11 +2149,14 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 }
 
 /**
- * Core Upgrader class for WordPress. It allows for WordPress to upgrade itself in combination with the wp-admin/includes/update-core.php file
+ * Core class used for updating core.
  *
- * @package WordPress
- * @subpackage Upgrader
+ * It allows for WordPress to upgrade itself in combination with
+ * the wp-admin/includes/update-core.php file.
+ *
  * @since 2.8.0
+ *
+ * @see WP_Upgrader
  */
 class Core_Upgrader extends WP_Upgrader {
 
@@ -2135,7 +2184,7 @@ class Core_Upgrader extends WP_Upgrader {
 	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
-	 * @global callback           $_wp_filesystem_direct_method
+	 * @global callable           $_wp_filesystem_direct_method
 	 *
 	 * @param object $current Response object for whether WordPress is current.
 	 * @param array  $args {
@@ -2409,7 +2458,7 @@ class Core_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Compare the disk file checksums agains the expected checksums.
+	 * Compare the disk file checksums against the expected checksums.
 	 *
 	 * @since 3.7.0
 	 * @access public
@@ -2440,10 +2489,11 @@ class Core_Upgrader extends WP_Upgrader {
 }
 
 /**
- * Upgrade Skin helper for File uploads. This class handles the upload process and passes it as if it's a local file to the Upgrade/Installer functions.
+ * Core class used for handling file uploads.
  *
- * @package WordPress
- * @subpackage Upgrader
+ * This class handles the upload process and passes it as if it's a local file
+ * to the Upgrade/Installer functions.
+ *
  * @since 2.8.0
  */
 class File_Upload_Upgrader {
@@ -2555,10 +2605,8 @@ class File_Upload_Upgrader {
 }
 
 /**
- * The WordPress automatic background updater.
+ * Core class used for handling automatic background updates.
  *
- * @package WordPress
- * @subpackage Upgrader
  * @since 3.7.0
  */
 class WP_Automatic_Updater {
@@ -2582,7 +2630,7 @@ class WP_Automatic_Updater {
 		if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS )
 			return true;
 
-		if ( defined( 'WP_INSTALLING' ) )
+		if ( wp_installing() )
 			return true;
 
 		// More fine grained control can be done through the WP_AUTO_UPDATE_CORE constant and filters.
@@ -2671,7 +2719,7 @@ class WP_Automatic_Updater {
 	 * @since 3.7.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $type    The type of update being checked: 'core', 'theme',
 	 *                        'plugin', 'translation'.
@@ -2831,6 +2879,18 @@ class WP_Automatic_Updater {
 		// Determine whether we can and should perform this update.
 		if ( ! $this->should_update( $type, $item, $context ) )
 			return false;
+
+		/**
+		 * Fires immediately prior to an auto-update.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string $type    The type of update being checked: 'core', 'theme', 'plugin', or 'translation'.
+		 * @param object $item    The update offer.
+		 * @param string $context The filesystem context (a path) against which filesystem access and status
+		 *                        should be checked.
+		 */
+		do_action( 'pre_auto_update', $type, $item, $context );
 
 		$upgrader_item = $item;
 		switch ( $type ) {

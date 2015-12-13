@@ -11,6 +11,8 @@
  * @see wp_debug_mode()
  *
  * @since 3.0.0
+ *
+ * @global int $blog_id
  */
 function wp_initial_constants() {
 	global $blog_id;
@@ -28,13 +30,6 @@ function wp_initial_constants() {
 		define( 'WP_MAX_MEMORY_LIMIT', '256M' );
 	}
 
-	/**
-	 * The $blog_id global, which you can change in the config allows you to create a simple
-	 * multiple blog installation using just one WordPress and changing $blog_id around.
-	 *
-	 * @global int $blog_id
-	 * @since 2.0.0
-	 */
 	if ( ! isset($blog_id) )
 		$blog_id = 1;
 
@@ -104,6 +99,9 @@ function wp_initial_constants() {
 	 * YEAR_IN_SECONDS does not take leap years into account.
 	 *
 	 * If you need more accuracy please consider using the DateTime class (http://php.net/manual/class.datetime.php).
+	 *
+	 * @since 3.5.0
+	 * @since 4.4.0 Introduced `MONTH_IN_SECONDS`.
 	 */
 	define( 'MINUTE_IN_SECONDS', 60 );
 	define( 'HOUR_IN_SECONDS',   60 * MINUTE_IN_SECONDS );
@@ -111,6 +109,17 @@ function wp_initial_constants() {
 	define( 'WEEK_IN_SECONDS',    7 * DAY_IN_SECONDS    );
 	define( 'MONTH_IN_SECONDS',  30 * DAY_IN_SECONDS    );
 	define( 'YEAR_IN_SECONDS',  365 * DAY_IN_SECONDS    );
+	/**#@-*/
+
+	/**#@+
+	 * Constants for expressing human-readable data sizes in their respective number of bytes.
+	 *
+	 * @since 4.4.0
+	 */
+	define( 'KB_IN_BYTES', 1024 );
+	define( 'MB_IN_BYTES', 1024 * KB_IN_BYTES );
+	define( 'GB_IN_BYTES', 1024 * MB_IN_BYTES );
+	define( 'TB_IN_BYTES', 1024 * GB_IN_BYTES );
 	/**#@-*/
 }
 
@@ -123,7 +132,7 @@ function wp_initial_constants() {
  */
 function wp_plugin_directory_constants() {
 	if ( !defined('WP_CONTENT_URL') )
-		define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
+		define( 'WP_CONTENT_URL', site_url() . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
 
 	/**
 	 * Allows for the plugins directory to be moved from the default location.
@@ -339,10 +348,12 @@ function wp_templating_constants() {
 	/**
 	 * Slug of the default theme for this install.
 	 * Used as the default theme when installing new sites.
-	 * Will be used as the fallback if the current theme doesn't exist.
+	 * It will be used as the fallback if the current theme doesn't exist.
+	 *
 	 * @since 3.0.0
+	 * @see WP_Theme::get_core_default_theme()
 	 */
 	if ( !defined('WP_DEFAULT_THEME') )
-		define( 'WP_DEFAULT_THEME', 'twentyfifteen' );
+		define( 'WP_DEFAULT_THEME', 'twentysixteen' );
 
 }

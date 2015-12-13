@@ -75,12 +75,22 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 			$this->link = @ftp_connect($this->options['hostname'], $this->options['port'], FS_CONNECT_TIMEOUT);
 
 		if ( ! $this->link ) {
-			$this->errors->add('connect', sprintf(__('Failed to connect to FTP Server %1$s:%2$s'), $this->options['hostname'], $this->options['port']));
+			$this->errors->add( 'connect',
+				/* translators: %s: hostname:port */
+				sprintf( __( 'Failed to connect to FTP Server %s' ),
+					$this->options['hostname'] . ':' . $this->options['port']
+				)
+			);
 			return false;
 		}
 
-		if ( ! @ftp_login($this->link,$this->options['username'], $this->options['password']) ) {
-			$this->errors->add('auth', sprintf(__('Username/Password incorrect for %s'), $this->options['username']));
+		if ( ! @ftp_login( $this->link,$this->options['username'], $this->options['password'] ) ) {
+			$this->errors->add( 'auth',
+				/* translators: %s: username */
+				sprintf( __( 'Username/Password incorrect for %s' ),
+					$this->options['username']
+				)
+			);
 			return false;
 		}
 
@@ -93,21 +103,30 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	}
 
 	/**
+	 * Retrieves the file contents.
+	 *
+	 * @since 2.5.0
 	 * @access public
 	 *
-	 * @param string $file
-	 * @return false|string
+	 * @param string $file Filename.
+	 * @return string|false File contents on success, false if no temp file could be opened,
+	 *                      or if the file couldn't be retrieved.
 	 */
 	public function get_contents( $file ) {
 		$tempfile = wp_tempnam($file);
 		$temp = fopen($tempfile, 'w+');
 
-		if ( ! $temp )
+		if ( ! $temp ) {
+			unlink( $tempfile );
 			return false;
-
-		if ( ! @ftp_fget($this->link, $temp, $file, FTP_BINARY ) )
+		}
+		
+		if ( ! @ftp_fget( $this->link, $temp, $file, FTP_BINARY ) ) {
+			fclose( $temp );
+			unlink( $tempfile );
 			return false;
-
+		}
+		
 		fseek( $temp, 0 ); // Skip back to the start of the file being written to
 		$contents = '';
 
@@ -312,14 +331,16 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @param string $file
 	 * @return bool
 	 */
-	public function exists($file) {
-		$list = @ftp_rawlist( $this->link, '-a ' . $file );
+	public function exists( $file ) {
+		$path = dirname( $file );
+		$filename = basename( $file );
 
-		if ( empty( $list ) && $this->is_dir( $file ) ) {
-			return true; // File is an empty directory.
+		$file_list = @ftp_nlist( $this->link, '-a ' . $path );
+		if ( $file_list ) {
+			$file_list = array_map( 'basename', $file_list );
 		}
 
-		return !empty($list); //empty list = no file, so invert.
+		return $file_list && in_array( $filename, $file_list );
 	}
 
 	/**
@@ -514,8 +535,9 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		}
 
 		// Replace symlinks formatted as "source -> target" with just the source name
-		if ( $b['islink'] )
+		if ( isset( $b['islink'] ) && $b['islink'] ) {
 			$b['name'] = preg_replace( '/(\s*->\s*.*)$/', '', $b['name'] );
+		}
 
 		return $b;
 	}

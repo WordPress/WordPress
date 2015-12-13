@@ -1,10 +1,9 @@
 <?php
 /**
- * Administration hooks
+ * Administration API: Default admin hooks
  *
  * @package WordPress
- * @subpackage Hooks
- *
+ * @subpackage Administration
  * @since 4.3.0
  */
 

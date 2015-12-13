@@ -1,47 +1,47 @@
 <?php
 /**
- * Recent_Posts widget class
+ * Widget API: WP_Widget_Recent_Posts class
  *
- * @since 2.8.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a Recent Posts widget.
+ *
+ * @since 2.8.0
+ *
+ * @see WP_Widget
  */
 class WP_Widget_Recent_Posts extends WP_Widget {
 
+	/**
+	 * Sets up a new Recent Posts widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array('classname' => 'widget_recent_entries', 'description' => __( "Your site&#8217;s most recent Posts.") );
 		parent::__construct('recent-posts', __('Recent Posts'), $widget_ops);
 		$this->alt_option_name = 'widget_recent_entries';
-
-		add_action( 'save_post', array($this, 'flush_widget_cache') );
-		add_action( 'deleted_post', array($this, 'flush_widget_cache') );
-		add_action( 'switch_theme', array($this, 'flush_widget_cache') );
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $instance
+	 * Outputs the content for the current Recent Posts widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current Recent Posts widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		$cache = array();
-		if ( ! $this->is_preview() ) {
-			$cache = wp_cache_get( 'widget_recent_posts', 'widget' );
-		}
-
-		if ( ! is_array( $cache ) ) {
-			$cache = array();
-		}
-
 		if ( ! isset( $args['widget_id'] ) ) {
 			$args['widget_id'] = $this->id;
 		}
-
-		if ( isset( $cache[ $args['widget_id'] ] ) ) {
-			echo $cache[ $args['widget_id'] ];
-			return;
-		}
-
-		ob_start();
 
 		$title = ( ! empty( $instance['title'] ) ) ? $instance['title'] : __( 'Recent Posts' );
 
@@ -70,7 +70,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		) ) );
 
 		if ($r->have_posts()) :
-?>
+		?>
 		<?php echo $args['before_widget']; ?>
 		<?php if ( $title ) {
 			echo $args['before_title'] . $title . $args['after_title'];
@@ -86,48 +86,39 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		<?php endwhile; ?>
 		</ul>
 		<?php echo $args['after_widget']; ?>
-<?php
+		<?php
 		// Reset the global $the_post as this query will have stomped on it
 		wp_reset_postdata();
 
 		endif;
-
-		if ( ! $this->is_preview() ) {
-			$cache[ $args['widget_id'] ] = ob_get_flush();
-			wp_cache_set( 'widget_recent_posts', $cache, 'widget' );
-		} else {
-			ob_end_flush();
-		}
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating the settings for the current Recent Posts widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 		$instance['number'] = (int) $new_instance['number'];
 		$instance['show_date'] = isset( $new_instance['show_date'] ) ? (bool) $new_instance['show_date'] : false;
-		$this->flush_widget_cache();
-
-		$alloptions = wp_cache_get( 'alloptions', 'options' );
-		if ( isset($alloptions['widget_recent_entries']) )
-			delete_option('widget_recent_entries');
-
 		return $instance;
 	}
 
 	/**
+	 * Outputs the settings form for the Recent Posts widget.
+	 *
+	 * @since 2.8.0
 	 * @access public
-	 */
-	public function flush_widget_cache() {
-		wp_cache_delete('widget_recent_posts', 'widget');
-	}
-
-	/**
-	 * @param array $instance
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 		$title     = isset( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
@@ -138,7 +129,7 @@ class WP_Widget_Recent_Posts extends WP_Widget {
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo $title; ?>" /></p>
 
 		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of posts to show:' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
+		<input class="tiny-text" id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="number" step="1" min="1" value="<?php echo $number; ?>" size="3" /></p>
 
 		<p><input class="checkbox" type="checkbox"<?php checked( $show_date ); ?> id="<?php echo $this->get_field_id( 'show_date' ); ?>" name="<?php echo $this->get_field_name( 'show_date' ); ?>" />
 		<label for="<?php echo $this->get_field_id( 'show_date' ); ?>"><?php _e( 'Display post date?' ); ?></label></p>

@@ -36,6 +36,12 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://wordpress.org/support/forum/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+get_current_screen()->set_screen_reader_content( array(
+	'heading_views'      => __( 'Filter site users list' ),
+	'heading_pagination' => __( 'Site users list navigation' ),
+	'heading_list'       => __( 'Site users list' ),
+) );
+
 $_SERVER['REQUEST_URI'] = remove_query_arg( 'update', $_SERVER['REQUEST_URI'] );
 $referer = remove_query_arg( 'update', wp_get_referer() );
 
@@ -198,7 +204,7 @@ var current_site_id = <?php echo $id; ?>;
 <div class="wrap">
 <h1 id="edit-site"><?php echo $title; ?></h1>
 <p class="edit-site-actions"><a href="<?php echo esc_url( get_home_url( $id, '/' ) ); ?>"><?php _e( 'Visit' ); ?></a> | <a href="<?php echo esc_url( get_admin_url( $id ) ); ?>"><?php _e( 'Dashboard' ); ?></a></p>
-<h3 class="nav-tab-wrapper">
+<h2 class="nav-tab-wrapper nav-tab-small">
 <?php
 $tabs = array(
 	'site-info'     => array( 'label' => __( 'Info' ),     'url' => 'site-info.php'     ),
@@ -211,7 +217,7 @@ foreach ( $tabs as $tab_id => $tab ) {
 	echo '<a href="' . $tab['url'] . '?id=' . $id .'" class="nav-tab' . $class . '">' . esc_html( $tab['label'] ) . '</a>';
 }
 ?>
-</h3><?php
+</h2><?php
 
 if ( isset($_GET['update']) ) :
 	switch($_GET['update']) {
@@ -272,7 +278,7 @@ do_action( 'network_site_users_after_list_table' );
 
 /** This filter is documented in wp-admin/network/site-users.php */
 if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_users_add_existing_form', true ) ) : ?>
-<h3 id="add-existing-user"><?php _e( 'Add Existing User' ); ?></h3>
+<h2 id="add-existing-user"><?php _e( 'Add Existing User' ); ?></h2>
 <form action="site-users.php?action=adduser" id="adduser" method="post">
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">
@@ -301,7 +307,7 @@ if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_us
  * @param bool $bool Whether to show the Add New User form. Default true.
  */
 if ( current_user_can( 'create_users' ) && apply_filters( 'show_network_site_users_add_new_form', true ) ) : ?>
-<h3 id="add-new-user"><?php _e( 'Add New User' ); ?></h3>
+<h2 id="add-new-user"><?php _e( 'Add New User' ); ?></h2>
 <form action="<?php echo network_admin_url('site-users.php?action=newuser'); ?>" id="newuser" method="post">
 	<input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" />
 	<table class="form-table">

@@ -1,13 +1,27 @@
 <?php
 /**
- * RSS widget class
+ * Widget API: WP_Widget_RSS class
  *
- * @since 2.8.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a RSS widget.
+ *
+ * @since 2.8.0
+ *
+ * @see WP_Widget
  */
 class WP_Widget_RSS extends WP_Widget {
 
+	/**
+	 * Sets up a new RSS widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array( 'description' => __('Entries from any RSS or Atom feed.') );
 		$control_ops = array( 'width' => 400, 'height' => 200 );
@@ -15,8 +29,14 @@ class WP_Widget_RSS extends WP_Widget {
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $instance
+	 * Outputs the content for the current RSS widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current RSS widget instance.
 	 */
 	public function widget( $args, $instance ) {
 		if ( isset($instance['error']) && $instance['error'] )
@@ -56,7 +76,7 @@ class WP_Widget_RSS extends WP_Widget {
 		$url = strip_tags( $url );
 		$icon = includes_url( 'images/rss.png' );
 		if ( $title )
-			$title = '<a class="rsswidget" href="' . esc_url( $url ) . '"><img style="border:0" width="14" height="14" src="' . esc_url( $icon ) . '" alt="RSS" /></a> <a class="rsswidget" href="' . esc_url( $link ) . '">"'. esc_html( $title ) .'"</a>';
+			$title = '<a class="rsswidget" href="' . esc_url( $url ) . '"><img class="rss-widget-icon" style="border:0" width="14" height="14" src="' . esc_url( $icon ) . '" alt="RSS" /></a> <a class="rsswidget" href="' . esc_url( $link ) . '">"'. esc_html( $title ) .'"</a>';
 
 		echo $args['before_widget'];
 		if ( $title ) {
@@ -71,9 +91,15 @@ class WP_Widget_RSS extends WP_Widget {
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating settings for the current RSS widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$testurl = ( isset( $new_instance['url'] ) && ( !isset( $old_instance['url'] ) || ( $new_instance['url'] != $old_instance['url'] ) ) );
@@ -81,7 +107,12 @@ class WP_Widget_RSS extends WP_Widget {
 	}
 
 	/**
-	 * @param array $instance
+	 * Outputs the settings form for the RSS widget.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 		if ( empty( $instance ) ) {

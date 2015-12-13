@@ -1,9 +1,10 @@
 <?php
 /**
- * WordPress Core Ajax Handlers.
+ * Administration API: Core Ajax handlers
  *
  * @package WordPress
  * @subpackage Administration
+ * @since 2.1.0
  */
 
 //
@@ -288,7 +289,7 @@ function wp_ajax_autocomplete_user() {
 	foreach ( $users as $user ) {
 		$return[] = array(
 			/* translators: 1: user_login, 2: user_email */
-			'label' => sprintf( __( '%1$s (%2$s)' ), $user->user_login, $user->user_email ),
+			'label' => sprintf( _x( '%1$s (%2$s)', 'user autocomplete result' ), $user->user_login, $user->user_email ),
 			'value' => $user->$field,
 		);
 	}
@@ -351,6 +352,8 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 		$time = time();
 		$comment = get_comment( $comment_id );
 
+		$counts = wp_count_comments();
+
 		$x = new WP_Ajax_Response( array(
 			'what' => 'comment',
 			// Here for completeness - not used.
@@ -358,7 +361,16 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 			'supplemental' => array(
 				'status' => $comment ? $comment->comment_approved : '',
 				'postId' => $comment ? $comment->comment_post_ID : '',
-				'time' => $time
+				'time' => $time,
+				'in_moderation' => $counts->moderated,
+				'i18n_comments_text' => sprintf(
+					_n( '%s Comment', '%s Comments', $counts->approved ),
+					number_format_i18n( $counts->approved )
+				),
+				'i18n_moderation_text' => sprintf(
+					_nx( '%s in moderation', '%s in moderation', $counts->moderated, 'comments' ),
+					number_format_i18n( $counts->moderated )
+				)
 			)
 		) );
 		$x->send();
@@ -1049,8 +1061,23 @@ function wp_ajax_replyto_comment( $action ) {
 		'position' => $position
 	);
 
-	if ( $comment_auto_approved )
-		$response['supplemental'] = array( 'parent_approved' => $parent->comment_ID, 'parent_post_id' => $parent->comment_post_ID );
+	$counts = wp_count_comments();
+	$response['supplemental'] = array(
+		'in_moderation' => $counts->moderated,
+		'i18n_comments_text' => sprintf(
+			_n( '%s Comment', '%s Comments', $counts->approved ),
+			number_format_i18n( $counts->approved )
+		),
+		'i18n_moderation_text' => sprintf(
+			_nx( '%s in moderation', '%s in moderation', $counts->moderated, 'comments' ),
+			number_format_i18n( $counts->moderated )
+		)
+	);
+
+	if ( $comment_auto_approved ) {
+		$response['supplemental']['parent_approved'] = $parent->comment_ID;
+		$response['supplemental']['parent_post_id'] = $parent->comment_post_ID;
+	}
 
 	$x = new WP_Ajax_Response();
 	$x->add( $response );
@@ -1132,6 +1159,10 @@ function wp_ajax_add_menu_item() {
 					$_object = get_post( $menu_item_data['menu-item-object-id'] );
 				break;
 
+				case 'post_type_archive' :
+					$_object = get_post_type_object( $menu_item_data['menu-item-object'] );
+				break;
+
 				case 'taxonomy' :
 					$_object = get_term( $menu_item_data['menu-item-object-id'], $menu_item_data['menu-item-object'] );
 				break;
@@ -1165,7 +1196,7 @@ function wp_ajax_add_menu_item() {
 	/** This filter is documented in wp-admin/includes/nav-menu.php */
 	$walker_class_name = apply_filters( 'wp_edit_nav_menu_walker', 'Walker_Nav_Menu_Edit', $_POST['menu'] );
 
-	if ( ! class_exists( $walker_class_name, false ) )
+	if ( ! class_exists( $walker_class_name ) )
 		wp_die( 0 );
 
 	if ( ! empty( $menu_items ) ) {
@@ -1206,7 +1237,7 @@ function wp_ajax_add_meta() {
 			$post_data['post_type'] = $post->post_type;
 			$post_data['post_status'] = 'draft';
 			$now = current_time('timestamp', 1);
-			$post_data['post_title'] = sprintf( __( 'Draft created on %1$s at %2$s' ), date( get_option( 'date_format' ), $now ), date( get_option( 'time_format' ), $now ) );
+			$post_data['post_title'] = sprintf( __( 'Draft created on %1$s at %2$s' ), date( __( 'F j, Y' ), $now ), date( __( 'g:i a' ), $now ) );
 
 			$pid = edit_post( $post_data );
 			if ( $pid ) {
@@ -1555,7 +1586,7 @@ function wp_ajax_sample_permalink() {
  * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_inline_save() {
-	global $wp_list_table;
+	global $wp_list_table, $mode;
 
 	check_ajax_referer( 'inlineeditnonce', '_inline_edit' );
 
@@ -1627,6 +1658,8 @@ function wp_ajax_inline_save() {
 	edit_post();
 
 	$wp_list_table = _get_list_table( 'WP_Posts_List_Table', array( 'screen' => $_POST['screen'] ) );
+
+	$mode = $_POST['post_view'] === 'excerpt' ? 'excerpt' : 'list';
 
 	$level = 0;
 	$request_post = array( get_post( $_POST['post_ID'] ) );
@@ -1851,6 +1884,10 @@ function wp_ajax_save_widget() {
 
 		$sidebar = array_diff( $sidebar, array($widget_id) );
 		$_POST = array('sidebar' => $sidebar_id, 'widget-' . $id_base => array(), 'the-widget-id' => $widget_id, 'delete_widget' => '1');
+
+		/** This action is documented in wp-admin/widgets.php */
+		do_action( 'delete_widget', $widget_id, $sidebar_id, $id_base );
+
 	} elseif ( $settings && preg_match( '/__i__|%i%/', key($settings) ) ) {
 		if ( !$multi_number )
 			wp_die( $error );
@@ -1900,6 +1937,41 @@ function wp_ajax_save_widget() {
 function wp_ajax_update_widget() {
 	global $wp_customize;
 	$wp_customize->widgets->wp_ajax_update_widget();
+}
+
+/**
+ * Ajax handler for removing inactive widgets.
+ *
+ * @since 4.4.0
+ */
+function wp_ajax_delete_inactive_widgets() {
+	check_ajax_referer( 'remove-inactive-widgets', 'removeinactivewidgets' );
+
+	if ( ! current_user_can( 'edit_theme_options' ) ) {
+		wp_die( -1 );
+	}
+
+	unset( $_POST['removeinactivewidgets'], $_POST['action'] );
+
+	do_action( 'load-widgets.php' );
+	do_action( 'widgets.php' );
+	do_action( 'sidebar_admin_setup' );
+
+	$sidebars_widgets = wp_get_sidebars_widgets();
+
+	foreach ( $sidebars_widgets['wp_inactive_widgets'] as $key => $widget_id ) {
+		$pieces = explode( '-', $widget_id );
+		$multi_number = array_pop( $pieces );
+		$id_base = implode( '-', $pieces );
+		$widget = get_option( 'widget_' . $id_base );
+		unset( $widget[$multi_number] );
+		update_option( 'widget_' . $id_base, $widget );
+		unset( $sidebars_widgets['wp_inactive_widgets'][$key] );
+	}
+
+	wp_set_sidebars_widgets( $sidebars_widgets );
+
+	wp_die();
 }
 
 /**
@@ -2155,11 +2227,11 @@ function wp_ajax_wp_fullscreen_save_post() {
 	}
 
 	if ( $post ) {
-		$last_date = mysql2date( get_option('date_format'), $post->post_modified );
-		$last_time = mysql2date( get_option('time_format'), $post->post_modified );
+		$last_date = mysql2date( __( 'F j, Y' ), $post->post_modified );
+		$last_time = mysql2date( __( 'g:i a' ), $post->post_modified );
 	} else {
-		$last_date = date_i18n( get_option('date_format') );
-		$last_time = date_i18n( get_option('time_format') );
+		$last_date = date_i18n( __( 'F j, Y' ) );
+		$last_time = date_i18n( __( 'g:i a' ) );
 	}
 
 	if ( $last_id = get_post_meta( $post_id, '_edit_last', true ) ) {
@@ -2498,7 +2570,7 @@ function wp_ajax_send_attachment_to_editor() {
 	$rel = '';
 	$url = empty( $attachment['url'] ) ? '' : $attachment['url'];
 	if ( strpos( $url, 'attachment_id') || get_attachment_link( $id ) == $url ) {
-		$rel = ' rel="attachment wp-att-' . $id . '"';
+		$rel = 'attachment wp-att-' . $id;
 	}
 
 	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor' );
@@ -2521,7 +2593,7 @@ function wp_ajax_send_attachment_to_editor() {
 	} else {
 		$html = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
 		if ( ! empty( $url ) ) {
-			$html = '<a href="' . esc_url( $url ) . '"' . $rel . '>' . $html . '</a>';
+			$html = '<a href="' . esc_url( $url ) . '"' . 'rel="' . esc_attr( $rel ) . '">' . $html . '</a>';
 		}
 	}
 
@@ -2749,6 +2821,13 @@ function wp_ajax_query_themes() {
 		'fields'   => $theme_field_defaults
 	) );
 
+	if ( isset( $args['browse'] ) && 'favorites' === $args['browse'] && ! isset( $args['user'] ) ) {
+		$user = get_user_option( 'wporg_favorites' );
+		if ( $user ) {
+			$args['user'] = $user;
+		}
+	}
+
 	$old_filter = isset( $args['browse'] ) ? $args['browse'] : 'search';
 
 	/** This filter is documented in wp-admin/includes/class-wp-theme-install-list-table.php */
@@ -2771,7 +2850,8 @@ function wp_ajax_query_themes() {
 		$theme->author      = wp_kses( $theme->author, $themes_allowedtags );
 		$theme->version     = wp_kses( $theme->version, $themes_allowedtags );
 		$theme->description = wp_kses( $theme->description, $themes_allowedtags );
-		$theme->num_ratings = sprintf( _n( '(based on %s rating)', '(based on %s ratings)', $theme->num_ratings ), number_format_i18n( $theme->num_ratings ) );
+		$theme->stars       = wp_star_rating( array( 'rating' => $theme->rating, 'type' => 'percent', 'number' => $theme->num_ratings, 'echo' => false ) );
+		$theme->num_ratings = number_format_i18n( $theme->num_ratings );
 		$theme->preview_url = set_url_scheme( $theme->preview_url );
 	}
 
@@ -3031,6 +3111,7 @@ function wp_ajax_update_plugin() {
 		 * For now, surface some sort of error here.
 		 */
 		if ( $plugin_update_data === true ) {
+			$status['error'] = __( 'Plugin update failed.' );
  			wp_send_json_error( $status );
 		}
 
@@ -3057,6 +3138,10 @@ function wp_ajax_update_plugin() {
 
 		wp_send_json_error( $status );
 
+	} else {
+		// An unhandled error occured
+		$status['error'] = __( 'Plugin update failed.' );
+		wp_send_json_error( $status );
 	}
 }
 
@@ -3211,4 +3296,23 @@ function wp_ajax_crop_image() {
  */
 function wp_ajax_generate_password() {
 	wp_send_json_success( wp_generate_password( 24 ) );
+}
+
+/**
+ * Ajax handler for saving the user's WordPress.org username.
+ *
+ * @since 4.4.0
+ */
+function wp_ajax_save_wporg_username() {
+	if ( ! current_user_can( 'install_themes' ) && ! current_user_can( 'install_plugins' ) ) {
+		wp_send_json_error();
+	}
+
+	$username = isset( $_REQUEST['username'] ) ? wp_unslash( $_REQUEST['username'] ) : false;
+
+	if ( ! $username ) {
+		wp_send_json_error();
+	}
+
+	wp_send_json_success( update_user_meta( get_current_user_id(), 'wporg_favorites', $username ) );
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * HTTP API: WP_Http_Cookie object class
+ * HTTP API: WP_Http_Cookie class
  *
  * @package WordPress
  * @subpackage HTTP

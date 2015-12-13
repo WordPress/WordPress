@@ -42,6 +42,14 @@ class WP_Locale {
 	public $weekday_abbrev;
 
 	/**
+	 * Stores the default start of the week.
+	 *
+	 * @since 4.4.0
+	 * @var string
+	 */
+	public $start_of_week;
+
+	/**
 	 * Stores the translated strings for the full month names.
 	 *
 	 * @since 2.1.0
@@ -78,6 +86,10 @@ class WP_Locale {
 	public $text_direction = 'ltr';
 
 	/**
+	 * The thousands separator and decimal point values used for localizing numbers.
+	 *
+	 * @since 2.3.0
+	 * @access public
 	 * @var array
 	 */
 	public $number_format;
@@ -124,18 +136,32 @@ class WP_Locale {
 		$this->weekday_abbrev[__('Saturday')]  = /* translators: three-letter abbreviation of the weekday */ __('Sat');
 
 		// The Months
-		$this->month['01'] = /* translators: month name */ __('January');
-		$this->month['02'] = /* translators: month name */ __('February');
-		$this->month['03'] = /* translators: month name */ __('March');
-		$this->month['04'] = /* translators: month name */ __('April');
-		$this->month['05'] = /* translators: month name */ __('May');
-		$this->month['06'] = /* translators: month name */ __('June');
-		$this->month['07'] = /* translators: month name */ __('July');
-		$this->month['08'] = /* translators: month name */ __('August');
-		$this->month['09'] = /* translators: month name */ __('September');
-		$this->month['10'] = /* translators: month name */ __('October');
-		$this->month['11'] = /* translators: month name */ __('November');
-		$this->month['12'] = /* translators: month name */ __('December');
+		$this->month['01'] = /* translators: month name */ __( 'January' );
+		$this->month['02'] = /* translators: month name */ __( 'February' );
+		$this->month['03'] = /* translators: month name */ __( 'March' );
+		$this->month['04'] = /* translators: month name */ __( 'April' );
+		$this->month['05'] = /* translators: month name */ __( 'May' );
+		$this->month['06'] = /* translators: month name */ __( 'June' );
+		$this->month['07'] = /* translators: month name */ __( 'July' );
+		$this->month['08'] = /* translators: month name */ __( 'August' );
+		$this->month['09'] = /* translators: month name */ __( 'September' );
+		$this->month['10'] = /* translators: month name */ __( 'October' );
+		$this->month['11'] = /* translators: month name */ __( 'November' );
+		$this->month['12'] = /* translators: month name */ __( 'December' );
+
+		// The Months, genitive
+		$this->month_genitive['01'] = /* translators: month name, genitive */ _x( 'January', 'genitive' );
+		$this->month_genitive['02'] = /* translators: month name, genitive */ _x( 'February', 'genitive' );
+		$this->month_genitive['03'] = /* translators: month name, genitive */ _x( 'March', 'genitive' );
+		$this->month_genitive['04'] = /* translators: month name, genitive */ _x( 'April', 'genitive' );
+		$this->month_genitive['05'] = /* translators: month name, genitive */ _x( 'May', 'genitive' );
+		$this->month_genitive['06'] = /* translators: month name, genitive */ _x( 'June', 'genitive' );
+		$this->month_genitive['07'] = /* translators: month name, genitive */ _x( 'July', 'genitive' );
+		$this->month_genitive['08'] = /* translators: month name, genitive */ _x( 'August', 'genitive' );
+		$this->month_genitive['09'] = /* translators: month name, genitive */ _x( 'September', 'genitive' );
+		$this->month_genitive['10'] = /* translators: month name, genitive */ _x( 'October', 'genitive' );
+		$this->month_genitive['11'] = /* translators: month name, genitive */ _x( 'November', 'genitive' );
+		$this->month_genitive['12'] = /* translators: month name, genitive */ _x( 'December', 'genitive' );
 
 		// Abbreviations for each month.
 		$this->month_abbrev[ __( 'January' ) ]   = /* translators: three-letter abbreviation of the month */ _x( 'Jan', 'January abbreviation' );
@@ -161,12 +187,23 @@ class WP_Locale {
 		// See http://php.net/number_format
 
 		/* translators: $thousands_sep argument for http://php.net/number_format, default is , */
-		$trans = __('number_format_thousands_sep');
-		$this->number_format['thousands_sep'] = ('number_format_thousands_sep' == $trans) ? ',' : $trans;
+		$thousands_sep = __( 'number_format_thousands_sep' );
+
+		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
+			// Replace space with a non-breaking space to avoid wrapping.
+			$non_breaking_space = html_entity_decode( '&nbsp;', ENT_QUOTES, get_option( 'blog_charset' ) );
+			$thousands_sep = str_replace( ' ', $non_breaking_space, $thousands_sep );
+		} else {
+			// PHP < 5.4.0 does not support multiple bytes in thousands separator.
+			$thousands_sep = str_replace( array( '&nbsp;', '&#160;' ), ' ', $thousands_sep );
+		}
+
+		$this->number_format['thousands_sep'] = ( 'number_format_thousands_sep' === $thousands_sep ) ? ',' : $thousands_sep;
 
 		/* translators: $dec_point argument for http://php.net/number_format, default is . */
-		$trans = __('number_format_decimal_point');
-		$this->number_format['decimal_point'] = ('number_format_decimal_point' == $trans) ? '.' : $trans;
+		$decimal_point = __( 'number_format_decimal_point' );
+
+		$this->number_format['decimal_point'] = ( 'number_format_decimal_point' === $decimal_point ) ? '.' : $decimal_point;
 
 		// Set text direction.
 		if ( isset( $GLOBALS['text_direction'] ) )

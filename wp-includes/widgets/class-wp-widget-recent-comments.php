@@ -1,13 +1,27 @@
 <?php
 /**
- * Recent_Comments widget class
+ * Widget API: WP_Widget_Recent_Comments class
  *
- * @since 2.8.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a Recent Comments widget.
+ *
+ * @since 2.8.0
+ *
+ * @see WP_Widget
  */
 class WP_Widget_Recent_Comments extends WP_Widget {
 
+	/**
+	 * Sets up a new Recent Comments widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array('classname' => 'widget_recent_comments', 'description' => __( 'Your site&#8217;s most recent comments.' ) );
 		parent::__construct('recent-comments', __('Recent Comments'), $widget_ops);
@@ -15,13 +29,12 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 
 		if ( is_active_widget(false, false, $this->id_base) )
 			add_action( 'wp_head', array($this, 'recent_comments_style') );
-
-		add_action( 'comment_post', array($this, 'flush_widget_cache') );
-		add_action( 'edit_comment', array($this, 'flush_widget_cache') );
-		add_action( 'transition_comment_status', array($this, 'flush_widget_cache') );
 	}
 
-	/**
+ 	/**
+	 * Outputs the default styles for the Recent Comments widget.
+	 *
+	 * @since 2.8.0
 	 * @access public
 	 */
 	public function recent_comments_style() {
@@ -37,37 +50,23 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			|| ! apply_filters( 'show_recent_comments_widget_style', true, $this->id_base ) )
 			return;
 		?>
-	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
-<?php
+		<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+		<?php
 	}
 
 	/**
+	 * Outputs the content for the current Recent Comments widget instance.
+	 *
+	 * @since 2.8.0
 	 * @access public
-	 */
-	public function flush_widget_cache() {
-		wp_cache_delete('widget_recent_comments', 'widget');
-	}
-
-	/**
-	 * @param array $args
-	 * @param array $instance
+	 *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current Recent Comments widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		$cache = array();
-		if ( ! $this->is_preview() ) {
-			$cache = wp_cache_get('widget_recent_comments', 'widget');
-		}
-		if ( ! is_array( $cache ) ) {
-			$cache = array();
-		}
-
 		if ( ! isset( $args['widget_id'] ) )
 			$args['widget_id'] = $this->id;
-
-		if ( isset( $cache[ $args['widget_id'] ] ) ) {
-			echo $cache[ $args['widget_id'] ];
-			return;
-		}
 
 		$output = '';
 
@@ -120,43 +119,55 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 		$output .= $args['after_widget'];
 
 		echo $output;
-
-		if ( ! $this->is_preview() ) {
-			$cache[ $args['widget_id'] ] = $output;
-			wp_cache_set( 'widget_recent_comments', $cache, 'widget' );
-		}
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating settings for the current Recent Comments widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 		$instance['number'] = absint( $new_instance['number'] );
-		$this->flush_widget_cache();
-
-		$alloptions = wp_cache_get( 'alloptions', 'options' );
-		if ( isset($alloptions['widget_recent_comments']) )
-			delete_option('widget_recent_comments');
-
 		return $instance;
 	}
 
 	/**
-	 * @param array $instance
+	 * Outputs the settings form for the Recent Comments widget.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 		$title = isset( $instance['title'] ) ? $instance['title'] : '';
 		$number = isset( $instance['number'] ) ? absint( $instance['number'] ) : 5;
-?>
+		?>
 		<p><label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" /></p>
 
 		<p><label for="<?php echo $this->get_field_id( 'number' ); ?>"><?php _e( 'Number of comments to show:' ); ?></label>
-		<input id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="text" value="<?php echo $number; ?>" size="3" /></p>
-<?php
+		<input class="tiny-text" id="<?php echo $this->get_field_id( 'number' ); ?>" name="<?php echo $this->get_field_name( 'number' ); ?>" type="number" step="1" min="1" value="<?php echo $number; ?>" size="3" /></p>
+		<?php
+	}
+
+	/**
+	 * Flushes the Recent Comments widget cache.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @deprecated 4.4.0 Fragment caching was removed in favor of split queries.
+	 */
+	public function flush_widget_cache() {
+		_deprecated_function( __METHOD__, '4.4' );
 	}
 }

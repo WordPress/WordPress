@@ -1,8 +1,8 @@
 === Twenty Twelve ===
 Contributors: the WordPress team
 Requires at least: WordPress 3.5
-Tested up to: WordPress 4.4-trunk
-Stable tag: 1.8
+Tested up to: WordPress 4.5-trunk
+Stable tag: 1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: light, gray, white, one-column, two-columns, right-sidebar, fluid-layout, responsive-layout, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
@@ -42,6 +42,11 @@ Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
 == Changelog ==
+
+= 1.9 =
+* Released: December 8, 2015
+
+https://codex.wordpress.org/Twenty_Twelve_Theme_Changelog#Version_1.9
 
 = 1.8 =
 * Released: August 18, 2015

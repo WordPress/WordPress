@@ -17,25 +17,38 @@ body {
 
 a {
 	color: #0073aa;
-	text-decoration: none;
 }
 
-a:hover {
+a:hover,
+a:active {
 	color: #00a0d2;
 }
 
-h1 {
+a:focus {
+	color: #124964;
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+}
+
+.ie8 a:focus {
+	outline: #5b9dd9 solid 1px;
+}
+
+h1, h2 {
 	border-bottom: 1px solid #dedede;
 	clear: both;
 	color: #666;
 	font-size: 24px;
-	margin: 30px 0;
 	padding: 0;
 	padding-bottom: 7px;
 	font-weight: normal;
 }
 
-h2 {
+h3 {
 	font-size: 16px;
 }
 
@@ -61,12 +74,19 @@ abbr {
 	font-variant: normal;
 }
 
+fieldset {
+	border: 0;
+	padding: 0;
+	margin: 0;
+}
+
 label {
 	cursor: pointer;
 }
 
 #logo {
 	margin: 6px 0 14px 0;
+	padding: 0 0 7px 0;
 	border-bottom: none;
 	text-align:center
 }
@@ -91,6 +111,12 @@ label {
 	overflow: hidden;
 	display: block;
 }
+
+#logo a:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
 .step {
 	margin: 20px 0 15px;
 }

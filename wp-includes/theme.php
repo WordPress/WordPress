@@ -177,7 +177,7 @@ function get_stylesheet_directory() {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param string $stylesheet_dir Absolute path to the current them.
+	 * @param string $stylesheet_dir Absolute path to the current theme.
 	 * @param string $stylesheet     Directory name of the current theme.
 	 * @param string $theme_root     Absolute path to themes directory.
 	 */
@@ -723,7 +723,7 @@ function switch_theme( $stylesheet ) {
 	} else {
 		/*
 		 * Since retrieve_widgets() is called when initializing a theme in the Customizer,
-		 * we need to to remove the theme mods to avoid overwriting changes made via
+		 * we need to remove the theme mods to avoid overwriting changes made via
 		 * the Customizer when accessing wp-admin/widgets.php.
 		 */
 		if ( 'wp_ajax_customize_save' === current_action() ) {
@@ -753,8 +753,10 @@ function switch_theme( $stylesheet ) {
 /**
  * Checks that current theme files 'index.php' and 'style.css' exists.
  *
- * Does not check the default theme, which is the fallback and should always exist.
+ * Does not initially check the default theme, which is the fallback and should always exist.
+ * But if it doesn't exist, it'll fall back to the latest core default theme that does exist.
  * Will switch theme to the fallback theme if current theme does not validate.
+ *
  * You can use the 'validate_current_theme' filter to return false to
  * disable this functionality.
  *
@@ -771,25 +773,42 @@ function validate_current_theme() {
 	 *
 	 * @param bool true Validation flag to check the current theme.
 	 */
-	if ( defined('WP_INSTALLING') || ! apply_filters( 'validate_current_theme', true ) )
+	if ( wp_installing() || ! apply_filters( 'validate_current_theme', true ) )
 		return true;
 
-	if ( get_template() != WP_DEFAULT_THEME && !file_exists(get_template_directory() . '/index.php') ) {
+	if ( ! file_exists( get_template_directory() . '/index.php' ) ) {
+		// Invalid.
+	} elseif ( ! file_exists( get_template_directory() . '/style.css' ) ) {
+		// Invalid.
+	} elseif ( is_child_theme() && ! file_exists( get_stylesheet_directory() . '/style.css' ) ) {
+		// Invalid.
+	} else {
+		// Valid.
+		return true;
+	}
+
+	$default = wp_get_theme( WP_DEFAULT_THEME );
+	if ( $default->exists() ) {
 		switch_theme( WP_DEFAULT_THEME );
 		return false;
 	}
 
-	if ( get_stylesheet() != WP_DEFAULT_THEME && !file_exists(get_template_directory() . '/style.css') ) {
-		switch_theme( WP_DEFAULT_THEME );
-		return false;
+	/**
+	 * If we're in an invalid state but WP_DEFAULT_THEME doesn't exist,
+	 * switch to the latest core default theme that's installed.
+	 * If it turns out that this latest core default theme is our current
+	 * theme, then there's nothing we can do about that, so we have to bail,
+	 * rather than going into an infinite loop. (This is why there are
+	 * checks against WP_DEFAULT_THEME above, also.) We also can't do anything
+	 * if it turns out there is no default theme installed. (That's `false`.)
+	 */
+	$default = WP_Theme::get_core_default_theme();
+	if ( false === $default || get_stylesheet() == $default->get_stylesheet() ) {
+		return true;
 	}
 
-	if ( is_child_theme() && ! file_exists( get_stylesheet_directory() . '/style.css' ) ) {
-		switch_theme( WP_DEFAULT_THEME );
-		return false;
-	}
-
-	return true;
+	switch_theme( $default->get_stylesheet() );
+	return false;
 }
 
 /**
@@ -991,6 +1010,83 @@ function get_header_image() {
 		$url = get_random_header_image();
 
 	return esc_url_raw( set_url_scheme( $url ) );
+}
+
+/**
+ * Create image tag markup for a custom header image.
+ *
+ * @since 4.4.0
+ *
+ * @param array $attr Optional. Additional attributes for the image tag. Can be used
+ *                              to override the default attributes. Default empty.
+ * @return string HTML image element markup or empty string on failure.
+ */
+function get_header_image_tag( $attr = array() ) {
+	$header = get_custom_header();
+
+	if ( empty( $header->url ) ) {
+		return '';
+	}
+
+	$width = absint( $header->width );
+	$height = absint( $header->height );
+
+	$attr = wp_parse_args(
+		$attr,
+		array(
+			'src' => $header->url,
+			'width' => $width,
+			'height' => $height,
+			'alt' => get_bloginfo( 'name' ),
+		)
+	);
+
+	// Generate 'srcset' and 'sizes' if not already present.
+	if ( empty( $attr['srcset'] ) && ! empty( $header->attachment_id ) ) {
+		$image_meta = get_post_meta( $header->attachment_id, '_wp_attachment_metadata', true );
+		$size_array = array( $width, $height );
+
+		if ( is_array( $image_meta ) ) {
+			$srcset = wp_calculate_image_srcset( $size_array, $header->url, $image_meta, $header->attachment_id );
+			$sizes = ! empty( $attr['sizes'] ) ? $attr['sizes'] : wp_calculate_image_sizes( $size_array, $header->url, $image_meta, $header->attachment_id );
+
+			if ( $srcset && $sizes ) {
+				$attr['srcset'] = $srcset;
+				$attr['sizes'] = $sizes;
+			}
+		}
+	}
+
+	$attr = array_map( 'esc_attr', $attr );
+	$html = '<img';
+
+	foreach ( $attr as $name => $value ) {
+		$html .= ' ' . $name . '="' . $value . '"';
+	}
+
+	$html .= ' />';
+
+	/**
+	 * Filter the markup of header images.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $html   The HTML image tag markup being filtered.
+	 * @param object $header The custom header object returned by 'get_custom_header()'.
+	 * @param array  $attr   Array of the attributes for the image tag.
+	 */
+	return apply_filters( 'get_header_image_tag', $html, $header, $attr );
+}
+
+/**
+ * Display the image markup for a custom header image.
+ *
+ * @since 4.4.0
+ *
+ * @param array $attr Optional. Attributes for the image markup. Default empty.
+ */
+function the_header_image_tag( $attr = array() ) {
+	echo get_header_image_tag( $attr );
 }
 
 /**
@@ -1752,14 +1848,6 @@ function current_theme_supports( $feature ) {
 	if ( !isset( $_wp_theme_features[$feature] ) )
 		return false;
 
-	if ( 'title-tag' == $feature ) {
-		// Don't confirm support unless called internally.
-		$trace = debug_backtrace();
-		if ( ! in_array( $trace[1]['function'], array( '_wp_render_title_tag', 'wp_title' ) ) ) {
-			return false;
-		}
-	}
-
 	// If no args passed then no extra checks need be performed
 	if ( func_num_args() <= 1 )
 		return true;
@@ -1897,8 +1985,11 @@ function check_theme_switched() {
 /**
  * Includes and instantiates the WP_Customize_Manager class.
  *
- * Fires on a preview frame request (when ?wp_customize=on is in the URL) and
- * on the Customizer interface page (wp-admin/customize.php).
+ * Loads the Customizer at plugins_loaded when accessing the customize.php admin
+ * page or when any request includes a wp_customize=on param, either as a GET
+ * query var or as POST data. This param is a signal for whether to bootstrap
+ * the Customizer when WordPress is loading, especially in the Customizer preview
+ * or when making Customizer Ajax requests for widgets or menus.
  *
  * @since 3.4.0
  *
@@ -1907,8 +1998,9 @@ function check_theme_switched() {
 function _wp_customize_include() {
 	if ( ! ( ( isset( $_REQUEST['wp_customize'] ) && 'on' == $_REQUEST['wp_customize'] )
 		|| ( is_admin() && 'customize.php' == basename( $_SERVER['PHP_SELF'] ) )
-	) )
+	) ) {
 		return;
+	}
 
 	require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
 	$GLOBALS['wp_customize'] = new WP_Customize_Manager();

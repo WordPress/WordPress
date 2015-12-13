@@ -69,15 +69,15 @@ function get_udims( $width, $height ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Legacy function used to generate the categories checklist control.
  *
  * @since 0.71
  * @deprecated 2.6.0 Use wp_category_checklist()
  * @see wp_category_checklist()
  *
- * @param int $default
- * @param int $parent
- * @param array $popular_ids
+ * @param int $default       Unused.
+ * @param int $parent        Unused.
+ * @param array $popular_ids Unused.
  */
 function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() ) {
 	_deprecated_function( __FUNCTION__, '2.6', 'wp_category_checklist()' );
@@ -86,13 +86,13 @@ function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() 
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Legacy function used to generate a link categories checklist control.
  *
  * @since 2.1.0
  * @deprecated 2.6.0 Use wp_link_category_checklist()
  * @see wp_link_category_checklist()
  *
- * @param int $default
+ * @param int $default Unused.
  */
 function dropdown_link_categories( $default = 0 ) {
 	_deprecated_function( __FUNCTION__, '2.6', 'wp_link_category_checklist()' );
@@ -117,18 +117,18 @@ function get_real_file_to_edit( $file ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Legacy function used for generating a categories drop-down control.
  *
  * @since 1.2.0
  * @deprecated 3.0.0 Use wp_dropdown_categories()
  * @see wp_dropdown_categories()
  *
- * @param int $currentcat
- * @param int $currentparent
- * @param int $parent
- * @param int $level
- * @param array $categories
- * @return bool|null
+ * @param int $currentcat    Optional. ID of the current category. Default 0.
+ * @param int $currentparent Optional. Current parent category ID. Default 0.
+ * @param int $parent        Optional. Parent ID to retrieve categories for. Default 0.
+ * @param int $level         Optional. Number of levels deep to display. Default 0.
+ * @param array $categories  Optional. Categories to include in the control. Default 0.
+ * @return bool|null False if no categories were found.
  */
 function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {
 	_deprecated_function( __FUNCTION__, '3.0', 'wp_dropdown_categories()' );
@@ -507,14 +507,12 @@ class WP_User_Search {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
-	 *
-	 * {@internal Missing Long Description}}
+	 * Prepares the user search query (legacy).
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 */
-	function prepare_query() {
+	public function prepare_query() {
 		global $wpdb;
 		$this->first_user = ($this->page - 1) * $this->users_per_page;
 
@@ -547,14 +545,12 @@ class WP_User_Search {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
-	 *
-	 * {@internal Missing Long Description}}
+	 * Executes the user search query.
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 */
-	function query() {
+	public function query() {
 		global $wpdb;
 
 		$this->results = $wpdb->get_col("SELECT DISTINCT($wpdb->users.ID)" . $this->query_from . $this->query_where . $this->query_orderby . $this->query_limit);
@@ -566,9 +562,7 @@ class WP_User_Search {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
-	 *
-	 * {@internal Missing Long Description}}
+	 * Prepares variables for use in templates.
 	 *
 	 * @since 2.1.0
 	 * @access public
@@ -576,14 +570,12 @@ class WP_User_Search {
 	function prepare_vars_for_template_usage() {}
 
 	/**
-	 * {@internal Missing Short Description}}
-	 *
-	 * {@internal Missing Long Description}}
+	 * Handles paging for the user search query.
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 */
-	function do_paging() {
+	public function do_paging() {
 		if ( $this->total_users_for_query > $this->users_per_page ) { // have to page the results
 			$args = array();
 			if ( ! empty($this->search_term) )
@@ -610,16 +602,14 @@ class WP_User_Search {
 	}
 
 	/**
-	 * {@internal Missing Short Description}}
-	 *
-	 * {@internal Missing Long Description}}
+	 * Retrieves the user search query results.
 	 *
 	 * @since 2.1.0
 	 * @access public
 	 *
 	 * @return array
 	 */
-	function get_results() {
+	public function get_results() {
 		return (array) $this->results;
 	}
 
@@ -1314,4 +1304,70 @@ function wp_dashboard_secondary_control() {}
  */
 function _relocate_children( $old_ID, $new_ID ) {
 	_deprecated_function( __FUNCTION__, '3.9' );
+}
+
+/**
+ * Add a top-level menu page in the 'objects' section.
+ *
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ *
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ *
+ * @since 2.7.0
+ *
+ * @deprecated 4.5.0 Use add_menu_page()
+ * @see add_menu_page()
+ * @global int $_wp_last_object_menu
+ *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
+ * @param string   $icon_url   The url to the icon to be used for this menu.
+ * @return string The resulting page's hook_suffix.
+ */
+function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
+	_deprecated_function( __FUNCTION__, '4.5', 'add_menu_page()' );
+
+	global $_wp_last_object_menu;
+
+	$_wp_last_object_menu++;
+
+	return add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $_wp_last_object_menu);
+}
+
+/**
+ * Add a top-level menu page in the 'utility' section.
+ *
+ * This function takes a capability which will be used to determine whether
+ * or not a page is included in the menu.
+ *
+ * The function which is hooked in to handle the output of the page must check
+ * that the user has the required capability as well.
+ *
+ * @since 2.7.0
+ *
+ * @deprecated 4.5.0 Use add_menu_page()
+ * @see add_menu_page()
+ * @global int $_wp_last_utility_menu
+ *
+ * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $menu_title The text to be used for the menu.
+ * @param string   $capability The capability required for this menu to be displayed to the user.
+ * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param callable $function   The function to be called to output the content for this page.
+ * @param string   $icon_url   The url to the icon to be used for this menu.
+ * @return string The resulting page's hook_suffix.
+ */
+function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
+	_deprecated_function( __FUNCTION__, '4.5', 'add_menu_page()' );
+
+	global $_wp_last_utility_menu;
+
+	$_wp_last_utility_menu++;
+
+	return add_menu_page($page_title, $menu_title, $capability, $menu_slug, $function, $icon_url, $_wp_last_utility_menu);
 }

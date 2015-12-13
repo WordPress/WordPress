@@ -1,6 +1,6 @@
 <?php
 /**
- * Users API: WP_User_Query class
+ * User API: WP_User_Query class
  *
  * @package WordPress
  * @subpackage Users
@@ -48,9 +48,18 @@ class WP_User_Query {
 	 *
 	 * @since 4.2.0
 	 * @access public
-	 * @var object WP_Meta_Query
+	 * @var WP_Meta_Query
 	 */
 	public $meta_query = false;
+
+	/**
+	 * The SQL query used to fetch matching users.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 * @var string
+	 */
+	public $request;
 
 	private $compat_fields = array( 'results', 'total_users' );
 
@@ -76,6 +85,42 @@ class WP_User_Query {
 	}
 
 	/**
+	 * Fills in missing query variables with default values.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param array $args Query vars, as passed to `WP_User_Query`.
+	 * @return array Complete query variables with undefined ones filled in with defaults.
+	 */
+	public static function fill_query_vars( $args ) {
+		$defaults = array(
+			'blog_id' => $GLOBALS['blog_id'],
+			'role' => '',
+			'role__in' => array(),
+			'role__not_in' => array(),
+			'meta_key' => '',
+			'meta_value' => '',
+			'meta_compare' => '',
+			'include' => array(),
+			'exclude' => array(),
+			'search' => '',
+			'search_columns' => array(),
+			'orderby' => 'login',
+			'order' => 'ASC',
+			'offset' => '',
+			'number' => '',
+			'paged' => 1,
+			'count_total' => true,
+			'fields' => 'all',
+			'who' => '',
+			'has_published_posts' => null,
+		);
+
+		return wp_parse_args( $args, $defaults );
+	}
+
+	/**
 	 * Prepare the query variables.
 	 *
 	 * @since 3.1.0
@@ -83,16 +128,26 @@ class WP_User_Query {
 	 * @since 4.2.0 Added 'meta_value_num' support for `$orderby` parameter. Added multi-dimensional array syntax
 	 *              for `$orderby` parameter.
 	 * @since 4.3.0 Added 'has_published_posts' parameter.
+	 * @since 4.4.0 Added 'paged', 'role__in', and 'role__not_in' parameters. The 'role' parameter was updated to
+	 *              permit an array or comma-separated list of values. The 'number' parameter was updated to support
+	 *              querying for all users with using -1.
+	 *
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 * @global int  $blog_id
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or string of Query parameters.
 	 *
 	 *     @type int          $blog_id             The site ID. Default is the global blog id.
-	 *     @type string       $role                Role name. Default empty.
+	 *     @type string|array $role                An array or a comma-separated list of role names that users must match
+	 *                                             to be included in results. Note that this is an inclusive list: users
+	 *                                             must match *each* role. Default empty.
+	 *     @type array        $role__in            An array of role names. Matched users must have at least one of these
+	 *                                             roles. Default empty array.
+	 *     @type array        $role__not_in        An array of role names to exclude. Users matching one or more of these
+	 *                                             roles will not be included in results. Default empty array.
 	 *     @type string       $meta_key            User meta key. Default empty.
 	 *     @type string       $meta_value          User meta value. Default empty.
 	 *     @type string       $meta_compare        Comparison operator to test the `$meta_value`. Accepts '=', '!=',
@@ -122,15 +177,19 @@ class WP_User_Query {
 	 *     @type int          $offset              Number of users to offset in retrieved results. Can be used in
 	 *                                             conjunction with pagination. Default 0.
 	 *     @type int          $number              Number of users to limit the query for. Can be used in
-	 *                                             conjunction with pagination. Value -1 (all) is not supported.
+	 *                                             conjunction with pagination. Value -1 (all) is supported, but
+	 *                                             should be used with caution on larger sites.
 	 *                                             Default empty (all users).
+	 *     @type int          $paged               When used with number, defines the page of results to return.
+	 *                                             Default 1.
 	 *     @type bool         $count_total         Whether to count the total number of users found. If pagination
 	 *                                             is not needed, setting this to false can improve performance.
 	 *                                             Default true.
 	 *     @type string|array $fields              Which fields to return. Single or all fields (string), or array
-	 *                                             of fields. Accepts 'ID', 'display_name', 'login', 'nicename',
-	 *                                             'email', 'url', 'registered'. Use 'all' for all fields and
-	 *                                             'all_with_meta' to include meta fields. Default 'all'.
+	 *                                             of fields. Accepts 'ID', 'display_name', 'user_login',
+	 *                                             'user_nicename', 'user_email', 'user_url', 'user_registered'.
+	 *                                             Use 'all' for all fields and 'all_with_meta' to include
+	 *                                             meta fields. Default 'all'.
 	 *     @type string       $who                 Type of users to query. Accepts 'authors'.
 	 *                                             Default empty (all users).
 	 *     @type bool|array   $has_published_posts Pass an array of post types to filter results to users who have
@@ -143,25 +202,7 @@ class WP_User_Query {
 
 		if ( empty( $this->query_vars ) || ! empty( $query ) ) {
 			$this->query_limit = null;
-			$this->query_vars = wp_parse_args( $query, array(
-				'blog_id' => $GLOBALS['blog_id'],
-				'role' => '',
-				'meta_key' => '',
-				'meta_value' => '',
-				'meta_compare' => '',
-				'include' => array(),
-				'exclude' => array(),
-				'search' => '',
-				'search_columns' => array(),
-				'orderby' => 'login',
-				'order' => 'ASC',
-				'offset' => '',
-				'number' => '',
-				'count_total' => true,
-				'fields' => 'all',
-				'who' => '',
-				'has_published_posts' => null,
-			) );
+			$this->query_vars = $this->fill_query_vars( $query );
 		}
 
 		/**
@@ -177,7 +218,9 @@ class WP_User_Query {
 		 */
 		do_action( 'pre_get_users', $this );
 
+		// Ensure that query vars are filled after 'pre_get_users'.
 		$qv =& $this->query_vars;
+		$qv =  $this->fill_query_vars( $qv );
 
 		if ( is_array( $qv['fields'] ) ) {
 			$qv['fields'] = array_unique( $qv['fields'] );
@@ -238,27 +281,85 @@ class WP_User_Query {
 		$this->meta_query = new WP_Meta_Query();
 		$this->meta_query->parse_query_vars( $qv );
 
-		$role = '';
+		$roles = array();
 		if ( isset( $qv['role'] ) ) {
-			$role = trim( $qv['role'] );
+			if ( is_array( $qv['role'] ) ) {
+				$roles = $qv['role'];
+			} elseif ( is_string( $qv['role'] ) && ! empty( $qv['role'] ) ) {
+				$roles = array_map( 'trim', explode( ',', $qv['role'] ) );
+			}
 		}
 
-		if ( $blog_id && ( $role || is_multisite() ) ) {
-			$cap_meta_query = array();
-			$cap_meta_query['key'] = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
+		$role__in = array();
+		if ( isset( $qv['role__in'] ) ) {
+			$role__in = (array) $qv['role__in'];
+		}
 
-			if ( $role ) {
-				$cap_meta_query['value'] = '"' . $role . '"';
-				$cap_meta_query['compare'] = 'like';
+		$role__not_in = array();
+		if ( isset( $qv['role__not_in'] ) ) {
+			$role__not_in = (array) $qv['role__not_in'];
+		}
+
+		if ( $blog_id && ( ! empty( $roles ) || ! empty( $role__in ) || ! empty( $role__not_in ) || is_multisite() ) ) {
+			$role_queries  = array();
+
+			$roles_clauses = array( 'relation' => 'AND' );
+			if ( ! empty( $roles ) ) {
+				foreach ( $roles as $role ) {
+					$roles_clauses[] = array(
+						'key'     => $wpdb->get_blog_prefix( $blog_id ) . 'capabilities',
+						'value'   => '"' . $role . '"',
+						'compare' => 'LIKE',
+					);
+				}
+
+				$role_queries[] = $roles_clauses;
 			}
 
+			$role__in_clauses = array( 'relation' => 'OR' );
+			if ( ! empty( $role__in ) ) {
+				foreach ( $role__in as $role ) {
+					$role__in_clauses[] = array(
+						'key'     => $wpdb->get_blog_prefix( $blog_id ) . 'capabilities',
+						'value'   => '"' . $role . '"',
+						'compare' => 'LIKE',
+					);
+				}
+
+				$role_queries[] = $role__in_clauses;
+			}
+
+			$role__not_in_clauses = array( 'relation' => 'AND' );
+			if ( ! empty( $role__not_in ) ) {
+				foreach ( $role__not_in as $role ) {
+					$role__not_in_clauses[] = array(
+						'key'     => $wpdb->get_blog_prefix( $blog_id ) . 'capabilities',
+						'value'   => '"' . $role . '"',
+						'compare' => 'NOT LIKE',
+					);
+				}
+
+				$role_queries[] = $role__not_in_clauses;
+			}
+
+			// If there are no specific roles named, make sure the user is a member of the site.
+			if ( empty( $role_queries ) ) {
+				$role_queries[] = array(
+					'key' => $wpdb->get_blog_prefix( $blog_id ) . 'capabilities',
+					'compare' => 'EXISTS',
+				);
+			}
+
+			// Specify that role queries should be joined with AND.
+			$role_queries['relation'] = 'AND';
+
 			if ( empty( $this->meta_query->queries ) ) {
-				$this->meta_query->queries = array( $cap_meta_query );
-			} elseif ( ! in_array( $cap_meta_query, $this->meta_query->queries, true ) ) {
+				$this->meta_query->queries = $role_queries;
+			} else {
 				// Append the cap query to the original queries and reparse the query.
 				$this->meta_query->queries = array(
 					'relation' => 'AND',
-					array( $this->meta_query->queries, $cap_meta_query ),
+					array( $this->meta_query->queries, $role_queries ),
 				);
 			}
 
@@ -322,11 +423,12 @@ class WP_User_Query {
 		$this->query_orderby = 'ORDER BY ' . implode( ', ', $orderby_array );
 
 		// limit
-		if ( isset( $qv['number'] ) && $qv['number'] ) {
-			if ( $qv['offset'] )
+		if ( isset( $qv['number'] ) && $qv['number'] > 0 ) {
+			if ( $qv['offset'] ) {
 				$this->query_limit = $wpdb->prepare("LIMIT %d, %d", $qv['offset'], $qv['number']);
-			else
-				$this->query_limit = $wpdb->prepare("LIMIT %d", $qv['number']);
+			} else {
+				$this->query_limit = $wpdb->prepare( "LIMIT %d, %d", $qv['number'] * ( $qv['paged'] - 1 ), $qv['number'] );
+			}
 		}
 
 		$search = '';
@@ -413,19 +515,19 @@ class WP_User_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @global wpdb $wpdb WordPress database object for queries.
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function query() {
 		global $wpdb;
 
 		$qv =& $this->query_vars;
 
-		$query = "SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit";
+		$this->request = "SELECT $this->query_fields $this->query_from $this->query_where $this->query_orderby $this->query_limit";
 
 		if ( is_array( $qv['fields'] ) || 'all' == $qv['fields'] ) {
-			$this->results = $wpdb->get_results( $query );
+			$this->results = $wpdb->get_results( $this->request );
 		} else {
-			$this->results = $wpdb->get_col( $query );
+			$this->results = $wpdb->get_col( $this->request );
 		}
 
 		/**
@@ -493,7 +595,7 @@ class WP_User_Query {
 	 * @access protected
 	 * @since 3.1.0
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $string
 	 * @param array  $cols

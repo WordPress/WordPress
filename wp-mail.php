@@ -128,33 +128,12 @@ for ( $i = 1; $i <= $count; $i++ ) {
 				}
 			}
 
-			if (preg_match('/Date: /i', $line)) { // of the form '20 Mar 2002 20:32:37'
-				$ddate = trim($line);
-				$ddate = str_replace('Date: ', '', $ddate);
-				if (strpos($ddate, ',')) {
-					$ddate = trim(substr($ddate, strpos($ddate, ',') + 1, strlen($ddate)));
-				}
-				$date_arr = explode(' ', $ddate);
-				$date_time = explode(':', $date_arr[3]);
-
-				$ddate_H = $date_time[0];
-				$ddate_i = $date_time[1];
-				$ddate_s = $date_time[2];
-
-				$ddate_m = $date_arr[1];
-				$ddate_d = $date_arr[0];
-				$ddate_Y = $date_arr[2];
-				for ( $j = 0; $j < 12; $j++ ) {
-					if ( $ddate_m == $dmonths[$j] ) {
-						$ddate_m = $j+1;
-					}
-				}
-
-				$time_zn = intval($date_arr[4]) * 36;
-				$ddate_U = gmmktime($ddate_H, $ddate_i, $ddate_s, $ddate_m, $ddate_d, $ddate_Y);
-				$ddate_U = $ddate_U - $time_zn;
-				$post_date = gmdate('Y-m-d H:i:s', $ddate_U + $time_difference);
-				$post_date_gmt = gmdate('Y-m-d H:i:s', $ddate_U);
+			if ( preg_match( '/Date: /i', $line ) ) { // of the form '20 Mar 2002 20:32:37 +0100'
+				$ddate = str_replace( 'Date: ', '', trim( $line ) );
+				$ddate = preg_replace( '!\s*\(.+\)\s*$!', '', $ddate );	// remove parenthesised timezone string if it exists, as this confuses strtotime
+				$ddate_U = strtotime( $ddate );
+				$post_date = gmdate( 'Y-m-d H:i:s', $ddate_U + $time_difference );
+				$post_date_gmt = gmdate( 'Y-m-d H:i:s', $ddate_U );
 			}
 		}
 	}

@@ -191,11 +191,63 @@ final class WP_Customize_Manager {
 		require_once( ABSPATH . WPINC . '/class-wp-customize-panel.php' );
 		require_once( ABSPATH . WPINC . '/class-wp-customize-section.php' );
 		require_once( ABSPATH . WPINC . '/class-wp-customize-control.php' );
-		require_once( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
-		require_once( ABSPATH . WPINC . '/class-wp-customize-nav-menus.php' );
 
-		$this->widgets = new WP_Customize_Widgets( $this );
-		$this->nav_menus = new WP_Customize_Nav_Menus( $this );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-color-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-media-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-upload-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-image-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-image-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-cropped-image-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-site-icon-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-header-image-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-theme-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-widget-area-customize-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-widget-form-customize-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-item-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-location-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-name-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-auto-add-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-new-menu-control.php' );
+
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menus-panel.php' );
+
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-themes-section.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-sidebar-section.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-section.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-new-menu-section.php' );
+
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-filter-setting.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-header-image-setting.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-image-setting.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-item-setting.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-setting.php' );
+
+		/**
+		 * Filter the core Customizer components to load.
+		 *
+		 * This allows Core components to be excluded from being instantiated by
+		 * filtering them out of the array. Note that this filter generally runs
+		 * during the <code>plugins_loaded</code> action, so it cannot be added
+		 * in a theme.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @see WP_Customize_Manager::__construct()
+		 *
+		 * @param array                $components List of core components to load.
+		 * @param WP_Customize_Manager $this       WP_Customize_Manager instance.
+		 */
+		$components = apply_filters( 'customize_loaded_components', array( 'widgets', 'nav_menus' ), $this );
+
+		if ( in_array( 'widgets', $components ) ) {
+			require_once( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
+			$this->widgets = new WP_Customize_Widgets( $this );
+		}
+		if ( in_array( 'nav_menus', $components ) ) {
+			require_once( ABSPATH . WPINC . '/class-wp-customize-nav-menus.php' );
+			$this->nav_menus = new WP_Customize_Nav_Menus( $this );
+		}
 
 		add_filter( 'wp_die_handler', array( $this, 'wp_die_handler' ) );
 
@@ -607,6 +659,36 @@ final class WP_Customize_Manager {
 	public function set_post_value( $setting_id, $value ) {
 		$this->unsanitized_post_values();
 		$this->_post_values[ $setting_id ] = $value;
+
+		/**
+		 * Announce when a specific setting's unsanitized post value has been set.
+		 *
+		 * Fires when the {@see WP_Customize_Manager::set_post_value()} method is called.
+		 *
+		 * The dynamic portion of the hook name, `$setting_id`, refers to the setting ID.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param mixed                $value Unsanitized setting post value.
+		 * @param WP_Customize_Manager $this  WP_Customize_Manager instance.
+		 */
+		do_action( "customize_post_value_set_{$setting_id}", $value, $this );
+
+		/**
+		 * Announce when any setting's unsanitized post value has been set.
+		 *
+		 * Fires when the {@see WP_Customize_Manager::set_post_value()} method is called.
+		 *
+		 * This is useful for <code>WP_Customize_Setting</code> instances to watch
+		 * in order to update a cached previewed value.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string               $setting_id Setting ID.
+		 * @param mixed                $value      Unsanitized setting post value.
+		 * @param WP_Customize_Manager $this       WP_Customize_Manager instance.
+		 */
+		do_action( 'customize_post_value_set', $setting_id, $value, $this );
 	}
 
 	/**
@@ -714,9 +796,6 @@ final class WP_Customize_Manager {
 			'activePanels' => array(),
 			'activeSections' => array(),
 			'activeControls' => array(),
-			'l10n' => array(
-				'loading'  => __( 'Loading...' ), // no ellipsis
-			),
 		);
 
 		if ( 2 == $this->nonce_tick ) {
@@ -958,18 +1037,31 @@ final class WP_Customize_Manager {
 	 * Add a customize setting.
 	 *
 	 * @since 3.4.0
+	 * @since 4.5.0 Return added WP_Customize_Setting instance.
+	 * @access public
 	 *
-	 * @param WP_Customize_Setting|string $id Customize Setting object, or ID.
-	 * @param array $args                     Setting arguments; passed to WP_Customize_Setting
-	 *                                        constructor.
+	 * @param WP_Customize_Setting|string $id   Customize Setting object, or ID.
+	 * @param array                       $args Setting arguments; passed to WP_Customize_Setting
+	 *                                          constructor.
+	 * @return WP_Customize_Setting             The instance of the setting that was added.
 	 */
 	public function add_setting( $id, $args = array() ) {
 		if ( $id instanceof WP_Customize_Setting ) {
 			$setting = $id;
 		} else {
-			$setting = new WP_Customize_Setting( $this, $id, $args );
+			$class = 'WP_Customize_Setting';
+
+			/** This filter is documented in wp-includes/class-wp-customize-manager.php */
+			$args = apply_filters( 'customize_dynamic_setting_args', $args, $id );
+
+			/** This filter is documented in wp-includes/class-wp-customize-manager.php */
+			$class = apply_filters( 'customize_dynamic_setting_class', $class, $id, $args );
+
+			$setting = new $class( $this, $id, $args );
 		}
+
 		$this->settings[ $setting->id ] = $setting;
+		return $setting;
 	}
 
 	/**
@@ -982,9 +1074,10 @@ final class WP_Customize_Manager {
 	 * even though they are not directly created statically with code.
 	 *
 	 * @since 4.2.0
+	 * @access public
 	 *
 	 * @param array $setting_ids The setting IDs to add.
-	 * @return WP_Customize_Setting The settings added.
+	 * @return array The WP_Customize_Setting objects added.
 	 */
 	public function add_dynamic_settings( $setting_ids ) {
 		$new_settings = array();
@@ -1062,10 +1155,13 @@ final class WP_Customize_Manager {
 	 * Add a customize panel.
 	 *
 	 * @since 4.0.0
+	 * @since 4.5.0 Return added WP_Customize_Panel instance.
 	 * @access public
 	 *
 	 * @param WP_Customize_Panel|string $id   Customize Panel object, or Panel ID.
 	 * @param array                     $args Optional. Panel arguments. Default empty array.
+	 *
+	 * @return WP_Customize_Panel             The instance of the panel that was added.
 	 */
 	public function add_panel( $id, $args = array() ) {
 		if ( $id instanceof WP_Customize_Panel ) {
@@ -1075,6 +1171,7 @@ final class WP_Customize_Manager {
 		}
 
 		$this->panels[ $panel->id ] = $panel;
+		return $panel;
 	}
 
 	/**
@@ -1137,9 +1234,13 @@ final class WP_Customize_Manager {
 	 * Add a customize section.
 	 *
 	 * @since 3.4.0
+	 * @since 4.5.0 Return added WP_Customize_Section instance.
+	 * @access public
 	 *
 	 * @param WP_Customize_Section|string $id   Customize Section object, or Section ID.
 	 * @param array                       $args Section arguments.
+	 *
+	 * @return WP_Customize_Section             The instance of the section that was added.
 	 */
 	public function add_section( $id, $args = array() ) {
 		if ( $id instanceof WP_Customize_Section ) {
@@ -1147,7 +1248,9 @@ final class WP_Customize_Manager {
 		} else {
 			$section = new WP_Customize_Section( $this, $id, $args );
 		}
+
 		$this->sections[ $section->id ] = $section;
+		return $section;
 	}
 
 	/**
@@ -1207,10 +1310,13 @@ final class WP_Customize_Manager {
 	 * Add a customize control.
 	 *
 	 * @since 3.4.0
+	 * @since 4.5.0 Return added WP_Customize_Control instance.
+	 * @access public
 	 *
 	 * @param WP_Customize_Control|string $id   Customize Control object, or ID.
 	 * @param array                       $args Control arguments; passed to WP_Customize_Control
 	 *                                          constructor.
+	 * @return WP_Customize_Control             The instance of the control that was added.
 	 */
 	public function add_control( $id, $args = array() ) {
 		if ( $id instanceof WP_Customize_Control ) {
@@ -1218,7 +1324,9 @@ final class WP_Customize_Manager {
 		} else {
 			$control = new WP_Customize_Control( $this, $id, $args );
 		}
+
 		$this->controls[ $control->id ] = $control;
+		return $control;
 	}
 
 	/**
@@ -1284,7 +1392,7 @@ final class WP_Customize_Manager {
 	 */
 	protected function _cmp_priority( $a, $b ) {
 		if ( $a->priority === $b->priority ) {
-			return $a->instance_number - $a->instance_number;
+			return $a->instance_number - $b->instance_number;
 		} else {
 			return $a->priority - $b->priority;
 		}
@@ -1389,9 +1497,11 @@ final class WP_Customize_Manager {
 	 */
 	public function get_document_title_template() {
 		if ( $this->is_theme_active() ) {
-			$document_title_tmpl = _x( 'Customize: %s', 'Placeholder is the document title from the preview' );
+			/* translators: %s: document title from the preview */
+			$document_title_tmpl = __( 'Customize: %s' );
 		} else {
-			$document_title_tmpl = _x( 'Live Preview: %s', 'Placeholder is the document title from the preview' );
+			/* translators: %s: document title from the preview */
+			$document_title_tmpl = __( 'Live Preview: %s' );
 		}
 		$document_title_tmpl = html_entity_decode( $document_title_tmpl, ENT_QUOTES, 'UTF-8' ); // Because exported to JS and assigned to document.title.
 		return $document_title_tmpl;
@@ -1453,14 +1563,15 @@ final class WP_Customize_Manager {
 	 * @return string URL for link to close Customizer.
 	 */
 	public function get_return_url() {
+		$referer = wp_get_referer();
 		if ( $this->return_url ) {
 			$return_url = $this->return_url;
+		} else if ( $referer && 'customize.php' !== basename( parse_url( $referer, PHP_URL_PATH ) ) ) {
+			$return_url = $referer;
 		} else if ( $this->preview_url ) {
 			$return_url = $this->preview_url;
-		} else if ( current_user_can( 'edit_theme_options' ) || current_user_can( 'switch_themes' ) ) {
-			$return_url = admin_url( 'themes.php' );
 		} else {
-			$return_url = admin_url();
+			$return_url = home_url( '/' );
 		}
 		return $return_url;
 	}
@@ -1744,7 +1855,7 @@ final class WP_Customize_Manager {
 
 		$this->add_control( new WP_Customize_Site_Icon_Control( $this, 'site_icon', array(
 			'label'       => __( 'Site Icon' ),
-			'description' => __( 'The Site Icon is used as a browser and app icon for your site. Icons must be square, and at least 512px wide and tall.' ),
+			'description' => __( 'The Site Icon is used as a browser and app icon for your site. Icons must be square, and at least <strong>512</strong> pixels wide and tall.' ),
 			'section'     => 'title_tagline',
 			'priority'    => 60,
 			'height'      => 512,
@@ -1770,7 +1881,7 @@ final class WP_Customize_Manager {
 		// With custom value
 		$this->add_control( 'display_header_text', array(
 			'settings' => 'header_textcolor',
-			'label'    => __( 'Display Header Text' ),
+			'label'    => __( 'Display Site Title and Tagline' ),
 			'section'  => 'title_tagline',
 			'type'     => 'checkbox',
 			'priority' => 40,

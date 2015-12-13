@@ -87,6 +87,27 @@ add_action( 'customize_register', 'twentyfifteen_customize_register', 11 );
  * @return array An associative array of color scheme options.
  */
 function twentyfifteen_get_color_schemes() {
+	/**
+	 * Filter the color schemes registered for use with Twenty Fifteen.
+	 *
+	 * The default schemes include 'default', 'dark', 'yellow', 'pink', 'purple', and 'blue'.
+	 *
+	 * @since Twenty Fifteen 1.0
+	 *
+	 * @param array $schemes {
+	 *     Associative array of color schemes data.
+	 *
+	 *     @type array $slug {
+	 *         Associative array of information for setting up the color scheme.
+	 *
+	 *         @type string $label  Color scheme label.
+	 *         @type array  $colors HEX codes for default colors prepended with a hash symbol ('#').
+	 *                              Colors are defined in the following order: Main background, sidebar
+	 *                              background, box background, main text and link, sidebar text and link,
+	 *                              meta box background.
+	 *     }
+	 * }
+	 */
 	return apply_filters( 'twentyfifteen_color_schemes', array(
 		'default' => array(
 			'label'  => __( 'Default', 'twentyfifteen' ),

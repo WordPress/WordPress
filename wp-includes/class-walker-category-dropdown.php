@@ -1,17 +1,18 @@
 <?php
 /**
- * Category API: Walker_CategoryDropdown class
+ * Taxonomy API: Walker_CategoryDropdown class
  *
  * @package WordPress
  * @subpackage Template
+ * @since 4.4.0
  */
 
 /**
- * Create HTML dropdown list of Categories.
+ * Core class used to create an HTML dropdown list of Categories.
  *
- * @package WordPress
  * @since 2.1.0
- * @uses Walker
+ *
+ * @see Walker
  */
 class Walker_CategoryDropdown extends Walker {
 	/**

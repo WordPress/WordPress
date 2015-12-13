@@ -22,11 +22,11 @@
  * @param bool  $force_check Whether to bypass the transient cache and force a fresh update check. Defaults to false, true if $extra_stats is set.
  */
 function wp_version_check( $extra_stats = array(), $force_check = false ) {
-	if ( defined( 'WP_INSTALLING' ) ) {
+	if ( wp_installing() ) {
 		return;
 	}
 
-	global $wp_version, $wpdb, $wp_local_package;
+	global $wpdb, $wp_local_package;
 	// include an unmodified $wp_version
 	include( ABSPATH . WPINC . '/version.php' );
 	$php_version = phpversion();
@@ -86,14 +86,15 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	}
 
 	$query = array(
-		'version'           => $wp_version,
-		'php'               => $php_version,
-		'locale'            => $locale,
-		'mysql'             => $mysql_version,
-		'local_package'     => isset( $wp_local_package ) ? $wp_local_package : '',
-		'blogs'             => $num_blogs,
-		'users'             => $user_count,
-		'multisite_enabled' => $multisite_enabled,
+		'version'            => $wp_version,
+		'php'                => $php_version,
+		'locale'             => $locale,
+		'mysql'              => $mysql_version,
+		'local_package'      => isset( $wp_local_package ) ? $wp_local_package : '',
+		'blogs'              => $num_blogs,
+		'users'              => $user_count,
+		'multisite_enabled'  => $multisite_enabled,
+		'initial_db_version' => get_site_option( 'initial_db_version' ),
 	);
 
 	$post_body = array(
@@ -187,11 +188,10 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  */
 function wp_update_plugins( $extra_stats = array() ) {
-	if ( defined( 'WP_INSTALLING' ) ) {
+	if ( wp_installing() ) {
 		return;
 	}
 
-	global $wp_version;
 	// include an unmodified $wp_version
 	include( ABSPATH . WPINC . '/version.php' );
 
@@ -344,10 +344,10 @@ function wp_update_plugins( $extra_stats = array() ) {
  * @param array $extra_stats Extra statistics to report to the WordPress.org API.
  */
 function wp_update_themes( $extra_stats = array() ) {
-	if ( defined( 'WP_INSTALLING' ) ) {
+	if ( wp_installing() ) {
 		return;
 	}
-	global $wp_version;
+
 	// include an unmodified $wp_version
 	include( ABSPATH . WPINC . '/version.php' );
 
@@ -585,8 +585,8 @@ function wp_get_update_data() {
  * @global string $wp_version
  */
 function _maybe_update_core() {
-	global $wp_version;
-	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
+	// include an unmodified $wp_version
+	include( ABSPATH . WPINC . '/version.php' );
 
 	$current = get_site_transient( 'update_core' );
 
@@ -636,16 +636,16 @@ function _maybe_update_themes() {
  * @since 3.1.0
  */
 function wp_schedule_update_checks() {
-	if ( !wp_next_scheduled('wp_version_check') && !defined('WP_INSTALLING') )
+	if ( ! wp_next_scheduled( 'wp_version_check' ) && ! wp_installing() )
 		wp_schedule_event(time(), 'twicedaily', 'wp_version_check');
 
-	if ( !wp_next_scheduled('wp_update_plugins') && !defined('WP_INSTALLING') )
+	if ( ! wp_next_scheduled( 'wp_update_plugins' ) && ! wp_installing() )
 		wp_schedule_event(time(), 'twicedaily', 'wp_update_plugins');
 
-	if ( !wp_next_scheduled('wp_update_themes') && !defined('WP_INSTALLING') )
+	if ( ! wp_next_scheduled( 'wp_update_themes' ) && ! wp_installing() )
 		wp_schedule_event(time(), 'twicedaily', 'wp_update_themes');
 
-	if ( ! wp_next_scheduled( 'wp_maybe_auto_update' ) && ! defined( 'WP_INSTALLING' ) ) {
+	if ( ! wp_next_scheduled( 'wp_maybe_auto_update' ) && ! wp_installing() ) {
 		// Schedule auto updates for 7 a.m. and 7 p.m. in the timezone of the site.
 		$next = strtotime( 'today 7am' );
 		$now = time();

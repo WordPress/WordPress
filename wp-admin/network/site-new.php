@@ -19,12 +19,12 @@ if ( ! is_multisite() )
 if ( ! current_user_can( 'manage_sites' ) )
 	wp_die( __( 'You do not have sufficient permissions to add sites to this network.' ) );
 
-	get_current_screen()->add_help_tab( array(
-		'id'      => 'overview',
-		'title'   => __('Overview'),
-		'content' =>
-			'<p>' . __('This screen is for Super Admins to add new sites to the network. This is not affected by the registration settings.') . '</p>' .
-			'<p>' . __('If the admin email for the new site does not exist in the database, a new user will also be created.') . '</p>'
+get_current_screen()->add_help_tab( array(
+	'id'      => 'overview',
+	'title'   => __('Overview'),
+	'content' =>
+		'<p>' . __('This screen is for Super Admins to add new sites to the network. This is not affected by the registration settings.') . '</p>' .
+		'<p>' . __('If the admin email for the new site does not exist in the database, a new user will also be created.') . '</p>'
 ) );
 
 get_current_screen()->set_help_sidebar(
@@ -46,10 +46,11 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 
 	// If not a subdomain install, make sure the domain isn't a reserved word
 	if ( ! is_subdomain_install() ) {
-		/** This filter is documented in wp-includes/ms-functions.php */
-		$subdirectory_reserved_names = apply_filters( 'subdirectory_reserved_names', array( 'page', 'comments', 'blog', 'files', 'feed', 'wp-admin', 'wp-content', 'wp-includes' ) );
-		if ( in_array( $domain, $subdirectory_reserved_names ) )
-			wp_die( sprintf( __('The following words are reserved for use by WordPress functions and cannot be used as blog names: <code>%s</code>' ), implode( '</code>, <code>', $subdirectory_reserved_names ) ) );
+		$subdirectory_reserved_names = get_subdirectory_reserved_names();
+
+		if ( in_array( $domain, $subdirectory_reserved_names ) ) {
+			wp_die( sprintf( __( 'The following words are reserved for use by WordPress functions and cannot be used as blog names: <code>%s</code>' ), implode( '</code>, <code>', $subdirectory_reserved_names ) ) );
+		}
 	}
 
 	$title = $blog['title'];
@@ -89,6 +90,19 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	$password = 'N/A';
 	$user_id = email_exists($email);
 	if ( !$user_id ) { // Create a new user with a random password
+		/**
+		 * Fires before a new user is created via the network site-new.php page.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param string $email Email of the non-existent user.
+		 */
+		do_action( 'pre_network_site_new_created_user', $email );
+
+		$user_id = username_exists( $domain );
+		if ( $user_id ) {
+			wp_die( __( 'The domain or path entered conflicts with an existing username.' ) );
+		}
 		$password = wp_generate_password( 12, false );
 		$user_id = wpmu_create_user( $domain, $password, $email );
 		if ( false === $user_id ) {
@@ -170,7 +184,7 @@ if ( ! empty( $messages ) ) {
 			<?php } else {
 				echo $current_site->domain . $current_site->path ?><input name="blog[domain]" type="text" class="regular-text" id="site-address" aria-describedby="site-address-desc"  autocapitalize="none" autocorrect="off" />
 			<?php }
-			echo '<p id="site-address-desc">' . __( 'Only lowercase letters (a-z) and numbers are allowed.' ) . '</p>';
+			echo '<p class="description" id="site-address-desc">' . __( 'Only lowercase letters (a-z), numbers, and hyphens are allowed.' ) . '</p>';
 			?>
 			</td>
 		</tr>

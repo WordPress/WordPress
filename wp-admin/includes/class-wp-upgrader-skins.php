@@ -224,7 +224,8 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	public function after() {
 		$this->plugin = $this->upgrader->plugin_info();
 		if ( !empty($this->plugin) && !is_wp_error($this->result) && $this->plugin_active ){
-			echo '<iframe style="border:0;overflow:hidden" width="100%" height="170px" src="' . wp_nonce_url('update.php?action=activate-plugin&networkwide=' . $this->plugin_network_active . '&plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin) .'"></iframe>';
+			// Currently used only when JS is off for a single plugin update?
+			echo '<iframe title="' . esc_attr__( 'Update progress' ) . '" style="border:0;overflow:hidden" width="100%" height="170" src="' . wp_nonce_url( 'update.php?action=activate-plugin&networkwide=' . $this->plugin_network_active . '&plugin=' . urlencode( $this->plugin ), 'activate-plugin_' . $this->plugin ) . '"></iframe>';
 		}
 
 		$this->decrement_update_count( 'plugin' );
@@ -369,7 +370,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	 */
 	public function before($title = '') {
 		$this->in_loop = true;
-		printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . ' <span class="spinner waiting-' . $this->upgrader->update_current . '"></span></h4>',  $title, $this->upgrader->update_current, $this->upgrader->update_count);
+		printf( '<h2>' . $this->upgrader->strings['skin_before_update_header'] . ' <span class="spinner waiting-' . $this->upgrader->update_current . '"></span></h2>', $title, $this->upgrader->update_current, $this->upgrader->update_count );
 		echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').css("display", "inline-block");</script>';
 		echo '<div class="update-messages hide-if-js" id="progress-' . esc_attr($this->upgrader->update_current) . '"><p>';
 		$this->flush_output();
@@ -805,7 +806,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 
 		echo '<div class="update-messages lp-show-latest">';
 
-		printf( '<h4>' . __( 'Updating translations for %1$s (%2$s)&#8230;' ) . '</h4>', $name, $this->language_update->language );
+		printf( '<h2>' . __( 'Updating translations for %1$s (%2$s)&#8230;' ) . '</h2>', $name, $this->language_update->language );
 	}
 
 	/**

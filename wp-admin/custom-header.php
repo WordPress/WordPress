@@ -18,7 +18,7 @@ class Custom_Image_Header {
 	/**
 	 * Callback for administration header.
 	 *
-	 * @var callback
+	 * @var callable
 	 * @since 2.1.0
 	 */
 	public $admin_header_callback;
@@ -26,7 +26,7 @@ class Custom_Image_Header {
 	/**
 	 * Callback for header div.
 	 *
-	 * @var callback
+	 * @var callable
 	 * @since 3.0.0
 	 */
 	public $admin_image_div_callback;
@@ -41,6 +41,10 @@ class Custom_Image_Header {
 	public $default_headers = array();
 
 	/**
+	 * Used to trigger a success message when settings updated and set to true.
+ 	 *
+	 * @since 3.0.0
+	 * @access private
 	 * @var bool
 	 */
 	private $updated;
@@ -49,8 +53,8 @@ class Custom_Image_Header {
 	 * Constructor - Register administration header callback.
 	 *
 	 * @since 2.1.0
-	 * @param callback $admin_header_callback
-	 * @param callback $admin_image_div_callback Optional custom image div output callback.
+	 * @param callable $admin_header_callback
+	 * @param callable $admin_image_div_callback Optional custom image div output callback.
 	 */
 	public function __construct($admin_header_callback, $admin_image_div_callback = '') {
 		$this->admin_header_callback = $admin_header_callback;
@@ -767,7 +771,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	<p class="hide-if-js"><strong><?php _e( 'You need JavaScript to choose a part of the image.'); ?></strong></p>
 
 	<div id="crop_image" style="position: relative">
-		<img src="<?php echo esc_url( $url ); ?>" id="upload" width="<?php echo $width; ?>" height="<?php echo $height; ?>" />
+		<img src="<?php echo esc_url( $url ); ?>" id="upload" width="<?php echo $width; ?>" height="<?php echo $height; ?>" alt="" />
 	</div>
 
 	<input type="hidden" name="x1" id="x1" value="0"/>

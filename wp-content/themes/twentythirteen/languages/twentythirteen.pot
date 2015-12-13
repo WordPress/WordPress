@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Thirteen 1.6\n"
+"Project-Id-Version: Twenty Thirteen 1.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentythirteen\n"
-"POT-Creation-Date: 2015-07-27 19:47:38+00:00\n"
+"POT-Creation-Date: 2015-12-08 15:15:23+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -147,7 +147,7 @@ msgid ""
 "searching can help."
 msgstr ""
 
-#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 1.6)  #-#-#-#-#
+#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 1.7)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:19
 msgid "https://wordpress.org/"

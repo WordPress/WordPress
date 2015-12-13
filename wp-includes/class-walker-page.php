@@ -8,10 +8,11 @@
  */
 
 /**
- * Create HTML list of pages.
+ * Core walker class used to create an HTML list of pages.
  *
  * @since 2.1.0
- * @uses Walker
+ *
+ * @see Walker
  */
 class Walker_Page extends Walker {
 	/**

@@ -54,6 +54,11 @@ if ( 'post' != $post_type ) {
 
 add_screen_option( 'per_page', array( 'default' => 20, 'option' => 'edit_' . $tax->name . '_per_page' ) );
 
+get_current_screen()->set_screen_reader_content( array(
+	'heading_pagination' => $tax->labels->items_list_navigation,
+	'heading_list'       => $tax->labels->items_list,
+) );
+
 $location = false;
 $referer = wp_get_referer();
 
@@ -146,6 +151,10 @@ case 'bulk-delete':
 
 case 'edit':
 	$title = $tax->labels->edit_item;
+
+	if ( ! isset( $_REQUEST['tag_ID'] ) ) {
+		break;
+	}
 
 	$tag_ID = (int) $_REQUEST['tag_ID'];
 

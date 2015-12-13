@@ -165,7 +165,7 @@ var imageEdit = window.imageEdit = {
 			'rand': t.intval(Math.random() * 1000000)
 		};
 
-		img = $('<img id="image-preview-' + postid + '" />')
+		img = $( '<img id="image-preview-' + postid + '" alt="" />' )
 			.on('load', function() {
 				var max1, max2, parent = $('#imgedit-crop-' + postid), t = imageEdit;
 

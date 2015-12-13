@@ -437,10 +437,46 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	<p class="description"><?php _e('Share a little biographical information to fill out your profile. This may be shown publicly.'); ?></p></td>
 </tr>
 
+<?php if ( get_option( 'show_avatars' ) ) : ?>
+<tr class="user-profile-picture">
+	<th><?php _e( 'Profile Picture' ); ?></th>
+	<td>
+		<?php echo get_avatar( $user_id ); ?>
+		<p class="description"><?php
+			if ( IS_PROFILE_PAGE ) {
+				/* translators: %s: Gravatar URL */
+				$description = sprintf( __( 'You can change your profile picture on <a href="%s">Gravatar</a>.' ),
+					__( 'https://en.gravatar.com/' )
+				);
+			} else {
+				$description = '';
+			}
+
+			/**
+			 * Filter the user profile picture description displayed under the Gravatar.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param string $description The description that will be printed.
+			 */
+			echo apply_filters( 'user_profile_picture_description', $description );
+		?></p>
+	</td>
+</tr>
+<?php endif; ?>
+
 <?php
-/** This filter is documented in wp-admin/user-new.php */
-$show_password_fields = apply_filters( 'show_password_fields', true, $profileuser );
-if ( $show_password_fields ) :
+/**
+ * Filter the display of the password fields.
+ *
+ * @since 1.5.1
+ * @since 2.8.0 Added the `$profileuser` parameter.
+ * @since 4.4.0 Now evaluated only in user-edit.php.
+ *
+ * @param bool    $show        Whether to show the password fields. Default true.
+ * @param WP_User $profileuser User object for the current user to edit.
+ */
+if ( $show_password_fields = apply_filters( 'show_password_fields', true, $profileuser ) ) :
 ?>
 </table>
 

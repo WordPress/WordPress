@@ -445,7 +445,7 @@ class Services_JSON
             case 'array':
                /*
                 * As per JSON spec if any array key is not an integer
-                * we must treat the the whole array as an object. We
+                * we must treat the whole array as an object. We
                 * also try to catch a sparsely populated associative
                 * array with numeric keys here because some JS engines
                 * will create an array with empty indexes up to

@@ -1,10 +1,16 @@
 <?php
 /**
- * WordPress User class.
+ * User API: WP_User class
+ *
+ * @package WordPress
+ * @subpackage Users
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement the WP_User object.
  *
  * @since 2.0.0
- * @package WordPress
- * @subpackage User
  *
  * @property string $nickname
  * @property string $description
@@ -96,14 +102,14 @@ class WP_User {
 	private static $back_compat_keys;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * Retrieves the userdata and passes it to {@link WP_User::init()}.
+	 * Retrieves the userdata and passes it to WP_User::init().
 	 *
 	 * @since 2.0.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
 	 * @param string $name Optional. User's username
@@ -169,7 +175,7 @@ class WP_User {
 	 *
 	 * @static
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $field The field to query against: 'id', 'ID', 'slug', 'email' or 'login'.
 	 * @param string|int $value The field value
@@ -253,15 +259,23 @@ class WP_User {
 	}
 
 	/**
-	 * Magic method for checking the existence of a certain custom field
+	 * Magic method for checking the existence of a certain custom field.
 	 *
 	 * @since 3.3.0
-	 * @param string $key
-	 * @return bool
+	 * @access public
+	 *
+	 * @param string $key User meta key to check if set.
+	 * @return bool Whether the given user meta key is set.
 	 */
 	public function __isset( $key ) {
 		if ( 'id' == $key ) {
-			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
+			_deprecated_argument( 'WP_User->id', '2.1',
+				sprintf(
+					/* translators: %s: WP_User->ID */
+					__( 'Use %s instead.' ),
+					'<code>WP_User->ID</code>'
+				)
+			);
 			$key = 'ID';
 		}
 
@@ -275,15 +289,23 @@ class WP_User {
 	}
 
 	/**
-	 * Magic method for accessing custom fields
+	 * Magic method for accessing custom fields.
 	 *
 	 * @since 3.3.0
-	 * @param string $key
-	 * @return mixed
+	 * @access public
+	 *
+	 * @param string $key User meta key to retrieve.
+	 * @return mixed Value of the given user meta key (if set). If `$key` is 'id', the user ID.
 	 */
 	public function __get( $key ) {
 		if ( 'id' == $key ) {
-			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
+			_deprecated_argument( 'WP_User->id', '2.1',
+				sprintf(
+					/* translators: %s: WP_User->ID */
+					__( 'Use %s instead.' ),
+					'<code>WP_User->ID</code>'
+				)
+			);
 			return $this->ID;
 		}
 
@@ -305,6 +327,9 @@ class WP_User {
 	/**
 	 * Magic method for setting custom user fields.
 	 *
+	 * This method does not update custom fields in the database. It only stores
+	 * the value on the WP_User instance.
+	 *
 	 * @since 3.3.0
 	 * @access public
 	 *
@@ -313,12 +338,46 @@ class WP_User {
 	 */
 	public function __set( $key, $value ) {
 		if ( 'id' == $key ) {
-			_deprecated_argument( 'WP_User->id', '2.1', __( 'Use <code>WP_User->ID</code> instead.' ) );
+			_deprecated_argument( 'WP_User->id', '2.1',
+				sprintf(
+					/* translators: %s: WP_User->ID */
+					__( 'Use %s instead.' ),
+					'<code>WP_User->ID</code>'
+				)
+			);
 			$this->ID = $value;
 			return;
 		}
 
 		$this->data->$key = $value;
+	}
+
+	/**
+	 * Magic method for unsetting a certain custom field.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param string $key User meta key to unset.
+	 */
+	public function __unset( $key ) {
+		if ( 'id' == $key ) {
+			_deprecated_argument( 'WP_User->id', '2.1',
+				sprintf(
+					/* translators: %s: WP_User->ID */
+					__( 'Use %s instead.' ),
+					'<code>WP_User->ID</code>'
+				)
+			);
+		}
+
+		if ( isset( $this->data->$key ) ) {
+			unset( $this->data->$key );
+		}
+
+		if ( isset( self::$back_compat_keys[ $key ] ) ) {
+			unset( self::$back_compat_keys[ $key ] );
+		}
 	}
 
 	/**
@@ -383,7 +442,7 @@ class WP_User {
 	 * @access protected
 	 * @since 2.1.0
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $cap_key Optional capability key
 	 */
@@ -573,7 +632,7 @@ class WP_User {
 	 * @since 2.0.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function update_user_level_from_caps() {
 		global $wpdb;
@@ -621,7 +680,7 @@ class WP_User {
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function remove_all_caps() {
 		global $wpdb;
@@ -679,9 +738,12 @@ class WP_User {
 		 * @param array   $args    Optional parameters passed to has_cap(), typically object ID.
 		 * @param WP_User $user    The user object.
 		 */
-		// Must have ALL requested caps
 		$capabilities = apply_filters( 'user_has_cap', $this->allcaps, $caps, $args, $this );
-		$capabilities['exist'] = true; // Everyone is allowed to exist
+
+		// Everyone is allowed to exist.
+		$capabilities['exist'] = true;
+
+		// Must have ALL requested caps.
 		foreach ( (array) $caps as $cap ) {
 			if ( empty( $capabilities[ $cap ] ) )
 				return false;
@@ -710,7 +772,7 @@ class WP_User {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int $blog_id Optional Blog ID, defaults to current blog.
 	 */

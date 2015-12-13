@@ -164,8 +164,8 @@ final class WP_Customize_Widgets {
 	 * @since 4.2.0
 	 * @access public
 	 *
-	 * @param false|array $setting_args The arguments to the WP_Customize_Setting constructor.
-	 * @param string      $setting_id   ID for dynamic setting, usually coming from `$_POST['customized']`.
+	 * @param false|array $args       The arguments to the WP_Customize_Setting constructor.
+	 * @param string      $setting_id ID for dynamic setting, usually coming from `$_POST['customized']`.
 	 * @return false|array Setting arguments, false otherwise.
 	 */
 	public function filter_customize_dynamic_setting_args( $args, $setting_id ) {
@@ -343,7 +343,7 @@ final class WP_Customize_Widgets {
 
 		/*
 		 * Add a setting which will be supplied for the theme's sidebars_widgets
-		 * theme_mod when the the theme is switched.
+		 * theme_mod when the theme is switched.
 		 */
 		if ( ! $this->manager->is_theme_active() ) {
 			$setting_id = 'old_sidebars_widgets_data';
@@ -355,9 +355,11 @@ final class WP_Customize_Widgets {
 		}
 
 		$this->manager->add_panel( 'widgets', array(
-			'title'       => __( 'Widgets' ),
-			'description' => __( 'Widgets are independent sections of content that can be placed into widgetized areas provided by your theme (commonly called sidebars).' ),
-			'priority'    => 110,
+			'type'            => 'widgets',
+			'title'           => __( 'Widgets' ),
+			'description'     => __( 'Widgets are independent sections of content that can be placed into widgetized areas provided by your theme (commonly called sidebars).' ),
+			'priority'        => 110,
+			'active_callback' => array( $this, 'is_panel_active' ),
 		) );
 
 		foreach ( $sidebars_widgets as $sidebar_id => $sidebar_widget_ids ) {
@@ -365,7 +367,7 @@ final class WP_Customize_Widgets {
 				$sidebar_widget_ids = array();
 			}
 
-			$is_registered_sidebar = isset( $wp_registered_sidebars[ $sidebar_id ] );
+			$is_registered_sidebar = is_registered_sidebar( $sidebar_id );
 			$is_inactive_widgets   = ( 'wp_inactive_widgets' === $sidebar_id );
 			$is_active_sidebar     = ( $is_registered_sidebar && ! $is_inactive_widgets );
 
@@ -452,6 +454,22 @@ final class WP_Customize_Widgets {
 		}
 
 		add_filter( 'sidebars_widgets', array( $this, 'preview_sidebars_widgets' ), 1 );
+	}
+
+	/**
+	 * Return whether the widgets panel is active, based on whether there are sidebars registered.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @see WP_Customize_Panel::$active_callback
+	 *
+	 * @global array $wp_registered_sidebars
+	 * @return bool Active.
+	 */
+	public function is_panel_active() {
+		global $wp_registered_sidebars;
+		return ! empty( $wp_registered_sidebars );
 	}
 
 	/**
@@ -655,6 +673,11 @@ final class WP_Customize_Widgets {
 				'error'            => __( 'An error has occurred. Please reload the page and try again.' ),
 				'widgetMovedUp'    => __( 'Widget moved up' ),
 				'widgetMovedDown'  => __( 'Widget moved down' ),
+				'noAreasRendered'  => __( 'There are no widget areas currently rendered in the preview. Navigate in the preview to a template that makes use of a widget area in order to access its widgets here.' ),
+				'reorderModeOn'    => __( 'Reorder mode enabled' ),
+				'reorderModeOff'   => __( 'Reorder mode closed' ),
+				'reorderLabelOn'   => esc_attr__( 'Reorder widgets' ),
+				'reorderLabelOff'  => esc_attr__( 'Close reorder mode' ),
 			),
 			'tpl' => array(
 				'widgetReorderNav' => $widget_reorder_nav_tpl,
@@ -898,19 +921,45 @@ final class WP_Customize_Widgets {
 	 * @return string Widget control form HTML markup.
 	 */
 	public function get_widget_control( $args ) {
+		$args[0]['before_form'] = '<div class="form">';
+		$args[0]['after_form'] = '</div><!-- .form -->';
+		$args[0]['before_widget_content'] = '<div class="widget-content">';
+		$args[0]['after_widget_content'] = '</div><!-- .widget-content -->';
 		ob_start();
-
 		call_user_func_array( 'wp_widget_control', $args );
-		$replacements = array(
-			'<form method="post">' => '<div class="form">',
-			'</form>' => '</div><!-- .form -->',
-		);
-
 		$control_tpl = ob_get_clean();
-
-		$control_tpl = str_replace( array_keys( $replacements ), array_values( $replacements ), $control_tpl );
-
 		return $control_tpl;
+	}
+
+	/**
+	 * Get the widget control markup parts.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param array $args Widget control arguments.
+	 * @return array {
+	 *     @type string $control  Markup for widget control wrapping form.
+	 *     @type string $content  The contents of the widget form itself.
+	 * }
+	 */
+	public function get_widget_control_parts( $args ) {
+		$args[0]['before_widget_content'] = '<div class="widget-content">';
+		$args[0]['after_widget_content'] = '</div><!-- .widget-content -->';
+		$control_markup = $this->get_widget_control( $args );
+
+		$content_start_pos = strpos( $control_markup, $args[0]['before_widget_content'] );
+		$content_end_pos = strrpos( $control_markup, $args[0]['after_widget_content'] );
+
+		$control = substr( $control_markup, 0, $content_start_pos + strlen( $args[0]['before_widget_content'] ) );
+		$control .= substr( $control_markup, $content_end_pos );
+		$content = trim( substr(
+			$control_markup,
+			$content_start_pos + strlen( $args[0]['before_widget_content'] ),
+			$content_end_pos - $content_start_pos - strlen( $args[0]['before_widget_content'] )
+		) );
+
+		return compact( 'control', 'content' );
 	}
 
 	/**
@@ -1076,14 +1125,12 @@ final class WP_Customize_Widgets {
 	 * @since 3.9.0
 	 * @access public
 	 *
-	 * @global array $wp_registered_sidebars
-	 *
 	 * @param bool   $is_active  Whether the sidebar is active.
 	 * @param string $sidebar_id Sidebar ID.
 	 * @return bool
 	 */
 	public function tally_sidebars_via_is_active_sidebar_calls( $is_active, $sidebar_id ) {
-		if ( isset( $GLOBALS['wp_registered_sidebars'][$sidebar_id] ) ) {
+		if ( is_registered_sidebar( $sidebar_id ) ) {
 			$this->rendered_sidebars[] = $sidebar_id;
 		}
 		/*
@@ -1104,14 +1151,12 @@ final class WP_Customize_Widgets {
 	 * @since 3.9.0
 	 * @access public
 	 *
-	 * @global array $wp_registered_sidebars
-	 *
 	 * @param bool   $has_widgets Whether the current sidebar has widgets.
 	 * @param string $sidebar_id  Sidebar ID.
 	 * @return bool
 	 */
 	public function tally_sidebars_via_dynamic_sidebar_calls( $has_widgets, $sidebar_id ) {
-		if ( isset( $GLOBALS['wp_registered_sidebars'][$sidebar_id] ) ) {
+		if ( is_registered_sidebar( $sidebar_id ) ) {
 			$this->rendered_sidebars[] = $sidebar_id;
 		}
 
@@ -1335,7 +1380,7 @@ final class WP_Customize_Widgets {
 		 * in place from WP_Customize_Setting::preview() will use this value
 		 * instead of the default widget instance value (an empty array).
 		 */
-		$this->manager->set_post_value( $setting_id, $instance );
+		$this->manager->set_post_value( $setting_id, $this->sanitize_widget_js_instance( $instance ) );
 
 		// Obtain the widget control with the updated instance in place.
 		ob_start();

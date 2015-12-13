@@ -1,10 +1,16 @@
 <?php
 /**
- * WordPress Post class.
+ * Post API: WP_Post class
  *
- * @since 3.5.0
  * @package WordPress
  * @subpackage Post
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement the WP_Post object.
+ *
+ * @since 3.5.0
  *
  * @property string $page_template
  *
@@ -196,7 +202,7 @@ final class WP_Post {
 	 * @static
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int $post_id Post ID.
 	 * @return WP_Post|false Post object, false otherwise.

@@ -30,7 +30,7 @@ do_action( 'rss_tag_pre', 'rdf' );
 	?>
 >
 <channel rdf:about="<?php bloginfo_rss("url") ?>">
-	<title><?php bloginfo_rss('name'); wp_title_rss(); ?></title>
+	<title><?php wp_title_rss(); ?></title>
 	<link><?php bloginfo_rss('url') ?></link>
 	<description><?php bloginfo_rss('description') ?></description>
 	<dc:date><?php echo mysql2date('Y-m-d\TH:i:s\Z', get_lastpostmodified('GMT'), false); ?></dc:date>

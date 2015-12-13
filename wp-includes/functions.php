@@ -159,6 +159,52 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 }
 
 /**
+ * Determines if the date should be declined.
+ *
+ * If the locale specifies that month names require a genitive case in certain
+ * formats (like 'j F Y'), the month name will be replaced with a correct form.
+ *
+ * @since 4.4.0
+ *
+ * @param string $date Formatted date string.
+ * @return string The date, declined if locale specifies it.
+ */
+function wp_maybe_decline_date( $date ) {
+	global $wp_locale;
+
+	// i18n functions are not available in SHORTINIT mode
+	if ( ! function_exists( '_x' ) ) {
+		return $date;
+	}
+
+	/* translators: If months in your language require a genitive case,
+	 * translate this to 'on'. Do not translate into your own language.
+	 */
+	if ( 'on' === _x( 'off', 'decline months names: on or off' ) ) {
+		// Match a format like 'j F Y' or 'j. F'
+		if ( @preg_match( '#^\d{1,2}\.? \w+#u', $date ) ) {
+			$months = $wp_locale->month;
+
+			foreach ( $months as $key => $month ) {
+				$months[ $key ] = '#' . $month . '#';
+			}
+
+			$date = preg_replace( $months, $wp_locale->month_genitive, $date );
+		}
+	}
+
+	// Used for locale-specific rules
+	$locale = get_locale();
+
+	if ( 'ca' === $locale ) {
+		// " de abril| de agost| de octubre..." -> " d'abril| d'agost| d'octubre..."
+		$date = preg_replace( '# de ([ao])#i', " d'\\1", $date );
+	}
+
+	return $date;
+}
+
+/**
  * Convert integer number to format based on the locale.
  *
  * @since 2.3.0
@@ -171,7 +217,12 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
  */
 function number_format_i18n( $number, $decimals = 0 ) {
 	global $wp_locale;
-	$formatted = number_format( $number, absint( $decimals ), $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep'] );
+
+	if ( isset( $wp_locale ) ) {
+		$formatted = number_format( $number, absint( $decimals ), $wp_locale->number_format['decimal_point'], $wp_locale->number_format['thousands_sep'] );
+	} else {
+		$formatted = number_format( $number, absint( $decimals ) );
+	}
 
 	/**
 	 * Filter the number formatted based on the locale.
@@ -205,12 +256,11 @@ function number_format_i18n( $number, $decimals = 0 ) {
  */
 function size_format( $bytes, $decimals = 0 ) {
 	$quant = array(
-		// ========================= Origin ====
-		'TB' => 1099511627776,  // pow( 1024, 4)
-		'GB' => 1073741824,     // pow( 1024, 3)
-		'MB' => 1048576,        // pow( 1024, 2)
-		'kB' => 1024,           // pow( 1024, 1)
-		'B'  => 1,              // pow( 1024, 0)
+		'TB' => TB_IN_BYTES,
+		'GB' => GB_IN_BYTES,
+		'MB' => MB_IN_BYTES,
+		'kB' => KB_IN_BYTES,
+		'B'  => 1,
 	);
 
 	foreach ( $quant as $unit => $mag ) {
@@ -256,8 +306,8 @@ function get_weekstartend( $mysqlstring, $start_of_week = '' ) {
 	// The most recent week start day on or before $day.
 	$start = $day - DAY_IN_SECONDS * ( $weekday - $start_of_week );
 
-	// $start + 7 days - 1 second.
-	$end = $start + 7 * DAY_IN_SECONDS - 1;
+	// $start + 1 week - 1 second.
+	$end = $start + WEEK_IN_SECONDS - 1;
 	return compact( 'start', 'end' );
 }
 
@@ -495,7 +545,7 @@ function wp_extract_urls( $content ) {
  *
  * @since 1.5.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $content Post Content.
  * @param int    $post_ID Post ID.
@@ -531,6 +581,19 @@ function do_enclose( $content, $post_ID ) {
 				$post_links[] = $link_test;
 		}
 	}
+
+	/**
+	 * Filter the list of enclosure links before querying the database.
+	 *
+	 * Allows for the addition and/or removal of potential enclosures to save
+	 * to postmeta before checking the database for existing enclosures.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $post_links An array of enclosure links.
+	 * @param int   $post_ID    Post ID.
+	 */
+	$post_links = apply_filters( 'enclosure_links', $post_links, $post_ID );
 
 	foreach ( (array) $post_links as $url ) {
 		if ( $url != '' && !$wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM $wpdb->postmeta WHERE post_id = %d AND meta_key = 'enclosure' AND meta_value LIKE %s", $post_ID, $wpdb->esc_like( $url ) . '%' ) ) ) {
@@ -670,26 +733,39 @@ function _http_build_query( $data, $prefix = null, $sep = null, $key = '', $urle
 }
 
 /**
- * Retrieve a modified URL query string.
+ * Retrieves a modified URL query string.
  *
- * You can rebuild the URL and append a new query variable to the URL query by
- * using this function. You can also retrieve the full URL with query data.
+ * You can rebuild the URL and append query variables to the URL query by using this function.
+ * There are two ways to use this function; either a single key and value, or an associative array.
  *
- * Adding a single key & value or an associative array. Setting a key value to
- * an empty string removes the key. Omitting oldquery_or_uri uses the $_SERVER
- * value. Additional values provided are expected to be encoded appropriately
- * with urlencode() or rawurlencode().
+ * Using a single key and value:
  *
- * Important: The return value of add_query_arg() is not escaped by default.
- * Output should be late-escaped with esc_url() or similar to help prevent
- * vulnerability to cross-site scripting (XSS) attacks.
+ *     add_query_arg( 'key', 'value', 'http://example.com' );
+ *
+ * Using an associative array:
+ *
+ *     add_query_arg( array(
+ *         'key1' => 'value1',
+ *         'key2' => 'value2',
+ *     ), 'http://example.com' );
+ *
+ * Omitting the URL from either use results in the current URL being used
+ * (the value of `$_SERVER['REQUEST_URI']`).
+ *
+ * Values are expected to be encoded appropriately with urlencode() or rawurlencode().
+ *
+ * Setting any query variable's value to boolean false removes the key (see remove_query_arg()).
+ *
+ * Important: The return value of add_query_arg() is not escaped by default. Output should be
+ * late-escaped with esc_url() or similar to help prevent vulnerability to cross-site scripting
+ * (XSS) attacks.
  *
  * @since 1.5.0
  *
- * @param string|array $param1 Either newkey or an associative_array.
- * @param string       $param2 Either newvalue or oldquery or URI.
- * @param string       $param3 Optional. Old query or URI.
- * @return string New URL query string.
+ * @param string|array $key   Either a query variable key, or an associative array of query variables.
+ * @param string       $value Optional. Either a query variable value, or a URL to act upon.
+ * @param string       $url   Optional. A URL to act upon.
+ * @return string New URL query string (unescaped).
  */
 function add_query_arg() {
 	$args = func_get_args();
@@ -755,12 +831,12 @@ function add_query_arg() {
 }
 
 /**
- * Removes an item or list from the query string.
+ * Removes an item or items from a query string.
  *
  * @since 1.5.0
  *
  * @param string|array $key   Query key or keys to remove.
- * @param bool|string  $query Optional. When false uses the $_SERVER value. Default false.
+ * @param bool|string  $query Optional. When false uses the current URL. Default false.
  * @return string New URL query string.
  */
 function remove_query_arg( $key, $query = false ) {
@@ -801,6 +877,7 @@ function wp_removable_query_args() {
 		'untrashed',
 		'update',
 		'updated',
+		'wp-post-new-reload',
 	);
 
 	/**
@@ -968,20 +1045,23 @@ function get_status_header_desc( $code ) {
  * Set HTTP status header.
  *
  * @since 2.0.0
+ * @since 4.4.0 Added the `$description` parameter.
  *
  * @see get_status_header_desc()
  *
- * @param int $code HTTP status code.
+ * @param int    $code        HTTP status code.
+ * @param string $description Optional. A custom description for the HTTP status.
  */
-function status_header( $code ) {
-	$description = get_status_header_desc( $code );
+function status_header( $code, $description = '' ) {
+	if ( ! $description ) {
+		$description = get_status_header_desc( $code );
+	}
 
-	if ( empty( $description ) )
+	if ( empty( $description ) ) {
 		return;
+	}
 
-	$protocol = $_SERVER['SERVER_PROTOCOL'];
-	if ( 'HTTP/1.1' != $protocol && 'HTTP/1.0' != $protocol )
-		$protocol = 'HTTP/1.0';
+	$protocol = wp_get_server_protocol();
 	$status_header = "$protocol $code $description";
 	if ( function_exists( 'apply_filters' ) )
 
@@ -1137,20 +1217,23 @@ function do_feed() {
 	if ( $feed == '' || $feed == 'feed' )
 		$feed = get_default_feed();
 
-	$hook = 'do_feed_' . $feed;
-	if ( ! has_action( $hook ) )
+	if ( ! has_action( "do_feed_{$feed}" ) ) {
 		wp_die( __( 'ERROR: This is not a valid feed template.' ), '', array( 'response' => 404 ) );
+	}
 
 	/**
 	 * Fires once the given feed is loaded.
 	 *
-	 * The dynamic hook name, $hook, refers to the feed name.
+	 * The dynamic portion of the hook name, `$feed`, refers to the feed template name.
+	 * Possible values include: 'rdf', 'rss', 'rss2', and 'atom'.
 	 *
 	 * @since 2.1.0
+	 * @since 4.4.0 The `$feed` parameter was added.
 	 *
-	 * @param bool $is_comment_feed Whether the feed is a comment feed.
+	 * @param bool   $is_comment_feed Whether the feed is a comment feed.
+	 * @param string $feed            The feed name.
 	 */
-	do_action( $hook, $wp_query->is_comment_feed );
+	do_action( "do_feed_{$feed}", $wp_query->is_comment_feed, $feed );
 }
 
 /**
@@ -1233,6 +1316,7 @@ function do_robots() {
 		$site_url = parse_url( site_url() );
 		$path = ( !empty( $site_url['path'] ) ) ? $site_url['path'] : '';
 		$output .= "Disallow: $path/wp-admin/\n";
+		$output .= "Allow: $path/wp-admin/admin-ajax.php\n";
 	}
 
 	/**
@@ -1272,7 +1356,7 @@ function is_blog_installed() {
 		return true;
 
 	$suppress = $wpdb->suppress_errors();
-	if ( ! defined( 'WP_INSTALLING' ) ) {
+	if ( ! wp_installing() ) {
 		$alloptions = wp_load_alloptions();
 	}
 	// If siteurl is not set to autoload, check it specifically
@@ -1860,7 +1944,7 @@ function wp_upload_dir( $time = null ) {
  *
  * @param string   $dir                      Directory.
  * @param string   $filename                 File name.
- * @param callback $unique_filename_callback Callback. Default null.
+ * @param callable $unique_filename_callback Callback. Default null.
  * @return string New filename, if given wasn't unique.
  */
 function wp_unique_filename( $dir, $filename, $unique_filename_callback = null ) {
@@ -1893,18 +1977,19 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 			// Check for both lower and upper case extension or image sub-sizes may be overwritten.
 			while ( file_exists($dir . "/$filename") || file_exists($dir . "/$filename2") ) {
 				$new_number = $number + 1;
-				$filename = str_replace( "$number$ext", "$new_number$ext", $filename );
-				$filename2 = str_replace( "$number$ext2", "$new_number$ext2", $filename2 );
+				$filename = str_replace( array( "-$number$ext", "$number$ext" ), "-$new_number$ext", $filename );
+				$filename2 = str_replace( array( "-$number$ext2", "$number$ext2" ), "-$new_number$ext2", $filename2 );
 				$number = $new_number;
 			}
 			return $filename2;
 		}
 
 		while ( file_exists( $dir . "/$filename" ) ) {
-			if ( '' == "$number$ext" )
-				$filename = $filename . ++$number . $ext;
-			else
-				$filename = str_replace( "$number$ext", ++$number . $ext, $filename );
+			if ( '' == "$number$ext" ) {
+				$filename = "$filename-" . ++$number;
+			} else {
+				$filename = str_replace( array( "-$number$ext", "$number$ext" ), "-" . ++$number . $ext, $filename );
+			}
 		}
 	}
 
@@ -2382,7 +2467,7 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param callback $function Callback function name.
+		 * @param callable $function Callback function name.
 		 */
 		$function = apply_filters( 'wp_die_ajax_handler', '_ajax_wp_die_handler' );
 	} elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
@@ -2391,7 +2476,7 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param callback $function Callback function name.
+		 * @param callable $function Callback function name.
 		 */
 		$function = apply_filters( 'wp_die_xmlrpc_handler', '_xmlrpc_wp_die_handler' );
 	} else {
@@ -2400,7 +2485,7 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		 *
 		 * @since 3.0.0
 		 *
-		 * @param callback $function Callback function name.
+		 * @param callable $function Callback function name.
 		 */
 		$function = apply_filters( 'wp_die_handler', '_default_wp_die_handler' );
 	}
@@ -2517,15 +2602,25 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			font-size: 14px ;
 		}
 		a {
-			color: #21759B;
-			text-decoration: none;
+			color: #0073aa;
 		}
-		a:hover {
-			color: #D54E21;
+		a:hover,
+		a:active {
+			color: #00a0d2;
+		}
+		a:focus {
+			color: #124964;
+		    -webkit-box-shadow:
+		    	0 0 0 1px #5b9dd9,
+				0 0 2px 1px rgba(30, 140, 190, .8);
+		    box-shadow:
+		    	0 0 0 1px #5b9dd9,
+				0 0 2px 1px rgba(30, 140, 190, .8);
+			outline: none;
 		}
 		.button {
 			background: #f7f7f7;
-			border: 1px solid #cccccc;
+			border: 1px solid #ccc;
 			color: #555;
 			display: inline-block;
 			text-decoration: none;
@@ -2543,40 +2638,46 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 			-moz-box-sizing:    border-box;
 			box-sizing:         border-box;
 
-			-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
-			box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba(0,0,0,.08);
+			-webkit-box-shadow: 0 1px 0 #ccc;
+			box-shadow: 0 1px 0 #ccc;
 		 	vertical-align: top;
 		}
 
 		.button.button-large {
-			height: 29px;
+			height: 30px;
 			line-height: 28px;
-			padding: 0 12px;
+			padding: 0 12px 2px;
 		}
 
 		.button:hover,
 		.button:focus {
 			background: #fafafa;
 			border-color: #999;
-			color: #222;
+			color: #23282d;
 		}
 
 		.button:focus  {
-			-webkit-box-shadow: 1px 1px 1px rgba(0,0,0,.2);
-			box-shadow: 1px 1px 1px rgba(0,0,0,.2);
+			border-color: #5b9dd9;
+			-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+			box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+			outline: none;
 		}
 
 		.button:active {
 			background: #eee;
 			border-color: #999;
-			color: #333;
-			-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+		 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 		 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+		 	-webkit-transform: translateY(1px);
+		 	-ms-transform: translateY(1px);
+		 	transform: translateY(1px);
 		}
 
-		<?php if ( 'rtl' == $text_direction ) : ?>
-		body { font-family: Tahoma, Arial; }
-		<?php endif; ?>
+		<?php
+		if ( 'rtl' == $text_direction ) {
+			echo 'body { font-family: Tahoma, Arial; }';
+		}
+		?>
 	</style>
 </head>
 <body id="error-page">
@@ -2671,6 +2772,9 @@ function wp_json_encode( $data, $options = 0, $depth = 512 ) {
 	} else {
 		$args = array( $data );
 	}
+
+	// Prepare the data for JSON serialization.
+	$data = _wp_json_prepare_data( $data );
 
 	$json = @call_user_func_array( 'json_encode', $args );
 
@@ -2782,6 +2886,56 @@ function _wp_json_convert_string( $string ) {
 		}
 	} else {
 		return wp_check_invalid_utf8( $string, true );
+	}
+}
+
+/**
+ * Prepares response data to be serialized to JSON.
+ *
+ * This supports the JsonSerializable interface for PHP 5.2-5.3 as well.
+ *
+ * @ignore
+ * @since 4.4.0
+ * @access private
+ *
+ * @param mixed $data Native representation.
+ * @return bool|int|float|null|string|array Data ready for `json_encode()`.
+ */
+function _wp_json_prepare_data( $data ) {
+	if ( ! defined( 'WP_JSON_SERIALIZE_COMPATIBLE' ) || WP_JSON_SERIALIZE_COMPATIBLE === false ) {
+		return $data;
+	}
+
+	switch ( gettype( $data ) ) {
+		case 'boolean':
+		case 'integer':
+		case 'double':
+		case 'string':
+		case 'NULL':
+			// These values can be passed through.
+			return $data;
+
+		case 'array':
+			// Arrays must be mapped in case they also return objects.
+			return array_map( '_wp_json_prepare_data', $data );
+
+		case 'object':
+			// If this is an incomplete object (__PHP_Incomplete_Class), bail.
+			if ( ! is_object( $data ) ) {
+				return null;
+			}
+
+			if ( $data instanceof JsonSerializable ) {
+				$data = $data->jsonSerialize();
+			} else {
+				$data = get_object_vars( $data );
+			}
+
+			// Now, pass the array (or whatever was returned from jsonSerialize through).
+			return _wp_json_prepare_data( $data );
+
+		default:
+			return null;
 	}
 }
 
@@ -3106,6 +3260,24 @@ function wp_array_slice_assoc( $array, $keys ) {
 }
 
 /**
+ * Determines if the variable is a numeric-indexed array.
+ *
+ * @since 4.4.0
+ *
+ * @param mixed $data Variable to check.
+ * @return bool Whether the variable is a list.
+ */
+function wp_is_numeric_array( $data ) {
+	if ( ! is_array( $data ) ) {
+		return false;
+	}
+
+	$keys = array_keys( $data );
+	$string_keys = array_filter( $keys, 'is_string' );
+	return count( $string_keys ) === 0;
+}
+
+/**
  * Filters a list of objects, based on a set of key => value arguments.
  *
  * @since 3.0.0
@@ -3322,7 +3494,7 @@ function dead_db() {
 	}
 
 	// If installing or in the admin, provide the verbose message.
-	if ( defined('WP_INSTALLING') || defined('WP_ADMIN') )
+	if ( wp_installing() || defined( 'WP_ADMIN' ) )
 		wp_die($wpdb->error);
 
 	// Otherwise, be terse.
@@ -3613,11 +3785,16 @@ function _doing_it_wrong( $function, $message, $version ) {
 	if ( WP_DEBUG && apply_filters( 'doing_it_wrong_trigger_error', true ) ) {
 		if ( function_exists( '__' ) ) {
 			$version = is_null( $version ) ? '' : sprintf( __( '(This message was added in version %s.)' ), $version );
-			$message .= ' ' . __( 'Please see <a href="https://codex.wordpress.org/Debugging_in_WordPress">Debugging in WordPress</a> for more information.' );
+			/* translators: %s: Codex URL */
+			$message .= ' ' . sprintf( __( 'Please see <a href="%s">Debugging in WordPress</a> for more information.' ),
+				__( 'https://codex.wordpress.org/Debugging_in_WordPress' )
+			);
 			trigger_error( sprintf( __( '%1$s was called <strong>incorrectly</strong>. %2$s %3$s' ), $function, $message, $version ) );
 		} else {
 			$version = is_null( $version ) ? '' : sprintf( '(This message was added in version %s.)', $version );
-			$message .= ' Please see <a href="https://codex.wordpress.org/Debugging_in_WordPress">Debugging in WordPress</a> for more information.';
+			$message .= sprintf( ' Please see <a href="%s">Debugging in WordPress</a> for more information.',
+				'https://codex.wordpress.org/Debugging_in_WordPress'
+			);
 			trigger_error( sprintf( '%1$s was called <strong>incorrectly</strong>. %2$s %3$s', $function, $message, $version ) );
 		}
 	}
@@ -3750,20 +3927,6 @@ function is_ssl() {
 		return true;
 	}
 	return false;
-}
-
-/**
- * Whether SSL login should be forced.
- *
- * @since 2.6.0
- *
- * @see force_ssl_admin()
- *
- * @param string|bool $force Optional Whether to force SSL login. Default null.
- * @return bool True if forced, false if not forced.
- */
-function force_ssl_login( $force = null ) {
-	return force_ssl_admin( $force );
 }
 
 /**
@@ -4233,7 +4396,7 @@ function _cleanup_header_comment( $str ) {
  *
  * @since 2.9.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function wp_scheduled_delete() {
 	global $wpdb;
@@ -4462,7 +4625,7 @@ function _wp_mysql_week( $column ) {
  * @since 3.1.0
  * @access private
  *
- * @param callback $callback      Function that accepts ( ID, $callback_args ) and outputs parent_ID.
+ * @param callable $callback      Function that accepts ( ID, $callback_args ) and outputs parent_ID.
  * @param int      $start         The ID to start the loop check at.
  * @param int      $start_parent  The parent_ID of $start to use instead of calling $callback( $start ).
  *                                Use null to always use $callback
@@ -4487,7 +4650,7 @@ function wp_find_hierarchy_loop( $callback, $start, $start_parent, $callback_arg
  * @since 3.1.0
  * @access private
  *
- * @param callback $callback      Function that accepts ( ID, callback_arg, ... ) and outputs parent_ID.
+ * @param callable $callback      Function that accepts ( ID, callback_arg, ... ) and outputs parent_ID.
  * @param int      $start         The ID to start the loop check at.
  * @param array    $override      Optional. An array of ( ID => parent_ID, ... ) to use instead of $callback.
  *                                Default empty array.
@@ -4989,4 +5152,22 @@ function wp_post_preview_js() {
 	}());
 	</script>
 	<?php
+}
+
+/**
+ * Parses and formats a MySQL datetime (Y-m-d H:i:s) for ISO8601/RFC3339.
+ *
+ * Explicitly strips timezones, as datetimes are not saved with any timezone
+ * information. Including any information on the offset could be misleading.
+ *
+ * @since 4.4.0
+ *
+ * @param string $date_string Date string to parse and format.
+ * @return string Date formatted for ISO8601/RFC3339.
+ */
+function mysql_to_rfc3339( $date_string ) {
+	$formatted = mysql2date( 'c', $date_string, false );
+
+	// Strip timezone information
+	return preg_replace( '/(?:Z|[+-]\d{2}(?::\d{2})?)$/', '', $formatted );
 }

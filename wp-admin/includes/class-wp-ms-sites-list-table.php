@@ -1,11 +1,19 @@
 <?php
 /**
- * Sites List Table class.
+ * List Table API: WP_MS_Sites_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying sites in a list table for the network admin.
+ *
  * @since 3.1.0
  * @access private
+ *
+ * @see WP_List_Table
  */
 class WP_MS_Sites_List_Table extends WP_List_Table {
 
@@ -122,24 +130,24 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		}
 
 		$order_by = isset( $_REQUEST['orderby'] ) ? $_REQUEST['orderby'] : '';
-		if ( $order_by == 'registered' ) {
+		if ( $order_by === 'registered' ) {
 			$query .= ' ORDER BY registered ';
-		} elseif ( $order_by == 'lastupdated' ) {
+		} elseif ( $order_by === 'lastupdated' ) {
 			$query .= ' ORDER BY last_updated ';
-		} elseif ( $order_by == 'blogname' ) {
+		} elseif ( $order_by === 'blogname' ) {
 			if ( is_subdomain_install() ) {
 				$query .= ' ORDER BY domain ';
 			} else {
 				$query .= ' ORDER BY path ';
 			}
-		} elseif ( $order_by == 'blog_id' ) {
+		} elseif ( $order_by === 'blog_id' ) {
 			$query .= ' ORDER BY blog_id ';
 		} else {
 			$order_by = null;
 		}
 
 		if ( isset( $order_by ) ) {
-			$order = ( isset( $_REQUEST['order'] ) && 'DESC' == strtoupper( $_REQUEST['order'] ) ) ? "DESC" : "ASC";
+			$order = ( isset( $_REQUEST['order'] ) && 'DESC' === strtoupper( $_REQUEST['order'] ) ) ? "DESC" : "ASC";
 			$query .= $order;
 		}
 
@@ -190,7 +198,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		parent::pagination( $which );
 
-		if ( 'top' == $which )
+		if ( 'top' === $which )
 			$this->view_switcher( $mode );
 	}
 
@@ -200,7 +208,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	public function get_columns() {
 		$sites_columns = array(
 			'cb'          => '<input type="checkbox" />',
-			'id'          => __( 'ID' ),
 			'blogname'    => __( 'URL' ),
 			'lastupdated' => __( 'Last Updated' ),
 			'registered'  => _x( 'Registered', 'site' ),
@@ -320,13 +327,13 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	public function column_lastupdated( $blog ) {
 		global $mode;
 
-		if ( 'list' == $mode ) {
+		if ( 'list' === $mode ) {
 			$date = __( 'Y/m/d' );
 		} else {
 			$date = __( 'Y/m/d g:i:s a' );
 		}
 
-		echo ( $blog['last_updated'] == '0000-00-00 00:00:00' ) ? __( 'Never' ) : mysql2date( $date, $blog['last_updated'] );
+		echo ( $blog['last_updated'] === '0000-00-00 00:00:00' ) ? __( 'Never' ) : mysql2date( $date, $blog['last_updated'] );
 	}
 
 	/**
@@ -340,13 +347,13 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	public function column_registered( $blog ) {
 		global $mode;
 
-		if ( 'list' == $mode ) {
+		if ( 'list' === $mode ) {
 			$date = __( 'Y/m/d' );
 		} else {
 			$date = __( 'Y/m/d g:i:s a' );
 		}
 
-		if ( $blog['registered'] == '0000-00-00 00:00:00' ) {
+		if ( $blog['registered'] === '0000-00-00 00:00:00' ) {
 			echo '&#x2014;';
 		} else {
 			echo mysql2date( $date, $blog['registered'] );

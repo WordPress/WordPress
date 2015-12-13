@@ -67,6 +67,12 @@ input[type="url"] {
 	direction: ltr;
 }
 
+/* Vertically align the number selector with the input. */
+input[type="number"] {
+	height: 28px;
+	line-height: inherit;
+}
+
 input[type="checkbox"],
 input[type="radio"] {
 	border: 1px solid #b4b9be;
@@ -383,6 +389,14 @@ input.small-text {
 
 input[type="number"].small-text {
 	width: 65px;
+}
+
+input.tiny-text {
+	width: 35px;
+}
+
+input[type="number"].tiny-text {
+	width: 45px;
 }
 
 #doaction,
@@ -740,6 +754,18 @@ table.form-table td .updated p {
 	line-height: 24px;
 }
 
+.label-responsive {
+	vertical-align: middle;
+}
+
+#export-filters p {
+	margin: 0 0 1em;
+}
+
+#export-filters p.submit {
+	margin: 7px 0 5px;
+}
+
 /* Card styles */
 
 .card {
@@ -944,6 +970,17 @@ table.form-table td .updated p {
 	margin: 25px;
 }
 
+#request-filesystem-credentials-title {
+    font-size: 1.3em;
+    margin: 1em 0;
+}
+
+.request-filesystem-credentials-form legend {
+	font-size: 1em;
+	padding: 1.33em 0;
+	font-weight: 600;
+}
+
 .request-filesystem-credentials-form input[type="text"],
 .request-filesystem-credentials-form input[type="password"] {
 	display: block;
@@ -1012,6 +1049,10 @@ table.form-table td .updated p {
 	input[type="number"] {
 		-webkit-appearance: none;
 		padding: 6px 10px;
+	}
+
+	input[type="number"] {
+		height: 40px;
 	}
 
 	input.code {
@@ -1086,10 +1127,19 @@ table.form-table td .updated p {
 	}
 
 	.form-table th,
-	.form-table td {
+	.form-table td,
+	.label-responsive {
 		display: block;
 		width: auto;
 		vertical-align: middle;
+	}
+
+	.label-responsive {
+		margin: 0.5em 0;
+	}
+
+	.export-filters li {
+		margin-bottom: 0;
 	}
 
 	.form-table .color-palette td {

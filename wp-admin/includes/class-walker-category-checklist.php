@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Administration API: Walker_Category_Checklist class
+ * Taxonomy API: Walker_Category_Checklist class
  *
  * @package WordPress
  * @subpackage Administration
@@ -8,7 +8,7 @@
  */
 
 /**
- * Walker to output an unordered list of category checkbox input elements.
+ * Core walker class to output an unordered list of category checkbox input elements.
  *
  * @since 2.5.1
  *
@@ -83,7 +83,6 @@ class Walker_Category_Checklist extends Walker {
 
 		$args['selected_cats'] = empty( $args['selected_cats'] ) ? array() : $args['selected_cats'];
 
-		/** This filter is documented in wp-includes/category-template.php */
 		if ( ! empty( $args['list_only'] ) ) {
 			$aria_cheched = 'false';
 			$inner_class = 'category';
@@ -93,11 +92,13 @@ class Walker_Category_Checklist extends Walker {
 				$aria_cheched = 'true';
 			}
 
+			/** This filter is documented in wp-includes/category-template.php */
 			$output .= "\n" . '<li' . $class . '>' .
 				'<div class="' . $inner_class . '" data-term-id=' . $category->term_id .
 				' tabindex="0" role="checkbox" aria-checked="' . $aria_cheched . '">' .
 				esc_html( apply_filters( 'the_category', $category->name ) ) . '</div>';
 		} else {
+			/** This filter is documented in wp-includes/category-template.php */
 			$output .= "\n<li id='{$taxonomy}-{$category->term_id}'$class>" .
 				'<label class="selectit"><input value="' . $category->term_id . '" type="checkbox" name="'.$name.'[]" id="in-'.$taxonomy.'-' . $category->term_id . '"' .
 				checked( in_array( $category->term_id, $args['selected_cats'] ), true, false ) .

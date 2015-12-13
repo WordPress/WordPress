@@ -1,9 +1,10 @@
 <?php
 /**
- * Category Template Tags and API.
+ * Taxonomy API: Core category-specific template tags
  *
  * @package WordPress
  * @subpackage Template
+ * @since 1.2.0
  */
 
 /**
@@ -90,10 +91,12 @@ function get_the_category( $id = false ) {
 	 * Filter the array of categories to return for a post.
 	 *
 	 * @since 3.1.0
+	 * @since 4.4.0 Added `$id` parameter.
 	 *
 	 * @param array $categories An array of categories to return for the post.
+	 * @param int   $id         ID of the post.
 	 */
-	return apply_filters( 'get_the_categories', $categories );
+	return apply_filters( 'get_the_categories', $categories, $id );
 }
 
 /**
@@ -172,7 +175,17 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 		return apply_filters( 'the_category', '', $separator, $parents );
 	}
 
-	$categories = get_the_category( $post_id );
+	/**
+	 * Filter the categories before building the category list.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array    $categories An array of the post's categories.
+	 * @param int|bool $post_id    ID of the post we're retrieving categories for. When `false`, we assume the
+	 *                             current post in the loop.
+	 */
+	$categories = apply_filters( 'the_category_list', get_the_category( $post_id ), $post_id );
+
 	if ( empty( $categories ) ) {
 		/** This filter is documented in wp-includes/category-template.php */
 		return apply_filters( 'the_category', __( 'Uncategorized' ), $separator, $parents );
@@ -360,7 +373,13 @@ function wp_dropdown_categories( $args = '' ) {
 
 	// Back compat.
 	if ( isset( $args['type'] ) && 'link' == $args['type'] ) {
-		_deprecated_argument( __FUNCTION__, '3.0', '' );
+		/* translators: 1: "type => link", 2: "taxonomy => link_category" alternative */
+		_deprecated_argument( __FUNCTION__, '3.0',
+			sprintf( __( '%1$s is deprecated. Use %2$s instead.' ),
+				'<code>type => link</code>',
+				'<code>taxonomy => link_category</code>'
+			)
+		);
 		$args['taxonomy'] = 'link_category';
 	}
 
@@ -461,7 +480,7 @@ function wp_dropdown_categories( $args = '' ) {
  * Display or retrieve the HTML list of categories.
  *
  * @since 2.1.0
- * @since 4.4.0 Introduced the `hide_title_if_empty` argument. The `current_category` argument was modified to
+ * @since 4.4.0 Introduced the `hide_title_if_empty` and `separator` arguments. The `current_category` argument was modified to
  *              optionally accept an array of values.
  *
  * @param string|array $args {
@@ -485,7 +504,9 @@ function wp_dropdown_categories( $args = '' ) {
  *     @type string       $feed_image            URL of an image to use for the feed link. Default empty string.
  *     @type int          $child_of              Term ID to retrieve child terms of. See {@link get_terms()}. Default 0.
  *     @type array|string $exclude               Array or comma/space-separated string of term IDs to exclude.
- *                                               See {@link get_terms()}. Default empty string.
+ *                                               If `$hierarchical` is true, descendants of `$exclude` terms will also
+ *                                               be excluded; see `$exclude_tree`. See {@link get_terms()}.
+ *                                               Default empty string.
  *     @type array|string $exclude_tree          Array or comma/space-separated string of term IDs to exclude, along
  *                                               with their descendants. See {@link get_terms()}. Default empty string.
  *     @type bool|int     $echo                  True to echo markup, false to return it. Default 1.
@@ -515,6 +536,7 @@ function wp_list_categories( $args = '' ) {
 		'hierarchical' => true, 'title_li' => __( 'Categories' ),
 		'hide_title_if_empty' => false,
 		'echo' => 1, 'depth' => 0,
+		'separator' => '<br />',
 		'taxonomy' => 'category'
 	);
 
@@ -523,8 +545,19 @@ function wp_list_categories( $args = '' ) {
 	if ( !isset( $r['pad_counts'] ) && $r['show_count'] && $r['hierarchical'] )
 		$r['pad_counts'] = true;
 
+	// Descendants of exclusions should be excluded too.
 	if ( true == $r['hierarchical'] ) {
-		$r['exclude_tree'] = $r['exclude'];
+		$exclude_tree = array();
+
+		if ( $r['exclude_tree'] ) {
+			$exclude_tree = array_merge( $exclude_tree, (array) $r['exclude_tree'] );
+		}
+
+		if ( $r['exclude'] ) {
+			$exclude_tree = array_merge( $exclude_tree, (array) $r['exclude'] );
+		}
+
+		$r['exclude_tree'] = $exclude_tree;
 		$r['exclude'] = '';
 	}
 
@@ -571,9 +604,13 @@ function wp_list_categories( $args = '' ) {
 				}
 			}
 
-			// Fallback for the 'All' link is the front page.
+			// Fallback for the 'All' link is the posts page.
 			if ( ! $posts_page ) {
-				$posts_page = 'page' == get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) ? get_permalink( get_option( 'page_for_posts' ) ) : home_url( '/' );
+				if ( 'page' == get_option( 'show_on_front' ) && get_option( 'page_for_posts' ) ) {
+					$posts_page = get_permalink( get_option( 'page_for_posts' ) );
+				} else {
+					$posts_page = home_url( '/' );
+				}
 			}
 
 			$posts_page = esc_url( $posts_page );
@@ -1111,7 +1148,17 @@ function get_the_terms( $post, $taxonomy ) {
 	$terms = get_object_term_cache( $post->ID, $taxonomy );
 	if ( false === $terms ) {
 		$terms = wp_get_object_terms( $post->ID, $taxonomy );
-		wp_cache_add($post->ID, $terms, $taxonomy . '_relationships');
+		if ( ! is_wp_error( $terms ) ) {
+			$to_cache = array();
+			foreach ( $terms as $key => $term ) {
+				$to_cache[ $key ] = $term->data;
+			}
+			wp_cache_add( $post->ID, $to_cache, $taxonomy . '_relationships' );
+		}
+	}
+
+	if ( ! is_wp_error( $terms ) ) {
+		$terms = array_map( 'get_term', $terms );
 	}
 
 	/**

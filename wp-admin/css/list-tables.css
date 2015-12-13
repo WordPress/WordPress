@@ -152,7 +152,8 @@
 
 #replysubmit {
 	margin: 0;
-	padding: 0 5px 3px;
+	padding: 5px 7px 10px;
+	overflow: hidden;
 	text-align: center;
 }
 
@@ -166,11 +167,23 @@
 	text-align: center;
 }
 
-#replyrow h5 {
-	margin: .2em 0 0;
-	padding: 0 5px;
-	line-height: 1.4em;
-	font-size: 1em;
+#replyrow.inline-edit-row fieldset.comment-reply {
+	font-size: inherit;
+	line-height: inherit;
+}
+
+#replyrow legend {
+	margin: 0;
+	padding: .2em 5px 0;
+	font-size: 13px;
+	line-height: 1.4;
+	font-weight: 600;
+}
+
+#replyrow.inline-edit-row label {
+	display: inline;
+	vertical-align: baseline;
+	line-height: inherit;
 }
 
 #edithead .inside,
@@ -285,7 +298,7 @@ th .comment-grey-bubble:before {
 ------------------------------------------------------------------------------*/
 
 table.fixed {
-	table-layout: auto;
+	table-layout: fixed;
 }
 
 .fixed .column-rating,
@@ -386,6 +399,10 @@ table.media .column-title .filename {
 	width: 20%;
 }
 
+#comments-form .fixed .column-date {
+	width: 14%;
+}
+
 #commentsdiv.postbox .inside {
 	margin: 0;
 	padding: 0;
@@ -429,7 +446,6 @@ table.media .column-title .filename {
 }
 
 #commentsdiv #edithead .inside input {
-	vertical-align: middle;
 	width: 160px;
 }
 
@@ -596,7 +612,7 @@ th.sortable a,
 th.sorted a {
 	display: block;
 	overflow: hidden;
-	padding: 8px 10px;
+	padding: 8px;
 }
 
 .fixed .column-comments.sortable a,
@@ -861,15 +877,27 @@ p.pagenav {
 .row-actions {
 	color: #ddd;
 	font-size: 13px;
-	visibility: hidden;
 	padding: 2px 0 0;
+	position: relative;
+	left: -9999em;
 }
 
+/* ticket #34150 */
+.rtl .row-actions a {
+	display: inline-block;
+}
+
+.row-actions .network_only,
+.row-actions .network_active {
+	color: #000;
+}
+
+.no-js .row-actions,
 tr:hover .row-actions,
 .mobile .row-actions,
 .row-actions.visible,
 div.comment-item:hover .row-actions {
-	visibility: visible;
+	position: static;
 }
 
 /* deprecated */
@@ -967,11 +995,19 @@ tr.inline-edit-row td,
 }
 
 /*	Positioning */
-.inline-edit-row h4 {
-	margin: .2em 0;
-	padding: 0;
+
+/* Needs higher specificity for the padding */
+#the-list .inline-edit-row .inline-edit-legend {
+	margin: 0;
+	padding: 0.2em 0.5em 0;
 	line-height: 2.5;
+	font-weight: 600;
 }
+
+#the-list #bulk-edit.inline-edit-row .inline-edit-legend {
+	padding: 0.2em 0.5em;
+}
+
 .inline-edit-row fieldset span.title,
 .inline-edit-row fieldset span.checkbox-title {
 	margin: 0;
@@ -1061,7 +1097,7 @@ tr.inline-edit-row td,
 }
 
 /*	Styling */
-.inline-edit-row h4 {
+.inline-edit-row .inline-edit-legend {
 	text-transform: uppercase;
 }
 
@@ -1420,11 +1456,11 @@ tr.active + tr.plugin-update-tr:not(.updated) .plugin-update .update-message {
 	background-color: #fcf3ef;
 }
 
-.plugin-install-php h3 {
+.plugin-install-php h2 {
 	clear: both;
 }
 
-.plugin-install-php h4 {
+.plugin-install-php h3 {
 	margin: 2.5em 0 8px;
 }
 
@@ -1501,7 +1537,7 @@ div.action-links,
 	margin: 0; /* Override existing margins */
 }
 
-.plugin-card h4 {
+.plugin-card h3 {
 	margin: 0 0 12px;
 	font-size: 18px;
 	line-height: 1.3;
@@ -1542,6 +1578,21 @@ div.action-links,
 
 .plugin-card-bottom .star-rating {
 	display: inline;
+}
+
+.plugin-card-update-failed .update-now {
+	font-weight: 600;
+}
+
+.plugin-card-update-failed .notice-error {
+	margin: 0;
+	padding-left: 16px;
+	-webkit-box-shadow: 0 -1px 0 #dedede;
+	box-shadow: 0 -1px 0 #dedede;
+}
+
+.plugin-card-update-failed .plugin-card-bottom {
+	display: none;
 }
 
 .plugin-card .column-rating {
@@ -1602,11 +1653,6 @@ div.action-links,
 	margin: 0 20px 20px 0;
 }
 
-.plugin-icon img {
-	width: 128px;
-	height: 128px;
-}
-
 .no-plugin-results {
 	color: #999;
 	font-size: 18px;
@@ -1618,16 +1664,20 @@ div.action-links,
 
 /* ms */
 /* Background Color for Site Status */
-.wp-list-table .site-deleted {
+.wp-list-table .site-deleted,
+.wp-list-table tr.site-deleted {
 	background: #ff8573;
 }
-.wp-list-table .site-spammed {
+.wp-list-table .site-spammed,
+.wp-list-table tr.site-spammed {
 	background: #faafaa;
 }
-.wp-list-table .site-archived {
+.wp-list-table .site-archived,
+.wp-list-table tr.site-archived {
 	background: #ffebe8;
 }
-.wp-list-table .site-mature {
+.wp-list-table .site-mature,
+.wp-list-table tr.site-mature {
 	background: #fecac2;
 }
 
@@ -1672,6 +1722,10 @@ div.action-links,
 
 	.plugin-card .desc p:first-of-type {
 		margin-top: 0;
+	}
+
+	.fixed .column-date {
+		width: 14%;
 	}
 }
 
@@ -1748,7 +1802,7 @@ div.action-links,
 
 	.tablenav-pages .pagination-links a,
 	.tablenav-pages-navspan {
-		padding: 9px 16px 12px;
+		padding: 9px 11px 12px;
 		font-size: 18px;
 	}
 
@@ -2038,6 +2092,12 @@ div.action-links,
 		padding-top: 2px;
 	}
 
+	#wpbody-content .wp-list-table.plugins .plugin-title,
+	#wpbody-content .wp-list-table.plugins .theme-title {
+		padding-right: 12px;
+		white-space: normal;
+	}
+
 	.wp-list-table.plugins .plugin-title,
 	.wp-list-table.plugins .theme-title {
 		padding-top: 13px;
@@ -2095,7 +2155,7 @@ div.action-links,
 	.wp-list-table.plugins .plugin-title strong,
 	.wp-list-table.plugins .theme-title strong {
 		font-size: 1.4em;
-		line-height: 1.6em;
+		line-height: 1.5;
 	}
 
 	/* Add New plugins page */

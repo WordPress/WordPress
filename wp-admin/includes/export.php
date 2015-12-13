@@ -260,7 +260,7 @@ function export_wp( $args = array() ) {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param array $post_ids Array of post IDs to filter the query by. Optional.
 	 */

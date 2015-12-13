@@ -1,8 +1,10 @@
 <?php
 /**
- * Admin Bar
+ * Toolbar API: Top-level Toolbar functionality
  *
- * This code handles the building and rendering of the press bar.
+ * @package WordPress
+ * @subpackage Toolbar
+ * @since 3.1.0
  */
 
 /**
@@ -37,7 +39,7 @@ function _wp_admin_bar_init() {
 	 * @param string $wp_admin_bar_class Admin bar class to use. Default 'WP_Admin_Bar'.
 	 */
 	$admin_bar_class = apply_filters( 'wp_admin_bar_class', 'WP_Admin_Bar' );
-	if ( class_exists( $admin_bar_class, false ) )
+	if ( class_exists( $admin_bar_class ) )
 		$wp_admin_bar = new $admin_bar_class;
 	else
 		return false;
@@ -434,6 +436,12 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 			'title'  => __( 'Plugins' ),
 			'href'   => network_admin_url( 'plugins.php' ),
 		) );
+		$wp_admin_bar->add_menu( array(
+			'parent' => 'network-admin',
+			'id'     => 'network-admin-o',
+			'title'  => __( 'Settings' ),
+			'href'   => network_admin_url( 'settings.php' ),
+		) );
 	}
 
 	// Add site links
@@ -530,7 +538,7 @@ function wp_admin_bar_shortlink_menu( $wp_admin_bar ) {
  *
  * @since 3.1.0
  *
- * @global object   $tag
+ * @global WP_Term  $tag
  * @global WP_Query $wp_the_query
  *
  * @param WP_Admin_Bar $wp_admin_bar
@@ -566,7 +574,7 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 				) );
 			}
 		} elseif ( 'edit-tags' == $current_screen->base
-			&& isset( $tag ) && is_object( $tag )
+			&& isset( $tag ) && is_object( $tag ) && ! is_wp_error( $tag )
 			&& ( $tax = get_taxonomy( $tag->taxonomy ) )
 			&& $tax->public )
 		{
@@ -585,7 +593,7 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 		if ( ! empty( $current_object->post_type )
 			&& ( $post_type_object = get_post_type_object( $current_object->post_type ) )
 			&& current_user_can( 'edit_post', $current_object->ID )
-			&& $post_type_object->show_ui && $post_type_object->show_in_admin_bar
+			&& $post_type_object->show_in_admin_bar
 			&& $edit_post_link = get_edit_post_link( $current_object->ID ) )
 		{
 			$wp_admin_bar->add_menu( array(
@@ -596,7 +604,6 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 		} elseif ( ! empty( $current_object->taxonomy )
 			&& ( $tax = get_taxonomy( $current_object->taxonomy ) )
 			&& current_user_can( $tax->cap->edit_terms )
-			&& $tax->show_ui
 			&& $edit_term_link = get_edit_term_link( $current_object->term_id, $current_object->taxonomy ) )
 		{
 			$wp_admin_bar->add_menu( array(
@@ -897,6 +904,10 @@ function is_admin_bar_showing() {
 	// For all these types of requests, we never want an admin bar.
 	if ( defined('XMLRPC_REQUEST') || defined('DOING_AJAX') || defined('IFRAME_REQUEST') )
 		return false;
+
+	if ( is_embed() ) {
+		return false;
+	}
 
 	// Integrated into the admin.
 	if ( is_admin() )

@@ -251,6 +251,12 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+get_current_screen()->set_screen_reader_content( array(
+	'heading_views'      => __( 'Filter themes list' ),
+	'heading_pagination' => __( 'Themes list navigation' ),
+	'heading_list'       => __( 'Themes list' ),
+) );
+
 $title = __('Themes');
 $parent_file = 'themes.php';
 

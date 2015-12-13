@@ -26,25 +26,33 @@
 		context.textBaseline = 'top';
 		context.font = '600 32px Arial';
 
-		if ( type === 'flag' ) {
+		if ( 'flag' === type ) {
 			/*
 			 * This works because the image will be one of three things:
 			 * - Two empty squares, if the browser doesn't render emoji
-			 * - Two squares with 'G' and 'B' in them, if the browser doesn't render flag emoji
-			 * - The British flag
+			 * - Two squares with 'A' and 'U' in them, if the browser doesn't render flag emoji
+			 * - The Australian flag
 			 *
 			 * The first two will encode to small images (1-2KB data URLs), the third will encode
 			 * to a larger image (4-5KB data URL).
 			 */
-			context.fillText( String.fromCharCode( 55356, 56812, 55356, 56807 ), 0, 0 );
+			context.fillText( String.fromCharCode( 55356, 56806, 55356, 56826 ), 0, 0 );
 			return canvas.toDataURL().length > 3000;
 		} else {
-			/*
-			 * This creates a smiling emoji, and checks to see if there is any image data in the
-			 * center pixel. In browsers that don't support emoji, the character will be rendered
-			 * as an empty square, so the center pixel will be blank.
-			 */
-			context.fillText( String.fromCharCode( 55357, 56835 ), 0, 0 );
+			if ( 'simple' === type ) {
+				/*
+				 * This creates a smiling emoji, and checks to see if there is any image data in the
+				 * center pixel. In browsers that don't support emoji, the character will be rendered
+				 * as an empty square, so the center pixel will be blank.
+				 */
+				context.fillText( String.fromCharCode( 55357, 56835 ), 0, 0 );
+			} else {
+				/*
+				 * To check for Unicode 8 support, let's try rendering the most important advancement
+				 * that the Unicode Consortium have made in years: the burrito.
+				 */
+				context.fillText( String.fromCharCode( 55356, 57135 ), 0, 0 );
+			}
 			return context.getImageData( 16, 16, 1, 1 ).data[0] !== 0;
 		}
 	}
@@ -58,8 +66,9 @@
 	}
 
 	settings.supports = {
-		simple: browserSupportsEmoji( 'simple' ),
-		flag:   browserSupportsEmoji( 'flag' )
+		simple:   browserSupportsEmoji( 'simple' ),
+		flag:     browserSupportsEmoji( 'flag' ),
+		unicode8: browserSupportsEmoji( 'unicode8' )
 	};
 
 	settings.DOMReady = false;
@@ -67,7 +76,7 @@
 		settings.DOMReady = true;
 	};
 
-	if ( ! settings.supports.simple || ! settings.supports.flag ) {
+	if ( ! settings.supports.simple || ! settings.supports.flag || ! settings.supports.unicode8 ) {
 		ready = function() {
 			settings.readyCallback();
 		};

@@ -323,7 +323,7 @@
 					link = src;
 				}
 
-				newContent = '<a href="' + link + '"><img class="alignnone size-full" src="' + src + '" /></a>';
+				newContent = '<a href="' + link + '"><img class="alignnone size-full" src="' + src + '" alt="" /></a>';
 			} else {
 				newContent = '[embed]' + src + '[/embed]';
 			}

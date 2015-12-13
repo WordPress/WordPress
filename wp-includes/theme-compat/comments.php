@@ -7,7 +7,14 @@
  * This file is here for Backwards compatibility with old themes and will be removed in a future version
  *
  */
-_deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.0', null, sprintf( __('Please include a %1$s template in your theme.'), basename(__FILE__) ) );
+_deprecated_file(
+	/* translators: %s: template name */
+	sprintf( __( 'Theme without %s' ), basename( __FILE__ ) ),
+	'3.0',
+	null,
+	/* translators: %s: template name */
+	sprintf( __( 'Please include a %s template in your theme.' ), basename( __FILE__ ) )
+);
 
 // Do not delete these lines
 	if (!empty($_SERVER['SCRIPT_FILENAME']) && 'comments.php' == basename($_SERVER['SCRIPT_FILENAME']))
@@ -79,7 +86,9 @@ _deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.
 
 <?php if ( is_user_logged_in() ) : ?>
 
-<p><?php printf(__('Logged in as <a href="%1$s">%2$s</a>.'), get_edit_user_link(), $user_identity); ?> <a href="<?php echo wp_logout_url(get_permalink()); ?>" title="<?php esc_attr_e('Log out of this account'); ?>"><?php _e('Log out &raquo;'); ?></a></p>
+<p><?php /* translators: %s: user profile link  */
+printf( __( 'Logged in as %s.' ), sprintf( '<a href="%1$s">%2$s</a>', get_edit_user_link(), $user_identity ) ); ?>
+<a href="<?php echo wp_logout_url( get_permalink() ); ?>" title="<?php esc_attr_e( 'Log out of this account' ); ?>"><?php _e( 'Log out &raquo;' ); ?></a></p>
 
 <?php else : ?>
 

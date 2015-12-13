@@ -263,7 +263,7 @@ function wp_dequeue_script( $handle ) {
  * @param string $handle Name of the script.
  * @param string $list   Optional. Status of the script to check. Default 'enqueued'.
  *                       Accepts 'enqueued', 'registered', 'queue', 'to_do', and 'done'.
- * @return bool Whether the script script is queued.
+ * @return bool Whether the script is queued.
  */
 function wp_script_is( $handle, $list = 'enqueued' ) {
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );

@@ -81,63 +81,84 @@ if ( ! $permalink ) {
 }
 
 $messages = array();
-$post_preview_url = get_preview_post_link( $post );
 
-$preview_link_html = $scheduled_link_html = $view_post_html = '';
+$preview_post_link_html = $scheduled_post_link_html = $view_post_link_html = '';
+$preview_page_link_html = $scheduled_page_link_html = $view_page_link_html = '';
+
+$preview_url = get_preview_post_link( $post );
 
 $viewable = is_post_type_viewable( $post_type_object );
 
 if ( $viewable ) {
-	// Preview link.
-	$preview_link_html = sprintf( ' <a target="_blank" href="%s">%s</a>',
-		esc_url( $post_preview_url ),
+
+	// Preview post link.
+	$preview_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
+		esc_url( $preview_url ),
 		__( 'Preview post' )
 	);
 
-	// Scheduled preview link.
-	$scheduled_link_html = sprintf( ' <a target="_blank" href="%s">%s</a>',
+	// Scheduled post preview link.
+	$scheduled_post_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
 		esc_url( $permalink ),
 		__( 'Preview post' )
 	);
 
 	// View post link.
-	$view_post_html = sprintf( ' <a href="%s">%s</a>',
+	$view_post_link_html = sprintf( ' <a href="%1$s">%2$s</a>',
 		esc_url( $permalink ),
 		__( 'View post' )
 	);
+
+	// Preview page link.
+	$preview_page_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
+		esc_url( $preview_url ),
+		__( 'Preview page' )
+	);
+
+	// Scheduled page preview link.
+	$scheduled_page_link_html = sprintf( ' <a target="_blank" href="%1$s">%2$s</a>',
+		esc_url( $permalink ),
+		__( 'Preview page' )
+	);
+
+	// View page link.
+	$view_page_link_html = sprintf( ' <a href="%1$s">%2$s</a>',
+		esc_url( $permalink ),
+		__( 'View page' )
+	);
+
 }
 
 /* translators: Publish box date format, see http://php.net/date */
 $scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
+
 $messages['post'] = array(
 	 0 => '', // Unused. Messages start at index 1.
-	 1 => __( 'Post updated.' ) . $view_post_html,
-	 2 => __('Custom field updated.'),
-	 3 => __('Custom field deleted.'),
-	 4 => __('Post updated.'),
+	 1 => __( 'Post updated.' ) . $view_post_link_html,
+	 2 => __( 'Custom field updated.' ),
+	 3 => __( 'Custom field deleted.' ),
+	 4 => __( 'Post updated.' ),
 	/* translators: %s: date and time of the revision */
-	 5 => isset($_GET['revision']) ? sprintf( __('Post restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-	 6 => __( 'Post published.' ) . $view_post_html,
-	 7 => __('Post saved.'),
-	 8 => __( 'Post submitted.' ) . $preview_link_html,
-	 9 => sprintf( __( 'Post scheduled for: <strong>%1$s</strong>' ), $scheduled_date ) . $scheduled_link_html,
-	10 => __( 'Post draft updated.' ) . $preview_link_html,
+	 5 => isset($_GET['revision']) ? sprintf( __( 'Post restored to revision from %s.' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+	 6 => __( 'Post published.' ) . $view_post_link_html,
+	 7 => __( 'Post saved.' ),
+	 8 => __( 'Post submitted.' ) . $preview_post_link_html,
+	 9 => sprintf( __( 'Post scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_post_link_html,
+	10 => __( 'Post draft updated.' ) . $preview_post_link_html,
 );
-
-$page_preview_url = get_preview_post_link( $post );
-
 $messages['page'] = array(
 	 0 => '', // Unused. Messages start at index 1.
-	 1 => sprintf( __('Page updated. <a href="%s">View page</a>'), esc_url( $permalink ) ),
-	 2 => __('Custom field updated.'),
-	 3 => __('Custom field deleted.'),
-	 4 => __('Page updated.'),
-	 5 => isset($_GET['revision']) ? sprintf( __('Page restored to revision from %s'), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-	 6 => sprintf( __('Page published. <a href="%s">View page</a>'), esc_url( $permalink ) ),
-	 7 => __('Page saved.'),
-	 8 => sprintf( __('Page submitted. <a target="_blank" href="%s">Preview page</a>'), esc_url( $page_preview_url ) ),
-	 9 => sprintf( __('Page scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview page</a>'), date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
-	10 => sprintf( __('Page draft updated. <a target="_blank" href="%s">Preview page</a>'), esc_url( $page_preview_url ) ),
+	 1 => __( 'Page updated.' ) . $view_page_link_html,
+	 2 => __( 'Custom field updated.' ),
+	 3 => __( 'Custom field deleted.' ),
+	 4 => __( 'Page updated.' ),
+	/* translators: %s: date and time of the revision */
+	 5 => isset($_GET['revision']) ? sprintf( __( 'Page restored to revision from %s.' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+	 6 => __( 'Page published.' ) . $view_page_link_html,
+	 7 => __( 'Page saved.' ),
+	 8 => __( 'Page submitted.' ) . $preview_page_link_html,
+	 9 => sprintf( __( 'Page scheduled for: %s.' ), '<strong>' . $scheduled_date . '</strong>' ) . $scheduled_page_link_html,
+	10 => __( 'Page draft updated.' ) . $preview_page_link_html,
 );
 $messages['attachment'] = array_fill( 1, 10, __( 'Media attachment updated.' ) ); // Hack, for now.
 
@@ -263,11 +284,25 @@ if ( post_type_supports($post_type, 'custom-fields') )
  */
 do_action( 'dbx_post_advanced', $post );
 
-if ( post_type_supports($post_type, 'comments') )
-	add_meta_box('commentstatusdiv', __('Discussion'), 'post_comment_status_meta_box', null, 'normal', 'core');
+// Allow the Discussion meta box to show up if the post type supports comments,
+// or if comments or pings are open.
+if ( comments_open( $post ) || pings_open( $post ) || post_type_supports( $post_type, 'comments' ) ) {
+	add_meta_box( 'commentstatusdiv', __( 'Discussion' ), 'post_comment_status_meta_box', null, 'normal', 'core' );
+}
 
-if ( ( 'publish' == get_post_status( $post ) || 'private' == get_post_status( $post ) ) && post_type_supports($post_type, 'comments') )
-	add_meta_box('commentsdiv', __('Comments'), 'post_comment_meta_box', null, 'normal', 'core');
+$stati = get_post_stati( array( 'public' => true ) );
+if ( empty( $stati ) ) {
+	$stati = array( 'publish' );
+}
+$stati[] = 'private';
+
+if ( in_array( get_post_status( $post ), $stati ) ) {
+	// If the post type support comments, or the post has comments, allow the
+	// Comments meta box.
+	if ( comments_open( $post ) || pings_open( $post ) || $post->comment_count > 0 || post_type_supports( $post_type, 'comments' ) ) {
+		add_meta_box( 'commentsdiv', __( 'Comments' ), 'post_comment_meta_box', null, 'normal', 'core' );
+	}
+}
 
 if ( ! ( 'pending' == get_post_status( $post ) && ! current_user_can( $post_type_object->cap->publish_posts ) ) )
 	add_meta_box('slugdiv', __('Slug'), 'post_slug_meta_box', null, 'normal', 'core');
@@ -348,7 +383,7 @@ if ( 'post' == $post_type ) {
 	);
 } elseif ( 'page' == $post_type ) {
 	$about_pages = '<p>' . __('Pages are similar to posts in that they have a title, body text, and associated metadata, but they are different in that they are not part of the chronological blog stream, kind of like permanent posts. Pages are not categorized or tagged, but can have a hierarchy. You can nest pages under other pages by making one the &#8220;Parent&#8221; of the other, creating a group of pages.') . '</p>' .
-		'<p>' . __('Creating a Page is very similar to creating a Post, and the screens can be customized in the same way using drag and drop, the Screen Options tab, and expanding/collapsing boxes as you choose. This screen also has the distraction-free writing space, available in both the Visual and Text modes via the Fullscreen buttons. The Page editor mostly works the same as the Post editor, but there are some Page-specific features in the Page Attributes box:') . '</p>';
+		'<p>' . __('Creating a Page is very similar to creating a Post, and the screens can be customized in the same way using drag and drop, the Screen Options tab, and expanding/collapsing boxes as you choose. This screen also has the distraction-free writing space, available in both the Visual and Text modes via the Fullscreen buttons. The Page editor mostly works the same as the Post editor, but there are some Page-specific features in the Page Attributes box.') . '</p>';
 
 	get_current_screen()->add_help_tab( array(
 		'id'      => 'about-pages',
@@ -394,7 +429,7 @@ if ( 'post' == $post_type || 'page' == $post_type ) {
 if ( 'post' == $post_type ) {
 	$publish_box = '<p>' . __('Several boxes on this screen contain settings for how your content will be published, including:') . '</p>';
 	$publish_box .= '<ul><li>' .
-		__( '<strong>Publish</strong> &mdash; You can set the terms of publishing your post in the Publish box. For Status, Visibility, and Publish (immediately), click on the Edit link to reveal more options. Visibility includes options for password-protecting a post or making it stay at the top of your blog indefinitely (sticky). Publish (immediately) allows you to set a future or past date and time, so you can schedule a post to be published in the future or backdate a post. The Password protected option allows you to set an arbitrary password for each post. The Private option hides the post from everyone except editors and administrators.' ) .
+		__( '<strong>Publish</strong> &mdash; You can set the terms of publishing your post in the Publish box. For Status, Visibility, and Publish (immediately), click on the Edit link to reveal more options. Visibility includes options for password-protecting a post or making it stay at the top of your blog indefinitely (sticky). The Password protected option allows you to set an arbitrary password for each post. The Private option hides the post from everyone except editors and administrators. Publish (immediately) allows you to set a future or past date and time, so you can schedule a post to be published in the future or backdate a post.' ) .
 	'</li>';
 
 	if ( current_theme_supports( 'post-formats' ) && post_type_supports( 'post', 'post-formats' ) ) {
@@ -534,10 +569,15 @@ do_action( 'edit_form_before_permalink', $post );
 <?php
 if ( $viewable ) :
 $sample_permalink_html = $post_type_object->public ? get_sample_permalink_html($post->ID) : '';
-$shortlink = wp_get_shortlink($post->ID, 'post');
 
-if ( !empty( $shortlink ) && $shortlink !== $permalink && $permalink !== home_url('?page_id=' . $post->ID) )
-    $sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr($shortlink) . '" /><a href="#" class="button button-small" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val()); return false;">' . __('Get Shortlink') . '</a>';
+// As of 4.4, the Get Shortlink button is hidden by default.
+if ( has_filter( 'pre_get_shortlink' ) || has_filter( 'get_shortlink' ) ) {
+	$shortlink = wp_get_shortlink($post->ID, 'post');
+
+	if ( !empty( $shortlink ) && $shortlink !== $permalink && $permalink !== home_url('?page_id=' . $post->ID) ) {
+    	$sample_permalink_html .= '<input id="shortlink" type="hidden" value="' . esc_attr($shortlink) . '" /><a href="#" class="button button-small" onclick="prompt(&#39;URL:&#39;, jQuery(\'#shortlink\').val()); return false;">' . __('Get Shortlink') . '</a>';
+	}
+}
 
 if ( $post_type_object->public && ! ( 'pending' == get_post_status( $post ) && !current_user_can( $post_type_object->cap->publish_posts ) ) ) {
 	$has_sample_permalink = $sample_permalink_html && 'auto-draft' != $post->post_status;
@@ -591,9 +631,9 @@ if ( post_type_supports($post_type, 'editor') ) {
 	if ( 'auto-draft' != $post->post_status ) {
 		echo '<span id="last-edit">';
 		if ( $last_user = get_userdata( get_post_meta( $post_ID, '_edit_last', true ) ) ) {
-			printf(__('Last edited by %1$s on %2$s at %3$s'), esc_html( $last_user->display_name ), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified));
+			printf( __( 'Last edited by %1$s on %2$s at %3$s' ), esc_html( $last_user->display_name ), mysql2date( __( 'F j, Y' ), $post->post_modified ), mysql2date( __( 'g:i a' ), $post->post_modified ) );
 		} else {
-			printf(__('Last edited on %1$s at %2$s'), mysql2date(get_option('date_format'), $post->post_modified), mysql2date(get_option('time_format'), $post->post_modified));
+			printf( __( 'Last edited on %1$s at %2$s' ), mysql2date( __( 'F j, Y' ), $post->post_modified ), mysql2date( __( 'g:i a' ), $post->post_modified ) );
 		}
 		echo '</span>';
 	} ?>

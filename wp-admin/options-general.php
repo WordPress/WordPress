@@ -73,7 +73,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <tr>
 <th scope="row"><label for="home"><?php _e('Site Address (URL)') ?></label></th>
 <td><input name="home" type="url" id="home" aria-describedby="home-description" value="<?php form_option( 'home' ); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( defined( 'WP_HOME' ) ) echo ' disabled' ?>" />
+<?php if ( ! defined( 'WP_HOME' ) ) : ?>
 <p class="description" id="home-description"><?php _e( 'Enter the address here if you <a href="https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">want your site home page to be different from your WordPress installation directory.</a>' ); ?></p></td>
+<?php endif; ?>
 </tr>
 <tr>
 <th scope="row"><label for="admin_email"><?php _e('Email Address') ?> </label></th>
@@ -189,12 +191,19 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 		if ( $found ) {
 			echo ' ';
 			$message = $tr['isdst'] ?
-				__('Daylight saving time begins on: <code>%s</code>.') :
-				__('Standard time begins on: <code>%s</code>.');
+				/* translators: %s: date and time  */
+				__( 'Daylight saving time begins on: %s.')  :
+				/* translators: %s: date and time  */
+				__( 'Standard time begins on: %s.' );
 			// Add the difference between the current offset and the new offset to ts to get the correct transition time from date_i18n().
-			printf( $message, date_i18n(get_option('date_format') . ' ' . get_option('time_format'), $tr['ts'] + ($tz_offset - $tr['offset']) ) );
+			printf( $message,
+				'<code>' . date_i18n(
+					__( 'F j, Y' ) . ' ' . __( 'g:i a' ),
+					$tr['ts'] + ( $tz_offset - $tr['offset'] )
+				) . '</code>'
+			);
 		} else {
-			_e('This timezone does not observe daylight saving time.');
+			_e( 'This timezone does not observe daylight saving time.' );
 		}
 	}
 	// Set back to UTC.

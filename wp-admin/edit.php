@@ -195,7 +195,7 @@ if ( 'post' == $post_type ) {
 		'<ul>' .
 			'<li>' . __('You can hide/display columns based on your needs and decide how many posts to list per screen using the Screen Options tab.') . '</li>' .
 			'<li>' . __('You can filter the list of posts by post status using the text links in the upper left to show All, Published, Draft, or Trashed posts. The default view is to show all posts.') . '</li>' .
-			'<li>' . __('You can view posts in a simple title list or with an excerpt. Choose the view you prefer by clicking on the icons at the top of the list on the right.') . '</li>' .
+			'<li>' . __('You can view posts in a simple title list or with an excerpt using the Screen Options tab.') . '</li>' .
 			'<li>' . __('You can refine the list to show only posts in a specific category or from a specific month by using the dropdown menus above the posts list. Click the Filter button after making your selection. You also can refine the list by clicking on the post author, category or tag in the posts list.') . '</li>' .
 		'</ul>'
 	) );
@@ -245,7 +245,14 @@ if ( 'post' == $post_type ) {
 	'<p>' . __('<a href="https://codex.wordpress.org/Pages_Screen" target="_blank">Documentation on Managing Pages</a>') . '</p>' .
 	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 	);
+
 }
+
+get_current_screen()->set_screen_reader_content( array(
+	'heading_views'      => $post_type_object->labels->filter_items_list,
+	'heading_pagination' => $post_type_object->labels->items_list_navigation,
+	'heading_list'       => $post_type_object->labels->items_list,
+) );
 
 add_screen_option( 'per_page', array( 'default' => 20, 'option' => 'edit_' . $post_type . '_per_page' ) );
 

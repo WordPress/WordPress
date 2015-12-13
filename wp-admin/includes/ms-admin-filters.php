@@ -3,7 +3,7 @@
  * Multisite Administration hooks
  *
  * @package WordPress
- *
+ * @subpackage Administration
  * @since 4.3.0
  */
 

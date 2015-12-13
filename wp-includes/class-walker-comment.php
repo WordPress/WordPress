@@ -1,6 +1,6 @@
 <?php
 /**
- * Comments API: Walker_Comment class
+ * Comment API: Walker_Comment class
  *
  * @package WordPress
  * @subpackage Comments
@@ -101,15 +101,15 @@ class Walker_Comment extends Walker {
 	 * at the end of the comment list.
 	 *
 	 * Example: max_depth = 2, with 5 levels of nested content.
-	 * 1
-	 *  1.1
-	 *    1.1.1
-	 *    1.1.1.1
-	 *    1.1.1.1.1
-	 *    1.1.2
-	 *    1.1.2.1
-	 * 2
-	 *  2.2
+	 *     1
+	 *      1.1
+	 *        1.1.1
+	 *        1.1.1.1
+	 *        1.1.1.1.1
+	 *        1.1.2
+	 *        1.1.2.1
+	 *     2
+	 *      2.2
 	 *
 	 * @see Walker::display_element()
 	 * @see wp_list_comments()
@@ -132,8 +132,11 @@ class Walker_Comment extends Walker {
 
 		parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
 
-		// If we're at the max depth, and the current element still has children, loop over those and display them at this level
-		// This is to prevent them being orphaned to the end of the list.
+		/*
+		 * If we're at the max depth, and the current element still has children,
+		 * loop over those and display them at this level. This is to prevent them
+		 * being orphaned to the end of the list.
+		 */
 		if ( $max_depth <= $depth + 1 && isset( $children_elements[$id]) ) {
 			foreach ( $children_elements[ $id ] as $child )
 				$this->display_element( $child, $children_elements, $max_depth, $depth, $args, $output );
@@ -151,8 +154,8 @@ class Walker_Comment extends Walker {
 	 * @see Walker::start_el()
 	 * @see wp_list_comments()
 	 *
-	 * @global int    $comment_depth
-	 * @global object $comment
+	 * @global int        $comment_depth
+	 * @global WP_Comment $comment
 	 *
 	 * @param string $output  Passed by reference. Used to append additional content.
 	 * @param object $comment Comment data object.

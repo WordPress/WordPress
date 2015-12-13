@@ -356,3 +356,67 @@ function get_blogaddress_by_domain( $domain, $path ) {
 	}
 	return esc_url_raw( $url );
 }
+
+/**
+ * Create an empty blog.
+ *
+ * @since MU 1.0
+ * @deprecated 4.4.0
+ *
+ * @param string $domain       The new blog's domain.
+ * @param string $path         The new blog's path.
+ * @param string $weblog_title The new blog's title.
+ * @param int    $site_id      Optional. Defaults to 1.
+ * @return string|int The ID of the newly created blog
+ */
+function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
+	_deprecated_function( __FUNCTION__, '4.4' );
+
+	if ( empty($path) )
+		$path = '/';
+
+	// Check if the domain has been used already. We should return an error message.
+	if ( domain_exists($domain, $path, $site_id) )
+		return __( '<strong>ERROR</strong>: Site URL already taken.' );
+
+	// Need to back up wpdb table names, and create a new wp_blogs entry for new blog.
+	// Need to get blog_id from wp_blogs, and create new table names.
+	// Must restore table names at the end of function.
+
+	if ( ! $blog_id = insert_blog($domain, $path, $site_id) )
+		return __( '<strong>ERROR</strong>: problem creating site entry.' );
+
+	switch_to_blog($blog_id);
+	install_blog($blog_id);
+	restore_current_blog();
+
+	return $blog_id;
+}
+
+/**
+ * Get the admin for a domain/path combination.
+ *
+ * @since MU 1.0
+ * @deprecated 4.4.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param string $sitedomain Optional. Site domain.
+ * @param string $path       Optional. Site path.
+ * @return array|false The network admins
+ */
+function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
+	_deprecated_function( __FUNCTION__, '4.4' );
+
+	global $wpdb;
+
+	if ( ! $sitedomain )
+		$site_id = $wpdb->siteid;
+	else
+		$site_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path ) );
+
+	if ( $site_id )
+		return $wpdb->get_results( $wpdb->prepare( "SELECT u.ID, u.user_login, u.user_pass FROM $wpdb->users AS u, $wpdb->sitemeta AS sm WHERE sm.meta_key = 'admin_user_id' AND u.ID = sm.meta_value AND sm.site_id = %d", $site_id ), ARRAY_A );
+
+	return false;
+}

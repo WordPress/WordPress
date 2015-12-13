@@ -1,6 +1,14 @@
 <?php
 /**
- * WordPress User Roles.
+ * User API: WP_Roles class
+ *
+ * @package WordPress
+ * @subpackage Users
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a user roles API.
  *
  * The role option is simple, the structure is organized by role name that store
  * the name in value of the 'name' key. The capabilities are stored as an array
@@ -14,8 +22,6 @@
  *     )
  *
  * @since 2.0.0
- * @package WordPress
- * @subpackage User
  */
 class WP_Roles {
 	/**
@@ -132,7 +138,7 @@ class WP_Roles {
 	 * @since 3.5.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function reinit() {
 		// There is no need to reinit if using the wp_user_roles global.

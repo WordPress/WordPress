@@ -8,10 +8,9 @@
  */
 
 /**
- * A class representing the admin screen.
+ * Core class used to implement an admin screen API.
  *
  * @since 3.3.0
- * @access public
  */
 final class WP_Screen {
 	/**
@@ -142,6 +141,15 @@ final class WP_Screen {
 	 * @access private
 	 */
 	private $_help_sidebar = '';
+
+ 	/**
+	 * The accessible hidden headings and text associated with the screen, if any.
+	 *
+	 * @since 4.4.0
+	 * @access private
+	 * @var array
+	 */
+	private $_screen_reader_content = array();
 
 	/**
 	 * Stores old string-based help.
@@ -512,23 +520,26 @@ final class WP_Screen {
 	 */
 	public function get_help_tabs() {
 		$help_tabs = $this->_help_tabs;
-		uasort( $help_tabs, array( $this, '_sort_help_tabs' ) );
-		return $help_tabs;
-	}
 
-	/**
-	 * Compares the difference between the help tabs priorities.
-	 *
-	 * Used for help tabs sorting.
-	 *
-	 * @since 4.4.0
-	 *
-	 * @param int $tab_a The priority argument for the first tab.
-	 * @param int $tab_b The priority argument for the second tab.
-	 * @return int The difference between the priority arguments.
-	 */
-	protected function _sort_help_tabs( $tab_a, $tab_b ) {
-		return $tab_a['priority'] - $tab_b['priority'];
+		$priorities = array();
+		foreach ( $help_tabs as $help_tab ) {
+			if ( isset( $priorities[ $help_tab['priority'] ] ) ) {
+				$priorities[ $help_tab['priority'] ][] = $help_tab;
+			} else {
+				$priorities[ $help_tab['priority'] ] = array( $help_tab );
+			}
+		}
+
+		sort( $priorities );
+
+		$sorted = array();
+		foreach ( $priorities as $list ) {
+			foreach ( $list as $tab ) {
+				$sorted[ $tab['id'] ] = $tab;
+			}
+		}
+
+		return $sorted;
 	}
 
 	/**
@@ -640,6 +651,70 @@ final class WP_Screen {
 	 */
 	public function get_columns() {
 		return $this->columns;
+	}
+
+ 	/**
+	 * Get the accessible hidden headings and text used in the screen.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @see set_screen_reader_content() For more information on the array format.
+	 *
+	 * @return array An associative array of screen reader text strings.
+	 */
+	public function get_screen_reader_content() {
+		return $this->_screen_reader_content;
+	}
+
+	/**
+	 * Get a screen reader text string.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $key Screen reader text array named key.
+	 * @return string Screen reader text string.
+	 */
+	public function get_screen_reader_text( $key ) {
+		if ( ! isset( $this->_screen_reader_content[ $key ] ) ) {
+			return null;
+		}
+		return $this->_screen_reader_content[ $key ];
+	}
+
+	/**
+	 * Add accessible hidden headings and text for the screen.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param array $content {
+	 *     An associative array of screen reader text strings.
+	 *
+	 *     @type string $heading_views      Screen reader text for the filter links heading.
+	 *                                      Default 'Filter items list'.
+	 *     @type string $heading_pagination Screen reader text for the pagination heading.
+	 *                                      Default 'Items list navigation'.
+	 *     @type string $heading_list       Screen reader text for the items list heading.
+	 *                                      Default 'Items list'.
+	 * }
+	 */
+	public function set_screen_reader_content( $content = array() ) {
+		$defaults = array(
+			'heading_views'      => __( 'Filter items list' ),
+			'heading_pagination' => __( 'Items list navigation' ),
+			'heading_list'       => __( 'Items list' ),
+		);
+		$content = wp_parse_args( $content, $defaults );
+
+		$this->_screen_reader_content = $content;
+	}
+
+	/**
+	 * Remove all the accessible hidden headings and text for the screen.
+	 *
+	 * @since 4.4.0
+	 */
+	public function remove_screen_reader_content() {
+		$this->_screen_reader_content = array();
 	}
 
 	/**
@@ -843,9 +918,9 @@ final class WP_Screen {
 				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
 				break;
 			case 'post' :
-				$expand = '<div class="editor-expand hidden"><label for="editor-expand-toggle">';
+				$expand = '<fieldset class="editor-expand hidden"><legend>' . __( 'Additional settings' ) . '</legend><label for="editor-expand-toggle">';
 				$expand .= '<input type="checkbox" id="editor-expand-toggle"' . checked( get_user_setting( 'editor_expand', 'on' ), 'on', false ) . ' />';
-				$expand .= __( 'Enable full-height editor and distraction-free functionality.' ) . '</label></div>';
+				$expand .= __( 'Enable full-height editor and distraction-free functionality.' ) . '</label></fieldset>';
 				$this->_screen_settings = $expand;
 				break;
 			default:
@@ -890,86 +965,134 @@ final class WP_Screen {
 	 * @param array $options {
 	 *     @type bool $wrap  Whether the screen-options-wrap div will be included. Defaults to true.
 	 * }
-	 * @global array $wp_meta_boxes
 	 */
 	public function render_screen_options( $options = array() ) {
-		global $wp_meta_boxes;
 		$options = wp_parse_args( $options, array(
 			'wrap' => true,
 		) );
 
+		$wrapper_start = $wrapper_end = $form_start = $form_end = '';
+
+		// Output optional wrapper.
+		if ( $options['wrap'] ) {
+			$wrapper_start = '<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="' . esc_attr__( 'Screen Options Tab' ) . '">';
+			$wrapper_end = '</div>';
+		}
+
+		// Don't output the form and nonce for the widgets accessibility mode links.
+		if ( 'widgets' !== $this->base ) {
+			$form_start = "\n<form id='adv-settings' method='post'>\n";
+			$form_end = "\n" . wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false, false ) . "\n</form>\n";
+		}
+
+		echo $wrapper_start . $form_start;
+
+		$this->render_meta_boxes_preferences();
+		$this->render_list_table_columns_preferences();
+		$this->render_screen_layout();
+		$this->render_per_page_options();
+		$this->render_view_mode();
+		echo $this->_screen_settings;
+
+		/**
+		 * Filter whether to show the Screen Options submit button.
+		 *
+		 * @since 4.4.0
+		 * 
+		 * @param bool      $show_button Whether to show Screen Options submit button.
+		 *                               Default false.
+		 * @param WP_Screen $this        Current WP_Screen instance.
+		 */
+		$show_button = apply_filters( 'screen_options_show_submit', false, $this );
+
+		if ( $show_button ) {
+			submit_button( __( 'Apply' ), 'primary', 'screen-options-apply', true );
+		}
+
+		echo $form_end . $wrapper_end;
+	}
+
+	/**
+	 * Render the meta boxes preferences.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @global array $wp_meta_boxes
+	 */
+	public function render_meta_boxes_preferences() {
+		global $wp_meta_boxes;
+
+		if ( ! isset( $wp_meta_boxes[ $this->id ] ) ) {
+			return;
+		}
+		?>
+		<fieldset class="metabox-prefs">
+		<legend><?php _e( 'Boxes' ); ?></legend>
+		<?php
+			meta_box_prefs( $this );
+
+			if ( 'dashboard' === $this->id && has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) {
+				if ( isset( $_GET['welcome'] ) ) {
+					$welcome_checked = empty( $_GET['welcome'] ) ? 0 : 1;
+					update_user_meta( get_current_user_id(), 'show_welcome_panel', $welcome_checked );
+				} else {
+					$welcome_checked = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
+					if ( 2 == $welcome_checked && wp_get_current_user()->user_email != get_option( 'admin_email' ) ) {
+						$welcome_checked = false;
+					}
+				}
+				echo '<label for="wp_welcome_panel-hide">';
+				echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false ) . ' />';
+				echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
+			}
+		?>
+		</fieldset>
+		<?php
+	}
+
+	/**
+	 * Render the list table columns preferences.
+	 *
+	 * @since 4.4.0
+	 */
+	public function render_list_table_columns_preferences() {
+
 		$columns = get_column_headers( $this );
 		$hidden  = get_hidden_columns( $this );
 
+		if ( ! $columns ) {
+			return;
+		}
+
+		$legend = ! empty( $columns['_title'] ) ? $columns['_title'] : __( 'Columns' );
 		?>
-		<?php if ( $options['wrap'] ) : ?>
-			<div id="screen-options-wrap" class="hidden" tabindex="-1" aria-label="<?php esc_attr_e('Screen Options Tab'); ?>">
-		<?php endif; ?>
-		<form id="adv-settings" method="post">
-		<?php if ( isset( $wp_meta_boxes[ $this->id ] ) || $this->get_option( 'per_page' ) || ( $columns && empty( $columns['_title'] ) ) ) : ?>
-			<h5><?php _e( 'Show on screen' ); ?></h5>
+		<fieldset class="metabox-prefs">
+		<legend><?php echo $legend; ?></legend>
 		<?php
-		endif;
+		$special = array( '_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname' );
 
-		if ( isset( $wp_meta_boxes[ $this->id ] ) ) : ?>
-			<div class="metabox-prefs">
-				<?php
-					meta_box_prefs( $this );
+		foreach ( $columns as $column => $title ) {
+			// Can't hide these for they are special
+			if ( in_array( $column, $special ) ) {
+				continue;
+			}
 
-					if ( 'dashboard' === $this->id && has_action( 'welcome_panel' ) && current_user_can( 'edit_theme_options' ) ) {
-						if ( isset( $_GET['welcome'] ) ) {
-							$welcome_checked = empty( $_GET['welcome'] ) ? 0 : 1;
-							update_user_meta( get_current_user_id(), 'show_welcome_panel', $welcome_checked );
-						} else {
-							$welcome_checked = get_user_meta( get_current_user_id(), 'show_welcome_panel', true );
-							if ( 2 == $welcome_checked && wp_get_current_user()->user_email != get_option( 'admin_email' ) )
-								$welcome_checked = false;
-						}
-						echo '<label for="wp_welcome_panel-hide">';
-						echo '<input type="checkbox" id="wp_welcome_panel-hide"' . checked( (bool) $welcome_checked, true, false ) . ' />';
-						echo _x( 'Welcome', 'Welcome panel' ) . "</label>\n";
-					}
-				?>
-				<br class="clear" />
-			</div>
-			<?php endif;
-			if ( $columns ) :
-				if ( ! empty( $columns['_title'] ) ) : ?>
-			<h5><?php echo $columns['_title']; ?></h5>
-			<?php endif; ?>
-			<div class="metabox-prefs">
-				<?php
-				$special = array('_title', 'cb', 'comment', 'media', 'name', 'title', 'username', 'blogname');
+			if ( empty( $title ) ) {
+				continue;
+			}
 
-				foreach ( $columns as $column => $title ) {
-					// Can't hide these for they are special
-					if ( in_array( $column, $special ) )
-						continue;
-					if ( empty( $title ) )
-						continue;
+			if ( 'comments' == $column ) {
+				$title = __( 'Comments' );
+			}
 
-					if ( 'comments' == $column )
-						$title = __( 'Comments' );
-					$id = "$column-hide";
-					echo '<label for="' . $id . '">';
-					echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked( !in_array($column, $hidden), true, false ) . ' />';
-					echo "$title</label>\n";
-				}
-				?>
-				<br class="clear" />
-			</div>
-		<?php endif;
-
-		$this->render_screen_layout();
-		$this->render_per_page_options();
-		echo $this->_screen_settings;
-
+			$id = "$column-hide";
+			echo '<label>';
+			echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" value="' . $column . '"' . checked( ! in_array( $column, $hidden ), true, false ) . ' />';
+			echo "$title</label>\n";
+		}
 		?>
-		<div><?php wp_nonce_field( 'screen-options-nonce', 'screenoptionnonce', false ); ?></div>
-		</form>
-		<?php if ( $options['wrap'] ) : ?>
-			</div>
-		<?php endif;
+		</fieldset>
+		<?php
 	}
 
 	/**
@@ -978,26 +1101,26 @@ final class WP_Screen {
 	 * @since 3.3.0
 	 */
 	public function render_screen_layout() {
-		if ( ! $this->get_option('layout_columns') )
+		if ( ! $this->get_option( 'layout_columns' ) ) {
 			return;
+		}
 
 		$screen_layout_columns = $this->get_columns();
 		$num = $this->get_option( 'layout_columns', 'max' );
 
 		?>
-		<h5 class="screen-layout"><?php _e('Screen Layout'); ?></h5>
-		<div class='columns-prefs'><?php
-			_e('Number of Columns:');
+		<fieldset class='columns-prefs'>
+		<legend class="screen-layout"><?php _e( 'Layout' ); ?></legend><?php
 			for ( $i = 1; $i <= $num; ++$i ):
 				?>
 				<label class="columns-prefs-<?php echo $i; ?>">
 					<input type='radio' name='screen_columns' value='<?php echo esc_attr( $i ); ?>'
 						<?php checked( $screen_layout_columns, $i ); ?> />
-					<?php echo esc_html( $i ); ?>
+					<?php printf( _n( '%s column', '%s columns', $i ), number_format_i18n( $i ) ); ?>
 				</label>
 				<?php
 			endfor; ?>
-		</div>
+		</fieldset>
 		<?php
 	}
 
@@ -1044,22 +1167,88 @@ final class WP_Screen {
 
 		// Back compat
 		if ( isset( $this->post_type ) ) {
-			/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
+			/** This filter is documented in wp-admin/includes/post.php */
 			$per_page = apply_filters( 'edit_posts_per_page', $per_page, $this->post_type );
 		}
 
+		// This needs a submit button
+		add_filter( 'screen_options_show_submit', '__return_true' );
+
 		?>
-		<div class="screen-options">
+		<fieldset class="screen-options">
+		<legend><?php _e( 'Pagination' ); ?></legend>
 			<?php if ( $per_page_label ) : ?>
 				<label for="<?php echo esc_attr( $option ); ?>"><?php echo $per_page_label; ?></label>
 				<input type="number" step="1" min="1" max="999" class="screen-per-page" name="wp_screen_options[value]"
 					id="<?php echo esc_attr( $option ); ?>" maxlength="3"
 					value="<?php echo esc_attr( $per_page ); ?>" />
-			<?php endif;
-
-			echo get_submit_button( __( 'Apply' ), 'button', 'screen-options-apply', false ); ?>
-			<input type="hidden" name="wp_screen_options[option]" value="<?php echo esc_attr( $option ); ?>" />
-		</div>
+			<?php endif; ?>
+				<input type="hidden" name="wp_screen_options[option]" value="<?php echo esc_attr( $option ); ?>" />
+		</fieldset>
 		<?php
+	}
+
+	/**
+	 * Render the list table view mode preferences.
+	 *
+	 * @since 4.4.0
+	 */
+	public function render_view_mode() {
+		$screen = get_current_screen();
+
+		// Currently only enabled for posts lists
+		if ( 'edit' !== $screen->base ) {
+			return;
+		}
+
+		$view_mode_post_types = get_post_types( array( 'hierarchical' => false, 'show_ui' => true ) );
+
+		/**
+		 * Filter the post types that have different view mode options.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array $view_mode_post_types Array of post types that can change view modes.
+		 *                                    Default hierarchical post types with show_ui on.
+		 */
+		$view_mode_post_types = apply_filters( 'view_mode_post_types', $view_mode_post_types );
+
+		if ( ! in_array( $this->post_type, $view_mode_post_types ) ) {
+			return;
+		}
+
+		global $mode;
+
+		// This needs a submit button
+		add_filter( 'screen_options_show_submit', '__return_true' );
+?>
+		<fieldset class="metabox-prefs view-mode">
+		<legend><?php _e( 'View Mode' ); ?></legend>
+				<label for="list-view-mode">
+					<input id="list-view-mode" type="radio" name="mode" value="list" <?php checked( 'list', $mode ); ?> />
+					<?php _e( 'List View' ); ?>
+				</label>
+				<label for="excerpt-view-mode">
+					<input id="excerpt-view-mode" type="radio" name="mode" value="excerpt" <?php checked( 'excerpt', $mode ); ?> />
+					<?php _e( 'Excerpt View' ); ?>
+				</label>
+		</fieldset>
+<?php
+	}
+
+	/**
+	 * Render screen reader text.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $key The screen reader text array named key.
+	 * @param string $tag Optional. The HTML tag to wrap the screen reader text. Default h2.
+	 */
+	public function render_screen_reader_content( $key = '', $tag = 'h2' ) {
+
+		if ( ! isset( $this->_screen_reader_content[ $key ] ) ) {
+			return;
+		}
+		echo "<$tag class='screen-reader-text'>" . $this->_screen_reader_content[ $key ] . "</$tag>";
 	}
 }

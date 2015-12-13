@@ -19,18 +19,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
-<div class="about-text"><?php printf( __( 'Thank you for updating! WordPress %s makes it even easier to format your content and customize your site.' ), $display_version ); ?></div>
+<div class="about-text"><?php printf( __( 'Thank you for updating! WordPress %s makes your site more connected and responsive.' ), $display_version ); ?></div>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 <h2 class="nav-tab-wrapper">
-	<a href="about.php" class="nav-tab">
-		<?php _e( 'What&#8217;s New' ); ?>
-	</a><a href="credits.php" class="nav-tab">
-		<?php _e( 'Credits' ); ?>
-	</a><a href="freedoms.php" class="nav-tab nav-tab-active">
-		<?php _e( 'Freedoms' ); ?>
-	</a>
+	<a href="about.php" class="nav-tab"><?php _e( 'What&#8217;s New' ); ?></a>
+	<a href="credits.php" class="nav-tab"><?php _e( 'Credits' ); ?></a>
+	<a href="freedoms.php" class="nav-tab nav-tab-active"><?php _e( 'Freedoms' ); ?></a>
 </h2>
 
 <p class="about-description"><?php printf( __( 'WordPress is Free and open source software, built by a distributed community of mostly volunteer developers from around the world. WordPress comes with some awesome, worldview-changing rights courtesy of its <a href="%s">license</a>, the GPL.' ), 'https://wordpress.org/about/license/' ); ?></p>

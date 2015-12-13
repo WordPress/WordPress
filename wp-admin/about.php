@@ -16,89 +16,30 @@ wp_localize_script( 'mediaelement', '_wpmejsSettings', array(
 	'pauseOtherPlayers' => ''
 ) );
 
+if ( current_user_can( 'install_plugins' ) ) {
+	add_thickbox();
+	wp_enqueue_script( 'plugin-install' );
+}
+
+$video_url = 'https://videopress.com/embed/J44FHXvg?hd=true';
+$locale    = str_replace( '_', '-', get_locale() );
+list( $locale ) = explode( '-', $locale );
+if ( 'en' !== $locale ) {
+	$video_url = add_query_arg( 'defaultLangCode', $locale, $video_url );
+}
+
+wp_oembed_add_host_js();
+
 $title = __( 'About' );
 
 list( $display_version ) = explode( '-', $wp_version );
 
 include( ABSPATH . 'wp-admin/admin-header.php' );
-
-$video_url = 'https://videopress.com/embed/T54Iy7Tw';
-$locale    = str_replace( '_', '-', get_locale() );
-if ( 'en-AU' !== $locale ) {
-	list( $locale ) = explode( '-', $locale );
-}
-if ( 'en' !== $locale ) {
-	$video_url = add_query_arg( 'defaultLangCode', $locale, $video_url );
-}
-
-$major_features = array(
-	array(
-		'src'         => array(
-			'mp4'  => '//s.w.org/images/core/4.3/formatting.mp4',
-			'ogv'  => '//s.w.org/images/core/4.3/formatting.ogv',
-			'webm' => '//s.w.org/images/core/4.3/formatting.webm',
-		),
-		'heading'     => __( 'Formatting Shortcuts' ),
-		/* Translators: 1: asterisks; 2: number sign; */
-		'description' => sprintf( __( 'Your writing flow just got faster with new formatting shortcuts in WordPress 4.3. Use asterisks to create lists and number signs to make a heading. No more breaking your flow; your text looks great with a %1$s and a %2$s.' ), '<code>*</code>', '<code>#</code>' ),
-	),
-	array(
-		'src'         => '//s.w.org/images/core/4.3/menu-customizer.png',
-		'heading'     => __( 'Menus in the Customizer' ),
-		'description' => __( 'Create your menu, update it, and assign it, all while live-previewing in the customizer. The streamlined customizer design provides a mobile-friendly and accessible interface. With every release, it becomes easier and faster to make your site just the way you want it.' ),
-	),
-	array(
-		'src'         => '//s.w.org/images/core/4.3/better-passwords.png',
-		'heading'     => __( 'Better Passwords' ),
-		'description' => __( 'Keep your site more secure with WordPress&#8217; improved approach to passwords. Instead of receiving passwords via email, you&#8217;ll get a password reset link. When you add new users to your site or edit a user profile, WordPress will automatically generate a secure password.' ),
-	),
-	array(
-		'src'         => '//s.w.org/images/core/4.3/site-icon-customizer.png',
-		'heading'     => __( 'Site Icons' ),
-		'description' => __( 'Site icons represent your site in browser tabs, bookmark menus, and on the home screen of mobile devices. Add your unique site icon in the customizer; it will even stay in place when you switch themes. Make your whole site reflect your brand.' ),
-	),
-);
-shuffle( $major_features );
-
-$minor_features = array(
-	array(
-		'src'         => 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIj48cGF0aCBmaWxsPSIjMDBhMGQyIiBkPSJNNTAgMjE1aDI0MHYzMEg1MHpNNTAgMjc1aDI0MHYzMEg1MHpNNTAgMTU1aDI0MHYzMEg1MHpNNTAgOTVoMjQwdjMwSDUwek0zMTAuMSA5NWwxOS45IDMwIDIwLjEtMzAiLz48L3N2Zz4=',
-		'heading'     => __( 'A smoother admin experience' ),
-		'description' => __( 'Refinements to the list view across the admin make your WordPress more accessible and easier to work with on any device.' ),
-	),
-	array(
-		'src'         => 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMCAyMCI+PHBhdGggZmlsbD0iIzAwYTBkMiIgZD0iTTUgMmgxMHEuODIgMCAxLjQxLjU5VDE3IDR2OHEwIC44Mi0uNTkgMS40MVQxNSAxNGgtMmwtNSA1di01SDVxLS44MiAwLTEuNDEtLjU5VDMgMTJWNHEwLS44Mi41OS0xLjQxVDUgMnptOC41IDguNUwxMSA4bDIuNS0yLjUtMS0xTDEwIDcgNy41IDQuNWwtMSAxTDkgOGwtMi41IDIuNSAxIDFMMTAgOWwyLjUgMi41eiIvPjwvc3ZnPg==',
-		'heading'     => __( 'Comments turned off on pages' ),
-		'description' => __( 'All new pages that you create will have comments turned off. Keep discussions to your blog, right where they&#8217;re supposed to happen.' ),
-	),
-	array(
-		'src'         => 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHBhdGggZmlsbD0iIzAwYTBkMiIgZD0iTTI5LjMyOCA1LjcxMnEuMDQ4LS4xNDQuMDk2LS4zODR0LS4wNjQtLjgxNi0uNTI4LS45NzZxLS4zODQtLjM2OC0uODcyLS40NjR0LS43OTIgMGwtLjI4OC4wOHEtMS40NTYuNzItNS44OCAzLjczNnQtNi4zOTIgNS4xNzZxLS43MzYuODMyLTEuNDA4IDIuMzJ0LS44OCAzIC41NDQgMi4zOTJxLjgzMi43MzYgMi4zNDQuNTc2dDMuMDcyLS44MjQgMi4yNDgtMS4zNTJxMi4xNDQtMi4xNDQgNS4xNjgtNi42NTZ0My42MzItNS44MDh6TTIuMjQgMjguMjRxMS4wNTYtLjY4OCAxLjcxMi0xLjUyOHQuOTUyLTEuNjE2LjU0NC0xLjUyLjcyLTEuNDggMS4yNC0xLjI4cTEuMDg4LS44IDIuNTA0LS43MDR0Mi40MjQgMS4xNjhxLjgxNi44OC44MjQgMi42NHQtMS4wOCAyLjg5NnEtMS4yMTYgMS4xMi0yLjkwNCAxLjYyNHQtMy40MjQuNDI0LTMuNTEyLS42MjR6Ii8+PC9zdmc+',
-		'heading'     => __( 'Customize your site quickly' ),
-		'description' => __( 'Wherever you are on the front-end, you can click the customize link in the toolbar to swiftly make changes to your site.' ),
-	),
-);
-
-$tech_features = array(
-	array(
-		'heading'     => __( 'Taxonomy Roadmap' ),
-		'description' => __( 'Terms shared across multiple taxonomies are now split into separate terms.' ),
-	),
-	array(
-		'heading'     => __( 'Template Hierarchy' ),
-		/* Translators: 1: singular.php; 2: single.php; 3:page.php */
-		'description' => sprintf( __( 'Added %1$s as a fallback for %2$s and %3$s' ), '<code>singular.php</code>', '<code>single.php</code>', '<code>page.php</code>' ),
-	),
-	array(
-		'heading'     => '<code>WP_List_Table</code>',
-		'description' => __( 'List tables can and should designate a primary column.' ),
-	),
-);
-
 ?>
 	<div class="wrap about-wrap">
 		<h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
 
-		<div class="about-text"><?php printf( __( 'Thank you for updating! WordPress %s makes it even easier to format your content and customize your site.' ), $display_version ); ?></div>
+		<div class="about-text"><?php printf( __( 'Thank you for updating! WordPress %s makes your site more connected and responsive.' ), $display_version ); ?></div>
 		<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 		<h2 class="nav-tab-wrapper">
@@ -112,59 +53,134 @@ $tech_features = array(
 			<script src="https://videopress.com/videopress-iframe.js"></script>
 		</div>
 
-		<hr/>
+		<hr>
+
+		<div class="headline-feature feature-section one-col">
+			<h2><?php _e( 'Twenty Sixteen' ); ?></h2>
+			<div class="media-container">
+				<img src="https://s.w.org/images/core/4.4/twenty-sixteen-white-fullsize-2x.png" alt="" srcset="https://s.w.org/images/core/4.4/twenty-sixteen-white-smartphone-1x.png 268w, https://s.w.org/images/core/4.4/twenty-sixteen-white-smartphone-2x.png 536w, https://s.w.org/images/core/4.4/twenty-sixteen-white-tablet-1x.png 558w, https://s.w.org/images/core/4.4/twenty-sixteen-white-desktop-1x.png 840w, https://s.w.org/images/core/4.4/twenty-sixteen-white-fullsize-1x.png 1086w, https://s.w.org/images/core/4.4/twenty-sixteen-white-tablet-2x.png 1116w, https://s.w.org/images/core/4.4/twenty-sixteen-white-desktop-2x.png 1680w, https://s.w.org/images/core/4.4/twenty-sixteen-white-fullsize-2x.png 2172w" sizes="(max-width: 500px) calc((100vw - 40px) * .8), (max-width: 782px) calc((100vw - 70px) * .8), (max-width: 960px) calc((100vw - 116px) * .8), (max-width: 1290px) calc((100vw - 240px) * .8), 840px" />
+			</div>
+			<div class="two-col">
+				<div class="col">
+					<h3><?php _e( 'Introducing Twenty Sixteen' ); ?></h3>
+					<p><?php _e( 'Our newest default theme, Twenty Sixteen, is a modern take on a classic blog design.' ); ?></p>
+					<p><?php _e( 'Twenty Sixteen was built to look great on any device. A fluid grid design, flexible header, fun color schemes, and more, will make your content shine.' ); ?></p>
+					<div class="horizontal-image">
+						<div class="content">
+							<img class="feature-image horizontal-screen" src="https://s.w.org/images/core/4.4/twenty-sixteen-dark-fullsize-2x.png" alt=""  srcset="https://s.w.org/images/core/4.4/twenty-sixteen-dark-smartphone-1x.png 268w, https://s.w.org/images/core/4.4/twenty-sixteen-dark-smartphone-2x.png 535w, https://s.w.org/images/core/4.4/twenty-sixteen-dark-desktop-1x.png 558w, https://s.w.org/images/core/4.4/twenty-sixteen-dark-fullsize-1x.png 783w, https://s.w.org/images/core/4.4/twenty-sixteen-dark-desktop-2x.png 1116w, https://s.w.org/images/core/4.4/twenty-sixteen-dark-fullsize-2x.png 1566w" sizes="(max-width: 500px) calc((100vw - 40px) * .8), (max-width: 782px) calc((100vw - 70px) * .8), (max-width: 960px) calc((100vw - 116px) * .5216), (max-width: 1290px) calc((100vw - 240px) * .5216), 548px" />
+						</div>
+					</div>
+				</div>
+				<div class="col feature-image">
+					<img class="vertical-screen" src="https://s.w.org/images/core/4.4/twenty-sixteen-red-fullsize-2x.png" alt="" srcset="https://s.w.org/images/core/4.4/twenty-sixteen-red-smartphone-1x.png 107w, https://s.w.org/images/core/4.4/twenty-sixteen-red-smartphone-2x.png 214w, https://s.w.org/images/core/4.4/twenty-sixteen-red-desktop-1x.png 252w, https://s.w.org/images/core/4.4/twenty-sixteen-red-fullsize-1x.png 410w, https://s.w.org/images/core/4.4/twenty-sixteen-red-desktop-2x.png 504w, https://s.w.org/images/core/4.4/twenty-sixteen-red-fullsize-2x.png 820w" sizes="(max-width: 500px) calc((100vw - 40px) * .32), (max-width: 782px) calc((100vw - 70px) * .32), (max-width: 960px) calc((100vw - 116px) * .24), (max-width: 1290px) calc((100vw - 240px) * .24), 252px" />
+				</div>
+			</div>
+		</div>
+
+		<hr />
 
 		<div class="feature-section two-col">
-			<?php foreach ( $major_features as $feature ) : ?>
 			<div class="col">
 				<div class="media-container">
-					<?php
-					// Video.
-					if ( is_array( $feature['src'] ) ) :
-						echo wp_video_shortcode( array(
-							'mp4'      => $feature['src']['mp4'],
-							'ogv'      => $feature['src']['ogv'],
-							'webm'     => $feature['src']['webm'],
-							'loop'     => true,
-							'autoplay' => true,
-							'width'    => 500,
-							'height'   => 284
-						) );
-
-					// Image.
-					else:
-					?>
-					<img src="<?php echo esc_url( $feature['src'] ); ?>" />
-					<?php endif; ?>
+					<img src="https://s.w.org/images/core/4.4/responsive-devices-fullsize-2x.png" alt="" srcset="https://s.w.org/images/core/4.4/responsive-devices-smartphone-1x.png 335w, https://s.w.org/images/core/4.4/responsive-devices-desktop-1x.png 500w, https://s.w.org/images/core/4.4/responsive-devices-smartphone-2x.png 670w, https://s.w.org/images/core/4.4/responsive-devices-tablet-1x.png 698w, https://s.w.org/images/core/4.4/responsive-devices-desktop-2x.png 1000w, https://s.w.org/images/core/4.4/responsive-devices-fullsize-1x.png 1200w, https://s.w.org/images/core/4.4/responsive-devices-tablet-2x.png 1396w, https://s.w.org/images/core/4.4/responsive-devices-fullsize-2x.png 2400w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 960px) calc((100vw - 116px) * .476), (max-width: 1290px) calc((100vw - 240px) * .476), 500px" />
 				</div>
-				<h3><?php echo $feature['heading']; ?></h3>
-				<p><?php echo $feature['description']; ?></p>
 			</div>
-			<?php endforeach; ?>
-		</div>
-
-		<div class="feature-section three-col">
-			<?php foreach ( $minor_features as $feature ) : ?>
 			<div class="col">
-				<div class="svg-container">
-					<img src="<?php echo esc_attr( $feature['src'] ); ?>" />
-				</div>
-				<h3><?php echo $feature['heading']; ?></h3>
-				<p><?php echo $feature['description']; ?></p>
+				<h3><?php _e( 'Responsive images' ); ?></h3>
+				<p><?php _e( 'WordPress now takes a smarter approach to displaying appropriate image sizes on any device, ensuring a perfect fit every time. You don&#8217;t need to do anything to your theme, it just works.' ); ?></p>
 			</div>
-			<?php endforeach; ?>
 		</div>
+
+		<hr />
+
+		<div class="feature-section two-col">
+			<div class="col">
+				<div class="embed-container">
+					<blockquote data-secret="OcUe7B6Edh" class="wp-embedded-content"><a href="https://wordpress.org/news/2015/12/clifford/">WordPress 4.4 &ldquo;Clifford&rdquo;</a></blockquote><iframe class="wp-embedded-content" sandbox="allow-scripts" security="restricted" style="display:none;" src="https://wordpress.org/news/2015/12/clifford/embed/#?secret=OcUe7B6Edh" data-secret="OcUe7B6Edh" width="600" height="338" title="<?php esc_attr_e( 'Embedded WordPress Post' ); ?>" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+				</div>
+			</div>
+			<div class="col">
+				<h3><?php _e( 'Embed your WordPress content' ); ?></h3>
+				<p><?php _e( 'Now you can embed your posts on other sites, even other WordPress sites. Simply drop a post URL into the editor and see an instant embed preview, complete with the title, excerpt, and featured image if you&#8217;ve set one. We&#8217;ll even include your site icon and links for comments and sharing.' ); ?></p>
+			</div>
+		</div>
+
+		<hr />
+
+		<div class="feature-section two-col">
+			<div class="col">
+				<div class="embed-container embed-reverbnation">
+					<iframe width="640" height="150" scrolling="no" frameborder="no" src="https://www.reverbnation.com/widget_code/html_widget/artist_607?widget_id=55&amp;pwc[song_ids]=3731874&amp;pwc[size]=small"></iframe>
+				</div>
+			</div>
+			<div class="col">
+				<h3><?php _e( 'Even more embed providers' ); ?></h3>
+				<p><?php _e( 'In addition to post embeds, WordPress 4.4 also adds support for five new oEmbed providers: Cloudup, Reddit&nbsp;Comments, ReverbNation, Speaker&nbsp;Deck, and VideoPress.' ); ?></p>
+			</div>
+		</div>
+
+		<hr />
 
 		<div class="changelog">
 			<h3><?php _e( 'Under the Hood' ); ?></h3>
 
-			<div class="feature-section under-the-hood three-col">
-				<?php foreach ( $tech_features as $feature ) : ?>
+			<div class="feature-section under-the-hood one-col">
 				<div class="col">
-					<h4><?php echo $feature['heading']; ?></h4>
-					<p><?php echo $feature['description']; ?></p>
+					<h4><?php _e( 'REST API infrastructure' ); ?></h4>
+					<div class="two-col-text">
+						<p><?php _e( 'Infrastructure for the REST API has been integrated into core, marking a new era in developing with WordPress. The REST API serves to provide developers with a path forward for building and extending RESTful APIs on top of WordPress.' ); ?></p>
+						<p><?php
+							if ( current_user_can( 'install_plugins' ) ) {
+								$url_args = array(
+									'tab'       => 'plugin-information',
+									'plugin'    => 'rest-api',
+									'TB_iframe' => true,
+									'width'     => 600,
+									'height'    => 550
+								);
+
+								$plugin_link = '<a href="' . esc_url( add_query_arg( $url_args, network_admin_url( 'plugin-install.php' ) ) ) . '" class="thickbox">WordPress REST API</a>';
+							} else {
+								$plugin_link = '<a href="https://wordpress.org/plugins/rest-api">WordPress REST API</a>';
+							}
+
+							/* translators: WordPress REST API plugin link */
+							printf( __( 'Infrastructure is the first part of a multi-stage rollout for the REST API. Inclusion of core endpoints is targeted for an upcoming release. To get a sneak peek of the core endpoints, and for more information on extending the REST API, check out the official %s plugin.' ), $plugin_link );
+						?></p>
+					</div>
 				</div>
-				<?php endforeach; ?>
+			</div>
+
+			<div class="feature-section under-the-hood three-col">
+				<div class="col">
+					<h4><?php _e( 'Term meta' ); ?></h4>
+					<p><?php
+						/* translators: 1: add_term_meta() docs link, 2: get_term_meta() docs link, 3: update_term_meta() docs link */
+						printf( __( 'Terms now support metadata, just like posts. See %1$s, %2$s, and %3$s for more information.' ),
+							'<a href="https://developer.wordpress.org/reference/functions/add_term_meta"><code>add_term_meta()</code></a>',
+							'<a href="https://developer.wordpress.org/reference/functions/get_term_meta"><code>get_term_meta()</code></a>',
+							'<a href="https://developer.wordpress.org/reference/functions/update_term_meta"><code>update_term_meta()</code></a>'
+				         );
+					?></p>
+				</div>
+				<div class="col">
+					<h4><?php _e( 'Comment query improvements' ); ?></h4>
+					<p><?php
+						/* translators: WP_Comment_Query class name */
+						printf( __( 'Comment queries now have cache handling to improve performance. New arguments in %s make crafting robust comment queries simpler.' ), '<code>WP_Comment_Query</code>' );
+					?></p>
+				</div>
+				<div class="col">
+					<h4><?php _e( 'Term, comment, and network objects' ); ?></h4>
+					<p><?php
+						/* translators: 1: WP_Term class name, WP_Comment class name, WP_Network class name */
+						printf( __( 'New %1$s, %2$s, and %3$s objects make interacting with terms, comments, and networks more predictable and intuitive in code.' ),
+							'<code>WP_Term</code>',
+							'<code>WP_Comment</code>',
+							'<code>WP_Network</code>'
+						);
+					?></p>
+				</div>
 			</div>
 
 			<div class="return-to-dashboard">
@@ -185,13 +201,19 @@ include( ABSPATH . 'wp-admin/admin-footer.php' );
 // These are strings we may use to describe maintenance/security releases, where we aim for no new strings.
 return;
 
-_n_noop( 'Maintenance Release', 'Maintenance Releases' );
-_n_noop( 'Security Release', 'Security Releases' );
-_n_noop( 'Maintenance and Security Release', 'Maintenance and Security Releases' );
+__( 'Maintenance Release' );
+__( 'Maintenance Releases' );
 
-/* translators: 1: WordPress version number. */
-_n_noop( '<strong>Version %1$s</strong> addressed a security issue.',
-         '<strong>Version %1$s</strong> addressed some security issues.' );
+__( 'Security Release' );
+__( 'Security Releases' );
+
+__( 'Maintenance and Security Release' );
+__( 'Maintenance and Security Releases' );
+
+/* translators: %s: WordPress version number */
+__( '<strong>Version %s</strong> addressed one security issue.' );
+/* translators: %s: WordPress version number */
+__( '<strong>Version %s</strong> addressed some security issues.' );
 
 /* translators: 1: WordPress version number, 2: plural number of bugs. */
 _n_noop( '<strong>Version %1$s</strong> addressed %2$s bug.',
@@ -205,4 +227,5 @@ _n_noop( '<strong>Version %1$s</strong> addressed a security issue and fixed %2$
 _n_noop( '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
          '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.' );
 
+/* translators: %s: Codex URL */
 __( 'For more information, see <a href="%s">the release notes</a>.' );

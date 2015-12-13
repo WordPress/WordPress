@@ -1,8 +1,8 @@
 === Twenty Eleven ===
 Contributors: the WordPress team
 Requires at least: WordPress 3.2
-Tested up to: WordPress 4.4-trunk
-Stable tag: 2.2
+Tested up to: WordPress 4.5-trunk
+Stable tag: 2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: dark, light, white, black, gray, one-column, two-columns, left-sidebar, right-sidebar, fixed-layout, responsive-layout, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-image-header, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
@@ -42,6 +42,11 @@ Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
 == Changelog ==
+
+= 2.3 =
+* Released: December 8, 2015
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_2.3
 
 = 2.2 =
 * Released: August 18, 2015

@@ -1,6 +1,6 @@
 <?php
 /**
- * Widgets API: WP_Widget_Factory class
+ * Widget API: WP_Widget_Factory class
  *
  * @package WordPress
  * @subpackage Widgets

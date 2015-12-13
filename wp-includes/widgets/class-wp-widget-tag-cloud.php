@@ -1,21 +1,41 @@
 <?php
 /**
- * Tag cloud widget class
+ * Widget API: WP_Widget_Tag_Cloud class
  *
- * @since 2.8.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement a Tag cloud widget.
+ *
+ * @since 2.8.0
+ *
+ * @see WP_Widget
  */
 class WP_Widget_Tag_Cloud extends WP_Widget {
 
+	/**
+	 * Sets up a new Tag Cloud widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array( 'description' => __( "A cloud of your most used tags.") );
 		parent::__construct('tag_cloud', __('Tag Cloud'), $widget_ops);
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $instance
+	 * Outputs the content for the current Tag Cloud widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current Tag Cloud widget instance.
 	 */
 	public function widget( $args, $instance ) {
 		$current_taxonomy = $this->_get_current_taxonomy($instance);
@@ -66,9 +86,15 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating settings for the current Tag Cloud widget instance.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Settings to save or bool false to cancel saving.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
@@ -78,7 +104,12 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	}
 
 	/**
-	 * @param array $instance
+	 * Outputs the Tag Cloud widget settings form.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 		$current_taxonomy = $this->_get_current_taxonomy($instance);
@@ -98,7 +129,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 
 		// No tag cloud supporting taxonomies found, display error message
 		case 0:
-			echo '<p>' . __( 'The tag cloud will not be displayed since their are no taxonomies that support the tag cloud widget.' ) . '</p>';
+			echo '<p>' . __( 'The tag cloud will not be displayed since there are no taxonomies that support the tag cloud widget.' ) . '</p>';
 			printf( $input, '' );
 			break;
 
@@ -133,8 +164,13 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	}
 
 	/**
-	 * @param array $instance
-	 * @return string
+	 * Retrieves the taxonomy for the current Tag cloud widget instance.
+	 *
+	 * @since 4.4.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
+	 * @return string Name of the current taxonomy if set, otherwise 'post_tag'.
 	 */
 	public function _get_current_taxonomy($instance) {
 		if ( !empty($instance['taxonomy']) && taxonomy_exists($instance['taxonomy']) )

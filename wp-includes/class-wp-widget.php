@@ -1,6 +1,6 @@
 <?php
 /**
- * Widgets API: WP_Widget base class
+ * Widget API: WP_Widget base class
  *
  * @package WordPress
  * @subpackage Widgets
@@ -87,15 +87,15 @@ class WP_Widget {
 	// Member functions that you must over-ride.
 
 	/**
-	 * Echo the widget content.
+	 * Echoes the widget content.
 	 *
-	 * Subclasses should over-ride this function to generate their widget code.
+	 * Sub-classes should over-ride this function to generate their widget code.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @param array $args     Display arguments including before_title, after_title,
-	 *                        before_widget, and after_widget.
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
 	public function widget( $args, $instance ) {
@@ -103,9 +103,9 @@ class WP_Widget {
 	}
 
 	/**
-	 * Update a particular instance.
+	 * Updates a particular instance of a widget.
 	 *
-	 * This function should check that $new_instance is set correctly. The newly-calculated
+	 * This function should check that `$new_instance` is set correctly. The newly-calculated
 	 * value of `$instance` should be returned. If false is returned, the instance won't be
 	 * saved/updated.
 	 *
@@ -113,7 +113,7 @@ class WP_Widget {
 	 * @access public
 	 *
 	 * @param array $new_instance New settings for this instance as input by the user via
-	 *                            {@see WP_Widget::form()}.
+	 *                            WP_Widget::form().
 	 * @param array $old_instance Old settings for this instance.
 	 * @return array Settings to save or bool false to cancel saving.
 	 */
@@ -122,7 +122,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * Output the settings update form.
+	 * Outputs the settings update form.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -130,7 +130,7 @@ class WP_Widget {
 	 * @param array $instance Current settings.
 	 * @return string Default return is 'noform'.
 	 */
-	public function form($instance) {
+	public function form( $instance ) {
 		echo '<p class="no-options-widget">' . __('There are no options for this widget.') . '</p>';
 		return 'noform';
 	}
@@ -146,10 +146,10 @@ class WP_Widget {
 	 * @param string $id_base         Optional Base ID for the widget, lowercase and unique. If left empty,
 	 *                                a portion of the widget's class name will be used Has to be unique.
 	 * @param string $name            Name for the widget displayed on the configuration page.
-	 * @param array  $widget_options  Optional. Widget options. See {@see wp_register_sidebar_widget()} for
+	 * @param array  $widget_options  Optional. Widget options. See wp_register_sidebar_widget() for information
+	 *                                on accepted arguments. Default empty array.
+	 * @param array  $control_options Optional. Widget control options. See wp_register_widget_control() for
 	 *                                information on accepted arguments. Default empty array.
-	 * @param array  $control_options Optional. Widget control options. See {@see wp_register_widget_control()}
-	 *                                for information on accepted arguments. Default empty array.
 	 */
 	public function __construct( $id_base, $name, $widget_options = array(), $control_options = array() ) {
 		$this->id_base = empty($id_base) ? preg_replace( '/(wp_)?widget_/', '', strtolower(get_class($this)) ) : strtolower($id_base);
@@ -160,7 +160,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * PHP4 constructor
+	 * PHP4 constructor.
 	 *
 	 * @param string $id_base
 	 * @param string $name
@@ -177,11 +177,18 @@ class WP_Widget {
 	 *
 	 * This function should be used in form() methods to create name attributes for fields to be saved by update()
 	 *
+	 * @since 2.8.0
+	 * @since 4.4.0 Array format field names are now accepted.
+	 *
 	 * @param string $field_name Field name
 	 * @return string Name attribute for $field_name
 	 */
 	public function get_field_name($field_name) {
-		return 'widget-' . $this->id_base . '[' . $this->number . '][' . $field_name . ']';
+		if ( false === $pos = strpos( $field_name, '[' ) ) {
+			return 'widget-' . $this->id_base . '[' . $this->number . '][' . $field_name . ']';
+		} else {
+			return 'widget-' . $this->id_base . '[' . $this->number . '][' . substr_replace( $field_name, '][', $pos, strlen( '[' ) );
+		}
 	}
 
 	/**
@@ -191,13 +198,14 @@ class WP_Widget {
 	 * for fields to be saved by {@see WP_Widget::update()}.
 	 *
 	 * @since 2.8.0
+	 * @since 4.4.0 Array format field IDs are now accepted.
 	 * @access public
 	 *
 	 * @param string $field_name Field name.
 	 * @return string ID attribute for `$field_name`.
 	 */
 	public function get_field_id( $field_name ) {
-		return 'widget-' . $this->id_base . '-' . $this->number . '-' . $field_name;
+		return 'widget-' . $this->id_base . '-' . $this->number . '-' . trim( str_replace( array( '[]', '[', ']' ), array( '', '-', '' ), $field_name ), '-' );
 	}
 
 	/**
@@ -531,8 +539,13 @@ class WP_Widget {
 
 		$settings = get_option( $this->option_name );
 
-		if ( false === $settings && isset( $this->alt_option_name ) ) {
-			$settings = get_option( $this->alt_option_name );
+		if ( false === $settings ) {
+			if ( isset( $this->alt_option_name ) ) {
+				$settings = get_option( $this->alt_option_name );
+			} else {
+				// Save an option so it can be autoloaded next time.
+				$this->save_settings( array() );
+			}
 		}
 
 		if ( ! is_array( $settings ) && ! ( $settings instanceof ArrayObject || $settings instanceof ArrayIterator ) ) {

@@ -28,13 +28,18 @@ function check_upload_size( $file ) {
 	$space_left = get_upload_space_available();
 
 	$file_size = filesize( $file['tmp_name'] );
-	if ( $space_left < $file_size )
-		$file['error'] = sprintf( __( 'Not enough space to upload. %1$s KB needed.' ), number_format( ($file_size - $space_left) /1024 ) );
-	if ( $file_size > ( 1024 * get_site_option( 'fileupload_maxk', 1500 ) ) )
-		$file['error'] = sprintf(__('This file is too big. Files must be less than %1$s KB in size.'), get_site_option( 'fileupload_maxk', 1500 ) );
+	if ( $space_left < $file_size ) {
+		$file['error'] = sprintf( __( 'Not enough space to upload. %1$s KB needed.' ), number_format( ( $file_size - $space_left ) / KB_IN_BYTES ) );
+	}
+
+	if ( $file_size > ( KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 ) ) ) {
+		$file['error'] = sprintf( __( 'This file is too big. Files must be less than %1$s KB in size.' ), get_site_option( 'fileupload_maxk', 1500 ) );
+	}
+
 	if ( upload_is_user_over_quota( false ) ) {
 		$file['error'] = __( 'You have used your space quota. Please delete files before uploading.' );
 	}
+
 	if ( $file['error'] != '0' && ! isset( $_POST['html-upload'] ) && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 		wp_die( $file['error'] . ' <a href="javascript:history.go(-1)">' . __( 'Back' ) . '</a>' );
 	}
@@ -47,7 +52,7 @@ function check_upload_size( $file ) {
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int  $blog_id Blog ID.
  * @param bool $drop    True if blog's table should be dropped. Default is false.
@@ -177,7 +182,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
  *
  * @todo Merge with wp_delete_user() ?
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $id The user ID.
  * @return bool True if the user was deleted, otherwise false.
@@ -317,8 +322,8 @@ All at ###SITENAME###
  *
  * @since 3.0.0
  *
- * @global object $errors WP_Error object.
- * @global object $wpdb   WordPress database object.
+ * @global WP_Error $errors WP_Error object.
+ * @global wpdb     $wpdb   WordPress database object.
  */
 function send_confirmation_on_profile_email() {
 	global $errors, $wpdb;
@@ -417,9 +422,9 @@ function upload_is_user_over_quota( $echo = true ) {
 		return false;
 
 	$space_allowed = get_space_allowed();
-	if ( empty( $space_allowed ) || !is_numeric( $space_allowed ) )
+	if ( ! is_numeric( $space_allowed ) ) {
 		$space_allowed = 10; // Default space allowed is 10 MB
-
+	}
 	$space_used = get_space_used();
 
 	if ( ( $space_allowed - $space_used ) < 0 ) {
@@ -443,7 +448,7 @@ function display_space_usage() {
 	$percent_used = ( $space_used / $space_allowed ) * 100;
 
 	if ( $space_allowed > 1000 ) {
-		$space = number_format( $space_allowed / 1024 );
+		$space = number_format( $space_allowed / KB_IN_BYTES );
 		/* translators: Gigabytes */
 		$space .= __( 'GB' );
 	} else {
@@ -505,7 +510,7 @@ function upload_space_setting( $id ) {
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $id         The user ID.
  * @param string $pref       The column in the wp_users table to update the user's status
@@ -828,17 +833,6 @@ function choose_primary_blog() {
 		?>
 		</td>
 	</tr>
-	<?php if ( in_array( get_site_option( 'registration' ), array( 'all', 'blog' ) ) ) : ?>
-		<tr>
-			<th scope="row" colspan="2" class="th-full">
-				<?php
-				/** This filter is documented in wp-login.php */
-				$sign_up_url = apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) );
-				?>
-				<a href="<?php echo esc_url( $sign_up_url ); ?>"><?php _e( 'Create a New Site' ); ?></a>
-			</th>
-		</tr>
-	<?php endif; ?>
 	</table>
 	<?php
 }
@@ -947,7 +941,7 @@ function revoke_super_admin( $user_id ) {
  *
  * @since 3.1.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $site_id The network/site ID to check.
  * @return bool True if network can be edited, otherwise false.
@@ -1088,7 +1082,7 @@ function confirm_delete_users( $users ) {
 		<p><?php _e( 'Once you hit &#8220;Confirm Deletion&#8221;, these users will be permanently removed.' ); ?></p>
 	<?php endif;
 
-	submit_button( __('Confirm Deletion'), 'delete' );
+	submit_button( __('Confirm Deletion'), 'primary' );
 	?>
 	</form>
 	<?php
@@ -1099,7 +1093,7 @@ function confirm_delete_users( $users ) {
  * Print JavaScript in the header on the Network Settings screen.
  *
  * @since 4.1.0
-*/
+ */
 function network_settings_add_js() {
 ?>
 <script type="text/javascript">

@@ -61,6 +61,10 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
+get_current_screen()->set_screen_reader_content( array(
+	'heading_list' => __( 'Links list' ),
+) );
+
 include_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 if ( ! current_user_can('manage_links') )

@@ -3,15 +3,16 @@
  * Post API: Walker_PageDropdown class
  *
  * @package WordPress
- * @subpackage Template
+ * @subpackage Post
  * @since 4.4.0
  */
 
 /**
- * Create HTML dropdown list of pages.
+ * Core class used to create an HTML drop-down list of pages.
  *
  * @since 2.1.0
- * @uses Walker
+ *
+ * @see Walker
  */
 class Walker_PageDropdown extends Walker {
 	/**

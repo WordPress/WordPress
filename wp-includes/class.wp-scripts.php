@@ -247,7 +247,7 @@ class WP_Scripts extends WP_Dependencies {
 	 * @return bool Not already in the group or a lower group
 	 */
 	public function set_group( $handle, $recursion, $group = false ) {
-		if ( $this->registered[$handle]->args === 1 )
+		if ( isset( $this->registered[$handle]->args ) && $this->registered[$handle]->args === 1 )
 			$grp = 1;
 		else
 			$grp = (int) $this->get_data( $handle, 'group' );

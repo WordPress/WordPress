@@ -277,6 +277,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar .quicklinks .menupop ul li a:focus,
 #wpadminbar .quicklinks .menupop ul li a:hover strong,
 #wpadminbar .quicklinks .menupop ul li a:focus strong,
+#wpadminbar .quicklinks .ab-sub-wrapper .menupop.hover > a,
 #wpadminbar .quicklinks .menupop.hover ul li a:hover,
 #wpadminbar .quicklinks .menupop.hover ul li a:focus,
 #wpadminbar.nojs .quicklinks .menupop:hover ul li a:hover,
@@ -329,8 +330,8 @@ html:lang(he-il) .rtl #wpadminbar *  {
 }
 
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item:before {
-	top: 5px;
-	right: 3px;
+	top: 1px;
+	right: 6px;
 	content: "\f139";
 }
 
@@ -506,7 +507,9 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	color: #eee;
 }
 
-#wpadminbar .quicklinks li a:hover .blavatar {
+#wpadminbar .quicklinks li a:hover .blavatar,
+#wpadminbar .quicklinks li a:focus .blavatar,
+#wpadminbar .quicklinks .ab-sub-wrapper .menupop.hover > a .blavatar {
 	color: #00b9eb;
 }
 
@@ -725,7 +728,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	font-weight: bold;
 	padding: 15px 23px 14px;
 	background: #f1f1f1;
-	color: #21759b;
+	color: #0073aa;
 	z-index: 100000;
 	line-height: normal;
 	text-decoration: none;
@@ -862,7 +865,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 	#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper .ab-item {
 		font-size: 16px;
-		padding: 6px 15px 12px;
+		padding: 8px 16px;
 	}
 
 	#wpadminbar .ab-top-menu > .menupop > .ab-sub-wrapper a:empty {

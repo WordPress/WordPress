@@ -1,21 +1,41 @@
 <?php
 /**
- * Navigation Menu widget class
+ * Widget API: WP_Nav_Menu_Widget class
  *
- * @since 3.0.0
  * @package WordPress
  * @subpackage Widgets
+ * @since 4.4.0
+ */
+
+/**
+ * Core class used to implement the Custom Menu widget.
+ *
+ * @since 3.0.0
+ *
+ * @see WP_Widget
  */
  class WP_Nav_Menu_Widget extends WP_Widget {
 
+	/**
+	 * Sets up a new Custom Menu widget instance.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 */
 	public function __construct() {
 		$widget_ops = array( 'description' => __('Add a custom menu to your sidebar.') );
 		parent::__construct( 'nav_menu', __('Custom Menu'), $widget_ops );
 	}
 
 	/**
-	 * @param array $args
-	 * @param array $instance
+	 * Outputs the content for the current Custom Menu widget instance.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 *
+	 * @param array $args     Display arguments including 'before_title', 'after_title',
+	 *                        'before_widget', and 'after_widget'.
+	 * @param array $instance Settings for the current Custom Menu widget instance.
 	 */
 	public function widget( $args, $instance ) {
 		// Get menu
@@ -41,25 +61,33 @@
 		 * Filter the arguments for the Custom Menu widget.
 		 *
 		 * @since 4.2.0
+		 * @since 4.4.0 Added the `$instance` parameter.
 		 *
 		 * @param array    $nav_menu_args {
 		 *     An array of arguments passed to wp_nav_menu() to retrieve a custom menu.
 		 *
-		 *     @type callback|bool $fallback_cb Callback to fire if the menu doesn't exist. Default empty.
+		 *     @type callable|bool $fallback_cb Callback to fire if the menu doesn't exist. Default empty.
 		 *     @type mixed         $menu        Menu ID, slug, or name.
 		 * }
 		 * @param stdClass $nav_menu      Nav menu object for the current menu.
 		 * @param array    $args          Display arguments for the current widget.
+		 * @param array    $instance      Array of settings for the current widget.
 		 */
-		wp_nav_menu( apply_filters( 'widget_nav_menu_args', $nav_menu_args, $nav_menu, $args ) );
+		wp_nav_menu( apply_filters( 'widget_nav_menu_args', $nav_menu_args, $nav_menu, $args, $instance ) );
 
 		echo $args['after_widget'];
 	}
 
 	/**
-	 * @param array $new_instance
-	 * @param array $old_instance
-	 * @return array
+	 * Handles updating settings for the current Custom Menu widget instance.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 *
+	 * @param array $new_instance New settings for this instance as input by the user via
+	 *                            WP_Widget::form().
+	 * @param array $old_instance Old settings for this instance.
+	 * @return array Updated settings to save.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
@@ -73,7 +101,12 @@
 	}
 
 	/**
-	 * @param array $instance
+	 * Outputs the settings form for the Custom Menu widget.
+	 *
+	 * @since 3.0.0
+	 * @access public
+	 *
+	 * @param array $instance Current settings.
 	 */
 	public function form( $instance ) {
 		$title = isset( $instance['title'] ) ? $instance['title'] : '';

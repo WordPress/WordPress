@@ -27,7 +27,7 @@ $charset_collate = $wpdb->get_charset_collate();
  *
  * @since 3.3.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $scope Optional. The tables for which to retrieve SQL. Can be all, global, ms_global, or blog tables. Defaults to all.
  * @param int $blog_id Optional. The blog ID for which to retrieve SQL. Default is the current blog ID.
@@ -57,7 +57,16 @@ function wp_get_db_schema( $scope = 'all', $blog_id = null ) {
 	$max_index_length = 191;
 
 	// Blog specific tables.
-	$blog_tables = "CREATE TABLE $wpdb->terms (
+	$blog_tables = "CREATE TABLE $wpdb->termmeta (
+  meta_id bigint(20) unsigned NOT NULL auto_increment,
+  term_id bigint(20) unsigned NOT NULL default '0',
+  meta_key varchar(255) default NULL,
+  meta_value longtext,
+  PRIMARY KEY  (meta_id),
+  KEY term_id (term_id),
+  KEY meta_key (meta_key($max_index_length))
+) $charset_collate;
+CREATE TABLE $wpdb->terms (
  term_id bigint(20) unsigned NOT NULL auto_increment,
  name varchar(200) NOT NULL default '',
  slug varchar(200) NOT NULL default '',
@@ -185,12 +194,12 @@ CREATE TABLE $wpdb->posts (
 	$users_single_table = "CREATE TABLE $wpdb->users (
   ID bigint(20) unsigned NOT NULL auto_increment,
   user_login varchar(60) NOT NULL default '',
-  user_pass varchar(64) NOT NULL default '',
+  user_pass varchar(255) NOT NULL default '',
   user_nicename varchar(50) NOT NULL default '',
   user_email varchar(100) NOT NULL default '',
   user_url varchar(100) NOT NULL default '',
   user_registered datetime NOT NULL default '0000-00-00 00:00:00',
-  user_activation_key varchar(60) NOT NULL default '',
+  user_activation_key varchar(255) NOT NULL default '',
   user_status int(11) NOT NULL default '0',
   display_name varchar(250) NOT NULL default '',
   PRIMARY KEY  (ID),
@@ -202,12 +211,12 @@ CREATE TABLE $wpdb->posts (
 	$users_multi_table = "CREATE TABLE $wpdb->users (
   ID bigint(20) unsigned NOT NULL auto_increment,
   user_login varchar(60) NOT NULL default '',
-  user_pass varchar(64) NOT NULL default '',
+  user_pass varchar(255) NOT NULL default '',
   user_nicename varchar(50) NOT NULL default '',
   user_email varchar(100) NOT NULL default '',
   user_url varchar(100) NOT NULL default '',
   user_registered datetime NOT NULL default '0000-00-00 00:00:00',
-  user_activation_key varchar(60) NOT NULL default '',
+  user_activation_key varchar(255) NOT NULL default '',
   user_status int(11) NOT NULL default '0',
   display_name varchar(250) NOT NULL default '',
   spam tinyint(2) NOT NULL default '0',
@@ -359,11 +368,18 @@ function populate_options() {
 		$uploads_use_yearmonth_folders = 1;
 	}
 
-	$template = WP_DEFAULT_THEME;
-	// If default theme is a child theme, we need to get its template
-	$theme = wp_get_theme( $template );
-	if ( ! $theme->errors() )
-		$template = $theme->get_template();
+	// If WP_DEFAULT_THEME doesn't exist, fall back to the latest core default theme.
+	$stylesheet = $template = WP_DEFAULT_THEME;
+	$theme = wp_get_theme( WP_DEFAULT_THEME );
+	if ( ! $theme->exists() ) {
+		$theme = WP_Theme::get_core_default_theme();
+	}
+
+	// If we can't find a core default theme, WP_DEFAULT_THEME is the best we can do.
+	if ( $theme ) {
+		$stylesheet = $theme->get_stylesheet();
+		$template   = $theme->get_template();
+	}
 
 	$timezone_string = '';
 	$gmt_offset = 0;
@@ -411,13 +427,12 @@ function populate_options() {
 	'comment_moderation' => 0,
 	'moderation_notify' => 1,
 	'permalink_structure' => '',
-	'gzipcompression' => 0,
+	'hack_file' => 0,
 	'blog_charset' => 'UTF-8',
 	'moderation_keys' => '',
 	'active_plugins' => array(),
 	'category_base' => '',
 	'ping_sites' => 'http://rpc.pingomatic.com/',
-	'advanced_edit' => 0,
 	'comment_max_links' => 2,
 	'gmt_offset' => $gmt_offset,
 
@@ -425,7 +440,7 @@ function populate_options() {
 	'default_email_category' => 1,
 	'recently_edited' => '',
 	'template' => $template,
-	'stylesheet' => WP_DEFAULT_THEME,
+	'stylesheet' => $stylesheet,
 	'comment_whitelist' => 1,
 	'blacklist_keys' => '',
 	'comment_registration' => 0,
@@ -498,6 +513,11 @@ function populate_options() {
 
 	// 4.3.0
 	'finished_splitting_shared_terms' => 1,
+	'site_icon' => 0,
+
+	// 4.4.0
+	'medium_large_size_w' => 768,
+	'medium_large_size_h' => 0,
 	);
 
 	// 3.3
@@ -558,7 +578,7 @@ function populate_options() {
 		'can_compress_scripts', 'page_uris', 'update_core', 'update_plugins', 'update_themes', 'doing_cron',
 		'random_seed', 'rss_excerpt_length', 'secret', 'use_linksupdate', 'default_comment_status_page',
 		'wporg_popular_tags', 'what_to_show', 'rss_language', 'language', 'enable_xmlrpc', 'enable_app',
-		'embed_autourls', 'default_post_edit_rows',
+		'embed_autourls', 'default_post_edit_rows', 'gzipcompression', 'advanced_edit'
 	);
 	foreach ( $unusedoptions as $option )
 		delete_option($option);
@@ -836,13 +856,6 @@ function populate_roles_300() {
 		$role->add_cap( 'update_core' );
 		$role->add_cap( 'list_users' );
 		$role->add_cap( 'remove_users' );
-
-		/*
-		 * Never used, will be removed. create_users or promote_users
-		 * is the capability you're looking for.
-		 */
-		$role->add_cap( 'add_users' );
-
 		$role->add_cap( 'promote_users' );
 		$role->add_cap( 'edit_theme_options' );
 		$role->add_cap( 'delete_themes' );
@@ -892,21 +905,37 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 	if ( $network_id == $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id ) ) )
 		$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
 
-	$site_user = get_user_by( 'email', $email );
 	if ( ! is_email( $email ) )
 		$errors->add( 'invalid_email', __( 'You must provide a valid email address.' ) );
 
 	if ( $errors->get_error_code() )
 		return $errors;
 
+	// If a user with the provided email does not exist, default to the current user as the new network admin.
+	$site_user = get_user_by( 'email', $email );
+	if ( false === $site_user ) {
+		$site_user = wp_get_current_user();
+	}
+
 	// Set up site tables.
 	$template = get_option( 'template' );
 	$stylesheet = get_option( 'stylesheet' );
 	$allowed_themes = array( $stylesheet => true );
-	if ( $template != $stylesheet )
+
+	if ( $template != $stylesheet ) {
 		$allowed_themes[ $template ] = true;
-	if ( WP_DEFAULT_THEME != $stylesheet && WP_DEFAULT_THEME != $template )
+	}
+
+	if ( WP_DEFAULT_THEME != $stylesheet && WP_DEFAULT_THEME != $template ) {
 		$allowed_themes[ WP_DEFAULT_THEME ] = true;
+	}
+
+	// If WP_DEFAULT_THEME doesn't exist, also whitelist the latest core default theme.
+	if ( ! wp_get_theme( WP_DEFAULT_THEME )->exists() ) {
+		if ( $core_default = WP_Theme::get_core_default_theme() ) {
+			$allowed_themes[ $core_default->get_stylesheet() ] = true;
+		}
+	}
 
 	if ( 1 == $network_id ) {
 		$wpdb->insert( $wpdb->site, array( 'domain' => $domain, 'path' => $path ) );
@@ -962,7 +991,7 @@ We hope you enjoy your new site. Thanks!
 
 	$sitemeta = array(
 		'site_name' => $site_name,
-		'admin_email' => $site_user->user_email,
+		'admin_email' => $email,
 		'admin_user_id' => $site_user->ID,
 		'registration' => 'none',
 		'upload_filetypes' => implode( ' ', $upload_filetypes ),
@@ -973,7 +1002,8 @@ We hope you enjoy your new site. Thanks!
 		'illegal_names' => array( 'www', 'web', 'root', 'admin', 'main', 'invite', 'administrator', 'files' ),
 		'wpmu_upgrade_site' => $wp_db_version,
 		'welcome_email' => $welcome_email,
-		'first_post' => __( 'Welcome to <a href="SITE_URL">SITE_NAME</a>. This is your first post. Edit or delete it, then start blogging!' ),
+		/* translators: %s: site link */
+		'first_post' => __( 'Welcome to %s. This is your first post. Edit or delete it, then start blogging!' ),
 		// @todo - network admins should have a method of editing the network siteurl (used for cookie hash)
 		'siteurl' => get_option( 'siteurl' ) . '/',
 		'add_new_users' => '0',

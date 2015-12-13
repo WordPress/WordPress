@@ -1195,7 +1195,7 @@ function create_user($username, $password, $email) {
  * Unused function.
  *
  * @deprecated 2.5.0
-*/
+ */
 function gzip_compression() {
 	_deprecated_function( __FUNCTION__, '2.5' );
 	return false;
@@ -1613,7 +1613,7 @@ function get_the_author_ID() {
  * @since 0.71
  * @deprecated 2.8.0 Use the_author_meta()
  * @see the_author_meta()
-*/
+ */
 function the_author_ID() {
 	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'ID\')' );
 	the_author_meta('ID');
@@ -2080,7 +2080,7 @@ function attribute_escape( $text ) {
  * @see wp_register_sidebar_widget()
  *
  * @param string|int $name Widget ID.
- * @param callback $output_callback Run when widget is called.
+ * @param callable $output_callback Run when widget is called.
  * @param string $classname Classname widget option.
  * @param mixed $params ,... Widget parameters.
  */
@@ -2135,7 +2135,7 @@ function unregister_sidebar_widget($id) {
  * @see wp_register_widget_control()
  *
  * @param int|string $name Sidebar ID.
- * @param callback $control_callback Widget control callback to display and process form.
+ * @param callable $control_callback Widget control callback to display and process form.
  * @param int $width Widget width.
  * @param int $height Widget height.
  */
@@ -2928,9 +2928,9 @@ function clean_pre($matches) {
  * @deprecated 3.4.0 Use add_theme_support()
  * @see add_theme_support()
  *
- * @param callback $wp_head_callback Call on 'wp_head' action.
- * @param callback $admin_head_callback Call on custom header administration screen.
- * @param callback $admin_preview_callback Output a custom header image div on the custom header administration screen. Optional.
+ * @param callable $wp_head_callback Call on 'wp_head' action.
+ * @param callable $admin_head_callback Call on custom header administration screen.
+ * @param callable $admin_preview_callback Output a custom header image div on the custom header administration screen. Optional.
  */
 function add_custom_image_header( $wp_head_callback, $admin_head_callback, $admin_preview_callback = '' ) {
 	_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support( \'custom-header\', $args )' );
@@ -2964,9 +2964,9 @@ function remove_custom_image_header() {
  * @deprecated 3.4.0 Use add_theme_support()
  * @see add_theme_support()
  *
- * @param callback $wp_head_callback Call on 'wp_head' action.
- * @param callback $admin_head_callback Call on custom background administration screen.
- * @param callback $admin_preview_callback Output a custom background image div on the custom background administration screen. Optional.
+ * @param callable $wp_head_callback Call on 'wp_head' action.
+ * @param callable $admin_head_callback Call on custom background administration screen.
+ * @param callable $admin_preview_callback Output a custom background image div on the custom background administration screen. Optional.
  */
 function add_custom_background( $wp_head_callback = '', $admin_head_callback = '', $admin_preview_callback = '' ) {
 	_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support( \'custom-background\', $args )' );
@@ -3284,9 +3284,9 @@ function wp_convert_bytes_to_hr( $bytes ) {
 	_deprecated_function( __FUNCTION__, '3.6', 'size_format()' );
 
 	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB', 4 => 'TB' );
-	$log   = log( $bytes, 1024 );
+	$log   = log( $bytes, KB_IN_BYTES );
 	$power = (int) $log;
-	$size  = pow( 1024, $log - $power );
+	$size  = pow( KB_IN_BYTES, $log - $power );
 
 	if ( ! is_nan( $size ) && array_key_exists( $power, $units ) ) {
 		$unit = $units[ $power ];
@@ -3619,4 +3619,72 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
 	clearstatcache();
 
 	return $headers;
+}
+
+/**
+ * Whether SSL login should be forced.
+ *
+ * @since 2.6.0
+ * @deprecated 4.4.0 Use force_ssl_admin()
+ * @see force_ssl_admin()
+ *
+ * @param string|bool $force Optional Whether to force SSL login. Default null.
+ * @return bool True if forced, false if not forced.
+ */
+function force_ssl_login( $force = null ) {
+	_deprecated_function( __FUNCTION__, '4.4', 'force_ssl_admin()' );
+	return force_ssl_admin( $force );
+}
+
+/**
+ * Retrieve path of comment popup template in current or parent template.
+ *
+ * @since 1.5.0
+ * @deprecated 4.5.0
+ *
+ * @return string Full path to comments popup template file.
+ */
+function get_comments_popup_template() {
+	_deprecated_function( __FUNCTION__, '4.5' );
+
+	return '';
+}
+
+/**
+ * Whether the current URL is within the comments popup window.
+ *
+ * @since 1.5.0
+ * @deprecated 4.5.0
+ *
+ * @return bool
+ */
+function is_comments_popup() {
+	_deprecated_function( __FUNCTION__, '4.5' );
+
+	return false;
+}
+
+/**
+ * Display the JS popup script to show a comment.
+ *
+ * @since 0.71
+ * @deprecated 4.5.0
+ */
+function comments_popup_script() {
+	_deprecated_function( __FUNCTION__, '4.5' );
+}
+
+/**
+ * Adds element attributes to open links in new windows.
+ *
+ * @since 0.71
+ * @deprecated 4.5.0
+ *
+ * @param string $text Content to replace links to open in a new window.
+ * @return string Content that has filtered links.
+ */
+function popuplinks( $text ) {
+	_deprecated_function( __FUNCTION__, '4.5' );
+	$text = preg_replace('/<a (.+?)>/i', "<a $1 target='_blank' rel='external'>", $text);
+	return $text;
 }

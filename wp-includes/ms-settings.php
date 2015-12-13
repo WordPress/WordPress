@@ -135,10 +135,11 @@ if ( !isset( $current_site ) || !isset( $current_blog ) ) {
 		ms_not_installed( $domain, $path );
 	}
 
-	// @todo Investigate when exactly this can occur.
-	if ( empty( $current_blog ) && defined( 'WP_INSTALLING' ) ) {
+	// During activation of a new subdomain, the requested site does not yet exist.
+	if ( empty( $current_blog ) && wp_installing() ) {
 		$current_blog = new stdClass;
 		$current_blog->blog_id = $blog_id = 1;
+		$current_blog->public = 1;
 	}
 
 	// No site has been found, bail.
@@ -219,13 +220,6 @@ wp_start_object_cache();
 
 if ( ! $current_site instanceof WP_Network ) {
 	$current_site = new WP_Network( $current_site );
-}
-
-if ( empty( $current_site->site_name ) ) {
-	$current_site->site_name = get_site_option( 'site_name' );
-	if ( ! $current_site->site_name ) {
-		$current_site->site_name = ucfirst( $current_site->domain );
-	}
 }
 
 // Define upload directory constants
