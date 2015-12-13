@@ -184,7 +184,7 @@ if ( ! empty( $messages ) ) {
 			<?php } else {
 				echo $current_site->domain . $current_site->path ?><input name="blog[domain]" type="text" class="regular-text" id="site-address" aria-describedby="site-address-desc"  autocapitalize="none" autocorrect="off" />
 			<?php }
-			echo '<p id="site-address-desc">' . __( 'Only lowercase letters (a-z) and numbers are allowed.' ) . '</p>';
+			echo '<p class="description" id="site-address-desc">' . __( 'Only lowercase letters (a-z), numbers, and hyphens are allowed.' ) . '</p>';
 			?>
 			</td>
 		</tr>
