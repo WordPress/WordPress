@@ -1683,8 +1683,7 @@ function _post_states($post) {
 	if ( 'draft' == $post->post_status && 'draft' != $post_status )
 		$post_states['draft'] = __('Draft');
 	if ( 'pending' == $post->post_status && 'pending' != $post_status )
-		/* translators: post state */
-		$post_states['pending'] = _x('Pending', 'post state');
+		$post_states['pending'] = _x('Pending', 'post status');
 	if ( is_sticky($post->ID) )
 		$post_states['sticky'] = __('Sticky');
 
