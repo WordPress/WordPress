@@ -734,12 +734,17 @@ form.initial-form.quickpress-open input#title {
 	margin: 10px;
 }
 
-.edit-box {
+.postbox .button-link .edit-box {
 	display: none;
 }
 
-h3:hover .edit-box {
-	display: inline;
+.edit-box {
+	opacity: 0;
+}
+
+.hndle:hover .edit-box,
+.edit-box:focus {
+	opacity: 1;
 }
 
 #dashboard-widgets form .input-text-wrap input {
@@ -765,19 +770,13 @@ h3:hover .edit-box {
 	text-decoration: none;
 }
 
-#dashboard-widgets h3 a {
+#dashboard-widgets h2 a {
 	text-decoration: underline;
 }
 
-#dashboard-widgets h3 .postbox-title-action {
-	position: absolute;
-	right: 10px;
-	padding: 0;
-	top: 5px;
-}
-
-.js #dashboard-widgets h3 .postbox-title-action {
-	right: 33px;
+#dashboard-widgets .hndle .postbox-title-action {
+	float: right;
+	line-height: 1.2;
 }
 
 #dashboard_plugins h5 {
