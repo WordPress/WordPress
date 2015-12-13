@@ -1855,7 +1855,7 @@ final class WP_Customize_Manager {
 
 		$this->add_control( new WP_Customize_Site_Icon_Control( $this, 'site_icon', array(
 			'label'       => __( 'Site Icon' ),
-			'description' => __( 'The Site Icon is used as a browser and app icon for your site. Icons must be square, and at least 512px wide and tall.' ),
+			'description' => __( 'The Site Icon is used as a browser and app icon for your site. Icons must be square, and at least <strong>512</strong> pixels wide and tall.' ),
 			'section'     => 'title_tagline',
 			'priority'    => 60,
 			'height'      => 512,
