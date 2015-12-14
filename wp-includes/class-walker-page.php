@@ -16,27 +16,35 @@
  */
 class Walker_Page extends Walker {
 	/**
-	 * @see Walker::$tree_type
+	 * Walker tree type.
+	 *
 	 * @since 2.1.0
+	 * @see Walker::$tree_type
 	 * @var string
 	 */
 	public $tree_type = 'page';
 
 	/**
-	 * @see Walker::$db_fields
+	 * Database fields.
+	 *
 	 * @since 2.1.0
+	 * @see Walker::$db_fields
 	 * @todo Decouple this.
 	 * @var array
 	 */
 	public $db_fields = array ('parent' => 'post_parent', 'id' => 'ID');
 
 	/**
-	 * @see Walker::start_lvl()
+	 * Outputs the beginning of the current level in the tree before elements are output.
+	 *
 	 * @since 2.1.0
 	 *
+	 * @see Walker::start_lvl()
+	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of page. Used for padding.
-	 * @param array  $args
+	 * @param int    $depth  Optional. Depth of page. Used for padding. Default 0.
+	 * @param array  $args   Optional. Arguments for outputing the next level.
+	 *                       Default empty array.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
@@ -44,12 +52,16 @@ class Walker_Page extends Walker {
 	}
 
 	/**
-	 * @see Walker::end_lvl()
+	 * Outputs the end of the current level in the tree after elements are output.
+	 *
 	 * @since 2.1.0
 	 *
+	 * @see Walker::end_lvl()
+	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of page. Used for padding.
-	 * @param array  $args
+	 * @param int    $depth  Optional. Depth of page. Used for padding. Default 0.
+	 * @param array  $args   Optional. Arguments for outputting the end of the current level.
+	 *                       Default empty array.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
@@ -57,6 +69,8 @@ class Walker_Page extends Walker {
 	}
 
 	/**
+	 * Outputs the beginning of the current element in the tree.
+	 *
 	 * @see Walker::start_el()
 	 * @since 2.1.0
 	 *
@@ -140,8 +154,11 @@ class Walker_Page extends Walker {
 	}
 
 	/**
-	 * @see Walker::end_el()
+	 * Outputs the end of the current element in the tree.
+	 *
 	 * @since 2.1.0
+	 *
+	 * @see Walker::end_el()
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $page Page data object. Not used.
