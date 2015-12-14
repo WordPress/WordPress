@@ -36,10 +36,12 @@ class Walker_PageDropdown extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $page   Page data object.
-	 * @param int    $depth  Depth of page in reference to parent pages. Used for padding.
-	 * @param array  $args   Uses 'selected' argument for selected page to set selected HTML attribute for option
-	 *                       element. Uses 'value_field' argument to fill "value" attribute. See {@see wp_dropdown_pages()}.
-	 * @param int    $id
+	 * @param int    $depth  Optional. Depth of page in reference to parent pages. Used for padding.
+	 *                       Default 0.
+	 * @param array  $args   Optional. Uses 'selected' argument for selected page to set selected HTML
+	 *                       attribute for option element. Uses 'value_field' argument to fill "value"
+	 *                       attribute. See {@see wp_dropdown_pages()}. Default empty array.
+	 * @param int    $id     Optional. ID of the current page. Default 0 (unused).
 	 */
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
