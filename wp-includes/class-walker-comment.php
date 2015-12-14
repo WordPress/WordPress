@@ -161,6 +161,7 @@ class Walker_Comment extends Walker {
 	 * @param object $comment Comment data object.
 	 * @param int    $depth   Depth of comment in reference to parents.
 	 * @param array  $args    An array of arguments.
+	 * @param int    $id      Optional. ID of the current comment. Default 0 (unused).
 	 */
 	public function start_el( &$output, $comment, $depth = 0, $args = array(), $id = 0 ) {
 		$depth++;
