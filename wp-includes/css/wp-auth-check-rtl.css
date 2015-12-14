@@ -48,12 +48,36 @@
 }
 
 #wp-auth-check-wrap #wp-auth-check-form {
-	background: url(../images/spinner-2x.gif) no-repeat center center;
-	-webkit-background-size: 16px 16px;
-	background-size: 16px 16px;
 	height: 100%;
+	position: relative;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
+}
+
+#wp-auth-check-form.loading:before {
+	content: "";
+	display: block;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: 50%;
+	top: 50%;
+	margin: -10px -10px 0 0;
+	background: url(../images/spinner.gif) no-repeat center;
+	-webkit-background-size: 20px 20px;
+	background-size: 20px 20px;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
+}
+
+@media print,
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
+
+	#wp-auth-check-form.loading:before {
+		background-image: url(../images/spinner-2x.gif);
+	}
+
 }
 
 #wp-auth-check-wrap #wp-auth-check-form iframe {

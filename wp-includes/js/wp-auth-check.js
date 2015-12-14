@@ -20,6 +20,8 @@
 				var height, body;
 
 				loaded = true;
+				// Remove the spinner to avoid unnecessary CPU/GPU usage.
+				form.removeClass( 'loading' );
 
 				try {
 					body = $(this).contents().find('body');
@@ -46,7 +48,7 @@
 				}
 			}).attr( 'src', form.data('src') );
 
-			$('#wp-auth-check-form').append( frame );
+			form.append( frame );
 		}
 
 		$( 'body' ).addClass( 'modal-open' );
