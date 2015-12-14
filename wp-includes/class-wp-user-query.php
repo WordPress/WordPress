@@ -75,7 +75,7 @@ class WP_User_Query {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param null|string|array $args Optional. The query variables.
+	 * @param null|string|array $query Optional. The query variables.
 	 */
 	public function __construct( $query = null ) {
 		if ( ! empty( $query ) ) {
