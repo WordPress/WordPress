@@ -81,18 +81,18 @@ class WP_Role {
 	}
 
 	/**
-	 * Whether role has capability.
+	 * Determines whether the role has the given capability.
 	 *
-	 * The capabilities is passed through the 'role_has_cap' filter. The first
-	 * parameter for the hook is the list of capabilities the class has
-	 * assigned. The second parameter is the capability name to look for. The
-	 * third and final parameter for the hook is the role name.
+	 * The capabilities is passed through the {@see 'role_has_cap'} filter.
+	 * The first parameter for the hook is the list of capabilities the class
+	 * has assigned. The second parameter is the capability name to look for.
+	 * The third and final parameter for the hook is the role name.
 	 *
 	 * @since 2.0.0
 	 * @access public
 	 *
 	 * @param string $cap Capability name.
-	 * @return bool True, if user has capability. False, if doesn't have capability.
+	 * @return bool True if the role has the given capability. False otherwise.
 	 */
 	public function has_cap( $cap ) {
 		/**
@@ -105,6 +105,7 @@ class WP_Role {
 		 * @param string $name         Role name.
 		 */
 		$capabilities = apply_filters( 'role_has_cap', $this->capabilities, $cap, $this->name );
+
 		if ( !empty( $capabilities[$cap] ) )
 			return $capabilities[$cap];
 		else
