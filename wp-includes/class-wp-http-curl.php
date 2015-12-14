@@ -298,13 +298,17 @@ class WP_Http_Curl {
 	}
 
 	/**
-	 * Grab the headers of the cURL request
+	 * Grabs the headers of the cURL request.
 	 *
-	 * Each header is sent individually to this callback, so we append to the $header property for temporary storage
+	 * Each header is sent individually to this callback, so we append to the `$header` property
+	 * for temporary storage
 	 *
 	 * @since 3.2.0
 	 * @access private
-	 * @return int
+	 *
+	 * @param resource $handle  cURL handle.
+	 * @param string   $headers cURL request headers.
+	 * @return int Length of the request headers.
 	 */
 	private function stream_headers( $handle, $headers ) {
 		$this->headers .= $headers;
