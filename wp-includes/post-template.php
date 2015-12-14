@@ -161,11 +161,11 @@ function get_the_title( $post = 0 ) {
 /**
  * Display the Post Global Unique Identifier (guid).
  *
- * The guid will appear to be a link, but should not be used as an link to the
+ * The guid will appear to be a link, but should not be used as a link to the
  * post. The reason you should not use it as a link, is because of moving the
  * blog across domains.
  *
- * Url is escaped to make it xml safe
+ * URL is escaped to make it XML-safe.
  *
  * @since 1.5.0
  *
