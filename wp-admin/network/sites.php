@@ -161,7 +161,11 @@ if ( isset( $_GET['action'] ) ) {
 					}
 				}
 			} else {
-				wp_redirect( network_admin_url( 'sites.php' ) );
+				$location = network_admin_url( 'sites.php' );
+				if ( ! empty( $_REQUEST['paged'] ) ) {
+					$location = add_query_arg( 'paged', (int) $_REQUEST['paged'], $location );
+				}
+				wp_redirect( $location );
 				exit();
 			}
 		break;
