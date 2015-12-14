@@ -1330,11 +1330,16 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	// Trees must be flattened before they're passed to the walker.
 	$comments_flat = array();
 	foreach ( $_comments as $_comment ) {
-		$comments_flat = array_merge( $comments_flat, array( $_comment ), $_comment->get_children( array(
+		$comments_flat[]  = $_comment;
+		$comment_children = $_comment->get_children( array(
 			'format' => 'flat',
 			'status' => $comment_args['status'],
 			'orderby' => $comment_args['orderby']
-		) ) );
+		) );
+
+		foreach ( $comment_children as $comment_child ) {
+			$comments_flat[] = $comment_child;
+		}
 	}
 
 	/**
