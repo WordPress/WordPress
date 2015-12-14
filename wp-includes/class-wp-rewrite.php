@@ -1552,7 +1552,9 @@ class WP_Rewrite {
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @return string
+	 * @param bool $add_parent_tags Optional. Whether to add parent tags to the rewrite rule sets.
+	 *                              Default false.
+	 * @return string IIS7 URL rewrite rule sets.
 	 */
 	public function iis7_url_rewrite_rules( $add_parent_tags = false ) {
 		if ( ! $this->using_permalinks() )
