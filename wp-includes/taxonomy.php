@@ -3373,11 +3373,12 @@ function wp_defer_term_counting($defer=null) {
  *
  * @staticvar array $_deferred
  *
- * @param int|array $terms    The term_taxonomy_id of the terms.
- * @param string    $taxonomy The context of the term.
+ * @param int|array $terms       The term_taxonomy_id of the terms.
+ * @param string    $taxonomy    The context of the term.
+ * @param bool      $do_deferred Whether to flush the deferred term counts too. Default false.
  * @return bool If no terms will return false, and if successful will return true.
  */
-function wp_update_term_count( $terms, $taxonomy, $do_deferred=false ) {
+function wp_update_term_count( $terms, $taxonomy, $do_deferred = false ) {
 	static $_deferred = array();
 
 	if ( $do_deferred ) {
