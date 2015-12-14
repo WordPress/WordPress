@@ -2941,10 +2941,10 @@ function home_url( $path = '', $scheme = null ) {
  *
  * @global string $pagenow
  *
- * @param  int         $blog_id     Optional. Blog ID. Default null (current blog).
- * @param  string      $path        Optional. Path relative to the home URL. Default empty.
- * @param  string|null $orig_scheme Optional. Scheme to give the home URL context. Accepts
- *                                  'http', 'https', 'relative', 'rest', or null. Default null.
+ * @param  int         $blog_id Optional. Blog ID. Default null (current blog).
+ * @param  string      $path    Optional. Path relative to the home URL. Default empty.
+ * @param  string|null $scheme  Optional. Scheme to give the home URL context. Accepts
+ *                              'http', 'https', 'relative', 'rest', or null. Default null.
  * @return string Home URL link with optional path appended.
  */
 function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
