@@ -399,18 +399,82 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		if ( ! $allowed ) {
 			if ( ! $theme->errors() ) {
-				$actions['enable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $stylesheet ) ) . '" title="' . esc_attr__('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
+				$url = add_query_arg( array(
+					'action' => 'enable',
+					'theme'  => $theme_key,
+					'paged'  => $page,
+					's'      => $s,
+				), $url );
+
+				if ( $this->is_site_themes ) {
+					/* translators: %s: theme name */
+					$aria_label = sprintf( __( 'Enable %s' ), $theme->display( 'Name' ) );
+				} else {
+					/* translators: %s: theme name */
+					$aria_label = sprintf( __( 'Network Enable %s' ), $theme->display( 'Name' ) );
+				}
+
+				$actions['enable'] = sprintf( '<a href="%s" class="edit" aria-label="%s">%s</a>',
+					esc_url( wp_nonce_url( $url, 'enable-theme_' . $stylesheet ) ),
+					esc_attr( $aria_label ),
+					( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) )
+				);
 			}
 		} else {
-			$actions['disable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $stylesheet ) ) . '" title="' . esc_attr__('Disable this theme') . '">' . ( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) ) . '</a>';
+			$url = add_query_arg( array(
+				'action' => 'disable',
+				'theme'  => $theme_key,
+				'paged'  => $page,
+				's'      => $s,
+			), $url );
+
+			if ( $this->is_site_themes ) {
+				/* translators: %s: theme name */
+				$aria_label = sprintf( __( 'Disable %s' ), $theme->display( 'Name' ) );
+			} else {
+				/* translators: %s: theme name */
+				$aria_label = sprintf( __( 'Network Disable %s' ), $theme->display( 'Name' ) );
+			}
+
+			$actions['disable'] = sprintf( '<a href="%s" aria-label="%s">%s</a>',
+				esc_url( wp_nonce_url( $url, 'disable-theme_' . $stylesheet ) ),
+				esc_attr( $aria_label ),
+				( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) )
+			);
 		}
 
 		if ( current_user_can('edit_themes') ) {
-			$actions['edit'] = '<a href="' . esc_url('theme-editor.php?theme=' . $theme_key ) . '" title="' . esc_attr__('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
+			$url = add_query_arg( array(
+				'theme' => $theme_key,
+			), 'theme-editor.php' );
+
+			/* translators: %s: theme name */
+			$aria_label = sprintf( __( 'Open %s in the Theme Editor' ), $theme->display( 'Name' ) );
+
+			$actions['edit'] = sprintf( '<a href="%s" class="edit" aria-label="%s">%s</a>',
+				esc_url( $url ),
+				esc_attr( $aria_label ),
+				__( 'Edit' )
+			);
 		}
 
 		if ( ! $allowed && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && $stylesheet != get_option( 'stylesheet' ) && $stylesheet != get_option( 'template' ) ) {
-			$actions['delete'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=delete-selected&amp;checked[]=' . $theme_key . '&amp;theme_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-themes' ) ) . '" title="' . esc_attr__( 'Delete this theme' ) . '" class="delete">' . __( 'Delete' ) . '</a>';
+			$url = add_query_arg( array(
+				'action'       => 'delete-selected',
+				'checked[]'    => $theme_key,
+				'theme_status' => $context,
+				'paged'        => $page,
+				's'            => $s,
+			), 'themes.php' );
+
+			/* translators: %s: theme name */
+			$aria_label = sprintf( __( 'Delete %s' ), $theme->display( 'Name' ) );
+
+			$actions['delete'] = sprintf( '<a href="%s" class="delete" aria-label="%s">%s</a>',
+				esc_url( wp_nonce_url( $url, 'bulk-themes' ) ),
+				esc_attr( $aria_label ),
+				__( 'Delete' )
+			);
 		}
 		/**
 		 * Filter the action links displayed for each theme in the Multisite
@@ -495,7 +559,14 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$theme_meta[] = sprintf( __( 'By %s' ), $theme->display('Author') );
 
 		if ( $theme->get('ThemeURI') ) {
-			$theme_meta[] = '<a href="' . $theme->display('ThemeURI') . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
+			/* translators: %s: theme name */
+			$aria_label = sprintf( __( 'Visit %s homepage' ), $theme->display( 'Name' ) );
+
+			$theme_meta[] = sprintf( '<a href="%s" aria-label="%s">%s</a>',
+				$theme->display( 'ThemeURI' ),
+				esc_attr( $aria_label ),
+				__( 'Visit Theme Site' )
+			);
 		}
 		/**
 		 * Filter the array of row meta for each theme in the Multisite themes
