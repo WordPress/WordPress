@@ -4410,7 +4410,6 @@ function get_term_link( $term, $taxonomy = '' ) {
  *     @type  string      $sep    Separates each taxonomy. Default is a space.
  *     @type  string      $after  Displays after the taxonomies. Default empty string.
  * }
- * @param array $args See {@link get_the_taxonomies()} for a description of arguments and their defaults.
  */
 function the_taxonomies( $args = array() ) {
 	$defaults = array(
