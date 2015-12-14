@@ -356,7 +356,7 @@ class WP_Http_Curl {
 	 * @static
 	 * @since 2.7.0
 	 *
-	 * @param array $args Optional. Array of request arguments arguments. Default empty array.
+	 * @param array $args Optional. Array of request arguments. Default empty array.
 	 * @return bool False means this class can not be used, true means it can.
 	 */
 	public static function test( $args = array() ) {
