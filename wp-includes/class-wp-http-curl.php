@@ -316,14 +316,18 @@ class WP_Http_Curl {
 	}
 
 	/**
-	 * Grab the body of the cURL request
+	 * Grabs the body of the cURL request.
 	 *
-	 * The contents of the document are passed in chunks, so we append to the $body property for temporary storage.
-	 * Returning a length shorter than the length of $data passed in will cause cURL to abort the request with CURLE_WRITE_ERROR
+	 * The contents of the document are passed in chunks, so we append to the `$body`
+	 * property for temporary storage. Returning a length shorter than the length of
+	 * `$data` passed in will cause cURL to abort the request with `CURLE_WRITE_ERROR`.
 	 *
 	 * @since 3.6.0
 	 * @access private
-	 * @return int
+	 *
+	 * @param resource $handle  cURL handle.
+	 * @param string   $headers cURL request headers.
+	 * @return int Total bytes of data written.
 	 */
 	private function stream_body( $handle, $data ) {
 		$data_length = strlen( $data );
