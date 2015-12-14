@@ -191,9 +191,9 @@ function has_filter($tag, $function_to_check = false) {
  * @global array $merged_filters    Merges the filter hooks using this function.
  * @global array $wp_current_filter Stores the list of current filters with the current one last.
  *
- * @param string $tag   The name of the filter hook.
- * @param mixed  $value The value on which the filters hooked to `$tag` are applied on.
- * @param mixed  $var   Additional variables passed to the functions hooked to `$tag`.
+ * @param string $tag     The name of the filter hook.
+ * @param mixed  $value   The value on which the filters hooked to `$tag` are applied on.
+ * @param mixed  $var,... Additional variables passed to the functions hooked to `$tag`.
  * @return mixed The filtered value after all hooked functions are applied to it.
  */
 function apply_filters( $tag, $value ) {
@@ -475,9 +475,9 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
  * @global array $merged_filters    Merges the filter hooks using this function.
  * @global array $wp_current_filter Stores the list of current filters with the current one last
  *
- * @param string $tag The name of the action to be executed.
- * @param mixed  $arg Optional. Additional arguments which are passed on to the
- *                    functions hooked to the action. Default empty.
+ * @param string $tag     The name of the action to be executed.
+ * @param mixed  $arg,... Optional. Additional arguments which are passed on to the
+ *                        functions hooked to the action. Default empty.
  */
 function do_action($tag, $arg = '') {
 	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
