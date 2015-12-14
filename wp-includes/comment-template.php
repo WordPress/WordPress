@@ -736,7 +736,7 @@ function get_comment_link( $comment = null, $args = array() ) {
 		}
 	}
 
-	if ( $cpage ) {
+	if ( $cpage && get_option( 'page_comments' ) ) {
 		if ( $wp_rewrite->using_permalinks() ) {
 			if ( $cpage ) {
 				$link = trailingslashit( $link ) . $wp_rewrite->comments_pagination_base . '-' . $cpage;
