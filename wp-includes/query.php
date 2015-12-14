@@ -1882,7 +1882,7 @@ class WP_Query {
 	 * @access protected
 	 * @since 3.1.0
 	 *
-	 * @param array &$q The query variables
+	 * @param array $q The query variables. Passed by reference.
 	 */
 	public function parse_tax_query( &$q ) {
 		if ( ! empty( $q['tax_query'] ) && is_array( $q['tax_query'] ) ) {
