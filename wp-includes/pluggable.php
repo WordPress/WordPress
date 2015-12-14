@@ -1237,7 +1237,8 @@ if ( !function_exists('wp_sanitize_redirect') ) :
  *
  * @since 2.3.0
  *
- * @return string redirect-sanitized URL
+ * @param string $location The path to redirect to.
+ * @return string Redirect-sanitized URL.
  **/
 function wp_sanitize_redirect($location) {
 	$regex = '/
@@ -1288,6 +1289,9 @@ if ( !function_exists('wp_safe_redirect') ) :
  * but only used in a few places.
  *
  * @since 2.3.0
+ *
+ * @param string $location The path to redirect to.
+ * @param int    $status   Status code to use.
  */
 function wp_safe_redirect($location, $status = 302) {
 
