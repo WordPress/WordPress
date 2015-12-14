@@ -2072,8 +2072,9 @@ if ( !function_exists('wp_check_password') ) :
  *	against the $hash + $password
  * @uses PasswordHash::CheckPassword
  *
- * @param string $password Plaintext user's password
- * @param string $hash     Hash of the user's password to check against.
+ * @param string     $password Plaintext user's password
+ * @param string     $hash     Hash of the user's password to check against.
+ * @param string|int $user_id  Optional. User ID.
  * @return bool False, if the $password does not match the hashed password
  */
 function wp_check_password($password, $hash, $user_id = '') {
@@ -2093,10 +2094,10 @@ function wp_check_password($password, $hash, $user_id = '') {
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param bool   $check    Whether the passwords match.
-		 * @param string $password The plaintext password.
-		 * @param string $hash     The hashed password.
-		 * @param int    $user_id  User ID.
+		 * @param bool       $check    Whether the passwords match.
+		 * @param string     $password The plaintext password.
+		 * @param string     $hash     The hashed password.
+		 * @param string|int $user_id  User ID. Can be empty.
 		 */
 		return apply_filters( 'check_password', $check, $password, $hash, $user_id );
 	}
