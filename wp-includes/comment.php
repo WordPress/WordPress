@@ -1473,7 +1473,7 @@ function wp_get_current_commenter() {
  *     @type int        $comment_karma        The karma of the comment. Default 0.
  *     @type int        $comment_parent       ID of this comment's parent, if any. Default 0.
  *     @type int        $comment_post_ID      ID of the post that relates to the comment, if any.
- *                                            Default empty.
+ *                                            Default 0.
  *     @type string     $comment_type         Comment type. Default empty.
  *     @type array      $comment_meta         Optional. Array of key/value pairs to be stored in commentmeta for the
  *                                            new comment.
@@ -1493,7 +1493,7 @@ function wp_insert_comment( $commentdata ) {
 	$comment_date     = ! isset( $data['comment_date'] )     ? current_time( 'mysql' )            : $data['comment_date'];
 	$comment_date_gmt = ! isset( $data['comment_date_gmt'] ) ? get_gmt_from_date( $comment_date ) : $data['comment_date_gmt'];
 
-	$comment_post_ID  = ! isset( $data['comment_post_ID'] )  ? '' : $data['comment_post_ID'];
+	$comment_post_ID  = ! isset( $data['comment_post_ID'] )  ? 0  : $data['comment_post_ID'];
 	$comment_content  = ! isset( $data['comment_content'] )  ? '' : $data['comment_content'];
 	$comment_karma    = ! isset( $data['comment_karma'] )    ? 0  : $data['comment_karma'];
 	$comment_approved = ! isset( $data['comment_approved'] ) ? 1  : $data['comment_approved'];
