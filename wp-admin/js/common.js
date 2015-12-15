@@ -897,10 +897,20 @@ $document.ready( function() {
 		}
 	};
 
+	// Add an ARIA role `button` to elements that behave like UI controls when JavaScript is on.
+	function aria_button_if_js() {
+		$( '.aria-button-if-js' ).attr( 'role', 'button' );
+	}
+
+	$( document ).ajaxComplete( function() {
+		aria_button_if_js();
+	});
+
 	window.wpResponsive.init();
 	setPinMenu();
 	currentMenuItemHasPopup();
 	makeNoticesDismissible();
+	aria_button_if_js();
 
 	$document.on( 'wp-pin-menu wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu wp-collapse-menu.pin-menu wp-scroll-start.pin-menu', setPinMenu );
 });
