@@ -694,7 +694,7 @@ class ftp_base {
 		}
 		foreach($list as $k=>$v) {
 			$list[$k]=$this->parselisting($v);
-			if($list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
+			if( ! $list[$k] or $list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
 		}
 		$ret=true;
 		foreach($list as $el) {
@@ -727,7 +727,7 @@ class ftp_base {
 
 		foreach($list as $k=>$v) {
 			$list[$k]=$this->parselisting($v);
-			if($list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
+			if( ! $list[$k] or $list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
 		}
 		$ret=true;
 
