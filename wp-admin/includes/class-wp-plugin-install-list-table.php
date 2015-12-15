@@ -467,7 +467,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 						break;
 					case 'latest_installed':
 					case 'newer_installed':
-						$action_links[] = '<span class="button button-disabled" title="' . esc_attr__( 'This plugin is already installed and is up to date' ) . ' ">' . _x( 'Installed', 'plugin' ) . '</span>';
+						$action_links[] = '<span class="button button-disabled">' . _x( 'Installed', 'plugin' ) . '</span>';
 						break;
 				}
 			}
@@ -529,9 +529,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					<span class="num-ratings">(<?php echo number_format_i18n( $plugin['num_ratings'] ); ?>)</span>
 				</div>
 				<div class="column-updated">
-					<strong><?php _e( 'Last Updated:' ); ?></strong> <span title="<?php echo esc_attr( date_i18n( $date_format, $last_updated_timestamp ) ); ?>">
-						<?php printf( __( '%s ago' ), human_time_diff( $last_updated_timestamp ) ); ?>
-					</span>
+					<strong><?php _e( 'Last Updated:' ); ?></strong> <?php printf( __( '%s ago' ), human_time_diff( $last_updated_timestamp ) ); ?>
 				</div>
 				<div class="column-downloaded">
 					<?php
