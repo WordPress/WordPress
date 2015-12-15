@@ -191,8 +191,7 @@ class WP_Locale {
 
 		if ( version_compare( PHP_VERSION, '5.4', '>=' ) ) {
 			// Replace space with a non-breaking space to avoid wrapping.
-			$non_breaking_space = html_entity_decode( '&nbsp;', ENT_QUOTES, get_option( 'blog_charset' ) );
-			$thousands_sep = str_replace( ' ', $non_breaking_space, $thousands_sep );
+			$thousands_sep = str_replace( ' ', '&nbsp;', $thousands_sep );
 		} else {
 			// PHP < 5.4.0 does not support multiple bytes in thousands separator.
 			$thousands_sep = str_replace( array( '&nbsp;', '&#160;' ), ' ', $thousands_sep );
