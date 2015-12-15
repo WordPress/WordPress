@@ -39,7 +39,7 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 		if ( empty($opt['port']) )
 			$this->options['port'] = 21;
 		else
-			$this->options['port'] = $opt['port'];
+			$this->options['port'] = (int) $opt['port'];
 
 		if ( empty($opt['hostname']) )
 			$this->errors->add('empty_hostname', __('FTP hostname is required'));
