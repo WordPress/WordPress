@@ -4530,7 +4530,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 1.5.0
 	 * @deprecated 3.5.0
-	 * @return IXR_Error
+	 *
+	 * @param array $args Unused.
+	 * @return IXR_Error Error message.
 	 */
 	public function blogger_getTemplate($args) {
 		return new IXR_Error( 403, __('Sorry, that file cannot be edited.' ) );
@@ -4541,18 +4543,20 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 1.5.0
 	 * @deprecated 3.5.0
-	 * @return IXR_Error
+	 *
+	 * @param array $args Unused.
+	 * @return IXR_Error Error message.
 	 */
 	public function blogger_setTemplate($args) {
 		return new IXR_Error( 403, __('Sorry, that file cannot be edited.' ) );
 	}
 
 	/**
-	 * Create new post.
+	 * Creates new post.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param array  $args {
+	 * @param array $args {
 	 *     Method arguments. Note: arguments must be ordered as documented.
 	 *
 	 *     @type string $appkey (unused)
