@@ -597,9 +597,12 @@ function strip_shortcodes( $content ) {
 }
 
 /**
+ * Strips a shortcode tag based on RegEx matches against post content.
  *
- * @param array $m
- * @return string|false
+ * @since 3.3.0
+ *
+ * @param array $m RegEx matches against post content.
+ * @return string|false The content stripped of the tag, otherwise false.
  */
 function strip_shortcode_tag( $m ) {
 	// allow [[foo]] syntax for escaping a tag
