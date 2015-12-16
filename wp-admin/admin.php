@@ -312,7 +312,7 @@ if ( isset($plugin_page) ) {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param bool false Whether to force data to be filtered through kses. Default false.
+	 * @param bool $force Whether to force data to be filtered through kses. Default false.
 	 */
 	if ( apply_filters( 'force_filtered_html_on_import', false ) ) {
 		kses_init_filters();  // Always filter imported data with kses on multisite.
