@@ -771,7 +771,7 @@ function validate_current_theme() {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param bool true Validation flag to check the current theme.
+	 * @param bool $validate Validation flag to check the current theme.
 	 */
 	if ( wp_installing() || ! apply_filters( 'validate_current_theme', true ) )
 		return true;
