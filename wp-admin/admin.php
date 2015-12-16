@@ -59,7 +59,7 @@ if ( get_option('db_upgraded') ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param bool true Whether to perform the Multisite upgrade routine. Default true.
+	 * @param bool $do_mu_upgrade Whether to perform the Multisite upgrade routine. Default true.
 	 */
 	} elseif ( apply_filters( 'do_mu_upgrade', true ) ) {
 		$c = get_blog_count();
