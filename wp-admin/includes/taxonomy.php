@@ -65,7 +65,7 @@ function wp_create_category( $cat_name, $parent = 0 ) {
  *
  * @param array $categories List of categories to create.
  * @param int   $post_id    Optional. The post ID. Default empty.
- * @return List of categories to create for the given post.
+ * @return array List of categories to create for the given post.
  */
 function wp_create_categories( $categories, $post_id = '' ) {
 	$cat_ids = array ();
