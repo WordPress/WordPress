@@ -1963,7 +1963,7 @@ function get_password_reset_key( $user ) {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param bool true           Whether to allow the password to be reset. Default true.
+	 * @param bool $allow         Whether to allow the password to be reset. Default true.
 	 * @param int  $user_data->ID The ID of the user attempting to reset a password.
 	 */
 	$allow = apply_filters( 'allow_password_reset', true, $user->ID );
