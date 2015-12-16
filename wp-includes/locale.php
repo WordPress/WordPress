@@ -218,7 +218,10 @@ class WP_Locale {
 	}
 
 	/**
+	 * Outputs an admin notice if the /build directory must be used for RTL.
+	 *
 	 * @since 3.8.0
+	 * @access public
 	 */
 	public function rtl_src_admin_notice() {
 		/* translators: %s: Name of the directory (build) */
