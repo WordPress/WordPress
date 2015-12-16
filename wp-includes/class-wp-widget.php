@@ -255,19 +255,33 @@ class WP_Widget {
 	}
 
 	/**
-	 * @return callback
+	 * Retrieves the widget display callback.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @return callable Display callback.
 	 */
 	public function _get_display_callback() {
 		return array($this, 'display_callback');
 	}
+
 	/**
-	 * @return callback
+	 * Retrieves the widget update callback.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @return callable Update callback.
 	 */
 	public function _get_update_callback() {
 		return array($this, 'update_callback');
 	}
+
 	/**
-	 * @return callback
+	 * Retrieves the form callback.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @return callable Form callback.
 	 */
 	public function _get_form_callback() {
 		return array($this, 'form_callback');
