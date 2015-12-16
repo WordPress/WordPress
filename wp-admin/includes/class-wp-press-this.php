@@ -46,7 +46,7 @@ class WP_Press_This {
 			 *
 			 * @since 4.2.0
 			 *
-			 * @param bool false Whether to redirect in parent window or not. Default false.
+			 * @param bool $redirect Whether to redirect in parent window or not. Default false.
 			 */
 			'redirInParent' => apply_filters( 'press_this_redirect_in_parent', false ),
 		);
