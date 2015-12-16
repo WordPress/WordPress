@@ -154,7 +154,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			<p class="install-help"><?php _e( 'If you have marked themes as favorites on WordPress.org, you can browse them here.' ); ?></p>
 
 			<p>
-				<label for="user"><?php _e( 'Your WordPress.org username:' ); ?></label>
+				<label for="wporg-username-input"><?php _e( 'Your WordPress.org username:' ); ?></label>
 				<input type="search" id="wporg-username-input" value="<?php echo esc_attr( $user ); ?>" />
 				<input type="button" class="button button-secondary favorites-form-submit" value="<?php esc_attr_e( 'Get Favorites' ); ?>" />
 			</p>
