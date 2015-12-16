@@ -16,23 +16,30 @@
  */
 class Walker_PageDropdown extends Walker {
 	/**
-	 * @see Walker::$tree_type
+	 * Walker tree type.
+	 *
 	 * @since 2.1.0
+	 * @see Walker::$tree_type
 	 * @var string
 	 */
 	public $tree_type = 'page';
 
 	/**
-	 * @see Walker::$db_fields
+	 * Database fields.
+	 *
 	 * @since 2.1.0
+	 * @see Walker::$db_fields
 	 * @todo Decouple this
 	 * @var array
 	 */
 	public $db_fields = array ('parent' => 'post_parent', 'id' => 'ID');
 
 	/**
-	 * @see Walker::start_el()
+	 * Starts the element output.
+	 *
 	 * @since 2.1.0
+	 *
+	 * @see Walker::start_el()
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $page   Page data object.
@@ -70,6 +77,7 @@ class Walker_PageDropdown extends Walker {
 		 * @param object $page  Page data object.
 		 */
 		$title = apply_filters( 'list_pages', $title, $page );
+
 		$output .= $pad . esc_html( $title );
 		$output .= "</option>\n";
 	}
