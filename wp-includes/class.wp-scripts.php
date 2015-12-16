@@ -30,12 +30,21 @@ class WP_Scripts extends WP_Dependencies {
 	public $ext_version = '';
 	public $default_dirs;
 
+	/**
+	 * Constructor.
+	 *
+	 * @since 2.6.0
+	 * @access public
+	 */
 	public function __construct() {
 		$this->init();
 		add_action( 'init', array( $this, 'init' ), 0 );
 	}
 
 	/**
+	 * Initialize the class.
+	 *
+	 * @since 3.4.0
 	 * @access public
 	 */
 	public function init() {
