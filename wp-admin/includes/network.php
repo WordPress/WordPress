@@ -56,7 +56,7 @@ function allow_subdirectory_install() {
          *
          * @since 3.0.0
          *
-         * @param bool true Whether to enable the subdirectory install feature in Multisite. Default is false.
+         * @param bool $allow Whether to enable the subdirectory install feature in Multisite. Default is false.
          */
 	if ( apply_filters( 'allow_subdirectory_install', false ) )
 		return true;
