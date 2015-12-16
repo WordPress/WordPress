@@ -374,9 +374,7 @@ class WP_Filesystem_Base {
 	 * @param string $file
 	 * @return string the last 3 characters of the octal number
 	 */
-	public function getchmod( $file ) {
-		return '777';
-	}
+	abstract public function getchmod( $file );
 
 	/**
 	 * Convert *nix-style file permissions to a octal number.
