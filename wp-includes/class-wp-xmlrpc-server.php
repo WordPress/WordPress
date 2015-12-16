@@ -4532,7 +4532,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @deprecated 3.5.0
 	 *
 	 * @param array $args Unused.
-	 * @return IXR_Error Error message.
+	 * @return IXR_Error Error object.
 	 */
 	public function blogger_getTemplate($args) {
 		return new IXR_Error( 403, __('Sorry, that file cannot be edited.' ) );
@@ -4545,7 +4545,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @deprecated 3.5.0
 	 *
 	 * @param array $args Unused.
-	 * @return IXR_Error Error message.
+	 * @return IXR_Error Error object.
 	 */
 	public function blogger_setTemplate($args) {
 		return new IXR_Error( 403, __('Sorry, that file cannot be edited.' ) );
@@ -6417,9 +6417,13 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * @param integer $code
-	 * @param string $message
-	 * @return IXR_Error
+	 * Sends a pingback error based on the given error code and message.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @param int    $code    Error code.
+	 * @param string $message Error message.
+	 * @return IXR_Error Error object.
 	 */
 	protected function pingback_error( $code, $message ) {
 		/**
