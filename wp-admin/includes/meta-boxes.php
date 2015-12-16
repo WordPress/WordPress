@@ -592,7 +592,8 @@ function post_excerpt_meta_box($post) {
  * @param object $post
  */
 function post_trackback_meta_box($post) {
-	$form_trackback = '<input type="text" name="trackback_url" id="trackback_url" class="code" value="'. esc_attr( str_replace("\n", ' ', $post->to_ping) ) .'" />';
+	$form_trackback = '<input type="text" name="trackback_url" id="trackback_url" class="code" value="' .
+		esc_attr( str_replace( "\n", ' ', $post->to_ping ) ) . '" aria-describedby="trackback-url-desc" />';
 	if ('' != $post->pinged) {
 		$pings = '<p>'. __('Already pinged:') . '</p><ul>';
 		$already_pinged = explode("\n", trim($post->pinged));
@@ -603,7 +604,11 @@ function post_trackback_meta_box($post) {
 	}
 
 ?>
-<p><label for="trackback_url"><?php _e('Send trackbacks to:'); ?></label> <?php echo $form_trackback; ?><br /> (<?php _e('Separate multiple URLs with spaces'); ?>)</p>
+<p>
+	<label for="trackback_url"><?php _e( 'Send trackbacks to:' ); ?></label>
+	<?php echo $form_trackback; ?>
+</p>
+<p id="trackback-url-desc" class="howto"><?php _e( 'Separate multiple URLs with spaces' ); ?></p>
 <p><?php _e('Trackbacks are a way to notify legacy blog systems that you&#8217;ve linked to them. If you link other WordPress sites, they&#8217;ll be notified automatically using <a href="https://codex.wordpress.org/Introduction_to_Blogging#Managing_Comments" target="_blank">pingbacks</a>, no other action necessary.'); ?></p>
 <?php
 if ( ! empty($pings) )
