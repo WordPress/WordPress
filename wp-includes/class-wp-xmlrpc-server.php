@@ -188,6 +188,9 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
+	 * Serves the XML-RPC request.
+	 *
+	 * @since 2.9.0
 	 * @access public
 	 */
 	public function serve_request() {
