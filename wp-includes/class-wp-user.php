@@ -701,12 +701,12 @@ class WP_User {
 	 *
 	 * @see map_meta_cap()
 	 *
-	 * @param string $cap       Capability name.
-	 * @param int    $object_id Optional. ID of the specific object to check against if `$cap` is a "meta" cap.
-	 *                          "Meta" capabilities, e.g. 'edit_post', 'edit_user', etc., are capabilities used
-	 *                          by map_meta_cap() to map to other "primitive" capabilities, e.g. 'edit_posts',
-	 *                          'edit_others_posts', etc. The parameter is accessed via func_get_args() and passed
-	 *                          to map_meta_cap().
+	 * @param string $cap           Capability name.
+	 * @param int    $object_id,... Optional. ID of the specific object to check against if `$cap` is a "meta" cap.
+	 *                              "Meta" capabilities, e.g. 'edit_post', 'edit_user', etc., are capabilities used
+	 *                              by map_meta_cap() to map to other "primitive" capabilities, e.g. 'edit_posts',
+	 *                              'edit_others_posts', etc. The parameter is accessed via func_get_args() and passed
+	 *                              to map_meta_cap().
 	 * @return bool Whether the current user has the given capability. If `$cap` is a meta cap and `$object_id` is
 	 *              passed, whether the current user has the given meta capability for the given object.
 	 */
