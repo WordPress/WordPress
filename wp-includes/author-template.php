@@ -289,9 +289,11 @@ function the_author_posts_link( $deprecated = '' ) {
  *
  * @global WP_Rewrite $wp_rewrite
  *
+ * @param int    $author_id       Author ID.
+ * @param string $author_nicename Optional. The author's nicename (slug). Default empty.
  * @return string The URL to the author's page.
  */
-function get_author_posts_url($author_id, $author_nicename = '') {
+function get_author_posts_url( $author_id, $author_nicename = '' ) {
 	global $wp_rewrite;
 	$auth_ID = (int) $author_id;
 	$link = $wp_rewrite->get_author_permastruct();
