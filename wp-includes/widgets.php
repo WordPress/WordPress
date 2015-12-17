@@ -1068,11 +1068,14 @@ function the_widget( $widget, $instance = array(), $args = array() ) {
 }
 
 /**
- * Private
+ * Retrieves the widget ID base value.
  *
- * @return string
+ * @since 2.8.0
+ *
+ * @param string $id Widget ID.
+ * @return string Widget ID base.
  */
-function _get_widget_id_base($id) {
+function _get_widget_id_base( $id ) {
 	return preg_replace( '/-[0-9]+$/', '', $id );
 }
 
