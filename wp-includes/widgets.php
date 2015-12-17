@@ -543,13 +543,17 @@ function _register_widget_update_callback( $id_base, $update_callback, $options 
 }
 
 /**
+ * Registers the form callback for a widget.
+ *
+ * @since 2.8.0
  *
  * @global array $wp_registered_widget_controls
  *
- * @param int|string $id
- * @param string     $name
- * @param callable   $form_callback
- * @param array      $options
+ * @param int|string $id            Widget ID.
+ * @param string     $name          Name attribute for the widget.
+ * @param callable   $form_callback Form callback.
+ * @param array      $options       Optional. Widget control options. See {@see wp_register_widget_control()}.
+ *                                  Default empty array.
  */
 function _register_widget_form_callback($id, $name, $form_callback, $options = array()) {
 	global $wp_registered_widget_controls;
