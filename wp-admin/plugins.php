@@ -256,14 +256,13 @@ if ( $action ) {
 				?>
 			<div class="wrap">
 				<?php
-					$files_to_delete = $plugin_info = array();
+					$plugin_info = array();
 					$have_non_network_plugins = false;
 					$plugin_translations = wp_get_installed_translations( 'plugins' );
 					foreach ( (array) $plugins as $plugin ) {
 						$plugin_slug = dirname( $plugin );
 
 						if ( '.' == $plugin_slug ) {
-							$files_to_delete[] = WP_PLUGIN_DIR . '/' . $plugin;
 							if ( $data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin ) ) {
 								$plugin_info[ $plugin ] = $data;
 								$plugin_info[ $plugin ]['is_uninstallable'] = is_uninstallable_plugin( $plugin );
@@ -272,12 +271,6 @@ if ( $action ) {
 								}
 							}
 						} else {
-							// Locate all the files in that folder.
-							$files = list_files( WP_PLUGIN_DIR . '/' . $plugin_slug );
-							if ( $files ) {
-								$files_to_delete = array_merge( $files_to_delete, $files );
-							}
-
 							// Get plugins list from that folder.
 							if ( $folder_plugins = get_plugins( '/' . $plugin_slug ) ) {
 								foreach ( $folder_plugins as $plugin_file => $data ) {
@@ -286,16 +279,6 @@ if ( $action ) {
 									if ( ! $plugin_info[ $plugin_file ]['Network'] ) {
 										$have_non_network_plugins = true;
 									}
-								}
-							}
-
-							// Add translation files.
-							if ( ! empty( $plugin_translations[ $plugin_slug ] ) ) {
-								$translations = $plugin_translations[ $plugin_slug ];
-
-								foreach ( $translations as $translation => $data ) {
-									$files_to_delete[] = $plugin_slug . '-' . $translation . '.po';
-									$files_to_delete[] = $plugin_slug . '-' . $translation . '.mo';
 								}
 							}
 						}
@@ -353,17 +336,6 @@ if ( $action ) {
 				<form method="post" action="<?php echo $referer ? esc_url( $referer ) : ''; ?>" style="display:inline;">
 					<?php submit_button( __( 'No, return me to the plugin list' ), 'button', 'submit', false ); ?>
 				</form>
-
-				<p><a href="#" onclick="jQuery('#files-list').toggle(); return false;"><?php _e('Click to view entire list of files which will be deleted'); ?></a></p>
-				<div id="files-list" style="display:none;">
-					<ul class="code">
-					<?php
-						foreach ( (array) $files_to_delete as $file ) {
-							echo '<li>' . esc_html( str_replace( WP_PLUGIN_DIR, '', $file ) ) . '</li>';
-						}
-					?>
-					</ul>
-				</div>
 			</div>
 				<?php
 				require_once(ABSPATH . 'wp-admin/admin-footer.php');
