@@ -609,7 +609,12 @@ class WP {
 
 			$success = true;
 			if ( is_singular() ) {
-				$p = clone $wp_query->post;
+				$p = false;
+
+				if ( $wp_query->post instanceof WP_Post ) {
+					$p = clone $wp_query->post;
+				}
+
 				// Only set X-Pingback for single posts that allow pings.
 				if ( $p && pings_open( $p ) ) {
 					@header( 'X-Pingback: ' . get_bloginfo( 'pingback_url' ) );
