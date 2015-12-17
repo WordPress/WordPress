@@ -160,7 +160,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Handles the checkbox column ouput.
+	 * Handles the checkbox column output.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -175,7 +175,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Handles the link name column ouput.
+	 * Handles the link name column output.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -185,14 +185,14 @@ class WP_Links_List_Table extends WP_List_Table {
 	public function column_name( $link ) {
 		$edit_link = get_edit_bookmark_link( $link );
 		?>
-		<strong><a class="row-title" href="<?php echo $edit_link ?>" title="<?php
-			echo esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $link->link_name ) );
-		?>"><?php echo $link->link_name ?></a></strong><br />
+		<strong><a class="row-title" href="<?php
+			echo $edit_link ?>" aria-label="<?php esc_attr_e( sprintf( __( 'Edit &#8220;%s&#8221;' ), $link->link_name ) );
+		?>"><?php echo $link->link_name; ?></a></strong><br />
 		<?php
 	}
 
 	/**
-	 * Handles the link URL column ouput.
+	 * Handles the link URL column output.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -201,7 +201,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	 */
 	public function column_url( $link ) {
 		$short_url = url_shorten( $link->link_url );
-		echo "<a href='$link->link_url' title='". esc_attr( sprintf( __( 'Visit %s' ), $link->link_name ) )."'>$short_url</a>";
+		echo "<a href='$link->link_url'>$short_url</a>";
 	}
 
 	/**
@@ -233,7 +233,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Handles the link relation column ouput.
+	 * Handles the link relation column output.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -245,7 +245,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Handles the link visibility column ouput.
+	 * Handles the link visibility column output.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -261,7 +261,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Handles the link rating column ouput.
+	 * Handles the link rating column output.
 	 *
 	 * @since 4.3.0
 	 * @access public
