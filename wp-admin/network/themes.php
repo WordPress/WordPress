@@ -117,7 +117,6 @@ if ( $action ) {
 			}
 
 			$theme_info = array();
-			$theme_translations = wp_get_installed_translations( 'themes' );
 			foreach ( $themes as $key => $theme ) {
 				$theme_info[ $theme ] = wp_get_theme( $theme );
 			}

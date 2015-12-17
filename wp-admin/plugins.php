@@ -258,7 +258,6 @@ if ( $action ) {
 				<?php
 					$plugin_info = array();
 					$have_non_network_plugins = false;
-					$plugin_translations = wp_get_installed_translations( 'plugins' );
 					foreach ( (array) $plugins as $plugin ) {
 						$plugin_slug = dirname( $plugin );
 
