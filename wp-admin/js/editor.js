@@ -118,7 +118,7 @@
 
 		// Replace paragraphs with double line breaks
 		function removep( html ) {
-			var blocklist = 'blockquote|ul|ol|li|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset',
+			var blocklist = 'blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset',
 				blocklist1 = blocklist + '|div|p',
 				blocklist2 = blocklist + '|pre',
 				preserve_linebreaks = false,
@@ -170,7 +170,7 @@
 
 			html = html.replace( new RegExp('\\s*<((?:' + blocklist2 + ')(?: [^>]*)?)\\s*>', 'g' ), '\n<$1>' );
 			html = html.replace( new RegExp('\\s*</(' + blocklist2 + ')>\\s*', 'g' ), '</$1>\n' );
-			html = html.replace( /<li([^>]*)>/g, '\t<li$1>' );
+			html = html.replace( /<((li|dt|dd)[^>]*)>/g, ' \t<$1>' );
 
 			if ( html.indexOf( '<option' ) !== -1 ) {
 				html = html.replace( /\s*<option/g, '\n<option' );
