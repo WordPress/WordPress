@@ -288,7 +288,7 @@ function wp_remote_retrieve_body( $response ) {
 }
 
 /**
- * Retrieve only the body from the raw response.
+ * Retrieve only the cookies from the raw response.
  *
  * @since 4.4.0
  *
