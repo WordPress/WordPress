@@ -422,7 +422,7 @@ foreach ( $wp_registered_sidebars as $sidebar => $registered_sidebar ) {
 
 							submit_button( __( 'Clear Inactive Widgets' ), 'delete', 'removeinactivewidgets', false, $attributes );
 							?>
-							<span class="spinner">
+							<span class="spinner"></span>
 						</p>
 						<?php wp_nonce_field( 'remove-inactive-widgets', '_wpnonce_remove_inactive_widgets' ); ?>
 					</form>
