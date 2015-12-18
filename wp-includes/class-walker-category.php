@@ -170,6 +170,13 @@ class Walker_Category extends Walker {
 					} elseif ( $category->term_id == $_current_term->parent ) {
 						$css_classes[] = 'current-cat-parent';
 					}
+					while ( $_current_term->parent ) {
+						if ( $category->term_id == $_current_term->parent ) {
+							$css_classes[] =  'current-cat-ancestor';
+							break;
+						}
+						$_current_term = get_term( $_current_term->parent, $category->taxonomy );
+					}
 				}
 			}
 
