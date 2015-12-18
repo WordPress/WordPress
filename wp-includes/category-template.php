@@ -947,22 +947,33 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 }
 
 /**
- * Callback for comparing objects based on name
+ * Serves as a callback for comparing objects based on name.
+ *
+ * Used with `uasort()`.
  *
  * @since 3.1.0
  * @access private
- * @return int
+ *
+ * @param object $a The first object to compare.
+ * @param object $b The second object to compare.
+ * @return int Negative number if `$a->name` is less than `$b->name`, zero if they are equal,
+ *             or greater than zero if `$a->name` is greater than `$b->name`.
  */
 function _wp_object_name_sort_cb( $a, $b ) {
 	return strnatcasecmp( $a->name, $b->name );
 }
 
 /**
- * Callback for comparing objects based on count
+ * Serves as a callback for comparing objects based on count.
+ *
+ * Used with `uasort()`.
  *
  * @since 3.1.0
  * @access private
- * @return bool
+ *
+ * @param object $a The first object to compare.
+ * @param object $b The second object to compare.
+ * @return bool Whether the count value for `$a` is greater than the count value for `$b`.
  */
 function _wp_object_count_sort_cb( $a, $b ) {
 	return ( $a->count > $b->count );
