@@ -1887,7 +1887,7 @@ function get_boundary_post( $in_same_term = false, $excluded_terms = '', $start 
 	return get_posts( $query_args );
 }
 
-/*
+/**
  * Get previous post link that is adjacent to the current post.
  *
  * @since 3.7.0
