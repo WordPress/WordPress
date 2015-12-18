@@ -445,6 +445,7 @@ function _n_noop( $singular, $plural, $domain = null ) {
  *
  * @param string $singular Singular form to be localized.
  * @param string $plural   Plural form to be localized.
+ * @param string $context  Context information for the translators.
  * @param string $domain   Optional. Text domain. Unique identifier for retrieving translated strings.
  *                         Default null.
  * @return array {
