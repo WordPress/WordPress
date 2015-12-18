@@ -404,9 +404,11 @@ function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
 }
 
 /**
- * Deletes bookmark cache
+ * Deletes the bookmark cache.
  *
  * @since 2.7.0
+ *
+ * @param int $bookmark_id Bookmark ID.
  */
 function clean_bookmark_cache( $bookmark_id ) {
 	wp_cache_delete( $bookmark_id, 'bookmark' );
