@@ -550,11 +550,11 @@ function wp_list_categories( $args = '' ) {
 		$exclude_tree = array();
 
 		if ( $r['exclude_tree'] ) {
-			$exclude_tree = array_merge( $exclude_tree, (array) $r['exclude_tree'] );
+			$exclude_tree = array_merge( $exclude_tree, wp_parse_id_list( $r['exclude_tree'] ) );
 		}
 
 		if ( $r['exclude'] ) {
-			$exclude_tree = array_merge( $exclude_tree, (array) $r['exclude'] );
+			$exclude_tree = array_merge( $exclude_tree, wp_parse_id_list( $r['exclude'] ) );
 		}
 
 		$r['exclude_tree'] = $exclude_tree;
