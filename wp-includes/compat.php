@@ -82,14 +82,16 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 		$encoding = get_option( 'blog_charset' );
 	}
 
-	// The solution below works only for UTF-8,
-	// so in case of a different charset just use built-in substr()
+	/*
+	 * The solution below works only for UTF-8, so in case of a different
+	 * charset just use built-in substr().
+	 */
 	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
 		return is_null( $length ) ? substr( $str, $start ) : substr( $str, $start, $length );
 	}
 
 	if ( _wp_can_use_pcre_u() ) {
-		// Use the regex unicode support to separate the UTF-8 characters into an array
+		// Use the regex unicode support to separate the UTF-8 characters into an array.
 		preg_match_all( '/./us', $str, $match );
 		$chars = is_null( $length ) ? array_slice( $match[0], $start ) : array_slice( $match[0], $start, $length );
 		return implode( '', $chars );
@@ -107,16 +109,22 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 		| \xF4[\x80-\x8F][\x80-\xBF]{2}
 	)/x';
 
-	$chars = array( '' ); // Start with 1 element instead of 0 since the first thing we do is pop
+	// Start with 1 element instead of 0 since the first thing we do is pop.
+	$chars = array( '' );
 	do {
 		// We had some string left over from the last round, but we counted it in that last round.
 		array_pop( $chars );
 
-		// Split by UTF-8 character, limit to 1000 characters (last array element will contain the rest of the string)
+		/*
+		 * Split by UTF-8 character, limit to 1000 characters (last array element will contain
+		 * the rest of the string).
+		 */
 		$pieces = preg_split( $regex, $str, 1000, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY );
 
 		$chars = array_merge( $chars, $pieces );
-	} while ( count( $pieces ) > 1 && $str = array_pop( $pieces ) ); // If there's anything left over, repeat the loop.
+
+	// If there's anything left over, repeat the loop.
+	} while ( count( $pieces ) > 1 && $str = array_pop( $pieces ) );
 
 	return join( '', array_slice( $chars, $start, $length ) );
 }
