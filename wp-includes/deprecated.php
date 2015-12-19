@@ -2098,10 +2098,10 @@ function attribute_escape( $text ) {
  * @deprecated 2.8.0 Use wp_register_sidebar_widget()
  * @see wp_register_sidebar_widget()
  *
- * @param string|int $name Widget ID.
- * @param callable $output_callback Run when widget is called.
- * @param string $classname Classname widget option.
- * @param mixed $params ,... Widget parameters.
+ * @param string|int $name            Widget ID.
+ * @param callable   $output_callback Run when widget is called.
+ * @param string     $classname       Optional. Classname widget option. Default empty.
+ * @param mixed      $params ,...     Widget parameters.
  */
 function register_sidebar_widget($name, $output_callback, $classname = '') {
 	_deprecated_function( __FUNCTION__, '2.8', 'wp_register_sidebar_widget()' );
