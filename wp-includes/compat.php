@@ -48,6 +48,8 @@ if ( ! function_exists( 'mb_substr' ) ) :
 	 * @ignore
 	 * @since 3.2.0
 	 *
+	 * @see _mb_substr()
+	 *
 	 * @param string      $str      The string to extract the substring from.
 	 * @param int         $start    Position to being extraction from in `$str`.
 	 * @param int|null    $length   Optional. Maximum number of characters to extract from `$str`.
@@ -130,15 +132,36 @@ function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 }
 
 if ( ! function_exists( 'mb_strlen' ) ) :
+	/**
+	 * Compat function to mimic mb_strlen().
+	 *
+	 * @ignore
+	 * @since 4.2.0
+	 *
+	 * @see _mb_strlen()
+	 *
+	 * @param string      $str      The string to retrieve the character length from.
+	 * @param string|null $encoding Optional. Character encoding to use. Default null.
+	 * @return int String length of `$str`.
+	 */
 	function mb_strlen( $str, $encoding = null ) {
 		return _mb_strlen( $str, $encoding );
 	}
 endif;
 
-/*
+/**
+ * Internal compat function to mimic mb_strlen().
+ *
  * Only understands UTF-8 and 8bit.  All other character sets will be treated as 8bit.
- * For $encoding === UTF-8, the $str input is expected to be a valid UTF-8 byte sequence.
- * The behavior of this function for invalid inputs is undefined.
+ * For $encoding === UTF-8, the `$str` input is expected to be a valid UTF-8 byte
+ * sequence. The behavior of this function for invalid inputs is undefined.
+ *
+ * @ignore
+ * @since 4.2.0
+ *
+ * @param string      $str      The string to retrieve the character length from.
+ * @param string|null $encoding Optional. Character encoding to use. Default null.
+ * @return int String length of `$str`.
  */
 function _mb_strlen( $str, $encoding = null ) {
 	if ( null === $encoding ) {
