@@ -217,11 +217,41 @@ function _mb_strlen( $str, $encoding = null ) {
 }
 
 if ( !function_exists('hash_hmac') ):
+/**
+ * Compat function to mimic hash_hmac().
+ *
+ * @ignore
+ * @since 3.2.0
+ *
+ * @see _hash_hmac()
+ *
+ * @param string $algo       Hash algorithm. Accepts 'md5' or 'sha1'.
+ * @param string $data       Data to be hashed.
+ * @param string $key        Secret key to use for generating the hash.
+ * @param bool   $raw_output Optional. Whether to output raw binary data (true),
+ *                           or lowercase hexits (false). Default false.
+ * @return string|false The hash in output determined by `$raw_output`. False if `$algo`
+ *                      is unknown or invalid.
+ */
 function hash_hmac($algo, $data, $key, $raw_output = false) {
 	return _hash_hmac($algo, $data, $key, $raw_output);
 }
 endif;
 
+/**
+ * Internal compat function to mimic hash_hmac().
+ *
+ * @ignore
+ * @since 3.2.0
+ *
+ * @param string $algo       Hash algorithm. Accepts 'md5' or 'sha1'.
+ * @param string $data       Data to be hashed.
+ * @param string $key        Secret key to use for generating the hash.
+ * @param bool   $raw_output Optional. Whether to output raw binary data (true),
+ *                           or lowercase hexits (false). Default false.
+ * @return string|false The hash in output determined by `$raw_output`. False if `$algo`
+ *                      is unknown or invalid.
+ */
 function _hash_hmac($algo, $data, $key, $raw_output = false) {
 	$packs = array('md5' => 'H32', 'sha1' => 'H40');
 
