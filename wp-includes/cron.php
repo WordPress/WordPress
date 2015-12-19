@@ -232,9 +232,11 @@ function wp_next_scheduled( $hook, $args = array() ) {
 }
 
 /**
- * Send request to run cron through HTTP request that doesn't halt page loading.
+ * Sends a request to run cron through HTTP request that doesn't halt page loading.
  *
  * @since 2.1.0
+ *
+ * @param int $gmt_time Optional. Unix timestamp. Default 0 (current time is used).
  */
 function spawn_cron( $gmt_time = 0 ) {
 	if ( ! $gmt_time )
