@@ -168,14 +168,16 @@ function _mb_strlen( $str, $encoding = null ) {
 		$encoding = get_option( 'blog_charset' );
 	}
 
-	// The solution below works only for UTF-8,
-	// so in case of a different charset just use built-in strlen()
+	/*
+	 * The solution below works only for UTF-8, so in case of a different charset
+	 * just use built-in strlen().
+	 */
 	if ( ! in_array( $encoding, array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) ) ) {
 		return strlen( $str );
 	}
 
 	if ( _wp_can_use_pcre_u() ) {
-		// Use the regex unicode support to separate the UTF-8 characters into an array
+		// Use the regex unicode support to separate the UTF-8 characters into an array.
 		preg_match_all( '/./us', $str, $match );
 		return count( $match[0] );
 	}
@@ -192,19 +194,25 @@ function _mb_strlen( $str, $encoding = null ) {
 		| \xF4[\x80-\x8F][\x80-\xBF]{2}
 	)/x';
 
-	$count = 1; // Start at 1 instead of 0 since the first thing we do is decrement
+	// Start at 1 instead of 0 since the first thing we do is decrement.
+	$count = 1;
 	do {
 		// We had some string left over from the last round, but we counted it in that last round.
 		$count--;
 
-		// Split by UTF-8 character, limit to 1000 characters (last array element will contain the rest of the string)
+		/*
+		 * Split by UTF-8 character, limit to 1000 characters (last array element will contain
+		 * the rest of the string).
+		 */
 		$pieces = preg_split( $regex, $str, 1000 );
 
-		// Increment
+		// Increment.
 		$count += count( $pieces );
-	} while ( $str = array_pop( $pieces ) ); // If there's anything left over, repeat the loop.
 
-	// Fencepost: preg_split() always returns one extra item in the array
+	// If there's anything left over, repeat the loop.
+	} while ( $str = array_pop( $pieces ) );
+
+	// Fencepost: preg_split() always returns one extra item in the array.
 	return --$count;
 }
 
