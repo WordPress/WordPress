@@ -1064,14 +1064,16 @@ function links_popup_script($text = 'Links', $width=400, $height=400, $file='lin
 }
 
 /**
+ * Legacy function that retrieved the value of a link's link_rating field.
+ *
  * @since 1.0.1
  * @deprecated 2.1.0 Use sanitize_bookmark_field()
  * @see sanitize_bookmark_field()
  *
- * @param object $link
- * @return mixed
+ * @param object $link Link object.
+ * @return mixed Value of the 'link_rating' field, false otherwise.
  */
-function get_linkrating($link) {
+function get_linkrating( $link ) {
 	_deprecated_function( __FUNCTION__, '2.1', 'sanitize_bookmark_field()' );
 	return sanitize_bookmark_field('link_rating', $link->link_rating, $link->link_id, 'display');
 }
