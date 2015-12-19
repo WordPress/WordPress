@@ -42,15 +42,40 @@ function _wp_can_use_pcre_u( $set = null ) {
 }
 
 if ( ! function_exists( 'mb_substr' ) ) :
+	/**
+	 * Compat function to mimic mb_substr().
+	 *
+	 * @ignore
+	 * @since 3.2.0
+	 *
+	 * @param string      $str      The string to extract the substring from.
+	 * @param int         $start    Position to being extraction from in `$str`.
+	 * @param int|null    $length   Optional. Maximum number of characters to extract from `$str`.
+	 *                              Default null.
+	 * @param string|null $encoding Optional. Character encoding to use. Default null.
+	 * @return string Extracted substring.
+	 */
 	function mb_substr( $str, $start, $length = null, $encoding = null ) {
 		return _mb_substr( $str, $start, $length, $encoding );
 	}
 endif;
 
-/*
+/**
+ * Internal compat function to mimic mb_substr().
+ *
  * Only understands UTF-8 and 8bit.  All other character sets will be treated as 8bit.
  * For $encoding === UTF-8, the $str input is expected to be a valid UTF-8 byte sequence.
  * The behavior of this function for invalid inputs is undefined.
+ *
+ * @ignore
+ * @since 3.2.0
+ *
+ * @param string      $str      The string to extract the substring from.
+ * @param int         $start    Position to being extraction from in `$str`.
+ * @param int|null    $length   Optional. Maximum number of characters to extract from `$str`.
+ *                              Default null.
+ * @param string|null $encoding Optional. Character encoding to use. Default null.
+ * @return string Extracted substring.
  */
 function _mb_substr( $str, $start, $length = null, $encoding = null ) {
 	if ( null === $encoding ) {
