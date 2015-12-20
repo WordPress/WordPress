@@ -1015,9 +1015,6 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 
 	$image_baseurl = trailingslashit( $image_baseurl );
 
-	// Calculate the image aspect ratio.
-	$image_ratio = $image_height / $image_width;
-
 	/*
 	 * Images that have been edited in WordPress after being uploaded will
 	 * contain a unique hash. Look for that hash and use it later to filter
@@ -1054,15 +1051,21 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 			continue;
 		}
 
-		// Calculate the new image ratio.
-		if ( $image['width'] ) {
-			$image_ratio_compare = $image['height'] / $image['width'];
+		/**
+		 * To check for varying crops, we calculate the expected size of the smaller
+		 * image if the larger were constrained by the width of the smaller and then
+		 * see if it matches what we're expecting.
+		 */
+		if ( $image_width > $image['width'] ) {
+			$constrained_size = wp_constrain_dimensions( $image_width, $image_height, $image['width'] );
+			$expected_size = array( $image['width'], $image['height'] );
 		} else {
-			$image_ratio_compare = 0;
+			$constrained_size = wp_constrain_dimensions( $image['width'], $image['height'], $image_width );
+			$expected_size = array( $image_width, $image_height );
 		}
 
-		// If the new ratio differs by less than 0.002, use it.
-		if ( abs( $image_ratio - $image_ratio_compare ) < 0.002 ) {
+		// If the image dimensions are within 1px of the expected size, use it.
+		if ( abs( $constrained_size[0] - $expected_size[0] ) <= 1 && abs( $constrained_size[1] - $expected_size[1] ) <= 1 ) {
 			// Add the URL, descriptor, and value to the sources array to be returned.
 			$sources[ $image['width'] ] = array(
 				'url'        => $image_baseurl . $image['file'],
