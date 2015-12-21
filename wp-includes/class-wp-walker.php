@@ -215,7 +215,7 @@ class Walker {
 		$top_level_elements = array();
 		$children_elements  = array();
 		foreach ( $elements as $e) {
-			if ( 0 == $e->$parent_field )
+			if ( empty( $e->$parent_field ) )
 				$top_level_elements[] = $e;
 			else
 				$children_elements[ $e->$parent_field ][] = $e;
