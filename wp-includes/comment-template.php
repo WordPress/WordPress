@@ -1313,12 +1313,19 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		} else {
 			// If fetching the first page of 'newest', we need a top-level comment count.
 			$top_level_query = new WP_Comment_Query();
-			$top_level_count = $top_level_query->query( array(
+			$top_level_args  = array(
 				'count'   => true,
 				'orderby' => false,
 				'post_id' => $post->ID,
 				'parent'  => 0,
-			) );
+				'status'  => 'approve',
+			);
+
+			if ( isset( $comment_args['include_unapproved'] ) ) {
+				$top_level_args['include_unapproved'] = $comment_args['include_unapproved'];
+			}
+
+			$top_level_count = $top_level_query->query( $top_level_args );
 
 			$comment_args['offset'] = ( ceil( $top_level_count / $per_page ) - 1 ) * $per_page;
 		}
