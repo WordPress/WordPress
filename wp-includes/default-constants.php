@@ -132,7 +132,7 @@ function wp_initial_constants() {
  */
 function wp_plugin_directory_constants() {
 	if ( !defined('WP_CONTENT_URL') )
-		define( 'WP_CONTENT_URL', site_url() . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
+		define( 'WP_CONTENT_URL', get_option('siteurl') . '/wp-content'); // full url - WP_CONTENT_DIR is defined further up
 
 	/**
 	 * Allows for the plugins directory to be moved from the default location.
