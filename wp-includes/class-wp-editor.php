@@ -251,7 +251,7 @@ final class _WP_Editors {
 			'<textarea' . $editor_class . $height . $tabindex . $autocomplete . ' cols="40" name="' . esc_attr( $set['textarea_name'] ) . '" ' .
 			'id="' . $editor_id_attr . '">%s</textarea></div>' );
 
-		// Prepare the content for the Visual or Text editor
+		// Prepare the content for the Visual or Text editor, only when TinyMCE is used (back-compat).
 		if ( self::$this_tinymce ) {
 			add_filter( 'the_editor_content', 'format_for_editor', 10, 2 );
 		}
@@ -266,6 +266,11 @@ final class _WP_Editors {
 		 *                               Either 'html' or 'tinymce'.
 		 */
 		$content = apply_filters( 'the_editor_content', $content, $default_editor );
+
+		// Remove the filter as the next editor on the same page may not need it.
+		if ( self::$this_tinymce ) {
+			remove_filter( 'the_editor_content', 'format_for_editor' );
+		}
 
 		// Back-compat for the `htmledit_pre` and `richedit_pre` filters
 		if ( 'html' === $default_editor && has_filter( 'htmledit_pre' ) ) {
