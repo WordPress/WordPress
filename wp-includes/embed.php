@@ -345,7 +345,7 @@ function wp_oembed_register_route() {
 function wp_oembed_add_discovery_links() {
 	$output = '';
 
-	if ( is_singular() ) {
+	if ( is_singular() && ! is_front_page() ) {
 		$output .= '<link rel="alternate" type="application/json+oembed" href="' . esc_url( get_oembed_endpoint_url( get_permalink() ) ) . '" />' . "\n";
 
 		if ( class_exists( 'SimpleXMLElement' ) ) {
