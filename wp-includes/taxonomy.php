@@ -3609,7 +3609,7 @@ function update_object_term_cache($object_ids, $object_type) {
 
 	$terms = wp_get_object_terms( $ids, $taxonomies, array(
 		'fields' => 'all_with_object_id',
-		'orderby' => 'none',
+		'orderby' => 'name',
 		'update_term_meta_cache' => false,
 	) );
 
