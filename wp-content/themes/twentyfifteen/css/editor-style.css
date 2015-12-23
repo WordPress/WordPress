@@ -238,6 +238,11 @@ li > ol {
 	margin: 0 0 0 23px;
 }
 
+blockquote > ul,
+blockquote > ol {
+	margin-left: 28px;
+}
+
 dl {
 	margin: 0 0 28px;
 }
