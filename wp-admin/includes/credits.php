@@ -48,7 +48,7 @@ function wp_credits() {
  * @access private
  * @since 3.2.0
  *
- * @param string &$display_name The contributor's display name, passed by reference.
+ * @param string $display_name  The contributor's display name, passed by reference.
  * @param string $username      The contributor's username.
  * @param string $profiles      URL to the contributor's WordPress.org profile page.
  */
@@ -62,7 +62,7 @@ function _wp_credits_add_profile_link( &$display_name, $username, $profiles ) {
  * @access private
  * @since 3.2.0
  *
- * @param string &$data External library data, passed by reference.
+ * @param string $data External library data, passed by reference.
  */
 function _wp_credits_build_object_link( &$data ) {
 	$data = '<a href="' . esc_url( $data[1] ) . '">' . esc_html( $data[0] ) . '</a>';

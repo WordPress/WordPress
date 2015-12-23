@@ -77,8 +77,8 @@ class Walker_Page extends Walker {
 	 * @param string $output       Passed by reference. Used to append additional content.
 	 * @param object $page         Page data object.
 	 * @param int    $depth        Depth of page. Used for padding.
+	 * @param array  $args         Optional arguments.
 	 * @param int    $current_page Page ID.
-	 * @param array  $args
 	 */
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
 		if ( $depth ) {
