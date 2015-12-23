@@ -1229,7 +1229,7 @@ function wp_comment_form_unfiltered_html_nonce() {
  * default theme. If either does not exist, then the WordPress process will be
  * halted. It is advised for that reason, that the default theme is not deleted.
  *
- * @uses $withcomments Will not try to get the comments if the post has none.
+ * Will not try to get the comments if the post has none.
  *
  * @since 1.5.0
  *
@@ -1242,6 +1242,7 @@ function wp_comment_form_unfiltered_html_nonce() {
  * @global int        $user_ID
  * @global string     $user_identity
  * @global bool       $overridden_cpage
+ * @global bool       $withcomments 
  *
  * @param string $file              Optional. The file to load. Default '/comments.php'.
  * @param bool   $separate_comments Optional. Whether to separate the comments by comment type.

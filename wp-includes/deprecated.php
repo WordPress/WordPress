@@ -2356,8 +2356,8 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
  * @deprecated 3.1.0 Use get_users()
  * @see get_users()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- * @uses $blog_id The Blog id of the blog for those that use more than one blog
+ * @global wpdb $wpdb    WordPress database abstraction object.
+ * @global int  $blog_id The Blog id of the blog for those that use more than one blog
  *
  * @param int $id Blog ID.
  * @return array List of users that are part of that Blog ID

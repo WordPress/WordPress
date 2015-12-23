@@ -136,7 +136,8 @@ function wp_deregister_style( $handle ) {
  *
  * Registers the style if source provided (does NOT overwrite) and enqueues.
  *
- * @see WP_Dependencies::add(), WP_Dependencies::enqueue()
+ * @see WP_Dependencies::add()
+ * @see WP_Dependencies::enqueue()
  * @link http://www.w3.org/TR/CSS2/media.html#media-types List of CSS media types.
  *
  * @since 2.6.0

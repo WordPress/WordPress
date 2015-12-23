@@ -2736,7 +2736,7 @@ function wp_default_editor() {
  * containing TinyMCE: 'edit_page_form', 'edit_form_advanced' and 'dbx_post_sidebar'.
  * See https://core.trac.wordpress.org/ticket/19173 for more information.
  *
- * @see wp-includes/class-wp-editor.php
+ * @see _WP_Editors::editor()
  * @since 3.3.0
  *
  * @param string $content   Initial content for the editor.
