@@ -172,6 +172,11 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 function wp_maybe_decline_date( $date ) {
 	global $wp_locale;
 
+	// i18n functions are not available in SHORTINIT mode
+	if ( ! function_exists( '_x' ) ) {
+		return $date;
+	}
+
 	/* translators: If months in your language require a genitive case,
 	 * translate this to 'on'. Do not translate into your own language.
 	 */
