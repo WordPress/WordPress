@@ -3456,12 +3456,20 @@ function wp_update_term_count_now( $terms, $taxonomy ) {
  *
  * @since 2.3.0
  *
+ * @global bool $_wp_suspend_cache_invalidation
+ *
  * @see get_object_taxonomies() for more on $object_type.
  *
  * @param int|array    $object_ids  Single or list of term object ID(s).
  * @param array|string $object_type The taxonomy object type.
  */
 function clean_object_term_cache($object_ids, $object_type) {
+	global $_wp_suspend_cache_invalidation;
+
+	if ( ! empty( $_wp_suspend_cache_invalidation ) ) {
+		return;
+	}
+
 	if ( !is_array($object_ids) )
 		$object_ids = array($object_ids);
 
