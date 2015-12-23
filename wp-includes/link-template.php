@@ -1568,6 +1568,7 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 
 	$join = '';
 	$where = '';
+	$adjacent = $previous ? 'previous' : 'next';
 
 	if ( $in_same_term || ! empty( $excluded_terms ) ) {
 		if ( ! empty( $excluded_terms ) && ! is_array( $excluded_terms ) ) {
@@ -1599,6 +1600,18 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 
 			$where .= " AND tt.term_id IN (" . implode( ',', $term_array ) . ")";
 		}
+
+		/**
+		 * Filter the IDs of terms excluded from adjacent post queries.
+		 *
+		 * The dynamic portion of the hook name, `$adjacent`, refers to the type
+		 * of adjacency, 'next' or 'previous'.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string $excluded_terms Array of excluded term IDs.
+		 */
+		$excluded_terms = apply_filters( "get_{$adjacent}_post_excluded_terms", $excluded_terms );
 
 		if ( ! empty( $excluded_terms ) ) {
 			$where .= " AND p.ID NOT IN ( SELECT tr.object_id FROM $wpdb->term_relationships tr LEFT JOIN $wpdb->term_taxonomy tt ON (tr.term_taxonomy_id = tt.term_taxonomy_id) WHERE tt.term_id IN (" . implode( $excluded_terms, ',' ) . ') )';
@@ -1635,21 +1648,8 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 		$where .= " AND p.post_status = 'publish'";
 	}
 
-	$adjacent = $previous ? 'previous' : 'next';
 	$op = $previous ? '<' : '>';
 	$order = $previous ? 'DESC' : 'ASC';
-
-	/**
-	 * Filter the excluded term ids
-	 *
-	 * The dynamic portion of the hook name, `$adjacent`, refers to the type
-	 * of adjacency, 'next' or 'previous'.
-	 *
-	 * @since 4.4.0
-	 *
-	 * @param string $excluded_terms Array of excluded term IDs.
-	 */
-	$excluded_terms = apply_filters( "get_{$adjacent}_post_excluded_terms", $excluded_terms );
 
 	/**
 	 * Filter the JOIN clause in the SQL for an adjacent post query.
