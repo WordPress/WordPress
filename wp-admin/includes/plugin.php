@@ -508,11 +508,11 @@ function is_network_only_plugin( $plugin ) {
  *
  * @since 2.5.0
  *
- * @param string $plugin Plugin path to main plugin file with plugin data.
- * @param string $redirect Optional. URL to redirect to.
- * @param bool $network_wide Whether to enable the plugin for all sites in the
- *   network or just the current site. Multisite only. Default is false.
- * @param bool $silent Prevent calling activation hooks. Optional, default is false.
+ * @param string $plugin       Plugin path to main plugin file with plugin data.
+ * @param string $redirect     Optional. URL to redirect to.
+ * @param bool   $network_wide Optional. Whether to enable the plugin for all sites in the network
+ *                             or just the current site. Multisite only. Default false.
+ * @param bool   $silent       Optional. Whether to prevent calling activation hooks. Default false.
  * @return WP_Error|null WP_Error on invalid file or null on success.
  */
 function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silent = false ) {
