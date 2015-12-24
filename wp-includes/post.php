@@ -1636,6 +1636,7 @@ function get_posts( $args = null ) {
 		$incposts = wp_parse_id_list( $r['include'] );
 		$r['posts_per_page'] = count($incposts);  // only the number of posts included
 		$r['post__in'] = $incposts;
+		$r['post_type'] = 'any';  //include any post type when user wants to include specific posts
 	} elseif ( ! empty($r['exclude']) )
 		$r['post__not_in'] = wp_parse_id_list( $r['exclude'] );
 
