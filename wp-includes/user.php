@@ -2060,6 +2060,10 @@ function check_password_reset_key($key, $login) {
 		$expiration_time = false;
 	}
 
+	if ( ! $pass_key ) {
+		return new WP_Error( 'invalid_key', __( 'Invalid key' ) );
+	}
+
 	$hash_is_correct = $wp_hasher->CheckPassword( $key, $pass_key );
 
 	if ( $hash_is_correct && $expiration_time && time() < $expiration_time ) {
