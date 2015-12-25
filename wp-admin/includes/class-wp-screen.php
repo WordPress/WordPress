@@ -530,7 +530,7 @@ final class WP_Screen {
 			}
 		}
 
-		sort( $priorities );
+		ksort( $priorities );
 
 		$sorted = array();
 		foreach ( $priorities as $list ) {
