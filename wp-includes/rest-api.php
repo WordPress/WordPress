@@ -601,14 +601,14 @@ function rest_cookie_collect_status() {
 }
 
 /**
- * Parses an RFC3339 timestamp into a DateTime.
+ * Parses an RFC3339 time into a Unix timestamp.
  *
  * @since 4.4.0
  *
  * @param string $date      RFC3339 timestamp.
  * @param bool   $force_utc Optional. Whether to force UTC timezone instead of using
  *                          the timestamp's timezone. Default false.
- * @return DateTime DateTime instance.
+ * @return int Unix timestamp.
  */
 function rest_parse_date( $date, $force_utc = false ) {
 	if ( $force_utc ) {
