@@ -2191,7 +2191,7 @@ function wp_rand( $min = 0, $max = 0 ) {
 	if ( $use_random_int_functionality ) {
 		try {
 			$_max = ( 0 != $max ) ? $max : $max_random_number;
-			// wp_rand() can accept arguements in either order, PHP cannot.
+			// wp_rand() can accept arguments in either order, PHP cannot.
 			$_max = max( $min, $_max );
 			$_min = min( $min, $_max );
 			$val = random_int( $_min, $_max );
