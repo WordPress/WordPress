@@ -3287,7 +3287,8 @@ function wp_is_numeric_array( $data ) {
  *                              against each object. Default empty array.
  * @param string      $operator Optional. The logical operation to perform. 'or' means
  *                              only one element from the array needs to match; 'and'
- *                              means all elements must match. Default 'and'.
+ *                              means all elements must match; 'not' means no elements may
+ *                              match. Default 'and'.
  * @param bool|string $field    A field from the object to place instead of the entire object.
  *                              Default false.
  * @return array A list of objects or object fields.
