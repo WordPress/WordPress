@@ -572,7 +572,7 @@ function install_plugin_information() {
 		<?php if ( ! empty( $api->rating ) ) { ?>
 		<h3><?php _e( 'Average Rating' ); ?></h3>
 		<?php wp_star_rating( array( 'rating' => $api->rating, 'type' => 'percent', 'number' => $api->num_ratings ) ); ?>
-		<small><?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $api->num_ratings ), number_format_i18n( $api->num_ratings ) ); ?></small>
+		<small aria-hidden="true"><?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $api->num_ratings ), number_format_i18n( $api->num_ratings ) ); ?></small>
 		<?php }
 
 		if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {

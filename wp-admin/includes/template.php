@@ -8,10 +8,10 @@
  * @subpackage Administration
  */
 
-/** Walker_Category_Checklist class */ 
+/** Walker_Category_Checklist class */
 require_once( ABSPATH . 'wp-admin/includes/class-walker-category-checklist.php' );
 
-/** WP_Internal_Pointers class */ 
+/** WP_Internal_Pointers class */
 require_once( ABSPATH . 'wp-admin/includes/class-wp-internal-pointers.php' );
 
 //
@@ -2054,7 +2054,7 @@ function wp_star_rating( $args = array() ) {
 		$title = sprintf( __( '%s rating' ), number_format_i18n( $rating, 1 ) );
 	}
 
-	$output = '<div class="star-rating" title="' . esc_attr( $title ) . '">';
+	$output = '<div class="star-rating">';
 	$output .= '<span class="screen-reader-text">' . $title . '</span>';
 	$output .= str_repeat( '<div class="star star-full"></div>', $full_stars );
 	$output .= str_repeat( '<div class="star star-half"></div>', $half_stars );

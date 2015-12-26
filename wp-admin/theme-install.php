@@ -259,7 +259,7 @@ if ( $tab ) {
 					<# if ( data.rating ) { #>
 						<div class="theme-rating">
 							{{{ data.stars }}}
-							<span class="num-ratings">({{ data.num_ratings }})</span>
+							<span class="num-ratings" aria-hidden="true">({{ data.num_ratings }})</span>
 						</div>
 					<# } else { #>
 						<span class="no-rating"><?php _e( 'This theme has not been rated yet.' ); ?></span>
