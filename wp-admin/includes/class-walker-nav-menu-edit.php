@@ -80,7 +80,9 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 			$original_title = get_the_title( $original_object->ID );
 		} elseif ( 'post_type_archive' == $item->type ) {
 			$original_object = get_post_type_object( $item->object );
-			$original_title = $original_object->labels->archives;
+			if ( $original_object ) {
+				$original_title = $original_object->labels->archives;
+			}
 		}
 
 		$classes = array(

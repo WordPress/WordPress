@@ -417,7 +417,9 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
 			$original_title = $original_object->post_title;
 		} elseif ( 'post_type_archive' == $args['menu-item-type'] ) {
 			$original_object = get_post_type_object( $args['menu-item-object'] );
-			$original_title = $original_object->labels->archives;
+			if ( $original_object ) {
+				$original_title = $original_object->labels->archives;
+			}
 		}
 
 		if ( $args['menu-item-title'] == $original_title )
