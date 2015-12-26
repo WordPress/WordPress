@@ -4300,7 +4300,7 @@ function get_page_uri( $page ) {
 
 	foreach ( $page->ancestors as $parent ) {
 		$parent = get_post( $parent );
-		if ( 'publish' === $parent->post_status ) {
+		if ( $parent ) {
 			$uri = $parent->post_name . '/' . $uri;
 		}
 	}
