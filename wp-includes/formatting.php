@@ -3884,14 +3884,20 @@ function sanitize_option( $option, $value ) {
  * @return The value with the callback applied to all non-arrays and non-objects inside it.
  */
 function map_deep( $value, $callback ) {
-	if ( is_array( $value ) || is_object( $value ) ) {
-		foreach ( $value as &$item ) {
-			$item = map_deep( $item, $callback );
+	if ( is_array( $value ) ) {
+		foreach ( $value as $index => $item ) {
+			$value[ $index ] = map_deep( $item, $callback );
 		}
-		return $value;
+	} elseif ( is_object( $value ) ) {
+		$object_vars = get_object_vars( $value );
+		foreach ( $object_vars as $property_name => $property_value ) {
+			$value->$property_name = map_deep( $property_value, $callback );
+		}
 	} else {
-		return call_user_func( $callback, $value );
+		$value = call_user_func( $callback, $value );
 	}
+
+	return $value;
 }
 
 /**
