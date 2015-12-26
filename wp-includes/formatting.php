@@ -216,7 +216,7 @@ function wptexturize( $text, $reset = false ) {
 
 	// Look for shortcodes and HTML elements.
 
-	preg_match_all( '@\[/?([^<>&/\[\]\x00-\x20]++)@', $text, $matches );
+	preg_match_all( '@\[/?([^<>&/\[\]\x00-\x20=]++)@', $text, $matches );
 	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
 	$found_shortcodes = ! empty( $tagnames );
 	$shortcode_regex = $found_shortcodes ? _get_wptexturize_shortcode_regex( $tagnames ) : '';
