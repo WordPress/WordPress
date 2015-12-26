@@ -864,7 +864,7 @@ function get_post_type_object( $post_type ) {
  *                               or 'objects'. Default 'names'.
  * @param string       $operator Optional. The logical operation to perform. 'or' means only one
  *                               element from the array needs to match; 'and' means all elements
- *                               must match. Accepts 'or' or 'and'. Default 'and'.
+ *                               must match; 'not' means no elements may match. Default 'and'.
  * @return array A list of post type names or objects.
  */
 function get_post_types( $args = array(), $output = 'names', $operator = 'and' ) {
