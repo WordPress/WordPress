@@ -390,6 +390,9 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		else
 			$args['query_var'] = sanitize_title_with_dashes( $args['query_var'] );
 		$wp->add_query_var( $args['query_var'] );
+	} else {
+		// Force query_var to false for non-public taxonomies.
+		$args['query_var'] = false;
 	}
 
 	if ( false !== $args['rewrite'] && ( is_admin() || '' != get_option( 'permalink_structure' ) ) ) {
