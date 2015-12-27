@@ -3078,15 +3078,20 @@ function paginate_links( $args = '' ) {
  *
  * @since 2.5.0
  *
- * @todo Properly document optional arguments as such
- *
  * @global array $_wp_admin_css_colors
  *
  * @param string $key    The unique key for this theme.
  * @param string $name   The name of the theme.
- * @param string $url    The url of the css file containing the colour scheme.
- * @param array  $colors Optional An array of CSS color definitions which are used to give the user a feel for the theme.
- * @param array  $icons  Optional An array of CSS color definitions used to color any SVG icons
+ * @param string $url    The URL of the CSS file containing the color scheme.
+ * @param array  $colors Optional. An array of CSS color definition strings which are used
+ *                       to give the user a feel for the theme.
+ * @param array  $icons {
+ *     Optional. CSS color definitions used to color any SVG icons.
+ *
+ *     @type string $base    SVG icon base color.
+ *     @type string $focus   SVG icon color on focus.
+ *     @type string $current SVG icon color of current admin menu link.
+ * }
  */
 function wp_admin_css_color( $key, $name, $url, $colors = array(), $icons = array() ) {
 	global $_wp_admin_css_colors;
