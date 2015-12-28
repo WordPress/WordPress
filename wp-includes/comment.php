@@ -2010,6 +2010,10 @@ function wp_defer_comment_counting($defer=null) {
 function wp_update_comment_count($post_id, $do_deferred=false) {
 	static $_deferred = array();
 
+	if ( empty( $post_id ) && ! $do_deferred ) {
+		return false;
+	}
+
 	if ( $do_deferred ) {
 		$_deferred = array_unique($_deferred);
 		foreach ( $_deferred as $i => $_post_id ) {
