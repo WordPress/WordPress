@@ -2448,8 +2448,8 @@ function funky_javascript_callback($matches) {
  * @since 1.5.0
  * @deprecated 3.0.0
  *
- * @uses $is_macIE
- * @uses $is_winIE
+ * @global $is_macIE
+ * @global $is_winIE
  *
  * @param string $text Text to be made safe.
  * @return string Fixed text.
