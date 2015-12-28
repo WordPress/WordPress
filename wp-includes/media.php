@@ -1046,8 +1046,13 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 			continue;
 		}
 
-		// Filter out images that are wider than '$max_srcset_image_width'.
-		if ( $max_srcset_image_width && $image['width'] > $max_srcset_image_width ) {
+		/*
+		 * Filter out images that are wider than '$max_srcset_image_width' unless
+		 * that file is in the 'src' attribute.
+		 */
+		if ( $max_srcset_image_width && $image['width'] > $max_srcset_image_width &&
+			false === strpos( $image_src, $image['file'] ) ) {
+
 			continue;
 		}
 
