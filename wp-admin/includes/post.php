@@ -687,7 +687,7 @@ function post_exists($title, $content = '', $date = '') {
 	}
 
 	if ( !empty ( $content ) ) {
-		$query .= 'AND post_content = %s';
+		$query .= ' AND post_content = %s';
 		$args[] = $post_content;
 	}
 
