@@ -878,6 +878,31 @@ function wp_get_attachment_image_url( $attachment_id, $size = 'thumbnail', $icon
 }
 
 /**
+ * Get the attachment path relative to the upload directory.
+ *
+ * @since 4.4.1
+ * @access private
+ *
+ * @param string $file Attachment file name.
+ * @return string Attachment path relative to the upload directory.
+ */
+function _wp_get_attachment_relative_path( $file ) {
+	$dirname = dirname( $file );
+
+	if ( '.' === $dirname ) {
+		return '';
+	}
+
+	if ( false !== strpos( $dirname, 'wp-content/uploads' ) ) {
+		// Get the directory name relative to the upload directory (back compat for pre-2.7 uploads)
+		$dirname = substr( $dirname, strpos( $dirname, 'wp-content/uploads' ) + 18 );
+		$dirname = ltrim( $dirname, '/' );
+	}
+
+	return $dirname;
+}
+
+/**
  * Caches and returns the base URL of the uploads directory.
  *
  * @since 4.4.0
@@ -1006,9 +1031,9 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 
 	// Uploads are (or have been) in year/month sub-directories.
 	if ( $image_basename !== $image_meta['file'] ) {
-		$dirname = dirname( $image_meta['file'] );
+		$dirname = _wp_get_attachment_relative_path( $image_meta['file'] );
 
-		if ( $dirname !== '.' ) {
+		if ( $dirname ) {
 			$image_baseurl = trailingslashit( $image_baseurl ) . $dirname;
 		}
 	}
@@ -1289,8 +1314,8 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 	$base_url = trailingslashit( _wp_upload_dir_baseurl() );
 	$image_base_url = $base_url;
 
-	$dirname = dirname( $image_meta['file'] );
-	if ( $dirname !== '.' ) {
+	$dirname = _wp_get_attachment_relative_path( $image_meta['file'] );
+	if ( $dirname ) {
 		$image_base_url .= trailingslashit( $dirname );
 	}
 
@@ -1301,7 +1326,7 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 	}
 
 	// Add the original image.
-	$all_sizes[] = $base_url . $image_meta['file'];
+	$all_sizes[] = $image_base_url . basename( $image_meta['file'] );
 
 	// Bail early if the image src doesn't match any of the known image sizes.
 	if ( ! in_array( $image_src, $all_sizes ) ) {

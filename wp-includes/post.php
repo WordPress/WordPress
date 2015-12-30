@@ -4879,7 +4879,8 @@ function wp_get_attachment_url( $post_id = 0 ) {
 				// Replace file location with url location.
 				$url = str_replace($uploads['basedir'], $uploads['baseurl'], $file);
 			} elseif ( false !== strpos($file, 'wp-content/uploads') ) {
-				$url = $uploads['baseurl'] . substr( $file, strpos($file, 'wp-content/uploads') + 18 );
+				// Get the directory name relative to the basedir (back compat for pre-2.7 uploads)
+				$url = trailingslashit( $uploads['baseurl'] . '/' . _wp_get_attachment_relative_path( $file ) ) . basename( $file );
 			} else {
 				// It's a newly-uploaded file, therefore $file is relative to the basedir.
 				$url = $uploads['baseurl'] . "/$file";
