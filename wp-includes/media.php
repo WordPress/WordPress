@@ -996,6 +996,16 @@ function wp_get_attachment_image_srcset( $attachment_id, $size = 'medium', $imag
  * @return string|bool          The 'srcset' attribute value. False on error or when only one source exists.
  */
 function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attachment_id = 0 ) {
+	/**
+	 * Let plugins pre-filter the image meta to be able to fix inconsistencies in the stored data.
+	 *
+	 * @param array  $image_meta    The image meta data as returned by 'wp_get_attachment_metadata()'.
+	 * @param array  $size_array    Array of width and height values in pixels (in that order).
+	 * @param string $image_src     The 'src' of the image.
+	 * @param int    $attachment_id The image attachment ID or 0 if not supplied.
+	 */
+	$image_meta = apply_filters( 'wp_calculate_image_srcset_meta', $image_meta, $size_array, $image_src, $attachment_id );
+
 	if ( empty( $image_meta['sizes'] ) ) {
 		return false;
 	}
@@ -1012,7 +1022,6 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	}
 
 	$image_basename = wp_basename( $image_meta['file'] );
-	$image_baseurl = _wp_upload_dir_baseurl();
 
 	/*
 	 * WordPress flattens animated GIFs into one frame when generating intermediate sizes.
@@ -1029,16 +1038,15 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 		return false;
 	}
 
-	// Uploads are (or have been) in year/month sub-directories.
-	if ( $image_basename !== $image_meta['file'] ) {
-		$dirname = _wp_get_attachment_relative_path( $image_meta['file'] );
+	// Retrieve the uploads sub-directory from the full size image.
+	$dirname = _wp_get_attachment_relative_path( $image_meta['file'] );
 
-		if ( $dirname ) {
-			$image_baseurl = trailingslashit( $image_baseurl ) . $dirname;
-		}
+	if ( $dirname ) {
+		$dirname = trailingslashit( $dirname );
 	}
 
-	$image_baseurl = trailingslashit( $image_baseurl );
+	$image_baseurl = _wp_upload_dir_baseurl();
+	$image_baseurl = trailingslashit( $image_baseurl ) . $dirname;
 
 	/*
 	 * Images that have been edited in WordPress after being uploaded will
@@ -1060,11 +1068,23 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	// Array to hold URL candidates.
 	$sources = array();
 
+	/**
+	 * To make sure the ID matches our image src, we will check to see if any sizes in our attachment
+	 * meta match our $image_src. If no mathces are found we don't return a srcset to avoid serving
+	 * an incorrect image. See #35045.
+	 */
+	$src_matched = false;
+
 	/*
 	 * Loop through available images. Only use images that are resized
 	 * versions of the same edit.
 	 */
 	foreach ( $image_sizes as $image ) {
+
+		// If the file name is part of the `src`, we've confirmed a match.
+		if ( ! $src_matched && false !== strpos( $image_src, $dirname . $image['file'] ) ) {
+			$src_matched = true;
+		}
 
 		// Filter out images that are from previous edits.
 		if ( $image_edited && ! strpos( $image['file'], $image_edit_hash[0] ) ) {
@@ -1129,7 +1149,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	$sources = apply_filters( 'wp_calculate_image_srcset', $sources, $size_array, $image_src, $image_meta, $attachment_id );
 
 	// Only return a 'srcset' value if there is more than one source.
-	if ( count( $sources ) < 2 ) {
+	if ( ! $src_matched || count( $sources ) < 2 ) {
 		return false;
 	}
 
@@ -1308,28 +1328,6 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 	if ( preg_match( '/-e[0-9]{13}/', $image_meta['file'], $img_edit_hash ) &&
 		strpos( wp_basename( $image_src ), $img_edit_hash[0] ) === false ) {
 
-		return $image;
-	}
-
-	$base_url = trailingslashit( _wp_upload_dir_baseurl() );
-	$image_base_url = $base_url;
-
-	$dirname = _wp_get_attachment_relative_path( $image_meta['file'] );
-	if ( $dirname ) {
-		$image_base_url .= trailingslashit( $dirname );
-	}
-
-	$all_sizes = wp_list_pluck( $image_meta['sizes'], 'file' );
-
-	foreach ( $all_sizes as $key => $file ) {
-		$all_sizes[ $key ] = $image_base_url . $file;
-	}
-
-	// Add the original image.
-	$all_sizes[] = $image_base_url . basename( $image_meta['file'] );
-
-	// Bail early if the image src doesn't match any of the known image sizes.
-	if ( ! in_array( $image_src, $all_sizes ) ) {
 		return $image;
 	}
 
