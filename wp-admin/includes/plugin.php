@@ -971,6 +971,17 @@ function uninstall_plugin($plugin) {
 	$file = plugin_basename($plugin);
 
 	$uninstallable_plugins = (array) get_option('uninstall_plugins');
+
+	/**
+	 * Fires in uninstall_plugin() before the plugin is uninstalled.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param string $plugin                Relative plugin path from plugin directory.
+	 * @param array  $uninstallable_plugins Uninstallable plugins.
+	 */
+	do_action( 'pre_uninstall_plugin', $plugin, $uninstallable_plugins );
+
 	if ( file_exists( WP_PLUGIN_DIR . '/' . dirname($file) . '/uninstall.php' ) ) {
 		if ( isset( $uninstallable_plugins[$file] ) ) {
 			unset($uninstallable_plugins[$file]);
