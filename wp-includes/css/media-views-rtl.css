@@ -2569,7 +2569,7 @@
   (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 120dpi) {
 
-	.media-modal-icon {
+	.wp-core-ui .media-modal-icon {
 		background-image: url(../images/uploader-icons-2x.png);
 		-webkit-background-size: 134px 15px;
 		background-size: 134px 15px;
