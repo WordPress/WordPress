@@ -2336,7 +2336,14 @@ function wp_rel_nofollow( $text ) {
 function wp_rel_nofollow_callback( $matches ) {
 	$text = $matches[1];
 	$atts = shortcode_parse_atts( $matches[1] );
-	$rel = 'nofollow';
+	$rel  = 'nofollow';
+
+	if ( preg_match( '%href=["\'](' . preg_quote( set_url_scheme( home_url(), 'http' ) ) . ')%i', $text ) ||
+	     preg_match( '%href=["\'](' . preg_quote( set_url_scheme( home_url(), 'https' ) ) . ')%i', $text )
+	) {
+		return "<a $text>";
+	}
+
 	if ( ! empty( $atts['rel'] ) ) {
 		$parts = array_map( 'trim', explode( ' ', $atts['rel'] ) );
 		if ( false === array_search( 'nofollow', $parts ) ) {
