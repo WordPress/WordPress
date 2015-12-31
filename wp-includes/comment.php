@@ -2003,9 +2003,11 @@ function wp_defer_comment_counting($defer=null) {
  *
  * @staticvar array $_deferred
  *
- * @param int $post_id Post ID
- * @param bool $do_deferred Whether to process previously deferred post comment counts
- * @return bool|void True on success, false on failure
+ * @param int|null $post_id     Post ID.
+ * @param bool     $do_deferred Optional. Whether to process previously deferred
+ *                              post comment counts. Default false.
+ * @return bool|void True on success, false on failure or if post with ID does
+ *                   not exist.
  */
 function wp_update_comment_count($post_id, $do_deferred=false) {
 	static $_deferred = array();
