@@ -3644,7 +3644,6 @@ class WP_Query {
 				$this->is_attachment = true;
 			}
 			$post_status_obj = get_post_status_object($status);
-			//$type = get_post_type($this->posts[0]);
 
 			// If the post_status was specifically requested, let it pass through.
 			if ( !$post_status_obj->public && ! in_array( $status, $q_status ) ) {
