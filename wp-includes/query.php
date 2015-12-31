@@ -4956,6 +4956,10 @@ class WP_Query {
 function wp_old_slug_redirect() {
 	global $wp_query, $wp_rewrite;
 
+	if ( get_queried_object() ) {
+		return;
+	}
+
 	if ( '' !== $wp_query->query_vars['name'] ) :
 		global $wpdb;
 
