@@ -3193,7 +3193,7 @@ class WP_Query {
 				$cgroupby = "$wpdb->comments.comment_id";
 			} else { // Other non singular e.g. front
 				$cjoin = "JOIN $wpdb->posts ON ( $wpdb->comments.comment_post_ID = $wpdb->posts.ID )";
-				$cwhere = "WHERE post_status = 'publish' AND comment_approved = '1'";
+				$cwhere = "WHERE ( post_status = 'publish' OR ( post_status = 'inherit' && post_type = 'attachment' ) ) AND comment_approved = '1'";
 				$cgroupby = '';
 			}
 
