@@ -4281,7 +4281,7 @@ function _page_traverse_name( $page_id, &$children, &$result ){
 }
 
 /**
- * Build URI for a page.
+ * Build the URI path for a page.
  *
  * Sub pages will be in the "directory" under the parent page post name.
  *
