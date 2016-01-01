@@ -1,6 +1,6 @@
 WordPress - Web publishing software
 
-Copyright 2015 by the contributors
+Copyright 2016 by the contributors
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
