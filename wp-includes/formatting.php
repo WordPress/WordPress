@@ -4802,3 +4802,19 @@ function url_shorten( $url, $length = 35 ) {
 	}
 	return $short_url;
 }
+
+/**
+ * 4.4.x hotfix for hidden configure links on admin dashboard.
+ *
+ * @ignore
+ */
+function _wp_441_dashboard_display_configure_links_css() { 
+	echo '<style type="text/css">
+		.postbox .button-link .edit-box { display: none; }
+		.wp-admin .edit-box { display: block; opacity: 0; }
+		.hndle:hover .edit-box, .edit-box:focus { opacity: 1; }
+		#dashboard-widgets h2 a { text-decoration: underline; }
+		#dashboard-widgets .hndle .postbox-title-action { float: right; line-height: 1.2; }
+	</style>';
+}
+add_action( 'admin_print_styles-index.php', '_wp_441_dashboard_display_configure_links_css' );
