@@ -77,7 +77,7 @@ function get_hidden_columns( $screen ) {
 	 * Filter the list of hidden columns.
 	 *
 	 * @since 4.4.0
-	 * @since 4.4.1		Added the `use_defaults` parameter.
+	 * @since 4.4.1 Added the `use_defaults` parameter.
 	 *
 	 * @param array     $hidden An array of hidden columns.
 	 * @param WP_Screen $screen WP_Screen object of the current screen.
