@@ -998,7 +998,7 @@ final class WP_Screen {
 		 * Filter whether to show the Screen Options submit button.
 		 *
 		 * @since 4.4.0
-		 * 
+		 *
 		 * @param bool      $show_button Whether to show Screen Options submit button.
 		 *                               Default false.
 		 * @param WP_Screen $this        Current WP_Screen instance.
@@ -1087,7 +1087,7 @@ final class WP_Screen {
 
 			$id = "$column-hide";
 			echo '<label>';
-			echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" value="' . $column . '"' . checked( ! in_array( $column, $hidden ), true, false ) . ' />';
+			echo '<input class="hide-column-tog" name="' . $id . '" type="checkbox" id="' . $id . '" value="' . $column . '"' . checked( ! in_array( $column, $hidden ), true, false ) . ' />';
 			echo "$title</label>\n";
 		}
 		?>
