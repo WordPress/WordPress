@@ -1721,13 +1721,6 @@
 	position: static;
 }
 
-.media-modal .imgedit-wait {
-	height: auto !important;
-	left: 0;
-	bottom: 0;
-	right: 0;
-}
-
 .media-modal .imgedit-wrap .imgedit-panel-content {
 	padding: 16px;
 	position: absolute;
