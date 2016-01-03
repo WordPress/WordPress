@@ -1352,8 +1352,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! empty( $dateCreated ) ) {
-			$post_data['post_date'] = iso8601_to_datetime( $dateCreated );
-			$post_data['post_date_gmt'] = get_gmt_from_date( $post_data['post_date'] );
+			$post_data['post_date'] = get_date_from_gmt( iso8601_to_datetime( $dateCreated ) );
+			$post_data['post_date_gmt'] = iso8601_to_datetime( $dateCreated, 'GMT' );
 		}
 
 		if ( ! isset( $post_data['ID'] ) )
@@ -3426,8 +3426,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !empty( $content_struct['date_created_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
 			$dateCreated = rtrim( $content_struct['date_created_gmt']->getIso(), 'Z' ) . 'Z';
-			$comment_date = iso8601_to_datetime( $dateCreated );
-			$comment_date_gmt = get_gmt_from_date( $comment_date );
+			$comment_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+			$comment_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		}
 
 		if ( isset($content_struct['content']) )
@@ -5005,8 +5005,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$dateCreated = $content_struct['dateCreated']->getIso();
 
 		if ( !empty( $dateCreated ) ) {
-			$post_date = iso8601_to_datetime( $dateCreated );
-			$post_date_gmt = get_gmt_from_date( $post_date );
+			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+			$post_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		} else {
 			$post_date = '';
 			$post_date_gmt = '';
@@ -5363,8 +5363,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$dateCreated = $content_struct['dateCreated']->getIso();
 
 		if ( !empty( $dateCreated ) ) {
-			$post_date = iso8601_to_datetime( $dateCreated );
-			$post_date_gmt = get_gmt_from_date( $post_date, 'GMT' );
+			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+			$post_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		} else {
 			$post_date     = $postdata['post_date'];
 			$post_date_gmt = $postdata['post_date_gmt'];
