@@ -214,7 +214,7 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 
 <p>
 	<?php submit_button( $button, 'primary', 'submit', false ); ?>
-	<a href="<?php echo admin_url('edit-comments.php'); ?>" class="button-cancel"><?php esc_attr_e( 'Cancel' ); ?></a></td>
+	<a href="<?php echo admin_url('edit-comments.php'); ?>" class="button-cancel"><?php esc_attr_e( 'Cancel' ); ?></a>
 </p>
 
 <?php wp_nonce_field( $nonce_action ); ?>
