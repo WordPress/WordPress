@@ -287,10 +287,9 @@ submit {
 }
 
 .message {
-	border: 1px solid #c00;
-	padding: 0.5em 0.7em;
-	margin: 5px 0 15px;
-	background-color: #ffebe8;
+	border-left: 4px solid #dc3232;
+	padding: .7em .6em;
+	background-color: #fbeaea;
 }
 
 /* rtl:ignore */
