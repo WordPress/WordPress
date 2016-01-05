@@ -96,6 +96,17 @@ class WP {
 	}
 
 	/**
+	 * Remove name from list of public query variables.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param string $name Query variable name.
+	 */
+	public function remove_query_var( $name ) {
+		$this->public_query_vars = array_diff( $this->public_query_vars, array( $name ) );
+	}
+
+	/**
 	 * Set the value of a query variable.
 	 *
 	 * @since 2.3.0
