@@ -131,12 +131,12 @@ class Walker_Page extends Walker {
 		$args['link_before'] = empty( $args['link_before'] ) ? '' : $args['link_before'];
 		$args['link_after'] = empty( $args['link_after'] ) ? '' : $args['link_after'];
 
-		/** This filter is documented in wp-includes/post-template.php */
 		$output .= $indent . sprintf(
 			'<li class="%s"><a href="%s">%s%s%s</a>',
 			$css_classes,
 			get_permalink( $page->ID ),
 			$args['link_before'],
+			/** This filter is documented in wp-includes/post-template.php */
 			apply_filters( 'the_title', $page->post_title, $page->ID ),
 			$args['link_after']
 		);
