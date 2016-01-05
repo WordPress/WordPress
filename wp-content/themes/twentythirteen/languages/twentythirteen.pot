@@ -1,14 +1,14 @@
-# Copyright (C) 2015 the WordPress team
+# Copyright (C) 2016 the WordPress team
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Thirteen 1.7\n"
+"Project-Id-Version: Twenty Thirteen 1.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentythirteen\n"
-"POT-Creation-Date: 2015-12-08 15:15:23+00:00\n"
+"POT-Creation-Date: 2016-01-05 21:48:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -100,14 +100,14 @@ msgstr ""
 #: content-aside.php:20 content-audio.php:31 content-chat.php:30
 #: content-gallery.php:31 content-image.php:30 content-link.php:31
 #: content-quote.php:20 content-status.php:20 content-video.php:30
-#: content.php:48 image.php:70 page.php:35
+#: content.php:48 image.php:76 page.php:35
 msgid "Pages:"
 msgstr ""
 
 #: content-aside.php:27 content-aside.php:35 content-audio.php:38
 #: content-chat.php:36 content-gallery.php:46 content-image.php:42
 #: content-link.php:19 content-quote.php:32 content-status.php:26
-#: content-video.php:42 content.php:31 image.php:44 page.php:39
+#: content-video.php:42 content.php:31 image.php:50 page.php:39
 msgid "Edit"
 msgstr ""
 
@@ -147,7 +147,7 @@ msgid ""
 "searching can help."
 msgstr ""
 
-#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 1.7)  #-#-#-#-#
+#. #-#-#-#-#  twentythirteen.pot (Twenty Thirteen 1.8)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:19
 msgid "https://wordpress.org/"
@@ -256,26 +256,26 @@ msgstr ""
 msgid "Skip to content"
 msgstr ""
 
-#: image.php:22
+#: image.php:28
 msgid ""
 "<span class=\"attachment-meta\">Published on <time class=\"entry-date\" "
 "datetime=\"%1$s\">%2$s</time> in <a href=\"%3$s\" title=\"Return to %4$s\" "
 "rel=\"gallery\">%5$s</a></span>"
 msgstr ""
 
-#: image.php:38
+#: image.php:44
 msgid "Link to full-size image"
 msgstr ""
 
-#: image.php:39
+#: image.php:45
 msgid "Full resolution"
 msgstr ""
 
-#: image.php:51
+#: image.php:57
 msgid "<span class=\"meta-nav\">&larr;</span> Previous"
 msgstr ""
 
-#: image.php:52
+#: image.php:58
 msgid "Next <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
