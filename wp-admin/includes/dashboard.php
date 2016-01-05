@@ -259,14 +259,17 @@ function wp_dashboard_right_now() {
 		?>
 		<li class="comment-count"><a href="edit-comments.php"><?php echo $text; ?></a></li>
 		<?php
+		$moderated_comments_count_i18n = number_format_i18n( $num_comm->moderated );
 		/* translators: Number of comments in moderation */
-		$text = sprintf( _nx( '%s in moderation', '%s in moderation', $num_comm->moderated, 'comments' ), number_format_i18n( $num_comm->moderated ) );
+		$text = sprintf( _nx( '%s in moderation', '%s in moderation', $num_comm->moderated, 'comments' ), $moderated_comments_count_i18n );
+		/* translators: Number of comments in moderation */
+		$aria_label = sprintf( _nx( '%s comment in moderation', '%s comments in moderation', $num_comm->moderated, 'comments' ), $moderated_comments_count_i18n );
 		?>
 		<li class="comment-mod-count<?php
 			if ( ! $num_comm->moderated ) {
 				echo ' hidden';
 			}
-		?>"><a href="edit-comments.php?comment_status=moderated"><?php echo $text; ?></a></li>
+		?>"><a href="edit-comments.php?comment_status=moderated" aria-label="<?php esc_attr_e( $aria_label ); ?>"><?php echo $text; ?></a></li>
 		<?php
 	}
 
@@ -302,10 +305,11 @@ function wp_dashboard_right_now() {
 		 * Prior to 3.8.0, the widget was named 'Right Now'.
 		 *
 		 * @since 3.0.0
+		 * @since 4.5.0 No title attribute output by default.
 		 *
 		 * @param string $title Default attribute text.
 		 */
-		$title = apply_filters( 'privacy_on_link_title', __( 'Your site is asking search engines not to index its content' ) );
+		$title = apply_filters( 'privacy_on_link_title', '' );
 
 		/**
 		 * Filter the link label for the 'Search Engines Discouraged' message
@@ -318,8 +322,9 @@ function wp_dashboard_right_now() {
 		 * @param string $content Default text.
 		 */
 		$content = apply_filters( 'privacy_on_link_text' , __( 'Search Engines Discouraged' ) );
+		$title_attr = '' === $title ? '' : " title='$title'";
 
-		echo "<p><a href='options-reading.php' title='$title'>$content</a></p>";
+		echo "<p><a href='options-reading.php'$title_attr>$content</a></p>";
 	}
 	?>
 	</div>
@@ -549,7 +554,8 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 		$url = get_edit_post_link( $draft->ID );
 		$title = _draft_or_post_title( $draft->ID );
 		echo "<li>\n";
-		echo '<div class="draft-title"><a href="' . esc_url( $url ) . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ) . '">' . esc_html( $title ) . '</a>';
+		/* translators: %s: post title */
+		echo '<div class="draft-title"><a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ) . '">' . esc_html( $title ) . '</a>';
 		echo '<time datetime="' . get_the_time( 'c', $draft ) . '">' . get_the_time( __( 'F j, Y' ), $draft ) . '</time></div>';
 		if ( $the_content = wp_trim_words( $draft->post_content, 10 ) ) {
 			echo '<p>' . $the_content . '</p>';
@@ -597,20 +603,20 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		$trash_url = esc_url( "comment.php?action=trashcomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
 		$delete_url = esc_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
 
-		$actions['approve'] = "<a href='$approve_url' data-wp-lists='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved' class='vim-a' title='" . esc_attr__( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
-		$actions['unapprove'] = "<a href='$unapprove_url' data-wp-lists='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved' class='vim-u' title='" . esc_attr__( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
-		$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . esc_attr__('Edit comment') . "'>". __('Edit') . '</a>';
-		$actions['reply'] = '<a onclick="window.commentReply && commentReply.open(\''.$comment->comment_ID.'\',\''.$comment->comment_post_ID.'\');return false;" class="vim-r hide-if-no-js" title="'.esc_attr__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
-		$actions['spam'] = "<a href='$spam_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::spam=1' class='vim-s vim-destructive' title='" . esc_attr__( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
+		$actions['approve'] = "<a href='$approve_url' data-wp-lists='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved' class='vim-a' aria-label='" . esc_attr__( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
+		$actions['unapprove'] = "<a href='$unapprove_url' data-wp-lists='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved' class='vim-u' aria-label='" . esc_attr__( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
+		$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' aria-label='" . esc_attr__( 'Edit this comment' ) . "'>". __( 'Edit' ) . '</a>';
+		$actions['reply'] = '<a onclick="window.commentReply && commentReply.open(\'' . $comment->comment_ID . '\',\''.$comment->comment_post_ID.'\');return false;" class="vim-r hide-if-no-js" aria-label="' . esc_attr__( 'Reply to this comment' ) . '" href="#">' . __( 'Reply' ) . '</a>';
+		$actions['spam'] = "<a href='$spam_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::spam=1' class='vim-s vim-destructive' aria-label='" . esc_attr__( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
 
 		if ( ! EMPTY_TRASH_DAYS ) {
-			$actions['delete'] = "<a href='$delete_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
+			$actions['delete'] = "<a href='$delete_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive' aria-label='" . esc_attr__( 'Delete this comment permanently' ) . "'>" . __( 'Delete Permanently' ) . '</a>';
 		} else {
-			$actions['trash'] = "<a href='$trash_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive' title='" . esc_attr__( 'Move this comment to the trash' ) . "'>" . _x('Trash', 'verb') . '</a>';
+			$actions['trash'] = "<a href='$trash_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive' aria-label='" . esc_attr__( 'Move this comment to the Trash' ) . "'>" . _x( 'Trash', 'verb' ) . '</a>';
 		}
 
 		if ( '1' === $comment->comment_approved ) {
-			$actions['view'] = '<a class="comment-link" href="' . esc_url( get_comment_link( $comment ) ) . '">' . __( 'View' ) . '</a>';
+			$actions['view'] = '<a class="comment-link" href="' . esc_url( get_comment_link( $comment ) ) . '" aria-label="' . esc_attr__( 'View this comment' ) . '">' . __( 'View' ) . '</a>';
 		}
 
 		/**
@@ -801,9 +807,17 @@ function wp_dashboard_recent_posts( $args ) {
 			// Use the post edit link for those who can edit, the permalink otherwise.
 			$recent_post_link = current_user_can( 'edit_post', get_the_ID() ) ? get_edit_post_link() : get_permalink();
 
-			/* translators: 1: relative date, 2: time, 3: post edit link or permalink, 4: post title */
-			$format = __( '<span>%1$s, %2$s</span> <a href="%3$s">%4$s</a>' );
-			printf( "<li>$format</li>", $relative, get_the_time(), $recent_post_link, _draft_or_post_title() );
+			/* translators: 1: relative date, 2: time, 3: post edit link or permalink, 4: post title, 5: aria label */
+			$format = __( '<span>%1$s, %2$s</span> <a href="%3$s" aria-label="%5$s">%4$s</a>' );
+			$draft_or_post_title = _draft_or_post_title();
+			printf( "<li>$format</li>",
+				$relative,
+				get_the_time(),
+				$recent_post_link,
+				$draft_or_post_title,
+				/* translators: %s: post title */
+				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $draft_or_post_title ) )
+			);
 		}
 
 		echo '</ul>';
@@ -1187,10 +1201,13 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 		if ( !isset($items[$item_key]) )
 			continue;
 
-		$title = esc_html( $item->get_title() );
+		$raw_title = $item->get_title();
 
 		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) . '&amp;TB_iframe=true&amp;width=600&amp;height=800';
-		echo "<li class='dashboard-news-plugin'><span>" . __( 'Popular Plugin' ) . ":</span> <a href='$link' class='dashboard-news-plugin-link'>$title</a>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span></li>";
+		echo '<li class="dashboard-news-plugin"><span>' . __( 'Popular Plugin' ) . ':</span> ' . esc_html( $raw_title ) .
+			'&nbsp;<a href="' . $ilink . '" class="thickbox" aria-label="' .
+			/* translators: %s: plugin name */
+			esc_attr( sprintf( __( 'Install %s' ), $raw_title ) ) . '">(' . __( 'Install' ) . ')</a></li>';
 
 		$feed->__destruct();
 		unset( $feed );
@@ -1234,10 +1251,10 @@ function wp_dashboard_quota() {
 				number_format_i18n( $quota )
 			);
 			printf(
-				'<a href="%1$s" title="%2$s">%3$s</a>',
+				'<a href="%1$s">%2$s <span class="screen-reader-text">(%3$s)</span></a>',
 				esc_url( admin_url( 'upload.php' ) ),
-				__( 'Manage Uploads' ),
-				$text
+				$text,
+				__( 'Manage Uploads' )
 			); ?>
 		</li><li class="storage-count <?php echo $used_class; ?>">
 			<?php $text = sprintf(
@@ -1247,10 +1264,10 @@ function wp_dashboard_quota() {
 				$percentused
 			);
 			printf(
-				'<a href="%1$s" title="%2$s" class="musublink">%3$s</a>',
+				'<a href="%1$s" class="musublink">%2$s <span class="screen-reader-text">(%3$s)</span></a>',
 				esc_url( admin_url( 'upload.php' ) ),
-				__( 'Manage Uploads' ),
-				$text
+				$text,
+				__( 'Manage Uploads' )
 			); ?>
 		</li>
 	</ul>
@@ -1291,7 +1308,7 @@ function wp_dashboard_browser_nag() {
 			$browsehappy = add_query_arg( 'locale', $locale, $browsehappy );
 
 		$notice .= '<p>' . sprintf( __( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ), esc_url( $browsehappy ) ) . '</p>';
-		$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss">' . __( 'Dismiss' ) . '</a></p>';
+		$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss" aria-label="' . esc_attr__( 'Dismiss the browser warning panel' ) . '">' . __( 'Dismiss' ) . '</a></p>';
 		$notice .= '<div class="clear"></div>';
 	}
 

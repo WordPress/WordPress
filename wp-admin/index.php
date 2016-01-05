@@ -106,7 +106,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 	<div id="welcome-panel" class="<?php echo esc_attr( $classes ); ?>">
 		<?php wp_nonce_field( 'welcome-panel-nonce', 'welcomepanelnonce', false ); ?>
-		<a class="welcome-panel-close" href="<?php echo esc_url( admin_url( '?welcome=0' ) ); ?>"><?php _e( 'Dismiss' ); ?></a>
+		<a class="welcome-panel-close" href="<?php echo esc_url( admin_url( '?welcome=0' ) ); ?>" aria-label="<?php esc_attr_e( 'Dismiss the welcome panel' ); ?>"><?php _e( 'Dismiss' ); ?></a>
 		<?php
 		/**
 		 * Add content to the welcome panel on the admin dashboard.
