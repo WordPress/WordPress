@@ -261,10 +261,12 @@ if ( ! empty( $_REQUEST['language'] ) ) {
 	$language = $GLOBALS['wp_local_package'];
 }
 
+$scripts_to_print = array( 'jquery' );
+
 switch($step) {
 	case 0: // Step 0
-
 		if ( wp_can_install_language_pack() && empty( $language ) && ( $languages = wp_get_available_translations() ) ) {
+			$scripts_to_print[] = 'language-chooser';
 			display_header( 'language-chooser' );
 			echo '<form id="setup" method="post" action="?step=1">';
 			wp_install_language_form( $languages );
@@ -282,6 +284,8 @@ switch($step) {
 				$GLOBALS['wp_locale'] = new WP_Locale();
 			}
 		}
+
+		$scripts_to_print[] = 'user-profile';
 
 		display_header();
 ?>
@@ -304,6 +308,8 @@ switch($step) {
 
 		if ( ! empty( $wpdb->error ) )
 			wp_die( $wpdb->error->get_error_message() );
+
+		$scripts_to_print[] = 'user-profile';
 
 		display_header();
 		// Fill in the data we gathered
@@ -368,12 +374,15 @@ switch($step) {
 		}
 		break;
 }
-if ( !wp_is_mobile() ) {
-?>
+
+if ( ! wp_is_mobile() ) {
+	?>
 <script type="text/javascript">var t = document.getElementById('weblog_title'); if (t){ t.focus(); }</script>
-<?php } ?>
-<?php wp_print_scripts( 'user-profile' ); ?>
-<?php wp_print_scripts( 'language-chooser' ); ?>
+	<?php
+}
+
+wp_print_scripts( $scripts_to_print );
+?>
 <script type="text/javascript">
 jQuery( function( $ ) {
 	$( '.hide-if-no-js' ).removeClass( 'hide-if-no-js' );
