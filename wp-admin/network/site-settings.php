@@ -95,7 +95,7 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="wrap">
 <h1 id="edit-site"><?php echo $title; ?></h1>
 <p class="edit-site-actions"><a href="<?php echo esc_url( get_home_url( $id, '/' ) ); ?>"><?php _e( 'Visit' ); ?></a> | <a href="<?php echo esc_url( get_admin_url( $id ) ); ?>"><?php _e( 'Dashboard' ); ?></a></p>
-<h2 class="nav-tab-wrapper nav-tab-small">
+<h2 class="nav-tab-wrapper nav-tab-small wp-clearfix">
 <?php
 $tabs = array(
 	'site-info'     => array( 'label' => __( 'Info' ),     'url' => 'site-info.php'     ),

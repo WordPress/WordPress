@@ -114,6 +114,13 @@
 	clear: both;
 }
 
+/* modern clearfix */
+.wp-clearfix:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
 /* Hide visually but not from screen readers */
 .screen-reader-text,
 .screen-reader-text span,
@@ -2060,15 +2067,22 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 h3.nav-tab-wrapper {
 	border-bottom: 1px solid #ccc;
 	margin: 0;
-	padding: 9px 0 0 15px;
+	padding-top: 9px;
 	line-height: inherit;
 }
 
-/* contain floats */
-.nav-tab-wrapper:after {
-	content: "";
-	display: table;
-	clear: both;
+/* Back-compat for plugins. Deprecated. Use .wp-clearfix instead. */
+.nav-tab-wrapper:not(.wp-clearfix):after {
+ 	content: "";
+ 	display: table;
+ 	clear: both;
+ }
+
+.ie8 .nav-tab-wrapper {
+	/* contain floats establishing a new block formatting context */
+	display: inline-block;
+	width: 100%;
+	vertical-align: top;
 }
 
 /*------------------------------------------------------------------------------
@@ -3635,15 +3649,13 @@ img {
 	h1.nav-tab-wrapper,
 	.wrap h2.nav-tab-wrapper,
 	h3.nav-tab-wrapper {
-		padding-right: 0;
 		border-bottom: 0;
 	}
 
 	h1 .nav-tab,
 	h2 .nav-tab,
 	h3 .nav-tab {
-		margin-top: 10px;
-		margin-left: 10px;
+		margin: 10px 0 0 10px;
 		border-bottom: 1px solid #ccc;
 	}
 }
