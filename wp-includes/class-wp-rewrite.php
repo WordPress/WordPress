@@ -1745,6 +1745,18 @@ class WP_Rewrite {
 	}
 
 	/**
+	 * Removes a permalink structure.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @param string $name Name for permalink structure.
+	 */
+	public function remove_permastruct( $name ) {
+		unset( $this->extra_permastructs[ $name ] );
+	}
+
+	/**
 	 * Removes rewrite rules and then recreate rewrite rules.
 	 *
 	 * Calls WP_Rewrite::wp_rewrite_rules() after removing the 'rewrite_rules' option.

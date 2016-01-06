@@ -178,7 +178,7 @@ function add_rewrite_tag( $tag, $regex, $query = '' ) {
  * @since 3.0.0
  *
  * @see WP_Rewrite::add_permastruct()
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $name   Name for permalink structure.
  * @param string $struct Permalink structure.
@@ -195,6 +195,25 @@ function add_permastruct( $name, $struct, $args = array() ) {
 		$args['ep_mask'] = func_get_arg( 3 );
 
 	$wp_rewrite->add_permastruct( $name, $struct, $args );
+}
+
+/**
+ * Remove permalink structure.
+ *
+ * Can only be used to remove permastructs that were added using add_permastruct().
+ * Built-in permastructs cannot be removed.
+ *
+ * @since 4.5.0
+ *
+ * @see WP_Rewrite::remove_permastruct()
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ *
+ * @param string $name Name for permalink structure.
+ */
+function remove_permastruct( $name ) {
+	global $wp_rewrite;
+
+	$wp_rewrite->remove_permastruct( $name );
 }
 
 /**
