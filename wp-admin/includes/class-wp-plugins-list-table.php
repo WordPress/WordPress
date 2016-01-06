@@ -695,15 +695,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$plugin_name = $plugin_data['Name'];
 		}
 
-		$id = sanitize_title( $plugin_name );
 		if ( ! empty( $totals['upgrade'] ) && ! empty( $plugin_data['update'] ) )
 			$class .= ' update';
 
-		$plugin_slug = ( isset( $plugin_data['slug'] ) ) ? $plugin_data['slug'] : '';
-		printf( "<tr id='%s' class='%s' data-slug='%s'>",
-			$id,
-			$class,
-			$plugin_slug
+		$plugin_slug = isset( $plugin_data['slug'] ) ? $plugin_data['slug'] : sanitize_title( $plugin_name );
+		printf( '<tr class="%s" data-slug="%s" data-plugin="%s">',
+			esc_attr( $class ),
+			esc_attr( $plugin_slug ),
+			esc_attr( $plugin_file )
 		);
 
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
