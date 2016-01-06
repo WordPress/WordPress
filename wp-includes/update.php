@@ -154,7 +154,20 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	if ( isset( $body['translations'] ) )
 		$updates->translations = $body['translations'];
 
-	set_site_transient( 'update_core',  $updates);
+	set_site_transient( 'update_core', $updates );
+
+	if ( ! empty( $body['ttl'] ) ) {
+		$ttl = (int) $body['ttl'];
+		if ( $ttl && ( time() + $ttl < wp_next_scheduled( 'wp_version_check' ) ) ) {
+			// Queue an event to re-run the update check in $ttl seconds.
+			wp_schedule_single_event( time() + $ttl, 'wp_version_check' );
+		}
+	}
+
+	// Trigger background updates if running non-interactively, and we weren't called from the update handler.
+	if ( defined( 'DOING_CRON' ) && DOING_CRON && 'wp_maybe_auto_update' != current_filter() ) {
+		do_action( 'wp_maybe_auto_update' );
+	}
 }
 
 /**
@@ -205,7 +218,11 @@ function wp_update_plugins( $extra_stats = array() ) {
 			$timeout = HOUR_IN_SECONDS;
 			break;
 		default :
-			$timeout = 12 * HOUR_IN_SECONDS;
+			if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+				$timeout = 0;
+			} else {
+				$timeout = 12 * HOUR_IN_SECONDS;
+			}
 	}
 
 	$time_not_changed = isset( $current->last_checked ) && $timeout > ( time() - $current->last_checked );
@@ -352,7 +369,11 @@ function wp_update_themes( $extra_stats = array() ) {
 			$timeout = HOUR_IN_SECONDS;
 			break;
 		default :
-			$timeout = 12 * HOUR_IN_SECONDS;
+			if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+				$timeout = 0;
+			} else {
+				$timeout = 12 * HOUR_IN_SECONDS;
+			}
 	}
 
 	$time_not_changed = isset( $last_update->last_checked ) && $timeout > ( time() - $last_update->last_checked );
@@ -593,19 +614,8 @@ function wp_schedule_update_checks() {
 	if ( !wp_next_scheduled('wp_update_themes') && !defined('WP_INSTALLING') )
 		wp_schedule_event(time(), 'twicedaily', 'wp_update_themes');
 
-	if ( ! wp_next_scheduled( 'wp_maybe_auto_update' ) && ! defined( 'WP_INSTALLING' ) ) {
-		// Schedule auto updates for 7 a.m. and 7 p.m. in the timezone of the site.
-		$next = strtotime( 'today 7am' );
-		$now = time();
-		// Find the next instance of 7 a.m. or 7 p.m., but skip it if it is within 3 hours from now.
-		while ( ( $now + 3 * HOUR_IN_SECONDS ) > $next ) {
-			$next += 12 * HOUR_IN_SECONDS;
-		}
-		$next = $next - get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
-		// Add a random number of minutes, so we don't have all sites trying to update exactly on the hour
-		$next = $next + rand( 0, 59 ) * MINUTE_IN_SECONDS;
-		wp_schedule_event( $next, 'twicedaily', 'wp_maybe_auto_update' );
-	}
+	if ( ( wp_next_scheduled( 'wp_maybe_auto_update' ) > ( time() + HOUR_IN_SECONDS ) ) && ! defined('WP_INSTALLING') )
+		wp_clear_scheduled_hook( 'wp_maybe_auto_update' );
 }
 
 if ( ( ! is_main_site() && ! is_network_admin() ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) )
