@@ -549,6 +549,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 35700 )
 		upgrade_440();
 
+	if ( $wp_current_db_version < 36180 )
+		upgrade_450();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1657,6 +1660,20 @@ function upgrade_440() {
 			$role->remove_cap( 'add_users' );
 		}
 	}
+}
+
+/**
+ * Execute changes made in WordPress 4.5.0
+ *
+ * @ignore
+ * @since 4.5.0
+ *
+ * @global int $wp_current_db_version
+ */
+function upgrade_450() {
+	global $wp_current_db_version;
+	if ( $wp_current_db_version < 36180 )
+		wp_clear_scheduled_hook( 'wp_maybe_auto_update' );
 }
 
 /**
