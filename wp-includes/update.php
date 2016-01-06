@@ -310,8 +310,14 @@ function wp_update_plugins( $extra_stats = array() ) {
 	$response = json_decode( wp_remote_retrieve_body( $raw_response ), true );
 	foreach ( $response['plugins'] as &$plugin ) {
 		$plugin = (object) $plugin;
+		if ( isset( $plugin->compatibility ) ) {
+			$plugin->compatibility = (object) $plugin->compatibility;
+			foreach ( $plugin->compatibility as &$data ) {
+				$data = (object) $data;
+			}
+		}
 	}
-	unset( $plugin );
+	unset( $plugin, $data );
 	foreach ( $response['no_update'] as &$plugin ) {
 		$plugin = (object) $plugin;
 	}
