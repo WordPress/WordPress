@@ -841,6 +841,28 @@ class WP_Rewrite {
 		}
 	}
 
+
+	/**
+	 * Removes an existing rewrite tag.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @see WP_Rewrite::$rewritecode
+	 * @see WP_Rewrite::$rewritereplace
+	 * @see WP_Rewrite::$queryreplace
+	 *
+	 * @param string $tag Name of the rewrite tag to remove.
+	 */
+	public function remove_rewrite_tag( $tag ) {
+		$position = array_search( $tag, $this->rewritecode );
+		if ( false !== $position && null !== $position ) {
+			unset( $this->rewritecode[ $position ] );
+			unset( $this->rewritereplace[ $position ] );
+			unset( $this->queryreplace[ $position ] );
+		}
+	}
+
 	/**
 	 * Generates rewrite rules from a permalink structure.
 	 *

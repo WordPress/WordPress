@@ -173,6 +173,20 @@ function add_rewrite_tag( $tag, $regex, $query = '' ) {
 }
 
 /**
+ * Removes an existing rewrite tag (like %postname%).
+ *
+ * @since 4.5.0
+ *
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ *
+ * @param string $tag Name of the rewrite tag.
+ */
+function remove_rewrite_tag( $tag ) {
+	global $wp_rewrite;
+	$wp_rewrite->remove_rewrite_tag( $tag );
+}
+
+/**
  * Add permalink structure.
  *
  * @since 3.0.0
