@@ -1202,13 +1202,16 @@ final class WP_Customize_Manager {
 			'widgets',
 			'nav_menus',
 		);
+
 		if ( in_array( $id, $core_panels, true ) ) {
-			$url = 'https://core.trac.wordpress.org/ticket/33552#comment:12';
-			_doing_it_wrong(
-				__METHOD__,
-				sprintf( __( 'Removing %1$s manually will cause PHP warnings. Use the <code>customize_loaded_components</code> filter instead. See <a href="%2$s">%2$s</a>.' ), $id, $url ),
-				'4.5'
+			/* translators: 1: panel id, 2: filter reference URL, 3: filter name */
+			$message = sprintf( __( 'Removing %1$s manually will cause PHP warnings. Use the <a href="%2$s">%3$s</a> filter instead.' ),
+				$id,
+				esc_url( 'https://developer.wordpress.org/reference/hooks/customize_loaded_components/' ),
+				'<code>customize_loaded_components</code>'
 			);
+
+			_doing_it_wrong( __METHOD__, $message, '4.5' );
 		}
 		unset( $this->panels[ $id ] );
 	}
