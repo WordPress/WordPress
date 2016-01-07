@@ -1198,6 +1198,18 @@ final class WP_Customize_Manager {
 	 * @param string $id Panel ID to remove.
 	 */
 	public function remove_panel( $id ) {
+		$core_panels = array(
+			'widgets',
+			'nav_menus',
+		);
+		if ( in_array( $id, $core_panels, true ) ) {
+			$url = 'https://core.trac.wordpress.org/ticket/33552#comment:12';
+			_doing_it_wrong(
+				__METHOD__,
+				sprintf( __( 'Removing %1$s manually will cause PHP warnings. Use the <code>customize_loaded_components</code> filter instead. See <a href="%2$s">%2$s</a>.' ), $id, $url ),
+				'4.5'
+			);
+		}
 		unset( $this->panels[ $id ] );
 	}
 
