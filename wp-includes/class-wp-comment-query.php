@@ -139,12 +139,14 @@ class WP_Comment_Query {
 	 * @since 4.4.0 `$parent__in` and `$parent__not_in` were added.
 	 * @since 4.4.0 Order by `comment__in` was added. `$update_comment_meta_cache`, `$no_found_rows`,
 	 *              `$hierarchical`, and `$update_comment_post_cache` were added.
+	 * @since 4.5.0 `$author_url` was added.
 	 * @access public
 	 *
 	 * @param string|array $query {
 	 *     Optional. Array or query string of comment query parameters. Default empty.
 	 *
 	 *     @type string       $author_email              Comment author email address. Default empty.
+	 *     @type string       $author_url                Comment author URL. Default empty.
 	 *     @type array        $author__in                Array of author IDs to include comments for. Default empty.
 	 *     @type array        $author__not_in            Array of author IDs to exclude comments for. Default empty.
 	 *     @type array        $comment__in               Array of comment IDs to include. Default empty.
@@ -245,6 +247,7 @@ class WP_Comment_Query {
 	public function __construct( $query = '' ) {
 		$this->query_var_defaults = array(
 			'author_email' => '',
+			'author_url' => '',
 			'author__in' => '',
 			'author__not_in' => '',
 			'include_unapproved' => '',
@@ -668,6 +671,10 @@ class WP_Comment_Query {
 
 		if ( '' !== $this->query_vars['author_email'] ) {
 			$this->sql_clauses['where']['author_email'] = $wpdb->prepare( 'comment_author_email = %s', $this->query_vars['author_email'] );
+		}
+
+		if ( '' !== $this->query_vars['author_url'] ) {
+			$this->sql_clauses['where']['author_url'] = $wpdb->prepare( 'comment_author_url = %s', $this->query_vars['author_url'] );
 		}
 
 		if ( '' !== $this->query_vars['karma'] ) {
