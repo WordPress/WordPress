@@ -274,11 +274,11 @@ a:active {
 a:focus,
 a:focus .media-icon img {
 	color: #124964;
-    -webkit-box-shadow:
-    	0 0 0 1px #5b9dd9,
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
-    box-shadow:
-    	0 0 0 1px #5b9dd9,
+	box-shadow:
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
@@ -1670,7 +1670,7 @@ form.upgrade .hint {
 }
 
 .screen-options + .screen-options {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .metabox-prefs .submit {
@@ -2952,10 +2952,10 @@ img {
 
 .js .postbox .handlediv:focus .toggle-indicator:before {
 	-webkit-box-shadow:
-    	0 0 0 1px #5b9dd9,
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
-    box-shadow:
-    	0 0 0 1px #5b9dd9,
+	box-shadow:
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 

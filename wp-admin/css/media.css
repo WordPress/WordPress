@@ -640,7 +640,7 @@ border color while dragging a file over the uploader drop area */
 .edit-attachment-frame .edit-media-header .left,
 .edit-attachment-frame .edit-media-header .right {
 	cursor: pointer;
-	color: #777;
+	color: #72777c;
 	background-color: transparent;
 	height: 50px;
 	width: 50px;
@@ -650,7 +650,7 @@ border color while dragging a file over the uploader drop area */
 	border: 0;
 	border-left: 1px solid #ddd;
 	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
-    transition: color .1s ease-in-out, background .1s ease-in-out;
+	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .upload-php .media-modal-close {
@@ -837,10 +837,16 @@ border color while dragging a file over the uploader drop area */
 
 .imgedit-wrap {
 	position: relative;
+	padding-top: 10px;
 }
 
-.imgedit-settings p {
-	margin: 8px 0 0;
+.imgedit-settings p,
+.imgedit-settings fieldset {
+	margin: 8px 0;
+}
+
+.imgedit-settings legend {
+	margin-bottom: 5px;
 }
 
 .describe .imgedit-wrap .imgedit-settings {
@@ -853,13 +859,11 @@ border color while dragging a file over the uploader drop area */
 
 .wp_attachment_holder .imgedit-wrap > div {
 	height: auto;
-	overflow: hidden;
 }
 
 .wp_attachment_holder .imgedit-wrap .imgedit-panel-content {
-	padding-right: 16px;
-	width: auto;
-	overflow: hidden;
+	padding: 3px 16px 0 0;
+	float: left;
 }
 
 .wp_attachment_holder .imgedit-wrap .imgedit-settings {
@@ -908,7 +912,6 @@ border color while dragging a file over the uploader drop area */
 	color: grey;
 }
 
-.wp_attachment_image,
 .A1B1 {
 	overflow: hidden;
 }
@@ -928,41 +931,39 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-menu {
-	margin: 0 0 12px;
 	min-width: 300px;
+	margin: 0 0 12px;
 }
 
-.imgedit-menu div {
+.imgedit-menu .note-no-rotate {
+	clear: both;
+	margin: 0;
+	padding: 1em 0 0;
+}
+
+.image-editor .imgedit-menu .button {
 	float: left;
 	width: 32px;
-	border: 1px solid #d5d5d5;
-	background: #f1f1f1;
-	margin: 0 8px 0 0;
 	height: 32px;
+	margin: 0 8px 0 0;
+	padding: 0;
+	background: #f1f1f1;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	line-height: 28px;
-	color: #777;
-	cursor: pointer;
+	line-height: 16px;
+	color: #72777c;
 }
 
-.imgedit-menu div:before {
+.imgedit-menu .button:before {
 	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: middle;
 }
 
-.imgedit-menu div:hover {
-	border-color: #c1c1c1;
-	background-color: #eaeaea;
-	color: #32373c;
-}
-
-.imgedit-menu div.disabled {
+.imgedit-menu .button.disabled {
 	border-color: #ccc;
 	background-color: #ddd;
-	color: #777;
+	color: #72777c;
 	filter: alpha(opacity=50);
 	opacity: 0.5;
 	cursor: default;
@@ -1028,12 +1029,17 @@ border color while dragging a file over the uploader drop area */
 	margin: 0 8px 0 3px;
 }
 
-.imgedit-applyto img {
-	margin: 0 8px 0 0;
+.imgedit-thumbnail-preview {
+	margin: 10px 8px 0 0;
+}
+
+.imgedit-thumbnail-preview-caption {
+	display: block;
 }
 
 #poststuff .imgedit-group-top h3, /* Back-compat for pre-4.4 */
 #poststuff .imgedit-group-top h2 {
+	display: inline-block;
 	margin: 0;
 	padding: 0;
 	font-size: 14px;
@@ -1046,8 +1052,8 @@ border color while dragging a file over the uploader drop area */
 }
 
 .imgedit-applyto .imgedit-label {
-	padding: 2px 0 0;
 	display: block;
+	padding: .5em 0 0;
 }
 
 .imgedit-help {
@@ -1055,8 +1061,31 @@ border color while dragging a file over the uploader drop area */
 	font-style: italic;
 }
 
-a.imgedit-help-toggle {
-	text-decoration: none;
+/* higher specificity than buttons */
+.image-editor .imgedit-settings .imgedit-help-toggle,
+.image-editor .imgedit-settings .imgedit-help-toggle:hover,
+.image-editor .imgedit-settings .imgedit-help-toggle:active {
+	border: 1px solid transparent;
+	margin: -1px 0 0 -1px;
+	padding: 0;
+	background: transparent;
+	color: #0074a2;
+	font-size: 20px;
+	line-height: 1;
+	cursor: pointer;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.image-editor .imgedit-settings .imgedit-help-toggle:focus {
+	color: #0074a2;
+	border-color: #5b9dd9;
+	outline: none;
+	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 
 .form-table td.imgedit-response {
@@ -1073,6 +1102,8 @@ a.imgedit-help-toggle {
 
 .imgedit-wrap .nowrap {
 	white-space: nowrap;
+	font-size: 12px;
+	line-height: inherit;
 }
 
 span.imgedit-scale-warn {
@@ -1083,9 +1114,34 @@ span.imgedit-scale-warn {
 	vertical-align: middle;
 }
 
+.imgedit-save-target {
+	margin: 8px 0;
+}
+
 .imgedit-group {
 	margin-bottom: 8px;
 	padding: 10px;
+}
+
+.imgedit-settings .imgedit-scale input[type="text"],
+.imgedit-settings .imgedit-crop-ratio input[type="text"],
+.imgedit-settings .imgedit-crop-sel input[type="text"] {
+	width: 50px;
+	font-size: 14px;
+	padding: 3px 5px;
+}
+
+.imgedit-separator {
+	display: inline-block;
+	width: 7px;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 13px;
+	color: #444;
+}
+
+.imgedit-settings .imgedit-scale .button {
+	margin-bottom: 0;
 }
 
 audio, video {
@@ -1130,6 +1186,18 @@ audio, video {
 
 	.media-upload-form .media-item .error {
 		padding: 10px 0 10px 12px;
+	}
+
+	.imgedit-settings .imgedit-scale input[type="text"],
+	.imgedit-settings .imgedit-crop-ratio input[type="text"],
+	.imgedit-settings .imgedit-crop-sel input[type="text"] {
+		width: 60px;
+		font-size: 16px;
+		padding: 6px 10px;
+	}
+
+	.imgedit-applyto .imgedit-label {
+		vertical-align: middle;
 	}
 }
 

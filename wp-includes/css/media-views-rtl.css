@@ -22,6 +22,11 @@
 	-webkit-overflow-scrolling: touch;
 }
 
+.media-modal legend,
+.media-modal label {
+	font-size: 13px;
+}
+
 .media-frame input,
 .media-frame textarea {
 	padding: 6px 8px;
@@ -110,7 +115,7 @@
 }
 
 .media-frame :-moz-placeholder {
-   color: #a9a9a9;
+	color: #a9a9a9;
 }
 
 .media-frame .hidden {
@@ -394,7 +399,7 @@
 	color: #666;
 }
 
-.compat-item label span  {
+.compat-item label span {
 	text-align: left;
 }
 
@@ -1734,7 +1739,7 @@
 .media-modal .imgedit-wrap .imgedit-settings {
 	background: #f3f3f3;
 	border-right: 1px solid #ddd;
-	padding: 0 16px 16px;
+	padding: 20px 16px 16px;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -1762,33 +1767,73 @@
 	padding: 0;
 }
 
+.media-modal .imgedit-group-top {
+	margin: 0;
+}
+
 .media-modal .imgedit-group-top h3, /* Back-compat for pre-4.4 */
-.media-modal .imgedit-group-top h2 {
+.media-modal .imgedit-group-top h2,
+.media-modal .imgedit-group-top h2 .button-link {
+	display: inline-block;
 	text-transform: uppercase;
 	font-size: 12px;
 	color: #666;
 	margin: 0;
-	margin-top: 24px;
+	margin-top: 3px;
 }
 
 .media-modal .imgedit-group-top h3 a, /* Back-compat for pre-4.4 */
-.media-modal .imgedit-group-top h2 a {
+.media-modal .imgedit-group-top h2 a,
+.media-modal .imgedit-group-top h2 .button-link {
 	text-decoration: none;
 	color: #666;
 }
 
-.media-modal .imgedit-help-toggle {
-	margin-top: -2px;
+/* higher specificity than media.css */
+.wp-core-ui.media-modal .image-editor .imgedit-help-toggle,
+.wp-core-ui.media-modal .image-editor .imgedit-help-toggle:hover,
+.wp-core-ui.media-modal .image-editor .imgedit-help-toggle:active {
+	border: 1px solid transparent;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	color: #0074a2;
+	font-size: 20px;
+	line-height: 1;
 	cursor: pointer;
-	color: #666;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.wp-core-ui.media-modal .image-editor .imgedit-help-toggle:focus {
+	color: #0074a2;
+	border-color: #5b9dd9;
+	outline: none;
+	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+}
+
+.wp-core-ui.media-modal .imgedit-group-top .dashicons-arrow-down.imgedit-help-toggle {
+	margin-top: -3px;
+}
+
+.wp-core-ui.media-modal .image-editor h3 .imgedit-help-toggle {
+	margin-top: -2px;
 }
 
 .media-modal .imgedit-help-toggled span.dashicons:before {
 	content: "\f142";
 }
 
-.media-modal .imgedit-group img {
-	margin-top: 5px;
+.media-modal .imgedit-thumbnail-preview {
+	margin: 10px 0 0 8px;
+}
+
+.imgedit-thumbnail-preview-caption {
+	display: block;
 }
 
 .media-modal .imgedit-wrap div.updated {
