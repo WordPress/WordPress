@@ -1286,10 +1286,15 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		'order' => 'ASC',
 		'status'  => 'approve',
 		'post_id' => $post->ID,
-		'hierarchical' => 'threaded',
 		'no_found_rows' => false,
 		'update_comment_meta_cache' => false, // We lazy-load comment meta for performance.
 	);
+
+	if ( get_option('thread_comments') ) {
+		$comment_args['hierarchical'] = 'threaded';
+	} else {
+		$comment_args['hierarchical'] = false;
+	}
 
 	if ( $user_ID ) {
 		$comment_args['include_unapproved'] = array( $user_ID );
@@ -1336,18 +1341,22 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	$_comments = $comment_query->comments;
 
 	// Trees must be flattened before they're passed to the walker.
-	$comments_flat = array();
-	foreach ( $_comments as $_comment ) {
-		$comments_flat[]  = $_comment;
-		$comment_children = $_comment->get_children( array(
-			'format' => 'flat',
-			'status' => $comment_args['status'],
-			'orderby' => $comment_args['orderby']
-		) );
+	if ( $comment_args['hierarchical'] ) {
+		$comments_flat = array();
+		foreach ( $_comments as $_comment ) {
+			$comments_flat[]  = $_comment;
+			$comment_children = $_comment->get_children( array(
+				'format' => 'flat',
+				'status' => $comment_args['status'],
+				'orderby' => $comment_args['orderby']
+			) );
 
-		foreach ( $comment_children as $comment_child ) {
-			$comments_flat[] = $comment_child;
+			foreach ( $comment_children as $comment_child ) {
+				$comments_flat[] = $comment_child;
+			}
 		}
+	} else {
+		$comments_flat = $_comments;
 	}
 
 	/**
