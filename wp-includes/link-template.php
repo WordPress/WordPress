@@ -1124,6 +1124,19 @@ function get_post_type_archive_link( $post_type ) {
 	if ( ! $post_type_obj = get_post_type_object( $post_type ) )
 		return false;
 
+	if ( 'post' === $post_type ) {
+		$show_on_front = get_option( 'show_on_front' );
+		$page_for_posts  = get_option( 'page_for_posts' );
+
+		if ( 'page' == $show_on_front && $page_for_posts ) {
+			$link = get_permalink( $page_for_posts );
+		} else {
+			$link = get_home_url();
+		}
+		/** This filter is documented in wp-includes/link-template.php */
+		return apply_filters( 'post_type_archive_link', $link, $post_type );
+	}
+
 	if ( ! $post_type_obj->has_archive )
 		return false;
 
