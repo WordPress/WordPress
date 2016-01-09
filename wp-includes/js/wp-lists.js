@@ -22,6 +22,13 @@ wpList = {
 		return s.nonce || url._ajax_nonce || $('#' + s.element + ' input[name="_ajax_nonce"]').val() || url._wpnonce || $('#' + s.element + ' input[name="_wpnonce"]').val() || 0;
 	},
 
+	/**
+	 * Extract list item data from a DOM element.
+	 *
+	 * @param  {HTMLElement} e The DOM element.
+	 * @param  {string}      t
+	 * @return {array}
+	 */
 	parseData: function(e,t) {
 		var d = [], wpListsData;
 
@@ -145,6 +152,13 @@ wpList = {
 		return false;
 	},
 
+	/**
+	 * Delete an item in the list via AJAX.
+	 *
+	 * @param  {HTMLElement} e A DOM element containing item data.
+	 * @param  {Object}      s
+	 * @return {boolean}
+	 */
 	ajaxDel: function( e, s ) {
 		e = $(e);
 		s = s || {};
