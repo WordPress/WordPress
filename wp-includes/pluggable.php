@@ -560,29 +560,31 @@ endif;
 
 if ( !function_exists('wp_authenticate') ) :
 /**
- * Checks a user's login information and logs them in if it checks out.
+ * Authenticate a user, confirming the login credentials are valid.
  *
  * @since 2.5.0
  *
- * @param string $username User's username
- * @param string $password User's password
- * @return WP_User|WP_Error WP_User object if login successful, otherwise WP_Error object.
+ * @param string $username User's username.
+ * @param string $password User's password.
+ * @return WP_User|WP_Error WP_User object if the credentials are valid,
+ *                          otherwise WP_Error.
  */
 function wp_authenticate($username, $password) {
 	$username = sanitize_user($username);
 	$password = trim($password);
 
 	/**
-	 * Filter the user to authenticate.
+	 * Filter whether a set of user login credentials are valid.
 	 *
-	 * If a non-null value is passed, the filter will effectively short-circuit
-	 * authentication, returning an error instead.
+	 * A WP_User object is returned if the credentials authenticate a user.
+	 * WP_Error or null otherwise.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param null|WP_User $user     User to authenticate.
-	 * @param string       $username User login.
-	 * @param string       $password User password
+	 * @param null|WP_User|WP_Error $user     WP_User if the user is authenticated.
+	 *                                        WP_Error or null otherwise.
+	 * @param string                $username User login.
+	 * @param string                $password User password
 	 */
 	$user = apply_filters( 'authenticate', null, $username, $password );
 
@@ -841,7 +843,7 @@ endif;
 
 if ( !function_exists('wp_set_auth_cookie') ) :
 /**
- * Sets the authentication cookies based on user ID.
+ * Login a user by setting authentication cookies.
  *
  * The $remember parameter increases the time that the cookie will be kept. The
  * default the cookie is kept without remembering is two days. When $remember is
