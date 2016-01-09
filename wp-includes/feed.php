@@ -622,6 +622,8 @@ function self_link() {
  * Return the content type for specified feed type.
  *
  * @since 2.8.0
+ *
+ * @param string $type Type of feed. Possible values include 'rss', rss2', 'atom', and 'rdf'.
  */
 function feed_content_type( $type = '' ) {
 	if ( empty($type) )
@@ -642,8 +644,7 @@ function feed_content_type( $type = '' ) {
 	 * @since 2.8.0
 	 *
 	 * @param string $content_type Content type indicating the type of data that a feed contains.
-	 * @param string $type         Type of feed. Possible values include 'rss2', 'atom'.
-	 *                             Default 'rss2'.
+	 * @param string $type         Type of feed. Possible values include 'rss', rss2', 'atom', and 'rdf'.
 	 */
 	return apply_filters( 'feed_content_type', $content_type, $type );
 }

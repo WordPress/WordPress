@@ -73,11 +73,14 @@ function register_column_headers($screen, $columns) {
  * Prints column headers for a particular screen.
  *
  * @since 2.7.0
+ *
+ * @param string|WP_Screen $screen  The screen hook name or screen object.
+ * @param bool             $with_id Whether to set the id attribute or not.
  */
-function print_column_headers($screen, $id = true) {
+function print_column_headers( $screen, $with_id = true ) {
 	$wp_list_table = new _WP_List_Table_Compat($screen);
 
-	$wp_list_table->print_column_headers($id);
+	$wp_list_table->print_column_headers( $with_id );
 }
 
 /**

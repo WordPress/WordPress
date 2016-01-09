@@ -1159,7 +1159,8 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $s
  *
  * @since MU
  *
- * @param int $blog_id The new site's ID.
+ * @param int    $blog_id    The new site's ID.
+ * @param string $deprecated Not used.
  * @return bool
  */
 function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
@@ -1754,6 +1755,8 @@ function check_upload_mimes( $mimes ) {
  * @since MU
  *
  * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param string $deprecated Not used.
  */
 function update_posts_count( $deprecated = '' ) {
 	global $wpdb;
@@ -1787,7 +1790,8 @@ function wpmu_log_new_registrations( $blog_id, $user_id ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  * @staticvar int $global_terms_recurse
  *
- * @param int $term_id An ID for a term on the current blog.
+ * @param int    $term_id    An ID for a term on the current blog.
+ * @param string $deprecated Not used.
  * @return int An ID from the global terms table mapped from $term_id.
  */
 function global_terms( $term_id, $deprecated = '' ) {
@@ -1856,6 +1860,7 @@ function global_terms( $term_id, $deprecated = '' ) {
  * @see wp_validate_redirect()
  * @since MU
  *
+ * @param array|string $deprecated Not used.
  * @return array The current site's domain
  */
 function redirect_this_site( $deprecated = '' ) {
@@ -2019,6 +2024,8 @@ function add_new_user_to_blog( $user_id, $password, $meta ) {
  * Correct From host on outgoing mail to match the site domain
  *
  * @since MU
+ *
+ * @param PHPMailer $phpmailer The PHPMailer instance, passed by reference.
  */
 function fix_phpmailer_messageid( $phpmailer ) {
 	$phpmailer->Hostname = get_current_site()->domain;
@@ -2351,9 +2358,12 @@ function is_upload_space_available() {
 }
 
 /**
+ * Filters the maximum upload file size allowed, in bytes.
+ *
  * @since 3.0.0
  *
- * @return int of upload size limit in bytes
+ * @param  int $size Upload size limit in bytes.
+ * @return int       Upload size limit in bytes.
  */
 function upload_size_limit_filter( $size ) {
 	$fileupload_maxk = KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 );

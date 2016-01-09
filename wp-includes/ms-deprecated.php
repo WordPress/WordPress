@@ -153,6 +153,10 @@ function is_main_blog() {
  * @since MU
  * @deprecated 3.0.0 Use is_email()
  * @see is_email()
+ *
+ * @param string $email        Email address to verify.
+ * @param bool   $check_domain Deprecated.
+ * @return string|bool Either false or the valid email address.
  */
 function validate_email( $email, $check_domain = true) {
 	_deprecated_function( __FUNCTION__, '3.0', 'is_email()' );

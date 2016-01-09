@@ -275,6 +275,7 @@ abstract class WP_Session_Tokens {
 	 * @access protected
 	 *
 	 * @param string $verifier Verifier of the session to update.
+	 * @param array  $session  Optional. Session. Omitting this argument destroys the session.
 	 */
 	abstract protected function update_session( $verifier, $session = null );
 
