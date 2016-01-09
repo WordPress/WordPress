@@ -2706,9 +2706,9 @@ function wp_ajax_heartbeat() {
 		 *
 		 * @since 3.6.0
 		 *
-		 * @param array|object $response  The Heartbeat response object or array.
-		 * @param array        $data      The $_POST data sent.
-		 * @param string       $screen_id The screen id.
+		 * @param array  $response  The Heartbeat response.
+		 * @param array  $data      The $_POST data sent.
+		 * @param string $screen_id The screen id.
 		 */
 		$response = apply_filters( 'heartbeat_received', $response, $data, $screen_id );
 	}
@@ -2718,8 +2718,8 @@ function wp_ajax_heartbeat() {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array|object $response  The Heartbeat response object or array.
-	 * @param string       $screen_id The screen id.
+	 * @param array  $response  The Heartbeat response.
+	 * @param string $screen_id The screen id.
 	 */
 	$response = apply_filters( 'heartbeat_send', $response, $screen_id );
 
@@ -2730,8 +2730,8 @@ function wp_ajax_heartbeat() {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array|object $response  The Heartbeat response object or array.
-	 * @param string       $screen_id The screen id.
+	 * @param array  $response  The Heartbeat response.
+	 * @param string $screen_id The screen id.
 	 */
 	do_action( 'heartbeat_tick', $response, $screen_id );
 

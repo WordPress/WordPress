@@ -729,6 +729,11 @@ function _ipad_meta() {
  * Check lock status for posts displayed on the Posts screen
  *
  * @since 3.6.0
+ *
+ * @param array  $response  The Heartbeat response.
+ * @param array  $data      The $_POST data sent.
+ * @param string $screen_id The screen id.
+ * @return array The Heartbeat response.
  */
 function wp_check_locked_posts( $response, $data, $screen_id ) {
 	$checked = array();
@@ -759,6 +764,11 @@ function wp_check_locked_posts( $response, $data, $screen_id ) {
  * Check lock status on the New/Edit Post screen and refresh the lock
  *
  * @since 3.6.0
+ *
+ * @param array  $response  The Heartbeat response.
+ * @param array  $data      The $_POST data sent.
+ * @param string $screen_id The screen id.
+ * @return array The Heartbeat response.
  */
 function wp_refresh_post_lock( $response, $data, $screen_id ) {
 	if ( array_key_exists( 'wp-refresh-post-lock', $data ) ) {
@@ -797,6 +807,11 @@ function wp_refresh_post_lock( $response, $data, $screen_id ) {
  * Check nonce expiration on the New/Edit Post screen and refresh if needed
  *
  * @since 3.6.0
+ *
+ * @param array  $response  The Heartbeat response.
+ * @param array  $data      The $_POST data sent.
+ * @param string $screen_id The screen id.
+ * @return array The Heartbeat response.
  */
 function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 	if ( array_key_exists( 'wp-refresh-post-nonces', $data ) ) {
@@ -850,6 +865,10 @@ function wp_heartbeat_set_suspension( $settings ) {
  * Autosave with heartbeat
  *
  * @since 3.9.0
+ *
+ * @param array $response The Heartbeat response.
+ * @param array $data     The $_POST data sent.
+ * @return array The Heartbeat response.
  */
 function heartbeat_autosave( $response, $data ) {
 	if ( ! empty( $data['wp_autosave'] ) ) {
