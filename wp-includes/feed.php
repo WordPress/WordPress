@@ -630,7 +630,6 @@ function feed_content_type( $type = '' ) {
 	$types = array(
 		'rss'  => 'application/rss+xml',
 		'rss2' => 'application/rss+xml',
-		'rss-http'  => 'text/xml',
 		'atom' => 'application/atom+xml',
 		'rdf'  => 'application/rdf+xml'
 	);
