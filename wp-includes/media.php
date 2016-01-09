@@ -2264,7 +2264,7 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	 *
 	 * @param string $class CSS class or list of space-separated classes.
 	 */
-	 $atts['class'] = apply_filters( 'wp_audio_shortcode_class', $atts['class'] );
+	$atts['class'] = apply_filters( 'wp_audio_shortcode_class', $atts['class'] );
 
 	$html_atts = array(
 		'class'    => $atts['class'],
@@ -2501,7 +2501,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	 *
 	 * @param string $class CSS class or list of space-separated classes.
 	 */
-	 $atts['class'] = apply_filters( 'wp_video_shortcode_class', $atts['class'] );
+	$atts['class'] = apply_filters( 'wp_video_shortcode_class', $atts['class'] );
 
 	$html_atts = array(
 		'class'    => $atts['class'],
