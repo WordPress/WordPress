@@ -2163,9 +2163,9 @@ function wp_get_attachment_id3_keys( $attachment, $context = 'display' ) {
  *     @type string $src      URL to the source of the audio file. Default empty.
  *     @type string $loop     The 'loop' attribute for the `<audio>` element. Default empty.
  *     @type string $autoplay The 'autoplay' attribute for the `<audio>` element. Default empty.
- *     @type string $preload  The 'preload' attribute for the `<audio>` element. Default empty.
+ *     @type string $preload  The 'preload' attribute for the `<audio>` element. Default 'none'.
  *     @type string $class    The 'class' attribute for the `<audio>` element. Default 'wp-audio-shortcode'.
- *     @type string $style    The 'style' attribute for the `<audio>` element. Default 'width: 100%'.
+ *     @type string $style    The 'style' attribute for the `<audio>` element. Default 'width: 100%; visibility: hidden;'.
  * }
  * @param string $content Shortcode content.
  * @return string|void HTML content to display audio.
@@ -2200,7 +2200,9 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 		'src'      => '',
 		'loop'     => '',
 		'autoplay' => '',
-		'preload'  => 'none'
+		'preload'  => 'none',
+		'class'    => 'wp-audio-shortcode',
+		'style'    => 'width: 100%; visibility: hidden;'
 	);
 	foreach ( $default_types as $type ) {
 		$defaults_atts[$type] = '';
@@ -2262,13 +2264,15 @@ function wp_audio_shortcode( $attr, $content = '' ) {
 	 *
 	 * @param string $class CSS class or list of space-separated classes.
 	 */
+	 $atts['class'] = apply_filters( 'wp_audio_shortcode_class', $atts['class'] );
+
 	$html_atts = array(
-		'class'    => apply_filters( 'wp_audio_shortcode_class', 'wp-audio-shortcode' ),
+		'class'    => $atts['class'],
 		'id'       => sprintf( 'audio-%d-%d', $post_id, $instance ),
 		'loop'     => wp_validate_boolean( $atts['loop'] ),
 		'autoplay' => wp_validate_boolean( $atts['autoplay'] ),
 		'preload'  => $atts['preload'],
-		'style'    => 'width: 100%; visibility: hidden;',
+		'style'    => $atts['style'],
 	);
 
 	// These ones should just be omitted altogether if they are blank
@@ -2407,6 +2411,7 @@ function wp_video_shortcode( $attr, $content = '' ) {
 		'preload'  => 'metadata',
 		'width'    => 640,
 		'height'   => 360,
+		'class'    => 'wp-video-shortcode',
 	);
 
 	foreach ( $default_types as $type ) {
@@ -2496,8 +2501,10 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	 *
 	 * @param string $class CSS class or list of space-separated classes.
 	 */
+	 $atts['class'] = apply_filters( 'wp_video_shortcode_class', $atts['class'] );
+
 	$html_atts = array(
-		'class'    => apply_filters( 'wp_video_shortcode_class', 'wp-video-shortcode' ),
+		'class'    => $atts['class'],
 		'id'       => sprintf( 'video-%d-%d', $post_id, $instance ),
 		'width'    => absint( $atts['width'] ),
 		'height'   => absint( $atts['height'] ),
