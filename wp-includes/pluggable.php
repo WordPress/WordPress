@@ -843,7 +843,7 @@ endif;
 
 if ( !function_exists('wp_set_auth_cookie') ) :
 /**
- * Login a user by setting authentication cookies.
+ * Log in a user by setting authentication cookies.
  *
  * The $remember parameter increases the time that the cookie will be kept. The
  * default the cookie is kept without remembering is two days. When $remember is

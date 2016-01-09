@@ -7,7 +7,7 @@
  */
 
 /**
- * Authenticate and login a user with remember capability.
+ * Authenticate and log in a user with remember capability.
  *
  * The credentials is an array that has 'user_login', 'user_password', and
  * 'remember' indices. If the credentials is not given, then the log in form
