@@ -476,6 +476,62 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 }
 
 /**
+ * Unregister a taxonomy.
+ *
+ * Can not be used to unregister built-in taxonomies.
+ *
+ * @since 4.5.0
+ *
+ * @global WP    $wp            Current WordPress environment instance.
+ * @global array $wp_taxonomies List of taxonomies.
+ *
+ * @param string $taxonomy Taxonomy name.
+ * @return bool|WP_Error True on success, WP_Error on failure.
+ */
+function unregister_taxonomy( $taxonomy ) {
+	if ( ! taxonomy_exists( $taxonomy ) ) {
+		return new WP_Error( 'invalid_taxonomy', __( 'Invalid Taxonomy' ) );
+	}
+
+	$taxonomy_args = get_taxonomy( $taxonomy );
+
+	// Do not allow unregistering internal taxonomies.
+	if ( $taxonomy_args->_builtin ) {
+		return new WP_Error( 'invalid_taxonomy', __( 'Unregistering a built-in taxonomy is not allowed' ) );
+	}
+
+	global $wp, $wp_taxonomies;
+
+	// Remove query var.
+	if ( false !== $taxonomy_args->query_var ) {
+		$wp->remove_query_var( $taxonomy_args->query_var );
+	}
+
+	// Remove rewrite tags and permastructs.
+	if ( false !== $taxonomy_args->rewrite ) {
+		remove_rewrite_tag( "%$taxonomy%" );
+		remove_permastruct( $taxonomy );
+	}
+
+	// Unregister callback handling for metabox.
+	remove_filter( 'wp_ajax_add-' . $taxonomy, '_wp_ajax_add_hierarchical_term' );
+
+	// Remove the taxonomy.
+	unset( $wp_taxonomies[ $taxonomy ] );
+
+	/**
+	 * Fires after a taxonomy is unregistered.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param string $taxonomy Taxonomy name.
+	 */
+	do_action( 'unregistered_taxonomy', $taxonomy );
+
+	return true;
+}
+
+/**
  * Builds an object with all taxonomy labels out of a taxonomy object
  *
  * Accepted keys of the label array in the taxonomy object:
