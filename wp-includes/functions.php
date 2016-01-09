@@ -1525,8 +1525,10 @@ function wp_get_referer() {
 	elseif ( ! empty( $_SERVER['HTTP_REFERER'] ) )
 		$ref = wp_unslash( $_SERVER['HTTP_REFERER'] );
 
-	if ( $ref && $ref !== wp_unslash( $_SERVER['REQUEST_URI'] ) )
+	if ( $ref && $ref !== wp_unslash( $_SERVER['REQUEST_URI'] ) && $ref !== home_url() . wp_unslash( $_SERVER['REQUEST_URI'] ) ) {
 		return wp_validate_redirect( $ref, false );
+	}
+
 	return false;
 }
 
