@@ -1337,6 +1337,26 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 		}
 	}
 
+	/**
+	 * Filters the arguments used to query comments in comments_template().
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param array $comment_args {
+	 *     Array of arguments. See WP_Comment_Query::__construct() for detailed descriptions.
+	 *
+	 *     @type string|array $orderby                   Field(s) to order by.
+	 *     @type string       $order                     Order of results. Accepts 'ASC' or 'DESC'.
+	 *     @type string       $status                    Comment status.
+	 *     @type int          $post_id                   ID of the post.
+	 *     @type bool         $no_found_rows             Whether to refrain from querying for found rows.
+	 *     @type bool         $update_comment_meta_cache Whether to prime cache for comment meta.
+	 *     @type bool|string  $hierarchical              Whether to query for comments hierarchically.
+	 *     @type int          $offset                    Comment offset.
+	 *     @type int          $number                    Number of comments to fetch.
+	 * }
+	 */
+	$comment_args = apply_filters( 'comments_template_query_args', $comment_args );
 	$comment_query = new WP_Comment_Query( $comment_args );
 	$_comments = $comment_query->comments;
 
