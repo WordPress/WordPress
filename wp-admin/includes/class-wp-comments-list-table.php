@@ -510,9 +510,9 @@ class WP_Comments_List_Table extends WP_List_Table {
  	 *
  	 * @global string $comment_status Status for the current listed comments.
  	 *
- 	 * @param object $comment     Comment being acted upon.
- 	 * @param string $column_name Current column name.
- 	 * @param string $primary     Primary column name.
+ 	 * @param WP_Comment $comment     The comment object.
+ 	 * @param string     $column_name Current column name.
+ 	 * @param string     $primary     Primary column name.
  	 * @return string|void Comment row actions output.
  	 */
  	protected function handle_row_actions( $comment, $column_name, $primary ) {
@@ -621,7 +621,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	/**
 	 *
-	 * @param object $comment
+	 * @param WP_Comment $comment The comment object.
 	 */
 	public function column_cb( $comment ) {
 		if ( $this->user_can ) { ?>
@@ -632,7 +632,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @param object $comment
+	 * @param WP_Comment $comment The comment object.
 	 */
 	public function column_comment( $comment ) {
 		echo '<div class="comment-author">';
@@ -672,7 +672,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 *
 	 * @global string $comment_status
 	 *
-	 * @param object $comment
+	 * @param WP_Comment $comment The comment object.
 	 */
 	public function column_author( $comment ) {
 		global $comment_status;
@@ -712,6 +712,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	/**
 	 * @access public
+	 *
+	 * @param WP_Comment $comment The comment object.
 	 */
 	public function column_date( $comment ) {
 		echo '<div class="submitted-on">';
@@ -728,8 +730,10 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	/**
 	 * @access public
+	 *
+	 * @param WP_Comment $comment The comment object.
 	 */
-	public function column_response() {
+	public function column_response( $comment ) {
 		$post = get_post();
 
 		if ( ! $post ) {
@@ -765,8 +769,8 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	/**
 	 *
-	 * @param object $comment
-	 * @param string $column_name
+	 * @param WP_Comment $comment     The comment object.
+	 * @param string     $column_name The custom column's name.
 	 */
 	public function column_default( $comment, $column_name ) {
 		/**
