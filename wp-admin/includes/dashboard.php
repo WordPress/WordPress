@@ -1144,6 +1144,9 @@ function wp_dashboard_primary_output( $widget_id, $feeds ) {
  * Display plugins text for the WordPress news widget.
  *
  * @since 2.5.0
+ *
+ * @param string $rss  The RSS feed URL.
+ * @param array  $args Array of arguments for this RSS feed.
  */
 function wp_dashboard_plugins_output( $rss, $args = array() ) {
 	// Plugin feeds plus link to install them

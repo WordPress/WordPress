@@ -350,6 +350,8 @@ final class WP_Comment {
 	 * unneeded database queries.
 	 *
 	 * @since 4.4.0
+	 *
+	 * @param bool $set Whether the comment's children have already been populated.
 	 */
 	public function populated_children( $set ) {
 		$this->populated_children = (bool) $set;

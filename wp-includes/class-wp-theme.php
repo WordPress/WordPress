@@ -350,7 +350,8 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * __get() magic method for properties formerly returned by current_theme_info()
 	 *
-	 * @return mixed
+	 * @param string $offset Property to get.
+	 * @return mixed Property value.
 	 */
 	public function __get( $offset ) {
 		switch ( $offset ) {

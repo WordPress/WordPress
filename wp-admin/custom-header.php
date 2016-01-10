@@ -261,6 +261,9 @@ class Custom_Image_Header {
 	 * Random image option is on by default if no header has been set.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @param string $type The header type. One of 'default' (for the Uploaded Images control)
+	 *                     or 'uploaded' (for the Uploaded Images control).
 	 */
 	public function show_header_selector( $type = 'default' ) {
 		if ( 'default' == $type ) {
@@ -969,15 +972,13 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * Choose a header image, selected from existing uploaded and default headers,
 	 * or provide an array of uploaded header data (either new, or from media library).
 	 *
+	 * @since 3.4.0
+	 *
 	 * @param mixed $choice Which header image to select. Allows for values of 'random-default-image',
 	 * 	for randomly cycling among the default images; 'random-uploaded-image', for randomly cycling
 	 * 	among the uploaded images; the key of a default image registered for that theme; and
 	 * 	the key of an image uploaded for that theme (the basename of the URL).
 	 *  Or an array of arguments: attachment_id, url, width, height. All are required.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @param array|object|string $choice
 	 */
 	final public function set_header_image( $choice ) {
 		if ( is_array( $choice ) || is_object( $choice ) ) {
