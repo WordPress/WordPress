@@ -1806,7 +1806,7 @@ class WP_Rewrite {
 			unset( $do_hard_later );
 		}
 
-		delete_option('rewrite_rules');
+		update_option( 'rewrite_rules', '' );
 		$this->wp_rewrite_rules();
 
 		/**
