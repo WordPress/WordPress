@@ -4291,7 +4291,9 @@ function _page_traverse_name( $page_id, &$children, &$result ){
  * @return string|false Page URI, false on error.
  */
 function get_page_uri( $page ) {
-	$page = get_post( $page );
+	if ( ! $page instanceof WP_Post ) {
+		$page = get_post( $page );
+	}
 
 	if ( ! $page )
 		return false;
