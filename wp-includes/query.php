@@ -2268,7 +2268,7 @@ class WP_Query {
 				$like = '%' . $wpdb->esc_like( $q['s'] ) . '%';
 			}
 
-			$search_orderby = '(CASE ';
+			$search_orderby = '';
 
 			// sentence match in 'post_title'
 			if ( $like ) {
@@ -2289,7 +2289,10 @@ class WP_Query {
 			if ( $like ) {
 				$search_orderby .= $wpdb->prepare( "WHEN $wpdb->posts.post_content LIKE %s THEN 4 ", $like );
 			}
-			$search_orderby .= 'ELSE 5 END)';
+
+			if ( $search_orderby ) {
+				$search_orderby = '(CASE ' . $search_orderby . 'ELSE 5 END)';
+			}
 		} else {
 			// single word or sentence search
 			$search_orderby = reset( $q['search_orderby_title'] ) . ' DESC';
