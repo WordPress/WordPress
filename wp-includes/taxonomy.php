@@ -1604,7 +1604,7 @@ function get_terms( $taxonomies, $args = '' ) {
 	}
 
 	if ( $number && is_array( $terms ) && count( $terms ) > $number ) {
-		$terms = array_slice( $terms, $offset, $number );
+		$terms = array_slice( $terms, $offset, $number, true );
 	}
 
 	wp_cache_add( $cache_key, $terms, 'terms', DAY_IN_SECONDS );
