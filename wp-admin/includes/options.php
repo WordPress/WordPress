@@ -51,7 +51,7 @@ function options_general_add_js() {
 
 		$("input[name='date_format']").click(function(){
 			if ( "date_format_custom_radio" != $(this).attr("id") )
-				$( "input[name='date_format_custom']" ).val( $( this ).val() ).siblings( '.example' ).text( $( this ).parent( 'label' ).text() );
+				$( "input[name='date_format_custom']" ).val( $( this ).val() ).siblings( '.example' ).text( $( this ).parent( 'label' ).children( '.format-i18n' ).text() );
 		});
 		$("input[name='date_format_custom']").focus(function(){
 			$( '#date_format_custom_radio' ).prop( 'checked', true );
@@ -59,7 +59,7 @@ function options_general_add_js() {
 
 		$("input[name='time_format']").click(function(){
 			if ( "time_format_custom_radio" != $(this).attr("id") )
-				$( "input[name='time_format_custom']" ).val( $( this ).val() ).siblings( '.example' ).text( $( this ).parent( 'label' ).text() );
+				$( "input[name='time_format_custom']" ).val( $( this ).val() ).siblings( '.example' ).text( $( this ).parent( 'label' ).children( '.format-i18n' ).text() );
 		});
 		$("input[name='time_format_custom']").focus(function(){
 			$( '#time_format_custom_radio' ).prop( 'checked', true );
