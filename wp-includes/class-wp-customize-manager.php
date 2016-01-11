@@ -1579,9 +1579,11 @@ final class WP_Customize_Manager {
 	 */
 	public function get_return_url() {
 		$referer = wp_get_referer();
+		$excluded_referer_basenames = array( 'customize.php', 'wp-login.php' );
+
 		if ( $this->return_url ) {
 			$return_url = $this->return_url;
-		} else if ( $referer && 'customize.php' !== basename( parse_url( $referer, PHP_URL_PATH ) ) ) {
+		} else if ( $referer && ! in_array( basename( parse_url( $referer, PHP_URL_PATH ) ), $excluded_referer_basenames, true ) ) {
 			$return_url = $referer;
 		} else if ( $this->preview_url ) {
 			$return_url = $this->preview_url;
