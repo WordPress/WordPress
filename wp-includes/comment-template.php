@@ -1348,6 +1348,8 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	 *     @type string|array $orderby                   Field(s) to order by.
 	 *     @type string       $order                     Order of results. Accepts 'ASC' or 'DESC'.
 	 *     @type string       $status                    Comment status.
+	 *     @type array        $include_unapproved        Array of IDs or email addresses whose unapproved comments
+	 *                                                   will be included in results.
 	 *     @type int          $post_id                   ID of the post.
 	 *     @type bool         $no_found_rows             Whether to refrain from querying for found rows.
 	 *     @type bool         $update_comment_meta_cache Whether to prime cache for comment meta.
