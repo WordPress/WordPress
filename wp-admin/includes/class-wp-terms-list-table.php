@@ -375,7 +375,13 @@ class WP_Terms_List_Table extends WP_List_Table {
 			get_edit_term_link( $tag->term_id, $taxonomy, $this->screen->post_type )
 		);
 
-		$out = '<strong><a class="row-title" href="' . esc_url( $edit_link ) . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $name ) ) . '">' . $name . '</a></strong><br />';
+		$out = sprintf(
+			'<strong><a class="row-title" href="%s" aria-label="%s">%s</a></strong><br />',
+			esc_url( $edit_link ),
+			/* translators: %s: taxonomy term name */
+			esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $tag->name ) ),
+			$name
+		);
 
 		$out .= '<div class="hidden" id="inline_' . $qe_data->term_id . '">';
 		$out .= '<div class="name">' . $qe_data->name . '</div>';
@@ -429,13 +435,38 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$actions = array();
 		if ( current_user_can( $tax->cap->edit_terms ) ) {
-			$actions['edit'] = '<a href="' . esc_url( $edit_link ) . '">' . __( 'Edit' ) . '</a>';
-			$actions['inline hide-if-no-js'] = '<a href="#" class="editinline aria-button-if-js">' . __( 'Quick&nbsp;Edit' ) . '</a>';
+			$actions['edit'] = sprintf(
+				'<a href="%s" aria-label="%s">%s</a>',
+				esc_url( $edit_link ),
+				/* translators: %s: taxonomy term name */
+				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $tag->name ) ),
+				__( 'Edit' )
+			);
+			$actions['inline hide-if-no-js'] = sprintf(
+				'<a href="#" class="editinline aria-button-if-js" aria-label="%s">%s</a>',
+				/* translators: %s: taxonomy term name */
+				esc_attr( sprintf( __( 'Quick edit &#8220;%s&#8221; inline' ), $tag->name ) ),
+				__( 'Quick&nbsp;Edit' )
+			);
 		}
-		if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term )
-			$actions['delete'] = "<a class='delete-tag aria-button-if-js' href='" . wp_nonce_url( "edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ) . "'>" . __( 'Delete' ) . "</a>";
-		if ( $tax->public )
-			$actions['view'] = '<a href="' . get_term_link( $tag ) . '">' . __( 'View' ) . '</a>';
+		if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term ) {
+			$actions['delete'] = sprintf(
+				'<a href="%s" class="delete-tag aria-button-if-js" aria-label="%s">%s</a>',
+				wp_nonce_url( "edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ),
+				/* translators: %s: taxonomy term name */
+				esc_attr( sprintf( __( 'Delete &#8220;%s&#8221;' ), $tag->name ) ),
+				__( 'Delete' )
+			);
+		}
+		if ( $tax->public ) {
+			$actions['view'] = sprintf(
+				'<a href="%s" aria-label="%s">%s</a>',
+				get_term_link( $tag ),
+				/* translators: %s: taxonomy term name */
+				esc_attr( sprintf( __( 'View &#8220;%s&#8221; archive' ), $tag->name ) ),
+				__( 'View' )
+			);
+		}
 
 		/**
 		 * Filter the action links displayed for each term in the Tags list table.
