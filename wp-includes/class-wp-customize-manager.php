@@ -94,6 +94,15 @@ final class WP_Customize_Manager {
 	protected $panels = array();
 
 	/**
+	 * List of core components.
+	 *
+	 * @since 4.5.0
+	 * @access protected
+	 * @var array
+	 */
+	protected $components = array( 'widgets', 'nav_menus' );
+
+	/**
 	 * Registered instances of WP_Customize_Section.
 	 *
 	 * @since 3.4.0
@@ -238,7 +247,7 @@ final class WP_Customize_Manager {
 		 * @param array                $components List of core components to load.
 		 * @param WP_Customize_Manager $this       WP_Customize_Manager instance.
 		 */
-		$components = apply_filters( 'customize_loaded_components', array( 'widgets', 'nav_menus' ), $this );
+		$components = apply_filters( 'customize_loaded_components', $this->components, $this );
 
 		if ( in_array( 'widgets', $components ) ) {
 			require_once( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
@@ -1198,12 +1207,8 @@ final class WP_Customize_Manager {
 	 * @param string $id Panel ID to remove.
 	 */
 	public function remove_panel( $id ) {
-		$core_panels = array(
-			'widgets',
-			'nav_menus',
-		);
-
-		if ( in_array( $id, $core_panels, true ) ) {
+		// Removing core components this way is _doing_it_wrong().
+		if ( in_array( $id, $this->components, true ) ) {
 			/* translators: 1: panel id, 2: filter reference URL, 3: filter name */
 			$message = sprintf( __( 'Removing %1$s manually will cause PHP warnings. Use the <a href="%2$s">%3$s</a> filter instead.' ),
 				$id,
