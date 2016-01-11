@@ -86,19 +86,18 @@ ul.add-menu-item-tabs li {
 	background: #fbfbfb;
 }
 
-.manage-menus select {
-	float: right;
-	margin-left: 6px;
+.manage-menus .selected-menu,
+.manage-menus select,
+.manage-menus .submit-btn,
+.nav-menus-php .add-new-menu-action {
+	display: inline-block;
+	margin-left: 3px;
+	vertical-align: middle;
 }
 
-.manage-menus .selected-menu {
-	float: right;
-	margin: 5px 0 0 6px;
-}
-
-.manage-menus .submit-btn {
-	float: right;
-	margin-top: 1px;
+.manage-menus select,
+.menu-location-menus select {
+	max-width: 100%;
 }
 
 .menu-edit #post-body-content h3 {
@@ -212,12 +211,8 @@ ul.add-menu-item-tabs li {
 	margin-top: -2px;
 }
 
-.widefat .menu-locations tr + tr td {
-	padding-top: 0;
-}
-
-.widefat .menu-locations td {
-	vertical-align: middle;
+.widefat .menu-locations .menu-location-title {
+	padding: 13px 10px 0;
 }
 
 .menu-location-title label {
@@ -306,12 +301,6 @@ ul.add-menu-item-tabs li {
 #menu-container .submit {
 	margin: 0 0 10px;
 	padding: 0;
-}
-
-.nav-menus-php .add-new-menu-action {
-	float: right;
-	margin: 6px 6px 0 0;
-	line-height: 15px;
 }
 
 .nav-menus-php .meta-sep,
@@ -922,6 +911,14 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 		width: auto;
 		margin-right: 0;
 		margin-bottom: 15px;
+	}
+
+	.manage-menus select {
+		margin: 0.5em 0;
+	}
+
+	.widefat .menu-locations .menu-location-title {
+		padding-top: 16px;
 	}
 }
 
