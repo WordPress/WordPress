@@ -284,6 +284,7 @@ inlineEditPost = {
 				}
 			},
 		'html');
+		// Prevent submitting the form when pressing Enter on a focused field.
 		return false;
 	},
 
