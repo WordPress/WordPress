@@ -4858,8 +4858,6 @@ function wp_update_attachment_metadata( $post_id, $data ) {
  *
  * @since 2.1.0
  *
- * @global string $pagenow
- *
  * @param int $post_id Optional. Attachment ID. Default 0.
  * @return string|false Attachment URL, otherwise false.
  */
