@@ -1517,16 +1517,33 @@ function wp_original_referer_field( $echo = true, $jump_back_to = 'current' ) {
  * @return false|string False on failure. Referer URL on success.
  */
 function wp_get_referer() {
-	if ( ! function_exists( 'wp_validate_redirect' ) )
+	if ( ! function_exists( 'wp_validate_redirect' ) ) {
 		return false;
-	$ref = false;
-	if ( ! empty( $_REQUEST['_wp_http_referer'] ) )
-		$ref = wp_unslash( $_REQUEST['_wp_http_referer'] );
-	elseif ( ! empty( $_SERVER['HTTP_REFERER'] ) )
-		$ref = wp_unslash( $_SERVER['HTTP_REFERER'] );
+	}
+
+	$ref = wp_get_raw_referer();
 
 	if ( $ref && $ref !== wp_unslash( $_SERVER['REQUEST_URI'] ) && $ref !== home_url() . wp_unslash( $_SERVER['REQUEST_URI'] ) ) {
 		return wp_validate_redirect( $ref, false );
+	}
+
+	return false;
+}
+
+/**
+ * Retrieve unvalidated referer from '_wp_http_referer' or HTTP referer.
+ *
+ * Do not use for redirects, use wp_get_referer() instead.
+ *
+ * @since 4.5.0
+ *
+ * @return string|bool Referer URL on success, false on failure.
+ */
+function wp_get_raw_referer() {
+	if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
+		return wp_unslash( $_REQUEST['_wp_http_referer'] );
+	} else if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
+		return wp_unslash( $_SERVER['HTTP_REFERER'] );
 	}
 
 	return false;
