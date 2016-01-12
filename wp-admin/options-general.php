@@ -243,7 +243,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 			echo " checked='checked'";
 			$custom = false;
 		}
-		echo ' /> <span class="date-time-text format-i18n">' . date_i18n( $format ) . '</span><code>' . $format . "</code></label><br />\n";
+		echo ' /> <span class="date-time-text format-i18n">' . date_i18n( $format ) . '</span><code>' . esc_html( $format ) . "</code></label><br />\n";
 	}
 
 	echo '<label><input type="radio" name="date_format" id="date_format_custom_radio" value="\c\u\s\t\o\m"';
@@ -279,7 +279,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 			echo " checked='checked'";
 			$custom = false;
 		}
-		echo ' /> <span class="date-time-text format-i18n">' . date_i18n( $format ) . '</span><code>' . $format . "</code></label><br />\n";
+		echo ' /> <span class="date-time-text format-i18n">' . date_i18n( $format ) . '</span><code>' . esc_html( $format ) . "</code></label><br />\n";
 	}
 
 	echo '<label><input type="radio" name="time_format" id="time_format_custom_radio" value="\c\u\s\t\o\m"';
