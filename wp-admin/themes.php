@@ -229,7 +229,7 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 ?>
 
 <div class="theme-browser">
-	<div class="themes">
+	<div class="themes wp-clearfix">
 
 <?php
 /*
@@ -282,7 +282,6 @@ foreach ( $themes as $theme ) :
 	<?php } ?>
 </div>
 <?php endforeach; ?>
-	<br class="clear" />
 	</div>
 </div>
 <div class="theme-overlay"></div>

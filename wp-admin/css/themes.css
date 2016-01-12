@@ -9,7 +9,6 @@
 
 .theme-browser .themes {
 	clear: both;
-	padding: 0 0 100px;
 }
 
 .themes-php .wrap h1 {
@@ -1124,13 +1123,15 @@ p.no-themes {
 	font-size: 18px;
 	font-style: normal;
 	margin: 0;
-	padding: 0;
+	padding: 100px 0;
 	text-align: center;
 	display: none;
 }
+
 body.no-results p.no-themes {
 	display: block;
 }
+
 body.show-upload-theme p.no-themes {
 	display: none !important;
 }

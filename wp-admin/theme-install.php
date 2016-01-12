@@ -195,7 +195,6 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
 	<span class="spinner"></span>
 
-	<br class="clear" />
 <?php
 if ( $tab ) {
 	/**
