@@ -161,7 +161,7 @@ if ( current_user_can( 'manage_options' ) ) {
  * Note, this does not just run on user-facing admin screens.
  * It runs on admin-ajax.php and admin-post.php as well.
  *
- * This is roughly analgous to the more general 'init' hook, which fires earlier.
+ * This is roughly analogous to the more general 'init' hook, which fires earlier.
  *
  * @since 2.5.0
  */
