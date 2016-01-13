@@ -5027,9 +5027,7 @@ function wp_old_slug_redirect() {
 
 		$link = get_permalink( $id );
 
-		if ( is_feed() ) {
-			$link = user_trailingslashit( trailingslashit( $link ) . 'feed' );
-		} elseif ( isset( $GLOBALS['wp_query']->query_vars['paged'] ) && $GLOBALS['wp_query']->query_vars['paged'] > 1 ) {
+		if ( isset( $GLOBALS['wp_query']->query_vars['paged'] ) && $GLOBALS['wp_query']->query_vars['paged'] > 1 ) {
 			$link = user_trailingslashit( trailingslashit( $link ) . 'page/' . $GLOBALS['wp_query']->query_vars['paged'] );
 		} elseif( is_embed() ) {
 			$link = user_trailingslashit( trailingslashit( $link ) . 'embed' );
