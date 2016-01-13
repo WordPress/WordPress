@@ -124,7 +124,7 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 					load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) );
 				}
 			}
-		} elseif ( in_array( basename( $plugin_file ), array( 'hello.php', 'akismet.php' ) ) ) {
+		} elseif ( 'hello.php' == basename( $plugin_file ) ) {
 			$textdomain = 'default';
 		}
 		if ( $textdomain ) {
