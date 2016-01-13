@@ -2775,7 +2775,7 @@ class WP_Query {
 		}
 
 		// If a search pattern is specified, load the posts that match.
-		if ( ! empty( $q['s'] ) ) {
+		if ( strlen( $q['s'] ) ) {
 			$search = $this->parse_search( $q );
 		}
 
