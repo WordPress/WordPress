@@ -481,7 +481,7 @@ setCommentsList = function() {
 			}
 		}
 
-		if ( ! theExtraList || theExtraList.size() === 0 || theExtraList.children().size() === 0 ) {
+		if ( ! theExtraList || theExtraList.length === 0 || theExtraList.children().length === 0 ) {
 			return;
 		}
 

@@ -47,7 +47,7 @@ var tb_position;
 			adminbar_height = parseInt( $('#wpadminbar').css('height'), 10 );
 		}
 
-		if ( tbWindow.size() ) {
+		if ( tbWindow.length ) {
 			tbWindow.width( W - 50 ).height( H - 45 - adminbar_height );
 			$('#TB_iframeContent').width( W - 50 ).height( H - 75 - adminbar_height );
 			tbWindow.css({'margin-left': '-' + parseInt( ( ( W - 50 ) / 2 ), 10 ) + 'px'});

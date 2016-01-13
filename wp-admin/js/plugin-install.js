@@ -9,7 +9,7 @@ jQuery( document ).ready( function( $ ) {
 			H = $( window ).height() - ( ( 792 < width ) ? 60 : 20 ),
 			W = ( 792 < width ) ? 772 : width - 20;
 
-		if ( tbWindow.size() ) {
+		if ( tbWindow.length ) {
 			tbWindow.width( W ).height( H );
 			$( '#TB_iframeContent' ).width( W ).height( H );
 			tbWindow.css({

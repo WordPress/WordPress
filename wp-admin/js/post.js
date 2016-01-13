@@ -73,7 +73,7 @@ WPSetThumbnailHTML = function(html){
 
 WPSetThumbnailID = function(id){
 	var field = $('input[value="_thumbnail_id"]', '#list-table');
-	if ( field.size() > 0 ) {
+	if ( field.length > 0 ) {
 		$('#meta\\[' + field.attr('id').match(/[0-9]+/) + '\\]\\[value\\]').text(id);
 	}
 };

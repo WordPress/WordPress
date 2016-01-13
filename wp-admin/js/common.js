@@ -83,7 +83,7 @@ validateForm = function( form ) {
 		.addClass( 'form-invalid' )
 		.find( 'input:visible' )
 		.change( function() { $( this ).closest( '.form-invalid' ).removeClass( 'form-invalid' ); } )
-		.size();
+		.length;
 };
 
 // stub for doing better warnings
