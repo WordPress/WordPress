@@ -956,11 +956,11 @@ function wp_get_pomo_file_data( $po_file ) {
  *     @type array    $translations                 List of available translations. Default result of
  *                                                  wp_get_available_translations().
  *     @type string   $selected                     Language which should be selected. Default empty.
- *     @type bool|int $echo                         Whether to echo or return the generated markup. Accepts 0, 1, or their
- *                                                  bool equivalents. Default 1.
+ *     @type bool|int $echo                         Whether to echo the generated markup. Accepts 0, 1, or their
+ *                                                  boolean equivalents. Default 1.
  *     @type bool     $show_available_translations  Whether to show available translations. Default true.
  * }
- * @return string HTML content only if 'echo' argument is 0.
+ * @return string HTML content
  */
 function wp_dropdown_languages( $args = array() ) {
 
