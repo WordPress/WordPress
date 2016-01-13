@@ -56,6 +56,6 @@
 
 	window.wp.mediaelement = new wpMediaElement();
 
-	$( document ).on( 'ready', window.wp.mediaelement.initialize );
+	$( window.wp.mediaelement.initialize );
 
 })( window, jQuery );
