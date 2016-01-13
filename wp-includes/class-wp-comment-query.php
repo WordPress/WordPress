@@ -60,6 +60,17 @@ class WP_Comment_Query {
 	);
 
 	/**
+	 * SQL WHERE clause.
+	 *
+	 * Stored after the 'comments_clauses' filter is run on the compiled WHERE sub-clauses.
+	 *
+	 * @since 4.4.2
+	 * @access protected
+	 * @var string
+	 */
+	protected $filtered_where_clause;
+
+	/**
 	 * Date query container
 	 *
 	 * @since 3.7.0
@@ -823,6 +834,8 @@ class WP_Comment_Query {
 		$limits = isset( $clauses[ 'limits' ] ) ? $clauses[ 'limits' ] : '';
 		$groupby = isset( $clauses[ 'groupby' ] ) ? $clauses[ 'groupby' ] : '';
 
+		$this->filtered_where_clause = $where;
+
 		if ( $where ) {
 			$where = 'WHERE ' . $where;
 		}
@@ -874,12 +887,27 @@ class WP_Comment_Query {
 			0 => wp_list_pluck( $comments, 'comment_ID' ),
 		);
 
-		$where_clauses = $this->sql_clauses['where'];
-		unset(
-			$where_clauses['parent'],
-			$where_clauses['parent__in'],
-			$where_clauses['parent__not_in']
-		);
+		/*
+		 * The WHERE clause for the descendant query is the same as for the top-level
+		 * query, minus the `parent`, `parent__in`, and `parent__not_in` sub-clauses.
+		 */
+		$_where = $this->filtered_where_clause;
+		$exclude_keys = array( 'parent', 'parent__in', 'parent__not_in' );
+		foreach ( $exclude_keys as $exclude_key ) {
+			if ( isset( $this->sql_clauses['where'][ $exclude_key ] ) ) {
+				$clause = $this->sql_clauses['where'][ $exclude_key ];
+
+				// Strip the clause as well as any adjacent ANDs.
+				$pattern = '|(?:AND)?\s*' . $clause . '\s*(?:AND)?|';
+				$_where_parts = preg_split( $pattern, $_where );
+
+				// Remove empties.
+				$_where_parts = array_filter( array_map( 'trim', $_where_parts ) );
+
+				// Reassemble with an AND.
+				$_where = implode( ' AND ', $_where_parts );
+			}
+		}
 
 		// Fetch an entire level of the descendant tree at a time.
 		$level = 0;
@@ -889,7 +917,7 @@ class WP_Comment_Query {
 				break;
 			}
 
-			$where = 'WHERE ' . implode( ' AND ', $where_clauses ) . ' AND comment_parent IN (' . implode( ',', array_map( 'intval', $parent_ids ) ) . ')';
+			$where = 'WHERE ' . $_where . ' AND comment_parent IN (' . implode( ',', array_map( 'intval', $parent_ids ) ) . ')';
 			$comment_ids = $wpdb->get_col( "{$this->sql_clauses['select']} {$this->sql_clauses['from']} {$where} {$this->sql_clauses['groupby']} ORDER BY comment_date_gmt ASC, comment_ID ASC" );
 
 			$level++;
