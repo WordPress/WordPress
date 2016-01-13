@@ -155,7 +155,7 @@ div#widgets-left .sidebar-name h3 {
 	padding: 9px;
 }
 
-#widgets-left #available-widgets,
+#widgets-left .widgets-holder-wrap,
 div#widgets-left .widget-holder {
 	background: transparent;
 	border: none;

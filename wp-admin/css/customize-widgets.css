@@ -79,10 +79,6 @@
 	line-height: 16px;
 }
 
-.widget-top {
-	cursor: move;
-}
-
 .customize-control-widget_form.expanded a.widget-action:after {
 	content: "\f142";
 }
@@ -99,6 +95,7 @@
 	cursor: pointer;
 }
 
+.widget-top,
 .customize-control-widget_form .widget .customize-control-title {
 	cursor: move;
 }
@@ -126,55 +123,8 @@
 	background-color: #fafafa;
 }
 
-.widget-reorder-nav span {
-	position: relative;
-	overflow: hidden;
-	float: left;
-	display: block;
-	width: 33px; /* was 42px for mobile */
-	height: 43px;
-	color: #82878c;
-	text-indent: -9999px;
-	cursor: pointer;
-	outline: none;
-}
-
-.widget-reorder-nav span:before {
-	display: inline-block;
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 100%;
-	height: 100%;
-	font: normal 20px/43px dashicons;
-	text-align: center;
-	text-indent: 0;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-.widget-reorder-nav span:hover,
-.widget-reorder-nav span:focus {
-	color: #444;
-	background: #eee;
-}
-
 .move-widget:before {
 	content: "\f504";
-}
-
-.move-widget-down:before {
-	content: "\f347";
-}
-
-.move-widget-up:before {
-	content: "\f343";
-}
-
-#customize-theme-controls .first-widget .move-widget-up,
-#customize-theme-controls .last-widget .move-widget-down {
-	color: #d5d5d5;
-	cursor: default;
 }
 
 #customize-theme-controls .move-widget-area {
@@ -256,49 +206,10 @@
  * Styles for new widget addition panel
  */
 
-.wp-full-overlay-main {
-	right: auto; /* this overrides a right: 0; which causes the preview to resize, I'd rather have it go off screen at the normal size. */
-	width: 100%;
-}
-
-body.adding-widget .add-new-widget,
-body.adding-widget .add-new-widget:hover {
-	background: #eee;
-	border-color: #999;
-	color: #32373c;
-	-webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
-	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
-}
-body.adding-widget .add-new-widget:before {
-	-webkit-transform: rotate(45deg);
-	-ms-transform: rotate(45deg);
-	transform: rotate(45deg);
-}
-
-#available-widgets .widget {
-	position: static;
-}
-
 /* override widgets admin page rules in wp-admin/css/wp-admin.css */
 #widgets-left #available-widgets .widget {
 	float: none !important;
 	width: auto !important;
-}
-
-#available-widgets {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	left: -301px;
-	visibility: hidden;
-	overflow: auto;
-	width: 300px;
-	margin: 0;
-	z-index: 1;
-	background: #eee !important;
-	-webkit-transition: left .18s;
-	transition: left .18s;
-	border-right: 1px solid #ddd;
 }
 
 .ios #available-widgets {
@@ -306,54 +217,10 @@ body.adding-widget .add-new-widget:before {
 	transition: left 0s;
 }
 
-#available-widgets-list {
-	top: 46px;
-	position: absolute;
-	overflow: auto;
-	bottom: 0;
-	width: 100%;
-}
-
-#available-widgets-filter {
-	position: fixed;
-	top: 0;
-	z-index: 1;
-	width: 300px;
-	height: 46px;
-	padding: 8px 17px 7px 13px;
-	background: #eee;
-	border-bottom: 1px solid #e4e4e4;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-}
-
-#available-widgets-filter input {
-	padding: 5px 10px 2px 10px;
-	width: 100%;
-}
-
-#available-widgets .widget-tpl {
-	position: relative;
-	padding: 20px 15px 20px 60px;
-	background: #fff;
-	border-bottom: 1px solid #e4e4e4;
-	cursor: pointer;
-	display: none;
-}
-
 #available-widgets .widget-tpl:hover,
 #available-widgets .widget-tpl.selected {
 	background: #eee;
 	border-bottom-color: #ccc;
-}
-
-#available-widgets .widget-top,
-#available-widgets .widget-top:hover {
-	border: none;
-	background: transparent;
-	-webkit-box-shadow: none;
-	box-shadow: none;
 }
 
 #customize-controls .widget-title h3 {
@@ -543,10 +410,6 @@ body.adding-widget #customize-preview {
 #available-widgets [class*="tweet"] .widget-title:before,
 #available-widgets [class*="twitter"] .widget-title:before { content: "\f301"; }
 
-#available-widgets .customize-section-title {
-	display: none;
-}
-
 @media screen and (max-height: 700px) and (min-width: 981px) {
 	.customize-control-widget {
 		margin-bottom: 0;
@@ -577,57 +440,5 @@ body.adding-widget #customize-preview {
 	}
 	#customize-theme-controls .widget-area-select li:before {
 		top: 8px;
-	}
-}
-
-@media screen and ( max-width: 640px ) {
-	body.adding-widget div#available-widgets {
-		top: 46px;
-		left: 0;
-		z-index: 10;
-		width: 100%;
-	}
-
-	#available-widgets .customize-section-title {
-		display: block;
-		margin: 0;
-	}
-
-	#available-widgets .customize-section-back {
-		height: 69px;
-	}
-
-	#available-widgets .customize-section-title h3 {
-		font-size: 20px;
-		font-weight: 200;
-		padding: 9px 10px 12px 14px;
-		margin: 0;
-		line-height: 24px;
-		color: #555;
-		display: block;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-
-	#available-widgets .customize-section-title .customize-action {
-		font-size: 13px;
-		display: block;
-		font-weight: 400;
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-
-	#available-widgets-filter {
-		position: relative;
-		width: 100%;
-		background: #fff;
-		height: auto;
-		padding: 10px 15px;
-	}
-
-	#available-widgets-list {
-		top: 140px;
 	}
 }
