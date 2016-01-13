@@ -30,8 +30,8 @@
 
 		resetPosition();
 		$(window)
-			.load(resetPosition)		// just in case user is changing size of page while loading
-			.resize(resetPosition);
+			.on( 'load', resetPosition ) // just in case user is changing size of page while loading
+			.on( 'resize', resetPosition );
 
 		$input.blur(function() {
 			setTimeout(function() { $results.hide() }, 200);

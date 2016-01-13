@@ -2870,7 +2870,7 @@
 
 				iframe = $( '<iframe />', { 'src': self.previewUrl(), 'title': api.l10n.previewIframeTitle } ).hide();
 				iframe.appendTo( self.container );
-				iframe.load( function() {
+				iframe.on( 'load', function() {
 					self.triedLogin = true;
 
 					iframe.remove();

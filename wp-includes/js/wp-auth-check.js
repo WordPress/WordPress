@@ -16,7 +16,7 @@
 			});
 
 			frame = $('<iframe id="wp-auth-check-frame" frameborder="0">').attr( 'title', noframe.text() );
-			frame.load( function() {
+			frame.on( 'load', function() {
 				var height, body;
 
 				loaded = true;
