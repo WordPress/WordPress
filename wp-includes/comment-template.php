@@ -1323,9 +1323,12 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 				'count'   => true,
 				'orderby' => false,
 				'post_id' => $post->ID,
-				'parent'  => 0,
 				'status'  => 'approve',
 			);
+
+			if ( $comment_args['hierarchical'] ) {
+				$top_level_args['parent'] = 0;
+			}
 
 			if ( isset( $comment_args['include_unapproved'] ) ) {
 				$top_level_args['include_unapproved'] = $comment_args['include_unapproved'];
