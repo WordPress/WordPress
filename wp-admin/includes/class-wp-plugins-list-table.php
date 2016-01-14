@@ -278,7 +278,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$term = wp_unslash( $_REQUEST['s'] );
 
 		foreach ( $plugin as $value ) {
-			if ( false !== stripos( strip_tags( $value ), $term ) ) {
+			if ( is_string( $value ) && false !== stripos( strip_tags( $value ), $term ) ) {
 				return true;
 			}
 		}
