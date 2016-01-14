@@ -1581,10 +1581,10 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 }
 
 /**
- * Get the current site info.
+ * Get the current network.
  *
  * Returns an object containing the 'id', 'domain', 'path', and 'site_name'
- * properties of the site being viewed.
+ * properties of the network being viewed.
  *
  * @see wpmu_current_site()
  *
