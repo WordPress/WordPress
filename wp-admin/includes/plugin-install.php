@@ -333,6 +333,12 @@ function display_plugins_table() {
 		case 'install_plugins_recommended' :
 			echo '<p>' . __( 'These suggestions are based on the plugins you and other users have installed.' ) . '</p>';
 			break;
+		case 'install_plugins_beta' :
+			printf(
+				'<p>' . __( 'You are using a development version of WordPress. These feature plugins are also under development. <a href="%s">Learn more</a>.' ) . '</p>',
+				'https://make.wordpress.org/core/handbook/about/release-cycle/features-as-plugins/'
+			);
+			break;
 	}
 
 	?>

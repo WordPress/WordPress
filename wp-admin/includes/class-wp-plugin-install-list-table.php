@@ -86,15 +86,15 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$tabs = array();
 
 		if ( 'search' === $tab ) {
-			$tabs['search']	= __( 'Search Results' );
+			$tabs['search'] = __( 'Search Results' );
 		}
-		$tabs['featured']  = _x( 'Featured', 'Plugin Installer' );
-		$tabs['popular']   = _x( 'Popular', 'Plugin Installer' );
-		$tabs['recommended']   = _x( 'Recommended', 'Plugin Installer' );
-		$tabs['favorites'] = _x( 'Favorites', 'Plugin Installer' );
 		if ( $tab === 'beta' || false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
-			$tabs['beta']      = _x( 'Beta Testing', 'Plugin Installer' );
+			$tabs['beta'] = _x( 'Beta Testing', 'Plugin Installer' );
 		}
+		$tabs['featured']    = _x( 'Featured', 'Plugin Installer' );
+		$tabs['popular']     = _x( 'Popular', 'Plugin Installer' );
+		$tabs['recommended'] = _x( 'Recommended', 'Plugin Installer' );
+		$tabs['favorites']   = _x( 'Favorites', 'Plugin Installer' );
 		if ( current_user_can( 'upload_plugins' ) ) {
 			// No longer a real tab. Here for filter compatibility.
 			// Gets skipped in get_views().
