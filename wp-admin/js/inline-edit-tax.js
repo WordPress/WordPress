@@ -121,8 +121,8 @@ inlineEditTax = {
 						$( '#parent' ).find( 'option[value=' + option_value + ']' ).text( row.find( '.row-title' ).text() );
 
 						row.hide().fadeIn( 400, function() {
-							// Move focus back to the taxonomy title.
-							row.find( '.row-title' ).focus();
+							// Move focus back to the Quick Edit link.
+							row.find( '.editinline' ).focus();
 							wp.a11y.speak( inlineEditL10n.saved );
 						});
 
@@ -148,8 +148,8 @@ inlineEditTax = {
 			$( 'table.widefat .spinner' ).removeClass( 'is-active' );
 			$('#'+id).siblings('tr.hidden').addBack().remove();
 			id = id.substr( id.lastIndexOf('-') + 1 );
-			// Show the taxonomy listing and move focus back to the taxonomy title.
-			$( this.what + id ).show().find( '.row-title' ).focus();
+			// Show the taxonomy row and move focus back to the Quick Edit link.
+			$( this.what + id ).show().find( '.editinline' ).focus();
 		}
 	},
 
