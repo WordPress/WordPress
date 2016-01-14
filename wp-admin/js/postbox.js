@@ -1,4 +1,4 @@
-/* global ajaxurl */
+/* global ajaxurl, postBoxL10n */
 
 var postboxes;
 
