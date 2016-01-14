@@ -298,7 +298,7 @@ function spawn_cron( $gmt_time = 0 ) {
 	 * Filter the cron request arguments.
 	 *
 	 * @since 3.5.0
-	 * @since 4.5.0 $doing_wp_cron was added to the filter arguments.
+	 * @since 4.5.0 The `$doing_wp_cron` parameter was added.
 	 *
 	 * @param array $cron_request_array {
 	 *     An array of cron request URL arguments.
