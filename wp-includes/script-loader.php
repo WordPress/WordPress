@@ -560,12 +560,13 @@ function wp_default_scripts( &$scripts ) {
 
 		$scripts->add( 'theme', "/wp-admin/js/theme$suffix.js", array( 'wp-backbone', 'wp-a11y' ), false, 1 );
 
-		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest' ), false, 1 );
+		$scripts->add( 'inline-edit-post', "/wp-admin/js/inline-edit-post$suffix.js", array( 'jquery', 'suggest', 'wp-a11y' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'inline-edit-post', 'inlineEditL10n', array(
-			'error' => __('Error while saving the changes.'),
-			'ntdeltitle' => __('Remove From Bulk Edit'),
-			'notitle' => __('(no title)'),
-			'comma' => trim( _x( ',', 'tag delimiter' ) ),
+			'error'      => __( 'Error while saving the changes.' ),
+			'ntdeltitle' => __( 'Remove From Bulk Edit' ),
+			'notitle'    => __( '(no title)' ),
+			'comma'      => trim( _x( ',', 'tag delimiter' ) ),
+			'saved'      => __( 'Changes saved.' ),
 		) );
 
 		$scripts->add( 'inline-edit-tax', "/wp-admin/js/inline-edit-tax$suffix.js", array( 'jquery', 'wp-a11y' ), false, 1 );
