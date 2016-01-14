@@ -481,8 +481,11 @@ if ( current_user_can( 'create_users' ) ) { ?>
 	<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
 <?php }
 
-if ( $usersearch )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $usersearch ) ); ?>
+if ( strlen( $usersearch ) ) {
+	/* translators: %s: search keywords */
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
+}
+?>
 </h1>
 
 <?php $wp_list_table->views(); ?>

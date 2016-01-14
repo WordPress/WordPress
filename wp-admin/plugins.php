@@ -481,9 +481,14 @@ if ( ! empty( $invalid ) ) {
 <h1><?php echo esc_html( $title );
 if ( ( ! is_multisite() || is_network_admin() ) && current_user_can('install_plugins') ) { ?>
  <a href="<?php echo self_admin_url( 'plugin-install.php' ); ?>" class="page-title-action"><?php echo esc_html_x('Add New', 'plugin'); ?></a>
-<?php }
-if ( $s )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $s ) ); ?>
+<?php
+}
+
+if ( strlen( $s ) ) {
+	/* translators: %s: search keywords */
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
+}
+?>
 </h1>
 
 <?php

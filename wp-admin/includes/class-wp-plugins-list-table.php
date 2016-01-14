@@ -75,7 +75,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		global $status, $plugins, $totals, $page, $orderby, $order, $s;
 
-		wp_reset_vars( array( 'orderby', 'order', 's' ) );
+		wp_reset_vars( array( 'orderby', 'order' ) );
 
 		/**
 		 * Filter the full array of plugins to list in the Plugins list table.
@@ -224,7 +224,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			}
 		}
 
-		if ( $s ) {
+		if ( strlen( $s ) ) {
 			$status = 'search';
 			$plugins['search'] = array_filter( $plugins['all'], array( $this, '_search_callback' ) );
 		}
@@ -268,17 +268,16 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @staticvar string $term
+	 * @global string $s
+	 *
 	 * @param array $plugin
 	 * @return bool
 	 */
 	public function _search_callback( $plugin ) {
-		static $term = null;
-		if ( is_null( $term ) )
-			$term = wp_unslash( $_REQUEST['s'] );
+		global $s;
 
 		foreach ( $plugin as $value ) {
-			if ( is_string( $value ) && false !== stripos( strip_tags( $value ), $term ) ) {
+			if ( is_string( $value ) && false !== stripos( strip_tags( $value ), $s ) ) {
 				return true;
 			}
 		}

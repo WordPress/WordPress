@@ -288,7 +288,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<a href="<?php echo network_admin_url('site-new.php'); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
 <?php endif; ?>
 
-<?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {
+<?php
+if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
+	/* translators: %s: search keywords */
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
 } ?>
 </h1>

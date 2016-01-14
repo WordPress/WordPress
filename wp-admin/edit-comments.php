@@ -191,7 +191,7 @@ if ( $post_id ) {
 	_e( 'Comments' );
 }
 
-if ( isset($_REQUEST['s']) && $_REQUEST['s'] ) {
+if ( isset($_REQUEST['s']) && strlen( $_REQUEST['s'] ) ) {
 	echo '<span class="subtitle">';
 	/* translators: %s: search keywords */
 	printf( __( 'Search results for &#8220;%s&#8221;' ),

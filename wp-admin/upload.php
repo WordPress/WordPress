@@ -220,8 +220,11 @@ echo esc_html( $title );
 if ( current_user_can( 'upload_files' ) ) { ?>
 	<a href="media-new.php" class="page-title-action"><?php echo esc_html_x('Add New', 'file'); ?></a><?php
 }
-if ( ! empty( $_REQUEST['s'] ) )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() ); ?>
+if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
+	/* translators: %s: search keywords */
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', get_search_query() );
+}
+?>
 </h1>
 
 <?php
