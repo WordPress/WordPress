@@ -197,10 +197,13 @@ var postboxes;
 			$( '#dashboard-widgets .meta-box-sortables:visible' ).each( function() {
 				var t = $(this);
 
-				if ( visible == 1 || t.children('.postbox:visible').length )
+				if ( visible == 1 || t.children('.postbox:visible').length ) {
 					t.removeClass('empty-container');
-				else
+				}
+				else {
 					t.addClass('empty-container');
+					t.attr('data-emptyString', postBoxL10n.postBoxEmptyString);
+				}
 			});
 
 			if ( side.length ) {

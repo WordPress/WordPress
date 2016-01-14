@@ -991,6 +991,11 @@ a.rsswidget {
 		min-height: 0;
 	}
 
+	#dashboard-widgets #postbox-container-3 .empty-container:after, 
+	#dashboard-widgets #postbox-container-4 .empty-container:after { 
+		display: none; 
+	}
+
 	#wpbody #wpbody-content #dashboard-widgets.columns-1 .postbox-container {
 		width: 100%;
 	}
@@ -1010,6 +1015,10 @@ a.rsswidget {
 	.columns-prefs .columns-prefs-3,
 	.columns-prefs .columns-prefs-4 {
 		display: none;
+	}
+
+	.metabox-holder .postbox-container .empty-container:after {
+		display: block;
 	}
 }
 
@@ -1032,6 +1041,14 @@ a.rsswidget {
 		border: 0 none;
 		height: 0;
 		min-height: 0;
+	}
+
+	#dashboard-widgets #postbox-container-4 .empty-container:after {
+		display: none;
+	}
+
+	.metabox-holder .postbox-container .empty-container:after {
+		display: block;
 	}
 }
 

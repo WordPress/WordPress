@@ -495,6 +495,9 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'xfn', "/wp-admin/js/xfn$suffix.js", array('jquery'), false, 1 );
 
 		$scripts->add( 'postbox', "/wp-admin/js/postbox$suffix.js", array('jquery-ui-sortable'), false, 1 );
+		did_action( 'init' ) && $scripts->localize( 'postbox', 'postBoxL10n', array(
+			'postBoxEmptyString' => __( 'Drag boxes here' ),
+		) );
 
 		$scripts->add( 'tags-box', "/wp-admin/js/tags-box$suffix.js", array( 'jquery', 'suggest' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'tags-box', 'tagsBoxL10n', array(

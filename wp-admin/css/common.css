@@ -1843,6 +1843,23 @@ html.wp-toolbar {
 .metabox-holder .postbox-container .empty-container {
 	border: 3px dashed #b4b9be;
 	height: 250px;
+	position: relative;
+}
+
+.metabox-holder .postbox-container .empty-container:after {
+	content: attr(data-emptystring);
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	height: 1em;
+	width: 200px;
+	text-align: center;
+	color: #ccc;
+	font-size:18px;
+	display: none;
 }
 
 .metabox-holder.columns-1 .postbox-container .empty-container,
