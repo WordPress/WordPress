@@ -926,9 +926,8 @@ function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
 	}
 
 	$args = array(
-		'action' => 'edit',
 		'taxonomy' => $taxonomy,
-		'tag_ID' => $term->term_id,
+		'term_id'  => $term->term_id,
 	);
 
 	if ( $object_type ) {
@@ -938,7 +937,7 @@ function get_edit_term_link( $term_id, $taxonomy, $object_type = '' ) {
 	}
 
 	if ( $tax->show_ui ) {
-		$location = add_query_arg( $args, admin_url( 'edit-tags.php' ) );
+		$location = add_query_arg( $args, admin_url( 'term.php' ) );
 	} else {
 		$location = '';
 	}

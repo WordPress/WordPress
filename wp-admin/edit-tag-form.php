@@ -7,16 +7,8 @@
  */
 
 // don't load directly
-if ( !defined('ABSPATH') )
-	die('-1');
-
-if ( empty($tag_ID) ) { ?>
-<div class="wrap">
-	<h1><?php echo $tax->labels->edit_item; ?></h1>
-	<div id="message" class="notice notice-warning"><p><strong><?php _e( 'You did not select an item for editing.' ); ?></strong></p></div>
-</div>
-<?php
-	return;
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
 }
 
 // Back compat hooks
@@ -57,7 +49,7 @@ if ( 'category' == $taxonomy ) {
  */
 wp_reset_vars( array( 'wp_http_referer' ) );
 
-$wp_http_referer = remove_query_arg( array( 'action', 'message', 'tag_ID' ), $wp_http_referer );
+$wp_http_referer = remove_query_arg( array( 'action', 'message', 'term_id' ), $wp_http_referer );
 
 /** Also used by Edit Tags */
 require_once( ABSPATH . 'wp-admin/includes/edit-tag-messages.php' );
@@ -103,10 +95,13 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
  */
 do_action( "{$taxonomy}_term_edit_form_tag" );
 ?>>
-<input type="hidden" name="action" value="editedtag" />
-<input type="hidden" name="tag_ID" value="<?php echo esc_attr($tag->term_id) ?>" />
-<input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy) ?>" />
-<?php wp_original_referer_field(true, 'previous'); wp_nonce_field('update-tag_' . $tag_ID); ?>
+<input type="hidden" name="action" value="editedtag"/>
+<input type="hidden" name="tag_ID" value="<?php echo esc_attr( $term_id ) ?>"/>
+<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy ) ?>"/>
+<?php
+wp_original_referer_field( true, 'previous' );
+wp_nonce_field( 'update-tag_' . $term_id );
+?>
 	<table class="form-table">
 		<tr class="form-field form-required term-name-wrap">
 			<th scope="row"><label for="name"><?php _ex( 'Name', 'term name' ); ?></label></th>

@@ -150,21 +150,18 @@ case 'bulk-delete':
 	break;
 
 case 'edit':
-	$title = $tax->labels->edit_item;
-
 	if ( ! isset( $_REQUEST['tag_ID'] ) ) {
 		break;
 	}
 
-	$tag_ID = (int) $_REQUEST['tag_ID'];
+	$term_id = (int) $_REQUEST['tag_ID'];
+	$term    = get_term( $term_id );
 
-	$tag = get_term( $tag_ID, $taxonomy, OBJECT, 'edit' );
-	if ( ! $tag )
+	if ( ! $term instanceof WP_Term ) {
 		wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );
-	require_once( ABSPATH . 'wp-admin/admin-header.php' );
-	include( ABSPATH . 'wp-admin/edit-tag-form.php' );
-	include( ABSPATH . 'wp-admin/admin-footer.php' );
+	}
 
+	wp_redirect( esc_url_raw( get_edit_term_link( $term_id, $taxonomy, $post_type ) ) );
 	exit;
 
 case 'editedtag':
