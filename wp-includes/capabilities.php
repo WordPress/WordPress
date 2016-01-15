@@ -16,6 +16,8 @@
  *
  * @since 2.0.0
  *
+ * @global array $post_type_meta_caps Used to get post type meta capabilities.
+ *
  * @param string $cap       Capability name.
  * @param int    $user_id   User ID.
  * @param int    $object_id Optional. ID of the specific object to check against if `$cap` is a "meta" cap.
@@ -377,7 +379,7 @@ function map_meta_cap( $cap, $user_id ) {
 		break;
 	default:
 		// Handle meta capabilities for custom post types.
-		$post_type_meta_caps = _post_type_meta_capabilities();
+		global $post_type_meta_caps;
 		if ( isset( $post_type_meta_caps[ $cap ] ) ) {
 			$args = array_merge( array( $post_type_meta_caps[ $cap ], $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );

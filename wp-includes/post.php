@@ -1187,6 +1187,88 @@ function register_post_type( $post_type, $args = array() ) {
 }
 
 /**
+ * Unregister a post type.
+ *
+ * Can not be used to unregister built-in post types.
+ *
+ * @since 4.5.0
+ *
+ * @global WP_Rewrite $wp_rewrite             WordPress rewrite component.
+ * @global WP         $wp                     Current WordPress environment instance.
+ * @global array      $_wp_post_type_features Used to remove post type features.
+ * @global array      $post_type_meta_caps    Used to remove meta capabilities.
+ * @global array      $wp_post_types          List of post types.
+ *
+ * @param string $post_type Post type key.
+ * @return bool|WP_Error True on success, WP_Error on failure.
+ */
+function unregister_post_type( $post_type ) {
+	if ( ! post_type_exists( $post_type ) ) {
+		return new WP_Error( 'invalid_post_type', __( 'Invalid post type' ) );
+	}
+
+	$post_type_args = get_post_type_object( $post_type );
+
+	// Do not allow unregistering internal post types.
+	if ( $post_type_args->_builtin ) {
+		return new WP_Error( 'invalid_post_type', __( 'Unregistering a built-in post type is not allowed' ) );
+	}
+
+	global $wp, $wp_rewrite, $_wp_post_type_features, $post_type_meta_caps, $wp_post_types;
+
+	// Remove query var.
+	if ( false !== $post_type_args->query_var ) {
+		$wp->remove_query_var( $post_type_args->query_var );
+	}
+
+	// Remove any rewrite rules, permastructs, and rules.
+	if ( false !== $post_type_args->rewrite ) {
+		remove_rewrite_tag( "%$post_type%" );
+		remove_permastruct( $post_type );
+		foreach ( $wp_rewrite->extra_rules_top as $regex => $query ) {
+			if ( false !== strpos( $query, "index.php?post_type=$post_type" ) ) {
+				unset( $wp_rewrite->extra_rules_top[ $regex ] );
+			}
+		}
+	}
+
+	// Remove registered custom meta capabilities.
+	foreach ( $post_type_args->cap as $cap ) {
+		unset( $post_type_meta_caps[ $cap ] );
+	}
+
+	// Remove all post type support.
+	unset( $_wp_post_type_features[ $post_type ] );
+
+	// Unregister the post type meta box if a custom callback was specified.
+	if ( $post_type_args->register_meta_box_cb ) {
+		remove_action( 'add_meta_boxes_' . $post_type, $post_type_args->register_meta_box_cb );
+	}
+
+	// Remove the post type from all taxonomies.
+	foreach ( get_object_taxonomies( $post_type ) as $taxonomy ) {
+		unregister_taxonomy_for_object_type( $taxonomy, $post_type );
+	}
+
+	// Remove the future post hook action.
+	remove_action( 'future_' . $post_type, '_future_post_hook', 5 );
+
+	// Remove the post type.
+	unset( $wp_post_types[ $post_type ] );
+
+	/**
+	 * Fires after a post type was unregistered.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param string $post_type Post type key.
+	 */
+	do_action( 'unregistered_post_type', $post_type );
+
+	return true;
+}
+
+/**
  * Build an object with all post type capabilities out of a post type object
  *
  * Post type capabilities use the 'capability_type' argument as a base, if the
@@ -1293,17 +1375,17 @@ function get_post_type_capabilities( $args ) {
  * @since 3.1.0
  * @access private
  *
- * @staticvar array $meta_caps
+ * @global array $post_type_meta_caps Used to store meta capabilities.
  *
- * @param array|void $capabilities Post type meta capabilities.
+ * @param array $capabilities Post type meta capabilities.
  */
 function _post_type_meta_capabilities( $capabilities = null ) {
-	static $meta_caps = array();
-	if ( null === $capabilities )
-		return $meta_caps;
+	global $post_type_meta_caps;
+
 	foreach ( $capabilities as $core => $custom ) {
-		if ( in_array( $core, array( 'read_post', 'delete_post', 'edit_post' ) ) )
-			$meta_caps[ $custom ] = $core;
+		if ( in_array( $core, array( 'read_post', 'delete_post', 'edit_post' ) ) ) {
+			$post_type_meta_caps[ $custom ] = $core;
+		}
 	}
 }
 
