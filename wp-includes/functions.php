@@ -2003,7 +2003,18 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 				$filename2 = str_replace( array( "-$number$ext2", "$number$ext2" ), "-$new_number$ext2", $filename2 );
 				$number = $new_number;
 			}
-			return $filename2;
+
+			/**
+			 * Filter the result when generating a unique file name.
+			 *
+			 * @since 4.5.0
+			 *
+			 * @param string        $filename                 Unique file name.
+			 * @param string        $ext                      File extension, eg. ".png".
+			 * @param string        $dir                      Directory path.
+			 * @param callable|null $unique_filename_callback Callback function that generates the unique file name.
+			 */
+			return apply_filters( 'wp_unique_filename', $filename2, $ext, $dir, $unique_filename_callback );
 		}
 
 		while ( file_exists( $dir . "/$filename" ) ) {
@@ -2015,7 +2026,8 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 		}
 	}
 
-	return $filename;
+	/** This filter is documented in wp-includes/functions.php */
+	return apply_filters( 'wp_unique_filename', $filename, $ext, $dir, $unique_filename_callback );
 }
 
 /**
