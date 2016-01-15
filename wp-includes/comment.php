@@ -966,7 +966,8 @@ function wp_get_comment_column_max_length( $column ) {
 	} elseif ( is_array( $col_length ) && isset( $col_length['length'] ) && intval( $col_length['length'] ) > 0 ) {
 		$max_length = (int) $col_length['length'];
 	} else {
-		$max_length = 255;
+		// Assume a TEXT column, 65535 - 10.
+		$max_length = 65525;
 	}
 
 	if ( ! empty( $col_length['type'] ) && 'byte' === $col_length['type'] ) {
