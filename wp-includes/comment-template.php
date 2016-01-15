@@ -1257,8 +1257,6 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	if ( empty($file) )
 		$file = '/comments.php';
 
-	$req = get_option('require_name_email');
-
 	/*
 	 * Comment author information fetched from the comment cookies.
 	 */
