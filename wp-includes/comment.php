@@ -2094,7 +2094,24 @@ function wp_update_comment_count_now($post_id) {
 		return false;
 
 	$old = (int) $post->comment_count;
-	$new = (int) $wpdb->get_var( $wpdb->prepare("SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved = '1'", $post_id) );
+
+	/**
+	 * Filters a post's comment count before it is updated in the database.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param int $new     The new comment count. Default null.
+	 * @param int $old     The old comment count.
+	 * @param int $post_id Post ID.
+	 */
+	$new = apply_filters( 'pre_wp_update_comment_count_now', null, $old, $post_id );
+
+	if ( is_null( $new ) ) {
+		$new = (int) $wpdb->get_var( $wpdb->prepare( "SELECT COUNT(*) FROM $wpdb->comments WHERE comment_post_ID = %d AND comment_approved = '1'", $post_id ) );
+	} else {
+		$new = (int) $new;
+	}
+
 	$wpdb->update( $wpdb->posts, array('comment_count' => $new), array('ID' => $post_id) );
 
 	clean_post_cache( $post );
