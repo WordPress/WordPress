@@ -478,13 +478,6 @@ function url_to_postid( $url ) {
 			return $id;
 	}
 
-	// Check to see if we are using rewrite rules
-	$rewrite = $wp_rewrite->wp_rewrite_rules();
-
-	// Not using rewrite rules, and 'p=N' and 'page_id=N' methods failed, so we're out of options
-	if ( empty($rewrite) )
-		return 0;
-
 	// Get rid of the #anchor
 	$url_split = explode('#', $url);
 	$url = $url_split[0];
@@ -503,6 +496,21 @@ function url_to_postid( $url ) {
 	// Strip 'www.' if it is present and shouldn't be
 	if ( false === strpos(home_url(), '://www.') )
 		$url = str_replace('://www.', '://', $url);
+
+	if ( trim( $url, '/' ) === home_url() && 'page' == get_option( 'show_on_front' ) ) {
+		$page_on_front = get_option( 'page_on_front' );
+
+		if ( $page_on_front && get_post( $page_on_front ) instanceof WP_Post ) {
+			return (int) $page_on_front;
+		}
+	}
+
+	// Check to see if we are using rewrite rules
+	$rewrite = $wp_rewrite->wp_rewrite_rules();
+
+	// Not using rewrite rules, and 'p=N' and 'page_id=N' methods failed, so we're out of options
+	if ( empty($rewrite) )
+		return 0;
 
 	// Strip 'index.php/' if we're not using path info permalinks
 	if ( !$wp_rewrite->using_index_permalinks() )

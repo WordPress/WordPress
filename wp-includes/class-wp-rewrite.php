@@ -1022,6 +1022,10 @@ class WP_Rewrite {
 			$feedmatch2 = $match . $feedregex2;
 			$feedquery2 = $feedindex . '?' . $query . '&feed=' . $this->preg_index($num_toks + 1);
 
+			// Create query and regex for embeds.
+			$embedmatch = $match . $embedregex;
+			$embedquery = $embedindex . '?' . $query . '&embed=true';
+
 			// If asked to, turn the feed queries into comment feed ones.
 			if ( $forcomments ) {
 				$feedquery .= '&withcomments=1';
@@ -1033,7 +1037,7 @@ class WP_Rewrite {
 
 			// ...adding on /feed/ regexes => queries
 			if ( $feed ) {
-				$rewrite = array( $feedmatch => $feedquery, $feedmatch2 => $feedquery2 );
+				$rewrite = array( $feedmatch => $feedquery, $feedmatch2 => $feedquery2, $embedmatch => $embedquery );
 			}
 
 			//...and /page/xx ones
