@@ -1926,7 +1926,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
 		 * If 'page' or 'per_page' has been passed, and does not match what's in $wp_query,
 		 * perform a separate comment query and allow Walker_Comment to paginate.
 		 */
-		if ( is_singular() && ( $r['page'] || $r['per_page'] ) ) {
+		if ( $r['page'] || $r['per_page'] ) {
 			$current_cpage = get_query_var( 'cpage' );
 			if ( ! $current_cpage ) {
 				$current_cpage = 'newest' === get_option( 'default_comments_page' ) ? 1 : $wp_query->max_num_comment_pages;
@@ -1934,8 +1934,9 @@ function wp_list_comments( $args = array(), $comments = null ) {
 
 			$current_per_page = get_query_var( 'comments_per_page' );
 			if ( $r['page'] != $current_cpage || $r['per_page'] != $current_per_page ) {
+
 				$comments = get_comments( array(
-					'post_id' => get_queried_object_id(),
+					'post_id' => get_the_ID(),
 					'orderby' => 'comment_date_gmt',
 					'order' => 'ASC',
 					'status' => 'all',
