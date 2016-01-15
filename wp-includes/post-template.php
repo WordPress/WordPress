@@ -380,10 +380,12 @@ function get_the_excerpt( $post = null ) {
 	 * Filter the retrieved post excerpt.
 	 *
 	 * @since 1.2.0
+	 * @since 4.5.0 Introduced the `$post` parameter.
 	 *
 	 * @param string $post_excerpt The post excerpt.
+	 * @param WP_Post $post Post object.
 	 */
-	return apply_filters( 'get_the_excerpt', $post->post_excerpt );
+	return apply_filters( 'get_the_excerpt', $post->post_excerpt, $post );
 }
 
 /**
