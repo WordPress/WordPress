@@ -62,7 +62,7 @@ if ( !function_exists('wp_get_current_user') ) :
  *
  * @global WP_User $current_user Checks if the current user is set.
  *
- * @return bool Current WP_User instance.
+ * @return WP_User Current WP_User instance.
  */
 function wp_get_current_user() {
 	global $current_user;
