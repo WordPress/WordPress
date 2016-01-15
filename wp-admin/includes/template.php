@@ -1483,7 +1483,7 @@ function find_posts_div($found_action = '') {
 ?>
 	<div id="find-posts" class="find-box" style="display: none;">
 		<div id="find-posts-head" class="find-box-head">
-			<?php _e( 'Find Posts or Pages' ); ?>
+			<?php _e( 'Attach to existing content' ); ?>
 			<div id="find-posts-close"></div>
 		</div>
 		<div class="find-box-inside">
