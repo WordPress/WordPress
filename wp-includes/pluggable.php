@@ -62,7 +62,7 @@ if ( !function_exists('wp_get_current_user') ) :
  *
  * @global WP_User $current_user Checks if the current user is set.
  *
- * @return bool|WP_User WP_User instance on success, false on XMLRPC Request and invalid auth cookie.
+ * @return bool Current WP_User instance.
  */
 function wp_get_current_user() {
 	global $current_user;
@@ -83,12 +83,12 @@ function wp_get_current_user() {
 		// $current_user has a junk value. Force to WP_User with ID 0.
 		$current_user = null;
 		wp_set_current_user( 0 );
-		return false;
+		return $current_user;
 	}
 
 	if ( defined('XMLRPC_REQUEST') && XMLRPC_REQUEST ) {
 		wp_set_current_user( 0 );
-		return false;
+		return $current_user;
 	}
 
 	/**
@@ -107,7 +107,7 @@ function wp_get_current_user() {
 	$user_id = apply_filters( 'determine_current_user', false );
 	if ( ! $user_id ) {
 		wp_set_current_user( 0 );
-		return false;
+		return $current_user;
 	}
 
 	wp_set_current_user( $user_id );
