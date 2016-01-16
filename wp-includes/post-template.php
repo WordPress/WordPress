@@ -372,7 +372,7 @@ function get_the_excerpt( $post = null ) {
 		return '';
 	}
 
-	if ( post_password_required() ) {
+	if ( post_password_required( $post ) ) {
 		return __( 'There is no excerpt because this is a protected post.' );
 	}
 
