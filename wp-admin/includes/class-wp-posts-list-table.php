@@ -1199,7 +1199,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					'<a href="%s" aria-label="%s">%s</a>',
 					wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ),
 					/* translators: %s: post title */
-					esc_attr__( sprintf( __( 'Restore &#8220;%s&#8221; from the Trash' ), $title ) ),
+					esc_attr( sprintf( __( 'Restore &#8220;%s&#8221; from the Trash' ), $title ) ),
 					__( 'Restore' )
 				);
 			} elseif ( EMPTY_TRASH_DAYS ) {
@@ -1207,7 +1207,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
 					get_delete_post_link( $post->ID ),
 					/* translators: %s: post title */
-					esc_attr__( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), $title ) ),
+					esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), $title ) ),
 					_x( 'Trash', 'verb' )
 				);
 			}
@@ -1216,7 +1216,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
 					get_delete_post_link( $post->ID, '', true ),
 					/* translators: %s: post title */
-					esc_attr__( sprintf( __( 'Delete &#8220;%s&#8221; permanently' ), $title ) ),
+					esc_attr( sprintf( __( 'Delete &#8220;%s&#8221; permanently' ), $title ) ),
 					__( 'Delete Permanently' )
 				);
 			}
