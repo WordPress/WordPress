@@ -33,7 +33,7 @@ final class WP_Comment {
 	public $comment_post_ID = 0;
 
 	/**
-	 * Comment author ID.
+	 * Comment author name.
 	 *
 	 * @since 4.4.0
 	 * @access public
