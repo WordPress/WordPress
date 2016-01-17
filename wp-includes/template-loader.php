@@ -84,7 +84,13 @@ if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
 	 *
 	 * @param string $template The path of the template to include.
 	 */
-	if ( $template = apply_filters( 'template_include', $template ) )
+	if ( $template = apply_filters( 'template_include', $template ) ) {
 		include( $template );
+	} elseif ( is_user_logged_in() ) {
+		$theme = wp_get_theme();
+		if ( $theme->errors() ) {
+			wp_die( $theme->errors() );
+		}
+	}
 	return;
 endif;
