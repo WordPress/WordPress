@@ -86,7 +86,7 @@ if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
 	 */
 	if ( $template = apply_filters( 'template_include', $template ) ) {
 		include( $template );
-	} elseif ( current_user_can( 'install_themes' ) ) {
+	} elseif ( current_user_can( 'switch_themes' ) ) {
 		$theme = wp_get_theme();
 		if ( $theme->errors() ) {
 			wp_die( $theme->errors() );
