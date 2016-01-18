@@ -15,7 +15,11 @@ require( ABSPATH . 'wp-admin/includes/noop.php' );
 require( ABSPATH . WPINC . '/script-loader.php' );
 require( ABSPATH . WPINC . '/version.php' );
 
-$load = preg_replace( '/[^a-z0-9,_-]+/i', '', $_GET['load'] );
+$load = $_GET['load'];
+if ( is_array( $load ) ) {
+	$load = implode( '', $load );
+}
+$load = preg_replace( '/[^a-z0-9,_-]+/i', '', $load );
 $load = array_unique( explode( ',', $load ) );
 
 if ( empty($load) )
@@ -44,6 +48,11 @@ foreach ( $load as $handle ) {
 		continue;
 
 	$style = $wp_styles->registered[$handle];
+
+	if ( empty( $style->src ) ) {
+		continue;
+	}
+
 	$path = ABSPATH . $style->src;
 
 	if ( $rtl && ! empty( $style->extra['rtl'] ) ) {

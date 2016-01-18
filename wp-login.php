@@ -68,7 +68,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	<title><?php bloginfo('name'); ?> &rsaquo; <?php echo $title; ?></title>
 	<?php
 
-	wp_admin_css( 'login', true );
+	wp_enqueue_style( 'login' );
 
 	/*
 	 * Remove all stored post data on logging out.
@@ -87,6 +87,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	 * @since 3.1.0
 	 */
 	do_action( 'login_enqueue_scripts' );
+
 	/**
 	 * Fires in the login page header after scripts are enqueued.
 	 *
