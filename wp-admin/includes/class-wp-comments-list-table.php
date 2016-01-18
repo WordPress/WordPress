@@ -499,7 +499,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		$this->single_row_columns( $comment );
 		echo "</tr>\n";
 
-		unset( $post, $comment );
+		unset( $GLOBALS['post'], $GLOBALS['comment'] );
 	}
 
  	/**
