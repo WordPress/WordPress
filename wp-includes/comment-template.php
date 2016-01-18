@@ -730,7 +730,6 @@ function get_comment_link( $comment = null, $args = array() ) {
 		 * If the default page displays the oldest comments, the permalinks for comments on the default page
 		 * do not need a 'cpage' query var.
 		 */
-		$default_comments_page = get_option( 'default_comments_page' );
 		if ( 'oldest' === get_option( 'default_comments_page' ) && 1 === $cpage ) {
 			$cpage = '';
 		}
