@@ -484,7 +484,7 @@ function do_core_upgrade( $reinstall = false ) {
 
 	if ( is_wp_error($result) ) {
 		show_message($result);
-		if ('up_to_date' != $result->get_error_code() )
+		if ( 'up_to_date' != $result->get_error_code() && 'locked' != $result->get_error_code() )
 			show_message( __('Installation Failed') );
 		echo '</div>';
 		return;
