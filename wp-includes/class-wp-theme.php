@@ -1177,18 +1177,22 @@ final class WP_Theme implements ArrayAccess {
 	 * @static
 	 * @access public
 	 *
-	 * @param int $blog_id Optional. Defaults to current blog.
+	 * @param int $blog_id Optional. ID of the site. Defaults to the current site.
 	 * @return array Array of stylesheet names.
 	 */
 	public static function get_allowed( $blog_id = null ) {
 		/**
-		 * Filter the array of themes allowed on the site or network.
+		 * Filter the array of themes allowed on the network.
 		 *
-		 * @since MU
+		 * Site is provided as context so that a list of network allowed themes can
+		 * be filtered further.
+		 *
+		 * @since 4.5.0
 		 *
 		 * @param array $allowed_themes An array of theme stylesheet names.
+		 * @param int   $blog_id        ID of the site.
 		 */
-		$network = (array) apply_filters( 'allowed_themes', self::get_allowed_on_network() );
+		$network = (array) apply_filters( 'network_allowed_themes', self::get_allowed_on_network(), $blog_id );
 		return $network + self::get_allowed_on_site( $blog_id );
 	}
 
@@ -1206,8 +1210,19 @@ final class WP_Theme implements ArrayAccess {
 	 */
 	public static function get_allowed_on_network() {
 		static $allowed_themes;
-		if ( ! isset( $allowed_themes ) )
+		if ( ! isset( $allowed_themes ) ) {
 			$allowed_themes = (array) get_site_option( 'allowedthemes' );
+		}
+
+		/**
+		 * Filter the array of themes allowed on the network.
+		 *
+		 * @since MU
+		 *
+		 * @param array $allowed_themes An array of theme stylesheet names.
+		 */
+		$allowed_themes = apply_filters( 'allowed_themes', $allowed_themes );
+
 		return $allowed_themes;
 	}
 
@@ -1221,7 +1236,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @staticvar array $allowed_themes
 	 *
-	 * @param int $blog_id Optional. Defaults to current blog.
+	 * @param int $blog_id Optional. ID of the site. Defaults to the current site.
 	 * @return array Array of stylesheet names.
 	 */
 	public static function get_allowed_on_site( $blog_id = null ) {
@@ -1230,8 +1245,17 @@ final class WP_Theme implements ArrayAccess {
 		if ( ! $blog_id || ! is_multisite() )
 			$blog_id = get_current_blog_id();
 
-		if ( isset( $allowed_themes[ $blog_id ] ) )
-			return $allowed_themes[ $blog_id ];
+		if ( isset( $allowed_themes[ $blog_id ] ) ) {
+			/**
+			 * Filter the array of themes allowed on the site.
+			 *
+			 * @since 4.5.0
+			 *
+			 * @param array $allowed_themes An array of theme stylesheet names.
+			 * @param int   $blog_id        ID of the site. Defaults to current site.
+			 */
+			return (array) apply_filters( 'site_allowed_themes', $allowed_themes[ $blog_id ], $blog_id );
+		}
 
 		$current = $blog_id == get_current_blog_id();
 
@@ -1279,7 +1303,8 @@ final class WP_Theme implements ArrayAccess {
 			}
 		}
 
-		return (array) $allowed_themes[ $blog_id ];
+		/** This filter is documented in wp-includes/class-wp-theme.php */
+		return (array) apply_filters( 'site_allowed_themes', $allowed_themes[ $blog_id ], $blog_id );
 	}
 
 	/**
