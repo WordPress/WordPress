@@ -216,6 +216,7 @@ define("tinymce/pasteplugin/Utils", [
 			/^[\s\S]*<body[^>]*>\s*|\s*<\/body[^>]*>[\s\S]*$/g, // Remove anything but the contents within the BODY element
 			/<!--StartFragment-->|<!--EndFragment-->/g, // Inner fragments (tables from excel on mac)
 			[/( ?)<span class="Apple-converted-space">\u00a0<\/span>( ?)/g, trimSpaces],
+			/<br class="Apple-interchange-newline">/g,
 			/<br>$/i // Trailing BR elements
 		]);
 
@@ -264,8 +265,9 @@ define("tinymce/pasteplugin/Clipboard", [
 	"tinymce/Env",
 	"tinymce/dom/RangeUtils",
 	"tinymce/util/VK",
-	"tinymce/pasteplugin/Utils"
-], function(Env, RangeUtils, VK, Utils) {
+	"tinymce/pasteplugin/Utils",
+	"tinymce/util/Delay"
+], function(Env, RangeUtils, VK, Utils, Delay) {
 	return function(editor) {
 		var self = this, pasteBinElm, lastRng, keyboardPasteTimeStamp = 0, draggingInternally = false;
 		var pasteBinDefaultContent = '%MCEPASTEBIN%', keyboardPastePlainTextState;
@@ -724,6 +726,65 @@ define("tinymce/pasteplugin/Clipboard", [
 				}
 			});
 
+			function insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode) {
+				var content;
+
+				// Grab HTML from Clipboard API or paste bin as a fallback
+				if (hasContentType(clipboardContent, 'text/html')) {
+					content = clipboardContent['text/html'];
+				} else {
+					content = getPasteBinHtml();
+
+					// If paste bin is empty try using plain text mode
+					// since that is better than nothing right
+					if (content == pasteBinDefaultContent) {
+						plainTextMode = true;
+					}
+				}
+
+				content = Utils.trimHtml(content);
+
+				// WebKit has a nice bug where it clones the paste bin if you paste from for example notepad
+				// so we need to force plain text mode in this case
+				if (pasteBinElm && pasteBinElm.firstChild && pasteBinElm.firstChild.id === 'mcepastebin') {
+					plainTextMode = true;
+				}
+
+				removePasteBin();
+
+				// If we got nothing from clipboard API and pastebin then we could try the last resort: plain/text
+				if (!content.length) {
+					plainTextMode = true;
+				}
+
+				// Grab plain text from Clipboard API or convert existing HTML to plain text
+				if (plainTextMode) {
+					// Use plain text contents from Clipboard API unless the HTML contains paragraphs then
+					// we should convert the HTML to plain text since works better when pasting HTML/Word contents as plain text
+					if (hasContentType(clipboardContent, 'text/plain') && content.indexOf('</p>') == -1) {
+						content = clipboardContent['text/plain'];
+					} else {
+						content = Utils.innerText(content);
+					}
+				}
+
+				// If the content is the paste bin default HTML then it was
+				// impossible to get the cliboard data out.
+				if (content == pasteBinDefaultContent) {
+					if (!isKeyBoardPaste) {
+						editor.windowManager.alert('Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.');
+					}
+
+					return;
+				}
+
+				if (plainTextMode) {
+					pasteText(content);
+				} else {
+					pasteHtml(content);
+				}
+			}
+
 			editor.on('paste', function(e) {
 				// Getting content from the Clipboard can take some time
 				var clipboardTimer = new Date().getTime();
@@ -762,64 +823,15 @@ define("tinymce/pasteplugin/Clipboard", [
 					clipboardContent["text/html"] = getPasteBinHtml();
 				}
 
-				setTimeout(function() {
-					var content;
-
-					// Grab HTML from Clipboard API or paste bin as a fallback
-					if (hasContentType(clipboardContent, 'text/html')) {
-						content = clipboardContent['text/html'];
-					} else {
-						content = getPasteBinHtml();
-
-						// If paste bin is empty try using plain text mode
-						// since that is better than nothing right
-						if (content == pasteBinDefaultContent) {
-							plainTextMode = true;
-						}
-					}
-
-					content = Utils.trimHtml(content);
-
-					// WebKit has a nice bug where it clones the paste bin if you paste from for example notepad
-					// so we need to force plain text mode in this case
-					if (pasteBinElm && pasteBinElm.firstChild && pasteBinElm.firstChild.id === 'mcepastebin') {
-						plainTextMode = true;
-					}
-
-					removePasteBin();
-
-					// If we got nothing from clipboard API and pastebin then we could try the last resort: plain/text
-					if (!content.length) {
-						plainTextMode = true;
-					}
-
-					// Grab plain text from Clipboard API or convert existing HTML to plain text
-					if (plainTextMode) {
-						// Use plain text contents from Clipboard API unless the HTML contains paragraphs then
-						// we should convert the HTML to plain text since works better when pasting HTML/Word contents as plain text
-						if (hasContentType(clipboardContent, 'text/plain') && content.indexOf('</p>') == -1) {
-							content = clipboardContent['text/plain'];
-						} else {
-							content = Utils.innerText(content);
-						}
-					}
-
-					// If the content is the paste bin default HTML then it was
-					// impossible to get the cliboard data out.
-					if (content == pasteBinDefaultContent) {
-						if (!isKeyBoardPaste) {
-							editor.windowManager.alert('Please use Ctrl+V/Cmd+V keyboard shortcuts to paste contents.');
-						}
-
-						return;
-					}
-
-					if (plainTextMode) {
-						pasteText(content);
-					} else {
-						pasteHtml(content);
-					}
-				}, 0);
+				// If clipboard API has HTML then use that directly
+				if (hasContentType(clipboardContent, 'text/html')) {
+					e.preventDefault();
+					insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode);
+				} else {
+					Delay.setEditorTimeout(editor, function() {
+						insertClipboardContent(clipboardContent, isKeyBoardPaste, plainTextMode);
+					}, 0);
+				}
 			});
 
 			editor.on('dragstart dragend', function(e) {
@@ -1623,10 +1635,12 @@ define("tinymce/pasteplugin/Plugin", [
 				this.active(true);
 
 				if (!userIsInformed) {
-					editor.windowManager.alert(
-						'Paste is now in plain text mode. Contents will now ' +
-						'be pasted as plain text until you toggle this option off.'
-					);
+					var message = editor.translate('Paste is now in plain text mode. Contents will now ' +
+						'be pasted as plain text until you toggle this option off.');
+					editor.notificationManager.open({
+						text: message,
+						type: 'info'
+					});
 
 					userIsInformed = true;
 				}

@@ -583,7 +583,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			var captionField = {
 				type: 'textbox',
 				flex: 1,
-				name: 'caption',
+				name: 'wpcaption',
 				minHeight: 60,
 				multiline: true,
 				scroll: true,
@@ -609,7 +609,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		editor.on( 'wpImageFormSubmit', function( event ) {
 			var data = event.imgData.data,
 				imgNode = event.imgData.node,
-				caption = event.imgData.caption,
+				caption = event.imgData.wpcaption,
 				captionId = '',
 				captionAlign = '',
 				captionWidth = '',
@@ -792,7 +792,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				parent = dom.select( 'dd.wp-caption-dd', parent )[0];
 
 				if ( parent ) {
-					data.caption = editor.serializer.serialize( parent )
+					data.wpcaption = editor.serializer.serialize( parent )
 						.replace( /<br[^>]*>/g, '$&\n' ).replace( /^<p>/, '' ).replace( /<\/p>$/, '' );
 				}
 			}

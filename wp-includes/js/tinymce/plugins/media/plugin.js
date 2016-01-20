@@ -14,8 +14,9 @@
 
 tinymce.PluginManager.add('media', function(editor, url) {
 	var urlPatterns = [
-		{regex: /youtu\.be\/([\w\-.]+)/, type: 'iframe', w: 425, h: 350, url: '//www.youtube.com/embed/$1', allowFullscreen: true},
-		{regex: /youtube\.com(.+)v=([^&]+)/, type: 'iframe', w: 425, h: 350, url: '//www.youtube.com/embed/$2', allowFullscreen: true},
+		{regex: /youtu\.be\/([\w\-.]+)/, type: 'iframe', w: 560, h: 314, url: '//www.youtube.com/embed/$1', allowFullscreen: true},
+		{regex: /youtube\.com(.+)v=([^&]+)/, type: 'iframe', w: 560, h: 314, url: '//www.youtube.com/embed/$2', allowFullscreen: true},
+		{regex: /youtube.com\/embed\/([a-z0-9\-_]+)/i, type: 'iframe', w: 560, h: 314, url: '//www.youtube.com/embed/$1', allowFullscreen: true},
 		{regex: /vimeo\.com\/([0-9]+)/, type: 'iframe', w: 425, h: 350, url: '//player.vimeo.com/video/$1?title=0&byline=0&portrait=0&color=8dc7dc', allowfullscreen: true},
 		{regex: /vimeo\.com\/(.*)\/([0-9]+)/, type: "iframe", w: 425, h: 350, url: "//player.vimeo.com/video/$2?title=0&amp;byline=0", allowfullscreen: true},
 		{regex: /maps\.google\.([a-z]{2,3})\/maps\/(.+)msid=(.+)/, type: 'iframe', w: 425, h: 350, url: '//maps.google.com/maps/ms?msid=$2&output=embed"', allowFullscreen: false}
@@ -611,6 +612,86 @@ tinymce.PluginManager.add('media', function(editor, url) {
 		}
 	});
 
+	function retainAttributesAndInnerHtml(sourceNode, targetNode) {
+		var attrName, attrValue, attribs, ai, innerHtml;
+
+		// Prefix all attributes except width, height and style since we
+		// will add these to the placeholder
+		attribs = sourceNode.attributes;
+		ai = attribs.length;
+		while (ai--) {
+			attrName = attribs[ai].name;
+			attrValue = attribs[ai].value;
+
+			if (attrName !== "width" && attrName !== "height" && attrName !== "style") {
+				if (attrName == "data" || attrName == "src") {
+					attrValue = editor.convertURL(attrValue, attrName);
+				}
+
+				targetNode.attr('data-mce-p-' + attrName, attrValue);
+			}
+		}
+
+		// Place the inner HTML contents inside an escaped attribute
+		// This enables us to copy/paste the fake object
+		innerHtml = sourceNode.firstChild && sourceNode.firstChild.value;
+		if (innerHtml) {
+			targetNode.attr("data-mce-html", escape(innerHtml));
+			targetNode.firstChild = null;
+		}
+	}
+
+	function createPlaceholderNode(node) {
+		var placeHolder, name = node.name;
+
+		placeHolder = new tinymce.html.Node('img', 1);
+		placeHolder.shortEnded = true;
+
+		retainAttributesAndInnerHtml(node, placeHolder);
+
+		placeHolder.attr({
+			width: node.attr('width') || "300",
+			height: node.attr('height') || (name == "audio" ? "30" : "150"),
+			style: node.attr('style'),
+			src: tinymce.Env.transparentSrc,
+			"data-mce-object": name,
+			"class": "mce-object mce-object-" + name
+		});
+
+		return placeHolder;
+	}
+
+	function createPreviewNode(node) {
+		var previewWrapper, previewNode, shimNode, name = node.name;
+
+		previewWrapper = new tinymce.html.Node('span', 1);
+		previewWrapper.attr({
+			contentEditable: 'false',
+			style: node.attr('style'),
+			"data-mce-object": name,
+			"class": "mce-preview-object mce-object-" + name
+		});
+
+		retainAttributesAndInnerHtml(node, previewWrapper);
+
+		previewNode = new tinymce.html.Node(name, 1);
+		previewNode.attr({
+			src: node.attr('src'),
+			allowfullscreen: node.attr('allowfullscreen'),
+			width: node.attr('width') || "300",
+			height: node.attr('height') || (name == "audio" ? "30" : "150"),
+			frameborder: '0'
+		});
+
+		shimNode = new tinymce.html.Node('span', 1);
+		shimNode.attr('class', 'mce-shim');
+
+		previewWrapper.append(previewNode);
+		previewWrapper.append(shimNode);
+
+		return previewWrapper;
+	}
+
 	editor.on('preInit', function() {
 		// Make sure that any messy HTML is retained inside these
 		var specialElements = editor.schema.getSpecialElements();
@@ -628,13 +709,16 @@ tinymce.PluginManager.add('media', function(editor, url) {
 		});
 
 		// Converts iframe, video etc into placeholder images
-		editor.parser.addNodeFilter('iframe,video,audio,object,embed,script', function(nodes, name) {
-			var i = nodes.length, ai, node, placeHolder, attrName, attrValue, attribs, innerHtml;
-			var videoScript;
+		editor.parser.addNodeFilter('iframe,video,audio,object,embed,script', function(nodes) {
+			var i = nodes.length, node, placeHolder, videoScript;
 
 			while (i--) {
 				node = nodes[i];
 				if (!node.parent) {
+					continue;
+				}
+
+				if (node.parent.attr('data-mce-object')) {
 					continue;
 				}
 
@@ -644,9 +728,6 @@ tinymce.PluginManager.add('media', function(editor, url) {
 						continue;
 					}
 				}
-
-				placeHolder = new tinymce.html.Node('img', 1);
-				placeHolder.shortEnded = true;
 
 				if (videoScript) {
 					if (videoScript.width) {
@@ -658,39 +739,11 @@ tinymce.PluginManager.add('media', function(editor, url) {
 					}
 				}
 
-				// Prefix all attributes except width, height and style since we
-				// will add these to the placeholder
-				attribs = node.attributes;
-				ai = attribs.length;
-				while (ai--) {
-					attrName = attribs[ai].name;
-					attrValue = attribs[ai].value;
-
-					if (attrName !== "width" && attrName !== "height" && attrName !== "style") {
-						if (attrName == "data" || attrName == "src") {
-							attrValue = editor.convertURL(attrValue, attrName);
-						}
-
-						placeHolder.attr('data-mce-p-' + attrName, attrValue);
-					}
+				if (node.name == 'iframe' && editor.settings.media_live_embeds !== false && tinymce.Env.ceFalse) {
+					placeHolder = createPreviewNode(node);
+				} else {
+					placeHolder = createPlaceholderNode(node);
 				}
-
-				// Place the inner HTML contents inside an escaped attribute
-				// This enables us to copy/paste the fake object
-				innerHtml = node.firstChild && node.firstChild.value;
-				if (innerHtml) {
-					placeHolder.attr("data-mce-html", escape(innerHtml));
-					placeHolder.firstChild = null;
-				}
-
-				placeHolder.attr({
-					width: node.attr('width') || "300",
-					height: node.attr('height') || (name == "audio" ? "30" : "150"),
-					style: node.attr('style'),
-					src: tinymce.Env.transparentSrc,
-					"data-mce-object": name,
-					"class": "mce-object mce-object-" + name
-				});
 
 				node.replace(placeHolder);
 			}
@@ -698,7 +751,7 @@ tinymce.PluginManager.add('media', function(editor, url) {
 
 		// Replaces placeholder images with real elements for video, object, iframe etc
 		editor.serializer.addAttributeFilter('data-mce-object', function(nodes, name) {
-			var i = nodes.length, node, realElm, ai, attribs, innerHtml, innerNode, realElmName;
+			var i = nodes.length, node, realElm, ai, attribs, innerHtml, innerNode, realElmName, className;
 
 			while (i--) {
 				node = nodes[i];
@@ -711,10 +764,18 @@ tinymce.PluginManager.add('media', function(editor, url) {
 
 				// Add width/height to everything but audio
 				if (realElmName != "audio" && realElmName != "script") {
-					realElm.attr({
-						width: node.attr('width'),
-						height: node.attr('height')
-					});
+					className = node.attr('class');
+					if (className && className.indexOf('mce-preview-object') !== -1) {
+						realElm.attr({
+							width: node.firstChild.attr('width'),
+							height: node.firstChild.attr('height')
+						});
+					} else {
+						realElm.attr({
+							width: node.attr('width'),
+							height: node.attr('height')
+						});
+					}
 				}
 
 				realElm.attr({
@@ -778,7 +839,7 @@ tinymce.PluginManager.add('media', function(editor, url) {
 	editor.addButton('media', {
 		tooltip: 'Insert/edit video',
 		onclick: showDialog,
-		stateSelector: ['img[data-mce-object=video]', 'img[data-mce-object=iframe]']
+		stateSelector: ['img[data-mce-object]', 'span[data-mce-object]']
 	});
 
 	editor.addMenuItem('media', {
