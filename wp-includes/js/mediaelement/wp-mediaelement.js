@@ -20,7 +20,7 @@
 		 */
 		function initialize() {
 			if ( typeof _wpmejsSettings !== 'undefined' ) {
-				settings = _wpmejsSettings;
+				settings = $.extend( true, {}, _wpmejsSettings );
 			}
 
 			settings.success = settings.success || function (mejs) {
