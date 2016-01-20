@@ -359,7 +359,7 @@ class WP_Http {
 	 * Tests which transports are capable of supporting the request.
 	 *
 	 * @since 3.2.0
-	 * @access private
+	 * @access public
 	 *
 	 * @param array $args Request arguments
 	 * @param string $url URL to Request
@@ -368,6 +368,7 @@ class WP_Http {
 	 */
 	public function _get_first_available_transport( $args, $url = null ) {
 		$transports = array( 'curl', 'streams' );
+
 		/**
 		 * Filter which HTTP transports are available and in what order.
 		 *
