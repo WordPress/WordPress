@@ -33,7 +33,8 @@
 	 */
 	api.Preview = api.Messenger.extend({
 		/**
-		 * @param {string} url The URL of preview frame
+		 * @param {object} params  - Parameters to configure the messenger.
+		 * @param {object} options - Extend any instance parameter or method with this object.
 		 */
 		initialize: function( params, options ) {
 			var self = this;
@@ -42,9 +43,27 @@
 
 			this.body = $( document.body );
 			this.body.on( 'click.preview', 'a', function( event ) {
+				var link, isInternalJumpLink;
+				link = $( this );
+				isInternalJumpLink = ( '#' === link.attr( 'href' ).substr( 0, 1 ) );
 				event.preventDefault();
+
+				if ( isInternalJumpLink && '#' !== link.attr( 'href' ) ) {
+					$( link.attr( 'href' ) ).each( function() {
+						this.scrollIntoView();
+					} );
+				}
+
+				/*
+				 * Note the shift key is checked so shift+click on widgets or
+				 * nav menu items can just result on focusing on the corresponding
+				 * control instead of also navigating to the URL linked to.
+				 */
+				if ( event.shiftKey || isInternalJumpLink ) {
+					return;
+				}
 				self.send( 'scroll', 0 );
-				self.send( 'url', $(this).prop('href') );
+				self.send( 'url', link.prop( 'href' ) );
 			});
 
 			// You cannot submit forms.
