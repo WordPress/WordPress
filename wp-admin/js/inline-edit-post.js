@@ -122,7 +122,7 @@ inlineEditPost = {
 	},
 
 	edit : function(id) {
-		var t = this, fields, editRow, rowData, status, pageOpt, pageLevel, nextPage, pageLoop = true, nextLevel, cur_format, f, val, pw;
+		var t = this, fields, editRow, rowData, status, pageOpt, pageLevel, nextPage, pageLoop = true, nextLevel, f, val, pw;
 		t.revert();
 
 		if ( typeof(id) === 'object' ) {
@@ -149,15 +149,6 @@ inlineEditPost = {
 		if ( $( ':input[name="post_author"] option', editRow ).length === 1 ) {
 			$('label.inline-edit-author', editRow).hide();
 		}
-
-		// hide unsupported formats, but leave the current format alone
-		cur_format = $('.post_format', rowData).text();
-		$('option.unsupported', editRow).each(function() {
-			var $this = $(this);
-			if ( $this.val() !== cur_format ) {
-				$this.remove();
-			}
-		});
 
 		for ( f = 0; f < fields.length; f++ ) {
 			val = $('.'+fields[f], rowData);
