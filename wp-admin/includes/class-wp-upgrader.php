@@ -756,12 +756,13 @@ class WP_Upgrader {
  	 *
  	 * @since 4.5.0
  	 * @access public
+ 	 * @static
  	 *
  	 * @param string $lock_name       The name of this unique lock.
  	 * @param int    $release_timeout The duration in seconds to respect an existing lock. Default: 1 hour.
  	 * @return bool
  	 */
-	public function create_lock( $lock_name, $release_timeout = null ) {
+	public static function create_lock( $lock_name, $release_timeout = null ) {
 		global $wpdb;
 		if ( ! $release_timeout ) {
 			$release_timeout = HOUR_IN_SECONDS;
@@ -785,9 +786,9 @@ class WP_Upgrader {
 			}
 
 			// There must exist an expired lock, clear it and re-gain it.
-			$this->release_lock( $lock_name );
+			WP_Upgrader::release_lock( $lock_name );
 
-			return $this->create_lock( $lock_name, $release_timeout );
+			return WP_Upgrader::create_lock( $lock_name, $release_timeout );
 		}
 
 		// Update the lock, as by this point we've definitely got a lock, just need to fire the actions
@@ -801,11 +802,12 @@ class WP_Upgrader {
  	 *
  	 * @since 4.5.0
  	 * @access public
+ 	 * @static
  	 *
  	 * @param string $lock_name The name of this unique lock.
  	 * @return bool
  	 */
-	public function release_lock( $lock_name ) {
+	public static function release_lock( $lock_name ) {
 		return delete_option( $lock_name . '.lock' );
 	}
 
@@ -2312,27 +2314,27 @@ class Core_Upgrader extends WP_Upgrader {
 			$to_download = 'full';
 
 		// Lock to prevent multiple Core Updates occuring
-		$lock = $this->create_lock( 'core_updater', 15 * MINUTE_IN_SECONDS );
+		$lock = WP_Upgrader::create_lock( 'core_updater', 15 * MINUTE_IN_SECONDS );
 		if ( ! $lock ) {
 			return new WP_Error( 'locked', $this->strings['locked'] );
 		}
 
 		$download = $this->download_package( $current->packages->$to_download );
 		if ( is_wp_error( $download ) ) {
-			$this->release_lock( 'core_updater' );
+			WP_Upgrader::release_lock( 'core_updater' );
 			return $download;
 		}
 
 		$working_dir = $this->unpack_package( $download );
 		if ( is_wp_error( $working_dir ) ) {
-			$this->release_lock( 'core_updater' );
+			WP_Upgrader::release_lock( 'core_updater' );
 			return $working_dir;
 		}
 
 		// Copy update-core.php from the new version into place.
 		if ( !$wp_filesystem->copy($working_dir . '/wordpress/wp-admin/includes/update-core.php', $wp_dir . 'wp-admin/includes/update-core.php', true) ) {
 			$wp_filesystem->delete($working_dir, true);
-			$this->release_lock( 'core_updater' );
+			WP_Upgrader::release_lock( 'core_updater' );
 			return new WP_Error( 'copy_failed_for_update_core_file', __( 'The update cannot be installed because we will be unable to copy some files. This is usually due to inconsistent file permissions.' ), 'wp-admin/includes/update-core.php' );
 		}
 		$wp_filesystem->chmod($wp_dir . 'wp-admin/includes/update-core.php', FS_CHMOD_FILE);
@@ -2340,7 +2342,7 @@ class Core_Upgrader extends WP_Upgrader {
 		require_once( ABSPATH . 'wp-admin/includes/update-core.php' );
 
 		if ( ! function_exists( 'update_core' ) ) {
-			$this->release_lock( 'core_updater' );
+			WP_Upgrader::release_lock( 'core_updater' );
 			return new WP_Error( 'copy_failed_space', $this->strings['copy_failed_space'] );
 		}
 
@@ -2417,7 +2419,7 @@ class Core_Upgrader extends WP_Upgrader {
 			wp_version_check( $stats );
 		}
 
-		$this->release_lock( 'core_updater' );
+		WP_Upgrader::release_lock( 'core_updater' );
 
 		return $result;
 	}
@@ -3054,7 +3056,7 @@ class WP_Automatic_Updater {
 		if ( ! is_main_network() || ! is_main_site() )
 			return;
 
-		if ( ! $this->create_lock( 'auto_updater' ) )
+		if ( ! WP_Upgrader::create_lock( 'auto_updater' ) )
 			return;
 
 		// Don't automatically run these thins, as we'll handle it ourselves
@@ -3154,7 +3156,7 @@ class WP_Automatic_Updater {
 			do_action( 'automatic_updates_complete', $this->update_results );
 		}
 
-		$this->release_lock( 'auto_updater' );
+		WP_Upgrader::release_lock( 'auto_updater' );
 	}
 
 	/**
