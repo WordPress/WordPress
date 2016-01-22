@@ -736,17 +736,21 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
 					wp_nonce_field( 'update-nav_menu', 'update-nav-menu-nonce' );
 
-					if ( $one_theme_location_no_menus ) { ?>
+					$menu_name_aria_desc = $add_new_screen ? ' aria-describedby="menu-name-desc"' : '';
+
+					if ( $one_theme_location_no_menus ) {
+						$menu_name_val = 'value="' . esc_attr( 'Menu 1' ) . '"';
+					?>
 						<input type="hidden" name="zero-menu-state" value="true" />
-					<?php } ?>
+					<?php } else {
+						$menu_name_val = 'value="' . esc_attr( $nav_menu_selected_title ) . '"';
+					} ?>
  					<input type="hidden" name="action" value="update" />
 					<input type="hidden" name="menu" id="menu" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
 					<div id="nav-menu-header">
 						<div class="major-publishing-actions">
-							<label class="menu-name-label howto open-label" for="menu-name">
-								<span><?php _e( 'Menu Name' ); ?></span>
-								<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e( 'Enter menu name here' ); ?>" value="<?php if ( $one_theme_location_no_menus ) _e( 'Menu 1' ); else echo esc_attr( $nav_menu_selected_title ); ?>" />
-							</label>
+							<label class="menu-name-label" for="menu-name"><?php _e( 'Menu Name' ); ?></label>
+							<input name="menu-name" id="menu-name" type="text" class="menu-name regular-text menu-item-textbox" <?php echo $menu_name_val . $menu_name_aria_desc; ?> />
 							<div class="publishing-action">
 								<?php submit_button( empty( $nav_menu_selected_id ) ? __( 'Create Menu' ) : __( 'Save Menu' ), 'button-primary menu-save', 'save_menu', false, array( 'id' => 'save_menu_header' ) ); ?>
 							</div><!-- END .publishing-action -->
@@ -769,7 +773,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 							<?php } ?>
 							<?php endif; ?>
 							<?php if ( $add_new_screen ) : ?>
-								<p class="post-body-plain"><?php _e( 'Give your menu a name above, then click Create Menu.' ); ?></p>
+								<p class="post-body-plain" id="menu-name-desc"><?php _e( 'Give your menu a name, then click Create Menu.' ); ?></p>
 								<?php if ( isset( $_GET['use-location'] ) ) : ?>
 									<input type="hidden" name="use-location" value="<?php echo esc_attr( $_GET['use-location'] ); ?>" />
 								<?php endif; ?>
@@ -801,7 +805,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 											<input type="checkbox"<?php checked( isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == $nav_menu_selected_id ); ?> name="menu-locations[<?php echo esc_attr( $location ); ?>]" id="locations-<?php echo esc_attr( $location ); ?>" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
 											<label for="locations-<?php echo esc_attr( $location ); ?>"><?php echo $description; ?></label>
 											<?php if ( ! empty( $menu_locations[ $location ] ) && $menu_locations[ $location ] != $nav_menu_selected_id ) : ?>
-												<span class="theme-location-set"><?php 
+												<span class="theme-location-set"><?php
 													/* translators: %s: menu name */
 													printf( _x( '(Currently set to: %s)', 'menu location' ),
 														wp_get_nav_menu_object( $menu_locations[ $location ] )->name

@@ -743,19 +743,15 @@ final class WP_Customize_Nav_Menus {
 						<span class="toggle-indicator" aria-hidden="true"></span>
 					</button>
 				</h4>
-				<div class="accordion-section-content">
+				<div class="accordion-section-content customlinkdiv">
 					<input type="hidden" value="custom" id="custom-menu-item-type" name="menu-item[-1][menu-item-type]" />
 					<p id="menu-item-url-wrap">
-						<label class="howto" for="custom-menu-item-url">
-							<span><?php _e( 'URL' ); ?></span>
-							<input id="custom-menu-item-url" name="menu-item[-1][menu-item-url]" type="text" class="code menu-item-textbox" value="http://">
-						</label>
+						<label class="howto" for="custom-menu-item-url"><?php _e( 'URL' ); ?></label>
+						<input id="custom-menu-item-url" name="menu-item[-1][menu-item-url]" type="text" class="code menu-item-textbox" value="http://">
 					</p>
 					<p id="menu-item-name-wrap">
-						<label class="howto" for="custom-menu-item-name">
-							<span><?php _e( 'Link Text' ); ?></span>
-							<input id="custom-menu-item-name" name="menu-item[-1][menu-item-title]" type="text" class="regular-text menu-item-textbox">
-						</label>
+						<label class="howto" for="custom-menu-item-name"><?php _e( 'Link Text' ); ?></label>
+						<input id="custom-menu-item-name" name="menu-item[-1][menu-item-title]" type="text" class="regular-text menu-item-textbox">
 					</p>
 					<p class="button-controls">
 						<span class="add-to-menu">

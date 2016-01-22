@@ -61,10 +61,6 @@ ul.add-menu-item-tabs li {
 	position: relative;
 }
 
-.blank-slate .menu-name {
-	height: 2em;
-}
-
 .blank-slate .menu-settings {
 	border: none;
 	margin-top: 0;
@@ -179,7 +175,10 @@ ul.add-menu-item-tabs li {
 }
 
 #nav-menu-header .menu-name-label {
-	margin-top: 4px;
+	display: inline-block;
+	vertical-align: middle;
+	margin-left: 7px;
+	font-style: italic;
 }
 
 .nav-menus-php #post-body div.updated,
@@ -248,37 +247,19 @@ ul.add-menu-item-tabs li {
 	border-left: 1px solid #ccc;
 }
 
-#wpbody .open-label {
-	display: block;
-	float:right;
-}
-
-#wpbody .open-label span {
-	padding-left: 10px;
-}
-
-.js .input-with-default-title {
-	color: #a0a5aa;
-	font-style: italic;
-}
-
 #menu-management .inside {
 	padding: 0 10px;
 }
 
 /* Add Menu Item Boxes */
 .postbox .howto input,
-.accordion-container .howto input {
+.customlinkdiv .menu-item-textbox {
 	width: 180px;
 	float: left;
 }
 
 .accordion-container .outer-border {
 	margin: 0;
-}
-
-.customlinkdiv .howto input {
-	width: 180px;
 }
 
 .customlinkdiv p {
@@ -355,6 +336,7 @@ ul.add-menu-item-tabs li {
 /* Create Menu */
 #menu-name {
 	width: 270px;
+	vertical-align: middle;
 }
 
 #manage-menu .inside {
@@ -381,10 +363,10 @@ ul.add-menu-item-tabs li {
 	width: 180px;
 }
 
+.customlinkdiv label,
 .nav-menus-php .howto span {
-	margin-top: 6px;
-	display: block;
 	float: right;
+	margin-top: 6px;
 }
 
 /* Menu item types */
@@ -731,14 +713,12 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 /* Major/minor publishing actions (classes) */
 .nav-menus-php .major-publishing-actions {
 	clear: both;
-	padding: 3px 0 6px;
+	padding: 7px 0 6px;
 }
 
 .nav-menus-php .major-publishing-actions .publishing-action {
 	text-align: left;
 	float: left;
-	line-height: 23px;
-	margin: 4px 0 1px;
 }
 
 .nav-menus-php .blank-slate .menu-settings {
