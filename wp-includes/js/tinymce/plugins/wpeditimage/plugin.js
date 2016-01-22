@@ -353,6 +353,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	function updateImage( imageNode, imageData ) {
 		var classes, className, node, html, parent, wrap, linkNode,
 			captionNode, dd, dl, id, attrs, linkAttrs, width, height, align,
+			$imageNode, srcset, src,
 			dom = editor.dom;
 
 		classes = tinymce.explode( imageData.extraClasses, ' ' );
@@ -486,6 +487,19 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			captionNode.parentNode.insertBefore( parent, captionNode );
 			parent.appendChild( node );
 			dom.remove( captionNode );
+		}
+
+		$imageNode = editor.$( imageNode );
+		srcset = $imageNode.attr( 'srcset' );
+		src = $imageNode.attr( 'src' );
+
+		// Remove srcset and sizes if the image file was edited or the image was replaced.
+		if ( srcset && src ) {
+			src = src.replace( /[?#].*/, '' );
+
+			if ( srcset.indexOf( src ) === -1 ) {
+				$imageNode.attr( 'srcset', null ).attr( 'sizes', null );
+			}
 		}
 
 		if ( wp.media.events ) {
