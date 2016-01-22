@@ -214,7 +214,7 @@ class WP_Comment_Query {
 	 *                                                   Default empty.
 	 *     @type int          $post_ID                   Currently unused.
 	 *     @type int          $post_id                   Limit results to those affiliated with a given post ID.
-	 *                                                   Default 0.
+	 *                                                   Default null.
 	 *     @type array        $post__in                  Array of post IDs to include affiliated comments for.
 	 *                                                   Default empty.
 	 *     @type array        $post__not_in              Array of post IDs to exclude affiliated comments for.
@@ -276,7 +276,7 @@ class WP_Comment_Query {
 			'post_author__in' => '',
 			'post_author__not_in' => '',
 			'post_ID' => '',
-			'post_id' => 0,
+			'post_id' => null,
 			'post__in' => '',
 			'post__not_in' => '',
 			'post_author' => '',
@@ -645,9 +645,8 @@ class WP_Comment_Query {
 			$fields = "$wpdb->comments.comment_ID";
 		}
 
-		$post_id = absint( $this->query_vars['post_id'] );
-		if ( ! empty( $post_id ) ) {
-			$this->sql_clauses['where']['post_id'] = $wpdb->prepare( 'comment_post_ID = %d', $post_id );
+		if ( strlen( $this->query_vars['post_id'] ) ) {
+			$this->sql_clauses['where']['post_id'] = $wpdb->prepare( 'comment_post_ID = %d', $this->query_vars['post_id'] );
 		}
 
 		// Parse comment IDs for an IN clause.
