@@ -1363,24 +1363,38 @@
 
 		/**
 		 * Expand the menu item form control.
+		 *
+		 * @since 4.5.0 Added params.completeCallback.
+		 *
+		 * @param {Object}   [params] - Optional params.
+		 * @param {Function} [params.completeCallback] - Function to call when the form toggle has finished animating.
 		 */
-		expandForm: function() {
-			this.toggleForm( true );
+		expandForm: function( params ) {
+			this.toggleForm( true, params );
 		},
 
 		/**
 		 * Collapse the menu item form control.
+		 *
+		 * @since 4.5.0 Added params.completeCallback.
+		 *
+		 * @param {Object}   [params] - Optional params.
+		 * @param {Function} [params.completeCallback] - Function to call when the form toggle has finished animating.
 		 */
-		collapseForm: function() {
-			this.toggleForm( false );
+		collapseForm: function( params ) {
+			this.toggleForm( false, params );
 		},
 
 		/**
 		 * Expand or collapse the menu item control.
 		 *
-		 * @param {boolean|undefined} [showOrHide] If not supplied, will be inverse of current visibility
+		 * @since 4.5.0 Added params.completeCallback.
+		 *
+		 * @param {boolean}  [showOrHide] - If not supplied, will be inverse of current visibility
+		 * @param {Object}   [params] - Optional params.
+		 * @param {Function} [params.completeCallback] - Function to call when the form toggle has finished animating.
 		 */
-		toggleForm: function( showOrHide ) {
+		toggleForm: function( showOrHide, params ) {
 			var self = this, $menuitem, $inside, complete;
 
 			$menuitem = this.container;
@@ -1391,6 +1405,9 @@
 
 			// Already expanded or collapsed.
 			if ( $inside.is( ':visible' ) === showOrHide ) {
+				if ( params && params.completeCallback ) {
+					params.completeCallback();
+				}
 				return;
 			}
 
@@ -1407,6 +1424,10 @@
 						.removeClass( 'menu-item-edit-inactive' )
 						.addClass( 'menu-item-edit-active' );
 					self.container.trigger( 'expanded' );
+
+					if ( params && params.completeCallback ) {
+						params.completeCallback();
+					}
 				};
 
 				$menuitem.find( '.item-edit' ).attr( 'aria-expanded', 'true' );
@@ -1419,6 +1440,10 @@
 						.addClass( 'menu-item-edit-inactive' )
 						.removeClass( 'menu-item-edit-active' );
 					self.container.trigger( 'collapsed' );
+
+					if ( params && params.completeCallback ) {
+						params.completeCallback();
+					}
 				};
 
 				self.container.trigger( 'collapse' );
@@ -1431,14 +1456,31 @@
 		/**
 		 * Expand the containing menu section, expand the form, and focus on
 		 * the first input in the control.
+		 *
+		 * @since 4.5.0 Added params.completeCallback.
+		 *
+		 * @param {Object}   [params] - Params object.
+		 * @param {Function} [params.completeCallback] - Optional callback function when focus has completed.
 		 */
-		focus: function() {
-			var control = this, focusable;
+		focus: function( params ) {
+			params = params || {};
+			var control = this, originalCompleteCallback = params.completeCallback;
+
 			control.expandControlSection();
-			control.expandForm();
-			// Note that we can't use :focusable due to a jQuery UI issue. See: https://github.com/jquery/jquery-ui/pull/1583
-			focusable = control.container.find( '.menu-item-settings' ).find( 'input, select, textarea, button, object, a[href], [tabindex]' ).filter( ':visible' );
-			focusable.first().focus();
+
+			params.completeCallback = function() {
+				var focusable;
+
+				// Note that we can't use :focusable due to a jQuery UI issue. See: https://github.com/jquery/jquery-ui/pull/1583
+				focusable = control.container.find( '.menu-item-settings' ).find( 'input, select, textarea, button, object, a[href], [tabindex]' ).filter( ':visible' );
+				focusable.first().focus();
+
+				if ( originalCompleteCallback ) {
+					originalCompleteCallback();
+				}
+			};
+
+			control.expandForm( params );
 		},
 
 		/**
@@ -2445,6 +2487,9 @@
 		api.previewer.bind( 'refresh', function() {
 			api.previewer.refresh();
 		});
+
+		// Open and focus menu control.
+		api.previewer.bind( 'focus-nav-menu-item-control', api.Menus.focusMenuItemControl );
 	} );
 
 	/**

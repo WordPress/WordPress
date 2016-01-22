@@ -74,7 +74,7 @@
 	 * @since 4.1.0
 	 *
 	 * @param {Object}   [params]
-	 * @param {Callback} [params.completeCallback]
+	 * @param {Function} [params.completeCallback]
 	 */
 	focus = function ( params ) {
 		var construct, completeCallback, focus;

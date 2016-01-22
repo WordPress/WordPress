@@ -19,7 +19,8 @@
 				active: false,
 				stylesheet: ''
 			},
-			navMenuInstanceArgs: {}
+			navMenuInstanceArgs: {},
+			l10n: {}
 		};
 
 	api.MenusCustomizerPreview = {
@@ -63,6 +64,8 @@
 					}
 				}
 			} );
+
+			self.highlightControls();
 		},
 
 		/**
@@ -272,6 +275,36 @@
 				}, this ),
 				refreshDebounceDelay
 			);
+		},
+
+		/**
+		 * Connect nav menu items with their corresponding controls in the pane.
+		 */
+		highlightControls: function() {
+			var selector = '.menu-item[id^=menu-item-]',
+				addTooltips;
+
+			// Open expand the menu item control when shift+clicking the menu item
+			$( document ).on( 'click', selector, function( e ) {
+				var navMenuItemParts;
+				if ( ! e.shiftKey ) {
+					return;
+				}
+
+				navMenuItemParts = $( this ).attr( 'id' ).match( /^menu-item-(\d+)$/ );
+				if ( navMenuItemParts ) {
+					e.preventDefault();
+					e.stopPropagation(); // Make sure a sub-nav menu item will get focused instead of parent items.
+					api.preview.send( 'focus-nav-menu-item-control', parseInt( navMenuItemParts[1], 10 ) );
+				}
+			});
+
+			addTooltips = function( e, params ) {
+				params.newContainer.find( selector ).attr( 'title', settings.l10n.editNavMenuItemTooltip );
+			};
+
+			addTooltips( null, { newContainer: $( document.body ) } );
+			$( document ).on( 'customize-preview-menu-refreshed', addTooltips );
 		}
 	};
 
