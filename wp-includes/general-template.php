@@ -587,14 +587,15 @@ function wp_meta() {
 }
 
 /**
- * Display information about the blog.
+ * Displays information about the current site.
  *
- * @see get_bloginfo() For possible values for the parameter.
  * @since 0.71
  *
- * @param string $show What to display.
+ * @see get_bloginfo() For possible `$show` values
+ *
+ * @param string $show Optional. Site information to display. Default empty.
  */
-function bloginfo( $show='' ) {
+function bloginfo( $show = '' ) {
 	echo get_bloginfo( $show, 'display' );
 }
 
