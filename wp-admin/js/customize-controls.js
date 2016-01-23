@@ -3604,8 +3604,12 @@
 
 		// Bind site title display to the corresponding field.
 		if ( title.length ) {
-			$( '#customize-control-blogname input' ).on( 'input', function() {
-				title.text( this.value );
+			api( 'blogname', function( setting ) {
+				var updateTitle = function() {
+					title.text( $.trim( setting() ) || api.l10n.untitledBlogName );
+				};
+				setting.bind( updateTitle );
+				updateTitle();
 			} );
 		}
 

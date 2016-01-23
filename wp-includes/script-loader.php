@@ -443,6 +443,7 @@ function wp_default_scripts( &$scripts ) {
 		'loginIframeTitle'   => __( 'Session expired' ),
 		'collapseSidebar'    => __( 'Collapse Sidebar' ),
 		'expandSidebar'      => __( 'Expand Sidebar' ),
+		'untitledBlogName'   => __( '(Untitled)' ),
 		// Used for overriding the file types allowed in plupload.
 		'allowedFiles'       => __( 'Allowed Files' ),
 	) );
