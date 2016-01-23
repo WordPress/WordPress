@@ -1477,8 +1477,14 @@ function wp_ajax_wp_link_ajax() {
 
 	$args = array();
 
-	if ( isset( $_POST['search'] ) )
+	if ( isset( $_POST['search'] ) ) {
 		$args['s'] = wp_unslash( $_POST['search'] );
+	}
+
+	if ( isset( $_POST['term'] ) ) {
+		$args['s'] = wp_unslash( $_POST['term'] );
+	}
+
 	$args['pagenum'] = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
 	require(ABSPATH . WPINC . '/class-wp-editor.php');

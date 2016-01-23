@@ -47,12 +47,105 @@
 		}
 	} );
 
+	tinymce.ui.WPLinkInput = tinymce.ui.Control.extend( {
+		renderHtml: function() {
+			return (
+				'<div id="' + this._id + '" class="wp-link-input">' +
+					'<input type="text" value="" tabindex="-1" />' +
+				'</div>'
+			);
+		},
+		setURL: function( url ) {
+			this.getEl().firstChild.value = url;
+		}
+	} );
+
 	tinymce.PluginManager.add( 'wplink', function( editor ) {
+		var a;
 		var toolbar;
+		var editToolbar;
+		var previewInstance;
+		var inputInstance;
+		var $ = window.jQuery;
+
+		editor.on( 'preinit', function() {
+			if ( editor.wp && editor.wp._createToolbar ) {
+				toolbar = editor.wp._createToolbar( [
+					'wp_link_preview',
+					'wp_link_edit',
+					'wp_link_remove'
+				], true );
+
+				editToolbar = editor.wp._createToolbar( [
+					'wp_link_input',
+					'wp_link_apply',
+					'wp_link_advanced'
+				], true );
+
+				editToolbar.on( 'show', function() {
+					var node = editToolbar.find( 'toolbar' )[0];
+					node && node.focus( true );
+					a = editor.dom.getParent( editor.selection.getNode(), 'a' );
+				} );
+
+				editToolbar.on( 'hide', function() {
+					editToolbar.scrolling || editor.execCommand( 'wp_link_cancel' );
+				} );
+			}
+		} );
 
 		editor.addCommand( 'WP_Link', function() {
-			window.wpLink && window.wpLink.open( editor.id );
-		});
+			var a = editor.dom.getParent( editor.selection.getNode(), 'a' );
+
+			if ( a ) {
+				editor.dom.setAttribs( a, { 'data-wp-edit': true } );
+			} else {
+				editor.execCommand( 'mceInsertLink', false, { href: '_wp_link_placeholder' } );
+			}
+
+			editor.nodeChanged();
+		} );
+
+		editor.addCommand( 'wp_link_apply', function() {
+			if ( editToolbar.scrolling ) {
+				return;
+			}
+
+			var href = tinymce.trim( inputInstance.getEl().firstChild.value );
+
+			if ( href && ! /^(?:[a-z]+:|#|\?|\.|\/)/.test( href ) ) {
+				href = 'http://' + href;
+			}
+
+			if ( ! href ) {
+				editor.dom.remove( a, true );
+				return;
+			}
+
+			if ( a ) {
+				editor.dom.setAttribs( a, { href: href, 'data-wp-edit': null } );
+			}
+
+			a = false;
+
+			editor.nodeChanged();
+			editor.focus();
+		} );
+
+		editor.addCommand( 'wp_link_cancel', function() {
+			if ( a ) {
+				if ( editor.$( a ).attr( 'href' ) === '_wp_link_placeholder' ) {
+					editor.dom.remove( a, true );
+				} else {
+					editor.dom.setAttribs( a, { 'data-wp-edit': null } );
+				}
+			}
+
+			a = false;
+
+			editor.nodeChanged();
+			editor.focus();
+		} );
 
 		// WP default shortcut
 		editor.addShortcut( 'access+a', '', 'WP_Link' );
@@ -102,24 +195,112 @@
 		editor.addButton( 'wp_link_preview', {
 			type: 'WPLinkPreview',
 			onPostRender: function() {
-				var self = this;
+				previewInstance = this;
+			}
+		} );
 
-				editor.on( 'wptoolbar', function( event ) {
-					var anchor = editor.dom.getParent( event.element, 'a' ),
-						$anchor,
-						href;
+		editor.addButton( 'wp_link_input', {
+			type: 'WPLinkInput',
+			onPostRender: function() {
+				var input = this.getEl().firstChild;
+				var cache;
+				var last;
 
-					if ( anchor ) {
-						$anchor = editor.$( anchor );
-						href = $anchor.attr( 'href' );
+				inputInstance = this;
 
-						if ( href && ! $anchor.find( 'img' ).length ) {
-							self.setURL( href );
-							event.element = anchor;
-							event.toolbar = toolbar;
+				if ( $ ) {
+					$( input )
+					.on( 'keydown', function() {
+						$( input ).removeAttr( 'aria-activedescendant' );
+					} )
+					.autocomplete( {
+						source: function( request, response ) {
+							if ( last === request.term ) {
+								response( cache );
+								return;
+							}
+
+							if ( /^https?:/.test( request.term ) || request.term.indexOf( '.' ) !== -1 ) {
+								return response();
+							}
+
+							$.post( window.ajaxurl, {
+								action: 'wp-link-ajax',
+								page: 1,
+								search: request.term,
+								_ajax_linking_nonce: $( '#_ajax_linking_nonce' ).val()
+							}, function( data ) {
+								cache = data;
+								response( data );
+							}, 'json' );
+
+							last = request.term;
+						},
+						focus: function( event, ui ) {
+							$( input ).attr( 'aria-activedescendant', 'mce-wp-autocomplete-' + ui.item.ID );
+						},
+						select: function( event, ui ) {
+							$( input ).val( ui.item.permalink );
+							return false;
+						},
+						open: function() {
+							$( input ).attr( 'aria-expanded', 'true' );
+							editToolbar.blockHide = true;
+						},
+						close: function() {
+							$( input ).attr( 'aria-expanded', 'false' );
+							editToolbar.blockHide = false;
+						},
+						minLength: 2,
+						position: {
+							my: 'left top+5'
 						}
-					}
+					} ).autocomplete( 'instance' )._renderItem = function( ul, item ) {
+						return $( '<li role="option" id="mce-wp-autocomplete-' + item.ID + '">' )
+						.append( '<span>' + item.title + '</span>&nbsp;<span class="alignright">' + item.info + '</span>' )
+						.appendTo( ul );
+					};
+
+					$( input )
+					.attr( {
+						'role': 'combobox',
+						'aria-autocomplete': 'list',
+						'aria-expanded': 'false',
+						'aria-owns': $( input ).autocomplete( 'widget' ).attr( 'id' )
+					}  )
+					.on( 'focus', function() {
+						$( input ).autocomplete( 'search' );
+					} )
+					.autocomplete( 'widget' )
+						.addClass( 'mce-wp-autocomplete' )
+						.attr( 'role', 'listbox' );
+				}
+
+				tinymce.$( input ).on( 'keydown', function( event ) {
+					event.keyCode === 13 && editor.execCommand( 'wp_link_apply' );
 				} );
+			}
+		} );
+
+		editor.on( 'wptoolbar', function( event ) {
+			var anchor = editor.dom.getParent( event.element, 'a' ),
+				$anchor,
+				href, edit;
+
+			if ( anchor ) {
+				$anchor = editor.$( anchor );
+				href = $anchor.attr( 'href' );
+				edit = $anchor.attr( 'data-wp-edit' );
+
+				if ( href === '_wp_link_placeholder' || edit ) {
+					inputInstance.setURL( edit ? href : '' );
+					event.element = anchor;
+					event.toolbar = editToolbar;
+				} else if ( href && ! $anchor.find( 'img' ).length ) {
+					previewInstance.setURL( href );
+					event.element = anchor;
+					event.toolbar = toolbar;
+				}
 			}
 		} );
 
@@ -135,14 +316,21 @@
 			cmd: 'unlink'
 		} );
 
-		editor.on( 'preinit', function() {
-			if ( editor.wp && editor.wp._createToolbar ) {
-				toolbar = editor.wp._createToolbar( [
-					'wp_link_preview',
-					'wp_link_edit',
-					'wp_link_remove'
-				], true );
+		// Advanced, more, options?
+		editor.addButton( 'wp_link_advanced', {
+			tooltip: 'Advanced',
+			icon: 'dashicon dashicons-admin-generic',
+			onclick: function() {
+				editor.execCommand( 'wp_link_apply' );
+				window.wpLink && window.wpLink.open( editor.id );
 			}
+		} );
+
+		editor.addButton( 'wp_link_apply', {
+			tooltip: 'Apply',
+			icon: 'dashicon dashicons-editor-break',
+			cmd: 'wp_link_apply',
+			classes: 'widget btn primary'
 		} );
 	} );
 } )( window.tinymce );

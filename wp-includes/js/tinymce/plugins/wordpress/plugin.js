@@ -744,7 +744,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					top, left;
 
 				if ( spaceTop >= editorHeight || spaceBottom >= editorHeight ) {
-					return this.hide();
+					this.scrolling = true;
+					this.hide();
+					this.scrolling = false;
+					return this;
 				}
 
 				// Add offset in iOS to move the menu over the image, out of the way of the default iOS menu.
@@ -850,13 +853,17 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 			currentSelection = args.selection || args.element;
 
-			if ( activeToolbar ) {
+			if ( activeToolbar && activeToolbar !== args.toolbar ) {
 				activeToolbar.hide();
 			}
 
 			if ( args.toolbar ) {
-				activeToolbar = args.toolbar;
-				activeToolbar.show();
+				if ( activeToolbar !== args.toolbar ) {
+					activeToolbar = args.toolbar;
+					activeToolbar.show();
+				} else {
+					activeToolbar.reposition();
+				}
 			} else {
 				activeToolbar = false;
 			}
@@ -870,18 +877,21 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		function hide( event ) {
 			if ( activeToolbar ) {
-				activeToolbar.hide();
-
 				if ( event.type === 'hide' ) {
+					activeToolbar.hide();
 					activeToolbar = false;
-				} else if ( event.type === 'resize' || event.type === 'scroll' ) {
+				} else if ( ( event.type === 'resize' || event.type === 'scroll' ) && ! activeToolbar.blockHide ) {
 					clearTimeout( timeout );
 
 					timeout = setTimeout( function() {
 						if ( activeToolbar && typeof activeToolbar.show === 'function' ) {
+							activeToolbar.scrolling = false;
 							activeToolbar.show();
 						}
 					}, 250 );
+
+					activeToolbar.scrolling = true;
+					activeToolbar.hide();
 				}
 			}
 		}

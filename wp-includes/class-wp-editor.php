@@ -779,6 +779,7 @@ final class _WP_Editors {
 
 		if ( in_array('wplink', self::$plugins, true) || in_array('link', self::$qt_buttons, true) ) {
 			wp_enqueue_script('wplink');
+			wp_enqueue_script( 'jquery-ui-autocomplete' );
 		}
 
 		if ( self::$old_dfw_compat ) {
