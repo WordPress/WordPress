@@ -28,12 +28,12 @@ function the_permalink( $post = 0 ) {
 }
 
 /**
- * Retrieve trailing slash string, if blog set for adding trailing slashes.
+ * Retrieve trailing slash string, if site is set for adding trailing slashes.
  *
  * Conditionally adds a trailing slash if the permalink structure has a trailing
  * slash, strips the trailing slash if not. The string is passed through the
  * 'user_trailingslashit' filter. Will remove trailing slash from string, if
- * blog is not set to have them.
+ * site is not set to have them.
  *
  * @since 2.2.0
  * @global WP_Rewrite $wp_rewrite
@@ -1432,7 +1432,7 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
 }
 
 /**
- * Display edit bookmark (literally a URL external to blog) link.
+ * Display edit bookmark link.
  *
  * @since 2.7.0
  *
@@ -1448,7 +1448,7 @@ function get_edit_bookmark_link( $link = 0 ) {
 	$location = admin_url('link.php?action=edit&amp;link_id=') . $link->link_id;
 
 	/**
-	 * Filter the bookmark (link) edit link.
+	 * Filter the bookmark edit link.
 	 *
 	 * @since 2.7.0
 	 *
@@ -1459,7 +1459,7 @@ function get_edit_bookmark_link( $link = 0 ) {
 }
 
 /**
- * Display edit bookmark (literally a URL external to blog) link anchor content.
+ * Display edit bookmark link anchor content.
  *
  * @since 2.7.0
  *
@@ -2954,7 +2954,7 @@ function home_url( $path = '', $scheme = null ) {
  *
  * @global string $pagenow
  *
- * @param  int         $blog_id Optional. Blog ID. Default null (current blog).
+ * @param  int         $blog_id Optional. Site ID. Default null (current site).
  * @param  string      $path    Optional. Path relative to the home URL. Default empty.
  * @param  string|null $scheme  Optional. Scheme to give the home URL context. Accepts
  *                              'http', 'https', 'relative', 'rest', or null. Default null.
@@ -2994,7 +2994,7 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 	 * @param string      $path        Path relative to the home URL. Blank string if no path is specified.
 	 * @param string|null $orig_scheme Scheme to give the home URL context. Accepts 'http', 'https',
 	 *                                 'relative', 'rest', or null.
-	 * @param int|null    $blog_id     Blog ID, or null for the current blog.
+	 * @param int|null    $blog_id     Site ID, or null for the current site.
 	 */
 	return apply_filters( 'home_url', $url, $path, $orig_scheme, $blog_id );
 }
@@ -3025,7 +3025,7 @@ function site_url( $path = '', $scheme = null ) {
  *
  * @since 3.0.0
  *
- * @param int    $blog_id Optional. Blog ID. Default null (current site).
+ * @param int    $blog_id Optional. Site ID. Default null (current site).
  * @param string $path    Optional. Path relative to the site url. Default empty.
  * @param string $scheme  Optional. Scheme to give the site url context. Accepts
  *                        'http', 'https', 'login', 'login_post', 'admin', or
@@ -3055,7 +3055,7 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
 	 * @param string      $path    Path relative to the site URL. Blank string if no path is specified.
 	 * @param string|null $scheme  Scheme to give the site URL context. Accepts 'http', 'https', 'login',
 	 *                             'login_post', 'admin', 'relative' or null.
-	 * @param int|null    $blog_id Blog ID, or null for the current blog.
+	 * @param int|null    $blog_id Site ID, or null for the current site.
 	 */
 	return apply_filters( 'site_url', $url, $path, $scheme, $blog_id );
 }
@@ -3078,7 +3078,7 @@ function admin_url( $path = '', $scheme = 'admin' ) {
  *
  * @since 3.0.0
  *
- * @param int    $blog_id Optional. Blog ID. Default null (current site).
+ * @param int    $blog_id Optional. Site ID. Default null (current site).
  * @param string $path    Optional. Path relative to the admin url. Default empty.
  * @param string $scheme  Optional. The scheme to use. Accepts 'http' or 'https',
  *                        to force those schemes. Default 'admin', which obeys
@@ -3098,7 +3098,7 @@ function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
 	 *
 	 * @param string   $url     The complete admin area URL including scheme and path.
 	 * @param string   $path    Path relative to the admin area URL. Blank string if no path is specified.
-	 * @param int|null $blog_id Blog ID, or null for the current blog.
+	 * @param int|null $blog_id Site ID, or null for the current site.
 	 */
 	return apply_filters( 'admin_url', $url, $path, $blog_id );
 }
@@ -3352,7 +3352,7 @@ function user_admin_url( $path = '', $scheme = 'admin' ) {
 }
 
 /**
- * Retrieve the url to the admin area for either the current blog or the network depending on context.
+ * Retrieve the url to the admin area for either the current site or the network depending on context.
  *
  * @since 3.1.0
  *
@@ -3421,12 +3421,12 @@ function set_url_scheme( $url, $scheme = null ) {
  *
  * If a user does not belong to any site, the global user dashboard is used. If the user belongs to the current site,
  * the dashboard for the current site is returned. If the user cannot edit the current site, the dashboard to the user's
- * primary blog is returned.
+ * primary site is returned.
  *
  * @since 3.1.0
  *
  * @param int    $user_id Optional. User ID. Defaults to current user.
- * @param string $path    Optional path relative to the dashboard. Use only paths known to both blog and user admins.
+ * @param string $path    Optional path relative to the dashboard. Use only paths known to both site and user admins.
  * @param string $scheme  The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Dashboard url link with optional path appended.
  */
@@ -3531,7 +3531,7 @@ function rel_canonical() {
 }
 
 /**
- * Return a shortlink for a post, page, attachment, or blog.
+ * Return a shortlink for a post, page, attachment, or a site.
  *
  * This function exists to provide a shortlink tag that all themes and plugins can target. A plugin must hook in to
  * provide the actual shortlinks. Default shortlink support is limited to providing ?p= style links for posts.
@@ -3540,8 +3540,8 @@ function rel_canonical() {
  *
  * @since 3.0.0.
  *
- * @param int    $id          A post or blog id. Default is 0, which means the current post or blog.
- * @param string $context     Whether the id is a 'blog' id, 'post' id, or 'media' id.
+ * @param int    $id          A post or site id. Default is 0, which means the current post or site.
+ * @param string $context     Whether the id is a 'site' id, 'post' id, or 'media' id.
  *                            If 'post', the post_type of the post is consulted.
  *                            If 'query', the current query is consulted to determine the id and context.
  *                            Default is 'post'.
