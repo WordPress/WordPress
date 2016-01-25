@@ -114,7 +114,7 @@ p {
 }
 
 .login label {
-	color: #777;
+	color: #72777c;
 	font-size: 14px;
 }
 
@@ -134,7 +134,7 @@ p {
 	background-size: 84px;
 	background-position: center top;
 	background-repeat: no-repeat;
-	color: #999;
+	color: #444;
 	height: 84px;
 	font-size: 20px;
 	font-weight: normal;
@@ -172,7 +172,7 @@ p {
 .login #nav a,
 .login #backtoblog a {
 	text-decoration: none;
-	color: #999;
+	color: #555d66;
 }
 
 .login #nav a:hover,
