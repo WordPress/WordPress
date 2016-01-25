@@ -353,8 +353,8 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	 * @since 4.4.0
 	 *
 	 * @param array  $args        Array of arguments for registering a taxonomy.
-	 * @param array  $object_type Array of names of object types for the taxonomy.
 	 * @param string $taxonomy    Taxonomy key.
+	 * @param array  $object_type Array of names of object types for the taxonomy.
 	 */
 	$args = apply_filters( 'register_taxonomy_args', $args, $taxonomy, (array) $object_type );
 
