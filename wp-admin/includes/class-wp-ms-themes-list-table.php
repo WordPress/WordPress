@@ -682,14 +682,14 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$stylesheet = $theme->get_stylesheet();
 
 		$class = ! $allowed ? 'inactive' : 'active';
-
-		$id = sanitize_html_class( $theme->get_stylesheet() );
-
 		if ( ! empty( $totals['upgrade'] ) && ! empty( $theme->update ) ) {
 			$class .= ' update';
 		}
 
-		echo "<tr id='$id' class='$class'>";
+		printf( '<tr class="%s" data-slug="%s">',
+			esc_attr( $class ),
+			esc_attr( $stylesheet )
+		);
 
 		$this->single_row_columns( $theme );
 

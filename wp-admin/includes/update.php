@@ -456,7 +456,9 @@ function wp_theme_update_row( $theme_key, $theme ) {
 
 	$wp_list_table = _get_list_table('WP_MS_Themes_List_Table');
 
-	echo '<tr class="plugin-update-tr"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message">';
+	$active = $theme->is_allowed( 'network' ) ? ' active': '';
+
+	echo '<tr class="plugin-update-tr' . $active . '" id="' . esc_attr( $theme->get_stylesheet() . '-update' ) . '" data-slug="' . esc_attr( $theme->get_stylesheet() ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message">';
 	if ( ! current_user_can('update_themes') ) {
 		/* translators: 1: theme name, 2: details URL, 3: escaped theme name, 4: version number */
 		printf( __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" aria-label="View %3$s version %4$s details">View version %4$s details</a>.'),
@@ -475,7 +477,7 @@ function wp_theme_update_row( $theme_key, $theme ) {
 		);
 	} else {
 		/* translators: 1: theme name, 2: details URL, 3: escaped theme name, 4: version number, 5: update URL */
-		printf( __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" aria-label="View %3$s version %4$s details">View version %4$s details</a> or <a href="%5$s" aria-label="update %3$s now">update now</a>.' ),
+		printf( __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" aria-label="View %3$s version %4$s details">View version %4$s details</a> or <a href="%5$s" class="update-link" aria-label="update %3$s now">update now</a>.' ),
 			$theme['Name'],
 			esc_url( $details_url ),
 			esc_attr( $theme['Name'] ),
