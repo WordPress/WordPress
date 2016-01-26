@@ -3622,8 +3622,8 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 		 * @since 2.5.0
 		 * @since 4.5.0 Added $clean_taxonomy param.
 		 *
-		 * @param array  $ids      An array of term IDs.
-		 * @param string $taxonomy Taxonomy slug.
+		 * @param array  $ids            An array of term IDs.
+		 * @param string $taxonomy       Taxonomy slug.
 		 * @param bool   $clean_taxonomy Whether or not to clean taxonomy-wide caches
 		 */
 		do_action( 'clean_term_cache', $ids, $taxonomy, $clean_taxonomy );
