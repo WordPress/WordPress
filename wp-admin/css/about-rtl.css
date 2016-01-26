@@ -332,21 +332,21 @@
 
 .about-wrap h3.wp-people-group {
 	margin: 2.6em 0 1.33em;
+	padding: 0;
 	font-size: 16px;
 	line-height: inherit;
 }
 
-.about-wrap ul.wp-people-group {
-	overflow: hidden;
+.about-wrap .wp-people-group {
 	padding: 0 5px;
 	margin: 0 -5px 0 -15px;
 }
 
-.about-wrap ul.compact {
+.about-wrap .compact {
 	margin-bottom: 0
 }
 
-.about-wrap li.wp-person {
+.about-wrap .wp-person {
 	display: inline-block;
 	vertical-align: top;
 	margin-left: 10px;
@@ -355,33 +355,36 @@
 	width: 280px;
 }
 
-.about-wrap ul.compact li.wp-person {
+.about-wrap .compact .wp-person {
 	height: auto;
 	width: 180px;
 	padding-bottom: 0;
 	margin-bottom: 0;
 }
 
-.about-wrap li.wp-person img.gravatar {
+.about-wrap .wp-person .gravatar {
 	float: right;
 	margin: 0 0 10px 10px;
-	padding: 2px;
+	padding: 1px;
 	width: 60px;
 	height: 60px;
 }
 
-.about-wrap ul.compact li.wp-person img.gravatar {
+.about-wrap .compact .wp-person .gravatar {
 	width: 30px;
 	height: 30px;
 }
 
-.about-wrap li.wp-person a.web {
-	display: block;
+.about-wrap .wp-person .web {
 	margin: 6px 0 2px;
 	font-size: 16px;
 	font-weight: normal;
-	line-height: 1.6em;
+	line-height: 2em;
 	text-decoration: none;
+}
+
+.about-wrap .wp-person .title {
+	display: block;
 }
 
 .about-wrap #wp-people-group-validators + p.wp-credits-list {

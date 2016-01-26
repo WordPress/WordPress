@@ -272,7 +272,8 @@ a:active {
 }
 
 a:focus,
-a:focus .media-icon img {
+a:focus .media-icon img,
+.wp-person a:focus .gravatar {
 	color: #124964;
 	-webkit-box-shadow:
 		0 0 0 1px #5b9dd9,
