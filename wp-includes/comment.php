@@ -2516,15 +2516,24 @@ function xmlrpc_pingback_error( $ixr_error ) {
 //
 
 /**
- * Removes comment ID from the comment cache.
+ * Removes a comment from the object cache.
  *
  * @since 2.3.0
  *
- * @param int|array $ids Comment ID or array of comment IDs to remove from cache
+ * @param int|array $ids Comment ID or an array of comment IDs to remove from cache.
  */
 function clean_comment_cache($ids) {
 	foreach ( (array) $ids as $id ) {
 		wp_cache_delete( $id, 'comment' );
+
+		/**
+		 * Fires after a comment has been removed from the object cache.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param int $id Comment ID.
+		 */
+		do_action( 'clean_comment_cache', $id );
 	}
 
 	wp_cache_set( 'last_changed', microtime(), 'comment' );
