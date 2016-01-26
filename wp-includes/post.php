@@ -1665,12 +1665,20 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  * For all others, the 'publicly_queryable' value will be used.
  *
  * @since 4.4.0
+ * @since 4.5.0 Added the ability to pass a post type name in addition to object.
  *
- * @param object $post_type_object Post type object.
+ * @param object $post_type Post type name or object.
  * @return bool Whether the post type should be considered viewable.
  */
-function is_post_type_viewable( $post_type_object ) {
-	return $post_type_object->publicly_queryable || ( $post_type_object->_builtin && $post_type_object->public );
+function is_post_type_viewable( $post_type ) {
+	if ( is_scalar( $post_type ) ) {
+		$post_type = get_post_type_object( $post_type );
+		if ( ! $post_type ) {
+			return false;
+		}
+	}
+
+	return $post_type->publicly_queryable || ( $post_type->_builtin && $post_type->public );
 }
 
 /**
