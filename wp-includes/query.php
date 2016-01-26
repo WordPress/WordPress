@@ -2790,15 +2790,17 @@ class WP_Query {
 			$search = $this->parse_search( $q );
 		}
 
-		/**
-		 * Filter the search SQL that is used in the WHERE clause of WP_Query.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @param string   $search Search SQL for WHERE clause.
-		 * @param WP_Query $this   The current WP_Query object.
-		 */
-		$search = apply_filters_ref_array( 'posts_search', array( $search, &$this ) );
+		if ( ! $q['suppress_filters'] ) {
+			/**
+			 * Filter the search SQL that is used in the WHERE clause of WP_Query.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param string   $search Search SQL for WHERE clause.
+			 * @param WP_Query $this   The current WP_Query object.
+			 */
+			$search = apply_filters_ref_array( 'posts_search', array( $search, &$this ) );
+		}
 
 		// Taxonomies
 		if ( !$this->is_singular ) {
@@ -3007,15 +3009,18 @@ class WP_Query {
 			if ( ! empty( $q['search_orderby_title'] ) && ( empty( $q['orderby'] ) && ! $this->is_feed ) || ( isset( $q['orderby'] ) && 'relevance' === $q['orderby'] ) )
 				$search_orderby = $this->parse_search_order( $q );
 
-			/**
-			 * Filter the ORDER BY used when ordering search results.
-			 *
-			 * @since 3.7.0
-			 *
-			 * @param string   $search_orderby The ORDER BY clause.
-			 * @param WP_Query $this           The current WP_Query instance.
-			 */
-			$search_orderby = apply_filters( 'posts_search_orderby', $search_orderby, $this );
+			if ( ! $q['suppress_filters'] ) {
+				/**
+				 * Filter the ORDER BY used when ordering search results.
+				 *
+				 * @since 3.7.0
+				 *
+				 * @param string   $search_orderby The ORDER BY clause.
+				 * @param WP_Query $this           The current WP_Query instance.
+				 */
+				$search_orderby = apply_filters( 'posts_search_orderby', $search_orderby, $this );
+			}
+
 			if ( $search_orderby )
 				$orderby = $orderby ? $search_orderby . ', ' . $orderby : $search_orderby;
 		}
