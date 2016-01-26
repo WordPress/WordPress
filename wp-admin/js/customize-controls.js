@@ -3345,6 +3345,8 @@
 							value._dirty = false;
 						} );
 
+						api.previewer.send( 'saved', response );
+
 						api.trigger( 'saved', response );
 					} );
 				};

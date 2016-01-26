@@ -805,6 +805,7 @@ final class WP_Customize_Manager {
 			'activePanels' => array(),
 			'activeSections' => array(),
 			'activeControls' => array(),
+			'_dirty' => array_keys( $this->unsanitized_post_values() ),
 		);
 
 		if ( 2 == $this->nonce_tick ) {
