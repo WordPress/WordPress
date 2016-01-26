@@ -1484,6 +1484,7 @@ class WP_Query {
 	 * @since 4.4.0 Introduced `$post_name__in` and `$title` parameters. `$s` was updated to support excluded
 	 *              search terms, by prepending a hyphen.
 	 * @since 4.5.0 Removed the `$comments_popup` parameter.
+	 *              Introduced the `$comment_status` and `$ping_status` parameters.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -1500,6 +1501,7 @@ class WP_Query {
 	 *     @type array        $category__in            An array of category IDs (OR in, no children).
 	 *     @type array        $category__not_in        An array of category IDs (NOT in).
 	 *     @type string       $category_name           Use category slug (not name, this or any children).
+	 *     @type string       $comment_status          Comment status.
 	 *     @type int          $comments_per_page       The number of comments to return per page.
 	 *                                                 Default 'comments_per_page' option.
 	 *     @type array        $date_query              An associative array of WP_Date_Query arguments.
@@ -1545,6 +1547,7 @@ class WP_Query {
 	 *     @type int          $page_id                 Page ID.
 	 *     @type string       $pagename                Page slug.
 	 *     @type string       $perm                    Show posts if user has the appropriate capability.
+	 *     @type string       $ping_status             Ping status.
 	 *     @type array        $post__in                An array of post IDs to retrieve, sticky posts will be included
 	 *     @type string       $post_mime_type          The mime type of the post. Used for 'attachment' post_type.
 	 *     @type array        $post__not_in            An array of post IDs not to retrieve. Note: a string of comma-
@@ -3034,6 +3037,14 @@ class WP_Query {
 			}
 		} elseif ( isset( $q['has_password'] ) ) {
 			$where .= sprintf( " AND $wpdb->posts.post_password %s ''", $q['has_password'] ? '!=' : '=' );
+		}
+
+		if ( ! empty( $q['comment_status'] ) ) {
+			$where .= $wpdb->prepare( " AND $wpdb->posts.comment_status = %s ", $q['comment_status'] );
+		}
+
+		if ( ! empty( $q['ping_status'] ) )  {
+			$where .= $wpdb->prepare( " AND $wpdb->posts.ping_status = %s ", $q['ping_status'] );
 		}
 
 		if ( 'any' == $post_type ) {
