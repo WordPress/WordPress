@@ -430,10 +430,6 @@ input[type="number"].tiny-text {
 	margin-right: 1em;
 }
 
-#upload-form label {
-	color: #777;
-}
-
 button.wp-hide-pw > .dashicons {
 	position: relative;
 	top: 3px;
@@ -863,7 +859,7 @@ table.form-table td .updated p {
 }
 
 .pressthis-bookmarklet span:before {
-	color: #777;
+	color: #72777c;
 	font: normal 20px/1 dashicons;
 	content: "\f157";
 	position: relative;
@@ -879,11 +875,6 @@ table.form-table td .updated p {
 	vertical-align: top;
 }
 
-.pressthis-js-toggle .dashicons {
-	margin: 5px 7px 6px 8px;
-	color: #777;
-}
-
 /* to override the button class being applied */
 .pressthis-js-toggle.button.button {
 	margin-right: 10px;
@@ -894,7 +885,7 @@ table.form-table td .updated p {
 
 .pressthis-js-toggle .dashicons {
 	margin: 5px 7px 6px 8px;
-	color: #777;
+	color: #555d66;
 }
 
 /*------------------------------------------------------------------------------

@@ -128,7 +128,7 @@
 }
 
 .welcome-panel p {
-	color: #777;
+	color: #72777c;
 }
 
 .welcome-panel a {
@@ -326,7 +326,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 .rssSummary {
-	color: #777;
+	color: #72777c;
 	margin-top: 4px;
 }
 
@@ -347,7 +347,7 @@ body #dashboard-widgets .postbox form .submit {
 
 #dashboard_primary .rss-widget span,
 #dashboard_primary .rss-widget span.rss-date {
-	color: #777;
+	color: #72777c;
 }
 
 #dashboard_primary .rss-widget span.rss-date {
@@ -406,7 +406,7 @@ body #dashboard-widgets .postbox form .submit {
 /* Dashboard right now - Colors */
 
 #dashboard_right_now .sub {
-	color: #777;
+	color: #555d66;
 	background: #f5f5f5;
 	border-top: 1px solid #eee;
 	padding: 10px 12px 6px 12px;
@@ -484,7 +484,7 @@ form.initial-form.quickpress-open input#title {
 
 #title-wrap #title-prompt-text,
 .textarea-wrap #content-prompt-text {
-	color: #777;
+	color: #72777c;
 }
 
 #title-wrap #title-prompt-text {
@@ -545,7 +545,7 @@ form.initial-form.quickpress-open input#title {
 	margin-bottom: 1em;
 }
 #dashboard_quick_press .drafts li time {
-	color: #777;
+	color: #72777c;
 }
 
 #dashboard_quick_press .drafts p {
@@ -653,7 +653,7 @@ form.initial-form.quickpress-open input#title {
 	display: inline-block;
 	margin-right: 5px;
 	min-width: 150px;
-	color: #777;
+	color: #72777c;
 }
 
 .activity-block {
@@ -991,9 +991,9 @@ a.rsswidget {
 		min-height: 0;
 	}
 
-	#dashboard-widgets #postbox-container-3 .empty-container:after, 
-	#dashboard-widgets #postbox-container-4 .empty-container:after { 
-		display: none; 
+	#dashboard-widgets #postbox-container-3 .empty-container:after,
+	#dashboard-widgets #postbox-container-4 .empty-container:after {
+		display: none;
 	}
 
 	#wpbody #wpbody-content #dashboard-widgets.columns-1 .postbox-container {

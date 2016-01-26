@@ -585,7 +585,7 @@ code {
 .subtitle {
 	margin: 0;
 	padding-left: 25px;
-	color: #777;
+	color: #555d66;
 	font-size: 14px;
 	font-weight: normal;
 }
@@ -991,7 +991,7 @@ th.action-links {
 	padding: 4px 10px;
 	-webkit-border-radius: 30px;
 	border-radius: 30px;
-	background: #777;
+	background: #72777c;
 	color: #fff;
 	font-size: 14px;
 	font-weight: 600;
@@ -1082,7 +1082,7 @@ th.action-links {
 	margin: 0 5px 0 0;
 	width: 16px;
 	height: 16px;
-	color: #777;
+	color: #72777c;
 	-webkit-transition: color .1s ease-in 0;
 	transition: color .1s ease-in 0;
 	font-family: dashicons;
@@ -1145,7 +1145,7 @@ th.action-links {
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	border: none;
-	background: #777;
+	background: #72777c;
 	color: #fff;
 }
 
@@ -1556,7 +1556,7 @@ form.upgrade .hint {
 	background: none;
 	-webkit-border-radius: 0;
 	border-radius: 0;
-	color: #777;
+	color: #72777c;
 	line-height: 1.7;
 	padding: 3px 6px 3px 16px;
 }
@@ -2006,7 +2006,7 @@ html.wp-toolbar {
 	left: 0;
 	right: 0;
 	padding: 10px 20px;
-	color: #777;
+	color: #555d66;
 }
 
 #wpfooter p {
@@ -3102,7 +3102,7 @@ img {
 .item-edit:hover,
 .sidebar-name:hover .sidebar-name-arrow,
 .accordion-section-title:hover:after {
-	color: #777;
+	color: #555d66;
 }
 
 .widget-top a.widget-action:after {

@@ -469,7 +469,7 @@
 }
 
 #available-menu-items .accordion-section-title:hover .toggle-indicator:after {
-	color: #777;
+	color: #555d66;
 }
 
 #available-menu-items .open .accordion-section-title .toggle-indicator:after {
@@ -507,7 +507,7 @@
 
 #available-menu-items .cannot-expand .accordion-section-title .no-items {
 	float: left;
-	color: #777;
+	color: #555d66;
 	font-weight: normal;
 	margin-right: 5px;
 }

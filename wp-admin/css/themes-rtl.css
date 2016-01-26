@@ -437,7 +437,7 @@
 
 .theme-overlay .theme-header .close:before {
 	font: normal 22px/50px dashicons !important;
-	color: #777;
+	color: #72777c;
 	display: inline-block;
 	content: "\f335";
 	font-weight: 300;
@@ -447,7 +447,7 @@
 .theme-overlay .theme-header .right,
 .theme-overlay .theme-header .left {
 	cursor: pointer;
-	color: #777;
+	color: #72777c;
 	background-color: transparent;
 	height: 48px;
 	width: 54px;
@@ -1607,7 +1607,7 @@ body.full-overlay-active {
 
 .theme-details .theme-description {
 	float: right;
-	color: #777;
+	color: #72777c;
 	line-height: 20px;
 	max-width: 100%;
 }

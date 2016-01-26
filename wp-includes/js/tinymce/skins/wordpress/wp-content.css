@@ -176,12 +176,12 @@ img[data-mce-selected]::selection {
 
 .mce-content-body img.wp-media:hover {
 	background-color: #ededed;
-	border-color: #777;
+	border-color: #72777c;
 }
 
 .mce-content-body img.wp-media.wp-media-selected {
 	background-color: #d8d8d8;
-	border-color: #777;
+	border-color: #72777c;
 }
 
 .mce-content-body img.wp-media.wp-gallery {
@@ -190,13 +190,13 @@ img[data-mce-selected]::selection {
 
 /* Image resize handles */
 .mce-content-body div.mce-resizehandle {
-	border-color: #777;
+	border-color: #72777c;
 	width: 7px;
 	height: 7px;
 }
 
 .mce-content-body img[data-mce-selected] {
-	outline: 1px solid #777;
+	outline: 1px solid #72777c;
 }
 
 .mce-content-body img[data-mce-resize="false"] {
@@ -306,7 +306,7 @@ audio {
 .ie8 .wpview-wrap[data-mce-selected],
 .ie7 .wpview-wrap[data-mce-selected] {
 	background-color: #e5e5e5;
-	border-color: #777;
+	border-color: #72777c;
 }
 
 .wpview-overlay {
