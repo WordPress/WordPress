@@ -661,7 +661,6 @@ final class WP_Customize_Widgets {
 		);
 
 		$settings = array(
-			'nonce'                => wp_create_nonce( 'update-widget' ),
 			'registeredSidebars'   => array_values( $wp_registered_sidebars ),
 			'registeredWidgets'    => $wp_registered_widgets,
 			'availableWidgets'     => $available_widgets, // @todo Merge this with registered_widgets

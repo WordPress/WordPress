@@ -48,6 +48,7 @@ final class WP_Customize_Nav_Menus {
 		$this->previewed_menus = array();
 		$this->manager         = $manager;
 
+		add_filter( 'customize_refresh_nonces', array( $this, 'filter_nonces' ) );
 		add_action( 'wp_ajax_load-available-menu-items-customizer', array( $this, 'ajax_load_available_items' ) );
 		add_action( 'wp_ajax_search-available-menu-items-customizer', array( $this, 'ajax_search_available_items' ) );
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -60,6 +61,20 @@ final class WP_Customize_Nav_Menus {
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'print_templates' ) );
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'available_items_template' ) );
 		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
+	}
+
+	/**
+	 * Add nonce for customizing menus.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @param  array $nonces Array of nonces.
+	 * @return array $nonces Array of nonces.
+	 */
+	public function filter_nonces( $nonces ) {
+		$nonces['customize-menus'] = wp_create_nonce( 'customize-menus' );
+		return $nonces;
 	}
 
 	/**
@@ -329,7 +344,6 @@ final class WP_Customize_Nav_Menus {
 
 		// Pass data to JS.
 		$settings = array(
-			'nonce'                => wp_create_nonce( 'customize-menus' ),
 			'allMenus'             => wp_get_nav_menus(),
 			'itemTypes'            => $this->available_item_types(),
 			'l10n'                 => array(
@@ -939,12 +953,6 @@ final class WP_Customize_Nav_Menus {
 			'renderQueryVar'        => self::RENDER_QUERY_VAR,
 			'renderNonceValue'      => wp_create_nonce( self::RENDER_AJAX_ACTION ),
 			'renderNoncePostKey'    => self::RENDER_NONCE_POST_KEY,
-			'requestUri'            => empty( $_SERVER['REQUEST_URI'] ) ? home_url( '/' ) : esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
-			'theme'                 => array(
-				'stylesheet' => $this->manager->get_stylesheet(),
-				'active'     => $this->manager->is_theme_active(),
-			),
-			'previewCustomizeNonce' => wp_create_nonce( 'preview-customize_' . $this->manager->get_stylesheet() ),
 			'navMenuInstanceArgs'   => $this->preview_nav_menu_instance_args,
 			'l10n'                  => array(
 				'editNavMenuItemTooltip' => __( 'Shift-click to edit this menu item.' ),

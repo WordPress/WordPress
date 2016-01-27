@@ -801,19 +801,20 @@ final class WP_Customize_Manager {
 	 */
 	public function customize_preview_settings() {
 		$settings = array(
+			'theme' => array(
+				'stylesheet' => $this->get_stylesheet(),
+				'active'     => $this->is_theme_active(),
+			),
+			'url' => array(
+				'self' => empty( $_SERVER['REQUEST_URI'] ) ? home_url( '/' ) : esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
+			),
 			'channel' => wp_unslash( $_POST['customize_messenger_channel'] ),
 			'activePanels' => array(),
 			'activeSections' => array(),
 			'activeControls' => array(),
+			'nonce' => $this->get_nonces(),
 			'_dirty' => array_keys( $this->unsanitized_post_values() ),
 		);
-
-		if ( 2 == $this->nonce_tick ) {
-			$settings['nonce'] = array(
-				'save' => wp_create_nonce( 'save-customize_' . $this->get_stylesheet() ),
-				'preview' => wp_create_nonce( 'preview-customize_' . $this->get_stylesheet() )
-			);
-		}
 
 		foreach ( $this->panels as $panel_id => $panel ) {
 			if ( $panel->check_capabilities() ) {
@@ -1025,22 +1026,7 @@ final class WP_Customize_Manager {
 			wp_send_json_error( 'not_preview' );
 		}
 
-		$nonces = array(
-			'save'    => wp_create_nonce( 'save-customize_' . $this->get_stylesheet() ),
-			'preview' => wp_create_nonce( 'preview-customize_' . $this->get_stylesheet() ),
-		);
-
-		/**
-		 * Filter nonces for a customize_refresh_nonces AJAX request.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @param array                $nonces Array of refreshed nonces for save and
-		 *                                     preview actions.
-		 * @param WP_Customize_Manager $this   WP_Customize_Manager instance.
-		 */
-		$nonces = apply_filters( 'customize_refresh_nonces', $nonces, $this );
-		wp_send_json_success( $nonces );
+		wp_send_json_success( $this->get_nonces() );
 	}
 
 	/**
@@ -1636,6 +1622,32 @@ final class WP_Customize_Manager {
 	}
 
 	/**
+	 * Get nonces for the Customizer.
+	 *
+	 * @since 4.5.0
+	 * @return array Nonces.
+	 */
+	public function get_nonces() {
+		$nonces = array(
+			'save' => wp_create_nonce( 'save-customize_' . $this->get_stylesheet() ),
+			'preview' => wp_create_nonce( 'preview-customize_' . $this->get_stylesheet() ),
+		);
+
+		/**
+		 * Filter nonces for Customizer.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param array                $nonces Array of refreshed nonces for save and
+		 *                                     preview actions.
+		 * @param WP_Customize_Manager $this   WP_Customize_Manager instance.
+		 */
+		$nonces = apply_filters( 'customize_refresh_nonces', $nonces, $this );
+
+		return $nonces;
+	}
+
+	/**
 	 * Print JavaScript settings for parent window.
 	 *
 	 * @since 4.4.0
@@ -1695,10 +1707,7 @@ final class WP_Customize_Manager {
 			),
 			'panels'   => array(),
 			'sections' => array(),
-			'nonce'    => array(
-				'save'    => wp_create_nonce( 'save-customize_' . $this->get_stylesheet() ),
-				'preview' => wp_create_nonce( 'preview-customize_' . $this->get_stylesheet() ),
-			),
+			'nonce'    => $this->get_nonces(),
 			'autofocus' => array(),
 			'documentTitleTmpl' => $this->get_document_title_template(),
 		);

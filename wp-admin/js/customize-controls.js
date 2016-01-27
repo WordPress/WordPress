@@ -3375,6 +3375,7 @@
 		api.bind( 'nonce-refresh', function( nonce ) {
 			$.extend( api.settings.nonce, nonce );
 			$.extend( api.previewer.nonce, nonce );
+			api.previewer.send( 'nonce-refresh', nonce );
 		});
 
 		// Create Settings

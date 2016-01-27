@@ -13,12 +13,7 @@
 			renderQueryVar: null,
 			renderNonceValue: null,
 			renderNoncePostKey: null,
-			previewCustomizeNonce: null,
 			requestUri: '/',
-			theme: {
-				active: false,
-				stylesheet: ''
-			},
 			navMenuInstanceArgs: {},
 			l10n: {}
 		};
@@ -200,11 +195,11 @@
 			menuId = parseInt( menuId, 10 );
 
 			data = {
-				nonce: settings.previewCustomizeNonce, // for Customize Preview
+				nonce: wp.customize.settings.nonce.preview,
 				wp_customize: 'on'
 			};
-			if ( ! settings.theme.active ) {
-				data.theme = settings.theme.stylesheet;
+			if ( ! wp.customize.settings.theme.active ) {
+				data.theme = wp.customize.settings.theme.stylesheet;
 			}
 			data[ settings.renderQueryVar ] = '1';
 
@@ -239,7 +234,7 @@
 
 			request = wp.ajax.send( null, {
 				data: data,
-				url: settings.requestUri
+				url: api.settings.url.self
 			} );
 			request.done( function( data ) {
 				// If the menu is now not visible, refresh since the page layout may have changed.
@@ -262,6 +257,9 @@
 				};
 				container.removeClass( 'customize-partial-refreshing' );
 				$( document ).trigger( 'customize-preview-menu-refreshed', [ eventParam ] );
+			} );
+			request.fail( function() {
+				api.preview.send( 'refresh' );
 			} );
 		},
 

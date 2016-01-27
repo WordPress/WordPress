@@ -146,9 +146,7 @@
 		});
 
 		api.preview.bind( 'active', function() {
-			if ( api.settings.nonce ) {
-				api.preview.send( 'nonce', api.settings.nonce );
-			}
+			api.preview.send( 'nonce', api.settings.nonce );
 
 			api.preview.send( 'documentTitle', document.title );
 		});
@@ -161,6 +159,10 @@
 			api.each( function( setting ) {
 				setting._dirty = false;
 			} );
+		} );
+
+		api.preview.bind( 'nonce-refresh', function( nonce ) {
+			$.extend( api.settings.nonce, nonce );
 		} );
 
 		/*
