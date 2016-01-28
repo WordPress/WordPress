@@ -131,7 +131,7 @@ function options_reading_add_js() {
 }
 
 /**
- * Render the blog charset setting.
+ * Render the site charset setting.
  *
  * @since 3.5.0
  */

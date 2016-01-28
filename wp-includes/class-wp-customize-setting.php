@@ -207,7 +207,7 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * The ID for the current blog when the preview() method was called.
+	 * The ID for the current site when the preview() method was called.
 	 *
 	 * @since 4.2.0
 	 * @access protected
@@ -216,7 +216,7 @@ class WP_Customize_Setting {
 	protected $_previewed_blog_id;
 
 	/**
-	 * Return true if the current blog is not the same as the previewed blog.
+	 * Return true if the current site is not the same as the previewed site.
 	 *
 	 * @since 4.2.0
 	 * @access public
@@ -374,7 +374,7 @@ class WP_Customize_Setting {
 	 * Callback function to filter non-multidimensional theme mods and options.
 	 *
 	 * If switch_to_blog() was called after the preview() method, and the current
-	 * blog is now not the same blog, then this method does a no-op and returns
+	 * site is now not the same site, then this method does a no-op and returns
 	 * the original value.
 	 *
 	 * @since 3.4.0

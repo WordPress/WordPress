@@ -102,7 +102,7 @@ function get_comment_author_email( $comment_ID = 0 ) {
  *
  * Care should be taken to protect the email address and assure that email
  * harvesters do not capture your commentors' email address. Most assume that
- * their email address will not appear in raw form on the blog. Doing so will
+ * their email address will not appear in raw form on the site. Doing so will
  * enable anyone, including those that people don't want to get the email
  * address and use it for their own means good and bad.
  *
@@ -133,7 +133,7 @@ function comment_author_email( $comment_ID = 0 ) {
  *
  * Care should be taken to protect the email address and assure that email
  * harvesters do not capture your commentors' email address. Most assume that
- * their email address will not appear in raw form on the blog. Doing so will
+ * their email address will not appear in raw form on the site. Doing so will
  * enable anyone, including those that people don't want to get the email
  * address and use it for their own means good and bad.
  *
@@ -154,7 +154,7 @@ function comment_author_email_link( $linktext = '', $before = '', $after = '' ) 
  *
  * Care should be taken to protect the email address and assure that email
  * harvesters do not capture your commentors' email address. Most assume that
- * their email address will not appear in raw form on the blog. Doing so will
+ * their email address will not appear in raw form on the site. Doing so will
  * enable anyone, including those that people don't want to get the email
  * address and use it for their own means good and bad.
  *
@@ -1241,7 +1241,7 @@ function wp_comment_form_unfiltered_html_nonce() {
  * @global int        $user_ID
  * @global string     $user_identity
  * @global bool       $overridden_cpage
- * @global bool       $withcomments 
+ * @global bool       $withcomments
  *
  * @param string $file              Optional. The file to load. Default '/comments.php'.
  * @param bool   $separate_comments Optional. Whether to separate the comments by comment type.

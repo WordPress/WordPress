@@ -9,7 +9,7 @@
  */
 
 /**
- * Update the last_updated field for the current blog.
+ * Update the last_updated field for the current site.
  *
  * @since MU
  *
@@ -24,7 +24,7 @@ function wpmu_update_blogs_date() {
 	 *
 	 * @since MU
 	 *
-	 * @param int $blog_id Blog ID.
+	 * @param int $blog_id Site ID.
 	 */
 	do_action( 'wpmu_blog_updated', $wpdb->blogid );
 }
@@ -991,4 +991,3 @@ function _update_posts_count_on_transition_post_status( $new_status, $old_status
 
 	update_posts_count();
 }
-

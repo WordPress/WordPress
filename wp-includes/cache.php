@@ -209,7 +209,7 @@ function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
  * @see WP_Object_Cache::switch_to_blog()
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  *
- * @param int $blog_id Blog ID.
+ * @param int $blog_id Site ID.
  */
 function wp_cache_switch_to_blog( $blog_id ) {
 	global $wp_object_cache;

@@ -2347,20 +2347,20 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 }
 
 /**
- * Get users for the blog.
+ * Get users for the site.
  *
- * For setups that use the multi-blog feature. Can be used outside of the
- * multi-blog feature.
+ * For setups that use the multisite feature. Can be used outside of the
+ * multisite feature.
  *
  * @since 2.2.0
  * @deprecated 3.1.0 Use get_users()
  * @see get_users()
  *
  * @global wpdb $wpdb    WordPress database abstraction object.
- * @global int  $blog_id The Blog id of the blog for those that use more than one blog
+ * @global int  $blog_id The site ID of the site for those that use more than one site.
  *
- * @param int $id Blog ID.
- * @return array List of users that are part of that Blog ID
+ * @param int $id Site ID.
+ * @return array List of users that are part of that site ID
  */
 function get_users_of_blog( $id = '' ) {
 	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
@@ -2793,13 +2793,13 @@ function wp_admin_bar_dashboard_view_site_menu( $wp_admin_bar ) {
 }
 
 /**
- * Checks if the current user belong to a given blog.
+ * Checks if the current user belong to a given site.
  *
  * @since MU
  * @deprecated 3.3.0 Use is_user_member_of_blog()
  * @see is_user_member_of_blog()
  *
- * @param int $blog_id Blog ID
+ * @param int $blog_id Site ID
  * @return bool True if the current users belong to $blog_id, false if not.
  */
 function is_blog_user( $blog_id = 0 ) {

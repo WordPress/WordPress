@@ -48,14 +48,14 @@ function check_upload_size( $file ) {
 }
 
 /**
- * Delete a blog.
+ * Delete a site.
  *
  * @since 3.0.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int  $blog_id Blog ID.
- * @param bool $drop    True if blog's table should be dropped. Default is false.
+ * @param int  $blog_id Site ID.
+ * @param bool $drop    True if site's database tables should be dropped. Default is false.
  */
 function wpmu_delete_blog( $blog_id, $drop = false ) {
 	global $wpdb;
@@ -68,12 +68,12 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 
 	$blog = get_blog_details( $blog_id );
 	/**
-	 * Fires before a blog is deleted.
+	 * Fires before a site is deleted.
 	 *
 	 * @since MU
 	 *
-	 * @param int  $blog_id The blog ID.
-	 * @param bool $drop    True if blog's table should be dropped. Default is false.
+	 * @param int  $blog_id The site ID.
+	 * @param bool $drop    True if site's table should be dropped. Default is false.
 	 */
 	do_action( 'delete_blog', $blog_id, $drop );
 
@@ -112,12 +112,12 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 
 		$tables = $wpdb->tables( 'blog' );
 		/**
-		 * Filter the tables to drop when the blog is deleted.
+		 * Filter the tables to drop when the site is deleted.
 		 *
 		 * @since MU
 		 *
-		 * @param array $tables  The blog tables to be dropped.
-		 * @param int   $blog_id The ID of the blog to drop tables for.
+		 * @param array $tables  The site tables to be dropped.
+		 * @param int   $blog_id The ID of the site to drop tables for.
 		 */
 		$drop_tables = apply_filters( 'wpmu_drop_tables', $tables, $blog_id );
 
@@ -128,12 +128,12 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		$wpdb->delete( $wpdb->blogs, array( 'blog_id' => $blog_id ) );
 
 		/**
-		 * Filter the upload base directory to delete when the blog is deleted.
+		 * Filter the upload base directory to delete when the site is deleted.
 		 *
 		 * @since MU
 		 *
 		 * @param string $uploads['basedir'] Uploads path without subdirectory. @see wp_upload_dir()
-		 * @param int    $blog_id            The blog ID.
+		 * @param int    $blog_id            The site ID.
 		 */
 		$dir = apply_filters( 'wpmu_delete_blog_upload_dir', $uploads['basedir'], $blog_id );
 		$dir = rtrim( $dir, DIRECTORY_SEPARATOR );
@@ -410,7 +410,7 @@ function new_user_email_admin_notice() {
 }
 
 /**
- * Check whether a blog has used its allotted upload space.
+ * Check whether a site has used its allotted upload space.
  *
  * @since MU
  *
@@ -437,7 +437,7 @@ function upload_is_user_over_quota( $echo = true ) {
 }
 
 /**
- * Displays the amount of disk space used by the current blog. Not used in core.
+ * Displays the amount of disk space used by the current site. Not used in core.
  *
  * @since MU
  */
@@ -462,7 +462,7 @@ function display_space_usage() {
 }
 
 /**
- * Get the remaining upload space for this blog.
+ * Get the remaining upload space for this site.
  *
  * @since MU
  *
@@ -478,11 +478,11 @@ function fix_import_form_size( $size ) {
 }
 
 /**
- * Displays the edit blog upload space setting form on the Edit Blog screen.
+ * Displays the site upload space quota setting form on the Edit Site Settings screen.
  *
  * @since 3.0.0
  *
- * @param int $id The ID of the blog to display the setting for.
+ * @param int $id The ID of the site to display the setting for.
  */
 function upload_space_setting( $id ) {
 	switch_to_blog( $id );

@@ -983,7 +983,7 @@ function add_contextual_help( $screen, $help ) {
 }
 
 /**
- * Get the allowed themes for the current blog.
+ * Get the allowed themes for the current site.
  *
  * @since 3.0.0
  * @deprecated 3.4.0 Use wp_get_themes()

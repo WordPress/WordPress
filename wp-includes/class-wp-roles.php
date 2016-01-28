@@ -133,7 +133,7 @@ class WP_Roles {
 	 * Reinitialize the object
 	 *
 	 * Recreates the role objects. This is typically called only by switch_to_blog()
-	 * after switching wpdb to a new blog ID.
+	 * after switching wpdb to a new site ID.
 	 *
 	 * @since 3.5.0
 	 * @access public

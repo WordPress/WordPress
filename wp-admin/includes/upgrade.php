@@ -27,10 +27,10 @@ if ( !function_exists('wp_install') ) :
  *
  * @since 2.1.0
  *
- * @param string $blog_title    Blog title.
+ * @param string $blog_title    Site title.
  * @param string $user_name     User's username.
  * @param string $user_email    User's email.
- * @param bool   $public        Whether blog is public.
+ * @param bool   $public        Whether site is public.
  * @param string $deprecated    Optional. Not used.
  * @param string $user_password Optional. User's chosen password. Default empty (random password).
  * @param string $language      Optional. Language chosen. Default empty.
@@ -64,7 +64,7 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 
 	/*
 	 * Create default user. If the user already exists, the user tables are
-	 * being shared among blogs. Just set the role in that case.
+	 * being shared among sites. Just set the role in that case.
 	 */
 	$user_id = username_exists($user_name);
 	$user_password = trim($user_password);
@@ -359,8 +359,8 @@ if ( !function_exists('wp_new_blog_notification') ) :
  *
  * @since 2.1.0
  *
- * @param string $blog_title Blog title.
- * @param string $blog_url   Blog url.
+ * @param string $blog_title Site title.
+ * @param string $blog_url   Site url.
  * @param int    $user_id    User ID.
  * @param string $password   User's Password.
  */

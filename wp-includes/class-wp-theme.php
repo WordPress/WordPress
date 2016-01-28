@@ -1130,7 +1130,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @param string $check Optional. Whether to check only the 'network'-wide settings, the 'site'
 	 * 	settings, or 'both'. Defaults to 'both'.
-	 * @param int $blog_id Optional. Ignored if only network-wide settings are checked. Defaults to current blog.
+	 * @param int $blog_id Optional. Ignored if only network-wide settings are checked. Defaults to current site.
 	 * @return bool Whether the theme is allowed for the network. Returns true in single-site.
 	 */
 	public function is_allowed( $check = 'both', $blog_id = null ) {

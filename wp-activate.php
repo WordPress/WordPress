@@ -1,7 +1,7 @@
 <?php
 /**
  * Confirms that the activation key that is sent in an email after a user signs
- * up for a new blog matches the key for that user and then displays confirmation.
+ * up for a new site matches the key for that user and then displays confirmation.
  *
  * @package WordPress
  */
@@ -117,9 +117,9 @@ get_header( 'wp-activate' );
 			</div>
 
 			<?php if ( $url && $url != network_home_url( '', 'http' ) ) :
-				switch_to_blog( (int) $result['blog_id'] ); 
-				$login_url = wp_login_url(); 
-				restore_current_blog(); 
+				switch_to_blog( (int) $result['blog_id'] );
+				$login_url = wp_login_url();
+				restore_current_blog();
 				?>
 				<p class="view"><?php printf( __( 'Your account is now activated. <a href="%1$s">View your site</a> or <a href="%2$s">Log in</a>' ), $url, esc_url( $login_url ) ); ?></p>
 			<?php else: ?>

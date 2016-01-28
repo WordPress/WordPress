@@ -685,7 +685,7 @@ class WP_Http {
 	 * prevent plugins from working and core functionality, if you don't include api.wordpress.org.
 	 *
 	 * You block external URL requests by defining WP_HTTP_BLOCK_EXTERNAL as true in your wp-config.php
-	 * file and this will only allow localhost and your blog to make requests. The constant
+	 * file and this will only allow localhost and your site to make requests. The constant
 	 * WP_ACCESSIBLE_HOSTS will allow additional hosts to go through for requests. The format of the
 	 * WP_ACCESSIBLE_HOSTS constant is a comma separated list of hostnames to allow, wildcard domains
 	 * are supported, eg *.wordpress.org will allow for all subdomains of wordpress.org to be contacted.

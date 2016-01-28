@@ -157,8 +157,8 @@ class WP_User {
 	/**
 	 * Sets up object properties, including capabilities.
 	 *
-	 * @param object $data User DB row object
-	 * @param int $blog_id Optional. The blog id to initialize for
+	 * @param object $data    User DB row object.
+	 * @param int    $blog_id Optional. The site ID to initialize for.
 	 */
 	public function init( $data, $blog_id = '' ) {
 		$this->data = $data;
