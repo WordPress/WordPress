@@ -140,7 +140,7 @@ class WP_User_Query {
 	 * @param string|array $query {
 	 *     Optional. Array or string of Query parameters.
 	 *
-	 *     @type int          $blog_id             The site ID. Default is the global blog id.
+	 *     @type int          $blog_id             The site ID. Default is the current site.
 	 *     @type string|array $role                An array or a comma-separated list of role names that users must match
 	 *                                             to be included in results. Note that this is an inclusive list: users
 	 *                                             must match *each* role. Default empty.

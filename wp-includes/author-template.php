@@ -326,7 +326,7 @@ function get_author_posts_url( $author_id, $author_nicename = '' ) {
 }
 
 /**
- * List all the authors of the blog, with several options available.
+ * List all the authors of the site, with several options available.
  *
  * @link https://codex.wordpress.org/Template_Tags/wp_list_authors
  *

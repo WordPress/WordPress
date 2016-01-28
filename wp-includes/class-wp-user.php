@@ -113,7 +113,7 @@ class WP_User {
 	 *
 	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
 	 * @param string $name Optional. User's username
-	 * @param int $blog_id Optional Blog ID, defaults to current blog.
+	 * @param int $blog_id Optional Site ID, defaults to current site.
 	 */
 	public function __construct( $id = 0, $name = '', $blog_id = '' ) {
 		if ( ! isset( self::$back_compat_keys ) ) {
@@ -768,13 +768,13 @@ class WP_User {
 	}
 
 	/**
-	 * Set the blog to operate on. Defaults to the current blog.
+	 * Set the site to operate on. Defaults to the current site.
 	 *
 	 * @since 3.0.0
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @param int $blog_id Optional Blog ID, defaults to current blog.
+	 * @param int $blog_id Optional. Site ID, defaults to current site.
 	 */
 	public function for_blog( $blog_id = '' ) {
 		global $wpdb;
