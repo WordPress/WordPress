@@ -825,7 +825,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 						<div class="major-publishing-actions">
 							<?php if ( 0 != $menu_count && ! $add_new_screen ) : ?>
 							<span class="delete-action">
-								<a class="submitdelete deletion menu-delete" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'delete', 'menu' => $nav_menu_selected_id, admin_url() ) ), 'delete-nav_menu-' . $nav_menu_selected_id) ); ?>"><?php _e('Delete Menu'); ?></a>
+								<a class="submitdelete deletion menu-delete" href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'action' => 'delete', 'menu' => $nav_menu_selected_id ), admin_url( 'nav-menus.php' ) ), 'delete-nav_menu-' . $nav_menu_selected_id) ); ?>"><?php _e('Delete Menu'); ?></a>
 							</span><!-- END .delete-action -->
 							<?php endif; ?>
 							<div class="publishing-action">
