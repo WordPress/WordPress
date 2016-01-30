@@ -126,8 +126,9 @@ label {
 }
 .language-chooser.wp-core-ui .step .button.button-large {
 	height: 36px;
-	vertical-align: middle;
 	font-size: 14px;
+	line-height: 33px;
+	vertical-align: middle;
 }
 textarea {
 	border: 1px solid #dfdfdf;
@@ -438,9 +439,8 @@ body.language-chooser {
 
 .step .spinner {
 	display: inline-block;
-	margin-top: 8px;
+	vertical-align: middle;
 	margin-left: 15px;
-	vertical-align: top;
 }
 
 .button-secondary.hide-if-no-js,
