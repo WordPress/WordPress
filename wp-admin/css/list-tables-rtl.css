@@ -974,14 +974,6 @@ tr.inline-edit-row td,
 	line-height: 2.5;
 }
 
-.inline-edit-row fieldset .inline-edit-group:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
-}
-
 .inline-edit-row p.submit {
 	clear: both;
 	padding: 0.5em;

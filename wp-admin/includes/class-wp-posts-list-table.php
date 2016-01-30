@@ -1405,7 +1405,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	if ( !$bulk && $can_publish ) :
 	?>
 
-			<div class="inline-edit-group">
+			<div class="inline-edit-group wp-clearfix">
 				<label class="alignleft">
 					<span class="title"><?php _e( 'Password' ); ?></span>
 					<span class="input-text-wrap"><input type="text" name="post_password" class="inline-edit-password-input" value="" /></span>
@@ -1537,7 +1537,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php if ( post_type_supports( $screen->post_type, 'comments' ) || post_type_supports( $screen->post_type, 'trackbacks' ) ) :
 		if ( $bulk ) : ?>
 
-			<div class="inline-edit-group">
+			<div class="inline-edit-group wp-clearfix">
 		<?php if ( post_type_supports( $screen->post_type, 'comments' ) ) : ?>
 			<label class="alignleft">
 				<span class="title"><?php _e( 'Comments' ); ?></span>
@@ -1561,7 +1561,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	<?php else : // $bulk ?>
 
-			<div class="inline-edit-group">
+			<div class="inline-edit-group wp-clearfix">
 			<?php if ( post_type_supports( $screen->post_type, 'comments' ) ) : ?>
 				<label class="alignleft">
 					<input type="checkbox" name="comment_status" value="open" />
@@ -1578,7 +1578,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php endif; // $bulk
 	endif; // post_type_supports comments or pings ?>
 
-			<div class="inline-edit-group">
+			<div class="inline-edit-group wp-clearfix">
 				<label class="inline-edit-status alignleft">
 					<span class="title"><?php _e( 'Status' ); ?></span>
 					<select name="_status">

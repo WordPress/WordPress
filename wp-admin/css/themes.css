@@ -524,14 +524,6 @@
 	-webkit-overflow-scrolling: touch;
 }
 
-.theme-overlay .theme-wrap:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
-}
-
 body.folded .theme-overlay .theme-wrap {
 	left: 70px;
 }
@@ -544,13 +536,6 @@ body.folded .theme-overlay .theme-wrap {
 	right: 0;
 	overflow: auto;
 	padding: 2% 4%;
-}
-.theme-overlay .theme-about:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
 }
 
 .theme-overlay .theme-actions {

@@ -127,7 +127,7 @@ do_action( 'customize_controls_print_scripts' );
 			</a>
 		</div>
 
-		<div id="widgets-right"><!-- For Widget Customizer, many widgets try to look for instances under div#widgets-right, so we have to add that ID to a container div in the Customizer for compat -->
+		<div id="widgets-right" class="wp-clearfix"><!-- For Widget Customizer, many widgets try to look for instances under div#widgets-right, so we have to add that ID to a container div in the Customizer for compat -->
 		<div class="wp-full-overlay-sidebar-content" tabindex="-1">
 			<div id="customize-info" class="accordion-section customize-info">
 				<div class="accordion-section-title">

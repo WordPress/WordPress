@@ -759,11 +759,11 @@ final class WP_Customize_Nav_Menus {
 				</h4>
 				<div class="accordion-section-content customlinkdiv">
 					<input type="hidden" value="custom" id="custom-menu-item-type" name="menu-item[-1][menu-item-type]" />
-					<p id="menu-item-url-wrap">
+					<p id="menu-item-url-wrap" class="wp-clearfix">
 						<label class="howto" for="custom-menu-item-url"><?php _e( 'URL' ); ?></label>
 						<input id="custom-menu-item-url" name="menu-item[-1][menu-item-url]" type="text" class="code menu-item-textbox" value="http://">
 					</p>
-					<p id="menu-item-name-wrap">
+					<p id="menu-item-name-wrap" class="wp-clearfix">
 						<label class="howto" for="custom-menu-item-name"><?php _e( 'Link Text' ); ?></label>
 						<input id="custom-menu-item-name" name="menu-item[-1][menu-item-title]" type="text" class="regular-text menu-item-textbox">
 					</p>

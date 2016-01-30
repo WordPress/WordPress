@@ -230,14 +230,6 @@ div#widgets-left .inactive-sidebar .widgets-sortables {
 
 /* Widgets Right */
 
-div#widgets-right:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
-}
-
 div#widgets-right .sidebars-column-1,
 div#widgets-right .sidebars-column-2 {
 	max-width: 450px;

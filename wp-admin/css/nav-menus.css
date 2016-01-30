@@ -747,23 +747,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	margin-left: -4px;
 }
 
-/* Clearfix */
-#menu-item-name-wrap:after,
-#menu-item-url-wrap:after,
-#menu-name-label:after,
-#menu-settings-column .inside:after,
-#nav-menus-frame:after,
-.nav-menus-php #post-body-content:after,
-.nav-menus-php .button-controls:after,
-.nav-menus-php .major-publishing-actions:after,
-.nav-menus-php .menu-item-settings:after {
-	clear: both;
-	content: ".";
-	display: block;
-	height: 0;
-	visibility: hidden;
-}
-
 #nav-menus-frame,
 .button-controls,
 #menu-item-url-wrap,
