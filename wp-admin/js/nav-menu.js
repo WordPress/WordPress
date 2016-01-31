@@ -854,8 +854,13 @@ var wpNavMenu;
 			var searchTimer,
 				inputEvent;
 
+			// Prevent form submission.
+			$( '#nav-menu-meta' ).on( 'submit', function( event ) {
+				event.preventDefault();
+			});
+
 			/*
-			 * Use feature detection to determine whether password inputs should use
+			 * Use feature detection to determine whether inputs should use
 			 * the `keyup` or `input` event. Input is preferred but lacks support
 			 * in legacy browsers. See changeset 34078, see also ticket #26600#comment:59
 			 */
@@ -865,13 +870,8 @@ var wpNavMenu;
 				inputEvent = 'keyup';
 			}
 
-			$( '.quick-search' ).on( inputEvent, function( e ) {
+			$( '.quick-search' ).on( inputEvent, function() {
 				var t = $(this);
-
-				if( 13 == e.which ) {
-					api.updateQuickSearchResults( t );
-					return false;
-				}
 
 				if( searchTimer ) clearTimeout(searchTimer);
 
