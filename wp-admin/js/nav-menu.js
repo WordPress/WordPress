@@ -179,7 +179,7 @@ var wpNavMenu;
 							return false;
 
 						// Show the ajax spinner
-						t.find( '.spinner' ).addClass( 'is-active' );
+						t.find( '.button-controls .spinner' ).addClass( 'is-active' );
 
 						// Retrieve menu item data
 						$(checkboxes).each(function(){
@@ -196,7 +196,7 @@ var wpNavMenu;
 						api.addItemToMenu(menuItems, processMethod, function(){
 							// Deselect the items and hide the ajax spinner
 							checkboxes.removeAttr('checked');
-							t.find( '.spinner' ).removeClass( 'is-active' );
+							t.find( '.button-controls .spinner' ).removeClass( 'is-active' );
 						});
 					});
 				},
