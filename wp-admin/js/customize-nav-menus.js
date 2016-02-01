@@ -17,7 +17,6 @@
 
 	// Link settings.
 	api.Menus.data = {
-		nonce: '',
 		itemTypes: [],
 		l10n: {},
 		menuItemTransport: 'postMessage',
@@ -248,7 +247,7 @@
 			$section.addClass( 'loading' );
 			self.loading = true;
 			params = {
-				'customize-menus-nonce': api.Menus.data.nonce,
+				'customize-menus-nonce': api.settings.nonce['customize-menus'],
 				'wp_customize': 'on',
 				'search': self.searchTerm,
 				'page': page
