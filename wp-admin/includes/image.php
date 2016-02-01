@@ -408,11 +408,13 @@ function wp_read_image_metadata( $file ) {
 		}
 	}
 
-	foreach ( $meta as &$value ) {
-		if ( is_string( $value ) ) {
-			$value = wp_kses_post( $value );
+	foreach ( $meta['keywords'] as $key => $keyword ) {
+		if ( ! seems_utf8( $keyword ) ) {
+			$meta['keywords'][ $key ] = utf8_encode( $keyword );
 		}
 	}
+
+	$meta = wp_kses_post_deep( $meta );
 
 	/**
 	 * Filter the array of meta data read from an image's exif data.
