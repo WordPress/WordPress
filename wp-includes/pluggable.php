@@ -1336,9 +1336,17 @@ function wp_validate_redirect($location, $default = '') {
 	if ( isset($lp['scheme']) && !('http' == $lp['scheme'] || 'https' == $lp['scheme']) )
 		return $default;
 
-	// Reject if scheme is set but host is not. This catches urls like https:host.com for which parse_url does not set the host field.
-	if ( isset($lp['scheme'])  && !isset($lp['host']) )
+	// Reject if certain components are set but host is not. This catches urls like https:host.com for which parse_url does not set the host field.
+	if ( ! isset( $lp['host'] ) && ( isset( $lp['scheme'] ) || isset( $lp['user'] ) || isset( $lp['pass'] ) || isset( $lp['port'] ) ) ) {
 		return $default;
+	}
+
+	// Reject malformed components parse_url() can return on odd inputs.
+	foreach ( array( 'user', 'pass', 'host' ) as $component ) {
+		if ( isset( $lp[ $component ] ) && strpbrk( $lp[ $component ], ':/?#@' ) ) {
+			return $default;
+		}
+	}
 
 	$wpp = parse_url(home_url());
 	$site = parse_url( site_url() );
