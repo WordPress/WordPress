@@ -1197,7 +1197,8 @@ function wp_validate_redirect($location, $default = '') {
 	// In php 5 parse_url may fail if the URL query part contains http://, bug #38143
 	$test = ( $cut = strpos($location, '?') ) ? substr( $location, 0, $cut ) : $location;
 
-	$lp  = parse_url($test);
+	// @-operator is used to prevent possible warnings in PHP < 5.3.3.
+	$lp = @parse_url($test);
 
 	// Give up if malformed URL
 	if ( false === $lp )
@@ -1207,9 +1208,17 @@ function wp_validate_redirect($location, $default = '') {
 	if ( isset($lp['scheme']) && !('http' == $lp['scheme'] || 'https' == $lp['scheme']) )
 		return $default;
 
-	// Reject if scheme is set but host is not. This catches urls like https:host.com for which parse_url does not set the host field.
-	if ( isset($lp['scheme'])  && !isset($lp['host']) )
+	// Reject if certain components are set but host is not. This catches urls like https:host.com for which parse_url does not set the host field.
+	if ( ! isset( $lp['host'] ) && ( isset( $lp['scheme'] ) || isset( $lp['user'] ) || isset( $lp['pass'] ) || isset( $lp['port'] ) ) ) {
 		return $default;
+	}
+
+	// Reject malformed components parse_url() can return on odd inputs.
+	foreach ( array( 'user', 'pass', 'host' ) as $component ) {
+		if ( isset( $lp[ $component ] ) && strpbrk( $lp[ $component ], ':/?#@' ) ) {
+			return $default;
+		}
+	}
 
 	$wpp = parse_url(home_url());
 
