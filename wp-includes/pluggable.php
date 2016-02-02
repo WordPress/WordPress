@@ -1326,7 +1326,8 @@ function wp_validate_redirect($location, $default = '') {
 	// In php 5 parse_url may fail if the URL query part contains http://, bug #38143
 	$test = ( $cut = strpos($location, '?') ) ? substr( $location, 0, $cut ) : $location;
 
-	$lp  = parse_url($test);
+	// @-operator is used to prevent possible warnings in PHP < 5.3.3.
+	$lp = @parse_url($test);
 
 	// Give up if malformed URL
 	if ( false === $lp )
