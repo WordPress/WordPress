@@ -336,6 +336,7 @@ function wp_ajax_logged_in() {
  *
  * Contrary to normal success AJAX response ("1"), die with time() on success.
  *
+ * @access private
  * @since 2.7.0
  *
  * @param int $comment_id
@@ -430,6 +431,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 /**
  * Ajax handler for adding a hierarchical term.
  *
+ * @access private
  * @since 3.1.0
  */
 function _wp_ajax_add_hierarchical_term() {
