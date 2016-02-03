@@ -169,9 +169,13 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 }
 
 /**
+ * Outputs controls for the current dashboard widget.
  *
- * @param type $dashboard
- * @param type $meta_box
+ * @access private
+ * @since 2.7.0
+ *
+ * @param mixed $dashboard
+ * @param array $meta_box
  */
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
 	echo '<form method="post" class="dashboard-widget-control-form">';
@@ -566,10 +570,15 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 }
 
 /**
+ * Outputs a row for the Recent Comments widget.
+ *
+ * @access private
+ * @since 2.7.0
+ *
  * @global WP_Comment $comment
  *
- * @param WP_Comment $comment
- * @param bool       $show_date
+ * @param WP_Comment $comment   The current comment.
+ * @param bool       $show_date Optional. Whether to display the date.
  */
 function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$GLOBALS['comment'] = clone $comment;
