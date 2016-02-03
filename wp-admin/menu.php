@@ -182,7 +182,10 @@ if ( ! is_multisite() ) {
 	add_action('admin_menu', '_add_themes_utility_last', 101);
 }
 /**
+ * Adds the (theme) 'Editor' link to the bottom of the Appearance menu.
  *
+ * @access private
+ * @since 3.0.0
  */
 function _add_themes_utility_last() {
 	// Must use API on the admin_menu hook, direct modification is only possible on/before the _admin_menu hook
