@@ -1207,23 +1207,14 @@ ul.cat-checklist {
 	margin-top: 4px;
 }
 
-#update-plugins-table tbody td p {
+.updates-table .plugin-title p {
 	margin-top: 0;
-}
-
-#update-plugins-table tbody td p strong {
-	font-size: 14px;
 }
 
 .plugins thead td.check-column,
 .plugins tfoot td.check-column,
 .plugins .inactive th.check-column {
 	padding-left: 6px;
-}
-
-#update-plugins-table thead td.check-column,
-#update-plugins-table tfoot td.check-column {
-	padding-top: 11px;
 }
 
 .plugins,
@@ -1338,6 +1329,11 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 #wpbody-content .plugins .theme-title {
 	padding-right: 12px;
 	white-space:nowrap;
+}
+
+.updates-table-screenshot {
+	float:left;
+	padding: 0 10px 5px 0;
 }
 
 .plugins .inactive .plugin-title strong {
@@ -2053,7 +2049,7 @@ div.action-links,
 	}
 
 	/* Updates */
-	#wpbody-content #update-themes-table .plugin-title {
+	#wpbody-content .updates-table .plugin-title {
 		width: auto;
 		white-space: normal;
 	}

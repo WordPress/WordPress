@@ -242,11 +242,11 @@ function list_plugin_updates() {
 <form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-plugins" class="upgrade">
 <?php wp_nonce_field('upgrade-core'); ?>
 <p><input id="upgrade-plugins" class="button" type="submit" value="<?php esc_attr_e('Update Plugins'); ?>" name="upgrade" /></p>
-<table class="widefat" id="update-plugins-table">
+<table class="widefat updates-table" id="update-plugins-table">
 	<thead>
 	<tr>
-		<td scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all" /></td>
-		<th scope="col" class="manage-column"><label for="plugins-select-all"><?php _e('Select All'); ?></label></th>
+		<td class="manage-column check-column"><input type="checkbox" id="plugins-select-all" /></td>
+		<td class="manage-column"><label for="plugins-select-all"><?php _e( 'Select All' ); ?></label></td>
 	</tr>
 	</thead>
 
@@ -288,23 +288,26 @@ function list_plugin_updates() {
 		$checkbox_id =  "checkbox_" . md5( $plugin_data->Name );
 		?>
 		<tr>
-			<th scope="row" class="check-column">
+			<td class="check-column">
+				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
 				<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text"><?php
 					/* translators: %s: plugin name */
 					printf( __( 'Select %s' ),
 						$plugin_data->Name
 					);
 				?></label>
-				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
-			</th>
-			<td><p><strong><?php echo $plugin_data->Name; ?></strong><br /><?php
-				/* translators: 1: plugin version, 2: new version */
-				printf( __( 'You have version %1$s installed. Update to %2$s.' ),
-					$plugin_data->Version,
-					$plugin_data->update->new_version
-				);
-				echo ' ' . $details . $compat . $upgrade_notice;
-			?></p></td>
+			</td>
+			<td class="plugin-title"><p>
+				<strong><?php echo $plugin_data->Name; ?></strong>
+				<?php
+					/* translators: 1: plugin version, 2: new version */
+					printf( __( 'You have version %1$s installed. Update to %2$s.' ),
+						$plugin_data->Version,
+						$plugin_data->update->new_version
+					);
+					echo ' ' . $details . $compat . $upgrade_notice;
+				?>
+			</p></td>
 		</tr>
 		<?php
 	}
@@ -313,8 +316,8 @@ function list_plugin_updates() {
 
 	<tfoot>
 	<tr>
-		<td scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></td>
-		<th scope="col" class="manage-column"><label for="plugins-select-all-2"><?php _e( 'Select All' ); ?></label></th>
+		<td class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></td>
+		<td class="manage-column"><label for="plugins-select-all-2"><?php _e( 'Select All' ); ?></label></td>
 	</tr>
 	</tfoot>
 </table>
@@ -342,11 +345,11 @@ function list_theme_updates() {
 <form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-themes" class="upgrade">
 <?php wp_nonce_field('upgrade-core'); ?>
 <p><input id="upgrade-themes" class="button" type="submit" value="<?php esc_attr_e('Update Themes'); ?>" name="upgrade" /></p>
-<table class="widefat" id="update-themes-table">
+<table class="widefat updates-table" id="update-themes-table">
 	<thead>
 	<tr>
-		<td scope="col" class="manage-column check-column"><input type="checkbox" id="themes-select-all" /></td>
-		<th scope="col" class="manage-column"><label for="themes-select-all"><?php _e('Select All'); ?></label></th>
+		<td class="manage-column check-column"><input type="checkbox" id="themes-select-all" /></td>
+		<td class="manage-column"><label for="themes-select-all"><?php _e( 'Select All' ); ?></label></td>
 	</tr>
 	</thead>
 
@@ -356,17 +359,17 @@ function list_theme_updates() {
 		$checkbox_id = 'checkbox_' . md5( $theme->get( 'Name' ) );
 		?>
 		<tr>
-			<th scope="row" class="check-column">
+			<td class="check-column">
+				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
 				<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text"><?php
 					/* translators: %s: theme name */
 					printf( __( 'Select %s' ),
 						$theme->display( 'Name' )
 					);
 				?></label>
-				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
-			</th>
-			<td class="plugin-title">
-				<img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" width="85" height="64" style="float:left; padding: 0 5px 5px" alt="" />
+			</td>
+			<td class="plugin-title"><p>
+				<img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" width="85" height="64" class="updates-table-screenshot" alt="" />
 				<strong><?php echo $theme->display( 'Name' ); ?></strong>
 				<?php
 					/* translators: 1: theme version, 2: new version */
@@ -375,7 +378,7 @@ function list_theme_updates() {
 						$theme->update['new_version']
 					);
 				?>
-			</td>
+			</p></td>
 		</tr>
 		<?php
 	}
@@ -384,8 +387,8 @@ function list_theme_updates() {
 
 	<tfoot>
 	<tr>
-		<td scope="col" class="manage-column check-column"><input type="checkbox" id="themes-select-all-2" /></td>
-		<th scope="col" class="manage-column"><label for="themes-select-all-2"><?php _e( 'Select All' ); ?></label></th>
+		<td class="manage-column check-column"><input type="checkbox" id="themes-select-all-2" /></td>
+		<td class="manage-column"><label for="themes-select-all-2"><?php _e( 'Select All' ); ?></label></td>
 	</tr>
 	</tfoot>
 </table>

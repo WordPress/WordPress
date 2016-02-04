@@ -345,8 +345,12 @@ h3 {
 	margin: 1em 0;
 }
 
+.update-core-php h2 {
+	margin-top: 2em;
+}
+
 .update-php h2,
-.update-core-php h2,
+.update-messages h2,
 h4 {
 	font-size: 1em;
 	margin: 1.33em 0;
@@ -512,6 +516,7 @@ code {
 }
 
 .widefat th input,
+.updates-table td input,
 .widefat thead td input,
 .widefat tfoot td input {
 	margin: 0 0 0 8px;
@@ -525,18 +530,13 @@ code {
 	vertical-align: top;
 }
 
-.widefat th input[type=checkbox],
-.widefat thead td input[type=checkbox],
-.widefat tfoot td input[type=checkbox] {
-	margin-top: -1px;
-}
-
 .widefat tbody th.check-column {
 	padding: 9px 0 22px;
 }
 
 .widefat thead td.check-column,
 .widefat tbody th.check-column,
+.updates-table tbody td.check-column,
 .widefat tfoot td.check-column {
 	padding: 11px 0 0 3px;
 }
