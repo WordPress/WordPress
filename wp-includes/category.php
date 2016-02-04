@@ -16,8 +16,11 @@
  * @since 2.1.0
  * @see get_terms() Type of arguments that can be changed.
  *
- * @param string|array $args Optional. Arguments to retrieve categories. See {@see get_terms()} for available arguments.
- *                           Default empty.
+ * @param string|array $args {
+ *     Optional. Arguments to retrieve categories. See {@see get_terms()} for additional options.
+ *
+ *     @type string $taxonomy Taxonomy to retrieve terms for. In this case, default 'category'.
+ * }
  * @return array List of categories.
  */
 function get_categories( $args = '' ) {
