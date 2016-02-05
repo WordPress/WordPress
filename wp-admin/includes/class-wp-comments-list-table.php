@@ -33,14 +33,14 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
-	 * @global int|bool $post_id
+	 * @global int $post_id
 	 *
 	 * @param array $args An associative array of arguments.
 	 */
 	public function __construct( $args = array() ) {
 		global $post_id;
 
-		$post_id = isset( $_REQUEST['p'] ) ? absint( $_REQUEST['p'] ) : false;
+		$post_id = isset( $_REQUEST['p'] ) ? absint( $_REQUEST['p'] ) : 0;
 
 		if ( get_option( 'show_avatars' ) ) {
 			add_filter( 'comment_author', array( $this, 'floated_admin_avatar' ), 10, 2 );
@@ -69,7 +69,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	/**
 	 *
-	 * @global int|bool $post_id
+	 * @global int    $post_id
 	 * @global string $comment_status
 	 * @global string $search
 	 * @global string $comment_type
@@ -192,7 +192,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	/**
 	 *
-	 * @global int|bool $post_id
+	 * @global int $post_id
 	 * @global string $comment_status
 	 * @global string $comment_type
 	 */
@@ -383,7 +383,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	/**
 	 *
-	 * @global int|bool $post_id
+	 * @global int $post_id
 	 *
 	 * @return array
 	 */
