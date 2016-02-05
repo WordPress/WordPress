@@ -494,16 +494,17 @@ function get_post_ancestors( $post ) {
  * supported values are found within those functions.
  *
  * @since 2.3.0
+ * @since 4.5.0 The `$post` parameter was made optional.
  *
  * @see sanitize_post_field()
  *
  * @param string      $field   Post field name.
- * @param int|WP_Post $post    Post ID or post object.
+ * @param int|WP_Post $post    Optional. Post ID or post object. Defaults to current post.
  * @param string      $context Optional. How to filter the field. Accepts 'raw', 'edit', 'db',
  *                             or 'display'. Default 'display'.
  * @return string The value of the post field on success, empty string on failure.
  */
-function get_post_field( $field, $post, $context = 'display' ) {
+function get_post_field( $field, $post = null, $context = 'display' ) {
 	$post = get_post( $post );
 
 	if ( !$post )
