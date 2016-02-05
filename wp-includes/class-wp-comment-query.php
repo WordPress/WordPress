@@ -273,6 +273,8 @@ class WP_Comment_Query {
 			'orderby' => '',
 			'order' => 'DESC',
 			'parent' => '',
+			'parent__in' => '',
+			'parent__not_in' => '',
 			'post_author__in' => '',
 			'post_author__not_in' => '',
 			'post_ID' => '',
