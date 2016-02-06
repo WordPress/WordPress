@@ -32,6 +32,11 @@
 					url = url.slice( 0, -1 );
 				}
 
+				// If nothing's left (maybe the URL was just a fragment), use the whole URL.
+				if ( url === '' ) {
+					url = this.url;
+				}
+
 				// If the URL is longer that 40 chars, concatenate the beginning (after the domain) and ending with ...
 				if ( url.length > 40 && ( index = url.indexOf( '/' ) ) !== -1 && ( lastIndex = url.lastIndexOf( '/' ) ) !== -1 && lastIndex !== index ) {
 					// If the beginning + ending are shorter that 40 chars, show more of the ending
@@ -51,7 +56,7 @@
 		renderHtml: function() {
 			return (
 				'<div id="' + this._id + '" class="wp-link-input">' +
-					'<input type="text" value="" tabindex="-1" />' +
+					'<input type="text" value="" tabindex="-1" placeholder="' + tinymce.translate('Paste URL or type to search') + '" />' +
 				'</div>'
 			);
 		},
@@ -68,6 +73,28 @@
 		var inputInstance;
 		var $ = window.jQuery;
 
+		function getSelectedLink() {
+			var href,
+				selectedNode = editor.selection.getNode(),
+				selectedText = editor.selection.getContent(),
+				link = editor.dom.getParent( selectedNode, 'a[href]' );
+
+			if ( ! link && selectedText.indexOf( '</a>' ) !== -1 ) {
+				href = selectedText.match( /href="([^">]+)"/ );
+
+				if ( href && href[1] ) {
+					link = editor.$( 'a[href="' + href[1] + '"]', selectedNode )[0];
+				}
+
+				if ( link ) {
+					editor.selection.select( link );
+					editor.nodeChanged();
+				}
+			}
+
+			return link;
+		}
+
 		editor.on( 'preinit', function() {
 			if ( editor.wp && editor.wp._createToolbar ) {
 				toolbar = editor.wp._createToolbar( [
@@ -83,9 +110,10 @@
 				], true );
 
 				editToolbar.on( 'show', function() {
-					var node = editToolbar.find( 'toolbar' )[0];
-					node && node.focus( true );
-					a = editor.dom.getParent( editor.selection.getNode(), 'a' );
+					var inputNode = editToolbar.find( 'toolbar' )[0];
+
+					inputNode && inputNode.focus( true );
+					a = getSelectedLink();
 				} );
 
 				editToolbar.on( 'hide', function() {
@@ -95,15 +123,14 @@
 		} );
 
 		editor.addCommand( 'WP_Link', function() {
-			var a = editor.dom.getParent( editor.selection.getNode(), 'a' );
+			var link = getSelectedLink();
 
-			if ( a ) {
-				editor.dom.setAttribs( a, { 'data-wp-edit': true } );
+			if ( link ) {
+				editor.dom.setAttribs( link, { 'data-wp-edit': true } );
 			} else {
 				editor.execCommand( 'mceInsertLink', false, { href: '_wp_link_placeholder' } );
+				editor.nodeChanged();
 			}
-
-			editor.nodeChanged();
 		} );
 
 		editor.addCommand( 'wp_link_apply', function() {

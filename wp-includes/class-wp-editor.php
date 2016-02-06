@@ -1043,6 +1043,7 @@ final class _WP_Editors {
 			'No alignment' => __( 'No alignment' ), // Tooltip for the 'alignnone' button in the image toolbar
 			'Remove' => __( 'Remove' ), // Tooltip for the 'remove' button in the image toolbar
 			'Edit ' => __( 'Edit' ), // Tooltip for the 'edit' button in the image toolbar
+			'Paste URL or type to search' => __( 'Paste URL or type to search' ), // Placeholder for the inline link dialog
 
 			// Shortcuts help modal
 			'Keyboard Shortcuts' => __( 'Keyboard Shortcuts' ),
