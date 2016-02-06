@@ -2857,6 +2857,9 @@ class WP_Query {
 						} else {
 							$q['term_id'] = $queried_items['terms'][0];
 						}
+
+						// Take the first one we find.
+						break;
 					}
 				}
 			}
