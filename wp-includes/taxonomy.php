@@ -1060,6 +1060,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  * @since 4.4.0 Introduced the ability to pass 'term_id' as an alias of 'id' for the `orderby` parameter.
  *              Introduced the 'meta_query' and 'update_term_meta_cache' parameters. Converted to return
  *              a list of WP_Term objects.
+ * @since 4.5.0 Introduced 'meta_key' and 'meta_value' parameters. Introduced the ability to order results by metadata.
  *
  * @global wpdb  $wpdb WordPress database abstraction object.
  * @global array $wp_filter
@@ -1071,7 +1072,9 @@ function get_term_to_edit( $id, $taxonomy ) {
  *     @type string       $orderby                Field(s) to order terms by. Accepts term fields ('name', 'slug',
  *                                                'term_group', 'term_id', 'id', 'description'), 'count' for term
  *                                                taxonomy count, 'include' to match the 'order' of the $include param,
- *                                                or 'none' to skip ORDER BY. Defaults to 'name'.
+ *                                                'meta_value', 'meta_value_num', the value of `$meta_key`, the array
+ *                                                keys of `$meta_query`, or 'none' to omit the ORDER BY clause.
+ *                                                Defaults to 'name'.
  *     @type string       $order                  Whether to order terms in ascending or descending order.
  *                                                Accepts 'ASC' (ascending) or 'DESC' (descending).
  *                                                Default 'ASC'.
@@ -1119,6 +1122,10 @@ function get_term_to_edit( $id, $taxonomy ) {
  *     @type bool         $update_term_meta_cache Whether to prime meta caches for matched terms. Default true.
  *     @type array        $meta_query             Meta query clauses to limit retrieved terms by.
  *                                                See `WP_Meta_Query`. Default empty.
+ *     @type string       $meta_key               Limit terms to those matching a specific metadata key. Can be used in
+ *                                                conjunction with `$meta_value`.
+ *     @type string       $meta_value             Limit terms to those matching a specific metadata value. Usually used
+ *                                                in conjunction with `$meta_key`.
  * }
  * @return array|int|WP_Error List of WP_Term instances and their children. Will return WP_Error, if any of $taxonomies
  *                            do not exist.
@@ -1414,13 +1421,53 @@ function get_terms( $taxonomies, $args = '' ) {
 	// Meta query support.
 	$join = '';
 	$distinct = '';
-	if ( ! empty( $args['meta_query'] ) ) {
-		$mquery = new WP_Meta_Query( $args['meta_query'] );
-		$mq_sql = $mquery->get_sql( 'term', 't', 'term_id' );
 
+	$mquery = new WP_Meta_Query();
+	$mquery->parse_query_vars( $args );
+	$mq_sql = $mquery->get_sql( 'term', 't', 'term_id' );
+	$meta_clauses = $mquery->get_clauses();
+
+	if ( ! empty( $meta_clauses ) ) {
 		$join  .= $mq_sql['join'];
 		$where .= $mq_sql['where'];
 		$distinct .= "DISTINCT";
+
+		// 'orderby' support.
+		$allowed_keys = array();
+		$primary_meta_key   = null;
+		$primary_meta_query = reset( $meta_clauses );
+		if ( ! empty( $primary_meta_query['key'] ) ) {
+			$primary_meta_key = $primary_meta_query['key'];
+			$allowed_keys[] = $primary_meta_key;
+		}
+		$allowed_keys[] = 'meta_value';
+		$allowed_keys[] = 'meta_value_num';
+		$allowed_keys   = array_merge( $allowed_keys, array_keys( $meta_clauses ) );
+
+		if ( ! empty( $args['orderby'] ) && in_array( $args['orderby'], $allowed_keys ) ) {
+			switch( $args['orderby'] ) {
+				case $primary_meta_key:
+				case 'meta_value':
+					if ( ! empty( $primary_meta_query['type'] ) ) {
+						$orderby = "ORDER BY CAST({$primary_meta_query['alias']}.meta_value AS {$primary_meta_query['cast']})";
+					} else {
+						$orderby = "ORDER BY {$primary_meta_query['alias']}.meta_value";
+					}
+					break;
+
+				case 'meta_value_num':
+					$orderby = "ORDER BY {$primary_meta_query['alias']}.meta_value+0";
+					break;
+
+				default:
+					if ( array_key_exists( $args['orderby'], $meta_clauses ) ) {
+						// $orderby corresponds to a meta_query clause.
+						$meta_clause = $meta_clauses[ $args['orderby'] ];
+						$orderby = "ORDER BY CAST({$meta_clause['alias']}.meta_value AS {$meta_clause['cast']})";
+					}
+					break;
+			}
+		}
 	}
 
 	$selects = array();
