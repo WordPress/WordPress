@@ -403,10 +403,15 @@ All at ###SITENAME###
  * after email address change.
  *
  * @since 3.0.0
+ *
+ * @global string $pagenow
  */
 function new_user_email_admin_notice() {
-	if ( strpos( $_SERVER['PHP_SELF'], 'profile.php' ) && isset( $_GET['updated'] ) && $email = get_option( get_current_user_id() . '_new_email' ) )
-		echo "<div class='update-nag'>" . sprintf( __( "Your email address has not been updated yet. Please check your inbox at %s for a confirmation email." ), $email['newemail'] ) . "</div>";
+	global $pagenow;
+	if ( 'profile.php' === $pagenow && isset( $_GET['updated'] ) && $email = get_option( get_current_user_id() . '_new_email' ) ) {
+		/* translators: %s: New email address */
+		echo '<div class="update-nag">' . sprintf( __( 'Your email address has not been updated yet. Please check your inbox at %s for a confirmation email.' ), esc_html( $email['newemail'] ) ) . '</div>';
+	}
 }
 
 /**
