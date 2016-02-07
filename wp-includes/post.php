@@ -1188,9 +1188,9 @@ function register_post_type( $post_type, $args = array() ) {
 }
 
 /**
- * Un-registers a post type.
+ * Unregisters a post type.
  *
- * Can not be used to un-register built-in post types.
+ * Can not be used to unregister built-in post types.
  *
  * @since 4.5.0
  *
@@ -1200,7 +1200,7 @@ function register_post_type( $post_type, $args = array() ) {
  * @global array      $post_type_meta_caps    Used to remove meta capabilities.
  * @global array      $wp_post_types          List of post types.
  *
- * @param string $post_type Post type to un-register.
+ * @param string $post_type Post type to unregister.
  * @return bool|WP_Error True on success, WP_Error on failure.
  */
 function unregister_post_type( $post_type ) {
@@ -1210,7 +1210,7 @@ function unregister_post_type( $post_type ) {
 
 	$post_type_args = get_post_type_object( $post_type );
 
-	// Do not allow un-registering internal post types.
+	// Do not allow unregistering internal post types.
 	if ( $post_type_args->_builtin ) {
 		return new WP_Error( 'invalid_post_type', __( 'Unregistering a built-in post type is not allowed' ) );
 	}
