@@ -1534,13 +1534,13 @@ function wp_get_referer() {
 }
 
 /**
- * Retrieve unvalidated referer from '_wp_http_referer' or HTTP referer.
+ * Retrieves unvalidated referer from '_wp_http_referer' or HTTP referer.
  *
- * Do not use for redirects, use wp_get_referer() instead.
+ * Do not use for redirects, use {@see wp_get_referer()} instead.
  *
  * @since 4.5.0
  *
- * @return string|bool Referer URL on success, false on failure.
+ * @return string|false Referer URL on success, false on failure.
  */
 function wp_get_raw_referer() {
 	if ( ! empty( $_REQUEST['_wp_http_referer'] ) ) {
