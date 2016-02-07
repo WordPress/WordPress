@@ -148,15 +148,16 @@ final class WP_Site {
 	public $lang_id = '0';
 
 	/**
-	 * Retrieve a site from the database by its ID.
+	 * Retrieves a site from the database by its ID.
 	 *
+	 * @static
 	 * @since 4.5.0
 	 * @access public
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int $site_id The ID of the site to retrieve.
-	 * @return WP_Site|bool The site's object if found. False if not.
+	 * @return WP_Site|false The site's object if found. False if not.
 	 */
 	public static function get_instance( $site_id ) {
 		global $wpdb;
@@ -182,7 +183,7 @@ final class WP_Site {
 	}
 
 	/**
-	 * Create a new WP_Site object.
+	 * Creates a new WP_Site object.
 	 *
 	 * Will populate object properties from the object provided and assign other
 	 * default properties based on that information.
