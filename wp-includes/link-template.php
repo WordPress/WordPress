@@ -2925,7 +2925,7 @@ function get_shortcut_link() {
 }
 
 /**
- * Retrieve the url for the current site where the front-end of the site is accessible.
+ * Retrieve the URL for the current site where the front-end is accessible.
  *
  * Returns the 'home' option with the appropriate protocol, 'https' if
  * {@see is_ssl()} and 'http' otherwise. If `$scheme` is 'http' or 'https',
@@ -2943,7 +2943,7 @@ function home_url( $path = '', $scheme = null ) {
 }
 
 /**
- * Retrieve the url for a given site where the front-end of the site is accessible.
+ * Retrieve the URL for a given site where the front-end is accessible.
  *
  * Returns the 'home' option with the appropriate protocol, 'https' if
  * {@see is_ssl()} and 'http' otherwise. If `$scheme` is 'http' or 'https',
@@ -3000,7 +3000,7 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
 }
 
 /**
- * Retrieve the url for the current site where WordPress application files
+ * Retrieve the URL for the current site where WordPress application files
  * (e.g. wp-blog-header.php or the wp-admin/ folder) are accessible.
  *
  * Returns the 'site_url' option with the appropriate protocol, 'https' if
@@ -3018,7 +3018,7 @@ function site_url( $path = '', $scheme = null ) {
 }
 
 /**
- * Retrieve the url for a given site where WordPress application files
+ * Retrieve the URL for a given site where WordPress application files
  * (e.g. wp-blog-header.php or the wp-admin/ folder) are accessible.
  *
  * Returns the 'site_url' option with the appropriate protocol, 'https' if
