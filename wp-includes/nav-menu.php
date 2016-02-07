@@ -77,7 +77,7 @@ function is_nav_menu( $menu ) {
 }
 
 /**
- * Register navigation menu locations for a theme.
+ * Registers navigation menu locations for a theme.
  *
  * @since 3.0.0
  *
@@ -115,7 +115,7 @@ function unregister_nav_menu( $location ) {
 }
 
 /**
- * Register a navigation menu location for a theme.
+ * Registers a navigation menu location for a theme.
  *
  * @since 3.0.0
  *
@@ -154,7 +154,7 @@ function get_nav_menu_locations() {
 }
 
 /**
- * Whether a registered nav menu location has a menu assigned to it.
+ * Determines whether a registered nav menu location has a menu assigned to it.
  *
  * @since 3.0.0
  *
@@ -182,7 +182,7 @@ function has_nav_menu( $location ) {
 }
 
 /**
- * Determine whether the given ID is a nav menu item.
+ * Determines whether the given ID is a nav menu item.
  *
  * @since 3.0.0
  *
@@ -194,7 +194,7 @@ function is_nav_menu_item( $menu_item_id = 0 ) {
 }
 
 /**
- * Create a Navigation Menu.
+ * Creates a navigation menu.
  *
  * @since 3.0.0
  *
