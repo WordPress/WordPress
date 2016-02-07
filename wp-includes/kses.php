@@ -1587,8 +1587,10 @@ function wp_kses_post( $data ) {
  *
  * @since 4.4.2
  *
- * @param mixed $value The array or string to filter.
- * @return mixed $value The filtered content.
+ * @see map_deep()
+ *
+ * @param mixed $data The array, object, or scalar value to inspect.
+ * @return mixed The filtered content.
  */
 function wp_kses_post_deep( $data ) {
 	return map_deep( $data, 'wp_kses_post' );
