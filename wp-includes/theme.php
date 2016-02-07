@@ -739,15 +739,18 @@ function switch_theme( $stylesheet ) {
 	}
 
 	update_option( 'theme_switched', $old_theme->get_stylesheet() );
+
 	/**
 	 * Fires after the theme is switched.
 	 *
 	 * @since 1.5.0
+	 * @since 4.5.0 Introduced the `$old_theme` parameter.
 	 *
 	 * @param string   $new_name  Name of the new theme.
 	 * @param WP_Theme $new_theme WP_Theme instance of the new theme.
+	 * @param WP_Theme $old_theme WP_Theme instance of the old theme.
 	 */
-	do_action( 'switch_theme', $new_name, $new_theme );
+	do_action( 'switch_theme', $new_name, $new_theme, $old_theme );
 }
 
 /**
