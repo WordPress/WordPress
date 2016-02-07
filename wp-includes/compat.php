@@ -421,7 +421,7 @@ if ( ! interface_exists( 'JsonSerializable' ) ) {
 	 *
 	 * Compatibility shim for PHP <5.4
 	 *
-     * @link http://php.net/jsonserializable
+	 * @link http://php.net/jsonserializable
 	 *
 	 * @since 4.4.0
 	 */
