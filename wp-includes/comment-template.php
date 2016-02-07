@@ -2056,6 +2056,8 @@ function wp_list_comments( $args = array(), $comments = null ) {
  * @since 4.2.0 Introduced the 'submit_button' and 'submit_fields' arguments.
  * @since 4.4.0 Introduced the 'class_form', 'title_reply_before', 'title_reply_after',
  *              'cancel_reply_before', and 'cancel_reply_after' arguments.
+ * @since 4.5.0 The 'author', 'email', and 'url' form fields are limited to 245, 100,
+ *              and 200 characters, respectively.
  *
  * @param array       $args {
  *     Optional. Default arguments and form fields to override.
