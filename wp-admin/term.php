@@ -2,8 +2,9 @@
 /**
  * Edit Term Administration Screen.
  *
- * @package    WordPress
+ * @package WordPress
  * @subpackage Administration
+ * @since 4.5.0
  */
 
 /** WordPress Administration Bootstrap */
