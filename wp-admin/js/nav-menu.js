@@ -43,7 +43,6 @@ var wpNavMenu;
 
 			this.attachQuickSearchListeners();
 			this.attachThemeLocationsListeners();
-			this.attachMenuSaveSubmitListeners();
 
 			this.attachTabsPanelListeners();
 
@@ -832,30 +831,6 @@ var wpNavMenu;
 					e.preventDefault();
 					$( '#submit-customlinkdiv' ).click();
 				}
-			});
-		},
-
-		attachMenuSaveSubmitListeners : function() {
-			/*
-			 * When a navigation menu is saved, store a JSON representation of all form data
-			 * in a single input to avoid PHP `max_input_vars` limitations. See #14134.
-			 */
-			$('#update-nav-menu').submit(function() {
-				var navMenuData = {};
-				$('#update-nav-menu input').each(function(index, element) {
-					var name = $(element).attr('name');
-					var regex = /(.*)(?:\[(\d+)\])/;
-					if ( regex.test( name ) ) {
-						var matches = regex.exec(name);
-						if ( ! navMenuData[matches[1]] ) {
-							navMenuData[matches[1]] = [];
-						}
-						navMenuData[matches[1]][matches[2]] = $(element).val();
-					} else {
-						navMenuData[name] = $(element).val();
-					}
-				});
-				$('[name="nav-menu-data"]').val( JSON.stringify( navMenuData ) );
 			});
 		},
 

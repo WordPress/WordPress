@@ -49,19 +49,6 @@ $num_locations = count( array_keys( $locations ) );
 // Allowed actions: add, update, delete
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'edit';
 
-/*
- * If a JSON blob of navigation menu data is found, expand it and inject it
- * into `$_POST` to avoid PHP `max_input_vars` limitations. See #14134.
- */
-if ( isset( $_POST['nav-menu-data'] ) ) {
-	$data = json_decode( stripslashes( $_POST['nav-menu-data'] ) );
-	if ( ! is_null( $data ) && $data ) {
-		foreach ( $data as $post_var => $post_data ) {
-			$_POST[$post_var] = $post_data;
-		}
-	}
-}
-
 switch ( $action ) {
 	case 'add-menu-item':
 		check_admin_referer( 'add-menu_item', 'menu-settings-column-nonce' );
@@ -744,7 +731,6 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<div id="menu-management">
 			<form id="update-nav-menu" method="post" enctype="multipart/form-data">
 				<div class="menu-edit <?php if ( $add_new_screen ) echo 'blank-slate'; ?>">
-					<input type="hidden" name="nav-menu-data">
 					<?php
 					wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 					wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
