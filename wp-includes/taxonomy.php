@@ -1134,7 +1134,6 @@ function get_terms( $taxonomies, $args = '' ) {
 	global $wpdb;
 	$empty_array = array();
 
-	$single_taxonomy = ! is_array( $taxonomies ) || 1 === count( $taxonomies );
 	if ( ! is_array( $taxonomies ) ) {
 		$taxonomies = array( $taxonomies );
 	}
