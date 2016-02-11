@@ -161,6 +161,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	$id_column = 'user' == $meta_type ? 'umeta_id' : 'meta_id';
 
 	// expected_slashed ($meta_key)
+	$raw_meta_key = $meta_key;
 	$meta_key = wp_unslash($meta_key);
 	$passed_value = $meta_value;
 	$meta_value = wp_unslash($meta_value);
@@ -198,7 +199,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 
 	$meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT $id_column FROM $table WHERE meta_key = %s AND $column = %d", $meta_key, $object_id ) );
 	if ( empty( $meta_ids ) ) {
-		return add_metadata($meta_type, $object_id, $meta_key, $passed_value);
+		return add_metadata( $meta_type, $object_id, $raw_meta_key, $passed_value );
 	}
 
 	$_meta_value = $meta_value;
