@@ -43,6 +43,7 @@ var wpNavMenu;
 
 			this.attachQuickSearchListeners();
 			this.attachThemeLocationsListeners();
+			this.attachMenuSaveSubmitListeners();
 
 			this.attachTabsPanelListeners();
 
@@ -831,6 +832,17 @@ var wpNavMenu;
 					e.preventDefault();
 					$( '#submit-customlinkdiv' ).click();
 				}
+			});
+		},
+
+		attachMenuSaveSubmitListeners : function() {
+			/*
+			 * When a navigation menu is saved, store a JSON representation of all form data
+			 * in a single input to avoid PHP `max_input_vars` limitations. See #14134.
+			 */
+			$('#update-nav-menu').submit(function() {
+				var navMenuData = $('#update-nav-menu').serializeArray();
+				$('[name="nav-menu-data"]').val( JSON.stringify( navMenuData ) );
 			});
 		},
 
