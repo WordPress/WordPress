@@ -1280,16 +1280,6 @@ body.full-overlay-active {
 	height: 100%;
 }
 
-#customize-preview.wp-full-overlay-main {
-	background: url(../images/spinner.gif) no-repeat center center;
-	-webkit-background-size: 20px 20px;
-	background-size: 20px 20px;
-}
-
-#customize-preview.wp-full-overlay-main.iframe-ready {
-	background: none;
-}
-
 .wp-full-overlay-sidebar .wp-full-overlay-header {
 	position: absolute;
 	right: 0;
@@ -1524,12 +1514,6 @@ body.full-overlay-active {
 	opacity: 0;
 }
 
-.customize-loading #customize-container {
-	background: #fff url(../images/spinner.gif) no-repeat fixed center center;
-	-webkit-background-size: 20px 20px;
-	background-size: 20px 20px;
-}
-
 #customize-container iframe,
 .theme-install-overlay iframe {
 	height: 100%;
@@ -1618,11 +1602,17 @@ body.full-overlay-active {
 .theme-install-overlay .wp-full-overlay-main {
 	position: relative;
 	z-index: 0;
-	background-color: #fff;
+	background-color: #f1f1f1;
 }
 
+.customize-loading #customize-container {
+	background-color: #f1f1f1;
+}
+
+#customize-preview.wp-full-overlay-main:before,
+.customize-loading #customize-container:before,
 .theme-install-overlay .wp-full-overlay-main:before {
-	content: '';
+	content: "";
 	display: block;
 	width: 20px;
 	height: 20px;
@@ -1633,11 +1623,12 @@ body.full-overlay-active {
 	margin: -10px -10px 0 0;
 	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
-	background: #fff url(../images/spinner.gif) no-repeat center center;
+	background: transparent url(../images/spinner.gif) no-repeat center center;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
 }
 
+#customize-preview.wp-full-overlay-main.iframe-ready:before,
 .theme-install-overlay.iframe-ready .wp-full-overlay-main:before {
 	background-image: none;
 }
@@ -1657,8 +1648,8 @@ body.full-overlay-active {
 		background-size: 15px 123px;
 	}
 
-	#customize-preview.wp-full-overlay-main,
-	.customize-loading #customize-container,
+	#customize-preview.wp-full-overlay-main:before,
+	.customize-loading #customize-container:before,
 	.theme-install-overlay .wp-full-overlay-main:before {
 		background-image: url(../images/spinner-2x.gif);
 	}
