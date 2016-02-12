@@ -948,41 +948,58 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 }
 
 /**
- * Calculate the maximum character length of a column from the comments table.
+ * Get the maximum character lengths for the comment form fields.
  *
  * @since 4.5.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $column Name of a column in the comments table.
- * @return int Maximum column character length.
+ * @return array Maximum character length for the comment form fields.
  */
-function wp_get_comment_column_max_length( $column ) {
+function wp_get_comment_fields_max_lengths() {
 	global $wpdb;
 
-	$col_length = $wpdb->get_col_length( $wpdb->comments, $column );
-	if ( ! is_array( $col_length ) && (int) $col_length > 0 ) {
-		$max_length = (int) $col_length;
-	} elseif ( is_array( $col_length ) && isset( $col_length['length'] ) && intval( $col_length['length'] ) > 0 ) {
-		$max_length = (int) $col_length['length'];
-	} else {
-		// Assume a TEXT column, 65535 - 10.
-		$max_length = 65525;
-	}
+	$lengths = array(
+		'comment_author'       => 245,
+		'comment_author_email' => 100,
+		'comment_author_url'   => 200,
+		'comment_content'      => 65525,
+	);
 
-	if ( ! empty( $col_length['type'] ) && 'byte' === $col_length['type'] ) {
-		$max_length = $max_length - 10;
+	if ( $wpdb->is_mysql ) {
+		foreach ( $lengths as $column => $length ) {
+			$col_length = $wpdb->get_col_length( $wpdb->comments, $column );
+			$max_length = 0;
+
+			// No point if we can't get the DB column lengths
+			if ( $col_length === false ) {
+				break;
+			}
+
+			if ( ! is_array( $col_length ) && (int) $col_length > 0 ) {
+				$max_length = (int) $col_length;
+			} elseif ( is_array( $col_length ) && isset( $col_length['length'] ) && intval( $col_length['length'] ) > 0 ) {
+				$max_length = (int) $col_length['length'];
+
+				if ( ! empty( $col_length['type'] ) && 'byte' === $col_length['type'] ) {
+					$max_length = $max_length - 10;
+				}
+			}
+
+			if ( $max_length > 0 ) {
+				$lengths[ $column ] = $max_length;
+			}
+		}
 	}
 
 	/**
-	 * Filters the calculated length for a given column of the comments table.
+	 * Filters the lengths for the comment form fields.
 	 *
 	 * @since 4.5.0
 	 *
-	 * @param int    $max_length Maximum column character length.
-	 * @param string $column     Column name.
+	 * @param array  $lengths Associative array 'field_name' => 'maximum length'.
 	 */
-	return apply_filters( 'wp_get_comment_column_max_length', $max_length, $column );
+	return apply_filters( 'wp_get_comment_fields_max_lengths', $lengths );
 }
 
 /**
@@ -2833,6 +2850,7 @@ function wp_handle_comment_submission( $comment_data ) {
 	}
 
 	$comment_type = '';
+	$max_lengths = wp_get_comment_fields_max_lengths();
 
 	if ( get_option( 'require_name_email' ) && ! $user->exists() ) {
 		if ( 6 > strlen( $comment_author_email ) || '' == $comment_author ) {
@@ -2842,21 +2860,21 @@ function wp_handle_comment_submission( $comment_data ) {
 		}
 	}
 
-	if ( isset( $comment_author ) && wp_get_comment_column_max_length( 'comment_author' ) < mb_strlen( $comment_author, '8bit' ) ) {
+	if ( isset( $comment_author ) && $max_lengths['comment_author'] < mb_strlen( $comment_author, '8bit' ) ) {
 		return new WP_Error( 'comment_author_column_length', __( '<strong>ERROR</strong>: your name is too long.' ), 200 );
 	}
 
-	if ( isset( $comment_author_email ) && wp_get_comment_column_max_length( 'comment_author_email' ) < strlen( $comment_author_email ) ) {
+	if ( isset( $comment_author_email ) && $max_lengths['comment_author_email'] < strlen( $comment_author_email ) ) {
 		return new WP_Error( 'comment_author_email_column_length', __( '<strong>ERROR</strong>: your email address is too long.' ), 200 );
 	}
 
-	if ( isset( $comment_author_url ) && wp_get_comment_column_max_length( 'comment_author_url' ) < strlen( $comment_author_url ) ) {
+	if ( isset( $comment_author_url ) && $max_lengths['comment_author_url'] < strlen( $comment_author_url ) ) {
 		return new WP_Error( 'comment_author_url_column_length', __( '<strong>ERROR</strong>: your url is too long.' ), 200 );
 	}
 
 	if ( '' == $comment_content ) {
 		return new WP_Error( 'require_valid_comment', __( '<strong>ERROR</strong>: please type a comment.' ), 200 );
-	} elseif ( wp_get_comment_column_max_length( 'comment_content' ) < mb_strlen( $comment_content, '8bit' ) ) {
+	} elseif ( $max_lengths['comment_content'] < mb_strlen( $comment_content, '8bit' ) ) {
 		return new WP_Error( 'comment_content_column_length', __( '<strong>ERROR</strong>: your comment is too long.' ), 200 );
 	}
 
