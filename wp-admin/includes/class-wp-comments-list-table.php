@@ -716,15 +716,23 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 * @param WP_Comment $comment The comment object.
 	 */
 	public function column_date( $comment ) {
-		echo '<div class="submitted-on">';
-		echo '<a href="' . esc_url( get_comment_link( $comment ) ) . '">';
 		/* translators: 1: comment date, 2: comment time */
-		printf( __( '%1$s at %2$s' ),
+		$submitted = sprintf( __( '%1$s at %2$s' ),
 			/* translators: comment date format. See http://php.net/date */
 			get_comment_date( __( 'Y/m/d' ), $comment ),
 			get_comment_date( __( 'g:i a' ), $comment )
 		);
-		echo '</a>';
+
+		echo '<div class="submitted-on">';
+		if ( 'approved' === wp_get_comment_status( $comment ) && ! empty ( $comment->comment_post_ID ) ) {
+			printf(
+				'<a href="%s">%s</a>',
+				esc_url( get_comment_link( $comment ) ),
+				$submitted
+			);
+		} else {
+			echo $submitted;
+		}
 		echo '</div>';
 	}
 
