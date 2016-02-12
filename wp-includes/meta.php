@@ -363,8 +363,14 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	if ( !count( $meta_ids ) )
 		return false;
 
-	if ( $delete_all )
-		$object_ids = $wpdb->get_col( $wpdb->prepare( "SELECT $type_column FROM $table WHERE meta_key = %s", $meta_key ) );
+	if ( $delete_all ) {
+		$value_clause = '';
+		if ( '' !== $meta_value && null !== $meta_value && false !== $meta_value ) {
+			$value_clause = $wpdb->prepare( " AND meta_value = %s", $meta_value );
+		}
+
+		$object_ids = $wpdb->get_col( $wpdb->prepare( "SELECT $type_column FROM $table WHERE meta_key = %s $value_clause", $meta_key ) );
+	}
 
 	/**
 	 * Fires immediately before deleting metadata of a specific type.
