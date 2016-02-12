@@ -1817,7 +1817,7 @@ function comment_id_fields( $id = 0 ) {
  *                             to their comment. Default true.
  */
 function comment_form_title( $noreplytext = false, $replytext = false, $linktoparent = true ) {
-	$comment = get_comment();
+	global $comment;
 
 	if ( false === $noreplytext ) $noreplytext = __( 'Leave a Reply' );
 	if ( false === $replytext ) $replytext = __( 'Leave a Reply to %s' );
@@ -1827,6 +1827,7 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
 	if ( 0 == $replytoid )
 		echo $noreplytext;
 	else {
+		// Sets the global so that template tags can be used in the comment form.
 		$comment = get_comment($replytoid);
 		$author = ( $linktoparent ) ? '<a href="#comment-' . get_comment_ID() . '">' . get_comment_author( $comment ) . '</a>' : get_comment_author( $comment );
 		printf( $replytext, $author );
