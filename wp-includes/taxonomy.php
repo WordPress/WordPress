@@ -857,6 +857,11 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 	 */
 	$_term = apply_filters( "get_$taxonomy", $_term, $taxonomy );
 
+	// Bail if a filter callback has changed the type of the `$_term` object.
+	if ( ! ( $_term instanceof WP_Term ) ) {
+		return $_term;
+	}
+
 	// Sanitize term, according to the specified filter.
 	$_term->filter( $filter );
 
