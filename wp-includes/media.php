@@ -1070,7 +1070,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 
 	/**
 	 * To make sure the ID matches our image src, we will check to see if any sizes in our attachment
-	 * meta match our $image_src. If no mathces are found we don't return a srcset to avoid serving
+	 * meta match our $image_src. If no matches are found we don't return a srcset to avoid serving
 	 * an incorrect image. See #35045.
 	 */
 	$src_matched = false;
