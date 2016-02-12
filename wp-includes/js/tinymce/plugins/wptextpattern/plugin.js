@@ -156,13 +156,21 @@
 			refPattern = pattern;
 		}
 
+		function ltrim( text ) {
+			if ( text ) {
+				return text.replace( /^\s+/, '' );
+			}
+
+			return '';
+		}
+
 		function enter() {
 			if ( refNode ) {
 				editor.undoManager.add();
 
 				editor.undoManager.transact( function() {
 					editor.formatter.apply( refPattern.format, {}, refNode );
-					refNode.replaceData( 0, refNode.data.length, tinymce.trim( refNode.data.slice( refPattern.start.length ) ) );
+					refNode.replaceData( 0, refNode.data.length, ltrim( refNode.data.slice( refPattern.start.length ) ) );
 				} );
 
 				// We need to wait for native events to be triggered.
