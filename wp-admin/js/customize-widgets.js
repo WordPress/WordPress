@@ -1829,7 +1829,7 @@
 				}
 			});
 
-			if ( ! widgetControls.length ) {
+			if ( 0 === widgetControls.length || ( 1 === api.Widgets.registeredSidebars.length && widgetControls.length <= 1 ) ) {
 				this.container.find( '.reorder-toggle' ).hide();
 				return;
 			} else {
