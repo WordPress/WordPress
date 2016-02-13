@@ -1304,24 +1304,6 @@ class WP_Query {
 	 public $thumbnails_cached = false;
 
 	/**
-	 * Whether the term meta cache for matched posts has been primed.
-	 *
-	 * @since 4.4.0
-	 * @access protected
-	 * @var bool
-	 */
-	public $updated_term_meta_cache = false;
-
-	/**
-	 * Whether the comment meta cache for matched posts has been primed.
-	 *
-	 * @since 4.4.0
-	 * @access protected
-	 * @var bool
-	 */
-	public $updated_comment_meta_cache = false;
-
-	/**
 	 * Cached list of search stopwords.
 	 *
 	 * @since 3.7.0
@@ -4874,14 +4856,6 @@ class WP_Query {
 	 *               another value if filtered by a plugin.
 	 */
 	public function lazyload_term_meta( $check, $term_id ) {
-		/*
-		 * We only do this once per `WP_Query` instance.
-		 * Can't use `remove_filter()` because of non-unique object hashes.
-		 */
-		if ( $this->updated_term_meta_cache ) {
-			return $check;
-		}
-
 		// We can only lazyload if the entire post object is present.
 		$posts = array();
 		foreach ( $this->posts as $post ) {
@@ -4915,13 +4889,13 @@ class WP_Query {
 			 */
 			if ( isset( $term_ids[ $term_id ] ) ) {
 				update_termmeta_cache( array_keys( $term_ids ) );
-				$this->updated_term_meta_cache = true;
+				remove_filter( 'get_term_metadata', array( $this, 'lazyload_term_meta' ), 10, 2 );
 			}
 		}
 
 		// If no terms were found, there's no need to run this again.
 		if ( empty( $term_ids ) ) {
-			$this->updated_term_meta_cache = true;
+			remove_filter( 'get_term_metadata', array( $this, 'lazyload_term_meta' ), 10, 2 );
 		}
 
 		return $check;
@@ -4940,14 +4914,6 @@ class WP_Query {
 	 * @return mixed The original value of `$check`, to not affect 'get_comment_metadata'.
 	 */
 	public function lazyload_comment_meta( $check, $comment_id ) {
-		/*
-		 * We only do this once per `WP_Query` instance.
-		 * Can't use `remove_filter()` because of non-unique object hashes.
-		 */
-		if ( $this->updated_comment_meta_cache ) {
-			return $check;
-		}
-
 		// Don't use `wp_list_pluck()` to avoid by-reference manipulation.
 		$comment_ids = array();
 		if ( is_array( $this->comments ) ) {
@@ -4963,9 +4929,9 @@ class WP_Query {
 		 */
 		if ( in_array( $comment_id, $comment_ids ) ) {
 			update_meta_cache( 'comment', $comment_ids );
-			$this->updated_comment_meta_cache = true;
+			remove_filter( 'get_comment_metadata', array( $this, 'lazyload_comment_meta' ), 10, 2 );
 		} elseif ( empty( $comment_ids ) ) {
-			$this->updated_comment_meta_cache = true;
+			remove_filter( 'get_comment_metadata', array( $this, 'lazyload_comment_meta' ), 10, 2 );
 		}
 
 		return $check;
