@@ -101,6 +101,18 @@ do_action( "{$taxonomy}_term_edit_form_tag" );
 <?php
 wp_original_referer_field( true, 'previous' );
 wp_nonce_field( 'update-tag_' . $term_id );
+
+/**
+ * Fires at the beginning of the Edit Term form.
+ *
+ * At this point, the required hidden fields and nonces have already been output.
+ *
+ * @since 4.5.0
+ *
+ * @param object $tag      Current taxonomy term object.
+ * @param string $taxonomy Current $taxonomy slug.
+ */
+do_action( "{$taxonomy}_term_edit_form_top", $tag, $taxonomy );
 ?>
 	<table class="form-table">
 		<tr class="form-field form-required term-name-wrap">
