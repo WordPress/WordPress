@@ -288,7 +288,12 @@ function is_taxonomy_hierarchical($taxonomy) {
  *                                                taxonomies. See accepted values in get_taxonomy_labels().
  *                                                Default empty array.
  *     @type string        $description           A short descriptive summary of what the taxonomy is for. Default empty.
- *     @type bool          $public                Whether the taxonomy is publicly queryable. Default true.
+ *     @type bool          $public                Whether a taxonomy is intended for use publicly either via
+ *                                                the admin interface or by front-end users. The default settings
+ *                                                of `$publicly_queryable`, `$show_ui`, and `$show_in_nav_menus`
+ *                                                are inherited from `$public`.
+ *     @type bool          $publicly_queryable    Whether the taxonomy is publicly queryable.
+ *                                                If not set, the default is inherited from `$public`
  *     @type bool          $hierarchical          Whether the taxonomy is hierarchical. Default false.
  *     @type bool          $show_ui               Whether to generate and allow a UI for managing terms in this taxonomy in
  *                                                the admin. If not set, the default is inherited from `$public`
@@ -362,6 +367,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		'labels'                => array(),
 		'description'           => '',
 		'public'                => true,
+		'publicly_queryable'    => null,
 		'hierarchical'          => false,
 		'show_ui'               => null,
 		'show_in_menu'          => null,
@@ -383,8 +389,13 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 		return new WP_Error( 'taxonomy_length_invalid', __( 'Taxonomy names must be between 1 and 32 characters in length.' ) );
 	}
 
-	// Non-public taxonomies should not register query vars, except in the admin.
-	if ( false !== $args['query_var'] && ( is_admin() || false !== $args['public'] ) && ! empty( $wp ) ) {
+	// If not set, default to the setting for public.
+	if ( null === $args['publicly_queryable'] ) {
+		$args['publicly_queryable'] = $args['public'];
+	}
+
+	// Non-publicly queryable taxonomies should not register query vars, except in the admin.
+	if ( false !== $args['query_var'] && ( is_admin() || false !== $args['publicly_queryable'] ) && ! empty( $wp ) ) {
 		if ( true === $args['query_var'] )
 			$args['query_var'] = $taxonomy;
 		else

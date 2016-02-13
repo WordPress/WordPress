@@ -331,12 +331,12 @@ class WP {
 			if ( $t->query_var && isset( $this->query_vars[$t->query_var] ) )
 				$this->query_vars[$t->query_var] = str_replace( ' ', '+', $this->query_vars[$t->query_var] );
 
-		// Don't allow non-public taxonomies to be queried from the front-end.
+		// Don't allow non-publicly queryable taxonomies to be queried from the front-end.
 		if ( ! is_admin() ) {
-			foreach ( get_taxonomies( array( 'public' => false ), 'objects' ) as $taxonomy => $t ) {
+			foreach ( get_taxonomies( array( 'publicly_queryable' => false ), 'objects' ) as $taxonomy => $t ) {
 				/*
 				 * Disallow when set to the 'taxonomy' query var.
-				 * Non-public taxonomies cannot register custom query vars. See register_taxonomy().
+				 * Non-publicly queryable taxonomies cannot register custom query vars. See register_taxonomy().
 				 */
 				if ( isset( $this->query_vars['taxonomy'] ) && $taxonomy === $this->query_vars['taxonomy'] ) {
 					unset( $this->query_vars['taxonomy'], $this->query_vars['term'] );
