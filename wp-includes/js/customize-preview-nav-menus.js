@@ -279,7 +279,7 @@
 		 * Connect nav menu items with their corresponding controls in the pane.
 		 */
 		highlightControls: function() {
-			var selector = '.menu-item[id^=menu-item-]',
+			var selector = '.menu-item',
 				addTooltips;
 
 			// Open expand the menu item control when shift+clicking the menu item
@@ -289,7 +289,7 @@
 					return;
 				}
 
-				navMenuItemParts = $( this ).attr( 'id' ).match( /^menu-item-(\d+)$/ );
+				navMenuItemParts = $( this ).attr( 'class' ).match( /(?:^|\s)menu-item-(\d+)(?:\s|$)/ );
 				if ( navMenuItemParts ) {
 					e.preventDefault();
 					e.stopPropagation(); // Make sure a sub-nav menu item will get focused instead of parent items.
