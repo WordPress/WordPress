@@ -977,7 +977,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * @param mixed $choice Which header image to select. Allows for values of 'random-default-image',
 	 * 	for randomly cycling among the default images; 'random-uploaded-image', for randomly cycling
 	 * 	among the uploaded images; the key of a default image registered for that theme; and
-	 * 	the key of an image uploaded for that theme (the basename of the URL).
+	 * 	the key of an image uploaded for that theme (the attachment ID of the image).
 	 *  Or an array of arguments: attachment_id, url, width, height. All are required.
 	 */
 	final public function set_header_image( $choice ) {
