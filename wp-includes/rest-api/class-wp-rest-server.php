@@ -820,7 +820,11 @@ class WP_REST_Server {
 				$callback  = $handler['callback'];
 				$response = null;
 
-				$checked_method = 'HEAD' === $method ? 'GET' : $method;
+				// Fallback to GET method if no HEAD method is registered.
+				$checked_method = $method;
+				if ( 'HEAD' === $method && empty( $handler['methods']['HEAD'] ) ) {
+					$checked_method = 'GET';
+				}
 				if ( empty( $handler['methods'][ $checked_method ] ) ) {
 					continue;
 				}
