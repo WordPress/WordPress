@@ -300,8 +300,9 @@ function wp_debug_mode() {
 	} else {
 		error_reporting( E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR );
 	}
-	if ( defined( 'XMLRPC_REQUEST' ) )
+	if ( defined( 'XMLRPC_REQUEST' ) || defined( 'REST_REQUEST' ) ) {
 		ini_set( 'display_errors', 0 );
+	}
 }
 
 /**
