@@ -793,10 +793,16 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  */
 function get_translations_for_domain( $domain ) {
 	global $l10n;
-	if ( !isset( $l10n[$domain] ) ) {
-		$l10n[$domain] = new NOOP_Translations;
+	if ( isset( $l10n[ $domain ] ) ) {
+		return $l10n[ $domain ];
 	}
-	return $l10n[$domain];
+
+	static $noop_translations = null;
+	if ( null === $noop_translations ) {
+		$noop_translations = new NOOP_Translations;
+	}
+
+	return $noop_translations;
 }
 
 /**
@@ -811,7 +817,7 @@ function get_translations_for_domain( $domain ) {
  */
 function is_textdomain_loaded( $domain ) {
 	global $l10n;
-	return isset( $l10n[$domain] );
+	return isset( $l10n[ $domain ] );
 }
 
 /**
