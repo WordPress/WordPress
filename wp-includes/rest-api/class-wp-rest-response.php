@@ -256,4 +256,45 @@ class WP_REST_Response extends WP_HTTP_Response {
 
 		return $error;
 	}
+
+	/**
+	 * Get the CURIEs (compact URIs) used for relations.
+	 *
+	 * @return array
+	 */
+	public function get_curies() {
+		$curies = array(
+			array(
+				'name' => 'wp',
+				'href' => 'https://api.w.org/{rel}',
+				'templated' => true,
+			),
+		);
+
+		/**
+		 * Filter extra CURIEs available on API responses.
+		 *
+		 * CURIEs allow a shortened version of URI relations. This allows a more
+		 * usable form for custom relations than using the full URI. These work
+		 * similarly to how XML namespaces work.
+		 *
+		 * Registered CURIES need to specify a name and URI template. This will
+		 * automatically transform URI relations into their shortened version.
+		 * The shortened relation follows the format `{name}:{rel}`. `{rel}` in
+		 * the URI template will be replaced with the `{rel}` part of the
+		 * shortened relation.
+		 *
+		 * For example, a CURIE with name `example` and URI template
+		 * `http://w.org/{rel}` would transform a `http://w.org/term` relation
+		 * into `example:term`.
+		 *
+		 * Well-behaved clients should expand and normalise these back to their
+		 * full URI relation, however some naive clients may not resolve these
+		 * correctly, so adding new CURIEs may break backwards compatibility.
+		 *
+		 * @param array $additional Additional CURIEs to register with the API.
+		 */
+		$additional = apply_filters( 'rest_response_link_curies', array() );
+		return array_merge( $curies, $additional );
+	}
 }

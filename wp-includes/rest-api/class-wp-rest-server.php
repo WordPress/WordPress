@@ -460,7 +460,28 @@ class WP_REST_Server {
 
 		// Convert links to part of the data.
 		$data = array();
+		$curies = $response->get_curies();
+		$used_curies = array();
+
 		foreach ( $links as $rel => $items ) {
+
+			// Convert $rel URIs to their compact versions if they exist.
+			foreach ( $curies as $curie ) {
+				$href_prefix = substr( $curie['href'], 0, strpos( $curie['href'], '{rel}' ) );
+				if ( strpos( $rel, $href_prefix ) !== 0 ) {
+					continue;
+				}
+				$used_curies[ $curie['name'] ] = $curie;
+
+				// Relation now changes from '$uri' to '$curie:$relation'
+				$rel_regex = str_replace( '\{rel\}', '([\w]+)', preg_quote( $curie['href'], '!' ) );
+				preg_match( '!' . $rel_regex . '!', $rel, $matches );
+				if ( $matches ) {
+					$rel = $curie['name'] . ':' . $matches[1];
+				}
+				break;
+			}
+
 			$data[ $rel ] = array();
 
 			foreach ( $items as $item ) {
@@ -468,6 +489,11 @@ class WP_REST_Server {
 				$attributes['href'] = $item['href'];
 				$data[ $rel ][] = $attributes;
 			}
+		}
+
+		// Push the curies onto the start of the links array.
+		if ( $used_curies ) {
+			$data = array_merge( array( 'curies' => array_values( $used_curies ) ), $data );
 		}
 
 		return $data;
