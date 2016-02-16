@@ -972,7 +972,7 @@ function wp_get_comment_fields_max_lengths() {
 			$max_length = 0;
 
 			// No point if we can't get the DB column lengths
-			if ( $col_length === false ) {
+			if ( is_wp_error( $col_length ) ) {
 				break;
 			}
 
