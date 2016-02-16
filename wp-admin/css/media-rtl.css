@@ -492,7 +492,7 @@ border color while dragging a file over the uploader drop area */
 	content: "\f153";
 	display: block;
 	font: normal 16px/1 dashicons;
-	color: #bbb;
+	color: #b4b9be;
 }
 
 .upload-php .mode-grid .media-sidebar .media-uploader-status .upload-dismiss-errors:focus:before,
@@ -909,7 +909,9 @@ border color while dragging a file over the uploader drop area */
 
 .media-disabled,
 .imgedit-settings .disabled {
-	color: grey;
+	/* WCAG 1.4.3 Text or images of text that are part of an inactive user
+	   interface component ... have no contrast requirement. */
+	color: #a0a5aa;
 }
 
 .A1B1 {

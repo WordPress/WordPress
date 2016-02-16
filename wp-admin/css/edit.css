@@ -1105,13 +1105,13 @@ p.popular-tags a {
 }
 
 .ac_results {
+	display: none;
+	margin: -1px 0 0;
 	padding: 0;
-	margin: 0;
 	list-style: none;
 	position: absolute;
 	z-index: 10000;
-	display: none;
-	border: 1px solid #808080;
+	border: 1px solid #5b9dd9;
 	background-color: #fff;
 }
 
@@ -1120,14 +1120,16 @@ p.popular-tags a {
 }
 
 .ac_results li {
-	padding: 2px 5px;
+	margin: 0;
+	padding: 5px 10px;
 	white-space: nowrap;
-	color: #101010;
 	text-align: left;
 }
 
-.ac_over {
-	background-color: #f0f0b8;
+.ac_results .ac_over,
+.ac_over .ac_match {
+	background-color: #0073aa;
+	color: #fff;
 	cursor: pointer;
 }
 

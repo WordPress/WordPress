@@ -69,6 +69,11 @@ div#media-upload-header {
 	padding: 0;
 }
 
+.media-upload-form label.form-help,
+td.help {
+	color: #72777c;
+}
+
 form {
 	margin: 1em;
 }

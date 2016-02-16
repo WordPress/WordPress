@@ -246,7 +246,7 @@
  * The currently active theme
  */
 .theme-browser .theme.active .theme-name {
-	background: #2f2f2f;
+	background: #23282d;
 	color: #fff;
 	padding-left: 110px;
 	font-weight: 300;
@@ -734,7 +734,7 @@ body.folded .theme-overlay .theme-wrap {
 
 .theme-overlay .theme-author {
 	margin: 15px 0 25px;
-	color: #686868;
+	color: #72777c;
 	font-size: 16px;
 	font-weight: 400;
 	line-height: inherit;

@@ -661,11 +661,6 @@ ul.striped > :nth-child(odd),
 	border-left-color: #99d;
 }
 
-.media-upload-form label.form-help,
-td.help {
-	color: #9a9a9a;
-}
-
 /* Helper classes for plugins to leverage the active WordPress color scheme */
 
 .highlight {
@@ -2189,7 +2184,7 @@ body.iframe {
 }
 
 .media-icon img {
-	border: 1px solid #e7e7e7;
+	border: 1px solid #e5e5e5;
 	border: 1px solid rgba(0, 0, 0, 0.07);
 }
 
@@ -2563,7 +2558,7 @@ div.action-links {
 #plugin-information .counter-back {
 	height: 17px;
 	width: 92px;
-	background-color: #ececec;
+	background-color: #e5e5e5;
 	float: right;
 }
 

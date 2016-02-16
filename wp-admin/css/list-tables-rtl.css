@@ -224,7 +224,7 @@
 
 #the-comment-list tr.undo,
 #the-comment-list div.undo {
-	background-color: #f4f4f4;
+	background-color: #f5f5f5;
 }
 
 #the-comment-list .unapproved th,
@@ -695,7 +695,7 @@ th.asc a:focus span.sorting-indicator {
 .tablenav-pages-navspan {
 	display: inline-block;
 	min-width: 17px;
-	border: 1px solid #d2d2d2;
+	border: 1px solid #ccc; /* same color as buttons border */
 	padding: 3px 5px 7px;
 	background: #e4e4e4;
 	font-size: 16px;
