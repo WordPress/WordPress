@@ -340,6 +340,7 @@ class WP_REST_Server {
 		 * Allows modification of the response before returning.
 		 *
 		 * @since 4.4.0
+		 * @since 4.5.0 Applied to embedded responses.
 		 *
 		 * @param WP_HTTP_Response $result  Result to send to the client. Usually a WP_REST_Response.
 		 * @param WP_REST_Server   $this    Server instance.
@@ -566,6 +567,9 @@ class WP_REST_Server {
 
 				$request->set_query_params( $query_params );
 				$response = $this->dispatch( $request );
+
+				/** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
+				$response = apply_filters( 'rest_post_dispatch', rest_ensure_response( $response ), $this, $request );
 
 				$embeds[] = $this->response_to_data( $response, false );
 			}
