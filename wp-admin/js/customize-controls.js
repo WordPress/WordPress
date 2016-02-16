@@ -3229,7 +3229,8 @@
 			overlay = body.children( '.wp-full-overlay' ),
 			title = $( '#customize-info .panel-title.site-title' ),
 			closeBtn = $( '.customize-controls-close' ),
-			saveBtn = $( '#save' );
+			saveBtn = $( '#save' ),
+			footerActions = $( '#customize-footer-actions' );
 
 		// Prevent the form from saving when enter is pressed on an input or select element.
 		$('#customize-controls').on( 'keydown', function( e ) {
@@ -3604,6 +3605,46 @@
 			overlay.toggleClass( 'preview-only' );
 			event.preventDefault();
 		});
+
+		// Previewed device bindings.
+		api.previewedDevice = new api.Value();
+
+		// Set the default device.
+		api.bind( 'ready', function() {
+			_.find( api.settings.previewableDevices, function( value, key ) {
+				if ( true === value['default'] ) {
+					api.previewedDevice.set( key );
+					return true;
+				}
+			} );
+		} );
+
+		// Set the toggled device.
+		footerActions.find( '.devices button' ).on( 'click', function( event ) {
+			api.previewedDevice.set( $( event.currentTarget ).data( 'device' ) );
+		});
+
+		// Bind device changes.
+		api.previewedDevice.bind( function( newDevice ) {
+			var overlay = $( '.wp-full-overlay' ),
+				devices = '';
+
+			footerActions.find( '.devices button' )
+				.removeClass( 'active' )
+				.attr( 'aria-pressed', false );
+
+			footerActions.find( '.devices .preview-' + newDevice )
+				.addClass( 'active' )
+				.attr( 'aria-pressed', true );
+
+			$.each( api.settings.previewableDevices, function( device ) {
+				devices += ' preview-' + device;
+			} );
+
+			overlay
+				.removeClass( devices )
+				.addClass( 'preview-' + newDevice );
+		} );
 
 		// Bind site title display to the corresponding field.
 		if ( title.length ) {

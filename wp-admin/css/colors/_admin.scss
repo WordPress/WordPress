@@ -487,6 +487,10 @@ body.more-filters-opened .more-filters:focus:before {
 	color: $menu-highlight-text;
 }
 
+#customize-footer-actions .devices button:focus {
+	border-bottom-color: $highlight-color;
+}
+
 /* Responsive Component */
 
 div#wp-responsive-toggle a:before {

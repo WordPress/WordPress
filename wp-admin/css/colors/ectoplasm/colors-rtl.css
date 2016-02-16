@@ -514,6 +514,10 @@ body.more-filters-opened .more-filters:focus:before {
   color: #fff;
 }
 
+#customize-footer-actions .devices button:focus {
+  border-bottom-color: #a3b745;
+}
+
 /* Responsive Component */
 div#wp-responsive-toggle a:before {
   color: #ece6f6;
