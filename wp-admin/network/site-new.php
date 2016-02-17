@@ -229,7 +229,17 @@ if ( ! empty( $messages ) ) {
 			<td colspan="2"><?php _e( 'A new user will be created if the above email address is not in the database.' ) ?><br /><?php _e( 'The username and password will be mailed to this email address.' ) ?></td>
 		</tr>
 	</table>
-	<?php submit_button( __('Add Site'), 'primary', 'add-site' ); ?>
+
+	<?php
+	/**
+	 * Fires at the end of the new site form in network admin.
+	 *
+	 * @since 4.5.0
+	 */
+	do_action( 'network_site_new_form' );
+
+	submit_button( __( 'Add Site' ), 'primary', 'add-site' );
+	?>
 	</form>
 </div>
 <?php
