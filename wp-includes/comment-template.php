@@ -1393,9 +1393,6 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	 */
 	$wp_query->comments = apply_filters( 'comments_array', $comments_flat, $post->ID );
 
-	// Set up lazy-loading for comment metadata.
-	add_action( 'get_comment_metadata', array( $wp_query, 'lazyload_comment_meta' ), 10, 2 );
-
 	$comments = &$wp_query->comments;
 	$wp_query->comment_count = count($wp_query->comments);
 	$wp_query->max_num_comment_pages = $comment_query->max_num_pages;
@@ -2029,6 +2026,8 @@ function wp_list_comments( $args = array(), $comments = null ) {
 
 	if ( null === $r['reverse_top_level'] )
 		$r['reverse_top_level'] = ( 'desc' == get_option('comment_order') );
+
+	wp_queue_comments_for_comment_meta_lazyload( $_comments );
 
 	if ( empty( $r['walker'] ) ) {
 		$walker = new Walker_Comment;
