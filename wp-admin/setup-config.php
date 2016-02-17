@@ -188,17 +188,17 @@ switch($step) {
 		<tr>
 			<th scope="row"><label for="dbname"><?php _e( 'Database Name' ); ?></label></th>
 			<td><input name="dbname" id="dbname" type="text" size="25" value="wordpress" /></td>
-			<td><?php _e( 'The name of the database you want to run WP in.' ); ?></td>
+			<td><?php _e( 'The name of the database you want to use with WordPress.' ); ?></td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="uname"><?php _e( 'Username' ); ?></label></th>
 			<td><input name="uname" id="uname" type="text" size="25" value="<?php echo htmlspecialchars( _x( 'username', 'example username' ), ENT_QUOTES ); ?>" /></td>
-			<td><?php _e( 'Your MySQL username' ); ?></td>
+			<td><?php _e( 'Your database username.' ); ?></td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="pwd"><?php _e( 'Password' ); ?></label></th>
 			<td><input name="pwd" id="pwd" type="text" size="25" value="<?php echo htmlspecialchars( _x( 'password', 'example password' ), ENT_QUOTES ); ?>" autocomplete="off" /></td>
-			<td><?php _e( '&hellip;and your MySQL password.' ); ?></td>
+			<td><?php _e( 'Your database password.' ); ?></td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="dbhost"><?php _e( 'Database Host' ); ?></label></th>
