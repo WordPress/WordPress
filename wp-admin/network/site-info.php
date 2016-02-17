@@ -78,6 +78,11 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
 		}
 		$update_parsed_url = parse_url( $blog_data['url'] );
 
+		// If a path is not provided, use the default of `/`.
+		if ( ! isset( $update_parsed_url['path'] ) ) {
+			$update_parsed_url['path'] = '/';
+		}
+
 		$blog_data['scheme'] = $update_parsed_url['scheme'];
 		$blog_data['domain'] = $update_parsed_url['host'];
 		$blog_data['path'] = $update_parsed_url['path'];
