@@ -1800,6 +1800,20 @@ function win_is_writable( $path ) {
 }
 
 /**
+ * Get uploads directory information.
+ *
+ * Same as wp_upload_dir() but "light weight" as it doesn't attempt to create the uploads directory.
+ * Intended for use in themes, when only 'basedir' and 'baseurl' are needed, generally in all cases when not uploading files.
+ *
+ * @since 4.5.0
+ *
+ * @return array See wp_upload_dir() for description.
+ */
+function wp_get_upload_dir() {
+	return wp_upload_dir( null, false );
+}
+
+/**
  * Get an array containing the current upload directory's path and url.
  *
  * Checks the 'upload_path' option, which should be from the web root folder,
@@ -1824,14 +1838,73 @@ function win_is_writable( $path ) {
  * 'subdir' - sub directory if uploads use year/month folders option is on.
  * 'basedir' - path without subdir.
  * 'baseurl' - URL path without subdir.
- * 'error' - set to false.
+ * 'error' - false or error message.
  *
  * @since 2.0.0
+ * @uses _wp_upload_dir()
  *
  * @param string $time Optional. Time formatted in 'yyyy/mm'. Default null.
+ * @param bool   $create_dir Optional. Whether to check and create the uploads directory. Default true (backwards compatible).
+ * @param bool   $refresh_cache Optional. Whether to refresh the cache. Default false.
  * @return array See above for description.
  */
-function wp_upload_dir( $time = null ) {
+function wp_upload_dir( $time = null, $create_dir = true, $refresh_cache = false ) {
+	static $cache = array();
+
+	$key = sprintf( '%d-%s', get_current_blog_id(), (string) $time );
+
+	if ( $refresh_cache || empty( $cache[ $key ] ) ) {
+		$cache[ $key ] = _wp_upload_dir( $time );
+	}
+
+	/**
+	 * Filter the uploads directory data.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $uploads Array of upload directory data with keys of 'path',
+	 *                       'url', 'subdir, 'basedir', and 'error'.
+	 */
+	$uploads = apply_filters( 'upload_dir', $cache[ $key ] );
+
+	if ( $create_dir ) {
+		$path = $uploads['path'];
+		$tested_paths = wp_cache_get( 'upload_dir_tested_paths' );
+
+		if ( ! is_array( $tested_paths ) ) {
+			$tested_paths = array();
+		}
+
+		if ( array_key_exists( $path, $tested_paths ) ) {
+			$uploads['error'] = $tested_paths[ $path ];
+		} else {
+			if ( ! wp_mkdir_p( $path ) ) {
+				if ( 0 === strpos( $uploads['basedir'], ABSPATH ) ) {
+					$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
+				} else {
+					$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
+				}
+
+				$uploads['error'] = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $error_path );
+			}
+
+			$tested_paths[ $path ] = $uploads['error'];
+			wp_cache_set( 'upload_dir_tested_paths', $tested_paths );
+		}
+	}
+
+	return $uploads;
+}
+
+/**
+ * A non-filtered, non-cached version of wp_upload_dir() that doesn't check the path.
+ *
+ * @access private
+ *
+ * @param string $time Optional. Time formatted in 'yyyy/mm'. Default null.
+ * @return array See wp_upload_dir()
+ */
+function _wp_upload_dir( $time = null ) {
 	$siteurl = get_option( 'siteurl' );
 	$upload_path = trim( get_option( 'upload_path' ) );
 
@@ -1920,36 +1993,14 @@ function wp_upload_dir( $time = null ) {
 	$dir .= $subdir;
 	$url .= $subdir;
 
-	/**
-	 * Filter the uploads directory data.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param array $uploads Array of upload directory data with keys of 'path',
-	 *                       'url', 'subdir, 'basedir', and 'error'.
-	 */
-	$uploads = apply_filters( 'upload_dir',
-		array(
-			'path'    => $dir,
-			'url'     => $url,
-			'subdir'  => $subdir,
-			'basedir' => $basedir,
-			'baseurl' => $baseurl,
-			'error'   => false,
-		) );
-
-	// Make sure we have an uploads directory.
-	if ( ! wp_mkdir_p( $uploads['path'] ) ) {
-		if ( 0 === strpos( $uploads['basedir'], ABSPATH ) )
-			$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
-		else
-			$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
-
-		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $error_path );
-		$uploads['error'] = $message;
-	}
-
-	return $uploads;
+	return array(
+		'path'    => $dir,
+		'url'     => $url,
+		'subdir'  => $subdir,
+		'basedir' => $basedir,
+		'baseurl' => $baseurl,
+		'error'   => false,
+	);
 }
 
 /**
