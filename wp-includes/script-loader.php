@@ -714,7 +714,7 @@ function wp_default_styles( &$styles ) {
 	}
 
 	// Register a stylesheet for the selected admin color scheme.
-	$styles->add( 'colors', true, array( 'wp-admin', 'buttons', 'open-sans', 'dashicons' ) );
+	$styles->add( 'colors', true, array( 'wp-admin', 'buttons' ) );
 
 	$suffix = SCRIPT_DEBUG ? '' : '.min';
 
@@ -734,10 +734,10 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'site-icon',           "/wp-admin/css/site-icon$suffix.css" );
 	$styles->add( 'l10n',                "/wp-admin/css/l10n$suffix.css" );
 
-	$styles->add( 'wp-admin', false, array( 'common', 'forms', 'admin-menu', 'dashboard', 'list-tables', 'edit', 'revisions', 'media', 'themes', 'about', 'nav-menus', 'widgets', 'site-icon', 'l10n', 'open-sans', 'dashicons' ) );
+	$styles->add( 'wp-admin', false, array( 'open-sans', 'dashicons', 'common', 'forms', 'admin-menu', 'dashboard', 'list-tables', 'edit', 'revisions', 'media', 'themes', 'about', 'nav-menus', 'widgets', 'site-icon', 'l10n' ) );
 
-	$styles->add( 'login',               "/wp-admin/css/login$suffix.css", array( 'buttons', 'forms', 'l10n', 'open-sans', 'dashicons' ) );
-	$styles->add( 'install',             "/wp-admin/css/install$suffix.css", array( 'buttons', 'open-sans' ) );
+	$styles->add( 'login',               "/wp-admin/css/login$suffix.css", array( 'open-sans', 'dashicons', 'buttons', 'forms', 'l10n' ) );
+	$styles->add( 'install',             "/wp-admin/css/install$suffix.css", array( 'open-sans', 'buttons' ) );
 	$styles->add( 'wp-color-picker',     "/wp-admin/css/color-picker$suffix.css" );
 	$styles->add( 'customize-controls',  "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie', 'imgareaselect' ) );
 	$styles->add( 'customize-widgets',   "/wp-admin/css/customize-widgets$suffix.css", array( 'wp-admin', 'colors' ) );
