@@ -728,14 +728,17 @@ MediaDetails = AttachmentDisplay.extend({
 		this.on( 'media:setting:remove', wp.media.mixin.unsetPlayers, this );
 		this.on( 'media:setting:remove', this.render );
 		this.on( 'media:setting:remove', this.setPlayer );
-		this.events = _.extend( this.events, {
+
+		AttachmentDisplay.prototype.initialize.apply( this, arguments );
+	},
+
+	events: function(){
+		return _.extend( {
 			'click .remove-setting' : 'removeSetting',
 			'change .content-track' : 'setTracks',
 			'click .remove-track' : 'setTracks',
 			'click .add-media-source' : 'addSource'
-		} );
-
-		AttachmentDisplay.prototype.initialize.apply( this, arguments );
+		}, AttachmentDisplay.prototype.events );
 	},
 
 	prepare: function() {
