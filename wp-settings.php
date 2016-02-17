@@ -26,7 +26,7 @@ require( ABSPATH . WPINC . '/default-constants.php' );
  * we're including version.php from another install and don't want
  * these values to be overridden if already set.
  */
-global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version;
+global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version, $wp_local_package;
 require( ABSPATH . WPINC . '/version.php' );
 
 /**
