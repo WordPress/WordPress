@@ -177,6 +177,11 @@ class WP_Scripts extends WP_Dependencies {
 			echo $cond_after;
 		}
 
+		// A single item may alias a set of items, by having dependencies, but no source.
+		if ( ! $obj->src ) {
+			return true;
+		}
+
 		if ( ! preg_match( '|^(https?:)?//|', $src ) && ! ( $this->content_url && 0 === strpos( $src, $this->content_url ) ) ) {
 			$src = $this->base_url . $src;
 		}

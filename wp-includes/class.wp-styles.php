@@ -72,11 +72,20 @@ class WP_Styles extends WP_Dependencies {
 		else
 			$media = 'all';
 
-		$href = $this->_css_href( $obj->src, $ver, $handle );
-		if ( empty( $href ) ) {
-			// Turns out there is nothing to print.
+		// A single item may alias a set of items, by having dependencies, but no source.
+		if ( ! $obj->src ) {
+			if ( $inline_style = $this->print_inline_style( $handle, false ) ) {
+				$inline_style = sprintf( "<style id='%s-inline-css' type='text/css'>\n%s\n</style>\n", esc_attr( $handle ), $inline_style );
+				if ( $this->do_concat ) {
+					$this->print_html .= $inline_style;
+				} else {
+					echo $inline_style;
+				}
+			}
 			return true;
 		}
+
+		$href = $this->_css_href( $obj->src, $ver, $handle );
 		$rel = isset($obj->extra['alt']) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
 		$title = isset($obj->extra['title']) ? "title='" . esc_attr( $obj->extra['title'] ) . "'" : '';
 

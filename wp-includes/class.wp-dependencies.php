@@ -98,21 +98,6 @@ class WP_Dependencies {
 
 		foreach ( $this->to_do as $key => $handle ) {
 			if ( !in_array($handle, $this->done, true) && isset($this->registered[$handle]) ) {
-
-				/*
-				 * A single item may alias a set of items, by having dependencies,
-				 * but no source. Queuing the item queues the dependencies.
-				 *
-				 * Example: The extending class WP_Scripts is used to register 'scriptaculous' as a set of registered handles:
-				 *   <code>add( 'scriptaculous', false, array( 'scriptaculous-dragdrop', 'scriptaculous-slider', 'scriptaculous-controls' ) );</code>
-				 *
-				 * The src property is false.
-				 */
-				if ( ! $this->registered[$handle]->src ) {
-					$this->done[] = $handle;
-					continue;
-				}
-
 				/*
 				 * Attempt to process the item. If successful,
 				 * add the handle to the done array.
