@@ -106,8 +106,17 @@ if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) { ?>
 			<td colspan="2"><?php _e( 'A password reset link will be sent to the user via email.' ) ?></td>
 		</tr>
 	</table>
-	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ); ?>
-	<?php submit_button( __('Add User'), 'primary', 'add-user' ); ?>
+	<?php
+	/**
+	 * Fires at the end of the new user form in network admin.
+	 *
+	 * @since 4.5.0
+	 */
+	do_action( 'network_user_new_form' );
+
+	wp_nonce_field( 'add-user', '_wpnonce_add-user' );
+	submit_button( __('Add User'), 'primary', 'add-user' );
+	?>
 	</form>
 </div>
 <?php
