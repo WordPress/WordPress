@@ -1647,7 +1647,7 @@ function _admin_notice_post_locked() {
 function wp_create_post_autosave( $post_data ) {
 	if ( is_numeric( $post_data ) ) {
 		$post_id = $post_data;
-		$post_data = &$_POST;
+		$post_data = $_POST;
 	} else {
 		$post_id = (int) $post_data['post_ID'];
 	}
