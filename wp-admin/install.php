@@ -350,7 +350,7 @@ switch($step) {
 
 <h1><?php _e( 'Success!' ); ?></h1>
 
-<p><?php _e( 'WordPress has been installed. Were you expecting more steps? Sorry to disappoint.' ); ?></p>
+<p><?php _e( 'WordPress has been installed. Thank you, and enjoy!' ); ?></p>
 
 <table class="form-table install-success">
 	<tr>
