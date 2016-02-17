@@ -69,7 +69,12 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 
 		$current_site = get_current_site();
 
-		$mode = ( empty( $_REQUEST['mode'] ) ) ? 'list' : $_REQUEST['mode'];
+		if ( ! empty( $_REQUEST['mode'] ) ) {
+			$mode = $_REQUEST['mode'] === 'excerpt' ? 'excerpt' : 'list';
+			set_user_setting ( 'sites_list_mode', $mode );
+		} else {
+			$mode = get_user_setting ( 'sites_list_mode', 'list' );
+		}
 
 		$per_page = $this->get_items_per_page( 'sites_network_per_page' );
 
