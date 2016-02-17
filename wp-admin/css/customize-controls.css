@@ -1342,6 +1342,7 @@ body.cheatin p {
 	height: 45px;
 	padding: 0 3px;
 	margin: 0 0 0 -4px;
+	-webkit-box-shadow: none;
 	box-shadow: none;
 	border-top: 1px solid transparent;
 	border-bottom: 4px solid transparent;
@@ -1350,6 +1351,7 @@ body.cheatin p {
 }
 
 #customize-footer-actions .devices button:focus {
+	-webkit-box-shadow: none;
 	box-shadow: none;
 	outline: none;
 }
