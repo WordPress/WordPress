@@ -268,7 +268,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global string $s
+	 * @global string $s URL encoded search term.
 	 *
 	 * @param array $plugin
 	 * @return bool
@@ -277,7 +277,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		global $s;
 
 		foreach ( $plugin as $value ) {
-			if ( is_string( $value ) && false !== stripos( strip_tags( $value ), $s ) ) {
+			if ( is_string( $value ) && false !== stripos( strip_tags( $value ), urldecode( $s ) ) ) {
 				return true;
 			}
 		}
@@ -316,7 +316,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		global $plugins;
 
 		if ( ! empty( $_REQUEST['s'] ) ) {
-			$s = esc_html( $_REQUEST['s'] );
+			$s = esc_html( wp_unslash( $_REQUEST['s'] ) );
 
 			printf( __( 'No plugins found for &#8220;%s&#8221;.' ), $s );
 
