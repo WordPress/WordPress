@@ -524,6 +524,11 @@ window.wp = window.wp || {};
 			e.preventDefault();
 			var $button = $( e.target );
 
+			// Do nothing while updating and when the button is disabled.
+			if ( $button.hasClass( 'updating-message' ) || $button.hasClass( 'button-disabled' ) ) {
+				return;
+			}
+
 			if ( wp.updates.shouldRequestFilesystemCredentials && ! wp.updates.updateLock ) {
 				wp.updates.requestFilesystemCredentials( e );
 			}
