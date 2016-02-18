@@ -132,6 +132,7 @@
 	display: block;
 	overflow: hidden;
 	position: relative;
+	-webkit-backface-visibility: hidden; /* Prevents flicker of the screenshot on hover. */
 	-webkit-transition: opacity 0.2s ease-in-out;
 	transition: opacity 0.2s ease-in-out;
 }
