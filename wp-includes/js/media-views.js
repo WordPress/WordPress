@@ -3754,7 +3754,7 @@ AttachmentsBrowser = View.extend({
 			AttachmentView: wp.media.view.Attachment.Library
 		});
 
-		this.listenTo( this.controller, 'toggle:upload:attachment', _.bind( this.toggleUploader, this ) );
+		this.controller.on( 'toggle:upload:attachment', this.toggleUploader, this );
 		this.controller.on( 'edit:selection', this.editSelection );
 		this.createToolbar();
 		if ( this.options.sidebar ) {
