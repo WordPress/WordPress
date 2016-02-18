@@ -350,7 +350,7 @@ final class WP_Customize_Nav_Menus {
 				'untitled'          => _x( '(no label)', 'missing menu item navigation label' ),
 				'unnamed'           => _x( '(unnamed)', 'Missing menu name.' ),
 				'custom_label'      => __( 'Custom Link' ),
-				/* translators: %s: menu location slug */
+				/* translators: %s: menu location */
 				'menuLocation'      => _x( '(Currently set to: %s)', 'menu' ),
 				'menuNameLabel'     => __( 'Menu Name' ),
 				'itemAdded'         => __( 'Menu item added' ),
@@ -381,6 +381,7 @@ final class WP_Customize_Nav_Menus {
 				'nav_menu'      => $temp_nav_menu_setting->default,
 				'nav_menu_item' => $temp_nav_menu_item_setting->default,
 			),
+			'locationSlugMappedToName' => get_registered_nav_menus(),
 		);
 
 		$data = sprintf( 'var _wpCustomizeNavMenusSettings = %s;', wp_json_encode( $settings ) );
