@@ -374,7 +374,7 @@ function wptexturize_primes( $haystack, $needle, $prime, $open_quote, $close_quo
  */
 function _wptexturize_pushpop_element( $text, &$stack, $disabled_elements ) {
 	// Is it an opening tag or closing tag?
-	if ( '/' !== $text[1] ) {
+	if ( isset( $text[1] ) && '/' !== $text[1] ) {
 		$opening_tag = true;
 		$name_offset = 1;
 	} elseif ( 0 == count( $stack ) ) {
