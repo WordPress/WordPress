@@ -1885,7 +1885,7 @@ function wp_upload_dir( $time = null, $create_dir = true, $refresh_cache = false
 					$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
 				}
 
-				$uploads['error'] = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $error_path );
+				$uploads['error'] = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), esc_html( $error_path ) );
 			}
 
 			$tested_paths[ $path ] = $uploads['error'];

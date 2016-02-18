@@ -186,11 +186,15 @@ function create_initial_post_types() {
  */
 function get_attached_file( $attachment_id, $unfiltered = false ) {
 	$file = get_post_meta( $attachment_id, '_wp_attached_file', true );
+
 	// If the file is relative, prepend upload dir.
-	if ( $file && 0 !== strpos($file, '/') && !preg_match('|^.:\\\|', $file) && ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) )
+	if ( $file && 0 !== strpos( $file, '/' ) && ! preg_match( '|^.:\\\|', $file ) && ( ( $uploads = wp_get_upload_dir() ) && false === $uploads['error'] ) ) {
 		$file = $uploads['basedir'] . "/$file";
-	if ( $unfiltered )
+	}
+
+	if ( $unfiltered ) {
 		return $file;
+	}
 
 	/**
 	 * Filter the attached file based on the given ID.
@@ -248,7 +252,7 @@ function update_attached_file( $attachment_id, $file ) {
 function _wp_relative_upload_path( $path ) {
 	$new_path = $path;
 
-	$uploads = wp_upload_dir();
+	$uploads = wp_get_upload_dir();
 	if ( 0 === strpos( $new_path, $uploads['basedir'] ) ) {
 			$new_path = str_replace( $uploads['basedir'], '', $new_path );
 			$new_path = ltrim( $new_path, '/' );
@@ -4847,7 +4851,7 @@ function wp_delete_attachment( $post_id, $force_delete = false ) {
 	/** This action is documented in wp-includes/post.php */
 	do_action( 'deleted_post', $post_id );
 
-	$uploadpath = wp_upload_dir();
+	$uploadpath = wp_get_upload_dir();
 
 	if ( ! empty($meta['thumb']) ) {
 		// Don't delete the thumb if another attachment uses it.
@@ -4964,9 +4968,9 @@ function wp_get_attachment_url( $post_id = 0 ) {
 
 	$url = '';
 	// Get attached file.
-	if ( $file = get_post_meta( $post->ID, '_wp_attached_file', true) ) {
+	if ( $file = get_post_meta( $post->ID, '_wp_attached_file', true ) ) {
 		// Get upload directory.
-		if ( ($uploads = wp_upload_dir()) && false === $uploads['error'] ) {
+		if ( ( $uploads = wp_get_upload_dir() ) && false === $uploads['error'] ) {
 			// Check that the upload base exists in the file location.
 			if ( 0 === strpos( $file, $uploads['basedir'] ) ) {
 				// Replace file location with url location.

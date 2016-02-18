@@ -108,7 +108,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	}
 
 	if ( $drop ) {
-		$uploads = wp_upload_dir();
+		$uploads = wp_get_upload_dir();
 
 		$tables = $wpdb->tables( 'blog' );
 		/**

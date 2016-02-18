@@ -3716,3 +3716,17 @@ function popuplinks( $text ) {
 	$text = preg_replace('/<a (.+?)>/i', "<a $1 target='_blank' rel='external'>", $text);
 	return $text;
 }
+
+/**
+ * Returns the base URL of the uploads directory.
+ *
+ * @since 4.4.0
+ * @access private
+ * @deprecated 4.5.0
+ *
+ * @return string The base URL.
+ */
+function _wp_upload_dir_baseurl() {
+	$upload_dir = wp_get_upload_dir();
+	return $upload_dir['baseurl'];
+}

@@ -903,27 +903,6 @@ function _wp_get_attachment_relative_path( $file ) {
 }
 
 /**
- * Caches and returns the base URL of the uploads directory.
- *
- * @since 4.4.0
- * @access private
- *
- * @return string The base URL, cached.
- */
-function _wp_upload_dir_baseurl() {
-	static $baseurl = array();
-
-	$blog_id = get_current_blog_id();
-
-	if ( empty( $baseurl[$blog_id] ) ) {
-		$uploads_dir = wp_upload_dir();
-		$baseurl[$blog_id] = $uploads_dir['baseurl'];
-	}
-
-	return $baseurl[$blog_id];
-}
-
-/**
  * Get the image size as array from its meta data.
  *
  * Used for responsive images.
@@ -1045,8 +1024,8 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 		$dirname = trailingslashit( $dirname );
 	}
 
-	$image_baseurl = _wp_upload_dir_baseurl();
-	$image_baseurl = trailingslashit( $image_baseurl ) . $dirname;
+	$upload_dir = wp_get_upload_dir();
+	$image_baseurl = trailingslashit( $upload_dir['baseurl'] ) . $dirname;
 
 	/*
 	 * Images that have been edited in WordPress after being uploaded will
@@ -3739,7 +3718,7 @@ function wp_maybe_generate_attachment_metadata( $attachment ) {
 function attachment_url_to_postid( $url ) {
 	global $wpdb;
 
-	$dir = wp_upload_dir();
+	$dir = wp_get_upload_dir();
 	$path = $url;
 
 	$site_url = parse_url( $dir['url'] );
