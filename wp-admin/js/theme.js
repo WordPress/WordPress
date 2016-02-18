@@ -158,8 +158,8 @@ themes.Collection = Backbone.Collection.extend({
 			$( 'body' ).removeClass( 'no-results' );
 		}
 
-		// Trigger an 'update' event
-		this.trigger( 'update' );
+		// Trigger a 'themes:update' event
+		this.trigger( 'themes:update' );
 	},
 
 	// Performs a search within the collection
@@ -185,7 +185,7 @@ themes.Collection = Backbone.Collection.extend({
 			description = data.get( 'description' ).replace( /(<([^>]+)>)/ig, '' );
 			author      = data.get( 'author' ).replace( /(<([^>]+)>)/ig, '' );
 
-			haystack = _.union( name, data.get( 'id' ), description, author, data.get( 'tags' ) );
+			haystack = _.union( [ name, data.get( 'id' ), description, author, data.get( 'tags' ) ] );
 
 			if ( match.test( data.get( 'author' ) ) && term.length > 2 ) {
 				data.set( 'displayAuthor', true );
@@ -264,7 +264,7 @@ themes.Collection = Backbone.Collection.extend({
 
 				// Trigger a collection refresh event
 				// and a `query:success` event with a `count` argument.
-				self.trigger( 'update' );
+				self.trigger( 'themes:update' );
 				self.trigger( 'query:success', count );
 
 				if ( data.themes && data.themes.length === 0 ) {
@@ -308,7 +308,7 @@ themes.Collection = Backbone.Collection.extend({
 				this.count = this.length;
 			}
 
-			this.trigger( 'update' );
+			this.trigger( 'themes:update' );
 			this.trigger( 'query:success', this.count );
 		}
 	},
@@ -863,11 +863,11 @@ themes.view.Themes = wp.Backbone.View.extend({
 		self.currentTheme();
 
 		// When the collection is updated by user input...
-		this.listenTo( self.collection, 'update', function() {
+		this.listenTo( self.collection, 'themes:update', function() {
 			self.parent.page = 0;
 			self.currentTheme();
 			self.render( this );
-		});
+		} );
 
 		// Update theme count to full result set when available.
 		this.listenTo( self.collection, 'query:success', function( count ) {
@@ -1478,7 +1478,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 
 		// Construct the filter request
 		// using the default values
-		filter = _.union( filter, this.filtersChecked() );
+		filter = _.union( [ filter, this.filtersChecked() ] );
 		request = { tag: [ filter ] };
 
 		// Get the themes by sending Ajax POST request to api.wordpress.org/themes
