@@ -107,6 +107,8 @@ wp_nonce_field( 'update-tag_' . $term_id );
  *
  * At this point, the required hidden fields and nonces have already been output.
  *
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+ *
  * @since 4.5.0
  *
  * @param object $tag      Current taxonomy term object.
