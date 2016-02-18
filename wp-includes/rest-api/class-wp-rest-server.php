@@ -882,7 +882,7 @@ class WP_REST_Server {
 					 * Allow plugins to override dispatching the request.
 					 *
 					 * @since 4.4.0
-					 * @since 4.5.0 $route and $handler parameters added.
+					 * @since 4.5.0 Added `$route` and `$handler` parameters.
 					 *
 					 * @param bool            $dispatch_result Dispatch result, will be used if not empty.
 					 * @param WP_REST_Request $request         Request used to generate the response.
