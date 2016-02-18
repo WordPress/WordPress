@@ -174,9 +174,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		if ( ! empty( $_REQUEST['mode'] ) ) {
 			$mode = $_REQUEST['mode'] === 'excerpt' ? 'excerpt' : 'list';
-			set_user_setting ( 'posts_list_mode', $mode );
+			set_user_setting( 'posts_list_mode', $mode );
 		} else {
-			$mode = get_user_setting ( 'posts_list_mode', 'list' );
+			$mode = get_user_setting( 'posts_list_mode', 'list' );
 		}
 
 		$this->is_trash = isset( $_REQUEST['post_status'] ) && $_REQUEST['post_status'] === 'trash';

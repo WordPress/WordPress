@@ -83,9 +83,9 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 		if ( ! empty( $_REQUEST['mode'] ) ) {
 			$mode = $_REQUEST['mode'] === 'excerpt' ? 'excerpt' : 'list';
-			set_user_setting ( 'network_users_list_mode', $mode );
+			set_user_setting( 'network_users_list_mode', $mode );
 		} else {
-			$mode = get_user_setting ( 'network_users_list_mode', 'list' );
+			$mode = get_user_setting( 'network_users_list_mode', 'list' );
 		}
 
 		/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */
