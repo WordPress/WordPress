@@ -814,10 +814,10 @@ table.form-table td .updated p {
 	position: relative;
 	cursor: move;
 	color: #32373c;
-	background: #e6e6e6;
+	background: #e5e5e5;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	border: 1px solid #b4b4b4;
+	border: 1px solid #b4b9be;
 	font-style: normal;
 	line-height: 16px;
 	font-size: 14px;

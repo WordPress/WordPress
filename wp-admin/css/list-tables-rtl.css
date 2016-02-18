@@ -706,9 +706,9 @@ th.asc a:focus span.sorting-indicator {
 
 .tablenav-pages-navspan {
 	height: 16px;
-	border-color: #e8e8e8;
-	background: #ebebeb;
-	color: #b4b4b4;
+	border-color: #ddd; /* same as disabled buttons */
+	background: #f7f7f7; /* same as disabled buttons */
+	color: #a0a5aa; /* same as disabled buttons */
 }
 
 .tablenav .tablenav-pages a:hover,
