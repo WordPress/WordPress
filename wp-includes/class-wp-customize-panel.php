@@ -27,7 +27,6 @@ class WP_Customize_Panel {
 	 *
 	 * @static
 	 * @access protected
-	 * @static
 	 * @var int
 	 */
 	protected static $instance_count = 0;
