@@ -146,7 +146,6 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 </select>
 
 <p class="description" id="timezone-description"><?php _e( 'Choose a city in the same timezone as you.' ); ?></p>
-<?php if ( $check_zone_info && $tzstring ) : ?>
 
 <p class="timezone-info">
 	<span id="utc-time"><?php
@@ -166,6 +165,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <?php endif; ?>
 </p>
 
+<?php if ( $check_zone_info && $tzstring ) : ?>
 <p class="timezone-info">
 <span>
 	<?php
@@ -215,8 +215,8 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	date_default_timezone_set('UTC');
 	?>
 	</span>
-<?php endif; ?>
 </p>
+<?php endif; ?>
 </td>
 
 </tr>
