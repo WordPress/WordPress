@@ -86,6 +86,10 @@ class WP_Styles extends WP_Dependencies {
 		}
 
 		$href = $this->_css_href( $obj->src, $ver, $handle );
+		if ( ! $href ) {
+			return true;
+		}
+
 		$rel = isset($obj->extra['alt']) && $obj->extra['alt'] ? 'alternate stylesheet' : 'stylesheet';
 		$title = isset($obj->extra['title']) ? "title='" . esc_attr( $obj->extra['title'] ) . "'" : '';
 
