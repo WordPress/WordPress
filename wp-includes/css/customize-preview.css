@@ -4,3 +4,18 @@
 	transition: opacity 0.25s;
 	cursor: progress;
 }
+
+/* Override highlight when refreshing */
+.customize-partial-refreshing.widget-customizer-highlighted-widget {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.customize-render-content-error {
+	outline: solid 1px red;
+}
+.customize-render-content-error-message {
+	display: block;
+	padding: 1em;
+	background-color: #FFCCCC;
+}

@@ -3786,6 +3786,26 @@
 			});
 		});
 
+		// Focus on the control that is associated with the given setting.
+		api.previewer.bind( 'focus-control-for-setting', function( settingId ) {
+			var matchedControl;
+			api.control.each( function( control ) {
+				var settingIds = _.pluck( control.settings, 'id' );
+				if ( -1 !== _.indexOf( settingIds, settingId ) ) {
+					matchedControl = control;
+				}
+			} );
+
+			if ( matchedControl ) {
+				matchedControl.focus();
+			}
+		} );
+
+		// Refresh the preview when it requests.
+		api.previewer.bind( 'refresh', function() {
+			api.previewer.refresh();
+		});
+
 		api.trigger( 'ready' );
 
 		// Make sure left column gets focus

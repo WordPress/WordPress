@@ -19,7 +19,7 @@
 	api.Menus.data = {
 		itemTypes: [],
 		l10n: {},
-		menuItemTransport: 'postMessage',
+		settingTransport: 'refresh',
 		phpIntMax: 0,
 		defaultSettingValues: {
 			nav_menu: {},
@@ -2310,7 +2310,7 @@
 			customizeId = 'nav_menu_item[' + String( placeholderId ) + ']';
 			settingArgs = {
 				type: 'nav_menu_item',
-				transport: 'postMessage',
+				transport: api.Menus.data.settingTransport,
 				previewer: api.previewer
 			};
 			setting = api.create( customizeId, customizeId, {}, settingArgs );
@@ -2399,7 +2399,7 @@
 			// Register the menu control setting.
 			api.create( customizeId, customizeId, {}, {
 				type: 'nav_menu',
-				transport: 'postMessage',
+				transport: api.Menus.data.settingTransport,
 				previewer: api.previewer
 			} );
 			api( customizeId ).set( $.extend(
@@ -2486,10 +2486,6 @@
 			}
 		} );
 
-		api.previewer.bind( 'refresh', function() {
-			api.previewer.refresh();
-		});
-
 		// Open and focus menu control.
 		api.previewer.bind( 'focus-nav-menu-item-control', api.Menus.focusMenuItemControl );
 	} );
@@ -2535,7 +2531,7 @@
 				newCustomizeId = 'nav_menu[' + String( update.term_id ) + ']';
 				newSetting = api.create( newCustomizeId, newCustomizeId, settingValue, {
 					type: 'nav_menu',
-					transport: 'postMessage',
+					transport: api.Menus.data.settingTransport,
 					previewer: api.previewer
 				} );
 
@@ -2683,7 +2679,7 @@
 				newCustomizeId = 'nav_menu_item[' + String( update.post_id ) + ']';
 				newSetting = api.create( newCustomizeId, newCustomizeId, settingValue, {
 					type: 'nav_menu_item',
-					transport: 'postMessage',
+					transport: api.Menus.data.settingTransport,
 					previewer: api.previewer
 				} );
 

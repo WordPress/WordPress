@@ -34,7 +34,7 @@
 		multi_number: null,
 		name: null,
 		id_base: null,
-		transport: 'refresh',
+		transport: api.Widgets.data.selectiveRefresh ? 'postMessage' : 'refresh',
 		params: [],
 		width: null,
 		height: null,
@@ -1982,7 +1982,7 @@
 			isExistingWidget = api.has( settingId );
 			if ( ! isExistingWidget ) {
 				settingArgs = {
-					transport: 'refresh',
+					transport: api.Widgets.data.selectiveRefresh ? 'postMessage' : 'refresh',
 					previewer: this.setting.previewer
 				};
 				setting = api.create( settingId, settingId, '', settingArgs );

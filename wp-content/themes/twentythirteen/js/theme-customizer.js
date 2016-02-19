@@ -38,4 +38,16 @@
 			}
 		} );
 	} );
+
+	if ( wp.customize.selectiveRefresh ) {
+		wp.customize.selectiveRefresh.bind( 'sidebar-updated', function( sidebarPartial ) {
+			var widgetArea;
+			if ( 'sidebar-1' === sidebarPartial.sidebarId && $.isFunction( $.fn.masonry ) ) {
+				widgetArea = $( '#secondary .widget-area' );
+				widgetArea.masonry( 'destroy' );
+				widgetArea.masonry();
+			}
+		} );
+	}
+
 } )( jQuery );

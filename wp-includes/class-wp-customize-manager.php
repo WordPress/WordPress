@@ -67,6 +67,15 @@ final class WP_Customize_Manager {
 	public $nav_menus;
 
 	/**
+	 * Methods and properties dealing with selective refresh in the Customizer preview.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 * @var WP_Customize_Selective_Refresh
+	 */
+	public $selective_refresh;
+
+	/**
 	 * Registered instances of WP_Customize_Setting.
 	 *
 	 * @since 3.4.0
@@ -100,7 +109,7 @@ final class WP_Customize_Manager {
 	 * @access protected
 	 * @var array
 	 */
-	protected $components = array( 'widgets', 'nav_menus' );
+	protected $components = array( 'widgets', 'nav_menus', 'selective_refresh' );
 
 	/**
 	 * Registered instances of WP_Customize_Section.
@@ -249,13 +258,19 @@ final class WP_Customize_Manager {
 		 */
 		$components = apply_filters( 'customize_loaded_components', $this->components, $this );
 
-		if ( in_array( 'widgets', $components ) ) {
+		if ( in_array( 'widgets', $components, true ) ) {
 			require_once( ABSPATH . WPINC . '/class-wp-customize-widgets.php' );
 			$this->widgets = new WP_Customize_Widgets( $this );
 		}
-		if ( in_array( 'nav_menus', $components ) ) {
+
+		if ( in_array( 'nav_menus', $components, true ) ) {
 			require_once( ABSPATH . WPINC . '/class-wp-customize-nav-menus.php' );
 			$this->nav_menus = new WP_Customize_Nav_Menus( $this );
+		}
+
+		if ( in_array( 'selective_refresh', $components, true ) ) {
+			require_once( ABSPATH . WPINC . '/customize/class-wp-customize-selective-refresh.php' );
+			$this->selective_refresh = new WP_Customize_Selective_Refresh( $this );
 		}
 
 		add_filter( 'wp_die_handler', array( $this, 'wp_die_handler' ) );
@@ -1711,6 +1726,7 @@ final class WP_Customize_Manager {
 			'autofocus' => array(),
 			'documentTitleTmpl' => $this->get_document_title_template(),
 			'previewableDevices' => $this->get_previewable_devices(),
+			'selectiveRefreshEnabled' => isset( $this->selective_refresh ),
 		);
 
 		// Prepare Customize Section objects to pass to JavaScript.
