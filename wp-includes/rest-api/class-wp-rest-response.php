@@ -260,6 +260,9 @@ class WP_REST_Response extends WP_HTTP_Response {
 	/**
 	 * Get the CURIEs (compact URIs) used for relations.
 	 *
+	 * @since 4.5.0
+	 * @access public
+	 *
 	 * @return array
 	 */
 	public function get_curies() {
@@ -291,6 +294,8 @@ class WP_REST_Response extends WP_HTTP_Response {
 		 * Well-behaved clients should expand and normalise these back to their
 		 * full URI relation, however some naive clients may not resolve these
 		 * correctly, so adding new CURIEs may break backwards compatibility.
+		 *
+		 * @since 4.5.0
 		 *
 		 * @param array $additional Additional CURIEs to register with the API.
 		 */
