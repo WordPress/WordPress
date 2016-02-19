@@ -608,7 +608,7 @@ form.initial-form.quickpress-open input#title {
 }
 
 #dashboard_activity .no-activity p {
-	color: #999;
+	color: #72777c;
 	font-size: 16px;
 }
 
@@ -635,6 +635,11 @@ form.initial-form.quickpress-open input#title {
 	border-top: 1px solid #eee;
 	margin: 0 -12px;
 	padding: 8px 12px 4px;
+}
+
+#dashboard_activity .subsubsub a .count,
+#dashboard_activity .subsubsub a.current .count {
+	color: #72777c; /* white background on the dashboard but #f1f1f1 on list tables */
 }
 
 #future-posts ul,
@@ -873,7 +878,7 @@ a.rsswidget {
 }
 
 .rss-widget span.rss-date {
-	color: #999;
+	color: #72777c;
 	font-size: 13px;
 	margin-right: 3px;
 }

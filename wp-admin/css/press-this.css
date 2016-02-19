@@ -1197,7 +1197,7 @@ html {
 }
 
 .adminbar .dashicons {
-	color: #999;
+	color: #a0a5aa; /* same as WP admin bar icons */
 }
 
 .press-this .adminbar button {

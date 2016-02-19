@@ -609,7 +609,7 @@ border color while dragging a file over the uploader drop area */
 }
 
 .media-frame.mode-grid .attachments-browser .no-media {
-	color: #999;
+	color: #666; /* same as no plugins and no themes */
 	font-size: 18px;
 	font-style: normal;
 	margin: 0;

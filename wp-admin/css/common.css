@@ -443,7 +443,7 @@ code {
 
 .subsubsub a .count,
 .subsubsub a.current .count {
-	color: #999;
+	color: #555d66; /* #f1f1f1 background */
 	font-weight: normal;
 }
 
@@ -693,7 +693,7 @@ ul.striped > :nth-child(odd),
 }
 
 .wp-ui-text-icon {
-	color: #999;
+	color: #82878c; /* same as new icons */
 }
 
 /* For emoji replacement images */

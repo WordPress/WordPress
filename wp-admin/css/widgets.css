@@ -461,6 +461,7 @@ div#widgets-right .widget-top:hover,
 	transition: background 0.2s ease-in-out;
 }
 
+ /* @todo looks like these hover/focus states are overridden by .widgets-chooser-selected */
 .widgets-chooser li:hover,
 .widgets-chooser li:focus {
 	background: rgba(255,255,255,0.7);
@@ -471,7 +472,7 @@ div#widgets-right .widget-top:hover,
 	display: block;
 	-webkit-font-smoothing: antialiased;
 	font: normal 26px/1 dashicons;
-	color: #999;
+	color: #555d66;
 	position: absolute;
 	top: 7px;
 	left: 5px;

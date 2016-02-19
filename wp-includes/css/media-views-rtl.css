@@ -2006,7 +2006,7 @@
 }
 
 .image-details .custom-size span small {
-	color: #999;
+	color: #555d66; /* #f3f3f3 background */
 	font-size: inherit;
 }
 

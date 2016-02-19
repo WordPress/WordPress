@@ -97,7 +97,7 @@ label {
 	background-size: 84px;
 	background-position: center top;
 	background-repeat: no-repeat;
-	color: #999;
+	color: #444; /* same as login.css */
 	height: 84px;
 	font-size: 20px;
 	font-weight: normal;

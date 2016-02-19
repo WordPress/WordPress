@@ -69,7 +69,7 @@ ul.add-menu-item-tabs li {
 }
 
 .is-submenu {
-	color: #999;
+	color: #555d66; /* #fafafa background */
 	font-style: italic;
 	font-weight: normal;
 	margin-left: 4px;
@@ -134,7 +134,7 @@ ul.add-menu-item-tabs li {
 }
 
 .theme-location-set {
-	color: #999;
+	color: #72777c;
 	font-size: 11px;
 }
 
@@ -484,7 +484,7 @@ ul.add-menu-item-tabs li {
 }
 
 .menu-item-handle .menu-item-title.no-title {
-	color: #999;
+	color: #72777c;
 }
 
 /* Sortables */

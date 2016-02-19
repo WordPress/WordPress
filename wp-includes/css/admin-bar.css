@@ -453,7 +453,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 }
 
 #wpadminbar #wp-admin-bar-user-info .username {
-	color: #999;
+	color: #a0a5aa;
 	font-size: 11px;
 }
 
@@ -906,7 +906,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 		overflow: hidden;
 		width: 52px;
 		padding: 0;
-		color: #999;
+		color: #a0a5aa; /* @todo not needed? this text is hidden */
 		position: relative;
 	}
 

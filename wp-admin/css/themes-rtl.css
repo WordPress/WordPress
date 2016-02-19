@@ -303,7 +303,6 @@
 }
 
 .theme-browser .theme.add-new-theme a {
-	color: #999;
 	text-decoration: none;
 	display: block;
 	position: relative;
@@ -725,7 +724,7 @@ body.folded .theme-overlay .theme-wrap {
 }
 
 .theme-overlay .theme-version {
-	color: #999;
+	color: #72777c;
 	font-size: 13px;
 	font-weight: 400;
 	float: none;
@@ -1091,7 +1090,7 @@ body.show-upload-theme .upload-theme,
 }
 .upload-theme .install-help,
 .upload-plugin .install-help {
-	color: #999;
+	color: #555d66; /* #f1f1f1 background */
 	font-size: 18px;
 	font-style: normal;
 	margin: 0;
@@ -1149,7 +1148,7 @@ body.show-upload-theme p.no-themes {
 .theme-details .num-ratings,
 .theme-details .no-rating {
 	font-size: 11px;
-	color: #999;
+	color: #72777c;
 }
 
 .theme-details .no-rating {

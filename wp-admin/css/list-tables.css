@@ -1642,7 +1642,7 @@ div.action-links,
 }
 
 .no-plugin-results {
-	color: #999;
+	color: #666; /* same as no themes and no media */
 	font-size: 18px;
 	font-style: normal;
 	margin: 0;
