@@ -1953,7 +1953,7 @@ function get_password_reset_key( $user ) {
 	 *
 	 * @param string $user_login The user login name.
 	 */
-	do_action( 'retreive_password', $user->user_login );
+	do_action( 'retrieve_password', $user->user_login );
 
 	/**
 	 * Fires before a new password is retrieved.
