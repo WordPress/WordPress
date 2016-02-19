@@ -871,13 +871,13 @@ function wp_style_loader_src( $src, $handle ) {
 			$color = 'fresh';
 
 		$color = $_wp_admin_css_colors[$color];
-		$parsed = parse_url( $src );
 		$url = $color->url;
 
 		if ( ! $url ) {
 			return false;
 		}
 
+		$parsed = parse_url( $src );
 		if ( isset($parsed['query']) && $parsed['query'] ) {
 			wp_parse_str( $parsed['query'], $qv );
 			$url = add_query_arg( $qv, $url );
