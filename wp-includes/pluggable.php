@@ -1499,11 +1499,11 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 
 	if ( user_can( $post->post_author, 'edit_comment', $comment->comment_ID ) ) {
 		if ( EMPTY_TRASH_DAYS ) {
-			$notify_message .= sprintf( __('Trash it: %s'), admin_url("comment.php?action=trash&c={$comment->comment_ID}") ) . "\r\n";
+			$notify_message .= sprintf( __( 'Trash it: %s' ), admin_url( "comment.php?action=trash&c={$comment->comment_ID}#wpbody-content" ) ) . "\r\n";
 		} else {
-			$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=delete&c={$comment->comment_ID}") ) . "\r\n";
+			$notify_message .= sprintf( __( 'Delete it: %s' ), admin_url( "comment.php?action=delete&c={$comment->comment_ID}#wpbody-content" ) ) . "\r\n";
 		}
-		$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=spam&c={$comment->comment_ID}") ) . "\r\n";
+		$notify_message .= sprintf( __( 'Spam it: %s' ), admin_url( "comment.php?action=spam&c={$comment->comment_ID}#wpbody-content" ) ) . "\r\n";
 	}
 
 	$wp_email = 'wordpress@' . preg_replace('#^www\.#', '', strtolower($_SERVER['SERVER_NAME']));
@@ -1640,16 +1640,18 @@ function wp_notify_moderator($comment_id) {
 			break;
 	}
 
-	$notify_message .= sprintf( __('Approve it: %s'),  admin_url("comment.php?action=approve&c=$comment_id") ) . "\r\n";
+	$notify_message .= sprintf( __( 'Approve it: %s' ), admin_url( "comment.php?action=approve&c={$comment_id}#wpbody-content" ) ) . "\r\n";
+
 	if ( EMPTY_TRASH_DAYS )
-		$notify_message .= sprintf( __('Trash it: %s'), admin_url("comment.php?action=trash&c=$comment_id") ) . "\r\n";
+		$notify_message .= sprintf( __( 'Trash it: %s' ), admin_url( "comment.php?action=trash&c={$comment_id}#wpbody-content" ) ) . "\r\n";
 	else
-		$notify_message .= sprintf( __('Delete it: %s'), admin_url("comment.php?action=delete&c=$comment_id") ) . "\r\n";
-	$notify_message .= sprintf( __('Spam it: %s'), admin_url("comment.php?action=spam&c=$comment_id") ) . "\r\n";
+		$notify_message .= sprintf( __( 'Delete it: %s' ), admin_url( "comment.php?action=delete&c={$comment_id}#wpbody-content" ) ) . "\r\n";
+
+	$notify_message .= sprintf( __( 'Spam it: %s' ), admin_url( "comment.php?action=spam&c={$comment_id}#wpbody-content" ) ) . "\r\n";
 
 	$notify_message .= sprintf( _n('Currently %s comment is waiting for approval. Please visit the moderation panel:',
  		'Currently %s comments are waiting for approval. Please visit the moderation panel:', $comments_waiting), number_format_i18n($comments_waiting) ) . "\r\n";
-	$notify_message .= admin_url("edit-comments.php?comment_status=moderated") . "\r\n";
+	$notify_message .= admin_url( "edit-comments.php?comment_status=moderated#wpbody-content" ) . "\r\n";
 
 	$subject = sprintf( __('[%1$s] Please moderate: "%2$s"'), $blogname, $post->post_title );
 	$message_headers = '';

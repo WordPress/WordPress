@@ -1148,6 +1148,10 @@ p.popular-tags a {
 	padding: 10px 15px;
 }
 
+.comment-ays td p:last-of-type {
+	margin-top: 10px;
+}
+
 .comment-ays-submit .button-cancel {
 	margin-left: 1em;
 }

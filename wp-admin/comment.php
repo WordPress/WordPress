@@ -81,7 +81,7 @@ case 'spam'    :
 
 	$comment_id = absint( $_GET['c'] );
 
-	if ( !$comment = get_comment_to_edit( $comment_id ) ) {
+	if ( ! $comment = get_comment( $comment_id ) ) {
 		wp_redirect( admin_url('edit-comments.php?error=1') );
 		die();
 	}
@@ -142,27 +142,27 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 			break;
 	}
 	if ( $message ) {
-		echo '<div class="notice notice-info"><p>' . $message . '</p></div>';
+		echo '<div id="message" class="notice notice-info"><p>' . $message . '</p></div>';
 	}
 }
 ?>
-<p><strong><?php _e('Caution:'); ?></strong> <?php echo $caution_msg; ?></p>
+<div id="message" class="notice notice-warning"><p><strong><?php _e( 'Caution:' ); ?></strong> <?php echo $caution_msg; ?></p></div>
 
 <table class="form-table comment-ays">
 <tr>
 <th scope="row"><?php _e('Author'); ?></th>
-<td><?php echo $comment->comment_author; ?></td>
+<td><?php comment_author( $comment ); ?></td>
 </tr>
-<?php if ( $comment->comment_author_email ) { ?>
+<?php if ( get_comment_author_email( $comment ) ) { ?>
 <tr>
 <th scope="row"><?php _e('Email'); ?></th>
-<td><?php echo $comment->comment_author_email; ?></td>
+<td><?php comment_author_email( $comment ); ?></td>
 </tr>
 <?php } ?>
-<?php if ( $comment->comment_author_url ) { ?>
+<?php if ( get_comment_author_url( $comment ) ) { ?>
 <tr>
 <th scope="row"><?php _e('URL'); ?></th>
-<td><a href="<?php echo $comment->comment_author_url; ?>"><?php echo $comment->comment_author_url; ?></a></td>
+<td><a href="<?php comment_author_url( $comment ); ?>"><?php comment_author_url( $comment ); ?></a></td>
 </tr>
 <?php } ?>
 <tr>
@@ -194,19 +194,27 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 <tr>
 	<th scope="row"><?php _e( 'Submitted on' ); ?></th>
 	<td>
-		<a href="<?php echo esc_url( get_comment_link( $comment ) ); ?>"><?php
-			/* translators: 1: comment date, 2: comment time */
-			printf( __( '%1$s at %2$s' ),
-				/* translators: comment date format. See http://php.net/date */
-				get_comment_date( __( 'Y/m/d' ), $comment ),
-				get_comment_date( __( 'g:i a' ), $comment )
-			);
-		?></a>
+	<?php
+		/* translators: 1: comment date, 2: comment time */
+		$submitted = sprintf( __( '%1$s at %2$s' ),
+			/* translators: comment date format. See http://php.net/date */
+			get_comment_date( __( 'Y/m/d' ), $comment ),
+			get_comment_date( __( 'g:i a' ), $comment )
+		);
+		if ( 'approved' === wp_get_comment_status( $comment ) && ! empty ( $comment->comment_post_ID ) ) {
+			echo '<a href="' . esc_url( get_comment_link( $comment ) ) . '">' . $submitted . '</a>';
+		} else {
+			echo $submitted;
+		}
+	?>
 	</td>
 </tr>
 <tr>
 <th scope="row"><?php /* translators: field name in comment form */ _ex('Comment', 'noun'); ?></th>
-<td><?php echo $comment->comment_content; ?></td>
+<td>
+	<?php echo $comment->comment_content; ?>
+	<p><a href="<?php echo admin_url( "comment.php?action=editcomment&amp;c={$comment->comment_ID}" ); ?>"><?php esc_attr_e( 'Edit' ); ?></a></p>
+</td>
 </tr>
 </table>
 
