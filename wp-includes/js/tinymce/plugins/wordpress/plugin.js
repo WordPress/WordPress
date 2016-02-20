@@ -117,7 +117,15 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 
 			// Remove spaces from empty paragraphs.
-			event.content = event.content.replace( /<p>(?:&nbsp;|\u00a0|\uFEFF|\s)+<\/p>/gi, '<p><br /></p>' );
+			// Avoid backtracking, can freeze the editor. See #35890.
+			// (This is also quite faster than using only one regex.)
+			event.content = event.content.replace( /<p>([^<>]+)<\/p>/gi, function( tag, text ) {
+				if ( /^(&nbsp;|\s|\u00a0|\ufeff)+$/i.test( text ) ) {
+					return '<p><br /></p>';
+				}
+
+				return tag;
+			});
 		}
 	});
 
