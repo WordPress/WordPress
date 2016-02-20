@@ -384,10 +384,11 @@ class WP_Dependencies {
 	public function set_group( $handle, $recursion, $group ) {
 		$group = (int) $group;
 
-		if ( $recursion )
-			$group = min($this->group, $group);
-		else
-			$this->group = $group;
+		if ( $recursion ) {
+			$group = min( $this->group, $group );
+		}
+
+		$this->group = $group;
 
 		if ( isset($this->groups[$handle]) && $this->groups[$handle] <= $group )
 			return false;
