@@ -74,8 +74,8 @@
 		var $ = window.jQuery;
 
 		function getSelectedLink() {
-			var href, html
-				node = editor.selection.getNode();
+			var href, html,
+				node = editor.selection.getNode(),
 				link = editor.dom.getParent( node, 'a[href]' );
 
 			if ( ! link ) {
@@ -97,7 +97,7 @@
 
 			return link;
 		}
-		
+
 		function removePlaceholders() {
 			editor.$( 'a' ).each( function( i, element ) {
 				var $element = editor.$( element );
@@ -109,7 +109,7 @@
 				}
 			});
 		}
-		
+
 		function removePlaceholderStrings( content, dataAttr ) {
 			if ( dataAttr ) {
 				content = content.replace( / data-wp-link-edit="true"/g, '' );
@@ -236,12 +236,12 @@
 				}
 			}
 		} );
-		
+
 		// Remove any remaining placeholders on saving.
 		editor.on( 'savecontent', function( event ) {
 			event.content = removePlaceholderStrings( event.content, true );
 		});
-		
+
 		// Prevent adding undo levels on inserting link placeholder.
 		editor.on( 'BeforeAddUndo', function( event ) {
 			if ( event.level.content ) {
