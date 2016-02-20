@@ -41,7 +41,7 @@
 				if ( url.length > 40 && ( index = url.indexOf( '/' ) ) !== -1 && ( lastIndex = url.lastIndexOf( '/' ) ) !== -1 && lastIndex !== index ) {
 					// If the beginning + ending are shorter that 40 chars, show more of the ending
 					if ( index + url.length - lastIndex < 40 ) {
-						lastIndex =  -( 40 - ( index + 1 ) );
+						lastIndex = -( 40 - ( index + 1 ) );
 					}
 
 					url = url.slice( 0, index + 1 ) + '\u2026' + url.slice( lastIndex );
@@ -74,25 +74,48 @@
 		var $ = window.jQuery;
 
 		function getSelectedLink() {
-			var href,
-				selectedNode = editor.selection.getNode(),
-				selectedText = editor.selection.getContent(),
-				link = editor.dom.getParent( selectedNode, 'a[href]' );
+			var href, html
+				node = editor.selection.getNode();
+				link = editor.dom.getParent( node, 'a[href]' );
 
-			if ( ! link && selectedText.indexOf( '</a>' ) !== -1 ) {
-				href = selectedText.match( /href="([^">]+)"/ );
+			if ( ! link ) {
+				html = editor.selection.getContent({ format: 'raw' });
 
-				if ( href && href[1] ) {
-					link = editor.$( 'a[href="' + href[1] + '"]', selectedNode )[0];
-				}
+				if ( html && html.indexOf( '</a>' ) !== -1 ) {
+					href = html.match( /href="([^">]+)"/ );
 
-				if ( link ) {
-					editor.selection.select( link );
-					editor.nodeChanged();
+					if ( href && href[1] ) {
+						link = editor.$( 'a[href="' + href[1] + '"]', node )[0];
+					}
+
+					if ( link ) {
+						editor.selection.select( link );
+						editor.nodeChanged();
+					}
 				}
 			}
 
 			return link;
+		}
+		
+		function removePlaceholders() {
+			editor.$( 'a' ).each( function( i, element ) {
+				var $element = editor.$( element );
+
+				if ( $element.attr( 'href' ) === '_wp_link_placeholder' ) {
+					editor.dom.remove( element, true );
+				} else if ( $element.attr( 'data-wp-link-edit' ) ) {
+					$element.attr( 'data-wp-link-edit', null );
+				}
+			});
+		}
+		
+		function removePlaceholderStrings( content, dataAttr ) {
+			if ( dataAttr ) {
+				content = content.replace( / data-wp-link-edit="true"/g, '' );
+			}
+
+			return content.replace( /<a [^>]*?href="_wp_link_placeholder"[^>]*>([\s\S]+)<\/a>/g, '$1' );
 		}
 
 		editor.on( 'preinit', function() {
@@ -126,9 +149,12 @@
 			var link = getSelectedLink();
 
 			if ( link ) {
-				editor.dom.setAttribs( link, { 'data-wp-edit': true } );
+				editor.dom.setAttribs( link, { 'data-wp-link-edit': true } );
 			} else {
+				removePlaceholders();
+
 				editor.execCommand( 'mceInsertLink', false, { href: '_wp_link_placeholder' } );
+				editor.selection.select( editor.$( 'a[href="_wp_link_placeholder"]' )[0] );
 				editor.nodeChanged();
 			}
 		} );
@@ -150,7 +176,7 @@
 			}
 
 			if ( a ) {
-				editor.dom.setAttribs( a, { href: href, 'data-wp-edit': null } );
+				editor.dom.setAttribs( a, { href: href, 'data-wp-link-edit': null } );
 			}
 
 			a = false;
@@ -160,16 +186,8 @@
 		} );
 
 		editor.addCommand( 'wp_link_cancel', function() {
-			if ( a ) {
-				if ( editor.$( a ).attr( 'href' ) === '_wp_link_placeholder' ) {
-					editor.dom.remove( a, true );
-				} else {
-					editor.dom.setAttribs( a, { 'data-wp-edit': null } );
-				}
-			}
-
+			removePlaceholders();
 			a = false;
-
 			editor.nodeChanged();
 			editor.focus();
 		} );
@@ -218,6 +236,18 @@
 				}
 			}
 		} );
+		
+		// Remove any remaining placeholders on saving.
+		editor.on( 'savecontent', function( event ) {
+			event.content = removePlaceholderStrings( event.content, true );
+		});
+		
+		// Prevent adding undo levels on inserting link placeholder.
+		editor.on( 'BeforeAddUndo', function( event ) {
+			if ( event.level.content ) {
+				event.level.content = removePlaceholderStrings( event.level.content );
+			}
+		});
 
 		editor.addButton( 'wp_link_preview', {
 			type: 'WPLinkPreview',
@@ -235,7 +265,7 @@
 
 				inputInstance = this;
 
-				if ( $ ) {
+				if ( $ && $.ui && $.ui.autocomplete ) {
 					$( input )
 					.on( 'keydown', function() {
 						$( input ).removeAttr( 'aria-activedescendant' );
@@ -311,13 +341,12 @@
 
 		editor.on( 'wptoolbar', function( event ) {
 			var anchor = editor.dom.getParent( event.element, 'a' ),
-				$anchor,
-				href, edit;
+				$anchor, href, edit;
 
 			if ( anchor ) {
 				$anchor = editor.$( anchor );
 				href = $anchor.attr( 'href' );
-				edit = $anchor.attr( 'data-wp-edit' );
+				edit = $anchor.attr( 'data-wp-link-edit' );
 
 				if ( href === '_wp_link_placeholder' || edit ) {
 					inputInstance.setURL( edit ? href : '' );
@@ -348,8 +377,13 @@
 			tooltip: 'Advanced',
 			icon: 'dashicon dashicons-admin-generic',
 			onclick: function() {
-				editor.execCommand( 'wp_link_apply' );
-				window.wpLink && window.wpLink.open( editor.id );
+				if ( typeof window.wpLink !== 'undefined' ) {
+					if ( inputInstance.getEl().firstChild.value ) {
+						editor.execCommand( 'wp_link_apply' );
+					}
+
+					window.wpLink.open( editor.id );
+				}
 			}
 		} );
 

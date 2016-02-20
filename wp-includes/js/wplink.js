@@ -219,14 +219,20 @@ var wpLink;
 		},
 
 		mceRefresh: function() {
-			var text,
+			var text, url,
 				selectedNode = editor.selection.getNode(),
 				linkNode = editor.dom.getParent( selectedNode, 'a[href]' ),
 				onlyText = this.hasSelectedText( linkNode );
 
 			if ( linkNode ) {
 				text = linkNode.innerText || linkNode.textContent;
-				inputs.url.val( editor.dom.getAttrib( linkNode, 'href' ) );
+				url = editor.dom.getAttrib( linkNode, 'href' );
+
+				if ( url === '_wp_link_placeholder' ) {
+					url = '';
+				}
+
+				inputs.url.val( url );
 				inputs.openInNewTab.prop( 'checked', '_blank' === editor.dom.getAttrib( linkNode, 'target' ) );
 				inputs.submit.val( wpLinkL10n.update );
 			} else {
@@ -244,6 +250,8 @@ var wpLink;
 		},
 
 		close: function() {
+			var linkNode;
+			
 			$( document.body ).removeClass( 'modal-open' );
 
 			if ( ! wpLink.isMCE() ) {
@@ -254,6 +262,12 @@ var wpLink;
 					wpLink.range.select();
 				}
 			} else {
+				linkNode = editor.dom.getParent( editor.selection.getNode(), 'a[href]' );
+
+				if ( linkNode && editor.dom.getAttrib( linkNode, 'href' ) === '_wp_link_placeholder' ) {
+					editor.dom.remove( linkNode, true );
+				}
+
 				editor.focus();
 			}
 
@@ -352,7 +366,6 @@ var wpLink;
 			var attrs = wpLink.getAttrs(),
 				link, text;
 
-			wpLink.close();
 			editor.focus();
 
 			if ( tinymce.isIE ) {
@@ -388,6 +401,7 @@ var wpLink;
 				}
 			}
 
+			wpLink.close();
 			editor.nodeChanged();
 		},
 
