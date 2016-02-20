@@ -1309,7 +1309,9 @@ function get_terms( $taxonomies, $args = '' ) {
 		$order = 'ASC';
 	}
 
-	$where = "tt.taxonomy IN ('" . implode("', '", $taxonomies) . "')";
+	$where_conditions = array();
+
+	$where_conditions[] = "tt.taxonomy IN ('" . implode("', '", $taxonomies) . "')";
 
 	$exclude = $args['exclude'];
 	$exclude_tree = $args['exclude_tree'];
@@ -1323,8 +1325,7 @@ function get_terms( $taxonomies, $args = '' ) {
 	}
 
 	if ( ! empty( $inclusions ) ) {
-		$inclusions = ' AND t.term_id IN ( ' . $inclusions . ' )';
-		$where .= $inclusions;
+		$where_conditions[] = 't.term_id IN ( ' . $inclusions . ' )';
 	}
 
 	$exclusions = array();
@@ -1354,7 +1355,7 @@ function get_terms( $taxonomies, $args = '' ) {
 	}
 
 	if ( ! empty( $exclusions ) ) {
-		$exclusions = ' AND t.term_id NOT IN (' . implode( ',', array_map( 'intval', $exclusions ) ) . ')';
+		$exclusions = 't.term_id NOT IN (' . implode( ',', array_map( 'intval', $exclusions ) ) . ')';
 	} else {
 		$exclusions = '';
 	}
@@ -1371,7 +1372,8 @@ function get_terms( $taxonomies, $args = '' ) {
 	$exclusions = apply_filters( 'list_terms_exclusions', $exclusions, $args, $taxonomies );
 
 	if ( ! empty( $exclusions ) ) {
-		$where .= $exclusions;
+		// Must do string manipulation here for backward compatibility with filter.
+		$where_conditions[] = preg_replace( '/^\s*AND\s*/', '', $exclusions );
 	}
 
 	if ( ! empty( $args['name'] ) ) {
@@ -1381,30 +1383,30 @@ function get_terms( $taxonomies, $args = '' ) {
 			$_name = stripslashes( sanitize_term_field( 'name', $_name, 0, reset( $taxonomies ), 'db' ) );
 		}
 
-		$where .= " AND t.name IN ('" . implode( "', '", array_map( 'esc_sql', $names ) ) . "')";
+		$where_conditions[] = "t.name IN ('" . implode( "', '", array_map( 'esc_sql', $names ) ) . "')";
 	}
 
 	if ( ! empty( $args['slug'] ) ) {
 		if ( is_array( $args['slug'] ) ) {
 			$slug = array_map( 'sanitize_title', $args['slug'] );
-			$where .= " AND t.slug IN ('" . implode( "', '", $slug ) . "')";
+			$where_conditions[] = "t.slug IN ('" . implode( "', '", $slug ) . "')";
 		} else {
 			$slug = sanitize_title( $args['slug'] );
-			$where .= " AND t.slug = '$slug'";
+			$where_conditions[] = "t.slug = '$slug'";
 		}
 	}
 
 	if ( ! empty( $args['name__like'] ) ) {
-		$where .= $wpdb->prepare( " AND t.name LIKE %s", '%' . $wpdb->esc_like( $args['name__like'] ) . '%' );
+		$where_conditions[] = $wpdb->prepare( "t.name LIKE %s", '%' . $wpdb->esc_like( $args['name__like'] ) . '%' );
 	}
 
 	if ( ! empty( $args['description__like'] ) ) {
-		$where .= $wpdb->prepare( " AND tt.description LIKE %s", '%' . $wpdb->esc_like( $args['description__like'] ) . '%' );
+		$where_conditions[] = $wpdb->prepare( "tt.description LIKE %s", '%' . $wpdb->esc_like( $args['description__like'] ) . '%' );
 	}
 
 	if ( '' !== $parent ) {
 		$parent = (int) $parent;
-		$where .= " AND tt.parent = '$parent'";
+		$where_conditions[] = "tt.parent = '$parent'";
 	}
 
 	$hierarchical = $args['hierarchical'];
@@ -1412,7 +1414,7 @@ function get_terms( $taxonomies, $args = '' ) {
 		$hierarchical = false;
 	}
 	if ( $args['hide_empty'] && !$hierarchical ) {
-		$where .= ' AND tt.count > 0';
+		$where_conditions[] = 'tt.count > 0';
 	}
 
 	$number = $args['number'];
@@ -1431,7 +1433,7 @@ function get_terms( $taxonomies, $args = '' ) {
 
 	if ( ! empty( $args['search'] ) ) {
 		$like = '%' . $wpdb->esc_like( $args['search'] ) . '%';
-		$where .= $wpdb->prepare( ' AND ((t.name LIKE %s) OR (t.slug LIKE %s))', $like, $like );
+		$where_conditions[] = $wpdb->prepare( '((t.name LIKE %s) OR (t.slug LIKE %s))', $like, $like );
 	}
 
 	// Meta query support.
@@ -1444,8 +1446,8 @@ function get_terms( $taxonomies, $args = '' ) {
 	$meta_clauses = $mquery->get_clauses();
 
 	if ( ! empty( $meta_clauses ) ) {
-		$join  .= $mq_sql['join'];
-		$where .= $mq_sql['where'];
+		$join .= $mq_sql['join'];
+		$where_conditions[] = preg_replace( '/^\s*AND\s*/', '', $mq_sql['where'] );
 		$distinct .= "DISTINCT";
 
 		// 'orderby' support.
@@ -1533,6 +1535,8 @@ function get_terms( $taxonomies, $args = '' ) {
 
 	$join .= " INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id";
 
+	$where = implode( ' AND ', $where_conditions );
+
 	$pieces = array( 'fields', 'join', 'where', 'distinct', 'orderby', 'order', 'limits' );
 
 	/**
@@ -1554,7 +1558,11 @@ function get_terms( $taxonomies, $args = '' ) {
 	$order = isset( $clauses[ 'order' ] ) ? $clauses[ 'order' ] : '';
 	$limits = isset( $clauses[ 'limits' ] ) ? $clauses[ 'limits' ] : '';
 
-	$query = "SELECT $distinct $fields FROM $wpdb->terms AS t $join WHERE $where $orderby $order $limits";
+	if ( $where ) {
+		$where = "WHERE $where";
+	}
+
+	$query = "SELECT $distinct $fields FROM $wpdb->terms AS t $join $where $orderby $order $limits";
 
 	// $args can be anything. Only use the args defined in defaults to compute the key.
 	$key = md5( serialize( wp_array_slice_assoc( $args, array_keys( $defaults ) ) ) . serialize( $taxonomies ) . $query );
