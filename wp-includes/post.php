@@ -3241,6 +3241,28 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	 */
 	$post_parent = apply_filters( 'wp_insert_post_parent', $post_parent, $post_ID, compact( array_keys( $postarr ) ), $postarr );
 
+	/*
+	 * If the post is being untrashed and it has a desired slug stored in post meta,
+	 * reassign it.
+	 */
+	if ( 'trash' === $previous_status && 'trash' !== $post_status ) {
+		$desired_post_slug = get_post_meta( $post_ID, '_wp_desired_post_slug', true );
+		if ( $desired_post_slug ) {
+			delete_post_meta( $post_ID, '_wp_desired_post_slug' );
+			$post_name = $desired_post_slug;
+		}
+	}
+
+	// If a trashed post has the desired slug, change it and let this post have it.
+	if ( 'trash' !== $post_status && $post_name ) {
+		wp_add_trashed_suffix_to_post_name_for_trashed_posts( $post_name, $post_ID );
+	}
+
+	// When trashing an existing post, change its slug to allow non-trashed posts to use it.
+	if ( 'trash' === $post_status && 'trash' !== $previous_status && 'new' !== $previous_status ) {
+		$post_name = wp_add_trashed_suffix_to_post_name_for_post( $post_ID );
+	}
+
 	$post_name = wp_unique_post_slug( $post_name, $post_ID, $post_status, $post_type, $post_parent );
 
 	// Don't unslash.
@@ -6032,4 +6054,60 @@ function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache
 
 		update_post_caches( $fresh_posts, 'any', $update_term_cache, $update_meta_cache );
 	}
+}
+
+/**
+ * If any trashed posts have a given slug, add a suffix.
+ *
+ * Store its desired (i.e. current) slug so it can try to reclaim it
+ * if the post is untrashed.
+ *
+ * For internal use.
+ *
+ * @since 4.5.0
+ *
+ * @param string $post_name    Slug.
+ * @param string $post__not_in Post ID that should be ignored.
+ */
+function wp_add_trashed_suffix_to_post_name_for_trashed_posts( $post_name, $post_ID = 0 ) {
+	$trashed_posts_with_desired_slug = get_posts( array(
+		'name' => $post_name,
+		'post_status' => 'trash',
+		'post_type' => 'any',
+		'nopaging' => true,
+		'post__not_in' => array( $post_ID )
+	) );
+
+	if ( ! empty( $trashed_posts_with_desired_slug ) ) {
+		foreach ( $trashed_posts_with_desired_slug as $_post ) {
+			wp_add_trashed_suffix_to_post_name_for_post( $_post );
+		}
+	}
+}
+
+/**
+ * For a given post, add a trashed suffix.
+ *
+ * Store its desired (i.e. current) slug so it can try to reclaim it
+ * if the post is untrashed.
+ *
+ * For internal use.
+ *
+ * @since 4.5.0
+ *
+ * @param WP_Post $post The post.
+ */
+function wp_add_trashed_suffix_to_post_name_for_post( $post ) {
+	global $wpdb;
+
+	$post = get_post( $post );
+
+	if ( strpos( $post->post_name, '-%trashed%' ) ) {
+		return $post->post_name;
+	}
+	add_post_meta( $post->ID, '_wp_desired_post_slug', $post->post_name );
+	$post_name = _truncate_post_slug( $post->post_name, 190 ) . '-%trashed%';
+	$wpdb->update( $wpdb->posts, array( 'post_name' => $post_name ), array( 'ID' => $post->ID ) );
+	clean_post_cache( $post->ID );
+	return $post_name;
 }
