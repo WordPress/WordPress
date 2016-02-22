@@ -59,12 +59,12 @@ if ( isset( $_POST['nav-menu-data'] ) ) {
 		foreach ( $data as $post_input_data ) {
 			// For input names that are arrays (e.g. `menu-item-db-id[3]`), derive the array path keys via regex.
 			if ( preg_match( '#(.*)(?:\[(\d+)\])#', $post_input_data->name, $matches ) ) {
-				if ( empty( $_POST[$matches[1]] ) ) {
-					$_POST[$matches[1]] = array();
+				if ( empty( $_POST[ $matches[1] ] ) ) {
+					$_POST[ $matches[1] ] = array();
 				}
-				$_POST[$matches[1]][(int)$matches[2]] = $post_input_data->value;
+				$_POST[ $matches[1] ][ (int) $matches[2] ] = wp_slash( $post_input_data->value );
 			} else {
-				$_POST[$post_input_data->name] = $post_input_data->value;
+				$_POST[ $post_input_data->name ] = wp_slash( $post_input_data->value );
 			}
 		}
 	}
