@@ -357,12 +357,6 @@ ul#adminmenu > li.current > a.current:after {
 	background: $adminbar-input-background;
 }
 
-#wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder { color: $menu-text; opacity: 0.7; }
-#wpadminbar #adminbarsearch .adminbar-input:-moz-placeholder { color: $menu-text; opacity: 0.7; }
-#wpadminbar #adminbarsearch .adminbar-input::-moz-placeholder { color: $menu-text; opacity: 0.7; }
-#wpadminbar #adminbarsearch .adminbar-input:-ms-input-placeholder { color: $menu-text; opacity: 0.7; }
-
-
 /* Admin Bar: my account */
 
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {

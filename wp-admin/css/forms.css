@@ -234,9 +234,17 @@ textarea[readonly] {
 	background-color: #eee;
 }
 
-:-moz-placeholder,
-.wp-core-ui :-moz-placeholder {
-   color: #a9a9a9;
+::-webkit-input-placeholder {
+	color: #72777c;
+}
+
+::-moz-placeholder {
+   color: #72777c;
+   opacity: 1;
+}
+
+:-ms-input-placeholder {
+	color: #72777c;
 }
 
 .form-invalid input, .form-invalid input:focus,

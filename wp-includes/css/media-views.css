@@ -114,8 +114,17 @@
 	-webkit-appearance: textfield;
 }
 
-.media-frame :-moz-placeholder {
-	color: #a9a9a9;
+.media-frame ::-webkit-input-placeholder {
+	color: #72777c;
+}
+
+.media-frame ::-moz-placeholder {
+	color: #72777c;
+	opacity: 1;
+}
+
+.media-frame :-ms-input-placeholder {
+	color: #72777c;
 }
 
 .media-frame .hidden {

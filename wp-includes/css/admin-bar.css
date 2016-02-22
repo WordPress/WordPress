@@ -671,19 +671,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	z-index: -1;
 }
 
-#wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder {
-	color: #999;
-}
-#wpadminbar #adminbarsearch .adminbar-input:-moz-placeholder {
-	color: #999;
-}
-#wpadminbar #adminbarsearch .adminbar-input::-moz-placeholder {
-	color: #999;
-}
-#wpadminbar #adminbarsearch .adminbar-input:-ms-input-placeholder {
-	color: #999;
-}
-
 #wpadminbar #adminbarsearch .adminbar-button {
 	display: none;
 }

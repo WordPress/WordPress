@@ -383,26 +383,6 @@ ul#adminmenu > li.current > a.current:after {
   background: #879ea5;
 }
 
-#wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder {
-  color: #fff;
-  opacity: 0.7;
-}
-
-#wpadminbar #adminbarsearch .adminbar-input:-moz-placeholder {
-  color: #fff;
-  opacity: 0.7;
-}
-
-#wpadminbar #adminbarsearch .adminbar-input::-moz-placeholder {
-  color: #fff;
-  opacity: 0.7;
-}
-
-#wpadminbar #adminbarsearch .adminbar-input:-ms-input-placeholder {
-  color: #fff;
-  opacity: 0.7;
-}
-
 /* Admin Bar: my account */
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
   border-color: #879ea5;

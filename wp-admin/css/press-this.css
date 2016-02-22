@@ -245,6 +245,19 @@ th {
 	padding: 0;
 }
 
+::-webkit-input-placeholder {
+	color: #72777c;
+}
+
+::-moz-placeholder {
+   color: #72777c;
+   opacity: 1;
+}
+
+:-ms-input-placeholder {
+	color: #72777c;
+}
+
 .clearfix:before,
 .clearfix:after {
 	content: "";
@@ -1546,7 +1559,7 @@ html {
 .post-title-placeholder {
 	position: absolute;
 	border: 0;
-	color: #9ea7af;
+	color: #82878c;
 	z-index: -1;
 }
 
