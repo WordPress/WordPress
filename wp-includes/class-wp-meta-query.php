@@ -124,8 +124,9 @@ class WP_Meta_Query {
 	 *         @type string $key     Meta key to filter by.
 	 *         @type string $value   Meta value to filter by.
 	 *         @type string $compare MySQL operator used for comparing the $value. Accepts '=',
-	 *                               '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN',
-	 *                               'BETWEEN', 'NOT BETWEEN', 'REGEXP', 'NOT REGEXP', or 'RLIKE'.
+	 *                               '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE',
+	 *                               'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN', 'REGEXP',
+	 *                               'NOT REGEXP', 'RLIKE', 'EXISTS' or 'NOT EXISTS'.
 	 *                               Default is 'IN' when `$value` is an array, '=' otherwise.
 	 *         @type string $type    MySQL data type that the meta_value column will be CAST to for
 	 *                               comparisons. Accepts 'NUMERIC', 'BINARY', 'CHAR', 'DATE',
