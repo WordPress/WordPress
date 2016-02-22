@@ -17,7 +17,7 @@ abstract class WP_Image_Editor {
 	protected $mime_type = null;
 	protected $default_mime_type = 'image/jpeg';
 	protected $quality = false;
-	protected $default_quality = 90;
+	protected $default_quality = 82;
 
 	/**
 	 * Each instance handles a single file.
