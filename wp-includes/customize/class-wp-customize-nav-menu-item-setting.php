@@ -639,9 +639,9 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		$menu_item_value['original_title'] = sanitize_text_field( $menu_item_value['original_title'] );
 
 		// Apply the same filters as when calling wp_insert_post().
-		$menu_item_value['title'] = apply_filters( 'title_save_pre', $menu_item_value['title'] );
-		$menu_item_value['attr_title'] = apply_filters( 'excerpt_save_pre', $menu_item_value['attr_title'] );
-		$menu_item_value['description'] = apply_filters( 'content_save_pre', $menu_item_value['description'] );
+		$menu_item_value['title'] = wp_unslash( apply_filters( 'title_save_pre', wp_slash( $menu_item_value['title'] ) ) );
+		$menu_item_value['attr_title'] = wp_unslash( apply_filters( 'excerpt_save_pre', wp_slash( $menu_item_value['attr_title'] ) ) );
+		$menu_item_value['description'] = wp_unslash( apply_filters( 'content_save_pre', wp_slash( $menu_item_value['description'] ) ) );
 
 		$menu_item_value['url'] = esc_url_raw( $menu_item_value['url'] );
 		if ( 'publish' !== $menu_item_value['status'] ) {
@@ -776,7 +776,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			$r = wp_update_nav_menu_item(
 				$value['nav_menu_term_id'],
 				$is_placeholder ? 0 : $this->post_id,
-				$menu_item_data
+				wp_slash( $menu_item_data )
 			);
 
 			if ( is_wp_error( $r ) ) {
