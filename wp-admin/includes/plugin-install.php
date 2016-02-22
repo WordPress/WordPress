@@ -537,12 +537,6 @@ function install_plugin_information() {
 
 	echo "</div>\n";
 
-	$date_format = __( 'M j, Y @ H:i' );
-
-	if ( ! empty( $api->last_updated ) ) {
-		$last_updated_timestamp = strtotime( $api->last_updated );
-	}
-
 	?>
 	<div id="<?php echo $_tab; ?>-content" class='<?php echo $_with_banner; ?>'>
 	<div class="fyi">
@@ -552,9 +546,9 @@ function install_plugin_information() {
 		<?php } if ( ! empty( $api->author ) ) { ?>
 			<li><strong><?php _e( 'Author:' ); ?></strong> <?php echo links_add_target( $api->author, '_blank' ); ?></li>
 		<?php } if ( ! empty( $api->last_updated ) ) { ?>
-			<li><strong><?php _e( 'Last Updated:' ); ?></strong> <span title="<?php echo esc_attr( date_i18n( $date_format, $last_updated_timestamp ) ); ?>">
-				<?php printf( __( '%s ago' ), human_time_diff( $last_updated_timestamp ) ); ?>
-			</span></li>
+			<li><strong><?php _e( 'Last Updated:' ); ?></strong>
+				<?php printf( __( '%s ago' ), human_time_diff( strtotime( $api->last_updated ) ) ); ?>
+			</li>
 		<?php } if ( ! empty( $api->requires ) ) { ?>
 			<li><strong><?php _e( 'Requires WordPress Version:' ); ?></strong> <?php printf( __( '%s or higher' ), $api->requires ); ?></li>
 		<?php } if ( ! empty( $api->tested ) ) { ?>
@@ -578,22 +572,29 @@ function install_plugin_information() {
 		<?php if ( ! empty( $api->rating ) ) { ?>
 		<h3><?php _e( 'Average Rating' ); ?></h3>
 		<?php wp_star_rating( array( 'rating' => $api->rating, 'type' => 'percent', 'number' => $api->num_ratings ) ); ?>
-		<small aria-hidden="true"><?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $api->num_ratings ), number_format_i18n( $api->num_ratings ) ); ?></small>
+		<p aria-hidden="true" class="fyi-description"><?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $api->num_ratings ), number_format_i18n( $api->num_ratings ) ); ?></p>
 		<?php }
 
-		if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {
+		if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) { ?>
+			<h3><?php _e( 'Reviews' ); ?></h3>
+			<p class="fyi-description"><?php _e( 'Read all reviews on WordPress.org or write your own!' ); ?></p>
+			<?php
 			foreach ( $api->ratings as $key => $ratecount ) {
 				// Avoid div-by-zero.
 				$_rating = $api->num_ratings ? ( $ratecount / $api->num_ratings ) : 0;
+				/* translators: 1: number of stars, 2: number of reviews */
+				$aria_label = esc_attr( sprintf( _n( 'Reviews with %1$d star: %2$d. Opens in a new window.', 'Reviews with %1$d stars: %2$d. Opens in a new window.', $key ),
+					$key,
+					number_format_i18n( $ratecount )
+				) );
 				?>
 				<div class="counter-container">
 					<span class="counter-label"><a href="https://wordpress.org/support/view/plugin-reviews/<?php echo $api->slug; ?>?filter=<?php echo $key; ?>"
-						target="_blank"
-						title="<?php echo esc_attr( sprintf( _n( 'Click to see reviews that provided a rating of %d star', 'Click to see reviews that provided a rating of %d stars', $key ), $key ) ); ?>"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></a></span>
+						target="_blank" aria-label="<?php echo $aria_label; ?>"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></a></span>
 					<span class="counter-back">
 						<span class="counter-bar" style="width: <?php echo 92 * $_rating; ?>px;"></span>
 					</span>
-					<span class="counter-count"><?php echo number_format_i18n( $ratecount ); ?></span>
+					<span class="counter-count" aria-hidden="true"><?php echo number_format_i18n( $ratecount ); ?></span>
 				</div>
 				<?php
 			}
