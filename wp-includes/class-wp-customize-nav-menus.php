@@ -48,6 +48,11 @@ final class WP_Customize_Nav_Menus {
 		$this->previewed_menus = array();
 		$this->manager         = $manager;
 
+		// Skip useless hooks when the user can't manage nav menus anyway.
+		if ( ! current_user_can( 'edit_theme_options' ) ) {
+			return;
+		}
+
 		add_filter( 'customize_refresh_nonces', array( $this, 'filter_nonces' ) );
 		add_action( 'wp_ajax_load-available-menu-items-customizer', array( $this, 'ajax_load_available_items' ) );
 		add_action( 'wp_ajax_search-available-menu-items-customizer', array( $this, 'ajax_search_available_items' ) );

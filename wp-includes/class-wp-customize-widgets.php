@@ -84,6 +84,11 @@ final class WP_Customize_Widgets {
 	public function __construct( $manager ) {
 		$this->manager = $manager;
 
+		// Skip useless hooks when the user can't manage widgets anyway.
+		if ( ! current_user_can( 'edit_theme_options' ) ) {
+			return;
+		}
+
 		add_filter( 'customize_dynamic_setting_args',          array( $this, 'filter_customize_dynamic_setting_args' ), 10, 2 );
 		add_action( 'after_setup_theme',                       array( $this, 'register_settings' ) );
 		add_action( 'wp_loaded',                               array( $this, 'override_sidebars_widgets_for_theme_switch' ) );
