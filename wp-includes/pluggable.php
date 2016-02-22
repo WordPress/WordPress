@@ -548,7 +548,7 @@ if ( !function_exists('wp_authenticate') ) :
  *
  * @since 2.5.0
  *
- * @param string $username User's username.
+ * @param string $username User's username or email address.
  * @param string $password User's password.
  * @return WP_User|WP_Error WP_User object if the credentials are valid,
  *                          otherwise WP_Error.
@@ -575,7 +575,7 @@ function wp_authenticate($username, $password) {
 	if ( $user == null ) {
 		// TODO what should the error message be? (Or would these even happen?)
 		// Only needed if all authentication handlers fail to return anything.
-		$user = new WP_Error('authentication_failed', __('<strong>ERROR</strong>: Invalid username or incorrect password.'));
+		$user = new WP_Error( 'authentication_failed', __( '<strong>ERROR</strong>: Invalid username, email address or incorrect password.' ) );
 	}
 
 	$ignore_codes = array('empty_username', 'empty_password');
