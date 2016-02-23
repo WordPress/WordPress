@@ -295,7 +295,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 
 <div class="broken-themes">
 <h3><?php _e('Broken Themes'); ?></h3>
-<p><?php _e('The following themes are installed but incomplete. Themes must have a stylesheet and a template.'); ?></p>
+<p><?php _e( 'The following themes are installed but incomplete.' ); ?></p>
 
 <?php
 $can_delete = current_user_can( 'delete_themes' );

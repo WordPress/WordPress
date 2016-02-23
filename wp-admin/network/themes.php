@@ -287,7 +287,7 @@ if ( isset( $_GET['enabled'] ) ) {
 $wp_list_table->views();
 
 if ( 'broken' == $status )
-	echo '<p class="clear">' . __('The following themes are installed but incomplete. Themes must have a stylesheet and a template.') . '</p>';
+	echo '<p class="clear">' . __( 'The following themes are installed but incomplete.' ) . '</p>';
 ?>
 
 <form method="post">

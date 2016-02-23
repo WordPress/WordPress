@@ -268,7 +268,14 @@ final class WP_Theme implements ArrayAccess {
 		if ( ! $this->template && ! ( $this->template = $this->headers['Template'] ) ) {
 			$this->template = $this->stylesheet;
 			if ( ! file_exists( $this->theme_root . '/' . $this->stylesheet . '/index.php' ) ) {
-				$this->errors = new WP_Error( 'theme_no_index', __( 'Template is missing.' ) );
+				$error_message = sprintf(
+					/* translators: 1: index.php, 2: Codex URL, 3: style.css */
+					__( 'Template is missing. Standalone themes need to have a %1$s template file. <a href="%2$s">Child themes</a> need to have a Template header in the %3$s stylesheet.' ),
+					'<code>index.php</code>',
+					__( 'https://codex.wordpress.org/Child_Themes' ),
+					'<code>style.css</code>'
+				);
+				$this->errors = new WP_Error( 'theme_no_index', $error_message );
 				$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet, 'template' => $this->template ) );
 				return;
 			}
