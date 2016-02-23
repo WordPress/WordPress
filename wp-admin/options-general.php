@@ -105,10 +105,15 @@ $new_admin_email = get_option( 'new_admin_email' );
 if ( $new_admin_email && $new_admin_email != get_option('admin_email') ) : ?>
 <div class="updated inline">
 <p><?php
-	/* translators: 1: new admin email, 2: Cancel link URL */
-	printf( __( 'There is a pending change of the admin email to %1$s. <a href="%2$s">Cancel</a>' ),
-		'<code>' . esc_html( $new_admin_email ) . '</code>',
-		esc_url( admin_url( 'options.php?dismiss=new_admin_email' ) )
+	printf(
+		/* translators: %s: new admin email */
+		__( 'There is a pending change of the admin email to %s.' ),
+		'<code>' . esc_html( $new_admin_email ) . '</code>'
+	);
+	printf(
+		' <a href="%1$s">%2$s</a>',
+		esc_url( admin_url( 'options.php?dismiss=new_admin_email' ) ),
+		__( 'Cancel' )
 	);
 ?></p>
 </div>
