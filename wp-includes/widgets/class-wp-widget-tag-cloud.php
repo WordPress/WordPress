@@ -98,7 +98,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
-		$instance['title'] = sanitize_text_field( stripslashes( $new_instance['title'] ) );
+		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 		$instance['taxonomy'] = stripslashes($new_instance['taxonomy']);
 		return $instance;
 	}

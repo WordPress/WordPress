@@ -496,7 +496,6 @@ class WP_Customize_Setting {
 	 * @return string|array|null Null if an input isn't valid, otherwise the sanitized value.
 	 */
 	public function sanitize( $value ) {
-		$value = wp_unslash( $value );
 
 		/**
 		 * Filter a Customize setting value in un-slashed form.

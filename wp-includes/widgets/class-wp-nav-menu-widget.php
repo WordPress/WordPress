@@ -92,7 +92,7 @@
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
 		if ( ! empty( $new_instance['title'] ) ) {
-			$instance['title'] = sanitize_text_field( stripslashes( $new_instance['title'] ) );
+			$instance['title'] = sanitize_text_field( $new_instance['title'] );
 		}
 		if ( ! empty( $new_instance['nav_menu'] ) ) {
 			$instance['nav_menu'] = (int) $new_instance['nav_menu'];
