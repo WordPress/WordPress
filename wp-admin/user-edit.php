@@ -388,10 +388,16 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	<div class="updated inline">
 	<p><?php
 		printf(
-			__( 'There is a pending change of your email to %1$s. <a href="%2$s">Cancel</a>' ),
-			'<code>' . $new_email['newemail'] . '</code>',
-			esc_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ) )
-	); ?></p>
+			/* translators: %s: new email */
+			__( 'There is a pending change of your email to %s.' ),
+			'<code>' . $new_email['newemail'] . '</code>'
+		);
+		printf(
+			' <a href="%1$s">%2$s</a>',
+			esc_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ) ),
+			__( 'Cancel' )
+		);
+	?></p>
 	</div>
 	<?php endif; ?>
 	</td>
