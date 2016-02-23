@@ -86,21 +86,16 @@
 		if ( loaded ) {
 			return;
 		}
+
 		loaded = true;
 
 		var isIE10 = -1 !== navigator.appVersion.indexOf( 'MSIE 10' ),
 			isIE11 = !!navigator.userAgent.match( /Trident.*rv:11\./ ),
 			iframes = document.querySelectorAll( 'iframe.wp-embedded-content' ),
-			blockquotes = document.querySelectorAll( 'blockquote.wp-embedded-content' ),
 			iframeClone, i, source, secret;
-
-		for ( i = 0; i < blockquotes.length; i++ ) {
-			blockquotes[ i ].style.display = 'none';
-		}
 
 		for ( i = 0; i < iframes.length; i++ ) {
 			source = iframes[ i ];
-			source.style.display = '';
 
 			if ( source.getAttribute( 'data-secret' ) ) {
 				continue;
