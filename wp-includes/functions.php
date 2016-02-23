@@ -1875,9 +1875,7 @@ function wp_upload_dir( $time = null, $create_dir = true, $refresh_cache = false
 			$tested_paths = array();
 		}
 
-		if ( array_key_exists( $path, $tested_paths ) ) {
-			$uploads['error'] = $tested_paths[ $path ];
-		} else {
+		if ( ! in_array( $path, $tested_paths, true ) ) {
 			if ( ! wp_mkdir_p( $path ) ) {
 				if ( 0 === strpos( $uploads['basedir'], ABSPATH ) ) {
 					$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
@@ -1886,10 +1884,10 @@ function wp_upload_dir( $time = null, $create_dir = true, $refresh_cache = false
 				}
 
 				$uploads['error'] = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), esc_html( $error_path ) );
+			} else {
+				$tested_paths[] = $path;
+				wp_cache_set( 'upload_dir_tested_paths', $tested_paths );
 			}
-
-			$tested_paths[ $path ] = $uploads['error'];
-			wp_cache_set( 'upload_dir_tested_paths', $tested_paths );
 		}
 	}
 
