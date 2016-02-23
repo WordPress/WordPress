@@ -172,7 +172,9 @@ final class WP_Customize_Selective_Refresh {
 		$partials = array();
 
 		foreach ( $this->partials() as $partial ) {
-			$partials[ $partial->id ] = $partial->json();
+			if ( $partial->check_capabilities() ) {
+				$partials[ $partial->id ] = $partial->json();
+			}
 		}
 
 		$exports = array(
@@ -356,7 +358,7 @@ final class WP_Customize_Selective_Refresh {
 
 			$partial = $this->get_partial( $partial_id );
 
-			if ( ! $partial ) {
+			if ( ! $partial || ! $partial->check_capabilities() ) {
 				$contents[ $partial_id ] = null;
 				continue;
 			}

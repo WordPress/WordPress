@@ -70,11 +70,11 @@ class WP_Customize_Partial {
 	public $selector;
 
 	/**
-	 * All settings tied to the partial.
+	 * IDs for settings tied to the partial.
 	 *
 	 * @access public
 	 * @since 4.5.0
-	 * @var WP_Customize_Setting[]
+	 * @var array
 	 */
 	public $settings;
 
@@ -284,5 +284,27 @@ class WP_Customize_Partial {
 			'containerInclusive' => $this->container_inclusive,
 		);
 		return $exports;
+	}
+
+	/**
+	 * Checks if the user can refresh this partial.
+	 *
+	 * Returns false if the user cannot manipulate one of the associated settings,
+	 * or if one of the associated settings does not exist.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @return bool False if user can't edit one one of the related settings,
+	 *                    or if one of the associated settings does not exist.
+	 */
+	final public function check_capabilities() {
+		foreach ( $this->settings as $setting_id ) {
+			$setting = $this->component->manager->get_setting( $setting_id );
+			if ( ! $setting || ! $setting->check_capabilities() ) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
