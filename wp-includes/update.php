@@ -262,14 +262,17 @@ function wp_update_plugins( $extra_stats = array() ) {
 
 	$to_send = compact( 'plugins', 'active' );
 
+	$locales = array_values( get_available_languages() );
 	/**
 	 * Filter the locales requested for plugin translations.
 	 *
 	 * @since 3.7.0
+	 * @since 4.5.0 Changed default value of `$locales` to include all locales.
 	 *
-	 * @param array $locales Plugin locale. Default is current locale of the site.
+	 * @param array $locales Plugin locales. Default is all available locales of the site.
 	 */
-	$locales = apply_filters( 'plugins_update_check_locales', array( get_locale() ) );
+	$locales = apply_filters( 'plugins_update_check_locales', $locales );
+	$locales = array_unique( $locales );
 
 	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 		$timeout = 30;
@@ -432,14 +435,17 @@ function wp_update_themes( $extra_stats = array() ) {
 
 	$request['themes'] = $themes;
 
+	$locales = array_values( get_available_languages() );
 	/**
 	 * Filter the locales requested for theme translations.
 	 *
 	 * @since 3.7.0
+	 * @since 4.5.0 Changed default value of `$locales` to include all locales.
 	 *
-	 * @param array $locales Theme locale. Default is current locale of the site.
+	 * @param array $locales Theme locales. Default is all available locales of the site.
 	 */
-	$locales = apply_filters( 'themes_update_check_locales', array( get_locale() ) );
+	$locales = apply_filters( 'themes_update_check_locales', $locales );
+	$locales = array_unique( $locales );
 
 	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 		$timeout = 30;
