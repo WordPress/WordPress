@@ -196,7 +196,7 @@ function is_nav_menu_item( $menu_item_id = 0 ) {
 /**
  * Creates a navigation menu.
  *
- * Note that <code>$menu_name</code> is expected to be pre-slashed.
+ * Note that `$menu_name` is expected to be pre-slashed.
  *
  * @since 3.0.0
  *
@@ -255,7 +255,7 @@ function wp_delete_nav_menu( $menu ) {
 /**
  * Save the properties of a menu or create a new menu with those properties.
  *
- * Note that <code>$menu_data</code> is expected to be pre-slashed.
+ * Note that `$menu_data` is expected to be pre-slashed.
  *
  * @since 3.0.0
  *
@@ -351,7 +351,7 @@ function wp_update_nav_menu_object( $menu_id = 0, $menu_data = array() ) {
  * Save the properties of a menu item or create a new one.
  *
  * The menu-item-title, menu-item-description, and menu-item-attr-title are expected
- * to be pre-slashed since they are passed directly into <code>wp_insert_post()</code>.
+ * to be pre-slashed since they are passed directly into `wp_insert_post()`.
  *
  * @since 3.0.0
  *

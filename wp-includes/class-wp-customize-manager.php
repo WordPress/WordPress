@@ -246,7 +246,7 @@ final class WP_Customize_Manager {
 		 *
 		 * This allows Core components to be excluded from being instantiated by
 		 * filtering them out of the array. Note that this filter generally runs
-		 * during the <code>plugins_loaded</code> action, so it cannot be added
+		 * during the `plugins_loaded` action, so it cannot be added
 		 * in a theme.
 		 *
 		 * @since 4.4.0
@@ -703,7 +703,7 @@ final class WP_Customize_Manager {
 		 *
 		 * Fires when the {@see WP_Customize_Manager::set_post_value()} method is called.
 		 *
-		 * This is useful for <code>WP_Customize_Setting</code> instances to watch
+		 * This is useful for `WP_Customize_Setting` instances to watch
 		 * in order to update a cached previewed value.
 		 *
 		 * @since 4.4.0
