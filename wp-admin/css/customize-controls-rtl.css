@@ -1284,6 +1284,7 @@ body.cheatin p {
 
 /* Reordering */
 .reorder-toggle {
+	color: #0073aa;
 	float: left;
 	padding: 5px 8px;
 	text-decoration: none;
@@ -1293,6 +1294,10 @@ body.cheatin p {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+.reorder-toggle:hover {
+	color: #00a0d2;
 }
 
 .reorder-toggle:focus {
