@@ -54,7 +54,12 @@ $parent_file = 'tools.php';
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
 <?php if ( ! empty( $_GET['invalid'] ) ) : ?>
-	<div class="error"><p><strong><?php _e('ERROR:')?></strong> <?php printf( __('The <strong>%s</strong> importer is invalid or is not installed.'), esc_html( $_GET['invalid'] ) ); ?></p></div>
+	<div class="error">
+		<p><strong><?php _e( 'ERROR:' ); ?></strong> <?php
+			/* translators: %s: importer slug */
+			printf( __( 'The %s importer is invalid or is not installed.' ), '<strong>' . esc_html( $_GET['invalid'] ) . '</strong>' );
+		?></p>
+	</div>
 <?php endif; ?>
 <p><?php _e('If you have posts or comments in another system, WordPress can import those into this site. To get started, choose a system to import from below:'); ?></p>
 
