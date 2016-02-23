@@ -2156,7 +2156,7 @@ class WP_Query {
 			}
 
 			$like = $n . $wpdb->esc_like( $term ) . $n;
-			$search .= $wpdb->prepare( "{$searchand}(($wpdb->posts.post_title $like_op %s) $andor_op ($wpdb->posts.post_content $like_op %s))", $like, $like );
+			$search .= $wpdb->prepare( "{$searchand}(($wpdb->posts.post_title $like_op %s) $andor_op ($wpdb->posts.post_excerpt $like_op %s) $andor_op ($wpdb->posts.post_content $like_op %s))", $like, $like, $like );
 			$searchand = ' AND ';
 		}
 
@@ -2280,13 +2280,14 @@ class WP_Query {
 					$search_orderby .= 'WHEN ' . implode( ' OR ', $q['search_orderby_title'] ) . ' THEN 3 ';
 			}
 
-			// sentence match in 'post_content'
+			// Sentence match in 'post_content' and 'post_excerpt'.
 			if ( $like ) {
-				$search_orderby .= $wpdb->prepare( "WHEN $wpdb->posts.post_content LIKE %s THEN 4 ", $like );
+				$search_orderby .= $wpdb->prepare( "WHEN $wpdb->posts.post_excerpt LIKE %s THEN 4 ", $like );
+				$search_orderby .= $wpdb->prepare( "WHEN $wpdb->posts.post_content LIKE %s THEN 5 ", $like );
 			}
 
 			if ( $search_orderby ) {
-				$search_orderby = '(CASE ' . $search_orderby . 'ELSE 5 END)';
+				$search_orderby = '(CASE ' . $search_orderby . 'ELSE 6 END)';
 			}
 		} else {
 			// single word or sentence search
