@@ -16,6 +16,13 @@
  * used in that manner. It does not use ArrayObject (as we cannot rely on SPL),
  * so be aware it may have non-array behaviour in some cases.
  *
+ * Note: When using features provided by ArrayAccess, be aware that WordPress deliberately
+ * does not distinguish between arguments of the same name for different request methods.
+ * For instance, in a request with `GET id=1` and `POST id=2`, `$request['id']` will equal
+ * 2 (`POST`) not 1 (`GET`). For more precision between request methods, use
+ * {@see WP_REST_Request::get_body_params()}, {@see WP_REST_Request::get_url_params()},
+ * etc.
+ *
  * @since 4.4.0
  *
  * @see ArrayAccess
