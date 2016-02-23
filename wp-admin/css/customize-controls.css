@@ -807,6 +807,11 @@ p.customize-section-description {
 	position: relative;
 	text-align: center;
 	cursor: default;
+	border: 1px dashed #b4b9be;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	min-height: 40px;
 }
 
 .customize-control-media .inner,
@@ -844,7 +849,7 @@ p.customize-section-description {
 .customize-control-header .inner,
 .customize-control-header .inner .dashicons {
 	line-height: 20px;
-	top: 10px;
+	top: 8px;
 }
 
 .customize-control-header .list .inner,
