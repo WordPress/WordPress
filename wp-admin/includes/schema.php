@@ -204,7 +204,8 @@ CREATE TABLE $wpdb->posts (
   display_name varchar(250) NOT NULL default '',
   PRIMARY KEY  (ID),
   KEY user_login_key (user_login),
-  KEY user_nicename (user_nicename)
+  KEY user_nicename (user_nicename),
+  KEY user_email (user_email)
 ) $charset_collate;\n";
 
 	// Multisite users table
@@ -223,7 +224,8 @@ CREATE TABLE $wpdb->posts (
   deleted tinyint(2) NOT NULL default '0',
   PRIMARY KEY  (ID),
   KEY user_login_key (user_login),
-  KEY user_nicename (user_nicename)
+  KEY user_nicename (user_nicename),
+  KEY user_email (user_email)
 ) $charset_collate;\n";
 
 	// Usermeta.
