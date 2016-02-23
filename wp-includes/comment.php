@@ -1651,7 +1651,7 @@ function wp_filter_comment($commentdata) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int $comment_agent The comment author's browser user agent.
+	 * @param string $comment_agent The comment author's browser user agent.
 	 */
 	$commentdata['comment_agent'] = apply_filters( 'pre_comment_user_agent', ( isset( $commentdata['comment_agent'] ) ? $commentdata['comment_agent'] : '' ) );
 	/** This filter is documented in wp-includes/comment.php */
@@ -1661,7 +1661,7 @@ function wp_filter_comment($commentdata) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int $comment_content The comment content.
+	 * @param string $comment_content The comment content.
 	 */
 	$commentdata['comment_content'] = apply_filters( 'pre_comment_content', $commentdata['comment_content'] );
 	/**
@@ -1669,7 +1669,7 @@ function wp_filter_comment($commentdata) {
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param int $comment_author_ip The comment author's IP.
+	 * @param string $comment_author_ip The comment author's IP.
 	 */
 	$commentdata['comment_author_IP'] = apply_filters( 'pre_comment_user_ip', $commentdata['comment_author_IP'] );
 	/** This filter is documented in wp-includes/comment.php */
