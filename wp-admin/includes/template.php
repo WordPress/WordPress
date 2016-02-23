@@ -1186,10 +1186,12 @@ function do_accordion_sections( $screen, $context, $object ) {
  *
  * @global $wp_settings_sections Storage array of all settings sections added to admin pages
  *
- * @param string $id       Slug-name to identify the section. Used in the 'id' attribute of tags.
- * @param string $title    Formatted title of the section. Shown as the heading for the section.
- * @param string $callback Function that echos out any content at the top of the section (between heading and fields).
- * @param string $page     The slug-name of the settings page on which to show the section. Built-in pages include 'general', 'reading', 'writing', 'discussion', 'media', etc. Create your own using add_options_page();
+ * @param string   $id       Slug-name to identify the section. Used in the 'id' attribute of tags.
+ * @param string   $title    Formatted title of the section. Shown as the heading for the section.
+ * @param callable $callback Function that echos out any content at the top of the section (between heading and fields).
+ * @param string   $page     The slug-name of the settings page on which to show the section. Built-in pages include
+ *                           'general', 'reading', 'writing', 'discussion', 'media', etc. Create your own using
+ *                           add_options_page();
  */
 function add_settings_section($id, $title, $callback, $page) {
 	global $wp_settings_sections;
@@ -1223,16 +1225,16 @@ function add_settings_section($id, $title, $callback, $page) {
  *
  * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
  *
- * @param string $id       Slug-name to identify the field. Used in the 'id' attribute of tags.
- * @param string $title    Formatted title of the field. Shown as the label for the field
- *                         during output.
- * @param string $callback Function that fills the field with the desired form inputs. The
- *                         function should echo its output.
- * @param string $page     The slug-name of the settings page on which to show the section
- *                         (general, reading, writing, ...).
- * @param string $section  Optional. The slug-name of the section of the settings page
- *                         in which to show the box. Default 'default'.
- * @param array  $args {
+ * @param string   $id       Slug-name to identify the field. Used in the 'id' attribute of tags.
+ * @param string   $title    Formatted title of the field. Shown as the label for the field
+ *                           during output.
+ * @param callable $callback Function that fills the field with the desired form inputs. The
+ *                           function should echo its output.
+ * @param string   $page     The slug-name of the settings page on which to show the section
+ *                           (general, reading, writing, ...).
+ * @param string   $section  Optional. The slug-name of the section of the settings page
+ *                           in which to show the box. Default 'default'.
+ * @param array    $args {
  *     Optional. Extra arguments used when outputting the field.
  *
  *     @type string $label_for When supplied, the setting title will be wrapped
