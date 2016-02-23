@@ -813,8 +813,9 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
  * @param string     $taxonomy Optional. Taxonomy name that $term is part of.
  * @param string     $output   Constant OBJECT, ARRAY_A, or ARRAY_N
  * @param string     $filter   Optional, default is raw or no WordPress defined filter will applied.
- * @return mixed Type corresponding to `$output` on success or null on failure. When `$output` is `OBJECT`,
- *               a WP_Term instance is returned. If taxonomy does not exist then WP_Error will be returned.
+ * @return array|WP_Term|WP_Error|null Object of the type specified by `$output` on success. When `$output` is 'OBJECT',
+ *                                     a WP_Term instance is returned. If taxonomy does not exist, a WP_Error is
+ *                                     returned. Returns null for miscellaneous failure.
  */
 function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 	if ( empty( $term ) ) {
