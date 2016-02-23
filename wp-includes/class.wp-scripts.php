@@ -25,6 +25,7 @@ class WP_Scripts extends WP_Dependencies {
 	public $concat_version = '';
 	public $do_concat = false;
 	public $print_html = '';
+	public $print_html_before = '';
 	public $print_code = '';
 	public $ext_handles = '';
 	public $ext_version = '';
@@ -144,6 +145,17 @@ class WP_Scripts extends WP_Dependencies {
 			$cond_after = "<![endif]-->\n";
 		}
 
+		$before_handle = $this->print_inline_script( $handle, 'before', false );
+		$after_handle = $this->print_inline_script( $handle, 'after', false );
+
+		if ( $before_handle ) {
+			$before_handle = sprintf( "<script type='text/javascript'>\n%s\n</script>\n", $before_handle );
+		}
+
+		if ( $after_handle ) {
+			$after_handle = sprintf( "<script type='text/javascript'>\n%s\n</script>\n", $after_handle );
+		}
+
 		if ( $this->do_concat ) {
 			/**
 			 * Filter the script loader source.
@@ -154,7 +166,12 @@ class WP_Scripts extends WP_Dependencies {
 			 * @param string $handle Script handle.
 			 */
 			$srce = apply_filters( 'script_loader_src', $src, $handle );
-			if ( $this->in_default_dir( $srce ) && ! $conditional ) {
+
+			if ( $before_handle && ! $conditional ) {
+				$this->print_html_before .= $before_handle;
+			}
+
+			if ( $this->in_default_dir( $srce ) && ! $conditional && ! $after_handle ) {
 				$this->print_code .= $this->print_extra_script( $handle, false );
 				$this->concat .= "$handle,";
 				$this->concat_version .= "$handle$ver";
@@ -195,7 +212,7 @@ class WP_Scripts extends WP_Dependencies {
 		if ( ! $src )
 			return true;
 
-		$tag = "{$cond_before}<script type='text/javascript' src='$src'></script>\n{$cond_after}";
+		$tag = "{$cond_before}{$before_handle}<script type='text/javascript' src='$src'></script>\n{$after_handle}{$cond_after}";
 
 		/**
 		 * Filter the HTML script tag of an enqueued script.
@@ -209,12 +226,71 @@ class WP_Scripts extends WP_Dependencies {
 		$tag = apply_filters( 'script_loader_tag', $tag, $handle, $src );
 
 		if ( $this->do_concat ) {
-			$this->print_html .= $tag;
+			if ( $after_handle ) {
+				$this->print_html_before .= $tag;
+			} else {
+				$this->print_html .= $tag;
+			}
 		} else {
 			echo $tag;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Add extra code to a registered script.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param string $handle   Name of the script to add the inline script to. Must be lowercase.
+	 * @param string $data     String containing the javascript to be added.
+	 * @param string $position Optional. Whether to add the inline script before the handle
+	 *                         or after. Default 'after'.
+	 *
+	 * @return bool True on success, false on failure.
+	 */
+	public function add_inline_script( $handle, $data, $position = 'after' ) {
+		if ( ! $data ) {
+			return false;
+		}
+
+		if ( 'after' !== $position ) {
+			$position = 'before';
+		}
+
+		$script   = (array) $this->get_data( $handle, $position );
+		$script[] = $data;
+
+		return $this->add_data( $handle, $position, $script );
+	}
+
+	/**
+	 * Print inline scripts registered for a specific handle.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param string $handle   Name of the script to add the inline script to. Must be lowercase.
+	 * @param string $position Optional. Whether to add the inline script before the handle
+	 *                         or after. Default 'after'.
+	 * @param bool $echo       Optional. Whether to echo the script instead of just returning it.
+	 *                         Default true.
+	 * @return string|false Script on success, false otherwise.
+	 */
+	public function print_inline_script( $handle, $position = 'after', $echo = true ) {
+		$output = $this->get_data( $handle, $position );
+
+		if ( empty( $output ) ) {
+			return false;
+		}
+
+		$output = trim( implode( "\n", $output ), "\n" );
+
+		if ( $echo ) {
+			printf( "<script type='text/javascript'>\n%s\n</script>\n", $output );
+		}
+
+		return $output;
 	}
 
 	/**
@@ -339,6 +415,7 @@ class WP_Scripts extends WP_Dependencies {
 		$this->concat = '';
 		$this->concat_version = '';
 		$this->print_html = '';
+		$this->print_html_before = '';
 		$this->ext_version = '';
 		$this->ext_handles = '';
 	}
