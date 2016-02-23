@@ -1088,7 +1088,7 @@ function confirm_delete_users( $users ) {
 	</table>
 	<?php
 	/** This action is documented in wp-admin/users.php */
-	do_action( 'delete_user_form', $current_user );
+	do_action( 'delete_user_form', $current_user, $allusers );
 
 	if ( 1 == count( $users ) ) : ?>
 		<p><?php _e( 'Once you hit &#8220;Confirm Deletion&#8221;, the user will be permanently removed.' ); ?></p>
