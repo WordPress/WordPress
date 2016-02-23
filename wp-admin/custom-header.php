@@ -526,16 +526,48 @@ class Custom_Image_Header {
 		printf( __( 'Images of exactly <strong>%1$d &times; %2$d pixels</strong> will be used as-is.' ) . '<br />', get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ) );
 	} elseif ( current_theme_supports( 'custom-header', 'flex-height' ) ) {
 		if ( ! current_theme_supports( 'custom-header', 'flex-width' ) )
-			printf( __( 'Images should be at least <strong>%1$d pixels</strong> wide.' ) . ' ', get_theme_support( 'custom-header', 'width' ) );
+			printf(
+				/* translators: %s: size in pixels */
+				__( 'Images should be at least %s wide.' ) . ' ',
+				sprintf(
+					/* translators: %d: custom header width */
+					'<strong>' . __( '%d pixels' ) . '</strong>',
+					get_theme_support( 'custom-header', 'width' )
+				)
+			);
 	} elseif ( current_theme_supports( 'custom-header', 'flex-width' ) ) {
 		if ( ! current_theme_supports( 'custom-header', 'flex-height' ) )
-			printf( __( 'Images should be at least <strong>%1$d pixels</strong> tall.' ) . ' ', get_theme_support( 'custom-header', 'height' ) );
+			printf(
+				/* translators: %s: size in pixels */
+				__( 'Images should be at least %s tall.' ) . ' ',
+				sprintf(
+					/* translators: %d: custom header height */
+					'<strong>' . __( '%d pixels' ) . '</strong>',
+					get_theme_support( 'custom-header', 'height' )
+				)
+			);
 	}
 	if ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) {
 		if ( current_theme_supports( 'custom-header', 'width' ) )
-			printf( __( 'Suggested width is <strong>%1$d pixels</strong>.' ) . ' ', get_theme_support( 'custom-header', 'width' ) );
+			printf(
+				/* translators: %s: size in pixels */
+				__( 'Suggested width is %s.' ) . ' ',
+				sprintf(
+					/* translators: %d: custom header width */
+					'<strong>' . __( '%d pixels' ) . '</strong>',
+					get_theme_support( 'custom-header', 'width' )
+				)
+			);
 		if ( current_theme_supports( 'custom-header', 'height' ) )
-			printf( __( 'Suggested height is <strong>%1$d pixels</strong>.' ) . ' ', get_theme_support( 'custom-header', 'height' ) );
+			printf(
+				/* translators: %s: size in pixels */
+				__( 'Suggested height is %s.' ) . ' ',
+				sprintf(
+					/* translators: %d: custom header height */
+					'<strong>' . __( '%d pixels' ) . '</strong>',
+					get_theme_support( 'custom-header', 'height' )
+				)
+			);
 	}
 	?></p>
 	<form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post" action="<?php echo esc_url( add_query_arg( 'step', 2 ) ) ?>">
