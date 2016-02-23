@@ -4202,7 +4202,7 @@ class WP_Query {
 			return true;
 		}
 
-		$attachment = (array) $attachment;
+		$attachment = array_map( 'strval', (array) $attachment );
 
 		$post_obj = $this->get_queried_object();
 
@@ -4236,7 +4236,7 @@ class WP_Query {
 
 		$author_obj = $this->get_queried_object();
 
-		$author = (array) $author;
+		$author = array_map( 'strval', (array) $author );
 
 		if ( in_array( (string) $author_obj->ID, $author ) )
 			return true;
@@ -4268,7 +4268,7 @@ class WP_Query {
 
 		$cat_obj = $this->get_queried_object();
 
-		$category = (array) $category;
+		$category = array_map( 'strval', (array) $category );
 
 		if ( in_array( (string) $cat_obj->term_id, $category ) )
 			return true;
@@ -4300,7 +4300,7 @@ class WP_Query {
 
 		$tag_obj = $this->get_queried_object();
 
-		$tag = (array) $tag;
+		$tag = array_map( 'strval', (array) $tag );
 
 		if ( in_array( (string) $tag_obj->term_id, $tag ) )
 			return true;
@@ -4502,7 +4502,7 @@ class WP_Query {
 
 		$page_obj = $this->get_queried_object();
 
-		$page = (array) $page;
+		$page = array_map( 'strval', (array) $page );
 
 		if ( in_array( (string) $page_obj->ID, $page ) ) {
 			return true;
@@ -4595,7 +4595,7 @@ class WP_Query {
 
 		$post_obj = $this->get_queried_object();
 
-		$post = (array) $post;
+		$post = array_map( 'strval', (array) $post );
 
 		if ( in_array( (string) $post_obj->ID, $post ) ) {
 			return true;
