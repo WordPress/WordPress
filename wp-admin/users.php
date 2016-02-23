@@ -248,8 +248,10 @@ case 'delete':
 	foreach ( $userids as $id ) {
 		$user = get_userdata( $id );
 		if ( $id == $current_user->ID ) {
+			/* translators: 1: user id, 2: user login */
 			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>The current user will not be deleted.</strong>'), $id, $user->user_login) . "</li>\n";
 		} else {
+			/* translators: 1: user id, 2: user login */
 			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"" . esc_attr($id) . "\" />" . sprintf(__('ID #%1$s: %2$s'), $id, $user->user_login) . "</li>\n";
 			$go_delete++;
 		}
@@ -374,10 +376,13 @@ case 'remove':
 		$id = (int) $id;
  		$user = get_userdata( $id );
 		if ( $id == $current_user->ID && !is_super_admin() ) {
+			/* translators: 1: user id, 2: user login */
 			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>The current user will not be removed.</strong>'), $id, $user->user_login) . "</li>\n";
 		} elseif ( !current_user_can('remove_user', $id) ) {
-			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>You don\'t have permission to remove this user.</strong>'), $id, $user->user_login) . "</li>\n";
+			/* translators: 1: user id, 2: user login */
+			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>You don&#8217;t have permission to remove this user.</strong>'), $id, $user->user_login) . "</li>\n";
 		} else {
+			/* translators: 1: user id, 2: user login */
 			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf(__('ID #%1$s: %2$s'), $id, $user->user_login) . "</li>\n";
 			$go_remove = true;
 		}
@@ -427,6 +432,7 @@ default:
 			break;
 		case 'add':
 			if ( isset( $_GET['id'] ) && ( $user_id = $_GET['id'] ) && current_user_can( 'edit_user', $user_id ) ) {
+				/* translators: %s: edit page url */
 				$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( __( 'New user created. <a href="%s">Edit user</a>' ),
 					esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
 						self_admin_url( 'user-edit.php?user_id=' . $user_id ) ) ) ) . '</p></div>';
