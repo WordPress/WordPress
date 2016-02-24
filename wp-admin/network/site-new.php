@@ -127,17 +127,29 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 			update_user_option( $user_id, 'primary_blog', $id, true );
 		}
 
-		$content_mail = sprintf(
-			/* translators: 1: user login, 2: site url, 3: site name/title */
-			__( 'New site created by %1$s
+		wp_mail(
+			get_site_option( 'admin_email' ),
+			sprintf(
+				/* translators: %s: network name */
+				__( '[%s] New Site Created' ),
+				$current_site->site_name
+			),
+			sprintf(
+				/* translators: 1: user login, 2: site url, 3: site name/title */
+				__( 'New site created by %1$s
 
 Address: %2$s
 Name: %3$s' ),
-			$current_user->user_login,
-			get_site_url( $id ),
-			wp_unslash( $title )
+				$current_user->user_login,
+				get_site_url( $id ),
+				wp_unslash( $title )
+			),
+			sprintf(
+				'From: "%1$s" <%2$s>',
+				_x( 'Site Admin', 'email "From" field' ),
+				get_site_option( 'admin_email' )
+			)
 		);
-		wp_mail( get_site_option('admin_email'), sprintf( __( '[%s] New Site Created' ), $current_site->site_name ), $content_mail, 'From: "Site Admin" <' . get_site_option( 'admin_email' ) . '>' );
 		wpmu_welcome_notification( $id, $user_id, $password, $title, array( 'public' => 1 ) );
 		wp_redirect( add_query_arg( array( 'update' => 'added', 'id' => $id ), 'site-new.php' ) );
 		exit;
