@@ -832,6 +832,93 @@ function has_site_icon( $blog_id = 0 ) {
 }
 
 /**
+ * Whether the site has a Site Logo.
+ *
+ * @since 4.5.0
+ *
+ * @param int $blog_id Optional. ID of the blog in question. Default current blog.
+ * @return bool Whether the site has a site logo or not.
+ */
+function has_site_logo( $blog_id = 0 ) {
+	if ( is_multisite() && (int) $blog_id !== get_current_blog_id() ) {
+		switch_to_blog( $blog_id );
+	}
+
+	$site_logo_id = get_theme_mod( 'site_logo' );
+
+	if ( is_multisite() && ms_is_switched() ) {
+		restore_current_blog();
+	}
+
+	return (bool) $site_logo_id;
+}
+
+/**
+ * Returns a Site Logo, linked to home.
+ *
+ * @since 4.5.0
+ *
+ * @param int $blog_id Optional. ID of the blog in question. Default current blog.
+ * @return string Site logo markup.
+ */
+function get_the_site_logo( $blog_id = 0 ) {
+	$html = '';
+
+	if ( is_multisite() && (int) $blog_id !== get_current_blog_id() ) {
+		switch_to_blog( $blog_id );
+	}
+
+	$site_logo_id = get_theme_mod( 'site_logo' );
+
+	if ( is_multisite() && ms_is_switched() ) {
+		restore_current_blog();
+	}
+	$size = get_theme_support( 'site-logo' );
+	$size = $size[0]['size'];
+
+	// We have a logo. Logo is go.
+	if ( $site_logo_id ) {
+		$html = sprintf( '<a href="%1$s" class="site-logo-link" rel="home" itemprop="url">%2$s</a>',
+			esc_url( home_url( '/' ) ),
+			wp_get_attachment_image( $site_logo_id, $size, false, array(
+				'class'     => "site-logo attachment-$size",
+				'data-size' => $size,
+				'itemprop'  => 'logo',
+			) )
+		);
+	}
+
+	// If no logo is set but we're in the Customizer, leave a placeholder (needed for the live preview).
+	elseif ( is_customize_preview() ) {
+		$html = sprintf( '<a href="%1$s" class="site-logo-link" style="display:none;"><img class="site-logo" data-size="%2$s" /></a>',
+			esc_url( home_url( '/' ) ),
+			esc_attr( $size )
+		);
+	}
+
+	/**
+	 * Filter the Site Logo output.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param string $html Site Logo HTML output.
+	 * @param string $size Size specified in add_theme_support declaration, or 'thumbnail' default.
+	 */
+	return apply_filters( 'get_the_site_logo', $html, $size );
+}
+
+/**
+ * Displays a Site Logo, linked to home.
+ *
+ * @since 4.5.0
+ *
+ * @param int $blog_id Optional. ID of the blog in question. Default current blog.
+ */
+function the_site_logo( $blog_id = 0 ) {
+	echo get_the_site_logo( $blog_id );
+}
+
+/**
  * Returns document title for the current page.
  *
  * @since 4.4.0

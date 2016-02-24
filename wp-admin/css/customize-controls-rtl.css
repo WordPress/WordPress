@@ -725,6 +725,7 @@ p.customize-section-description {
 .customize-control-background .current,
 .customize-control-cropped_image .current,
 .customize-control-site_icon .current,
+.customize-control-site_logo .current,
 .customize-control-header .current {
 	margin-bottom: 8px;
 }
@@ -766,6 +767,9 @@ p.customize-section-description {
 .customize-control-site_icon .remove-button,
 .customize-control-site_icon .default-button,
 .customize-control-site_icon .upload-button,
+.customize-control-site_logo .remove-button,
+.customize-control-site_logo .default-button,
+.customize-control-site_logo .upload-button,
 .customize-control-header button.new,
 .customize-control-header button.remove {
 	white-space: normal;
@@ -779,6 +783,7 @@ p.customize-section-description {
 .customize-control-background .current .container,
 .customize-control-cropped_image .current .container,
 .customize-control-site_icon .current .container,
+.customize-control-site_logo .current .container,
 .customize-control-header .current .container {
 	overflow: hidden;
 	-webkit-border-radius: 2px;
@@ -792,6 +797,7 @@ p.customize-section-description {
 .customize-control-background .current .container,
 .customize-control-cropped_image .current .container,
 .customize-control-site_icon .current .container,
+.customize-control-site_logo .current .container,
 .customize-control-image .current .container {
 	min-height: 40px;
 }
@@ -820,6 +826,7 @@ p.customize-section-description {
 .customize-control-background .inner,
 .customize-control-cropped_image .inner,
 .customize-control-site_icon .inner,
+.customize-control-site_logo .inner,
 .customize-control-header .inner {
 	display: none;
 	position: absolute;
@@ -835,6 +842,7 @@ p.customize-section-description {
 .customize-control-background .inner,
 .customize-control-cropped_image .inner,
 .customize-control-site_icon .inner,
+.customize-control-site_logo .inner,
 .customize-control-image .inner {
 	display: block;
 	min-height: 40px;
@@ -846,6 +854,7 @@ p.customize-section-description {
 .customize-control-background .inner,
 .customize-control-cropped_image .inner,
 .customize-control-site_icon .inner,
+.customize-control-site_logo.inner,
 .customize-control-header .inner,
 .customize-control-header .inner .dashicons {
 	line-height: 20px;
@@ -989,6 +998,8 @@ p.customize-section-description {
 .customize-control-cropped_image .default-button,
 .customize-control-site_icon .remove-button,
 .customize-control-site_icon .default-button,
+.customize-control-site_logo .remove-button,
+.customize-control-site_logo .default-button,
 .customize-control-header .remove {
 	float: right;
 	margin-left: 3px;
@@ -1000,6 +1011,7 @@ p.customize-section-description {
 .customize-control-background .upload-button,
 .customize-control-cropped_image .upload-button,
 .customize-control-site_icon .upload-button,
+.customize-control-site_logo .upload-button,
 .customize-control-header .new {
 	float: left;
 }

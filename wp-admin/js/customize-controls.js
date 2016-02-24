@@ -2303,6 +2303,43 @@
 	});
 
 	/**
+	 * A control for selecting Site Logos.
+	 *
+	 * @class
+	 * @augments wp.customize.MediaControl
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
+	api.SiteLogoControl = api.MediaControl.extend({
+
+		/**
+		 * When the control's DOM structure is ready,
+		 * set up internal event bindings.
+		 */
+		ready: function() {
+			var control = this;
+
+			// Shortcut so that we don't have to use _.bind every time we add a callback.
+			_.bindAll( control, 'restoreDefault', 'removeFile', 'openFrame', 'select' );
+
+			// Bind events, with delegation to facilitate re-rendering.
+			control.container.on( 'click keydown', '.upload-button', control.openFrame );
+			control.container.on( 'click keydown', '.thumbnail-image img', control.openFrame );
+			control.container.on( 'click keydown', '.default-button', control.restoreDefault );
+			control.container.on( 'click keydown', '.remove-button', control.removeFile );
+
+			control.setting.bind( function( attachmentId ) {
+				wp.media.attachment( attachmentId ).fetch().done( function() {
+					wp.customize.previewer.send( 'site-logo-attachment-data', this.attributes );
+				} );
+
+				// Re-render whenever the control's setting changes.
+				control.renderContent();
+			} );
+		}
+	});
+
+	/**
 	 * @class
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
@@ -3208,6 +3245,7 @@
 		image:         api.ImageControl,
 		cropped_image: api.CroppedImageControl,
 		site_icon:     api.SiteIconControl,
+		site_logo:     api.SiteLogoControl,
 		header:        api.HeaderControl,
 		background:    api.BackgroundControl,
 		theme:         api.ThemeControl

@@ -217,6 +217,7 @@ final class WP_Customize_Manager {
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-image-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-cropped-image-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-site-icon-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-site-logo-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-header-image-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-theme-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-widget-area-customize-control.php' );
@@ -828,6 +829,9 @@ final class WP_Customize_Manager {
 			'activeSections' => array(),
 			'activeControls' => array(),
 			'nonce' => $this->get_nonces(),
+			'l10n' => array(
+				'shiftClickToEdit' => __( 'Shift-click to edit this element.' ),
+			),
 			'_dirty' => array_keys( $this->unsanitized_post_values() ),
 		);
 
@@ -1857,6 +1861,7 @@ final class WP_Customize_Manager {
 		$this->register_control_type( 'WP_Customize_Background_Image_Control' );
 		$this->register_control_type( 'WP_Customize_Cropped_Image_Control' );
 		$this->register_control_type( 'WP_Customize_Site_Icon_Control' );
+		$this->register_control_type( 'WP_Customize_Site_Logo_Control' );
 		$this->register_control_type( 'WP_Customize_Theme_Control' );
 
 		/* Themes */
@@ -1932,6 +1937,23 @@ final class WP_Customize_Manager {
 			'section'    => 'title_tagline',
 		) );
 
+		// Add a setting to hide header text if the theme isn't supporting the feature itself.
+		// @todo
+		if ( ! current_theme_supports( 'custom-header' ) ) {
+			$this->add_setting( 'header_text', array(
+				'default'           => 1,
+				'sanitize_callback' => 'absint',
+				'transport'         => 'postMessage',
+			) );
+
+			$this->add_control( 'header_text', array(
+				'label'    => __( 'Display Site Title and Tagline' ),
+				'section'  => 'title_tagline',
+				'settings' => 'header_text',
+				'type'     => 'checkbox',
+			) );
+		}
+
 		$this->add_setting( 'site_icon', array(
 			'type'       => 'option',
 			'capability' => 'manage_options',
@@ -1950,6 +1972,26 @@ final class WP_Customize_Manager {
 			'height'      => 512,
 			'width'       => 512,
 		) ) );
+
+		$this->add_setting( 'site_logo', array(
+			'theme_supports' => array( 'site-logo' ),
+			'transport'      => 'postMessage',
+		) );
+
+		$this->add_control( new WP_Customize_Site_Logo_Control( $this, 'site_logo', array(
+			'label'    => __( 'Logo' ),
+			'section'  => 'title_tagline',
+			'priority' => 0,
+		) ) );
+
+		if ( isset( $this->selective_refresh ) ) {
+			$this->selective_refresh->add_partial( 'site_logo', array(
+				'settings'            => array( 'site_logo' ),
+				'selector'            => '.site-logo-link',
+				'render_callback'     => array( $this, '_render_site_logo_partial' ),
+				'container_inclusive' => true,
+			) );
+		}
 
 		/* Colors */
 
@@ -2179,6 +2221,26 @@ final class WP_Customize_Manager {
 			$color = get_theme_support( 'custom-header', 'default-text-color' );
 
 		return $color;
+	}
+
+	/**
+	 * Callback for rendering the site logo, used in the site_logo partial.
+	 *
+	 * This method exists because the partial object and context data are passed
+	 * into a partial's render_callback so we cannot use get_the_site_logo() as
+	 * the render_callback directly since it expects a blog ID as the first
+	 * argument. When WP no longer supports PHP 5.3, this method can be removed
+	 * in favor of an anonymous function.
+	 *
+	 * @see WP_Customize_Manager::register_controls()
+	 *
+	 * @since 4.5.0
+	 * @access private
+	 *
+	 * @return string Site logo.
+	 */
+	public function _render_site_logo_partial() {
+		return get_the_site_logo();
 	}
 }
 
