@@ -532,40 +532,24 @@ class WP_REST_Server {
 
 			foreach ( $links as $item ) {
 				// Determine if the link is embeddable.
-				if ( empty( $item['embeddable'] ) || strpos( $item['href'], $api_root ) !== 0 ) {
+				if ( empty( $item['embeddable'] ) ) {
 					// Ensure we keep the same order.
 					$embeds[] = array();
 					continue;
 				}
 
 				// Run through our internal routing and serve.
-				$route = substr( $item['href'], strlen( untrailingslashit( $api_root ) ) );
-				$query_params = array();
-
-				// Parse out URL query parameters.
-				$parsed = parse_url( $route );
-				if ( empty( $parsed['path'] ) ) {
+				$request = WP_REST_Request::from_url( $item['href'] );
+				if ( ! $request ) {
 					$embeds[] = array();
 					continue;
 				}
 
-				if ( ! empty( $parsed['query'] ) ) {
-					parse_str( $parsed['query'], $query_params );
-
-					// Ensure magic quotes are stripped.
-					if ( get_magic_quotes_gpc() ) {
-						$query_params = stripslashes_deep( $query_params );
-					}
-				}
-
 				// Embedded resources get passed context=embed.
-				if ( empty( $query_params['context'] ) ) {
-					$query_params['context'] = 'embed';
+				if ( empty( $request['context'] ) ) {
+					$request['context'] = 'embed';
 				}
 
-				$request = new WP_REST_Request( 'GET', $parsed['path'] );
-
-				$request->set_query_params( $query_params );
 				$response = $this->dispatch( $request );
 
 				/** This filter is documented in wp-includes/rest-api/class-wp-rest-server.php */
