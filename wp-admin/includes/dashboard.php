@@ -583,9 +583,10 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 	$GLOBALS['comment'] = clone $comment;
 
-	if ( $comment->comment_post_ID > 0 && current_user_can( 'edit_post', $comment->comment_post_ID ) ) {
+	if ( $comment->comment_post_ID > 0 ) {
+
 		$comment_post_title = _draft_or_post_title( $comment->comment_post_ID );
-		$comment_post_url = get_edit_post_link( $comment->comment_post_ID );
+		$comment_post_url = get_the_permalink( $comment->comment_post_ID );
 		$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
 	} else {
 		$comment_post_link = '';
@@ -653,10 +654,9 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 			$actions_string .= "<span class='$action'>$sep$link</span>";
 		}
 	}
-
 ?>
 
-		<div id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class( array( 'comment-item', wp_get_comment_status( $comment ) ), $comment ); ?>>
+		<li id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class( array( 'comment-item', wp_get_comment_status( $comment ) ), $comment ); ?>>
 
 			<?php echo get_avatar( $comment, 50, 'mystery' ); ?>
 
@@ -664,24 +664,25 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 
 			<div class="dashboard-comment-wrap has-row-actions">
 			<p class="comment-meta">
-				<?php
+			<?php
+				// Comments might not have a post they relate to, e.g. programmatically created ones.
 				if ( $comment_post_link ) {
 					printf(
 						/* translators: 1: comment author, 2: post link, 3: notification if the comment is pending */
-						__( 'From %1$s on %2$s%3$s' ),
+						__( 'From %1$s on %2$s %3$s' ),
 						'<cite class="comment-author">' . get_comment_author_link( $comment ) . '</cite>',
 						$comment_post_link,
-						' <span class="approve">' . __( '[Pending]' ) . '</span>'
+						'<span class="approve">' . __( '[Pending]' ) . '</span>'
 					);
 				} else {
 					printf(
 						/* translators: 1: comment author, 2: notification if the comment is pending */
 						__( 'From %1$s %2$s' ),
 						'<cite class="comment-author">' . get_comment_author_link( $comment ) . '</cite>',
-						' <span class="approve">' . __( '[Pending]' ) . '</span>'
+						'<span class="approve">' . __( '[Pending]' ) . '</span>'
 					);
 				}
-				?>
+			?>
 			</p>
 
 			<?php
@@ -699,15 +700,36 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 				$type = esc_html( $type );
 			?>
 			<div class="dashboard-comment-wrap has-row-actions">
-			<?php /* translators: %1$s is type of comment, %2$s is link to the post */ ?>
-			<p class="comment-meta"><?php printf( _x( '%1$s on %2$s', 'dashboard' ), "<strong>$type</strong>", $comment_post_link ); ?></p>
+			<p class="comment-meta">
+			<?php
+				// Pingbacks, Trackbacks or custom comment types might not have a post they relate to, e.g. programmatically created ones.
+				if ( $comment_post_link ) {
+					printf(
+						/* translators: 1: type of comment, 2: post link, 3: notification if the comment is pending */
+						_x( '%1$s on %2$s %3$s', 'dashboard' ),
+						"<strong>$type</strong>",
+						$comment_post_link,
+						'<span class="approve">' . __( '[Pending]' ) . '</span>'
+					);
+				} else {
+					printf(
+						/* translators: 1: type of comment, 2: notification if the comment is pending */
+						_x( '%1$s', 'dashboard' ),
+						"<strong>$type</strong>",
+						'<span class="approve">' . __( '[Pending]' ) . '</span>'
+					);
+				}
+			?>
+			</p>
 			<p class="comment-author"><?php comment_author_link( $comment ); ?></p>
 
 			<?php endif; // comment_type ?>
 			<blockquote><p><?php comment_excerpt( $comment ); ?></p></blockquote>
+			<?php if ( $actions_string ) : ?>
 			<p class="row-actions"><?php echo $actions_string; ?></p>
+			<?php endif; ?>
 			</div>
-		</div>
+		</li>
 <?php
 	$GLOBALS['comment'] = null;
 }
@@ -877,15 +899,17 @@ function wp_dashboard_recent_comments( $total_items = 5 ) {
 
 	if ( $comments ) {
 		echo '<div id="latest-comments" class="activity-block">';
-		echo '<h3>' . __( 'Comments' ) . '</h3>';
+		echo '<h3>' . __( 'Recent Comments' ) . '</h3>';
 
-		echo '<div id="the-comment-list" data-wp-lists="list:comment">';
+		echo '<ul id="the-comment-list" data-wp-lists="list:comment">';
 		foreach ( $comments as $comment )
 			_wp_dashboard_recent_comments_row( $comment );
-		echo '</div>';
+		echo '</ul>';
 
-		if ( current_user_can('edit_posts') )
-			_get_list_table('WP_Comments_List_Table')->views();
+		if ( current_user_can( 'edit_posts' ) ) {
+			echo '<h3 class="screen-reader-text">' . __( 'View more comments' ) . '</h3>';
+			_get_list_table( 'WP_Comments_List_Table' )->views();
+		}
 
 		wp_comment_reply( -1, false, 'dashboard', false );
 		wp_comment_trashnotice();

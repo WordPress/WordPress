@@ -589,7 +589,7 @@ form.initial-form.quickpress-open input#title {
 #dashboard_activity .comment-meta span.approve:before {
 	content: "\f227";
 	font: 20px/.5 dashicons;
-	margin-left: 12px;
+	margin-left: 5px;
 	vertical-align: middle;
 	position: relative;
 	top: -1px;
@@ -693,7 +693,7 @@ form.initial-form.quickpress-open input#title {
 
 #activity-widget #the-comment-list .avatar {
 	position: absolute;
-	top: 13px;
+	top: 12px;
 }
 
 #activity-widget #the-comment-list .dashboard-comment-wrap {
@@ -806,7 +806,11 @@ form.initial-form.quickpress-open input#title {
 }
 
 #activity-widget #latest-comments #the-comment-list .comment-item {
-	padding: 1em 12px;
+	/* the row-actions paragraph is output only for users with 'edit_comment' capabilities,
+	   for other users this needs a min height equal to the gravatar image */
+	min-height: 50px;
+	margin: 0;
+	padding: 12px;
 }
 
 #latest-comments #the-comment-list .pingback {

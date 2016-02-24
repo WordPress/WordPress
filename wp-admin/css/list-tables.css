@@ -896,7 +896,7 @@ p.pagenav {
 tr:hover .row-actions,
 .mobile .row-actions,
 .row-actions.visible,
-div.comment-item:hover .row-actions {
+.comment-item:hover .row-actions {
 	position: static;
 }
 
