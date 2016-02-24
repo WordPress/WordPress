@@ -1812,11 +1812,13 @@ function wp_new_comment( $commentdata ) {
 	 * Fires immediately after a comment is inserted into the database.
 	 *
 	 * @since 1.2.0
+	 * @since 4.5.0 The `$commentdata` parameter was added.
 	 *
 	 * @param int        $comment_ID       The comment ID.
 	 * @param int|string $comment_approved 1 if the comment is approved, 0 if not, 'spam' if spam.
+	 * @param array      $commentdata      Comment data.
 	 */
-	do_action( 'comment_post', $comment_ID, $commentdata['comment_approved'] );
+	do_action( 'comment_post', $comment_ID, $commentdata['comment_approved'], $commentdata );
 
 	return $comment_ID;
 }
