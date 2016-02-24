@@ -150,8 +150,8 @@ var Button = wp.media.view.Button,
 DeleteSelectedPermanently = DeleteSelected.extend({
 	initialize: function() {
 		DeleteSelected.prototype.initialize.apply( this, arguments );
-		this.listenTo( this.controller, 'select:activate', this.selectActivate );
-		this.listenTo( this.controller, 'select:deactivate', this.selectDeactivate );
+		this.controller.on( 'select:activate', this.selectActivate, this );
+		this.controller.on( 'select:deactivate', this.selectDeactivate, this );
 	},
 
 	filterChange: function( model ) {
@@ -197,9 +197,9 @@ DeleteSelected = Button.extend({
 	initialize: function() {
 		Button.prototype.initialize.apply( this, arguments );
 		if ( this.options.filters ) {
-			this.listenTo( this.options.filters.model, 'change', this.filterChange );
+			this.options.filters.model.on( 'change', this.filterChange, this );
 		}
-		this.listenTo( this.controller, 'selection:toggle', this.toggleDisabled );
+		this.controller.on( 'selection:toggle', this.toggleDisabled, this );
 	},
 
 	filterChange: function( model ) {
@@ -251,8 +251,8 @@ SelectModeToggle = Button.extend({
 		} );
 
 		Button.prototype.initialize.apply( this, arguments );
-		this.listenTo( this.controller, 'select:activate select:deactivate', this.toggleBulkEditHandler );
-		this.listenTo( this.controller, 'selection:action:done', this.back );
+		this.controller.on( 'select:activate select:deactivate', this.toggleBulkEditHandler, this );
+		this.controller.on( 'selection:action:done', this.back, this );
 	},
 
 	back: function () {
