@@ -246,7 +246,7 @@ final class WP_Customize_Manager {
 		 *
 		 * This allows Core components to be excluded from being instantiated by
 		 * filtering them out of the array. Note that this filter generally runs
-		 * during the `plugins_loaded` action, so it cannot be added
+		 * during the {@see 'plugins_loaded'} action, so it cannot be added
 		 * in a theme.
 		 *
 		 * @since 4.4.0
