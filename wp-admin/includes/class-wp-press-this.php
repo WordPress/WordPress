@@ -91,7 +91,7 @@ class WP_Press_This {
 			}
 		}
 
-		// Edxpected slashed
+		// Expected slashed
 		return wp_slash( $content );
 	}
 
@@ -132,6 +132,17 @@ class WP_Press_This {
 		}
 
 		$post['post_content'] = $this->side_load_images( $post_id, $post['post_content'] );
+
+		/**
+		 * Filter the post_content of a Press This post before saving/updating, after
+		 * side_load_images action had run.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param string $content Content after side_load_images process.
+		 * @param int    $post_id Post ID.
+		 */
+		$post['post_content'] = apply_filters( 'press_this_save_post_content', $post['post_content'], $post_id );
 
 		$updated = wp_update_post( $post, true );
 
@@ -292,6 +303,15 @@ class WP_Press_This {
 				'content'  => true,
 			)
 		);
+
+		/**
+		 * Filter 'useful' HTML elements list for fetch source step.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param array $elements Default list of useful elements.
+		 */
+		$useful_html_elements = apply_filter( 'press_this_useful_html_elements', $useful_html_elements );
 
 		$source_content = wp_remote_retrieve_body( $remote_url );
 		$source_content = wp_kses( $source_content, $useful_html_elements );
@@ -1192,6 +1212,15 @@ class WP_Press_This {
 				$content .= sprintf( $default_html['link'], $url, $title );
 			}
 		}
+
+		/**
+		 * Filter the assembled HTML for the Press This editor.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param string $content Assembled end output of suggested content for the Press This editor.
+		 */
+		$content = apply_filters( 'press_this_suggested_content', $content );
 
 		return $content;
 	}
