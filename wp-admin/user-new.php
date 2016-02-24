@@ -68,7 +68,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 	} else {
 		if ( isset( $_POST[ 'noconfirmation' ] ) && current_user_can( 'manage_network_users' ) ) {
 			add_existing_user_to_blog( array( 'user_id' => $user_id, 'role' => $_REQUEST[ 'role' ] ) );
-			$redirect = add_query_arg( array('update' => 'addnoconfirmation'), 'user-new.php' );
+			$redirect = add_query_arg( array( 'update' => 'addnoconfirmation' , 'user_id' => $user_id ), 'user-new.php' );
 		} else {
 			$newuser_key = substr( md5( $user_id ), 0, 5 );
 			add_option( 'new_user_' . $newuser_key, array( 'user_id' => $user_id, 'email' => $user_details->user_email, 'role' => $_REQUEST[ 'role' ] ) );
@@ -147,8 +147,12 @@ Please click the following link to confirm the invite:
 			wpmu_signup_user( $new_user_login, $new_user_email, array( 'add_to_blog' => $wpdb->blogid, 'new_role' => $_REQUEST['role'] ) );
 			if ( isset( $_POST[ 'noconfirmation' ] ) && current_user_can( 'manage_network_users' ) ) {
 				$key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $new_user_email ) );
-				wpmu_activate_signup( $key );
-				$redirect = add_query_arg( array('update' => 'addnoconfirmation'), 'user-new.php' );
+				$new_user = wpmu_activate_signup( $key );
+				if ( ! is_wp_error( $new_user ) ) {
+					$redirect = add_query_arg( array( 'update' => 'addnoconfirmation' ), 'user-new.php' );
+				} else {
+					$redirect = add_query_arg( array( 'update' => 'addnoconfirmation', 'user_id' => $new_user['user_id'] ), 'user-new.php' );
+				}
 			} else {
 				$redirect = add_query_arg( array('update' => 'newuserconfirmation'), 'user-new.php' );
 			}
@@ -223,6 +227,14 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 if ( isset($_GET['update']) ) {
 	$messages = array();
 	if ( is_multisite() ) {
+		$edit_link = '';
+		if ( ( isset( $_GET['user_id'] ) ) ) {
+			$user_id_new = absint( $_GET['user_id'] );
+			if ( $user_id_new ) {
+				$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user_id_new ) ) );
+			}
+		}
+
 		switch ( $_GET['update'] ) {
 			case "newuserconfirmation":
 				$messages[] = __('Invitation email sent to new user. A confirmation link must be clicked before their account is created.');
@@ -231,7 +243,11 @@ if ( isset($_GET['update']) ) {
 				$messages[] = __('Invitation email sent to user. A confirmation link must be clicked for them to be added to your site.');
 				break;
 			case "addnoconfirmation":
-				$messages[] = __('User has been added to your site.');
+				if ( empty( $edit_link ) ) {
+					$messages[] = __( 'User has been added to your site.' );
+				} else {
+					$messages[] = sprintf( __( 'User has been added to your site. <a href="%1$s">Edit User</a>' ), $edit_link );
+				}
 				break;
 			case "addexisting":
 				$messages[] = __('That user is already a member of this site.');

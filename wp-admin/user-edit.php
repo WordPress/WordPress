@@ -55,7 +55,7 @@ get_current_screen()->set_help_sidebar(
     '<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-$wp_http_referer = remove_query_arg(array('update', 'delete_count'), $wp_http_referer );
+$wp_http_referer = remove_query_arg( array( 'update', 'delete_count', 'user_id' ), $wp_http_referer );
 
 $user_can_edit = current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' );
 
@@ -179,7 +179,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	<?php else: ?>
 	<p><strong><?php _e('User updated.') ?></strong></p>
 	<?php endif; ?>
-	<?php if ( $wp_http_referer && !IS_PROFILE_PAGE ) : ?>
+	<?php if ( $wp_http_referer && false === strpos( $wp_http_referer, 'user-new.php' ) && ! IS_PROFILE_PAGE ) : ?>
 	<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php _e('&larr; Back to Users'); ?></a></p>
 	<?php endif; ?>
 </div>
