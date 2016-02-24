@@ -334,6 +334,16 @@ final class WP_Customize_Nav_Menus {
 			}
 		}
 
+		/**
+		 * Filter the available menu items during a search request.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param array $items The array of menu items.
+		 * @param array $args  Includes 'pagenum' and 's' (search) arguments.
+		 */
+		$items = apply_filters( 'customize_nav_menu_searched_items', $items, $args );
+
 		return $items;
 	}
 
