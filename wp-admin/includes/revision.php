@@ -55,7 +55,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 
 	$return = array();
 
-	foreach ( _wp_post_revision_fields() as $field => $name ) {
+	foreach ( _wp_post_revision_fields( $post ) as $field => $name ) {
 		/**
 		 * Contextually filter a post revision field.
 		 *
