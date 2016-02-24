@@ -830,7 +830,7 @@ function is_dynamic_sidebar() {
 	global $wp_registered_widgets, $wp_registered_sidebars;
 	$sidebars_widgets = get_option('sidebars_widgets');
 	foreach ( (array) $wp_registered_sidebars as $index => $sidebar ) {
-		if ( count($sidebars_widgets[$index]) ) {
+		if ( ! empty( $sidebars_widgets[ $index ] ) ) {
 			foreach ( (array) $sidebars_widgets[$index] as $widget )
 				if ( array_key_exists($widget, $wp_registered_widgets) )
 					return true;
