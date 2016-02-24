@@ -2535,6 +2535,8 @@ function feed_links_extra( $args = array() ) {
 		'cattitle'    => __('%1$s %2$s %3$s Category Feed'),
 		/* translators: 1: blog name, 2: separator(raquo), 3: tag name */
 		'tagtitle'    => __('%1$s %2$s %3$s Tag Feed'),
+		/* translators: 1: blog name, 2: separator(raquo), 3: term name, 4: taxonomy singular name */
+		'taxtitle'    => __('%1$s %2$s %3$s %4$s Feed'),
 		/* translators: 1: blog name, 2: separator(raquo), 3: author name  */
 		'authortitle' => __('%1$s %2$s Posts by %3$s Feed'),
 		/* translators: 1: blog name, 2: separator(raquo), 3: search phrase */
@@ -2575,6 +2577,11 @@ function feed_links_extra( $args = array() ) {
 			$title = sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $term->name );
 			$href = get_tag_feed_link( $term->term_id );
 		}
+	} elseif ( is_tax() ) {
+ 		$term = get_queried_object();
+ 		$tax = get_taxonomy( $term->taxonomy );
+ 		$title = sprintf( $args['taxtitle'], get_bloginfo('name'), $args['separator'], $term->name, $tax->labels->singular_name );
+ 		$href = get_term_feed_link( $term->term_id, $term->taxonomy );
 	} elseif ( is_author() ) {
 		$author_id = intval( get_query_var('author') );
 
