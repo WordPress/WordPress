@@ -934,4 +934,48 @@ class WP_REST_Request implements ArrayAccess {
 			unset( $this->params[ $type ][ $offset ] );
 		}
 	}
+
+	/**
+	 * Gets a WP_REST_Request object from a full URL.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param string $url URL with protocol, domain, path and query args.
+	 * @return WP_REST_Request|false WP_REST_Request object on success, false on failure.
+	 */
+	public static function from_url( $url ) {
+		$bits = parse_url( $url );
+		$query_params = array();
+
+		if ( ! empty( $bits['query'] ) ) {
+			wp_parse_str( $bits['query'], $query_params );
+		}
+
+		$api_root = rest_url();
+		if ( get_option( 'permalink_structure' ) && 0 === strpos( $url, $api_root ) ) {
+			// Pretty permalinks on, and URL is under the API root
+			$api_url_part = substr( $url, strlen( untrailingslashit( $api_root ) ) );
+			$route = parse_url( $api_url_part, PHP_URL_PATH );
+		} elseif ( ! empty( $query_params['rest_route'] ) ) {
+			// ?rest_route=... set directly
+			$route = $query_params['rest_route'];
+			unset( $query_params['rest_route'] );
+		}
+
+		$request = false;
+		if ( ! empty( $route ) ) {
+			$request = new WP_REST_Request( 'GET', $route );
+			$request->set_query_params( $query_params );
+		}
+
+		/**
+		 * Filter the request generated from a URL.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param WP_REST_Request|false $request Generated request object, or false if URL could not be parsed.
+		 * @param string $url URL the request was generated from.
+		 */
+		return apply_filters( 'rest_request_from_url', $request, $url );
+	}
 }
