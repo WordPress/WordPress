@@ -246,7 +246,8 @@ if ( isset($_GET['update']) ) {
 				if ( empty( $edit_link ) ) {
 					$messages[] = __( 'User has been added to your site.' );
 				} else {
-					$messages[] = sprintf( __( 'User has been added to your site. <a href="%1$s">Edit User</a>' ), $edit_link );
+					/* translators: %s: edit page url */
+					$messages[] = sprintf( __( 'User has been added to your site. <a href="%s">Edit user</a>' ), $edit_link );
 				}
 				break;
 			case "addexisting":

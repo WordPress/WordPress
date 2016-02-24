@@ -79,7 +79,8 @@ if ( isset($_GET['update']) ) {
 		if ( empty( $edit_link ) ) {
 			$messages[] = __( 'User added.' );
 		} else {
-			$messages[] = sprintf( __( 'User added. <a href="%1$s">Edit User</a>' ), $edit_link );
+			/* translators: %s: edit page url */
+			$messages[] = sprintf( __( 'User added. <a href="%s">Edit user</a>' ), $edit_link );
 		}
 	}
 }
