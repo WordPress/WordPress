@@ -606,28 +606,20 @@ final class WP_Customize_Nav_Menus {
 			'priority' => 999,
 		) ) );
 
-		$this->manager->add_setting( 'new_menu_name', array(
-			'type'      => 'new_menu',
-			'default'   => '',
-			'transport' => isset( $this->manager->selective_refresh ) ? 'postMessage' : 'refresh',
-		) );
-
 		$this->manager->add_control( 'new_menu_name', array(
 			'label'       => '',
 			'section'     => 'add_menu',
 			'type'        => 'text',
+			'settings'    => array(),
 			'input_attrs' => array(
 				'class'       => 'menu-name-field',
 				'placeholder' => __( 'New menu name' ),
 			),
 		) );
 
-		$this->manager->add_setting( 'create_new_menu', array(
-			'type' => 'new_menu',
-		) );
-
 		$this->manager->add_control( new WP_Customize_New_Menu_Control( $this->manager, 'create_new_menu', array(
-			'section' => 'add_menu',
+			'section'  => 'add_menu',
+			'settings' => array(),
 		) ) );
 	}
 
@@ -851,6 +843,8 @@ final class WP_Customize_Nav_Menus {
 					'type'                => 'nav_menu_instance',
 					'render_callback'     => array( $this, 'render_nav_menu_partial' ),
 					'container_inclusive' => true,
+					'settings'            => array(), // Empty because the nav menu instance may relate to a menu or a location.
+					'capability'          => 'edit_theme_options',
 				)
 			);
 		}

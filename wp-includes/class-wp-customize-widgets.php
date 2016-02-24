@@ -1485,16 +1485,18 @@ final class WP_Customize_Widgets {
 	 */
 	public function customize_dynamic_partial_args( $partial_args, $partial_id ) {
 
-		if ( preg_match( '/^widget\[.+\]$/', $partial_id ) ) {
+		if ( preg_match( '/^widget\[(?P<widget_id>.+)\]$/', $partial_id, $matches ) ) {
 			if ( false === $partial_args ) {
 				$partial_args = array();
 			}
 			$partial_args = array_merge(
 				$partial_args,
 				array(
-					'type' => 'widget',
-					'render_callback' => array( $this, 'render_widget_partial' ),
+					'type'                => 'widget',
+					'render_callback'     => array( $this, 'render_widget_partial' ),
 					'container_inclusive' => true,
+					'settings'            => array( $this->get_setting_id( $matches['widget_id'] ) ),
+					'capability'          => 'edit_theme_options',
 				)
 			);
 		}

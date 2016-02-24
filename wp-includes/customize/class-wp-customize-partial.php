@@ -90,6 +90,18 @@ class WP_Customize_Partial {
 	public $primary_setting;
 
 	/**
+	 * Capability required to edit this partial.
+	 *
+	 * Normally this is empty and the capability is derived from the capabilities
+	 * of the associated `$settings`.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 * @var string
+	 */
+	public $capability;
+
+	/**
 	 * Render callback.
 	 *
 	 * @since 4.5.0
@@ -157,7 +169,7 @@ class WP_Customize_Partial {
 		}
 
 		// Process settings.
-		if ( empty( $this->settings ) ) {
+		if ( ! isset( $this->settings ) ) {
 			$this->settings = array( $id );
 		} else if ( is_string( $this->settings ) ) {
 			$this->settings = array( $this->settings );
@@ -299,6 +311,9 @@ class WP_Customize_Partial {
 	 *                    or if one of the associated settings does not exist.
 	 */
 	final public function check_capabilities() {
+		if ( ! empty( $this->capability ) && ! current_user_can( $this->capability ) ) {
+			return false;
+		}
 		foreach ( $this->settings as $setting_id ) {
 			$setting = $this->component->manager->get_setting( $setting_id );
 			if ( ! $setting || ! $setting->check_capabilities() ) {

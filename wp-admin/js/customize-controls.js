@@ -1521,18 +1521,25 @@
 			settings = $.map( control.params.settings, function( value ) {
 				return value;
 			});
-			api.apply( api, settings.concat( function () {
-				var key;
 
+			if ( 0 === settings.length ) {
+				control.setting = null;
 				control.settings = {};
-				for ( key in control.params.settings ) {
-					control.settings[ key ] = api( control.params.settings[ key ] );
-				}
-
-				control.setting = control.settings['default'] || null;
-
 				control.embed();
-			}) );
+			} else {
+				api.apply( api, settings.concat( function() {
+					var key;
+
+					control.settings = {};
+					for ( key in control.params.settings ) {
+						control.settings[ key ] = api( control.params.settings[ key ] );
+					}
+
+					control.setting = control.settings['default'] || null;
+
+					control.embed();
+				}) );
+			}
 
 			// After the control is embedded on the page, invoke the "ready" method.
 			control.deferred.embedded.done( function () {
