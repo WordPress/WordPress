@@ -82,7 +82,11 @@ if ( 'grid' === $mode ) {
 		?>
 		</h1>
 		<div class="error hide-if-js">
-			<p><?php _e( 'The grid view for the Media Library requires JavaScript. <a href="upload.php?mode=list">Switch to the list view</a>.' ); ?></p>
+			<p><?php printf(
+				/* translators: %s: list view URL */
+				__( 'The grid view for the Media Library requires JavaScript. <a href="%s">Switch to the list view</a>.' ),
+				'upload.php?mode=list'
+			); ?></p>
 		</div>
 	</div>
 	<?php
