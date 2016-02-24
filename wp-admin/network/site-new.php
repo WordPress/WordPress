@@ -189,7 +189,7 @@ if ( ! empty( $messages ) ) {
 <?php wp_nonce_field( 'add-blog', '_wpnonce_add-blog' ) ?>
 	<table class="form-table">
 		<tr class="form-field form-required">
-			<th scope="row"><label for="site-address"><?php _e( 'Site Address' ) ?></label></th>
+			<th scope="row"><label for="site-address"><?php _e( 'Site Address (URL)' ) ?></label></th>
 			<td>
 			<?php if ( is_subdomain_install() ) { ?>
 				<input name="blog[domain]" type="text" class="regular-text" id="site-address" aria-describedby="site-address-desc" autocapitalize="none" autocorrect="off"/><span class="no-break">.<?php echo preg_replace( '|^www\.|', '', $current_site->domain ); ?></span>
