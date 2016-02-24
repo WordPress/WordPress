@@ -478,7 +478,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 		return $phpmailer->Send();
 	} catch ( phpmailerException $e ) {
 
-		$mail_error_data = compact( $to, $subject, $message, $headers, $attachments );
+		$mail_error_data = compact( 'to', 'subject', 'message', 'headers', 'attachments' );
 
 		/**
 		 * Fires after a phpmailerException is caught.
