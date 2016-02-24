@@ -3705,7 +3705,7 @@ class WP_Query {
 
 		// Put sticky posts at the top of the posts array
 		$sticky_posts = get_option('sticky_posts');
-		if ( $this->is_home && $page <= 1 && is_array($sticky_posts) && !empty($sticky_posts) && !$q['ignore_sticky_posts'] ) {
+		if ( ( $this->is_home || ( defined( 'REST_REQUEST' ) && REST_REQUEST ) ) && $page <= 1 && is_array($sticky_posts) && !empty($sticky_posts) && !$q['ignore_sticky_posts'] ) {
 			$num_posts = count($this->posts);
 			$sticky_offset = 0;
 			// Loop over posts and relocate stickies to the front.
