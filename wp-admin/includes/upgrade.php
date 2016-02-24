@@ -549,7 +549,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 35700 )
 		upgrade_440();
 
-	if ( $wp_current_db_version < 36180 )
+	if ( $wp_current_db_version < 36686 )
 		upgrade_450();
 
 	maybe_disable_link_manager();
