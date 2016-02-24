@@ -187,6 +187,8 @@
 
 			// Close the panel if the URL in the preview changes
 			api.previewer.bind( 'url', this.close );
+
+			self.delegateEvents();
 		},
 
 		// Search input change handler.
