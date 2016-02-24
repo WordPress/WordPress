@@ -57,16 +57,27 @@
 			return (
 				'<div id="' + this._id + '" class="wp-link-input">' +
 					'<input type="text" value="" tabindex="-1" placeholder="' + tinymce.translate('Paste URL or type to search') + '" />' +
+					'<input type="hidden" value="" />' +
 				'</div>'
 			);
 		},
 		setURL: function( url ) {
 			this.getEl().firstChild.value = url;
+		},
+		getURL: function() {
+			return tinymce.trim( this.getEl().firstChild.value );
+		},
+		getLinkText: function() {
+			return tinymce.trim( this.getEl().firstChild.nextSibling.value );
+		},
+		reset: function() {
+			var urlInput = this.getEl().firstChild;
+			urlInput.value = '';
+			urlInput.nextSibling.value = '';
 		}
 	} );
 
 	tinymce.PluginManager.add( 'wplink', function( editor ) {
-		var a;
 		var toolbar;
 		var editToolbar;
 		var previewInstance;
@@ -104,15 +115,15 @@
 
 				if ( $element.attr( 'href' ) === '_wp_link_placeholder' ) {
 					editor.dom.remove( element, true );
-				} else if ( $element.attr( 'data-wp-link-edit' ) ) {
-					$element.attr( 'data-wp-link-edit', null );
+				} else if ( $element.attr( 'data-wplink-edit' ) ) {
+					$element.attr( 'data-wplink-edit', null );
 				}
 			});
 		}
 
 		function removePlaceholderStrings( content, dataAttr ) {
 			if ( dataAttr ) {
-				content = content.replace( / data-wp-link-edit="true"/g, '' );
+				content = content.replace( / data-wplink-edit="true"/g, '' );
 			}
 
 			return content.replace( /<a [^>]*?href="_wp_link_placeholder"[^>]*>([\s\S]+)<\/a>/g, '$1' );
@@ -135,12 +146,17 @@
 				editToolbar.on( 'show', function() {
 					var inputNode = editToolbar.find( 'toolbar' )[0];
 
-					inputNode && inputNode.focus( true );
-					a = getSelectedLink();
+					if ( inputNode && ! tinymce.$( document.body ).hasClass( 'modal-open' ) ) {
+						window.setTimeout( function() {
+							inputNode.focus( true );
+						});
+					}
 				} );
 
 				editToolbar.on( 'hide', function() {
-					editToolbar.scrolling || editor.execCommand( 'wp_link_cancel' );
+					if ( ! editToolbar.scrolling ) {
+						editor.execCommand( 'wp_link_cancel' );
+					}
 				} );
 			}
 		} );
@@ -148,14 +164,23 @@
 		editor.addCommand( 'WP_Link', function() {
 			var link = getSelectedLink();
 
+			if ( tinymce.Env.ie && tinymce.Env.ie < 10 ) {
+				if ( typeof window.wpLink !== 'undefined' ) {
+					window.wpLink.open( editor.id );
+				}
+
+				return;
+			}
+
 			if ( link ) {
-				editor.dom.setAttribs( link, { 'data-wp-link-edit': true } );
+				editor.dom.setAttribs( link, { 'data-wplink-edit': true } );
 			} else {
 				removePlaceholders();
-
 				editor.execCommand( 'mceInsertLink', false, { href: '_wp_link_placeholder' } );
-				editor.selection.select( editor.$( 'a[href="_wp_link_placeholder"]' )[0] );
-				editor.nodeChanged();
+
+				if ( tinymce.Env.ie ) {
+					editor.windowManager.wplinkBookmark = editor.selection.getBookmark();
+				}
 			}
 		} );
 
@@ -164,32 +189,48 @@
 				return;
 			}
 
-			var href = tinymce.trim( inputInstance.getEl().firstChild.value );
+			var href, text,
+				linkNode = getSelectedLink();
 
-			if ( href && ! /^(?:[a-z]+:|#|\?|\.|\/)/.test( href ) ) {
-				href = 'http://' + href;
+			if ( linkNode ) {
+				href = inputInstance.getURL();
+				text = inputInstance.getLinkText();
+				editor.focus();
+
+				if ( tinymce.isIE ) {
+					editor.selection.moveToBookmark( editor.windowManager.wplinkBookmark );
+					editor.windowManager.wplinkBookmark = null;
+				}
+
+				if ( ! href ) {
+					editor.dom.remove( linkNode, true );
+					return;
+				}
+
+				if ( ! /^(?:[a-z]+:|#|\?|\.|\/)/.test( href ) ) {
+					href = 'http://' + href;
+				}
+
+				editor.dom.setAttribs( linkNode, { href: href, 'data-wplink-edit': null } );
+
+				if ( ! tinymce.trim( linkNode.innerHTML ) ) {
+					editor.$( linkNode ).text( text || href );
+				}
 			}
 
-			if ( ! href ) {
-				editor.dom.remove( a, true );
-				return;
-			}
-
-			if ( a ) {
-				editor.dom.setAttribs( a, { href: href, 'data-wp-link-edit': null } );
-			}
-
-			a = false;
-
+			inputInstance.reset();
 			editor.nodeChanged();
-			editor.focus();
 		} );
 
 		editor.addCommand( 'wp_link_cancel', function() {
+			inputInstance.reset();
 			removePlaceholders();
-			a = false;
-			editor.nodeChanged();
 			editor.focus();
+
+			if ( tinymce.isIE ) {
+				editor.selection.moveToBookmark( editor.windowManager.wplinkBookmark );
+				editor.windowManager.wplinkBookmark = null;
+			}
 		} );
 
 		// WP default shortcut
@@ -259,16 +300,17 @@
 		editor.addButton( 'wp_link_input', {
 			type: 'WPLinkInput',
 			onPostRender: function() {
-				var input = this.getEl().firstChild;
-				var cache;
-				var last;
+				var element = this.getEl(),
+					input = element.firstChild,
+					$input, cache, last;
 
 				inputInstance = this;
 
 				if ( $ && $.ui && $.ui.autocomplete ) {
-					$( input )
-					.on( 'keydown', function() {
-						$( input ).removeAttr( 'aria-activedescendant' );
+					$input = $( input );
+
+					$input.on( 'keydown', function() {
+						$input.removeAttr( 'aria-activedescendant' );
 					} )
 					.autocomplete( {
 						source: function( request, response ) {
@@ -294,23 +336,24 @@
 							last = request.term;
 						},
 						focus: function( event, ui ) {
-							$( input ).attr( 'aria-activedescendant', 'mce-wp-autocomplete-' + ui.item.ID );
+							$input.attr( 'aria-activedescendant', 'mce-wp-autocomplete-' + ui.item.ID );
 						},
 						select: function( event, ui ) {
-							$( input ).val( ui.item.permalink );
+							$input.val( ui.item.permalink );
+							$( element.firstChild.nextSibling ).val( ui.item.title );
 							return false;
 						},
 						open: function() {
-							$( input ).attr( 'aria-expanded', 'true' );
+							$input.attr( 'aria-expanded', 'true' );
 							editToolbar.blockHide = true;
 						},
 						close: function() {
-							$( input ).attr( 'aria-expanded', 'false' );
+							$input.attr( 'aria-expanded', 'false' );
 							editToolbar.blockHide = false;
 						},
 						minLength: 2,
 						position: {
-							my: 'left top+5'
+							my: 'left top+2'
 						}
 					} ).autocomplete( 'instance' )._renderItem = function( ul, item ) {
 						return $( '<li role="option" id="mce-wp-autocomplete-' + item.ID + '">' )
@@ -318,43 +361,51 @@
 						.appendTo( ul );
 					};
 
-					$( input )
-					.attr( {
+					$input.attr( {
 						'role': 'combobox',
 						'aria-autocomplete': 'list',
 						'aria-expanded': 'false',
-						'aria-owns': $( input ).autocomplete( 'widget' ).attr( 'id' )
+						'aria-owns': $input.autocomplete( 'widget' ).attr( 'id' )
 					}  )
 					.on( 'focus', function() {
-						$( input ).autocomplete( 'search' );
+						$input.autocomplete( 'search' );
 					} )
 					.autocomplete( 'widget' )
-						.addClass( 'mce-wp-autocomplete' )
+						.addClass( 'wplink-autocomplete' )
 						.attr( 'role', 'listbox' );
 				}
 
 				tinymce.$( input ).on( 'keydown', function( event ) {
-					event.keyCode === 13 && editor.execCommand( 'wp_link_apply' );
+					if ( event.keyCode === 13 ) {
+						editor.execCommand( 'wp_link_apply' );
+					}
 				} );
 			}
 		} );
 
 		editor.on( 'wptoolbar', function( event ) {
-			var anchor = editor.dom.getParent( event.element, 'a' ),
-				$anchor, href, edit;
+			var linkNode = editor.dom.getParent( event.element, 'a' ),
+				$linkNode, href, edit;
 
-			if ( anchor ) {
-				$anchor = editor.$( anchor );
-				href = $anchor.attr( 'href' );
-				edit = $anchor.attr( 'data-wp-link-edit' );
+			if ( tinymce.$( document.body ).hasClass( 'modal-open' ) ) {
+				return;
+			}
+
+			if ( linkNode ) {
+				$linkNode = editor.$( linkNode );
+				href = $linkNode.attr( 'href' );
+				edit = $linkNode.attr( 'data-wplink-edit' );
 
 				if ( href === '_wp_link_placeholder' || edit ) {
-					inputInstance.setURL( edit ? href : '' );
-					event.element = anchor;
+					if ( edit && ! inputInstance.getURL() ) {
+						inputInstance.setURL( href );
+					}
+
+					event.element = linkNode;
 					event.toolbar = editToolbar;
-				} else if ( href && ! $anchor.find( 'img' ).length ) {
+				} else if ( href && ! $linkNode.find( 'img' ).length ) {
 					previewInstance.setURL( href );
-					event.element = anchor;
+					event.element = linkNode;
 					event.toolbar = toolbar;
 				}
 			}
@@ -378,11 +429,12 @@
 			icon: 'dashicon dashicons-admin-generic',
 			onclick: function() {
 				if ( typeof window.wpLink !== 'undefined' ) {
-					if ( inputInstance.getEl().firstChild.value ) {
-						editor.execCommand( 'wp_link_apply' );
-					}
+					var url = inputInstance.getURL() || null,
+						text = inputInstance.getLinkText() || null;
 
-					window.wpLink.open( editor.id );
+					editor.focus();
+					window.wpLink.open( editor.id, url, text );
+					inputInstance.reset();
 				}
 			}
 		} );
