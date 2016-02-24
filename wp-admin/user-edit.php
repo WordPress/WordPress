@@ -82,20 +82,23 @@ if ( is_multisite()
 
 // Execute confirmed email change. See send_confirmation_on_profile_email().
 if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
-	$new_email = get_option( $current_user->ID . '_new_email' );
-	if ( $new_email[ 'hash' ] == $_GET[ 'newuseremail' ] ) {
+	$new_email = get_user_meta( $current_user->ID, '_new_email', true );
+	if ( $new_email && $new_email[ 'hash' ] == $_GET[ 'newuseremail' ] ) {
 		$user = new stdClass;
 		$user->ID = $current_user->ID;
 		$user->user_email = esc_html( trim( $new_email[ 'newemail' ] ) );
-		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) )
+		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) ) {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $user->user_email, $current_user->user_login ) );
+		}
 		wp_update_user( $user );
-		delete_option( $current_user->ID . '_new_email' );
-		wp_redirect( add_query_arg( array('updated' => 'true'), self_admin_url( 'profile.php' ) ) );
+		delete_user_meta( $current_user->ID, '_new_email' );
+		wp_redirect( add_query_arg( array( 'updated' => 'true' ), self_admin_url( 'profile.php' ) ) );
 		die();
+	} else {
+		wp_redirect( add_query_arg( array( 'error' => 'new-email' ), self_admin_url( 'profile.php' ) ) );
 	}
 } elseif ( is_multisite() && IS_PROFILE_PAGE && !empty( $_GET['dismiss'] ) && $current_user->ID . '_new_email' == $_GET['dismiss'] ) {
-	delete_option( $current_user->ID . '_new_email' );
+	delete_user_meta( $current_user->ID, '_new_email' );
 	wp_redirect( add_query_arg( array('updated' => 'true'), self_admin_url( 'profile.php' ) ) );
 	die();
 }
@@ -178,6 +181,13 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	<?php endif; ?>
 	<?php if ( $wp_http_referer && !IS_PROFILE_PAGE ) : ?>
 	<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php _e('&larr; Back to Users'); ?></a></p>
+	<?php endif; ?>
+</div>
+<?php endif; ?>
+<?php if ( isset( $_GET['error'] ) ) : ?>
+<div class="notice notice-error">
+	<?php if ( 'new-email' == $_GET['error'] ) : ?>
+	<p><?php _e( 'Error while saving the new email address. Please try again.' ); ?></p>
 	<?php endif; ?>
 </div>
 <?php endif; ?>
@@ -383,7 +393,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	<th><label for="email"><?php _e('Email'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
 	<td><input type="email" name="email" id="email" value="<?php echo esc_attr( $profileuser->user_email ) ?>" class="regular-text ltr" />
 	<?php
-	$new_email = get_option( $current_user->ID . '_new_email' );
+	$new_email = get_user_meta( $current_user->ID, '_new_email', true );
 	if ( $new_email && $new_email['newemail'] != $current_user->user_email && $profileuser->ID == $current_user->ID ) : ?>
 	<div class="updated inline">
 	<p><?php

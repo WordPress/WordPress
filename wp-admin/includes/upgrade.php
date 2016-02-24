@@ -1668,12 +1668,20 @@ function upgrade_440() {
  * @ignore
  * @since 4.5.0
  *
- * @global int $wp_current_db_version
+ * @global int  $wp_current_db_version
+ * @global wpdb $wpdb
  */
 function upgrade_450() {
-	global $wp_current_db_version;
-	if ( $wp_current_db_version < 36180 )
+	global $wp_current_db_version, $wpdb;
+
+	if ( $wp_current_db_version < 36180 ) {
 		wp_clear_scheduled_hook( 'wp_maybe_auto_update' );
+	}
+
+	// Remove unused email confirmation options, moved to usermeta.
+	if ( $wp_current_db_version < 36679 && is_multisite() ) {
+		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name REGEXP '^[0-9]+_new_email$'" );
+	}
 }
 
 /**
