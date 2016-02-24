@@ -1046,3 +1046,29 @@ function print_embed_sharing_dialog() {
 	</div>
 	<?php
 }
+
+/**
+ * Prints the necessary markup for the site title.
+ *
+ * @since 4.5.0
+ */
+function the_embed_site_title() {
+	$site_title = sprintf(
+		'<a href="%s" target="_top"><img src="%s" srcset="%s 2x" width="32" height="32" alt="" class="wp-embed-site-icon"/><span>%s</span></a>',
+		esc_url( home_url() ),
+		esc_url( get_site_icon_url( 32, admin_url( 'images/w-logo-blue.png' ) ) ),
+		esc_url( get_site_icon_url( 64, admin_url( 'images/w-logo-blue.png' ) ) ),
+		esc_html( get_bloginfo( 'name' ) )
+	);
+
+	$site_title = '<div class="wp-embed-site-title">' . $site_title . '</div>';
+
+	/**
+	 * Filter the site title HTML in the embed footer.
+	 *
+	 * @since 4.4.0
+	 *
+	 * @param string $site_title The site title HTML.
+	 */
+	echo apply_filters( 'embed_site_title_html', $site_title );
+}

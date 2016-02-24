@@ -40,12 +40,13 @@ elseif ( is_trackback() ) :
 	include( ABSPATH . 'wp-trackback.php' );
 	return;
 elseif ( is_embed() ) :
-	$template = ABSPATH . WPINC . '/embed-template.php';
+	$template = ABSPATH . WPINC . '/theme-compat/embed.php';
 
 	/**
 	 * Filter the template used for embedded posts.
 	 *
 	 * @since 4.4.0
+	 * @since 4.5.0 The default template path changed to wp-includes/theme-compat/embed.php
 	 *
 	 * @param string $template Path to the template file.
 	 */
