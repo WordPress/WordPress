@@ -1719,8 +1719,13 @@ function get_terms( $args = array(), $deprecated = '' ) {
 		$terms = $_terms;
 	}
 
-	if ( $number && is_array( $terms ) && count( $terms ) > $number ) {
-		$terms = array_slice( $terms, $offset, $number, true );
+	// Hierarchical queries are not limited, so 'offset' and 'number' must be handled now.
+	if ( $hierarchical && $number && is_array( $terms ) ) {
+		if ( $offset >= count( $terms ) ) {
+			$terms = array();
+		} else {
+			$terms = array_slice( $terms, $offset, $number, true );
+		}
 	}
 
 	wp_cache_add( $cache_key, $terms, 'terms', DAY_IN_SECONDS );
