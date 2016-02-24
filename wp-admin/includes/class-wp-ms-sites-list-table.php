@@ -315,8 +315,14 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		<?php
 		if ( 'list' !== $mode ) {
 			switch_to_blog( $blog['blog_id'] );
-			/* translators: 1: site name, 2: site tagline. */
-			echo '<p>' . sprintf( __( '%1$s &#8211; <em>%2$s</em>' ), get_option( 'blogname' ), get_option( 'blogdescription ' ) ) . '</p>';
+			echo '<p>';
+			printf(
+				/* translators: 1: site name, 2: site tagline. */
+				__( '%1$s &#8211; %2$s' ),
+				get_option( 'blogname' ),
+				'<em>' . get_option( 'blogdescription ' ) . '</em>'
+			);
+			echo '</p>';
 			restore_current_blog();
 		}
 	}
