@@ -59,8 +59,8 @@ if ( isset( $_GET['action'] ) ) {
 
 	// A list of valid actions and their associated messaging for confirmation output.
 	$manage_actions = array(
-		'activateblog'   => __( 'You are about to activate the site %s' ),
-		'deactivateblog' => __( 'You are about to deactivate the site %s' ),
+		'activateblog'   => __( 'You are about to activate the site %s.' ),
+		'deactivateblog' => __( 'You are about to deactivate the site %s.' ),
 		'unarchiveblog'  => __( 'You are about to unarchive the site %s.' ),
 		'archiveblog'    => __( 'You are about to archive the site %s.' ),
 		'unspamblog'     => __( 'You are about to unspam the site %s.' ),
