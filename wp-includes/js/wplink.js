@@ -208,7 +208,9 @@ var wpLink;
 				// Focus the URL field and highlight its contents.
 				// If this is moved above the selection changes,
 				// IE will show a flashing cursor over the dialog.
-				inputs.url.focus()[0].select();
+				window.setTimeout( function() {
+					inputs.url.focus()[0].select();
+				}, 100 );
 			}
 
 			correctedURL = inputs.url.val().replace( /^http:\/\//, '' );
@@ -242,8 +244,7 @@ var wpLink;
 		},
 
 		mceRefresh: function( url, text ) {
-			var selectedNode = editor.selection.getNode(),
-				linkNode = editor.dom.getParent( selectedNode, 'a[href]' ),
+			var linkNode = editor.dom.getParent( editor.selection.getNode(), 'a[href]' ),
 				onlyText = this.hasSelectedText( linkNode );
 
 			if ( linkNode ) {
@@ -272,8 +273,6 @@ var wpLink;
 		},
 
 		close: function() {
-			var linkNode;
-
 			$( document.body ).removeClass( 'modal-open' );
 
 			if ( ! wpLink.isMCE() ) {
@@ -284,12 +283,7 @@ var wpLink;
 					wpLink.range.select();
 				}
 			} else {
-				linkNode = editor.dom.getParent( editor.selection.getNode(), 'a[href]' );
-
-				if ( linkNode && editor.dom.getAttrib( linkNode, 'href' ) === '_wp_link_placeholder' ) {
-					editor.dom.remove( linkNode, true );
-				}
-
+				editor.plugins.wplink.hideEditToolbar();
 				editor.focus();
 			}
 

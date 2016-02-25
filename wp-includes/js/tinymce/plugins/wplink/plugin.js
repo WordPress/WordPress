@@ -57,7 +57,7 @@
 			return (
 				'<div id="' + this._id + '" class="wp-link-input">' +
 					'<input type="text" value="" tabindex="-1" placeholder="' + tinymce.translate('Paste URL or type to search') + '" />' +
-					'<input type="hidden" value="" />' +
+					'<input type="text" style="display:none" value="" />' +
 				'</div>'
 			);
 		},
@@ -445,5 +445,11 @@
 			cmd: 'wp_link_apply',
 			classes: 'widget btn primary'
 		} );
+
+		return {
+			hideEditToolbar: function() {
+				editToolbar.hide();
+			}
+		};
 	} );
 } )( window.tinymce );
