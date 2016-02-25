@@ -2926,7 +2926,7 @@ function get_shortcut_link() {
 }
 
 /**
- * Retrieve the URL for the current site where the front-end is accessible.
+ * Retrieve the URL for the current site where the front end is accessible.
  *
  * Returns the 'home' option with the appropriate protocol, 'https' if
  * {@see is_ssl()} and 'http' otherwise. If `$scheme` is 'http' or 'https',
@@ -2944,7 +2944,7 @@ function home_url( $path = '', $scheme = null ) {
 }
 
 /**
- * Retrieve the URL for a given site where the front-end is accessible.
+ * Retrieve the URL for a given site where the front end is accessible.
  *
  * Returns the 'home' option with the appropriate protocol, 'https' if
  * {@see is_ssl()} and 'http' otherwise. If `$scheme` is 'http' or 'https',

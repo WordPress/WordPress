@@ -1357,7 +1357,7 @@ function validate_username( $username ) {
  *                                             https. Default false.
  *     @type string      $user_registered      Date the user registered. Format is 'Y-m-d H:i:s'.
  *     @type string|bool $show_admin_bar_front Whether to display the Admin Bar for the user on the
- *                                             site's frontend. Default true.
+ *                                             site's front end. Default true.
  *     @type string      $role                 User's role.
  * }
  * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not

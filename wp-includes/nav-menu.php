@@ -675,7 +675,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 
 	$items = array_map( 'wp_setup_nav_menu_item', $items );
 
-	if ( ! is_admin() ) { // Remove invalid items only in frontend
+	if ( ! is_admin() ) { // Remove invalid items only in front end
 		$items = array_filter( $items, '_is_valid_nav_menu_item' );
 	}
 

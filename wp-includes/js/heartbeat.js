@@ -141,7 +141,7 @@
 					settings.mainInterval = settings.minimalInterval;
 				}
 
-				// 'screenId' can be added from settings on the front-end where the JS global 'pagenow' is not set
+				// 'screenId' can be added from settings on the front end where the JS global 'pagenow' is not set
 				if ( ! settings.screenId ) {
 					settings.screenId = options.screenId || 'front';
 				}

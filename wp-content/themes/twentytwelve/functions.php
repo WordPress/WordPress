@@ -124,7 +124,7 @@ function twentytwelve_get_font_url() {
 }
 
 /**
- * Enqueue scripts and styles for front-end.
+ * Enqueue scripts and styles for front end.
  *
  * @since Twenty Twelve 1.0
  */

@@ -220,7 +220,7 @@ function wp_deregister_script( $handle ) {
 		);
 
 		if ( in_array( $handle, $no ) ) {
-			$message = sprintf( __( 'Do not deregister the %1$s script in the administration area. To target the frontend theme, use the %2$s hook.' ),
+			$message = sprintf( __( 'Do not deregister the %1$s script in the administration area. To target the front-end theme, use the %2$s hook.' ),
 				"<code>$handle</code>", '<code>wp_enqueue_scripts</code>' );
 			_doing_it_wrong( __FUNCTION__, $message, '3.6' );
 			return;

@@ -5037,7 +5037,7 @@ function wp_get_attachment_url( $post_id = 0 ) {
 		$url = get_the_guid( $post->ID );
 	}
 
-	// On SSL front-end, URLs should be HTTPS.
+	// On SSL front end, URLs should be HTTPS.
 	if ( is_ssl() && ! is_admin() && 'wp-login.php' !== $GLOBALS['pagenow'] ) {
 		$url = set_url_scheme( $url );
 	}

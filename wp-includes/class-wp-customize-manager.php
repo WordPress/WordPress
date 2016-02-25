@@ -1084,7 +1084,7 @@ final class WP_Customize_Manager {
 	 * that have no corresponding setting created.
 	 *
 	 * This is a mechanism to "wake up" settings that have been dynamically created
-	 * on the frontend and have been sent to WordPress in `$_POST['customized']`. When WP
+	 * on the front end and have been sent to WordPress in `$_POST['customized']`. When WP
 	 * loads, the dynamically-created settings then will get created and previewed
 	 * even though they are not directly created statically with code.
 	 *
@@ -1673,10 +1673,10 @@ final class WP_Customize_Manager {
 	 */
 	public function customize_pane_settings() {
 		/*
-		 * If the frontend and the admin are served from the same domain, load the
+		 * If the front end and the admin are served from the same domain, load the
 		 * preview over ssl if the Customizer is being loaded over ssl. This avoids
-		 * insecure content warnings. This is not attempted if the admin and frontend
-		 * are on different domains to avoid the case where the frontend doesn't have
+		 * insecure content warnings. This is not attempted if the admin and front end
+		 * are on different domains to avoid the case where the front end doesn't have
 		 * ssl certs. Domain mapping plugins can allow other urls in these conditions
 		 * using the customize_allowed_urls filter.
 		 */
@@ -1752,7 +1752,7 @@ final class WP_Customize_Manager {
 			}
 		}
 
-		// Pass to frontend the Customizer construct being deeplinked.
+		// Pass to front end the Customizer construct being deeplinked.
 		foreach ( $this->get_autofocus() as $type => $id ) {
 			$can_autofocus = (
 				( 'control' === $type && $this->get_control( $id ) && $this->get_control( $id )->check_capabilities() )

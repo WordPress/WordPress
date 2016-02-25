@@ -27,7 +27,7 @@ class WP_Site_Logo {
 	}
 
 	/**
-	 * Hide header text on front-end if necessary.
+	 * Hide header text on front end if necessary.
 	 *
 	 * @since 4.5.0
 	 * @access public

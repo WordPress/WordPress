@@ -21,7 +21,7 @@ if ( ! defined( 'WP_ADMIN' ) ) {
 /** Load WordPress Bootstrap */
 require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
 
-/** Allow for cross-domain requests (from the frontend). */
+/** Allow for cross-domain requests (from the front end). */
 send_origin_headers();
 
 // Require an action parameter

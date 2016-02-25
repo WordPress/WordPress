@@ -331,7 +331,7 @@ class WP {
 			if ( $t->query_var && isset( $this->query_vars[$t->query_var] ) )
 				$this->query_vars[$t->query_var] = str_replace( ' ', '+', $this->query_vars[$t->query_var] );
 
-		// Don't allow non-publicly queryable taxonomies to be queried from the front-end.
+		// Don't allow non-publicly queryable taxonomies to be queried from the front end.
 		if ( ! is_admin() ) {
 			foreach ( get_taxonomies( array( 'publicly_queryable' => false ), 'objects' ) as $taxonomy => $t ) {
 				/*

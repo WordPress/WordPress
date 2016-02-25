@@ -146,7 +146,7 @@ if ( current_user_can( 'manage_options' ) ) {
 	 * handled separately.
 	 *
 	 * The WP_MAX_MEMORY_LIMIT constant specifically defines the maximum memory limit available
-	 * when in the administration back-end. The default is 256M, or 256 megabytes of memory.
+	 * when in the administration back end. The default is 256M, or 256 megabytes of memory.
 	 *
 	 * @since 3.0.0
 	 *

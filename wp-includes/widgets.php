@@ -638,8 +638,8 @@ function dynamic_sidebar( $index = 1 ) {
 	/**
 	 * Fires before widgets are rendered in a dynamic sidebar.
 	 *
-	 * Note: The action also fires for empty sidebars, and on both the front-end
-	 * and back-end, including the Inactive Widgets sidebar on the Widgets screen.
+	 * Note: The action also fires for empty sidebars, and on both the front end
+	 * and back end, including the Inactive Widgets sidebar on the Widgets screen.
 	 *
 	 * @since 3.9.0
 	 *
@@ -674,7 +674,7 @@ function dynamic_sidebar( $index = 1 ) {
 		/**
 		 * Filter the parameters passed to a widget's display callback.
 		 *
-		 * Note: The filter is evaluated on both the front-end and back-end,
+		 * Note: The filter is evaluated on both the front end and back end,
 		 * including for the Inactive Widgets sidebar on the Widgets screen.
 		 *
 		 * @since 2.5.0
@@ -710,7 +710,7 @@ function dynamic_sidebar( $index = 1 ) {
 		/**
 		 * Fires before a widget's display callback is called.
 		 *
-		 * Note: The action fires on both the front-end and back-end, including
+		 * Note: The action fires on both the front end and back end, including
 		 * for widgets in the Inactive Widgets sidebar on the Widgets screen.
 		 *
 		 * The action is not fired for empty sidebars.
@@ -722,13 +722,13 @@ function dynamic_sidebar( $index = 1 ) {
 		 *
 		 *     @type string $name                Name of the widget.
 		 *     @type string $id                  Widget ID.
-		 *     @type array|callable $callback    When the hook is fired on the front-end, $callback is an array
-		 *                                       containing the widget object. Fired on the back-end, $callback
+		 *     @type array|callable $callback    When the hook is fired on the front end, $callback is an array
+		 *                                       containing the widget object. Fired on the back end, $callback
 		 *                                       is 'wp_widget_control', see $_callback.
 		 *     @type array          $params      An associative array of multi-widget arguments.
 		 *     @type string         $classname   CSS class applied to the widget container.
 		 *     @type string         $description The widget description.
-		 *     @type array          $_callback   When the hook is fired on the back-end, $_callback is populated
+		 *     @type array          $_callback   When the hook is fired on the back end, $_callback is populated
 		 *                                       with an array containing the widget object, see $callback.
 		 * }
 		 */
@@ -743,8 +743,8 @@ function dynamic_sidebar( $index = 1 ) {
 	/**
 	 * Fires after widgets are rendered in a dynamic sidebar.
 	 *
-	 * Note: The action also fires for empty sidebars, and on both the front-end
-	 * and back-end, including the Inactive Widgets sidebar on the Widgets screen.
+	 * Note: The action also fires for empty sidebars, and on both the front end
+	 * and back end, including the Inactive Widgets sidebar on the Widgets screen.
 	 *
 	 * @since 3.9.0
 	 *
@@ -757,8 +757,8 @@ function dynamic_sidebar( $index = 1 ) {
 	/**
 	 * Filter whether a sidebar has widgets.
 	 *
-	 * Note: The filter is also evaluated for empty sidebars, and on both the front-end
-	 * and back-end, including the Inactive Widgets sidebar on the Widgets screen.
+	 * Note: The filter is also evaluated for empty sidebars, and on both the front end
+	 * and back end, including the Inactive Widgets sidebar on the Widgets screen.
 	 *
 	 * @since 3.9.0
 	 *
@@ -770,7 +770,7 @@ function dynamic_sidebar( $index = 1 ) {
 }
 
 /**
- * Whether widget is displayed on the front-end.
+ * Whether widget is displayed on the front end.
  *
  * Either $callback or $id_base can be used
  * $id_base is the first argument when extending WP_Widget class

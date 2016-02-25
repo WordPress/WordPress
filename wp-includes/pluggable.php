@@ -824,7 +824,7 @@ function wp_set_auth_cookie( $user_id, $remember = false, $secure = '', $token =
 		$secure = is_ssl();
 	}
 
-	// Frontend cookie is secure when the auth cookie is secure and the site's home URL is forced HTTPS.
+	// Front-end cookie is secure when the auth cookie is secure and the site's home URL is forced HTTPS.
 	$secure_logged_in_cookie = $secure && 'https' === parse_url( get_option( 'home' ), PHP_URL_SCHEME );
 
 	/**

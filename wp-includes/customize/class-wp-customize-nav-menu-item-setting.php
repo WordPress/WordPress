@@ -495,7 +495,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		// @todo We should probably re-apply some constraints imposed by $args.
 		unset( $args['include'] );
 
-		// Remove invalid items only in frontend.
+		// Remove invalid items only in front end.
 		if ( ! is_admin() ) {
 			$items = array_filter( $items, '_is_valid_nav_menu_item' );
 		}

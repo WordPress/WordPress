@@ -63,7 +63,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 					settings: [],
 					primarySetting: null,
 					containerInclusive: false,
-					fallbackRefresh: true // Note this needs to be false in a frontend editing context.
+					fallbackRefresh: true // Note this needs to be false in a front-end editing context.
 				},
 				options.params || {}
 			);
@@ -526,7 +526,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 	/**
 	 * Request full page refresh.
 	 *
-	 * When selective refresh is embedded in the context of frontend editing, this request
+	 * When selective refresh is embedded in the context of front-end editing, this request
 	 * must fail or else changes will be lost, unless transactions are implemented.
 	 *
 	 * @since 4.5.0
