@@ -239,15 +239,15 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
-	 * Add extra code to a registered script.
+	 * Adds extra code to a registered script.
 	 *
 	 * @since 4.5.0
+	 * @access public
 	 *
 	 * @param string $handle   Name of the script to add the inline script to. Must be lowercase.
 	 * @param string $data     String containing the javascript to be added.
 	 * @param string $position Optional. Whether to add the inline script before the handle
 	 *                         or after. Default 'after'.
-	 *
 	 * @return bool True on success, false on failure.
 	 */
 	public function add_inline_script( $handle, $data, $position = 'after' ) {
@@ -266,9 +266,10 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
-	 * Print inline scripts registered for a specific handle.
+	 * Prints inline scripts registered for a specific handle.
 	 *
 	 * @since 4.5.0
+	 * @access public
 	 *
 	 * @param string $handle   Name of the script to add the inline script to. Must be lowercase.
 	 * @param string $position Optional. Whether to add the inline script before the handle
