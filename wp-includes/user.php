@@ -2408,19 +2408,19 @@ function wp_get_users_with_no_role() {
 }
 
 /**
- * Retrieve the current user object.
+ * Retrieves the current user object.
  *
  * Will set the current user, if the current user is not set. The current user
  * will be set to the logged-in person. If no user is logged-in, then it will
  * set the current user to 0, which is invalid and won't have any permissions.
  *
- * This function is used by the pluggable functions {@see wp_get_current_user()}
- * and {@see get_currentuserinfo()}, which is deprecated, for backward compatibility.
+ * This function is used by the pluggable functions wp_get_current_user() and
+ * get_currentuserinfo(), which is deprecated, for backward compatibility.
  *
  * @since 4.5.0
  * @access private
  *
- * @see https://core.trac.wordpress.org/ticket/19615
+ * @see wp_get_current_user()
  * @global WP_User $current_user Checks if the current user is set.
  *
  * @return WP_User Current WP_User instance.
