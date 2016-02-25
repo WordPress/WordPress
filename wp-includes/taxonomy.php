@@ -156,13 +156,16 @@ function get_taxonomies( $args = array(), $output = 'names', $operator = 'and' )
 }
 
 /**
- * Return all of the taxonomy names that are of $object_type.
+ * Return the names or objects of the taxonomies which are registered for the requested object or object type, such as
+ * a post object or post type name.
  *
- * It appears that this function can be used to find all of the names inside of
- * $wp_taxonomies global variable.
+ * Example:
  *
- * `$taxonomies = get_object_taxonomies( 'post' )` Should
- * result in `Array( 'category', 'post_tag' )`
+ *     $taxonomies = get_object_taxonomies( 'post' );
+ * 
+ * This results in:
+ * 
+ *     Array( 'category', 'post_tag' )
  *
  * @since 2.3.0
  *
