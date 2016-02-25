@@ -342,7 +342,7 @@ class WP_Dependencies {
 	 *
 	 * @param string $handle Name of the item. Should be unique.
 	 * @param string $list   Property name of list array.
-	 * @return bool Found, or object Item data.
+	 * @return bool|_WP_Dependency Found, or object Item data.
 	 */
 	public function query( $handle, $list = 'registered' ) {
 		switch ( $list ) {
