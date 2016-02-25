@@ -86,7 +86,7 @@ function wp_print_scripts( $handles = false ) {
 }
 
 /**
- * Add extra code to a registered script.
+ * Adds extra code to a registered script.
  *
  * Code will only be added if the script in already in the queue.
  * Accepts a string $data containing the Code. If two or more code blocks
