@@ -50,7 +50,7 @@
 				continue;
 			}
 
-			source.style.display = '';
+			source.removeAttribute( 'style' );
 
 			/* Resize the iframe on request. */
 			if ( 'height' === data.message ) {
