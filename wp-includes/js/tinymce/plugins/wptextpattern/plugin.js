@@ -235,7 +235,7 @@
 				start = rng.startContainer,
 				node = firstTextNode( start ),
 				i = enterPatterns.length,
-				text, pattern;
+				text, pattern, parent;
 
 			if ( ! node ) {
 				return;
@@ -273,7 +273,11 @@
 						editor.formatter.apply( pattern.format, {}, node );
 						node.replaceData( 0, node.data.length, ltrim( node.data.slice( pattern.start.length ) ) );
 					} else if ( pattern.element ) {
-						editor.getBody().replaceChild( document.createElement( pattern.element ), node.parentNode );
+						parent = node.parentNode && node.parentNode.parentNode;
+
+						if ( parent ) {
+							parent.replaceChild( document.createElement( pattern.element ), node.parentNode );
+						}
 					}
 				} );
 
