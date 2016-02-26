@@ -83,6 +83,7 @@ class WP_Dependencies {
 	 *
 	 * @access public
 	 * @since 2.6.0
+	 * @since 2.8.0 Added the `$group` parameter.
 	 *
 	 * @param mixed $handles Optional. Items to be processed: Process queue (false), process item (string), process items (array of strings).
 	 * @param mixed $group   Group level: level (int), no groups (false).
@@ -136,6 +137,7 @@ class WP_Dependencies {
 	 * @access public
 	 * @since 2.1.0
 	 * @since 2.6.0 Moved from `WP_Scripts`.
+	 * @since 2.8.0 Added the `$group` parameter.
 	 *
 	 * @param mixed $handles   Item handle and argument (string) or item handles and arguments (array of strings).
 	 * @param bool  $recursion Internal flag that function is calling itself.
