@@ -17,18 +17,111 @@
  * @since r16
  */
 class WP_Scripts extends WP_Dependencies {
-	public $base_url; // Full URL with trailing slash
+	/**
+	 * Base URL for scripts.
+	 *
+	 * Full URL with trailing slash.
+	 *
+	 * @since 2.6.0
+	 * @access public
+	 * @var string
+	 */
+	public $base_url;
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $content_url;
+
+	/**
+	 *
+	 * @since 2.6.0
+	 * @access public
+	 * @var string
+	 */
 	public $default_version;
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var array
+	 */
 	public $in_footer = array();
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $concat = '';
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $concat_version = '';
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var bool
+	 */
 	public $do_concat = false;
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $print_html = '';
+
+	/**
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 * @var string
+	 */
 	public $print_html_before = '';
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $print_code = '';
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $ext_handles = '';
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $ext_version = '';
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var array
+	 */
 	public $default_dirs;
 
 	/**
@@ -64,6 +157,10 @@ class WP_Scripts extends WP_Dependencies {
 	 *
 	 * Prints the scripts passed to it or the print queue. Also prints all necessary dependencies.
 	 *
+	 * @since 2.1.0
+	 * @since 2.8.0 Added the `$group` parameter.
+	 * @access public
+	 *
 	 * @param mixed $handles Optional. Scripts to be printed. (void) prints queue, (string) prints
 	 *                       that script, (array of strings) prints those scripts. Default false.
 	 * @param int   $group   Optional. If scripts were queued in groups prints this group number.
@@ -75,7 +172,12 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
-	 * @deprecated 3.3
+	 *
+	 * @since 2.1.0
+	 * @since 2.8.0 Added the `$echo` parameter.
+	 * @deprecated 3.3.0
+	 * @access public
+	 *
 	 * @see print_extra_script()
 	 *
 	 * @param string $handle
@@ -88,6 +190,10 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 3.3.0
+	 * @access public
+	 *
 	 * @param string $handle
 	 * @param bool   $echo
 	 * @return bool|string|void
@@ -109,6 +215,11 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.6.0
+	 * @since 2.8.0 Added the `$group` parameter.
+	 * @access public
+	 *
 	 * @param string   $handle Name of the item. Should be unique.
 	 * @param int|bool $group
 	 * @return bool True on success, false if not set.
@@ -297,6 +408,9 @@ class WP_Scripts extends WP_Dependencies {
 	/**
 	 * Localizes a script, only if the script has already been added
 	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
 	 * @param string $handle
 	 * @param string $object_name
 	 * @param array $l10n
@@ -332,6 +446,10 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
 	 * @param string $handle    Name of the item. Should be unique.
 	 * @param bool   $recursion Internal flag that calling function was called recursively.
 	 * @param mixed  $group     Group level.
@@ -350,6 +468,10 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
 	 * @param mixed $handles   Item handle and argument (string) or item handles and arguments (array of strings).
 	 * @param bool  $recursion Internal flag that function is calling itself.
 	 * @param mixed $group     Group level: (int) level, (false) no groups.
@@ -371,6 +493,10 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
 	 * @return array
 	 */
 	public function do_head_items() {
@@ -379,6 +505,10 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
 	 * @return array
 	 */
 	public function do_footer_items() {
@@ -387,6 +517,10 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
 	 * @param string $src
 	 * @return bool
 	 */
@@ -408,6 +542,8 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.8.0
 	 * @access public
 	 */
 	public function reset() {
