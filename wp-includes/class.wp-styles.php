@@ -17,17 +17,95 @@
  * @since r74
  */
 class WP_Styles extends WP_Dependencies {
+	/**
+	 * Base URL for styles.
+	 *
+	 * Full URL with trailing slash.
+	 *
+	 * @since 2.6.0
+	 * @access public
+	 * @var string
+	 */
 	public $base_url;
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $content_url;
+
+	/**
+	 *
+	 * @since 2.6.0
+	 * @access public
+	 * @var string
+	 */
 	public $default_version;
+
+	/**
+	 *
+	 * @since 2.6.0
+	 * @access public
+	 * @var string
+	 */
 	public $text_direction = 'ltr';
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $concat = '';
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $concat_version = '';
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var bool
+	 */
 	public $do_concat = false;
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
 	public $print_html = '';
+
+	/**
+	 *
+	 * @since 3.3.0
+	 * @access public
+	 * @var string
+	 */
 	public $print_code = '';
+
+	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var array
+	 */
 	public $default_dirs;
 
+	/**
+	 * Constructor.
+	 *
+	 * @since 2.6.0
+	 * @access public
+	 */
 	public function __construct() {
 		/**
 		 * Fires when the WP_Styles instance is initialized.
@@ -40,6 +118,10 @@ class WP_Styles extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.6.0
+	 * @access public
+	 *
 	 * @param string $handle
 	 * @return bool
 	 */
@@ -148,6 +230,10 @@ class WP_Styles extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 3.3.0
+	 * @access public
+	 *
 	 * @param string $handle
 	 * @param string $code
 	 */
@@ -167,6 +253,10 @@ class WP_Styles extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 3.3.0
+	 * @access public
+	 *
 	 * @param string $handle
 	 * @param bool $echo
 	 * @return bool
@@ -190,6 +280,10 @@ class WP_Styles extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.6.0
+	 * @access public
+	 *
 	 * @param mixed $handles
 	 * @param bool $recursion
 	 * @param mixed $group
@@ -211,6 +305,10 @@ class WP_Styles extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.6.0
+	 * @access public
+	 *
 	 * @param string $src
 	 * @param string $ver
 	 * @param string $handle
@@ -237,10 +335,14 @@ class WP_Styles extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 *
 	 * @param string $src
 	 * @return bool
 	 */
-	public function in_default_dir($src) {
+	public function in_default_dir( $src ) {
 		if ( ! $this->default_dirs )
 			return true;
 
@@ -252,14 +354,22 @@ class WP_Styles extends WP_Dependencies {
 	}
 
 	/**
+	 *
+	 * HTML 5 allows styles in the body, grab late enqueued items and output them in the footer.
+	 *
+	 * @since 3.3.0
+	 * @access public
+	 *
 	 * @return array
 	 */
-	public function do_footer_items() { // HTML 5 allows styles in the body, grab late enqueued items and output them in the footer.
+	public function do_footer_items() {
 		$this->do_items(false, 1);
 		return $this->done;
 	}
 
 	/**
+	 *
+	 * @since 3.3.0
 	 * @access public
 	 */
 	public function reset() {
