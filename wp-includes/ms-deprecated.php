@@ -57,6 +57,8 @@ function generate_random_password( $len = 8 ) {
  * @since MU
  * @deprecated 3.0.0 Use is_super_admin()
  * @see is_super_admin()
+ *
+ * @param string $user_login Optional. Username for the user to check. Default empty.
  */
 function is_site_admin( $user_login = '' ) {
 	_deprecated_function( __FUNCTION__, '3.0', 'is_super_admin()' );
