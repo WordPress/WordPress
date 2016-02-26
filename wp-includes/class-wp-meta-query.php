@@ -347,16 +347,12 @@ class WP_Meta_Query {
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array $args {
-		 *     An array of meta query SQL arguments.
-		 *
-		 *     @type array  $clauses           Array containing the query's JOIN and WHERE clauses.
-		 *     @type array  $queries           Array of meta queries.
-		 *     @type string $type              Type of meta.
-		 *     @type string $primary_table     Primary table.
-		 *     @type string $primary_id_column Primary column ID.
-		 *     @type object $context           The main query object.
-		 * }
+		 * @param array  $clauses           Array containing the query's JOIN and WHERE clauses.
+		 * @param array  $queries           Array of meta queries.
+		 * @param string $type              Type of meta.
+		 * @param string $primary_table     Primary table.
+		 * @param string $primary_id_column Primary column ID.
+		 * @param object $context           The main query object.
 		 */
 		return apply_filters_ref_array( 'get_meta_sql', array( $sql, $this->queries, $type, $primary_table, $primary_id_column, $context ) );
 	}
