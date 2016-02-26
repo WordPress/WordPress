@@ -343,7 +343,8 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @staticvar array $properties
 	 *
-	 * @return bool
+	 * @param string $offset Property to check if set.
+	 * @return bool Whether the given property is set.
 	 */
 	public function __isset( $offset ) {
 		static $properties = array(
