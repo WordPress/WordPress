@@ -82,7 +82,7 @@ class WP_Dependencies {
 	 * Processes the items passed to it or the queue, and their dependencies.
 	 *
 	 * @access public
-	 * @since 2.1.0
+	 * @since 2.6.0
 	 *
 	 * @param mixed $handles Optional. Items to be processed: Process queue (false), process item (string), process items (array of strings).
 	 * @param mixed $group   Group level: level (int), no groups (false).
@@ -135,6 +135,7 @@ class WP_Dependencies {
 	 *
 	 * @access public
 	 * @since 2.1.0
+	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
 	 * @param mixed $handles   Item handle and argument (string) or item handles and arguments (array of strings).
 	 * @param bool  $recursion Internal flag that function is calling itself.
@@ -192,6 +193,7 @@ class WP_Dependencies {
 	 *
 	 * @access public
 	 * @since 2.1.0
+	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
 	 * @param string $handle Unique item name.
 	 * @param string $src    The item url.
@@ -254,6 +256,7 @@ class WP_Dependencies {
 	 *
 	 * @access public
 	 * @since 2.1.0
+	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
 	 * @param mixed $handles Item handle and argument (string) or item handles and arguments (array of strings).
 	 * @return void
@@ -273,6 +276,7 @@ class WP_Dependencies {
 	 *
 	 * @access public
 	 * @since 2.1.0
+	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
 	 * @param mixed $handles Item handle and argument (string) or item handles and arguments (array of strings).
 	 */
@@ -295,6 +299,7 @@ class WP_Dependencies {
 	 *
 	 * @access public
 	 * @since 2.1.0
+	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
 	 * @param mixed $handles Item handle and argument (string) or item handles and arguments (array of strings).
 	 */
@@ -339,6 +344,7 @@ class WP_Dependencies {
 	 *
 	 * @access public
 	 * @since 2.1.0
+	 * @since 2.6.0 Moved from `WP_Scripts`.
 	 *
 	 * @param string $handle Name of the item. Should be unique.
 	 * @param string $list   Property name of list array.
