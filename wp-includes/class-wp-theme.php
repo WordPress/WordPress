@@ -1347,7 +1347,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @param string $a First name.
 	 * @param string $b Second name.
 	 * @return int Negative if `$a` falls lower in the natural order than `$b`. Zero if they fall equally.
-	 *             Greater than 0 if `$a` falls higher in the natural order than `$b`. Used with uasort().
+	 *             Greater than 0 if `$a` falls higher in the natural order than `$b`. Used with usort().
 	 */
 	private static function _name_sort( $a, $b ) {
 		return strnatcasecmp( $a->headers['Name'], $b->headers['Name'] );
@@ -1364,7 +1364,7 @@ final class WP_Theme implements ArrayAccess {
 	 * @param string $a First name.
 	 * @param string $b Second name.
 	 * @return int Negative if `$a` falls lower in the natural order than `$b`. Zero if they fall equally.
-	 *             Greater than 0 if `$a` falls higher in the natural order than `$b`. Used with uasort().
+	 *             Greater than 0 if `$a` falls higher in the natural order than `$b`. Used with usort().
 	 */
 	private static function _name_sort_i18n( $a, $b ) {
 		// Don't mark up; Do translate.
