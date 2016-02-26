@@ -6089,8 +6089,8 @@ function _prime_post_caches( $ids, $update_term_cache = true, $update_meta_cache
  * @since 4.5.0
  * @access private
  *
- * @param string $post_name    Slug.
- * @param string $post__not_in Optional. Post ID that should be ignored. Default 0.
+ * @param string $post_name Slug.
+ * @param string $post_ID   Optional. Post ID that should be ignored. Default 0.
  */
 function wp_add_trashed_suffix_to_post_name_for_trashed_posts( $post_name, $post_ID = 0 ) {
 	$trashed_posts_with_desired_slug = get_posts( array(
