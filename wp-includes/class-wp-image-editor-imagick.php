@@ -690,7 +690,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				$this->image->setImageProperty( 'Thumb::Image::Height', '' );
 				$this->image->setImageProperty( 'Thumb::Document::Pages', '' );
 			}
-		} catch ( Excpetion $e ) {
+		} catch ( Exception $e ) {
 			return new WP_Error( 'image_strip_meta_error', $e->getMessage() );
 		}
 
