@@ -244,11 +244,17 @@ var wpLink;
 		},
 
 		mceRefresh: function( url, text ) {
-			var linkNode = editor.dom.getParent( editor.selection.getNode(), 'a[href]' ),
+			var linkText,
+				linkNode = getLink(),
 				onlyText = this.hasSelectedText( linkNode );
 
 			if ( linkNode ) {
-				text = tinymce.trim( linkNode.innerText || linkNode.textContent ) || text;
+				linkText = linkNode.innerText || linkNode.textContent;
+
+				if ( ! tinymce.trim( linkText ) ) {
+					linkText = text || '';
+				}
+
 				url = url || editor.dom.getAttrib( linkNode, 'href' );
 
 				if ( url === '_wp_link_placeholder' ) {
@@ -264,7 +270,7 @@ var wpLink;
 			}
 
 			if ( onlyText ) {
-				inputs.text.val( text || '' );
+				inputs.text.val( linkText || '' );
 				inputs.wrap.addClass( 'has-text-field' );
 			} else {
 				inputs.text.val( '' );
@@ -283,7 +289,10 @@ var wpLink;
 					wpLink.range.select();
 				}
 			} else {
-				editor.plugins.wplink.hideEditToolbar();
+				if ( editor.plugins.wplink ) {
+					editor.plugins.wplink.close();
+				}
+
 				editor.focus();
 			}
 

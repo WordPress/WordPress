@@ -885,7 +885,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 		function hide( event ) {
 			if ( activeToolbar ) {
-				if ( event.type === 'hide' ) {
+				if ( activeToolbar.tempHide || event.type === 'hide' ) {
 					activeToolbar.hide();
 					activeToolbar = false;
 				} else if ( ( event.type === 'resize' || event.type === 'scroll' ) && ! activeToolbar.blockHide ) {

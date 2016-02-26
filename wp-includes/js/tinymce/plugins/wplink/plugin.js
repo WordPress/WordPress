@@ -223,13 +223,17 @@
 		} );
 
 		editor.addCommand( 'wp_link_cancel', function() {
-			inputInstance.reset();
-			removePlaceholders();
-			editor.focus();
-
-			if ( tinymce.isIE ) {
-				editor.selection.moveToBookmark( editor.windowManager.wplinkBookmark );
-				editor.windowManager.wplinkBookmark = null;
+			if ( ! editToolbar.tempHide ) {
+				inputInstance.reset();
+				removePlaceholders();
+				editor.focus();
+	
+				if ( tinymce.isIE ) {
+					editor.selection.moveToBookmark( editor.windowManager.wplinkBookmark );
+					editor.windowManager.wplinkBookmark = null;
+				}
+				
+				editToolbar.tempHide = false;
 			}
 		} );
 
@@ -285,8 +289,10 @@
 
 		// Prevent adding undo levels on inserting link placeholder.
 		editor.on( 'BeforeAddUndo', function( event ) {
-			if ( event.level.content ) {
-				event.level.content = removePlaceholderStrings( event.level.content );
+			if ( event.lastLevel && event.lastLevel.content && event.level.content &&
+				event.lastLevel.content === removePlaceholderStrings( event.level.content ) ) {
+
+				event.preventDefault();
 			}
 		});
 
@@ -388,8 +394,11 @@
 				$linkNode, href, edit;
 
 			if ( tinymce.$( document.body ).hasClass( 'modal-open' ) ) {
+				editToolbar.tempHide = true;
 				return;
 			}
+
+			editToolbar.tempHide = false;
 
 			if ( linkNode ) {
 				$linkNode = editor.$( linkNode );
@@ -432,8 +441,10 @@
 					var url = inputInstance.getURL() || null,
 						text = inputInstance.getLinkText() || null;
 
-					editor.focus();
+					editor.focus(); // Needed for IE
 					window.wpLink.open( editor.id, url, text );
+
+					editToolbar.tempHide = true;
 					inputInstance.reset();
 				}
 			}
@@ -447,8 +458,9 @@
 		} );
 
 		return {
-			hideEditToolbar: function() {
-				editToolbar.hide();
+			close: function() {
+				editToolbar.tempHide = false;
+				editor.execCommand( 'wp_link_cancel' );
 			}
 		};
 	} );
