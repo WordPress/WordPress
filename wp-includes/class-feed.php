@@ -50,6 +50,9 @@ class WP_Feed_Cache_Transient {
 
 	/**
 	 * @access public
+	 *
+	 * @param SimplePie $data Data to save.
+	 * @return true Always true.
 	 */
 	public function save($data) {
 		if ( $data instanceof SimplePie ) {
