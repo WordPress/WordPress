@@ -29,7 +29,8 @@ var wpLink;
 				wpLink.setAutocomplete();
 			}
 
-			inputs.submit.click( function( event ) {
+			inputs.dialog.on( 'keydown', wpLink.keydown );
+			inputs.submit.on( 'click', function( event ) {
 				event.preventDefault();
 				wpLink.update();
 			});
@@ -210,7 +211,7 @@ var wpLink;
 				// IE will show a flashing cursor over the dialog.
 				window.setTimeout( function() {
 					inputs.url.focus()[0].select();
-				}, 100 );
+				} );
 			}
 
 			correctedURL = inputs.url.val().replace( /^http:\/\//, '' );
@@ -429,6 +430,29 @@ var wpLink;
 
 			wpLink.close();
 			editor.nodeChanged();
+		},
+
+		keydown: function( event ) {
+			var id;
+
+			// Escape key.
+			if ( 27 === event.keyCode ) {
+				wpLink.close();
+				event.stopImmediatePropagation();
+			// Tab key.
+			} else if ( 9 === event.keyCode ) {
+				id = event.target.id;
+
+				// wp-link-submit must always be the last focusable element in the dialog.
+				// following focusable elements will be skipped on keyboard navigation.
+				if ( id === 'wp-link-submit' && ! event.shiftKey ) {
+					inputs.close.focus();
+					event.preventDefault();
+				} else if ( id === 'wp-link-close' && event.shiftKey ) {
+					inputs.submit.focus();
+					event.preventDefault();
+				}
+			}
 		},
 
 		setDefaultValues: function() {
