@@ -2567,7 +2567,6 @@ function wp_timezone_supported() {
  * @param bool   $media_buttons Optional. Whether to display media buttons. Default true.
  * @param int    $tab_index     Optional. Unused.
  * @param bool   $extended      Optional. Unused.
- * @param int $tab_index Optional, not used
  */
 function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true, $tab_index = 2, $extended = true) {
 	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
