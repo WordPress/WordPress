@@ -2,12 +2,12 @@
 var wpLink;
 
 ( function( $ ) {
-	var editor, correctedURL,
+	var editor, correctedURL, linkNode,
 		inputs = {},
 		isTouch = ( 'ontouchend' in document );
 
 	function getLink() {
-		return editor.dom.getParent( editor.selection.getNode(), 'a' );
+		return linkNode || editor.dom.getParent( editor.selection.getNode(), 'a[href]' );
 	}
 
 	wpLink = {
@@ -125,11 +125,12 @@ var wpLink;
 			}
 		},
 
-		open: function( editorId, url, text ) {
+		open: function( editorId, url, text, node ) {
 			var ed,
 				$body = $( document.body );
 
 			$body.addClass( 'modal-open' );
+			linkNode = node;
 
 			wpLink.range = null;
 
@@ -258,20 +259,20 @@ var wpLink;
 
 				url = url || editor.dom.getAttrib( linkNode, 'href' );
 
-				if ( url === '_wp_link_placeholder' ) {
-					url = '';
+				if ( url !== '_wp_link_placeholder' ) {
+					inputs.url.val( url );
+					inputs.openInNewTab.prop( 'checked', '_blank' === editor.dom.getAttrib( linkNode, 'target' ) );
+					inputs.submit.val( wpLinkL10n.update );
+				} else {
+					this.setDefaultValues( linkText );
 				}
-
-				inputs.url.val( url );
-				inputs.openInNewTab.prop( 'checked', '_blank' === editor.dom.getAttrib( linkNode, 'target' ) );
-				inputs.submit.val( wpLinkL10n.update );
 			} else {
-				text = editor.selection.getContent({ format: 'text' }) || text;
-				this.setDefaultValues();
+				linkText = editor.selection.getContent({ format: 'text' }) || text || '';
+				this.setDefaultValues( linkText );
 			}
 
 			if ( onlyText ) {
-				inputs.text.val( linkText || '' );
+				inputs.text.val( linkText );
 				inputs.wrap.addClass( 'has-text-field' );
 			} else {
 				inputs.text.val( '' );
@@ -279,22 +280,24 @@ var wpLink;
 			}
 		},
 
-		close: function() {
+		close: function( reset ) {
 			$( document.body ).removeClass( 'modal-open' );
 
-			if ( ! wpLink.isMCE() ) {
-				wpLink.textarea.focus();
+			if ( reset !== 'noReset' ) {
+				if ( ! wpLink.isMCE() ) {
+					wpLink.textarea.focus();
 
-				if ( wpLink.range ) {
-					wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
-					wpLink.range.select();
-				}
-			} else {
-				if ( editor.plugins.wplink ) {
-					editor.plugins.wplink.close();
-				}
+					if ( wpLink.range ) {
+						wpLink.range.moveToBookmark( wpLink.range.getBookmark() );
+						wpLink.range.select();
+					}
+				} else {
+					if ( editor.plugins.wplink ) {
+						editor.plugins.wplink.close();
+					}
 
-				editor.focus();
+					editor.focus();
+				}
 			}
 
 			inputs.backdrop.hide();
@@ -394,13 +397,14 @@ var wpLink;
 
 			editor.focus();
 
-			if ( tinymce.isIE ) {
+			if ( tinymce.isIE && editor.windowManager.wplinkBookmark ) {
 				editor.selection.moveToBookmark( editor.windowManager.wplinkBookmark );
 				editor.windowManager.wplinkBookmark = null;
 			}
 
 			if ( ! attrs.href ) {
 				editor.execCommand( 'unlink' );
+				wpLink.close();
 				return;
 			}
 
@@ -428,7 +432,8 @@ var wpLink;
 				}
 			}
 
-			wpLink.close();
+			wpLink.close( 'noReset' );
+			editor.focus();
 			editor.nodeChanged();
 		},
 
@@ -455,29 +460,36 @@ var wpLink;
 			}
 		},
 
-		setDefaultValues: function() {
-			var selection,
+		getUrlFromSelection: function( selection ) {
+			var url,
 				emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
 				urlRegexp = /^(https?|ftp):\/\/[A-Z0-9.-]+\.[A-Z]{2,4}[^ "]*$/i;
 
-			if ( this.isMCE() ) {
-				selection = editor.selection.getContent();
-			} else if ( document.selection && wpLink.range ) {
-				selection = wpLink.range.text;
-			} else if ( typeof this.textarea.selectionStart !== 'undefined' ) {
-				selection = this.textarea.value.substring( this.textarea.selectionStart, this.textarea.selectionEnd );
+			if ( ! selection ) {
+				if ( this.isMCE() ) {
+					selection = editor.selection.getContent({ format: 'text' });
+				} else if ( document.selection && wpLink.range ) {
+					selection = wpLink.range.text;
+				} else if ( typeof this.textarea.selectionStart !== 'undefined' ) {
+					selection = this.textarea.value.substring( this.textarea.selectionStart, this.textarea.selectionEnd );
+				}
 			}
+
+			selection = tinymce.trim( selection );
 
 			if ( selection && emailRegexp.test( selection ) ) {
 				// Selection is email address
-				inputs.url.val( 'mailto:' + selection );
+				return 'mailto:' + selection;
 			} else if ( selection && urlRegexp.test( selection ) ) {
 				// Selection is URL
-				inputs.url.val( selection.replace( /&amp;|&#0?38;/gi, '&' ) );
-			} else {
-				// Set URL to default.
-				inputs.url.val( '' );
+				return selection.replace( /&amp;|&#0?38;/gi, '&' );
 			}
+
+			return '';
+		},
+
+		setDefaultValues: function( selection ) {
+			inputs.url.val( this.getUrlFromSelection( selection ) );
 
 			// Update save prompt.
 			inputs.submit.val( wpLinkL10n.save );
