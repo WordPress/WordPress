@@ -1,11 +1,11 @@
 <?php
 /**
- * BackPress Scripts Procedural API
+ * Dependencies API: Scripts functions
  *
  * @since 2.6.0
  *
  * @package WordPress
- * @subpackage BackPress
+ * @subpackage Dependencies
  */
 
 /**

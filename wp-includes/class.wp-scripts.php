@@ -1,20 +1,19 @@
 <?php
 /**
- * BackPress Scripts enqueue.
+ * Dependencies API: WP_Scripts class
  *
- * These classes were refactored from the WordPress WP_Scripts and WordPress
- * script enqueue API.
+ * @since 2.6.0
  *
- * @package BackPress
- * @since r16
+ * @package WordPress
+ * @subpackage Dependencies
  */
 
 /**
- * BackPress Scripts enqueue class.
+ * Core class used to register scripts.
  *
- * @package BackPress
+ * @package WordPress
  * @uses WP_Dependencies
- * @since r16
+ * @since 2.1.0
  */
 class WP_Scripts extends WP_Dependencies {
 	/**
@@ -29,6 +28,7 @@ class WP_Scripts extends WP_Dependencies {
 	public $base_url;
 
 	/**
+	 * URL of the content directory.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -37,6 +37,7 @@ class WP_Scripts extends WP_Dependencies {
 	public $content_url;
 
 	/**
+	 * Default version string for stylesheets.
 	 *
 	 * @since 2.6.0
 	 * @access public
@@ -45,6 +46,7 @@ class WP_Scripts extends WP_Dependencies {
 	public $default_version;
 
 	/**
+	 * Holds handles of scripts which are enqueued in footer.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -53,6 +55,7 @@ class WP_Scripts extends WP_Dependencies {
 	public $in_footer = array();
 
 	/**
+	 * Holds a list of script handles which will be concatenated.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -61,14 +64,17 @@ class WP_Scripts extends WP_Dependencies {
 	public $concat = '';
 
 	/**
+	 * Holds a string which contains script handles and their version.
 	 *
 	 * @since 2.8.0
+	 * @deprecated 3.4.0
 	 * @access public
 	 * @var string
 	 */
 	public $concat_version = '';
 
 	/**
+	 * Whether to perform concatenation.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -77,6 +83,8 @@ class WP_Scripts extends WP_Dependencies {
 	public $do_concat = false;
 
 	/**
+	 * Holds HTML markup of scripts and additional data if concatenation
+	 * is enabled.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -93,6 +101,7 @@ class WP_Scripts extends WP_Dependencies {
 	public $print_html_before = '';
 
 	/**
+	 * Holds inline code if concatenation is enabled.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -101,6 +110,10 @@ class WP_Scripts extends WP_Dependencies {
 	public $print_code = '';
 
 	/**
+	 * Holds a list of script handles which are not in the default directory
+	 * if concatenation is enabled.
+	 *
+	 * Unused in core.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -109,6 +122,10 @@ class WP_Scripts extends WP_Dependencies {
 	public $ext_handles = '';
 
 	/**
+	 * Holds a string which contains handles and versions of scripts which
+	 * are not in the default directory if concatenation is enabled.
+	 *
+	 * Unused in core.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -117,6 +134,7 @@ class WP_Scripts extends WP_Dependencies {
 	public $ext_version = '';
 
 	/**
+	 * List of default directories.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -172,6 +190,7 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 * Prints extra scripts of a registered script.
 	 *
 	 * @since 2.1.0
 	 * @since 2.8.0 Added the `$echo` parameter.
@@ -180,9 +199,10 @@ class WP_Scripts extends WP_Dependencies {
 	 *
 	 * @see print_extra_script()
 	 *
-	 * @param string $handle
-	 * @param bool   $echo
-	 * @return bool|string|void
+	 * @param string $handle The script's registered handle.
+	 * @param bool   $echo   Optional. Whether to echo the extra script instead of just returning it.
+	 *                       Default true.
+	 * @return bool|string|void Void if no data exists, extra scripts if `$echo` is true, true otherwise.
 	 */
 	public function print_scripts_l10n( $handle, $echo = true ) {
 		_deprecated_function( __FUNCTION__, '3.3', 'print_extra_script()' );
@@ -190,13 +210,15 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 * Prints extra scripts of a registered script.
 	 *
 	 * @since 3.3.0
 	 * @access public
 	 *
-	 * @param string $handle
-	 * @param bool   $echo
-	 * @return bool|string|void
+	 * @param string $handle The script's registered handle.
+	 * @param bool   $echo   Optional. Whether to echo the extra script instead of just returning it.
+	 *                       Default true.
+	 * @return bool|string|void Void if no data exists, extra scripts if `$echo` is true, true otherwise.
 	 */
 	public function print_extra_script( $handle, $echo = true ) {
 		if ( !$output = $this->get_data( $handle, 'data' ) )
@@ -215,14 +237,17 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 * Processes a script dependency.
 	 *
 	 * @since 2.6.0
 	 * @since 2.8.0 Added the `$group` parameter.
 	 * @access public
 	 *
-	 * @param string   $handle Name of the item. Should be unique.
-	 * @param int|bool $group
-	 * @return bool True on success, false if not set.
+	 * @see WP_Dependencies::do_item()
+	 *
+	 * @param string $handle    The script's registered handle.
+	 * @param int|false $group  Optional. Group level: (int) level, (false) no groups. Default false.
+	 * @return bool True on success, false on failure.
 	 */
 	public function do_item( $handle, $group = false ) {
 		if ( !parent::do_item($handle) )
@@ -406,7 +431,7 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
-	 * Localizes a script, only if the script has already been added
+	 * Localizes a script, only if the script has already been added.
 	 *
 	 * @since 2.1.0
 	 * @access public
@@ -446,13 +471,16 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 * Sets handle group.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @param string $handle    Name of the item. Should be unique.
-	 * @param bool   $recursion Internal flag that calling function was called recursively.
-	 * @param mixed  $group     Group level.
+	 * @see WP_Dependencies::set_group()
+	 *
+	 * @param string    $handle    Name of the item. Should be unique.
+	 * @param bool      $recursion Internal flag that calling function was called recursively.
+	 * @param int|false $group     Optional. Group level: (int) level, (false) no groups. Default false.
 	 * @return bool Not already in the group or a lower group
 	 */
 	public function set_group( $handle, $recursion, $group = false ) {
@@ -468,13 +496,16 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
-	 *
+	 * Determines script dependencies.
+     *
 	 * @since 2.1.0
 	 * @access public
 	 *
-	 * @param mixed $handles   Item handle and argument (string) or item handles and arguments (array of strings).
-	 * @param bool  $recursion Internal flag that function is calling itself.
-	 * @param mixed $group     Group level: (int) level, (false) no groups.
+	 * @see WP_Dependencies::all_deps()
+	 *
+	 * @param mixed     $handles   Item handle and argument (string) or item handles and arguments (array of strings).
+	 * @param bool      $recursion Internal flag that function is calling itself.
+	 * @param int|false $group     Optional. Group level: (int) level, (false) no groups. Default false.
 	 * @return bool True on success, false on failure.
 	 */
 	public function all_deps( $handles, $recursion = false, $group = false ) {
@@ -493,11 +524,14 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 * Processes items and dependencies for the head group.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @return array
+	 * @see WP_Dependencies::do_items()
+	 *
+	 * @return array Handles of items that have been processed.
 	 */
 	public function do_head_items() {
 		$this->do_items(false, 0);
@@ -505,11 +539,14 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 * Processes items and dependencies for the footer group.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @return array
+	 * @see WP_Dependencies::do_items()
+	 *
+	 * @return array Handles of items that have been processed.
 	 */
 	public function do_footer_items() {
 		$this->do_items(false, 1);
@@ -517,12 +554,13 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 * Whether a handle's source is in a default directory.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @param string $src
-	 * @return bool
+	 * @param string $src The source of the enqueued script.
+	 * @return bool True if found, false if not.
 	 */
 	public function in_default_dir( $src ) {
 		if ( ! $this->default_dirs ) {
@@ -542,6 +580,7 @@ class WP_Scripts extends WP_Dependencies {
 	}
 
 	/**
+	 * Resets class properties.
 	 *
 	 * @since 2.8.0
 	 * @access public

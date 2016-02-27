@@ -2,11 +2,6 @@
 /**
  * WordPress scripts and styles default loader.
  *
- * Most of the functionality that existed here was moved to
- * {@link http://backpress.automattic.com/ BackPress}. WordPress themes and
- * plugins will only be concerned about the filters and actions set in this
- * file.
- *
  * Several constants are used to manage the loading, concatenating and compression of scripts and CSS:
  * define('SCRIPT_DEBUG', true); loads the development (non-minified) versions of all scripts and CSS, and disables compression and concatenation,
  * define('CONCATENATE_SCRIPTS', false); disables compression and concatenation of scripts and CSS,
@@ -21,19 +16,19 @@
  * @package WordPress
  */
 
-/** BackPress: WordPress Dependencies Class */
+/** WordPress Dependencies Class */
 require( ABSPATH . WPINC . '/class.wp-dependencies.php' );
 
-/** BackPress: WordPress Scripts Class */
+/** WordPress Scripts Class */
 require( ABSPATH . WPINC . '/class.wp-scripts.php' );
 
-/** BackPress: WordPress Scripts Functions */
+/** WordPress Scripts Functions */
 require( ABSPATH . WPINC . '/functions.wp-scripts.php' );
 
-/** BackPress: WordPress Styles Class */
+/** WordPress Styles Class */
 require( ABSPATH . WPINC . '/class.wp-styles.php' );
 
-/** BackPress: WordPress Styles Functions */
+/** WordPress Styles Functions */
 require( ABSPATH . WPINC . '/functions.wp-styles.php' );
 
 /**
