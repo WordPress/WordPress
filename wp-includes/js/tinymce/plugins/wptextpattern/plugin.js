@@ -11,6 +11,10 @@
  * using the undo shortcut, or the undo button in the toolbar.
  */
 ( function( tinymce, setTimeout ) {
+	if ( tinymce.Env.ie && tinymce.Env.ie < 9 ) {
+		return;
+	}
+
 	tinymce.PluginManager.add( 'wptextpattern', function( editor ) {
 		var VK = tinymce.util.VK;
 
@@ -82,7 +86,7 @@
 			var format;
 			var zero;
 
-			if ( node.nodeType !== 3 || ! node.data.length || ! offset ) {
+			if ( ! node || node.nodeType !== 3 || ! node.data.length || ! offset ) {
 				return;
 			}
 

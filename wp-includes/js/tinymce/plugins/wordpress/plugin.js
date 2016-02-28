@@ -262,43 +262,51 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		// Main section, default and additional shortcuts
 		html = html +
 			'<h2>' + __( 'Default shortcuts,' ) + ' ' + meta + '</h2>' +
-			'<table class="wp-help-th-center">' +
+			'<table class="wp-help-th-center fixed">' +
 				header +
 				table1.join('') +
 			'</table>' +
 			'<h2>' + __( 'Additional shortcuts,' ) + ' ' + access + '</h2>' +
-			'<table class="wp-help-th-center">' +
+			'<table class="wp-help-th-center fixed">' +
 				header +
 				table2.join('') +
 			'</table>';
 
-		if ( editor.plugins.wptextpattern ) {
+		if ( editor.plugins.wptextpattern && ( ! tinymce.Env.ie || tinymce.Env.ie > 8 ) ) {
 			// Text pattern section
 			html = html +
 				'<h2>' + __( 'When starting a new paragraph with one of these formatting shortcuts followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' ) + '</h2>' +
-				'<table>' +
-					tr({ '*':  'Bullet list' }) +
-					tr({ '-':  'Bullet list' }) +
-					tr({ '1.':  'Numbered list' }) +
-					tr({ '1)':  'Numbered list' }) +
+				'<table class="wp-help-th-center fixed">' +
+					tr({ '*':  'Bullet list', '1.':  'Numbered list' }) +
+					tr({ '-':  'Bullet list', '1)':  'Numbered list' }) +
 				'</table>';
 
 			html = html +
 				'<h2>' + __( 'The following formatting shortcuts are replaced when pressing Enter. Press Escape or the Undo button to undo.' ) + '</h2>' +
-				'<table>' +
+				'<table class="wp-help-single">' +
 					tr({ '>': 'Blockquote' }) +
 					tr({ '##': 'Heading 2' }) +
 					tr({ '###': 'Heading 3' }) +
 					tr({ '####': 'Heading 4' }) +
 					tr({ '#####': 'Heading 5' }) +
 					tr({ '######': 'Heading 6' }) +
+					tr({ '---': 'Horizontal rule' }) +
+					tr({ '***': 'Horizontal rule' }) +
+				'</table>';
+
+			html = html +
+				'<h2>' + __( 'The next group of formatting shortcuts are applied as you type or when you insert them around plain text in the same paragraph. Press Escape or the Undo button to undo.' ) + '</h2>' +
+				'<table class="wp-help-th-center fixed">' +
+					tr({ '*': 'Italic', '**': 'Bold' }) +
+					tr({ '_': 'Italic', '__': 'Bold' }) +
+					tr({ '`': 'Code', empty: '' }) +
 				'</table>';
 		}
 
 		// Focus management section
 		html = html +
 			'<h2>' + __( 'Focus shortcuts:' ) + '</h2>' +
-			'<table>' +
+			'<table class="wp-help-single">' +
 				tr({ 'Alt + F8':  'Inline toolbar (when an image, link or preview is selected)' }) +
 				tr({ 'Alt + F9':  'Editor menu (when enabled)' }) +
 				tr({ 'Alt + F10': 'Editor toolbar' }) +
