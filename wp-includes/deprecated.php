@@ -2733,10 +2733,10 @@ function index_rel_link() {
  * @since 2.8.0
  * @deprecated 3.3.0
  *
- * @param string $title Optional. Link title format.
+ * @param string $title Optional. Link title format. Default '%title'.
  * @return string
  */
-function get_parent_post_rel_link($title = '%title') {
+function get_parent_post_rel_link( $title = '%title' ) {
 	_deprecated_function( __FUNCTION__, '3.3' );
 
 	if ( ! empty( $GLOBALS['post'] ) && ! empty( $GLOBALS['post']->post_parent ) )
@@ -2763,8 +2763,10 @@ function get_parent_post_rel_link($title = '%title') {
  *
  * @since 2.8.0
  * @deprecated 3.3.0
+ *
+ * @param string $title Optional. Link title format. Default '%title'.
  */
-function parent_post_rel_link($title = '%title') {
+function parent_post_rel_link( $title = '%title' ) {
 	_deprecated_function( __FUNCTION__, '3.3' );
 
 	echo get_parent_post_rel_link($title);
