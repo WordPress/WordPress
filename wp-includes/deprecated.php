@@ -2819,6 +2819,10 @@ function is_blog_user( $blog_id = 0 ) {
  * @see error_log()
  *
  * @link http://www.php.net/manual/en/function.error-log.php
+ *
+ * @param string $filename File name.
+ * @param string $mode     Type of access you required to the stream.
+ * @return false Always false.
  */
 function debug_fopen( $filename, $mode ) {
 	_deprecated_function( __FUNCTION__, 'error_log()' );
