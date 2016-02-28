@@ -487,7 +487,8 @@ function url_to_postid( $url ) {
 	$url = $url_split[0];
 
 	// Set the correct URL scheme.
-	$url = set_url_scheme( $url );
+	$scheme = parse_url( home_url(), PHP_URL_SCHEME );
+	$url = set_url_scheme( $url, $scheme );
 
 	// Add 'www.' if it is absent and should be there
 	if ( false !== strpos(home_url(), '://www.') && false === strpos($url, '://www.') )
