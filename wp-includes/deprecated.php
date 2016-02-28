@@ -2855,6 +2855,8 @@ function debug_fwrite( $fp, $string ) {
  * @see error_log()
  *
  * @link http://www.php.net/manual/en/function.error-log.php
+ *
+ * @param mixed $fp Unused.
  */
 function debug_fclose( $fp ) {
 	_deprecated_function( __FUNCTION__, 'error_log()' );
