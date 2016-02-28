@@ -389,7 +389,7 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
 }
 
 /**
- * Registers plural strings in POT file, but don't translate them.
+ * Registers plural strings in POT file, but does not translate them.
  *
  * Used when you want to keep structures with translatable plural
  * strings and use them later when the number is known.
@@ -426,7 +426,7 @@ function _n_noop( $singular, $plural, $domain = null ) {
 }
 
 /**
- * Register plural strings with gettext context in the POT file, but don't translate them.
+ * Registers plural strings with gettext context in POT file, but does not translate them.
  *
  * Used when you want to keep structures with translatable plural
  * strings and use them later when the number is known.
