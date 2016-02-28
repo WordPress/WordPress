@@ -3146,6 +3146,8 @@ function sticky_class( $post_id = null ) {
  * @since 2.3.4
  * @deprecated 3.5.0 Use get_post_ancestors()
  * @see get_post_ancestors()
+ *
+ * @param WP_Post &$post Post object, passed by reference (unused).
  */
 function _get_post_ancestors( &$post ) {
 	_deprecated_function( __FUNCTION__, '3.5' );
