@@ -3346,6 +3346,9 @@ function wp_convert_bytes_to_hr( $bytes ) {
  * @since 2.9.0
  * @access private
  * @deprecated 3.7.0
+ *
+ * @param string $t Search terms to "tidy", e.g. trim.
+ * @return string Trimmed search terms.
  */
 function _search_terms_tidy( $t ) {
 	_deprecated_function( __FUNCTION__, '3.7' );
