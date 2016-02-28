@@ -290,8 +290,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					tr({ '####': 'Heading 4' }) +
 					tr({ '#####': 'Heading 5' }) +
 					tr({ '######': 'Heading 6' }) +
-					tr({ '---': 'Horizontal rule' }) +
-					tr({ '***': 'Horizontal rule' }) +
+					tr({ '---': 'Horizontal line' }) +
+					tr({ '***': 'Horizontal line' }) +
 				'</table>';
 
 			html = html +
