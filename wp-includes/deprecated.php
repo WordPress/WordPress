@@ -13,14 +13,14 @@
  */
 
 /**
- * Entire Post data.
+ * Retrieves all post data for a given post.
  *
  * @since 0.71
  * @deprecated 1.5.1 Use get_post()
  * @see get_post()
  *
- * @param int $postid
- * @return array
+ * @param int $postid Post ID.
+ * @return array Post data.
  */
 function get_postdata($postid) {
 	_deprecated_function( __FUNCTION__, '1.5.1', 'get_post()' );
@@ -70,14 +70,14 @@ function start_wp() {
 }
 
 /**
- * Return or Print Category ID.
+ * Returns or prints a category ID.
  *
  * @since 0.71
  * @deprecated 0.71 Use get_the_category()
  * @see get_the_category()
  *
- * @param bool $echo
- * @return null|int
+ * @param bool $echo Optional. Whether to echo the output. Default true.
+ * @return int Category ID.
  */
 function the_category_ID($echo = true) {
 	_deprecated_function( __FUNCTION__, '0.71', 'get_the_category()' );
@@ -93,16 +93,16 @@ function the_category_ID($echo = true) {
 }
 
 /**
- * Print category with optional text before and after.
+ * Prints a category with optional text before and after.
  *
  * @since 0.71
  * @deprecated 0.71 Use get_the_category_by_ID()
  * @see get_the_category_by_ID()
  *
- * @param string $before
- * @param string $after
+ * @param string $before Optional. Text to display before the category. Default empty.
+ * @param string $after  Optional. Text to display after the category. Default empty.
  */
-function the_category_head($before='', $after='') {
+function the_category_head( $before = '', $after = '' ) {
 	global $currentcat, $previouscat;
 
 	_deprecated_function( __FUNCTION__, '0.71', 'get_the_category_by_ID()' );
@@ -119,7 +119,7 @@ function the_category_head($before='', $after='') {
 }
 
 /**
- * Prints link to the previous post.
+ * Prints a link to the previous post.
  *
  * @since 1.5.0
  * @deprecated 2.0.0 Use previous_post_link()
@@ -129,7 +129,7 @@ function the_category_head($before='', $after='') {
  * @param string $previous
  * @param string $title
  * @param string $in_same_cat
- * @param int $limitprev
+ * @param int    $limitprev
  * @param string $excluded_categories
  */
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
