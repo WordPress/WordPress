@@ -714,7 +714,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 				} else {
 					printf(
 						/* translators: 1: type of comment, 2: notification if the comment is pending */
-						_x( '%1$s', 'dashboard' ),
+						_x( '%1$s %2$s', 'dashboard' ),
 						"<strong>$type</strong>",
 						'<span class="approve">' . __( '[Pending]' ) . '</span>'
 					);
