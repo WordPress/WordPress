@@ -21,6 +21,10 @@
 class WP_Http {
 
 	// Aliases for HTTP response codes.
+	const HTTP_CONTINUE                   = 100;
+	const SWITCHING_PROTOCOLS             = 101;
+	const PROCESSING                      = 102;
+
 	const OK                              = 200;
 	const CREATED                         = 201;
 	const ACCEPTED                        = 202;
