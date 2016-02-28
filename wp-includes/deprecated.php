@@ -2837,6 +2837,9 @@ function debug_fopen( $filename, $mode ) {
  * @see error_log()
  *
  * @link http://www.php.net/manual/en/function.error-log.php
+ *
+ * @param mixed  $fp     Unused.
+ * @param string $string Message to log.
  */
 function debug_fwrite( $fp, $string ) {
 	_deprecated_function( __FUNCTION__, 'error_log()' );
