@@ -1,7 +1,7 @@
-/*globals window, document, jQuery, _, Backbone, _wpmejsSettings */
+/* global _wpmejsSettings, MediaElementPlayer */
 
 (function ($, _, Backbone) {
-	"use strict";
+	'use strict';
 
 	var WPPlaylistView = Backbone.View.extend({
 		initialize : function (options) {
