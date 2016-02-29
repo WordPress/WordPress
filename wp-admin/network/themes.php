@@ -143,8 +143,12 @@ if ( $action ) {
 					<ul class="ul-disc">
 					<?php
 						foreach ( $theme_info as $theme ) {
-							/* translators: 1: theme name, 2: theme author */
-							echo '<li>', sprintf( __('<strong>%1$s</strong> by <em>%2$s</em>' ), $theme->display('Name'), $theme->display('Author') ), '</li>';
+							echo '<li>' . sprintf(
+								/* translators: 1: theme name, 2: theme author */
+								_x( '%1$s by %2$s', 'theme' ),
+								'<strong>' . $theme->display( 'Name' ) . '</strong>',
+								'<em>' . $theme->display( 'Author' ) . '</em>'
+							) . '</li>';
 						}
 					?>
 					</ul>
