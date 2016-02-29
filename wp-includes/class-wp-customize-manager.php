@@ -1401,7 +1401,9 @@ final class WP_Customize_Manager {
 	 */
 	public function render_control_templates() {
 		foreach ( $this->registered_control_types as $control_type ) {
-			$control = new $control_type( $this, 'temp', array() );
+			$control = new $control_type( $this, 'temp', array(
+				'settings' => array(),
+			) );
 			$control->print_template();
 		}
 	}
