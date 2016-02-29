@@ -1,7 +1,7 @@
-/* global tinymce, wpLinkL10n, wpActiveEditor */
+
 var wpLink;
 
-( function( $ ) {
+( function( $, wpLinkL10n ) {
 	var editor, correctedURL, linkNode,
 		inputs = {},
 		isTouch = ( 'ontouchend' in document );
@@ -80,7 +80,7 @@ var wpLink;
 				select: function( event, ui ) {
 					$input.val( ui.item.permalink );
 
-					if ( inputs.wrap.hasClass( 'has-text-field' ) && tinymce.trim( inputs.text.val() ) === '' ) {
+					if ( inputs.wrap.hasClass( 'has-text-field' ) && $.trim( inputs.text.val() ) === '' ) {
 						inputs.text.val( ui.item.title );
 					}
 
@@ -144,12 +144,12 @@ var wpLink;
 
 			this.textarea = $( '#' + window.wpActiveEditor ).get( 0 );
 
-			if ( typeof tinymce !== 'undefined' ) {
+			if ( typeof window.tinymce !== 'undefined' ) {
 				// Make sure the link wrapper is the last element in the body,
 				// or the inline editor toolbar may show above the backdrop.
 				$body.append( inputs.backdrop, inputs.wrap );
 
-				ed = tinymce.get( wpActiveEditor );
+				ed = window.tinymce.get( window.wpActiveEditor );
 
 				if ( ed && ! ed.isHidden() ) {
 					editor = ed;
@@ -157,7 +157,7 @@ var wpLink;
 					editor = null;
 				}
 
-				if ( editor && tinymce.isIE && ! editor.windowManager.wplinkBookmark ) {
+				if ( editor && window.tinymce.isIE && ! editor.windowManager.wplinkBookmark ) {
 					editor.windowManager.wplinkBookmark = editor.selection.getBookmark();
 				}
 			}
@@ -236,7 +236,7 @@ var wpLink;
 				for ( i = nodes.length - 1; i >= 0; i-- ) {
 					node = nodes[i];
 
-					if ( node.nodeType != 3 && ! tinymce.dom.BookmarkManager.isBookmarkNode( node ) ) {
+					if ( node.nodeType != 3 && ! window.tinymce.dom.BookmarkManager.isBookmarkNode( node ) ) {
 						return false;
 					}
 				}
@@ -253,7 +253,7 @@ var wpLink;
 			if ( linkNode ) {
 				linkText = linkNode.innerText || linkNode.textContent;
 
-				if ( ! tinymce.trim( linkText ) ) {
+				if ( ! $.trim( linkText ) ) {
 					linkText = text || '';
 				}
 
@@ -397,7 +397,7 @@ var wpLink;
 
 			editor.focus();
 
-			if ( tinymce.isIE && editor.windowManager.wplinkBookmark ) {
+			if ( window.tinymce.isIE && editor.windowManager.wplinkBookmark ) {
 				editor.selection.moveToBookmark( editor.windowManager.wplinkBookmark );
 				editor.windowManager.wplinkBookmark = null;
 			}
@@ -474,7 +474,7 @@ var wpLink;
 				}
 			}
 
-			selection = tinymce.trim( selection );
+			selection = $.trim( selection );
 
 			if ( selection && emailRegexp.test( selection ) ) {
 				// Selection is email address
@@ -496,4 +496,4 @@ var wpLink;
 	};
 
 	$( document ).ready( wpLink.init );
-})( jQuery );
+})( jQuery, window.wpLinkL10n );

@@ -144,11 +144,16 @@
 					'wp_link_remove'
 				], true );
 
-				editToolbar = editor.wp._createToolbar( [
+				var editButtons = [
 					'wp_link_input',
-					'wp_link_apply',
-					'wp_link_advanced'
-				], true );
+					'wp_link_apply'
+				];
+
+				if ( typeof window.wpLink !== 'undefined' ) {
+					editButtons.push( 'wp_link_advanced' );
+				}
+
+				editToolbar = editor.wp._createToolbar( editButtons, true );
 
 				editToolbar.on( 'show', function() {
 					if ( ! tinymce.$( document.body ).hasClass( 'modal-open' ) ) {
@@ -177,11 +182,8 @@
 		} );
 
 		editor.addCommand( 'WP_Link', function() {
-			if ( tinymce.Env.ie && tinymce.Env.ie < 10 ) {
-				if ( typeof window.wpLink !== 'undefined' ) {
-					window.wpLink.open( editor.id );
-				}
-
+			if ( tinymce.Env.ie && tinymce.Env.ie < 10 && typeof window.wpLink !== 'undefined' ) {
+				window.wpLink.open( editor.id );
 				return;
 			}
 
