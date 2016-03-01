@@ -3468,18 +3468,25 @@
 		});
 
 		// Focus the autofocused element
-		_.each( [ 'panel', 'section', 'control' ], function ( type ) {
-			var instance, id = api.settings.autofocus[ type ];
-			if ( id && api[ type ]( id ) ) {
-				instance = api[ type ]( id );
-				// Wait until the element is embedded in the DOM
-				instance.deferred.embedded.done( function () {
-					// Wait until the preview has activated and so active panels, sections, controls have been set
-					api.previewer.deferred.active.done( function () {
+		_.each( [ 'panel', 'section', 'control' ], function( type ) {
+			var id = api.settings.autofocus[ type ];
+			if ( ! id ) {
+				return;
+			}
+
+			/*
+			 * Defer focus until:
+			 * 1. The panel, section, or control exists (especially for dynamically-created ones).
+			 * 2. The instance is embedded in the document (and so is focusable).
+			 * 3. The preview has finished loading so that the active states have been set.
+			 */
+			api[ type ]( id, function( instance ) {
+				instance.deferred.embedded.done( function() {
+					api.previewer.deferred.active.done( function() {
 						instance.focus();
 					});
 				});
-			}
+			});
 		});
 
 		/**

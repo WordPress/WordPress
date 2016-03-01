@@ -1728,7 +1728,7 @@ final class WP_Customize_Manager {
 			'panels'   => array(),
 			'sections' => array(),
 			'nonce'    => $this->get_nonces(),
-			'autofocus' => array(),
+			'autofocus' => $this->get_autofocus(),
 			'documentTitleTmpl' => $this->get_document_title_template(),
 			'previewableDevices' => $this->get_previewable_devices(),
 			'selectiveRefreshEnabled' => isset( $this->selective_refresh ),
@@ -1750,20 +1750,6 @@ final class WP_Customize_Manager {
 						$settings['sections'][ $section_id ] = $section->json();
 					}
 				}
-			}
-		}
-
-		// Pass to front end the Customizer construct being deeplinked.
-		foreach ( $this->get_autofocus() as $type => $id ) {
-			$can_autofocus = (
-				( 'control' === $type && $this->get_control( $id ) && $this->get_control( $id )->check_capabilities() )
-				||
-				( 'section' === $type && isset( $settings['sections'][ $id ] ) )
-				||
-				( 'panel' === $type && isset( $settings['panels'][ $id ] ) )
-			);
-			if ( $can_autofocus ) {
-				$settings['autofocus'][ $type ] = $id;
 			}
 		}
 
