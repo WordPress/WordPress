@@ -811,6 +811,16 @@ tinymce.PluginManager.add('media', function(editor, url) {
 		});
 	});
 
+	editor.on('click keyup', function() {
+		var selectedNode = editor.selection.getNode();
+
+		if (selectedNode && editor.dom.hasClass(selectedNode, 'mce-preview-object')) {
+			if (editor.dom.getAttrib(selectedNode, 'data-mce-selected')) {
+				selectedNode.setAttribute('data-mce-selected', '2');
+			}
+		}
+	});
+
 	editor.on('ObjectSelected', function(e) {
 		var objectType = e.target.getAttribute('data-mce-object');
 
@@ -848,6 +858,18 @@ tinymce.PluginManager.add('media', function(editor, url) {
 		onclick: showDialog,
 		context: 'insert',
 		prependToContext: true
+	});
+
+	editor.on('setContent', function() {
+		// TODO: This shouldn't be needed there should be a way to mark bogus
+		// elements so they are never removed except external save
+		editor.$('span.mce-preview-object').each(function(index, elm) {
+			var $elm = editor.$(elm);
+
+			if ($elm.find('span.mce-shim', elm).length === 0) {
+				$elm.append('<span class="mce-shim"></span>');
+			}
+		});
 	});
 
 	editor.addCommand('mceMedia', showDialog);
