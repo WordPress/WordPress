@@ -709,10 +709,6 @@ p.customize-section-description {
 	position: relative;
 }
 
-.ios #customize-preview {
-	position: relative;
-}
-
 .ios #customize-controls .wp-full-overlay-sidebar-content {
 	-webkit-overflow-scrolling: touch;
 }
