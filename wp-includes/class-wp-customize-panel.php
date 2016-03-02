@@ -368,7 +368,7 @@ class WP_Customize_Panel {
 			<button class="customize-panel-back" tabindex="-1"><span class="screen-reader-text"><?php _e( 'Back' ); ?></span></button>
 			<div class="accordion-section-title">
 				<span class="preview-notice"><?php
-					/* translators: %s is the site/panel title in the Customizer */
+					/* translators: %s: the site/panel title in the Customizer */
 					echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title">{{ data.title }}</strong>' );
 				?></span>
 				<# if ( data.description ) { #>
