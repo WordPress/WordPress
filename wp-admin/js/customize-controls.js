@@ -685,7 +685,7 @@
 						// Fix the height after browser resize.
 						$( window ).on( 'resize.customizer-section', _.debounce( resizeContentHeight, 100 ) );
 
-						section._recalculateTopMargin();
+						setTimeout( _.bind( section._recalculateTopMargin, section ), 0 );
 					};
 				}
 
