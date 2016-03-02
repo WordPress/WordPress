@@ -103,7 +103,7 @@ class WP_Links_List_Table extends WP_List_Table {
 				'selected' => $cat_id,
 				'name' => 'cat_id',
 				'taxonomy' => 'link_category',
-				'show_option_all' => __( 'All categories' ),
+				'show_option_all' => get_taxonomy( 'link_category' )->labels->all_items,
 				'hide_empty' => true,
 				'hierarchical' => 1,
 				'show_count' => 0,
