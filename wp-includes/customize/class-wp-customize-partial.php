@@ -272,9 +272,12 @@ class WP_Customize_Partial {
 	 * @since 4.5.0
 	 * @access public
 	 *
+	 * @param WP_Customize_Partial $partial Partial.
+	 * @param array                $context Context.
 	 * @return string|array|false
 	 */
-	public function render_callback() {
+	public function render_callback( WP_Customize_Partial $partial, $context = array() ) {
+		unset( $partial, $context );
 		return false;
 	}
 
