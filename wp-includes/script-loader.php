@@ -224,6 +224,14 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-ui-tooltip', "/wp-includes/js/jquery/ui/tooltip$dev_suffix.js", array( 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-position' ), '1.11.4', 1 );
 	$scripts->add( 'jquery-ui-widget', "/wp-includes/js/jquery/ui/widget$dev_suffix.js", array('jquery'), '1.11.4', 1 );
 
+	// Strings for 'jquery-ui-autocomplete' live region messages
+	did_action( 'init' ) && $scripts->localize( 'jquery-ui-autocomplete', 'uiAutocompleteL10n', array(
+			'noResults' => __( 'No search results.' ),
+			/* translators: Number of results found when using jQuery UI Autocomplete */
+			'oneResult' => __( '1 result found. Use up and down arrow keys to navigate.' ),
+			'manyResults' => __( '%d results found. Use up and down arrow keys to navigate.' ),
+	) );
+
 	// deprecated, not used in core, most functionality is included in jQuery 1.3
 	$scripts->add( 'jquery-form', "/wp-includes/js/jquery/jquery.form$suffix.js", array('jquery'), '3.37.0', 1 );
 

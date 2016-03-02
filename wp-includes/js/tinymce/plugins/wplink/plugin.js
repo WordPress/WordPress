@@ -365,6 +365,18 @@
 						minLength: 2,
 						position: {
 							my: 'left top+2'
+						},
+						messages: {
+							noResults: ( typeof window.uiAutocompleteL10n !== 'undefined' ) ? window.uiAutocompleteL10n.noResults : '',
+							results: function( number ) {
+								if ( typeof window.uiAutocompleteL10n !== 'undefined' ) {
+									if ( number > 1 ) {
+										return window.uiAutocompleteL10n.manyResults.replace( '%d', number );
+									}
+
+									return window.uiAutocompleteL10n.oneResult;
+								}
+							}
 						}
 					} ).autocomplete( 'instance' )._renderItem = function( ul, item ) {
 						return $( '<li role="option" id="mce-wp-autocomplete-' + item.ID + '">' )
