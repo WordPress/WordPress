@@ -827,6 +827,23 @@ div.mce-menu .mce-menu-item-sep,
 	border-right-color: #23282d;
 }
 
+.mce-notification button.mce-close {
+	width: 20px;
+    left: 6px;
+    top: 9px;
+    font-weight: normal;
+    color: #555d66;
+}
+
+.mce-notification button.mce-close:hover,
+.mce-notification button.mce-close:focus {
+	color: #000;
+}
+
+.mce-notification.mce-notification-info.mce-has-close {
+	padding-left: 24px;
+}
+
 i.mce-i-bold,
 i.mce-i-italic,
 i.mce-i-bullist,
