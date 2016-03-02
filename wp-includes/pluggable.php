@@ -2293,7 +2293,7 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	 * Filter whether to retrieve the avatar URL early.
 	 *
 	 * Passing a non-null value will effectively short-circuit get_avatar(), passing
-	 * the value through the {@see 'pre_get_avatar'} filter and returning early.
+	 * the value through the {@see 'get_avatar'} filter and returning early.
 	 *
 	 * @since 4.2.0
 	 *
