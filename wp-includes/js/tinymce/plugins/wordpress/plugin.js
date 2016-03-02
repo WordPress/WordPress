@@ -566,7 +566,22 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				wp.autosave.server.triggerSave();
 			}
 		} );
+
+		if ( window.getUserSetting( 'editor_plain_text_paste_warning' ) > 1 ) {
+			editor.settings.paste_plaintext_inform = false;
+		}
 	} );
+
+	editor.on( 'PastePlainTextToggle', function( event ) {
+		// Warn twice, then stop.
+		if ( event.state === true ) {
+			var times = parseInt( window.getUserSetting( 'editor_plain_text_paste_warning' ), 10 ) || 0;
+
+			if ( times < 2 ) {
+				window.setUserSetting( 'editor_plain_text_paste_warning', ++times );
+			}
+		}
+	});
 
 	/**
 	 * Experimental: create a floating toolbar.
