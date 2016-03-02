@@ -708,8 +708,15 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			$output = $wp_version;
 			break;
 		case 'language':
-			$output = get_locale();
-			$output = str_replace('_', '-', $output);
+			/* translators: Translate this to the correct language tag for your locale,
+			 * see https://www.w3.org/International/articles/language-tags/ for reference.
+			 * Do not translate into your own language.
+			 */
+			$output = __( 'html_lang_attribute' );
+			if ( 'html_lang_attribute' === $output || preg_match( '/[^a-zA-Z0-9-]/', $output ) ) {
+				$output = get_locale();
+				$output = str_replace( '_', '-', $output );
+			}
 			break;
 		case 'text_direction':
 			_deprecated_argument( __FUNCTION__, '2.2', sprintf(
