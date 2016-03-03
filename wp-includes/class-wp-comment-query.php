@@ -150,7 +150,7 @@ class WP_Comment_Query {
 	 * @since 4.4.0 `$parent__in` and `$parent__not_in` were added.
 	 * @since 4.4.0 Order by `comment__in` was added. `$update_comment_meta_cache`, `$no_found_rows`,
 	 *              `$hierarchical`, and `$update_comment_post_cache` were added.
-	 * @since 4.5.0 `$author_url` was added.
+	 * @since 4.5.0 Introduced the `$author_url` argument.
 	 * @access public
 	 *
 	 * @param string|array $query {
