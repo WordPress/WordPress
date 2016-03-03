@@ -2303,14 +2303,14 @@
 	});
 
 	/**
-	 * A control for selecting Site Logos.
+	 * A control for selecting custom logos.
 	 *
 	 * @class
 	 * @augments wp.customize.MediaControl
 	 * @augments wp.customize.Control
 	 * @augments wp.customize.Class
 	 */
-	api.SiteLogoControl = api.MediaControl.extend({
+	api.CustomLogoControl = api.MediaControl.extend({
 
 		/**
 		 * When the control's DOM structure is ready,
@@ -2330,7 +2330,7 @@
 
 			control.setting.bind( function( attachmentId ) {
 				wp.media.attachment( attachmentId ).fetch().done( function() {
-					wp.customize.previewer.send( 'site-logo-attachment-data', this.attributes );
+					wp.customize.previewer.send( 'custom-logo-attachment-data', this.attributes );
 				} );
 
 				// Re-render whenever the control's setting changes.
@@ -3245,7 +3245,7 @@
 		image:         api.ImageControl,
 		cropped_image: api.CroppedImageControl,
 		site_icon:     api.SiteIconControl,
-		site_logo:     api.SiteLogoControl,
+		custom_logo:   api.CustomLogoControl,
 		header:        api.HeaderControl,
 		background:    api.BackgroundControl,
 		theme:         api.ThemeControl

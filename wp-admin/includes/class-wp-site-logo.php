@@ -1,6 +1,6 @@
 <?php
 /**
- * Administration API: WP_Site_Logo class
+ * Administration API: WP_Custom_Logo class
  *
  * @package WordPress
  * @subpackage Administration
@@ -8,11 +8,11 @@
  */
 
 /**
- * Core class used to implement site logo functionality.
+ * Core class used to implement custom logo functionality.
  *
  * @since 4.5.0
  */
-class WP_Site_Logo {
+class WP_Custom_Logo {
 
 	/**
 	 * Get current logo settings stored in theme mod.
@@ -34,13 +34,13 @@ class WP_Site_Logo {
 	 */
 	public function head_text_styles() {
 		// Bail if our theme supports custom headers.
-		if ( current_theme_supports( 'custom-header' ) || get_theme_mod( 'site_logo_header_text', true ) ) {
+		if ( current_theme_supports( 'custom-header' ) || get_theme_mod( 'custom_logo_header_text', true ) ) {
 			return;
 		}
 
 		// Is Display Header Text unchecked? If so, hide the header text.
 		?>
-		<!-- Site Logo: hide header text -->
+		<!-- Custom Logo: hide header text -->
 		<style type="text/css">
 			<?php echo sanitize_html_class( $this->header_text_classes() ); ?>  {
 				position: absolute;
@@ -51,7 +51,7 @@ class WP_Site_Logo {
 	}
 
 	/**
-	 * Resets the site logo if the current logo is deleted in the media manager.
+	 * Reset the custom logo if the current logo is deleted in the media manager.
 	 *
 	 * @since 4.5.0
 	 * @access public
@@ -59,10 +59,10 @@ class WP_Site_Logo {
 	 * @param int $post_id Post ID.
 	 */
 	public function delete_attachment_data( $post_id ) {
-		$site_logo_id = get_theme_mod( 'site_logo' );
+		$custom_logo_id = get_theme_mod( 'custom_logo' );
 
-		if ( $site_logo_id && $site_logo_id == $post_id ) {
-			remove_theme_mod( 'site_logo' );
+		if ( $custom_logo_id && $custom_logo_id == $post_id ) {
+			remove_theme_mod( 'custom_logo' );
 		}
 	}
 
@@ -105,7 +105,7 @@ class WP_Site_Logo {
 	 * @return string String of classes to hide.
 	 */
 	protected function header_text_classes() {
-		$args = get_theme_support( 'site-logo' );
+		$args = get_theme_support( 'custom-logo' );
 
 		if ( isset( $args[0]['header-text'] ) ) {
 			// Use any classes defined in add_theme_support().
@@ -131,8 +131,8 @@ class WP_Site_Logo {
 }
 
 /**
- * WP_Site_Logo instance.
+ * WP_Custom_Logo instance.
  *
- * @global WP_Site_Logo $wp_site_logo
+ * @global WP_Custom_Logo $wp_custom_logo
  */
-$GLOBALS['wp_site_logo'] = new WP_Site_Logo;
+$GLOBALS['wp_custom_logo'] = new WP_Custom_Logo;

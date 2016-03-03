@@ -1,6 +1,6 @@
 <?php
 /**
- * Customize API: WP_Customize_Site_Logo_Control class
+ * Customize API: WP_Customize_Custom_Logo_Control class
  *
  * @package WordPress
  * @subpackage Customize
@@ -8,7 +8,7 @@
  */
 
 /**
- * Customize Site Logo control class.
+ * Customize custom logo control class.
  *
  * Used only for custom functionality in JavaScript.
  *
@@ -16,7 +16,7 @@
  *
  * @see WP_Customize_Image_Control
  */
-class WP_Customize_Site_Logo_Control extends WP_Customize_Image_Control {
+class WP_Customize_Custom_Logo_Control extends WP_Customize_Image_Control {
 
 	/**
 	 * Control type.
@@ -25,7 +25,7 @@ class WP_Customize_Site_Logo_Control extends WP_Customize_Image_Control {
 	 * @access public
 	 * @var string
 	 */
-	public $type = 'site_logo';
+	public $type = 'custom_logo';
 
 	/**
 	 * Constructor.

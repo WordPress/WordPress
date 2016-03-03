@@ -1848,7 +1848,7 @@ final class WP_Customize_Manager {
 		$this->register_control_type( 'WP_Customize_Background_Image_Control' );
 		$this->register_control_type( 'WP_Customize_Cropped_Image_Control' );
 		$this->register_control_type( 'WP_Customize_Site_Icon_Control' );
-		$this->register_control_type( 'WP_Customize_Site_Logo_Control' );
+		$this->register_control_type( 'WP_Customize_Custom_Logo_Control' );
 		$this->register_control_type( 'WP_Customize_Theme_Control' );
 
 		/* Themes */
@@ -1960,22 +1960,22 @@ final class WP_Customize_Manager {
 			'width'       => 512,
 		) ) );
 
-		$this->add_setting( 'site_logo', array(
-			'theme_supports' => array( 'site-logo' ),
+		$this->add_setting( 'custom_logo', array(
+			'theme_supports' => array( 'custom-logo' ),
 			'transport'      => 'postMessage',
 		) );
 
-		$this->add_control( new WP_Customize_Site_Logo_Control( $this, 'site_logo', array(
+		$this->add_control( new WP_Customize_Custom_Logo_Control( $this, 'custom_logo', array(
 			'label'    => __( 'Logo' ),
 			'section'  => 'title_tagline',
 			'priority' => 0,
 		) ) );
 
 		if ( isset( $this->selective_refresh ) ) {
-			$this->selective_refresh->add_partial( 'site_logo', array(
-				'settings'            => array( 'site_logo' ),
-				'selector'            => '.site-logo-link',
-				'render_callback'     => array( $this, '_render_site_logo_partial' ),
+			$this->selective_refresh->add_partial( 'custom_logo', array(
+				'settings'            => array( 'custom_logo' ),
+				'selector'            => '.custom-logo-link',
+				'render_callback'     => array( $this, '_render_custom_logo_partial' ),
 				'container_inclusive' => true,
 			) );
 		}
@@ -2211,10 +2211,10 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Callback for rendering the site logo, used in the site_logo partial.
+	 * Callback for rendering the custom logo, used in the custom_logo partial.
 	 *
 	 * This method exists because the partial object and context data are passed
-	 * into a partial's render_callback so we cannot use get_the_site_logo() as
+	 * into a partial's render_callback so we cannot use get_custom_logo() as
 	 * the render_callback directly since it expects a blog ID as the first
 	 * argument. When WP no longer supports PHP 5.3, this method can be removed
 	 * in favor of an anonymous function.
@@ -2224,10 +2224,10 @@ final class WP_Customize_Manager {
 	 * @since 4.5.0
 	 * @access private
 	 *
-	 * @return string Site logo.
+	 * @return string Custom logo.
 	 */
-	public function _render_site_logo_partial() {
-		return get_the_site_logo();
+	public function _render_custom_logo_partial() {
+		return get_custom_logo();
 	}
 }
 

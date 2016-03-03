@@ -224,9 +224,9 @@
 		});
 
 		/**
-		 * Site Logo
+		 * Custom Logo
 		 *
-		 * The site logo setting only contains the attachment ID. To avoid having to send an AJAX request to get more
+		 * The custom logo setting only contains the attachment ID. To avoid having to send an AJAX request to get more
 		 * data, we send a separate message with the attachment data we get from the Customizer's media modal.
 		 * Therefore first callback handles only the event of a new logo being selected.
 		 *
@@ -234,8 +234,8 @@
 		 *
 		 * @since 4.5.0
 		 */
-		api.preview.bind( 'site-logo-attachment-data', function( attachment ) {
-			var $logo  = $( '.site-logo' ),
+		api.preview.bind( 'custom-logo-attachment-data', function( attachment ) {
+			var $logo  = $( '.custom-logo' ),
 				size   = $logo.data( 'size' ),
 				srcset = [];
 
@@ -255,27 +255,25 @@
 				srcset: srcset
 			} );
 
-			$( '.site-logo-link' ).show();
-			$( 'body' ).addClass( 'wp-site-logo' );
+			$( '.custom-logo-link' ).show();
 		} );
 
-		api( 'site_logo', function( setting ) {
+		api( 'custom_logo', function( setting ) {
 			setting.bind( function( newValue ) {
 				if ( ! newValue ) {
-					$( '.site-logo-link' ).hide();
-					$( 'body' ).removeClass( 'wp-site-logo' );
+					$( '.custom-logo-link' ).hide();
 				}
 			} );
 
-			// Focus on the control when the logo is clicked, if there is no site_logo partial.
-			if ( ! api.selectiveRefresh || ! api.selectiveRefresh.partial.has( 'site_logo' ) ) {
-				$( document.body ).on( 'click', '.site-logo-link', function( e ) {
+			// Focus on the control when the logo is clicked, if there is no custom_logo partial.
+			if ( ! api.selectiveRefresh || ! api.selectiveRefresh.partial.has( 'custom_logo' ) ) {
+				$( document.body ).on( 'click', '.custom-logo-link', function( e ) {
 					if ( ! e.shiftKey ) {
 						return;
 					}
-					api.preview.send( 'focus-control-for-setting', 'site_logo' );
+					api.preview.send( 'focus-control-for-setting', 'custom_logo' );
 				} );
-				$( '.site-logo-link' ).attr( 'title', api.settings.l10n.shiftClickToEdit );
+				$( '.custom-logo-link' ).attr( 'title', api.settings.l10n.shiftClickToEdit );
 			}
 		} );
 
