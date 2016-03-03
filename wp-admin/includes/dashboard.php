@@ -309,7 +309,7 @@ function wp_dashboard_right_now() {
 		 * Prior to 3.8.0, the widget was named 'Right Now'.
 		 *
 		 * @since 3.0.0
-		 * @since 4.5.0 No title attribute output by default.
+		 * @since 4.5.0 The default for `$title` was updated to an empty string.
 		 *
 		 * @param string $title Default attribute text.
 		 */
