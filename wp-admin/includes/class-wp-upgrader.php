@@ -799,14 +799,16 @@ class WP_Upgrader {
 	}
 
 	/**
- 	 * Release a lock created by `WP_Upgrader::create_lock()`.
+ 	 * Releases an upgrader lock.
  	 *
  	 * @since 4.5.0
  	 * @access public
  	 * @static
+	 *
+	 * @see WP_Upgrader::create_lock()
  	 *
  	 * @param string $lock_name The name of this unique lock.
- 	 * @return bool
+	 * @return bool True if the lock was successfully released. False on failure.
  	 */
 	public static function release_lock( $lock_name ) {
 		return delete_option( $lock_name . '.lock' );
