@@ -27,7 +27,7 @@ class WP_Site_Logo {
 	}
 
 	/**
-	 * Hide header text on front end if necessary.
+	 * Hides header text on the front end if necessary.
 	 *
 	 * @since 4.5.0
 	 * @access public
@@ -38,7 +38,7 @@ class WP_Site_Logo {
 			return;
 		}
 
-		// Is Display Header Text unchecked? If so, we need to hide our header text.
+		// Is Display Header Text unchecked? If so, hide the header text.
 		?>
 		<!-- Site Logo: hide header text -->
 		<style type="text/css">
@@ -51,12 +51,12 @@ class WP_Site_Logo {
 	}
 
 	/**
-	 * Reset the site logo if the current logo is deleted in the media manager.
+	 * Resets the site logo if the current logo is deleted in the media manager.
 	 *
 	 * @since 4.5.0
 	 * @access public
 	 *
-	 * @param int $post_id
+	 * @param int $post_id Post ID.
 	 */
 	public function delete_attachment_data( $post_id ) {
 		$site_logo_id = get_theme_mod( 'site_logo' );
@@ -67,7 +67,7 @@ class WP_Site_Logo {
 	}
 
 	/**
-	 * Make custom image sizes available to the media manager.
+	 * Makes custom image sizes available to the media manager.
 	 *
 	 * @since 4.5.0
 	 * @access public
@@ -80,7 +80,7 @@ class WP_Site_Logo {
 		// Get an array of all registered image sizes.
 		$intermediate = get_intermediate_image_sizes();
 
-		// Have we got anything fun to work with?
+		// Is there anything fun to work with?
 		if ( is_array( $intermediate ) && ! empty( $intermediate ) ) {
 			foreach ( $intermediate as $key => $size ) {
 
@@ -95,12 +95,14 @@ class WP_Site_Logo {
 	}
 
 	/**
-	 * Get header text classes. If not defined in add_theme_support(), defaults from Underscores will be used.
+	 * Retrieves the header text classes.
+	 *
+	 * If not defined in add_theme_support(), defaults from Underscores will be used.
 	 *
 	 * @since 4.5.0
 	 * @access protected
 	 *
-	 * @return string String of classes to hide
+	 * @return string String of classes to hide.
 	 */
 	protected function header_text_classes() {
 		$args = get_theme_support( 'site-logo' );
@@ -116,7 +118,7 @@ class WP_Site_Logo {
 			);
 		}
 
-		// If we've got an array, reduce them to a string for output.
+		// If there's an array of classes, reduce them to a string for output.
 		if ( is_array( $classes ) ) {
 			$classes = array_map( 'sanitize_html_class', $classes );
 			$classes = (string) '.' . implode( ', .', $classes );
