@@ -1539,13 +1539,13 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	$user = get_userdata( $user_id );
 
 	/**
-	 * Filter the content of the welcome email after user activation.
+	 * Filters the content of the welcome email after user activation.
 	 *
 	 * Content should be formatted for transmission via wp_mail().
 	 *
 	 * @since MU
 	 *
-	 * @param type   $welcome_email The message body of the account activation success email.
+	 * @param string $welcome_email The message body of the account activation success email.
 	 * @param int    $user_id       User ID.
 	 * @param string $password      User password.
 	 * @param array  $meta          Signup meta data.
