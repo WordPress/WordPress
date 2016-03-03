@@ -72,13 +72,13 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Add nonce for customizing menus.
+	 * Adds a nonce for customizing menus.
 	 *
 	 * @since 4.5.0
 	 * @access public
 	 *
-	 * @param  array $nonces Array of nonces.
-	 * @return array $nonces Array of nonces.
+	 * @param array $nonces Array of nonces.
+	 * @return array $nonces Modified array of nonces.
 	 */
 	public function filter_nonces( $nonces ) {
 		$nonces['customize-menus'] = wp_create_nonce( 'customize-menus' );
