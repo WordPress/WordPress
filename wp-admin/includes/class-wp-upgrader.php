@@ -752,15 +752,16 @@ class WP_Upgrader {
 	}
 
 	/**
- 	 * Create a Lock using WordPress options.
+ 	 * Creates a lock using WordPress options.
  	 *
  	 * @since 4.5.0
  	 * @access public
  	 * @static
  	 *
  	 * @param string $lock_name       The name of this unique lock.
- 	 * @param int    $release_timeout The duration in seconds to respect an existing lock. Default: 1 hour.
- 	 * @return bool
+ 	 * @param int    $release_timeout Optional. The duration in seconds to respect an existing lock.
+	 *                                Default: 1 hour.
+ 	 * @return bool False if a lock couldn't be created or if the lock is no longer valid. True otherwise.
  	 */
 	public static function create_lock( $lock_name, $release_timeout = null ) {
 		global $wpdb;
@@ -769,18 +770,18 @@ class WP_Upgrader {
 		}
 		$lock_option = $lock_name . '.lock';
 
-		// Try to lock
+		// Try to lock.
 		$lock_result = $wpdb->query( $wpdb->prepare( "INSERT IGNORE INTO `$wpdb->options` ( `option_name`, `option_value`, `autoload` ) VALUES (%s, %s, 'no') /* LOCK */", $lock_option, time() ) );
 
 		if ( ! $lock_result ) {
 			$lock_result = get_option( $lock_option );
 
-			// If we couldn't create a lock, and there isn't a lock, bail
+			// If a lock couldn't be created, and there isn't a lock, bail.
 			if ( ! $lock_result ) {
 				return false;
 			}
 
-			// Check to see if the lock is still valid
+			// Check to see if the lock is still valid. If not, bail.
 			if ( $lock_result > ( time() - $release_timeout ) ) {
 				return false;
 			}
@@ -791,7 +792,7 @@ class WP_Upgrader {
 			return WP_Upgrader::create_lock( $lock_name, $release_timeout );
 		}
 
-		// Update the lock, as by this point we've definitely got a lock, just need to fire the actions
+		// Update the lock, as by this point we've definitely got a lock, just need to fire the actions.
 		update_option( $lock_option, time() );
 
 		return true;
