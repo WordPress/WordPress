@@ -1,5 +1,5 @@
 ( function( window, document, settings ) {
-	var src, ready;
+	var src, ready, ii, tests;
 
 	/**
 	 * Detect if the browser supports rendering emoji or flag emoji. Flag emoji are a single glyph
@@ -7,7 +7,7 @@
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param type {String} Whether to test for support of "simple" or "flag" emoji.
+	 * @param type {String} Whether to test for support of "simple", "flag", "diversity" or "unicode8" emoji.
 	 * @return {Boolean} True if the browser can render emoji, false if it cannot.
 	 */
 	function browserSupportsEmoji( type ) {
@@ -28,46 +28,48 @@
 		context.textBaseline = 'top';
 		context.font = '600 32px Arial';
 
-		if ( 'flag' === type ) {
-			/*
-			 * This works because the image will be one of three things:
-			 * - Two empty squares, if the browser doesn't render emoji
-			 * - Two squares with 'A' and 'U' in them, if the browser doesn't render flag emoji
-			 * - The Australian flag
-			 *
-			 * The first two will encode to small images (1-2KB data URLs), the third will encode
-			 * to a larger image (4-5KB data URL).
-			 */
-			context.fillText( stringFromCharCode( 55356, 56806, 55356, 56826 ), 0, 0 );
-			return canvas.toDataURL().length > 3000;
-		} else if ( 'diversity' === type ) {
-			/*
-			 * This tests if the browser supports the Emoji Diversity specification, by rendering an
-			 * emoji with no skin tone specified (in this case, Santa). It then adds a skin tone, and
-			 * compares if the emoji rendering has changed.
-			 */
-			context.fillText( stringFromCharCode( 55356, 57221 ), 0, 0 );
-			tone = context.getImageData( 16, 16, 1, 1 ).data.toString();
-			context.fillText( stringFromCharCode( 55356, 57221, 55356, 57343 ), 0, 0 );
-			// Chrome has issues comparing arrays, so we compare it as a  string, instead.
-			return tone !== context.getImageData( 16, 16, 1, 1 ).data.toString();
-		} else {
-			if ( 'simple' === type ) {
+		switch ( type ) {
+			case 'flag':
+				/*
+				 * This works because the image will be one of three things:
+				 * - Two empty squares, if the browser doesn't render emoji
+				 * - Two squares with 'A' and 'U' in them, if the browser doesn't render flag emoji
+				 * - The Australian flag
+				 *
+				 * The first two will encode to small images (1-2KB data URLs), the third will encode
+				 * to a larger image (4-5KB data URL).
+				 */
+				context.fillText( stringFromCharCode( 55356, 56806, 55356, 56826 ), 0, 0 );
+				return canvas.toDataURL().length > 3000;
+			case 'diversity':
+				/*
+				 * This tests if the browser supports the Emoji Diversity specification, by rendering an
+				 * emoji with no skin tone specified (in this case, Santa). It then adds a skin tone, and
+				 * compares if the emoji rendering has changed.
+				 */
+				context.fillText( stringFromCharCode( 55356, 57221 ), 0, 0 );
+				tone = context.getImageData( 16, 16, 1, 1 ).data.toString();
+				context.fillText( stringFromCharCode( 55356, 57221, 55356, 57343 ), 0, 0 );
+				// Chrome has issues comparing arrays, so we compare it as a  string, instead.
+				return tone !== context.getImageData( 16, 16, 1, 1 ).data.toString();
+			case 'simple':
 				/*
 				 * This creates a smiling emoji, and checks to see if there is any image data in the
 				 * center pixel. In browsers that don't support emoji, the character will be rendered
 				 * as an empty square, so the center pixel will be blank.
 				 */
 				context.fillText( stringFromCharCode( 55357, 56835 ), 0, 0 );
-			} else {
+				return context.getImageData( 16, 16, 1, 1 ).data[0] !== 0;
+			case 'unicode8':
 				/*
 				 * To check for Unicode 8 support, let's try rendering the most important advancement
 				 * that the Unicode Consortium have made in years: the burrito.
 				 */
 				context.fillText( stringFromCharCode( 55356, 57135 ), 0, 0 );
-			}
-			return context.getImageData( 16, 16, 1, 1 ).data[0] !== 0;
+				return context.getImageData( 16, 16, 1, 1 ).data[0] !== 0;
 		}
+
+		return false;
 	}
 
 	function addScript( src ) {
@@ -78,19 +80,30 @@
 		document.getElementsByTagName( 'head' )[0].appendChild( script );
 	}
 
+	tests = Array( 'simple', 'flag', 'unicode8', 'diversity' );
+
 	settings.supports = {
-		simple:    browserSupportsEmoji( 'simple' ),
-		flag:      browserSupportsEmoji( 'flag' ),
-		unicode8:  browserSupportsEmoji( 'unicode8' ),
-		diversity: browserSupportsEmoji( 'diversity' )
+		everything: true
 	};
+
+	for( ii = 0; ii < tests.length; ii++ ) {
+		settings.supports[ tests[ ii ] ] = browserSupportsEmoji( tests[ ii ] );
+
+		settings.supports.everything = settings.supports.everything && settings.supports[ tests[ ii ] ];
+
+		if ( 'flag' !== tests[ ii ] ) {
+			settings.supports.everythingExceptFlag = settings.supports.everythingExceptFlag && settings.supports[ tests[ ii ] ];
+		}
+	}
+
+	settings.supports.everythingExceptFlag = settings.supports.everythingExceptFlag && ! settings.supports.flag;
 
 	settings.DOMReady = false;
 	settings.readyCallback = function() {
 		settings.DOMReady = true;
 	};
 
-	if ( ! settings.supports.simple || ! settings.supports.flag || ! settings.supports.unicode8 || ! settings.supports.diversity ) {
+	if ( ! settings.supports.everything ) {
 		ready = function() {
 			settings.readyCallback();
 		};
