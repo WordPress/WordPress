@@ -986,7 +986,7 @@ function uninstall_plugin($plugin) {
 	$uninstallable_plugins = (array) get_option('uninstall_plugins');
 
 	/**
-	 * Fires in uninstall_plugin() before the plugin is uninstalled.
+	 * Fires in uninstall_plugin() immediately before the plugin is uninstalled.
 	 *
 	 * @since 4.5.0
 	 *
