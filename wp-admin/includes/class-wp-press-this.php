@@ -309,7 +309,7 @@ class WP_Press_This {
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param array $elements Default list of useful elements.
+		 * @param array $useful_html_elements Default list of useful elements.
 		 */
 		$useful_html_elements = apply_filter( 'press_this_useful_html_elements', $useful_html_elements );
 
