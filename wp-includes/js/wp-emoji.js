@@ -3,15 +3,6 @@
 	function wpEmoji() {
 		var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
 
-		/**
-		 * Flag to determine if we should replace emoji characters with images.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @var Boolean
-		 */
-		replaceEmoji = false,
-
 		// Private
 		twemoji, timer,
 		loaded = false,
@@ -154,7 +145,6 @@
 				ext: settings.ext,
 				className: args.className || 'emoji',
 				callback: function( icon, options ) {
-					var keys, ii;
 					// Ignore some standard characters that TinyMCE recommends in its character map.
 					switch ( icon ) {
 						case 'a9':
