@@ -217,7 +217,7 @@ final class WP_Customize_Manager {
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-image-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-cropped-image-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-site-icon-control.php' );
-		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-site-logo-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-custom-logo-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-header-image-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-theme-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-widget-area-customize-control.php' );

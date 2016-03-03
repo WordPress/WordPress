@@ -73,7 +73,7 @@ require_once(ABSPATH . 'wp-admin/includes/user.php');
 require_once(ABSPATH . 'wp-admin/includes/class-wp-site-icon.php');
 
 /** WordPress Custom Logo API */
-require_once(ABSPATH . 'wp-admin/includes/class-wp-site-logo.php');
+require_once(ABSPATH . 'wp-admin/includes/class-wp-custom-logo.php');
 
 /** WordPress Update Administration API */
 require_once(ABSPATH . 'wp-admin/includes/update.php');
