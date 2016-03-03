@@ -23,7 +23,6 @@ class WP_Custom_Logo {
 	public function __construct() {
 		add_action( 'wp_head', array( $this, 'head_text_styles' ) );
 		add_action( 'delete_attachment', array( $this, 'delete_attachment_data' ) );
-		add_filter( 'image_size_names_choose', array( $this, 'media_manager_image_sizes' ) );
 	}
 
 	/**
@@ -64,34 +63,6 @@ class WP_Custom_Logo {
 		if ( $custom_logo_id && $custom_logo_id == $post_id ) {
 			remove_theme_mod( 'custom_logo' );
 		}
-	}
-
-	/**
-	 * Makes custom image sizes available to the media manager.
-	 *
-	 * @since 4.5.0
-	 * @access public
-	 *
-	 * @param array $sizes Image sizes.
-	 * @return array All default and registered custom image sizes.
-	 */
-	public function media_manager_image_sizes( $sizes ) {
-
-		// Get an array of all registered image sizes.
-		$intermediate = get_intermediate_image_sizes();
-
-		// Is there anything fun to work with?
-		if ( is_array( $intermediate ) && ! empty( $intermediate ) ) {
-			foreach ( $intermediate as $key => $size ) {
-
-				// If the size isn't already in the $sizes array, add it.
-				if ( ! array_key_exists( $size, $sizes ) ) {
-					$sizes[ $size ] = $size;
-				}
-			}
-		}
-
-		return $sizes;
 	}
 
 	/**
