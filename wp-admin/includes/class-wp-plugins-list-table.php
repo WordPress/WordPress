@@ -65,7 +65,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	/**
 	 *
 	 * @global string $status
-	 * @global type   $plugins
+	 * @global array  $plugins
 	 * @global array  $totals
 	 * @global int    $page
 	 * @global string $orderby
