@@ -78,23 +78,25 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		wp_reset_vars( array( 'orderby', 'order' ) );
 
 		/**
-		 * Filter the full array of plugins to list in the Plugins list table.
+		 * Filters the full array of plugins to list in the Plugins list table.
 		 *
 		 * @since 3.0.0
 		 *
 		 * @see get_plugins()
 		 *
-		 * @param array $plugins An array of plugins to display in the list table.
+		 * @param array $all_plugins An array of plugins to display in the list table.
 		 */
+		$all_plugins = apply_filters( 'all_plugins', get_plugins() );
+
 		$plugins = array(
-			'all' => apply_filters( 'all_plugins', get_plugins() ),
-			'search' => array(),
-			'active' => array(),
-			'inactive' => array(),
+			'all'                => $all_plugins,
+			'search'             => array(),
+			'active'             => array(),
+			'inactive'           => array(),
 			'recently_activated' => array(),
-			'upgrade' => array(),
-			'mustuse' => array(),
-			'dropins' => array()
+			'upgrade'            => array(),
+			'mustuse'            => array(),
+			'dropins'            => array(),
 		);
 
 		$screen = $this->screen;
