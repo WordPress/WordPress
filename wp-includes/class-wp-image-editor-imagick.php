@@ -654,10 +654,12 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	}
 
 	/**
-	 * Strip all image meta except color profiles from an image.
+	 * Strips all image meta except color profiles from an image.
 	 *
-	 * @access protected
 	 * @since 4.5.0
+	 * @access protected
+	 *
+	 * @return true|WP_Error True if stripping metadata was successful. WP_Error object on error.
 	 */
 	protected function strip_meta() {
 		try {
