@@ -1475,13 +1475,14 @@ final class WP_Customize_Widgets {
 	 */
 
 	/**
-	 * Filter args for dynamic widget partials.
+	 * Filters arguments for dynamic widget partials.
 	 *
 	 * @since 4.5.0
+	 * @access public
 	 *
-	 * @param array|false $partial_args Partial args.
-	 * @param string      $partial_id  Partial ID.
-	 * @return array Partial args
+	 * @param array|false $partial_args Partial arguments.
+	 * @param string      $partial_id   Partial ID.
+	 * @return array (Maybe) modified partial arguments.
 	 */
 	public function customize_dynamic_partial_args( $partial_args, $partial_id ) {
 
