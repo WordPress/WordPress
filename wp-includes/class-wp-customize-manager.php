@@ -217,7 +217,6 @@ final class WP_Customize_Manager {
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-image-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-cropped-image-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-site-icon-control.php' );
-		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-custom-logo-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-header-image-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-theme-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-widget-area-customize-control.php' );
@@ -1848,7 +1847,6 @@ final class WP_Customize_Manager {
 		$this->register_control_type( 'WP_Customize_Background_Image_Control' );
 		$this->register_control_type( 'WP_Customize_Cropped_Image_Control' );
 		$this->register_control_type( 'WP_Customize_Site_Icon_Control' );
-		$this->register_control_type( 'WP_Customize_Custom_Logo_Control' );
 		$this->register_control_type( 'WP_Customize_Theme_Control' );
 
 		/* Themes */
@@ -1965,10 +1963,20 @@ final class WP_Customize_Manager {
 			'transport'      => 'postMessage',
 		) );
 
-		$this->add_control( new WP_Customize_Custom_Logo_Control( $this, 'custom_logo', array(
+		$this->add_control( new WP_Customize_Media_Control( $this, 'custom_logo', array(
 			'label'    => __( 'Logo' ),
 			'section'  => 'title_tagline',
 			'priority' => 0,
+			'mime_type' => 'image',
+			'button_labels' => array(
+				'select'       => __( 'Select logo' ),
+				'change'       => __( 'Change logo' ),
+				'remove'       => __( 'Remove' ),
+				'default'      => __( 'Default' ),
+				'placeholder'  => __( 'No logo selected' ),
+				'frame_title'  => __( 'Select logo' ),
+				'frame_button' => __( 'Choose logo' ),
+			),
 		) ) );
 
 		if ( isset( $this->selective_refresh ) ) {

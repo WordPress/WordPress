@@ -234,7 +234,7 @@
 		 *
 		 * @since 4.5.0
 		 */
-		api.preview.bind( 'custom-logo-attachment-data', function( attachment ) {
+		api.preview.bind( 'custom_logo-attachment-data', function( attachment ) {
 			var $logo  = $( '.custom-logo' ),
 				size   = $logo.data( 'size' ),
 				srcset = [];
