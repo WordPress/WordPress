@@ -112,7 +112,7 @@ class WP_Press_This {
 			wp_send_json_error( array( 'errorMessage' => __( 'Invalid post.' ) ) );
 		}
 
-		$post = array(
+		$post_data = array(
 			'ID'            => $post_id,
 			'post_title'    => ( ! empty( $_POST['post_title'] ) ) ? sanitize_text_field( trim( $_POST['post_title'] ) ) : '',
 			'post_content'  => ( ! empty( $_POST['post_content'] ) ) ? trim( $_POST['post_content'] ) : '',
@@ -125,34 +125,33 @@ class WP_Press_This {
 
 		if ( ! empty( $_POST['post_status'] ) && 'publish' === $_POST['post_status'] ) {
 			if ( current_user_can( 'publish_posts' ) ) {
-				$post['post_status'] = 'publish';
+				$post_data['post_status'] = 'publish';
 			} else {
-				$post['post_status'] = 'pending';
+				$post_data['post_status'] = 'pending';
 			}
 		}
 
-		$post['post_content'] = $this->side_load_images( $post_id, $post['post_content'] );
+		$post_data['post_content'] = $this->side_load_images( $post_id, $post_data['post_content'] );
 
 		/**
-		 * Filter the post_content of a Press This post before saving/updating, after
+		 * Filter the post data of a Press This post before saving/updating, after
 		 * side_load_images action had run.
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param string $content Content after side_load_images process.
-		 * @param int    $post_id Post ID.
+		 * @param array $post_data The post data.
 		 */
-		$post['post_content'] = apply_filters( 'press_this_save_post_content', $post['post_content'], $post_id );
+		$post_data = apply_filters( 'press_this_save_post', $post_data );
 
-		$updated = wp_update_post( $post, true );
+		$updated = wp_update_post( $post_data, true );
 
 		if ( is_wp_error( $updated ) ) {
 			wp_send_json_error( array( 'errorMessage' => $updated->get_error_message() ) );
 		} else {
-			if ( isset( $post['post_format'] ) ) {
-				if ( current_theme_supports( 'post-formats', $post['post_format'] ) ) {
-					set_post_format( $post_id, $post['post_format'] );
-				} elseif ( $post['post_format'] ) {
+			if ( isset( $post_data['post_format'] ) ) {
+				if ( current_theme_supports( 'post-formats', $post_data['post_format'] ) ) {
+					set_post_format( $post_id, $post_data['post_format'] );
+				} elseif ( $post_data['post_format'] ) {
 					set_post_format( $post_id, false );
 				}
 			}
@@ -178,7 +177,7 @@ class WP_Press_This {
 			 * @param int    $post_id Post ID.
 			 * @param string $status  Post status.
 			 */
-			$redirect = apply_filters( 'press_this_save_redirect', $redirect, $post_id, $post['post_status'] );
+			$redirect = apply_filters( 'press_this_save_redirect', $redirect, $post_id, $post_data['post_status'] );
 
 			if ( $redirect ) {
 				wp_send_json_success( array( 'redirect' => $redirect, 'force' => $forceRedirect ) );
@@ -283,7 +282,7 @@ class WP_Press_This {
 			return $remote_url;
 		}
 
-		$useful_html_elements = array(
+		$allowed_elements = array(
 			'img' => array(
 				'src'      => true,
 				'width'    => true,
@@ -304,17 +303,8 @@ class WP_Press_This {
 			)
 		);
 
-		/**
-		 * Filter 'useful' HTML elements list for fetch source step.
-		 *
-		 * @since 4.5.0
-		 *
-		 * @param array $useful_html_elements Default list of useful elements.
-		 */
-		$useful_html_elements = apply_filter( 'press_this_useful_html_elements', $useful_html_elements );
-
 		$source_content = wp_remote_retrieve_body( $remote_url );
-		$source_content = wp_kses( $source_content, $useful_html_elements );
+		$source_content = wp_kses( $source_content, $allowed_elements );
 
 		return $source_content;
 	}
@@ -1181,12 +1171,17 @@ class WP_Press_This {
 		}
 
 		/**
-		 * Filter the default HTML for the Press This editor.
+		 * Filter the default HTML tags used in the suggested content for the editor.
+		 *
+		 * The HTML strings use printf format. After filtering the content is added at the specified places with `sprintf()`.
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param array $default_html Associative array with two keys: 'quote' where %1$s is replaced with the site description
-		 *                            or the selected content, and 'link' there %1$s is link href, %2$s is link text.
+		 * @param array $default_html Associative array with three possible keys:
+		 *                                - 'quote' where %1$s is replaced with the site description or the selected content.
+		 *                                - 'link' where %1$s is link href, %2$s is link text, usually the source page title.
+		 *                                - 'embed' which contains an [embed] shortcode when the source page offers embeddable content.
+		 * @param array $data         Associative array containing the data from the source page.
 		 */
 		$default_html = apply_filters( 'press_this_suggested_html', $default_html, $data );
 
@@ -1212,15 +1207,6 @@ class WP_Press_This {
 				$content .= sprintf( $default_html['link'], $url, $title );
 			}
 		}
-
-		/**
-		 * Filter the assembled HTML for the Press This editor.
-		 *
-		 * @since 4.5.0
-		 *
-		 * @param string $content Assembled end output of suggested content for the Press This editor.
-		 */
-		$content = apply_filters( 'press_this_suggested_content', $content );
 
 		return $content;
 	}
