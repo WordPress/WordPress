@@ -364,7 +364,7 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 				esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $plugin_name, $r->new_version ) ),
 				$r->new_version,
 				wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $file, 'upgrade-plugin_' . $file ),
-				/* translators: %û: plugin name */
+				/* translators: %s: plugin name */
 				esc_attr( sprintf( __( 'Update %s now' ), $plugin_name ) )
 			);
 		}
