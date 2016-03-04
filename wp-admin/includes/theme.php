@@ -166,17 +166,35 @@ function get_theme_update_available( $theme ) {
 
 		if ( !is_multisite() ) {
 			if ( ! current_user_can('update_themes') ) {
-				/* translators: 1: theme name, 2: theme details URL, 3: theme version number */
-				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox">View version %3$s details</a>.' ) . '</strong></p>',
-					$theme_name, esc_url( $details_url ), $update['new_version'] );
+				/* translators: 1: theme name, 2: theme details URL, 3: accessibility text, 4: version number */
+				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" aria-label="%3$s">View version %4$s details</a>.' ) . '</strong></p>',
+					$theme_name,
+					esc_url( $details_url ),
+					/* translators: 1: theme name, 2: version number */
+					esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $update['new_version'] ) ),
+					$update['new_version']
+				);
 			} elseif ( empty( $update['package'] ) ) {
-				/* translators: 1: theme name, 2: theme details URL, 3: theme version number */
-				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox">View version %3$s details</a>. <em>Automatic update is unavailable for this theme.</em>' ) . '</strong></p>',
-					$theme_name, esc_url( $details_url ), $update['new_version'] );
+				/* translators: 1: theme name, 2: theme details URL, 3: accessibility text, 4: version number */
+				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" aria-label="%3$s">View version %4$s details</a>. <em>Automatic update is unavailable for this theme.</em>' ) . '</strong></p>',
+					$theme_name,
+					esc_url( $details_url ),
+					/* translators: 1: theme name, 2: version number */
+					esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $update['new_version'] ) ),
+					$update['new_version']
+				);
 			} else {
-				/* translators: 1: theme name, 2: theme details URL, 3: theme version number, 4: theme update URL */
-				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox">View version %3$s details</a> or <a href="%4$s">update now</a>.' ) . '</strong></p>',
-					$theme_name, esc_url( $details_url ), $update['new_version'], $update_url );
+				/* translators: 1: theme name, 2: theme details URL, 3: accessibility text, 4: version number, 5: update URL, 6: accessibility text */
+				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" aria-label="%3$s">View version %4$s details</a> or <a href="%5$s" aria-label="%6$s">update now</a>.' ) . '</strong></p>',
+					$theme_name,
+					esc_url( $details_url ),
+					/* translators: 1: theme name, 2: version number */
+					esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $update['new_version'] ) ),
+					$update['new_version'],
+					$update_url,
+					/* translators: %s: theme name */
+					esc_attr( sprintf( __( 'Update %s now' ), $theme_name ) )
+				);
 			}
 		}
 	}
