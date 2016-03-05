@@ -51,18 +51,22 @@ $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'edit';
 
 /*
  * If a JSON blob of navigation menu data is found, expand it and inject it
- * into `$_POST` to avoid PHP `max_input_vars` limitations. See #14134. 
+ * into `$_POST` to avoid PHP `max_input_vars` limitations. See #14134.
  */
 if ( isset( $_POST['nav-menu-data'] ) ) {
 	$data = json_decode( stripslashes( $_POST['nav-menu-data'] ) );
 	if ( ! is_null( $data ) && $data ) {
 		foreach ( $data as $post_input_data ) {
 			// For input names that are arrays (e.g. `menu-item-db-id[3]`), derive the array path keys via regex.
-			if ( preg_match( '#(.*)(?:\[(\d+)\])#', $post_input_data->name, $matches ) ) {
+			if ( preg_match( '#(.*)\[(\w+)\]#', $post_input_data->name, $matches ) ) {
 				if ( empty( $_POST[ $matches[1] ] ) ) {
 					$_POST[ $matches[1] ] = array();
 				}
-				$_POST[ $matches[1] ][ (int) $matches[2] ] = wp_slash( $post_input_data->value );
+				// Cast input elements with a numeric array index to integers.
+				if ( is_numeric( $matches[2] ) ) {
+					$matches[2] = (int) $matches[2];
+				}
+				$_POST[ $matches[1] ][ $matches[2] ] = wp_slash( $post_input_data->value );
 			} else {
 				$_POST[ $post_input_data->name ] = wp_slash( $post_input_data->value );
 			}
