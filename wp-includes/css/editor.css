@@ -51,17 +51,19 @@
 	padding: 0 36px 0 16px;
 }
 
-.mce-window .mce-window-head .mce-close {
+.mce-window .mce-window-head .mce-close,
+.mce-window-head .mce-close .mce-i-remove {
 	color: transparent;
 	top: 0;
 	right: 0;
 	width: 36px;
 	height: 36px;
+	padding: 0;
 	line-height: 36px;
 	text-align: center;
 }
 
-.mce-window .mce-window-head .mce-close:before {
+.mce-window-head .mce-close .mce-i-remove:before {
 	font: normal 20px/36px dashicons;
 	text-align: center;
 	color: #666;
@@ -70,8 +72,17 @@
 	display: block;
 }
 
-.mce-window .mce-window-head .mce-close:hover:before {
+.mce-window-head .mce-close:hover .mce-i-remove:before,
+.mce-window-head .mce-close:focus .mce-i-remove:before {
 	color: #00a0d2;
+}
+
+.mce-window-head .mce-close:focus .mce-i-remove,
+div.mce-tab:focus {
+	-webkit-box-shadow: 0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow: 0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .mce-window .mce-window-head .mce-dragh {
@@ -828,20 +839,15 @@ div.mce-menu .mce-menu-item-sep,
 }
 
 .mce-notification button.mce-close {
-	width: 20px;
-    right: 6px;
-    top: 9px;
-    font-weight: normal;
-    color: #555d66;
+	right: 6px;
+	top: 3px;
+	font-weight: normal;
+	color: #555d66;
 }
 
 .mce-notification button.mce-close:hover,
 .mce-notification button.mce-close:focus {
 	color: #000;
-}
-
-.mce-notification.mce-notification-info.mce-has-close {
-	padding-right: 24px;
 }
 
 i.mce-i-bold,
@@ -881,7 +887,7 @@ i.mce-i-wp_page,
 i.mce-i-hr,
 i.mce-i-wp_code,
 i.mce-i-dashicon,
-.mce-close {
+i.mce-i-remove {
 	font: normal 20px/1 dashicons;
 	padding: 0;
 	vertical-align: top;
@@ -1025,7 +1031,7 @@ i.mce-i-hr:before {
 	content: "\f460";
 }
 
-.mce-close:before {
+i.mce-i-remove:before {
 	content: "\f158";
 }
 
