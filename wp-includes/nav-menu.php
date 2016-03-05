@@ -767,7 +767,8 @@ function wp_setup_nav_menu_item( $menu_item ) {
 				}
 
 				$menu_item->type_label = __( 'Post Type Archive' );
-				$menu_item->description = '';
+				$post_content = wp_trim_words( $menu_item->post_content, 200 );
+				$post_type_description = '' == $post_content ? $object->description : $post_content; 
 				$menu_item->url = get_post_type_archive_link( $menu_item->object );
 			} elseif ( 'taxonomy' == $menu_item->type ) {
 				$object = get_taxonomy( $menu_item->object );
