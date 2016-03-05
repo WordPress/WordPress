@@ -1480,6 +1480,121 @@ body.full-overlay-active {
 	transition-duration: 0.2s;
 }
 
+/* Device/preview size toggles */
+
+.wp-full-overlay {
+	background: #191e23;
+}
+
+.wp-full-overlay-main {
+	background-color: #f1f1f1;
+}
+
+.expanded .wp-full-overlay-footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 300px;
+	height: 45px;
+	border-top: 1px solid #ddd;
+}
+
+.wp-full-overlay-footer .devices {
+	float: right;
+}
+
+.wp-full-overlay-footer .devices button {
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	height: 45px;
+	padding: 0 3px;
+	margin: 0 0 0 -4px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border-top: 1px solid transparent;
+	border-bottom: 4px solid transparent;
+	-webkit-transition: background .1s ease-in-out;
+	transition: background .1s ease-in-out;
+}
+
+.wp-full-overlay-footer .devices button:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none;
+}
+
+.wp-full-overlay-footer .devices button:before {
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 20px/30px "dashicons";
+	vertical-align: top;
+	margin: 3px 0;
+	padding: 4px 8px;
+	color: #656a6f;
+}
+
+.wp-full-overlay-footer .devices button.active {
+	border-bottom-color: #191e23;
+}
+
+.wp-full-overlay-footer .devices button:hover,
+.wp-full-overlay-footer .devices button:focus {
+	background-color: #fff;
+}
+
+.wp-full-overlay-footer .devices button:focus {
+	background-color: #fff;
+	border-bottom-color: #0073aa;
+}
+
+.wp-full-overlay-footer .devices button.active:before,
+.wp-full-overlay-footer .devices button:hover:before,
+.wp-full-overlay-footer .devices button:focus:before {
+	color: #191e23;
+}
+
+.wp-full-overlay-footer .devices .preview-desktop:before {
+	content: "\f472";
+}
+
+.wp-full-overlay-footer .devices .preview-tablet:before {
+	content: "\f471";
+}
+
+.wp-full-overlay-footer .devices .preview-mobile:before {
+	content: "\f470";
+}
+
+@media screen and (max-width:1024px) {
+	.wp-full-overlay-footer .devices {
+		display: none;
+	}
+}
+
+.collapsed .wp-full-overlay-footer .devices button:before {
+	display: none;
+}
+
+.preview-mobile .wp-full-overlay-main {
+	margin: auto 0 auto -160px;
+	width: 320px;
+	height: 480px;
+	max-height: 100%;
+	max-width: 100%;
+	left: 50%;
+}
+
+.preview-tablet .wp-full-overlay-main {
+	margin: auto 0 auto -3in;
+	width: 6in; /* Size is loosely based on a typical "tablet" device size. Intentionally ambiguous - this does not represent any particular device precisely. */
+	height: 9in;
+	max-height: 100%;
+	max-width: 100%;
+	left: 50%;
+}
+
+
 /*------------------------------------------------------------------------------
   24.0 - Customize Loader
 ------------------------------------------------------------------------------*/
@@ -1600,7 +1715,7 @@ body.full-overlay-active {
 }
 
 .theme-install-overlay .wp-full-overlay-main {
-	position: relative;
+	position: absolute;
 	z-index: 0;
 	background-color: #f1f1f1;
 }
