@@ -774,9 +774,9 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'thickbox',            '/wp-includes/js/thickbox/thickbox.css', array( 'dashicons' ) );
 
 	// Deprecated CSS
-	$styles->add( 'media',      "/wp-admin/css/deprecated-media$suffix.css" );
-	$styles->add( 'farbtastic', '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
-	$styles->add( 'jcrop',      "/wp-includes/js/jcrop/jquery.Jcrop.min.css", array(), '0.9.12' );
+	$styles->add( 'deprecated-media', "/wp-admin/css/deprecated-media$suffix.css" );
+	$styles->add( 'farbtastic',       '/wp-admin/css/farbtastic.css', array(), '1.3u1' );
+	$styles->add( 'jcrop',            "/wp-includes/js/jcrop/jquery.Jcrop.min.css", array(), '0.9.12' );
 	$styles->add( 'colors-fresh', false, array( 'wp-admin', 'buttons' ) ); // Old handle.
 
 	// RTL CSS
@@ -789,7 +789,7 @@ function wp_default_styles( &$styles ) {
 		'buttons', 'admin-bar', 'wp-auth-check', 'editor-buttons', 'media-views', 'wp-pointer',
 		'wp-jquery-ui-dialog',
 		// deprecated
-		'media', 'farbtastic',
+		'deprecated-media', 'farbtastic',
 	);
 
 	foreach ( $rtl_styles as $rtl_style ) {

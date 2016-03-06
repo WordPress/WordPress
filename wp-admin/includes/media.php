@@ -455,7 +455,7 @@ wp_enqueue_style( 'colors' );
 // Check callback name for 'media'
 if ( ( is_array( $content_func ) && ! empty( $content_func[1] ) && 0 === strpos( (string) $content_func[1], 'media' ) )
 	|| ( ! is_array( $content_func ) && 0 === strpos( $content_func, 'media' ) ) )
-	wp_enqueue_style( 'media' );
+	wp_enqueue_style( 'deprecated-media' );
 wp_enqueue_style( 'ie' );
 ?>
 <script type="text/javascript">
