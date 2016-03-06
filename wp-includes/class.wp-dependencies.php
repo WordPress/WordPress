@@ -77,6 +77,7 @@ class WP_Dependencies {
 	 *
 	 * @access public
 	 * @since 2.8.0
+	 * @deprecated 4.5.0
 	 * @var int
 	 */
 	public $group = 0;
@@ -161,7 +162,8 @@ class WP_Dependencies {
 			if ( in_array($handle, $this->done, true) ) // Already done
 				continue;
 
-			$moved = $this->set_group( $handle, $recursion, $group );
+			$moved     = $this->set_group( $handle, $recursion, $group );
+			$new_group = $this->groups[ $handle ];
 
 			if ( $queued && !$moved ) // already queued and in the right group
 				continue;
@@ -171,7 +173,7 @@ class WP_Dependencies {
 				$keep_going = false; // Item doesn't exist.
 			elseif ( $this->registered[$handle]->deps && array_diff($this->registered[$handle]->deps, array_keys($this->registered)) )
 				$keep_going = false; // Item requires dependencies that don't exist.
-			elseif ( $this->registered[$handle]->deps && !$this->all_deps( $this->registered[$handle]->deps, true, $group ) )
+			elseif ( $this->registered[$handle]->deps && !$this->all_deps( $this->registered[$handle]->deps, true, $new_group ) )
 				$keep_going = false; // Item requires dependencies that don't exist.
 
 			if ( ! $keep_going ) { // Either item or its dependencies don't exist.
@@ -397,16 +399,12 @@ class WP_Dependencies {
 	public function set_group( $handle, $recursion, $group ) {
 		$group = (int) $group;
 
-		if ( $recursion ) {
-			$group = min( $this->group, $group );
+		if ( isset( $this->groups[ $handle ] ) && $this->groups[ $handle ] <= $group ) {
+			return false;
 		}
 
-		$this->group = $group;
+		$this->groups[ $handle ] = $group;
 
-		if ( isset($this->groups[$handle]) && $this->groups[$handle] <= $group )
-			return false;
-
-		$this->groups[$handle] = $group;
 		return true;
 	}
 
