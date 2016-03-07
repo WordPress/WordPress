@@ -1529,6 +1529,12 @@ body.adding-widget .add-new-widget:before,
 		margin-right: 0;
 	}
 
+	/* when the sidebar is collapsed and switching to responsive view,
+	   bring it back see ticket #35220 */
+	.wp-full-overlay.collapsed #customize-controls {
+		margin-right: 0;
+	}
+
 	.wp-full-overlay-sidebar .wp-full-overlay-sidebar-content {
 		bottom: 0;
 	}
