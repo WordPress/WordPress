@@ -123,6 +123,10 @@ td {
 	text-align: left;
 }
 
+fieldset {
+	min-width: inherit;
+}
+
 blockquote:before,
 blockquote:after,
 q:before,

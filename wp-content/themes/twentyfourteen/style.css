@@ -347,6 +347,7 @@ figure {
 fieldset {
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	margin: 0 0 24px;
+	min-width: inherit;
 	padding: 11px 12px 0;
 }
 
