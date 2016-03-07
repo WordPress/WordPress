@@ -405,6 +405,37 @@ function get_single_template() {
 }
 
 /**
+ * Retrieve path of embed template in current or parent template.
+ * By default the WordPress-template is returned.
+ *
+ * The template path is filterable via the dynamic {@see '$type_template'} hook,
+ * e.g. 'embed_template'.
+ *
+ * @since 4.5.0
+ *
+ * @see get_query_template()
+ *
+ * @return string Full path to embed template file.
+ */
+function get_embed_template() {
+	$object = get_queried_object();
+
+	$templates = array();
+
+	if ( ! empty( $object->post_type ) ) {
+		$post_format = get_post_format( $object );
+		if ( $post_format ) {
+			$templates[] = "embed-{$object->post_type}-{$post_format}.php";
+		}
+		$templates[] = "embed-{$object->post_type}.php";
+	}
+
+	$templates[] = "embed.php";
+
+	return get_query_template( 'embed', $templates );
+}
+
+/**
  * Retrieves the path of the singular template in current or parent template.
  *
  * The template path is filterable via the dynamic {@see '$type_template'} hook,
