@@ -928,7 +928,7 @@ function get_edit_term_link( $term_id, $taxonomy = '', $object_type = '' ) {
 
 	$args = array(
 		'taxonomy' => $taxonomy,
-		'term_id'  => $term->term_id,
+		'tag_ID'   => $term->term_id,
 	);
 
 	if ( $object_type ) {

@@ -573,7 +573,7 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
 					'href' => get_permalink( $post->ID )
 				) );
 			}
-		} elseif ( 'edit-tags' == $current_screen->base
+		} elseif ( 'term' == $current_screen->base
 			&& isset( $tag ) && is_object( $tag ) && ! is_wp_error( $tag )
 			&& ( $tax = get_taxonomy( $tag->taxonomy ) )
 			&& $tax->public )

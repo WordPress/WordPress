@@ -304,6 +304,7 @@ final class WP_Screen {
 					}
 					break;
 				case 'edit-tags' :
+				case 'term' :
 					if ( null === $post_type && is_object_in_taxonomy( 'post', $taxonomy ? $taxonomy : 'post_tag' ) )
 						$post_type = 'post';
 					break;
@@ -322,6 +323,7 @@ final class WP_Screen {
 				$id .= '-' . $post_type;
 				break;
 			case 'edit-tags' :
+			case 'term' :
 				if ( null === $taxonomy )
 					$taxonomy = 'post_tag';
 				// The edit-tags ID does not contain the post type. Look for it in the request.
