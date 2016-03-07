@@ -837,6 +837,7 @@ hr {
 }
 
 abbr.required,
+span.required,
 .file-error,
 .widget-control-remove:hover,
 .row-actions .delete a:hover,

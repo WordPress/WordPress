@@ -1464,8 +1464,9 @@ function get_media_item( $attachment_id, $args = null ) {
 	$item .= "
 		</thead>
 		<tbody>
-		<tr><td colspan='2' class='imgedit-response' id='imgedit-response-$post->ID'></td></tr>
-		<tr><td style='display:none' colspan='2' class='image-editor' id='image-editor-$post->ID'></td></tr>\n";
+		<tr><td colspan='2' class='imgedit-response' id='imgedit-response-$post->ID'></td></tr>\n
+		<tr><td style='display:none' colspan='2' class='image-editor' id='image-editor-$post->ID'></td></tr>\n
+		<tr><td colspan='2'><p class='media-types media-types-required-info'>" . sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) . "</p></td></tr>\n";
 
 	$defaults = array(
 		'input'      => 'text',
@@ -1537,12 +1538,13 @@ function get_media_item( $attachment_id, $args = null ) {
 			continue;
 		}
 
-		$required      = $field['required'] ? '<span class="alignright"><abbr title="required" class="required">*</abbr></span>' : '';
-		$aria_required = $field['required'] ? " aria-required='true' " : '';
+		$required      = $field['required'] ? '<span class="required">*</span>' : '';
+		$required_attr = $field['required'] ? ' required' : '';
+		$aria_required = $field['required'] ? " aria-required='true'" : '';
 		$class  = $id;
 		$class .= $field['required'] ? ' form-required' : '';
 
-		$item .= "\t\t<tr class='$class'>\n\t\t\t<th scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label></th>\n\t\t\t<td class='field'>";
+		$item .= "\t\t<tr class='$class'>\n\t\t\t<th scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}{$required}</span><br class='clear' /></label></th>\n\t\t\t<td class='field'>";
 		if ( !empty( $field[ $field['input'] ] ) )
 			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
@@ -1551,9 +1553,9 @@ function get_media_item( $attachment_id, $args = null ) {
 				$field['value'] = htmlspecialchars( $field['value'], ENT_QUOTES );
 			}
 			// Post_excerpt is already escaped by sanitize_post() in get_attachment_fields_to_edit().
-			$item .= "<textarea id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
+			$item .= "<textarea id='$name' name='$name'{$required_attr}{$aria_required}>" . $field['value'] . '</textarea>';
 		} else {
-			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
+			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "'{$required_attr}{$aria_required} />";
 		}
 		if ( !empty( $field['helps'] ) )
 			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
@@ -1690,8 +1692,9 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 		}
 
 		$readonly      = ! $user_can_edit && ! empty( $field['taxonomy'] ) ? " readonly='readonly' " : '';
-		$required      = $field['required'] ? '<span class="alignright"><abbr title="required" class="required">*</abbr></span>' : '';
-		$aria_required = $field['required'] ? " aria-required='true' " : '';
+		$required      = $field['required'] ? '<span class="required">*</span>' : '';
+		$required_attr = $field['required'] ? ' required' : '';
+		$aria_required = $field['required'] ? " aria-required='true'" : '';
 		$class  = 'compat-field-' . $id;
 		$class .= $field['required'] ? ' form-required' : '';
 
@@ -1706,9 +1709,9 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 				// sanitize_post() skips the post_content when user_can_richedit.
 				$field['value'] = htmlspecialchars( $field['value'], ENT_QUOTES );
 			}
-			$item .= "<textarea id='$id_attr' name='$name' $aria_required>" . $field['value'] . '</textarea>';
+			$item .= "<textarea id='$id_attr' name='$name'{$required_attr}{$aria_required}>" . $field['value'] . '</textarea>';
 		} else {
-			$item .= "<input type='text' class='text' id='$id_attr' name='$name' value='" . esc_attr( $field['value'] ) . "' $readonly $aria_required />";
+			$item .= "<input type='text' class='text' id='$id_attr' name='$name' value='" . esc_attr( $field['value'] ) . "' $readonly{$required_attr}{$aria_required} />";
 		}
 		if ( !empty( $field['helps'] ) )
 			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
@@ -1732,8 +1735,12 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	if ( !empty( $form_fields['_final'] ) )
 		$item .= "\t\t<tr class='final'><td colspan='2'>{$form_fields['_final']}</td></tr>\n";
-	if ( $item )
-		$item = '<table class="compat-attachment-fields">' . $item . '</table>';
+
+	if ( $item ) {
+		$item = '<p class="media-types media-types-required-info">' .
+			sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) . '</p>
+			<table class="compat-attachment-fields">' . $item . '</table>';
+	}
 
 	foreach ( $hidden_fields as $hidden_field => $value ) {
 		$item .= '<input type="hidden" name="' . esc_attr( $hidden_field ) . '" value="' . esc_attr( $value ) . '" />' . "\n";
@@ -2111,7 +2118,7 @@ var addExtImage = {
 		t.width = t.height = '';
 		document.getElementById('go_button').style.color = '#bbb';
 		if ( ! document.forms[0].src.value )
-			document.getElementById('status_img').innerHTML = '*';
+			document.getElementById('status_img').innerHTML = '';
 		else document.getElementById('status_img').innerHTML = '<img src="<?php echo esc_url( admin_url( 'images/no.png' ) ); ?>" alt="" />';
 	},
 
@@ -2541,21 +2548,21 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 
 	return '
 	<p class="media-types"><label><input type="radio" name="media_type" value="image" id="image-only"' . checked( 'image-only', $view, false ) . ' /> ' . __( 'Image' ) . '</label> &nbsp; &nbsp; <label><input type="radio" name="media_type" value="generic" id="not-image"' . checked( 'not-image', $view, false ) . ' /> ' . __( 'Audio, Video, or Other File' ) . '</label></p>
+	<p class="media-types media-types-required-info">' . sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) . '</p>
 	<table class="describe ' . $table_class . '"><tbody>
 		<tr>
 			<th scope="row" class="label" style="width:130px;">
-				<label for="src"><span class="alignleft">' . __('URL') . '</span></label>
-				<span class="alignright"><abbr id="status_img" title="required" class="required">*</abbr></span>
+				<label for="src"><span class="alignleft">' . __( 'URL' ) . '</span> <span class="required">*</span></label>
+				<span class="alignright" id="status_img"></span>
 			</th>
-			<td class="field"><input id="src" name="src" value="" type="text" aria-required="true" onblur="addExtImage.getImageData()" /></td>
+			<td class="field"><input id="src" name="src" value="" type="text" required aria-required="true" onblur="addExtImage.getImageData()" /></td>
 		</tr>
 
 		<tr>
 			<th scope="row" class="label">
-				<label for="title"><span class="alignleft">' . __('Title') . '</span></label>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+				<label for="title"><span class="alignleft">' . __( 'Title' ) . '</span> <span class="required">*</span></label>
 			</th>
-			<td class="field"><input id="title" name="title" value="" type="text" aria-required="true" /></td>
+			<td class="field"><input id="title" name="title" value="" type="text" required aria-required="true" /></td>
 		</tr>
 
 		<tr class="not-image"><td></td><td><p class="help">' . __('Link text, e.g. &#8220;Ransom Demands (PDF)&#8221;') . '</p></td></tr>

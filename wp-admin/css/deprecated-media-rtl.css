@@ -152,7 +152,8 @@ thead.media-item-info tr {
 	border: 8px solid #fff;
 }
 
-abbr.required {
+abbr.required,
+span.required {
 	text-decoration: none;
 	border: none;
 }
@@ -364,7 +365,12 @@ h4.media-sub-title {
 }
 
 p.media-types {
+	margin: 0;
 	padding: 1em;
+}
+
+p.media-types-required-info {
+	padding-top: 0;
 }
 
 tr.not-image {
