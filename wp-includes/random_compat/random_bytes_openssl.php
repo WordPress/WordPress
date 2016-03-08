@@ -48,12 +48,13 @@ function random_bytes($bytes)
             'random_bytes(): $bytes must be an integer'
         );
     }
+
     if ($bytes < 1) {
         throw new Error(
             'Length must be greater than 0'
         );
     }
-    $secure = true;
+
     /**
      * $secure is passed by reference. If it's set to false, fail. Note
      * that this will only return false if this function fails to return
@@ -61,12 +62,18 @@ function random_bytes($bytes)
      * 
      * @ref https://github.com/paragonie/random_compat/issues/6#issuecomment-119564973
      */
+    $secure = true;
     $buf = openssl_random_pseudo_bytes($bytes, $secure);
-    if ($buf !== false && $secure) {
-        if (RandomCompat_strlen($buf) === $bytes) {
-            return $buf;
-        }
+    if (
+        $buf !== false
+        &&
+        $secure
+        &&
+        RandomCompat_strlen($buf) === $bytes
+    ) {
+        return $buf;
     }
+
     /**
      * If we reach here, PHP has failed us.
      */
