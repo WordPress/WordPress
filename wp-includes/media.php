@@ -3362,7 +3362,7 @@ function wp_enqueue_media( $args = array() ) {
 		'filterByDate'           => __( 'Filter by date' ),
 		'filterByType'           => __( 'Filter by type' ),
 		'searchMediaLabel'       => __( 'Search Media' ),
-		'noMedia'                => __( 'No media attachments found.' ),
+		'noMedia'                => __( 'No media files found.' ),
 
 		// Library Details
 		'attachmentDetails'  => __( 'Attachment Details' ),

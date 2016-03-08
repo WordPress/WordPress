@@ -213,7 +213,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	 * @access public
 	 */
 	public function no_items() {
-		_e( 'No media attachments found.' );
+		_e( 'No media files found.' );
 	}
 
 	/**
