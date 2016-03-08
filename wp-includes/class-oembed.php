@@ -309,6 +309,9 @@ class WP_oEmbed {
 	 */
 	public function discover( $url ) {
 		$providers = array();
+		$args = array(
+			'limit_response_size' => 153600, // 150 KB
+		);
 
 		/**
 		 * Filter oEmbed remote get arguments.
@@ -320,7 +323,7 @@ class WP_oEmbed {
 		 * @param array  $args oEmbed remote get arguments.
 		 * @param string $url  URL to be inspected.
 		 */
-		$args = apply_filters( 'oembed_remote_get_args', array(), $url );
+		$args = apply_filters( 'oembed_remote_get_args', $args, $url );
 
 		// Fetch URL content
 		$request = wp_safe_remote_get( $url, $args );
@@ -342,7 +345,9 @@ class WP_oEmbed {
 			) );
 
 			// Strip <body>
-			$html = substr( $html, 0, stripos( $html, '</head>' ) );
+			if ( $html_head_end = stripos( $html, '</head>' ) ) {
+				$html = substr( $html, 0, $html_head_end );
+			}
 
 			// Do a quick check
 			$tagfound = false;
