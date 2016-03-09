@@ -1,6 +1,6 @@
 <?php
 /**
- * Lazy-loader for WordPress object metadata
+ * Meta API: WP_Metadata_Lazyloader class
  *
  * @package WordPress
  * @subpackage Meta
