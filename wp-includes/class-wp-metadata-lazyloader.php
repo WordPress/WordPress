@@ -1,7 +1,14 @@
 <?php
+/**
+ * Lazy-loader for WordPress object metadata
+ *
+ * @package WordPress
+ * @subpackage Meta
+ * @since 4.5.0
+ */
 
 /**
- * Lazyloader for object metadata.
+ * Core class used for lazy-loading object metadata.
  *
  * When loading many objects of a given type, such as posts in a WP_Query loop, it often makes
  * sense to prime various metadata caches at the beginning of the loop. This means fetching all
