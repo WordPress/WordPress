@@ -1966,7 +1966,7 @@ final class WP_Customize_Manager {
 		$this->add_control( new WP_Customize_Media_Control( $this, 'custom_logo', array(
 			'label'    => __( 'Logo' ),
 			'section'  => 'title_tagline',
-			'priority' => 0,
+			'priority' => 8,
 			'mime_type' => 'image',
 			'button_labels' => array(
 				'select'       => __( 'Select logo' ),
