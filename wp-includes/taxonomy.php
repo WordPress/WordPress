@@ -2973,7 +2973,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
  *                                    Will replace all existing related terms in this taxonomy.
  * @param string           $taxonomy  The context in which to relate the term to the object.
  * @param bool             $append    Optional. If false will delete difference of terms. Default false.
- * @return array|WP_Error Affected Term IDs.
+ * @return array|WP_Error Term taxonomy IDs of the affected terms.
  */
 function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	global $wpdb;
@@ -3094,7 +3094,7 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
  * @param int              $object_id The ID of the object to which the terms will be added.
  * @param array|int|string $terms     The slug(s) or ID(s) of the term(s) to add.
  * @param array|string     $taxonomy  Taxonomy name.
- * @return array|WP_Error Affected Term IDs
+ * @return array|WP_Error Term taxonomy IDs of the affected terms.
  */
 function wp_add_object_terms( $object_id, $terms, $taxonomy ) {
 	return wp_set_object_terms( $object_id, $terms, $taxonomy, true );

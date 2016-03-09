@@ -3866,7 +3866,7 @@ function wp_add_post_tags( $post_id = 0, $tags = '' ) {
  *                              separated by commas. Default empty.
  * @param bool         $append  Optional. If true, don't delete existing tags, just add on. If false,
  *                              replace the tags with the new tags. Default false.
- * @return array|false|WP_Error Array of affected term IDs. WP_Error or false on failure.
+ * @return array|false|WP_Error Array of term taxonomy IDs of affected terms. WP_Error or false on failure.
  */
 function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
 	return wp_set_post_terms( $post_id, $tags, 'post_tag', $append);
@@ -3885,7 +3885,7 @@ function wp_set_post_tags( $post_id = 0, $tags = '', $append = false ) {
  * @param string       $taxonomy Optional. Taxonomy name. Default 'post_tag'.
  * @param bool         $append   Optional. If true, don't delete existing terms, just add on. If false,
  *                               replace the terms with the new terms. Default false.
- * @return array|false|WP_Error Array of affected term IDs. WP_Error or false on failure.
+ * @return array|false|WP_Error Array of term taxonomy IDs of affected terms. WP_Error or false on failure.
  */
 function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $append = false ) {
 	$post_id = (int) $post_id;
@@ -3928,7 +3928,7 @@ function wp_set_post_terms( $post_id = 0, $tags = '', $taxonomy = 'post_tag', $a
  *                                   Default empty array.
  * @param bool      $append         If true, don't delete existing categories, just add on.
  *                                  If false, replace the categories with the new categories.
- * @return array|bool|WP_Error
+ * @return array|false|WP_Error Array of term taxonomy IDs of affected categories. WP_Error or false on failure.
  */
 function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $append = false ) {
 	$post_ID = (int) $post_ID;
