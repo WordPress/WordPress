@@ -62,25 +62,21 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			'writeimage',
 			'getimageblob',
 			'getimagegeometry',
-			'getimagedepth',
 			'getimageformat',
 			'setimageformat',
 			'setimagecompression',
 			'setimagecompressionquality',
-			'setimagedepth',
 			'setimagepage',
-			'setimageproperty',
-			'setinterlacescheme',
+			'setoption',
 			'scaleimage',
 			'cropimage',
 			'rotateimage',
 			'flipimage',
 			'flopimage',
-			'unsharpmaskimage',
 		);
 
 		// Now, test for deep requirements within Imagick.
-		if ( ! ( defined( 'imagick::COMPRESSION_JPEG' ) && defined( 'imagick::FILTER_TRIANGLE' ) ) )
+		if ( ! defined( 'imagick::COMPRESSION_JPEG' ) )
 			return false;
 
 		if ( array_diff( $required_methods, get_class_methods( 'Imagick' ) ) )
@@ -304,7 +300,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( in_array( $filter_name, $allowed_filters ) && defined( 'Imagick::' . $filter_name ) ) {
 			$filter = constant( 'Imagick::' . $filter_name );
 		} else {
-			$filter = Imagick::FILTER_TRIANGLE;
+			$filter = defined( 'Imagick::FILTER_TRIANGLE' ) ? Imagick::FILTER_TRIANGLE : false;
 		}
 
 		/**
@@ -317,15 +313,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		 *
 		 * @param bool $strip_meta Whether to strip image metadata during resizing. Default true.
 		 */
-		$strip_meta = apply_filters( 'image_strip_meta', $strip_meta );
-
-		// Strip image meta.
-		if ( $strip_meta ) {
-			$strip_result = $this->strip_meta();
-
-			if ( is_wp_error( $strip_result ) ) {
-				return $strip_result;
-			}
+		if ( apply_filters( 'image_strip_meta', $strip_meta ) ) {
+			$this->strip_meta(); // Fail silently if not supported.
 		}
 
 		try {
@@ -334,20 +323,34 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			 * whenever the output size is less that 1/3 of the original image size (1/3^2 ~= .111),
 			 * unless we would be resampling to a scale smaller than 128x128.
 			 */
-			$resize_ratio = ( $dst_w / $this->size['width'] ) * ( $dst_h / $this->size['height'] );
-			$sample_factor = 5;
+			if ( is_callable( array( $this->image, 'sampleImage' ) ) ) {
+				$resize_ratio = ( $dst_w / $this->size['width'] ) * ( $dst_h / $this->size['height'] );
+				$sample_factor = 5;
 
-			if ( $resize_ratio < .111 && ( $dst_w * $sample_factor > 128 && $dst_h * $sample_factor > 128 ) ) {
-				$this->image->sampleImage( $dst_w * $sample_factor, $dst_h * $sample_factor );
+				if ( $resize_ratio < .111 && ( $dst_w * $sample_factor > 128 && $dst_h * $sample_factor > 128 ) ) {
+					$this->image->sampleImage( $dst_w * $sample_factor, $dst_h * $sample_factor );
+				}
 			}
 
-			// Resize to the final output size.
-			$this->image->setOption( 'filter:support', '2.0' );
-			$this->image->resizeImage( $dst_w, $dst_h, $filter, 1 );
+			/*
+			 * Use resizeImage() when it's available and a valid filter value is set.
+			 * Otherwise, fall back to the scaleImage() method for resizing, which
+			 * results in better image quality over resizeImage() with default filter
+			 * settings and retains backwards compatibility with pre 4.5 functionality.
+			 */
+			if ( is_callable( array( $this->image, 'resizeImage' ) ) && $filter ) {
+				$this->image->setOption( 'filter:support', '2.0' );
+				$this->image->resizeImage( $dst_w, $dst_h, $filter, 1 );
+			} else {
+				$this->image->scaleImage( $dst_w, $dst_h );
+			}
 
 			// Set appropriate quality settings after resizing.
 			if ( 'image/jpeg' == $this->mime_type ) {
-				$this->image->unsharpMaskImage( 0.25, 0.25, 8, 0.065 );
+				if ( is_callable( array( $this->image, 'unsharpMaskImage' ) ) ) {
+					$this->image->unsharpMaskImage( 0.25, 0.25, 8, 0.065 );
+				}
+
 				$this->image->setOption( 'jpeg:fancy-upsampling', 'off' );
 			}
 
@@ -358,22 +361,32 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 				$this->image->setOption( 'png:exclude-chunk', 'all' );
 			}
 
-			/**
+			/*
 			 * If alpha channel is not defined, set it opaque.
 			 *
 			 * Note that Imagick::getImageAlphaChannel() is only available if Imagick
 			 * has been compiled against ImageMagick version 6.4.0 or newer.
 			 */
-			if ( method_exists( $this->image, 'getImageAlphaChannel') && $this->image->getImageAlphaChannel() === Imagick::ALPHACHANNEL_UNDEFINED ) {
-				$this->image->setImageAlphaChannel( Imagick::ALPHACHANNEL_OPAQUE );
+			if ( is_callable( array( $this->image, 'getImageAlphaChannel' ) )
+				&& is_callable( array( $this->image, 'setImageAlphaChannel' ) )
+				&& defined( Imagick::ALPHACHANNEL_UNDEFINED )
+				&& defined( Imagick::ALPHACHANNEL_OPAQUE )
+			) {
+				if ( $this->image->getImageAlphaChannel() === Imagick::ALPHACHANNEL_UNDEFINED ) {
+					$this->image->setImageAlphaChannel( Imagick::ALPHACHANNEL_OPAQUE );
+				}
 			}
 
-			// Limit the  bit depth of resized images to 8 bits per channel.
-			if ( 8 < $this->image->getImageDepth() ) {
-				$this->image->setImageDepth( 8 );
+			// Limit the bit depth of resized images to 8 bits per channel.
+			if ( is_callable( array( $this->image, 'getImageDepth' ) ) && is_callable( array( $this->image, 'setImageDepth' ) ) ) {
+				if ( 8 < $this->image->getImageDepth() ) {
+					$this->image->setImageDepth( 8 );
+				}
 			}
 
-			$this->image->setInterlaceScheme( Imagick::INTERLACE_NO );
+			if ( is_callable( array( $this->image, 'setInterlaceScheme' ) ) && defined( 'Imagick::INTERLACE_NO' ) ) {
+				$this->image->setInterlaceScheme( Imagick::INTERLACE_NO );
+			}
 
 		}
 		catch ( Exception $e ) {
@@ -662,36 +675,40 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * @return true|WP_Error True if stripping metadata was successful. WP_Error object on error.
 	 */
 	protected function strip_meta() {
+
+		if ( ! is_callable( array( $this->image, 'getImageProfiles' ) ) ) {
+			return new WP_Error( 'image_strip_meta_error', __('Imagick::getImageProfiles() is required to strip image meta.') );
+		}
+
+		if ( ! is_callable( array( $this->image, 'removeImageProfile' ) ) ) {
+			return new WP_Error( 'image_strip_meta_error', __('Imagick::removeImageProfile() is required to strip image meta.') );
+		}
+
+		/*
+		 * Protect a few profiles from being stripped for the following reasons:
+		 *
+		 * - icc:  Color profile information
+		 * - icm:  Color profile information
+		 * - iptc: Copyright data
+		 * - exif: Orientation data
+		 * - xmp:  Rights usage data
+		 */
+		$protected_profiles = array(
+			'icc',
+			'icm',
+			'iptc',
+			'exif',
+			'xmp',
+		);
+
 		try {
 			// Strip profiles.
 			foreach ( $this->image->getImageProfiles( '*', true ) as $key => $value ) {
-				if ( $key != 'icc' && $key != 'icm' ) {
+				if ( ! in_array( $key, $protected_profiles ) ) {
 					$this->image->removeImageProfile( $key );
 				}
 			}
 
-			// Strip image properties.
-			if ( method_exists( $this->image, 'deleteImageProperty' ) ) {
-				$this->image->deleteImageProperty( 'comment' );
-				$this->image->deleteImageProperty( 'Thumb::URI' );
-				$this->image->deleteImageProperty( 'Thumb::MTime' );
-				$this->image->deleteImageProperty( 'Thumb::Size' );
-				$this->image->deleteImageProperty( 'Thumb::Mimetype' );
-				$this->image->deleteImageProperty( 'software' );
-				$this->image->deleteImageProperty( 'Thumb::Image::Width' );
-				$this->image->deleteImageProperty( 'Thumb::Image::Height' );
-				$this->image->deleteImageProperty( 'Thumb::Document::Pages' );
-			} else {
-				$this->image->setImageProperty( 'comment', '' );
-				$this->image->setImageProperty( 'Thumb::URI', '' );
-				$this->image->setImageProperty( 'Thumb::MTime', '' );
-				$this->image->setImageProperty( 'Thumb::Size', '' );
-				$this->image->setImageProperty( 'Thumb::Mimetype', '' );
-				$this->image->setImageProperty( 'software', '' );
-				$this->image->setImageProperty( 'Thumb::Image::Width', '' );
-				$this->image->setImageProperty( 'Thumb::Image::Height', '' );
-				$this->image->setImageProperty( 'Thumb::Document::Pages', '' );
-			}
 		} catch ( Exception $e ) {
 			return new WP_Error( 'image_strip_meta_error', $e->getMessage() );
 		}
