@@ -49,11 +49,11 @@
 /* WordPress Version Badge */
 
 .wp-badge {
-	background: #0073aa url(../images/w-logo-white.png?ver=20131202) no-repeat;
-	background-position: center 24px;
-	-webkit-background-size: 85px 85px;
-	background-size: 85px 85px;
-	color: #78c8e6;
+	background: #0073aa url(../images/w-logo-white.png?ver=20160308) no-repeat;
+	background-position: center 25px;
+	-webkit-background-size: 80px 80px;
+	background-size: 80px 80px;
+	color: #fff;
 	font-size: 14px;
 	text-align: center;
 	font-weight: 600;
@@ -61,14 +61,14 @@
 	padding-top: 120px;
 	height: 40px;
 	display: inline-block;
-	width: 150px;
+	width: 140px;
 	text-rendering: optimizeLegibility;
 	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 	box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .svg .wp-badge {
-	background-image: url(../images/wordpress-logo-white.svg?ver=20131110);
+	background-image: url(../images/wordpress-logo-white.svg?ver=20160308);
 }
 
 .about-wrap .wp-badge {
