@@ -822,6 +822,15 @@ final class WP_Customize_Nav_Menus {
 	//
 
 	/**
+	 * Nav menu args used for each instance, keyed by the args HMAC.
+	 *
+	 * @since 4.3.0
+	 * @access public
+	 * @var array
+	 */
+	public $preview_nav_menu_instance_args = array();
+
+	/**
 	 * Filter arguments for dynamic nav_menu selective refresh partials.
 	 *
 	 * @since 4.5.0
@@ -862,6 +871,8 @@ final class WP_Customize_Nav_Menus {
 		add_action( 'wp_enqueue_scripts', array( $this, 'customize_preview_enqueue_deps' ) );
 		add_filter( 'wp_nav_menu_args', array( $this, 'filter_wp_nav_menu_args' ), 1000 );
 		add_filter( 'wp_nav_menu', array( $this, 'filter_wp_nav_menu' ), 10, 2 );
+		add_filter( 'wp_footer', array( $this, 'export_preview_data' ), 1 );
+		add_filter( 'customize_render_partials_response', array( $this, 'export_partial_rendered_nav_menu_instances' ) );
 	}
 
 	/**
@@ -881,7 +892,7 @@ final class WP_Customize_Nav_Menus {
 		 * wp_nav_menu() can use selective refreshed. A wp_nav_menu() can be
 		 * selective refreshed if...
 		 */
-		$can_selective_refresh = (
+		$can_partial_refresh = (
 			// ...if wp_nav_menu() is directly echoing out the menu (and thus isn't manipulating the string after generated),
 			! empty( $args['echo'] )
 			&&
@@ -904,12 +915,15 @@ final class WP_Customize_Nav_Menus {
 				( isset( $args['items_wrap'] ) && '<' === substr( $args['items_wrap'], 0, 1 ) )
 			)
 		);
-
-		if ( ! $can_selective_refresh ) {
-			return $args;
-		}
+		$args['can_partial_refresh'] = $can_partial_refresh;
 
 		$exported_args = $args;
+
+		// Empty out args which may not be JSON-serializable.
+		if ( ! $can_partial_refresh ) {
+			$exported_args['fallback_cb'] = '';
+			$exported_args['walker'] = '';
+		}
 
 		/*
 		 * Replace object menu arg with a term_id menu arg, as this exports better
@@ -923,7 +937,7 @@ final class WP_Customize_Nav_Menus {
 		$exported_args['args_hmac'] = $this->hash_nav_menu_args( $exported_args );
 
 		$args['customize_preview_nav_menus_args'] = $exported_args;
-
+		$this->preview_nav_menu_instance_args[ $exported_args['args_hmac'] ] = $exported_args;
 		return $args;
 	}
 
@@ -942,7 +956,7 @@ final class WP_Customize_Nav_Menus {
 	 * @return null
 	 */
 	public function filter_wp_nav_menu( $nav_menu_content, $args ) {
-		if ( ! empty( $args->customize_preview_nav_menus_args ) ) {
+		if ( isset( $args->customize_preview_nav_menus_args['can_partial_refresh'] ) && $args->customize_preview_nav_menus_args['can_partial_refresh'] ) {
 			$attributes = sprintf( ' data-customize-partial-id="%s"', esc_attr( 'nav_menu_instance[' . $args->customize_preview_nav_menus_args['args_hmac'] . ']' ) );
 			$attributes .= ' data-customize-partial-type="nav_menu_instance"';
 			$attributes .= sprintf( ' data-customize-partial-placement-context="%s"', esc_attr( wp_json_encode( $args->customize_preview_nav_menus_args ) ) );
@@ -987,11 +1001,29 @@ final class WP_Customize_Nav_Menus {
 	 * Exports data from PHP to JS.
 	 *
 	 * @since 4.3.0
-	 * @deprecated 4.5.0 Obsolete
 	 * @access public
 	 */
 	public function export_preview_data() {
-		_deprecated_function( __METHOD__, '4.5.0' );
+
+		// Why not wp_localize_script? Because we're not localizing, and it forces values into strings.
+		$exports = array(
+			'navMenuInstanceArgs' => $this->preview_nav_menu_instance_args,
+		);
+		printf( '<script>var _wpCustomizePreviewNavMenusExports = %s;</script>', wp_json_encode( $exports ) );
+	}
+
+	/**
+	 * Export any wp_nav_menu() calls during the rendering of any partials.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @param array $response Response.
+	 * @return array Response.
+	 */
+	public function export_partial_rendered_nav_menu_instances( $response ) {
+		$response['nav_menu_instance_args'] = $this->preview_nav_menu_instance_args;
+		return $response;
 	}
 
 	/**

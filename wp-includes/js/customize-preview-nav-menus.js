@@ -1,7 +1,15 @@
+/* global _wpCustomizePreviewNavMenusExports */
 wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function( $, _, wp, api ) {
 	'use strict';
 
-	var self = {};
+	var self = {
+		data: {
+			navMenuInstanceArgs: {}
+		}
+	};
+	if ( 'undefined' !== typeof _wpCustomizePreviewNavMenusExports ) {
+		_.extend( self.data, _wpCustomizePreviewNavMenusExports );
+	}
 
 	/**
 	 * Initialize nav menus preview.
@@ -10,7 +18,26 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		var self = this;
 
 		if ( api.selectiveRefresh ) {
-			self.watchNavMenuLocationChanges();
+			// Listen for changes to settings related to nav menus.
+			api.each( function( setting ) {
+				self.bindSettingListener( setting );
+			} );
+			api.bind( 'add', function( setting ) {
+				self.bindSettingListener( setting, { fire: true } );
+			} );
+			api.bind( 'remove', function( setting ) {
+				self.unbindSettingListener( setting );
+			} );
+
+			/*
+			 * Ensure that wp_nav_menu() instances nested inside of other partials
+			 * will be recognized as being present on the page.
+			 */
+			api.selectiveRefresh.bind( 'render-partials-response', function( response ) {
+				if ( response.nav_menu_instance_args ) {
+					_.extend( self.data.navMenuInstanceArgs, response.nav_menu_instance_args );
+				}
+			} );
 		}
 
 		api.preview.bind( 'active', function() {
@@ -128,6 +155,31 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			},
 
 			/**
+			 * Make sure that partial fallback behavior is invoked if there is no associated menu.
+			 *
+			 * @since 4.5.0
+			 *
+			 * @returns {Promise}
+			 */
+			refresh: function() {
+				var partial = this, menuId, deferred = $.Deferred();
+
+				// Make sure the fallback behavior is invoked when the partial is no longer associated with a menu.
+				if ( _.isNumber( partial.params.navMenuArgs.menu ) ) {
+					menuId = partial.params.navMenuArgs.menu;
+				} else if ( partial.params.navMenuArgs.theme_location && api.has( 'nav_menu_locations[' + partial.params.navMenuArgs.theme_location + ']' ) ) {
+					menuId = api( 'nav_menu_locations[' + partial.params.navMenuArgs.theme_location + ']' ).get();
+				}
+				if ( ! menuId ) {
+					partial.fallback();
+					deferred.reject();
+					return deferred.promise();
+				}
+
+				return api.selectiveRefresh.Partial.prototype.refresh.call( partial );
+			},
+
+			/**
 			 * Render content.
 			 *
 			 * @inheritdoc
@@ -135,6 +187,12 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			 */
 			renderContent: function( placement ) {
 				var partial = this, previousContainer = placement.container;
+
+				// Do fallback behavior to refresh preview if menu is now empty.
+				if ( '' === placement.addedContent ) {
+					placement.partial.fallback();
+				}
+
 				if ( api.selectiveRefresh.Partial.prototype.renderContent.call( partial, placement ) ) {
 
 					// Trigger deprecated event.
@@ -152,32 +210,147 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 		api.selectiveRefresh.partialConstructor.nav_menu_instance = self.NavMenuInstancePartial;
 
 		/**
-		 * Watch for changes to nav_menu_locations[] settings.
+		 * Request full refresh if there are nav menu instances that lack partials which also match the supplied args.
 		 *
-		 * Refresh partials associated with the given nav_menu_locations[] setting,
-		 * or request an entire preview refresh if there are no containers in the
-		 * document for a partial associated with the theme location.
+		 * @param {object} navMenuInstanceArgs
+		 */
+		self.handleUnplacedNavMenuInstances = function( navMenuInstanceArgs ) {
+			var unplacedNavMenuInstances;
+			unplacedNavMenuInstances = _.filter( _.values( self.data.navMenuInstanceArgs ), function( args ) {
+				return ! api.selectiveRefresh.partial.has( 'nav_menu_instance[' + args.args_hmac + ']' );
+			} );
+			if ( _.findWhere( unplacedNavMenuInstances, navMenuInstanceArgs ) ) {
+				api.selectiveRefresh.requestFullRefresh();
+				return true;
+			}
+			return false;
+		};
+
+		/**
+		 * Add change listener for a nav_menu[], nav_menu_item[], or nav_menu_locations[] setting.
 		 *
 		 * @since 4.5.0
+		 *
+		 * @param {wp.customize.Value} setting
+		 * @param {object}             [options]
+		 * @param {boolean}            options.fire Whether to invoke the callback after binding.
+		 *                                          This is used when a dynamic setting is added.
+		 * @return {boolean} Whether the setting was bound.
 		 */
-		self.watchNavMenuLocationChanges = function() {
-			api.bind( 'change', function( setting ) {
-				var themeLocation, themeLocationPartialFound = false, matches = setting.id.match( /^nav_menu_locations\[(.+)]$/ );
-				if ( ! matches ) {
+		self.bindSettingListener = function( setting, options ) {
+			var matches;
+			options = options || {};
+
+			matches = setting.id.match( /^nav_menu\[(-?\d+)]$/ );
+			if ( matches ) {
+				setting._navMenuId = parseInt( matches[1], 10 );
+				setting.bind( this.onChangeNavMenuSetting );
+				if ( options.fire ) {
+					this.onChangeNavMenuSetting.call( setting, setting(), false );
+				}
+				return true;
+			}
+
+			matches = setting.id.match( /^nav_menu_item\[(-?\d+)]$/ );
+			if ( matches ) {
+				setting._navMenuItemId = parseInt( matches[1], 10 );
+				setting.bind( this.onChangeNavMenuItemSetting );
+				if ( options.fire ) {
+					this.onChangeNavMenuItemSetting.call( setting, setting(), false );
+				}
+				return true;
+			}
+
+			matches = setting.id.match( /^nav_menu_locations\[(.+?)]/ );
+			if ( matches ) {
+				setting._navMenuThemeLocation = matches[1];
+				setting.bind( this.onChangeNavMenuLocationsSetting );
+				if ( options.fire ) {
+					this.onChangeNavMenuLocationsSetting.call( setting, setting(), false );
+				}
+				return true;
+			}
+
+			return false;
+		};
+
+		/**
+		 * Remove change listeners for nav_menu[], nav_menu_item[], or nav_menu_locations[] setting.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param {wp.customize.Value} setting
+		 */
+		self.unbindSettingListener = function( setting ) {
+			setting.unbind( this.onChangeNavMenuSetting );
+			setting.unbind( this.onChangeNavMenuItemSetting );
+			setting.unbind( this.onChangeNavMenuLocationsSetting );
+		};
+
+		/**
+		 * Handle change for nav_menu[] setting for nav menu instances lacking partials.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @this {wp.customize.Value}
+		 */
+		self.onChangeNavMenuSetting = function() {
+			var setting = this;
+
+			self.handleUnplacedNavMenuInstances( {
+				menu: setting._navMenuId
+			} );
+
+			// Ensure all nav menu instances with a theme_location assigned to this menu are handled.
+			api.each( function( otherSetting ) {
+				if ( ! otherSetting._navMenuThemeLocation ) {
 					return;
 				}
-				themeLocation = matches[1];
-				api.selectiveRefresh.partial.each( function( partial ) {
-					if ( partial.extended( self.NavMenuInstancePartial ) && partial.params.navMenuArgs.theme_location === themeLocation ) {
-						partial.refresh();
-						themeLocationPartialFound = true;
-					}
-				} );
-
-				if ( ! themeLocationPartialFound ) {
-					api.selectiveRefresh.requestFullRefresh();
+				if ( setting._navMenuId === otherSetting() ) {
+					self.handleUnplacedNavMenuInstances( {
+						theme_location: otherSetting._navMenuThemeLocation
+					} );
 				}
 			} );
+		};
+
+		/**
+		 * Handle change for nav_menu_item[] setting for nav menu instances lacking partials.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param {object} newItem New value for nav_menu_item[] setting.
+		 * @param {object} oldItem Old value for nav_menu_item[] setting.
+		 * @this {wp.customize.Value}
+		 */
+		self.onChangeNavMenuItemSetting = function( newItem, oldItem ) {
+			var item = newItem || oldItem, navMenuSetting;
+			navMenuSetting = api( 'nav_menu[' + String( item.nav_menu_term_id ) + ']' );
+			if ( navMenuSetting ) {
+				self.onChangeNavMenuSetting.call( navMenuSetting );
+			}
+		};
+
+		/**
+		 * Handle change for nav_menu_locations[] setting for nav menu instances lacking partials.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @this {wp.customize.Value}
+		 */
+		self.onChangeNavMenuLocationsSetting = function() {
+			var setting = this, hasNavMenuInstance;
+			self.handleUnplacedNavMenuInstances( {
+				theme_location: setting._navMenuThemeLocation
+			} );
+
+			// If there are no wp_nav_menu() instances that refer to the theme location, do full refresh.
+			hasNavMenuInstance = !! _.findWhere( _.values( self.data.navMenuInstanceArgs ), {
+				theme_location: setting._navMenuThemeLocation
+			} );
+			if ( ! hasNavMenuInstance ) {
+				api.selectiveRefresh.requestFullRefresh();
+			}
 		};
 	}
 
