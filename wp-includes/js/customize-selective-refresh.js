@@ -255,7 +255,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		 * @returns {boolean} Whether the rendering was successful and the fallback was not invoked.
 		 */
 		renderContent: function( placement ) {
-			var partial = this, content, newContainerElement, errorMessageElement;
+			var partial = this, content, newContainerElement;
 			if ( ! placement.container ) {
 				partial.fallback( new Error( 'no_container' ), [ placement ] );
 				return false;
