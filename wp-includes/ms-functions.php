@@ -37,7 +37,7 @@ function get_sitestats() {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $user_id The unique ID of the user
- * @return object|void The blog object
+ * @return WP_Site|void The blog object
  */
 function get_active_blog_for_user( $user_id ) {
 	global $wpdb;
