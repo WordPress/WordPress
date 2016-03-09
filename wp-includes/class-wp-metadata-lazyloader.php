@@ -17,7 +17,7 @@
  *
  * In cases where the given metadata may not even be used in the loop, we can improve performance
  * even more by only priming the metadata cache for affected items the first time a piece of metadata
- * is requested - ie, by lazyloading it. So, for example, comment meta may not be loaded into the
+ * is requested - ie, by lazy-loading it. So, for example, comment meta may not be loaded into the
  * cache in the comments section of a post until the first time get_comment_meta() is called in the
  * context of the comment loop.
  *
@@ -33,6 +33,7 @@ class WP_Metadata_Lazyloader {
 	 * Pending objects queue.
 	 *
 	 * @since 4.5.0
+	 * @access protected
 	 * @var array
 	 */
 	protected $pending_objects;
@@ -41,6 +42,7 @@ class WP_Metadata_Lazyloader {
 	 * Settings for supported object types.
 	 *
 	 * @since 4.5.0
+	 * @access protected
 	 * @var array
 	 */
 	protected $settings = array();
@@ -49,6 +51,7 @@ class WP_Metadata_Lazyloader {
 	 * Constructor.
 	 *
 	 * @since 4.5.0
+	 * @access public
 	 */
 	public function __construct() {
 		$this->settings = array(
@@ -64,11 +67,12 @@ class WP_Metadata_Lazyloader {
 	}
 
 	/**
-	 * Add objects to the metadata lazyload queue.
+	 * Adds objects to the metadata lazy-load queue.
 	 *
 	 * @since 4.5.0
+	 * @access public
 	 *
-	 * @param string $object_type Type of object whose meta is to be lazyloaded. Accepts 'term' or 'comment'.
+	 * @param string $object_type Type of object whose meta is to be lazy-loaded. Accepts 'term' or 'comment'.
 	 * @param array  $object_ids  Array of object IDs.
 	 * @return bool|WP_Error True on success, WP_Error on failure.
 	 */
@@ -93,21 +97,22 @@ class WP_Metadata_Lazyloader {
 		add_filter( $type_settings['filter'], $type_settings['callback'] );
 
 		/**
-		 * Fires after objects are added to the metadata lazyload queue.
+		 * Fires after objects are added to the metadata lazy-load queue.
 		 *
 		 * @since 4.5.0
 		 *
 		 * @param array                  $object_ids  Object IDs.
 		 * @param string                 $object_type Type of object being queued.
-		 * @param WP_Metadata_Lazyloader $lazyloader  The lazyloader object.
+		 * @param WP_Metadata_Lazyloader $lazyloader  The lazy-loader object.
 		 */
 		do_action( 'metadata_lazyloader_queued_objects', $object_ids, $object_type, $this );
 	}
 
 	/**
-	 * Reset lazyload queue for a given object type.
+	 * Resets lazy-load queue for a given object type.
 	 *
 	 * @since 4.5.0
+	 * @access public
 	 *
 	 * @param string $object_type Object type. Accepts 'comment' or 'term'.
 	 * @return bool|WP_Error True on success, WP_Error on failure.
@@ -124,7 +129,7 @@ class WP_Metadata_Lazyloader {
 	}
 
 	/**
-	 * Lazyloads term meta for queued terms.
+	 * Lazy-loads term meta for queued terms.
 	 *
 	 * This method is public so that it can be used as a filter callback. As a rule, there
 	 * is no need to invoke it directly.
@@ -148,7 +153,7 @@ class WP_Metadata_Lazyloader {
 	}
 
 	/**
-	 * Lazyload comment meta for queued comments.
+	 * Lazy-loads comment meta for queued comments.
 	 *
 	 * This method is public so that it can be used as a filter callback. As a rule, there is no need to invoke it
 	 * directly, from either inside or outside the `WP_Query` object.
