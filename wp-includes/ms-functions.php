@@ -1590,9 +1590,9 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
  *
  * @since MU
  *
- * @global object $current_site
+ * @global WP_Network $current_site
  *
- * @return object
+ * @return WP_Network
  */
 function get_current_site() {
 	global $current_site;
