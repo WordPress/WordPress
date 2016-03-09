@@ -256,12 +256,14 @@
 			} );
 
 			$( '.custom-logo-link' ).show();
+			$( 'body' ).addClass( 'wp-custom-logo' );
 		} );
 
 		api( 'custom_logo', function( setting ) {
 			setting.bind( function( newValue ) {
 				if ( ! newValue ) {
 					$( '.custom-logo-link' ).hide();
+					$( 'body' ).removeClass( 'wp-custom-logo' );
 				}
 			} );
 
