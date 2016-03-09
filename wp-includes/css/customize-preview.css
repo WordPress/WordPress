@@ -10,12 +10,3 @@
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
-
-.customize-render-content-error {
-	outline: solid 1px red;
-}
-.customize-render-content-error-message {
-	display: block;
-	padding: 1em;
-	background-color: #FFCCCC;
-}

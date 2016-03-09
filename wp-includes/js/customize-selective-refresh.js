@@ -314,13 +314,6 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 				if ( 'undefined' !== typeof console && console.error ) {
 					console.error( partial.id, error );
 				}
-				placement.container.addClass( 'customize-render-content-error' );
-				errorMessageElement = placement.container.find( '.customize-render-content-error-message:first' );
-				if ( ! errorMessageElement.length ) {
-					errorMessageElement = $( '<span class="customize-render-content-error-message"><span>' );
-					placement.container.append( errorMessageElement );
-				}
-				errorMessageElement.text( self.data.l10n.errorMessageTpl.replace( '%s', error.message ) );
 			}
 			/* jshint ignore:start */
 			document.write = self.orginalDocumentWrite;
