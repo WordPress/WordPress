@@ -218,7 +218,7 @@
 					.prop( 'tabIndex', -1 )
 					.removeClass( 'is-visible' );
 			}
-			
+
 			this.searchTerm = event.target.value;
 			this.pages.search = 1;
 			this.doSearch( 1 );
@@ -614,15 +614,21 @@
 			});
 		},
 
-		saveManageColumnsState: function() {
-			var hidden = this.hidden();
-			$.post( wp.ajax.settings.url, {
-				action: 'hidden-columns',
-				hidden: hidden,
+		saveManageColumnsState: _.debounce( function() {
+			var panel = this;
+			if ( panel._updateHiddenColumnsRequest ) {
+				panel._updateHiddenColumnsRequest.abort();
+			}
+
+			panel._updateHiddenColumnsRequest = wp.ajax.post( 'hidden-columns', {
+				hidden: panel.hidden(),
 				screenoptionnonce: $( '#screenoptionnonce' ).val(),
 				page: 'nav-menus'
-			});
-		},
+			} );
+			panel._updateHiddenColumnsRequest.always( function() {
+				panel._updateHiddenColumnsRequest = null;
+			} );
+		}, 2000 ),
 
 		checked: function( column ) {
 			this.container.addClass( 'field-' + column + '-active' );
@@ -633,12 +639,10 @@
 		},
 
 		hidden: function() {
-			this.hidden = function() {
-				return $( '.hide-column-tog' ).not( ':checked' ).map( function() {
-					var id = this.id;
-					return id.substring( id, id.length - 5 );
-				}).get().join( ',' );
-			};
+			return $( '.hide-column-tog' ).not( ':checked' ).map( function() {
+				var id = this.id;
+				return id.substring( 0, id.length - 5 );
+			}).get().join( ',' );
 		}
 	} );
 

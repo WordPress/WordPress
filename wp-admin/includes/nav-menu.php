@@ -937,17 +937,17 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
  *
  * @since 3.0.0
  *
- * @return string|WP_Error $output The menu formatted to edit or error object on failure.
+ * @return array Columns.
  */
 function wp_nav_menu_manage_columns() {
 	return array(
-		'_title' => __('Show advanced menu properties'),
-		'cb' => '<input type="checkbox" />',
-		'title-attribute' => __('Title Attribute'),
-		'link-target' => __('Link Target'),
-		'css-classes' => __('CSS Classes'),
-		'xfn' => __('Link Relationship (XFN)'),
-		'description' => __('Description'),
+		'_title'      => __( 'Show advanced menu properties' ),
+		'cb'          => '<input type="checkbox" />',
+		'link-target' => __( 'Link Target' ),
+		'attr-title'  => __( 'Title Attribute' ),
+		'css-classes' => __( 'CSS Classes' ),
+		'xfn'         => __( 'Link Relationship (XFN)' ),
+		'description' => __( 'Description' ),
 	);
 }
 
