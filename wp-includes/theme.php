@@ -1751,6 +1751,7 @@ function get_theme_support( $feature ) {
 
 	$args = array_slice( func_get_args(), 1 );
 	switch ( $feature ) {
+		case 'custom-logo' :
 		case 'custom-header' :
 		case 'custom-background' :
 			if ( isset( $_wp_theme_features[ $feature ][0][ $args[0] ] ) )
@@ -1877,12 +1878,11 @@ function current_theme_supports( $feature ) {
 			$type = $args[0];
 			return in_array( $type, $_wp_theme_features[$feature][0] );
 
+		case 'custom-logo':
 		case 'custom-header':
-		case 'custom-background' :
-			// specific custom header and background capabilities can be registered by passing
-			// an array to add_theme_support()
-			$header_support = $args[0];
-			return ( isset( $_wp_theme_features[$feature][0][$header_support] ) && $_wp_theme_features[$feature][0][$header_support] );
+		case 'custom-background':
+			// Specific capabilities can be registered by passing an array to add_theme_support().
+			return ( isset( $_wp_theme_features[ $feature ][0][ $args[0] ] ) && $_wp_theme_features[ $feature ][0][ $args[0] ] );
 	}
 
 	/**
