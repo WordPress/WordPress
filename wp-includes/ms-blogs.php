@@ -115,7 +115,7 @@ function get_id_from_blogname( $slug ) {
  *                                  If not specified the current blog ID is used.
  * @param bool             $get_all Whether to retrieve all details or only the details in the blogs table.
  *                                  Default is true.
- * @return object|false Blog details on success. False on failure.
+ * @return WP_Site|false Blog details on success. False on failure.
  */
 function get_blog_details( $fields = null, $get_all = true ) {
 	global $wpdb;
@@ -440,7 +440,7 @@ function update_blog_details( $blog_id, $details = array() ) {
  *
  * @since 3.5.0
  *
- * @param stdClass $blog The blog details as returned from get_blog_details()
+ * @param WP_Site $blog The blog details as returned from get_blog_details()
  */
 function clean_blog_cache( $blog ) {
 	$blog_id = $blog->blog_id;
