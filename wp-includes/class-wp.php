@@ -105,7 +105,7 @@ class WP {
 	}
 
 	/**
-	 * Remove name from list of public query variables.
+	 * Removes a query variable from a list of public query variables.
 	 *
 	 * @since 4.5.0
 	 * @access public
