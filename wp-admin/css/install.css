@@ -39,7 +39,7 @@ a:focus {
 }
 
 h1, h2 {
-	border-bottom: 1px solid #dedede;
+	border-bottom: 1px solid #ddd;
 	clear: both;
 	color: #666;
 	font-size: 24px;
@@ -131,7 +131,7 @@ label {
 	vertical-align: middle;
 }
 textarea {
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 	font-family: "Open Sans", sans-serif;
 	width: 100%;
 	-webkit-box-sizing: border-box;

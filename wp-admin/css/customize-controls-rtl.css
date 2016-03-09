@@ -1443,7 +1443,7 @@ body.adding-widget .add-new-widget:before,
 	z-index: 1;
 	width: 300px;
 	background: #eee;
-	border-bottom: 1px solid #e4e4e4;
+	border-bottom: 1px solid #e5e5e5;
 }
 
 /* search field container */
@@ -1476,7 +1476,7 @@ body.adding-widget .add-new-widget:before,
 	position: relative;
 	padding: 20px 60px 20px 15px;
 	background: #fff;
-	border-bottom: 1px solid #e4e4e4;
+	border-bottom: 1px solid #e5e5e5;
 	cursor: pointer;
 	display: none;
 }

@@ -84,7 +84,7 @@
 	font-size: 12px;
 	border-width: 1px;
 	border-style: solid;
-	border-color: #dfdfdf;
+	border-color: #ddd;
 }
 
 .media-frame input[type="text"]:focus,
@@ -271,7 +271,7 @@
 	z-index: 100;
 	height: 60px;
 	padding: 0 16px;
-	border: 0 solid #dfdfdf;
+	border: 0 solid #ddd;
 	overflow: hidden;
 }
 
@@ -722,7 +722,7 @@
 }
 
 .media-frame.hide-router .media-frame-title {
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	-webkit-box-shadow: 0 4px 4px -4px rgba( 0, 0, 0, 0.1 );
 	box-shadow: 0 4px 4px -4px rgba( 0, 0, 0, 0.1 );
 }
@@ -806,7 +806,7 @@
 	margin-top: 11px;
 	padding: 4px;
 	font-size: 13px;
-	color: #464646;
+	color: #444;
 	font-family: "Open Sans", sans-serif;
 	-webkit-appearance: none;
 }
@@ -831,7 +831,7 @@
 	float: right;
 	padding: 8px;
 	margin: 0;
-	color: #464646;
+	color: #444;
 	cursor: pointer;
 	list-style: none;
 	text-align: center;
@@ -1176,7 +1176,7 @@
 	margin: 10px auto;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
-	background: #dfdfdf;
+	background: #ddd;
 	background: rgba( 0, 0, 0, 0.1 );
 }
 
@@ -1235,7 +1235,7 @@
 }
 
 .media-uploader-status .upload-count {
-	color: #464646;
+	color: #444;
 }
 
 .media-uploader-status .upload-dismiss-errors,
@@ -1373,7 +1373,7 @@
 
 .uploader-inline .has-upload-message .upload-instructions {
 	font-size: 14px;
-	color: #464646;
+	color: #444;
 	font-weight: normal;
 }
 
@@ -1446,7 +1446,7 @@
 	padding: 1px 8px;
 	margin: 1px -8px 1px 8px;
 	line-height: 16px;
-	border-left: 1px solid #dfdfdf;
+	border-left: 1px solid #ddd;
 	color: #0073aa;
 }
 
@@ -1617,7 +1617,7 @@
 
 .attachment-info .filename {
 	font-weight: bold;
-	color: #464646;
+	color: #444;
 	word-wrap: break-word;
 }
 

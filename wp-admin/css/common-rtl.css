@@ -2013,7 +2013,7 @@ html.wp-toolbar {
 	font-size: 14px;
 	line-height: 24px;
 	font-weight: 600;
-	background: #e4e4e4;
+	background: #e5e5e5;
 	color: #555;
 	text-decoration: none;
 	white-space: nowrap;
@@ -2029,7 +2029,7 @@ h3 .nav-tab, /* Back-compat for pre-4.4 */
 .nav-tab:hover,
 .nav-tab:focus {
 	background-color: #fff;
-	color: #464646;
+	color: #444;
 }
 
 .nav-tab-active,
@@ -2040,7 +2040,7 @@ h3 .nav-tab, /* Back-compat for pre-4.4 */
 
 .nav-tab-active {
 	margin-bottom: -1px;
-	color: #464646;
+	color: #444;
 }
 
 .nav-tab-active,
@@ -2495,7 +2495,7 @@ div.action-links {
 }
 
 #plugin-information .fyi strong {
-	color: #464646;
+	color: #444;
 }
 
 #plugin-information .fyi h3 {
@@ -2885,16 +2885,6 @@ img {
 	border: none;
 }
 
-/* Header */
-/* @todo: are these also specific to Press This? */
-#wphead {
-	border-bottom: 1px solid #dfdfdf;
-}
-
-#wphead h1 a {
-	color: #464646;
-}
-
 /* Metabox collapse arrow indicators */
 .js .sidebar-name .sidebar-name-arrow:before,
 .js .meta-box-sortables .postbox .toggle-indicator:before {
@@ -3129,7 +3119,7 @@ img {
 
 /* Accordion */
 .accordion-section {
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	margin: 0;
 }
 
@@ -3139,7 +3129,7 @@ img {
 }
 
 .accordion-section.open:hover {
-	border-bottom-color: #dfdfdf;
+	border-bottom-color: #ddd;
 }
 
 .accordion-section-content {
@@ -3153,8 +3143,8 @@ img {
 	margin: 0;
 	padding: 12px 15px 15px;
 	position: relative;
-	border-right: 1px solid #dfdfdf;
-	border-left: 1px solid #dfdfdf;
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -3211,7 +3201,7 @@ img {
 
 .control-section.open .accordion-section-title {
 	/* When expanded */
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 }
 
 /* Edit Site */

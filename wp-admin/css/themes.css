@@ -54,7 +54,7 @@
 	margin: 0 4% 4% 0;
 	position: relative;
 	width: 30.6%;
-	border: 1px solid #dedede;
+	border: 1px solid #ddd;
 	-webkit-box-shadow: 0 1px 1px -1px rgba(0,0,0,0.1);
 	box-shadow: 0 1px 1px -1px rgba(0,0,0,0.1);
 	-webkit-box-sizing: border-box;
@@ -1161,7 +1161,7 @@ body.show-upload-theme p.no-themes {
 ------------------------------------------------------------------------------*/
 
 .appearance_page_custom-header #headimg {
-	border: 1px solid #DFDFDF;
+	border: 1px solid #ddd;
 	overflow: hidden;
 	width: 100%;
 }
@@ -1197,7 +1197,7 @@ body.show-upload-theme p.no-themes {
 
 div#custom-background-image {
 	min-height: 100px;
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 }
 
 div#custom-background-image img {

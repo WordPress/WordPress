@@ -697,7 +697,7 @@ th.asc a:focus span.sorting-indicator {
 	min-width: 17px;
 	border: 1px solid #ccc; /* same color as buttons border */
 	padding: 3px 5px 7px;
-	background: #e4e4e4;
+	background: #e5e5e5;
 	font-size: 16px;
 	line-height: 1;
 	font-weight: normal;
@@ -1473,7 +1473,7 @@ tr.active + tr.plugin-update-tr:not(.updated) .plugin-update .update-message {
 	width: -webkit-calc( 50% - 8px );
 	width: calc( 50% - 8px );
 	background-color: #fff;
-	border: 1px solid #dedede;
+	border: 1px solid #ddd;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1560,7 +1560,7 @@ div.action-links,
 	clear: both;
 	padding: 12px 20px;
 	background-color: #fafafa;
-	border-top: 1px solid #dedede;
+	border-top: 1px solid #ddd;
 	overflow: hidden;
 }
 
@@ -1575,8 +1575,8 @@ div.action-links,
 .plugin-card-update-failed .notice-error {
 	margin: 0;
 	padding-right: 16px;
-	-webkit-box-shadow: 0 -1px 0 #dedede;
-	box-shadow: 0 -1px 0 #dedede;
+	-webkit-box-shadow: 0 -1px 0 #ddd;
+	box-shadow: 0 -1px 0 #ddd;
 }
 
 .plugin-card-update-failed .plugin-card-bottom {

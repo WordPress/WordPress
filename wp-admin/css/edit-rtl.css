@@ -74,12 +74,6 @@
 	padding: 11px 10px;
 }
 
-#poststuff .inside-submitbox,
-#side-sortables .inside-submitbox {
-	margin: 0 3px;
-	font-size: 11px;
-}
-
 input#link_description,
 input#link_url {
 	width: 98%;
@@ -135,14 +129,6 @@ input#link_url {
 	float: right;
 }
 
-.submitbox .submit {
-	text-align: right;
-	padding: 12px 10px 10px;
-	font-size: 11px;
-	background-color: #464646;
-	color: #ccc;
-}
-
 .submitbox .submitdelete {
 	text-decoration: none;
 	padding: 1px 2px;
@@ -164,10 +150,6 @@ stray rule may actually be compensated for elsewhere. */
 	margin-bottom: 8px;
 	margin-left: 4px;
 	padding: 6px;
-}
-
-.inside-submitbox #post_status {
-	margin: 2px -2px 2px 0;
 }
 
 #post-status-select {
@@ -271,11 +253,6 @@ ul.category-tabs li,
 	border: 0 none;
 }
 
-#side-sortables .inside-submitbox .insidebox,
-.stuffbox .insidebox {
-	margin: 11px 0;
-}
-
 /* @todo: make this a more generic class */
 ul.category-tabs,
 ul.add-menu-item-tabs,
@@ -292,7 +269,7 @@ ul.add-menu-item-tabs li {
 ul.category-tabs li.tabs,
 ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 	border-bottom-color: #fdfdfd;
 	background-color: #fdfdfd;
 }
@@ -727,7 +704,7 @@ span.wp-media-buttons-icon:before {
 #postcustomstuff table {
 	margin: 0;
 	width: 100%;
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 	border-spacing: 0;
 	background-color: #f9f9f9;
 }
@@ -960,7 +937,7 @@ a.post-state-format.format-link:before {
 	max-height: 200px;
 	overflow: auto;
 	padding: 0 0.9em;
-	border: solid 1px #dfdfdf;
+	border: solid 1px #ddd;
 	background-color: #fdfdfd;
 }
 

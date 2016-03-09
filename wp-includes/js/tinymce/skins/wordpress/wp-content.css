@@ -364,7 +364,7 @@ audio {
 }
 
 .wpview-error {
-	border: 1px solid #dedede;
+	border: 1px solid #ddd;
 	padding: 1em 0;
 	margin: 0;
 	word-wrap: break-word;

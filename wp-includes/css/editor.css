@@ -37,7 +37,7 @@
 
 .mce-window .mce-window-head {
 	background: #fcfcfc;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	padding: 0;
 	min-height: 36px;
 }
@@ -91,7 +91,7 @@ div.mce-tab:focus {
 }
 
 .mce-window .mce-foot {
-	border-top: 1px solid #dfdfdf;
+	border-top: 1px solid #ddd;
 }
 
 .mce-textbox,
@@ -245,7 +245,7 @@ div.mce-tab {
 
 /* TinyMCE toolbars */
 div.mce-toolbar-grp {
-	border-bottom: 1px solid #dedede;
+	border-bottom: 1px solid #ddd;
 	background: #f5f5f5;
 	padding: 0;
 	position: relative;
@@ -771,7 +771,7 @@ div.mce-menu .mce-menu-item-sep,
 
 .mce-charmap td {
 	padding: 0;
-	border-color: #dfdfdf;
+	border-color: #ddd;
 	cursor: pointer;
 }
 
@@ -1182,7 +1182,7 @@ i.mce-i-wp_code:before {
 
 .wp-media-buttons a {
 	text-decoration: none;
-	color: #464646;
+	color: #444;
 	font-size: 12px;
 }
 
@@ -1218,7 +1218,7 @@ i.mce-i-wp_code:before {
 .quicktags-toolbar {
 	padding: 3px;
 	position: relative;
-	border-bottom: 1px solid #dedede;
+	border-bottom: 1px solid #ddd;
 	background: #f5f5f5;
 	min-height: 30px;
 }
@@ -1383,7 +1383,7 @@ i.mce-i-wp_code:before {
 
 #link-modal-title {
 	background: #fcfcfc;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	height: 36px;
 	font-size: 18px;
 	font-weight: 600;
@@ -1510,7 +1510,7 @@ i.mce-i-wp_code:before {
 }
 
 #wp-link li.unselectable {
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 }
 
 #wp-link li.unselectable:hover {
@@ -1552,7 +1552,7 @@ i.mce-i-wp_code:before {
 #wp-link .submitbox {
 	padding: 8px 16px;
 	background: #fcfcfc;
-	border-top: 1px solid #dfdfdf;
+	border-top: 1px solid #ddd;
 	position: absolute;
 	bottom: 0;
 	left: 0;

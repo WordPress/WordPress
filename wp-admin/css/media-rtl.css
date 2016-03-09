@@ -5,7 +5,7 @@
 .media-item .describe {
 	border-collapse: collapse;
 	width: 100%;
-	border-top: 1px solid #dfdfdf;
+	border-top: 1px solid #ddd;
 	clear: both;
 	cursor: default;
 }
@@ -124,8 +124,8 @@
 
 .media-upload-form .media-item,
 .media-upload-form .media-item .error {
-	-webkit-box-shadow: 0 1px 0 #dfdfdf;
-	box-shadow: 0 1px 0 #dfdfdf;
+	-webkit-box-shadow: 0 1px 0 #ddd;
+	box-shadow: 0 1px 0 #ddd;
 }
 
 #media-items:empty {
@@ -242,7 +242,7 @@
 
 .find-box-head {
 	background: #fcfcfc;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	height: 36px;
 	font-size: 18px;
 	font-weight: 600;
@@ -326,7 +326,7 @@
 .find-box-buttons {
 	padding: 8px 16px;
 	background: #fcfcfc;
-	border-top: 1px solid #dfdfdf;
+	border-top: 1px solid #ddd;
 	position: absolute;
 	bottom: 0;
 	right: 0;

@@ -160,7 +160,7 @@ ul.add-menu-item-tabs li {
 .nav-menus-php #post-body {
 	padding: 0 10px 10px;
 	border-top: 1px solid #fff;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	background: #fff;
 }
 
@@ -170,7 +170,7 @@ ul.add-menu-item-tabs li {
 }
 
 #nav-menu-header {
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	margin-bottom: 0;
 }
 
@@ -442,7 +442,7 @@ ul.add-menu-item-tabs li {
 }
 
 .menu-item-bar .menu-item-handle {
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 	position: relative;
 	padding: 10px 15px;
 	height: auto;
@@ -673,7 +673,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	display: block;
 	margin: 0 0 10px;
 	padding: 3px 5px 5px;
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 	color: #72777c;
 	font-size: 12px;
 	font-style: italic;
