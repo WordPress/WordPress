@@ -904,7 +904,7 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
 }
 
 /**
- * Retrieve edit term url.
+ * Retrieves the URL for editing a given term.
  *
  * @since 3.1.0
  * @since 4.5.0 The `$taxonomy` argument was made optional.
