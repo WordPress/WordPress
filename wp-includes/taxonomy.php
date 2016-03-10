@@ -491,7 +491,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 }
 
 /**
- * Unregister a taxonomy.
+ * Unregisters a taxonomy.
  *
  * Can not be used to unregister built-in taxonomies.
  *
@@ -501,7 +501,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
  * @global array $wp_taxonomies List of taxonomies.
  *
  * @param string $taxonomy Taxonomy name.
- * @return bool|WP_Error True on success, WP_Error on failure.
+ * @return bool|WP_Error True on success, WP_Error on failure or if the taxonomy doesn't exist.
  */
 function unregister_taxonomy( $taxonomy ) {
 	if ( ! taxonomy_exists( $taxonomy ) ) {
