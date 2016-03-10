@@ -405,7 +405,8 @@ function get_single_template() {
 }
 
 /**
- * Retrieve path of embed template in current or parent template.
+ * Retrieves and embed template path in the current or parent template.
+ *
  * By default the WordPress-template is returned.
  *
  * The template path is filterable via the dynamic {@see '$type_template'} hook,
