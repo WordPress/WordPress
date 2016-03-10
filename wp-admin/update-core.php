@@ -284,7 +284,7 @@ function list_plugin_updates() {
 		$details_name = sprintf( '<span class="screen-reader-text">%1$s</span>', esc_attr( $plugin_data->Name ) );
 		/* translators: 1: Plugin name 2: Plugin version */
 		$details_text = sprintf( __( 'View %1$s version %2$s details.' ), $details_name, $plugin_data->update->new_version );
-		$details = sprintf( '<a href="%1$s" class="thickbox">%2$s</a>', esc_url( $details_url ), $details_text );
+		$details = sprintf( '<a href="%1$s" class="thickbox open-plugin-details-modal">%2$s</a>', esc_url( $details_url ), $details_text );
 		$checkbox_id =  "checkbox_" . md5( $plugin_data->Name );
 		?>
 		<tr>

@@ -2814,67 +2814,67 @@ body.index-php #TB_ajaxWindowTitle {
 	display: none;
 }
 
-body.about-php .tb-close-icon,
-body.plugin-install-php .tb-close-icon,
-body.import-php .tb-close-icon,
-body.plugins-php .tb-close-icon,
-body.update-core-php .tb-close-icon,
-body.index-php .tb-close-icon {
+/* only on these screens */
+.about-php #TB_closeWindowButton,
+.plugin-install-php #TB_closeWindowButton,
+.import-php #TB_closeWindowButton,
+.plugins-php #TB_closeWindowButton,
+.update-core-php #TB_closeWindowButton,
+.index-php #TB_closeWindowButton {
 	left: auto;
 	right: -30px;
 	color: #eee;
-	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
-	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
+
+body.about-php #TB_closeWindowButton:hover,
 body.about-php #TB_closeWindowButton:focus,
-body.about-php #TB_closeWindowButton:focus .tb-close-icon,
-body.about-php .tb-close-icon:focus,
-body.about-php .tb-close-icon:hover,
+body.plugin-install-php #TB_closeWindowButton:hover,
 body.plugin-install-php #TB_closeWindowButton:focus,
-body.plugin-install-php #TB_closeWindowButton:focus .tb-close-icon,
-body.plugin-install-php .tb-close-icon:focus,
-body.plugin-install-php .tb-close-icon:hover,
+body.import-php #TB_closeWindowButton:hover,
 body.import-php #TB_closeWindowButton:focus,
-body.import-php #TB_closeWindowButton:focus .tb-close-icon,
-body.import-php .tb-close-icon:focus,
-body.import-php .tb-close-icon:hover,
+body.plugins-php #TB_closeWindowButton:hover,
 body.plugins-php #TB_closeWindowButton:focus,
-body.plugins-php #TB_closeWindowButton:focus .tb-close-icon,
-body.plugins-php .tb-close-icon:focus,
-body.plugins-php .tb-close-icon:hover,
+body.update-core-php #TB_closeWindowButton:hover,
 body.update-core-php #TB_closeWindowButton:focus,
-body.update-core-php #TB_closeWindowButton:focus .tb-close-icon,
-body.update-core-php .tb-close-icon:focus,
-body.update-core-php .tb-close-icon:hover,
-body.index-php #TB_closeWindowButton:focus,
-body.index-php #TB_closeWindowButton:focus .tb-close-icon,
-body.index-php .tb-close-icon:focus,
-body.index-php .tb-close-icon:hover {
+body.index-php #TB_closeWindowButton:hover,
+body.index-php #TB_closeWindowButton:focus {
 	color: #00a0d2;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
-body.about-php .tb-close-icon:before,
-body.plugin-install-php .tb-close-icon:before,
-body.import-php .tb-close-icon:before,
-body.plugins-php .tb-close-icon:before,
-body.update-core-php .tb-close-icon:before,
-body.index-php .tb-close-icon:before {
+body.about-php .tb-close-icon,
+body.plugin-install-php .tb-close-icon,
+body.import-php .tb-close-icon,
+body.plugins-php .tb-close-icon,
+body.update-core-php .tb-close-icon,
+body.index-php .tb-close-icon {
+	display: none;
+}
+
+body.about-php #TB_closeWindowButton:after,
+body.plugin-install-php #TB_closeWindowButton:after,
+body.import-php #TB_closeWindowButton:after,
+body.plugins-php #TB_closeWindowButton:after,
+body.update-core-php #TB_closeWindowButton:after,
+body.index-php #TB_closeWindowButton:after {
 	content: "\f335";
-	font-size: 32px;
+	font: normal 32px/29px 'dashicons';
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /* move plugin install close icon to top on narrow screens */
 @media screen and ( max-width: 830px ) {
-	body.about-php .tb-close-icon,
-	body.plugin-install-php .tb-close-icon,
-	body.import-php .tb-close-icon,
-	body.plugins-php .tb-close-icon,
-	body.update-core-php .tb-close-icon,
-	body.index-php .tb-close-icon {
+	body.about-php #TB_closeWindowButton,
+	body.plugin-install-php #TB_closeWindowButton,
+	body.import-php #TB_closeWindowButton,
+	body.plugins-php #TB_closeWindowButton,
+	body.update-core-php #TB_closeWindowButton,
+	body.index-php #TB_closeWindowButton {
 		right: 0;
 		top: -30px;
 	}

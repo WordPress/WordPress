@@ -580,9 +580,10 @@ function wp_default_scripts( &$scripts ) {
 			'saved' => __( 'Changes saved.' ),
 		) );
 
-		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery', 'thickbox' ), false, 1 );
+		$scripts->add( 'plugin-install', "/wp-admin/js/plugin-install$suffix.js", array( 'jquery', 'jquery-ui-core', 'thickbox' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'plugin-install', 'plugininstallL10n', array(
-			'plugin_information' => __('Plugin Information:'),
+			'plugin_information' => __( 'Plugin:' ),
+			'plugin_modal_label' => __( 'Plugin details' ),
 			'ays' => __('Are you sure you want to install this plugin?')
 		) );
 

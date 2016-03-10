@@ -101,7 +101,7 @@ if ( empty( $importers ) ) {
 			if ( empty($action) ) {
 				if ( is_main_site() ) {
 					$action = '<a href="' . esc_url( network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_slug .
-										'&from=import&TB_iframe=true&width=600&height=550' ) ) . '" class="thickbox" title="' .
+										'&from=import&TB_iframe=true&width=600&height=550' ) ) . '" class="thickbox open-plugin-details-modal" title="' .
 										esc_attr__('Install importer') . '">' . $data[0] . '</a>';
 				} else {
 					$action = $data[0];

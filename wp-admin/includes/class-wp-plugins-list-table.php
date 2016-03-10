@@ -742,7 +742,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 					// Details link using API info, if available
 					if ( isset( $plugin_data['slug'] ) && current_user_can( 'install_plugins' ) ) {
-						$plugin_meta[] = sprintf( '<a href="%s" class="thickbox" aria-label="%s" data-title="%s">%s</a>',
+						$plugin_meta[] = sprintf( '<a href="%s" class="thickbox open-plugin-details-modal" aria-label="%s" data-title="%s">%s</a>',
 							esc_url( network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_data['slug'] .
 								'&TB_iframe=true&width=600&height=550' ) ),
 							esc_attr( sprintf( __( 'More information about %s' ), $plugin_name ) ),

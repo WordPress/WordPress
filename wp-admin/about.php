@@ -139,7 +139,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 									'height'    => 550
 								);
 
-								$plugin_link = '<a href="' . esc_url( add_query_arg( $url_args, network_admin_url( 'plugin-install.php' ) ) ) . '" class="thickbox">WordPress REST API</a>';
+								$plugin_link = '<a href="' . esc_url( add_query_arg( $url_args, network_admin_url( 'plugin-install.php' ) ) ) . '" class="thickbox open-plugin-details-modal">WordPress REST API</a>';
 							} else {
 								$plugin_link = '<a href="https://wordpress.org/plugins/rest-api">WordPress REST API</a>';
 							}
