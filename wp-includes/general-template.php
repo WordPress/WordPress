@@ -1592,7 +1592,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 	 * Filter the archive link content.
 	 *
 	 * @since 2.6.0
-	 * @since 4.5.0 Added `$url`, `$text`, `$format`, `$before`, and `$after` params.
+	 * @since 4.5.0 Added the `$url`, `$text`, `$format`, `$before`, and `$after` parameters.
 	 *
 	 * @param string $link_html The archive HTML link content.
 	 * @param string $url       URL to archive.
