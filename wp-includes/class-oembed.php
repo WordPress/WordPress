@@ -43,7 +43,7 @@ class WP_oEmbed {
 			'#https://youtu\.be/.*#i'                             => array( 'http://www.youtube.com/oembed?scheme=https',                true  ),
 			'#https?://(.+\.)?vimeo\.com/.*#i'                    => array( 'http://vimeo.com/api/oembed.{format}',                      true  ),
 			'#https?://(www\.)?dailymotion\.com/.*#i'             => array( 'https://www.dailymotion.com/services/oembed',               true  ),
-			'http://dai.ly/*'                                     => array( 'https://www.dailymotion.com/services/oembed',               false ),
+			'#https?://dai.ly/.*#i'                               => array( 'https://www.dailymotion.com/services/oembed',               true  ),
 			'#https?://(www\.)?flickr\.com/.*#i'                  => array( 'https://www.flickr.com/services/oembed/',                   true  ),
 			'#https?://flic\.kr/.*#i'                             => array( 'https://www.flickr.com/services/oembed/',                   true  ),
 			'#https?://(.+\.)?smugmug\.com/.*#i'                  => array( 'http://api.smugmug.com/services/oembed/',                   true  ),
@@ -120,7 +120,7 @@ class WP_oEmbed {
 		 * | Instagram    | instagr.am           |  Yes  | 3.5.0     |
 		 * | Slideshare   | slideshare.net       |  Yes  | 3.5.0     |
 		 * | SoundCloud   | soundcloud.com       |  Yes  | 3.5.0     |
-		 * | Dailymotion  | dai.ly               |  No   | 3.6.0     |
+		 * | Dailymotion  | dai.ly               |  Yes  | 3.6.0     |
 		 * | Flickr       | flic.kr              |  Yes  | 3.6.0     |
 		 * | Spotify      | spotify.com          |  Yes  | 3.6.0     |
 		 * | Imgur        | imgur.com            |  Yes  | 3.9.0     |
