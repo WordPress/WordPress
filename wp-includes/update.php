@@ -267,7 +267,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 	 * Filter the locales requested for plugin translations.
 	 *
 	 * @since 3.7.0
-	 * @since 4.5.0 Changed default value of `$locales` to include all locales.
+	 * @since 4.5.0 The default value of the `$locales` parameter changed to include all locales.
 	 *
 	 * @param array $locales Plugin locales. Default is all available locales of the site.
 	 */
@@ -440,7 +440,7 @@ function wp_update_themes( $extra_stats = array() ) {
 	 * Filter the locales requested for theme translations.
 	 *
 	 * @since 3.7.0
-	 * @since 4.5.0 Changed default value of `$locales` to include all locales.
+	 * @since 4.5.0 The default value of the `$locales` parameter changed to include all locales.
 	 *
 	 * @param array $locales Theme locales. Default is all available locales of the site.
 	 */
