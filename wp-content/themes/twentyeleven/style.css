@@ -910,12 +910,13 @@ p img,
 	background: #eee;
 	margin-bottom: 1.625em;
 	max-width: 96%;
+	max-width: calc( 100% - 18px );
 	padding: 9px;
 }
 .wp-caption img {
 	display: block;
-	margin: -2px 0 0 -2px;
 	max-width: 98%;
+	max-width: calc( 100% - 14px );
 }
 .wp-caption .wp-caption-text,
 .gallery-caption {
@@ -965,6 +966,7 @@ img[class*="wp-image-"],
 	border: 1px solid #ddd;
 	padding: 6px;
 	max-width: 97.5%;
+	max-width: calc( 100% - 14px );
 }
 .wp-caption img {
 	border-color: #eee;
