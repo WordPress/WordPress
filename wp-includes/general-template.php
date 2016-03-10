@@ -876,11 +876,7 @@ function get_custom_logo( $blog_id = 0 ) {
 	}
 
 	$custom_logo_id = get_theme_mod( 'custom_logo' );
-
-	if ( is_multisite() && ms_is_switched() ) {
-		restore_current_blog();
-	}
-	$size = get_theme_support( 'custom-logo', 'size' );
+	$size           = get_theme_support( 'custom-logo', 'size' );
 
 	// We have a logo. Logo is go.
 	if ( $custom_logo_id ) {
@@ -900,6 +896,10 @@ function get_custom_logo( $blog_id = 0 ) {
 			esc_url( home_url( '/' ) ),
 			esc_attr( $size )
 		);
+	}
+
+	if ( is_multisite() && ms_is_switched() ) {
+		restore_current_blog();
 	}
 
 	/**
