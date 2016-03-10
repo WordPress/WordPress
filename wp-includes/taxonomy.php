@@ -2395,7 +2395,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	 * Fires after a term is deleted from the database and the cache is cleaned.
 	 *
 	 * @since 2.5.0
-	 * @since 4.5.0 Introduced `$object_ids` argument.
+	 * @since 4.5.0 Introduced the `$object_ids` argument.
 	 *
 	 * @param int     $term         Term ID.
 	 * @param int     $tt_id        Term taxonomy ID.
@@ -2413,7 +2413,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	 * taxonomy the term belonged to.
 	 *
 	 * @since 2.3.0
-	 * @since 4.5.0 Introduced `$object_ids` argument.
+	 * @since 4.5.0 Introduced the `$object_ids` argument.
 	 *
 	 * @param int     $term         Term ID.
 	 * @param int     $tt_id        Term taxonomy ID.
@@ -3743,7 +3743,7 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 		 * Fires once after each taxonomy's term cache has been cleaned.
 		 *
 		 * @since 2.5.0
-		 * @since 4.5.0 Added $clean_taxonomy param.
+		 * @since 4.5.0 Added the `$clean_taxonomy` parameter.
 		 *
 		 * @param array  $ids            An array of term IDs.
 		 * @param string $taxonomy       Taxonomy slug.
