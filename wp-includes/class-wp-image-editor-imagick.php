@@ -679,11 +679,13 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	protected function strip_meta() {
 
 		if ( ! is_callable( array( $this->image, 'getImageProfiles' ) ) ) {
-			return new WP_Error( 'image_strip_meta_error', __('Imagick::getImageProfiles() is required to strip image meta.') );
+			/* translators: %s: ImageMagick method name */
+			return new WP_Error( 'image_strip_meta_error', sprintf( __( '%s is required to strip image meta.' ), '<code>Imagick::getImageProfiles()</code>' ) );
 		}
 
 		if ( ! is_callable( array( $this->image, 'removeImageProfile' ) ) ) {
-			return new WP_Error( 'image_strip_meta_error', __('Imagick::removeImageProfile() is required to strip image meta.') );
+			/* translators: %s: ImageMagick method name */
+			return new WP_Error( 'image_strip_meta_error', sprintf( __( '%s is required to strip image meta.' ), '<code>Imagick::removeImageProfile()</code>' ) );
 		}
 
 		/*
