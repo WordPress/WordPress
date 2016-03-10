@@ -354,7 +354,7 @@ function the_excerpt() {
 }
 
 /**
- * Retrieve the post excerpt.
+ * Retrieves the post excerpt.
  *
  * @since 0.71
  * @since 4.5.0 Introduced the `$post` parameter.
