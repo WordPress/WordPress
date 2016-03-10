@@ -5996,7 +5996,7 @@ function wp_delete_auto_drafts() {
 }
 
 /**
- * Queue posts for lazyloading of term meta.
+ * Queues posts for lazy-loading of term meta.
  *
  * @since 4.5.0
  *
