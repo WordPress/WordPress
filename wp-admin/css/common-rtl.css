@@ -1561,7 +1561,7 @@ form.upgrade .hint {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
-	color: #b4b9be;
+	color: #72777c;
 }
 
 #screen-meta-links .screen-meta-active:after {
@@ -3055,21 +3055,26 @@ img {
 	text-decoration: none !important;
 }
 
-.widget-action,
 .handlediv,
 .item-edit,
 .sidebar-name-arrow,
 .accordion-section-title:after {
-	color: #a0a5aa;
+	color: #72777c;
 }
 
-.widget-action:hover,
+.widget-action {
+	color: #555d66; /* #fafafa background in the Widgets screen */
+}
+
+.widget-top:hover .widget-action,
+.widget-action:focus,
 .handlediv:hover,
 .handlediv:focus,
 .item-edit:hover,
+.item-edit:focus,
 .sidebar-name:hover .sidebar-name-arrow,
 .accordion-section-title:hover:after {
-	color: #555d66;
+	color: #23282d;
 }
 
 .widget-top a.widget-action:after {

@@ -536,7 +536,7 @@ th.asc a:focus span.sorting-indicator:before {
 	border-radius: 50%;
 	display: block;
 	padding: 1px 2px 1px 0;
-	color: #666;
+	color: #444; /* same as table headers sort arrows */
 	content: "\f140";
 	font: normal 20px/1 dashicons;
 	line-height: 1;

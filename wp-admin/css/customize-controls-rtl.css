@@ -159,6 +159,7 @@ body {
 
 #customize-theme-controls .accordion-section-title:after {
 	content: "\f341";
+	color: #a0a5aa;
 }
 
 #customize-theme-controls .accordion-section-content {
@@ -646,6 +647,7 @@ p.customize-section-description {
 	user-select: none;
 }
 
+/* @todo maybe no more used? */
 .customize-control .dropdown-arrow {
 	position: absolute;
 	top: 0;

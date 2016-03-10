@@ -263,7 +263,7 @@
 	vertical-align: top;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
-	color: #a0a5aa;
+	color: #72777c;
 	font: normal 20px/1 dashicons;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -468,12 +468,15 @@
 	content: none !important;
 }
 
-#available-menu-items .accordion-section-title:hover .toggle-indicator:after {
-	color: #555d66;
+#available-menu-items .accordion-section-title:hover .toggle-indicator:after,
+#available-menu-items .button-link:hover .toggle-indicator:after,
+#available-menu-items .button-link:focus .toggle-indicator:after {
+	color: #23282d;
 }
 
 #available-menu-items .open .accordion-section-title .toggle-indicator:after {
 	content: "\f142";
+	color: #23282d;
 }
 
 #available-menu-items .accordion-section-content {

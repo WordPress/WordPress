@@ -19,8 +19,18 @@
 }
 
 .customize-control-widget_form .widget-top {
+	background: #fff;
 	-webkit-transition: opacity 0.5s;
 	transition: opacity 0.5s;
+}
+
+.customize-control .widget-action {
+	color: #72777c;
+}
+
+.customize-control .widget-top:hover .widget-action,
+.customize-control .widget-action:focus {
+	color: #23282d;
 }
 
 .customize-control-widget_form:not(.widget-rendered) .widget-top {
