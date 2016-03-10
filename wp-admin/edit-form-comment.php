@@ -23,7 +23,7 @@ if ( !defined('ABSPATH') )
 <div id="post-body" class="metabox-holder columns-2">
 <div id="post-body-content" class="edit-form-section edit-comment-section">
 <?php
-if ( $comment->comment_post_ID > 0 ):
+if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_ID > 0 ) :
 	$comment_link = get_comment_link( $comment );
 ?>
 <div class="inside">
