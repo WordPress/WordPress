@@ -212,7 +212,7 @@ function add_permastruct( $name, $struct, $args = array() ) {
 }
 
 /**
- * Remove permalink structure.
+ * Removes a permalink structure.
  *
  * Can only be used to remove permastructs that were added using add_permastruct().
  * Built-in permastructs cannot be removed.
