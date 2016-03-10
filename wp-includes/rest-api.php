@@ -253,7 +253,7 @@ function rest_do_request( $request ) {
 }
 
 /**
- * Get the current REST server instance.
+ * Retrieves the current REST server instance.
  *
  * Instantiates a new instance if none exists already.
  *
@@ -261,7 +261,7 @@ function rest_do_request( $request ) {
  *
  * @global WP_REST_Server $wp_rest_server REST server instance.
  *
- * @return  WP_REST_Server REST server instance.
+ * @return WP_REST_Server REST server instance.
  */
 function rest_get_server() {
 	/* @var WP_REST_Server $wp_rest_server */
