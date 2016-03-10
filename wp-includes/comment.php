@@ -469,7 +469,7 @@ function update_comment_meta($comment_id, $meta_key, $meta_value, $prev_value = 
 }
 
 /**
- * Queue comments for metadata lazyloading.
+ * Queues comments for metadata lazy-loading.
  *
  * @since 4.5.0
  *
@@ -972,7 +972,7 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 }
 
 /**
- * Get the maximum character lengths for the comment form fields.
+ * Retrieves the maximum character lengths for the comment form fields.
  *
  * @since 4.5.0
  *
@@ -1021,7 +1021,7 @@ function wp_get_comment_fields_max_lengths() {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @param array  $lengths Associative array 'field_name' => 'maximum length'.
+	 * @param array $lengths Associative array `'field_name' => 'maximum length'`.
 	 */
 	return apply_filters( 'wp_get_comment_fields_max_lengths', $lengths );
 }
@@ -2570,7 +2570,7 @@ function clean_comment_cache($ids) {
 		wp_cache_delete( $id, 'comment' );
 
 		/**
-		 * Fires after a comment has been removed from the object cache.
+		 * Fires immediately after a comment has been removed from the object cache.
 		 *
 		 * @since 4.5.0
 		 *

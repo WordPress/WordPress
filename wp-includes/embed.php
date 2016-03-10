@@ -1055,7 +1055,7 @@ function print_embed_sharing_dialog() {
 }
 
 /**
- * Prints the necessary markup for the site title.
+ * Prints the necessary markup for the site title in an embed template.
  *
  * @since 4.5.0
  */

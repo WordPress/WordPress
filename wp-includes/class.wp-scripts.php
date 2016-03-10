@@ -93,6 +93,7 @@ class WP_Scripts extends WP_Dependencies {
 	public $print_html = '';
 
 	/**
+	 * HTML to print before the script handle.
 	 *
 	 * @since 4.5.0
 	 * @access public

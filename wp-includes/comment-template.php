@@ -1344,8 +1344,10 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	 *
 	 * @since 4.5.0
 	 *
+	 * @see WP_Comment_Query::__construct()
+	 *
 	 * @param array $comment_args {
-	 *     Array of arguments. See WP_Comment_Query::__construct() for detailed descriptions.
+	 *     Array of WP_Comment_Query arguments.
 	 *
 	 *     @type string|array $orderby                   Field(s) to order by.
 	 *     @type string       $order                     Order of results. Accepts 'ASC' or 'DESC'.

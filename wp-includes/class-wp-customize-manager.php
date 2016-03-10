@@ -1922,13 +1922,12 @@ final class WP_Customize_Manager {
 			'section'    => 'title_tagline',
 		) );
 
-		// Add a setting to hide header text if the theme isn't supporting the feature itself.
-		// @todo
-		if ( ! current_theme_supports( 'custom-header' ) ) {
+		// Add a setting to hide header text if the theme doesn't support custom headers.
+		if ( ! current_theme_supports( 'custom-header', 'header-text' ) ) {
 			$this->add_setting( 'header_text', array(
+				'theme_supports'    => array( 'custom-logo', 'header-text' ),
 				'default'           => 1,
 				'sanitize_callback' => 'absint',
-				'transport'         => 'postMessage',
 			) );
 
 			$this->add_control( 'header_text', array(

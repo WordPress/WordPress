@@ -1316,6 +1316,15 @@ img.aligncenter {
 	margin-bottom: 0;
 }
 
+.custom-logo {
+	max-height: 84px;
+	width: auto;
+}
+
+.wp-custom-logo .site-title {
+	margin-top: 0.545454545em;
+}
+
 .site-description {
 	display: none;
 	font-family: "Noto Sans", sans-serif;
@@ -3089,6 +3098,14 @@ p > video {
 		line-height: 1.2069;
 	}
 
+	.custom-logo {
+		max-height: 105px;
+	}
+
+	.wp-custom-logo .site-title {
+		margin-top: 0.482758621em;
+	}
+
 	.site-description {
 		font-size: 14px;
 		font-size: 1.4rem;
@@ -3709,6 +3726,14 @@ p > video {
 		font-size: 32px;
 		font-size: 3.2rem;
 		line-height: 1.25;
+	}
+
+	.custom-logo {
+		max-height: 104px;
+	}
+
+	.wp-custom-logo .site-title {
+		margin-top: 0.5em;
 	}
 
 	.site-description {
@@ -4346,6 +4371,14 @@ p > video {
 		line-height: 1.3636;
 	}
 
+	.custom-logo {
+		max-height: none;
+	}
+
+	.wp-custom-logo .site-title {
+		margin-top: 0.545454545em;
+	}
+
 	.site-description {
 		font-size: 12px;
 		font-size: 1.2rem;
@@ -4965,6 +4998,10 @@ p > video {
 		line-height: 1.1667;
 	}
 
+	.wp-custom-logo .site-title {
+		margin-top: 0.583333333em;
+	}
+
 	.site-description {
 		font-size: 14px;
 		font-size: 1.4rem;
@@ -5501,6 +5538,10 @@ p > video {
 		font-size: 27px;
 		font-size: 2.7rem;
 		line-height: 1.1852;
+	}
+
+	.wp-custom-logo .site-title {
+		margin-top: 0.592592593em;
 	}
 
 	.site-description {

@@ -79,8 +79,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( ! defined( 'imagick::COMPRESSION_JPEG' ) )
 			return false;
 
-		if ( array_diff( $required_methods, get_class_methods( 'Imagick' ) ) )
+		$class_methods = array_map( 'strtolower', get_class_methods( 'Imagick' ) );
+		if ( array_diff( $required_methods, $class_methods ) ) {
 			return false;
+		}
 
 		return true;
 	}

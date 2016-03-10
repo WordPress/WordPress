@@ -1732,6 +1732,30 @@ function _custom_header_background_just_in_time() {
 }
 
 /**
+ * Adds CSS to hide header text for custom logo, based on Customizer setting.
+ *
+ * @since 4.5.0
+ * @access private
+ */
+function _custom_logo_header_styles() {
+	if ( ! current_theme_supports( 'custom-header', 'header-text' ) && get_theme_support( 'custom-logo', 'header-text' ) && ! get_theme_mod( 'header_text', true ) ) {
+		$classes = (array) get_theme_support( 'custom-logo', 'header-text' );
+		$classes = array_map( 'sanitize_html_class', $classes );
+		$classes = '.' . implode( ', .', $classes );
+
+		?>
+		<!-- Custom Logo: hide header text -->
+		<style id="custom-logo-css" type="text/css">
+			<?php echo $classes; ?> {
+				position: absolute;
+				clip: rect(1px, 1px, 1px, 1px);
+			}
+		</style>
+	<?php
+	}
+}
+
+/**
  * Gets the theme support arguments passed when registering that support
  *
  * @since 3.1.0
@@ -1927,6 +1951,7 @@ function require_if_theme_supports( $feature, $include ) {
  * @access private
  * @since 3.0.0
  * @since 4.3.0 Also removes `header_image_data`.
+ * @since 4.5.0 Also removes custom logo theme mods.
  *
  * @param int $id The attachment id.
  */
@@ -1934,6 +1959,12 @@ function _delete_attachment_theme_mod( $id ) {
 	$attachment_image = wp_get_attachment_url( $id );
 	$header_image     = get_header_image();
 	$background_image = get_background_image();
+	$custom_logo_id   = get_theme_mod( 'custom_logo' );
+
+	if ( $custom_logo_id && $custom_logo_id == $id ) {
+		remove_theme_mod( 'custom_logo' );
+		remove_theme_mod( 'header_text' );
+	}
 
 	if ( $header_image && $header_image == $attachment_image ) {
 		remove_theme_mod( 'header_image' );

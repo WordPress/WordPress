@@ -880,8 +880,7 @@ function get_custom_logo( $blog_id = 0 ) {
 	if ( is_multisite() && ms_is_switched() ) {
 		restore_current_blog();
 	}
-	$size = get_theme_support( 'custom-logo' );
-	$size = $size[0]['size'];
+	$size = get_theme_support( 'custom-logo', 'size' );
 
 	// We have a logo. Logo is go.
 	if ( $custom_logo_id ) {

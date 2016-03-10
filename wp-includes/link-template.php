@@ -1222,7 +1222,7 @@ function get_preview_post_link( $post = null, $query_args = array(), $preview_li
 	$post_type_object = get_post_type_object( $post->post_type );
 	if ( is_post_type_viewable( $post_type_object ) ) {
 		if ( ! $preview_link ) {
-			$preview_link = get_permalink( $post );
+			$preview_link = set_url_scheme( get_permalink( $post ) );
 		}
 
 		$query_args['preview'] = 'true';

@@ -1294,8 +1294,7 @@ function get_sample_permalink_html( $id, $new_title = null, $new_slug = null ) {
 
 	if ( current_user_can( 'read_post', $post->ID ) ) {
 		if ( 'draft' === $post->post_status ) {
-			$draft_link = set_url_scheme( get_permalink( $post->ID ) );
-			$view_link = get_preview_post_link( $post, array(), $draft_link );
+			$view_link = get_preview_post_link( $post );
 			$preview_target = " target='wp-preview-{$post->ID}'";
 		} else {
 			if ( 'publish' === $post->post_status || 'attachment' === $post->post_type ) {
