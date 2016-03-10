@@ -852,7 +852,7 @@ function update_meta_cache($meta_type, $object_ids) {
 }
 
 /**
- * Get the metadata lazyloading queue.
+ * Retrieves the queue for lazy-loading metadata.
  *
  * @since 4.5.0
  *
