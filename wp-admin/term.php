@@ -19,8 +19,8 @@ if ( empty( $_REQUEST['tag_ID'] ) ) {
 	exit;
 }
 
-$term_id = absint( $_REQUEST['tag_ID'] );
-$tag     = get_term( $term_id, '', OBJECT, 'edit' );
+$tag_ID = absint( $_REQUEST['tag_ID'] );
+$tag    = get_term( $tag_ID, '', OBJECT, 'edit' );
 
 if ( ! $tag instanceof WP_Term ) {
 	wp_die( __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' ) );

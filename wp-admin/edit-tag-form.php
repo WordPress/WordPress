@@ -49,7 +49,7 @@ if ( 'category' == $taxonomy ) {
  */
 wp_reset_vars( array( 'wp_http_referer' ) );
 
-$wp_http_referer = remove_query_arg( array( 'action', 'message', 'term_id' ), $wp_http_referer );
+$wp_http_referer = remove_query_arg( array( 'action', 'message', 'tag_ID' ), $wp_http_referer );
 
 /** Also used by Edit Tags */
 require_once( ABSPATH . 'wp-admin/includes/edit-tag-messages.php' );
@@ -96,11 +96,11 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 do_action( "{$taxonomy}_term_edit_form_tag" );
 ?>>
 <input type="hidden" name="action" value="editedtag"/>
-<input type="hidden" name="tag_ID" value="<?php echo esc_attr( $term_id ) ?>"/>
+<input type="hidden" name="tag_ID" value="<?php echo esc_attr( $tag_ID ) ?>"/>
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy ) ?>"/>
 <?php
 wp_original_referer_field( true, 'previous' );
-wp_nonce_field( 'update-tag_' . $term_id );
+wp_nonce_field( 'update-tag_' . $tag_ID );
 
 /**
  * Fires at the beginning of the Edit Term form.
