@@ -1143,7 +1143,7 @@
 			} );
 
 			editor.addCommand( 'wpToggleDFW', toggle );
-			editor.addShortcut( 'alt+shift+w', '', 'wpToggleDFW' );
+			editor.addShortcut( 'access+w', '', 'wpToggleDFW' );
 		} );
 
 		$document.on( 'tinymce-editor-init.focus', function( event, editor ) {
