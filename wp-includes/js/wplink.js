@@ -76,6 +76,7 @@ var wpLink;
 				},
 				focus: function( event, ui ) {
 					$input.attr( 'aria-activedescendant', 'mce-wp-autocomplete-' + ui.item.ID );
+					event.preventDefault();
 				},
 				select: function( event, ui ) {
 					$input.val( ui.item.permalink );
