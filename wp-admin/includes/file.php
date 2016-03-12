@@ -469,7 +469,7 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 
 
 /**
- * Downloads a url to a local temporary file using the WordPress HTTP Class.
+ * Downloads a URL to a local temporary file using the WordPress HTTP Class.
  * Please note, That the calling function must unlink() the file.
  *
  * @since 2.5.0

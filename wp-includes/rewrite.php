@@ -447,7 +447,7 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 }
 
 /**
- * Examine a url and try to determine the post ID it represents.
+ * Examine a URL and try to determine the post ID it represents.
  *
  * Checks are supposedly from the hosted site blog.
  *

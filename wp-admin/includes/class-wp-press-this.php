@@ -379,7 +379,7 @@ class WP_Press_This {
 			return ''; // Return empty rather than a truncated/invalid URL
 		}
 
-		// Does not look like an URL.
+		// Does not look like a URL.
 		if ( ! preg_match( '/^([!#$&-;=?-\[\]_a-z~]|%[0-9a-fA-F]{2})+$/', $url ) ) {
 			return '';
 		}

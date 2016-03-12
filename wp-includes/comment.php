@@ -2203,7 +2203,7 @@ function discover_pingback_server_uri( $url, $deprecated = '' ) {
 	/** @todo Should use Filter Extension or custom preg_match instead. */
 	$parsed_url = parse_url($url);
 
-	if ( ! isset( $parsed_url['host'] ) ) // Not an URL. This should never happen.
+	if ( ! isset( $parsed_url['host'] ) ) // Not a URL. This should never happen.
 		return false;
 
 	//Do not search for a pingback server on our own uploads
