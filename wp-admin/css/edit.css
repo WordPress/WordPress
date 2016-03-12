@@ -134,6 +134,10 @@ input#link_url {
 	padding: 1px 2px;
 }
 
+body.post-new-php .submitbox .submitdelete {
+	display: none;
+}
+
 /* @todo: do we really need this? word on the street is we don't and this
 stray rule may actually be compensated for elsewhere. */
 #normal-sortables .submitbox .submitdelete:hover {

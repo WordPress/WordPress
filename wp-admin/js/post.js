@@ -374,6 +374,10 @@ jQuery(document).ready( function($) {
 		$( '.autosave-message' ).text( postL10n.savingText );
 	}).on( 'after-autosave.edit-post', function( event, data ) {
 		$( '.autosave-message' ).text( data.message );
+
+		if ( $( document.body ).hasClass( 'post-new-php' ) ) {
+			$( '.submitbox .submitdelete' ).show();
+		}
 	});
 
 	$(window).on( 'beforeunload.edit-post', function() {
