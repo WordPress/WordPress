@@ -73,7 +73,7 @@
 									 */
 									while( node.nextSibling && 3 === node.nextSibling.nodeType ) {
 										node.nodeValue = node.nodeValue + node.nextSibling.nodeValue;
-										node.parentNode.removedChild( node.nextSibling );
+										node.parentNode.removeChild( node.nextSibling );
 									}
 								}
 
