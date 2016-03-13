@@ -90,6 +90,8 @@
 		var previewInstance;
 		var inputInstance;
 		var linkNode;
+		var doingUndoRedo;
+		var doingUndoRedoTimer;
 		var $ = window.jQuery;
 
 		function getSelectedLink() {
@@ -166,8 +168,10 @@
 									element.value = window.wpLink.getUrlFromSelection( selection );
 								}
 
-								element.focus();
-								element.select();
+								if ( ! doingUndoRedo ) {
+									element.focus();
+									element.select();
+								}
 							}
 						} );
 					}
@@ -300,6 +304,25 @@
 				event.preventDefault();
 			}
 		});
+
+		// When doing undo and redo with keyboard shortcuts (Ctrl|Cmd+Z, Ctrl|Cmd+Shift+Z, Ctrl|Cmd+Y),
+		// set a flag to not focus the inline dialog. The editor has to remain focused so the users can do consecutive undo/redo.
+		editor.on( 'keydown', function( event ) {
+			if ( event.altKey || ( tinymce.Env.mac && ( ! event.metaKey || event.ctrlKey ) ) ||
+				( ! tinymce.Env.mac && ! event.ctrlKey ) ) {
+
+				return;
+			}
+
+			if ( event.keyCode === 89 || event.keyCode === 90 ) { // Y or Z
+				doingUndoRedo = true;
+
+				window.clearTimeout( doingUndoRedoTimer );
+				doingUndoRedoTimer = window.setTimeout( function() {
+					doingUndoRedo = false;
+				}, 500 );
+			}
+		} );
 
 		editor.addButton( 'wp_link_preview', {
 			type: 'WPLinkPreview',
