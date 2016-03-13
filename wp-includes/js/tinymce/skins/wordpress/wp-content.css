@@ -333,11 +333,11 @@ audio {
 .wpview-wrap .wpview-loading ins {
 	background-color: #333;
 	margin: 0 0 0 -60px;
-	width: 60px;
+	width: 36px;
 	height: 5px;
 	display: block;
-	-webkit-animation: wpview-loading 1.3s infinite 1s linear;
-	animation: wpview-loading 1.3s infinite 1s linear;
+	-webkit-animation: wpview-loading 1.3s infinite 1s steps(36);
+	animation: wpview-loading 1.3s infinite 1s steps(36);
 }
 
 @-webkit-keyframes wpview-loading {
