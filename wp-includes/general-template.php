@@ -912,7 +912,7 @@ function get_custom_logo( $blog_id = 0 ) {
 	 * @since 4.5.0
 	 *
 	 * @param string $html Custom logo HTML output.
-	 * @param string $size Size specified in add_theme_support declaration, or 'thumbnail' default.
+	 * @param string $size Size specified in add_theme_support declaration, or 'full' default.
 	 */
 	return apply_filters( 'get_custom_logo', $html, $size );
 }
