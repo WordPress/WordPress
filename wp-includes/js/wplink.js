@@ -436,6 +436,8 @@ var wpLink;
 					}
 				}
 
+				// Not editing any more
+				attrs['data-wplink-edit'] = null;
 				editor.dom.setAttribs( link, attrs );
 			} else {
 				if ( text ) {
