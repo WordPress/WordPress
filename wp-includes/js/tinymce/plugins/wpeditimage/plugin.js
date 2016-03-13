@@ -1005,13 +1005,16 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				rng = tinymce.dom.RangeUtils.getCaretRangeFromPoint( event.clientX, event.clientY, editor.getDoc() );
 
 			// Don't allow anything to be dropped in a captioned image.
-			if ( dom.getParent( rng.startContainer, '.mceTemp' ) ) {
+			if ( rng && dom.getParent( rng.startContainer, '.mceTemp' ) ) {
 				event.preventDefault();
 			} else if ( wrap ) {
 				event.preventDefault();
 
 				editor.undoManager.transact( function() {
-					editor.selection.setRng( rng );
+					if ( rng ) {
+						editor.selection.setRng( rng );
+					}
+
 					editor.selection.setNode( wrap );
 					dom.remove( wrap );
 				} );
