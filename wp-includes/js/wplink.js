@@ -35,7 +35,7 @@ var wpLink;
 				wpLink.update();
 			});
 
-			inputs.close.add( inputs.backdrop ).add( '#wp-link-cancel a' ).click( function( event ) {
+			inputs.close.add( inputs.backdrop ).add( '#wp-link-cancel button' ).click( function( event ) {
 				event.preventDefault();
 				wpLink.close();
 			});

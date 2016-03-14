@@ -1074,7 +1074,7 @@ i.mce-i-wp_code:before {
 	padding: 10px;
 	margin: 1px 0 0;
 	line-height: 150%;
-	border: 0 none;
+	border: 0;
 	outline: none;
 	display: block;
 	resize: vertical;
@@ -1388,10 +1388,8 @@ i.mce-i-wp_code:before {
 	font-size: 18px;
 	font-weight: 600;
 	line-height: 36px;
+	margin: 0;
 	padding: 0 16px 0 36px;
-	top: 0;
-	left: 0;
-	right: 0;
 }
 
 #wp-link-close {
@@ -1436,10 +1434,6 @@ i.mce-i-wp_code:before {
 
 #link-selector {
 	padding: 0 16px 50px;
-}
-
-#wp-link-wrap.search-panel-visible #link-selector {
-	-webkit-overflow-scrolling: touch;
 }
 
 #wp-link ol,
@@ -1494,61 +1488,6 @@ i.mce-i-wp_code:before {
 	max-width: 70%;
 }
 
-#wp-link li {
-	clear: both;
-	margin-bottom: 0;
-	border-bottom: 1px solid #f1f1f1;
-	color: #32373c;
-	padding: 4px 10px 4px 6px;
-	cursor: pointer;
-	position: relative;
-}
-
-#wp-link li:hover {
-	background: #eaf2fa;
-	color: #151515;
-}
-
-#wp-link li.unselectable {
-	border-bottom: 1px solid #ddd;
-}
-
-#wp-link li.unselectable:hover {
-	background: #fff;
-	cursor: auto;
-	color: #32373c;
-}
-
-#wp-link li.selected {
-	background: #ddd;
-	color: #32373c;
-}
-
-#wp-link li.selected .item-title {
-	font-weight: bold;
-}
-
-#wp-link li:last-child {
-	border: none;
-}
-
-#wp-link .item-title {
-	display: inline-block;
-	width: 80%;
-	width: -webkit-calc(100% - 68px);
-	width: calc(100% - 68px);
-	word-wrap: break-word;
-}
-
-#wp-link .item-info {
-	text-transform: uppercase;
-	color: #666;
-	font-size: 11px;
-	position: absolute;
-	left: 5px;
-	top: 5px;
-}
-
 #wp-link .submitbox {
 	padding: 8px 16px;
 	background: #fcfcfc;
@@ -1571,7 +1510,6 @@ i.mce-i-wp_code:before {
 
 #wp-link-submit {
 	float: left;
-	margin-bottom: 0;
 }
 
 @media screen and ( max-width: 782px ) {
@@ -1583,12 +1521,16 @@ i.mce-i-wp_code:before {
 		padding: 0 16px 60px;
 	}
 
-	#wp-link-wrap.search-panel-visible #link-selector {
-		bottom: 52px;
-	}
-
 	#wp-link-cancel {
 		line-height: 32px;
+	}
+
+	#wp-link .link-target {
+		padding-top: 10px;
+	}
+
+	#wp-link .submitbox .button {
+		margin-bottom: 0;
 	}
 }
 
