@@ -3171,7 +3171,7 @@ class WP_Automatic_Updater {
 	 *
 	 * @global string $wp_version
 	 *
-	 * @param object|WP_Error $update_result The result of the core update. Includes the update offer and result.
+	 * @param object $update_result The result of the core update. Includes the update offer and result.
 	 */
 	protected function after_core_update( $update_result ) {
 		global $wp_version;
