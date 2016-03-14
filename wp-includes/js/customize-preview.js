@@ -226,57 +226,15 @@
 		/**
 		 * Custom Logo
 		 *
-		 * The custom logo setting only contains the attachment ID. To avoid having to send an AJAX request to get more
-		 * data, we send a separate message with the attachment data we get from the Customizer's media modal.
-		 * Therefore first callback handles only the event of a new logo being selected.
-		 *
-		 * We don't need any information about a removed logo, so the second callback only handles that.
+		 * Toggle the wp-custom-logo body class when a logo is added or removed.
 		 *
 		 * @since 4.5.0
 		 */
-		api.preview.bind( 'custom_logo-attachment-data', function( attachment ) {
-			var $logo  = $( '.custom-logo' ),
-				size   = $logo.data( 'size' ),
-				srcset = [];
-
-			// If the source was smaller than the size required by the theme, give the biggest we've got.
-			if ( ! attachment.sizes[ size ] ) {
-				size = 'full';
-			}
-
-			_.each( attachment.sizes, function( size ) {
-				srcset.push( size.url + ' ' + size.width + 'w' );
-			} );
-
-			$logo.attr( {
-				height: attachment.sizes[ size ].height,
-				width:  attachment.sizes[ size ].width,
-				src:    attachment.sizes[ size ].url,
-				srcset: srcset
-			} );
-
-			$( '.custom-logo-link' ).show();
-			$( 'body' ).addClass( 'wp-custom-logo' );
-		} );
-
 		api( 'custom_logo', function( setting ) {
-			setting.bind( function( newValue ) {
-				if ( ! newValue ) {
-					$( '.custom-logo-link' ).hide();
-					$( 'body' ).removeClass( 'wp-custom-logo' );
-				}
+			$( 'body' ).toggleClass( 'wp-custom-logo', !! setting.get() );
+			setting.bind( function( attachmentId ) {
+				$( 'body' ).toggleClass( 'wp-custom-logo', !! attachmentId );
 			} );
-
-			// Focus on the control when the logo is clicked, if there is no custom_logo partial.
-			if ( ! api.selectiveRefresh || ! api.selectiveRefresh.partial.has( 'custom_logo' ) ) {
-				$( document.body ).on( 'click', '.custom-logo-link', function( e ) {
-					if ( ! e.shiftKey ) {
-						return;
-					}
-					api.preview.send( 'focus-control-for-setting', 'custom_logo' );
-				} );
-				$( '.custom-logo-link' ).attr( 'title', api.settings.l10n.shiftClickToEdit );
-			}
 		} );
 
 		api.trigger( 'preview-ready' );
