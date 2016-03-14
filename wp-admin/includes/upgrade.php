@@ -1682,6 +1682,9 @@ function upgrade_450() {
 	if ( $wp_current_db_version < 36679 && is_multisite() ) {
 		$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name REGEXP '^[0-9]+_new_email$'" );
 	}
+
+	// Remove unused user setting for wpLink.
+	delete_user_setting( 'wplink' );
 }
 
 /**

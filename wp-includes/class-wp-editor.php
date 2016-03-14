@@ -1400,12 +1400,10 @@ final class _WP_Editors {
 	 * @static
 	 */
 	public static function wp_link_dialog() {
-		$search_panel_visible = '1' == get_user_setting( 'wplink', '0' ) ? ' search-panel-visible' : '';
-
 		// display: none is required here, see #WP27605
 		?>
 		<div id="wp-link-backdrop" style="display: none"></div>
-		<div id="wp-link-wrap" class="wp-core-ui<?php echo $search_panel_visible; ?>" style="display: none">
+		<div id="wp-link-wrap" class="wp-core-ui" style="display: none">
 		<form id="wp-link" tabindex="-1">
 		<?php wp_nonce_field( 'internal-linking', '_ajax_linking_nonce', false ); ?>
 		<div id="link-modal-title">
@@ -1414,7 +1412,6 @@ final class _WP_Editors {
 	 	</div>
 		<div id="link-selector">
 			<div id="link-options">
-				<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
 				<div>
 					<label><span><?php _e( 'URL' ); ?></span>
 					<input id="wp-link-url" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" placeholder="<?php _e( 'Paste URL or type to search' ); ?>" /></label>
@@ -1424,7 +1421,8 @@ final class _WP_Editors {
 					<input id="wp-link-text" type="text" /></label>
 				</div>
 				<div class="link-target">
-					<label><span>&nbsp;</span><input type="checkbox" id="wp-link-target" /> <?php _e( 'Open link in a new tab' ); ?></label>
+					<label><span>&nbsp;</span>
+					<input type="checkbox" id="wp-link-target" /> <?php _e( 'Open link in a new tab' ); ?></label>
 				</div>
 			</div>
 		</div>
