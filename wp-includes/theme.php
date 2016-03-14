@@ -490,7 +490,7 @@ function search_theme_directories( $force = false ) {
 					continue;
 				}
 				foreach ( $sub_dirs as $sub_dir ) {
-					if ( ! is_dir( $theme_root . '/' . $dir . '/' . $sub_dir ) || $dir[0] == '.' || $dir == 'CVS' )
+					if ( ! is_dir( $theme_root . '/' . $dir . '/' . $sub_dir ) )
 						continue;
 					if ( ! file_exists( $theme_root . '/' . $dir . '/' . $sub_dir . '/style.css' ) )
 						continue;
