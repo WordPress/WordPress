@@ -501,6 +501,7 @@ if ( !function_exists('wp_authenticate') ) :
  * Authenticate a user, confirming the login credentials are valid.
  *
  * @since 2.5.0
+ * @since 4.5.0 $username can also be an email address.
  *
  * @param string $username User's username or email address.
  * @param string $password User's password.
@@ -518,10 +519,11 @@ function wp_authenticate($username, $password) {
 	 * WP_Error or null otherwise.
 	 *
 	 * @since 2.8.0
+	 * @since 4.5.0 $username can also be an email address.
 	 *
 	 * @param null|WP_User|WP_Error $user     WP_User if the user is authenticated.
 	 *                                        WP_Error or null otherwise.
-	 * @param string                $username User login.
+	 * @param string                $username Username or email address.
 	 * @param string                $password User password
 	 */
 	$user = apply_filters( 'authenticate', null, $username, $password );
@@ -539,8 +541,9 @@ function wp_authenticate($username, $password) {
 		 * Fires after a user login has failed.
 		 *
 		 * @since 2.5.0
+		 * @since 4.5.0 $username can also be an email address.
 		 *
-		 * @param string $username User login.
+		 * @param string $username Username or email address.
 		 */
 		do_action( 'wp_login_failed', $username );
 	}
