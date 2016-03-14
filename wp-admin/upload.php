@@ -254,7 +254,7 @@ if ( ! empty( $_GET['detach'] ) && $detached = absint( $_GET['detach'] ) ) {
 		$message = __( 'Media file detached.' );
 	} else {
 		/* translators: %s: number of media files */
-		$message = _n( '%s media file detached.', '%s media filse detached.', $detached );
+		$message = _n( '%s media file detached.', '%s media files detached.', $detached );
 	}
 	$message = sprintf( $message, number_format_i18n( $detached ) );
 	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detach', 'attached' ), $_SERVER['REQUEST_URI'] );
