@@ -51,10 +51,16 @@ function get_categories( $args = '' ) {
 		$taxonomy = $args['taxonomy'] = 'link_category';
 	}
 
-	$categories = (array) get_terms( $taxonomy, $args );
+	$categories = get_terms( $taxonomy, $args );
 
-	foreach ( array_keys( $categories ) as $k )
-		_make_cat_compat( $categories[$k] );
+	if ( is_wp_error( $categories ) ) {
+		$categories = array();
+	} else {
+		$categories = (array) $categories;
+		foreach ( array_keys( $categories ) as $k ) {
+			_make_cat_compat( $categories[ $k ] );
+		}
+	}
 
 	return $categories;
 }
