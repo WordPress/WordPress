@@ -56,7 +56,7 @@
 		renderHtml: function() {
 			return (
 				'<div id="' + this._id + '" class="wp-link-input">' +
-					'<input type="text" value="" tabindex="-1" placeholder="' + tinymce.translate('Paste URL or type to search') + '" />' +
+					'<input type="text" value="" placeholder="' + tinymce.translate( 'Paste URL or type to search' ) + '" />' +
 					'<input type="text" style="display:none" value="" />' +
 				'</div>'
 			);
@@ -235,6 +235,11 @@
 
 			inputInstance.reset();
 			editor.nodeChanged();
+
+			// Audible confirmation message when a link has been inserted in the Editor.
+			if ( typeof window.wp !== 'undefined' && window.wp.a11y && typeof window.wpLinkL10n !== 'undefined' ) {
+				window.wp.a11y.speak( window.wpLinkL10n.linkInserted );
+			}
 		} );
 
 		editor.addCommand( 'wp_link_cancel', function() {
@@ -371,11 +376,22 @@
 						},
 						focus: function( event, ui ) {
 							$input.attr( 'aria-activedescendant', 'mce-wp-autocomplete-' + ui.item.ID );
+							/*
+							 * Don't empty the URL input field, when using the arrow keys to
+							 * highlight items. See api.jqueryui.com/autocomplete/#event-focus
+							 */
 							event.preventDefault();
 						},
 						select: function( event, ui ) {
 							$input.val( ui.item.permalink );
 							$( element.firstChild.nextSibling ).val( ui.item.title );
+
+							if ( 9 === event.keyCode && typeof window.wp !== 'undefined' &&
+								window.wp.a11y && typeof window.wpLinkL10n !== 'undefined' ) {
+								// Audible confirmation message when a link has been selected.
+								window.wp.a11y.speak( window.wpLinkL10n.linkSelected );
+							}
+
 							return false;
 						},
 						open: function() {
@@ -413,13 +429,21 @@
 						'aria-autocomplete': 'list',
 						'aria-expanded': 'false',
 						'aria-owns': $input.autocomplete( 'widget' ).attr( 'id' )
-					}  )
+					} )
 					.on( 'focus', function() {
-						$input.autocomplete( 'search' );
+						var inputValue = $input.val();
+						/*
+						 * Don't trigger a search if the URL field already has a link or is empty.
+						 * Also, avoids screen readers announce `No search results`.
+						 */
+						if ( inputValue && ! /^https?:/.test( inputValue ) ) {
+							$input.autocomplete( 'search' );
+						}
 					} )
 					.autocomplete( 'widget' )
 						.addClass( 'wplink-autocomplete' )
-						.attr( 'role', 'listbox' );
+						.attr( 'role', 'listbox' )
+						.removeAttr( 'tabindex' ); // Remove the `tabindex=0` attribute added by jQuery UI.
 				}
 
 				tinymce.$( input ).on( 'keydown', function( event ) {
@@ -483,7 +507,20 @@
 					var url = inputInstance.getURL() || null,
 						text = inputInstance.getLinkText() || null;
 
-					editor.focus(); // Needed for IE
+					/*
+					 * Accessibility note: moving focus back to the editor confuses
+					 * screen readers. They will announce again the Editor ARIA role
+					 * `application` and the iframe `title` attribute.
+					 *
+					 * Unfortunately IE looses the selection when the editor iframe
+					 * looses focus, so without returning focus to the editor, the code
+					 * in the modal will not be able to get the selection, place the caret
+					 * at the same location, etc.
+					 */
+					if ( tinymce.Env.ie ) {
+						editor.focus(); // Needed for IE
+					}
+
 					window.wpLink.open( editor.id, url, text, linkNode );
 
 					editToolbar.tempHide = true;

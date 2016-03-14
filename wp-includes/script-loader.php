@@ -204,7 +204,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'jquery-effects-transfer', "/wp-includes/js/jquery/ui/effect-transfer$dev_suffix.js", array('jquery-effects-core'), '1.11.4', 1 );
 
 	$scripts->add( 'jquery-ui-accordion', "/wp-includes/js/jquery/ui/accordion$dev_suffix.js", array('jquery-ui-core', 'jquery-ui-widget'), '1.11.4', 1 );
-	$scripts->add( 'jquery-ui-autocomplete', "/wp-includes/js/jquery/ui/autocomplete$dev_suffix.js", array('jquery-ui-menu'), '1.11.4', 1 );
+	$scripts->add( 'jquery-ui-autocomplete', "/wp-includes/js/jquery/ui/autocomplete$dev_suffix.js", array( 'jquery-ui-menu', 'wp-a11y' ), '1.11.4', 1 );
 	$scripts->add( 'jquery-ui-button', "/wp-includes/js/jquery/ui/button$dev_suffix.js", array('jquery-ui-core', 'jquery-ui-widget'), '1.11.4', 1 );
 	$scripts->add( 'jquery-ui-datepicker', "/wp-includes/js/jquery/ui/datepicker$dev_suffix.js", array('jquery-ui-core'), '1.11.4', 1 );
 	$scripts->add( 'jquery-ui-dialog', "/wp-includes/js/jquery/ui/dialog$dev_suffix.js", array('jquery-ui-resizable', 'jquery-ui-draggable', 'jquery-ui-button', 'jquery-ui-position'), '1.11.4', 1 );
@@ -226,10 +226,10 @@ function wp_default_scripts( &$scripts ) {
 
 	// Strings for 'jquery-ui-autocomplete' live region messages
 	did_action( 'init' ) && $scripts->localize( 'jquery-ui-autocomplete', 'uiAutocompleteL10n', array(
-			'noResults' => __( 'No search results.' ),
-			/* translators: Number of results found when using jQuery UI Autocomplete */
-			'oneResult' => __( '1 result found. Use up and down arrow keys to navigate.' ),
-			'manyResults' => __( '%d results found. Use up and down arrow keys to navigate.' ),
+		'noResults' => __( 'No search results.' ),
+		/* translators: Number of results found when using jQuery UI Autocomplete */
+		'oneResult' => __( '1 result found. Use up and down arrow keys to navigate.' ),
+		'manyResults' => __( '%d results found. Use up and down arrow keys to navigate.' ),
 	) );
 
 	// deprecated, not used in core, most functionality is included in jQuery 1.3
@@ -252,13 +252,13 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'thickbox', "/wp-includes/js/thickbox/thickbox.js", array('jquery'), '3.1-20121105', 1 );
 	did_action( 'init' ) && $scripts->localize( 'thickbox', 'thickboxL10n', array(
-			'next' => __('Next &gt;'),
-			'prev' => __('&lt; Prev'),
-			'image' => __('Image'),
-			'of' => __('of'),
-			'close' => __('Close'),
-			'noiframes' => __('This feature requires inline frames. You have iframes disabled or your browser does not support them.'),
-			'loadingAnimation' => includes_url('js/thickbox/loadingAnimation.gif'),
+		'next' => __('Next &gt;'),
+		'prev' => __('&lt; Prev'),
+		'image' => __('Image'),
+		'of' => __('of'),
+		'close' => __('Close'),
+		'noiframes' => __('This feature requires inline frames. You have iframes disabled or your browser does not support them.'),
+		'loadingAnimation' => includes_url('js/thickbox/loadingAnimation.gif'),
 	) );
 
 	$scripts->add( 'jcrop', "/wp-includes/js/jcrop/jquery.Jcrop.min.js", array('jquery'), '0.9.12');
@@ -401,13 +401,15 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'admin-bar', "/wp-includes/js/admin-bar$suffix.js", array(), false, 1 );
 
-	$scripts->add( 'wplink', "/wp-includes/js/wplink$suffix.js", array( 'jquery' ), false, 1 );
+	$scripts->add( 'wplink', "/wp-includes/js/wplink$suffix.js", array( 'jquery', 'wp-a11y' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'wplink', 'wpLinkL10n', array(
 		'title' => __('Insert/edit link'),
 		'update' => __('Update'),
 		'save' => __('Add Link'),
 		'noTitle' => __('(no title)'),
-		'noMatchesFound' => __('No results found.')
+		'noMatchesFound' => __('No results found.'),
+		'linkSelected' => __( 'Link selected.' ),
+		'linkInserted' => __( 'Link inserted.' ),
 	) );
 
 	$scripts->add( 'wpdialogs', "/wp-includes/js/wpdialog$suffix.js", array( 'jquery-ui-dialog' ), false, 1 );
