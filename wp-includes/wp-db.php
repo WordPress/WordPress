@@ -3116,6 +3116,8 @@ class wpdb {
 
 		if ( $closed ) {
 			$this->dbh = null;
+			$this->ready = false;
+			$this->has_connected = false;
 		}
 
 		return $closed;
