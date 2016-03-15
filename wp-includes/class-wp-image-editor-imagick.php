@@ -84,6 +84,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			return false;
 		}
 
+		// HHVM Imagick does not support loading from URL, so fail to allow fallback to GD.
+		if ( defined( 'HHVM_VERSION' ) && isset( $args['path'] ) && preg_match( '|^https?://|', $args['path'] ) ) {
+			return false;
+		}
+
 		return true;
 	}
 
