@@ -16,12 +16,12 @@
 
 	// Enable menu toggle for small screens.
 	( function() {
-		if ( ! nav || ! button ) {
+		if ( ! nav.length || ! button.length ) {
 			return;
 		}
 
 		// Hide button if menu is missing or empty.
-		if ( ! menu || ! menu.children().length ) {
+		if ( ! menu.length || ! menu.children().length ) {
 			button.hide();
 			return;
 		}
