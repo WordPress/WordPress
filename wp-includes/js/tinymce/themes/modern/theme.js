@@ -797,13 +797,13 @@ tinymce.ThemeManager.add('modern', function(editor) {
 			]});
 		}
 
-		if (settings.readonly) {
-			panel.find('*').disabled(true);
-		}
-
 		editor.fire('BeforeRenderUI');
 		editor.on('SwitchMode', switchMode());
 		panel.renderBefore(args.targetNode).reflow();
+
+		if (settings.readonly) {
+			editor.setMode('readonly');
+		}
 
 		if (settings.width) {
 			tinymce.DOM.setStyle(panel.getEl(), 'width', settings.width);

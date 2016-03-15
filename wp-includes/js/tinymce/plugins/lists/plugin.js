@@ -433,9 +433,9 @@ tinymce.PluginManager.add('lists', function(editor) {
 				return true;
 			}
 
-			if (sibling && sibling.nodeName == 'LI' && isListNode(li.lastChild)) {
+			/*if (sibling && sibling.nodeName == 'LI' && isListNode(li.lastChild)) {
 				return false;
-			}
+			}*/
 
 			sibling = li.previousSibling;
 			if (sibling && sibling.nodeName == 'LI') {
@@ -695,11 +695,15 @@ tinymce.PluginManager.add('lists', function(editor) {
 				}
 
 				nonEmptyBlocks = editor.schema.getNonEmptyElements();
-				walker = new tinymce.dom.TreeWalker(rng.startContainer, editor.getBody());
+				if (node.nodeType == 1) {
+					node = tinymce.dom.RangeUtils.getNode(node, offset);
+				}
+
+				walker = new tinymce.dom.TreeWalker(node, editor.getBody());
 
 				// Delete at <li>|<br></li> then jump over the bogus br
 				if (isForward) {
-					if (isBogusBr(tinymce.dom.RangeUtils.getNode(rng.startContainer, rng.startOffset))) {
+					if (isBogusBr(node)) {
 						walker.next();
 					}
 				}
