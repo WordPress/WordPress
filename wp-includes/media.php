@@ -1028,6 +1028,14 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	$image_baseurl = trailingslashit( $upload_dir['baseurl'] ) . $dirname;
 
 	/*
+	 * If currently on HTTPS, prefer HTTPS URLs when we know they're supported by the domain
+	 * (which is to say, when they share the domain name of the current request).
+	 */
+	if ( is_ssl() && 'https' !== substr( $image_baseurl, 0, 5 ) && parse_url( $image_baseurl, PHP_URL_HOST ) === $_SERVER['HTTP_HOST'] ) {
+		$image_baseurl = set_url_scheme( $image_baseurl, 'https' );
+	}
+
+	/*
 	 * Images that have been edited in WordPress after being uploaded will
 	 * contain a unique hash. Look for that hash and use it later to filter
 	 * out images that are leftovers from previous versions.
