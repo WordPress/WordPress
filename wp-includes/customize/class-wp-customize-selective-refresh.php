@@ -24,6 +24,8 @@ final class WP_Customize_Selective_Refresh {
 	/**
 	 * Customize manager.
 	 *
+	 * @since 4.5.0
+	 * @access public
 	 * @var WP_Customize_Manager
 	 */
 	public $manager;
