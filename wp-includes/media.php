@@ -985,7 +985,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 */
 	$image_meta = apply_filters( 'wp_calculate_image_srcset_meta', $image_meta, $size_array, $image_src, $attachment_id );
 
-	if ( empty( $image_meta['sizes'] ) || strlen( $image_meta['file'] ) < 4 ) {
+	if ( empty( $image_meta['sizes'] ) || ! isset( $image_meta['file'] ) || strlen( $image_meta['file'] ) < 4 ) {
 		return false;
 	}
 
