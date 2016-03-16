@@ -887,10 +887,15 @@
 		}
 
 		function fadeOut( event ) {
-			var key = event && event.keyCode;
+			var isMac,
+				key = event && event.keyCode;
 
-			// fadeIn and return on Escape and keyboard shortcut Alt+Shift+W.
-			if ( key === 27 || ( key === 87 && event.altKey && event.shiftKey ) ) {
+			if ( window.navigator.platform ) {
+				isMac = ( window.navigator.platform.indexOf( 'Mac' ) > -1 );
+			}
+
+			// fadeIn and return on Escape and keyboard shortcut Alt+Shift+W and Ctrl+Opt+W.
+			if ( key === 27 || ( key === 87 && event.altKey && ( ( ! isMac && event.shiftKey ) || ( isMac && event.ctrlKey ) ) ) ) {
 				fadeIn( event );
 				return;
 			}
