@@ -258,12 +258,12 @@ class WP_REST_Response extends WP_HTTP_Response {
 	}
 
 	/**
-	 * Get the CURIEs (compact URIs) used for relations.
+	 * Retrieves the CURIEs (compact URIs) used for relations.
 	 *
 	 * @since 4.5.0
 	 * @access public
 	 *
-	 * @return array
+	 * @return array Compact URIs.
 	 */
 	public function get_curies() {
 		$curies = array(
