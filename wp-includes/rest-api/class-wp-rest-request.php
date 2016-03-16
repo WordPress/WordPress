@@ -936,9 +936,11 @@ class WP_REST_Request implements ArrayAccess {
 	}
 
 	/**
-	 * Gets a WP_REST_Request object from a full URL.
+	 * Retrieves a WP_REST_Request object from a full URL.
 	 *
+	 * @static
 	 * @since 4.5.0
+	 * @access public
 	 *
 	 * @param string $url URL with protocol, domain, path and query args.
 	 * @return WP_REST_Request|false WP_REST_Request object on success, false on failure.
