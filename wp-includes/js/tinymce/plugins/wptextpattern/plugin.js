@@ -30,14 +30,10 @@
 			{ start: '#####', format: 'h5' },
 			{ start: '######', format: 'h6' },
 			{ start: '>', format: 'blockquote' },
-			{ regExp: /^\s*(?:(?:\* ?){3,}|(?:_ ?){3,}|(?:- ?){3,})\s*$/, element: 'hr' }
+			{ regExp: /^(-){3,}$/, element: 'hr' }
 		];
 
 		var inlinePatterns = [
-			{ start: '*', end: '*', format: 'italic' },
-			{ start: '**', end: '**', format: 'bold' },
-			{ start: '_', end: '_', format: 'italic' },
-			{ start: '__', end: '__', format: 'bold' },
 			{ start: '`', end: '`', format: 'code' }
 		];
 

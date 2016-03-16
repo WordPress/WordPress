@@ -291,15 +291,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					tr({ '#####': 'Heading 5' }) +
 					tr({ '######': 'Heading 6' }) +
 					tr({ '---': 'Horizontal line' }) +
-					tr({ '***': 'Horizontal line' }) +
-				'</table>';
-
-			html = html +
-				'<h2>' + __( 'The next group of formatting shortcuts are applied as you type or when you insert them around plain text in the same paragraph. Press Escape or the Undo button to undo.' ) + '</h2>' +
-				'<table class="wp-help-th-center fixed">' +
-					tr({ '*': 'Italic', '**': 'Bold' }) +
-					tr({ '_': 'Italic', '__': 'Bold' }) +
-					tr({ '`': 'Code', empty: '' }) +
 				'</table>';
 		}
 
