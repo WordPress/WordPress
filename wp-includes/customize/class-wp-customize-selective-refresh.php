@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Customize Selective Refresh class
+ * Customize API: WP_Customize_Selective_Refresh class
  *
  * @package WordPress
  * @subpackage Customize
@@ -8,7 +8,7 @@
  */
 
 /**
- * WordPress Customize Selective Refresh class.
+ * Core Customizer class for implementing selective refresh.
  *
  * @since 4.5.0
  */
