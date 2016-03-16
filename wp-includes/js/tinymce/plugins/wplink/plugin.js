@@ -498,9 +498,8 @@
 			cmd: 'unlink'
 		} );
 
-		// Advanced, more, options?
 		editor.addButton( 'wp_link_advanced', {
-			tooltip: 'Advanced',
+			tooltip: 'Link options',
 			icon: 'dashicon dashicons-admin-generic',
 			onclick: function() {
 				if ( typeof window.wpLink !== 'undefined' ) {
