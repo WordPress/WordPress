@@ -263,6 +263,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 	$to_send = compact( 'plugins', 'active' );
 
 	$locales = array_values( get_available_languages() );
+
 	/**
 	 * Filter the locales requested for plugin translations.
 	 *
@@ -436,6 +437,7 @@ function wp_update_themes( $extra_stats = array() ) {
 	$request['themes'] = $themes;
 
 	$locales = array_values( get_available_languages() );
+
 	/**
 	 * Filter the locales requested for theme translations.
 	 *
