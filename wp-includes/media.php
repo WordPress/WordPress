@@ -985,7 +985,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 */
 	$image_meta = apply_filters( 'wp_calculate_image_srcset_meta', $image_meta, $size_array, $image_src, $attachment_id );
 
-	if ( empty( $image_meta['sizes'] ) ) {
+	if ( empty( $image_meta['sizes'] ) || strlen( $image_meta['file'] ) < 4 ) {
 		return false;
 	}
 
@@ -1059,6 +1059,11 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 * versions of the same edit.
 	 */
 	foreach ( $image_sizes as $image ) {
+
+		// Check if image meta isn't corrupted.
+		if ( ! is_array( $image ) ) {
+			continue;
+		}
 
 		// If the file name is part of the `src`, we've confirmed a match.
 		if ( ! $src_matched && false !== strpos( $image_src, $dirname . $image['file'] ) ) {
