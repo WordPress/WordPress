@@ -43,9 +43,10 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 	}
 
 	/**
-	 * Render a JS template for the content of the site icon control.
+	 * Renders a JS template for the content of the site icon control.
 	 *
 	 * @since 4.5.0
+	 * @access public
 	 */
 	public function content_template() {
 		?>
