@@ -2415,7 +2415,8 @@ function wp_get_users_with_no_role() {
  * set the current user to 0, which is invalid and won't have any permissions.
  *
  * This function is used by the pluggable functions wp_get_current_user() and
- * get_currentuserinfo(), which is deprecated, for backward compatibility.
+ * get_currentuserinfo(), the latter of which is deprecated but used for backward
+ * compatibility.
  *
  * @since 4.5.0
  * @access private
