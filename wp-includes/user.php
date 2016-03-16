@@ -174,7 +174,7 @@ function wp_authenticate_username_password($user, $username, $password) {
 }
 
 /**
- * Authenticate the user using the email and password.
+ * Authenticates a user using the email and password.
  *
  * @since 4.5.0
  *
