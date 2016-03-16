@@ -975,8 +975,9 @@ class WP_REST_Request implements ArrayAccess {
 		 *
 		 * @since 4.5.0
 		 *
-		 * @param WP_REST_Request|false $request Generated request object, or false if URL could not be parsed.
-		 * @param string $url URL the request was generated from.
+		 * @param WP_REST_Request|false $request Generated request object, or false if URL
+		 *                                       could not be parsed.
+		 * @param string                $url     URL the request was generated from.
 		 */
 		return apply_filters( 'rest_request_from_url', $request, $url );
 	}
