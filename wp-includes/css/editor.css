@@ -484,11 +484,16 @@ div.mce-path {
 	min-width: 0;
 	background: #0085ba;
 	border-color: #0073aa #006799 #006799;
-	-webkit-box-shadow: none;
-	box-shadow: none;
+	-webkit-box-shadow: 0 1px 0 #006799;
+	box-shadow: 0 1px 0 #006799;
 	color: #fff;
 	text-decoration: none;
 	text-shadow: none;
+}
+
+/* Compensate for the extra box shadow at the bottom of .mce-btn.mce-primary */
+.mce-toolbar .mce-btn-group .mce-btn.mce-primary button {
+	padding: 2px 3px 1px;
 }
 
 .mce-toolbar .mce-btn-group .mce-btn.mce-primary .mce-ico {
@@ -500,8 +505,6 @@ div.mce-path {
 	background: #008ec2;
 	border-color: #006799;
 	color: #fff;
-	-webkit-box-shadow: 0 1px 0 rgba( 0, 0, 0, 0.2 );
-	box-shadow: 0 1px 0 rgba( 0, 0, 0, 0.2 );
 }
 
 .mce-toolbar .mce-btn-group .mce-btn.mce-primary:focus {
@@ -1262,6 +1265,11 @@ i.mce-i-wp_code:before {
 		padding: 6px 7px;
 	}
 
+	/* Compensate for the extra box shadow at the bottom of .mce-btn.mce-primary */
+	.mce-toolbar .mce-btn-group .mce-btn.mce-primary button {
+		padding: 6px 7px 5px;
+	}
+
 	.mce-toolbar .mce-btn-group .mce-btn {
 		margin: 1px;
 	}
@@ -1597,6 +1605,15 @@ div.wp-link-input input {
 	box-sizing: border-box;
 }
 
+.mce-toolbar div.wp-link-preview ~ .mce-btn,
+.mce-toolbar div.wp-link-input ~ .mce-btn {
+	margin: 2px 1px;
+}
+
+.mce-inline-toolbar-grp .mce-btn-group .mce-btn:last-child {
+	margin-right: 2px;
+}
+
 .ui-autocomplete.wplink-autocomplete {
 	z-index: 100110;
 	max-height: 200px;
@@ -1627,7 +1644,7 @@ div.wp-link-input input {
 	div.wp-link-input input {
 		width: 100%;
 		font-size: 16px;
-		padding: 4px;
+		padding: 5px;
 	}
 }
 
