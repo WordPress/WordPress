@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Customize Partial class
+ * Customize API: WP_Customize_Partial class
  *
  * @package WordPress
  * @subpackage Customize
@@ -8,7 +8,7 @@
  */
 
 /**
- * Customize Partial class.
+ * Core Customizer class for implementing selective refresh partials.
  *
  * Representation of a rendered region in the previewed page that gets
  * selectively refreshed when an associated setting is changed.
