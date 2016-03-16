@@ -520,7 +520,6 @@ class WP_REST_Server {
 		}
 
 		$embedded = array();
-		$api_root = rest_url();
 
 		foreach ( $data['_links'] as $rel => $links ) {
 			// Ignore links to self, for obvious reasons.
