@@ -945,6 +945,7 @@ class WP_REST_Server {
 			'name'           => get_option( 'blogname' ),
 			'description'    => get_option( 'blogdescription' ),
 			'url'            => get_option( 'siteurl' ),
+			'home'           => home_url(),
 			'namespaces'     => array_keys( $this->namespaces ),
 			'authentication' => array(),
 			'routes'         => $this->get_data_for_routes( $this->get_routes(), $request['context'] ),
