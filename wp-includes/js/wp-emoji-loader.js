@@ -88,7 +88,8 @@
 	tests = Array( 'simple', 'flag', 'unicode8', 'diversity' );
 
 	settings.supports = {
-		everything: true
+		everything: true,
+		everythingExceptFlag: true
 	};
 
 	for( ii = 0; ii < tests.length; ii++ ) {
