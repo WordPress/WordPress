@@ -1067,6 +1067,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 * versions of the same edit.
 	 */
 	foreach ( $image_sizes as $image ) {
+		$is_src = false;
 
 		// Check if image meta isn't corrupted.
 		if ( ! is_array( $image ) ) {
@@ -1075,7 +1076,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 
 		// If the file name is part of the `src`, we've confirmed a match.
 		if ( ! $src_matched && false !== strpos( $image_src, $dirname . $image['file'] ) ) {
-			$src_matched = true;
+			$src_matched = $is_src = true;
 		}
 
 		// Filter out images that are from previous edits.
@@ -1087,9 +1088,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 		 * Filter out images that are wider than '$max_srcset_image_width' unless
 		 * that file is in the 'src' attribute.
 		 */
-		if ( $max_srcset_image_width && $image['width'] > $max_srcset_image_width &&
-			false === strpos( $image_src, $image['file'] ) ) {
-
+		if ( $max_srcset_image_width && $image['width'] > $max_srcset_image_width && ! $is_src ) {
 			continue;
 		}
 
@@ -1109,11 +1108,18 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 		// If the image dimensions are within 1px of the expected size, use it.
 		if ( abs( $constrained_size[0] - $expected_size[0] ) <= 1 && abs( $constrained_size[1] - $expected_size[1] ) <= 1 ) {
 			// Add the URL, descriptor, and value to the sources array to be returned.
-			$sources[ $image['width'] ] = array(
+			$source = array(
 				'url'        => $image_baseurl . $image['file'],
 				'descriptor' => 'w',
 				'value'      => $image['width'],
 			);
+
+			// The 'src' image has to be the first in the 'srcset', because of a bug in iOS8. See #35030.
+			if ( $is_src ) {
+				$sources = array( $image['width'] => $source ) + $sources;
+			} else {
+				$sources[ $image['width'] ] = $source;
+			}
 		}
 	}
 
