@@ -2575,11 +2575,8 @@ function wp_ajax_send_attachment_to_editor() {
 		}
 	}
 
-	$rel = '';
 	$url = empty( $attachment['url'] ) ? '' : $attachment['url'];
-	if ( strpos( $url, 'attachment_id') || get_attachment_link( $id ) == $url ) {
-		$rel = 'attachment wp-att-' . $id;
-	}
+	$rel = ( strpos( $url, 'attachment_id') || get_attachment_link( $id ) == $url );
 
 	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor' );
 
@@ -2600,8 +2597,10 @@ function wp_ajax_send_attachment_to_editor() {
 		$html = stripslashes_deep( $_POST['html'] );
 	} else {
 		$html = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
+		$rel = $rel ? ' rel="attachment wp-att-' . $id . '"' : ''; // Hard-coded string, $id is already sanitized
+
 		if ( ! empty( $url ) ) {
-			$html = '<a href="' . esc_url( $url ) . '"' . 'rel="' . esc_attr( $rel ) . '">' . $html . '</a>';
+			$html = '<a href="' . esc_url( $url ) . '"' . $rel . '">' . $html . '</a>';
 		}
 	}
 

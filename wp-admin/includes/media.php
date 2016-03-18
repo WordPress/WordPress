@@ -111,24 +111,28 @@ function the_media_upload_tabs() {
  * @param string       $title   Image title attribute.
  * @param string       $align   Image CSS alignment property.
  * @param string       $url     Optional. Image src URL. Default empty.
- * @param string       $rel     Optional. Image rel attribute. Default empty.
+ * @param bool|string  $rel     Optional. Value for rel attribute or whether to add a dafault value. Default false.
  * @param string|array $size    Optional. Image size. Accepts any valid image size, or an array of width
  *                              and height values in pixels (in that order). Default 'medium'.
  * @param string       $alt     Optional. Image alt attribute. Default empty.
  * @return string The HTML output to insert into the editor.
  */
-function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $rel = '', $size = 'medium', $alt = '' ) {
+function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $rel = false, $size = 'medium', $alt = '' ) {
 
-	$html = get_image_tag($id, $alt, '', $align, $size);
+	$html = get_image_tag( $id, $alt, '', $align, $size );
 
-	if ( ! $rel ) {
-		$rel = ' rel="attachment wp-att-' . esc_attr( $id ) . '"';
+	if ( $rel ) {
+		if ( is_string( $rel ) ) {
+			$rel = ' rel="' . esc_attr( $rel ) . '"';
+		} else {
+			$rel = ' rel="attachment wp-att-' . intval( $id ) . '"';
+		}
 	} else {
-		$rel = ' rel="' . esc_attr( $rel ) . '"';
+		$rel = '';
 	}
 
 	if ( $url )
-		$html = '<a href="' . esc_attr($url) . "\"$rel>$html</a>";
+		$html = '<a href="' . esc_attr( $url ) . '"' . $rel . '>' . $html . '</a>';
 
 	/**
 	 * Filter the image HTML markup to send to the editor.
@@ -1166,7 +1170,7 @@ function image_media_send_to_editor($html, $attachment_id, $attachment) {
 		$align = !empty($attachment['align']) ? $attachment['align'] : 'none';
 		$size = !empty($attachment['image-size']) ? $attachment['image-size'] : 'medium';
 		$alt = !empty($attachment['image_alt']) ? $attachment['image_alt'] : '';
-		$rel = ( $url == get_attachment_link($attachment_id) );
+		$rel = ( strpos( $url, 'attachment_id') || $url === get_attachment_link( $attachment_id ) );
 
 		return get_image_send_to_editor($attachment_id, $attachment['post_excerpt'], $attachment['post_title'], $align, $url, $rel, $size, $alt);
 	}
