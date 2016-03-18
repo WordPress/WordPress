@@ -26,6 +26,20 @@ function get_query_template( $type, $templates = array() ) {
 	if ( empty( $templates ) )
 		$templates = array("{$type}.php");
 
+	
+		
+	/**
+	 * Filter the template target filenames.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param array $templates templates to search for.
+	 * @param string $type Template type.
+	 */
+	$templates = apply_filters( "get_query_template", $templates, $type );
+		
+
+	
 	$template = locate_template( $templates );
 
 	/**
