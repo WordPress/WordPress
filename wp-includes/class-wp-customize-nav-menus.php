@@ -393,7 +393,7 @@ final class WP_Customize_Nav_Menus {
 				'reorderLabelOn'    => esc_attr__( 'Reorder menu items' ),
 				'reorderLabelOff'   => esc_attr__( 'Close reorder mode' ),
 			),
-			'settingTransport'     => isset( $this->manager->selective_refresh ) ? 'postMessage' : 'refresh',
+			'settingTransport'     => 'postMessage',
 			'phpIntMax'            => PHP_INT_MAX,
 			'defaultSettingValues' => array(
 				'nav_menu'      => $temp_nav_menu_setting->default,
@@ -445,12 +445,12 @@ final class WP_Customize_Nav_Menus {
 		if ( preg_match( WP_Customize_Nav_Menu_Setting::ID_PATTERN, $setting_id ) ) {
 			$setting_args = array(
 				'type'      => WP_Customize_Nav_Menu_Setting::TYPE,
-				'transport' => isset( $this->manager->selective_refresh ) ? 'postMessage' : 'refresh',
+				'transport' => 'postMessage',
 			);
 		} elseif ( preg_match( WP_Customize_Nav_Menu_Item_Setting::ID_PATTERN, $setting_id ) ) {
 			$setting_args = array(
 				'type'      => WP_Customize_Nav_Menu_Item_Setting::TYPE,
-				'transport' => isset( $this->manager->selective_refresh ) ? 'postMessage' : 'refresh',
+				'transport' => 'postMessage',
 			);
 		}
 		return $setting_args;
@@ -535,7 +535,7 @@ final class WP_Customize_Nav_Menus {
 
 			$setting = $this->manager->get_setting( $setting_id );
 			if ( $setting ) {
-				$setting->transport = isset( $this->manager->selective_refresh ) ? 'postMessage' : 'refresh';
+				$setting->transport = 'postMessage';
 				remove_filter( "customize_sanitize_{$setting_id}", 'absint' );
 				add_filter( "customize_sanitize_{$setting_id}", array( $this, 'intval_base10' ) );
 			} else {
@@ -543,7 +543,7 @@ final class WP_Customize_Nav_Menus {
 					'sanitize_callback' => array( $this, 'intval_base10' ),
 					'theme_supports'    => 'menus',
 					'type'              => 'theme_mod',
-					'transport'         => isset( $this->manager->selective_refresh ) ? 'postMessage' : 'refresh',
+					'transport'         => 'postMessage',
 					'default'           => 0,
 				) );
 			}
@@ -570,7 +570,7 @@ final class WP_Customize_Nav_Menus {
 
 			$nav_menu_setting_id = 'nav_menu[' . $menu_id . ']';
 			$this->manager->add_setting( new WP_Customize_Nav_Menu_Setting( $this->manager, $nav_menu_setting_id, array(
-				'transport' => isset( $this->manager->selective_refresh ) ? 'postMessage' : 'refresh',
+				'transport' => 'postMessage',
 			) ) );
 
 			// Add the menu contents.
@@ -585,7 +585,7 @@ final class WP_Customize_Nav_Menus {
 				$value['nav_menu_term_id'] = $menu_id;
 				$this->manager->add_setting( new WP_Customize_Nav_Menu_Item_Setting( $this->manager, $menu_item_setting_id, array(
 					'value'     => $value,
-					'transport' => isset( $this->manager->selective_refresh ) ? 'postMessage' : 'refresh',
+					'transport' => 'postMessage',
 				) ) );
 
 				// Create a control for each menu item.
@@ -988,11 +988,6 @@ final class WP_Customize_Nav_Menus {
 	 * @access public
 	 */
 	public function customize_preview_enqueue_deps() {
-		if ( isset( $this->manager->selective_refresh ) ) {
-			$script = wp_scripts()->registered['customize-preview-nav-menus'];
-			$script->deps[] = 'customize-selective-refresh';
-		}
-
 		wp_enqueue_script( 'customize-preview-nav-menus' ); // Note that we have overridden this.
 		wp_enqueue_style( 'customize-preview' );
 	}

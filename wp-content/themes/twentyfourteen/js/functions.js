@@ -146,9 +146,13 @@
 	} );
 
 	_window.load( function() {
+		var footerSidebar,
+			isCustomizeSelectiveRefresh = ( 'undefined' !== typeof wp && wp.customize && wp.customize.selectiveRefresh );
+
 		// Arrange footer widgets vertically.
 		if ( $.isFunction( $.fn.masonry ) ) {
-			$( '#footer-sidebar' ).masonry( {
+			footerSidebar = $( '#footer-sidebar' );
+			footerSidebar.masonry( {
 				itemSelector: '.widget',
 				columnWidth: function( containerWidth ) {
 					return containerWidth / 4;
@@ -156,6 +160,41 @@
 				gutterWidth: 0,
 				isResizable: true,
 				isRTL: $( 'body' ).is( '.rtl' )
+			} );
+
+			if ( isCustomizeSelectiveRefresh ) {
+
+				// Retain previous masonry-brick initial position.
+				wp.customize.selectiveRefresh.bind( 'partial-content-rendered', function( placement ) {
+					var copyPosition = (
+						placement.partial.extended( wp.customize.widgetsPreview.WidgetPartial ) &&
+						placement.removedNodes instanceof jQuery &&
+						placement.removedNodes.is( '.masonry-brick' ) &&
+						placement.container instanceof jQuery
+					);
+					if ( copyPosition ) {
+						placement.container.css( {
+							position: placement.removedNodes.css( 'position' ),
+							top: placement.removedNodes.css( 'top' ),
+							left: placement.removedNodes.css( 'left' )
+						} );
+					}
+				} );
+
+				// Re-arrange footer widgets after selective refresh event.
+				wp.customize.selectiveRefresh.bind( 'sidebar-updated', function( sidebarPartial ) {
+					if ( 'sidebar-3' === sidebarPartial.sidebarId ) {
+						footerSidebar.masonry( 'reloadItems' );
+						footerSidebar.masonry( 'layout' );
+					}
+				} );
+			}
+		}
+
+		// Initialize audio and video players in Twenty_Fourteen_Ephemera_Widget widget when selectively refreshed in Customizer.
+		if ( isCustomizeSelectiveRefresh && wp.mediaelement ) {
+			wp.customize.selectiveRefresh.bind( 'partial-content-rendered', function() {
+				wp.mediaelement.initialize();
 			} );
 		}
 

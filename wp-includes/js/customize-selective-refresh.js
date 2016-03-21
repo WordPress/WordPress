@@ -109,7 +109,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		placements: function() {
 			var partial = this, selector;
 
-			selector = partial.params.selector;
+			selector = partial.params.selector || '';
 			if ( selector ) {
 				selector += ', ';
 			}

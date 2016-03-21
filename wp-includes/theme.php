@@ -1914,7 +1914,7 @@ function current_theme_supports( $feature ) {
 	 *
 	 * The dynamic portion of the hook name, `$feature`, refers to the specific theme
 	 * feature. Possible values include 'post-formats', 'post-thumbnails', 'custom-background',
-	 * 'custom-header', 'menus', 'automatic-feed-links', and 'html5'.
+	 * 'custom-header', 'menus', 'automatic-feed-links', 'html5', and `customize-selective-refresh-widgets`.
 	 *
 	 * @since 3.4.0
 	 *

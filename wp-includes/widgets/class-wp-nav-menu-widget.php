@@ -23,7 +23,10 @@
 	 * @access public
 	 */
 	public function __construct() {
-		$widget_ops = array( 'description' => __('Add a custom menu to your sidebar.') );
+		$widget_ops = array(
+			'description' => __( 'Add a custom menu to your sidebar.' ),
+			'customize_selective_refresh' => true,
+		);
 		parent::__construct( 'nav_menu', __('Custom Menu'), $widget_ops );
 	}
 

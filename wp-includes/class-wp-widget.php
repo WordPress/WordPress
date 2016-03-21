@@ -155,8 +155,8 @@ class WP_Widget {
 		$this->id_base = empty($id_base) ? preg_replace( '/(wp_)?widget_/', '', strtolower(get_class($this)) ) : strtolower($id_base);
 		$this->name = $name;
 		$this->option_name = 'widget_' . $this->id_base;
-		$this->widget_options = wp_parse_args( $widget_options, array('classname' => $this->option_name) );
-		$this->control_options = wp_parse_args( $control_options, array('id_base' => $this->id_base) );
+		$this->widget_options = wp_parse_args( $widget_options, array( 'classname' => $this->option_name, 'customize_selective_refresh' => false ) );
+		$this->control_options = wp_parse_args( $control_options, array( 'id_base' => $this->id_base ) );
 	}
 
 	/**
