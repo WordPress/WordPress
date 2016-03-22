@@ -32,10 +32,10 @@ class Walker_Category extends Walker {
 	 *
 	 * @since 2.1.0
 	 * @access public
-	 * @todo Decouple this
 	 * @var array
 	 *
 	 * @see Walker::$db_fields
+	 * @todo Decouple this
 	 */
 	public $db_fields = array ('parent' => 'parent', 'id' => 'term_id');
 
@@ -47,10 +47,10 @@ class Walker_Category extends Walker {
 	 *
 	 * @see Walker::start_lvl()
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments. Will only append content if style argument value is 'list'.
-	 *                       See wp_list_categories().
+	 * @param string $output Used to append additional content. Passed by reference.
+	 * @param int    $depth  Optional. Depth of category. Used for tab indentation. Default 0.
+	 * @param array  $args   Optional. An array of arguments. Will only append content if style argument
+	 *                       value is 'list'. See wp_list_categories(). Default empty array.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
@@ -68,10 +68,10 @@ class Walker_Category extends Walker {
 	 *
 	 * @see Walker::end_lvl()
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments. Will only append content if style argument value is 'list'.
-	 *                       See wp_list_categories().
+	 * @param string $output Used to append additional content. Passed by reference.
+	 * @param int    $depth  Optional. Depth of category. Used for tab indentation. Default 0.
+	 * @param array  $args   Optional. An array of arguments. Will only append content if style argument
+	 *                       value is 'list'. See wp_list_categories(). Default empty array.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
@@ -91,9 +91,9 @@ class Walker_Category extends Walker {
 	 *
 	 * @param string $output   Passed by reference. Used to append additional content.
 	 * @param object $category Category data object.
-	 * @param int    $depth    Depth of category in reference to parents. Default 0.
-	 * @param array  $args     An array of arguments. See wp_list_categories().
-	 * @param int    $id       ID of the current category.
+	 * @param int    $depth    Optional. Depth of category in reference to parents. Default 0.
+	 * @param array  $args     Optional. An array of arguments. See wp_list_categories(). Default empty array.
+	 * @param int    $id       Optional. ID of the current category. Default 0.
 	 */
 	public function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		/** This filter is documented in wp-includes/category-template.php */
@@ -221,8 +221,9 @@ class Walker_Category extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $page   Not used.
-	 * @param int    $depth  Depth of category. Not used.
-	 * @param array  $args   An array of arguments. Only uses 'list' for whether should append to output. @see wp_list_categories()
+	 * @param int    $depth  Optional. Depth of category. Not used.
+	 * @param array  $args   Optional. An array of arguments. Only uses 'list' for whether should append
+	 *                       to output. See wp_list_categories(). Default empty array.
 	 */
 	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
