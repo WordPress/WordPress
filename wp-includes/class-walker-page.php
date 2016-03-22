@@ -83,7 +83,7 @@ class Walker_Page extends Walker {
 	 * @access public
 	 *
 	 * @param string $output       Passed by reference. Used to append additional content.
-	 * @param object $page         Page data object.
+	 * @param WP_Post $page         Page data object.
 	 * @param int    $depth        Depth of page. Used for padding.
 	 * @param array  $args         Optional arguments.
 	 * @param int    $current_page Page ID.
@@ -170,7 +170,7 @@ class Walker_Page extends Walker {
 	 * @see Walker::end_el()
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $page Page data object. Not used.
+	 * @param WP_Post $page Page data object. Not used.
 	 * @param int    $depth Depth of page. Not Used.
 	 * @param array  $args
 	 */
