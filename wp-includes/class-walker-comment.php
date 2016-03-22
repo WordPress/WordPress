@@ -123,7 +123,7 @@ class Walker_Comment extends Walker {
 	 * @see Walker::display_element()
 	 * @see wp_list_comments()
 	 *
-	 * @param object $element           Data object.
+	 * @param WP_Comment $element           Data object.
 	 * @param array  $children_elements List of elements to continue traversing. Passed by reference.
 	 * @param int    $max_depth         Max depth to traverse.
 	 * @param int    $depth             Depth of the current element.
@@ -165,7 +165,7 @@ class Walker_Comment extends Walker {
 	 * @global WP_Comment $comment
 	 *
 	 * @param string $output  Used to append additional content. Passed by reference.
-	 * @param object $comment Comment data object.
+	 * @param WP_Comment $comment Comment data object.
 	 * @param int    $depth   Optional. Depth of the current comment in reference to parents. Default 0.
 	 * @param array  $args    Optional. An array of arguments. Default empty array.
 	 * @param int    $id      Optional. ID of the current comment. Default 0 (unused).
@@ -254,7 +254,7 @@ class Walker_Comment extends Walker {
 	 *
 	 * @see wp_list_comments()
 	 *
-	 * @param object $comment Comment to display.
+	 * @param WP_Comment $comment Comment to display.
 	 * @param int    $depth   Depth of the current comment.
 	 * @param array  $args    An array of arguments.
 	 */
@@ -313,7 +313,7 @@ class Walker_Comment extends Walker {
 	 *
 	 * @see wp_list_comments()
 	 *
-	 * @param object $comment Comment to display.
+	 * @param WP_Comment $comment Comment to display.
 	 * @param int    $depth   Depth of the current comment.
 	 * @param array  $args    An array of arguments.
 	 */
