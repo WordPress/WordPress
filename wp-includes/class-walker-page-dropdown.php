@@ -15,29 +15,35 @@
  * @see Walker
  */
 class Walker_PageDropdown extends Walker {
+
 	/**
-	 * Walker tree type.
+	 * What the class handles.
 	 *
 	 * @since 2.1.0
-	 * @see Walker::$tree_type
+	 * @access public
 	 * @var string
+	 *
+	 * @see Walker::$tree_type
 	 */
 	public $tree_type = 'page';
 
 	/**
-	 * Database fields.
+	 * Database fields to use.
 	 *
 	 * @since 2.1.0
+	 * @access public
+	 * @var array
+	 *
 	 * @see Walker::$db_fields
 	 * @todo Decouple this
-	 * @var array
 	 */
-	public $db_fields = array ('parent' => 'post_parent', 'id' => 'ID');
+	public $db_fields = array( 'parent' => 'post_parent', 'id' => 'ID' );
 
 	/**
 	 * Starts the element output.
 	 *
 	 * @since 2.1.0
+	 * @access public
 	 *
 	 * @see Walker::start_el()
 	 *
@@ -47,7 +53,7 @@ class Walker_PageDropdown extends Walker {
 	 *                       Default 0.
 	 * @param array  $args   Optional. Uses 'selected' argument for selected page to set selected HTML
 	 *                       attribute for option element. Uses 'value_field' argument to fill "value"
-	 *                       attribute. See {@see wp_dropdown_pages()}. Default empty array.
+	 *                       attribute. See wp_dropdown_pages(). Default empty array.
 	 * @param int    $id     Optional. ID of the current page. Default 0 (unused).
 	 */
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $id = 0 ) {
