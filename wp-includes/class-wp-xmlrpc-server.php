@@ -1364,9 +1364,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			$dateCreated = $post_data['post_date']->getIso();
 		}
 
+		// Default to not flagging the post date to be edited unless it's intentional.
+		$post_data['edit_date'] = false;
+
 		if ( ! empty( $dateCreated ) ) {
 			$post_data['post_date'] = get_date_from_gmt( iso8601_to_datetime( $dateCreated ) );
 			$post_data['post_date_gmt'] = iso8601_to_datetime( $dateCreated, 'GMT' );
+
+			// Flag the post date to be edited.
+			$post_data['edit_date'] = true;
 		}
 
 		if ( ! isset( $post_data['ID'] ) )
@@ -5375,16 +5381,22 @@ class wp_xmlrpc_server extends IXR_Server {
 		elseif ( !empty( $content_struct['dateCreated']) )
 			$dateCreated = $content_struct['dateCreated']->getIso();
 
+		// Default to not flagging the post date to be edited unless it's intentional.
+		$edit_date = false;
+
 		if ( !empty( $dateCreated ) ) {
 			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
 			$post_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
+
+			// Flag the post date to be edited.
+			$edit_date = true;
 		} else {
 			$post_date     = $postdata['post_date'];
 			$post_date_gmt = $postdata['post_date_gmt'];
 		}
 
 		// We've got all the data -- post it.
-		$newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order', 'post_author', 'tags_input', 'page_template');
+		$newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'edit_date', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order', 'post_author', 'tags_input', 'page_template');
 
 		$result = wp_update_post($newpost, true);
 		if ( is_wp_error( $result ) )
