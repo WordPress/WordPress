@@ -402,8 +402,12 @@ CustomizeImageCropper = Controller.Cropper.extend({
 		var cropDetails = attachment.get( 'cropDetails' ),
 			control = this.get( 'control' );
 
-		cropDetails.dst_width  = control.params.width;
-		cropDetails.dst_height = control.params.height;
+		if ( ! control.params.flex_width ) {
+			cropDetails.dst_width = control.params.width;
+		}
+		if ( ! control.params.flex_height ) {
+			cropDetails.dst_height = control.params.height;
+		}
 
 		return wp.ajax.post( 'crop-image', {
 			wp_customize: 'on',
