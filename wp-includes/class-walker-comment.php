@@ -123,12 +123,12 @@ class Walker_Comment extends Walker {
 	 * @see Walker::display_element()
 	 * @see wp_list_comments()
 	 *
-	 * @param WP_Comment $element           Data object.
-	 * @param array  $children_elements List of elements to continue traversing. Passed by reference.
-	 * @param int    $max_depth         Max depth to traverse.
-	 * @param int    $depth             Depth of the current element.
-	 * @param array  $args              An array of arguments.
-	 * @param string $output            Used to append additional content. Passed by reference.
+	 * @param WP_Comment $element           Comment data object.
+	 * @param array      $children_elements List of elements to continue traversing. Passed by reference.
+	 * @param int        $max_depth         Max depth to traverse.
+	 * @param int        $depth             Depth of the current element.
+	 * @param array      $args              An array of arguments.
+	 * @param string     $output            Used to append additional content. Passed by reference.
 	 */
 	public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
 		if ( !$element )
@@ -164,11 +164,11 @@ class Walker_Comment extends Walker {
 	 * @global int        $comment_depth
 	 * @global WP_Comment $comment
 	 *
-	 * @param string $output  Used to append additional content. Passed by reference.
+	 * @param string     $output  Used to append additional content. Passed by reference.
 	 * @param WP_Comment $comment Comment data object.
-	 * @param int    $depth   Optional. Depth of the current comment in reference to parents. Default 0.
-	 * @param array  $args    Optional. An array of arguments. Default empty array.
-	 * @param int    $id      Optional. ID of the current comment. Default 0 (unused).
+	 * @param int        $depth   Optional. Depth of the current comment in reference to parents. Default 0.
+	 * @param array      $args    Optional. An array of arguments. Default empty array.
+	 * @param int        $id      Optional. ID of the current comment. Default 0 (unused).
 	 */
 	public function start_el( &$output, $comment, $depth = 0, $args = array(), $id = 0 ) {
 		$depth++;
@@ -255,8 +255,8 @@ class Walker_Comment extends Walker {
 	 * @see wp_list_comments()
 	 *
 	 * @param WP_Comment $comment Comment to display.
-	 * @param int    $depth   Depth of the current comment.
-	 * @param array  $args    An array of arguments.
+	 * @param int        $depth   Depth of the current comment.
+	 * @param array      $args    An array of arguments.
 	 */
 	protected function comment( $comment, $depth, $args ) {
 		if ( 'div' == $args['style'] ) {
@@ -314,8 +314,8 @@ class Walker_Comment extends Walker {
 	 * @see wp_list_comments()
 	 *
 	 * @param WP_Comment $comment Comment to display.
-	 * @param int    $depth   Depth of the current comment.
-	 * @param array  $args    An array of arguments.
+	 * @param int        $depth   Depth of the current comment.
+	 * @param array      $args    An array of arguments.
 	 */
 	protected function html5_comment( $comment, $depth, $args ) {
 		$tag = ( 'div' === $args['style'] ) ? 'div' : 'li';
