@@ -10,37 +10,42 @@
 /**
  * HTML comment list class.
  *
- * @uses Walker
  * @since 2.7.0
+ *
+ * @see Walker
  */
 class Walker_Comment extends Walker {
+
 	/**
 	 * What the class handles.
 	 *
-	 * @see Walker::$tree_type
-	 *
 	 * @since 2.7.0
+	 * @access public
 	 * @var string
+	 *
+	 * @see Walker::$tree_type
 	 */
 	public $tree_type = 'comment';
 
 	/**
-	 * DB fields to use.
-	 *
-	 * @see Walker::$db_fields
+	 * Database fields to use.
 	 *
 	 * @since 2.7.0
+	 * @access public
 	 * @var array
+	 *
+	 * @see Walker::$db_fields
+	 * @todo Decouple this
 	 */
 	public $db_fields = array ('parent' => 'comment_parent', 'id' => 'comment_ID');
 
 	/**
-	 * Start the list before the elements are added.
-	 *
-	 * @see Walker::start_lvl()
+	 * Starts the list before the elements are added.
 	 *
 	 * @since 2.7.0
+	 * @access public
 	 *
+	 * @see Walker::start_lvl()
 	 * @global int $comment_depth
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
@@ -64,12 +69,12 @@ class Walker_Comment extends Walker {
 	}
 
 	/**
-	 * End the list of items after the elements are added.
-	 *
-	 * @see Walker::end_lvl()
+	 * Ends the list of items after the elements are added.
 	 *
 	 * @since 2.7.0
+	 * @access public
 	 *
+	 * @see Walker::end_lvl()
 	 * @global int $comment_depth
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
@@ -93,7 +98,7 @@ class Walker_Comment extends Walker {
 	}
 
 	/**
-	 * Traverse elements to create list from elements.
+	 * Traverses elements to create list from elements.
 	 *
 	 * This function is designed to enhance Walker::display_element() to
 	 * display children of higher nesting levels than selected inline on
@@ -111,10 +116,11 @@ class Walker_Comment extends Walker {
 	 *     2
 	 *      2.2
 	 *
+	 * @since 2.7.0
+	 * @access public
+	 *
 	 * @see Walker::display_element()
 	 * @see wp_list_comments()
-	 *
-	 * @since 2.7.0
 	 *
 	 * @param object $element           Data object.
 	 * @param array  $children_elements List of elements to continue traversing.
@@ -147,13 +153,13 @@ class Walker_Comment extends Walker {
 	}
 
 	/**
-	 * Start the element output.
+	 * Starts the element output.
 	 *
 	 * @since 2.7.0
+	 * @access public
 	 *
 	 * @see Walker::start_el()
 	 * @see wp_list_comments()
-	 *
 	 * @global int        $comment_depth
 	 * @global WP_Comment $comment
 	 *
@@ -194,6 +200,7 @@ class Walker_Comment extends Walker {
 	 * Ends the element output, if needed.
 	 *
 	 * @since 2.7.0
+	 * @access public
 	 *
 	 * @see Walker::end_el()
 	 * @see wp_list_comments()
@@ -217,10 +224,10 @@ class Walker_Comment extends Walker {
 	}
 
 	/**
-	 * Output a pingback comment.
+	 * Outputs a pingback comment.
 	 *
-	 * @access protected
 	 * @since 3.6.0
+	 * @access protected
 	 *
 	 * @see wp_list_comments()
 	 *
@@ -239,10 +246,10 @@ class Walker_Comment extends Walker {
 	}
 
 	/**
-	 * Output a single comment.
+	 * Outputs a single comment.
 	 *
-	 * @access protected
 	 * @since 3.6.0
+	 * @access protected
 	 *
 	 * @see wp_list_comments()
 	 *
@@ -298,10 +305,10 @@ class Walker_Comment extends Walker {
 	}
 
 	/**
-	 * Output a comment in the HTML5 format.
+	 * Outputs a comment in the HTML5 format.
 	 *
-	 * @access protected
 	 * @since 3.6.0
+	 * @access protected
 	 *
 	 * @see wp_list_comments()
 	 *
