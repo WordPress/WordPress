@@ -8,7 +8,7 @@
  */
 
 /**
- * HTML comment list class.
+ * Core walker class used to create an HTML list of comments.
  *
  * @since 2.7.0
  *
