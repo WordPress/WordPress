@@ -49,8 +49,8 @@ class Walker_Comment extends Walker {
 	 * @global int $comment_depth
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int $depth Depth of comment.
-	 * @param array $args Uses 'style' argument for type of HTML list.
+	 * @param int    $depth  Optional. Depth of the current comment. Default 0.
+	 * @param array  $args   Optional. Uses 'style' argument for type of HTML list. Default empty array.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$GLOBALS['comment_depth'] = $depth + 1;
@@ -78,8 +78,9 @@ class Walker_Comment extends Walker {
 	 * @global int $comment_depth
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of comment.
-	 * @param array  $args   Will only append content if style argument value is 'ol' or 'ul'.
+	 * @param int    $depth  Optional. Depth of the current comment. Default 0.
+	 * @param array  $args   Optional. Will only append content if style argument value is 'ol' or 'ul'.
+	 *                       Default empty array.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$GLOBALS['comment_depth'] = $depth + 1;
@@ -123,11 +124,11 @@ class Walker_Comment extends Walker {
 	 * @see wp_list_comments()
 	 *
 	 * @param object $element           Data object.
-	 * @param array  $children_elements List of elements to continue traversing.
+	 * @param array  $children_elements List of elements to continue traversing. Passed by reference.
 	 * @param int    $max_depth         Max depth to traverse.
-	 * @param int    $depth             Depth of current element.
+	 * @param int    $depth             Depth of the current element.
 	 * @param array  $args              An array of arguments.
-	 * @param string $output            Passed by reference. Used to append additional content.
+	 * @param string $output            Used to append additional content. Passed by reference.
 	 */
 	public function display_element( $element, &$children_elements, $max_depth, $depth, $args, &$output ) {
 		if ( !$element )
@@ -139,9 +140,9 @@ class Walker_Comment extends Walker {
 		parent::display_element( $element, $children_elements, $max_depth, $depth, $args, $output );
 
 		/*
-		 * If we're at the max depth, and the current element still has children,
-		 * loop over those and display them at this level. This is to prevent them
-		 * being orphaned to the end of the list.
+		 * If at the max depth, and the current element still has children, loop over those
+		 * and display them at this level. This is to prevent them being orphaned to the end
+		 * of the list.
 		 */
 		if ( $max_depth <= $depth + 1 && isset( $children_elements[$id]) ) {
 			foreach ( $children_elements[ $id ] as $child )
@@ -163,10 +164,10 @@ class Walker_Comment extends Walker {
 	 * @global int        $comment_depth
 	 * @global WP_Comment $comment
 	 *
-	 * @param string $output  Passed by reference. Used to append additional content.
+	 * @param string $output  Used to append additional content. Passed by reference.
 	 * @param object $comment Comment data object.
-	 * @param int    $depth   Depth of comment in reference to parents.
-	 * @param array  $args    An array of arguments.
+	 * @param int    $depth   Optional. Depth of the current comment in reference to parents. Default 0.
+	 * @param array  $args    Optional. An array of arguments. Default empty array.
 	 * @param int    $id      Optional. ID of the current comment. Default 0 (unused).
 	 */
 	public function start_el( &$output, $comment, $depth = 0, $args = array(), $id = 0 ) {
@@ -205,10 +206,10 @@ class Walker_Comment extends Walker {
 	 * @see Walker::end_el()
 	 * @see wp_list_comments()
 	 *
-	 * @param string     $output  Passed by reference. Used to append additional content.
-	 * @param WP_Comment $comment The comment object. Default current comment.
-	 * @param int        $depth   Depth of comment.
-	 * @param array      $args    An array of arguments.
+	 * @param string     $output  Used to append additional content. Passed by reference.
+	 * @param WP_Comment $comment The current comment object. Default current comment.
+	 * @param int        $depth   Optional. Depth of the current comment. Default 0.
+	 * @param array      $args    Optional. An array of arguments. Default empty array.
 	 */
 	public function end_el( &$output, $comment, $depth = 0, $args = array() ) {
 		if ( !empty( $args['end-callback'] ) ) {
@@ -232,7 +233,7 @@ class Walker_Comment extends Walker {
 	 * @see wp_list_comments()
 	 *
 	 * @param WP_Comment $comment The comment object.
-	 * @param int        $depth   Depth of comment.
+	 * @param int        $depth   Depth of the current comment.
 	 * @param array      $args    An array of arguments.
 	 */
 	protected function ping( $comment, $depth, $args ) {
@@ -254,7 +255,7 @@ class Walker_Comment extends Walker {
 	 * @see wp_list_comments()
 	 *
 	 * @param object $comment Comment to display.
-	 * @param int    $depth   Depth of comment.
+	 * @param int    $depth   Depth of the current comment.
 	 * @param array  $args    An array of arguments.
 	 */
 	protected function comment( $comment, $depth, $args ) {
@@ -313,7 +314,7 @@ class Walker_Comment extends Walker {
 	 * @see wp_list_comments()
 	 *
 	 * @param object $comment Comment to display.
-	 * @param int    $depth   Depth of comment.
+	 * @param int    $depth   Depth of the current comment.
 	 * @param array  $args    An array of arguments.
 	 */
 	protected function html5_comment( $comment, $depth, $args ) {
