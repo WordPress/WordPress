@@ -421,7 +421,7 @@ class WP_REST_Server {
 	 */
 	public function response_to_data( $response, $embed ) {
 		$data  = $response->get_data();
-		$links = $this->get_response_links( $response );
+		$links = $this->get_compact_response_links( $response );
 
 		if ( ! empty( $links ) ) {
 			// Convert links to part of the data.
@@ -454,13 +454,45 @@ class WP_REST_Server {
 	 */
 	public static function get_response_links( $response ) {
 		$links = $response->get_links();
-
 		if ( empty( $links ) ) {
 			return array();
 		}
 
 		// Convert links to part of the data.
 		$data = array();
+		foreach ( $links as $rel => $items ) {
+			$data[ $rel ] = array();
+
+			foreach ( $items as $item ) {
+				$attributes = $item['attributes'];
+				$attributes['href'] = $item['href'];
+				$data[ $rel ][] = $attributes;
+			}
+		}
+
+		return $data;
+	}
+
+	/**
+	 * Retrieves the CURIEs (compact URIs) used for relations.
+	 *
+	 * Extracts the links from a response into a structured hash, suitable for
+	 * direct output.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 * @static
+	 *
+	 * @param WP_REST_Response $response Response to extract links from.
+	 * @return array Map of link relation to list of link hashes.
+	 */
+	public static function get_compact_response_links( $response ) {
+		$links = self::get_response_links( $response );
+
+		if ( empty( $links ) ) {
+			return array();
+		}
+
 		$curies = $response->get_curies();
 		$used_curies = array();
 
@@ -472,32 +504,26 @@ class WP_REST_Server {
 				if ( strpos( $rel, $href_prefix ) !== 0 ) {
 					continue;
 				}
-				$used_curies[ $curie['name'] ] = $curie;
 
 				// Relation now changes from '$uri' to '$curie:$relation'
-				$rel_regex = str_replace( '\{rel\}', '([\w]+)', preg_quote( $curie['href'], '!' ) );
+				$rel_regex = str_replace( '\{rel\}', '(.+)', preg_quote( $curie['href'], '!' ) );
 				preg_match( '!' . $rel_regex . '!', $rel, $matches );
 				if ( $matches ) {
-					$rel = $curie['name'] . ':' . $matches[1];
+					$new_rel = $curie['name'] . ':' . $matches[1];
+					$used_curies[ $curie['name'] ] = $curie;
+					$links[ $new_rel ] = $items;
+					unset( $links[ $rel ] );
+					break;
 				}
-				break;
-			}
-
-			$data[ $rel ] = array();
-
-			foreach ( $items as $item ) {
-				$attributes = $item['attributes'];
-				$attributes['href'] = $item['href'];
-				$data[ $rel ][] = $attributes;
 			}
 		}
 
 		// Push the curies onto the start of the links array.
 		if ( $used_curies ) {
-			$data = array_merge( array( 'curies' => array_values( $used_curies ) ), $data );
+			$links['curies'] = array_values( $used_curies );
 		}
 
-		return $data;
+		return $links;
 	}
 
 	/**
