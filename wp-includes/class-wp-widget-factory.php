@@ -14,6 +14,14 @@
  * @since 4.4.0 Moved to its own file from wp-includes/widgets.php
  */
 class WP_Widget_Factory {
+
+	/**
+	 * Widgets array.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var array
+	 */
 	public $widgets = array();
 
 	/**
