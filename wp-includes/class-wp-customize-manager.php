@@ -1975,10 +1975,10 @@ final class WP_Customize_Manager {
 			),
 		) ) );
 
-		$this->selective_refresh->add_partial( 'site_logo', array(
-			'settings'            => array( 'site_logo' ),
-			'selector'            => '.site-logo-link',
-			'render_callback'     => array( $this, '_render_site_logo_partial' ),
+		$this->selective_refresh->add_partial( 'custom_logo', array(
+			'settings'            => array( 'custom_logo' ),
+			'selector'            => '.custom-logo-link',
+			'render_callback'     => array( $this, '_render_custom_logo_partial' ),
 			'container_inclusive' => true,
 		) );
 
