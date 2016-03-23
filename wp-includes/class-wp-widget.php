@@ -37,7 +37,7 @@ class WP_Widget {
 	public $name;
 
 	/**
-	 * Option array passed to {@see wp_register_sidebar_widget()}.
+	 * Option array passed to wp_register_sidebar_widget().
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -46,7 +46,7 @@ class WP_Widget {
 	public $widget_options;
 
 	/**
-	 * Option array passed to {@see wp_register_widget_control()}.
+	 * Option array passed to wp_register_widget_control().
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -84,7 +84,9 @@ class WP_Widget {
 	 */
 	public $updated = false;
 
-	// Member functions that you must over-ride.
+	//
+	// Member functions that must be overriden by subclasses.
+	//
 
 	/**
 	 * Echoes the widget content.
@@ -183,7 +185,8 @@ class WP_Widget {
 	/**
 	 * Constructs name attributes for use in form() fields
 	 *
-	 * This function should be used in form() methods to create name attributes for fields to be saved by update()
+	 * This function should be used in form() methods to create name attributes for fields
+	 * to be saved by update()
 	 *
 	 * @since 2.8.0
 	 * @since 4.4.0 Array format field names are now accepted.
@@ -201,10 +204,10 @@ class WP_Widget {
 	}
 
 	/**
-	 * Constructs id attributes for use in {@see WP_Widget::form()} fields.
+	 * Constructs id attributes for use in WP_Widget::form() fields.
 	 *
 	 * This function should be used in form() methods to create id attributes
-	 * for fields to be saved by {@see WP_Widget::update()}.
+	 * for fields to be saved by WP_Widget::update().
 	 *
 	 * @since 2.8.0
 	 * @since 4.4.0 Array format field IDs are now accepted.
@@ -250,7 +253,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * Set the internal order number for the widget instance.
+	 * Sets the internal order number for the widget instance.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -300,7 +303,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * Determine whether the current request is inside the Customizer preview.
+	 * Determines whether the current request is inside the Customizer preview.
 	 *
 	 * If true -- the current request is inside the Customizer preview, then
 	 * the object cache gets suspended and widgets should check this to decide
@@ -320,14 +323,14 @@ class WP_Widget {
 	}
 
 	/**
-	 * Generate the actual widget content (Do NOT override).
+	 * Generates the actual widget content (Do NOT override).
 	 *
-	 * Finds the instance and calls {@see WP_Widget::widget()}.
+	 * Finds the instance and calls WP_Widget::widget().
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @param array     $args        Display arguments. See {@see WP_Widget::widget()} for information
+	 * @param array     $args        Display arguments. See WP_Widget::widget() for information
 	 *                               on accepted arguments.
 	 * @param int|array $widget_args {
 	 *     Optional. Internal order number of the widget instance, or array of multi-widget arguments.
@@ -379,7 +382,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * Deal with changed settings (Do NOT override).
+	 * Handles changed settings (Do NOT override).
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -464,7 +467,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * Generate the widget control form (Do NOT override).
+	 * Generates the widget control form (Do NOT override).
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -531,7 +534,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * Register an instance of the widget class.
+	 * Registers an instance of the widget class.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -546,7 +549,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * Save the settings for all instances of the widget class.
+	 * Saves the settings for all instances of the widget class.
 	 *
 	 * @since 2.8.0
 	 * @access public
@@ -559,7 +562,7 @@ class WP_Widget {
 	}
 
 	/**
-	 * Get the settings for all instances of the widget class.
+	 * Retrieves the settings for all instances of the widget class.
 	 *
 	 * @since 2.8.0
 	 * @access public
