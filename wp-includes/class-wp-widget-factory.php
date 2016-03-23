@@ -46,31 +46,31 @@ class WP_Widget_Factory {
 	}
 
 	/**
-	 * Register a widget subclass.
+	 * Registers a widget subclass.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @param string $widget_class The name of a {@see WP_Widget} subclass.
+	 * @param string $widget_class The name of a WP_Widget subclass.
 	 */
 	public function register( $widget_class ) {
 		$this->widgets[$widget_class] = new $widget_class();
 	}
 
 	/**
-	 * Un-register a widget subclass.
+	 * Un-registers a widget subclass.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @param string $widget_class The name of a {@see WP_Widget} subclass.
+	 * @param string $widget_class The name of a WP_Widget subclass.
 	 */
 	public function unregister( $widget_class ) {
 		unset( $this->widgets[ $widget_class ] );
 	}
 
 	/**
-	 * Utility method for adding widgets to the registered widgets global.
+	 * Serves as a utility method for adding widgets to the registered widgets global.
 	 *
 	 * @since 2.8.0
 	 * @access public
