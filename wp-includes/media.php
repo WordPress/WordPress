@@ -3254,27 +3254,37 @@ function wp_enqueue_media( $args = array() ) {
 			}
 		}
 	}
+	$has_audio = apply_filters('media_has_audio', false );
+	if ( empty ( $has_audio ) ){
+		$has_audio = $wpdb->get_var( "
+			SELECT ID
+			FROM $wpdb->posts
+			WHERE post_type = 'attachment'
+			AND post_mime_type LIKE 'audio%'
+			LIMIT 1
+		" );
+	}
 
-	$has_audio = $wpdb->get_var( "
-		SELECT ID
-		FROM $wpdb->posts
-		WHERE post_type = 'attachment'
-		AND post_mime_type LIKE 'audio%'
-		LIMIT 1
-	" );
-	$has_video = $wpdb->get_var( "
-		SELECT ID
-		FROM $wpdb->posts
-		WHERE post_type = 'attachment'
-		AND post_mime_type LIKE 'video%'
-		LIMIT 1
-	" );
-	$months = $wpdb->get_results( $wpdb->prepare( "
-		SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
-		FROM $wpdb->posts
-		WHERE post_type = %s
-		ORDER BY post_date DESC
-	", 'attachment' ) );
+	$has_video = apply_filters('media_has video', false );
+	if ( empty ( $has_video ) ) {
+		$has_video = $wpdb->get_var( "
+			SELECT ID
+			FROM $wpdb->posts
+			WHERE post_type = 'attachment'
+			AND post_mime_type LIKE 'video%'
+			LIMIT 1
+		" );
+	}
+
+	$months = apply_filters('media_months', false );
+	if ( empty ( $months ) ){
+		$months = $wpdb->get_results( $wpdb->prepare( "
+			SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
+			FROM $wpdb->posts
+			WHERE post_type = %s
+			ORDER BY post_date DESC
+		", 'attachment' ) );
+	}
 	foreach ( $months as $month_year ) {
 		$month_year->text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month_year->month ), $month_year->year );
 	}
