@@ -192,7 +192,7 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * Make private/protected methods readable for backwards compatibility.
+	 * Exposes private/protected methods for backwards compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -249,14 +249,16 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * Add an oEmbed provider just-in-time when wp_oembed_add_provider() is called
-	 * before the 'plugins_loaded' hook.
+	 * Adds an oEmbed provider.
 	 *
-	 * The just-in-time addition is for the benefit of the 'oembed_providers' filter.
+	 * The provider is removed just-in-time when wp_oembed_add_provider() is called before
+	 * the {@see 'plugins_loaded'} hook.
 	 *
+	 * The just-in-time addition is for the benefit of the {@see 'oembed_providers'} filter.
+	 *
+	 * @static
 	 * @since 4.0.0
 	 * @access public
-	 * @static
 	 *
 	 * @see wp_oembed_add_provider()
 	 *
@@ -275,10 +277,12 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * Remove an oEmbed provider just-in-time when wp_oembed_remove_provider() is called
-	 * before the 'plugins_loaded' hook.
+	 * Removes an oEmbed provider.
 	 *
-	 * The just-in-time removal is for the benefit of the 'oembed_providers' filter.
+	 * The provider is removed just-in-time when wp_oembed_remove_provider() is called before
+	 * the {@see 'plugins_loaded'} hook.
+	 *
+	 * The just-in-time removal is for the benefit of the {@see 'oembed_providers'} filter.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -514,7 +518,7 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * Helper function for parsing an XML response body.
+	 * Serves as a helper function for parsing an XML response body.
 	 *
 	 * @since 3.6.0
 	 * @access private
@@ -552,7 +556,7 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * Converts a data object from {@link WP_oEmbed::fetch()} and returns the HTML.
+	 * Converts a data object from WP_oEmbed::fetch() and returns the HTML.
 	 *
 	 * @since 2.9.0
 	 * @access public
@@ -608,7 +612,7 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * Strip any new lines from the HTML.
+	 * Strips any new lines from the HTML.
 	 *
 	 * @since 2.9.0 as strip_scribd_newlines()
 	 * @since 3.0.0
@@ -650,7 +654,7 @@ class WP_oEmbed {
 }
 
 /**
- * Returns the initialized {@link WP_oEmbed} object
+ * Returns the initialized WP_oEmbed object.
  *
  * @since 2.9.0
  * @access private
