@@ -613,6 +613,9 @@ p.customize-section-description {
 	height: 100%;
 	position: absolute;
 }
+#customize-preview iframe + iframe {
+	visibility: hidden;
+}
 
 .wp-full-overlay-sidebar {
 	background: #eee;
