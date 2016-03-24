@@ -657,103 +657,100 @@ div.mce-menu .mce-menu-item-sep,
 	margin: 0;
 	padding: 0;
 	cursor: pointer;
-	border: 1px solid #ccc;
+	border: 1px solid #cccccc;
 	-webkit-appearance: none;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	white-space: nowrap;
-	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
-	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
+	-webkit-box-shadow: 0 1px 0 #cccccc;
+	box-shadow: 0 1px 0 #cccccc;
 }
 
 /* Remove the dotted border on :focus and the extra padding in Firefox */
 .mce-window .mce-btn::-moz-focus-inner {
-	border-width: 1px 0;
-	border-style: solid none;
-	border-color: transparent;
+	border-width: 0;
+	border-style: none;
 	padding: 0;
 }
 
 .mce-window .mce-btn:hover,
 .mce-window .mce-btn:focus {
 	background: #fafafa;
-	border-color: #555d66;
+	border-color: #999;
 	color: #23282d;
 }
 
 .mce-window .mce-btn:focus {
-	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
+	border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 
 .mce-window .mce-btn:active {
 	background: #eee;
-	border-color: #555d66;
-	color: #23282d;
+	border-color: #999;
 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+	-webkit-transform: translateY(1px);
+	-ms-transform: translateY(1px);
+	transform: translateY(1px);
 }
 
 .mce-window .mce-btn.mce-disabled {
-	color: #a0a5aa;
-	border-color: #ddd;
-	background: #f7f7f7;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	text-shadow: 0 1px 0 #fff;
+	color: #a0a5aa !important;
+	border-color: #ddd !important;
+	background: #f7f7f7 !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	text-shadow: 0 1px 0 #fff !important;
 	cursor: default;
+	-webkit-transform: none !important;
+	-ms-transform: none !important;
+	transform: none !important;
 }
 
 .mce-window .mce-btn.mce-primary {
-	background: #00a0d2;
-	border-color: #0073aa;
-	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.5), 0 1px 0 rgba( 0, 0, 0, 0.15 );
-	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.5 ), 0 1px 0 rgba( 0, 0, 0, 0.15 );
+	background: #0085ba;
+	border-color: #0073aa #006799 #006799;
+	-webkit-box-shadow: 0 1px 0 #006799;
+	box-shadow: 0 1px 0 #006799;
 	color: #fff;
 	text-decoration: none;
+	text-shadow: 0 -1px 1px #006799,
+		-1px 0 1px #006799,
+		0 1px 1px #006799,
+		1px 0 1px #006799;
 }
 
 .mce-window .mce-btn.mce-primary:hover,
 .mce-window .mce-btn.mce-primary:focus {
-	background: #1e8cbe;
-	border-color: #0073aa;
-	-webkit-box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 );
-	box-shadow: inset 0 1px 0 rgba( 120, 200, 230, 0.6 );
+	background: #008ec2;
+	border-color: #006799;
 	color: #fff;
 }
 
 .mce-window .mce-btn.mce-primary:focus {
-	border-color: #0e3950;
-	-webkit-box-shadow:
-		inset 0 1px 0 rgba( 120, 200, 230, 0.6 ),
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
-	box-shadow:
-		inset 0 1px 0 rgba( 120, 200, 230, 0.6 ),
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
+	-webkit-box-shadow: 0 1px 0 #0073aa,
+		0 0 2px 1px #33b3db;
+	box-shadow: 0 1px 0 #0073aa,
+		0 0 2px 1px #33b3db;
 }
 
 .mce-window .mce-btn.mce-primary:active {
-	background: #1b7aa6;
-	border-color: #005684;
-	color: rgba( 255, 255, 255, 0.95 );
-	-webkit-box-shadow: inset 0 1px 0 rgba( 0, 0, 0, 0.1 );
-	box-shadow: inset 0 1px 0 rgba( 0, 0, 0, 0.1 );
+	background: #0073aa;
+	border-color: #006799;
+	-webkit-box-shadow: inset 0 2px 0 #006799;
+	box-shadow: inset 0 2px 0 #006799;
 	vertical-align: top;
 }
 
 .mce-window .mce-btn.mce-primary.mce-disabled {
-	color: #94cde7;
-	background: #298cba;
-	border-color: #1b607f;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	text-shadow: 0 -1px 0 rgba( 0, 0, 0, 0.1 );
+	color: #66c6e4 !important;
+	background: #008ec2 !important;
+	border-color: #007cb2 !important;
+	-webkit-box-shadow: none !important;
+	box-shadow: none !important;
+	text-shadow: 0 -1px 0 rgba( 0, 0, 0, 0.1 ) !important;
 	cursor: default;
 }
 

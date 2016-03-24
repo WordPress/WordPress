@@ -200,9 +200,9 @@
 	color: #555;
 	border-color: #cccccc;
 	background: #f7f7f7;
-	-webkit-box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
-	box-shadow: inset 0 1px 0 #fff, 0 1px 0 rgba( 0, 0, 0, 0.08 );
-	vertical-align: top;
+	-webkit-box-shadow: 0 1px 0 #cccccc;
+	box-shadow: 0 1px 0 #cccccc;
+ 	vertical-align: top;
 }
 
 .ui-button:active,
@@ -212,9 +212,8 @@
 
 /* Remove the dotted border on :focus and the extra padding in Firefox */
 .ui-button::-moz-focus-inner {
-	border-width: 1px 0;
-	border-style: solid none;
-	border-color: transparent;
+	border-width: 0;
+	border-style: none;
 	padding: 0;
 }
 
@@ -226,20 +225,19 @@
 }
 
 .ui-button:focus {
-	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba( 30, 140, 190, 0.8 );
+	border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 
 .ui-button:active {
 	background: #eee;
 	border-color: #999;
-	color: #32373c;
 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+	-webkit-transform: translateY(1px);
+	-ms-transform: translateY(1px);
+	transform: translateY(1px);
 }
 
 .ui-button[disabled],
@@ -251,13 +249,16 @@
 	box-shadow: none !important;
 	text-shadow: 0 1px 0 #fff !important;
 	cursor: default;
+	-webkit-transform: none !important;
+	-ms-transform: none !important;
+	transform: none !important;
 }
 
 @media screen and ( max-width: 782px ) {
 
 	.ui-button {
-		padding: 10px 14px;
-		line-height: 1;
+		padding: 6px 14px;
+		line-height: normal;
 		font-size: 14px;
 		vertical-align: middle;
 		height: auto;
@@ -280,7 +281,7 @@
 
 .ui-dialog-titlebar {
 	background: #fcfcfc;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #dfdfdf;
 	height: 36px;
 	font-size: 18px;
 	font-weight: 600;
@@ -332,7 +333,7 @@
 
 .ui-dialog-buttonpane {
 	background: #fcfcfc;
-	border-top: 1px solid #ddd;
+	border-top: 1px solid #dfdfdf;
 	padding: 16px;
 }
 
