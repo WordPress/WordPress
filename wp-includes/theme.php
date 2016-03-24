@@ -1559,6 +1559,23 @@ function add_theme_support( $feature ) {
 				$args[0] = array_merge( $_wp_theme_features['html5'][0], $args[0] );
 			break;
 
+		case 'custom-logo':
+			$defaults = array(
+				'width'       => null,
+				'height'      => null,
+				'flex-width'  => false,
+				'flex-height' => false,
+				'header-text' => '',
+			);
+			$args[0] = wp_parse_args( array_intersect_key( $args[0], $defaults ), $defaults );
+
+			// Allow full flexibility if no size is specified.
+			if ( is_null( $args[0]['width'] ) && is_null( $args[0]['height'] ) ) {
+				$args[0]['flex-width']  = true;
+				$args[0]['flex-height'] = true;
+			}
+			break;
+
 		case 'custom-header-uploads' :
 			return add_theme_support( 'custom-header', array( 'uploads' => true ) );
 
