@@ -55,29 +55,21 @@ WordPress can [import from a number of systems](https://codex.wordpress.org/Impo
 ## Online Resources
 
 If you have any questions that aren’t addressed in this document, please take advantage of WordPress’ numerous online resources:
-
 <dl>
+  <dt>[The WordPress Codex](https://codex.wordpress.org/)</dt>
+  <dd>The Codex is the encyclopedia of all things WordPress. It is the most comprehensive source of information for WordPress available.</dd>
 
-<dt>[The WordPress Codex](https://codex.wordpress.org/)</dt>
-
-<dd>The Codex is the encyclopedia of all things WordPress. It is the most comprehensive source of information for WordPress available.</dd>
-
-<dt>[The WordPress Blog](https://wordpress.org/news/)</dt>
-
-<dd>This is where you’ll find the latest updates and news related to WordPress. Recent WordPress news appears in your administrative dashboard by default.</dd>
-
-<dt>[WordPress Planet](https://planet.wordpress.org/)</dt>
-
-<dd>The WordPress Planet is a news aggregator that brings together posts from WordPress blogs around the web.</dd>
-
-<dt>[WordPress Support Forums](https://wordpress.org/support/)</dt>
-
-<dd>If you’ve looked everywhere and still can’t find an answer, the support forums are very active and have a large community ready to help. To help them help you be sure to use a descriptive thread title and describe your question in as much detail as possible.</dd>
-
-<dt>[WordPress <abbr title="Internet Relay Chat">IRC</abbr> Channel](https://codex.wordpress.org/IRC)</dt>
-
-<dd>There is an online chat channel that is used for discussion among people who use WordPress and occasionally support topics. The above wiki page should point you in the right direction. ([irc.freenode.net #wordpress](irc://irc.freenode.net/wordpress))</dd>
-
+  <dt>[The WordPress Blog](https://wordpress.org/news/)</dt>
+  <dd>This is where you’ll find the latest updates and news related to WordPress. Recent WordPress news appears in your administrative dashboard by default.</dd>
+  
+  <dt>[WordPress Planet](https://planet.wordpress.org/)</dt>   
+  <dd>The WordPress Planet is a news aggregator that brings together posts from WordPress blogs around the web.</dd>
+      
+  <dt>[WordPress Support Forums](https://wordpress.org/support/)</dt>  
+  <dd>If you’ve looked everywhere and still can’t find an answer, the support forums are very active and have a large community ready to help. To help them help you be sure to use a descriptive thread title and describe your question in as much detail as possible.</dd>
+      
+  <dt>[WordPress <abbr title="Internet Relay Chat">IRC</abbr> Channel](https://codex.wordpress.org/IRC)</dt>    
+  <dd>There is an online chat channel that is used for discussion among people who use WordPress and occasionally support topics. The above wiki page should point you in the right direction. ([irc.freenode.net #wordpress](irc://irc.freenode.net/wordpress))</dd>
 </dl>
 
 ## Final Notes
