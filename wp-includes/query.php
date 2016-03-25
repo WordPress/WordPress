@@ -2231,8 +2231,8 @@ class WP_Query {
 			else
 				$term = trim( $term, "\"' " );
 
-			// Avoid single A-Z.
-			if ( ! $term || ( 1 === strlen( $term ) && preg_match( '/^[a-z]$/i', $term ) ) )
+			// Avoid single A-Z and single dashes.
+			if ( ! $term || ( 1 === strlen( $term ) && preg_match( '/^[a-z\-]$/i', $term ) ) )
 				continue;
 
 			if ( in_array( call_user_func( $strtolower, $term ), $stopwords, true ) )
