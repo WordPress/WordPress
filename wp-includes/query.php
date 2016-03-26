@@ -2769,7 +2769,7 @@ class WP_Query {
 			$post_parent__in = implode( ',', array_map( 'absint', $q['post_parent__in'] ) );
 			$where .= " AND {$wpdb->posts}.post_parent IN ($post_parent__in)";
 		} elseif ( $q['post_parent__not_in'] ) {
-			$post_parent__not_in = implode( ',',  array_map( 'absint', $q['post_parent__not_in'] ) );
+			$post_parent__not_in = implode( ',',  array_map( 'absint', is_string( $q['post_parent__not_in'] ) ? explode( ',', $q['post_parent__not_in'] ) : $q['post_parent__not_in'] ) );
 			$where .= " AND {$wpdb->posts}.post_parent NOT IN ($post_parent__not_in)";
 		}
 
