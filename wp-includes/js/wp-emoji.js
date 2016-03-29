@@ -15,7 +15,8 @@
 		// Private
 		twemoji, timer,
 		loaded = false,
-		count = 0;
+		count = 0,
+		ie11 = window.navigator.userAgent.indexOf( 'Trident/7.0' ) > 0;
 
 		/**
 		 * Runs when the document load event is fired, so we can do our first parse of the page.
@@ -68,6 +69,23 @@
 							node = addedNodes[ ii ];
 
 							if ( node.nodeType === 3 ) {
+								if ( ! node.parentNode ) {
+									continue;
+								}
+
+								if ( ie11 ) {
+									/*
+									 * IE 11's implementation of MutationObserver is buggy.
+									 * It unnecessarily splits text nodes when it encounters a HTML
+									 * template interpolation symbol ( "{{", for example ). So, we
+									 * join the text nodes back together as a work-around.
+									 */
+									while( node.nextSibling && 3 === node.nextSibling.nodeType ) {
+										node.nodeValue = node.nodeValue + node.nextSibling.nodeValue;
+										node.parentNode.removeChild( node.nextSibling );
+									}
+								}
+
 								node = node.parentNode;
 							}
 
