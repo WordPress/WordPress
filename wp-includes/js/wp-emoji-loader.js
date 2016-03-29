@@ -14,7 +14,7 @@
 		var canvas = document.createElement( 'canvas' ),
 			context = canvas.getContext && canvas.getContext( '2d' ),
 			stringFromCharCode = String.fromCharCode,
-			tone;
+			tonedata, tone, tone2;
 
 		if ( ! context || ! context.fillText ) {
 			return false;
@@ -47,10 +47,15 @@
 			 * compares if the emoji rendering has changed.
 			 */
 			context.fillText( stringFromCharCode( 55356, 57221 ), 0, 0 );
-			tone = context.getImageData( 16, 16, 1, 1 ).data.toString();
+			tonedata = context.getImageData( 16, 16, 1, 1 ).data;
+
 			context.fillText( stringFromCharCode( 55356, 57221, 55356, 57343 ), 0, 0 );
-			// Chrome has issues comparing arrays, so we compare it as a  string, instead.
-			return tone !== context.getImageData( 16, 16, 1, 1 ).data.toString();
+			// Chrome has issues comparing arrays, and Safari has issues converting arrays to strings.
+			// So, we create our own string and compare that, instead.
+			tonedata = context.getImageData( 16, 16, 1, 1 ).data;
+			tone2 = tonedata[0] + ',' + tonedata[1] + ',' + tonedata[2] + ',' + tonedata[3];
+
+			return tone !== tone2;
 		} else {
 			if ( 'simple' === type ) {
 				/*
