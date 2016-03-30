@@ -197,8 +197,10 @@ function wp_ajax_wp_compression_test() {
 			echo $out;
 			wp_die();
 		} elseif ( 'no' == $_GET['test'] ) {
+			check_ajax_referer( 'update_can_compress_scripts' );
 			update_site_option('can_compress_scripts', 0);
 		} elseif ( 'yes' == $_GET['test'] ) {
+			check_ajax_referer( 'update_can_compress_scripts' );
 			update_site_option('can_compress_scripts', 1);
 		}
 	}
