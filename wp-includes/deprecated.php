@@ -3741,6 +3741,7 @@ function popuplinks( $text ) {
  * Returns the base URL of the uploads directory.
  * Note: this function will be removed in 4.6.
  *
+ * @ignore
  * @since 4.4.0
  * @access private
  * @deprecated 4.5.0 Use wp_get_upload_dir()
