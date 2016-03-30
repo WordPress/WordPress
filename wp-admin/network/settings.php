@@ -258,7 +258,7 @@ if ( isset( $_GET['updated'] ) ) {
 			<tr>
 				<th scope="row"><label for="first_comment_author"><?php _e( 'First Comment Author' ) ?></label></th>
 				<td>
-					<input type="text" size="40" name="first_comment_author" id="first_comment_author" aria-describedby="first-comment-author-desc" value="<?php echo get_site_option('first_comment_author') ?>" />
+					<input type="text" size="40" name="first_comment_author" id="first_comment_author" aria-describedby="first-comment-author-desc" value="<?php echo esc_attr( get_site_option('first_comment_author') ); ?>" />
 					<p class="description" id="first-comment-author-desc">
 						<?php _e( 'The author of the first comment on a new site.' ) ?>
 					</p>
