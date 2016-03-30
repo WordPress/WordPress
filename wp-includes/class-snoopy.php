@@ -999,20 +999,23 @@ class Snoopy
 		if(!empty($this->user) || !empty($this->pass))
 			$headers[] = "Authorization: BASIC ".base64_encode($this->user.":".$this->pass);
 
-		for($curr_header = 0; $curr_header < count($headers); $curr_header++) {
-			$safer_header = strtr( $headers[$curr_header], "\"", " " );
-			$cmdline_params .= " -H \"".$safer_header."\"";
+		$headerfile = tempnam( $this->temp_dir, "sno" );
+		$cmdline_params = '-k -D ' . escapeshellarg( $headerfile );
+
+		foreach ( $headers as $header ) {
+			$cmdline_params .= ' -H ' . escapeshellarg( $header );
 		}
 
-		if(!empty($body))
-			$cmdline_params .= " -d \"$body\"";
+		if ( ! empty( $body ) ) {
+			$cmdline_params .= ' -d ' . escapeshellarg( $body );
+		}
 
-		if($this->read_timeout > 0)
-			$cmdline_params .= " -m ".$this->read_timeout;
+		if ( $this->read_timeout > 0 ) {
+			$cmdline_params .= ' -m ' . escapeshellarg( $this->read_timeout );
+		}
 
-		$headerfile = tempnam($this->temp_dir, "sno");
 
-		exec($this->curl_path." -k -D \"$headerfile\"".$cmdline_params." \"".escapeshellcmd($URI)."\"",$results,$return);
+		exec( $this->curl_path . ' ' . $cmdline_params . ' ' . escapeshellarg( $URI ), $results, $return );
 
 		if($return)
 		{
