@@ -1560,6 +1560,9 @@ function add_theme_support( $feature ) {
 			break;
 
 		case 'custom-logo':
+			if ( ! is_array( $args ) ) {
+				$args = array( 0 => array() );
+			}
 			$defaults = array(
 				'width'       => null,
 				'height'      => null,
