@@ -2759,14 +2759,14 @@ function wp_ajax_get_revision_diffs() {
 	require ABSPATH . 'wp-admin/includes/revision.php';
 
 	if ( ! $post = get_post( (int) $_REQUEST['post_id'] ) )
-		wp_send_json_error(111);
+		wp_send_json_error();
 
 	if ( ! current_user_can( 'read_post', $post->ID ) )
-		wp_send_json_error(222);
+		wp_send_json_error();
 
 	// Really just pre-loading the cache here.
 	if ( ! $revisions = wp_get_post_revisions( $post->ID, array( 'check_enabled' => false ) ) )
-		wp_send_json_error(333);
+		wp_send_json_error();
 
 	$return = array();
 	@set_time_limit( 0 );
