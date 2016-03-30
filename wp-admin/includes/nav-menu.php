@@ -941,13 +941,13 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
  */
 function wp_nav_menu_manage_columns() {
 	return array(
-		'_title'      => __( 'Show advanced menu properties' ),
-		'cb'          => '<input type="checkbox" />',
-		'link-target' => __( 'Link Target' ),
-		'attr-title'  => __( 'Title Attribute' ),
-		'css-classes' => __( 'CSS Classes' ),
-		'xfn'         => __( 'Link Relationship (XFN)' ),
-		'description' => __( 'Description' ),
+		'_title'          => __( 'Show advanced menu properties' ),
+		'cb'              => '<input type="checkbox" />',
+		'link-target'     => __( 'Link Target' ),
+		'title-attribute' => __( 'Title Attribute' ),
+		'css-classes'     => __( 'CSS Classes' ),
+		'xfn'             => __( 'Link Relationship (XFN)' ),
+		'description'     => __( 'Description' ),
 	);
 }
 
