@@ -676,7 +676,7 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 
 	$term_ids = array_map('intval', $term_ids );
 
-	$taxonomies = "'" . implode( "', '", $taxonomies ) . "'";
+	$taxonomies = "'" . implode( "', '", array_map( 'esc_sql', $taxonomies ) ) . "'";
 	$term_ids = "'" . implode( "', '", $term_ids ) . "'";
 
 	$object_ids = $wpdb->get_col("SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($term_ids) ORDER BY tr.object_id $order");
@@ -875,7 +875,7 @@ function get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filter 
 		return $term;
 	}
 
-	$term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE $_field = %s $tax_clause LIMIT 1", $value ) );
+	$term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE $_field = %s", $value ) . " $tax_clause LIMIT 1" );
 	if ( ! $term )
 		return false;
 
@@ -1230,7 +1230,7 @@ function get_terms( $taxonomies, $args = '' ) {
 		$order = 'ASC';
 	}
 
-	$where = "tt.taxonomy IN ('" . implode("', '", $taxonomies) . "')";
+	$where = "tt.taxonomy IN ('" . implode("', '", array_map( 'esc_sql', $taxonomies ) ) . "')";
 
 	$exclude = $args['exclude'];
 	$exclude_tree = $args['exclude_tree'];
@@ -2359,7 +2359,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 
 	$taxonomy_array = $taxonomies;
 	$object_id_array = $object_ids;
-	$taxonomies = "'" . implode("', '", $taxonomies) . "'";
+	$taxonomies = "'" . implode("', '", array_map( 'esc_sql', $taxonomies ) ) . "'";
 	$object_ids = implode(', ', $object_ids);
 
 	$select_this = '';
