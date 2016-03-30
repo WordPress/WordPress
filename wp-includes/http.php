@@ -466,7 +466,7 @@ function wp_http_validate_url( $url ) {
 
 	if ( ! $same_host ) {
 		$host = trim( $parsed_url['host'], '.' );
-		if ( preg_match( '#^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$#', $host ) ) {
+		if ( preg_match( '#^(([1-9]?\d|1\d\d|25[0-5]|2[0-4]\d)\.){3}([1-9]?\d|1\d\d|25[0-5]|2[0-4]\d)$#', $host ) ) {
 			$ip = $host;
 		} else {
 			$ip = gethostbyname( $host );
