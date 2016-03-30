@@ -148,13 +148,19 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 
 		<div class="favorites-form">
 			<?php
-			$user = isset( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
-			update_user_meta( get_current_user_id(), 'wporg_favorites', $user );
+			$action = 'save_wporg_username_' . get_current_user_id();
+			if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), $action ) ) {
+				$user = isset( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
+				update_user_meta( get_current_user_id(), 'wporg_favorites', $user );
+			} else {
+				$user = get_user_option( 'wporg_favorites' );
+			}
 			?>
 			<p class="install-help"><?php _e( 'If you have marked themes as favorites on WordPress.org, you can browse them here.' ); ?></p>
 
 			<p>
 				<label for="user"><?php _e( 'Your WordPress.org username:' ); ?></label>
+				<input type="hidden" id="wporg-username-nonce" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( $action ) ); ?>" />
 				<input type="search" id="wporg-username-input" value="<?php echo esc_attr( $user ); ?>" />
 				<input type="button" class="button button-secondary favorites-form-submit" value="<?php esc_attr_e( 'Get Favorites' ); ?>" />
 			</p>
