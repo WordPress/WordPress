@@ -1959,11 +1959,15 @@ final class WP_Customize_Manager {
 			'transport'      => 'postMessage',
 		) );
 
-		$this->add_control( new WP_Customize_Media_Control( $this, 'custom_logo', array(
-			'label'    => __( 'Logo' ),
-			'section'  => 'title_tagline',
-			'priority' => 8,
-			'mime_type' => 'image',
+		$custom_logo_args = get_theme_support( 'custom-logo' );
+		$this->add_control( new WP_Customize_Cropped_Image_Control( $this, 'custom_logo', array(
+			'label'         => __( 'Logo' ),
+			'section'       => 'title_tagline',
+			'priority'      => 8,
+			'height'        => $custom_logo_args[0]['height'],
+			'width'         => $custom_logo_args[0]['width'],
+			'flex_height'   => $custom_logo_args[0]['flex-height'],
+			'flex_width'    => $custom_logo_args[0]['flex-width'],
 			'button_labels' => array(
 				'select'       => __( 'Select logo' ),
 				'change'       => __( 'Change logo' ),
@@ -1975,10 +1979,10 @@ final class WP_Customize_Manager {
 			),
 		) ) );
 
-		$this->selective_refresh->add_partial( 'site_logo', array(
-			'settings'            => array( 'site_logo' ),
-			'selector'            => '.site-logo-link',
-			'render_callback'     => array( $this, '_render_site_logo_partial' ),
+		$this->selective_refresh->add_partial( 'custom_logo', array(
+			'settings'            => array( 'custom_logo' ),
+			'selector'            => '.custom-logo-link',
+			'render_callback'     => array( $this, '_render_custom_logo_partial' ),
 			'container_inclusive' => true,
 		) );
 

@@ -1,10 +1,9 @@
 <?php
 /**
- * Contains the post embed header template.
+ * Contains the post embed header template
  *
- * When a post is embedded in an iframe, this file is used to
- * create the header output if the active theme does not include
- * a header-embed.php template.
+ * When a post is embedded in an iframe, this file is used to create the header output
+ * if the active theme does not include a header-embed.php template.
  *
  * @package WordPress
  * @subpackage Theme_Compat

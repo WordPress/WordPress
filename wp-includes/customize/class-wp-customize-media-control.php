@@ -196,7 +196,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 			<div class="actions">
 				<# if ( data.canUpload ) { #>
 				<button type="button" class="button remove-button">{{ data.button_labels.remove }}</button>
-				<button type="button" class="button upload-button" id="{{ data.settings['default'] }}-button">{{ data.button_labels.change }}</button>
+				<button type="button" class="button upload-button control-focus" id="{{ data.settings['default'] }}-button">{{ data.button_labels.change }}</button>
 				<div style="clear:both"></div>
 				<# } #>
 			</div>

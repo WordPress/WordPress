@@ -105,7 +105,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 					<?php _e( 'Open link in a new tab' ); ?>
 				</label>
 			</p>
-			<p class="field-attr-title description description-thin">
+			<p class="field-title-attribute field-attr-title description description-thin">
 				<label for="edit-menu-item-attr-title-{{ data.menu_item_id }}">
 					<?php _e( 'Title Attribute' ); ?><br />
 					<input type="text" id="edit-menu-item-attr-title-{{ data.menu_item_id }}" class="widefat edit-menu-item-attr-title" name="menu-item-attr-title" />

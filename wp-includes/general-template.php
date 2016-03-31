@@ -876,29 +876,22 @@ function get_custom_logo( $blog_id = 0 ) {
 	}
 
 	$custom_logo_id = get_theme_mod( 'custom_logo' );
-	$size           = get_theme_support( 'custom-logo', 'size' );
-
-	if ( ! $size ) {
-		$size = 'full';
-	}
 
 	// We have a logo. Logo is go.
 	if ( $custom_logo_id ) {
 		$html = sprintf( '<a href="%1$s" class="custom-logo-link" rel="home" itemprop="url">%2$s</a>',
 			esc_url( home_url( '/' ) ),
-			wp_get_attachment_image( $custom_logo_id, $size, false, array(
-				'class'     => "custom-logo attachment-$size",
-				'data-size' => $size,
-				'itemprop'  => 'logo',
+			wp_get_attachment_image( $custom_logo_id, 'full', false, array(
+				'class'    => 'custom-logo',
+				'itemprop' => 'logo',
 			) )
 		);
 	}
 
 	// If no logo is set but we're in the Customizer, leave a placeholder (needed for the live preview).
 	elseif ( is_customize_preview() ) {
-		$html = sprintf( '<a href="%1$s" class="custom-logo-link" style="display:none;"><img class="custom-logo" data-size="%2$s" /></a>',
-			esc_url( home_url( '/' ) ),
-			esc_attr( $size )
+		$html = sprintf( '<a href="%1$s" class="custom-logo-link" style="display:none;"><img class="custom-logo"/></a>',
+			esc_url( home_url( '/' ) )
 		);
 	}
 
@@ -912,9 +905,8 @@ function get_custom_logo( $blog_id = 0 ) {
 	 * @since 4.5.0
 	 *
 	 * @param string $html Custom logo HTML output.
-	 * @param string $size Size specified in add_theme_support declaration, or 'full' default.
 	 */
-	return apply_filters( 'get_custom_logo', $html, $size );
+	return apply_filters( 'get_custom_logo', $html );
 }
 
 /**

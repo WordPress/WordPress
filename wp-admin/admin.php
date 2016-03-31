@@ -356,7 +356,7 @@ if ( isset($plugin_page) ) {
 		elseif ( $taxnow == 'link_category' )
 			do_action( 'load-edit-link-categories.php' );
 	} elseif( 'term.php' === $pagenow ) {
-		do_action( 'edit-tags.php' );
+		do_action( 'load-edit-tags.php' );
 	}
 }
 

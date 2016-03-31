@@ -1,10 +1,9 @@
 <?php
 /**
- * Contains the post embed content template part.
+ * Contains the post embed content template part
  *
- * When a post is embedded in an iframe, this file is used to
- * create the content template part output if the active theme does not include
- * a content-embed.php template.
+ * When a post is embedded in an iframe, this file is used to create the content template part
+ * output if the active theme does not include an embed-404.php template.
  *
  * @package WordPress
  * @subpackage Theme_Compat

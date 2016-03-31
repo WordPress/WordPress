@@ -197,8 +197,10 @@ function wp_ajax_wp_compression_test() {
 			echo $out;
 			wp_die();
 		} elseif ( 'no' == $_GET['test'] ) {
+			check_ajax_referer( 'update_can_compress_scripts' );
 			update_site_option('can_compress_scripts', 0);
 		} elseif ( 'yes' == $_GET['test'] ) {
+			check_ajax_referer( 'update_can_compress_scripts' );
 			update_site_option('can_compress_scripts', 1);
 		}
 	}
@@ -3314,6 +3316,8 @@ function wp_ajax_save_wporg_username() {
 	if ( ! current_user_can( 'install_themes' ) && ! current_user_can( 'install_plugins' ) ) {
 		wp_send_json_error();
 	}
+
+	check_ajax_referer( 'save_wporg_username_' . get_current_user_id() );
 
 	$username = isset( $_REQUEST['username'] ) ? wp_unslash( $_REQUEST['username'] ) : false;
 

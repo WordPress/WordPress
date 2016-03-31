@@ -113,7 +113,6 @@ function edit_user( $user_id = 0 ) {
 		$errors->add( 'nickname', __( '<strong>ERROR</strong>: Please enter a nickname.' ) );
 	}
 
-	/* checking the password has been typed twice */
 	/**
 	 * Fires before the password and confirm password fields are checked for congruity.
 	 *
@@ -125,13 +124,20 @@ function edit_user( $user_id = 0 ) {
 	 */
 	do_action_ref_array( 'check_passwords', array( $user->user_login, &$pass1, &$pass2 ) );
 
-	/* Check for "\" in password */
-	if ( false !== strpos( wp_unslash( $pass1 ), "\\" ) )
-		$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
+	// Check for blank password when adding a user.
+	if ( ! $update && empty( $pass1 ) ) {
+		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter a password.' ), array( 'form-field' => 'pass1' ) );
+	}
 
-	/* checking the password has been typed twice the same */
-	if ( $pass1 != $pass2 )
+	// Check for "\" in password.
+	if ( false !== strpos( wp_unslash( $pass1 ), "\\" ) ) {
+		$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
+	}
+
+	// Checking the password has been typed twice the same.
+	if ( ( $update || ! empty( $pass1 ) ) && $pass1 != $pass2 ) {
 		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter the same password in both password fields.' ), array( 'form-field' => 'pass1' ) );
+	}
 
 	if ( !empty( $pass1 ) )
 		$user->user_pass = $pass1;

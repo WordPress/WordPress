@@ -4885,16 +4885,11 @@ class WP_Query {
  *
  * @global WP_Query   $wp_query   Global WP_Query instance.
  * @global wpdb       $wpdb       WordPress database abstraction object.
- * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  */
 function wp_old_slug_redirect() {
-	global $wp_query, $wp_rewrite;
+	global $wp_query;
 
-	if ( get_queried_object() ) {
-		return;
-	}
-
-	if ( '' !== $wp_query->query_vars['name'] ) :
+	if ( is_404() && '' !== $wp_query->query_vars['name'] ) :
 		global $wpdb;
 
 		// Guess the current post_type based on the query vars.
@@ -4936,19 +4931,10 @@ function wp_old_slug_redirect() {
 
 		$link = get_permalink( $id );
 
-		if ( is_feed() ) {
-			$link = user_trailingslashit( trailingslashit( $link ) . 'feed' );
-		} elseif ( isset( $GLOBALS['wp_query']->query_vars['paged'] ) && $GLOBALS['wp_query']->query_vars['paged'] > 1 ) {
+		if ( isset( $GLOBALS['wp_query']->query_vars['paged'] ) && $GLOBALS['wp_query']->query_vars['paged'] > 1 ) {
 			$link = user_trailingslashit( trailingslashit( $link ) . 'page/' . $GLOBALS['wp_query']->query_vars['paged'] );
 		} elseif( is_embed() ) {
 			$link = user_trailingslashit( trailingslashit( $link ) . 'embed' );
-		} elseif ( is_404() ) {
-			// Add rewrite endpoints if necessary.
-			foreach ( $wp_rewrite->endpoints as $endpoint ) {
-				if ( $endpoint[2] && false !== get_query_var( $endpoint[2], false ) ) {
-					$link = user_trailingslashit( trailingslashit( $link ) . $endpoint[1] );
-				}
-			}
 		}
 
 		/**

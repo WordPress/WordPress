@@ -14,10 +14,21 @@
  * @since 4.4.0 Moved to its own file from wp-includes/widgets.php
  */
 class WP_Widget_Factory {
+
+	/**
+	 * Widgets array.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var array
+	 */
 	public $widgets = array();
 
 	/**
 	 * PHP5 constructor.
+	 *
+	 * @since 4.3.0
+	 * @access public
 	 */
 	public function __construct() {
 		add_action( 'widgets_init', array( $this, '_register_widgets' ), 100 );
@@ -25,6 +36,9 @@ class WP_Widget_Factory {
 
 	/**
 	 * PHP4 constructor.
+	 *
+	 * @since 2.8.0
+	 * @access public
 	 */
 	public function WP_Widget_Factory() {
 		_deprecated_constructor( 'WP_Widget_Factory', '4.2.0' );
@@ -32,31 +46,31 @@ class WP_Widget_Factory {
 	}
 
 	/**
-	 * Register a widget subclass.
+	 * Registers a widget subclass.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @param string $widget_class The name of a {@see WP_Widget} subclass.
+	 * @param string $widget_class The name of a WP_Widget subclass.
 	 */
 	public function register( $widget_class ) {
 		$this->widgets[$widget_class] = new $widget_class();
 	}
 
 	/**
-	 * Un-register a widget subclass.
+	 * Un-registers a widget subclass.
 	 *
 	 * @since 2.8.0
 	 * @access public
 	 *
-	 * @param string $widget_class The name of a {@see WP_Widget} subclass.
+	 * @param string $widget_class The name of a WP_Widget subclass.
 	 */
 	public function unregister( $widget_class ) {
 		unset( $this->widgets[ $widget_class ] );
 	}
 
 	/**
-	 * Utility method for adding widgets to the registered widgets global.
+	 * Serves as a utility method for adding widgets to the registered widgets global.
 	 *
 	 * @since 2.8.0
 	 * @access public

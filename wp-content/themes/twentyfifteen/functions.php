@@ -108,8 +108,11 @@ function twentyfifteen_setup() {
 	 *
 	 * @since Twenty Fifteen 1.5
 	 */
-	add_image_size( 'twentyfifteen-logo', 248, 248 );
-	add_theme_support( 'custom-logo', array( 'size' => 'twentyfifteen-logo' ) );
+	add_theme_support( 'custom-logo', array(
+		'height'      => 248,
+		'width'       => 248,
+		'flex-height' => true,
+	) );
 
 	$color_scheme  = twentyfifteen_get_color_scheme();
 	$default_color = trim( $color_scheme[0], '#' );

@@ -1,5 +1,5 @@
 /*!
- * jQuery Migrate - v1.3.0 - 2016-01-13
+ * jQuery Migrate - v1.4.0 - 2016-02-26
  * Copyright jQuery Foundation and other contributors
  */
 (function( jQuery, window, undefined ) {
@@ -7,7 +7,7 @@
 // "use strict";
 
 
-jQuery.migrateVersion = "1.3.0";
+jQuery.migrateVersion = "1.4.0";
 
 
 var warnedAbout = {};
@@ -19,8 +19,10 @@ jQuery.migrateWarnings = [];
 // jQuery.migrateMute = false;
 
 // Show a message on the console so devs know we're active
-if ( !jQuery.migrateMute && window.console && window.console.log ) {
-	window.console.log("JQMIGRATE: Logging is active");
+if ( window.console && window.console.log ) {
+	window.console.log( "JQMIGRATE: Migrate is installed" +
+		( jQuery.migrateMute ? "" : " with logging active" ) +
+		", version " + jQuery.migrateVersion );
 }
 
 // Set to false to disable traces that appear with warnings
@@ -193,6 +195,7 @@ var matched, browser,
 	oldInit = jQuery.fn.init,
 	oldParseJSON = jQuery.parseJSON,
 	rspaceAngle = /^\s*</,
+	rattrHash = /\[\s*\w+\s*[~|^$*]?=\s*(?![\s'"])[^#\]]*#/,
 	// Note: XSS check is done below after string is trimmed
 	rquickExpr = /^([^<]*)(<[\w\W]+>)([^>]*)$/;
 
@@ -228,10 +231,17 @@ jQuery.fn.init = function( selector, context, rootjQuery ) {
 		}
 	}
 
-	// jQuery( "#" ) is a bogus ID selector, but it returned an empty set before jQuery 3.0
 	if ( selector === "#" ) {
+
+		// jQuery( "#" ) is a bogus ID selector, but it returned an empty set before jQuery 3.0
 		migrateWarn( "jQuery( '#' ) is not a valid selector" );
 		selector = [];
+
+	} else if ( rattrHash.test( selector ) ) {
+
+		// The nonstandard and undocumented unquoted-hash was removed in jQuery 1.12.0
+		// Note that this doesn't actually fix the selector due to potential false positives
+		migrateWarn( "Attribute selectors with '#' must be quoted: '" + selector + "'" );
 	}
 
 	ret = oldInit.apply( this, arguments );
@@ -503,15 +513,16 @@ jQuery.each( [ "load", "unload", "error" ], function( _, name ) {
 
 	jQuery.fn[ name ] = function() {
 		var args = Array.prototype.slice.call( arguments, 0 );
-		migrateWarn( "jQuery.fn." + name + "() is deprecated" );
 
 		// If this is an ajax load() the first arg should be the string URL;
 		// technically this could also be the "Anything" arg of the event .load()
 		// which just goes to show why this dumb signature has been deprecated!
 		// jQuery custom builds that exclude the Ajax module justifiably die here.
-		if ( name === "load" && typeof arguments[ 0 ] === "string" ) {
-			return oldLoad.apply( this, arguments );
+		if ( name === "load" && typeof args[ 0 ] === "string" ) {
+			return oldLoad.apply( this, args );
 		}
+
+		migrateWarn( "jQuery.fn." + name + "() is deprecated" );
 
 		args.splice( 0, 0, name );
 		if ( arguments.length ) {
@@ -612,7 +623,11 @@ jQuery.each( ajaxEvents.split("|"),
 );
 
 jQuery.event.special.ready = {
-	setup: function() { migrateWarn( "'ready' event is deprecated" ); }
+	setup: function() {
+		if ( this === document ) {
+			migrateWarn( "'ready' event is deprecated" );
+		}
+	}
 };
 
 var oldSelf = jQuery.fn.andSelf || jQuery.fn.addBack,

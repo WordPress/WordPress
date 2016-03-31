@@ -77,7 +77,7 @@
 	 * @param {Function} [params.completeCallback]
 	 */
 	focus = function ( params ) {
-		var construct, completeCallback, focus;
+		var construct, completeCallback, focus, focusElement;
 		construct = this;
 		params = params || {};
 		focus = function () {
@@ -90,8 +90,12 @@
 				focusContainer = construct.container;
 			}
 
-			// Note that we can't use :focusable due to a jQuery UI issue. See: https://github.com/jquery/jquery-ui/pull/1583
-			focusContainer.find( 'input, select, textarea, button, object, a[href], [tabindex]' ).filter( ':visible' ).first().focus();
+			focusElement = focusContainer.find( '.control-focus:first' );
+			if ( 0 === focusElement.length ) {
+				// Note that we can't use :focusable due to a jQuery UI issue. See: https://github.com/jquery/jquery-ui/pull/1583
+				focusElement = focusContainer.find( 'input, select, textarea, button, object, a[href], [tabindex]' ).filter( ':visible' ).first();
+			}
+			focusElement.focus();
 		};
 		if ( params.completeCallback ) {
 			completeCallback = params.completeCallback;

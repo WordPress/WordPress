@@ -300,7 +300,8 @@ function install_plugins_upload() {
  *
  */
 function install_plugins_favorites_form() {
-	$user = ! empty( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
+	$user   = get_user_option( 'wporg_favorites' );
+	$action = 'save_wporg_username_' . get_current_user_id();
 	?>
 	<p class="install-help"><?php _e( 'If you have marked plugins as favorites on WordPress.org, you can browse them here.' ); ?></p>
 	<form method="get">
@@ -309,6 +310,7 @@ function install_plugins_favorites_form() {
 			<label for="user"><?php _e( 'Your WordPress.org username:' ); ?></label>
 			<input type="search" id="user" name="user" value="<?php echo esc_attr( $user ); ?>" />
 			<input type="submit" class="button" value="<?php esc_attr_e( 'Get Favorites' ); ?>" />
+			<input type="hidden" id="wporg-username-nonce" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( $action ) ); ?>" /> 
 		</p>
 	</form>
 	<?php
