@@ -95,7 +95,8 @@ div.mce-tab:focus {
 }
 
 .mce-textbox,
-.mce-checkbox i.mce-i-checkbox {
+.mce-checkbox i.mce-i-checkbox,
+#wp-link .query-results {
 	border: 1px solid #ddd;
 	-webkit-border-radius: 0;
 	border-radius: 0;
@@ -1374,6 +1375,11 @@ i.mce-i-wp_code:before {
 	height: 100%;
 }
 
+#wp-link-wrap {
+	height: 500px;
+	margin-top: -250px;
+}
+
 #wp-link-wrap .wp-link-text-field {
 	display: none;
 }
@@ -1433,8 +1439,14 @@ i.mce-i-wp_code:before {
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
-#link-selector {
-	padding: 0 16px 50px;
+#wp-link-wrap #link-selector {
+	-webkit-overflow-scrolling: touch;
+	padding: 0 16px;
+	position: absolute;
+	top: 37px;
+	left: 0;
+	right: 0;
+	bottom: 44px;
 }
 
 #wp-link ol,
@@ -1464,11 +1476,12 @@ i.mce-i-wp_code:before {
 }
 
 #wp-link label input[type="text"] {
-	margin: 8px 0 0;
+	margin-top: 5px;
 	width: 70%;
 }
 
-#wp-link #link-options label span {
+#wp-link #link-options label span,
+#wp-link #search-panel label span.search-label {
 	display: inline-block;
 	width: 80px;
 	text-align: right;
@@ -1476,6 +1489,27 @@ i.mce-i-wp_code:before {
 	max-width: 24%;
 	vertical-align: middle;
 	word-wrap: break-word;
+}
+
+#wp-link .link-search-field {
+	float: left;
+	width: 250px;
+	max-width: 70%;
+}
+
+#wp-link .link-search-wrapper {
+	margin: 5px 0 9px;
+	display: block;
+	overflow: hidden;
+}
+
+#wp-link .link-search-wrapper span {
+	float: left;
+	margin-top: 4px;
+}
+
+#wp-link .link-search-wrapper .spinner {
+	margin-top: 5px;
 }
 
 #wp-link .link-target {
@@ -1487,6 +1521,112 @@ i.mce-i-wp_code:before {
 
 #wp-link .link-target label {
 	max-width: 70%;
+}
+
+#wp-link .query-results {
+	border: 1px #dfdfdf solid;
+	margin: 0 0 12px;
+	background: #fff;
+	overflow: auto;
+	position: absolute;
+	left: 16px;
+	right: 16px;
+	bottom: 0;
+	top: 166px;
+}
+
+.has-text-field #wp-link .query-results {
+	top: 200px;
+}
+
+#wp-link li {
+	clear: both;
+	margin-bottom: 0;
+	border-bottom: 1px solid #f1f1f1;
+	color: #32373c;
+	padding: 4px 6px 4px 10px;
+	cursor: pointer;
+	position: relative;
+}
+
+#wp-link .query-notice {
+	padding: 0;
+	border-bottom: 1px solid #dfdfdf;
+	background-color: #f7fcfe;
+	color: #000;
+}
+
+#wp-link .query-notice .query-notice-default,
+#wp-link .query-notice .query-notice-hint {
+	display: block;
+	padding: 6px;
+	border-left: 4px solid #00a0d2;
+}
+
+#wp-link .unselectable.no-matches-found {
+	padding: 0;
+	border-bottom: 1px solid #dfdfdf;
+	background-color: #fef7f1;
+}
+
+#wp-link .no-matches-found .item-title {
+	display: block;
+	padding: 6px;
+	border-left: 4px solid #d54e21;
+}
+
+#wp-link .query-results em {
+	font-style: normal;
+}
+
+#wp-link li:hover {
+	background: #eaf2fa;
+	color: #151515;
+}
+
+#wp-link li.unselectable {
+	border-bottom: 1px solid #dfdfdf;
+}
+
+#wp-link li.unselectable:hover {
+	background: #fff;
+	cursor: auto;
+	color: #32373c;
+}
+
+#wp-link li.selected {
+	background: #ddd;
+	color: #32373c;
+}
+
+#wp-link li.selected .item-title {
+	font-weight: bold;
+}
+
+#wp-link li:last-child {
+	border: none;
+}
+
+#wp-link .item-title {
+	display: inline-block;
+	width: 80%;
+	width: -webkit-calc(100% - 68px);
+	width: calc(100% - 68px);
+	word-wrap: break-word;
+}
+
+#wp-link .item-info {
+	text-transform: uppercase;
+	color: #666;
+	font-size: 11px;
+	position: absolute;
+	right: 5px;
+	top: 5px;
+}
+
+#wp-link .river-waiting {
+	display: none;
+	padding: 10px 0;
 }
 
 #wp-link .submitbox {
@@ -1518,8 +1658,20 @@ i.mce-i-wp_code:before {
 		margin-top: -140px;
 	}
 
+	#wp-link-wrap .query-results {
+		top: 195px;
+	}
+
+	#wp-link-wrap.has-text-field .query-results {
+		top: 235px;
+	}
+
 	#link-selector {
 		padding: 0 16px 60px;
+	}
+
+	#wp-link-wrap #link-selector {
+		bottom: 52px;
 	}
 
 	#wp-link-cancel {
@@ -1549,6 +1701,18 @@ i.mce-i-wp_code:before {
 	#wp-link-wrap {
 		-webkit-transition: none;
 		transition: none;
+		height: auto;
+		margin-top: 0;
+		top: 10px;
+		bottom: 10px;
+	}
+
+	#link-selector {
+		overflow: auto;
+	}
+
+	#search-panel .query-results {
+		position: static;
 	}
 }
 
@@ -1565,6 +1729,10 @@ i.mce-i-wp_code:before {
 		height: -webkit-calc(100% - 92px);
 		height: calc(100% - 92px);
 		padding-bottom: 2px;
+	}
+
+	#search-panel .query-results {
+		position: static;
 	}
 }
 

@@ -1412,9 +1412,10 @@ final class _WP_Editors {
 		<button type="button" id="wp-link-close"><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></button>
 		<div id="link-selector">
 			<div id="link-options">
+				<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
 				<div>
 					<label><span><?php _e( 'URL' ); ?></span>
-					<input id="wp-link-url" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" placeholder="<?php _e( 'Paste URL or type to search' ); ?>" /></label>
+					<input id="wp-link-url" type="text" /></label>
 				</div>
 				<div class="wp-link-text-field">
 					<label><span><?php _e( 'Link Text' ); ?></span>
@@ -1425,6 +1426,32 @@ final class _WP_Editors {
 					<input type="checkbox" id="wp-link-target" /> <?php _e( 'Open link in a new tab' ); ?></label>
 				</div>
 			</div>
+			<p class="howto"><?php _e( 'Or link to existing content' ); ?></p>
+			<div id="search-panel">
+				<div class="link-search-wrapper">
+					<label>
+						<span class="search-label"><?php _e( 'Search' ); ?></span>
+						<input type="search" id="wp-link-search" class="link-search-field" autocomplete="off" />
+						<span class="spinner"></span>
+					</label>
+				</div>
+				<div id="search-results" class="query-results" tabindex="0">
+					<ul></ul>
+					<div class="river-waiting">
+						<span class="spinner"></span>
+					</div>
+				</div>
+				<div id="most-recent-results" class="query-results" tabindex="0">
+					<div class="query-notice" id="query-notice-message">
+						<em class="query-notice-default"><?php _e( 'No search term specified. Showing recent items.' ); ?></em>
+						<em class="query-notice-hint screen-reader-text"><?php _e( 'Search or use up and down arrow keys to select an item.' ); ?></em>
+					</div>
+					<ul></ul>
+					<div class="river-waiting">
+						<span class="spinner"></span>
+					</div>
+ 				</div>
+ 			</div>
 		</div>
 		<div class="submitbox">
 			<div id="wp-link-cancel">

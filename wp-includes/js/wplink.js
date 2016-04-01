@@ -1,9 +1,11 @@
-
 var wpLink;
 
 ( function( $, wpLinkL10n, wp ) {
-	var editor, correctedURL, linkNode,
+	var editor, searchTimer, River, Query, correctedURL, linkNode,
+		emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+		urlRegexp = /^(https?|ftp):\/\/[A-Z0-9.-]+\.[A-Z]{2,4}[^ "]*$/i,
 		inputs = {},
+		rivers = {},
 		isTouch = ( 'ontouchend' in document );
 
 	function getLink() {
@@ -11,6 +13,11 @@ var wpLink;
 	}
 
 	wpLink = {
+		timeToTriggerRiver: 150,
+		minRiverAJAXDuration: 200,
+		riverBottomThreshold: 5,
+		keySensitivity: 100,
+		lastSearch: '',
 		textarea: '',
 
 		init: function() {
@@ -23,14 +30,24 @@ var wpLink;
 			// Input
 			inputs.text = $( '#wp-link-text' );
 			inputs.url = $( '#wp-link-url' );
+			inputs.nonce = $( '#_ajax_linking_nonce' );
 			inputs.openInNewTab = $( '#wp-link-target' );
+			inputs.search = $( '#wp-link-search' );
 
-			if ( $.ui && $.ui.autocomplete ) {
-				wpLink.setAutocomplete();
-			}
+			// Build Rivers
+			rivers.search = new River( $( '#search-results' ) );
+			rivers.recent = new River( $( '#most-recent-results' ) );
+			rivers.elements = inputs.dialog.find( '.query-results' );
 
-			inputs.dialog.on( 'keydown', wpLink.keydown );
-			inputs.submit.on( 'click', function( event ) {
+			// Get search notice text
+			inputs.queryNotice = $( '#query-notice-message' );
+			inputs.queryNoticeTextDefault = inputs.queryNotice.find( '.query-notice-default' );
+			inputs.queryNoticeTextHint = inputs.queryNotice.find( '.query-notice-hint' );
+
+			// Bind event handlers
+			inputs.dialog.keydown( wpLink.keydown );
+			inputs.dialog.keyup( wpLink.keyup );
+			inputs.submit.click( function( event ) {
 				event.preventDefault();
 				wpLink.update();
 			});
@@ -40,105 +57,29 @@ var wpLink;
 				wpLink.close();
 			});
 
+			rivers.elements.on( 'river-select', wpLink.updateFields );
+
+			// Display 'hint' message when search field or 'query-results' box are focused
+			inputs.search.on( 'focus.wplink', function() {
+				inputs.queryNoticeTextDefault.hide();
+				inputs.queryNoticeTextHint.removeClass( 'screen-reader-text' ).show();
+			} ).on( 'blur.wplink', function() {
+				inputs.queryNoticeTextDefault.show();
+				inputs.queryNoticeTextHint.addClass( 'screen-reader-text' ).hide();
+			} );
+
+			inputs.search.on( 'keyup input', function() {
+				window.clearTimeout( searchTimer );
+				searchTimer = window.setTimeout( function() {
+					wpLink.searchInternalLinks();
+				}, 500 );
+			});
+
 			inputs.url.on( 'paste', function() {
 				setTimeout( wpLink.correctURL, 0 );
 			} );
-		},
 
-		setAutocomplete: function() {
-			var $input = inputs.url,
-				cache, last;
-
-			$input.on( 'keydown', function() {
-				$input.removeAttr( 'aria-activedescendant' );
-			} ).autocomplete( {
-				source: function( request, response ) {
-					if ( last === request.term ) {
-						response( cache );
-						return;
-					}
-
-					if ( /^https?:/.test( request.term ) || request.term.indexOf( '.' ) !== -1 ) {
-						return response();
-					}
-
-					$.post( window.ajaxurl, {
-						action: 'wp-link-ajax',
-						page: 1,
-						search: request.term,
-						_ajax_linking_nonce: $( '#_ajax_linking_nonce' ).val()
-					}, function( data ) {
-						cache = data;
-						response( data );
-					}, 'json' );
-
-					last = request.term;
-				},
-				focus: function( event, ui ) {
-					$input.attr( 'aria-activedescendant', 'mce-wp-autocomplete-' + ui.item.ID );
-					/*
-					 * Don't empty the URL input field, when using the arrow keys to
-					 * highlight items. See api.jqueryui.com/autocomplete/#event-focus
-					 */
-					event.preventDefault();
-				},
-				select: function( event, ui ) {
-					$input.val( ui.item.permalink );
-
-					if ( inputs.wrap.hasClass( 'has-text-field' ) && $.trim( inputs.text.val() ) === '' ) {
-						inputs.text.val( ui.item.title );
-					}
-
-					// Audible confirmation message when a link has been selected.
-					wp.a11y.speak( wpLinkL10n.linkSelected );
-
-					return false;
-				},
-				open: function() {
-					$input.attr( 'aria-expanded', 'true' );
-				},
-				close: function() {
-					$input.attr( 'aria-expanded', 'false' );
-				},
-				minLength: 2,
-				position: {
-					my: 'left top+2'
-				},
-				messages: {
-					noResults: ( typeof window.uiAutocompleteL10n !== 'undefined' ) ? window.uiAutocompleteL10n.noResults : '',
-					results: function( number ) {
-						if ( typeof window.uiAutocompleteL10n !== 'undefined' ) {
-							if ( number > 1 ) {
-								return window.uiAutocompleteL10n.manyResults.replace( '%d', number );
-							}
-
-							return window.uiAutocompleteL10n.oneResult;
-						}
-					}
-				}
-			} ).autocomplete( 'instance' )._renderItem = function( ul, item ) {
-				return $( '<li role="option" id="mce-wp-autocomplete-' + item.ID + '">' )
-				.append( '<span class="item-title">' + item.title + '</span>&nbsp;<span class="item-date alignright">' + item.info + '</span>' )
-				.appendTo( ul );
-			};
-
-			$input.attr( {
-				'aria-owns': $input.autocomplete( 'widget' ).attr( 'id' )
-			} )
-			.on( 'focus', function() {
-				var inputValue = $input.val();
-				/*
-				 * Don't trigger a search if the URL field already has a link or is empty.
-				 * Also, avoids screen readers announce `No search results`.
-				 */
-				if ( inputValue && ! /^https?:/.test( inputValue ) ) {
-					$input.autocomplete( 'search' );
-				}
-			} )
-			.autocomplete( 'widget' )
-				.addClass( 'wplink-autocomplete' )
-				.attr( 'role', 'listbox' )
-				.removeAttr( 'tabindex' ); // Remove the `tabindex=0` attribute added by jQuery UI.
+			inputs.url.on( 'blur', wpLink.correctURL );
 		},
 
 		// If URL wasn't corrected last time and doesn't start with http:, https:, ? # or /, prepend http://
@@ -208,6 +149,10 @@ var wpLink;
 		refresh: function( url, text ) {
 			var linkText = '';
 
+			// Refresh rivers (clear links, check visibility)
+			rivers.search.refresh();
+			rivers.recent.refresh();
+
 			if ( wpLink.isMCE() ) {
 				wpLink.mceRefresh( url, text );
 			} else {
@@ -237,8 +182,14 @@ var wpLink;
 				// If this is moved above the selection changes,
 				// IE will show a flashing cursor over the dialog.
 				window.setTimeout( function() {
-					inputs.url.focus()[0].select();
+					inputs.url[0].select();
+					inputs.url.focus();
 				} );
+			}
+
+			// Load the most recent results if this is the first time opening the panel.
+			if ( ! rivers.recent.ul.children().length ) {
+				rivers.recent.ajax();
 			}
 
 			correctedURL = inputs.url.val().replace( /^http:\/\//, '' );
@@ -271,27 +222,42 @@ var wpLink;
 			return true;
 		},
 
-		mceRefresh: function( url, text ) {
-			var linkText,
+		mceRefresh: function( searchStr, text ) {
+			var linkText, href,
 				linkNode = getLink(),
 				onlyText = this.hasSelectedText( linkNode );
 
 			if ( linkNode ) {
 				linkText = linkNode.innerText || linkNode.textContent;
+				href = editor.dom.getAttrib( linkNode, 'href' );
 
 				if ( ! $.trim( linkText ) ) {
 					linkText = text || '';
 				}
 
-				url = url || editor.dom.getAttrib( linkNode, 'href' );
+				if ( searchStr && ( urlRegexp.test( searchStr ) || emailRegexp.test( searchStr ) ) ) {
+					href = searchStr;
+				}
 
-				if ( url !== '_wp_link_placeholder' ) {
-					inputs.url.val( url );
+				if ( href !== '_wp_link_placeholder' ) {
+					inputs.url.val( href );
 					inputs.openInNewTab.prop( 'checked', '_blank' === editor.dom.getAttrib( linkNode, 'target' ) );
 					inputs.submit.val( wpLinkL10n.update );
 				} else {
 					this.setDefaultValues( linkText );
 				}
+
+				if ( searchStr && searchStr !== href ) {
+					// The user has typed something in the inline dialog. Trigger a search with it.
+					inputs.search.val( searchStr );
+				} else {
+					inputs.search.val( '' );
+				}
+
+				// Always reset the search
+				window.setTimeout( function() {
+					wpLink.searchInternalLinks();
+				} );
 			} else {
 				linkText = editor.selection.getContent({ format: 'text' }) || text || '';
 				this.setDefaultValues( linkText );
@@ -424,8 +390,6 @@ var wpLink;
 			var attrs = wpLink.getAttrs(),
 				link, text;
 
-			editor.focus();
-
 			if ( window.tinymce.isIE && editor.windowManager.wplinkBookmark ) {
 				editor.selection.moveToBookmark( editor.windowManager.wplinkBookmark );
 				editor.windowManager.wplinkBookmark = null;
@@ -471,33 +435,11 @@ var wpLink;
 			wp.a11y.speak( wpLinkL10n.linkInserted );
 		},
 
-		keydown: function( event ) {
-			var id;
-
-			// Escape key.
-			if ( 27 === event.keyCode ) {
-				wpLink.close();
-				event.stopImmediatePropagation();
-			// Tab key.
-			} else if ( 9 === event.keyCode ) {
-				id = event.target.id;
-
-				// wp-link-submit must always be the last focusable element in the dialog.
-				// following focusable elements will be skipped on keyboard navigation.
-				if ( id === 'wp-link-submit' && ! event.shiftKey ) {
-					inputs.close.focus();
-					event.preventDefault();
-				} else if ( id === 'wp-link-close' && event.shiftKey ) {
-					inputs.submit.focus();
-					event.preventDefault();
-				}
-			}
+		updateFields: function( e, li ) {
+			inputs.url.val( li.children( '.item-permalink' ).val() );
 		},
 
 		getUrlFromSelection: function( selection ) {
-			var emailRegexp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-				urlRegexp = /^(https?|ftp):\/\/[A-Z0-9.-]+\.[A-Z]{2,4}[^ "]*$/i;
-
 			if ( ! selection ) {
 				if ( this.isMCE() ) {
 					selection = editor.selection.getContent({ format: 'text' });
@@ -524,10 +466,302 @@ var wpLink;
 		setDefaultValues: function( selection ) {
 			inputs.url.val( this.getUrlFromSelection( selection ) );
 
+			// Empty the search field and swap the "rivers".
+			inputs.search.val('');
+			wpLink.searchInternalLinks();
+
 			// Update save prompt.
 			inputs.submit.val( wpLinkL10n.save );
+		},
+
+		searchInternalLinks: function() {
+			var waiting,
+				search = inputs.search.val() || '';
+
+			if ( search.length > 2 ) {
+				rivers.recent.hide();
+				rivers.search.show();
+
+				// Don't search if the keypress didn't change the title.
+				if ( wpLink.lastSearch == search )
+					return;
+
+				wpLink.lastSearch = search;
+				waiting = inputs.search.parent().find( '.spinner' ).addClass( 'is-active' );
+
+				rivers.search.change( search );
+				rivers.search.ajax( function() {
+					waiting.removeClass( 'is-active' );
+				});
+			} else {
+				rivers.search.hide();
+				rivers.recent.show();
+			}
+		},
+
+		next: function() {
+			rivers.search.next();
+			rivers.recent.next();
+		},
+
+		prev: function() {
+			rivers.search.prev();
+			rivers.recent.prev();
+		},
+
+		keydown: function( event ) {
+			var fn, id;
+
+			// Escape key.
+			if ( 27 === event.keyCode ) {
+				wpLink.close();
+				event.stopImmediatePropagation();
+			// Tab key.
+			} else if ( 9 === event.keyCode ) {
+				id = event.target.id;
+
+				// wp-link-submit must always be the last focusable element in the dialog.
+				// following focusable elements will be skipped on keyboard navigation.
+				if ( id === 'wp-link-submit' && ! event.shiftKey ) {
+					inputs.close.focus();
+					event.preventDefault();
+				} else if ( id === 'wp-link-close' && event.shiftKey ) {
+					inputs.submit.focus();
+					event.preventDefault();
+				}
+			}
+
+			// Up Arrow and Down Arrow keys.
+			if ( 38 !== event.keyCode && 40 !== event.keyCode ) {
+				return;
+			}
+
+			if ( document.activeElement &&
+				( document.activeElement.id === 'link-title-field' || document.activeElement.id === 'url-field' ) ) {
+				return;
+			}
+
+			// Up Arrow key.
+			fn = 38 === event.keyCode ? 'prev' : 'next';
+			clearInterval( wpLink.keyInterval );
+			wpLink[ fn ]();
+			wpLink.keyInterval = setInterval( wpLink[ fn ], wpLink.keySensitivity );
+			event.preventDefault();
+		},
+
+		keyup: function( event ) {
+			// Up Arrow and Down Arrow keys.
+			if ( 38 === event.keyCode || 40 === event.keyCode ) {
+				clearInterval( wpLink.keyInterval );
+				event.preventDefault();
+			}
+		},
+
+		delayedCallback: function( func, delay ) {
+			var timeoutTriggered, funcTriggered, funcArgs, funcContext;
+
+			if ( ! delay )
+				return func;
+
+			setTimeout( function() {
+				if ( funcTriggered )
+					return func.apply( funcContext, funcArgs );
+				// Otherwise, wait.
+				timeoutTriggered = true;
+			}, delay );
+
+			return function() {
+				if ( timeoutTriggered )
+					return func.apply( this, arguments );
+				// Otherwise, wait.
+				funcArgs = arguments;
+				funcContext = this;
+				funcTriggered = true;
+			};
 		}
 	};
+
+	River = function( element, search ) {
+		var self = this;
+		this.element = element;
+		this.ul = element.children( 'ul' );
+		this.contentHeight = element.children( '#link-selector-height' );
+		this.waiting = element.find('.river-waiting');
+
+		this.change( search );
+		this.refresh();
+
+		$( '#wp-link .query-results, #wp-link #link-selector' ).scroll( function() {
+			self.maybeLoad();
+		});
+		element.on( 'click', 'li', function( event ) {
+			self.select( $( this ), event );
+		});
+	};
+
+	$.extend( River.prototype, {
+		refresh: function() {
+			this.deselect();
+			this.visible = this.element.is( ':visible' );
+		},
+		show: function() {
+			if ( ! this.visible ) {
+				this.deselect();
+				this.element.show();
+				this.visible = true;
+			}
+		},
+		hide: function() {
+			this.element.hide();
+			this.visible = false;
+		},
+		// Selects a list item and triggers the river-select event.
+		select: function( li, event ) {
+			var liHeight, elHeight, liTop, elTop;
+
+			if ( li.hasClass( 'unselectable' ) || li == this.selected )
+				return;
+
+			this.deselect();
+			this.selected = li.addClass( 'selected' );
+			// Make sure the element is visible
+			liHeight = li.outerHeight();
+			elHeight = this.element.height();
+			liTop = li.position().top;
+			elTop = this.element.scrollTop();
+
+			if ( liTop < 0 ) // Make first visible element
+				this.element.scrollTop( elTop + liTop );
+			else if ( liTop + liHeight > elHeight ) // Make last visible element
+				this.element.scrollTop( elTop + liTop - elHeight + liHeight );
+
+			// Trigger the river-select event
+			this.element.trigger( 'river-select', [ li, event, this ] );
+		},
+		deselect: function() {
+			if ( this.selected )
+				this.selected.removeClass( 'selected' );
+			this.selected = false;
+		},
+		prev: function() {
+			if ( ! this.visible )
+				return;
+
+			var to;
+			if ( this.selected ) {
+				to = this.selected.prev( 'li' );
+				if ( to.length )
+					this.select( to );
+			}
+		},
+		next: function() {
+			if ( ! this.visible )
+				return;
+
+			var to = this.selected ? this.selected.next( 'li' ) : $( 'li:not(.unselectable):first', this.element );
+			if ( to.length )
+				this.select( to );
+		},
+		ajax: function( callback ) {
+			var self = this,
+				delay = this.query.page == 1 ? 0 : wpLink.minRiverAJAXDuration,
+				response = wpLink.delayedCallback( function( results, params ) {
+					self.process( results, params );
+					if ( callback )
+						callback( results, params );
+				}, delay );
+
+			this.query.ajax( response );
+		},
+		change: function( search ) {
+			if ( this.query && this._search == search )
+				return;
+
+			this._search = search;
+			this.query = new Query( search );
+			this.element.scrollTop( 0 );
+		},
+		process: function( results, params ) {
+			var list = '', alt = true, classes = '',
+				firstPage = params.page == 1;
+
+			if ( ! results ) {
+				if ( firstPage ) {
+					list += '<li class="unselectable no-matches-found"><span class="item-title"><em>' +
+						wpLinkL10n.noMatchesFound + '</em></span></li>';
+				}
+			} else {
+				$.each( results, function() {
+					classes = alt ? 'alternate' : '';
+					classes += this.title ? '' : ' no-title';
+					list += classes ? '<li class="' + classes + '">' : '<li>';
+					list += '<input type="hidden" class="item-permalink" value="' + this.permalink + '" />';
+					list += '<span class="item-title">';
+					list += this.title ? this.title : wpLinkL10n.noTitle;
+					list += '</span><span class="item-info">' + this.info + '</span></li>';
+					alt = ! alt;
+				});
+			}
+
+			this.ul[ firstPage ? 'html' : 'append' ]( list );
+		},
+		maybeLoad: function() {
+			var self = this,
+				el = this.element,
+				bottom = el.scrollTop() + el.height();
+
+			if ( ! this.query.ready() || bottom < this.contentHeight.height() - wpLink.riverBottomThreshold )
+				return;
+
+			setTimeout(function() {
+				var newTop = el.scrollTop(),
+					newBottom = newTop + el.height();
+
+				if ( ! self.query.ready() || newBottom < self.contentHeight.height() - wpLink.riverBottomThreshold )
+					return;
+
+				self.waiting.addClass( 'is-active' );
+				el.scrollTop( newTop + self.waiting.outerHeight() );
+
+				self.ajax( function() {
+					self.waiting.removeClass( 'is-active' );
+				});
+			}, wpLink.timeToTriggerRiver );
+		}
+	});
+
+	Query = function( search ) {
+		this.page = 1;
+		this.allLoaded = false;
+		this.querying = false;
+		this.search = search;
+	};
+
+	$.extend( Query.prototype, {
+		ready: function() {
+			return ! ( this.querying || this.allLoaded );
+		},
+		ajax: function( callback ) {
+			var self = this,
+				query = {
+					action : 'wp-link-ajax',
+					page : this.page,
+					'_ajax_linking_nonce' : inputs.nonce.val()
+				};
+
+			if ( this.search )
+				query.search = this.search;
+
+			this.querying = true;
+
+			$.post( window.ajaxurl, query, function( r ) {
+				self.page++;
+				self.querying = false;
+				self.allLoaded = ! r;
+				callback( r, query );
+			}, 'json' );
+		}
+	});
 
 	$( document ).ready( wpLink.init );
 })( jQuery, window.wpLinkL10n, window.wp );
