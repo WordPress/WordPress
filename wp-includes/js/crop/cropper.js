@@ -15,6 +15,8 @@
  * See scriptaculous.js for full scriptaculous licence
  */
 
+// FIXME - This is a fixme message.
+
 var CropDraggable=Class.create();
 Object.extend(Object.extend(CropDraggable.prototype,Draggable.prototype),{initialize:function(_1){
 this.options=Object.extend({drawMethod:function(){
