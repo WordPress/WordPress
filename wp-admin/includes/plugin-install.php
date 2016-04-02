@@ -585,7 +585,7 @@ function install_plugin_information() {
 				// Avoid div-by-zero.
 				$_rating = $api->num_ratings ? ( $ratecount / $api->num_ratings ) : 0;
 				/* translators: 1: number of stars (used to determine singular/plural), 2: number of reviews */
-				$aria_label = esc_attr( sprintf( _n( 'Reviews with %1$d star: %2$d. Opens in a new window.', 'Reviews with %1$d stars: %2$d. Opens in a new window.', $key ),
+				$aria_label = esc_attr( sprintf( _n( 'Reviews with %1$d star: %2$s. Opens in a new window.', 'Reviews with %1$d stars: %2$s. Opens in a new window.', $key ),
 					$key,
 					number_format_i18n( $ratecount )
 				) );
