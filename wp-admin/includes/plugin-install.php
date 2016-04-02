@@ -310,7 +310,7 @@ function install_plugins_favorites_form() {
 			<label for="user"><?php _e( 'Your WordPress.org username:' ); ?></label>
 			<input type="search" id="user" name="user" value="<?php echo esc_attr( $user ); ?>" />
 			<input type="submit" class="button" value="<?php esc_attr_e( 'Get Favorites' ); ?>" />
-			<input type="hidden" id="wporg-username-nonce" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( $action ) ); ?>" /> 
+			<input type="hidden" id="wporg-username-nonce" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( $action ) ); ?>" />
 		</p>
 	</form>
 	<?php
@@ -584,7 +584,7 @@ function install_plugin_information() {
 			foreach ( $api->ratings as $key => $ratecount ) {
 				// Avoid div-by-zero.
 				$_rating = $api->num_ratings ? ( $ratecount / $api->num_ratings ) : 0;
-				/* translators: 1: number of stars, 2: number of reviews */
+				/* translators: 1: number of stars (used to determine singular/plural), 2: number of reviews */
 				$aria_label = esc_attr( sprintf( _n( 'Reviews with %1$d star: %2$d. Opens in a new window.', 'Reviews with %1$d stars: %2$d. Opens in a new window.', $key ),
 					$key,
 					number_format_i18n( $ratecount )
