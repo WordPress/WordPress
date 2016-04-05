@@ -1412,10 +1412,10 @@ final class _WP_Editors {
 		<button type="button" id="wp-link-close"><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></button>
 		<div id="link-selector">
 			<div id="link-options">
-				<p class="howto"><?php _e( 'Enter the destination URL' ); ?></p>
+				<p class="howto" id="wplink-enter-url"><?php _e( 'Enter the destination URL' ); ?></p>
 				<div>
 					<label><span><?php _e( 'URL' ); ?></span>
-					<input id="wp-link-url" type="text" /></label>
+					<input id="wp-link-url" type="text" aria-describedby="wplink-enter-url" /></label>
 				</div>
 				<div class="wp-link-text-field">
 					<label><span><?php _e( 'Link Text' ); ?></span>
@@ -1426,12 +1426,12 @@ final class _WP_Editors {
 					<input type="checkbox" id="wp-link-target" /> <?php _e( 'Open link in a new tab' ); ?></label>
 				</div>
 			</div>
-			<p class="howto"><?php _e( 'Or link to existing content' ); ?></p>
+			<p class="howto" id="wplink-link-existing-content"><?php _e( 'Or link to existing content' ); ?></p>
 			<div id="search-panel">
 				<div class="link-search-wrapper">
 					<label>
 						<span class="search-label"><?php _e( 'Search' ); ?></span>
-						<input type="search" id="wp-link-search" class="link-search-field" autocomplete="off" />
+						<input type="search" id="wp-link-search" class="link-search-field" autocomplete="off" aria-describedby="wplink-link-existing-content" />
 						<span class="spinner"></span>
 					</label>
 				</div>
