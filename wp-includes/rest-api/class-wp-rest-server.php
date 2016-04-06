@@ -303,10 +303,10 @@ class WP_REST_Server {
 
 		$request = new WP_REST_Request( $_SERVER['REQUEST_METHOD'], $path );
 
-		$request->set_query_params( $_GET );
-		$request->set_body_params( $_POST );
+		$request->set_query_params( wp_unslash( $_GET ) );
+		$request->set_body_params( wp_unslash( $_POST ) );
 		$request->set_file_params( $_FILES );
-		$request->set_headers( $this->get_headers( $_SERVER ) );
+		$request->set_headers( $this->get_headers( wp_unslash( $_SERVER ) ) );
 		$request->set_body( $this->get_raw_data() );
 
 		/*
