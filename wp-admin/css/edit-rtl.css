@@ -1131,8 +1131,21 @@ p.popular-tags a {
 	padding: 10px 15px;
 }
 
-.comment-ays td p:last-of-type {
+.comment-ays .comment-content a[href]:after {
+	content: '(' attr( href ) ')';
+	display: inline-block;
+	padding: 0 4px;
+	color: #72777C;
+	font-size: 13px;
+}
+
+.comment-ays .comment-content p.edit-comment {
 	margin-top: 10px;
+}
+
+.comment-ays .comment-content p.edit-comment a[href]:after {
+	content: '';
+	padding: 0;
 }
 
 .comment-ays-submit .button-cancel {

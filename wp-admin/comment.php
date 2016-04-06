@@ -211,9 +211,9 @@ if ( $comment->comment_approved != '0' ) { // if not unapproved
 </tr>
 <tr>
 <th scope="row"><?php /* translators: field name in comment form */ _ex('Comment', 'noun'); ?></th>
-<td>
+<td class="comment-content">
 	<?php comment_text( $comment ); ?>
-	<p><a href="<?php echo admin_url( "comment.php?action=editcomment&amp;c={$comment->comment_ID}" ); ?>"><?php esc_attr_e( 'Edit' ); ?></a></p>
+	<p class="edit-comment"><a href="<?php echo admin_url( "comment.php?action=editcomment&amp;c={$comment->comment_ID}" ); ?>"><?php esc_attr_e( 'Edit' ); ?></a></p>
 </td>
 </tr>
 </table>
