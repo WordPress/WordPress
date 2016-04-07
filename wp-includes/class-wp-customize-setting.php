@@ -207,6 +207,19 @@ class WP_Customize_Setting {
 	}
 
 	/**
+	 * Reset `$aggregated_multidimensionals` static variable.
+	 *
+	 * This is intended only for use by unit tests.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 * @ignore
+	 */
+	static public function reset_aggregated_multidimensionals() {
+		self::$aggregated_multidimensionals = array();
+	}
+
+	/**
 	 * The ID for the current site when the preview() method was called.
 	 *
 	 * @since 4.2.0
