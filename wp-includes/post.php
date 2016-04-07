@@ -6126,11 +6126,11 @@ function wp_add_trashed_suffix_to_post_name_for_post( $post ) {
 
 	$post = get_post( $post );
 
-	if ( strpos( $post->post_name, '-%trashed%' ) ) {
+	if ( '__trashed' === substr( $post->post_name, -9 ) ) {
 		return $post->post_name;
 	}
 	add_post_meta( $post->ID, '_wp_desired_post_slug', $post->post_name );
-	$post_name = _truncate_post_slug( $post->post_name, 190 ) . '-%trashed%';
+	$post_name = _truncate_post_slug( $post->post_name, 191 ) . '__trashed';
 	$wpdb->update( $wpdb->posts, array( 'post_name' => $post_name ), array( 'ID' => $post->ID ) );
 	clean_post_cache( $post->ID );
 	return $post_name;
