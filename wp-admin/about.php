@@ -61,12 +61,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<h2><?php _e( 'Editing Improvements' ); ?></h2>
 			<div class="col">
-				<img src="https://cldup.com/klO9vWGiT3.png" />
+				<img src="https://cldup.com/klO9vWGiT3.png" alt="" />
 				<h3><?php _e( 'Inline Linking' ); ?></h3>
 				<p><?php _e( 'Stay focused on your writing with a less distracting interface that keeps you in place and allows you to easily link to your content.' ); ?></p>
 			</div>
 			<div class="col">
-				<img src="https://cldup.com/TE-OBMWHkX.png" />
+				<img src="https://cldup.com/TE-OBMWHkX.png" alt="" />
 				<h3><?php _e( 'Formatting Shortcuts' ); ?></h3>
 				<p><?php _e( 'Do you enjoy using formatting shortcuts for lists and headings? Now they&#8217;re even more useful, with horizontal lines and <code>&lt;code&gt;</code>.' ); ?></p>
 			</div>
@@ -77,27 +77,35 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<h2><?php _e( 'Customization Improvements' ); ?></h2>
 			<div class="col">
-				<img src="https://cldup.com/0iRJNVbt4G.png" />
+				<img src="https://cldup.com/0iRJNVbt4G.png" alt="" />
 				<h3><?php _e( 'Live Responsive Previews' ); ?></h3>
-				<?php
-				if ( current_user_can( 'customize' ) ) {
-					$customize_url = esc_url( admin_url( 'customize.php' ) );
-					$customizer_link = sprintf( __( '<a href="%1$s" class="load-customize">%2$s</a>' ), $customize_url, __( 'customizer' ) );
-				} else {
-					$customizer_link = __( 'customizer' );
-				}
-				?>
-				<p><?php printf( __( 'Make sure your site looks great on all screens! Preview mobile, tablet, and desktop views directly in the %s.' ), $customizer_link ); ?></p>
+				<p><?php _e( 'Make sure your site looks great on all screens!' ); ?>
+					<?php
+					if ( current_user_can( 'customize' ) ) {
+						$customize_url = admin_url( 'customize.php' );
+						printf(
+							/* translators: %s: URL to customizer */
+							__( 'Preview mobile, tablet, and desktop views directly in the <a href="%s" class="load-customize">customizer</a>.' ),
+							esc_url( $customize_url )
+						);
+					} else {
+						_e( 'Preview mobile, tablet, and desktop views directly in the customizer.' );
+					}
+				?></p>
 			</div>
 			<div class="col">
-				<img src="https://cldup.com/HWDA8xR_8G.png" />
+				<img src="https://cldup.com/HWDA8xR_8G.png" alt="" />
 				<h3><?php _e( 'Custom Logos' ); ?></h3>
 				<p><?php _e( 'Themes can now support logos for your business or brand.' ); ?>
 					<?php
 					if ( current_theme_supports( 'custom-logo' ) && current_user_can( 'customize' ) ) {
-						printf( __( 'Your theme supports custom logos! Try it out right now in the <a href="%s" class="load-customize">Site Identity</a> section of the customizer.' ), add_query_arg( 'autofocus[section]', 'title_tagline', $customize_url ) );
+						printf(
+							/* translators: %s: URL to Site Identity section of the customizer */
+							__( 'Your theme supports custom logos! Try it out right now in the <a href="%s" class="load-customize">Site Identity</a> section of the customizer.' ),
+							esc_url( add_query_arg( array( 'autofocus' => array( 'section' => 'title_tagline' ) ), $customize_url ) )
+						);
 					} else {
-						_e( 'The Twenty Fifteen and Twenty Sixteen themes have been updated to support custom logos, which can be found in the Site Identity section of the Customizer.' );
+						_e( 'The Twenty Fifteen and Twenty Sixteen themes have been updated to support custom logos, which can be found in the Site Identity section of the customizer.' );
 					}
 					?></p>
 			</div>
@@ -106,40 +114,71 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<hr />
 
 		<div class="changelog">
-			<h3><?php _e( 'Under the Hood' ); ?></h3>
+			<h2><?php _e( 'Under the Hood' ); ?></h2>
 
 			<div class="under-the-hood three-col">
 				<div class="col">
-					<h4><?php _e( 'Smart Image Resizing' ); ?></h4>
-					<p><?php printf( __( 'Generated images now load up to 50&#37; faster with no noticeable quality loss. <a href="%s">It&#8217;s really cool</a>.' ), 'https://make.wordpress.org/core/2016/03/12/performance-improvements-for-images-in-wordpress-4-5/' ); ?></p>
+					<h3><?php _e( 'Smart Image Resizing' ); ?></h3>
+					<p><?php
+						printf(
+							/* translators: %s: URL to the development post of the new feature */
+							__( 'Generated images now load up to 50&#37; faster with no noticeable quality loss. <a href="%s">It&#8217;s really cool</a>.' ),
+							'https://make.wordpress.org/core/2016/03/12/performance-improvements-for-images-in-wordpress-4-5/'
+						);
+					?></p>
 				</div>
 				<div class="col">
-					<h4><?php _e( 'Selective Refresh' ); ?></h4>
-					<p><?php 
-						printf( __( 'The customizer now supports a <a href="%s">comprehensive framework</a> for rendering parts of the preview without rewriting your PHP code in JavaScript.' ), 'https://make.wordpress.org/core/2016/02/16/selective-refresh-in-the-customizer/' );
+					<h3><?php _e( 'Selective Refresh' ); ?></h3>
+					<p><?php
+						printf(
+							/* translators: %s: URL to the development post of the new feature */
+							__( 'The customizer now supports a <a href="%s">comprehensive framework</a> for rendering parts of the preview without rewriting your PHP code in JavaScript.' ),
+							'https://make.wordpress.org/core/2016/02/16/selective-refresh-in-the-customizer/'
+						);
 						if ( current_user_can( 'customize' ) && current_user_can( 'edit_theme_options' ) ) {
 							if ( current_theme_supports( 'menus' ) && ! current_theme_supports( 'customize-selective-refresh-widgets' ) ) {
-								printf( ' ' . __( 'See it in action with <a href="%1$s" class="load-customize">Menus</a>.' ), add_query_arg( 'autofocus[panel]', 'nav_menus', $customize_url ) );
+								printf(
+									/* translators: %s: URL to Menus section of the customizer  */
+									' ' . __( 'See it in action with <a href="%s" class="load-customize">Menus</a>.' ),
+									esc_url( add_query_arg( array( 'autofocus' => array( 'panel' => 'nav_menus' ) ), $customize_url ) )
+								);
 							} elseif ( current_theme_supports( 'customize-selective-refresh-widgets' ) ) { // If widgets are supported, menus are also because of the menus widget.
-								printf( ' ' . __( 'See it in action with <a href="%1$s" class="load-customize">Menus</a> or <a href="%2$s" class="load-customize">Widgets</a>.' ), add_query_arg( 'autofocus[panel]', 'nav_menus', $customize_url ), add_query_arg( 'autofocus[panel]', 'widgets', $customize_url ) );
+								printf(
+									/* translators: 1: URL to Menus section of the customizer, 2: URL to Widgets section of the customizer */
+									' ' . __( 'See it in action with <a href="%1$s" class="load-customize">Menus</a> or <a href="%2$s" class="load-customize">Widgets</a>.' ),
+									esc_url( add_query_arg( array( 'autofocus' => array( 'panel' => 'nav_menus' ) ), $customize_url ) ),
+									esc_url( add_query_arg( array( 'autofocus' => array( 'panel' => 'widgets' ) ), $customize_url ) )
+								);
 							}
 						}
 					?></p>
 				</div>
 				<div class="col">
-					<h4><?php _e( 'JavaScript Library Updates' ); ?></h4>
+					<h3><?php _e( 'JavaScript Library Updates' ); ?></h3>
 					<p><?php _e( 'jQuery 1.12.3, jQuery Migrate 1.4.0, Backbone 1.2.3, and Underscore 1.8.3 are bundled.' ); ?></p>
 				</div>
 			</div>
 
 			<div class="under-the-hood two-col">
 				<div class="col">
-					<h4><?php _e( 'Script Loader Improvements' ); ?></h4>
-					<p><?php printf( __( 'Better support has been added for script header/footer dependencies. New <code><a href="%s">wp_add_inline_script()</a></code> enables adding extra code to registered scripts.' ), 'https://make.wordpress.org/core/2016/03/08/enhanced-script-loader-in-wordpress-4-5/' ); ?></p>
+					<h3><?php _e( 'Script Loader Improvements' ); ?></h3>
+					<p><?php
+						printf(
+							/* translators: %s: wp_add_inline_script() */
+							__( 'Better support has been added for script header/footer dependencies. New %s enables adding extra code to registered scripts.' ),
+							'<code><a href="https://make.wordpress.org/core/2016/03/08/enhanced-script-loader-in-wordpress-4-5/">wp_add_inline_script()</a></code>'
+						);
+					?></p>
 				</div>
 				<div class="col">
-					<h4><?php _e( 'Better Embed Templates' ); ?></h4>
-					<p><?php printf( __( 'Embed templates have been split into parts and can be <a href="%s">directly overridden by themes</a> via the template hierarchy.' ), 'https://make.wordpress.org/core/2016/03/11/embeds-changes-in-wordpress-4-5/' ); ?></p>
+					<h3><?php _e( 'Better Embed Templates' ); ?></h3>
+					<p><?php
+						printf(
+							/* translators: %s: URL to the development post of the new feature */
+							__( 'Embed templates have been split into parts and can be <a href="%s">directly overridden by themes</a> via the template hierarchy.' ),
+							'https://make.wordpress.org/core/2016/03/11/embeds-changes-in-wordpress-4-5/'
+						);
+					?></p>
 				</div>
 			</div>
 

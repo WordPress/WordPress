@@ -109,17 +109,27 @@
 	text-align: center;
 }
 
+.about-wrap .changelog h2,
 .about-wrap h3 {
 	margin: 1.25em 0 .6em;
 	font-size: 1.25em;
 	line-height: 1.5em;
 }
 
-.about-wrap .changelog h3 {
+.about-wrap .changelog h2 {
 	margin-top: 40px;
+	font-weight: 600;
+	text-align: left;
 }
 
 .about-wrap h4 {
+	color: #23282d;
+}
+
+.about-wrap .changelog h3 {
+	margin: 1.33em 0;
+	font-size: 1em;
+	line-height: inherit;
 	color: #23282d;
 }
 
