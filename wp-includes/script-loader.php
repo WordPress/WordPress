@@ -998,10 +998,6 @@ function _print_scripts() {
 			echo "</script>\n";
 		}
 
-		if ( ! empty( $wp_scripts->print_html_before ) ) {
-			echo $wp_scripts->print_html_before;
-		}
-
 		$concat = str_split( $concat, 128 );
 		$concat = 'load%5B%5D=' . implode( '&load%5B%5D=', $concat );
 
