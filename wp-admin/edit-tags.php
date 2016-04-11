@@ -205,7 +205,15 @@ if ( $location ) {
 	if ( ! empty( $_REQUEST['paged'] ) ) {
 		$location = add_query_arg( 'paged', (int) $_REQUEST['paged'], $location );
 	}
-	wp_redirect( $location );
+	/**
+	 * Filter the taxonomy redirect destination URL.
+	 *
+	 * @since 4.5.0
+	 * 
+	 * @param string $location  The destination URL.
+	 * @param object $tax       The taxonomy object.
+	 */
+	wp_redirect( apply_filters( 'redirect_term_location', $location, $tax ) );
 	exit;
 }
 
