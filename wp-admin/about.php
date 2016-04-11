@@ -9,18 +9,6 @@
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-wp_enqueue_style( 'wp-mediaelement' );
-wp_enqueue_script( 'wp-mediaelement' );
-wp_localize_script( 'mediaelement', '_wpmejsSettings', array(
-	'pluginPath' => includes_url( 'js/mediaelement/', 'relative' ),
-	'pauseOtherPlayers' => ''
-) );
-
-if ( current_user_can( 'install_plugins' ) ) {
-	add_thickbox();
-	wp_enqueue_script( 'plugin-install' );
-}
-
 if ( current_user_can( 'customize' ) ) {
 	wp_enqueue_script( 'customize-loader' );
 }
@@ -31,8 +19,6 @@ list( $locale ) = explode( '-', $locale );
 if ( 'en' !== $locale ) {
 	$video_url = add_query_arg( 'defaultLangCode', $locale, $video_url );
 }
-
-wp_oembed_add_host_js();
 
 $title = __( 'About' );
 
@@ -61,12 +47,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<h2><?php _e( 'Editing Improvements' ); ?></h2>
 			<div class="col">
-				<img src="https://cldup.com/klO9vWGiT3.png" alt="" />
+				<img src="https://s.w.org/images/core/4.5/link-edit-560.png" alt="" srcset="https://s.w.org/images/core/4.5/link-edit-1000.png 1000w, https://s.w.org/images/core/4.5/link-edit-800.png 800w, https://s.w.org/images/core/4.5/link-edit-680.png 680w, https://s.w.org/images/core/4.5/link-edit-560.png 560w, https://s.w.org/images/core/4.5/link-edit-400.png 400w, https://s.w.org/images/core/4.5/link-edit-280.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
 				<h3><?php _e( 'Inline Linking' ); ?></h3>
 				<p><?php _e( 'Stay focused on your writing with a less distracting interface that keeps you in place and allows you to easily link to your content.' ); ?></p>
 			</div>
 			<div class="col">
-				<img src="https://cldup.com/TE-OBMWHkX.png" alt="" />
+				<img src="https://s.w.org/images/core/4.5/formatting-560.png" alt="" srcset="https://s.w.org/images/core/4.5/formatting-1000.png 1000w, https://s.w.org/images/core/4.5/formatting-800.png 800w, https://s.w.org/images/core/4.5/formatting-680.png 680w, https://s.w.org/images/core/4.5/formatting-560.png 560w, https://s.w.org/images/core/4.5/formatting-400.png 400w, https://s.w.org/images/core/4.5/formatting-280.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
 				<h3><?php _e( 'Formatting Shortcuts' ); ?></h3>
 				<p><?php _e( 'Do you enjoy using formatting shortcuts for lists and headings? Now they&#8217;re even more useful, with horizontal lines and <code>&lt;code&gt;</code>.' ); ?></p>
 			</div>
@@ -77,7 +63,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<h2><?php _e( 'Customization Improvements' ); ?></h2>
 			<div class="col">
-				<img src="https://cldup.com/0iRJNVbt4G.png" alt="" />
+				<img src="https://s.w.org/images/core/4.5/preview-icons-560.png" alt="" srcset="https://s.w.org/images/core/4.5/preview-icons-1000.png 1000w, https://s.w.org/images/core/4.5/preview-icons-800.png 800w, https://s.w.org/images/core/4.5/preview-icons-680.png 680w, https://s.w.org/images/core/4.5/preview-icons-560.png 560w, https://s.w.org/images/core/4.5/preview-icons-400.png 400w, https://s.w.org/images/core/4.5/preview-icons-280.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
 				<h3><?php _e( 'Live Responsive Previews' ); ?></h3>
 				<p><?php _e( 'Make sure your site looks great on all screens!' ); ?>
 					<?php
@@ -94,7 +80,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				?></p>
 			</div>
 			<div class="col">
-				<img src="https://cldup.com/HWDA8xR_8G.png" alt="" />
+				<img src="https://s.w.org/images/core/4.5/custom-logos-560.png" alt="" srcset="https://s.w.org/images/core/4.5/custom-logos-1000.png 1000w, https://s.w.org/images/core/4.5/custom-logos-800.png 800w, https://s.w.org/images/core/4.5/custom-logos-680.png 680w, https://s.w.org/images/core/4.5/custom-logos-560.png 560w, https://s.w.org/images/core/4.5/custom-logos-400.png 400w, https://s.w.org/images/core/4.5/custom-logos-280.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
 				<h3><?php _e( 'Custom Logos' ); ?></h3>
 				<p><?php _e( 'Themes can now support logos for your business or brand.' ); ?>
 					<?php
@@ -117,16 +103,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h2><?php _e( 'Under the Hood' ); ?></h2>
 
 			<div class="under-the-hood three-col">
-				<div class="col">
-					<h3><?php _e( 'Smart Image Resizing' ); ?></h3>
-					<p><?php
-						printf(
-							/* translators: %s: URL to the development post of the new feature */
-							__( 'Generated images now load up to 50&#37; faster with no noticeable quality loss. <a href="%s">It&#8217;s really cool</a>.' ),
-							'https://make.wordpress.org/core/2016/03/12/performance-improvements-for-images-in-wordpress-4-5/'
-						);
-					?></p>
-				</div>
 				<div class="col">
 					<h3><?php _e( 'Selective Refresh' ); ?></h3>
 					<p><?php
@@ -151,6 +127,16 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 								);
 							}
 						}
+					?></p>
+				</div>
+				<div class="col">
+					<h3><?php _e( 'Smart Image Resizing' ); ?></h3>
+					<p><?php
+						printf(
+							/* translators: %s: URL to the development post of the new feature */
+							__( 'Generated images now load up to 50&#37; faster with no noticeable quality loss. <a href="%s">It&#8217;s really cool</a>.' ),
+							'https://make.wordpress.org/core/2016/03/12/performance-improvements-for-images-in-wordpress-4-5/'
+						);
 					?></p>
 				</div>
 				<div class="col">
