@@ -846,7 +846,7 @@ function wp_media_upload_handler() {
  * @param string $file    The URL of the image to download.
  * @param int    $post_id The post ID the media is to be associated with.
  * @param string $desc    Optional. Description of the image.
- * @param string $return  Optional. Accepts 'html' (image tag html) or 'src' (URL). Default 'html'.
+ * @param string $return  Optional. Accepts 'html' (image tag html) or 'src' (URL), or 'id' (attachment ID). Default 'html'.
  * @return string|WP_Error Populated HTML img tag on success, WP_Error object otherwise.
  */
 function media_sideload_image( $file, $post_id, $desc = null, $return = 'html' ) {
@@ -871,6 +871,11 @@ function media_sideload_image( $file, $post_id, $desc = null, $return = 'html' )
 
 		// Do the validation and storage stuff.
 		$id = media_handle_sideload( $file_array, $post_id, $desc );
+
+		// If we want a simple out to get to the image ID, make it available here.
+		if ( $return === 'id' ) {
+			return $id;
+		}
 
 		// If error storing permanently, unlink.
 		if ( is_wp_error( $id ) ) {
