@@ -440,7 +440,7 @@ class WP_Tax_Query {
 				// Store the alias with this clause, so later siblings can use it.
 				$clause['alias'] = $alias;
 
-				$join .= " INNER JOIN $wpdb->term_relationships";
+				$join .= " LEFT JOIN $wpdb->term_relationships";
 				$join .= $i ? " AS $alias" : '';
 				$join .= " ON ($this->primary_table.$this->primary_id_column = $alias.object_id)";
 			}
