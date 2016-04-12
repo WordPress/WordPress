@@ -13,7 +13,7 @@ if ( current_user_can( 'customize' ) ) {
 	wp_enqueue_script( 'customize-loader' );
 }
 
-$video_url = 'https://videopress.com/embed/J44FHXvg?hd=true';
+$video_url = 'https://videopress.com/embed/scFdjVo6?hd=true';
 $locale    = str_replace( '_', '-', get_locale() );
 list( $locale ) = explode( '-', $locale );
 if ( 'en' !== $locale ) {
@@ -39,7 +39,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</h2>
 
 		<div class="headline-feature feature-video" style="background-color:#191E23;">
-			<p>Video Here</p>
+			<iframe width="1050" height="591" src="<?php echo esc_url( $video_url ); ?>" frameborder="0" allowfullscreen></iframe>
+			<script src="https://videopress.com/videopress-iframe.js"></script>
 		</div>
 
 		<hr>
