@@ -107,7 +107,12 @@ function wp_add_inline_script( $handle, $data, $position = 'after' ) {
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
 	if ( false !== stripos( $data, '</script>' ) ) {
-		_doing_it_wrong( __FUNCTION__, __( 'Do not pass script tags to wp_add_inline_script().' ), '4.5.0' );
+		_doing_it_wrong( __FUNCTION__, sprintf(
+			/* translators: 1: script, 2: wp_add_inline_script() */
+			__( 'Do not pass %1$s tags to %2$s.' ),
+			'<code>script</code>',
+			'<code>wp_add_inline_script()</code>'
+		), '4.5' );
 		$data = trim( preg_replace( '#<script[^>]*>(.*)</script>#is', '$1', $data ) );
 	}
 

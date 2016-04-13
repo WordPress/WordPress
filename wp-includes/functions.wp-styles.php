@@ -84,7 +84,12 @@ function wp_add_inline_style( $handle, $data ) {
 	_wp_scripts_maybe_doing_it_wrong( __FUNCTION__ );
 
 	if ( false !== stripos( $data, '</style>' ) ) {
-		_doing_it_wrong( __FUNCTION__, __( 'Do not pass style tags to wp_add_inline_style().' ), '3.7' );
+		_doing_it_wrong( __FUNCTION__, sprintf(
+			/* translators: 1: style, 2: wp_add_inline_style() */
+			__( 'Do not pass %1$s tags to %2$s.' ),
+			'<code>style</code>',
+			'<code>wp_add_inline_style()</code>'
+		), '3.7' );
 		$data = trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $data ) );
 	}
 
