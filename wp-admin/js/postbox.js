@@ -110,7 +110,7 @@ var postboxes;
 				tolerance: 'pointer',
 				forcePlaceholderSize: true,
 				helper: function( event, element ) {
-					// `helper: 'clone'` is equilavalent to `return element.clone();`
+					// `helper: 'clone'` is equivalent to `return element.clone();`
 					// Cloning a checked radio and then inserting that clone next to the original
 					// radio unchecks the original radio (since only one of the two can be checked).
 					// We get around this by renaming the helper's inputs' name attributes so that,
