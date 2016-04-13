@@ -1175,7 +1175,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 /**
  * This was once used to kick-off the Theme Updater.
  *
- * Deprecated in favor of instantating a Theme_Upgrader instance directly,
+ * Deprecated in favor of instantiating a Theme_Upgrader instance directly,
  * and calling the 'upgrade' method.
  * Unused since 2.8.0.
  *
