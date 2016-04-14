@@ -387,7 +387,7 @@ final class WP_Customize_Manager {
 		show_admin_bar( false );
 
 		if ( ! current_user_can( 'customize' ) ) {
-			$this->wp_die( -1, __( 'You are not allowed to customize the appearance of this site.' ) );
+			$this->wp_die( -1, __( 'You are not allowed to customize this site.' ) );
 		}
 
 		$this->original_stylesheet = get_stylesheet();

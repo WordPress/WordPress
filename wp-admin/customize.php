@@ -15,7 +15,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! current_user_can( 'customize' ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to customize the appearance of this site.' ) . '</p>',
+		'<p>' . __( 'You are not allowed to customize this site.' ) . '</p>',
 		403
 	);
 }
