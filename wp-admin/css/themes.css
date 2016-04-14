@@ -524,7 +524,7 @@
 	-webkit-overflow-scrolling: touch;
 }
 
-body.folded .theme-overlay .theme-wrap {
+body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	left: 70px;
 }
 
