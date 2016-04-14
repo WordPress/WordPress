@@ -83,6 +83,11 @@ function delete_theme($stylesheet, $redirect = '') {
 		}
 	}
 
+	// Remove the theme from allowed themes on the network.
+	if ( is_multisite() ) {
+		WP_Theme::network_disable_theme( $stylesheet );
+	}
+
 	// Force refresh of theme update information.
 	delete_site_transient( 'update_themes' );
 
