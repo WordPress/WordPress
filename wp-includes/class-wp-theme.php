@@ -1316,6 +1316,62 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
+	 * Enable a theme for all sites on the current network.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @param string|array $stylesheets Stylesheet name or array of stylesheet names.
+	 */
+	public static function network_enable_theme( $stylesheets ) {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		if ( ! is_array( $stylesheets ) ) {
+			$stylesheets = array( $stylesheets );
+		}
+
+		$allowed_themes = get_site_option( 'allowedthemes' );
+		foreach ( $stylesheets as $stylesheet ) {
+			$allowed_themes[ $stylesheet ] = true;
+		}
+
+		update_site_option( 'allowedthemes', $allowed_themes );
+	}
+
+	/**
+	 * Disable a theme for all sites on the current network.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @static
+	 * @access public
+	 *
+	 * @param string|array $stylesheets Stylesheet name or array of stylesheet names.
+	 */
+	public static function network_disable_theme( $stylesheets ) {
+		if ( ! is_multisite() ) {
+			return;
+		}
+
+		if ( ! is_array( $stylesheets ) ) {
+			$stylesheets = array( $stylesheets );
+		}
+
+		$allowed_themes = get_site_option( 'allowedthemes' );
+		foreach ( $stylesheets as $stylesheet ) {
+			if ( isset( $allowed_themes[ $stylesheet ] ) ) {
+				unset( $allowed_themes[ $stylesheet ] );
+			}
+		}
+
+		update_site_option( 'allowedthemes', $allowed_themes );
+	}
+
+	/**
 	 * Sorts themes by name.
 	 *
 	 * @since 3.4.0
