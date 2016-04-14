@@ -454,6 +454,17 @@ function clean_blog_cache( $blog ) {
 	wp_cache_delete( 'current_blog_' . $blog->domain . $blog->path, 'site-options' );
 	wp_cache_delete( 'get_id_from_blogname_' . trim( $blog->path, '/' ), 'blog-details' );
 	wp_cache_delete( $domain_path_key, 'blog-id-cache' );
+
+	/**
+	 * Fires immediately after a site has been removed from the object cache.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param int     $id Blog ID.
+	 * @param WP_Site $blog
+	 * @param string  $domain_path_key md5 hash of domain and path.
+	 */
+	do_action( 'clean_site_cache', $blog_id, $blog, $domain_path_key );
 }
 
 /**
