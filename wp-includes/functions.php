@@ -2662,6 +2662,7 @@ function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width">
+	<?php wp_no_robots(); ?>
 	<title><?php echo $title ?></title>
 	<style type="text/css">
 		html {
