@@ -1402,13 +1402,16 @@ function get_edit_comment_link( $comment_id = 0 ) {
  * Displays the edit comment link with formatting.
  *
  * @since 1.0.0
+ * @since 4.6.0 The `$comment` and `$class` arguments were added.
  *
- * @param string $text   Optional. Anchor text.
- * @param string $before Optional. Display before edit link.
- * @param string $after  Optional. Display after edit link.
+ * @param string         $text    Optional. Anchor text.
+ * @param string         $before  Optional. Display before edit link.
+ * @param string         $after   Optional. Display after edit link.
+ * @param int|WP_Comment $comment Optional. Comment ID or WP_Comment object.
+ * @param string         $class   Optional. Add custom class to link.
  */
-function edit_comment_link( $text = null, $before = '', $after = '' ) {
-	$comment = get_comment();
+function edit_comment_link( $text = null, $before = '', $after = '', $comment = 0, $class = 'comment-edit-link' ) {
+	$comment = get_comment( $comment );
 
 	if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) ) {
 		return;
@@ -1418,7 +1421,7 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
 		$text = __( 'Edit This' );
 	}
 
-	$link = '<a class="comment-edit-link" href="' . esc_url( get_edit_comment_link( $comment ) ) . '">' . $text . '</a>';
+	$link = '<a class="' . esc_attr( $class ) . '" href="' . esc_url( get_edit_comment_link( $comment ) ) . '">' . $text . '</a>';
 
 	/**
 	 * Filters the comment edit link anchor tag.
