@@ -479,10 +479,10 @@ function themes_api( $action, $args = array() ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array|object $res    WordPress.org Themes API response.
-	 * @param string       $action Requested action. Likely values are 'theme_information',
-	 *                             'feature_list', or 'query_themes'.
-	 * @param object       $args   Arguments used to query for installer pages from the WordPress.org Themes API.
+	 * @param array|object|WP_Error $res    WordPress.org Themes API response.
+	 * @param string                $action Requested action. Likely values are 'theme_information',
+	 *                                      'feature_list', or 'query_themes'.
+	 * @param object                $args   Arguments used to query for installer pages from the WordPress.org Themes API.
 	 */
 	return apply_filters( 'themes_api_result', $res, $action, $args );
 }
