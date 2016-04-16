@@ -106,15 +106,30 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_plugins' ) ) {
 		if ( $tab === 'upload' ) {
 			$href = self_admin_url( 'plugin-install.php' );
-			$text = _x( 'Browse', 'plugins' );
+			$upload_tab_class = ' upload-tab';
 		} else {
 			$href = self_admin_url( 'plugin-install.php?tab=upload' );
-			$text = __( 'Upload Plugin' );
+			$upload_tab_class = '';
 		}
-		echo ' <a href="' . $href . '" class="upload page-title-action">' . $text . '</a>';
+
+		printf( ' <a href="%s" class="upload-view-toggle page-title-action%s"><span class="upload">%s</span><span class="browse">%s</span></a>',
+			$href,
+			$upload_tab_class,
+			__( 'Upload Plugin' ),
+			__( 'Browse Plugins' )
+		);
 	}
 	?>
 </h1>
+
+<div class="upload-plugin-wrap<?php echo $upload_tab_class; ?>">
+<?php
+/*
+ * Output the upload plugin form on every plugin install screen, so it can be
+ * displayed via JavaScript rather then opening up the devoted upload plugin page.
+ */
+install_plugins_upload(); ?>
+</div>
 
 <?php
 if ( $tab !== 'upload' ) {

@@ -1056,13 +1056,16 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 .theme-install-php a.browse-themes {
 	cursor: pointer;
 }
-.theme-install-php a.browse-themes,
-.theme-install-php.show-upload-theme a.upload {
+
+.upload-view-toggle .browse,
+.upload-view-toggle.upload-tab .upload {
 	display: none;
 }
-.theme-install-php.show-upload-theme a.browse-themes {
+
+.upload-view-toggle.upload-tab .browse {
 	display: inline;
 }
+
 .upload-theme,
 .upload-plugin {
 	-webkit-box-sizing: border-box;
@@ -1076,10 +1079,13 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	position: relative;
 	top: 10px;
 }
-body.show-upload-theme .upload-theme,
-.upload-plugin {
+
+.show-upload-view .upload-theme,
+.show-upload-view .upload-plugin,
+.upload-tab .upload-plugin {
 	display: block;
 }
+
 .upload-theme .wp-upload-form,
 .upload-plugin .wp-upload-form {
 	background: #fafafa;

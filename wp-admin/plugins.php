@@ -372,11 +372,9 @@ get_current_screen()->add_help_tab( array(
 'content'	=>
 	'<p>' . __('Plugins extend and expand the functionality of WordPress. Once a plugin is installed, you may activate it or deactivate it here.') . '</p>' .
 	'<p>' . sprintf(
-		/* translators: 1: Plugin Browser/Installer URL, 2: WordPress Plugin Directory URL 3: local plugin directory */
-		__( 'You can find additional plugins for your site by using the <a href="%1$s">Plugin Browser/Installer</a> functionality or by browsing the <a href="%2$s" target="_blank">WordPress Plugin Directory</a> directly and installing new plugins manually. To manually install a plugin you generally just need to upload the plugin file into your %3$s directory. Once a plugin has been installed, you can activate it here.' ),
-		'plugin-install.php',
-		'https://wordpress.org/plugins/',
-		'<code>/wp-content/plugins</code>'
+		/* translators: %s: WordPress Plugin Directory URL */
+		__( 'If you would like to see more plugins to choose from, click on the &#8220;Add New&#8221; button and you will be able to browse or search for additional plugins from the <a href="%s" target="_blank">WordPress.org Plugin Directory</a>. Plugins in the WordPress.org Plugin Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they&#8217;re free!' ),
+		'https://wordpress.org/plugins/'
 	) . '</p>'
 ) );
 get_current_screen()->add_help_tab( array(
