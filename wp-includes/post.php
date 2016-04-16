@@ -2139,12 +2139,13 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 		} else {
 			$value = apply_filters( "post_{$field}", $value, $post_id, $context );
 		}
-	}
 
-	if ( 'attribute' == $context )
-		$value = esc_attr($value);
-	elseif ( 'js' == $context )
-		$value = esc_js($value);
+		if ( 'attribute' == $context ) {
+			$value = esc_attr( $value );
+		} elseif ( 'js' == $context ) {
+			$value = esc_js( $value );
+		}
+	}
 
 	return $value;
 }
