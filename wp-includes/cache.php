@@ -200,7 +200,7 @@ function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
 }
 
 /**
- * Switches the interal blog ID.
+ * Switches the internal blog ID.
  *
  * This changes the blog id used to create keys in blog specific groups.
  *
@@ -697,7 +697,7 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Switches the interal blog ID.
+	 * Switches the internal blog ID.
 	 *
 	 * This changes the blog ID used to create keys in blog specific groups.
 	 *
