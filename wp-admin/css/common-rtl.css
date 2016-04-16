@@ -2408,7 +2408,8 @@ div.action-links {
 	position: relative;
 	left: 0;
 	right: 0;
-	height: 36px;
+	min-height: 36px;
+	font-size: 0;
 	z-index: 1;
 	border-bottom: 1px solid #ddd;
 	background: #f3f3f3;
@@ -2416,7 +2417,7 @@ div.action-links {
 
 #plugin-information-tabs a {
 	position: relative;
-	float: right;
+	display: inline-block;
 	padding: 9px 10px;
 	margin: 0;
 	height: 18px;
@@ -2428,7 +2429,7 @@ div.action-links {
 }
 
 #plugin-information-tabs a.current {
-	margin: 0 -1px 0;
+	margin: 0 -1px -1px;
 	background: #fff;
 	border: 1px solid #ddd;
 	border-bottom-color: #fff;
