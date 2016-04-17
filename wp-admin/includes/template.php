@@ -1486,7 +1486,7 @@ function find_posts_div($found_action = '') {
 	<div id="find-posts" class="find-box" style="display: none;">
 		<div id="find-posts-head" class="find-box-head">
 			<?php _e( 'Attach to existing content' ); ?>
-			<div id="find-posts-close"></div>
+			<button type="button" id="find-posts-close"><span class="screen-reader-text"><?php _e( 'Close media attachment panel' ); ?></button>
 		</div>
 		<div class="find-box-inside">
 			<div class="find-box-search">
