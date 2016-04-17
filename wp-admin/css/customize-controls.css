@@ -1550,10 +1550,11 @@ body.adding-widget .add-new-widget:before,
 		left: 48px;
 		line-height: 45px;
 		font-size: 14px;
-		padding: 0 12px 0 12px;
+		padding: 0 12px;
 		margin: 0;
 		height: 45px;
 		background: #eee;
+		border: 0;
 		border-right: 1px solid #ddd;
 		color: #444;
 		cursor: pointer;

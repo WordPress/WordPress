@@ -3272,12 +3272,7 @@
 		});
 
 		// Expand/Collapse the main customizer customize info.
-		$( '.customize-info' ).find( '> .accordion-section-title .customize-help-toggle' ).on( 'click keydown', function( event ) {
-			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
-				return;
-			}
-			event.preventDefault(); // Keep this AFTER the key filter above
-
+		$( '.customize-info' ).find( '> .accordion-section-title .customize-help-toggle' ).on( 'click', function() {
 			var section = $( this ).closest( '.accordion-section' ),
 				content = section.find( '.customize-panel-description:first' );
 
@@ -3633,13 +3628,8 @@
 			overlay.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
 		});
 
-		$( '.customize-controls-preview-toggle' ).on( 'click keydown', function( event ) {
-			if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
-				return;
-			}
-
+		$( '.customize-controls-preview-toggle' ).on( 'click', function() {
 			overlay.toggleClass( 'preview-only' );
-			event.preventDefault();
 		});
 
 		// Previewed device bindings.

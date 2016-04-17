@@ -118,12 +118,12 @@ do_action( 'customize_controls_print_scripts' );
 			submit_button( $save_text, 'primary save', 'save', false );
 			?>
 			<span class="spinner"></span>
-			<a class="customize-controls-preview-toggle" href="#">
+			<button type="button" class="customize-controls-preview-toggle">
 				<span class="controls"><?php _e( 'Customize' ); ?></span>
 				<span class="preview"><?php _e( 'Preview' ); ?></span>
-			</a>
+			</button>
 			<a class="customize-controls-close" href="<?php echo esc_url( $wp_customize->get_return_url() ); ?>">
-				<span class="screen-reader-text"><?php _e( 'Cancel' ); ?></span>
+				<span class="screen-reader-text"><?php _e( 'Close the Customizer and go back to the previous page' ); ?></span>
 			</a>
 		</div>
 
@@ -134,7 +134,7 @@ do_action( 'customize_controls_print_scripts' );
 					<span class="preview-notice"><?php
 						echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title site-title">' . get_bloginfo( 'name' ) . '</strong>' );
 					?></span>
-					<button class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text"><?php _e( 'Help' ); ?></span></button>
+					<button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text"><?php _e( 'Help' ); ?></span></button>
 				</div>
 				<div class="customize-panel-description"><?php
 					_e( 'The Customizer allows you to preview changes to your site before publishing them. You can also navigate to different pages on your site to preview them.' );
