@@ -10,6 +10,18 @@
  * @since 3.0.0
  */
 
+/**
+ * Objects representing the current network and current site.
+ *
+ * These may be populated through a custom `sunrise.php`. If not, then this
+ * file will attempt to populate them based on the current request.
+ *
+ * @global WP_Network $current_site The current network.
+ * @global object     $current_blog The current site.
+ * @since 3.0.0
+ */
+global $current_site, $current_blog;
+
 /** WP_Network class */
 require_once( ABSPATH . WPINC . '/class-wp-network.php' );
 
