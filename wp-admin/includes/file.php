@@ -21,7 +21,6 @@ $wp_file_descriptions = array(
 	'searchform.php'        => __( 'Search Form' ),
 	'404.php'               => __( '404 Template' ),
 	'link.php'              => __( 'Links Template' ),
-	'embed.php'             => __( 'Embed Template' ),
 	// Archives
 	'index.php'             => __( 'Main Index Template' ),
 	'archive.php'           => __( 'Archives' ),
@@ -43,6 +42,12 @@ $wp_file_descriptions = array(
 	'video.php'             => __( 'Video Attachment Template' ),
 	'audio.php'             => __( 'Audio Attachment Template' ),
 	'application.php'       => __( 'Application Attachment Template' ),
+	// Embeds
+	'embed.php'             => __( 'Embed Template' ),
+	'embed-404.php'         => __( 'Embed 404 Template' ),
+	'embed-content.php'     => __( 'Embed Content Template' ),
+	'header-embed.php'      => __( 'Embed Header Template' ),
+	'footer-embed.php'      => __( 'Embed Footer Template' ),
 	// Stylesheets
 	'style.css'             => __( 'Stylesheet' ),
 	'editor-style.css'      => __( 'Visual Editor Stylesheet' ),
