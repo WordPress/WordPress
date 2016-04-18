@@ -268,7 +268,7 @@ function is_tag( $tag = '' ) {
 }
 
 /**
- * Is the query for an existing taxonomy archive page?
+ * Is the query for an existing custom taxonomy archive page?
  *
  * If the $taxonomy parameter is specified, this function will additionally
  * check if the query is for that specific $taxonomy.
@@ -276,6 +276,8 @@ function is_tag( $tag = '' ) {
  * If the $term parameter is specified in addition to the $taxonomy parameter,
  * this function will additionally check if the query is for one of the terms
  * specified.
+ *
+ * Returns false for built-in taxonomies (category and tag archives).
  *
  * @since 2.5.0
  *
@@ -4331,7 +4333,7 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing taxonomy archive page?
+	 * Is the query for an existing custom taxonomy archive page?
 	 *
 	 * If the $taxonomy parameter is specified, this function will additionally
 	 * check if the query is for that specific $taxonomy.
@@ -4339,6 +4341,8 @@ class WP_Query {
 	 * If the $term parameter is specified in addition to the $taxonomy parameter,
 	 * this function will additionally check if the query is for one of the terms
 	 * specified.
+	 *
+	 * Returns false for built-in taxonomies (category and tag archives).
 	 *
 	 * @since 3.1.0
 	 *
