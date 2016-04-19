@@ -104,7 +104,7 @@ tinymce.PluginManager.add('fullscreen', function(editor) {
 	}
 
 	editor.on('init', function() {
-		editor.addShortcut('Meta+Alt+F', '', toggleFullscreen);
+		editor.addShortcut('Ctrl+Shift+F', '', toggleFullscreen);
 	});
 
 	editor.on('remove', function() {
