@@ -376,8 +376,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			 */
 			if ( is_callable( array( $this->image, 'getImageAlphaChannel' ) )
 				&& is_callable( array( $this->image, 'setImageAlphaChannel' ) )
-				&& defined( Imagick::ALPHACHANNEL_UNDEFINED )
-				&& defined( Imagick::ALPHACHANNEL_OPAQUE )
+				&& defined( 'Imagick::ALPHACHANNEL_UNDEFINED' )
+				&& defined( 'Imagick::ALPHACHANNEL_OPAQUE' )
 			) {
 				if ( $this->image->getImageAlphaChannel() === Imagick::ALPHACHANNEL_UNDEFINED ) {
 					$this->image->setImageAlphaChannel( Imagick::ALPHACHANNEL_OPAQUE );
