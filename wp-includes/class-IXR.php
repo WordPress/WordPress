@@ -168,7 +168,7 @@ class IXR_Value {
     {
         $expected = 0;
         foreach ($array as $key => $value) {
-            if ((string)$key != (string)$expected) {
+            if ((string)$key !== (string)$expected) {
                 return true;
             }
             $expected++;
