@@ -19,7 +19,7 @@ tinymce.PluginManager.add('textcolor', function(editor) {
 		backcolor: editor.settings.backcolor_rows || editor.settings.textcolor_rows || 5
 	};
 	cols = {
-		forecolor: editor.settings.forecolor_cols || editor.settings.textcolor_rows || 5,
+		forecolor: editor.settings.forecolor_cols || editor.settings.textcolor_cols || 8,
 		backcolor: editor.settings.backcolor_cols || editor.settings.textcolor_cols || 8
 	};
 
