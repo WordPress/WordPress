@@ -39,8 +39,9 @@ function the_permalink( $post = 0 ) {
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param string $string URL with or without a trailing slash.
- * @param string $type_of_url The type of URL being considered (e.g. single, category, etc) for use in the filter.
+ * @param string $string      URL with or without a trailing slash.
+ * @param string $type_of_url Optional. The type of URL being considered (e.g. single, category, etc)
+ *                            for use in the filter. Default empty string.
  * @return string The URL with the trailing slash appended or stripped.
  */
 function user_trailingslashit($string, $type_of_url = '') {
@@ -71,7 +72,7 @@ function user_trailingslashit($string, $type_of_url = '') {
  *
  * @since 0.71
  *
- * @param string $mode Permalink mode can be either 'title', 'id', or default, which is 'id'.
+ * @param string $mode Optional. Permalink mode. Accepts 'title' or 'id'. Default 'id'.
  */
 function permalink_anchor( $mode = 'id' ) {
 	$post = get_post();
@@ -242,9 +243,9 @@ function get_permalink( $post = 0, $leavename = false ) {
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param int $id         Optional. Post ID.
- * @param bool $leavename Optional, defaults to false. Whether to keep post name.
- * @param bool $sample    Optional, defaults to false. Is it a sample permalink.
+ * @param int $id         Optional. Post ID. Default uses the global `$post`.
+ * @param bool $leavename Optional, defaults to false. Whether to keep post name. Default false.
+ * @param bool $sample    Optional, defaults to false. Is it a sample permalink. Default false.
  * @return string|WP_Error The post permalink.
  */
 function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
@@ -300,9 +301,10 @@ function get_post_permalink( $id = 0, $leavename = false, $sample = false ) {
  *
  * @since 1.5.0
  *
- * @param int|object $post      Optional. Post ID or object.
- * @param bool       $leavename Optional, defaults to false. Whether to keep page name.
- * @param bool       $sample    Optional, defaults to false. Is it a sample permalink.
+ * @param int|WP_Post $post      Optional. Post ID or object. Default uses the global `$post`.
+ * @param bool        $leavename Optional. Whether to keep the page name. Default false.
+ * @param bool        $sample    Optional. Whether it should be treated as a sample permalink.
+ *                               Default false.
  * @return string The page permalink.
  */
 function get_page_link( $post = false, $leavename = false, $sample = false ) {
@@ -335,9 +337,10 @@ function get_page_link( $post = false, $leavename = false, $sample = false ) {
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param int|object $post      Optional. Post ID or object.
- * @param bool       $leavename Optional. Leave name.
- * @param bool       $sample    Optional. Sample permalink.
+ * @param int|WP_Post $post      Optional. Post ID or object. Default uses the global `$post`.
+ * @param bool        $leavename Optional. Whether to keep the page name. Default false.
+ * @param bool        $sample    Optional. Whether it should be treated as a sample permalink.
+ *                               Default false.
  * @return string The page permalink.
  */
 function _get_page_link( $post = false, $leavename = false, $sample = false ) {
@@ -380,8 +383,8 @@ function _get_page_link( $post = false, $leavename = false, $sample = false ) {
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param int|object $post      Optional. Post ID or object.
- * @param bool       $leavename Optional. Leave name.
+ * @param int|object $post      Optional. Post ID or object. Default uses the global `$post`.
+ * @param bool       $leavename Optional. Whether to keep the page name. Default false.
  * @return string The attachment permalink.
  */
 function get_attachment_link( $post = null, $leavename = false ) {
@@ -439,7 +442,7 @@ function get_attachment_link( $post = null, $leavename = false ) {
  * @param int|bool $year False for current year or year for permalink.
  * @return string The permalink for the specified year archive.
  */
-function get_year_link($year) {
+function get_year_link( $year ) {
 	global $wp_rewrite;
 	if ( !$year )
 		$year = gmdate('Y', current_time('timestamp'));
@@ -550,7 +553,7 @@ function get_day_link($year, $month, $day) {
  * @since 3.0.0
  *
  * @param string $anchor The link's anchor text.
- * @param string $feed   Optional, defaults to default feed. Feed type.
+ * @param string $feed   Optional. Feed type. Default empty.
  */
 function the_feed_link( $anchor, $feed = '' ) {
 	$link = '<a href="' . esc_url( get_feed_link( $feed ) ) . '">' . $anchor . '</a>';
@@ -574,10 +577,10 @@ function the_feed_link( $anchor, $feed = '' ) {
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param string $feed Optional, defaults to default feed. Feed type.
+ * @param string $feed Optional. Feed type. Default empty.
  * @return string The feed permalink.
  */
-function get_feed_link($feed = '') {
+function get_feed_link( $feed = '' ) {
 	global $wp_rewrite;
 
 	$permalink = $wp_rewrite->get_feed_permastruct();
@@ -619,11 +622,11 @@ function get_feed_link($feed = '') {
  *
  * @since 2.2.0
  *
- * @param int    $post_id Optional. Post ID.
- * @param string $feed    Optional. Feed type.
+ * @param int    $post_id Optional. Post ID. Default is the ID of the global `$post`.
+ * @param string $feed    Optional. Feed type. Default empty.
  * @return string The permalink for the comments feed for the given post.
  */
-function get_post_comments_feed_link($post_id = 0, $feed = '') {
+function get_post_comments_feed_link( $post_id = 0, $feed = '' ) {
 	$post_id = absint( $post_id );
 
 	if ( ! $post_id )
@@ -682,9 +685,9 @@ function get_post_comments_feed_link($post_id = 0, $feed = '') {
  *
  * @since 2.5.0
  *
- * @param string $link_text Descriptive text.
- * @param int    $post_id   Optional post ID. Default to current post.
- * @param string $feed      Optional. Feed format.
+ * @param string $link_text Optional. Descriptive link text. Default 'Comments Feed'.
+ * @param int    $post_id   Optional. Post ID. Default is the ID of the global `$post`.
+ * @param string $feed      Optional. Feed format. Default empty.
  */
 function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
 	$url = get_post_comments_feed_link( $post_id, $feed );
@@ -713,8 +716,8 @@ function post_comments_feed_link( $link_text = '', $post_id = '', $feed = '' ) {
  *
  * @since 2.5.0
  *
- * @param int    $author_id ID of an author.
- * @param string $feed      Optional. Feed type.
+ * @param int    $author_id Author ID.
+ * @param string $feed      Optional. Feed type. Default empty.
  * @return string Link to the feed for the author specified by $author_id.
  */
 function get_author_feed_link( $author_id, $feed = '' ) {
@@ -757,8 +760,8 @@ function get_author_feed_link( $author_id, $feed = '' ) {
  *
  * @since 2.5.0
  *
- * @param int    $cat_id ID of a category.
- * @param string $feed   Optional. Feed type.
+ * @param int    $cat_id Category ID.
+ * @param string $feed   Optional. Feed type. Default empty.
  * @return string Link to the feed for the category specified by $cat_id.
  */
 function get_category_feed_link( $cat_id, $feed = '' ) {
@@ -773,9 +776,9 @@ function get_category_feed_link( $cat_id, $feed = '' ) {
  *
  * @since 3.0.0
  *
- * @param int    $term_id  ID of a category.
- * @param string $taxonomy Optional. Taxonomy of $term_id
- * @param string $feed     Optional. Feed type.
+ * @param int    $term_id  Term ID.
+ * @param string $taxonomy Optional. Taxonomy of `$term_id`. Default 'category'.
+ * @param string $feed     Optional. Feed type. Default empty.
  * @return string|false Link to the feed for the term specified by $term_id and $taxonomy.
  */
 function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
@@ -853,7 +856,7 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
  * @since 2.3.0
  *
  * @param int    $tag_id Tag ID.
- * @param string $feed   Optional. Feed type.
+ * @param string $feed   Optional. Feed type. Default empty.
  * @return string The feed permalink for the given tag.
  */
 function get_tag_feed_link( $tag_id, $feed = '' ) {
@@ -865,8 +868,8 @@ function get_tag_feed_link( $tag_id, $feed = '' ) {
  *
  * @since 2.7.0
  *
- * @param int    $tag_id   Tag ID
- * @param string $taxonomy Taxonomy
+ * @param int    $tag_id   Tag ID.
+ * @param string $taxonomy Optional. Taxonomy slug. Default 'post_tag'.
  * @return string The edit tag link URL for the given tag.
  */
 function get_edit_tag_link( $tag_id, $taxonomy = 'post_tag' ) {
@@ -885,10 +888,11 @@ function get_edit_tag_link( $tag_id, $taxonomy = 'post_tag' ) {
  *
  * @since 2.7.0
  *
- * @param string $link   Optional. Anchor text.
- * @param string $before Optional. Display before edit link.
- * @param string $after  Optional. Display after edit link.
- * @param object $tag    Tag object.
+ * @param string  $link   Optional. Anchor text. Default empty.
+ * @param string  $before Optional. Display before edit link. Default empty.
+ * @param string  $after  Optional. Display after edit link. Default empty.
+ * @param WP_Term $tag    Optional. Term object. If null, the queried object will be inspected.
+ *                        Default null.
  */
 function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
 	$link = edit_term_link( $link, '', '', $tag, false );
@@ -910,9 +914,11 @@ function edit_tag_link( $link = '', $before = '', $after = '', $tag = null ) {
  * @since 4.5.0 The `$taxonomy` argument was made optional.
  *
  * @param int    $term_id     Term ID.
- * @param string $taxonomy    Optional. Taxonomy. Defaults to the taxonomy of the term identified by `$term_id`.
- * @param string $object_type Optional. The object type. Used to highlight the proper post type menu on the linked page.
- *                            Defaults to the first object_type associated with the taxonomy.
+ * @param string $taxonomy    Optional. Taxonomy. Defaults to the taxonomy of the term identified
+ *                            by `$term_id`.
+ * @param string $object_type Optional. The object type. Used to highlight the proper post type
+ *                            menu on the linked page. Defaults to the first object_type associated
+ *                            with the taxonomy.
  * @return string|null The edit term link URL for the given term, or null on failure.
  */
 function get_edit_term_link( $term_id, $taxonomy = '', $object_type = '' ) {
@@ -1007,7 +1013,7 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $e
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param string $query Optional. The query string to use. If empty the current query is used.
+ * @param string $query Optional. The query string to use. If empty the current query is used. Default empty.
  * @return string The search permalink.
  */
 function get_search_link( $query = '' ) {
@@ -1047,8 +1053,8 @@ function get_search_link( $query = '' ) {
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param string $search_query Optional. Search query.
- * @param string $feed         Optional. Feed type.
+ * @param string $search_query Optional. Search query. Default empty.
+ * @param string $feed         Optional. Feed type. Default empty.
  * @return string The search results feed permalink.
  */
 function get_search_feed_link($search_query = '', $feed = '') {
@@ -1086,8 +1092,8 @@ function get_search_feed_link($search_query = '', $feed = '') {
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param string $search_query Optional. Search query.
- * @param string $feed         Optional. Feed type.
+ * @param string $search_query Optional. Search query. Default empty.
+ * @param string $feed         Optional. Feed type. Default empty.
  * @return string The comments feed search results permalink.
  */
 function get_search_comments_feed_link($search_query = '', $feed = '') {
@@ -1169,7 +1175,7 @@ function get_post_type_archive_link( $post_type ) {
  * @since 3.1.0
  *
  * @param string $post_type Post type
- * @param string $feed      Optional. Feed type
+ * @param string $feed      Optional. Feed type. Default empty.
  * @return string|false The post type feed permalink.
  */
 function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
@@ -1208,9 +1214,11 @@ function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
  *
  * @since 4.4.0
  *
- * @param int|WP_Post $post         Optional. Post ID or `WP_Post` object. Defaults to global post.
+ * @param int|WP_Post $post         Optional. Post ID or `WP_Post` object. Defaults to global `$post`.
  * @param array       $query_args   Optional. Array of additional query args to be appended to the link.
- * @param string      $preview_link Optional. Base preview link to be used if it should differ from the post permalink.
+ *                                  Default empty array.
+ * @param string      $preview_link Optional. Base preview link to be used if it should differ from the
+ *                                  post permalink. Default empty.
  * @return string URL used for the post preview.
  */
 function get_preview_post_link( $post = null, $query_args = array(), $preview_link = '' ) {
@@ -1402,16 +1410,13 @@ function get_edit_comment_link( $comment_id = 0 ) {
  * Displays the edit comment link with formatting.
  *
  * @since 1.0.0
- * @since 4.6.0 The `$comment` and `$class` arguments were added.
  *
- * @param string         $text    Optional. Anchor text.
- * @param string         $before  Optional. Display before edit link.
- * @param string         $after   Optional. Display after edit link.
- * @param int|WP_Comment $comment Optional. Comment ID or WP_Comment object.
- * @param string         $class   Optional. Add custom class to link.
+ * @param string $text   Optional. Anchor text.
+ * @param string $before Optional. Display before edit link.
+ * @param string $after  Optional. Display after edit link.
  */
-function edit_comment_link( $text = null, $before = '', $after = '', $comment = 0, $class = 'comment-edit-link' ) {
-	$comment = get_comment( $comment );
+function edit_comment_link( $text = null, $before = '', $after = '' ) {
+	$comment = get_comment();
 
 	if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) ) {
 		return;
@@ -1421,7 +1426,7 @@ function edit_comment_link( $text = null, $before = '', $after = '', $comment = 
 		$text = __( 'Edit This' );
 	}
 
-	$link = '<a class="' . esc_attr( $class ) . '" href="' . esc_url( get_edit_comment_link( $comment ) ) . '">' . $text . '</a>';
+	$link = '<a class="comment-edit-link" href="' . esc_url( get_edit_comment_link( $comment ) ) . '">' . $text . '</a>';
 
 	/**
 	 * Filters the comment edit link anchor tag.
