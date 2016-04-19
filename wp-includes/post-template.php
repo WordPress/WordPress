@@ -582,9 +582,6 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'attachment';
 	if ( is_404() )
 		$classes[] = 'error404';
-	if ( is_singular() ) {
-		$classes[] = 'singular';
-	}
 
 	if ( is_single() ) {
 		$post_id = $wp_query->get_queried_object_id();
