@@ -1586,9 +1586,9 @@ body.full-overlay-active {
 }
 
 .preview-tablet .wp-full-overlay-main {
-	margin: auto 0 auto -3in;
-	width: 6in; /* Size is loosely based on a typical "tablet" device size. Intentionally ambiguous - this does not represent any particular device precisely. */
-	height: 9in;
+	margin: auto 0 auto -360px;
+	width: 720px; /* Size is loosely based on a typical "tablet" device size. Intentionally ambiguous - this does not represent any particular device precisely. */
+	height: 1080px;
 	max-height: 100%;
 	max-width: 100%;
 	left: 50%;
