@@ -1257,8 +1257,8 @@ function get_preview_post_link( $post = null, $query_args = array(), $preview_li
  *
  * @since 2.3.0
  *
- * @param int    $id      Optional. Post ID.
- * @param string $context Optional, defaults to display. How to write the '&', defaults to '&amp;'.
+ * @param int    $id      Optional. Post ID. Default is the ID of the global `$post`.
+ * @param string $context Optional. How to output the '&' character. Default '&amp;'.
  * @return string|null The edit post link for the given post. null if the post type is invalid or does
  *                     not allow an editing UI.
  */
@@ -1305,11 +1305,11 @@ function get_edit_post_link( $id = 0, $context = 'display' ) {
  * @since 1.0.0
  * @since 4.4.0 The `$class` argument was added.
  *
- * @param string $text   Optional. Anchor text.
- * @param string $before Optional. Display before edit link.
- * @param string $after  Optional. Display after edit link.
- * @param int    $id     Optional. Post ID.
- * @param string $class  Optional. Add custom class to link.
+ * @param string $text   Optional. Anchor text. If null, default is 'Edit This'. Default null.
+ * @param string $before Optional. Display before edit link. Default empty.
+ * @param string $after  Optional. Display after edit link. Default empty.
+ * @param int    $id     Optional. Post ID. Default is the ID of the global `$post`.
+ * @param string $class  Optional. Add custom class to link. Default 'post-edit-link'.
  */
 function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $class = 'post-edit-link' ) {
 	if ( ! $post = get_post( $id ) ) {
@@ -1345,9 +1345,9 @@ function edit_post_link( $text = null, $before = '', $after = '', $id = 0, $clas
  *
  * @since 2.9.0
  *
- * @param int    $id           Optional. Post ID.
+ * @param int    $id           Optional. Post ID. Default is the ID of the global `$post`.
  * @param string $deprecated   Not used.
- * @param bool   $force_delete Whether to bypass trash and force deletion. Default is false.
+ * @param bool   $force_delete Optional. Whether to bypass trash and force deletion. Default false.
  * @return string|void The delete post link URL for the given post.
  */
 function get_delete_post_link( $id = 0, $deprecated = '', $force_delete = false ) {
@@ -1411,9 +1411,9 @@ function get_edit_comment_link( $comment_id = 0 ) {
  *
  * @since 1.0.0
  *
- * @param string $text   Optional. Anchor text.
- * @param string $before Optional. Display before edit link.
- * @param string $after  Optional. Display after edit link.
+ * @param string $text   Optional. Anchor text. If null, default is 'Edit This'. Default null.
+ * @param string $before Optional. Display before edit link. Default empty.
+ * @param string $after  Optional. Display after edit link. Default empty.
  */
 function edit_comment_link( $text = null, $before = '', $after = '' ) {
 	$comment = get_comment();
@@ -1445,7 +1445,7 @@ function edit_comment_link( $text = null, $before = '', $after = '' ) {
  *
  * @since 2.7.0
  *
- * @param int|stdClass $link Optional. Bookmark ID.
+ * @param int|stdClass $link Optional. Bookmark ID. Default is the id of the current bookmark.
  * @return string|void The edit bookmark link URL.
  */
 function get_edit_bookmark_link( $link = 0 ) {
@@ -1472,10 +1472,10 @@ function get_edit_bookmark_link( $link = 0 ) {
  *
  * @since 2.7.0
  *
- * @param string $link     Optional. Anchor text.
- * @param string $before   Optional. Display before edit link.
- * @param string $after    Optional. Display after edit link.
- * @param int    $bookmark Optional. Bookmark ID.
+ * @param string $link     Optional. Anchor text. Default empty.
+ * @param string $before   Optional. Display before edit link. Default empty.
+ * @param string $after    Optional. Display after edit link. Default empty.
+ * @param int    $bookmark Optional. Bookmark ID. Default is the current bookmark.
  */
 function edit_bookmark_link( $link = '', $before = '', $after = '', $bookmark = null ) {
 	$bookmark = get_bookmark($bookmark);
@@ -1542,10 +1542,11 @@ function get_edit_user_link( $user_id = null ) {
  *
  * @since 1.5.0
  *
- * @param bool         $in_same_term   Optional. Whether post should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param bool         $in_same_term   Optional. Whether post should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
- * @return null|string|WP_Post Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
+ * @return null|string|WP_Post Post object if successful. Null if global $post is not set. Empty string if no
+ *                             corresponding post exists.
  */
 function get_previous_post( $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
 	return get_adjacent_post( $in_same_term, $excluded_terms, true, $taxonomy );
@@ -1556,10 +1557,11 @@ function get_previous_post( $in_same_term = false, $excluded_terms = '', $taxono
  *
  * @since 1.5.0
  *
- * @param bool         $in_same_term   Optional. Whether post should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param bool         $in_same_term   Optional. Whether post should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
- * @return null|string|WP_Post Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
+ * @return null|string|WP_Post Post object if successful. Null if global $post is not set. Empty string if no
+ *                             corresponding post exists.
  */
 function get_next_post( $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
 	return get_adjacent_post( $in_same_term, $excluded_terms, false, $taxonomy );
@@ -1574,11 +1576,12 @@ function get_next_post( $in_same_term = false, $excluded_terms = '', $taxonomy =
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param bool         $in_same_term   Optional. Whether post should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
- * @param bool         $previous       Optional. Whether to retrieve previous post.
+ * @param bool         $in_same_term   Optional. Whether post should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
+ * @param bool         $previous       Optional. Whether to retrieve previous post. Default true
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
- * @return null|string|WP_Post Post object if successful. Null if global $post is not set. Empty string if no corresponding post exists.
+ * @return null|string|WP_Post Post object if successful. Null if global $post is not set. Empty string if no
+ *                             corresponding post exists.
  */
 function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previous = true, $taxonomy = 'category' ) {
 	global $wpdb;
@@ -1749,9 +1752,9 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
  *
  * @since 2.8.0
  *
- * @param string       $title          Optional. Link title format.
- * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $title          Optional. Link title format. Default '%title'.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
  * @param bool         $previous       Optional. Whether to display link to previous or next post. Default true.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string|void The adjacent post relational link URL.
@@ -1799,9 +1802,9 @@ function get_adjacent_post_rel_link( $title = '%title', $in_same_term = false, $
  *
  * @since 2.8.0
  *
- * @param string       $title          Optional. Link title format.
- * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $title          Optional. Link title format. Default '%title'.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
 function adjacent_posts_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
@@ -1812,9 +1815,12 @@ function adjacent_posts_rel_link( $title = '%title', $in_same_term = false, $exc
 /**
  * Displays relational links for the posts adjacent to the current post for single post pages.
  *
- * This is meant to be attached to actions like 'wp_head'. Do not call this directly in plugins or theme templates.
+ * This is meant to be attached to actions like 'wp_head'. Do not call this directly in plugins
+ * or theme templates.
+ *
  * @since 3.0.0
  *
+ * @see adjacent_posts_rel_link()
  */
 function adjacent_posts_rel_link_wp_head() {
 	if ( ! is_single() || is_attachment() ) {
@@ -1828,9 +1834,11 @@ function adjacent_posts_rel_link_wp_head() {
  *
  * @since 2.8.0
  *
- * @param string       $title          Optional. Link title format.
- * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @see get_adjacent_post_rel_link()
+ *
+ * @param string       $title          Optional. Link title format. Default '%title'.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
 function next_post_rel_link( $title = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
@@ -1842,8 +1850,10 @@ function next_post_rel_link( $title = '%title', $in_same_term = false, $excluded
  *
  * @since 2.8.0
  *
- * @param string       $title          Optional. Link title format.
- * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
+ * @see get_adjacent_post_rel_link()
+ *
+ * @param string       $title          Optional. Link title format. Default '%title'.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
  * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default true.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
@@ -1860,8 +1870,10 @@ function prev_post_rel_link( $title = '%title', $in_same_term = false, $excluded
  * @since 2.8.0
  *
  * @param bool         $in_same_term   Optional. Whether returned post should be in a same taxonomy term.
+ *                                     Default false.
  * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
- * @param bool         $start          Optional. Whether to retrieve first or last post.
+ *                                     Default empty.
+ * @param bool         $start          Optional. Whether to retrieve first or last post. Default true
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return null|array Array containing the boundary post object if successful, null otherwise.
  */
@@ -1914,10 +1926,10 @@ function get_boundary_post( $in_same_term = false, $excluded_terms = '', $start 
  *
  * @since 3.7.0
  *
- * @param string       $format         Optional. Link anchor format.
- * @param string       $link           Optional. Link permalink format.
- * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $format         Optional. Link anchor format. Default '&laquo; %link'.
+ * @param string       $link           Optional. Link permalink format. Default '%title%'.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string The link URL of the previous post in relation to the current post.
  */
@@ -1932,10 +1944,10 @@ function get_previous_post_link( $format = '&laquo; %link', $link = '%title', $i
  *
  * @see get_previous_post_link()
  *
- * @param string       $format         Optional. Link anchor format.
- * @param string       $link           Optional. Link permalink format.
- * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $format         Optional. Link anchor format. Default '&laquo; %link'.
+ * @param string       $link           Optional. Link permalink format. Default '%title'.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
 function previous_post_link( $format = '&laquo; %link', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
@@ -1947,10 +1959,10 @@ function previous_post_link( $format = '&laquo; %link', $link = '%title', $in_sa
  *
  * @since 3.7.0
  *
- * @param string       $format         Optional. Link anchor format.
- * @param string       $link           Optional. Link permalink format.
- * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $format         Optional. Link anchor format. Default '&laquo; %link'.
+ * @param string       $link           Optional. Link permalink format. Default '%title'.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string The link URL of the next post in relation to the current post.
  */
@@ -1964,10 +1976,10 @@ function get_next_post_link( $format = '%link &raquo;', $link = '%title', $in_sa
  * @since 1.5.0
  * @see get_next_post_link()
  *
- * @param string       $format         Optional. Link anchor format.
- * @param string       $link           Optional. Link permalink format.
- * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs.
+ * @param string       $format         Optional. Link anchor format. Default '&laquo; %link'.
+ * @param string       $link           Optional. Link permalink format. Default '%title'
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
 function next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_term = false, $excluded_terms = '', $taxonomy = 'category' ) {
@@ -1983,8 +1995,8 @@ function next_post_link( $format = '%link &raquo;', $link = '%title', $in_same_t
  *
  * @param string       $format         Link anchor format.
  * @param string       $link           Link permalink format.
- * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded terms IDs.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded terms IDs. Default empty.
  * @param bool         $previous       Optional. Whether to display link to previous or next post. Default true.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  * @return string The link URL of the previous or next post in relation to the current post.
@@ -2046,8 +2058,8 @@ function get_adjacent_post_link( $format, $link, $in_same_term = false, $exclude
  *
  * @param string       $format         Link anchor format.
  * @param string       $link           Link permalink format.
- * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term.
- * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded category IDs.
+ * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
+ * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded category IDs. Default empty.
  * @param bool         $previous       Optional. Whether to display link to previous or next post. Default true.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
  */
@@ -2062,7 +2074,7 @@ function adjacent_post_link( $format, $link, $in_same_term = false, $excluded_te
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param int  $pagenum Optional. Page ID.
+ * @param int  $pagenum Optional. Page ID. Default 1.
  * @param bool $escape  Optional. Whether to escape the URL for display, with esc_url(). Defaults to true.
  * 	                    Otherwise, prepares the URL with esc_url_raw().
  * @return string The link URL for the given page number.
@@ -2140,7 +2152,7 @@ function get_pagenum_link($pagenum = 1, $escape = true ) {
  *
  * @global int $paged
  *
- * @param int $max_page Optional. Max pages.
+ * @param int $max_page Optional. Max pages. Default 0.
  * @return string|void The link URL for next posts page.
  */
 function get_next_posts_page_link($max_page = 0) {
@@ -2160,8 +2172,8 @@ function get_next_posts_page_link($max_page = 0) {
  *
  * @since 0.71
  *
- * @param int   $max_page Optional. Max pages.
- * @param bool  $echo     Optional. Echo or return;
+ * @param int   $max_page Optional. Max pages. Default 0.
+ * @param bool  $echo     Optional. Whether to echo the link. Default true.
  * @return string|void The link URL for next posts page if `$echo = false`.
  */
 function next_posts( $max_page = 0, $echo = true ) {
@@ -2182,7 +2194,7 @@ function next_posts( $max_page = 0, $echo = true ) {
  * @global WP_Query $wp_query
  *
  * @param string $label    Content for link text.
- * @param int    $max_page Optional. Max pages.
+ * @param int    $max_page Optional. Max pages. Default 0.
  * @return string|void HTML-formatted next posts page link.
  */
 function get_next_posts_link( $label = null, $max_page = 0 ) {
@@ -2219,7 +2231,7 @@ function get_next_posts_link( $label = null, $max_page = 0 ) {
  * @since 0.71
  *
  * @param string $label    Content for link text.
- * @param int    $max_page Optional. Max pages.
+ * @param int    $max_page Optional. Max pages. Default 0.
  */
 function next_posts_link( $label = null, $max_page = 0 ) {
 	echo get_next_posts_link( $label, $max_page );
@@ -2254,7 +2266,7 @@ function get_previous_posts_page_link() {
  *
  * @since 0.71
  *
- * @param bool $echo Optional. Echo or return;
+ * @param bool $echo Optional. Whether to echo the link. Default true.
  * @return string|void The previous posts page link if `$echo = false`.
  */
 function previous_posts( $echo = true ) {
@@ -2313,7 +2325,15 @@ function previous_posts_link( $label = null ) {
  *
  * @global WP_Query $wp_query
  *
- * @param string|array $args Optional args.
+ * @param string|array $args {
+ *     Optional. Arguments to build the post pages link navigation.
+ *
+ *     @type string $sep      Separator character. Default '&#8212;'.
+ *     @type string $prelabel Link text to display for the previous page link.
+ *                            Default '&laquo; Previous Page'.
+ *     @type string $nxtlabel Link text to display for the next page link.
+ *                            Default 'Next Page &raquo;'.
+ * }
  * @return string The posts link navigation.
  */
 function get_posts_nav_link( $args = array() ) {
@@ -2352,9 +2372,9 @@ function get_posts_nav_link( $args = array() ) {
  *
  * @since 0.71
  *
- * @param string $sep      Optional. Separator for posts navigation links.
- * @param string $prelabel Optional. Label for previous pages.
- * @param string $nxtlabel Optional Label for next pages.
+ * @param string $sep      Optional. Separator for posts navigation links. Default empty.
+ * @param string $prelabel Optional. Label for previous pages. Default empty.
+ * @param string $nxtlabel Optional Label for next pages. Default empty.
  */
 function posts_nav_link( $sep = '', $prelabel = '', $nxtlabel = '' ) {
 	$args = array_filter( compact('sep', 'prelabel', 'nxtlabel') );
@@ -2420,8 +2440,8 @@ function get_the_post_navigation( $args = array() ) {
  *
  * @since 4.1.0
  *
- * @param array $args Optional. See {@see get_the_post_navigation()} for available
- *                    arguments. Default empty array.
+ * @param array $args Optional. See get_the_post_navigation() for available arguments.
+ *                    Default empty array.
  */
 function the_post_navigation( $args = array() ) {
 	echo get_the_post_navigation( $args );
@@ -2479,8 +2499,8 @@ function get_the_posts_navigation( $args = array() ) {
  *
  * @since 4.1.0
  *
- * @param array $args Optional. See {@see get_the_posts_navigation()} for available
- *                    arguments. Default empty array.
+ * @param array $args Optional. See get_the_posts_navigation() for available arguments.
+ *                    Default empty array.
  */
 function the_posts_navigation( $args = array() ) {
 	echo get_the_posts_navigation( $args );
@@ -2492,7 +2512,7 @@ function the_posts_navigation( $args = array() ) {
  * @since 4.1.0
  *
  * @param array $args {
- *     Optional. Default pagination arguments, {@see paginate_links()}.
+ *     Optional. Default pagination arguments, see paginate_links().
  *
  *     @type string $screen_reader_text Screen reader text for navigation element.
  *                                      Default 'Posts navigation'.
@@ -2532,7 +2552,7 @@ function get_the_posts_pagination( $args = array() ) {
  *
  * @since 4.1.0
  *
- * @param array $args Optional. See {@see get_the_posts_pagination()} for available arguments.
+ * @param array $args Optional. See get_the_posts_pagination() for available arguments.
  *                    Default empty array.
  */
 function the_posts_pagination( $args = array() ) {
