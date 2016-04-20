@@ -2611,8 +2611,8 @@ function _navigation_markup( $links, $class = 'posts-navigation', $screen_reader
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param int $pagenum  Optional. Page number.
- * @param int $max_page Optional. The maximum number of comment pages.
+ * @param int $pagenum  Optional. Page number. Default 1.
+ * @param int $max_page Optional. The maximum number of comment pages. Default 0.
  * @return string The comments page number link URL.
  */
 function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
@@ -2655,8 +2655,8 @@ function get_comments_pagenum_link( $pagenum = 1, $max_page = 0 ) {
  *
  * @global WP_Query $wp_query
  *
- * @param string $label    Optional. Label for link text.
- * @param int    $max_page Optional. Max page.
+ * @param string $label    Optional. Label for link text. Default empty.
+ * @param int    $max_page Optional. Max page. Default 0.
  * @return string|void HTML-formatted link for the next page of comments.
  */
 function get_next_comments_link( $label = '', $max_page = 0 ) {
@@ -2700,8 +2700,8 @@ function get_next_comments_link( $label = '', $max_page = 0 ) {
  *
  * @since 2.7.0
  *
- * @param string $label    Optional. Label for link text.
- * @param int    $max_page Optional. Max page.
+ * @param string $label    Optional. Label for link text. Default empty.
+ * @param int    $max_page Optional. Max page. Default 0.
  */
 function next_comments_link( $label = '', $max_page = 0 ) {
 	echo get_next_comments_link( $label, $max_page );
@@ -2712,7 +2712,7 @@ function next_comments_link( $label = '', $max_page = 0 ) {
  *
  * @since 2.7.1
  *
- * @param string $label Optional. Label for comments link text.
+ * @param string $label Optional. Label for comments link text. Default empty.
  * @return string|void HTML-formatted link for the previous page of comments.
  */
 function get_previous_comments_link( $label = '' ) {
@@ -2744,7 +2744,7 @@ function get_previous_comments_link( $label = '' ) {
  *
  * @since 2.7.0
  *
- * @param string $label Optional. Label for comments link text.
+ * @param string $label Optional. Label for comments link text. Default empty.
  */
 function previous_comments_link( $label = '' ) {
 	echo get_previous_comments_link( $label );
@@ -2758,10 +2758,10 @@ function previous_comments_link( $label = '' ) {
  *
  * @global WP_Rewrite $wp_rewrite
  *
- * @param string|array $args Optional args. See paginate_links().
+ * @param string|array $args Optional args. See paginate_links(). Default empty array.
  * @return string|void Markup for pagination links.
  */
-function paginate_comments_links($args = array()) {
+function paginate_comments_links( $args = array() ) {
 	global $wp_rewrite;
 
 	if ( ! is_singular() )
@@ -2799,8 +2799,10 @@ function paginate_comments_links($args = array()) {
  * @param array $args {
  *     Optional. Default comments navigation arguments.
  *
- *     @type string $prev_text          Anchor text to display in the previous comments link. Default 'Older comments'.
- *     @type string $next_text          Anchor text to display in the next comments link. Default 'Newer comments'.
+ *     @type string $prev_text          Anchor text to display in the previous comments link.
+ *                                      Default 'Older comments'.
+ *     @type string $next_text          Anchor text to display in the next comments link.
+ *                                      Default 'Newer comments'.
  *     @type string $screen_reader_text Screen reader text for nav element. Default 'Comments navigation'.
  * }
  * @return string Markup for comments links.
@@ -2838,7 +2840,7 @@ function get_the_comments_navigation( $args = array() ) {
  *
  * @since 4.4.0
  *
- * @param array $args See {@see get_the_comments_navigation()} for available arguments.
+ * @param array $args See get_the_comments_navigation() for available arguments. Default empty array.
  */
 function the_comments_navigation( $args = array() ) {
 	echo get_the_comments_navigation( $args );
@@ -2882,7 +2884,7 @@ function get_the_comments_pagination( $args = array() ) {
  *
  * @since 4.4.0
  *
- * @param array $args See {@see get_the_comments_pagination()} for available arguments.
+ * @param array $args See get_the_comments_pagination() for available arguments. Default empty array.
  */
 function the_comments_pagination( $args = array() ) {
 	echo get_the_comments_pagination( $args );
@@ -2892,6 +2894,9 @@ function the_comments_pagination( $args = array() ) {
  * Retrieves the Press This bookmarklet link.
  *
  * @since 2.6.0
+ *
+ * @global bool   $is_IE      Whether the browser matches an Internet Explorer user agent.
+ * @global string $wp_version WP version.
  *
  * @global bool          $is_IE
  * @global string        $wp_version
@@ -3033,7 +3038,7 @@ function get_home_url( $blog_id = null, $path = '', $scheme = null ) {
  *
  * @since 3.0.0
  *
- * @param string $path   Optional. Path relative to the site url.
+ * @param string $path   Optional. Path relative to the site url. Default empty.
  * @param string $scheme Optional. Scheme to give the site url context. See set_url_scheme().
  * @return string Site url link with optional path appended.
  */
@@ -3092,7 +3097,8 @@ function get_site_url( $blog_id = null, $path = '', $scheme = null ) {
  * @since 2.6.0
  *
  * @param string $path   Optional path relative to the admin url.
- * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl().
+ *                       'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended.
  */
 function admin_url( $path = '', $scheme = 'admin' ) {
@@ -3108,7 +3114,7 @@ function admin_url( $path = '', $scheme = 'admin' ) {
  * @param string $path    Optional. Path relative to the admin url. Default empty.
  * @param string $scheme  Optional. The scheme to use. Accepts 'http' or 'https',
  *                        to force those schemes. Default 'admin', which obeys
- *                        {@see force_ssl_admin()} and {@see is_ssl()}.
+ *                        force_ssl_admin() and is_ssl().
  * @return string Admin url link with optional path appended.
  */
 function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
@@ -3134,8 +3140,9 @@ function get_admin_url( $blog_id = null, $path = '', $scheme = 'admin' ) {
  *
  * @since 2.6.0
  *
- * @param string $path   Optional. Path relative to the includes url.
- * @param string $scheme Optional. Scheme to give the includes url context.
+ * @param string $path   Optional. Path relative to the includes url. Default empty.
+ * @param string $scheme Optional. Scheme to give the includes url context. Accepts
+ *                       'http', 'https', or 'relative'. Default null.
  * @return string Includes url link with optional path appended.
  */
 function includes_url( $path = '', $scheme = null ) {
@@ -3161,10 +3168,10 @@ function includes_url( $path = '', $scheme = null ) {
  *
  * @since 2.6.0
  *
- * @param string $path Optional. Path relative to the content url.
+ * @param string $path Optional. Path relative to the content url. Default empty.
  * @return string Content url link with optional path appended.
  */
-function content_url($path = '') {
+function content_url( $path = '' ) {
 	$url = set_url_scheme( WP_CONTENT_URL );
 
 	if ( $path && is_string( $path ) )
@@ -3242,8 +3249,11 @@ function plugins_url( $path = '', $plugin = '' ) {
  *
  * @since 3.0.0
  *
- * @param string $path   Optional. Path relative to the site url.
- * @param string $scheme Optional. Scheme to give the site url context. See set_url_scheme().
+ * @see set_url_scheme()
+ *
+ * @param string $path   Optional. Path relative to the site url. Default empty.
+ * @param string $scheme Optional. Scheme to give the site url context. Accepts
+ *                       'http', 'https', or 'relative'. Default null.
  * @return string Site url link with optional path appended.
  */
 function network_site_url( $path = '', $scheme = null ) {
@@ -3277,7 +3287,7 @@ function network_site_url( $path = '', $scheme = null ) {
 /**
  * Retrieves the home URL for the current network.
  *
- * Returns the home url with the appropriate protocol, 'https' {@see is_ssl()}
+ * Returns the home url with the appropriate protocol, 'https' is_ssl()
  * and 'http' otherwise. If `$scheme` is 'http' or 'https', `is_ssl()` is
  * overridden.
  *
@@ -3325,8 +3335,9 @@ function network_home_url( $path = '', $scheme = null ) {
  *
  * @since 3.0.0
  *
- * @param string $path   Optional path relative to the admin url.
- * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @param string $path   Optional path relative to the admin url. Default empty.
+ * @param string $scheme Optional. The scheme to use. Default is 'admin', which obeys force_ssl_admin()
+ *                       and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended.
  */
 function network_admin_url( $path = '', $scheme = 'admin' ) {
@@ -3355,8 +3366,9 @@ function network_admin_url( $path = '', $scheme = 'admin' ) {
  *
  * @since 3.0.0
  *
- * @param string $path   Optional path relative to the admin url.
- * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @param string $path   Optional. Path relative to the admin url. Default empty.
+ * @param string $scheme Optional. The scheme to use. Default is 'admin', which obeys force_ssl_admin()
+ *                       and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended.
  */
 function user_admin_url( $path = '', $scheme = 'admin' ) {
@@ -3382,11 +3394,12 @@ function user_admin_url( $path = '', $scheme = 'admin' ) {
  *
  * @since 3.1.0
  *
- * @param string $path   Optional path relative to the admin url.
- * @param string $scheme The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @param string $path   Optional. Path relative to the admin url. Default empty.
+ * @param string $scheme Optional. The scheme to use. Default is 'admin', which obeys force_ssl_admin()
+ *                       and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Admin url link with optional path appended.
  */
-function self_admin_url($path = '', $scheme = 'admin') {
+function self_admin_url( $path = '', $scheme = 'admin' ) {
 	if ( is_network_admin() )
 		return network_admin_url($path, $scheme);
 	elseif ( is_user_admin() )
@@ -3445,15 +3458,17 @@ function set_url_scheme( $url, $scheme = null ) {
 /**
  * Retrieves the URL to the user's dashboard.
  *
- * If a user does not belong to any site, the global user dashboard is used. If the user belongs to the current site,
- * the dashboard for the current site is returned. If the user cannot edit the current site, the dashboard to the user's
- * primary site is returned.
+ * If a user does not belong to any site, the global user dashboard is used. If the user
+ * belongs to the current site, the dashboard for the current site is returned. If the user
+ * cannot edit the current site, the dashboard to the user's primary site is returned.
  *
  * @since 3.1.0
  *
  * @param int    $user_id Optional. User ID. Defaults to current user.
- * @param string $path    Optional path relative to the dashboard. Use only paths known to both site and user admins.
- * @param string $scheme  The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl(). 'http' or 'https' can be passed to force those schemes.
+ * @param string $path    Optional path relative to the dashboard. Use only paths known to
+ *                        both site and user admins. Default empty.
+ * @param string $scheme  The scheme to use. Default is 'admin', which obeys force_ssl_admin()
+ *                        and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Dashboard url link with optional path appended.
  */
 function get_dashboard_url( $user_id = 0, $path = '', $scheme = 'admin' ) {
@@ -3497,8 +3512,8 @@ function get_dashboard_url( $user_id = 0, $path = '', $scheme = 'admin' ) {
  * @since 3.1.0
  *
  * @param int    $user_id Optional. User ID. Defaults to current user.
- * @param string $scheme  The scheme to use. Default is 'admin', which obeys force_ssl_admin() and is_ssl().
- *                        'http' or 'https' can be passed to force those schemes.
+ * @param string $scheme  Optional. The scheme to use. Default is 'admin', which obeys force_ssl_admin()
+ *                        and is_ssl(). 'http' or 'https' can be passed to force those schemes.
  * @return string Dashboard url link with optional path appended.
  */
 function get_edit_profile_url( $user_id = 0, $scheme = 'admin' ) {
@@ -3559,22 +3574,23 @@ function rel_canonical() {
 /**
  * Returns a shortlink for a post, page, attachment, or site.
  *
- * This function exists to provide a shortlink tag that all themes and plugins can target. A plugin must hook in to
- * provide the actual shortlinks. Default shortlink support is limited to providing ?p= style links for posts.
- * Plugins can short-circuit this function via the pre_get_shortlink filter or filter the output
- * via the get_shortlink filter.
+ * This function exists to provide a shortlink tag that all themes and plugins can target.
+ * A plugin must hook in to provide the actual shortlinks. Default shortlink support is
+ * limited to providing ?p= style links for posts. Plugins can short-circuit this function
+ * via the {@see 'pre_get_shortlink'} filter or filter the output via the {@see 'get_shortlink'} filter.
  *
  * @since 3.0.0.
  *
- * @param int    $id          A post or site id. Default is 0, which means the current post or site.
- * @param string $context     Whether the id is a 'site' id, 'post' id, or 'media' id.
- *                            If 'post', the post_type of the post is consulted.
- *                            If 'query', the current query is consulted to determine the id and context.
- *                            Default is 'post'.
- * @param bool   $allow_slugs Whether to allow post slugs in the shortlink. It is up to the plugin how and whether to honor this.
- * @return string A shortlink or an empty string if no shortlink exists for the requested resource or if shortlinks are not enabled.
+ * @param int    $id          Optional. A post or site id. Default is 0, which means the current post or site.
+ * @param string $context     Optional. Whether the id is a 'site' id, 'post' id, or 'media' id. If 'post',
+ *                            the post_type of the post is consulted. If 'query', the current query is consulted
+ *                            to determine the id and context. Default 'post'.
+ * @param bool   $allow_slugs Optional. Whether to allow post slugs in the shortlink. It is up to the plugin how
+ *                            and whether to honor this. Default true.
+ * @return string A shortlink or an empty string if no shortlink exists for the requested resource or if shortlinks
+ *                are not enabled.
  */
-function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
+function wp_get_shortlink( $id = 0, $context = 'post', $allow_slugs = true ) {
 	/**
 	 * Filters whether to preempt generating a shortlink for the given post.
 	 *
@@ -3633,7 +3649,7 @@ function wp_get_shortlink($id = 0, $context = 'post', $allow_slugs = true) {
 /**
  * Injects rel=shortlink into the head if a shortlink is defined for the current page.
  *
- * Attached to the wp_head action.
+ * Attached to the {@see 'wp_head'} action.
  *
  * @since 3.0.0
  */
@@ -3670,14 +3686,14 @@ function wp_shortlink_header() {
  *
  * Must be called from inside "The Loop"
  *
- * Call like the_shortlink(__('Shortlinkage FTW'))
+ * Call like the_shortlink( __( 'Shortlinkage FTW' ) )
  *
  * @since 3.0.0
  *
  * @param string $text   Optional The link text or HTML to be displayed. Defaults to 'This is the short link.'
  * @param string $title  Optional The tooltip for the link. Must be sanitized. Defaults to the sanitized post title.
- * @param string $before Optional HTML to display before the link.
- * @param string $after  Optional HTML to display after the link.
+ * @param string $before Optional HTML to display before the link. Default empty.
+ * @param string $after  Optional HTML to display after the link. Default empty.
  */
 function the_shortlink( $text = '', $title = '', $before = '', $after = '' ) {
 	$post = get_post();
