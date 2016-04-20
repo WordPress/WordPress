@@ -49,6 +49,7 @@
 				 */
 				context.fillText( stringFromCharCode( 55356, 57221 ), 0, 0 );
 				tonedata = context.getImageData( 16, 16, 1, 1 ).data;
+				tone = tonedata[0] + ',' + tonedata[1] + ',' + tonedata[2] + ',' + tonedata[3];
 
 				context.fillText( stringFromCharCode( 55356, 57221, 55356, 57343 ), 0, 0 );
 				// Chrome has issues comparing arrays, and Safari has issues converting arrays to strings.
