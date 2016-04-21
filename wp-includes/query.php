@@ -277,15 +277,13 @@ function is_tag( $tag = '' ) {
  * this function will additionally check if the query is for one of the terms
  * specified.
  *
- * Returns false for built-in taxonomies (category and tag archives).
- *
  * @since 2.5.0
  *
  * @global WP_Query $wp_query Global WP_Query instance.
  *
  * @param string|array     $taxonomy Optional. Taxonomy slug or slugs.
  * @param int|string|array $term     Optional. Term ID, name, slug or array of Term IDs, names, and slugs.
- * @return bool
+ * @return bool True for custom taxonomy archive pages, false for built-in taxonomies (category and tag archives).
  */
 function is_tax( $taxonomy = '', $term = '' ) {
 	global $wp_query;
@@ -4342,15 +4340,13 @@ class WP_Query {
 	 * this function will additionally check if the query is for one of the terms
 	 * specified.
 	 *
-	 * Returns false for built-in taxonomies (category and tag archives).
-	 *
 	 * @since 3.1.0
 	 *
 	 * @global array $wp_taxonomies
 	 *
 	 * @param mixed $taxonomy Optional. Taxonomy slug or slugs.
 	 * @param mixed $term     Optional. Term ID, name, slug or array of Term IDs, names, and slugs.
-	 * @return bool
+	 * @return bool True for custom taxonomy archive pages, false for built-in taxonomies (category and tag archives).
 	 */
 	public function is_tax( $taxonomy = '', $term = '' ) {
 		global $wp_taxonomies;
