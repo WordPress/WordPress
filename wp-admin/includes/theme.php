@@ -218,28 +218,9 @@ function get_theme_update_available( $theme ) {
 function get_theme_feature_list( $api = true ) {
 	// Hard-coded list is used if api not accessible.
 	$features = array(
-			__( 'Colors' ) => array(
-				'black'   => __( 'Black' ),
-				'blue'    => __( 'Blue' ),
-				'brown'   => __( 'Brown' ),
-				'gray'    => __( 'Gray' ),
-				'green'   => __( 'Green' ),
-				'orange'  => __( 'Orange' ),
-				'pink'    => __( 'Pink' ),
-				'purple'  => __( 'Purple' ),
-				'red'     => __( 'Red' ),
-				'silver'  => __( 'Silver' ),
-				'tan'     => __( 'Tan' ),
-				'white'   => __( 'White' ),
-				'yellow'  => __( 'Yellow' ),
-				'dark'    => __( 'Dark' ),
-				'light'   => __( 'Light' ),
-			),
 
 		__( 'Layout' ) => array(
-			'fixed-layout'      => __( 'Fixed Layout' ),
-			'fluid-layout'      => __( 'Fluid Layout' ),
-			'responsive-layout' => __( 'Responsive Layout' ),
+			'grid-layout'   => __( 'Grid Layout' ),
 			'one-column'    => __( 'One Column' ),
 			'two-columns'   => __( 'Two Columns' ),
 			'three-columns' => __( 'Three Columns' ),
@@ -250,7 +231,6 @@ function get_theme_feature_list( $api = true ) {
 
 		__( 'Features' ) => array(
 			'accessibility-ready'   => __( 'Accessibility Ready' ),
-			'blavatar'              => __( 'Blavatar' ),
 			'buddypress'            => __( 'BuddyPress' ),
 			'custom-background'     => __( 'Custom Background' ),
 			'custom-colors'         => __( 'Custom Colors' ),
@@ -260,6 +240,7 @@ function get_theme_feature_list( $api = true ) {
 			'featured-image-header' => __( 'Featured Image Header' ),
 			'featured-images'       => __( 'Featured Images' ),
 			'flexible-header'       => __( 'Flexible Header' ),
+			'footer-widgets'        => __( 'Footer Widgets' ),
 			'front-page-post-form'  => __( 'Front Page Posting' ),
 			'full-width-template'   => __( 'Full Width Template' ),
 			'microformats'          => __( 'Microformats' ),
@@ -272,9 +253,15 @@ function get_theme_feature_list( $api = true ) {
 		),
 
 		__( 'Subject' )  => array(
-			'holiday'       => __( 'Holiday' ),
-			'photoblogging' => __( 'Photoblogging' ),
-			'seasonal'      => __( 'Seasonal' ),
+			'blog'           => __( 'Blog' ),
+			'e-commerce'     => __( 'E-Commerce' ),
+			'education'      => __( 'Education' ),
+			'entertainment'  => __( 'Entertainment' ),
+			'food-and-drink' => __( 'Food & Drink' ),
+			'holiday'        => __( 'Holiday' ),
+			'news'           => __( 'News' ),
+			'photography'    => __( 'Photography' ),
+			'portfolio'      => __( 'Portfolio' ),
 		)
 	);
 
