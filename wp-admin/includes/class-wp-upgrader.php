@@ -976,6 +976,8 @@ class Plugin_Upgrader extends WP_Upgrader {
 		add_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'), 10, 2);
 		add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
 		//'source_selection' => array($this, 'source_selection'), //there's a trac ticket to move up the directory for zip's which are made a bit differently, useful for non-.org plugins.
+		// Clear cache so wp_update_plugins() knows about the new plugin.
+		add_action( 'upgrader_process_complete', 'wp_clean_plugins_cache', 9, 0 );
 
 		$this->run( array(
 			'package' => $r->package,
@@ -990,6 +992,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		) );
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
+		remove_action( 'upgrader_process_complete', 'wp_clean_plugins_cache', 9 );
 		remove_filter('upgrader_pre_install', array($this, 'deactivate_plugin_before_upgrade'));
 		remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
 
@@ -1032,6 +1035,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$current = get_site_transient( 'update_plugins' );
 
 		add_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'), 10, 4);
+		add_action( 'upgrader_process_complete', 'wp_clean_plugins_cache', 9, 0 );
 
 		$this->skin->header();
 
@@ -1126,6 +1130,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 		$this->skin->footer();
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
+		remove_action( 'upgrader_process_complete', 'wp_clean_plugins_cache', 9 );
 		remove_filter('upgrader_clear_destination', array($this, 'delete_old_plugin'));
 
 		// Force refresh of plugin update information.
@@ -1544,6 +1549,8 @@ class Theme_Upgrader extends WP_Upgrader {
 		add_filter('upgrader_pre_install', array($this, 'current_before'), 10, 2);
 		add_filter('upgrader_post_install', array($this, 'current_after'), 10, 2);
 		add_filter('upgrader_clear_destination', array($this, 'delete_old_theme'), 10, 4);
+		// Clear cache so wp_update_themes() knows about the new theme.
+		add_action( 'upgrader_process_complete', 'wp_clean_themes_cache', 9, 0 );
 
 		$this->run( array(
 			'package' => $r['package'],
@@ -1557,6 +1564,7 @@ class Theme_Upgrader extends WP_Upgrader {
 			),
 		) );
 
+		remove_action( 'upgrader_process_complete', 'wp_clean_themes_cache', 9 );
 		remove_filter('upgrader_pre_install', array($this, 'current_before'));
 		remove_filter('upgrader_post_install', array($this, 'current_after'));
 		remove_filter('upgrader_clear_destination', array($this, 'delete_old_theme'));
@@ -1601,6 +1609,8 @@ class Theme_Upgrader extends WP_Upgrader {
 		add_filter('upgrader_pre_install', array($this, 'current_before'), 10, 2);
 		add_filter('upgrader_post_install', array($this, 'current_after'), 10, 2);
 		add_filter('upgrader_clear_destination', array($this, 'delete_old_theme'), 10, 4);
+		// Clear cache so wp_update_themes() knows about the new theme.
+		add_action( 'upgrader_process_complete', 'wp_clean_themes_cache', 9, 0 );
 
 		$this->skin->header();
 
@@ -1677,6 +1687,7 @@ class Theme_Upgrader extends WP_Upgrader {
 		$this->skin->footer();
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
+		remove_action( 'upgrader_process_complete', 'wp_clean_themes_cache', 9 );
 		remove_filter('upgrader_pre_install', array($this, 'current_before'));
 		remove_filter('upgrader_post_install', array($this, 'current_after'));
 		remove_filter('upgrader_clear_destination', array($this, 'delete_old_theme'));
