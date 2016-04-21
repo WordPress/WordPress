@@ -193,7 +193,8 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 * 
 	 * @param string $command
 	 * @param bool $returnbool
-	 * @return bool|string
+	 * @return bool|string True on success, false on failure. String if the command was executed, `$returnbool`
+	 *                     is false (default), and data from the resulting stream was retrieved.
 	 */
 	public function run_command( $command, $returnbool = false ) {
 		if ( ! $this->link )
@@ -330,10 +331,10 @@ class WP_Filesystem_SSH2 extends WP_Filesystem_Base {
 	 *
 	 * @access public
 	 *
-	 * @param string     $file    Path to the file.
-	 * @param string|int $owner   A user name or number.
-	 * @param bool       $recursive Optional. If set True changes file owner recursivly. Defaults to False.
-	 * @return bool|string Returns true on success or false on failure.
+	 * @param string     $file      Path to the file.
+	 * @param string|int $owner     A user name or number.
+	 * @param bool       $recursive Optional. If set True changes file owner recursivly. Default False.
+	 * @return bool True on success or false on failure.
 	 */
 	public function chown( $file, $owner, $recursive = false ) {
 		if ( ! $this->exists($file) )
