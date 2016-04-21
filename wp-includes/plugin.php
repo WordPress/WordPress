@@ -479,7 +479,7 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
  * @param mixed  $arg,... Optional. Additional arguments which are passed on to the
  *                        functions hooked to the action. Default empty.
  */
-function do_action($tag, $arg = '') {
+function do_action($tag, $arg = null) {
 	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
 
 	if ( ! isset($wp_actions[$tag]) )
