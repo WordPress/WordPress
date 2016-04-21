@@ -1531,6 +1531,9 @@ class WP_Press_This {
 	do_action( 'admin_footer' );
 
 	/** This action is documented in wp-admin/admin-footer.php */
+	do_action( 'admin_print_footer_scripts-press-this.php' );
+
+	/** This action is documented in wp-admin/admin-footer.php */
 	do_action( 'admin_print_footer_scripts' );
 
 	/** This action is documented in wp-admin/admin-footer.php */

@@ -1651,11 +1651,19 @@ function iframe_footer() {
 	 * but run the hooks anyway since they output JavaScript
 	 * or other needed content.
 	 */
-	 ?>
+
+	/**
+	 * @global string $hook_suffix
+	 */
+	global $hook_suffix;
+	?>
 	<div class="hidden">
 <?php
 	/** This action is documented in wp-admin/admin-footer.php */
-	do_action( 'admin_footer', '' );
+	do_action( 'admin_footer', $hook_suffix );
+
+	/** This action is documented in wp-admin/admin-footer.php */
+	do_action( "admin_print_footer_scripts-$hook_suffix" );
 
 	/** This action is documented in wp-admin/admin-footer.php */
 	do_action( 'admin_print_footer_scripts' );
