@@ -2602,7 +2602,7 @@ function wp_ajax_send_attachment_to_editor() {
 		$rel = $rel ? ' rel="attachment wp-att-' . $id . '"' : ''; // Hard-coded string, $id is already sanitized
 
 		if ( ! empty( $url ) ) {
-			$html = '<a href="' . esc_url( $url ) . '"' . $rel . '">' . $html . '</a>';
+			$html = '<a href="' . esc_url( $url ) . '"' . $rel . '>' . $html . '</a>';
 		}
 	}
 
