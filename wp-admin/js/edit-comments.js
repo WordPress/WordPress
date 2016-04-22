@@ -566,6 +566,7 @@ setCommentsList = function() {
 commentReply = {
 	cid : '',
 	act : '',
+	originalContent : '',
 
 	init : function() {
 		var row = $('#replyrow');
@@ -649,6 +650,7 @@ commentReply = {
 		$( '.spinner', replyrow ).removeClass( 'is-active' );
 
 		this.cid = '';
+		this.originalContent = '';
 	},
 
 	open : function(comment_id, post_id, action) {
@@ -658,6 +660,10 @@ commentReply = {
 			h = c.height(),
 			colspanVal = 0;
 
+		if ( ! this.discardCommentChanges() ) {
+			return false;
+		}
+
 		t.close();
 		t.cid = comment_id;
 
@@ -666,6 +672,7 @@ commentReply = {
 		action = action || 'replyto';
 		act = 'edit' == action ? 'edit' : 'replyto';
 		act = t.act = act + '-comment';
+		t.originalContent = $('textarea.comment', rowData).val();
 		colspanVal = $( '> th:visible, > td:visible', c ).length;
 
 		// Make sure it's actually a table and there's a `colspan` value to apply.
@@ -853,6 +860,22 @@ commentReply = {
 			$('table.comments-box').css('display', '');
 			$('#no-comments').remove();
 		});
+	},
+
+	/**
+	 * Alert the user if they have unsaved changes on a comment that will be
+	 * lost if they proceed.
+	 *
+	 * @returns {boolean}
+	 */
+	discardCommentChanges: function() {
+		var editRow = $( '#replyrow' );
+
+		if  ( this.originalContent === $( '#replycontent', editRow ).val() ) {
+			return true;
+		}
+
+		return window.confirm( adminCommentsL10n.warnCommentChanges );
 	}
 };
 

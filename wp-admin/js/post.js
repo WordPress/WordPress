@@ -272,6 +272,14 @@ jQuery(document).ready( function($) {
 
 			if ( typeof commentReply !== 'undefined' ) {
 				/*
+				 * Warn the user they have an unsaved comment before submitting
+				 * the post data for update.
+				 */
+				if ( ! commentReply.discardCommentChanges() ) {
+					return false;
+				}
+
+				/*
 				 * Close the comment edit/reply form if open to stop the form
 				 * action from interfering with the post's form action.
 				 */
