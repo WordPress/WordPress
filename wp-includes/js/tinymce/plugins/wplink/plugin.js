@@ -488,7 +488,7 @@
 				edit = $linkNode.attr( 'data-wplink-edit' );
 
 				if ( href === '_wp_link_placeholder' || edit ) {
-					if ( edit && ! inputInstance.getURL() ) {
+					if ( href !== '_wp_link_placeholder' && ! inputInstance.getURL() ) {
 						inputInstance.setURL( href );
 					}
 
