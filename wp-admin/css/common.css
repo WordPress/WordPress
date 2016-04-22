@@ -1798,6 +1798,11 @@ html.wp-toolbar {
 	margin: 0.6em 0;
 }
 
+.widefat .column-comment ul {
+	list-style: initial;
+	margin-left: 2em;
+}
+
 /* Screens with postboxes */
 .postbox-container {
 	float: left;
