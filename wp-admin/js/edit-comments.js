@@ -220,12 +220,15 @@ setCommentsList = function() {
 			if ( settings.data.id == replyID )
 				replyButton.text(adminCommentsL10n.replyApprove);
 
-			c.find('div.comment_status').html('0');
+			c.find( '.row-actions span.view' ).addClass( 'hidden' ).end()
+				.find( 'div.comment_status' ).html( '0' );
+
 		} else {
 			if ( settings.data.id == replyID )
 				replyButton.text(adminCommentsL10n.reply);
 
-			c.find('div.comment_status').html('1');
+			c.find( '.row-actions span.view' ).removeClass( 'hidden' ).end()
+				.find( 'div.comment_status' ).html( '1' );
 		}
 
 		diff = $('#' + settings.element).is('.' + settings.dimClass) ? 1 : -1;
