@@ -336,7 +336,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	protected function get_sortable_columns() {
 		$c = array(
 			'username' => 'login',
-			'name'     => 'name',
 			'email'    => 'email',
 		);
 
