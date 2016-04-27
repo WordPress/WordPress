@@ -693,7 +693,7 @@ if ( !function_exists('wp_generate_auth_cookie') ) :
  * @since 2.5.0
  *
  * @param int    $user_id    User ID
- * @param int    $expiration Cookie expiration in seconds
+ * @param int    $expiration The time the cookie expires as a UNIX timestamp.
  * @param string $scheme     Optional. The cookie scheme to use: auth, secure_auth, or logged_in
  * @param string $token      User's session token to use for this cookie
  * @return string Authentication cookie contents. Empty string if user does not exist.
@@ -726,7 +726,7 @@ function wp_generate_auth_cookie( $user_id, $expiration, $scheme = 'auth', $toke
 	 *
 	 * @param string $cookie     Authentication cookie.
 	 * @param int    $user_id    User ID.
-	 * @param int    $expiration Authentication cookie expiration in seconds.
+	 * @param int    $expiration The time the cookie expires as a UNIX timestamp.
 	 * @param string $scheme     Cookie scheme used. Accepts 'auth', 'secure_auth', or 'logged_in'.
 	 * @param string $token      User's session token used.
 	 */
@@ -873,23 +873,25 @@ function wp_set_auth_cookie( $user_id, $remember = false, $secure = '', $token =
 	 * @since 2.5.0
 	 *
 	 * @param string $auth_cookie Authentication cookie.
-	 * @param int    $expire      Login grace period in seconds. Default 43,200 seconds, or 12 hours.
-	 * @param int    $expiration  Duration in seconds the authentication cookie should be valid.
-	 *                            Default 1,209,600 seconds, or 14 days.
+	 * @param int    $expire      The time the login grace period expires as a UNIX timestamp.
+	 *                            Default is 12 hours past the cookie's expiration time.
+	 * @param int    $expiration  The time when the authentication cookie expires as a UNIX timestamp.
+	 *                            Default is 14 days from now.
 	 * @param int    $user_id     User ID.
 	 * @param string $scheme      Authentication scheme. Values include 'auth', 'secure_auth', or 'logged_in'.
 	 */
 	do_action( 'set_auth_cookie', $auth_cookie, $expire, $expiration, $user_id, $scheme );
 
 	/**
-	 * Fires immediately before the secure authentication cookie is set.
+	 * Fires immediately before the logged-in authentication cookie is set.
 	 *
 	 * @since 2.6.0
 	 *
 	 * @param string $logged_in_cookie The logged-in cookie.
-	 * @param int    $expire           Login grace period in seconds. Default 43,200 seconds, or 12 hours.
-	 * @param int    $expiration       Duration in seconds the authentication cookie should be valid.
-	 *                                 Default 1,209,600 seconds, or 14 days.
+	 * @param int    $expire           The time the login grace period expires as a UNIX timestamp.
+	 *                                 Default is 12 hours past the cookie's expiration time.
+	 * @param int    $expiration       The time when the logged-in authentication cookie expires as a UNIX timestamp.
+	 *                                 Default is 14 days from now.
 	 * @param int    $user_id          User ID.
 	 * @param string $scheme           Authentication scheme. Default 'logged_in'.
 	 */
