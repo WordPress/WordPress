@@ -2036,6 +2036,11 @@ function get_password_reset_key( $user ) {
 	 */
 	do_action( 'retrieve_password', $user->user_login );
 
+	$allow = true;
+	if ( is_multisite() && is_user_spammy( $user ) ) {
+		$allow = false;
+	}
+
 	/**
 	 * Filter whether to allow a password to be reset.
 	 *
@@ -2044,7 +2049,7 @@ function get_password_reset_key( $user ) {
 	 * @param bool $allow         Whether to allow the password to be reset. Default true.
 	 * @param int  $user_data->ID The ID of the user attempting to reset a password.
 	 */
-	$allow = apply_filters( 'allow_password_reset', true, $user->ID );
+	$allow = apply_filters( 'allow_password_reset', $allow, $user->ID );
 
 	if ( ! $allow ) {
 		return new WP_Error( 'no_password_reset', __( 'Password reset is not allowed for this user' ) );
