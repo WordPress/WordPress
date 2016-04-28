@@ -347,6 +347,7 @@ div#widgets-right .closed .widgets-sortables {
 .js .widgets-holder-wrap.closed .widget,
 .js .widgets-holder-wrap.closed .sidebar-description,
 .js .widgets-holder-wrap.closed .remove-inactive-widgets,
+.js .widgets-holder-wrap.closed .description,
 .js .closed br.clear {
 	display: none;
 }
