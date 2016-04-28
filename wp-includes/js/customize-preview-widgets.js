@@ -372,7 +372,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 				}
 
 				widgetContainerElement = $(
-					sidebarPartial.params.sidebarArgs.before_widget.replace( '%1$s', widgetId ).replace( '%2$s', 'widget' ) +
+					sidebarPartial.params.sidebarArgs.before_widget.replace( /%1\$s/g, widgetId ).replace( /%2\$s/g, 'widget' ) +
 					sidebarPartial.params.sidebarArgs.after_widget
 				);
 
@@ -511,7 +511,7 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 
 		$.each( self.registeredSidebars, function( i, sidebar ) {
 			var widgetTpl = [
-					sidebar.before_widget.replace( '%1$s', '' ).replace( '%2$s', '' ),
+					sidebar.before_widget,
 					sidebar.before_title,
 					sidebar.after_title,
 					sidebar.after_widget
@@ -524,12 +524,14 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 			widgetSelector = emptyWidget.prop( 'tagName' );
 			widgetClasses = emptyWidget.prop( 'className' );
 
+			// Remove class names that incorporate the string formatting placeholders %1$s and %2$s.
+			widgetClasses = widgetClasses.replace( /\S*%[12]\$s\S*/g, '' );
+			widgetClasses = widgetClasses.replace( /^\s+|\s+$/g, '' );
+
 			// Prevent a rare case when before_widget, before_title, after_title and after_widget is empty.
 			if ( ! widgetClasses ) {
 				return;
 			}
-
-			widgetClasses = widgetClasses.replace( /^\s+|\s+$/g, '' );
 
 			if ( widgetClasses ) {
 				widgetSelector += '.' + widgetClasses.split( /\s+/ ).join( '.' );
