@@ -49,24 +49,34 @@ class WP_Widget_Factory {
 	 * Registers a widget subclass.
 	 *
 	 * @since 2.8.0
+	 * @since 4.6.0 The `$widget` param can also be an instance object of `WP_Widget` instead of just a `WP_Widget` subclass name.
 	 * @access public
 	 *
-	 * @param string $widget_class The name of a WP_Widget subclass.
+	 * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
 	 */
-	public function register( $widget_class ) {
-		$this->widgets[$widget_class] = new $widget_class();
+	public function register( $widget ) {
+		if ( $widget instanceof WP_Widget ) {
+			$this->widgets[ spl_object_hash( $widget ) ] = $widget;
+		} else {
+			$this->widgets[ $widget ] = new $widget();
+		}
 	}
 
 	/**
 	 * Un-registers a widget subclass.
 	 *
 	 * @since 2.8.0
+	 * @since 4.6.0 The `$widget` param can also be an instance object of `WP_Widget` instead of just a `WP_Widget` subclass name.
 	 * @access public
 	 *
-	 * @param string $widget_class The name of a WP_Widget subclass.
+	 * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
 	 */
-	public function unregister( $widget_class ) {
-		unset( $this->widgets[ $widget_class ] );
+	public function unregister( $widget ) {
+		if ( $widget instanceof WP_Widget ) {
+			unset( $this->widgets[ spl_object_hash( $widget ) ] );
+		} else {
+			unset( $this->widgets[ $widget ] );
+		}
 	}
 
 	/**
