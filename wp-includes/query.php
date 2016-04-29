@@ -1593,7 +1593,7 @@ class WP_Query {
 		$qv['monthnum'] = absint($qv['monthnum']);
 		$qv['day'] = absint($qv['day']);
 		$qv['w'] = absint($qv['w']);
-		$qv['m'] = preg_replace( '|[^0-9]|', '', $qv['m'] );
+		$qv['m'] = is_scalar( $qv['m'] ) ? preg_replace( '|[^0-9]|', '', $qv['m'] ) : '';
 		$qv['paged'] = absint($qv['paged']);
 		$qv['cat'] = preg_replace( '|[^0-9,-]|', '', $qv['cat'] ); // comma separated list of positive or negative integers
 		$qv['author'] = preg_replace( '|[^0-9,-]|', '', $qv['author'] ); // comma separated list of positive or negative integers
