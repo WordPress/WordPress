@@ -287,7 +287,7 @@ class Walker_Comment extends Walker {
 			?>
 		</div>
 
-		<?php comment_text( get_comment_id(), array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
+		<?php comment_text( $comment, array_merge( $args, array( 'add_below' => $add_below, 'depth' => $depth, 'max_depth' => $args['max_depth'] ) ) ); ?>
 
 		<?php
 		comment_reply_link( array_merge( $args, array(
