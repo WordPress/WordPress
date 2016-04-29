@@ -578,6 +578,25 @@ function get_blogs_of_user( $user_id, $all = false ) {
 	if ( empty( $user_id ) )
 		return array();
 
+	/**
+	 * Filter the list of a user's sites before it is populated.
+	 *
+	 * Passing a non-null value to the filter will effectively short circuit
+	 * get_blogs_of_user(), returning that value instead.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param null|array $blogs   An array of WP_Site objects of which the user is a member.
+	 * @param int        $user_id User ID.
+	 * @param bool       $all     Whether the returned array should contain all sites, including
+	 *                            those marked 'deleted', 'archived', or 'spam'. Default false.
+	 */
+	$blogs = apply_filters( 'pre_get_blogs_of_user', null, $user_id, $all );
+
+	if ( null !== $blogs ) {
+		return $blogs;
+	}
+
 	$keys = get_user_meta( $user_id );
 	if ( empty( $keys ) )
 		return array();
