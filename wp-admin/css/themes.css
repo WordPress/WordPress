@@ -1397,9 +1397,10 @@ body.full-overlay-active {
 /* Collapse Button */
 .wp-core-ui .wp-full-overlay .collapse-sidebar {
 	position: fixed;
-	bottom: 8px;
-	left: 10px;
-	padding: 0;
+	bottom: 0;
+	left: 0;
+	padding: 9px 0 9px 10px;
+	height: 45px;
 	color: #656a6f;
 	outline: 0;
 	line-height: 1;
@@ -1461,6 +1462,10 @@ body.full-overlay-active {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.wp-core-ui .wp-full-overlay.collapsed .collapse-sidebar {
+	padding: 9px 10px;
+}
+
 /* rtl:ignore */
 .wp-full-overlay.collapsed .collapse-sidebar-arrow:before,
 .rtl .wp-full-overlay .collapse-sidebar-arrow:before {
@@ -1503,6 +1508,7 @@ body.full-overlay-active {
 	width: 300px;
 	height: 45px;
 	border-top: 1px solid #ddd;
+	background: #eee;
 }
 
 .wp-full-overlay-footer .devices {
