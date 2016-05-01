@@ -6123,6 +6123,7 @@ function wp_add_trashed_suffix_to_post_name_for_trashed_posts( $post_name, $post
  * @access private
  *
  * @param WP_Post $post The post.
+ * @return string The new slug.
  */
 function wp_add_trashed_suffix_to_post_name_for_post( $post ) {
 	global $wpdb;
