@@ -437,7 +437,7 @@ final class WP_Theme implements ArrayAccess {
 	 * translated data. We are doing so now as it is safe to do. However, as
 	 * Name and Title could have been used as the key for get_themes(), both remain
 	 * untranslated for back compatibility. This means that ['Name'] is not ideal,
-	 * and care should be taken to use $theme->display('Name') to get a properly
+	 * and care should be taken to use `$theme::display( 'Name' )` to get a properly
 	 * translated header.
 	 *
 	 * @param mixed $offset
