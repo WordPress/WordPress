@@ -2097,7 +2097,8 @@ h3.nav-tab-wrapper {
 	margin: 4px 10px 0;
 }
 
-.spinner.is-active {
+.spinner.is-active,
+.loading-content .spinner {
 	visibility: visible;
 }
 
