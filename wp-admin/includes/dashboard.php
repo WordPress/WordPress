@@ -263,7 +263,7 @@ function wp_dashboard_right_now() {
 	}
 	// Comments
 	$num_comm = wp_count_comments();
-	if ( $num_comm && $num_comm->approved ) {
+	if ( $num_comm && ( $num_comm->approved || $num_comm->moderated ) ) {
 		$text = sprintf( _n( '%s Comment', '%s Comments', $num_comm->approved ), number_format_i18n( $num_comm->approved ) );
 		?>
 		<li class="comment-count"><a href="edit-comments.php"><?php echo $text; ?></a></li>
