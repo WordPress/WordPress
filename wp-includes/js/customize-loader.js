@@ -150,12 +150,6 @@ window.wp = window.wp || {};
 			// Prompt AYS dialog when navigating away
 			$( window ).on( 'beforeunload', this.beforeunload );
 
-			this.messenger.bind( 'activated', function( location ) {
-				if ( location ) {
-					window.location = location;
-				}
-			});
-
 			this.messenger.bind( 'saved', function () {
 				Loader.saved( true );
 			} );

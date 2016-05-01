@@ -3722,17 +3722,6 @@
 			});
 		} );
 
-		/*
-		 * When activated, let the loader handle redirecting the page.
-		 * If no loader exists, redirect the page ourselves (if a url exists).
-		 */
-		api.bind( 'activated', function() {
-			if ( parent.targetWindow() )
-				parent.send( 'activated', api.settings.url.activated );
-			else if ( api.settings.url.activated )
-				window.location = api.settings.url.activated;
-		});
-
 		// Pass titles to the parent
 		api.bind( 'title', function( newTitle ) {
 			parent.send( 'title', newTitle );
