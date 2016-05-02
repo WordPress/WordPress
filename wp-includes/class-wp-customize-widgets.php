@@ -1064,7 +1064,7 @@ final class WP_Customize_Widgets {
 	 * @return array
 	 */
 	public function preview_sidebars_widgets( $sidebars_widgets ) {
-		$sidebars_widgets = get_option( 'sidebars_widgets' );
+		$sidebars_widgets = get_option( 'sidebars_widgets', array() );
 
 		unset( $sidebars_widgets['array_version'] );
 		return $sidebars_widgets;
