@@ -10,8 +10,9 @@
 /**
  * Core base class extended to register widgets.
  *
- * This class must be extended for each widget and WP_Widget::widget(), WP_Widget::update()
- * and WP_Widget::form() need to be overridden.
+ * This class must be extended for each widget, and WP_Widget::widget() must be overriden.
+ *
+ * If adding widget options, WP_Widget::update() and WP_Widget::form() should also be overridden.
  *
  * @since 2.8.0
  * @since 4.4.0 Moved to its own file from wp-includes/widgets.php
