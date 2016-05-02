@@ -4428,11 +4428,12 @@ function _page_traverse_name( $page_id, &$children, &$result ){
  * Sub pages will be in the "directory" under the parent page post name.
  *
  * @since 1.5.0
+ * @since 4.6.0 The $page parameter is optional.
  *
- * @param WP_Post|object|int $page Page object or page ID.
+ * @param WP_Post|object|int $page Optional. Page ID or WP_Post object. Default is global $post.
  * @return string|false Page URI, false on error.
  */
-function get_page_uri( $page ) {
+function get_page_uri( $page = 0 ) {
 	if ( ! $page instanceof WP_Post ) {
 		$page = get_post( $page );
 	}
