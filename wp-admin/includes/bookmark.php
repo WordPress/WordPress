@@ -131,11 +131,11 @@ function wp_get_link_cats( $link_id = 0 ) {
  *
  * @since 2.0.0
  *
- * @param int|stdClass $link_id Link ID or object to retrieve.
+ * @param int|stdClass $link Link ID or object to retrieve.
  * @return object Link object for editing.
  */
-function get_link_to_edit( $link_id ) {
-	return get_bookmark( $link_id, OBJECT, 'edit' );
+function get_link_to_edit( $link ) {
+	return get_bookmark( $link, OBJECT, 'edit' );
 }
 
 /**
