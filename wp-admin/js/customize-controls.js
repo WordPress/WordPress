@@ -3647,6 +3647,44 @@
 			overlay.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
 		});
 
+		// Keyboard shortcuts - esc to exit section/panel.
+		$( 'body' ).on( 'keydown', function( event ) {
+			var collapsedObject, expandedControls = [], expandedSections = [], expandedPanels = [];
+
+			if ( 27 !== event.which ) { // Esc.
+				return;
+			}
+
+			// Check for expanded expandable controls (e.g. widgets and nav menus items), sections, and panels.
+			api.control.each( function( control ) {
+				if ( control.expanded && control.expanded() && _.isFunction( control.collapse ) ) {
+					expandedControls.push( control );
+				}
+			});
+			api.section.each( function( section ) {
+				if ( section.expanded() ) {
+					expandedSections.push( section );
+				}
+			});
+			api.panel.each( function( panel ) {
+				if ( panel.expanded() ) {
+					expandedPanels.push( panel );
+				}
+			});
+
+			// Skip collapsing expanded controls if there are no expanded sections.
+			if ( expandedControls.length > 0 && 0 === expandedSections.length ) {
+				expandedControls.length = 0;
+			}
+
+			// Collapse the most granular expanded object.
+			collapsedObject = expandedControls[0] || expandedSections[0] || expandedPanels[0];
+			if ( collapsedObject ) {
+				collapsedObject.collapse();
+				event.preventDefault();
+			}
+		});
+
 		$( '.customize-controls-preview-toggle' ).on( 'click', function() {
 			overlay.toggleClass( 'preview-only' );
 		});
