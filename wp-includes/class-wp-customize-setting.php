@@ -657,11 +657,13 @@ class WP_Customize_Setting {
 			 * functions for available hooks.
 			 *
 			 * @since 3.4.0
+			 * @since 4.6.0 Added the `$this` setting instance as the second param.
 			 *
-			 * @param mixed $default The setting default value. Default empty.
+			 * @param mixed                $default The setting default value. Default empty.
+			 * @param WP_Customize_Setting $this    The setting instance.
 			 */
-			$value = apply_filters( "customize_value_{$id_base}", $value );
-		} else if ( $this->is_multidimensional_aggregated ) {
+			$value = apply_filters( "customize_value_{$id_base}", $value, $this );
+		} elseif ( $this->is_multidimensional_aggregated ) {
 			$root_value = self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
 			$value = $this->multidimensional_get( $root_value, $this->id_data['keys'], $this->default );
 		} else {
