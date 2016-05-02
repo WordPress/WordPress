@@ -131,7 +131,7 @@ function wp_get_link_cats( $link_id = 0 ) {
  *
  * @since 2.0.0
  *
- * @param int $link_id ID of link to retrieve.
+ * @param int|stdClass $link_id Link ID or object to retrieve.
  * @return object Link object for editing.
  */
 function get_link_to_edit( $link_id ) {
