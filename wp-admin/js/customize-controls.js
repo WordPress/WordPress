@@ -3327,9 +3327,15 @@
 				var self = this,
 					processing = api.state( 'processing' ),
 					submitWhenDoneProcessing,
-					submit;
+					submit,
+					modifiedWhileSaving = {};
 
 				body.addClass( 'saving' );
+
+				function captureSettingModifiedDuringSave( setting ) {
+					modifiedWhileSaving[ setting.id ] = true;
+				}
+				api.bind( 'change', captureSettingModifiedDuringSave );
 
 				submit = function () {
 					var request, query;
@@ -3338,10 +3344,15 @@
 					} );
 					request = wp.ajax.post( 'customize_save', query );
 
+					// Disable save button during the save request.
+					saveBtn.prop( 'disabled', true );
+
 					api.trigger( 'save', request );
 
 					request.always( function () {
 						body.removeClass( 'saving' );
+						saveBtn.prop( 'disabled', false );
+						api.unbind( 'change', captureSettingModifiedDuringSave );
 					} );
 
 					request.fail( function ( response ) {
@@ -3365,14 +3376,22 @@
 					} );
 
 					request.done( function( response ) {
-						// Clear setting dirty states
-						api.each( function ( value ) {
-							value._dirty = false;
+
+						// Clear setting dirty states, if setting wasn't modified while saving.
+						api.each( function( setting ) {
+							if ( ! modifiedWhileSaving[ setting.id ] ) {
+								setting._dirty = false;
+							}
 						} );
 
 						api.previewer.send( 'saved', response );
 
 						api.trigger( 'saved', response );
+
+						// Restore the global dirty state if any settings were modified during save.
+						if ( ! _.isEmpty( modifiedWhileSaving ) ) {
+							api.state( 'saved' ).set( false );
+						}
 					} );
 				};
 
