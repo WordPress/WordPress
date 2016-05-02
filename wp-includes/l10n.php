@@ -619,7 +619,7 @@ function unload_textdomain( $domain ) {
  *
  * @since 1.5.0
  *
- * @param string $locale Optional. Locale to load. Default is the value of {@see get_locale()}.
+ * @param string $locale Optional. Locale to load. Default is the value of get_locale().
  * @return bool Whether the textdomain was loaded.
  */
 function load_default_textdomain( $locale = null ) {

@@ -542,7 +542,7 @@ function delete_user_option( $user_id, $option_name, $global = false ) {
  *
  * @see WP_User_Query
  *
- * @param array $args Optional. Arguments to retrieve users. See {@see WP_User_Query::prepare_query()}
+ * @param array $args Optional. Arguments to retrieve users. See WP_User_Query::prepare_query().
  *                    for more information on accepted arguments.
  * @return array List of users.
  */
@@ -967,7 +967,7 @@ function setup_userdata($for_user_id = '') {
  *
  * @param array|string $args {
  *     Optional. Array or string of arguments to generate a drop-down of users.
- *     {@see WP_User_Query::prepare_query() for additional available arguments.
+ *     See WP_User_Query::prepare_query() for additional available arguments.
  *
  *     @type string       $show_option_all         Text to show as the drop-down default (all).
  *                                                 Default empty.
@@ -1918,7 +1918,7 @@ All at ###SITENAME###
  * A simpler way of inserting a user into the database.
  *
  * Creates a new user with just the username, password, and email. For more
- * complex user creation use {@see wp_insert_user()} to specify more information.
+ * complex user creation use wp_insert_user() to specify more information.
  *
  * @since 2.0.0
  * @see wp_insert_user() More complete way to create a new user

@@ -381,7 +381,7 @@ class WP_Customize_Control {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param WP_Customize_Control $this {@see WP_Customize_Control} instance.
+		 * @param WP_Customize_Control $this WP_Customize_Control instance.
 		 */
 		do_action( 'customize_render_control_' . $this->id, $this );
 
@@ -570,7 +570,7 @@ class WP_Customize_Control {
 	 * Render the control's JS template.
 	 *
 	 * This function is only run for control types that have been registered with
-	 * {@see WP_Customize_Manager::register_control_type()}.
+	 * WP_Customize_Manager::register_control_type().
 	 *
 	 * In the future, this will also print the template for the control's container
 	 * element and be override-able.
@@ -589,7 +589,7 @@ class WP_Customize_Control {
 	 * An Underscore (JS) template for this control's content (but not its container).
 	 *
 	 * Class variables for this control class are available in the `data` JS object;
-	 * export custom variables by overriding {@see WP_Customize_Control::to_json()}.
+	 * export custom variables by overriding WP_Customize_Control::to_json().
 	 *
 	 * @see WP_Customize_Control::print_template()
 	 *

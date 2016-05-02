@@ -534,7 +534,7 @@ function wp_update_nav_menu_item( $menu_id = 0, $menu_item_db_id = 0, $menu_item
  * @since 4.1.0 Default value of the 'orderby' argument was changed from 'none'
  *              to 'name'.
  *
- * @param array $args Optional. Array of arguments passed on to {@see get_terms()}.
+ * @param array $args Optional. Array of arguments passed on to get_terms().
  *                    Default empty array.
  * @return array Menu objects.
  */
@@ -611,7 +611,7 @@ function _is_valid_nav_menu_item( $item ) {
  * @staticvar array $fetched
  *
  * @param string $menu Menu name, ID, or slug.
- * @param array  $args Optional. Arguments to pass to {@see get_posts()}.
+ * @param array  $args Optional. Arguments to pass to get_posts().
  * @return false|array $items Array of menu items, otherwise false.
  */
 function wp_get_nav_menu_items( $menu, $args = array() ) {

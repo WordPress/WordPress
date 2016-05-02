@@ -1536,7 +1536,7 @@ function wp_get_referer() {
 /**
  * Retrieves unvalidated referer from '_wp_http_referer' or HTTP referer.
  *
- * Do not use for redirects, use {@see wp_get_referer()} instead.
+ * Do not use for redirects, use wp_get_referer() instead.
  *
  * @since 4.5.0
  *
@@ -2531,7 +2531,7 @@ function wp_nonce_ays( $action ) {
  * @since 4.1.0 The `$title` and `$args` parameters were changed to optionally accept
  *              an integer to be used as the response code.
  *
- * @param string|WP_Error  $message Optional. Error message. If this is a {@see WP_Error} object,
+ * @param string|WP_Error  $message Optional. Error message. If this is a WP_Error object,
  *                                  the error's messages are used. Default empty.
  * @param string|int       $title   Optional. Error title. If `$message` is a `WP_Error` object,
  *                                  error data with the key 'title' may be used to specify the title.
@@ -2545,7 +2545,7 @@ function wp_nonce_ays( $action ) {
  *     @type bool   $back_link      Whether to include a link to go back. Default false.
  *     @type string $text_direction The text direction. This is only useful internally, when WordPress
  *                                  is still loading and the site's locale is not set up yet. Accepts 'rtl'.
- *                                  Default is the value of {@see is_rtl()}.
+ *                                  Default is the value of is_rtl().
  * }
  */
 function wp_die( $message = '', $title = '', $args = array() ) {
@@ -3072,14 +3072,13 @@ function wp_send_json_success( $data = null ) {
 /**
  * Send a JSON response back to an Ajax request, indicating failure.
  *
- * If the `$data` parameter is a {@see WP_Error} object, the errors
+ * If the `$data` parameter is a WP_Error object, the errors
  * within the object are processed and output as an array of error
  * codes and corresponding messages. All other types are output
  * without further processing.
  *
  * @since 3.5.0
- * @since 4.1.0 The `$data` parameter is now processed if a {@see WP_Error}
- *              object is passed in.
+ * @since 4.1.0 The `$data` parameter is now processed if a WP_Error object is passed in.
  *
  * @param mixed $data Data to encode as JSON, then print and die.
  */

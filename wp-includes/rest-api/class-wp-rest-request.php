@@ -20,8 +20,7 @@
  * does not distinguish between arguments of the same name for different request methods.
  * For instance, in a request with `GET id=1` and `POST id=2`, `$request['id']` will equal
  * 2 (`POST`) not 1 (`GET`). For more precision between request methods, use
- * {@see WP_REST_Request::get_body_params()}, {@see WP_REST_Request::get_url_params()},
- * etc.
+ * WP_REST_Request::get_body_params(), WP_REST_Request::get_url_params(), etc.
  *
  * @since 4.4.0
  *

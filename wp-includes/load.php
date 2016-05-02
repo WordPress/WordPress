@@ -657,7 +657,7 @@ function wp_clone( $object ) {
 /**
  * Whether the current request is for an administrative interface page.
  *
- * Does not check if the user is an administrator; {@see current_user_can()}
+ * Does not check if the user is an administrator; current_user_can()
  * for checking roles and capabilities.
  *
  * @since 1.5.1
@@ -680,7 +680,7 @@ function is_admin() {
  *
  * e.g. `/wp-admin/`
  *
- * Does not check if the user is an administrator; {@see current_user_can()}
+ * Does not check if the user is an administrator; current_user_can()
  * for checking roles and capabilities.
  *
  * @since 3.1.0
@@ -703,7 +703,7 @@ function is_blog_admin() {
  *
  * e.g. `/wp-admin/network/`
  *
- * Does not check if the user is an administrator; {@see current_user_can()}
+ * Does not check if the user is an administrator; current_user_can()
  * for checking roles and capabilities.
  *
  * @since 3.1.0
@@ -728,7 +728,7 @@ function is_network_admin() {
  *
  * Does not inform on whether the user is an admin! Use capability
  * checks to tell if the user should be accessing a section or not
- * {@see current_user_can()}.
+ * current_user_can().
  *
  * @since 3.1.0
  *

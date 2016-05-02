@@ -190,7 +190,7 @@ function edit_user( $user_id = 0 ) {
 		  * @since 4.4.0
 		  *
 		  * @param int    $user_id ID of the newly created user.
-		  * @param string $notify  Type of notification that should happen. See {@see wp_send_new_user_notifications()}
+		  * @param string $notify  Type of notification that should happen. See wp_send_new_user_notifications()
 		  *                        for more information on possible values.
 		  */
 		do_action( 'edit_user_created_user', $user_id, $notify );

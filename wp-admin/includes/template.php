@@ -1428,16 +1428,16 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
 }
 
 /**
- * Display settings errors registered by {@see add_settings_error()}.
+ * Display settings errors registered by add_settings_error().
  *
  * Part of the Settings API. Outputs a div for each error retrieved by
- * {@see get_settings_errors()}.
+ * get_settings_errors().
  *
  * This is called automatically after a settings page based on the
  * Settings API is submitted. Errors should be added during the validation
- * callback function for a setting defined in {@see register_setting()}
+ * callback function for a setting defined in register_setting().
  *
- * The $sanitize option is passed into {@see get_settings_errors()} and will
+ * The $sanitize option is passed into get_settings_errors() and will
  * re-run the setting sanitization
  * on its current value.
  *
@@ -1451,7 +1451,8 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
  *
  * @param string $setting        Optional slug title of a specific setting who's errors you want.
  * @param bool   $sanitize       Whether to re-sanitize the setting value before returning errors.
- * @param bool   $hide_on_update If set to true errors will not be shown if the settings page has already been submitted.
+ * @param bool   $hide_on_update If set to true errors will not be shown if the settings page has
+ *                               already been submitted.
  */
 function settings_errors( $setting = '', $sanitize = false, $hide_on_update = false ) {
 

@@ -2957,7 +2957,7 @@ function get_shortcut_link() {
  * Retrieves the URL for the current site where the front end is accessible.
  *
  * Returns the 'home' option with the appropriate protocol, 'https' if
- * {@see is_ssl()} and 'http' otherwise. If `$scheme` is 'http' or 'https',
+ * is_ssl() and 'http' otherwise. If `$scheme` is 'http' or 'https',
  * `is_ssl()` is overridden.
  *
  * @since 3.0.0
@@ -2975,9 +2975,8 @@ function home_url( $path = '', $scheme = null ) {
  * Retrieves the URL for a given site where the front end is accessible.
  *
  * Returns the 'home' option with the appropriate protocol, 'https' if
- * {@see is_ssl()} and 'http' otherwise. If `$scheme` is 'http' or 'https',
- * `is_ssl()` is
- * overridden.
+ * is_ssl() and 'http' otherwise. If `$scheme` is 'http' or 'https',
+ * `is_ssl()` is overridden.
  *
  * @since 3.0.0
  *
@@ -3051,7 +3050,7 @@ function site_url( $path = '', $scheme = null ) {
  * (e.g. wp-blog-header.php or the wp-admin/ folder) are accessible.
  *
  * Returns the 'site_url' option with the appropriate protocol, 'https' if
- * {@see is_ssl()} and 'http' otherwise. If `$scheme` is 'http' or 'https',
+ * is_ssl() and 'http' otherwise. If `$scheme` is 'http' or 'https',
  * `is_ssl()` is overridden.
  *
  * @since 3.0.0
@@ -3577,7 +3576,8 @@ function rel_canonical() {
  * This function exists to provide a shortlink tag that all themes and plugins can target.
  * A plugin must hook in to provide the actual shortlinks. Default shortlink support is
  * limited to providing ?p= style links for posts. Plugins can short-circuit this function
- * via the {@see 'pre_get_shortlink'} filter or filter the output via the {@see 'get_shortlink'} filter.
+ * via the {@see 'pre_get_shortlink'} filter or filter the output via the {@see 'get_shortlink'}
+ * filter.
  *
  * @since 3.0.0.
  *

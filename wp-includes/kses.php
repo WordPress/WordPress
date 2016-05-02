@@ -1432,7 +1432,7 @@ function wp_kses_named_entities($matches) {
 /**
  * Callback for wp_kses_normalize_entities() regular expression.
  *
- * This function helps {@see wp_kses_normalize_entities()} to only accept 16-bit
+ * This function helps wp_kses_normalize_entities() to only accept 16-bit
  * values and nothing more for `&#number;` entities.
  *
  * @access private

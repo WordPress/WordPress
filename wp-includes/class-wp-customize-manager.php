@@ -685,7 +685,7 @@ final class WP_Customize_Manager {
 		/**
 		 * Announce when a specific setting's unsanitized post value has been set.
 		 *
-		 * Fires when the {@see WP_Customize_Manager::set_post_value()} method is called.
+		 * Fires when the WP_Customize_Manager::set_post_value() method is called.
 		 *
 		 * The dynamic portion of the hook name, `$setting_id`, refers to the setting ID.
 		 *
@@ -699,7 +699,7 @@ final class WP_Customize_Manager {
 		/**
 		 * Announce when any setting's unsanitized post value has been set.
 		 *
-		 * Fires when the {@see WP_Customize_Manager::set_post_value()} method is called.
+		 * Fires when the WP_Customize_Manager::set_post_value() method is called.
 		 *
 		 * This is useful for `WP_Customize_Setting` instances to watch
 		 * in order to update a cached previewed value.
@@ -1384,7 +1384,7 @@ final class WP_Customize_Manager {
 	 * @access public
 	 *
 	 * @param string $control Name of a custom control which is a subclass of
-	 *                        {@see WP_Customize_Control}.
+	 *                        WP_Customize_Control.
 	 */
 	public function register_control_type( $control ) {
 		$this->registered_control_types[] = $control;

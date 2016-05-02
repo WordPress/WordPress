@@ -17,7 +17,7 @@
  * @see get_terms() Type of arguments that can be changed.
  *
  * @param string|array $args {
- *     Optional. Arguments to retrieve categories. See {@see get_terms()} for additional options.
+ *     Optional. Arguments to retrieve categories. See get_terms() for additional options.
  *
  *     @type string $taxonomy Taxonomy to retrieve terms for. In this case, default 'category'.
  * }
@@ -30,12 +30,12 @@ function get_categories( $args = '' ) {
 	$taxonomy = $args['taxonomy'];
 
 	/**
-	 * Filter the taxonomy used to retrieve terms when calling {@see get_categories()}.
+	 * Filter the taxonomy used to retrieve terms when calling get_categories().
 	 *
 	 * @since 2.7.0
 	 *
 	 * @param string $taxonomy Taxonomy to retrieve terms from.
-	 * @param array  $args     An array of arguments. See {@see get_terms()}.
+	 * @param array  $args     An array of arguments. See get_terms().
 	 */
 	$taxonomy = apply_filters( 'get_categories_taxonomy', $taxonomy, $args );
 

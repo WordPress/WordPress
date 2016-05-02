@@ -2189,7 +2189,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
  * @since 2.3.0
  *
  * @param string       $taxonomy Taxonomy name.
- * @param array|string $args     Optional. Array of arguments that get passed to {@see get_terms()}.
+ * @param array|string $args     Optional. Array of arguments that get passed to get_terms().
  *                               Default empty array.
  * @return array|int|WP_Error Number of terms in that taxonomy or WP_Error if the taxonomy does not exist.
  */
@@ -2681,7 +2681,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	 * @param int|array $object_ids Object ID or array of IDs.
 	 * @param string    $taxonomies SQL-formatted (comma-separated and quoted) list of taxonomy names.
 	 * @param array     $args       An array of arguments for retrieving terms for the given object(s).
-	 *                              See {@see wp_get_object_terms()} for details.
+	 *                              See wp_get_object_terms() for details.
 	 */
 	return apply_filters( 'wp_get_object_terms', $terms, $object_ids, $taxonomies, $args );
 }
@@ -2727,7 +2727,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
  *     @type string $slug        The term slug to use. Default empty string.
  * }
  * @return array|WP_Error An array containing the `term_id` and `term_taxonomy_id`,
- *                        {@see WP_Error} otherwise.
+ *                        WP_Error otherwise.
  */
 function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	global $wpdb;
@@ -4207,7 +4207,7 @@ function _split_shared_term( $term_id, $term_taxonomy_id, $record = true ) {
 		}
 	}
 
-	// Keep a record of term_ids that have been split, keyed by old term_id. See {@see wp_get_split_term()}.
+	// Keep a record of term_ids that have been split, keyed by old term_id. See wp_get_split_term().
 	if ( $record ) {
 		$split_term_data = get_option( '_split_terms', array() );
 		if ( ! isset( $split_term_data[ $term_id ] ) ) {

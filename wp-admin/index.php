@@ -111,7 +111,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		/**
 		 * Add content to the welcome panel on the admin dashboard.
 		 *
-		 * To remove the default welcome panel, use {@see remove_action()}:
+		 * To remove the default welcome panel, use remove_action():
 		 *
 		 *     remove_action( 'welcome_panel', 'wp_welcome_panel' );
 		 *

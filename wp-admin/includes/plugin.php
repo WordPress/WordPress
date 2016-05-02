@@ -570,12 +570,10 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			/**
 			 * Fires as a specific plugin is being activated.
 			 *
-			 * This hook is the "activation" hook used internally by
-			 * {@see register_activation_hook()}. The dynamic portion of the
-			 * hook name, `$plugin`, refers to the plugin basename.
+			 * This hook is the "activation" hook used internally by register_activation_hook().
+			 * The dynamic portion of the hook name, `$plugin`, refers to the plugin basename.
 			 *
-			 * If a plugin is silently activated (such as during an update),
-			 * this hook does not fire.
+			 * If a plugin is silently activated (such as during an update), this hook does not fire.
 			 *
 			 * @since 2.0.0
 			 *
@@ -685,12 +683,10 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			/**
 			 * Fires as a specific plugin is being deactivated.
 			 *
-			 * This hook is the "deactivation" hook used internally by
-			 * {@see register_deactivation_hook()}. The dynamic portion of the
-			 * hook name, `$plugin`, refers to the plugin basename.
+			 * This hook is the "deactivation" hook used internally by register_deactivation_hook().
+			 * The dynamic portion of the hook name, `$plugin`, refers to the plugin basename.
 			 *
-			 * If a plugin is silently deactivated (such as during an update),
-			 * this hook does not fire.
+			 * If a plugin is silently deactivated (such as during an update), this hook does not fire.
 			 *
 			 * @since 2.0.0
 			 *
@@ -1024,7 +1020,7 @@ function uninstall_plugin($plugin) {
 		 * Fires in uninstall_plugin() once the plugin has been uninstalled.
 		 *
 		 * The action concatenates the 'uninstall_' prefix with the basename of the
-		 * plugin passed to {@see uninstall_plugin()} to create a dynamically-named action.
+		 * plugin passed to uninstall_plugin() to create a dynamically-named action.
 		 *
 		 * @since 2.7.0
 		 */

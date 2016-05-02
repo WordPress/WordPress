@@ -82,12 +82,12 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		/**
 		 * Filter revisions text diff options.
 		 *
-		 * Filter the options passed to {@see wp_text_diff()} when viewing a post revision.
+		 * Filter the options passed to wp_text_diff() when viewing a post revision.
 		 *
 		 * @since 4.1.0
 		 *
 		 * @param array   $args {
-		 *     Associative array of options to pass to {@see wp_text_diff()}.
+		 *     Associative array of options to pass to wp_text_diff().
 		 *
 		 *     @type bool $show_split_view True for split view (two columns), false for
 		 *                                 un-split view (single column). Default true.

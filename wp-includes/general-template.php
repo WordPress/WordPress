@@ -3477,7 +3477,7 @@ function get_the_generator( $type = '' ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $gen  The HTML markup output to {@see wp_head()}.
+	 * @param string $gen  The HTML markup output to wp_head().
 	 * @param string $type The type of generator. Accepts 'html', 'xhtml', 'atom',
 	 *                     'rss2', 'rdf', 'comment', 'export'.
 	 */

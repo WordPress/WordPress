@@ -24,7 +24,7 @@ class WP_Tax_Query {
 	/**
 	 * Array of taxonomy queries.
 	 *
-	 * See {@see WP_Tax_Query::__construct()} for information on tax query arguments.
+	 * See WP_Tax_Query::__construct() for information on tax query arguments.
 	 *
 	 * @since 3.1.0
 	 * @access public

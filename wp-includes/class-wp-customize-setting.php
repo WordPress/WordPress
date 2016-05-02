@@ -338,26 +338,26 @@ class WP_Customize_Setting {
 			default :
 
 				/**
-				 * Fires when the {@see WP_Customize_Setting::preview()} method is called for settings
+				 * Fires when the WP_Customize_Setting::preview() method is called for settings
 				 * not handled as theme_mods or options.
 				 *
 				 * The dynamic portion of the hook name, `$this->id`, refers to the setting ID.
 				 *
 				 * @since 3.4.0
 				 *
-				 * @param WP_Customize_Setting $this {@see WP_Customize_Setting} instance.
+				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
 				 */
 				do_action( "customize_preview_{$this->id}", $this );
 
 				/**
-				 * Fires when the {@see WP_Customize_Setting::preview()} method is called for settings
+				 * Fires when the WP_Customize_Setting::preview() method is called for settings
 				 * not handled as theme_mods or options.
 				 *
 				 * The dynamic portion of the hook name, `$this->type`, refers to the setting type.
 				 *
 				 * @since 4.1.0
 				 *
-				 * @param WP_Customize_Setting $this {@see WP_Customize_Setting} instance.
+				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
 				 */
 				do_action( "customize_preview_{$this->type}", $this );
 		}
@@ -481,7 +481,7 @@ class WP_Customize_Setting {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param WP_Customize_Setting $this {@see WP_Customize_Setting} instance.
+		 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
 		 */
 		do_action( 'customize_save_' . $this->id_data[ 'base' ], $this );
 
@@ -597,7 +597,7 @@ class WP_Customize_Setting {
 			}
 		} else {
 			/**
-			 * Fires when the {@see WP_Customize_Setting::update()} method is called for settings
+			 * Fires when the WP_Customize_Setting::update() method is called for settings
 			 * not handled as theme_mods or options.
 			 *
 			 * The dynamic portion of the hook name, `$this->type`, refers to the type of setting.
@@ -687,7 +687,7 @@ class WP_Customize_Setting {
 		 * @since 3.4.0
 		 *
 		 * @param mixed                $value The setting value.
-		 * @param WP_Customize_Setting $this  {@see WP_Customize_Setting} instance.
+		 * @param WP_Customize_Setting $this  WP_Customize_Setting instance.
 		 */
 		$value = apply_filters( "customize_sanitize_js_{$this->id}", $this->value(), $this );
 

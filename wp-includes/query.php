@@ -1489,7 +1489,7 @@ class WP_Query {
 	 *     @type int          $comments_per_page       The number of comments to return per page.
 	 *                                                 Default 'comments_per_page' option.
 	 *     @type array        $date_query              An associative array of WP_Date_Query arguments.
-	 *                                                 {@see WP_Date_Query::__construct()}
+	 *                                                 See WP_Date_Query::__construct().
 	 *     @type int          $day                     Day of the month. Default empty. Accepts numbers 1-31.
 	 *     @type bool         $exact                   Whether to search by exact keyword. Default false.
 	 *     @type string|array $fields                  Which fields to return. Single field or all fields (string),
@@ -1503,8 +1503,7 @@ class WP_Query {
 	 *                                                 numbers 1-12. Default empty.
 	 *     @type string       $meta_compare            Comparison operator to test the 'meta_value'.
 	 *     @type string       $meta_key                Custom field key.
-	 *     @type array        $meta_query              An associative array of WP_Meta_Query arguments.
-	 *                                                 {@see WP_Meta_Query}
+	 *     @type array        $meta_query              An associative array of WP_Meta_Query arguments. See WP_Meta_Query.
 	 *     @type string       $meta_value              Custom field value.
 	 *     @type int          $meta_value_num          Custom field value number.
 	 *     @type int          $menu_order              The menu order of the posts.
@@ -1564,7 +1563,7 @@ class WP_Query {
 	 *     @type array        $tag_slug__in            An array of tag slugs (OR in). unless 'ignore_sticky_posts' is
 	 *                                                 true. Note: a string of comma-separated IDs will NOT work.
 	 *     @type array        $tax_query               An associative array of WP_Tax_Query arguments.
-	 *                                                 {@see WP_Tax_Query->queries}
+	 *                                                 See WP_Tax_Query->queries.
 	 *     @type string       $title                   Post title.
 	 *     @type bool         $update_post_meta_cache  Whether to update the post meta cache. Default true.
 	 *     @type bool         $update_post_term_cache  Whether to update the post term cache. Default true.

@@ -130,9 +130,9 @@ class WP_Customize_Panel {
 	 * @see WP_Customize_Section::active()
 	 *
 	 * @var callable Callback is called with one argument, the instance of
-	 *               {@see WP_Customize_Section}, and returns bool to indicate
-	 *               whether the section is active (such as it relates to the URL
-	 *               currently being previewed).
+	 *               WP_Customize_Section, and returns bool to indicate whether
+	 *               the section is active (such as it relates to the URL currently
+	 *               being previewed).
 	 */
 	public $active_callback = '';
 
@@ -183,8 +183,8 @@ class WP_Customize_Panel {
 		 *
 		 * @since 4.1.0
 		 *
-		 * @param bool               $active  Whether the Customizer panel is active.
-		 * @param WP_Customize_Panel $panel   {@see WP_Customize_Panel} instance.
+		 * @param bool               $active Whether the Customizer panel is active.
+		 * @param WP_Customize_Panel $panel  WP_Customize_Panel instance.
 		 */
 		$active = apply_filters( 'customize_panel_active', $active, $panel );
 
@@ -192,7 +192,7 @@ class WP_Customize_Panel {
 	}
 
 	/**
-	 * Default callback used when invoking {@see WP_Customize_Panel::active()}.
+	 * Default callback used when invoking WP_Customize_Panel::active().
 	 *
 	 * Subclasses can override this with their specific logic, or they may
 	 * provide an 'active_callback' argument to the constructor.
@@ -290,7 +290,7 @@ class WP_Customize_Panel {
 	/**
 	 * Render the panel container, and then its contents (via `this->render_content()`) in a subclass.
 	 *
-	 * Panel containers are now rendered in JS by default, see {@see WP_Customize_Panel::print_template()}.
+	 * Panel containers are now rendered in JS by default, see WP_Customize_Panel::print_template().
 	 *
 	 * @since 4.0.0
 	 * @access protected
@@ -300,7 +300,7 @@ class WP_Customize_Panel {
 	/**
 	 * Render the panel UI in a subclass.
 	 *
-	 * Panel contents are now rendered in JS by default, see {@see WP_Customize_Panel::print_template()}.
+	 * Panel contents are now rendered in JS by default, see WP_Customize_Panel::print_template().
 	 *
 	 * @since 4.1.0
 	 * @access protected
