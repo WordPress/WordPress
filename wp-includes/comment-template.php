@@ -138,15 +138,18 @@ function comment_author_email( $comment_ID = 0 ) {
  * address and use it for their own means good and bad.
  *
  * @since 0.71
+ * @since 4.6.0 The `$comment` parameter was added.
  *
  * @param string $linktext Optional. Text to display instead of the comment author's email address.
  *                         Default empty.
  * @param string $before   Optional. Text or HTML to display before the email link. Default empty.
  * @param string $after    Optional. Text or HTML to display after the email link. Default empty.
+ * @param int|WP_Comment $comment Optional. Comment ID or WP_Comment object. Default is the current comment.
  */
-function comment_author_email_link( $linktext = '', $before = '', $after = '' ) {
-	if ( $link = get_comment_author_email_link( $linktext, $before, $after ) )
+function comment_author_email_link( $linktext = '', $before = '', $after = '', $comment = null ) {
+	if ( $link = get_comment_author_email_link( $linktext, $before, $after, $comment ) ) {
 		echo $link;
+	}
 }
 
 /**
@@ -159,15 +162,18 @@ function comment_author_email_link( $linktext = '', $before = '', $after = '' ) 
  * address and use it for their own means good and bad.
  *
  * @since 2.7.0
+ * @since 4.6.0 The `$comment` parameter was added.
  *
  * @param string $linktext Optional. Text to display instead of the comment author's email address.
  *                         Default empty.
  * @param string $before   Optional. Text or HTML to display before the email link. Default empty.
  * @param string $after    Optional. Text or HTML to display after the email link. Default empty.
+ * @param int|WP_Comment $comment Optional. Comment ID or WP_Comment object. Default is the current comment.
  * @return string
  */
-function get_comment_author_email_link( $linktext = '', $before = '', $after = '' ) {
-	$comment = get_comment();
+function get_comment_author_email_link( $linktext = '', $before = '', $after = '', $comment = null ) {
+	$comment = get_comment( $comment );
+
 	/**
 	 * Filter the comment author's email for display.
 	 *
@@ -181,6 +187,7 @@ function get_comment_author_email_link( $linktext = '', $before = '', $after = '
 	 * @param WP_Comment $comment              The comment object.
 	 */
 	$email = apply_filters( 'comment_email', $comment->comment_author_email, $comment );
+
 	if ((!empty($email)) && ($email != '@')) {
 	$display = ($linktext != '') ? $linktext : $email;
 		$return  = $before;
