@@ -56,7 +56,7 @@ class WP {
 	public $query_string;
 
 	/**
-	 * Permalink or requested URI.
+	 * The request path, e.g. `2015/05/06`.
 	 *
 	 * @since 2.0.0
 	 * @access public
@@ -202,18 +202,19 @@ class WP {
 			// The requested permalink is in $pathinfo for path info requests and
 			//  $req_uri for other requests.
 			if ( ! empty($pathinfo) && !preg_match('|^.*' . $wp_rewrite->index . '$|', $pathinfo) ) {
-				$request = $pathinfo;
+				$requested_path = $pathinfo;
 			} else {
 				// If the request uri is the index, blank it out so that we don't try to match it against a rule.
 				if ( $req_uri == $wp_rewrite->index )
 					$req_uri = '';
-				$request = $req_uri;
+				$requested_path = $req_uri;
 			}
+			$requested_file = $req_uri;
 
-			$this->request = $request;
+			$this->request = $requested_path;
 
 			// Look for matches.
-			$request_match = $request;
+			$request_match = $requested_path;
 			if ( empty( $request_match ) ) {
 				// An empty request could only match against ^$ regex
 				if ( isset( $rewrite['$'] ) ) {
@@ -223,9 +224,9 @@ class WP {
 				}
 			} else {
 				foreach ( (array) $rewrite as $match => $query ) {
-					// If the requesting file is the anchor of the match, prepend it to the path info.
-					if ( ! empty($req_uri) && strpos($match, $req_uri) === 0 && $req_uri != $request )
-						$request_match = $req_uri . '/' . $request;
+					// If the requested file is the anchor of the match, prepend it to the path info.
+					if ( ! empty($requested_file) && strpos($match, $requested_file) === 0 && $requested_file != $requested_path )
+						$request_match = $requested_file . '/' . $requested_path;
 
 					if ( preg_match("#^$match#", $request_match, $matches) ||
 						preg_match("#^$match#", urldecode($request_match), $matches) ) {
@@ -269,7 +270,7 @@ class WP {
 			}
 
 			// If req_uri is empty or if it is a request for ourself, unset error.
-			if ( empty($request) || $req_uri == $self || strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false ) {
+			if ( empty($requested_path) || $requested_file == $self || strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false ) {
 				unset( $error, $_GET['error'] );
 
 				if ( isset($perma_query_vars) && strpos($_SERVER['PHP_SELF'], 'wp-admin/') !== false )
