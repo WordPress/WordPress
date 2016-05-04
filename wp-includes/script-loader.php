@@ -697,6 +697,7 @@ function wp_default_styles( &$styles ) {
 	$styles->text_direction = function_exists( 'is_rtl' ) && is_rtl() ? 'rtl' : 'ltr';
 	$styles->default_dirs = array('/wp-admin/', '/wp-includes/css/');
 
+	// Open Sans is no longer used by core, but may be relied upon by themes and plugins.
 	$open_sans_font_url = '';
 
 	/* translators: If there are characters in your language that are not supported
@@ -743,15 +744,15 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'site-icon',           "/wp-admin/css/site-icon$suffix.css" );
 	$styles->add( 'l10n',                "/wp-admin/css/l10n$suffix.css" );
 
-	$styles->add( 'wp-admin', false, array( 'open-sans', 'dashicons', 'common', 'forms', 'admin-menu', 'dashboard', 'list-tables', 'edit', 'revisions', 'media', 'themes', 'about', 'nav-menus', 'widgets', 'site-icon', 'l10n' ) );
+	$styles->add( 'wp-admin', false, array( 'dashicons', 'common', 'forms', 'admin-menu', 'dashboard', 'list-tables', 'edit', 'revisions', 'media', 'themes', 'about', 'nav-menus', 'widgets', 'site-icon', 'l10n' ) );
 
-	$styles->add( 'login',               "/wp-admin/css/login$suffix.css", array( 'open-sans', 'dashicons', 'buttons', 'forms', 'l10n' ) );
-	$styles->add( 'install',             "/wp-admin/css/install$suffix.css", array( 'open-sans', 'buttons' ) );
+	$styles->add( 'login',               "/wp-admin/css/login$suffix.css", array( 'dashicons', 'buttons', 'forms', 'l10n' ) );
+	$styles->add( 'install',             "/wp-admin/css/install$suffix.css", array( 'buttons' ) );
 	$styles->add( 'wp-color-picker',     "/wp-admin/css/color-picker$suffix.css" );
 	$styles->add( 'customize-controls',  "/wp-admin/css/customize-controls$suffix.css", array( 'wp-admin', 'colors', 'ie', 'imgareaselect' ) );
 	$styles->add( 'customize-widgets',   "/wp-admin/css/customize-widgets$suffix.css", array( 'wp-admin', 'colors' ) );
 	$styles->add( 'customize-nav-menus', "/wp-admin/css/customize-nav-menus$suffix.css", array( 'wp-admin', 'colors' ) );
-	$styles->add( 'press-this',          "/wp-admin/css/press-this$suffix.css", array( 'open-sans', 'buttons' ) );
+	$styles->add( 'press-this',          "/wp-admin/css/press-this$suffix.css", array( 'buttons' ) );
 
 	$styles->add( 'ie', "/wp-admin/css/ie$suffix.css" );
 	$styles->add_data( 'ie', 'conditional', 'lte IE 7' );
@@ -759,10 +760,9 @@ function wp_default_styles( &$styles ) {
 	// Common dependencies
 	$styles->add( 'buttons',   "/wp-includes/css/buttons$suffix.css" );
 	$styles->add( 'dashicons', "/wp-includes/css/dashicons$suffix.css" );
-	$styles->add( 'open-sans', $open_sans_font_url );
 
 	// Includes CSS
-	$styles->add( 'admin-bar',            "/wp-includes/css/admin-bar$suffix.css", array( 'open-sans', 'dashicons' ) );
+	$styles->add( 'admin-bar',            "/wp-includes/css/admin-bar$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'wp-auth-check',        "/wp-includes/css/wp-auth-check$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'editor-buttons',       "/wp-includes/css/editor$suffix.css", array( 'dashicons' ) );
 	$styles->add( 'media-views',          "/wp-includes/css/media-views$suffix.css", array( 'buttons', 'dashicons', 'wp-mediaelement' ) );
@@ -783,6 +783,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'farbtastic',       "/wp-admin/css/farbtastic$suffix.css", array(), '1.3u1' );
 	$styles->add( 'jcrop',            "/wp-includes/js/jcrop/jquery.Jcrop.min.css", array(), '0.9.12' );
 	$styles->add( 'colors-fresh', false, array( 'wp-admin', 'buttons' ) ); // Old handle.
+	$styles->add( 'open-sans', $open_sans_font_url ); // No longer used in core as of 4.6
 
 	// RTL CSS
 	$rtl_styles = array(

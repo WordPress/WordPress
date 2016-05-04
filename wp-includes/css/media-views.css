@@ -17,7 +17,7 @@
 
 .media-modal,
 .media-frame {
-	font-family: "Open Sans", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 	font-size: 12px;
 	-webkit-overflow-scrolling: touch;
 }
@@ -80,7 +80,7 @@
 .media-frame input[type="url"],
 .media-frame textarea,
 .media-frame select {
-	font-family: "Open Sans", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 	font-size: 12px;
 	border-width: 1px;
 	border-style: solid;
@@ -807,7 +807,7 @@
 	padding: 4px;
 	font-size: 13px;
 	color: #444;
-	font-family: "Open Sans", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 	-webkit-appearance: none;
 }
 

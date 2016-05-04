@@ -1109,7 +1109,8 @@ i.mce-i-wp_code:before {
 	background: #ebebeb;
 	color: #666;
 	cursor: pointer;
-	font: 13px/19px "Open Sans", sans-serif;
+	font-size: 13px;
+	line-height: 19px;
 	height: 20px;
 	margin: 5px 0 0 5px;
 	padding: 3px 8px 4px;
