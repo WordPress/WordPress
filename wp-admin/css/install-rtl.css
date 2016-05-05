@@ -63,7 +63,7 @@ code, .code {
 }
 
 ul, ol, dl {
-	padding: 5px 5px 5px 22px;
+	padding: 5px 22px 5px 5px;
 }
 
 a img {
@@ -121,7 +121,7 @@ label {
 	margin: 20px 0 15px;
 }
 .step, th {
-	text-align: left;
+	text-align: right;
 	padding: 0;
 }
 .language-chooser.wp-core-ui .step .button.button-large {
@@ -147,15 +147,15 @@ textarea {
 
 .form-table td {
 	margin-bottom: 9px;
-	padding: 10px 20px 10px 0;
+	padding: 10px 0 10px 20px;
 	font-size: 14px;
 	vertical-align: top
 }
 
 .form-table th {
 	font-size: 14px;
-	text-align: left;
-	padding: 10px 20px 10px 0;
+	text-align: right;
+	padding: 10px 0 10px 20px;
 	width: 140px;
 	vertical-align: top;
 }
@@ -198,7 +198,7 @@ submit {
 .form-table.install-success th,
 .form-table.install-success td {
 	vertical-align: middle;
-	padding: 16px 20px 16px 0;
+	padding: 16px 0 16px 20px;
 }
 
 .form-table.install-success td p {
@@ -233,7 +233,7 @@ submit {
 	background-color: #eee;
 	border: 1px solid #ddd;
 	color: #23282d;
-	margin: -2px 5px 5px 0px;
+	margin: -2px 0px 5px 5px;
 	padding: 3px 5px;
 	text-align: center;
 	width: 218px;
@@ -288,7 +288,7 @@ submit {
 }
 
 .message {
-	border-left: 4px solid #dc3232;
+	border-right: 4px solid #dc3232;
 	padding: .7em .6em;
 	background-color: #fbeaea;
 }
@@ -410,7 +410,7 @@ body.language-chooser {
 }
 
 .language-chooser p {
-	text-align: right;
+	text-align: left;
 }
 
 .screen-reader-input,
@@ -440,7 +440,7 @@ body.language-chooser {
 .step .spinner {
 	display: inline-block;
 	vertical-align: middle;
-	margin-right: 15px;
+	margin-left: 15px;
 }
 
 .button-secondary.hide-if-no-js,
