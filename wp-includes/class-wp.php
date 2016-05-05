@@ -56,7 +56,7 @@ class WP {
 	public $query_string;
 
 	/**
-	 * The request path, e.g. `2015/05/06`.
+	 * The request path, e.g. 2015/05/06.
 	 *
 	 * @since 2.0.0
 	 * @access public
