@@ -527,7 +527,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 #wpadminbar #wp-admin-bar-my-sites > .ab-item:before,
 #wpadminbar #wp-admin-bar-site-name > .ab-item:before {
-	content: "\f541";
+	content: "\f112";
 	top: 2px;
 }
 
