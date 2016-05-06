@@ -330,7 +330,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), false, 1 );
 
-	$scripts->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelement-and-player.min.js", array('jquery'), '2.17.0', 1 );
+	$scripts->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelement-and-player.min.js", array('jquery'), '2.17.0-a', 1 );
 	did_action( 'init' ) && $scripts->localize( 'mediaelement', 'mejsL10n', array(
 		'language' => get_bloginfo( 'language' ),
 		'strings'  => array(
