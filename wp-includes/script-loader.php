@@ -245,12 +245,15 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'plupload', '/wp-includes/js/plupload/plupload.js', array(), '1.5.7' );
 	$scripts->add( 'plupload-html5', '/wp-includes/js/plupload/plupload.html5.js', array('plupload'), '1.5.7' );
-	$scripts->add( 'plupload-flash', '/wp-includes/js/plupload/plupload.flash.js', array('plupload'), '1.5.7' );
+
+	// Not used, kept for dependency back-compat.
+	$scripts->add( 'plupload-flash', false, array(), '1.5.7' );
+
 	$scripts->add( 'plupload-silverlight', '/wp-includes/js/plupload/plupload.silverlight.js', array('plupload'), '1.5.7' );
 	$scripts->add( 'plupload-html4', '/wp-includes/js/plupload/plupload.html4.js', array('plupload'), '1.5.7' );
 
 	// cannot use the plupload.full.js, as it loads browserplus init JS from Yahoo
-	$scripts->add( 'plupload-all', false, array('plupload', 'plupload-html5', 'plupload-flash', 'plupload-silverlight', 'plupload-html4'), '1.5.7' );
+	$scripts->add( 'plupload-all', false, array('plupload', 'plupload-html5', 'plupload-silverlight', 'plupload-html4'), '1.5.7' );
 
 	$scripts->add( 'plupload-handlers', "/wp-includes/js/plupload/handlers$suffix.js", array('plupload-all', 'jquery') );
 	did_action( 'init' ) && $scripts->localize( 'plupload-handlers', 'pluploadL10n', $uploader_l10n );
