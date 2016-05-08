@@ -3672,7 +3672,7 @@ function check_and_publish_future_post( $post_id ) {
 		return;
 	}
 
-	// wp_publish_post(_ returns no meaningful value.
+	// wp_publish_post() returns no meaningful value.
 	wp_publish_post( $post_id );
 }
 
