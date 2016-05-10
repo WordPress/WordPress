@@ -271,7 +271,6 @@ class WP_Upgrader {
 
 		$this->skin->feedback('downloading_package', $package);
 
-		$package = '';
 		$download_file = download_url($package);
 
 		if ( is_wp_error($download_file) )
