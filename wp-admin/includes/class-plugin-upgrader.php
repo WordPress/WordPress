@@ -293,22 +293,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 
 		$this->maintenance_mode(false);
 
-		/**
-		 * Fires when the bulk upgrader process is complete.
-		 *
-		 * @since 3.6.0
-		 *
-		 * @param Plugin_Upgrader $this Plugin_Upgrader instance. In other contexts, $this, might
-		 *                              be a Theme_Upgrader or Core_Upgrade instance.
-		 * @param array           $data {
-		 *     Array of bulk item update data.
-		 *
-		 *     @type string $action   Type of action. Default 'update'.
-		 *     @type string $type     Type of update process. Accepts 'plugin', 'theme', or 'core'.
-		 *     @type bool   $bulk     Whether the update process is a bulk update. Default true.
-		 *     @type array  $packages Array of plugin, theme, or core packages to update.
-		 * }
-		 */
+		/** This action is documented in wp-admin/includes/class-wp-upgrader.php */
 		do_action( 'upgrader_process_complete', $this, array(
 			'action' => 'update',
 			'type' => 'plugin',

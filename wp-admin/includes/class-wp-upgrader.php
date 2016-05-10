@@ -743,7 +743,23 @@ class WP_Upgrader {
 
 		if ( ! $options['is_multi'] ) {
 
-			/** This action is documented in wp-admin/includes/class-wp-upgrader.php */
+			/**
+			 * Fires when the upgrader process is complete.
+			 *
+			 * @since 3.6.0
+			 * @since 3.7.0 Added to WP_Upgrader::run().
+			 *
+			 * @param WP_Upgrader $this WP_Upgrader instance. In other contexts, $this, might be a
+			 *                          Theme_Upgrader, Plugin_Upgrader or Core_Upgrade instance.
+			 * @param array       $data {
+			 *     Array of bulk item update data.
+			 *
+			 *     @type string $action   Type of action. Default 'update'.
+			 *     @type string $type     Type of update process. Accepts 'plugin', 'theme', or 'core'.
+			 *     @type bool   $bulk     Whether the update process is a bulk update. Default true.
+			 *     @type array  $packages Array of plugin, theme, or core packages to update.
+			 * }
+			 */
 			do_action( 'upgrader_process_complete', $this, $options['hook_extra'] );
 			$this->skin->footer();
 		}
