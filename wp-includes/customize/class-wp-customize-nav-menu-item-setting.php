@@ -570,6 +570,9 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		/** This filter is documented in wp-includes/nav-menu.php */
 		$post->description = apply_filters( 'nav_menu_description', wp_trim_words( $post->description, 200 ) );
 
+		/** This filter is documented in wp-includes/nav-menu.php */
+		$post = apply_filters( 'wp_setup_nav_menu_item', $post );
+
 		return $post;
 	}
 
