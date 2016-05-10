@@ -1,14 +1,10 @@
 <?php
 /**
- * Upgrade API: WP_Upgrader, Plugin_Upgrader, Theme_Upgrader, Language_Pack_Upgrader,
- * Core_Upgrader, File_Upload_Upgrader, and WP_Automatic_Updater classes
- *
- * This set of classes are designed to be used to upgrade/install a local set of files
- * on the filesystem via the Filesystem Abstraction classes.
+ * Upgrade API: WP_Automatic_Updater class
  *
  * @package WordPress
  * @subpackage Upgrader
- * @since 2.8.0
+ * @since 4.6.0
  */
 
 /**
