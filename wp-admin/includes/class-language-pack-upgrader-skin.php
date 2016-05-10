@@ -1,17 +1,15 @@
 <?php
 /**
- * The User Interface "Skins" for the WordPress File Upgrader
+ * Upgrader API: Language_Pack_Upgrader_Skin class
  *
  * @package WordPress
  * @subpackage Upgrader
- * @since 2.8.0
+ * @since 4.6.0
  */
 
 /**
  * Translation Upgrader Skin for WordPress Translation Upgrades.
  *
- * @package WordPress
- * @subpackage Upgrader
  * @since 3.7.0
  */
 class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {

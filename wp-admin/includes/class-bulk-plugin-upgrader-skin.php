@@ -1,12 +1,17 @@
 <?php
 /**
- * The User Interface "Skins" for the WordPress File Upgrader
+ * Upgrader API: Bulk_Plugin_Upgrader_Skin class
  *
  * @package WordPress
  * @subpackage Upgrader
- * @since 2.8.0
+ * @since 4.6.0
  */
 
+/**
+ * Bulk Plugin Upgrader Skin for WordPress Plugin Upgrades.
+ *
+ * @since 3.0.0
+ */
 class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 	public $plugin_info = array(); // Plugin_Upgrader::bulk() will fill this in.
 

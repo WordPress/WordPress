@@ -1,10 +1,10 @@
 <?php
 /**
- * The User Interface "Skins" for the WordPress File Upgrader
+ * Upgrader API: Automatic_Upgrader_Skin class
  *
  * @package WordPress
  * @subpackage Upgrader
- * @since 2.8.0
+ * @since 4.6.0
  */
 
 /**
@@ -13,8 +13,6 @@
  * This skin is designed to be used when no output is intended, all output
  * is captured and stored for the caller to process and log/email/discard.
  *
- * @package WordPress
- * @subpackage Upgrader
  * @since 3.7.0
  */
 class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {

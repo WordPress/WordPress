@@ -1,17 +1,15 @@
 <?php
 /**
- * The User Interface "Skins" for the WordPress File Upgrader
+ * Upgrader API: WP_Upgrader_Skin class
  *
  * @package WordPress
  * @subpackage Upgrader
- * @since 2.8.0
+ * @since 4.6.0
  */
 
 /**
  * Generic Skin for the WordPress Upgrader classes. This skin is designed to be extended for specific purposes.
  *
- * @package WordPress
- * @subpackage Upgrader
  * @since 2.8.0
  */
 class WP_Upgrader_Skin {
