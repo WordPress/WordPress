@@ -783,6 +783,58 @@ function load_child_theme_textdomain( $domain, $path = false ) {
 }
 
 /**
+ * Just in time loading of plugin and theme textdomains.
+ *
+ * When a textdomain is encountered for the first time, we try to load the translation file
+ * from wp-content/languages, removing the need to call `load_plugin_texdomain()` or
+ * `load_theme_texdomain()`. Holds a cached list of available .mo files to improve performance.
+ *
+ * @since 4.6.0
+ * @access private
+ *
+ * @see get_translations_for_domain()
+ *
+ * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+ * @return bool True when the textdomain is successfully loaded, false otherwise.
+ */
+function _load_textdomain_just_in_time( $domain ) {
+	static $cached_mofiles = null;
+
+	// Short-circuit if domain is 'default' which is reserved for core.
+	if ( 'default' === $domain ) {
+		return false;
+	}
+
+	if ( null === $cached_mofiles ) {
+		$cached_mofiles = array();
+
+		$locations = array(
+			WP_LANG_DIR . '/plugins',
+			WP_LANG_DIR . '/themes',
+		);
+
+		foreach ( $locations as $location ) {
+			foreach ( get_available_languages( $location ) as $file ) {
+				$cached_mofiles[] = "{$location}/{$file}.mo";
+			}
+		}
+	}
+
+	$locale = get_locale();
+	$mofile = "{$domain}-{$locale}.mo";
+
+	if ( in_array( WP_LANG_DIR . '/plugins/' . $mofile, $cached_mofiles ) ) {
+		return load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $mofile );
+	}
+
+	if ( in_array( WP_LANG_DIR . '/themes/' . $mofile, $cached_mofiles ) ) {
+		return load_textdomain( $domain, WP_LANG_DIR . '/themes/' . $mofile );
+	}
+
+	return false;
+}
+
+/**
  * Return the Translations instance for a text domain.
  *
  * If there isn't one, returns empty Translations instance.
@@ -796,7 +848,7 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  */
 function get_translations_for_domain( $domain ) {
 	global $l10n;
-	if ( isset( $l10n[ $domain ] ) ) {
+	if ( isset( $l10n[ $domain ] ) || _load_textdomain_just_in_time( $domain ) ) {
 		return $l10n[ $domain ];
 	}
 
