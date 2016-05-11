@@ -102,7 +102,9 @@ class WP_Widget_Factory {
 		if ( $widget instanceof WP_Widget ) {
 			$this->widgets[ $this->hash_object( $widget ) ] = $widget;
 		} else {
-			$this->widgets[ $widget ] = new $widget();
+			if(class_exists($widget_class)) {
+				$this->widgets[ $widget ] = new $widget();
+			}
 		}
 	}
 
