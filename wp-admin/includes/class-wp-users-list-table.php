@@ -275,8 +275,11 @@ class WP_Users_List_Table extends WP_List_Table {
 		 * in the Users list table.
 		 *
 		 * @since 3.5.0
+		 * @since 4.6.0 The `$which` parameter was added.
+		 *
+		 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
 		 */
-		do_action( 'restrict_manage_users' );
+		do_action( 'restrict_manage_users', $which );
 		echo '</div>';
 	}
 
