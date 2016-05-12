@@ -643,10 +643,13 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 		$uncompressed_size += $info['size'];
 
-		if ( '/' == substr($info['name'], -1) ) // directory
-			$needed_dirs[] = $to . untrailingslashit($info['name']);
-		else
-			$needed_dirs[] = $to . untrailingslashit(dirname($info['name']));
+		if ( '/' === substr( $info['name'], -1 ) ) {
+			// Directory.
+			$needed_dirs[] = $to . untrailingslashit( $info['name'] );
+		} elseif ( '.' !== $dirname = dirname( $info['name'] ) ) {
+			// Path to a file.
+			$needed_dirs[] = $to . untrailingslashit( $dirname );
+		}
 	}
 
 	/*
