@@ -524,7 +524,7 @@ p.customize-section-description {
 	font-size: 14px;
 	line-height: 24px;
 	font-weight: 600;
-	margin-bottom: 5px;
+	margin-bottom: 4px;
 }
 
 .customize-control-description {
@@ -720,12 +720,10 @@ p.customize-section-description {
 
 /* Media controls */
 
-.customize-control-media .current,
-.customize-control-upload .current,
-.customize-control-image .current,
-.customize-control-background .current,
-.customize-control-cropped_image .current,
-.customize-control-site_icon .current,
+.customize-control .attachment-media-view .actions {
+	margin-top: 8px;
+}
+
 .customize-control-header .current {
 	margin-bottom: 8px;
 }
@@ -749,24 +747,9 @@ p.customize-section-description {
 	display: block;
 }
 
-.customize-control-media .remove-button,
-.customize-control-media .default-button,
-.customize-control-media .upload-button,
-.customize-control-upload .remove-button,
-.customize-control-upload .default-button,
-.customize-control-upload .upload-button,
-.customize-control-image .remove-button,
-.customize-control-image .default-button,
-.customize-control-image .upload-button,
-.customize-control-background .remove-button,
-.customize-control-background .default-button,
-.customize-control-background .upload-button,
-.customize-control-cropped_image .remove-button,
-.customize-control-cropped_image .default-button,
-.customize-control-cropped_image .upload-button,
-.customize-control-site_icon .remove-button,
-.customize-control-site_icon .default-button,
-.customize-control-site_icon .upload-button,
+.customize-control .attachment-media-view .remove-button,
+.customize-control .attachment-media-view .default-button,
+.customize-control .attachment-media-view .upload-button,
 .customize-control-header button.new,
 .customize-control-header button.remove {
 	white-space: normal;
@@ -774,35 +757,12 @@ p.customize-section-description {
 	height: auto;
 }
 
-.customize-control-media .current .container,
-.customize-control-upload .current .container,
-.customize-control-image .current .container,
-.customize-control-background .current .container,
-.customize-control-cropped_image .current .container,
-.customize-control-site_icon .current .container,
+.customize-control .attachment-media-view .thumbnail,
 .customize-control-header .current .container {
 	overflow: hidden;
-	-webkit-border-radius: 2px;
-	border: 1px solid #eee;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
 }
 
-.customize-control-media .current .container,
-.customize-control-upload .current .container,
-.customize-control-background .current .container,
-.customize-control-cropped_image .current .container,
-.customize-control-site_icon .current .container,
-.customize-control-image .current .container {
-	min-height: 40px;
-}
-
-.customize-control-media .placeholder,
-.customize-control-upload .placeholder,
-.customize-control-image .placeholder,
-.customize-control-background .placeholder,
-.customize-control-cropped_image .placeholder,
-.customize-control-site_icon .placeholder,
+.customize-control .attachment-media-view .placeholder,
 .customize-control-header .placeholder {
 	width: 100%;
 	position: relative;
@@ -812,15 +772,10 @@ p.customize-section-description {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	min-height: 40px;
+	padding: 9px 0;
+	line-height: 20px;
 }
 
-.customize-control-media .inner,
-.customize-control-upload .inner,
-.customize-control-image .inner,
-.customize-control-background .inner,
-.customize-control-cropped_image .inner,
-.customize-control-site_icon .inner,
 .customize-control-header .inner {
 	display: none;
 	position: absolute;
@@ -831,22 +786,6 @@ p.customize-section-description {
 	overflow: hidden;
 }
 
-.customize-control-media .inner,
-.customize-control-upload .inner,
-.customize-control-background .inner,
-.customize-control-cropped_image .inner,
-.customize-control-site_icon .inner,
-.customize-control-image .inner {
-	display: block;
-	min-height: 40px;
-}
-
-.customize-control-media .inner,
-.customize-control-upload .inner,
-.customize-control-image .inner,
-.customize-control-background .inner,
-.customize-control-cropped_image .inner,
-.customize-control-site_icon .inner,
 .customize-control-header .inner,
 .customize-control-header .inner .dashicons {
 	line-height: 20px;
@@ -956,40 +895,19 @@ p.customize-section-description {
 	margin-bottom: 0;
 }
 
-.customize-control-media img,
-.customize-control-upload img,
-.customize-control-image img,
-.customize-control-background img,
-.customize-control-cropped_image img,
+.customize-control .attachment-media-view .thumbnail-image img,
 .customize-control-header img {
 	width: 100%;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
 }
 
-.customize-control-media .remove-button,
-.customize-control-media .default-button,
-.customize-control-upload .remove-button,
-.customize-control-upload .default-button,
-.customize-control-image .remove-button,
-.customize-control-image .default-button,
-.customize-control-background .remove-button,
-.customize-control-background .default-button,
-.customize-control-cropped_image .remove-button,
-.customize-control-cropped_image .default-button,
-.customize-control-site_icon .remove-button,
-.customize-control-site_icon .default-button,
+.customize-control .attachment-media-view .remove-button,
+.customize-control .attachment-media-view .default-button,
 .customize-control-header .remove {
 	float: right;
 	margin-left: 3px;
 }
 
-.customize-control-media .upload-button,
-.customize-control-upload .upload-button,
-.customize-control-image .upload-button,
-.customize-control-background .upload-button,
-.customize-control-cropped_image .upload-button,
-.customize-control-site_icon .upload-button,
+.customize-control .attachment-media-view .upload-button,
 .customize-control-header .new {
 	float: left;
 }

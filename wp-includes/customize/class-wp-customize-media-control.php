@@ -154,72 +154,62 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 		</label>
 
 		<# if ( data.attachment && data.attachment.id ) { #>
-			<div class="current">
-				<div class="container">
-					<div class="attachment-media-view attachment-media-view-{{ data.attachment.type }} {{ data.attachment.orientation }}">
-						<div class="thumbnail thumbnail-{{ data.attachment.type }}">
-							<# if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.medium ) { #>
-								<img class="attachment-thumb" src="{{ data.attachment.sizes.medium.url }}" draggable="false" alt="" />
-							<# } else if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.full ) { #>
-								<img class="attachment-thumb" src="{{ data.attachment.sizes.full.url }}" draggable="false" alt="" />
-							<# } else if ( 'audio' === data.attachment.type ) { #>
-								<# if ( data.attachment.image && data.attachment.image.src && data.attachment.image.src !== data.attachment.icon ) { #>
-									<img src="{{ data.attachment.image.src }}" class="thumbnail" draggable="false" alt="" />
-								<# } else { #>
-									<img src="{{ data.attachment.icon }}" class="attachment-thumb type-icon" draggable="false" alt="" />
-								<# } #>
-								<p class="attachment-meta attachment-meta-title">&#8220;{{ data.attachment.title }}&#8221;</p>
-								<# if ( data.attachment.album || data.attachment.meta.album ) { #>
-								<p class="attachment-meta"><em>{{ data.attachment.album || data.attachment.meta.album }}</em></p>
-								<# } #>
-								<# if ( data.attachment.artist || data.attachment.meta.artist ) { #>
-								<p class="attachment-meta">{{ data.attachment.artist || data.attachment.meta.artist }}</p>
-								<# } #>
-								<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
-									<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
-								</audio>
-							<# } else if ( 'video' === data.attachment.type ) { #>
-								<div class="wp-media-wrapper wp-video">
-									<video controls="controls" class="wp-video-shortcode" preload="metadata"
-										<# if ( data.attachment.image && data.attachment.image.src !== data.attachment.icon ) { #>poster="{{ data.attachment.image.src }}"<# } #>>
-										<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
-									</video>
-								</div>
-							<# } else { #>
-								<img class="attachment-thumb type-icon icon" src="{{ data.attachment.icon }}" draggable="false" alt="" />
-								<p class="attachment-title">{{ data.attachment.title }}</p>
-							<# } #>
+			<div class="attachment-media-view attachment-media-view-{{ data.attachment.type }} {{ data.attachment.orientation }}">
+				<div class="thumbnail thumbnail-{{ data.attachment.type }}">
+					<# if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.medium ) { #>
+						<img class="attachment-thumb" src="{{ data.attachment.sizes.medium.url }}" draggable="false" alt="" />
+					<# } else if ( 'image' === data.attachment.type && data.attachment.sizes && data.attachment.sizes.full ) { #>
+						<img class="attachment-thumb" src="{{ data.attachment.sizes.full.url }}" draggable="false" alt="" />
+					<# } else if ( 'audio' === data.attachment.type ) { #>
+						<# if ( data.attachment.image && data.attachment.image.src && data.attachment.image.src !== data.attachment.icon ) { #>
+							<img src="{{ data.attachment.image.src }}" class="thumbnail" draggable="false" alt="" />
+						<# } else { #>
+							<img src="{{ data.attachment.icon }}" class="attachment-thumb type-icon" draggable="false" alt="" />
+						<# } #>
+						<p class="attachment-meta attachment-meta-title">&#8220;{{ data.attachment.title }}&#8221;</p>
+						<# if ( data.attachment.album || data.attachment.meta.album ) { #>
+						<p class="attachment-meta"><em>{{ data.attachment.album || data.attachment.meta.album }}</em></p>
+						<# } #>
+						<# if ( data.attachment.artist || data.attachment.meta.artist ) { #>
+						<p class="attachment-meta">{{ data.attachment.artist || data.attachment.meta.artist }}</p>
+						<# } #>
+						<audio style="visibility: hidden" controls class="wp-audio-shortcode" width="100%" preload="none">
+							<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
+						</audio>
+					<# } else if ( 'video' === data.attachment.type ) { #>
+						<div class="wp-media-wrapper wp-video">
+							<video controls="controls" class="wp-video-shortcode" preload="metadata"
+								<# if ( data.attachment.image && data.attachment.image.src !== data.attachment.icon ) { #>poster="{{ data.attachment.image.src }}"<# } #>>
+								<source type="{{ data.attachment.mime }}" src="{{ data.attachment.url }}"/>
+							</video>
 						</div>
-					</div>
+					<# } else { #>
+						<img class="attachment-thumb type-icon icon" src="{{ data.attachment.icon }}" draggable="false" alt="" />
+						<p class="attachment-title">{{ data.attachment.title }}</p>
+					<# } #>
 				</div>
-			</div>
-			<div class="actions">
-				<# if ( data.canUpload ) { #>
-				<button type="button" class="button remove-button">{{ data.button_labels.remove }}</button>
-				<button type="button" class="button upload-button control-focus" id="{{ data.settings['default'] }}-button">{{ data.button_labels.change }}</button>
-				<div style="clear:both"></div>
-				<# } #>
+				<div class="actions">
+					<# if ( data.canUpload ) { #>
+					<button type="button" class="button remove-button">{{ data.button_labels.remove }}</button>
+					<button type="button" class="button upload-button control-focus" id="{{ data.settings['default'] }}-button">{{ data.button_labels.change }}</button>
+					<div style="clear:both"></div>
+					<# } #>
+				</div>
 			</div>
 		<# } else { #>
-			<div class="current">
-				<div class="container">
-					<div class="placeholder">
-						<div class="inner">
-							<span>
-								{{ data.button_labels.placeholder }}
-							</span>
-						</div>
-					</div>
+			<div class="attachment-media-view">
+				<div class="placeholder">
+						{{ data.button_labels.placeholder }}
 				</div>
-			</div>
-			<div class="actions">
-				<# if ( data.defaultAttachment ) { #>
-					<button type="button" class="button default-button">{{ data.button_labels['default'] }}</button>
-				<# } #>
-				<# if ( data.canUpload ) { #>
-				<button type="button" class="button upload-button" id="{{ data.settings['default'] }}-button">{{ data.button_labels.select }}</button>
-				<# } #>
-				<div style="clear:both"></div>
+				<div class="actions">
+					<# if ( data.defaultAttachment ) { #>
+						<button type="button" class="button default-button">{{ data.button_labels['default'] }}</button>
+					<# } #>
+					<# if ( data.canUpload ) { #>
+					<button type="button" class="button upload-button" id="{{ data.settings['default'] }}-button">{{ data.button_labels.select }}</button>
+					<# } #>
+					<div style="clear:both"></div>
+				</div>
 			</div>
 		<# } #>
 		<?php
