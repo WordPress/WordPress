@@ -16,8 +16,9 @@
  *
  * @since 2.8.0
  * @since 4.4.0 Moved to its own file from wp-includes/widgets.php
+ * @abstract
  */
-class WP_Widget {
+abstract class WP_Widget {
 
 	/**
 	 * Root ID for all widgets of this type.
@@ -96,14 +97,13 @@ class WP_Widget {
 	 *
 	 * @since 2.8.0
 	 * @access public
+	 * @abstract
 	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
-	public function widget( $args, $instance ) {
-		die('function WP_Widget::widget() must be over-ridden in a sub-class.');
-	}
+	abstract public function widget( $args, $instance );
 
 	/**
 	 * Updates a particular instance of a widget.
@@ -169,7 +169,7 @@ class WP_Widget {
 	 * @access public
 	 *
 	 * @see __construct()
-	 * 
+	 *
 	 * @param string $id_base         Optional Base ID for the widget, lowercase and unique. If left empty,
 	 *                                a portion of the widget's class name will be used Has to be unique.
 	 * @param string $name            Name for the widget displayed on the configuration page.
