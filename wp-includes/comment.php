@@ -2031,10 +2031,12 @@ function wp_update_comment($commentarr) {
 	 * The hook also fires immediately before comment status transition hooks are fired.
 	 *
 	 * @since 1.2.0
+	 * @since 4.6.0 The `$data` parameter was added.
 	 *
-	 * @param int $comment_ID The comment ID.
+	 * @param int   $comment_ID The comment ID.
+	 * @param array $data       Comment data.
 	 */
-	do_action( 'edit_comment', $comment_ID );
+	do_action( 'edit_comment', $comment_ID, $data );
 	$comment = get_comment($comment_ID);
 	wp_transition_comment_status($comment->comment_approved, $old_status, $comment);
 	return $rval;
