@@ -275,6 +275,17 @@ case 'preview':
 	exit();
 
 default:
+	/**
+	 * Fires for a given custom post action request.
+	 *
+	 * The dynamic portion of the hook name, `$action`, refers to the custom post action.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param int $post_id Post ID sent with the request.
+	 */
+	do_action( "post_action_{$action}", $post_id );
+
 	wp_redirect( admin_url('edit.php') );
 	exit();
 } // end switch
