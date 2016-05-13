@@ -7,6 +7,13 @@
  * @since 2.7.0
  */
 
+if ( ! class_exists( 'Requests' ) ) {
+	require( ABSPATH . WPINC . '/class-requests.php' );
+
+	Requests::register_autoloader();
+	Requests::set_certificate_path( ABSPATH . WPINC . '/certificates/ca-bundle.crt' );
+}
+
 /**
  * Core class used for managing HTTP transports and making HTTP requests.
  *
@@ -247,8 +254,9 @@ class WP_Http {
 			return $pre;
 
 		if ( function_exists( 'wp_kses_bad_protocol' ) ) {
-			if ( $r['reject_unsafe_urls'] )
+			if ( $r['reject_unsafe_urls'] ) {
 				$url = wp_http_validate_url( $url );
+			}
 			if ( $url ) {
 				$url = wp_kses_bad_protocol( $url, array( 'http', 'https', 'ssl' ) );
 			}
@@ -256,107 +264,152 @@ class WP_Http {
 
 		$arrURL = @parse_url( $url );
 
-		if ( empty( $url ) || empty( $arrURL['scheme'] ) )
+		if ( empty( $url ) || empty( $arrURL['scheme'] ) ) {
 			return new WP_Error('http_request_failed', __('A valid URL was not provided.'));
+		}
 
-		if ( $this->block_request( $url ) )
+		if ( $this->block_request( $url ) ) {
 			return new WP_Error( 'http_request_failed', __( 'User has blocked requests through HTTP.' ) );
-
-		/*
-		 * Determine if this is a https call and pass that on to the transport functions
-		 * so that we can blacklist the transports that do not support ssl verification
-		 */
-		$r['ssl'] = $arrURL['scheme'] == 'https' || $arrURL['scheme'] == 'ssl';
-
-		// Determine if this request is to OUR install of WordPress.
-		$homeURL = parse_url( get_bloginfo( 'url' ) );
-		$r['local'] = 'localhost' == $arrURL['host'] || ( isset( $homeURL['host'] ) && $homeURL['host'] == $arrURL['host'] );
-		unset( $homeURL );
-
-		/*
-		 * If we are streaming to a file but no filename was given drop it in the WP temp dir
-		 * and pick its name using the basename of the $url.
-		 */
-		if ( $r['stream']  && empty( $r['filename'] ) ) {
-			$r['filename'] = get_temp_dir() . wp_unique_filename( get_temp_dir(), basename( $url ) );
 		}
 
-		/*
-		 * Force some settings if we are streaming to a file and check for existence and perms
-		 * of destination directory.
-		 */
+		// If we are streaming to a file but no filename was given drop it in the WP temp dir
+		// and pick its name using the basename of the $url
 		if ( $r['stream'] ) {
+			if ( empty( $r['filename'] ) ) {
+				$r['filename'] = get_temp_dir() . basename( $url );
+			}
+
+			// Force some settings if we are streaming to a file and check for existence and perms of destination directory
 			$r['blocking'] = true;
-			if ( ! wp_is_writable( dirname( $r['filename'] ) ) )
+			if ( ! wp_is_writable( dirname( $r['filename'] ) ) ) {
 				return new WP_Error( 'http_request_failed', __( 'Destination directory for file streaming does not exist or is not writable.' ) );
+			}
 		}
 
-		if ( is_null( $r['headers'] ) )
+		if ( is_null( $r['headers'] ) ) {
 			$r['headers'] = array();
+		}
 
+		// WP allows passing in headers as a string, weirdly.
 		if ( ! is_array( $r['headers'] ) ) {
-			$processedHeaders = self::processHeaders( $r['headers'], $url );
+			$processedHeaders = WP_Http::processHeaders( $r['headers'] );
 			$r['headers'] = $processedHeaders['headers'];
 		}
 
-		if ( isset( $r['headers']['User-Agent'] ) ) {
-			$r['user-agent'] = $r['headers']['User-Agent'];
-			unset( $r['headers']['User-Agent'] );
+		// Setup arguments
+		$headers = $r['headers'];
+		$data = $r['body'];
+		$type = $r['method'];
+		$options = array(
+			'timeout' => $r['timeout'],
+			'useragent' => $r['user-agent'],
+			'blocking' => $r['blocking'],
+		);
+
+		if ( $r['stream'] ) {
+			$options['filename'] = $r['filename'];
+		}
+		if ( empty( $r['redirection'] ) ) {
+			$options['follow_redirects'] = false;
+		}
+		else {
+			$options['redirects'] = $r['redirection'];
 		}
 
-		if ( isset( $r['headers']['user-agent'] ) ) {
-			$r['user-agent'] = $r['headers']['user-agent'];
-			unset( $r['headers']['user-agent'] );
+		// Use byte limit, if we can
+		if ( isset( $r['limit_response_size'] ) ) {
+			$options['max_bytes'] = $r['limit_response_size'];
 		}
 
-		if ( '1.1' == $r['httpversion'] && !isset( $r['headers']['connection'] ) ) {
-			$r['headers']['connection'] = 'close';
-		}
-
-		// Construct Cookie: header if any cookies are set.
-		self::buildCookieHeader( $r );
-
-		// Avoid issues where mbstring.func_overload is enabled.
-		mbstring_binary_safe_encoding();
-
-		if ( ! isset( $r['headers']['Accept-Encoding'] ) ) {
-			if ( $encoding = WP_Http_Encoding::accept_encoding( $url, $r ) )
-				$r['headers']['Accept-Encoding'] = $encoding;
-		}
-
-		if ( ( ! is_null( $r['body'] ) && '' != $r['body'] ) || 'POST' == $r['method'] || 'PUT' == $r['method'] ) {
-			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
-				$r['body'] = http_build_query( $r['body'], null, '&' );
-
-				if ( ! isset( $r['headers']['Content-Type'] ) )
-					$r['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=' . get_option( 'blog_charset' );
-			}
-
-			if ( '' === $r['body'] )
-				$r['body'] = null;
-
-			if ( ! isset( $r['headers']['Content-Length'] ) && ! isset( $r['headers']['content-length'] ) )
-				$r['headers']['Content-Length'] = strlen( $r['body'] );
-		}
-
-		$response = $this->_dispatch_request( $url, $r );
-
-		reset_mbstring_encoding();
-
-		if ( is_wp_error( $response ) )
-			return $response;
-
-		// Append cookies that were used in this request to the response
+		// If we've got cookies, use them
 		if ( ! empty( $r['cookies'] ) ) {
-			$cookies_set = wp_list_pluck( $response['cookies'], 'name' );
-			foreach ( $r['cookies'] as $cookie ) {
-				if ( ! in_array( $cookie->name, $cookies_set ) && $cookie->test( $url ) ) {
-					$response['cookies'][] = $cookie;
-				}
-			}
+			$options['cookies'] = $r['cookies'];
 		}
 
-		return $response;
+		// SSL certificate handling
+		if ( ! $r['sslverify'] ) {
+			$options['verify'] = false;
+		}
+		else {
+			$options['verify'] = $r['sslcertificates'];
+		}
+
+		/**
+		 * Filter whether SSL should be verified for non-local requests.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param bool $ssl_verify Whether to verify the SSL connection. Default true.
+		 */
+		$options['verify'] = apply_filters( 'https_ssl_verify', $options['verify'] );
+
+		try {
+			$response = Requests::request( $url, $headers, $data, $type, $options );
+		}
+		catch ( Requests_Exception $e ) {
+			$response = new WP_Error( 'http_request_failed', $e->getMessage() );
+		}
+
+		/**
+		 * Fires after an HTTP API response is received and before the response is returned.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array|WP_Error $response HTTP response or WP_Error object.
+		 * @param string         $context  Context under which the hook is fired.
+		 * @param string         $class    HTTP transport used.
+		 * @param array          $args     HTTP request arguments.
+		 * @param string         $url      The request URL.
+		 */
+		do_action( 'http_api_debug', $response, 'response', 'Requests', $r, $url );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		if ( ! $r['blocking'] ) {
+			return array(
+				'headers' => array(),
+				'body' => '',
+				'response' => array(
+					'code' => false,
+					'message' => false,
+				),
+				'cookies' => array(),
+			);
+		}
+
+		// Convert the response into an array
+		$data = new WP_HTTP_Requests_Response( $response, $r['filename'] );
+
+		/**
+		 * Filter the HTTP API response immediately before the response is returned.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array  $data HTTP response.
+		 * @param array  $r    HTTP request arguments.
+		 * @param string $url  The request URL.
+		 */
+		return apply_filters( 'http_response', $data, $r, $url );
+	}
+
+	/**
+	 * Match redirect behaviour to browser handling.
+	 *
+	 * Changes 302 redirects from POST to GET to match browser handling. Per
+	 * RFC 7231, user agents can deviate from the strict reading of the
+	 * specification for compatibility purposes.
+	 *
+	 * @param string $location URL to redirect to.
+	 * @param array $headers Headers for the redirect.
+	 * @param array $options Redirect request options.
+	 * @param Requests_Response $original Response object.
+	 */
+	public static function browser_redirect_compatibility( $location, $headers, $data, &$options, $original ) {
+		// Browser compat
+		if ( $original->status_code === 302 ) {
+			$options['type'] = Requests::GET;
+		}
 	}
 
 	/**

@@ -213,8 +213,9 @@ function wp_remote_head($url, $args = array()) {
  * @return array The headers of the response. Empty array if incorrect parameter given.
  */
 function wp_remote_retrieve_headers( $response ) {
-	if ( is_wp_error($response) || ! isset($response['headers']) || ! is_array($response['headers']))
+	if ( is_wp_error( $response ) || ! isset( $response['headers'] ) ) {
 		return array();
+	}
 
 	return $response['headers'];
 }
@@ -229,11 +230,13 @@ function wp_remote_retrieve_headers( $response ) {
  * @return string The header value. Empty string on if incorrect parameter given, or if the header doesn't exist.
  */
 function wp_remote_retrieve_header( $response, $header ) {
-	if ( is_wp_error($response) || ! isset($response['headers']) || ! is_array($response['headers']))
+	if ( is_wp_error( $response ) || ! isset( $response['headers'] ) ) {
 		return '';
+	}
 
-	if ( array_key_exists($header, $response['headers']) )
+	if ( isset( $response['headers'][ $header ] ) ) {
 		return $response['headers'][$header];
+	}
 
 	return '';
 }

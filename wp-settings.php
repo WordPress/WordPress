@@ -183,6 +183,7 @@ require( ABSPATH . WPINC . '/class-wp-http-proxy.php' );
 require( ABSPATH . WPINC . '/class-wp-http-cookie.php' );
 require( ABSPATH . WPINC . '/class-wp-http-encoding.php' );
 require( ABSPATH . WPINC . '/class-wp-http-response.php' );
+require( ABSPATH . WPINC . '/class-wp-http-requests-response.php' );
 require( ABSPATH . WPINC . '/widgets.php' );
 require( ABSPATH . WPINC . '/class-wp-widget.php' );
 require( ABSPATH . WPINC . '/class-wp-widget-factory.php' );
