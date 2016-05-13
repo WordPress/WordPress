@@ -14,6 +14,7 @@
  * the wp-admin/includes/update-core.php file.
  *
  * @since 2.8.0
+ * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader.php.
  *
  * @see WP_Upgrader
  */
