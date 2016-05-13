@@ -1074,7 +1074,7 @@ function _wp_render_title_tag() {
  * or the page title. However, it is mostly common sense to have the blog title
  * to the right with most browsers supporting tabs. You can achieve this by
  * using the seplocation parameter and setting the value to 'right'. This change
- * was introduced around 2.5.0, in case backwards compatibility of themes is
+ * was introduced around 2.5.0, in case backward compatibility of themes is
  * important.
  *
  * @since 1.0.0

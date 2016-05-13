@@ -344,7 +344,7 @@ class WP_Object_Cache {
 	private $multisite;
 
 	/**
-	 * Makes private properties readable for backwards compatibility.
+	 * Makes private properties readable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -357,7 +357,7 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Makes private properties settable for backwards compatibility.
+	 * Makes private properties settable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -371,7 +371,7 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Makes private properties checkable for backwards compatibility.
+	 * Makes private properties checkable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -384,7 +384,7 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Makes private properties un-settable for backwards compatibility.
+	 * Makes private properties un-settable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public

@@ -10,7 +10,7 @@
  * Retrieve list of category objects.
  *
  * If you change the type to 'link' in the arguments, then the link categories
- * will be returned instead. Also all categories will be updated to be backwards
+ * will be returned instead. Also all categories will be updated to be backward
  * compatible with pre-2.3 plugins and themes.
  *
  * @since 2.1.0
@@ -77,7 +77,7 @@ function get_categories( $args = '' ) {
  * If you look at get_term(), then both types will be passed through several
  * filters and finally sanitized based on the $filter parameter value.
  *
- * The category will converted to maintain backwards compatibility.
+ * The category will converted to maintain backward compatibility.
  *
  * @since 1.5.1
  *

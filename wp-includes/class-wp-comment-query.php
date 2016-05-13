@@ -125,7 +125,7 @@ class WP_Comment_Query {
 	public $max_num_pages = 0;
 
 	/**
-	 * Make private/protected methods readable for backwards compatibility.
+	 * Make private/protected methods readable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public

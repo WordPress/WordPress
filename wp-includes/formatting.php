@@ -934,7 +934,7 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 
 	$string = @htmlspecialchars( $string, $quote_style, $charset, $double_encode );
 
-	// Backwards compatibility
+	// Back-compat.
 	if ( 'single' === $_quote_style )
 		$string = str_replace( "'", '&#039;', $string );
 

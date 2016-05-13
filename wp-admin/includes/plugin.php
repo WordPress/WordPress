@@ -487,7 +487,7 @@ function is_plugin_active_for_network( $plugin ) {
  * be activated only as a network wide plugin. The plugin would also work
  * when Multisite is not enabled.
  *
- * Checks for "Site Wide Only: true" for backwards compatibility.
+ * Checks for "Site Wide Only: true" for backward compatibility.
  *
  * @since 3.0.0
  *

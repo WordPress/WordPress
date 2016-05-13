@@ -144,7 +144,7 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response implements ArrayAccess 
 	/**
 	 * Check if an ArrayAccess offset exists.
 	 *
-	 * This is for backwards compatibility for array access.
+	 * This is for array access back-compat.
 	 *
 	 * @param string|int $key Array offset.
 	 * @return bool True if the offset exists, false otherwise.
@@ -157,7 +157,7 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response implements ArrayAccess 
 	/**
 	 * Get an ArrayAccess value.
 	 *
-	 * This is for backwards compatibility for array access.
+	 * This is for array access back-compat.
 	 *
 	 * @param string|int $key Array offset to get.
 	 * @return mixed Value if the key is a valid offset, null if invalid.
@@ -189,7 +189,7 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response implements ArrayAccess 
 	/**
 	 * Set an ArrayAccess value.
 	 *
-	 * This is for backwards compatibility for array access.
+	 * This is for array access back-compat.
 	 *
 	 * @param string|int $key Array offset to set.
 	 * @param mixed $value Value to set.
@@ -219,7 +219,7 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response implements ArrayAccess 
 	/**
 	 * Unset an ArrayAccess value.
 	 *
-	 * This is for backwards compatibility for array access.
+	 * This is for array access back-compat.
 	 *
 	 * @param string|int $key Array offset to remove.
 	 */

@@ -175,7 +175,7 @@ if ( isset($plugin_page) ) {
 	if ( ! $page_hook = get_plugin_page_hook($plugin_page, $the_parent) ) {
 		$page_hook = get_plugin_page_hook($plugin_page, $plugin_page);
 
-		// Backwards compatibility for plugins using add_management_page().
+		// Back-compat for plugins using add_management_page().
 		if ( empty( $page_hook ) && 'edit.php' == $pagenow && '' != get_plugin_page_hook($plugin_page, 'tools.php') ) {
 			// There could be plugin specific params on the URL, so we need the whole query string
 			if ( !empty($_SERVER[ 'QUERY_STRING' ]) )

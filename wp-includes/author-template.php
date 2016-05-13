@@ -45,7 +45,7 @@ function get_the_author($deprecated = '') {
  * still use the old behavior will also pass the value from get_the_author().
  *
  * The normal, expected behavior of this function is to echo the author and not
- * return it. However, backwards compatibility has to be maintained.
+ * return it. However, backward compatibility has to be maintained.
  *
  * @since 0.71
  * @see get_the_author()

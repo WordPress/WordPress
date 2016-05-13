@@ -38,7 +38,7 @@ class WP_oEmbed {
 	public static $early_providers = array();
 
 	/**
-	 * A list of private/protected methods, used for backwards compatibility.
+	 * A list of private/protected methods, used for backward compatibility.
 	 *
 	 * @since 4.2.0
 	 * @access private
@@ -192,7 +192,7 @@ class WP_oEmbed {
 	}
 
 	/**
-	 * Exposes private/protected methods for backwards compatibility.
+	 * Exposes private/protected methods for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public

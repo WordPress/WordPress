@@ -4,8 +4,7 @@
  * @subpackage Theme_Compat
  * @deprecated 3.0
  *
- * This file is here for Backwards compatibility with old themes and will be removed in a future version
- *
+ * This file is here for backward compatibility with old themes and will be removed in a future version
  */
 _deprecated_file(
 	/* translators: %s: template name */

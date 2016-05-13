@@ -265,7 +265,7 @@ $_wp_real_parent_file['page-new.php'] = 'edit.php?post_type=page';
 $_wp_real_parent_file['wpmu-admin.php'] = 'tools.php';
 $_wp_real_parent_file['ms-admin.php'] = 'tools.php';
 
-// ensure we're backwards compatible
+// Ensure backward compatibility.
 $compat = array(
 	'index' => 'dashboard',
 	'edit' => 'posts',

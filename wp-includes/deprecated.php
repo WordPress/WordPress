@@ -2061,7 +2061,7 @@ function js_escape( $text ) {
  */
 function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
 	_deprecated_function( __FUNCTION__, '2.8', 'esc_html()' );
-	if ( func_num_args() > 1 ) { // Maintain backwards compat for people passing additional args
+	if ( func_num_args() > 1 ) { // Maintain back-compat for people passing additional arguments.
 		$args = func_get_args();
 		return call_user_func_array( '_wp_specialchars', $args );
 	} else {
@@ -2085,14 +2085,14 @@ function attribute_escape( $text ) {
 }
 
 /**
- * Register widget for sidebar with backwards compatibility.
+ * Register widget for sidebar with backward compatibility.
  *
  * Allows $name to be an array that accepts either three elements to grab the
  * first element and the third for the name or just uses the first element of
  * the array for the name.
  *
- * Passes to {@link wp_register_sidebar_widget()} after argument list and
- * backwards compatibility is complete.
+ * Passes to wp_register_sidebar_widget() after argument list and backward
+ * compatibility is complete.
  *
  * @since 2.2.0
  * @deprecated 2.8.0 Use wp_register_sidebar_widget()

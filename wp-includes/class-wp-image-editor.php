@@ -276,7 +276,7 @@ abstract class WP_Image_Editor {
 			}
 		}
 
-		// Allow 0, but squash to 1 due to identical images in GD, and for backwards compatibility.
+		// Allow 0, but squash to 1 due to identical images in GD, and for backward compatibility.
 		if ( 0 === $quality ) {
 			$quality = 1;
 		}

@@ -14,7 +14,7 @@
  * Creates the initial taxonomies.
  *
  * This function fires twice: in wp-settings.php before plugins are loaded (for
- * backwards compatibility reasons), and again on the {@see 'init'} action. We must
+ * backward compatibility reasons), and again on the {@see 'init'} action. We must
  * avoid registering rewrite rules before the {@see 'init'} action.
  *
  * @since 2.8.0
@@ -2197,7 +2197,7 @@ function wp_count_terms( $taxonomy, $args = array() ) {
 	$defaults = array('hide_empty' => false);
 	$args = wp_parse_args($args, $defaults);
 
-	// backwards compatibility
+	// backward compatibility
 	if ( isset($args['ignore_empty']) ) {
 		$args['hide_empty'] = $args['ignore_empty'];
 		unset($args['ignore_empty']);

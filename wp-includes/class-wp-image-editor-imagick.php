@@ -343,7 +343,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			 * Use resizeImage() when it's available and a valid filter value is set.
 			 * Otherwise, fall back to the scaleImage() method for resizing, which
 			 * results in better image quality over resizeImage() with default filter
-			 * settings and retains backwards compatibility with pre 4.5 functionality.
+			 * settings and retains backward compatibility with pre 4.5 functionality.
 			 */
 			if ( is_callable( array( $this->image, 'resizeImage' ) ) && $filter ) {
 				$this->image->setOption( 'filter:support', '2.0' );

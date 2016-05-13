@@ -418,9 +418,7 @@ final class WP_Screen {
 	}
 
 	/**
-	 * Sets the old string-based contextual help for the screen.
-	 *
-	 * For backwards compatibility.
+	 * Sets the old string-based contextual help for the screen for backward compatibility.
 	 *
 	 * @since 3.3.0
 	 *
@@ -722,7 +720,7 @@ final class WP_Screen {
 	/**
 	 * Render the screen's help section.
 	 *
-	 * This will trigger the deprecated filters for backwards compatibility.
+	 * This will trigger the deprecated filters for backward compatibility.
 	 *
 	 * @since 3.3.0
 	 *

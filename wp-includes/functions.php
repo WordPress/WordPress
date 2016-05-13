@@ -1849,7 +1849,8 @@ function wp_get_upload_dir() {
  * @uses _wp_upload_dir()
  *
  * @param string $time Optional. Time formatted in 'yyyy/mm'. Default null.
- * @param bool   $create_dir Optional. Whether to check and create the uploads directory. Default true (backwards compatible).
+ * @param bool   $create_dir Optional. Whether to check and create the uploads directory.
+ *                           Default true for backward compatibility.
  * @param bool   $refresh_cache Optional. Whether to refresh the cache. Default false.
  * @return array See above for description.
  */

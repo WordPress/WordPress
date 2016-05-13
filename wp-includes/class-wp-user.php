@@ -242,7 +242,7 @@ class WP_User {
 	}
 
 	/**
-	 * Makes private/protected methods readable for backwards compatibility.
+	 * Makes private/protected methods readable for backward compatibility.
 	 *
 	 * @since 4.3.0
 	 * @access public

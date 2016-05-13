@@ -2466,7 +2466,7 @@ function wp_ajax_save_attachment() {
 }
 
 /**
- * Ajax handler for saving backwards compatible attachment attributes.
+ * Ajax handler for saving backward compatible attachment attributes.
  *
  * @since 3.5.0
  */
@@ -2552,7 +2552,7 @@ function wp_ajax_save_attachment_order() {
  * Ajax handler for sending an attachment to the editor.
  *
  * Generates the HTML to send an attachment to the editor.
- * Backwards compatible with the media_send_to_editor filter
+ * Backward compatible with the media_send_to_editor filter
  * and the chain of filters that follow.
  *
  * @since 3.5.0
@@ -2617,7 +2617,7 @@ function wp_ajax_send_attachment_to_editor() {
  *
  * Generates the HTML to send a non-image embed link to the editor.
  *
- * Backwards compatible with the following filters:
+ * Backward compatible with the following filters:
  * - file_send_to_editor_url
  * - audio_send_to_editor_url
  * - video_send_to_editor_url

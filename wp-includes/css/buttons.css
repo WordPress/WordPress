@@ -8,7 +8,7 @@ buttons in the following files are updated.
 
 WordPress-style Buttons
 =======================
-Create a button by adding the `.button` class to an element. For backwards
+Create a button by adding the `.button` class to an element. For backward
 compatibility, we support several other classes (such as `.button-secondary`),
 but these will *not* work with the stackable classes described below.
 

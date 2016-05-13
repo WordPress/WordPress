@@ -704,7 +704,7 @@ function get_comment_link( $comment = null, $args = array() ) {
 
 	$comment = get_comment($comment);
 
-	// Backwards compat
+	// Back-compat.
 	if ( ! is_array( $args ) ) {
 		$args = array( 'page' => $args );
 	}

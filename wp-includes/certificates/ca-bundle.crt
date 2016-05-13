@@ -3,7 +3,7 @@
 ##
 ## Certificate data from Mozilla as of: Wed Sep 16 08:58:11 2015
 ## Includes a WordPress Modification - We include the 'legacy' 1024bit certificates
-## for backwards compatibility. See https://core.trac.wordpress.org/ticket/34935#comment:10
+## for backward compatibility. See https://core.trac.wordpress.org/ticket/34935#comment:10
 ##
 ## This is a bundle of X.509 certificates of public Certificate Authorities
 ## (CA). These were automatically extracted from Mozilla's root certificates

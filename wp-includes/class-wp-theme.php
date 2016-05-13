@@ -447,8 +447,10 @@ final class WP_Theme implements ArrayAccess {
 		switch ( $offset ) {
 			case 'Name' :
 			case 'Title' :
-				// See note above about using translated data. get() is not ideal.
-				// It is only for backwards compatibility. Use display().
+				/*
+				 * See note above about using translated data. get() is not ideal.
+				 * It is only for backward compatibility. Use display().
+				 */
 				return $this->get('Name');
 			case 'Author' :
 				return $this->display( 'Author');

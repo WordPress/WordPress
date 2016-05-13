@@ -664,7 +664,7 @@ function locale_stylesheet() {
  * Switches the theme.
  *
  * Accepts one argument: $stylesheet of the theme. It also accepts an additional function signature
- * of two arguments: $template then $stylesheet. This is for backwards compatibility.
+ * of two arguments: $template then $stylesheet. This is for backward compatibility.
  *
  * @since 2.5.0
  *
@@ -1634,7 +1634,7 @@ function add_theme_support( $feature ) {
 			// the constant is always accurate (and is not defined later,  overriding our value).
 			// As stated above, the first value wins.
 			// Once we get to wp_loaded (just-in-time), define any constants we haven't already.
-			// Constants are lame. Don't reference them. This is just for backwards compatibility.
+			// Constants are lame. Don't reference them. This is just for backward compatibility.
 
 			if ( defined( 'NO_HEADER_TEXT' ) )
 				$args[0]['header-text'] = ! NO_HEADER_TEXT;

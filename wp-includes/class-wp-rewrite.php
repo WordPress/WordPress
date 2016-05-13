@@ -1743,7 +1743,7 @@ class WP_Rewrite {
 	 * }
 	 */
 	public function add_permastruct( $name, $struct, $args = array() ) {
-		// Backwards compatibility for the old parameters: $with_front and $ep_mask.
+		// Back-compat for the old parameters: $with_front and $ep_mask.
 		if ( ! is_array( $args ) )
 			$args = array( 'with_front' => $args );
 		if ( func_num_args() == 4 )

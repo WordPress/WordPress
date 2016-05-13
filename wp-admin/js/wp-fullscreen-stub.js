@@ -1,5 +1,5 @@
 /**
- * Distraction-Free Writing (wp-fullscreen) backwards compatibility stub.
+ * Distraction-Free Writing (wp-fullscreen) backward compatibility stub.
  * Todo: remove at the end of 2016.
  *
  * Original was deprecated in 4.1, removed in 4.3.
