@@ -304,7 +304,11 @@ class WP_Http {
 			'timeout' => $r['timeout'],
 			'useragent' => $r['user-agent'],
 			'blocking' => $r['blocking'],
+			'hooks' => new Requests_Hooks(),
 		);
+
+		// Ensure redirects follow browser behaviour.
+		$options['hooks']->register( 'requests.before_redirect', array( get_class(), 'browser_redirect_compatibility' ) );
 
 		if ( $r['stream'] ) {
 			$options['filename'] = $r['filename'];
