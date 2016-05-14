@@ -42,6 +42,7 @@ if ( ! $credits ) {
 		__( 'https://make.wordpress.org/' )
 	);
 	echo '</p>';
+	echo '</div>';
 	include( ABSPATH . 'wp-admin/admin-footer.php' );
 	exit;
 }
