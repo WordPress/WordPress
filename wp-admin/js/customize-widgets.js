@@ -2140,6 +2140,58 @@
 	};
 
 	/**
+	 * Initialize Edit Menu button in Nav Menu widget.
+	 */
+	$( document ).on( 'widget-added', function( event, widgetContainer ) {
+		var parsedWidgetId, widgetControl, navMenuSelect, editMenuButton;
+		parsedWidgetId = parseWidgetId( widgetContainer.find( '> .widget-inside > .form > .widget-id' ).val() );
+		if ( 'nav_menu' !== parsedWidgetId.id_base ) {
+			return;
+		}
+		widgetControl = api.control( 'widget_nav_menu[' + String( parsedWidgetId.number ) + ']' );
+		if ( ! widgetControl ) {
+			return;
+		}
+		navMenuSelect = widgetContainer.find( 'select[name*="nav_menu"]' );
+		editMenuButton = widgetContainer.find( '.edit-selected-nav-menu > button' );
+		if ( 0 === navMenuSelect.length || 0 === editMenuButton.length ) {
+			return;
+		}
+		navMenuSelect.on( 'change', function() {
+			if ( api.section.has( 'nav_menu[' + navMenuSelect.val() + ']' ) ) {
+				editMenuButton.parent().show();
+			} else {
+				editMenuButton.parent().hide();
+			}
+		});
+		editMenuButton.on( 'click', function() {
+			var section = api.section( 'nav_menu[' + navMenuSelect.val() + ']' );
+			if ( section ) {
+				focusConstructWithBreadcrumb( section, widgetControl );
+			}
+		} );
+	} );
+
+	/**
+	 * Focus (expand) one construct and then focus on another construct after the first is collapsed.
+	 *
+	 * This overrides the back button to serve the purpose of breadcrumb navigation.
+	 *
+	 * @param {wp.customize.Section|wp.customize.Panel|wp.customize.Control} focusConstruct - The object to initially focus.
+	 * @param {wp.customize.Section|wp.customize.Panel|wp.customize.Control} returnConstruct - The object to return focus.
+	 */
+	function focusConstructWithBreadcrumb( focusConstruct, returnConstruct ) {
+		focusConstruct.focus();
+		function onceCollapsed( isExpanded ) {
+			if ( ! isExpanded ) {
+				focusConstruct.expanded.unbind( onceCollapsed );
+				returnConstruct.focus();
+			}
+		}
+		focusConstruct.expanded.bind( onceCollapsed );
+	}
+
+	/**
 	 * @param {String} widgetId
 	 * @returns {Object}
 	 */

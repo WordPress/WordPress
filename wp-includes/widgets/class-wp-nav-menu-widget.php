@@ -14,7 +14,7 @@
  *
  * @see WP_Widget
  */
- class WP_Nav_Menu_Widget extends WP_Widget {
+class WP_Nav_Menu_Widget extends WP_Widget {
 
 	/**
 	 * Sets up a new Custom Menu widget instance.
@@ -110,8 +110,10 @@
 	 * @access public
 	 *
 	 * @param array $instance Current settings.
+	 * @global WP_Customize_Manager $wp_customize
 	 */
 	public function form( $instance ) {
+		global $wp_customize;
 		$title = isset( $instance['title'] ) ? $instance['title'] : '';
 		$nav_menu = isset( $instance['nav_menu'] ) ? $instance['nav_menu'] : '';
 
@@ -122,7 +124,7 @@
 		?>
 		<p class="nav-menu-widget-no-menus-message" <?php if ( ! empty( $menus ) ) { echo ' style="display:none" '; } ?>>
 			<?php
-			if ( isset( $GLOBALS['wp_customize'] ) && $GLOBALS['wp_customize'] instanceof WP_Customize_Manager ) {
+			if ( $wp_customize instanceof WP_Customize_Manager ) {
 				$url = 'javascript: wp.customize.panel( "nav_menus" ).focus();';
 			} else {
 				$url = admin_url( 'nav-menus.php' );
@@ -146,6 +148,11 @@
 					<?php endforeach; ?>
 				</select>
 			</p>
+			<?php if ( $wp_customize instanceof WP_Customize_Manager ) : ?>
+				<p class="edit-selected-nav-menu" style="<?php if ( ! $nav_menu ) { echo 'display: none;'; } ?>">
+					<button type="button" class="button"><?php _e( 'Edit Menu' ) ?></button>
+				</p>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
