@@ -620,8 +620,7 @@ ul#add-to-blog-users {
 .form-table,
 .form-table td,
 .form-table th,
-.form-table td p,
-.form-wrap label {
+.form-table td p {
 	font-size: 14px;
 }
 

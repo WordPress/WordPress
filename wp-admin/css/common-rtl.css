@@ -71,26 +71,22 @@
 
 /* 2 columns main area */
 
-#col-container,
-#col-left,
-#col-right {
-	overflow: hidden;
-	padding: 0;
-	margin: 0;
-}
-
 #col-left {
+	float: right;
 	width: 35%;
 }
 
 #col-right {
 	float: left;
-	clear: left;
 	width: 65%;
 }
 
-.col-wrap {
-	padding: 0 7px;
+#col-left .col-wrap {
+	padding: 0 0 0 6px;
+}
+
+#col-right .col-wrap {
+	padding: 0 6px 0 0;
 }
 
 /* utility classes */
@@ -3365,53 +3361,6 @@ img {
 /* =Media Queries
 -------------------------------------------------------------- */
 
-/* @todo: de-duplication */
-@media only screen and (min-width: 769px) {
-	/* categories */
-	#col-left {
-		width: 35%;
-	}
-
-	#col-right {
-		width: 65%;
-	}
-}
-
-@media only screen and (max-width: 860px) {
-
-	/* categories */
-	#col-left {
-		width: 35%;
-	}
-
-	#col-right {
-		width: 65%;
-	}
-}
-
-@media only screen and (min-width: 980px) {
-
-	/* categories */
-	#col-left {
-		width: 35%;
-	}
-
-	#col-right {
-		width: 65%;
-	}
-}
-
-@media only screen and (max-width: 768px) {
-	/* categories */
-	#col-left {
-		width: 100%;
-	}
-
-	#col-right {
-		width: 100%;
-	}
-}
-
 /**
  * HiDPI Displays
  */
@@ -3480,7 +3429,15 @@ img {
 		margin-right: 0;
 	}
 
-	.col-wrap {
+	/* categories */
+	#col-left,
+	#col-right {
+		float: none;
+		width: auto;
+	}
+
+	#col-left .col-wrap,
+	#col-right .col-wrap {
 		padding: 0;
 	}
 

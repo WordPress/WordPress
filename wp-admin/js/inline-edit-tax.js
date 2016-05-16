@@ -55,7 +55,7 @@ inlineEditTax = {
 		}
 
 		editRow = $('#inline-edit').clone(true), rowData = $('#inline_'+id);
-		$( 'td', editRow ).attr( 'colspan', $( 'th:visible, td:visible', '.widefat:first thead' ).length );
+		$( 'td', editRow ).attr( 'colspan', $( 'th:visible, td:visible', '.wp-list-table.widefat:first thead' ).length );
 
 		$(t.what+id).hide().after(editRow).after('<tr class="hidden"></tr>');
 

@@ -981,15 +981,9 @@ ul.categorychecklist li {
 	border-style: solid;
 }
 
-.form-wrap p,
-.form-wrap label {
-	font-size: 11px;
-}
-
 .form-wrap label {
 	display: block;
-	padding: 2px;
-	font-size: 12px;
+	padding: 2px 0;
 }
 
 .form-field input[type="text"],
@@ -1020,8 +1014,8 @@ span.description,
 }
 
 .form-wrap .form-field {
-	margin: 0 0 10px;
-	padding: 8px 0;
+	margin: 1em 0;
+	padding: 0;
 }
 
 .form-wrap .form-field #parent {
@@ -1037,6 +1031,9 @@ span.description,
 	margin-top: -10px;
 }
 
+.edit-term-notes {
+	margin-top: 2em;
+}
 
 /*------------------------------------------------------------------------------
   13.0 - Tags
