@@ -847,7 +847,7 @@ final class _WP_Editors {
 			'Clear formatting' => __( 'Clear formatting' ),
 			'Bold' => __( 'Bold' ),
 			'Italic' => __( 'Italic' ),
-			'Code' => _x( 'Code', 'editor button' ),
+			'Code' => __( 'Code' ),
 			'Source code' => __( 'Source code' ),
 			'Font Family' => __( 'Font Family' ),
 			'Font Sizes' => __( 'Font Sizes' ),
