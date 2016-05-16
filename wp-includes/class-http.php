@@ -349,6 +349,9 @@ class WP_Http {
 
 		try {
 			$response = Requests::request( $url, $headers, $data, $type, $options );
+
+			// Convert the response into an array
+			$response = new WP_HTTP_Requests_Response( $response, $r['filename'] );
 		}
 		catch ( Requests_Exception $e ) {
 			$response = new WP_Error( 'http_request_failed', $e->getMessage() );
@@ -382,19 +385,16 @@ class WP_Http {
 			);
 		}
 
-		// Convert the response into an array
-		$data = new WP_HTTP_Requests_Response( $response, $r['filename'] );
-
 		/**
 		 * Filter the HTTP API response immediately before the response is returned.
 		 *
 		 * @since 2.9.0
 		 *
-		 * @param array  $data HTTP response.
-		 * @param array  $r    HTTP request arguments.
-		 * @param string $url  The request URL.
+		 * @param array  $response HTTP response.
+		 * @param array  $r        HTTP request arguments.
+		 * @param string $url      The request URL.
 		 */
-		return apply_filters( 'http_response', $data, $r, $url );
+		return apply_filters( 'http_response', $response, $r, $url );
 	}
 
 	/**
