@@ -214,7 +214,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 			</div>
 			<div class="actions">
 				<# if ( data.defaultAttachment ) { #>
-					<button type="button" class="button default-button">{{ data.button_labels.default }}</button>
+					<button type="button" class="button default-button">{{ data.button_labels['default'] }}</button>
 				<# } #>
 				<# if ( data.canUpload ) { #>
 				<button type="button" class="button upload-button" id="{{ data.settings['default'] }}-button">{{ data.button_labels.select }}</button>
