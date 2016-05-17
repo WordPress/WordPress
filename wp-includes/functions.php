@@ -2872,7 +2872,7 @@ function wp_json_encode( $data, $options = 0, $depth = 512 ) {
 	}
 
 	// Prepare the data for JSON serialization.
-	$data = _wp_json_prepare_data( $data );
+	$args[0] = _wp_json_prepare_data( $data );
 
 	$json = @call_user_func_array( 'json_encode', $args );
 
