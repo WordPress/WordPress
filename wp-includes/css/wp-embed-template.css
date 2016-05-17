@@ -59,7 +59,10 @@ body {
 
 .wp-embed {
 	padding: 25px;
-	font: 400 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	line-height: 1.5;
 	color: #82878c;
 	background: white;
 	border: 1px solid #e5e5e5;
@@ -307,7 +310,10 @@ p.wp-embed-share-description {
 	height: 28px;
 	margin: 0 0 10px 0;
 	padding: 0 5px;
-	font: 400 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	font-size: 14px;
+	font-weight: 400;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	line-height: 1.5;
 	resize: none;
 	cursor: text;
 }
