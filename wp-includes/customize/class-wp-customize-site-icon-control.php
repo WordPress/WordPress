@@ -59,7 +59,7 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 			<# } #>
 		</label>
 
-		<# if ( data.attachment && data.attachment.id ) { #>
+		<# if ( data.attachment && data.attachment.id && data.attachment.sizes ) { #>
 			<div class="attachment-media-view">
 				<div class="site-icon-preview">
 					<div class="favicon-preview">
