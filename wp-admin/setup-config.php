@@ -190,7 +190,7 @@ switch($step) {
 		<tr>
 			<th scope="row"><label for="dbname"><?php _e( 'Database Name' ); ?></label></th>
 			<td><input name="dbname" id="dbname" type="text" size="25" value="wordpress" /></td>
-			<td><?php _e( 'The name of the database you want to use with WordPress.' ); ?></td>
+			<td><?php _e( 'The name of an already existing database you want to use with WordPress.' ); ?></td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="uname"><?php _e( 'Username' ); ?></label></th>
