@@ -970,7 +970,7 @@ table.form-table td .updated p {
 }
 
 .request-filesystem-credentials-dialog .notification-dialog {
-	top: 15%;
+	top: 10%;
 	max-height: 85%;
 }
 
@@ -1026,6 +1026,10 @@ table.form-table td .updated p {
 
 .request-filesystem-credentials-dialog label[for="ftp"] {
 	margin-right: 10px;
+}
+
+.request-filesystem-credentials-dialog #auth-keys-desc {
+	margin-bottom: 0;
 }
 
 #request-filesystem-credentials-dialog .button:not(:last-child) {

@@ -471,6 +471,9 @@ window.wp = window.wp || {};
 
 
 	$( document ).ready( function() {
+		// Set initial focus on the first empty form field.
+		$( '#request-filesystem-credentials-form input[value=""]:first' ).focus();
+
 		/*
 		 * Check whether a user needs to submit filesystem credentials based on whether
 		 * the form was output on the page server-side.
@@ -503,10 +506,10 @@ window.wp = window.wp || {};
 			wp.updates.requestForCredentialsModalCancel();
 		});
 
-		// Hide SSH fields when not selected
-		$( '#request-filesystem-credentials-dialog input[name="connection_type"]' ).on( 'change', function() {
-			$( this ).parents( 'form' ).find( '#private_key, #public_key' ).parents( 'label' ).toggle( ( 'ssh' == $( this ).val() ) );
-		}).change();
+		// Hide SSH fields when not selected.
+		$( '#request-filesystem-credentials-form input[name="connection_type"]' ).on( 'change', function() {
+			$( '#ssh-keys' ).toggleClass( 'hidden', ( 'ssh' !== $( this ).val() ) );
+		});
 
 		// Click handler for plugin updates in List Table view.
 		$( '.plugin-update-tr' ).on( 'click', '.update-link', function( e ) {

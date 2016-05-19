@@ -1166,19 +1166,6 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	$types = apply_filters( 'fs_ftp_connection_types', $types, $credentials, $type, $error, $context );
 
 ?>
-<script type="text/javascript">
-<!--
-jQuery(function($){
-	jQuery("#ssh").click(function () {
-		jQuery("#ssh_keys").show();
-	});
-	jQuery("#ftp, #ftps").click(function () {
-		jQuery("#ssh_keys").hide();
-	});
-	jQuery('#request-filesystem-credentials-form input[value=""]:first').focus();
-});
--->
-</script>
 <form action="<?php echo esc_url( $form_post ) ?>" method="post">
 <div id="request-filesystem-credentials-form" class="request-filesystem-credentials-form">
 <?php
@@ -1225,8 +1212,27 @@ echo "<$heading_tag id='request-filesystem-credentials-title'>" . __( 'Connectio
 		<em><?php if ( ! defined('FTP_PASS') ) _e( 'This password will not be stored on the server.' ); ?></em>
 	</label>
 </div>
-<?php if ( isset($types['ssh']) ) : ?>
 <fieldset>
+<legend><?php _e( 'Connection Type' ); ?></legend>
+<?php
+	$disabled = disabled( ( defined( 'FTP_SSL' ) && FTP_SSL ) || ( defined( 'FTP_SSH' ) && FTP_SSH ), true, false );
+	foreach ( $types as $name => $text ) : ?>
+	<label for="<?php echo esc_attr( $name ) ?>">
+		<input type="radio" name="connection_type" id="<?php echo esc_attr( $name ) ?>" value="<?php echo esc_attr( $name ) ?>"<?php checked( $name, $connection_type ); echo $disabled; ?> />
+		<?php echo $text; ?>
+	</label>
+<?php
+	endforeach;
+?>
+</fieldset>
+<?php
+if ( isset( $types['ssh'] ) ) {
+	$hidden_class = '';
+	if ( 'ssh' != $connection_type || empty( $connection_type ) ) {
+		$hidden_class = ' class="hidden"';
+	}
+?>
+<fieldset id="ssh-keys"<?php echo $hidden_class; ?>">
 <legend><?php _e( 'Authentication Keys' ); ?></legend>
 <label for="public_key">
 	<span class="field-title"><?php _e('Public Key:') ?></span>
@@ -1236,21 +1242,11 @@ echo "<$heading_tag id='request-filesystem-credentials-title'>" . __( 'Connectio
 	<span class="field-title"><?php _e('Private Key:') ?></span>
 	<input name="private_key" type="text" id="private_key" value="<?php echo esc_attr($private_key) ?>"<?php disabled( defined('FTP_PRIKEY') ); ?> />
 </label>
-</fieldset>
-<span id="auth-keys-desc"><?php _e('Enter the location on the server where the public and private keys are located. If a passphrase is needed, enter that in the password field above.') ?></span>
-<?php endif; ?>
-<fieldset>
-<legend><?php _e( 'Connection Type' ); ?></legend>
-<?php
-	$disabled = disabled( (defined('FTP_SSL') && FTP_SSL) || (defined('FTP_SSH') && FTP_SSH), true, false );
-	foreach ( $types as $name => $text ) : ?>
-	<label for="<?php echo esc_attr($name) ?>">
-		<input type="radio" name="connection_type" id="<?php echo esc_attr($name) ?>" value="<?php echo esc_attr($name) ?>"<?php checked($name, $connection_type); echo $disabled; ?> />
-		<?php echo $text ?>
-	</label>
-	<?php endforeach; ?>
+<p id="auth-keys-desc"><?php _e( 'Enter the location on the server where the public and private keys are located. If a passphrase is needed, enter that in the password field above.' ) ?></p>
 </fieldset>
 <?php
+}
+
 foreach ( (array) $extra_fields as $field ) {
 	if ( isset( $_POST[ $field ] ) )
 		echo '<input type="hidden" name="' . esc_attr( $field ) . '" value="' . esc_attr( wp_unslash( $_POST[ $field ] ) ) . '" />';
