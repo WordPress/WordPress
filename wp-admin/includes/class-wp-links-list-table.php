@@ -103,7 +103,7 @@ class WP_Links_List_Table extends WP_List_Table {
 				'selected' => $cat_id,
 				'name' => 'cat_id',
 				'taxonomy' => 'link_category',
-				'show_option_all' => __( 'All categories' ),
+				'show_option_all' => get_taxonomy( 'link_category' )->labels->all_items,
 				'hide_empty' => true,
 				'hierarchical' => 1,
 				'show_count' => 0,
@@ -184,11 +184,12 @@ class WP_Links_List_Table extends WP_List_Table {
 	 */
 	public function column_name( $link ) {
 		$edit_link = get_edit_bookmark_link( $link );
-		?>
-		<strong><a class="row-title" href="<?php
-			echo $edit_link ?>" aria-label="<?php esc_attr_e( sprintf( __( 'Edit &#8220;%s&#8221;' ), $link->link_name ) );
-		?>"><?php echo $link->link_name; ?></a></strong><br />
-		<?php
+		printf( '<strong><a class="row-title" href="%s" aria-label="%s">%s</a></strong>',
+			$edit_link,
+			/* translators: %s: link name */
+			esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $link->link_name ) ),
+			$link->link_name
+		);
 	}
 
 	/**

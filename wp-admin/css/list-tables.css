@@ -142,7 +142,7 @@
 
 #submitted-on,
 .submitted-on {
-	color: #777;
+	color: #555d66;
 }
 
 /* reply to comments */
@@ -224,7 +224,7 @@
 
 #the-comment-list tr.undo,
 #the-comment-list div.undo {
-	background-color: #f4f4f4;
+	background-color: #f5f5f5;
 }
 
 #the-comment-list .unapproved th,
@@ -536,7 +536,7 @@ th.asc a:focus span.sorting-indicator:before {
 	border-radius: 50%;
 	display: block;
 	padding: 1px 2px 1px 0;
-	color: #666;
+	color: #444; /* same as table headers sort arrows */
 	content: "\f140";
 	font: normal 20px/1 dashicons;
 	line-height: 1;
@@ -695,9 +695,9 @@ th.asc a:focus span.sorting-indicator {
 .tablenav-pages-navspan {
 	display: inline-block;
 	min-width: 17px;
-	border: 1px solid #d2d2d2;
+	border: 1px solid #ccc; /* same color as buttons border */
 	padding: 3px 5px 7px;
-	background: #e4e4e4;
+	background: #e5e5e5;
 	font-size: 16px;
 	line-height: 1;
 	font-weight: normal;
@@ -706,9 +706,9 @@ th.asc a:focus span.sorting-indicator {
 
 .tablenav-pages-navspan {
 	height: 16px;
-	border-color: #e8e8e8;
-	background: #ebebeb;
-	color: #b4b4b4;
+	border-color: #ddd; /* same as disabled buttons */
+	background: #f7f7f7; /* same as disabled buttons */
+	color: #a0a5aa; /* same as disabled buttons */
 }
 
 .tablenav .tablenav-pages a:hover,
@@ -896,7 +896,7 @@ p.pagenav {
 tr:hover .row-actions,
 .mobile .row-actions,
 .row-actions.visible,
-div.comment-item:hover .row-actions {
+.comment-item:hover .row-actions {
 	position: static;
 }
 
@@ -972,14 +972,6 @@ tr.inline-edit-row td,
 .inline-edit-row fieldset .inline-edit-group {
 	clear: both;
 	line-height: 2.5;
-}
-
-.inline-edit-row fieldset .inline-edit-group:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
 }
 
 .inline-edit-row p.submit {
@@ -1215,23 +1207,14 @@ ul.cat-checklist {
 	margin-top: 4px;
 }
 
-#update-plugins-table tbody td p {
+.updates-table .plugin-title p {
 	margin-top: 0;
-}
-
-#update-plugins-table tbody td p strong {
-	font-size: 14px;
 }
 
 .plugins thead td.check-column,
 .plugins tfoot td.check-column,
 .plugins .inactive th.check-column {
 	padding-left: 6px;
-}
-
-#update-plugins-table thead td.check-column,
-#update-plugins-table tfoot td.check-column {
-	padding-top: 11px;
 }
 
 .plugins,
@@ -1346,6 +1329,11 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 #wpbody-content .plugins .theme-title {
 	padding-right: 12px;
 	white-space:nowrap;
+}
+
+.updates-table-screenshot {
+	float:left;
+	padding: 0 10px 5px 0;
 }
 
 .plugins .inactive .plugin-title strong {
@@ -1485,7 +1473,7 @@ tr.active + tr.plugin-update-tr:not(.updated) .plugin-update .update-message {
 	width: -webkit-calc( 50% - 8px );
 	width: calc( 50% - 8px );
 	background-color: #fff;
-	border: 1px solid #dedede;
+	border: 1px solid #ddd;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -1572,7 +1560,7 @@ div.action-links,
 	clear: both;
 	padding: 12px 20px;
 	background-color: #fafafa;
-	border-top: 1px solid #dedede;
+	border-top: 1px solid #ddd;
 	overflow: hidden;
 }
 
@@ -1587,8 +1575,8 @@ div.action-links,
 .plugin-card-update-failed .notice-error {
 	margin: 0;
 	padding-left: 16px;
-	-webkit-box-shadow: 0 -1px 0 #dedede;
-	box-shadow: 0 -1px 0 #dedede;
+	-webkit-box-shadow: 0 -1px 0 #ddd;
+	box-shadow: 0 -1px 0 #ddd;
 }
 
 .plugin-card-update-failed .plugin-card-bottom {
@@ -1654,7 +1642,7 @@ div.action-links,
 }
 
 .no-plugin-results {
-	color: #999;
+	color: #666; /* same as no themes and no media */
 	font-size: 18px;
 	font-style: normal;
 	margin: 0;
@@ -2061,7 +2049,7 @@ div.action-links,
 	}
 
 	/* Updates */
-	#wpbody-content #update-themes-table .plugin-title {
+	#wpbody-content .updates-table .plugin-title {
 		width: auto;
 		white-space: normal;
 	}

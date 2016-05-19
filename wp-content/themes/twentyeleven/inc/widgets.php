@@ -21,6 +21,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		parent::__construct( 'widget_twentyeleven_ephemera', __( 'Twenty Eleven Ephemera', 'twentyeleven' ), array(
 			'classname'   => 'widget_twentyeleven_ephemera',
 			'description' => __( 'Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven' ),
+			'customize_selective_refresh' => true,
 		) );
 		$this->alt_option_name = 'widget_twentyeleven_ephemera';
 

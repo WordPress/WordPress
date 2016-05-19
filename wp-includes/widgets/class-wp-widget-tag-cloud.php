@@ -23,8 +23,11 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	 * @access public
 	 */
 	public function __construct() {
-		$widget_ops = array( 'description' => __( "A cloud of your most used tags.") );
-		parent::__construct('tag_cloud', __('Tag Cloud'), $widget_ops);
+		$widget_ops = array(
+			'description' => __( 'A cloud of your most used tags.' ),
+			'customize_selective_refresh' => true,
+		);
+		parent::__construct( 'tag_cloud', __( 'Tag Cloud' ), $widget_ops );
 	}
 
 	/**
@@ -98,7 +101,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance = array();
-		$instance['title'] = sanitize_text_field( stripslashes( $new_instance['title'] ) );
+		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 		$instance['taxonomy'] = stripslashes($new_instance['taxonomy']);
 		return $instance;
 	}

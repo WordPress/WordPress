@@ -685,7 +685,7 @@ class wpdb {
 	}
 
 	/**
-	 * Magic function, for backwards compatibility.
+	 * Magic function, for backward compatibility.
 	 *
 	 * @since 3.5.0
 	 *
@@ -705,7 +705,7 @@ class wpdb {
 	}
 
 	/**
-	 * Magic function, for backwards compatibility.
+	 * Magic function, for backward compatibility.
 	 *
 	 * @since 3.5.0
 	 *
@@ -718,7 +718,7 @@ class wpdb {
 	}
 
 	/**
-	 * Magic function, for backwards compatibility.
+	 * Magic function, for backward compatibility.
 	 *
 	 * @since 3.5.0
 	 *
@@ -780,21 +780,19 @@ class wpdb {
 			if ( $this->use_mysqli ) {
 				if ( function_exists( 'mysqli_set_charset' ) && $this->has_cap( 'set_charset' ) ) {
 					mysqli_set_charset( $dbh, $charset );
-				} else {
-					$query = $this->prepare( 'SET NAMES %s', $charset );
-					if ( ! empty( $collate ) )
-						$query .= $this->prepare( ' COLLATE %s', $collate );
-					mysqli_query( $dbh, $query );
 				}
+				$query = $this->prepare( 'SET NAMES %s', $charset );
+				if ( ! empty( $collate ) )
+					$query .= $this->prepare( ' COLLATE %s', $collate );
+				mysqli_query( $dbh, $query );
 			} else {
 				if ( function_exists( 'mysql_set_charset' ) && $this->has_cap( 'set_charset' ) ) {
 					mysql_set_charset( $charset, $dbh );
-				} else {
-					$query = $this->prepare( 'SET NAMES %s', $charset );
-					if ( ! empty( $collate ) )
-						$query .= $this->prepare( ' COLLATE %s', $collate );
-					mysql_query( $query, $dbh );
 				}
+				$query = $this->prepare( 'SET NAMES %s', $charset );
+				if ( ! empty( $collate ) )
+					$query .= $this->prepare( ' COLLATE %s', $collate );
+				mysql_query( $query, $dbh );
 			}
 		}
 	}
@@ -1271,13 +1269,15 @@ class wpdb {
 	 * Use this only before wpdb::prepare() or esc_sql().  Reversing the order is very bad for security.
 	 *
 	 * Example Prepared Statement:
-	 *  $wild = '%';
-	 *  $find = 'only 43% of planets';
-	 *  $like = $wild . $wpdb->esc_like( $find ) . $wild;
-	 *  $sql  = $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_content LIKE %s", $like );
+	 *
+	 *     $wild = '%';
+	 *     $find = 'only 43% of planets';
+	 *     $like = $wild . $wpdb->esc_like( $find ) . $wild;
+	 *     $sql  = $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_content LIKE '%s'", $like );
 	 *
 	 * Example Escape Chain:
-	 *  $sql  = esc_sql( $wpdb->esc_like( $input ) );
+	 *
+	 *     $sql  = esc_sql( $wpdb->esc_like( $input ) );
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -1484,7 +1484,11 @@ class wpdb {
 				}
 			}
 
-			mysqli_real_connect( $this->dbh, $host, $this->dbuser, $this->dbpassword, null, $port, $socket, $client_flags );
+			if ( WP_DEBUG ) {
+				mysqli_real_connect( $this->dbh, $host, $this->dbuser, $this->dbpassword, null, $port, $socket, $client_flags );
+			} else {
+				@mysqli_real_connect( $this->dbh, $host, $this->dbuser, $this->dbpassword, null, $port, $socket, $client_flags );
+			}
 
 			if ( $this->dbh->connect_errno ) {
 				$this->dbh = null;
@@ -1510,7 +1514,11 @@ class wpdb {
 				}
 			}
 		} else {
-			$this->dbh = mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, $new_link, $client_flags );
+			if ( WP_DEBUG ) {
+				$this->dbh = mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, $new_link, $client_flags );
+			} else {
+				$this->dbh = @mysql_connect( $this->dbhost, $this->dbuser, $this->dbpassword, $new_link, $client_flags );
+			}
 		}
 
 		if ( ! $this->dbh && $allow_bail ) {
@@ -3093,6 +3101,36 @@ class wpdb {
 		wp_die($message);
 	}
 
+
+	/**
+	 * Closes the current database connection.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @return bool True if the connection was successfully closed, false if it wasn't,
+	 *              or the connection doesn't exist.
+	 */
+	public function close() {
+		if ( ! $this->dbh ) {
+			return false;
+		}
+
+		if ( $this->use_mysqli ) {
+			$closed = mysqli_close( $this->dbh );
+		} else {
+			$closed = mysql_close( $this->dbh );
+		}
+
+		if ( $closed ) {
+			$this->dbh = null;
+			$this->ready = false;
+			$this->has_connected = false;
+		}
+
+		return $closed;
+	}
+
 	/**
 	 * Whether MySQL database is at least the required minimum version.
 	 *
@@ -3208,7 +3246,7 @@ class wpdb {
 	}
 
 	/**
-	 * The database version number.
+	 * Retrieves the MySQL server version.
 	 *
 	 * @since 2.7.0
 	 *

@@ -7,7 +7,10 @@
 	text-shadow: none;
 	text-transform: none;
 	letter-spacing: normal;
-	font: normal 13px/32px "Open Sans", sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	line-height: 32px;
 	-webkit-border-radius: 0;
 	border-radius: 0;
 	-webkit-box-sizing: content-box;
@@ -79,7 +82,10 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar {
 	direction: ltr;
 	color: #ccc;
-	font: normal 13px/32px "Open Sans", sans-serif;
+	font-size: 13px;
+	font-weight: normal;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	line-height: 32px;
 	height: 32px;
 	position: fixed;
 	top: 0;
@@ -453,7 +459,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 }
 
 #wpadminbar #wp-admin-bar-user-info .username {
-	color: #999;
+	color: #a0a5aa;
 	font-size: 11px;
 }
 
@@ -527,7 +533,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 #wpadminbar #wp-admin-bar-my-sites > .ab-item:before,
 #wpadminbar #wp-admin-bar-site-name > .ab-item:before {
-	content: "\f112";
+	content: "\f541";
 	top: 2px;
 }
 
@@ -618,7 +624,9 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary > #wp-admin-bar-search #adminbarsearch input.adminbar-input {
 	position: relative;
 	z-index: 30;
-	font: 13px/24px "Open Sans", sans-serif;
+	font-size: 13px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	line-height: 24px;
 	height: 24px;
 	width: 24px;
 	max-width: none;
@@ -669,19 +677,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar.ie8 > #wp-toolbar > #wp-admin-bar-top-secondary > #wp-admin-bar-search #adminbarsearch input.adminbar-input:focus {
 	background: #fff;
 	z-index: -1;
-}
-
-#wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder {
-	color: #999;
-}
-#wpadminbar #adminbarsearch .adminbar-input:-moz-placeholder {
-	color: #999;
-}
-#wpadminbar #adminbarsearch .adminbar-input::-moz-placeholder {
-	color: #999;
-}
-#wpadminbar #adminbarsearch .adminbar-input:-ms-input-placeholder {
-	color: #999;
 }
 
 #wpadminbar #adminbarsearch .adminbar-button {
@@ -811,7 +806,10 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	}
 
 	#wpadminbar * {
-		font: normal 14px/32px "Open Sans", sans-serif;
+		font-size: 14px;
+		font-weight: normal;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+		line-height: 32px;
 	}
 
 	#wpadminbar .quicklinks > ul > li > a,
@@ -906,7 +904,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 		overflow: hidden;
 		width: 52px;
 		padding: 0;
-		color: #999;
+		color: #a0a5aa; /* @todo not needed? this text is hidden */
 		position: relative;
 	}
 

@@ -92,7 +92,7 @@ switch ( $action ) {
 			 *
 			 * @since MU
 			 *
-			 * @param int $blog_id The id of the blog.
+			 * @param int $blog_id The Site ID.
 			 */
 			do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] );
 		}

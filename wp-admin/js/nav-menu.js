@@ -30,6 +30,7 @@ var wpNavMenu;
 		menusChanged : false,
 		isRTL: !! ( 'undefined' != typeof isRtl && isRtl ),
 		negateIfRTL: ( 'undefined' != typeof isRtl && isRtl ) ? -1 : 1,
+		lastSearch: '',
 
 		// Functions that run on init.
 		init : function() {
@@ -40,9 +41,9 @@ var wpNavMenu;
 
 			this.attachMenuEditListeners();
 
-			this.setupInputWithDefaultTitle();
 			this.attachQuickSearchListeners();
 			this.attachThemeLocationsListeners();
+			this.attachMenuSaveSubmitListeners();
 
 			this.attachTabsPanelListeners();
 
@@ -179,7 +180,7 @@ var wpNavMenu;
 							return false;
 
 						// Show the ajax spinner
-						t.find( '.spinner' ).addClass( 'is-active' );
+						t.find( '.button-controls .spinner' ).addClass( 'is-active' );
 
 						// Retrieve menu item data
 						$(checkboxes).each(function(){
@@ -196,7 +197,7 @@ var wpNavMenu;
 						api.addItemToMenu(menuItems, processMethod, function(){
 							// Deselect the items and hide the ajax spinner
 							checkboxes.removeAttr('checked');
-							t.find( '.spinner' ).removeClass( 'is-active' );
+							t.find( '.button-controls .spinner' ).removeClass( 'is-active' );
 						});
 					});
 				},
@@ -444,35 +445,35 @@ var wpNavMenu;
 			// Where can they move this menu item?
 			if ( 0 !== position ) {
 				thisLink = menuItem.find( '.menus-move-up' );
-				thisLink.prop( 'title', menus.moveUp ).css( 'display', 'inline' );
+				thisLink.attr( 'aria-label', menus.moveUp ).css( 'display', 'inline' );
 			}
 
 			if ( 0 !== position && isPrimaryMenuItem ) {
 				thisLink = menuItem.find( '.menus-move-top' );
-				thisLink.prop( 'title', menus.moveToTop ).css( 'display', 'inline' );
+				thisLink.attr( 'aria-label', menus.moveToTop ).css( 'display', 'inline' );
 			}
 
 			if ( position + 1 !== totalMenuItems && 0 !== position ) {
 				thisLink = menuItem.find( '.menus-move-down' );
-				thisLink.prop( 'title', menus.moveDown ).css( 'display', 'inline' );
+				thisLink.attr( 'aria-label', menus.moveDown ).css( 'display', 'inline' );
 			}
 
 			if ( 0 === position && 0 !== hasSameDepthSibling ) {
 				thisLink = menuItem.find( '.menus-move-down' );
-				thisLink.prop( 'title', menus.moveDown ).css( 'display', 'inline' );
+				thisLink.attr( 'aria-label', menus.moveDown ).css( 'display', 'inline' );
 			}
 
 			if ( ! isPrimaryMenuItem ) {
 				thisLink = menuItem.find( '.menus-move-left' ),
 				thisLinkText = menus.outFrom.replace( '%s', prevItemNameLeft );
-				thisLink.prop( 'title', menus.moveOutFrom.replace( '%s', prevItemNameLeft ) ).text( thisLinkText ).css( 'display', 'inline' );
+				thisLink.attr( 'aria-label', menus.moveOutFrom.replace( '%s', prevItemNameLeft ) ).text( thisLinkText ).css( 'display', 'inline' );
 			}
 
 			if ( 0 !== position ) {
 				if ( menuItem.find( '.menu-item-data-parent-id' ).val() !== menuItem.prev().find( '.menu-item-data-db-id' ).val() ) {
 					thisLink = menuItem.find( '.menus-move-right' ),
 					thisLinkText = menus.under.replace( '%s', prevItemNameRight );
-					thisLink.prop( 'title', menus.moveUnder.replace( '%s', prevItemNameRight ) ).text( thisLinkText ).css( 'display', 'inline' );
+					thisLink.attr( 'aria-label', menus.moveUnder.replace( '%s', prevItemNameRight ) ).text( thisLinkText ).css( 'display', 'inline' );
 				}
 			}
 
@@ -494,7 +495,8 @@ var wpNavMenu;
 				title = menus.subMenuFocus.replace( '%1$s', itemName ).replace( '%2$d', itemPosition ).replace( '%3$s', parentItemName );
 			}
 
-			$this.prop('title', title).text( title );
+			// @todo Consider to update just the `aria-label` attribute.
+			$this.attr( 'aria-label', title ).text( title );
 
 			// Mark this item's accessibility as refreshed
 			$this.data( 'needs_accessibility_refresh', false );
@@ -833,34 +835,15 @@ var wpNavMenu;
 			});
 		},
 
-		/**
-		 * An interface for managing default values for input elements
-		 * that is both JS and accessibility-friendly.
-		 *
-		 * Input elements that add the class 'input-with-default-title'
-		 * will have their values set to the provided HTML title when empty.
-		 */
-		setupInputWithDefaultTitle : function() {
-			var name = 'input-with-default-title';
-
-			$('.' + name).each( function(){
-				var $t = $(this), title = $t.attr('title'), val = $t.val();
-				$t.data( name, title );
-
-				if( '' === val ) $t.val( title );
-				else if ( title == val ) return;
-				else $t.removeClass( name );
-			}).focus( function(){
-				var $t = $(this);
-				if( $t.val() == $t.data(name) )
-					$t.val('').removeClass( name );
-			}).blur( function(){
-				var $t = $(this);
-				if( '' === $t.val() )
-					$t.addClass( name ).val( $t.data(name) );
+		attachMenuSaveSubmitListeners : function() {
+			/*
+			 * When a navigation menu is saved, store a JSON representation of all form data
+			 * in a single input to avoid PHP `max_input_vars` limitations. See #14134.
+			 */
+			$( '#update-nav-menu' ).submit( function() {
+				var navMenuData = $( '#update-nav-menu' ).serializeArray();
+				$( '[name="nav-menu-data"]' ).val( JSON.stringify( navMenuData ) );
 			});
-
-			$( '.blank-slate .input-with-default-title' ).focus();
 		},
 
 		attachThemeLocationsListeners : function() {
@@ -880,30 +863,52 @@ var wpNavMenu;
 		},
 
 		attachQuickSearchListeners : function() {
-			var searchTimer;
+			var searchTimer,
+				inputEvent;
 
-			$('.quick-search').keypress(function(e){
+			// Prevent form submission.
+			$( '#nav-menu-meta' ).on( 'submit', function( event ) {
+				event.preventDefault();
+			});
+
+			/*
+			 * Use feature detection to determine whether inputs should use
+			 * the `keyup` or `input` event. Input is preferred but lacks support
+			 * in legacy browsers. See changeset 34078, see also ticket #26600#comment:59
+			 */
+			if ( 'oninput' in document.createElement( 'input' ) ) {
+				inputEvent = 'input';
+			} else {
+				inputEvent = 'keyup';
+			}
+
+			$( '.quick-search' ).on( inputEvent, function() {
 				var t = $(this);
-
-				if( 13 == e.which ) {
-					api.updateQuickSearchResults( t );
-					return false;
-				}
 
 				if( searchTimer ) clearTimeout(searchTimer);
 
 				searchTimer = setTimeout(function(){
 					api.updateQuickSearchResults( t );
-				}, 400);
+				}, 500 );
+			}).on( 'blur', function() {
+				api.lastSearch = '';
 			}).attr('autocomplete','off');
 		},
 
 		updateQuickSearchResults : function(input) {
 			var panel, params,
-			minSearchLength = 2,
-			q = input.val();
+				minSearchLength = 2,
+				q = input.val();
 
-			if( q.length < minSearchLength ) return;
+			/*
+			 * Minimum characters for a search. Also avoid a new AJAX search when
+			 * the pressed key (e.g. arrows) doesn't change the searched term.
+			 */
+			if ( q.length < minSearchLength || api.lastSearch == q ) {
+				return;
+			}
+
+			api.lastSearch = q;
 
 			panel = input.parents('.tabs-panel');
 			params = {

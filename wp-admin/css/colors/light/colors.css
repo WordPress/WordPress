@@ -383,26 +383,6 @@ ul#adminmenu > li.current > a.current:after {
   background: #f7f7f7;
 }
 
-#wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder {
-  color: #333;
-  opacity: 0.7;
-}
-
-#wpadminbar #adminbarsearch .adminbar-input:-moz-placeholder {
-  color: #333;
-  opacity: 0.7;
-}
-
-#wpadminbar #adminbarsearch .adminbar-input::-moz-placeholder {
-  color: #333;
-  opacity: 0.7;
-}
-
-#wpadminbar #adminbarsearch .adminbar-input:-ms-input-placeholder {
-  color: #333;
-  opacity: 0.7;
-}
-
 /* Admin Bar: my account */
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
   border-color: #f7f7f7;
@@ -512,6 +492,10 @@ body.more-filters-opened .more-filters:focus:before {
 #customize-theme-controls .widget-area-select .selected {
   background-color: #888;
   color: #fff;
+}
+
+#customize-footer-actions .devices button:focus {
+  border-bottom-color: #04a4cc;
 }
 
 /* Responsive Component */

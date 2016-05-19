@@ -31,7 +31,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
 
-		$this->button_labels = array(
+		$this->button_labels = wp_parse_args( $this->button_labels, array(
 			'select'       => __( 'Select Image' ),
 			'change'       => __( 'Change Image' ),
 			'remove'       => __( 'Remove' ),
@@ -39,7 +39,7 @@ class WP_Customize_Image_Control extends WP_Customize_Upload_Control {
 			'placeholder'  => __( 'No image selected' ),
 			'frame_title'  => __( 'Select Image' ),
 			'frame_button' => __( 'Choose Image' ),
-		);
+		) );
 	}
 
 	/**

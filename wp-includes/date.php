@@ -2,13 +2,13 @@
 /**
  * Class for generating SQL clauses that filter a primary query according to date.
  *
- * `WP_Date_Query` is a helper that allows primary query classes, such as {@see WP_Query},
- * to filter their results by date columns, by generating `WHERE` subclauses to be attached
- * to the primary SQL query string.
+ * WP_Date_Query is a helper that allows primary query classes, such as WP_Query, to filter
+ * their results by date columns, by generating `WHERE` subclauses to be attached to the
+ * primary SQL query string.
  *
  * Attempting to filter by an invalid date value (eg month=13) will generate SQL that will
  * return no results. In these cases, a _doing_it_wrong() error notice is also thrown.
- * See {@link WP_Date_Query::validate_date_values()}.
+ * See WP_Date_Query::validate_date_values().
  *
  * @link https://codex.wordpress.org/Function_Reference/WP_Query Codex page.
  *
@@ -18,7 +18,7 @@ class WP_Date_Query {
 	/**
 	 * Array of date queries.
 	 *
-	 * See {@see WP_Date_Query::__construct()} for information on date query arguments.
+	 * See WP_Date_Query::__construct() for information on date query arguments.
 	 *
 	 * @since 3.7.0
 	 * @access public
@@ -568,8 +568,8 @@ class WP_Date_Query {
 	/**
 	 * Generate SQL clauses to be appended to a main query.
 	 *
-	 * Called by the public {@see WP_Date_Query::get_sql()}, this method
-	 * is abstracted out to maintain parity with the other Query classes.
+	 * Called by the public WP_Date_Query::get_sql(), this method is abstracted
+	 * out to maintain parity with the other Query classes.
 	 *
 	 * @since 4.1.0
 	 * @access protected

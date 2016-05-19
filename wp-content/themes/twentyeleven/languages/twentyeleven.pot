@@ -1,14 +1,14 @@
-# Copyright (C) 2015 the WordPress team
+# Copyright (C) 2016 the WordPress team
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Eleven 2.3\n"
+"Project-Id-Version: Twenty Eleven 2.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentyeleven\n"
-"POT-Creation-Date: 2015-12-08 15:13:33+00:00\n"
+"POT-Creation-Date: 2016-04-05 09:48:39+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -130,7 +130,7 @@ msgstr ""
 
 #: content-aside.php:35 content-gallery.php:34 content-image.php:29
 #: content-link.php:35 content-quote.php:35 content-status.php:48
-#: content.php:41 functions.php:375
+#: content.php:41 functions.php:378
 msgid "Continue reading <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
@@ -162,7 +162,7 @@ msgstr ""
 #: content-aside.php:46 content-featured.php:45 content-gallery.php:88
 #: content-image.php:70 content-intro.php:19 content-link.php:46
 #: content-page.php:21 content-quote.php:72 content-single.php:52
-#: content-status.php:59 content.php:82 functions.php:609 functions.php:637
+#: content-status.php:59 content.php:82 functions.php:612 functions.php:640
 #: image.php:41
 msgid "Edit"
 msgstr ""
@@ -223,7 +223,7 @@ msgid ""
 "\" rel=\"author\">%6$s</a></span></span>"
 msgstr ""
 
-#: content-image.php:41 functions.php:675
+#: content-image.php:41 functions.php:678
 msgid "View all posts by %s"
 msgstr ""
 
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Featured"
 msgstr ""
 
-#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 2.3)  #-#-#-#-#
+#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 2.4)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:28
 msgid "https://wordpress.org/"
@@ -324,69 +324,69 @@ msgstr ""
 msgid "Hanoi Plant"
 msgstr ""
 
-#: functions.php:446
+#: functions.php:449
 msgid "Main Sidebar"
 msgstr ""
 
-#: functions.php:455
+#: functions.php:458
 msgid "Showcase Sidebar"
 msgstr ""
 
-#: functions.php:457
+#: functions.php:460
 msgid "The sidebar for the optional Showcase Template"
 msgstr ""
 
-#: functions.php:465
+#: functions.php:468
 msgid "Footer Area One"
 msgstr ""
 
-#: functions.php:467 functions.php:477 functions.php:487
+#: functions.php:470 functions.php:480 functions.php:490
 msgid "An optional widget area for your site footer"
 msgstr ""
 
-#: functions.php:475
+#: functions.php:478
 msgid "Footer Area Two"
 msgstr ""
 
-#: functions.php:485
+#: functions.php:488
 msgid "Footer Area Three"
 msgstr ""
 
-#: functions.php:509 single.php:18
+#: functions.php:512 single.php:18
 msgid "Post navigation"
 msgstr ""
 
-#: functions.php:510
+#: functions.php:513
 msgid "<span class=\"meta-nav\">&larr;</span> Older posts"
 msgstr ""
 
-#: functions.php:511
+#: functions.php:514
 msgid "Newer posts <span class=\"meta-nav\">&rarr;</span>"
 msgstr ""
 
-#: functions.php:609
+#: functions.php:612
 msgid "Pingback:"
 msgstr ""
 
 #. translators: 1: comment author, 2: date and time
-#: functions.php:626
+#: functions.php:629
 msgid "%1$s on %2$s <span class=\"says\">said:</span>"
 msgstr ""
 
 #. translators: 1: date, 2: time
-#: functions.php:632
+#: functions.php:635
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: functions.php:641
+#: functions.php:644
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: functions.php:650
+#: functions.php:653
 msgid "Reply <span>&darr;</span>"
 msgstr ""
 
-#: functions.php:669
+#: functions.php:672
 msgid ""
 "<span class=\"sep\">Posted on </span><a href=\"%1$s\" title=\"%2$s\" rel="
 "\"bookmark\"><time class=\"entry-date\" datetime=\"%3$s\">%4$s</time></"
@@ -431,11 +431,11 @@ msgid ""
 "in <a href=\"%6$s\" title=\"Return to %7$s\" rel=\"gallery\">%8$s</a>"
 msgstr ""
 
-#: inc/theme-options.php:56 inc/theme-options.php:529
+#: inc/theme-options.php:56 inc/theme-options.php:542
 msgid "Color Scheme"
 msgstr ""
 
-#: inc/theme-options.php:62 inc/theme-options.php:546
+#: inc/theme-options.php:62 inc/theme-options.php:559
 msgid "Link Color"
 msgstr ""
 
@@ -534,7 +534,7 @@ msgstr ""
 msgid "%s Theme Options"
 msgstr ""
 
-#: inc/theme-options.php:553
+#: inc/theme-options.php:566
 msgid "Layout"
 msgstr ""
 
@@ -547,27 +547,27 @@ msgid ""
 "Use this widget to list your recent Aside, Status, Quote, and Link posts"
 msgstr ""
 
-#: inc/widgets.php:67
+#: inc/widgets.php:68
 msgid "Ephemera"
 msgstr ""
 
-#: inc/widgets.php:106 inc/widgets.php:115
+#: inc/widgets.php:107 inc/widgets.php:116
 msgid "0 <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:106 inc/widgets.php:115
+#: inc/widgets.php:107 inc/widgets.php:116
 msgid "1 <span class=\"reply\">comment &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:106 inc/widgets.php:115
+#: inc/widgets.php:107 inc/widgets.php:116
 msgid "% <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:178
+#: inc/widgets.php:179
 msgid "Title:"
 msgstr ""
 
-#: inc/widgets.php:181
+#: inc/widgets.php:182
 msgid "Number of posts to show:"
 msgstr ""
 

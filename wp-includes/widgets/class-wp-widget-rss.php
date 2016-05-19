@@ -23,9 +23,12 @@ class WP_Widget_RSS extends WP_Widget {
 	 * @access public
 	 */
 	public function __construct() {
-		$widget_ops = array( 'description' => __('Entries from any RSS or Atom feed.') );
+		$widget_ops = array(
+			'description' => __( 'Entries from any RSS or Atom feed.' ),
+			'customize_selective_refresh' => true,
+		);
 		$control_ops = array( 'width' => 400, 'height' => 200 );
-		parent::__construct( 'rss', __('RSS'), $widget_ops, $control_ops );
+		parent::__construct( 'rss', __( 'RSS' ), $widget_ops, $control_ops );
 	}
 
 	/**

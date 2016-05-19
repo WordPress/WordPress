@@ -29,12 +29,10 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( $temp_args, $_SERVER['REQUEST_URI'] 
 $referer = remove_query_arg( $temp_args, wp_get_referer() );
 
 if ( $action ) {
-	$allowed_themes = get_site_option( 'allowedthemes' );
 	switch ( $action ) {
 		case 'enable':
 			check_admin_referer('enable-theme_' . $_GET['theme']);
-			$allowed_themes[ $_GET['theme'] ] = true;
-			update_site_option( 'allowedthemes', $allowed_themes );
+			WP_Theme::network_enable_theme( $_GET['theme'] );
 			if ( false === strpos( $referer, '/network/themes.php' ) )
 				wp_redirect( network_admin_url( 'themes.php?enabled=1' ) );
 			else
@@ -42,8 +40,7 @@ if ( $action ) {
 			exit;
 		case 'disable':
 			check_admin_referer('disable-theme_' . $_GET['theme']);
-			unset( $allowed_themes[ $_GET['theme'] ] );
-			update_site_option( 'allowedthemes', $allowed_themes );
+			WP_Theme::network_disable_theme( $_GET['theme'] );
 			wp_safe_redirect( add_query_arg( 'disabled', '1', $referer ) );
 			exit;
 		case 'enable-selected':
@@ -53,9 +50,7 @@ if ( $action ) {
 				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
-			foreach ( (array) $themes as $theme )
-				$allowed_themes[ $theme ] = true;
-			update_site_option( 'allowedthemes', $allowed_themes );
+			WP_Theme::network_enable_theme( (array) $themes );
 			wp_safe_redirect( add_query_arg( 'enabled', count( $themes ), $referer ) );
 			exit;
 		case 'disable-selected':
@@ -65,9 +60,7 @@ if ( $action ) {
 				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
-			foreach ( (array) $themes as $theme )
-				unset( $allowed_themes[ $theme ] );
-			update_site_option( 'allowedthemes', $allowed_themes );
+			WP_Theme::network_disable_theme( (array) $themes );
 			wp_safe_redirect( add_query_arg( 'disabled', count( $themes ), $referer ) );
 			exit;
 		case 'update-selected' :
@@ -143,8 +136,12 @@ if ( $action ) {
 					<ul class="ul-disc">
 					<?php
 						foreach ( $theme_info as $theme ) {
-							/* translators: 1: theme name, 2: theme author */
-							echo '<li>', sprintf( __('<strong>%1$s</strong> by <em>%2$s</em>' ), $theme->display('Name'), $theme->display('Author') ), '</li>';
+							echo '<li>' . sprintf(
+								/* translators: 1: theme name, 2: theme author */
+								_x( '%1$s by %2$s', 'theme' ),
+								'<strong>' . $theme->display( 'Name' ) . '</strong>',
+								'<em>' . $theme->display( 'Author' ) . '</em>'
+							) . '</li>';
 						}
 					?>
 					</ul>
@@ -239,8 +236,11 @@ require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 <div class="wrap">
 <h1><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="page-title-action"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php }
-if ( $s )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $s ) ); ?>
+if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
+	/* translators: %s: search keywords */
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
+}
+?>
 </h1>
 
 <?php
@@ -284,7 +284,7 @@ if ( isset( $_GET['enabled'] ) ) {
 $wp_list_table->views();
 
 if ( 'broken' == $status )
-	echo '<p class="clear">' . __('The following themes are installed but incomplete. Themes must have a stylesheet and a template.') . '</p>';
+	echo '<p class="clear">' . __( 'The following themes are installed but incomplete.' ) . '</p>';
 ?>
 
 <form method="post">

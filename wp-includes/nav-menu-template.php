@@ -104,7 +104,7 @@ class Walker_Nav_Menu extends Walker {
 		 *
 		 * @param array  $classes The CSS classes that are applied to the menu item's `<li>` element.
 		 * @param object $item    The current menu item.
-		 * @param array  $args    An array of {@see wp_nav_menu()} arguments.
+		 * @param array  $args    An array of wp_nav_menu() arguments.
 		 * @param int    $depth   Depth of menu item. Used for padding.
 		 */
 		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
@@ -118,7 +118,7 @@ class Walker_Nav_Menu extends Walker {
 		 *
 		 * @param string $menu_id The ID that is applied to the menu item's `<li>` element.
 		 * @param object $item    The current menu item.
-		 * @param array  $args    An array of {@see wp_nav_menu()} arguments.
+		 * @param array  $args    An array of wp_nav_menu() arguments.
 		 * @param int    $depth   Depth of menu item. Used for padding.
 		 */
 		$id = apply_filters( 'nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args, $depth );
@@ -147,7 +147,7 @@ class Walker_Nav_Menu extends Walker {
 		 *     @type string $href   The href attribute.
 		 * }
 		 * @param object $item  The current menu item.
-		 * @param array  $args  An array of {@see wp_nav_menu()} arguments.
+		 * @param array  $args  An array of wp_nav_menu() arguments.
 		 * @param int    $depth Depth of menu item. Used for padding.
 		 */
 		$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
@@ -170,7 +170,7 @@ class Walker_Nav_Menu extends Walker {
 		 *
 		 * @param string $title The menu item's title.
 		 * @param object $item  The current menu item.
-		 * @param array  $args  An array of {@see wp_nav_menu()} arguments.
+		 * @param array  $args  An array of wp_nav_menu() arguments.
 		 * @param int    $depth Depth of menu item. Used for padding.
 		 */
 		$title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
@@ -193,7 +193,7 @@ class Walker_Nav_Menu extends Walker {
 		 * @param string $item_output The menu item's starting HTML output.
 		 * @param object $item        Menu item data object.
 		 * @param int    $depth       Depth of menu item. Used for padding.
-		 * @param array  $args        An array of {@see wp_nav_menu()} arguments.
+		 * @param array  $args        An array of wp_nav_menu() arguments.
 		 */
 		$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 	}

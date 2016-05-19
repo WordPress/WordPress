@@ -92,7 +92,7 @@ case 'edit' :
 	if ( isset($_GET['message']) ) {
 		switch ( $_GET['message'] ) {
 			case 'updated' :
-				$message = __('Media attachment updated.');
+				$message = __('Media file updated.');
 				$class = 'updated';
 				break;
 		}

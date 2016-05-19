@@ -207,7 +207,20 @@ class WP_Customize_Setting {
 	}
 
 	/**
-	 * The ID for the current blog when the preview() method was called.
+	 * Reset `$aggregated_multidimensionals` static variable.
+	 *
+	 * This is intended only for use by unit tests.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 * @ignore
+	 */
+	static public function reset_aggregated_multidimensionals() {
+		self::$aggregated_multidimensionals = array();
+	}
+
+	/**
+	 * The ID for the current site when the preview() method was called.
 	 *
 	 * @since 4.2.0
 	 * @access protected
@@ -216,7 +229,7 @@ class WP_Customize_Setting {
 	protected $_previewed_blog_id;
 
 	/**
-	 * Return true if the current blog is not the same as the previewed blog.
+	 * Return true if the current site is not the same as the previewed site.
 	 *
 	 * @since 4.2.0
 	 * @access public
@@ -325,26 +338,26 @@ class WP_Customize_Setting {
 			default :
 
 				/**
-				 * Fires when the {@see WP_Customize_Setting::preview()} method is called for settings
+				 * Fires when the WP_Customize_Setting::preview() method is called for settings
 				 * not handled as theme_mods or options.
 				 *
 				 * The dynamic portion of the hook name, `$this->id`, refers to the setting ID.
 				 *
 				 * @since 3.4.0
 				 *
-				 * @param WP_Customize_Setting $this {@see WP_Customize_Setting} instance.
+				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
 				 */
 				do_action( "customize_preview_{$this->id}", $this );
 
 				/**
-				 * Fires when the {@see WP_Customize_Setting::preview()} method is called for settings
+				 * Fires when the WP_Customize_Setting::preview() method is called for settings
 				 * not handled as theme_mods or options.
 				 *
 				 * The dynamic portion of the hook name, `$this->type`, refers to the setting type.
 				 *
 				 * @since 4.1.0
 				 *
-				 * @param WP_Customize_Setting $this {@see WP_Customize_Setting} instance.
+				 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
 				 */
 				do_action( "customize_preview_{$this->type}", $this );
 		}
@@ -358,7 +371,7 @@ class WP_Customize_Setting {
 	 * Clear out the previewed-applied flag for a multidimensional-aggregated value whenever its post value is updated.
 	 *
 	 * This ensures that the new value will get sanitized and used the next time
-	 * that <code>WP_Customize_Setting::_multidimensional_preview_filter()</code>
+	 * that `WP_Customize_Setting::_multidimensional_preview_filter()`
 	 * is called for this setting.
 	 *
 	 * @since 4.4.0
@@ -374,7 +387,7 @@ class WP_Customize_Setting {
 	 * Callback function to filter non-multidimensional theme mods and options.
 	 *
 	 * If switch_to_blog() was called after the preview() method, and the current
-	 * blog is now not the same blog, then this method does a no-op and returns
+	 * site is now not the same site, then this method does a no-op and returns
 	 * the original value.
 	 *
 	 * @since 3.4.0
@@ -468,7 +481,7 @@ class WP_Customize_Setting {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param WP_Customize_Setting $this {@see WP_Customize_Setting} instance.
+		 * @param WP_Customize_Setting $this WP_Customize_Setting instance.
 		 */
 		do_action( 'customize_save_' . $this->id_data[ 'base' ], $this );
 
@@ -496,7 +509,6 @@ class WP_Customize_Setting {
 	 * @return string|array|null Null if an input isn't valid, otherwise the sanitized value.
 	 */
 	public function sanitize( $value ) {
-		$value = wp_unslash( $value );
 
 		/**
 		 * Filter a Customize setting value in un-slashed form.
@@ -585,7 +597,7 @@ class WP_Customize_Setting {
 			}
 		} else {
 			/**
-			 * Fires when the {@see WP_Customize_Setting::update()} method is called for settings
+			 * Fires when the WP_Customize_Setting::update() method is called for settings
 			 * not handled as theme_mods or options.
 			 *
 			 * The dynamic portion of the hook name, `$this->type`, refers to the type of setting.
@@ -645,11 +657,13 @@ class WP_Customize_Setting {
 			 * functions for available hooks.
 			 *
 			 * @since 3.4.0
+			 * @since 4.6.0 Added the `$this` setting instance as the second param.
 			 *
-			 * @param mixed $default The setting default value. Default empty.
+			 * @param mixed                $default The setting default value. Default empty.
+			 * @param WP_Customize_Setting $this    The setting instance.
 			 */
-			$value = apply_filters( "customize_value_{$id_base}", $value );
-		} else if ( $this->is_multidimensional_aggregated ) {
+			$value = apply_filters( "customize_value_{$id_base}", $value, $this );
+		} elseif ( $this->is_multidimensional_aggregated ) {
 			$root_value = self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
 			$value = $this->multidimensional_get( $root_value, $this->id_data['keys'], $this->default );
 		} else {
@@ -675,7 +689,7 @@ class WP_Customize_Setting {
 		 * @since 3.4.0
 		 *
 		 * @param mixed                $value The setting value.
-		 * @param WP_Customize_Setting $this  {@see WP_Customize_Setting} instance.
+		 * @param WP_Customize_Setting $this  WP_Customize_Setting instance.
 		 */
 		$value = apply_filters( "customize_sanitize_js_{$this->id}", $this->value(), $this );
 

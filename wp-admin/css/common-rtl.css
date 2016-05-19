@@ -71,26 +71,22 @@
 
 /* 2 columns main area */
 
-#col-container,
-#col-left,
-#col-right {
-	overflow: hidden;
-	padding: 0;
-	margin: 0;
-}
-
 #col-left {
+	float: right;
 	width: 35%;
 }
 
 #col-right {
 	float: left;
-	clear: left;
 	width: 65%;
 }
 
-.col-wrap {
-	padding: 0 7px;
+#col-left .col-wrap {
+	padding: 0 0 0 6px;
+}
+
+#col-right .col-wrap {
+	padding: 0 6px 0 0;
 }
 
 /* utility classes */
@@ -111,6 +107,13 @@
 }
 
 .clear {
+	clear: both;
+}
+
+/* modern clearfix */
+.wp-clearfix:after {
+	content: "";
+	display: table;
 	clear: both;
 }
 
@@ -205,13 +208,10 @@ body {
 	padding: 0;
 }
 
-html {
-	background: #f1f1f1;
-}
-
 body {
+	background: #f1f1f1;
 	color: #444;
-	font-family: "Open Sans", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 	font-size: 13px;
 	line-height: 1.4em;
 	min-width: 600px;
@@ -265,13 +265,14 @@ a:active {
 }
 
 a:focus,
-a:focus .media-icon img {
+a:focus .media-icon img,
+.wp-person a:focus .gravatar {
 	color: #124964;
-    -webkit-box-shadow:
-    	0 0 0 1px #5b9dd9,
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
-    box-shadow:
-    	0 0 0 1px #5b9dd9,
+	box-shadow:
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
@@ -337,8 +338,12 @@ h3 {
 	margin: 1em 0;
 }
 
+.update-core-php h2 {
+	margin-top: 2em;
+}
+
 .update-php h2,
-.update-core-php h2,
+.update-messages h2,
 h4 {
 	font-size: 1em;
 	margin: 1.33em 0;
@@ -431,7 +436,7 @@ code {
 
 .subsubsub a .count,
 .subsubsub a.current .count {
-	color: #999;
+	color: #555d66; /* #f1f1f1 background */
 	font-weight: normal;
 }
 
@@ -504,6 +509,7 @@ code {
 }
 
 .widefat th input,
+.updates-table td input,
 .widefat thead td input,
 .widefat tfoot td input {
 	margin: 0 8px 0 0;
@@ -517,18 +523,13 @@ code {
 	vertical-align: top;
 }
 
-.widefat th input[type=checkbox],
-.widefat thead td input[type=checkbox],
-.widefat tfoot td input[type=checkbox] {
-	margin-top: -1px;
-}
-
 .widefat tbody th.check-column {
 	padding: 9px 0 22px;
 }
 
 .widefat thead td.check-column,
 .widefat tbody th.check-column,
+.updates-table tbody td.check-column,
 .widefat tfoot td.check-column {
 	padding: 11px 3px 0 0;
 }
@@ -578,7 +579,7 @@ code {
 .subtitle {
 	margin: 0;
 	padding-right: 25px;
-	color: #777;
+	color: #555d66;
 	font-size: 14px;
 	font-weight: normal;
 }
@@ -653,11 +654,6 @@ ul.striped > :nth-child(odd),
 	border-left-color: #99d;
 }
 
-.media-upload-form label.form-help,
-td.help {
-	color: #9a9a9a;
-}
-
 /* Helper classes for plugins to leverage the active WordPress color scheme */
 
 .highlight {
@@ -690,7 +686,7 @@ td.help {
 }
 
 .wp-ui-text-icon {
-	color: #999;
+	color: #82878c; /* same as new icons */
 }
 
 /* For emoji replacement images */
@@ -834,6 +830,7 @@ hr {
 }
 
 abbr.required,
+span.required,
 .file-error,
 .widget-control-remove:hover,
 .row-actions .delete a:hover,
@@ -887,10 +884,6 @@ abbr.required,
 	padding: 6px 10px 8px;
 }
 
-.misc-pub-revisions .howto {
-	padding-right: 25px;
-}
-
 .misc-pub-filename {
 	word-wrap: break-word;
 }
@@ -910,26 +903,6 @@ abbr.required,
 
 #sticky-span {
 	margin-right: 18px;
-}
-
-.side-info {
-	margin: 0;
-	padding: 4px;
-	font-size: 11px;
-}
-
-.side-info h5 {
-	padding-bottom: 7px;
-	font-size: 14px;
-	margin: 12px 2px 5px;
-	border-bottom: 1px solid #dadada;
-}
-
-.side-info ul {
-	margin: 0;
-	padding-right: 18px;
-	list-style: square;
-	color: #666;
 }
 
 .approve,
@@ -984,7 +957,7 @@ th.action-links {
 	padding: 4px 10px;
 	-webkit-border-radius: 30px;
 	border-radius: 30px;
-	background: #777;
+	background: #72777c;
 	color: #fff;
 	font-size: 14px;
 	font-weight: 600;
@@ -1075,7 +1048,7 @@ th.action-links {
 	margin: 0 0 0 5px;
 	width: 16px;
 	height: 16px;
-	color: #777;
+	color: #72777c;
 	-webkit-transition: color .1s ease-in 0;
 	transition: color .1s ease-in 0;
 	font-family: dashicons;
@@ -1138,7 +1111,7 @@ th.action-links {
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	border: none;
-	background: #777;
+	background: #72777c;
 	color: #fff;
 }
 
@@ -1549,7 +1522,7 @@ form.upgrade .hint {
 	background: none;
 	-webkit-border-radius: 0;
 	border-radius: 0;
-	color: #777;
+	color: #72777c;
 	line-height: 1.7;
 	padding: 3px 16px 3px 6px;
 }
@@ -1581,7 +1554,7 @@ form.upgrade .hint {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
-	color: #b4b9be;
+	color: #72777c;
 }
 
 #screen-meta-links .screen-meta-active:after {
@@ -1663,7 +1636,7 @@ form.upgrade .hint {
 }
 
 .screen-options + .screen-options {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .metabox-prefs .submit {
@@ -1818,6 +1791,11 @@ html.wp-toolbar {
 	margin: 0.6em 0;
 }
 
+.widefat .column-comment ul {
+	list-style: initial;
+	margin-right: 2em;
+}
+
 /* Screens with postboxes */
 .postbox-container {
 	float: right;
@@ -1836,6 +1814,23 @@ html.wp-toolbar {
 .metabox-holder .postbox-container .empty-container {
 	border: 3px dashed #b4b9be;
 	height: 250px;
+	position: relative;
+}
+
+.metabox-holder .postbox-container .empty-container:after {
+	content: attr(data-emptystring);
+	margin: auto;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 1em;
+	width: 200px;
+	text-align: center;
+	color: #ccc;
+	font-size:18px;
+	display: none;
 }
 
 .metabox-holder.columns-1 .postbox-container .empty-container,
@@ -1982,7 +1977,7 @@ html.wp-toolbar {
 	right: 0;
 	left: 0;
 	padding: 10px 20px;
-	color: #777;
+	color: #555d66;
 }
 
 #wpfooter p {
@@ -2016,7 +2011,7 @@ html.wp-toolbar {
 	font-size: 14px;
 	line-height: 24px;
 	font-weight: 600;
-	background: #e4e4e4;
+	background: #e5e5e5;
 	color: #555;
 	text-decoration: none;
 	white-space: nowrap;
@@ -2032,7 +2027,7 @@ h3 .nav-tab, /* Back-compat for pre-4.4 */
 .nav-tab:hover,
 .nav-tab:focus {
 	background-color: #fff;
-	color: #464646;
+	color: #444;
 }
 
 .nav-tab-active,
@@ -2043,7 +2038,7 @@ h3 .nav-tab, /* Back-compat for pre-4.4 */
 
 .nav-tab-active {
 	margin-bottom: -1px;
-	color: #464646;
+	color: #444;
 }
 
 .nav-tab-active,
@@ -2060,15 +2055,23 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 h3.nav-tab-wrapper {
 	border-bottom: 1px solid #ccc;
 	margin: 0;
-	padding: 9px 0 0 15px;
+	padding-top: 9px;
+	padding-bottom: 0;
 	line-height: inherit;
 }
 
-/* contain floats */
-.nav-tab-wrapper:after {
-	content: "";
-	display: table;
-	clear: both;
+/* Back-compat for plugins. Deprecated. Use .wp-clearfix instead. */
+.nav-tab-wrapper:not(.wp-clearfix):after {
+ 	content: "";
+ 	display: table;
+ 	clear: both;
+ }
+
+.ie8 .nav-tab-wrapper {
+	/* contain floats establishing a new block formatting context */
+	display: inline-block;
+	width: 100%;
+	vertical-align: top;
 }
 
 /*------------------------------------------------------------------------------
@@ -2090,7 +2093,8 @@ h3.nav-tab-wrapper {
 	margin: 4px 10px 0;
 }
 
-.spinner.is-active {
+.spinner.is-active,
+.loading-content .spinner {
 	visibility: visible;
 }
 
@@ -2157,7 +2161,7 @@ body.iframe {
 }
 
 .media-icon img {
-	border: 1px solid #e7e7e7;
+	border: 1px solid #e5e5e5;
 	border: 1px solid rgba(0, 0, 0, 0.07);
 }
 
@@ -2403,7 +2407,8 @@ div.action-links {
 	position: relative;
 	left: 0;
 	right: 0;
-	height: 36px;
+	min-height: 36px;
+	font-size: 0;
 	z-index: 1;
 	border-bottom: 1px solid #ddd;
 	background: #f3f3f3;
@@ -2411,7 +2416,7 @@ div.action-links {
 
 #plugin-information-tabs a {
 	position: relative;
-	float: right;
+	display: inline-block;
 	padding: 9px 10px;
 	margin: 0;
 	height: 18px;
@@ -2423,7 +2428,7 @@ div.action-links {
 }
 
 #plugin-information-tabs a.current {
-	margin: 0 -1px 0;
+	margin: 0 -1px -1px;
 	background: #fff;
 	border: 1px solid #ddd;
 	border-bottom-color: #fff;
@@ -2491,7 +2496,7 @@ div.action-links {
 }
 
 #plugin-information .fyi strong {
-	color: #464646;
+	color: #444;
 }
 
 #plugin-information .fyi h3 {
@@ -2518,6 +2523,10 @@ div.action-links {
 	margin: 0 0 10px;
 }
 
+#plugin-information .fyi-description {
+	margin-top: 0;
+}
+
 #plugin-information .counter-container {
 	margin: 3px 0;
 }
@@ -2531,7 +2540,7 @@ div.action-links {
 #plugin-information .counter-back {
 	height: 17px;
 	width: 92px;
-	background-color: #ececec;
+	background-color: #e5e5e5;
 	float: right;
 }
 
@@ -2627,7 +2636,7 @@ div.action-links {
 	overflow: hidden; /* clearfix */
 	width: 100%;
 	margin-bottom: 20px;
-	border-bottom: 1px solid #e6e6e6;
+	border-bottom: 1px solid #e5e5e5;
 }
 
 #plugin-information .review-title-section {
@@ -2806,67 +2815,67 @@ body.index-php #TB_ajaxWindowTitle {
 	display: none;
 }
 
-body.about-php .tb-close-icon,
-body.plugin-install-php .tb-close-icon,
-body.import-php .tb-close-icon,
-body.plugins-php .tb-close-icon,
-body.update-core-php .tb-close-icon,
-body.index-php .tb-close-icon {
+/* only on these screens */
+.about-php #TB_closeWindowButton,
+.plugin-install-php #TB_closeWindowButton,
+.import-php #TB_closeWindowButton,
+.plugins-php #TB_closeWindowButton,
+.update-core-php #TB_closeWindowButton,
+.index-php #TB_closeWindowButton {
 	right: auto;
 	left: -30px;
 	color: #eee;
-	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
-	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
+
+body.about-php #TB_closeWindowButton:hover,
 body.about-php #TB_closeWindowButton:focus,
-body.about-php #TB_closeWindowButton:focus .tb-close-icon,
-body.about-php .tb-close-icon:focus,
-body.about-php .tb-close-icon:hover,
+body.plugin-install-php #TB_closeWindowButton:hover,
 body.plugin-install-php #TB_closeWindowButton:focus,
-body.plugin-install-php #TB_closeWindowButton:focus .tb-close-icon,
-body.plugin-install-php .tb-close-icon:focus,
-body.plugin-install-php .tb-close-icon:hover,
+body.import-php #TB_closeWindowButton:hover,
 body.import-php #TB_closeWindowButton:focus,
-body.import-php #TB_closeWindowButton:focus .tb-close-icon,
-body.import-php .tb-close-icon:focus,
-body.import-php .tb-close-icon:hover,
+body.plugins-php #TB_closeWindowButton:hover,
 body.plugins-php #TB_closeWindowButton:focus,
-body.plugins-php #TB_closeWindowButton:focus .tb-close-icon,
-body.plugins-php .tb-close-icon:focus,
-body.plugins-php .tb-close-icon:hover,
+body.update-core-php #TB_closeWindowButton:hover,
 body.update-core-php #TB_closeWindowButton:focus,
-body.update-core-php #TB_closeWindowButton:focus .tb-close-icon,
-body.update-core-php .tb-close-icon:focus,
-body.update-core-php .tb-close-icon:hover,
-body.index-php #TB_closeWindowButton:focus,
-body.index-php #TB_closeWindowButton:focus .tb-close-icon,
-body.index-php .tb-close-icon:focus,
-body.index-php .tb-close-icon:hover {
+body.index-php #TB_closeWindowButton:hover,
+body.index-php #TB_closeWindowButton:focus {
 	color: #00a0d2;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
-body.about-php .tb-close-icon:before,
-body.plugin-install-php .tb-close-icon:before,
-body.import-php .tb-close-icon:before,
-body.plugins-php .tb-close-icon:before,
-body.update-core-php .tb-close-icon:before,
-body.index-php .tb-close-icon:before {
+body.about-php .tb-close-icon,
+body.plugin-install-php .tb-close-icon,
+body.import-php .tb-close-icon,
+body.plugins-php .tb-close-icon,
+body.update-core-php .tb-close-icon,
+body.index-php .tb-close-icon {
+	display: none;
+}
+
+body.about-php #TB_closeWindowButton:after,
+body.plugin-install-php #TB_closeWindowButton:after,
+body.import-php #TB_closeWindowButton:after,
+body.plugins-php #TB_closeWindowButton:after,
+body.update-core-php #TB_closeWindowButton:after,
+body.index-php #TB_closeWindowButton:after {
 	content: "\f335";
-	font-size: 32px;
+	font: normal 32px/29px 'dashicons';
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /* move plugin install close icon to top on narrow screens */
 @media screen and ( max-width: 830px ) {
-	body.about-php .tb-close-icon,
-	body.plugin-install-php .tb-close-icon,
-	body.import-php .tb-close-icon,
-	body.plugins-php .tb-close-icon,
-	body.update-core-php .tb-close-icon,
-	body.index-php .tb-close-icon {
+	body.about-php #TB_closeWindowButton,
+	body.plugin-install-php #TB_closeWindowButton,
+	body.import-php #TB_closeWindowButton,
+	body.plugins-php #TB_closeWindowButton,
+	body.update-core-php #TB_closeWindowButton,
+	body.index-php #TB_closeWindowButton {
 		left: 0;
 		top: -30px;
 	}
@@ -2875,16 +2884,6 @@ body.index-php .tb-close-icon:before {
 /* @todo: move this. */
 img {
 	border: none;
-}
-
-/* Header */
-/* @todo: are these also specific to Press This? */
-#wphead {
-	border-bottom: 1px solid #dfdfdf;
-}
-
-#wphead h1 a {
-	color: #464646;
 }
 
 /* Metabox collapse arrow indicators */
@@ -2938,10 +2937,10 @@ img {
 
 .js .postbox .handlediv:focus .toggle-indicator:before {
 	-webkit-box-shadow:
-    	0 0 0 1px #5b9dd9,
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
-    box-shadow:
-    	0 0 0 1px #5b9dd9,
+	box-shadow:
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
@@ -3057,21 +3056,26 @@ img {
 	text-decoration: none !important;
 }
 
-.widget-action,
 .handlediv,
 .item-edit,
 .sidebar-name-arrow,
 .accordion-section-title:after {
-	color: #a0a5aa;
+	color: #72777c;
 }
 
-.widget-action:hover,
+.widget-action {
+	color: #555d66; /* #fafafa background in the Widgets screen */
+}
+
+.widget-top:hover .widget-action,
+.widget-action:focus,
 .handlediv:hover,
 .handlediv:focus,
 .item-edit:hover,
+.item-edit:focus,
 .sidebar-name:hover .sidebar-name-arrow,
 .accordion-section-title:hover:after {
-	color: #777;
+	color: #23282d;
 }
 
 .widget-top a.widget-action:after {
@@ -3121,7 +3125,7 @@ img {
 
 /* Accordion */
 .accordion-section {
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	margin: 0;
 }
 
@@ -3131,7 +3135,7 @@ img {
 }
 
 .accordion-section.open:hover {
-	border-bottom-color: #dfdfdf;
+	border-bottom-color: #ddd;
 }
 
 .accordion-section-content {
@@ -3145,8 +3149,8 @@ img {
 	margin: 0;
 	padding: 12px 15px 15px;
 	position: relative;
-	border-right: 1px solid #dfdfdf;
-	border-left: 1px solid #dfdfdf;
+	border-right: 1px solid #ddd;
+	border-left: 1px solid #ddd;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -3203,7 +3207,7 @@ img {
 
 .control-section.open .accordion-section-title {
 	/* When expanded */
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 }
 
 /* Edit Site */
@@ -3357,53 +3361,6 @@ img {
 /* =Media Queries
 -------------------------------------------------------------- */
 
-/* @todo: de-duplication */
-@media only screen and (min-width: 769px) {
-	/* categories */
-	#col-left {
-		width: 35%;
-	}
-
-	#col-right {
-		width: 65%;
-	}
-}
-
-@media only screen and (max-width: 860px) {
-
-	/* categories */
-	#col-left {
-		width: 35%;
-	}
-
-	#col-right {
-		width: 65%;
-	}
-}
-
-@media only screen and (min-width: 980px) {
-
-	/* categories */
-	#col-left {
-		width: 35%;
-	}
-
-	#col-right {
-		width: 65%;
-	}
-}
-
-@media only screen and (max-width: 768px) {
-	/* categories */
-	#col-left {
-		width: 100%;
-	}
-
-	#col-right {
-		width: 100%;
-	}
-}
-
 /**
  * HiDPI Displays
  */
@@ -3472,7 +3429,15 @@ img {
 		margin-right: 0;
 	}
 
-	.col-wrap {
+	/* categories */
+	#col-left,
+	#col-right {
+		float: none;
+		width: auto;
+	}
+
+	#col-left .col-wrap,
+	#col-right .col-wrap {
 		padding: 0;
 	}
 
@@ -3635,15 +3600,13 @@ img {
 	h1.nav-tab-wrapper,
 	.wrap h2.nav-tab-wrapper,
 	h3.nav-tab-wrapper {
-		padding-right: 0;
 		border-bottom: 0;
 	}
 
 	h1 .nav-tab,
 	h2 .nav-tab,
 	h3 .nav-tab {
-		margin-top: 10px;
-		margin-left: 10px;
+		margin: 10px 0 0 10px;
 		border-bottom: 1px solid #ccc;
 	}
 }

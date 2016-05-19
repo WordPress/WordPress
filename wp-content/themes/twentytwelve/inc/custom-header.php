@@ -13,7 +13,7 @@
  * Set up the WordPress core custom header arguments and settings.
  *
  * @uses add_theme_support() to register support for 3.4 and up.
- * @uses twentytwelve_header_style() to style front-end.
+ * @uses twentytwelve_header_style() to style front end.
  * @uses twentytwelve_admin_header_style() to style wp-admin form.
  * @uses twentytwelve_admin_header_image() to add custom markup to wp-admin form.
  *

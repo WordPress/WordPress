@@ -96,8 +96,7 @@ window.wp = window.wp || {};
 
 				// Use with PHP's wp_send_json_success() and wp_send_json_error()
 				deferred.jqXHR = $.ajax( options ).done( function( response ) {
-					// Treat a response of `1` as successful for backwards
-					// compatibility with existing handlers.
+					// Treat a response of 1 as successful for backward compatibility with existing handlers.
 					if ( response === '1' || response === 1 )
 						response = { success: true };
 

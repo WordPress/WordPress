@@ -258,7 +258,7 @@ function validate_user_form() {
  * @since MU
  *
  * @param string $blogname The new site name
- * @param string $blog_title The new blog title
+ * @param string $blog_title The new site title.
  * @param array $errors
  */
 function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
@@ -335,11 +335,11 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 }
 
 /**
- * Validate a new blog signup
+ * Validate a new site signup.
  *
  * @since MU
  *
- * @return null|bool True if blog signup was validated, false if error.
+ * @return null|bool True if site signup was validated, false if error.
  *                   The function halts all execution if the user is not logged in.
  */
 function validate_another_blog_signup() {
@@ -420,18 +420,18 @@ function validate_another_blog_signup() {
 }
 
 /**
- * Confirm a new site signup
+ * Confirm a new site signup.
  *
  * @since MU
  * @since 4.4.0 Added the `$blog_id` parameter.
  *
- * @param string $domain The domain URL
- * @param string $path The site root path
- * @param string $blog_title The blog title
- * @param string $user_name The username
- * @param string $user_email The user's email address
- * @param array  $meta Any additional meta from the 'add_signup_meta' filter in validate_blog_signup()
- * @param int    $blog_id The blog ID
+ * @param string $domain     The domain URL.
+ * @param string $path       The site root path.
+ * @param string $blog_title The site title.
+ * @param string $user_name  The username.
+ * @param string $user_email The user's email address.
+ * @param array  $meta       Any additional meta from the 'add_signup_meta' filter in validate_blog_signup().
+ * @param int    $blog_id    The site ID.
  */
 function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $user_email = '', $meta = array(), $blog_id = 0 ) {
 

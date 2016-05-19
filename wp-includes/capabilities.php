@@ -16,6 +16,8 @@
  *
  * @since 2.0.0
  *
+ * @global array $post_type_meta_caps Used to get post type meta capabilities.
+ *
  * @param string $cap       Capability name.
  * @param int    $user_id   User ID.
  * @param int    $object_id Optional. ID of the specific object to check against if `$cap` is a "meta" cap.
@@ -250,7 +252,7 @@ function map_meta_cap( $cap, $user_id ) {
 			 * Filter whether the user is allowed to add post meta to a post.
 			 *
 			 * The dynamic portion of the hook name, `$meta_key`, refers to the
-			 * meta key passed to {@see map_meta_cap()}.
+			 * meta key passed to map_meta_cap().
 			 *
 			 * @since 3.3.0
 			 *
@@ -377,7 +379,7 @@ function map_meta_cap( $cap, $user_id ) {
 		break;
 	default:
 		// Handle meta capabilities for custom post types.
-		$post_type_meta_caps = _post_type_meta_capabilities();
+		global $post_type_meta_caps;
 		if ( isset( $post_type_meta_caps[ $cap ] ) ) {
 			$args = array_merge( array( $post_type_meta_caps[ $cap ], $user_id ), $args );
 			return call_user_func_array( 'map_meta_cap', $args );
@@ -406,6 +408,8 @@ function map_meta_cap( $cap, $user_id ) {
  * While checking against particular roles in place of a capability is supported
  * in part, this practice is discouraged as it may produce unreliable results.
  *
+ * Note: Will always return true if the current user is a super admin, unless specifically denied.
+ *
  * @since 2.0.0
  *
  * @see WP_User::has_cap()
@@ -433,11 +437,11 @@ function current_user_can( $capability ) {
 }
 
 /**
- * Whether current user has a capability or role for a given blog.
+ * Whether current user has a capability or role for a given site.
  *
  * @since 3.0.0
  *
- * @param int $blog_id Blog ID
+ * @param int    $blog_id    Site ID.
  * @param string $capability Capability or role name.
  * @return bool
  */
@@ -613,5 +617,101 @@ function is_super_admin( $user_id = false ) {
 			return true;
 	}
 
+	return false;
+}
+
+/**
+ * Grants Super Admin privileges.
+ *
+ * @since 3.0.0
+ *
+ * @global array $super_admins
+ *
+ * @param int $user_id ID of the user to be granted Super Admin privileges.
+ * @return bool True on success, false on failure. This can fail when the user is
+ *              already a super admin or when the `$super_admins` global is defined.
+ */
+function grant_super_admin( $user_id ) {
+	// If global super_admins override is defined, there is nothing to do here.
+	if ( isset( $GLOBALS['super_admins'] ) || ! is_multisite() ) {
+		return false;
+	}
+
+	/**
+	 * Fires before the user is granted Super Admin privileges.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $user_id ID of the user that is about to be granted Super Admin privileges.
+	 */
+	do_action( 'grant_super_admin', $user_id );
+
+	// Directly fetch site_admins instead of using get_super_admins()
+	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+
+	$user = get_userdata( $user_id );
+	if ( $user && ! in_array( $user->user_login, $super_admins ) ) {
+		$super_admins[] = $user->user_login;
+		update_site_option( 'site_admins' , $super_admins );
+
+		/**
+		 * Fires after the user is granted Super Admin privileges.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param int $user_id ID of the user that was granted Super Admin privileges.
+		 */
+		do_action( 'granted_super_admin', $user_id );
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Revokes Super Admin privileges.
+ *
+ * @since 3.0.0
+ *
+ * @global array $super_admins
+ *
+ * @param int $user_id ID of the user Super Admin privileges to be revoked from.
+ * @return bool True on success, false on failure. This can fail when the user's email
+ *              is the network admin email or when the `$super_admins` global is defined.
+ */
+function revoke_super_admin( $user_id ) {
+	// If global super_admins override is defined, there is nothing to do here.
+	if ( isset( $GLOBALS['super_admins'] ) || ! is_multisite() ) {
+		return false;
+	}
+
+	/**
+	 * Fires before the user's Super Admin privileges are revoked.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $user_id ID of the user Super Admin privileges are being revoked from.
+	 */
+	do_action( 'revoke_super_admin', $user_id );
+
+	// Directly fetch site_admins instead of using get_super_admins()
+	$super_admins = get_site_option( 'site_admins', array( 'admin' ) );
+
+	$user = get_userdata( $user_id );
+	if ( $user && 0 !== strcasecmp( $user->user_email, get_site_option( 'admin_email' ) ) ) {
+		if ( false !== ( $key = array_search( $user->user_login, $super_admins ) ) ) {
+			unset( $super_admins[$key] );
+			update_site_option( 'site_admins', $super_admins );
+
+			/**
+			 * Fires after the user's Super Admin privileges are revoked.
+			 *
+			 * @since 3.0.0
+			 *
+			 * @param int $user_id ID of the user Super Admin privileges were revoked from.
+			 */
+			do_action( 'revoked_super_admin', $user_id );
+			return true;
+		}
+	}
 	return false;
 }

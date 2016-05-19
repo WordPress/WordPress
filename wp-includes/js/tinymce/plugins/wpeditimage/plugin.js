@@ -353,6 +353,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 	function updateImage( imageNode, imageData ) {
 		var classes, className, node, html, parent, wrap, linkNode,
 			captionNode, dd, dl, id, attrs, linkAttrs, width, height, align,
+			$imageNode, srcset, src,
 			dom = editor.dom;
 
 		classes = tinymce.explode( imageData.extraClasses, ' ' );
@@ -488,6 +489,19 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			dom.remove( captionNode );
 		}
 
+		$imageNode = editor.$( imageNode );
+		srcset = $imageNode.attr( 'srcset' );
+		src = $imageNode.attr( 'src' );
+
+		// Remove srcset and sizes if the image file was edited or the image was replaced.
+		if ( srcset && src ) {
+			src = src.replace( /[?#].*/, '' );
+
+			if ( srcset.indexOf( src ) === -1 ) {
+				$imageNode.attr( 'srcset', null ).attr( 'sizes', null );
+			}
+		}
+
 		if ( wp.media.events ) {
 			wp.media.events.trigger( 'editor:image-update', {
 				editor: editor,
@@ -583,7 +597,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 			var captionField = {
 				type: 'textbox',
 				flex: 1,
-				name: 'caption',
+				name: 'wpcaption',
 				minHeight: 60,
 				multiline: true,
 				scroll: true,
@@ -609,7 +623,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		editor.on( 'wpImageFormSubmit', function( event ) {
 			var data = event.imgData.data,
 				imgNode = event.imgData.node,
-				caption = event.imgData.caption,
+				caption = event.imgData.wpcaption,
 				captionId = '',
 				captionAlign = '',
 				captionWidth = '',
@@ -792,7 +806,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				parent = dom.select( 'dd.wp-caption-dd', parent )[0];
 
 				if ( parent ) {
-					data.caption = editor.serializer.serialize( parent )
+					data.wpcaption = editor.serializer.serialize( parent )
 						.replace( /<br[^>]*>/g, '$&\n' ).replace( /^<p>/, '' ).replace( /<\/p>$/, '' );
 				}
 			}
@@ -991,13 +1005,16 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				rng = tinymce.dom.RangeUtils.getCaretRangeFromPoint( event.clientX, event.clientY, editor.getDoc() );
 
 			// Don't allow anything to be dropped in a captioned image.
-			if ( dom.getParent( rng.startContainer, '.mceTemp' ) ) {
+			if ( rng && dom.getParent( rng.startContainer, '.mceTemp' ) ) {
 				event.preventDefault();
 			} else if ( wrap ) {
 				event.preventDefault();
 
 				editor.undoManager.transact( function() {
-					editor.selection.setRng( rng );
+					if ( rng ) {
+						editor.selection.setRng( rng );
+					}
+
 					editor.selection.setNode( wrap );
 					dom.remove( wrap );
 				} );

@@ -23,8 +23,12 @@ class WP_Widget_Pages extends WP_Widget {
 	 * @access public
 	 */
 	public function __construct() {
-		$widget_ops = array('classname' => 'widget_pages', 'description' => __( 'A list of your site&#8217;s Pages.') );
-		parent::__construct('pages', __('Pages'), $widget_ops);
+		$widget_ops = array(
+			'classname' => 'widget_pages',
+			'description' => __( 'A list of your site&#8217;s Pages.' ),
+			'customize_selective_refresh' => true,
+		);
+		parent::__construct( 'pages', __( 'Pages' ), $widget_ops );
 	}
 
 	/**

@@ -39,25 +39,12 @@ elseif ( is_feed() ) :
 elseif ( is_trackback() ) :
 	include( ABSPATH . 'wp-trackback.php' );
 	return;
-elseif ( is_embed() ) :
-	$template = ABSPATH . WPINC . '/embed-template.php';
-
-	/**
-	 * Filter the template used for embedded posts.
-	 *
-	 * @since 4.4.0
-	 *
-	 * @param string $template Path to the template file.
-	 */
-	$template = apply_filters( 'embed_template', $template );
-
-	include ( $template );
-	return;
 endif;
 
 if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
 	$template = false;
-	if     ( is_404()            && $template = get_404_template()            ) :
+	if     ( is_embed()          && $template = get_embed_template()          ) :
+	elseif ( is_404()            && $template = get_404_template()            ) :
 	elseif ( is_search()         && $template = get_search_template()         ) :
 	elseif ( is_front_page()     && $template = get_front_page_template()     ) :
 	elseif ( is_home()           && $template = get_home_template()           ) :
@@ -84,7 +71,13 @@ if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
 	 *
 	 * @param string $template The path of the template to include.
 	 */
-	if ( $template = apply_filters( 'template_include', $template ) )
+	if ( $template = apply_filters( 'template_include', $template ) ) {
 		include( $template );
+	} elseif ( current_user_can( 'switch_themes' ) ) {
+		$theme = wp_get_theme();
+		if ( $theme->errors() ) {
+			wp_die( $theme->errors() );
+		}
+	}
 	return;
 endif;

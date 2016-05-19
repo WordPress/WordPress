@@ -263,21 +263,17 @@ function wp_nav_menu_item_link_meta_box() {
 	?>
 	<div class="customlinkdiv" id="customlinkdiv">
 		<input type="hidden" value="custom" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-type]" />
-		<p id="menu-item-url-wrap">
-			<label class="howto" for="custom-menu-item-url">
-				<span><?php _e('URL'); ?></span>
-				<input id="custom-menu-item-url" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-url]" type="text" class="code menu-item-textbox" value="http://" />
-			</label>
+		<p id="menu-item-url-wrap" class="wp-clearfix">
+			<label class="howto" for="custom-menu-item-url"><?php _e( 'URL' ); ?></label>
+			<input id="custom-menu-item-url" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-url]" type="text" class="code menu-item-textbox" value="http://" />
 		</p>
 
-		<p id="menu-item-name-wrap">
-			<label class="howto" for="custom-menu-item-name">
-				<span><?php _e( 'Link Text' ); ?></span>
-				<input id="custom-menu-item-name" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]" type="text" class="regular-text menu-item-textbox input-with-default-title" title="<?php esc_attr_e('Menu Item'); ?>" />
-			</label>
+		<p id="menu-item-name-wrap" class="wp-clearfix">
+			<label class="howto" for="custom-menu-item-name"><?php _e( 'Link Text' ); ?></label>
+			<input id="custom-menu-item-name" name="menu-item[<?php echo $_nav_menu_placeholder; ?>][menu-item-title]" type="text" class="regular-text menu-item-textbox" />
 		</p>
 
-		<p class="button-controls">
+		<p class="button-controls wp-clearfix">
 			<span class="add-to-menu">
 				<input type="submit"<?php wp_nav_menu_disabled_check( $nav_menu_selected_id ); ?> class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e('Add to Menu'); ?>" name="add-custom-menu-item" id="submit-customlinkdiv" />
 				<span class="spinner"></span>
@@ -435,7 +431,8 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			}
 			?>
 			<p class="quick-search-wrap">
-				<input type="search" class="quick-search input-with-default-title" title="<?php esc_attr_e('Search'); ?>" value="<?php echo $searched; ?>" name="quick-search-posttype-<?php echo $post_type_name; ?>" />
+				<label for="quick-search-posttype-<?php echo $post_type_name; ?>" class="screen-reader-text"><?php _e( 'Search' ); ?></label>
+				<input type="search" class="quick-search" value="<?php echo $searched; ?>" name="quick-search-posttype-<?php echo $post_type_name; ?>" id="quick-search-posttype-<?php echo $post_type_name; ?>" />
 				<span class="spinner"></span>
 				<?php submit_button( __( 'Search' ), 'button-small quick-search-submit button-secondary hide-if-js', 'submit', false, array( 'id' => 'submit-quick-search-posttype-' . $post_type_name ) ); ?>
 			</p>
@@ -543,7 +540,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 			<?php endif; ?>
 		</div><!-- /.tabs-panel -->
 
-		<p class="button-controls">
+		<p class="button-controls wp-clearfix">
 			<span class="list-controls">
 				<a href="<?php
 					echo esc_url( add_query_arg(
@@ -714,7 +711,8 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			}
 			?>
 			<p class="quick-search-wrap">
-				<input type="search" class="quick-search input-with-default-title" title="<?php esc_attr_e('Search'); ?>" value="<?php echo $searched; ?>" name="quick-search-taxonomy-<?php echo $taxonomy_name; ?>" />
+				<label for="quick-search-taxonomy-<?php echo $taxonomy_name; ?>" class="screen-reader-text"><?php _e( 'Search' ); ?></label>
+				<input type="search" class="quick-search" value="<?php echo $searched; ?>" name="quick-search-taxonomy-<?php echo $taxonomy_name; ?>" id="quick-search-taxonomy-<?php echo $taxonomy_name; ?>" />
 				<span class="spinner"></span>
 				<?php submit_button( __( 'Search' ), 'button-small quick-search-submit button-secondary hide-if-js', 'submit', false, array( 'id' => 'submit-quick-search-taxonomy-' . $taxonomy_name ) ); ?>
 			</p>
@@ -733,7 +731,7 @@ function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
 			</ul>
 		</div><!-- /.tabs-panel -->
 
-		<p class="button-controls">
+		<p class="button-controls wp-clearfix">
 			<span class="list-controls">
 				<a href="<?php
 					echo esc_url(add_query_arg(
@@ -939,17 +937,17 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
  *
  * @since 3.0.0
  *
- * @return string|WP_Error $output The menu formatted to edit or error object on failure.
+ * @return array Columns.
  */
 function wp_nav_menu_manage_columns() {
 	return array(
-		'_title' => __('Show advanced menu properties'),
-		'cb' => '<input type="checkbox" />',
-		'title-attribute' => __('Title Attribute'),
-		'link-target' => __('Link Target'),
-		'css-classes' => __('CSS Classes'),
-		'xfn' => __('Link Relationship (XFN)'),
-		'description' => __('Description'),
+		'_title'          => __( 'Show advanced menu properties' ),
+		'cb'              => '<input type="checkbox" />',
+		'link-target'     => __( 'Link Target' ),
+		'title-attribute' => __( 'Title Attribute' ),
+		'css-classes'     => __( 'CSS Classes' ),
+		'xfn'             => __( 'Link Relationship (XFN)' ),
+		'description'     => __( 'Description' ),
 	);
 }
 

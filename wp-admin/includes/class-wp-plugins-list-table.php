@@ -65,7 +65,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	/**
 	 *
 	 * @global string $status
-	 * @global type   $plugins
+	 * @global array  $plugins
 	 * @global array  $totals
 	 * @global int    $page
 	 * @global string $orderby
@@ -75,26 +75,28 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		global $status, $plugins, $totals, $page, $orderby, $order, $s;
 
-		wp_reset_vars( array( 'orderby', 'order', 's' ) );
+		wp_reset_vars( array( 'orderby', 'order' ) );
 
 		/**
-		 * Filter the full array of plugins to list in the Plugins list table.
+		 * Filters the full array of plugins to list in the Plugins list table.
 		 *
 		 * @since 3.0.0
 		 *
 		 * @see get_plugins()
 		 *
-		 * @param array $plugins An array of plugins to display in the list table.
+		 * @param array $all_plugins An array of plugins to display in the list table.
 		 */
+		$all_plugins = apply_filters( 'all_plugins', get_plugins() );
+
 		$plugins = array(
-			'all' => apply_filters( 'all_plugins', get_plugins() ),
-			'search' => array(),
-			'active' => array(),
-			'inactive' => array(),
+			'all'                => $all_plugins,
+			'search'             => array(),
+			'active'             => array(),
+			'inactive'           => array(),
 			'recently_activated' => array(),
-			'upgrade' => array(),
-			'mustuse' => array(),
-			'dropins' => array()
+			'upgrade'            => array(),
+			'mustuse'            => array(),
+			'dropins'            => array(),
 		);
 
 		$screen = $this->screen;
@@ -224,7 +226,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			}
 		}
 
-		if ( $s ) {
+		if ( strlen( $s ) ) {
 			$status = 'search';
 			$plugins['search'] = array_filter( $plugins['all'], array( $this, '_search_callback' ) );
 		}
@@ -268,17 +270,16 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @staticvar string $term
+	 * @global string $s URL encoded search term.
+	 *
 	 * @param array $plugin
 	 * @return bool
 	 */
 	public function _search_callback( $plugin ) {
-		static $term = null;
-		if ( is_null( $term ) )
-			$term = wp_unslash( $_REQUEST['s'] );
+		global $s;
 
 		foreach ( $plugin as $value ) {
-			if ( false !== stripos( strip_tags( $value ), $term ) ) {
+			if ( is_string( $value ) && false !== stripos( strip_tags( $value ), urldecode( $s ) ) ) {
 				return true;
 			}
 		}
@@ -317,7 +318,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		global $plugins;
 
 		if ( ! empty( $_REQUEST['s'] ) ) {
-			$s = esc_html( $_REQUEST['s'] );
+			$s = esc_html( wp_unslash( $_REQUEST['s'] ) );
 
 			printf( __( 'No plugins found for &#8220;%s&#8221;.' ), $s );
 
@@ -695,15 +696,14 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			$plugin_name = $plugin_data['Name'];
 		}
 
-		$id = sanitize_title( $plugin_name );
 		if ( ! empty( $totals['upgrade'] ) && ! empty( $plugin_data['update'] ) )
 			$class .= ' update';
 
-		$plugin_slug = ( isset( $plugin_data['slug'] ) ) ? $plugin_data['slug'] : '';
-		printf( "<tr id='%s' class='%s' data-slug='%s'>",
-			$id,
-			$class,
-			$plugin_slug
+		$plugin_slug = isset( $plugin_data['slug'] ) ? $plugin_data['slug'] : sanitize_title( $plugin_name );
+		printf( '<tr class="%s" data-slug="%s" data-plugin="%s">',
+			esc_attr( $class ),
+			esc_attr( $plugin_slug ),
+			esc_attr( $plugin_file )
 		);
 
 		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
@@ -742,7 +742,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 					// Details link using API info, if available
 					if ( isset( $plugin_data['slug'] ) && current_user_can( 'install_plugins' ) ) {
-						$plugin_meta[] = sprintf( '<a href="%s" class="thickbox" aria-label="%s" data-title="%s">%s</a>',
+						$plugin_meta[] = sprintf( '<a href="%s" class="thickbox open-plugin-details-modal" aria-label="%s" data-title="%s">%s</a>',
 							esc_url( network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_data['slug'] .
 								'&TB_iframe=true&width=600&height=550' ) ),
 							esc_attr( sprintf( __( 'More information about %s' ), $plugin_name ) ),

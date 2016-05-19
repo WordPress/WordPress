@@ -96,9 +96,11 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * Add a node to the menu.
+	 * Adds a node to the menu.
 	 *
+	 * @since 3.1.0
 	 * @since 4.5.0 Added the ability to pass 'lang' and 'dir' meta data.
+	 * @access public
 	 *
 	 * @param array $args {
 	 *     Arguments for adding a node.

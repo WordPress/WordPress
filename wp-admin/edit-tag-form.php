@@ -7,16 +7,8 @@
  */
 
 // don't load directly
-if ( !defined('ABSPATH') )
-	die('-1');
-
-if ( empty($tag_ID) ) { ?>
-<div class="wrap">
-	<h1><?php echo $tax->labels->edit_item; ?></h1>
-	<div id="message" class="notice notice-warning"><p><strong><?php _e( 'You did not select an item for editing.' ); ?></strong></p></div>
-</div>
-<?php
-	return;
+if ( ! defined( 'ABSPATH' ) ) {
+	die( '-1' );
 }
 
 // Back compat hooks
@@ -103,10 +95,27 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
  */
 do_action( "{$taxonomy}_term_edit_form_tag" );
 ?>>
-<input type="hidden" name="action" value="editedtag" />
-<input type="hidden" name="tag_ID" value="<?php echo esc_attr($tag->term_id) ?>" />
-<input type="hidden" name="taxonomy" value="<?php echo esc_attr($taxonomy) ?>" />
-<?php wp_original_referer_field(true, 'previous'); wp_nonce_field('update-tag_' . $tag_ID); ?>
+<input type="hidden" name="action" value="editedtag"/>
+<input type="hidden" name="tag_ID" value="<?php echo esc_attr( $tag_ID ) ?>"/>
+<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy ) ?>"/>
+<?php
+wp_original_referer_field( true, 'previous' );
+wp_nonce_field( 'update-tag_' . $tag_ID );
+
+/**
+ * Fires at the beginning of the Edit Term form.
+ *
+ * At this point, the required hidden fields and nonces have already been output.
+ *
+ * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
+ *
+ * @since 4.5.0
+ *
+ * @param object $tag      Current taxonomy term object.
+ * @param string $taxonomy Current $taxonomy slug.
+ */
+do_action( "{$taxonomy}_term_edit_form_top", $tag, $taxonomy );
+?>
 	<table class="form-table">
 		<tr class="form-field form-required term-name-wrap">
 			<th scope="row"><label for="name"><?php _ex( 'Name', 'term name' ); ?></label></th>

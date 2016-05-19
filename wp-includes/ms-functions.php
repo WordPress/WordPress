@@ -37,7 +37,7 @@ function get_sitestats() {
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $user_id The unique ID of the user
- * @return object|void The blog object
+ * @return WP_Site|void The blog object
  */
 function get_active_blog_for_user( $user_id ) {
 	global $wpdb;
@@ -1159,7 +1159,8 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $s
  *
  * @since MU
  *
- * @param int $blog_id The new site's ID.
+ * @param int    $blog_id    The new site's ID.
+ * @param string $deprecated Not used.
  * @return bool
  */
 function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
@@ -1538,13 +1539,13 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	$user = get_userdata( $user_id );
 
 	/**
-	 * Filter the content of the welcome email after user activation.
+	 * Filters the content of the welcome email after user activation.
 	 *
 	 * Content should be formatted for transmission via wp_mail().
 	 *
 	 * @since MU
 	 *
-	 * @param type   $welcome_email The message body of the account activation success email.
+	 * @param string $welcome_email The message body of the account activation success email.
 	 * @param int    $user_id       User ID.
 	 * @param string $password      User password.
 	 * @param array  $meta          Signup meta data.
@@ -1580,18 +1581,18 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 }
 
 /**
- * Get the current site info.
+ * Get the current network.
  *
  * Returns an object containing the 'id', 'domain', 'path', and 'site_name'
- * properties of the site being viewed.
+ * properties of the network being viewed.
  *
  * @see wpmu_current_site()
  *
  * @since MU
  *
- * @global object $current_site
+ * @global WP_Network $current_site
  *
- * @return object
+ * @return WP_Network
  */
 function get_current_site() {
 	global $current_site;
@@ -1754,6 +1755,8 @@ function check_upload_mimes( $mimes ) {
  * @since MU
  *
  * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param string $deprecated Not used.
  */
 function update_posts_count( $deprecated = '' ) {
 	global $wpdb;
@@ -1787,7 +1790,8 @@ function wpmu_log_new_registrations( $blog_id, $user_id ) {
  * @global wpdb $wpdb WordPress database abstraction object.
  * @staticvar int $global_terms_recurse
  *
- * @param int $term_id An ID for a term on the current blog.
+ * @param int    $term_id    An ID for a term on the current blog.
+ * @param string $deprecated Not used.
  * @return int An ID from the global terms table mapped from $term_id.
  */
 function global_terms( $term_id, $deprecated = '' ) {
@@ -1856,6 +1860,7 @@ function global_terms( $term_id, $deprecated = '' ) {
  * @see wp_validate_redirect()
  * @since MU
  *
+ * @param array|string $deprecated Not used.
  * @return array The current site's domain
  */
 function redirect_this_site( $deprecated = '' ) {
@@ -2019,6 +2024,8 @@ function add_new_user_to_blog( $user_id, $password, $meta ) {
  * Correct From host on outgoing mail to match the site domain
  *
  * @since MU
+ *
+ * @param PHPMailer $phpmailer The PHPMailer instance, passed by reference.
  */
 function fix_phpmailer_messageid( $phpmailer ) {
 	$phpmailer->Hostname = get_current_site()->domain;
@@ -2351,9 +2358,12 @@ function is_upload_space_available() {
 }
 
 /**
+ * Filters the maximum upload file size allowed, in bytes.
+ *
  * @since 3.0.0
  *
- * @return int of upload size limit in bytes
+ * @param  int $size Upload size limit in bytes.
+ * @return int       Upload size limit in bytes.
  */
 function upload_size_limit_filter( $size ) {
 	$fileupload_maxk = KB_IN_BYTES * get_site_option( 'fileupload_maxk', 1500 );

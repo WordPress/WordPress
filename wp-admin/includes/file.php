@@ -42,6 +42,12 @@ $wp_file_descriptions = array(
 	'video.php'             => __( 'Video Attachment Template' ),
 	'audio.php'             => __( 'Audio Attachment Template' ),
 	'application.php'       => __( 'Application Attachment Template' ),
+	// Embeds
+	'embed.php'             => __( 'Embed Template' ),
+	'embed-404.php'         => __( 'Embed 404 Template' ),
+	'embed-content.php'     => __( 'Embed Content Template' ),
+	'header-embed.php'      => __( 'Embed Header Template' ),
+	'footer-embed.php'      => __( 'Embed Footer Template' ),
 	// Stylesheets
 	'style.css'             => __( 'Stylesheet' ),
 	'editor-style.css'      => __( 'Visual Editor Stylesheet' ),
@@ -224,6 +230,7 @@ function validate_file_to_edit( $file, $allowed_files = '' ) {
  * Handle PHP uploads in WordPress, sanitizing file names, checking extensions for mime type,
  * and moving the file to the appropriate directory within the uploads directory.
  *
+ * @access private
  * @since 4.0.0
  *
  * @see wp_handle_upload_error
@@ -409,7 +416,8 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 		'file' => $new_file,
 		'url'  => $url,
 		'type' => $type
-	), 'wp_handle_sideload' === $action ? 'sideload' : 'upload' ); }
+	), 'wp_handle_sideload' === $action ? 'sideload' : 'upload' );
+}
 
 /**
  * Wrapper for _wp_handle_upload(), passes 'wp_handle_upload' action.
@@ -467,7 +475,7 @@ function wp_handle_sideload( &$file, $overrides = false, $time = null ) {
 
 
 /**
- * Downloads a url to a local temporary file using the WordPress HTTP Class.
+ * Downloads a URL to a local temporary file using the WordPress HTTP Class.
  * Please note, That the calling function must unlink() the file.
  *
  * @since 2.5.0
@@ -635,10 +643,13 @@ function _unzip_file_ziparchive($file, $to, $needed_dirs = array() ) {
 
 		$uncompressed_size += $info['size'];
 
-		if ( '/' == substr($info['name'], -1) ) // directory
-			$needed_dirs[] = $to . untrailingslashit($info['name']);
-		else
-			$needed_dirs[] = $to . untrailingslashit(dirname($info['name']));
+		if ( '/' === substr( $info['name'], -1 ) ) {
+			// Directory.
+			$needed_dirs[] = $to . untrailingslashit( $info['name'] );
+		} elseif ( '.' !== $dirname = dirname( $info['name'] ) ) {
+			// Path to a file.
+			$needed_dirs[] = $to . untrailingslashit( $dirname );
+		}
 	}
 
 	/*
@@ -1155,19 +1166,6 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	$types = apply_filters( 'fs_ftp_connection_types', $types, $credentials, $type, $error, $context );
 
 ?>
-<script type="text/javascript">
-<!--
-jQuery(function($){
-	jQuery("#ssh").click(function () {
-		jQuery("#ssh_keys").show();
-	});
-	jQuery("#ftp, #ftps").click(function () {
-		jQuery("#ssh_keys").hide();
-	});
-	jQuery('#request-filesystem-credentials-form input[value=""]:first').focus();
-});
--->
-</script>
 <form action="<?php echo esc_url( $form_post ) ?>" method="post">
 <div id="request-filesystem-credentials-form" class="request-filesystem-credentials-form">
 <?php
@@ -1214,8 +1212,27 @@ echo "<$heading_tag id='request-filesystem-credentials-title'>" . __( 'Connectio
 		<em><?php if ( ! defined('FTP_PASS') ) _e( 'This password will not be stored on the server.' ); ?></em>
 	</label>
 </div>
-<?php if ( isset($types['ssh']) ) : ?>
 <fieldset>
+<legend><?php _e( 'Connection Type' ); ?></legend>
+<?php
+	$disabled = disabled( ( defined( 'FTP_SSL' ) && FTP_SSL ) || ( defined( 'FTP_SSH' ) && FTP_SSH ), true, false );
+	foreach ( $types as $name => $text ) : ?>
+	<label for="<?php echo esc_attr( $name ) ?>">
+		<input type="radio" name="connection_type" id="<?php echo esc_attr( $name ) ?>" value="<?php echo esc_attr( $name ) ?>"<?php checked( $name, $connection_type ); echo $disabled; ?> />
+		<?php echo $text; ?>
+	</label>
+<?php
+	endforeach;
+?>
+</fieldset>
+<?php
+if ( isset( $types['ssh'] ) ) {
+	$hidden_class = '';
+	if ( 'ssh' != $connection_type || empty( $connection_type ) ) {
+		$hidden_class = ' class="hidden"';
+	}
+?>
+<fieldset id="ssh-keys"<?php echo $hidden_class; ?>">
 <legend><?php _e( 'Authentication Keys' ); ?></legend>
 <label for="public_key">
 	<span class="field-title"><?php _e('Public Key:') ?></span>
@@ -1225,21 +1242,11 @@ echo "<$heading_tag id='request-filesystem-credentials-title'>" . __( 'Connectio
 	<span class="field-title"><?php _e('Private Key:') ?></span>
 	<input name="private_key" type="text" id="private_key" value="<?php echo esc_attr($private_key) ?>"<?php disabled( defined('FTP_PRIKEY') ); ?> />
 </label>
-</fieldset>
-<span id="auth-keys-desc"><?php _e('Enter the location on the server where the public and private keys are located. If a passphrase is needed, enter that in the password field above.') ?></span>
-<?php endif; ?>
-<fieldset>
-<legend><?php _e( 'Connection Type' ); ?></legend>
-<?php
-	$disabled = disabled( (defined('FTP_SSL') && FTP_SSL) || (defined('FTP_SSH') && FTP_SSH), true, false );
-	foreach ( $types as $name => $text ) : ?>
-	<label for="<?php echo esc_attr($name) ?>">
-		<input type="radio" name="connection_type" id="<?php echo esc_attr($name) ?>" value="<?php echo esc_attr($name) ?>"<?php checked($name, $connection_type); echo $disabled; ?> />
-		<?php echo $text ?>
-	</label>
-	<?php endforeach; ?>
+<p id="auth-keys-desc"><?php _e( 'Enter the location on the server where the public and private keys are located. If a passphrase is needed, enter that in the password field above.' ) ?></p>
 </fieldset>
 <?php
+}
+
 foreach ( (array) $extra_fields as $field ) {
 	if ( isset( $_POST[ $field ] ) )
 		echo '<input type="hidden" name="' . esc_attr( $field ) . '" value="' . esc_attr( wp_unslash( $_POST[ $field ] ) ) . '" />';

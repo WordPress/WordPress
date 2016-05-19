@@ -33,8 +33,12 @@ class WP_Widget_Calendar extends WP_Widget {
 	 * @access public
 	 */
 	public function __construct() {
-		$widget_ops = array('classname' => 'widget_calendar', 'description' => __( 'A calendar of your site&#8217;s Posts.') );
-		parent::__construct('calendar', __('Calendar'), $widget_ops);
+		$widget_ops = array(
+			'classname' => 'widget_calendar',
+			'description' => __( 'A calendar of your site&#8217;s Posts.' ),
+			'customize_selective_refresh' => true,
+		);
+		parent::__construct( 'calendar', __( 'Calendar' ), $widget_ops );
 	}
 
 	/**

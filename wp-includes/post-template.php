@@ -354,23 +354,25 @@ function the_excerpt() {
 }
 
 /**
- * Retrieve the post excerpt.
+ * Retrieves the post excerpt.
  *
  * @since 0.71
+ * @since 4.5.0 Introduced the `$post` parameter.
  *
- * @param mixed $deprecated Not used.
- * @return string
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global $post.
+ * @return string Post excerpt.
  */
-function get_the_excerpt( $deprecated = '' ) {
-	if ( !empty( $deprecated ) )
+function get_the_excerpt( $post = null ) {
+	if ( is_bool( $post ) ) {
 		_deprecated_argument( __FUNCTION__, '2.3' );
+	}
 
-	$post = get_post();
+	$post = get_post( $post );
 	if ( empty( $post ) ) {
 		return '';
 	}
 
-	if ( post_password_required() ) {
+	if ( post_password_required( $post ) ) {
 		return __( 'There is no excerpt because this is a protected post.' );
 	}
 
@@ -378,10 +380,12 @@ function get_the_excerpt( $deprecated = '' ) {
 	 * Filter the retrieved post excerpt.
 	 *
 	 * @since 1.2.0
+	 * @since 4.5.0 Introduced the `$post` parameter.
 	 *
 	 * @param string $post_excerpt The post excerpt.
+	 * @param WP_Post $post Post object.
 	 */
-	return apply_filters( 'get_the_excerpt', $post->post_excerpt );
+	return apply_filters( 'get_the_excerpt', $post->post_excerpt, $post );
 }
 
 /**
@@ -578,9 +582,6 @@ function get_body_class( $class = '' ) {
 		$classes[] = 'attachment';
 	if ( is_404() )
 		$classes[] = 'error404';
-	if ( is_singular() ) {
-		$classes[] = 'singular';
-	}
 
 	if ( is_single() ) {
 		$post_id = $wp_query->get_queried_object_id();
@@ -701,6 +702,10 @@ function get_body_class( $class = '' ) {
 
 	if ( get_background_color() !== get_theme_support( 'custom-background', 'default-color' ) || get_background_image() )
 		$classes[] = 'custom-background';
+
+	if ( has_custom_logo() ) {
+		$classes[] = 'wp-custom-logo';
+	}
 
 	$page = $wp_query->get( 'page' );
 
@@ -1528,7 +1533,7 @@ function get_the_password_form( $post = 0 ) {
 	$label = 'pwbox-' . ( empty($post->ID) ? rand() : $post->ID );
 	$output = '<form action="' . esc_url( site_url( 'wp-login.php?action=postpass', 'login_post' ) ) . '" class="post-password-form" method="post">
 	<p>' . __( 'This content is password protected. To view it please enter your password below:' ) . '</p>
-	<p><label for="' . $label . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr__( 'Submit' ) . '" /></p></form>
+	<p><label for="' . $label . '">' . __( 'Password:' ) . ' <input name="post_password" id="' . $label . '" type="password" size="20" /></label> <input type="submit" name="Submit" value="' . esc_attr_x( 'Enter', 'post password form' ) . '" /></p></form>
 	';
 
 	/**

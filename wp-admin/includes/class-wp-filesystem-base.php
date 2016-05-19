@@ -705,6 +705,7 @@ class WP_Filesystem_Base {
 	 * @since 2.5.0
 	 * @abstract
 	 *
+	 * @param string $file Path to file.
 	 * @return bool Whether $file is writable.
 	 */
 	public function is_writable( $file ) {

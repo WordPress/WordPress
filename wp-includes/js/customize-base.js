@@ -704,8 +704,9 @@ window.wp = window.wp || {};
 
 			event = event.originalEvent;
 
-			if ( ! this.targetWindow() )
+			if ( ! this.targetWindow || ! this.targetWindow() ) {
 				return;
+			}
 
 			// Check to make sure the origin is valid.
 			if ( this.origin() && event.origin !== this.origin() )

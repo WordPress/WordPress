@@ -1432,7 +1432,7 @@ function wp_kses_named_entities($matches) {
 /**
  * Callback for wp_kses_normalize_entities() regular expression.
  *
- * This function helps {@see wp_kses_normalize_entities()} to only accept 16-bit
+ * This function helps wp_kses_normalize_entities() to only accept 16-bit
  * values and nothing more for `&#number;` entities.
  *
  * @access private
@@ -1582,6 +1582,21 @@ function wp_kses_post( $data ) {
 }
 
 /**
+ * Navigates through an array, object, or scalar, and sanitizes content for
+ * allowed HTML tags for post content.
+ *
+ * @since 4.4.2
+ *
+ * @see map_deep()
+ *
+ * @param mixed $data The array, object, or scalar value to inspect.
+ * @return mixed The filtered content.
+ */
+function wp_kses_post_deep( $data ) {
+	return map_deep( $data, 'wp_kses_post' );
+}
+
+/**
  * Strips all of the HTML in the content.
  *
  * @since 2.1.0
@@ -1671,6 +1686,10 @@ function kses_init() {
  * Inline CSS filter
  *
  * @since 2.8.1
+ *
+ * @param string $css        A string of CSS rules.
+ * @param string $deprecated Not used.
+ * @return string            Filtered string of CSS rules.
  */
 function safecss_filter_attr( $css, $deprecated = '' ) {
 	if ( !empty( $deprecated ) )

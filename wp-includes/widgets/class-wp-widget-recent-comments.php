@@ -23,12 +23,17 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 	 * @access public
 	 */
 	public function __construct() {
-		$widget_ops = array('classname' => 'widget_recent_comments', 'description' => __( 'Your site&#8217;s most recent comments.' ) );
-		parent::__construct('recent-comments', __('Recent Comments'), $widget_ops);
+		$widget_ops = array(
+			'classname' => 'widget_recent_comments',
+			'description' => __( 'Your site&#8217;s most recent comments.' ),
+			'customize_selective_refresh' => true,
+		);
+		parent::__construct( 'recent-comments', __( 'Recent Comments' ), $widget_ops );
 		$this->alt_option_name = 'widget_recent_comments';
 
-		if ( is_active_widget(false, false, $this->id_base) )
-			add_action( 'wp_head', array($this, 'recent_comments_style') );
+		if ( is_active_widget( false, false, $this->id_base ) || is_customize_preview() ) {
+			add_action( 'wp_head', array( $this, 'recent_comments_style' ) );
+		}
 	}
 
  	/**

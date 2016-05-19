@@ -598,9 +598,10 @@ $_old_files = array(
 'wp-admin/css/colors.min.css',
 'wp-admin/css/colors-rtl.css',
 'wp-admin/css/colors-rtl.min.css',
-'wp-admin/css/media-rtl.min.css',
-'wp-admin/css/media.min.css',
-'wp-admin/css/farbtastic-rtl.min.css',
+// Following files added back in 4.5 see #36083
+// 'wp-admin/css/media-rtl.min.css',
+// 'wp-admin/css/media.min.css',
+// 'wp-admin/css/farbtastic-rtl.min.css',
 'wp-admin/images/lock-2x.png',
 'wp-admin/images/lock.png',
 'wp-admin/js/theme-preview.js',
@@ -1095,7 +1096,7 @@ function update_core($from, $to) {
 
 	// Clear the cache to prevent an update_option() from saving a stale db_version to the cache
 	wp_cache_flush();
-	// (Not all cache backends listen to 'flush')
+	// (Not all cache back ends listen to 'flush')
 	wp_cache_delete( 'alloptions', 'options' );
 
 	// Remove working directory

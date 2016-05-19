@@ -332,9 +332,11 @@ class WP_Locale {
 	}
 
 	/**
-	 * Global variables are deprecated. For backwards compatibility only.
+	 * Global variables are deprecated.
 	 *
-	 * @deprecated For backwards compatibility only.
+	 * For backward compatibility only.
+	 *
+	 * @deprecated For backward compatibility only.
 	 * @access private
 	 *
 	 * @global array $weekday

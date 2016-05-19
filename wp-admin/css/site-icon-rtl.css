@@ -24,6 +24,8 @@
 
 .site-icon-preview .browser-title {
 	right: 109px;
+	width: 72px;
+	white-space: nowrap;
 }
 
 .site-icon-preview .app-icon-preview {
@@ -34,4 +36,14 @@
 	overflow: hidden;
 	width: 64px;
 	margin-top: 5px;
+}
+
+.customize-control-site_icon .favicon-preview {
+	float: right;
+	margin-left: 12px;
+	margin-bottom: 0;
+}
+
+.customize-control-site_icon .app-icon-preview {
+	margin-top: 9px;
 }

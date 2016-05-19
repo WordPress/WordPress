@@ -15,7 +15,7 @@ class WP_Embed {
 	public $last_url = '';
 
 	/**
-	 * When an URL cannot be embedded, return false instead of returning a link
+	 * When a URL cannot be embedded, return false instead of returning a link
 	 * or the URL. Bypasses the 'embed_maybe_make_link' filter.
 	 */
 	public $return_false_on_fail = false;

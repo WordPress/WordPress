@@ -146,7 +146,7 @@ if ( current_user_can( 'manage_options' ) ) {
 	 * handled separately.
 	 *
 	 * The WP_MAX_MEMORY_LIMIT constant specifically defines the maximum memory limit available
-	 * when in the administration back-end. The default is 256M, or 256 megabytes of memory.
+	 * when in the administration back end. The default is 256M, or 256 megabytes of memory.
 	 *
 	 * @since 3.0.0
 	 *
@@ -161,7 +161,7 @@ if ( current_user_can( 'manage_options' ) ) {
  * Note, this does not just run on user-facing admin screens.
  * It runs on admin-ajax.php and admin-post.php as well.
  *
- * This is roughly analgous to the more general 'init' hook, which fires earlier.
+ * This is roughly analogous to the more general 'init' hook, which fires earlier.
  *
  * @since 2.5.0
  */
@@ -175,7 +175,7 @@ if ( isset($plugin_page) ) {
 	if ( ! $page_hook = get_plugin_page_hook($plugin_page, $the_parent) ) {
 		$page_hook = get_plugin_page_hook($plugin_page, $plugin_page);
 
-		// Backwards compatibility for plugins using add_management_page().
+		// Back-compat for plugins using add_management_page().
 		if ( empty( $page_hook ) && 'edit.php' == $pagenow && '' != get_plugin_page_hook($plugin_page, 'tools.php') ) {
 			// There could be plugin specific params on the URL, so we need the whole query string
 			if ( !empty($_SERVER[ 'QUERY_STRING' ]) )
@@ -355,6 +355,8 @@ if ( isset($plugin_page) ) {
 			do_action( 'load-categories.php' );
 		elseif ( $taxnow == 'link_category' )
 			do_action( 'load-edit-link-categories.php' );
+	} elseif( 'term.php' === $pagenow ) {
+		do_action( 'load-edit-tags.php' );
 	}
 }
 

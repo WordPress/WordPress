@@ -36,14 +36,13 @@ function get_header( $name = null ) {
 
 	$templates = array();
 	$name = (string) $name;
-	if ( '' !== $name )
+	if ( '' !== $name ) {
 		$templates[] = "header-{$name}.php";
+	}
 
 	$templates[] = 'header.php';
 
-	// Backward compat code will be removed in a future release
-	if ('' == locate_template($templates, true))
-		load_template( ABSPATH . WPINC . '/theme-compat/header.php');
+	locate_template( $templates, true );
 }
 
 /**
@@ -76,14 +75,13 @@ function get_footer( $name = null ) {
 
 	$templates = array();
 	$name = (string) $name;
-	if ( '' !== $name )
+	if ( '' !== $name ) {
 		$templates[] = "footer-{$name}.php";
+	}
 
-	$templates[] = 'footer.php';
+	$templates[]    = 'footer.php';
 
-	// Backward compat code will be removed in a future release
-	if ('' == locate_template($templates, true))
-		load_template( ABSPATH . WPINC . '/theme-compat/footer.php');
+	locate_template( $templates, true );
 }
 
 /**
@@ -121,9 +119,7 @@ function get_sidebar( $name = null ) {
 
 	$templates[] = 'sidebar.php';
 
-	// Backward compat code will be removed in a future release
-	if ('' == locate_template($templates, true))
-		load_template( ABSPATH . WPINC . '/theme-compat/sidebar.php');
+	locate_template( $templates, true );
 }
 
 /**
@@ -226,7 +222,7 @@ function get_search_form( $echo = true ) {
 			$form = '<form role="search" method="get" class="search-form" action="' . esc_url( home_url( '/' ) ) . '">
 				<label>
 					<span class="screen-reader-text">' . _x( 'Search for:', 'label' ) . '</span>
-					<input type="search" class="search-field" placeholder="' . esc_attr_x( 'Search &hellip;', 'placeholder' ) . '" value="' . get_search_query() . '" name="s" title="' . esc_attr_x( 'Search for:', 'label' ) . '" />
+					<input type="search" class="search-field" placeholder="' . esc_attr_x( 'Search &hellip;', 'placeholder' ) . '" value="' . get_search_query() . '" name="s" />
 				</label>
 				<input type="submit" class="search-submit" value="'. esc_attr_x( 'Search', 'submit button' ) .'" />
 			</form>';
@@ -386,7 +382,7 @@ function wp_registration_url() {
  *     @type string $redirect       URL to redirect to. Must be absolute, as in "https://example.com/mypage/".
  *                                  Default is to redirect back to the request URI.
  *     @type string $form_id        ID attribute value for the form. Default 'loginform'.
- *     @type string $label_username Label for the username field. Default 'Username'.
+ *     @type string $label_username Label for the username or email address field. Default 'Username or Email'.
  *     @type string $label_password Label for the password field. Default 'Password'.
  *     @type string $label_remember Label for the remember field. Default 'Remember Me'.
  *     @type string $label_log_in   Label for the submit button. Default 'Log In'.
@@ -408,7 +404,7 @@ function wp_login_form( $args = array() ) {
 		// Default 'redirect' value takes the user back to the request URI.
 		'redirect' => ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
 		'form_id' => 'loginform',
-		'label_username' => __( 'Username' ),
+		'label_username' => __( 'Username or Email' ),
 		'label_password' => __( 'Password' ),
 		'label_remember' => __( 'Remember Me' ),
 		'label_log_in' => __( 'Log In' ),
@@ -587,42 +583,63 @@ function wp_meta() {
 }
 
 /**
- * Display information about the blog.
+ * Displays information about the current site.
  *
- * @see get_bloginfo() For possible values for the parameter.
  * @since 0.71
  *
- * @param string $show What to display.
+ * @see get_bloginfo() For possible `$show` values
+ *
+ * @param string $show Optional. Site information to display. Default empty.
  */
-function bloginfo( $show='' ) {
+function bloginfo( $show = '' ) {
 	echo get_bloginfo( $show, 'display' );
 }
 
 /**
- * Retrieve information about the blog.
+ * Retrieves information about the current site.
  *
- * Some show parameter values are deprecated and will be removed in future
- * versions. These options will trigger the {@see _deprecated_argument()}
- * function. The deprecated blog info options are listed in the function
- * contents.
+ * Possible values for `$show` include:
  *
- * The possible values for the 'show' parameter are listed below.
+ * - 'name' - Site title (set in Settings > General)
+ * - 'description' - Site tagline (set in Settings > General)
+ * - 'wpurl' - The WordPress address (URL) (set in Settings > General)
+ * - 'url' - The Site address (URL) (set in Settings > General)
+ * - 'admin_email' - Admin email (set in Settings > General)
+ * - 'charset' - The "Encoding for pages and feeds"  (set in Settings > Reading)
+ * - 'version' - The current WordPress version
+ * - 'html_type' - The content-type (default: "text/html"). Themes and plugins
+ *   can override the default value using the {@see 'pre_option_html_type'} filter
+ * - 'text_direction' - The text direction determined by the site's language. is_rtl()
+ *   should be used instead
+ * - 'language' - Language code for the current site
+ * - 'stylesheet_url' - URL to the stylesheet for the active theme. An active child theme
+ *   will take precedence over this value
+ * - 'stylesheet_directory' - Directory path for the active theme.  An active child theme
+ *   will take precedence over this value
+ * - 'template_url' / 'template_directory' - URL of the active theme's directory. An active
+ *   child theme will NOT take precedence over this value
+ * - 'pingback_url' - The pingback XML-RPC file URL (xmlrpc.php)
+ * - 'atom_url' - The Atom feed URL (/feed/atom)
+ * - 'rdf_url' - The RDF/RSS 1.0 feed URL (/feed/rfd)
+ * - 'rss_url' - The RSS 0.92 feed URL (/feed/rss)
+ * - 'rss2_url' - The RSS 2.0 feed URL (/feed)
+ * - 'comments_atom_url' - The comments Atom feed URL (/comments/feed)
+ * - 'comments_rss2_url' - The comments RSS 2.0 feed URL (/comments/feed)
  *
- * 1. url - Blog URI to homepage.
- * 2. wpurl - Blog URI path to WordPress.
- * 3. description - Secondary title
+ * Some `$show` values are deprecated and will be removed in future versions.
+ * These options will trigger the _deprecated_argument() function.
  *
- * The feed URL options can be retrieved from 'rdf_url' (RSS 0.91),
- * 'rss_url' (RSS 1.0), 'rss2_url' (RSS 2.0), or 'atom_url' (Atom feed). The
- * comment feeds can be retrieved from the 'comments_atom_url' (Atom comment
- * feed) or 'comments_rss2_url' (RSS 2.0 comment feed).
+ * Deprecated arguments include:
+ *
+ * - 'siteurl' - Use 'url' instead
+ * - 'home' - Use 'url' instead
  *
  * @since 0.71
  *
  * @global string $wp_version
  *
- * @param string $show   Blog info to retrieve.
- * @param string $filter How to filter what is retrieved.
+ * @param string $show   Optional. Site info to retrieve. Default empty (site name).
+ * @param string $filter Optional. How to filter what is retrieved. Default 'raw'.
  * @return string Mostly string values, might be empty.
  */
 function get_bloginfo( $show = '', $filter = 'raw' ) {
@@ -691,8 +708,15 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			$output = $wp_version;
 			break;
 		case 'language':
-			$output = get_locale();
-			$output = str_replace('_', '-', $output);
+			/* translators: Translate this to the correct language tag for your locale,
+			 * see https://www.w3.org/International/articles/language-tags/ for reference.
+			 * Do not translate into your own language.
+			 */
+			$output = __( 'html_lang_attribute' );
+			if ( 'html_lang_attribute' === $output || preg_match( '/[^a-zA-Z0-9-]/', $output ) ) {
+				$output = get_locale();
+				$output = str_replace( '_', '-', $output );
+			}
 			break;
 		case 'text_direction':
 			_deprecated_argument( __FUNCTION__, '2.2', sprintf(
@@ -815,6 +839,88 @@ function has_site_icon( $blog_id = 0 ) {
 }
 
 /**
+ * Determines whether the site has a custom logo.
+ *
+ * @since 4.5.0
+ *
+ * @param int $blog_id Optional. ID of the blog in question. Default is the ID of the current blog.
+ * @return bool Whether the site has a custom logo or not.
+ */
+function has_custom_logo( $blog_id = 0 ) {
+	if ( is_multisite() && (int) $blog_id !== get_current_blog_id() ) {
+		switch_to_blog( $blog_id );
+	}
+
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+
+	if ( is_multisite() && ms_is_switched() ) {
+		restore_current_blog();
+	}
+
+	return (bool) $custom_logo_id;
+}
+
+/**
+ * Returns a custom logo, linked to home.
+ *
+ * @since 4.5.0
+ *
+ * @param int $blog_id Optional. ID of the blog in question. Default is the ID of the current blog.
+ * @return string Custom logo markup.
+ */
+function get_custom_logo( $blog_id = 0 ) {
+	$html = '';
+
+	if ( is_multisite() && (int) $blog_id !== get_current_blog_id() ) {
+		switch_to_blog( $blog_id );
+	}
+
+	$custom_logo_id = get_theme_mod( 'custom_logo' );
+
+	// We have a logo. Logo is go.
+	if ( $custom_logo_id ) {
+		$html = sprintf( '<a href="%1$s" class="custom-logo-link" rel="home" itemprop="url">%2$s</a>',
+			esc_url( home_url( '/' ) ),
+			wp_get_attachment_image( $custom_logo_id, 'full', false, array(
+				'class'    => 'custom-logo',
+				'itemprop' => 'logo',
+			) )
+		);
+	}
+
+	// If no logo is set but we're in the Customizer, leave a placeholder (needed for the live preview).
+	elseif ( is_customize_preview() ) {
+		$html = sprintf( '<a href="%1$s" class="custom-logo-link" style="display:none;"><img class="custom-logo"/></a>',
+			esc_url( home_url( '/' ) )
+		);
+	}
+
+	if ( is_multisite() && ms_is_switched() ) {
+		restore_current_blog();
+	}
+
+	/**
+	 * Filter the custom logo output.
+	 *
+	 * @since 4.5.0
+	 *
+	 * @param string $html Custom logo HTML output.
+	 */
+	return apply_filters( 'get_custom_logo', $html );
+}
+
+/**
+ * Displays a custom logo, linked to home.
+ *
+ * @since 4.5.0
+ *
+ * @param int $blog_id Optional. ID of the blog in question. Default is the ID of the current blog.
+ */
+function the_custom_logo( $blog_id = 0 ) {
+	echo get_custom_logo( $blog_id );
+}
+
+/**
  * Returns document title for the current page.
  *
  * @since 4.4.0
@@ -856,8 +962,8 @@ function wp_get_document_title() {
 		/* translators: %s: search phrase */
 		$title['title'] = sprintf( __( 'Search Results for &#8220;%s&#8221;' ), get_search_query() );
 
-	// If on the home or front page, use the site title.
-	} elseif ( is_home() && is_front_page() ) {
+	// If on the front page, use the site title.
+	} elseif ( is_front_page() ) {
 		$title['title'] = get_bloginfo( 'name', 'display' );
 
 	// If on a post type archive, use the post type archive title.
@@ -869,14 +975,10 @@ function wp_get_document_title() {
 		$title['title'] = single_term_title( '', false );
 
 	/*
-	 * If we're on the blog page and that page is not the homepage or a single
-	 * page that is designated as the homepage, use the container page's title.
+	 * If we're on the blog page that is not the homepage or
+	 * a single post of any post type, use the post title.
 	 */
-	} elseif ( ( is_home() && ! is_front_page() ) || ( ! is_home() && is_front_page() ) ) {
-		$title['title'] = single_post_title( '', false );
-
-	// If on a single post of any post type, use the post title.
-	} elseif ( is_singular() ) {
+	} elseif ( is_home() || is_singular() ) {
 		$title['title'] = single_post_title( '', false );
 
 	// If on a category or tag archive, use the term title.
@@ -904,7 +1006,7 @@ function wp_get_document_title() {
 	}
 
 	// Append the description or site title to give context.
-	if ( is_home() && is_front_page() ) {
+	if ( is_front_page() ) {
 		$title['tagline'] = get_bloginfo( 'description', 'display' );
 	} else {
 		$title['site'] = get_bloginfo( 'name', 'display' );
@@ -972,7 +1074,7 @@ function _wp_render_title_tag() {
  * or the page title. However, it is mostly common sense to have the blog title
  * to the right with most browsers supporting tabs. You can achieve this by
  * using the seplocation parameter and setting the value to 'right'. This change
- * was introduced around 2.5.0, in case backwards compatibility of themes is
+ * was introduced around 2.5.0, in case backward compatibility of themes is
  * important.
  *
  * @since 1.0.0
@@ -995,7 +1097,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	$search   = get_query_var( 's' );
 	$title    = '';
 
-	$t_sep = '%WP_TITILE_SEP%'; // Temporary separator, for accurate flipping, if necessary
+	$t_sep = '%WP_TITLE_SEP%'; // Temporary separator, for accurate flipping, if necessary
 
 	// If there is a post
 	if ( is_single() || ( is_home() && ! is_front_page() ) || ( is_page() && ! is_front_page() ) ) {
@@ -1486,10 +1588,16 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 	 * Filter the archive link content.
 	 *
 	 * @since 2.6.0
+	 * @since 4.5.0 Added the `$url`, `$text`, `$format`, `$before`, and `$after` parameters.
 	 *
 	 * @param string $link_html The archive HTML link content.
+	 * @param string $url       URL to archive.
+	 * @param string $text      Archive text description.
+	 * @param string $format    Link format. Can be 'link', 'option', 'html', or custom.
+	 * @param string $before    Content to prepend to the description.
+	 * @param string $after     Content to append to the description.
 	 */
-	return apply_filters( 'get_archives_link', $link_html );
+	return apply_filters( 'get_archives_link', $link_html, $url, $text, $format, $before, $after );
 }
 
 /**
@@ -1562,22 +1670,6 @@ function wp_get_archives( $args = '' ) {
 
 	// this is what will separate dates on weekly archive links
 	$archive_week_separator = '&#8211;';
-
-	// over-ride general date format ? 0 = no: use the date format set in Options, 1 = yes: over-ride
-	$archive_date_format_over_ride = 0;
-
-	// options for daily archive (only if you over-ride the general date format)
-	$archive_day_date_format = 'Y/m/d';
-
-	// options for weekly archive (only if you over-ride the general date format)
-	$archive_week_start_date_format = 'Y/m/d';
-	$archive_week_end_date_format	= 'Y/m/d';
-
-	if ( ! $archive_date_format_over_ride ) {
-		$archive_day_date_format = get_option( 'date_format' );
-		$archive_week_start_date_format = get_option( 'date_format' );
-		$archive_week_end_date_format = get_option( 'date_format' );
-	}
 
 	$sql_where = $wpdb->prepare( "WHERE post_type = %s AND post_status = 'publish'", $r['post_type'] );
 
@@ -1672,7 +1764,7 @@ function wp_get_archives( $args = '' ) {
 					$url = add_query_arg( 'post_type', $r['post_type'], $url );
 				}
 				$date = sprintf( '%1$d-%2$02d-%3$02d 00:00:00', $result->year, $result->month, $result->dayofmonth );
-				$text = mysql2date( $archive_day_date_format, $date );
+				$text = mysql2date( get_option( 'date_format' ), $date );
 				if ( $r['show_post_count'] ) {
 					$r['after'] = '&nbsp;(' . $result->posts . ')' . $after;
 				}
@@ -1696,8 +1788,8 @@ function wp_get_archives( $args = '' ) {
 					$arc_year       = $result->yr;
 					$arc_w_last     = $result->week;
 					$arc_week       = get_weekstartend( $result->yyyymmdd, get_option( 'start_of_week' ) );
-					$arc_week_start = date_i18n( $archive_week_start_date_format, $arc_week['start'] );
-					$arc_week_end   = date_i18n( $archive_week_end_date_format, $arc_week['end'] );
+					$arc_week_start = date_i18n( get_option( 'date_format' ), $arc_week['start'] );
+					$arc_week_end   = date_i18n( get_option( 'date_format' ), $arc_week['end'] );
 					$url            = sprintf( '%1$s/%2$s%3$sm%4$s%5$s%6$sw%7$s%8$d', home_url(), '', '?', '=', $arc_year, '&amp;', '=', $result->week );
 					if ( 'post' !== $r['post_type'] ) {
 						$url = add_query_arg( 'post_type', $r['post_type'], $url );
@@ -2211,7 +2303,7 @@ function the_time( $d = '' ) {
  *                          was written. Either 'G', 'U', or php date format defaults
  *                          to the value specified in the time_format option. Default empty.
  * @param int|WP_Post $post WP_Post object or ID. Default is global $post object.
- * @return false|string Formatted date string or Unix timestamp. False on failure.
+ * @return string|int|false Formatted date string or Unix timestamp if `$id` is 'U' or 'G'. False on failure.
  */
 function get_the_time( $d = '', $post = null ) {
 	$post = get_post($post);
@@ -2249,7 +2341,7 @@ function get_the_time( $d = '', $post = null ) {
  * @param bool        $gmt       Optional. Whether to retrieve the GMT time. Default false.
  * @param int|WP_Post $post      WP_Post object or ID. Default is global $post object.
  * @param bool        $translate Whether to translate the time string. Default false.
- * @return false|string|int Formatted date string or Unix timestamp. False on failure.
+ * @return string|int|false Formatted date string or Unix timestamp if `$id` is 'U' or 'G'. False on failure.
  */
 function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false ) {
 	$post = get_post($post);
@@ -2336,7 +2428,7 @@ function get_the_modified_time($d = '') {
  * @param bool        $gmt       Optional. Whether to retrieve the GMT time. Default false.
  * @param int|WP_Post $post      WP_Post object or ID. Default is global $post object.
  * @param bool        $translate Whether to translate the time string. Default false.
- * @return false|string Formatted date string or Unix timestamp. False on failure.
+ * @return string|int|false Formatted date string or Unix timestamp if `$id` is 'U' or 'G'. False on failure.
  */
 function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translate = false ) {
 	$post = get_post($post);
@@ -2512,6 +2604,8 @@ function feed_links_extra( $args = array() ) {
 		'cattitle'    => __('%1$s %2$s %3$s Category Feed'),
 		/* translators: 1: blog name, 2: separator(raquo), 3: tag name */
 		'tagtitle'    => __('%1$s %2$s %3$s Tag Feed'),
+		/* translators: 1: blog name, 2: separator(raquo), 3: term name, 4: taxonomy singular name */
+		'taxtitle'    => __('%1$s %2$s %3$s %4$s Feed'),
 		/* translators: 1: blog name, 2: separator(raquo), 3: author name  */
 		'authortitle' => __('%1$s %2$s Posts by %3$s Feed'),
 		/* translators: 1: blog name, 2: separator(raquo), 3: search phrase */
@@ -2552,6 +2646,11 @@ function feed_links_extra( $args = array() ) {
 			$title = sprintf( $args['tagtitle'], get_bloginfo('name'), $args['separator'], $term->name );
 			$href = get_tag_feed_link( $term->term_id );
 		}
+	} elseif ( is_tax() ) {
+ 		$term = get_queried_object();
+ 		$tax = get_taxonomy( $term->taxonomy );
+ 		$title = sprintf( $args['taxtitle'], get_bloginfo('name'), $args['separator'], $term->name, $tax->labels->singular_name );
+ 		$href = get_term_feed_link( $term->term_id, $term->taxonomy );
 	} elseif ( is_author() ) {
 		$author_id = intval( get_query_var('author') );
 
@@ -3121,7 +3220,7 @@ function register_admin_color_schemes() {
 	wp_admin_css_color( 'fresh', _x( 'Default', 'admin color scheme' ),
 		false,
 		array( '#222', '#333', '#0073aa', '#00a0d2' ),
-		array( 'base' => '#999', 'focus' => '#00a0d2', 'current' => '#fff' )
+		array( 'base' => '#82878c', 'focus' => '#00a0d2', 'current' => '#fff' )
 	);
 
 	// Other color schemes are not available when running out of src
@@ -3378,7 +3477,7 @@ function get_the_generator( $type = '' ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $gen  The HTML markup output to {@see wp_head()}.
+	 * @param string $gen  The HTML markup output to wp_head().
 	 * @param string $type The type of generator. Accepts 'html', 'xhtml', 'atom',
 	 *                     'rss2', 'rdf', 'comment', 'export'.
 	 */

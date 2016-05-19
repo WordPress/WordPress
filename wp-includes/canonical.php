@@ -172,7 +172,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 		} elseif ( is_page() && !empty($_GET['page_id']) && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_query_var('page_id')) )
 				$redirect['query'] = remove_query_arg('page_id', $redirect['query']);
-		} elseif ( is_page() && !is_feed() && isset($wp_query->queried_object) && 'page' == get_option('show_on_front') && $wp_query->queried_object->ID == get_option('page_on_front')  && ! $redirect_url ) {
+		} elseif ( is_page() && !is_feed() && 'page' == get_option('show_on_front') && get_queried_object_id() == get_option('page_on_front')  && ! $redirect_url ) {
 			$redirect_url = home_url('/');
 		} elseif ( is_home() && !empty($_GET['page_id']) && 'page' == get_option('show_on_front') && get_query_var('page_id') == get_option('page_for_posts')  && ! $redirect_url ) {
 			if ( $redirect_url = get_permalink(get_option('page_for_posts')) )
@@ -256,16 +256,25 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 		} elseif ( is_single() && strpos($wp_rewrite->permalink_structure, '%category%') !== false && $cat = get_query_var( 'category_name' ) ) {
 			$category = get_category_by_path( $cat );
-			$post_terms = wp_get_object_terms($wp_query->get_queried_object_id(), 'category', array('fields' => 'tt_ids'));
-			if ( (!$category || is_wp_error($category)) || ( !is_wp_error($post_terms) && !empty($post_terms) && !in_array($category->term_taxonomy_id, $post_terms) ) )
+			$post_terms = get_the_terms( $wp_query->get_queried_object_id(), 'category' );
+			if ( ( ! $category || is_wp_error( $category ) ) || ( ! is_wp_error( $post_terms ) && ! empty( $post_terms ) && ! in_array( $category, $post_terms ) ) ) {
 				$redirect_url = get_permalink($wp_query->get_queried_object_id());
+			}
 		}
 
 		// Post Paging
-		if ( is_singular() && ! is_front_page() && get_query_var('page') ) {
+		if ( is_singular() && get_query_var('page') ) {
 			if ( !$redirect_url )
 				$redirect_url = get_permalink( get_queried_object_id() );
-			$redirect_url = trailingslashit( $redirect_url ) . user_trailingslashit( get_query_var( 'page' ), 'single_paged' );
+
+			$page = get_query_var( 'page' );
+			if ( $page > 1 ) {
+				if ( is_front_page() ) {
+					$redirect_url = trailingslashit( $redirect_url ) . user_trailingslashit( "$wp_rewrite->pagination_base/$page", 'paged' );
+				} else {
+					$redirect_url = trailingslashit( $redirect_url ) . user_trailingslashit( $page, 'single_paged' );
+				}
+			}
 			$redirect['query'] = remove_query_arg( 'page', $redirect['query'] );
 		}
 

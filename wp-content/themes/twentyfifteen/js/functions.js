@@ -49,7 +49,7 @@
 	// Enable menu toggle for small screens.
 	( function() {
 		var menu, widgets, social;
-		if ( ! secondary || ! button ) {
+		if ( ! secondary.length || ! button.length ) {
 			return;
 		}
 
@@ -57,7 +57,7 @@
 		menu    = secondary.find( '.nav-menu' );
 		widgets = secondary.find( '#widget-area' );
 		social  = secondary.find( '#social-navigation' );
-		if ( ! widgets.length && ! social.length && ( ! menu || ! menu.children().length ) ) {
+		if ( ! widgets.length && ! social.length && ( ! menu.length || ! menu.children().length ) ) {
 			button.hide();
 			return;
 		}

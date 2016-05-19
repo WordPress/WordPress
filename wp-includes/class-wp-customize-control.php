@@ -65,6 +65,18 @@ class WP_Customize_Control {
 	public $setting = 'default';
 
 	/**
+	 * Capability required to use this control.
+	 *
+	 * Normally this is empty and the capability is derived from the capabilities
+	 * of the associated `$settings`.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 * @var string
+	 */
+	public $capability;
+
+	/**
 	 * @access public
 	 * @var int
 	 */
@@ -163,7 +175,7 @@ class WP_Customize_Control {
 	 *                                                 attribute names are the keys and values are the values. Not
 	 *                                                 used for 'checkbox', 'radio', 'select', 'textarea', or
 	 *                                                 'dropdown-pages' control types. Default empty array.
-	 *     @type array                $json            Deprecated. Use {@see WP_Customize_Control->json()} instead.
+	 *     @type array                $json            Deprecated. Use WP_Customize_Control::json() instead.
 	 *     @type string               $type            Control type. Core controls include 'text', 'checkbox',
 	 *                                                 'textarea', 'radio', 'select', and 'dropdown-pages'. Additional
 	 *                                                 input types such as 'email', 'url', 'number', 'hidden', and
@@ -187,7 +199,7 @@ class WP_Customize_Control {
 		$this->instance_number = self::$instance_count;
 
 		// Process settings.
-		if ( empty( $this->settings ) ) {
+		if ( ! isset( $this->settings ) ) {
 			$this->settings = $id;
 		}
 
@@ -196,7 +208,7 @@ class WP_Customize_Control {
 			foreach ( $this->settings as $key => $setting ) {
 				$settings[ $key ] = $this->manager->get_setting( $setting );
 			}
-		} else {
+		} else if ( is_string( $this->settings ) ) {
 			$this->setting = $this->manager->get_setting( $this->settings );
 			$settings['default'] = $this->setting;
 		}
@@ -299,21 +311,32 @@ class WP_Customize_Control {
 	}
 
 	/**
-	 * Check if the theme supports the control and check user capabilities.
+	 * Checks if the user can use this control.
+	 *
+	 * Returns false if the user cannot manipulate one of the associated settings,
+	 * or if one of the associated settings does not exist. Also returns false if
+	 * the associated section does not exist or if its capability check returns
+	 * false.
 	 *
 	 * @since 3.4.0
 	 *
 	 * @return bool False if theme doesn't support the control or user doesn't have the required permissions, otherwise true.
 	 */
 	final public function check_capabilities() {
+		if ( ! empty( $this->capability ) && ! current_user_can( $this->capability ) ) {
+			return false;
+		}
+
 		foreach ( $this->settings as $setting ) {
-			if ( ! $setting->check_capabilities() )
+			if ( ! $setting || ! $setting->check_capabilities() ) {
 				return false;
+			}
 		}
 
 		$section = $this->manager->get_section( $this->section );
-		if ( isset( $section ) && ! $section->check_capabilities() )
+		if ( isset( $section ) && ! $section->check_capabilities() ) {
 			return false;
+		}
 
 		return true;
 	}
@@ -358,7 +381,7 @@ class WP_Customize_Control {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param WP_Customize_Control $this {@see WP_Customize_Control} instance.
+		 * @param WP_Customize_Control $this WP_Customize_Control instance.
 		 */
 		do_action( 'customize_render_control_' . $this->id, $this );
 
@@ -421,12 +444,12 @@ class WP_Customize_Control {
 	/**
 	 * Render the control's content.
 	 *
-	 * Allows the content to be overriden without having to rewrite the wrapper in $this->render().
+	 * Allows the content to be overriden without having to rewrite the wrapper in `$this::render()`.
 	 *
 	 * Supports basic input types `text`, `checkbox`, `textarea`, `radio`, `select` and `dropdown-pages`.
 	 * Additional input types such as `email`, `url`, `number`, `hidden` and `date` are supported implicitly.
 	 *
-	 * Control content can alternately be rendered in JS. See {@see WP_Customize_Control::print_template()}.
+	 * Control content can alternately be rendered in JS. See WP_Customize_Control::print_template().
 	 *
 	 * @since 3.4.0
 	 */
@@ -547,7 +570,7 @@ class WP_Customize_Control {
 	 * Render the control's JS template.
 	 *
 	 * This function is only run for control types that have been registered with
-	 * {@see WP_Customize_Manager::register_control_type()}.
+	 * WP_Customize_Manager::register_control_type().
 	 *
 	 * In the future, this will also print the template for the control's container
 	 * element and be override-able.
@@ -566,7 +589,7 @@ class WP_Customize_Control {
 	 * An Underscore (JS) template for this control's content (but not its container).
 	 *
 	 * Class variables for this control class are available in the `data` JS object;
-	 * export custom variables by overriding {@see WP_Customize_Control::to_json()}.
+	 * export custom variables by overriding WP_Customize_Control::to_json().
 	 *
 	 * @see WP_Customize_Control::print_template()
 	 *

@@ -211,7 +211,12 @@ function display_setup_form( $error = null ) {
 // Let's check to make sure WP isn't already installed.
 if ( is_blog_installed() ) {
 	display_header();
-	die( '<h1>' . __( 'Already Installed' ) . '</h1><p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p><p class="step"><a href="' . esc_url( wp_login_url() ) . '" class="button button-large">' . __( 'Log In' ) . '</a></p></body></html>' );
+	die(
+		'<h1>' . __( 'Already Installed' ) . '</h1>' .
+		'<p>' . __( 'You appear to have already installed WordPress. To reinstall please clear your old database tables first.' ) . '</p>' .
+		'<p class="step"><a href="' . esc_url( wp_login_url() ) . '" class="button button-large">' . __( 'Log In' ) . '</a></p>' .
+		'</body></html>'
+	);
 }
 
 /**
@@ -241,13 +246,27 @@ if ( !$mysql_compat || !$php_compat ) {
 
 if ( ! is_string( $wpdb->base_prefix ) || '' === $wpdb->base_prefix ) {
 	display_header();
-	die( '<h1>' . __( 'Configuration Error' ) . '</h1><p>' . __( 'Your <code>wp-config.php</code> file has an empty database table prefix, which is not supported.' ) . '</p></body></html>' );
+	die(
+		'<h1>' . __( 'Configuration Error' ) . '</h1>' .
+		'<p>' . sprintf(
+			/* translators: %s: wp-config.php */
+			__( 'Your %s file has an empty database table prefix, which is not supported.' ),
+			'<code>wp-config.php</code>'
+		) . '</p></body></html>'
+	);
 }
 
 // Set error message if DO_NOT_UPGRADE_GLOBAL_TABLES isn't set as it will break install.
 if ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) ) {
 	display_header();
-	die( '<h1>' . __( 'Configuration Error' ) . '</h1><p>' . __( 'The constant DO_NOT_UPGRADE_GLOBAL_TABLES cannot be defined when installing WordPress.' ) . '</p></body></html>' );
+	die(
+		'<h1>' . __( 'Configuration Error' ) . '</h1>' .
+		'<p>' . sprintf(
+			/* translators: %s: DO_NOT_UPGRADE_GLOBAL_TABLES */
+			__( 'The constant %s cannot be defined when installing WordPress.' ),
+			'<code>DO_NOT_UPGRADE_GLOBAL_TABLES</code>'
+		) . '</p></body></html>'
+	);
 }
 
 /**
@@ -261,10 +280,12 @@ if ( ! empty( $_REQUEST['language'] ) ) {
 	$language = $GLOBALS['wp_local_package'];
 }
 
+$scripts_to_print = array( 'jquery' );
+
 switch($step) {
 	case 0: // Step 0
-
 		if ( wp_can_install_language_pack() && empty( $language ) && ( $languages = wp_get_available_translations() ) ) {
+			$scripts_to_print[] = 'language-chooser';
 			display_header( 'language-chooser' );
 			echo '<form id="setup" method="post" action="?step=1">';
 			wp_install_language_form( $languages );
@@ -282,6 +303,8 @@ switch($step) {
 				$GLOBALS['wp_locale'] = new WP_Locale();
 			}
 		}
+
+		$scripts_to_print[] = 'user-profile';
 
 		display_header();
 ?>
@@ -304,6 +327,8 @@ switch($step) {
 
 		if ( ! empty( $wpdb->error ) )
 			wp_die( $wpdb->error->get_error_message() );
+
+		$scripts_to_print[] = 'user-profile';
 
 		display_header();
 		// Fill in the data we gathered
@@ -344,7 +369,7 @@ switch($step) {
 
 <h1><?php _e( 'Success!' ); ?></h1>
 
-<p><?php _e( 'WordPress has been installed. Were you expecting more steps? Sorry to disappoint.' ); ?></p>
+<p><?php _e( 'WordPress has been installed. Thank you, and enjoy!' ); ?></p>
 
 <table class="form-table install-success">
 	<tr>
@@ -368,12 +393,15 @@ switch($step) {
 		}
 		break;
 }
-if ( !wp_is_mobile() ) {
-?>
+
+if ( ! wp_is_mobile() ) {
+	?>
 <script type="text/javascript">var t = document.getElementById('weblog_title'); if (t){ t.focus(); }</script>
-<?php } ?>
-<?php wp_print_scripts( 'user-profile' ); ?>
-<?php wp_print_scripts( 'language-chooser' ); ?>
+	<?php
+}
+
+wp_print_scripts( $scripts_to_print );
+?>
 <script type="text/javascript">
 jQuery( function( $ ) {
 	$( '.hide-if-no-js' ).removeClass( 'hide-if-no-js' );

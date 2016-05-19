@@ -182,7 +182,7 @@ function export_wp( $args = array() ) {
 		if ( empty( $category->name ) )
 			return;
 
-		echo '<wp:cat_name>' . wxr_cdata( $category->name ) . '</wp:cat_name>';
+		echo '<wp:cat_name>' . wxr_cdata( $category->name ) . "</wp:cat_name>\n";
 	}
 
 	/**
@@ -196,7 +196,7 @@ function export_wp( $args = array() ) {
 		if ( empty( $category->description ) )
 			return;
 
-		echo '<wp:category_description>' . wxr_cdata( $category->description ) . '</wp:category_description>';
+		echo '<wp:category_description>' . wxr_cdata( $category->description ) . "</wp:category_description>\n";
 	}
 
 	/**
@@ -210,7 +210,7 @@ function export_wp( $args = array() ) {
 		if ( empty( $tag->name ) )
 			return;
 
-		echo '<wp:tag_name>' . wxr_cdata( $tag->name ) . '</wp:tag_name>';
+		echo '<wp:tag_name>' . wxr_cdata( $tag->name ) . "</wp:tag_name>\n";
 	}
 
 	/**
@@ -224,7 +224,7 @@ function export_wp( $args = array() ) {
 		if ( empty( $tag->description ) )
 			return;
 
-		echo '<wp:tag_description>' . wxr_cdata( $tag->description ) . '</wp:tag_description>';
+		echo '<wp:tag_description>' . wxr_cdata( $tag->description ) . "</wp:tag_description>\n";
 	}
 
 	/**
@@ -238,7 +238,7 @@ function export_wp( $args = array() ) {
 		if ( empty( $term->name ) )
 			return;
 
-		echo '<wp:term_name>' . wxr_cdata( $term->name ) . '</wp:term_name>';
+		echo '<wp:term_name>' . wxr_cdata( $term->name ) . "</wp:term_name>\n";
 	}
 
 	/**
@@ -252,7 +252,38 @@ function export_wp( $args = array() ) {
 		if ( empty( $term->description ) )
 			return;
 
-		echo '<wp:term_description>' . wxr_cdata( $term->description ) . '</wp:term_description>';
+		echo "\t\t<wp:term_description>" . wxr_cdata( $term->description ) . "</wp:term_description>\n";
+	}
+
+	/**
+	 * Output termmeta XML tags for a given term object.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param WP_Term $term Term object.
+	 */
+	function wxr_term_meta( $term ) {
+		global $wpdb;
+
+		$termmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->termmeta WHERE term_id = %d", $term->term_id ) );
+
+		foreach ( $termmeta as $meta ) {
+			/**
+			 * Filter whether to selectively skip term meta used for WXR exports.
+			 *
+			 * Returning a truthy value to the filter will skip the current meta
+			 * object from being exported.
+			 *
+			 * @since 4.6.0
+			 *
+			 * @param bool   $skip     Whether to skip the current piece of term meta. Default false.
+			 * @param string $meta_key Current meta key.
+			 * @param object $meta     Current meta object.
+			 */
+			if ( ! apply_filters( 'wxr_export_skip_termmeta', false, $meta->meta_key, $meta ) ) {
+				printf( "\t\t<wp:termmeta>\n\t\t\t<wp:meta_key>%s</wp:meta_key>\n\t\t\t<wp:meta_value>%s</wp:meta_value>\n\t\t</wp:termmeta>\n", wxr_cdata( $meta->meta_key ), wxr_cdata( $meta->meta_value ) );
+			}
+		}
 	}
 
 	/**
@@ -386,13 +417,34 @@ function export_wp( $args = array() ) {
 <?php wxr_authors_list( $post_ids ); ?>
 
 <?php foreach ( $cats as $c ) : ?>
-	<wp:category><wp:term_id><?php echo intval( $c->term_id ); ?></wp:term_id><wp:category_nicename><?php echo wxr_cdata( $c->slug ); ?></wp:category_nicename><wp:category_parent><?php echo wxr_cdata( $c->parent ? $cats[$c->parent]->slug : '' ); ?></wp:category_parent><?php wxr_cat_name( $c ); ?><?php wxr_category_description( $c ); ?></wp:category>
+	<wp:category>
+		<wp:term_id><?php echo intval( $c->term_id ); ?></wp:term_id>
+		<wp:category_nicename><?php echo wxr_cdata( $c->slug ); ?></wp:category_nicename>
+		<wp:category_parent><?php echo wxr_cdata( $c->parent ? $cats[$c->parent]->slug : '' ); ?></wp:category_parent>
+		<?php wxr_cat_name( $c );
+		wxr_category_description( $c );
+		wxr_term_meta( $c ); ?>
+	</wp:category>
 <?php endforeach; ?>
 <?php foreach ( $tags as $t ) : ?>
-	<wp:tag><wp:term_id><?php echo intval( $t->term_id ); ?></wp:term_id><wp:tag_slug><?php echo wxr_cdata( $t->slug ); ?></wp:tag_slug><?php wxr_tag_name( $t ); ?><?php wxr_tag_description( $t ); ?></wp:tag>
+	<wp:tag>
+		<wp:term_id><?php echo intval( $t->term_id ); ?></wp:term_id>
+		<wp:tag_slug><?php echo wxr_cdata( $t->slug ); ?></wp:tag_slug>
+		<?php wxr_tag_name( $t );
+		wxr_tag_description( $t );
+		wxr_term_meta( $t ); ?>
+	</wp:tag>
 <?php endforeach; ?>
 <?php foreach ( $terms as $t ) : ?>
-	<wp:term><wp:term_id><?php echo wxr_cdata( $t->term_id ); ?></wp:term_id><wp:term_taxonomy><?php echo wxr_cdata( $t->taxonomy ); ?></wp:term_taxonomy><wp:term_slug><?php echo wxr_cdata( $t->slug ); ?></wp:term_slug><wp:term_parent><?php echo wxr_cdata( $t->parent ? $terms[$t->parent]->slug : '' ); ?></wp:term_parent><?php wxr_term_name( $t ); ?><?php wxr_term_description( $t ); ?></wp:term>
+	<wp:term>
+		<wp:term_id><?php echo wxr_cdata( $t->term_id ); ?></wp:term_id>
+		<wp:term_taxonomy><?php echo wxr_cdata( $t->taxonomy ); ?></wp:term_taxonomy>
+		<wp:term_slug><?php echo wxr_cdata( $t->slug ); ?></wp:term_slug>
+		<wp:term_parent><?php echo wxr_cdata( $t->parent ? $terms[$t->parent]->slug : '' ); ?></wp:term_parent>
+		<?php wxr_term_name( $t );
+		wxr_term_description( $t );
+		wxr_term_meta( $t ); ?>
+	</wp:term>
 <?php endforeach; ?>
 <?php if ( 'all' == $args['content'] ) wxr_nav_menu_terms(); ?>
 

@@ -210,7 +210,7 @@ function install_popular_tags( $args = array() ) {
  */
 function install_dashboard() {
 	?>
-	<p><?php printf( __( 'Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="%1$s">WordPress Plugin Directory</a> or upload a plugin in .zip format via <a href="%2$s">this page</a>.' ), 'https://wordpress.org/plugins/', self_admin_url( 'plugin-install.php?tab=upload' ) ); ?></p>
+	<p><?php printf( __( 'Plugins extend and expand the functionality of WordPress. You may automatically install plugins from the <a href="%1$s">WordPress Plugin Directory</a> or upload a plugin in .zip format by clicking the button at the top of this page.' ), 'https://wordpress.org/plugins/' ); ?></p>
 
 	<?php display_plugins_table(); ?>
 
@@ -300,7 +300,8 @@ function install_plugins_upload() {
  *
  */
 function install_plugins_favorites_form() {
-	$user = ! empty( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
+	$user   = get_user_option( 'wporg_favorites' );
+	$action = 'save_wporg_username_' . get_current_user_id();
 	?>
 	<p class="install-help"><?php _e( 'If you have marked plugins as favorites on WordPress.org, you can browse them here.' ); ?></p>
 	<form method="get">
@@ -309,6 +310,7 @@ function install_plugins_favorites_form() {
 			<label for="user"><?php _e( 'Your WordPress.org username:' ); ?></label>
 			<input type="search" id="user" name="user" value="<?php echo esc_attr( $user ); ?>" />
 			<input type="submit" class="button" value="<?php esc_attr_e( 'Get Favorites' ); ?>" />
+			<input type="hidden" id="wporg-username-nonce" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( $action ) ); ?>" />
 		</p>
 	</form>
 	<?php
@@ -332,6 +334,12 @@ function display_plugins_table() {
 			break;
 		case 'install_plugins_recommended' :
 			echo '<p>' . __( 'These suggestions are based on the plugins you and other users have installed.' ) . '</p>';
+			break;
+		case 'install_plugins_beta' :
+			printf(
+				'<p>' . __( 'You are using a development version of WordPress. These feature plugins are also under development. <a href="%s">Learn more</a>.' ) . '</p>',
+				'https://make.wordpress.org/core/handbook/about/release-cycle/features-as-plugins/'
+			);
 			break;
 	}
 
@@ -531,12 +539,6 @@ function install_plugin_information() {
 
 	echo "</div>\n";
 
-	$date_format = __( 'M j, Y @ H:i' );
-
-	if ( ! empty( $api->last_updated ) ) {
-		$last_updated_timestamp = strtotime( $api->last_updated );
-	}
-
 	?>
 	<div id="<?php echo $_tab; ?>-content" class='<?php echo $_with_banner; ?>'>
 	<div class="fyi">
@@ -546,9 +548,9 @@ function install_plugin_information() {
 		<?php } if ( ! empty( $api->author ) ) { ?>
 			<li><strong><?php _e( 'Author:' ); ?></strong> <?php echo links_add_target( $api->author, '_blank' ); ?></li>
 		<?php } if ( ! empty( $api->last_updated ) ) { ?>
-			<li><strong><?php _e( 'Last Updated:' ); ?></strong> <span title="<?php echo esc_attr( date_i18n( $date_format, $last_updated_timestamp ) ); ?>">
-				<?php printf( __( '%s ago' ), human_time_diff( $last_updated_timestamp ) ); ?>
-			</span></li>
+			<li><strong><?php _e( 'Last Updated:' ); ?></strong>
+				<?php printf( __( '%s ago' ), human_time_diff( strtotime( $api->last_updated ) ) ); ?>
+			</li>
 		<?php } if ( ! empty( $api->requires ) ) { ?>
 			<li><strong><?php _e( 'Requires WordPress Version:' ); ?></strong> <?php printf( __( '%s or higher' ), $api->requires ); ?></li>
 		<?php } if ( ! empty( $api->tested ) ) { ?>
@@ -572,22 +574,29 @@ function install_plugin_information() {
 		<?php if ( ! empty( $api->rating ) ) { ?>
 		<h3><?php _e( 'Average Rating' ); ?></h3>
 		<?php wp_star_rating( array( 'rating' => $api->rating, 'type' => 'percent', 'number' => $api->num_ratings ) ); ?>
-		<small aria-hidden="true"><?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $api->num_ratings ), number_format_i18n( $api->num_ratings ) ); ?></small>
+		<p aria-hidden="true" class="fyi-description"><?php printf( _n( '(based on %s rating)', '(based on %s ratings)', $api->num_ratings ), number_format_i18n( $api->num_ratings ) ); ?></p>
 		<?php }
 
-		if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) {
+		if ( ! empty( $api->ratings ) && array_sum( (array) $api->ratings ) > 0 ) { ?>
+			<h3><?php _e( 'Reviews' ); ?></h3>
+			<p class="fyi-description"><?php _e( 'Read all reviews on WordPress.org or write your own!' ); ?></p>
+			<?php
 			foreach ( $api->ratings as $key => $ratecount ) {
 				// Avoid div-by-zero.
 				$_rating = $api->num_ratings ? ( $ratecount / $api->num_ratings ) : 0;
+				/* translators: 1: number of stars (used to determine singular/plural), 2: number of reviews */
+				$aria_label = esc_attr( sprintf( _n( 'Reviews with %1$d star: %2$s. Opens in a new window.', 'Reviews with %1$d stars: %2$s. Opens in a new window.', $key ),
+					$key,
+					number_format_i18n( $ratecount )
+				) );
 				?>
 				<div class="counter-container">
 					<span class="counter-label"><a href="https://wordpress.org/support/view/plugin-reviews/<?php echo $api->slug; ?>?filter=<?php echo $key; ?>"
-						target="_blank"
-						title="<?php echo esc_attr( sprintf( _n( 'Click to see reviews that provided a rating of %d star', 'Click to see reviews that provided a rating of %d stars', $key ), $key ) ); ?>"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></a></span>
+						target="_blank" aria-label="<?php echo $aria_label; ?>"><?php printf( _n( '%d star', '%d stars', $key ), $key ); ?></a></span>
 					<span class="counter-back">
 						<span class="counter-bar" style="width: <?php echo 92 * $_rating; ?>px;"></span>
 					</span>
-					<span class="counter-count"><?php echo number_format_i18n( $ratecount ); ?></span>
+					<span class="counter-count" aria-hidden="true"><?php echo number_format_i18n( $ratecount ); ?></span>
 				</div>
 				<?php
 			}
@@ -651,7 +660,7 @@ function install_plugin_information() {
 				break;
 			case 'update_available':
 				if ( $status['url'] ) {
-					echo '<a data-slug="' . esc_attr( $api->slug ) . '" id="plugin_update_from_iframe" class="button button-primary right" href="' . $status['url'] . '" target="_parent">' . __( 'Install Update Now' ) .'</a>';
+					echo '<a data-slug="' . esc_attr( $api->slug ) . '" data-plugin="' . esc_attr( $status['file'] ) . '" id="plugin_update_from_iframe" class="button button-primary right" href="' . $status['url'] . '" target="_parent">' . __( 'Install Update Now' ) .'</a>';
 				}
 				break;
 			case 'newer_installed':

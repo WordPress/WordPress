@@ -14,7 +14,7 @@ window.wp = window.wp || {};
 	 */
 	revisions = wp.revisions = { model: {}, view: {}, controller: {} };
 
-	// Link post revisions data served from the back-end.
+	// Link post revisions data served from the back end.
 	revisions.settings = window._wpRevisionsSettings || {};
 
 	// For debugging

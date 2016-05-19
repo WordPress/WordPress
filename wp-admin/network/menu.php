@@ -24,7 +24,7 @@ $submenu['index.php'][15] = array( __( 'Upgrade Network' ), 'manage_network', 'u
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 
 /* translators: Sites menu item */
-$menu[5] = array(__('Sites'), 'manage_sites', 'sites.php', '', 'menu-top menu-icon-site', 'menu-site', 'dashicons-admin-network');
+$menu[5] = array(__('Sites'), 'manage_sites', 'sites.php', '', 'menu-top menu-icon-site', 'menu-site', 'dashicons-admin-multisite');
 $submenu['sites.php'][5]  = array( __('All Sites'), 'manage_sites', 'sites.php' );
 $submenu['sites.php'][10]  = array( _x('Add New', 'site'), 'create_sites', 'site-new.php' );
 

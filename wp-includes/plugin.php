@@ -50,7 +50,7 @@ if ( ! isset( $wp_current_filter ) )
  *
  *     function example_callback( $example ) {
  *         // Maybe modify $example in some way.
- *     	   return $example;
+ *         return $example;
  *     }
  *     add_filter( 'example_filter', 'example_callback' );
  *
@@ -465,8 +465,7 @@ function add_action($tag, $function_to_add, $priority = 10, $accepted_args = 1) 
  * possible to create new action hooks by simply calling this function,
  * specifying the name of the new hook using the `$tag` parameter.
  *
- * You can pass extra arguments to the hooks, much like you can with
- * {@see apply_filters()}.
+ * You can pass extra arguments to the hooks, much like you can with apply_filters().
  *
  * @since 1.2.0
  *
@@ -675,13 +674,15 @@ function remove_all_actions($tag, $priority = false) {
 function plugin_basename( $file ) {
 	global $wp_plugin_paths;
 
+	// $wp_plugin_paths contains normalized paths.
+	$file = wp_normalize_path( $file );
+
 	foreach ( $wp_plugin_paths as $dir => $realdir ) {
 		if ( strpos( $file, $realdir ) === 0 ) {
 			$file = $dir . substr( $file, strlen( $realdir ) );
 		}
 	}
 
-	$file = wp_normalize_path( $file );
 	$plugin_dir = wp_normalize_path( WP_PLUGIN_DIR );
 	$mu_plugin_dir = wp_normalize_path( WPMU_PLUGIN_DIR );
 

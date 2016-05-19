@@ -389,7 +389,7 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
 }
 
 /**
- * Registers plural strings in POT file, but don't translate them.
+ * Registers plural strings in POT file, but does not translate them.
  *
  * Used when you want to keep structures with translatable plural
  * strings and use them later when the number is known.
@@ -426,7 +426,7 @@ function _n_noop( $singular, $plural, $domain = null ) {
 }
 
 /**
- * Register plural strings with gettext context in the POT file, but don't translate them.
+ * Registers plural strings with gettext context in POT file, but does not translate them.
  *
  * Used when you want to keep structures with translatable plural
  * strings and use them later when the number is known.
@@ -519,11 +519,11 @@ function load_textdomain( $domain, $mofile ) {
 	global $l10n;
 
 	/**
-	 * Filter text domain and/or MO file path for loading translations.
+	 * Filter whether to override the .mo file loading.
 	 *
 	 * @since 2.9.0
 	 *
-	 * @param bool   $override Whether to override the text domain. Default false.
+	 * @param bool   $override Whether to override the .mo file loading. Default false.
 	 * @param string $domain   Text domain. Unique identifier for retrieving translated strings.
 	 * @param string $mofile   Path to the MO file.
 	 */
@@ -580,11 +580,11 @@ function unload_textdomain( $domain ) {
 	global $l10n;
 
 	/**
-	 * Filter the text domain for loading translation.
+	 * Filter whether to override the text domain unloading.
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param bool   $override Whether to override unloading the text domain. Default false.
+	 * @param bool   $override Whether to override the text domain unloading. Default false.
 	 * @param string $domain   Text domain. Unique identifier for retrieving translated strings.
 	 */
 	$plugin_override = apply_filters( 'override_unload_textdomain', false, $domain );
@@ -619,7 +619,7 @@ function unload_textdomain( $domain ) {
  *
  * @since 1.5.0
  *
- * @param string $locale Optional. Locale to load. Default is the value of {@see get_locale()}.
+ * @param string $locale Optional. Locale to load. Default is the value of get_locale().
  * @return bool Whether the textdomain was loaded.
  */
 function load_default_textdomain( $locale = null ) {
@@ -655,6 +655,7 @@ function load_default_textdomain( $locale = null ) {
  * The .mo file should be named based on the text domain with a dash, and then the locale exactly.
  *
  * @since 1.5.0
+ * @since 4.6.0 The function now tries to load the .mo file from the languages directory first.
  *
  * @param string $domain          Unique identifier for retrieving translated strings
  * @param string $deprecated      Use the $plugin_rel_path parameter instead.
@@ -663,7 +664,6 @@ function load_default_textdomain( $locale = null ) {
  * @return bool True when textdomain is successfully loaded, false otherwise.
  */
 function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path = false ) {
-	$locale = get_locale();
 	/**
 	 * Filter a plugin's locale.
 	 *
@@ -672,9 +672,16 @@ function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path 
 	 * @param string $locale The plugin's current locale.
 	 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
 	 */
-	$locale = apply_filters( 'plugin_locale', $locale, $domain );
+	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
-	if ( false !== $plugin_rel_path	) {
+	$mofile = $domain . '-' . $locale . '.mo';
+
+	// Try to load from the languages directory first.
+	if ( load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $mofile ) ) {
+		return true;
+	}
+
+	if ( false !== $plugin_rel_path ) {
 		$path = WP_PLUGIN_DIR . '/' . trim( $plugin_rel_path, '/' );
 	} elseif ( false !== $deprecated ) {
 		_deprecated_argument( __FUNCTION__, '2.7' );
@@ -683,20 +690,14 @@ function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path 
 		$path = WP_PLUGIN_DIR;
 	}
 
-	// Load the textdomain according to the plugin first
-	$mofile = $domain . '-' . $locale . '.mo';
-	if ( $loaded = load_textdomain( $domain, $path . '/'. $mofile ) )
-		return $loaded;
-
-	// Otherwise, load from the languages directory
-	$mofile = WP_LANG_DIR . '/plugins/' . $mofile;
-	return load_textdomain( $domain, $mofile );
+	return load_textdomain( $domain, $path . '/' . $mofile );
 }
 
 /**
  * Load the translated strings for a plugin residing in the mu-plugins directory.
  *
  * @since 3.0.0
+ * @since 4.6.0 The function now tries to load the .mo file from the languages directory first.
  *
  * @param string $domain             Text domain. Unique identifier for retrieving translated strings.
  * @param string $mu_plugin_rel_path Relative to WPMU_PLUGIN_DIR directory in which the .mo file resides.
@@ -706,16 +707,17 @@ function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path 
 function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
 	/** This filter is documented in wp-includes/l10n.php */
 	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
+
+	$mofile = $domain . '-' . $locale . '.mo';
+
+	// Try to load from the languages directory first.
+	if ( load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $mofile ) ) {
+		return true;
+	}
+
 	$path = trailingslashit( WPMU_PLUGIN_DIR . '/' . ltrim( $mu_plugin_rel_path, '/' ) );
 
-	// Load the textdomain according to the plugin first
-	$mofile = $domain . '-' . $locale . '.mo';
-	if ( $loaded = load_textdomain( $domain, $path . $mofile ) )
-		return $loaded;
-
-	// Otherwise, load from the languages directory
-	$mofile = WP_LANG_DIR . '/plugins/' . $mofile;
-	return load_textdomain( $domain, $mofile );
+	return load_textdomain( $domain, $path . '/' . $mofile );
 }
 
 /**
@@ -727,6 +729,7 @@ function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
  * The .mo files must be named based on the locale exactly.
  *
  * @since 1.5.0
+ * @since 4.6.0 The function now tries to load the .mo file from the languages directory first.
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @param string $path   Optional. Path to the directory containing the .mo file.
@@ -734,7 +737,6 @@ function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
  * @return bool True when textdomain is successfully loaded, false otherwise.
  */
 function load_theme_textdomain( $domain, $path = false ) {
-	$locale = get_locale();
 	/**
 	 * Filter a theme's locale.
 	 *
@@ -743,19 +745,20 @@ function load_theme_textdomain( $domain, $path = false ) {
 	 * @param string $locale The theme's current locale.
 	 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
 	 */
-	$locale = apply_filters( 'theme_locale', $locale, $domain );
+	$locale = apply_filters( 'theme_locale', get_locale(), $domain );
 
-	if ( ! $path )
+	$mofile = $domain . '-' . $locale . '.mo';
+
+	// Try to load from the languages directory first.
+	if ( load_textdomain( $domain, WP_LANG_DIR . '/themes/' . $mofile ) ) {
+		return true;
+	}
+
+	if ( ! $path ) {
 		$path = get_template_directory();
+	}
 
-	// Load the textdomain according to the theme
-	$mofile = untrailingslashit( $path ) . "/{$locale}.mo";
-	if ( $loaded = load_textdomain( $domain, $mofile ) )
-		return $loaded;
-
-	// Otherwise, load from the languages directory
-	$mofile = WP_LANG_DIR . "/themes/{$domain}-{$locale}.mo";
-	return load_textdomain( $domain, $mofile );
+	return load_textdomain( $domain, $path . '/' . $locale . '.mo' );
 }
 
 /**
@@ -780,6 +783,58 @@ function load_child_theme_textdomain( $domain, $path = false ) {
 }
 
 /**
+ * Just in time loading of plugin and theme textdomains.
+ *
+ * When a textdomain is encountered for the first time, we try to load the translation file
+ * from wp-content/languages, removing the need to call `load_plugin_texdomain()` or
+ * `load_theme_texdomain()`. Holds a cached list of available .mo files to improve performance.
+ *
+ * @since 4.6.0
+ * @access private
+ *
+ * @see get_translations_for_domain()
+ *
+ * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+ * @return bool True when the textdomain is successfully loaded, false otherwise.
+ */
+function _load_textdomain_just_in_time( $domain ) {
+	static $cached_mofiles = null;
+
+	// Short-circuit if domain is 'default' which is reserved for core.
+	if ( 'default' === $domain ) {
+		return false;
+	}
+
+	if ( null === $cached_mofiles ) {
+		$cached_mofiles = array();
+
+		$locations = array(
+			WP_LANG_DIR . '/plugins',
+			WP_LANG_DIR . '/themes',
+		);
+
+		foreach ( $locations as $location ) {
+			foreach ( get_available_languages( $location ) as $file ) {
+				$cached_mofiles[] = "{$location}/{$file}.mo";
+			}
+		}
+	}
+
+	$locale = get_locale();
+	$mofile = "{$domain}-{$locale}.mo";
+
+	if ( in_array( WP_LANG_DIR . '/plugins/' . $mofile, $cached_mofiles ) ) {
+		return load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $mofile );
+	}
+
+	if ( in_array( WP_LANG_DIR . '/themes/' . $mofile, $cached_mofiles ) ) {
+		return load_textdomain( $domain, WP_LANG_DIR . '/themes/' . $mofile );
+	}
+
+	return false;
+}
+
+/**
  * Return the Translations instance for a text domain.
  *
  * If there isn't one, returns empty Translations instance.
@@ -793,10 +848,16 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  */
 function get_translations_for_domain( $domain ) {
 	global $l10n;
-	if ( !isset( $l10n[$domain] ) ) {
-		$l10n[$domain] = new NOOP_Translations;
+	if ( isset( $l10n[ $domain ] ) || ( _load_textdomain_just_in_time( $domain ) && isset( $l10n[ $domain ] ) ) ) {
+		return $l10n[ $domain ];
 	}
-	return $l10n[$domain];
+
+	static $noop_translations = null;
+	if ( null === $noop_translations ) {
+		$noop_translations = new NOOP_Translations;
+	}
+
+	return $noop_translations;
 }
 
 /**
@@ -811,7 +872,7 @@ function get_translations_for_domain( $domain ) {
  */
 function is_textdomain_loaded( $domain ) {
 	global $l10n;
-	return isset( $l10n[$domain] );
+	return isset( $l10n[ $domain ] );
 }
 
 /**
@@ -956,11 +1017,11 @@ function wp_get_pomo_file_data( $po_file ) {
  *     @type array    $translations                 List of available translations. Default result of
  *                                                  wp_get_available_translations().
  *     @type string   $selected                     Language which should be selected. Default empty.
- *     @type bool|int $echo                         Whether to echo or return the generated markup. Accepts 0, 1, or their
- *                                                  bool equivalents. Default 1.
+ *     @type bool|int $echo                         Whether to echo the generated markup. Accepts 0, 1, or their
+ *                                                  boolean equivalents. Default 1.
  *     @type bool     $show_available_translations  Whether to show available translations. Default true.
  * }
- * @return string HTML content only if 'echo' argument is 0.
+ * @return string HTML content
  */
 function wp_dropdown_languages( $args = array() ) {
 

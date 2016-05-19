@@ -81,7 +81,12 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		if ( isset( $_REQUEST['order'] ) )
 			$args['order'] = $_REQUEST['order'];
 
-		$mode = empty( $_REQUEST['mode'] ) ? 'list' : $_REQUEST['mode'];
+		if ( ! empty( $_REQUEST['mode'] ) ) {
+			$mode = $_REQUEST['mode'] === 'excerpt' ? 'excerpt' : 'list';
+			set_user_setting( 'network_users_list_mode', $mode );
+		} else {
+			$mode = get_user_setting( 'network_users_list_mode', 'list' );
+		}
 
 		/** This filter is documented in wp-admin/includes/class-wp-users-list-table.php */
 		$args = apply_filters( 'users_list_table_query_args', $args );
@@ -304,7 +309,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Handles the blogs/sites column output.
+	 * Handles the sites column output.
 	 *
 	 * @since 4.3.0
 	 * @access public

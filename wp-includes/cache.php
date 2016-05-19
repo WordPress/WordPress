@@ -2,7 +2,7 @@
 /**
  * Object Cache API
  *
- * @link https://codex.wordpress.org/Function_Reference/WP_Cache
+ * @link https://codex.wordpress.org/Class_Reference/WP_Object_Cache
  *
  * @package WordPress
  * @subpackage Cache
@@ -200,7 +200,7 @@ function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
 }
 
 /**
- * Switches the interal blog ID.
+ * Switches the internal blog ID.
  *
  * This changes the blog id used to create keys in blog specific groups.
  *
@@ -209,7 +209,7 @@ function wp_cache_set( $key, $data, $group = '', $expire = 0 ) {
  * @see WP_Object_Cache::switch_to_blog()
  * @global WP_Object_Cache $wp_object_cache Object cache global instance.
  *
- * @param int $blog_id Blog ID.
+ * @param int $blog_id Site ID.
  */
 function wp_cache_switch_to_blog( $blog_id ) {
 	global $wp_object_cache;
@@ -247,8 +247,8 @@ function wp_cache_add_non_persistent_groups( $groups ) {
 /**
  * Reset internal cache keys and structures.
  *
- * If the cache backend uses global blog or site IDs as part of its cache keys,
- * this function instructs the backend to reset those keys and perform any cleanup
+ * If the cache back end uses global blog or site IDs as part of its cache keys,
+ * this function instructs the back end to reset those keys and perform any cleanup
  * since blog or site IDs have changed since cache init.
  *
  * This function is deprecated. Use wp_cache_switch_to_blog() instead of this
@@ -344,7 +344,7 @@ class WP_Object_Cache {
 	private $multisite;
 
 	/**
-	 * Makes private properties readable for backwards compatibility.
+	 * Makes private properties readable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -357,7 +357,7 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Makes private properties settable for backwards compatibility.
+	 * Makes private properties settable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -371,7 +371,7 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Makes private properties checkable for backwards compatibility.
+	 * Makes private properties checkable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -384,7 +384,7 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Makes private properties un-settable for backwards compatibility.
+	 * Makes private properties un-settable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -697,7 +697,7 @@ class WP_Object_Cache {
 	}
 
 	/**
-	 * Switches the interal blog ID.
+	 * Switches the internal blog ID.
 	 *
 	 * This changes the blog ID used to create keys in blog specific groups.
 	 *

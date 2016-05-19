@@ -1,4 +1,4 @@
-/* global ajaxurl */
+/* global ajaxurl, postBoxL10n */
 
 var postboxes;
 
@@ -110,7 +110,7 @@ var postboxes;
 				tolerance: 'pointer',
 				forcePlaceholderSize: true,
 				helper: function( event, element ) {
-					// `helper: 'clone'` is equilavalent to `return element.clone();`
+					// `helper: 'clone'` is equivalent to `return element.clone();`
 					// Cloning a checked radio and then inserting that clone next to the original
 					// radio unchecks the original radio (since only one of the two can be checked).
 					// We get around this by renaming the helper's inputs' name attributes so that,
@@ -197,10 +197,13 @@ var postboxes;
 			$( '#dashboard-widgets .meta-box-sortables:visible' ).each( function() {
 				var t = $(this);
 
-				if ( visible == 1 || t.children('.postbox:visible').length )
+				if ( visible == 1 || t.children('.postbox:visible').length ) {
 					t.removeClass('empty-container');
-				else
+				}
+				else {
 					t.addClass('empty-container');
+					t.attr('data-emptyString', postBoxL10n.postBoxEmptyString);
+				}
 			});
 
 			if ( side.length ) {

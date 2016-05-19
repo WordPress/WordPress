@@ -5,7 +5,7 @@ div#media-upload-header {
 	padding: 5px 5px 0;
 	font-weight: bold;
 	position: relative;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	background: #f9f9f9;
 }
 
@@ -28,7 +28,7 @@ div#media-upload-header {
 	float: left;
 	line-height: 28px;
 	border-top: 1px solid #f9f9f9;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	background-color: #f9f9f9;
 	text-decoration: none;
 	-webkit-transition: none;
@@ -49,7 +49,7 @@ div#media-upload-header {
 	font-weight: normal;
 	padding-left: 6px;
 	padding-right: 6px;
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 	border-bottom-color: #f1f1f1;
 	background-color: #f1f1f1;
 	color: #000;
@@ -62,11 +62,16 @@ div#media-upload-header {
 }
 
 #media-upload .slidetoggle {
-	border-top-color: #dfdfdf;
+	border-top-color: #ddd;
 }
 
 #media-upload input[type="radio"] {
 	padding: 0;
+}
+
+.media-upload-form label.form-help,
+td.help {
+	color: #72777c;
 }
 
 form {
@@ -147,7 +152,8 @@ thead.media-item-info tr {
 	border: 8px solid #fff;
 }
 
-abbr.required {
+abbr.required,
+span.required {
 	text-decoration: none;
 	border: none;
 }
@@ -270,7 +276,7 @@ abbr.required {
 	clear: both;
 	padding: 0 0 3px;
 	font-size: 1.6em;
-	border-bottom: 1px solid #DADADA;
+	border-bottom: 1px solid #ddd;
 }
 
 h3.media-title  {
@@ -278,7 +284,7 @@ h3.media-title  {
 }
 
 h4.media-sub-title  {
-	border-bottom: 1px solid #DADADA;
+	border-bottom: 1px solid #ddd;
 	font-size: 1.3em;
 	margin: 12px;
 	padding: 0 0 3px;
@@ -322,7 +328,7 @@ h4.media-sub-title {
 #gallery-settings label,
 #gallery-settings legend {
 	font-size: 13px;
-	color: #464646;
+	color: #444;
 	margin-right: 15px;
 }
 
@@ -331,7 +337,7 @@ h4.media-sub-title {
 }
 
 #gallery-settings p.ml-submit {
-	border-top: 1px solid #dfdfdf;
+	border-top: 1px solid #ddd;
 }
 
 #gallery-settings select#columns {
@@ -359,7 +365,12 @@ h4.media-sub-title {
 }
 
 p.media-types {
+	margin: 0;
 	padding: 1em;
+}
+
+p.media-types-required-info {
+	padding-top: 0;
 }
 
 tr.not-image {

@@ -80,7 +80,6 @@ themes.view.Appearance = wp.Backbone.View.extend({
 		// Render and append
 		this.view.render();
 		this.$el.empty().append( this.view.el ).addClass( 'rendered' );
-		this.$el.append( '<br class="clear"/>' );
 	},
 
 	// Defines search element container
@@ -159,8 +158,8 @@ themes.Collection = Backbone.Collection.extend({
 			$( 'body' ).removeClass( 'no-results' );
 		}
 
-		// Trigger an 'update' event
-		this.trigger( 'update' );
+		// Trigger a 'themes:update' event
+		this.trigger( 'themes:update' );
 	},
 
 	// Performs a search within the collection
@@ -186,7 +185,7 @@ themes.Collection = Backbone.Collection.extend({
 			description = data.get( 'description' ).replace( /(<([^>]+)>)/ig, '' );
 			author      = data.get( 'author' ).replace( /(<([^>]+)>)/ig, '' );
 
-			haystack = _.union( name, data.get( 'id' ), description, author, data.get( 'tags' ) );
+			haystack = _.union( [ name, data.get( 'id' ), description, author, data.get( 'tags' ) ] );
 
 			if ( match.test( data.get( 'author' ) ) && term.length > 2 ) {
 				data.set( 'displayAuthor', true );
@@ -265,7 +264,7 @@ themes.Collection = Backbone.Collection.extend({
 
 				// Trigger a collection refresh event
 				// and a `query:success` event with a `count` argument.
-				self.trigger( 'update' );
+				self.trigger( 'themes:update' );
 				self.trigger( 'query:success', count );
 
 				if ( data.themes && data.themes.length === 0 ) {
@@ -309,7 +308,7 @@ themes.Collection = Backbone.Collection.extend({
 				this.count = this.length;
 			}
 
-			this.trigger( 'update' );
+			this.trigger( 'themes:update' );
 			this.trigger( 'query:success', this.count );
 		}
 	},
@@ -757,6 +756,7 @@ themes.view.Preview = themes.view.Details.extend({
 	events: {
 		'click .close-full-overlay': 'close',
 		'click .collapse-sidebar': 'collapse',
+		'click .devices button': 'previewDevice',
 		'click .previous-theme': 'previousTheme',
 		'click .next-theme': 'nextTheme',
 		'keyup': 'keyEvent'
@@ -766,10 +766,15 @@ themes.view.Preview = themes.view.Details.extend({
 	html: themes.template( 'theme-preview' ),
 
 	render: function() {
-		var self = this,
+		var self = this, currentPreviewDevice,
 			data = this.model.toJSON();
 
 		this.$el.removeClass( 'iframe-ready' ).html( this.html( data ) );
+
+		currentPreviewDevice = this.$el.data( 'current-preview-device' );
+		if ( currentPreviewDevice ) {
+			self.tooglePreviewDeviceButtons( currentPreviewDevice );
+		}
 
 		themes.router.navigate( themes.router.baseUrl( themes.router.themePath + this.model.get( 'id' ) ), { replace: true } );
 
@@ -816,6 +821,29 @@ themes.view.Preview = themes.view.Details.extend({
 		return false;
 	},
 
+	previewDevice: function( event ) {
+		var device = $( event.currentTarget ).data( 'device' );
+
+		this.$el
+			.removeClass( 'preview-desktop preview-tablet preview-mobile' )
+			.addClass( 'preview-' + device )
+			.data( 'current-preview-device', device );
+
+		this.tooglePreviewDeviceButtons( device );
+	},
+
+	tooglePreviewDeviceButtons: function( newDevice ) {
+		var $devices = $( '.wp-full-overlay-footer .devices' );
+
+		$devices.find( 'button' )
+			.removeClass( 'active' )
+			.attr( 'aria-pressed', false );
+
+		$devices.find( 'button.preview-' + newDevice )
+			.addClass( 'active' )
+			.attr( 'aria-pressed', true );
+	},
+
 	keyEvent: function( event ) {
 		// The escape key closes the preview
 		if ( event.keyCode === 27 ) {
@@ -838,7 +866,7 @@ themes.view.Preview = themes.view.Details.extend({
 // a wrapper that will hold all the theme elements
 themes.view.Themes = wp.Backbone.View.extend({
 
-	className: 'themes',
+	className: 'themes wp-clearfix',
 	$overlay: $( 'div.theme-overlay' ),
 
 	// Number to keep track of scroll position
@@ -846,7 +874,7 @@ themes.view.Themes = wp.Backbone.View.extend({
 	index: 0,
 
 	// The theme count element
-	count: $( '.wp-core-ui .theme-count' ),
+	count: $( '.wrap .theme-count' ),
 
 	// The live themes count
 	liveThemeCount: 0,
@@ -864,11 +892,11 @@ themes.view.Themes = wp.Backbone.View.extend({
 		self.currentTheme();
 
 		// When the collection is updated by user input...
-		this.listenTo( self.collection, 'update', function() {
+		this.listenTo( self.collection, 'themes:update', function() {
 			self.parent.page = 0;
 			self.currentTheme();
 			self.render( this );
-		});
+		} );
 
 		// Update theme count to full result set when available.
 		this.listenTo( self.collection, 'query:success', function( count ) {
@@ -1479,7 +1507,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 
 		// Construct the filter request
 		// using the default values
-		filter = _.union( filter, this.filtersChecked() );
+		filter = _.union( [ filter, this.filtersChecked() ] );
 		request = { tag: [ filter ] };
 
 		// Get the themes by sending Ajax POST request to api.wordpress.org/themes
@@ -1520,6 +1548,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 	// Save the user's WordPress.org username and get his favorite themes.
 	saveUsername: function ( event ) {
 		var username = $( '#wporg-username-input' ).val(),
+			nonce = $( '#wporg-username-nonce' ).val(),
 			request = { browse: 'favorites', user: username },
 			that = this;
 
@@ -1534,6 +1563,7 @@ themes.view.Installer = themes.view.Appearance.extend({
 
 		return wp.ajax.send( 'save-wporg-username', {
 			data: {
+				_wpnonce: nonce,
 				username: username
 			},
 			success: function () {
@@ -1574,17 +1604,24 @@ themes.view.Installer = themes.view.Appearance.extend({
 	// in new location
 	searchContainer: $( '.wp-filter .search-form' ),
 
+	/*
+	 * When a user presses the "Upload Theme" button, show the upload form in place.
+	 * @todo consider to abstract this in a generic, reusable, utility, see plugin-install.js
+	 */
 	uploader: function() {
-		$( 'a.upload' ).on( 'click', function( event ) {
-			event.preventDefault();
-			$( 'body' ).addClass( 'show-upload-theme' );
-			themes.router.navigate( themes.router.baseUrl( '?upload' ), { replace: true } );
-		});
-		$( 'a.browse-themes' ).on( 'click', function( event ) {
-			event.preventDefault();
-			$( 'body' ).removeClass( 'show-upload-theme' );
-			themes.router.navigate( themes.router.baseUrl( '' ), { replace: true } );
-		});
+		var uploadViewToggle = $( '.upload-view-toggle' ),
+			$body = $( document.body );
+
+		uploadViewToggle
+			.attr({
+				role: 'button',
+				'aria-expanded': 'false'
+			})
+			.on( 'click', function( event ) {
+				event.preventDefault();
+				$body.toggleClass( 'show-upload-view' );
+				uploadViewToggle.attr( 'aria-expanded', $body.hasClass( 'show-upload-view' ) );
+			});
 	},
 
 	// Toggle the full filters navigation

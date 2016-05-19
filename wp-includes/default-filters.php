@@ -130,7 +130,7 @@ add_filter( 'the_title', 'convert_chars' );
 add_filter( 'the_title', 'trim'          );
 
 add_filter( 'the_content', 'wptexturize'                       );
-add_filter( 'the_content', 'convert_smilies'                   );
+add_filter( 'the_content', 'convert_smilies',               20 );
 add_filter( 'the_content', 'wpautop'                           );
 add_filter( 'the_content', 'shortcode_unautop'                 );
 add_filter( 'the_content', 'prepend_attachment'                );
@@ -206,7 +206,7 @@ add_filter( 'pingback_ping_source_uri', 'pingback_ping_source_uri'            );
 add_filter( 'xmlrpc_pingback_error',    'xmlrpc_pingback_error'               );
 add_filter( 'title_save_pre',           'trim'                                );
 
-add_filter( 'http_request_host_is_external', 'allowed_http_request_hosts', 10, 2 );
+add_filter( 'http_request_host_is_external',    'allowed_http_request_hosts', 10, 2 );
 
 // REST API filters.
 add_action( 'xmlrpc_rsd_apis',            'rest_output_rsd' );
@@ -249,6 +249,7 @@ if ( isset( $_GET['replytocom'] ) )
 
 // Login actions
 add_action( 'login_head',          'wp_print_head_scripts',         9     );
+add_action( 'login_head',          'print_admin_styles',            9     );
 add_action( 'login_head',          'wp_site_icon',                  99    );
 add_action( 'login_footer',        'wp_print_footer_scripts',       20    );
 add_action( 'login_init',          'send_frame_options_header',     10, 0 );
@@ -341,6 +342,7 @@ add_filter( 'heartbeat_nopriv_send', 'wp_auth_check' );
 
 // Default authentication filters
 add_filter( 'authenticate', 'wp_authenticate_username_password',  20, 3 );
+add_filter( 'authenticate', 'wp_authenticate_email_password',     20, 3 );
 add_filter( 'authenticate', 'wp_authenticate_spam_check',         99    );
 add_filter( 'determine_current_user', 'wp_validate_auth_cookie'          );
 add_filter( 'determine_current_user', 'wp_validate_logged_in_cookie', 20 );
@@ -369,6 +371,7 @@ add_action( 'parse_request', 'rest_api_loaded' );
  */
 // Theme
 add_action( 'wp_loaded', '_custom_header_background_just_in_time' );
+add_action( 'wp_head', '_custom_logo_header_styles' );
 add_action( 'plugins_loaded', '_wp_customize_include' );
 add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
 add_action( 'delete_attachment', '_delete_attachment_theme_mod' );

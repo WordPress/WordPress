@@ -141,7 +141,7 @@ body.folded .revisions .loading-indicator {
 }
 
 .revisions-controls .author-card .date {
-	color: #777;
+	color: #72777c;
 }
 
 .revisions-controls .author-card.autosave {
@@ -389,7 +389,7 @@ table.diff .diff-addedline ins {
 
 .revisions-tooltip,
 .revisions-tooltip-arrow > span {
-	border: 1px solid #d7d7d7;
+	border: 1px solid #ddd;
 	background-color: #fff;
 }
 
@@ -453,7 +453,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 /* jQuery UI Slider */
 .wp-slider.ui-slider {
 	position: relative;
-	border: 1px solid #d7d7d7;
+	border: 1px solid #ddd;
 	text-align: right;
 	cursor: pointer;
 }

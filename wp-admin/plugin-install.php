@@ -70,13 +70,13 @@ get_current_screen()->add_help_tab( array(
 'id'		=> 'overview',
 'title'		=> __('Overview'),
 'content'	=>
-	'<p>' . sprintf(__('Plugins hook into WordPress to extend its functionality with custom features. Plugins are developed independently from the core WordPress application by thousands of developers all over the world. All plugins in the official <a href="%s" target="_blank">WordPress.org Plugin Directory</a> are compatible with the license WordPress uses. You can find new plugins to install by searching or browsing the Directory right here in your own Plugins section.'), 'https://wordpress.org/plugins/') . '</p>'
+	'<p>' . sprintf(__('Plugins hook into WordPress to extend its functionality with custom features. Plugins are developed independently from the core WordPress application by thousands of developers all over the world. All plugins in the official <a href="%s" target="_blank">WordPress Plugin Directory</a> are compatible with the license WordPress uses. You can find new plugins to install by searching or browsing the Directory right here in your own Plugins section.'), 'https://wordpress.org/plugins/') . '</p>'
 ) );
 get_current_screen()->add_help_tab( array(
 'id'		=> 'adding-plugins',
 'title'		=> __('Adding Plugins'),
 'content'	=>
-	'<p>' . __('If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress.org Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting popular tags. Tags in larger type mean more plugins have been labeled with that tag.') . '</p>' .
+	'<p>' . __('If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting popular tags. Tags in larger type mean more plugins have been labeled with that tag.') . '</p>' .
 	'<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured and Popular plugins by using the links in the upper left of the screen. These sections rotate regularly.') . '</p>' .
 	'<p>' . __('You can also browse a user&#8217;s favorite plugins, by using the Favorites link in the upper left of the screen and entering their WordPress.org username.') . '</p>' .
 	'<p>' . __('If you want to install a plugin that you&#8217;ve downloaded elsewhere, click the Upload link in the upper left. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.') . '</p>'
@@ -106,15 +106,30 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_plugins' ) ) {
 		if ( $tab === 'upload' ) {
 			$href = self_admin_url( 'plugin-install.php' );
-			$text = _x( 'Browse', 'plugins' );
+			$upload_tab_class = ' upload-tab';
 		} else {
 			$href = self_admin_url( 'plugin-install.php?tab=upload' );
-			$text = __( 'Upload Plugin' );
+			$upload_tab_class = '';
 		}
-		echo ' <a href="' . $href . '" class="upload page-title-action">' . $text . '</a>';
+
+		printf( ' <a href="%s" class="upload-view-toggle page-title-action%s"><span class="upload">%s</span><span class="browse">%s</span></a>',
+			$href,
+			$upload_tab_class,
+			__( 'Upload Plugin' ),
+			__( 'Browse Plugins' )
+		);
 	}
 	?>
 </h1>
+
+<div class="upload-plugin-wrap<?php echo $upload_tab_class; ?>">
+<?php
+/*
+ * Output the upload plugin form on every plugin install screen, so it can be
+ * displayed via JavaScript rather then opening up the devoted upload plugin page.
+ */
+install_plugins_upload(); ?>
+</div>
 
 <?php
 if ( $tab !== 'upload' ) {

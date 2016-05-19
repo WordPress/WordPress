@@ -78,6 +78,11 @@ if ( isset( $_REQUEST['action'] ) && 'update-site' == $_REQUEST['action'] ) {
 		}
 		$update_parsed_url = parse_url( $blog_data['url'] );
 
+		// If a path is not provided, use the default of `/`.
+		if ( ! isset( $update_parsed_url['path'] ) ) {
+			$update_parsed_url['path'] = '/';
+		}
+
 		$blog_data['scheme'] = $update_parsed_url['scheme'];
 		$blog_data['domain'] = $update_parsed_url['host'];
 		$blog_data['path'] = $update_parsed_url['path'];
@@ -138,21 +143,13 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 <div class="wrap">
 <h1 id="edit-site"><?php echo $title; ?></h1>
 <p class="edit-site-actions"><a href="<?php echo esc_url( get_home_url( $id, '/' ) ); ?>"><?php _e( 'Visit' ); ?></a> | <a href="<?php echo esc_url( get_admin_url( $id ) ); ?>"><?php _e( 'Dashboard' ); ?></a></p>
-<h2 class="nav-tab-wrapper nav-tab-small">
 <?php
-$tabs = array(
-	'site-info'     => array( 'label' => __( 'Info' ),     'url' => 'site-info.php'     ),
-	'site-users'    => array( 'label' => __( 'Users' ),    'url' => 'site-users.php'    ),
-	'site-themes'   => array( 'label' => __( 'Themes' ),   'url' => 'site-themes.php'   ),
-	'site-settings' => array( 'label' => __( 'Settings' ), 'url' => 'site-settings.php' ),
-);
-foreach ( $tabs as $tab_id => $tab ) {
-	$class = ( $tab['url'] == $pagenow ) ? ' nav-tab-active' : '';
-	echo '<a href="' . $tab['url'] . '?id=' . $id .'" class="nav-tab' . $class . '">' . esc_html( $tab['label'] ) . '</a>';
-}
-?>
-</h2>
-<?php
+
+network_edit_site_nav( array(
+	'blog_id'  => $id,
+	'selected' => 'site-info'
+) );
+
 if ( ! empty( $messages ) ) {
 	foreach ( $messages as $msg ) {
 		echo '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
@@ -167,14 +164,14 @@ if ( ! empty( $messages ) ) {
 		// The main site of the network should not be updated on this page.
 		if ( $is_main_site ) : ?>
 		<tr class="form-field">
-			<th scope="row"><?php _e( 'Site URL' ); ?></th>
-			<td><?php echo esc_url( $details->siteurl ); ?></td>
+			<th scope="row"><?php _e( 'Site Address (URL)' ); ?></th>
+			<td><?php echo esc_url( $details->domain . $details->path ); ?></td>
 		</tr>
 		<?php
 		// For any other site, the scheme, domain, and path can all be changed.
 		else : ?>
 		<tr class="form-field form-required">
-			<th scope="row"><?php _e( 'Site URL' ); ?></th>
+			<th scope="row"><?php _e( 'Site Address (URL)' ); ?></th>
 			<td><input name="blog[url]" type="text" id="url" value="<?php echo $parsed_scheme . '://' . esc_attr( $details->domain ) . esc_attr( $details->path ); ?>" /></td>
 		</tr>
 		<?php endif; ?>

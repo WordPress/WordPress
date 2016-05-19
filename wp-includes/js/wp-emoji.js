@@ -3,19 +3,11 @@
 	function wpEmoji() {
 		var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
 
-		/**
-		 * Flag to determine if we should replace emoji characters with images.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @var Boolean
-		 */
-		replaceEmoji = false,
-
 		// Private
 		twemoji, timer,
 		loaded = false,
-		count = 0;
+		count = 0,
+		ie11 = window.navigator.userAgent.indexOf( 'Trident/7.0' ) > 0;
 
 		/**
 		 * Runs when the document load event is fired, so we can do our first parse of the page.
@@ -68,6 +60,23 @@
 							node = addedNodes[ ii ];
 
 							if ( node.nodeType === 3 ) {
+								if ( ! node.parentNode ) {
+									continue;
+								}
+
+								if ( ie11 ) {
+									/*
+									 * IE 11's implementation of MutationObserver is buggy.
+									 * It unnecessarily splits text nodes when it encounters a HTML
+									 * template interpolation symbol ( "{{", for example ). So, we
+									 * join the text nodes back together as a work-around.
+									 */
+									while( node.nextSibling && 3 === node.nextSibling.nodeType ) {
+										node.nodeValue = node.nodeValue + node.nextSibling.nodeValue;
+										node.parentNode.removeChild( node.nextSibling );
+									}
+								}
+
 								node = node.parentNode;
 							}
 
@@ -124,7 +133,7 @@
 		function parse( object, args ) {
 			var params;
 
-			if ( ! replaceEmoji || ! twemoji || ! object ||
+			if ( settings.supports.everything || ! twemoji || ! object ||
 				( 'string' !== typeof object && ( ! object.childNodes || ! object.childNodes.length ) ) ) {
 
 				return object;
@@ -149,8 +158,7 @@
 							return false;
 					}
 
-					if ( ! settings.supports.flag && settings.supports.simple && settings.supports.unicode8 &&
-						! /^1f1(?:e[6-9a-f]|f[0-9a-f])-1f1(?:e[6-9a-f]|f[0-9a-f])$/.test( icon ) ) {
+					if ( settings.supports.everythingExceptFlag && ! /^1f1(?:e[6-9a-f]|f[0-9a-f])-1f1(?:e[6-9a-f]|f[0-9a-f])$/.test( icon ) ) {
 
 						return false;
 					}
@@ -178,8 +186,6 @@
 		 * Initialize our emoji support, and set up listeners.
 		 */
 		if ( settings ) {
-			replaceEmoji = ! settings.supports.simple || ! settings.supports.flag || ! settings.supports.unicode8;
-
 			if ( settings.DOMReady ) {
 				load();
 			} else {
@@ -188,7 +194,6 @@
 		}
 
 		return {
-			replaceEmoji: replaceEmoji,
 			parse: parse,
 			test: test
 		};

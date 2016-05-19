@@ -513,14 +513,14 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			$menu_data['menu-name'] = $value['name'];
 
 			$menu_id = $is_placeholder ? 0 : $this->term_id;
-			$r = wp_update_nav_menu_object( $menu_id, $menu_data );
+			$r = wp_update_nav_menu_object( $menu_id, wp_slash( $menu_data ) );
 			$original_name = $menu_data['menu-name'];
 			$name_conflict_suffix = 1;
 			while ( is_wp_error( $r ) && 'menu_exists' === $r->get_error_code() ) {
 				$name_conflict_suffix += 1;
 				/* translators: 1: original menu name, 2: duplicate count */
 				$menu_data['menu-name'] = sprintf( __( '%1$s (%2$d)' ), $original_name, $name_conflict_suffix );
-				$r = wp_update_nav_menu_object( $menu_id, $menu_data );
+				$r = wp_update_nav_menu_object( $menu_id, wp_slash( $menu_data ) );
 			}
 
 			if ( is_wp_error( $r ) ) {

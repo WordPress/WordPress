@@ -1,8 +1,8 @@
 === Twenty Thirteen ===
 Contributors: the WordPress team
 Requires at least: WordPress 3.6
-Tested up to: WordPress 4.5-trunk
-Stable tag: 1.7
+Tested up to: WordPress 4.6-trunk
+Stable tag: 1.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: black, brown, orange, tan, white, yellow, light, one-column, two-columns, right-sidebar, fluid-layout, responsive-layout, custom-header, custom-menu, editor-style, featured-images, microformats, post-formats, rtl-language-support, sticky-post, translation-ready, accessibility-ready
@@ -46,6 +46,16 @@ License: GNU GPL, Version 2 (or later)
 Source: http://www.genericons.com
 
 == Changelog ==
+
+= 1.9 =
+* Released: April 12, 2016
+
+https://codex.wordpress.org/Twenty_Thirteen_Theme_Changelog#Version_1.9
+
+= 1.8 =
+* Released: January 6, 2016
+
+https://codex.wordpress.org/Twenty_Thirteen_Theme_Changelog#Version_1.8
 
 = 1.7 =
 * Released: December 8, 2015

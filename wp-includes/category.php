@@ -10,14 +10,17 @@
  * Retrieve list of category objects.
  *
  * If you change the type to 'link' in the arguments, then the link categories
- * will be returned instead. Also all categories will be updated to be backwards
+ * will be returned instead. Also all categories will be updated to be backward
  * compatible with pre-2.3 plugins and themes.
  *
  * @since 2.1.0
  * @see get_terms() Type of arguments that can be changed.
- * @link https://codex.wordpress.org/Function_Reference/get_categories
  *
- * @param string|array $args Optional. Change the defaults retrieving categories.
+ * @param string|array $args {
+ *     Optional. Arguments to retrieve categories. See get_terms() for additional options.
+ *
+ *     @type string $taxonomy Taxonomy to retrieve terms for. In this case, default 'category'.
+ * }
  * @return array List of categories.
  */
 function get_categories( $args = '' ) {
@@ -27,12 +30,12 @@ function get_categories( $args = '' ) {
 	$taxonomy = $args['taxonomy'];
 
 	/**
-	 * Filter the taxonomy used to retrieve terms when calling {@see get_categories()}.
+	 * Filter the taxonomy used to retrieve terms when calling get_categories().
 	 *
 	 * @since 2.7.0
 	 *
 	 * @param string $taxonomy Taxonomy to retrieve terms from.
-	 * @param array  $args     An array of arguments. See {@see get_terms()}.
+	 * @param array  $args     An array of arguments. See get_terms().
 	 */
 	$taxonomy = apply_filters( 'get_categories_taxonomy', $taxonomy, $args );
 
@@ -48,10 +51,16 @@ function get_categories( $args = '' ) {
 		$taxonomy = $args['taxonomy'] = 'link_category';
 	}
 
-	$categories = (array) get_terms( $taxonomy, $args );
+	$categories = get_terms( $taxonomy, $args );
 
-	foreach ( array_keys( $categories ) as $k )
-		_make_cat_compat( $categories[$k] );
+	if ( is_wp_error( $categories ) ) {
+		$categories = array();
+	} else {
+		$categories = (array) $categories;
+		foreach ( array_keys( $categories ) as $k ) {
+			_make_cat_compat( $categories[ $k ] );
+		}
+	}
 
 	return $categories;
 }
@@ -68,7 +77,7 @@ function get_categories( $args = '' ) {
  * If you look at get_term(), then both types will be passed through several
  * filters and finally sanitized based on the $filter parameter value.
  *
- * The category will converted to maintain backwards compatibility.
+ * The category will converted to maintain backward compatibility.
  *
  * @since 1.5.1
  *

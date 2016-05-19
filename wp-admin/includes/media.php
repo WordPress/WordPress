@@ -111,24 +111,28 @@ function the_media_upload_tabs() {
  * @param string       $title   Image title attribute.
  * @param string       $align   Image CSS alignment property.
  * @param string       $url     Optional. Image src URL. Default empty.
- * @param string       $rel     Optional. Image rel attribute. Default empty.
+ * @param bool|string  $rel     Optional. Value for rel attribute or whether to add a default value. Default false.
  * @param string|array $size    Optional. Image size. Accepts any valid image size, or an array of width
  *                              and height values in pixels (in that order). Default 'medium'.
  * @param string       $alt     Optional. Image alt attribute. Default empty.
  * @return string The HTML output to insert into the editor.
  */
-function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $rel = '', $size = 'medium', $alt = '' ) {
+function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $rel = false, $size = 'medium', $alt = '' ) {
 
-	$html = get_image_tag($id, $alt, '', $align, $size);
+	$html = get_image_tag( $id, $alt, '', $align, $size );
 
-	if ( ! $rel ) {
-		$rel = ' rel="attachment wp-att-' . esc_attr( $id ) . '"';
+	if ( $rel ) {
+		if ( is_string( $rel ) ) {
+			$rel = ' rel="' . esc_attr( $rel ) . '"';
+		} else {
+			$rel = ' rel="attachment wp-att-' . intval( $id ) . '"';
+		}
 	} else {
-		$rel = ' rel="' . esc_attr( $rel ) . '"';
+		$rel = '';
 	}
 
 	if ( $url )
-		$html = '<a href="' . esc_attr($url) . "\"$rel>$html</a>";
+		$html = '<a href="' . esc_attr( $url ) . '"' . $rel . '>' . $html . '</a>';
 
 	/**
 	 * Filter the image HTML markup to send to the editor.
@@ -174,7 +178,7 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 	 * to the image HTML when inserted into the editor.
 	 *
 	 * Passing an empty value also prevents the {@see 'image_add_caption_shortcode'}
-	 * filter from being evaluated at the end of {@see image_add_caption()}.
+	 * filter from being evaluated at the end of image_add_caption().
 	 *
 	 * @since 4.1.0
 	 *
@@ -455,7 +459,7 @@ wp_enqueue_style( 'colors' );
 // Check callback name for 'media'
 if ( ( is_array( $content_func ) && ! empty( $content_func[1] ) && 0 === strpos( (string) $content_func[1], 'media' ) )
 	|| ( ! is_array( $content_func ) && 0 === strpos( $content_func, 'media' ) ) )
-	wp_enqueue_style( 'media' );
+	wp_enqueue_style( 'deprecated-media' );
 wp_enqueue_style( 'ie' );
 ?>
 <script type="text/javascript">
@@ -1166,7 +1170,7 @@ function image_media_send_to_editor($html, $attachment_id, $attachment) {
 		$align = !empty($attachment['align']) ? $attachment['align'] : 'none';
 		$size = !empty($attachment['image-size']) ? $attachment['image-size'] : 'medium';
 		$alt = !empty($attachment['image_alt']) ? $attachment['image_alt'] : '';
-		$rel = ( $url == get_attachment_link($attachment_id) );
+		$rel = ( strpos( $url, 'attachment_id') || $url === get_attachment_link( $attachment_id ) );
 
 		return get_image_send_to_editor($attachment_id, $attachment['post_excerpt'], $attachment['post_title'], $align, $url, $rel, $size, $alt);
 	}
@@ -1464,8 +1468,9 @@ function get_media_item( $attachment_id, $args = null ) {
 	$item .= "
 		</thead>
 		<tbody>
-		<tr><td colspan='2' class='imgedit-response' id='imgedit-response-$post->ID'></td></tr>
-		<tr><td style='display:none' colspan='2' class='image-editor' id='image-editor-$post->ID'></td></tr>\n";
+		<tr><td colspan='2' class='imgedit-response' id='imgedit-response-$post->ID'></td></tr>\n
+		<tr><td style='display:none' colspan='2' class='image-editor' id='image-editor-$post->ID'></td></tr>\n
+		<tr><td colspan='2'><p class='media-types media-types-required-info'>" . sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) . "</p></td></tr>\n";
 
 	$defaults = array(
 		'input'      => 'text',
@@ -1537,12 +1542,13 @@ function get_media_item( $attachment_id, $args = null ) {
 			continue;
 		}
 
-		$required      = $field['required'] ? '<span class="alignright"><abbr title="required" class="required">*</abbr></span>' : '';
-		$aria_required = $field['required'] ? " aria-required='true' " : '';
+		$required      = $field['required'] ? '<span class="required">*</span>' : '';
+		$required_attr = $field['required'] ? ' required' : '';
+		$aria_required = $field['required'] ? " aria-required='true'" : '';
 		$class  = $id;
 		$class .= $field['required'] ? ' form-required' : '';
 
-		$item .= "\t\t<tr class='$class'>\n\t\t\t<th scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}</span>$required<br class='clear' /></label></th>\n\t\t\t<td class='field'>";
+		$item .= "\t\t<tr class='$class'>\n\t\t\t<th scope='row' class='label'><label for='$name'><span class='alignleft'>{$field['label']}{$required}</span><br class='clear' /></label></th>\n\t\t\t<td class='field'>";
 		if ( !empty( $field[ $field['input'] ] ) )
 			$item .= $field[ $field['input'] ];
 		elseif ( $field['input'] == 'textarea' ) {
@@ -1551,9 +1557,9 @@ function get_media_item( $attachment_id, $args = null ) {
 				$field['value'] = htmlspecialchars( $field['value'], ENT_QUOTES );
 			}
 			// Post_excerpt is already escaped by sanitize_post() in get_attachment_fields_to_edit().
-			$item .= "<textarea id='$name' name='$name' $aria_required>" . $field['value'] . '</textarea>';
+			$item .= "<textarea id='$name' name='$name'{$required_attr}{$aria_required}>" . $field['value'] . '</textarea>';
 		} else {
-			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "' $aria_required />";
+			$item .= "<input type='text' class='text' id='$name' name='$name' value='" . esc_attr( $field['value'] ) . "'{$required_attr}{$aria_required} />";
 		}
 		if ( !empty( $field['helps'] ) )
 			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
@@ -1690,8 +1696,9 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 		}
 
 		$readonly      = ! $user_can_edit && ! empty( $field['taxonomy'] ) ? " readonly='readonly' " : '';
-		$required      = $field['required'] ? '<span class="alignright"><abbr title="required" class="required">*</abbr></span>' : '';
-		$aria_required = $field['required'] ? " aria-required='true' " : '';
+		$required      = $field['required'] ? '<span class="required">*</span>' : '';
+		$required_attr = $field['required'] ? ' required' : '';
+		$aria_required = $field['required'] ? " aria-required='true'" : '';
 		$class  = 'compat-field-' . $id;
 		$class .= $field['required'] ? ' form-required' : '';
 
@@ -1706,9 +1713,9 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 				// sanitize_post() skips the post_content when user_can_richedit.
 				$field['value'] = htmlspecialchars( $field['value'], ENT_QUOTES );
 			}
-			$item .= "<textarea id='$id_attr' name='$name' $aria_required>" . $field['value'] . '</textarea>';
+			$item .= "<textarea id='$id_attr' name='$name'{$required_attr}{$aria_required}>" . $field['value'] . '</textarea>';
 		} else {
-			$item .= "<input type='text' class='text' id='$id_attr' name='$name' value='" . esc_attr( $field['value'] ) . "' $readonly $aria_required />";
+			$item .= "<input type='text' class='text' id='$id_attr' name='$name' value='" . esc_attr( $field['value'] ) . "' $readonly{$required_attr}{$aria_required} />";
 		}
 		if ( !empty( $field['helps'] ) )
 			$item .= "<p class='help'>" . join( "</p>\n<p class='help'>", array_unique( (array) $field['helps'] ) ) . '</p>';
@@ -1732,8 +1739,12 @@ function get_compat_media_markup( $attachment_id, $args = null ) {
 
 	if ( !empty( $form_fields['_final'] ) )
 		$item .= "\t\t<tr class='final'><td colspan='2'>{$form_fields['_final']}</td></tr>\n";
-	if ( $item )
-		$item = '<table class="compat-attachment-fields">' . $item . '</table>';
+
+	if ( $item ) {
+		$item = '<p class="media-types media-types-required-info">' .
+			sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) . '</p>
+			<table class="compat-attachment-fields">' . $item . '</table>';
+	}
 
 	foreach ( $hidden_fields as $hidden_field => $value ) {
 		$item .= '<input type="hidden" name="' . esc_attr( $hidden_field ) . '" value="' . esc_attr( $value ) . '" />' . "\n";
@@ -2111,7 +2122,7 @@ var addExtImage = {
 		t.width = t.height = '';
 		document.getElementById('go_button').style.color = '#bbb';
 		if ( ! document.forms[0].src.value )
-			document.getElementById('status_img').innerHTML = '*';
+			document.getElementById('status_img').innerHTML = '';
 		else document.getElementById('status_img').innerHTML = '<img src="<?php echo esc_url( admin_url( 'images/no.png' ) ); ?>" alt="" />';
 	},
 
@@ -2541,21 +2552,21 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 
 	return '
 	<p class="media-types"><label><input type="radio" name="media_type" value="image" id="image-only"' . checked( 'image-only', $view, false ) . ' /> ' . __( 'Image' ) . '</label> &nbsp; &nbsp; <label><input type="radio" name="media_type" value="generic" id="not-image"' . checked( 'not-image', $view, false ) . ' /> ' . __( 'Audio, Video, or Other File' ) . '</label></p>
+	<p class="media-types media-types-required-info">' . sprintf( __( 'Required fields are marked %s' ), '<span class="required">*</span>' ) . '</p>
 	<table class="describe ' . $table_class . '"><tbody>
 		<tr>
 			<th scope="row" class="label" style="width:130px;">
-				<label for="src"><span class="alignleft">' . __('URL') . '</span></label>
-				<span class="alignright"><abbr id="status_img" title="required" class="required">*</abbr></span>
+				<label for="src"><span class="alignleft">' . __( 'URL' ) . '</span> <span class="required">*</span></label>
+				<span class="alignright" id="status_img"></span>
 			</th>
-			<td class="field"><input id="src" name="src" value="" type="text" aria-required="true" onblur="addExtImage.getImageData()" /></td>
+			<td class="field"><input id="src" name="src" value="" type="text" required aria-required="true" onblur="addExtImage.getImageData()" /></td>
 		</tr>
 
 		<tr>
 			<th scope="row" class="label">
-				<label for="title"><span class="alignleft">' . __('Title') . '</span></label>
-				<span class="alignright"><abbr title="required" class="required">*</abbr></span>
+				<label for="title"><span class="alignleft">' . __( 'Title' ) . '</span> <span class="required">*</span></label>
 			</th>
-			<td class="field"><input id="title" name="title" value="" type="text" aria-required="true" /></td>
+			<td class="field"><input id="title" name="title" value="" type="text" required aria-required="true" /></td>
 		</tr>
 
 		<tr class="not-image"><td></td><td><p class="help">' . __('Link text, e.g. &#8220;Ransom Demands (PDF)&#8221;') . '</p></td></tr>
@@ -2688,6 +2699,8 @@ function multisite_over_quota_message() {
  * Displays the image and editor in the post editor
  *
  * @since 3.5.0
+ *
+ * @param WP_Post $post A post object.
  */
 function edit_form_image_editor( $post ) {
 	$open = isset( $_GET['image-editor'] );
@@ -2701,7 +2714,7 @@ function edit_form_image_editor( $post ) {
 	$alt_text = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
 
 	$att_url = wp_get_attachment_url( $post->ID ); ?>
-	<div class="wp_attachment_holder">
+	<div class="wp_attachment_holder wp-clearfix">
 	<?php
 	if ( wp_attachment_is_image( $post->ID ) ) :
 		$image_edit_button = '';
@@ -2713,7 +2726,7 @@ function edit_form_image_editor( $post ) {
 
 		<div class="imgedit-response" id="imgedit-response-<?php echo $attachment_id; ?>"></div>
 
-		<div<?php if ( $open ) echo ' style="display:none"'; ?> class="wp_attachment_image" id="media-head-<?php echo $attachment_id; ?>">
+		<div<?php if ( $open ) echo ' style="display:none"'; ?> class="wp_attachment_image wp-clearfix" id="media-head-<?php echo $attachment_id; ?>">
 			<p id="thumbnail-head-<?php echo $attachment_id; ?>"><img class="thumbnail" src="<?php echo set_url_scheme( $thumb_url[0] ); ?>" style="max-width:100%" alt="" /></p>
 			<p><?php echo $image_edit_button; ?></p>
 		</div>

@@ -26,7 +26,7 @@ require( ABSPATH . WPINC . '/default-constants.php' );
  * we're including version.php from another install and don't want
  * these values to be overridden if already set.
  */
-global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version;
+global $wp_version, $wp_db_version, $tinymce_version, $required_php_version, $required_mysql_version, $wp_local_package;
 require( ABSPATH . WPINC . '/version.php' );
 
 /**
@@ -135,6 +135,7 @@ require( ABSPATH . WPINC . '/class-wp-user-query.php' );
 require( ABSPATH . WPINC . '/session.php' );
 require( ABSPATH . WPINC . '/meta.php' );
 require( ABSPATH . WPINC . '/class-wp-meta-query.php' );
+require( ABSPATH . WPINC . '/class-wp-metadata-lazyloader.php' );
 require( ABSPATH . WPINC . '/general-template.php' );
 require( ABSPATH . WPINC . '/link-template.php' );
 require( ABSPATH . WPINC . '/author-template.php' );
@@ -182,6 +183,7 @@ require( ABSPATH . WPINC . '/class-wp-http-proxy.php' );
 require( ABSPATH . WPINC . '/class-wp-http-cookie.php' );
 require( ABSPATH . WPINC . '/class-wp-http-encoding.php' );
 require( ABSPATH . WPINC . '/class-wp-http-response.php' );
+require( ABSPATH . WPINC . '/class-wp-http-requests-response.php' );
 require( ABSPATH . WPINC . '/widgets.php' );
 require( ABSPATH . WPINC . '/class-wp-widget.php' );
 require( ABSPATH . WPINC . '/class-wp-widget-factory.php' );

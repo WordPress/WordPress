@@ -35,7 +35,7 @@ get_current_screen()->add_help_tab( array(
 		'<li>' . __('Dashboard leads to the Dashboard for that site.') . '</li>' .
 		'<li>' . __('Deactivate, Archive, and Spam which lead to confirmation screens. These actions can be reversed later.') . '</li>' .
 		'<li>' . __('Delete which is a permanent action after the confirmation screens.') . '</li>' .
-		'<li>' . __('Visit to go to the frontend site live.') . '</li></ul>' .
+		'<li>' . __('Visit to go to the front-end site live.') . '</li></ul>' .
 		'<p>' . __('The site ID is used internally, and is not shown on the front end of the site or to users/viewers.') . '</p>' .
 		'<p>' . __('Clicking on bold headings can re-sort this table.') . '</p>'
 ) );
@@ -59,8 +59,8 @@ if ( isset( $_GET['action'] ) ) {
 
 	// A list of valid actions and their associated messaging for confirmation output.
 	$manage_actions = array(
-		'activateblog'   => __( 'You are about to activate the site %s' ),
-		'deactivateblog' => __( 'You are about to deactivate the site %s' ),
+		'activateblog'   => __( 'You are about to activate the site %s.' ),
+		'deactivateblog' => __( 'You are about to deactivate the site %s.' ),
 		'unarchiveblog'  => __( 'You are about to unarchive the site %s.' ),
 		'archiveblog'    => __( 'You are about to archive the site %s.' ),
 		'unspamblog'     => __( 'You are about to unspam the site %s.' ),
@@ -288,7 +288,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	<a href="<?php echo network_admin_url('site-new.php'); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
 <?php endif; ?>
 
-<?php if ( isset( $_REQUEST['s'] ) && $_REQUEST['s'] ) {
+<?php
+if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
+	/* translators: %s: search keywords */
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
 } ?>
 </h1>

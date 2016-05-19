@@ -171,7 +171,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
-	 * Make private/protected methods readable for backwards compatibility.
+	 * Make private/protected methods readable for backward compatibility.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -247,9 +247,22 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		/**
-		 * Filter whether XML-RPC is enabled.
+		 * Filter whether XML-RPC methods requiring authentication are enabled.
 		 *
-		 * This is the proper filter for turning off XML-RPC.
+		 * Contrary to the way it's named, this filter does not control whether XML-RPC is *fully*
+		 * enabled, rather, it only controls whether XML-RPC methods requiring authentication - such
+		 * as for publishing purposes - are enabled.
+		 *
+		 * Further, the filter does not control whether pingbacks or other custom endpoints that don't
+		 * require authentication are enabled. This behavior is expected, and due to how parity was matched
+		 * with the `enable_xmlrpc` UI option the filter replaced when it was introduced in 3.5.
+		 *
+		 * To disable XML-RPC methods that require authentication, use:
+		 *
+		 *     add_filter( 'xmlrpc_enabled', '__return_false' );
+		 *
+		 * For more granular control over all XML-RPC methods and requests, see the {@see 'xmlrpc_methods'}
+		 * and {@see 'xmlrpc_element_limit'} hooks.
 		 *
 		 * @since 3.5.0
 		 *
@@ -1351,9 +1364,15 @@ class wp_xmlrpc_server extends IXR_Server {
 			$dateCreated = $post_data['post_date']->getIso();
 		}
 
+		// Default to not flagging the post date to be edited unless it's intentional.
+		$post_data['edit_date'] = false;
+
 		if ( ! empty( $dateCreated ) ) {
-			$post_data['post_date'] = iso8601_to_datetime( $dateCreated );
-			$post_data['post_date_gmt'] = get_gmt_from_date( $post_data['post_date'] );
+			$post_data['post_date'] = get_date_from_gmt( iso8601_to_datetime( $dateCreated ) );
+			$post_data['post_date_gmt'] = iso8601_to_datetime( $dateCreated, 'GMT' );
+
+			// Flag the post date to be edited.
+			$post_data['edit_date'] = true;
 		}
 
 		if ( ! isset( $post_data['ID'] ) )
@@ -3426,8 +3445,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !empty( $content_struct['date_created_gmt'] ) ) {
 			// We know this is supposed to be GMT, so we're going to slap that Z on there by force
 			$dateCreated = rtrim( $content_struct['date_created_gmt']->getIso(), 'Z' ) . 'Z';
-			$comment_date = iso8601_to_datetime( $dateCreated );
-			$comment_date_gmt = get_gmt_from_date( $comment_date );
+			$comment_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+			$comment_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		}
 
 		if ( isset($content_struct['content']) )
@@ -5005,8 +5024,8 @@ class wp_xmlrpc_server extends IXR_Server {
 			$dateCreated = $content_struct['dateCreated']->getIso();
 
 		if ( !empty( $dateCreated ) ) {
-			$post_date = iso8601_to_datetime( $dateCreated );
-			$post_date_gmt = get_gmt_from_date( $post_date );
+			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+			$post_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
 		} else {
 			$post_date = '';
 			$post_date_gmt = '';
@@ -5362,16 +5381,22 @@ class wp_xmlrpc_server extends IXR_Server {
 		elseif ( !empty( $content_struct['dateCreated']) )
 			$dateCreated = $content_struct['dateCreated']->getIso();
 
+		// Default to not flagging the post date to be edited unless it's intentional.
+		$edit_date = false;
+
 		if ( !empty( $dateCreated ) ) {
-			$post_date = iso8601_to_datetime( $dateCreated );
-			$post_date_gmt = get_gmt_from_date( $post_date, 'GMT' );
+			$post_date = get_date_from_gmt(iso8601_to_datetime($dateCreated));
+			$post_date_gmt = iso8601_to_datetime($dateCreated, 'GMT');
+
+			// Flag the post date to be edited.
+			$edit_date = true;
 		} else {
 			$post_date     = $postdata['post_date'];
 			$post_date_gmt = $postdata['post_date_gmt'];
 		}
 
 		// We've got all the data -- post it.
-		$newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order', 'post_author', 'tags_input', 'page_template');
+		$newpost = compact('ID', 'post_content', 'post_title', 'post_category', 'post_status', 'post_excerpt', 'comment_status', 'ping_status', 'edit_date', 'post_date', 'post_date_gmt', 'to_ping', 'post_name', 'post_password', 'post_parent', 'menu_order', 'post_author', 'tags_input', 'page_template');
 
 		$result = wp_update_post($newpost, true);
 		if ( is_wp_error( $result ) )
@@ -6277,35 +6302,37 @@ class wp_xmlrpc_server extends IXR_Server {
 				'X-Pingback-Forwarded-For' => $remote_ip,
 			),
 		);
-		$request = wp_safe_remote_get( $pagelinkedfrom, $http_api_args );
-		$linea = wp_remote_retrieve_body( $request );
 
-		if ( !$linea )
+		$request = wp_safe_remote_get( $pagelinkedfrom, $http_api_args );
+		$remote_source = $remote_source_original = wp_remote_retrieve_body( $request );
+
+		if ( ! $remote_source ) {
 			return $this->pingback_error( 16, __( 'The source URL does not exist.' ) );
+		}
 
 		/**
 		 * Filter the pingback remote source.
 		 *
 		 * @since 2.5.0
 		 *
-		 * @param string $linea        Response object for the page linked from.
-		 * @param string $pagelinkedto URL of the page linked to.
+		 * @param string $remote_source Response source for the page linked from.
+		 * @param string $pagelinkedto  URL of the page linked to.
 		 */
-		$linea = apply_filters( 'pre_remote_source', $linea, $pagelinkedto );
+		$remote_source = apply_filters( 'pre_remote_source', $remote_source, $pagelinkedto );
 
 		// Work around bug in strip_tags():
-		$linea = str_replace('<!DOC', '<DOC', $linea);
-		$linea = preg_replace( '/[\r\n\t ]+/', ' ', $linea ); // normalize spaces
-		$linea = preg_replace( "/<\/*(h1|h2|h3|h4|h5|h6|p|th|td|li|dt|dd|pre|caption|input|textarea|button|body)[^>]*>/", "\n\n", $linea );
+		$remote_source = str_replace( '<!DOC', '<DOC', $remote_source );
+		$remote_source = preg_replace( '/[\r\n\t ]+/', ' ', $remote_source ); // normalize spaces
+		$remote_source = preg_replace( "/<\/*(h1|h2|h3|h4|h5|h6|p|th|td|li|dt|dd|pre|caption|input|textarea|button|body)[^>]*>/", "\n\n", $remote_source );
 
-		preg_match('|<title>([^<]*?)</title>|is', $linea, $matchtitle);
+		preg_match( '|<title>([^<]*?)</title>|is', $remote_source, $matchtitle );
 		$title = $matchtitle[1];
 		if ( empty( $title ) )
 			return $this->pingback_error( 32, __('We cannot find a title on that page.' ) );
 
-		$linea = strip_tags( $linea, '<a>' ); // just keep the tag we need
+		$remote_source = strip_tags( $remote_source, '<a>' ); // just keep the tag we need
 
-		$p = explode( "\n\n", $linea );
+		$p = explode( "\n\n", $remote_source );
 
 		$preg_target = preg_quote($pagelinkedto, '|');
 
@@ -6353,7 +6380,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->escape($comment_content);
 		$comment_type = 'pingback';
 
-		$commentdata = compact('comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email', 'comment_content', 'comment_type');
+		$commentdata = compact(
+			'comment_post_ID', 'comment_author', 'comment_author_url', 'comment_author_email',
+			'comment_content', 'comment_type', 'remote_source', 'remote_source_original'
+		);
 
 		$comment_ID = wp_new_comment($commentdata);
 

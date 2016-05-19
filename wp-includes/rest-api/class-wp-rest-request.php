@@ -16,6 +16,12 @@
  * used in that manner. It does not use ArrayObject (as we cannot rely on SPL),
  * so be aware it may have non-array behaviour in some cases.
  *
+ * Note: When using features provided by ArrayAccess, be aware that WordPress deliberately
+ * does not distinguish between arguments of the same name for different request methods.
+ * For instance, in a request with `GET id=1` and `POST id=2`, `$request['id']` will equal
+ * 2 (`POST`) not 1 (`GET`). For more precision between request methods, use
+ * WP_REST_Request::get_body_params(), WP_REST_Request::get_url_params(), etc.
+ *
  * @since 4.4.0
  *
  * @see ArrayAccess
@@ -926,5 +932,52 @@ class WP_REST_Request implements ArrayAccess {
 		foreach ( $order as $type ) {
 			unset( $this->params[ $type ][ $offset ] );
 		}
+	}
+
+	/**
+	 * Retrieves a WP_REST_Request object from a full URL.
+	 *
+	 * @static
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @param string $url URL with protocol, domain, path and query args.
+	 * @return WP_REST_Request|false WP_REST_Request object on success, false on failure.
+	 */
+	public static function from_url( $url ) {
+		$bits = parse_url( $url );
+		$query_params = array();
+
+		if ( ! empty( $bits['query'] ) ) {
+			wp_parse_str( $bits['query'], $query_params );
+		}
+
+		$api_root = rest_url();
+		if ( get_option( 'permalink_structure' ) && 0 === strpos( $url, $api_root ) ) {
+			// Pretty permalinks on, and URL is under the API root
+			$api_url_part = substr( $url, strlen( untrailingslashit( $api_root ) ) );
+			$route = parse_url( $api_url_part, PHP_URL_PATH );
+		} elseif ( ! empty( $query_params['rest_route'] ) ) {
+			// ?rest_route=... set directly
+			$route = $query_params['rest_route'];
+			unset( $query_params['rest_route'] );
+		}
+
+		$request = false;
+		if ( ! empty( $route ) ) {
+			$request = new WP_REST_Request( 'GET', $route );
+			$request->set_query_params( $query_params );
+		}
+
+		/**
+		 * Filter the request generated from a URL.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param WP_REST_Request|false $request Generated request object, or false if URL
+		 *                                       could not be parsed.
+		 * @param string                $url     URL the request was generated from.
+		 */
+		return apply_filters( 'rest_request_from_url', $request, $url );
 	}
 }

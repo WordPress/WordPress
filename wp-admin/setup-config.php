@@ -28,7 +28,9 @@ define('WP_SETUP_CONFIG', true);
  */
 error_reporting(0);
 
-define( 'ABSPATH', dirname( dirname( __FILE__ ) ) . '/' );
+if ( ! defined( 'ABSPATH' ) ) {
+	define( 'ABSPATH', dirname( dirname( __FILE__ ) ) . '/' );
+}
 
 require( ABSPATH . 'wp-settings.php' );
 
@@ -188,17 +190,17 @@ switch($step) {
 		<tr>
 			<th scope="row"><label for="dbname"><?php _e( 'Database Name' ); ?></label></th>
 			<td><input name="dbname" id="dbname" type="text" size="25" value="wordpress" /></td>
-			<td><?php _e( 'The name of the database you want to run WP in.' ); ?></td>
+			<td><?php _e( 'The name of the database you want to use with WordPress.' ); ?></td>
 		</tr>
 		<tr>
-			<th scope="row"><label for="uname"><?php _e( 'User Name' ); ?></label></th>
+			<th scope="row"><label for="uname"><?php _e( 'Username' ); ?></label></th>
 			<td><input name="uname" id="uname" type="text" size="25" value="<?php echo htmlspecialchars( _x( 'username', 'example username' ), ENT_QUOTES ); ?>" /></td>
-			<td><?php _e( 'Your MySQL username' ); ?></td>
+			<td><?php _e( 'Your database username.' ); ?></td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="pwd"><?php _e( 'Password' ); ?></label></th>
 			<td><input name="pwd" id="pwd" type="text" size="25" value="<?php echo htmlspecialchars( _x( 'password', 'example password' ), ENT_QUOTES ); ?>" autocomplete="off" /></td>
-			<td><?php _e( '&hellip;and your MySQL password.' ); ?></td>
+			<td><?php _e( 'Your database password.' ); ?></td>
 		</tr>
 		<tr>
 			<th scope="row"><label for="dbhost"><?php _e( 'Database Host' ); ?></label></th>
@@ -276,21 +278,34 @@ switch($step) {
 	if ( ! empty( $wpdb->error ) )
 		wp_die( $wpdb->error->get_error_message() . $tryagain_link );
 
-	// Fetch or generate keys and salts.
-	$no_api = isset( $_POST['noapi'] );
-	if ( ! $no_api ) {
-		$secret_keys = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
-	}
-
-	if ( $no_api || is_wp_error( $secret_keys ) ) {
-		$secret_keys = array();
+	// Generate keys and salts using secure CSPRNG; fallback to API if enabled; further fallback to original wp_generate_password().
+	try {
+		$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_ []{}<>~`+=,.;:/?|';
+		$max = strlen($chars) - 1;
 		for ( $i = 0; $i < 8; $i++ ) {
-			$secret_keys[] = wp_generate_password( 64, true, true );
+			$key = '';
+			for ( $j = 0; $j < 64; $j++ ) {
+				$key .= substr( $chars, random_int( 0, $max ), 1 );
+			}
+			$secret_keys[] = $key;
 		}
-	} else {
-		$secret_keys = explode( "\n", wp_remote_retrieve_body( $secret_keys ) );
-		foreach ( $secret_keys as $k => $v ) {
-			$secret_keys[$k] = substr( $v, 28, 64 );
+	} catch ( Exception $ex ) {
+		$no_api = isset( $_POST['noapi'] );
+
+		if ( ! $no_api ) {
+			$secret_keys = wp_remote_get( 'https://api.wordpress.org/secret-key/1.1/salt/' );
+		}
+
+		if ( $no_api || is_wp_error( $secret_keys ) ) {
+			$secret_keys = array();
+			for ( $i = 0; $i < 8; $i++ ) {
+				$secret_keys[] = wp_generate_password( 64, true, true );
+			}
+		} else {
+			$secret_keys = explode( "\n", wp_remote_retrieve_body( $secret_keys ) );
+			foreach ( $secret_keys as $k => $v ) {
+				$secret_keys[$k] = substr( $v, 28, 64 );
+			}
 		}
 	}
 

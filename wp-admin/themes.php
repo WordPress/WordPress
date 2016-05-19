@@ -89,7 +89,7 @@ if ( current_user_can( 'install_themes' ) ) {
 	if ( is_multisite() ) {
 		$help_install = '<p>' . __('Installing themes on Multisite can only be done from the Network Admin section.') . '</p>';
 	} else {
-		$help_install = '<p>' . sprintf( __('If you would like to see more themes to choose from, click on the &#8220;Add New&#8221; button and you will be able to browse or search for additional themes from the <a href="%s" target="_blank">WordPress.org Theme Directory</a>. Themes in the WordPress.org Theme Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they&#8217;re free!'), 'https://wordpress.org/themes/' ) . '</p>';
+		$help_install = '<p>' . sprintf( __('If you would like to see more themes to choose from, click on the &#8220;Add New&#8221; button and you will be able to browse or search for additional themes from the <a href="%s" target="_blank">WordPress Theme Directory</a>. Themes in the WordPress Theme Directory are designed and developed by third parties, and are compatible with the license WordPress uses. Oh, and they&#8217;re free!'), 'https://wordpress.org/themes/' ) . '</p>';
 	}
 
 	get_current_screen()->add_help_tab( array(
@@ -162,9 +162,9 @@ if ( ! validate_current_theme() || isset( $_GET['broken'] ) ) : ?>
 <div id="message1" class="updated notice is-dismissible"><p><?php _e('The active theme is broken. Reverting to the default theme.'); ?></p></div>
 <?php elseif ( isset($_GET['activated']) ) :
 		if ( isset( $_GET['previewed'] ) ) { ?>
-		<div id="message2" class="updated notice is-dismissible"><p><?php printf( __( 'Settings saved and theme activated. <a href="%s">Visit site</a>' ), home_url( '/' ) ); ?></p></div>
+		<div id="message2" class="updated notice is-dismissible"><p><?php _e( 'Settings saved and theme activated.' ); ?> <a href="<?php echo home_url( '/' ); ?>"><?php _e( 'Visit site' ); ?></a></p></div>
 		<?php } else { ?>
-<div id="message2" class="updated notice is-dismissible"><p><?php printf( __( 'New theme activated. <a href="%s">Visit site</a>' ), home_url( '/' ) ); ?></p></div><?php
+<div id="message2" class="updated notice is-dismissible"><p><?php _e( 'New theme activated.' ); ?> <a href="<?php echo home_url( '/' ); ?>"><?php _e( 'Visit site' ); ?></a></p></div><?php
 		}
 	elseif ( isset($_GET['deleted']) ) : ?>
 <div id="message3" class="updated notice is-dismissible"><p><?php _e('Theme deleted.') ?></p></div>
@@ -229,7 +229,7 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 ?>
 
 <div class="theme-browser">
-	<div class="themes">
+	<div class="themes wp-clearfix">
 
 <?php
 /*
@@ -282,7 +282,6 @@ foreach ( $themes as $theme ) :
 	<?php } ?>
 </div>
 <?php endforeach; ?>
-	<br class="clear" />
 	</div>
 </div>
 <div class="theme-overlay"></div>
@@ -296,7 +295,7 @@ if ( ! is_multisite() && current_user_can('edit_themes') && $broken_themes = wp_
 
 <div class="broken-themes">
 <h3><?php _e('Broken Themes'); ?></h3>
-<p><?php _e('The following themes are installed but incomplete. Themes must have a stylesheet and a template.'); ?></p>
+<p><?php _e( 'The following themes are installed but incomplete.' ); ?></p>
 
 <?php
 $can_delete = current_user_can( 'delete_themes' );
@@ -403,13 +402,13 @@ $can_install = current_user_can( 'install_themes' );
 
 <script id="tmpl-theme-single" type="text/template">
 	<div class="theme-backdrop"></div>
-	<div class="theme-wrap">
+	<div class="theme-wrap wp-clearfix">
 		<div class="theme-header">
 			<button class="left dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show previous theme' ); ?></span></button>
 			<button class="right dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show next theme' ); ?></span></button>
 			<button class="close dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Close details dialog' ); ?></span></button>
 		</div>
-		<div class="theme-about">
+		<div class="theme-about wp-clearfix">
 			<div class="theme-screenshots">
 			<# if ( data.screenshot[0] ) { #>
 				<div class="screenshot"><img src="{{ data.screenshot[0] }}" alt="" /></div>

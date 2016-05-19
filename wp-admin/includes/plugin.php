@@ -117,11 +117,14 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
 	// Translate fields
 	if ( $translate ) {
 		if ( $textdomain = $plugin_data['TextDomain'] ) {
-			if ( $plugin_data['DomainPath'] )
-				load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) . $plugin_data['DomainPath'] );
-			else
-				load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) );
-		} elseif ( in_array( basename( $plugin_file ), array( 'hello.php', 'akismet.php' ) ) ) {
+			if ( ! is_textdomain_loaded( $textdomain ) ) {
+				if ( $plugin_data['DomainPath'] ) {
+					load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) . $plugin_data['DomainPath'] );
+				} else {
+					load_plugin_textdomain( $textdomain, false, dirname( $plugin_file ) );
+				}
+			}
+		} elseif ( 'hello.php' == basename( $plugin_file ) ) {
 			$textdomain = 'default';
 		}
 		if ( $textdomain ) {
@@ -424,7 +427,12 @@ function _get_dropins() {
 }
 
 /**
- * Check whether the plugin is active by checking the active_plugins list.
+ * Check whether a plugin is active.
+ *
+ * Only plugins installed in the plugins/ folder can be active.
+ *
+ * Plugins in the mu-plugins/ folder can't be "activated," so this function will
+ * return false for those plugins.
  *
  * @since 2.5.0
  *
@@ -453,6 +461,11 @@ function is_plugin_inactive( $plugin ) {
 /**
  * Check whether the plugin is active for the entire network.
  *
+ * Only plugins installed in the plugins/ folder can be active.
+ *
+ * Plugins in the mu-plugins/ folder can't be "activated," so this function will
+ * return false for those plugins.
+ *
  * @since 3.0.0
  *
  * @param string $plugin Base plugin path from plugins directory.
@@ -474,7 +487,7 @@ function is_plugin_active_for_network( $plugin ) {
  * be activated only as a network wide plugin. The plugin would also work
  * when Multisite is not enabled.
  *
- * Checks for "Site Wide Only: true" for backwards compatibility.
+ * Checks for "Site Wide Only: true" for backward compatibility.
  *
  * @since 3.0.0
  *
@@ -557,12 +570,10 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			/**
 			 * Fires as a specific plugin is being activated.
 			 *
-			 * This hook is the "activation" hook used internally by
-			 * {@see register_activation_hook()}. The dynamic portion of the
-			 * hook name, `$plugin`, refers to the plugin basename.
+			 * This hook is the "activation" hook used internally by register_activation_hook().
+			 * The dynamic portion of the hook name, `$plugin`, refers to the plugin basename.
 			 *
-			 * If a plugin is silently activated (such as during an update),
-			 * this hook does not fire.
+			 * If a plugin is silently activated (such as during an update), this hook does not fire.
 			 *
 			 * @since 2.0.0
 			 *
@@ -672,12 +683,10 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			/**
 			 * Fires as a specific plugin is being deactivated.
 			 *
-			 * This hook is the "deactivation" hook used internally by
-			 * {@see register_deactivation_hook()}. The dynamic portion of the
-			 * hook name, `$plugin`, refers to the plugin basename.
+			 * This hook is the "deactivation" hook used internally by register_deactivation_hook().
+			 * The dynamic portion of the hook name, `$plugin`, refers to the plugin basename.
 			 *
-			 * If a plugin is silently deactivated (such as during an update),
-			 * this hook does not fire.
+			 * If a plugin is silently deactivated (such as during an update), this hook does not fire.
 			 *
 			 * @since 2.0.0
 			 *
@@ -973,7 +982,7 @@ function uninstall_plugin($plugin) {
 	$uninstallable_plugins = (array) get_option('uninstall_plugins');
 
 	/**
-	 * Fires in uninstall_plugin() before the plugin is uninstalled.
+	 * Fires in uninstall_plugin() immediately before the plugin is uninstalled.
 	 *
 	 * @since 4.5.0
 	 *
@@ -990,7 +999,7 @@ function uninstall_plugin($plugin) {
 		unset($uninstallable_plugins);
 
 		define('WP_UNINSTALL_PLUGIN', $file);
-		wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . dirname( $file ) );
+		wp_register_plugin_realpath( WP_PLUGIN_DIR . '/' . $file );
 		include( WP_PLUGIN_DIR . '/' . dirname($file) . '/uninstall.php' );
 
 		return true;
@@ -1011,7 +1020,7 @@ function uninstall_plugin($plugin) {
 		 * Fires in uninstall_plugin() once the plugin has been uninstalled.
 		 *
 		 * The action concatenates the 'uninstall_' prefix with the basename of the
-		 * plugin passed to {@see uninstall_plugin()} to create a dynamically-named action.
+		 * plugin passed to uninstall_plugin() to create a dynamically-named action.
 		 *
 		 * @since 2.7.0
 		 */

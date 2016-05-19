@@ -23,9 +23,11 @@ class WP_Network {
 	/**
 	 * Network ID.
 	 *
+	 * A numeric string, for compatibility reasons.
+	 *
 	 * @since 4.4.0
 	 * @access public
-	 * @var int
+	 * @var string
 	 */
 	public $id;
 
@@ -53,9 +55,11 @@ class WP_Network {
 	 * Named "blog" vs. "site" for legacy reasons. A main site is mapped to
 	 * the network when the network is created.
 	 *
+	 * A numeric string, for compatibility reasons.
+	 *
 	 * @since 4.4.0
 	 * @access public
-	 * @var int
+	 * @var string
 	 */
 	public $blog_id = 0;
 
@@ -64,7 +68,7 @@ class WP_Network {
 	 *
 	 * @since 4.4.0
 	 * @access public
-	 * @var int
+	 * @var string
 	 */
 	public $cookie_domain = '';
 

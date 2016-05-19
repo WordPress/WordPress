@@ -983,7 +983,7 @@ function add_contextual_help( $screen, $help ) {
 }
 
 /**
- * Get the allowed themes for the current blog.
+ * Get the allowed themes for the current site.
  *
  * @since 3.0.0
  * @deprecated 3.4.0 Use wp_get_themes()
@@ -1175,7 +1175,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 /**
  * This was once used to kick-off the Theme Updater.
  *
- * Deprecated in favor of instantating a Theme_Upgrader instance directly,
+ * Deprecated in favor of instantiating a Theme_Upgrader instance directly,
  * and calling the 'upgrade' method.
  * Unused since 2.8.0.
  *
