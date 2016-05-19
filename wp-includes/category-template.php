@@ -356,17 +356,26 @@ function category_description( $category = 0 ) {
  */
 function wp_dropdown_categories( $args = '' ) {
 	$defaults = array(
-		'show_option_all' => '', 'show_option_none' => '',
-		'orderby' => 'id', 'order' => 'ASC',
-		'show_count' => 0,
-		'hide_empty' => 1, 'child_of' => 0,
-		'exclude' => '', 'echo' => 1,
-		'selected' => 0, 'hierarchical' => 0,
-		'name' => 'cat', 'id' => '',
-		'class' => 'postform', 'depth' => 0,
-		'tab_index' => 0, 'taxonomy' => 'category',
-		'hide_if_empty' => false, 'option_none_value' => -1,
-		'value_field' => 'term_id',
+		'show_option_all'   => '',
+		'show_option_none'  => '',
+		'orderby'           => 'id',
+		'order'             => 'ASC',
+		'show_count'        => 0,
+		'hide_empty'        => 1,
+		'child_of'          => 0,
+		'exclude'           => '',
+		'echo'              => 1,
+		'selected'          => 0,
+		'hierarchical'      => 0,
+		'name'              => 'cat',
+		'id'                => '',
+		'class'             => 'postform',
+		'depth'             => 0,
+		'tab_index'         => 0,
+		'taxonomy'          => 'category',
+		'hide_if_empty'     => false,
+		'option_none_value' => -1,
+		'value_field'       => 'term_id',
 	);
 
 	$defaults['selected'] = ( is_category() ) ? get_query_var( 'cat' ) : 0;
