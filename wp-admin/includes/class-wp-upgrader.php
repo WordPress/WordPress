@@ -52,7 +52,7 @@ class WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @access public
-	 * @var string $strings
+	 * @var array $strings
 	 */
 	public $strings = array();
 
