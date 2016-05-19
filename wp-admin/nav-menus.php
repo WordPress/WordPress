@@ -753,7 +753,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 	</div><!-- /#menu-settings-column -->
 	<div id="menu-management-liquid">
 		<div id="menu-management">
-			<form id="update-nav-menu" method="post" enctype="multipart/form-data">
+			<form id="update-nav-menu" method="post" enctype="multipart/form-data" action="<?php echo admin_url( 'nav-menus.php' ); ?>">
 				<div class="menu-edit <?php if ( $add_new_screen ) echo 'blank-slate'; ?>">
 					<input type="hidden" name="nav-menu-data">
 					<?php
