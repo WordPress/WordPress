@@ -3,11 +3,33 @@
 	function wpEmoji() {
 		var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
 
+		// Compression and maintain local scope
+		document = window.document,
+
 		// Private
 		twemoji, timer,
 		loaded = false,
 		count = 0,
 		ie11 = window.navigator.userAgent.indexOf( 'Trident/7.0' ) > 0;
+
+		/**
+		 * Detect if the browser supports SVG.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @return {Boolean} True if the browser supports svg, false if not.
+		 */
+		function browserSupportsSvgAsImage() {
+			if ( !! document.implementation.hasFeature ) {
+				// Source: Modernizr
+				// https://github.com/Modernizr/Modernizr/blob/master/feature-detects/svg/asimg.js
+				return document.implementation.hasFeature( 'http://www.w3.org/TR/SVG11/feature#Image', '1.1' );
+			}
+
+			// document.implementation.hasFeature is deprecated. It can be presumed
+			// if future browsers remove it, the browser will support SVGs as images.
+			return true;
+		}
 
 		/**
 		 * Runs when the document load event is fired, so we can do our first parse of the page.
@@ -141,8 +163,8 @@
 
 			args = args || {};
 			params = {
-				base: settings.baseUrl,
-				ext: settings.ext,
+				base: browserSupportsSvgAsImage() ? settings.svgUrl : settings.baseUrl,
+				ext:  browserSupportsSvgAsImage() ? settings.svgExt : settings.ext,
 				className: args.className || 'emoji',
 				callback: function( icon, options ) {
 					// Ignore some standard characters that TinyMCE recommends in its character map.

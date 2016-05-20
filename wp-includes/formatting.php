@@ -4517,12 +4517,12 @@ img.emoji {
 }
 
 /**
+ * Print the inline Emoji detection script if it is not already printed.
  *
- * @global string $wp_version
+ * @since 4.2.0
  * @staticvar bool $printed
  */
 function print_emoji_detection_script() {
-	global $wp_version;
 	static $printed = false;
 
 	if ( $printed ) {
@@ -4531,24 +4531,57 @@ function print_emoji_detection_script() {
 
 	$printed = true;
 
+	_print_emoji_detection_script();
+}
+
+/**
+ * Print inline Emoji dection script
+ *
+ * @ignore
+ * @since 4.6.0
+ * @access private
+ *
+ * @global string $wp_version
+ */
+function _print_emoji_detection_script() {
+	global $wp_version;
+
 	$settings = array(
 		/**
-		 * Filter the URL where emoji images are hosted.
+		 * Filter the URL where emoji png images are hosted.
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param string The emoji base URL.
+		 * @param string The emoji base URL for png images.
 		 */
 		'baseUrl' => apply_filters( 'emoji_url', 'https://s.w.org/images/core/emoji/72x72/' ),
 
 		/**
-		 * Filter the extension of the emoji files.
+		 * Filter the extension of the emoji png files.
 		 *
 		 * @since 4.2.0
 		 *
-		 * @param string The emoji extension. Default .png.
+		 * @param string The emoji extension for png files. Default .png.
 		 */
 		'ext' => apply_filters( 'emoji_ext', '.png' ),
+
+		/**
+		 * Filter the URL where emoji SVG images are hosted.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param string The emoji base URL for svg images.
+		 */
+		'svgUrl' => apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/svg/' ),
+
+		/**
+		 * Filter the extension of the emoji SVG files.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param string The emoji extension for svg files. Default .svg.
+		 */
+		'svgExt' => apply_filters( 'emoji_svg_ext', '.svg' ),
 	);
 
 	$version = 'ver=' . $wp_version;
