@@ -494,7 +494,7 @@ p.customize-section-description {
 .customize-control input[type="search"],
 .customize-control input[type="tel"],
 .customize-control input[type="url"] {
-	width: 98%;
+	width: 100%;
 	line-height: 18px;
 	margin: 0;
 }
@@ -620,6 +620,46 @@ p.customize-section-description {
 .wp-full-overlay-sidebar {
 	background: #eee;
 	border-left: 1px solid #ddd;
+}
+
+
+/**
+ * Notifications
+ */
+
+#customize-controls .customize-control-notifications-container { /* Scoped to #customize-controls for specificity over notification styles in common.css. */
+	margin: 4px 0 8px 0;
+	padding: 0;
+	display: none;
+	cursor: default;
+}
+
+#customize-controls .customize-control-widget_form.has-error .widget .widget-top,
+.customize-control-nav_menu_item.has-error .menu-item-bar .menu-item-handle {
+	box-shadow: inset 0 0 0 2px #dc3232;
+	transition: .15s box-shadow linear;
+}
+
+.customize-control-notifications-container li.notice {
+	list-style: none;
+	margin: 0 0 6px 0;
+	padding: 4px 8px;
+}
+
+.customize-control-notifications-container li.notice:last-child {
+	margin-bottom: 0;
+}
+
+#customize-controls .customize-control-nav_menu_item .customize-control-notifications-container {
+	margin-top: 0;
+}
+
+#customize-controls .customize-control-widget_form .customize-control-notifications-container {
+	margin-top: 8px;
+}
+
+.customize-control-text.has-error input {
+	outline: 2px solid #dc3232;
 }
 
 /* Style for custom settings */

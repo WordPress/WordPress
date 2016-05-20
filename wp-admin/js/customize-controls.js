@@ -27,6 +27,7 @@
 			this.id = id;
 			this.transport = this.transport || 'refresh';
 			this._dirty = options.dirty || false;
+			this.notifications = new api.Values({ defaultConstructor: api.Notification });
 
 			// Whenever the setting's value changes, refresh the preview.
 			this.bind( this.preview );
@@ -1478,6 +1479,7 @@
 			control.priority = new api.Value();
 			control.active = new api.Value();
 			control.activeArgumentsQueue = [];
+			control.notifications = new api.Values({ defaultConstructor: api.Notification });
 
 			control.elements = [];
 
@@ -1541,12 +1543,37 @@
 
 					control.setting = control.settings['default'] || null;
 
+					_.each( control.settings, function( setting ) {
+						setting.notifications.bind( 'add', function( settingNotification ) {
+							var controlNotification = new api.Notification( setting.id + ':' + settingNotification.code, settingNotification );
+							control.notifications.add( controlNotification.code, controlNotification );
+						} );
+						setting.notifications.bind( 'remove', function( settingNotification ) {
+							control.notifications.remove( setting.id + ':' + settingNotification.code );
+						} );
+					} );
+
 					control.embed();
 				}) );
 			}
 
 			// After the control is embedded on the page, invoke the "ready" method.
 			control.deferred.embedded.done( function () {
+				/*
+				 * Note that this debounced/deferred rendering is needed for two reasons:
+				 * 1) The 'remove' event is triggered just _before_ the notification is actually removed.
+				 * 2) Improve performance when adding/removing multiple notifications at a time.
+				 */
+				var debouncedRenderNotifications = _.debounce( function renderNotifications() {
+					control.renderNotifications();
+				} );
+				control.notifications.bind( 'add', function( notification ) {
+					wp.a11y.speak( notification.message, 'assertive' );
+					debouncedRenderNotifications();
+				} );
+				control.notifications.bind( 'remove', debouncedRenderNotifications );
+				control.renderNotifications();
+
 				control.ready();
 			});
 		},
@@ -1587,6 +1614,85 @@
 		 * @abstract
 		 */
 		ready: function() {},
+
+		/**
+		 * Get the element inside of a control's container that contains the validation error message.
+		 *
+		 * Control subclasses may override this to return the proper container to render notifications into.
+		 * Injects the notification container for existing controls that lack the necessary container,
+		 * including special handling for nav menu items and widgets.
+		 *
+		 * @since 4.6.0
+		 * @returns {jQuery} Setting validation message element.
+		 * @this {wp.customize.Control}
+		 */
+		getNotificationsContainerElement: function() {
+			var control = this, controlTitle, notificationsContainer;
+
+			notificationsContainer = control.container.find( '.customize-control-notifications-container:first' );
+			if ( notificationsContainer.length ) {
+				return notificationsContainer;
+			}
+
+			notificationsContainer = $( '<div class="customize-control-notifications-container"></div>' );
+
+			if ( control.container.hasClass( 'customize-control-nav_menu_item' ) ) {
+				control.container.find( '.menu-item-settings:first' ).prepend( notificationsContainer );
+			} else if ( control.container.hasClass( 'customize-control-widget_form' ) ) {
+				control.container.find( '.widget-inside:first' ).prepend( notificationsContainer );
+			} else {
+				controlTitle = control.container.find( '.customize-control-title' );
+				if ( controlTitle.length ) {
+					controlTitle.after( notificationsContainer );
+				} else {
+					control.container.prepend( notificationsContainer );
+				}
+			}
+			return notificationsContainer;
+		},
+
+		/**
+		 * Render notifications.
+		 *
+		 * Renders the `control.notifications` into the control's container.
+		 * Control subclasses may override this method to do their own handling
+		 * of rendering notifications.
+		 *
+		 * @since 4.6.0
+		 * @this {wp.customize.Control}
+		 */
+		renderNotifications: function() {
+			var control = this, container, notifications, hasError = false;
+			container = control.getNotificationsContainerElement();
+			if ( ! container || ! container.length ) {
+				return;
+			}
+			notifications = [];
+			control.notifications.each( function( notification ) {
+				notifications.push( notification );
+				if ( 'error' === notification.type ) {
+					hasError = true;
+				}
+			} );
+
+			if ( 0 === notifications.length ) {
+				container.stop().slideUp( 'fast' );
+			} else {
+				container.stop().slideDown( 'fast', null, function() {
+					$( this ).css( 'height', 'auto' );
+				} );
+			}
+
+			if ( ! control.notificationsTemplate ) {
+				control.notificationsTemplate = wp.template( 'customize-control-notifications' );
+			}
+
+			control.container.toggleClass( 'has-notifications', 0 !== notifications.length );
+			control.container.toggleClass( 'has-error', hasError );
+			container.empty().append( $.trim(
+				control.notificationsTemplate( { notifications: notifications, altNotice: Boolean( control.altNotice ) } )
+			) );
+		},
 
 		/**
 		 * Normal controls do not expand, so just expand its parent
@@ -3223,6 +3329,7 @@
 		}
 	});
 
+	api.settingConstructor = {};
 	api.controlConstructor = {
 		color:         api.ColorControl,
 		media:         api.MediaControl,
@@ -3323,6 +3430,62 @@
 				};
 			},
 
+			/**
+			 * Handle invalid_settings in an error response for the customize-save request.
+			 *
+			 * Add notifications to the settings and focus on the first control that has an invalid setting.
+			 *
+			 * @since 4.6.0
+			 * @private
+			 *
+			 * @param {object} response
+			 * @param {object} response.invalid_settings
+			 * @returns {void}
+			 */
+			_handleInvalidSettingsError: function( response ) {
+				var invalidControls = [], wasFocused = false;
+				if ( _.isEmpty( response.invalid_settings ) ) {
+					return;
+				}
+
+				// Find the controls that correspond to each invalid setting.
+				_.each( response.invalid_settings, function( notifications, settingId ) {
+					var setting = api( settingId );
+					if ( setting ) {
+						_.each( notifications, function( notificationParams, code ) {
+							var notification = new api.Notification( code, notificationParams );
+							setting.notifications.add( code, notification );
+						} );
+					}
+
+					api.control.each( function( control ) {
+						_.each( control.settings, function( controlSetting ) {
+							if ( controlSetting.id === settingId ) {
+								invalidControls.push( control );
+							}
+						} );
+					} );
+				} );
+
+				// Focus on the first control that is inside of an expanded section (one that is visible).
+				_( invalidControls ).find( function( control ) {
+					var isExpanded = control.section() && api.section.has( control.section() ) && api.section( control.section() ).expanded();
+					if ( isExpanded && control.expanded ) {
+						isExpanded = control.expanded();
+					}
+					if ( isExpanded ) {
+						control.focus();
+						wasFocused = true;
+					}
+					return wasFocused;
+				} );
+
+				// Focus on the first invalid control.
+				if ( ! wasFocused && invalidControls[0] ) {
+					invalidControls[0].focus();
+				}
+			},
+
 			save: function() {
 				var self = this,
 					processing = api.state( 'processing' ),
@@ -3349,6 +3512,18 @@
 
 					api.trigger( 'save', request );
 
+					/*
+					 * Remove all setting error notifications prior to save, allowing
+					 * server to respond with fresh validation error notifications.
+					 */
+					api.each( function( setting ) {
+						setting.notifications.each( function( notification ) {
+							if ( 'error' === notification.type ) {
+								setting.notifications.remove( notification.code );
+							}
+						} );
+					} );
+
 					request.always( function () {
 						body.removeClass( 'saving' );
 						saveBtn.prop( 'disabled', false );
@@ -3372,6 +3547,9 @@
 								self.preview.iframe.show();
 							} );
 						}
+
+						self._handleInvalidSettingsError( response );
+
 						api.trigger( 'error', response );
 					} );
 
@@ -3424,11 +3602,15 @@
 
 		// Create Settings
 		$.each( api.settings.settings, function( id, data ) {
-			api.create( id, id, data.value, {
+			var constructor = api.settingConstructor[ data.type ] || api.Setting,
+				setting;
+
+			setting = new constructor( id, data.value, {
 				transport: data.transport,
 				previewer: api.previewer,
 				dirty: !! data.dirty
 			} );
+			api.add( id, setting );
 		});
 
 		// Create Panels

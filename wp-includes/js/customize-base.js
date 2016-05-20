@@ -755,6 +755,28 @@ window.wp = window.wp || {};
 	// Add the Events mixin to api.Messenger.
 	$.extend( api.Messenger.prototype, api.Events );
 
+	/**
+	 * Notification.
+	 *
+	 * @class
+	 * @augments wp.customize.Class
+	 * @since 4.6.0
+	 *
+	 * @param {string} code                The error code.
+	 * @param {object} params              Params.
+	 * @param {string} params.message      The error message.
+	 * @param {string} [params.type=error] The notification type.
+	 * @param {*}      [params.data]       Any additional data.
+	 */
+	api.Notification = api.Class.extend({
+		initialize: function( code, params ) {
+			this.code = code;
+			this.message = params.message;
+			this.type = params.type || 'error';
+			this.data = params.data || null;
+		}
+	});
+
 	// The main API object is also a collection of all customizer settings.
 	api = $.extend( new api.Values(), api );
 

@@ -654,19 +654,31 @@ final class WP_Customize_Manager {
 	 * Return the sanitized value for a given setting from the request's POST data.
 	 *
 	 * @since 3.4.0
-	 * @since 4.1.1 Introduced 'default' parameter.
+	 * @since 4.1.1 Introduced `$default` parameter.
+	 * @since 4.6.0 Return `$default` when setting post value is invalid.
+	 * @see WP_REST_Server::dispatch()
+	 * @see WP_Rest_Request::sanitize_params()
+	 * @see WP_Rest_Request::has_valid_params()
 	 *
-	 * @param WP_Customize_Setting $setting A WP_Customize_Setting derived object
-	 * @param mixed $default value returned $setting has no post value (added in 4.2.0).
-	 * @return string|mixed $post_value Sanitized value or the $default provided
+	 * @param WP_Customize_Setting $setting A WP_Customize_Setting derived object.
+	 * @param mixed                $default Value returned $setting has no post value (added in 4.2.0)
+	 *                                      or the post value is invalid (added in 4.6.0).
+	 * @return string|mixed $post_value Sanitized value or the $default provided.
 	 */
 	public function post_value( $setting, $default = null ) {
 		$post_values = $this->unsanitized_post_values();
-		if ( array_key_exists( $setting->id, $post_values ) ) {
-			return $setting->sanitize( $post_values[ $setting->id ] );
-		} else {
+		if ( ! array_key_exists( $setting->id, $post_values ) ) {
 			return $default;
 		}
+		$value = $setting->sanitize( $post_values[ $setting->id ] );
+		if ( is_null( $value ) || is_wp_error( $value ) ) {
+			return $default;
+		}
+		$valid = $setting->validate( $value );
+		if ( is_wp_error( $valid ) ) {
+			return $default;
+		}
+		return $value;
 	}
 
 	/**
@@ -970,6 +982,38 @@ final class WP_Customize_Manager {
 	}
 
 	/**
+	 * Validate setting values.
+	 *
+	 * Sanitization is applied to the values before being passed for validation.
+	 * Validation is skipped for unregistered settings or for values that are
+	 * already null since they will be skipped anyway.
+	 *
+	 * @since 4.6.0
+	 * @access public
+	 * @see WP_REST_Request::has_valid_params()
+	 *
+	 * @param array $setting_values Mapping of setting IDs to values to sanitize and validate.
+	 * @return array Empty array if all settings were valid. One or more instances of `WP_Error` if any were invalid.
+	 */
+	public function validate_setting_values( $setting_values ) {
+		$validity_errors = array();
+		foreach ( $setting_values as $setting_id => $unsanitized_value ) {
+			$setting = $this->get_setting( $setting_id );
+			if ( ! $setting || is_null( $unsanitized_value ) ) {
+				continue;
+			}
+			$validity = $setting->validate( $setting->sanitize( $unsanitized_value ) );
+			if ( false === $validity || null === $validity ) {
+				$validity = new WP_Error( 'invalid_value', __( 'Invalid value.' ) );
+			}
+			if ( is_wp_error( $validity ) ) {
+				$validity_errors[ $setting_id ] = $validity;
+			}
+		}
+		return $validity_errors;
+	}
+
+	/**
 	 * Switch the theme and trigger the save() method on each setting.
 	 *
 	 * @since 3.4.0
@@ -982,6 +1026,42 @@ final class WP_Customize_Manager {
 		$action = 'save-customize_' . $this->get_stylesheet();
 		if ( ! check_ajax_referer( $action, 'nonce', false ) ) {
 			wp_send_json_error( 'invalid_nonce' );
+		}
+
+		/**
+		 * Fires before save validation happens.
+		 *
+		 * Plugins can add just-in-time `customize_validate_{$setting_id}` filters
+		 * at this point to catch any settings registered after `customize_register`.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param WP_Customize_Manager $this WP_Customize_Manager instance.
+		 */
+		do_action( 'customize_save_validation_before', $this );
+
+		// Validate settings.
+		$validity_errors = $this->validate_setting_values( $this->unsanitized_post_values() );
+		$invalid_count = count( $validity_errors );
+		if ( $invalid_count > 0 ) {
+			$settings_errors = array();
+			foreach ( $validity_errors as $setting_id => $validity_error ) {
+				$settings_errors[ $setting_id ] = array();
+				foreach ( $validity_error->errors as $error_code => $error_messages ) {
+					$settings_errors[ $setting_id ][ $error_code ] = array(
+						'message' => join( ' ', $error_messages ),
+						'data' => $validity_error->get_error_data( $error_code ),
+					);
+				}
+			}
+			$response = array(
+				'invalid_settings' => $settings_errors,
+				'message' => sprintf( _n( 'There is %s invalid setting.', 'There are %s invalid settings.', $invalid_count ), number_format_i18n( $invalid_count ) ),
+			);
+
+			/** This filter is documented in wp-includes/class-wp-customize-manager.php */
+			$response = apply_filters( 'customize_save_response', $response, $this );
+			wp_send_json_error( $response );
 		}
 
 		// Do we have to switch themes?
@@ -1403,6 +1483,15 @@ final class WP_Customize_Manager {
 			) );
 			$control->print_template();
 		}
+		?>
+		<script type="text/html" id="tmpl-customize-control-notifications">
+			<ul>
+				<# _.each( data.notifications, function( notification ) { #>
+					<li class="notice notice-{{ notification.type || 'info' }} {{ data.altNotice ? 'notice-alt' : '' }}" data-code="{{ notification.code }}" data-type="{{ notification.type }}">{{ notification.message || notification.code }}</li>
+				<# } ); #>
+			</ul>
+		</script>
+		<?php
 	}
 
 	/**
@@ -1763,11 +1852,7 @@ final class WP_Customize_Manager {
 					printf(
 						"s[%s] = %s;\n",
 						wp_json_encode( $setting->id ),
-						wp_json_encode( array(
-							'value'     => $setting->js_value(),
-							'transport' => $setting->transport,
-							'dirty'     => $setting->dirty,
-						) )
+						wp_json_encode( $setting->json() )
 					);
 				}
 			}

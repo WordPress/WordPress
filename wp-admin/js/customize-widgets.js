@@ -430,6 +430,7 @@
 				args = $.extend( {}, control.defaultExpandedArguments, args );
 				control.onChangeExpanded( expanded, args );
 			});
+			control.altNotice = true;
 
 			api.Control.prototype.initialize.call( control, id, options );
 		},
