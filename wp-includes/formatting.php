@@ -3706,6 +3706,10 @@ function sanitize_option( $option, $value ) {
 		case 'blogdescription':
 		case 'blogname':
 			$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', $value );
+			if ( $value !== $original_value ) {
+				$value = $wpdb->strip_invalid_text_for_column( $wpdb->options, 'option_value', wp_encode_emoji( $original_value ) );
+			}
+
 			if ( is_wp_error( $value ) ) {
 				$error = $value->get_error_message();
 			} else {
