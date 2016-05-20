@@ -520,6 +520,47 @@ function get_site( &$site = null, $output = OBJECT ) {
 }
 
 /**
+ * Adds any sites from the given ids to the cache that do not already exist in cache.
+ *
+ * @since 4.6.0
+ * @access private
+ *
+ * @see update_site_cache()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param array $ids ID list.
+ */
+function _prime_site_caches( $ids ) {
+	global $wpdb;
+
+	$non_cached_ids = _get_non_cached_ids( $ids, 'sites' );
+	if ( ! empty( $non_cached_ids ) ) {
+		$fresh_sites = $wpdb->get_results( sprintf( "SELECT * FROM $wpdb->blogs WHERE blog_id IN (%s)", join( ",", array_map( 'intval', $non_cached_ids ) ) ) );
+
+		update_site_cache( $fresh_sites );
+	}
+}
+
+/**
+ * Updates sites in cache.
+ *
+ * @since 4.6.0
+ *
+ * @param array $sites Array of site objects, passed by reference.
+ */
+function update_site_cache( &$sites ) {
+	if ( ! $sites ) {
+		return;
+	}
+
+	foreach ( $sites as $site ) {
+		wp_cache_add( $site->blog_id, $site, 'sites' );
+		wp_cache_add( $site->blog_id . 'short', $site, 'blog-details' );
+	}
+}
+
+/**
  * Retrieve option value for a given blog id based on name of option.
  *
  * If the option does not exist or does not have a value, then the return value
