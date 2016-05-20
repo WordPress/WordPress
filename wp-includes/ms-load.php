@@ -261,6 +261,192 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 }
 
 /**
+ * Identifies the network and site of a requested domain and path and populates the
+ * corresponding network and site global objects as part of the multisite bootstrap process.
+ *
+ * Prior to 4.6.0, this was a procedural block in `ms-settings.php`. It was wrapped into
+ * a function to facilitate unit tests. It should not be used outside of core.
+ *
+ * Usually, it's easier to query the site first, which then declares its network.
+ * In limited situations, we either can or must find the network first.
+ *
+ * If a network and site are found, a `true` response will be returned so that the
+ * request can continue.
+ *
+ * If neither a network or site is found, `false` or a URL string will be returned
+ * so that either an error can be shown or a redirect can occur.
+ *
+ * @since 4.6.0
+ * @access private
+ *
+ * @global wpdb       $wpdb         WordPress database abstraction object.
+ * @global WP_Network $current_site The current network.
+ * @global WP_Site    $current_blog The current site.
+ *
+ * @param string $domain    The requested domain.
+ * @param string $path      The requested path.
+ * @param bool   $subdomain Whether a subdomain (true) or subdirectory (false) configuration.
+ * @return bool|string True if bootstrap successfully populated `$current_blog` and `$current_site`.
+ *                     False if bootstrap could not be properly completed.
+ *                     Redirect URL if parts exist, but the request as a whole can not be fulfilled.
+ */
+function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) {
+	global $wpdb, $current_site, $current_blog;
+
+	// If the network is defined in wp-config.php, we can simply use that.
+	if ( defined( 'DOMAIN_CURRENT_SITE' ) && defined( 'PATH_CURRENT_SITE' ) ) {
+		$current_site = new stdClass;
+		$current_site->id = defined( 'SITE_ID_CURRENT_SITE' ) ? SITE_ID_CURRENT_SITE : 1;
+		$current_site->domain = DOMAIN_CURRENT_SITE;
+		$current_site->path = PATH_CURRENT_SITE;
+		if ( defined( 'BLOG_ID_CURRENT_SITE' ) ) {
+			$current_site->blog_id = BLOG_ID_CURRENT_SITE;
+		} elseif ( defined( 'BLOGID_CURRENT_SITE' ) ) { // deprecated.
+			$current_site->blog_id = BLOGID_CURRENT_SITE;
+		}
+
+		if ( 0 === strcasecmp( $current_site->domain, $domain ) && 0 === strcasecmp( $current_site->path, $path ) ) {
+			$current_blog = get_site_by_path( $domain, $path );
+		} elseif ( '/' !== $current_site->path && 0 === strcasecmp( $current_site->domain, $domain ) && 0 === stripos( $path, $current_site->path ) ) {
+			// If the current network has a path and also matches the domain and path of the request,
+			// we need to look for a site using the first path segment following the network's path.
+			$current_blog = get_site_by_path( $domain, $path, 1 + count( explode( '/', trim( $current_site->path, '/' ) ) ) );
+		} else {
+			// Otherwise, use the first path segment (as usual).
+			$current_blog = get_site_by_path( $domain, $path, 1 );
+		}
+
+	} elseif ( ! $subdomain ) {
+		/*
+		 * A "subdomain" install can be re-interpreted to mean "can support any domain".
+		 * If we're not dealing with one of these installs, then the important part is determining
+		 * the network first, because we need the network's path to identify any sites.
+		 */
+		if ( ! $current_site = wp_cache_get( 'current_network', 'site-options' ) ) {
+			// Are there even two networks installed?
+			$one_network = $wpdb->get_row( "SELECT * FROM $wpdb->site LIMIT 2" ); // [sic]
+			if ( 1 === $wpdb->num_rows ) {
+				$current_site = new WP_Network( $one_network );
+				wp_cache_add( 'current_network', $current_site, 'site-options' );
+			} elseif ( 0 === $wpdb->num_rows ) {
+				// A network not found hook should fire here.
+				return false;
+			}
+		}
+
+		if ( empty( $current_site ) ) {
+			$current_site = WP_Network::get_by_path( $domain, $path, 1 );
+		}
+
+		if ( empty( $current_site ) ) {
+			/**
+			 * Fires when a network cannot be found based on the requested domain and path.
+			 *
+			 * At the time of this action, the only recourse is to redirect somewhere
+			 * and exit. If you want to declare a particular network, do so earlier.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param string $domain       The domain used to search for a network.
+			 * @param string $path         The path used to search for a path.
+			 */
+			do_action( 'ms_network_not_found', $domain, $path );
+
+			return false;
+		} elseif ( $path === $current_site->path ) {
+			$current_blog = get_site_by_path( $domain, $path );
+		} else {
+			// Search the network path + one more path segment (on top of the network path).
+			$current_blog = get_site_by_path( $domain, $path, substr_count( $current_site->path, '/' ) );
+		}
+	} else {
+		// Find the site by the domain and at most the first path segment.
+		$current_blog = get_site_by_path( $domain, $path, 1 );
+		if ( $current_blog ) {
+			$current_site = WP_Network::get_instance( $current_blog->site_id ? $current_blog->site_id : 1 );
+		} else {
+			// If you don't have a site with the same domain/path as a network, you're pretty screwed, but:
+			$current_site = WP_Network::get_by_path( $domain, $path, 1 );
+		}
+	}
+
+	// The network declared by the site trumps any constants.
+	if ( $current_blog && $current_blog->site_id != $current_site->id ) {
+		$current_site = WP_Network::get_instance( $current_blog->site_id );
+	}
+
+	// No network has been found, bail.
+	if ( empty( $current_site ) ) {
+		/** This action is documented in wp-includes/ms-settings.php */
+		do_action( 'ms_network_not_found', $domain, $path );
+
+		return false;
+	}
+
+	// During activation of a new subdomain, the requested site does not yet exist.
+	if ( empty( $current_blog ) && wp_installing() ) {
+		$current_blog = new stdClass;
+		$current_blog->blog_id = $blog_id = 1;
+		$current_blog->public = 1;
+	}
+
+	// No site has been found, bail.
+	if ( empty( $current_blog ) ) {
+		// We're going to redirect to the network URL, with some possible modifications.
+		$scheme = is_ssl() ? 'https' : 'http';
+		$destination = "$scheme://{$current_site->domain}{$current_site->path}";
+
+		/**
+		 * Fires when a network can be determined but a site cannot.
+		 *
+		 * At the time of this action, the only recourse is to redirect somewhere
+		 * and exit. If you want to declare a particular site, do so earlier.
+		 *
+		 * @since 3.9.0
+		 *
+		 * @param object $current_site The network that had been determined.
+		 * @param string $domain       The domain used to search for a site.
+		 * @param string $path         The path used to search for a site.
+		 */
+		do_action( 'ms_site_not_found', $current_site, $domain, $path );
+
+		if ( $subdomain && ! defined( 'NOBLOGREDIRECT' ) ) {
+			// For a "subdomain" install, redirect to the signup form specifically.
+			$destination .= 'wp-signup.php?new=' . str_replace( '.' . $current_site->domain, '', $domain );
+		} elseif ( $subdomain ) {
+			// For a "subdomain" install, the NOBLOGREDIRECT constant
+			// can be used to avoid a redirect to the signup form.
+			// Using the ms_site_not_found action is preferred to the constant.
+			if ( '%siteurl%' !== NOBLOGREDIRECT ) {
+				$destination = NOBLOGREDIRECT;
+			}
+		} elseif ( 0 === strcasecmp( $current_site->domain, $domain ) ) {
+			/*
+			 * If the domain we were searching for matches the network's domain,
+			 * it's no use redirecting back to ourselves -- it'll cause a loop.
+			 * As we couldn't find a site, we're simply not installed.
+			 */
+			return false;
+		}
+
+		return $destination;
+	}
+
+	// Figure out the current network's main site.
+	if ( empty( $current_site->blog_id ) ) {
+		if ( $current_blog->domain === $current_site->domain && $current_blog->path === $current_site->path ) {
+			$current_site->blog_id = $current_blog->blog_id;
+		} elseif ( ! $current_site->blog_id = wp_cache_get( 'network:' . $current_site->id . ':main_site', 'site-options' ) ) {
+			$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s",
+				$current_site->domain, $current_site->path ) );
+			wp_cache_add( 'network:' . $current_site->id . ':main_site', $current_site->blog_id, 'site-options' );
+		}
+	}
+
+	return true;
+}
+
+/**
  * Displays a failure message.
  *
  * Used when a blog's tables do not exist. Checks for a missing $wpdb->site table as well.
