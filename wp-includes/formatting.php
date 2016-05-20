@@ -4568,7 +4568,7 @@ function _print_emoji_detection_script() {
 		/**
 		 * Filter the URL where emoji SVG images are hosted.
 		 *
-		 * @since 4.2.0
+		 * @since 4.6.0
 		 *
 		 * @param string The emoji base URL for svg images.
 		 */
@@ -4577,7 +4577,7 @@ function _print_emoji_detection_script() {
 		/**
 		 * Filter the extension of the emoji SVG files.
 		 *
-		 * @since 4.2.0
+		 * @since 4.6.0
 		 *
 		 * @param string The emoji extension for svg files. Default .svg.
 		 */
