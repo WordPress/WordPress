@@ -1,5 +1,5 @@
 /*!
- * jQuery Migrate - v1.4.0 - 2016-02-26
+ * jQuery Migrate - v1.4.1 - 2016-05-19
  * Copyright jQuery Foundation and other contributors
  */
 (function( jQuery, window, undefined ) {
@@ -7,7 +7,7 @@
 // "use strict";
 
 
-jQuery.migrateVersion = "1.4.0";
+jQuery.migrateVersion = "1.4.1";
 
 
 var warnedAbout = {};
@@ -193,9 +193,11 @@ jQuery.attrHooks.value = {
 
 var matched, browser,
 	oldInit = jQuery.fn.init,
+	oldFind = jQuery.find,
 	oldParseJSON = jQuery.parseJSON,
 	rspaceAngle = /^\s*</,
-	rattrHash = /\[\s*\w+\s*[~|^$*]?=\s*(?![\s'"])[^#\]]*#/,
+	rattrHashTest = /\[(\s*[-\w]+\s*)([~|^$*]?=)\s*([-\w#]*?#[-\w#]*)\s*\]/,
+	rattrHashGlob = /\[(\s*[-\w]+\s*)([~|^$*]?=)\s*([-\w#]*?#[-\w#]*)\s*\]/g,
 	// Note: XSS check is done below after string is trimmed
 	rquickExpr = /^([^<]*)(<[\w\W]+>)([^>]*)$/;
 
@@ -203,45 +205,37 @@ var matched, browser,
 jQuery.fn.init = function( selector, context, rootjQuery ) {
 	var match, ret;
 
-	if ( selector && typeof selector === "string" && !jQuery.isPlainObject( context ) &&
-			(match = rquickExpr.exec( jQuery.trim( selector ) )) && match[ 0 ] ) {
-		// This is an HTML string according to the "old" rules; is it still?
-		if ( !rspaceAngle.test( selector ) ) {
-			migrateWarn("$(html) HTML strings must start with '<' character");
-		}
-		if ( match[ 3 ] ) {
-			migrateWarn("$(html) HTML text after last tag is ignored");
-		}
+	if ( selector && typeof selector === "string" ) {
+		if ( !jQuery.isPlainObject( context ) &&
+				(match = rquickExpr.exec( jQuery.trim( selector ) )) && match[ 0 ] ) {
 
-		// Consistently reject any HTML-like string starting with a hash (#9521)
-		// Note that this may break jQuery 1.6.x code that otherwise would work.
-		if ( match[ 0 ].charAt( 0 ) === "#" ) {
-			migrateWarn("HTML string cannot start with a '#' character");
-			jQuery.error("JQMIGRATE: Invalid selector string (XSS)");
+			// This is an HTML string according to the "old" rules; is it still?
+			if ( !rspaceAngle.test( selector ) ) {
+				migrateWarn("$(html) HTML strings must start with '<' character");
+			}
+			if ( match[ 3 ] ) {
+				migrateWarn("$(html) HTML text after last tag is ignored");
+			}
+
+			// Consistently reject any HTML-like string starting with a hash (gh-9521)
+			// Note that this may break jQuery 1.6.x code that otherwise would work.
+			if ( match[ 0 ].charAt( 0 ) === "#" ) {
+				migrateWarn("HTML string cannot start with a '#' character");
+				jQuery.error("JQMIGRATE: Invalid selector string (XSS)");
+			}
+
+			// Now process using loose rules; let pre-1.8 play too
+			// Is this a jQuery context? parseHTML expects a DOM element (#178)
+			if ( context && context.context && context.context.nodeType ) {
+				context = context.context;
+			}
+
+			if ( jQuery.parseHTML ) {
+				return oldInit.call( this,
+						jQuery.parseHTML( match[ 2 ], context && context.ownerDocument ||
+							context || document, true ), context, rootjQuery );
+			}
 		}
-		// Now process using loose rules; let pre-1.8 play too
-		if ( context && context.context ) {
-			// jQuery object as context; parseHTML expects a DOM object
-			context = context.context;
-		}
-		if ( jQuery.parseHTML ) {
-			return oldInit.call( this,
-					jQuery.parseHTML( match[ 2 ], context && context.ownerDocument ||
-						context || document, true ), context, rootjQuery );
-		}
-	}
-
-	if ( selector === "#" ) {
-
-		// jQuery( "#" ) is a bogus ID selector, but it returned an empty set before jQuery 3.0
-		migrateWarn( "jQuery( '#' ) is not a valid selector" );
-		selector = [];
-
-	} else if ( rattrHash.test( selector ) ) {
-
-		// The nonstandard and undocumented unquoted-hash was removed in jQuery 1.12.0
-		// Note that this doesn't actually fix the selector due to potential false positives
-		migrateWarn( "Attribute selectors with '#' must be quoted: '" + selector + "'" );
 	}
 
 	ret = oldInit.apply( this, arguments );
@@ -262,6 +256,47 @@ jQuery.fn.init = function( selector, context, rootjQuery ) {
 	return ret;
 };
 jQuery.fn.init.prototype = jQuery.fn;
+
+jQuery.find = function( selector ) {
+	var args = Array.prototype.slice.call( arguments );
+
+	// Support: PhantomJS 1.x
+	// String#match fails to match when used with a //g RegExp, only on some strings
+	if ( typeof selector === "string" && rattrHashTest.test( selector ) ) {
+
+		// The nonstandard and undocumented unquoted-hash was removed in jQuery 1.12.0
+		// First see if qS thinks it's a valid selector, if so avoid a false positive
+		try {
+			document.querySelector( selector );
+		} catch ( err1 ) {
+
+			// Didn't *look* valid to qSA, warn and try quoting what we think is the value
+			selector = selector.replace( rattrHashGlob, function( _, attr, op, value ) {
+				return "[" + attr + op + "\"" + value + "\"]";
+			} );
+
+			// If the regexp *may* have created an invalid selector, don't update it
+			// Note that there may be false alarms if selector uses jQuery extensions
+			try {
+				document.querySelector( selector );
+				migrateWarn( "Attribute selector with '#' must be quoted: " + args[ 0 ] );
+				args[ 0 ] = selector;
+			} catch ( err2 ) {
+				migrateWarn( "Attribute selector with '#' was not fixed: " + args[ 0 ] );
+			}
+		}
+	}
+
+	return oldFind.apply( this, args );
+};
+
+// Copy properties attached to original jQuery.find method (e.g. .attr, .isXML)
+var findProp;
+for ( findProp in oldFind ) {
+	if ( Object.prototype.hasOwnProperty.call( oldFind, findProp ) ) {
+		jQuery.find[ findProp ] = oldFind[ findProp ];
+	}
+}
 
 // Let $.parseJSON(falsy_value) return null
 jQuery.parseJSON = function( json ) {
@@ -631,7 +666,7 @@ jQuery.event.special.ready = {
 };
 
 var oldSelf = jQuery.fn.andSelf || jQuery.fn.addBack,
-	oldFind = jQuery.fn.find;
+	oldFnFind = jQuery.fn.find;
 
 jQuery.fn.andSelf = function() {
 	migrateWarn("jQuery.fn.andSelf() replaced by jQuery.fn.addBack()");
@@ -639,7 +674,7 @@ jQuery.fn.andSelf = function() {
 };
 
 jQuery.fn.find = function( selector ) {
-	var ret = oldFind.apply( this, arguments );
+	var ret = oldFnFind.apply( this, arguments );
 	ret.context = this.context;
 	ret.selector = this.selector ? this.selector + " " + selector : selector;
 	return ret;
