@@ -468,6 +468,58 @@ function clean_blog_cache( $blog ) {
 }
 
 /**
+ * Retrieves site data given a site ID or site object.
+ *
+ * Site data will be cached and returned after being passed through a filter.
+ * If the provided site is empty, the current site global will be used.
+ *
+ * @since 4.6.0
+ *
+ * @global WP_Site $current_blog The current site.
+ *
+ * @param WP_Site|int $site   Site to retrieve.
+ * @param string      $output Optional. Type of output to return. OBJECT or ARRAY_A or ARRAY_N constants.
+ * @return WP_Site|array|null Depends on $output value.
+ */
+function get_site( &$site = null, $output = OBJECT ) {
+	global $current_blog;
+	if ( empty( $site ) && isset( $current_blog ) ) {
+		$site = $current_blog;
+	}
+
+	if ( $site instanceof WP_Site ) {
+		$_site = $site;
+	} elseif ( is_object( $site ) ) {
+		$_site = new WP_Site( $site );
+	} else {
+		$_site = WP_Site::get_instance( $site );
+	}
+
+	if ( ! $_site ) {
+		return null;
+	}
+
+	/**
+	 * Fires after a site is retrieved.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param mixed $_site Site data.
+	 */
+	$_site = apply_filters( 'get_site', $_site );
+
+	if ( $output == OBJECT ) {
+		return $_site;
+	} elseif ( $output == ARRAY_A ) {
+		return $_site->to_array();
+	} elseif ( $output == ARRAY_N ) {
+		return array_values( $_site->to_array() );
+	}
+
+	return $_site;
+}
+
+/**
  * Retrieve option value for a given blog id based on name of option.
  *
  * If the option does not exist or does not have a value, then the return value

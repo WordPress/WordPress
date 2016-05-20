@@ -198,4 +198,16 @@ final class WP_Site {
 			$this->$key = $value;
 		}
 	}
+
+	/**
+	 * Converts an object to array.
+	 *
+	 * @since 4.6.0
+	 * @access public
+	 *
+	 * @return array Object as array.
+	 */
+	public function to_array() {
+		return get_object_vars( $this );
+	}
 }
