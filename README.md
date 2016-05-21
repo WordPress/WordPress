@@ -17,7 +17,7 @@
   2. 将文件另存为wp-config.php并上传。
   3. 在浏览器中访问[wp-admin/install.php](./wp-admin/install.php)。
 3. 在配置文件就绪之后，WordPress会自动尝试建立数据库表。若发生错误，请检查wp-config.php文件中填写的信息是否准确，然后再试。若问题依然存在，请访问[中文支持论坛](https://zh-cn.forums.wordpress.org/)寻求帮助。
-4. **若您不设置密码，请牢记生成的随机密码。 **若您不输入用户名，用户名将是admin。
+4. <b>*若您不设置密码，请牢记生成的随机密码。*</b>若您不输入用户名，用户名将是admin。
 5. 完成后，安装向导会带您到[登录页面](./wp-login.php)。用刚刚设置的用户名和密码登录。若您使用随机密码，在登录后可以按照页面提示修改密码。
 
 ## 升级
@@ -75,3 +75,5 @@ WordPress是对Michel V.创建的[b2/cafélog](http://cafelog.com/)的官方后�
 ## 许可证
 WordPress基于GPL第二版或（根据您选择的）以后版本发布。详见[license.txt](./license.txt)（英文）。
 
+## 说明
+WordPress是一个注重美学、易用性和网络标准的个人信息发布平台。在github上直接看readme.html，看到的是html源代码，我的天，这怎么看嘛？所以我将readme.html改成了readme.md，用markdown语法重新做了一份readme(orz 全部内容都是copy的readme.html里面的)，这样的话在github上看项目感觉更好看了。
