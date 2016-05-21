@@ -56,8 +56,10 @@ WordPress支持导入多种系统的数据。请先按照上述步骤安装WordP
   
 > [WordPress Planet]()<br>
   * WordPress Planet汇集了全球所有WordPress相关的内容。<br>
+  
 > [WordPress中文支持论坛]()<br>
  如果感到束手无策，请将问题提交至中文支持论坛，它有大量的热心的用户和良好的社区氛围。无论求助还是助人，在这里您应该确保自己的问题和答案均准确细致。<br>
+ 
 > [WordPress IRC频道]()<br>
  同样，WordPress也有即时的聊天室用于WordPress用户交流以及部分技术支持。IRC的详细使用方法可以访问前面几个关于技术支持的站点。（irc.freenode.net #wordpress）<br>
 
