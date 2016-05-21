@@ -50,6 +50,7 @@ WordPress can [import from a number of systems](http://codex.wordpress.org/Impor
 - [MySQL](http://www.mysql.com/) version **5.6** or higher.
 - The [mod_rewrite](http://httpd.apache.org/docs/2.2/mod/mod_rewrite.html) Apache module.
 - A link to [wordpress.org](https://wordpress.org/) on your site.
+
 ## Online Resources
 If you have any questions that aren’t addressed in this document, please take advantage of WordPress’ numerous online resources:
 
