@@ -30,7 +30,7 @@
 1. 在升级之前，请确保备份旧有数据以及被您修改过的文件，例如index.php。
 2. 删除旧版程序文件，记得备份修改过的内容。
 3. 上传新版程序文件。
-4. 在浏览器中访[问/wp-admin/upgrade.php](./wp-admin/upgrade.php)。
+4. 在浏览器中访问[/wp-admin/upgrade.php](./wp-admin/upgrade.php)。
 
 ## 从其他内容管理系统“搬家”
 WordPress支持[导入多种系统的数据](http://codex.wordpress.org/Importing_Content)。请先按照上述步骤安装WordPress，然后您可在后台使用我们提供的[导入工具](./wp-admin/import.php)。
