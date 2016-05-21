@@ -4231,6 +4231,24 @@ function get_page( $page, $output = OBJECT, $filter = 'raw') {
 function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 	global $wpdb;
 
+	$last_changed = wp_cache_get( 'last_changed', 'posts' );
+	if ( false === $last_changed ) {
+		$last_changed = microtime();
+		wp_cache_set( 'last_changed', $last_changed, 'posts' );
+	}
+
+	$hash = md5( $page_path . serialize( $post_type ) );
+	$cache_key = "get_page_by_path:$hash:$last_changed";
+	$cached = wp_cache_get( $cache_key, 'posts' );
+	if ( false !== $cached ) {
+		// Special case: '0' is a bad `$page_path`.
+		if ( '0' === $cached || 0 === $cached ) {
+			return;
+		} else {
+			return get_post( $cached );
+		}
+	}
+
 	$page_path = rawurlencode(urldecode($page_path));
 	$page_path = str_replace('%2F', '/', $page_path);
 	$page_path = str_replace('%20', ' ', $page_path);
@@ -4284,6 +4302,9 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 			}
 		}
 	}
+
+	// We cache misses as well as hits.
+	wp_cache_set( $cache_key, $foundid, 'posts' );
 
 	if ( $foundid ) {
 		return get_post( $foundid, $output );
