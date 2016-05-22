@@ -34,7 +34,7 @@ function get_comment_author( $comment_ID = 0 ) {
 	}
 
 	/**
-	 * Filter the returned comment author name.
+	 * Filters the returned comment author name.
 	 *
 	 * @since 1.5.0
 	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
@@ -60,7 +60,7 @@ function comment_author( $comment_ID = 0 ) {
 	$author  = get_comment_author( $comment );
 
 	/**
-	 * Filter the comment author's name for display.
+	 * Filters the comment author's name for display.
 	 *
 	 * @since 1.2.0
 	 * @since 4.1.0 The `$comment_ID` parameter was added.
@@ -85,7 +85,7 @@ function get_comment_author_email( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
 
 	/**
-	 * Filter the comment author's returned email address.
+	 * Filters the comment author's returned email address.
 	 *
 	 * @since 1.5.0
 	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
@@ -117,7 +117,7 @@ function comment_author_email( $comment_ID = 0 ) {
 	$author_email = get_comment_author_email( $comment );
 
 	/**
-	 * Filter the comment author's email for display.
+	 * Filters the comment author's email for display.
 	 *
 	 * @since 1.2.0
 	 * @since 4.1.0 The `$comment_ID` parameter was added.
@@ -176,7 +176,7 @@ function get_comment_author_email_link( $linktext = '', $before = '', $after = '
 	$comment = get_comment( $comment );
 
 	/**
-	 * Filter the comment author's email for display.
+	 * Filters the comment author's email for display.
 	 *
 	 * Care should be taken to protect the email address and assure that email
 	 * harvesters do not capture your commenter's email address.
@@ -224,7 +224,7 @@ function get_comment_author_link( $comment_ID = 0 ) {
 		$return = "<a href='$url' rel='external nofollow' class='url'>$author</a>";
 
 	/**
-	 * Filter the comment author's link for display.
+	 * Filters the comment author's link for display.
 	 *
 	 * @since 1.5.0
 	 * @since 4.1.0 The `$author` and `$comment_ID` parameters were added.
@@ -264,7 +264,7 @@ function get_comment_author_IP( $comment_ID = 0 ) {
 	$comment = get_comment( $comment_ID );
 
 	/**
-	 * Filter the comment author's returned IP address.
+	 * Filters the comment author's returned IP address.
 	 *
 	 * @since 1.5.0
 	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
@@ -310,7 +310,7 @@ function get_comment_author_url( $comment_ID = 0 ) {
 	}
 
 	/**
-	 * Filter the comment author's URL.
+	 * Filters the comment author's URL.
 	 *
 	 * @since 1.5.0
 	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
@@ -336,7 +336,7 @@ function comment_author_url( $comment_ID = 0 ) {
 	$author_url = get_comment_author_url( $comment );
 
 	/**
-	 * Filter the comment author's URL for display.
+	 * Filters the comment author's URL for display.
 	 *
 	 * @since 1.2.0
 	 * @since 4.1.0 The `$comment_ID` parameter was added.
@@ -383,7 +383,7 @@ function get_comment_author_url_link( $linktext = '', $before = '', $after = '',
 	$return = "$before<a href='$url' rel='external'>$display</a>$after";
 
 	/**
-	 * Filter the comment author's returned URL link.
+	 * Filters the comment author's returned URL link.
 	 *
 	 * @since 1.5.0
 	 *
@@ -512,7 +512,7 @@ function get_comment_class( $class = '', $comment_id = null, $post_id = null ) {
 	$classes = array_map('esc_attr', $classes);
 
 	/**
-	 * Filter the returned CSS classes for the current comment.
+	 * Filters the returned CSS classes for the current comment.
 	 *
 	 * @since 2.7.0
 	 *
@@ -543,7 +543,7 @@ function get_comment_date( $d = '', $comment_ID = 0 ) {
 	else
 		$date = mysql2date($d, $comment->comment_date);
 	/**
-	 * Filter the returned comment date.
+	 * Filters the returned comment date.
 	 *
 	 * @since 1.5.0
 	 *
@@ -588,7 +588,7 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 	$words = explode( ' ', $comment_text );
 
 	/**
-	 * Filter the amount of words used in the comment excerpt.
+	 * Filters the amount of words used in the comment excerpt.
 	 *
 	 * @since 4.4.0
 	 *
@@ -606,7 +606,7 @@ function get_comment_excerpt( $comment_ID = 0 ) {
 		$excerpt .= '&hellip;';
 	}
 	/**
-	 * Filter the retrieved comment excerpt.
+	 * Filters the retrieved comment excerpt.
 	 *
 	 * @since 1.5.0
 	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
@@ -632,7 +632,7 @@ function comment_excerpt( $comment_ID = 0 ) {
 	$comment_excerpt = get_comment_excerpt( $comment );
 
 	/**
-	 * Filter the comment excerpt for display.
+	 * Filters the comment excerpt for display.
 	 *
 	 * @since 1.2.0
 	 * @since 4.1.0 The `$comment_ID` parameter was added.
@@ -654,7 +654,7 @@ function get_comment_ID() {
 	$comment = get_comment();
 
 	/**
-	 * Filter the returned comment ID.
+	 * Filters the returned comment ID.
 	 *
 	 * @since 1.5.0
 	 * @since 4.1.0 The `$comment_ID` parameter was added.
@@ -775,7 +775,7 @@ function get_comment_link( $comment = null, $args = array() ) {
 	$link = $link . '#comment-' . $comment->comment_ID;
 
 	/**
-	 * Filter the returned single comment permalink.
+	 * Filters the returned single comment permalink.
 	 *
 	 * @since 2.8.0
 	 * @since 4.4.0 Added the `$cpage` parameter.
@@ -803,7 +803,7 @@ function get_comments_link( $post_id = 0 ) {
 	$comments_link = get_permalink( $post_id ) . $hash;
 
 	/**
-	 * Filter the returned post comments permalink.
+	 * Filters the returned post comments permalink.
 	 *
 	 * @since 3.6.0
 	 *
@@ -848,7 +848,7 @@ function get_comments_number( $post_id = 0 ) {
 	}
 
 	/**
-	 * Filter the returned comment count for a post.
+	 * Filters the returned comment count for a post.
 	 *
 	 * @since 1.5.0
 	 *
@@ -901,7 +901,7 @@ function get_comments_number_text( $zero = false, $one = false, $more = false ) 
 		$output = ( false === $one ) ? __( '1 Comment' ) : $one;
 	}
 	/**
-	 * Filter the comments count for display.
+	 * Filters the comments count for display.
 	 *
 	 * @since 1.5.0
 	 *
@@ -931,7 +931,7 @@ function get_comment_text( $comment_ID = 0, $args = array() ) {
 	$comment = get_comment( $comment_ID );
 
 	/**
-	 * Filter the text of a comment.
+	 * Filters the text of a comment.
 	 *
 	 * @since 1.5.0
 	 *
@@ -961,7 +961,7 @@ function comment_text( $comment_ID = 0, $args = array() ) {
 
 	$comment_text = get_comment_text( $comment, $args );
 	/**
-	 * Filter the text of a comment to be displayed.
+	 * Filters the text of a comment to be displayed.
 	 *
 	 * @since 1.2.0
 	 *
@@ -995,7 +995,7 @@ function get_comment_time( $d = '', $gmt = false, $translate = true ) {
 		$date = mysql2date($d, $comment_date, $translate);
 
 	/**
-	 * Filter the returned comment time.
+	 * Filters the returned comment time.
 	 *
 	 * @since 1.5.0
 	 *
@@ -1035,7 +1035,7 @@ function get_comment_type( $comment_ID = 0 ) {
 		$comment->comment_type = 'comment';
 
 	/**
-	 * Filter the returned comment type.
+	 * Filters the returned comment type.
 	 *
 	 * @since 1.5.0
 	 * @since 4.1.0 The `$comment_ID` and `$comment` parameters were added.
@@ -1091,7 +1091,7 @@ function get_trackback_url() {
 		$tb_url = get_option('siteurl') . '/wp-trackback.php?p=' . get_the_ID();
 
 	/**
-	 * Filter the returned trackback URL.
+	 * Filters the returned trackback URL.
 	 *
 	 * @since 2.2.0
 	 *
@@ -1173,7 +1173,7 @@ function comments_open( $post_id = null ) {
 	$open = ( 'open' == $_post->comment_status );
 
 	/**
-	 * Filter whether the current post is open for comments.
+	 * Filters whether the current post is open for comments.
 	 *
 	 * @since 2.5.0
 	 *
@@ -1198,7 +1198,7 @@ function pings_open( $post_id = null ) {
 	$open = ( 'open' == $_post->ping_status );
 
 	/**
-	 * Filter whether the current post is open for pings.
+	 * Filters whether the current post is open for pings.
 	 *
 	 * @since 2.5.0
 	 *
@@ -1406,7 +1406,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 	}
 
 	/**
-	 * Filter the comments array.
+	 * Filters the comments array.
 	 *
 	 * @since 2.1.0
 	 *
@@ -1437,7 +1437,7 @@ function comments_template( $file = '/comments.php', $separate_comments = false 
 
 	$theme_template = STYLESHEETPATH . $file;
 	/**
-	 * Filter the path to the theme template file used for the comments template.
+	 * Filters the path to the theme template file used for the comments template.
 	 *
 	 * @since 1.5.1
 	 *
@@ -1506,7 +1506,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 	if ( 0 == $number ) {
 		$respond_link = get_permalink() . '#respond';
 		/**
-		 * Filter the respond link when a post has no comments.
+		 * Filters the respond link when a post has no comments.
 		 *
 		 * @since 4.4.0
 		 *
@@ -1525,7 +1525,7 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
 
 	$attributes = '';
 	/**
-	 * Filter the comments link attributes for display.
+	 * Filters the comments link attributes for display.
 	 *
 	 * @since 2.5.0
 	 *
@@ -1596,7 +1596,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 	}
 
 	/**
-	 * Filter the comment reply link arguments.
+	 * Filters the comment reply link arguments.
 	 *
 	 * @since 4.1.0
 	 *
@@ -1626,7 +1626,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 	}
 
 	/**
-	 * Filter the comment reply link.
+	 * Filters the comment reply link.
 	 *
 	 * @since 2.7.0
 	 *
@@ -1715,7 +1715,7 @@ function get_post_reply_link($args = array(), $post = null) {
 	$formatted_link = $args['before'] . $link . $args['after'];
 
 	/**
-	 * Filter the formatted post comments link HTML.
+	 * Filters the formatted post comments link HTML.
 	 *
 	 * @since 2.7.0
 	 *
@@ -1759,7 +1759,7 @@ function get_cancel_comment_reply_link( $text = '' ) {
 	$formatted_link = '<a rel="nofollow" id="cancel-comment-reply-link" href="' . $link . '"' . $style . '>' . $text . '</a>';
 
 	/**
-	 * Filter the cancel comment reply link HTML.
+	 * Filters the cancel comment reply link HTML.
 	 *
 	 * @since 2.7.0
 	 *
@@ -1798,7 +1798,7 @@ function get_comment_id_fields( $id = 0 ) {
 	$result .= "<input type='hidden' name='comment_parent' id='comment_parent' value='$replytoid' />\n";
 
 	/**
-	 * Filter the returned comment id fields.
+	 * Filters the returned comment id fields.
 	 *
 	 * @since 3.0.0
 	 *
@@ -1924,7 +1924,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
 	$r = wp_parse_args( $args, $defaults );
 
 	/**
-	 * Filter the arguments used in retrieving the comment list.
+	 * Filters the arguments used in retrieving the comment list.
 	 *
 	 * @since 4.0.0
 	 *
@@ -2158,7 +2158,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	$required_text = sprintf( ' ' . __('Required fields are marked %s'), '<span class="required">*</span>' );
 
 	/**
-	 * Filter the default comment form fields.
+	 * Filters the default comment form fields.
 	 *
 	 * @since 3.0.0
 	 *
@@ -2206,7 +2206,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	);
 
 	/**
-	 * Filter the comment form default arguments.
+	 * Filters the comment form default arguments.
 	 *
 	 * Use 'comment_form_default_fields' to filter the comment fields.
 	 *
@@ -2262,7 +2262,7 @@ function comment_form( $args = array(), $post_id = null ) {
 
 					if ( is_user_logged_in() ) :
 						/**
-						 * Filter the 'logged in' message for the comment form for display.
+						 * Filters the 'logged in' message for the comment form for display.
 						 *
 						 * @since 3.0.0
 						 *
@@ -2296,7 +2296,7 @@ function comment_form( $args = array(), $post_id = null ) {
 					$comment_fields = array( 'comment' => $args['comment_field'] ) + (array) $args['fields'];
 
 					/**
-					 * Filter the comment form fields, including the textarea.
+					 * Filters the comment form fields, including the textarea.
 					 *
 					 * @since 4.4.0
 					 *
@@ -2316,7 +2316,7 @@ function comment_form( $args = array(), $post_id = null ) {
 						if ( 'comment' === $name ) {
 
 							/**
-							 * Filter the content of the comment textarea field for display.
+							 * Filters the content of the comment textarea field for display.
 							 *
 							 * @since 3.0.0
 							 *
@@ -2338,7 +2338,7 @@ function comment_form( $args = array(), $post_id = null ) {
 							}
 
 							/**
-							 * Filter a comment form field for display.
+							 * Filters a comment form field for display.
 							 *
 							 * The dynamic portion of the filter hook, `$name`, refers to the name
 							 * of the comment form field. Such as 'author', 'email', or 'url'.
@@ -2369,7 +2369,7 @@ function comment_form( $args = array(), $post_id = null ) {
 					);
 
 					/**
-					 * Filter the submit button for the comment form to display.
+					 * Filters the submit button for the comment form to display.
 					 *
 					 * @since 4.2.0
 					 *
@@ -2385,7 +2385,7 @@ function comment_form( $args = array(), $post_id = null ) {
 					);
 
 					/**
-					 * Filter the submit field for the comment form to display.
+					 * Filters the submit field for the comment form to display.
 					 *
 					 * The submit field includes the submit button, hidden fields for the
 					 * comment form, and any wrapper markup.
