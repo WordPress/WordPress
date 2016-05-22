@@ -151,7 +151,7 @@ function is_child_theme() {
  */
 function get_stylesheet() {
 	/**
-	 * Filter the name of current stylesheet.
+	 * Filters the name of current stylesheet.
 	 *
 	 * @since 1.5.0
 	 *
@@ -173,7 +173,7 @@ function get_stylesheet_directory() {
 	$stylesheet_dir = "$theme_root/$stylesheet";
 
 	/**
-	 * Filter the stylesheet directory path for current theme.
+	 * Filters the stylesheet directory path for current theme.
 	 *
 	 * @since 1.5.0
 	 *
@@ -197,7 +197,7 @@ function get_stylesheet_directory_uri() {
 	$stylesheet_dir_uri = "$theme_root_uri/$stylesheet";
 
 	/**
-	 * Filter the stylesheet directory URI.
+	 * Filters the stylesheet directory URI.
 	 *
 	 * @since 1.5.0
 	 *
@@ -222,7 +222,7 @@ function get_stylesheet_uri() {
 	$stylesheet_dir_uri = get_stylesheet_directory_uri();
 	$stylesheet_uri = $stylesheet_dir_uri . '/style.css';
 	/**
-	 * Filter the URI of the current theme stylesheet.
+	 * Filters the URI of the current theme stylesheet.
 	 *
 	 * @since 1.5.0
 	 *
@@ -264,7 +264,7 @@ function get_locale_stylesheet_uri() {
 	else
 		$stylesheet_uri = '';
 	/**
-	 * Filter the localized stylesheet URI.
+	 * Filters the localized stylesheet URI.
 	 *
 	 * @since 2.1.0
 	 *
@@ -283,7 +283,7 @@ function get_locale_stylesheet_uri() {
  */
 function get_template() {
 	/**
-	 * Filter the name of the current theme.
+	 * Filters the name of the current theme.
 	 *
 	 * @since 1.5.0
 	 *
@@ -305,7 +305,7 @@ function get_template_directory() {
 	$template_dir = "$theme_root/$template";
 
 	/**
-	 * Filter the current theme directory path.
+	 * Filters the current theme directory path.
 	 *
 	 * @since 1.5.0
 	 *
@@ -329,7 +329,7 @@ function get_template_directory_uri() {
 	$template_dir_uri = "$theme_root_uri/$template";
 
 	/**
-	 * Filter the current theme directory URI.
+	 * Filters the current theme directory URI.
 	 *
 	 * @since 1.5.0
 	 *
@@ -434,7 +434,7 @@ function search_theme_directories( $force = false ) {
 	}
 
 	/**
-	 * Filter whether to get the cache of the registered theme directories.
+	 * Filters whether to get the cache of the registered theme directories.
 	 *
 	 * @since 3.4.0
 	 *
@@ -551,7 +551,7 @@ function get_theme_root( $stylesheet_or_template = false ) {
 	}
 
 	/**
-	 * Filter the absolute path to the themes directory.
+	 * Filters the absolute path to the themes directory.
 	 *
 	 * @since 1.5.0
 	 *
@@ -600,7 +600,7 @@ function get_theme_root_uri( $stylesheet_or_template = false, $theme_root = fals
 	}
 
 	/**
-	 * Filter the URI for themes directory.
+	 * Filters the URI for themes directory.
 	 *
 	 * @since 1.5.0
 	 *
@@ -770,7 +770,7 @@ function switch_theme( $stylesheet ) {
  */
 function validate_current_theme() {
 	/**
-	 * Filter whether to validate the current theme.
+	 * Filters whether to validate the current theme.
 	 *
 	 * @since 2.7.0
 	 *
@@ -856,7 +856,7 @@ function get_theme_mod( $name, $default = false ) {
 
 	if ( isset( $mods[$name] ) ) {
 		/**
-		 * Filter the theme modification, or 'theme_mod', value.
+		 * Filters the theme modification, or 'theme_mod', value.
 		 *
 		 * The dynamic portion of the hook name, `$name`, refers to
 		 * the key name of the modification array. For example,
@@ -890,7 +890,7 @@ function set_theme_mod( $name, $value ) {
 	$old_value = isset( $mods[ $name ] ) ? $mods[ $name ] : false;
 
 	/**
-	 * Filter the theme mod value on save.
+	 * Filters the theme mod value on save.
 	 *
 	 * The dynamic portion of the hook name, `$name`, refers to the key name of
 	 * the modification array. For example, 'header_textcolor', 'header_image',
@@ -1070,7 +1070,7 @@ function get_header_image_tag( $attr = array() ) {
 	$html .= ' />';
 
 	/**
-	 * Filter the markup of header images.
+	 * Filters the markup of header images.
 	 *
 	 * @since 4.4.0
 	 *
@@ -1503,7 +1503,7 @@ function get_editor_stylesheets() {
 	}
 
 	/**
-	 * Filter the array of stylesheets applied to the editor.
+	 * Filters the array of stylesheets applied to the editor.
 	 *
 	 * @since 4.3.0
 	 *
@@ -1946,7 +1946,7 @@ function current_theme_supports( $feature ) {
 	}
 
 	/**
-	 * Filter whether the current theme supports a specific feature.
+	 * Filters whether the current theme supports a specific feature.
 	 *
 	 * The dynamic portion of the hook name, `$feature`, refers to the specific theme
 	 * feature. Possible values include 'post-formats', 'post-thumbnails', 'custom-background',
