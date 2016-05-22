@@ -88,7 +88,7 @@ function get_the_category( $id = false ) {
 	}
 
 	/**
-	 * Filter the array of categories to return for a post.
+	 * Filters the array of categories to return for a post.
 	 *
 	 * @since 3.1.0
 	 * @since 4.4.0 Added `$id` parameter.
@@ -176,7 +176,7 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 	}
 
 	/**
-	 * Filter the categories before building the category list.
+	 * Filters the categories before building the category list.
 	 *
 	 * @since 4.4.0
 	 *
@@ -242,7 +242,7 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 	}
 
 	/**
-	 * Filter the category or list of categories.
+	 * Filters the category or list of categories.
 	 *
 	 * @since 1.2.0
 	 *
@@ -428,7 +428,7 @@ function wp_dropdown_categories( $args = '' ) {
 	if ( empty( $categories ) && ! $r['hide_if_empty'] && ! empty( $r['show_option_none'] ) ) {
 
 		/**
-		 * Filter a taxonomy drop-down display element.
+		 * Filters a taxonomy drop-down display element.
 		 *
 		 * A variety of taxonomy drop-down display elements can be modified
 		 * just prior to display via this filter. Filterable arguments include
@@ -475,7 +475,7 @@ function wp_dropdown_categories( $args = '' ) {
 		$output .= "</select>\n";
 	}
 	/**
-	 * Filter the taxonomy drop-down output.
+	 * Filters the taxonomy drop-down output.
 	 *
 	 * @since 2.1.0
 	 *
@@ -664,7 +664,7 @@ function wp_list_categories( $args = '' ) {
 		$output .= '</ul></li>';
 
 	/**
-	 * Filter the HTML output of a taxonomy list.
+	 * Filters the HTML output of a taxonomy list.
 	 *
 	 * @since 2.1.0
 	 *
@@ -742,7 +742,7 @@ function wp_tag_cloud( $args = '' ) {
 	$return = wp_generate_tag_cloud( $tags, $args ); // Here's where those top tags get sorted according to $args
 
 	/**
-	 * Filter the tag cloud output.
+	 * Filters the tag cloud output.
 	 *
 	 * @since 2.3.0
 	 *
@@ -837,7 +837,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	}
 
 	/**
-	 * Filter how the items in a tag cloud are sorted.
+	 * Filters how the items in a tag cloud are sorted.
 	 *
 	 * @since 2.8.0
 	 *
@@ -915,7 +915,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 	}
 
 	/**
-	 * Filter the data used to generate the tag cloud.
+	 * Filters the data used to generate the tag cloud.
 	 *
 	 * @since 4.3.0
 	 *
@@ -947,7 +947,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 
 	if ( $args['filter'] ) {
 		/**
-		 * Filter the generated output of a tag cloud.
+		 * Filters the generated output of a tag cloud.
 		 *
 		 * The filter is only evaluated if a true value is passed
 		 * to the $filter argument in wp_generate_tag_cloud().
@@ -1080,7 +1080,7 @@ function get_tag_link( $tag ) {
 function get_the_tags( $id = 0 ) {
 
 	/**
-	 * Filter the array of tags for the given post.
+	 * Filters the array of tags for the given post.
 	 *
 	 * @since 2.3.0
 	 *
@@ -1105,7 +1105,7 @@ function get_the_tags( $id = 0 ) {
 function get_the_tag_list( $before = '', $sep = '', $after = '', $id = 0 ) {
 
 	/**
-	 * Filter the tags list for a given post.
+	 * Filters the tags list for a given post.
 	 *
 	 * @since 2.3.0
 	 *
@@ -1197,7 +1197,7 @@ function get_the_terms( $post, $taxonomy ) {
 	}
 
 	/**
-	 * Filter the list of terms attached to the given post.
+	 * Filters the list of terms attached to the given post.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1245,7 +1245,7 @@ function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = ''
 	}
 
 	/**
-	 * Filter the term links for a given taxonomy.
+	 * Filters the term links for a given taxonomy.
 	 *
 	 * The dynamic portion of the filter name, `$taxonomy`, refers
 	 * to the taxonomy slug.
@@ -1278,7 +1278,7 @@ function the_terms( $id, $taxonomy, $before = '', $sep = ', ', $after = '' ) {
 		return false;
 
 	/**
-	 * Filter the list of terms to display.
+	 * Filters the list of terms to display.
 	 *
 	 * @since 2.9.0
 	 *
