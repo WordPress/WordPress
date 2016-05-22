@@ -153,7 +153,7 @@ class WP_Http {
 		$defaults = array(
 			'method' => 'GET',
 			/**
-			 * Filter the timeout value for an HTTP request.
+			 * Filters the timeout value for an HTTP request.
 			 *
 			 * @since 2.7.0
 			 *
@@ -162,7 +162,7 @@ class WP_Http {
 			 */
 			'timeout' => apply_filters( 'http_request_timeout', 5 ),
 			/**
-			 * Filter the number of redirects allowed during an HTTP request.
+			 * Filters the number of redirects allowed during an HTTP request.
 			 *
 			 * @since 2.7.0
 			 *
@@ -170,7 +170,7 @@ class WP_Http {
 			 */
 			'redirection' => apply_filters( 'http_request_redirection_count', 5 ),
 			/**
-			 * Filter the version of the HTTP protocol used in a request.
+			 * Filters the version of the HTTP protocol used in a request.
 			 *
 			 * @since 2.7.0
 			 *
@@ -179,7 +179,7 @@ class WP_Http {
 			 */
 			'httpversion' => apply_filters( 'http_request_version', '1.0' ),
 			/**
-			 * Filter the user agent value sent with an HTTP request.
+			 * Filters the user agent value sent with an HTTP request.
 			 *
 			 * @since 2.7.0
 			 *
@@ -187,7 +187,7 @@ class WP_Http {
 			 */
 			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' ) ),
 			/**
-			 * Filter whether to pass URLs through wp_http_validate_url() in an HTTP request.
+			 * Filters whether to pass URLs through wp_http_validate_url() in an HTTP request.
 			 *
 			 * @since 3.6.0
 			 *
@@ -217,7 +217,7 @@ class WP_Http {
 
 		$r = wp_parse_args( $args, $defaults );
 		/**
-		 * Filter the arguments used in an HTTP request.
+		 * Filters the arguments used in an HTTP request.
 		 *
 		 * @since 2.7.0
 		 *
@@ -231,7 +231,7 @@ class WP_Http {
 			$r['_redirection'] = $r['redirection'];
 
 		/**
-		 * Filter whether to preempt an HTTP request's return value.
+		 * Filters whether to preempt an HTTP request's return value.
 		 *
 		 * Returning a non-false value from the filter will short-circuit the HTTP request and return
 		 * early with that value. A filter should return either:
@@ -339,7 +339,7 @@ class WP_Http {
 		}
 
 		/**
-		 * Filter whether SSL should be verified for non-local requests.
+		 * Filters whether SSL should be verified for non-local requests.
 		 *
 		 * @since 2.8.0
 		 *
@@ -386,7 +386,7 @@ class WP_Http {
 		}
 
 		/**
-		 * Filter the HTTP API response immediately before the response is returned.
+		 * Filters the HTTP API response immediately before the response is returned.
 		 *
 		 * @since 2.9.0
 		 *
@@ -431,7 +431,7 @@ class WP_Http {
 		$transports = array( 'curl', 'streams' );
 
 		/**
-		 * Filter which HTTP transports are available and in what order.
+		 * Filters which HTTP transports are available and in what order.
 		 *
 		 * @since 3.7.0
 		 *
@@ -506,7 +506,7 @@ class WP_Http {
 			return $response;
 
 		/**
-		 * Filter the HTTP API response immediately before the response is returned.
+		 * Filters the HTTP API response immediately before the response is returned.
 		 *
 		 * @since 2.9.0
 		 *
@@ -775,7 +775,7 @@ class WP_Http {
 		// Don't block requests back to ourselves by default.
 		if ( 'localhost' == $check['host'] || ( isset( $home['host'] ) && $home['host'] == $check['host'] ) ) {
 			/**
-			 * Filter whether to block local requests through the proxy.
+			 * Filters whether to block local requests through the proxy.
 			 *
 			 * @since 2.8.0
 			 *
