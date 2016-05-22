@@ -517,7 +517,7 @@ class WP_Customize_Setting {
 	public function sanitize( $value ) {
 
 		/**
-		 * Filter a Customize setting value in un-slashed form.
+		 * Filters a Customize setting value in un-slashed form.
 		 *
 		 * @since 3.4.0
 		 *
@@ -693,7 +693,7 @@ class WP_Customize_Setting {
 			$value = $this->get_root_value( $this->default );
 
 			/**
-			 * Filter a Customize setting value not handled as a theme_mod or option.
+			 * Filters a Customize setting value not handled as a theme_mod or option.
 			 *
 			 * The dynamic portion of the hook name, `$this->id_date['base']`, refers to
 			 * the base slug of the setting name.
@@ -727,7 +727,7 @@ class WP_Customize_Setting {
 	public function js_value() {
 
 		/**
-		 * Filter a Customize setting value for use in JavaScript.
+		 * Filters a Customize setting value for use in JavaScript.
 		 *
 		 * The dynamic portion of the hook name, `$this->id`, refers to the setting ID.
 		 *

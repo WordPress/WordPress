@@ -188,7 +188,7 @@ class WP_Customize_Section {
 		$active = call_user_func( $this->active_callback, $this );
 
 		/**
-		 * Filter response of WP_Customize_Section::active().
+		 * Filters response of WP_Customize_Section::active().
 		 *
 		 * @since 4.1.0
 		 *

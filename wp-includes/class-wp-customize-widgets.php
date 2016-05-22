@@ -455,7 +455,7 @@ final class WP_Customize_Widgets {
 					);
 
 					/**
-					 * Filter Customizer widget section arguments for a given sidebar.
+					 * Filters Customizer widget section arguments for a given sidebar.
 					 *
 					 * @since 3.9.0
 					 *
@@ -575,7 +575,7 @@ final class WP_Customize_Widgets {
 		$is_wide          = ( $width > 250 && ! $is_core );
 
 		/**
-		 * Filter whether the given widget is considered "wide".
+		 * Filters whether the given widget is considered "wide".
 		 *
 		 * @since 3.9.0
 		 *
@@ -839,7 +839,7 @@ final class WP_Customize_Widgets {
 		$args = array_merge( $args, $overrides );
 
 		/**
-		 * Filter the common arguments supplied when constructing a Customizer setting.
+		 * Filters the common arguments supplied when constructing a Customizer setting.
 		 *
 		 * @since 3.9.0
 		 *

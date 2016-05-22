@@ -211,7 +211,7 @@ final class WP_Customize_Nav_Menus {
 		}
 
 		/**
-		 * Filter the available menu items.
+		 * Filters the available menu items.
 		 *
 		 * @since 4.3.0
 		 *
@@ -335,7 +335,7 @@ final class WP_Customize_Nav_Menus {
 		}
 
 		/**
-		 * Filter the available menu items during a search request.
+		 * Filters the available menu items during a search request.
 		 *
 		 * @since 4.5.0
 		 *
@@ -428,7 +428,7 @@ final class WP_Customize_Nav_Menus {
 	}
 
 	/**
-	 * Filter a dynamic setting's constructor args.
+	 * Filters a dynamic setting's constructor args.
 	 *
 	 * For a dynamic setting to be registered, this filter must be employed
 	 * to override the default false value with an array of args to pass to
@@ -676,7 +676,7 @@ final class WP_Customize_Nav_Menus {
 		}
 
 		/**
-		 * Filter the available menu item types.
+		 * Filters the available menu item types.
 		 *
 		 * @since 4.3.0
 		 *
@@ -831,7 +831,7 @@ final class WP_Customize_Nav_Menus {
 	public $preview_nav_menu_instance_args = array();
 
 	/**
-	 * Filter arguments for dynamic nav_menu selective refresh partials.
+	 * Filters arguments for dynamic nav_menu selective refresh partials.
 	 *
 	 * @since 4.5.0
 	 * @access public

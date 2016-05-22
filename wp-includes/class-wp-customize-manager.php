@@ -242,7 +242,7 @@ final class WP_Customize_Manager {
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-setting.php' );
 
 		/**
-		 * Filter the core Customizer components to load.
+		 * Filters the core Customizer components to load.
 		 *
 		 * This allows Core components to be excluded from being instantiated by
 		 * filtering them out of the array. Note that this filter generally runs
@@ -970,7 +970,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Filter the current theme and return the name of the previewed theme.
+	 * Filters the current theme and return the name of the previewed theme.
 	 *
 	 * @since 3.4.0
 	 *
@@ -1098,7 +1098,7 @@ final class WP_Customize_Manager {
 		do_action( 'customize_save_after', $this );
 
 		/**
-		 * Filter response data for a successful customize_save AJAX request.
+		 * Filters response data for a successful customize_save AJAX request.
 		 *
 		 * This filter does not apply if there was a nonce or authentication failure.
 		 *
@@ -1183,7 +1183,7 @@ final class WP_Customize_Manager {
 			$setting_class = 'WP_Customize_Setting';
 
 			/**
-			 * Filter a dynamic setting's constructor args.
+			 * Filters a dynamic setting's constructor args.
 			 *
 			 * For a dynamic setting to be registered, this filter must be employed
 			 * to override the default false value with an array of args to pass to
@@ -1740,7 +1740,7 @@ final class WP_Customize_Manager {
 		);
 
 		/**
-		 * Filter nonces for Customizer.
+		 * Filters nonces for Customizer.
 		 *
 		 * @since 4.2.0
 		 *
@@ -1778,7 +1778,7 @@ final class WP_Customize_Manager {
 		}
 
 		/**
-		 * Filter the list of URLs allowed to be clicked and followed in the Customizer preview.
+		 * Filters the list of URLs allowed to be clicked and followed in the Customizer preview.
 		 *
 		 * @since 3.4.0
 		 *
@@ -1898,7 +1898,7 @@ final class WP_Customize_Manager {
 		);
 
 		/**
-		 * Filter the available devices to allow previewing in the Customizer.
+		 * Filters the available devices to allow previewing in the Customizer.
 		 *
 		 * @since 4.5.0
 		 *

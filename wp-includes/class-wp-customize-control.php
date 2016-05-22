@@ -235,7 +235,7 @@ class WP_Customize_Control {
 		$active = call_user_func( $this->active_callback, $this );
 
 		/**
-		 * Filter response of WP_Customize_Control::active().
+		 * Filters response of WP_Customize_Control::active().
 		 *
 		 * @since 4.0.0
 		 *
