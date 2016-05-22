@@ -86,7 +86,7 @@ class Walker_Nav_Menu extends Walker {
 		$classes[] = 'menu-item-' . $item->ID;
 
 		/**
-		 * Filter the arguments for a single nav menu item.
+		 * Filters the arguments for a single nav menu item.
 		 *
 		 * @since 4.4.0
 		 *
@@ -97,7 +97,7 @@ class Walker_Nav_Menu extends Walker {
 		$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
 
 		/**
-		 * Filter the CSS class(es) applied to a menu item's list item element.
+		 * Filters the CSS class(es) applied to a menu item's list item element.
 		 *
 		 * @since 3.0.0
 		 * @since 4.1.0 The `$depth` parameter was added.
@@ -111,7 +111,7 @@ class Walker_Nav_Menu extends Walker {
 		$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 
 		/**
-		 * Filter the ID applied to a menu item's list item element.
+		 * Filters the ID applied to a menu item's list item element.
 		 *
 		 * @since 3.0.1
 		 * @since 4.1.0 The `$depth` parameter was added.
@@ -133,7 +133,7 @@ class Walker_Nav_Menu extends Walker {
 		$atts['href']   = ! empty( $item->url )        ? $item->url        : '';
 
 		/**
-		 * Filter the HTML attributes applied to a menu item's anchor element.
+		 * Filters the HTML attributes applied to a menu item's anchor element.
 		 *
 		 * @since 3.6.0
 		 * @since 4.1.0 The `$depth` parameter was added.
@@ -164,7 +164,7 @@ class Walker_Nav_Menu extends Walker {
 		$title = apply_filters( 'the_title', $item->title, $item->ID );
 
 		/**
-		 * Filter a menu item's title.
+		 * Filters a menu item's title.
 		 *
 		 * @since 4.4.0
 		 *
@@ -182,7 +182,7 @@ class Walker_Nav_Menu extends Walker {
 		$item_output .= $args->after;
 
 		/**
-		 * Filter a menu item's starting output.
+		 * Filters a menu item's starting output.
 		 *
 		 * The menu item's starting output only includes `$args->before`, the opening `<a>`,
 		 * the menu item's title, the closing `</a>`, and `$args->after`. Currently, there is
@@ -258,7 +258,7 @@ function wp_nav_menu( $args = array() ) {
 
 	$args = wp_parse_args( $args, $defaults );
 	/**
-	 * Filter the arguments used to display a navigation menu.
+	 * Filters the arguments used to display a navigation menu.
 	 *
 	 * @since 3.0.0
 	 *
@@ -270,7 +270,7 @@ function wp_nav_menu( $args = array() ) {
 	$args = (object) $args;
 
 	/**
-	 * Filter whether to short-circuit the wp_nav_menu() output.
+	 * Filters whether to short-circuit the wp_nav_menu() output.
 	 *
 	 * Returning a non-null value to the filter will short-circuit
 	 * wp_nav_menu(), echoing that value if $args->echo is true,
@@ -340,7 +340,7 @@ function wp_nav_menu( $args = array() ) {
 	$show_container = false;
 	if ( $args->container ) {
 		/**
-		 * Filter the list of HTML tags that are valid for use as menu containers.
+		 * Filters the list of HTML tags that are valid for use as menu containers.
 		 *
 		 * @since 3.0.0
 		 *
@@ -377,7 +377,7 @@ function wp_nav_menu( $args = array() ) {
 	unset( $menu_items, $menu_item );
 
 	/**
-	 * Filter the sorted list of menu item objects before generating the menu's HTML.
+	 * Filters the sorted list of menu item objects before generating the menu's HTML.
 	 *
 	 * @since 3.1.0
 	 *
@@ -406,7 +406,7 @@ function wp_nav_menu( $args = array() ) {
 	$wrap_class = $args->menu_class ? $args->menu_class : '';
 
 	/**
-	 * Filter the HTML list content for navigation menus.
+	 * Filters the HTML list content for navigation menus.
 	 *
 	 * @since 3.0.0
 	 *
@@ -417,7 +417,7 @@ function wp_nav_menu( $args = array() ) {
 	 */
 	$items = apply_filters( 'wp_nav_menu_items', $items, $args );
 	/**
-	 * Filter the HTML list content for a specific navigation menu.
+	 * Filters the HTML list content for a specific navigation menu.
 	 *
 	 * @since 3.0.0
 	 *
@@ -439,7 +439,7 @@ function wp_nav_menu( $args = array() ) {
 		$nav_menu .= '</' . $args->container . '>';
 
 	/**
-	 * Filter the HTML content for navigation menus.
+	 * Filters the HTML content for navigation menus.
 	 *
 	 * @since 3.0.0
 	 *
