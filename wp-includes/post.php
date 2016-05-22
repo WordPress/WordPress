@@ -4245,7 +4245,7 @@ function get_page_by_path( $page_path, $output = OBJECT, $post_type = 'page' ) {
 		if ( '0' === $cached || 0 === $cached ) {
 			return;
 		} else {
-			return get_post( $cached );
+			return get_post( $cached, $output );
 		}
 	}
 
