@@ -32,7 +32,7 @@ function get_locale() {
 
 	if ( isset( $locale ) ) {
 		/**
-		 * Filter WordPress install's locale ID.
+		 * Filters WordPress install's locale ID.
 		 *
 		 * @since 1.5.0
 		 *
@@ -94,7 +94,7 @@ function translate( $text, $domain = 'default' ) {
 	$translations = $translations->translate( $text );
 
 	/**
-	 * Filter text with its translation.
+	 * Filters text with its translation.
 	 *
 	 * @since 2.0.11
 	 *
@@ -145,7 +145,7 @@ function translate_with_gettext_context( $text, $context, $domain = 'default' ) 
 	$translations = get_translations_for_domain( $domain );
 	$translations = $translations->translate( $text, $context );
 	/**
-	 * Filter text with its translation based on context information.
+	 * Filters text with its translation based on context information.
 	 *
 	 * @since 2.8.0
 	 *
@@ -334,7 +334,7 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
 	$translation = $translations->translate_plural( $single, $plural, $number );
 
 	/**
-	 * Filter the singular or plural form of a string.
+	 * Filters the singular or plural form of a string.
 	 *
 	 * @since 2.2.0
 	 *
@@ -374,7 +374,7 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
 	$translation = $translations->translate_plural( $single, $plural, $number, $context );
 
 	/**
-	 * Filter the singular or plural form of a string with gettext context.
+	 * Filters the singular or plural form of a string with gettext context.
 	 *
 	 * @since 2.8.0
 	 *
@@ -519,7 +519,7 @@ function load_textdomain( $domain, $mofile ) {
 	global $l10n;
 
 	/**
-	 * Filter whether to override the .mo file loading.
+	 * Filters whether to override the .mo file loading.
 	 *
 	 * @since 2.9.0
 	 *
@@ -544,7 +544,7 @@ function load_textdomain( $domain, $mofile ) {
 	do_action( 'load_textdomain', $domain, $mofile );
 
 	/**
-	 * Filter MO file path for loading translations for a specific text domain.
+	 * Filters MO file path for loading translations for a specific text domain.
 	 *
 	 * @since 2.9.0
 	 *
@@ -580,7 +580,7 @@ function unload_textdomain( $domain ) {
 	global $l10n;
 
 	/**
-	 * Filter whether to override the text domain unloading.
+	 * Filters whether to override the text domain unloading.
 	 *
 	 * @since 3.0.0
 	 *
@@ -665,7 +665,7 @@ function load_default_textdomain( $locale = null ) {
  */
 function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path = false ) {
 	/**
-	 * Filter a plugin's locale.
+	 * Filters a plugin's locale.
 	 *
 	 * @since 3.0.0
 	 *
@@ -738,7 +738,7 @@ function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
  */
 function load_theme_textdomain( $domain, $path = false ) {
 	/**
-	 * Filter a theme's locale.
+	 * Filters a theme's locale.
 	 *
 	 * @since 3.0.0
 	 *
