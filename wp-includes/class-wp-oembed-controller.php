@@ -23,7 +23,7 @@ final class WP_oEmbed_Controller {
 	 */
 	public function register_routes() {
 		/**
-		 * Filter the maxwidth oEmbed parameter.
+		 * Filters the maxwidth oEmbed parameter.
 		 *
 		 * @since 4.4.0
 		 *
@@ -67,7 +67,7 @@ final class WP_oEmbed_Controller {
 		$post_id = url_to_postid( $request['url'] );
 
 		/**
-		 * Filter the determined post ID.
+		 * Filters the determined post ID.
 		 *
 		 * @since 4.4.0
 		 *

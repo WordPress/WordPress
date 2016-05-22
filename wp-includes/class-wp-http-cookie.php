@@ -195,7 +195,7 @@ class WP_Http_Cookie {
 			return '';
 
 		/**
-		 * Filter the header-encoded cookie value.
+		 * Filters the header-encoded cookie value.
 		 *
 		 * @since 3.4.0
 		 *

@@ -230,7 +230,7 @@ class WP_Network {
 			$path_segments = array_filter( explode( '/', trim( $path, '/' ) ) );
 
 			/**
-			 * Filter the number of path segments to consider when searching for a site.
+			 * Filters the number of path segments to consider when searching for a site.
 			 *
 			 * @since 3.9.0
 			 *

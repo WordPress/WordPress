@@ -159,7 +159,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->initialise_blog_option_info();
 
 		/**
-		 * Filter the methods exposed by the XML-RPC server.
+		 * Filters the methods exposed by the XML-RPC server.
 		 *
 		 * This filter can be used to add new methods, and remove built-in methods.
 		 *
@@ -247,7 +247,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		/**
-		 * Filter whether XML-RPC methods requiring authentication are enabled.
+		 * Filters whether XML-RPC methods requiring authentication are enabled.
 		 *
 		 * Contrary to the way it's named, this filter does not control whether XML-RPC is *fully*
 		 * enabled, rather, it only controls whether XML-RPC methods requiring authentication - such
@@ -288,7 +288,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$this->auth_failed = true;
 
 			/**
-			 * Filter the XML-RPC user login error message.
+			 * Filters the XML-RPC user login error message.
 			 *
 			 * @since 3.5.0
 			 *
@@ -562,7 +562,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		);
 
 		/**
-		 * Filter the XML-RPC blog options property.
+		 * Filters the XML-RPC blog options property.
 		 *
 		 * @since 2.6.0
 		 *
@@ -704,7 +704,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$_taxonomy['object_type'] = array_unique( (array) $taxonomy->object_type );
 
 		/**
-		 * Filter XML-RPC-prepared data for the given taxonomy.
+		 * Filters XML-RPC-prepared data for the given taxonomy.
 		 *
 		 * @since 3.4.0
 		 *
@@ -738,7 +738,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$_term['count'] = intval( $_term['count'] );
 
 		/**
-		 * Filter XML-RPC-prepared data for the given term.
+		 * Filters XML-RPC-prepared data for the given term.
 		 *
 		 * @since 3.4.0
 		 *
@@ -867,7 +867,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		/**
-		 * Filter XML-RPC-prepared date for the given post.
+		 * Filters XML-RPC-prepared date for the given post.
 		 *
 		 * @since 3.4.0
 		 *
@@ -918,7 +918,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$_post_type['taxonomies'] = get_object_taxonomies( $post_type->name, 'names' );
 
 		/**
-		 * Filter XML-RPC-prepared date for the given post type.
+		 * Filters XML-RPC-prepared date for the given post type.
 		 *
 		 * @since 3.4.0
 		 *
@@ -957,7 +957,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$_media_item['thumbnail'] = $_media_item['link'];
 
 		/**
-		 * Filter XML-RPC-prepared data for the given media item.
+		 * Filters XML-RPC-prepared data for the given media item.
 		 *
 		 * @since 3.4.0
 		 *
@@ -1039,7 +1039,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		);
 
 		/**
-		 * Filter XML-RPC-prepared data for the given page.
+		 * Filters XML-RPC-prepared data for the given page.
 		 *
 		 * @since 3.4.0
 		 *
@@ -1088,7 +1088,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		);
 
 		/**
-		 * Filter XML-RPC-prepared data for the given comment.
+		 * Filters XML-RPC-prepared data for the given comment.
 		 *
 		 * @since 3.4.0
 		 *
@@ -1136,7 +1136,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		/**
-		 * Filter XML-RPC-prepared data for the given user.
+		 * Filters XML-RPC-prepared data for the given user.
 		 *
 		 * @since 3.5.0
 		 *
@@ -1506,7 +1506,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->attach_uploads( $post_ID, $post_data['post_content'] );
 
 		/**
-		 * Filter post data array to be inserted via XML-RPC.
+		 * Filters post data array to be inserted via XML-RPC.
 		 *
 		 * @since 3.4.0
 		 *
@@ -1709,7 +1709,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = $args[4];
 		} else {
 			/**
-			 * Filter the list of post query fields used by the given XML-RPC method.
+			 * Filters the list of post query fields used by the given XML-RPC method.
 			 *
 			 * @since 3.4.0
 			 *
@@ -2260,7 +2260,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = $args[4];
 		} else {
 			/**
-			 * Filter the taxonomy query fields used by the given XML-RPC method.
+			 * Filters the taxonomy query fields used by the given XML-RPC method.
 			 *
 			 * @since 3.4.0
 			 *
@@ -2395,7 +2395,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = $args[4];
 		} else {
 			/**
-			 * Filter the default user query fields used by the given XML-RPC method.
+			 * Filters the default user query fields used by the given XML-RPC method.
 			 *
 			 * @since 3.5.0
 			 *
@@ -3508,7 +3508,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$content_struct = $args[4];
 
 		/**
-		 * Filter whether to allow anonymous comments over XML-RPC.
+		 * Filters whether to allow anonymous comments over XML-RPC.
 		 *
 		 * @since 2.7.0
 		 *
@@ -4078,7 +4078,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = $args[4];
 		} else {
 			/**
-			 * Filter the default query fields used by the given XML-RPC method.
+			 * Filters the default query fields used by the given XML-RPC method.
 			 *
 			 * @since 3.4.0
 			 *
@@ -4196,7 +4196,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			$fields = $args[4];
 		} else {
 			/**
-			 * Filter the default revision query fields used by the given XML-RPC method.
+			 * Filters the default revision query fields used by the given XML-RPC method.
 			 *
 			 * @since 3.5.0
 			 *
@@ -5800,7 +5800,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		/**
-		 * Filter whether to preempt the XML-RPC media upload.
+		 * Filters whether to preempt the XML-RPC media upload.
 		 *
 		 * Passing a truthy value will effectively short-circuit the media upload,
 		 * returning that value as a 500 error instead.
@@ -6085,7 +6085,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'mt.supportedTextFilters' );
 
 		/**
-		 * Filter the MoveableType text filters list for XML-RPC.
+		 * Filters the MoveableType text filters list for XML-RPC.
 		 *
 		 * @since 2.2.0
 		 *
@@ -6213,7 +6213,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$pagelinkedto = str_replace( '&', '&amp;', $pagelinkedto );
 
 		/**
-		 * Filter the pingback source URI.
+		 * Filters the pingback source URI.
 		 *
 		 * @since 3.6.0
 		 *
@@ -6310,7 +6310,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		/**
-		 * Filter the pingback remote source.
+		 * Filters the pingback remote source.
 		 *
 		 * @since 2.5.0
 		 *
@@ -6456,7 +6456,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 */
 	protected function pingback_error( $code, $message ) {
 		/**
-		 * Filter the XML-RPC pingback error return.
+		 * Filters the XML-RPC pingback error return.
 		 *
 		 * @since 3.5.1
 		 *

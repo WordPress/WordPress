@@ -414,7 +414,7 @@ class WP_Comment_Query {
 
 		if ( $comment_ids && $this->query_vars['number'] && ! $this->query_vars['no_found_rows'] ) {
 			/**
-			 * Filter the query used to retrieve found comment count.
+			 * Filters the query used to retrieve found comment count.
 			 *
 			 * @since 4.4.0
 			 *
@@ -453,7 +453,7 @@ class WP_Comment_Query {
 		}
 
 		/**
-		 * Filter the comment query results.
+		 * Filters the comment query results.
 		 *
 		 * @since 3.1.0
 		 *
@@ -850,7 +850,7 @@ class WP_Comment_Query {
 
 		$pieces = array( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
 		/**
-		 * Filter the comment query clauses.
+		 * Filters the comment query clauses.
 		 *
 		 * @since 3.1.0
 		 *

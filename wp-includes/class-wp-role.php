@@ -96,7 +96,7 @@ class WP_Role {
 	 */
 	public function has_cap( $cap ) {
 		/**
-		 * Filter which capabilities a role has.
+		 * Filters which capabilities a role has.
 		 *
 		 * @since 2.0.0
 		 *

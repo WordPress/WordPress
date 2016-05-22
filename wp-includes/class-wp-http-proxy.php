@@ -176,7 +176,7 @@ class WP_HTTP_Proxy {
 		$home = parse_url( get_option('siteurl') );
 
 		/**
-		 * Filter whether to preempt sending the request through the proxy server.
+		 * Filters whether to preempt sending the request through the proxy server.
 		 *
 		 * Returning false will bypass the proxy; returning true will send
 		 * the request through the proxy. Returning null bypasses the filter.

@@ -161,7 +161,7 @@ class WP_Http_Encoding {
 		}
 
 		/**
-		 * Filter the allowed encoding types.
+		 * Filters the allowed encoding types.
 		 *
 		 * @since 3.6.0
 		 *

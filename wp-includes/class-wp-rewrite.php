@@ -1297,7 +1297,7 @@ class WP_Rewrite {
 		$post_rewrite = $this->generate_rewrite_rules( $this->permalink_structure, EP_PERMALINK );
 
 		/**
-		 * Filter rewrite rules used for "post" archives.
+		 * Filters rewrite rules used for "post" archives.
 		 *
 		 * @since 1.5.0
 		 *
@@ -1309,7 +1309,7 @@ class WP_Rewrite {
 		$date_rewrite = $this->generate_rewrite_rules($this->get_date_permastruct(), EP_DATE);
 
 		/**
-		 * Filter rewrite rules used for date archives.
+		 * Filters rewrite rules used for date archives.
 		 *
 		 * Likely date archives would include /yyyy/, /yyyy/mm/, and /yyyy/mm/dd/.
 		 *
@@ -1323,7 +1323,7 @@ class WP_Rewrite {
 		$root_rewrite = $this->generate_rewrite_rules($this->root . '/', EP_ROOT);
 
 		/**
-		 * Filter rewrite rules used for root-level archives.
+		 * Filters rewrite rules used for root-level archives.
 		 *
 		 * Likely root-level archives would include pagination rules for the homepage
 		 * as well as site-wide post feeds (e.g. /feed/, and /feed/atom/).
@@ -1338,7 +1338,7 @@ class WP_Rewrite {
 		$comments_rewrite = $this->generate_rewrite_rules($this->root . $this->comments_base, EP_COMMENTS, false, true, true, false);
 
 		/**
-		 * Filter rewrite rules used for comment feed archives.
+		 * Filters rewrite rules used for comment feed archives.
 		 *
 		 * Likely comments feed archives include /comments/feed/, and /comments/feed/atom/.
 		 *
@@ -1353,7 +1353,7 @@ class WP_Rewrite {
 		$search_rewrite = $this->generate_rewrite_rules($search_structure, EP_SEARCH);
 
 		/**
-		 * Filter rewrite rules used for search archives.
+		 * Filters rewrite rules used for search archives.
 		 *
 		 * Likely search-related archives include /search/search+query/ as well as
 		 * pagination and feed paths for a search.
@@ -1368,7 +1368,7 @@ class WP_Rewrite {
 		$author_rewrite = $this->generate_rewrite_rules($this->get_author_permastruct(), EP_AUTHORS);
 
 		/**
-		 * Filter rewrite rules used for author archives.
+		 * Filters rewrite rules used for author archives.
 		 *
 		 * Likely author archives would include /author/author-name/, as well as
 		 * pagination and feed paths for author archives.
@@ -1383,7 +1383,7 @@ class WP_Rewrite {
 		$page_rewrite = $this->page_rewrite_rules();
 
 		/**
-		 * Filter rewrite rules used for "page" post type archives.
+		 * Filters rewrite rules used for "page" post type archives.
 		 *
 		 * @since 1.5.0
 		 *
@@ -1403,7 +1403,7 @@ class WP_Rewrite {
 			}
 
 			/**
-			 * Filter rewrite rules used for individual permastructs.
+			 * Filters rewrite rules used for individual permastructs.
 			 *
 			 * The dynamic portion of the hook name, `$permastructname`, refers
 			 * to the name of the registered permastruct, e.g. 'post_tag' (tags),
@@ -1417,7 +1417,7 @@ class WP_Rewrite {
 			if ( 'post_tag' == $permastructname ) {
 
 				/**
-				 * Filter rewrite rules used specifically for Tags.
+				 * Filters rewrite rules used specifically for Tags.
 				 *
 				 * @since 2.3.0
 				 * @deprecated 3.1.0 Use 'post_tag_rewrite_rules' instead
@@ -1446,7 +1446,7 @@ class WP_Rewrite {
 		do_action_ref_array( 'generate_rewrite_rules', array( &$this ) );
 
 		/**
-		 * Filter the full set of generated rewrite rules.
+		 * Filters the full set of generated rewrite rules.
 		 *
 		 * @since 1.5.0
 		 *
@@ -1550,7 +1550,7 @@ class WP_Rewrite {
 		$rules .= "</IfModule>\n";
 
 		/**
-		 * Filter the list of rewrite rules formatted for output to an .htaccess file.
+		 * Filters the list of rewrite rules formatted for output to an .htaccess file.
 		 *
 		 * @since 1.5.0
 		 *
@@ -1559,7 +1559,7 @@ class WP_Rewrite {
 		$rules = apply_filters( 'mod_rewrite_rules', $rules );
 
 		/**
-		 * Filter the list of rewrite rules formatted for output to an .htaccess file.
+		 * Filters the list of rewrite rules formatted for output to an .htaccess file.
 		 *
 		 * @since 1.5.0
 		 * @deprecated 1.5.0 Use the mod_rewrite_rules filter instead.
@@ -1612,7 +1612,7 @@ class WP_Rewrite {
 		}
 
 		/**
-		 * Filter the list of rewrite rules formatted for output to a web.config.
+		 * Filters the list of rewrite rules formatted for output to a web.config.
 		 *
 		 * @since 2.8.0
 		 *
@@ -1814,7 +1814,7 @@ class WP_Rewrite {
 		$this->wp_rewrite_rules();
 
 		/**
-		 * Filter whether a "hard" rewrite rule flush should be performed when requested.
+		 * Filters whether a "hard" rewrite rule flush should be performed when requested.
 		 *
 		 * A "hard" flush updates .htaccess (Apache) or web.config (IIS).
 		 *

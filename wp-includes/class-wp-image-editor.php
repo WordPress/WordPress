@@ -237,7 +237,7 @@ abstract class WP_Image_Editor {
 	public function set_quality( $quality = null ) {
 		if ( null === $quality ) {
 			/**
-			 * Filter the default image compression quality setting.
+			 * Filters the default image compression quality setting.
 			 *
 			 * Applies only during initial editor instantiation, or when set_quality() is run
 			 * manually without the `$quality` argument.
@@ -253,7 +253,7 @@ abstract class WP_Image_Editor {
 
 			if ( 'image/jpeg' == $this->mime_type ) {
 				/**
-				 * Filter the JPEG compression quality for backward-compatibility.
+				 * Filters the JPEG compression quality for backward-compatibility.
 				 *
 				 * Applies only during initial editor instantiation, or when set_quality() is run
 				 * manually without the `$quality` argument.
@@ -333,7 +333,7 @@ abstract class WP_Image_Editor {
 		// If not, choose a default instead.
 		if ( ! $this->supports_mime_type( $mime_type ) ) {
 			/**
-			 * Filter default mime type prior to getting the file extension.
+			 * Filters default mime type prior to getting the file extension.
 			 *
 			 * @see wp_get_mime_types()
 			 *

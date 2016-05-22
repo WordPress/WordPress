@@ -66,7 +66,7 @@ final class _WP_Editors {
 	public static function parse_settings( $editor_id, $settings ) {
 
 		/**
-		 * Filter the wp_editor() settings.
+		 * Filters the wp_editor() settings.
 		 *
 		 * @since 4.0.0
 		 *
@@ -241,7 +241,7 @@ final class _WP_Editors {
 		}
 
 		/**
-		 * Filter the HTML markup output that displays the editor.
+		 * Filters the HTML markup output that displays the editor.
 		 *
 		 * @since 2.1.0
 		 *
@@ -258,7 +258,7 @@ final class _WP_Editors {
 		}
 
 		/**
-		 * Filter the default editor content.
+		 * Filters the default editor content.
 		 *
 		 * @since 2.1.0
 		 *
@@ -333,7 +333,7 @@ final class _WP_Editors {
 			}
 
 			/**
-			 * Filter the Quicktags settings.
+			 * Filters the Quicktags settings.
 			 *
 			 * @since 3.3.0
 			 *
@@ -362,7 +362,7 @@ final class _WP_Editors {
 				if ( $set['teeny'] ) {
 
 					/**
-					 * Filter the list of teenyMCE plugins.
+					 * Filters the list of teenyMCE plugins.
 					 *
 					 * @since 2.7.0
 					 *
@@ -373,7 +373,7 @@ final class _WP_Editors {
 				} else {
 
 					/**
-					 * Filter the list of TinyMCE external plugins.
+					 * Filters the list of TinyMCE external plugins.
 					 *
 					 * The filter takes an associative array of external plugins for
 					 * TinyMCE in the form 'plugin_name' => 'url'.
@@ -418,7 +418,7 @@ final class _WP_Editors {
 					}
 
 					/**
-					 * Filter the list of default TinyMCE plugins.
+					 * Filters the list of default TinyMCE plugins.
 					 *
 					 * The filter specifies which of the default plugins included
 					 * in WordPress should be added to the TinyMCE instance.
@@ -438,7 +438,7 @@ final class _WP_Editors {
 					if ( ! empty( $mce_external_plugins ) ) {
 
 						/**
-						 * Filter the translations loaded for external TinyMCE 3.x plugins.
+						 * Filters the translations loaded for external TinyMCE 3.x plugins.
 						 *
 						 * The filter takes an associative array ('plugin_name' => 'path')
 						 * where 'path' is the include path to the file.
@@ -576,7 +576,7 @@ final class _WP_Editors {
 				}
 
 				/**
-				 * Filter the comma-delimited list of stylesheets to load in TinyMCE.
+				 * Filters the comma-delimited list of stylesheets to load in TinyMCE.
 				 *
 				 * @since 2.1.0
 				 *
@@ -591,7 +591,7 @@ final class _WP_Editors {
 			if ( $set['teeny'] ) {
 
 				/**
-				 * Filter the list of teenyMCE buttons (Text tab).
+				 * Filters the list of teenyMCE buttons (Text tab).
 				 *
 				 * @since 2.7.0
 				 *
@@ -614,7 +614,7 @@ final class _WP_Editors {
 				$mce_buttons[] = 'wp_adv';
 
 				/**
-				 * Filter the first-row list of TinyMCE buttons (Visual tab).
+				 * Filters the first-row list of TinyMCE buttons (Visual tab).
 				 *
 				 * @since 2.0.0
 				 *
@@ -630,7 +630,7 @@ final class _WP_Editors {
 				}
 
 				/**
-				 * Filter the second-row list of TinyMCE buttons (Visual tab).
+				 * Filters the second-row list of TinyMCE buttons (Visual tab).
 				 *
 				 * @since 2.0.0
 				 *
@@ -640,7 +640,7 @@ final class _WP_Editors {
 				$mce_buttons_2 = apply_filters( 'mce_buttons_2', $mce_buttons_2, $editor_id );
 
 				/**
-				 * Filter the third-row list of TinyMCE buttons (Visual tab).
+				 * Filters the third-row list of TinyMCE buttons (Visual tab).
 				 *
 				 * @since 2.0.0
 				 *
@@ -650,7 +650,7 @@ final class _WP_Editors {
 				$mce_buttons_3 = apply_filters( 'mce_buttons_3', array(), $editor_id );
 
 				/**
-				 * Filter the fourth-row list of TinyMCE buttons (Visual tab).
+				 * Filters the fourth-row list of TinyMCE buttons (Visual tab).
 				 *
 				 * @since 2.5.0
 				 *
@@ -711,7 +711,7 @@ final class _WP_Editors {
 			if ( $set['teeny'] ) {
 
 				/**
-				 * Filter the teenyMCE config before init.
+				 * Filters the teenyMCE config before init.
 				 *
 				 * @since 2.7.0
 				 *
@@ -722,7 +722,7 @@ final class _WP_Editors {
 			} else {
 
 				/**
-				 * Filter the TinyMCE config before init.
+				 * Filters the TinyMCE config before init.
 				 *
 				 * @since 2.5.0
 				 *
@@ -1089,7 +1089,7 @@ final class _WP_Editors {
 		}
 
 		/**
-		 * Filter translated strings prepared for TinyMCE.
+		 * Filters translated strings prepared for TinyMCE.
 		 *
 		 * @since 3.9.0
 		 *
@@ -1137,7 +1137,7 @@ final class _WP_Editors {
 		global $wp_version, $tinymce_version, $concatenate_scripts, $compress_scripts;
 
 		/**
-		 * Filter "tiny_mce_version" is deprecated
+		 * Filters "tiny_mce_version" is deprecated
 		 *
 		 * The tiny_mce_version filter is not needed since external plugins are loaded directly by TinyMCE.
 		 * These plugins can be refreshed by appending query string to the URL passed to "mce_external_plugins" filter.
@@ -1335,7 +1335,7 @@ final class _WP_Editors {
 		$query['offset'] = $args['pagenum'] > 1 ? $query['posts_per_page'] * ( $args['pagenum'] - 1 ) : 0;
 
 		/**
-		 * Filter the link query arguments.
+		 * Filters the link query arguments.
 		 *
 		 * Allows modification of the link query arguments before querying.
 		 *
@@ -1371,7 +1371,7 @@ final class _WP_Editors {
 		}
 
 		/**
-		 * Filter the link query results.
+		 * Filters the link query results.
 		 *
 		 * Allows modification of the returned link query results.
 		 *

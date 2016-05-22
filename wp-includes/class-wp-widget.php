@@ -353,7 +353,7 @@ abstract class WP_Widget {
 			$instance = $instances[ $this->number ];
 
 			/**
-			 * Filter the settings for a particular widget instance.
+			 * Filters the settings for a particular widget instance.
 			 *
 			 * Returning false will effectively short-circuit display of the widget.
 			 *
@@ -442,7 +442,7 @@ abstract class WP_Widget {
 				}
 
 				/**
-				 * Filter a widget's settings before saving.
+				 * Filters a widget's settings before saving.
 				 *
 				 * Returning false will effectively short-circuit the widget's ability
 				 * to update settings.
@@ -498,7 +498,7 @@ abstract class WP_Widget {
 		}
 
 		/**
-		 * Filter the widget instance's settings before displaying the control form.
+		 * Filters the widget instance's settings before displaying the control form.
 		 *
 		 * Returning false effectively short-circuits display of the control form.
 		 *
