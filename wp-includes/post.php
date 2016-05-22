@@ -197,7 +197,7 @@ function get_attached_file( $attachment_id, $unfiltered = false ) {
 	}
 
 	/**
-	 * Filter the attached file based on the given ID.
+	 * Filters the attached file based on the given ID.
 	 *
 	 * @since 2.1.0
 	 *
@@ -224,7 +224,7 @@ function update_attached_file( $attachment_id, $file ) {
 		return false;
 
 	/**
-	 * Filter the path to the attached file to update.
+	 * Filters the path to the attached file to update.
 	 *
 	 * @since 2.1.0
 	 *
@@ -259,7 +259,7 @@ function _wp_relative_upload_path( $path ) {
 	}
 
 	/**
-	 * Filter the relative path to an uploaded file.
+	 * Filters the relative path to an uploaded file.
 	 *
 	 * @since 2.9.0
 	 *
@@ -577,7 +577,7 @@ function get_post_status( $ID = '' ) {
 	}
 
 	/**
-	 * Filter the post status.
+	 * Filters the post status.
 	 *
 	 * @since 4.4.0
 	 *
@@ -1006,7 +1006,7 @@ function register_post_type( $post_type, $args = array() ) {
 	$args      = wp_parse_args( $args );
 
 	/**
-	 * Filter the arguments for registering a post type.
+	 * Filters the arguments for registering a post type.
 	 *
 	 * @since 4.4.0
 	 *
@@ -1475,7 +1475,7 @@ function get_post_type_labels( $post_type_object ) {
 	$default_labels = clone $labels;
 
 	/**
-	 * Filter the labels of a specific post type.
+	 * Filters the labels of a specific post type.
 	 *
 	 * The dynamic portion of the hook name, `$post_type`, refers to
 	 * the post type slug.
@@ -2038,7 +2038,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 		if ( $prefixed ) {
 
 			/**
-			 * Filter the value of a specific post field to edit.
+			 * Filters the value of a specific post field to edit.
 			 *
 			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
@@ -2051,7 +2051,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 			$value = apply_filters( "edit_{$field}", $value, $post_id );
 
 			/**
-			 * Filter the value of a specific post field to edit.
+			 * Filters the value of a specific post field to edit.
 			 *
 			 * The dynamic portion of the hook name, `$field_no_prefix`, refers to
 			 * the post field name.
@@ -2078,7 +2078,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 		if ( $prefixed ) {
 
 			/**
-			 * Filter the value of a specific post field before saving.
+			 * Filters the value of a specific post field before saving.
 			 *
 			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
@@ -2090,7 +2090,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 			$value = apply_filters( "pre_{$field}", $value );
 
 			/**
-			 * Filter the value of a specific field before saving.
+			 * Filters the value of a specific field before saving.
 			 *
 			 * The dynamic portion of the hook name, `$field_no_prefix`, refers
 			 * to the post field name.
@@ -2104,7 +2104,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 			$value = apply_filters( "pre_post_{$field}", $value );
 
 			/**
-			 * Filter the value of a specific post field before saving.
+			 * Filters the value of a specific post field before saving.
 			 *
 			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
@@ -2121,7 +2121,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 		if ( $prefixed ) {
 
 			/**
-			 * Filter the value of a specific post field for display.
+			 * Filters the value of a specific post field for display.
 			 *
 			 * The dynamic portion of the hook name, `$field`, refers to the post
 			 * field name.
@@ -2341,7 +2341,7 @@ function get_post_mime_types() {
 	);
 
 	/**
-	 * Filter the default list of post mime types.
+	 * Filters the default list of post mime types.
 	 *
 	 * @since 2.5.0
 	 *
@@ -2486,7 +2486,7 @@ function wp_delete_post( $postid = 0, $force_delete = false ) {
 		return wp_delete_attachment( $postid, $force_delete );
 
 	/**
-	 * Filter whether a post deletion should take place.
+	 * Filters whether a post deletion should take place.
 	 *
 	 * @since 4.4.0
 	 *
@@ -3086,7 +3086,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		&& post_type_supports( $post_type, 'excerpt' );
 
 	/**
-	 * Filter whether the post should be considered "empty".
+	 * Filters whether the post should be considered "empty".
 	 *
 	 * The post is considered "empty" if both:
 	 * 1. The post type supports the title, editor, and excerpt fields
@@ -3254,7 +3254,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	}
 
 	/**
-	 * Filter the post parent -- used to check for and prevent hierarchy loops.
+	 * Filters the post parent -- used to check for and prevent hierarchy loops.
 	 *
 	 * @since 3.1.0
 	 *
@@ -3308,7 +3308,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 	if ( 'attachment' === $post_type ) {
 		/**
-		 * Filter attachment post data before it is updated in or added to the database.
+		 * Filters attachment post data before it is updated in or added to the database.
 		 *
 		 * @since 3.9.0
 		 *
@@ -3318,7 +3318,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		$data = apply_filters( 'wp_insert_attachment_data', $data, $postarr );
 	} else {
 		/**
-		 * Filter slashed post data just before it is inserted into the database.
+		 * Filters slashed post data just before it is inserted into the database.
 		 *
 		 * @since 2.7.0
 		 *
@@ -3708,7 +3708,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_ID ) );
 
 		/**
-		 * Filter whether the post slug would make a bad attachment slug.
+		 * Filters whether the post slug would make a bad attachment slug.
 		 *
 		 * @since 3.1.0
 		 *
@@ -3736,7 +3736,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		$post_name_check = $wpdb->get_var( $wpdb->prepare( $check_sql, $slug, $post_type, $post_ID, $post_parent ) );
 
 		/**
-		 * Filter whether the post slug would make a bad hierarchical post slug.
+		 * Filters whether the post slug would make a bad hierarchical post slug.
 		 *
 		 * @since 3.1.0
 		 *
@@ -3782,7 +3782,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 		}
 
 		/**
-		 * Filter whether the post slug would be bad as a flat slug.
+		 * Filters whether the post slug would be bad as a flat slug.
 		 *
 		 * @since 3.1.0
 		 *
@@ -3802,7 +3802,7 @@ function wp_unique_post_slug( $slug, $post_ID, $post_status, $post_type, $post_p
 	}
 
 	/**
-	 * Filter the unique post slug.
+	 * Filters the unique post slug.
 	 *
 	 * @since 3.3.0
 	 *
@@ -4043,7 +4043,7 @@ function add_ping( $post_id, $uri ) {
 	$new = implode("\n", $pung);
 
 	/**
-	 * Filter the new ping URL to add for the given post.
+	 * Filters the new ping URL to add for the given post.
 	 *
 	 * @since 2.0.0
 	 *
@@ -4080,7 +4080,7 @@ function get_enclosed( $post_id ) {
 	}
 
 	/**
-	 * Filter the list of enclosures already enclosed for the given post.
+	 * Filters the list of enclosures already enclosed for the given post.
 	 *
 	 * @since 2.0.0
 	 *
@@ -4107,7 +4107,7 @@ function get_pung( $post_id ) {
 	$pung = preg_split('/\s/', $pung);
 
 	/**
-	 * Filter the list of already-pinged URLs for the given post.
+	 * Filters the list of already-pinged URLs for the given post.
 	 *
 	 * @since 2.0.0
 	 *
@@ -4133,7 +4133,7 @@ function get_to_ping( $post_id ) {
 	$to_ping = preg_split('/\s/', $to_ping, -1, PREG_SPLIT_NO_EMPTY);
 
 	/**
-	 * Filter the list of URLs yet to ping for the given post.
+	 * Filters the list of URLs yet to ping for the given post.
 	 *
 	 * @since 2.0.0
 	 *
@@ -4471,7 +4471,7 @@ function get_page_uri( $page = 0 ) {
 	}
 
 	/**
-	 * Filter the URI for a page.
+	 * Filters the URI for a page.
 	 *
 	 * @since 4.4.0
 	 *
@@ -4766,7 +4766,7 @@ function get_pages( $args = array() ) {
 	$pages = array_map( 'get_post', $pages );
 
 	/**
-	 * Filter the retrieved list of pages.
+	 * Filters the retrieved list of pages.
 	 *
 	 * @since 2.1.0
 	 *
@@ -4977,7 +4977,7 @@ function wp_get_attachment_metadata( $post_id = 0, $unfiltered = false ) {
 		return $data;
 
 	/**
-	 * Filter the attachment meta data.
+	 * Filters the attachment meta data.
 	 *
 	 * @since 2.1.0
 	 *
@@ -5003,7 +5003,7 @@ function wp_update_attachment_metadata( $post_id, $data ) {
 		return false;
 
 	/**
-	 * Filter the updated attachment meta data.
+	 * Filters the updated attachment meta data.
 	 *
 	 * @since 2.1.0
 	 *
@@ -5067,7 +5067,7 @@ function wp_get_attachment_url( $post_id = 0 ) {
 	}
 
 	/**
-	 * Filter the attachment URL.
+	 * Filters the attachment URL.
 	 *
 	 * @since 2.1.0
 	 *
@@ -5101,7 +5101,7 @@ function wp_get_attachment_thumb_file( $post_id = 0 ) {
 
 	if ( !empty($imagedata['thumb']) && ($thumbfile = str_replace(basename($file), $imagedata['thumb'], $file)) && file_exists($thumbfile) ) {
 		/**
-		 * Filter the attachment thumbnail file path.
+		 * Filters the attachment thumbnail file path.
 		 *
 		 * @since 2.1.0
 		 *
@@ -5138,7 +5138,7 @@ function wp_get_attachment_thumb_url( $post_id = 0 ) {
 	$url = str_replace(basename($url), basename($thumb), $url);
 
 	/**
-	 * Filter the attachment thumbnail URL.
+	 * Filters the attachment thumbnail URL.
 	 *
 	 * @since 2.1.0
 	 *
@@ -5249,7 +5249,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 
 		if ( !is_array($icon_files) ) {
 			/**
-			 * Filter the icon directory path.
+			 * Filters the icon directory path.
 			 *
 			 * @since 2.0.0
 			 *
@@ -5258,7 +5258,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 			$icon_dir = apply_filters( 'icon_dir', ABSPATH . WPINC . '/images/media' );
 
 			/**
-			 * Filter the icon directory URI.
+			 * Filters the icon directory URI.
 			 *
 			 * @since 2.0.0
 			 *
@@ -5267,7 +5267,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 			$icon_dir_uri = apply_filters( 'icon_dir_uri', includes_url( 'images/media' ) );
 
 			/**
-			 * Filter the list of icon directory URIs.
+			 * Filters the list of icon directory URIs.
 			 *
 			 * @since 2.5.0
 			 *
@@ -5327,7 +5327,7 @@ function wp_mime_type_icon( $mime = 0 ) {
 	}
 
 	/**
-	 * Filter the mime type icon.
+	 * Filters the mime type icon.
 	 *
 	 * @since 2.1.0
 	 *
@@ -5434,7 +5434,7 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
 		}
 
 		/**
-		 * Filter the capability to read private posts for a custom post type
+		 * Filters the capability to read private posts for a custom post type
 		 * when generating SQL for getting posts by author.
 		 *
 		 * @since 2.2.0
@@ -5503,7 +5503,7 @@ function get_posts_by_author_sql( $post_type, $full = true, $post_author = null,
  */
 function get_lastpostdate( $timezone = 'server', $post_type = 'any' ) {
 	/**
-	 * Filter the date the last post was published.
+	 * Filters the date the last post was published.
 	 *
 	 * @since 2.3.0
 	 *
@@ -5555,7 +5555,7 @@ function get_lastpostmodified( $timezone = 'server', $post_type = 'any' ) {
 	}
 
 	/**
-	 * Filter the date the last post was modified.
+	 * Filters the date the last post was modified.
 	 *
 	 * @since 2.3.0
 	 *
