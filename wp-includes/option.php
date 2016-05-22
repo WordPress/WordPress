@@ -35,7 +35,7 @@ function get_option( $option, $default = false ) {
 		return false;
 
 	/**
-	 * Filter the value of an existing option before it is retrieved.
+	 * Filters the value of an existing option before it is retrieved.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -61,7 +61,7 @@ function get_option( $option, $default = false ) {
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
 		if ( isset( $notoptions[ $option ] ) ) {
 			/**
-			 * Filter the default value for an option.
+			 * Filters the default value for an option.
 			 *
 			 * The dynamic portion of the hook name, `$option`, refers to the option name.
 			 *
@@ -121,7 +121,7 @@ function get_option( $option, $default = false ) {
 		$value = untrailingslashit( $value );
 
 	/**
-	 * Filter the value of an existing option.
+	 * Filters the value of an existing option.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -266,7 +266,7 @@ function update_option( $option, $value, $autoload = null ) {
 	$old_value = get_option( $option );
 
 	/**
-	 * Filter a specific option before its value is (maybe) serialized and updated.
+	 * Filters a specific option before its value is (maybe) serialized and updated.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -280,7 +280,7 @@ function update_option( $option, $value, $autoload = null ) {
 	$value = apply_filters( 'pre_update_option_' . $option, $value, $old_value, $option );
 
 	/**
-	 * Filter an option before its value is (maybe) serialized and updated.
+	 * Filters an option before its value is (maybe) serialized and updated.
 	 *
 	 * @since 3.9.0
 	 *
@@ -609,7 +609,7 @@ function delete_transient( $transient ) {
 function get_transient( $transient ) {
 
 	/**
-	 * Filter the value of an existing transient.
+	 * Filters the value of an existing transient.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
@@ -651,7 +651,7 @@ function get_transient( $transient ) {
 	}
 
 	/**
-	 * Filter an existing transient's value.
+	 * Filters an existing transient's value.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
@@ -684,7 +684,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 	$expiration = (int) $expiration;
 
 	/**
-	 * Filter a specific transient before its value is set.
+	 * Filters a specific transient before its value is set.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
@@ -699,7 +699,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
 	$value = apply_filters( 'pre_set_transient_' . $transient, $value, $expiration, $transient );
 
 	/**
-	 * Filter the expiration for a transient before its value is set.
+	 * Filters the expiration for a transient before its value is set.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
@@ -1092,7 +1092,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 	}
 
 	/**
-	 * Filter an existing network option before it is retrieved.
+	 * Filters an existing network option before it is retrieved.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -1119,7 +1119,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 	if ( isset( $notoptions[ $option ] ) ) {
 
 		/**
-		 * Filter a specific default network option.
+		 * Filters a specific default network option.
 		 *
 		 * The dynamic portion of the hook name, `$option`, refers to the option name.
 		 *
@@ -1163,7 +1163,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 	}
 
 	/**
-	 * Filter the value of an existing network option.
+	 * Filters the value of an existing network option.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -1211,7 +1211,7 @@ function add_network_option( $network_id, $option, $value ) {
 	wp_protect_special_option( $option );
 
 	/**
-	 * Filter the value of a specific network option before it is added.
+	 * Filters the value of a specific network option before it is added.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -1405,7 +1405,7 @@ function update_network_option( $network_id, $option, $value ) {
 	$old_value = get_network_option( $network_id, $option, false );
 
 	/**
-	 * Filter a specific network option before its value is updated.
+	 * Filters a specific network option before its value is updated.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
@@ -1542,7 +1542,7 @@ function delete_site_transient( $transient ) {
 function get_site_transient( $transient ) {
 
 	/**
-	 * Filter the value of an existing site transient.
+	 * Filters the value of an existing site transient.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
@@ -1583,7 +1583,7 @@ function get_site_transient( $transient ) {
 	}
 
 	/**
-	 * Filter the value of an existing site transient.
+	 * Filters the value of an existing site transient.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
@@ -1615,7 +1615,7 @@ function get_site_transient( $transient ) {
 function set_site_transient( $transient, $value, $expiration = 0 ) {
 
 	/**
-	 * Filter the value of a specific site transient before it is set.
+	 * Filters the value of a specific site transient before it is set.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
@@ -1630,7 +1630,7 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 	$expiration = (int) $expiration;
 
 	/**
-	 * Filter the expiration for a site transient before its value is set.
+	 * Filters the expiration for a site transient before its value is set.
 	 *
 	 * The dynamic portion of the hook name, `$transient`, refers to the transient name.
 	 *
