@@ -4701,6 +4701,19 @@ function __return_empty_string() {
 }
 
 /**
+ * Returns 'on'.
+ *
+ * Useful for returning an option for a checked checkbox.
+ *
+ * @since 4.6
+ *
+ * @return string 'on'.
+ */
+function __return_on() {
+	return 'on';
+}
+
+/**
  * Send a HTTP header to disable content type sniffing in browsers which support it.
  *
  * @since 3.0.0
