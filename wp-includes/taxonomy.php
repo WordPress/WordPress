@@ -29,7 +29,7 @@ function create_initial_taxonomies() {
 	} else {
 
 		/**
-		 * Filter the post formats rewrite base.
+		 * Filters the post formats rewrite base.
 		 *
 		 * @since 3.1.0
 		 *
@@ -357,7 +357,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 	$args = wp_parse_args( $args );
 
 	/**
-	 * Filter the arguments for registering a taxonomy.
+	 * Filters the arguments for registering a taxonomy.
 	 *
 	 * @since 4.4.0
 	 *
@@ -621,7 +621,7 @@ function get_taxonomy_labels( $tax ) {
 	$default_labels = clone $labels;
 
 	/**
-	 * Filter the labels of a specific taxonomy.
+	 * Filters the labels of a specific taxonomy.
 	 *
 	 * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
 	 *
@@ -849,7 +849,7 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 	}
 
 	/**
-	 * Filter a term.
+	 * Filters a term.
 	 *
 	 * @since 2.3.0
 	 * @since 4.4.0 `$_term` can now also be a WP_Term object.
@@ -860,7 +860,7 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 	$_term = apply_filters( 'get_term', $_term, $taxonomy );
 
 	/**
-	 * Filter a taxonomy.
+	 * Filters a taxonomy.
 	 *
 	 * The dynamic portion of the filter name, `$taxonomy`, refers
 	 * to the taxonomy slug.
@@ -1231,7 +1231,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	}
 
 	/**
-	 * Filter the terms query default arguments.
+	 * Filters the terms query default arguments.
 	 *
 	 * Use 'get_terms_args' to filter the passed arguments.
 	 *
@@ -1274,7 +1274,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	}
 
 	/**
-	 * Filter the terms query arguments.
+	 * Filters the terms query arguments.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1333,7 +1333,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	}
 
 	/**
-	 * Filter the ORDERBY clause of the terms query.
+	 * Filters the ORDERBY clause of the terms query.
 	 *
 	 * @since 2.8.0
 	 *
@@ -1408,7 +1408,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	}
 
 	/**
-	 * Filter the terms to exclude from the terms query.
+	 * Filters the terms to exclude from the terms query.
 	 *
 	 * @since 2.3.0
 	 *
@@ -1563,7 +1563,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	$_fields = $args['fields'];
 
 	/**
-	 * Filter the fields to select in the terms query.
+	 * Filters the fields to select in the terms query.
 	 *
 	 * Field lists modified using this filter will only modify the term fields returned
 	 * by the function when the `$fields` parameter set to 'count' or 'all'. In all other
@@ -1587,7 +1587,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	$pieces = array( 'fields', 'join', 'where', 'distinct', 'orderby', 'order', 'limits' );
 
 	/**
-	 * Filter the terms query SQL clauses.
+	 * Filters the terms query SQL clauses.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1626,7 +1626,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 		}
 
 		/**
-		 * Filter the given taxonomy's terms cache.
+		 * Filters the given taxonomy's terms cache.
 		 *
 		 * @since 2.3.0
 		 *
@@ -2047,7 +2047,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 	if ( 'edit' == $context ) {
 
 		/**
-		 * Filter a term field to edit before it is sanitized.
+		 * Filters a term field to edit before it is sanitized.
 		 *
 		 * The dynamic portion of the filter name, `$field`, refers to the term field.
 		 *
@@ -2060,7 +2060,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		$value = apply_filters( "edit_term_{$field}", $value, $term_id, $taxonomy );
 
 		/**
-		 * Filter the taxonomy field to edit before it is sanitized.
+		 * Filters the taxonomy field to edit before it is sanitized.
 		 *
 		 * The dynamic portions of the filter name, `$taxonomy` and `$field`, refer
 		 * to the taxonomy slug and taxonomy field, respectively.
@@ -2079,7 +2079,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 	} elseif ( 'db' == $context ) {
 
 		/**
-		 * Filter a term field value before it is sanitized.
+		 * Filters a term field value before it is sanitized.
 		 *
 		 * The dynamic portion of the filter name, `$field`, refers to the term field.
 		 *
@@ -2091,7 +2091,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		$value = apply_filters( "pre_term_{$field}", $value, $taxonomy );
 
 		/**
-		 * Filter a taxonomy field before it is sanitized.
+		 * Filters a taxonomy field before it is sanitized.
 		 *
 		 * The dynamic portions of the filter name, `$taxonomy` and `$field`, refer
 		 * to the taxonomy slug and field name, respectively.
@@ -2105,7 +2105,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		// Back compat filters
 		if ( 'slug' == $field ) {
 			/**
-			 * Filter the category nicename before it is sanitized.
+			 * Filters the category nicename before it is sanitized.
 			 *
 			 * Use the pre_{$taxonomy}_{$field} hook instead.
 			 *
@@ -2119,7 +2119,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 	} elseif ( 'rss' == $context ) {
 
 		/**
-		 * Filter the term field for use in RSS.
+		 * Filters the term field for use in RSS.
 		 *
 		 * The dynamic portion of the filter name, `$field`, refers to the term field.
 		 *
@@ -2131,7 +2131,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		$value = apply_filters( "term_{$field}_rss", $value, $taxonomy );
 
 		/**
-		 * Filter the taxonomy field for use in RSS.
+		 * Filters the taxonomy field for use in RSS.
 		 *
 		 * The dynamic portions of the hook name, `$taxonomy`, and `$field`, refer
 		 * to the taxonomy slug and field name, respectively.
@@ -2145,7 +2145,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		// Use display filters by default.
 
 		/**
-		 * Filter the term field sanitized for display.
+		 * Filters the term field sanitized for display.
 		 *
 		 * The dynamic portion of the filter name, `$field`, refers to the term field name.
 		 *
@@ -2159,7 +2159,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 		$value = apply_filters( "term_{$field}", $value, $term_id, $taxonomy, $context );
 
 		/**
-		 * Filter the taxonomy field sanitized for display.
+		 * Filters the taxonomy field sanitized for display.
 		 *
 		 * The dynamic portions of the filter name, `$taxonomy`, and `$field`, refer
 		 * to the taxonomy slug and taxonomy field, respectively.
@@ -2657,7 +2657,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	}
 
 	/**
-	 * Filter the terms for a given object or objects.
+	 * Filters the terms for a given object or objects.
 	 *
 	 * @since 4.2.0
 	 *
@@ -2670,7 +2670,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	$terms = apply_filters( 'get_object_terms', $terms, $object_id_array, $taxonomy_array, $args );
 
 	/**
-	 * Filter the terms for a given object or objects.
+	 * Filters the terms for a given object or objects.
 	 *
 	 * The `$taxonomies` parameter passed to this filter is formatted as a SQL fragment. The
 	 * {@see 'get_object_terms'} filter is recommended as an alternative.
@@ -2736,7 +2736,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 		return new WP_Error('invalid_taxonomy', __('Invalid taxonomy'));
 	}
 	/**
-	 * Filter a term before it is sanitized and inserted into the database.
+	 * Filters a term before it is sanitized and inserted into the database.
 	 *
 	 * @since 3.0.0
 	 *
@@ -2915,7 +2915,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	do_action( "create_$taxonomy", $term_id, $tt_id );
 
 	/**
-	 * Filter the term ID after a new term is created.
+	 * Filters the term ID after a new term is created.
 	 *
 	 * @since 2.3.0
 	 *
@@ -3239,7 +3239,7 @@ function wp_unique_term_slug( $slug, $term ) {
 	// If we didn't get a unique slug, try appending a number to make it unique.
 
 	/**
-	 * Filter whether the proposed unique term slug is bad.
+	 * Filters whether the proposed unique term slug is bad.
 	 *
 	 * @since 4.3.0
 	 *
@@ -3269,7 +3269,7 @@ function wp_unique_term_slug( $slug, $term ) {
 	}
 
 	/**
-	 * Filter the unique term slug.
+	 * Filters the unique term slug.
 	 *
 	 * @since 4.3.0
 	 *
@@ -3389,7 +3389,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	}
 
 	/**
-	 * Filter the term parent.
+	 * Filters the term parent.
 	 *
 	 * Hook to this filter to see if it will cause a hierarchy loop.
 	 *
@@ -4563,7 +4563,7 @@ function get_term_link( $term, $taxonomy = '' ) {
 	if ( 'post_tag' == $taxonomy ) {
 
 		/**
-		 * Filter the tag link.
+		 * Filters the tag link.
 		 *
 		 * @since 2.3.0
 		 * @deprecated 2.5.0 Use 'term_link' instead.
@@ -4575,7 +4575,7 @@ function get_term_link( $term, $taxonomy = '' ) {
 	} elseif ( 'category' == $taxonomy ) {
 
 		/**
-		 * Filter the category link.
+		 * Filters the category link.
 		 *
 		 * @since 1.5.0
 		 * @deprecated 2.5.0 Use 'term_link' instead.
@@ -4587,7 +4587,7 @@ function get_term_link( $term, $taxonomy = '' ) {
 	}
 
 	/**
-	 * Filter the term link.
+	 * Filters the term link.
 	 *
 	 * @since 2.5.0
 	 *
@@ -4828,7 +4828,7 @@ function get_ancestors( $object_id = 0, $object_type = '', $resource_type = '' )
 	}
 
 	/**
-	 * Filter a given object's ancestors.
+	 * Filters a given object's ancestors.
 	 *
 	 * @since 3.1.0
 	 * @since 4.1.1 Introduced the `$resource_type` parameter.
