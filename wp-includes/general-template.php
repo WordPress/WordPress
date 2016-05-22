@@ -203,7 +203,7 @@ function get_search_form( $echo = true ) {
 	$format = current_theme_supports( 'html5', 'search-form' ) ? 'html5' : 'xhtml';
 
 	/**
-	 * Filter the HTML format of the search form.
+	 * Filters the HTML format of the search form.
 	 *
 	 * @since 3.6.0
 	 *
@@ -238,7 +238,7 @@ function get_search_form( $echo = true ) {
 	}
 
 	/**
-	 * Filter the HTML output of the search form.
+	 * Filters the HTML output of the search form.
 	 *
 	 * @since 2.7.0
 	 *
@@ -275,7 +275,7 @@ function wp_loginout($redirect = '', $echo = true) {
 
 	if ( $echo ) {
 		/**
-		 * Filter the HTML output for the Log In/Log Out link.
+		 * Filters the HTML output for the Log In/Log Out link.
 		 *
 		 * @since 1.5.0
 		 *
@@ -308,7 +308,7 @@ function wp_logout_url($redirect = '') {
 	$logout_url = wp_nonce_url( $logout_url, 'log-out' );
 
 	/**
-	 * Filter the logout URL.
+	 * Filters the logout URL.
 	 *
 	 * @since 2.8.0
 	 *
@@ -337,7 +337,7 @@ function wp_login_url($redirect = '', $force_reauth = false) {
 		$login_url = add_query_arg('reauth', '1', $login_url);
 
 	/**
-	 * Filter the login URL.
+	 * Filters the login URL.
 	 *
 	 * @since 2.8.0
 	 * @since 4.2.0 The `$force_reauth` parameter was added.
@@ -358,7 +358,7 @@ function wp_login_url($redirect = '', $force_reauth = false) {
  */
 function wp_registration_url() {
 	/**
-	 * Filter the user registration URL.
+	 * Filters the user registration URL.
 	 *
 	 * @since 3.6.0
 	 *
@@ -419,7 +419,7 @@ function wp_login_form( $args = array() ) {
 	);
 
 	/**
-	 * Filter the default login form output arguments.
+	 * Filters the default login form output arguments.
 	 *
 	 * @since 3.0.0
 	 *
@@ -430,7 +430,7 @@ function wp_login_form( $args = array() ) {
 	$args = wp_parse_args( $args, apply_filters( 'login_form_defaults', $defaults ) );
 
 	/**
-	 * Filter content to display at the top of the login form.
+	 * Filters content to display at the top of the login form.
 	 *
 	 * The filter evaluates just following the opening form tag element.
 	 *
@@ -442,7 +442,7 @@ function wp_login_form( $args = array() ) {
 	$login_form_top = apply_filters( 'login_form_top', '', $args );
 
 	/**
-	 * Filter content to display in the middle of the login form.
+	 * Filters content to display in the middle of the login form.
 	 *
 	 * The filter evaluates just following the location where the 'login-password'
 	 * field is displayed.
@@ -455,7 +455,7 @@ function wp_login_form( $args = array() ) {
 	$login_form_middle = apply_filters( 'login_form_middle', '', $args );
 
 	/**
-	 * Filter content to display at the bottom of the login form.
+	 * Filters content to display at the bottom of the login form.
 	 *
 	 * The filter evaluates just preceding the closing form tag element.
 	 *
@@ -509,7 +509,7 @@ function wp_lostpassword_url( $redirect = '' ) {
 	$lostpassword_url = add_query_arg( $args, network_site_url('wp-login.php', 'login') );
 
 	/**
-	 * Filter the Lost Password URL.
+	 * Filters the Lost Password URL.
 	 *
 	 * @since 2.8.0
 	 *
@@ -545,7 +545,7 @@ function wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
 	}
 
 	/**
-	 * Filter the HTML link to the Registration or Admin page.
+	 * Filters the HTML link to the Registration or Admin page.
 	 *
 	 * Users are sent to the admin page if logged-in, or the registration page
 	 * if enabled and logged-out.
@@ -747,7 +747,7 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 	if ( 'display' == $filter ) {
 		if ( $url ) {
 			/**
-			 * Filter the URL returned by get_bloginfo().
+			 * Filters the URL returned by get_bloginfo().
 			 *
 			 * @since 2.0.5
 			 *
@@ -757,7 +757,7 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
 			$output = apply_filters( 'bloginfo_url', $output, $show );
 		} else {
 			/**
-			 * Filter the site information returned by get_bloginfo().
+			 * Filters the site information returned by get_bloginfo().
 			 *
 			 * @since 0.71
 			 *
@@ -802,7 +802,7 @@ function get_site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
 	}
 
 	/**
-	 * Filter the site icon URL.
+	 * Filters the site icon URL.
 	 *
 	 * @site 4.4.0
 	 *
@@ -900,7 +900,7 @@ function get_custom_logo( $blog_id = 0 ) {
 	}
 
 	/**
-	 * Filter the custom logo output.
+	 * Filters the custom logo output.
 	 *
 	 * @since 4.5.0
 	 *
@@ -933,7 +933,7 @@ function the_custom_logo( $blog_id = 0 ) {
 function wp_get_document_title() {
 
 	/**
-	 * Filter the document title before it is generated.
+	 * Filters the document title before it is generated.
 	 *
 	 * Passing a non-empty value will short-circuit wp_get_document_title(),
 	 * returning that value instead.
@@ -1013,7 +1013,7 @@ function wp_get_document_title() {
 	}
 
 	/**
-	 * Filter the separator for the document title.
+	 * Filters the separator for the document title.
 	 *
 	 * @since 4.4.0
 	 *
@@ -1022,7 +1022,7 @@ function wp_get_document_title() {
 	$sep = apply_filters( 'document_title_separator', '-' );
 
 	/**
-	 * Filter the parts of the document title.
+	 * Filters the parts of the document title.
 	 *
 	 * @since 4.4.0
 	 *
@@ -1179,7 +1179,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	}
 
 	/**
-	 * Filter the parts of the page title.
+	 * Filters the parts of the page title.
 	 *
 	 * @since 4.0.0
 	 *
@@ -1196,7 +1196,7 @@ function wp_title( $sep = '&raquo;', $display = true, $seplocation = '' ) {
 	}
 
 	/**
-	 * Filter the text of the page title.
+	 * Filters the text of the page title.
 	 *
 	 * @since 2.0.0
 	 *
@@ -1237,7 +1237,7 @@ function single_post_title( $prefix = '', $display = true ) {
 		return;
 
 	/**
-	 * Filter the page title for a single post.
+	 * Filters the page title for a single post.
 	 *
 	 * @since 0.71
 	 *
@@ -1274,7 +1274,7 @@ function post_type_archive_title( $prefix = '', $display = true ) {
 	$post_type_obj = get_post_type_object( $post_type );
 
 	/**
-	 * Filter the post type archive title.
+	 * Filters the post type archive title.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1344,7 +1344,7 @@ function single_term_title( $prefix = '', $display = true ) {
 
 	if ( is_category() ) {
 		/**
-		 * Filter the category archive page title.
+		 * Filters the category archive page title.
 		 *
 		 * @since 2.0.10
 		 *
@@ -1353,7 +1353,7 @@ function single_term_title( $prefix = '', $display = true ) {
 		$term_name = apply_filters( 'single_cat_title', $term->name );
 	} elseif ( is_tag() ) {
 		/**
-		 * Filter the tag archive page title.
+		 * Filters the tag archive page title.
 		 *
 		 * @since 2.3.0
 		 *
@@ -1362,7 +1362,7 @@ function single_term_title( $prefix = '', $display = true ) {
 		$term_name = apply_filters( 'single_tag_title', $term->name );
 	} elseif ( is_tax() ) {
 		/**
-		 * Filter the custom taxonomy archive page title.
+		 * Filters the custom taxonomy archive page title.
 		 *
 		 * @since 3.1.0
 		 *
@@ -1492,7 +1492,7 @@ function get_the_archive_title() {
 	}
 
 	/**
-	 * Filter the archive title.
+	 * Filters the archive title.
 	 *
 	 * @since 4.1.0
 	 *
@@ -1527,7 +1527,7 @@ function the_archive_description( $before = '', $after = '' ) {
  */
 function get_the_archive_description() {
 	/**
-	 * Filter the archive description.
+	 * Filters the archive description.
 	 *
 	 * @since 4.1.0
 	 *
@@ -1585,7 +1585,7 @@ function get_archives_link($url, $text, $format = 'html', $before = '', $after =
 		$link_html = "\t$before<a href='$url'>$text</a>$after\n";
 
 	/**
-	 * Filter the archive link content.
+	 * Filters the archive link content.
 	 *
 	 * @since 2.6.0
 	 * @since 4.5.0 Added the `$url`, `$text`, `$format`, `$before`, and `$after` parameters.
@@ -1674,7 +1674,7 @@ function wp_get_archives( $args = '' ) {
 	$sql_where = $wpdb->prepare( "WHERE post_type = %s AND post_status = 'publish'", $r['post_type'] );
 
 	/**
-	 * Filter the SQL WHERE clause for retrieving archives.
+	 * Filters the SQL WHERE clause for retrieving archives.
 	 *
 	 * @since 2.2.0
 	 *
@@ -1684,7 +1684,7 @@ function wp_get_archives( $args = '' ) {
 	$where = apply_filters( 'getarchives_where', $sql_where, $r );
 
 	/**
-	 * Filter the SQL JOIN clause for retrieving archives.
+	 * Filters the SQL JOIN clause for retrieving archives.
 	 *
 	 * @since 2.2.0
 	 *
@@ -2065,7 +2065,7 @@ function get_calendar( $initial = true, $echo = true ) {
 
 	if ( $echo ) {
 		/**
-		 * Filter the HTML calendar output.
+		 * Filters the HTML calendar output.
 		 *
 		 * @since 3.0.0
 		 *
@@ -2157,7 +2157,7 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
 		$previousday = $currentday;
 
 		/**
-		 * Filter the date a post was published for display.
+		 * Filters the date a post was published for display.
 		 *
 		 * @since 0.71
 		 *
@@ -2202,7 +2202,7 @@ function get_the_date( $d = '', $post = null ) {
 	}
 
 	/**
-	 * Filter the date a post was published.
+	 * Filters the date a post was published.
 	 *
 	 * @since 3.0.0
 	 *
@@ -2229,7 +2229,7 @@ function the_modified_date( $d = '', $before = '', $after = '', $echo = true ) {
 	$the_modified_date = $before . get_the_modified_date($d) . $after;
 
 	/**
-	 * Filter the date a post was last modified for display.
+	 * Filters the date a post was last modified for display.
 	 *
 	 * @since 2.1.0
 	 *
@@ -2263,7 +2263,7 @@ function get_the_modified_date($d = '') {
 		$the_time = get_post_modified_time($d, null, null, true);
 
 	/**
-	 * Filter the date a post was last modified.
+	 * Filters the date a post was last modified.
 	 *
 	 * @since 2.1.0
 	 *
@@ -2283,7 +2283,7 @@ function get_the_modified_date($d = '') {
  */
 function the_time( $d = '' ) {
 	/**
-	 * Filter the time a post was written for display.
+	 * Filters the time a post was written for display.
 	 *
 	 * @since 0.71
 	 *
@@ -2318,7 +2318,7 @@ function get_the_time( $d = '', $post = null ) {
 		$the_time = get_post_time($d, false, $post, true);
 
 	/**
-	 * Filter the time a post was written.
+	 * Filters the time a post was written.
 	 *
 	 * @since 1.5.0
 	 *
@@ -2358,7 +2358,7 @@ function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false
 	$time = mysql2date($d, $time, $translate);
 
 	/**
-	 * Filter the localized time a post was written.
+	 * Filters the localized time a post was written.
 	 *
 	 * @since 2.6.0
 	 *
@@ -2379,7 +2379,7 @@ function get_post_time( $d = 'U', $gmt = false, $post = null, $translate = false
  */
 function the_modified_time($d = '') {
 	/**
-	 * Filter the localized time a post was last modified, for display.
+	 * Filters the localized time a post was last modified, for display.
 	 *
 	 * @since 2.0.0
 	 *
@@ -2406,7 +2406,7 @@ function get_the_modified_time($d = '') {
 		$the_time = get_post_modified_time($d, null, null, true);
 
 	/**
-	 * Filter the localized time a post was last modified.
+	 * Filters the localized time a post was last modified.
 	 *
 	 * @since 2.0.0
 	 *
@@ -2444,7 +2444,7 @@ function get_post_modified_time( $d = 'U', $gmt = false, $post = null, $translat
 	$time = mysql2date($d, $time, $translate);
 
 	/**
-	 * Filter the localized time a post was last modified.
+	 * Filters the localized time a post was last modified.
 	 *
 	 * @since 2.8.0
 	 *
@@ -2467,7 +2467,7 @@ function the_weekday() {
 	$the_weekday = $wp_locale->get_weekday( mysql2date( 'w', get_post()->post_date, false ) );
 
 	/**
-	 * Filter the weekday on which the post was written, for display.
+	 * Filters the weekday on which the post was written, for display.
 	 *
 	 * @since 0.71
 	 *
@@ -2502,7 +2502,7 @@ function the_weekday_date($before='',$after='') {
 	}
 
 	/**
-	 * Filter the localized date on which the post was written, for display.
+	 * Filters the localized date on which the post was written, for display.
 	 *
 	 * @since 0.71
 	 *
@@ -2565,7 +2565,7 @@ function feed_links( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 
 	/**
-	 * Filter whether to display the posts feed link.
+	 * Filters whether to display the posts feed link.
 	 *
 	 * @since 4.4.0
 	 *
@@ -2576,7 +2576,7 @@ function feed_links( $args = array() ) {
 	}
 
 	/**
-	 * Filter whether to display the comments feed link.
+	 * Filters whether to display the comments feed link.
 	 *
 	 * @since 4.4.0
 	 *
@@ -2740,7 +2740,7 @@ function wp_site_icon() {
 	);
 
 	/**
-	 * Filter the site icon meta tags, so Plugins can add their own.
+	 * Filters the site icon meta tags, so Plugins can add their own.
 	 *
 	 * @since 4.3.0
 	 *
@@ -2787,7 +2787,7 @@ function user_can_richedit() {
 	}
 
 	/**
-	 * Filter whether the user can access the rich (Visual) editor.
+	 * Filters whether the user can access the rich (Visual) editor.
 	 *
 	 * @since 2.1.0
 	 *
@@ -2814,7 +2814,7 @@ function wp_default_editor() {
 	}
 
 	/**
-	 * Filter which editor should be displayed by default.
+	 * Filters which editor should be displayed by default.
 	 *
 	 * @since 2.5.0
 	 *
@@ -2863,7 +2863,7 @@ function wp_editor( $content, $editor_id, $settings = array() ) {
  */
 function get_search_query( $escaped = true ) {
 	/**
-	 * Filter the contents of the search query variable.
+	 * Filters the contents of the search query variable.
 	 *
 	 * @since 2.3.0
 	 *
@@ -2886,7 +2886,7 @@ function get_search_query( $escaped = true ) {
  */
 function the_search_query() {
 	/**
-	 * Filter the contents of the search query variable for display.
+	 * Filters the contents of the search query variable for display.
 	 *
 	 * @since 2.3.0
 	 *
@@ -2922,7 +2922,7 @@ function get_language_attributes( $doctype = 'html' ) {
 	$output = implode(' ', $attributes);
 
 	/**
-	 * Filter the language attributes for display in the html tag.
+	 * Filters the language attributes for display in the html tag.
 	 *
 	 * @since 2.5.0
 	 * @since 4.3.0 Added the `$doctype` parameter.
@@ -3110,7 +3110,7 @@ function paginate_links( $args = '' ) {
 		$link .= $args['add_fragment'];
 
 		/**
-		 * Filter the paginated links for the given archive pages.
+		 * Filters the paginated links for the given archive pages.
 		 *
 		 * @since 3.0.0
 		 *
@@ -3290,7 +3290,7 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
 	$_file = add_query_arg( 'version', get_bloginfo( 'version' ),  $_file );
 
 	/**
-	 * Filter the URI of a WordPress admin CSS file.
+	 * Filters the URI of a WordPress admin CSS file.
 	 *
 	 * @since 2.3.0
 	 *
@@ -3333,7 +3333,7 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 	}
 
 	/**
-	 * Filter the stylesheet link to the specified CSS file.
+	 * Filters the stylesheet link to the specified CSS file.
 	 *
 	 * If the site is set to display right-to-left, the RTL stylesheet link
 	 * will be used instead.
@@ -3375,7 +3375,7 @@ function add_thickbox() {
  */
 function wp_generator() {
 	/**
-	 * Filter the output of the XHTML generator tag.
+	 * Filters the output of the XHTML generator tag.
 	 *
 	 * @since 2.5.0
 	 *
@@ -3396,7 +3396,7 @@ function wp_generator() {
  */
 function the_generator( $type ) {
 	/**
-	 * Filter the output of the XHTML generator tag for display.
+	 * Filters the output of the XHTML generator tag for display.
 	 *
 	 * @since 2.5.0
 	 *
@@ -3471,7 +3471,7 @@ function get_the_generator( $type = '' ) {
 	}
 
 	/**
-	 * Filter the HTML for the retrieved generator type.
+	 * Filters the HTML for the retrieved generator type.
 	 *
 	 * The dynamic portion of the hook name, `$type`, refers to the generator type.
 	 *
