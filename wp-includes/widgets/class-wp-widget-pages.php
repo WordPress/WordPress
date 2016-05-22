@@ -44,7 +44,7 @@ class WP_Widget_Pages extends WP_Widget {
 	public function widget( $args, $instance ) {
 
 		/**
-		 * Filter the widget title.
+		 * Filters the widget title.
 		 *
 		 * @since 2.6.0
 		 *
@@ -61,7 +61,7 @@ class WP_Widget_Pages extends WP_Widget {
 			$sortby = 'menu_order, post_title';
 
 		/**
-		 * Filter the arguments for the Pages widget.
+		 * Filters the arguments for the Pages widget.
 		 *
 		 * @since 2.8.0
 		 *

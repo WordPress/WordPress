@@ -44,7 +44,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 	 */
 	public function recent_comments_style() {
 		/**
-		 * Filter the Recent Comments default widget styles.
+		 * Filters the Recent Comments default widget styles.
 		 *
 		 * @since 3.1.0
 		 *
@@ -85,7 +85,7 @@ class WP_Widget_Recent_Comments extends WP_Widget {
 			$number = 5;
 
 		/**
-		 * Filter the arguments for the Recent Comments widget.
+		 * Filters the arguments for the Recent Comments widget.
 		 *
 		 * @since 3.4.0
 		 *

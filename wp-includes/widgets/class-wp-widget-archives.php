@@ -60,7 +60,7 @@ class WP_Widget_Archives extends WP_Widget {
 		<select id="<?php echo esc_attr( $dropdown_id ); ?>" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
 			<?php
 			/**
-			 * Filter the arguments for the Archives widget drop-down.
+			 * Filters the arguments for the Archives widget drop-down.
 			 *
 			 * @since 2.8.0
 			 *
@@ -101,7 +101,7 @@ class WP_Widget_Archives extends WP_Widget {
 		<ul>
 		<?php
 		/**
-		 * Filter the arguments for the Archives widget.
+		 * Filters the arguments for the Archives widget.
 		 *
 		 * @since 2.8.0
 		 *
