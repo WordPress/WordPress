@@ -263,11 +263,11 @@ win.send_to_editor( <?php echo wp_json_encode( $html ); ?> );
  *
  * @since 2.5.0
  *
- * @param string $file_id   Index of the {@link $_FILES} array that the file was sent. Required.
+ * @param string $file_id   Index of the $_FILES array that the file was sent. Required.
  * @param int    $post_id   The post ID of a post to attach the media item to. Required, but can
  *                          be set to 0, creating a media item that has no relationship to a post.
  * @param array  $post_data Overwrite some of the attachment. Optional.
- * @param array  $overrides Override the {@link wp_handle_upload()} behavior. Optional.
+ * @param array  $overrides Override the wp_handle_upload() behavior. Optional.
  * @return int|WP_Error ID of the attachment or a WP_Error object on failure.
  */
 function media_handle_upload($file_id, $post_id, $post_data = array(), $overrides = array( 'test_form' => false )) {
@@ -380,17 +380,17 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 }
 
 /**
- * This handles a sideloaded file in the same way as an uploaded file is handled by {@link media_handle_upload()}
+ * Handles a side-loaded file in the same way as an uploaded file is handled by media_handle_upload().
  *
  * @since 2.6.0
  *
- * @param array $file_array Array similar to a {@link $_FILES} upload array
+ * @param array $file_array Array similar to a $_FILES upload array
  * @param int $post_id The post ID the media is associated with
  * @param string $desc Description of the sideloaded file
  * @param array $post_data allows you to overwrite some of the attachment
  * @return int|object The ID of the attachment or a WP_Error on failure
  */
-function media_handle_sideload($file_array, $post_id, $desc = null, $post_data = array()) {
+function media_handle_sideload( $file_array, $post_id, $desc = null, $post_data = array() ) {
 	$overrides = array('test_form'=>false);
 
 	$time = current_time( 'mysql' );
