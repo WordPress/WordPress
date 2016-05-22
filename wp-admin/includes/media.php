@@ -263,7 +263,7 @@ win.send_to_editor( <?php echo wp_json_encode( $html ); ?> );
  *
  * @since 2.5.0
  *
- * @param string $file_id   Index of the $_FILES array that the file was sent. Required.
+ * @param string $file_id   Index of the `$_FILES` array that the file was sent. Required.
  * @param int    $post_id   The post ID of a post to attach the media item to. Required, but can
  *                          be set to 0, creating a media item that has no relationship to a post.
  * @param array  $post_data Overwrite some of the attachment. Optional.
@@ -384,11 +384,11 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
  *
  * @since 2.6.0
  *
- * @param array $file_array Array similar to a $_FILES upload array
- * @param int $post_id The post ID the media is associated with
- * @param string $desc Description of the sideloaded file
- * @param array $post_data allows you to overwrite some of the attachment
- * @return int|object The ID of the attachment or a WP_Error on failure
+ * @param array  $file_array Array similar to a `$_FILES` upload array.
+ * @param int    $post_id    The post ID the media is associated with.
+ * @param string $desc       Optional. Description of the side-loaded file. Default null.
+ * @param array  $post_data  Optional. Post data to override. Default empty array.
+ * @return int|object The ID of the attachment or a WP_Error on failure.
  */
 function media_handle_sideload( $file_array, $post_id, $desc = null, $post_data = array() ) {
 	$overrides = array('test_form'=>false);
