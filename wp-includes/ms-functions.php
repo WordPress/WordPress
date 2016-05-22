@@ -374,7 +374,7 @@ function is_email_address_unsafe( $user_email ) {
 	}
 
 	/**
-	 * Filter whether an email address is unsafe.
+	 * Filters whether an email address is unsafe.
 	 *
 	 * @since 3.5.0
 	 *
@@ -497,7 +497,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	$result = array('user_name' => $user_name, 'orig_username' => $orig_username, 'user_email' => $user_email, 'errors' => $errors);
 
 	/**
-	 * Filter the validated user registration details.
+	 * Filters the validated user registration details.
 	 *
 	 * This does not allow you to override the username or email of the user during
 	 * registration. The values are solely used for validation and error handling.
@@ -585,7 +585,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 		$errors->add('blogname', __('Sorry, site names must have letters too!'));
 
 	/**
-	 * Filter the new site name during registration.
+	 * Filters the new site name during registration.
 	 *
 	 * The name is the site's subdomain or the site's subdirectory
 	 * path depending on the network settings.
@@ -631,7 +631,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	$result = array('domain' => $mydomain, 'path' => $path, 'blogname' => $blogname, 'blog_title' => $blog_title, 'user' => $user, 'errors' => $errors);
 
 	/**
-	 * Filter site details and error messages following registration.
+	 * Filters site details and error messages following registration.
 	 *
 	 * @since MU
 	 *
@@ -769,7 +769,7 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
  */
 function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_email, $key, $meta = array() ) {
 	/**
-	 * Filter whether to bypass the new site email notification.
+	 * Filters whether to bypass the new site email notification.
 	 *
 	 * @since MU
 	 *
@@ -799,7 +799,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf(
 		/**
-		 * Filter the message content of the new blog notification email.
+		 * Filters the message content of the new blog notification email.
 		 *
 		 * Content should be formatted for transmission via wp_mail().
 		 *
@@ -825,7 +825,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
 	// TODO: Don't hard code activation link.
 	$subject = sprintf(
 		/**
-		 * Filter the subject of the new blog notification email.
+		 * Filters the subject of the new blog notification email.
 		 *
 		 * @since MU
 		 *
@@ -872,7 +872,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
  */
 function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array() ) {
 	/**
-	 * Filter whether to bypass the email notification for new user sign-up.
+	 * Filters whether to bypass the email notification for new user sign-up.
 	 *
 	 * @since MU
 	 *
@@ -892,7 +892,7 @@ function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array(
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 	$message = sprintf(
 		/**
-		 * Filter the content of the notification email for new user sign-up.
+		 * Filters the content of the notification email for new user sign-up.
 		 *
 		 * Content should be formatted for transmission via wp_mail().
 		 *
@@ -913,7 +913,7 @@ function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array(
 	// TODO: Don't hard code activation link.
 	$subject = sprintf(
 		/**
-		 * Filter the subject of the notification email of new user signup.
+		 * Filters the subject of the notification email of new user signup.
 		 *
 		 * @since MU
 		 *
@@ -1184,7 +1184,7 @@ Remote IP: %3$s
 
 Disable these notifications: %4$s' ), $blogname, $siteurl, wp_unslash( $_SERVER['REMOTE_ADDR'] ), $options_site_url);
 	/**
-	 * Filter the message body of the new site activation email sent
+	 * Filters the message body of the new site activation email sent
 	 * to the network administrator.
 	 *
 	 * @since MU
@@ -1226,7 +1226,7 @@ Remote IP: %2$s
 Disable these notifications: %3$s'), $user->user_login, wp_unslash( $_SERVER['REMOTE_ADDR'] ), $options_site_url);
 
 	/**
-	 * Filter the message body of the new user activation email sent
+	 * Filters the message body of the new user activation email sent
 	 * to the network administrator.
 	 *
 	 * @since MU
@@ -1260,7 +1260,7 @@ function domain_exists($domain, $path, $site_id = 1) {
 	$result = $wpdb->get_var( $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s AND site_id = %d", $domain, $path, $site_id) );
 
 	/**
-	 * Filter whether a blogname is taken.
+	 * Filters whether a blogname is taken.
 	 *
 	 * @since 3.5.0
 	 *
@@ -1420,7 +1420,7 @@ function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta
 	$current_site = get_current_site();
 
 	/**
-	 * Filter whether to bypass the welcome email after site activation.
+	 * Filters whether to bypass the welcome email after site activation.
 	 *
 	 * Returning false disables the welcome email.
 	 *
@@ -1464,7 +1464,7 @@ We hope you enjoy your new site. Thanks!
 	$welcome_email = str_replace( 'PASSWORD', $password, $welcome_email );
 
 	/**
-	 * Filter the content of the welcome email after site activation.
+	 * Filters the content of the welcome email after site activation.
 	 *
 	 * Content should be formatted for transmission via wp_mail().
 	 *
@@ -1491,7 +1491,7 @@ We hope you enjoy your new site. Thanks!
 		$current_site->site_name = 'WordPress';
 
 	/**
-	 * Filter the subject of the welcome email after site activation.
+	 * Filters the subject of the welcome email after site activation.
 	 *
 	 * @since MU
 	 *
@@ -1521,7 +1521,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	$current_site = get_current_site();
 
 	/**
- 	 * Filter whether to bypass the welcome email after user activation.
+ 	 * Filters whether to bypass the welcome email after user activation.
 	 *
 	 * Returning false disables the welcome email.
 	 *
@@ -1569,7 +1569,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 		$current_site->site_name = 'WordPress';
 
 	/**
-	 * Filter the subject of the welcome email after user activation.
+	 * Filters the subject of the welcome email after user activation.
 	 *
 	 * @since MU
 	 *
@@ -1924,7 +1924,7 @@ function signup_nonce_check( $result ) {
  */
 function maybe_redirect_404() {
 	/**
-	 * Filter the redirect URL for 404s on the main site.
+	 * Filters the redirect URL for 404s on the main site.
 	 *
 	 * The filter is only evaluated if the NOBLOGREDIRECT constant is defined.
 	 *
@@ -2209,7 +2209,7 @@ function wp_maybe_update_network_site_counts() {
 	$is_small_network = ! wp_is_large_network( 'sites' );
 
 	/**
-	 * Filter whether to update network site or user counts when a new site is created.
+	 * Filters whether to update network site or user counts when a new site is created.
 	 *
 	 * @since 3.7.0
 	 *
@@ -2279,7 +2279,7 @@ function wp_update_network_user_counts() {
  */
 function get_space_used() {
 	/**
-	 * Filter the amount of storage space used by the current site.
+	 * Filters the amount of storage space used by the current site.
 	 *
 	 * @since 3.5.0
 	 *
@@ -2311,7 +2311,7 @@ function get_space_allowed() {
 		$space_allowed = 100;
 
 	/**
-	 * Filter the upload quota for the current site.
+	 * Filters the upload quota for the current site.
 	 *
 	 * @since 3.7.0
 	 *
@@ -2387,7 +2387,7 @@ function wp_is_large_network( $using = 'sites' ) {
 	if ( 'users' == $using ) {
 		$count = get_user_count();
 		/**
-		 * Filter whether the network is considered large.
+		 * Filters whether the network is considered large.
 		 *
 		 * @since 3.3.0
 		 *
@@ -2496,7 +2496,7 @@ function get_subdirectory_reserved_names() {
 	);
 
 	/**
-	 * Filter reserved site names on a sub-directory Multisite install.
+	 * Filters reserved site names on a sub-directory Multisite install.
 	 *
 	 * @since 3.0.0
 	 * @since 4.4.0 'wp-admin', 'wp-content', 'wp-includes', 'wp-json', and 'embed' were added
