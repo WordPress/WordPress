@@ -718,7 +718,7 @@ class WP {
 	 * @since 2.0.0
 	 * @access public
 	 *
-	 * @param string|array $query_args Passed to {@link parse_request()}
+	 * @param string|array $query_args Passed to parse_request().
 	 */
 	public function main($query_args = '') {
 		$this->init();

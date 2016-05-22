@@ -43,7 +43,7 @@ class WP_Embed {
 	 *
 	 * Since the [embed] shortcode needs to be run earlier than other shortcodes,
 	 * this function removes all existing shortcodes, registers the [embed] shortcode,
-	 * calls {@link do_shortcode()}, and then re-registers the old shortcodes.
+	 * calls do_shortcode(), and then re-registers the old shortcodes.
 	 *
 	 * @global array $shortcode_tags
 	 *
@@ -88,7 +88,10 @@ class WP_Embed {
 	}
 
 	/**
-	 * Register an embed handler. Do not use this function directly, use {@link wp_embed_register_handler()} instead.
+	 * Registers an embed handler.
+	 *
+	 * Do not use this function directly, use wp_embed_register_handler() instead.
+	 *
 	 * This function should probably also only be used for sites that do not support oEmbed.
 	 *
 	 * @param string $id An internal ID/name for the handler. Needs to be unique.
@@ -104,7 +107,9 @@ class WP_Embed {
 	}
 
 	/**
-	 * Unregister a previously registered embed handler. Do not use this function directly, use {@link wp_embed_unregister_handler()} instead.
+	 * Unregisters a previously-registered embed handler.
+	 *
+	 * Do not use this function directly, use wp_embed_unregister_handler() instead.
 	 *
 	 * @param string $id The handler ID that should be removed.
 	 * @param int $priority Optional. The priority of the handler to be removed (default: 10).
@@ -114,10 +119,11 @@ class WP_Embed {
 	}
 
 	/**
-	 * The {@link do_shortcode()} callback function.
+	 * The do_shortcode() callback function.
 	 *
-	 * Attempts to convert a URL into embed HTML. Starts by checking the URL against the regex of the registered embed handlers.
-	 * If none of the regex matches and it's enabled, then the URL will be given to the {@link WP_oEmbed} class.
+	 * Attempts to convert a URL into embed HTML. Starts by checking the URL against the regex of
+	 * the registered embed handlers. If none of the regex matches and it's enabled, then the URL
+	 * will be given to the WP_oEmbed class.
 	 *
 	 * @param array $attr {
 	 *     Shortcode attributes. Optional.
@@ -312,9 +318,9 @@ class WP_Embed {
 	}
 
 	/**
-	 * Passes any unlinked URLs that are on their own line to {@link WP_Embed::shortcode()} for potential embedding.
+	 * Passes any unlinked URLs that are on their own line to WP_Embed::shortcode() for potential embedding.
 	 *
-	 * @uses WP_Embed::autoembed_callback()
+	 * @see WP_Embed::autoembed_callback()
 	 *
 	 * @param string $content The content to be searched.
 	 * @return string Potentially modified $content.
@@ -331,7 +337,7 @@ class WP_Embed {
 	}
 
 	/**
-	 * Callback function for {@link WP_Embed::autoembed()}.
+	 * Callback function for WP_Embed::autoembed().
 	 *
 	 * @param array $match A regex match array.
 	 * @return string The embed HTML on success, otherwise the original URL.

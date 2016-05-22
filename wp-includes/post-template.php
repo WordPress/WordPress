@@ -56,12 +56,12 @@ function the_title( $before = '', $after = '', $echo = true ) {
 /**
  * Sanitize the current title when retrieving or displaying.
  *
- * Works like {@link the_title()}, except the parameters can be in a string or
+ * Works like the_title(), except the parameters can be in a string or
  * an array. See the function for what can be override in the $args parameter.
  *
- * The title before it is displayed will have the tags stripped and {@link
- * esc_attr()} before it is passed to the user or displayed. The default
- * as with {@link the_title()}, is to display the title.
+ * The title before it is displayed will have the tags stripped and esc_attr()
+ * before it is passed to the user or displayed. The default as with the_title(),
+ * is to display the title.
  *
  * @since 2.3.0
  *
@@ -1209,11 +1209,10 @@ function wp_list_pages( $args = '' ) {
 }
 
 /**
- * Display or retrieve list of pages with optional home link.
+ * Displays or retrieves a list of pages with an optional home link.
  *
- * The arguments are listed below and part of the arguments are for {@link
- * wp_list_pages()} function. Check that function for more info on those
- * arguments.
+ * The arguments are listed below and part of the arguments are for wp_list_pages()} function.
+ * Check that function for more info on those arguments.
  *
  * @since 2.7.0
  * @since 4.4.0 Added `menu_id`, `container`, `before`, `after`, and `walker` arguments.

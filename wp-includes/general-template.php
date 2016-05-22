@@ -2850,10 +2850,10 @@ function wp_editor( $content, $editor_id, $settings = array() ) {
 }
 
 /**
- * Retrieve the contents of the search WordPress query variable.
+ * Retrieves the contents of the search WordPress query variable.
  *
- * The search query string is passed through {@link esc_attr()}
- * to ensure that it is safe for placing in an html attribute.
+ * The search query string is passed through esc_attr() to ensure that it is safe
+ * for placing in an html attribute.
  *
  * @since 2.3.0
  *
@@ -2877,10 +2877,10 @@ function get_search_query( $escaped = true ) {
 }
 
 /**
- * Display the contents of the search query variable.
+ * Displays the contents of the search query variable.
  *
- * The search query string is passed through {@link esc_attr()}
- * to ensure that it is safe for placing in an html attribute.
+ * The search query string is passed through esc_attr() to ensure that it is safe
+ * for placing in an html attribute.
  *
  * @since 2.1.0
  */
@@ -2986,7 +2986,7 @@ function language_attributes( $doctype = 'html' ) {
  * numbers to either side of current page, but not including current page.
  *
  * It is possible to add query vars to the link by using the 'add_args' argument
- * and see {@link add_query_arg()} for more information.
+ * and see add_query_arg() for more information.
  *
  * The 'before_page_number' and 'after_page_number' arguments allow users to
  * augment the links themselves. Typically this might be to add context to the

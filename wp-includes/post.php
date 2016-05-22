@@ -286,11 +286,10 @@ function _wp_relative_upload_path( $path ) {
  * example of what is possible.
  *
  * The arguments listed as defaults are for this function and also of the
- * {@link get_posts()} function. The arguments are combined with the
- * get_children defaults and are then passed to the {@link get_posts()}
- * function, which accepts additional arguments. You can replace the defaults in
- * this function, listed below and the additional arguments listed in the
- * {@link get_posts()} function.
+ * get_posts() function. The arguments are combined with the get_children defaults
+ * and are then passed to the get_posts() function, which accepts additional arguments.
+ * You can replace the defaults in this function, listed below and the additional
+ * arguments listed in the get_posts() function.
  *
  * The 'post_parent' is the most important argument and important attention
  * needs to be paid to the $args parameter. If you pass either an object or an
@@ -412,8 +411,8 @@ function get_extended( $post ) {
 /**
  * Retrieves post data given a post ID or post object.
  *
- * See {@link sanitize_post()} for optional $filter values. Also, the parameter
- * $post, must be given as a variable, since it is passed by reference.
+ * See sanitize_post() for optional $filter values. Also, the parameter
+ * `$post`, must be given as a variable, since it is passed by reference.
  *
  * @since 1.5.1
  *
@@ -2870,7 +2869,7 @@ function wp_get_post_categories( $post_id = 0, $args = array() ) {
  *
  * There is only one default for this function, called 'fields' and by default
  * is set to 'all'. There are other defaults that can be overridden in
- * {@link wp_get_object_terms()}.
+ * wp_get_object_terms().
  *
  * @since 2.3.0
  *
@@ -2888,14 +2887,14 @@ function wp_get_post_tags( $post_id = 0, $args = array() ) {
  *
  * There is only one default for this function, called 'fields' and by default
  * is set to 'all'. There are other defaults that can be overridden in
- * {@link wp_get_object_terms()}.
+ * wp_get_object_terms().
  *
  * @since 2.8.0
  *
  * @param int    $post_id  Optional. The Post ID. Does not default to the ID of the
  *                         global $post. Default 0.
  * @param string $taxonomy Optional. The taxonomy for which to retrieve terms. Default 'post_tag'.
- * @param array  $args     Optional. {@link wp_get_object_terms()} arguments. Default empty array.
+ * @param array  $args     Optional. wp_get_object_terms() arguments. Default empty array.
  * @return array|WP_Error  List of post terms or empty array if no terms were found. WP_Error object
  *                         if `$taxonomy` doesn't exist.
  */

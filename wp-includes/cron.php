@@ -457,7 +457,7 @@ function _get_cron_array()  {
  * @since 2.1.0
  * @access private
  *
- * @param array $cron Cron info array from {@link _get_cron_array()}.
+ * @param array $cron Cron info array from _get_cron_array().
  */
 function _set_cron_array($cron) {
 	$cron['version'] = 2;
@@ -472,7 +472,7 @@ function _set_cron_array($cron) {
  * @since 2.1.0
  * @access private
  *
- * @param array $cron Cron info array from {@link _get_cron_array()}.
+ * @param array $cron Cron info array from _get_cron_array().
  * @return array An upgraded Cron info array.
  */
 function _upgrade_cron_array($cron) {

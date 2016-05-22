@@ -3112,7 +3112,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string $password
 	 *     @type int    $category_id
 	 * }
-	 * @return bool|IXR_Error See {@link wp_delete_term()} for return info.
+	 * @return bool|IXR_Error See wp_delete_term() for return info.
 	 */
 	public function wp_deleteCategory( $args ) {
 		$this->escape( $args );
@@ -3244,7 +3244,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * - 'status' - Default is ''. Filter by status (e.g., 'approve', 'hold')
 	 * - 'post_id' - Default is ''. The post where the comment is posted. Empty string shows all comments.
 	 * - 'number' - Default is 10. Total number of media items to retrieve.
-	 * - 'offset' - Default is 0. See {@link WP_Query::query()} for more.
+	 * - 'offset' - Default is 0. See WP_Query::query() for more.
 	 *
 	 * @since 2.7.0
 	 *
@@ -3256,7 +3256,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string $password
 	 *     @type array  $struct
 	 * }
-	 * @return array|IXR_Error Contains a collection of comments. See {@link wp_xmlrpc_server::wp_getComment()} for a description of each item contents
+	 * @return array|IXR_Error Contains a collection of comments. See wp_xmlrpc_server::wp_getComment() for a description of each item contents
 	 */
 	public function wp_getComments( $args ) {
 		$this->escape( $args );
@@ -3328,8 +3328,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * Delete a comment.
 	 *
 	 * By default, the comment will be moved to the trash instead of deleted.
-	 * See {@link wp_delete_comment()} for more information on
-	 * this behavior.
+	 * See wp_delete_comment() for more information on this behavior.
 	 *
 	 * @since 2.7.0
 	 *
@@ -3341,7 +3340,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string $password
 	 *     @type int    $comment_ID
 	 * }
-	 * @return bool|IXR_Error {@link wp_delete_comment()}
+	 * @return bool|IXR_Error See wp_delete_comment().
 	 */
 	public function wp_deleteComment( $args ) {
 		$this->escape($args);
@@ -3498,7 +3497,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *     @type string|int $post
 	 *     @type array      $content_struct
 	 * }
-	 * @return int|IXR_Error {@link wp_new_comment()}
+	 * @return int|IXR_Error See wp_new_comment().
 	 */
 	public function wp_newComment($args) {
 		$this->escape($args);

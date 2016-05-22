@@ -95,11 +95,11 @@ function query_posts($query) {
 }
 
 /**
- * Destroy the previous query and set up a new query.
+ * Destroys the previous query and sets up a new query.
  *
- * This should be used after {@link query_posts()} and before another {@link
- * query_posts()}. This will remove obscure bugs that occur when the previous
- * wp_query object is not destroyed properly before another is set up.
+ * This should be used after query_posts() and before another query_posts().
+ * This will remove obscure bugs that occur when the previous WP_Query object
+ * is not destroyed properly before another is set up.
  *
  * @since 2.3.0
  *

@@ -323,9 +323,8 @@ function get_lastcommentmodified($timezone = 'server') {
 /**
  * The amount of comments in a post or total comments.
  *
- * A lot like {@link wp_count_comments()}, in that they both return comment
- * stats (albeit with different types). The {@link wp_count_comments()} actual
- * caches, but this function does not.
+ * A lot like wp_count_comments(), in that they both return comment stats (albeit with different types).
+ * The wp_count_comments() actually caches, but this function does not.
  *
  * @since 2.0.0
  *

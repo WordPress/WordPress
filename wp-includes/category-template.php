@@ -705,9 +705,8 @@ function wp_list_categories( $args = '' ) {
  * The 'post_type' argument is used only when 'link' is set to 'edit'. It determines the post_type
  * passed to edit.php for the popular tags edit links.
  *
- * The 'exclude' and 'include' arguments are used for the {@link get_tags()}
- * function. Only one should be used, because only one will be used and the
- * other ignored, if they are both set.
+ * The 'exclude' and 'include' arguments are used for the get_tags() function. Only one
+ * should be used, because only one will be used and the other ignored, if they are both set.
  *
  * @since 2.3.0
  *
