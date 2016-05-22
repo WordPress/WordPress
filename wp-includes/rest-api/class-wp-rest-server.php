@@ -251,7 +251,7 @@ class WP_REST_Server {
 		}
 
 		/**
-		 * Filter whether the REST API is enabled.
+		 * Filters whether the REST API is enabled.
 		 *
 		 * @since 4.4.0
 		 *
@@ -260,7 +260,7 @@ class WP_REST_Server {
 		$enabled = apply_filters( 'rest_enabled', true );
 
 		/**
-		 * Filter whether jsonp is enabled.
+		 * Filters whether jsonp is enabled.
 		 *
 		 * @since 4.4.0
 		 *
@@ -335,7 +335,7 @@ class WP_REST_Server {
 		}
 
 		/**
-		 * Filter the API response.
+		 * Filters the API response.
 		 *
 		 * Allows modification of the response before returning.
 		 *
@@ -361,7 +361,7 @@ class WP_REST_Server {
 		$this->set_status( $code );
 
 		/**
-		 * Filter whether the request has already been served.
+		 * Filters whether the request has already been served.
 		 *
 		 * Allow sending the request manually - by returning true, the API result
 		 * will not be sent to the client.
@@ -619,7 +619,7 @@ class WP_REST_Server {
 		);
 
 		/**
-		 * Filter the enveloped form of a response.
+		 * Filters the enveloped form of a response.
 		 *
 		 * @since 4.4.0
 		 *
@@ -699,7 +699,7 @@ class WP_REST_Server {
 	public function get_routes() {
 
 		/**
-		 * Filter the array of available endpoints.
+		 * Filters the array of available endpoints.
 		 *
 		 * @since 4.4.0
 		 *
@@ -801,7 +801,7 @@ class WP_REST_Server {
 	 */
 	public function dispatch( $request ) {
 		/**
-		 * Filter the pre-calculated result of a REST dispatch request.
+		 * Filters the pre-calculated result of a REST dispatch request.
 		 *
 		 * Allow hijacking the request before dispatching by returning a non-empty. The returned value
 		 * will be used to serve the request instead.
@@ -886,7 +886,7 @@ class WP_REST_Server {
 
 				if ( ! is_wp_error( $response ) ) {
 					/**
-					 * Filter the REST dispatch request result.
+					 * Filters the REST dispatch request result.
 					 *
 					 * Allow plugins to override dispatching the request.
 					 *
@@ -982,7 +982,7 @@ class WP_REST_Server {
 		$response->add_link( 'help', 'http://v2.wp-api.org/' );
 
 		/**
-		 * Filter the API root index data.
+		 * Filters the API root index data.
 		 *
 		 * This contains the data describing the API. This includes information
 		 * about supported authentication schemes, supported namespaces, routes
@@ -1025,7 +1025,7 @@ class WP_REST_Server {
 		$response->add_link( 'up', rest_url( '/' ) );
 
 		/**
-		 * Filter the namespace index data.
+		 * Filters the namespace index data.
 		 *
 		 * This typically is just the route data for the namespace, but you can
 		 * add any data you'd like here.
@@ -1059,7 +1059,7 @@ class WP_REST_Server {
 			}
 
 			/**
-			 * Filter the REST endpoint data.
+			 * Filters the REST endpoint data.
 			 *
 			 * @since 4.4.0
 			 *
@@ -1069,7 +1069,7 @@ class WP_REST_Server {
 		}
 
 		/**
-		 * Filter the publicly-visible data for routes.
+		 * Filters the publicly-visible data for routes.
 		 *
 		 * This data is exposed on indexes and can be used by clients or
 		 * developers to investigate the site and find out how to use it. It

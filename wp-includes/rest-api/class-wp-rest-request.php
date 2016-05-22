@@ -373,7 +373,7 @@ class WP_REST_Request implements ArrayAccess {
 		$order[] = 'defaults';
 
 		/**
-		 * Filter the parameter order.
+		 * Filters the parameter order.
 		 *
 		 * The order affects which parameters are checked when using get_param() and family.
 		 * This acts similarly to PHP's `request_order` setting.
@@ -970,7 +970,7 @@ class WP_REST_Request implements ArrayAccess {
 		}
 
 		/**
-		 * Filter the request generated from a URL.
+		 * Filters the request generated from a URL.
 		 *
 		 * @since 4.5.0
 		 *
