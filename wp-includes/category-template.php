@@ -513,21 +513,21 @@ function wp_dropdown_categories( $args = '' ) {
  *                                               Default 1.
  *     @type string       $feed                  Text to use for the feed link. Default 'Feed for all posts filed
  *                                               under [cat name]'.
- *     @type string       $feed_type             Feed type. Used to build feed link. See {@link get_term_feed_link()}.
+ *     @type string       $feed_type             Feed type. Used to build feed link. See get_term_feed_link().
  *                                               Default empty string (default feed).
  *     @type string       $feed_image            URL of an image to use for the feed link. Default empty string.
- *     @type int          $child_of              Term ID to retrieve child terms of. See {@link get_terms()}. Default 0.
+ *     @type int          $child_of              Term ID to retrieve child terms of. See get_terms(). Default 0.
  *     @type array|string $exclude               Array or comma/space-separated string of term IDs to exclude.
  *                                               If `$hierarchical` is true, descendants of `$exclude` terms will also
- *                                               be excluded; see `$exclude_tree`. See {@link get_terms()}.
+ *                                               be excluded; see `$exclude_tree`. See get_terms().
  *                                               Default empty string.
  *     @type array|string $exclude_tree          Array or comma/space-separated string of term IDs to exclude, along
- *                                               with their descendants. See {@link get_terms()}. Default empty string.
+ *                                               with their descendants. See get_terms(). Default empty string.
  *     @type bool|int     $echo                  True to echo markup, false to return it. Default 1.
  *     @type int|array    $current_category      ID of category, or array of IDs of categories, that should get the
  *                                               'current-cat' class. Default 0.
  *     @type bool         $hierarchical          Whether to include terms that have non-empty descendants.
- *                                               See {@link get_terms()}. Default true.
+ *                                               See get_terms(). Default true.
  *     @type string       $title_li              Text to use for the list title `<li>` element. Pass an empty string
  *                                               to disable. Default 'Categories'.
  *     @type bool         $hide_title_if_empty   Whether to hide the `$title_li` element if there are no terms in
