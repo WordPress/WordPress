@@ -361,7 +361,7 @@ class WP_Comment_Query {
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
-	 * @return int|array The list of comments.
+	 * @return int|array List of comments or number of found comments if `$count` argument is true.
 	 */
 	public function get_comments() {
 		global $wpdb;
