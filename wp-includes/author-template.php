@@ -27,7 +27,7 @@ function get_the_author($deprecated = '') {
 		_deprecated_argument( __FUNCTION__, '2.1' );
 
 	/**
-	 * Filter the display name of the current post's author.
+	 * Filters the display name of the current post's author.
 	 *
 	 * @since 2.9.0
 	 *
@@ -88,7 +88,7 @@ function get_the_modified_author() {
 		$last_user = get_userdata($last_id);
 
 		/**
-		 * Filter the display name of the author who last edited the current post.
+		 * Filters the display name of the author who last edited the current post.
 		 *
 		 * @since 2.8.0
 		 *
@@ -137,7 +137,7 @@ function get_the_author_meta( $field = '', $user_id = false ) {
 	$value = isset( $authordata->$field ) ? $authordata->$field : '';
 
 	/**
-	 * Filter the value of the requested user metadata.
+	 * Filters the value of the requested user metadata.
 	 *
 	 * The filter name is dynamic and depends on the $field parameter of the function.
 	 *
@@ -258,7 +258,7 @@ function get_the_author_posts_link() {
 	);
 
 	/**
-	 * Filter the link to the author page of the author of the current post.
+	 * Filters the link to the author page of the author of the current post.
 	 *
 	 * @since 2.9.0
 	 *
@@ -312,7 +312,7 @@ function get_author_posts_url( $author_id, $author_nicename = '' ) {
 	}
 
 	/**
-	 * Filter the URL to the author's page.
+	 * Filters the URL to the author's page.
 	 *
 	 * @since 2.1.0
 	 *
@@ -480,7 +480,7 @@ function is_multi_author() {
 	}
 
 	/**
-	 * Filter whether the site has more than one author with published posts.
+	 * Filters whether the site has more than one author with published posts.
 	 *
 	 * @since 3.2.0
 	 *
