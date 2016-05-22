@@ -744,16 +744,16 @@ if ( ! defined( 'CORE_UPGRADE_SKIP_NEW_BUNDLED' ) || CORE_UPGRADE_SKIP_NEW_BUNDL
 }
 
 /**
- * Upgrade the core of WordPress.
+ * Upgrades the core of WordPress.
  *
  * This will create a .maintenance file at the base of the WordPress directory
  * to ensure that people can not access the web site, when the files are being
  * copied to their locations.
  *
- * The files in the {@link $_old_files} list will be removed and the new files
+ * The files in the `$_old_files` list will be removed and the new files
  * copied from the zip file after the database is upgraded.
  *
- * The files in the {@link $_new_bundled_files} list will be added to the installation
+ * The files in the `$_new_bundled_files` list will be added to the installation
  * if the version is greater than or equal to the old version being upgraded.
  *
  * The steps for the upgrader for after the new release is downloaded and

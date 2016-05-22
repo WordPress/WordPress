@@ -1100,7 +1100,7 @@ function remove_meta_box( $id, $screen, $context ) {
 /**
  * Meta Box Accordion Template Function
  *
- * Largely made up of abstracted code from {@link do_meta_boxes()}, this
+ * Largely made up of abstracted code from do_meta_boxes(), this
  * function serves to build meta boxes as list items for display as
  * a collapsible accordion.
  *
@@ -1513,10 +1513,9 @@ function find_posts_div($found_action = '') {
 }
 
 /**
- * Display the post password.
+ * Displays the post password.
  *
- * The password is passed through {@link esc_attr()} to ensure that it
- * is safe for placing in an html attribute.
+ * The password is passed through esc_attr() to ensure that it is safe for placing in an html attribute.
  *
  * @since 2.7.0
  */
@@ -1545,10 +1544,10 @@ function _draft_or_post_title( $post = 0 ) {
 }
 
 /**
- * Display the search query.
+ * Displays the search query.
  *
- * A simple wrapper to display the "s" parameter in a GET URI. This function
- * should only be used when {@link the_search_query()} cannot.
+ * A simple wrapper to display the "s" parameter in a `GET` URI. This function
+ * should only be used when the_search_query() cannot.
  *
  * @since 2.7.0
  */
