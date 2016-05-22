@@ -49,7 +49,7 @@ function export_wp( $args = array() ) {
 	$date = date( 'Y-m-d' );
 	$wp_filename = $sitename . 'wordpress.' . $date . '.xml';
 	/**
-	 * Filter the export filename.
+	 * Filters the export filename.
 	 *
 	 * @since 4.4.0
 	 *
@@ -269,7 +269,7 @@ function export_wp( $args = array() ) {
 
 		foreach ( $termmeta as $meta ) {
 			/**
-			 * Filter whether to selectively skip term meta used for WXR exports.
+			 * Filters whether to selectively skip term meta used for WXR exports.
 			 *
 			 * Returning a truthy value to the filter will skip the current meta
 			 * object from being exported.
@@ -484,7 +484,7 @@ function export_wp( $args = array() ) {
 		<description></description>
 		<content:encoded><?php
 			/**
-			 * Filter the post content used for WXR exports.
+			 * Filters the post content used for WXR exports.
 			 *
 			 * @since 2.5.0
 			 *
@@ -494,7 +494,7 @@ function export_wp( $args = array() ) {
 		?></content:encoded>
 		<excerpt:encoded><?php
 			/**
-			 * Filter the post excerpt used for WXR exports.
+			 * Filters the post excerpt used for WXR exports.
 			 *
 			 * @since 2.6.0
 			 *
@@ -521,7 +521,7 @@ function export_wp( $args = array() ) {
 <?php	$postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE post_id = %d", $post->ID ) );
 		foreach ( $postmeta as $meta ) :
 			/**
-			 * Filter whether to selectively skip post meta used for WXR exports.
+			 * Filters whether to selectively skip post meta used for WXR exports.
 			 *
 			 * Returning a truthy value to the filter will skip the current meta
 			 * object from being exported.
@@ -560,7 +560,7 @@ function export_wp( $args = array() ) {
 <?php		$c_meta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->commentmeta WHERE comment_id = %d", $c->comment_ID ) );
 			foreach ( $c_meta as $meta ) :
 				/**
-				 * Filter whether to selectively skip comment meta used for WXR exports.
+				 * Filters whether to selectively skip comment meta used for WXR exports.
 				 *
 				 * Returning a truthy value to the filter will skip the current meta
 				 * object from being exported.

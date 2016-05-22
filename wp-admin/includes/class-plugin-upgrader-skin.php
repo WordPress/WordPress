@@ -54,7 +54,7 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 			unset( $update_actions['activate_plugin'] );
 
 		/**
-		 * Filter the list of action links available following a single plugin update.
+		 * Filters the list of action links available following a single plugin update.
 		 *
 		 * @since 2.7.0
 		 *

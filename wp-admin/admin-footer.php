@@ -33,7 +33,7 @@ global $hook_suffix;
 		<?php
 		$text = sprintf( __( 'Thank you for creating with <a href="%s">WordPress</a>.' ), __( 'https://wordpress.org/' ) );
 		/**
-		 * Filter the "Thank you" text displayed in the admin footer.
+		 * Filters the "Thank you" text displayed in the admin footer.
 		 *
 		 * @since 2.8.0
 		 *
@@ -45,7 +45,7 @@ global $hook_suffix;
 	<p id="footer-upgrade" class="alignright">
 		<?php
 		/**
-		 * Filter the version/update text displayed in the admin footer.
+		 * Filters the version/update text displayed in the admin footer.
 		 *
 		 * WordPress prints the current version and update information,
 		 * using core_update_footer() at priority 10.

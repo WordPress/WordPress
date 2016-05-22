@@ -218,7 +218,7 @@ function get_editable_roles() {
 	$all_roles = wp_roles()->roles;
 
 	/**
-	 * Filter the list of editable roles.
+	 * Filters the list of editable roles.
 	 *
 	 * @since 2.8.0
 	 *
@@ -261,7 +261,7 @@ function get_users_drafts( $user_id ) {
 	$query = $wpdb->prepare("SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author = %d ORDER BY post_modified DESC", $user_id);
 
 	/**
-	 * Filter the user's drafts query string.
+	 * Filters the user's drafts query string.
 	 *
 	 * @since 2.0.0
 	 *
@@ -329,7 +329,7 @@ function wp_delete_user( $id, $reassign = null ) {
 		}
 
 		/**
-		 * Filter the list of post types to delete with a user.
+		 * Filters the list of post types to delete with a user.
 		 *
 		 * @since 3.4.0
 		 *

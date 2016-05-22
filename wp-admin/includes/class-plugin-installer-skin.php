@@ -76,7 +76,7 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 		}
 
 		/**
-		 * Filter the list of action links available following a single plugin installation.
+		 * Filters the list of action links available following a single plugin installation.
 		 *
 		 * @since 2.7.0
 		 *

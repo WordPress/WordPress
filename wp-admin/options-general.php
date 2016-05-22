@@ -231,7 +231,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	<fieldset><legend class="screen-reader-text"><span><?php _e('Date Format') ?></span></legend>
 <?php
 	/**
-	* Filter the default date formats.
+	* Filters the default date formats.
 	*
 	* @since 2.7.0
 	* @since 4.0.0 Added ISO date standard YYYY-MM-DD format.
@@ -268,7 +268,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	<fieldset><legend class="screen-reader-text"><span><?php _e('Time Format') ?></span></legend>
 <?php
 	/**
-	* Filter the default time formats.
+	* Filters the default time formats.
 	*
 	* @since 2.7.0
 	*

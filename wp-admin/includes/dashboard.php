@@ -65,7 +65,7 @@ function wp_dashboard_setup() {
 		do_action( 'wp_network_dashboard_setup' );
 
 		/**
-		 * Filter the list of widgets to load for the Network Admin dashboard.
+		 * Filters the list of widgets to load for the Network Admin dashboard.
 		 *
 		 * @since 3.1.0
 		 *
@@ -82,7 +82,7 @@ function wp_dashboard_setup() {
 		do_action( 'wp_user_dashboard_setup' );
 
 		/**
-		 * Filter the list of widgets to load for the User Admin dashboard.
+		 * Filters the list of widgets to load for the User Admin dashboard.
 		 *
 		 * @since 3.1.0
 		 *
@@ -99,7 +99,7 @@ function wp_dashboard_setup() {
 		do_action( 'wp_dashboard_setup' );
 
 		/**
-		 * Filter the list of widgets to load for the admin dashboard.
+		 * Filters the list of widgets to load for the admin dashboard.
 		 *
 		 * @since 2.5.0
 		 *
@@ -283,7 +283,7 @@ function wp_dashboard_right_now() {
 	}
 
 	/**
-	 * Filter the array of extra elements to list in the 'At a Glance'
+	 * Filters the array of extra elements to list in the 'At a Glance'
 	 * dashboard widget.
 	 *
 	 * Prior to 3.8.0, the widget was named 'Right Now'. Each element
@@ -308,7 +308,7 @@ function wp_dashboard_right_now() {
 	if ( ! is_network_admin() && ! is_user_admin() && current_user_can( 'manage_options' ) && '0' == get_option( 'blog_public' ) ) {
 
 		/**
-		 * Filter the link title attribute for the 'Search Engines Discouraged'
+		 * Filters the link title attribute for the 'Search Engines Discouraged'
 		 * message displayed in the 'At a Glance' dashboard widget.
 		 *
 		 * Prior to 3.8.0, the widget was named 'Right Now'.
@@ -321,7 +321,7 @@ function wp_dashboard_right_now() {
 		$title = apply_filters( 'privacy_on_link_title', '' );
 
 		/**
-		 * Filter the link label for the 'Search Engines Discouraged' message
+		 * Filters the link label for the 'Search Engines Discouraged' message
 		 * displayed in the 'At a Glance' dashboard widget.
 		 *
 		 * Prior to 3.8.0, the widget was named 'Right Now'.
@@ -538,7 +538,7 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 		);
 
 		/**
-		 * Filter the post query arguments for the 'Recent Drafts' dashboard widget.
+		 * Filters the post query arguments for the 'Recent Drafts' dashboard widget.
 		 *
 		 * @since 4.4.0
 		 *
@@ -633,7 +633,7 @@ function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
 		$actions['view'] = '<a class="comment-link" href="' . esc_url( get_comment_link( $comment ) ) . '" aria-label="' . esc_attr__( 'View this comment' ) . '">' . __( 'View' ) . '</a>';
 
 		/**
-		 * Filter the action links displayed for each comment in the 'Recent Comments'
+		 * Filters the action links displayed for each comment in the 'Recent Comments'
 		 * dashboard widget.
 		 *
 		 * @since 2.6.0
@@ -806,7 +806,7 @@ function wp_dashboard_recent_posts( $args ) {
 	);
 
 	/**
-	 * Filter the query arguments used for the Recent Posts widget.
+	 * Filters the query arguments used for the Recent Posts widget.
 	 *
 	 * @since 4.2.0
 	 *
@@ -1068,7 +1068,7 @@ function wp_dashboard_primary() {
 		'news' => array(
 
 			/**
-			 * Filter the primary link URL for the 'WordPress News' dashboard widget.
+			 * Filters the primary link URL for the 'WordPress News' dashboard widget.
 			 *
 			 * @since 2.5.0
 			 *
@@ -1077,7 +1077,7 @@ function wp_dashboard_primary() {
 			'link' => apply_filters( 'dashboard_primary_link', __( 'https://wordpress.org/news/' ) ),
 
 			/**
-			 * Filter the primary feed URL for the 'WordPress News' dashboard widget.
+			 * Filters the primary feed URL for the 'WordPress News' dashboard widget.
 			 *
 			 * @since 2.3.0
 			 *
@@ -1086,7 +1086,7 @@ function wp_dashboard_primary() {
 			'url' => apply_filters( 'dashboard_primary_feed', __( 'http://wordpress.org/news/feed/' ) ),
 
 			/**
-			 * Filter the primary link title for the 'WordPress News' dashboard widget.
+			 * Filters the primary link title for the 'WordPress News' dashboard widget.
 			 *
 			 * @since 2.3.0
 			 *
@@ -1101,7 +1101,7 @@ function wp_dashboard_primary() {
 		'planet' => array(
 
 			/**
-			 * Filter the secondary link URL for the 'WordPress News' dashboard widget.
+			 * Filters the secondary link URL for the 'WordPress News' dashboard widget.
 			 *
 			 * @since 2.3.0
 			 *
@@ -1110,7 +1110,7 @@ function wp_dashboard_primary() {
 			'link' => apply_filters( 'dashboard_secondary_link', __( 'https://planet.wordpress.org/' ) ),
 
 			/**
-			 * Filter the secondary feed URL for the 'WordPress News' dashboard widget.
+			 * Filters the secondary feed URL for the 'WordPress News' dashboard widget.
 			 *
 			 * @since 2.3.0
 			 *
@@ -1119,7 +1119,7 @@ function wp_dashboard_primary() {
 			'url' => apply_filters( 'dashboard_secondary_feed', __( 'https://planet.wordpress.org/feed/' ) ),
 
 			/**
-			 * Filter the secondary link title for the 'WordPress News' dashboard widget.
+			 * Filters the secondary link title for the 'WordPress News' dashboard widget.
 			 *
 			 * @since 2.3.0
 			 *
@@ -1128,7 +1128,7 @@ function wp_dashboard_primary() {
 			'title'        => apply_filters( 'dashboard_secondary_title', __( 'Other WordPress News' ) ),
 
 			/**
-			 * Filter the number of secondary link items for the 'WordPress News' dashboard widget.
+			 * Filters the number of secondary link items for the 'WordPress News' dashboard widget.
 			 *
 			 * @since 4.4.0
 			 *
@@ -1355,7 +1355,7 @@ function wp_dashboard_browser_nag() {
 	}
 
 	/**
-	* Filter the notice output for the 'Browse Happy' nag meta box.
+	* Filters the notice output for the 'Browse Happy' nag meta box.
 	*
 	* @since 3.2.0
 	*

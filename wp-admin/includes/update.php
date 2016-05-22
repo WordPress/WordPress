@@ -258,7 +258,7 @@ function update_right_now_message() {
 	$content = __( 'WordPress %1$s running %2$s theme.' );
 
 	/**
-	 * Filter the text displayed in the 'At a Glance' dashboard widget.
+	 * Filters the text displayed in the 'At a Glance' dashboard widget.
 	 *
 	 * Prior to 3.8.0, the widget was named 'Right Now'.
 	 *

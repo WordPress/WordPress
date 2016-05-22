@@ -107,7 +107,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 		}
 
 		/**
-		 * Filter the image sizes automatically generated when uploading an image.
+		 * Filters the image sizes automatically generated when uploading an image.
 		 *
 		 * @since 2.9.0
 		 * @since 4.4.0 Added the `$metadata` argument.
@@ -174,7 +174,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 					'post_content' => '',
 				);
 				/**
-				 * Filter the parameters for the attachment thumbnail creation.
+				 * Filters the parameters for the attachment thumbnail creation.
 				 *
 				 * @since 3.9.0
 				 *
@@ -199,7 +199,7 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	}
 
 	/**
-	 * Filter the generated attachment meta data.
+	 * Filters the generated attachment meta data.
 	 *
 	 * @since 2.1.0
 	 *
@@ -337,7 +337,7 @@ function wp_read_image_metadata( $file ) {
 	}
 
 	/**
-	 * Filter the image types to check for exif data.
+	 * Filters the image types to check for exif data.
 	 *
 	 * @since 2.5.0
 	 *
@@ -417,7 +417,7 @@ function wp_read_image_metadata( $file ) {
 	$meta = wp_kses_post_deep( $meta );
 
 	/**
-	 * Filter the array of meta data read from an image's exif data.
+	 * Filters the array of meta data read from an image's exif data.
 	 *
 	 * @since 2.5.0
 	 * @since 4.4.0 The `$iptc` parameter was added.
@@ -465,7 +465,7 @@ function file_is_displayable_image($path) {
 	}
 
 	/**
-	 * Filter whether the current image is displayable in the browser.
+	 * Filters whether the current image is displayable in the browser.
 	 *
 	 * @since 2.5.0
 	 *
@@ -506,7 +506,7 @@ function load_image_to_edit( $attachment_id, $mime_type, $size = 'full' ) {
 	}
 	if ( is_resource($image) ) {
 		/**
-		 * Filter the current image being loaded for editing.
+		 * Filters the current image being loaded for editing.
 		 *
 		 * @since 2.9.0
 		 *
@@ -542,7 +542,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 	if ( $filepath && file_exists( $filepath ) ) {
 		if ( 'full' != $size && ( $data = image_get_intermediate_size( $attachment_id, $size ) ) ) {
 			/**
-			 * Filter the path to the current image.
+			 * Filters the path to the current image.
 			 *
 			 * The filter is evaluated for all image sizes except 'full'.
 			 *
@@ -556,7 +556,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 		}
 	} elseif ( function_exists( 'fopen' ) && function_exists( 'ini_get' ) && true == ini_get( 'allow_url_fopen' ) ) {
 		/**
-		 * Filter the image URL if not in the local filesystem.
+		 * Filters the image URL if not in the local filesystem.
 		 *
 		 * The filter is only evaluated if fopen is enabled on the server.
 		 *
@@ -570,7 +570,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 	}
 
 	/**
-	 * Filter the returned path or URL of the current image.
+	 * Filters the returned path or URL of the current image.
 	 *
 	 * @since 2.9.0
 	 *

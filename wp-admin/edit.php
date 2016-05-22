@@ -283,7 +283,7 @@ $bulk_messages['page'] = array(
 );
 
 /**
- * Filter the bulk action updated messages.
+ * Filters the bulk action updated messages.
  *
  * By default, custom post types use the messages for the 'post' post type.
  *

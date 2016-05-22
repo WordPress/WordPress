@@ -51,7 +51,7 @@ class Bulk_Plugin_Upgrader_Skin extends Bulk_Upgrader_Skin {
 			unset( $update_actions['plugins_page'] );
 
 		/**
-		 * Filter the list of action links available following bulk plugin updates.
+		 * Filters the list of action links available following bulk plugin updates.
 		 *
 		 * @since 3.0.0
 		 *

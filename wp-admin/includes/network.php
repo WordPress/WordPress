@@ -52,7 +52,7 @@ function allow_subdomain_install() {
 function allow_subdirectory_install() {
 	global $wpdb;
         /**
-         * Filter whether to enable the subdirectory install feature in Multisite.
+         * Filters whether to enable the subdirectory install feature in Multisite.
          *
          * @since 3.0.0
          *

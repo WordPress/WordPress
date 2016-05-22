@@ -113,7 +113,7 @@ function plugins_api( $action, $args = array() ) {
 	}
 
 	/**
-	 * Filter the WordPress.org Plugin Install API arguments.
+	 * Filters the WordPress.org Plugin Install API arguments.
 	 *
 	 * Important: An object MUST be returned to this filter.
 	 *
@@ -125,7 +125,7 @@ function plugins_api( $action, $args = array() ) {
 	$args = apply_filters( 'plugins_api_args', $args, $action );
 
 	/**
-	 * Filter the response for the current WordPress.org Plugin Install API request.
+	 * Filters the response for the current WordPress.org Plugin Install API request.
 	 *
 	 * Passing a non-false value will effectively short-circuit the WordPress.org API request.
 	 *
@@ -171,7 +171,7 @@ function plugins_api( $action, $args = array() ) {
 	}
 
 	/**
-	 * Filter the Plugin Install API response results.
+	 * Filters the Plugin Install API response results.
 	 *
 	 * @since 2.7.0
 	 *

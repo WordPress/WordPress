@@ -388,7 +388,7 @@ class WP_List_Table {
 	public function views() {
 		$views = $this->get_views();
 		/**
-		 * Filter the list of available list table views.
+		 * Filters the list of available list table views.
 		 *
 		 * The dynamic portion of the hook name, `$this->screen->id`, refers
 		 * to the ID of the current screen, usually a string.
@@ -438,7 +438,7 @@ class WP_List_Table {
 		if ( is_null( $this->_actions ) ) {
 			$no_new_actions = $this->_actions = $this->get_bulk_actions();
 			/**
-			 * Filter the list table Bulk Actions drop-down.
+			 * Filters the list table Bulk Actions drop-down.
 			 *
 			 * The dynamic portion of the hook name, `$this->screen->id`, refers
 			 * to the ID of the current screen, usually a string.
@@ -541,7 +541,7 @@ class WP_List_Table {
 		global $wpdb, $wp_locale;
 
 		/**
-		 * Filter whether to remove the 'Months' drop-down from the post list table.
+		 * Filters whether to remove the 'Months' drop-down from the post list table.
 		 *
 		 * @since 4.2.0
 		 *
@@ -568,7 +568,7 @@ class WP_List_Table {
 		", $post_type ) );
 
 		/**
-		 * Filter the 'Months' drop-down results.
+		 * Filters the 'Months' drop-down results.
 		 *
 		 * @since 3.7.0
 		 *
@@ -721,7 +721,7 @@ class WP_List_Table {
 			$per_page = $default;
 
 		/**
-		 * Filter the number of items to be displayed on each page of the list table.
+		 * Filters the number of items to be displayed on each page of the list table.
 		 *
 		 * The dynamic hook name, $option, refers to the `per_page` option depending
 		 * on the type of list table in use. Possible values include: 'edit_comments_per_page',
@@ -951,7 +951,7 @@ class WP_List_Table {
 		}
 
 		/**
-		 * Filter the name of the primary column for the current list table.
+		 * Filters the name of the primary column for the current list table.
 		 *
 		 * @since 4.3.0
 		 *
@@ -993,7 +993,7 @@ class WP_List_Table {
 
 		$sortable_columns = $this->get_sortable_columns();
 		/**
-		 * Filter the list table sortable columns for a specific screen.
+		 * Filters the list table sortable columns for a specific screen.
 		 *
 		 * The dynamic portion of the hook name, `$this->screen->id`, refers
 		 * to the ID of the current screen, usually a string.

@@ -1183,7 +1183,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$attachment_id = wp_insert_attachment( $object, $cropped );
 		$metadata = wp_generate_attachment_metadata( $attachment_id, $cropped );
 		/**
-		 * Filter the header image attachment metadata.
+		 * Filters the header image attachment metadata.
 		 *
 		 * @since 3.9.0
 		 *

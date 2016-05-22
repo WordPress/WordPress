@@ -80,7 +80,7 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 			unset( $install_actions['activate'], $install_actions['preview'] );
 
 		/**
-		 * Filter the list of action links available following a single theme installation.
+		 * Filters the list of action links available following a single theme installation.
 		 *
 		 * @since 2.8.0
 		 *

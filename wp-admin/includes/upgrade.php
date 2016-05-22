@@ -2047,7 +2047,7 @@ function __get_option($setting) {
 }
 
 /**
- * Filters for content to remove unnecessary slashes.
+ * Filterss for content to remove unnecessary slashes.
  *
  * @since 1.5.0
  *
@@ -2104,7 +2104,7 @@ function dbDelta( $queries = '', $execute = true ) {
 	}
 
 	/**
-	 * Filter the dbDelta SQL queries.
+	 * Filters the dbDelta SQL queries.
 	 *
 	 * @since 3.3.0
 	 *
@@ -2133,7 +2133,7 @@ function dbDelta( $queries = '', $execute = true ) {
 	}
 
 	/**
-	 * Filter the dbDelta SQL queries for creating tables and/or databases.
+	 * Filters the dbDelta SQL queries for creating tables and/or databases.
 	 *
 	 * Queries filterable via this hook contain "CREATE TABLE" or "CREATE DATABASE".
 	 *
@@ -2144,7 +2144,7 @@ function dbDelta( $queries = '', $execute = true ) {
 	$cqueries = apply_filters( 'dbdelta_create_queries', $cqueries );
 
 	/**
-	 * Filter the dbDelta SQL queries for inserting or updating.
+	 * Filters the dbDelta SQL queries for inserting or updating.
 	 *
 	 * Queries filterable via this hook contain "INSERT INTO" or "UPDATE".
 	 *
@@ -2782,7 +2782,7 @@ function wp_should_upgrade_global_tables() {
 	}
 
 	/**
-	 * Filter if upgrade routines should be run on global tables.
+	 * Filters if upgrade routines should be run on global tables.
 	 *
 	 * @param bool $should_upgrade Whether to run the upgrade routines on global tables.
 	 */

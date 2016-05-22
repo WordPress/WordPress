@@ -224,7 +224,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filter the displayed site columns in Sites list table.
+		 * Filters the displayed site columns in Sites list table.
 		 *
 		 * @since MU
 		 *
@@ -531,7 +531,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		$actions['visit']	= "<a href='" . esc_url( get_home_url( $blog['blog_id'], '/' ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a>';
 
 		/**
-		 * Filter the action links displayed for each site in the Sites list table.
+		 * Filters the action links displayed for each site in the Sites list table.
 		 *
 		 * The 'Edit', 'Dashboard', 'Delete', and 'Visit' links are displayed by
 		 * default for each site. The site's status determines whether to show the

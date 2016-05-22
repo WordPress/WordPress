@@ -17,7 +17,7 @@ function got_mod_rewrite() {
 	$got_rewrite = apache_mod_loaded('mod_rewrite', true);
 
 	/**
-	 * Filter whether Apache and mod_rewrite are present.
+	 * Filters whether Apache and mod_rewrite are present.
 	 *
 	 * This filter was previously used to force URL rewriting for other servers,
 	 * like nginx. Use the got_url_rewrite filter in got_url_rewrite() instead.
@@ -46,7 +46,7 @@ function got_url_rewrite() {
 	$got_url_rewrite = ( got_mod_rewrite() || $GLOBALS['is_nginx'] || iis7_supports_permalinks() );
 
 	/**
-	 * Filter whether URL rewriting is available.
+	 * Filters whether URL rewriting is available.
 	 *
 	 * @since 3.7.0
 	 *
@@ -369,7 +369,7 @@ function wp_doc_link_parse( $content ) {
 	sort( $functions );
 
 	/**
-	 * Filter the list of functions and classes to be ignored from the documentation lookup.
+	 * Filters the list of functions and classes to be ignored from the documentation lookup.
 	 *
 	 * @since 2.8.0
 	 *
@@ -438,7 +438,7 @@ function set_screen_options() {
 			default:
 
 				/**
-				 * Filter a screen option value before it is set.
+				 * Filters a screen option value before it is set.
 				 *
 				 * The filter can also be used to modify non-standard [items]_per_page
 				 * settings. See the parent function for a full list of standard options.

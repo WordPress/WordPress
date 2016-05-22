@@ -166,7 +166,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 	public function get_per_page( $comment_status = 'all' ) {
 		$comments_per_page = $this->get_items_per_page( 'edit_comments_per_page' );
 		/**
-		 * Filter the number of comments listed per page in the comments list table.
+		 * Filters the number of comments listed per page in the comments list table.
 		 *
 		 * @since 2.6.0
 		 *
@@ -270,7 +270,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filter the comment status links.
+		 * Filters the comment status links.
 		 *
 		 * @since 2.5.0
 		 *
@@ -330,7 +330,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 				<option value=""><?php _e( 'All comment types' ); ?></option>
 <?php
 				/**
-				 * Filter the comment types dropdown menu.
+				 * Filters the comment types dropdown menu.
 				 *
 				 * @since 2.7.0
 				 *

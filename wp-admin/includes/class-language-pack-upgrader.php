@@ -75,7 +75,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			$update = ! empty( $language_update->autoupdate );
 
 			/**
-			 * Filter whether to asynchronously update translation for core, a plugin, or a theme.
+			 * Filters whether to asynchronously update translation for core, a plugin, or a theme.
 			 *
 			 * @since 4.0.0
 			 *

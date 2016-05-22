@@ -80,7 +80,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 	}
 
 	/**
-	 * Filter additional database tables to repair.
+	 * Filters additional database tables to repair.
 	 *
 	 * @since 3.0.0
 	 *

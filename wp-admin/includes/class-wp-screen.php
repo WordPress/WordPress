@@ -729,7 +729,7 @@ final class WP_Screen {
 	public function render_screen_meta() {
 
 		/**
-		 * Filter the legacy contextual help list.
+		 * Filters the legacy contextual help list.
 		 *
 		 * @since 2.7.0
 		 * @deprecated 3.3.0 Use get_current_screen()->add_help_tab() or
@@ -743,7 +743,7 @@ final class WP_Screen {
 		$old_help = isset( self::$_old_compat_help[ $this->id ] ) ? self::$_old_compat_help[ $this->id ] : '';
 
 		/**
-		 * Filter the legacy contextual help text.
+		 * Filters the legacy contextual help text.
 		 *
 		 * @since 2.7.0
 		 * @deprecated 3.3.0 Use get_current_screen()->add_help_tab() or
@@ -760,7 +760,7 @@ final class WP_Screen {
 		if ( empty( $old_help ) && ! $this->get_help_tabs() ) {
 
 			/**
-			 * Filter the default legacy contextual help text.
+			 * Filters the default legacy contextual help text.
 			 *
 			 * @since 2.8.0
 			 * @deprecated 3.3.0 Use get_current_screen()->add_help_tab() or
@@ -849,10 +849,10 @@ final class WP_Screen {
 		// Setup layout columns
 
 		/**
-		 * Filter the array of screen layout columns.
+		 * Filters the array of screen layout columns.
 		 *
 		 * This hook provides back-compat for plugins using the back-compat
-		 * filter instead of add_screen_option().
+		 * Filters instead of add_screen_option().
 		 *
 		 * @since 2.8.0
 		 *
@@ -929,7 +929,7 @@ final class WP_Screen {
 		}
 
 		/**
-		 * Filter the screen settings text displayed in the Screen Options tab.
+		 * Filters the screen settings text displayed in the Screen Options tab.
 		 *
 		 * This filter is currently only used on the Widgets screen to enable
 		 * accessibility mode.
@@ -945,7 +945,7 @@ final class WP_Screen {
 			$show_screen = true;
 
 		/**
-		 * Filter whether to show the Screen Options tab.
+		 * Filters whether to show the Screen Options tab.
 		 *
 		 * @since 3.2.0
 		 *
@@ -995,7 +995,7 @@ final class WP_Screen {
 		echo $this->_screen_settings;
 
 		/**
-		 * Filter whether to show the Screen Options submit button.
+		 * Filters whether to show the Screen Options submit button.
 		 *
 		 * @since 4.4.0
 		 *
@@ -1204,7 +1204,7 @@ final class WP_Screen {
 		$view_mode_post_types = get_post_types( array( 'hierarchical' => false, 'show_ui' => true ) );
 
 		/**
-		 * Filter the post types that have different view mode options.
+		 * Filters the post types that have different view mode options.
 		 *
 		 * @since 4.4.0
 		 *

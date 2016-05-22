@@ -105,7 +105,7 @@ if ( $_REQUEST['short'] ) {
 	$type = $_REQUEST['type'];
 
 	/**
-	 * Filter the returned ID of an uploaded attachment.
+	 * Filters the returned ID of an uploaded attachment.
 	 *
 	 * The dynamic portion of the hook name, `$type`, refers to the attachment type,
 	 * such as 'image', 'audio', 'video', 'file', etc.

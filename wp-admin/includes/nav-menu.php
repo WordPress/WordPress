@@ -186,7 +186,7 @@ function wp_nav_menu_post_type_meta_boxes() {
 
 	foreach ( $post_types as $post_type ) {
 		/**
-		 * Filter whether a menu items meta box will be added for the current
+		 * Filters whether a menu items meta box will be added for the current
 		 * object type.
 		 *
 		 * If a falsey value is returned instead of an object, the menu items
@@ -400,7 +400,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				$args['walker'] = $walker;
 
 				/**
-				 * Filter the posts displayed in the 'Most Recent' tab of the current
+				 * Filters the posts displayed in the 'Most Recent' tab of the current
 				 * post type's menu items meta box.
 				 *
 				 * The dynamic portion of the hook name, `$post_type_name`, refers to the post type name.
@@ -508,7 +508,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				}
 
 				/**
-				 * Filter the posts displayed in the 'View All' tab of the current
+				 * Filters the posts displayed in the 'View All' tab of the current
 				 * post type's menu items meta box.
 				 *
 				 * The dynamic portion of the hook name, `$post_type_name`, refers
@@ -888,7 +888,7 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 			return $result . ' <ul class="menu" id="menu-to-edit"> </ul>';
 
 		/**
-		 * Filter the Walker class used when adding nav menu items.
+		 * Filters the Walker class used when adding nav menu items.
 		 *
 		 * @since 3.0.0
 		 *

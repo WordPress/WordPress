@@ -106,7 +106,7 @@ default:
 	$editable_extensions = array('php', 'txt', 'text', 'js', 'css', 'html', 'htm', 'xml', 'inc', 'include');
 
 	/**
-	 * Filter file type extensions editable in the plugin editor.
+	 * Filters file type extensions editable in the plugin editor.
 	 *
 	 * @since 2.8.0
 	 *

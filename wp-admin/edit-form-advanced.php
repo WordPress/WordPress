@@ -21,7 +21,7 @@ wp_enqueue_script('post');
 $_wp_editor_expand = $_content_editor_dfw = false;
 
 /**
- * Filter whether to enable the 'expand' functionality in the post editor.
+ * Filters whether to enable the 'expand' functionality in the post editor.
  *
  * @since 4.0.0
  * @since 4.1.0 Added the `$post_type` parameter.
@@ -163,7 +163,7 @@ $messages['page'] = array(
 $messages['attachment'] = array_fill( 1, 10, __( 'Media file updated.' ) ); // Hack, for now.
 
 /**
- * Filter the post updated messages.
+ * Filters the post updated messages.
  *
  * @since 3.0.0
  *
@@ -543,7 +543,7 @@ do_action( 'edit_form_top', $post ); ?>
 <div id="titlewrap">
 	<?php
 	/**
-	 * Filter the title field placeholder text.
+	 * Filters the title field placeholder text.
 	 *
 	 * @since 3.1.0
 	 *

@@ -78,7 +78,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <input name="thread_comments" type="checkbox" id="thread_comments" value="1" <?php checked('1', get_option('thread_comments')); ?> />
 <?php
 /**
- * Filter the maximum depth of threaded/nested comments.
+ * Filters the maximum depth of threaded/nested comments.
  *
  * @since 2.7.0.
  *
@@ -229,7 +229,7 @@ $avatar_defaults = array(
 	'retro' => __('Retro (Generated)')
 );
 /**
- * Filter the default avatars.
+ * Filters the default avatars.
  *
  * Avatars are stored in key/value pairs, where the key is option value,
  * and the name is the displayed avatar name.
@@ -256,7 +256,7 @@ foreach ( $avatar_defaults as $default_key => $default_name ) {
 remove_filter( 'pre_option_show_avatars', '__return_true', 100 );
 
 /**
- * Filter the HTML output of the default avatar list.
+ * Filters the HTML output of the default avatar list.
  *
  * @since 2.6.0
  *

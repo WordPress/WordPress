@@ -185,7 +185,7 @@ $parent_file = 'sites.php';
 $submenu_file = 'sites.php';
 
 /**
- * Filter whether to show the Add Existing User form on the Multisite Users screen.
+ * Filters whether to show the Add Existing User form on the Multisite Users screen.
  *
  * @since 3.1.0
  *
@@ -292,7 +292,7 @@ if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_us
 
 <?php
 /**
- * Filter whether to show the Add New User form on the Multisite Users screen.
+ * Filters whether to show the Add New User form on the Multisite Users screen.
  *
  * @since 3.1.0
  *

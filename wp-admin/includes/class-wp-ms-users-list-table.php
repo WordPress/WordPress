@@ -172,7 +172,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			'blogs'      => __( 'Sites' )
 		);
 		/**
-		 * Filter the columns displayed in the Network Admin Users list table.
+		 * Filters the columns displayed in the Network Admin Users list table.
 		 *
 		 * @since MU
 		 *
@@ -351,7 +351,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 			$actions['view'] = '<a class="' . $class . '" href="' . esc_url( get_home_url( $val->userblog_id ) ) . '">' . __( 'View' ) . '</a>';
 
 			/**
-			 * Filter the action links displayed next the sites a user belongs to
+			 * Filters the action links displayed next the sites a user belongs to
 			 * in the Network Admin Users list table.
 			 *
 			 * @since 3.1.0
@@ -446,7 +446,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filter the action links displayed under each user in the Network Admin Users list table.
+		 * Filters the action links displayed under each user in the Network Admin Users list table.
 		 *
 		 * @since 3.2.0
 		 *

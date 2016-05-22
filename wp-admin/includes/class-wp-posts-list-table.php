@@ -515,7 +515,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$taxonomies = wp_filter_object_list( $taxonomies, array( 'show_admin_column' => true ), 'and', 'name' );
 
 		/**
-		 * Filter the taxonomy columns in the Posts list table.
+		 * Filters the taxonomy columns in the Posts list table.
 		 *
 		 * The dynamic portion of the hook name, `$post_type`, refers to the post
 		 * type slug.
@@ -548,7 +548,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( 'page' === $post_type ) {
 
 			/**
-			 * Filter the columns displayed in the Pages list table.
+			 * Filters the columns displayed in the Pages list table.
 			 *
 			 * @since 2.5.0
 			 *
@@ -558,7 +558,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		} else {
 
 			/**
-			 * Filter the columns displayed in the Posts list table.
+			 * Filters the columns displayed in the Posts list table.
 			 *
 			 * @since 1.5.0
 			 *
@@ -569,7 +569,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filter the columns displayed in the Posts list table for a specific post type.
+		 * Filters the columns displayed in the Posts list table for a specific post type.
 		 *
 		 * The dynamic portion of the hook name, `$post_type`, refers to the post type slug.
 		 *
@@ -964,7 +964,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		echo '<br />';
 		if ( 'excerpt' === $mode ) {
 			/**
-			 * Filter the published time of the post.
+			 * Filters the published time of the post.
 			 *
 			 * If `$mode` equals 'excerpt', the published time and date are both displayed.
 			 * If `$mode` equals 'list' (default), the publish date is displayed, with the
@@ -1251,7 +1251,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( is_post_type_hierarchical( $post->post_type ) ) {
 
 			/**
-			 * Filter the array of row action links on the Pages list table.
+			 * Filters the array of row action links on the Pages list table.
 			 *
 			 * The filter is evaluated only for hierarchical post types.
 			 *
@@ -1266,7 +1266,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		} else {
 
 			/**
-			 * Filter the array of row action links on the Posts list table.
+			 * Filters the array of row action links on the Posts list table.
 			 *
 			 * The filter is evaluated only for non-hierarchical post types.
 			 *
@@ -1308,7 +1308,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$show_in_quick_edit = $taxonomy->show_in_quick_edit;
 
 			/**
-			 * Filter whether the current taxonomy should be shown in the Quick Edit panel.
+			 * Filters whether the current taxonomy should be shown in the Quick Edit panel.
 			 *
 			 * @since 4.2.0
 			 *
@@ -1473,7 +1473,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$dropdown_args['show_option_no_change'] =  __( '&mdash; No Change &mdash;' );
 
 		/**
-		 * Filter the arguments used to generate the Quick Edit page-parent drop-down.
+		 * Filters the arguments used to generate the Quick Edit page-parent drop-down.
 		 *
 		 * @since 2.7.0
 		 *

@@ -42,7 +42,7 @@ class WP_Press_This {
 	public function site_settings() {
 		return array(
 			/**
-			 * Filter whether or not Press This should redirect the user in the parent window upon save.
+			 * Filters whether or not Press This should redirect the user in the parent window upon save.
 			 *
 			 * @since 4.2.0
 			 *
@@ -134,7 +134,7 @@ class WP_Press_This {
 		$post_data['post_content'] = $this->side_load_images( $post_id, $post_data['post_content'] );
 
 		/**
-		 * Filter the post data of a Press This post before saving/updating, after
+		 * Filters the post data of a Press This post before saving/updating, after
 		 * side_load_images action had run.
 		 *
 		 * @since 4.5.0
@@ -168,7 +168,7 @@ class WP_Press_This {
 			}
 
 			/**
-			 * Filter the URL to redirect to when Press This saves.
+			 * Filters the URL to redirect to when Press This saves.
 			 *
 			 * @since 4.2.0
 			 *
@@ -690,7 +690,7 @@ class WP_Press_This {
 		}
 
 		/**
-		 * Filter whether to enable in-source media discovery in Press This.
+		 * Filters whether to enable in-source media discovery in Press This.
 		 *
 		 * @since 4.2.0
 		 *
@@ -765,7 +765,7 @@ class WP_Press_This {
 		}
 
 		/**
-		 * Filter the Press This data array.
+		 * Filters the Press This data array.
 		 *
 		 * @since 4.2.0
 		 *
@@ -1142,7 +1142,7 @@ class WP_Press_This {
 		}
 
 		/**
-		 * Filter the default HTML tags used in the suggested content for the editor.
+		 * Filters the default HTML tags used in the suggested content for the editor.
 		 *
 		 * The HTML strings use printf format. After filtering the content is added at the specified places with `sprintf()`.
 		 *

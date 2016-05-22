@@ -86,7 +86,7 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 	);
 
 	/**
-	 * Filter the taxonomy terms checklist arguments.
+	 * Filters the taxonomy terms checklist arguments.
 	 *
 	 * @since 3.4.0
 	 *
@@ -354,7 +354,7 @@ function get_inline_data($post) {
 function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $table_row = true ) {
 	global $wp_list_table;
 	/**
-	 * Filter the in-line comment reply-to form output in the Comments
+	 * Filters the in-line comment reply-to form output in the Comments
 	 * list table.
 	 *
 	 * Returning a non-empty value here will short-circuit display
@@ -582,7 +582,7 @@ function meta_form( $post = null ) {
 	$post = get_post( $post );
 
 	/**
-	 * Filter values for the meta key dropdown in the Custom Fields meta box.
+	 * Filters values for the meta key dropdown in the Custom Fields meta box.
 	 *
 	 * Returning a non-null value will effectively short-circuit and avoid a
 	 * potentially expensive query against postmeta.
@@ -596,7 +596,7 @@ function meta_form( $post = null ) {
 
 	if ( null === $keys ) {
 		/**
-		 * Filter the number of custom fields to retrieve for the drop-down
+		 * Filters the number of custom fields to retrieve for the drop-down
 		 * in the Custom Fields meta box.
 		 *
 		 * @since 2.1.0
@@ -843,7 +843,7 @@ function wp_dropdown_roles( $selected = '' ) {
 function wp_import_upload_form( $action ) {
 
 	/**
-	 * Filter the maximum allowed upload size for import files.
+	 * Filters the maximum allowed upload size for import files.
 	 *
 	 * @since 2.3.0
 	 *
@@ -1712,7 +1712,7 @@ function _post_states($post) {
 	}
 
 	/**
-	 * Filter the default post display states used in the posts list table.
+	 * Filters the default post display states used in the posts list table.
 	 *
 	 * @since 2.8.0
 	 *
@@ -1763,7 +1763,7 @@ function _media_states( $post ) {
 	}
 
 	/**
-	 * Filter the default media display states for items in the Media list table.
+	 * Filters the default media display states for items in the Media list table.
 	 *
 	 * @since 3.2.0
 	 *

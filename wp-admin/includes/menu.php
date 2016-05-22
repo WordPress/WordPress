@@ -229,7 +229,7 @@ function add_menu_classes($menu) {
 	}
 
 	/**
-	 * Filter administration menus array with classes added for top-level items.
+	 * Filters administration menus array with classes added for top-level items.
 	 *
 	 * @since 2.7.0
 	 *
@@ -241,7 +241,7 @@ function add_menu_classes($menu) {
 uksort($menu, "strnatcasecmp"); // make it all pretty
 
 /**
- * Filter whether to enable custom ordering of the administration menu.
+ * Filters whether to enable custom ordering of the administration menu.
  *
  * See the {@see 'menu_order'} filter for reordering menu items.
  *
@@ -258,7 +258,7 @@ if ( apply_filters( 'custom_menu_order', false ) ) {
 	$default_menu_order = $menu_order;
 
 	/**
-	 * Filter the order of administration menu items.
+	 * Filters the order of administration menu items.
 	 *
 	 * A truthy value must first be passed to the {@see 'custom_menu_order'} filter
 	 * for this filter to work. Use the following to enable custom menu ordering:

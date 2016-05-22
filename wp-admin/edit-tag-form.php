@@ -127,7 +127,7 @@ do_action( "{$taxonomy}_term_edit_form_top", $tag, $taxonomy );
 			<th scope="row"><label for="slug"><?php _e( 'Slug' ); ?></label></th>
 			<?php
 			/**
-			 * Filter the editable slug.
+			 * Filters the editable slug.
 			 *
 			 * Note: This is a multi-use hook in that it is leveraged both for editable
 			 * post URIs and term slugs.

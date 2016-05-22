@@ -803,7 +803,7 @@ function update_core($from, $to) {
 	@set_time_limit( 300 );
 
 	/**
-	 * Filter feedback messages displayed during the core update process.
+	 * Filters feedback messages displayed during the core update process.
 	 *
 	 * The filter is first evaluated after the zip file for the latest version
 	 * has been downloaded and unzipped. It is evaluated five more times during

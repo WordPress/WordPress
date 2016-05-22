@@ -291,7 +291,7 @@ class Core_Upgrader extends WP_Upgrader {
 		if ( $current_is_development_version ) {
 
 			/**
-			 * Filter whether to enable automatic core updates for development versions.
+			 * Filters whether to enable automatic core updates for development versions.
 			 *
 			 * @since 3.7.0
 			 *
@@ -307,7 +307,7 @@ class Core_Upgrader extends WP_Upgrader {
 		if ( $current_branch == $new_branch ) {
 
 			/**
-			 * Filter whether to enable minor automatic core updates.
+			 * Filters whether to enable minor automatic core updates.
 			 *
 			 * @since 3.7.0
 			 *
@@ -320,7 +320,7 @@ class Core_Upgrader extends WP_Upgrader {
 		if ( version_compare( $new_branch, $current_branch, '>' ) ) {
 
 			/**
-			 * Filter whether to enable major automatic core updates.
+			 * Filters whether to enable major automatic core updates.
 			 *
 			 * @since 3.7.0
 			 *

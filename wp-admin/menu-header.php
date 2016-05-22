@@ -27,7 +27,7 @@ $self = preg_replace('|^.*/mu-plugins/|i', '', $self);
 global $menu, $submenu, $parent_file, $submenu_file;
 
 /**
- * Filter the parent file of an admin menu sub-menu item.
+ * Filters the parent file of an admin menu sub-menu item.
  *
  * Allows plugins to move sub-menu items around.
  *
@@ -38,7 +38,7 @@ global $menu, $submenu, $parent_file, $submenu_file;
 $parent_file = apply_filters( 'parent_file', $parent_file );
 
 /**
- * Filter the file of an admin menu sub-menu item.
+ * Filters the file of an admin menu sub-menu item.
  *
  * @since 4.4.0
  *

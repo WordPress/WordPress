@@ -22,7 +22,7 @@ function media_upload_tabs() {
 	);
 
 	/**
-	 * Filter the available tabs in the legacy (pre-3.5.0) media popup.
+	 * Filters the available tabs in the legacy (pre-3.5.0) media popup.
 	 *
 	 * @since 2.5.0
 	 *
@@ -135,7 +135,7 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
 		$html = '<a href="' . esc_attr( $url ) . '"' . $rel . '>' . $html . '</a>';
 
 	/**
-	 * Filter the image HTML markup to send to the editor.
+	 * Filters the image HTML markup to send to the editor.
 	 *
 	 * @since 2.5.0
 	 *
@@ -172,13 +172,13 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
 function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $alt = '' ) {
 
 	/**
-	 * Filter the caption text.
+	 * Filters the caption text.
 	 *
 	 * Note: If the caption text is empty, the caption shortcode will not be appended
 	 * to the image HTML when inserted into the editor.
 	 *
 	 * Passing an empty value also prevents the {@see 'image_add_caption_shortcode'}
-	 * filter from being evaluated at the end of image_add_caption().
+	 * Filters from being evaluated at the end of image_add_caption().
 	 *
 	 * @since 4.1.0
 	 *
@@ -188,7 +188,7 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 	$caption = apply_filters( 'image_add_caption_text', $caption, $id );
 
 	/**
-	 * Filter whether to disable captions.
+	 * Filters whether to disable captions.
 	 *
 	 * Prevents image captions from being appended to image HTML when inserted into the editor.
 	 *
@@ -220,7 +220,7 @@ function image_add_caption( $html, $id, $caption, $title, $align, $url, $size, $
 	$shcode = '[caption id="' . $id . '" align="align' . $align	. '" width="' . $width . '"]' . $html . ' ' . $caption . '[/caption]';
 
 	/**
-	 * Filter the image HTML markup including the caption shortcode.
+	 * Filters the image HTML markup including the caption shortcode.
 	 *
 	 * @since 2.6.0
 	 *
@@ -568,7 +568,7 @@ function media_buttons($editor_id = 'content') {
 		$img . __( 'Add Media' )
 	);
 	/**
-	 * Filter the legacy (pre-3.5.0) media buttons.
+	 * Filters the legacy (pre-3.5.0) media buttons.
 	 *
 	 * @since 2.5.0
 	 * @deprecated 3.5.0 Use 'media_buttons' action instead.
@@ -608,7 +608,7 @@ function get_upload_iframe_src( $type = null, $post_id = null, $tab = null ) {
 		$upload_iframe_src = add_query_arg('tab', $tab, $upload_iframe_src);
 
 	/**
-	 * Filter the upload iframe source URL for a specific media type.
+	 * Filters the upload iframe source URL for a specific media type.
 	 *
 	 * The dynamic portion of the hook name, `$type`, refers to the type
 	 * of media uploaded.
@@ -660,7 +660,7 @@ function media_upload_form_handler() {
 		}
 
 		/**
-		 * Filter the attachment fields to be saved.
+		 * Filters the attachment fields to be saved.
 		 *
 		 * @since 2.5.0
 		 *
@@ -716,7 +716,7 @@ function media_upload_form_handler() {
 		}
 
 		/**
-		 * Filter the HTML markup for a media item sent to the editor.
+		 * Filters the HTML markup for a media item sent to the editor.
 		 *
 		 * @since 2.5.0
 		 *
@@ -774,7 +774,7 @@ function wp_media_upload_handler() {
 					$type = $ext_type;
 
 			/**
-			 * Filter the URL sent to the editor for a specific media type.
+			 * Filters the URL sent to the editor for a specific media type.
 			 *
 			 * The dynamic portion of the hook name, `$type`, refers to the type
 			 * of media being sent.
@@ -797,7 +797,7 @@ function wp_media_upload_handler() {
 				$html = "<img src='" . esc_url($src) . "' alt='$alt'$class />";
 
 			/**
-			 * Filter the image URL sent to the editor.
+			 * Filters the image URL sent to the editor.
 			 *
 			 * @since 2.8.0
 			 *
@@ -978,7 +978,7 @@ function image_align_input_fields( $post, $checked = '' ) {
  */
 function image_size_input_fields( $post, $check = '' ) {
 	/**
-	 * Filter the names and labels of the default image sizes.
+	 * Filters the names and labels of the default image sizes.
 	 *
 	 * @since 3.3.0
 	 *
@@ -1129,7 +1129,7 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
 }
 
 /**
- * Filters input from media_upload_form_handler() and assigns a default
+ * Filterss input from media_upload_form_handler() and assigns a default
  * post_title from the file name if none supplied.
  *
  * Illustrates the use of the attachment_fields_to_save filter
@@ -1285,7 +1285,7 @@ function get_attachment_fields_to_edit($post, $errors = null) {
 	}
 
 	/**
-	 * Filter the attachment fields to edit.
+	 * Filters the attachment fields to edit.
 	 *
 	 * @since 2.5.0
 	 *
@@ -1369,7 +1369,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	$args = wp_parse_args( $args, $default_args );
 
 	/**
-	 * Filter the arguments used to retrieve an image for the edit image form.
+	 * Filters the arguments used to retrieve an image for the edit image form.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1427,7 +1427,7 @@ function get_media_item( $attachment_id, $args = null ) {
 		$media_dims .= "<span id='media-dims-$post->ID'>{$meta['width']}&nbsp;&times;&nbsp;{$meta['height']}</span> ";
 
 	/**
-	 * Filter the media metadata.
+	 * Filters the media metadata.
 	 *
 	 * @since 2.5.0
 	 *
@@ -1845,7 +1845,7 @@ $post_params = array(
 );
 
 /**
- * Filter the media upload post parameters.
+ * Filters the media upload post parameters.
  *
  * @since 3.1.0 As 'swfupload_post_params'
  * @since 3.3.0
@@ -1878,7 +1878,7 @@ if ( wp_is_mobile() && strpos( $_SERVER['HTTP_USER_AGENT'], 'OS 7_' ) !== false 
 }
 
 /**
- * Filter the default Plupload settings.
+ * Filters the default Plupload settings.
  *
  * @since 3.3.0
  *
@@ -1985,7 +1985,7 @@ function media_upload_type_form($type = 'file', $errors = null, $id = null) {
 	$form_action_url = admin_url("media-upload.php?type=$type&tab=type&post_id=$post_id");
 
 	/**
-	 * Filter the media upload form action URL.
+	 * Filters the media upload form action URL.
 	 *
 	 * @since 2.6.0
 	 *
@@ -2165,7 +2165,7 @@ jQuery(document).ready( function($) {
 <div class="media-item media-blank">
 <?php
 /**
- * Filter the insert media from URL form HTML.
+ * Filters the insert media from URL form HTML.
  *
  * @since 3.3.0
  *
@@ -2418,7 +2418,7 @@ foreach ( $post_mime_types as $mime_type => $label ) {
 	$type_links[] = '<li><a href="' . esc_url(add_query_arg(array('post_mime_type'=>$mime_type, 'paged'=>false))) . '"' . $class . '>' . sprintf( translate_nooped_plural( $label[2], $num_posts[$mime_type] ), '<span id="' . $mime_type . '-counter">' . number_format_i18n( $num_posts[$mime_type] ) . '</span>') . '</a>';
 }
 /**
- * Filter the media upload mime type list items.
+ * Filters the media upload mime type list items.
  *
  * Returned values should begin with an `<li>` tag.
  *
@@ -2865,7 +2865,7 @@ function attachment_submitbox_metadata() {
 	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ) {
 
 		/**
-		 * Filter the audio and video metadata fields to be shown in the publish meta box.
+		 * Filters the audio and video metadata fields to be shown in the publish meta box.
 		 *
 		 * The key for each item in the array should correspond to an attachment
 		 * metadata key, and the value should be the desired label.
@@ -2903,7 +2903,7 @@ function attachment_submitbox_metadata() {
 		}
 
 		/**
-		 * Filter the audio attachment metadata fields to be shown in the publish meta box.
+		 * Filters the audio attachment metadata fields to be shown in the publish meta box.
 		 *
 		 * The key for each item in the array should correspond to an attachment
 		 * metadata key, and the value should be the desired label.

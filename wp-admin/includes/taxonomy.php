@@ -259,7 +259,7 @@ function get_terms_to_edit( $post_id, $taxonomy = 'post_tag' ) {
 	$terms_to_edit = esc_attr( join( ',', $term_names ) );
 
 	/**
-	 * Filter the comma-separated list of terms available to edit.
+	 * Filters the comma-separated list of terms available to edit.
 	 *
 	 * @since 2.8.0
 	 *

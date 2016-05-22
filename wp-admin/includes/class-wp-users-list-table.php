@@ -125,7 +125,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			$args['order'] = $_REQUEST['order'];
 
 		/**
-		 * Filter the query arguments used to retrieve users for the current users list table.
+		 * Filters the query arguments used to retrieve users for the current users list table.
 		 *
 		 * @since 4.4.0
 		 *
@@ -160,7 +160,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * with this table.
 	 *
 	 * Provides a list of roles and user count for that role for easy
-	 * filtering of the user table.
+	 * Filtersing of the user table.
 	 *
 	 * @since  3.1.0
 	 * @access protected
@@ -414,7 +414,7 @@ class WP_Users_List_Table extends WP_List_Table {
 				$actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url( $url."action=remove&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Remove' ) . "</a>";
 
 			/**
-			 * Filter the action links displayed under each user in the Users list table.
+			 * Filters the action links displayed under each user in the Users list table.
 			 *
 			 * @since 2.8.0
 			 *
@@ -490,7 +490,7 @@ class WP_Users_List_Table extends WP_List_Table {
 						break;
 					default:
 						/**
-						 * Filter the display output of custom columns in the Users list table.
+						 * Filters the display output of custom columns in the Users list table.
 						 *
 						 * @since 2.8.0
 						 *
@@ -549,7 +549,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filter the returned array of roles for a user.
+		 * Filters the returned array of roles for a user.
 		 *
 		 * @since 4.4.0
 		 *

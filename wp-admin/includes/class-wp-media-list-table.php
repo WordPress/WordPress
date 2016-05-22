@@ -282,7 +282,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		$taxonomies = wp_filter_object_list( $taxonomies, array( 'show_admin_column' => true ), 'and', 'name' );
 
 		/**
-		 * Filter the taxonomy columns for attachments in the Media list table.
+		 * Filters the taxonomy columns for attachments in the Media list table.
 		 *
 		 * @since 3.5.0
 		 *
@@ -312,7 +312,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		/* translators: column name */
 		$posts_columns['date'] = _x( 'Date', 'column name' );
 		/**
-		 * Filter the Media list table columns.
+		 * Filters the Media list table columns.
 		 *
 		 * @since 2.5.0
 		 *
@@ -745,7 +745,7 @@ class WP_Media_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filter the action links for each attachment in the Media list table.
+		 * Filters the action links for each attachment in the Media list table.
 		 *
 		 * @since 2.8.0
 		 *

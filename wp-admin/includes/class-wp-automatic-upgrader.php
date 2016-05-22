@@ -41,7 +41,7 @@ class WP_Automatic_Updater {
 		$disabled = defined( 'AUTOMATIC_UPDATER_DISABLED' ) && AUTOMATIC_UPDATER_DISABLED;
 
 		/**
-		 * Filter whether to entirely disable background updates.
+		 * Filters whether to entirely disable background updates.
 		 *
 		 * There are more fine-grained filters and controls for selective disabling.
 		 * This filter parallels the AUTOMATIC_UPDATER_DISABLED constant in name.
@@ -104,7 +104,7 @@ class WP_Automatic_Updater {
 		}
 
 		/**
-		 * Filter whether the automatic updater should consider a filesystem
+		 * Filters whether the automatic updater should consider a filesystem
 		 * location to be potentially managed by a version control system.
 		 *
 		 * @since 3.7.0
@@ -158,7 +158,7 @@ class WP_Automatic_Updater {
 			$update = ! empty( $item->autoupdate );
 
 		/**
-		 * Filter whether to automatically update core, a plugin, a theme, or a language.
+		 * Filters whether to automatically update core, a plugin, a theme, or a language.
 		 *
 		 * The dynamic portion of the hook name, `$type`, refers to the type of update
 		 * being checked. Can be 'core', 'theme', 'plugin', or 'translation'.
@@ -220,7 +220,7 @@ class WP_Automatic_Updater {
 		$notify = ! empty( $item->notify_email );
 
 		/**
-		 * Filter whether to notify the site administrator of a new core update.
+		 * Filters whether to notify the site administrator of a new core update.
 		 *
 		 * By default, administrators are notified when the update offer received
 		 * from WordPress.org sets a particular flag. This allows some discretion
@@ -460,7 +460,7 @@ class WP_Automatic_Updater {
 			$development_version = false !== strpos( $wp_version, '-' );
 
 			/**
-			 * Filter whether to send a debugging email for each automatic background update.
+			 * Filters whether to send a debugging email for each automatic background update.
 			 *
 			 * @since 3.7.0
 			 *
@@ -605,7 +605,7 @@ class WP_Automatic_Updater {
 		$newer_version_available = ( 'upgrade' == $next_user_core_update->response && version_compare( $next_user_core_update->version, $core_update->version, '>' ) );
 
 		/**
-		 * Filter whether to send an email following an automatic background core update.
+		 * Filters whether to send an email following an automatic background core update.
 		 *
 		 * @since 3.7.0
 		 *
@@ -755,7 +755,7 @@ class WP_Automatic_Updater {
 		$email = compact( 'to', 'subject', 'body', 'headers' );
 
 		/**
-		 * Filter the email sent following an automatic background core update.
+		 * Filters the email sent following an automatic background core update.
 		 *
 		 * @since 3.7.0
 		 *
@@ -908,7 +908,7 @@ Thanks! -- The WordPress Team" ) );
 		);
 
 		/**
-		 * Filter the debug email that can be sent following an automatic
+		 * Filters the debug email that can be sent following an automatic
 		 * background core update.
 		 *
 		 * @since 3.8.0

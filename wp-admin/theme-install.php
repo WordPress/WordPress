@@ -116,7 +116,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	echo esc_html( $title );
 
 	/**
-	 * Filter the tabs shown on the Add Themes screen.
+	 * Filters the tabs shown on the Add Themes screen.
 	 *
 	 * This filter is for backward compatibility only, for the suppression of the upload tab.
 	 *

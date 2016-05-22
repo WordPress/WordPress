@@ -103,7 +103,7 @@ if ( isset( $_GET['download'] ) ) {
 	}
 
 	/**
-	 * Filter the export args.
+	 * Filters the export args.
 	 *
 	 * @since 3.5.0
 	 *

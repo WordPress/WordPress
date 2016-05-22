@@ -102,7 +102,7 @@ function get_comment_to_edit( $id ) {
 
 	$comment->comment_content = format_to_edit( $comment->comment_content );
 	/**
-	 * Filter the comment content before editing.
+	 * Filters the comment content before editing.
 	 *
 	 * @since 2.0.0
 	 *

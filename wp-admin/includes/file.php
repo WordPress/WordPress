@@ -251,7 +251,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	}
 
 	/**
-	 * Filter the data for a file before it is uploaded to WordPress.
+	 * Filters the data for a file before it is uploaded to WordPress.
 	 *
 	 * The dynamic portion of the hook name, `$action`, refers to the post action.
 	 *
@@ -399,7 +399,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	}
 
 	/**
-	 * Filter the data array for the uploaded file.
+	 * Filters the data array for the uploaded file.
 	 *
 	 * @since 2.1.0
 	 *
@@ -589,7 +589,7 @@ function unzip_file($file, $to) {
 	}
 
 	/**
-	 * Filter whether to use ZipArchive to unzip archives.
+	 * Filters whether to use ZipArchive to unzip archives.
 	 *
 	 * @since 3.0.0
 	 *
@@ -890,7 +890,7 @@ function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_own
 	if ( ! class_exists( "WP_Filesystem_$method" ) ) {
 
 		/**
-		 * Filter the path for a specific filesystem method class file.
+		 * Filters the path for a specific filesystem method class file.
 		 *
 		 * @since 2.6.0
 		 *
@@ -1006,7 +1006,7 @@ function get_filesystem_method( $args = array(), $context = false, $allow_relaxe
 	if ( ! $method && ( extension_loaded('sockets') || function_exists('fsockopen') ) ) $method = 'ftpsockets'; //Sockets: Socket extension; PHP Mode: FSockopen / fwrite / fread
 
 	/**
-	 * Filter the filesystem method to use.
+	 * Filters the filesystem method to use.
 	 *
 	 * @since 2.6.0
 	 *
@@ -1051,7 +1051,7 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 	global $pagenow;
 
 	/**
-	 * Filter the filesystem credentials form output.
+	 * Filters the filesystem credentials form output.
 	 *
 	 * Returning anything other than an empty string will effectively short-circuit
 	 * output of the filesystem credentials form, returning that value instead.
@@ -1152,7 +1152,7 @@ function request_filesystem_credentials( $form_post, $type = '', $error = false,
 		$types[ 'ssh' ] = __('SSH2');
 
 	/**
-	 * Filter the connection types to output to the filesystem credentials form.
+	 * Filters the connection types to output to the filesystem credentials form.
 	 *
 	 * @since 2.9.0
 	 *

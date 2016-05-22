@@ -711,7 +711,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 							}
 
 							/**
-							 * Filter the number of locations listed per menu in the drop-down select.
+							 * Filters the number of locations listed per menu in the drop-down select.
 							 *
 							 * @since 3.6.0
 							 *

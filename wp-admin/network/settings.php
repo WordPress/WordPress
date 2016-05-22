@@ -347,7 +347,7 @@ if ( isset( $_GET['updated'] ) ) {
 			<?php
 			$menu_perms = get_site_option( 'menu_items' );
 			/**
-			 * Filter available network-wide administration menu options.
+			 * Filters available network-wide administration menu options.
 			 *
 			 * Options returned to this filter are output as individual checkboxes that, when selected,
 			 * enable site administrator access to the specified administration menu in certain contexts.

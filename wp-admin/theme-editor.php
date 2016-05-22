@@ -66,7 +66,7 @@ $has_templates = false;
 $default_types = array( 'php', 'css' );
 
 /**
- * Filter the list of file types allowed for editing in the Theme editor.
+ * Filters the list of file types allowed for editing in the Theme editor.
  *
  * @since 4.4.0
  *

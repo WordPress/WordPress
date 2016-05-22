@@ -91,7 +91,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$themes = array(
 			/**
-			 * Filter the full array of WP_Theme objects to list in the Multisite
+			 * Filters the full array of WP_Theme objects to list in the Multisite
 			 * themes list table.
 			 *
 			 * @since 3.1.0
@@ -477,7 +477,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			);
 		}
 		/**
-		 * Filter the action links displayed for each theme in the Multisite
+		 * Filters the action links displayed for each theme in the Multisite
 		 * themes list table.
 		 *
 		 * The action links displayed are determined by the theme's status, and
@@ -501,7 +501,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme, $context );
 
 		/**
-		 * Filter the action links of a specific theme in the Multisite themes
+		 * Filters the action links of a specific theme in the Multisite themes
 		 * list table.
 		 *
 		 * The dynamic portion of the hook name, `$stylesheet`, refers to the
@@ -569,7 +569,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			);
 		}
 		/**
-		 * Filter the array of row meta for each theme in the Multisite themes
+		 * Filters the array of row meta for each theme in the Multisite themes
 		 * list table.
 		 *
 		 * @since 3.1.0

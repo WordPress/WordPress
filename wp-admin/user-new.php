@@ -133,7 +133,7 @@ Please click the following link to confirm the invite:
 			$add_user_errors = $user_details[ 'errors' ];
 		} else {
 			/**
-			 * Filter the user_login, also known as the username, before it is added to the site.
+			 * Filters the user_login, also known as the username, before it is added to the site.
 			 *
 			 * @since 2.0.3
 			 *
@@ -210,7 +210,7 @@ wp_enqueue_script('wp-ajax-response');
 wp_enqueue_script( 'user-profile' );
 
 /**
- * Filter whether to enable user auto-complete for non-super admins in Multisite.
+ * Filters whether to enable user auto-complete for non-super admins in Multisite.
  *
  * @since 3.4.0
  *

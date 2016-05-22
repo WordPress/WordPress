@@ -48,7 +48,7 @@ if ( get_option('db_upgraded') ) {
 		exit;
 
 	/**
-	 * Filter whether to attempt to perform the multisite DB upgrade routine.
+	 * Filters whether to attempt to perform the multisite DB upgrade routine.
 	 *
 	 * In single site, the user would be redirected to wp-admin/upgrade.php.
 	 * In multisite, the DB upgrade routine is automatically fired, but only
@@ -139,7 +139,7 @@ else
 
 if ( current_user_can( 'manage_options' ) ) {
 	/**
-	 * Filter the maximum memory limit available for administration screens.
+	 * Filters the maximum memory limit available for administration screens.
 	 *
 	 * This only applies to administrators, who may require more memory for tasks like updates.
 	 * Memory limits when processing images (uploaded or edited by users of any role) are

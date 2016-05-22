@@ -109,7 +109,7 @@ else :
 		echo "<li>";
 		echo "<h3>{$user_blog->blogname}</h3>";
 		/**
-		 * Filter the row links displayed for each site on the My Sites screen.
+		 * Filters the row links displayed for each site on the My Sites screen.
 		 *
 		 * @since MU
 		 *

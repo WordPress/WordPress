@@ -143,7 +143,7 @@ endif; ?>
 
 <?php
 	/**
-	 * Filter miscellaneous actions for the edit comment form sidebar.
+	 * Filters miscellaneous actions for the edit comment form sidebar.
 	 *
 	 * @since 4.3.0
 	 *

@@ -112,7 +112,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 
 		$tables = $wpdb->tables( 'blog' );
 		/**
-		 * Filter the tables to drop when the site is deleted.
+		 * Filters the tables to drop when the site is deleted.
 		 *
 		 * @since MU
 		 *
@@ -128,7 +128,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		$wpdb->delete( $wpdb->blogs, array( 'blog_id' => $blog_id ) );
 
 		/**
-		 * Filter the upload base directory to delete when the site is deleted.
+		 * Filters the upload base directory to delete when the site is deleted.
 		 *
 		 * @since MU
 		 *
@@ -291,7 +291,7 @@ All at ###SITENAME###
 ###SITEURL###' );
 
 	/**
-	 * Filter the email text sent when the site admin email is changed.
+	 * Filters the email text sent when the site admin email is changed.
 	 *
 	 * The following strings have a special meaning and will get replaced dynamically:
 	 * ###USERNAME###  The current user's username.
@@ -371,7 +371,7 @@ All at ###SITENAME###
 ###SITEURL###' );
 
 		/**
-		 * Filter the email text sent when a user changes emails.
+		 * Filters the email text sent when a user changes emails.
 		 *
 		 * The following strings have a special meaning and will get replaced dynamically:
 		 * ###USERNAME###  The current user's username.
@@ -604,7 +604,7 @@ function format_code_lang( $code = '' ) {
 		've' => 'Venda', 'vi' => 'Vietnamese', 'vo' => 'Volapük', 'cy' => 'Welsh','wa' => 'Walloon','wo' => 'Wolof', 'xh' => 'Xhosa', 'yi' => 'Yiddish', 'yo' => 'Yoruba', 'za' => 'Zhuang; Chuang', 'zu' => 'Zulu' );
 
 	/**
-	 * Filter the language codes.
+	 * Filters the language codes.
 	 *
 	 * @since MU
 	 *
@@ -730,7 +730,7 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 	uksort( $output, 'strnatcasecmp' );
 
 	/**
-	 * Filter the languages available in the dropdown.
+	 * Filters the languages available in the dropdown.
 	 *
 	 * @since MU
 	 *
@@ -873,7 +873,7 @@ function can_edit_network( $site_id ) {
 		$result = false;
 
 	/**
-	 * Filter whether this network can be edited from this page.
+	 * Filters whether this network can be edited from this page.
 	 *
 	 * @since 3.1.0
 	 *
@@ -1047,7 +1047,7 @@ jQuery(document).ready( function($) {
 function network_edit_site_nav( $args = array() ) {
 
 	/**
-	 * Filter the links that appear on site-editing network pages
+	 * Filters the links that appear on site-editing network pages
 	 *
 	 * Default links: 'site-info', 'site-users', 'site-themes', and 'site-settings'
 	 *
