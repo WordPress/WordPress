@@ -117,7 +117,7 @@ function get_the_title( $post = 0 ) {
 		if ( ! empty( $post->post_password ) ) {
 
 			/**
-			 * Filter the text prepended to the post title for protected posts.
+			 * Filters the text prepended to the post title for protected posts.
 			 *
 			 * The filter is only applied on the front end.
 			 *
@@ -132,7 +132,7 @@ function get_the_title( $post = 0 ) {
 		} elseif ( isset( $post->post_status ) && 'private' == $post->post_status ) {
 
 			/**
-			 * Filter the text prepended to the post title of private posts.
+			 * Filters the text prepended to the post title of private posts.
 			 *
 			 * The filter is only applied on the front end.
 			 *
@@ -148,7 +148,7 @@ function get_the_title( $post = 0 ) {
 	}
 
 	/**
-	 * Filter the post title.
+	 * Filters the post title.
 	 *
 	 * @since 0.71
 	 *
@@ -178,7 +178,7 @@ function the_guid( $post = 0 ) {
 	$id   = isset( $post->ID ) ? $post->ID : 0;
 
 	/**
-	 * Filter the escaped Global Unique Identifier (guid) of the post.
+	 * Filters the escaped Global Unique Identifier (guid) of the post.
 	 *
 	 * @since 4.2.0
 	 *
@@ -209,7 +209,7 @@ function get_the_guid( $post = 0 ) {
 	$id   = isset( $post->ID ) ? $post->ID : 0;
 
 	/**
-	 * Filter the Global Unique Identifier (guid) of the post.
+	 * Filters the Global Unique Identifier (guid) of the post.
 	 *
 	 * @since 1.5.0
 	 *
@@ -231,7 +231,7 @@ function the_content( $more_link_text = null, $strip_teaser = false) {
 	$content = get_the_content( $more_link_text, $strip_teaser );
 
 	/**
-	 * Filter the post content.
+	 * Filters the post content.
 	 *
 	 * @since 0.71
 	 *
@@ -303,7 +303,7 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 			if ( ! empty( $more_link_text ) )
 
 				/**
-				 * Filter the Read More link text.
+				 * Filters the Read More link text.
 				 *
 				 * @since 2.8.0
 				 *
@@ -342,7 +342,7 @@ function _convert_urlencoded_to_entities( $match ) {
 function the_excerpt() {
 
 	/**
-	 * Filter the displayed post excerpt.
+	 * Filters the displayed post excerpt.
 	 *
 	 * @since 0.71
 	 *
@@ -377,7 +377,7 @@ function get_the_excerpt( $post = null ) {
 	}
 
 	/**
-	 * Filter the retrieved post excerpt.
+	 * Filters the retrieved post excerpt.
 	 *
 	 * @since 1.2.0
 	 * @since 4.5.0 Introduced the `$post` parameter.
@@ -521,7 +521,7 @@ function get_post_class( $class = '', $post_id = null ) {
 	$classes = array_map( 'esc_attr', $classes );
 
 	/**
-	 * Filter the list of CSS classes for the current post.
+	 * Filters the list of CSS classes for the current post.
 	 *
 	 * @since 2.7.0
 	 *
@@ -745,7 +745,7 @@ function get_body_class( $class = '' ) {
 	$classes = array_map( 'esc_attr', $classes );
 
 	/**
-	 * Filter the list of CSS body classes for the current post or page.
+	 * Filters the list of CSS body classes for the current post or page.
 	 *
 	 * @since 2.8.0
 	 *
@@ -841,7 +841,7 @@ function wp_link_pages( $args = '' ) {
 	$params = wp_parse_args( $args, $defaults );
 
 	/**
-	 * Filter the arguments used in retrieving page links for paginated posts.
+	 * Filters the arguments used in retrieving page links for paginated posts.
 	 *
 	 * @since 3.0.0
 	 *
@@ -859,7 +859,7 @@ function wp_link_pages( $args = '' ) {
 					$link = _wp_link_page( $i ) . $link . '</a>';
 				}
 				/**
-				 * Filter the HTML output of individual page number links.
+				 * Filters the HTML output of individual page number links.
 				 *
 				 * @since 3.6.0
 				 *
@@ -897,7 +897,7 @@ function wp_link_pages( $args = '' ) {
 	}
 
 	/**
-	 * Filter the HTML output of page links for paginated posts.
+	 * Filters the HTML output of page links for paginated posts.
 	 *
 	 * @since 3.6.0
 	 *
@@ -994,7 +994,7 @@ function the_meta() {
 			$value = implode($values,', ');
 
 			/**
-			 * Filter the HTML output of the li element in the post custom fields list.
+			 * Filters the HTML output of the li element in the post custom fields list.
 			 *
 			 * @since 2.2.0
 			 *
@@ -1078,7 +1078,7 @@ function wp_dropdown_pages( $args = '' ) {
 	}
 
 	/**
-	 * Filter the HTML output of a list of pages as a drop down.
+	 * Filters the HTML output of a list of pages as a drop down.
 	 *
 	 * @since 2.1.0
 	 * @since 4.4.0 `$r` and `$pages` added as arguments.
@@ -1154,7 +1154,7 @@ function wp_list_pages( $args = '' ) {
 	$exclude_array = ( $r['exclude'] ) ? explode( ',', $r['exclude'] ) : array();
 
 	/**
-	 * Filter the array of pages to exclude from the pages list.
+	 * Filters the array of pages to exclude from the pages list.
 	 *
 	 * @since 2.1.0
 	 *
@@ -1188,7 +1188,7 @@ function wp_list_pages( $args = '' ) {
 	}
 
 	/**
-	 * Filter the HTML output of the pages to list.
+	 * Filters the HTML output of the pages to list.
 	 *
 	 * @since 1.5.1
 	 * @since 4.4.0 `$pages` added as arguments.
@@ -1253,7 +1253,7 @@ function wp_page_menu( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 
 	/**
-	 * Filter the arguments used to generate a page-based menu.
+	 * Filters the arguments used to generate a page-based menu.
 	 *
 	 * @since 2.7.0
 	 *
@@ -1324,7 +1324,7 @@ function wp_page_menu( $args = array() ) {
 	$menu = "<{$container}{$attrs}>" . $menu . "</{$container}>\n";
 
 	/**
-	 * Filter the HTML output of a page-based menu.
+	 * Filters the HTML output of a page-based menu.
 	 *
 	 * @since 2.7.0
 	 *
@@ -1452,7 +1452,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 		$link_text = $_post->post_title;
 
 	/**
-	 * Filter a retrieved attachment page link.
+	 * Filters a retrieved attachment page link.
 	 *
 	 * @since 2.7.0
 	 *
@@ -1502,7 +1502,7 @@ function prepend_attachment($content) {
 	}
 
 	/**
-	 * Filter the attachment markup to be prepended to the post content.
+	 * Filters the attachment markup to be prepended to the post content.
 	 *
 	 * @since 2.0.0
 	 *
@@ -1536,7 +1536,7 @@ function get_the_password_form( $post = 0 ) {
 	';
 
 	/**
-	 * Filter the HTML output for the protected post password form.
+	 * Filters the HTML output for the protected post password form.
 	 *
 	 * If modifying the password field, please note that the core database schema
 	 * limits the password field to 20 characters regardless of the value of the
@@ -1683,7 +1683,7 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
 		$revision_date_author = sprintf( $autosavef, $revision_date_author );
 
 	/**
-	 * Filter the formatted author and date for a revision.
+	 * Filters the formatted author and date for a revision.
 	 *
 	 * @since 4.4.0
 	 *
