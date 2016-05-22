@@ -497,7 +497,7 @@ class WP_Date_Query {
 		// Attempt to detect a table prefix.
 		if ( false === strpos( $column, '.' ) ) {
 			/**
-			 * Filter the list of valid date query columns.
+			 * Filters the list of valid date query columns.
 			 *
 			 * @since 3.7.0
 			 * @since 4.1.0 Added 'user_registered' to the default recognized columns.
@@ -559,7 +559,7 @@ class WP_Date_Query {
 		$where = $sql['where'];
 
 		/**
-		 * Filter the date query WHERE clause.
+		 * Filters the date query WHERE clause.
 		 *
 		 * @since 3.7.0
 		 *

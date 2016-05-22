@@ -71,7 +71,7 @@ function ms_site_check() {
 	$blog = get_blog_details();
 
 	/**
-	 * Filter checking the status of the current blog.
+	 * Filters checking the status of the current blog.
 	 *
 	 * @since 3.0.0
 	 *
@@ -168,7 +168,7 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	$path_segments = array_filter( explode( '/', trim( $path, '/' ) ) );
 
 	/**
-	 * Filter the number of path segments to consider when searching for a site.
+	 * Filters the number of path segments to consider when searching for a site.
 	 *
 	 * @since 3.9.0
 	 *

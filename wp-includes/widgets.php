@@ -672,7 +672,7 @@ function dynamic_sidebar( $index = 1 ) {
 		$params[0]['before_widget'] = sprintf($params[0]['before_widget'], $id, $classname_);
 
 		/**
-		 * Filter the parameters passed to a widget's display callback.
+		 * Filters the parameters passed to a widget's display callback.
 		 *
 		 * Note: The filter is evaluated on both the front end and back end,
 		 * including for the Inactive Widgets sidebar on the Widgets screen.
@@ -755,7 +755,7 @@ function dynamic_sidebar( $index = 1 ) {
 	do_action( 'dynamic_sidebar_after', $index, true );
 
 	/**
-	 * Filter whether a sidebar has widgets.
+	 * Filters whether a sidebar has widgets.
 	 *
 	 * Note: The filter is also evaluated for empty sidebars, and on both the front end
 	 * and back end, including the Inactive Widgets sidebar on the Widgets screen.
@@ -853,7 +853,7 @@ function is_active_sidebar( $index ) {
 	$is_active_sidebar = ! empty( $sidebars_widgets[$index] );
 
 	/**
-	 * Filter whether a dynamic sidebar is considered "active".
+	 * Filters whether a dynamic sidebar is considered "active".
 	 *
 	 * @since 3.9.0
 	 *
@@ -904,7 +904,7 @@ function wp_get_sidebars_widgets( $deprecated = true ) {
 		unset($sidebars_widgets['array_version']);
 
 	/**
-	 * Filter the list of sidebars and their widgets.
+	 * Filters the list of sidebars and their widgets.
 	 *
 	 * @since 2.7.0
 	 *

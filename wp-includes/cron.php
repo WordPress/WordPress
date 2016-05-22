@@ -35,7 +35,7 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
 	$crons = _get_cron_array();
 	$event = (object) array( 'hook' => $hook, 'timestamp' => $timestamp, 'schedule' => false, 'args' => $args );
 	/**
-	 * Filter a single event before it is scheduled.
+	 * Filters a single event before it is scheduled.
 	 *
 	 * @since 3.1.0
 	 *
@@ -295,7 +295,7 @@ function spawn_cron( $gmt_time = 0 ) {
 	set_transient( 'doing_cron', $doing_wp_cron );
 
 	/**
-	 * Filter the cron request arguments.
+	 * Filters the cron request arguments.
 	 *
 	 * @since 3.5.0
 	 * @since 4.5.0 The `$doing_wp_cron` parameter was added.
@@ -396,7 +396,7 @@ function wp_get_schedules() {
 		'daily'      => array( 'interval' => DAY_IN_SECONDS,       'display' => __( 'Once Daily' ) ),
 	);
 	/**
-	 * Filter the non-default cron schedules.
+	 * Filters the non-default cron schedules.
 	 *
 	 * @since 2.1.0
 	 *

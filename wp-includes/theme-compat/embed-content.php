@@ -38,7 +38,7 @@
 		}
 
 		/**
-		 * Filter the thumbnail image size for use in the embed template.
+		 * Filters the thumbnail image size for use in the embed template.
 		 *
 		 * @since 4.4.0
 		 * @since 4.5.0 Added `$thumbnail_id` parameter.
@@ -51,7 +51,7 @@
 		$shape = $measurements[0] / $measurements[1] >= 1.75 ? 'rectangular' : 'square';
 
 		/**
-		 * Filter the thumbnail shape for use in the embed template.
+		 * Filters the thumbnail shape for use in the embed template.
 		 *
 		 * Rectangular images are shown above the title while square images
 		 * are shown next to the content.

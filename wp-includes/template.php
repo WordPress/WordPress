@@ -29,7 +29,7 @@ function get_query_template( $type, $templates = array() ) {
 	$template = locate_template( $templates );
 
 	/**
-	 * Filter the path of the queried template by type.
+	 * Filters the path of the queried template by type.
 	 *
 	 * The dynamic portion of the hook name, `$type`, refers to the filename -- minus the file
 	 * extension and any non-alphanumeric characters delimiting words -- of the file to load.

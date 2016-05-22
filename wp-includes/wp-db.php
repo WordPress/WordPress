@@ -839,7 +839,7 @@ class wpdb {
 		$modes = array_change_key_case( $modes, CASE_UPPER );
 
 		/**
-		 * Filter the list of incompatible SQL modes to exclude.
+		 * Filters the list of incompatible SQL modes to exclude.
 		 *
 		 * @since 3.9.0
 		 *
@@ -1679,7 +1679,7 @@ class wpdb {
 		}
 
 		/**
-		 * Filter the database query.
+		 * Filters the database query.
 		 *
 		 * Some queries are made before the plugins have been loaded,
 		 * and thus cannot be filtered with this method.
@@ -2372,7 +2372,7 @@ class wpdb {
 		$tablekey = strtolower( $table );
 
 		/**
-		 * Filter the table charset value before the DB is checked.
+		 * Filters the table charset value before the DB is checked.
 		 *
 		 * Passing a non-null value to the filter will effectively short-circuit
 		 * checking the DB for the charset, returning that value instead.
@@ -2476,7 +2476,7 @@ class wpdb {
 		$columnkey = strtolower( $column );
 
 		/**
-		 * Filter the column charset value before the DB is checked.
+		 * Filters the column charset value before the DB is checked.
 		 *
 		 * Passing a non-null value to the filter will short-circuit
 		 * checking the DB for the charset, returning that value instead.

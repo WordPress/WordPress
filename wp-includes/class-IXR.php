@@ -249,7 +249,7 @@ class IXR_Message
         $element_limit = 30000;
         if ( function_exists( 'apply_filters' ) ) {
             /**
-             * Filter the number of elements to parse in an XML-RPC response.
+             * Filters the number of elements to parse in an XML-RPC response.
              *
              * @since 4.0.0
              *
@@ -273,7 +273,7 @@ class IXR_Message
         $chunk_size = 262144;
 
         /**
-         * Filter the chunk size that can be used to parse an XML-RPC reponse message.
+         * Filters the chunk size that can be used to parse an XML-RPC reponse message.
          *
          * @since 4.4.0
          *

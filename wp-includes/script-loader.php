@@ -138,7 +138,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'heartbeat', "/wp-includes/js/heartbeat$suffix.js", array('jquery'), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'heartbeat', 'heartbeatSettings',
 		/**
-		 * Filter the Heartbeat settings.
+		 * Filters the Heartbeat settings.
 		 *
 		 * @since 3.6.0
 		 *
@@ -152,7 +152,7 @@ function wp_default_scripts( &$scripts ) {
 		'beforeunload' => __('Your session has expired. You can log in again from this page or go to the login page.'),
 
 		/**
-		 * Filter the authentication check interval.
+		 * Filters the authentication check interval.
 		 *
 		 * @since 3.6.0
 		 *
@@ -360,7 +360,7 @@ function wp_default_scripts( &$scripts ) {
 	);
 	did_action( 'init' ) && $scripts->localize( 'mediaelement', '_wpmejsSettings',
 		/**
-		 * Filter the MediaElement configuration settings.
+		 * Filters the MediaElement configuration settings.
 		 *
 		 * @since 4.4.0
 		 *
@@ -927,7 +927,7 @@ function print_head_scripts() {
 	$wp_scripts->do_head_items();
 
 	/**
-	 * Filter whether to print the head scripts.
+	 * Filters whether to print the head scripts.
 	 *
 	 * @since 2.8.0
 	 *
@@ -962,7 +962,7 @@ function print_footer_scripts() {
 	$wp_scripts->do_footer_items();
 
 	/**
-	 * Filter whether to print the footer scripts.
+	 * Filters whether to print the footer scripts.
 	 *
 	 * @since 2.8.0
 	 *
@@ -1098,7 +1098,7 @@ function print_admin_styles() {
 	$wp_styles->do_items(false);
 
 	/**
-	 * Filter whether to print the admin styles.
+	 * Filters whether to print the admin styles.
 	 *
 	 * @since 2.8.0
 	 *
@@ -1134,7 +1134,7 @@ function print_late_styles() {
 	$wp_styles->do_footer_items();
 
 	/**
-	 * Filter whether to print the styles queued too late for the HTML head.
+	 * Filters whether to print the styles queued too late for the HTML head.
 	 *
 	 * @since 3.3.0
 	 *

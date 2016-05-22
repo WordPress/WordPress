@@ -132,7 +132,7 @@ function get_bookmarks( $args = '' ) {
 		if ( is_array( $cache ) && isset( $cache[ $key ] ) ) {
 			$bookmarks = $cache[ $key ];
 			/**
-			 * Filter the returned list of bookmarks.
+			 * Filters the returned list of bookmarks.
 			 *
 			 * The first time the hook is evaluated in this file, it returns the cached
 			 * bookmarks list. The second evaluation returns a cached bookmarks list if the

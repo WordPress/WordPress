@@ -189,7 +189,7 @@ class WP_Styles extends WP_Dependencies {
 		$title = isset($obj->extra['title']) ? "title='" . esc_attr( $obj->extra['title'] ) . "'" : '';
 
 		/**
-		 * Filter the HTML link tag of an enqueued style.
+		 * Filters the HTML link tag of an enqueued style.
 		 *
 		 * @since 2.6.0
 		 * @since 4.3.0 Introduced the `$href` parameter.
@@ -313,7 +313,7 @@ class WP_Styles extends WP_Dependencies {
 		$r = parent::all_deps( $handles, $recursion, $group );
 		if ( ! $recursion ) {
 			/**
-			 * Filter the array of enqueued styles before processing for output.
+			 * Filters the array of enqueued styles before processing for output.
 			 *
 			 * @since 2.6.0
 			 *
@@ -344,7 +344,7 @@ class WP_Styles extends WP_Dependencies {
 			$src = add_query_arg('ver', $ver, $src);
 
 		/**
-		 * Filter an enqueued style's fully-qualified URL.
+		 * Filters an enqueued style's fully-qualified URL.
 		 *
 		 * @since 2.6.0
 		 *

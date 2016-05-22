@@ -3538,7 +3538,7 @@ function wp_richedit_pre($text) {
 
 	if ( empty( $text ) ) {
 		/**
-		 * Filter text returned for the rich text editor.
+		 * Filters text returned for the rich text editor.
 		 *
 		 * This filter is first evaluated, and the value returned, if an empty string
 		 * is passed to wp_richedit_pre(). If an empty string is passed, it results
@@ -3583,7 +3583,7 @@ function wp_htmledit_pre($output) {
 		$output = htmlspecialchars($output, ENT_NOQUOTES, get_option( 'blog_charset' ) ); // convert only < > &
 
 	/**
-	 * Filter the text before it is formatted for the HTML editor.
+	 * Filters the text before it is formatted for the HTML editor.
 	 *
 	 * @since 2.5.0
 	 * @deprecated 4.3.0

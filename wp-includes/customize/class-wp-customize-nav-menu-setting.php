@@ -235,7 +235,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Filter the wp_get_nav_menus() result to ensure the inserted menu object is included, and the deleted one is removed.
+	 * Filters the wp_get_nav_menus() result to ensure the inserted menu object is included, and the deleted one is removed.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -324,7 +324,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Filter the wp_get_nav_menu_object() result to supply the previewed menu object.
+	 * Filters the wp_get_nav_menu_object() result to supply the previewed menu object.
 	 *
 	 * Requesting a nav_menu object by anything but ID is not supported.
 	 *
@@ -375,7 +375,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Filter the nav_menu_options option to include this menu's auto_add preference.
+	 * Filters the nav_menu_options option to include this menu's auto_add preference.
 	 *
 	 * @since 4.3.0
 	 * @access public

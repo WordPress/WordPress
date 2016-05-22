@@ -249,7 +249,7 @@ function map_meta_cap( $cap, $user_id ) {
 
 		if ( $meta_key && has_filter( "auth_post_meta_{$meta_key}" ) ) {
 			/**
-			 * Filter whether the user is allowed to add post meta to a post.
+			 * Filters whether the user is allowed to add post meta to a post.
 			 *
 			 * The dynamic portion of the hook name, `$meta_key`, refers to the
 			 * meta key passed to map_meta_cap().
@@ -390,7 +390,7 @@ function map_meta_cap( $cap, $user_id ) {
 	}
 
 	/**
-	 * Filter a user's capabilities depending on specific context and/or privilege.
+	 * Filters a user's capabilities depending on specific context and/or privilege.
 	 *
 	 * @since 2.8.0
 	 *

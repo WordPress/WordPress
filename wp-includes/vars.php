@@ -59,7 +59,7 @@ if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
 		if ( stripos( $_SERVER['HTTP_USER_AGENT'], 'chromeframe' ) !== false ) {
 			$is_admin = is_admin();
 			/**
-			 * Filter whether Google Chrome Frame should be used, if available.
+			 * Filters whether Google Chrome Frame should be used, if available.
 			 *
 			 * @since 3.2.0
 			 *

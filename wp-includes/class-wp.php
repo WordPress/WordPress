@@ -146,7 +146,7 @@ class WP {
 		global $wp_rewrite;
 
 		/**
-		 * Filter whether to parse the request.
+		 * Filters whether to parse the request.
 		 *
 		 * @since 3.5.0
 		 *
@@ -281,7 +281,7 @@ class WP {
 		}
 
 		/**
-		 * Filter the query variables whitelist before processing.
+		 * Filters the query variables whitelist before processing.
 		 *
 		 * Allows (publicly allowed) query vars to be added, removed, or changed prior
 		 * to executing the query. Needed to allow custom rewrite rules using your own arguments
@@ -368,7 +368,7 @@ class WP {
 			$this->query_vars['error'] = $error;
 
 		/**
-		 * Filter the array of parsed query variables.
+		 * Filters the array of parsed query variables.
 		 *
 		 * @since 2.1.0
 		 *
@@ -463,7 +463,7 @@ class WP {
 		}
 
 		/**
-		 * Filter the HTTP headers before they're sent to the browser.
+		 * Filters the HTTP headers before they're sent to the browser.
 		 *
 		 * @since 2.8.0
 		 *
@@ -532,7 +532,7 @@ class WP {
 
 		if ( has_filter( 'query_string' ) ) {  // Don't bother filtering and parsing if no plugins are hooked in.
 			/**
-			 * Filter the query string before parsing.
+			 * Filters the query string before parsing.
 			 *
 			 * @since 1.5.0
 			 * @deprecated 2.1.0 Use 'query_vars' or 'request' filters instead.
@@ -631,7 +631,7 @@ class WP {
 		global $wp_query;
 
 		/**
-		 * Filter whether to short-circuit default header status handling.
+		 * Filters whether to short-circuit default header status handling.
 		 *
 		 * Returning a non-false value from the filter will short-circuit the handling
 		 * and return early.

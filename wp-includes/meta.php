@@ -52,7 +52,7 @@ function add_metadata($meta_type, $object_id, $meta_key, $meta_value, $unique = 
 	$meta_value = sanitize_meta( $meta_key, $meta_value, $meta_type );
 
 	/**
-	 * Filter whether to add metadata of a specific type.
+	 * Filters whether to add metadata of a specific type.
 	 *
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta
 	 * object type (comment, post, or user). Returning a non-null value
@@ -168,7 +168,7 @@ function update_metadata($meta_type, $object_id, $meta_key, $meta_value, $prev_v
 	$meta_value = sanitize_meta( $meta_key, $meta_value, $meta_type );
 
 	/**
-	 * Filter whether to update metadata of a specific type.
+	 * Filters whether to update metadata of a specific type.
 	 *
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta
 	 * object type (comment, post, or user). Returning a non-null value
@@ -328,7 +328,7 @@ function delete_metadata($meta_type, $object_id, $meta_key, $meta_value = '', $d
 	$meta_value = wp_unslash($meta_value);
 
 	/**
-	 * Filter whether to delete metadata of a specific type.
+	 * Filters whether to delete metadata of a specific type.
 	 *
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta
 	 * object type (comment, post, or user). Returning a non-null value
@@ -469,7 +469,7 @@ function get_metadata($meta_type, $object_id, $meta_key = '', $single = false) {
 	}
 
 	/**
-	 * Filter whether to retrieve metadata of a specific type.
+	 * Filters whether to retrieve metadata of a specific type.
 	 *
 	 * The dynamic portion of the hook, `$meta_type`, refers to the meta
 	 * object type (comment, post, or user). Returning a non-null value
@@ -921,7 +921,7 @@ function is_protected_meta( $meta_key, $meta_type = null ) {
 	$protected = ( '_' == $meta_key[0] );
 
 	/**
-	 * Filter whether a meta key is protected.
+	 * Filters whether a meta key is protected.
 	 *
 	 * @since 3.2.0
 	 *
@@ -945,7 +945,7 @@ function is_protected_meta( $meta_key, $meta_type = null ) {
 function sanitize_meta( $meta_key, $meta_value, $meta_type ) {
 
 	/**
-	 * Filter the sanitization of a specific meta key of a specific meta type.
+	 * Filters the sanitization of a specific meta key of a specific meta type.
 	 *
 	 * The dynamic portions of the hook name, `$meta_type`, and `$meta_key`,
 	 * refer to the metadata object type (comment, post, or user) and the meta

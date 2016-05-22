@@ -75,7 +75,7 @@ class Walker_PageDropdown extends Walker {
 		}
 
 		/**
-		 * Filter the page title when creating an HTML drop-down list of pages.
+		 * Filters the page title when creating an HTML drop-down list of pages.
 		 *
 		 * @since 3.1.0
 		 *

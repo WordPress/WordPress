@@ -32,7 +32,7 @@ function _wp_admin_bar_init() {
 	/* Instantiate the admin bar */
 
 	/**
-	 * Filter the admin bar class to instantiate.
+	 * Filters the admin bar class to instantiate.
 	 *
 	 * @since 3.1.0
 	 *
@@ -921,7 +921,7 @@ function is_admin_bar_showing() {
 	}
 
 	/**
-	 * Filter whether to show the admin bar.
+	 * Filters whether to show the admin bar.
 	 *
 	 * Returning false to this hook is the recommended way to hide the admin bar.
 	 * The user's display preference is used for logged in users.

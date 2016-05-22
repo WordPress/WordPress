@@ -486,7 +486,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 	}
 
 	/**
-	 * Filter the canonical redirect URL.
+	 * Filters the canonical redirect URL.
 	 *
 	 * Returning false to this filter will cancel the redirect.
 	 *

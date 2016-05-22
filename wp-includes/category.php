@@ -30,7 +30,7 @@ function get_categories( $args = '' ) {
 	$taxonomy = $args['taxonomy'];
 
 	/**
-	 * Filter the taxonomy used to retrieve terms when calling get_categories().
+	 * Filters the taxonomy used to retrieve terms when calling get_categories().
 	 *
 	 * @since 2.7.0
 	 *
@@ -271,7 +271,7 @@ function get_tags( $args = '' ) {
 	}
 
 	/**
-	 * Filter the array of term objects returned for the 'post_tag' taxonomy.
+	 * Filters the array of term objects returned for the 'post_tag' taxonomy.
 	 *
 	 * @since 2.3.0
 	 *

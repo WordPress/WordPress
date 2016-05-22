@@ -404,7 +404,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Filter the wp_get_nav_menu_items() result to supply the previewed menu items.
+	 * Filters the wp_get_nav_menu_items() result to supply the previewed menu items.
 	 *
 	 * @since 4.3.0
 	 * @access public

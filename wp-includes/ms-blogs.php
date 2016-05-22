@@ -235,7 +235,7 @@ function get_blog_details( $fields = null, $get_all = true ) {
 	restore_current_blog();
 
 	/**
-	 * Filter a blog's details.
+	 * Filters a blog's details.
 	 *
 	 * @since MU
 	 *
@@ -591,7 +591,7 @@ function get_blog_option( $id, $option, $default = false ) {
 	restore_current_blog();
 
 	/**
-	 * Filter a blog option value.
+	 * Filters a blog option value.
 	 *
 	 * The dynamic portion of the hook name, `$option`, refers to the blog option name.
 	 *

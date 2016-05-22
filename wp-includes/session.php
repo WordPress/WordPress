@@ -40,7 +40,7 @@ abstract class WP_Session_Tokens {
 	 */
 	final public static function get_instance( $user_id ) {
 		/**
-		 * Filter the session token manager used.
+		 * Filters the session token manager used.
 		 *
 		 * @since 4.0.0
 		 *
@@ -118,7 +118,7 @@ abstract class WP_Session_Tokens {
 	 */
 	final public function create( $expiration ) {
 		/**
-		 * Filter the information attached to the newly created session.
+		 * Filters the information attached to the newly created session.
 		 *
 		 * Could be used in the future to attach information such as
 		 * IP address or user agent to a session.

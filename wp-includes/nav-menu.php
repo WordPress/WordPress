@@ -39,7 +39,7 @@ function wp_get_nav_menu_object( $menu ) {
 	}
 
 	/**
-	 * Filter the nav_menu term retrieved for wp_get_nav_menu_object().
+	 * Filters the nav_menu term retrieved for wp_get_nav_menu_object().
 	 *
 	 * @since 4.3.0
 	 *
@@ -171,7 +171,7 @@ function has_nav_menu( $location ) {
 	}
 
 	/**
-	 * Filter whether a nav menu is assigned to the specified location.
+	 * Filters whether a nav menu is assigned to the specified location.
 	 *
 	 * @since 4.3.0
 	 *
@@ -543,7 +543,7 @@ function wp_get_nav_menus( $args = array() ) {
 	$args = wp_parse_args( $args, $defaults );
 
 	/**
-	 * Filter the navigation menu objects being returned.
+	 * Filters the navigation menu objects being returned.
 	 *
 	 * @since 3.0.0
 	 *
@@ -689,7 +689,7 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 	}
 
 	/**
-	 * Filter the navigation menu items being returned.
+	 * Filters the navigation menu items being returned.
 	 *
 	 * @since 3.0.0
 	 *
@@ -798,7 +798,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 			$menu_item->target = ! isset( $menu_item->target ) ? get_post_meta( $menu_item->ID, '_menu_item_target', true ) : $menu_item->target;
 
 			/**
-			 * Filter a navigation menu item's title attribute.
+			 * Filters a navigation menu item's title attribute.
 			 *
 			 * @since 3.0.0
 			 *
@@ -808,7 +808,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 			if ( ! isset( $menu_item->description ) ) {
 				/**
-				 * Filter a navigation menu item's description.
+				 * Filters a navigation menu item's description.
 				 *
 				 * @since 3.0.0
 				 *
@@ -869,7 +869,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 	}
 
 	/**
-	 * Filter a navigation menu item object.
+	 * Filters a navigation menu item object.
 	 *
 	 * @since 3.0.0
 	 *

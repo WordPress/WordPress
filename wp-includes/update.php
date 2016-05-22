@@ -55,7 +55,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	}
 
 	/**
-	 * Filter the locale requested for WordPress core translations.
+	 * Filters the locale requested for WordPress core translations.
 	 *
 	 * @since 2.8.0
 	 *
@@ -265,7 +265,7 @@ function wp_update_plugins( $extra_stats = array() ) {
 	$locales = array_values( get_available_languages() );
 
 	/**
-	 * Filter the locales requested for plugin translations.
+	 * Filters the locales requested for plugin translations.
 	 *
 	 * @since 3.7.0
 	 * @since 4.5.0 The default value of the `$locales` parameter changed to include all locales.
@@ -439,7 +439,7 @@ function wp_update_themes( $extra_stats = array() ) {
 	$locales = array_values( get_available_languages() );
 
 	/**
-	 * Filter the locales requested for theme translations.
+	 * Filters the locales requested for theme translations.
 	 *
 	 * @since 3.7.0
 	 * @since 4.5.0 The default value of the `$locales` parameter changed to include all locales.
@@ -579,7 +579,7 @@ function wp_get_update_data() {
 
 	$update_data = array( 'counts' => $counts, 'title' => $update_title );
 	/**
-	 * Filter the returned array of update data for plugins, themes, and WordPress core.
+	 * Filters the returned array of update data for plugins, themes, and WordPress core.
 	 *
 	 * @since 3.5.0
 	 *

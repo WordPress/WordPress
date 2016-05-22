@@ -159,7 +159,7 @@ function rest_api_loaded() {
  */
 function rest_get_url_prefix() {
 	/**
-	 * Filter the REST URL prefix.
+	 * Filters the REST URL prefix.
 	 *
 	 * @since 4.4.0
 	 *
@@ -206,7 +206,7 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 	}
 
 	/**
-	 * Filter the REST URL.
+	 * Filters the REST URL.
 	 *
 	 * Use this filter to adjust the url returned by the `get_rest_url` function.
 	 *
@@ -269,7 +269,7 @@ function rest_get_server() {
 
 	if ( empty( $wp_rest_server ) ) {
 		/**
-		 * Filter the REST Server Class.
+		 * Filters the REST Server Class.
 		 *
 		 * This filter allows you to adjust the server class used by the API, using a
 		 * different class to handle requests.

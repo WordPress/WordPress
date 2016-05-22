@@ -626,7 +626,7 @@ function wp_kses_allowed_html( $context = '' ) {
 
 	if ( is_array( $context ) ) {
 		/**
-		 * Filter HTML elements allowed for a given context.
+		 * Filters HTML elements allowed for a given context.
 		 *
 		 * @since 3.5.0
 		 *
@@ -679,7 +679,7 @@ function wp_kses_allowed_html( $context = '' ) {
  */
 function wp_kses_hook( $string, $allowed_html, $allowed_protocols ) {
 	/**
-	 * Filter content to be run through kses.
+	 * Filters content to be run through kses.
 	 *
 	 * @since 2.3.0
 	 *
@@ -1704,7 +1704,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	$css_array = explode( ';', trim( $css ) );
 
 	/**
-	 * Filter list of allowed CSS attributes.
+	 * Filters list of allowed CSS attributes.
 	 *
 	 * @since 2.8.1
 	 *

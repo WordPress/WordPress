@@ -311,7 +311,7 @@ function add_rewrite_endpoint( $name, $places, $query_var = true ) {
 }
 
 /**
- * Filter the URL base for taxonomies.
+ * Filters the URL base for taxonomies.
  *
  * To remove any manually prepended /index.php/.
  *
@@ -463,7 +463,7 @@ function url_to_postid( $url ) {
 	global $wp_rewrite;
 
 	/**
-	 * Filter the URL to derive the post ID from.
+	 * Filters the URL to derive the post ID from.
 	 *
 	 * @since 2.2.0
 	 *
