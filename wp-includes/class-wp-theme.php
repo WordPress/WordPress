@@ -170,7 +170,7 @@ final class WP_Theme implements ArrayAccess {
 	/**
 	 * Flag for whether the themes cache bucket should be persistently cached.
 	 *
-	 * Default is false. Can be set with the wp_cache_themes_persistently filter.
+	 * Default is false. Can be set with the {@see 'wp_cache_themes_persistently'} filter.
 	 *
 	 * @static
 	 * @access private
@@ -920,7 +920,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * This is typically the absolute URL to wp-content/themes. This forms the basis
 	 * for all other URLs returned by WP_Theme, so we pass it to the public function
-	 * get_theme_root_uri() and allow it to run the theme_root_uri filter.
+	 * get_theme_root_uri() and allow it to run the {@see 'theme_root_uri'} filter.
 	 *
 	 * @since 3.4.0
 	 * @access public

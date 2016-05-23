@@ -905,8 +905,8 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param mixed $return Value passed through for wp_die_handler filter.
-	 * @return mixed Value passed through for wp_die_handler filter.
+	 * @param mixed $return Value passed through for {@see 'wp_die_handler'} filter.
+	 * @return mixed Value passed through for {@see 'wp_die_handler'} filter.
 	 */
 	public function remove_preview_signature( $return = null ) {
 		remove_action( 'shutdown', array( $this, 'customize_preview_signature' ), 1000 );

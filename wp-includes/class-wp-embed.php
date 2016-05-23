@@ -16,7 +16,12 @@ class WP_Embed {
 
 	/**
 	 * When a URL cannot be embedded, return false instead of returning a link
-	 * or the URL. Bypasses the 'embed_maybe_make_link' filter.
+	 * or the URL.
+	 *
+	 * Bypasses the {@see 'embed_maybe_make_link'} filter.
+	 *
+	 * @access public
+	 * @var bool
 	 */
 	public $return_false_on_fail = false;
 

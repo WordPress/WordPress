@@ -160,7 +160,7 @@ class WP_Metadata_Lazyloader {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @param mixed $check The `$check` param passed from the 'get_comment_metadata' hook.
+	 * @param mixed $check The `$check` param passed from the {@see 'get_comment_metadata'} hook.
 	 * @return mixed The original value of `$check`, so as not to short-circuit `get_comment_metadata()`.
 	 */
 	public function lazyload_comment_meta( $check ) {

@@ -1252,13 +1252,13 @@ class WP_Rewrite {
 	/**
 	 * Constructs rewrite matches and queries from permalink structure.
 	 *
-	 * Runs the action 'generate_rewrite_rules' with the parameter that is an
+	 * Runs the action {@see 'generate_rewrite_rules'} with the parameter that is an
 	 * reference to the current WP_Rewrite instance to further manipulate the
-	 * permalink structures and rewrite rules. Runs the 'rewrite_rules_array'
+	 * permalink structures and rewrite rules. Runs the {@see 'rewrite_rules_array'}
 	 * filter on the full rewrite rule array.
 	 *
 	 * There are two ways to manipulate the rewrite rules, one by hooking into
-	 * the 'generate_rewrite_rules' action and gaining full control of the
+	 * the {@see 'generate_rewrite_rules'} action and gaining full control of the
 	 * object or just manipulating the rewrite rule array before it is passed
 	 * from the function.
 	 *
@@ -1872,7 +1872,7 @@ class WP_Rewrite {
 	 * between the current permalink structure and the parameter value. Calls
 	 * WP_Rewrite::init() after the option is updated.
 	 *
-	 * Fires the 'permalink_structure_changed' action once the init call has
+	 * Fires the {@see 'permalink_structure_changed'} action once the init call has
 	 * processed passing the old and new values
 	 *
 	 * @since 1.5.0

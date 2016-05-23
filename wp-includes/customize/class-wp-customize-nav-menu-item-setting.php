@@ -132,6 +132,8 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	/**
 	 * Status for calling the update method, used in customize_save_response filter.
 	 *
+	 * See {@see 'customize_save_response'}.
+	 *
 	 * When status is inserted, the placeholder post ID is stored in $previous_post_id.
 	 * When status is error, the error is stored in $update_error.
 	 *
@@ -658,11 +660,11 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Create/update the nav_menu_item post for this setting.
+	 * Creates/updates the nav_menu_item post for this setting.
 	 *
 	 * Any created menu items will have their assigned post IDs exported to the client
-	 * via the customize_save_response filter. Likewise, any errors will be exported
-	 * to the client via the customize_save_response() filter.
+	 * via the {@see 'customize_save_response'} filter. Likewise, any errors will be
+	 * exported to the client via the customize_save_response() filter.
 	 *
 	 * To delete a menu, the client can send false as the value.
 	 *

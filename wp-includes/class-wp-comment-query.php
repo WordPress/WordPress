@@ -62,7 +62,7 @@ class WP_Comment_Query {
 	/**
 	 * SQL WHERE clause.
 	 *
-	 * Stored after the 'comments_clauses' filter is run on the compiled WHERE sub-clauses.
+	 * Stored after the {@see 'comments_clauses'} filter is run on the compiled WHERE sub-clauses.
 	 *
 	 * @since 4.4.2
 	 * @access protected
