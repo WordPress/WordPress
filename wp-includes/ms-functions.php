@@ -138,10 +138,9 @@ function get_blog_post( $blog_id, $post_id ) {
 }
 
 /**
- * Add a user to a blog.
+ * Adds a user to a blog.
  *
- * Use the 'add_user_to_blog' action to fire an event when
- * users are added to a blog.
+ * Use the {@see 'add_user_to_blog'} action to fire an event when users are added to a blog.
  *
  * @since MU 1.0
  *
@@ -187,10 +186,10 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 /**
  * Remove a user from a blog.
  *
- * Use the 'remove_user_from_blog' action to fire an event when
+ * Use the {@see 'remove_user_from_blog'} action to fire an event when
  * users are removed from a blog.
  *
- * Accepts an optional $reassign parameter, if you want to
+ * Accepts an optional `$reassign` parameter, if you want to
  * reassign the user's blog posts to another user upon removal.
  *
  * @since MU 1.0
@@ -527,7 +526,7 @@ function wpmu_validate_user_signup($user_name, $user_email) {
  * $user parameter to the function, where $user is the other user, is
  * effectively an override of this limitation.
  *
- * Filter 'wpmu_validate_blog_signup' if you want to modify
+ * Filter {@see 'wpmu_validate_blog_signup'} if you want to modify
  * the way that WordPress validates new site signups.
  *
  * @since MU
@@ -749,11 +748,11 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
  * This is the notification function used when site registration
  * is enabled.
  *
- * Filter 'wpmu_signup_blog_notification' to bypass this function or
+ * Filter {@see 'wpmu_signup_blog_notification'} to bypass this function or
  * replace it with your own notification behavior.
  *
- * Filter 'wpmu_signup_blog_notification_email' and
- * 'wpmu_signup_blog_notification_subject' to change the content
+ * Filter {@see 'wpmu_signup_blog_notification_email'} and
+ * {@see 'wpmu_signup_blog_notification_subject'} to change the content
  * and subject line of the email sent to newly registered users.
  *
  * @since MU
@@ -855,11 +854,11 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
  * This is the notification function used when no new site has
  * been requested.
  *
- * Filter 'wpmu_signup_user_notification' to bypass this function or
+ * Filter {@see 'wpmu_signup_user_notification'} to bypass this function or
  * replace it with your own notification behavior.
  *
- * Filter 'wpmu_signup_user_notification_email' and
- * 'wpmu_signup_user_notification_subject' to change the content
+ * Filter {@see 'wpmu_signup_user_notification_email'} and
+ * {@see 'wpmu_signup_user_notification_subject'} to change the content
  * and subject line of the email sent to newly registered users.
  *
  * @since MU
@@ -937,7 +936,7 @@ function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array(
 /**
  * Activate a signup.
  *
- * Hook to 'wpmu_activate_user' or 'wpmu_activate_blog' for events
+ * Hook to {@see 'wpmu_activate_user'} or {@see 'wpmu_activate_blog'} for events
  * that should happen only when users or sites are self-created (since
  * those actions are not called when users and sites are created
  * by a Super Admin).
@@ -1032,9 +1031,9 @@ function wpmu_activate_signup($key) {
  * Create a user.
  *
  * This function runs when a user self-registers as well as when
- * a Super Admin creates a new user. Hook to 'wpmu_new_user' for events
+ * a Super Admin creates a new user. Hook to {@see 'wpmu_new_user'} for events
  * that should affect all new users, but only on Multisite (otherwise
- * use 'user_register').
+ * use {@see'user_register'}).
  *
  * @since MU
  *
@@ -1070,7 +1069,7 @@ function wpmu_create_user( $user_name, $password, $email ) {
  * Create a site.
  *
  * This function runs when a user self-registers a new site as well
- * as when a Super Admin creates a new site. Hook to 'wpmu_new_blog'
+ * as when a Super Admin creates a new site. Hook to {@see 'wpmu_new_blog'}
  * for events that should affect all new sites.
  *
  * On subdirectory installs, $domain is the same as the main site's
@@ -1154,7 +1153,7 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $s
 /**
  * Notifies the network admin that a new site has been activated.
  *
- * Filter 'newblog_notify_siteadmin' to change the content of
+ * Filter {@see 'newblog_notify_siteadmin'} to change the content of
  * the notification email.
  *
  * @since MU
@@ -1200,7 +1199,7 @@ Disable these notifications: %4$s' ), $blogname, $siteurl, wp_unslash( $_SERVER[
 /**
  * Notifies the network admin that a new user has been activated.
  *
- * Filter 'newuser_notify_siteadmin' to change the content of
+ * Filter {@see 'newuser_notify_siteadmin'} to change the content of
  * the notification email.
  *
  * @since MU
@@ -1402,9 +1401,9 @@ function install_blog_defaults($blog_id, $user_id) {
 /**
  * Notify a user that their blog activation has been successful.
  *
- * Filter 'wpmu_welcome_notification' to disable or bypass.
+ * Filter {@see 'wpmu_welcome_notification'} to disable or bypass.
  *
- * Filter 'update_welcome_email' and 'update_welcome_subject' to
+ * Filter {@see 'update_welcome_email'} and {@see 'update_welcome_subject'} to
  * modify the content and subject line of the notification email.
  *
  * @since MU
@@ -1505,9 +1504,9 @@ We hope you enjoy your new site. Thanks!
 /**
  * Notify a user that their account activation has been successful.
  *
- * Filter 'wpmu_welcome_user_notification' to disable or bypass.
+ * Filter {@see 'wpmu_welcome_user_notification'} to disable or bypass.
  *
- * Filter 'update_welcome_user_email' and 'update_welcome_user_subject' to
+ * Filter {@see 'update_welcome_user_email'} and {@see 'update_welcome_user_subject'} to
  * modify the content and subject line of the notification email.
  *
  * @since MU
@@ -1998,10 +1997,10 @@ function add_existing_user_to_blog( $details = false ) {
 }
 
 /**
- * Add a newly created user to the appropriate blog
+ * Adds a newly created user to the appropriate blog
  *
  * To add a user in general, use add_user_to_blog(). This function
- * is specifically hooked into the wpmu_activate_user action.
+ * is specifically hooked into the {@see 'wpmu_activate_user'} action.
  *
  * @since MU
  * @see add_user_to_blog()
@@ -2200,7 +2199,7 @@ function wp_update_network_counts() {
 /**
  * Update the count of sites for the current network.
  *
- * If enabled through the 'enable_live_network_counts' filter, update the sites count
+ * If enabled through the {@see 'enable_live_network_counts'} filter, update the sites count
  * on a network when a site is created or its status is updated.
  *
  * @since 3.7.0
@@ -2227,7 +2226,7 @@ function wp_maybe_update_network_site_counts() {
 /**
  * Update the network-wide users count.
  *
- * If enabled through the 'enable_live_network_counts' filter, update the users count
+ * If enabled through the {@see 'enable_live_network_counts'} filter, update the users count
  * on a network when a user is created or its status is updated.
  *
  * @since 3.7.0
@@ -2377,7 +2376,7 @@ function upload_size_limit_filter( $size ) {
  * Whether or not we have a large network.
  *
  * The default criteria for a large network is either more than 10,000 users or more than 10,000 sites.
- * Plugins can alter this criteria using the 'wp_is_large_network' filter.
+ * Plugins can alter this criteria using the {@see 'wp_is_large_network'} filter.
  *
  * @since 3.3.0
  * @param string $using 'sites or 'users'. Default is 'sites'.
