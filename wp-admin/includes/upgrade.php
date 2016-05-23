@@ -2221,7 +2221,7 @@ function dbDelta( $queries = '', $execute = true ) {
 			if ( array_key_exists( $tablefield_field_lowercased, $cfields ) ) {
 
 				// Get the field type from the query.
-				preg_match("|".$tablefield->Field." ([^ ]*( unsigned)?)|i", $cfields[ $tablefield_field_lowercased ], $matches);
+				preg_match( '|`?' . $tablefield->Field . '`? ([^ ]*( unsigned)?)|i', $cfields[ $tablefield_field_lowercased ], $matches );
 				$fieldtype = $matches[1];
 				$fieldtype_lowercased = strtolower( $fieldtype );
 
