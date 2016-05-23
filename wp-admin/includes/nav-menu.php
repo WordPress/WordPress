@@ -916,11 +916,13 @@ function wp_get_nav_menu_to_edit( $menu_id = 0 ) {
 				$some_invalid_menu_items = true;
 		}
 
-		if ( $some_pending_menu_items )
-			$result .= '<div class="updated inline"><p>' . __('Click Save Menu to make pending menu items public.') . '</p></div>';
+		if ( $some_pending_menu_items ) {
+			$result .= '<div class="notice notice-info notice-alt inline"><p>' . __( 'Click Save Menu to make pending menu items public.' ) . '</p></div>';
+		}
 
-		if ( $some_invalid_menu_items )
-			$result .= '<div class="error inline"><p>' . __('There are some invalid menu items. Please check or delete them.') . '</p></div>';
+		if ( $some_invalid_menu_items ) {
+			$result .= '<div class="notice notice-error notice-alt inline"><p>' . __( 'There are some invalid menu items. Please check or delete them.' ) . '</p></div>';
+		}
 
 		$result .= '<ul class="menu" id="menu-to-edit"> ';
 		$result .= walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $menu_items), 0, (object) array('walker' => $walker ) );
