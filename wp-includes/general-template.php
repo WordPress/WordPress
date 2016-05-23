@@ -174,13 +174,13 @@ function get_template_part( $slug, $name = null ) {
  * the parent, then load it. If it doesn't exist, then the default search form
  * will be displayed. The default search form is HTML, which will be displayed.
  * There is a filter applied to the search form HTML in order to edit or replace
- * it. The filter is 'get_search_form'.
+ * it. The filter is {@see 'get_search_form'}.
  *
  * This function is primarily used by themes which want to hardcode the search
  * form into the sidebar and also by the search widget in WordPress.
  *
  * There is also an action that is called whenever the function is run called,
- * 'pre_get_search_form'. This can be useful for outputting JavaScript that the
+ * {@see 'pre_get_search_form'}. This can be useful for outputting JavaScript that the
  * search relies on or various formatting that applies to the beginning of the
  * search. To give a few examples of what it can be used for.
  *
@@ -566,7 +566,7 @@ function wp_register( $before = '<li>', $after = '</li>', $echo = true ) {
 /**
  * Theme container function for the 'wp_meta' action.
  *
- * The 'wp_meta' action can have several purposes, depending on how you use it,
+ * The {@see 'wp_meta'} action can have several purposes, depending on how you use it,
  * but one purpose might have been to allow for theme switching.
  *
  * @since 1.5.0
@@ -2180,7 +2180,7 @@ function the_date( $d = '', $before = '', $after = '', $echo = true ) {
  * Retrieve the date on which the post was written.
  *
  * Unlike the_date() this function will always return the date.
- * Modify output with 'get_the_date' filter.
+ * Modify output with the {@see 'get_the_date'} filter.
  *
  * @since 3.0.0
  *
@@ -2515,7 +2515,9 @@ function the_weekday_date($before='',$after='') {
 }
 
 /**
- * Fire the wp_head action
+ * Fire the wp_head action.
+ *
+ * See {@see 'wp_head'}.
  *
  * @since 1.2.0
  */
@@ -2529,7 +2531,9 @@ function wp_head() {
 }
 
 /**
- * Fire the wp_footer action
+ * Fire the wp_footer action.
+ *
+ * See {@see 'wp_footer'}.
  *
  * @since 1.5.1
  */
@@ -2692,11 +2696,15 @@ function wlwmanifest_link() {
 }
 
 /**
- * Display a noindex meta tag if required by the blog configuration.
+ * Displays a noindex meta tag if required by the blog configuration.
  *
  * If a blog is marked as not being public then the noindex meta tag will be
- * output to tell web robots not to index the page content. Add this to the wp_head action.
- * Typical usage is as a wp_head callback. add_action( 'wp_head', 'noindex' );
+ * output to tell web robots not to index the page content. Add this to the
+ * {@see 'wp_head'} action.
+ *
+ * Typical usage is as a {@see 'wp_head'} callback:
+ *
+ *     add_action( 'wp_head', 'noindex' );
  *
  * @see wp_no_robots
  *
@@ -3272,9 +3280,9 @@ function register_admin_color_schemes() {
 }
 
 /**
- * Display the URL of a WordPress admin CSS file.
+ * Displays the URL of a WordPress admin CSS file.
  *
- * @see WP_Styles::_css_href and its style_loader_src filter.
+ * @see WP_Styles::_css_href and its {@see 'style_loader_src'} filter.
  *
  * @since 2.3.0
  *
@@ -3304,8 +3312,8 @@ function wp_admin_css_uri( $file = 'wp-admin' ) {
  * Enqueues or directly prints a stylesheet link to the specified CSS file.
  *
  * "Intelligently" decides to enqueue or to print the CSS file. If the
- * 'wp_print_styles' action has *not* yet been called, the CSS file will be
- * enqueued. If the wp_print_styles action *has* been called, the CSS link will
+ * {@see 'wp_print_styles'} action has *not* yet been called, the CSS file will be
+ * enqueued. If the {@see 'wp_print_styles'} action has been called, the CSS link will
  * be printed. Printing may be forced by passing true as the $force_echo
  * (second) parameter.
  *
@@ -3369,7 +3377,9 @@ function add_thickbox() {
 }
 
 /**
- * Display the XHTML generator that is generated on the wp_head hook.
+ * Displays the XHTML generator that is generated on the wp_head hook.
+ *
+ * See {@see 'wp_head'}.
  *
  * @since 2.5.0
  */
@@ -3388,7 +3398,7 @@ function wp_generator() {
  * Display the generator XML or Comment for RSS, ATOM, etc.
  *
  * Returns the correct generator type for the requested output format. Allows
- * for a plugin to filter generators overall the the_generator filter.
+ * for a plugin to filter generators overall the {@see 'the_generator'} filter.
  *
  * @since 2.5.0
  *
@@ -3412,7 +3422,7 @@ function the_generator( $type ) {
  *
  * Returns the correct generator type for the requested output format. Allows
  * for a plugin to filter generators on an individual basis using the
- * 'get_the_generator_{$type}' filter.
+ * {@see 'get_the_generator_$type'} filter.
  *
  * @since 2.5.0
  *
