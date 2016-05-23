@@ -2192,64 +2192,68 @@ function dbDelta( $queries = '', $execute = true ) {
 			// Extract the field name.
 			preg_match("|^([^ ]*)|", trim($fld), $fvals);
 			$fieldname = trim( $fvals[1], '`' );
+			$fieldname_lowercased = strtolower( $fieldname );
 
 			// Verify the found field name.
 			$validfield = true;
-			switch (strtolower($fieldname)) {
-			case '':
-			case 'primary':
-			case 'index':
-			case 'fulltext':
-			case 'unique':
-			case 'key':
-				$validfield = false;
-				$indices[] = trim(trim($fld), ", \n");
-				break;
+			switch ( $fieldname_lowercased ) {
+				case '':
+				case 'primary':
+				case 'index':
+				case 'fulltext':
+				case 'unique':
+				case 'key':
+					$validfield = false;
+					$indices[] = trim(trim($fld), ", \n");
+					break;
 			}
-			$fld = trim($fld);
+			$fld = trim( $fld );
 
 			// If it's a valid field, add it to the field array.
-			if ($validfield) {
-				$cfields[strtolower($fieldname)] = trim($fld, ", \n");
+			if ( $validfield ) {
+				$cfields[ $fieldname_lowercased ] = trim( $fld, ", \n" );
 			}
 		}
 
 		// For every field in the table.
-		foreach ($tablefields as $tablefield) {
+		foreach ( $tablefields as $tablefield ) {
+			$tablefield_field_lowercased = strtolower( $tablefield->Field );
+			$tablefield_type_lowercased = strtolower( $tablefield->Type );
 
 			// If the table field exists in the field array ...
-			if (array_key_exists(strtolower($tablefield->Field), $cfields)) {
+			if ( array_key_exists( $tablefield_field_lowercased, $cfields ) ) {
 
 				// Get the field type from the query.
-				preg_match("|".$tablefield->Field." ([^ ]*( unsigned)?)|i", $cfields[strtolower($tablefield->Field)], $matches);
+				preg_match("|".$tablefield->Field." ([^ ]*( unsigned)?)|i", $cfields[ $tablefield_field_lowercased ], $matches);
 				$fieldtype = $matches[1];
+				$fieldtype_lowercased = strtolower( $fieldtype );
 
 				// Is actual field type different from the field type in query?
 				if ($tablefield->Type != $fieldtype) {
 					$do_change = true;
-					if ( in_array( strtolower( $fieldtype ), $text_fields ) && in_array( strtolower( $tablefield->Type ), $text_fields ) ) {
-						if ( array_search( strtolower( $fieldtype ), $text_fields ) < array_search( strtolower( $tablefield->Type ), $text_fields ) ) {
+					if ( in_array( $fieldtype_lowercased, $text_fields ) && in_array( $tablefield_type_lowercased, $text_fields ) ) {
+						if ( array_search( $fieldtype_lowercased, $text_fields ) < array_search( $tablefield_type_lowercased, $text_fields ) ) {
 							$do_change = false;
 						}
 					}
 
-					if ( in_array( strtolower( $fieldtype ), $blob_fields ) && in_array( strtolower( $tablefield->Type ), $blob_fields ) ) {
-						if ( array_search( strtolower( $fieldtype ), $blob_fields ) < array_search( strtolower( $tablefield->Type ), $blob_fields ) ) {
+					if ( in_array( $fieldtype_lowercased, $blob_fields ) && in_array( $tablefield_type_lowercased, $blob_fields ) ) {
+						if ( array_search( $fieldtype_lowercased, $blob_fields ) < array_search( $tablefield_type_lowercased, $blob_fields ) ) {
 							$do_change = false;
 						}
 					}
 
 					if ( $do_change ) {
-					// Add a query to change the column type
-						$cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN {$tablefield->Field} " . $cfields[strtolower($tablefield->Field)];
+						// Add a query to change the column type.
+						$cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN {$tablefield->Field} " . $cfields[ $tablefield_field_lowercased ];
 						$for_update[$table.'.'.$tablefield->Field] = "Changed type of {$table}.{$tablefield->Field} from {$tablefield->Type} to {$fieldtype}";
 					}
 				}
 
-				// Get the default value from the array
+				// Get the default value from the array.
 					// todo: Remove this?
 					//echo "{$cfields[strtolower($tablefield->Field)]}<br>";
-				if (preg_match("| DEFAULT '(.*?)'|i", $cfields[strtolower($tablefield->Field)], $matches)) {
+				if ( preg_match( "| DEFAULT '(.*?)'|i", $cfields[ $tablefield_field_lowercased ], $matches ) ) {
 					$default_value = $matches[1];
 					if ($tablefield->Default != $default_value) {
 						// Add a query to change the column's default value
@@ -2259,7 +2263,7 @@ function dbDelta( $queries = '', $execute = true ) {
 				}
 
 				// Remove the field from the array (so it's not added).
-				unset($cfields[strtolower($tablefield->Field)]);
+				unset( $cfields[ $tablefield_field_lowercased ] );
 			} else {
 				// This field exists in the table, but not in the creation queries?
 			}
