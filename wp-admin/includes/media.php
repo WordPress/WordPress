@@ -570,8 +570,10 @@ function media_buttons($editor_id = 'content') {
 	/**
 	 * Filters the legacy (pre-3.5.0) media buttons.
 	 *
+	 * Use {@see 'media_buttons'} action instead.
+	 *
 	 * @since 2.5.0
-	 * @deprecated 3.5.0 Use 'media_buttons' action instead.
+	 * @deprecated 3.5.0 Use {@see 'media_buttons'} action instead.
 	 *
 	 * @param string $string Media buttons context. Default empty.
 	 */
@@ -1132,7 +1134,7 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
  * Filterss input from media_upload_form_handler() and assigns a default
  * post_title from the file name if none supplied.
  *
- * Illustrates the use of the attachment_fields_to_save filter
+ * Illustrates the use of the {@see 'attachment_fields_to_save'} filter
  * which can be used to add default values to any field before saving to DB.
  *
  * @since 2.5.0

@@ -20,7 +20,7 @@ function got_mod_rewrite() {
 	 * Filters whether Apache and mod_rewrite are present.
 	 *
 	 * This filter was previously used to force URL rewriting for other servers,
-	 * like nginx. Use the got_url_rewrite filter in got_url_rewrite() instead.
+	 * like nginx. Use the {@see 'got_url_rewrite'} filter in got_url_rewrite() instead.
 	 *
 	 * @since 2.5.0
 	 *

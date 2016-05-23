@@ -1815,7 +1815,9 @@ function unregister_setting( $option_group, $option_name, $sanitize_callback = '
 }
 
 /**
- * Refreshes the value of the options whitelist available via the 'whitelist_options' filter.
+ * Refreshes the value of the options whitelist available via the 'whitelist_options' hook.
+ *
+ * See the {@see 'whitelist_options'} filter.
  *
  * @since 2.7.0
  *

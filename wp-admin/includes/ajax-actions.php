@@ -2552,7 +2552,7 @@ function wp_ajax_save_attachment_order() {
  * Ajax handler for sending an attachment to the editor.
  *
  * Generates the HTML to send an attachment to the editor.
- * Backward compatible with the media_send_to_editor filter
+ * Backward compatible with the {@see 'media_send_to_editor'} filter
  * and the chain of filters that follow.
  *
  * @since 3.5.0

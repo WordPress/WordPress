@@ -1383,7 +1383,8 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  *
  * Use the $sanitize argument to manually re-sanitize the option before returning errors.
  * This is useful if you have errors or notices you want to show even when the user
- * hasn't submitted data (i.e. when they first load an options page, or in admin_notices action hook)
+ * hasn't submitted data (i.e. when they first load an options page, or in the {@see 'admin_notices'}
+ * action hook).
  *
  * @since 3.0.0
  *

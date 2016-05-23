@@ -420,13 +420,15 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 }
 
 /**
- * Wrapper for _wp_handle_upload(), passes 'wp_handle_upload' action.
+ * Wrapper for _wp_handle_upload().
+ *
+ * Passes the {@see 'wp_handle_upload'} action.
  *
  * @since 2.0.0
  *
  * @see _wp_handle_upload()
  *
- * @param array      $file      Reference to a single element of $_FILES. Call the function once for
+ * @param array      $file      Reference to a single element of `$_FILES`. Call the function once for
  *                              each uploaded file.
  * @param array|bool $overrides Optional. An associative array of names=>values to override default
  *                              variables. Default false.
@@ -448,13 +450,15 @@ function wp_handle_upload( &$file, $overrides = false, $time = null ) {
 }
 
 /**
- * Wrapper for _wp_handle_upload(), passes 'wp_handle_sideload' action
+ * Wrapper for _wp_handle_upload().
+ *
+ * Passes the {@see 'wp_handle_sideload'} action.
  *
  * @since 2.6.0
  *
  * @see _wp_handle_upload()
  *
- * @param array      $file      An array similar to that of a PHP $_FILES POST array
+ * @param array      $file      An array similar to that of a PHP `$_FILES` POST array
  * @param array|bool $overrides Optional. An associative array of names=>values to override default
  *                              variables. Default false.
  * @param string     $time      Optional. Time formatted in 'yyyy/mm'. Default null.

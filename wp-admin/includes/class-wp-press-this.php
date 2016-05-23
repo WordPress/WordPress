@@ -134,8 +134,9 @@ class WP_Press_This {
 		$post_data['post_content'] = $this->side_load_images( $post_id, $post_data['post_content'] );
 
 		/**
-		 * Filters the post data of a Press This post before saving/updating, after
-		 * side_load_images action had run.
+		 * Filters the post data of a Press This post before saving/updating.
+		 *
+		 * The {@see 'side_load_images'} action has already run at this point.
 		 *
 		 * @since 4.5.0
 		 *

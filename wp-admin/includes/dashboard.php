@@ -1261,7 +1261,7 @@ function wp_dashboard_plugins_output( $rss, $args = array() ) {
 /**
  * Display file upload quota on dashboard.
  *
- * Runs on the activity_box_end hook in wp_dashboard_right_now().
+ * Runs on the {@see 'activity_box_end'} hook in wp_dashboard_right_now().
  *
  * @since 3.0.0
  *

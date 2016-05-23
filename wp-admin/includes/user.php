@@ -275,7 +275,7 @@ function get_users_drafts( $user_id ) {
  * Remove user and optionally reassign posts and links to another user.
  *
  * If the $reassign parameter is not assigned to a User ID, then all posts will
- * be deleted of that user. The action 'delete_user' that is passed the User ID
+ * be deleted of that user. The action {@see 'delete_user'} that is passed the User ID
  * being deleted will be run after the posts are either reassigned or deleted.
  * The user meta will also be deleted that are for that User ID.
  *
@@ -489,6 +489,8 @@ jQuery(document).ready( function($) {
 
 /**
  * Optional SSL preference that can be turned on by hooking to the 'personal_options' action.
+ *
+ * See the {@see 'personal_options'} action.
  *
  * @since 2.7.0
  *
