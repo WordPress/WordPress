@@ -513,8 +513,8 @@ class WP {
 	/**
 	 * Sets the query string property based off of the query variable property.
 	 *
-	 * The 'query_string' filter is deprecated, but still works. Plugins should
-	 * use the 'request' filter instead.
+	 * The {@see 'query_string'} filter is deprecated, but still works. Plugins should
+	 * use the {@see 'request'} filter instead.
 	 *
 	 * @since 2.0.0
 	 * @access public
@@ -711,7 +711,7 @@ class WP {
 	/**
 	 * Sets up all of the variables required by the WordPress environment.
 	 *
-	 * The action 'wp' has one parameter that references the WP object. It
+	 * The action {@see 'wp'} has one parameter that references the WP object. It
 	 * allows for accessing the properties and methods to further manipulate the
 	 * object.
 	 *

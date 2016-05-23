@@ -2020,7 +2020,7 @@ function sanitize_url( $url, $protocols = null ) {
  * @param string $url The URL to be cleaned.
  * @param array $protocols Optional. An array of acceptable protocols.
  * @param string $context Optional. How the URL will be used. Default is 'display'.
- * @return string The cleaned $url after the 'clean_url' filter is applied.
+ * @return string The cleaned $url after the {@see 'clean_url'} filter is applied.
  */
 function clean_url( $url, $protocols = null, $context = 'display' ) {
 	if ( $context == 'db' )
@@ -2033,7 +2033,7 @@ function clean_url( $url, $protocols = null, $context = 'display' ) {
 /**
  * Escape single quotes, specialchar double quotes, and fix line endings.
  *
- * The filter 'js_escape' is also applied by esc_js()
+ * The filter {@see 'js_escape'} is also applied by esc_js().
  *
  * @since 2.0.4
  * @deprecated 2.8.0 Use esc_js()
@@ -2968,7 +2968,7 @@ function clean_pre($matches) {
  * @deprecated 3.4.0 Use add_theme_support()
  * @see add_theme_support()
  *
- * @param callable $wp_head_callback Call on 'wp_head' action.
+ * @param callable $wp_head_callback Call on the {@see 'wp_head'} action.
  * @param callable $admin_head_callback Call on custom header administration screen.
  * @param callable $admin_preview_callback Output a custom header image div on the custom header administration screen. Optional.
  */
@@ -3004,7 +3004,7 @@ function remove_custom_image_header() {
  * @deprecated 3.4.0 Use add_theme_support()
  * @see add_theme_support()
  *
- * @param callable $wp_head_callback Call on 'wp_head' action.
+ * @param callable $wp_head_callback Call on the {@see 'wp_head'} action.
  * @param callable $admin_head_callback Call on custom background administration screen.
  * @param callable $admin_preview_callback Output a custom background image div on the custom background administration screen. Optional.
  */
@@ -3524,7 +3524,7 @@ function preview_theme_ob_filter_callback( $matches ) {
 /**
  * Formats text for the rich text editor.
  *
- * The filter 'richedit_pre' is applied here. If $text is empty the filter will
+ * The {@see 'richedit_pre'} filter is applied here. If $text is empty the filter will
  * be applied to an empty string.
  *
  * @since 2.0.0
@@ -3567,7 +3567,7 @@ function wp_richedit_pre($text) {
  * Formats text for the HTML editor.
  *
  * Unless $output is empty it will pass through htmlspecialchars before the
- * 'htmledit_pre' filter is applied.
+ * {@see 'htmledit_pre'} filter is applied.
  *
  * @since 2.5.0
  * @deprecated 4.3.0 Use format_for_editor()

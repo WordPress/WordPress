@@ -329,7 +329,7 @@ function sanitize_bookmark($bookmark, $context = 'display') {
 }
 
 /**
- * Sanitizes a bookmark field
+ * Sanitizes a bookmark field.
  *
  * Sanitizes the bookmark fields based on what the field name is. If the field
  * has a strict value set, then it will be tested for that, else a more generic
@@ -337,11 +337,11 @@ function sanitize_bookmark($bookmark, $context = 'display') {
  * $context is 'raw' then the value is immediately return.
  *
  * Hooks exist for the more generic cases. With the 'edit' context, the
- * 'edit_$field' filter will be called and passed the $value and $bookmark_id
- * respectively. With the 'db' context, the 'pre_$field' filter is called and
+ * {@see 'edit_$field'} filter will be called and passed the `$value` and `$bookmark_id`
+ * respectively. With the 'db' context, the {@see 'pre_$field'} filter is called and
  * passed the value. The 'display' context is the final context and has the
- * $field has the filter name and is passed the $value, $bookmark_id, and
- * $context respectively.
+ * `$field` has the filter name and is passed the `$value`, `$bookmark_id`, and
+ * `$context`, respectively.
  *
  * @since 2.3.0
  *

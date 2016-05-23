@@ -1239,10 +1239,10 @@ function wp_comment_form_unfiltered_html_nonce() {
  * the post does not have comments.
  *
  * Uses the WordPress database object to query for the comments. The comments
- * are passed through the 'comments_array' filter hook with the list of comments
+ * are passed through the {@see 'comments_array'} filter hook with the list of comments
  * and the post ID respectively.
  *
- * The $file path is passed through a filter hook called, 'comments_template'
+ * The `$file` path is passed through a filter hook called {@see 'comments_template'},
  * which includes the TEMPLATEPATH and $file combined. Tries the $filtered path
  * first and if it fails it will require the default comment template from the
  * default theme. If either does not exist, then the WordPress process will be
@@ -2069,13 +2069,13 @@ function wp_list_comments( $args = array(), $comments = null ) {
 }
 
 /**
- * Output a complete commenting form for use within a template.
+ * Outputs a complete commenting form for use within a template.
  *
  * Most strings and form fields may be controlled through the $args array passed
- * into the function, while you may also choose to use the comment_form_default_fields
+ * into the function, while you may also choose to use the {@see 'comment_form_default_fields'}
  * filter to modify the array of default fields if you'd just like to add a new
  * one or remove a single field. All fields are also individually passed through
- * a filter of the form comment_form_field_$name where $name is the key used
+ * a filter of the {@see 'form comment_form_field_$name'} where $name is the key used
  * in the array of fields.
  *
  * @since 3.0.0
@@ -2091,7 +2091,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  *     Optional. Default arguments and form fields to override.
  *
  *     @type array $fields {
- *         Default comment fields, filterable by default via the 'comment_form_default_fields' hook.
+ *         Default comment fields, filterable by default via the {@see 'comment_form_default_fields'} hook.
  *
  *         @type string $author Comment author field HTML.
  *         @type string $email  Comment author email field HTML.
@@ -2208,7 +2208,7 @@ function comment_form( $args = array(), $post_id = null ) {
 	/**
 	 * Filters the comment form default arguments.
 	 *
-	 * Use 'comment_form_default_fields' to filter the comment fields.
+	 * Use {@see 'comment_form_default_fields'} to filter the comment fields.
 	 *
 	 * @since 3.0.0
 	 *

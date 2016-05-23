@@ -11,7 +11,7 @@
  * Instantiate the admin bar object and set it up as a global for access elsewhere.
  *
  * UNHOOKING THIS FUNCTION WILL NOT PROPERLY REMOVE THE ADMIN BAR.
- * For that, use show_admin_bar(false) or the 'show_admin_bar' filter.
+ * For that, use show_admin_bar(false) or the {@see 'show_admin_bar'} filter.
  *
  * @since 3.1.0
  * @access private
@@ -51,13 +51,15 @@ function _wp_admin_bar_init() {
 }
 
 /**
- * Render the admin bar to the page based on the $wp_admin_bar->menu member var.
- * This is called very late on the footer actions so that it will render after anything else being
- * added to the footer.
+ * Renders the admin bar to the page based on the $wp_admin_bar->menu member var.
  *
- * It includes the action "admin_bar_menu" which should be used to hook in and
- * add new menus to the admin bar. That way you can be sure that you are adding at most optimal point,
- * right before the admin bar is rendered. This also gives you access to the $post global, among others.
+ * This is called very late on the footer actions so that it will render after
+ * anything else being added to the footer.
+ *
+ * It includes the {@see 'admin_bar_menu'} action which should be used to hook in and
+ * add new menus to the admin bar. That way you can be sure that you are adding at most
+ * optimal point, right before the admin bar is rendered. This also gives you access to
+ * the `$post` global, among others.
  *
  * @since 3.1.0
  *
@@ -872,9 +874,10 @@ function _admin_bar_bump_cb() { ?>
 }
 
 /**
- * Set the display status of the admin bar.
+ * Sets the display status of the admin bar.
  *
- * This can be called immediately upon plugin load. It does not need to be called from a function hooked to the init action.
+ * This can be called immediately upon plugin load. It does not need to be called
+ * from a function hooked to the {@see 'init'} action.
  *
  * @since 3.1.0
  *

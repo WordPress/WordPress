@@ -777,7 +777,7 @@ function default_topic_count_scale( $count ) {
  * 'format' argument will format the tags in a UL HTML list. The array value for
  * the 'format' argument will return in PHP array type format.
  *
- * The 'tag_cloud_sort' filter allows you to override the sorting.
+ * The {@see 'tag_cloud_sort'} filter allows you to override the sorting.
  * Passed to the filter: $tags array and $args array, has to return the $tags array
  * after sorting it.
  *

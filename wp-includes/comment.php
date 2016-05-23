@@ -1409,14 +1409,12 @@ function wp_get_comment_status($comment_id) {
  *
  * Calls hooks for comment status transitions. If the new comment status is not the same
  * as the previous comment status, then two hooks will be ran, the first is
- * 'transition_comment_status' with new status, old status, and comment data. The
- * next action called is 'comment_OLDSTATUS_to_NEWSTATUS' the NEWSTATUS is the
- * $new_status parameter and the OLDSTATUS is $old_status parameter; it has the
+ * {@see 'transition_comment_status'} with new status, old status, and comment data. The
+ * next action called is {@see comment_$old_status_to_$new_status'}. It has the
  * comment data.
  *
  * The final action will run whether or not the comment statuses are the same. The
- * action is named 'comment_NEWSTATUS_COMMENTTYPE', NEWSTATUS is from the $new_status
- * parameter and COMMENTTYPE is comment_type comment data.
+ * action is named {@see 'comment_$new_status_$comment->comment_type'}.
  *
  * @since 2.7.0
  *
@@ -1700,12 +1698,13 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  * Adds a new comment to the database.
  *
  * Filters new comment to ensure that the fields are sanitized and valid before
- * inserting comment into database. Calls 'comment_post' action with comment ID
- * and whether comment is approved by WordPress. Also has 'preprocess_comment'
+ * inserting comment into database. Calls {@see 'comment_post'} action with comment ID
+ * and whether comment is approved by WordPress. Also has {@see 'preprocess_comment'}
  * filter for processing the comment data before the function handles it.
  *
- * We use REMOTE_ADDR here directly. If you are behind a proxy, you should ensure
+ * We use `REMOTE_ADDR` here directly. If you are behind a proxy, you should ensure
  * that it is properly set, such as in wp-config.php, for your environment.
+ *
  * See {@link https://core.trac.wordpress.org/ticket/9235}
  *
  * @since 1.5.0
@@ -1891,7 +1890,7 @@ function wp_new_comment_notify_postauthor( $comment_ID ) {
 /**
  * Sets the status of a comment.
  *
- * The 'wp_set_comment_status' action is called after the comment is handled.
+ * The {@see 'wp_set_comment_status'} action is called after the comment is handled.
  * If the comment status is not in the list, then false is returned.
  *
  * @since 1.0.0

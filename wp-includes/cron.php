@@ -62,7 +62,7 @@ function wp_schedule_single_event( $timestamp, $hook, $args = array()) {
  * visits your WordPress site, if the scheduled time has passed.
  *
  * Valid values for the recurrence are hourly, daily and twicedaily. These can
- * be extended using the cron_schedules filter in wp_get_schedules().
+ * be extended using the {@see 'cron_schedules'} filter in wp_get_schedules().
  *
  * Use wp_next_scheduled() to prevent duplicates
  *
@@ -363,7 +363,7 @@ function wp_cron() {
  * Retrieve supported and filtered Cron recurrences.
  *
  * The supported recurrences are 'hourly' and 'daily'. A plugin may add more by
- * hooking into the 'cron_schedules' filter. The filter accepts an array of
+ * hooking into the {@see 'cron_schedules'} filter. The filter accepts an array of
  * arrays. The outer array has a key that is the name of the schedule or for
  * example 'weekly'. The value is an array with two keys, one is 'interval' and
  * the other is 'display'.
