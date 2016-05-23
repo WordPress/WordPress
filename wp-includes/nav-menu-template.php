@@ -66,12 +66,12 @@ class Walker_Nav_Menu extends Walker {
 	}
 
 	/**
-	 * Start the element output.
+	 * Starts the element output.
 	 *
 	 * @see Walker::start_el()
 	 *
 	 * @since 3.0.0
-	 * @since 4.4.0 'nav_menu_item_args' filter was added.
+	 * @since 4.4.0 The {@see 'nav_menu_item_args'} filter was added.
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $item   Menu item data object.

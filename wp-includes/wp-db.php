@@ -1584,10 +1584,10 @@ class wpdb {
 	}
 
 	/**
-	 * Check that the connection to the database is still up. If not, try to reconnect.
+	 * Checks that the connection to the database is still up. If not, try to reconnect.
 	 *
 	 * If this function is unable to reconnect, it will forcibly die, or if after the
-	 * the template_redirect hook has been fired, return false instead.
+	 * the {@see 'template_redirect'} hook has been fired, return false instead.
 	 *
 	 * If $allow_bail is false, the lack of database connection will need
 	 * to be handled manually.

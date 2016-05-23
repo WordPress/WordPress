@@ -3883,9 +3883,9 @@ class WP_Query {
 	}
 
 	/**
-	 * Whether there are more posts available in the loop.
+	 * Determines whether there are more posts available in the loop.
 	 *
-	 * Calls action 'loop_end', when the loop is complete.
+	 * Calls the {@see 'loop_end'} action when the loop is complete.
 	 *
 	 * @since 1.5.0
 	 * @access public

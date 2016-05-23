@@ -233,7 +233,7 @@ function get_stylesheet_uri() {
 }
 
 /**
- * Retrieve localized stylesheet URI.
+ * Retrieves the localized stylesheet URI.
  *
  * The stylesheet directory for the localized stylesheet files are located, by
  * default, in the base theme directory. The name of the locale file will be the
@@ -241,7 +241,8 @@ function get_stylesheet_uri() {
  * stylesheet will be checked for existence, for example 'ltr.css'.
  *
  * The theme may change the location of the stylesheet directory by either using
- * the 'stylesheet_directory_uri' filter or the 'locale_stylesheet_uri' filter.
+ * the {@see 'stylesheet_directory_uri'} or {@see 'locale_stylesheet_uri'} filters.
+ *
  * If you want to change the location of the stylesheet files for the entire
  * WordPress workflow, then change the former. If you just have the locale in a
  * separate folder, then change the latter.
@@ -760,7 +761,7 @@ function switch_theme( $stylesheet ) {
  * But if it doesn't exist, it'll fall back to the latest core default theme that does exist.
  * Will switch theme to the fallback theme if current theme does not validate.
  *
- * You can use the 'validate_current_theme' filter to return false to
+ * You can use the {@see 'validate_current_theme'} filter to return false to
  * disable this functionality.
  *
  * @since 1.5.0
@@ -1516,8 +1517,8 @@ function get_editor_stylesheets() {
  * Allows a theme to register its support of a certain feature
  *
  * Must be called in the theme's functions.php file to work.
- * If attached to a hook, it must be after_setup_theme.
- * The init hook may be too late for some features.
+ * If attached to a hook, it must be {@see 'after_setup_theme'}.
+ * The {@see 'init'} hook may be too late for some features.
  *
  * @since 2.9.0
  *
@@ -2013,7 +2014,9 @@ function _delete_attachment_theme_mod( $id ) {
 }
 
 /**
- * Checks if a theme has been changed and runs 'after_switch_theme' hook on the next WP load
+ * Checks if a theme has been changed and runs 'after_switch_theme' hook on the next WP load.
+ *
+ * See {@see 'after_switch_theme'}.
  *
  * @since 3.3.0
  */

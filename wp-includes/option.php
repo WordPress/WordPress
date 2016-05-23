@@ -16,8 +16,8 @@
  *
  * If the option was serialized then it will be unserialized when it is returned.
  *
- * Any scalar values will be returned as strings. You may coerce the return type of a given option by registering a
- * 'option_{$option}' filter callback.
+ * Any scalar values will be returned as strings. You may coerce the return type of
+ * a given option by registering an {@see 'option_$option'} filter callback.
  *
  * @since 1.5.0
  *

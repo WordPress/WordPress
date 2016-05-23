@@ -159,7 +159,7 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 				$processed_line = htmlspecialchars( $line );
 
 				/**
-				 * Contextually filter a diffed line.
+				 * Contextually filters a diffed line.
 				 *
 				 * Filters TextDiff processing of diffed line. By default, diffs are processed with
 				 * htmlspecialchars. Use this filter to remove or change the processing. Passes a context

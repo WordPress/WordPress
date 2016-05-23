@@ -1233,7 +1233,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	/**
 	 * Filters the terms query default arguments.
 	 *
-	 * Use 'get_terms_args' to filter the passed arguments.
+	 * Use {@see 'get_terms_args'} to filter the passed arguments.
 	 *
 	 * @since 4.4.0
 	 *
@@ -2107,7 +2107,7 @@ function sanitize_term_field($field, $value, $term_id, $taxonomy, $context) {
 			/**
 			 * Filters the category nicename before it is sanitized.
 			 *
-			 * Use the pre_{$taxonomy}_{$field} hook instead.
+			 * Use the {@see 'pre_$taxonomy_$field'} hook instead.
 			 *
 			 * @since 2.0.3
 			 *

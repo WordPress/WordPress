@@ -322,7 +322,7 @@ function _wp_put_post_revision( $post = null, $autosave = false ) {
  *
  * @param int|WP_Post $post   The post ID or object.
  * @param string      $output Optional. OBJECT, ARRAY_A, or ARRAY_N.
- * @param string      $filter Optional sanitation filter. @see sanitize_post().
+ * @param string      $filter Optional sanitation filter. See sanitize_post().
  * @return WP_Post|array|null Null if error or post object if success.
  */
 function wp_get_post_revision(&$post, $output = OBJECT, $filter = 'raw') {

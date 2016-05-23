@@ -208,7 +208,7 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 	/**
 	 * Filters the REST URL.
 	 *
-	 * Use this filter to adjust the url returned by the `get_rest_url` function.
+	 * Use this filter to adjust the url returned by the get_rest_url() function.
 	 *
 	 * @since 4.4.0
 	 *

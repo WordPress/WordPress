@@ -154,10 +154,10 @@ if ( !function_exists( 'wp_mail' ) ) :
  *
  * The default content type is 'text/plain' which does not allow using HTML.
  * However, you can set the content type of the email by using the
- * 'wp_mail_content_type' filter.
+ * {@see 'wp_mail_content_type'} filter.
  *
  * The default charset is based on the charset used on the blog. The charset can
- * be set using the 'wp_mail_charset' filter.
+ * be set using the {@see 'wp_mail_charset'} filter.
  *
  * @since 1.2.1
  *

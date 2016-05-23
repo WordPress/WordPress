@@ -311,12 +311,12 @@ function wp_authenticate_spam_check( $user ) {
 }
 
 /**
- * Validate the logged-in cookie.
+ * Validates the logged-in cookie.
  *
  * Checks the logged-in cookie if the previous auth cookie could not be
  * validated and parsed.
  *
- * This is a callback for the determine_current_user filter, rather than API.
+ * This is a callback for the {@see 'determine_current_user'} filter, rather than API.
  *
  * @since 3.9.0
  *
@@ -2038,6 +2038,8 @@ function get_password_reset_key( $user ) {
 
 	/**
 	 * Fires before a new password is retrieved.
+	 *
+	 * Use the {@see 'retrieve_password'} hook instead.
 	 *
 	 * @since 1.5.0
 	 * @deprecated 1.5.1 Misspelled. Use 'retrieve_password' hook instead.

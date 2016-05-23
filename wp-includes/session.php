@@ -108,7 +108,7 @@ abstract class WP_Session_Tokens {
 	 *
 	 * This function generates a token and stores it with the associated
 	 * expiration time (and potentially other session information via the
-	 * `attach_session_information` filter).
+	 * {@see 'attach_session_information'} filter).
 	 *
 	 * @since 4.0.0
 	 * @access public

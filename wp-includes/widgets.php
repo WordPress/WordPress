@@ -114,10 +114,10 @@ function register_widget($widget_class) {
 }
 
 /**
- * Unregister a widget
+ * Unregisters a widget.
  *
- * Unregisters a WP_Widget widget. Useful for unregistering default widgets.
- * Run within a function hooked to the widgets_init action.
+ * Unregisters a WP_Widget widget. Useful for un-registering default widgets.
+ * Run within a function hooked to the {@see 'widgets_init'} action.
  *
  * @since 2.8.0
  *
@@ -125,7 +125,7 @@ function register_widget($widget_class) {
  *
  * @global WP_Widget_Factory $wp_widget_factory
  *
- * @param string $widget_class The name of a class that extends WP_Widget
+ * @param string $widget_class The name of a class that extends WP_Widget.
  */
 function unregister_widget($widget_class) {
 	global $wp_widget_factory;
@@ -780,7 +780,7 @@ function dynamic_sidebar( $index = 1 ) {
  * the widget with that callback/$id_base AND that ID is found.
  *
  * NOTE: $widget_id and $id_base are the same for single widgets. To be effective
- * this function has to run after widgets have initialized, at action 'init' or later.
+ * this function has to run after widgets have initialized, at action {@see 'init'} or later.
  *
  * @since 2.2.0
  *
@@ -1429,10 +1429,9 @@ function wp_widget_rss_process( $widget_rss, $check_feed = true ) {
 }
 
 /**
- * Register all of the default WordPress widgets on startup.
+ * Registers all of the default WordPress widgets on startup.
  *
- * Calls 'widgets_init' action after all of the WordPress widgets have been
- * registered.
+ * Calls {@see 'widgets_init'} action after all of the WordPress widgets have been registered.
  *
  * @since 2.2.0
  */

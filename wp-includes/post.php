@@ -13,6 +13,8 @@
 /**
  * Creates the initial post types when 'init' action is fired.
  *
+ * See {@see 'init'}.
+ *
  * @since 2.9.0
  */
 function create_initial_post_types() {
@@ -3958,8 +3960,8 @@ function wp_set_post_categories( $post_ID = 0, $post_categories = array(), $appe
  * When a post is saved, the post status is "transitioned" from one status to another,
  * though this does not always mean the status has actually changed before and after
  * the save. This function fires a number of action hooks related to that transition:
- * the generic 'transition_post_status' action, as well as the dynamic hooks
- * `"{$old_status}_to_{$new_status}"` and `"{$new_status}_{$post->post_type}"`. Note
+ * the generic {@see 'transition_post_status'} action, as well as the dynamic hooks
+ * {@see '$old_status_to_$new_status'} and {@see '$new_status_$post->post_type'}. Note
  * that the function does not transition the post object in the database.
  *
  * For instance: When publishing a post for the first time, the post status may transition
@@ -5926,7 +5928,7 @@ function wp_get_post_parent_id( $post_ID ) {
  * Check the given subset of the post hierarchy for hierarchy loops.
  *
  * Prevents loops from forming and breaks those that it finds. Attached
- * to the 'wp_insert_post_parent' filter.
+ * to the {@see 'wp_insert_post_parent'} filter.
  *
  * @since 3.1.0
  *
