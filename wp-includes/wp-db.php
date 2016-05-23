@@ -765,6 +765,11 @@ class wpdb {
 				$this->collate = str_replace( 'utf8_', 'utf8mb4_', $this->collate );
 			}
 		}
+
+		// _unicode_520_ is a better collation, we should use that when it's available.
+		if ( $this->has_cap( 'utf8mb4_520' ) && 'utf8mb4_unicode_ci' === $this->collate ) {
+			$this->collate = 'utf8mb4_unicode_520_ci';
+		}
 	}
 
 	/**
@@ -3193,6 +3198,7 @@ class wpdb {
 	 *
 	 * @since 2.7.0
 	 * @since 4.1.0 Support was added for the 'utf8mb4' feature.
+	 * @since 4.6.0 Support was added for the 'utf8mb4_520' feature.
 	 *
 	 * @see wpdb::db_version()
 	 *
@@ -3231,6 +3237,8 @@ class wpdb {
 				} else {
 					return version_compare( $client_version, '5.5.3', '>=' );
 				}
+			case 'utf8mb4_520' :  // @since 4.6.0
+				return version_compare( $version, '5.6', '>=' );
 		}
 
 		return false;
