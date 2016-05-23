@@ -2183,9 +2183,6 @@ function dbDelta( $queries = '', $execute = true ) {
 		// Separate field lines into an array.
 		$flds = explode("\n", $qryline);
 
-		// todo: Remove this?
-		//echo "<hr/><pre>\n".print_r(strtolower($table), true).":\n".print_r($cqueries, true)."</pre><hr/>";
-
 		// For every field line specified in the query.
 		foreach ($flds as $fld) {
 
@@ -2251,8 +2248,6 @@ function dbDelta( $queries = '', $execute = true ) {
 				}
 
 				// Get the default value from the array.
-					// todo: Remove this?
-					//echo "{$cfields[strtolower($tablefield->Field)]}<br>";
 				if ( preg_match( "| DEFAULT '(.*?)'|i", $cfields[ $tablefield_field_lowercased ], $matches ) ) {
 					$default_value = $matches[1];
 					if ($tablefield->Default != $default_value) {
@@ -2336,12 +2331,8 @@ function dbDelta( $queries = '', $execute = true ) {
 					if ( ! ( ( $aindex = array_search( $index_string, $indices ) ) === false ) ) {
 						unset( $indices[ $aindex ] );
 						break;
-						// todo: Remove this?
-						//echo "<pre style=\"border:1px solid #ccc;margin-top:5px;\">{$table}:<br />Found index:".$index_string."</pre>\n";
 					}
 				}
-				// todo: Remove this?
-				//else echo "<pre style=\"border:1px solid #ccc;margin-top:5px;\">{$table}:<br /><b>Did not find index:</b>".$index_string."<br />".print_r($indices, true)."</pre>\n";
 			}
 		}
 
@@ -2359,8 +2350,6 @@ function dbDelta( $queries = '', $execute = true ) {
 	$allqueries = array_merge($cqueries, $iqueries);
 	if ($execute) {
 		foreach ($allqueries as $query) {
-			// todo: Remove this?
-			//echo "<pre style=\"border:1px solid #ccc;margin-top:5px;\">".print_r($query, true)."</pre>\n";
 			$wpdb->query($query);
 		}
 	}
