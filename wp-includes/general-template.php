@@ -1790,7 +1790,7 @@ function wp_get_archives( $args = '' ) {
 					$arc_week       = get_weekstartend( $result->yyyymmdd, get_option( 'start_of_week' ) );
 					$arc_week_start = date_i18n( get_option( 'date_format' ), $arc_week['start'] );
 					$arc_week_end   = date_i18n( get_option( 'date_format' ), $arc_week['end'] );
-					$url            = sprintf( '%1$s/%2$s%3$sm%4$s%5$s%6$sw%7$s%8$d', home_url(), '', '?', '=', $arc_year, '&amp;', '=', $result->week );
+					$url            = add_query_arg( array( 'm' => $arc_year, 'w' => $result->week, ), home_url( '/' ) );
 					if ( 'post' !== $r['post_type'] ) {
 						$url = add_query_arg( 'post_type', $r['post_type'], $url );
 					}
