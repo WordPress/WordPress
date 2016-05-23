@@ -385,10 +385,10 @@ $GLOBALS['wp']->init();
  * Fires after WordPress has finished loading but before any headers are sent.
  *
  * Most of WP is loaded at this stage, and the user is authenticated. WP continues
- * to load on the init hook that follows (e.g. widgets), and many plugins instantiate
+ * to load on the {@see 'init'} hook that follows (e.g. widgets), and many plugins instantiate
  * themselves on it for all sorts of reasons (e.g. they need a user, a taxonomy, etc.).
  *
- * If you wish to plug an action once WP is loaded, use the wp_loaded hook below.
+ * If you wish to plug an action once WP is loaded, use the {@see 'wp_loaded'} hook below.
  *
  * @since 1.5.0
  */

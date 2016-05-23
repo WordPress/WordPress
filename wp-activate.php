@@ -32,13 +32,17 @@ $wp_query->is_404 = false;
 do_action( 'activate_header' );
 
 /**
- * Adds an action hook specific to this page that fires on wp_head
+ * Adds an action hook specific to this page.
+ *
+ * Fires on {@see 'wp_head'}.
  *
  * @since MU
  */
 function do_activate_header() {
-    /**
-     * Fires before the Site Activation page is loaded, but on the wp_head action.
+	/**
+	 * Fires before the Site Activation page is loaded.
+	 *
+	 * Fires on the {@see 'wp_head'} action.
      *
      * @since 3.0.0
      */
