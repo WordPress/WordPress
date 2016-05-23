@@ -20,7 +20,7 @@
  *
  * Code within certain html blocks are skipped.
  *
- * Do not use this function before the 'init' action hook; everything will break.
+ * Do not use this function before the {@see 'init'} action hook; everything will break.
  *
  * @since 0.71
  *
@@ -1441,7 +1441,7 @@ function sanitize_file_name( $filename ) {
  * Removes tags, octets, entities, and if strict is enabled, will only keep
  * alphanumeric, _, space, ., -, @. After sanitizing, it passes the username,
  * raw username (the username in the parameter), and the value of $strict as
- * parameters for the 'sanitize_user' filter.
+ * parameters for the {@see 'sanitize_user'} filter.
  *
  * @since 2.0.0
  *
@@ -1904,8 +1904,8 @@ function force_balance_tags( $text ) {
  * Acts on text which is about to be edited.
  *
  * The $content is run through esc_textarea(), which uses htmlspecialchars()
- * to convert special characters to HTML entities. If $richedit is set to true,
- * it is simply a holder for the 'format_to_edit' filter.
+ * to convert special characters to HTML entities. If `$richedit` is set to true,
+ * it is simply a holder for the {@see 'format_to_edit'} filter.
  *
  * @since 0.71
  * @since 4.4.0 The `$richedit` parameter was renamed to `$rich_text` for clarity.
@@ -2877,8 +2877,8 @@ function human_time_diff( $from, $to = '' ) {
  * that, then the string ' [&hellip;]' will be appended to the excerpt. If the string
  * is less than 55 words, then the content will be returned as is.
  *
- * The 55 word limit can be modified by plugins/themes using the excerpt_length filter
- * The ' [&hellip;]' string can be modified by plugins/themes using the excerpt_more filter
+ * The 55 word limit can be modified by plugins/themes using the {@see 'excerpt_length'} filter
+ * The ' [&hellip;]' string can be modified by plugins/themes using the {@see 'excerpt_more'} filter
  *
  * @since 1.5.0
  *
@@ -3353,7 +3353,7 @@ function esc_sql( $data ) {
  * Checks and cleans a URL.
  *
  * A number of characters are removed from the URL. If the URL is for displaying
- * (the default behaviour) ampersands are also replaced. The 'clean_url' filter
+ * (the default behaviour) ampersands are also replaced. The {@see 'clean_url'} filter
  * is applied to the returned cleaned URL.
  *
  * @since 2.8.0
@@ -3362,7 +3362,7 @@ function esc_sql( $data ) {
  * @param array  $protocols Optional. An array of acceptable protocols.
  *		                    Defaults to return value of wp_allowed_protocols()
  * @param string $_context  Private. Use esc_url_raw() for database usage.
- * @return string The cleaned $url after the 'clean_url' filter is applied.
+ * @return string The cleaned $url after the {@see 'clean_url'} filter is applied.
  */
 function esc_url( $url, $protocols = null, $_context = 'display' ) {
 	$original_url = $url;
@@ -3491,7 +3491,7 @@ function htmlentities2( $myHTML ) {
  *
  * Escapes text strings for echoing in JS. It is intended to be used for inline JS
  * (in a tag attribute, for example onclick="..."). Note that the strings have to
- * be in single quotes. The filter 'js_escape' is also applied here.
+ * be in single quotes. The {@see 'js_escape'} filter is also applied here.
  *
  * @since 2.8.0
  *

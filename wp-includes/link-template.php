@@ -32,7 +32,7 @@ function the_permalink( $post = 0 ) {
  *
  * Conditionally adds a trailing slash if the permalink structure has a trailing
  * slash, strips the trailing slash if not. The string is passed through the
- * 'user_trailingslashit' filter. Will remove trailing slash from string, if
+ * {@see 'user_trailingslashit'} filter. Will remove trailing slash from string, if
  * site is not set to have them.
  *
  * @since 2.2.0
@@ -3665,7 +3665,7 @@ function wp_shortlink_wp_head() {
 /**
  * Sends a Link: rel=shortlink header if a shortlink is defined for the current page.
  *
- * Attached to the wp action.
+ * Attached to the {@see 'wp'} action.
  *
  * @since 3.0.0
  */

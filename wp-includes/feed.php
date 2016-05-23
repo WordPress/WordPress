@@ -68,7 +68,7 @@ function bloginfo_rss($show = '') {
  * Retrieve the default feed.
  *
  * The default feed is 'rss2', unless a plugin changes it through the
- * 'default_feed' filter.
+ * {@see 'default_feed'} filter.
  *
  * @since 2.5.0
  *

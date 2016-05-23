@@ -2318,7 +2318,7 @@ function wp_get_mime_types() {
 	 * Filters the list of mime types and file extensions.
 	 *
 	 * This filter should be used to add, not remove, mime types. To remove
-	 * mime types, use the 'upload_mimes' filter.
+	 * mime types, use the {@see 'upload_mimes'} filter.
 	 *
 	 * @since 3.5.0
 	 *
@@ -2591,10 +2591,10 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 }
 
 /**
- * Kill WordPress execution and display HTML message with error message.
+ * Kills WordPress execution and display HTML message with error message.
  *
  * This is the default handler for wp_die if you want a custom one for your
- * site then you can overload using the wp_die_handler filter in wp_die
+ * site then you can overload using the {@see 'wp_die_handler'} filter in wp_die().
  *
  * @since 3.0.0
  * @access private
@@ -3630,11 +3630,11 @@ function absint( $maybeint ) {
 /**
  * Mark a function as deprecated and inform when it has been used.
  *
- * There is a hook deprecated_function_run that will be called that can be used
+ * There is a {@see 'hook deprecated_function_run'} that will be called that can be used
  * to get the backtrace up to what file and function called the deprecated
  * function.
  *
- * The current behavior is to trigger a user error if WP_DEBUG is true.
+ * The current behavior is to trigger a user error if `WP_DEBUG` is true.
  *
  * This function is to be used in every function that is deprecated.
  *
@@ -3750,11 +3750,11 @@ function _deprecated_constructor( $class, $version, $parent_class = '' ) {
 /**
  * Mark a file as deprecated and inform when it has been used.
  *
- * There is a hook deprecated_file_included that will be called that can be used
+ * There is a hook {@see 'deprecated_file_included'} that will be called that can be used
  * to get the backtrace up to what file and function included the deprecated
  * file.
  *
- * The current behavior is to trigger a user error if WP_DEBUG is true.
+ * The current behavior is to trigger a user error if `WP_DEBUG` is true.
  *
  * This function is to be used in every file that is deprecated.
  *
@@ -3867,11 +3867,11 @@ function _deprecated_argument( $function, $version, $message = null ) {
 /**
  * Mark something as being incorrectly called.
  *
- * There is a hook doing_it_wrong_run that will be called that can be used
+ * There is a hook {@see 'doing_it_wrong_run'} that will be called that can be used
  * to get the backtrace up to what file and function called the deprecated
  * function.
  *
- * The current behavior is to trigger a user error if WP_DEBUG is true.
+ * The current behavior is to trigger a user error if `WP_DEBUG` is true.
  *
  * @since 3.1.0
  * @access private
@@ -4572,7 +4572,7 @@ function wp_scheduled_delete() {
  *
  * @param string $file            Path to the file.
  * @param array  $default_headers List of headers, in the format array('HeaderKey' => 'Header Name').
- * @param string $context         Optional. If specified adds filter hook "extra_{$context}_headers".
+ * @param string $context         Optional. If specified adds filter hook {@see 'extra_$context_headers'}.
  *                                Default empty.
  * @return array Array of file headers in `HeaderKey => Header Value` format.
  */
@@ -4992,7 +4992,7 @@ function wp_checkdate( $month, $day, $year, $source_date ) {
  * Can be disabled with remove_action( 'admin_enqueue_scripts', 'wp_auth_check_load' );
  *
  * This is disabled for certain screens where a login screen could cause an
- * inconvenient interruption. A filter called wp_auth_check_load can be used
+ * inconvenient interruption. A filter called {@see 'wp_auth_check_load'} can be used
  * for fine-grained control.
  *
  * @since 3.6.0

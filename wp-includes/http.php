@@ -581,7 +581,7 @@ function wp_http_validate_url( $url ) {
 /**
  * Whitelists allowed redirect hosts for safe HTTP requests as well.
  *
- * Attached to the http_request_host_is_external filter.
+ * Attached to the {@see 'http_request_host_is_external'} filter.
  *
  * @since 3.6.0
  *
@@ -598,7 +598,7 @@ function allowed_http_request_hosts( $is_external, $host ) {
 /**
  * Whitelists any domain in a multisite installation for safe HTTP requests.
  *
- * Attached to the http_request_host_is_external filter.
+ * Attached to the {@see 'http_request_host_is_external'} filter.
  *
  * @since 3.6.0
  *

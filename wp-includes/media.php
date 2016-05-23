@@ -148,7 +148,7 @@ function image_hwstring( $width, $height ) {
  * function won't create a new resized copy, it will just return an already
  * resized one if it exists.
  *
- * A plugin may use the 'image_downsize' filter to hook into and offer image
+ * A plugin may use the {@see 'image_downsize'} filter to hook into and offer image
  * resizing services for images. The hook must return an array with the same
  * elements that are returned in the function. The first element being the URL
  * to the new image that was resized.
@@ -309,12 +309,12 @@ function set_post_thumbnail_size( $width = 0, $height = 0, $crop = false ) {
 /**
  * Gets an img tag for an image attachment, scaling it down if requested.
  *
- * The filter 'get_image_tag_class' allows for changing the class name for the
+ * The {@see 'get_image_tag_class'} filter allows for changing the class name for the
  * image without having to use regular expressions on the HTML content. The
  * parameters are: what WordPress will use for the class, the Attachment ID,
  * image align value, and the size the image should be.
  *
- * The second filter 'get_image_tag' has the HTML content, which can then be
+ * The second filter, {@see 'get_image_tag'}, has the HTML content, which can then be
  * further manipulated by a plugin to change all attribute values and even HTML
  * content.
  *
@@ -562,7 +562,7 @@ function image_resize_dimensions( $orig_w, $orig_h, $dest_w, $dest_h, $crop = fa
  * Resizes an image to make a thumbnail or intermediate size.
  *
  * The returned array has the file size, the image width, and image height. The
- * filter 'image_make_intermediate_size' can be used to hook in and change the
+ * {@see 'image_make_intermediate_size'} filter can be used to hook in and change the
  * values of the returned array. The only parameter is the resized file path.
  *
  * @since 2.5.0
@@ -1387,8 +1387,8 @@ function wp_image_add_srcset_and_sizes( $image, $image_meta, $attachment_id ) {
 /**
  * Adds a 'wp-post-image' class to post thumbnails. Internal use only.
  *
- * Uses the 'begin_fetch_post_thumbnail_html' and 'end_fetch_post_thumbnail_html' action hooks to
- * dynamically add/remove itself so as to only filter post thumbnails.
+ * Uses the {@see 'begin_fetch_post_thumbnail_html'} and {@see 'end_fetch_post_thumbnail_html'}
+ * action hooks to dynamically add/remove itself so as to only filter post thumbnails.
  *
  * @ignore
  * @since 2.9.0
@@ -1434,7 +1434,7 @@ add_shortcode('caption', 'img_caption_shortcode');
  * Builds the Caption shortcode output.
  *
  * Allows a plugin to replace the content that would otherwise be returned. The
- * filter is 'img_caption_shortcode' and passes an empty string, the attr
+ * filter is {@see 'img_caption_shortcode'} and passes an empty string, the attr
  * parameter and the content parameter values.
  *
  * The supported attributes for the shortcode are 'id', 'align', 'width', and

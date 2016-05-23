@@ -50,7 +50,7 @@ function wp_embed_unregister_handler( $id, $priority = 10 ) {
  *
  * The default height is 1.5 times the width, or 1000px, whichever is smaller.
  *
- * The 'embed_defaults' filter can be used to adjust either of these values.
+ * The {@see 'embed_defaults'} filter can be used to adjust either of these values.
  *
  * @since 2.9.0
  *
