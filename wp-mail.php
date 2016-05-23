@@ -163,7 +163,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	$content = trim($content);
 
 	/**
-	 * Filter the original content of the email.
+	 * Filters the original content of the email.
 	 *
 	 * Give Post-By-Email extending plugins full access to the content, either
 	 * the raw content, or the content of the last quoted-printable section.
@@ -189,7 +189,7 @@ for ( $i = 1; $i <= $count; $i++ ) {
 	$content = trim($content);
 
 	/**
-	 * Filter the content of the post submitted by email before saving.
+	 * Filters the content of the post submitted by email before saving.
 	 *
 	 * @since 1.2.0
 	 *

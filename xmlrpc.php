@@ -71,7 +71,7 @@ include_once(ABSPATH . WPINC . '/class-wp-xmlrpc-server.php');
 $post_default_title = "";
 
 /**
- * Filter the class used for handling XML-RPC requests.
+ * Filters the class used for handling XML-RPC requests.
  *
  * @since 3.1.0
  *

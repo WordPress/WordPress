@@ -275,7 +275,7 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 	);
 
 	/**
-	 * Filter the default site sign-up variables.
+	 * Filters the default site sign-up variables.
 	 *
 	 * @since 3.0.0
 	 *
@@ -386,7 +386,7 @@ function validate_another_blog_signup() {
 	}
 
 	/**
-	 * Filter the new site meta variables.
+	 * Filters the new site meta variables.
 	 *
 	 * @since MU
 	 * @deprecated 3.0.0 Use the 'add_signup_meta' filter instead.
@@ -396,7 +396,7 @@ function validate_another_blog_signup() {
 	$meta_defaults = apply_filters( 'signup_create_blog_meta', $blog_meta_defaults );
 
 	/**
-	 * Filter the new default site meta variables.
+	 * Filters the new default site meta variables.
 	 *
 	 * @since 3.0.0
 	 *
@@ -494,7 +494,7 @@ function signup_user( $user_name = '', $user_email = '', $errors = '' ) {
 	);
 
 	/**
-	 * Filter the default user variables used on the user sign-up form.
+	 * Filters the default user variables used on the user sign-up form.
 	 *
 	 * @since 3.0.0
 	 *
@@ -616,7 +616,7 @@ function signup_blog($user_name = '', $user_email = '', $blogname = '', $blog_ti
 	);
 
 	/**
-	 * Filter the default site creation variables for the site sign-up form.
+	 * Filters the default site creation variables for the site sign-up form.
 	 *
 	 * @since 3.0.0
 	 *
@@ -758,7 +758,7 @@ function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $use
  */
 function signup_get_available_languages() {
 	/**
-	 * Filter the list of available languages for front-end site signups.
+	 * Filters the list of available languages for front-end site signups.
 	 *
 	 * Passing an empty array to this hook will disable output of the setting on the
 	 * signup form, and the default language will be used when creating the site.
@@ -782,8 +782,9 @@ function signup_get_available_languages() {
 
 // Main
 $active_signup = get_site_option( 'registration', 'none' );
+
 /**
- * Filter the type of site sign-up.
+ * Filters the type of site sign-up.
  *
  * @since 3.0.0
  *
