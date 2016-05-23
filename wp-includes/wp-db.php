@@ -757,8 +757,13 @@ class wpdb {
 			$this->charset = 'utf8mb4';
 		}
 
-		if ( 'utf8mb4' === $this->charset && ( ! $this->collate || stripos( $this->collate, 'utf8_' ) === 0 ) ) {
-			$this->collate = 'utf8mb4_unicode_ci';
+		if ( 'utf8mb4' === $this->charset ) {
+			// _general_ is outdated, so we can upgrade it to _unicode_, instead.
+			if ( ! $this->collate || 'utf8_general_ci' === $this->collate ) {
+				$this->collate = 'utf8mb4_unicode_ci';
+			} else {
+				$this->collate = str_replace( 'utf8_', 'utf8mb4_', $this->collate );
+			}
 		}
 	}
 
