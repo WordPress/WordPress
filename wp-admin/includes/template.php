@@ -1060,12 +1060,11 @@ function do_meta_boxes( $screen, $context, $object ) {
  * @param string|array|WP_Screen $screen  The screen or screens on which the meta box is shown (such as a
  *                                        post type, 'link', or 'comment'). Accepts a single screen ID,
  *                                        WP_Screen object, or array of screen IDs.
- * @param string                 $context Optional. The context within the screen where the boxes
- *                                        should display. Available contexts vary from screen to
- *                                        screen. Post edit screen contexts include 'normal', 'side',
- *                                        and 'advanced'. Comments screen contexts include 'normal'
- *                                        and 'side'. Menus meta boxes (accordion sections) all use
- *                                        the 'side' context. Global default is 'advanced'.
+ * @param string                 $context The context within the screen where the box is set to display.
+ *                                        Contexts vary from screen to screen. Post edit screen contexts
+ *                                        include 'normal', 'side', and 'advanced'. Comments screen contexts
+ *                                        include 'normal' and 'side'. Menus meta boxes (accordion sections)
+ *                                        all use the 'side' context.
  */
 function remove_meta_box( $id, $screen, $context ) {
 	global $wp_meta_boxes;
