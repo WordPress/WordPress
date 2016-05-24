@@ -1719,18 +1719,28 @@ class wpdb {
 
 		$this->check_current_query = true;
 
-		// Keep track of the last query for debug..
+		// Keep track of the last query for debug.
 		$this->last_query = $query;
 
 		$this->_do_query( $query );
 
-		// MySQL server has gone away, try to reconnect
+		// MySQL server has gone away, try to reconnect.
 		$mysql_errno = 0;
 		if ( ! empty( $this->dbh ) ) {
 			if ( $this->use_mysqli ) {
-				$mysql_errno = mysqli_errno( $this->dbh );
+				if ( $this->dbh instanceof mysqli ) {
+					$mysql_errno = mysqli_errno( $this->dbh );
+				} else {
+					// $dbh is defined, but isn't a real connection.
+					// Something has gone horribly wrong, let's try a reconnect.
+					$mysql_errno = 2006;
+				}
 			} else {
-				$mysql_errno = mysql_errno( $this->dbh );
+				if ( is_resource( $this->dbh ) ) {
+					$mysql_errno = mysql_errno( $this->dbh );
+				} else {
+					$mysql_errno = 2006;
+				}
 			}
 		}
 
@@ -1743,11 +1753,19 @@ class wpdb {
 			}
 		}
 
-		// If there is an error then take note of it..
+		// If there is an error then take note of it.
 		if ( $this->use_mysqli ) {
-			$this->last_error = mysqli_error( $this->dbh );
+			if ( $this->dbh instanceof mysqli ) {
+				$this->last_error = mysqli_error( $this->dbh );
+			} else {
+				$this->last_error = __( 'Unable to retrieve the error message from MySQL' );
+			}
 		} else {
-			$this->last_error = mysql_error( $this->dbh );
+			if ( is_resource( $this->dbh ) ) {
+				$this->last_error = mysql_error( $this->dbh );
+			} else {
+				$this->last_error = __( 'Unable to retrieve the error message from MySQL' );
+			}
 		}
 
 		if ( $this->last_error ) {
