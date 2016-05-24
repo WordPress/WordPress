@@ -750,16 +750,21 @@ class WP_Upgrader {
 			 *
 			 * @param WP_Upgrader $this WP_Upgrader instance. In other contexts, $this, might be a
 			 *                          Theme_Upgrader, Plugin_Upgrader or Core_Upgrade instance.
-			 * @param array       $data {
+			 * @param array       $hook_extra {
 			 *     Array of bulk item update data.
 			 *
-			 *     @type string $action   Type of action. Default 'update'.
-			 *     @type string $type     Type of update process. Accepts 'plugin', 'theme', or 'core'.
-			 *     @type bool   $bulk     Whether the update process is a bulk update. Default true.
-			 *     @type array  $packages Array of plugin, theme, or core packages to update.
+			 *     @type string $action               Type of action. Default 'update'.
+			 *     @type string $type                 Type of update process. Accepts 'plugin', 'theme', or 'core'.
+			 *     @type bool   $bulk                 Whether the update process is a bulk update. Default true.
+			 *     @type string $plugin               The base plugin path from the plugins directory.
+			 *     @type string $theme                The stylesheet or template name of the theme.
+			 *     @type string $language_update_type The language pack update type. Accepts 'plugin', 'theme',
+			 *                                        or 'core'.
+			 *     @type object $language_update      The language pack update offer.
 			 * }
 			 */
 			do_action( 'upgrader_process_complete', $this, $options['hook_extra'] );
+
 			$this->skin->footer();
 		}
 
