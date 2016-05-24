@@ -523,7 +523,8 @@ JS;
  * @return array|false Response data on success, false if post doesn't exist.
  */
 function get_oembed_response_data( $post, $width ) {
-	$post = get_post( $post );
+	$post  = get_post( $post );
+	$width = absint( $width );
 
 	if ( ! $post ) {
 		return false;
