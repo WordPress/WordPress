@@ -69,9 +69,17 @@ if ( current_user_can( 'edit_posts' ) )
 if ( is_blog_admin() && current_user_can( 'edit_posts' ) )
 	$help .= '<p>' . __( "<strong>Quick Draft</strong> &mdash; Allows you to create a new post and save it as a draft. Also displays links to the 5 most recent draft posts you've started." ) . '</p>';
 if ( ! is_multisite() && current_user_can( 'install_plugins' ) )
-	$help .= '<p>' . __( '<strong>WordPress News</strong> &mdash; Latest news from the official WordPress project, the <a href="https://planet.wordpress.org/">WordPress Planet</a>, and popular and recent plugins.' ) . '</p>';
+	$help .= '<p>' . sprintf(
+		/* translators: %s: WordPress Planet URL */
+		__( '<strong>WordPress News</strong> &mdash; Latest news from the official WordPress project, the <a href="%s">WordPress Planet</a>, and popular plugins.' ),
+		__( 'https://planet.wordpress.org/' )
+	) . '</p>';
 else
-	$help .= '<p>' . __( '<strong>WordPress News</strong> &mdash; Latest news from the official WordPress project, the <a href="https://planet.wordpress.org/">WordPress Planet</a>.' ) . '</p>';
+	$help .= '<p>' . sprintf(
+		/* translators: %s: WordPress Planet URL */
+		__( '<strong>WordPress News</strong> &mdash; Latest news from the official WordPress project and the <a href="%s">WordPress Planet</a>.' ),
+		__( 'https://planet.wordpress.org/' )
+	) . '</p>';
 if ( current_user_can( 'edit_theme_options' ) )
 	$help .= '<p>' . __( '<strong>Welcome</strong> &mdash; Shows links for some of the most common tasks when setting up a new site.' ) . '</p>';
 
