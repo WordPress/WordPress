@@ -116,12 +116,15 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	else
 		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="60" /><span class="suffix_address">.' . ( $site_domain = preg_replace( '|^www\.|', '', $current_site->domain ) ) . '</span><br />';
 
-	if ( !is_user_logged_in() ) {
-		if ( !is_subdomain_install() )
+	if ( ! is_user_logged_in() ) {
+		if ( ! is_subdomain_install() ) {
 			$site = $current_site->domain . $current_site->path . __( 'sitename' );
-		else
+		} else {
 			$site = __( 'domain' ) . '.' . $site_domain . $current_site->path;
-		echo '<p>(<strong>' . sprintf( __('Your address will be %s.'), $site ) . '</strong>) ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
+		}
+
+		/* translators: %s: site address */
+		echo '<p>(<strong>' . sprintf( __( 'Your address will be %s.' ), $site ) . '</strong>) ' . __( 'Must be at least 4 characters, letters and numbers only. It cannot be changed, so choose carefully!' ) . '</p>';
 	}
 
 	// Blog Title
@@ -461,9 +464,13 @@ function confirm_another_blog_signup( $domain, $path, $blog_title, $user_name, $
 	);
 
 	?>
-	<h2><?php printf( __( 'The site %s is yours.' ), $site ); ?></h2>
+	<h2><?php
+		/* translators: %s: site name */
+		printf( __( 'The site %s is yours.' ), $site );
+	?></h2>
 	<p>
 		<?php printf(
+			/* translators: 1: home URL, 2: site address, 3: login URL, 4: username */
 			__( '<a href="%1$s">%2$s</a> is your new site. <a href="%3$s">Log in</a> as &#8220;%4$s&#8221; using your existing password.' ),
 			esc_url( $home_url ),
 			untrailingslashit( $domain . $path ),
@@ -523,7 +530,10 @@ function signup_user( $user_name = '', $user_email = '', $errors = '' ) {
 
 	?>
 
-	<h2><?php printf( __( 'Get your own %s account in seconds' ), get_current_site()->site_name ) ?></h2>
+	<h2><?php
+		/* translators: %s: name of the network */
+		printf( __( 'Get your own %s account in seconds' ), get_current_site()->site_name );
+	?></h2>
 	<form id="setupform" method="post" action="wp-signup.php" novalidate="novalidate">
 		<input type="hidden" name="stage" value="validate-user-signup" />
 		<?php
@@ -749,7 +759,10 @@ function confirm_blog_signup( $domain, $path, $blog_title, $user_name = '', $use
 		<ul id="noemail-tips">
 			<li><p><strong><?php _e( 'Wait a little longer. Sometimes delivery of email can be delayed by processes outside of our control.' ) ?></strong></p></li>
 			<li><p><?php _e( 'Check the junk or spam folder of your email client. Sometime emails wind up there by mistake.' ) ?></p></li>
-			<li><?php printf( __( 'Have you entered your email correctly? You have entered %s, if it&#8217;s incorrect, you will not receive your email.' ), $user_email ) ?></li>
+			<li><?php
+				/* translators: %s: email address */
+				printf( __( 'Have you entered your email correctly? You have entered %s, if it&#8217;s incorrect, you will not receive your email.' ), $user_email );
+			?></li>
 		</ul>
 	</p>
 	<?php
@@ -809,8 +822,10 @@ $i18n_signup['none'] = _x('none', 'Multisite active signup type');
 $i18n_signup['blog'] = _x('blog', 'Multisite active signup type');
 $i18n_signup['user'] = _x('user', 'Multisite active signup type');
 
-if ( is_super_admin() )
+if ( is_super_admin() ) {
+	/* translators: 1: type of site sign-up; 2: network settings URL */
 	echo '<div class="mu_alert">' . sprintf( __( 'Greetings Site Administrator! You are currently allowing &#8220;%s&#8221; registrations. To change or disable registration go to your <a href="%s">Options page</a>.' ), $i18n_signup[$active_signup], esc_url( network_admin_url( 'settings.php' ) ) ) . '</div>';
+}
 
 $newblogname = isset($_GET['new']) ? strtolower(preg_replace('/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'])) : null;
 
@@ -819,7 +834,8 @@ if ( $active_signup == 'none' ) {
 	_e( 'Registration has been disabled.' );
 } elseif ( $active_signup == 'blog' && !is_user_logged_in() ) {
 	$login_url = wp_login_url( network_site_url( 'wp-signup.php' ) );
-	echo sprintf( __( 'You must first <a href="%s">log in</a>, and then you can create a new site.' ), $login_url );
+	/* translators: %s: login URL */
+	printf( __( 'You must first <a href="%s">log in</a>, and then you can create a new site.' ), $login_url );
 } else {
 	$stage = isset( $_POST['stage'] ) ?  $_POST['stage'] : 'default';
 	switch ( $stage ) {
