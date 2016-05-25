@@ -1210,7 +1210,7 @@ function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
 /**
  * Retrieves the URL used for the post preview.
  *
- * Get the preview post URL. Allows additional query args to be appended.
+ * Allows additional query args to be appended.
  *
  * @since 4.4.0
  *
@@ -1219,7 +1219,7 @@ function get_post_type_archive_feed_link( $post_type, $feed = '' ) {
  *                                  Default empty array.
  * @param string      $preview_link Optional. Base preview link to be used if it should differ from the
  *                                  post permalink. Default empty.
- * @return string URL used for the post preview.
+ * @return string|null URL used for the post preview, or null if the post does not exist.
  */
 function get_preview_post_link( $post = null, $query_args = array(), $preview_link = '' ) {
 	$post = get_post( $post );
