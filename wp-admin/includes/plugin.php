@@ -92,6 +92,14 @@ function get_plugin_data( $plugin_file, $markup = true, $translate = true ) {
 	$plugin_data['Network'] = ( 'true' == strtolower( $plugin_data['Network'] ) );
 	unset( $plugin_data['_sitewide'] );
 
+	// If no text domain is defined fall back to the plugin slug.
+	if ( ! $plugin_data['TextDomain'] ) {
+		$plugin_slug = dirname( plugin_basename( $plugin_file ) );
+		if ( '.' !== $plugin_slug && false === strpos( '/', $plugin_slug ) ) {
+			$plugin_data['TextDomain'] = $plugin_slug;
+		}
+	}
+
 	if ( $markup || $translate ) {
 		$plugin_data = _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup, $translate );
 	} else {
