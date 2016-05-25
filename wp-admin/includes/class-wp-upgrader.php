@@ -651,6 +651,8 @@ class WP_Upgrader {
 		/**
 		 * Filters the package options before running an update.
 		 *
+		 * See also {@see 'upgrader_process_complete'}.
+		 *
 		 * @since 4.3.0
 		 *
 		 * @param array $options {
@@ -662,7 +664,18 @@ class WP_Upgrader {
 		 *     @type bool   $clear_working               Clear the working resource.
 		 *     @type bool   $abort_if_destination_exists Abort if the Destination directory exists.
 		 *     @type bool   $is_multi                    Whether the upgrader is running multiple times.
-		 *     @type array  $hook_extra                  Extra hook arguments.
+		 *     @type array  $hook_extra {
+		 *         Extra hook arguments.
+		 *
+		 *         @type string $action               Type of action. Default 'update'.
+		 *         @type string $type                 Type of update process. Accepts 'plugin', 'theme', or 'core'.
+		 *         @type bool   $bulk                 Whether the update process is a bulk update. Default true.
+		 *         @type string $plugin               The base plugin path from the plugins directory.
+		 *         @type string $theme                The stylesheet or template name of the theme.
+		 *         @type string $language_update_type The language pack update type. Accepts 'plugin', 'theme',
+		 *                                            or 'core'.
+		 *         @type object $language_update      The language pack update offer.
+		 *     }
 		 * }
 		 */
 		$options = apply_filters( 'upgrader_package_options', $options );
@@ -745,6 +758,8 @@ class WP_Upgrader {
 			/**
 			 * Fires when the upgrader process is complete.
 			 *
+			 * See also {@see 'upgrader_package_options'}.
+			 *
 			 * @since 3.6.0
 			 * @since 3.7.0 Added to WP_Upgrader::run().
 			 *
@@ -753,14 +768,11 @@ class WP_Upgrader {
 			 * @param array       $hook_extra {
 			 *     Array of bulk item update data.
 			 *
-			 *     @type string $action               Type of action. Default 'update'.
-			 *     @type string $type                 Type of update process. Accepts 'plugin', 'theme', or 'core'.
-			 *     @type bool   $bulk                 Whether the update process is a bulk update. Default true.
-			 *     @type string $plugin               The base plugin path from the plugins directory.
-			 *     @type string $theme                The stylesheet or template name of the theme.
-			 *     @type string $language_update_type The language pack update type. Accepts 'plugin', 'theme',
-			 *                                        or 'core'.
-			 *     @type object $language_update      The language pack update offer.
+			 *     @type string $action  Type of action. Default 'update'.
+			 *     @type string $type    Type of update process. Accepts 'plugin', 'theme', or 'core'.
+			 *     @type bool   $bulk    Whether the update process is a bulk update. Default true.
+			 *     @type array  $plugins Array of the basename paths of the plugins' main files.
+			 *     @type array  $themes  The theme slugs.
 			 * }
 			 */
 			do_action( 'upgrader_process_complete', $this, $options['hook_extra'] );
