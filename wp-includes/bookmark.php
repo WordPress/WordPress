@@ -128,7 +128,8 @@ function get_bookmarks( $args = '' ) {
 	$r = wp_parse_args( $args, $defaults );
 
 	$key = md5( serialize( $r ) );
-	if ( $cache = wp_cache_get( 'get_bookmarks', 'bookmark' ) ) {
+	$cache = false;
+	if ( 'rand' !== $r['orderby'] && $cache = wp_cache_get( 'get_bookmarks', 'bookmark' ) ) {
 		if ( is_array( $cache ) && isset( $cache[ $key ] ) ) {
 			$bookmarks = $cache[ $key ];
 			/**
@@ -285,8 +286,10 @@ function get_bookmarks( $args = '' ) {
 
 	$results = $wpdb->get_results( $query );
 
-	$cache[ $key ] = $results;
-	wp_cache_set( 'get_bookmarks', $cache, 'bookmark' );
+	if ( 'rand()' !== $orderby ) {
+		$cache[ $key ] = $results;
+		wp_cache_set( 'get_bookmarks', $cache, 'bookmark' );
+	}
 
 	/** This filter is documented in wp-includes/bookmark.php */
 	return apply_filters( 'get_bookmarks', $results, $r );
