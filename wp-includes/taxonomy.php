@@ -2628,9 +2628,9 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	}
 
 	// Update termmeta cache, if necessary.
-	if ( $args['update_term_meta_cache'] && ( 'all' === $fields || 'all_with_object_ids' === $fields || 'term_id' === $fields ) ) {
-		if ( 'term_id' === $fields ) {
-			$term_ids = $fields;
+	if ( $args['update_term_meta_cache'] && ( 'all' === $fields || 'all_with_object_id' === $fields || 'ids' === $fields ) ) {
+		if ( 'ids' === $fields ) {
+			$term_ids = $terms;
 		} else {
 			$term_ids = wp_list_pluck( $terms, 'term_id' );
 		}
