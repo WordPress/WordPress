@@ -235,10 +235,10 @@ class Walker_Nav_Menu extends Walker {
  *     @type string        $container_id    The ID that is applied to the container. Default empty.
  *     @type callable|bool $fallback_cb     If the menu doesn't exists, a callback function will fire.
  *                                          Default is 'wp_page_menu'. Set to false for no fallback.
- *     @type string        $before          Text before the link text. Default empty.
- *     @type string        $after           Text after the link text. Default empty.
- *     @type string        $link_before     Text before the link. Default empty.
- *     @type string        $link_after      Text after the link. Default empty.
+ *     @type string        $before          Text before the link markup. Default empty.
+ *     @type string        $after           Text after the link markup. Default empty.
+ *     @type string        $link_before     Text before the link text. Default empty.
+ *     @type string        $link_after      Text after the link text. Default empty.
  *     @type bool          $echo            Whether to echo the menu or return it. Default true.
  *     @type int           $depth           How many levels of the hierarchy are to be included. 0 means all. Default 0.
  *     @type object        $walker          Instance of a custom walker class. Default empty.
