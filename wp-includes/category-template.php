@@ -534,6 +534,9 @@ function wp_dropdown_categories( $args = '' ) {
  *                                               the list. Default false (title will always be shown).
  *     @type int          $depth                 Category depth. Used for tab indentation. Default 0.
  *     @type string       $taxonomy              Taxonomy name. Default 'category'.
+ *     @type string       $style                 The style used to display the categories list. If 'list', categories
+ *                                               will be output as an unordered list. If left empty or another value,
+ *                                               categories will be output separated by `<br>` tags. Default 'list'.
  *     @type string       $separator             Separator between links. Default '<br />'.
  * }
  * @return false|string HTML content only if 'echo' argument is 0.
