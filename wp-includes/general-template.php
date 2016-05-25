@@ -2523,7 +2523,7 @@ function the_weekday_date($before='',$after='') {
  */
 function wp_head() {
 	/**
-	 * Print scripts or data in the head tag on the front end.
+	 * Prints scripts or data in the head tag on the front end.
 	 *
 	 * @since 1.5.0
 	 */
@@ -2539,7 +2539,7 @@ function wp_head() {
  */
 function wp_footer() {
 	/**
-	 * Print scripts or data before the closing body tag on the front end.
+	 * Prints scripts or data before the closing body tag on the front end.
 	 *
 	 * @since 1.5.1
 	 */

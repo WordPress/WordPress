@@ -63,7 +63,7 @@ global $hook_suffix;
 </div>
 <?php
 /**
- * Print scripts or data before the default footer scripts.
+ * Prints scripts or data before the default footer scripts.
  *
  * @since 1.2.0
  *
@@ -92,7 +92,7 @@ do_action( "admin_print_footer_scripts-$hook_suffix" );
 do_action( 'admin_print_footer_scripts' );
 
 /**
- * Print scripts or data after the default footer scripts.
+ * Prints scripts or data after the default footer scripts.
  *
  * The dynamic portion of the hook name, `$hook_suffix`,
  * refers to the global hook suffix of the current page.

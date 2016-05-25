@@ -22,7 +22,7 @@ if ( ! headers_sent() ) {
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<?php
 	/**
-	 * Print scripts or data in the embed template <head> tag.
+	 * Prints scripts or data in the embed template <head> tag.
 	 *
 	 * @since 4.4.0
 	 */

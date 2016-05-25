@@ -11,7 +11,7 @@
  */
 
 /**
- * Print scripts or data before the closing body tag in the embed template.
+ * Prints scripts or data before the closing body tag in the embed template.
  *
  * @since 4.4.0
  */

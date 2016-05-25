@@ -2035,7 +2035,7 @@ function wp_playlist_shortcode( $attr ) {
 
 	if ( 1 === $instance ) {
 		/**
-		 * Print and enqueue playlist scripts, styles, and JavaScript templates.
+		 * Prints and enqueues playlist scripts, styles, and JavaScript templates.
 		 *
 		 * @since 3.9.0
 		 *

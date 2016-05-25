@@ -90,7 +90,7 @@
 
 		<?php
 		/**
-		 * Print additional content after the embed excerpt.
+		 * Prints additional content after the embed excerpt.
 		 *
 		 * @since 4.4.0
 		 */
@@ -103,7 +103,7 @@
 			<div class="wp-embed-meta">
 				<?php
 				/**
-				 * Print additional meta content in the embed template.
+				 * Prints additional meta content in the embed template.
 				 *
 				 * @since 4.4.0
 				 */
