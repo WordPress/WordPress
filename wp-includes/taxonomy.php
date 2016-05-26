@@ -1206,8 +1206,6 @@ function get_terms( $args = array(), $deprecated = '' ) {
 
 	$terms = $term_query->query( $args );
 
-	$taxonomies = isset( $args['taxonomy'] ) ? (array) $args['taxonomy'] : null;
-
 	/**
 	 * Filters the found terms.
 	 *
@@ -1219,7 +1217,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	 * @param array         $args       An array of get_terms() arguments.
 	 * @param WP_Term_Query $term_query The WP_Term_Query object.
 	 */
-	return apply_filters( 'get_terms', $terms, $taxonomies, $args );
+	return apply_filters( 'get_terms', $terms, $term_query->query_vars['taxonomy'], $term_query->query_vars, $term_query );
 }
 
 /**
