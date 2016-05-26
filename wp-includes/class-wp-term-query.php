@@ -220,7 +220,7 @@ class WP_Term_Query {
 		/**
 		 * Filters the terms query default arguments.
 		 *
-		 * Use 'get_terms_args' to filter the passed arguments.
+		 * Use {@see 'get_terms_args'} to filter the passed arguments.
 		 *
 		 * @since 4.4.0
 		 *
