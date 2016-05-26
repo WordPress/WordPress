@@ -3239,15 +3239,42 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 /**
  * Retrieves the taxonomy relationship to the term object id.
  *
+ * Upstream functions (like `get_the_terms()` and `is_object_in_term()`) are responsible for populating the
+ * object-term relationship cache. The current function only fetches relationship data that is already in the cache.
+ *
  * @since 2.3.0
  *
  * @param int    $id       Term object ID.
  * @param string $taxonomy Taxonomy name.
- * @return bool|mixed Empty array if $terms found, but not `$taxonomy`. False if nothing is in cache
- *                    for `$taxonomy` and `$id`.
+ * @return bool|array Array of `WP_Term` objects, if cached False if cache is empty for `$taxonomy` and `$id`.
  */
 function get_object_term_cache( $id, $taxonomy ) {
-	return wp_cache_get( $id, "{$taxonomy}_relationships" );
+	$_term_ids = wp_cache_get( $id, "{$taxonomy}_relationships" );
+
+	// We leave the priming of relationship caches to upstream functions.
+	if ( false === $_term_ids ) {
+		return false;
+	}
+
+	// Backward compatibility for if a plugin is putting objects into the cache, rather than IDs.
+	$term_ids = array();
+	foreach ( $_term_ids as $term_id ) {
+		if ( is_numeric( $term_id ) ) {
+			$term_ids[] = intval( $term_id );
+		} elseif ( isset( $term_id->term_id ) ) {
+			$term_ids[] = intval( $term_id->term_id );
+		}
+	}
+
+	// Fill the term objects.
+	_prime_term_caches( $term_ids );
+
+	$terms = array();
+	foreach ( $term_ids as $term_id ) {
+		$terms[] = wp_cache_get( $term_id, 'terms' );
+	}
+
+	return array_map( 'get_term', $terms );
 }
 
 /**
@@ -3297,8 +3324,9 @@ function update_object_term_cache($object_ids, $object_type) {
 	) );
 
 	$object_terms = array();
-	foreach ( (array) $terms as $term )
-		$object_terms[$term->object_id][$term->taxonomy][] = $term;
+	foreach ( (array) $terms as $term ) {
+		$object_terms[ $term->object_id ][ $term->taxonomy ][] = $term->term_id;
+	}
 
 	foreach ( $ids as $id ) {
 		foreach ( $taxonomies as $taxonomy ) {
@@ -3502,6 +3530,32 @@ function _pad_term_counts( &$terms, $taxonomy ) {
 	foreach ( (array) $term_items as $id => $items )
 		if ( isset($terms_by_id[$id]) )
 			$terms_by_id[$id]->count = count($items);
+}
+
+/**
+ * Adds any terms from the given IDs to the cache that do not already exist in cache.
+ *
+ * @since 4.6.0
+ * @access private
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param array $term_ids          Array of term IDs.
+ * @param bool  $update_meta_cache Optional. Whether to update the meta cache. Default true.
+ */
+function _prime_term_caches( $term_ids, $update_meta_cache = true ) {
+	global $wpdb;
+
+	$non_cached_ids = _get_non_cached_ids( $term_ids, 'terms' );
+	if ( ! empty( $non_cached_ids ) ) {
+		$fresh_terms = $wpdb->get_results( sprintf( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE t.term_id IN (%s)", join( ",", array_map( 'intval', $non_cached_ids ) ) ) );
+
+		update_term_cache( $fresh_terms, $update_meta_cache );
+
+		if ( $update_meta_cache ) {
+			update_termmeta_cache( $non_cached_ids );
+		}
+	}
 }
 
 //
@@ -4211,7 +4265,7 @@ function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
 	$object_terms = get_object_term_cache( $object_id, $taxonomy );
 	if ( false === $object_terms ) {
 		$object_terms = wp_get_object_terms( $object_id, $taxonomy, array( 'update_term_meta_cache' => false ) );
-		wp_cache_set( $object_id, $object_terms, "{$taxonomy}_relationships" );
+		wp_cache_set( $object_id, wp_list_pluck( $object_terms, 'term_id' ), "{$taxonomy}_relationships" );
 	}
 
 	if ( is_wp_error( $object_terms ) )

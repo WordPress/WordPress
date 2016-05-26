@@ -311,7 +311,7 @@ function get_inline_data($post) {
 			$terms = get_object_term_cache( $post->ID, $taxonomy_name );
 			if ( false === $terms ) {
 				$terms = wp_get_object_terms( $post->ID, $taxonomy_name );
-				wp_cache_add( $post->ID, $terms, $taxonomy_name . '_relationships' );
+				wp_cache_add( $post->ID, wp_list_pluck( $terms, 'term_id' ), $taxonomy_name . '_relationships' );
 			}
 			$term_ids = empty( $terms ) ? array() : wp_list_pluck( $terms, 'term_id' );
 

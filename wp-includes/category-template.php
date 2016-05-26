@@ -1187,16 +1187,9 @@ function get_the_terms( $post, $taxonomy ) {
 	if ( false === $terms ) {
 		$terms = wp_get_object_terms( $post->ID, $taxonomy );
 		if ( ! is_wp_error( $terms ) ) {
-			$to_cache = array();
-			foreach ( $terms as $key => $term ) {
-				$to_cache[ $key ] = $term->data;
-			}
-			wp_cache_add( $post->ID, $to_cache, $taxonomy . '_relationships' );
+			$term_ids = wp_list_pluck( $terms, 'term_id' );
+			wp_cache_add( $post->ID, $term_ids, $taxonomy . '_relationships' );
 		}
-	}
-
-	if ( ! is_wp_error( $terms ) ) {
-		$terms = array_map( 'get_term', $terms );
 	}
 
 	/**
