@@ -3237,8 +3237,9 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 /**
  * Retrieves the taxonomy relationship to the term object id.
  *
- * Upstream functions (like `get_the_terms()` and `is_object_in_term()`) are responsible for populating the
- * object-term relationship cache. The current function only fetches relationship data that is already in the cache.
+ * Upstream functions (like get_the_terms() and is_object_in_term()) are
+ * responsible for populating the object-term relationship cache. The current
+ * function only fetches relationship data that is already in the cache.
  *
  * @since 2.3.0
  *
