@@ -2200,6 +2200,7 @@ function dbDelta( $queries = '', $execute = true ) {
 				case 'fulltext':
 				case 'unique':
 				case 'key':
+				case 'spatial':
 					$validfield = false;
 					$indices[] = trim(trim($fld), ", \n");
 					break;
@@ -2300,6 +2301,9 @@ function dbDelta( $queries = '', $execute = true ) {
 				}
 				if ( 'FULLTEXT' === strtoupper( $index_data['index_type'] ) ) {
 					$index_string .= 'FULLTEXT ';
+				}
+				if ( 'SPATIAL' === strtoupper( $index_data['index_type'] ) ) {
+					$index_string .= 'SPATIAL ';
 				}
 				$index_string .= 'KEY ';
 				if ($index_name != 'PRIMARY') {
