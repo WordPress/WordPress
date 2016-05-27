@@ -278,6 +278,12 @@ switch($step) {
 	if ( ! empty( $wpdb->error ) )
 		wp_die( $wpdb->error->get_error_message() . $tryagain_link );
 
+	$wpdb->query( "SELECT $prefix" );
+	if ( ! $wpdb->last_error ) {
+		// MySQL was able to parse the prefix as a value, which we don't want. Bail.
+		wp_die( __( '<strong>ERROR</strong>: "Table Prefix" is invalid.' ) );
+	}
+
 	// Generate keys and salts using secure CSPRNG; fallback to API if enabled; further fallback to original wp_generate_password().
 	try {
 		$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_ []{}<>~`+=,.;:/?|';
