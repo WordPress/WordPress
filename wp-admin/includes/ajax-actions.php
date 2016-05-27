@@ -951,7 +951,7 @@ function wp_ajax_get_comments( $action ) {
 	$x = new WP_Ajax_Response();
 	ob_start();
 	foreach ( $wp_list_table->items as $comment ) {
-		if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) )
+		if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) && 0 === $comment->comment_approved )
 			continue;
 		get_comment( $comment );
 		$wp_list_table->single_row( $comment );
