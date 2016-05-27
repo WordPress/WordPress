@@ -20,6 +20,7 @@ define( 'WPINC', 'wp-includes' );
 // Include files required for initialization.
 require( ABSPATH . WPINC . '/load.php' );
 require( ABSPATH . WPINC . '/default-constants.php' );
+require( ABSPATH . WPINC . '/plugin.php' );
 
 /*
  * These can't be directly globalized in version.php. When updating,
@@ -70,8 +71,11 @@ timer_start();
 wp_debug_mode();
 
 // For an advanced caching plugin to use. Uses a static drop-in because you would only want one.
-if ( WP_CACHE )
+if ( WP_CACHE ) {
+	_backup_plugin_globals();
 	WP_DEBUG ? include( WP_CONTENT_DIR . '/advanced-cache.php' ) : @include( WP_CONTENT_DIR . '/advanced-cache.php' );
+	_restore_plugin_globals();
+}
 
 // Define WP_LANG_DIR if not set.
 wp_set_lang_dir();
@@ -81,7 +85,6 @@ require( ABSPATH . WPINC . '/compat.php' );
 require( ABSPATH . WPINC . '/functions.php' );
 require( ABSPATH . WPINC . '/class-wp.php' );
 require( ABSPATH . WPINC . '/class-wp-error.php' );
-require( ABSPATH . WPINC . '/plugin.php' );
 require( ABSPATH . WPINC . '/pomo/mo.php' );
 
 // Include the wpdb class and, if present, a db.php database drop-in.

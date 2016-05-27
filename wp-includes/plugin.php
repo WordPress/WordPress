@@ -946,3 +946,65 @@ function _wp_filter_build_unique_id($tag, $function, $priority) {
 		return $function[0] . '::' . $function[1];
 	}
 }
+
+/**
+ * Back up global variables used for actions and filters.
+ *
+ * Prevents redefinition of these globals in advanced-cache.php from accidentally
+ * destroying existing data.
+ *
+ * @since 4.6.0
+ * @access private
+ *
+ * @global array $wp_filter         Stores all filters and actions.
+ * @global array $wp_actions        Stores the amount of times an action was triggered.
+ * @global array $merged_filters    Merges the filter hooks using this function.
+ * @global array $wp_current_filter Stores the list of current filters with the current one last.
+ * @staticvar array $backup_globals Backed up globals.
+ * @return array the staticvar from the first time it is set.
+ */
+function _backup_plugin_globals(){
+	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
+	static $backup_globals = array();
+	if ( empty( $backup_globals ) ) {
+		$backup_globals = array(
+			'backup_wp_filter'         => $wp_filter,
+			'backup_wp_actions'        => $wp_actions,
+			'backup_merged_filters'    => $merged_filters,
+			'backup_wp_current_filter' => $wp_current_filter,
+		);
+	};
+	return $backup_globals;
+}
+
+/**
+ * Safely restore backed up global variables used for actions and filters.
+ *
+ * @since 4.6.0
+ * @access private
+ *
+ * @global array $wp_filter         Stores all filters and actions.
+ * @global array $wp_actions        Stores the amount of times an action was triggered.
+ * @global array $merged_filters    Merges the filter hooks using this function.
+ * @global array $wp_current_filter Stores the list of current filters with the current one last.
+ * @staticvar array $backup_globals Backed up globals.
+ */
+function _restore_plugin_globals(){
+	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
+	$backup_globals = _backup_plugin_globals();
+	if ( $wp_filter !== $backup_globals['backup_wp_filter'] ){
+		$wp_filter = array_merge_recursive( $wp_filter, $backup_globals['backup_wp_filter'] );
+	}
+
+	if ( $wp_actions !== $backup_globals['backup_wp_actions'] ){
+		$wp_actions = array_merge_recursive( $wp_actions, $backup_globals['backup_wp_actions'] );
+	}
+
+	if ( $merged_filters !== $backup_globals['backup_merged_filters'] ){
+		$merged_filters = array_merge_recursive( $merged_filters, $backup_globals['backup_merged_filters'] );
+	}
+
+	if ( $wp_current_filter !== $backup_globals['backup_wp_current_filter'] ){
+		$wp_current_filter = array_merge_recursive( $wp_current_filter, $backup_globals['backup_wp_current_filter'] );
+	}
+}
