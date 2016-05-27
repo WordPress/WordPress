@@ -773,35 +773,44 @@ function default_topic_count_scale( $count ) {
 /**
  * Generates a tag cloud (heatmap) from provided data.
  *
- * The text size is set by the 'smallest' and 'largest' arguments, which will
- * use the 'unit' argument value for the CSS text size unit. The 'format'
- * argument can be 'flat' (default), 'list', or 'array'. The flat value for the
- * 'format' argument will separate tags with spaces. The list value for the
- * 'format' argument will format the tags in a UL HTML list. The array value for
- * the 'format' argument will return in PHP array type format.
- *
- * The {@see 'tag_cloud_sort'} filter allows you to override the sorting.
- * Passed to the filter: $tags array and $args array, has to return the $tags array
- * after sorting it.
- *
- * The 'orderby' argument will accept 'name' or 'count' and defaults to 'name'.
- * The 'order' is the direction to sort, defaults to 'ASC' and can be 'DESC' or
- * 'RAND'.
- *
- * The 'number' argument is how many tags to return. By default, the limit will
- * be to return the entire tag cloud list.
- *
- * The 'topic_count_text' argument is a nooped plural from _n_noop() to generate the
- * text for the tooltip of the tag link.
- *
- * The 'topic_count_text_callback' argument is a function, which given the count
- * of the posts with that tag returns a text for the tooltip of the tag link.
- *
  * @todo Complete functionality.
  * @since 2.3.0
  *
  * @param array $tags List of tags.
- * @param string|array $args Optional, override default arguments.
+ * @param string|array $args {
+ *     Optional. Array of string of arguments for generating a tag cloud.
+ *
+ *     @type int      $smallest                   Smallest font size used to display tags. Paired
+ *                                                with the value of `$unit`, to determine CSS text
+ *                                                size unit. Default 8 (pt).
+ *     @type int      $largest                    Largest font size used to display tags. Paired
+ *                                                with the value of `$unit`, to determine CSS text
+ *                                                size unit. Default 22 (pt).
+ *     @type string   $unit                       CSS text size unit to use with the `$smallest`
+ *                                                and `$largest` values. Accepts any valid CSS text
+ *                                                size unit. Default 'pt'.
+ *     @type int      $number                     The number of tags to return. Accepts any
+ *                                                positive integer or zero to return all.
+ *                                                Default 0.
+ *     @type string   $format                     Format to display the tag cloud in. Accepts 'flat'
+ *                                                (tags separated with spaces), 'list' (tags displayed
+ *                                                in an unordered list), or 'array' (returns an array).
+ *                                                Default 'flat'.
+ *     @type string   $separator                  HTML or text to separate the tags. Default "\n" (newline).
+ *     @type string   $orderby                    Value to order tags by. Accepts 'name' or 'count'.
+ *                                                Default 'name'. The {@see 'tag_cloud_sort'} filter
+ *                                                can also affect how tags are sorted.
+ *     @type string   $order                      How to order the tags. Accepts 'ASC' (ascending),
+ *                                                'DESC' (descending), or 'RAND' (random). Default 'ASC'.
+ *     @type int|bool $filter                     Whether to enable filtering of the final output
+ *                                                via {@see 'wp_generate_tag_cloud'}. Default 1|true.
+ *     @type string   $topic_count_text           Nooped plural text from _n_noop() to supply to
+ *                                                tag tooltips. Default null.
+ *     @type callable $topic_count_text_callback  Callback used to generate nooped plural text for
+ *                                                tag tooltips based on the count. Default null.
+ *     @type callable $topic_count_scale_callback Callback used to determine the tag count scaling
+ *                                                value. Default default_topic_count_scale().
+ * }
  * @return string|array Tag cloud as a string or an array, depending on 'format' argument.
  */
 function wp_generate_tag_cloud( $tags, $args = '' ) {
