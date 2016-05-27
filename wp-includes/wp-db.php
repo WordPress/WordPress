@@ -670,7 +670,7 @@ class wpdb {
 	}
 
 	/**
-	 * PHP5 style magic getter, used to lazy-load expensive data.
+	 * Makes private properties readable for backward compatibility.
 	 *
 	 * @since 3.5.0
 	 *
@@ -685,7 +685,7 @@ class wpdb {
 	}
 
 	/**
-	 * Magic function, for backward compatibility.
+	 * Makes private properties settable for backward compatibility.
 	 *
 	 * @since 3.5.0
 	 *
@@ -705,7 +705,7 @@ class wpdb {
 	}
 
 	/**
-	 * Magic function, for backward compatibility.
+	 * Makes private properties check-able for backward compatibility.
 	 *
 	 * @since 3.5.0
 	 *
@@ -718,7 +718,7 @@ class wpdb {
 	}
 
 	/**
-	 * Magic function, for backward compatibility.
+	 * Makes private properties un-settable for backward compatibility.
 	 *
 	 * @since 3.5.0
 	 *
