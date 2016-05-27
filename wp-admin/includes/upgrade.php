@@ -2184,10 +2184,11 @@ function dbDelta( $queries = '', $execute = true ) {
 		$flds = explode("\n", $qryline);
 
 		// For every field line specified in the query.
-		foreach ($flds as $fld) {
+		foreach ( $flds as $fld ) {
+			$fld = trim( $fld, " \t\n\r\0\x0B," ); // Default trim characters, plus ','.
 
 			// Extract the field name.
-			preg_match("|^([^ ]*)|", trim($fld), $fvals);
+			preg_match( '|^([^ ]*)|', $fld, $fvals );
 			$fieldname = trim( $fvals[1], '`' );
 			$fieldname_lowercased = strtolower( $fieldname );
 
@@ -2202,14 +2203,98 @@ function dbDelta( $queries = '', $execute = true ) {
 				case 'key':
 				case 'spatial':
 					$validfield = false;
-					$indices[] = trim(trim($fld), ", \n");
+
+					/*
+					 * Normalize the index definition.
+					 *
+					 * This is done so the definition can be compared against the result of a
+					 * `SHOW INDEX FROM $table_name` query which returns the current table
+					 * index information.
+					 */
+
+					// Extract type, name and columns from the definition.
+					preg_match(
+						  '/^'
+						.   '(?P<index_type>'             // 1) Type of the index.
+						.       'PRIMARY\s+KEY|(?:UNIQUE|FULLTEXT|SPATIAL)\s+(?:KEY|INDEX)|KEY|INDEX'
+						.   ')'
+						.   '\s+'                         // Followed by at least one white space character.
+						.   '(?:'                         // Name of the index. Optional if type is PRIMARY KEY.
+						.       '`?'                      // Name can be escaped with a backtick.
+						.           '(?P<index_name>'     // 2) Name of the index.
+						.               '(?:[0-9a-zA-Z$_-]|[\xC2-\xDF][\x80-\xBF])+'
+						.           ')'
+						.       '`?'                      // Name can be escaped with a backtick.
+						.       '\s+'                     // Followed by at least one white space character.
+						.   ')*'
+						.   '\('                          // Opening bracket for the columns.
+						.       '(?P<index_columns>'
+						.           '.+?'                 // 3) Column names, index prefixes, and orders.
+						.       ')'
+						.   '\)'                          // Closing bracket for the columns.
+						. '$/im',
+						$fld,
+						$index_matches
+					);
+
+					// Uppercase the index type and normalize space characters.
+					$index_type = strtoupper( preg_replace( '/\s+/', ' ', trim( $index_matches['index_type'] ) ) );
+
+					// 'INDEX' is a synonym for 'KEY', standardize on 'KEY'.
+					$index_type = str_replace( 'INDEX', 'KEY', $index_type );
+
+					// Escape the index name with backticks. An index for a primary key has no name.
+					$index_name = ( 'PRIMARY KEY' === $index_type ) ? '' : '`' . $index_matches['index_name'] . '`';
+
+					// Parse the columns. Multiple columns are separated by a comma.
+					$index_columns = array_map( 'trim', explode( ',', $index_matches['index_columns'] ) );
+
+					// Normalize columns.
+					foreach ( $index_columns as &$index_column ) {
+						// Extract column name and number of indexed characters (sub_part).
+						preg_match(
+							  '/'
+							.   '`?'                      // Name can be escaped with a backtick.
+							.       '(?P<column_name>'    // 1) Name of the column.
+							.           '(?:[0-9a-zA-Z$_-]|[\xC2-\xDF][\x80-\xBF])+'
+							.       ')'
+							.   '`?'                      // Name can be escaped with a backtick.
+							.   '(?:'                     // Optional sub part.
+							.       '\s*'                 // Optional white space character between name and opening bracket.
+							.       '\('                  // Opening bracket for the sub part.
+							.           '\s*'             // Optional white space character after opening bracket.
+							.           '(?P<sub_part>'
+							.               '\d+'         // 2) Number of indexed characters.
+							.           ')'
+							.           '\s*'             // Optional white space character before closing bracket.
+							.        '\)'                 // Closing bracket for the sub part.
+							.   ')?'
+							. '/',
+							$index_column,
+							$index_column_matches
+						);
+
+						// Escape the column name with backticks.
+						$index_column = '`' . $index_column_matches['column_name'] . '`';
+
+						// Append the optional sup part with the number of indexed characters.
+						if ( isset( $index_column_matches['sub_part'] ) ) {
+							$index_column .= '(' . $index_column_matches['sub_part'] . ')';
+						}
+					}
+
+					// Build the normalized index definition and add it to the list of indices.
+					$indices[] = "{$index_type} {$index_name} (" . implode( ',', $index_columns ) . ")";
+
+					// Destroy no longer needed variables.
+					unset( $index_column, $index_column_matches, $index_matches, $index_type, $index_name, $index_columns );
+
 					break;
 			}
-			$fld = trim( $fld );
 
 			// If it's a valid field, add it to the field array.
 			if ( $validfield ) {
-				$cfields[ $fieldname_lowercased ] = trim( $fld, ", \n" );
+				$cfields[ $fieldname_lowercased ] = $fld;
 			}
 		}
 
@@ -2243,7 +2328,7 @@ function dbDelta( $queries = '', $execute = true ) {
 
 					if ( $do_change ) {
 						// Add a query to change the column type.
-						$cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN {$tablefield->Field} " . $cfields[ $tablefield_field_lowercased ];
+						$cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN `{$tablefield->Field}` " . $cfields[ $tablefield_field_lowercased ];
 						$for_update[$table.'.'.$tablefield->Field] = "Changed type of {$table}.{$tablefield->Field} from {$tablefield->Type} to {$fieldtype}";
 					}
 				}
@@ -2253,7 +2338,7 @@ function dbDelta( $queries = '', $execute = true ) {
 					$default_value = $matches[1];
 					if ($tablefield->Default != $default_value) {
 						// Add a query to change the column's default value
-						$cqueries[] = "ALTER TABLE {$table} ALTER COLUMN {$tablefield->Field} SET DEFAULT '{$default_value}'";
+						$cqueries[] = "ALTER TABLE {$table} ALTER COLUMN `{$tablefield->Field}` SET DEFAULT '{$default_value}'";
 						$for_update[$table.'.'.$tablefield->Field] = "Changed default value of {$table}.{$tablefield->Field} from {$tablefield->Default} to {$default_value}";
 					}
 				}
@@ -2306,17 +2391,19 @@ function dbDelta( $queries = '', $execute = true ) {
 					$index_string .= 'SPATIAL ';
 				}
 				$index_string .= 'KEY ';
-				if ($index_name != 'PRIMARY') {
-					$index_string .= $index_name;
+				if ( 'PRIMARY' !== $index_name  ) {
+					$index_string .= '`' . $index_name . '`';
 				}
 				$index_columns = '';
 
 				// For each column in the index.
 				foreach ($index_data['columns'] as $column_data) {
-					if ($index_columns != '') $index_columns .= ',';
+					if ( $index_columns != '' ) {
+						$index_columns .= ',';
+					}
 
 					// Add the field to the column list string.
-					$index_columns .= $column_data['fieldname'];
+					$index_columns .= '`' . $column_data['fieldname'] . '`';
 					if ($column_data['subpart'] != '') {
 						$index_columns .= '('.$column_data['subpart'].')';
 					}
