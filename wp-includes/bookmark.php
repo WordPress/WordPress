@@ -336,26 +336,26 @@ function sanitize_bookmark($bookmark, $context = 'display') {
  *
  * Sanitizes the bookmark fields based on what the field name is. If the field
  * has a strict value set, then it will be tested for that, else a more generic
- * filtering is applied. After the more strict filter is applied, if the
- * $context is 'raw' then the value is immediately return.
+ * filtering is applied. After the more strict filter is applied, if the `$context`
+ * is 'raw' then the value is immediately return.
  *
- * Hooks exist for the more generic cases. With the 'edit' context, the
- * {@see 'edit_$field'} filter will be called and passed the `$value` and `$bookmark_id`
- * respectively. With the 'db' context, the {@see 'pre_$field'} filter is called and
- * passed the value. The 'display' context is the final context and has the
- * `$field` has the filter name and is passed the `$value`, `$bookmark_id`, and
- * `$context`, respectively.
+ * Hooks exist for the more generic cases. With the 'edit' context, the {@see 'edit_$field'}
+ * filter will be called and passed the `$value` and `$bookmark_id` respectively.
+ *
+ * With the 'db' context, the {@see 'pre_$field'} filter is called and passed the value.
+ * The 'display' context is the final context and has the `$field` has the filter name
+ * and is passed the `$value`, `$bookmark_id`, and `$context`, respectively.
  *
  * @since 2.3.0
  *
- * @param string $field The bookmark field
- * @param mixed $value The bookmark field value
- * @param int $bookmark_id Bookmark ID
- * @param string $context How to filter the field value. Either 'raw', 'edit',
- *		'attribute', 'js', 'db', or 'display'
- * @return mixed The filtered value
+ * @param string $field       The bookmark field.
+ * @param mixed  $value       The bookmark field value.
+ * @param int    $bookmark_id Bookmark ID.
+ * @param string $context     How to filter the field value. Accepts 'raw', 'edit', 'attribute',
+ *                            'js', 'db', or 'display'
+ * @return mixed The filtered value.
  */
-function sanitize_bookmark_field($field, $value, $bookmark_id, $context) {
+function sanitize_bookmark_field( $field, $value, $bookmark_id, $context ) {
 	switch ( $field ) {
 	case 'link_id' : // ints
 	case 'link_rating' :
