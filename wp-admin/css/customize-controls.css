@@ -636,7 +636,9 @@ p.customize-section-description {
 
 #customize-controls .customize-control-widget_form.has-error .widget .widget-top,
 .customize-control-nav_menu_item.has-error .menu-item-bar .menu-item-handle {
+	-webkit-box-shadow: inset 0 0 0 2px #dc3232;
 	box-shadow: inset 0 0 0 2px #dc3232;
+	-webkit-transition: .15s box-shadow linear;
 	transition: .15s box-shadow linear;
 }
 
