@@ -1468,7 +1468,7 @@ class WP_Query {
 	 * @since 4.5.0 Removed the `$comments_popup` parameter.
 	 *              Introduced the `$comment_status` and `$ping_status` parameters.
 	 *              Introduced `RAND(x)` syntax for `$orderby`, which allows an integer seed value to random sorts.
-	 * @since 4.6.0 Added 'post_name__in' support for `$orderby`.
+	 * @since 4.6.0 Added 'post_name__in' support for `$orderby`. Introduced `$lazy_load_term_meta`.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -1567,6 +1567,10 @@ class WP_Query {
 	 *     @type string       $title                   Post title.
 	 *     @type bool         $update_post_meta_cache  Whether to update the post meta cache. Default true.
 	 *     @type bool         $update_post_term_cache  Whether to update the post term cache. Default true.
+	 *     @type bool         $lazy_load_term_meta     Whether to lazy-load term meta. Setting to false will
+	 *                                                 disable cache priming for term meta, so that each
+	 *                                                 get_term_meta() call will hit the database.
+	 *                                                 Defaults to the value of `$update_post_term_cache`.
 	 *     @type int          $w                       The week number of the year. Default empty. Accepts numbers 0-53.
 	 *     @type int          $year                    The four-digit year. Default empty. Accepts any four-digit year.
 	 * }
@@ -2544,6 +2548,10 @@ class WP_Query {
 
 		if ( !isset($q['update_post_term_cache']) )
 			$q['update_post_term_cache'] = true;
+
+		if ( ! isset( $q['lazy_load_term_meta'] ) ) {
+			$q['lazy_load_term_meta'] = $q['update_post_term_cache'];
+		}
 
 		if ( !isset($q['update_post_meta_cache']) )
 			$q['update_post_meta_cache'] = true;
@@ -3782,7 +3790,7 @@ class WP_Query {
 			$this->posts = array();
 		}
 
-		if ( $q['update_post_term_cache'] ) {
+		if ( $q['lazy_load_term_meta'] ) {
 			wp_queue_posts_for_term_meta_lazyload( $this->posts );
 		}
 
