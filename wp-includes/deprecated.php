@@ -3175,8 +3175,12 @@ function wp_load_image( $file ) {
 	if ( ! function_exists('imagecreatefromstring') )
 		return __('The GD image library is not installed.');
 
-	// Set artificially high because GD uses uncompressed images in memory
-	@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
+	/** This filter is documented in wp-includes/class-wp-image-editor-gd.php */
+	$image_memory_limit = apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT );
+
+	// Set artificially high because GD uses uncompressed images in memory.
+	@ini_set( 'memory_limit', $image_memory_limit );
+
 	$image = imagecreatefromstring( file_get_contents( $file ) );
 
 	if ( !is_resource( $image ) )
