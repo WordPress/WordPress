@@ -5,7 +5,7 @@
 	tinymce.PluginManager.add( 'wpview', function( editor ) {
 		function noop () {}
 
-		if ( ! wp || ! wp.mce ) {
+		if ( ! wp || ! wp.mce || ! wp.mce.views ) {
 			return {
 				getView: noop
 			};
