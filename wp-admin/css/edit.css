@@ -377,16 +377,6 @@ form#tags-filter {
 	position: relative;
 }
 
-#content-textarea-clone {
-	z-index: -1;
-	position: absolute;
-	top: 0;
-	visibility: hidden;
-	overflow: hidden;
-	max-width: 100%;
-	border: 1px solid transparent;
-}
-
 .wp-editor-expand #wp-content-editor-tools {
 	z-index: 1000;
 	border-bottom: 1px solid #e5e5e5;
