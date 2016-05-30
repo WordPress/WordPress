@@ -632,7 +632,11 @@ class WP_Meta_Query {
 			}
 
 			if ( $where ) {
-				$sql_chunks['where'][] = "CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$where}";
+				if ( 'CHAR' === $meta_type ) {
+					$sql_chunks['where'][] = "$alias.meta_value {$meta_compare} {$where}";
+				} else {
+					$sql_chunks['where'][] = "CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$where}";
+				}
 			}
 		}
 
