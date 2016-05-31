@@ -1183,15 +1183,19 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	 * (a) a second non-empty parameter is passed, or
 	 * (b) the first parameter shares no keys with the default array (ie, it's a list of taxonomies)
 	 */
-	$key_intersect  = array_intersect_key( $term_query->query_var_defaults, (array) $args );
+	$_args = wp_parse_args( $args );
+	$key_intersect  = array_intersect_key( $term_query->query_var_defaults, (array) $_args );
 	$do_legacy_args = $deprecated || empty( $key_intersect );
 
 	if ( $do_legacy_args ) {
 		$taxonomies = (array) $args;
-		$args = $deprecated;
+		$args = wp_parse_args( $deprecated );
 		$args['taxonomy'] = $taxonomies;
-	} elseif ( isset( $args['taxonomy'] ) && null !== $args['taxonomy'] ) {
-		$args['taxonomy'] = (array) $args['taxonomy'];
+	} else {
+		$args = wp_parse_args( $args );
+		if ( isset( $args['taxonomy'] ) && null !== $args['taxonomy'] ) {
+			$args['taxonomy'] = (array) $args['taxonomy'];
+		}
 	}
 
 	$empty_array = array();
