@@ -493,7 +493,9 @@ function download_url( $url, $timeout = 300 ) {
 	if ( ! $url )
 		return new WP_Error('http_no_url', __('Invalid URL Provided.'));
 
-	$tmpfname = wp_tempnam($url);
+	$url_filename = basename( parse_url( $url, PHP_URL_PATH ) );
+
+	$tmpfname = wp_tempnam( $url_filename );
 	if ( ! $tmpfname )
 		return new WP_Error('http_no_file', __('Could not create Temporary file.'));
 
