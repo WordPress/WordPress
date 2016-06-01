@@ -1129,6 +1129,7 @@ p.popular-tags a {
 	padding: 0 4px;
 	color: #72777C;
 	font-size: 13px;
+	word-break: break-all;
 }
 
 .comment-ays .comment-content p.edit-comment {
