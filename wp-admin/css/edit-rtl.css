@@ -634,19 +634,6 @@ span.wp-media-buttons-icon:before {
 	max-width: 100%;
 }
 
-#poststuff .inside label.spam,
-#poststuff .inside label.deleted {
-	color: red;
-}
-
-#poststuff .inside label.waiting {
-	color: orange;
-}
-
-#poststuff .inside label.approved {
-	color: green;
-}
-
 .ie8 #poststuff .inside #parent_id,
 .ie8 #poststuff .inside #page_template {
 	width: 250px;
