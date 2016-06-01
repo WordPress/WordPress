@@ -1425,8 +1425,9 @@ body.custom-background { <?php echo trim( $style ); ?> }
 function add_editor_style( $stylesheet = 'editor-style.css' ) {
 	add_theme_support( 'editor-style' );
 
-	if ( ! is_admin() )
+	if ( (bool) apply_filters( 'disable_editor_style', ! is_admin() ) ) {
 		return;
+	}
 
 	global $editor_styles;
 	$editor_styles = (array) $editor_styles;
