@@ -3772,11 +3772,11 @@ AttachmentsBrowser = View.extend({
 		this.controller.on( 'toggle:upload:attachment', this.toggleUploader, this );
 		this.controller.on( 'edit:selection', this.editSelection );
 		this.createToolbar();
+		this.createUploader();
+		this.createAttachments();
 		if ( this.options.sidebar ) {
 			this.createSidebar();
 		}
-		this.createUploader();
-		this.createAttachments();
 		this.updateContent();
 
 		if ( ! this.options.sidebar || 'errors' === this.options.sidebar ) {
