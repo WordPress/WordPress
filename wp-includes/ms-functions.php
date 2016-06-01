@@ -2447,38 +2447,29 @@ function wp_get_sites( $args = array() ) {
 
 	$args = wp_parse_args( $args, $defaults );
 
-	$query = "SELECT * FROM $wpdb->blogs WHERE 1=1 ";
-
-	if ( isset( $args['network_id'] ) && ( is_array( $args['network_id'] ) || is_numeric( $args['network_id'] ) ) ) {
-		$network_ids = implode( ',', wp_parse_id_list( $args['network_id'] ) );
-		$query .= "AND site_id IN ($network_ids) ";
+	// Backwards compatibility
+	if( is_array( $args['network_id'] ) ){
+		$args['network__in'] = $args['network_id'];
+		$args['network_id'] = null;
 	}
 
-	if ( isset( $args['public'] ) )
-		$query .= $wpdb->prepare( "AND public = %d ", $args['public'] );
-
-	if ( isset( $args['archived'] ) )
-		$query .= $wpdb->prepare( "AND archived = %d ", $args['archived'] );
-
-	if ( isset( $args['mature'] ) )
-		$query .= $wpdb->prepare( "AND mature = %d ", $args['mature'] );
-
-	if ( isset( $args['spam'] ) )
-		$query .= $wpdb->prepare( "AND spam = %d ", $args['spam'] );
-
-	if ( isset( $args['deleted'] ) )
-		$query .= $wpdb->prepare( "AND deleted = %d ", $args['deleted'] );
-
-	if ( isset( $args['limit'] ) && $args['limit'] ) {
-		if ( isset( $args['offset'] ) && $args['offset'] )
-			$query .= $wpdb->prepare( "LIMIT %d , %d ", $args['offset'], $args['limit'] );
-		else
-			$query .= $wpdb->prepare( "LIMIT %d ", $args['limit'] );
+	if( is_numeric( $args['limit'] ) ){
+		$args['number'] = $args['limit'];
+		$args['limit'] = null;
 	}
 
-	$site_results = $wpdb->get_results( $query, ARRAY_A );
+	// Make sure count is disabled.
+	$args['count'] = false;
 
-	return $site_results;
+	$_sites  = get_sites( $args );
+
+	$results = array();
+
+	foreach ( $_sites as $_site ) {
+		$results[] = get_site( $_site, ARRAY_A );
+	}
+
+	return $results;
 }
 
 /**
