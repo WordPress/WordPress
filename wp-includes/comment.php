@@ -1588,6 +1588,9 @@ function wp_insert_comment( $commentdata ) {
 	if ( $comment_approved == 1 ) {
 		wp_update_comment_count( $comment_post_ID );
 	}
+
+	clean_comment_cache( $id );
+
 	$comment = get_comment( $id );
 
 	// If metadata is provided, store it.
@@ -1606,8 +1609,6 @@ function wp_insert_comment( $commentdata ) {
 	 * @param WP_Comment $comment Comment object.
 	 */
 	do_action( 'wp_insert_comment', $id, $comment );
-
-	wp_cache_set( 'last_changed', microtime(), 'comment' );
 
 	return $id;
 }
