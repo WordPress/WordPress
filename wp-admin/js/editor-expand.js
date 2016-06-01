@@ -16,7 +16,7 @@
 			$textTop = $( '#ed_toolbar' ),
 			$textEditor = $( '#content' ),
 			textEditor = $textEditor[0],
-			textEditorLength = 0,
+			oldTextLength = 0,
 			$bottom = $( '#post-status-info' ),
 			$menuBar = $(),
 			$statusBar = $(),
@@ -76,8 +76,6 @@
 		}
 
 		function textEditorResize() {
-			var reduce, scrollHeight;
-
 			if ( mceEditor && ! mceEditor.isHidden() ) {
 				return;
 			}
@@ -86,17 +84,28 @@
 				return;
 			}
 
-			reduce = textEditorLength > ( textEditorLength = textEditor.value.length );
-			scrollHeight = textEditor.scrollHeight;
+			var length = textEditor.value.length;
+			var height = parseInt( textEditor.style.height, 10 );
 
-			if ( reduce ) {
+			if ( length < oldTextLength ) {
+				// textEditor.scrollHeight is not adjusted until the next line.
 				textEditor.style.height = 'auto';
-				textEditor.style.height = scrollHeight + 'px';
-				adjust();
-			} else if ( parseInt( textEditor.style.height, 10 ) < scrollHeight ) {
-				textEditor.style.height = scrollHeight + 'px';
+
+				if ( textEditor.scrollHeight >= autoresizeMinHeight ) {
+					textEditor.style.height = textEditor.scrollHeight + 'px';
+				} else {
+					textEditor.style.height = autoresizeMinHeight + 'px';
+				}
+
+				if ( textEditor.scrollHeight < height ) {
+					adjust();
+				}
+			} else if ( height < textEditor.scrollHeight ) {
+				textEditor.style.height = textEditor.scrollHeight + 'px';
 				adjust();
 			}
+
+			oldTextLength = length;
 		}
 
 		// We need to wait for TinyMCE to initialize.
