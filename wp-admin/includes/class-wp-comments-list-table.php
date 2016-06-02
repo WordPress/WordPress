@@ -201,8 +201,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 		$status_links = array();
 		$num_comments = ( $post_id ) ? wp_count_comments( $post_id ) : wp_count_comments();
-		//, number_format_i18n($num_comments->moderated) ), "<span class='comment-count'>" . number_format_i18n($num_comments->moderated) . "</span>"),
-		//, number_format_i18n($num_comments->spam) ), "<span class='spam-comment-count'>" . number_format_i18n($num_comments->spam) . "</span>")
+
 		$stati = array(
 			/* translators: %s: all comments count */
 			'all' => _nx_noop(
