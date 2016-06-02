@@ -742,12 +742,13 @@ class WP_Comment_Query {
 			}
 		}
 
-		if ( $this->query_vars['hierarchical'] && ! $this->query_vars['parent'] ) {
-			$this->query_vars['parent'] = 0;
+		$parent = $this->query_vars['parent'];
+		if ( $this->query_vars['hierarchical'] && ! $parent ) {
+			$parent = 0;
 		}
 
-		if ( '' !== $this->query_vars['parent'] ) {
-			$this->sql_clauses['where']['parent'] = $wpdb->prepare( 'comment_parent = %d', $this->query_vars['parent'] );
+		if ( '' !== $parent ) {
+			$this->sql_clauses['where']['parent'] = $wpdb->prepare( 'comment_parent = %d', $parent );
 		}
 
 		if ( is_array( $this->query_vars['user_id'] ) ) {
@@ -941,20 +942,49 @@ class WP_Comment_Query {
 			}
 		}
 
+		$key = md5( serialize( wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) ) ) );
+		$last_changed = wp_cache_get( 'last_changed', 'comment' );
+		if ( ! $last_changed ) {
+			$last_changed = microtime();
+			wp_cache_set( 'last_changed', $last_changed, 'comment' );
+		}
+
 		// Fetch an entire level of the descendant tree at a time.
 		$level = 0;
 		do {
-			$parent_ids = $levels[ $level ];
-			if ( ! $parent_ids ) {
-				break;
+			// Parent-child relationships may be cached. Only query for those that are not.
+			$child_ids = $uncached_parent_ids = array();
+			$_parent_ids = $levels[ $level ];
+			foreach ( $_parent_ids as $parent_id ) {
+				$cache_key = "get_comment_child_ids:$parent_id:$key:$last_changed";
+				$parent_child_ids = wp_cache_get( $cache_key, 'comment' );
+				if ( false !== $parent_child_ids ) {
+					$child_ids = array_merge( $child_ids, $parent_child_ids );
+				} else {
+					$uncached_parent_ids[] = $parent_id;
+				}
 			}
 
-			$where = 'WHERE ' . $_where . ' AND comment_parent IN (' . implode( ',', array_map( 'intval', $parent_ids ) ) . ')';
-			$comment_ids = $wpdb->get_col( "{$this->sql_clauses['select']} {$this->sql_clauses['from']} {$where} {$this->sql_clauses['groupby']} ORDER BY comment_date_gmt ASC, comment_ID ASC" );
+			if ( $uncached_parent_ids ) {
+				$where = 'WHERE ' . $_where . ' AND comment_parent IN (' . implode( ',', array_map( 'intval', $uncached_parent_ids ) ) . ')';
+				$level_comments = $wpdb->get_results( "SELECT $wpdb->comments.comment_ID, $wpdb->comments.comment_parent {$this->sql_clauses['from']} {$where} {$this->sql_clauses['groupby']} ORDER BY comment_date_gmt ASC, comment_ID ASC" );
+
+				// Cache parent-child relationships.
+				$parent_map = array_fill_keys( $uncached_parent_ids, array() );
+				foreach ( $level_comments as $level_comment ) {
+					$parent_map[ $level_comment->comment_parent ][] = $level_comment->comment_ID;
+					$child_ids[] = $level_comment->comment_ID;
+				}
+
+				foreach ( $parent_map as $parent_id => $children ) {
+					$cache_key = "get_comment_child_ids:$parent_id:$key:$last_changed";
+					wp_cache_set( $cache_key, $children, 'comment' );
+				}
+			}
 
 			$level++;
-			$levels[ $level ] = $comment_ids;
-		} while ( $comment_ids );
+			$levels[ $level ] = $child_ids;
+		} while ( $child_ids );
 
 		// Prime comment caches for non-top-level comments.
 		$descendant_ids = array();
