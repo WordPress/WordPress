@@ -1030,30 +1030,38 @@ jQuery(document).ready( function($) {
 }
 
 /**
- * Outputs the HTML for a network's "Edit Site" tabular interface
+ * Outputs the HTML for a network's "Edit Site" tabular interface.
  *
  * @since 4.6.0
- *
- * @link https://core.trac.wordpress.org/ticket/15800 discussion
  *
  * @param $args {
  *     Optional. Array or string of Query parameters.
  *
  *     @type int     $blog_id   The site ID. Default is the current site.
- *     @type array   $links     The tabs to include with (label|url|cap) keys
- *     @type string  $selected  The ID of the selected link
+ *     @type array   $links     The tabs to include with (label|url|cap) keys.
+ *     @type string  $selected  The ID of the selected link.
  * }
  */
 function network_edit_site_nav( $args = array() ) {
 
 	/**
-	 * Filters the links that appear on site-editing network pages
+	 * Filters the links that appear on site-editing network pages.
 	 *
-	 * Default links: 'site-info', 'site-users', 'site-themes', and 'site-settings'
+	 * Default links: 'site-info', 'site-users', 'site-themes', and 'site-settings'.
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param array Array of link data.
+	 * @param array $links {
+	 *     An array of link data representing individual network admin pages.
+	 *
+	 *     @type array $link_slug {
+	 *         An array of information about the individual link to a page.
+	 *
+	 *         $type string $label Label to use for the link.
+	 *         $type string $url   URL, relative to `network_admin_url()` to use for the link.
+	 *         $type string $cap   Capability required to see the link.
+	 *     }
+	 * }
 	 */
 	$links = apply_filters( 'network_edit_site_nav_links', array(
 		'site-info'     => array( 'label' => __( 'Info' ),     'url' => 'site-info.php',     'cap' => 'manage_sites' ),
@@ -1089,7 +1097,7 @@ function network_edit_site_nav( $args = array() ) {
 		}
 
 		// Escape each class
-		$esc_classes = implode( ' ', array_map( 'esc_attr', $classes ) );
+		$esc_classes = implode( ' ', $classes );
 
 		// Get the URL for this link
 		$url = add_query_arg( array( 'id' => $r['blog_id'] ), network_admin_url( $link['url'] ) );
@@ -1098,14 +1106,8 @@ function network_edit_site_nav( $args = array() ) {
 		$screen_links[ $link_id ] = '<a href="' . esc_url( $url ) . '" id="' . esc_attr( $link_id ) . '" class="' . $esc_classes . '">' . esc_html( $link['label'] ) . '</a>';
 	}
 
-	// Start a buffer
-	ob_start();
-
 	// All done!
 	echo '<h2 class="nav-tab-wrapper wp-clearfix">';
 	echo implode( '', $screen_links );
 	echo '</h2>';
-
-	// Output the nav
-	echo ob_get_clean();
 }
