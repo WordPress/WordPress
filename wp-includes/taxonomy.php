@@ -1198,8 +1198,6 @@ function get_terms( $args = array(), $deprecated = '' ) {
 		}
 	}
 
-	$empty_array = array();
-
 	if ( ! empty( $args['taxonomy'] ) ) {
 		foreach ( $args['taxonomy'] as $taxonomy ) {
 			if ( ! taxonomy_exists( $taxonomy ) ) {
