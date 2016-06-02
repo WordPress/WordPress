@@ -892,24 +892,6 @@ function heartbeat_autosave( $response, $data ) {
 }
 
 /**
- * Disables autocomplete on the 'post' form (Add/Edit Post screens) for WebKit browsers,
- * as they disregard the autocomplete setting on the editor textarea. That can break the editor
- * when the user navigates to it with the browser's Back button. See #28037
- *
- * @since 4.0.0
- *
- * @global bool $is_safari
- * @global bool $is_chrome
- */
-function post_form_autocomplete_off() {
-	global $is_safari, $is_chrome;
-
-	if ( $is_safari || $is_chrome ) {
-		echo ' autocomplete="off"';
-	}
-}
-
-/**
  * Remove single-use URL parameters and create canonical link based on new URL.
  *
  * Remove specific query string parameters from a URL, create the canonical link,
@@ -935,4 +917,22 @@ function wp_admin_canonical_url() {
 		}
 	</script>
 <?php
+}
+
+/**
+ * Output JS that reloads the page if the user navigated to it with the Back or Forward button.
+ *
+ * Used on the Edit Post and Add New Post screens. Needed to ensure the page is not loaded from browser cache,
+ * so the post title and editor content are the last saved versions. Ideally this script should run first in the head.
+ *
+ * @since 4.6.0
+ */
+function wp_page_reload_on_back_button_js() {
+	?>
+	<script>
+		if ( typeof performance !== 'undefined' && performance.navigation && performance.navigation.type === 2 ) {
+			document.location.reload( true );
+		}
+	</script>
+	<?php
 }
