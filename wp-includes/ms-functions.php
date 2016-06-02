@@ -296,6 +296,7 @@ function get_blog_permalink( $blog_id, $post_id ) {
  * $domain is 'blog1.example.com' and $path is '/'.
  *
  * @since MU 2.6.5
+ * @since 4.6.0 Converted to use get_sites()
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -304,8 +305,6 @@ function get_blog_permalink( $blog_id, $post_id ) {
  * @return int 0 if no blog found, otherwise the ID of the matching blog
  */
 function get_blog_id_from_url( $domain, $path = '/' ) {
-	global $wpdb;
-
 	$domain = strtolower( $domain );
 	$path = strtolower( $path );
 	$id = wp_cache_get( md5( $domain . $path ), 'blog-id-cache' );
@@ -315,7 +314,13 @@ function get_blog_id_from_url( $domain, $path = '/' ) {
 	elseif ( $id )
 		return (int) $id;
 
-	$id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s and path = %s /* get_blog_id_from_url */", $domain, $path ) );
+	$args = array(
+		'domain' => $domain,
+		'path' => $path,
+		'fields' => 'ids',
+	);
+	$result = get_sites( $args );
+	$id = array_shift( $result );
 
 	if ( ! $id ) {
 		wp_cache_set( md5( $domain . $path ), -1, 'blog-id-cache' );
@@ -1247,6 +1252,7 @@ Disable these notifications: %3$s'), $user->user_login, wp_unslash( $_SERVER['RE
  * that each blogname is unique.
  *
  * @since MU
+ * @since 4.6.0 Converted to use get_sites()
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1256,9 +1262,15 @@ Disable these notifications: %3$s'), $user->user_login, wp_unslash( $_SERVER['RE
  * @return int
  */
 function domain_exists($domain, $path, $site_id = 1) {
-	global $wpdb;
 	$path = trailingslashit( $path );
-	$result = $wpdb->get_var( $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s AND site_id = %d", $domain, $path, $site_id) );
+	$args = array(
+		'network_id' => $site_id,
+		'domain' => $domain,
+		'path' => $path,
+		'fields' => 'ids',
+	);
+	$result = get_sites( $args );
+	$result = array_shift( $result );
 
 	/**
 	 * Filters whether a blogname is taken.
@@ -2247,13 +2259,21 @@ function wp_maybe_update_network_user_counts() {
  * Update the network-wide site count.
  *
  * @since 3.7.0
+ * @since 4.6.0 Converted to use get_sites()
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  */
 function wp_update_network_site_counts() {
 	global $wpdb;
 
-	$count = $wpdb->get_var( $wpdb->prepare("SELECT COUNT(blog_id) as c FROM $wpdb->blogs WHERE site_id = %d AND spam = '0' AND deleted = '0' and archived = '0'", $wpdb->siteid) );
+	$count = get_sites( array(
+		'network_id' => $wpdb->siteid,
+		'spam'       => 0,
+		'deleted'    => 0,
+		'archived'   => 0,
+		'count'      => true,
+	) );
+
 	update_site_option( 'blog_count', $count );
 }
 
