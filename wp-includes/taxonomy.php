@@ -1208,6 +1208,11 @@ function get_terms( $args = array(), $deprecated = '' ) {
 
 	$terms = $term_query->query( $args );
 
+	// Count queries are not filtered, for legacy reasons.
+	if ( $term_query->query_vars['count'] ) {
+		return $terms;
+	}
+
 	/**
 	 * Filters the found terms.
 	 *
