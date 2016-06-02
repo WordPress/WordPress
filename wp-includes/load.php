@@ -183,6 +183,21 @@ function wp_maintenance() {
 	// If the $upgrading timestamp is older than 10 minutes, don't die.
 	if ( ( time() - $upgrading ) >= 600 )
 		return;
+	
+	/**
+	 * Bypass the maintenance mode check
+	 *
+	 * This filter should *NOT* be used by plugins. It is designed for non-web
+	 * runtimes. If this filter returns true, maintenance mode will not be  
+	 * active which can cause problems during updates for web site views.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param bool True to bypass maintenance
+	 */
+	if ( apply_filters( 'bypass_maintenance_mode', false ) ){
+		return;	
+	}
 
 	if ( file_exists( WP_CONTENT_DIR . '/maintenance.php' ) ) {
 		require_once( WP_CONTENT_DIR . '/maintenance.php' );
@@ -285,6 +300,22 @@ function timer_stop( $display = 0, $precision = 3 ) {
  * @access private
  */
 function wp_debug_mode() {
+	/**
+	 * Bypass the debug mode check
+	 *
+	 * This filter should *NOT* be used by plugins. It is designed for non-web
+	 * runtimes. Returning true causes the WP_DEBUG and related constants to
+	 * not be checked and the default php values for errors will be used unless
+	 * you take care to update them yourself.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param bool True to bypass debug mode 
+	 */
+	if ( apply_filters( 'bypass_debug_mode', false ) ){
+		return;	
+	}
+
 	if ( WP_DEBUG ) {
 		error_reporting( E_ALL );
 

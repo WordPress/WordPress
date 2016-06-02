@@ -70,8 +70,18 @@ timer_start();
 // Check if we're in WP_DEBUG mode.
 wp_debug_mode();
 
+/**
+ * Bypass the loading of advanced-cache.php
+ *
+ * This filter should *NOT* be used by plugins. It is designed for non-web
+ * runtimes. If true is returned, advance-cache.php will never be loaded.
+ *
+ * @since 4.6.0
+ *
+ * @param bool True to bypass advanced-cache.php
+ */
+if ( WP_CACHE && ! apply_filters( 'bypass_advanced_cache', false )  ) {
 // For an advanced caching plugin to use. Uses a static drop-in because you would only want one.
-if ( WP_CACHE ) {
 	_backup_plugin_globals();
 	WP_DEBUG ? include( WP_CONTENT_DIR . '/advanced-cache.php' ) : @include( WP_CONTENT_DIR . '/advanced-cache.php' );
 	_restore_plugin_globals();
