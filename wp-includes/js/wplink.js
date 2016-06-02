@@ -19,6 +19,7 @@ var wpLink;
 		keySensitivity: 100,
 		lastSearch: '',
 		textarea: '',
+		modalOpen: false,
 
 		init: function() {
 			inputs.wrap = $('#wp-link-wrap');
@@ -97,6 +98,7 @@ var wpLink;
 				$body = $( document.body );
 
 			$body.addClass( 'modal-open' );
+			wpLink.modalOpen = true;
 			linkNode = node;
 
 			wpLink.range = null;
@@ -274,6 +276,7 @@ var wpLink;
 
 		close: function( reset ) {
 			$( document.body ).removeClass( 'modal-open' );
+			wpLink.modalOpen = false;
 
 			if ( reset !== 'noReset' ) {
 				if ( ! wpLink.isMCE() ) {
