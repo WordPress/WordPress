@@ -228,7 +228,7 @@ var wpLink;
 				onlyText = this.hasSelectedText( linkNode );
 
 			if ( linkNode ) {
-				linkText = linkNode.innerText || linkNode.textContent;
+				linkText = linkNode.textContent || linkNode.innerText;
 				href = editor.dom.getAttrib( linkNode, 'href' );
 
 				if ( ! $.trim( linkText ) ) {
