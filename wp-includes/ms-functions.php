@@ -1147,6 +1147,8 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $s
 	 */
 	do_action( 'wpmu_new_blog', $blog_id, $user_id, $domain, $path, $site_id, $meta );
 
+	wp_cache_set( 'last_changed', microtime(), 'sites' );
+
 	return $blog_id;
 }
 

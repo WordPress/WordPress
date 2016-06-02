@@ -465,6 +465,8 @@ function clean_blog_cache( $blog ) {
 	 * @param string  $domain_path_key md5 hash of domain and path.
 	 */
 	do_action( 'clean_site_cache', $blog_id, $blog, $domain_path_key );
+
+	wp_cache_set( 'last_changed', microtime(), 'sites' );
 }
 
 /**
