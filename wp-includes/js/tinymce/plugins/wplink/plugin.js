@@ -158,7 +158,7 @@
 				editToolbar = editor.wp._createToolbar( editButtons, true );
 
 				editToolbar.on( 'show', function() {
-					if ( typeof window.wpLink === 'undefiend' || ! window.wpLink.modalOpen ) {
+					if ( typeof window.wpLink === 'undefined' || ! window.wpLink.modalOpen ) {
 						window.setTimeout( function() {
 							var element = editToolbar.$el.find( 'input.ui-autocomplete-input' )[0],
 								selection = linkNode && ( linkNode.textContent || linkNode.innerText );
@@ -475,7 +475,7 @@
 			var linkNode = editor.dom.getParent( event.element, 'a' ),
 				$linkNode, href, edit;
 
-			if ( typeof window.wpLink !== 'undefiend' && window.wpLink.modalOpen ) {
+			if ( typeof window.wpLink !== 'undefined' && window.wpLink.modalOpen ) {
 				editToolbar.tempHide = true;
 				return;
 			}
