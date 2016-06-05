@@ -114,7 +114,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	 */
 	public function upgrade_strings() {
 		$this->strings['starting_upgrade'] = __( 'Some of your translations need updating. Sit tight for a few more seconds while we update them as well.' );
-		$this->strings['up_to_date'] = __( 'The translation is up to date.' ); // We need to silently skip this case
+		$this->strings['up_to_date'] = __( 'The translations are up to date.' );
 		$this->strings['no_package'] = __( 'Update package not available.' );
 		$this->strings['downloading_package'] = __( 'Downloading translation from <span class="code">%s</span>&#8230;' );
 		$this->strings['unpack_package'] = __( 'Unpacking the update&#8230;' );
@@ -181,10 +181,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 
 		if ( empty( $language_updates ) ) {
 			$this->skin->header();
-			$this->skin->before();
 			$this->skin->set_result( true );
 			$this->skin->feedback( 'up_to_date' );
-			$this->skin->after();
 			$this->skin->bulk_footer();
 			$this->skin->footer();
 			return true;
