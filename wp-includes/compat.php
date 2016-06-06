@@ -434,3 +434,84 @@ if ( ! interface_exists( 'JsonSerializable' ) ) {
 if ( ! function_exists( 'random_int' ) ) {
 	require ABSPATH . WPINC . '/random_compat/random.php';
 }
+
+// SPL can be disabled on PHP 5.2
+if ( ! function_exists( 'spl_autoload_register' ) ):
+	$_wp_spl_autoloaders = array();
+
+	/**
+	 * Autoloader compatibility callback.
+	 *
+	 * @param string $classname Class to attempt autoloading.
+	 */
+	function __autoload( $classname ) {
+		global $_wp_spl_autoloaders;
+		foreach ( $_wp_spl_autoloaders as $autoloader ) {
+			if ( ! is_callable( $autoloader ) ) {
+				// Avoid the extra warning if the autoloader isn't callable.
+				continue;
+			}
+
+			call_user_func( $autoloader, $classname );
+
+			// If it has been autoloaded, stop processing.
+			if ( class_exists( $classname, false ) ) {
+				return;
+			}
+		}
+	}
+
+	/**
+	 * Register a function to be autoloaded.
+	 *
+	 * @param callable $autoload_function The function to register.
+	 * @param boolean $throw Should the function throw an exception if the function isn't callable?
+	 * @param boolean $prepend Should we prepend the function to the stack?
+	 */
+	function spl_autoload_register( $autoload_function, $throw = true, $prepend = false ) {
+		if ( $throw && ! is_callable( $autoload_function ) ) {
+			// String not translated to match PHP core.
+			throw new Exception( 'Function not callable' );
+		}
+
+		global $_wp_spl_autoloaders;
+
+		// Don't allow multiple registration.
+		if ( in_array( $autoload_function, $_wp_spl_autoloaders ) ) {
+			return;
+		}
+
+		if ( $prepend ) {
+			array_unshift( $_wp_spl_autoloaders, $autoload_function );
+		} else {
+			$_wp_spl_autoloaders[] = $autoload_function;
+		}
+	}
+
+	/**
+	 * Unregister an autoloader function.
+	 *
+	 * @param callable $function The function to unregister.
+	 * @return boolean True if the function was unregistered, false if it could not be.
+	 */
+	function spl_autoload_unregister( $function ) {
+		global $_wp_spl_autoloaders;
+		foreach ( $_wp_spl_autoloaders as &$autoloader ) {
+			if ( $autoloader === $function ) {
+				unset( $autoloader );
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the registered autoloader functions.
+	 *
+	 * @return array List of autoloader functions.
+	 */
+	function spl_autoload_functions() {
+		return $GLOBALS['_wp_spl_autoloaders'];
+	}
+endif;
