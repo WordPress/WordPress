@@ -442,6 +442,8 @@ if ( ! function_exists( 'spl_autoload_register' ) ):
 	/**
 	 * Autoloader compatibility callback.
 	 *
+	 * @since 4.6.0
+	 *
 	 * @param string $classname Class to attempt autoloading.
 	 */
 	function __autoload( $classname ) {
@@ -463,6 +465,8 @@ if ( ! function_exists( 'spl_autoload_register' ) ):
 
 	/**
 	 * Register a function to be autoloaded.
+	 *
+	 * @since 4.6.0
 	 *
 	 * @param callable $autoload_function The function to register.
 	 * @param boolean $throw Should the function throw an exception if the function isn't callable?
@@ -491,6 +495,8 @@ if ( ! function_exists( 'spl_autoload_register' ) ):
 	/**
 	 * Unregister an autoloader function.
 	 *
+	 * @since 4.6.0
+	 *
 	 * @param callable $function The function to unregister.
 	 * @return boolean True if the function was unregistered, false if it could not be.
 	 */
@@ -508,6 +514,8 @@ if ( ! function_exists( 'spl_autoload_register' ) ):
 
 	/**
 	 * Get the registered autoloader functions.
+	 *
+	 * @since 4.6.0
 	 *
 	 * @return array List of autoloader functions.
 	 */
