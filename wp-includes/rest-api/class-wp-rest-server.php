@@ -280,14 +280,8 @@ class WP_REST_Server {
 				return false;
 			}
 
-			// Check for invalid characters (only alphanumeric allowed).
-			if ( is_string( $_GET['_jsonp'] ) ) {
-				$jsonp_callback = preg_replace( '/[^\w\.]/', '', wp_unslash( $_GET['_jsonp'] ), -1, $illegal_char_count );
-				if ( 0 !== $illegal_char_count ) {
-					$jsonp_callback = null;
-				}
-			}
-			if ( null === $jsonp_callback ) {
+			$jsonp_callback = $_GET['_jsonp'];
+			if ( ! wp_check_jsonp_callback( $jsonp_callback ) ) {
 				echo $this->json_error( 'rest_callback_invalid', __( 'The JSONP callback function is invalid.' ), 400 );
 				return false;
 			}
