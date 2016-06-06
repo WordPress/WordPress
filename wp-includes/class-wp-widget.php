@@ -16,9 +16,8 @@
  *
  * @since 2.8.0
  * @since 4.4.0 Moved to its own file from wp-includes/widgets.php
- * @abstract
  */
-abstract class WP_Widget {
+class WP_Widget {
 
 	/**
 	 * Root ID for all widgets of this type.
@@ -97,13 +96,14 @@ abstract class WP_Widget {
 	 *
 	 * @since 2.8.0
 	 * @access public
-	 * @abstract
 	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
-	abstract public function widget( $args, $instance );
+	public function widget( $args, $instance ) {
+		die('function WP_Widget::widget() must be over-ridden in a sub-class.');
+	}
 
 	/**
 	 * Updates a particular instance of a widget.
