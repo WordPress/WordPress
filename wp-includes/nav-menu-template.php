@@ -42,7 +42,7 @@ class Walker_Nav_Menu extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of menu item. Used for padding.
-	 * @param array  $args   An array of arguments. @see wp_nav_menu()
+	 * @param array  $args   An array of wp_nav_menu() arguments.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
@@ -58,7 +58,7 @@ class Walker_Nav_Menu extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Depth of menu item. Used for padding.
-	 * @param array  $args   An array of arguments. @see wp_nav_menu()
+	 * @param array  $args   An array of wp_nav_menu() arguments.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		$indent = str_repeat("\t", $depth);
@@ -76,7 +76,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $item   Menu item data object.
 	 * @param int    $depth  Depth of menu item. Used for padding.
-	 * @param array  $args   An array of arguments. @see wp_nav_menu()
+	 * @param array  $args   An array of wp_nav_menu() arguments.
 	 * @param int    $id     Current item ID.
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
@@ -208,7 +208,7 @@ class Walker_Nav_Menu extends Walker {
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $item   Page data object. Not used.
 	 * @param int    $depth  Depth of page. Not Used.
-	 * @param array  $args   An array of arguments. @see wp_nav_menu()
+	 * @param array  $args   An array of wp_nav_menu() arguments.
 	 */
 	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
 		$output .= "</li>\n";
