@@ -2893,7 +2893,7 @@ function _wp_image_editor_choose( $args = array() ) {
 	 * @param array $image_editors List of available image editors. Defaults are
 	 *                             'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD'.
 	 */
-	$implementations = apply_filters( 'wp_image_editors', array( 'WP_Image_Editor_Imagick', 'WP_Image_Editor_GD' ) );
+	$implementations = apply_filters( 'wp_image_editors', array( 'WP_Image_Editor_GD', 'WP_Image_Editor_Imagick' ) );
 
 	foreach ( $implementations as $implementation ) {
 		if ( ! call_user_func( array( $implementation, 'test' ), $args ) )
