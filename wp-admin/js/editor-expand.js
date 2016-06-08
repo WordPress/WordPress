@@ -600,7 +600,7 @@
 
 			// Adjust when collapsing the menu, changing the columns, changing the body class.
 			$document.on( 'wp-collapse-menu.editor-expand postboxes-columnchange.editor-expand editor-classchange.editor-expand', adjust )
-				.on( 'postbox-toggled.editor-expand', function() {
+				.on( 'postbox-toggled.editor-expand postbox-moved.editor-expand', function() {
 					if ( ! fixedSideTop && ! fixedSideBottom && window.pageYOffset > pinnedToolsTop ) {
 						fixedSideBottom = true;
 						window.scrollBy( 0, -1 );

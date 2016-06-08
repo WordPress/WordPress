@@ -139,6 +139,7 @@ var postboxes;
 						$(ui.sender).sortable('cancel');
 
 					postboxes._mark_area();
+					$document.trigger( 'postbox-moved', ui.item );
 				}
 			});
 
