@@ -14,6 +14,9 @@
  * setup the current site.
  *
  * @since 4.5.0
+ *
+ * @property int $id
+ * @property int $network_id
  */
 final class WP_Site {
 
@@ -23,10 +26,10 @@ final class WP_Site {
 	 * A numeric string, for compatibility reasons.
 	 *
 	 * @since 4.5.0
-	 * @access public
+	 * @access private
 	 * @var string
 	 */
-	public $blog_id;
+	private $blog_id;
 
 	/**
 	 * Domain of the site.
@@ -55,10 +58,10 @@ final class WP_Site {
 	 * A numeric string, for compatibility reasons.
 	 *
 	 * @since 4.5.0
-	 * @access public
+	 * @access private
 	 * @var string
 	 */
-	public $site_id = '0';
+	private $site_id = '0';
 
 	/**
 	 * The date on which the site was created or registered.
@@ -209,5 +212,80 @@ final class WP_Site {
 	 */
 	public function to_array() {
 		return get_object_vars( $this );
+	}
+
+	/**
+	 * Getter.
+	 *
+	 * Allows current multisite naming conventions when getting properties.
+	 *
+	 * @since 4.6.0
+	 * @access public
+	 *
+	 * @param string $key Property to get.
+	 * @return mixed Value of the property. Null if not available.
+	 */
+	public function __get( $key ) {
+		switch ( $key ) {
+			case 'id':
+				return (int) $this->blog_id;
+			case 'blog_id':
+				return $this->blog_id;
+			case 'site_id':
+				return $this->site_id;
+			case 'network_id':
+				return (int) $this->site_id;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Isset-er.
+	 *
+	 * Allows current multisite naming conventions when checking for properties.
+	 *
+	 * @since 4.6.0
+	 * @access public
+	 *
+	 * @param string $key Property to check if set.
+	 * @return bool Whether the property is set.
+	 */
+	public function __isset( $key ) {
+		switch ( $key ) {
+			case 'id':
+			case 'blog_id':
+			case 'site_id':
+			case 'network_id':
+				return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Setter.
+	 *
+	 * Allows current multisite naming conventions while setting properties.
+	 *
+	 * @since 4.6.0
+	 * @access public
+	 *
+	 * @param string $key   Property to set.
+	 * @param mixed  $value Value to assign to the property.
+	 */
+	public function __set( $key, $value ) {
+		switch( $key ) {
+			case 'id':
+			case 'blog_id':
+				$this->blog_id = (string) $value;
+				break;
+			case 'site_id':
+			case 'network_id':
+				$this->site_id = (string) $value;
+				break;
+			default:
+				$this->$key = $value;
+		}
 	}
 }
