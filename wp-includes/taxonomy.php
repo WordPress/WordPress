@@ -902,6 +902,13 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
  * If $value does not exist, the return value will be false. If $taxonomy exists
  * and $field and $value combinations exist, the Term will be returned.
  *
+ * This function will always return the first term that matches the `$field`-
+ * `$value`-`$taxonomy` combination specified in the parameters. If your query
+ * is likely to match more than one term (as is likely to be the case when
+ * `$field` is 'name', for example), consider using get_terms() instead; that
+ * way, you will get all matching terms, and can provide your own logic for
+ * deciding which one was intended.
+ *
  * @todo Better formatting for DocBlock.
  *
  * @since 2.3.0
