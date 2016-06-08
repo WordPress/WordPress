@@ -438,3 +438,76 @@ function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
 
 	return false;
 }
+
+/**
+ * Return an array of sites for a network or networks.
+ *
+ * @since 3.7.0
+ * @deprecated 4.6.0
+ * @see get_sites()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param array $args {
+ *     Array of default arguments. Optional.
+ *
+ *     @type int|array $network_id A network ID or array of network IDs. Set to null to retrieve sites
+ *                                 from all networks. Defaults to current network ID.
+ *     @type int       $public     Retrieve public or non-public sites. Default null, for any.
+ *     @type int       $archived   Retrieve archived or non-archived sites. Default null, for any.
+ *     @type int       $mature     Retrieve mature or non-mature sites. Default null, for any.
+ *     @type int       $spam       Retrieve spam or non-spam sites. Default null, for any.
+ *     @type int       $deleted    Retrieve deleted or non-deleted sites. Default null, for any.
+ *     @type int       $limit      Number of sites to limit the query to. Default 100.
+ *     @type int       $offset     Exclude the first x sites. Used in combination with the $limit parameter. Default 0.
+ * }
+ * @return array An empty array if the install is considered "large" via wp_is_large_network(). Otherwise,
+ *               an associative array of site data arrays, each containing the site (network) ID, blog ID,
+ *               site domain and path, dates registered and modified, and the language ID. Also, boolean
+ *               values for whether the site is public, archived, mature, spam, and/or deleted.
+ */
+function wp_get_sites( $args = array() ) {
+	global $wpdb;
+
+	_deprecated_function( __FUNCTION__, '4.6', 'get_sites()' );
+
+	if ( wp_is_large_network() )
+		return array();
+
+	$defaults = array(
+		'network_id' => $wpdb->siteid,
+		'public'     => null,
+		'archived'   => null,
+		'mature'     => null,
+		'spam'       => null,
+		'deleted'    => null,
+		'limit'      => 100,
+		'offset'     => 0,
+	);
+
+	$args = wp_parse_args( $args, $defaults );
+
+	// Backwards compatibility
+	if( is_array( $args['network_id'] ) ){
+		$args['network__in'] = $args['network_id'];
+		$args['network_id'] = null;
+	}
+
+	if( is_numeric( $args['limit'] ) ){
+		$args['number'] = $args['limit'];
+		$args['limit'] = null;
+	}
+
+	// Make sure count is disabled.
+	$args['count'] = false;
+
+	$_sites  = get_sites( $args );
+
+	$results = array();
+
+	foreach ( $_sites as $_site ) {
+		$results[] = (array) get_site( $_site );
+	}
+
+	return $results;
+}
