@@ -275,7 +275,7 @@ final class WP_Site {
 	 * @param mixed  $value Value to assign to the property.
 	 */
 	public function __set( $key, $value ) {
-		switch( $key ) {
+		switch ( $key ) {
 			case 'id':
 			case 'blog_id':
 				$this->blog_id = (string) $value;

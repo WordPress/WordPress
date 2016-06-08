@@ -173,7 +173,7 @@ class WP_Network {
 	 * @return bool Whether the property is set.
 	 */
 	public function __isset( $key ) {
-		switch( $key ) {
+		switch ( $key ) {
 			case 'blog_id':
 			case 'site_id':
 				return true;
@@ -194,7 +194,7 @@ class WP_Network {
 	 * @param mixed  $value Value to assign to the property.
 	 */
 	public function __set( $key, $value ) {
-		switch( $key ) {
+		switch ( $key ) {
 			case 'blog_id':
 			case 'site_id':
 				$this->blog_id = (string) $value;
