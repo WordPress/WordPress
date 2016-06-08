@@ -2488,7 +2488,7 @@ function wp_get_sites( $args = array() ) {
 	$results = array();
 
 	foreach ( $_sites as $_site ) {
-		$results[] = get_site( $_site, ARRAY_A );
+		$results[] = (array) get_site( $_site );
 	}
 
 	return $results;

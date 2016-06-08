@@ -479,11 +479,10 @@ function clean_blog_cache( $blog ) {
  *
  * @global WP_Site $current_blog The current site.
  *
- * @param WP_Site|int $site   Site to retrieve.
- * @param string      $output Optional. Type of output to return. OBJECT or ARRAY_A or ARRAY_N constants.
+ * @param WP_Site|int $site Site to retrieve.
  * @return WP_Site|array|null Depends on $output value.
  */
-function get_site( &$site = null, $output = OBJECT ) {
+function get_site( &$site = null ) {
 	global $current_blog;
 	if ( empty( $site ) && isset( $current_blog ) ) {
 		$site = $current_blog;
@@ -509,14 +508,6 @@ function get_site( &$site = null, $output = OBJECT ) {
 	 * @param mixed $_site Site data.
 	 */
 	$_site = apply_filters( 'get_site', $_site );
-
-	if ( $output == OBJECT ) {
-		return $_site;
-	} elseif ( $output == ARRAY_A ) {
-		return $_site->to_array();
-	} elseif ( $output == ARRAY_N ) {
-		return array_values( $_site->to_array() );
-	}
 
 	return $_site;
 }
