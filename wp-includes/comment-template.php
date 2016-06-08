@@ -1960,13 +1960,23 @@ function wp_list_comments( $args = array(), $comments = null ) {
 
 			$current_per_page = get_query_var( 'comments_per_page' );
 			if ( $r['page'] != $current_cpage || $r['per_page'] != $current_per_page ) {
-
-				$comments = get_comments( array(
+				$comment_args = array(
 					'post_id' => get_the_ID(),
 					'orderby' => 'comment_date_gmt',
 					'order' => 'ASC',
-					'status' => 'all',
-				) );
+					'status' => 'approve',
+				);
+
+				if ( is_user_logged_in() ) {
+					$comment_args['include_unapproved'] = get_current_user_id();
+				} else {
+					$commenter = wp_get_current_commenter();
+					if ( $commenter['comment_author_email'] ) {
+						$comment_args['include_unapproved'] = $commenter['comment_author_email'];
+					}
+				}
+
+				$comments = get_comments( $comment_args );
 
 				if ( 'all' != $r['type'] ) {
 					$comments_by_type = separate_comments( $comments );
