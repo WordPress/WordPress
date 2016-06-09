@@ -62,15 +62,14 @@
 			if ( event.keyCode === VK.ENTER && ! VK.modifierPressed( event ) ) {
 				enter();
 			}
-		}, true );
 
-		editor.on( 'keyup', function( event ) {
+			// Wait for the browser to insert the character.
 			if ( event.keyCode === VK.SPACEBAR && ! event.ctrlKey && ! event.metaKey && ! event.altKey ) {
-				space();
+				setTimeout( space );
 			} else if ( event.keyCode > 47 && ! ( event.keyCode >= 91 && event.keyCode <= 93 ) ) {
-				inline();
+				setTimeout( inline );
 			}
-		} );
+		}, true );
 
 		function inline() {
 			var rng = editor.selection.getRng();
