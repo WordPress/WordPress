@@ -1524,7 +1524,9 @@ function get_editor_stylesheets() {
  *
  * @global array $_wp_theme_features
  *
- * @param string $feature The feature being added.
+ * @param string $feature The feature being added. Likely core values include 'post-formats',
+ *                        'post-thumbnails', 'html5', 'custom-logo', 'custom-header-uploads',
+ *                        'custom-header', 'custom-background', 'title-tag', etc.
  * @return void|bool False on failure, void otherwise.
  */
 function add_theme_support( $feature ) {
