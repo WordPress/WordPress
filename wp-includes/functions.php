@@ -4255,9 +4255,11 @@ function get_main_network_id() {
 		return 1;
 	}
 
+	$current_site = get_current_site();
+
 	if ( defined( 'PRIMARY_NETWORK_ID' ) ) {
 		$main_network_id = PRIMARY_NETWORK_ID;
-	} elseif ( 1 === (int) get_current_site()->id ) {
+	} elseif ( isset( $current_site->id ) && 1 === (int) $current_site->id ) {
 		// If the current network has an ID of 1, assume it is the main network.
 		$main_network_id = 1;
 	} else {

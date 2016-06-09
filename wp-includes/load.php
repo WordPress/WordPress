@@ -808,6 +808,29 @@ function get_current_blog_id() {
 }
 
 /**
+ * Retrieves the current network ID.
+ *
+ * @since 4.6.0
+ *
+ * @global WP_Network $current_site The current network.
+ *
+ * @return int The ID of the current network.
+ */
+function get_current_network_id() {
+	if ( ! is_multisite() ) {
+		return 1;
+	}
+
+	$current_site = get_current_site();
+
+	if ( ! isset( $current_site->id ) ) {
+		return get_main_network_id();
+	}
+
+	return absint( $current_site->id );
+}
+
+/**
  * Attempt an early load of translations.
  *
  * Used for errors encountered during the initial loading process, before
