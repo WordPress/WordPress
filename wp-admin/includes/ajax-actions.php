@@ -395,14 +395,20 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 				$status = $query_vars['comment_status'];
 			if ( !empty( $query_vars['p'] ) )
 				$post_id = (int) $query_vars['p'];
+			if ( ! empty( $query_vars['comment_type'] ) )
+				$type = $query_vars['comment_type'];
 		}
 
-		$comment_count = wp_count_comments($post_id);
+		if ( empty( $type ) ) {
+			// Only use the comment count if not filtering by a comment_type.
+			$comment_count = wp_count_comments($post_id);
 
-		// We're looking for a known type of comment count.
-		if ( isset( $comment_count->$status ) )
-			$total = $comment_count->$status;
-			// Else use the decremented value from above.
+			// We're looking for a known type of comment count.
+			if ( isset( $comment_count->$status ) ) {
+				$total = $comment_count->$status;
+			}
+		}
+		// Else use the decremented value from above.
 	}
 
 	// The time since the last comment count.
