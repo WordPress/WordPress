@@ -865,6 +865,8 @@ function wp_removable_query_args() {
 		'disabled',
 		'enabled',
 		'error',
+		'hotkeys_highlight_first',
+		'hotkeys_highlight_last',
 		'locked',
 		'message',
 		'same',
