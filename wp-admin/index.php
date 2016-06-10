@@ -29,7 +29,7 @@ if ( wp_is_mobile() )
 $title = __('Dashboard');
 $parent_file = 'index.php';
 
-$help = '<p>' . __( 'Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab in the upper corner.' ) . '</p>';
+$help = '<p>' . __( 'Welcome to your WordPress Dashboard! This is the screen you will see when you log in to your site, and gives you access to all the site management features of WordPress. You can get help for any screen by clicking the Help tab above the screen title.' ) . '</p>';
 
 // Not using chaining here, so as to be parseable by PHP4.
 $screen = get_current_screen();
