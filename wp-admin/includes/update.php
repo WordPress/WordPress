@@ -230,10 +230,30 @@ function update_nag() {
 	if ( ! isset( $cur->response ) || $cur->response != 'upgrade' )
 		return false;
 
-	if ( current_user_can('update_core') ) {
-		$msg = sprintf( __( '<a href="https://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> is available! <a href="%2$s" aria-label="Please update WordPress now">Please update now</a>.' ), $cur->current, network_admin_url( 'update-core.php' ) );
+	if ( current_user_can( 'update_core' ) ) {
+		$msg = sprintf(
+			/* translators: 1: Codex URL to release notes, 2: new WordPress version, 3: URL to network admin, 4: accessibility text */
+			__( '<a href="%1$s">WordPress %2$s</a> is available! <a href="%3$s" aria-label="%4$s">Please update now</a>.' ),
+			sprintf(
+				/* translators: %s: WordPress version */
+				esc_url( __( 'https://codex.wordpress.org/Version_%s' ) ),
+				$cur->current
+			),
+			$cur->current,
+			network_admin_url( 'update-core.php' ),
+			esc_attr__( 'Please update WordPress now' )
+		);
 	} else {
-		$msg = sprintf( __('<a href="https://codex.wordpress.org/Version_%1$s">WordPress %1$s</a> is available! Please notify the site administrator.'), $cur->current );
+		$msg = sprintf(
+			/* translators: 1: Codex URL to release notes, 2: new WordPress version */
+			__( '<a href="%1$s">WordPress %2$s</a> is available! Please notify the site administrator.' ),
+			sprintf(
+				/* translators: %s: WordPress version */
+				esc_url( __( 'https://codex.wordpress.org/Version_%s' ) ),
+				$cur->current
+			),
+			$cur->current
+		);
 	}
 	echo "<div class='update-nag'>$msg</div>";
 }
