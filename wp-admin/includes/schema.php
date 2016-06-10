@@ -381,7 +381,7 @@ function populate_options() {
 	$timezone_string = '';
 	$gmt_offset = 0;
 	/* translators: default GMT offset or timezone string. Must be either a valid offset (-12 to 14)
-	   or a valid timezone string (America/New_York). See http://us3.php.net/manual/en/timezones.php
+	   or a valid timezone string (America/New_York). See https://secure.php.net/manual/en/timezones.php
 	   for all timezone strings supported by PHP.
 	*/
 	$offset_or_tz = _x( '0', 'default GMT offset or timezone string' );
@@ -415,11 +415,11 @@ function populate_options() {
 	'default_ping_status' => 'open',
 	'default_pingback_flag' => 1,
 	'posts_per_page' => 10,
-	/* translators: default date format, see http://php.net/date */
+	/* translators: default date format, see https://secure.php.net/date */
 	'date_format' => __('F j, Y'),
-	/* translators: default time format, see http://php.net/date */
+	/* translators: default time format, see https://secure.php.net/date */
 	'time_format' => __('g:i a'),
-	/* translators: links last updated date format, see http://php.net/date */
+	/* translators: links last updated date format, see https://secure.php.net/date */
 	'links_updated_date_format' => __('F j, Y g:i a'),
 	'comment_moderation' => 0,
 	'moderation_notify' => 1,

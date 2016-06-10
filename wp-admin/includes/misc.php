@@ -881,7 +881,7 @@ function heartbeat_autosave( $response, $data ) {
 		} elseif ( empty( $saved ) ) {
 			$response['wp_autosave'] = array( 'success' => false, 'message' => __( 'Error while saving.' ) );
 		} else {
-			/* translators: draft saved date format, see http://php.net/date */
+			/* translators: draft saved date format, see https://secure.php.net/date */
 			$draft_saved_date_format = __( 'g:i:s a' );
 			/* translators: %s: date and time */
 			$response['wp_autosave'] = array( 'success' => true, 'message' => sprintf( __( 'Draft saved at %s.' ), date_i18n( $draft_saved_date_format ) ) );

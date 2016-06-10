@@ -63,12 +63,12 @@ class MagpieRSS {
 		# if PHP xml isn't compiled in, die
 		#
 		if ( !function_exists('xml_parser_create') )
-			trigger_error( "Failed to load PHP's XML Extension. http://www.php.net/manual/en/ref.xml.php" );
+			trigger_error( "Failed to load PHP's XML Extension. https://secure.php.net/manual/en/ref.xml.php" );
 
 		$parser = @xml_parser_create();
 
 		if ( !is_resource($parser) )
-			trigger_error( "Failed to create an instance of PHP's XML parser. http://www.php.net/manual/en/ref.xml.php");
+			trigger_error( "Failed to create an instance of PHP's XML parser. https://secure.php.net/manual/en/ref.xml.php");
 
 		$this->parser = $parser;
 

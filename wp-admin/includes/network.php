@@ -180,8 +180,8 @@ function network_step1( $errors = false ) {
 			/* translators: 1: mod_rewrite, 2: mod_rewrite documentation URL, 3: Google search for mod_rewrite */
 			printf( __( 'If %1$s is disabled, ask your administrator to enable that module, or look at the <a href="%2$s">Apache documentation</a> or <a href="%3$s">elsewhere</a> for help setting it up.' ),
 				'<code>mod_rewrite</code>',
-				'http://httpd.apache.org/docs/mod/mod_rewrite.html',
-				'http://www.google.com/search?q=apache+mod_rewrite'
+				'https://httpd.apache.org/docs/mod/mod_rewrite.html',
+				'https://www.google.com/search?q=apache+mod_rewrite'
 			);
 			echo '</p></div>';
 		}

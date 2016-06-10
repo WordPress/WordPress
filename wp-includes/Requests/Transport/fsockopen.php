@@ -30,7 +30,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 	/**
 	 * Stream metadata
 	 *
-	 * @var array Associative array of properties, see {@see http://php.net/stream_get_meta_data}
+	 * @var array Associative array of properties, see {@see https://secure.php.net/stream_get_meta_data}
 	 */
 	public $info;
 
@@ -341,7 +341,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 	 * Format a URL given GET data
 	 *
 	 * @param array $url_parts
-	 * @param array|object $data Data to build query using, see {@see http://php.net/http_build_query}
+	 * @param array|object $data Data to build query using, see {@see https://secure.php.net/http_build_query}
 	 * @return string URL with data
 	 */
 	protected static function format_get($url_parts, $data) {
@@ -391,7 +391,7 @@ class Requests_Transport_fsockopen implements Requests_Transport {
 	 * names, leading things like 'https://www.github.com/' to be invalid.
 	 * Instead
 	 *
-	 * @see http://tools.ietf.org/html/rfc2818#section-3.1 RFC2818, Section 3.1
+	 * @see https://tools.ietf.org/html/rfc2818#section-3.1 RFC2818, Section 3.1
 	 *
 	 * @throws Requests_Exception On failure to connect via TLS (`fsockopen.ssl.connect_error`)
 	 * @throws Requests_Exception On not obtaining a match for the host (`fsockopen.ssl.no_match`)

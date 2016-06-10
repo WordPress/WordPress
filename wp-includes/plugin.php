@@ -8,7 +8,7 @@
  * To hook methods, you'll need to pass an array one of two ways.
  *
  * Any of the syntaxes explained in the PHP documentation for the
- * {@link http://us2.php.net/manual/en/language.pseudo-types.php#language.types.callback 'callback'}
+ * {@link https://secure.php.net/manual/en/language.pseudo-types.php#language.types.callback 'callback'}
  * type are valid.
  *
  * Also see the {@link https://codex.wordpress.org/Plugin_API Plugin API} for

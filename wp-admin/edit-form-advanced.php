@@ -129,7 +129,7 @@ if ( $viewable ) {
 
 }
 
-/* translators: Publish box date format, see http://php.net/date */
+/* translators: Publish box date format, see https://secure.php.net/date */
 $scheduled_date = date_i18n( __( 'M j, Y @ H:i' ), strtotime( $post->post_date ) );
 
 $messages['post'] = array(

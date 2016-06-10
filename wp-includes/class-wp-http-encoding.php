@@ -88,8 +88,8 @@ class WP_Http_Encoding {
 	 *
 	 * @since 2.8.1
 	 * @link https://core.trac.wordpress.org/ticket/18273
-	 * @link http://au2.php.net/manual/en/function.gzinflate.php#70875
-	 * @link http://au2.php.net/manual/en/function.gzinflate.php#77336
+	 * @link https://secure.php.net/manual/en/function.gzinflate.php#70875
+	 * @link https://secure.php.net/manual/en/function.gzinflate.php#77336
 	 *
 	 * @static
 	 *

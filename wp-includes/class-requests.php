@@ -71,7 +71,7 @@ class Requests {
 	/**
 	 * PATCH method
 	 *
-	 * @link http://tools.ietf.org/html/rfc5789
+	 * @link https://tools.ietf.org/html/rfc5789
 	 * @var string
 	 */
 	const PATCH = 'PATCH';
@@ -287,7 +287,7 @@ class Requests {
 	 * Note: Unlike {@see post} and {@see put}, `$headers` is required, as the
 	 * specification recommends that should send an ETag
 	 *
-	 * @link http://tools.ietf.org/html/rfc5789
+	 * @link https://tools.ietf.org/html/rfc5789
 	 */
 	public static function patch($url, $headers, $data = array(), $options = array()) {
 		return self::request($url, $headers, $data, self::PATCH, $options);
@@ -742,7 +742,7 @@ class Requests {
 	/**
 	 * Decoded a chunked body as per RFC 2616
 	 *
-	 * @see http://tools.ietf.org/html/rfc2616#section-3.6.1
+	 * @see https://tools.ietf.org/html/rfc2616#section-3.6.1
 	 * @param string $data Chunked body
 	 * @return string Decoded body
 	 */
@@ -848,12 +848,12 @@ class Requests {
 	 * Warning: Magic numbers within. Due to the potential different formats that the compressed
 	 * data may be returned in, some "magic offsets" are needed to ensure proper decompression
 	 * takes place. For a simple progmatic way to determine the magic offset in use, see:
-	 * http://core.trac.wordpress.org/ticket/18273
+	 * https://core.trac.wordpress.org/ticket/18273
 	 *
 	 * @since 2.8.1
-	 * @link http://core.trac.wordpress.org/ticket/18273
-	 * @link http://au2.php.net/manual/en/function.gzinflate.php#70875
-	 * @link http://au2.php.net/manual/en/function.gzinflate.php#77336
+	 * @link https://core.trac.wordpress.org/ticket/18273
+	 * @link https://secure.php.net/manual/en/function.gzinflate.php#70875
+	 * @link https://secure.php.net/manual/en/function.gzinflate.php#77336
 	 *
 	 * @param string $gzData String to decompress.
 	 * @return string|bool False on failure.
@@ -891,7 +891,7 @@ class Requests {
 		// java.util.zip.Deflater, Ruby’s Zlib::Deflate, and .NET's
 		// System.IO.Compression.DeflateStream.
 		//
-		// See http://decompres.blogspot.com/ for a quick explanation of this
+		// See https://decompres.blogspot.com/ for a quick explanation of this
 		// data type
 		$huffman_encoded = false;
 

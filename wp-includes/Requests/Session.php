@@ -175,7 +175,7 @@ class Requests_Session {
 	 * Note: Unlike {@see post} and {@see put}, `$headers` is required, as the
 	 * specification recommends that should send an ETag
 	 *
-	 * @link http://tools.ietf.org/html/rfc5789
+	 * @link https://tools.ietf.org/html/rfc5789
 	 */
 	public function patch($url, $headers, $data = array(), $options = array()) {
 		return $this->request($url, $headers, $data, Requests::PATCH, $options);

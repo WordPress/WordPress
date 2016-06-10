@@ -842,7 +842,7 @@ function get_theme_mods() {
  * Retrieve theme modification value for the current theme.
  *
  * If the modification name does not exist, then the $default will be passed
- * through {@link http://php.net/sprintf sprintf()} PHP function with the first
+ * through {@link https://secure.php.net/sprintf sprintf()} PHP function with the first
  * string the template directory URI and the second string the stylesheet
  * directory URI.
  *

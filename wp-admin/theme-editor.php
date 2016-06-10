@@ -112,7 +112,7 @@ case 'update':
 	$newcontent = wp_unslash( $_POST['newcontent'] );
 	$location = 'theme-editor.php?file=' . urlencode( $relative_file ) . '&theme=' . urlencode( $stylesheet ) . '&scrollto=' . $scrollto;
 	if ( is_writeable( $file ) ) {
-		// is_writable() not always reliable, check return value. see comments @ http://uk.php.net/is_writable
+		// is_writable() not always reliable, check return value. see comments @ https://secure.php.net/is_writable
 		$f = fopen( $file, 'w+' );
 		if ( $f !== false ) {
 			fwrite( $f, $newcontent );

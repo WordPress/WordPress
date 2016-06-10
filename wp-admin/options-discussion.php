@@ -195,13 +195,13 @@ $show_avatars = get_option( 'show_avatars' );
 
 <?php
 $ratings = array(
-	/* translators: Content suitability rating: http://bit.ly/89QxZA */
+	/* translators: Content suitability rating: https://en.wikipedia.org/wiki/Motion_Picture_Association_of_America_film_rating_system */
 	'G' => __('G &#8212; Suitable for all audiences'),
-	/* translators: Content suitability rating: http://bit.ly/89QxZA */
+	/* translators: Content suitability rating: https://en.wikipedia.org/wiki/Motion_Picture_Association_of_America_film_rating_system */
 	'PG' => __('PG &#8212; Possibly offensive, usually for audiences 13 and above'),
-	/* translators: Content suitability rating: http://bit.ly/89QxZA */
+	/* translators: Content suitability rating: https://en.wikipedia.org/wiki/Motion_Picture_Association_of_America_film_rating_system */
 	'R' => __('R &#8212; Intended for adult audiences above 17'),
-	/* translators: Content suitability rating: http://bit.ly/89QxZA */
+	/* translators: Content suitability rating: https://en.wikipedia.org/wiki/Motion_Picture_Association_of_America_film_rating_system */
 	'X' => __('X &#8212; Even more mature than above')
 );
 foreach ($ratings as $key => $rating) :

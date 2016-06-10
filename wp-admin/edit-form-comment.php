@@ -89,7 +89,7 @@ if ( 'approved' === wp_get_comment_status( $comment ) && $comment->comment_post_
 
 <div class="misc-pub-section curtime misc-pub-curtime">
 <?php
-/* translators: Publish box date format, see http://php.net/date */
+/* translators: Publish box date format, see https://secure.php.net/date */
 $datef = __( 'M j, Y @ H:i' );
 ?>
 <span id="timestamp"><?php

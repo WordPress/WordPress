@@ -1152,7 +1152,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @since 3.4.0
 	 *
-	 * @link http://en.wikipedia.org/wiki/RSS_enclosure for information on RSS enclosures.
+	 * @link https://en.wikipedia.org/wiki/RSS_enclosure for information on RSS enclosures.
 	 *
 	 * @param array  $args {
 	 *     Method arguments. Note: top-level arguments must be ordered as documented.
@@ -4298,7 +4298,7 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/* Blogger API functions.
-	 * specs on http://plant.blogger.com/api and http://groups.yahoo.com/group/bloggerDev/
+	 * specs on http://plant.blogger.com/api and https://groups.yahoo.com/group/bloggerDev/
 	 */
 
 	/**

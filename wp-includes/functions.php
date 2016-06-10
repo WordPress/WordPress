@@ -675,7 +675,7 @@ function is_new_day() {
  * @since 2.3.0
  *
  * @see _http_build_query() Used to build the query
- * @link http://us2.php.net/manual/en/function.http-build-query.php for more on what
+ * @link https://secure.php.net/manual/en/function.http-build-query.php for more on what
  *		 http_build_query() does.
  *
  * @param array $data URL-encode key/value pairs.
@@ -691,7 +691,7 @@ function build_query( $data ) {
  * @since 3.2.0
  * @access private
  *
- * @see http://us1.php.net/manual/en/function.http-build-query.php
+ * @see https://secure.php.net/manual/en/function.http-build-query.php
  *
  * @param array|object  $data       An array or object of data. Converted to array.
  * @param string        $prefix     Optional. Numeric index. If set, start parameter numbering with it.
@@ -1779,8 +1779,8 @@ function wp_is_writable( $path ) {
  *
  * @since 2.8.0
  *
- * @see http://bugs.php.net/bug.php?id=27609
- * @see http://bugs.php.net/bug.php?id=30931
+ * @see https://bugs.php.net/bug.php?id=27609
+ * @see https://bugs.php.net/bug.php?id=30931
  *
  * @param string $path Windows path to check for write-ability.
  * @return bool Whether the path is writable.
@@ -4731,8 +4731,8 @@ function __return_empty_string() {
  *
  * @since 3.0.0
  *
- * @see http://blogs.msdn.com/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
- * @see http://src.chromium.org/viewvc/chrome?view=rev&revision=6985
+ * @see https://blogs.msdn.com/ie/archive/2008/07/02/ie8-security-part-v-comprehensive-protection.aspx
+ * @see https://src.chromium.org/viewvc/chrome?view=rev&revision=6985
  */
 function send_nosniff_header() {
 	@header( 'X-Content-Type-Options: nosniff' );

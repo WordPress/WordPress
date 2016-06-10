@@ -1254,22 +1254,22 @@ class wpdb {
 	 * Does not support sign, padding, alignment, width or precision specifiers.
 	 * Does not support argument numbering/swapping.
 	 *
-	 * May be called like {@link http://php.net/sprintf sprintf()} or like {@link http://php.net/vsprintf vsprintf()}.
+	 * May be called like {@link https://secure.php.net/sprintf sprintf()} or like {@link https://secure.php.net/vsprintf vsprintf()}.
 	 *
 	 * Both %d and %s should be left unquoted in the query string.
 	 *
 	 *     wpdb::prepare( "SELECT * FROM `table` WHERE `column` = %s AND `field` = %d", 'foo', 1337 )
 	 *     wpdb::prepare( "SELECT DATE_FORMAT(`field`, '%%c') FROM `table` WHERE `column` = %s", 'foo' );
 	 *
-	 * @link http://php.net/sprintf Description of syntax.
+	 * @link https://secure.php.net/sprintf Description of syntax.
 	 * @since 2.3.0
 	 *
 	 * @param string      $query    Query statement with sprintf()-like placeholders
 	 * @param array|mixed $args     The array of variables to substitute into the query's placeholders if being called like
-	 *                              {@link http://php.net/vsprintf vsprintf()}, or the first variable to substitute into the query's placeholders if
-	 *                              being called like {@link http://php.net/sprintf sprintf()}.
+	 *                              {@link https://secure.php.net/vsprintf vsprintf()}, or the first variable to substitute into the query's placeholders if
+	 *                              being called like {@link https://secure.php.net/sprintf sprintf()}.
 	 * @param mixed       $args,... further variables to substitute into the query's placeholders if being called like
-	 *                              {@link http://php.net/sprintf sprintf()}.
+	 *                              {@link https://secure.php.net/sprintf sprintf()}.
 	 * @return string|void Sanitized query string, if there is a query to prepare.
 	 */
 	public function prepare( $query, $args ) {

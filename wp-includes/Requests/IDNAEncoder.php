@@ -7,14 +7,14 @@
  *
  * @package Requests
  * @subpackage Utilities
- * @see http://tools.ietf.org/html/rfc3490 IDNA specification
- * @see http://tools.ietf.org/html/rfc3492 Punycode/Bootstrap specification
+ * @see https://tools.ietf.org/html/rfc3490 IDNA specification
+ * @see https://tools.ietf.org/html/rfc3492 Punycode/Bootstrap specification
  */
 class Requests_IDNAEncoder {
 	/**
 	 * ACE prefix used for IDNA
 	 *
-	 * @see http://tools.ietf.org/html/rfc3490#section-5
+	 * @see https://tools.ietf.org/html/rfc3490#section-5
 	 * @var string
 	 */
 	const ACE_PREFIX = 'xn--';
@@ -22,7 +22,7 @@ class Requests_IDNAEncoder {
 	/**#@+
 	 * Bootstrap constant for Punycode
 	 *
-	 * @see http://tools.ietf.org/html/rfc3492#section-5
+	 * @see https://tools.ietf.org/html/rfc3492#section-5
 	 * @var int
 	 */
 	const BOOTSTRAP_BASE         = 36;
@@ -333,7 +333,7 @@ class Requests_IDNAEncoder {
 	/**
 	 * Convert a digit to its respective character
 	 *
-	 * @see http://tools.ietf.org/html/rfc3492#section-5
+	 * @see https://tools.ietf.org/html/rfc3492#section-5
 	 * @throws Requests_Exception On invalid digit (`idna.invalid_digit`)
 	 *
 	 * @param int $digit Digit in the range 0-35
@@ -353,7 +353,7 @@ class Requests_IDNAEncoder {
 	/**
 	 * Adapt the bias
 	 *
-	 * @see http://tools.ietf.org/html/rfc3492#section-6.1
+	 * @see https://tools.ietf.org/html/rfc3492#section-6.1
 	 * @param int $delta
 	 * @param int $numpoints
 	 * @param bool $firsttime

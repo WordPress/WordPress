@@ -51,8 +51,8 @@ class WP_REST_Response extends WP_HTTP_Response {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @link http://tools.ietf.org/html/rfc5988
-	 * @link http://www.iana.org/assignments/link-relations/link-relations.xml
+	 * @link https://tools.ietf.org/html/rfc5988
+	 * @link https://www.iana.org/assignments/link-relations/link-relations.xml
 	 *
 	 * @param string $rel        Link relation. Either an IANA registered type,
 	 *                           or an absolute URL.
@@ -147,8 +147,8 @@ class WP_REST_Response extends WP_HTTP_Response {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @link http://tools.ietf.org/html/rfc5988
-	 * @link http://www.iana.org/assignments/link-relations/link-relations.xml
+	 * @link https://tools.ietf.org/html/rfc5988
+	 * @link https://www.iana.org/assignments/link-relations/link-relations.xml
 	 *
 	 * @param string $rel   Link relation. Either an IANA registered type, or an absolute URL.
 	 * @param string $link  Target IRI for the link.

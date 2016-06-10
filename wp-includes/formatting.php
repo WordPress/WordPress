@@ -2361,7 +2361,7 @@ function untrailingslashit( $string ) {
  * Adds slashes to escape strings.
  *
  * Slashes will first be removed if magic_quotes_gpc is set, see {@link
- * http://www.php.net/magic_quotes} for more details.
+ * https://secure.php.net/magic_quotes} for more details.
  *
  * @since 0.71
  *
@@ -3035,7 +3035,7 @@ function iso8601_timezone_to_offset( $timezone ) {
  *
  * @since 1.5.0
  *
- * @param string $date_string Date and time in ISO 8601 format {@link http://en.wikipedia.org/wiki/ISO_8601}.
+ * @param string $date_string Date and time in ISO 8601 format {@link https://en.wikipedia.org/wiki/ISO_8601}.
  * @param string $timezone    Optional. If set to GMT returns the time minus gmt_offset. Default is 'user'.
  * @return string The date and time in MySQL DateTime format - Y-m-d H:i:s.
  */
@@ -3832,7 +3832,7 @@ function esc_url_raw( $url, $protocols = null ) {
 /**
  * Convert entities, while preserving already-encoded entities.
  *
- * @link http://www.php.net/htmlentities Borrowed from the PHP Manual user notes.
+ * @link https://secure.php.net/htmlentities Borrowed from the PHP Manual user notes.
  *
  * @since 1.2.2
  *
@@ -4274,8 +4274,8 @@ function map_deep( $value, $callback ) {
 /**
  * Parses a string into variables to be stored in an array.
  *
- * Uses {@link http://www.php.net/parse_str parse_str()} and stripslashes if
- * {@link http://www.php.net/magic_quotes magic_quotes_gpc} is on.
+ * Uses {@link https://secure.php.net/parse_str parse_str()} and stripslashes if
+ * {@link https://secure.php.net/magic_quotes magic_quotes_gpc} is on.
  *
  * @since 2.2.1
  *
@@ -4328,7 +4328,7 @@ function wp_pre_kses_less_than_callback( $matches ) {
  * WordPress implementation of PHP sprintf() with filters.
  *
  * @since 2.5.0
- * @link http://www.php.net/sprintf
+ * @link https://secure.php.net/sprintf
  *
  * @param string $pattern   The string which formatted args are inserted.
  * @param mixed  $args ,... Arguments to be formatted into the $pattern string.

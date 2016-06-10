@@ -835,10 +835,10 @@ function wp_dashboard_recent_posts( $args ) {
 			} elseif ( date( 'Y-m-d', $time ) == $tomorrow ) {
 				$relative = __( 'Tomorrow' );
 			} elseif ( date( 'Y', $time ) !== date( 'Y', current_time( 'timestamp' ) ) ) {
-				/* translators: date and time format for recent posts on the dashboard, from a different calendar year, see http://php.net/date */
+				/* translators: date and time format for recent posts on the dashboard, from a different calendar year, see https://secure.php.net/date */
 				$relative = date_i18n( __( 'M jS Y' ), $time );
 			} else {
-				/* translators: date and time format for recent posts on the dashboard, see http://php.net/date */
+				/* translators: date and time format for recent posts on the dashboard, see https://secure.php.net/date */
 				$relative = date_i18n( __( 'M jS' ), $time );
 			}
 

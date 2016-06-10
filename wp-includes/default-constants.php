@@ -98,7 +98,7 @@ function wp_initial_constants() {
 	 * For example, MONTH_IN_SECONDS wrongly assumes every month has 30 days and
 	 * YEAR_IN_SECONDS does not take leap years into account.
 	 *
-	 * If you need more accuracy please consider using the DateTime class (http://php.net/manual/class.datetime.php).
+	 * If you need more accuracy please consider using the DateTime class (https://secure.php.net/manual/en/class.datetime.php).
 	 *
 	 * @since 3.5.0
 	 * @since 4.4.0 Introduced `MONTH_IN_SECONDS`.

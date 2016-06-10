@@ -100,7 +100,7 @@ function wp_add_inline_style( $handle, $data ) {
  * Register a CSS stylesheet.
  *
  * @see WP_Dependencies::add()
- * @link http://www.w3.org/TR/CSS2/media.html#media-types List of CSS media types.
+ * @link https://www.w3.org/TR/CSS2/media.html#media-types List of CSS media types.
  *
  * @since 2.6.0
  * @since 4.3.0 A return value was added.
@@ -145,7 +145,7 @@ function wp_deregister_style( $handle ) {
  *
  * @see WP_Dependencies::add()
  * @see WP_Dependencies::enqueue()
- * @link http://www.w3.org/TR/CSS2/media.html#media-types List of CSS media types.
+ * @link https://www.w3.org/TR/CSS2/media.html#media-types List of CSS media types.
  *
  * @since 2.6.0
  *

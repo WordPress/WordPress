@@ -22,7 +22,7 @@ class Requests_SSL {
 	 * names, leading things like 'https://www.github.com/' to be invalid.
 	 * Instead
 	 *
-	 * @see http://tools.ietf.org/html/rfc2818#section-3.1 RFC2818, Section 3.1
+	 * @see https://tools.ietf.org/html/rfc2818#section-3.1 RFC2818, Section 3.1
 	 *
 	 * @throws Requests_Exception On not obtaining a match for the host (`fsockopen.ssl.no_match`)
 	 * @param string $host Host name to verify against

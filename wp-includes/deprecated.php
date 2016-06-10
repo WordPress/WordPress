@@ -2818,7 +2818,7 @@ function is_blog_user( $blog_id = 0 ) {
  * @deprecated 3.4.0 Use error_log()
  * @see error_log()
  *
- * @link http://www.php.net/manual/en/function.error-log.php
+ * @link https://secure.php.net/manual/en/function.error-log.php
  *
  * @param string $filename File name.
  * @param string $mode     Type of access you required to the stream.
@@ -2836,7 +2836,7 @@ function debug_fopen( $filename, $mode ) {
  * @deprecated 3.4.0 Use error_log()
  * @see error_log()
  *
- * @link http://www.php.net/manual/en/function.error-log.php
+ * @link https://secure.php.net/manual/en/function.error-log.php
  *
  * @param mixed  $fp     Unused.
  * @param string $string Message to log.
@@ -2854,7 +2854,7 @@ function debug_fwrite( $fp, $string ) {
  * @deprecated 3.4.0 Use error_log()
  * @see error_log()
  *
- * @link http://www.php.net/manual/en/function.error-log.php
+ * @link https://secure.php.net/manual/en/function.error-log.php
  *
  * @param mixed $fp Unused.
  */

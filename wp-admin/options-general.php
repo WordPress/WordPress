@@ -17,7 +17,7 @@ if ( ! current_user_can( 'manage_options' ) )
 
 $title = __('General Settings');
 $parent_file = 'options-general.php';
-/* translators: date and time format for exact current time, mainly about timezones, see http://php.net/date */
+/* translators: date and time format for exact current time, mainly about timezones, see https://secure.php.net/date */
 $timezone_format = _x('Y-m-d H:i:s', 'timezone date format');
 
 add_action('admin_head', 'options_general_add_js');
