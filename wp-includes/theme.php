@@ -1514,7 +1514,7 @@ function get_editor_stylesheets() {
 }
 
 /**
- * Allows a theme to register its support of a certain feature
+ * Registers theme support for a given feature.
  *
  * Must be called in the theme's functions.php file to work.
  * If attached to a hook, it must be {@see 'after_setup_theme'}.
