@@ -790,7 +790,7 @@ default:
 
 	$reauth = empty($_REQUEST['reauth']) ? false : true;
 
-	$user = wp_signon( '', $secure_cookie );
+	$user = wp_signon( array(), $secure_cookie );
 
 	if ( empty( $_COOKIE[ LOGGED_IN_COOKIE ] ) ) {
 		if ( headers_sent() ) {
