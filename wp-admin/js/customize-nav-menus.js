@@ -142,16 +142,8 @@
 			} );
 
 			// Clear the search results.
-			$( '.clear-results' ).on( 'click keydown', function( event ) {
-				if ( event.type === 'keydown' && ( 13 !== event.which && 32 !== event.which ) ) { // "return" or "space" keys only
-					return;
-				}
-
-				event.preventDefault();
-
-				$( '#menu-items-search' ).val( '' ).focus();
-				event.target.value = '';
-				self.search( event );
+			$( '.clear-results' ).on( 'click', function() {
+				self.$search.val( '' ).focus().trigger( 'keyup' );
 			} );
 
 			this.$el.on( 'input', '#custom-menu-item-name.invalid, #custom-menu-item-url.invalid', function() {
@@ -208,15 +200,11 @@
 				$otherSections.fadeOut( 100 );
 				$searchSection.find( '.accordion-section-content' ).slideDown( 'fast' );
 				$searchSection.addClass( 'open' );
-				$searchSection.find( '.clear-results' )
-					.prop( 'tabIndex', 0 )
-					.addClass( 'is-visible' );
+				$searchSection.find( '.clear-results' ).addClass( 'is-visible' );
 			} else if ( '' === event.target.value ) {
 				$searchSection.removeClass( 'open' );
 				$otherSections.show();
-				$searchSection.find( '.clear-results' )
-					.prop( 'tabIndex', -1 )
-					.removeClass( 'is-visible' );
+				$searchSection.find( '.clear-results' ).removeClass( 'is-visible' );
 			}
 
 			this.searchTerm = event.target.value;
