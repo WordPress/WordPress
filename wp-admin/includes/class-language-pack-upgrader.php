@@ -222,6 +222,8 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			if ( ! $wp_filesystem->mkdir( $remote_destination, FS_CHMOD_DIR ) )
 				return new WP_Error( 'mkdir_failed_lang_dir', $this->strings['mkdir_failed'], $remote_destination );
 
+		$language_updates_results = array();
+
 		foreach ( $language_updates as $language_update ) {
 
 			$this->skin->language_update = $language_update;
@@ -252,9 +254,37 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 			$results[] = $this->result;
 
 			// Prevent credentials auth screen from displaying multiple times.
-			if ( false === $result )
+			if ( false === $result ) {
 				break;
+			}
+
+			$language_updates_results[] = array(
+				'language' => $language_update->language,
+				'type'     => $language_update->type,
+				'slug'     => isset( $language_update->slug ) ? $language_update->slug : 'default',
+				'version'  => $language_update->version,
+			);
 		}
+
+		// Remove upgrade hooks which are not required for translation updates.
+		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
+		remove_action( 'upgrader_process_complete', 'wp_version_check' );
+		remove_action( 'upgrader_process_complete', 'wp_update_plugins' );
+		remove_action( 'upgrader_process_complete', 'wp_update_themes' );
+
+		/** This action is documented in wp-admin/includes/class-wp-upgrader.php */
+		do_action( 'upgrader_process_complete', $this, array(
+			'action'       => 'update',
+			'type'         => 'translation',
+			'bulk'         => true,
+			'translations' => $language_updates_results
+		) );
+
+		// Re-add upgrade hooks.
+		add_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
+		add_action( 'upgrader_process_complete', 'wp_version_check' );
+		add_action( 'upgrader_process_complete', 'wp_update_plugins' );
+		add_action( 'upgrader_process_complete', 'wp_update_themes' );
 
 		$this->skin->bulk_footer();
 

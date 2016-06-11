@@ -762,17 +762,27 @@ class WP_Upgrader {
 			 *
 			 * @since 3.6.0
 			 * @since 3.7.0 Added to WP_Upgrader::run().
+			 * @since 4.6.0 `$translations` was added as a possible argument to `$hook_extra`.
 			 *
 			 * @param WP_Upgrader $this WP_Upgrader instance. In other contexts, $this, might be a
-			 *                          Theme_Upgrader, Plugin_Upgrader or Core_Upgrade instance.
+			 *                          Theme_Upgrader, Plugin_Upgrader, Core_Upgrade, or Language_Pack_Upgrader instance.
 			 * @param array       $hook_extra {
 			 *     Array of bulk item update data.
 			 *
-			 *     @type string $action  Type of action. Default 'update'.
-			 *     @type string $type    Type of update process. Accepts 'plugin', 'theme', or 'core'.
-			 *     @type bool   $bulk    Whether the update process is a bulk update. Default true.
-			 *     @type array  $plugins Array of the basename paths of the plugins' main files.
-			 *     @type array  $themes  The theme slugs.
+			 *     @type string $action       Type of action. Default 'update'.
+			 *     @type string $type         Type of update process. Accepts 'plugin', 'theme', 'translation', or 'core'.
+			 *     @type bool   $bulk         Whether the update process is a bulk update. Default true.
+			 *     @type array  $plugins      Array of the basename paths of the plugins' main files.
+			 *     @type array  $themes       The theme slugs.
+			 *     @type array  $translations {
+			 *         Array of translations update data.
+			 *
+			 *         @type string $language The locale the translation is for.
+			 *         @type string $type     Type of translation. Accepts 'plugin', 'theme', or 'core'.
+			 *         @type string $slug     Text domain the translation is for. The slug of a theme/plugin or
+			 *                                'default' for core translations.
+			 *         @type string $version  The version of a theme, plugin, or core.
+			 *     }
 			 * }
 			 */
 			do_action( 'upgrader_process_complete', $this, $options['hook_extra'] );
