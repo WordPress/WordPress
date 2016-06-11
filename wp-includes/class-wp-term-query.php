@@ -92,6 +92,7 @@ class WP_Term_Query {
 	 * Sets up the term query, based on the query vars passed.
 	 *
 	 * @since 4.6.0
+	 * @since 4.6.0 Introduced 'term_taxonomy_id' parameter.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -136,6 +137,8 @@ class WP_Term_Query {
 	 *                                                Default empty.
 	 *     @type string|array $slug                   Optional. Slug or array of slugs to return term(s) for.
 	 *                                                Default empty.
+	 *     @type int|array    $term_taxonomy_id       Optional. Term taxonomy ID, or array of term taxonomy IDs,
+	 *                                                to match when querying terms.
 	 *     @type bool         $hierarchical           Whether to include terms that have non-empty descendants (even
 	 *                                                if $hide_empty is set to true). Default true.
 	 *     @type string       $search                 Search criteria to match terms. Will be SQL-formatted with
@@ -183,6 +186,7 @@ class WP_Term_Query {
 			'count'                  => false,
 			'name'                   => '',
 			'slug'                   => '',
+			'term_taxonomy_id'       => '',
 			'hierarchical'           => true,
 			'search'                 => '',
 			'name__like'             => '',
@@ -470,6 +474,15 @@ class WP_Term_Query {
 			} else {
 				$slug = sanitize_title( $args['slug'] );
 				$this->sql_clauses['where']['slug'] = "t.slug = '$slug'";
+			}
+		}
+
+		if ( ! empty( $args['term_taxonomy_id'] ) ) {
+			if ( is_array( $args['term_taxonomy_id'] ) ) {
+				$tt_ids = implode( ',', array_map( 'intval', $args['term_taxonomy_id'] ) );
+				$this->sql_clauses['where']['term_taxonomy_id'] = "tt.term_taxonomy_id IN ({$tt_ids})";
+			} else {
+				$this->sql_clauses['where']['term_taxonomy_id'] = $wpdb->prepare( "tt.term_taxonomy_id = %d", $args['term_taxonomy_id'] );
 			}
 		}
 
