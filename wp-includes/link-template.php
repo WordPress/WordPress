@@ -3539,35 +3539,80 @@ function get_edit_profile_url( $user_id = 0, $scheme = 'admin' ) {
 }
 
 /**
+ * Returns the canonical URL for a post.
+ *
+ * When the post is the same as the current requested page the function will handle the
+ * pagination arguments too.
+ *
+ * @since 4.6.0
+ *
+ * @param int|WP_Post $post Optional. Post ID or object. Default is global `$post`.
+ * @return string|false The canonical URL, or false if the post does not exist or has not
+ *                      been published yet.
+ */
+function wp_get_canonical_url( $post = null ) {
+	$post = get_post( $post );
+
+	if ( ! $post ) {
+		return false;
+	}
+
+	if ( 'publish' !== $post->post_status ) {
+		return false;
+	}
+
+	$canonical_url = get_permalink( $post );
+
+	// If a canonical is being generated for the current page, make sure it has pagination if needed.
+	if ( $post->ID === get_queried_object_id() ) {
+		$page = get_query_var( 'page', 0 );
+		if ( $page >= 2 ) {
+			if ( '' == get_option( 'permalink_structure' ) ) {
+				$canonical_url = add_query_arg( 'page', $page, $canonical_url );
+			} else {
+				$canonical_url = trailingslashit( $canonical_url ) . user_trailingslashit( $page, 'single_paged' );
+			}
+		}
+
+		$cpage = get_query_var( 'cpage', 0 );
+		if ( $cpage ) {
+			$canonical_url = get_comments_pagenum_link( $cpage );
+		}
+	}
+
+	/**
+	 * Filters the canonical URL for a post.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param string  $string The post's canonical URL.
+	 * @param WP_Post $post   Post object.
+	 */
+	return apply_filters( 'get_canonical_url', $canonical_url, $post );
+}
+
+/**
  * Outputs rel=canonical for singular queries.
  *
  * @since 2.9.0
+ * @since 4.6.0 Adjusted to use `wp_get_canonical_url()`.
  */
 function rel_canonical() {
 	if ( ! is_singular() ) {
 		return;
 	}
 
-	if ( ! $id = get_queried_object_id() ) {
+	$id = get_queried_object_id();
+
+	if ( 0 === $id ) {
 		return;
 	}
 
-	$url = get_permalink( $id );
+	$url = wp_get_canonical_url( $id );
 
-	$page = get_query_var( 'page' );
-	if ( $page >= 2 ) {
-		if ( '' == get_option( 'permalink_structure' ) ) {
-			$url = add_query_arg( 'page', $page, $url );
-		} else {
-			$url = trailingslashit( $url ) . user_trailingslashit( $page, 'single_paged' );
-		}
+	if ( ! empty( $url ) ) {
+		echo '<link rel="canonical" href="' . esc_url( $url ) . '" />' . "\n";
 	}
-
-	$cpage = get_query_var( 'cpage' );
-	if ( $cpage ) {
-		$url = get_comments_pagenum_link( $cpage );
-	}
-	echo '<link rel="canonical" href="' . esc_url( $url ) . "\" />\n";
 }
 
 /**
