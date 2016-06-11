@@ -86,16 +86,20 @@
 
 			var length = textEditor.value.length;
 			var height = parseInt( textEditor.style.height, 10 );
+			var top = window.scrollTop;
 
 			if ( length < oldTextLength ) {
 				// textEditor.scrollHeight is not adjusted until the next line.
 				textEditor.style.height = 'auto';
 
-				if ( textEditor.scrollHeight >= autoresizeMinHeight ) {
+				if ( textEditor.scrollHeight > autoresizeMinHeight ) {
 					textEditor.style.height = textEditor.scrollHeight + 'px';
 				} else {
 					textEditor.style.height = autoresizeMinHeight + 'px';
 				}
+
+				// Prevent scroll-jumping in Firefox and IE.
+				window.scrollTop = top;
 
 				if ( textEditor.scrollHeight < height ) {
 					adjust();
