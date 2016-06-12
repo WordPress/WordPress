@@ -71,16 +71,17 @@ timer_start();
 wp_debug_mode();
 
 /**
- * Bypass the loading of advanced-cache.php
+ * Filters whether to enable loading of the advanced-cache.php drop-in.
  *
- * This filter should *NOT* be used by plugins. It is designed for non-web
- * runtimes. If true is returned, advance-cache.php will never be loaded.
+ * This filter runs before it can be used by plugins. It is designed for non-web
+ * run-times. If false is returned, advance-cache.php will never be loaded.
  *
  * @since 4.6.0
  *
- * @param bool True to bypass advanced-cache.php
+ * @param bool $enable_advanced_cache Whether to enable loading advanced-cache.php (if present).
+ *                                    Default true.
  */
-if ( WP_CACHE && ! apply_filters( 'bypass_advanced_cache', false )  ) {
+if ( WP_CACHE && apply_filters( 'enable_loading_advanced_cache_dropin', true ) ) {
 // For an advanced caching plugin to use. Uses a static drop-in because you would only want one.
 	_backup_plugin_globals();
 	WP_DEBUG ? include( WP_CONTENT_DIR . '/advanced-cache.php' ) : @include( WP_CONTENT_DIR . '/advanced-cache.php' );

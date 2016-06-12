@@ -183,20 +183,22 @@ function wp_maintenance() {
 	// If the $upgrading timestamp is older than 10 minutes, don't die.
 	if ( ( time() - $upgrading ) >= 600 )
 		return;
-	
+
 	/**
-	 * Bypass the maintenance mode check
+	 * Filters whether to enable maintenance mode.
 	 *
-	 * This filter should *NOT* be used by plugins. It is designed for non-web
-	 * runtimes. If this filter returns true, maintenance mode will not be  
-	 * active which can cause problems during updates for web site views.
+	 * This filter runs before it can be used by plugins. It is designed for
+	 * non-web runtimes. If this filter returns true, maintenance mode will be
+	 * active and the request will end. If false, the request will be allowed to
+	 * continue processing even if maintenance mode should be active.
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param bool True to bypass maintenance
+	 * @param bool $enable_checks Whether to enable maintenance mode. Default true.
+	 * @param int  $upgrading     The timestamp set in the .maintenance file.
 	 */
-	if ( apply_filters( 'bypass_maintenance_mode', false ) ){
-		return;	
+	if ( ! apply_filters( 'enable_maintenance_mode', true, $upgrading ) ) {
+		return;
 	}
 
 	if ( file_exists( WP_CONTENT_DIR . '/maintenance.php' ) ) {
@@ -301,19 +303,19 @@ function timer_stop( $display = 0, $precision = 3 ) {
  */
 function wp_debug_mode() {
 	/**
-	 * Bypass the debug mode check
+	 * Filters whether to allow the debug mode check to occur.
 	 *
-	 * This filter should *NOT* be used by plugins. It is designed for non-web
-	 * runtimes. Returning true causes the WP_DEBUG and related constants to
-	 * not be checked and the default php values for errors will be used unless
-	 * you take care to update them yourself.
+	 * This filter runs before it can be used by plugins. It is designed for
+	 * non-web run-times. Returning false causes the `WP_DEBUG` and related
+	 * constants to not be checked and the default php values for errors
+	 * will be used unless you take care to update them yourself.
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param bool True to bypass debug mode 
+	 * @param bool $enable_debug_mode Whether to enable debug mode checks to occur. Default true.
 	 */
-	if ( apply_filters( 'bypass_debug_mode', false ) ){
-		return;	
+	if ( ! apply_filters( 'enable_wp_debug_mode_checks', true ) ){
+		return;
 	}
 
 	if ( WP_DEBUG ) {
