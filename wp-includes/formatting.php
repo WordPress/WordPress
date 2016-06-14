@@ -1460,7 +1460,8 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
  * | U+1EF8   | Ỹ     | Y           | Latin capital letter Y with tilde                     |
  * | U+1EF9   | ỹ     | y           | Latin small letter y with tilde                       |
  *
- * German (`de_DE`) and German formal (`de_DE_formal`) locales:
+ * German (`de_DE`), German formal (`de_DE_formal`), German (Switzerland) formal (`de_CH`),
+ * and German (Switzerland) informal (`de_CH_informal`) locales:
  *
  * |   Code   | Glyph | Replacement |               Description               |
  * | -------- | ----- | ----------- | --------------------------------------- |
@@ -1484,6 +1485,7 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
  * | U+00E5   | å     | aa          | Latin small letter a with ring above    |
  *
  * @since 1.2.1
+ * @since 4.6.0 Locale support was added for `de_CH` and `de_CH_informal`.
  *
  * @param string $string Text that might have accent characters
  * @return string Filtered string with replaced "nice" characters.
@@ -1672,7 +1674,7 @@ function remove_accents( $string ) {
 		// Used for locale-specific rules
 		$locale = get_locale();
 
-		if ( 'de_DE' == $locale || 'de_DE_formal' == $locale ) {
+		if ( 'de_DE' == $locale || 'de_DE_formal' == $locale || 'de_CH' == $locale || 'de_CH_informal' == $locale ) {
 			$chars[ chr(195).chr(132) ] = 'Ae';
 			$chars[ chr(195).chr(164) ] = 'ae';
 			$chars[ chr(195).chr(150) ] = 'Oe';
