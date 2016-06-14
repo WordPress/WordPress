@@ -304,6 +304,8 @@ class Requests {
 	 * options:
 	 *
 	 * - `timeout`: How long should we wait for a response?
+	 *    Note: for cURL, a minimum of 1 second applies, as DNS resolution
+	 *    operates at second-resolution only.
 	 *    (float, seconds with a millisecond precision, default: 10, example: 0.01)
 	 * - `connect_timeout`: How long should we wait while trying to connect?
 	 *    (float, seconds with a millisecond precision, default: 10, example: 0.01)
