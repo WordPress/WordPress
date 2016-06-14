@@ -3556,8 +3556,29 @@ class WP_Query {
 			$this->request = apply_filters_ref_array( 'posts_request', array( $this->request, &$this ) );
 		}
 
+		/**
+		 * Filters the posts array before the query takes place.
+		 *
+		 * Return a non-null value to bypass WordPress's default post queries.
+		 *
+		 * Filtering functions that require pagination information are encouraged to set
+		 * the `found_posts` and `max_num_pages` properties of the WP_Query object,
+		 * passed to the filter by reference. If WP_Query does not perform a database
+		 * query, it will not have enough information to generate these values itself.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param array|null $posts Return an array of post data to short-circuit WP's query,
+		 *                          or null to allow WP to run its normal queries.
+		 * @param WP_Query   $this  The WP_Query instance, passed by reference.
+		 */
+		$this->posts = apply_filters_ref_array( 'posts_pre_query', array( null, &$this ) );
+
 		if ( 'ids' == $q['fields'] ) {
-			$this->posts = $wpdb->get_col( $this->request );
+			if ( null === $this->posts ) {
+				$this->posts = $wpdb->get_col( $this->request );
+			}
+
 			$this->posts = array_map( 'intval', $this->posts );
 			$this->post_count = count( $this->posts );
 			$this->set_found_posts( $q, $limits );
@@ -3566,7 +3587,10 @@ class WP_Query {
 		}
 
 		if ( 'id=>parent' == $q['fields'] ) {
-			$this->posts = $wpdb->get_results( $this->request );
+			if ( null === $this->posts ) {
+				$this->posts = $wpdb->get_results( $this->request );
+			}
+
 			$this->post_count = count( $this->posts );
 			$this->set_found_posts( $q, $limits );
 
@@ -3581,54 +3605,56 @@ class WP_Query {
 			return $r;
 		}
 
-		$split_the_query = ( $old_request == $this->request && "$wpdb->posts.*" == $fields && !empty( $limits ) && $q['posts_per_page'] < 500 );
-
-		/**
-		 * Filters whether to split the query.
-		 *
-		 * Splitting the query will cause it to fetch just the IDs of the found posts
-		 * (and then individually fetch each post by ID), rather than fetching every
-		 * complete row at once. One massive result vs. many small results.
-		 *
-		 * @since 3.4.0
-		 *
-		 * @param bool     $split_the_query Whether or not to split the query.
-		 * @param WP_Query $this            The WP_Query instance.
-		 */
-		$split_the_query = apply_filters( 'split_the_query', $split_the_query, $this );
-
-		if ( $split_the_query ) {
-			// First get the IDs and then fill in the objects
-
-			$this->request = "SELECT $found_rows $distinct $wpdb->posts.ID FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
+		if ( null === $this->posts ) {
+			$split_the_query = ( $old_request == $this->request && "$wpdb->posts.*" == $fields && !empty( $limits ) && $q['posts_per_page'] < 500 );
 
 			/**
-			 * Filters the Post IDs SQL request before sending.
+			 * Filters whether to split the query.
+			 *
+			 * Splitting the query will cause it to fetch just the IDs of the found posts
+			 * (and then individually fetch each post by ID), rather than fetching every
+			 * complete row at once. One massive result vs. many small results.
 			 *
 			 * @since 3.4.0
 			 *
-			 * @param string   $request The post ID request.
-			 * @param WP_Query $this    The WP_Query instance.
+			 * @param bool     $split_the_query Whether or not to split the query.
+			 * @param WP_Query $this            The WP_Query instance.
 			 */
-			$this->request = apply_filters( 'posts_request_ids', $this->request, $this );
+			$split_the_query = apply_filters( 'split_the_query', $split_the_query, $this );
 
-			$ids = $wpdb->get_col( $this->request );
+			if ( $split_the_query ) {
+				// First get the IDs and then fill in the objects
 
-			if ( $ids ) {
-				$this->posts = $ids;
-				$this->set_found_posts( $q, $limits );
-				_prime_post_caches( $ids, $q['update_post_term_cache'], $q['update_post_meta_cache'] );
+				$this->request = "SELECT $found_rows $distinct $wpdb->posts.ID FROM $wpdb->posts $join WHERE 1=1 $where $groupby $orderby $limits";
+
+				/**
+				 * Filters the Post IDs SQL request before sending.
+				 *
+				 * @since 3.4.0
+				 *
+				 * @param string   $request The post ID request.
+				 * @param WP_Query $this    The WP_Query instance.
+				 */
+				$this->request = apply_filters( 'posts_request_ids', $this->request, $this );
+
+				$ids = $wpdb->get_col( $this->request );
+
+				if ( $ids ) {
+					$this->posts = $ids;
+					_prime_post_caches( $ids, $q['update_post_term_cache'], $q['update_post_meta_cache'] );
+				} else {
+					$this->posts = array();
+				}
 			} else {
-				$this->posts = array();
+				$this->posts = $wpdb->get_results( $this->request );
 			}
-		} else {
-			$this->posts = $wpdb->get_results( $this->request );
-			$this->set_found_posts( $q, $limits );
 		}
 
-		// Convert to WP_Post objects
-		if ( $this->posts )
+		// Convert to WP_Post objects and set the found-post totals.
+		if ( $this->posts ) {
 			$this->posts = array_map( 'get_post', $this->posts );
+			$this->set_found_posts( $q, $limits );
+		}
 
 		if ( ! $q['suppress_filters'] ) {
 			/**
