@@ -74,9 +74,15 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 <div id="message" class="updated">
 	<p><strong><?php echo $message; ?></strong></p>
 	<?php if ( $wp_http_referer ) { ?>
-	<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php printf( __( '&larr; Back to %s' ), $tax->labels->name ); ?></a></p>
+	<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php
+		/* translators: %s: taxonomy name */
+		printf( _x( '&larr; Back to %s', 'admin screen' ), $tax->labels->name );
+	?></a></p>
 	<?php } else { ?>
-	<p><a href="<?php echo esc_url( wp_get_referer() ); ?>"><?php printf( __( '&larr; Back to %s' ), $tax->labels->name ); ?></a></p>
+	<p><a href="<?php echo esc_url( wp_get_referer() ); ?>"><?php
+		/* translators: %s: taxonomy name */
+		printf( _x( '&larr; Back to %s', 'admin screen' ), $tax->labels->name );
+	?></a></p>
 	<?php } ?>
 </div>
 <?php endif; ?>
