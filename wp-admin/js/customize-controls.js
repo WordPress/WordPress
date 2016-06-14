@@ -1928,16 +1928,54 @@
 					control.pausePlayer();
 				});
 
-			control.setting.bind( function( value ) {
+			/**
+			 * Set attachment data and render content.
+			 *
+			 * Note that BackgroundImage.prototype.ready applies this ready method
+			 * to itself. Since BackgroundImage is an UploadControl, the value
+			 * is the attachment URL instead of the attachment ID. In this case
+			 * we skip fetching the attachment data because we have no ID available,
+			 * and it is the responsibility of the UploadControl to set the control's
+			 * attachmentData before calling the renderContent method.
+			 *
+			 * @param {number|string} value Attachment
+			 */
+			function setAttachmentDataAndRenderContent( value ) {
+				var hasAttachmentData = $.Deferred();
 
-				// Send attachment information to the preview for possible use in `postMessage` transport.
-				wp.media.attachment( value ).fetch().done( function() {
-					wp.customize.previewer.send( control.setting.id + '-attachment-data', this.attributes );
+				if ( control.extended( api.UploadControl ) ) {
+					hasAttachmentData.resolve();
+				} else {
+					value = parseInt( value, 10 );
+					if ( _.isNaN( value ) || value <= 0 ) {
+						delete control.params.attachment;
+						hasAttachmentData.resolve();
+					} else if ( control.params.attachment && control.params.attachment.id === value ) {
+						hasAttachmentData.resolve();
+					}
+				}
+
+				// Fetch the attachment data.
+				if ( 'pending' === hasAttachmentData.state() ) {
+					wp.media.attachment( value ).fetch().done( function() {
+						control.params.attachment = this.attributes;
+						hasAttachmentData.resolve();
+
+						// Send attachment information to the preview for possible use in `postMessage` transport.
+						wp.customize.previewer.send( control.setting.id + '-attachment-data', this.attributes );
+					} );
+				}
+
+				hasAttachmentData.done( function() {
+					control.renderContent();
 				} );
+			}
 
-				// Re-render whenever the control's setting changes.
-				control.renderContent();
-			} );
+			// Ensure attachment data is initially set (for dynamically-instantiated controls).
+			setAttachmentDataAndRenderContent( control.setting() );
+
+			// Update the attachment data and re-render the control when the setting changes.
+			control.setting.bind( setAttachmentDataAndRenderContent );
 		},
 
 		pausePlayer: function () {
