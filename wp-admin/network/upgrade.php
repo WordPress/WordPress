@@ -69,7 +69,11 @@ switch ( $action ) {
 
 			echo "<li>$siteurl</li>";
 
-			$response = wp_remote_get( $upgrade_url, array( 'timeout' => 120, 'httpversion' => '1.1' ) );
+			$response = wp_remote_get( $upgrade_url, array(
+				'timeout'     => 120,
+				'httpversion' => '1.1',
+				'sslverify'   => false,
+			) );
 			if ( is_wp_error( $response ) ) {
 				wp_die( sprintf(
 					/* translators: 1: site url, 2: server error message */
