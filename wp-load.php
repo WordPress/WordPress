@@ -20,7 +20,10 @@
 
 /** Define ABSPATH as this file's directory */
 if ( ! defined( 'ABSPATH' ) ) {
-	define( 'ABSPATH', dirname( __FILE__ ) . '/' );
+	if(preg_match("/wp-admin\/.*?.php$/", $_SERVER['SCRIPT_FILENAME']))
+		define( 'ABSPATH', dirname(dirname( $_SERVER['SCRIPT_FILENAME'] )) . '/' );
+	else
+		define( 'ABSPATH', dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/' );
 }
 
 error_reporting( E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR );
