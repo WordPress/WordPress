@@ -479,8 +479,8 @@ function clean_blog_cache( $blog ) {
  *
  * @global WP_Site $current_blog The current site.
  *
- * @param WP_Site|int $site Site to retrieve.
- * @return WP_Site|array|null Depends on $output value.
+ * @param WP_Site|int|null $site Optional. Site to retrieve. Default is the current site.
+ * @return WP_Site|null The site object or null if not found.
  */
 function get_site( &$site = null ) {
 	global $current_blog;
@@ -505,7 +505,7 @@ function get_site( &$site = null ) {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param mixed $_site Site data.
+	 * @param WP_Site $_site Site data.
 	 */
 	$_site = apply_filters( 'get_site', $_site );
 
