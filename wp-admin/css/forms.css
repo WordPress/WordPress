@@ -68,7 +68,7 @@ input[type="url"] {
 /* Vertically align the number selector with the input. */
 input[type="number"] {
 	height: 28px;
-	line-height: inherit;
+	line-height: 1;
 }
 
 input[type="checkbox"],
