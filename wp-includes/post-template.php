@@ -262,8 +262,17 @@ function get_the_content( $more_link_text = null, $strip_teaser = false ) {
 
 	$post = get_post();
 
-	if ( null === $more_link_text )
-		$more_link_text = __( '(more&hellip;)' );
+	if ( null === $more_link_text ) {
+		$more_link_text = sprintf(
+			'<span aria-label="%1$s">%2$s</span>',
+			sprintf(
+				/* translators: %s: Name of current post */
+				__( 'Continue reading %s' ),
+				the_title_attribute( array( 'echo' => false ) )
+			),
+			__( '(more&hellip;)' )
+		);
+	}
 
 	$output = '';
 	$has_teaser = false;
