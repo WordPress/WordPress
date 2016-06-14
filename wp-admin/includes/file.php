@@ -986,7 +986,7 @@ function get_filesystem_method( $args = array(), $context = false, $allow_relaxe
 			// Attempt to determine the file owner of the WordPress files, and that of newly created files
 			$wp_file_owner = $temp_file_owner = false;
 			if ( function_exists('fileowner') ) {
-				$wp_file_owner = @fileowner( __FILE__ );
+				$wp_file_owner = @fileowner( ABSPATH . 'wp-config.php' );
 				$temp_file_owner = @fileowner( $temp_file_name );
 			}
 
