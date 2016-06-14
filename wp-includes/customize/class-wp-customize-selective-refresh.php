@@ -402,6 +402,10 @@ final class WP_Customize_Selective_Refresh {
 			$response['errors'] = $this->triggered_errors;
 		}
 
+		$setting_validities = $this->manager->validate_setting_values( $this->manager->unsanitized_post_values() );
+		$exported_setting_validities = array_map( array( $this->manager, 'prepare_setting_validity_for_js' ), $setting_validities );
+		$response['setting_validities'] = $exported_setting_validities;
+
 		/**
 		 * Filters the response from rendering the partials.
 		 *

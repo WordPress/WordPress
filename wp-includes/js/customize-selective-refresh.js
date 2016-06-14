@@ -847,6 +847,18 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			}
 		} );
 
+		/**
+		 * Handle setting validities in partial refresh response.
+		 *
+		 * @param {object} data Response data.
+		 * @param {object} data.setting_validities Setting validities.
+		 */
+		api.selectiveRefresh.bind( 'render-partials-response', function handleSettingValiditiesResponse( data ) {
+			if ( data.setting_validities ) {
+				api.preview.send( 'selective-refresh-setting-validities', data.setting_validities );
+			}
+		} );
+
 		api.preview.bind( 'active', function() {
 
 			// Make all partials ready.

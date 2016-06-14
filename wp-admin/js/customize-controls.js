@@ -43,6 +43,24 @@
 				case 'postMessage':
 					return this.previewer.send( 'setting', [ this.id, this() ] );
 			}
+		},
+
+		/**
+		 * Find controls associated with this setting.
+		 *
+		 * @since 4.6.0
+		 * @returns {wp.customize.Control[]} Controls associated with setting.
+		 */
+		findControls: function() {
+			var setting = this, controls = [];
+			api.control.each( function( control ) {
+				_.each( control.settings, function( controlSetting ) {
+					if ( controlSetting.id === setting.id ) {
+						controls.push( control );
+					}
+				} );
+			} );
+			return controls;
 		}
 	});
 
@@ -1543,9 +1561,19 @@
 
 					control.setting = control.settings['default'] || null;
 
+					// Add setting notifications to the control notification.
 					_.each( control.settings, function( setting ) {
 						setting.notifications.bind( 'add', function( settingNotification ) {
-							var controlNotification = new api.Notification( setting.id + ':' + settingNotification.code, settingNotification );
+							var controlNotification, code, params;
+							code = setting.id + ':' + settingNotification.code;
+							params = _.extend(
+								{},
+								settingNotification,
+								{
+									setting: setting.id
+								}
+							);
+							controlNotification = new api.Notification( code, params );
 							control.notifications.add( controlNotification.code, controlNotification );
 						} );
 						setting.notifications.bind( 'remove', function( settingNotification ) {
@@ -2908,6 +2936,13 @@
 						}
 					} );
 				} );
+
+				if ( data.settingValidities ) {
+					api._handleSettingValidities( {
+						settingValidities: data.settingValidities,
+						focusInvalidControl: false
+					} );
+				}
 			} );
 
 			this.request = $.ajax( this.previewUrl(), {
@@ -3430,68 +3465,14 @@
 				};
 			},
 
-			/**
-			 * Handle invalid_settings in an error response for the customize-save request.
-			 *
-			 * Add notifications to the settings and focus on the first control that has an invalid setting.
-			 *
-			 * @since 4.6.0
-			 * @private
-			 *
-			 * @param {object} response
-			 * @param {object} response.invalid_settings
-			 * @returns {void}
-			 */
-			_handleInvalidSettingsError: function( response ) {
-				var invalidControls = [], wasFocused = false;
-				if ( _.isEmpty( response.invalid_settings ) ) {
-					return;
-				}
-
-				// Find the controls that correspond to each invalid setting.
-				_.each( response.invalid_settings, function( notifications, settingId ) {
-					var setting = api( settingId );
-					if ( setting ) {
-						_.each( notifications, function( notificationParams, code ) {
-							var notification = new api.Notification( code, notificationParams );
-							setting.notifications.add( code, notification );
-						} );
-					}
-
-					api.control.each( function( control ) {
-						_.each( control.settings, function( controlSetting ) {
-							if ( controlSetting.id === settingId ) {
-								invalidControls.push( control );
-							}
-						} );
-					} );
-				} );
-
-				// Focus on the first control that is inside of an expanded section (one that is visible).
-				_( invalidControls ).find( function( control ) {
-					var isExpanded = control.section() && api.section.has( control.section() ) && api.section( control.section() ).expanded();
-					if ( isExpanded && control.expanded ) {
-						isExpanded = control.expanded();
-					}
-					if ( isExpanded ) {
-						control.focus();
-						wasFocused = true;
-					}
-					return wasFocused;
-				} );
-
-				// Focus on the first invalid control.
-				if ( ! wasFocused && invalidControls[0] ) {
-					invalidControls[0].focus();
-				}
-			},
-
 			save: function() {
 				var self = this,
 					processing = api.state( 'processing' ),
 					submitWhenDoneProcessing,
 					submit,
-					modifiedWhileSaving = {};
+					modifiedWhileSaving = {},
+					invalidSettings = [],
+					invalidControls;
 
 				body.addClass( 'saving' );
 
@@ -3502,6 +3483,27 @@
 
 				submit = function () {
 					var request, query;
+
+					/*
+					 * Block saving if there are any settings that are marked as
+					 * invalid from the client (not from the server). Focus on
+					 * the control.
+					 */
+					api.each( function( setting ) {
+						setting.notifications.each( function( notification ) {
+							if ( 'error' === notification.type && ( ! notification.data || ! notification.data.from_server ) ) {
+								invalidSettings.push( setting.id );
+							}
+						} );
+					} );
+					invalidControls = api.findControlsForSettings( invalidSettings );
+					if ( ! _.isEmpty( invalidControls ) ) {
+						_.values( invalidControls )[0][0].focus();
+						body.removeClass( 'saving' );
+						api.unbind( 'change', captureSettingModifiedDuringSave );
+						return;
+					}
+
 					query = $.extend( self.query(), {
 						nonce:  self.nonce.save
 					} );
@@ -3511,18 +3513,6 @@
 					saveBtn.prop( 'disabled', true );
 
 					api.trigger( 'save', request );
-
-					/*
-					 * Remove all setting error notifications prior to save, allowing
-					 * server to respond with fresh validation error notifications.
-					 */
-					api.each( function( setting ) {
-						setting.notifications.each( function( notification ) {
-							if ( 'error' === notification.type ) {
-								setting.notifications.remove( notification.code );
-							}
-						} );
-					} );
 
 					request.always( function () {
 						body.removeClass( 'saving' );
@@ -3548,7 +3538,12 @@
 							} );
 						}
 
-						self._handleInvalidSettingsError( response );
+						if ( response.setting_validities ) {
+							api._handleSettingValidities( {
+								settingValidities: response.setting_validities,
+								focusInvalidControl: true
+							} );
+						}
 
 						api.trigger( 'error', response );
 					} );
@@ -3563,6 +3558,13 @@
 						} );
 
 						api.previewer.send( 'saved', response );
+
+						if ( response.setting_validities ) {
+							api._handleSettingValidities( {
+								settingValidities: response.setting_validities,
+								focusInvalidControl: true
+							} );
+						}
 
 						api.trigger( 'saved', response );
 
@@ -3668,6 +3670,103 @@
 				});
 			});
 		});
+
+		/**
+		 * Handle setting_validities in an error response for the customize-save request.
+		 *
+		 * Add notifications to the settings and focus on the first control that has an invalid setting.
+		 *
+		 * @since 4.6.0
+		 * @private
+		 *
+		 * @param {object}  args
+		 * @param {object}  args.settingValidities
+		 * @param {boolean} [args.focusInvalidControl=false]
+		 * @returns {void}
+		 */
+		api._handleSettingValidities = function handleSettingValidities( args ) {
+			var invalidSettingControls, invalidSettings = [], wasFocused = false;
+
+			// Find the controls that correspond to each invalid setting.
+			_.each( args.settingValidities, function( validity, settingId ) {
+				var setting = api( settingId );
+				if ( setting ) {
+
+					// Add notifications for invalidities.
+					if ( _.isObject( validity ) ) {
+						_.each( validity, function( params, code ) {
+							var notification = new api.Notification( code, params ), existingNotification, needsReplacement = false;
+
+							// Remove existing notification if already exists for code but differs in parameters.
+							existingNotification = setting.notifications( notification.code );
+							if ( existingNotification ) {
+								needsReplacement = ( notification.type !== existingNotification.type ) || ! _.isEqual( notification.data, existingNotification.data );
+							}
+							if ( needsReplacement ) {
+								setting.notifications.remove( code );
+							}
+
+							if ( ! setting.notifications.has( notification.code ) ) {
+								setting.notifications.add( code, notification );
+							}
+							invalidSettings.push( setting.id );
+						} );
+					}
+
+					// Remove notification errors that are no longer valid.
+					setting.notifications.each( function( notification ) {
+						if ( 'error' === notification.type && ( true === validity || ! validity[ notification.code ] ) ) {
+							setting.notifications.remove( notification.code );
+						}
+					} );
+				}
+			} );
+
+			if ( args.focusInvalidControl ) {
+				invalidSettingControls = api.findControlsForSettings( invalidSettings );
+
+				// Focus on the first control that is inside of an expanded section (one that is visible).
+				_( _.values( invalidSettingControls ) ).find( function( controls ) {
+					return _( controls ).find( function( control ) {
+						var isExpanded = control.section() && api.section.has( control.section() ) && api.section( control.section() ).expanded();
+						if ( isExpanded && control.expanded ) {
+							isExpanded = control.expanded();
+						}
+						if ( isExpanded ) {
+							control.focus();
+							wasFocused = true;
+						}
+						return wasFocused;
+					} );
+				} );
+
+				// Focus on the first invalid control.
+				if ( ! wasFocused && ! _.isEmpty( invalidSettingControls ) ) {
+					_.values( invalidSettingControls )[0][0].focus();
+				}
+			}
+		};
+
+		/**
+		 * Find all controls associated with the given settings.
+		 *
+		 * @since 4.6.0
+		 * @param {string[]} settingIds Setting IDs.
+		 * @returns {object<string, wp.customize.Control>} Mapping setting ids to arrays of controls.
+		 */
+		api.findControlsForSettings = function findControlsForSettings( settingIds ) {
+			var controls = {}, settingControls;
+			_.each( _.unique( settingIds ), function( settingId ) {
+				var setting = api( settingId );
+				if ( setting ) {
+					settingControls = setting.findControls();
+					if ( settingControls && settingControls.length > 0 ) {
+						controls[ settingId ] = settingControls;
+					}
+				}
+			} );
+			return controls;
+		};
 
 		/**
 		 * Sort panels, sections, controls by priorities. Hide empty sections and panels.
@@ -4039,6 +4138,14 @@
 				}
 			});
 		});
+
+		// Update the setting validities.
+		api.previewer.bind( 'selective-refresh-setting-validities', function handleSelectiveRefreshedSettingValidities( settingValidities ) {
+			api._handleSettingValidities( {
+				settingValidities: settingValidities,
+				focusInvalidControl: false
+			} );
+		} );
 
 		// Focus on the control that is associated with the given setting.
 		api.previewer.bind( 'focus-control-for-setting', function( settingId ) {

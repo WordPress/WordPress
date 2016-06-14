@@ -825,6 +825,9 @@ final class WP_Customize_Manager {
 	 * @since 3.4.0
 	 */
 	public function customize_preview_settings() {
+		$setting_validities = $this->validate_setting_values( $this->unsanitized_post_values() );
+		$exported_setting_validities = array_map( array( $this, 'prepare_setting_validity_for_js' ), $setting_validities );
+
 		$settings = array(
 			'theme' => array(
 				'stylesheet' => $this->get_stylesheet(),
@@ -837,6 +840,7 @@ final class WP_Customize_Manager {
 			'activePanels' => array(),
 			'activeSections' => array(),
 			'activeControls' => array(),
+			'settingValidities' => $exported_setting_validities,
 			'nonce' => $this->get_nonces(),
 			'l10n' => array(
 				'shiftClickToEdit' => __( 'Shift-click to edit this element.' ),
@@ -991,12 +995,13 @@ final class WP_Customize_Manager {
 	 * @since 4.6.0
 	 * @access public
 	 * @see WP_REST_Request::has_valid_params()
+	 * @see WP_Customize_Setting::validate()
 	 *
 	 * @param array $setting_values Mapping of setting IDs to values to sanitize and validate.
-	 * @return array Empty array if all settings were valid. One or more instances of `WP_Error` if any were invalid.
+	 * @return array Mapping of setting IDs to return value of validate method calls, either `true` or `WP_Error`.
 	 */
 	public function validate_setting_values( $setting_values ) {
-		$validity_errors = array();
+		$validities = array();
 		foreach ( $setting_values as $setting_id => $unsanitized_value ) {
 			$setting = $this->get_setting( $setting_id );
 			if ( ! $setting || is_null( $unsanitized_value ) ) {
@@ -1006,11 +1011,46 @@ final class WP_Customize_Manager {
 			if ( false === $validity || null === $validity ) {
 				$validity = new WP_Error( 'invalid_value', __( 'Invalid value.' ) );
 			}
-			if ( is_wp_error( $validity ) ) {
-				$validity_errors[ $setting_id ] = $validity;
-			}
+			$validities[ $setting_id ] = $validity;
 		}
-		return $validity_errors;
+		return $validities;
+	}
+
+	/**
+	 * Prepare setting validity for exporting to the client (JS).
+	 *
+	 * Converts `WP_Error` instance into array suitable for passing into the
+	 * `wp.customize.Notification` JS model.
+	 *
+	 * @since 4.6.0
+	 * @access public
+	 *
+	 * @param true|WP_Error $validity Setting validity.
+	 * @return true|array If `$validity` was `WP_Error` then array mapping the error
+	 *                    codes to their respective `message` and `data` to pass
+	 *                    into the `wp.customize.Notification` JS model.
+	 */
+	public function prepare_setting_validity_for_js( $validity ) {
+		if ( is_wp_error( $validity ) ) {
+			$notification = array();
+			foreach ( $validity->errors as $error_code => $error_messages ) {
+				$error_data = $validity->get_error_data( $error_code );
+				if ( is_null( $error_data ) ) {
+					$error_data = array();
+				}
+				$error_data = array_merge(
+					$error_data,
+					array( 'from_server' => true )
+				);
+				$notification[ $error_code ] = array(
+					'message' => join( ' ', $error_messages ),
+					'data' => $error_data,
+				);
+			}
+			return $notification;
+		} else {
+			return true;
+		}
 	}
 
 	/**
@@ -1041,22 +1081,13 @@ final class WP_Customize_Manager {
 		do_action( 'customize_save_validation_before', $this );
 
 		// Validate settings.
-		$validity_errors = $this->validate_setting_values( $this->unsanitized_post_values() );
-		$invalid_count = count( $validity_errors );
-		if ( $invalid_count > 0 ) {
-			$settings_errors = array();
-			foreach ( $validity_errors as $setting_id => $validity_error ) {
-				$settings_errors[ $setting_id ] = array();
-				foreach ( $validity_error->errors as $error_code => $error_messages ) {
-					$settings_errors[ $setting_id ][ $error_code ] = array(
-						'message' => join( ' ', $error_messages ),
-						'data' => $validity_error->get_error_data( $error_code ),
-					);
-				}
-			}
+		$setting_validities = $this->validate_setting_values( $this->unsanitized_post_values() );
+		$invalid_setting_count = count( array_filter( $setting_validities, 'is_wp_error' ) );
+		$exported_setting_validities = array_map( array( $this, 'prepare_setting_validity_for_js' ), $setting_validities );
+		if ( $invalid_setting_count > 0 ) {
 			$response = array(
-				'invalid_settings' => $settings_errors,
-				'message' => sprintf( _n( 'There is %s invalid setting.', 'There are %s invalid settings.', $invalid_count ), number_format_i18n( $invalid_count ) ),
+				'setting_validities' => $exported_setting_validities,
+				'message' => sprintf( _n( 'There is %s invalid setting.', 'There are %s invalid settings.', $invalid_setting_count ), number_format_i18n( $invalid_setting_count ) ),
 			);
 
 			/** This filter is documented in wp-includes/class-wp-customize-manager.php */
@@ -1097,6 +1128,10 @@ final class WP_Customize_Manager {
 		 */
 		do_action( 'customize_save_after', $this );
 
+		$data = array(
+			'setting_validities' => $exported_setting_validities,
+		);
+
 		/**
 		 * Filters response data for a successful customize_save AJAX request.
 		 *
@@ -1108,7 +1143,7 @@ final class WP_Customize_Manager {
 		 *                                   event on `wp.customize`.
 		 * @param WP_Customize_Manager $this WP_Customize_Manager instance.
 		 */
-		$response = apply_filters( 'customize_save_response', array(), $this );
+		$response = apply_filters( 'customize_save_response', $data, $this );
 		wp_send_json_success( $response );
 	}
 
