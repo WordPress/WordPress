@@ -315,10 +315,32 @@ class WP_oEmbed {
 	 * @return false|string False on failure, otherwise the UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
 	 */
 	public function get_html( $url, $args = '' ) {
+		/**
+		 * Filters the oEmbed result before any HTTP requests are made.
+		 *
+		 * This allows one to short-circuit the default logic, perhaps by
+		 * replacing it with a routine that is more optimal for your setup.
+		 *
+		 * Passing a non-null value to the filter will effectively short-circuit retrieval,
+		 * returning the passed value instead.
+		 *
+		 * @since 4.5.3
+		 *
+		 * @param null|string $result The UNSANITIZED (and potentially unsafe) HTML that should be used to embed. Default null.
+		 * @param string      $url    The URL to the content that should be attempted to be embedded.
+		 * @param array       $args   Optional. Arguments, usually passed from a shortcode. Default empty.
+		 */
+		$pre = apply_filters( 'pre_oembed_result', null, $url, $args );
+
+		if ( null !== $pre ) {
+			return $pre;
+		}
+
 		$provider = $this->get_provider( $url, $args );
 
-		if ( !$provider || false === $data = $this->fetch( $provider, $url, $args ) )
+		if ( ! $provider || false === $data = $this->fetch( $provider, $url, $args ) ) {
 			return false;
+		}
 
 		/**
 		 * Filters the HTML returned by the oEmbed provider.
