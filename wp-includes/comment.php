@@ -600,7 +600,7 @@ function wp_allow_comment( $commentdata ) {
 	);
 	if ( $commentdata['comment_author_email'] ) {
 		$dupe .= $wpdb->prepare(
-			"OR comment_author_email = %s ",
+			"AND comment_author_email = %s ",
 			wp_unslash( $commentdata['comment_author_email'] )
 		);
 	}
