@@ -186,7 +186,7 @@ function wp_maybe_decline_date( $date ) {
 			$months = $wp_locale->month;
 
 			foreach ( $months as $key => $month ) {
-				$months[ $key ] = '#' . $month . '#';
+				$months[ $key ] = '#\b' . $month . '\b#u';
 			}
 
 			$date = preg_replace( $months, $wp_locale->month_genitive, $date );
