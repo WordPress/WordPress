@@ -1271,10 +1271,6 @@ ul.cat-checklist {
 	border-bottom: 0;
 }
 
-.plugin-update-tr td {
-	border-top: 0;
-}
-
 .plugins .inactive td,
 .plugins .inactive th,
 .plugins .active td,
@@ -1309,20 +1305,9 @@ ul.cat-checklist {
 	box-shadow: none;
 }
 
-.plugins .active.update td,
-.plugins .active.update th,
-tr.active.update + tr.plugin-update-tr .plugin-update {
-	background-color: #fef7f1;
-}
-
 .plugins .active th.check-column,
 .plugin-update-tr.active td {
 	border-right: 4px solid #00a0d2;
-}
-
-.plugins .active.update th.check-column,
-.plugins .active.update + .plugin-update-tr .plugin-update {
-	border-right: 4px solid #d54e21;
 }
 
 #wpbody-content .plugins .plugin-title,
@@ -1358,42 +1343,33 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 	border-top-width: 1px;
 }
 
-.plugin-update-tr .update-message {
-	font-size: 13px;
-	font-weight: normal;
-	margin: 0 31px 8px 10px;
-	padding: 6px 40px 8px 12px;
-	background-color: #f7f7f7;
-	background-color: rgba(0,0,0,0.03);
+.plugins .plugin-update-tr .plugin-update {
+	-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
+	overflow: hidden; /* clearfix */
+	padding: 0;
 }
 
-.plugin-update-tr .update-message:before,
-.plugin-card .update-now:before,
-.plugin-card .install-now:before {
-	color: #d54e21;
+.plugins .plugin-update-tr .notice {
+	margin: 5px 40px 15px 20px;
+}
+
+.plugins .notice p {
+	margin: 0.5em 0;
+}
+
+.plugin-card .update-now:before {
+	color: #f56e28;
+	content: "\f463";
 	display: inline-block;
 	font: normal 20px/1 dashicons;
+	margin: 3px -2px 0 5px;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	vertical-align: top;
 }
 
-.plugin-update-tr .update-message:before,
-.plugin-card .update-now:before {
-	content: "\f463";
-}
-
-.plugin-update-tr .update-message:before {
-	margin: 0 -30px 0 10px;
-}
-
-.plugin-card .update-now:before,
-.plugin-card .install-now:before {
-	margin: 3px -2px 0 5px;
-}
-
-.plugin-update-tr .updating-message:before,
 .plugin-card .updating-message:before {
 	content: "\f463";
 	-webkit-animation: rotation 2s infinite linear;
@@ -1422,26 +1398,9 @@ tr.active.update + tr.plugin-update-tr .plugin-update {
 	}
 }
 
-.plugin-update-tr .updated-message:before,
 .plugin-card .updated-message:before {
 	color: #79ba49;
 	content: "\f147";
-}
-
-.wp-list-table.plugins tbody tr.plugin-update-tr td.plugin-update {
-	overflow: hidden; /* clearfix */
-	padding: 0;
-	-webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
-	box-shadow: inset 0 -1px 0 rgba(0,0,0,0.1);
-}
-
-/* update notices for active plugins */
-tr.active + tr.plugin-update-tr .plugin-update {
-	background-color: #f7fcfe;
-}
-
-tr.active + tr.plugin-update-tr:not(.updated) .plugin-update .update-message {
-	background-color: #fcf3ef;
 }
 
 .plugin-install-php h2 {
@@ -2137,6 +2096,15 @@ div.action-links,
 	}
 
 	.plugin-update-tr .update-message {
+		margin-right: 0;
+	}
+
+	.plugins .active.update + .plugin-update-tr:before {
+		background-color: #f7fcfe;
+		border-right: 4px solid #00a0d2;
+	}
+
+	.plugins .plugin-update-tr .update-message {
 		margin-right: 0;
 	}
 

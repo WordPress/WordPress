@@ -507,7 +507,7 @@ do_action( 'pre_current_active_plugins', $plugins['all'] );
 
 <?php $wp_list_table->views(); ?>
 
-<form method="get">
+<form class="search-form search-plugins" method="get">
 <?php $wp_list_table->search_box( __( 'Search Installed Plugins' ), 'plugin' ); ?>
 </form>
 
@@ -519,9 +519,12 @@ do_action( 'pre_current_active_plugins', $plugins['all'] );
 <?php $wp_list_table->display(); ?>
 </form>
 
+	<span class="spinner"></span>
 </div>
 
 <?php
 wp_print_request_filesystem_credentials_modal();
+wp_print_admin_notice_templates();
+wp_print_update_row_templates();
 
 include(ABSPATH . 'wp-admin/admin-footer.php');

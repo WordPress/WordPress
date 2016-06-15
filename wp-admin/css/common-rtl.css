@@ -1397,12 +1397,66 @@ div.error {
 	background-color: #e5f5fa;
 }
 
+.update-message p:before,
+.updating-message p:before,
+.updated-message p:before,
+.import-php .updating-message:before,
+.button.updating-message:before,
+.button.updated-message:before,
+.button.installed:before,
+.button.installing:before {
+	display: inline-block;
+	font: normal 20px/1 'dashicons';
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	vertical-align: top;
+}
+
 .wrap .notice,
 .wrap div.updated,
 .wrap div.error,
 .media-upload-form .notice,
 .media-upload-form div.error {
 	margin: 5px 0 15px;
+}
+
+/* Update icon. */
+.update-message p:before,
+.updating-message p:before,
+.import-php .updating-message:before,
+.button.updating-message:before,
+.button.installing:before {
+	color: #f56e28;
+	content: "\f463";
+}
+
+/* Spins the update icon. */
+.updating-message p:before,
+.import-php .updating-message:before,
+.button.updating-message:before,
+.button.installing:before {
+	-webkit-animation: rotation 2s infinite linear;
+	animation: rotation 2s infinite linear;
+}
+
+/* Updated icon (check mark). */
+.updated-message p:before,
+.installed p:before,
+.button.updated-message:before {
+	color: #79ba49;
+	content: '\f147';
+}
+
+/* Error icon. */
+.update-message.notice-error p:before {
+	 color: #dc3232;
+	 content: "\f534";
+}
+
+.wrap .notice p:before,
+.import-php .updating-message:before {
+	margin-left: 6px;
+	vertical-align: bottom;
 }
 
 #update-nag,
@@ -1417,10 +1471,6 @@ div.error {
 	border-right: 4px solid #ffba00;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-}
-
-.update-message {
-	color: #000;
 }
 
 ul#dismissed-updates {
@@ -1453,6 +1503,50 @@ form.upgrade .hint {
 #ajax-response.alignleft {
 	margin-right: 2em;
 }
+
+.button.updating-message:before,
+.button.updated-message:before,
+.button.installed:before,
+.button.installing:before {
+	margin: 3px -2px 0 5px;
+}
+
+.button-primary.updating-message:before {
+	color: #fff;
+}
+
+.button-primary.updated-message:before {
+	color: #66c6e4;
+}
+
+.button.updated-message,
+.notice .button-link {
+	-webkit-transition-property: border, background, color;
+	transition-property: border, background, color;
+	-webkit-transition-duration: .05s;
+	transition-duration: .05s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+}
+
+.notice .button-link {
+	color: #0073aa;
+}
+
+.notice .button-link:hover,
+.notice .button-link:active {
+	color: #00a0d2;
+}
+
+@media aural {
+	.wrap .notice p:before,
+	.button.installing:before,
+	.button.installed:before,
+	.update-message p:before {
+		speak: none;
+	}
+}
+
 
 /* @todo: this does not need its own section anymore */
 /*------------------------------------------------------------------------------

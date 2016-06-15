@@ -149,6 +149,10 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$this->has_items = ! empty( $themes['all'] );
 		$total_this_page = $totals[ $status ];
 
+		wp_localize_script( 'updates', '_wpUpdatesItemCounts', array(
+			'totals' => $totals,
+		) );
+
 		if ( $orderby ) {
 			$orderby = ucfirst( $orderby );
 			$order = strtoupper( $order );

@@ -58,6 +58,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 ) );
 
 wp_enqueue_script( 'theme' );
+wp_enqueue_script( 'updates' );
 
 if ( $tab ) {
 	/**
@@ -234,68 +235,92 @@ if ( $tab ) {
 		<div class="theme-screenshot blank"></div>
 	<# } #>
 	<span class="more-details"><?php _ex( 'Details &amp; Preview', 'theme' ); ?></span>
-	<div class="theme-author"><?php printf( __( 'By %s' ), '{{ data.author }}' ); ?></div>
+	<div class="theme-author">
+		<?php
+		/* translators: %s: Theme author name */
+		printf( __( 'By %s' ), '{{ data.author }}' );
+		?>
+	</div>
 	<h3 class="theme-name">{{ data.name }}</h3>
 
 	<div class="theme-actions">
-		<a class="button button-primary" href="{{ data.install_url }}"><?php esc_html_e( 'Install' ); ?></a>
-		<a class="button button-secondary preview install-theme-preview" href="#"><?php esc_html_e( 'Preview' ); ?></a>
+		<# if ( data.installed ) { #>
+			<# if ( data.activate_url ) { #>
+				<a class="button button-primary activate" href="{{ data.activate_url }}"><?php esc_html_e( 'Activate' ); ?></a>
+			<# } #>
+			<# if ( data.customize_url ) { #>
+				<a class="button button-secondary load-customize" href="{{ data.customize_url }}"><?php esc_html_e( 'Live Preview' ); ?></a>
+			<# } else { #>
+				<button class="button-secondary preview install-theme-preview"><?php esc_html_e( 'Preview' ); ?></button>
+			<# } #>
+		<# } else { #>
+			<a class="button button-primary theme-install" data-slug="{{ data.id }}" href="{{ data.install_url }}"><?php esc_html_e( 'Install' ); ?></a>
+			<button class="button-secondary preview install-theme-preview"><?php esc_html_e( 'Preview' ); ?></button>
+		<# } #>
 	</div>
 
 	<# if ( data.installed ) { #>
-		<div class="theme-installed"><?php _ex( 'Already Installed', 'theme' ); ?></div>
+		<div class="notice notice-success notice-alt"><p><?php _ex( 'Installed', 'theme' ); ?></p></div>
 	<# } #>
 </script>
 
 <script id="tmpl-theme-preview" type="text/template">
 	<div class="wp-full-overlay-sidebar">
 		<div class="wp-full-overlay-header">
-			<a href="#" class="close-full-overlay"><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></a>
-			<a href="#" class="previous-theme"><span class="screen-reader-text"><?php _ex( 'Previous', 'Button label for a theme' ); ?></span></a>
-			<a href="#" class="next-theme"><span class="screen-reader-text"><?php _ex( 'Next', 'Button label for a theme' ); ?></span></a>
-		<# if ( data.installed ) { #>
-			<a href="#" class="button button-primary theme-install disabled"><?php _ex( 'Installed', 'theme' ); ?></a>
-		<# } else { #>
-			<a href="{{ data.install_url }}" class="button button-primary theme-install"><?php _e( 'Install' ); ?></a>
-		<# } #>
+			<button class="close-full-overlay"><span class="screen-reader-text"><?php _e( 'Close' ); ?></span></button>
+			<button class="previous-theme"><span class="screen-reader-text"><?php _ex( 'Previous', 'Button label for a theme' ); ?></span></button>
+			<button class="next-theme"><span class="screen-reader-text"><?php _ex( 'Next', 'Button label for a theme' ); ?></span></button>
+			<# if ( data.installed ) { #>
+				<a class="button button-primary activate" href="{{ data.activate_url }}"><?php esc_html_e( 'Activate' ); ?></a>
+			<# } else { #>
+				<a href="{{ data.install_url }}" class="button button-primary theme-install" data-slug="{{ data.id }}"><?php _e( 'Install' ); ?></a>
+			<# } #>
 		</div>
 		<div class="wp-full-overlay-sidebar-content">
 			<div class="install-theme-info">
 				<h3 class="theme-name">{{ data.name }}</h3>
-				<span class="theme-by"><?php printf( __( 'By %s' ), '{{ data.author }}' ); ?></span>
+					<span class="theme-by">
+						<?php
+						/* translators: %s: Theme author name */
+						printf( __( 'By %s' ), '{{ data.author }}' );
+						?>
+					</span>
 
-				<img class="theme-screenshot" src="{{ data.screenshot_url }}" alt="" />
+					<img class="theme-screenshot" src="{{ data.screenshot_url }}" alt="" />
 
-				<div class="theme-details">
-					<# if ( data.rating ) { #>
-						<div class="theme-rating">
-							{{{ data.stars }}}
-							<span class="num-ratings" aria-hidden="true">({{ data.num_ratings }})</span>
+					<div class="theme-details">
+						<# if ( data.rating ) { #>
+							<div class="theme-rating">
+								{{{ data.stars }}}
+								<span class="num-ratings">({{ data.num_ratings }})</span>
+							</div>
+						<# } else { #>
+							<span class="no-rating"><?php _e( 'This theme has not been rated yet.' ); ?></span>
+						<# } #>
+						<div class="theme-version">
+							<?php
+							/* translators: %s: Theme version */
+							printf( __( 'Version: %s' ), '{{ data.version }}' );
+							?>
 						</div>
-					<# } else { #>
-						<span class="no-rating"><?php _e( 'This theme has not been rated yet.' ); ?></span>
-					<# } #>
-					<div class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></div>
-					<div class="theme-description">{{{ data.description }}}</div>
+						<div class="theme-description">{{{ data.description }}}</div>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="wp-full-overlay-footer">
-			<div class="devices">
-				<button type="button" class="preview-desktop active" aria-pressed="true" data-device="desktop"><span class="screen-reader-text"><?php _e( 'Enter desktop preview mode' ); ?></span></button>
-				<button type="button" class="preview-tablet" aria-pressed="false" data-device="tablet"><span class="screen-reader-text"><?php _e( 'Enter tablet preview mode' ); ?></span></button>
-				<button type="button" class="preview-mobile" aria-pressed="false" data-device="mobile"><span class="screen-reader-text"><?php _e( 'Enter mobile preview mode' ); ?></span></button>
+			<div class="wp-full-overlay-footer">
+				<button type="button" class="collapse-sidebar button-secondary" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
+					<span class="collapse-sidebar-arrow"></span>
+					<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
+				</button>
 			</div>
-			<button type="button" class="collapse-sidebar button-secondary" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
-				<span class="collapse-sidebar-arrow"></span>
-				<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
-			</button>
 		</div>
-	</div>
-	<div class="wp-full-overlay-main">
-		<iframe src="{{ data.preview_url }}" title="<?php esc_attr_e( 'Preview' ); ?>" />
+		<div class="wp-full-overlay-main">
+		<iframe src="{{ data.preview_url }}" title="<?php esc_attr_e( 'Preview' ); ?>"></iframe>
 	</div>
 </script>
 
 <?php
+wp_print_request_filesystem_credentials_modal();
+wp_print_admin_notice_templates();
+
 include(ABSPATH . 'wp-admin/admin-footer.php');

@@ -62,7 +62,9 @@ $core_actions_post = array(
 	'send-attachment-to-editor', 'save-attachment-order', 'heartbeat', 'get-revision-diffs',
 	'save-user-color-scheme', 'update-widget', 'query-themes', 'parse-embed', 'set-attachment-thumbnail',
 	'parse-media-shortcode', 'destroy-sessions', 'install-plugin', 'update-plugin', 'press-this-save-post',
-	'press-this-add-category', 'crop-image', 'generate-password', 'save-wporg-username',
+	'press-this-add-category', 'crop-image', 'generate-password', 'save-wporg-username', 'delete-plugin',
+	'search-plugins', 'search-install-plugins', 'activate-plugin', 'update-theme', 'delete-theme',
+	'install-theme',
 );
 
 // Deprecated

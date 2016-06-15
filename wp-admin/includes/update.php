@@ -329,33 +329,43 @@ function wp_plugin_update_rows() {
 }
 
 /**
+ * Displays update information for a plugin.
  *
- * @param string $file
- * @param array  $plugin_data
+ * @param string $file        Plugin basename.
+ * @param array  $plugin_data Plugin information.
  * @return false|void
  */
 function wp_plugin_update_row( $file, $plugin_data ) {
 	$current = get_site_transient( 'update_plugins' );
-	if ( !isset( $current->response[ $file ] ) )
+	if ( ! isset( $current->response[ $file ] ) ) {
 		return false;
+	}
 
-	$r = $current->response[ $file ];
+	$response = $current->response[ $file ];
 
-	$plugins_allowedtags = array('a' => array('href' => array(),'title' => array()),'abbr' => array('title' => array()),'acronym' => array('title' => array()),'code' => array(),'em' => array(),'strong' => array());
-	$plugin_name = wp_kses( $plugin_data['Name'], $plugins_allowedtags );
+	$plugins_allowedtags = array(
+		'a'       => array( 'href' => array(), 'title' => array() ),
+		'abbr'    => array( 'title' => array() ),
+		'acronym' => array( 'title' => array() ),
+		'code'    => array(),
+		'em'      => array(),
+		'strong'  => array(),
+	);
 
-	$details_url = self_admin_url('plugin-install.php?tab=plugin-information&plugin=' . $r->slug . '&section=changelog&TB_iframe=true&width=600&height=800');
+	$plugin_name   = wp_kses( $plugin_data['Name'], $plugins_allowedtags );
+	$details_url   = self_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $response->slug . '&section=changelog&TB_iframe=true&width=600&height=800' );
 
-	$wp_list_table = _get_list_table('WP_Plugins_List_Table');
+	/** @var WP_Plugins_List_Table $wp_list_table */
+	$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
 
-	if ( is_network_admin() || !is_multisite() ) {
+	if ( is_network_admin() || ! is_multisite() ) {
 		if ( is_network_admin() ) {
-			$active_class = is_plugin_active_for_network( $file ) ? ' active': '';
+			$active_class = is_plugin_active_for_network( $file ) ? ' active' : '';
 		} else {
 			$active_class = is_plugin_active( $file ) ? ' active' : '';
 		}
 
-		echo '<tr class="plugin-update-tr' . $active_class . '" id="' . esc_attr( $r->slug . '-update' ) . '" data-slug="' . esc_attr( $r->slug ) . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . esc_attr( $wp_list_table->get_column_count() ) . '" class="plugin-update colspanchange"><div class="update-message">';
+		echo '<tr class="plugin-update-tr' . $active_class . '" id="' . esc_attr( $response->slug . '-update' ) . '" data-slug="' . esc_attr( $response->slug ) . '" data-plugin="' . esc_attr( $file ) . '"><td colspan="' . esc_attr( $wp_list_table->get_column_count() ) . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-warning notice-alt"><p>';
 
 		if ( ! current_user_can( 'update_plugins' ) ) {
 			/* translators: 1: plugin name, 2: details URL, 3: accessibility text, 4: version number */
@@ -363,17 +373,17 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 				$plugin_name,
 				esc_url( $details_url ),
 				/* translators: 1: plugin name, 2: version number */
-				esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $plugin_name, $r->new_version ) ),
-				$r->new_version
+				esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $plugin_name, $response->new_version ) ),
+				$response->new_version
 			);
-		} elseif ( empty( $r->package ) ) {
+		} elseif ( empty( $response->package ) ) {
 			/* translators: 1: plugin name, 2: details URL, 3: accessibility text, 4: version number */
 			printf( __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox open-plugin-details-modal" aria-label="%3$s">View version %4$s details</a>. <em>Automatic update is unavailable for this plugin.</em>' ),
 				$plugin_name,
 				esc_url( $details_url ),
 				/* translators: 1: plugin name, 2: version number */
-				esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $plugin_name, $r->new_version ) ),
-				$r->new_version
+				esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $plugin_name, $response->new_version ) ),
+				$response->new_version
 			);
 		} else {
 			/* translators: 1: plugin name, 2: details URL, 3: accessibility text, 4: version number, 5: update URL, 6: accessibility text */
@@ -381,13 +391,14 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 				$plugin_name,
 				esc_url( $details_url ),
 				/* translators: 1: plugin name, 2: version number */
-				esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $plugin_name, $r->new_version ) ),
-				$r->new_version,
+				esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $plugin_name, $response->new_version ) ),
+				$response->new_version,
 				wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $file, 'upgrade-plugin_' . $file ),
 				/* translators: %s: plugin name */
 				esc_attr( sprintf( __( 'Update %s now' ), $plugin_name ) )
 			);
 		}
+
 		/**
 		 * Fires at the end of the update message container in each
 		 * row of the plugins list table.
@@ -400,32 +411,32 @@ function wp_plugin_update_row( $file, $plugin_data ) {
 		 * @param array $plugin_data {
 		 *     An array of plugin metadata.
 		 *
-		 *     @type string $name         The human-readable name of the plugin.
-		 *     @type string $plugin_uri   Plugin URI.
-		 *     @type string $version      Plugin version.
-		 *     @type string $description  Plugin description.
-		 *     @type string $author       Plugin author.
-		 *     @type string $author_uri   Plugin author URI.
-		 *     @type string $text_domain  Plugin text domain.
-		 *     @type string $domain_path  Relative path to the plugin's .mo file(s).
-		 *     @type bool   $network      Whether the plugin can only be activated network wide.
-		 *     @type string $title        The human-readable title of the plugin.
-		 *     @type string $author_name  Plugin author's name.
-		 *     @type bool   $update       Whether there's an available update. Default null.
-	 	 * }
-	 	 * @param array $r {
-	 	 *     An array of metadata about the available plugin update.
-	 	 *
-	 	 *     @type int    $id           Plugin ID.
-	 	 *     @type string $slug         Plugin slug.
-	 	 *     @type string $new_version  New plugin version.
-	 	 *     @type string $url          Plugin URL.
-	 	 *     @type string $package      Plugin update package URL.
-	 	 * }
+		 *     @type string $name        The human-readable name of the plugin.
+		 *     @type string $plugin_uri  Plugin URI.
+		 *     @type string $version     Plugin version.
+		 *     @type string $description Plugin description.
+		 *     @type string $author      Plugin author.
+		 *     @type string $author_uri  Plugin author URI.
+		 *     @type string $text_domain Plugin text domain.
+		 *     @type string $domain_path Relative path to the plugin's .mo file(s).
+		 *     @type bool   $network     Whether the plugin can only be activated network wide.
+		 *     @type string $title       The human-readable title of the plugin.
+		 *     @type string $author_name Plugin author's name.
+		 *     @type bool   $update      Whether there's an available update. Default null.
+		 * }
+		 * @param array $response {
+		 *     An array of metadata about the available plugin update.
+		 *
+		 *     @type int    $id          Plugin ID.
+		 *     @type string $slug        Plugin slug.
+		 *     @type string $new_version New plugin version.
+		 *     @type string $url         Plugin URL.
+		 *     @type string $package     Plugin update package URL.
+		 * }
 		 */
-		do_action( "in_plugin_update_message-{$file}", $plugin_data, $r );
+		do_action( "in_plugin_update_message-{$file}", $plugin_data, $response );
 
-		echo '</div></td></tr>';
+		echo '</p></div></td></tr>';
 	}
 }
 
@@ -466,58 +477,65 @@ function wp_theme_update_rows() {
 }
 
 /**
+ * Displays update information for a theme.
  *
- * @param string   $theme_key
- * @param WP_Theme $theme
+ * @param string   $theme_key Theme stylesheet.
+ * @param WP_Theme $theme     Theme object.
  * @return false|void
  */
 function wp_theme_update_row( $theme_key, $theme ) {
 	$current = get_site_transient( 'update_themes' );
-	if ( !isset( $current->response[ $theme_key ] ) )
+
+	if ( ! isset( $current->response[ $theme_key ] ) ) {
 		return false;
+	}
 
-	$r = $current->response[ $theme_key ];
+	$response = $current->response[ $theme_key ];
 
-	$theme_name = $theme['Name'];
+	$details_url = add_query_arg( array(
+		'TB_iframe' => 'true',
+		'width'     => 1024,
+		'height'    => 800,
+	), $current->response[ $theme_key ]['url'] );
 
-	$details_url = add_query_arg( array( 'TB_iframe' => 'true', 'width' => 1024, 'height' => 800 ), $current->response[ $theme_key ]['url'] );
+	/** @var WP_MS_Themes_List_Table $wp_list_table */
+	$wp_list_table = _get_list_table( 'WP_MS_Themes_List_Table' );
 
-	$wp_list_table = _get_list_table('WP_MS_Themes_List_Table');
+	$active = $theme->is_allowed( 'network' ) ? ' active' : '';
 
-	$active = $theme->is_allowed( 'network' ) ? ' active': '';
-
-	echo '<tr class="plugin-update-tr' . $active . '" id="' . esc_attr( $theme->get_stylesheet() . '-update' ) . '" data-slug="' . esc_attr( $theme->get_stylesheet() ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message">';
-	if ( ! current_user_can('update_themes') ) {
+	echo '<tr class="plugin-update-tr' . $active . '" id="' . esc_attr( $theme->get_stylesheet() . '-update' ) . '" data-slug="' . esc_attr( $theme->get_stylesheet() ) . '"><td colspan="' . $wp_list_table->get_column_count() . '" class="plugin-update colspanchange"><div class="update-message notice inline notice-warning notice-alt"><p>';
+	if ( ! current_user_can( 'update_themes' ) ) {
 		/* translators: 1: theme name, 2: details URL, 3: accessibility text, 4: version number */
 		printf( __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox open-plugin-details-modal" aria-label="%3$s">View version %4$s details</a>.'),
-			$theme_name,
+			$theme['Name'],
 			esc_url( $details_url ),
 			/* translators: 1: theme name, 2: version number */
-			esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $r['new_version'] ) ),
-			$r['new_version']
+			esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme['Name'], $response['new_version'] ) ),
+			$response['new_version']
 		);
-	} elseif ( empty( $r['package'] ) ) {
+	} elseif ( empty( $response['package'] ) ) {
 		/* translators: 1: theme name, 2: details URL, 3: accessibility text, 4: version number */
 		printf( __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox open-plugin-details-modal" aria-label="%3$s">View version %4$s details</a>. <em>Automatic update is unavailable for this theme.</em>' ),
-			$theme_name,
+			$theme['Name'],
 			esc_url( $details_url ),
 			/* translators: 1: theme name, 2: version number */
-			esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $r['new_version'] ) ),
-			$r['new_version']
+			esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme['Name'], $response['new_version'] ) ),
+			$response['new_version']
 		);
 	} else {
 		/* translators: 1: theme name, 2: details URL, 3: accessibility text, 4: version number, 5: update URL, 6: accessibility text */
 		printf( __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox open-plugin-details-modal" aria-label="%3$s">View version %4$s details</a> or <a href="%5$s" class="update-link" aria-label="%6$s">update now</a>.' ),
-			$theme_name,
+			$theme['Name'],
 			esc_url( $details_url ),
 			/* translators: 1: theme name, 2: version number */
-			esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $r['new_version'] ) ),
-			$r['new_version'],
+			esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme['Name'], $response['new_version'] ) ),
+			$response['new_version'],
 			wp_nonce_url( self_admin_url( 'update.php?action=upgrade-theme&theme=' ) . $theme_key, 'upgrade-theme_' . $theme_key ),
 			/* translators: %s: theme name */
-			esc_attr( sprintf( __( 'Update %s now' ), $theme_name ) )
+			esc_attr( sprintf( __( 'Update %s now' ), $theme['Name'] ) )
 		);
 	}
+
 	/**
 	 * Fires at the end of the update message container in each
 	 * row of the themes list table.
@@ -527,8 +545,8 @@ function wp_theme_update_row( $theme_key, $theme ) {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param WP_Theme $theme The WP_Theme object.
-	 * @param array    $r {
+	 * @param WP_Theme $theme    The WP_Theme object.
+	 * @param array    $response {
 	 *     An array of metadata about the available theme update.
 	 *
 	 *     @type string $new_version New theme version.
@@ -536,9 +554,9 @@ function wp_theme_update_row( $theme_key, $theme ) {
 	 *     @type string $package     Theme update package URL.
 	 * }
 	 */
-	do_action( "in_theme_update_message-{$theme_key}", $theme, $r );
+	do_action( "in_theme_update_message-{$theme_key}", $theme, $response );
 
-	echo '</div></td></tr>';
+	echo '</p></div></td></tr>';
 }
 
 /**
@@ -576,4 +594,137 @@ function maintenance_nag() {
 		$msg = __('An automated WordPress update has failed to complete! Please notify the site administrator.');
 
 	echo "<div class='update-nag'>$msg</div>";
+}
+
+/**
+ * Prints the JavaScript templates for update admin notices.
+ *
+ * Template takes one argument with four values:
+ *
+ *     param {object} data {
+ *         Arguments for admin notice.
+ *
+ *         @type string id        ID of the notice.
+ *         @type string className Class names for the notice.
+ *         @type string message   The notice's message.
+ *         @type string type      The type of update the notice is for. Either 'plugin' or 'theme'.
+ *     }
+ *
+ * @since 4.6.0
+ */
+function wp_print_admin_notice_templates() {
+	?>
+	<script id="tmpl-wp-updates-admin-notice" type="text/html">
+		<div <# if ( data.id ) { #>id="{{ data.id }}"<# } #> class="notice {{ data.className }}"><p>{{{ data.message }}}</p></div>
+	</script>
+	<script id="tmpl-wp-bulk-updates-admin-notice" type="text/html">
+		<div id="{{ data.id }}" class="notice <# if ( data.errors ) { #>notice-error<# } else { #>notice-success<# } #>">
+			<p>
+				<# if ( data.successes ) { #>
+					<# if ( 1 === data.successes ) { #>
+						<# if ( 'plugin' === data.type ) { #>
+							<?php
+							/* translators: %s: Number of plugins */
+							printf( __( '%s plugin successfully updated.' ), '{{ data.successes }}' );
+							?>
+						<# } else { #>
+							<?php
+							/* translators: %s: Number of themes */
+							printf( __( '%s theme successfully updated.' ), '{{ data.successes }}' );
+							?>
+						<# } #>
+					<# } else { #>
+						<# if ( 'plugin' === data.type ) { #>
+							<?php
+							/* translators: %s: Number of plugins */
+							printf( __( '%s plugins successfully updated.' ), '{{ data.successes }}' );
+							?>
+						<# } else { #>
+							<?php
+							/* translators: %s: Number of themes */
+							printf( __( '%s themes successfully updated.' ), '{{ data.successes }}' );
+							?>
+						<# } #>
+					<# } #>
+				<# } #>
+				<# if ( data.errors ) { #>
+					<# if ( 1 === data.errors ) { #>
+						<button class="button-link">
+							<?php
+							/* translators: %s: Number of failures */
+							printf( __( '%s failure.' ), '{{ data.errors }}' );
+							?>
+						</button>
+					<# } else { #>
+						<button class="button-link">
+							<?php
+							/* translators: %s: Number of failures */
+							printf( __( '%s failures.' ), '{{ data.errors }}' );
+							?>
+						</button>
+					<# } #>
+				<# } #>
+			</p>
+			<# if ( data.errors ) { #>
+				<ul class="hidden">
+					<# _.each( data.errorMessages, function( errorMessage ) { #>
+						<li>{{ errorMessage }}</li>
+					<# } ); #>
+				</ul>
+			<# } #>
+		</div>
+	</script>
+	<?php
+}
+
+/**
+ * Prints the JavaScript templates for update and deletion rows in list tables.
+ *
+ * The update template takes one argument with four values:
+ *
+ *     param {object} data {
+ *         Arguments for the update row
+ *
+ *         @type string slug    Plugin slug.
+ *         @type string plugin  Plugin base name.
+ *         @type string colspan The number of table columns this row spans.
+ *         @type string content The row content.
+ *     }
+ *              
+ * The delete template takes one argument with four values:
+ *
+ *     param {object} data {
+ *         Arguments for the update row
+ *
+ *         @type string slug    Plugin slug.
+ *         @type string plugin  Plugin base name.
+ *         @type string name    Plugin name.
+ *         @type string colspan The number of table columns this row spans.
+ *     }
+ *
+ * @since 4.6.0
+ */
+function wp_print_update_row_templates() {
+	?>
+	<script id="tmpl-item-update-row" type="text/template">
+		<tr class="plugin-update-tr update" id="{{ data.slug }}-update" data-slug="{{ data.slug }}" <# if ( data.plugin ) { #>data-plugin="{{ data.plugin }}"<# } #>>
+			<td colspan="{{ data.colspan }}" class="plugin-update colspanchange">
+				{{{ data.content }}}
+			</td>
+		</tr>
+	</script>
+	<script id="tmpl-item-deleted-row" type="text/template">
+		<tr class="plugin-deleted-tr inactive deleted" id="{{ data.slug }}-deleted" data-slug="{{ data.slug }}" <# if ( data.plugin ) { #>data-plugin="{{ data.plugin }}"<# } #>>
+			<td colspan="{{ data.colspan }}" class="plugin-update colspanchange">
+				<?php
+				printf(
+					/* translators: %s: Plugin or Theme name */
+					__( '%s was successfully deleted.' ),
+					'<strong>{{{ data.name }}}</strong>'
+				);
+				?>
+			</td>
+		</tr>
+	</script>
+	<?php
 }

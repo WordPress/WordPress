@@ -246,6 +246,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 
 		$total_this_page = $totals[ $status ];
 
+		$js_plugins = array();
+		foreach ( $plugins as $key => $list ) {
+			$js_plugins[ $key ] = array_keys( (array) $list );
+		}
+
+		wp_localize_script( 'updates', '_wpUpdatesItemCounts', array(
+			'plugins' => $js_plugins,
+		) );
+
 		if ( ! $orderby ) {
 			$orderby = 'Name';
 		} else {

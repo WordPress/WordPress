@@ -421,9 +421,7 @@ $document.ready( function() {
 		});
 	}
 
-	$document.on( 'wp-plugin-update-error', function() {
-		makeNoticesDismissible();
-	});
+	$document.on( 'wp-updates-notice-added wp-plugin-install-error wp-plugin-update-error wp-plugin-delete-error wp-theme-install-error wp-theme-delete-error', makeNoticesDismissible );
 
 	// Init screen meta
 	screenMeta.init();

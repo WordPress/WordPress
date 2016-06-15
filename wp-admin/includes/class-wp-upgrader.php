@@ -61,7 +61,7 @@ class WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @access public
-	 * @var WP_Upgrader_Skin $skin
+	 * @var Automatic_Upgrader_Skin|WP_Upgrader_Skin $skin
 	 */
 	public $skin = null;
 

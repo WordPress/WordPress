@@ -41,6 +41,7 @@ class WP_Filesystem_Base {
 
 	/**
 	 * @access public
+	 * @var WP_Error
 	 */
 	public $errors = null;
 

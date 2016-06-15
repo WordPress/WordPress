@@ -46,6 +46,7 @@ if ( ! empty( $_GET['invalid'] ) && isset( $popular_importers[ $_GET['invalid'] 
 
 add_thickbox();
 wp_enqueue_script( 'plugin-install' );
+wp_enqueue_script( 'updates' );
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 $parent_file = 'tools.php';
@@ -131,5 +132,7 @@ if ( current_user_can('install_plugins') )
 </div>
 
 <?php
+wp_print_request_filesystem_credentials_modal();
+wp_print_admin_notice_templates();
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );
