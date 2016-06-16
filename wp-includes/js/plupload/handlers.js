@@ -430,19 +430,23 @@ jQuery(document).ready(function($){
 
 			if ( up.features.dragdrop && ! $(document.body).hasClass('mobile') ) {
 				uploaddiv.addClass('drag-drop');
-				$('#drag-drop-area').bind('dragover.wp-uploader', function(){ // dragenter doesn't fire right :(
+				$('#drag-drop-area').on('dragover.wp-uploader', function(){ // dragenter doesn't fire right :(
 					uploaddiv.addClass('drag-over');
-				}).bind('dragleave.wp-uploader, drop.wp-uploader', function(){
+				}).on('dragleave.wp-uploader, drop.wp-uploader', function(){
 					uploaddiv.removeClass('drag-over');
 				});
 			} else {
 				uploaddiv.removeClass('drag-drop');
-				$('#drag-drop-area').unbind('.wp-uploader');
+				$('#drag-drop-area').off('.wp-uploader');
 			}
 
 			if ( up.runtime === 'html4' ) {
 				$('.upload-flash-bypass').hide();
 			}
+		});
+
+		uploader.bind( 'postinit', function( up ) {
+			up.refresh();
 		});
 
 		uploader.init();
