@@ -2918,7 +2918,7 @@ function _wp_image_editor_choose( $args = array() ) {
 }
 
 /**
- * Prints default plupload arguments.
+ * Prints default Plupload arguments.
  *
  * @since 3.4.0
  */
@@ -2930,6 +2930,11 @@ function wp_plupload_default_settings() {
 		return;
 
 	$max_upload_size = wp_max_upload_size();
+	$allowed_extensions = array_keys( get_allowed_mime_types() );
+	$extensions = array();
+	foreach ( $allowed_extensions as $extension ) {
+		$extensions = array_merge( $extensions, explode( '|', $extension ) );
+	}
 
 	$defaults = array(
 		'runtimes'            => 'html5,flash,silverlight,html4',
@@ -2939,6 +2944,7 @@ function wp_plupload_default_settings() {
 		'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
 		'filters' => array(
 			'max_file_size'   => $max_upload_size . 'b',
+			'mime_types'      => array( array( 'extensions' => implode( ',', $extensions ) ) ),
 		),
 	);
 
