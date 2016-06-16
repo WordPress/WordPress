@@ -59,19 +59,21 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 			<# } #>
 		</label>
 
-		<# if ( data.attachment && data.attachment.id && data.attachment.sizes ) { #>
+		<# if ( data.attachment && data.attachment.id ) { #>
 			<div class="attachment-media-view">
-				<div class="site-icon-preview">
-					<div class="favicon-preview">
-						<img src="<?php echo esc_url( admin_url( 'images/browser.png' ) ); ?>" class="browser-preview" width="182" alt="" />
+				<# if ( data.attachment.sizes ) { #>
+					<div class="site-icon-preview">
+						<div class="favicon-preview">
+							<img src="<?php echo esc_url( admin_url( 'images/browser.png' ) ); ?>" class="browser-preview" width="182" alt="" />
 
-						<div class="favicon">
-							<img id="preview-favicon" src="{{ data.attachment.sizes.full.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
+							<div class="favicon">
+								<img id="preview-favicon" src="{{ data.attachment.sizes.full.url }}" alt="<?php esc_attr_e( 'Preview as a browser icon' ); ?>"/>
+							</div>
+							<span class="browser-title" aria-hidden="true"><?php bloginfo( 'name' ); ?></span>
 						</div>
-						<span class="browser-title" aria-hidden="true"><?php bloginfo( 'name' ); ?></span>
+						<img class="app-icon-preview" src="{{ data.attachment.sizes.full.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>"/>
 					</div>
-					<img class="app-icon-preview" src="{{ data.attachment.sizes.full.url }}" alt="<?php esc_attr_e( 'Preview as an app icon' ); ?>"/>
-				</div>
+				<# } #>
 				<div class="actions">
 					<# if ( data.canUpload ) { #>
 						<button type="button" class="button remove-button"><?php echo $this->button_labels['remove']; ?></button>
