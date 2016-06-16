@@ -226,6 +226,7 @@ class WP_REST_Server {
 	public function serve_request( $path = null ) {
 		$content_type = isset( $_GET['_jsonp'] ) ? 'application/javascript' : 'application/json';
 		$this->send_header( 'Content-Type', $content_type . '; charset=' . get_option( 'blog_charset' ) );
+		$this->send_header( 'X-Robots-Tag', 'noindex' );
 
 		/*
 		 * Mitigate possible JSONP Flash attacks.
