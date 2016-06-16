@@ -285,7 +285,7 @@ function uploadError(fileObj, errorCode, message, uploader) {
 			wpFileError(fileObj, pluploadL10n.upload_failed);
 			break;
 		case plupload.FILE_EXTENSION_ERROR:
-			wpFileExtensionError( uploader, file, pluploadL10n.invalid_filetype );
+			wpFileExtensionError( uploader, fileObj, pluploadL10n.invalid_filetype );
 			break;
 		case plupload.FILE_SIZE_ERROR:
 			uploadSizeError(uploader, fileObj);
