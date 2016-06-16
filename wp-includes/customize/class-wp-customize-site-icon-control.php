@@ -60,6 +60,7 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 		</label>
 
 		<# if ( data.attachment && data.attachment.id ) { #>
+		<# if ( data.attachment.sizes ) { #>
 		<div class="current">
 			<div class="container">
 				<div class="site-icon-preview">
@@ -75,6 +76,7 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 				</div>
 			</div>
 		</div>
+		<# } #>
 		<div class="actions">
 			<# if ( data.canUpload ) { #>
 				<button type="button" class="button remove-button"><?php echo $this->button_labels['remove']; ?></button>
