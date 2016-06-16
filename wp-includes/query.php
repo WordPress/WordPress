@@ -3641,16 +3641,16 @@ class WP_Query {
 
 				if ( $ids ) {
 					$this->posts = $ids;
+					$this->set_found_posts( $q, $limits );
 					_prime_post_caches( $ids, $q['update_post_term_cache'], $q['update_post_meta_cache'] );
 				} else {
 					$this->posts = array();
 				}
 			} else {
 				$this->posts = $wpdb->get_results( $this->request );
+				$this->set_found_posts( $q, $limits );
 			}
 		}
-
-		$this->set_found_posts( $q, $limits );
 
 		// Convert to WP_Post objects.
 		if ( $this->posts ) {
