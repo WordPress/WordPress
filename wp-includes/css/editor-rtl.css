@@ -1757,6 +1757,14 @@ div.wp-link-preview a {
 	cursor: pointer;
 }
 
+div.wp-link-preview a.wplink-url-error {
+	color: #a00;
+}
+
+div.wp-link-preview a.wplink-url-error:hover {
+	color: #f00;
+}
+
 div.wp-link-input {
 	float: right;
 	margin: 2px;

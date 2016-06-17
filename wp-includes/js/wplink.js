@@ -434,6 +434,10 @@ var wpLink;
 			editor.focus();
 			editor.nodeChanged();
 
+			if ( link && editor.plugins.wplink ) {
+				editor.plugins.wplink.checkLink( link );
+			}
+
 			// Audible confirmation message when a link has been inserted in the Editor.
 			wp.a11y.speak( wpLinkL10n.linkInserted );
 		},

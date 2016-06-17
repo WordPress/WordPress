@@ -93,6 +93,7 @@
 		var doingUndoRedo;
 		var doingUndoRedoTimer;
 		var $ = window.jQuery;
+		var urlErrors = {};
 
 		function getSelectedLink() {
 			var href, html,
@@ -131,11 +132,62 @@
 		}
 
 		function removePlaceholderStrings( content, dataAttr ) {
-			if ( dataAttr ) {
-				content = content.replace( / data-wplink-edit="true"/g, '' );
+			return content.replace( /(<a [^>]+>)([\s\S]*?)<\/a>/g, function( all, tag, text ) {
+				if ( tag.indexOf( ' href="_wp_link_placeholder"' ) > -1 ) {
+					return text;
+				}
+
+				if ( dataAttr ) {
+					tag = tag.replace( / data-wplink-edit="true"/g, '' );
+				}
+
+				tag = tag.replace( / data-wplink-url-error="true"/g, '' );
+
+				return tag + text + '</a>';
+			});
+		}
+
+		function checkLink( node ) {
+			var $link = editor.$( node );
+			var href = $link.attr( 'href' );
+
+			if ( ! href || typeof $ === 'undefined' ) {
+				return;
 			}
 
-			return content.replace( /<a [^>]*?href="_wp_link_placeholder"[^>]*>([\s\S]+)<\/a>/g, '$1' );
+			// Early check
+			if ( /^http/i.test( href ) && ! /\.[a-z]{2,63}(\/|$)/i.test( href ) ) {
+				urlErrors[href] = tinymce.translate( 'Invalid host name.' );
+			}
+
+			if ( urlErrors.hasOwnProperty( href ) ) {
+				$link.attr( 'data-wplink-url-error', 'true' );
+				return;
+			} else {
+				$link.removeAttr( 'data-wplink-url-error' );
+			}
+
+			$.post(
+				window.ajaxurl, {
+					action: 'test_url',
+					nonce: $( '#_wplink_urltest_nonce' ).val(),
+					href: href
+				},
+				'json'
+			).done( function( response ) {
+				if ( response.success ) {
+					return;
+				}
+
+				if ( response.data && response.data.error ) {
+					urlErrors[href] = response.data.error;
+					$link.attr( 'data-wplink-url-error', 'true' );
+
+					if ( toolbar && toolbar.visible() ) {
+						toolbar.$el.find( '.wp-link-preview a' ).addClass( 'wplink-url-error' ).attr( 'title', editor.dom.encode( response.data.error ) );
+					}
+				}
+			});
 		}
 
 		editor.on( 'preinit', function() {
@@ -231,6 +283,8 @@
 				if ( ! tinymce.trim( linkNode.innerHTML ) ) {
 					editor.$( linkNode ).text( text || href );
 				}
+
+				checkLink( linkNode );
 			}
 
 			inputInstance.reset();
@@ -473,7 +527,7 @@
 
 		editor.on( 'wptoolbar', function( event ) {
 			var linkNode = editor.dom.getParent( event.element, 'a' ),
-				$linkNode, href, edit;
+				$linkNode, href, edit, title;
 
 			if ( typeof window.wpLink !== 'undefined' && window.wpLink.modalOpen ) {
 				editToolbar.tempHide = true;
@@ -498,6 +552,13 @@
 					previewInstance.setURL( href );
 					event.element = linkNode;
 					event.toolbar = toolbar;
+					title = urlErrors.hasOwnProperty( href ) ? editor.dom.encode( urlErrors[ href ] ) : null;
+
+					if ( $linkNode.attr( 'data-wplink-url-error' ) === 'true' ) {
+						toolbar.$el.find( '.wp-link-preview a' ).addClass( 'wplink-url-error' ).attr( 'title', title );
+					} else {
+						toolbar.$el.find( '.wp-link-preview a' ).removeClass( 'wplink-url-error' ).attr( 'title', null );
+					}
 				}
 			}
 		} );
@@ -555,7 +616,8 @@
 			close: function() {
 				editToolbar.tempHide = false;
 				editor.execCommand( 'wp_link_cancel' );
-			}
+			},
+			checkLink: checkLink
 		};
 	} );
 } )( window.tinymce );

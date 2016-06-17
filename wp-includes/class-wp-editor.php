@@ -1063,6 +1063,7 @@ final class _WP_Editors {
 			'Ctrl + letter:' => __( 'Ctrl + letter:' ),
 			'Letter' => __( 'Letter' ),
 			'Action' => __( 'Action' ),
+			'Invalid host name.' => __( 'Invalid host name.' ),
 			'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' =>
 				__( 'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' ),
 			'When starting a new paragraph with one of these formatting shortcuts followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' =>
@@ -1283,8 +1284,15 @@ final class _WP_Editors {
 		</script>
 		<?php
 
-		if ( in_array( 'wplink', self::$plugins, true ) || in_array( 'link', self::$qt_buttons, true ) )
+		$has_wplink = in_array( 'wplink', self::$plugins, true );
+
+		if ( $has_wplink ) {
+			echo '<input type="hidden" id="_wplink_urltest_nonce" value="' . wp_create_nonce( 'wp-test-url' ) . '" />';
+		}
+
+		if ( $has_wplink || in_array( 'link', self::$qt_buttons, true ) ) {
 			self::wp_link_dialog();
+		}
 
 		/**
 		 * Fires after any core TinyMCE editor instances are created.

@@ -3832,3 +3832,45 @@ function wp_ajax_search_install_plugins() {
 
 	wp_send_json_success( $status );
 }
+
+/**
+ * Ajax handler for testing if an URL exists. Used in the editor.
+ *
+ * @since 4.6.0
+ */
+function wp_ajax_test_url() {
+	if ( ! current_user_can( 'edit_posts' ) || ! wp_verify_nonce( $_POST['nonce'], 'wp-test-url' ) ) {
+		wp_send_json_error();
+	}
+
+	$href = esc_url_raw( $_POST['href'] );
+
+	// Relative URL
+	if ( strpos( $href, '//' ) !== 0 && in_array( $href[0], array( '/', '#', '?' ), true ) ) {
+		$href = get_bloginfo( 'url' ) . $href;
+	}
+
+	$response = wp_safe_remote_get( $href, array(
+		'timeout' => 15,
+		// Use an explicit user-agent
+		'user-agent' => 'WordPress URL Test',
+	) );
+
+	$message = null;
+
+	if ( is_wp_error( $response ) ) {
+		$error = $response->get_error_message();
+
+		if ( strpos( $message, 'resolve host' ) !== false ) {
+			$message = array( 'error' => __( 'Invalid host name.' ) );
+		}
+
+		wp_send_json_error( $message );
+	}
+
+	if ( wp_remote_retrieve_response_code( $response ) === 404 ) {
+		wp_send_json_error( array( 'error' => __( 'Not found, HTTP error 404.' ) ) );
+	}
+
+	wp_send_json_success();
+}

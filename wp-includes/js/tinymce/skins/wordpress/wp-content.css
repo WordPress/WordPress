@@ -205,6 +205,13 @@ audio {
 	visibility: hidden;
 }
 
+a[data-wplink-url-error],
+a[data-wplink-url-error]:hover,
+a[data-wplink-url-error]:focus {
+	outline: 2px dotted #dc3232;
+	position: relative;
+}
+
 /**
  * WP Views
  */
