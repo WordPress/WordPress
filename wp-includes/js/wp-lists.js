@@ -297,6 +297,20 @@ wpList = {
 			res = wpAjax.parseAjaxResponse(r, s.response, s.element);
 			rres = r;
 
+			if ( 'undefined' !== typeof res.responses[0].supplemental.comment_link ) {
+				var submittedOn = element.find( '.submitted-on' ),
+					commentLink = submittedOn.find( 'a' );
+
+				// Comment is approved; link the date field.
+				if ( '' !== res.responses[0].supplemental.comment_link ) {
+					submittedOn.html( $('<a></a>').text( submittedOn.text() ).prop( 'href', res.responses[0].supplemental.comment_link ) );
+
+				// Comment is not approved; unlink the date field.
+				} else if ( commentLink.length ) {
+					submittedOn.text( commentLink.text() );
+				}
+			}
+
 			if ( !res || res.errors ) {
 				element.stop().stop().css( 'backgroundColor', '#FF3333' )[isClass?'removeClass':'addClass'](s.dimClass).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
 				return false;

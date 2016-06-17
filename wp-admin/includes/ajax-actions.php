@@ -352,8 +352,18 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 
 	// JS didn't send us everything we need to know. Just die with success message
 	if ( ! $total || ! $per_page || ! $page || ! $url ) {
-		$time = time();
-		$comment = get_comment( $comment_id );
+		$time           = time();
+		$comment        = get_comment( $comment_id );
+		$comment_status = '';
+		$comment_link   = '';
+
+		if ( $comment ) {
+			$comment_status = $comment->comment_approved;
+		}
+
+		if ( 1 === (int) $comment_status ) {
+			$comment_link = get_comment_link( $comment );
+		}
 
 		$counts = wp_count_comments();
 
@@ -362,7 +372,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 			// Here for completeness - not used.
 			'id' => $comment_id,
 			'supplemental' => array(
-				'status' => $comment ? $comment->comment_approved : '',
+				'status' => $comment_status,
 				'postId' => $comment ? $comment->comment_post_ID : '',
 				'time' => $time,
 				'in_moderation' => $counts->moderated,
@@ -373,7 +383,8 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 				'i18n_moderation_text' => sprintf(
 					_nx( '%s in moderation', '%s in moderation', $counts->moderated, 'comments' ),
 					number_format_i18n( $counts->moderated )
-				)
+				),
+				'comment_link' => $comment_link,
 			)
 		) );
 		$x->send();
