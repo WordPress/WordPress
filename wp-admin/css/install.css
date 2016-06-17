@@ -45,7 +45,7 @@ h1, h2 {
 	font-size: 24px;
 	padding: 0;
 	padding-bottom: 7px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 h3 {
@@ -100,7 +100,7 @@ label {
 	color: #444; /* same as login.css */
 	height: 84px;
 	font-size: 20px;
-	font-weight: normal;
+	font-weight: 400;
 	line-height: 1.3em;
 	margin: -130px auto 25px;
 	padding: 0;
@@ -192,7 +192,7 @@ submit {
 }
 
 .form-table th p {
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .form-table.install-success th,
@@ -406,7 +406,7 @@ body.language-chooser {
 	color: #32373c;
 	font-size: 16px;
 	font-family: Arial, sans-serif;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .language-chooser p {

@@ -632,7 +632,7 @@ ul#add-to-blog-users {
 .form-table th,
 .form-wrap label {
 	color: #23282d;
-	font-weight: normal;
+	font-weight: 400;
 	text-shadow: none;
 	vertical-align: baseline;
 }
@@ -759,7 +759,7 @@ table.form-table td .updated p {
 .tool-box .title {
 	margin: 8px 0;
 	font-size: 18px;
-	font-weight: normal;
+	font-weight: 400;
 	line-height: 24px;
 }
 

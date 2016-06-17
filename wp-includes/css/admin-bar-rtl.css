@@ -8,7 +8,7 @@
 	text-transform: none;
 	letter-spacing: normal;
 	font-size: 13px;
-	font-weight: normal;
+	font-weight: 400;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 	line-height: 32px;
 	-webkit-border-radius: 0;
@@ -83,7 +83,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	direction: rtl;
 	color: #ccc;
 	font-size: 13px;
-	font-weight: normal;
+	font-weight: 400;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 	line-height: 32px;
 	height: 32px;
@@ -182,7 +182,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 }
 
 #wpadminbar .quicklinks .menupop ul li a strong {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 #wpadminbar .quicklinks .menupop ul li .ab-item,
@@ -366,7 +366,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	display: inline;
 	padding: 2px 5px;
 	font-size: 10px;
-	font-weight: bold;
+	font-weight: 600;
 	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
@@ -720,7 +720,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	width: auto;
 	display: block;
 	font-size: 14px;
-	font-weight: bold;
+	font-weight: 600;
 	padding: 15px 23px 14px;
 	background: #f1f1f1;
 	color: #0073aa;
@@ -807,7 +807,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 	#wpadminbar * {
 		font-size: 14px;
-		font-weight: normal;
+		font-weight: 400;
 		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 		line-height: 32px;
 	}

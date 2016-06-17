@@ -81,7 +81,7 @@ abbr[title] {
 
 b,
 strong {
-	font-weight: bold;
+	font-weight: 700;
 }
 
 dfn {
@@ -232,7 +232,7 @@ textarea {
 }
 
 optgroup {
-	font-weight: bold;
+	font-weight: 700;
 }
 
 table {
@@ -2072,7 +2072,7 @@ html {
 	display: inline-block;
 	margin: 0 8px 0 0;
 	font-size: 14px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .setting-modal {

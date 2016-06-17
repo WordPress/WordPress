@@ -114,12 +114,12 @@ input#link_url {
 }
 
 #editable-post-name {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 #editable-post-name input {
 	font-size: 13px;
-	font-weight: normal;
+	font-weight: 400;
 	height: 22px;
 	margin: 0;
 	width: 16em;
@@ -1170,7 +1170,7 @@ table.links-table {
 }
 
 .links-table th {
-	font-weight: normal;
+	font-weight: 400;
 	text-align: left;
 	vertical-align: top;
 	min-width: 80px;

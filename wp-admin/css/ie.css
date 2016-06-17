@@ -638,7 +638,7 @@ input[type="password"],
 .mce-close {
 	font-family: 'tinymce', Arial;
 	font-style: normal;
-	font-weight: normal;
+	font-weight: 400;
 	font-variant: normal;
 	font-size: 16px;
 	margin-left: 0;

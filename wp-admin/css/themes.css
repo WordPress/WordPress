@@ -723,7 +723,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 
 .theme-overlay .theme-tags span {
 	color: #444;
-	font-weight: bold;
+	font-weight: 600;
 	margin-right: 5px;
 }
 
@@ -732,7 +732,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	border: 1px solid #eee;
 	border-left: 4px solid #00a0d2;
 	font-size: 14px;
-	font-weight: normal;
+	font-weight: 400;
 	margin-top: 30px;
 	padding: 10px 10px 10px 20px;
 }

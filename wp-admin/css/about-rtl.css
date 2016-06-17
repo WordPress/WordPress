@@ -136,13 +136,13 @@
 .about-wrap code,
 .about-wrap ol li p {
 	font-size: 14px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .about-wrap .about-description,
 .about-wrap .about-text {
 	margin-top: 1.4em;
-	font-weight: normal;
+	font-weight: 400;
 	line-height: 1.6em;
 	font-size: 19px;
 }
@@ -325,7 +325,7 @@
 .about-wrap .return-to-dashboard {
 	margin: 30px -5px 0 0;
 	font-size: 14px;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .about-wrap .return-to-dashboard a {
@@ -387,7 +387,7 @@
 .about-wrap .wp-person .web {
 	margin: 6px 0 2px;
 	font-size: 16px;
-	font-weight: normal;
+	font-weight: 400;
 	line-height: 2em;
 	text-decoration: none;
 }
@@ -412,11 +412,11 @@
 
 .freedoms-php .about-wrap ol li {
 	list-style-type: decimal;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .freedoms-php .about-wrap ol p {
-	font-weight: normal;
+	font-weight: 400;
 	margin: 0.6em 0;
 }
 

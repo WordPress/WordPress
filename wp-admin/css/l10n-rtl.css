@@ -16,7 +16,7 @@ body.rtl .press-this a.wp-switch-editor {
 .rtl h5,
 .rtl h6 {
 	font-family: Arial, sans-serif;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 /* he_IL: Remove Tahoma from the font stack. Arial is best for Hebrew. */
@@ -28,7 +28,7 @@ body.locale-he-il .press-this a.wp-switch-editor {
 /* he_IL: Have <em> be bold rather than italic. */
 .locale-he-il em {
 	font-style: normal;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 /* zh_CN: Remove italic properties. */

@@ -114,7 +114,7 @@
 .welcome-panel h2 {
 	margin: 0;
 	font-size: 21px;
-	font-weight: normal;
+	font-weight: 400;
 	line-height: 1.2;
 }
 
@@ -342,7 +342,7 @@ body #dashboard-widgets .postbox form .submit {
 }
 
 #dashboard_primary .rss-widget a {
-	font-weight: normal;
+	font-weight: 400;
 }
 
 #dashboard_primary .rss-widget span,
@@ -400,7 +400,7 @@ body #dashboard-widgets .postbox form .submit {
 	margin: 0 0 10px;
 	padding: 0;
 	font-size: 14px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 /* Dashboard right now - Colors */
@@ -534,7 +534,7 @@ form.initial-form.quickpress-open input#title {
 }
 
 #dashboard_primary a.rsswidget {
-	font-weight: normal;
+	font-weight: 400;
 }
 
 #dashboard_quick_press .drafts ul {
@@ -570,7 +570,7 @@ form.initial-form.quickpress-open input#title {
 	margin: 0 12px 8px;
 	padding: 0;
 	font-size: 14px;
-	font-weight: normal;
+	font-weight: 400;
 	color: #23282d;
 }
 
@@ -829,7 +829,7 @@ form.initial-form.quickpress-open input#title {
 
 #latest-comments #the-comment-list .comment-meta cite {
 	font-style: normal;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 #latest-comments #the-comment-list .comment-item blockquote,

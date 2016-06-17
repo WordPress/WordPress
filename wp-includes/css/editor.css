@@ -140,7 +140,7 @@ div.mce-tab:focus {
 	margin: 8px 0;
 	white-space: normal;
 	font-size: 14px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .mce-window .wp-editor-help table {
@@ -180,14 +180,14 @@ div.mce-tab:focus {
 }
 
 .mce-window .wp-editor-help th {
-	font-weight: bold;
+	font-weight: 600;
 	padding-bottom: 0;
 }
 
 .mce-window .wp-editor-help kbd {
 	font-family: monospace;
 	padding: 2px 7px 3px;
-	font-weight: bold;
+	font-weight: 600;
 	margin: 0;
 	background: #eaeaea;
 	background: rgba(0,0,0,0.08);
@@ -838,7 +838,7 @@ div.mce-menu .mce-menu-item-sep,
 .mce-notification button.mce-close {
 	right: 6px;
 	top: 3px;
-	font-weight: normal;
+	font-weight: 400;
 	color: #555d66;
 }
 
@@ -1242,7 +1242,7 @@ i.mce-i-wp_code:before {
 }
 
 .quicktags-toolbar input[value="b"] {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .mce-toolbar .mce-btn-group .mce-btn.mce-wp-dfw,
@@ -1601,7 +1601,7 @@ i.mce-i-wp_code:before {
 }
 
 #wp-link li.selected .item-title {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 #wp-link li:last-child {

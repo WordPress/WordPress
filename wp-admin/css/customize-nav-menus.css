@@ -511,7 +511,7 @@
 #available-menu-items .cannot-expand .accordion-section-title .no-items {
 	float: right;
 	color: #555d66;
-	font-weight: normal;
+	font-weight: 400;
 	margin-left: 5px;
 }
 

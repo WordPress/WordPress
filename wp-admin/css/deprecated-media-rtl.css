@@ -3,7 +3,7 @@
 div#media-upload-header {
 	margin: 0;
 	padding: 5px 5px 0;
-	font-weight: bold;
+	font-weight: 600;
 	position: relative;
 	border-bottom: 1px solid #ddd;
 	background: #f9f9f9;
@@ -19,7 +19,7 @@ div#media-upload-header {
 	padding-right: 10px;
 	list-style: none;
 	font-size: 12px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 #sidemenu a {
@@ -46,7 +46,7 @@ div#media-upload-header {
 }
 
 #sidemenu a.current {
-	font-weight: normal;
+	font-weight: 400;
 	padding-right: 6px;
 	padding-left: 6px;
 	border: 1px solid #ddd;
@@ -89,7 +89,7 @@ th {
 .media-upload-form label.form-help, td.help {
 	font-family: sans-serif;
 	font-style: italic;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .media-upload-form p.help {
@@ -187,7 +187,7 @@ span.required {
 #media-upload label.help {
 	font-family: sans-serif;
 	font-style: italic;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 #media-upload .ui-sortable .media-item {
@@ -294,7 +294,7 @@ h4.media-sub-title  {
 h3.media-title,
 h4.media-sub-title {
 	font-family: Georgia,"Times New Roman",Times,serif;
-	font-weight: normal;
+	font-weight: 400;
 	color: #5A5A5A;
 }
 

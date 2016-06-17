@@ -71,7 +71,7 @@ ul.add-menu-item-tabs li {
 .is-submenu {
 	color: #555d66; /* #fafafa background */
 	font-style: italic;
-	font-weight: normal;
+	font-weight: 400;
 	margin-right: 4px;
 }
 
@@ -215,7 +215,7 @@ ul.add-menu-item-tabs li {
 }
 
 .menu-location-title label {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .menu-location-menus select {

@@ -369,7 +369,7 @@ div#widgets-right .closed .widgets-sortables {
 /* Dragging widgets over the available widget area show's a "Deactivate" message */
 #removing-widget {
 	display: none;
-	font-weight: normal;
+	font-weight: 400;
 	padding-left: 15px;
 	font-size: 12px;
 	line-height: 1;

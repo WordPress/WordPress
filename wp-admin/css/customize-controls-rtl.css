@@ -576,7 +576,7 @@ p.customize-section-description {
 }
 
 .customize-control .attachment-title {
-	font-weight: bold;
+	font-weight: 600;
 	margin: 0;
 	padding: 5px 10px;
 }
@@ -1010,7 +1010,7 @@ p.customize-section-description {
 	left: 10px;
 	top: 50%;
 	margin-top: -14px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .control-section-themes .accordion-section-title:before {

@@ -437,7 +437,7 @@ code {
 .subsubsub a .count,
 .subsubsub a.current .count {
 	color: #555d66; /* #f1f1f1 background */
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .subsubsub a.current {
@@ -581,7 +581,7 @@ code {
 	padding-left: 25px;
 	color: #555d66;
 	font-size: 14px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .wrap .add-new-h2, /* deprecated */
@@ -1056,7 +1056,7 @@ th.action-links {
 	line-height: 1;
 	text-align: center;
 	text-decoration: inherit;
-	font-weight: normal;
+	font-weight: 400;
 	font-style: normal;
 	-webkit-font-smoothing: antialiased;
 }
@@ -1861,7 +1861,7 @@ html.wp-toolbar {
 .widefat th,
 .widefat thead td,
 .widefat tfoot td {
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .widefat thead tr th,
@@ -1968,7 +1968,7 @@ html.wp-toolbar {
 
 .hndle a {
 	font-size: 11px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .postbox .handlediv {
@@ -2379,7 +2379,7 @@ div.star-holder .star-rating {
 	line-height: 1;
 	font-family: dashicons;
 	text-decoration: inherit;
-	font-weight: normal;
+	font-weight: 400;
 	font-style: normal;
 	vertical-align: top;
 	-webkit-transition: color .1s ease-in 0;
@@ -2407,7 +2407,7 @@ div.star-holder .star-rating {
 }
 
 div.action-links {
-	font-weight: normal;
+	font-weight: 400;
 	margin: 6px 0 0;
 }
 
@@ -2455,7 +2455,7 @@ div.action-links {
 
 #plugin-information-title h2 {
 	font-size: 1em;
-	font-weight: bold;
+	font-weight: 600;
 	padding: 0;
 	margin: 0;
 	max-width: 680px;
@@ -2594,7 +2594,7 @@ div.action-links {
 }
 
 #plugin-information .fyi h3 {
-	font-weight: bold;
+	font-weight: 600;
 	text-transform: uppercase;
 	font-size: 12px;
 	color: #666;
@@ -3104,7 +3104,7 @@ img {
 
 #templateside .highlight {
 	border: none;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .nonessential {

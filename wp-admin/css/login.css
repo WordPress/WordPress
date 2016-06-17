@@ -83,7 +83,7 @@ p {
 	margin-top: 20px;
 	margin-left: 0;
 	padding: 26px 24px 46px;
-	font-weight: normal;
+	font-weight: 400;
 	overflow: hidden;
 	background: #fff;
 	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.13);
@@ -91,7 +91,7 @@ p {
 }
 
 .login form .forgetmenot {
-	font-weight: normal;
+	font-weight: 400;
 	float: left;
 	margin-bottom: 0;
 }
@@ -133,7 +133,7 @@ p {
 	color: #444;
 	height: 84px;
 	font-size: 20px;
-	font-weight: normal;
+	font-weight: 400;
 	line-height: 1.3em;
 	margin: 0 auto 25px;
 	padding: 0;
