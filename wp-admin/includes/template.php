@@ -2003,14 +2003,13 @@ function convert_to_screen( $hook_name ) {
  */
 function _local_storage_notice() {
 	?>
-	<div id="local-storage-notice" class="hidden notice">
+	<div id="local-storage-notice" class="hidden notice is-dismissible">
 	<p class="local-restore">
-		<?php _e('The backup of this post in your browser is different from the version below.'); ?>
-		<a class="restore-backup" href="#"><?php _e('Restore the backup.'); ?></a>
+		<?php _e( 'The backup of this post in your browser is different from the version below.' ); ?>
+		<button type="button" class="button restore-backup"><?php _e('Restore the backup'); ?></button>
 	</p>
-	<p class="undo-restore hidden">
-		<?php _e('Post restored successfully.'); ?>
-		<a class="undo-restore-backup" href="#"><?php _e('Undo.'); ?></a>
+	<p class="help">
+		<?php _e( 'This will replace the current editor content with the last backup version. You can use undo and redo in the editor to get the old content back or to return to the restored version.' ); ?>
 	</p>
 	</div>
 	<?php
