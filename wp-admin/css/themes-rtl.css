@@ -1039,7 +1039,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	box-sizing: border-box;
 	display: none;
 	margin: 0;
-	padding: 0;
+	padding: 50px 0;
 	width: 100%;
 	overflow: hidden;
 	position: relative;
@@ -1066,12 +1066,8 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	font-size: 18px;
 	font-style: normal;
 	margin: 0;
-	padding: 40px 0 0;
+	padding: 0;
 	text-align: center;
-}
-body.show-upload-theme .upload-theme + .wp-filter,
-body.show-upload-theme .upload-theme + .wp-filter + .theme-browser {
-	display: none;
 }
 
 p.no-themes {
@@ -1085,12 +1081,8 @@ p.no-themes {
 	display: none;
 }
 
-body.no-results p.no-themes {
+.no-results p.no-themes {
 	display: block;
-}
-
-body.show-upload-theme p.no-themes {
-	display: none !important;
 }
 
 .theme-install-php .add-new-theme {

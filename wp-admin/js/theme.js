@@ -1745,23 +1745,18 @@ themes.view.Installer = themes.view.Appearance.extend({
 	searchContainer: $( '.wp-filter .search-form' ),
 
 	/*
-	 * When a user presses the "Upload Theme" button, show the upload form in place.
-	 * @todo consider to abstract this in a generic, reusable, utility, see plugin-install.js
+	 * When users press the "Upload Theme" button, show the upload form in place.
 	 */
 	uploader: function() {
 		var uploadViewToggle = $( '.upload-view-toggle' ),
 			$body = $( document.body );
 
-		uploadViewToggle
-			.attr({
-				role: 'button',
-				'aria-expanded': 'false'
-			})
-			.on( 'click', function( event ) {
-				event.preventDefault();
-				$body.toggleClass( 'show-upload-view' );
-				uploadViewToggle.attr( 'aria-expanded', $body.hasClass( 'show-upload-view' ) );
-			});
+		uploadViewToggle.on( 'click', function() {
+			// Toggle the upload view.
+			$body.toggleClass( 'show-upload-view' );
+			// Toggle the `aria-expanded` button attribute.
+			uploadViewToggle.attr( 'aria-expanded', $body.hasClass( 'show-upload-view' ) );
+		});
 	},
 
 	// Toggle the full filters navigation
@@ -1815,7 +1810,6 @@ themes.InstallerRouter = Backbone.Router.extend({
 	routes: {
 		'theme-install.php?theme=:slug': 'preview',
 		'theme-install.php?browse=:sort': 'sort',
-		'theme-install.php?upload': 'upload',
 		'theme-install.php?search=:query': 'search',
 		'theme-install.php': 'sort'
 	},
@@ -1895,11 +1889,6 @@ themes.RunInstaller = {
 			}
 			self.view.sort( sort );
 			self.view.trigger( 'theme:close' );
-		});
-
-		// Support the `upload` route by going straight to upload section
-		themes.router.on( 'route:upload', function() {
-			$( 'a.upload' ).trigger( 'click' );
 		});
 
 		// The `search` route event. The router populates the input field.

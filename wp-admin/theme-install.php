@@ -127,17 +127,20 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	 */
 	$tabs = apply_filters( 'install_themes_tabs', array( 'upload' => __( 'Upload Theme' ) ) );
 	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_themes' ) ) {
-		echo ' <a href="#" class="upload-view-toggle page-title-action">' . __( 'Upload Theme' ) . '</a>';
+		echo ' <button type="button" class="upload-view-toggle page-title-action hide-if-no-js" aria-expanded="false">' . __( 'Upload Theme' ) . '</button>';
 	}
 	?></h1>
+	<div class="error hide-if-js">
+		<p><?php _e( 'The Theme Installer screen requires JavaScript.' ); ?></p>
+	</div>
 
 	<div class="upload-theme">
 	<?php install_themes_upload(); ?>
 	</div>
 
-	<h2 class="screen-reader-text"><?php _e( 'Filter themes list' ); ?></h2>
+	<h2 class="screen-reader-text hide-if-no-js"><?php _e( 'Filter themes list' ); ?></h2>
 
-	<div class="wp-filter">
+	<div class="wp-filter hide-if-no-js">
 		<div class="filter-count">
 			<span class="count theme-count"></span>
 		</div>
@@ -201,7 +204,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			</div>
 		</div>
 	</div>
-	<h2 class="screen-reader-text"><?php _e( 'Themes list' ); ?></h2>
+	<h2 class="screen-reader-text hide-if-no-js"><?php _e( 'Themes list' ); ?></h2>
 	<div class="theme-browser content-filterable"></div>
 	<div class="theme-install-overlay wp-full-overlay expanded"></div>
 

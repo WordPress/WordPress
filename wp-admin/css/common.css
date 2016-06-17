@@ -601,6 +601,9 @@ code {
 	text-shadow: none;
 	font-weight: 600;
 	font-size: 13px;
+	line-height: normal; /* IE8-IE11 need this for buttons */
+	cursor: pointer;
+	outline: 0;
 }
 
 .wrap .add-new-h2:hover, /* deprecated */
