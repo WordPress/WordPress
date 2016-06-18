@@ -138,6 +138,11 @@
 		 */
 		sendEmbedMessage( 'height', Math.ceil( document.body.getBoundingClientRect().height ) );
 
+		// Send the document's height again after the featured image has been loaded.
+		document.querySelector( '.wp-embed-featured-image img' ).addEventListener( 'load', function() {
+			sendEmbedMessage( 'height', Math.ceil( document.body.getBoundingClientRect().height ) );
+		} );
+
 		/**
 		 * Detect clicks to external (_top) links.
 		 */
