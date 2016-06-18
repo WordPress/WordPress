@@ -175,8 +175,6 @@ function wp_maybe_load_embeds() {
 
 	wp_embed_register_handler( 'youtube_embed_url', '#https?://(www.)?youtube\.com/(?:v|embed)/([^/]+)#i', 'wp_embed_handler_youtube' );
 
-	wp_embed_register_handler( 'googlevideo', '#http://video\.google\.([A-Za-z.]{2,5})/videoplay\?docid=([\d-]+)(.*?)#i', 'wp_embed_handler_googlevideo' );
-
 	/**
 	 * Filters the audio embed handler callback.
 	 *
@@ -194,43 +192,6 @@ function wp_maybe_load_embeds() {
 	 * @param callable $handler Video embed handler callback function.
 	 */
 	wp_embed_register_handler( 'video', '#^https?://.+?\.(' . join( '|', wp_get_video_extensions() ) . ')$#i', apply_filters( 'wp_video_embed_handler', 'wp_embed_handler_video' ), 9999 );
-}
-
-/**
- * The Google Video embed handler callback.
- *
- * Google Video does not support oEmbed.
- *
- * @see WP_Embed::register_handler()
- * @see WP_Embed::shortcode()
- *
- * @param array  $matches The RegEx matches from the provided regex when calling wp_embed_register_handler().
- * @param array  $attr    Embed attributes.
- * @param string $url     The original URL that was matched by the regex.
- * @param array  $rawattr The original unmodified attributes.
- * @return string The embed HTML.
- */
-function wp_embed_handler_googlevideo( $matches, $attr, $url, $rawattr ) {
-	// If the user supplied a fixed width AND height, use it
-	if ( !empty($rawattr['width']) && !empty($rawattr['height']) ) {
-		$width  = (int) $rawattr['width'];
-		$height = (int) $rawattr['height'];
-	} else {
-		list( $width, $height ) = wp_expand_dimensions( 425, 344, $attr['width'], $attr['height'] );
-	}
-
-	/**
-	 * Filters the Google Video embed output.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param string $html    Google Video HTML embed markup.
-	 * @param array  $matches The RegEx matches from the provided regex.
-	 * @param array  $attr    An array of embed attributes.
-	 * @param string $url     The original URL that was matched by the regex.
-	 * @param array  $rawattr The original unmodified attributes.
-	 */
-	return apply_filters( 'embed_googlevideo', '<embed type="application/x-shockwave-flash" src="http://video.google.com/googleplayer.swf?docid=' . esc_attr($matches[2]) . '&amp;hl=en&amp;fs=true" style="width:' . esc_attr($width) . 'px;height:' . esc_attr($height) . 'px" allowFullScreen="true" allowScriptAccess="always" />', $matches, $attr, $url, $rawattr );
 }
 
 /**
