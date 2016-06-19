@@ -212,6 +212,18 @@ a[data-wplink-url-error]:focus {
 	position: relative;
 }
 
+a[data-wplink-url-error]:before {
+	content: '';
+	display: block;
+	position: absolute;
+	top: -2px;
+	right: -2px;
+	bottom: -2px;
+	left: -2px;
+	outline: 2px dotted #fff;
+	z-index: -1;
+}
+
 /**
  * WP Views
  */

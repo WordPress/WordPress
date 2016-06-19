@@ -1758,11 +1758,7 @@ div.wp-link-preview a {
 }
 
 div.wp-link-preview a.wplink-url-error {
-	color: #a00;
-}
-
-div.wp-link-preview a.wplink-url-error:hover {
-	color: #f00;
+	color: #dc3232;
 }
 
 div.wp-link-input {
