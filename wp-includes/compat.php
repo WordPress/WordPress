@@ -435,6 +435,56 @@ if ( ! function_exists( 'random_int' ) ) {
 	require ABSPATH . WPINC . '/random_compat/random.php';
 }
 
+if ( ! function_exists( 'array_replace_recursive' ) ) :
+	/**
+	 * PHP-agnostic version of {@link array_replace_recursive()}.
+	 *
+	 * The array_replace_recursive() function is a PHP 5.3 function. WordPress
+	 * currently supports down to PHP 5.2, so this method is a workaround
+	 * for PHP 5.2.
+	 *
+	 * Note: array_replace_recursive() supports infinite arguments, but for our use-
+	 * case, we only need to support two arguments.
+	 *
+	 * Subject to removal once WordPress makes PHP 5.3.0 the minimum requirement.
+	 *
+	 * @since 4.5.3
+	 *
+	 * @see http://php.net/manual/en/function.array-replace-recursive.php#109390
+	 *
+	 * @param  array $base         Array with keys needing to be replaced.
+	 * @param  array $replacements Array with the replaced keys.
+	 *
+	 * @return array
+	 */
+	function array_replace_recursive( $base = array(), $replacements = array() ) {
+		foreach ( array_slice( func_get_args(), 1 ) as $replacements ) {
+			$bref_stack = array( &$base );
+			$head_stack = array( $replacements );
+
+			do {
+				end( $bref_stack );
+
+				$bref = &$bref_stack[ key( $bref_stack ) ];
+				$head = array_pop( $head_stack );
+
+				unset( $bref_stack[ key( $bref_stack ) ] );
+
+				foreach ( array_keys( $head ) as $key ) {
+					if ( isset( $key, $bref ) && is_array( $bref[ $key ] ) && is_array( $head[ $key ] ) ) {
+						$bref_stack[] = &$bref[ $key ];
+						$head_stack[] = $head[ $key ];
+					} else {
+						$bref[ $key ] = $head[ $key ];
+					}
+				}
+			} while ( count( $head_stack ) );
+		}
+
+		return $base;
+	}
+endif;
+
 // SPL can be disabled on PHP 5.2
 if ( ! function_exists( 'spl_autoload_register' ) ):
 	$_wp_spl_autoloaders = array();

@@ -1059,3 +1059,46 @@ function wp_nav_menu_update_menu_items ( $nav_menu_selected_id, $nav_menu_select
 
 	return $messages;
 }
+
+/**
+ * If a JSON blob of navigation menu data is in POST data, expand it and inject
+ * it into `$_POST` to avoid PHP `max_input_vars` limitations. See #14134.
+ *
+ * @ignore
+ * @since 4.5.3
+ * @access private
+ */
+function _wp_expand_nav_menu_post_data() {
+	if ( ! isset( $_POST['nav-menu-data'] ) ) {
+		return;
+	}
+
+	$data = json_decode( stripslashes( $_POST['nav-menu-data'] ) );
+
+	if ( ! is_null( $data ) && $data ) {
+		foreach ( $data as $post_input_data ) {
+			// For input names that are arrays (e.g. `menu-item-db-id[3][4][5]`),
+			// derive the array path keys via regex and set the value in $_POST.
+			preg_match( '#([^\[]*)(\[(.+)\])?#', $post_input_data->name, $matches );
+
+			$array_bits = array( $matches[1] );
+
+			if ( isset( $matches[3] ) ) {
+				$array_bits = array_merge( $array_bits, explode( '][', $matches[3] ) );
+			}
+
+			$new_post_data = array();
+
+			// Build the new array value from leaf to trunk.
+			for ( $i = count( $array_bits ) - 1; $i >= 0; $i -- ) {
+				if ( $i == count( $array_bits ) - 1 ) {
+					$new_post_data[ $array_bits[ $i ] ] = wp_slash( $post_input_data->value );
+				} else {
+					$new_post_data = array( $array_bits[ $i ] => $new_post_data );
+				}
+			}
+
+			$_POST = array_replace_recursive( $_POST, $new_post_data );
+		}
+	}
+}
