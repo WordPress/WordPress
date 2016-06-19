@@ -82,6 +82,9 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 			else
 				$permalink_structure = $blog_prefix . $permalink_structure;
 		}
+
+		$permalink_structure = sanitize_option( 'permalink_structure', $permalink_structure );
+
 		$wp_rewrite->set_permalink_structure( $permalink_structure );
 	}
 
@@ -98,6 +101,24 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 			$tag_base = $blog_prefix . preg_replace('#/+#', '/', '/' . str_replace( '#', '', $tag_base ) );
 		$wp_rewrite->set_tag_base( $tag_base );
 	}
+
+	$message = __( 'Permalink structure updated.' );
+
+	if ( $iis7_permalinks ) {
+		if ( $permalink_structure && ! $usingpi && ! $writable ) {
+			$message = __( 'You should update your web.config now.' );
+		} elseif ( $permalink_structure && ! $usingpi && $writable ) {
+			$message = __( 'Permalink structure updated. Remove write access on web.config file now!' );
+		}
+	} elseif ( ! $is_nginx && $permalink_structure && ! $usingpi && ! $writable && $update_required ) {
+		$message = __( 'You should update your .htaccess now.' );
+	}
+
+	if ( ! get_settings_errors() ) {
+		add_settings_error( 'general', 'settings_updated', $message, 'updated' );
+	}
+
+	set_transient( 'settings_errors', get_settings_errors(), 30 );
 
 	wp_redirect( admin_url( 'options-permalink.php?settings-updated=true' ) );
 	exit;
@@ -125,42 +146,12 @@ if ( $iis7_permalinks ) {
 	}
 }
 
-if ( $wp_rewrite->using_index_permalinks() )
-	$usingpi = true;
-else
-	$usingpi = false;
+$usingpi = $wp_rewrite->using_index_permalinks();
 
 flush_rewrite_rules();
 
 require( ABSPATH . 'wp-admin/admin-header.php' );
-
-if ( ! empty( $_GET['settings-updated'] ) ) : ?>
-<div id="message" class="updated notice is-dismissible"><p><?php
-if ( ! is_multisite() ) {
-	if ( $iis7_permalinks ) {
-		if ( $permalink_structure && ! $usingpi && ! $writable ) {
-			_e('You should update your web.config now.');
-		} elseif ( $permalink_structure && ! $usingpi && $writable ) {
-			_e('Permalink structure updated. Remove write access on web.config file now!');
-		} else {
-			_e('Permalink structure updated.');
-		}
-	} elseif ( $is_nginx ) {
-		_e('Permalink structure updated.');
-	} else {
-		if ( $permalink_structure && ! $usingpi && ! $writable && $update_required ) {
-			_e('You should update your .htaccess now.');
-		} else {
-			_e('Permalink structure updated.');
-		}
-	}
-} else {
-	_e('Permalink structure updated.');
-}
 ?>
-</p></div>
-<?php endif; ?>
-
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
 
