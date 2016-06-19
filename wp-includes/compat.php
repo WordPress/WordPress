@@ -471,7 +471,10 @@ if ( ! function_exists( 'array_replace_recursive' ) ) :
 				unset( $bref_stack[ key( $bref_stack ) ] );
 
 				foreach ( array_keys( $head ) as $key ) {
-					if ( isset( $key, $bref ) && is_array( $bref[ $key ] ) && is_array( $head[ $key ] ) ) {
+					if ( isset( $key, $bref ) &&
+					     isset( $bref[ $key ] ) && is_array( $bref[ $key ] ) &&
+					     isset( $head[ $key ] ) && is_array( $head[ $key ] )
+					) {
 						$bref_stack[] = &$bref[ $key ];
 						$head_stack[] = $head[ $key ];
 					} else {
