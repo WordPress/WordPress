@@ -49,30 +49,108 @@ $num_locations = count( array_keys( $locations ) );
 // Allowed actions: add, update, delete
 $action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : 'edit';
 
+/**
+ * If a JSON blob of navigation menu data is in POST data, expand it and inject
+ * it into `$_POST` to avoid PHP `max_input_vars` limitations. See #14134.
+ *
+ * @ignore
+ * @since 4.5.3
+ * @access private
+ */
+function _wp_expand_nav_menu_post_data() {
+	if ( ! isset( $_POST['nav-menu-data'] ) ) {
+		return;
+	}
+
+	$data = json_decode( stripslashes( $_POST['nav-menu-data'] ) );
+
+	if ( ! is_null( $data ) && $data ) {
+		foreach ( $data as $post_input_data ) {
+			// For input names that are arrays (e.g. `menu-item-db-id[3][4][5]`),
+			// derive the array path keys via regex and set the value in $_POST.
+			preg_match( '#([^\[]*)(\[(.+)\])?#', $post_input_data->name, $matches );
+
+			$array_bits = array( $matches[1] );
+
+			if ( isset( $matches[3] ) ) {
+				$array_bits = array_merge( $array_bits, explode( '][', $matches[3] ) );
+			}
+
+			$new_post_data = array();
+
+			// Build the new array value from leaf to trunk.
+			for ( $i = count( $array_bits ) - 1; $i >= 0; $i -- ) {
+				if ( $i == count( $array_bits ) - 1 ) {
+					$new_post_data[ $array_bits[ $i ] ] = wp_slash( $post_input_data->value );
+				} else {
+					$new_post_data = array( $array_bits[ $i ] => $new_post_data );
+				}
+			}
+
+			$_POST = array_replace_recursive( $_POST, $new_post_data );
+		}
+	}
+}
+
+if ( ! function_exists( 'array_replace_recursive' ) ) :
+	/**
+	 * PHP-agnostic version of {@link array_replace_recursive()}.
+	 *
+	 * The array_replace_recursive() function is a PHP 5.3 function. WordPress
+	 * currently supports down to PHP 5.2, so this method is a workaround
+	 * for PHP 5.2.
+	 *
+	 * Note: array_replace_recursive() supports infinite arguments, but for our use-
+	 * case, we only need to support two arguments.
+	 *
+	 * Subject to removal once WordPress makes PHP 5.3.0 the minimum requirement.
+	 *
+	 * @since 4.5.3
+	 *
+	 * @see http://php.net/manual/en/function.array-replace-recursive.php#109390
+	 *
+	 * @param  array $base         Array with keys needing to be replaced.
+	 * @param  array $replacements Array with the replaced keys.
+	 *
+	 * @return array
+	 */
+	function array_replace_recursive( $base = array(), $replacements = array() ) {
+		foreach ( array_slice( func_get_args(), 1 ) as $replacements ) {
+			$bref_stack = array( &$base );
+			$head_stack = array( $replacements );
+
+			do {
+				end( $bref_stack );
+
+				$bref = &$bref_stack[ key( $bref_stack ) ];
+				$head = array_pop( $head_stack );
+
+				unset( $bref_stack[ key( $bref_stack ) ] );
+
+				foreach ( array_keys( $head ) as $key ) {
+					if ( isset( $key, $bref ) &&
+					     isset( $bref[ $key ] ) && is_array( $bref[ $key ] ) &&
+					     isset( $head[ $key ] ) && is_array( $head[ $key ] )
+					) {
+						$bref_stack[] = &$bref[ $key ];
+						$head_stack[] = $head[ $key ];
+					} else {
+						$bref[ $key ] = $head[ $key ];
+					}
+				}
+			} while ( count( $head_stack ) );
+		}
+
+		return $base;
+	}
+endif;
+
 /*
  * If a JSON blob of navigation menu data is found, expand it and inject it
  * into `$_POST` to avoid PHP `max_input_vars` limitations. See #14134.
  */
-if ( isset( $_POST['nav-menu-data'] ) ) {
-	$data = json_decode( stripslashes( $_POST['nav-menu-data'] ) );
-	if ( ! is_null( $data ) && $data ) {
-		foreach ( $data as $post_input_data ) {
-			// For input names that are arrays (e.g. `menu-item-db-id[3]`), derive the array path keys via regex.
-			if ( preg_match( '#(.*)\[(\w+)\]#', $post_input_data->name, $matches ) ) {
-				if ( empty( $_POST[ $matches[1] ] ) ) {
-					$_POST[ $matches[1] ] = array();
-				}
-				// Cast input elements with a numeric array index to integers.
-				if ( is_numeric( $matches[2] ) ) {
-					$matches[2] = (int) $matches[2];
-				}
-				$_POST[ $matches[1] ][ $matches[2] ] = wp_slash( $post_input_data->value );
-			} else {
-				$_POST[ $post_input_data->name ] = wp_slash( $post_input_data->value );
-			}
-		}
-	}
-}
+_wp_expand_nav_menu_post_data();
+
 switch ( $action ) {
 	case 'add-menu-item':
 		check_admin_referer( 'add-menu_item', 'menu-settings-column-nonce' );
