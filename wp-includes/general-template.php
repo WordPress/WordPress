@@ -289,14 +289,14 @@ function wp_loginout($redirect = '', $echo = true) {
 }
 
 /**
- * Returns the Log Out URL.
+ * Retrieves the logout URL.
  *
  * Returns the URL that allows the user to log out of the site.
  *
  * @since 2.7.0
  *
  * @param string $redirect Path to redirect to on logout.
- * @return string A log out URL.
+ * @return string The logout URL. Note: HTML-encoded via esc_html() in wp_nonce_url().
  */
 function wp_logout_url($redirect = '') {
 	$args = array( 'action' => 'logout' );
@@ -312,20 +312,21 @@ function wp_logout_url($redirect = '') {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param string $logout_url The Log Out URL.
+	 * @param string $logout_url The HTML-encoded logout URL.
 	 * @param string $redirect   Path to redirect to on logout.
 	 */
 	return apply_filters( 'logout_url', $logout_url, $redirect );
 }
 
 /**
- * Returns the URL that allows the user to log in to the site.
+ * Retrieves the login URL.
  *
  * @since 2.7.0
  *
- * @param string $redirect     Path to redirect to on login.
- * @param bool   $force_reauth Whether to force reauthorization, even if a cookie is present. Default is false.
- * @return string A log in URL.
+ * @param string $redirect     Path to redirect to on log in.
+ * @param bool   $force_reauth Whether to force reauthorization, even if a cookie is present.
+ *                             Default false.
+ * @return string The login URL. Not HTML-encoded.
  */
 function wp_login_url($redirect = '', $force_reauth = false) {
 	$login_url = site_url('wp-login.php', 'login');
@@ -342,7 +343,7 @@ function wp_login_url($redirect = '', $force_reauth = false) {
 	 * @since 2.8.0
 	 * @since 4.2.0 The `$force_reauth` parameter was added.
 	 *
-	 * @param string $login_url    The login URL.
+	 * @param string $login_url    The login URL. Not HTML-encoded.
 	 * @param string $redirect     The path to redirect to on login, if supplied.
 	 * @param bool   $force_reauth Whether to force reauthorization, even if a cookie is present.
 	 */
