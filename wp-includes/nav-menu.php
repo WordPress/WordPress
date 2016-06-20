@@ -126,13 +126,13 @@ function register_nav_menu( $location, $description ) {
 	register_nav_menus( array( $location => $description ) );
 }
 /**
- * Returns all registered navigation menu locations in a theme.
+ * Retrieves all registered navigation menu locations in a theme.
  *
  * @since 3.0.0
  *
  * @global array $_wp_registered_nav_menus
  *
- * @return array
+ * @return array Registered navigation menu locations. If none are registered, an empty array.
  */
 function get_registered_nav_menus() {
 	global $_wp_registered_nav_menus;
@@ -142,10 +142,12 @@ function get_registered_nav_menus() {
 }
 
 /**
- * Returns an array with the registered navigation menu locations and the menu assigned to it
+ * Retrieves all registered navigation menu locations and the menus assigned to them.
  *
  * @since 3.0.0
- * @return array
+ *
+ * @return array Registered navigation menu locations and the menus assigned them.
+ *               If none are registered, an empty array.
  */
 
 function get_nav_menu_locations() {
