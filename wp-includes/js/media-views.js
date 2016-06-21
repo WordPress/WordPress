@@ -462,14 +462,14 @@ EditImage = wp.media.controller.State.extend({
 	 * @since 3.9.0
 	 */
 	activate: function() {
-		this.listenTo( this.frame, 'toolbar:render:edit-image', this.toolbar );
+		this.frame.on( 'toolbar:render:edit-image', _.bind( this.toolbar, this ) );
 	},
 
 	/**
 	 * @since 3.9.0
 	 */
 	deactivate: function() {
-		this.stopListening( this.frame );
+		this.frame.off( 'toolbar:render:edit-image' );
 	},
 
 	/**
