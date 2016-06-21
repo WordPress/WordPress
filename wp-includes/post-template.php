@@ -1204,7 +1204,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	if ( trim( $link_text ) == '' )
 		$link_text = $_post->post_title;
 
-	return apply_filters( 'wp_get_attachment_link', "<a href='$url'>$link_text</a>", $id, $size, $permalink, $icon, $text );
+	return apply_filters( 'wp_get_attachment_link', "<a href='" . esc_url( $url ) . "'>$link_text</a>", $id, $size, $permalink, $icon, $text );
 }
 
 /**
