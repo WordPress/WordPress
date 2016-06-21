@@ -1489,6 +1489,7 @@ final class WP_Customize_Manager {
 	 * @param string $preview_url URL to be previewed.
 	 */
 	public function set_preview_url( $preview_url ) {
+		$preview_url = esc_url_raw( $preview_url );
 		$this->preview_url = wp_validate_redirect( $preview_url, home_url( '/' ) );
 	}
 
@@ -1520,6 +1521,7 @@ final class WP_Customize_Manager {
 	 * @param string $return_url URL for return link.
 	 */
 	public function set_return_url( $return_url ) {
+		$return_url = esc_url_raw( $return_url );
 		$return_url = remove_query_arg( wp_removable_query_args(), $return_url );
 		$return_url = wp_validate_redirect( $return_url );
 		$this->return_url = $return_url;
