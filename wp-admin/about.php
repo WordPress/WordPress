@@ -109,6 +109,9 @@ $tech_features = array(
 
 		<div class="changelog point-releases">
 			<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 4 ); ?></h3>
+			<p><?php printf( __( '<strong>Version %1$s</strong> addressed some security issues.' ), '4.3.5' ); ?>
+				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.3.5' ); ?>
+			</p>
 			<p><?php printf( _n( '<strong>Version %1$s</strong> addressed a security issue.',
 		         '<strong>Version %1$s</strong> addressed some security issues.', 7 ), '4.3.4' ); ?>
 				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.3.4' ); ?>
