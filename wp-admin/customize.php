@@ -15,9 +15,10 @@ if ( ! current_user_can( 'edit_theme_options' ) )
 
 wp_reset_vars( array( 'url', 'return' ) );
 $url = urldecode( $url );
+$url = esc_url_raw( $url );
 $url = wp_validate_redirect( $url, home_url( '/' ) );
 if ( $return )
-	$return = wp_validate_redirect( urldecode( $return ) );
+	$return = wp_validate_redirect( esc_url_raw( urldecode( $return ) ) );
 if ( ! $return )
 	$return = $url;
 
