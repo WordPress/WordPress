@@ -44,7 +44,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.5.3' ); ?>
 			</p>
 			<p><?php printf( _n( '<strong>Version %1$s</strong> addressed %2$s bug.',
-				'<strong>Version %1$s</strong> addressed %2$s bugs.', 16 ), '4.5.3', number_format_i18n( 16 ) ); ?>
+				'<strong>Version %1$s</strong> addressed %2$s bugs.', 17 ), '4.5.3', number_format_i18n( 17 ) ); ?>
 				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.5.3' ); ?>
 			</p>
 		</div>
