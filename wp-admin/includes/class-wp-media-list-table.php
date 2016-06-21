@@ -341,7 +341,7 @@ foreach ( $columns as $column_name => $column_display_name ) {
 				<?php echo $att_title; ?></a>
 			<?php };
 			_media_states( $post ); ?></strong>
-			<p class="filename"><?php echo wp_basename( $post->guid ); ?></p>
+			<p class="filename"><?php echo esc_html( wp_basename( $post->guid ) ); ?></p>
 <?php
 		echo $this->row_actions( $this->_get_row_actions( $post, $att_title ) );
 ?>
