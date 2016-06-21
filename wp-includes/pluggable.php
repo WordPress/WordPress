@@ -755,10 +755,14 @@ function auth_redirect() {
 		}
 	}
 
-	if ( is_user_admin() )
-		$scheme = 'logged_in';
-	else
-		$scheme = apply_filters( 'auth_redirect_scheme', '' );
+	/**
+	 * Filters the authentication redirect scheme.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param string $scheme Authentication redirect scheme. Default empty.
+	 */
+	$scheme = apply_filters( 'auth_redirect_scheme', '' );
 
 	if ( $user_id = wp_validate_auth_cookie( '',  $scheme) ) {
 		do_action('auth_redirect', $user_id);
