@@ -1155,7 +1155,8 @@ function remove_accents($string) {
  * operating systems and special characters requiring special escaping
  * to manipulate at the command line. Replaces spaces and consecutive
  * dashes with a single dash. Trims period, dash and underscore from beginning
- * and end of filename.
+ * and end of filename. It is not guaranteed that this function will return a
+ * filename that is allowed to be uploaded.
  *
  * @since 2.1.0
  *
@@ -1179,6 +1180,14 @@ function sanitize_file_name( $filename ) {
 	$filename = str_replace( array( '%20', '+' ), '-', $filename );
 	$filename = preg_replace( '/[\r\n\t -]+/', '-', $filename );
 	$filename = trim( $filename, '.-_' );
+
+	if ( false === strpos( $filename, '.' ) ) {
+		$mime_types = wp_get_mime_types();
+		$filetype = wp_check_filetype( 'test.' . $filename, $mime_types );
+		if ( $filetype['ext'] === $filename ) {
+			$filename = 'unnamed-file.' . $filetype['ext'];
+		}
+	}
 
 	// Split the filename into a base and extension[s]
 	$parts = explode('.', $filename);
