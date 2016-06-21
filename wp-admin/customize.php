@@ -18,9 +18,11 @@ if ( ! current_user_can( 'customize' ) ) {
 
 wp_reset_vars( array( 'url', 'return' ) );
 $url = wp_unslash( $url );
+$url = esc_url_raw( $url );
 $url = wp_validate_redirect( $url, home_url( '/' ) );
 if ( $return ) {
 	$return = wp_unslash( $return );
+	$return = esc_url_raw( $return );
 	$return = wp_validate_redirect( $return );
 }
 if ( ! $return ) {
