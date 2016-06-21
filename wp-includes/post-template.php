@@ -1597,7 +1597,7 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 	 * @param bool        $icon      Whether to include an icon. Default false.
 	 * @param string|bool $text      If string, will be link text. Default false.
 	 */
-	return apply_filters( 'wp_get_attachment_link', "<a href='$url'>$link_text</a>", $id, $size, $permalink, $icon, $text );
+	return apply_filters( 'wp_get_attachment_link', "<a href='" . esc_url( $url ) . "'>$link_text</a>", $id, $size, $permalink, $icon, $text );
 }
 
 /**
