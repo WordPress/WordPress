@@ -79,9 +79,11 @@ function set_query_var( $var, $value ) {
 /**
  * Sets up The Loop with query parameters.
  *
- * Important: This will completely override the current WordPress Loop and can easily
- * produce unexpected results. In most cases, the better option is to instead modify
- * specific properties of the loop using the {@see 'pre_get_posts'} action.
+ * Note: This function will completely override the main query and isn't intended for use
+ * by plugins or themes. Its overly-simplistic approach to modifying the main query can be
+ * problematic and should be avoided wherever possible. In most cases, there are better,
+ * more performant options for modifying the main query such as via the {@see 'pre_get_posts'}
+ * action within WP_Query.
  *
  * This must not be used within the WordPress Loop.
  *
