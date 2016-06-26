@@ -3419,6 +3419,174 @@
 		themes: api.ThemesSection
 	};
 
+	/**
+	 * Handle setting_validities in an error response for the customize-save request.
+	 *
+	 * Add notifications to the settings and focus on the first control that has an invalid setting.
+	 *
+	 * @since 4.6.0
+	 * @private
+	 *
+	 * @param {object}  args
+	 * @param {object}  args.settingValidities
+	 * @param {boolean} [args.focusInvalidControl=false]
+	 * @returns {void}
+	 */
+	api._handleSettingValidities = function handleSettingValidities( args ) {
+		var invalidSettingControls, invalidSettings = [], wasFocused = false;
+
+		// Find the controls that correspond to each invalid setting.
+		_.each( args.settingValidities, function( validity, settingId ) {
+			var setting = api( settingId );
+			if ( setting ) {
+
+				// Add notifications for invalidities.
+				if ( _.isObject( validity ) ) {
+					_.each( validity, function( params, code ) {
+						var notification = new api.Notification( code, params ), existingNotification, needsReplacement = false;
+
+						// Remove existing notification if already exists for code but differs in parameters.
+						existingNotification = setting.notifications( notification.code );
+						if ( existingNotification ) {
+							needsReplacement = ( notification.type !== existingNotification.type ) || ! _.isEqual( notification.data, existingNotification.data );
+						}
+						if ( needsReplacement ) {
+							setting.notifications.remove( code );
+						}
+
+						if ( ! setting.notifications.has( notification.code ) ) {
+							setting.notifications.add( code, notification );
+						}
+						invalidSettings.push( setting.id );
+					} );
+				}
+
+				// Remove notification errors that are no longer valid.
+				setting.notifications.each( function( notification ) {
+					if ( 'error' === notification.type && ( true === validity || ! validity[ notification.code ] ) ) {
+						setting.notifications.remove( notification.code );
+					}
+				} );
+			}
+		} );
+
+		if ( args.focusInvalidControl ) {
+			invalidSettingControls = api.findControlsForSettings( invalidSettings );
+
+			// Focus on the first control that is inside of an expanded section (one that is visible).
+			_( _.values( invalidSettingControls ) ).find( function( controls ) {
+				return _( controls ).find( function( control ) {
+					var isExpanded = control.section() && api.section.has( control.section() ) && api.section( control.section() ).expanded();
+					if ( isExpanded && control.expanded ) {
+						isExpanded = control.expanded();
+					}
+					if ( isExpanded ) {
+						control.focus();
+						wasFocused = true;
+					}
+					return wasFocused;
+				} );
+			} );
+
+			// Focus on the first invalid control.
+			if ( ! wasFocused && ! _.isEmpty( invalidSettingControls ) ) {
+				_.values( invalidSettingControls )[0][0].focus();
+			}
+		}
+	};
+
+	/**
+	 * Find all controls associated with the given settings.
+	 *
+	 * @since 4.6.0
+	 * @param {string[]} settingIds Setting IDs.
+	 * @returns {object<string, wp.customize.Control>} Mapping setting ids to arrays of controls.
+	 */
+	api.findControlsForSettings = function findControlsForSettings( settingIds ) {
+		var controls = {}, settingControls;
+		_.each( _.unique( settingIds ), function( settingId ) {
+			var setting = api( settingId );
+			if ( setting ) {
+				settingControls = setting.findControls();
+				if ( settingControls && settingControls.length > 0 ) {
+					controls[ settingId ] = settingControls;
+				}
+			}
+		} );
+		return controls;
+	};
+
+	/**
+	 * Sort panels, sections, controls by priorities. Hide empty sections and panels.
+	 *
+	 * @since 4.1.0
+	 */
+	api.reflowPaneContents = _.bind( function () {
+
+		var appendContainer, activeElement, rootContainers, rootNodes = [], wasReflowed = false;
+
+		if ( document.activeElement ) {
+			activeElement = $( document.activeElement );
+		}
+
+		// Sort the sections within each panel
+		api.panel.each( function ( panel ) {
+			var sections = panel.sections(),
+				sectionContainers = _.pluck( sections, 'container' );
+			rootNodes.push( panel );
+			appendContainer = panel.container.find( 'ul:first' );
+			if ( ! api.utils.areElementListsEqual( sectionContainers, appendContainer.children( '[id]' ) ) ) {
+				_( sections ).each( function ( section ) {
+					appendContainer.append( section.container );
+				} );
+				wasReflowed = true;
+			}
+		} );
+
+		// Sort the controls within each section
+		api.section.each( function ( section ) {
+			var controls = section.controls(),
+				controlContainers = _.pluck( controls, 'container' );
+			if ( ! section.panel() ) {
+				rootNodes.push( section );
+			}
+			appendContainer = section.container.find( 'ul:first' );
+			if ( ! api.utils.areElementListsEqual( controlContainers, appendContainer.children( '[id]' ) ) ) {
+				_( controls ).each( function ( control ) {
+					appendContainer.append( control.container );
+				} );
+				wasReflowed = true;
+			}
+		} );
+
+		// Sort the root panels and sections
+		rootNodes.sort( api.utils.prioritySort );
+		rootContainers = _.pluck( rootNodes, 'container' );
+		appendContainer = $( '#customize-theme-controls' ).children( 'ul' ); // @todo This should be defined elsewhere, and to be configurable
+		if ( ! api.utils.areElementListsEqual( rootContainers, appendContainer.children() ) ) {
+			_( rootNodes ).each( function ( rootNode ) {
+				appendContainer.append( rootNode.container );
+			} );
+			wasReflowed = true;
+		}
+
+		// Now re-trigger the active Value callbacks to that the panels and sections can decide whether they can be rendered
+		api.panel.each( function ( panel ) {
+			var value = panel.active();
+			panel.active.callbacks.fireWith( panel.active, [ value, value ] );
+		} );
+		api.section.each( function ( section ) {
+			var value = section.active();
+			section.active.callbacks.fireWith( section.active, [ value, value ] );
+		} );
+
+		// Restore focus if there was a reflow and there was an active (focused) element
+		if ( wasReflowed && activeElement ) {
+			activeElement.focus();
+		}
+		api.trigger( 'pane-contents-reflowed' );
+	}, api );
+
 	$( function() {
 		api.settings = window._wpCustomizeSettings;
 		api.l10n = window._wpCustomizeControlsL10n;
@@ -3709,179 +3877,12 @@
 			});
 		});
 
-		/**
-		 * Handle setting_validities in an error response for the customize-save request.
-		 *
-		 * Add notifications to the settings and focus on the first control that has an invalid setting.
-		 *
-		 * @since 4.6.0
-		 * @private
-		 *
-		 * @param {object}  args
-		 * @param {object}  args.settingValidities
-		 * @param {boolean} [args.focusInvalidControl=false]
-		 * @returns {void}
-		 */
-		api._handleSettingValidities = function handleSettingValidities( args ) {
-			var invalidSettingControls, invalidSettings = [], wasFocused = false;
-
-			// Find the controls that correspond to each invalid setting.
-			_.each( args.settingValidities, function( validity, settingId ) {
-				var setting = api( settingId );
-				if ( setting ) {
-
-					// Add notifications for invalidities.
-					if ( _.isObject( validity ) ) {
-						_.each( validity, function( params, code ) {
-							var notification = new api.Notification( code, params ), existingNotification, needsReplacement = false;
-
-							// Remove existing notification if already exists for code but differs in parameters.
-							existingNotification = setting.notifications( notification.code );
-							if ( existingNotification ) {
-								needsReplacement = ( notification.type !== existingNotification.type ) || ! _.isEqual( notification.data, existingNotification.data );
-							}
-							if ( needsReplacement ) {
-								setting.notifications.remove( code );
-							}
-
-							if ( ! setting.notifications.has( notification.code ) ) {
-								setting.notifications.add( code, notification );
-							}
-							invalidSettings.push( setting.id );
-						} );
-					}
-
-					// Remove notification errors that are no longer valid.
-					setting.notifications.each( function( notification ) {
-						if ( 'error' === notification.type && ( true === validity || ! validity[ notification.code ] ) ) {
-							setting.notifications.remove( notification.code );
-						}
-					} );
-				}
-			} );
-
-			if ( args.focusInvalidControl ) {
-				invalidSettingControls = api.findControlsForSettings( invalidSettings );
-
-				// Focus on the first control that is inside of an expanded section (one that is visible).
-				_( _.values( invalidSettingControls ) ).find( function( controls ) {
-					return _( controls ).find( function( control ) {
-						var isExpanded = control.section() && api.section.has( control.section() ) && api.section( control.section() ).expanded();
-						if ( isExpanded && control.expanded ) {
-							isExpanded = control.expanded();
-						}
-						if ( isExpanded ) {
-							control.focus();
-							wasFocused = true;
-						}
-						return wasFocused;
-					} );
-				} );
-
-				// Focus on the first invalid control.
-				if ( ! wasFocused && ! _.isEmpty( invalidSettingControls ) ) {
-					_.values( invalidSettingControls )[0][0].focus();
-				}
-			}
-		};
-
-		/**
-		 * Find all controls associated with the given settings.
-		 *
-		 * @since 4.6.0
-		 * @param {string[]} settingIds Setting IDs.
-		 * @returns {object<string, wp.customize.Control>} Mapping setting ids to arrays of controls.
-		 */
-		api.findControlsForSettings = function findControlsForSettings( settingIds ) {
-			var controls = {}, settingControls;
-			_.each( _.unique( settingIds ), function( settingId ) {
-				var setting = api( settingId );
-				if ( setting ) {
-					settingControls = setting.findControls();
-					if ( settingControls && settingControls.length > 0 ) {
-						controls[ settingId ] = settingControls;
-					}
-				}
-			} );
-			return controls;
-		};
-
-		/**
-		 * Sort panels, sections, controls by priorities. Hide empty sections and panels.
-		 *
-		 * @since 4.1.0
-		 */
-		api.reflowPaneContents = _.bind( function () {
-
-			var appendContainer, activeElement, rootContainers, rootNodes = [], wasReflowed = false;
-
-			if ( document.activeElement ) {
-				activeElement = $( document.activeElement );
-			}
-
-			// Sort the sections within each panel
-			api.panel.each( function ( panel ) {
-				var sections = panel.sections(),
-					sectionContainers = _.pluck( sections, 'container' );
-				rootNodes.push( panel );
-				appendContainer = panel.container.find( 'ul:first' );
-				if ( ! api.utils.areElementListsEqual( sectionContainers, appendContainer.children( '[id]' ) ) ) {
-					_( sections ).each( function ( section ) {
-						appendContainer.append( section.container );
-					} );
-					wasReflowed = true;
-				}
-			} );
-
-			// Sort the controls within each section
-			api.section.each( function ( section ) {
-				var controls = section.controls(),
-					controlContainers = _.pluck( controls, 'container' );
-				if ( ! section.panel() ) {
-					rootNodes.push( section );
-				}
-				appendContainer = section.container.find( 'ul:first' );
-				if ( ! api.utils.areElementListsEqual( controlContainers, appendContainer.children( '[id]' ) ) ) {
-					_( controls ).each( function ( control ) {
-						appendContainer.append( control.container );
-					} );
-					wasReflowed = true;
-				}
-			} );
-
-			// Sort the root panels and sections
-			rootNodes.sort( api.utils.prioritySort );
-			rootContainers = _.pluck( rootNodes, 'container' );
-			appendContainer = $( '#customize-theme-controls' ).children( 'ul' ); // @todo This should be defined elsewhere, and to be configurable
-			if ( ! api.utils.areElementListsEqual( rootContainers, appendContainer.children() ) ) {
-				_( rootNodes ).each( function ( rootNode ) {
-					appendContainer.append( rootNode.container );
-				} );
-				wasReflowed = true;
-			}
-
-			// Now re-trigger the active Value callbacks to that the panels and sections can decide whether they can be rendered
-			api.panel.each( function ( panel ) {
-				var value = panel.active();
-				panel.active.callbacks.fireWith( panel.active, [ value, value ] );
-			} );
-			api.section.each( function ( section ) {
-				var value = section.active();
-				section.active.callbacks.fireWith( section.active, [ value, value ] );
-			} );
-
-			// Restore focus if there was a reflow and there was an active (focused) element
-			if ( wasReflowed && activeElement ) {
-				activeElement.focus();
-			}
-			api.trigger( 'pane-contents-reflowed' );
-		}, api );
 		api.bind( 'ready', api.reflowPaneContents );
-		api.reflowPaneContents = _.debounce( api.reflowPaneContents, 100 );
 		$( [ api.panel, api.section, api.control ] ).each( function ( i, values ) {
-			values.bind( 'add', api.reflowPaneContents );
-			values.bind( 'change', api.reflowPaneContents );
-			values.bind( 'remove', api.reflowPaneContents );
+			var debouncedReflowPaneContents = _.debounce( api.reflowPaneContents, 100 );
+			values.bind( 'add', debouncedReflowPaneContents );
+			values.bind( 'change', debouncedReflowPaneContents );
+			values.bind( 'remove', debouncedReflowPaneContents );
 		} );
 
 		// Check if preview url is valid and load the preview frame.
@@ -3928,8 +3929,9 @@
 			});
 
 			activated.bind( function( to ) {
-				if ( to )
+				if ( to ) {
 					api.trigger( 'activated' );
+				}
 			});
 
 			// Expose states to the API.

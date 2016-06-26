@@ -509,14 +509,17 @@ function translate_nooped_plural( $nooped_plural, $count, $domain = 'default' ) 
  *
  * @since 1.5.0
  *
- * @global array $l10n
+ * @global array $l10n          An array of all currently loaded text domains.
+ * @global array $l10n_unloaded An array of all text domains that have been unloaded again.
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @param string $mofile Path to the .mo file.
  * @return bool True on success, false on failure.
  */
 function load_textdomain( $domain, $mofile ) {
-	global $l10n;
+	global $l10n, $l10n_unloaded;
+
+	$l10n_unloaded = (array) $l10n_unloaded;
 
 	/**
 	 * Filters whether to override the .mo file loading.
@@ -530,6 +533,8 @@ function load_textdomain( $domain, $mofile ) {
 	$plugin_override = apply_filters( 'override_load_textdomain', false, $domain, $mofile );
 
 	if ( true == $plugin_override ) {
+		unset( $l10n_unloaded[ $domain ] );
+
 		return true;
 	}
 
@@ -561,6 +566,8 @@ function load_textdomain( $domain, $mofile ) {
 	if ( isset( $l10n[$domain] ) )
 		$mo->merge_with( $l10n[$domain] );
 
+	unset( $l10n_unloaded[ $domain ] );
+
 	$l10n[$domain] = &$mo;
 
 	return true;
@@ -571,13 +578,16 @@ function load_textdomain( $domain, $mofile ) {
  *
  * @since 3.0.0
  *
- * @global array $l10n
+ * @global array $l10n          An array of all currently loaded text domains.
+ * @global array $l10n_unloaded An array of all text domains that have been unloaded again.
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return bool Whether textdomain was unloaded.
  */
 function unload_textdomain( $domain ) {
-	global $l10n;
+	global $l10n, $l10n_unloaded;
+
+	$l10n_unloaded = (array) $l10n_unloaded;
 
 	/**
 	 * Filters whether to override the text domain unloading.
@@ -589,8 +599,11 @@ function unload_textdomain( $domain ) {
 	 */
 	$plugin_override = apply_filters( 'override_unload_textdomain', false, $domain );
 
-	if ( $plugin_override )
+	if ( $plugin_override ) {
+		$l10n_unloaded[ $domain ] = true;
+
 		return true;
+	}
 
 	/**
 	 * Fires before the text domain is unloaded.
@@ -603,6 +616,9 @@ function unload_textdomain( $domain ) {
 
 	if ( isset( $l10n[$domain] ) ) {
 		unset( $l10n[$domain] );
+
+		$l10n_unloaded[ $domain ] = true;
+
 		return true;
 	}
 
@@ -793,15 +809,20 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  * @access private
  *
  * @see get_translations_for_domain()
+ * @global array $l10n_unloaded An array of all text domains that have been unloaded again.
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
  * @return bool True when the textdomain is successfully loaded, false otherwise.
  */
 function _load_textdomain_just_in_time( $domain ) {
+	global $l10n_unloaded;
+
+	$l10n_unloaded = (array) $l10n_unloaded;
+
 	static $cached_mofiles = null;
 
 	// Short-circuit if domain is 'default' which is reserved for core.
-	if ( 'default' === $domain ) {
+	if ( 'default' === $domain || isset( $l10n_unloaded[ $domain ] ) ) {
 		return false;
 	}
 

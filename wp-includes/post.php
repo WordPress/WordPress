@@ -2169,7 +2169,18 @@ function stick_post( $post_id ) {
 	if ( ! in_array($post_id, $stickies) )
 		$stickies[] = $post_id;
 
-	update_option('sticky_posts', $stickies);
+	$updated = update_option( 'sticky_posts', $stickies );
+
+	if ( $updated ) {
+		/**
+		 * Fires once a post has been added to the sticky list.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param int $post_id ID of the post that was stuck.
+		 */
+		do_action( 'post_stuck', $post_id );
+	}
 }
 
 /**
@@ -2196,7 +2207,18 @@ function unstick_post( $post_id ) {
 
 	array_splice($stickies, $offset, 1);
 
-	update_option('sticky_posts', $stickies);
+	$updated = update_option( 'sticky_posts', $stickies );
+
+	if ( $updated ) {
+		/**
+		 * Fires once a post has been removed from the sticky list.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param int $post_id ID of the post that was unstuck.
+		 */
+		do_action( 'post_unstuck', $post_id );
+	}
 }
 
 /**

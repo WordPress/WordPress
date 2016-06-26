@@ -99,6 +99,7 @@ require( ABSPATH . WPINC . '/class-wp-error.php' );
 require( ABSPATH . WPINC . '/pomo/mo.php' );
 
 // Include the wpdb class and, if present, a db.php database drop-in.
+global $wpdb;
 require_wp_db();
 
 // Set the database table prefix and the format specifiers for database table columns.

@@ -68,7 +68,6 @@ function wp_get_active_network_plugins() {
  * @return true|string Returns true on success, or drop-in file to include.
  */
 function ms_site_check() {
-	$blog = get_blog_details();
 
 	/**
 	 * Filters checking the status of the current blog.
@@ -84,6 +83,8 @@ function ms_site_check() {
 	// Allow super admins to see blocked sites
 	if ( is_super_admin() )
 		return true;
+
+	$blog = get_blog_details();
 
 	if ( '1' == $blog->deleted ) {
 		if ( file_exists( WP_CONTENT_DIR . '/blog-deleted.php' ) )

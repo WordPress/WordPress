@@ -378,14 +378,6 @@ function wp_restore_post_revision( $revision_id, $fields = null ) {
 	if ( ! $post_id || is_wp_error( $post_id ) )
 		return $post_id;
 
-	// Add restore from details
-	$restore_details = array(
-		'restored_revision_id' => $revision_id,
-		'restored_by_user'     => get_current_user_id(),
-		'restored_time'        => time()
-	);
-	update_post_meta( $post_id, '_post_restored_from', $restore_details );
-
 	// Update last edit user
 	update_post_meta( $post_id, '_edit_last', get_current_user_id() );
 

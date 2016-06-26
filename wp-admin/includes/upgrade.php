@@ -552,6 +552,9 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 36686 )
 		upgrade_450();
 
+	if ( $wp_current_db_version < 37854 )
+		upgrade_460();
+
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1685,6 +1688,19 @@ function upgrade_450() {
 
 	// Remove unused user setting for wpLink.
 	delete_user_setting( 'wplink' );
+}
+
+/**
+ * Executes changes made in WordPress 4.6.0.
+ *
+ * @ignore
+ * @since 4.6.0
+ *
+ * @global int  $wp_current_db_version Current database version.
+ * @global wpdb $wpdb                  WordPress database abstraction object.
+ */
+function upgrade_460() {
+	delete_post_meta_by_key( '_post_restored_from' );
 }
 
 /**

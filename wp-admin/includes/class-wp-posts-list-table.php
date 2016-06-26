@@ -412,31 +412,56 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global int $cat
+	 * Displays a categories drop-down for filtering on the Posts list table.
+	 *
+	 * @since 4.6.0
+	 * @access protected
+	 *
+	 * @global int $cat Currently selected category.
+	 *
+	 * @param string $post_type The Post Type.
+	 */
+	protected function categories_dropdown( $post_type ) {
+		global $cat;
+
+		/**
+		 * Filters whether to remove the 'Categories' drop-down from the post list table.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param bool   $disable   Whether to disable the categories drop-down. Default false.
+		 * @param string $post_type The post type.
+		 */
+		if ( false !== apply_filters( 'disable_categories_dropdown', false, $post_type ) ) {
+			return;
+		}
+
+		if ( is_object_in_taxonomy( $post_type, 'category' ) ) {
+			$dropdown_options = array(
+				'show_option_all' => get_taxonomy( 'category' )->labels->all_items,
+				'hide_empty' => 0,
+				'hierarchical' => 1,
+				'show_count' => 0,
+				'orderby' => 'name',
+				'selected' => $cat
+			);
+
+			echo '<label class="screen-reader-text" for="cat">' . __( 'Filter by category' ) . '</label>';
+			wp_dropdown_categories( $dropdown_options );
+		}
+	}
+
+	/**
 	 * @param string $which
 	 */
 	protected function extra_tablenav( $which ) {
-		global $cat;
 ?>
 		<div class="alignleft actions">
 <?php
 		if ( 'top' === $which && !is_singular() ) {
 
 			$this->months_dropdown( $this->screen->post_type );
-
-			if ( is_object_in_taxonomy( $this->screen->post_type, 'category' ) ) {
-				$dropdown_options = array(
-					'show_option_all' => get_taxonomy( 'category' )->labels->all_items,
-					'hide_empty' => 0,
-					'hierarchical' => 1,
-					'show_count' => 0,
-					'orderby' => 'name',
-					'selected' => $cat
-				);
-
-				echo '<label class="screen-reader-text" for="cat">' . __( 'Filter by category' ) . '</label>';
-				wp_dropdown_categories( $dropdown_options );
-			}
+			$this->categories_dropdown( $this->screen->post_type );
 
 			/**
 			 * Fires before the Filter button on the Posts and Pages list tables.

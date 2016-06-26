@@ -18,6 +18,7 @@
  *
  * @since 4.4.0
  *
+ * @property int $id
  * @property int $site_id
  */
 class WP_Network {
@@ -25,13 +26,12 @@ class WP_Network {
 	/**
 	 * Network ID.
 	 *
-	 * A numeric string, for compatibility reasons.
-	 *
 	 * @since 4.4.0
-	 * @access public
-	 * @var string
+	 * @since 4.6.0 Type changed from string to int.
+	 * @access private
+	 * @var int
 	 */
-	public $id;
+	private $id;
 
 	/**
 	 * Domain of the network.
@@ -152,6 +152,8 @@ class WP_Network {
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {
+			case 'id';
+				return (int) $this->id;
 			case 'blog_id':
 				return $this->blog_id;
 			case 'site_id':
@@ -174,6 +176,7 @@ class WP_Network {
 	 */
 	public function __isset( $key ) {
 		switch ( $key ) {
+			case 'id':
 			case 'blog_id':
 			case 'site_id':
 				return true;
@@ -195,6 +198,9 @@ class WP_Network {
 	 */
 	public function __set( $key, $value ) {
 		switch ( $key ) {
+			case 'id':
+				$this->id = (int) $value;
+				break;
 			case 'blog_id':
 			case 'site_id':
 				$this->blog_id = (string) $value;

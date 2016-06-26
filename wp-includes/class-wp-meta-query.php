@@ -327,6 +327,8 @@ class WP_Meta_Query {
 			return false;
 		}
 
+		$this->table_aliases = array();
+
 		$this->meta_table     = $meta_table;
 		$this->meta_id_column = sanitize_key( $type . '_id' );
 

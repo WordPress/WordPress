@@ -2265,10 +2265,9 @@ function get_the_modified_date( $d = '', $post = null ) {
 	$post = get_post( $post );
 
 	if ( ! $post ) {
-		return false;
-	}
-
-	if ( empty( $d ) ) {
+		// For backward compatibility, failures go through the filter below.
+		$the_time = false;
+	} elseif ( empty( $d ) ) {
 		$the_time = get_post_modified_time( get_option( 'date_format' ), false, $post, true );
 	} else {
 		$the_time = get_post_modified_time( $d, false, $post, true );
@@ -2421,10 +2420,9 @@ function get_the_modified_time( $d = '', $post = null ) {
 	$post = get_post( $post );
 
 	if ( ! $post ) {
-		return false;
-	}
-
-	if ( empty( $d ) ) {
+		// For backward compatibility, failures go through the filter below.
+		$the_time = false;
+	} elseif ( empty( $d ) ) {
 		$the_time = get_post_modified_time( get_option( 'time_format' ), false, $post, true );
 	} else {
 		$the_time = get_post_modified_time( $d, false, $post, true );
