@@ -282,8 +282,6 @@ class WP_Site_Query {
 
 		$site_ids = array_map( 'intval', $site_ids );
 
-		$this->site_count = count( $this->sites );
-
 		if ( 'ids' == $this->query_vars['fields'] ) {
 			$this->sites = $site_ids;
 
