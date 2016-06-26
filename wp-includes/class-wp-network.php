@@ -63,7 +63,7 @@ class WP_Network {
 	 * @access private
 	 * @var string
 	 */
-	private $blog_id = 0;
+	private $blog_id = '0';
 
 	/**
 	 * Domain used to set cookies for this network.
