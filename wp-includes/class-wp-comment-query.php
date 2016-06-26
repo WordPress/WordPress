@@ -410,8 +410,6 @@ class WP_Comment_Query {
 
 		$comment_ids = array_map( 'intval', $comment_ids );
 
-		$this->comment_count = count( $this->comments );
-
 		if ( $comment_ids && $this->query_vars['number'] && ! $this->query_vars['no_found_rows'] ) {
 			/**
 			 * Filters the query used to retrieve found comment count.
