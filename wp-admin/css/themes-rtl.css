@@ -681,6 +681,8 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	font-weight: 100;
 	margin: 10px 0 0;
 	line-height: 1.3;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 .theme-overlay .theme-version {
