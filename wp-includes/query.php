@@ -77,17 +77,20 @@ function set_query_var( $var, $value ) {
 }
 
 /**
- * Set up The Loop with query parameters.
+ * Sets up The Loop with query parameters.
  *
- * This will override the current WordPress Loop and shouldn't be used more than
- * once. This must not be used within the WordPress Loop.
+ * Important: This will completely override the current WordPress Loop and can easily
+ * produce unexpected results. In most cases, the better option is to instead modify
+ * specific properties of the loop using the {@see 'pre_get_posts'} action.
+ *
+ * This must not be used within the WordPress Loop.
  *
  * @since 1.5.0
  *
  * @global WP_Query $wp_query Global WP_Query instance.
  *
- * @param string $query
- * @return array List of posts
+ * @param array|string $query Array or string of WP_Query arguments.
+ * @return array List of post objects.
  */
 function query_posts($query) {
 	$GLOBALS['wp_query'] = new WP_Query();
