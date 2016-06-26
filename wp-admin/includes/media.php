@@ -2766,6 +2766,17 @@ function edit_form_image_editor( $post ) {
 
 		echo wp_video_shortcode( $attr );
 
+	else :
+
+		/**
+		 * Fires when attachment type can't be rendered in the edit form.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param WP_Post A post object.
+		 */
+		do_action( 'wp_edit_form_attachment_display', $post );
+
 	endif; ?>
 	</div>
 	<div class="wp_attachment_details edit-form-section">
