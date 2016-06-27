@@ -2773,7 +2773,7 @@ function edit_form_image_editor( $post ) {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param WP_Post A post object.
+		 * @param WP_Post $post A post object.
 		 */
 		do_action( 'wp_edit_form_attachment_display', $post );
 
