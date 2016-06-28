@@ -522,9 +522,9 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				 *
 				 * @see WP_Query::query()
 				 *
-				 * @param array  $posts     The posts for the current post type.
-				 * @param array  $args      An array of WP_Query arguments.
-				 * @param object $post_type The current post type object for this menu item meta box.
+				 * @param array        $posts     The posts for the current post type.
+				 * @param array        $args      An array of WP_Query arguments.
+				 * @param WP_Post_Type $post_type The current post type object for this menu item meta box.
 				 */
 				$posts = apply_filters( "nav_menu_items_{$post_type_name}", $posts, $args, $post_type );
 				$checkbox_items = walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $posts), 0, (object) $args );

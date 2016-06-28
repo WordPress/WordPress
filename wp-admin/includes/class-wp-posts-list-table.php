@@ -72,8 +72,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
-	 * @global object $post_type_object
-	 * @global wpdb   $wpdb
+	 * @global WP_Post_Type $post_type_object
+	 * @global wpdb         $wpdb
 	 *
 	 * @param array $args An associative array of arguments.
 	 */

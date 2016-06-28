@@ -883,8 +883,8 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *
 	 * @access protected
 	 *
-	 * @param object $post_type Post type object.
-	 * @param array  $fields    The subset of post fields to return.
+	 * @param WP_Post_Type $post_type Post type object.
+	 * @param array        $fields    The subset of post fields to return.
 	 * @return array The prepared post type data.
 	 */
 	protected function _prepare_post_type( $post_type, $fields ) {
@@ -922,8 +922,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param array  $_post_type An array of post type data.
-		 * @param object $post_type  Post type object.
+		 * @param array        $_post_type An array of post type data.
+		 * @param WP_Post_Type $post_type  Post type object.
 		 */
 		return apply_filters( 'xmlrpc_prepare_post_type', $_post_type, $post_type );
 	}
