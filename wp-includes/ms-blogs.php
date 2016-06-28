@@ -1115,6 +1115,69 @@ function get_network( &$network = null ) {
 }
 
 /**
+ * Removes a network from the object cache.
+ *
+ * @since 4.6.0
+ *
+ * @param int|array $ids Network ID or an array of network IDs to remove from cache.
+ */
+function clean_network_cache( $ids ) {
+	foreach ( (array) $ids as $id ) {
+		wp_cache_delete( $id, 'networks' );
+
+		/**
+		 * Fires immediately after a network has been removed from the object cache.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param int $id Network ID.
+		 */
+		do_action( 'clean_network_cache', $id );
+	}
+
+	wp_cache_set( 'last_changed', microtime(), 'networks' );
+}
+
+/**
+ * Updates the network cache of given networks.
+ *
+ * Will add the networks in $networks to the cache. If network ID already exists
+ * in the network cache then it will not be updated. The network is added to the
+ * cache using the network group with the key using the ID of the networks.
+ *
+ * @since 4.6.0
+ *
+ * @param array $networks Array of network row objects.
+ */
+function update_network_cache( $networks ) {
+	foreach ( (array) $networks as $network ) {
+		wp_cache_add( $network->id, $network, 'networks' );
+	}
+}
+
+/**
+ * Adds any networks from the given IDs to the cache that do not already exist in cache.
+ *
+ * @since 4.6.0
+ * @access private
+ *
+ * @see update_network_cache()
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param array $network_ids Array of network IDs.
+ */
+function _prime_network_caches( $network_ids ) {
+	global $wpdb;
+
+	$non_cached_ids = _get_non_cached_ids( $network_ids, 'networks' );
+	if ( !empty( $non_cached_ids ) ) {
+		$fresh_networks = $wpdb->get_results( sprintf( "SELECT $wpdb->site.* FROM $wpdb->site WHERE id IN (%s)", join( ",", array_map( 'intval', $non_cached_ids ) ) ) );
+
+		update_network_cache( $fresh_networks );
+	}
+}
+
+/**
  * Handler for updating the blog date when a post is published or an already published post is changed.
  *
  * @since 3.3.0
