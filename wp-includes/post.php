@@ -914,7 +914,8 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                             Default is value of $labels['name'].
  *     @type array       $labels               An array of labels for this post type. If not set, post
  *                                             labels are inherited for non-hierarchical types and page
- *                                             labels for hierarchical ones. get_post_type_labels().
+ *                                             labels for hierarchical ones. See get_post_type_labels() for a full
+ *                                             list of supported labels.
  *     @type string      $description          A short descriptive summary of what the post type is.
  *                                             Default empty.
  *     @type bool        $public               Whether a post type is intended for use publicly either via
