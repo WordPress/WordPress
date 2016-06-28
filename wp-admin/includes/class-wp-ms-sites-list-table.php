@@ -158,6 +158,15 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			$args['no_found_rows'] = false;
 		}
 
+		/**
+		 * Filters the arguments for the site query in the sites list table.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param array $args An array of get_sites() arguments.
+		 */
+		$args = apply_filters( 'ms_sites_list_table_query_args', $args );
+
 		$_sites = get_sites( $args );
 		if ( is_array( $_sites ) ) {
 			update_site_cache( $_sites );
