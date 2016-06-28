@@ -897,13 +897,16 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *
  * @since 2.9.0
  * @since 3.0.0 The `show_ui` argument is now enforced on the new post screen.
- * @since 4.4.0 The `show_ui` argument is now enforced on the post type listing screen and post editing screen.
+ * @since 4.4.0 The `show_ui` argument is now enforced on the post type listing
+ *              screen and post editing screen.
  *
  * @global array      $wp_post_types List of post types.
  * @global WP_Rewrite $wp_rewrite    Used for default feeds.
  * @global WP         $wp            Used to add query vars.
  *
- * @param string $post_type Post type key, must not exceed 20 characters.
+ * @param string $post_type Post type key. Must not exceed 20 characters and may
+ *                          only contain lowercase alphanumeric characters, dashes,
+ *                          and underscores. See sanitize_key().
  * @param array|string $args {
  *     Array or string of arguments for registering a post type.
  *
