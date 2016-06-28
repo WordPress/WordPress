@@ -882,11 +882,18 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
 }
 
 /**
- * Register a post type. Do not use before init.
+ * Registers a post type.
  *
- * A function for creating or modifying a post type based on the
- * parameters given. The function will accept an array (second optional
- * parameter), along with a string for the post type name.
+ * Note: Post type registrations should not be hooked before the
+ * {@see 'init'} action. Also, any taxonomy connections should be
+ * registered via the `$taxonomies` argument to ensure consistency
+ * when hooks such as {@see 'parse_query'} or {@see 'pre_get_posts'}
+ * are used.
+ *
+ * Post types can support any number of built-in core features such
+ * as meta boxes, custom fields, post thumbnails, post statuses,
+ * comments, and more. See the `$supports` argument for a complete
+ * list of supported features.
  *
  * @since 2.9.0
  * @since 3.0.0 The `show_ui` argument is now enforced on the new post screen.
