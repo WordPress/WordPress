@@ -1779,6 +1779,7 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 		'float',
 		'overflow',
 		'vertical-align',
+		'list-style-type',
 	) );
 
 	if ( empty($allowed_attr) )
