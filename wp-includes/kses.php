@@ -1711,17 +1711,75 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	 *
 	 * @param array $attr List of allowed CSS attributes.
 	 */
-	$allowed_attr = apply_filters( 'safe_style_css', array( 'text-align', 'margin', 'color', 'float',
-	'border', 'background', 'background-color', 'border-bottom', 'border-bottom-color',
-	'border-bottom-style', 'border-bottom-width', 'border-collapse', 'border-color', 'border-left',
-	'border-left-color', 'border-left-style', 'border-left-width', 'border-right', 'border-right-color',
-	'border-right-style', 'border-right-width', 'border-spacing', 'border-style', 'border-top',
-	'border-top-color', 'border-top-style', 'border-top-width', 'border-width', 'caption-side',
-	'clear', 'cursor', 'direction', 'font', 'font-family', 'font-size', 'font-style',
-	'font-variant', 'font-weight', 'height', 'min-height','max-height' , 'letter-spacing', 'line-height', 'margin-bottom',
-	'margin-left', 'margin-right', 'margin-top', 'overflow', 'padding', 'padding-bottom',
-	'padding-left', 'padding-right', 'padding-top', 'text-decoration', 'text-indent', 'vertical-align',
-	'width', 'min-width', 'max-width' ) );
+	$allowed_attr = apply_filters( 'safe_style_css', array(
+		'background',
+		'background-color',
+
+		'border',
+		'border-width',
+		'border-color',
+		'border-style',
+		'border-right',
+		'border-right-color',
+		'border-right-style',
+		'border-right-width',
+		'border-bottom',
+		'border-bottom-color',
+		'border-bottom-style',
+		'border-bottom-width',
+		'border-left',
+		'border-left-color',
+		'border-left-style',
+		'border-left-width',
+		'border-top',
+		'border-top-color',
+		'border-top-style',
+		'border-top-width',
+
+		'border-spacing',
+		'border-collapse',
+		'caption-side',
+
+		'color',
+		'font',
+		'font-family',
+		'font-size',
+		'font-style',
+		'font-variant',
+		'font-weight',
+		'letter-spacing',
+		'line-height',
+		'text-decoration',
+		'text-indent',
+		'text-align',
+
+		'height',
+		'min-height',
+		'max-height',
+
+		'width',
+		'min-width',
+		'max-width',
+
+		'margin',
+		'margin-right',
+		'margin-bottom',
+		'margin-left',
+		'margin-top',
+
+		'padding',
+		'padding-right',
+		'padding-bottom',
+		'padding-left',
+		'padding-top',
+
+		'clear',
+		'cursor',
+		'direction',
+		'float',
+		'overflow',
+		'vertical-align',
+	) );
 
 	if ( empty($allowed_attr) )
 		return $css;
