@@ -16,6 +16,10 @@
 	color: #555;
 }
 
+.customize-control-nav_menu_location .edit-menu {
+	margin-top: 1px;
+}
+
 .wp-customizer .menu-item-bar .menu-item-handle,
 .wp-customizer .menu-item-settings,
 .wp-customizer .menu-item-settings .description-thin {

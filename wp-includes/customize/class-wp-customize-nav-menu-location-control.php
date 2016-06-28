@@ -77,6 +77,7 @@ class WP_Customize_Nav_Menu_Location_Control extends WP_Customize_Control {
 				?>
 			</select>
 		</label>
+		<button type="button" class="button edit-menu<?php if ( ! $this->value() ) { echo ' hidden'; } ?>"><?php _e( 'Edit' ); ?></button>
 		<?php
 	}
 }

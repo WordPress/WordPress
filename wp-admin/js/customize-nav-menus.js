@@ -926,6 +926,19 @@
 				return parseInt( value, 10 );
 			};
 
+			// Edit menu button.
+			control.container.find( '.edit-menu' ).on( 'click', function() {
+				var menuId = control.setting();
+				api.section( 'nav_menu[' + menuId + ']' ).focus();
+			});
+			control.setting.bind( 'change', function() {
+				if ( 0 === control.setting() ) {
+					control.container.find( '.edit-menu' ).addClass( 'hidden' );
+				} else {
+					control.container.find( '.edit-menu' ).removeClass( 'hidden' );
+				}
+			});
+
 			// Add/remove menus from the available options when they are added and removed.
 			api.bind( 'add', function( setting ) {
 				var option, menuId, matches = setting.id.match( navMenuIdRegex );
