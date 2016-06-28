@@ -139,7 +139,7 @@ class Walker {
 		//display this element
 		$this->has_children = ! empty( $children_elements[ $id ] );
 		if ( isset( $args[0] ) && is_array( $args[0] ) ) {
-			$args[0]['has_children'] = $this->has_children; // Backwards compatibility.
+			$args[0]['has_children'] = $this->has_children; // Back-compat.
 		}
 
 		$cb_args = array_merge( array(&$output, $element, $depth), $args);
@@ -148,7 +148,7 @@ class Walker {
 		// descend only when the depth is right and there are childrens for this element
 		if ( ($max_depth == 0 || $max_depth > $depth+1 ) && isset( $children_elements[$id]) ) {
 
-			foreach( $children_elements[ $id ] as $child ){
+			foreach ( $children_elements[ $id ] as $child ){
 
 				if ( !isset($newlevel) ) {
 					$newlevel = true;
@@ -215,7 +215,7 @@ class Walker {
 		$top_level_elements = array();
 		$children_elements  = array();
 		foreach ( $elements as $e) {
-			if ( 0 == $e->$parent_field )
+			if ( empty( $e->$parent_field ) )
 				$top_level_elements[] = $e;
 			else
 				$children_elements[ $e->$parent_field ][] = $e;
@@ -250,7 +250,7 @@ class Walker {
 		if ( ( $max_depth == 0 ) && count( $children_elements ) > 0 ) {
 			$empty_array = array();
 			foreach ( $children_elements as $orphans )
-				foreach( $orphans as $op )
+				foreach ( $orphans as $op )
 					$this->display_element( $op, $empty_array, 1, 0, $args, $output );
 		 }
 
@@ -374,7 +374,7 @@ class Walker {
 		if ( $end >= $total_top && count( $children_elements ) > 0 ) {
 			$empty_array = array();
 			foreach ( $children_elements as $orphans )
-				foreach( $orphans as $op )
+				foreach ( $orphans as $op )
 					$this->display_element( $op, $empty_array, 1, 0, $args, $output );
 		}
 
@@ -382,9 +382,13 @@ class Walker {
 	}
 
 	/**
+	 * Calculates the total number of root elements.
 	 *
-	 * @param array $elements
-	 * @return int
+	 * @since 2.7.0
+	 * @access public
+	 *
+	 * @param array $elements Elements to list.
+	 * @return int Number of root elements.
 	 */
 	public function get_number_of_root_elements( $elements ){
 		$num = 0;

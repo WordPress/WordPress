@@ -17,10 +17,10 @@ function got_mod_rewrite() {
 	$got_rewrite = apache_mod_loaded('mod_rewrite', true);
 
 	/**
-	 * Filter whether Apache and mod_rewrite are present.
+	 * Filters whether Apache and mod_rewrite are present.
 	 *
 	 * This filter was previously used to force URL rewriting for other servers,
-	 * like nginx. Use the got_url_rewrite filter in got_url_rewrite() instead.
+	 * like nginx. Use the {@see 'got_url_rewrite'} filter in got_url_rewrite() instead.
 	 *
 	 * @since 2.5.0
 	 *
@@ -46,7 +46,7 @@ function got_url_rewrite() {
 	$got_url_rewrite = ( got_mod_rewrite() || $GLOBALS['is_nginx'] || iis7_supports_permalinks() );
 
 	/**
-	 * Filter whether URL rewriting is available.
+	 * Filters whether URL rewriting is available.
 	 *
 	 * @since 3.7.0
 	 *
@@ -56,7 +56,7 @@ function got_url_rewrite() {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Extracts strings from between the BEGIN and END markers in the .htaccess file.
  *
  * @since 1.5.0
  *
@@ -88,64 +88,99 @@ function extract_from_markers( $filename, $marker ) {
 }
 
 /**
- * {@internal Missing Short Description}}
- *
  * Inserts an array of strings into a file (.htaccess ), placing it between
- * BEGIN and END markers. Replaces existing marked info. Retains surrounding
+ * BEGIN and END markers.
+ *
+ * Replaces existing marked info. Retains surrounding
  * data. Creates file if none exists.
  *
  * @since 1.5.0
  *
- * @param string $filename
- * @param string $marker
- * @param array  $insertion
+ * @param string       $filename  Filename to alter.
+ * @param string       $marker    The marker to alter.
+ * @param array|string $insertion The new content to insert.
  * @return bool True on write success, false on failure.
  */
 function insert_with_markers( $filename, $marker, $insertion ) {
-	if (!file_exists( $filename ) || is_writeable( $filename ) ) {
-		if (!file_exists( $filename ) ) {
-			$markerdata = '';
-		} else {
-			$markerdata = explode( "\n", implode( '', file( $filename ) ) );
-		}
-
-		if ( !$f = @fopen( $filename, 'w' ) )
+	if ( ! file_exists( $filename ) ) {
+		if ( ! is_writable( dirname( $filename ) ) ) {
 			return false;
-
-		$foundit = false;
-		if ( $markerdata ) {
-			$state = true;
-			foreach ( $markerdata as $n => $markerline ) {
-				if (strpos($markerline, '# BEGIN ' . $marker) !== false)
-					$state = false;
-				if ( $state ) {
-					if ( $n + 1 < count( $markerdata ) )
-						fwrite( $f, "{$markerline}\n" );
-					else
-						fwrite( $f, "{$markerline}" );
-				}
-				if (strpos($markerline, '# END ' . $marker) !== false) {
-					fwrite( $f, "# BEGIN {$marker}\n" );
-					if ( is_array( $insertion ))
-						foreach ( $insertion as $insertline )
-							fwrite( $f, "{$insertline}\n" );
-					fwrite( $f, "# END {$marker}\n" );
-					$state = true;
-					$foundit = true;
-				}
-			}
 		}
-		if (!$foundit) {
-			fwrite( $f, "\n# BEGIN {$marker}\n" );
-			foreach ( $insertion as $insertline )
-				fwrite( $f, "{$insertline}\n" );
-			fwrite( $f, "# END {$marker}\n" );
+		if ( ! touch( $filename ) ) {
+			return false;
 		}
-		fclose( $f );
-		return true;
-	} else {
+	} elseif ( ! is_writeable( $filename ) ) {
 		return false;
 	}
+
+	if ( ! is_array( $insertion ) ) {
+		$insertion = explode( "\n", $insertion );
+	}
+
+	$start_marker = "# BEGIN {$marker}";
+	$end_marker   = "# END {$marker}";
+
+	$fp = fopen( $filename, 'r+' );
+	if ( ! $fp ) {
+		return false;
+	}
+
+	// Attempt to get a lock. If the filesystem supports locking, this will block until the lock is acquired.
+	flock( $fp, LOCK_EX );
+
+	$lines = array();
+	while ( ! feof( $fp ) ) {
+		$lines[] = rtrim( fgets( $fp ), "\r\n" );
+	}
+
+	// Split out the existing file into the preceeding lines, and those that appear after the marker
+	$pre_lines = $post_lines = $existing_lines = array();
+	$found_marker = $found_end_marker = false;
+	foreach ( $lines as $line ) {
+		if ( ! $found_marker && false !== strpos( $line, $start_marker ) ) {
+			$found_marker = true;
+			continue;
+		} elseif ( ! $found_end_marker && false !== strpos( $line, $end_marker ) ) {
+			$found_end_marker = true;
+			continue;
+		}
+		if ( ! $found_marker ) {
+			$pre_lines[] = $line;
+		} elseif ( $found_marker && $found_end_marker ) {
+			$post_lines[] = $line;
+		} else {
+			$existing_lines[] = $line;
+		}
+	}
+
+	// Check to see if there was a change
+	if ( $existing_lines === $insertion ) {
+		flock( $fp, LOCK_UN );
+		fclose( $fp );
+
+		return true;
+	}
+
+	// Generate the new file data
+	$new_file_data = implode( "\n", array_merge(
+		$pre_lines,
+		array( $start_marker ),
+		$insertion,
+		array( $end_marker ),
+		$post_lines
+	) );
+
+	// Write to the start of the file, and truncate it to that length
+	fseek( $fp, 0 );
+	$bytes = fwrite( $fp, $new_file_data );
+	if ( $bytes ) {
+		ftruncate( $fp, ftell( $fp ) );
+	}
+	fflush( $fp );
+	flock( $fp, LOCK_UN );
+	fclose( $fp );
+
+	return (bool) $bytes;
 }
 
 /**
@@ -213,7 +248,7 @@ function iis7_save_url_rewrite_rules(){
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Update the "recently-edited" file for the plugin or theme editor.
  *
  * @since 1.5.0
  *
@@ -235,7 +270,7 @@ function update_recently_edited( $file ) {
 }
 
 /**
- * If siteurl, home or page_on_front changed, flush rewrite rules.
+ * Flushes rewrite rules if siteurl, home or page_on_front changed.
  *
  * @since 2.1.0
  *
@@ -243,28 +278,16 @@ function update_recently_edited( $file ) {
  * @param string $value
  */
 function update_home_siteurl( $old_value, $value ) {
-	if ( defined( "WP_INSTALLING" ) )
+	if ( wp_installing() )
 		return;
 
-	// If home changed, write rewrite rules to new location.
-	flush_rewrite_rules();
+	if ( is_multisite() && ms_is_switched() ) {
+		delete_option( 'rewrite_rules' );
+	} else {
+		flush_rewrite_rules();
+	}
 }
 
-/**
- * Shorten an URL, to be used as link text
- *
- * @since 1.2.0
- *
- * @param string $url
- * @return string
- */
-function url_shorten( $url ) {
-	$short_url = str_replace( array( 'http://', 'www.' ), '', $url );
-	$short_url = untrailingslashit( $short_url );
-	if ( strlen( $short_url ) > 35 )
-		$short_url = substr( $short_url, 0, 32 ) . '&hellip;';
-	return $short_url;
-}
 
 /**
  * Resets global variables based on $_GET and $_POST
@@ -292,7 +315,7 @@ function wp_reset_vars( $vars ) {
 }
 
 /**
- * {@internal Missing Short Description}}
+ * Displays the given administration message.
  *
  * @since 2.1.0
  *
@@ -346,7 +369,7 @@ function wp_doc_link_parse( $content ) {
 	sort( $functions );
 
 	/**
-	 * Filter the list of functions and classes to be ignored from the documentation lookup.
+	 * Filters the list of functions and classes to be ignored from the documentation lookup.
 	 *
 	 * @since 2.8.0
 	 *
@@ -415,7 +438,7 @@ function set_screen_options() {
 			default:
 
 				/**
-				 * Filter a screen option value before it is set.
+				 * Filters a screen option value before it is set.
 				 *
 				 * The filter can also be used to modify non-standard [items]_per_page
 				 * settings. See the parent function for a full list of standard options.
@@ -438,7 +461,13 @@ function set_screen_options() {
 		}
 
 		update_user_meta($user->ID, $option, $value);
-		wp_safe_redirect( remove_query_arg( array('pagenum', 'apage', 'paged'), wp_get_referer() ) );
+
+		$url = remove_query_arg( array( 'pagenum', 'apage', 'paged' ), wp_get_referer() );
+		if ( isset( $_POST['mode'] ) ) {
+			$url = add_query_arg( array( 'mode' => $_POST['mode'] ), $url );
+		}
+
+		wp_safe_redirect( $url );
 		exit;
 	}
 }
@@ -454,14 +483,15 @@ function set_screen_options() {
 function iis7_rewrite_rule_exists($filename) {
 	if ( ! file_exists($filename) )
 		return false;
-	if ( ! class_exists('DOMDocument') )
+	if ( ! class_exists( 'DOMDocument', false ) ) {
 		return false;
+	}
 
 	$doc = new DOMDocument();
 	if ( $doc->load($filename) === false )
 		return false;
 	$xpath = new DOMXPath($doc);
-	$rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')]');
+	$rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]');
 	if ( $rules->length == 0 )
 		return false;
 	else
@@ -481,8 +511,9 @@ function iis7_delete_rewrite_rule($filename) {
 	if ( ! file_exists($filename) )
 		return true;
 
-	if ( ! class_exists('DOMDocument') )
+	if ( ! class_exists( 'DOMDocument', false ) ) {
 		return false;
+	}
 
 	$doc = new DOMDocument();
 	$doc->preserveWhiteSpace = false;
@@ -490,7 +521,7 @@ function iis7_delete_rewrite_rule($filename) {
 	if ( $doc -> load($filename) === false )
 		return false;
 	$xpath = new DOMXPath($doc);
-	$rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')]');
+	$rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]');
 	if ( $rules->length > 0 ) {
 		$child = $rules->item(0);
 		$parent = $child->parentNode;
@@ -511,8 +542,9 @@ function iis7_delete_rewrite_rule($filename) {
  * @return bool
  */
 function iis7_add_rewrite_rule($filename, $rewrite_rule) {
-	if ( ! class_exists('DOMDocument') )
+	if ( ! class_exists( 'DOMDocument', false ) ) {
 		return false;
+	}
 
 	// If configuration file does not exist then we create one.
 	if ( ! file_exists($filename) ) {
@@ -530,7 +562,7 @@ function iis7_add_rewrite_rule($filename, $rewrite_rule) {
 	$xpath = new DOMXPath($doc);
 
 	// First check if the rule already exists as in that case there is no need to re-add it
-	$wordpress_rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')]');
+	$wordpress_rules = $xpath->query('/configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'wordpress\')] | /configuration/system.webServer/rewrite/rules/rule[starts-with(@name,\'WordPress\')]');
 	if ( $wordpress_rules->length > 0 )
 		return true;
 
@@ -603,6 +635,8 @@ function saveDomDocument($doc, $filename) {
  * @since 3.0.0
  *
  * @global array $_wp_admin_css_colors
+ *
+ * @param int $user_id User ID.
  */
 function admin_color_scheme_picker( $user_id ) {
 	global $_wp_admin_css_colors;
@@ -676,7 +710,7 @@ function wp_color_scheme_settings() {
 		$icon_colors = $_wp_admin_css_colors['fresh']->icon_colors;
 	} else {
 		// Fall back to the default set of icon colors if the default scheme is missing.
-		$icon_colors = array( 'base' => '#999', 'focus' => '#00a0d2', 'current' => '#fff' );
+		$icon_colors = array( 'base' => '#82878c', 'focus' => '#00a0d2', 'current' => '#fff' );
 	}
 
 	echo '<script type="text/javascript">var _wpColorScheme = ' . wp_json_encode( array( 'icons' => $icon_colors ) ) . ";</script>\n";
@@ -697,6 +731,11 @@ function _ipad_meta() {
  * Check lock status for posts displayed on the Posts screen
  *
  * @since 3.6.0
+ *
+ * @param array  $response  The Heartbeat response.
+ * @param array  $data      The $_POST data sent.
+ * @param string $screen_id The screen id.
+ * @return array The Heartbeat response.
  */
 function wp_check_locked_posts( $response, $data, $screen_id ) {
 	$checked = array();
@@ -727,6 +766,11 @@ function wp_check_locked_posts( $response, $data, $screen_id ) {
  * Check lock status on the New/Edit Post screen and refresh the lock
  *
  * @since 3.6.0
+ *
+ * @param array  $response  The Heartbeat response.
+ * @param array  $data      The $_POST data sent.
+ * @param string $screen_id The screen id.
+ * @return array The Heartbeat response.
  */
 function wp_refresh_post_lock( $response, $data, $screen_id ) {
 	if ( array_key_exists( 'wp-refresh-post-lock', $data ) ) {
@@ -765,30 +809,35 @@ function wp_refresh_post_lock( $response, $data, $screen_id ) {
  * Check nonce expiration on the New/Edit Post screen and refresh if needed
  *
  * @since 3.6.0
+ *
+ * @param array  $response  The Heartbeat response.
+ * @param array  $data      The $_POST data sent.
+ * @param string $screen_id The screen id.
+ * @return array The Heartbeat response.
  */
 function wp_refresh_post_nonces( $response, $data, $screen_id ) {
 	if ( array_key_exists( 'wp-refresh-post-nonces', $data ) ) {
 		$received = $data['wp-refresh-post-nonces'];
 		$response['wp-refresh-post-nonces'] = array( 'check' => 1 );
 
-		if ( ! $post_id = absint( $received['post_id'] ) )
+		if ( ! $post_id = absint( $received['post_id'] ) ) {
 			return $response;
-
-		if ( ! current_user_can( 'edit_post', $post_id ) || empty( $received['post_nonce'] ) )
-			return $response;
-
-		if ( 2 === wp_verify_nonce( $received['post_nonce'], 'update-post_' . $post_id ) ) {
-			$response['wp-refresh-post-nonces'] = array(
-				'replace' => array(
-					'getpermalinknonce' => wp_create_nonce('getpermalink'),
-					'samplepermalinknonce' => wp_create_nonce('samplepermalink'),
-					'closedpostboxesnonce' => wp_create_nonce('closedpostboxes'),
-					'_ajax_linking_nonce' => wp_create_nonce( 'internal-linking' ),
-					'_wpnonce' => wp_create_nonce( 'update-post_' . $post_id ),
-				),
-				'heartbeatNonce' => wp_create_nonce( 'heartbeat-nonce' ),
-			);
 		}
+
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return $response;
+		}
+
+		$response['wp-refresh-post-nonces'] = array(
+			'replace' => array(
+				'getpermalinknonce' => wp_create_nonce('getpermalink'),
+				'samplepermalinknonce' => wp_create_nonce('samplepermalink'),
+				'closedpostboxesnonce' => wp_create_nonce('closedpostboxes'),
+				'_ajax_linking_nonce' => wp_create_nonce( 'internal-linking' ),
+				'_wpnonce' => wp_create_nonce( 'update-post_' . $post_id ),
+			),
+			'heartbeatNonce' => wp_create_nonce( 'heartbeat-nonce' ),
+		);
 	}
 
 	return $response;
@@ -818,6 +867,10 @@ function wp_heartbeat_set_suspension( $settings ) {
  * Autosave with heartbeat
  *
  * @since 3.9.0
+ *
+ * @param array $response The Heartbeat response.
+ * @param array $data     The $_POST data sent.
+ * @return array The Heartbeat response.
  */
 function heartbeat_autosave( $response, $data ) {
 	if ( ! empty( $data['wp_autosave'] ) ) {
@@ -828,7 +881,7 @@ function heartbeat_autosave( $response, $data ) {
 		} elseif ( empty( $saved ) ) {
 			$response['wp_autosave'] = array( 'success' => false, 'message' => __( 'Error while saving.' ) );
 		} else {
-			/* translators: draft saved date format, see http://php.net/date */
+			/* translators: draft saved date format, see https://secure.php.net/date */
 			$draft_saved_date_format = __( 'g:i:s a' );
 			/* translators: %s: date and time */
 			$response['wp_autosave'] = array( 'success' => true, 'message' => sprintf( __( 'Draft saved at %s.' ), date_i18n( $draft_saved_date_format ) ) );
@@ -836,24 +889,6 @@ function heartbeat_autosave( $response, $data ) {
 	}
 
 	return $response;
-}
-
-/**
- * Disables autocomplete on the 'post' form (Add/Edit Post screens) for WebKit browsers,
- * as they disregard the autocomplete setting on the editor textarea. That can break the editor
- * when the user navigates to it with the browser's Back button. See #28037
- *
- * @since 4.0
- *
- * @global bool $is_safari
- * @global bool $is_chrome
- */
-function post_form_autocomplete_off() {
-	global $is_safari, $is_chrome;
-
-	if ( $is_safari || $is_chrome ) {
-		echo ' autocomplete="off"';
-	}
 }
 
 /**
@@ -865,23 +900,7 @@ function post_form_autocomplete_off() {
  * @since 4.2.0
  */
 function wp_admin_canonical_url() {
-	$removable_query_args = array(
-		'message', 'settings-updated', 'saved',
-		'update', 'updated', 'activated',
-		'activate', 'deactivate', 'locked',
-		'deleted', 'trashed', 'untrashed',
-		'enabled', 'disabled', 'skipped',
-		'spammed', 'unspammed',
-	);
-
-	/**
-	 * Filter the list of URL parameters to remove.
-	 *
-	 * @since 4.2.0
-	 *
-	 * @param array $removable_query_args An array of parameters to remove from the URL.
-	 */
-	$removable_query_args = apply_filters( 'removable_query_args', $removable_query_args );
+	$removable_query_args = wp_removable_query_args();
 
 	if ( empty( $removable_query_args ) ) {
 		return;
@@ -898,4 +917,22 @@ function wp_admin_canonical_url() {
 		}
 	</script>
 <?php
+}
+
+/**
+ * Output JS that reloads the page if the user navigated to it with the Back or Forward button.
+ *
+ * Used on the Edit Post and Add New Post screens. Needed to ensure the page is not loaded from browser cache,
+ * so the post title and editor content are the last saved versions. Ideally this script should run first in the head.
+ *
+ * @since 4.6.0
+ */
+function wp_page_reload_on_back_button_js() {
+	?>
+	<script>
+		if ( typeof performance !== 'undefined' && performance.navigation && performance.navigation.type === 2 ) {
+			document.location.reload( true );
+		}
+	</script>
+	<?php
 }

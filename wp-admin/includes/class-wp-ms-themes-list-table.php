@@ -1,11 +1,19 @@
 <?php
 /**
- * MS Themes List Table class.
+ * List Table API: WP_MS_Themes_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying themes in a list table for the network admin.
+ *
  * @since 3.1.0
  * @access private
+ *
+ * @see WP_List_Table
  */
 class WP_MS_Themes_List_Table extends WP_List_Table {
 
@@ -41,7 +49,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$page = $this->get_pagenum();
 
-		$this->is_site_themes = ( 'site-themes-network' == $this->screen->id ) ? true : false;
+		$this->is_site_themes = ( 'site-themes-network' === $this->screen->id ) ? true : false;
 
 		if ( $this->is_site_themes )
 			$this->site_id = isset( $_REQUEST['id'] ) ? intval( $_REQUEST['id'] ) : 0;
@@ -83,7 +91,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		$themes = array(
 			/**
-			 * Filter the full array of WP_Theme objects to list in the Multisite
+			 * Filters the full array of WP_Theme objects to list in the Multisite
 			 * themes list table.
 			 *
 			 * @since 3.1.0
@@ -141,13 +149,18 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$this->has_items = ! empty( $themes['all'] );
 		$total_this_page = $totals[ $status ];
 
+		wp_localize_script( 'updates', '_wpUpdatesItemCounts', array(
+			'totals' => $totals,
+		) );
+
 		if ( $orderby ) {
 			$orderby = ucfirst( $orderby );
 			$order = strtoupper( $order );
 
-			if ( $orderby == 'Name' ) {
-				if ( 'ASC' == $order )
+			if ( $orderby === 'Name' ) {
+				if ( 'ASC' === $order ) {
 					$this->items = array_reverse( $this->items );
+				}
 			} else {
 				uasort( $this->items, array( $this, '_order_callback' ) );
 			}
@@ -206,7 +219,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		if ( $a == $b )
 			return 0;
 
-		if ( 'DESC' == $order )
+		if ( 'DESC' === $order )
 			return ( $a < $b ) ? 1 : -1;
 		else
 			return ( $a < $b ) ? -1 : 1;
@@ -216,10 +229,11 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	 * @access public
 	 */
 	public function no_items() {
-		if ( ! $this->has_items )
+		if ( $this->has_items ) {
 			_e( 'No themes found.' );
-		else
+		} else {
 			_e( 'You do not appear to have any themes available at this time.' );
+		}
 	}
 
 	/**
@@ -296,7 +310,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 			if ( 'search' != $type ) {
 				$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
 					esc_url( add_query_arg('theme_status', $type, $url) ),
-					( $type == $status ) ? ' class="current"' : '',
+					( $type === $status ) ? ' class="current"' : '',
 					sprintf( $text, number_format_i18n( $count ) )
 				);
 			}
@@ -389,21 +403,85 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 
 		if ( ! $allowed ) {
 			if ( ! $theme->errors() ) {
-				$actions['enable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=enable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'enable-theme_' . $stylesheet ) ) . '" title="' . esc_attr__('Enable this theme') . '" class="edit">' . ( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) ) . '</a>';
+				$url = add_query_arg( array(
+					'action' => 'enable',
+					'theme'  => $theme_key,
+					'paged'  => $page,
+					's'      => $s,
+				), $url );
+
+				if ( $this->is_site_themes ) {
+					/* translators: %s: theme name */
+					$aria_label = sprintf( __( 'Enable %s' ), $theme->display( 'Name' ) );
+				} else {
+					/* translators: %s: theme name */
+					$aria_label = sprintf( __( 'Network Enable %s' ), $theme->display( 'Name' ) );
+				}
+
+				$actions['enable'] = sprintf( '<a href="%s" class="edit" aria-label="%s">%s</a>',
+					esc_url( wp_nonce_url( $url, 'enable-theme_' . $stylesheet ) ),
+					esc_attr( $aria_label ),
+					( $this->is_site_themes ? __( 'Enable' ) : __( 'Network Enable' ) )
+				);
 			}
 		} else {
-			$actions['disable'] = '<a href="' . esc_url( wp_nonce_url($url . 'action=disable&amp;theme=' . $theme_key . '&amp;paged=' . $page . '&amp;s=' . $s, 'disable-theme_' . $stylesheet ) ) . '" title="' . esc_attr__('Disable this theme') . '">' . ( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) ) . '</a>';
+			$url = add_query_arg( array(
+				'action' => 'disable',
+				'theme'  => $theme_key,
+				'paged'  => $page,
+				's'      => $s,
+			), $url );
+
+			if ( $this->is_site_themes ) {
+				/* translators: %s: theme name */
+				$aria_label = sprintf( __( 'Disable %s' ), $theme->display( 'Name' ) );
+			} else {
+				/* translators: %s: theme name */
+				$aria_label = sprintf( __( 'Network Disable %s' ), $theme->display( 'Name' ) );
+			}
+
+			$actions['disable'] = sprintf( '<a href="%s" aria-label="%s">%s</a>',
+				esc_url( wp_nonce_url( $url, 'disable-theme_' . $stylesheet ) ),
+				esc_attr( $aria_label ),
+				( $this->is_site_themes ? __( 'Disable' ) : __( 'Network Disable' ) )
+			);
 		}
 
 		if ( current_user_can('edit_themes') ) {
-			$actions['edit'] = '<a href="' . esc_url('theme-editor.php?theme=' . $theme_key ) . '" title="' . esc_attr__('Open this theme in the Theme Editor') . '" class="edit">' . __('Edit') . '</a>';
+			$url = add_query_arg( array(
+				'theme' => $theme_key,
+			), 'theme-editor.php' );
+
+			/* translators: %s: theme name */
+			$aria_label = sprintf( __( 'Open %s in the Theme Editor' ), $theme->display( 'Name' ) );
+
+			$actions['edit'] = sprintf( '<a href="%s" class="edit" aria-label="%s">%s</a>',
+				esc_url( $url ),
+				esc_attr( $aria_label ),
+				__( 'Edit' )
+			);
 		}
 
 		if ( ! $allowed && current_user_can( 'delete_themes' ) && ! $this->is_site_themes && $stylesheet != get_option( 'stylesheet' ) && $stylesheet != get_option( 'template' ) ) {
-			$actions['delete'] = '<a href="' . esc_url( wp_nonce_url( 'themes.php?action=delete-selected&amp;checked[]=' . $theme_key . '&amp;theme_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-themes' ) ) . '" title="' . esc_attr__( 'Delete this theme' ) . '" class="delete">' . __( 'Delete' ) . '</a>';
+			$url = add_query_arg( array(
+				'action'       => 'delete-selected',
+				'checked[]'    => $theme_key,
+				'theme_status' => $context,
+				'paged'        => $page,
+				's'            => $s,
+			), 'themes.php' );
+
+			/* translators: %s: theme name */
+			$aria_label = sprintf( __( 'Delete %s' ), $theme->display( 'Name' ) );
+
+			$actions['delete'] = sprintf( '<a href="%s" class="delete" aria-label="%s">%s</a>',
+				esc_url( wp_nonce_url( $url, 'bulk-themes' ) ),
+				esc_attr( $aria_label ),
+				__( 'Delete' )
+			);
 		}
 		/**
-		 * Filter the action links displayed for each theme in the Multisite
+		 * Filters the action links displayed for each theme in the Multisite
 		 * themes list table.
 		 *
 		 * The action links displayed are determined by the theme's status, and
@@ -427,7 +505,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme, $context );
 
 		/**
-		 * Filter the action links of a specific theme in the Multisite themes
+		 * Filters the action links of a specific theme in the Multisite themes
 		 * list table.
 		 *
 		 * The dynamic portion of the hook name, `$stylesheet`, refers to the
@@ -459,7 +537,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 	public function column_description( $theme ) {
 		global $status, $totals;
 		if ( $theme->errors() ) {
-			$pre = $status == 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
+			$pre = $status === 'broken' ? __( 'Broken Theme:' ) . ' ' : '';
 			echo '<p><strong class="error-message">' . $pre . $theme->errors()->get_error_message() . '</strong></p>';
 		}
 
@@ -485,10 +563,17 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$theme_meta[] = sprintf( __( 'By %s' ), $theme->display('Author') );
 
 		if ( $theme->get('ThemeURI') ) {
-			$theme_meta[] = '<a href="' . $theme->display('ThemeURI') . '" title="' . esc_attr__( 'Visit theme homepage' ) . '">' . __( 'Visit Theme Site' ) . '</a>';
+			/* translators: %s: theme name */
+			$aria_label = sprintf( __( 'Visit %s homepage' ), $theme->display( 'Name' ) );
+
+			$theme_meta[] = sprintf( '<a href="%s" aria-label="%s">%s</a>',
+				$theme->display( 'ThemeURI' ),
+				esc_attr( $aria_label ),
+				__( 'Visit Theme Site' )
+			);
 		}
 		/**
-		 * Filter the array of row meta for each theme in the Multisite themes
+		 * Filters the array of row meta for each theme in the Multisite themes
 		 * list table.
 		 *
 		 * @since 3.1.0
@@ -601,14 +686,14 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$stylesheet = $theme->get_stylesheet();
 
 		$class = ! $allowed ? 'inactive' : 'active';
-
-		$id = sanitize_html_class( $theme->get_stylesheet() );
-
 		if ( ! empty( $totals['upgrade'] ) && ! empty( $theme->update ) ) {
 			$class .= ' update';
 		}
 
-		echo "<tr id='$id' class='$class'>";
+		printf( '<tr class="%s" data-slug="%s">',
+			esc_attr( $class ),
+			esc_attr( $stylesheet )
+		);
 
 		$this->single_row_columns( $theme );
 

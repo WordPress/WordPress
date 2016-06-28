@@ -11,16 +11,15 @@
 	    topOffset = 0, bodyHeight, sidebarHeight, resizeTimer,
 	    secondary, button;
 
-
-	function initMainNavigation() {
+	function initMainNavigation( container ) {
 		// Add dropdown toggle that display child menu items.
-		$( '.main-navigation .menu-item-has-children > a' ).after( '<button class="dropdown-toggle" aria-expanded="false">' + screenReaderText.expand + '</button>' );
+		container.find( '.menu-item-has-children > a' ).after( '<button class="dropdown-toggle" aria-expanded="false">' + screenReaderText.expand + '</button>' );
 
 		// Toggle buttons and submenu items with active children menu items.
-		$( '.main-navigation .current-menu-ancestor > button' ).addClass( 'toggle-on' );
-		$( '.main-navigation .current-menu-ancestor > .sub-menu' ).addClass( 'toggled-on' );
+		container.find( '.current-menu-ancestor > button' ).addClass( 'toggle-on' );
+		container.find( '.current-menu-ancestor > .sub-menu' ).addClass( 'toggled-on' );
 
-		$( '.dropdown-toggle' ).click( function( e ) {
+		container.find( '.dropdown-toggle' ).click( function( e ) {
 			var _this = $( this );
 			e.preventDefault();
 			_this.toggleClass( 'toggle-on' );
@@ -29,8 +28,20 @@
 			_this.html( _this.html() === screenReaderText.expand ? screenReaderText.collapse : screenReaderText.expand );
 		} );
 	}
-	initMainNavigation();
-	$( document ).on( 'customize-preview-menu-refreshed', initMainNavigation );
+	initMainNavigation( $( '.main-navigation' ) );
+
+	// Re-initialize the main navigation when it is updated, persisting any existing submenu expanded states.
+	$( document ).on( 'customize-preview-menu-refreshed', function( e, params ) {
+		if ( 'primary' === params.wpNavMenuArgs.theme_location ) {
+			initMainNavigation( params.newContainer );
+
+			// Re-sync expanded states from oldContainer.
+			params.oldContainer.find( '.dropdown-toggle.toggle-on' ).each(function() {
+				var containerId = $( this ).parent().prop( 'id' );
+				$( params.newContainer ).find( '#' + containerId + ' > .dropdown-toggle' ).triggerHandler( 'click' );
+			});
+		}
+	});
 
 	secondary = $( '#secondary' );
 	button = $( '.site-branding' ).find( '.secondary-toggle' );
@@ -38,7 +49,7 @@
 	// Enable menu toggle for small screens.
 	( function() {
 		var menu, widgets, social;
-		if ( ! secondary || ! button ) {
+		if ( ! secondary.length || ! button.length ) {
 			return;
 		}
 
@@ -46,7 +57,7 @@
 		menu    = secondary.find( '.nav-menu' );
 		widgets = secondary.find( '#widget-area' );
 		social  = secondary.find( '#social-navigation' );
-		if ( ! widgets.length && ! social.length && ( ! menu || ! menu.children().length ) ) {
+		if ( ! widgets.length && ! social.length && ( ! menu.length || ! menu.children().length ) ) {
 			button.hide();
 			return;
 		}

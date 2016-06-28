@@ -69,7 +69,11 @@ switch ( $action ) {
 
 			echo "<li>$siteurl</li>";
 
-			$response = wp_remote_get( $upgrade_url, array( 'timeout' => 120, 'httpversion' => '1.1' ) );
+			$response = wp_remote_get( $upgrade_url, array(
+				'timeout'     => 120,
+				'httpversion' => '1.1',
+				'sslverify'   => false,
+			) );
 			if ( is_wp_error( $response ) ) {
 				wp_die( sprintf(
 					/* translators: 1: site url, 2: server error message */
@@ -92,7 +96,7 @@ switch ( $action ) {
 			 *
 			 * @since MU
 			 *
-			 * @param int $blog_id The id of the blog.
+			 * @param int $blog_id The Site ID.
 			 */
 			do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] );
 		}
@@ -111,12 +115,12 @@ switch ( $action ) {
 	default:
 		if ( get_site_option( 'wpmu_upgrade_site' ) != $GLOBALS['wp_db_version'] ) :
 		?>
-		<h3><?php _e( 'Database Upgrade Required' ); ?></h3>
+		<h2><?php _e( 'Database Update Required' ); ?></h2>
 		<p><?php _e( 'WordPress has been updated! Before we send you on your way, we need to individually upgrade the sites in your network.' ); ?></p>
 		<?php endif; ?>
 
-		<p><?php _e( 'The database upgrade process may take a little while, so please be patient.' ); ?></p>
-		<p><a class="button" href="upgrade.php?action=upgrade"><?php _e( 'Upgrade Network' ); ?></a></p>
+		<p><?php _e( 'The database update process may take a little while, so please be patient.' ); ?></p>
+		<p><a class="button button-primary" href="upgrade.php?action=upgrade"><?php _e( 'Upgrade Network' ); ?></a></p>
 		<?php
 		/**
 		 * Fires before the footer on the network upgrade screen.

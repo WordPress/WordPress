@@ -13,7 +13,7 @@ if ( !is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can('read') )
-	wp_die( __( 'You do not have sufficient permissions to view this page.' ) );
+	wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 
 $action = isset( $_POST['action'] ) ? $_POST['action'] : 'splash';
 
@@ -39,7 +39,7 @@ get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
 	'title'   => __('Overview'),
 	'content' =>
-		'<p>' . __('This screen shows an individual user all of their sites in this network, and also allows that user to set a primary site. They can use the links under each site to visit either the frontend or the dashboard for that site.') . '</p>' .
+		'<p>' . __('This screen shows an individual user all of their sites in this network, and also allows that user to set a primary site. They can use the links under each site to visit either the front end or the dashboard for that site.') . '</p>' .
 		'<p>' . __('Up until WordPress version 3.0, what is now called a Multisite Network had to be installed separately as WordPress MU (multi-user).') . '</p>'
 ) );
 
@@ -56,7 +56,16 @@ if ( $updated ) { ?>
 <?php } ?>
 
 <div class="wrap">
-<h1><?php echo esc_html( $title ); ?></h1>
+<h1><?php
+echo esc_html( $title );
+
+if ( in_array( get_site_option( 'registration' ), array( 'all', 'blog' ) ) ) {
+	/** This filter is documented in wp-login.php */
+	$sign_up_url = apply_filters( 'wp_signup_location', network_site_url( 'wp-signup.php' ) );
+	printf( ' <a href="%s" class="page-title-action">%s</a>', esc_url( $sign_up_url ), esc_html_x( 'Add New', 'site' ) );
+}
+?></h1>
+
 <?php
 if ( empty( $blogs ) ) :
 	echo '<p>';
@@ -100,7 +109,7 @@ else :
 		echo "<li>";
 		echo "<h3>{$user_blog->blogname}</h3>";
 		/**
-		 * Filter the row links displayed for each site on the My Sites screen.
+		 * Filters the row links displayed for each site on the My Sites screen.
 		 *
 		 * @since MU
 		 *

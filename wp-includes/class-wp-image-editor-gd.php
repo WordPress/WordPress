@@ -97,15 +97,17 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
 
 		/**
-		 * Filter the memory limit allocated for image manipulation.
+		 * Filters the memory limit allocated for image manipulation.
 		 *
 		 * @since 3.5.0
 		 *
 		 * @param int|string $limit Maximum memory limit to allocate for images. Default WP_MAX_MEMORY_LIMIT.
 		 *                          Accepts an integer (bytes), or a shorthand string notation, such as '256M'.
 		 */
-		// Set artificially high because GD uses uncompressed images in memory
-		@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
+		$image_memory_limit = apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT );
+
+		// Set artificially high because GD uses uncompressed images in memory.
+		@ini_set( 'memory_limit', $image_memory_limit );
 
 		$this->image = @imagecreatefromstring( file_get_contents( $this->file ) );
 
@@ -212,16 +214,18 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * @access public
 	 *
 	 * @param array $sizes {
-	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'large'.
+	 *     An array of image size arrays. Default sizes are 'small', 'medium', 'medium_large', 'large'.
 	 *
 	 *     Either a height or width must be provided.
 	 *     If one of the two is set to null, the resize will
 	 *     maintain aspect ratio according to the provided dimension.
 	 *
 	 *     @type array $size {
-	 *         @type int  ['width']  Optional. Image width.
-	 *         @type int  ['height'] Optional. Image height.
-	 *         @type bool ['crop']   Optional. Whether to crop the image. Default false.
+	 *         Array of height, width values, and whether to crop.
+	 *
+	 *         @type int  $width  Image width. Optional if `$height` is specified.
+	 *         @type int  $height Image height. Optional if `$width` is specified.
+	 *         @type bool $crop   Optional. Whether to crop the image. Default false.
 	 *     }
 	 * }
 	 * @return array An array of resized images' metadata by size.
@@ -427,7 +431,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		@ chmod( $filename, $perms );
 
 		/**
-		 * Filter the name of the saved image file.
+		 * Filters the name of the saved image file.
 		 *
 		 * @since 2.6.0
 		 *

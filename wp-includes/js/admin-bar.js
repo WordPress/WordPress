@@ -129,17 +129,14 @@ if ( typeof(jQuery) != 'undefined' ) {
 			target.siblings('.ab-sub-wrapper').find('.ab-item').each(refresh);
 		});
 
-		$('#wpadminbar').click( function(e) {
+		adminbar.click( function(e) {
 			if ( e.target.id != 'wpadminbar' && e.target.id != 'wp-admin-bar-top-secondary' ) {
-				return;
-			} else {
-				adminbar.find( 'li.menupop.hover' ).removeClass( 'hover' );
-				e.stopPropagation();
 				return;
 			}
 
+			adminbar.find( 'li.menupop.hover' ).removeClass( 'hover' );
+			$( 'html, body' ).animate( { scrollTop: 0 }, 'fast' );
 			e.preventDefault();
-			$('html, body').animate({ scrollTop: 0 }, 'fast');
 		});
 
 		// fix focus bug in WebKit

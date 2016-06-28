@@ -12,7 +12,7 @@
 
 #TB_window {
 	position: fixed;
-	background: #fff;
+	background-color: #fff;
 	z-index: 100050; /* Above DFW. */
 	visibility: hidden;
 	text-align: left;
@@ -43,19 +43,26 @@
 	float: right;
 }
 
-#TB_closeAjaxWindow {
-	float: right;
-}
-
-#TB_closeAjaxWindow a {
-	text-decoration: none;
+#TB_closeWindowButton {
+	position: absolute;
+	left: auto;
+	right: 0;
+	width: 29px;
+	height: 29px;
+	border: 0;
+	padding: 0;
+	background: none;
+	cursor: pointer;
+	outline: none;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
 #TB_ajaxWindowTitle {
 	float: left;
 	font-weight: 600;
 	line-height: 29px;
-	overflow: hidden; 
+	overflow: hidden;
 	padding: 0 29px 0 10px;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -64,7 +71,7 @@
 
 #TB_title {
 	background: #fcfcfc;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	height: 29px;
 }
 
@@ -115,6 +122,7 @@
 }
 
 .tb-close-icon {
+	display: block;
 	color: #666;
 	text-align: center;
 	line-height: 29px;
@@ -126,13 +134,23 @@
 }
 
 .tb-close-icon:before {
-	content: '\f158';
-	font: normal 20px/29px 'dashicons';
+	content: "\f158";
+	font: normal 20px/29px dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.tb-close-icon:hover {
+#TB_closeWindowButton:hover .tb-close-icon,
+#TB_closeWindowButton:focus .tb-close-icon {
 	color: #00a0d2;
+}
+
+#TB_closeWindowButton:focus .tb-close-icon {
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }

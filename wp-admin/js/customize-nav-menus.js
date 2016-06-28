@@ -17,18 +17,15 @@
 
 	// Link settings.
 	api.Menus.data = {
-		nonce: '',
-		itemTypes: {
-			taxonomies: {},
-			postTypes: {}
-		},
+		itemTypes: [],
 		l10n: {},
-		menuItemTransport: 'postMessage',
+		settingTransport: 'refresh',
 		phpIntMax: 0,
 		defaultSettingValues: {
 			nav_menu: {},
 			nav_menu_item: {}
-		}
+		},
+		locationSlugMappedToName: {}
 	};
 	if ( 'undefined' !== typeof _wpCustomizeNavMenusSettings ) {
 		$.extend( api.Menus.data, _wpCustomizeNavMenusSettings );
@@ -99,7 +96,6 @@
 		events: {
 			'input #menu-items-search': 'debounceSearch',
 			'keyup #menu-items-search': 'debounceSearch',
-			'click #menu-items-search': 'debounceSearch',
 			'focus .menu-item-tpl': 'focus',
 			'click .menu-item-tpl': '_submit',
 			'click #custom-menu-item-submit': '_submitLink',
@@ -123,6 +119,10 @@
 		initialize: function() {
 			var self = this;
 
+			if ( ! api.panel.has( 'nav_menus' ) ) {
+				return;
+			}
+
 			this.$search = $( '#menu-items-search' );
 			this.sectionContent = this.$el.find( '.accordion-section-content' );
 
@@ -141,6 +141,11 @@
 				}
 			} );
 
+			// Clear the search results.
+			$( '.clear-results' ).on( 'click', function() {
+				self.$search.val( '' ).focus().trigger( 'keyup' );
+			} );
+
 			this.$el.on( 'input', '#custom-menu-item-name.invalid, #custom-menu-item-url.invalid', function() {
 				$( this ).removeClass( 'invalid' );
 			});
@@ -156,42 +161,52 @@
 			// Load more items.
 			this.sectionContent.scroll( function() {
 				var totalHeight = self.$el.find( '.accordion-section.open .accordion-section-content' ).prop( 'scrollHeight' ),
-				    visibleHeight = self.$el.find( '.accordion-section.open' ).height();
+					visibleHeight = self.$el.find( '.accordion-section.open' ).height();
+
 				if ( ! self.loading && $( this ).scrollTop() > 3 / 4 * totalHeight - visibleHeight ) {
 					var type = $( this ).data( 'type' ),
-					    obj_type = $( this ).data( 'obj_type' );
+						object = $( this ).data( 'object' );
+
 					if ( 'search' === type ) {
 						if ( self.searchTerm ) {
 							self.doSearch( self.pages.search );
 						}
 					} else {
-						self.loadItems( type, obj_type );
+						self.loadItems( type, object );
 					}
 				}
 			});
 
 			// Close the panel if the URL in the preview changes
 			api.previewer.bind( 'url', this.close );
+
+			self.delegateEvents();
 		},
 
 		// Search input change handler.
 		search: function( event ) {
+			var $searchSection = $( '#available-menu-items-search' ),
+				$otherSections = $( '#available-menu-items .accordion-section' ).not( $searchSection );
+
 			if ( ! event ) {
 				return;
 			}
-			// Manual accordion-opening behavior.
-			if ( this.searchTerm && ! $( '#available-menu-items-search' ).hasClass( 'open' ) ) {
-				$( '#available-menu-items .accordion-section-content' ).slideUp( 'fast' );
-				$( '#available-menu-items-search .accordion-section-content' ).slideDown( 'fast' );
-				$( '#available-menu-items .accordion-section.open' ).removeClass( 'open' );
-				$( '#available-menu-items-search' ).addClass( 'open' );
-			}
-			if ( '' === event.target.value ) {
-				$( '#available-menu-items-search' ).removeClass( 'open' );
-			}
+
 			if ( this.searchTerm === event.target.value ) {
 				return;
 			}
+
+			if ( '' !== event.target.value && ! $searchSection.hasClass( 'open' ) ) {
+				$otherSections.fadeOut( 100 );
+				$searchSection.find( '.accordion-section-content' ).slideDown( 'fast' );
+				$searchSection.addClass( 'open' );
+				$searchSection.find( '.clear-results' ).addClass( 'is-visible' );
+			} else if ( '' === event.target.value ) {
+				$searchSection.removeClass( 'open' );
+				$otherSections.show();
+				$searchSection.find( '.clear-results' ).removeClass( 'is-visible' );
+			}
+
 			this.searchTerm = event.target.value;
 			this.pages.search = 1;
 			this.doSearch( 1 );
@@ -200,9 +215,9 @@
 		// Get search results.
 		doSearch: function( page ) {
 			var self = this, params,
-			    $section = $( '#available-menu-items-search' ),
-			    $content = $section.find( '.accordion-section-content' ),
-			    itemTemplate = wp.template( 'available-menu-item' );
+				$section = $( '#available-menu-items-search' ),
+				$content = $section.find( '.accordion-section-content' ),
+				itemTemplate = wp.template( 'available-menu-item' );
 
 			if ( self.currentRequest ) {
 				self.currentRequest.abort();
@@ -223,7 +238,7 @@
 			$section.addClass( 'loading' );
 			self.loading = true;
 			params = {
-				'customize-menus-nonce': api.Menus.data.nonce,
+				'customize-menus-nonce': api.settings.nonce['customize-menus'],
 				'wp_customize': 'on',
 				'search': self.searchTerm,
 				'page': page
@@ -280,35 +295,29 @@
 			var self = this;
 
 			// Render the template for each item by type.
-			_.each( api.Menus.data.itemTypes, function( typeObjects, type ) {
-				_.each( typeObjects, function( typeObject, slug ) {
-					if ( 'postTypes' === type ) {
-						type = 'post_type';
-					} else if ( 'taxonomies' === type ) {
-						type = 'taxonomy';
-					}
-					self.pages[ slug ] = 0; // @todo should prefix with type
-					self.loadItems( slug, type );
-				} );
+			_.each( api.Menus.data.itemTypes, function( itemType ) {
+				self.pages[ itemType.type + ':' + itemType.object ] = 0;
+				self.loadItems( itemType.type, itemType.object ); // @todo we need to combine these Ajax requests.
 			} );
 		},
 
 		// Load available menu items.
-		loadItems: function( type, obj_type ) {
-			var self = this, params, request, itemTemplate;
+		loadItems: function( type, object ) {
+			var self = this, params, request, itemTemplate, availableMenuItemContainer;
 			itemTemplate = wp.template( 'available-menu-item' );
 
-			if ( 0 > self.pages[type] ) {
+			if ( -1 === self.pages[ type + ':' + object ] ) {
 				return;
 			}
-			$( '#available-menu-items-' + type + ' .accordion-section-title' ).addClass( 'loading' );
+			availableMenuItemContainer = $( '#available-menu-items-' + type + '-' + object );
+			availableMenuItemContainer.find( '.accordion-section-title' ).addClass( 'loading' );
 			self.loading = true;
 			params = {
-				'customize-menus-nonce': api.Menus.data.nonce,
+				'customize-menus-nonce': api.settings.nonce['customize-menus'],
 				'wp_customize': 'on',
 				'type': type,
-				'obj_type': obj_type,
-				'page': self.pages[ type ]
+				'object': object,
+				'page': self.pages[ type + ':' + object ]
 			};
 			request = wp.ajax.post( 'load-available-menu-items-customizer', params );
 
@@ -316,16 +325,23 @@
 				var items, typeInner;
 				items = data.items;
 				if ( 0 === items.length ) {
-					self.pages[ type ] = -1;
+					if ( 0 === self.pages[ type + ':' + object ] ) {
+						availableMenuItemContainer
+							.addClass( 'cannot-expand' )
+							.removeClass( 'loading' )
+							.find( '.accordion-section-title > button' )
+							.prop( 'tabIndex', -1 );
+					}
+					self.pages[ type + ':' + object ] = -1;
 					return;
 				}
 				items = new api.Menus.AvailableItemCollection( items ); // @todo Why is this collection created and then thrown away?
 				self.collection.add( items.models );
-				typeInner = $( '#available-menu-items-' + type + ' .accordion-section-content' );
-				items.each(function( menu_item ) {
-					typeInner.append( itemTemplate( menu_item.attributes ) );
+				typeInner = availableMenuItemContainer.find( '.accordion-section-content' );
+				items.each(function( menuItem ) {
+					typeInner.append( itemTemplate( menuItem.attributes ) );
 				});
-				self.pages[ type ] = self.pages[ type ] + 1;
+				self.pages[ type + ':' + object ] += 1;
 			});
 			request.fail(function( data ) {
 				if ( typeof console !== 'undefined' && console.error ) {
@@ -333,7 +349,7 @@
 				}
 			});
 			request.always(function() {
-				$( '#available-menu-items-' + type + ' .accordion-section-title' ).removeClass( 'loading' );
+				availableMenuItemContainer.find( '.accordion-section-title' ).removeClass( 'loading' );
 				self.loading = false;
 			});
 		},
@@ -342,13 +358,11 @@
 		itemSectionHeight: function() {
 			var sections, totalHeight, accordionHeight, diff;
 			totalHeight = window.innerHeight;
-			sections = this.$el.find( '.accordion-section-content' );
-			accordionHeight =  46 * ( 1 + sections.length ) - 16; // Magic numbers.
+			sections = this.$el.find( '.accordion-section:not( #available-menu-items-search ) .accordion-section-content' );
+			accordionHeight =  46 * ( 2 + sections.length ) - 13; // Magic numbers.
 			diff = totalHeight - accordionHeight;
 			if ( 120 < diff && 290 > diff ) {
 				sections.css( 'max-height', diff );
-			} else if ( 120 >= diff ) {
-				this.$el.addClass( 'allow-scroll' );
 			}
 		},
 
@@ -518,7 +532,12 @@
 				content = panelMeta.find( '.customize-panel-description' ),
 				options = $( '#screen-options-wrap' ),
 				button = panelMeta.find( '.customize-screen-options-toggle' );
-			button.on( 'click', function() {
+			button.on( 'click keydown', function( event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+					return;
+				}
+				event.preventDefault();
+
 				// Hide description
 				if ( content.not( ':hidden' ) ) {
 					content.slideUp( 'fast' );
@@ -541,7 +560,12 @@
 			} );
 
 			// Help toggle
-			help.on( 'click', function() {
+			help.on( 'click keydown', function( event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+					return;
+				}
+				event.preventDefault();
+
 				if ( 'true' === button.attr( 'aria-expanded' ) ) {
 					button.attr( 'aria-expanded', 'false' );
 					help.attr( 'aria-expanded', 'true' );
@@ -578,15 +602,21 @@
 			});
 		},
 
-		saveManageColumnsState: function() {
-			var hidden = this.hidden();
-			$.post( wp.ajax.settings.url, {
-				action: 'hidden-columns',
-				hidden: hidden,
+		saveManageColumnsState: _.debounce( function() {
+			var panel = this;
+			if ( panel._updateHiddenColumnsRequest ) {
+				panel._updateHiddenColumnsRequest.abort();
+			}
+
+			panel._updateHiddenColumnsRequest = wp.ajax.post( 'hidden-columns', {
+				hidden: panel.hidden(),
 				screenoptionnonce: $( '#screenoptionnonce' ).val(),
 				page: 'nav-menus'
-			});
-		},
+			} );
+			panel._updateHiddenColumnsRequest.always( function() {
+				panel._updateHiddenColumnsRequest = null;
+			} );
+		}, 2000 ),
 
 		checked: function( column ) {
 			this.container.addClass( 'field-' + column + '-active' );
@@ -597,12 +627,10 @@
 		},
 
 		hidden: function() {
-			this.hidden = function() {
-				return $( '.hide-column-tog' ).not( ':checked' ).map( function() {
-					var id = this.id;
-					return id.substring( id, id.length - 5 );
-				}).get().join( ',' );
-			};
+			return $( '.hide-column-tog' ).not( ':checked' ).map( function() {
+				var id = this.id;
+				return id.substring( 0, id.length - 5 );
+			}).get().join( ',' );
 		}
 	} );
 
@@ -673,6 +701,18 @@
 			});
 
 			section.refreshAssignedLocations();
+
+			api.bind( 'pane-contents-reflowed', function() {
+				// Skip menus that have been removed.
+				if ( ! section.container.parent().length ) {
+					return;
+				}
+				section.container.find( '.menu-item .menu-item-reorder-nav button' ).attr({ 'tabindex': '0', 'aria-hidden': 'false' });
+				section.container.find( '.menu-item.move-up-disabled .menus-move-up' ).attr({ 'tabindex': '-1', 'aria-hidden': 'true' });
+				section.container.find( '.menu-item.move-down-disabled .menus-move-down' ).attr({ 'tabindex': '-1', 'aria-hidden': 'true' });
+				section.container.find( '.menu-item.move-left-disabled .menus-move-left' ).attr({ 'tabindex': '-1', 'aria-hidden': 'true' });
+				section.container.find( '.menu-item.move-right-disabled .menus-move-right' ).attr({ 'tabindex': '-1', 'aria-hidden': 'true' });
+			} );
 		},
 
 		populateControls: function() {
@@ -686,7 +726,7 @@
 					params: {
 						type: 'nav_menu_name',
 						content: '<li id="customize-control-' + section.id.replace( '[', '-' ).replace( ']', '' ) + '-name" class="customize-control customize-control-nav_menu_name"></li>', // @todo core should do this for us; see #30741
-						label: '',
+						label: api.Menus.data.l10n.menuNameLabel,
 						active: true,
 						section: section.id,
 						priority: 0,
@@ -760,19 +800,21 @@
 		/**
 		 * @param {array} themeLocations
 		 */
-		updateAssignedLocationsInSectionTitle: function( themeLocations ) {
+		updateAssignedLocationsInSectionTitle: function( themeLocationSlugs ) {
 			var section = this,
 				$title;
 
 			$title = section.container.find( '.accordion-section-title:first' );
 			$title.find( '.menu-in-location' ).remove();
-			_.each( themeLocations, function( themeLocation ) {
-				var $label = $( '<span class="menu-in-location"></span>' );
-				$label.text( api.Menus.data.l10n.menuLocation.replace( '%s', themeLocation ) );
+			_.each( themeLocationSlugs, function( themeLocationSlug ) {
+				var $label, locationName;
+				$label = $( '<span class="menu-in-location"></span>' );
+				locationName = api.Menus.data.locationSlugMappedToName[ themeLocationSlug ];
+				$label.text( api.Menus.data.l10n.menuLocation.replace( '%s', locationName ) );
 				$title.append( $label );
 			});
 
-			section.container.toggleClass( 'assigned-to-menu-location', 0 !== themeLocations.length );
+			section.container.toggleClass( 'assigned-to-menu-location', 0 !== themeLocationSlugs.length );
 
 		},
 
@@ -939,9 +981,22 @@
 		 */
 		initialize: function( id, options ) {
 			var control = this;
+			control.expanded = new api.Value( false );
+			control.expandedArgumentsQueue = [];
+			control.expanded.bind( function( expanded ) {
+				var args = control.expandedArgumentsQueue.shift();
+				args = $.extend( {}, control.defaultExpandedArguments, args );
+				control.onChangeExpanded( expanded, args );
+			});
 			api.Control.prototype.initialize.call( control, id, options );
 			control.active.validate = function() {
-				return api.section( control.section() ).active();
+				var value, section = api.section( control.section() );
+				if ( section ) {
+					value = section.active();
+				} else {
+					value = false;
+				}
+				return value;
 			};
 		},
 
@@ -960,7 +1015,7 @@
 				return;
 			}
 			section = api.section( sectionId );
-			if ( section && section.expanded() ) {
+			if ( ( section && section.expanded() ) || api.settings.autofocus.control === control.id ) {
 				control.actuallyEmbed();
 			}
 		},
@@ -1080,7 +1135,11 @@
 					}
 				});
 				if ( settingValue ) {
-					element.set( settingValue[ property ] );
+					if ( ( property === 'classes' || property === 'xfn' ) && _.isArray( settingValue[ property ] ) ) {
+						element.set( settingValue[ property ].join( ' ' ) );
+					} else {
+						element.set( settingValue[ property ] );
+					}
 				}
 			});
 
@@ -1146,21 +1205,21 @@
 
 			$removeBtn.on( 'click', function() {
 				// Find an adjacent element to add focus to when this menu item goes away
-				var $adjacentFocusTarget;
-				if ( control.container.next().is( '.customize-control-nav_menu_item' ) ) {
-					if ( ! $( 'body' ).hasClass( 'adding-menu-items' ) ) {
-						$adjacentFocusTarget = control.container.next().find( '.item-edit:first' );
-					} else {
-						$adjacentFocusTarget = control.container.next().find( '.item-delete:first' );
-					}
-				} else if ( control.container.prev().is( '.customize-control-nav_menu_item' ) ) {
-					if ( ! $( 'body' ).hasClass( 'adding-menu-items' ) ) {
-						$adjacentFocusTarget = control.container.prev().find( '.item-edit:first' );
-					} else {
-						$adjacentFocusTarget = control.container.prev().find( '.item-delete:first' );
-					}
+				var addingItems = true, $adjacentFocusTarget, $next, $prev;
+
+				if ( ! $( 'body' ).hasClass( 'adding-menu-items' ) ) {
+					addingItems = false;
+				}
+
+				$next = control.container.nextAll( '.customize-control-nav_menu_item:visible' ).first();
+				$prev = control.container.prevAll( '.customize-control-nav_menu_item:visible' ).first();
+
+				if ( $next.length ) {
+					$adjacentFocusTarget = $next.find( false === addingItems ? '.item-edit' : '.item-delete' ).first();
+				} else if ( $prev.length ) {
+					$adjacentFocusTarget = $prev.find( false === addingItems ? '.item-edit' : '.item-delete' ).first();
 				} else {
-					$adjacentFocusTarget = control.container.next( '.customize-control-nav_menu' ).find( '.add-new-menu-item' );
+					$adjacentFocusTarget = control.container.nextAll( '.customize-control-nav_menu' ).find( '.add-new-menu-item' ).first();
 				}
 
 				control.container.slideUp( function() {
@@ -1194,16 +1253,21 @@
 					return;
 				}
 
-				var titleEl = control.container.find( '.menu-item-title' );
+				var titleEl = control.container.find( '.menu-item-title' ),
+				    titleText = item.title || api.Menus.data.l10n.untitled;
+
+				if ( item._invalid ) {
+					titleText = api.Menus.data.l10n.invalidTitleTpl.replace( '%s', titleText );
+				}
 
 				// Don't update to an empty title.
 				if ( item.title ) {
 					titleEl
-						.text( item.title )
+						.text( titleText )
 						.removeClass( 'no-title' );
 				} else {
 					titleEl
-						.text( api.Menus.data.l10n.untitled )
+						.text( titleText )
 						.addClass( 'no-title' );
 				}
 			} );
@@ -1247,16 +1311,16 @@
 				'menu-item-edit-inactive'
 			];
 
-			if ( settingValue.invalid ) {
-				containerClasses.push( 'invalid' );
-				control.params.title = api.Menus.data.invalidTitleTpl.replace( '%s', control.params.title );
+			if ( settingValue._invalid ) {
+				containerClasses.push( 'menu-item-invalid' );
+				control.params.title = api.Menus.data.l10n.invalidTitleTpl.replace( '%s', control.params.title );
 			} else if ( 'draft' === settingValue.status ) {
 				containerClasses.push( 'pending' );
 				control.params.title = api.Menus.data.pendingTitleTpl.replace( '%s', control.params.title );
 			}
 
 			control.params.el_classes = containerClasses.join( ' ' );
-			control.params.item_type_label = api.Menus.getTypeLabel( settingValue.type, settingValue.object );
+			control.params.item_type_label = settingValue.type_label;
 			control.params.item_type = settingValue.type;
 			control.params.url = settingValue.url;
 			control.params.target = settingValue.target;
@@ -1301,25 +1365,84 @@
 		},
 
 		/**
-		 * Expand the menu item form control.
+		 * @since 4.6.0
+		 *
+		 * @param {Boolean} expanded
+		 * @param {Object} [params]
+		 * @returns {Boolean} false if state already applied
 		 */
-		expandForm: function() {
-			this.toggleForm( true );
+		_toggleExpanded: api.Section.prototype._toggleExpanded,
+
+		/**
+		 * @since 4.6.0
+		 *
+		 * @param {Object} [params]
+		 * @returns {Boolean} false if already expanded
+		 */
+		expand: api.Section.prototype.expand,
+
+		/**
+		 * Expand the menu item form control.
+		 *
+		 * @since 4.5.0 Added params.completeCallback.
+		 *
+		 * @param {Object}   [params] - Optional params.
+		 * @param {Function} [params.completeCallback] - Function to call when the form toggle has finished animating.
+		 */
+		expandForm: function( params ) {
+			this.expand( params );
 		},
 
 		/**
-		 * Collapse the menu item form control.
+		 * @since 4.6.0
+		 *
+		 * @param {Object} [params]
+		 * @returns {Boolean} false if already collapsed
 		 */
-		collapseForm: function() {
-			this.toggleForm( false );
+		collapse: api.Section.prototype.collapse,
+
+		/**
+		 * Collapse the menu item form control.
+		 *
+		 * @since 4.5.0 Added params.completeCallback.
+		 *
+		 * @param {Object}   [params] - Optional params.
+		 * @param {Function} [params.completeCallback] - Function to call when the form toggle has finished animating.
+		 */
+		collapseForm: function( params ) {
+			this.collapse( params );
 		},
 
 		/**
 		 * Expand or collapse the menu item control.
 		 *
-		 * @param {boolean|undefined} [showOrHide] If not supplied, will be inverse of current visibility
+		 * @deprecated this is poor naming, and it is better to directly set control.expanded( showOrHide )
+		 * @since 4.5.0 Added params.completeCallback.
+		 *
+		 * @param {boolean}  [showOrHide] - If not supplied, will be inverse of current visibility
+		 * @param {Object}   [params] - Optional params.
+		 * @param {Function} [params.completeCallback] - Function to call when the form toggle has finished animating.
 		 */
-		toggleForm: function( showOrHide ) {
+		toggleForm: function( showOrHide, params ) {
+			if ( typeof showOrHide === 'undefined' ) {
+				showOrHide = ! this.expanded();
+			}
+			if ( showOrHide ) {
+				this.expand( params );
+			} else {
+				this.collapse( params );
+			}
+		},
+
+		/**
+		 * Expand or collapse the menu item control.
+		 *
+		 * @since 4.6.0
+		 * @param {boolean}  [showOrHide] - If not supplied, will be inverse of current visibility
+		 * @param {Object}   [params] - Optional params.
+		 * @param {Function} [params.completeCallback] - Function to call when the form toggle has finished animating.
+		 */
+		onChangeExpanded: function( showOrHide, params ) {
 			var self = this, $menuitem, $inside, complete;
 
 			$menuitem = this.container;
@@ -1330,6 +1453,9 @@
 
 			// Already expanded or collapsed.
 			if ( $inside.is( ':visible' ) === showOrHide ) {
+				if ( params && params.completeCallback ) {
+					params.completeCallback();
+				}
 				return;
 			}
 
@@ -1346,8 +1472,13 @@
 						.removeClass( 'menu-item-edit-inactive' )
 						.addClass( 'menu-item-edit-active' );
 					self.container.trigger( 'expanded' );
+
+					if ( params && params.completeCallback ) {
+						params.completeCallback();
+					}
 				};
 
+				$menuitem.find( '.item-edit' ).attr( 'aria-expanded', 'true' );
 				$inside.slideDown( 'fast', complete );
 
 				self.container.trigger( 'expand' );
@@ -1357,10 +1488,15 @@
 						.addClass( 'menu-item-edit-inactive' )
 						.removeClass( 'menu-item-edit-active' );
 					self.container.trigger( 'collapsed' );
+
+					if ( params && params.completeCallback ) {
+						params.completeCallback();
+					}
 				};
 
 				self.container.trigger( 'collapse' );
 
+				$menuitem.find( '.item-edit' ).attr( 'aria-expanded', 'false' );
 				$inside.slideUp( 'fast', complete );
 			}
 		},
@@ -1368,11 +1504,31 @@
 		/**
 		 * Expand the containing menu section, expand the form, and focus on
 		 * the first input in the control.
+		 *
+		 * @since 4.5.0 Added params.completeCallback.
+		 *
+		 * @param {Object}   [params] - Params object.
+		 * @param {Function} [params.completeCallback] - Optional callback function when focus has completed.
 		 */
-		focus: function() {
-			this.expandControlSection();
-			this.expandForm();
-			this.container.find( '.menu-item-settings :focusable:first' ).focus();
+		focus: function( params ) {
+			params = params || {};
+			var control = this, originalCompleteCallback = params.completeCallback;
+
+			control.expandControlSection();
+
+			params.completeCallback = function() {
+				var focusable;
+
+				// Note that we can't use :focusable due to a jQuery UI issue. See: https://github.com/jquery/jquery-ui/pull/1583
+				focusable = control.container.find( '.menu-item-settings' ).find( 'input, select, textarea, button, object, a[href], [tabindex]' ).filter( ':visible' );
+				focusable.first().focus();
+
+				if ( originalCompleteCallback ) {
+					originalCompleteCallback();
+				}
+			};
+
+			control.expandForm( params );
 		},
 
 		/**
@@ -1586,7 +1742,13 @@
 			 * being deactivated.
 			 */
 			control.active.validate = function() {
-				return api.section( control.section() ).active();
+				var value, section = api.section( control.section() );
+				if ( section ) {
+					value = section.active();
+				} else {
+					value = false;
+				}
+				return value;
 			};
 
 			control.nameElement = new api.Element( control.container.find( '.menu-name-field' ) );
@@ -1632,7 +1794,13 @@
 			 * being deactivated.
 			 */
 			control.active.validate = function() {
-				return api.section( control.section() ).active();
+				var value, section = api.section( control.section() );
+				if ( section ) {
+					value = section.active();
+				} else {
+					value = false;
+				}
+				return value;
 			};
 
 			control.autoAddElement = new api.Element( control.container.find( 'input[type=checkbox].auto_add' ) );
@@ -1675,7 +1843,9 @@
 			var control = this,
 				menuId = control.params.menu_id,
 				menu = control.setting(),
-				name;
+				name,
+				widgetTemplate,
+				select;
 
 			if ( 'undefined' === typeof this.params.menu_id ) {
 				throw new Error( 'params.menu_id was not defined' );
@@ -1687,7 +1857,13 @@
 			 * being deactivated.
 			 */
 			control.active.validate = function() {
-				return api.section( control.section() ).active();
+				var value, section = api.section( control.section() );
+				if ( section ) {
+					value = section.active();
+				} else {
+					value = false;
+				}
+				return value;
 			};
 
 			control.$controlSection = control.container.closest( '.control-section' );
@@ -1709,16 +1885,28 @@
 			if ( menu ) {
 				name = displayNavMenuName( menu.name );
 
+				// Add the menu to the existing controls.
 				api.control.each( function( widgetControl ) {
 					if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== widgetControl.params.widget_id_base ) {
 						return;
 					}
-					var select = widgetControl.container.find( 'select' );
-					if ( select.find( 'option[value=' + String( menuId ) + ']' ).length === 0 ) {
+					widgetControl.container.find( '.nav-menu-widget-form-controls:first' ).show();
+					widgetControl.container.find( '.nav-menu-widget-no-menus-message:first' ).hide();
+
+					select = widgetControl.container.find( 'select' );
+					if ( 0 === select.find( 'option[value=' + String( menuId ) + ']' ).length ) {
 						select.append( new Option( name, menuId ) );
 					}
 				} );
-				$( '#available-widgets-list .widget-inside:has(input.id_base[value=nav_menu]) select:first' ).append( new Option( name, menuId ) );
+
+				// Add the menu to the widget template.
+				widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu ] )' );
+				widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).show();
+				widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).hide();
+				select = widgetTemplate.find( '.widget-inside select:first' );
+				if ( 0 === select.find( 'option[value=' + String( menuId ) + ']' ).length ) {
+					select.append( new Option( name, menuId ) );
+				}
 			}
 		},
 
@@ -1743,7 +1931,6 @@
 						var select = widgetControl.container.find( 'select' );
 						select.find( 'option[value=' + String( menuId ) + ']' ).text( name );
 					});
-					$( '#available-widgets-list .widget-inside:has(input.id_base[value=nav_menu]) select:first option[value=' + String( menuId ) + ']' ).text( name );
 				}
 			} );
 
@@ -1782,6 +1969,9 @@
 
 					control.isSorting = false;
 
+					// Reset horizontal scroll position when done dragging.
+					control.$sectionContent.scrollLeft( 0 );
+
 					_.each( menuItemContainerIds, function( menuItemContainerId ) {
 						var menuItemId, menuItemControl, matches;
 						matches = menuItemContainerId.match( /^customize-control-nav_menu_item-(-?\d+)$/, '' );
@@ -1815,8 +2005,8 @@
 						menuItemControl.setting.set( setting );
 					});
 				});
-			});
 
+			});
 			control.isReordering = false;
 
 			/**
@@ -1853,7 +2043,9 @@
 			var control = this,
 				section,
 				menuId = control.params.menu_id,
-				removeSection;
+				removeSection,
+				widgetTemplate,
+				navMenuCount = 0;
 			section = api.section( control.section() );
 			removeSection = function() {
 				section.container.remove();
@@ -1872,6 +2064,12 @@
 				removeSection();
 			}
 
+			api.each(function( setting ) {
+				if ( /^nav_menu\[/.test( setting.id ) && false !== setting() ) {
+					navMenuCount += 1;
+				}
+			});
+
 			// Remove the menu from any Custom Menu widgets.
 			api.control.each(function( widgetControl ) {
 				if ( ! widgetControl.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== widgetControl.params.widget_id_base ) {
@@ -1881,9 +2079,17 @@
 				if ( select.val() === String( menuId ) ) {
 					select.prop( 'selectedIndex', 0 ).trigger( 'change' );
 				}
-				select.find( 'option[value=' + String( menuId ) + ']' ).remove();
+
+				widgetControl.container.find( '.nav-menu-widget-form-controls:first' ).toggle( 0 !== navMenuCount );
+				widgetControl.container.find( '.nav-menu-widget-no-menus-message:first' ).toggle( 0 === navMenuCount );
+				widgetControl.container.find( 'option[value=' + String( menuId ) + ']' ).remove();
 			});
-			$( '#available-widgets-list .widget-inside:has(input.id_base[value=nav_menu]) select:first option[value=' + String( menuId ) + ']' ).remove();
+
+			// Remove the menu to the nav menu widget template.
+			widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu ] )' );
+			widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).toggle( 0 !== navMenuCount );
+			widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).toggle( 0 === navMenuCount );
+			widgetTemplate.find( 'option[value=' + String( menuId ) + ']' ).remove();
 		},
 
 		// Setup theme location checkboxes.
@@ -1981,7 +2187,8 @@
 		 */
 		toggleReordering: function( showOrHide ) {
 			var addNewItemBtn = this.container.find( '.add-new-menu-item' ),
-				reorderBtn = this.container.find( '.reorder-toggle' );
+				reorderBtn = this.container.find( '.reorder-toggle' ),
+				itemsTitle = this.$sectionContent.find( '.item-title' );
 
 			showOrHide = Boolean( showOrHide );
 
@@ -1993,13 +2200,15 @@
 			this.$sectionContent.toggleClass( 'reordering', showOrHide );
 			this.$sectionContent.sortable( this.isReordering ? 'disable' : 'enable' );
 			if ( this.isReordering ) {
-				addNewItemBtn.attr( 'tabindex', '-1' );
-				reorderBtn.find( '.reorder-done' ).focus();
+				addNewItemBtn.attr({ 'tabindex': '-1', 'aria-hidden': 'true' });
+				reorderBtn.attr( 'aria-label', api.Menus.data.l10n.reorderLabelOff );
 				wp.a11y.speak( api.Menus.data.l10n.reorderModeOn );
+				itemsTitle.attr( 'aria-hidden', 'false' );
 			} else {
-				addNewItemBtn.removeAttr( 'tabindex' );
-				reorderBtn.find( '.reorder' ).focus();
+				addNewItemBtn.removeAttr( 'tabindex aria-hidden' );
+				reorderBtn.attr( 'aria-label', api.Menus.data.l10n.reorderLabelOn );
 				wp.a11y.speak( api.Menus.data.l10n.reorderModeOff );
+				itemsTitle.attr( 'aria-hidden', 'true' );
 			}
 
 			if ( showOrHide ) {
@@ -2031,7 +2240,6 @@
 		 */
 		reflowMenuItems: function() {
 			var menuControl = this,
-				menuSection = api.section( 'nav_menu[' + String( menuControl.params.menu_id ) + ']' ),
 				menuItemControls = menuControl.getMenuItemControls(),
 				reflowRecursively;
 
@@ -2098,12 +2306,6 @@
 				currentAbsolutePosition: 0
 			} );
 
-			menuSection.container.find( '.menu-item .menu-item-reorder-nav button' ).prop( 'tabIndex', 0 );
-			menuSection.container.find( '.menu-item.move-up-disabled .menus-move-up' ).prop( 'tabIndex', -1 );
-			menuSection.container.find( '.menu-item.move-down-disabled .menus-move-down' ).prop( 'tabIndex', -1 );
-			menuSection.container.find( '.menu-item.move-left-disabled .menus-move-left' ).prop( 'tabIndex', -1 );
-			menuSection.container.find( '.menu-item.move-right-disabled .menus-move-right' ).prop( 'tabIndex', -1 );
-
 			menuControl.container.find( '.reorder-toggle' ).toggle( menuItemControls.length > 1 );
 		},
 
@@ -2154,7 +2356,7 @@
 			customizeId = 'nav_menu_item[' + String( placeholderId ) + ']';
 			settingArgs = {
 				type: 'nav_menu_item',
-				transport: 'postMessage',
+				transport: api.Menus.data.settingTransport,
 				previewer: api.previewer
 			};
 			setting = api.create( customizeId, customizeId, {}, settingArgs );
@@ -2190,7 +2392,7 @@
 	 * wp.customize.Menus.NewMenuControl
 	 *
 	 * Customizer control for creating new menus and handling deletion of existing menus.
-	 * Note that 'new_menu' must match the WP_New_Menu_Customize_Control::$type.
+	 * Note that 'new_menu' must match the WP_Customize_New_Menu_Control::$type.
 	 *
 	 * @constructor
 	 * @augments wp.customize.Control
@@ -2243,7 +2445,7 @@
 			// Register the menu control setting.
 			api.create( customizeId, customizeId, {}, {
 				type: 'nav_menu',
-				transport: 'postMessage',
+				transport: api.Menus.data.settingTransport,
 				previewer: api.previewer
 			} );
 			api( customizeId ).set( $.extend(
@@ -2280,6 +2482,9 @@
 
 			// Focus on the new menu section.
 			api.section( customizeId ).focus(); // @todo should we focus on the new menu's control and open the add-items panel? Thinking user flow...
+
+			// Fix an issue with extra space at top immediately after creating new menu.
+			$( '#menu-to-edit' ).css( 'margin-top', 0 );
 		}
 	});
 
@@ -2327,9 +2532,8 @@
 			}
 		} );
 
-		api.previewer.bind( 'refresh', function() {
-			api.previewer.refresh();
-		});
+		// Open and focus menu control.
+		api.previewer.bind( 'focus-nav-menu-item-control', api.Menus.focusMenuItemControl );
 	} );
 
 	/**
@@ -2342,10 +2546,10 @@
 	 */
 	api.Menus.applySavedData = function( data ) {
 
-		var insertedMenuIdMapping = {};
+		var insertedMenuIdMapping = {}, insertedMenuItemIdMapping = {};
 
 		_( data.nav_menu_updates ).each(function( update ) {
-			var oldCustomizeId, newCustomizeId, customizeId, oldSetting, newSetting, setting, settingValue, oldSection, newSection, wasSaved;
+			var oldCustomizeId, newCustomizeId, customizeId, oldSetting, newSetting, setting, settingValue, oldSection, newSection, wasSaved, widgetTemplate, navMenuCount;
 			if ( 'inserted' === update.status ) {
 				if ( ! update.previous_term_id ) {
 					throw new Error( 'Expected previous_term_id' );
@@ -2373,7 +2577,7 @@
 				newCustomizeId = 'nav_menu[' + String( update.term_id ) + ']';
 				newSetting = api.create( newCustomizeId, newCustomizeId, settingValue, {
 					type: 'nav_menu',
-					transport: 'postMessage',
+					transport: api.Menus.data.settingTransport,
 					previewer: api.previewer
 				} );
 
@@ -2395,18 +2599,51 @@
 					}
 				} );
 
-				// Remove old setting and control.
-				oldSection.container.remove();
-				api.section.remove( oldCustomizeId );
-
-				// Add new control to take its place.
+				// Add new control for the new menu.
 				api.section.add( newCustomizeId, newSection );
 
-				// Delete the placeholder and preview the new setting.
+				// Update the values for nav menus in Custom Menu controls.
+				api.control.each( function( setting ) {
+					if ( ! setting.extended( api.controlConstructor.widget_form ) || 'nav_menu' !== setting.params.widget_id_base ) {
+						return;
+					}
+					var select, oldMenuOption, newMenuOption;
+					select = setting.container.find( 'select' );
+					oldMenuOption = select.find( 'option[value=' + String( update.previous_term_id ) + ']' );
+					newMenuOption = select.find( 'option[value=' + String( update.term_id ) + ']' );
+					newMenuOption.prop( 'selected', oldMenuOption.prop( 'selected' ) );
+					oldMenuOption.remove();
+				} );
+
+				// Delete the old placeholder nav_menu.
 				oldSetting.callbacks.disable(); // Prevent setting triggering Customizer dirty state when set.
 				oldSetting.set( false );
 				oldSetting.preview();
 				newSetting.preview();
+				oldSetting._dirty = false;
+
+				// Remove nav_menu section.
+				oldSection.container.remove();
+				api.section.remove( oldCustomizeId );
+
+				// Update the nav_menu widget to reflect removed placeholder menu.
+				navMenuCount = 0;
+				api.each(function( setting ) {
+					if ( /^nav_menu\[/.test( setting.id ) && false !== setting() ) {
+						navMenuCount += 1;
+					}
+				});
+				widgetTemplate = $( '#available-widgets-list .widget-tpl:has( input.id_base[ value=nav_menu ] )' );
+				widgetTemplate.find( '.nav-menu-widget-form-controls:first' ).toggle( 0 !== navMenuCount );
+				widgetTemplate.find( '.nav-menu-widget-no-menus-message:first' ).toggle( 0 === navMenuCount );
+				widgetTemplate.find( 'option[value=' + String( update.previous_term_id ) + ']' ).remove();
+
+				// Update the nav_menu_locations[...] controls to remove the placeholder menus from the dropdown options.
+				wp.customize.control.each(function( control ){
+					if ( /^nav_menu_locations\[/.test( control.id ) ) {
+						control.container.find( 'option[value=' + String( update.previous_term_id ) + ']' ).remove();
+					}
+				});
 
 				// Update nav_menu_locations to reference the new ID.
 				api.each( function( setting ) {
@@ -2423,8 +2660,6 @@
 					// @todo This doesn't seem to be working.
 					newSection.expand();
 				}
-
-				// @todo Update the Custom Menu selects, ensuring the newly-inserted IDs are used for any that have selected a placeholder menu.
 			} else if ( 'updated' === update.status ) {
 				customizeId = 'nav_menu[' + String( update.term_id ) + ']';
 				if ( ! api.has( customizeId ) ) {
@@ -2441,6 +2676,13 @@
 				}
 			}
 		} );
+
+		// Build up mapping of nav_menu_item placeholder IDs to inserted IDs.
+		_( data.nav_menu_item_updates ).each(function( update ) {
+			if ( update.previous_post_id ) {
+				insertedMenuItemIdMapping[ update.previous_post_id ] = update.post_id;
+			}
+		});
 
 		_( data.nav_menu_item_updates ).each(function( update ) {
 			var oldCustomizeId, newCustomizeId, oldSetting, newSetting, settingValue, oldControl, newControl;
@@ -2467,6 +2709,14 @@
 				}
 				settingValue = _.clone( settingValue );
 
+				// If the parent menu item was also inserted, update the menu_item_parent to the new ID.
+				if ( settingValue.menu_item_parent < 0 ) {
+					if ( ! insertedMenuItemIdMapping[ settingValue.menu_item_parent ] ) {
+						throw new Error( 'inserted ID for menu_item_parent not available' );
+					}
+					settingValue.menu_item_parent = insertedMenuItemIdMapping[ settingValue.menu_item_parent ];
+				}
+
 				// If the menu was also inserted, then make sure it uses the new menu ID for nav_menu_term_id.
 				if ( insertedMenuIdMapping[ settingValue.nav_menu_term_id ] ) {
 					settingValue.nav_menu_term_id = insertedMenuIdMapping[ settingValue.nav_menu_term_id ];
@@ -2475,7 +2725,7 @@
 				newCustomizeId = 'nav_menu_item[' + String( update.post_id ) + ']';
 				newSetting = api.create( newCustomizeId, newCustomizeId, settingValue, {
 					type: 'nav_menu_item',
-					transport: 'postMessage',
+					transport: api.Menus.data.settingTransport,
 					previewer: api.previewer
 				} );
 
@@ -2496,7 +2746,7 @@
 					previewer: api.previewer
 				} );
 
-				// Remove old setting and control.
+				// Remove old control.
 				oldControl.container.remove();
 				api.control.remove( oldCustomizeId );
 
@@ -2508,12 +2758,22 @@
 				oldSetting.set( false );
 				oldSetting.preview();
 				newSetting.preview();
+				oldSetting._dirty = false;
 
 				newControl.container.toggleClass( 'menu-item-edit-inactive', oldControl.container.hasClass( 'menu-item-edit-inactive' ) );
 			}
 		});
 
-		// @todo trigger change event for each Custom Menu widget that was modified.
+		/*
+		 * Update the settings for any nav_menu widgets that had selected a placeholder ID.
+		 */
+		_.each( data.widget_nav_menu_updates, function( widgetSettingValue, widgetSettingId ) {
+			var setting = api( widgetSettingId );
+			if ( setting ) {
+				setting._value = widgetSettingValue;
+				setting.preview(); // Send to the preview now so that menu refresh will use the inserted menu.
+			}
+		});
 	};
 
 	/**
@@ -2537,36 +2797,6 @@
 	 */
 	api.Menus.getMenuControl = function( menuId ) {
 		return api.control( 'nav_menu[' + menuId + ']' );
-	};
-
-	/**
-	 * Given a menu item type & object, get the label associated with it.
-	 *
-	 * @param {string} type
-	 * @param {string} object
-	 * @return {string}
-	 */
-	api.Menus.getTypeLabel = function( type, object ) {
-		var label,
-			data = api.Menus.data;
-
-		if ( 'post_type' === type ) {
-			if ( data.itemTypes.postTypes[ object ] ) {
-				label = data.itemTypes.postTypes[ object ].label;
-			} else {
-				label = data.l10n.postTypeLabel;
-			}
-		} else if ( 'taxonomy' === type ) {
-			if ( data.itemTypes.taxonomies[ object ] ) {
-				label = data.itemTypes.taxonomies[ object ].label;
-			} else {
-				label = data.l10n.taxonomyTermLabel;
-			}
-		} else {
-			label = data.l10n.custom_label;
-		}
-
-		return label;
 	};
 
 	/**

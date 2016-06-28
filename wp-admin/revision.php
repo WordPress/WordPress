@@ -63,7 +63,7 @@ default :
 	if ( ! $post = get_post( $revision->post_parent ) )
 		break;
 
-	if ( ! current_user_can( 'read_post', $revision->ID ) || ! current_user_can( 'read_post', $post->ID ) )
+	if ( ! current_user_can( 'read_post', $revision->ID ) || ! current_user_can( 'edit_post', $revision->post_parent ) )
 		break;
 
 	// Revisions disabled and we're not looking at an autosave
@@ -75,7 +75,7 @@ default :
 	$post_edit_link = get_edit_post_link();
 	$post_title     = '<a href="' . $post_edit_link . '">' . _draft_or_post_title() . '</a>';
 	$h1             = sprintf( __( 'Compare Revisions of &#8220;%1$s&#8221;' ), $post_title );
-	$return_to_post = '<a href="' . $post_edit_link . '">' . __( '&larr; Return to post editor' ) . '</a>';
+	$return_to_post = '<a href="' . $post_edit_link . '">' . __( '&larr; Return to editor' ) . '</a>';
 	$title          = __( 'Revisions' );
 
 	$redirect = false;

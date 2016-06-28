@@ -41,10 +41,6 @@ body {
 	border-bottom: 1px solid #ddd;
 }
 
-#customize-header-actions .secondary-actions {
-	display: none;
-}
-
 #customize-controls .wp-full-overlay-sidebar-content {
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -86,7 +82,7 @@ body {
 #customize-controls .customize-info .panel-title {
 	font-size: 20px;
 	font-weight: 200;
-	line-height: 24px;
+	line-height: 26px;
 	display: block;
 	overflow: hidden;
 	white-space: nowrap;
@@ -118,7 +114,7 @@ body {
 #customize-controls .customize-info .customize-help-toggle:before {
 	position: absolute;
 	top: 5px;
-	left: 5px;
+	left: 6px;
 }
 
 #customize-controls .customize-info.open .customize-help-toggle,
@@ -127,12 +123,16 @@ body {
 	color: #0073aa;
 }
 
-#customize-controls .customize-info .customize-panel-description {
+#customize-controls .customize-info .customize-panel-description,
+#customize-controls .no-widget-areas-rendered-notice {
 	color: #555;
 	display: none;
 	background: #fff;
 	padding: 12px 15px;
 	border-top: 1px solid #ddd;
+}
+#customize-controls .customize-info .customize-panel-description.open + .no-widget-areas-rendered-notice {
+	border-top: none;
 }
 
 #customize-controls .customize-info .customize-panel-description p:first-child {
@@ -159,6 +159,7 @@ body {
 
 #customize-theme-controls .accordion-section-title:after {
 	content: "\f345";
+	color: #a0a5aa;
 }
 
 #customize-theme-controls .accordion-section-content {
@@ -211,7 +212,7 @@ body {
 	left: 100%;
 	width: 100%;
 	margin: 0;
- 	padding: 12px;
+	padding: 12px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -222,9 +223,21 @@ body {
 }
 
 .customize-section-title {
-	margin: -12px;
+	margin: -12px -12px 0 -12px;
 	border-bottom: 1px solid #ddd;
 	background: #fff;
+}
+
+div.customize-section-description {
+	margin-top: 22px;
+}
+
+div.customize-section-description p:first-child {
+	margin-top: 0;
+}
+
+div.customize-section-description p:last-child {
+	margin-bottom: 0;
 }
 
 #customize-theme-controls .customize-themes-panel h3.customize-section-title:first-child {
@@ -244,10 +257,6 @@ h3.customize-section-title {
 	color: #555;
 }
 
-#customize-theme-controls .control-section .accordion-section-content > li.customize-control:nth-child(2) {
-	margin-top: 12px;
-}
-
 #customize-theme-controls {
 	position: relative;
 	left: 0;
@@ -263,10 +272,6 @@ h3.customize-section-title {
 .section-open #customize-info,
 .section-open #customize-theme-controls {
 	left: -100%;
-}
-
-.section-open .control-panel-back {
-	display: none;
 }
 
 .accordion-sub-container.control-panel-content {
@@ -292,7 +297,6 @@ h3.customize-section-title {
 	width: 100%;
 }
 
-.customize-overlay-close,
 .customize-controls-close {
 	display: block;
 	position: absolute;
@@ -314,35 +318,12 @@ h3.customize-section-title {
 	box-sizing: content-box;
 }
 
-.customize-overlay-close {
-	left: auto;
-	right: 0;
-	border-right: 0;
-	border-left: 1px solid #ddd;
-}
-
-.control-panel-back {
-	display: block;
-	position: fixed;
-	top: 0;
-	z-index: 99;
-	left: -48px;
-	width: 45px;
-	height: 45px;
-	padding-right: 2px;
-	background: #eee;
-	border-right: 1px solid #ddd;
-	cursor: pointer;
-	-webkit-transition: left .18s ease-in-out, color .1s ease-in-out, background .1s ease-in-out;
-	transition: left .18s ease-in-out, color .1s ease-in-out, background .1s ease-in-out;
-}
-
 .customize-panel-back,
 .customize-section-back {
 	display: block;
 	float: left;
 	width: 48px;
-	height: 69px;
+	height: 71px;
 	padding: 0 24px 0 0;
 	margin: 0;
 	background: #fff;
@@ -356,17 +337,15 @@ h3.customize-section-title {
 }
 
 .customize-section-back {
-	height: 70px;
+	height: 74px;
 }
 
-.ios .control-panel-back,
 .ios .customize-panel-back,
 .ios .customize-section-back {
 	-webkit-transition: left 0s;
 	transition: left 0s;
 }
 
-.collapsed .control-panel-back,
 .ios .customize-panel-back {
 	display: none;
 }
@@ -384,12 +363,8 @@ h3.customize-section-title {
 	color: #555;
 }
 
-.customize-overlay-close:focus,
-.customize-overlay-close:hover,
 .customize-controls-close:focus,
 .customize-controls-close:hover,
-.control-panel-back:focus,
-.control-panel-back:hover,
 .customize-controls-preview-toggle:focus,
 .customize-controls-preview-toggle:hover {
 	background: #ddd;
@@ -411,7 +386,6 @@ h3.customize-section-title {
 	box-shadow: none;
 }
 
-.customize-overlay-close:before,
 .customize-controls-close:before {
 	font: normal 22px/45px dashicons;
 	content: "\f335";
@@ -422,17 +396,9 @@ h3.customize-section-title {
 
 .customize-panel-back:before,
 .customize-section-back:before {
-	font: normal 20px/69px dashicons;
+	font: normal 20px/72px dashicons;
 	content: "\f341";
 	position: relative;
-	left: 13px;
-}
-
-.control-panel-back:before {
-	font: normal 20px/45px dashicons;
-	content: "\f341";
-	position: relative;
-	top: 1px;
 	left: 13px;
 }
 
@@ -528,7 +494,7 @@ p.customize-section-description {
 .customize-control input[type="search"],
 .customize-control input[type="tel"],
 .customize-control input[type="url"] {
-	width: 98%;
+	width: 100%;
 	line-height: 18px;
 	margin: 0;
 }
@@ -558,7 +524,7 @@ p.customize-section-description {
 	font-size: 14px;
 	line-height: 24px;
 	font-weight: 600;
-	margin-bottom: 5px;
+	margin-bottom: 4px;
 }
 
 .customize-control-description {
@@ -569,13 +535,25 @@ p.customize-section-description {
 }
 
 .customize-control-color .color-picker,
-.customize-control-checkbox label,
 .customize-control-upload div {
 	line-height: 28px;
 }
 
-.customize-control-checkbox input {
-	margin-right: 5px;
+.customize-control-radio label,
+.customize-control-checkbox label,
+.customize-control-nav_menu_auto_add label {
+	line-height: 20px;
+	display: block;
+	margin-left: 24px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+.customize-control-radio input,
+.customize-control-checkbox input,
+.customize-control-nav_menu_auto_add input {
+	margin-right: 4px;
+	margin-left: -24px;
 }
 
 .customize-control-radio {
@@ -591,14 +569,6 @@ p.customize-section-description {
 	margin-top: 7px;
 }
 
-.customize-control-radio label {
-	line-height: 32px;
-}
-
-.customize-control-radio input {
-	margin-right: 5px;
-}
-
 .customize-control .attachment-thumb.type-icon {
 	float: left;
 	margin: 10px;
@@ -606,7 +576,7 @@ p.customize-section-description {
 }
 
 .customize-control .attachment-title {
-	font-weight: bold;
+	font-weight: 600;
 	margin: 0;
 	padding: 5px 10px;
 }
@@ -641,6 +611,10 @@ p.customize-section-description {
 #customize-preview iframe {
 	width: 100%;
 	height: 100%;
+	position: absolute;
+}
+#customize-preview iframe + iframe {
+	visibility: hidden;
 }
 
 .wp-full-overlay-sidebar {
@@ -648,11 +622,54 @@ p.customize-section-description {
 	border-right: 1px solid #ddd;
 }
 
+
+/**
+ * Notifications
+ */
+
+#customize-controls .customize-control-notifications-container { /* Scoped to #customize-controls for specificity over notification styles in common.css. */
+	margin: 4px 0 8px 0;
+	padding: 0;
+	display: none;
+	cursor: default;
+}
+
+#customize-controls .customize-control-widget_form.has-error .widget .widget-top,
+.customize-control-nav_menu_item.has-error .menu-item-bar .menu-item-handle {
+	-webkit-box-shadow: inset 0 0 0 2px #dc3232;
+	box-shadow: inset 0 0 0 2px #dc3232;
+	-webkit-transition: .15s box-shadow linear;
+	transition: .15s box-shadow linear;
+}
+
+.customize-control-notifications-container li.notice {
+	list-style: none;
+	margin: 0 0 6px 0;
+	padding: 4px 8px;
+}
+
+.customize-control-notifications-container li.notice:last-child {
+	margin-bottom: 0;
+}
+
+#customize-controls .customize-control-nav_menu_item .customize-control-notifications-container {
+	margin-top: 0;
+}
+
+#customize-controls .customize-control-widget_form .customize-control-notifications-container {
+	margin-top: 8px;
+}
+
+.customize-control-text.has-error input {
+	outline: 2px solid #dc3232;
+}
+
 /* Style for custom settings */
 
-/*
+/**
  * Dropdowns
  */
+
 .accordion-section .dropdown {
 	float: left;
 	display: block;
@@ -675,6 +692,7 @@ p.customize-section-description {
 	user-select: none;
 }
 
+/* @todo maybe no more used? */
 .customize-control .dropdown-arrow {
 	position: absolute;
 	top: 0;
@@ -686,7 +704,7 @@ p.customize-section-description {
 
 .customize-control .dropdown-arrow:after {
 	content: "\f140";
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: block;
 	padding: 0;
@@ -733,11 +751,8 @@ p.customize-section-description {
  * iOS can't scroll iframes,
  * instead it expands the iframe size to match the size of the content
  */
-.ios .wp-full-overlay {
-	position: relative;
-}
 
-.ios #customize-preview {
+.ios .wp-full-overlay {
 	position: relative;
 }
 
@@ -745,14 +760,12 @@ p.customize-section-description {
 	-webkit-overflow-scrolling: touch;
 }
 
-/** Media controls **/
+/* Media controls */
 
-.customize-control-media .current,
-.customize-control-upload .current,
-.customize-control-image .current,
-.customize-control-background .current,
-.customize-control-cropped_image .current,
-.customize-control-site_icon .current,
+.customize-control .attachment-media-view .actions {
+	margin-top: 8px;
+}
+
 .customize-control-header .current {
 	margin-bottom: 8px;
 }
@@ -776,24 +789,9 @@ p.customize-section-description {
 	display: block;
 }
 
-.customize-control-media .remove-button,
-.customize-control-media .default-button,
-.customize-control-media .upload-button,
-.customize-control-upload .remove-button,
-.customize-control-upload .default-button,
-.customize-control-upload .upload-button,
-.customize-control-image .remove-button,
-.customize-control-image .default-button,
-.customize-control-image .upload-button,
-.customize-control-background .remove-button,
-.customize-control-background .default-button,
-.customize-control-background .upload-button,
-.customize-control-cropped_image .remove-button,
-.customize-control-cropped_image .default-button,
-.customize-control-cropped_image .upload-button,
-.customize-control-site_icon .remove-button,
-.customize-control-site_icon .default-button,
-.customize-control-site_icon .upload-button,
+.customize-control .attachment-media-view .remove-button,
+.customize-control .attachment-media-view .default-button,
+.customize-control .attachment-media-view .upload-button,
 .customize-control-header button.new,
 .customize-control-header button.remove {
 	white-space: normal;
@@ -801,48 +799,25 @@ p.customize-section-description {
 	height: auto;
 }
 
-.customize-control-media .current .container,
-.customize-control-upload .current .container,
-.customize-control-image .current .container,
-.customize-control-background .current .container,
-.customize-control-cropped_image .current .container,
-.customize-control-site_icon .current .container,
+.customize-control .attachment-media-view .thumbnail,
 .customize-control-header .current .container {
 	overflow: hidden;
-	-webkit-border-radius: 2px;
-	border: 1px solid #eee;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
 }
 
-.customize-control-media .current .container,
-.customize-control-upload .current .container,
-.customize-control-background .current .container,
-.customize-control-cropped_image .current .container,
-.customize-control-site_icon .current .container,
-.customize-control-image .current .container {
-	min-height: 40px;
-}
-
-.customize-control-media .placeholder,
-.customize-control-upload .placeholder,
-.customize-control-image .placeholder,
-.customize-control-background .placeholder,
-.customize-control-cropped_image .placeholder,
-.customize-control-site_icon .placeholder,
+.customize-control .attachment-media-view .placeholder,
 .customize-control-header .placeholder {
 	width: 100%;
 	position: relative;
 	text-align: center;
 	cursor: default;
+	border: 1px dashed #b4b9be;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	padding: 9px 0;
+	line-height: 20px;
 }
 
-.customize-control-media .inner,
-.customize-control-upload .inner,
-.customize-control-image .inner,
-.customize-control-background .inner,
-.customize-control-cropped_image .inner,
-.customize-control-site_icon .inner,
 .customize-control-header .inner {
 	display: none;
 	position: absolute;
@@ -853,26 +828,10 @@ p.customize-section-description {
 	overflow: hidden;
 }
 
-.customize-control-media .inner,
-.customize-control-upload .inner,
-.customize-control-background .inner,
-.customize-control-cropped_image .inner,
-.customize-control-site_icon .inner,
-.customize-control-image .inner {
-	display: block;
-	min-height: 40px;
-}
-
-.customize-control-media .inner,
-.customize-control-upload .inner,
-.customize-control-image .inner,
-.customize-control-background .inner,
-.customize-control-cropped_image .inner,
-.customize-control-site_icon .inner,
 .customize-control-header .inner,
 .customize-control-header .inner .dashicons {
 	line-height: 20px;
-	top: 10px;
+	top: 8px;
 }
 
 .customize-control-header .list .inner,
@@ -968,16 +927,6 @@ p.customize-section-description {
 	100% { color: #d4b146; }
 }
 
-.customize-control-media .actions,
-.customize-control-upload .actions,
-.customize-control-image .actions,
-.customize-control-background .actions,
-.customize-control-cropped_image .actions,
-.customize-control-site_icon .actions,
-.customize-control-header .actions {
-	margin-bottom: 32px;
-}
-
 .customize-control-header .choice {
 	position: relative;
 	display: block;
@@ -988,41 +937,19 @@ p.customize-section-description {
 	margin-bottom: 0;
 }
 
-.customize-control-media img,
-.customize-control-upload img,
-.customize-control-image img,
-.customize-control-background img,
-.customize-control-cropped_image img,
-.customize-control-site_icon img,
+.customize-control .attachment-media-view .thumbnail-image img,
 .customize-control-header img {
 	width: 100%;
-	-webkit-border-radius: 2px;
-	border-radius: 2px;
 }
 
-.customize-control-media .remove-button,
-.customize-control-media .default-button,
-.customize-control-upload .remove-button,
-.customize-control-upload .default-button,
-.customize-control-image .remove-button,
-.customize-control-image .default-button,
-.customize-control-background .remove-button,
-.customize-control-background .default-button,
-.customize-control-cropped_image .remove-button,
-.customize-control-cropped_image .default-button,
-.customize-control-site_icon .remove-button,
-.customize-control-site_icon .default-button,
+.customize-control .attachment-media-view .remove-button,
+.customize-control .attachment-media-view .default-button,
 .customize-control-header .remove {
 	float: left;
 	margin-right: 3px;
 }
 
-.customize-control-media .upload-button,
-.customize-control-upload .upload-button,
-.customize-control-image .upload-button,
-.customize-control-background .upload-button,
-.customize-control-cropped_image .upload-button,
-.customize-control-site_icon .upload-button,
+.customize-control .attachment-media-view .upload-button,
 .customize-control-header .new {
 	float: right;
 }
@@ -1030,6 +957,7 @@ p.customize-section-description {
 /**
  * Themes
  */
+
 @-webkit-keyframes customize-reload {
 	0%   { opacity: 0; }
 	100% { opacity: 1; }
@@ -1082,7 +1010,7 @@ p.customize-section-description {
 	right: 10px;
 	top: 50%;
 	margin-top: -14px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .control-section-themes .accordion-section-title:before {
@@ -1247,18 +1175,289 @@ body.cheatin {
 	box-shadow: 0 1px 3px rgba(0,0,0,0.13);
 }
 
+body.cheatin h1 {
+	border-bottom: 1px solid #ddd;
+	clear: both;
+	color: #666;
+	font-size: 24px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	margin: 30px 0 0 0;
+	padding: 0;
+	padding-bottom: 7px;
+}
+
 body.cheatin p {
 	font-size: 14px;
 	line-height: 1.5;
 	margin: 25px 0 20px;
 }
 
+/**
+ * Widgets and Menus common styles
+ */
+
+/* higher specificity than .wp-core-ui .button-secondary */
+#customize-theme-controls .add-new-widget,
+#customize-theme-controls .add-new-menu-item {
+	cursor: pointer;
+	float: right;
+	margin-left: 10px;
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	outline: none;
+}
+
+.reordering .add-new-widget,
+.reordering .add-new-menu-item {
+	opacity: 0.2;
+	pointer-events: none;
+	cursor: not-allowed; /* doesn't work in conjunction with pointer-events */
+}
+
+.add-new-widget:before,
+.add-new-menu-item:before {
+	content: "\f132";
+	display: inline-block;
+	position: relative;
+	left: -2px;
+	top: -1px;
+	font: normal 20px/1 dashicons;
+	vertical-align: middle;
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+/* Reordering */
+.reorder-toggle {
+	color: #0073aa;
+	float: right;
+	padding: 5px 8px;
+	text-decoration: none;
+	cursor: pointer;
+	outline: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.reorder-toggle:hover {
+	color: #00a0d2;
+}
+
+.reorder-toggle:focus {
+	outline: 1px dotted;
+}
+
+.reorder,
+.reordering .reorder-done {
+	display: block;
+	padding: 5px 8px;
+}
+
+.reorder-done,
+.reordering .reorder {
+	display: none;
+	color: #0073aa;
+}
+
+.reorder-toggle:hover .reorder-done,
+.reorder-toggle:active .reorder-done,
+.reorder-toggle:focus .reorder-done {
+	color: #00a0d2;
+}
+
+.widget-reorder-nav span,
+.menu-item-reorder-nav button {
+	position: relative;
+	overflow: hidden;
+	float: left;
+	display: block;
+	width: 33px; /* was 42px for mobile */
+	height: 43px;
+	color: #82878c;
+	text-indent: -9999px;
+	cursor: pointer;
+	outline: none;
+}
+
+.menu-item-reorder-nav button {
+	width: 30px;
+	height: 40px;
+	background: transparent;
+	border: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.widget-reorder-nav span:before,
+.menu-item-reorder-nav button:before {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 100%;
+	font: normal 20px/43px dashicons;
+	text-align: center;
+	text-indent: 0;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.widget-reorder-nav span:hover,
+.widget-reorder-nav span:focus,
+.menu-item-reorder-nav button:hover,
+.menu-item-reorder-nav button:focus {
+	color: #191e23;
+	background: #eee;
+}
+
+.move-widget-down:before,
+.menus-move-down:before {
+	content: "\f347";
+}
+
+.move-widget-up:before,
+.menus-move-up:before {
+	content: "\f343";
+}
+
+#customize-theme-controls .first-widget .move-widget-up,
+#customize-theme-controls .last-widget .move-widget-down,
+.move-up-disabled .menus-move-up,
+.move-down-disabled .menus-move-down,
+.move-right-disabled .menus-move-right,
+.move-left-disabled .menus-move-left {
+	color: #d5d5d5;
+	background-color: #fff;
+	cursor: default;
+	pointer-events: none;
+}
+
+/**
+ * New widget and Add-menu-items modes and panels
+ */
+
+.wp-full-overlay-main {
+	right: auto; /* this overrides a right: 0; which causes the preview to resize, I'd rather have it go off screen at the normal size. */
+	width: 100%;
+}
+
+body.adding-widget .add-new-widget,
+body.adding-widget .add-new-widget:hover,
+.adding-menu-items .add-new-menu-item,
+.adding-menu-items .add-new-menu-item:hover,
+.add-menu-toggle.open,
+.add-menu-toggle.open:hover {
+	background: #eee;
+	border-color: #929793;
+	color: #32373c;
+	-webkit-box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
+	box-shadow: inset 0 2px 5px -3px rgba(0, 0, 0, 0.5);
+}
+
+body.adding-widget .add-new-widget:before,
+.adding-menu-items .add-new-menu-item:before,
+#accordion-section-add_menu .add-new-menu-item.open:before {
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+#available-widgets,
+#available-menu-items {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: -301px;
+	visibility: hidden;
+	overflow-x: hidden;
+	overflow-y: auto;
+	width: 300px;
+	margin: 0;
+	z-index: 4;
+	background: #eee;
+	-webkit-transition: left .18s;
+	transition: left .18s;
+	border-right: 1px solid #ddd;
+}
+
+#available-widgets .customize-section-title,
+#available-menu-items .customize-section-title {
+	display: none;
+}
+
+#available-widgets-list {
+	top: 60px;
+	position: absolute;
+	overflow: auto;
+	bottom: 0;
+	width: 100%;
+}
+
+#available-widgets-filter {
+	position: fixed;
+	top: 0;
+	z-index: 1;
+	width: 300px;
+	background: #eee;
+	border-bottom: 1px solid #e5e5e5;
+}
+
+/* search field container */
+#available-widgets-filter,
+#available-menu-items-search .accordion-section-title {
+	padding: 12px 15px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+#available-widgets-filter input,
+#available-menu-items-search input {
+	padding: 6px 10px;
+	width: 100%;
+}
+
+#available-widgets .widget-top,
+#available-widgets .widget-top:hover,
+#available-menu-items .item-top,
+#available-menu-items .item-top:hover {
+	border: none;
+	background: transparent;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+#available-widgets .widget-tpl,
+#available-menu-items .item-tpl {
+	position: relative;
+	padding: 20px 15px 20px 60px;
+	background: #fff;
+	border-bottom: 1px solid #e5e5e5;
+	cursor: pointer;
+	display: none;
+}
+
+#available-widgets .widget,
+#available-menu-items .item {
+	position: static;
+}
+
+
 /* Responsive */
 .customize-controls-preview-toggle {
 	display: none;
 }
 
-@media only screen and (max-width: 780px) {
+@media only screen and (max-width: 782px) {
 	.wp-customizer .theme:not(.active):hover .theme-actions,
 	.wp-customizer .theme:not(.active):focus .theme-actions {
 		display: block;
@@ -1266,6 +1465,23 @@ body.cheatin p {
 
 	.wp-customizer .theme-browser .theme.active .theme-name span {
 		display: inline;
+	}
+
+	.customize-control-radio label,
+	.customize-control-checkbox label,
+	.customize-control-nav_menu_auto_add label {
+		margin-left: 32px;
+	}
+
+	.customize-control-radio input,
+	.customize-control-checkbox input,
+	.customize-control-nav_menu_auto_add input {
+		margin-left: -32px;
+	}
+
+	.customize-control input[type="radio"] + label,
+	.customize-control input[type="checkbox"] + label {
+		line-height: 32px;
 	}
 }
 
@@ -1275,6 +1491,12 @@ body.cheatin p {
 	}
 
 	.wp-full-overlay.expanded {
+		margin-left: 0;
+	}
+
+	/* when the sidebar is collapsed and switching to responsive view,
+	   bring it back see ticket #35220 */
+	.wp-full-overlay.collapsed #customize-controls {
 		margin-left: 0;
 	}
 
@@ -1289,10 +1511,11 @@ body.cheatin p {
 		left: 48px;
 		line-height: 45px;
 		font-size: 14px;
-		padding: 0 12px 0 12px;
+		padding: 0 12px;
 		margin: 0;
 		height: 45px;
 		background: #eee;
+		border: 0;
 		border-right: 1px solid #ddd;
 		color: #444;
 		cursor: pointer;
@@ -1347,5 +1570,60 @@ body.cheatin p {
 
 	#customize-header-actions .button-primary {
 		margin-top: 6px;
+	}
+
+	body.adding-widget div#available-widgets,
+	body.adding-menu-items div#available-menu-items {
+		top: 46px;
+		left: 0;
+		z-index: 10;
+		width: 100%;
+	}
+
+	#available-widgets .customize-section-title,
+	#available-menu-items .customize-section-title {
+		display: block;
+		margin: 0;
+	}
+
+	#available-widgets .customize-section-back,
+	#available-menu-items .customize-section-back {
+		height: 69px;
+	}
+
+	#available-widgets .customize-section-title h3,
+	#available-menu-items .customize-section-title h3 {
+		font-size: 20px;
+		font-weight: 200;
+		padding: 9px 10px 12px 14px;
+		margin: 0;
+		line-height: 24px;
+		color: #555;
+		display: block;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	#available-widgets .customize-section-title .customize-action,
+	#available-menu-items .customize-section-title .customize-action {
+		font-size: 13px;
+		display: block;
+		font-weight: 400;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+
+	#available-widgets-filter {
+		position: relative;
+		width: 100%;
+		background: #fff;
+		height: auto;
+		padding: 10px 15px;
+	}
+
+	#available-widgets-list {
+		top: 140px;
 	}
 }

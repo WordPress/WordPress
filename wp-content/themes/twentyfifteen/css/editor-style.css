@@ -15,7 +15,6 @@ Description: Used to style the TinyMCE editor.
  * 6.0 - Galleries
  * 7.0 - Audio / Video
  * 8.0 - RTL
- * 9.0 - Media Queries
  */
 
 
@@ -239,6 +238,11 @@ li > ol {
 	margin: 0 0 0 23px;
 }
 
+blockquote > ul,
+blockquote > ol {
+	margin-left: 28px;
+}
+
 dl {
 	margin: 0 0 28px;
 }
@@ -297,7 +301,7 @@ table td,
 img {
 	border: 0;
 	height: auto;
-	max-width: 660px;
+	max-width: 100%;
 	vertical-align: middle;
 }
 
@@ -347,7 +351,7 @@ a {
 	color: #707070;
 	font-family: "Noto Sans", sans-serif;
 	margin: 0 0 28px 0;
-	max-width: 660px;
+	max-width: 100%;
 	padding: 0;
 	text-align: inherit;
 }
@@ -475,19 +479,4 @@ body.rtl {
 .rtl table th,
 .rtl table caption {
 	text-align: right;
-}
-
-
-/**
- * 9.0 Media Queries
- */
-
-@media screen and (max-width: 740px) {
-	body, img, .wp-caption {
-		max-width: 100%;
-	}
-
-	img, .wp-caption {
-		width: auto !important;
-	}
 }

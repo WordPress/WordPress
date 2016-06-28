@@ -1,10 +1,9 @@
 <?php
 /**
- * Administration hooks
+ * Administration API: Default admin hooks
  *
  * @package WordPress
- * @subpackage Hooks
- *
+ * @subpackage Administration
  * @since 4.3.0
  */
 
@@ -16,8 +15,6 @@ add_action( 'activity_box_end', 'wp_dashboard_quota' );
 
 // Media hooks.
 add_action( 'attachment_submitbox_misc_actions', 'attachment_submitbox_metadata' );
-
-add_action( 'media_buttons', 'media_buttons' );
 
 add_action( 'media_upload_image', 'wp_media_upload_handler' );
 add_action( 'media_upload_audio', 'wp_media_upload_handler' );
@@ -35,10 +32,6 @@ add_filter( 'async_upload_file',  'get_media_item', 10, 2 );
 
 add_filter( 'attachment_fields_to_save', 'image_attachment_fields_to_save', 10, 2 );
 
-add_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
-
-add_filter( 'media_send_to_editor',      'image_media_send_to_editor',      10, 3 );
-
 add_filter( 'media_upload_gallery', 'media_upload_gallery' );
 add_filter( 'media_upload_library', 'media_upload_library' );
 
@@ -50,7 +43,8 @@ add_action( 'admin_head', 'wp_color_scheme_settings' );
 add_action( 'admin_head', 'wp_site_icon'             );
 add_action( 'admin_head', '_ipad_meta'               );
 
-add_action( 'post_edit_form_tag', 'post_form_autocomplete_off' );
+add_action( 'admin_print_scripts-post.php',     'wp_page_reload_on_back_button_js' );
+add_action( 'admin_print_scripts-post-new.php', 'wp_page_reload_on_back_button_js' );
 
 add_action( 'update_option_home',          'update_home_siteurl', 10, 2 );
 add_action( 'update_option_siteurl',       'update_home_siteurl', 10, 2 );
@@ -58,7 +52,7 @@ add_action( 'update_option_page_on_front', 'update_home_siteurl', 10, 2 );
 
 add_filter( 'heartbeat_received', 'wp_check_locked_posts',  10,  3 );
 add_filter( 'heartbeat_received', 'wp_refresh_post_lock',   10,  3 );
-add_filter( 'heartbeat_received', 'wp_refresh_post_nonces', 10,  3 );
+add_filter( 'wp_refresh_nonces', 'wp_refresh_post_nonces', 10,  3 );
 add_filter( 'heartbeat_received', 'heartbeat_autosave',     500, 2 );
 
 add_filter( 'heartbeat_settings', 'wp_heartbeat_set_suspension' );
@@ -71,7 +65,6 @@ add_filter( 'whitelist_options', 'option_update_filter' );
 
 // Plugin Install hooks.
 add_action( 'install_plugins_featured',               'install_dashboard' );
-add_action( 'install_plugins_upload',                 'install_plugins_upload' );
 add_action( 'install_plugins_search',                 'display_plugins_table' );
 add_action( 'install_plugins_popular',                'display_plugins_table' );
 add_action( 'install_plugins_recommended',            'display_plugins_table' );
@@ -117,3 +110,6 @@ add_action( '_core_updated_successfully', '_redirect_to_about_wordpress' );
 
 // Upgrade hooks.
 add_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
+add_action( 'upgrader_process_complete', 'wp_version_check', 10, 0 );
+add_action( 'upgrader_process_complete', 'wp_update_plugins', 10, 0 );
+add_action( 'upgrader_process_complete', 'wp_update_themes', 10, 0 );

@@ -3,9 +3,9 @@
 div#media-upload-header {
 	margin: 0;
 	padding: 5px 5px 0;
-	font-weight: bold;
+	font-weight: 600;
 	position: relative;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	background: #f9f9f9;
 }
 
@@ -19,7 +19,7 @@ div#media-upload-header {
 	padding-right: 10px;
 	list-style: none;
 	font-size: 12px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 #sidemenu a {
@@ -28,7 +28,7 @@ div#media-upload-header {
 	float: right;
 	line-height: 28px;
 	border-top: 1px solid #f9f9f9;
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	background-color: #f9f9f9;
 	text-decoration: none;
 	-webkit-transition: none;
@@ -46,10 +46,10 @@ div#media-upload-header {
 }
 
 #sidemenu a.current {
-	font-weight: normal;
+	font-weight: 400;
 	padding-right: 6px;
 	padding-left: 6px;
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 	border-bottom-color: #f1f1f1;
 	background-color: #f1f1f1;
 	color: #000;
@@ -62,11 +62,16 @@ div#media-upload-header {
 }
 
 #media-upload .slidetoggle {
-	border-top-color: #dfdfdf;
+	border-top-color: #ddd;
 }
 
 #media-upload input[type="radio"] {
 	padding: 0;
+}
+
+.media-upload-form label.form-help,
+td.help {
+	color: #72777c;
 }
 
 form {
@@ -84,7 +89,7 @@ th {
 .media-upload-form label.form-help, td.help {
 	font-family: sans-serif;
 	font-style: italic;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .media-upload-form p.help {
@@ -147,7 +152,8 @@ thead.media-item-info tr {
 	border: 8px solid #fff;
 }
 
-abbr.required {
+abbr.required,
+span.required {
 	text-decoration: none;
 	border: none;
 }
@@ -181,7 +187,7 @@ abbr.required {
 #media-upload label.help {
 	font-family: sans-serif;
 	font-style: italic;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 #media-upload .ui-sortable .media-item {
@@ -270,7 +276,7 @@ abbr.required {
 	clear: both;
 	padding: 0 0 3px;
 	font-size: 1.6em;
-	border-bottom: 1px solid #DADADA;
+	border-bottom: 1px solid #ddd;
 }
 
 h3.media-title  {
@@ -278,7 +284,7 @@ h3.media-title  {
 }
 
 h4.media-sub-title  {
-	border-bottom: 1px solid #DADADA;
+	border-bottom: 1px solid #ddd;
 	font-size: 1.3em;
 	margin: 12px;
 	padding: 0 0 3px;
@@ -288,7 +294,7 @@ h4.media-sub-title  {
 h3.media-title,
 h4.media-sub-title {
 	font-family: Georgia,"Times New Roman",Times,serif;
-	font-weight: normal;
+	font-weight: 400;
 	color: #5A5A5A;
 }
 
@@ -322,7 +328,7 @@ h4.media-sub-title {
 #gallery-settings label,
 #gallery-settings legend {
 	font-size: 13px;
-	color: #464646;
+	color: #444;
 	margin-left: 15px;
 }
 
@@ -331,7 +337,7 @@ h4.media-sub-title {
 }
 
 #gallery-settings p.ml-submit {
-	border-top: 1px solid #dfdfdf;
+	border-top: 1px solid #ddd;
 }
 
 #gallery-settings select#columns {
@@ -359,7 +365,12 @@ h4.media-sub-title {
 }
 
 p.media-types {
+	margin: 0;
 	padding: 1em;
+}
+
+p.media-types-required-info {
+	padding-top: 0;
 }
 
 tr.not-image {

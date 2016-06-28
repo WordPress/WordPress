@@ -16,114 +16,6 @@ if ( ! is_multisite() )
 if ( ! current_user_can( 'manage_network_users' ) )
 	wp_die( __( 'You do not have permission to access this page.' ), 403 );
 
-/**
- *
- * @param array $users
- */
-function confirm_delete_users( $users ) {
-	$current_user = wp_get_current_user();
-	if ( ! is_array( $users ) || empty( $users ) ) {
-		return false;
-	}
-	?>
-	<h1><?php esc_html_e( 'Users' ); ?></h1>
-
-	<?php if ( 1 == count( $users ) ) : ?>
-		<p><?php _e( 'You have chosen to delete the user from all networks and sites.' ); ?></p>
-	<?php else : ?>
-		<p><?php _e( 'You have chosen to delete the following users from all networks and sites.' ); ?></p>
-	<?php endif; ?>
-
-	<form action="users.php?action=dodelete" method="post">
-	<input type="hidden" name="dodelete" />
-	<?php
-	wp_nonce_field( 'ms-users-delete' );
-	$site_admins = get_super_admins();
-	$admin_out = '<option value="' . esc_attr( $current_user->ID ) . '">' . $current_user->user_login . '</option>'; ?>
-	<table class="form-table">
-	<?php foreach ( ( $allusers = (array) $_POST['allusers'] ) as $user_id ) {
-		if ( $user_id != '' && $user_id != '0' ) {
-			$delete_user = get_userdata( $user_id );
-
-			if ( ! current_user_can( 'delete_user', $delete_user->ID ) ) {
-				wp_die( sprintf( __( 'Warning! User %s cannot be deleted.' ), $delete_user->user_login ) );
-			}
-
-			if ( in_array( $delete_user->user_login, $site_admins ) ) {
-				wp_die( sprintf( __( 'Warning! User cannot be deleted. The user %s is a network administrator.' ), '<em>' . $delete_user->user_login . '</em>' ) );
-			}
-			?>
-			<tr>
-				<th scope="row"><?php echo $delete_user->user_login; ?>
-					<?php echo '<input type="hidden" name="user[]" value="' . esc_attr( $user_id ) . '" />' . "\n"; ?>
-				</th>
-			<?php $blogs = get_blogs_of_user( $user_id, true );
-
-			if ( ! empty( $blogs ) ) {
-				?>
-				<td><fieldset><p><legend><?php printf(
-					/* translators: user login */
-					__( 'What should be done with content owned by %s?' ),
-					'<em>' . $delete_user->user_login . '</em>'
-				); ?></legend></p>
-				<?php
-				foreach ( (array) $blogs as $key => $details ) {
-					$blog_users = get_users( array( 'blog_id' => $details->userblog_id, 'fields' => array( 'ID', 'user_login' ) ) );
-					if ( is_array( $blog_users ) && !empty( $blog_users ) ) {
-						$user_site = "<a href='" . esc_url( get_home_url( $details->userblog_id ) ) . "'>{$details->blogname}</a>";
-						$user_dropdown = '<label for="reassign_user" class="screen-reader-text">' . __( 'Select a user' ) . '</label>';
-						$user_dropdown .= "<select name='blog[$user_id][$key]' id='reassign_user'>";
-						$user_list = '';
-						foreach ( $blog_users as $user ) {
-							if ( ! in_array( $user->ID, $allusers ) ) {
-								$user_list .= "<option value='{$user->ID}'>{$user->user_login}</option>";
-							}
-						}
-						if ( '' == $user_list ) {
-							$user_list = $admin_out;
-						}
-						$user_dropdown .= $user_list;
-						$user_dropdown .= "</select>\n";
-						?>
-						<ul style="list-style:none;">
-							<li><?php printf( __( 'Site: %s' ), $user_site ); ?></li>
-							<li><label><input type="radio" id="delete_option0" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="delete" checked="checked" />
-							<?php _e( 'Delete all content.' ); ?></label></li>
-							<li><label><input type="radio" id="delete_option1" name="delete[<?php echo $details->userblog_id . '][' . $delete_user->ID ?>]" value="reassign" />
-							<?php _e( 'Attribute all content to:' ) . "</label>\n" . $user_dropdown; ?></li>
-						</ul>
-						<?php
-					}
-				}
-				echo "</fieldset></td></tr>";
-			} else {
-				?>
-				<td><fieldset><p><legend><?php _e( 'User has no sites or content and will be deleted.' ); ?></legend></p>
-			<?php } ?>
-			</tr>
-		<?php
-		}
-	}
-
-	?>
-	</table>
-	<?php
-	/** This action is documented in wp-admin/users.php */
-	do_action( 'delete_user_form', $current_user );
-
-	if ( 1 == count( $users ) ) : ?>
-		<p><?php _e( 'Once you hit &#8220;Confirm Deletion&#8221;, the user will be permanently removed.' ); ?></p>
-	<?php else : ?>
-		<p><?php _e( 'Once you hit &#8220;Confirm Deletion&#8221;, these users will be permanently removed.' ); ?></p>
-	<?php endif;
-
-	submit_button( __('Confirm Deletion'), 'delete' );
-	?>
-	</form>
-	<?php
-	return true;
-}
-
 if ( isset( $_GET['action'] ) ) {
 	/** This action is documented in wp-admin/network/edit.php */
 	do_action( 'wpmuadminedit' );
@@ -231,7 +123,7 @@ if ( isset( $_GET['action'] ) ) {
 			}
 			$i = 0;
 			if ( is_array( $_POST['user'] ) && ! empty( $_POST['user'] ) )
-				foreach( $_POST['user'] as $id ) {
+				foreach ( $_POST['user'] as $id ) {
 					if ( ! current_user_can( 'delete_user', $id ) )
 						continue;
 					wpmu_delete_user( $id );
@@ -269,7 +161,7 @@ get_current_screen()->add_help_tab( array(
 		'<p>' . __('This table shows all users across the network and the sites to which they are assigned.') . '</p>' .
 		'<p>' . __('Hover over any user on the list to make the edit links appear. The Edit link on the left will take you to their Edit User profile page; the Edit link on the right by any site name goes to an Edit Site screen for that site.') . '</p>' .
 		'<p>' . __('You can also go to the user&#8217;s profile page by clicking on the individual username.') . '</p>' .
-		'<p>' . __('You can sort the table by clicking on any of the bold headings and switch between list and excerpt views by using the icons in the upper right.') . '</p>' .
+		'<p>' . __( 'You can sort the table by clicking on any of the table headings and switch between list and excerpt views by using the icons above the users list.' ) . '</p>' .
 		'<p>' . __('The bulk action will permanently delete selected users, or mark/unmark those selected as spam. Spam users will have posts removed and will be unable to sign up again with the same email addresses.') . '</p>' .
 		'<p>' . __('You can make an existing user an additional super admin by going to the Edit User profile page and checking the box to grant that privilege.') . '</p>'
 ) );
@@ -279,6 +171,12 @@ get_current_screen()->set_help_sidebar(
 	'<p>' . __('<a href="https://codex.wordpress.org/Network_Admin_Users_Screen" target="_blank">Documentation on Network Users</a>') . '</p>' .
 	'<p>' . __('<a href="https://wordpress.org/support/forum/multisite/" target="_blank">Support Forums</a>') . '</p>'
 );
+
+get_current_screen()->set_screen_reader_content( array(
+	'heading_views'      => __( 'Filter users list' ),
+	'heading_pagination' => __( 'Users list navigation' ),
+	'heading_list'       => __( 'Users list' ),
+) );
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
@@ -314,8 +212,10 @@ if ( isset( $_REQUEST['updated'] ) && $_REQUEST['updated'] == 'true' && ! empty(
 		<a href="<?php echo network_admin_url('user-new.php'); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user' ); ?></a><?php
 	endif;
 
-	if ( !empty( $usersearch ) )
-	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
+	if ( strlen( $usersearch ) ) {
+		/* translators: %s: search keywords */
+		printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
+	}
 	?>
 	</h1>
 

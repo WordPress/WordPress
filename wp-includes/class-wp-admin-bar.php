@@ -1,11 +1,16 @@
 <?php
 /**
- * The WordPress Toolbar
- *
- * @since 3.1.0
+ * Toolbar API: WP_Admin_Bar class
  *
  * @package WordPress
  * @subpackage Toolbar
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement the Toolbar API.
+ *
+ * @since 3.1.0
  */
 class WP_Admin_Bar {
 	private $nodes = array();
@@ -91,7 +96,11 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * Add a node to the menu.
+	 * Adds a node to the menu.
+	 *
+	 * @since 3.1.0
+	 * @since 4.5.0 Added the ability to pass 'lang' and 'dir' meta data.
+	 * @access public
 	 *
 	 * @param array $args {
 	 *     Arguments for adding a node.
@@ -101,7 +110,7 @@ class WP_Admin_Bar {
 	 *     @type string $parent Optional. ID of the parent node.
 	 *     @type string $href   Optional. Link for the item.
 	 *     @type bool   $group  Optional. Whether or not the node is a group. Default false.
-	 *     @type array  $meta   Meta data including the following keys: 'html', 'class', 'rel',
+	 *     @type array  $meta   Meta data including the following keys: 'html', 'class', 'rel', 'lang', 'dir',
 	 *                          'onclick', 'target', 'title', 'tabindex'. Default empty.
 	 * }
 	 */
@@ -501,11 +510,23 @@ class WP_Admin_Bar {
 				if ( ! empty( $node->meta['rel'] ) ) :
 					?> rel="<?php echo esc_attr( $node->meta['rel'] ); ?>"<?php
 				endif;
+				if ( ! empty( $node->meta['lang'] ) ) :
+					?> lang="<?php echo esc_attr( $node->meta['lang'] ); ?>"<?php
+				endif;
+				if ( ! empty( $node->meta['dir'] ) ) :
+					?> dir="<?php echo esc_attr( $node->meta['dir'] ); ?>"<?php
+				endif;
 				?>><?php
 			else:
 				?><div class="ab-item ab-empty-item" <?php echo $aria_attributes;
 				if ( ! empty( $node->meta['title'] ) ) :
 					?> title="<?php echo esc_attr( $node->meta['title'] ); ?>"<?php
+				endif;
+				if ( ! empty( $node->meta['lang'] ) ) :
+					?> lang="<?php echo esc_attr( $node->meta['lang'] ); ?>"<?php
+				endif;
+				if ( ! empty( $node->meta['dir'] ) ) :
+					?> dir="<?php echo esc_attr( $node->meta['dir'] ); ?>"<?php
 				endif;
 				?>><?php
 			endif;

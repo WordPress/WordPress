@@ -244,7 +244,7 @@ table.fixed td {
 }
 
 #wpbody-content .postbox {
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 }
 
 #wpbody-content .postbox .hndle {
@@ -396,13 +396,8 @@ p.search-box {
 	margin: -3px 0 4px;
 }
 
-#widget-list .widget,
-.feature-filter .feature-group li {
+#widget-list .widget {
 	display: inline;
-}
-
-.feature-filter .feature-group li input {
-	vertical-align: middle;
 }
 
 #editorcontainer #content {
@@ -643,7 +638,7 @@ input[type="password"],
 .mce-close {
 	font-family: 'tinymce', Arial;
 	font-style: normal;
-	font-weight: normal;
+	font-weight: 400;
 	font-variant: normal;
 	font-size: 16px;
 	margin-right: 0;
@@ -692,11 +687,7 @@ input[type="password"],
 * html .stuffbox,
 * html .stuffbox input,
 * html .stuffbox textarea {
-	border: 1px solid #DFDFDF;
-}
-
-* html .feature-filter .feature-group li {
-	width: 145px;
+	border: 1px solid #ddd;
 }
 
 * html div.widget-liquid-left {
@@ -730,7 +721,7 @@ input[type="password"],
 }
 
 * html input {
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 }
 
 * html .edit-box {

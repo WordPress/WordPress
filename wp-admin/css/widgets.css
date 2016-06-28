@@ -22,9 +22,11 @@
 	text-decoration: none;
 }
 
+.widget-title h3,
 .widget-title h4 {
 	margin: 0;
 	padding: 15px;
+	font-size: 1em;
 	line-height: 1;
 	overflow: hidden;
 	white-space: nowrap;
@@ -100,6 +102,7 @@
 	cursor: pointer;
 }
 
+.sidebar-name h2,
 .sidebar-name h3 {
 	margin: 0;
 	padding: 8px 10px;
@@ -111,7 +114,12 @@
 	padding: 0 0 15px;
 	margin: 0;
 	font-style: normal;
-	color: #777;
+	color: #72777c;
+}
+
+.widget-holder .description,
+.inactive-sidebar .description {
+	color: #555d66;
 }
 
 #widgets-right .widgets-holder-wrap .description {
@@ -142,18 +150,17 @@ div#widgets-left .inactive-sidebar.closed .sidebar-name {
 	margin-bottom: 10px;
 }
 
+div#widgets-left .sidebar-name h2,
 div#widgets-left .sidebar-name h3 {
 	padding: 10px 0;
 	margin: 0 10px 0 0;
 }
 
-div#widgets-left .sidebar-name .sidebar-name-arrow:before {
-	right: 0;
-	top: 4px;
-	padding: 4px 6px 4px 4px;
+#widgets-left .sidebar-name .sidebar-name-arrow:before {
+	padding: 9px;
 }
 
-#widgets-left #available-widgets,
+#widgets-left .widgets-holder-wrap,
 div#widgets-left .widget-holder {
 	background: transparent;
 	border: none;
@@ -223,14 +230,6 @@ div#widgets-left .inactive-sidebar .widgets-sortables {
 
 /* Widgets Right */
 
-div#widgets-right:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
-}
-
 div#widgets-right .sidebars-column-1,
 div#widgets-right .sidebars-column-2 {
 	max-width: 450px;
@@ -245,13 +244,13 @@ div#widgets-right .sidebar-description {
 	margin-top: -5px;
 }
 
+div#widgets-right .sidebar-name h2,
 div#widgets-right .sidebar-name h3 {
 	padding: 15px 7px;
 }
 
 div#widgets-right .sidebar-name .sidebar-name-arrow:before {
-	right: 0;
-	top: 4px;
+	top: 2px;
 }
 
 div#widgets-right .widget-top {
@@ -270,7 +269,8 @@ div#widgets-right .closed .widgets-sortables {
 	margin-bottom: 0;
 }
 
-.sidebar-name .spinner {
+.sidebar-name .spinner,
+.remove-inactive-widgets .spinner {
 	float: none;
 	position: relative;
 	top: -2px;
@@ -279,7 +279,7 @@ div#widgets-right .closed .widgets-sortables {
 
 /* Dragging a widget over a closed sidebar */
 #widgets-right .widgets-holder-wrap.widget-hover {
-	border-color: #777;
+	border-color: #72777c;
 	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 	box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
@@ -346,6 +346,8 @@ div#widgets-right .closed .widgets-sortables {
 
 .js .widgets-holder-wrap.closed .widget,
 .js .widgets-holder-wrap.closed .sidebar-description,
+.js .widgets-holder-wrap.closed .remove-inactive-widgets,
+.js .widgets-holder-wrap.closed .description,
 .js .closed br.clear {
 	display: none;
 }
@@ -367,7 +369,7 @@ div#widgets-right .closed .widgets-sortables {
 /* Dragging widgets over the available widget area show's a "Deactivate" message */
 #removing-widget {
 	display: none;
-	font-weight: normal;
+	font-weight: 400;
 	padding-left: 15px;
 	font-size: 12px;
 	line-height: 1;
@@ -460,17 +462,18 @@ div#widgets-right .widget-top:hover,
 	transition: background 0.2s ease-in-out;
 }
 
+ /* @todo looks like these hover/focus states are overridden by .widgets-chooser-selected */
 .widgets-chooser li:hover,
 .widgets-chooser li:focus {
 	background: rgba(255,255,255,0.7);
 }
 
 .widgets-chooser li:focus:before {
-	content: '\f147';
+	content: "\f147";
 	display: block;
 	-webkit-font-smoothing: antialiased;
-	font: normal 26px/1 'dashicons';
-	color: #999;
+	font: normal 26px/1 dashicons;
+	color: #555d66;
 	position: absolute;
 	top: 7px;
 	left: 5px;
@@ -487,10 +490,10 @@ div#widgets-right .widget-top:hover,
 
 .widgets-chooser li.widgets-chooser-selected:before,
 .widgets-chooser li.widgets-chooser-selected:focus:before {
-	content: '\f147';
+	content: "\f147";
 	display: block;
 	-webkit-font-smoothing: antialiased;
-	font: normal 26px/1 'dashicons';
+	font: normal 26px/1 dashicons;
 	color: #fff;
 	position: absolute;
 	top: 7px;

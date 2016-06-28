@@ -4,6 +4,7 @@
  *
  * @package WordPress
  * @subpackage Administration
+ * @since 3.6.0
  */
 
 /**
@@ -54,7 +55,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 
 	$return = array();
 
-	foreach ( _wp_post_revision_fields() as $field => $name ) {
+	foreach ( _wp_post_revision_fields( $post ) as $field => $name ) {
 		/**
 		 * Contextually filter a post revision field.
 		 *
@@ -79,14 +80,14 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 		);
 
 		/**
-		 * Filter revisions text diff options.
+		 * Filters revisions text diff options.
 		 *
-		 * Filter the options passed to {@see wp_text_diff()} when viewing a post revision.
+		 * Filters the options passed to wp_text_diff() when viewing a post revision.
 		 *
 		 * @since 4.1.0
 		 *
 		 * @param array   $args {
-		 *     Associative array of options to pass to {@see wp_text_diff()}.
+		 *     Associative array of options to pass to wp_text_diff().
 		 *
 		 *     @type bool $show_split_view True for split view (two columns), false for
 		 *                                 un-split view (single column). Default true.
@@ -118,7 +119,7 @@ function wp_get_revision_ui_diff( $post, $compare_from, $compare_to ) {
 	}
 
 	/**
-	 * Filter the fields displayed in the post revision diff UI.
+	 * Filters the fields displayed in the post revision diff UI.
 	 *
 	 * @since 4.1.0
 	 *
@@ -199,7 +200,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			$current_id = $revision->ID;
 		}
 
-		$revisions[ $revision->ID ] = array(
+		$revisions_data = array(
 			'id'         => $revision->ID,
 			'title'      => get_the_title( $post->ID ),
 			'author'     => $authors[ $revision->post_author ],
@@ -210,6 +211,30 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 			'current'    => $current,
 			'restoreUrl' => $can_restore ? $restore_link : false,
 		);
+
+		/**
+		 * Filters the array of revisions used on the revisions screen.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array   $revisions_data {
+		 *     The bootstrapped data for the revisions screen.
+		 *
+		 *     @type int        $id         Revision ID.
+		 *     @type string     $title      Title for the revision's parent WP_Post object.
+		 *     @type int        $author     Revision post author ID.
+		 *     @type string     $date       Date the revision was modified.
+		 *     @type string     $dateShort  Short-form version of the date the revision was modified.
+		 *     @type string     $timeAgo    GMT-aware amount of time ago the revision was modified.
+		 *     @type bool       $autosave   Whether the revision is an autosave.
+		 *     @type bool       $current    Whether the revision is both not an autosave and the post
+		 *                                  modified date matches the revision modified date (GMT-aware).
+		 *     @type bool|false $restoreUrl URL if the revision can be restored, false otherwise.
+		 * }
+		 * @param WP_Post $revision       The revision's WP_Post object.
+		 * @param WP_Post $post           The revision's parent WP_Post object.
+		 */
+		$revisions[ $revision->ID ] = apply_filters( 'wp_prepare_revision_for_js', $revisions_data, $revision, $post );
 	}
 
 	/**

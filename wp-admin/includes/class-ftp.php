@@ -380,7 +380,7 @@ class ftp_base {
 	function pwd() {
 		if(!$this->_exec("PWD", "pwd")) return FALSE;
 		if(!$this->_checkCode()) return FALSE;
-		return ereg_replace("^[0-9]{3} \"(.+)\".+", "\\1", $this->_message);
+		return preg_replace("/^[0-9]{3} \"(.+)\".*$/s", "\\1", $this->_message);
 	}
 
 	function cdup() {
@@ -424,7 +424,7 @@ class ftp_base {
 		}
 		if(!$this->_exec("SIZE ".$pathname, "filesize")) return FALSE;
 		if(!$this->_checkCode()) return FALSE;
-		return ereg_replace("^[0-9]{3} ([0-9]+)".CRLF, "\\1", $this->_message);
+		return preg_replace("/^[0-9]{3} ([0-9]+).*$/s", "\\1", $this->_message);
 	}
 
 	function abort() {
@@ -444,7 +444,7 @@ class ftp_base {
 		}
 		if(!$this->_exec("MDTM ".$pathname, "mdtm")) return FALSE;
 		if(!$this->_checkCode()) return FALSE;
-		$mdtm = ereg_replace("^[0-9]{3} ([0-9]+)".CRLF, "\\1", $this->_message);
+		$mdtm = preg_replace("/^[0-9]{3} ([0-9]+).*$/s", "\\1", $this->_message);
 		$date = sscanf($mdtm, "%4d%2d%2d%2d%2d%2d");
 		$timestamp = mktime($date[3], $date[4], $date[5], $date[1], $date[2], $date[0]);
 		return $timestamp;
@@ -694,7 +694,7 @@ class ftp_base {
 		}
 		foreach($list as $k=>$v) {
 			$list[$k]=$this->parselisting($v);
-			if($list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
+			if( ! $list[$k] or $list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
 		}
 		$ret=true;
 		foreach($list as $el) {
@@ -727,7 +727,7 @@ class ftp_base {
 
 		foreach($list as $k=>$v) {
 			$list[$k]=$this->parselisting($v);
-			if($list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
+			if( ! $list[$k] or $list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
 		}
 		$ret=true;
 
@@ -818,8 +818,8 @@ class ftp_base {
 	function glob_regexp($pattern,$probe) {
 		$sensitive=(PHP_OS!='WIN32');
 		return ($sensitive?
-			ereg($pattern,$probe):
-			eregi($pattern,$probe)
+			preg_match( '/' . preg_quote( $pattern, '/' ) . '/', $probe ) : 
+			preg_match( '/' . preg_quote( $pattern, '/' ) . '/i', $probe )
 		);
 	}
 

@@ -2,14 +2,14 @@
 /**
  * Class for a set of entries for translation and their associated headers
  *
- * @version $Id: translations.php 718 2012-10-31 00:32:02Z nbachiyski $
+ * @version $Id: translations.php 1157 2015-11-20 04:30:11Z dd32 $
  * @package pomo
  * @subpackage translations
  */
 
 require_once dirname(__FILE__) . '/entry.php';
 
-if ( !class_exists( 'Translations' ) ):
+if ( ! class_exists( 'Translations', false ) ):
 class Translations {
 	var $entries = array();
 	var $headers = array();
@@ -272,7 +272,7 @@ class Gettext_Translations extends Translations {
 }
 endif;
 
-if ( !class_exists( 'NOOP_Translations' ) ):
+if ( ! class_exists( 'NOOP_Translations', false ) ):
 /**
  * Provides the same interface as Translations, but doesn't do anything
  */

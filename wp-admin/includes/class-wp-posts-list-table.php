@@ -1,16 +1,24 @@
 <?php
 /**
- * Posts List Table class.
+ * List Table API: WP_Posts_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying posts in a list table.
+ *
  * @since 3.1.0
  * @access private
+ *
+ * @see WP_List_Table
  */
 class WP_Posts_List_Table extends WP_List_Table {
 
 	/**
-	 * Whether the items should be displayed hierarchically or linearly
+	 * Whether the items should be displayed hierarchically or linearly.
 	 *
 	 * @since 3.1.0
 	 * @var bool
@@ -19,16 +27,16 @@ class WP_Posts_List_Table extends WP_List_Table {
 	protected $hierarchical_display;
 
 	/**
-	 * Holds the number of pending comments for each post
+	 * Holds the number of pending comments for each post.
 	 *
 	 * @since 3.1.0
-	 * @var int
+	 * @var array
 	 * @access protected
 	 */
 	protected $comment_pending_count;
 
 	/**
-	 * Holds the number of posts for this user
+	 * Holds the number of posts for this user.
 	 *
 	 * @since 3.1.0
 	 * @var int
@@ -77,22 +85,25 @@ class WP_Posts_List_Table extends WP_List_Table {
 			'screen' => isset( $args['screen'] ) ? $args['screen'] : null,
 		) );
 
-		$post_type = $this->screen->post_type;
+		$post_type        = $this->screen->post_type;
 		$post_type_object = get_post_type_object( $post_type );
 
-		if ( !current_user_can( $post_type_object->cap->edit_others_posts ) ) {
-			$exclude_states = get_post_stati( array( 'show_in_admin_all_list' => false ) );
-			$this->user_posts_count = $wpdb->get_var( $wpdb->prepare( "
-				SELECT COUNT( 1 ) FROM $wpdb->posts
-				WHERE post_type = %s AND post_status NOT IN ( '" . implode( "','", $exclude_states ) . "' )
-				AND post_author = %d
-			", $post_type, get_current_user_id() ) );
+		$exclude_states   = get_post_stati( array(
+			'show_in_admin_all_list' => false,
+		) );
+		$this->user_posts_count = intval( $wpdb->get_var( $wpdb->prepare( "
+			SELECT COUNT( 1 )
+			FROM $wpdb->posts
+			WHERE post_type = %s
+			AND post_status NOT IN ( '" . implode( "','", $exclude_states ) . "' )
+			AND post_author = %d
+		", $post_type, get_current_user_id() ) ) );
 
-			if ( $this->user_posts_count && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) && empty( $_REQUEST['show_sticky'] ) )
-				$_GET['author'] = get_current_user_id();
+		if ( $this->user_posts_count && ! current_user_can( $post_type_object->cap->edit_others_posts ) && empty( $_REQUEST['post_status'] ) && empty( $_REQUEST['all_posts'] ) && empty( $_REQUEST['author'] ) && empty( $_REQUEST['show_sticky'] ) ) {
+			$_GET['author'] = get_current_user_id();
 		}
 
-		if ( 'post' == $post_type && $sticky_posts = get_option( 'sticky_posts' ) ) {
+		if ( 'post' === $post_type && $sticky_posts = get_option( 'sticky_posts' ) ) {
 			$sticky_posts = implode( ', ', array_map( 'absint', (array) $sticky_posts ) );
 			$this->sticky_posts_count = $wpdb->get_var( $wpdb->prepare( "SELECT COUNT( 1 ) FROM $wpdb->posts WHERE post_type = %s AND post_status NOT IN ('trash', 'auto-draft') AND ID IN ($sticky_posts)", $post_type ) );
 		}
@@ -127,11 +138,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		global $avail_post_stati, $wp_query, $per_page, $mode;
 
+		// is going to call wp()
 		$avail_post_stati = wp_edit_posts_query();
 
-		$this->set_hierarchical_display( is_post_type_hierarchical( $this->screen->post_type ) && 'menu_order title' == $wp_query->query['orderby'] );
-
-		$total_items = $this->hierarchical_display ? $wp_query->post_count : $wp_query->found_posts;
+		$this->set_hierarchical_display( is_post_type_hierarchical( $this->screen->post_type ) && 'menu_order title' === $wp_query->query['orderby'] );
 
 		$post_type = $this->screen->post_type;
 		$per_page = $this->get_items_per_page( 'edit_' . $post_type . '_per_page' );
@@ -139,23 +149,40 @@ class WP_Posts_List_Table extends WP_List_Table {
 		/** This filter is documented in wp-admin/includes/post.php */
  		$per_page = apply_filters( 'edit_posts_per_page', $per_page, $post_type );
 
-		if ( $this->hierarchical_display )
-			$total_pages = ceil( $total_items / $per_page );
-		else
-			$total_pages = $wp_query->max_num_pages;
-
-		if ( ! empty( $_REQUEST['mode'] ) ) {
-			$mode = $_REQUEST['mode'] == 'excerpt' ? 'excerpt' : 'list';
-			set_user_setting ( 'posts_list_mode', $mode );
+		if ( $this->hierarchical_display ) {
+			$total_items = $wp_query->post_count;
+		} elseif ( $wp_query->found_posts || $this->get_pagenum() === 1 ) {
+			$total_items = $wp_query->found_posts;
 		} else {
-			$mode = get_user_setting ( 'posts_list_mode', 'list' );
+			$post_counts = (array) wp_count_posts( $post_type, 'readable' );
+
+			if ( isset( $_REQUEST['post_status'] ) && in_array( $_REQUEST['post_status'] , $avail_post_stati ) ) {
+				$total_items = $post_counts[ $_REQUEST['post_status'] ];
+			} elseif ( isset( $_REQUEST['show_sticky'] ) && $_REQUEST['show_sticky'] ) {
+				$total_items = $this->sticky_posts_count;
+			} elseif ( isset( $_GET['author'] ) && $_GET['author'] == get_current_user_id() ) {
+				$total_items = $this->user_posts_count;
+			} else {
+				$total_items = array_sum( $post_counts );
+
+				// Subtract post types that are not included in the admin all list.
+				foreach ( get_post_stati( array( 'show_in_admin_all_list' => false ) ) as $state ) {
+					$total_items -= $post_counts[ $state ];
+				}
+			}
 		}
 
-		$this->is_trash = isset( $_REQUEST['post_status'] ) && $_REQUEST['post_status'] == 'trash';
+		if ( ! empty( $_REQUEST['mode'] ) ) {
+			$mode = $_REQUEST['mode'] === 'excerpt' ? 'excerpt' : 'list';
+			set_user_setting( 'posts_list_mode', $mode );
+		} else {
+			$mode = get_user_setting( 'posts_list_mode', 'list' );
+		}
+
+		$this->is_trash = isset( $_REQUEST['post_status'] ) && $_REQUEST['post_status'] === 'trash';
 
 		$this->set_pagination_args( array(
 			'total_items' => $total_items,
-			'total_pages' => $total_pages,
 			'per_page' => $per_page
 		) );
 	}
@@ -172,7 +199,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @access public
 	 */
 	public function no_items() {
-		if ( isset( $_REQUEST['post_status'] ) && 'trash' == $_REQUEST['post_status'] )
+		if ( isset( $_REQUEST['post_status'] ) && 'trash' === $_REQUEST['post_status'] )
 			echo get_post_type_object( $this->screen->post_type )->labels->not_found_in_trash;
 		else
 			echo get_post_type_object( $this->screen->post_type )->labels->not_found;
@@ -186,11 +213,46 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @return bool Whether the current view is the "All" view.
 	 */
 	protected function is_base_request() {
-		if ( empty( $_GET ) ) {
+		$vars = $_GET;
+		unset( $vars['paged'] );
+
+		if ( empty( $vars ) ) {
 			return true;
-		} elseif ( 1 === count( $_GET ) && ! empty( $_GET['post_type'] ) ) {
-			return $this->screen->post_type === $_GET['post_type'];
+		} elseif ( 1 === count( $vars ) && ! empty( $vars['post_type'] ) ) {
+			return $this->screen->post_type === $vars['post_type'];
 		}
+
+		return 1 === count( $vars ) && ! empty( $vars['mode'] );
+	}
+
+	/**
+	 * Helper to create links to edit.php with params.
+	 *
+	 * @since 4.4.0
+	 * @access protected
+	 *
+	 * @param array  $args  URL parameters for the link.
+	 * @param string $label Link text.
+	 * @param string $class Optional. Class attribute. Default empty string.
+	 * @return string The formatted link string.
+	 */
+	protected function get_edit_link( $args, $label, $class = '' ) {
+		$url = add_query_arg( $args, 'edit.php' );
+
+		$class_html = '';
+		if ( ! empty( $class ) ) {
+			 $class_html = sprintf(
+				' class="%s"',
+				esc_attr( $class )
+			);
+		}
+
+		return sprintf(
+			'<a href="%s"%s>%s</a>',
+			esc_url( $url ),
+			$class_html,
+			$label
+		);
 	}
 
 	/**
@@ -209,27 +271,46 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$status_links = array();
 		$num_posts = wp_count_posts( $post_type, 'readable' );
+		$total_posts = array_sum( (array) $num_posts );
 		$class = '';
-		$allposts = '';
 
 		$current_user_id = get_current_user_id();
+		$all_args = array( 'post_type' => $post_type );
+		$mine = '';
 
-		if ( $this->user_posts_count ) {
-			if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user_id ) )
-				$class = ' class="current"';
-			$status_links['mine'] = "<a href='edit.php?post_type=$post_type&author=$current_user_id'$class>" . sprintf( _nx( 'Mine <span class="count">(%s)</span>', 'Mine <span class="count">(%s)</span>', $this->user_posts_count, 'posts' ), number_format_i18n( $this->user_posts_count ) ) . '</a>';
-			$allposts = '&all_posts=1';
+		// Subtract post types that are not included in the admin all list.
+		foreach ( get_post_stati( array( 'show_in_admin_all_list' => false ) ) as $state ) {
+			$total_posts -= $num_posts->$state;
+		}
+
+		if ( $this->user_posts_count && $this->user_posts_count !== $total_posts ) {
+			if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user_id ) ) {
+				$class = 'current';
+			}
+
+			$mine_args = array(
+				'post_type' => $post_type,
+				'author' => $current_user_id
+			);
+
+			$mine_inner_html = sprintf(
+				_nx(
+					'Mine <span class="count">(%s)</span>',
+					'Mine <span class="count">(%s)</span>',
+					$this->user_posts_count,
+					'posts'
+				),
+				number_format_i18n( $this->user_posts_count )
+			);
+
+			$mine = $this->get_edit_link( $mine_args, $mine_inner_html, $class );
+
+			$all_args['all_posts'] = 1;
 			$class = '';
 		}
 
-		$total_posts = array_sum( (array) $num_posts );
-
-		// Subtract post types that are not included in the admin all list.
-		foreach ( get_post_stati( array('show_in_admin_all_list' => false) ) as $state )
-			$total_posts -= $num_posts->$state;
-
-		if ( empty( $class ) && ( ( $this->is_base_request() && ! $this->user_posts_count ) || isset( $_REQUEST['all_posts'] ) ) ) {
-			$class =  ' class="current"';
+		if ( empty( $class ) && ( $this->is_base_request() || isset( $_REQUEST['all_posts'] ) ) ) {
+			$class = 'current';
 		}
 
 		$all_inner_html = sprintf(
@@ -242,29 +323,58 @@ class WP_Posts_List_Table extends WP_List_Table {
 			number_format_i18n( $total_posts )
 		);
 
-		$status_links['all'] = "<a href='edit.php?post_type=$post_type{$allposts}'$class>" . $all_inner_html . '</a>';
+		$status_links['all'] = $this->get_edit_link( $all_args, $all_inner_html, $class );
+		if ( $mine ) {
+			$status_links['mine'] = $mine;
+		}
 
 		foreach ( get_post_stati(array('show_in_admin_status_list' => true), 'objects') as $status ) {
 			$class = '';
 
 			$status_name = $status->name;
 
-			if ( !in_array( $status_name, $avail_post_stati ) )
+			if ( ! in_array( $status_name, $avail_post_stati ) || empty( $num_posts->$status_name ) ) {
 				continue;
+			}
 
-			if ( empty( $num_posts->$status_name ) )
-				continue;
+			if ( isset($_REQUEST['post_status']) && $status_name === $_REQUEST['post_status'] ) {
+				$class = 'current';
+			}
 
-			if ( isset($_REQUEST['post_status']) && $status_name == $_REQUEST['post_status'] )
-				$class = ' class="current"';
+			$status_args = array(
+				'post_status' => $status_name,
+				'post_type' => $post_type,
+			);
 
-			$status_links[$status_name] = "<a href='edit.php?post_status=$status_name&amp;post_type=$post_type'$class>" . sprintf( translate_nooped_plural( $status->label_count, $num_posts->$status_name ), number_format_i18n( $num_posts->$status_name ) ) . '</a>';
+			$status_label = sprintf(
+				translate_nooped_plural( $status->label_count, $num_posts->$status_name ),
+				number_format_i18n( $num_posts->$status_name )
+			);
+
+			$status_links[ $status_name ] = $this->get_edit_link( $status_args, $status_label, $class );
 		}
 
 		if ( ! empty( $this->sticky_posts_count ) ) {
-			$class = ! empty( $_REQUEST['show_sticky'] ) ? ' class="current"' : '';
+			$class = ! empty( $_REQUEST['show_sticky'] ) ? 'current' : '';
 
-			$sticky_link = array( 'sticky' => "<a href='edit.php?post_type=$post_type&amp;show_sticky=1'$class>" . sprintf( _nx( 'Sticky <span class="count">(%s)</span>', 'Sticky <span class="count">(%s)</span>', $this->sticky_posts_count, 'posts' ), number_format_i18n( $this->sticky_posts_count ) ) . '</a>' );
+			$sticky_args = array(
+				'post_type'	=> $post_type,
+				'show_sticky' => 1
+			);
+
+			$sticky_inner_html = sprintf(
+				_nx(
+					'Sticky <span class="count">(%s)</span>',
+					'Sticky <span class="count">(%s)</span>',
+					$this->sticky_posts_count,
+					'posts'
+				),
+				number_format_i18n( $this->sticky_posts_count )
+			);
+
+			$sticky_link = array(
+				'sticky' => $this->get_edit_link( $sticky_args, $sticky_inner_html, $class )
+			);
 
 			// Sticky comes after Publish, or if not listed, after All.
 			$split = 1 + array_search( ( isset( $status_links['publish'] ) ? 'publish' : 'all' ), array_keys( $status_links ) );
@@ -282,10 +392,12 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$actions = array();
 		$post_type_obj = get_post_type_object( $this->screen->post_type );
 
-		if ( $this->is_trash ) {
-			$actions['untrash'] = __( 'Restore' );
-		} else {
-			$actions['edit'] = __( 'Edit' );
+		if ( current_user_can( $post_type_obj->cap->edit_posts ) ) {
+			if ( $this->is_trash ) {
+				$actions['untrash'] = __( 'Restore' );
+			} else {
+				$actions['edit'] = __( 'Edit' );
+			}
 		}
 
 		if ( current_user_can( $post_type_obj->cap->delete_posts ) ) {
@@ -300,31 +412,56 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global int $cat
+	 * Displays a categories drop-down for filtering on the Posts list table.
+	 *
+	 * @since 4.6.0
+	 * @access protected
+	 *
+	 * @global int $cat Currently selected category.
+	 *
+	 * @param string $post_type The Post Type.
+	 */
+	protected function categories_dropdown( $post_type ) {
+		global $cat;
+
+		/**
+		 * Filters whether to remove the 'Categories' drop-down from the post list table.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param bool   $disable   Whether to disable the categories drop-down. Default false.
+		 * @param string $post_type The post type.
+		 */
+		if ( false !== apply_filters( 'disable_categories_dropdown', false, $post_type ) ) {
+			return;
+		}
+
+		if ( is_object_in_taxonomy( $post_type, 'category' ) ) {
+			$dropdown_options = array(
+				'show_option_all' => get_taxonomy( 'category' )->labels->all_items,
+				'hide_empty' => 0,
+				'hierarchical' => 1,
+				'show_count' => 0,
+				'orderby' => 'name',
+				'selected' => $cat
+			);
+
+			echo '<label class="screen-reader-text" for="cat">' . __( 'Filter by category' ) . '</label>';
+			wp_dropdown_categories( $dropdown_options );
+		}
+	}
+
+	/**
 	 * @param string $which
 	 */
 	protected function extra_tablenav( $which ) {
-		global $cat;
 ?>
 		<div class="alignleft actions">
 <?php
-		if ( 'top' == $which && !is_singular() ) {
+		if ( 'top' === $which && !is_singular() ) {
 
 			$this->months_dropdown( $this->screen->post_type );
-
-			if ( is_object_in_taxonomy( $this->screen->post_type, 'category' ) ) {
-				$dropdown_options = array(
-					'show_option_all' => __( 'All categories' ),
-					'hide_empty' => 0,
-					'hierarchical' => 1,
-					'show_count' => 0,
-					'orderby' => 'name',
-					'selected' => $cat
-				);
-
-				echo '<label class="screen-reader-text" for="cat">' . __( 'Filter by category' ) . '</label>';
-				wp_dropdown_categories( $dropdown_options );
-			}
+			$this->categories_dropdown( $this->screen->post_type );
 
 			/**
 			 * Fires before the Filter button on the Posts and Pages list tables.
@@ -333,8 +470,14 @@ class WP_Posts_List_Table extends WP_List_Table {
 			 * Posts list table, and sorting by date on the Pages list table.
 			 *
 			 * @since 2.1.0
+			 * @since 4.4.0 The `$post_type` parameter was added.
+			 * @since 4.6.0 The `$which` parameter was added.
+			 *
+			 * @param string $post_type The post type slug.
+			 * @param string $which     The location of the extra table nav markup:
+			 *                          'top' or 'bottom'.
 			 */
-			do_action( 'restrict_manage_posts' );
+			do_action( 'restrict_manage_posts', $this->screen->post_type, $which );
 
 			submit_button( __( 'Filter' ), 'button', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 		}
@@ -345,6 +488,15 @@ class WP_Posts_List_Table extends WP_List_Table {
 ?>
 		</div>
 <?php
+		/**
+		 * Fires immediately following the closing "actions" div in the tablenav for the posts
+		 * list table.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param string $which The location of the extra table nav markup: 'top' or 'bottom'.
+		 */
+		do_action( 'manage_posts_extra_tablenav', $which );
 	}
 
 	/**
@@ -356,19 +508,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 			return 'delete_all';
 
 		return parent::current_action();
-	}
-
-	/**
-	 * @global string $mode
-	 * @param string $which
-	 */
-	protected function pagination( $which ) {
-		global $mode;
-
-		parent::pagination( $which );
-
-		if ( 'top' == $which && ! is_post_type_hierarchical( $this->screen->post_type ) )
-			$this->view_switcher( $mode );
 	}
 
 	/**
@@ -401,7 +540,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$taxonomies = wp_filter_object_list( $taxonomies, array( 'show_admin_column' => true ), 'and', 'name' );
 
 		/**
-		 * Filter the taxonomy columns in the Posts list table.
+		 * Filters the taxonomy columns in the Posts list table.
 		 *
 		 * The dynamic portion of the hook name, `$post_type`, refers to the post
 		 * type slug.
@@ -415,9 +554,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 		$taxonomies = array_filter( $taxonomies, 'taxonomy_exists' );
 
 		foreach ( $taxonomies as $taxonomy ) {
-			if ( 'category' == $taxonomy )
+			if ( 'category' === $taxonomy )
 				$column_key = 'categories';
-			elseif ( 'post_tag' == $taxonomy )
+			elseif ( 'post_tag' === $taxonomy )
 				$column_key = 'tags';
 			else
 				$column_key = 'taxonomy-' . $taxonomy;
@@ -431,10 +570,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		$posts_columns['date'] = __( 'Date' );
 
-		if ( 'page' == $post_type ) {
+		if ( 'page' === $post_type ) {
 
 			/**
-			 * Filter the columns displayed in the Pages list table.
+			 * Filters the columns displayed in the Pages list table.
 			 *
 			 * @since 2.5.0
 			 *
@@ -444,7 +583,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		} else {
 
 			/**
-			 * Filter the columns displayed in the Posts list table.
+			 * Filters the columns displayed in the Posts list table.
 			 *
 			 * @since 1.5.0
 			 *
@@ -455,7 +594,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filter the columns displayed in the Posts list table for a specific post type.
+		 * Filters the columns displayed in the Posts list table for a specific post type.
 		 *
 		 * The dynamic portion of the hook name, `$post_type`, refers to the post type slug.
 		 *
@@ -501,13 +640,10 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global string $mode
 	 * @param array $posts
 	 * @param int $level
 	 */
 	private function _display_rows( $posts, $level = 0 ) {
-		global $mode;
-
 		// Create array of post IDs.
 		$post_ids = array();
 
@@ -698,6 +834,22 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * @since 4.3.0
+	 * @access protected
+	 *
+	 * @param WP_Post $post
+	 * @param string  $classes
+	 * @param string  $data
+	 * @param string  $primary
+	 */
+	protected function _column_title( $post, $classes, $data, $primary ) {
+		echo '<td class="' . $classes . ' page-title" ', $data, '>';
+		echo $this->column_title( $post );
+		echo $this->handle_row_actions( $post, 'title', $primary );
+		echo '</td>';
+	}
+
+	/**
 	 * Handles the title column output.
 	 *
 	 * @since 4.3.0
@@ -739,15 +891,28 @@ class WP_Posts_List_Table extends WP_List_Table {
 		if ( $format ) {
 			$label = get_post_format_string( $format );
 
-			echo '<a href="' . esc_url( add_query_arg( array( 'post_format' => $format, 'post_type' => $post->post_type ), 'edit.php' ) ) . '" class="post-state-format post-format-icon post-format-' . $format . '" title="' . $label . '">' . $label . ":</a> ";
+			$format_class = 'post-state-format post-format-icon post-format-' . $format;
+
+			$format_args = array(
+				'post_format' => $format,
+				'post_type' => $post->post_type
+			);
+
+			echo $this->get_edit_link( $format_args, $label . ':', $format_class );
 		}
 
 		$can_edit_post = current_user_can( 'edit_post', $post->ID );
 		$title = _draft_or_post_title();
 
 		if ( $can_edit_post && $post->post_status != 'trash' ) {
-			$edit_link = get_edit_post_link( $post->ID );
-			echo '<a class="row-title" href="' . $edit_link . '" title="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ) . '">' . $pad . $title . '</a>';
+			printf(
+				'<a class="row-title" href="%s" aria-label="%s">%s%s</a>',
+				get_edit_post_link( $post->ID ),
+				/* translators: %s: post title */
+				esc_attr( sprintf( __( '&#8220;%s&#8221; (Edit)' ), $title ) ),
+				$pad,
+				$title
+			);
 		} else {
 			echo $pad . $title;
 		}
@@ -773,7 +938,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			echo '<div class="locked-info"><span class="locked-avatar">' . $locked_avatar . '</span> <span class="locked-text">' . $locked_text . "</span></div>\n";
 		}
 
-		if ( ! is_post_type_hierarchical( $this->screen->post_type ) && 'excerpt' == $mode && current_user_can( 'read_post', $post->ID ) ) {
+		if ( ! is_post_type_hierarchical( $this->screen->post_type ) && 'excerpt' === $mode && current_user_can( 'read_post', $post->ID ) ) {
 			the_excerpt();
 		}
 
@@ -793,7 +958,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	public function column_date( $post ) {
 		global $mode;
 
-		if ( '0000-00-00 00:00:00' == $post->post_date ) {
+		if ( '0000-00-00 00:00:00' === $post->post_date ) {
 			$t_time = $h_time = __( 'Unpublished' );
 			$time_diff = 0;
 		} else {
@@ -810,17 +975,29 @@ class WP_Posts_List_Table extends WP_List_Table {
 			}
 		}
 
-		if ( 'excerpt' == $mode ) {
+		if ( 'publish' === $post->post_status ) {
+			_e( 'Published' );
+		} elseif ( 'future' === $post->post_status ) {
+			if ( $time_diff > 0 ) {
+				echo '<strong class="error-message">' . __( 'Missed schedule' ) . '</strong>';
+			} else {
+				_e( 'Scheduled' );
+			}
+		} else {
+			_e( 'Last Modified' );
+		}
+		echo '<br />';
+		if ( 'excerpt' === $mode ) {
 			/**
-			 * Filter the published time of the post.
+			 * Filters the published time of the post.
 			 *
-			 * If $mode equals 'excerpt', the published time and date are both displayed.
-			 * If $mode equals 'list' (default), the publish date is displayed, with the
+			 * If `$mode` equals 'excerpt', the published time and date are both displayed.
+			 * If `$mode` equals 'list' (default), the publish date is displayed, with the
 			 * time and date together available as an abbreviation definition.
 			 *
 			 * @since 2.5.1
 			 *
-			 * @param array   $t_time      The published time.
+			 * @param string  $t_time      The published time.
 			 * @param WP_Post $post        Post object.
 			 * @param string  $column_name The column name.
 			 * @param string  $mode        The list display mode ('excerpt' or 'list').
@@ -830,18 +1007,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 			/** This filter is documented in wp-admin/includes/class-wp-posts-list-table.php */
 			echo '<abbr title="' . $t_time . '">' . apply_filters( 'post_date_column_time', $h_time, $post, 'date', $mode ) . '</abbr>';
-		}
-		echo '<br />';
-		if ( 'publish' == $post->post_status ) {
-			_e( 'Published' );
-		} elseif ( 'future' == $post->post_status ) {
-			if ( $time_diff > 0 ) {
-				echo '<strong class="error-message">' . __( 'Missed schedule' ) . '</strong>';
-			} else {
-				_e( 'Scheduled' );
-			}
-		} else {
-			_e( 'Last Modified' );
 		}
 	}
 
@@ -874,10 +1039,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @param WP_Post $post The current WP_Post object.
 	 */
 	public function column_author( $post ) {
-		printf( '<a href="%s">%s</a>',
-			esc_url( add_query_arg( array( 'post_type' => $post->post_type, 'author' => get_the_author_meta( 'ID' ) ), 'edit.php' )),
-			get_the_author()
+		$args = array(
+			'post_type' => $post->post_type,
+			'author' => get_the_author_meta( 'ID' )
 		);
+		echo $this->get_edit_link( $args, get_the_author() );
 	}
 
 	/**
@@ -890,9 +1056,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @param string  $column_name The current column name.
 	 */
 	public function column_default( $post, $column_name ) {
-		if ( 'categories' == $column_name ) {
+		if ( 'categories' === $column_name ) {
 			$taxonomy = 'category';
-		} elseif ( 'tags' == $column_name ) {
+		} elseif ( 'tags' === $column_name ) {
 			$taxonomy = 'post_tag';
 		} elseif ( 0 === strpos( $column_name, 'taxonomy-' ) ) {
 			$taxonomy = substr( $column_name, 9 );
@@ -916,10 +1082,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 						$posts_in_term_qv['term'] = $t->slug;
 					}
 
-					$out[] = sprintf( '<a href="%s">%s</a>',
-						esc_url( add_query_arg( $posts_in_term_qv, 'edit.php' ) ),
-						esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) )
-					);
+					$label = esc_html( sanitize_term_field( 'name', $t->name, $t->term_id, $taxonomy, 'display' ) );
+					$out[] = $this->get_edit_link( $posts_in_term_qv, $label );
 				}
 				/* translators: used between list items, there is a space after the comma */
 				echo join( __( ', ' ), $out );
@@ -973,58 +1137,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * Handles columns output for a single row in the table.
-	 *
-	 * @since 4.3.0
-	 * @access public
-	 *
-	 * @param WP_Post $item The current WP_Post object.
-	 */
-	public function single_row_columns( $item ) {
-		list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
-
-		foreach ( $columns as $column_name => $column_display_name ) {
-			$classes = "$column_name column-$column_name";
-			if ( $primary === $column_name ) {
-				$classes .= ' has-row-actions column-primary';
-			}
-
-			if ( 'title' === $column_name ) {
-				$classes .= ' page-title'; // Special addition for title column
-			}
-
-			if ( in_array( $column_name, $hidden ) ) {
-				$classes .= ' hidden';
-			}
-
-			// Comments column uses HTML in the display name with screen reader text.
-			// Instead of using esc_attr(), we strip tags to get closer to a user-friendly string.
-  			$data = 'data-colname="' . wp_strip_all_tags( $column_display_name ) . '"';
-
-			$attributes = "class='$classes' $data";
-
-			if ( 'cb' === $column_name ) {
-				echo '<th scope="row" class="check-column">';
-
-				$this->column_cb( $item );
-
-				echo '</th>';
-			} else {
-				echo "<td $attributes>";
-
-				if ( method_exists( $this, 'column_' . $column_name ) ) {
-					call_user_func( array( $this, 'column_' . $column_name ), $item );
-				} else {
-					$this->column_default( $item, $column_name );
-				}
-
-				echo $this->handle_row_actions( $item, $column_name, $primary );
-				echo '</td>';
-			}
-		}
-	}
-
-	/**
 	 * @global WP_Post $post
 	 *
 	 * @param int|WP_Post $post
@@ -1069,7 +1181,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @return string Name of the default primary column, in this case, 'title'.
 	 */
 	protected function get_default_primary_column_name() {
-		return( 'title' );
+		return 'title';
 	}
 
 	/**
@@ -1084,74 +1196,116 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @return string Row actions output for posts.
 	 */
 	protected function handle_row_actions( $post, $column_name, $primary ) {
+		if ( $primary !== $column_name ) {
+			return '';
+		}
+
+		$post_type_object = get_post_type_object( $post->post_type );
+		$can_edit_post = current_user_can( 'edit_post', $post->ID );
+		$actions = array();
 		$title = _draft_or_post_title();
 
-		if ( $primary === $column_name ) {
-			$post_type_object = get_post_type_object( $post->post_type );
-			$can_edit_post = current_user_can( 'edit_post', $post->ID );
-			$actions = array();
-
-			if ( $can_edit_post && 'trash' != $post->post_status ) {
-				$actions['edit'] = '<a href="' . get_edit_post_link( $post->ID ) . '" title="' . esc_attr__( 'Edit this item' ) . '">' . __( 'Edit' ) . '</a>';
-				$actions['inline hide-if-no-js'] = '<a href="#" class="editinline" title="' . esc_attr__( 'Edit this item inline' ) . '">' . __( 'Quick&nbsp;Edit' ) . '</a>';
-			}
-
-			if ( current_user_can( 'delete_post', $post->ID ) ) {
-				if ( 'trash' == $post->post_status )
-					$actions['untrash'] = "<a title='" . esc_attr__( 'Restore this item from the Trash' ) . "' href='" . wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ) . "'>" . __( 'Restore' ) . "</a>";
-				elseif ( EMPTY_TRASH_DAYS )
-					$actions['trash'] = "<a class='submitdelete' title='" . esc_attr__( 'Move this item to the Trash' ) . "' href='" . get_delete_post_link( $post->ID ) . "'>" . __( 'Trash' ) . "</a>";
-				if ( 'trash' == $post->post_status || !EMPTY_TRASH_DAYS )
-					$actions['delete'] = "<a class='submitdelete' title='" . esc_attr__( 'Delete this item permanently' ) . "' href='" . get_delete_post_link( $post->ID, '', true ) . "'>" . __( 'Delete Permanently' ) . "</a>";
-			}
-
-			if ( $post_type_object->public ) {
-				if ( in_array( $post->post_status, array( 'pending', 'draft', 'future' ) ) ) {
-					if ( $can_edit_post ) {
-						$preview_link = set_url_scheme( get_permalink( $post->ID ) );
-						/** This filter is documented in wp-admin/includes/meta-boxes.php */
-						$preview_link = apply_filters( 'preview_post_link', add_query_arg( 'preview', 'true', $preview_link ), $post );
-						$actions['view'] = '<a href="' . esc_url( $preview_link ) . '" title="' . esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'Preview' ) . '</a>';
-					}
-				} elseif ( 'trash' != $post->post_status ) {
-					$actions['view'] = '<a href="' . get_permalink( $post->ID ) . '" title="' . esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ) . '" rel="permalink">' . __( 'View' ) . '</a>';
-				}
-			}
-
-			if ( is_post_type_hierarchical( $post->post_type ) ) {
-
-				/**
-				 * Filter the array of row action links on the Pages list table.
-				 *
-				 * The filter is evaluated only for hierarchical post types.
-				 *
-				 * @since 2.8.0
-				 *
-				 * @param array $actions An array of row action links. Defaults are
-				 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
-				 *                         'Delete Permanently', 'Preview', and 'View'.
-				 * @param WP_Post $post The post object.
-				 */
-				$actions = apply_filters( 'page_row_actions', $actions, $post );
-			} else {
-
-				/**
-				 * Filter the array of row action links on the Posts list table.
-				 *
-				 * The filter is evaluated only for non-hierarchical post types.
-				 *
-				 * @since 2.8.0
-				 *
-				 * @param array $actions An array of row action links. Defaults are
-				 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
-				 *                         'Delete Permanently', 'Preview', and 'View'.
-				 * @param WP_Post $post The post object.
-				 */
-				$actions = apply_filters( 'post_row_actions', $actions, $post );
-			}
-
-			return $this->row_actions( $actions );
+		if ( $can_edit_post && 'trash' != $post->post_status ) {
+			$actions['edit'] = sprintf(
+				'<a href="%s" aria-label="%s">%s</a>',
+				get_edit_post_link( $post->ID ),
+				/* translators: %s: post title */
+				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ),
+				__( 'Edit' )
+			);
+			$actions['inline hide-if-no-js'] = sprintf(
+				'<a href="#" class="editinline" aria-label="%s">%s</a>',
+				/* translators: %s: post title */
+				esc_attr( sprintf( __( 'Quick edit &#8220;%s&#8221; inline' ), $title ) ),
+				__( 'Quick&nbsp;Edit' )
+			);
 		}
+
+		if ( current_user_can( 'delete_post', $post->ID ) ) {
+			if ( 'trash' === $post->post_status ) {
+				$actions['untrash'] = sprintf(
+					'<a href="%s" aria-label="%s">%s</a>',
+					wp_nonce_url( admin_url( sprintf( $post_type_object->_edit_link . '&amp;action=untrash', $post->ID ) ), 'untrash-post_' . $post->ID ),
+					/* translators: %s: post title */
+					esc_attr( sprintf( __( 'Restore &#8220;%s&#8221; from the Trash' ), $title ) ),
+					__( 'Restore' )
+				);
+			} elseif ( EMPTY_TRASH_DAYS ) {
+				$actions['trash'] = sprintf(
+					'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
+					get_delete_post_link( $post->ID ),
+					/* translators: %s: post title */
+					esc_attr( sprintf( __( 'Move &#8220;%s&#8221; to the Trash' ), $title ) ),
+					_x( 'Trash', 'verb' )
+				);
+			}
+			if ( 'trash' === $post->post_status || ! EMPTY_TRASH_DAYS ) {
+				$actions['delete'] = sprintf(
+					'<a href="%s" class="submitdelete" aria-label="%s">%s</a>',
+					get_delete_post_link( $post->ID, '', true ),
+					/* translators: %s: post title */
+					esc_attr( sprintf( __( 'Delete &#8220;%s&#8221; permanently' ), $title ) ),
+					__( 'Delete Permanently' )
+				);
+			}
+		}
+
+		if ( is_post_type_viewable( $post_type_object ) ) {
+			if ( in_array( $post->post_status, array( 'pending', 'draft', 'future' ) ) ) {
+				if ( $can_edit_post ) {
+					$preview_link = get_preview_post_link( $post );
+					$actions['view'] = sprintf(
+						'<a href="%s" rel="permalink" aria-label="%s">%s</a>',
+						esc_url( $preview_link ),
+						/* translators: %s: post title */
+						esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ),
+						__( 'Preview' )
+					);
+				}
+			} elseif ( 'trash' != $post->post_status ) {
+				$actions['view'] = sprintf(
+					'<a href="%s" rel="permalink" aria-label="%s">%s</a>',
+					get_permalink( $post->ID ),
+					/* translators: %s: post title */
+					esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ),
+					__( 'View' )
+				);
+			}
+		}
+
+		if ( is_post_type_hierarchical( $post->post_type ) ) {
+
+			/**
+			 * Filters the array of row action links on the Pages list table.
+			 *
+			 * The filter is evaluated only for hierarchical post types.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param array $actions An array of row action links. Defaults are
+			 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
+			 *                         'Delete Permanently', 'Preview', and 'View'.
+			 * @param WP_Post $post The post object.
+			 */
+			$actions = apply_filters( 'page_row_actions', $actions, $post );
+		} else {
+
+			/**
+			 * Filters the array of row action links on the Posts list table.
+			 *
+			 * The filter is evaluated only for non-hierarchical post types.
+			 *
+			 * @since 2.8.0
+			 *
+			 * @param array $actions An array of row action links. Defaults are
+			 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
+			 *                         'Delete Permanently', 'Preview', and 'View'.
+			 * @param WP_Post $post The post object.
+			 */
+			$actions = apply_filters( 'post_row_actions', $actions, $post );
+		}
+
+		return $this->row_actions( $actions );
 	}
 
 	/**
@@ -1179,7 +1333,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$show_in_quick_edit = $taxonomy->show_in_quick_edit;
 
 			/**
-			 * Filter whether the current taxonomy should be shown in the Quick Edit panel.
+			 * Filters whether the current taxonomy should be shown in the Quick Edit panel.
 			 *
 			 * @since 4.2.0
 			 *
@@ -1197,7 +1351,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$flat_taxonomies[] = $taxonomy;
 		}
 
-		$m = ( isset( $mode ) && 'excerpt' == $mode ) ? 'excerpt' : 'list';
+		$m = ( isset( $mode ) && 'excerpt' === $mode ) ? 'excerpt' : 'list';
 		$can_publish = current_user_can( $post_type_object->cap->publish_posts );
 		$core_columns = array( 'cb' => true, 'date' => true, 'title' => true, 'categories' => true, 'tags' => true, 'comments' => true, 'author' => true );
 
@@ -1213,8 +1367,9 @@ class WP_Posts_List_Table extends WP_List_Table {
 			echo $bulk ? " bulk-edit-row bulk-edit-row-$hclass bulk-edit-{$screen->post_type}" : " quick-edit-row quick-edit-row-$hclass inline-edit-{$screen->post_type}";
 		?>" style="display: none"><td colspan="<?php echo $this->get_column_count(); ?>" class="colspanchange">
 
-		<fieldset class="inline-edit-col-left"><div class="inline-edit-col">
-			<h4><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></h4>
+		<fieldset class="inline-edit-col-left">
+			<legend class="inline-edit-legend"><?php echo $bulk ? __( 'Bulk Edit' ) : __( 'Quick Edit' ); ?></legend>
+			<div class="inline-edit-col">
 	<?php
 
 	if ( post_type_supports( $screen->post_type, 'title' ) ) :
@@ -1256,7 +1411,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 					'name' => 'post_author',
 					'class'=> 'authors',
 					'multi' => 1,
-					'echo' => 0
+					'echo' => 0,
+					'show' => 'display_name_with_login',
 				);
 				if ( $bulk )
 					$users_opt['show_option_none'] = __( '&mdash; No Change &mdash;' );
@@ -1276,7 +1432,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	if ( !$bulk && $can_publish ) :
 	?>
 
-			<div class="inline-edit-group">
+			<div class="inline-edit-group wp-clearfix">
 				<label class="alignleft">
 					<span class="title"><?php _e( 'Password' ); ?></span>
 					<span class="input-text-wrap"><input type="text" name="post_password" class="inline-edit-password-input" value="" /></span>
@@ -1305,7 +1461,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php foreach ( $hierarchical_taxonomies as $taxonomy ) : ?>
 
 			<span class="title inline-edit-categories-label"><?php echo esc_html( $taxonomy->labels->name ) ?></span>
-			<input type="hidden" name="<?php echo ( $taxonomy->name == 'category' ) ? 'post_category[]' : 'tax_input[' . esc_attr( $taxonomy->name ) . '][]'; ?>" value="0" />
+			<input type="hidden" name="<?php echo ( $taxonomy->name === 'category' ) ? 'post_category[]' : 'tax_input[' . esc_attr( $taxonomy->name ) . '][]'; ?>" value="0" />
 			<ul class="cat-checklist <?php echo esc_attr( $taxonomy->name )?>-checklist">
 				<?php wp_terms_checklist( null, array( 'taxonomy' => $taxonomy->name ) ) ?>
 			</ul>
@@ -1342,7 +1498,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			$dropdown_args['show_option_no_change'] =  __( '&mdash; No Change &mdash;' );
 
 		/**
-		 * Filter the arguments used to generate the Quick Edit page-parent drop-down.
+		 * Filters the arguments used to generate the Quick Edit page-parent drop-down.
 		 *
 		 * @since 2.7.0
 		 *
@@ -1368,7 +1524,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	<?php	endif; // !$bulk
 
-			if ( 'page' == $screen->post_type ) :
+			if ( 'page' === $screen->post_type ) :
 	?>
 
 			<label>
@@ -1408,7 +1564,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php if ( post_type_supports( $screen->post_type, 'comments' ) || post_type_supports( $screen->post_type, 'trackbacks' ) ) :
 		if ( $bulk ) : ?>
 
-			<div class="inline-edit-group">
+			<div class="inline-edit-group wp-clearfix">
 		<?php if ( post_type_supports( $screen->post_type, 'comments' ) ) : ?>
 			<label class="alignleft">
 				<span class="title"><?php _e( 'Comments' ); ?></span>
@@ -1432,7 +1588,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 	<?php else : // $bulk ?>
 
-			<div class="inline-edit-group">
+			<div class="inline-edit-group wp-clearfix">
 			<?php if ( post_type_supports( $screen->post_type, 'comments' ) ) : ?>
 				<label class="alignleft">
 					<input type="checkbox" name="comment_status" value="open" />
@@ -1449,7 +1605,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php endif; // $bulk
 	endif; // post_type_supports comments or pings ?>
 
-			<div class="inline-edit-group">
+			<div class="inline-edit-group wp-clearfix">
 				<label class="inline-edit-status alignleft">
 					<span class="title"><?php _e( 'Status' ); ?></span>
 					<select name="_status">
@@ -1468,7 +1624,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 					</select>
 				</label>
 
-	<?php if ( 'post' == $screen->post_type && $can_publish && current_user_can( $post_type_object->cap->edit_others_posts ) ) : ?>
+	<?php if ( 'post' === $screen->post_type && $can_publish && current_user_can( $post_type_object->cap->edit_others_posts ) ) : ?>
 
 	<?php	if ( $bulk ) : ?>
 
@@ -1506,13 +1662,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 			<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
 			<option value="0"><?php echo get_post_format_string( 'standard' ); ?></option>
 			<?php
-
-			foreach ( $post_formats[0] as $format ) {
-				?>
-				<option value="<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></option>
-				<?php
+			if ( is_array( $post_formats[0] ) ) {
+				foreach ( $post_formats[0] as $format ) {
+					?>
+					<option value="<?php echo esc_attr( $format ); ?>"><?php echo esc_html( get_post_format_string( $format ) ); ?></option>
+					<?php
+				}
 			}
-
 			?>
 		</select></label>
 	<?php
@@ -1548,8 +1704,8 @@ class WP_Posts_List_Table extends WP_List_Table {
 				 *
 				 * @since 2.7.0
 				 *
-				 * @param string  $column_name Name of the column to edit.
-				 * @param WP_Post $post_type   The post type slug.
+				 * @param string $column_name Name of the column to edit.
+				 * @param string $post_type   The post type slug.
 				 */
 				do_action( 'quick_edit_custom_box', $column_name, $screen->post_type );
 			}

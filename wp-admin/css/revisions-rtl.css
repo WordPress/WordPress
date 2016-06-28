@@ -141,7 +141,7 @@ body.folded .revisions .loading-indicator {
 }
 
 .revisions-controls .author-card .date {
-	color: #777;
+	color: #72777c;
 }
 
 .revisions-controls .author-card.autosave {
@@ -149,7 +149,7 @@ body.folded .revisions .loading-indicator {
 }
 
 .revisions-controls .author-card .author-name {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .comparing-two-revisions .diff-meta-to strong {
@@ -389,7 +389,7 @@ table.diff .diff-addedline ins {
 
 .revisions-tooltip,
 .revisions-tooltip-arrow > span {
-	border: 1px solid #d7d7d7;
+	border: 1px solid #ddd;
 	background-color: #fff;
 }
 
@@ -453,7 +453,7 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 /* jQuery UI Slider */
 .wp-slider.ui-slider {
 	position: relative;
-	border: 1px solid #d7d7d7;
+	border: 1px solid #ddd;
 	text-align: right;
 	cursor: pointer;
 }
@@ -462,8 +462,9 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	height: 18px;
-	margin-top: -3px;
+	margin-top: -5px;
 	outline: none;
+	padding: 2px;
 	position: absolute;
 	width: 18px;
 	z-index: 2;
@@ -472,25 +473,47 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 }
 
 .wp-slider .ui-slider-handle,
-.wp-slider .ui-slider-handle.ui-state-hover,
 .wp-slider .ui-slider-handle.focus {
-	background: #00a0d2;
-	border: 1px solid #0073aa;
-	-webkit-box-shadow: inset 0 1px 0 #78c8e6, 0 1px 0 rgba(0,0,0,.15);
-	box-shadow: inset 0 1px 0 #78c8e6, 0 1px 0 rgba(0,0,0,.15);
+	background: #f7f7f7;
+	border: 1px solid #ccc;
+	-webkit-box-shadow: 0 1px 0 #cccccc;
+	box-shadow: 0 1px 0 #cccccc;
 }
+
+.wp-slider .ui-slider-handle:hover,
+.wp-slider .ui-slider-handle.ui-state-hover {
+	background: #fafafa;
+	border-color: #999;
+}
+
+.wp-slider .ui-slider-handle:active,
+.wp-slider .ui-slider-handle.ui-state-active {
+	background: #eee;
+	border-color: #999;
+ 	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+ 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
+ 	-webkit-transform: translateY(1px);
+ 	-ms-transform: translateY(1px);
+ 	transform: translateY(1px);
+}
+
 
 .wp-slider .ui-slider-handle:before {
 	background: none;
 	position: absolute;
-	top: 0;
-	right: 0;
-	color: #fff;
+	top: 2px;
+	right: 2px;
+	color: #555;
 	content: "\f229";
-	font: normal 18px/1 'dashicons';
+	font: normal 18px/1 dashicons;
 	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.wp-slider .ui-slider-handle:hover:before,
+.wp-slider .ui-slider-handle.ui-state-hover:before {
+	color: #23282d;
 }
 
 .wp-slider .ui-slider-handle.from-handle:before,
@@ -500,19 +523,19 @@ div.revisions-controls > .wp-slider > .ui-slider-handle {
 }
 
 .wp-slider .ui-slider-handle.from-handle:before {
-	content: '\f139';
+	content: "\f141";
 }
 
 .wp-slider .ui-slider-handle.to-handle:before {
-	content: '\f141';
+	content: "\f139";
 }
 
 .rtl .wp-slider .ui-slider-handle.from-handle:before {
-	content: '\f141';
+	content: "\f139";
 }
 
 .rtl .wp-slider .ui-slider-handle.to-handle:before {
-	content: '\f139';
+	content: "\f141";
 	left: -1px;
 }
 

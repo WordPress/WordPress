@@ -83,6 +83,11 @@ function delete_theme($stylesheet, $redirect = '') {
 		}
 	}
 
+	// Remove the theme from allowed themes on the network.
+	if ( is_multisite() ) {
+		WP_Theme::network_disable_theme( $stylesheet );
+	}
+
 	// Force refresh of theme update information.
 	delete_site_transient( 'update_themes' );
 
@@ -163,18 +168,39 @@ function get_theme_update_available( $theme ) {
 		$theme_name = $theme->display('Name');
 		$details_url = add_query_arg(array('TB_iframe' => 'true', 'width' => 1024, 'height' => 800), $update['url']); //Theme browser inside WP? replace this, Also, theme preview JS will override this on the available list.
 		$update_url = wp_nonce_url( admin_url( 'update.php?action=upgrade-theme&amp;theme=' . urlencode( $stylesheet ) ), 'upgrade-theme_' . $stylesheet );
-		$update_onclick = 'onclick="if ( confirm(\'' . esc_js( __("Updating this theme will lose any customizations you have made. 'Cancel' to stop, 'OK' to update.") ) . '\') ) {return true;}return false;"';
 
 		if ( !is_multisite() ) {
 			if ( ! current_user_can('update_themes') ) {
-				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>.' ) . '</strong></p>',
-					$theme_name, esc_url( $details_url ), esc_attr( $theme['Name'] ), $update['new_version'] );
+				/* translators: 1: theme name, 2: theme details URL, 3: accessibility text, 4: version number */
+				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox open-plugin-details-modal" aria-label="%3$s">View version %4$s details</a>.' ) . '</strong></p>',
+					$theme_name,
+					esc_url( $details_url ),
+					/* translators: 1: theme name, 2: version number */
+					esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $update['new_version'] ) ),
+					$update['new_version']
+				);
 			} elseif ( empty( $update['package'] ) ) {
-				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a>. <em>Automatic update is unavailable for this theme.</em>' ) . '</strong></p>',
-					$theme_name, esc_url( $details_url ), esc_attr( $theme['Name'] ), $update['new_version'] );
+				/* translators: 1: theme name, 2: theme details URL, 3: accessibility text, 4: version number */
+				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox open-plugin-details-modal" aria-label="%3$s">View version %4$s details</a>. <em>Automatic update is unavailable for this theme.</em>' ) . '</strong></p>',
+					$theme_name,
+					esc_url( $details_url ),
+					/* translators: 1: theme name, 2: version number */
+					esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $update['new_version'] ) ),
+					$update['new_version']
+				);
 			} else {
-				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox" title="%3$s">View version %4$s details</a> or <a href="%5$s">update now</a>.' ) . '</strong></p>',
-					$theme_name, esc_url( $details_url ), esc_attr( $theme['Name'] ), $update['new_version'], $update_url, $update_onclick );
+				/* translators: 1: theme name, 2: theme details URL, 3: accessibility text, 4: version number, 5: update URL, 6: accessibility text */
+				$html = sprintf( '<p><strong>' . __( 'There is a new version of %1$s available. <a href="%2$s" class="thickbox open-plugin-details-modal" aria-label="%3$s">View version %4$s details</a> or <a href="%5$s" aria-label="%6$s" id="update-theme" data-slug="%7$s">update now</a>.' ) . '</strong></p>',
+					$theme_name,
+					esc_url( $details_url ),
+					/* translators: 1: theme name, 2: version number */
+					esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $theme_name, $update['new_version'] ) ),
+					$update['new_version'],
+					$update_url,
+					/* translators: %s: theme name */
+					esc_attr( sprintf( __( 'Update %s now' ), $theme_name ) ),
+					$stylesheet
+				);
 			}
 		}
 	}
@@ -187,34 +213,15 @@ function get_theme_update_available( $theme ) {
  *
  * @since 3.1.0
  *
- * @param bool $api Optional. Whether try to fetch tags from the WP.org API. Defaults to true.
+ * @param bool $api Optional. Whether try to fetch tags from the WordPress.org API. Defaults to true.
  * @return array Array of features keyed by category with translations keyed by slug.
  */
 function get_theme_feature_list( $api = true ) {
 	// Hard-coded list is used if api not accessible.
 	$features = array(
-			__( 'Colors' ) => array(
-				'black'   => __( 'Black' ),
-				'blue'    => __( 'Blue' ),
-				'brown'   => __( 'Brown' ),
-				'gray'    => __( 'Gray' ),
-				'green'   => __( 'Green' ),
-				'orange'  => __( 'Orange' ),
-				'pink'    => __( 'Pink' ),
-				'purple'  => __( 'Purple' ),
-				'red'     => __( 'Red' ),
-				'silver'  => __( 'Silver' ),
-				'tan'     => __( 'Tan' ),
-				'white'   => __( 'White' ),
-				'yellow'  => __( 'Yellow' ),
-				'dark'    => __( 'Dark' ),
-				'light'   => __( 'Light' ),
-			),
 
 		__( 'Layout' ) => array(
-			'fixed-layout'      => __( 'Fixed Layout' ),
-			'fluid-layout'      => __( 'Fluid Layout' ),
-			'responsive-layout' => __( 'Responsive Layout' ),
+			'grid-layout'   => __( 'Grid Layout' ),
 			'one-column'    => __( 'One Column' ),
 			'two-columns'   => __( 'Two Columns' ),
 			'three-columns' => __( 'Three Columns' ),
@@ -225,7 +232,6 @@ function get_theme_feature_list( $api = true ) {
 
 		__( 'Features' ) => array(
 			'accessibility-ready'   => __( 'Accessibility Ready' ),
-			'blavatar'              => __( 'Blavatar' ),
 			'buddypress'            => __( 'BuddyPress' ),
 			'custom-background'     => __( 'Custom Background' ),
 			'custom-colors'         => __( 'Custom Colors' ),
@@ -235,6 +241,7 @@ function get_theme_feature_list( $api = true ) {
 			'featured-image-header' => __( 'Featured Image Header' ),
 			'featured-images'       => __( 'Featured Images' ),
 			'flexible-header'       => __( 'Flexible Header' ),
+			'footer-widgets'        => __( 'Footer Widgets' ),
 			'front-page-post-form'  => __( 'Front Page Posting' ),
 			'full-width-template'   => __( 'Full Width Template' ),
 			'microformats'          => __( 'Microformats' ),
@@ -247,9 +254,15 @@ function get_theme_feature_list( $api = true ) {
 		),
 
 		__( 'Subject' )  => array(
-			'holiday'       => __( 'Holiday' ),
-			'photoblogging' => __( 'Photoblogging' ),
-			'seasonal'      => __( 'Seasonal' ),
+			'blog'           => __( 'Blog' ),
+			'e-commerce'     => __( 'E-Commerce' ),
+			'education'      => __( 'Education' ),
+			'entertainment'  => __( 'Entertainment' ),
+			'food-and-drink' => __( 'Food & Drink' ),
+			'holiday'        => __( 'Holiday' ),
+			'news'           => __( 'News' ),
+			'photography'    => __( 'Photography' ),
+			'portfolio'      => __( 'Portfolio' ),
 		)
 	);
 
@@ -296,27 +309,87 @@ function get_theme_feature_list( $api = true ) {
 }
 
 /**
- * Retrieve theme installer pages from WordPress Themes API.
+ * Retrieves theme installer pages from the WordPress.org Themes API.
  *
  * It is possible for a theme to override the Themes API result with three
- * filters. Assume this is for themes, which can extend on the Theme Info to
+ * Filterss. Assume this is for themes, which can extend on the Theme Info to
  * offer more choices. This is very powerful and must be used with care, when
  * overriding the filters.
  *
- * The first filter, 'themes_api_args', is for the args and gives the action as
- * the second parameter. The hook for 'themes_api_args' must ensure that an
- * object is returned.
+ * The first filter, {@see 'themes_api_args'}, is for the args and gives the action
+ * as the second parameter. The hook for {@see 'themes_api_args'} must ensure that
+ * an object is returned.
  *
- * The second filter, 'themes_api', is the result that would be returned.
+ * The second filter, {@see 'themes_api'}, allows a plugin to override the WordPress.org
+ * Theme API entirely. If `$action` is 'query_themes', 'theme_information', or 'feature_list',
+ * an object MUST be passed. If `$action` is 'hot_tags`, an array should be passed.
+ *
+ * Finally, the third filter, {@see 'themes_api_result'}, makes it possible to filter the
+ * response object or array, depending on the `$action` type.
+ *
+ * Supported arguments per action:
+ *
+ * | Argument Name      | 'query_themes' | 'theme_information' | 'hot_tags' | 'feature_list'   |
+ * | -------------------| :------------: | :-----------------: | :--------: | :--------------: |
+ * | `$slug`            | No             |  Yes                | No         | No               |
+ * | `$per_page`        | Yes            |  No                 | No         | No               |
+ * | `$page`            | Yes            |  No                 | No         | No               |
+ * | `$number`          | No             |  No                 | Yes        | No               |
+ * | `$search`          | Yes            |  No                 | No         | No               |
+ * | `$tag`             | Yes            |  No                 | No         | No               |
+ * | `$author`          | Yes            |  No                 | No         | No               |
+ * | `$user`            | Yes            |  No                 | No         | No               |
+ * | `$browse`          | Yes            |  No                 | No         | No               |
+ * | `$locale`          | Yes            |  Yes                | No         | No               |
+ * | `$fields`          | Yes            |  Yes                | No         | No               |
  *
  * @since 2.8.0
  *
- * @param string       $action The requested action. Likely values are 'theme_information',
- *                             'feature_list', or 'query_themes'.
- * @param array|object $args   Optional. Arguments to serialize for the Theme Info API.
- * @return mixed
+ * @param string       $action API action to perform: 'query_themes', 'theme_information',
+ *                             'hot_tags' or 'feature_list'.
+ * @param array|object $args   {
+ *     Optional. Array or object of arguments to serialize for the Plugin Info API.
+ *
+ *     @type string  $slug     The plugin slug. Default empty.
+ *     @type int     $per_page Number of themes per page. Default 24.
+ *     @type int     $page     Number of current page. Default 1.
+ *     @type int     $number   Number of tags to be queried.
+ *     @type string  $search   A search term. Default empty.
+ *     @type string  $tag      Tag to filter themes. Default empty.
+ *     @type string  $author   Username of an author to filter themes. Default empty.
+ *     @type string  $user     Username to query for their favorites. Default empty.
+ *     @type string  $browse   Browse view: 'featured', 'popular', 'updated', 'favorites'.
+ *     @type string  $locale   Locale to provide context-sensitive results. Default is the value of get_locale().
+ *     @type array   $fields   {
+ *         Array of fields which should or should not be returned.
+ *
+ *         @type bool $description        Whether to return the theme full description. Default false.
+ *         @type bool $sections           Whether to return the theme readme sections: description, installation,
+ *                                        FAQ, screenshots, other notes, and changelog. Default false.
+ *         @type bool $rating             Whether to return the rating in percent and total number of ratings.
+ *                                        Default false.
+ *         @type bool $ratings            Whether to return the number of rating for each star (1-5). Default false.
+ *         @type bool $downloaded         Whether to return the download count. Default false.
+ *         @type bool $downloadlink       Whether to return the download link for the package. Default false.
+ *         @type bool $last_updated       Whether to return the date of the last update. Default false.
+ *         @type bool $tags               Whether to return the assigned tags. Default false.
+ *         @type bool $homepage           Whether to return the theme homepage link. Default false.
+ *         @type bool $screenshots        Whether to return the screenshots. Default false.
+ *         @type int  $screenshot_count   Number of screenshots to return. Default 1.
+ *         @type bool $screenshot_url     Whether to return the URL of the first screenshot. Default false.
+ *         @type bool $photon_screenshots Whether to return the screenshots via Photon. Default false.
+ *         @type bool $template           Whether to return the slug of the parent theme. Default false.
+ *         @type bool $parent             Whether to return the slug, name and homepage of the parent theme. Default false.
+ *         @type bool $versions           Whether to return the list of all available versions. Default false.
+ *         @type bool $theme_url          Whether to return theme's URL. Default false.
+ *         @type bool $extended_author    Whether to return nicename or nicename and display name. Default false.
+ *     }
+ * }
+ * @return object|array|WP_Error Response object or array on success, WP_Error on failure. See the
+ *         {@link https://developer.wordpress.org/reference/functions/themes_api/ function reference article}
+ *         for more information on the make-up of possible return objects depending on the value of `$action`.
  */
-function themes_api( $action, $args = null ) {
+function themes_api( $action, $args = array() ) {
 
 	if ( is_array( $args ) ) {
 		$args = (object) $args;
@@ -331,7 +404,7 @@ function themes_api( $action, $args = null ) {
 	}
 
 	/**
-	 * Filter arguments used to query for installer pages from the WordPress.org Themes API.
+	 * Filters arguments used to query for installer pages from the WordPress.org Themes API.
 	 *
 	 * Important: An object MUST be returned to this filter.
 	 *
@@ -344,17 +417,19 @@ function themes_api( $action, $args = null ) {
 	$args = apply_filters( 'themes_api_args', $args, $action );
 
 	/**
-	 * Filter whether to override the WordPress.org Themes API.
+	 * Filters whether to override the WordPress.org Themes API.
 	 *
-	 * Returning a value of true to this filter allows a theme to completely
-	 * override the built-in WordPress.org API.
+	 * Passing a non-false value will effectively short-circuit the WordPress.org API request.
+	 *
+	 * If `$action` is 'query_themes', 'theme_information', or 'feature_list', an object MUST
+	 * be passed. If `$action` is 'hot_tags`, an array should be passed.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param bool   $bool   Whether to override the WordPress.org Themes API. Default false.
-	 * @param string $action Requested action. Likely values are 'theme_information',
-	 *                       'feature_list', or 'query_themes'.
-	 * @param object $args   Arguments used to query for installer pages from the Themes API.
+	 * @param false|object|array $override Whether to override the WordPress.org Themes API. Default false.
+	 * @param string             $action   Requested action. Likely values are 'theme_information',
+	 *                                    'feature_list', or 'query_themes'.
+	 * @param object             $args     Arguments used to query for installer pages from the Themes API.
 	 */
 	$res = apply_filters( 'themes_api', false, $action, $args );
 
@@ -388,14 +463,14 @@ function themes_api( $action, $args = null ) {
 	}
 
 	/**
-	 * Filter the returned WordPress.org Themes API response.
+	 * Filters the returned WordPress.org Themes API response.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param array|object $res    WordPress.org Themes API response.
-	 * @param string       $action Requested action. Likely values are 'theme_information',
-	 *                             'feature_list', or 'query_themes'.
-	 * @param object       $args   Arguments used to query for installer pages from the WordPress.org Themes API.
+	 * @param array|object|WP_Error $res    WordPress.org Themes API response.
+	 * @param string                $action Requested action. Likely values are 'theme_information',
+	 *                                      'feature_list', or 'query_themes'.
+	 * @param object                $args   Arguments used to query for installer pages from the WordPress.org Themes API.
 	 */
 	return apply_filters( 'themes_api_result', $res, $action, $args );
 }
@@ -414,7 +489,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	$current_theme = get_stylesheet();
 
 	/**
-	 * Filter theme data before it is prepared for JavaScript.
+	 * Filters theme data before it is prepared for JavaScript.
 	 *
 	 * Passing a non-empty array will result in wp_prepare_themes_for_js() returning
 	 * early with that value instead.
@@ -463,6 +538,16 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			$parents[ $slug ] = $theme->parent()->get_stylesheet();
 		}
 
+		$customize_action = null;
+		if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) {
+			$customize_action = esc_url( add_query_arg(
+				array(
+					'return' => urlencode( esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ),
+				),
+				wp_customize_url( $slug )
+			) );
+		}
+
 		$prepared_themes[ $slug ] = array(
 			'id'           => $slug,
 			'name'         => $theme->display( 'Name' ),
@@ -478,14 +563,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			'update'       => get_theme_update_available( $theme ),
 			'actions'      => array(
 				'activate' => current_user_can( 'switch_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug ), 'switch-theme_' . $slug ) : null,
-				'customize' => ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) ? wp_customize_url( $slug ) : null,
-				'preview'   => add_query_arg( array(
-					'preview'        => 1,
-					'template'       => urlencode( $theme->get_template() ),
-					'stylesheet'     => urlencode( $slug ),
-					'preview_iframe' => true,
-					'TB_iframe'      => true,
-				), home_url( '/' ) ),
+				'customize' => $customize_action,
 				'delete'   => current_user_can( 'delete_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=delete&amp;stylesheet=' . $encoded_slug ), 'delete-theme_' . $slug ) : null,
 			),
 		);
@@ -497,7 +575,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 	}
 
 	/**
-	 * Filter the themes prepared for JavaScript, for themes.php.
+	 * Filters the themes prepared for JavaScript, for themes.php.
 	 *
 	 * Could be useful for changing the order, which is by name by default.
 	 *
@@ -521,13 +599,13 @@ function customize_themes_print_templates() {
 	?>
 	<script type="text/html" id="tmpl-customize-themes-details-view">
 		<div class="theme-backdrop"></div>
-		<div class="theme-wrap">
+		<div class="theme-wrap wp-clearfix">
 			<div class="theme-header">
 				<button type="button" class="left dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show previous theme' ); ?></span></button>
 				<button type="button" class="right dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Show next theme' ); ?></span></button>
 				<button type="button" class="close dashicons dashicons-no"><span class="screen-reader-text"><?php _e( 'Close details dialog' ); ?></span></button>
 			</div>
-			<div class="theme-about">
+			<div class="theme-about wp-clearfix">
 				<div class="theme-screenshots">
 				<# if ( data.screenshot[0] ) { #>
 					<div class="screenshot"><img src="{{ data.screenshot[0] }}" alt="" /></div>
@@ -540,8 +618,8 @@ function customize_themes_print_templates() {
 					<# if ( data.active ) { #>
 						<span class="current-label"><?php _e( 'Current Theme' ); ?></span>
 					<# } #>
-					<h3 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></span></h3>
-					<h4 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' ); ?></h4>
+					<h2 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></span></h2>
+					<h3 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' ); ?></h3>
 					<p class="theme-description">{{{ data.description }}}</p>
 
 					<# if ( data.parent ) { #>

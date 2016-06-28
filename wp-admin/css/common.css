@@ -71,26 +71,22 @@
 
 /* 2 columns main area */
 
-#col-container,
-#col-left,
-#col-right {
-	overflow: hidden;
-	padding: 0;
-	margin: 0;
-}
-
 #col-left {
+	float: left;
 	width: 35%;
 }
 
 #col-right {
 	float: right;
-	clear: right;
 	width: 65%;
 }
 
-.col-wrap {
-	padding: 0 7px;
+#col-left .col-wrap {
+	padding: 0 6px 0 0;
+}
+
+#col-right .col-wrap {
+	padding: 0 0 0 6px;
 }
 
 /* utility classes */
@@ -111,6 +107,13 @@
 }
 
 .clear {
+	clear: both;
+}
+
+/* modern clearfix */
+.wp-clearfix:after {
+	content: "";
+	display: table;
 	clear: both;
 }
 
@@ -144,7 +147,7 @@
 	font-weight: 600;
 	padding: 15px 23px 14px;
 	background: #f1f1f1;
-	color: #21759b;
+	color: #0073aa;
 	z-index: 100000;
 	line-height: normal;
 	-webkit-box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
@@ -205,13 +208,10 @@ body {
 	padding: 0;
 }
 
-html {
-	background: #f1f1f1;
-}
-
 body {
+	background: #f1f1f1;
 	color: #444;
-	font-family: "Open Sans", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
 	font-size: 13px;
 	line-height: 1.4em;
 	min-width: 600px;
@@ -264,13 +264,15 @@ a:active {
 	color: #00a0d2;
 }
 
-a:focus {
+a:focus,
+a:focus .media-icon img,
+.wp-person a:focus .gravatar {
 	color: #124964;
-    -webkit-box-shadow:
-    	0 0 0 1px #5b9dd9,
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
-    box-shadow:
-    	0 0 0 1px #5b9dd9,
+	box-shadow:
+		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
@@ -294,7 +296,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-	content: '';
+	content: "";
 	content: none;
 }
 
@@ -324,24 +326,24 @@ h6 {
 }
 
 h1 {
+	color: #23282d;
 	font-size: 2em;
 	margin: .67em 0;
 }
 
-.wrap > h1,
-h2 {
-	color: #23282d;
-	font-size: 1.5em;
-	margin: .83em 0;
-	font-weight: 400;
-}
-
+h2,
 h3 {
 	color: #23282d;
 	font-size: 1.3em;
 	margin: 1em 0;
 }
 
+.update-core-php h2 {
+	margin-top: 2em;
+}
+
+.update-php h2,
+.update-messages h2,
 h4 {
 	font-size: 1em;
 	margin: 1.33em 0;
@@ -434,8 +436,8 @@ code {
 
 .subsubsub a .count,
 .subsubsub a.current .count {
-	color: #999;
-	font-weight: normal;
+	color: #555d66; /* #f1f1f1 background */
+	font-weight: 400;
 }
 
 .subsubsub a.current {
@@ -507,6 +509,7 @@ code {
 }
 
 .widefat th input,
+.updates-table td input,
 .widefat thead td input,
 .widefat tfoot td input {
 	margin: 0 0 0 8px;
@@ -520,29 +523,21 @@ code {
 	vertical-align: top;
 }
 
-.widefat th input[type=checkbox],
-.widefat thead td input[type=checkbox],
-.widefat tfoot td input[type=checkbox] {
-	margin-top: -1px;
-}
-
 .widefat tbody th.check-column {
 	padding: 9px 0 22px;
 }
 
-.widefat.media .check-column {
-	padding-top: 8px;
-}
-
 .widefat thead td.check-column,
 .widefat tbody th.check-column,
+.updates-table tbody td.check-column,
 .widefat tfoot td.check-column {
 	padding: 11px 0 0 3px;
 }
 
 .widefat thead td.check-column,
 .widefat tfoot td.check-column {
-	padding-top: 10px;
+	padding-top: 4px;
+	vertical-align: middle;
 }
 
 .update-php div.updated,
@@ -570,25 +565,23 @@ code {
 	margin: 10px 20px 0 2px;
 }
 
-.wrap h1,
-.wrap h2,
-.subtitle {
-	font-weight: normal;
-	margin: 0;
-}
-
-.wrap h1,
-.wrap h2 {
+.wrap > h2:first-child, /* Back-compat for pre-4.4 */
+.wrap [class$="icon32"] + h2, /* Back-compat for pre-4.4 */
+.postbox .inside h2, /* Back-compat for pre-4.4 */
+.wrap h1 {
 	font-size: 23px;
 	font-weight: 400;
+	margin: 0;
 	padding: 9px 15px 4px 0;
 	line-height: 29px;
 }
 
 .subtitle {
-	color: #777;
-	font-size: 14px;
+	margin: 0;
 	padding-left: 25px;
+	color: #555d66;
+	font-size: 14px;
+	font-weight: 400;
 }
 
 .wrap .add-new-h2, /* deprecated */
@@ -601,18 +594,29 @@ code {
 	top: -3px;
 	text-decoration: none;
 	border: none;
+	border: 1px solid #ccc;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
-	background: #e0e0e0;
+	background: #f7f7f7;
 	text-shadow: none;
 	font-weight: 600;
 	font-size: 13px;
+	line-height: normal; /* IE8-IE11 need this for buttons */
+	cursor: pointer;
+	outline: 0;
 }
 
 .wrap .add-new-h2:hover, /* deprecated */
 .wrap .page-title-action:hover {
+	border-color: #008EC2;
 	background: #00a0d2;
 	color: #fff;
+}
+
+.wrap .page-title-action:focus {
+	border-color: #5b9dd9;
+	-webkit-box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
+	box-shadow: 0 0 2px rgba( 30, 140, 190, 0.8 );
 }
 
 .wrap h1.long-header {
@@ -653,11 +657,6 @@ ul.striped > :nth-child(odd),
 	border-right-color: #99d;
 }
 
-.media-upload-form label.form-help,
-td.help {
-	color: #9a9a9a;
-}
-
 /* Helper classes for plugins to leverage the active WordPress color scheme */
 
 .highlight {
@@ -690,7 +689,7 @@ td.help {
 }
 
 .wp-ui-text-icon {
-	color: #999;
+	color: #82878c; /* same as new icons */
 }
 
 /* For emoji replacement images */
@@ -758,9 +757,9 @@ img.emoji {
 .notice-dismiss:before {
 	background: none;
 	color: #b4b9be;
-	content: '\f153';
+	content: "\f153";
 	display: block;
-	font: normal 16px/20px 'dashicons';
+	font: normal 16px/20px dashicons;
 	speak: none;
 	height: 20px;
 	text-align: center;
@@ -834,6 +833,7 @@ hr {
 }
 
 abbr.required,
+span.required,
 .file-error,
 .widget-control-remove:hover,
 .row-actions .delete a:hover,
@@ -887,6 +887,10 @@ abbr.required,
 	padding: 6px 10px 8px;
 }
 
+.misc-pub-filename {
+	word-wrap: break-word;
+}
+
 #minor-publishing-actions {
 	padding: 10px 10px 0 10px;
 	text-align: right;
@@ -902,26 +906,6 @@ abbr.required,
 
 #sticky-span {
 	margin-left: 18px;
-}
-
-.side-info {
-	margin: 0;
-	padding: 4px;
-	font-size: 11px;
-}
-
-.side-info h5 {
-	padding-bottom: 7px;
-	font-size: 14px;
-	margin: 12px 2px 5px;
-	border-bottom: 1px solid #dadada;
-}
-
-.side-info ul {
-	margin: 0;
-	padding-left: 18px;
-	list-style: square;
-	color: #666;
 }
 
 .approve,
@@ -976,7 +960,7 @@ th.action-links {
 	padding: 4px 10px;
 	-webkit-border-radius: 30px;
 	border-radius: 30px;
-	background: #777;
+	background: #72777c;
 	color: #fff;
 	font-size: 14px;
 	font-weight: 600;
@@ -1067,15 +1051,15 @@ th.action-links {
 	margin: 0 5px 0 0;
 	width: 16px;
 	height: 16px;
-	color: #777;
+	color: #72777c;
 	-webkit-transition: color .1s ease-in 0;
 	transition: color .1s ease-in 0;
-	font-family: "dashicons";
+	font-family: dashicons;
 	font-size: 16px;
 	line-height: 1;
 	text-align: center;
 	text-decoration: inherit;
-	font-weight: normal;
+	font-weight: 400;
 	font-style: normal;
 	-webkit-font-smoothing: antialiased;
 }
@@ -1087,6 +1071,20 @@ th.action-links {
 
 .wp-filter .drawer-toggle.current:before {
 	color: #fff;
+}
+
+.wp-filter .favorites-form {
+	display: none;
+	margin: 0 -20px;
+	padding: 20px;
+	border-top: 1px solid #eee;
+	background: #fafafa;
+	overflow: hidden;
+	width: 100%;
+}
+
+.show-favorites-form .wp-filter .favorites-form {
+	display: block;
 }
 
 .filter-drawer {
@@ -1116,7 +1114,7 @@ th.action-links {
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
 	border: none;
-	background: #777;
+	background: #72777c;
 	color: #fff;
 }
 
@@ -1128,9 +1126,10 @@ th.action-links {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+	position: relative;
 	float: left;
 	margin: 0 1% 0 0;
-	padding: 10px;
+	padding: 20px 10px 10px;
 	width: 24%;
 	background: #fff;
 	border: 1px solid #e5e5e5;
@@ -1138,24 +1137,27 @@ th.action-links {
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 }
 
-.filter-group h4 {
-	position: relative;
+.filter-group legend {
+	position: absolute;
+	top: 10px;
+	display: block;
 	margin: 0;
+	padding: 0;
+	font-size: 1em;
+	font-weight: 600;
 }
 
-.filter-drawer ol {
-	margin: 20px 0 0;
+.filter-drawer .filter-group-feature {
+	margin: 28px 0 0;
 	list-style-type: none;
 	font-size: 12px;
 }
 
-.filter-drawer li {
+.filter-drawer .filter-group-feature input,
+.filter-drawer .filter-group-feature label {
 	display: inline-block;
-	vertical-align: top;
-	margin: 5px 0;
-	padding-right: 25px;
-	width: 160px;
-	list-style-type: none;
+	margin: 7px 4px 7px 0;
+	line-height: 16px;
 }
 
 .filter-drawer .buttons {
@@ -1300,11 +1302,35 @@ div.error {
 }
 
 .notice p,
+.notice-title,
 div.updated p,
 div.error p,
 .form-table td .notice p {
 	margin: 0.5em 0;
 	padding: 2px;
+}
+
+.error a {
+	text-decoration: underline;
+}
+
+.updated a {
+	padding-bottom: 2px;
+}
+
+.notice-alt {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.notice-large {
+	padding: 10px 20px;
+}
+
+.notice-title {
+	display: inline-block;
+	color: #23282d;
+	font-size: 18px;
 }
 
 .wp-core-ui .notice.is-dismissible {
@@ -1342,20 +1368,51 @@ div.error p,
 
 .notice-success,
 div.updated {
-	border-color: #7ad03a;
+	border-left-color: #46b450;
+}
+
+.notice-success.notice-alt {
+	background-color: #ecf7ed;
 }
 
 .notice-warning {
-	border-color: #ffba00;
+	border-left-color: #ffb900;
+}
+
+.notice-warning.notice-alt {
+	background-color: #fff8e5;
 }
 
 .notice-error,
 div.error {
-	border-color: #dd3d36;
+	border-left-color: #dc3232;
+}
+
+.notice-error.notice-alt {
+	background-color: #fbeaea;
 }
 
 .notice-info {
-	border-color: #00a0d2;
+	border-left-color: #00a0d2;
+}
+
+.notice-info.notice-alt {
+	background-color: #e5f5fa;
+}
+
+.update-message p:before,
+.updating-message p:before,
+.updated-message p:before,
+.import-php .updating-message:before,
+.button.updating-message:before,
+.button.updated-message:before,
+.button.installed:before,
+.button.installing:before {
+	display: inline-block;
+	font: normal 20px/1 'dashicons';
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	vertical-align: top;
 }
 
 .wrap .notice,
@@ -1364,6 +1421,45 @@ div.error {
 .media-upload-form .notice,
 .media-upload-form div.error {
 	margin: 5px 0 15px;
+}
+
+/* Update icon. */
+.update-message p:before,
+.updating-message p:before,
+.import-php .updating-message:before,
+.button.updating-message:before,
+.button.installing:before {
+	color: #f56e28;
+	content: "\f463";
+}
+
+/* Spins the update icon. */
+.updating-message p:before,
+.import-php .updating-message:before,
+.button.updating-message:before,
+.button.installing:before {
+	-webkit-animation: rotation 2s infinite linear;
+	animation: rotation 2s infinite linear;
+}
+
+/* Updated icon (check mark). */
+.updated-message p:before,
+.installed p:before,
+.button.updated-message:before {
+	color: #79ba49;
+	content: '\f147';
+}
+
+/* Error icon. */
+.update-message.notice-error p:before {
+	 color: #dc3232;
+	 content: "\f534";
+}
+
+.wrap .notice p:before,
+.import-php .updating-message:before {
+	margin-right: 6px;
+	vertical-align: bottom;
 }
 
 #update-nag,
@@ -1378,10 +1474,6 @@ div.error {
 	border-left: 4px solid #ffba00;
 	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
 	box-shadow: 0 1px 1px 0 rgba(0,0,0,0.1);
-}
-
-.update-message {
-	color: #000;
 }
 
 ul#dismissed-updates {
@@ -1414,6 +1506,50 @@ form.upgrade .hint {
 #ajax-response.alignleft {
 	margin-left: 2em;
 }
+
+.button.updating-message:before,
+.button.updated-message:before,
+.button.installed:before,
+.button.installing:before {
+	margin: 3px 5px 0 -2px;
+}
+
+.button-primary.updating-message:before {
+	color: #fff;
+}
+
+.button-primary.updated-message:before {
+	color: #66c6e4;
+}
+
+.button.updated-message,
+.notice .button-link {
+	-webkit-transition-property: border, background, color;
+	transition-property: border, background, color;
+	-webkit-transition-duration: .05s;
+	transition-duration: .05s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+}
+
+.notice .button-link {
+	color: #0073aa;
+}
+
+.notice .button-link:hover,
+.notice .button-link:active {
+	color: #00a0d2;
+}
+
+@media aural {
+	.wrap .notice p:before,
+	.button.installing:before,
+	.button.installed:before,
+	.update-message p:before {
+		speak: none;
+	}
+}
+
 
 /* @todo: this does not need its own section anymore */
 /*------------------------------------------------------------------------------
@@ -1483,7 +1619,7 @@ form.upgrade .hint {
 	background: none;
 	-webkit-border-radius: 0;
 	border-radius: 0;
-	color: #777;
+	color: #72777c;
 	line-height: 1.7;
 	padding: 3px 6px 3px 16px;
 }
@@ -1494,10 +1630,18 @@ form.upgrade .hint {
 	color: #32373c;
 }
 
+#screen-meta-links .show-settings:active {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	-webkit-transform: none;
+	-ms-transform: none;
+	transform: none;
+}
+
 #screen-meta-links .show-settings:after {
 	right: 0;
-	content: '\f140';
-	font: normal 20px/1 'dashicons';
+	content: "\f140";
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
 	padding: 0 5px 0 0;
@@ -1507,11 +1651,11 @@ form.upgrade .hint {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
-	color: #b4b9be;
+	color: #72777c;
 }
 
 #screen-meta-links .screen-meta-active:after {
-	content: '\f142';
+	content: "\f142";
 }
 
 /* end screen options and help tabs */
@@ -1529,10 +1673,17 @@ form.upgrade .hint {
 	background-position: bottom left;
 }
 
-#screen-options-wrap h5,
+#screen-options-wrap h5, /* Back-compat for old plugins */
+#screen-options-wrap legend,
 #contextual-help-wrap h5 {
-	margin: 8px 0;
-	font-size: 13px;
+	margin: 0;
+	padding: 8px 0;
+ 	font-size: 13px;
+	font-weight: 600;
+}
+
+.ie8 #screen-options-wrap legend {
+	color: inherit;
 }
 
 .metabox-prefs label {
@@ -1541,25 +1692,28 @@ form.upgrade .hint {
 	line-height: 30px;
 }
 
-.metabox-prefs label input[type=checkbox] {
-	margin-top: -4px;
+#number-of-columns {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 30px;
+}
+
+.metabox-prefs input[type=checkbox] {
+	margin-top: 0;
 	margin-right: 6px;
 }
 
-.metabox-prefs label input {
-	margin: 0 5px 0 2px;
+.metabox-prefs label input,
+.metabox-prefs label input[type=checkbox] {
+	margin: -4px 5px 0 0;
 }
 
 .metabox-prefs .columns-prefs label input {
-	margin: 0 2px;
+	margin: -1px 2px 0 0;
 }
 
 .metabox-prefs label a {
 	display: none;
-}
-
-.metabox-prefs .screen-options {
-	padding-top: 10px;
 }
 
 .metabox-prefs .screen-options input,
@@ -1576,6 +1730,15 @@ form.upgrade .hint {
 .metabox-prefs .screen-options label {
 	line-height: 28px;
 	padding-right: 0;
+}
+
+.screen-options + .screen-options {
+	margin-top: 10px;
+}
+
+.metabox-prefs .submit {
+	margin-top: 1em;
+	padding: 0;
 }
 
 /*------------------------------------------------------------------------------
@@ -1701,7 +1864,7 @@ html.wp-toolbar {
 .widefat th,
 .widefat thead td,
 .widefat tfoot td {
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .widefat thead tr th,
@@ -1725,6 +1888,11 @@ html.wp-toolbar {
 	margin: 0.6em 0;
 }
 
+.widefat .column-comment ul {
+	list-style: initial;
+	margin-left: 2em;
+}
+
 /* Screens with postboxes */
 .postbox-container {
 	float: left;
@@ -1743,6 +1911,23 @@ html.wp-toolbar {
 .metabox-holder .postbox-container .empty-container {
 	border: 3px dashed #b4b9be;
 	height: 250px;
+	position: relative;
+}
+
+.metabox-holder .postbox-container .empty-container:after {
+	content: attr(data-emptystring);
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	height: 1em;
+	width: 200px;
+	text-align: center;
+	color: #ccc;
+	font-size:18px;
+	display: none;
 }
 
 .metabox-holder.columns-1 .postbox-container .empty-container,
@@ -1786,17 +1971,19 @@ html.wp-toolbar {
 
 .hndle a {
 	font-size: 11px;
-	font-weight: normal;
+	font-weight: 400;
 }
 
 .postbox .handlediv {
+	display: none;
 	float: right;
-	width: 27px;
-	height: 30px;
+	width: 36px;
+	height: 36px;
+	padding: 0;
 }
 
 .js .postbox .handlediv {
-	cursor: pointer;
+	display: block;
 }
 
 .sortable-placeholder {
@@ -1857,7 +2044,7 @@ html.wp-toolbar {
 }
 
 .columns-prefs label {
-	padding: 0 5px;
+	padding: 0 10px 0 0;
 }
 
 /* @todo: what is this doing here */
@@ -1887,7 +2074,7 @@ html.wp-toolbar {
 	left: 0;
 	right: 0;
 	padding: 10px 20px;
-	color: #777;
+	color: #555d66;
 }
 
 #wpfooter p {
@@ -1913,50 +2100,76 @@ html.wp-toolbar {
 ------------------------------------------------------------------------------*/
 
 .nav-tab {
+	float: left;
 	border: 1px solid #ccc;
 	border-bottom: none;
-	background: #e4e4e4;
+	margin-left: 0.5em; /* half the font size so set the font size properly */
+	padding: 5px 10px;
+	font-size: 14px;
+	line-height: 24px;
+	font-weight: 600;
+	background: #e5e5e5;
 	color: #555;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+h3 .nav-tab, /* Back-compat for pre-4.4 */
+.nav-tab-small .nav-tab {
+	padding: 5px 14px;
 	font-size: 12px;
 	line-height: 16px;
-	display: inline-block;
-	padding: 4px 14px 6px;
-	text-decoration: none;
-	margin: -4px 4px -1px 0;
 }
 
-.nav-tab:hover {
+.nav-tab:hover,
+.nav-tab:focus {
 	background-color: #fff;
-	color: #464646;
-}
-
-.nav-tab-active {
-	color: #464646;
+	color: #444;
 }
 
 .nav-tab-active,
-.nav-tab-active:hover {
+.nav-tab:focus:active {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+
+.nav-tab-active {
+	margin-bottom: -1px;
+	color: #444;
+}
+
+.nav-tab-active,
+.nav-tab-active:hover,
+.nav-tab-active:focus,
+.nav-tab-active:focus:active {
 	border-bottom: 1px solid #f1f1f1;
 	background: #f1f1f1;
 	color: #000;
 }
 
-h1.nav-tab-wrapper,
-h2.nav-tab-wrapper,
+h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
+.wrap h2.nav-tab-wrapper, /* higher specificity to override .wrap > h2:first-child */
 h3.nav-tab-wrapper {
 	border-bottom: 1px solid #ccc;
+	margin: 0;
+	padding-top: 9px;
 	padding-bottom: 0;
-	padding-left: 10px;
+	line-height: inherit;
 }
 
-h1 .nav-tab,
-h2 .nav-tab {
-	padding: 6px 10px;
-	font-weight: bold;
-	font-size: 15px;
-	line-height: 24px;
-}
+/* Back-compat for plugins. Deprecated. Use .wp-clearfix instead. */
+.nav-tab-wrapper:not(.wp-clearfix):after {
+ 	content: "";
+ 	display: table;
+ 	clear: both;
+ }
 
+.ie8 .nav-tab-wrapper {
+	/* contain floats establishing a new block formatting context */
+	display: inline-block;
+	width: 100%;
+	vertical-align: top;
+}
 
 /*------------------------------------------------------------------------------
   26.0 - Misc
@@ -1977,7 +2190,8 @@ h2 .nav-tab {
 	margin: 4px 10px 0;
 }
 
-.spinner.is-active {
+.spinner.is-active,
+.loading-content .spinner {
 	visibility: visible;
 }
 
@@ -1985,11 +2199,20 @@ h2 .nav-tab {
 	margin-right: 190px;
 }
 
-.metabox-holder h3 {
+.metabox-holder .stuffbox > h3, /* Back-compat for pre-4.4 */
+.metabox-holder .postbox > h3, /* Back-compat for pre-4.4 */
+.metabox-holder h3.hndle, /* Back-compat for pre-4.4 */
+.metabox-holder h2.hndle {
 	font-size: 14px;
 	padding: 8px 12px;
 	margin: 0;
 	line-height: 1.4;
+}
+
+/* Back-compat for nav-menus screen */
+.nav-menus-php .metabox-holder h3 {
+	padding: 10px 10px 11px 14px;
+	line-height: 21px;
 }
 
 #templateside ul li a {
@@ -2029,24 +2252,13 @@ body.iframe {
 
 /* - Only used once or twice in all of WP - deprecate for global style
 ------------------------------------------------------------------------------*/
-td.media-icon {
+.media-icon {
+	width: 62px; /* icon + border */
 	text-align: center;
-	width: 80px;
-	padding-top: 8px;
-	padding-bottom: 8px;
 }
 
-td.media-icon a {
-	display: inline-block;
-}
-
-td.media-icon img {
-	display: block;
-	max-width: 80px;
-	max-height: 60px;
-	width: auto;
-	height: auto;
-	border: 1px solid #e7e7e7;
+.media-icon img {
+	border: 1px solid #e5e5e5;
 	border: 1px solid rgba(0, 0, 0, 0.07);
 }
 
@@ -2065,7 +2277,8 @@ td.media-icon img {
 	width: auto;
 }
 
-#post-body #post-body-content #namediv h3 {
+#post-body #post-body-content #namediv h3, /* Back-compat for pre-4.4 */
+#post-body #post-body-content #namediv h2 {
 	margin-top: 0;
 }
 
@@ -2074,9 +2287,11 @@ td.media-icon img {
 	line-height: 1.4;
 	font-weight: 600;
 	color: #222;
+	margin: 2px 0 0 9px;
 }
 
-#namediv h3 label {
+#namediv h3 label, /* Back-compat for pre-4.4 */
+#namediv h2 label {
 	vertical-align: baseline;
 }
 
@@ -2165,9 +2380,9 @@ div.star-holder .star-rating {
 	-webkit-font-smoothing: antialiased;
 	font-size: 20px;
 	line-height: 1;
-	font-family: 'dashicons';
+	font-family: dashicons;
 	text-decoration: inherit;
-	font-weight: normal;
+	font-weight: 400;
 	font-style: normal;
 	vertical-align: top;
 	-webkit-transition: color .1s ease-in 0;
@@ -2177,11 +2392,11 @@ div.star-holder .star-rating {
 }
 
 .star-rating .star-full:before {
-	content:'\f155';
+	content: "\f155";
 }
 
 .star-rating .star-half:before {
-	content:'\f459';
+	content: "\f459";
 }
 
 .rtl .star-rating .star-half {
@@ -2191,11 +2406,11 @@ div.star-holder .star-rating {
 }
 
 .star-rating .star-empty:before {
-	content:'\f154';
+	content: "\f154";
 }
 
 div.action-links {
-	font-weight: normal;
+	font-weight: 400;
 	margin: 6px 0 0;
 }
 
@@ -2243,7 +2458,7 @@ div.action-links {
 
 #plugin-information-title h2 {
 	font-size: 1em;
-	font-weight: bold;
+	font-weight: 600;
 	padding: 0;
 	margin: 0;
 	max-width: 680px;
@@ -2289,7 +2504,8 @@ div.action-links {
 	position: relative;
 	right: 0;
 	left: 0;
-	height: 36px;
+	min-height: 36px;
+	font-size: 0;
 	z-index: 1;
 	border-bottom: 1px solid #ddd;
 	background: #f3f3f3;
@@ -2297,7 +2513,7 @@ div.action-links {
 
 #plugin-information-tabs a {
 	position: relative;
-	float: left;
+	display: inline-block;
 	padding: 9px 10px;
 	margin: 0;
 	height: 18px;
@@ -2309,7 +2525,7 @@ div.action-links {
 }
 
 #plugin-information-tabs a.current {
-	margin: 0 -1px 0;
+	margin: 0 -1px -1px;
 	background: #fff;
 	border: 1px solid #ddd;
 	border-bottom-color: #fff;
@@ -2354,7 +2570,7 @@ div.action-links {
 	left: 0;
 	margin-right: 250px; /* FYI box */
 	padding: 10px 26px;
-	margin-bottom: -99930px; /* a bit less than the padding below to accommodate footer */
+	margin-bottom: -99939px; /* 60px less than the padding below to accommodate footer */
 	padding-bottom: 99999px; /* equal height column trick */
 }
 
@@ -2363,13 +2579,12 @@ div.action-links {
 }
 
 #plugin-information .fyi {
-	display: block;
 	float: right;
 	position: relative;
 	top: 0;
 	right: 0;
 	padding: 16px;
-	margin-bottom: -99930px; /* slightly less than the padding below to accommodate footer */
+	margin-bottom: -99939px; /* 60px less than the padding below to accommodate footer */
 	padding-bottom: 99999px; /* equal height column trick */
 	width: 217px;
 	border-left: 1px solid #ddd;
@@ -2378,11 +2593,11 @@ div.action-links {
 }
 
 #plugin-information .fyi strong {
-	color: #464646;
+	color: #444;
 }
 
 #plugin-information .fyi h3 {
-	font-weight: bold;
+	font-weight: 600;
 	text-transform: uppercase;
 	font-size: 12px;
 	color: #666;
@@ -2405,6 +2620,10 @@ div.action-links {
 	margin: 0 0 10px;
 }
 
+#plugin-information .fyi-description {
+	margin-top: 0;
+}
+
 #plugin-information .counter-container {
 	margin: 3px 0;
 }
@@ -2418,7 +2637,7 @@ div.action-links {
 #plugin-information .counter-back {
 	height: 17px;
 	width: 92px;
-	background-color: #ececec;
+	background-color: #e5e5e5;
 	float: left;
 }
 
@@ -2454,12 +2673,12 @@ div.action-links {
 }
 
 #plugin-information-footer {
-	padding: 15px 16px;
+	padding: 13px 16px;
 	position: absolute;
 	right: 0;
 	bottom: 0;
 	left: 0;
-	height: 28px;
+	height: 33px; /* 33+13+13+1=60 */
 	border-top: 1px solid #ddd;
 	background: #f3f3f3;
 }
@@ -2514,7 +2733,7 @@ div.action-links {
 	overflow: hidden; /* clearfix */
 	width: 100%;
 	margin-bottom: 20px;
-	border-bottom: 1px solid #e6e6e6;
+	border-bottom: 1px solid #e5e5e5;
 }
 
 #plugin-information .review-title-section {
@@ -2618,29 +2837,63 @@ div.action-links {
 }
 
 /* Thickbox for Plugin Install screen */
+body.about-php #TB_window,
 body.plugin-install-php #TB_window,
 body.import-php #TB_window,
 body.plugins-php #TB_window,
 body.update-core-php #TB_window,
 body.index-php #TB_window {
-	background: #fcfcfc url( ../images/spinner.gif ) no-repeat center;
+	background: #fcfcfc;
+}
+
+/* IE 8 needs a change in the pseudo element content */
+.ie8 body.about-php #TB_window:before,
+.ie8 body.plugin-install-php #TB_window:before,
+.ie8 body.import-php #TB_window:before,
+.ie8 body.plugins-php #TB_window:before,
+.ie8 body.update-core-php #TB_window:before,
+.ie8 body.index-php #TB_window:before {
+	content: " ";
+	background: none;
+}
+
+body.about-php #TB_window.thickbox-loading:before,
+body.plugin-install-php #TB_window.thickbox-loading:before,
+body.import-php #TB_window.thickbox-loading:before,
+body.plugins-php #TB_window.thickbox-loading:before,
+body.update-core-php #TB_window.thickbox-loading:before,
+body.index-php #TB_window.thickbox-loading:before {
+	content: "";
+	display: block;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: -1;
+	margin: -10px 0 0 -10px;
+	background: #fcfcfc url(../images/spinner.gif) no-repeat center;
+	-webkit-background-size: 20px 20px;
+	background-size: 20px 20px;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
 }
 
 @media print,
 	(-webkit-min-device-pixel-ratio: 1.25),
 	(min-resolution: 120dpi) {
 
-	body.plugin-install-php #TB_window,
-	body.import-php #TB_window,
-	body.plugins-php #TB_window,
-	body.update-core-php #TB_window,
-	body.index-php #TB_window {
-		background: #fcfcfc url( ../images/spinner-2x.gif ) no-repeat center;
-		-webkit-background-size: 20px 20px;
-		background-size: 20px 20px;
+	body.about-php #TB_window.thickbox-loading:before,
+	body.plugin-install-php #TB_window.thickbox-loading:before,
+	body.import-php #TB_window.thickbox-loading:before,
+	body.plugins-php #TB_window.thickbox-loading:before,
+	body.update-core-php #TB_window.thickbox-loading:before,
+	body.index-php #TB_window.thickbox-loading:before {
+		background-image: url(../images/spinner-2x.gif);
 	}
 }
 
+body.about-php #TB_title,
 body.plugin-install-php #TB_title,
 body.import-php #TB_title,
 body.plugins-php #TB_title,
@@ -2650,6 +2903,7 @@ body.index-php #TB_title {
 	height: 1px;
 }
 
+body.about-php #TB_ajaxWindowTitle,
 body.plugin-install-php #TB_ajaxWindowTitle,
 body.import-php #TB_ajaxWindowTitle,
 body.plugins-php #TB_ajaxWindowTitle,
@@ -2658,60 +2912,67 @@ body.index-php #TB_ajaxWindowTitle {
 	display: none;
 }
 
-body.plugin-install-php .tb-close-icon,
-body.import-php .tb-close-icon,
-body.plugins-php .tb-close-icon,
-body.update-core-php .tb-close-icon,
-body.index-php .tb-close-icon {
+/* only on these screens */
+.about-php #TB_closeWindowButton,
+.plugin-install-php #TB_closeWindowButton,
+.import-php #TB_closeWindowButton,
+.plugins-php #TB_closeWindowButton,
+.update-core-php #TB_closeWindowButton,
+.index-php #TB_closeWindowButton {
 	left: auto;
 	right: -30px;
 	color: #eee;
-	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
-	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
+
+body.about-php #TB_closeWindowButton:hover,
+body.about-php #TB_closeWindowButton:focus,
+body.plugin-install-php #TB_closeWindowButton:hover,
 body.plugin-install-php #TB_closeWindowButton:focus,
-body.plugin-install-php #TB_closeWindowButton:focus .tb-close-icon,
-body.plugin-install-php .tb-close-icon:focus,
-body.plugin-install-php .tb-close-icon:hover,
+body.import-php #TB_closeWindowButton:hover,
 body.import-php #TB_closeWindowButton:focus,
-body.import-php #TB_closeWindowButton:focus .tb-close-icon,
-body.import-php .tb-close-icon:focus,
-body.import-php .tb-close-icon:hover,
+body.plugins-php #TB_closeWindowButton:hover,
 body.plugins-php #TB_closeWindowButton:focus,
-body.plugins-php #TB_closeWindowButton:focus .tb-close-icon,
-body.plugins-php .tb-close-icon:focus,
-body.plugins-php .tb-close-icon:hover,
+body.update-core-php #TB_closeWindowButton:hover,
 body.update-core-php #TB_closeWindowButton:focus,
-body.update-core-php #TB_closeWindowButton:focus .tb-close-icon,
-body.update-core-php .tb-close-icon:focus,
-body.update-core-php .tb-close-icon:hover,
-body.index-php #TB_closeWindowButton:focus,
-body.index-php #TB_closeWindowButton:focus .tb-close-icon,
-body.index-php .tb-close-icon:focus,
-body.index-php .tb-close-icon:hover {
+body.index-php #TB_closeWindowButton:hover,
+body.index-php #TB_closeWindowButton:focus {
 	color: #00a0d2;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
-body.plugin-install-php .tb-close-icon:before,
-body.import-php .tb-close-icon:before,
-body.plugins-php .tb-close-icon:before,
-body.update-core-php .tb-close-icon:before,
-body.index-php .tb-close-icon:before {
+body.about-php .tb-close-icon,
+body.plugin-install-php .tb-close-icon,
+body.import-php .tb-close-icon,
+body.plugins-php .tb-close-icon,
+body.update-core-php .tb-close-icon,
+body.index-php .tb-close-icon {
+	display: none;
+}
+
+body.about-php #TB_closeWindowButton:after,
+body.plugin-install-php #TB_closeWindowButton:after,
+body.import-php #TB_closeWindowButton:after,
+body.plugins-php #TB_closeWindowButton:after,
+body.update-core-php #TB_closeWindowButton:after,
+body.index-php #TB_closeWindowButton:after {
 	content: "\f335";
-	font-size: 32px;
+	font: normal 32px/29px 'dashicons';
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 /* move plugin install close icon to top on narrow screens */
 @media screen and ( max-width: 830px ) {
-	body.plugin-install-php .tb-close-icon,
-	body.import-php .tb-close-icon,
-	body.plugins-php .tb-close-icon,
-	body.update-core-php .tb-close-icon,
-	body.index-php .tb-close-icon {
+	body.about-php #TB_closeWindowButton,
+	body.plugin-install-php #TB_closeWindowButton,
+	body.import-php #TB_closeWindowButton,
+	body.plugins-php #TB_closeWindowButton,
+	body.update-core-php #TB_closeWindowButton,
+	body.index-php #TB_closeWindowButton {
 		right: 0;
 		top: -30px;
 	}
@@ -2722,34 +2983,26 @@ img {
 	border: none;
 }
 
-/* Header */
-/* @todo: are these also specific to Press This? */
-#wphead {
-	border-bottom: 1px solid #dfdfdf;
-}
-
-#wphead h1 a {
-	color: #464646;
-}
-
-/* @todo: these seem misplaced */
-.js .meta-box-sortables .postbox:hover .handlediv {
-	margin-right: 0 !important;
-}
-
 /* Metabox collapse arrow indicators */
 .js .sidebar-name .sidebar-name-arrow:before,
-.js .meta-box-sortables .postbox .handlediv:before {
-	right: 12px;
-	font: normal 20px/1 'dashicons';
-	speak: none;
+.js .meta-box-sortables .postbox .toggle-indicator:before {
+	content: "\f142";
 	display: inline-block;
-	padding: 8px 10px;
-	top: 0;
-	position: relative;
+	font: normal 20px/1 dashicons;
+	speak: none;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
+}
+
+.js .widgets-holder-wrap.closed .sidebar-name-arrow:before,
+.js .meta-box-sortables .postbox.closed .handlediv .toggle-indicator:before {
+	content: "\f140";
+}
+
+.js .sidebar-name .sidebar-name-arrow:before {
+	padding: 10px;
+	left: 0;
 }
 
 .js #widgets-left .sidebar-name .sidebar-name-arrow {
@@ -2761,24 +3014,31 @@ img {
 	display: block;
 }
 
-/* Show the arrow only on hover */
-.js .sidebar-name .sidebar-name-arrow:before,
-.js .meta-box-sortables .postbox .handlediv:before {
-	content: '\f142';
+.js .postbox .handlediv .toggle-indicator:before {
+	margin-top: 4px;
+	width: 20px;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	text-indent: -1px; /* account for the dashicon alignment */
 }
 
-.js .widgets-holder-wrap.closed .sidebar-name-arrow:before,
-.js .meta-box-sortables .postbox.closed .handlediv:before {
-	content: '\f140';
+.rtl.js .postbox .handlediv .toggle-indicator:before {
+	text-indent: 1px; /* account for the dashicon alignment */
 }
 
-.error a {
-	text-decoration: underline;
+.js .postbox .handlediv:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none;
 }
 
-.updated a {
-	text-decoration: none;
-	padding-bottom: 2px;
+.js .postbox .handlediv:focus .toggle-indicator:before {
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 /* @todo: appears to be Press This only and overridden */
@@ -2787,7 +3047,7 @@ img {
 }
 
 /* Theme/Plugin Editor */
-.alignleft h3 {
+.alignleft h2 {
 	margin: 0;
 }
 
@@ -2815,7 +3075,7 @@ img {
 	word-wrap: break-word;
 }
 
-#templateside h3,
+#templateside h2,
 #postcustomstuff p.submit {
 	margin: 0;
 }
@@ -2847,7 +3107,7 @@ img {
 
 #templateside .highlight {
 	border: none;
-	font-weight: bold;
+	font-weight: 600;
 }
 
 .nonessential {
@@ -2878,10 +3138,10 @@ img {
 .control-section .accordion-section-title:after,
 .accordion-section-title:after {
 	right: 0;
-	content: '\f140';
+	content: "\f140";
 	border: none;
 	background: none;
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: block;
 	padding: 0;
@@ -2893,33 +3153,43 @@ img {
 	text-decoration: none !important;
 }
 
-.widget-action,
 .handlediv,
 .item-edit,
 .sidebar-name-arrow,
 .accordion-section-title:after {
-	color: #a0a5aa;
+	color: #72777c;
 }
 
-.widget-action:hover,
+.widget-action {
+	color: #555d66; /* #fafafa background in the Widgets screen */
+}
+
+.widget-top:hover .widget-action,
+.widget-action:focus,
 .handlediv:hover,
+.handlediv:focus,
 .item-edit:hover,
+.item-edit:focus,
 .sidebar-name:hover .sidebar-name-arrow,
 .accordion-section-title:hover:after {
-	color: #777;
+	color: #23282d;
 }
 
 .widget-top a.widget-action:after {
-	padding: 12px 12px 11px;
+	padding: 1px 2px 1px 0px;
+	margin-top: 10px;
+	margin-right: 10px;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
 }
 
 .widget-top a.widget-action:focus:after {
-	-webkit-box-shadow: 0 0 0 1px #5b9dd9,0 0 2px 1px rgba(30,140,190,.8);
-	box-shadow: 0 0 0 1px #5b9dd9,0 0 2px 1px rgba(30,140,190,.8);
-}
-
-.nav-menus-php .item-edit:before {
-	line-height: 2.1;
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30,140,190,.8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30,140,190,.8);
 }
 
 .control-section .accordion-section-title:after,
@@ -2933,7 +3203,7 @@ img {
 #customize-info.open .accordion-section-title:after,
 .nav-menus-php .menu-item-edit-active .item-edit:before,
 .widget.open .widget-top a.widget-action:after {
-	content: '\f142';
+	content: "\f142";
 }
 
 /*!
@@ -2952,7 +3222,7 @@ img {
 
 /* Accordion */
 .accordion-section {
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 	margin: 0;
 }
 
@@ -2962,7 +3232,7 @@ img {
 }
 
 .accordion-section.open:hover {
-	border-bottom-color: #dfdfdf;
+	border-bottom-color: #ddd;
 }
 
 .accordion-section-content {
@@ -2976,8 +3246,8 @@ img {
 	margin: 0;
 	padding: 12px 15px 15px;
 	position: relative;
-	border-left: 1px solid #dfdfdf;
-	border-right: 1px solid #dfdfdf;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
@@ -3034,7 +3304,7 @@ img {
 
 .control-section.open .accordion-section-title {
 	/* When expanded */
-	border-bottom: 1px solid #dfdfdf;
+	border-bottom: 1px solid #ddd;
 }
 
 /* Edit Site */
@@ -3188,53 +3458,6 @@ img {
 /* =Media Queries
 -------------------------------------------------------------- */
 
-/* @todo: de-duplication */
-@media only screen and (min-width: 769px) {
-	/* categories */
-	#col-left {
-		width: 35%;
-	}
-
-	#col-right {
-		width: 65%;
-	}
-}
-
-@media only screen and (max-width: 860px) {
-
-	/* categories */
-	#col-left {
-		width: 35%;
-	}
-
-	#col-right {
-		width: 65%;
-	}
-}
-
-@media only screen and (min-width: 980px) {
-
-	/* categories */
-	#col-left {
-		width: 35%;
-	}
-
-	#col-right {
-		width: 65%;
-	}
-}
-
-@media only screen and (max-width: 768px) {
-	/* categories */
-	#col-left {
-		width: 100%;
-	}
-
-	#col-right {
-		width: 100%;
-	}
-}
-
 /**
  * HiDPI Displays
  */
@@ -3303,7 +3526,15 @@ img {
 		margin-left: 0;
 	}
 
-	.col-wrap {
+	/* categories */
+	#col-left,
+	#col-right {
+		float: none;
+		width: auto;
+	}
+
+	#col-left .col-wrap,
+	#col-right .col-wrap {
 		padding: 0;
 	}
 
@@ -3371,7 +3602,10 @@ img {
 		font-size: 14px;
 	}
 
-	.metabox-holder h3 {
+	.metabox-holder h3.hndle, /* Back-compat for pre-4.4 */
+	.metabox-holder .stuffbox > h3, /* Back-compat for pre-4.4 */
+	.metabox-holder .postbox > h3, /* Back-compat for pre-4.4 */
+	.metabox-holder h2 {
 		padding: 12px;
 	}
 
@@ -3428,6 +3662,15 @@ img {
 	#comments-form .checkforspam {
 		display: none;
 	}
+
+	.edit-comment-author {
+		margin: 2px 0 0;
+	}
+
+	.filter-drawer .filter-group-feature input,
+	.filter-drawer .filter-group-feature label {
+		line-height: 25px;
+	}
 }
 
 /* Smartphone */
@@ -3449,6 +3692,19 @@ img {
 	/* Keep full-width boxes on Edit Post page from causing horizontal scroll */
 	div#post-body.metabox-holder.columns-1 {
 		overflow-x: hidden;
+	}
+
+	h1.nav-tab-wrapper,
+	.wrap h2.nav-tab-wrapper,
+	h3.nav-tab-wrapper {
+		border-bottom: 0;
+	}
+
+	h1 .nav-tab,
+	h2 .nav-tab,
+	h3 .nav-tab {
+		margin: 10px 10px 0 0;
+		border-bottom: 1px solid #ccc;
 	}
 }
 

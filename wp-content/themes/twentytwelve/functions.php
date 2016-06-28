@@ -74,6 +74,9 @@ function twentytwelve_setup() {
 	// This theme uses a custom image size for featured images, displayed on "standard" posts.
 	add_theme_support( 'post-thumbnails' );
 	set_post_thumbnail_size( 624, 9999 ); // Unlimited height, soft crop
+
+	// Indicate widget sidebars can use selective refresh in the Customizer.
+	add_theme_support( 'customize-selective-refresh-widgets' );
 }
 add_action( 'after_setup_theme', 'twentytwelve_setup' );
 
@@ -124,7 +127,7 @@ function twentytwelve_get_font_url() {
 }
 
 /**
- * Enqueue scripts and styles for front-end.
+ * Enqueue scripts and styles for front end.
  *
  * @since Twenty Twelve 1.0
  */
@@ -480,8 +483,45 @@ function twentytwelve_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
+
+	if ( isset( $wp_customize->selective_refresh ) ) {
+		$wp_customize->selective_refresh->add_partial( 'blogname', array(
+			'selector' => '.site-title > a',
+			'container_inclusive' => false,
+			'render_callback' => 'twentytwelve_customize_partial_blogname',
+		) );
+		$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
+			'selector' => '.site-description',
+			'container_inclusive' => false,
+			'render_callback' => 'twentytwelve_customize_partial_blogdescription',
+		) );
+	}
 }
 add_action( 'customize_register', 'twentytwelve_customize_register' );
+
+/**
+ * Render the site title for the selective refresh partial.
+ *
+ * @since Twenty Twelve 2.0
+ * @see twentytwelve_customize_register()
+ *
+ * @return void
+ */
+function twentytwelve_customize_partial_blogname() {
+	bloginfo( 'name' );
+}
+
+/**
+ * Render the site tagline for the selective refresh partial.
+ *
+ * @since Twenty Twelve 2.0
+ * @see twentytwelve_customize_register()
+ *
+ * @return void
+ */
+function twentytwelve_customize_partial_blogdescription() {
+	bloginfo( 'description' );
+}
 
 /**
  * Enqueue Javascript postMessage handlers for the Customizer.

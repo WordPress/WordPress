@@ -1,4 +1,4 @@
-( function( tinymce, wp ) {
+( function( tinymce, wp, settings ) {
 	tinymce.PluginManager.add( 'wpemoji', function( editor ) {
 		var typing,
 			env = tinymce.Env,
@@ -14,7 +14,7 @@
 				return false;
 			}());
 
-		if ( ! wp || ! wp.emoji || ! wp.emoji.replaceEmoji ) {
+		if ( ! wp || ! wp.emoji || settings.supports.everything ) {
 			return;
 		}
 
@@ -125,4 +125,4 @@
 			}
 		} );
 	} );
-} )( window.tinymce, window.wp );
+} )( window.tinymce, window.wp, window._wpemojiSettings );

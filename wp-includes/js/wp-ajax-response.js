@@ -24,7 +24,7 @@ var wpAjax = jQuery.extend( {
 				response.supplemental = {};
 				if ( !jQuery( 'supplemental', child ).children().each( function() {
 					response.supplemental[this.nodeName] = jQuery(this).text();
-				} ).size() ) { response.supplemental = false; }
+				} ).length ) { response.supplemental = false; }
 				response.errors = [];
 				if ( !jQuery('wp_error', child).each( function() {
 					var code = jQuery(this).attr('code'), anError, errorData, formField;
@@ -37,7 +37,7 @@ var wpAjax = jQuery.extend( {
 					err += '<p>' + anError.message + '</p>';
 					response.errors.push( anError );
 					parsed.errors = true;
-				} ).size() ) { response.errors = false; }
+				} ).length ) { response.errors = false; }
 				parsed.responses.push( response );
 			} );
 			if ( err.length ) { re.html( '<div class="error">' + err + '</div>' ); }
@@ -50,11 +50,11 @@ var wpAjax = jQuery.extend( {
 		return true;
 	},
 	invalidateForm: function ( selector ) {
-		return jQuery( selector ).addClass( 'form-invalid' ).find('input:visible').change( function() { jQuery(this).closest('.form-invalid').removeClass( 'form-invalid' ); } );
+		return jQuery( selector ).addClass( 'form-invalid' ).find('input').one( 'change wp-check-valid-field', function() { jQuery(this).closest('.form-invalid').removeClass( 'form-invalid' ); } );
 	},
 	validateForm: function( selector ) {
 		selector = jQuery( selector );
-		return !wpAjax.invalidateForm( selector.find('.form-required').filter( function() { return jQuery('input:visible', this).val() === ''; } ) ).size();
+		return !wpAjax.invalidateForm( selector.find('.form-required').filter( function() { return jQuery('input:visible', this).val() === ''; } ) ).length;
 	}
 }, wpAjax || { noPerm: 'You do not have permission to do that.', broken: 'An unidentified error has occurred.' } );
 

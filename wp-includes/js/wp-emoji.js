@@ -3,19 +3,33 @@
 	function wpEmoji() {
 		var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
 
-		/**
-		 * Flag to determine if we should replace emoji characters with images.
-		 *
-		 * @since 4.2.0
-		 *
-		 * @var Boolean
-		 */
-		replaceEmoji = false,
+		// Compression and maintain local scope
+		document = window.document,
 
 		// Private
 		twemoji, timer,
 		loaded = false,
-		count = 0;
+		count = 0,
+		ie11 = window.navigator.userAgent.indexOf( 'Trident/7.0' ) > 0;
+
+		/**
+		 * Detect if the browser supports SVG.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @return {Boolean} True if the browser supports svg, false if not.
+		 */
+		function browserSupportsSvgAsImage() {
+			if ( !! document.implementation.hasFeature ) {
+				// Source: Modernizr
+				// https://github.com/Modernizr/Modernizr/blob/master/feature-detects/svg/asimg.js
+				return document.implementation.hasFeature( 'http://www.w3.org/TR/SVG11/feature#Image', '1.1' );
+			}
+
+			// document.implementation.hasFeature is deprecated. It can be presumed
+			// if future browsers remove it, the browser will support SVGs as images.
+			return true;
+		}
 
 		/**
 		 * Runs when the document load event is fired, so we can do our first parse of the page.
@@ -58,7 +72,8 @@
 							ii === 1 && removedNodes.length === 1 &&
 							addedNodes[0].nodeType === 3 &&
 							removedNodes[0].nodeName === 'IMG' &&
-							addedNodes[0].data === removedNodes[0].alt
+							addedNodes[0].data === removedNodes[0].alt &&
+							'load-failed' === removedNodes[0].getAttribute( 'data-error' )
 						) {
 							return;
 						}
@@ -67,6 +82,23 @@
 							node = addedNodes[ ii ];
 
 							if ( node.nodeType === 3 ) {
+								if ( ! node.parentNode ) {
+									continue;
+								}
+
+								if ( ie11 ) {
+									/*
+									 * IE 11's implementation of MutationObserver is buggy.
+									 * It unnecessarily splits text nodes when it encounters a HTML
+									 * template interpolation symbol ( "{{", for example ). So, we
+									 * join the text nodes back together as a work-around.
+									 */
+									while( node.nextSibling && 3 === node.nextSibling.nodeType ) {
+										node.nodeValue = node.nodeValue + node.nextSibling.nodeValue;
+										node.parentNode.removeChild( node.nextSibling );
+									}
+								}
+
 								node = node.parentNode;
 							}
 
@@ -123,7 +155,7 @@
 		function parse( object, args ) {
 			var params;
 
-			if ( ! replaceEmoji || ! twemoji || ! object ||
+			if ( settings.supports.everything || ! twemoji || ! object ||
 				( 'string' !== typeof object && ( ! object.childNodes || ! object.childNodes.length ) ) ) {
 
 				return object;
@@ -131,8 +163,8 @@
 
 			args = args || {};
 			params = {
-				base: settings.baseUrl,
-				ext: settings.ext,
+				base: browserSupportsSvgAsImage() ? settings.svgUrl : settings.baseUrl,
+				ext:  browserSupportsSvgAsImage() ? settings.svgExt : settings.ext,
 				className: args.className || 'emoji',
 				callback: function( icon, options ) {
 					// Ignore some standard characters that TinyMCE recommends in its character map.
@@ -148,13 +180,18 @@
 							return false;
 					}
 
-					if ( ! settings.supports.flag && settings.supports.simple &&
-						! /^1f1(?:e[6-9a-f]|f[0-9a-f])-1f1(?:e[6-9a-f]|f[0-9a-f])$/.test( icon ) ) {
+					if ( settings.supports.everythingExceptFlag && ! /^1f1(?:e[6-9a-f]|f[0-9a-f])-1f1(?:e[6-9a-f]|f[0-9a-f])$/.test( icon ) ) {
 
 						return false;
 					}
 
 					return ''.concat( options.base, icon, options.ext );
+				},
+				onerror: function() {
+					if ( twemoji.parentNode ) {
+						this.setAttribute( 'data-error', 'load-failed' );
+						twemoji.parentNode.replaceChild( document.createTextNode( twemoji.alt ), twemoji );
+					}
 				}
 			};
 
@@ -171,8 +208,6 @@
 		 * Initialize our emoji support, and set up listeners.
 		 */
 		if ( settings ) {
-			replaceEmoji = ! settings.supports.simple || ! settings.supports.flag;
-
 			if ( settings.DOMReady ) {
 				load();
 			} else {
@@ -181,7 +216,6 @@
 		}
 
 		return {
-			replaceEmoji: replaceEmoji,
 			parse: parse,
 			test: test
 		};

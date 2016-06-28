@@ -17,7 +17,6 @@ Description: Used to style the TinyMCE editor.
  * 8.0 - Galleries
  * 9.0 - Audio/Video
  * 10.0 - RTL
- * 11.0 - Media Queries
  * ----------------------------------------------------------------------------
  */
 
@@ -380,7 +379,7 @@ blockquote.alignright p {
 
 img {
 	height: auto;
-	max-width: 474px;
+	max-width: 100%;
 	vertical-align: middle;
 }
 
@@ -389,7 +388,7 @@ img {
 	border: none;
 	color: #767676;
 	margin: 0 0 24px 0;
-	max-width: 474px;
+	max-width: 100%;
 	padding: 0;
 	text-align: left;
 }
@@ -719,19 +718,4 @@ html .mceContentBody.rtl {
 
 .rtl td {
 	text-align: right;
-}
-
-
-/**
- * 11.0 Media Queries
- */
-
-@media screen and (max-width: 494px) {
-	body, img, .wp-caption {
-		max-width: 100%;
-	}
-
-	img, .wp-caption {
-		width: auto !important;
-	}
 }

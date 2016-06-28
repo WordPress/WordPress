@@ -18,7 +18,7 @@ if ( defined('ABSPATH') )
 else
 	require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
 
-/** Allow for cross-domain requests (from the frontend). */
+/** Allow for cross-domain requests (from the front end). */
 send_origin_headers();
 
 require_once(ABSPATH . 'wp-admin/includes/admin.php');

@@ -85,7 +85,6 @@ input[type=radio]:checked:before {
 
 .wrap .add-new-h2:hover, /* deprecated */
 .wrap .page-title-action:hover,
-#add-new-comment a:hover,
 .tablenav .tablenav-pages a:hover,
 .tablenav .tablenav-pages a:focus {
 	color: $menu-text;
@@ -98,21 +97,6 @@ input[type=radio]:checked:before {
 
 .view-switch a:hover:before {
 	color: $menu-bubble-background;
-}
-
-.post-com-count:hover:after {
-	border-top-color: $menu-background;
-}
-.post-com-count:hover span {
-	color: $menu-text;
-	background-color: $menu-background;
-}
-
-strong .post-com-count:after {
-	border-top-color: $menu-bubble-background;
-}
-strong .post-com-count span {
-	background-color: $menu-bubble-background;
 }
 
 
@@ -281,26 +265,25 @@ ul#adminmenu > li.current > a.current:after {
 	color: $menu-icon;
 }
 
-#wpadminbar .ab-top-menu > li:hover > .ab-item,
-#wpadminbar .ab-top-menu > li.hover > .ab-item,
-#wpadminbar .ab-top-menu > li > .ab-item:focus,
+#wpadminbar:not(.mobile) .ab-top-menu > li:hover > .ab-item,
+#wpadminbar:not(.mobile) .ab-top-menu > li > .ab-item:focus,
 #wpadminbar.nojq .quicklinks .ab-top-menu > li > .ab-item:focus,
-#wpadminbar-nojs .ab-top-menu > li.menupop:hover > .ab-item,
+#wpadminbar.nojs .ab-top-menu > li.menupop:hover > .ab-item,
 #wpadminbar .ab-top-menu > li.menupop.hover > .ab-item {
 	color: $menu-submenu-focus-text;
 	background: $menu-submenu-background;
 }
 
-#wpadminbar > #wp-toolbar li:hover span.ab-label,
-#wpadminbar > #wp-toolbar li.hover span.ab-label,
-#wpadminbar > #wp-toolbar a:focus span.ab-label {
+#wpadminbar:not(.mobile) > #wp-toolbar li:hover span.ab-label,
+#wpadminbar:not(.mobile) > #wp-toolbar li.hover span.ab-label,
+#wpadminbar:not(.mobile) > #wp-toolbar a:focus span.ab-label {
 	color: $menu-submenu-focus-text;
 }
 
-#wpadminbar li:hover .ab-icon:before,
-#wpadminbar li:hover .ab-item:before,
-#wpadminbar li:hover .ab-item:after,
-#wpadminbar li:hover #adminbarsearch:before {
+#wpadminbar:not(.mobile) li:hover .ab-icon:before,
+#wpadminbar:not(.mobile) li:hover .ab-item:before,
+#wpadminbar:not(.mobile) li:hover .ab-item:after,
+#wpadminbar:not(.mobile) li:hover #adminbarsearch:before {
 	color: $menu-highlight-icon;
 }
 
@@ -319,7 +302,7 @@ ul#adminmenu > li.current > a.current:after {
 #wpadminbar .ab-submenu .ab-item,
 #wpadminbar .quicklinks .menupop ul li a,
 #wpadminbar .quicklinks .menupop.hover ul li a,
-#wpadminbar-nojs .quicklinks .menupop:hover ul li a {
+#wpadminbar.nojs .quicklinks .menupop:hover ul li a {
 	color: $menu-submenu-text;
 }
 
@@ -332,6 +315,7 @@ ul#adminmenu > li.current > a.current:after {
 #wpadminbar .quicklinks .menupop ul li a:focus,
 #wpadminbar .quicklinks .menupop ul li a:hover strong,
 #wpadminbar .quicklinks .menupop ul li a:focus strong,
+#wpadminbar .quicklinks .ab-sub-wrapper .menupop.hover > a,
 #wpadminbar .quicklinks .menupop.hover ul li a:hover,
 #wpadminbar .quicklinks .menupop.hover ul li a:focus,
 #wpadminbar.nojs .quicklinks .menupop:hover ul li a:hover,
@@ -342,15 +326,23 @@ ul#adminmenu > li.current > a.current:after {
 #wpadminbar li .ab-item:focus:before,
 #wpadminbar li.hover .ab-icon:before,
 #wpadminbar li.hover .ab-item:before,
-#wpadminbar li:hover .ab-item:after,
-#wpadminbar li.hover .ab-item:after,
-#wpadminbar li:hover #adminbarsearch:before {
+#wpadminbar li:hover #adminbarsearch:before,
+#wpadminbar li #adminbarsearch.adminbar-focused:before {
 	color: $menu-submenu-focus-text;
 }
 
 #wpadminbar .quicklinks li a:hover .blavatar,
-#wpadminbar .menupop .menupop > .ab-item:hover:before {
+#wpadminbar .quicklinks li a:focus .blavatar,
+#wpadminbar .quicklinks .ab-sub-wrapper .menupop.hover > a .blavatar,
+#wpadminbar .menupop .menupop > .ab-item:hover:before,
+#wpadminbar.mobile .quicklinks .ab-icon:before,
+#wpadminbar.mobile .quicklinks .ab-item:before {
 	color: $menu-submenu-focus-text;
+}
+
+#wpadminbar.mobile .quicklinks .hover .ab-icon:before,
+#wpadminbar.mobile .quicklinks .hover .ab-item:before {
+	color: $menu-icon;
 }
 
 
@@ -364,12 +356,6 @@ ul#adminmenu > li.current > a.current:after {
 	color: $menu-text;
 	background: $adminbar-input-background;
 }
-
-#wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder { color: $menu-text; opacity: 0.7; }
-#wpadminbar #adminbarsearch .adminbar-input:-moz-placeholder { color: $menu-text; opacity: 0.7; }
-#wpadminbar #adminbarsearch .adminbar-input::-moz-placeholder { color: $menu-text; opacity: 0.7; }
-#wpadminbar #adminbarsearch .adminbar-input:-ms-input-placeholder { color: $menu-text; opacity: 0.7; }
-
 
 /* Admin Bar: my account */
 
@@ -495,14 +481,8 @@ body.more-filters-opened .more-filters:focus:before {
 	color: $menu-highlight-text;
 }
 
-/* jQuery UI Slider */
-
-.wp-slider .ui-slider-handle,
-.wp-slider .ui-slider-handle.ui-state-hover,
-.wp-slider .ui-slider-handle.focus {
-	background: $button-color;
-	border-color: darken( $button-color, 10% );
-	box-shadow: inset 0 1px 0 lighten( $button-color, 15% ), 0 1px 0 rgba(0,0,0,.15);
+#customize-footer-actions .devices button:focus {
+	border-bottom-color: $highlight-color;
 }
 
 /* Responsive Component */
@@ -519,4 +499,18 @@ div#wp-responsive-toggle a:before {
 
 .wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle a {
 	background: $menu-submenu-background;
+}
+
+.wp-responsive-open #wpadminbar #wp-admin-bar-menu-toggle .ab-icon:before {
+	color: $menu-icon;
+}
+
+/* TinyMCE */
+
+.mce-container.mce-menu .mce-menu-item:hover,
+.mce-container.mce-menu .mce-menu-item.mce-selected,
+.mce-container.mce-menu .mce-menu-item:focus,
+.mce-container.mce-menu .mce-menu-item-normal.mce-active,
+.mce-container.mce-menu .mce-menu-item-preview.mce-active {
+	background: $highlight-color;
 }

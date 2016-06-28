@@ -1,11 +1,19 @@
 <?php
 /**
- * Plugin Installer List Table class.
+ * List Table API: WP_Plugin_Install_List_Table class
  *
  * @package WordPress
- * @subpackage List_Table
+ * @subpackage Administration
+ * @since 3.1.0
+ */
+
+/**
+ * Core class used to implement displaying plugins to install in a list table.
+ *
  * @since 3.1.0
  * @access private
+ *
+ * @see WP_List_Table
  */
 class WP_Plugin_Install_List_Table extends WP_List_Table {
 
@@ -77,15 +85,16 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		// These are the tabs which are shown on the page
 		$tabs = array();
 
-		if ( 'search' == $tab )
-			$tabs['search']	= __( 'Search Results' );
-		$tabs['featured']  = _x( 'Featured', 'Plugin Installer' );
-		$tabs['popular']   = _x( 'Popular', 'Plugin Installer' );
-		$tabs['recommended']   = _x( 'Recommended', 'Plugin Installer' );
-		$tabs['favorites'] = _x( 'Favorites', 'Plugin Installer' );
-		if ( $tab === 'beta' || false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
-			$tabs['beta']      = _x( 'Beta Testing', 'Plugin Installer' );
+		if ( 'search' === $tab ) {
+			$tabs['search'] = __( 'Search Results' );
 		}
+		if ( $tab === 'beta' || false !== strpos( $GLOBALS['wp_version'], '-' ) ) {
+			$tabs['beta'] = _x( 'Beta Testing', 'Plugin Installer' );
+		}
+		$tabs['featured']    = _x( 'Featured', 'Plugin Installer' );
+		$tabs['popular']     = _x( 'Popular', 'Plugin Installer' );
+		$tabs['recommended'] = _x( 'Recommended', 'Plugin Installer' );
+		$tabs['favorites']   = _x( 'Favorites', 'Plugin Installer' );
 		if ( current_user_can( 'upload_plugins' ) ) {
 			// No longer a real tab. Here for filter compatibility.
 			// Gets skipped in get_views().
@@ -95,7 +104,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$nonmenu_tabs = array( 'plugin-information' ); // Valid actions to perform which do not have a Menu item.
 
 		/**
-		 * Filter the tabs shown on the Plugin Install screen.
+		 * Filters the tabs shown on the Plugin Install screen.
 		 *
 		 * @since 2.7.0
 		 *
@@ -105,7 +114,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		$tabs = apply_filters( 'install_plugins_tabs', $tabs );
 
 		/**
-		 * Filter tabs not associated with a menu item on the Plugin Install screen.
+		 * Filters tabs not associated with a menu item on the Plugin Install screen.
 		 *
 		 * @since 2.7.0
 		 *
@@ -161,8 +170,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				break;
 
 			case 'favorites':
-				$user = isset( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
-				update_user_meta( get_current_user_id(), 'wporg_favorites', $user );
+				$action = 'save_wporg_username_' . get_current_user_id();
+				if ( isset( $_GET['_wpnonce'] ) && wp_verify_nonce( wp_unslash( $_GET['_wpnonce'] ), $action ) ) {
+					$user = isset( $_GET['user'] ) ? wp_unslash( $_GET['user'] ) : get_user_option( 'wporg_favorites' );
+					update_user_meta( get_current_user_id(), 'wporg_favorites', $user );
+				} else {
+					$user = get_user_option( 'wporg_favorites' );
+				}
 				if ( $user )
 					$args['user'] = $user;
 				else
@@ -177,7 +191,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		}
 
 		/**
-		 * Filter API request arguments for each Plugin Install screen tab.
+		 * Filters API request arguments for each Plugin Install screen tab.
 		 *
 		 * The dynamic portion of the hook name, `$tab`, refers to the plugin install tabs.
 		 * Default tabs include 'featured', 'popular', 'recommended', 'favorites', and 'upload'.
@@ -238,7 +252,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$display_tabs = array();
 		foreach ( (array) $tabs as $action => $text ) {
-			$class = ( $action == $tab ) ? ' current' : '';
+			$class = ( $action === $tab ) ? ' current' : '';
 			$href = self_admin_url('plugin-install.php?tab=' . $action);
 			$display_tabs['plugin-install-'.$action] = "<a href='$href' class='$class'>$text</a>";
 		}
@@ -257,6 +271,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		/** This filter is documented in wp-admin/inclues/class-wp-list-table.php */
 		$views = apply_filters( "views_{$this->screen->id}", $views );
 
+		$this->screen->render_screen_reader_content( 'heading_views' );
 ?>
 <div class="wp-filter">
 	<ul class="filter-links">
@@ -291,7 +306,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 ?>
 <div class="wp-list-table <?php echo implode( ' ', $this->get_table_classes() ); ?>">
-
+<?php
+	$this->screen->render_screen_reader_content( 'heading_list' );
+?>
 	<div id="the-list"<?php echo $data_attr; ?>>
 		<?php $this->display_rows_or_placeholder(); ?>
 	</div>
@@ -310,7 +327,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			return;
 		}
 
-		if ( 'top' ==  $which ) {
+		if ( 'top' === $which ) {
 			wp_referer_field();
 		?>
 			<div class="tablenav top">
@@ -367,7 +384,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			return 0;
 		}
 
-		if ( 'DESC' == $this->order ) {
+		if ( 'DESC' === $this->order ) {
 			return ( $a < $b ) ? 1 : -1;
 		} else {
 			return ( $a < $b ) ? -1 : 1;
@@ -444,18 +461,42 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 							/* translators: 1: Plugin name and version. */
 							$action_links[] = '<a class="install-now button" data-slug="' . esc_attr( $plugin['slug'] ) . '" href="' . esc_url( $status['url'] ) . '" aria-label="' . esc_attr( sprintf( __( 'Install %s now' ), $name ) ) . '" data-name="' . esc_attr( $name ) . '">' . __( 'Install Now' ) . '</a>';
 						}
-
 						break;
+
 					case 'update_available':
 						if ( $status['url'] ) {
 							/* translators: 1: Plugin name and version */
-							$action_links[] = '<a class="update-now button" data-plugin="' . esc_attr( $status['file'] ) . '" data-slug="' . esc_attr( $plugin['slug'] ) . '" href="' . esc_url( $status['url'] ) . '" aria-label="' . esc_attr( sprintf( __( 'Update %s now' ), $name ) ) . '" data-name="' . esc_attr( $name ) . '">' . __( 'Update Now' ) . '</a>';
+							$action_links[] = '<a class="update-now button aria-button-if-js" data-plugin="' . esc_attr( $status['file'] ) . '" data-slug="' . esc_attr( $plugin['slug'] ) . '" href="' . esc_url( $status['url'] ) . '" aria-label="' . esc_attr( sprintf( __( 'Update %s now' ), $name ) ) . '" data-name="' . esc_attr( $name ) . '">' . __( 'Update Now' ) . '</a>';
 						}
-
 						break;
+
 					case 'latest_installed':
 					case 'newer_installed':
-						$action_links[] = '<span class="button button-disabled" title="' . esc_attr__( 'This plugin is already installed and is up to date' ) . ' ">' . _x( 'Installed', 'plugin' ) . '</span>';
+						if ( is_plugin_active( $status['file'] ) ) {
+							$action_links[] = '<button type="button" class="button button-disabled" disabled="disabled">' . _x( 'Active', 'plugin' ) . '</button>';
+						} elseif ( current_user_can( 'activate_plugins' ) ) {
+							$button_text  = __( 'Activate' );
+							$activate_url = add_query_arg( array(
+								'_wpnonce'    => wp_create_nonce( 'activate-plugin_' . $status['file'] ),
+								'action'      => 'activate',
+								'plugin'      => $status['file'],
+							), network_admin_url( 'plugins.php' ) );
+
+							if ( is_network_admin() ) {
+								$button_text  = __( 'Network Activate' );
+								$activate_url = add_query_arg( array( 'networkwide' => 1 ), $activate_url );
+							}
+
+							$action_links[] = sprintf(
+								'<a href="%1$s" class="button activate-now button-secondary" aria-label="%2$s">%3$s</a>',
+								esc_url( $activate_url ),
+								/* translators: %s: Plugin name */
+								esc_attr( sprintf( __( 'Activate %s' ), $plugin['name'] ) ),
+								$button_text
+							);
+						} else {
+							$action_links[] = '<button type="button" class="button button-disabled" disabled="disabled">' . _x( 'Installed', 'plugin' ) . '</button>';
+						}
 						break;
 				}
 			}
@@ -464,7 +505,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 								'&amp;TB_iframe=true&amp;width=600&amp;height=550' );
 
 			/* translators: 1: Plugin name and version. */
-			$action_links[] = '<a href="' . esc_url( $details_link ) . '" class="thickbox" aria-label="' . esc_attr( sprintf( __( 'More information about %s' ), $name ) ) . '" data-title="' . esc_attr( $name ) . '">' . __( 'More Details' ) . '</a>';
+			$action_links[] = '<a href="' . esc_url( $details_link ) . '" class="thickbox open-plugin-details-modal" aria-label="' . esc_attr( sprintf( __( 'More information about %s' ), $name ) ) . '" data-title="' . esc_attr( $name ) . '">' . __( 'More Details' ) . '</a>';
 
 			if ( !empty( $plugin['icons']['svg'] ) ) {
 				$plugin_icon_url = $plugin['icons']['svg'];
@@ -477,7 +518,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			}
 
 			/**
-			 * Filter the install action links for a plugin.
+			 * Filters the install action links for a plugin.
 			 *
 			 * @since 2.7.0
 			 *
@@ -486,14 +527,17 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			 */
 			$action_links = apply_filters( 'plugin_install_action_links', $action_links, $plugin );
 
-			$date_format = __( 'M j, Y @ H:i' );
 			$last_updated_timestamp = strtotime( $plugin['last_updated'] );
 		?>
 		<div class="plugin-card plugin-card-<?php echo sanitize_html_class( $plugin['slug'] ); ?>">
 			<div class="plugin-card-top">
-				<a href="<?php echo esc_url( $details_link ); ?>" class="thickbox plugin-icon"><img src="<?php echo esc_attr( $plugin_icon_url ) ?>" /></a>
 				<div class="name column-name">
-					<h4><a href="<?php echo esc_url( $details_link ); ?>" class="thickbox"><?php echo $title; ?></a></h4>
+					<h3>
+						<a href="<?php echo esc_url( $details_link ); ?>" class="thickbox open-plugin-details-modal">
+						<?php echo $title; ?>
+						<img src="<?php echo esc_attr( $plugin_icon_url ) ?>" class="plugin-icon" alt="">
+						</a>
+					</h3>
 				</div>
 				<div class="action-links">
 					<?php
@@ -510,12 +554,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			<div class="plugin-card-bottom">
 				<div class="vers column-rating">
 					<?php wp_star_rating( array( 'rating' => $plugin['rating'], 'type' => 'percent', 'number' => $plugin['num_ratings'] ) ); ?>
-					<span class="num-ratings">(<?php echo number_format_i18n( $plugin['num_ratings'] ); ?>)</span>
+					<span class="num-ratings" aria-hidden="true">(<?php echo number_format_i18n( $plugin['num_ratings'] ); ?>)</span>
 				</div>
 				<div class="column-updated">
-					<strong><?php _e( 'Last Updated:' ); ?></strong> <span title="<?php echo esc_attr( date_i18n( $date_format, $last_updated_timestamp ) ); ?>">
-						<?php printf( __( '%s ago' ), human_time_diff( $last_updated_timestamp ) ); ?>
-					</span>
+					<strong><?php _e( 'Last Updated:' ); ?></strong> <?php printf( __( '%s ago' ), human_time_diff( $last_updated_timestamp ) ); ?>
 				</div>
 				<div class="column-downloaded">
 					<?php

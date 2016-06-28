@@ -51,8 +51,15 @@ if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {
 		if ( ! $user_id ) {
 	 		$add_user_errors = new WP_Error( 'add_user_fail', __( 'Cannot add user.' ) );
 		} else {
-			wp_new_user_notification( $user_id, $password );
-			wp_redirect( add_query_arg( array('update' => 'added'), 'user-new.php' ) );
+			/**
+			  * Fires after a new user has been created via the network user-new.php page.
+			  *
+			  * @since 4.4.0
+			  *
+			  * @param int $user_id ID of the newly created user.
+			  */
+			do_action( 'network_user_new_created_user', $user_id );
+			wp_redirect( add_query_arg( array('update' => 'added', 'user_id' => $user_id ), 'user-new.php' ) );
 			exit;
 		}
 	}
@@ -60,8 +67,22 @@ if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {
 
 if ( isset($_GET['update']) ) {
 	$messages = array();
-	if ( 'added' == $_GET['update'] )
-		$messages[] = __('User added.');
+	if ( 'added' == $_GET['update'] ) {
+		$edit_link = '';
+		if ( isset( $_GET['user_id'] ) ) {
+			$user_id_new = absint( $_GET['user_id'] );
+			if ( $user_id_new ) {
+				$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user_id_new ) ) );
+			}
+		}
+
+		if ( empty( $edit_link ) ) {
+			$messages[] = __( 'User added.' );
+		} else {
+			/* translators: %s: edit page url */
+			$messages[] = sprintf( __( 'User added. <a href="%s">Edit user</a>' ), $edit_link );
+		}
+	}
 }
 
 $title = __('Add New User');
@@ -89,18 +110,27 @@ if ( isset( $add_user_errors ) && is_wp_error( $add_user_errors ) ) { ?>
 	<table class="form-table">
 		<tr class="form-field form-required">
 			<th scope="row"><label for="username"><?php _e( 'Username' ) ?></label></th>
-			<td><input type="text" class="regular-text" name="user[username]" id="username" autocapitalize="none" autocorrect="off" /></td>
+			<td><input type="text" class="regular-text" name="user[username]" id="username" autocapitalize="none" autocorrect="off" maxlength="60" /></td>
 		</tr>
 		<tr class="form-field form-required">
 			<th scope="row"><label for="email"><?php _e( 'Email' ) ?></label></th>
 			<td><input type="email" class="regular-text" name="user[email]" id="email"/></td>
 		</tr>
 		<tr class="form-field">
-			<td colspan="2"><?php _e( 'Username and password will be mailed to the above email address.' ) ?></td>
+			<td colspan="2"><?php _e( 'A password reset link will be sent to the user via email.' ) ?></td>
 		</tr>
 	</table>
-	<?php wp_nonce_field( 'add-user', '_wpnonce_add-user' ); ?>
-	<?php submit_button( __('Add User'), 'primary', 'add-user' ); ?>
+	<?php
+	/**
+	 * Fires at the end of the new user form in network admin.
+	 *
+	 * @since 4.5.0
+	 */
+	do_action( 'network_user_new_form' );
+
+	wp_nonce_field( 'add-user', '_wpnonce_add-user' );
+	submit_button( __('Add User'), 'primary', 'add-user' );
+	?>
 	</form>
 </div>
 <?php

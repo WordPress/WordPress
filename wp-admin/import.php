@@ -46,6 +46,7 @@ if ( ! empty( $_GET['invalid'] ) && isset( $popular_importers[ $_GET['invalid'] 
 
 add_thickbox();
 wp_enqueue_script( 'plugin-install' );
+wp_enqueue_script( 'updates' );
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
 $parent_file = 'tools.php';
@@ -54,7 +55,12 @@ $parent_file = 'tools.php';
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
 <?php if ( ! empty( $_GET['invalid'] ) ) : ?>
-	<div class="error"><p><strong><?php _e('ERROR:')?></strong> <?php printf( __('The <strong>%s</strong> importer is invalid or is not installed.'), esc_html( $_GET['invalid'] ) ); ?></p></div>
+	<div class="error">
+		<p><strong><?php _e( 'ERROR:' ); ?></strong> <?php
+			/* translators: %s: importer slug */
+			printf( __( 'The %s importer is invalid or is not installed.' ), '<strong>' . esc_html( $_GET['invalid'] ) . '</strong>' );
+		?></p>
+	</div>
 <?php endif; ?>
 <p><?php _e('If you have posts or comments in another system, WordPress can import those into this site. To get started, choose a system to import from below:'); ?></p>
 
@@ -96,7 +102,7 @@ if ( empty( $importers ) ) {
 			if ( empty($action) ) {
 				if ( is_main_site() ) {
 					$action = '<a href="' . esc_url( network_admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $plugin_slug .
-										'&from=import&TB_iframe=true&width=600&height=550' ) ) . '" class="thickbox" title="' .
+										'&from=import&TB_iframe=true&width=600&height=550' ) ) . '" class="thickbox open-plugin-details-modal" title="' .
 										esc_attr__('Install importer') . '">' . $data[0] . '</a>';
 				} else {
 					$action = $data[0];
@@ -126,5 +132,7 @@ if ( current_user_can('install_plugins') )
 </div>
 
 <?php
+wp_print_request_filesystem_credentials_modal();
+wp_print_admin_notice_templates();
 
 include( ABSPATH . 'wp-admin/admin-footer.php' );

@@ -63,12 +63,12 @@ class MagpieRSS {
 		# if PHP xml isn't compiled in, die
 		#
 		if ( !function_exists('xml_parser_create') )
-			trigger_error( "Failed to load PHP's XML Extension. http://www.php.net/manual/en/ref.xml.php" );
+			trigger_error( "Failed to load PHP's XML Extension. https://secure.php.net/manual/en/ref.xml.php" );
 
 		$parser = @xml_parser_create();
 
 		if ( !is_resource($parser) )
-			trigger_error( "Failed to create an instance of PHP's XML parser. http://www.php.net/manual/en/ref.xml.php");
+			trigger_error( "Failed to create an instance of PHP's XML parser. https://secure.php.net/manual/en/ref.xml.php");
 
 		$this->parser = $parser;
 
@@ -114,7 +114,7 @@ class MagpieRSS {
 		// check for a namespace, and split if found
 		$ns	= false;
 		if ( strpos( $element, ':' ) ) {
-			list($ns, $el) = split( ':', $element, 2);
+			list($ns, $el) = explode( ':', $element, 2);
 		}
 		if ( $ns and $ns != 'rdf' ) {
 			$this->current_namespace = $ns;
@@ -599,7 +599,7 @@ function _response_to_rss ($resp) {
 	if ( $rss && (!isset($rss->ERROR) || !$rss->ERROR) ) {
 
 		// find Etag, and Last-Modified
-		foreach( (array) $resp->headers as $h) {
+		foreach ( (array) $resp->headers as $h) {
 			// 2003-03-02 - Nicola Asuni (www.tecnick.com) - fixed bug "Undefined offset: 1"
 			if (strpos($h, ": ")) {
 				list($field, $val) = explode(": ", $h, 2);

@@ -70,6 +70,6 @@ var passwordStrength;
 		}
 	};
 
-	// Backwards compatibility.
+	// Back-compat.
 	passwordStrength = wp.passwordStrength.meter;
 })(jQuery);

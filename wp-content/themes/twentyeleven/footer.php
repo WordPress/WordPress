@@ -16,7 +16,7 @@
 
 			<?php
 				/*
-				 * A sidebar in the footer? Yep. You can can customize
+				 * A sidebar in the footer? Yep. You can customize
 				 * your footer with three columns of widgets.
 				 */
 				if ( ! is_404() )

@@ -1,117 +1,284 @@
 /* global ajaxurl, pwsL10n, userProfileL10n */
-(function($){
-	$(function(){
-		var pw_new = $('.user-pass1-wrap'),
-			pw_line = pw_new.find('.wp-pwd'),
-			pw_field = $('#pass1'),
-			pw_field2 = $('#pass2'),
-			pw_togglebtn = pw_new.find('.wp-hide-pw'),
-			pw_generatebtn = pw_new.find('button.wp-generate-pw'),
-			pw_2 = $('.user-pass2-wrap'),
-			parentform = pw_new.closest('form'),
-			pw_strength = $('#pass-strength-result'),
-			pw_submitbtn_edit = $('#submit'),
-			pw_submitbtn_new = $( '#createusersub' ),
-			pw_checkbox = $('.pw-checkbox'),
-			pw_weak = $('.pw-weak')
-		;
+(function($) {
+	var updateLock = false,
 
-		var generatePassword = window.generatePassword = function() {
-			if ( typeof zxcvbn !== 'function' ) {
-				setTimeout( generatePassword, 50 );
+		$pass1Row,
+		$pass1Wrap,
+		$pass1,
+		$pass1Text,
+		$pass1Label,
+		$pass2,
+		$weakRow,
+		$weakCheckbox,
+		$toggleButton,
+		$submitButtons,
+		$submitButton,
+		currentPass,
+		inputEvent;
+
+	/*
+	 * Use feature detection to determine whether password inputs should use
+	 * the `keyup` or `input` event. Input is preferred but lacks support
+	 * in legacy browsers.
+	 */
+	if ( 'oninput' in document.createElement( 'input' ) ) {
+		inputEvent = 'input';
+	} else {
+		inputEvent = 'keyup';
+	}
+
+	function generatePassword() {
+		if ( typeof zxcvbn !== 'function' ) {
+			setTimeout( generatePassword, 50 );
+		} else {
+			$pass1.val( $pass1.data( 'pw' ) );
+			$pass1.trigger( 'pwupdate' ).trigger( 'wp-check-valid-field' );
+			if ( 1 !== parseInt( $toggleButton.data( 'start-masked' ), 10 ) ) {
+				$pass1Wrap.addClass( 'show-password' );
 			} else {
-				pw_field.val( pw_field.data( 'pw' ) );
-				pw_field.trigger( 'propertychange' );
-				pw_field.attr( 'type', 'text' ).focus();
-				pw_field[0].setSelectionRange(100, 100);
+				$toggleButton.trigger( 'click' );
 			}
-		};
+		}
+	}
 
-		pw_2.hide();
-		pw_line.hide();
-		pw_togglebtn.show();
-		pw_generatebtn.show();
+	function bindPass1() {
+		var passStrength = $('#pass-strength-result')[0];
 
-		if ( pw_field.data( 'reveal' ) == 1 ) {
+		currentPass = $pass1.val();
+
+		$pass1Wrap = $pass1.parent();
+
+		$pass1Text = $( '<input type="text"/>' )
+			.attr( {
+				'id':           'pass1-text',
+				'name':         'pass1-text',
+				'autocomplete': 'off'
+			} )
+			.addClass( $pass1[0].className )
+			.data( 'pw', $pass1.data( 'pw' ) )
+			.val( $pass1.val() )
+			.on( inputEvent, function () {
+				if ( $pass1Text.val() === currentPass ) {
+					return;
+				}
+				$pass2.val( $pass1Text.val() );
+				$pass1.val( $pass1Text.val() ).trigger( 'pwupdate' );
+				currentPass = $pass1Text.val();
+			} );
+
+		$pass1.after( $pass1Text );
+
+		if ( 1 === parseInt( $pass1.data( 'reveal' ), 10 ) ) {
 			generatePassword();
 		}
 
-		parentform.on('submit', function(){
-			pw_field2.val( pw_field.val() );
-			pw_field.attr('type', 'password');
-		});
+		$pass1.on( inputEvent + ' pwupdate', function () {
+			if ( $pass1.val() === currentPass ) {
+				return;
+			}
 
+			currentPass = $pass1.val();
+			if ( $pass1Text.val() !== currentPass ) {
+				$pass1Text.val( currentPass );
+			}
+			$pass1.add( $pass1Text ).removeClass( 'short bad good strong' );
 
-		pw_field.on('input propertychange', function(){
-			setTimeout( function(){
-				var cssClass = pw_strength.attr('class');
-				pw_field.removeClass( 'short bad good strong' );
-				if ( 'undefined' !== typeof cssClass ) {
-					pw_field.addClass( cssClass );
-					if ( cssClass == 'short' || cssClass == 'bad' ) {
-						if ( ! pw_checkbox.attr( 'checked' ) ) {
-							pw_submitbtn_new.attr( 'disabled','disabled' );
-							pw_submitbtn_edit.attr( 'disabled','disabled' );
-						}
-						pw_weak.show();
-					} else {
-						pw_submitbtn_new.removeAttr( 'disabled' );
-						pw_submitbtn_edit.removeAttr( 'disabled' );
-						pw_weak.hide();
+			if ( passStrength.className ) {
+				$pass1.add( $pass1Text ).addClass( passStrength.className );
+				if ( 'short' === passStrength.className || 'bad' === passStrength.className ) {
+					if ( ! $weakCheckbox.prop( 'checked' ) ) {
+						$submitButtons.prop( 'disabled', true );
 					}
+					$weakRow.show();
+				} else {
+					$submitButtons.prop( 'disabled', false );
+					$weakRow.hide();
 				}
-			}, 1 );
-		} );
-
-		pw_checkbox.change( function() {
-			if ( pw_checkbox.attr( 'checked' ) ) {
-				pw_submitbtn_new.removeAttr( 'disabled' );
-				pw_submitbtn_edit.removeAttr( 'disabled' );
-			} else {
-				pw_submitbtn_new.attr( 'disabled','disabled' );
-				pw_submitbtn_edit.attr( 'disabled','disabled' );
 			}
 		} );
+	}
+
+	function resetToggle() {
+		$toggleButton
+			.data( 'toggle', 0 )
+			.attr({
+				'aria-label': userProfileL10n.ariaHide
+			})
+			.find( '.text' )
+				.text( userProfileL10n.hide )
+			.end()
+			.find( '.dashicons' )
+				.removeClass( 'dashicons-visibility' )
+				.addClass( 'dashicons-hidden' );
+
+		$pass1Text.focus();
+
+		$pass1Label.attr( 'for', 'pass1-text' );
+	}
+
+	function bindToggleButton() {
+		$toggleButton = $pass1Row.find('.wp-hide-pw');
+		$toggleButton.show().on( 'click', function () {
+			if ( 1 === parseInt( $toggleButton.data( 'toggle' ), 10 ) ) {
+				$pass1Wrap.addClass( 'show-password' );
+
+				resetToggle();
+
+				if ( ! _.isUndefined( $pass1Text[0].setSelectionRange ) ) {
+					$pass1Text[0].setSelectionRange( 0, 100 );
+				}
+			} else {
+				$pass1Wrap.removeClass( 'show-password' );
+				$toggleButton
+					.data( 'toggle', 1 )
+					.attr({
+						'aria-label': userProfileL10n.ariaShow
+					})
+					.find( '.text' )
+						.text( userProfileL10n.show )
+					.end()
+					.find( '.dashicons' )
+						.removeClass('dashicons-hidden')
+						.addClass('dashicons-visibility');
+
+				$pass1.focus();
+
+				$pass1Label.attr( 'for', 'pass1' );
+
+				if ( ! _.isUndefined( $pass1[0].setSelectionRange ) ) {
+					$pass1[0].setSelectionRange( 0, 100 );
+				}
+			}
+		});
+	}
+
+	function bindPasswordForm() {
+		var $passwordWrapper,
+			$generateButton,
+			$cancelButton;
+
+		$pass1Row = $('.user-pass1-wrap');
+		$pass1Label = $pass1Row.find('th label').attr( 'for', 'pass1-text' );
+
+		// hide this
+		$('.user-pass2-wrap').hide();
+
+		$submitButton = $( '#submit' ).on( 'click', function () {
+			updateLock = false;
+		});
+
+		$submitButtons = $submitButton.add( ' #createusersub' );
+
+		$weakRow = $( '.pw-weak' );
+		$weakCheckbox = $weakRow.find( '.pw-checkbox' );
+		$weakCheckbox.change( function() {
+			$submitButtons.prop( 'disabled', ! $weakCheckbox.prop( 'checked' ) );
+		} );
+
+		$pass1 = $('#pass1');
+		if ( $pass1.length ) {
+			bindPass1();
+		}
 
 		/**
 		 * Fix a LastPass mismatch issue, LastPass only changes pass2.
 		 *
 		 * This fixes the issue by copying any changes from the hidden
-		 * pass2 field to the pass1 field.
+		 * pass2 field to the pass1 field, then running check_pass_strength.
 		 */
-		pw_field2.on( 'input propertychange', function() {
-			pw_field.val( pw_field2.val() );
-			pw_field.trigger( 'propertychange' );
+		$pass2 = $('#pass2').on( inputEvent, function () {
+			if ( $pass2.val().length > 0 ) {
+				$pass1.val( $pass2.val() );
+				$pass2.val('');
+				currentPass = '';
+				$pass1.trigger( 'pwupdate' );
+			}
 		} );
 
-		pw_new.on( 'click', 'button.wp-generate-pw', function(){
-			pw_generatebtn.hide();
-			pw_line.show();
-			generatePassword();
-		});
+		// Disable hidden inputs to prevent autofill and submission.
+		if ( $pass1.is( ':hidden' ) ) {
+			$pass1.prop( 'disabled', true );
+			$pass2.prop( 'disabled', true );
+			$pass1Text.prop( 'disabled', true );
+		}
 
-		pw_togglebtn.on( 'click', function() {
-			var show = pw_togglebtn.attr( 'data-toggle' );
-			if ( show == 1 ) {
-				pw_field.attr( 'type', 'text' );
-				pw_togglebtn.attr( 'data-toggle', 0 )
-					.find( '.text' )
-						.text( userProfileL10n.hide )
-				;
-			} else {
-				pw_field.attr( 'type', 'password' );
-				pw_togglebtn.attr( 'data-toggle', 1 )
-					.find( '.text' )
-						.text( userProfileL10n.show )
-				;
+		$passwordWrapper = $pass1Row.find( '.wp-pwd' );
+		$generateButton  = $pass1Row.find( 'button.wp-generate-pw' );
+
+		bindToggleButton();
+
+		if ( $generateButton.length ) {
+			$passwordWrapper.hide();
+		}
+
+		$generateButton.show();
+		$generateButton.on( 'click', function () {
+			updateLock = true;
+
+			$generateButton.hide();
+			$passwordWrapper.show();
+
+			// Enable the inputs when showing.
+			$pass1.attr( 'disabled', false );
+			$pass2.attr( 'disabled', false );
+			$pass1Text.attr( 'disabled', false );
+
+			if ( $pass1Text.val().length === 0 ) {
+				generatePassword();
 			}
-			pw_field.focus();
-			pw_field[0].setSelectionRange(100, 100);
+
+			_.defer( function() {
+				$pass1Text.focus();
+				if ( ! _.isUndefined( $pass1Text[0].setSelectionRange ) ) {
+					$pass1Text[0].setSelectionRange( 0, 100 );
+				}
+			}, 0 );
+		} );
+
+		$cancelButton = $pass1Row.find( 'button.wp-cancel-pw' );
+		$cancelButton.on( 'click', function () {
+			updateLock = false;
+
+			// Clear any entered password.
+			$pass1Text.val( '' );
+
+			// Generate a new password.
+			wp.ajax.post( 'generate-password' )
+				.done( function( data ) {
+					$pass1.data( 'pw', data );
+				} );
+
+			$generateButton.show();
+			$passwordWrapper.hide();
+
+			$weakRow.hide( 0, function () {
+				$weakCheckbox.removeProp( 'checked' );
+			} );
+
+			// Disable the inputs when hiding to prevent autofill and submission.
+			$pass1.prop( 'disabled', true );
+			$pass2.prop( 'disabled', true );
+			$pass1Text.prop( 'disabled', true );
+
+			resetToggle();
+
+			// Clear password field to prevent update
+			$pass1.val( '' ).trigger( 'pwupdate' );
+			$submitButtons.prop( 'disabled', false );
+		} );
+
+		$pass1Row.closest('form').on( 'submit', function () {
+			updateLock = false;
+
+			$pass1.prop( 'disabled', false );
+			$pass2.prop( 'disabled', false );
+			$pass2.val( $pass1.val() );
+			$pass1Wrap.removeClass( 'show-password' );
 		});
-	});
+	}
 
 	function check_pass_strength() {
-		var pass1 = $('#pass1').val(), pass2 = $('#pass2').val(), strength;
+		var pass1 = $('#pass1').val(), strength;
 
 		$('#pass-strength-result').removeClass('short bad good strong');
 		if ( ! pass1 ) {
@@ -119,7 +286,7 @@
 			return;
 		}
 
-		strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputBlacklist(), pass2 );
+		strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputBlacklist(), pass1 );
 
 		switch ( strength ) {
 			case 2:
@@ -143,8 +310,7 @@
 		var $colorpicker, $stylesheet, user_id, current_user_id,
 			select = $( '#display_name' );
 
-		$('#pass1').val('').on( 'input propertychange', check_pass_strength );
-		$('#pass2').val('').on( 'input propertychange', check_pass_strength );
+		$('#pass1').val('').on( inputEvent + ' pwupdate', check_pass_strength );
 		$('#pass-strength-result').show();
 		$('.color-palette').click( function() {
 			$(this).siblings('input[name="admin_color"]').prop('checked', true);
@@ -235,6 +401,8 @@
 				});
 			}
 		});
+
+		bindPasswordForm();
 	});
 
 	$( '#destroy-sessions' ).on( 'click', function( e ) {
@@ -254,5 +422,14 @@
 
 		e.preventDefault();
 	});
+
+	window.generatePassword = generatePassword;
+
+	/* Warn the user if password was generated but not saved */
+	$( window ).on( 'beforeunload', function () {
+		if ( true === updateLock ) {
+			return userProfileL10n.warn;
+		}
+	} );
 
 })(jQuery);

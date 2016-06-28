@@ -15,7 +15,7 @@
  *
  * @since 3.0.0
  *
- * @global wpdb $wpdb
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function ms_upload_constants() {
 	global $wpdb;
@@ -129,7 +129,14 @@ function ms_subdomain_constants() {
 	}
 
 	if ( $subdomain_error ) {
-		$vhost_deprecated = __( 'The constant <code>VHOST</code> <strong>is deprecated</strong>. Use the boolean constant <code>SUBDOMAIN_INSTALL</code> in wp-config.php to enable a subdomain configuration. Use is_subdomain_install() to check whether a subdomain configuration is enabled.' );
+		$vhost_deprecated = sprintf(
+			/* translators: 1: VHOST, 2: SUBDOMAIN_INSTALL, 3: wp-config.php, 4: is_subdomain_install() */
+			__( 'The constant %1$s <strong>is deprecated</strong>. Use the boolean constant %2$s in %3$s to enable a subdomain configuration. Use %4$s to check whether a subdomain configuration is enabled.' ),
+			'<code>VHOST</code>',
+			'<code>SUBDOMAIN_INSTALL</code>',
+			'<code>wp-config.php</code>',
+			'<code>is_subdomain_install()</code>'
+		);
 		if ( $subdomain_error_warn ) {
 			trigger_error( __( '<strong>Conflicting values for the constants VHOST and SUBDOMAIN_INSTALL.</strong> The value of SUBDOMAIN_INSTALL will be assumed to be your subdomain configuration setting.' ) . ' ' . $vhost_deprecated, E_USER_WARNING );
 		} else {

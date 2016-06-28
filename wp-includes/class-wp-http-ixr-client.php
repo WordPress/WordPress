@@ -64,15 +64,27 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 		);
 
 		// Merge Custom headers ala #8145
-		foreach ( $this->headers as $header => $value )
+		foreach ( $this->headers as $header => $value ) {
 			$args['headers'][$header] = $value;
+		}
 
-		if ( $this->timeout !== false )
+		/**
+		 * Filters the headers collection to be sent to the XML-RPC server.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array $headers Array of headers to be sent.
+		 */
+		$args['headers'] = apply_filters( 'wp_http_ixr_client_headers', $args['headers'] );
+
+		if ( $this->timeout !== false ) {
 			$args['timeout'] = $this->timeout;
+		}
 
 		// Now send the request
-		if ( $this->debug )
+		if ( $this->debug ) {
 			echo '<pre class="ixr_request">' . htmlspecialchars($xml) . "\n</pre>\n\n";
+		}
 
 		$response = wp_remote_post($url, $args);
 
@@ -88,8 +100,9 @@ class WP_HTTP_IXR_Client extends IXR_Client {
 			return false;
 		}
 
-		if ( $this->debug )
+		if ( $this->debug ) {
 			echo '<pre class="ixr_response">' . htmlspecialchars( wp_remote_retrieve_body( $response ) ) . "\n</pre>\n\n";
+		}
 
 		// Now parse what we've got back
 		$this->message = new IXR_Message( wp_remote_retrieve_body( $response ) );

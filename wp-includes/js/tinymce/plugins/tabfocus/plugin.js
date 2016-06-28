@@ -90,7 +90,7 @@ tinymce.PluginManager.add('tabfocus', function(editor) {
 			if (el.id && focusEditor) {
 				focusEditor.focus();
 			} else {
-				window.setTimeout(function() {
+				tinymce.util.Delay.setTimeout(function() {
 					if (!tinymce.Env.webkit) {
 						window.focus();
 					}
