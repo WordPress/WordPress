@@ -191,19 +191,22 @@ function wp_install_defaults( $user_id ) {
 	$wpdb->insert( $wpdb->term_relationships, array('term_taxonomy_id' => $cat_tt_id, 'object_id' => 1) );
 
 	// Default comment
-	$first_comment_author = __('Mr WordPress');
+	$first_comment_author = __( 'A WordPress Commenter' );
+	$first_comment_email = 'wapuu@wordpress.example';
 	$first_comment_url = 'https://wordpress.org/';
-	$first_comment = __('Hi, this is a comment.
-To delete a comment, just log in and view the post&#039;s comments. There you will have the option to edit or delete them.');
+	$first_comment = __( 'Hi, this is a comment.
+To moderate comments, just log in. There you will have the option to edit or delete them.
+Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.' );
 	if ( is_multisite() ) {
 		$first_comment_author = get_site_option( 'first_comment_author', $first_comment_author );
+		$first_comment_email = get_site_option( 'first_comment_email', $first_comment_email );
 		$first_comment_url = get_site_option( 'first_comment_url', network_home_url() );
 		$first_comment = get_site_option( 'first_comment', $first_comment );
 	}
 	$wpdb->insert( $wpdb->comments, array(
 		'comment_post_ID' => 1,
 		'comment_author' => $first_comment_author,
-		'comment_author_email' => '',
+		'comment_author_email' => $first_comment_email,
 		'comment_author_url' => $first_comment_url,
 		'comment_date' => $now,
 		'comment_date_gmt' => $now_gmt,

@@ -62,6 +62,7 @@ if ( $_POST ) {
 		'first_post', 'first_page', 'first_comment', 'first_comment_url', 'first_comment_author',
 		'welcome_email', 'welcome_user_email', 'fileupload_maxk', 'global_terms_enabled',
 		'illegal_names', 'limited_email_domains', 'banned_email_domains', 'WPLANG', 'admin_email',
+		'first_comment_email',
 	);
 
 	// Handle translation install.
@@ -261,6 +262,15 @@ if ( isset( $_GET['updated'] ) ) {
 					<input type="text" size="40" name="first_comment_author" id="first_comment_author" aria-describedby="first-comment-author-desc" value="<?php echo esc_attr( get_site_option('first_comment_author') ); ?>" />
 					<p class="description" id="first-comment-author-desc">
 						<?php _e( 'The author of the first comment on a new site.' ) ?>
+					</p>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row"><label for="first_comment_email"><?php _e( 'First Comment Email' ) ?></label></th>
+				<td>
+					<input type="text" size="40" name="first_comment_email" id="first_comment_email" aria-describedby="first-comment-email-desc" value="<?php echo esc_attr( get_site_option( 'first_comment_email' ) ); ?>" />
+					<p class="description" id="first-comment-email-desc">
+						<?php _e( 'The email address of the first comment author on a new site.' ) ?>
 					</p>
 				</td>
 			</tr>
