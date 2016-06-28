@@ -958,8 +958,14 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  *                                             See get_post_type_capabilities().
  *     @type bool        $map_meta_cap         Whether to use the internal default meta capability handling.
  *                                             Default false.
- *     @type array       $supports             An alias for calling add_post_type_support() directly. Defaults to array
- *                                             containing 'title' & 'editor'.
+ *     @type array       $supports             Core feature(s) the post type supports. Serves as an alias for calling
+ *                                             add_post_type_support() directly. Core features include 'title',
+ *                                             'editor', 'comments', 'revisions', 'trackbacks', 'author', 'excerpt',
+ *                                             'page-attributes', 'thumbnail', 'custom-fields', and 'post-formats'.
+ *                                             Additionally, the 'revisions' feature dictates whether the post type
+ *                                             will store revisions, and the 'comments' feature dictates whether the
+ *                                             comments count will show on the edit screen. Defaults is an array
+ *                                             containing 'title' and 'editor'.
  *     @type callable    $register_meta_box_cb Provide a callback function that sets up the meta boxes for the
  *                                             edit form. Do remove_meta_box() and add_meta_box() calls in the
  *                                             callback. Default null.
