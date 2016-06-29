@@ -222,6 +222,7 @@ final class WP_Site {
 	 * Getter.
 	 *
 	 * Allows current multisite naming conventions when getting properties.
+	 * Allows access to extended site properties.
 	 *
 	 * @since 4.6.0
 	 * @access public
@@ -239,6 +240,15 @@ final class WP_Site {
 				return $this->site_id;
 			case 'network_id':
 				return (int) $this->site_id;
+			case 'blogname':
+			case 'siteurl':
+			case 'post_count':
+			case 'home':
+				if ( ! did_action( 'ms_loaded' ) ) {
+					return null;
+				}
+				$details = $this->get_details();
+				return $details->$key;
 		}
 
 		return null;
@@ -248,6 +258,7 @@ final class WP_Site {
 	 * Isset-er.
 	 *
 	 * Allows current multisite naming conventions when checking for properties.
+	 * Checks for extended site properties.
 	 *
 	 * @since 4.6.0
 	 * @access public
@@ -261,6 +272,14 @@ final class WP_Site {
 			case 'blog_id':
 			case 'site_id':
 			case 'network_id':
+				return true;
+			case 'blogname':
+			case 'siteurl':
+			case 'post_count':
+			case 'home':
+				if ( ! did_action( 'ms_loaded' ) ) {
+					return false;
+				}
 				return true;
 		}
 
@@ -291,5 +310,59 @@ final class WP_Site {
 			default:
 				$this->$key = $value;
 		}
+	}
+
+	/**
+	 * Retrieve the details for this site.
+	 *
+	 * This method is used internally to lazy-load the extended properties of a site.
+	 *
+	 * @since 4.6.0
+	 * @access private
+	 *
+	 * @see WP_Site::__get()
+	 *
+	 * @return object A raw site object with all details included.
+	 */
+	private function get_details() {
+		$details = wp_cache_get( $this->blog_id, 'site-details' );
+
+		if ( false === $details ) {
+
+			switch_to_blog( $this->blog_id );
+			// Create a raw copy of the object for backwards compatibility with the filter below.
+			$details = new stdClass();
+			foreach ( get_object_vars( $this ) as $key => $value ) {
+				$details->$key = $value;
+			}
+			$details->blogname   = get_option( 'blogname' );
+			$details->siteurl    = get_option( 'siteurl' );
+			$details->post_count = get_option( 'post_count' );
+			$details->home       = get_option( 'home' );
+			restore_current_blog();
+
+			$cache_details = true;
+			foreach ( array( 'blogname', 'siteurl', 'post_count', 'home' ) as $field ) {
+				if ( false === $details->$field ) {
+					$cache_details = false;
+					break;
+				}
+			}
+
+			if ( $cache_details ) {
+				wp_cache_set( $this->blog_id, $details, 'site-details' );
+			}
+		}
+
+		/**
+		 * Filters a site's extended properties.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param object $details The site details.
+		 */
+		$details = apply_filters( 'site_details', $details );
+
+		return $details;
 	}
 }
