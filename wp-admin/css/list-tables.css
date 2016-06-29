@@ -2152,3 +2152,15 @@ div.action-links,
 		width: 100%;
 	}
 }
+
+@media screen and ( max-width: 480px ) {
+	.tablenav-pages .current-page {
+		margin: 0;
+	}
+
+	.tablenav-pages .tablenav-paging-text {
+		float: left;
+		width: 100%;
+		padding-top: 0.5em;
+	}
+}

@@ -772,7 +772,7 @@ class WP_List_Table {
 		$page_links = array();
 
 		$total_pages_before = '<span class="paging-input">';
-		$total_pages_after  = '</span>';
+		$total_pages_after  = '</span></span>';
 
 		$disable_first = $disable_last = $disable_prev = $disable_next = false;
 
@@ -813,9 +813,9 @@ class WP_List_Table {
 
 		if ( 'bottom' === $which ) {
 			$html_current_page  = $current;
-			$total_pages_before = '<span class="screen-reader-text">' . __( 'Current Page' ) . '</span><span id="table-paging" class="paging-input">';
+			$total_pages_before = '<span class="screen-reader-text">' . __( 'Current Page' ) . '</span><span id="table-paging" class="paging-input"><span class="tablenav-paging-text">';
 		} else {
-			$html_current_page = sprintf( "%s<input class='current-page' id='current-page-selector' type='text' name='paged' value='%s' size='%d' aria-describedby='table-paging' />",
+			$html_current_page = sprintf( "%s<input class='current-page' id='current-page-selector' type='text' name='paged' value='%s' size='%d' aria-describedby='table-paging' /><span class='tablenav-paging-text'>",
 				'<label for="current-page-selector" class="screen-reader-text">' . __( 'Current Page' ) . '</label>',
 				$current,
 				strlen( $total_pages )
