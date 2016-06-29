@@ -13,7 +13,7 @@ if ( ! $typenow )
 	wp_die( __( 'Invalid post type' ) );
 
 if ( ! in_array( $typenow, get_post_types( array( 'show_ui' => true ) ) ) ) {
-	wp_die( __( 'You are not allowed to edit posts in this post type.' ) );
+	wp_die( __( 'Sorry, you are not allowed to edit posts in this post type.' ) );
 }
 
 if ( 'attachment' === $typenow ) {
@@ -37,7 +37,7 @@ if ( ! $post_type_object )
 if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to edit posts in this post type.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to edit posts in this post type.' ) . '</p>',
 		403
 	);
 }
@@ -103,7 +103,7 @@ if ( $doaction ) {
 
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id) )
-					wp_die( __('You are not allowed to move this item to the Trash.') );
+					wp_die( __('Sorry, you are not allowed to move this item to the Trash.') );
 
 				if ( wp_check_post_lock( $post_id ) ) {
 					$locked++;
@@ -122,7 +122,7 @@ if ( $doaction ) {
 			$untrashed = 0;
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id) )
-					wp_die( __('You are not allowed to restore this item from the Trash.') );
+					wp_die( __('Sorry, you are not allowed to restore this item from the Trash.') );
 
 				if ( !wp_untrash_post($post_id) )
 					wp_die( __('Error in restoring from Trash.') );
@@ -137,7 +137,7 @@ if ( $doaction ) {
 				$post_del = get_post($post_id);
 
 				if ( !current_user_can( 'delete_post', $post_id ) )
-					wp_die( __('You are not allowed to delete this item.') );
+					wp_die( __('Sorry, you are not allowed to delete this item.') );
 
 				if ( $post_del->post_type == 'attachment' ) {
 					if ( ! wp_delete_attachment($post_id) )

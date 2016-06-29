@@ -12,7 +12,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! current_user_can( 'switch_themes' ) && ! current_user_can( 'edit_theme_options' ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to edit theme options on this site.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to edit theme options on this site.' ) . '</p>',
 		403
 	);
 }
@@ -40,7 +40,7 @@ if ( current_user_can( 'switch_themes' ) && isset($_GET['action'] ) ) {
 		if ( ! current_user_can( 'delete_themes' ) ) {
 			wp_die(
 				'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-				'<p>' . __( 'You are not allowed to delete this item.' ) . '</p>',
+				'<p>' . __( 'Sorry, you are not allowed to delete this item.' ) . '</p>',
 				403
 			);
 		}

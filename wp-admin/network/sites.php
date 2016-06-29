@@ -14,7 +14,7 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can( 'manage_sites' ) )
-	wp_die( __( 'You do not have permission to access this page.' ), 403 );
+	wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
 
 $wp_list_table = _get_list_table( 'WP_MS_Sites_List_Table' );
 $pagenum = $wp_list_table->get_pagenum();
@@ -91,7 +91,7 @@ if ( isset( $_GET['action'] ) ) {
 		}
 
 		if ( $current_site->blog_id == $id ) {
-			wp_die( __( 'You are not allowed to change the current site.' ) );
+			wp_die( __( 'Sorry, you are not allowed to change the current site.' ) );
 		}
 
 		$site_details = get_blog_details( $id );
@@ -126,7 +126,7 @@ if ( isset( $_GET['action'] ) ) {
 
 		case 'deleteblog':
 			if ( ! current_user_can( 'delete_sites' ) )
-				wp_die( __( 'You do not have permission to access this page.' ), '', array( 'response' => 403 ) );
+				wp_die( __( 'Sorry, you are not allowed to access this page.' ), '', array( 'response' => 403 ) );
 
 			$updated_action = 'not_deleted';
 			if ( $id != '0' && $id != $current_site->blog_id && current_user_can( 'delete_site', $id ) ) {
@@ -144,7 +144,7 @@ if ( isset( $_GET['action'] ) ) {
 						switch ( $doaction ) {
 							case 'delete':
 								if ( ! current_user_can( 'delete_site', $val ) )
-									wp_die( __( 'You are not allowed to delete the site.' ) );
+									wp_die( __( 'Sorry, you are not allowed to delete the site.' ) );
 
 								$updated_action = 'all_delete';
 								wpmu_delete_blog( $val, true );
@@ -157,7 +157,7 @@ if ( isset( $_GET['action'] ) ) {
 							break;
 						}
 					} else {
-						wp_die( __( 'You are not allowed to change the current site.' ) );
+						wp_die( __( 'Sorry, you are not allowed to change the current site.' ) );
 					}
 				}
 			} else {
@@ -237,7 +237,7 @@ if ( isset( $_GET['updated'] ) ) {
 			$msg = __( 'Site deleted.' );
 		break;
 		case 'not_deleted':
-			$msg = __( 'You do not have permission to delete that site.' );
+			$msg = __( 'Sorry, you are not allowed to delete that site.' );
 		break;
 		case 'archiveblog':
 			$msg = __( 'Site archived.' );

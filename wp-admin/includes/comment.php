@@ -46,7 +46,7 @@ function comment_exists( $comment_author, $comment_date, $timezone = 'blog' ) {
  */
 function edit_comment() {
 	if ( ! current_user_can( 'edit_comment', (int) $_POST['comment_ID'] ) )
-		wp_die ( __( 'You are not allowed to edit comments on this post.' ) );
+		wp_die ( __( 'Sorry, you are not allowed to edit comments on this post.' ) );
 
 	if ( isset( $_POST['newcomment_author'] ) )
 		$_POST['comment_author'] = $_POST['newcomment_author'];

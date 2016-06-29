@@ -17,7 +17,7 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can( 'manage_sites' ) )
-	wp_die( __( 'You do not have sufficient permissions to add sites to this network.' ) );
+	wp_die( __( 'Sorry, you are not allowed to add sites to this network.' ) );
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',

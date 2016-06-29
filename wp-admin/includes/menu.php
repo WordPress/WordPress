@@ -339,7 +339,7 @@ if ( !user_can_access_admin_page() ) {
 	 */
 	do_action( 'admin_page_access_denied' );
 
-	wp_die( __( 'You do not have sufficient permissions to access this page.' ), 403 );
+	wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
 }
 
 $menu = add_menu_classes($menu);

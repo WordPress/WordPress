@@ -14,7 +14,7 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can('manage_sites') )
-	wp_die(__('You do not have sufficient permissions to edit this site.'));
+	wp_die(__('Sorry, you are not allowed to edit this site.'));
 
 $wp_list_table = _get_list_table('WP_Users_List_Table');
 $wp_list_table->prepare_items();
@@ -60,7 +60,7 @@ if ( ! $details ) {
 }
 
 if ( ! can_edit_network( $details->site_id ) )
-	wp_die( __( 'You do not have permission to access this page.' ), 403 );
+	wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
 
 $is_main_site = is_main_site( $id );
 

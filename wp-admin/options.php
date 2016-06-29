@@ -47,7 +47,7 @@ if ( empty($option_page) ) {
 if ( ! current_user_can( $capability ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to manage these items.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to manage these items.' ) . '</p>',
 		403
 	);
 }
@@ -76,7 +76,7 @@ if ( is_multisite() ) {
 if ( is_multisite() && ! is_super_admin() && 'update' != $action ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to delete these items.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to delete these items.' ) . '</p>',
 		403
 	);
 }
@@ -160,7 +160,7 @@ if ( 'update' == $action ) {
 
 	if ( 'options' == $option_page ) {
 		if ( is_multisite() && ! is_super_admin() )
-			wp_die( __( 'You do not have sufficient permissions to modify unregistered settings for this site.' ) );
+			wp_die( __( 'Sorry, you are not allowed to modify unregistered settings for this site.' ) );
 		$options = explode( ',', wp_unslash( $_POST[ 'page_options' ] ) );
 	} else {
 		$options = $whitelist_options[ $option_page ];

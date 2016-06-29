@@ -14,7 +14,7 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( !current_user_can('manage_network_themes') )
-	wp_die( __( 'You do not have sufficient permissions to manage network themes.' ) );
+	wp_die( __( 'Sorry, you are not allowed to manage network themes.' ) );
 
 $wp_list_table = _get_list_table('WP_MS_Themes_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
@@ -90,7 +90,7 @@ if ( $action ) {
 			exit;
 		case 'delete-selected':
 			if ( ! current_user_can( 'delete_themes' ) ) {
-				wp_die( __('You do not have sufficient permissions to delete themes for this site.') );
+				wp_die( __('Sorry, you are not allowed to delete themes for this site.') );
 			}
 
 			check_admin_referer( 'bulk-themes' );

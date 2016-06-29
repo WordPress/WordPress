@@ -29,7 +29,7 @@ function edit_link( $link_id = 0 ) {
 	if ( ! current_user_can( 'manage_links' ) ) {
 		wp_die(
 			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-			'<p>' . __( 'You do not have sufficient permissions to edit the links for this site.' ) . '</p>',
+			'<p>' . __( 'Sorry, you are not allowed to edit the links for this site.' ) . '</p>',
 			403
 		);
 	}
@@ -312,5 +312,5 @@ function wp_link_manager_disabled_message() {
 		wp_die( sprintf( __( 'If you are looking to use the link manager, please install the <a href="%s">Link Manager</a> plugin.' ), $link ) );
 	}
 
-	wp_die( __( 'You do not have sufficient permissions to edit the links for this site.' ) );
+	wp_die( __( 'Sorry, you are not allowed to edit the links for this site.' ) );
 }

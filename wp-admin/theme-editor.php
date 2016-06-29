@@ -15,7 +15,7 @@ if ( is_multisite() && ! is_network_admin() ) {
 }
 
 if ( !current_user_can('edit_themes') )
-	wp_die('<p>'.__('You do not have sufficient permissions to edit templates for this site.').'</p>');
+	wp_die('<p>'.__('Sorry, you are not allowed to edit templates for this site.').'</p>');
 
 $title = __("Edit Themes");
 $parent_file = 'themes.php';

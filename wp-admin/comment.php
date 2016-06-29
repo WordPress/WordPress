@@ -61,7 +61,7 @@ case 'editcomment' :
 		comment_footer_die( __( 'Invalid comment ID.' ) . sprintf(' <a href="%s">' . __('Go back') . '</a>.', 'javascript:history.go(-1)') );
 
 	if ( !current_user_can( 'edit_comment', $comment_id ) )
-		comment_footer_die( __('You are not allowed to edit this comment.') );
+		comment_footer_die( __('Sorry, you are not allowed to edit this comment.') );
 
 	if ( 'trash' == $comment->comment_approved )
 		comment_footer_die( __('This comment is in the Trash. Please move it out of the Trash if you want to edit it.') );
@@ -254,7 +254,7 @@ case 'unapprovecomment' :
 	if ( !$comment = get_comment($comment_id) )
 		comment_footer_die( __( 'Invalid comment ID.' ) . sprintf(' <a href="%s">' . __('Go back') . '</a>.', 'edit-comments.php') );
 	if ( !current_user_can( 'edit_comment', $comment->comment_ID ) )
-		comment_footer_die( __('You are not allowed to edit comments on this post.') );
+		comment_footer_die( __('Sorry, you are not allowed to edit comments on this post.') );
 
 	if ( '' != wp_get_referer() && ! $noredir && false === strpos(wp_get_referer(), 'comment.php') )
 		$redir = wp_get_referer();

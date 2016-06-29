@@ -35,7 +35,7 @@ if ( ! in_array( $taxonomy, get_taxonomies( array( 'show_ui' => true ) ) ) ||
 ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to manage this item.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to manage this item.' ) . '</p>',
 		403
 	);
 }

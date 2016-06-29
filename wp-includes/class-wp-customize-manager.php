@@ -387,7 +387,7 @@ final class WP_Customize_Manager {
 		show_admin_bar( false );
 
 		if ( ! current_user_can( 'customize' ) ) {
-			$this->wp_die( -1, __( 'You are not allowed to customize this site.' ) );
+			$this->wp_die( -1, __( 'Sorry, you are not allowed to customize this site.' ) );
 		}
 
 		$this->original_stylesheet = get_stylesheet();
@@ -401,7 +401,7 @@ final class WP_Customize_Manager {
 			// If the requested theme is not the active theme and the user doesn't have the
 			// switch_themes cap, bail.
 			if ( ! current_user_can( 'switch_themes' ) ) {
-				$this->wp_die( -1, __( 'You are not allowed to edit theme options on this site.' ) );
+				$this->wp_die( -1, __( 'Sorry, you are not allowed to edit theme options on this site.' ) );
 			}
 
 			// If the theme has errors while loading, bail.

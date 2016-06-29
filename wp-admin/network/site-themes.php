@@ -14,7 +14,7 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can( 'manage_sites' ) )
-	wp_die( __( 'You do not have sufficient permissions to manage themes for this site.' ) );
+	wp_die( __( 'Sorry, you are not allowed to manage themes for this site.' ) );
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
@@ -67,7 +67,7 @@ if ( ! $details ) {
 }
 
 if ( !can_edit_network( $details->site_id ) )
-	wp_die( __( 'You do not have permission to access this page.' ), 403 );
+	wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
 
 $is_main_site = is_main_site( $id );
 

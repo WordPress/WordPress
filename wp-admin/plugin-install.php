@@ -15,7 +15,7 @@ if ( !defined( 'IFRAME_REQUEST' ) && isset( $_GET['tab'] ) && ( 'plugin-informat
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can('install_plugins') )
-	wp_die(__('You do not have sufficient permissions to install plugins on this site.'));
+	wp_die(__('Sorry, you are not allowed to install plugins on this site.'));
 
 if ( is_multisite() && ! is_network_admin() ) {
 	wp_redirect( network_admin_url( 'plugin-install.php' ) );

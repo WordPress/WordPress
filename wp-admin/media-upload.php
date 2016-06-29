@@ -16,7 +16,7 @@ if ( ! isset( $_GET['inline'] ) )
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'upload_files' ) ) {
-	wp_die( __( 'You do not have permission to upload files.' ), 403 );
+	wp_die( __( 'Sorry, you are not allowed to upload files.' ), 403 );
 }
 
 wp_enqueue_script('plupload-handlers');
@@ -43,7 +43,7 @@ if ( isset( $action ) && $action == 'edit' && !$ID ) {
 if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post' , $_REQUEST['post_id'] ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to edit this item.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to edit this item.' ) . '</p>',
 		403
 	);
 }

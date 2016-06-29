@@ -12,7 +12,7 @@ define('WP_LOAD_IMPORTERS', true);
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !current_user_can('import') )
-	wp_die(__('You do not have sufficient permissions to import content in this site.'));
+	wp_die(__('Sorry, you are not allowed to import content in this site.'));
 
 $title = __('Import');
 

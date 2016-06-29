@@ -15,7 +15,7 @@ if ( ! is_multisite() ) {
 }
 
 if ( ! current_user_can( 'manage_sites' ) ) {
-	wp_die( __( 'You do not have sufficient permissions to edit this site.' ) );
+	wp_die( __( 'Sorry, you are not allowed to edit this site.' ) );
 }
 
 get_current_screen()->add_help_tab( array(
@@ -47,7 +47,7 @@ if ( ! $details ) {
 }
 
 if ( ! can_edit_network( $details->site_id ) ) {
-	wp_die( __( 'You do not have permission to access this page.' ), 403 );
+	wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
 }
 
 $parsed_scheme = parse_url( $details->siteurl, PHP_URL_SCHEME );

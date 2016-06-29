@@ -14,7 +14,7 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can('create_users') )
-	wp_die(__('You do not have sufficient permissions to add users to this network.'));
+	wp_die(__('Sorry, you are not allowed to add users to this network.'));
 
 get_current_screen()->add_help_tab( array(
 	'id'      => 'overview',
@@ -34,7 +34,7 @@ if ( isset($_REQUEST['action']) && 'add-user' == $_REQUEST['action'] ) {
 	check_admin_referer( 'add-user', '_wpnonce_add-user' );
 
 	if ( ! current_user_can( 'manage_network_users' ) )
-		wp_die( __( 'You do not have permission to access this page.' ), 403 );
+		wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
 
 	if ( ! is_array( $_POST['user'] ) )
 		wp_die( __( 'Cannot create an empty user.' ) );

@@ -545,7 +545,7 @@ function _show_post_preview() {
 		$id = (int) $_GET['preview_id'];
 
 		if ( false === wp_verify_nonce( $_GET['preview_nonce'], 'post_preview_' . $id ) )
-			wp_die( __('You do not have permission to preview drafts.') );
+			wp_die( __('Sorry, you are not allowed to preview drafts.') );
 
 		add_filter('the_preview', '_set_preview');
 	}

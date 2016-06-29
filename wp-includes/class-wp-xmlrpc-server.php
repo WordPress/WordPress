@@ -1340,7 +1340,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$post_data['post_author'] = absint( $post_data['post_author'] );
 		if ( ! empty( $post_data['post_author'] ) && $post_data['post_author'] != $user->ID ) {
 			if ( ! current_user_can( $post_type->cap->edit_others_posts ) )
-				return new IXR_Error( 401, __( 'You are not allowed to create posts as this user.' ) );
+				return new IXR_Error( 401, __( 'Sorry, you are not allowed to create posts as this user.' ) );
 
 			$author = get_userdata( $post_data['post_author'] );
 
@@ -1634,7 +1634,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! current_user_can( 'delete_post', $post_id ) ) {
-			return new IXR_Error( 401, __( 'Sorry, you do not have the right to delete this post.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete this post.' ) );
 		}
 
 		$result = wp_delete_post( $post_id );
@@ -1792,7 +1792,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! current_user_can( $post_type->cap->edit_posts ) )
-			return new IXR_Error( 401, __( 'You are not allowed to edit posts in this post type.' ));
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit posts in this post type.' ));
 
 		$query['post_type'] = $post_type->name;
 
@@ -1875,7 +1875,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$taxonomy = get_taxonomy( $content_struct['taxonomy'] );
 
 		if ( ! current_user_can( $taxonomy->cap->manage_terms ) )
-			return new IXR_Error( 401, __( 'You are not allowed to create terms in this taxonomy.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to create terms in this taxonomy.' ) );
 
 		$taxonomy = (array) $taxonomy;
 
@@ -1962,7 +1962,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$taxonomy = get_taxonomy( $content_struct['taxonomy'] );
 
 		if ( ! current_user_can( $taxonomy->cap->edit_terms ) )
-			return new IXR_Error( 401, __( 'You are not allowed to edit terms in this taxonomy.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit terms in this taxonomy.' ) );
 
 		$taxonomy = (array) $taxonomy;
 
@@ -2058,7 +2058,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$taxonomy = get_taxonomy( $taxonomy );
 
 		if ( ! current_user_can( $taxonomy->cap->delete_terms ) )
-			return new IXR_Error( 401, __( 'You are not allowed to delete terms in this taxonomy.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete terms in this taxonomy.' ) );
 
 		$term = get_term( $term_id, $taxonomy->name );
 
@@ -2129,7 +2129,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$taxonomy = get_taxonomy( $taxonomy );
 
 		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
-			return new IXR_Error( 401, __( 'You are not allowed to assign terms in this taxonomy.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign terms in this taxonomy.' ) );
 
 		$term = get_term( $term_id , $taxonomy->name, ARRAY_A );
 
@@ -2187,7 +2187,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$taxonomy = get_taxonomy( $taxonomy );
 
 		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
-			return new IXR_Error( 401, __( 'You are not allowed to assign terms in this taxonomy.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign terms in this taxonomy.' ) );
 
 		$query = array();
 
@@ -2282,7 +2282,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		$taxonomy = get_taxonomy( $taxonomy );
 
 		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
-			return new IXR_Error( 401, __( 'You are not allowed to assign terms in this taxonomy.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign terms in this taxonomy.' ) );
 
 		return $this->_prepare_taxonomy( $taxonomy, $fields );
 	}
@@ -2470,7 +2470,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.getUsers' );
 
 		if ( ! current_user_can( 'list_users' ) )
-			return new IXR_Error( 401, __( 'You are not allowed to browse users.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to browse users.' ) );
 
 		$query = array( 'fields' => 'all_with_meta' );
 
@@ -2794,7 +2794,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Make sure the user can delete pages.
 		if ( !current_user_can('delete_page', $page_id) )
-			return new IXR_Error( 401, __( 'Sorry, you do not have the right to delete this page.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete this page.' ) );
 
 		// Attempt to delete the page.
 		$result = wp_delete_post($page_id);
@@ -2856,7 +2856,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Make sure the user is allowed to edit pages.
 		if ( !current_user_can('edit_page', $page_id) )
-			return new IXR_Error( 401, __( 'Sorry, you do not have the right to edit this page.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit this page.' ) );
 
 		// Mark this as content for a page.
 		$content['post_type'] = 'page';
@@ -3053,7 +3053,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Make sure the user is allowed to add a category.
 		if ( !current_user_can('manage_categories') )
-			return new IXR_Error(401, __('Sorry, you do not have the right to add a category.'));
+			return new IXR_Error(401, __('Sorry, you are not allowed to add a category.'));
 
 		// If no slug was provided make it empty so that
 		// WordPress will generate one.
@@ -3128,7 +3128,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.deleteCategory' );
 
 		if ( !current_user_can('manage_categories') )
-			return new IXR_Error( 401, __( 'Sorry, you do not have the right to delete a category.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete a category.' ) );
 
 		$status = wp_delete_term( $category_id, 'category' );
 
@@ -3226,7 +3226,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! current_user_can( 'edit_comment', $comment_id ) ) {
-			return new IXR_Error( 403, __( 'You are not allowed to moderate or edit this comment.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed to moderate or edit this comment.' ) );
 		}
 
 		return $this->_prepare_comment( $comment );
@@ -3358,7 +3358,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( !current_user_can( 'edit_comment', $comment_ID ) ) {
-			return new IXR_Error( 403, __( 'You are not allowed to moderate or edit this comment.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed to moderate or edit this comment.' ) );
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
@@ -3425,7 +3425,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! current_user_can( 'edit_comment', $comment_ID ) ) {
-			return new IXR_Error( 403, __( 'You are not allowed to moderate or edit this comment.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed to moderate or edit this comment.' ) );
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
@@ -3629,7 +3629,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! current_user_can( 'publish_posts' ) ) {
-			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed access to details about this site.' ) );
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
@@ -3670,7 +3670,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
-			return new IXR_Error( 403, __( 'You are not allowed access to details of this post.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed access to details of this post.' ) );
 		}
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
@@ -3710,7 +3710,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_posts' ) )
-			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed access to details about this site.' ) );
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getPostStatusList' );
@@ -3742,7 +3742,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_pages' ) )
-			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed access to details about this site.' ) );
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getPageStatusList' );
@@ -3774,7 +3774,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_pages' ) )
-			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed access to details about this site.' ) );
 
 		$templates = get_page_templates();
 		$templates['Default'] = 'default';
@@ -3868,7 +3868,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'manage_options' ) )
-			return new IXR_Error( 403, __( 'You are not allowed to update options.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed to update options.' ) );
 
 		$option_names = array();
 		foreach ( $options as $o_name => $o_value ) {
@@ -3920,7 +3920,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'upload_files' ) )
-			return new IXR_Error( 403, __( 'You do not have permission to upload files.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed to upload files.' ) );
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getMediaItem' );
@@ -3968,7 +3968,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'upload_files' ) )
-			return new IXR_Error( 401, __( 'You do not have permission to upload files.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to upload files.' ) );
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getMediaLibrary' );
@@ -4012,7 +4012,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return $this->error;
 
 		if ( !current_user_can( 'edit_posts' ) )
-			return new IXR_Error( 403, __( 'You are not allowed access to details about this site.' ) );
+			return new IXR_Error( 403, __( 'Sorry, you are not allowed access to details about this site.' ) );
 
 		/** This action is documented in wp-includes/class-wp-xmlrpc-server.php */
 		do_action( 'xmlrpc_call', 'wp.getPostFormats' );
@@ -4682,10 +4682,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		$this->escape($actual_post);
 
 		if ( ! current_user_can( 'edit_post', $post_ID ) ) {
-			return new IXR_Error(401, __('Sorry, you do not have the right to edit this post.'));
+			return new IXR_Error(401, __('Sorry, you are not allowed to edit this post.'));
 		}
 		if ( 'publish' == $actual_post['post_status'] && ! current_user_can( 'publish_posts' ) ) {
-			return new IXR_Error( 401, __( 'Sorry, you do not have the right to publish this post.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish this post.' ) );
 		}
 
 		$postdata = array();
@@ -4752,7 +4752,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! current_user_can( 'delete_post', $post_ID ) ) {
-			return new IXR_Error( 401, __( 'Sorry, you do not have the right to delete this post.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete this post.' ) );
 		}
 
 		$result = wp_delete_post( $post_ID );
@@ -4905,11 +4905,11 @@ class wp_xmlrpc_server extends IXR_Server {
 			switch ( $post_type ) {
 				case "post":
 					if ( !current_user_can( 'edit_others_posts' ) )
-						return new IXR_Error( 401, __( 'You are not allowed to create posts as this user.' ) );
+						return new IXR_Error( 401, __( 'Sorry, you are not allowed to create posts as this user.' ) );
 					break;
 				case "page":
 					if ( !current_user_can( 'edit_others_pages' ) )
-						return new IXR_Error( 401, __( 'You are not allowed to create pages as this user.' ) );
+						return new IXR_Error( 401, __( 'Sorry, you are not allowed to create pages as this user.' ) );
 					break;
 				default:
 					return new IXR_Error( 401, __( 'Invalid post type' ) );
@@ -5186,7 +5186,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 404, __( 'Invalid post ID.' ) );
 
 		if ( ! current_user_can( 'edit_post', $post_ID ) )
-			return new IXR_Error( 401, __( 'Sorry, you do not have the right to edit this post.' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit this post.' ) );
 
 		// Use wp.editPost to edit post types other than post and page.
 		if ( ! in_array( $postdata[ 'post_type' ], array( 'post', 'page' ) ) )
@@ -5245,12 +5245,12 @@ class wp_xmlrpc_server extends IXR_Server {
 				switch ( $post_type ) {
 					case 'post':
 						if ( ! current_user_can( 'edit_others_posts' ) ) {
-							return new IXR_Error( 401, __( 'You are not allowed to change the post author as this user.' ) );
+							return new IXR_Error( 401, __( 'Sorry, you are not allowed to change the post author as this user.' ) );
 						}
 						break;
 					case 'page':
 						if ( ! current_user_can( 'edit_others_pages' ) ) {
-							return new IXR_Error( 401, __( 'You are not allowed to change the page author as this user.' ) );
+							return new IXR_Error( 401, __( 'Sorry, you are not allowed to change the page author as this user.' ) );
 						}
 						break;
 					default:
@@ -5357,9 +5357,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( 'publish' == $post_status || 'private' == $post_status ) {
 			if ( 'page' == $post_type && ! current_user_can( 'publish_pages' ) ) {
-				return new IXR_Error( 401, __( 'Sorry, you do not have the right to publish this page.' ) );
+				return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish this page.' ) );
 			} elseif ( ! current_user_can( 'publish_posts' ) ) {
-				return new IXR_Error( 401, __( 'Sorry, you do not have the right to publish this post.' ) );
+				return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish this post.' ) );
 			}
 		}
 
@@ -5790,7 +5790,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'metaWeblog.newMediaObject' );
 
 		if ( !current_user_can('upload_files') ) {
-			$this->error = new IXR_Error( 401, __( 'You do not have permission to upload files.' ) );
+			$this->error = new IXR_Error( 401, __( 'Sorry, you are not allowed to upload files.' ) );
 			return $this->error;
 		}
 

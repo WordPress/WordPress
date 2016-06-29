@@ -9,7 +9,7 @@
 /** Load WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! current_user_can( 'manage_links' ) )
-	wp_die( __( 'You do not have sufficient permissions to edit the links for this site.' ) );
+	wp_die( __( 'Sorry, you are not allowed to edit the links for this site.' ) );
 
 $wp_list_table = _get_list_table('WP_Links_List_Table');
 
@@ -68,7 +68,7 @@ get_current_screen()->set_screen_reader_content( array(
 include_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 if ( ! current_user_can('manage_links') )
-	wp_die(__("You do not have sufficient permissions to edit the links for this site."));
+	wp_die(__('Sorry, you are not allowed to edit the links for this site.'));
 
 ?>
 

@@ -77,7 +77,7 @@ if ( is_multisite()
 	&& $user_id != $current_user->ID
 	&& ! apply_filters( 'enable_edit_any_user_configuration', true )
 ) {
-	wp_die( __( 'You do not have permission to edit this user.' ) );
+	wp_die( __( 'Sorry, you are not allowed to edit this user.' ) );
 }
 
 // Execute confirmed email change. See send_confirmation_on_profile_email().
@@ -110,7 +110,7 @@ case 'update':
 check_admin_referer('update-user_' . $user_id);
 
 if ( !current_user_can('edit_user', $user_id) )
-	wp_die(__('You do not have permission to edit this user.'));
+	wp_die(__('Sorry, you are not allowed to edit this user.'));
 
 if ( IS_PROFILE_PAGE ) {
 	/**
@@ -163,7 +163,7 @@ default:
 $profileuser = get_user_to_edit($user_id);
 
 if ( !current_user_can('edit_user', $user_id) )
-	wp_die(__('You do not have permission to edit this user.'));
+	wp_die(__('Sorry, you are not allowed to edit this user.'));
 
 $sessions = WP_Session_Tokens::get_instance( $profileuser->ID );
 
