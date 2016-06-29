@@ -674,7 +674,7 @@ function remove_all_actions($tag, $priority = false) {
  */
 function apply_filters_deprecated( $tag, $args, $version, $replacement = false, $message = null ) {
 	if ( ! has_filter( $tag ) ) {
-		return;
+		return $args[0];
 	}
 
 	_deprecated_hook( $tag, $version, $replacement, $message );
