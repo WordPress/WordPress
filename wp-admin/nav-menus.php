@@ -585,7 +585,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 					array( 'autofocus' => $focus ),
 					'return' => urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
 				), admin_url( 'customize.php' ) ) ),
-				__( 'Manage in Customizer' )
+				__( 'Manage with Live Preview' )
 			);
 		endif;
 		?>

@@ -357,7 +357,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' ); ?>
 				),
 				admin_url( 'customize.php' )
 			) ),
-			__( 'Manage in Customizer' )
+			__( 'Manage with Live Preview' )
 		);
 	}
 ?>
