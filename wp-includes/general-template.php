@@ -2821,7 +2821,10 @@ function wp_resource_hints() {
 			$url = esc_url( $url, array( 'http', 'https' ) );
 
 			if ( in_array( $relation_type, array( 'preconnect', 'dns-prefetch' ) ) ) {
-				$parsed = parse_url( $url );
+				$parsed = wp_parse_url( $url );
+				if ( empty( $parsed['host'] ) ) {
+					continue;
+				}
 
 				if ( ! empty( $parsed['scheme'] ) ) {
 					$url = $parsed['scheme'] . '://' . $parsed['host'];
@@ -2847,30 +2850,20 @@ function wp_resource_hints_scripts_styles() {
 
 	if ( is_object( $wp_scripts ) && ! empty( $wp_scripts->registered ) ) {
 		foreach ( $wp_scripts->registered as $registered_script ) {
-			$src = $registered_script->src;
-			// Make sure the URL has a scheme, otherwise parse_url() could fail to pass the host.
-			if ( '//' == substr( $src, 0, 2 ) ) {
-				$src = set_url_scheme( $src );
-			}
+			$parsed = wp_parse_url( $registered_script->src );
 
-			$this_host = parse_url( $src, PHP_URL_HOST );
-			if ( ! empty( $this_host ) && ! in_array( $this_host, $unique_hosts ) && $this_host !== $_SERVER['SERVER_NAME'] ) {
-				$unique_hosts[] = $this_host;
+			if ( ! empty( $parsed['host'] ) && ! in_array( $parsed['host'], $unique_hosts ) && $parsed['host'] !== $_SERVER['SERVER_NAME'] ) {
+				$unique_hosts[] = $parsed['host'];
 			}
 		}
 	}
 
 	if ( is_object( $wp_styles ) && ! empty( $wp_styles->registered ) ) {
 		foreach ( $wp_styles->registered as $registered_style ) {
-			$src = $registered_style->src;
-			// Make sure the URL has a scheme, otherwise parse_url() could fail to pass the host.
-			if ( '//' == substr( $src, 0, 2 ) ) {
-				$src = set_url_scheme( $src );
-			}
+			$parsed = wp_parse_url( $registered_style->src );
 
-			$this_host = parse_url( $src, PHP_URL_HOST );
-			if ( ! empty( $this_host ) && ! in_array( $this_host, $unique_hosts ) && $this_host !== $_SERVER['SERVER_NAME'] ) {
-				$unique_hosts[] = $this_host;
+			if ( ! empty( $parsed['host'] ) && ! in_array( $parsed['host'], $unique_hosts ) && $parsed['host'] !== $_SERVER['SERVER_NAME'] ) {
+				$unique_hosts[] = $parsed['host'];
 			}
 		}
 	}
