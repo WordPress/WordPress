@@ -2788,6 +2788,97 @@ function wp_site_icon() {
 }
 
 /**
+ * Prints resource hints to browsers for pre-fetching, pre-rendering and pre-connecting to web sites.
+ *
+ * Gives hints to browsers to prefetch specific pages or render them in the background,
+ * to perform DNS lookups or to begin the connection handshake (DNS, TCP, TLS) in the background.
+ *
+ * These performance improving indicators work by using `<link rel"…">`.
+ *
+ * @since 4.6.0
+ */
+function wp_resource_hints() {
+	$hints = array(
+		'dns-prefetch' => wp_resource_hints_scripts_styles(),
+		'preconnect'   => array( 's.w.org' ),
+		'prefetch'     => array(),
+		'prerender'    => array(),
+	);
+
+	foreach ( $hints as $relation_type => $urls ) {
+		/**
+		 * Filters domains and URLs for resource hints.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param array  $urls          URLs to print for resource hints.
+		 * @param string $relation_type The relation type the URLs are printed for, e.g. 'preconnect' or 'prerender'.
+		 */
+		$urls = apply_filters( 'wp_resource_hints', $urls, $relation_type );
+		$urls = array_unique( $urls );
+
+		foreach ( $urls as $url ) {
+			$url = esc_url( $url, array( 'http', 'https' ) );
+
+			if ( in_array( $relation_type, array( 'preconnect', 'dns-prefetch' ) ) ) {
+				$parsed = parse_url( $url );
+
+				if ( ! empty( $parsed['scheme'] ) ) {
+					$url = $parsed['scheme'] . '://' . $parsed['host'];
+				} else {
+					$url = $parsed['host'];
+				}
+			}
+
+			printf( "<link rel='%s' href='%s'>\r\n", $relation_type, $url );
+		}
+	}
+}
+
+/**
+ * Adds dns-prefetch for all scripts and styles enqueued from external hosts.
+ *
+ * @since 4.6.0
+ */
+function wp_resource_hints_scripts_styles() {
+	global $wp_scripts, $wp_styles;
+
+	$unique_hosts = array();
+
+	if ( is_object( $wp_scripts ) && ! empty( $wp_scripts->registered ) ) {
+		foreach ( $wp_scripts->registered as $registered_script ) {
+			$src = $registered_script->src;
+			// Make sure the URL has a scheme, otherwise parse_url() could fail to pass the host.
+			if ( '//' == substr( $src, 0, 2 ) ) {
+				$src = set_url_scheme( $src );
+			}
+
+			$this_host = parse_url( $src, PHP_URL_HOST );
+			if ( ! empty( $this_host ) && ! in_array( $this_host, $unique_hosts ) && $this_host !== $_SERVER['SERVER_NAME'] ) {
+				$unique_hosts[] = $this_host;
+			}
+		}
+	}
+
+	if ( is_object( $wp_styles ) && ! empty( $wp_styles->registered ) ) {
+		foreach ( $wp_styles->registered as $registered_style ) {
+			$src = $registered_style->src;
+			// Make sure the URL has a scheme, otherwise parse_url() could fail to pass the host.
+			if ( '//' == substr( $src, 0, 2 ) ) {
+				$src = set_url_scheme( $src );
+			}
+
+			$this_host = parse_url( $src, PHP_URL_HOST );
+			if ( ! empty( $this_host ) && ! in_array( $this_host, $unique_hosts ) && $this_host !== $_SERVER['SERVER_NAME'] ) {
+				$unique_hosts[] = $this_host;
+			}
+		}
+	}
+
+	return $unique_hosts;
+}
+
+/**
  * Whether the user should have a WYSIWIG editor.
  *
  * Checks that the user requires a WYSIWIG editor and that the editor is

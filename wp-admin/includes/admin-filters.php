@@ -43,6 +43,9 @@ add_action( 'admin_head', 'wp_color_scheme_settings' );
 add_action( 'admin_head', 'wp_site_icon'             );
 add_action( 'admin_head', '_ipad_meta'               );
 
+// Prerendering.
+add_filter( 'admin_head', 'wp_resource_hints' );
+
 add_action( 'admin_print_scripts-post.php',     'wp_page_reload_on_back_button_js' );
 add_action( 'admin_print_scripts-post-new.php', 'wp_page_reload_on_back_button_js' );
 
