@@ -228,6 +228,11 @@ class WP_REST_Server {
 		$this->send_header( 'Content-Type', $content_type . '; charset=' . get_option( 'blog_charset' ) );
 		$this->send_header( 'X-Robots-Tag', 'noindex' );
 
+		$api_root = get_rest_url();
+		if ( ! empty( $api_root ) ) {
+			$this->send_header( 'Link', '<' . esc_url_raw( $api_root ) . '>; rel="https://api.w.org/"' );
+		}
+
 		/*
 		 * Mitigate possible JSONP Flash attacks.
 		 *
