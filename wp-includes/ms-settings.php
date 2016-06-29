@@ -104,3 +104,11 @@ if ( ! $current_blog instanceof WP_Site ) {
 
 // Define upload directory constants
 ms_upload_constants();
+
+/**
+ * Fires after the current site and network have been detected and loaded
+ * in multisite's bootstrap.
+ *
+ * @since 4.6.0
+ */
+do_action( 'ms_loaded' );
