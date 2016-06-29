@@ -27,7 +27,9 @@ class WP_Network {
 	 * Network ID.
 	 *
 	 * @since 4.4.0
-	 * @since 4.6.0 Type changed from string to int.
+	 * @since 4.6.0 Converted from public to private to explicitly enable more intuitive
+	 *              access via magic methods. As part of the access change, the type was
+	 *              also changed from `string` to `int`.
 	 * @access private
 	 * @var int
 	 */
