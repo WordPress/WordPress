@@ -195,7 +195,7 @@ function wp_install_defaults( $user_id ) {
 	$first_comment_email = 'wapuu@wordpress.example';
 	$first_comment_url = 'https://wordpress.org/';
 	$first_comment = __( 'Hi, this is a comment.
-To moderate comments, just log in. There you will have the option to edit or delete them.
+To get started with moderating, editing, and deleting comments, please visit the Comments screen in the dashboard.
 Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.' );
 	if ( is_multisite() ) {
 		$first_comment_author = get_site_option( 'first_comment_author', $first_comment_author );
