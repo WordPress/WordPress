@@ -540,7 +540,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			q: 'mceBlockQuote',
 			u: 'InsertUnorderedList',
 			o: 'InsertOrderedList',
-			s: 'unlink',
 			m: 'WP_Medialib',
 			z: 'WP_Adv',
 			t: 'WP_More',

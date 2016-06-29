@@ -300,13 +300,18 @@
 			if ( ! editToolbar.tempHide ) {
 				inputInstance.reset();
 				removePlaceholders();
-				editor.focus();
-				editToolbar.tempHide = false;
 			}
 		} );
 
-		// WP default shortcut
+		editor.addCommand( 'wp_unlink', function() {
+			editor.execCommand( 'unlink' );
+			editToolbar.tempHide = false;
+			editor.execCommand( 'wp_link_cancel' );
+		} );
+
+		// WP default shortcuts
 		editor.addShortcut( 'access+a', '', 'WP_Link' );
+		editor.addShortcut( 'access+s', '', 'wp_unlink' );
 		// The "de-facto standard" shortcut, see #27305
 		editor.addShortcut( 'meta+k', '', 'WP_Link' );
 
@@ -367,6 +372,10 @@
 		// When doing undo and redo with keyboard shortcuts (Ctrl|Cmd+Z, Ctrl|Cmd+Shift+Z, Ctrl|Cmd+Y),
 		// set a flag to not focus the inline dialog. The editor has to remain focused so the users can do consecutive undo/redo.
 		editor.on( 'keydown', function( event ) {
+			if ( event.keyCode === 27 ) { // Esc
+				editor.execCommand( 'wp_link_cancel' );
+			}
+
 			if ( event.altKey || ( tinymce.Env.mac && ( ! event.metaKey || event.ctrlKey ) ) ||
 				( ! tinymce.Env.mac && ! event.ctrlKey ) ) {
 
@@ -560,6 +569,8 @@
 						toolbar.$el.find( '.wp-link-preview a' ).removeClass( 'wplink-url-error' ).attr( 'title', null );
 					}
 				}
+			} else {
+				editor.execCommand( 'wp_link_cancel' );
 			}
 		} );
 
@@ -572,7 +583,7 @@
 		editor.addButton( 'wp_link_remove', {
 			tooltip: 'Remove',
 			icon: 'dashicon dashicons-no',
-			cmd: 'unlink'
+			cmd: 'wp_unlink'
 		} );
 
 		editor.addButton( 'wp_link_advanced', {
