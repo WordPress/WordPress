@@ -210,3 +210,44 @@ function the_post_thumbnail_url( $size = 'post-thumbnail' ) {
 		echo esc_url( $url );
 	}
 }
+
+/**
+ * Returns the post thumbnail caption.
+ *
+ * @since 4.6.0
+ *
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ * @return string Post thumbnail caption.
+ */
+function get_the_post_thumbnail_caption( $post = null ) {
+	$post_thumbnail_id = get_post_thumbnail_id( $post );
+	if ( ! $post_thumbnail_id ) {
+		return '';
+	}
+
+	$caption = wp_get_attachment_caption( $post_thumbnail_id );
+
+	if ( ! $caption ) {
+		$caption = '';
+	}
+
+	return $caption;
+}
+
+/**
+ * Displays the post thumbnail caption.
+ *
+ * @since 4.6.0
+ *
+ * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default is global `$post`.
+ */
+function the_post_thumbnail_caption( $post = null ) {
+	/**
+	 * Filters the displayed post thumbnail caption.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param string $caption Caption for the given attachment.
+	 */
+	echo apply_filters( 'the_post_thumbnail_caption', get_the_post_thumbnail_caption( $post ) );
+}

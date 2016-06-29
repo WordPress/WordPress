@@ -143,6 +143,10 @@ add_filter( 'the_excerpt',     'wpautop'          );
 add_filter( 'the_excerpt',     'shortcode_unautop');
 add_filter( 'get_the_excerpt', 'wp_trim_excerpt'  );
 
+add_filter( 'the_post_thumbnail_caption', 'wptexturize'     );
+add_filter( 'the_post_thumbnail_caption', 'convert_smilies' );
+add_filter( 'the_post_thumbnail_caption', 'convert_chars'   );
+
 add_filter( 'comment_text', 'wptexturize'            );
 add_filter( 'comment_text', 'convert_chars'          );
 add_filter( 'comment_text', 'make_clickable',      9 );
