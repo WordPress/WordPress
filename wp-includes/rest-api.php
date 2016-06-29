@@ -548,10 +548,12 @@ function rest_output_link_header() {
  *
  * @since 4.4.0
  *
- * @global mixed $wp_rest_auth_cookie
+ * @global mixed          $wp_rest_auth_cookie
+ * @global WP_REST_Server $wp_rest_server      REST server instance.
  *
- * @param WP_Error|mixed $result Error from another authentication handler, null if we should handle it,
- *                               or another value if not.
+ * @param WP_Error|mixed $result Error from another authentication handler,
+ *                               null if we should handle it, or another value
+ *                               if not.
  * @return WP_Error|mixed|bool WP_Error if the cookie is invalid, the $result, otherwise true.
  */
 function rest_cookie_check_errors( $result ) {
@@ -559,7 +561,7 @@ function rest_cookie_check_errors( $result ) {
 		return $result;
 	}
 
-	global $wp_rest_auth_cookie;
+	global $wp_rest_auth_cookie, $wp_rest_server;
 
 	/*
 	 * Is cookie authentication being used? (If we get an auth
@@ -591,6 +593,9 @@ function rest_cookie_check_errors( $result ) {
 	if ( ! $result ) {
 		return new WP_Error( 'rest_cookie_invalid_nonce', __( 'Cookie nonce is invalid' ), array( 'status' => 403 ) );
 	}
+
+	// Send a refreshed nonce in header.
+	$wp_rest_server->send_header( 'X-WP-Nonce', wp_create_nonce( 'wp_rest' ) );
 
 	return true;
 }
