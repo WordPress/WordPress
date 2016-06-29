@@ -26,12 +26,10 @@ final class WP_Site {
 	 * A numeric string, for compatibility reasons.
 	 *
 	 * @since 4.5.0
-	 * @since 4.6.0 Converted from public to private to explicitly enable more intuitive
-	 *              access via magic methods.
-	 * @access private
+	 * @access public
 	 * @var string
 	 */
-	private $blog_id;
+	public $blog_id;
 
 	/**
 	 * Domain of the site.
@@ -60,12 +58,10 @@ final class WP_Site {
 	 * A numeric string, for compatibility reasons.
 	 *
 	 * @since 4.5.0
-	 * @since 4.6.0 Converted from public to private to explicitly enable more intuitive
-	 *              access via magic methods.
-	 * @access private
+	 * @access public
 	 * @var string
 	 */
-	private $site_id = '0';
+	public $site_id = '0';
 
 	/**
 	 * The date on which the site was created or registered.
@@ -234,10 +230,6 @@ final class WP_Site {
 		switch ( $key ) {
 			case 'id':
 				return (int) $this->blog_id;
-			case 'blog_id':
-				return $this->blog_id;
-			case 'site_id':
-				return $this->site_id;
 			case 'network_id':
 				return (int) $this->site_id;
 			case 'blogname':
@@ -269,8 +261,6 @@ final class WP_Site {
 	public function __isset( $key ) {
 		switch ( $key ) {
 			case 'id':
-			case 'blog_id':
-			case 'site_id':
 			case 'network_id':
 				return true;
 			case 'blogname':
@@ -300,10 +290,8 @@ final class WP_Site {
 	public function __set( $key, $value ) {
 		switch ( $key ) {
 			case 'id':
-			case 'blog_id':
 				$this->blog_id = (string) $value;
 				break;
-			case 'site_id':
 			case 'network_id':
 				$this->site_id = (string) $value;
 				break;
