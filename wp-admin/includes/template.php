@@ -985,11 +985,16 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
  * @param string|WP_Screen $screen  Screen identifier
  * @param string           $context box context
  * @param mixed            $object  gets passed to the box callback function as first parameter
+ * @param int              $heading_level What level heading to use for the meta box titles.
  * @return int number of meta_boxes
  */
-function do_meta_boxes( $screen, $context, $object ) {
+function do_meta_boxes( $screen, $context, $object, $heading_level = 2 ) {
 	global $wp_meta_boxes;
 	static $already_sorted = false;
+
+	if ( $heading_level < 1 || $heading_level > 6 ) {
+		$heading_level = 2;
+	}
 
 	if ( empty( $screen ) )
 		$screen = get_current_screen();
@@ -1032,7 +1037,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 						echo '<span class="toggle-indicator" aria-hidden="true"></span>';
 						echo '</button>';
 					}
-					echo "<h2 class='hndle'><span>{$box['title']}</span></h2>\n";
+					echo "<h{$heading_level} class='hndle'><span>{$box['title']}</span></h{$heading_level}>\n";
 					echo '<div class="inside">' . "\n";
 					call_user_func($box['callback'], $object, $box);
 					echo "</div>\n";
