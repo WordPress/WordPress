@@ -569,7 +569,7 @@
 				"order": 25,
 				"prevSize": 32,
 				"code": 57373,
-				"name": "removefromat",
+				"name": "removeformat",
 				"ligatures": ""
 			},
 			"setIdx": 0,
