@@ -1689,13 +1689,15 @@ function wp_ajax_inline_save() {
 	$mode = $_POST['post_view'] === 'excerpt' ? 'excerpt' : 'list';
 
 	$level = 0;
-	$request_post = array( get_post( $_POST['post_ID'] ) );
-	$parent = $request_post[0]->post_parent;
+	if ( is_post_type_hierarchical( $wp_list_table->screen->post_type ) ) {
+		$request_post = array( get_post( $_POST['post_ID'] ) );
+		$parent       = $request_post[0]->post_parent;
 
-	while ( $parent > 0 ) {
-		$parent_post = get_post( $parent );
-		$parent = $parent_post->post_parent;
-		$level++;
+		while ( $parent > 0 ) {
+			$parent_post = get_post( $parent );
+			$parent      = $parent_post->post_parent;
+			$level++;
+		}
 	}
 
 	$wp_list_table->display_rows( array( get_post( $_POST['post_ID'] ) ), $level );
