@@ -978,6 +978,7 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
  * Meta-Box template function
  *
  * @since 2.5.0
+ * @since 4.6.0 Added the $heading_level parameter.
  *
  * @global array $wp_meta_boxes
  *
