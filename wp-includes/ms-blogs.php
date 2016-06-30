@@ -183,10 +183,6 @@ function get_blog_details( $fields = null, $get_all = true ) {
 				wp_cache_delete( $blog_id . $all, 'blog-details' );
 				unset($details);
 			}
-		} elseif ( ! $details->blog_id || ! $details->site_id ) {
-			// Clear objects missing critical properties.
-			wp_cache_delete( $blog_id . $all, 'blog-details' );
-			unset($details);
 		} else {
 			return $details;
 		}
@@ -207,17 +203,13 @@ function get_blog_details( $fields = null, $get_all = true ) {
 					wp_cache_delete( $blog_id, 'blog-details' );
 					unset($details);
 				}
-			} elseif ( ! $details->blog_id || ! $details->site_id ) {
-				// Clear objects missing critical properties.
-				wp_cache_delete( $blog_id, 'blog-details' );
-				unset($details);
 			} else {
 				return $details;
 			}
 		}
 	}
 
-	if ( empty( $details ) || ! $details->blog_id || ! $details->site_id ) {
+	if ( empty($details) ) {
 		$details = WP_Site::get_instance( $blog_id );
 		if ( ! $details ) {
 			// Set the full cache.
