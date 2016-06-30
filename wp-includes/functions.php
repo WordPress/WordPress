@@ -4233,7 +4233,6 @@ function wp_suspend_cache_invalidation( $suspend = true ) {
  * @global object $current_site
  *
  * @param int $site_id Optional. Site ID to test. Defaults to current site.
- *                     Defaults to current site.
  * @return bool True if $site_id is the main site of the network, or if not
  *              running Multisite.
  */
