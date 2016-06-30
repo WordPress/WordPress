@@ -980,8 +980,6 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
 	 * @param string $object_subtype  Object subtype.
 	 */
 	return apply_filters( "sanitize_{$object_type}_meta_{$meta_key}", $meta_value, $meta_key, $object_type, $object_subtype );
-
-	
 }
 
 /**
@@ -1003,13 +1001,13 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  *     @type string $auth_callback     Optional. A function or method to call when performing edit_post_meta, add_post_meta, and delete_post_meta capability checks.
  *     @type bool   $show_in_rest      Whether data associated with this meta key can be considered public.
  * }
- * @param string|array $auth_callback Deprecated. Use `$args` instead.
+ * @param string|array $deprecated Deprecated. Use `$args` instead.
  *
  * @return bool True if the meta key was successfully registered in the global array, false if not.
  *              Registering a meta key with distinct sanitize and auth callbacks will fire those
  *              callbacks, but will not add to the global registry as it requires a subtype.
  */
-function register_meta( $object_type, $meta_key, $args, $auth_callback = null ) {
+function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 	global $wp_meta_keys;
 
 	if ( ! is_array( $wp_meta_keys ) ) {
@@ -1030,20 +1028,21 @@ function register_meta( $object_type, $meta_key, $args, $auth_callback = null ) 
 		'show_in_rest'      => false,
 	);
 
-	$passed_args = array_slice( func_get_args(), 2 );
-
 	// There used to be individual args for sanitize and auth callbacks
 	$has_old_sanitize_cb = false;
 
-	if ( is_callable( $passed_args[0] ) ) {
-		$args['sanitize_callback'] = $passed_args[0];
+	if ( is_callable( $args ) ) {
+		$args = array(
+			'sanitize_callback' => $args,
+		);
+
 		$has_old_sanitize_cb = true;
 	} else {
-		$args = $passed_args[0];
+		$args = (array) $args;
 	}
 
-	if ( isset( $passed_args[1] ) && is_callable( $passed_args[1] ) ) {
-		$args['auth_callback'] = $passed_args[1];
+	if ( is_callable( $deprecated ) ) {
+		$args['auth_callback'] = $deprecated;
 	}
 
 	$args = wp_parse_args( $args, $defaults );
