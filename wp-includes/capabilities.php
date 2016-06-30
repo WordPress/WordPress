@@ -243,11 +243,13 @@ function map_meta_cap( $cap, $user_id ) {
 			break;
 		}
 
+		$post_type = get_post_type( $post );
+
 		$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
 
 		$meta_key = isset( $args[ 1 ] ) ? $args[ 1 ] : false;
 
-		if ( $meta_key && has_filter( "auth_post_meta_{$meta_key}" ) ) {
+		if ( $meta_key && ( has_filter( "auth_post_meta_{$meta_key}" ) || has_filter( "auth_post_{$post_type}_meta_{$meta_key}" ) ) ) {
 			/**
 			 * Filters whether the user is allowed to add post meta to a post.
 			 *
@@ -264,6 +266,24 @@ function map_meta_cap( $cap, $user_id ) {
 			 * @param array  $caps     User capabilities.
 			 */
 			$allowed = apply_filters( "auth_post_meta_{$meta_key}", false, $meta_key, $post->ID, $user_id, $cap, $caps );
+
+			/**
+			 * Filters whether the user is allowed to add post meta to a post of a given type.
+			 *
+			 * The dynamic portions of the hook name, `$meta_key` and `$post_type`,
+			 * refer to the meta key passed to map_meta_cap() and the post type, respectively.
+			 *
+			 * @since 4.6.0
+			 *
+			 * @param bool   $allowed  Whether the user can add the post meta. Default false.
+			 * @param string $meta_key The meta key.
+			 * @param int    $post_id  Post ID.
+			 * @param int    $user_id  User ID.
+			 * @param string $cap      Capability name.
+			 * @param array  $caps     User capabilities.
+			 */
+			$allowed = apply_filters( "auth_post_{$post_type}_meta_{$meta_key}", $allowed, $meta_key, $post->ID, $user_id, $cap, $caps );
+
 			if ( ! $allowed )
 				$caps[] = $cap;
 		} elseif ( $meta_key && is_protected_meta( $meta_key, 'post' ) ) {
