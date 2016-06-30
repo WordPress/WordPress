@@ -1708,6 +1708,8 @@ function safecss_filter_attr( $css, $deprecated = '' ) {
 	 * Filters list of allowed CSS attributes.
 	 *
 	 * @since 2.8.1
+	 * @since 4.4.0 `min-height`, `max-height`, `min-width`, and `max-width` were added.
+	 * @since 4.6.0 `list-style-type` was added.
 	 *
 	 * @param array $attr List of allowed CSS attributes.
 	 */
