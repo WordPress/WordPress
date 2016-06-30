@@ -997,6 +997,7 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  *     @type string $object_subtype    A subtype; e.g. if the object type is "post", the post type.
  *     @type string $type              The type of data associated with this meta key.
  *     @type string $description       A description of the data attached to this meta key.
+ *     @type bool   $single            Whether the meta key has one value per object, or an array of values per object.
  *     @type string $sanitize_callback A function or method to call when sanitizing `$meta_key` data.
  *     @type string $auth_callback     Optional. A function or method to call when performing edit_post_meta, add_post_meta, and delete_post_meta capability checks.
  *     @type bool   $show_in_rest      Whether data associated with this meta key can be considered public.
@@ -1023,6 +1024,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 		'object_subtype'    => '',
 		'type'              => 'string',
 		'description'       => '',
+		'single'            => false,
 		'sanitize_callback' => null,
 		'auth_callback'     => null,
 		'show_in_rest'      => false,
@@ -1225,9 +1227,9 @@ function get_registered_metadata( $object_type, $object_subtype, $object_id, $me
 			return new WP_Error( 'invalid_meta_key', __( 'Invalid meta key. Not registered.' ) );
 		}
 		$meta_keys = get_registered_meta_keys( $object_type, $object_subtype );
-		$meta_key_data = $meta_keys[ $object_type ][ $object_subtype ][ $meta_key ];
+		$meta_key_data = $meta_keys[ $meta_key ];
 
-		$data = get_metadata( $object_type, $object_id, $meta_key, $meta_key_data->single );
+		$data = get_metadata( $object_type, $object_id, $meta_key, $meta_key_data['single'] );
 
 		return $data;
 	}
