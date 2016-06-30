@@ -1032,8 +1032,8 @@ function register_meta( $object_type, $meta_key, $args, $auth_callback = null ) 
 
 	$passed_args = array_slice( func_get_args(), 2 );
 
-	// There used to be individual args for sanitize and auth callbacks	
-	$has_old_sanitize_cb = $has_old_auth_cb = false;
+	// There used to be individual args for sanitize and auth callbacks
+	$has_old_sanitize_cb = false;
 
 	if ( is_callable( $passed_args[0] ) ) {
 		$args['sanitize_callback'] = $passed_args[0];
@@ -1044,7 +1044,6 @@ function register_meta( $object_type, $meta_key, $args, $auth_callback = null ) 
 
 	if ( isset( $passed_args[1] ) && is_callable( $passed_args[1] ) ) {
 		$args['auth_callback'] = $passed_args[1];
-		$has_old_auth_cb = true;
 	}
 
 	$args = wp_parse_args( $args, $defaults );
@@ -1066,13 +1065,6 @@ function register_meta( $object_type, $meta_key, $args, $auth_callback = null ) 
 		return false;
 	}
 
-	// Back-compat: old sanitize and auth callbacks applied to all of an object type
-	if ( $has_old_sanitize_cb ) {
-		add_filter( "sanitize_{$object_type}_meta_{$meta_key}", $args['sanitize_callback'], 10, 4 );
-	} elseif ( is_callable( $args['sanitize_callback'] ) && ! empty( $object_subtype ) ) {
-		add_filter( "sanitize_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['sanitize_callback'], 10, 4 );
-	}
-
 	// If `auth_callback` is not provided, fall back to `is_protected_meta()`.
 	if ( empty( $args['auth_callback'] ) ) {
 		if ( is_protected_meta( $meta_key, $object_type ) ) {
@@ -1082,16 +1074,23 @@ function register_meta( $object_type, $meta_key, $args, $auth_callback = null ) 
 		}
 	}
 
-	if ( $has_old_auth_cb ) {
+	// Back-compat: old sanitize and auth callbacks applied to all of an object type
+	if ( $has_old_sanitize_cb ) {
+		add_filter( "sanitize_{$object_type}_meta_{$meta_key}", $args['sanitize_callback'], 10, 4 );
 		add_filter( "auth_{$object_type}_meta_{$meta_key}", $args['auth_callback'], 10, 6 );
-	} elseif ( is_callable( $args['auth_callback'] ) && ! empty( $object_subtype ) ) {
-		add_filter( "auth_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['auth_callback'], 10, 6 );
+	} else {
+		if ( is_callable( $args['sanitize_callback'] ) ) {
+			add_filter( "sanitize_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['sanitize_callback'], 10, 4 );
+		}
+
+		if ( is_callable( $args['auth_callback'] ) ) {
+			add_filter( "auth_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['auth_callback'], 10, 6 );
+		}
 	}
 
-	$object_subtype = $args['object_subtype'];
-
 	// Global registry only contains meta keys registered in the new way with a subtype.
-	if ( ! empty( $object_subtype ) ) {
+	if ( ! empty( $args['object_subtype'] ) ) {
+		$object_subtype = $args['object_subtype'];
 		$wp_meta_keys[ $object_type ][ $object_subtype ][ $meta_key ] = $args;
 
 		return true;
