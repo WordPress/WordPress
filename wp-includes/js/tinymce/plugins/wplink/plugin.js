@@ -569,7 +569,7 @@
 						toolbar.$el.find( '.wp-link-preview a' ).removeClass( 'wplink-url-error' ).attr( 'title', null );
 					}
 				}
-			} else {
+			} else if ( editToolbar.visible() ) {
 				editor.execCommand( 'wp_link_cancel' );
 			}
 		} );
