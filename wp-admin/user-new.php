@@ -150,8 +150,12 @@ Please click the following link to confirm the invite:
 				$new_user = wpmu_activate_signup( $key );
 				if ( ! is_wp_error( $new_user ) ) {
 					$redirect = add_query_arg( array( 'update' => 'addnoconfirmation' ), 'user-new.php' );
+				} else if ( isset( $new_user->errors['already_active'] ) && ( $user = get_user_by( 'email', $new_user_email ) ) ) {
+					$redirect = add_query_arg( array( 'update' => 'addnoconfirmation', 'user_id' => $user->ID ), 'user-new.php' );
 				} else {
-					$redirect = add_query_arg( array( 'update' => 'addnoconfirmation', 'user_id' => $new_user['user_id'] ), 'user-new.php' );
+					$error_message = $new_user->get_error_message();
+					$location = admin_url( 'user-new.php');
+					wp_die( $error_message . ' <a href="' . $location . '">Return to add new user page.</a>.');
 				}
 			} else {
 				$redirect = add_query_arg( array('update' => 'newuserconfirmation'), 'user-new.php' );
