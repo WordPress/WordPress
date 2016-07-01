@@ -13,7 +13,7 @@
  * @since 3.1.0
  * @access private
  *
- * @see WP_Thenes_List_Table
+ * @see WP_Themes_List_Table
  */
 class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
