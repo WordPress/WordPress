@@ -476,16 +476,18 @@ class WP_Media_List_Table extends WP_List_Table {
 		if ( $parent ) {
 			$title = _draft_or_post_title( $post->post_parent );
 			$parent_type = get_post_type_object( $parent->post_type );
+			
+			if ( $parent_type && $parent_type->show_ui && current_user_can( 'edit_post', $post->post_parent ) ) {
 ?>
-			<strong>
-			<?php if ( $parent_type && $parent_type->show_ui && current_user_can( 'edit_post', $post->post_parent ) ) { ?>
-				<a href="<?php echo get_edit_post_link( $post->post_parent ); ?>">
-					<?php echo $title ?></a><?php
+				<strong><a href="<?php echo get_edit_post_link( $post->post_parent ); ?>">
+					<?php echo $title ?></a></strong><?php
+			} elseif ( current_user_can( 'read_post', $post->post_parent ) ) {
+?>
+				<strong><?php echo $title ?></strong><?php
 			} else {
-				echo $title;
-			} ?></strong>
-			<br />
-			<?php
+				_e( '(Private post)' );
+			}
+
 			if ( $user_can_edit ):
 				$detach_url = add_query_arg( array(
 					'parent_post_id' => $post->post_parent,
@@ -493,7 +495,7 @@ class WP_Media_List_Table extends WP_List_Table {
 					'_wpnonce' => wp_create_nonce( 'bulk-' . $this->_args['plural'] )
 				), 'upload.php' );
 				printf(
-					'<a href="%s" class="hide-if-no-js detach-from-parent" aria-label="%s">%s</a>',
+					'<br /><a href="%s" class="hide-if-no-js detach-from-parent" aria-label="%s">%s</a>',
 					$detach_url,
 					/* translators: %s: title of the post the attachment is attached to */
 					esc_attr( sprintf( __( 'Detach from &#8220;%s&#8221;' ), $title ) ),
@@ -501,11 +503,11 @@ class WP_Media_List_Table extends WP_List_Table {
 				);
 			endif;
 		} else {
-			_e( '(Unattached)' ); ?><br />
+			_e( '(Unattached)' ); ?>
 			<?php if ( $user_can_edit ) {
 				$title = _draft_or_post_title( $post->post_parent );
 				printf(
-					'<a href="#the-list" onclick="findPosts.open( \'media[]\', \'%s\' ); return false;" class="hide-if-no-js" aria-label="%s">%s</a>',
+					'<br /><a href="#the-list" onclick="findPosts.open( \'media[]\', \'%s\' ); return false;" class="hide-if-no-js" aria-label="%s">%s</a>',
 					$post->ID,
 					/* translators: %s: attachment title */
 					esc_attr( sprintf( __( 'Attach &#8220;%s&#8221; to existing content' ), $title ) ),
