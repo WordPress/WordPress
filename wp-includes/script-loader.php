@@ -380,6 +380,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'password-strength-meter', "/wp-admin/js/password-strength-meter$suffix.js", array( 'jquery', 'zxcvbn-async' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'password-strength-meter', 'pwsL10n', array(
+		'unknown'  => _x( 'Password strength unknown', 'password strength' ),
 		'short'    => _x( 'Very weak', 'password strength' ),
 		'bad'      => _x( 'Weak', 'password strength' ),
 		'good'     => _x( 'Medium', 'password strength' ),
@@ -390,6 +391,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter', 'wp-util' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'user-profile', 'userProfileL10n', array(
 		'warn'     => __( 'Your new password has not been saved.' ),
+		'warnWeak' => __( 'Confirm use of weak password.' ),
 		'show'     => __( 'Show' ),
 		'hide'     => __( 'Hide' ),
 		'cancel'   => __( 'Cancel' ),
