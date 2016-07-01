@@ -2062,6 +2062,9 @@ function dbDelta( $queries = '', $execute = true ) {
 	 */
 	$iqueries = apply_filters( 'dbdelta_insert_queries', $iqueries );
 
+	$text_fields = array( 'tinytext', 'text', 'mediumtext', 'longtext' );
+	$blob_fields = array( 'tinyblob', 'blob', 'mediumblob', 'longblob' );
+
 	$global_tables = $wpdb->tables( 'global' );
 	foreach ( $cqueries as $table => $qry ) {
 		// Upgrade global tables only for the main site. Don't upgrade at all if conditions are not optimal.
@@ -2131,9 +2134,24 @@ function dbDelta( $queries = '', $execute = true ) {
 
 				// Is actual field type different from the field type in query?
 				if ($tablefield->Type != $fieldtype) {
+					$do_change = true;
+					if ( in_array( strtolower( $fieldtype ), $text_fields ) && in_array( strtolower( $tablefield->Type ), $text_fields ) ) {
+						if ( array_search( strtolower( $fieldtype ), $text_fields ) < array_search( strtolower( $tablefield->Type ), $text_fields ) ) {
+							$do_change = false;
+						}
+					}
+
+					if ( in_array( strtolower( $fieldtype ), $blob_fields ) && in_array( strtolower( $tablefield->Type ), $blob_fields ) ) {
+						if ( array_search( strtolower( $fieldtype ), $blob_fields ) < array_search( strtolower( $tablefield->Type ), $blob_fields ) ) {
+							$do_change = false;
+						}
+					}
+
+					if ( $do_change ) {
 					// Add a query to change the column type
-					$cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN {$tablefield->Field} " . $cfields[strtolower($tablefield->Field)];
-					$for_update[$table.'.'.$tablefield->Field] = "Changed type of {$table}.{$tablefield->Field} from {$tablefield->Type} to {$fieldtype}";
+						$cqueries[] = "ALTER TABLE {$table} CHANGE COLUMN {$tablefield->Field} " . $cfields[strtolower($tablefield->Field)];
+						$for_update[$table.'.'.$tablefield->Field] = "Changed type of {$table}.{$tablefield->Field} from {$tablefield->Type} to {$fieldtype}";
+					}
 				}
 
 				// Get the default value from the array
