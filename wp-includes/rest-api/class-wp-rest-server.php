@@ -853,8 +853,6 @@ class WP_REST_Server {
 					$request->set_url_params( $args );
 					$request->set_attributes( $handler );
 
-					$request->sanitize_params();
-
 					$defaults = array();
 
 					foreach ( $handler['args'] as $arg => $options ) {
@@ -869,6 +867,8 @@ class WP_REST_Server {
 					if ( is_wp_error( $check_required ) ) {
 						$response = $check_required;
 					}
+
+					$request->sanitize_params();
 				}
 
 				if ( ! is_wp_error( $response ) ) {
