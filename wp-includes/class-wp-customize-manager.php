@@ -670,12 +670,13 @@ final class WP_Customize_Manager {
 		if ( ! array_key_exists( $setting->id, $post_values ) ) {
 			return $default;
 		}
-		$value = $setting->sanitize( $post_values[ $setting->id ] );
-		if ( is_null( $value ) || is_wp_error( $value ) ) {
-			return $default;
-		}
+		$value = $post_values[ $setting->id ];
 		$valid = $setting->validate( $value );
 		if ( is_wp_error( $valid ) ) {
+			return $default;
+		}
+		$value = $setting->sanitize( $value );
+		if ( is_null( $value ) || is_wp_error( $value ) ) {
 			return $default;
 		}
 		return $value;
@@ -1007,8 +1008,16 @@ final class WP_Customize_Manager {
 			if ( ! $setting || is_null( $unsanitized_value ) ) {
 				continue;
 			}
-			$validity = $setting->validate( $setting->sanitize( $unsanitized_value ) );
-			if ( false === $validity || null === $validity ) {
+			$validity = $setting->validate( $unsanitized_value );
+			if ( ! is_wp_error( $validity ) ) {
+				$value = $setting->sanitize( $unsanitized_value );
+				if ( is_null( $value ) ) {
+					$validity = false;
+				} elseif ( is_wp_error( $value ) ) {
+					$validity = $value;
+				}
+			}
+			if ( false === $validity ) {
 				$validity = new WP_Error( 'invalid_value', __( 'Invalid value.' ) );
 			}
 			$validities[ $setting_id ] = $validity;
