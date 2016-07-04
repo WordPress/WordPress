@@ -312,7 +312,7 @@ function get_theme_feature_list( $api = true ) {
  * Retrieves theme installer pages from the WordPress.org Themes API.
  *
  * It is possible for a theme to override the Themes API result with three
- * Filterss. Assume this is for themes, which can extend on the Theme Info to
+ * filters. Assume this is for themes, which can extend on the Theme Info to
  * offer more choices. This is very powerful and must be used with care, when
  * overriding the filters.
  *

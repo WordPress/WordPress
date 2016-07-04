@@ -1131,7 +1131,7 @@ function media_post_single_attachment_fields_to_edit( $form_fields, $post ) {
 }
 
 /**
- * Filterss input from media_upload_form_handler() and assigns a default
+ * Filters input from media_upload_form_handler() and assigns a default
  * post_title from the file name if none supplied.
  *
  * Illustrates the use of the {@see 'attachment_fields_to_save'} filter

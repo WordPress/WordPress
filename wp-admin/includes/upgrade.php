@@ -2066,7 +2066,7 @@ function __get_option($setting) {
 }
 
 /**
- * Filterss for content to remove unnecessary slashes.
+ * Filters for content to remove unnecessary slashes.
  *
  * @since 1.5.0
  *

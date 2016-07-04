@@ -78,7 +78,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		wp_reset_vars( array( 'orderby', 'order' ) );
 
 		/**
-		 * Filterss the full array of plugins to list in the Plugins list table.
+		 * Filters the full array of plugins to list in the Plugins list table.
 		 *
 		 * @since 3.0.0
 		 *
