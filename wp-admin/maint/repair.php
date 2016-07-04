@@ -33,7 +33,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 
 	echo '<p>';
 	printf(
-		/* translators: %s: File name. */
+		/* translators: %s: wp-config.php */
 		__( 'To allow use of this page to automatically repair database problems, please add the following line to your %s file. Once this line is added to your config, reload this page.' ),
 		'<code>wp-config.php</code>'
 	);
