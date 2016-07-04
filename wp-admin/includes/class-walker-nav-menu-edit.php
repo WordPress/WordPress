@@ -70,7 +70,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 			'_wpnonce',
 		);
 
-		$original_title = '';
+		$original_title = false;
 		if ( 'taxonomy' == $item->type ) {
 			$original_title = get_term_field( 'name', $item->object_id, $item->object, 'raw' );
 			if ( is_wp_error( $original_title ) )
