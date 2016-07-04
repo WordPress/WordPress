@@ -2443,7 +2443,7 @@
 					controller.setImageFromAttachment( croppedImage );
 					controller.frame.close();
 				} ).fail( function() {
-					controller.trigger('content:error:crop');
+					controller.frame.trigger('content:error:crop');
 				} );
 			} else {
 				this.frame.setState( 'cropper' );
