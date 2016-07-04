@@ -481,7 +481,7 @@ class WP_Media_List_Table extends WP_List_Table {
 ?>
 				<strong><a href="<?php echo get_edit_post_link( $post->post_parent ); ?>">
 					<?php echo $title ?></a></strong><?php
-			} elseif ( current_user_can( 'read_post', $post->post_parent ) ) {
+			} elseif ( $parent_type && current_user_can( 'read_post', $post->post_parent ) ) {
 ?>
 				<strong><?php echo $title ?></strong><?php
 			} else {
