@@ -771,15 +771,28 @@ final class WP_Theme implements ArrayAccess {
 				$this->name_translated = translate( $value, $this->get('TextDomain' ) );
 				return $this->name_translated;
 			case 'Tags' :
-				if ( empty( $value ) || ! function_exists( 'get_theme_feature_list' ) )
+				if ( empty( $value ) || ! function_exists( 'get_theme_feature_list' ) ) {
 					return $value;
+				}
 
 				static $tags_list;
 				if ( ! isset( $tags_list ) ) {
-					$tags_list = array();
+					$tags_list = array(
+						// As of 4.6, deprecated tags which are only used to provide translation for older themes.
+						'black' => __( 'Black' ), 'blue' => __( 'Blue' ), 'brown'  => __( 'Brown' ),
+						'gray' => __( 'Gray' ), 'green'  => __( 'Green' ), 'orange' => __( 'Orange' ),
+						'pink' => __( 'Pink' ), 'purple' => __( 'Purple' ), 'red' => __( 'Red' ),
+						'silver' => __( 'Silver' ), 'tan' => __( 'Tan' ), 'white' => __( 'White' ),
+						'yellow' => __( 'Yellow' ), 'dark' => __( 'Dark' ), 'light' => __( 'Light' ),
+						'fixed-layout' => __( 'Fixed Layout' ), 'fluid-layout' => __( 'Fluid Layout' ),
+						'responsive-layout' => __( 'Responsive Layout' ), 'blavatar' => __( 'Blavatar' ),
+						'photoblogging' => __( 'Photoblogging' ), 'seasonal' => __( 'Seasonal' ),
+					);
+
 					$feature_list = get_theme_feature_list( false ); // No API
-					foreach ( $feature_list as $tags )
+					foreach ( $feature_list as $tags ) {
 						$tags_list += $tags;
+					}
 				}
 
 				foreach ( $value as &$tag ) {
