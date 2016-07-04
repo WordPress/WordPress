@@ -939,7 +939,7 @@ p.customize-section-description {
 
 .customize-control .attachment-media-view .thumbnail-image img,
 .customize-control-header img {
-	width: 100%;
+	max-width: 100%;
 }
 
 .customize-control .attachment-media-view .remove-button,
