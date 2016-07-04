@@ -3397,7 +3397,7 @@ function wp_ajax_update_theme() {
 	);
 
 	if ( ! current_user_can( 'update_themes' ) ) {
-		$status['errorMessage'] = __( 'Sorry, you are not allowed to update themes on this site.' );
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to update themes for this site.' );
 		wp_send_json_error( $status );
 	}
 
