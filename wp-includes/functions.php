@@ -1099,7 +1099,6 @@ function wp_get_nocache_headers() {
 	$headers = array(
 		'Expires' => 'Wed, 11 Jan 1984 05:00:00 GMT',
 		'Cache-Control' => 'no-cache, must-revalidate, max-age=0',
-		'Pragma' => 'no-cache',
 	);
 
 	if ( function_exists('apply_filters') ) {
@@ -1115,7 +1114,6 @@ function wp_get_nocache_headers() {
 		 *
 		 *     @type string $Expires       Expires header.
 		 *     @type string $Cache-Control Cache-Control header.
-		 *     @type string $Pragma        Pragma header.
 		 * }
 		 */
 		$headers = (array) apply_filters( 'nocache_headers', $headers );
