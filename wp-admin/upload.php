@@ -144,7 +144,7 @@ if ( $doaction ) {
 				break;
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id ) )
-					wp_die( __( 'Sorry, you are not allowed to move this item out of the Trash.' ) );
+					wp_die( __( 'Sorry, you are not allowed to restore this item from the Trash.' ) );
 
 				if ( !wp_untrash_post( $post_id ) )
 					wp_die( __( 'Error in restoring from Trash.' ) );
