@@ -3826,7 +3826,7 @@ function wp_ajax_search_install_plugins() {
 	$status        = array();
 
 	if ( ! $wp_list_table->ajax_user_can() ) {
-		$status['errorMessage'] = __( 'Sorry, you are not allowed to manage plugins on this site.' );
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to manage plugins for this site.' );
 		wp_send_json_error( $status );
 	}
 
