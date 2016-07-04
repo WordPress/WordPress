@@ -285,10 +285,9 @@ function get_theme_feature_list( $api = true ) {
 	set_site_transient( 'wporg_theme_feature_list', $feature_list, 3 * HOUR_IN_SECONDS );
 
 	$category_translations = array(
-		'Colors'   => __( 'Colors' ),
 		'Layout'   => __( 'Layout' ),
 		'Features' => __( 'Features' ),
-		'Subject'  => __( 'Subject' )
+		'Subject'  => __( 'Subject' ),
 	);
 
 	// Loop over the wporg canonical list and apply translations
