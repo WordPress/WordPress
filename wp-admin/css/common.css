@@ -602,6 +602,7 @@ code {
 	font-weight: 600;
 	font-size: 13px;
 	line-height: normal; /* IE8-IE11 need this for buttons */
+	color: #0073aa; /* some of these controls are button elements and don't inherit from links */
 	cursor: pointer;
 	outline: 0;
 }
@@ -611,6 +612,11 @@ code {
 	border-color: #008EC2;
 	background: #00a0d2;
 	color: #fff;
+}
+
+/* lower specificity: color needs to be overridden by :hover and :active */
+.page-title-action:focus {
+	color: #124964;
 }
 
 .wrap .page-title-action:focus {
