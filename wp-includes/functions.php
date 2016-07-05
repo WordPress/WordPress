@@ -263,6 +263,10 @@ function size_format( $bytes, $decimals = 0 ) {
 		'B'  => 1,
 	);
 
+	if ( 0 === $bytes ) {
+		return number_format_i18n( 0, $decimals ) . ' B';
+	}
+
 	foreach ( $quant as $unit => $mag ) {
 		if ( doubleval( $bytes ) >= $mag ) {
 			return number_format_i18n( $bytes / $mag, $decimals ) . ' ' . $unit;
