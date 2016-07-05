@@ -555,7 +555,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 36686 )
 		upgrade_450();
 
-	if ( $wp_current_db_version < 37854 )
+	if ( $wp_current_db_version < 37965 )
 		upgrade_460();
 
 	maybe_disable_link_manager();
@@ -1699,11 +1699,30 @@ function upgrade_450() {
  * @ignore
  * @since 4.6.0
  *
- * @global int  $wp_current_db_version Current database version.
- * @global wpdb $wpdb                  WordPress database abstraction object.
+ * @global int $wp_current_db_version Current database version.
  */
 function upgrade_460() {
-	delete_post_meta_by_key( '_post_restored_from' );
+	global $wp_current_db_version;
+
+	// Remove unused post meta.
+	if ( $wp_current_db_version < 37854 ) {
+		delete_post_meta_by_key( '_post_restored_from' );
+	}
+
+	// Remove plugins with callback as an array object/method as the uninstall hook, see #13786.
+	if ( $wp_current_db_version < 37965 ) {
+		$uninstall_plugins = get_option( 'uninstall_plugins', array() );
+
+		if ( ! empty( $uninstall_plugins ) ) {
+			foreach ( $uninstall_plugins as $basename => $callback ) {
+				if ( is_array( $callback ) && is_object( $callback[0] ) ) {
+					unset( $uninstall_plugins[ $basename ] );
+				}
+			}
+
+			update_option( 'uninstall_plugins', $uninstall_plugins );
+		}
+	}
 }
 
 /**
