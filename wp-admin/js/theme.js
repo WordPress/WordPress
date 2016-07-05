@@ -1103,7 +1103,13 @@ themes.view.Themes = wp.Backbone.View.extend({
 		this.liveThemeCount = this.collection.count ? this.collection.count : this.collection.length;
 		this.count.text( this.liveThemeCount );
 
-		this.announceSearchResults( this.liveThemeCount );
+		/*
+		 * In the theme installer the themes count is already announced
+		 * because `announceSearchResults` is called on `query:success`.
+		 */
+		if ( ! themes.isInstall ) {
+			this.announceSearchResults( this.liveThemeCount );
+		}
 	},
 
 	// Iterates through each instance of the collection
@@ -1459,6 +1465,8 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 		'keyup': 'search'
 	},
 
+	terms: '',
+
 	// Handles Ajax request for searching through themes in public repo
 	search: function( event ) {
 
@@ -1479,6 +1487,14 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 
 	doSearch: _.debounce( function( value ) {
 		var request = {};
+
+		// Don't do anything if the search terms haven't changed.
+		if ( this.terms === value ) {
+			return;
+		}
+
+		// Updates terms with the value passed.
+		this.terms = value;
 
 		request.search = value;
 
