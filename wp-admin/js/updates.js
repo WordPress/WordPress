@@ -2144,7 +2144,11 @@
 				return;
 			}
 
-			message = $.parseJSON( originalEvent.data );
+			try {
+				message = $.parseJSON( originalEvent.data );
+			} catch ( e ) {
+				return;
+			}
 
 			if ( 'undefined' === typeof message.action ) {
 				return;
