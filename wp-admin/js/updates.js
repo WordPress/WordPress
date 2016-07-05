@@ -2111,7 +2111,7 @@
 
 			$.support.postMessage = !! window.postMessage;
 
-			if ( false === $.support.postMessage || null === target ) {
+			if ( false === $.support.postMessage || null === target || -1 !== window.parent.location.pathname.indexOf( 'index.php' ) ) {
 				return;
 			}
 

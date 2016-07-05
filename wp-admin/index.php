@@ -17,8 +17,10 @@ wp_dashboard_setup();
 wp_enqueue_script( 'dashboard' );
 if ( current_user_can( 'edit_theme_options' ) )
 	wp_enqueue_script( 'customize-loader' );
-if ( current_user_can( 'install_plugins' ) )
+if ( current_user_can( 'install_plugins' ) ) {
 	wp_enqueue_script( 'plugin-install' );
+	wp_enqueue_script( 'updates' );
+}
 if ( current_user_can( 'upload_files' ) )
 	wp_enqueue_script( 'media-upload' );
 add_thickbox();
