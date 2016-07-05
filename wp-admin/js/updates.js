@@ -637,7 +637,7 @@
 
 		wp.a11y.speak( wp.updates.l10n.installedMsg, 'polite' );
 
-		$document.trigger( 'wp-installer-install-success', response );
+		$document.trigger( 'wp-importer-install-success', response );
 	};
 
 	/**
