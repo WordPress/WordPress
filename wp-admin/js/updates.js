@@ -886,6 +886,8 @@
 		wp.a11y.speak( wp.updates.l10n.updatingMsg, 'polite' );
 		$notice.text( wp.updates.l10n.updating );
 
+		$document.trigger( 'wp-theme-updating' );
+
 		return wp.updates.ajax( 'update-theme', args );
 	};
 
