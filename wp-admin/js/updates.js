@@ -295,20 +295,12 @@
 		$dashboardNavMenuUpdateCount.removeAttr( 'title' );
 		$dashboardNavMenuUpdateCount.find( '.update-count' ).text( count );
 
-		switch ( type ) {
-			case 'plugin':
-				$menuItem  = $( '#menu-plugins' );
-				$itemCount = $menuItem.find( '.plugin-count' );
-				break;
-
-			case 'theme':
-				$menuItem  = $( '#menu-appearance' );
-				$itemCount = $menuItem.find( '.theme-count' );
-				break;
-
-			default:
-				window.console.error( '"%s" is not white-listed to have its count decremented.', type );
-				return;
+		if ( 'plugin' === type ) {
+			$menuItem  = $( '#menu-plugins' );
+			$itemCount = $menuItem.find( '.plugin-count' );
+		} else if ( 'theme' === type ) {
+			$menuItem  = $( '#menu-appearance' );
+			$itemCount = $menuItem.find( '.theme-count' );
 		}
 
 		// Decrement the counter of the other menu items.
