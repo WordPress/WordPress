@@ -1027,8 +1027,16 @@ function do_meta_boxes( $screen, $context, $object ) {
 					$hidden_class = in_array($box['id'], $hidden) ? ' hide-if-js' : '';
 					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . $hidden_class . '" ' . '>' . "\n";
 					if ( 'dashboard_browser_nag' != $box['id'] ) {
+						$widget_title = $box[ 'title' ];
+
+						if ( is_array( $box[ 'args' ] ) && isset( $box[ 'args' ][ '__widget_basename' ] ) ) {
+							$widget_title = esc_html( $box[ 'args' ][ '__widget_basename' ] );
+							// Do not pass this parameter to the user callback function.
+							unset( $box[ 'args' ][ '__widget_basename' ] );
+						}
+
 						echo '<button type="button" class="handlediv button-link" aria-expanded="true">';
-						echo '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s' ), $box['title'] ) . '</span>';
+						echo '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s' ), $widget_title ) . '</span>';
 						echo '<span class="toggle-indicator" aria-hidden="true"></span>';
 						echo '</button>';
 					}

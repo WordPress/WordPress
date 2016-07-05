@@ -117,10 +117,19 @@ function meta_box_prefs( $screen ) {
 				// Submit box cannot be hidden
 				if ( 'submitdiv' == $box['id'] || 'linksubmitdiv' == $box['id'] )
 					continue;
-				$box_id = $box['id'];
-				echo '<label for="' . $box_id . '-hide">';
-				echo '<input class="hide-postbox-tog" name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . (! in_array($box_id, $hidden) ? ' checked="checked"' : '') . ' />';
-				echo "{$box['title']}</label>\n";
+
+				$widget_title = $box['title'];
+
+				if ( isset( $box['args']['__widget_basename'] ) ) {
+					$widget_title = $box['args']['__widget_basename'];
+				}
+
+				printf(
+					'<label for="%1$s-hide"><input class="hide-postbox-tog" name="%1$s-hide" type="checkbox" id="%1$s-hide" value="%1$s" %2$s />%3$s</label>',
+					esc_attr( $box['id'] ),
+					checked( in_array( $box['id'], $hidden ), false, false ),
+					$widget_title
+				);
 			}
 		}
 	}

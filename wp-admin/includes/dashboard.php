@@ -148,6 +148,14 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 	$screen = get_current_screen();
 	global $wp_dashboard_control_callbacks;
 
+	$private_callback_args = array( '__widget_basename' => $widget_name );
+
+	if ( is_null( $callback_args ) ) {
+		$callback_args = $private_callback_args;
+	} else if ( is_array( $callback_args ) ) {
+		$callback_args = array_merge( $callback_args, $private_callback_args );
+	}
+
 	if ( $control_callback && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
 		$wp_dashboard_control_callbacks[$widget_id] = $control_callback;
 		if ( isset( $_GET['edit'] ) && $widget_id == $_GET['edit'] ) {
