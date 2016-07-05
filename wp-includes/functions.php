@@ -182,14 +182,19 @@ function wp_maybe_decline_date( $date ) {
 	 */
 	if ( 'on' === _x( 'off', 'decline months names: on or off' ) ) {
 		// Match a format like 'j F Y' or 'j. F'
-		if ( @preg_match( '#^\d{1,2}\.? \w+#u', $date ) ) {
-			$months = $wp_locale->month;
+		if ( @preg_match( '#^\d{1,2}\.? [^\d ]+#u', $date ) ) {
+			$months          = $wp_locale->month;
+			$months_genitive = $wp_locale->month_genitive;
 
 			foreach ( $months as $key => $month ) {
-				$months[ $key ] = '#\b' . $month . '\b#u';
+				$months[ $key ] = '# ' . $month . '( |$)#u';
 			}
 
-			$date = preg_replace( $months, $wp_locale->month_genitive, $date );
+			foreach ( $months_genitive as $key => $month ) {
+				$months_genitive[ $key ] = ' ' . $month . '$1';
+			}
+
+			$date = preg_replace( $months, $months_genitive, $date );
 		}
 	}
 
