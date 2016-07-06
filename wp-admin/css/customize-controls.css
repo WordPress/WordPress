@@ -277,9 +277,9 @@ h3.customize-section-title {
 .accordion-sub-container.control-panel-content {
 	display: none;
 	position: absolute;
-	left: 300px;
+	left: 100%;
 	top: 0;
-	width: 300px;
+	width: 100%;
 	-webkit-transition: left ease-in-out .18s;
 	transition: left ease-in-out .18s;
 }
@@ -427,8 +427,8 @@ h3.customize-section-title {
 
 .in-sub-panel #customize-info,
 .in-sub-panel #customize-theme-controls > ul > .accordion-section {
-	left: -300px;
-	width: 300px;
+	left: -100%;
+	width: 100%;
 }
 
 .in-sub-panel #customize-theme-controls .accordion-section.current-panel {
