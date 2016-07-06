@@ -348,10 +348,14 @@ class WP_Http {
 		$options['verify'] = apply_filters( 'https_ssl_verify', $options['verify'] );
 
 		try {
-			$response = Requests::request( $url, $headers, $data, $type, $options );
+			$requests_response = Requests::request( $url, $headers, $data, $type, $options );
 
 			// Convert the response into an array
-			$response = new WP_HTTP_Requests_Response( $response, $r['filename'] );
+			$http_response = new WP_HTTP_Requests_Response( $requests_response, $r['filename'] );
+			$response = $http_response->to_array();
+
+			// Add the original object to the array.
+			$response['http_response'] = $http_response;
 		}
 		catch ( Requests_Exception $e ) {
 			$response = new WP_Error( 'http_request_failed', $e->getMessage() );
@@ -382,6 +386,7 @@ class WP_Http {
 					'message' => false,
 				),
 				'cookies' => array(),
+				'http_response' => null,
 			);
 		}
 

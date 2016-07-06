@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Wrapper object for a Requests_Response for compatibility.
+ * Wrapper object for a Requests_Response for standardisation.
  *
  * @package WordPress
  * @subpackage HTTP
  * @since 4.6.0
  */
-class WP_HTTP_Requests_Response extends WP_HTTP_Response implements ArrayAccess {
+class WP_HTTP_Requests_Response extends WP_HTTP_Response {
 	/**
 	 * Requests Response object.
 	 *
@@ -142,88 +142,20 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response implements ArrayAccess 
 	}
 
 	/**
-	 * Check if an ArrayAccess offset exists.
+	 * Convert the object to a WP_Http response array.
 	 *
-	 * This is for array access back-compat.
-	 *
-	 * @param string|int $key Array offset.
-	 * @return bool True if the offset exists, false otherwise.
+	 * @return array WP_Http response array, per WP_Http::request().
 	 */
-	public function offsetExists( $key ) {
-		$allowed = array( 'headers', 'body', 'response', 'cookies', 'filename' );
-		return in_array( $key, $allowed );
-	}
-
-	/**
-	 * Get an ArrayAccess value.
-	 *
-	 * This is for array access back-compat.
-	 *
-	 * @param string|int $key Array offset to get.
-	 * @return mixed Value if the key is a valid offset, null if invalid.
-	 */
-	public function offsetGet( $key ) {
-		switch ( $key ) {
-			case 'headers':
-				return $this->get_headers();
-
-			case 'body':
-				return $this->get_data();
-
-			case 'response':
-				return array(
-					'code'    => $this->get_status(),
-					'message' => get_status_header_desc( $this->get_status() ),
-				);
-
-			case 'cookies':
-				return $this->get_cookies();
-
-			case 'filename':
-				return $this->filename;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Set an ArrayAccess value.
-	 *
-	 * This is for array access back-compat.
-	 *
-	 * @param string|int $key Array offset to set.
-	 * @param mixed $value Value to set.
-	 */
-	public function offsetSet( $key, $value ) {
-		switch ( $key ) {
-			case 'headers':
-				$this->set_headers( $value );
-				break;
-
-			case 'body':
-				$this->set_data( $value );
-				break;
-
-			case 'response':
-				if ( isset( $value['code'] ) ) {
-					$this->set_status( $value['code'] );
-				}
-				break;
-
-			case 'filename':
-				$this->filename = $value;
-				break;
-		}
-	}
-
-	/**
-	 * Unset an ArrayAccess value.
-	 *
-	 * This is for array access back-compat.
-	 *
-	 * @param string|int $key Array offset to remove.
-	 */
-	public function offsetUnset( $key ) {
-		$this->offsetSet( $key, null );
+	public function to_array() {
+		return array(
+			'headers' => $this->get_headers(),
+			'body' => $this->get_data(),
+			'response' => array(
+				'code'    => $this->get_status(),
+				'message' => get_status_header_desc( $this->get_status() ),
+			),
+			'cookies' => $this->get_cookies(),
+			'filename' => $this->filename,
+		);
 	}
 }
