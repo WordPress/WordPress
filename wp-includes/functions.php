@@ -5356,3 +5356,26 @@ function mysql_to_rfc3339( $date_string ) {
 	// Strip timezone information
 	return preg_replace( '/(?:Z|[+-]\d{2}(?::\d{2})?)$/', '', $formatted );
 }
+
+/**
+ * Check if an object type exists. By default, these are `post`, `comment`, `user`, and `term`.
+ *
+ * @param  string $object_type Object type to check.
+ * @return bool                True if the object type exists, false if not.
+ */
+function wp_object_type_exists( $object_type ) {
+	/**
+	 * Filters WordPress object types.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param array  $types Array of object types.
+	 */
+	$types = apply_filters( 'wp_object_types', array( 'post', 'comment', 'user', 'term' ) );
+
+	if ( in_array( $object_type, $types ) ) {
+		return true;
+	}
+
+	return false;
+}

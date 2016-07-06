@@ -1004,9 +1004,9 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  * }
  * @param string|array $deprecated Deprecated. Use `$args` instead.
  *
- * @return bool True if the meta key was successfully registered in the global array, false if not.
- *              Registering a meta key with distinct sanitize and auth callbacks will fire those
- *              callbacks, but will not add to the global registry as it requires a subtype.
+ * @return bool|WP_error True if the meta key was successfully registered in the global array, WP_Error if not.
+ *                       Registering a meta key with distinct sanitize and auth callbacks will fire those
+ *                       callbacks, but will not add to the global registry as it requires a subtype.
  */
 function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 	global $wp_meta_keys;
@@ -1015,9 +1015,8 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 		$wp_meta_keys = array();
 	}
 
-	/* translators: object type name */
-	if ( ! in_array( $object_type, array( 'post', 'comment', 'user', 'term' ) ) ) {
-		_doing_it_wrong( __FUNCTION__, sprintf( __( 'Invalid object type: %s.' ), $object_type ), '4.6.0' );
+	if ( ! wp_object_type_exists( $object_type ) ) {
+		return new WP_Error( 'register_meta_failed', __( 'Meta can only be registered against a core object type.' ) );
 	}
 
 	$defaults = array(
@@ -1063,7 +1062,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 
 	// Object subtype is required if using the args style of registration
 	if ( ! $has_old_sanitize_cb && empty( $args['object_subtype'] ) ) {
-		return false;
+		return new WP_Error( 'register_meta_failed', __( 'Meta must be registered against an object subtype.' ) );
 	}
 
 	// If `auth_callback` is not provided, fall back to `is_protected_meta()`.
@@ -1102,7 +1101,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 		return true;
 	}
 
-	return false;
+	return new WP_Error( 'register_meta_failed', __( 'Sanitize and auth callbacks registered; meta key not registered.' ) );
 }
 
 /**
@@ -1114,7 +1113,8 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
  * @param string $object_subtype The subtype of the object type.
  * @param string $meta_key       The meta key.
  *
- * @return bool True if the meta key is registered to the object type and subtype. False if not.
+ * @return bool|WP_error True if the meta key is registered to the object type and subtype. False if not.
+ *                       WP_Error if an invalid object type is passed.
  */
 function registered_meta_key_exists( $object_type, $object_subtype, $meta_key ) {
 	global $wp_meta_keys;
@@ -1124,8 +1124,8 @@ function registered_meta_key_exists( $object_type, $object_subtype, $meta_key ) 
 	}
 
 	// Only specific core object types are supported.
-	if ( ! in_array( $object_type, array( 'post', 'comment', 'user', 'term' ) ) ) {
-		return false;
+	if ( ! wp_object_type_exists( $object_type ) ) {
+		return new WP_Error( 'invalid_meta_key', __( 'Invalid meta key. Not a core object type.' ) );
 	}
 
 	if ( ! isset( $wp_meta_keys[ $object_type ] ) ) {
@@ -1223,7 +1223,7 @@ function get_registered_metadata( $object_type, $object_subtype, $object_id, $me
 		return new WP_Error( 'invalid_meta_key', __( 'Invalid meta key. Not registered.' ) );
 	}
 
-	if ( ! in_array( $object_type, array( 'post', 'comment', 'user', 'term' ) ) ) {
+	if ( ! wp_object_type_exists( $object_type ) ) {
 		return new WP_Error( 'invalid_meta_key', __( 'Invalid meta key. Not a core object type.' ) );
 	}
 
