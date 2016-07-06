@@ -1902,7 +1902,7 @@
 		/**
 		 * Get the widget_form Customize controls associated with the current sidebar.
 		 *
-		 * @since 3.9
+		 * @since 3.9.0
 		 * @return {wp.customize.controlConstructor.widget_form[]}
 		 */
 		getWidgetFormControls: function() {
