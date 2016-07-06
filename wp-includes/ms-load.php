@@ -518,7 +518,7 @@ function ms_not_installed( $domain, $path ) {
  * @return object
  */
 function get_current_site_name( $current_site ) {
-	_deprecated_function( __FUNCTION__, '3.9', 'get_current_site()' );
+	_deprecated_function( __FUNCTION__, '3.9.0', 'get_current_site()' );
 	return $current_site;
 }
 
@@ -538,6 +538,6 @@ function get_current_site_name( $current_site ) {
  */
 function wpmu_current_site() {
 	global $current_site;
-	_deprecated_function( __FUNCTION__, '3.9' );
+	_deprecated_function( __FUNCTION__, '3.9.0' );
 	return $current_site;
 }

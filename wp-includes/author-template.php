@@ -24,7 +24,7 @@ function get_the_author($deprecated = '') {
 	global $authordata;
 
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '2.1' );
+		_deprecated_argument( __FUNCTION__, '2.1.0' );
 
 	/**
 	 * Filters the display name of the current post's author.
@@ -57,11 +57,11 @@ function get_the_author($deprecated = '') {
  */
 function the_author( $deprecated = '', $deprecated_echo = true ) {
 	if ( ! empty( $deprecated ) ) {
-		_deprecated_argument( __FUNCTION__, '2.1' );
+		_deprecated_argument( __FUNCTION__, '2.1.0' );
 	}
 
 	if ( true !== $deprecated_echo ) {
-		_deprecated_argument( __FUNCTION__, '1.5',
+		_deprecated_argument( __FUNCTION__, '1.5.0',
 			/* translators: %s: get_the_author() */
 			sprintf( __( 'Use %s instead if you do not want the value echoed.' ),
 				'<code>get_the_author()</code>'
@@ -277,7 +277,7 @@ function get_the_author_posts_link() {
  */
 function the_author_posts_link( $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {
-		_deprecated_argument( __FUNCTION__, '2.1' );
+		_deprecated_argument( __FUNCTION__, '2.1.0' );
 	}
 	echo get_the_author_posts_link();
 }

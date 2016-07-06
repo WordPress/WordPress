@@ -825,7 +825,7 @@ function comments_link( $deprecated = '', $deprecated_2 = '' ) {
 	if ( !empty( $deprecated ) )
 		_deprecated_argument( __FUNCTION__, '0.72' );
 	if ( !empty( $deprecated_2 ) )
-		_deprecated_argument( __FUNCTION__, '1.3' );
+		_deprecated_argument( __FUNCTION__, '1.3.0' );
 	echo esc_url( get_comments_link() );
 }
 
@@ -870,7 +870,7 @@ function get_comments_number( $post_id = 0 ) {
  */
 function comments_number( $zero = false, $one = false, $more = false, $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {
-		_deprecated_argument( __FUNCTION__, '1.3' );
+		_deprecated_argument( __FUNCTION__, '1.3.0' );
 	}
 	echo get_comments_number_text( $zero, $one, $more );
 }
@@ -1111,7 +1111,7 @@ function get_trackback_url() {
  */
 function trackback_url( $deprecated_echo = true ) {
 	if ( true !== $deprecated_echo ) {
-		_deprecated_argument( __FUNCTION__, '2.5',
+		_deprecated_argument( __FUNCTION__, '2.5.0',
 			/* translators: %s: get_trackback_url() */
 			sprintf( __( 'Use %s instead if you do not want the value echoed.' ),
 				'<code>get_trackback_url()</code>'
@@ -1137,7 +1137,7 @@ function trackback_url( $deprecated_echo = true ) {
  */
 function trackback_rdf( $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {
-		_deprecated_argument( __FUNCTION__, '2.5' );
+		_deprecated_argument( __FUNCTION__, '2.5.0' );
 	}
 
 	if ( isset( $_SERVER['HTTP_USER_AGENT'] ) && false !== stripos( $_SERVER['HTTP_USER_AGENT'], 'W3C_Validator' ) ) {

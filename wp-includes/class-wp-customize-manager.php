@@ -1342,7 +1342,7 @@ final class WP_Customize_Manager {
 				'<a href="' . esc_url( 'https://developer.wordpress.org/reference/hooks/customize_loaded_components/' ) . '"><code>customize_loaded_components</code></a>'
 			);
 
-			_doing_it_wrong( __METHOD__, $message, '4.5' );
+			_doing_it_wrong( __METHOD__, $message, '4.5.0' );
 		}
 		unset( $this->panels[ $id ] );
 	}

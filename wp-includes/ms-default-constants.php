@@ -140,7 +140,7 @@ function ms_subdomain_constants() {
 		if ( $subdomain_error_warn ) {
 			trigger_error( __( '<strong>Conflicting values for the constants VHOST and SUBDOMAIN_INSTALL.</strong> The value of SUBDOMAIN_INSTALL will be assumed to be your subdomain configuration setting.' ) . ' ' . $vhost_deprecated, E_USER_WARNING );
 		} else {
-	 		_deprecated_argument( 'define()', '3.0', $vhost_deprecated );
+	 		_deprecated_argument( 'define()', '3.0.0', $vhost_deprecated );
 		}
 		return;
 	}

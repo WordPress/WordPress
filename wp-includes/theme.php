@@ -1726,7 +1726,7 @@ function add_theme_support( $feature ) {
 			if ( did_action( 'wp_loaded' ) ) {
 				/* translators: 1: Theme support 2: hook name */
 				_doing_it_wrong( "add_theme_support( 'title-tag' )", sprintf( __( 'Theme support for %1$s should be registered before the %2$s hook.' ),
-					'<code>title-tag</code>', '<code>wp_loaded</code>' ), '4.1' );
+					'<code>title-tag</code>', '<code>wp_loaded</code>' ), '4.1.0' );
 
 				return false;
 			}

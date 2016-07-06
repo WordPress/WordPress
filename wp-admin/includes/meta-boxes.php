@@ -1013,7 +1013,7 @@ function xfn_check( $class, $value = '', $deprecated = '' ) {
 	global $link;
 
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '0.0' ); // Never implemented
+		_deprecated_argument( __FUNCTION__, '0.0.0' ); // Never implemented
 
 	$link_rel = isset( $link->link_rel ) ? $link->link_rel : ''; // In PHP 5.3: $link_rel = $link->link_rel ?: '';
 	$rels = preg_split('/\s+/', $link_rel);

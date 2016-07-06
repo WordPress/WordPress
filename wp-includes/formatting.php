@@ -2851,7 +2851,7 @@ function convert_smilies( $text ) {
  */
 function is_email( $email, $deprecated = false ) {
 	if ( ! empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '3.0' );
+		_deprecated_argument( __FUNCTION__, '3.0.0' );
 
 	// Test for the minimum length the email can be
 	if ( strlen( $email ) < 3 ) {

@@ -18,7 +18,7 @@
  * @see wp_editor()
  */
 function tinymce_include() {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_editor()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_editor()' );
 
 	wp_tiny_mce();
 }
@@ -31,7 +31,7 @@ function tinymce_include() {
  *
  */
 function documentation_link() {
-	_deprecated_function( __FUNCTION__, '2.5' );
+	_deprecated_function( __FUNCTION__, '2.5.0' );
 }
 
 /**
@@ -48,7 +48,7 @@ function documentation_link() {
  * @return array Shrunk dimensions (width, height).
  */
 function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'wp_constrain_dimensions()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'wp_constrain_dimensions()' );
 	return wp_constrain_dimensions( $width, $height, $wmax, $hmax );
 }
 
@@ -64,7 +64,7 @@ function wp_shrink_dimensions( $width, $height, $wmax = 128, $hmax = 96 ) {
  * @return array Shrunk dimensions (width, height).
  */
 function get_udims( $width, $height ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'wp_constrain_dimensions()' );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'wp_constrain_dimensions()' );
 	return wp_constrain_dimensions( $width, $height, 128, 96 );
 }
 
@@ -80,7 +80,7 @@ function get_udims( $width, $height ) {
  * @param array $popular_ids Unused.
  */
 function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() ) {
-	_deprecated_function( __FUNCTION__, '2.6', 'wp_category_checklist()' );
+	_deprecated_function( __FUNCTION__, '2.6.0', 'wp_category_checklist()' );
 	global $post_ID;
 	wp_category_checklist( $post_ID );
 }
@@ -95,7 +95,7 @@ function dropdown_categories( $default = 0, $parent = 0, $popular_ids = array() 
  * @param int $default Unused.
  */
 function dropdown_link_categories( $default = 0 ) {
-	_deprecated_function( __FUNCTION__, '2.6', 'wp_link_category_checklist()' );
+	_deprecated_function( __FUNCTION__, '2.6.0', 'wp_link_category_checklist()' );
 	global $link_id;
 	wp_link_category_checklist( $link_id );
 }
@@ -111,7 +111,7 @@ function dropdown_link_categories( $default = 0 ) {
  * @return string Full filesystem path to edit.
  */
 function get_real_file_to_edit( $file ) {
-	_deprecated_function( __FUNCTION__, '2.9' );
+	_deprecated_function( __FUNCTION__, '2.9.0' );
 
 	return WP_CONTENT_DIR . $file;
 }
@@ -131,7 +131,7 @@ function get_real_file_to_edit( $file ) {
  * @return bool|null False if no categories were found.
  */
 function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $level = 0, $categories = 0 ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'wp_dropdown_categories()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'wp_dropdown_categories()' );
 	if (!$categories )
 		$categories = get_categories( array('hide_empty' => 0) );
 
@@ -165,7 +165,7 @@ function wp_dropdown_cats( $currentcat = 0, $currentparent = 0, $parent = 0, $le
  * @param callable $sanitize_callback A callback function that sanitizes the option's value.
  */
 function add_option_update_handler( $option_group, $option_name, $sanitize_callback = '' ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'register_setting()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'register_setting()' );
 	register_setting( $option_group, $option_name, $sanitize_callback );
 }
 
@@ -181,7 +181,7 @@ function add_option_update_handler( $option_group, $option_name, $sanitize_callb
  * @param callable $sanitize_callback
  */
 function remove_option_update_handler( $option_group, $option_name, $sanitize_callback = '' ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'unregister_setting()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'unregister_setting()' );
 	unregister_setting( $option_group, $option_name, $sanitize_callback );
 }
 
@@ -194,7 +194,7 @@ function remove_option_update_handler( $option_group, $option_name, $sanitize_ca
  * @param string $filename
 **/
 function codepress_get_lang( $filename ) {
-	_deprecated_function( __FUNCTION__, '3.0' );
+	_deprecated_function( __FUNCTION__, '3.0.0' );
 }
 
 /**
@@ -204,7 +204,7 @@ function codepress_get_lang( $filename ) {
  * @deprecated 3.0.0
 **/
 function codepress_footer_js() {
-	_deprecated_function( __FUNCTION__, '3.0' );
+	_deprecated_function( __FUNCTION__, '3.0.0' );
 }
 
 /**
@@ -214,7 +214,7 @@ function codepress_footer_js() {
  * @deprecated 3.0.0
 **/
 function use_codepress() {
-	_deprecated_function( __FUNCTION__, '3.0' );
+	_deprecated_function( __FUNCTION__, '3.0.0' );
 }
 
 /**
@@ -225,7 +225,7 @@ function use_codepress() {
  * @return array List of user IDs.
  */
 function get_author_user_ids() {
-	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
+	_deprecated_function( __FUNCTION__, '3.1.0', 'get_users()' );
 
 	global $wpdb;
 	if ( !is_multisite() )
@@ -245,7 +245,7 @@ function get_author_user_ids() {
  * @return array|bool List of editable authors. False if no editable users.
  */
 function get_editable_authors( $user_id ) {
-	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
+	_deprecated_function( __FUNCTION__, '3.1.0', 'get_users()' );
 
 	global $wpdb;
 
@@ -271,7 +271,7 @@ function get_editable_authors( $user_id ) {
  * @return array Array of editable user IDs, empty array otherwise.
  */
 function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'post' ) {
-	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
+	_deprecated_function( __FUNCTION__, '3.1.0', 'get_users()' );
 
 	global $wpdb;
 
@@ -304,7 +304,7 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
  * @deprecated 3.1.0 Use get_users()
  */
 function get_nonauthor_user_ids() {
-	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
+	_deprecated_function( __FUNCTION__, '3.1.0', 'get_users()' );
 
 	global $wpdb;
 
@@ -480,7 +480,7 @@ class WP_User_Search {
 	 * @return WP_User_Search
 	 */
 	function __construct( $search_term = '', $page = '', $role = '' ) {
-		_deprecated_function( __FUNCTION__, '3.1', 'WP_User_Query' );
+		_deprecated_function( __FUNCTION__, '3.1.0', 'WP_User_Query' );
 
 		$this->search_term = wp_unslash( $search_term );
 		$this->raw_page = ( '' == $page ) ? false : (int) $page;
@@ -670,7 +670,7 @@ endif;
  * @return array List of posts from others.
  */
 function get_others_unpublished_posts( $user_id, $type = 'any' ) {
-	_deprecated_function( __FUNCTION__, '3.1' );
+	_deprecated_function( __FUNCTION__, '3.1.0' );
 
 	global $wpdb;
 
@@ -703,7 +703,7 @@ function get_others_unpublished_posts( $user_id, $type = 'any' ) {
  * @return array List of drafts from other users.
  */
 function get_others_drafts($user_id) {
-	_deprecated_function( __FUNCTION__, '3.1' );
+	_deprecated_function( __FUNCTION__, '3.1.0' );
 
 	return get_others_unpublished_posts($user_id, 'draft');
 }
@@ -718,7 +718,7 @@ function get_others_drafts($user_id) {
  * @return array List of posts with pending review post type from other users.
  */
 function get_others_pending($user_id) {
-	_deprecated_function( __FUNCTION__, '3.1' );
+	_deprecated_function( __FUNCTION__, '3.1.0' );
 
 	return get_others_unpublished_posts($user_id, 'pending');
 }
@@ -731,7 +731,7 @@ function get_others_pending($user_id) {
  * @see wp_dashboard_quick_press()
  */
 function wp_dashboard_quick_press_output() {
-	_deprecated_function( __FUNCTION__, '3.2', 'wp_dashboard_quick_press()' );
+	_deprecated_function( __FUNCTION__, '3.2.0', 'wp_dashboard_quick_press()' );
 	wp_dashboard_quick_press();
 }
 
@@ -745,7 +745,7 @@ function wp_dashboard_quick_press_output() {
  * @staticvar int $num
  */
 function wp_tiny_mce( $teeny = false, $settings = false ) {
-	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_editor()' );
 
 	static $num = 1;
 
@@ -771,7 +771,7 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
  * @see wp_editor()
  */
 function wp_preload_dialogs() {
-	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_editor()' );
 }
 
 /**
@@ -781,7 +781,7 @@ function wp_preload_dialogs() {
  * @see wp_editor()
  */
 function wp_print_editor_js() {
-	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_editor()' );
 }
 
 /**
@@ -791,7 +791,7 @@ function wp_print_editor_js() {
  * @see wp_editor()
  */
 function wp_quicktags() {
-	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_editor()' );
 }
 
 /**
@@ -802,7 +802,7 @@ function wp_quicktags() {
  * @see WP_Screen::render_screen_layout()
  */
 function screen_layout( $screen ) {
-	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->render_screen_layout()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', '$current_screen->render_screen_layout()' );
 
 	$current_screen = get_current_screen();
 
@@ -822,7 +822,7 @@ function screen_layout( $screen ) {
  * @see WP_Screen::render_per_page_options()
  */
 function screen_options( $screen ) {
-	_deprecated_function( __FUNCTION__, '3.3', '$current_screen->render_per_page_options()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', '$current_screen->render_per_page_options()' );
 
 	$current_screen = get_current_screen();
 
@@ -854,7 +854,7 @@ function screen_meta( $screen ) {
  * @see WP_Admin_Bar
  */
 function favorite_actions() {
-	_deprecated_function( __FUNCTION__, '3.2', 'WP_Admin_Bar' );
+	_deprecated_function( __FUNCTION__, '3.2.0', 'WP_Admin_Bar' );
 }
 
 /**
@@ -866,7 +866,7 @@ function favorite_actions() {
  * @return null|string
  */
 function media_upload_image() {
-	_deprecated_function( __FUNCTION__, '3.3', 'wp_media_upload_handler()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_media_upload_handler()' );
 	return wp_media_upload_handler();
 }
 
@@ -879,7 +879,7 @@ function media_upload_image() {
  * @return null|string
  */
 function media_upload_audio() {
-	_deprecated_function( __FUNCTION__, '3.3', 'wp_media_upload_handler()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_media_upload_handler()' );
 	return wp_media_upload_handler();
 }
 
@@ -892,7 +892,7 @@ function media_upload_audio() {
  * @return null|string
  */
 function media_upload_video() {
-	_deprecated_function( __FUNCTION__, '3.3', 'wp_media_upload_handler()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_media_upload_handler()' );
 	return wp_media_upload_handler();
 }
 
@@ -905,7 +905,7 @@ function media_upload_video() {
  * @return null|string
  */
 function media_upload_file() {
-	_deprecated_function( __FUNCTION__, '3.3', 'wp_media_upload_handler()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_media_upload_handler()' );
 	return wp_media_upload_handler();
 }
 
@@ -918,7 +918,7 @@ function media_upload_file() {
  * @return string
  */
 function type_url_form_image() {
-	_deprecated_function( __FUNCTION__, '3.3', "wp_media_insert_url_form('image')" );
+	_deprecated_function( __FUNCTION__, '3.3.0', "wp_media_insert_url_form('image')" );
 	return wp_media_insert_url_form( 'image' );
 }
 
@@ -931,7 +931,7 @@ function type_url_form_image() {
  * @return string
  */
 function type_url_form_audio() {
-	_deprecated_function( __FUNCTION__, '3.3', "wp_media_insert_url_form('audio')" );
+	_deprecated_function( __FUNCTION__, '3.3.0', "wp_media_insert_url_form('audio')" );
 	return wp_media_insert_url_form( 'audio' );
 }
 
@@ -944,7 +944,7 @@ function type_url_form_audio() {
  * @return string
  */
 function type_url_form_video() {
-	_deprecated_function( __FUNCTION__, '3.3', "wp_media_insert_url_form('video')" );
+	_deprecated_function( __FUNCTION__, '3.3.0', "wp_media_insert_url_form('video')" );
 	return wp_media_insert_url_form( 'video' );
 }
 
@@ -957,7 +957,7 @@ function type_url_form_video() {
  * @return string
  */
 function type_url_form_file() {
-	_deprecated_function( __FUNCTION__, '3.3', "wp_media_insert_url_form('file')" );
+	_deprecated_function( __FUNCTION__, '3.3.0', "wp_media_insert_url_form('file')" );
 	return wp_media_insert_url_form( 'file' );
 }
 
@@ -974,7 +974,7 @@ function type_url_form_file() {
  * @param string    $help   The content of an 'Overview' help tab.
  */
 function add_contextual_help( $screen, $help ) {
-	_deprecated_function( __FUNCTION__, '3.3', 'get_current_screen()->add_help_tab()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'get_current_screen()->add_help_tab()' );
 
 	if ( is_string( $screen ) )
 		$screen = convert_to_screen( $screen );
@@ -992,7 +992,7 @@ function add_contextual_help( $screen, $help ) {
  * @return array $themes Array of allowed themes.
  */
 function get_allowed_themes() {
-	_deprecated_function( __FUNCTION__, '3.4', "wp_get_themes( array( 'allowed' => true ) )" );
+	_deprecated_function( __FUNCTION__, '3.4.0', "wp_get_themes( array( 'allowed' => true ) )" );
 
 	$themes = wp_get_themes( array( 'allowed' => true ) );
 
@@ -1014,7 +1014,7 @@ function get_allowed_themes() {
  * @return array
  */
 function get_broken_themes() {
-	_deprecated_function( __FUNCTION__, '3.4', "wp_get_themes( array( 'errors' => true )" );
+	_deprecated_function( __FUNCTION__, '3.4.0', "wp_get_themes( array( 'errors' => true )" );
 
 	$themes = wp_get_themes( array( 'errors' => true ) );
 	$broken = array();
@@ -1039,7 +1039,7 @@ function get_broken_themes() {
  * @return WP_Theme
  */
 function current_theme_info() {
-	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme()' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'wp_get_theme()' );
 
 	return wp_get_theme();
 }
@@ -1052,7 +1052,7 @@ function current_theme_info() {
  * @deprecated 3.5.0
  */
 function _insert_into_post_button( $type ) {
-	_deprecated_function( __FUNCTION__, '3.5' );
+	_deprecated_function( __FUNCTION__, '3.5.0' );
 }
 
 /**
@@ -1063,7 +1063,7 @@ function _insert_into_post_button( $type ) {
  * @deprecated 3.5.0
  */
 function _media_button($title, $icon, $type, $id) {
-	_deprecated_function( __FUNCTION__, '3.5' );
+	_deprecated_function( __FUNCTION__, '3.5.0' );
 }
 
 /**
@@ -1077,7 +1077,7 @@ function _media_button($title, $icon, $type, $id) {
  * @return object
  */
 function get_post_to_edit( $id ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'get_post()' );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'get_post()' );
 
 	return get_post( $id, OBJECT, 'edit' );
 }
@@ -1092,7 +1092,7 @@ function get_post_to_edit( $id ) {
  * @return WP_Post Post object containing all the default post data as attributes
  */
 function get_default_page_to_edit() {
-	_deprecated_function( __FUNCTION__, '3.5', "get_default_post_to_edit( 'page' )" );
+	_deprecated_function( __FUNCTION__, '3.5.0', "get_default_post_to_edit( 'page' )" );
 
 	$page = get_default_post_to_edit();
 	$page->post_type = 'page';
@@ -1112,7 +1112,7 @@ function get_default_page_to_edit() {
  * @return string Thumbnail path on success, Error string on failure.
  */
 function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'image_resize()' );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'image_resize()' );
 	return apply_filters( 'wp_create_thumbnail', image_resize( $file, $max_side, $max_side ) );
 }
 
@@ -1125,7 +1125,7 @@ function wp_create_thumbnail( $file, $max_side, $deprecated = '' ) {
  * @deprecated 3.6.0
  */
 function wp_nav_menu_locations_meta_box() {
-	_deprecated_function( __FUNCTION__, '3.6' );
+	_deprecated_function( __FUNCTION__, '3.6.0' );
 }
 
 /**
@@ -1139,7 +1139,7 @@ function wp_nav_menu_locations_meta_box() {
  * @see Core_Upgrader
  */
 function wp_update_core($current, $feedback = '') {
-	_deprecated_function( __FUNCTION__, '3.7', 'new Core_Upgrader();' );
+	_deprecated_function( __FUNCTION__, '3.7.0', 'new Core_Upgrader();' );
 
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
@@ -1162,7 +1162,7 @@ function wp_update_core($current, $feedback = '') {
  * @see Plugin_Upgrader
  */
 function wp_update_plugin($plugin, $feedback = '') {
-	_deprecated_function( __FUNCTION__, '3.7', 'new Plugin_Upgrader();' );
+	_deprecated_function( __FUNCTION__, '3.7.0', 'new Plugin_Upgrader();' );
 
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
@@ -1184,7 +1184,7 @@ function wp_update_plugin($plugin, $feedback = '') {
  * @see Theme_Upgrader
  */
 function wp_update_theme($theme, $feedback = '') {
-	_deprecated_function( __FUNCTION__, '3.7', 'new Theme_Upgrader();' );
+	_deprecated_function( __FUNCTION__, '3.7.0', 'new Theme_Upgrader();' );
 
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
@@ -1203,7 +1203,7 @@ function wp_update_theme($theme, $feedback = '') {
  * @param int|bool $id
  */
 function the_attachment_links( $id = false ) {
-	_deprecated_function( __FUNCTION__, '3.7' );
+	_deprecated_function( __FUNCTION__, '3.7.0' );
 }
 
 /**
@@ -1305,7 +1305,7 @@ function wp_dashboard_secondary_control() {}
  * @param int $new_ID
  */
 function _relocate_children( $old_ID, $new_ID ) {
-	_deprecated_function( __FUNCTION__, '3.9' );
+	_deprecated_function( __FUNCTION__, '3.9.0' );
 }
 
 /**
@@ -1332,7 +1332,7 @@ function _relocate_children( $old_ID, $new_ID ) {
  * @return string The resulting page's hook_suffix.
  */
 function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
-	_deprecated_function( __FUNCTION__, '4.5', 'add_menu_page()' );
+	_deprecated_function( __FUNCTION__, '4.5.0', 'add_menu_page()' );
 
 	global $_wp_last_object_menu;
 
@@ -1365,7 +1365,7 @@ function add_object_page( $page_title, $menu_title, $capability, $menu_slug, $fu
  * @return string The resulting page's hook_suffix.
  */
 function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $function = '', $icon_url = '') {
-	_deprecated_function( __FUNCTION__, '4.5', 'add_menu_page()' );
+	_deprecated_function( __FUNCTION__, '4.5.0', 'add_menu_page()' );
 
 	global $_wp_last_utility_menu;
 
@@ -1390,7 +1390,7 @@ function add_utility_page( $page_title, $menu_title, $capability, $menu_slug, $f
 function post_form_autocomplete_off() {
 	global $is_safari, $is_chrome;
 
-	_deprecated_function( __FUNCTION__, '4.6' );
+	_deprecated_function( __FUNCTION__, '4.6.0' );
 
 	if ( $is_safari || $is_chrome ) {
 		echo ' autocomplete="off"';

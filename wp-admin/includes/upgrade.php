@@ -38,7 +38,7 @@ if ( !function_exists('wp_install') ) :
  */
 function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated = '', $user_password = '', $language = '' ) {
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '2.6' );
+		_deprecated_argument( __FUNCTION__, '2.6.0' );
 
 	wp_check_mysql_version();
 	wp_cache_flush();

@@ -399,7 +399,7 @@ function add_option( $option, $value = '', $deprecated = '', $autoload = 'yes' )
 	global $wpdb;
 
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '2.3' );
+		_deprecated_argument( __FUNCTION__, '2.3.0' );
 
 	$option = trim($option);
 	if ( empty($option) )

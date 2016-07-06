@@ -256,7 +256,7 @@ function wp_stream_image( $image, $mime_type, $post_id ) {
 
 		return true;
 	} else {
-		_deprecated_argument( __FUNCTION__, '3.5', __( '$image needs to be an WP_Image_Editor object' ) );
+		_deprecated_argument( __FUNCTION__, '3.5.0', __( '$image needs to be an WP_Image_Editor object' ) );
 
 		/**
 		 * Filters the GD image resource to be streamed to the browser.
@@ -321,7 +321,7 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 
 		return $image->save( $filename, $mime_type );
 	} else {
-		_deprecated_argument( __FUNCTION__, '3.5', __( '$image needs to be an WP_Image_Editor object' ) );
+		_deprecated_argument( __FUNCTION__, '3.5.0', __( '$image needs to be an WP_Image_Editor object' ) );
 
 		/** This filter is documented in wp-admin/includes/image-edit.php */
 		$image = apply_filters( 'image_save_pre', $image, $post_id );
@@ -387,7 +387,7 @@ function _image_get_preview_ratio($w, $h) {
  * @return resource|false GD image resource, false otherwise.
  */
 function _rotate_image_resource($img, $angle) {
-	_deprecated_function( __FUNCTION__, '3.5', __( 'Use WP_Image_Editor::rotate' ) );
+	_deprecated_function( __FUNCTION__, '3.5.0', __( 'Use WP_Image_Editor::rotate' ) );
 	if ( function_exists('imagerotate') ) {
 		$rotated = imagerotate($img, $angle, 0);
 		if ( is_resource($rotated) ) {
@@ -410,7 +410,7 @@ function _rotate_image_resource($img, $angle) {
  * @return resource (maybe) flipped image resource.
  */
 function _flip_image_resource($img, $horz, $vert) {
-	_deprecated_function( __FUNCTION__, '3.5', __( 'Use WP_Image_Editor::flip' ) );
+	_deprecated_function( __FUNCTION__, '3.5.0', __( 'Use WP_Image_Editor::flip' ) );
 	$w = imagesx($img);
 	$h = imagesy($img);
 	$dst = wp_imagecreatetruecolor($w, $h);
@@ -463,7 +463,7 @@ function _crop_image_resource($img, $x, $y, $w, $h) {
  */
 function image_edit_apply_changes( $image, $changes ) {
 	if ( is_resource( $image ) )
-		_deprecated_argument( __FUNCTION__, '3.5', __( '$image needs to be an WP_Image_Editor object' ) );
+		_deprecated_argument( __FUNCTION__, '3.5.0', __( '$image needs to be an WP_Image_Editor object' ) );
 
 	if ( !is_array($changes) )
 		return $image;

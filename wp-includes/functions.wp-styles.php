@@ -89,7 +89,7 @@ function wp_add_inline_style( $handle, $data ) {
 			__( 'Do not pass %1$s tags to %2$s.' ),
 			'<code>&lt;style&gt;</code>',
 			'<code>wp_add_inline_style()</code>'
-		), '3.7' );
+		), '3.7.0' );
 		$data = trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $data ) );
 	}
 

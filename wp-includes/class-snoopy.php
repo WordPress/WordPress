@@ -3,7 +3,7 @@
 /**
  * Deprecated. Use WP_HTTP (http.php) instead.
  */
-_deprecated_file( basename( __FILE__ ), '3.0', WPINC . '/http.php' );
+_deprecated_file( basename( __FILE__ ), '3.0.0', WPINC . '/http.php' );
 
 if ( ! class_exists( 'Snoopy', false ) ) :
 /*************************************************
