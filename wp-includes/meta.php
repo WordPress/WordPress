@@ -1075,6 +1075,12 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 		}
 	}
 
+	$object_subtype = '';
+
+	if ( ! empty( $args['object_subtype'] ) ) {
+		$object_subtype = $args['object_subtype'];
+	}
+
 	// Back-compat: old sanitize and auth callbacks applied to all of an object type
 	if ( $has_old_sanitize_cb ) {
 		add_filter( "sanitize_{$object_type}_meta_{$meta_key}", $args['sanitize_callback'], 10, 4 );
@@ -1090,8 +1096,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 	}
 
 	// Global registry only contains meta keys registered in the new way with a subtype.
-	if ( ! empty( $args['object_subtype'] ) ) {
-		$object_subtype = $args['object_subtype'];
+	if ( ! empty( $object_subtype ) ) {
 		$wp_meta_keys[ $object_type ][ $object_subtype ][ $meta_key ] = $args;
 
 		return true;
