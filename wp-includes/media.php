@@ -1008,7 +1008,7 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 	 * If src is an intermediate size GIF, the full size is excluded from srcset to keep a flattened GIF from becoming animated.
 	 */
 	if ( ! isset( $image_sizes['thumbnail']['mime-type'] ) || 'image/gif' !== $image_sizes['thumbnail']['mime-type'] ) {
-		$image_sizes['full'] = array(
+		$image_sizes[] = array(
 			'width'  => $image_meta['width'],
 			'height' => $image_meta['height'],
 			'file'   => $image_basename,
