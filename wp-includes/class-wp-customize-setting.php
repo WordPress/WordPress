@@ -711,6 +711,11 @@ class WP_Customize_Setting {
 		} elseif ( $this->is_multidimensional_aggregated ) {
 			$root_value = self::$aggregated_multidimensionals[ $this->type ][ $id_base ]['root_value'];
 			$value = $this->multidimensional_get( $root_value, $this->id_data['keys'], $this->default );
+
+			// Ensure that the post value is used if the setting is previewed, since preview filters aren't applying on cached $root_value.
+			if ( $this->is_previewed ) {
+				$value = $this->post_value( $value );
+			}
 		} else {
 			$value = $this->get_root_value( $this->default );
 		}
