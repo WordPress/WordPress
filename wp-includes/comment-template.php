@@ -893,6 +893,27 @@ function get_comments_number_text( $zero = false, $one = false, $more = false ) 
 			$output = sprintf( _n( '%s Comment', '%s Comments', $number ), number_format_i18n( $number ) );
 		} else {
 			// % Comments
+			/* translators: If comment number in your language requires declension,
+			 * translate this to 'on'. Do not translate into your own language.
+			 */
+			if ( 'on' === _x( 'off', 'Comment number declension: on or off' ) ) {
+				$text = preg_replace( '#<span class="screen-reader-text">.+?</span>#', '', $more );
+				$text = preg_replace( '/&.+?;/', '', $text ); // Kill entities
+				$text = trim( strip_tags( $text ), '% ' );
+
+				// Replace '% Comments' with a proper plural form
+				if ( $text && ! preg_match( '/[0-9]+/', $text ) && false !== strpos( $more, '%' ) ) {
+					/* translators: %s: number of comments */
+					$new_text = _n( '%s Comment', '%s Comments', $number );
+					$new_text = trim( sprintf( $new_text, '' ) );
+
+					$more = str_replace( $text, $new_text, $more );
+					if ( false === strpos( $more, '%' ) ) {
+						$more = '% ' . $more;
+					}
+				}
+			}
+
 			$output = str_replace( '%', number_format_i18n( $number ), $more );
 		}
 	} elseif ( $number == 0 ) {
