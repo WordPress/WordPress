@@ -265,13 +265,15 @@ class WP_Site_Query {
 			$cache_value = array(
 				'site_ids' => $site_ids,
 				'found_sites' => $this->found_sites,
-				'max_num_pages' => $this->max_num_pages,
 			);
 			wp_cache_add( $cache_key, $cache_value, 'sites' );
 		} else {
 			$site_ids = $cache_value['site_ids'];
 			$this->found_sites = $cache_value['found_sites'];
-			$this->max_num_pages = $cache_value['max_num_pages'];
+		}
+
+		if ( $this->found_sites && $this->query_vars['number'] ) {
+			$this->max_num_pages = ceil( $this->found_sites / $this->query_vars['number'] );
 		}
 
 		// If querying for a count only, there's nothing more to do.
@@ -588,7 +590,6 @@ class WP_Site_Query {
 			$found_sites_query = apply_filters( 'found_sites_query', 'SELECT FOUND_ROWS()', $this );
 
 			$this->found_sites = (int) $wpdb->get_var( $found_sites_query );
-			$this->max_num_pages = ceil( $this->found_sites / $this->query_vars['number'] );
 		}
 	}
 
