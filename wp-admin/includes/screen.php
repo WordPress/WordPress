@@ -120,7 +120,7 @@ function meta_box_prefs( $screen ) {
 
 				$widget_title = $box['title'];
 
-				if ( isset( $box['args']['__widget_basename'] ) ) {
+				if ( is_array( $box['args'] ) && isset( $box['args']['__widget_basename'] ) ) {
 					$widget_title = $box['args']['__widget_basename'];
 				}
 
