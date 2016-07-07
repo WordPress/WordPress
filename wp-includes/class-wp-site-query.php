@@ -123,8 +123,8 @@ class WP_Site_Query {
 	 *                                           an empty array, or 'none' to disable `ORDER BY` clause.
 	 *                                           Default 'id'.
 	 *     @type string       $order             How to order retrieved sites. Accepts 'ASC', 'DESC'. Default 'ASC'.
-	 *     @type int          $network_id        Limit results to those affiliated with a given network ID.
-	 *                                           Default current network ID.
+	 *     @type int          $network_id        Limit results to those affiliated with a given network ID. If 0,
+	 *                                           include all networks. Default 0.
 	 *     @type array        $network__in       Array of network IDs to include affiliated sites for. Default empty.
 	 *     @type array        $network__not_in   Array of network IDs to exclude affiliated sites for. Default empty.
 	 *     @type string       $domain            Limit results to those affiliated with a given domain.
