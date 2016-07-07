@@ -148,7 +148,7 @@ Please click the following link to confirm the invite:
 			if ( isset( $_POST[ 'noconfirmation' ] ) && current_user_can( 'manage_network_users' ) ) {
 				$key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $new_user_email ) );
 				$new_user = wpmu_activate_signup( $key );
-				if ( ! is_wp_error( $new_user ) ) {
+				if ( is_wp_error( $new_user ) ) {
 					$redirect = add_query_arg( array( 'update' => 'addnoconfirmation' ), 'user-new.php' );
 				} else {
 					$redirect = add_query_arg( array( 'update' => 'addnoconfirmation', 'user_id' => $new_user['user_id'] ), 'user-new.php' );
