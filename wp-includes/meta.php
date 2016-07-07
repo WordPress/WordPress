@@ -1239,7 +1239,7 @@ function get_registered_metadata( $object_type, $object_subtype, $object_id, $me
 		return $data;
 	}
 
-	$data = get_metadata( $object_type, $object_id, $meta_key );
+	$data = get_metadata( $object_type, $object_id );
 
 	$meta_keys = get_registered_meta_keys( $object_type, $object_subtype );
 	$registered_data = array();
