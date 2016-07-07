@@ -112,7 +112,7 @@ if ( $new_admin_email && $new_admin_email != get_option('admin_email') ) : ?>
 	);
 	printf(
 		' <a href="%1$s">%2$s</a>',
-		esc_url( admin_url( 'options.php?dismiss=new_admin_email' ) ),
+		esc_url( wp_nonce_url( admin_url( 'options.php?dismiss=new_admin_email' ), 'dismiss-' . get_current_blog_id() . '-new_admin_email' ) ),
 		__( 'Cancel' )
 	);
 ?></p>
