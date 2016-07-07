@@ -271,8 +271,9 @@ if ( isset($plugin_page) ) {
 
 	$importer = $_GET['import'];
 
-	if ( ! current_user_can('import') )
-		wp_die(__('Sorry, you are not allowed to import.'));
+	if ( ! current_user_can( 'import' ) ) {
+		wp_die( __( 'Sorry, you are not allowed to import content.' ) );
+	}
 
 	if ( validate_file($importer) ) {
 		wp_redirect( admin_url( 'import.php?invalid=' . $importer ) );

@@ -11,8 +11,9 @@ define('WP_LOAD_IMPORTERS', true);
 /** Load WordPress Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-if ( !current_user_can('import') )
-	wp_die(__('Sorry, you are not allowed to import content in this site.'));
+if ( ! current_user_can( 'import' ) ) {
+	wp_die( __( 'Sorry, you are not allowed to import content.' ) );
+}
 
 $title = __('Import');
 
