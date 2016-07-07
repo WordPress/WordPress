@@ -229,13 +229,15 @@ class WP_Network_Query {
 			$cache_value = array(
 				'network_ids' => $network_ids,
 				'found_networks' => $this->found_networks,
-				'max_num_pages' => $this->max_num_pages,
 			);
 			wp_cache_add( $cache_key, $cache_value, 'networks' );
 		} else {
 			$network_ids = $cache_value['network_ids'];
 			$this->found_networks = $cache_value['found_networks'];
-			$this->max_num_pages = $cache_value['max_num_pages'];
+		}
+
+		if ( $this->found_networks && $this->query_vars['number'] ) {
+			$this->max_num_pages = ceil( $this->found_networks / $this->query_vars['number'] );
 		}
 
 		// If querying for a count only, there's nothing more to do.
@@ -477,7 +479,6 @@ class WP_Network_Query {
 			$found_networks_query = apply_filters( 'found_networks_query', 'SELECT FOUND_ROWS()', $this );
 
 			$this->found_networks = (int) $wpdb->get_var( $found_networks_query );
-			$this->max_num_pages = ceil( $this->found_networks / $this->query_vars['number'] );
 		}
 	}
 
