@@ -394,12 +394,27 @@ class WP_Comment_Query {
 			$last_changed = microtime();
 			wp_cache_set( 'last_changed', $last_changed, 'comment' );
 		}
-		$cache_key = "get_comment_ids:$key:$last_changed";
 
-		$comment_ids = wp_cache_get( $cache_key, 'comment' );
-		if ( false === $comment_ids ) {
+		$cache_key   = "get_comments:$key:$last_changed";
+		$cache_value = wp_cache_get( $cache_key, 'comment' );
+		if ( false === $cache_value ) {
 			$comment_ids = $this->get_comment_ids();
-			wp_cache_add( $cache_key, $comment_ids, 'comment' );
+			if ( $comment_ids ) {
+				$this->set_found_comments();
+			}
+
+			$cache_value = array(
+				'comment_ids'    => $comment_ids,
+				'found_comments' => $this->found_comments,
+			);
+			wp_cache_add( $cache_key, $cache_value, 'comment' );
+		} else {
+			$comment_ids          = $cache_value['comment_ids'];
+			$this->found_comments = $cache_value['found_comments'];
+		}
+
+		if ( $this->found_comments && $this->query_vars['number'] ) {
+			$this->max_num_pages = ceil( $this->found_comments / $this->query_vars['number'] );
 		}
 
 		// If querying for a count only, there's nothing more to do.
@@ -409,21 +424,6 @@ class WP_Comment_Query {
 		}
 
 		$comment_ids = array_map( 'intval', $comment_ids );
-
-		if ( $comment_ids && $this->query_vars['number'] && ! $this->query_vars['no_found_rows'] ) {
-			/**
-			 * Filters the query used to retrieve found comment count.
-			 *
-			 * @since 4.4.0
-			 *
-			 * @param string           $found_comments_query SQL query. Default 'SELECT FOUND_ROWS()'.
-			 * @param WP_Comment_Query $comment_query        The `WP_Comment_Query` instance.
-			 */
-			$found_comments_query = apply_filters( 'found_comments_query', 'SELECT FOUND_ROWS()', $this );
-			$this->found_comments = (int) $wpdb->get_var( $found_comments_query );
-
-			$this->max_num_pages = ceil( $this->found_comments / $this->query_vars['number'] );
-		}
 
 		if ( 'ids' == $this->query_vars['fields'] ) {
 			$this->comments = $comment_ids;
@@ -897,6 +897,32 @@ class WP_Comment_Query {
 		} else {
 			$comment_ids = $wpdb->get_col( $this->request );
 			return array_map( 'intval', $comment_ids );
+		}
+	}
+
+	/**
+	 * Populates found_comments and max_num_pages properties for the current query if the limit clause was used.
+	 *
+	 * @since 4.6.0
+	 * @access private
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 */
+	private function set_found_comments() {
+		global $wpdb;
+
+		if ( $this->query_vars['number'] && ! $this->query_vars['no_found_rows'] ) {
+			/**
+			 * Filters the query used to retrieve found comment count.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param string $found_comments_query SQL query. Default 'SELECT FOUND_ROWS()'.
+			 * @param WP_Comment_Query $comment_query The `WP_Comment_Query` instance.
+			 */
+			$found_comments_query = apply_filters( 'found_comments_query', 'SELECT FOUND_ROWS()', $this );
+
+			$this->found_comments = (int) $wpdb->get_var( $found_comments_query );
 		}
 	}
 
