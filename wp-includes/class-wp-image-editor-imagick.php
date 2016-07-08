@@ -137,14 +137,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
 			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
 
-		/** This filter is documented in wp-includes/class-wp-image-editor-gd.php */
-		$image_memory_limit = apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT );
-
 		/*
 		 * Even though Imagick uses less PHP memory than GD, set higher limit
 		 * for users that have low PHP.ini limits.
 		 */
-		@ini_set( 'memory_limit', $image_memory_limit );
+		wp_raise_memory_limit( 'image' );
 
 		try {
 			$this->image = new Imagick( $this->file );

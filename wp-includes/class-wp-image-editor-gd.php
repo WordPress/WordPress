@@ -96,18 +96,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
 			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
 
-		/**
-		 * Filters the memory limit allocated for image manipulation.
-		 *
-		 * @since 3.5.0
-		 *
-		 * @param int|string $limit Maximum memory limit to allocate for images. Default WP_MAX_MEMORY_LIMIT.
-		 *                          Accepts an integer (bytes), or a shorthand string notation, such as '256M'.
-		 */
-		$image_memory_limit = apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT );
-
 		// Set artificially high because GD uses uncompressed images in memory.
-		@ini_set( 'memory_limit', $image_memory_limit );
+		wp_raise_memory_limit( 'image' );
 
 		$this->image = @imagecreatefromstring( file_get_contents( $this->file ) );
 

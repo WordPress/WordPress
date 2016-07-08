@@ -1002,3 +1002,27 @@ function wp_convert_hr_to_bytes( $value ) {
 	// Deal with large (float) values which run into the maximum integer size.
 	return min( $bytes, PHP_INT_MAX );
 }
+
+/**
+ * Determines whether a PHP ini value is changeable at runtime.
+ *
+ * @since 4.6.0
+ *
+ * @link http://php.net/manual/en/function.ini-get-all.php
+ *
+ * @param string $setting The name of the ini setting to check.
+ * @return bool True if the value is changeable at runtime. False otherwise.
+ */
+function wp_is_ini_value_changeable( $setting ) {
+	static $ini_all;
+
+	if ( ! isset( $ini_all ) ) {
+		$ini_all = ini_get_all();
+	}
+
+	if ( isset( $ini_all[ $setting ]['access'] ) && ( INI_ALL === $ini_all[ $setting ]['access'] || INI_USER === $ini_all[ $setting ]['access'] ) ) {
+		return true;
+	}
+
+	return false;
+}

@@ -138,21 +138,7 @@ else
 	require(ABSPATH . 'wp-admin/menu.php');
 
 if ( current_user_can( 'manage_options' ) ) {
-	/**
-	 * Filters the maximum memory limit available for administration screens.
-	 *
-	 * This only applies to administrators, who may require more memory for tasks like updates.
-	 * Memory limits when processing images (uploaded or edited by users of any role) are
-	 * handled separately.
-	 *
-	 * The WP_MAX_MEMORY_LIMIT constant specifically defines the maximum memory limit available
-	 * when in the administration back end. The default is 256M, or 256 megabytes of memory.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param string 'WP_MAX_MEMORY_LIMIT' The maximum WordPress memory limit. Default 256M.
-	 */
-	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
+	wp_raise_memory_limit( 'admin' );
 }
 
 /**

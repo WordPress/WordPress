@@ -28,35 +28,38 @@ function wp_initial_constants() {
 	define( 'TB_IN_BYTES', 1024 * GB_IN_BYTES );
 	/**#@-*/
 
-	// set memory limits
-	if ( !defined('WP_MEMORY_LIMIT') ) {
-		if ( is_multisite() ) {
-			define('WP_MEMORY_LIMIT', '64M');
+	$current_limit     = @ini_get( 'memory_limit' );
+	$current_limit_int = wp_convert_hr_to_bytes( $current_limit );
+
+	// Define memory limits.
+	if ( ! defined( 'WP_MEMORY_LIMIT' ) ) {
+		if ( false === wp_is_ini_value_changeable( 'memory_limit' ) ) {
+			define( 'WP_MEMORY_LIMIT', $current_limit );
+		} elseif ( is_multisite() ) {
+			define( 'WP_MEMORY_LIMIT', '64M' );
 		} else {
-			define('WP_MEMORY_LIMIT', '40M');
+			define( 'WP_MEMORY_LIMIT', '40M' );
 		}
 	}
 
 	if ( ! defined( 'WP_MAX_MEMORY_LIMIT' ) ) {
-		define( 'WP_MAX_MEMORY_LIMIT', '256M' );
+		if ( false === wp_is_ini_value_changeable( 'memory_limit' ) ) {
+			define( 'WP_MAX_MEMORY_LIMIT', $current_limit );
+		} elseif ( -1 === $current_limit_int || $current_limit_int > 268435456 /* = 256M */ ) {
+			define( 'WP_MAX_MEMORY_LIMIT', $current_limit );
+		} else {
+			define( 'WP_MAX_MEMORY_LIMIT', '256M' );
+		}
+	}
+
+	// Set memory limits.
+	$wp_limit_int = wp_convert_hr_to_bytes( WP_MEMORY_LIMIT );
+	if ( -1 !== $current_limit_int && ( -1 === $wp_limit_int || $wp_limit_int > $current_limit_int ) ) {
+		@ini_set( 'memory_limit', WP_MEMORY_LIMIT );
 	}
 
 	if ( ! isset($blog_id) )
 		$blog_id = 1;
-
-	// set memory limits.
-	if ( function_exists( 'memory_get_usage' ) ) {
-		$current_limit = @ini_get( 'memory_limit' );
-		$current_limit_int = intval( $current_limit );
-		if ( false !== strpos( $current_limit, 'G' ) )
-			$current_limit_int *= 1024;
-		$wp_limit_int = intval( WP_MEMORY_LIMIT );
-		if ( false !== strpos( WP_MEMORY_LIMIT, 'G' ) )
-			$wp_limit_int *= 1024;
-
-		if ( -1 != $current_limit && ( -1 == WP_MEMORY_LIMIT || $current_limit_int < $wp_limit_int ) )
-			@ini_set( 'memory_limit', WP_MEMORY_LIMIT );
-	}
 
 	if ( !defined('WP_CONTENT_DIR') )
 		define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // no trailing slash, full paths only - WP_CONTENT_URL is defined further down
