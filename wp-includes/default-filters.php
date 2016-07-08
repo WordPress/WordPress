@@ -468,7 +468,7 @@ add_action( 'embed_head',             'wp_print_head_scripts',          20    );
 add_action( 'embed_head',             'wp_print_styles',                20    );
 add_action( 'embed_head',             'wp_no_robots'                          );
 add_action( 'embed_head',             'rel_canonical'                         );
-add_action( 'embed_head',             'locale_stylesheet'                     );
+add_action( 'embed_head',             'locale_stylesheet',              30    );
 
 add_action( 'embed_content_meta',     'print_embed_comments_button'           );
 add_action( 'embed_content_meta',     'print_embed_sharing_button'            );
