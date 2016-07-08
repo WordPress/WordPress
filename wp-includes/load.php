@@ -974,3 +974,24 @@ function is_ssl() {
 	}
 	return false;
 }
+
+/**
+ * Converts a shorthand byte value to an integer byte value.
+ *
+ * @since 2.3.0
+ * @since 4.6.0 Moved from media.php to load.php
+ *
+ * @param string $size A shorthand byte value.
+ * @return int An integer byte value.
+ */
+function wp_convert_hr_to_bytes( $size ) {
+	$size  = strtolower( $size );
+	$bytes = (int) $size;
+	if ( strpos( $size, 'k' ) !== false )
+		$bytes = intval( $size ) * KB_IN_BYTES;
+	elseif ( strpos( $size, 'm' ) !== false )
+		$bytes = intval($size) * MB_IN_BYTES;
+	elseif ( strpos( $size, 'g' ) !== false )
+		$bytes = intval( $size ) * GB_IN_BYTES;
+	return $bytes;
+}
