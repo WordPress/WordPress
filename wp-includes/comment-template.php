@@ -2106,7 +2106,7 @@ function wp_list_comments( $args = array(), $comments = null ) {
  * into the function, while you may also choose to use the {@see 'comment_form_default_fields'}
  * filter to modify the array of default fields if you'd just like to add a new
  * one or remove a single field. All fields are also individually passed through
- * a filter of the {@see 'form comment_form_field_$name'} where $name is the key used
+ * a filter of the {@see 'comment_form_field_$name'} where $name is the key used
  * in the array of fields.
  *
  * @since 3.0.0
