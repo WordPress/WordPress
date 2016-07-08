@@ -113,7 +113,7 @@ class Core_Upgrader extends WP_Upgrader {
 		else
 			$to_download = 'full';
 
-		// Lock to prevent multiple Core Updates occuring
+		// Lock to prevent multiple Core Updates occurring
 		$lock = WP_Upgrader::create_lock( 'core_updater', 15 * MINUTE_IN_SECONDS );
 		if ( ! $lock ) {
 			return new WP_Error( 'locked', $this->strings['locked'] );
