@@ -17,6 +17,17 @@
 function wp_initial_constants() {
 	global $blog_id;
 
+	/**#@+
+	 * Constants for expressing human-readable data sizes in their respective number of bytes.
+	 *
+	 * @since 4.4.0
+	 */
+	define( 'KB_IN_BYTES', 1024 );
+	define( 'MB_IN_BYTES', 1024 * KB_IN_BYTES );
+	define( 'GB_IN_BYTES', 1024 * MB_IN_BYTES );
+	define( 'TB_IN_BYTES', 1024 * GB_IN_BYTES );
+	/**#@-*/
+
 	// set memory limits
 	if ( !defined('WP_MEMORY_LIMIT') ) {
 		if ( is_multisite() ) {
@@ -109,17 +120,6 @@ function wp_initial_constants() {
 	define( 'WEEK_IN_SECONDS',    7 * DAY_IN_SECONDS    );
 	define( 'MONTH_IN_SECONDS',  30 * DAY_IN_SECONDS    );
 	define( 'YEAR_IN_SECONDS',  365 * DAY_IN_SECONDS    );
-	/**#@-*/
-
-	/**#@+
-	 * Constants for expressing human-readable data sizes in their respective number of bytes.
-	 *
-	 * @since 4.4.0
-	 */
-	define( 'KB_IN_BYTES', 1024 );
-	define( 'MB_IN_BYTES', 1024 * KB_IN_BYTES );
-	define( 'GB_IN_BYTES', 1024 * MB_IN_BYTES );
-	define( 'TB_IN_BYTES', 1024 * GB_IN_BYTES );
 	/**#@-*/
 }
 
