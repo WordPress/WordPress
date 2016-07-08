@@ -40,8 +40,8 @@ case 'restore' :
 	if ( ! $post = get_post( $revision->post_parent ) )
 		break;
 
-	// Revisions disabled (previously checked autosaves && ! wp_is_post_autosave( $revision ))
-	if ( ! wp_revisions_enabled( $post ) ) {
+	// Restore if revisions are enabled or this is an autosave.
+	if ( ! wp_revisions_enabled( $post ) && ! wp_is_post_autosave( $revision ) ) {
 		$redirect = 'edit.php?post_type=' . $post->post_type;
 		break;
 	}
