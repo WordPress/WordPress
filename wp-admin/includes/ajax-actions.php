@@ -3281,6 +3281,8 @@ function wp_ajax_save_wporg_username() {
  * AJAX handler for installing a theme.
  *
  * @since 4.6.0
+ *
+ * @see Theme_Upgrader
  */
 function wp_ajax_install_theme() {
 	check_ajax_referer( 'updates' );
@@ -3456,6 +3458,8 @@ function wp_ajax_update_theme() {
  * AJAX handler for deleting a theme.
  *
  * @since 4.6.0
+ *
+ * @see delete_theme()
  */
 function wp_ajax_delete_theme() {
 	check_ajax_referer( 'updates' );
@@ -3521,6 +3525,8 @@ function wp_ajax_delete_theme() {
  * AJAX handler for installing a plugin.
  *
  * @since 4.6.0
+ *
+ * @see Plugin_Upgrader
  */
 function wp_ajax_install_plugin() {
 	check_ajax_referer( 'updates' );
@@ -3707,6 +3713,8 @@ function wp_ajax_update_plugin() {
  * AJAX handler for deleting a plugin.
  *
  * @since 4.6.0
+ *
+ * @see delete_plugins()
  */
 function wp_ajax_delete_plugin() {
 	check_ajax_referer( 'updates' );
@@ -3846,7 +3854,9 @@ function wp_ajax_search_install_plugins() {
 }
 
 /**
- * Ajax handler for testing if an URL exists. Used in the editor.
+ * AJAX handler for testing if a URL exists.
+ *
+ * Used in the editor.
  *
  * @since 4.6.0
  */
