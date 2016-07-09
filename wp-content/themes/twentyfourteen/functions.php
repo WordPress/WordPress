@@ -319,9 +319,9 @@ function twentyfourteen_the_attached_image() {
 
 	// If there is more than 1 attachment in a gallery...
 	if ( count( $attachment_ids ) > 1 ) {
-		foreach ( $attachment_ids as $attachment_id ) {
+		foreach ( $attachment_ids as $idx => $attachment_id ) {
 			if ( $attachment_id == $post->ID ) {
-				$next_id = current( $attachment_ids );
+				$next_id = $attachment_ids[ ( $idx + 1 ) % count( $attachment_ids ) ];
 				break;
 			}
 		}
