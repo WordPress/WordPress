@@ -74,7 +74,7 @@ wp_debug_mode();
  * Filters whether to enable loading of the advanced-cache.php drop-in.
  *
  * This filter runs before it can be used by plugins. It is designed for non-web
- * run-times. If false is returned, advance-cache.php will never be loaded.
+ * run-times. If false is returned, advanced-cache.php will never be loaded.
  *
  * @since 4.6.0
  *
