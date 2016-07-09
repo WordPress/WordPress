@@ -611,7 +611,6 @@ themes.view.Theme = wp.Backbone.View.extend({
 	updateTheme: function( event ) {
 		var _this = this;
 		event.preventDefault();
-		this.$el.off( 'click', '.update-message' );
 
 		wp.updates.maybeRequestFilesystemCredentials( event );
 
