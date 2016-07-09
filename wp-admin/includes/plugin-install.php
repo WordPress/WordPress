@@ -20,7 +20,7 @@
  *
  * The second filter, {@see 'plugins_api'}, allows a plugin to override the WordPress.org
  * Plugin Install API entirely. If `$action` is 'query_plugins' or 'plugin_information',
- * an object MUST be passed. If `$action` is 'hot_tags` or 'hot_categories', an array MUST
+ * an object MUST be passed. If `$action` is 'hot_tags' or 'hot_categories', an array MUST
  * be passed.
  *
  * Finally, the third filter, {@see 'plugins_api_result'}, makes it possible to filter the
@@ -130,7 +130,7 @@ function plugins_api( $action, $args = array() ) {
 	 * Passing a non-false value will effectively short-circuit the WordPress.org API request.
 	 *
 	 * If `$action` is 'query_plugins' or 'plugin_information', an object MUST be passed.
-	 * If `$action` is 'hot_tags` or 'hot_categories', an array should be passed.
+	 * If `$action` is 'hot_tags' or 'hot_categories', an array should be passed.
 	 *
 	 * @since 2.7.0
 	 *
