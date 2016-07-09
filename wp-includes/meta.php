@@ -986,7 +986,8 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  * Registers a meta key.
  *
  * @since 3.3.0
- * @since 4.6.0 Modified to support an array of data to attach to registered meta keys. Previous arguments for
+ * @since 4.6.0 {@link https://make.wordpress.org/core/2016/07/08/enhancing-register_meta-in-4-6/ Modified
+ *              to support an array of data to attach to registered meta keys}. Previous arguments for
  *              `$sanitize_callback` and `$auth_callback` have been folded into this array.
  *
  * @param string $object_type    Type of object this meta is registered to.
