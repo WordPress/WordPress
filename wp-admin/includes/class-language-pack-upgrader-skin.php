@@ -12,6 +12,8 @@
  *
  * @since 3.7.0
  * @since 4.6.0 Moved to its own file from wp-admin/includes/class-wp-upgrader-skins.php.
+ *
+ * @see WP_Upgrader_Skin
  */
 class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	public $language_update = null;
