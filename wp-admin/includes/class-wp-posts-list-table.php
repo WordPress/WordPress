@@ -419,7 +419,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 *
 	 * @global int $cat Currently selected category.
 	 *
-	 * @param string $post_type The Post Type.
+	 * @param string $post_type Post type slug.
 	 */
 	protected function categories_dropdown( $post_type ) {
 		global $cat;
@@ -430,7 +430,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 		 * @since 4.6.0
 		 *
 		 * @param bool   $disable   Whether to disable the categories drop-down. Default false.
-		 * @param string $post_type The post type.
+		 * @param string $post_type Post type slug.
 		 */
 		if ( false !== apply_filters( 'disable_categories_dropdown', false, $post_type ) ) {
 			return;

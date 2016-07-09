@@ -256,7 +256,7 @@ function export_wp( $args = array() ) {
 	}
 
 	/**
-	 * Output termmeta XML tags for a given term object.
+	 * Output term meta XML tags for a given term object.
 	 *
 	 * @since 4.6.0
 	 *
