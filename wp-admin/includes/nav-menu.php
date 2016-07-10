@@ -123,7 +123,7 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 }
 
 /**
- * Register nav menu metaboxes and advanced menu items
+ * Register nav menu meta boxes and advanced menu items.
  *
  * @since 3.0.0
  **/
@@ -178,7 +178,7 @@ function wp_initial_nav_menu_meta_boxes() {
 }
 
 /**
- * Creates metaboxes for any post type menu item.
+ * Creates meta boxes for any post type menu item..
  *
  * @since 3.0.0
  */
@@ -212,7 +212,7 @@ function wp_nav_menu_post_type_meta_boxes() {
 }
 
 /**
- * Creates metaboxes for any taxonomy menu item.
+ * Creates meta boxes for any taxonomy menu item.
  *
  * @since 3.0.0
  */
@@ -252,7 +252,7 @@ function wp_nav_menu_disabled_check( $nav_menu_selected_id ) {
 }
 
 /**
- * Displays a metabox for the custom links menu item.
+ * Displays a meta box for the custom links menu item.
  *
  * @since 3.0.0
  *
@@ -289,7 +289,7 @@ function wp_nav_menu_item_link_meta_box() {
 }
 
 /**
- * Displays a metabox for a post type menu item.
+ * Displays a meta box for a post type menu item.
  *
  * @since 3.0.0
  *
@@ -568,7 +568,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 }
 
 /**
- * Displays a metabox for a taxonomy menu item.
+ * Displays a meta box for a taxonomy menu item.
  *
  * @since 3.0.0
  *

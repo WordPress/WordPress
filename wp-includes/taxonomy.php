@@ -475,7 +475,7 @@ function register_taxonomy( $taxonomy, $object_type, $args = array() ) {
 
 	$wp_taxonomies[ $taxonomy ] = (object) $args;
 
-	// register callback handling for metabox
+	// Register callback handling for meta box.
  	add_filter( 'wp_ajax_add-' . $taxonomy, '_wp_ajax_add_hierarchical_term' );
 
 	/**
@@ -528,7 +528,7 @@ function unregister_taxonomy( $taxonomy ) {
 		remove_permastruct( $taxonomy );
 	}
 
-	// Unregister callback handling for metabox.
+	// Unregister callback handling for meta box.
 	remove_filter( 'wp_ajax_add-' . $taxonomy, '_wp_ajax_add_hierarchical_term' );
 
 	// Remove the taxonomy.

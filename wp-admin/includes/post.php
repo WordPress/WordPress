@@ -1166,7 +1166,7 @@ function wp_edit_attachments_query( $q = false ) {
 }
 
 /**
- * Returns the list of classes to be used by a metabox
+ * Returns the list of classes to be used by a meta box.
  *
  * @since 2.5.0
  *
