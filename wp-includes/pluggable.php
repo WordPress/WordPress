@@ -610,7 +610,7 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 	$token = $cookie_elements['token'];
 	$expired = $expiration = $cookie_elements['expiration'];
 
-	// Allow a grace period for POST and AJAX requests
+	// Allow a grace period for POST and Ajax requests
 	if ( defined('DOING_AJAX') || 'POST' == $_SERVER['REQUEST_METHOD'] ) {
 		$expired += HOUR_IN_SECONDS;
 	}
@@ -667,7 +667,7 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 		return false;
 	}
 
-	// AJAX/POST grace period set above
+	// Ajax/POST grace period set above
 	if ( $expiration < time() ) {
 		$GLOBALS['login_grace_period'] = 1;
 	}
@@ -1075,7 +1075,7 @@ endif;
 
 if ( !function_exists('check_ajax_referer') ) :
 /**
- * Verifies the AJAX request to prevent processing requests external of the blog.
+ * Verifies the Ajax request to prevent processing requests external of the blog.
  *
  * @since 2.0.3
  *
@@ -1101,11 +1101,11 @@ function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 	$result = wp_verify_nonce( $nonce, $action );
 
 	/**
-	 * Fires once the AJAX request has been validated or not.
+	 * Fires once the Ajax request has been validated or not.
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string    $action The AJAX nonce action.
+	 * @param string    $action The Ajax nonce action.
 	 * @param false|int $result False if the nonce is invalid, 1 if the nonce is valid and generated between
 	 *                          0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
 	 */

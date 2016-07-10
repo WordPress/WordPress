@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress AJAX Process Execution.
+ * WordPress Ajax Process Execution
  *
  * @package WordPress
  * @subpackage Administration
@@ -9,7 +9,7 @@
  */
 
 /**
- * Executing AJAX process.
+ * Executing Ajax process.
  *
  * @since 2.1.0
  */
@@ -81,20 +81,20 @@ add_action( 'wp_ajax_nopriv_heartbeat', 'wp_ajax_nopriv_heartbeat', 1 );
 
 if ( is_user_logged_in() ) {
 	/**
-	 * Fires authenticated AJAX actions for logged-in users.
+	 * Fires authenticated Ajax actions for logged-in users.
 	 *
 	 * The dynamic portion of the hook name, `$_REQUEST['action']`,
-	 * refers to the name of the AJAX action callback being fired.
+	 * refers to the name of the Ajax action callback being fired.
 	 *
 	 * @since 2.1.0
 	 */
 	do_action( 'wp_ajax_' . $_REQUEST['action'] );
 } else {
 	/**
-	 * Fires non-authenticated AJAX actions for logged-out users.
+	 * Fires non-authenticated Ajax actions for logged-out users.
 	 *
 	 * The dynamic portion of the hook name, `$_REQUEST['action']`,
-	 * refers to the name of the AJAX action callback being fired.
+	 * refers to the name of the Ajax action callback being fired.
 	 *
 	 * @since 2.8.0
 	 */

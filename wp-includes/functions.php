@@ -2569,7 +2569,7 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 		/**
-		 * Filters callback for killing WordPress execution for AJAX requests.
+		 * Filters the callback for killing WordPress execution for Ajax requests.
 		 *
 		 * @since 3.4.0
 		 *
@@ -2578,7 +2578,7 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		$function = apply_filters( 'wp_die_ajax_handler', '_ajax_wp_die_handler' );
 	} elseif ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST ) {
 		/**
-		 * Filters callback for killing WordPress execution for XML-RPC requests.
+		 * Filters the callback for killing WordPress execution for XML-RPC requests.
 		 *
 		 * @since 3.4.0
 		 *
@@ -2587,7 +2587,7 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		$function = apply_filters( 'wp_die_xmlrpc_handler', '_xmlrpc_wp_die_handler' );
 	} else {
 		/**
-		 * Filters callback for killing WordPress execution for all non-AJAX, non-XML-RPC requests.
+		 * Filters the callback for killing WordPress execution for all non-Ajax, non-XML-RPC requests.
 		 *
 		 * @since 3.0.0
 		 *

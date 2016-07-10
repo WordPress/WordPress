@@ -96,7 +96,7 @@ class WP_Press_This {
 	}
 
 	/**
-	 * AJAX handler for saving the post as draft or published.
+	 * Ajax handler for saving the post as draft or published.
 	 *
 	 * @since 4.2.0
 	 * @access public
@@ -189,7 +189,7 @@ class WP_Press_This {
 	}
 
 	/**
-	 * AJAX handler for adding a new category.
+	 * Ajax handler for adding a new category.
 	 *
 	 * @since 4.2.0
 	 * @access public

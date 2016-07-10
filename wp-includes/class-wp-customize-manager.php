@@ -305,14 +305,14 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Return true if it's an AJAX request.
+	 * Return true if it's an Ajax request.
 	 *
 	 * @since 3.4.0
 	 * @since 4.2.0 Added `$action` param.
 	 * @access public
 	 *
-	 * @param string|null $action Whether the supplied AJAX action is being run.
-	 * @return bool True if it's an AJAX request, false otherwise.
+	 * @param string|null $action Whether the supplied Ajax action is being run.
+	 * @return bool True if it's an Ajax request, false otherwise.
 	 */
 	public function doing_ajax( $action = null ) {
 		$doing_ajax = ( defined( 'DOING_AJAX' ) && DOING_AJAX );
@@ -333,11 +333,11 @@ final class WP_Customize_Manager {
 
 	/**
 	 * Custom wp_die wrapper. Returns either the standard message for UI
-	 * or the AJAX message.
+	 * or the Ajax message.
 	 *
 	 * @since 3.4.0
 	 *
-	 * @param mixed $ajax_message AJAX return
+	 * @param mixed $ajax_message Ajax return
 	 * @param mixed $message UI message
 	 */
 	protected function wp_die( $ajax_message, $message = null ) {
@@ -353,7 +353,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Return the AJAX wp_die() handler if it's a customized request.
+	 * Return the Ajax wp_die() handler if it's a customized request.
 	 *
 	 * @since 3.4.0
 	 *
@@ -609,7 +609,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Prevents AJAX requests from following redirects when previewing a theme
+	 * Prevents Ajax requests from following redirects when previewing a theme
 	 * by issuing a 200 response instead of a 30x.
 	 *
 	 * Instead, the JS will sniff out the location header.
@@ -762,7 +762,7 @@ final class WP_Customize_Manager {
 
 	/**
 	 * Prevent sending a 404 status when returning the response for the customize
-	 * preview, since it causes the jQuery AJAX to fail. Send 200 instead.
+	 * preview, since it causes the jQuery Ajax to fail. Send 200 instead.
 	 *
 	 * @since 4.0.0
 	 * @access public
@@ -1142,7 +1142,7 @@ final class WP_Customize_Manager {
 		);
 
 		/**
-		 * Filters response data for a successful customize_save AJAX request.
+		 * Filters response data for a successful customize_save Ajax request.
 		 *
 		 * This filter does not apply if there was a nonce or authentication failure.
 		 *

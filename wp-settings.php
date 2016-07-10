@@ -424,7 +424,7 @@ if ( is_multisite() ) {
 /**
  * This hook is fired once WP, all plugins, and the theme are fully loaded and instantiated.
  *
- * AJAX requests should use wp-admin/admin-ajax.php. admin-ajax.php can handle requests for
+ * Ajax requests should use wp-admin/admin-ajax.php. admin-ajax.php can handle requests for
  * users not logged in.
  *
  * @link https://codex.wordpress.org/AJAX_in_Plugins

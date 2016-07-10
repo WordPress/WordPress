@@ -42,7 +42,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 	 * @return bool
 	 */
 	public function ajax_user_can() {
-		// Do not check edit_theme_options here. AJAX calls for available themes require switch_themes.
+		// Do not check edit_theme_options here. Ajax calls for available themes require switch_themes.
 		return current_user_can( 'switch_themes' );
 	}
 

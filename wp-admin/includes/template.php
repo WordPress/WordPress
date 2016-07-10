@@ -203,7 +203,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 	$popular_ids = array();
 	foreach ( (array) $terms as $term ) {
 		$popular_ids[] = $term->term_id;
-		if ( !$echo ) // hack for AJAX use
+		if ( !$echo ) // Hack for Ajax use.
 			continue;
 		$id = "popular-$taxonomy-$term->term_id";
 		$checked = in_array( $term->term_id, $checked_terms ) ? 'checked="checked"' : '';

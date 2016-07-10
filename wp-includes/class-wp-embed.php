@@ -38,7 +38,7 @@ class WP_Embed {
 		// Attempts to embed all URLs in a post
 		add_filter( 'the_content', array( $this, 'autoembed' ), 8 );
 
-		// After a post is saved, cache oEmbed items via AJAX
+		// After a post is saved, cache oEmbed items via Ajax
 		add_action( 'edit_form_advanced', array( $this, 'maybe_run_ajax_cache' ) );
 		add_action( 'edit_page_form', array( $this, 'maybe_run_ajax_cache' ) );
 	}
@@ -75,7 +75,7 @@ class WP_Embed {
 
 	/**
 	 * If a post/page was saved, then output JavaScript to make
-	 * an AJAX request that will call WP_Embed::cache_oembed().
+	 * an Ajax request that will call WP_Embed::cache_oembed().
 	 */
 	public function maybe_run_ajax_cache() {
 		$post = get_post();
