@@ -32,7 +32,7 @@ final class WP_Post_Type {
 	public $label;
 
 	/**
-	 * An array of labels for this post type.
+	 * Labels object for this post type.
 	 *
 	 * If not set, post labels are inherited for non-hierarchical types
 	 * and page labels for hierarchical ones.
@@ -41,7 +41,7 @@ final class WP_Post_Type {
 	 *
 	 * @since 4.6.0
 	 * @access public
-	 * @var array $labels
+	 * @var object $labels
 	 */
 	public $labels;
 
