@@ -582,6 +582,7 @@ code {
 	color: #555d66;
 	font-size: 14px;
 	font-weight: 400;
+	line-height: 1;
 }
 
 .wrap .add-new-h2, /* deprecated */

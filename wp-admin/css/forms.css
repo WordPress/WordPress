@@ -564,6 +564,16 @@ p.search-box {
 	margin: 0 4px 0 0;
 }
 
+.js.plugins-php .search-box .wp-filter-search {
+	margin: 0;
+	width: 280px;
+	font-size: 16px;
+	font-weight: 300;
+	line-height: 1.5;
+	padding: 3px 5px;
+	height: 32px;
+}
+
 input[type="text"].ui-autocomplete-loading,
 input[type="email"].ui-autocomplete-loading {
 	background-image: url(../images/loading.gif);

@@ -653,6 +653,8 @@ function wp_default_scripts( &$scripts ) {
 				'activateTheme'              => is_network_admin() ? __( 'Network Enable' ) : __( 'Activate' ),
 				'activateImporter'           => __( 'Activate importer' ),
 				'unknownError'               => __( 'An unknown error occured' ),
+				'pluginsFound'               => __( 'Number of plugins found: %d' ),
+				'noPluginsFound'             => __( 'No plugins found. Try a different search.' ),
 			),
 		) );
 
