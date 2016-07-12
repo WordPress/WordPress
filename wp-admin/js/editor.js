@@ -122,16 +122,25 @@
 				blocklist1 = blocklist + '|div|p',
 				blocklist2 = blocklist + '|pre',
 				preserve_linebreaks = false,
-				preserve_br = false;
+				preserve_br = false,
+				preserve = [];
 
 			if ( ! html ) {
 				return '';
 			}
 
-			// Protect pre|script tags
-			if ( html.indexOf( '<pre' ) !== -1 || html.indexOf( '<script' ) !== -1 ) {
+			// Preserve script and style tags.
+			if ( html.indexOf( '<script' ) !== -1 || html.indexOf( '<style' ) !== -1 ) {
+				html = html.replace( /<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function( match ) {
+					preserve.push( match );
+					return '<wp-preserve>';
+				} );
+			}
+
+			// Protect pre tags.
+			if ( html.indexOf( '<pre' ) !== -1 ) {
 				preserve_linebreaks = true;
-				html = html.replace( /<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function( a ) {
+				html = html.replace( /<pre[^>]*>[\s\S]+?<\/pre>/g, function( a ) {
 					a = a.replace( /<br ?\/?>(\r\n|\n)?/g, '<wp-line-break>' );
 					a = a.replace( /<\/?p( [^>]*)?>(\r\n|\n)?/g, '<wp-line-break>' );
 					return a.replace( /\r?\n/g, '<wp-line-break>' );
@@ -203,6 +212,13 @@
 			// and the <br> tags in captions
 			if ( preserve_br ) {
 				html = html.replace( /<wp-temp-br([^>]*)>/g, '<br$1>' );
+			}
+
+			// Put back preserved tags.
+			if ( preserve.length ) {
+				html = html.replace( /<wp-preserve>/g, function() {
+					return preserve.shift();
+				} );
 			}
 
 			return html;

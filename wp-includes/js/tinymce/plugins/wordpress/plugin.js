@@ -90,7 +90,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
         window.wpActiveEditor = editor.id;
     });
 
-	// Replace Read More/Next Page tags with images
 	editor.on( 'BeforeSetContent', function( event ) {
 		var title;
 
@@ -116,6 +115,21 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				event.content = wp.editor.autop( event.content );
 			}
 
+			if ( event.content.indexOf( '<script' ) !== -1 || event.content.indexOf( '<style' ) !== -1 ) {
+				event.content = event.content.replace( /<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function( match, tag ) {
+					return '<img ' +
+						'src="' + tinymce.Env.transparentSrc + '" ' +
+						'data-wp-preserve="' + encodeURIComponent( match ) + '" ' +
+						'data-mce-resize="false" ' +
+						'data-mce-placeholder="1" '+
+						'class="mce-object" ' +
+						'width="20" height="20" '+
+						'alt="&lt;' + tag + '&gt;" ' +
+						'title="&lt;' + tag + '&gt;" ' +
+					'/>';
+				} );
+			}
+
 			// Remove spaces from empty paragraphs.
 			// Avoid backtracking, can freeze the editor. See #35890.
 			// (This is also quite faster than using only one regex.)
@@ -129,23 +143,28 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		}
 	});
 
-	// Replace images with tags
-	editor.on( 'PostProcess', function( e ) {
-		if ( e.get ) {
-			e.content = e.content.replace(/<img[^>]+>/g, function( image ) {
-				var match, moretext = '';
+	editor.on( 'PostProcess', function( event ) {
+		if ( event.get ) {
+			event.content = event.content.replace(/<img[^>]+>/g, function( image ) {
+				var match,
+					string,
+					moretext = '';
 
 				if ( image.indexOf( 'data-wp-more="more"' ) !== -1 ) {
 					if ( match = image.match( /data-wp-more-text="([^"]+)"/ ) ) {
 						moretext = match[1];
 					}
 
-					image = '<!--more' + moretext + '-->';
+					string = '<!--more' + moretext + '-->';
 				} else if ( image.indexOf( 'data-wp-more="nextpage"' ) !== -1 ) {
-					image = '<!--nextpage-->';
+					string = '<!--nextpage-->';
+				} else if ( image.indexOf( 'data-wp-preserve' ) !== -1 ) {
+					if ( match = image.match( / data-wp-preserve="([^"]+)"/ ) ) {
+						string = decodeURIComponent( match[1] );
+					}
 				}
 
-				return image;
+				return string || image;
 			});
 		}
 	});
