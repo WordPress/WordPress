@@ -5360,6 +5360,8 @@ function mysql_to_rfc3339( $date_string ) {
 /**
  * Check if an object type exists. By default, these are `post`, `comment`, `user`, and `term`.
  *
+ * @since 4.6.0
+ *
  * @param  string $object_type Object type to check.
  * @return bool                True if the object type exists, false if not.
  */
