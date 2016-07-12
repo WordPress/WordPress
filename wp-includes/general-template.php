@@ -2815,25 +2815,37 @@ function wp_resource_hints() {
 		 * @param string $relation_type The relation type the URLs are printed for, e.g. 'preconnect' or 'prerender'.
 		 */
 		$urls = apply_filters( 'wp_resource_hints', $urls, $relation_type );
-		$urls = array_unique( $urls );
 
-		foreach ( $urls as $url ) {
+		foreach ( $urls as $key => $url ) {
 			$url = esc_url( $url, array( 'http', 'https' ) );
+			if ( ! $url ) {
+				unset( $urls[ $key ] );
+				continue;
+			}
 
 			if ( in_array( $relation_type, array( 'preconnect', 'dns-prefetch' ) ) ) {
 				$parsed = wp_parse_url( $url );
 				if ( empty( $parsed['host'] ) ) {
+					unset( $urls[ $key ] );
 					continue;
 				}
 
-				if ( ! empty( $parsed['scheme'] ) ) {
+				if ( 'dns-prefetch' === $relation_type ) {
+					$url = '//' . $parsed['host'];
+				} else if ( ! empty( $parsed['scheme'] ) ) {
 					$url = $parsed['scheme'] . '://' . $parsed['host'];
 				} else {
 					$url = $parsed['host'];
 				}
 			}
 
-			printf( "<link rel='%s' href='%s'>\r\n", $relation_type, $url );
+			$urls[ $key ] = $url;
+		}
+
+		$urls = array_unique( $urls );
+
+		foreach ( $urls as $url ) {
+			printf( "<link rel='%s' href='%s'>\n", $relation_type, $url );
 		}
 	}
 }
