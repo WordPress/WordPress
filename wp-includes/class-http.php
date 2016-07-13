@@ -347,6 +347,17 @@ class WP_Http {
 		 */
 		$options['verify'] = apply_filters( 'https_ssl_verify', $options['verify'] );
 
+		// Check for proxies.
+		$proxy = new WP_HTTP_Proxy();
+		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
+			$options['proxy'] = new Requests_Proxy_HTTP( $proxy->host() . ':' . $proxy->port() );
+
+			if ( $proxy->use_authentication() ) {
+				$options['proxy']->user = $proxy->username();
+				$options['proxy']->pass = $proxy->password();
+			}
+		}
+
 		try {
 			$requests_response = Requests::request( $url, $headers, $data, $type, $options );
 
