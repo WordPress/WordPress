@@ -1073,7 +1073,7 @@ function get_last_updated( $deprecated = '', $start = 0, $quantity = 40 ) {
  *                           for information on accepted arguments. Default empty.
  * @return int|array List of networks or number of found networks if `$count` argument is true.
  */
-function get_networks( $args = '' ) {
+function get_networks( $args = array() ) {
 	$query = new WP_Network_Query();
 
 	return $query->query( $args );
