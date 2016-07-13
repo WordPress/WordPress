@@ -494,17 +494,7 @@ class WP_Http {
 
 		$response = $transports[$class]->request( $url, $args );
 
-		/**
-		 * Fires after an HTTP API response is received and before the response is returned.
-		 *
-		 * @since 2.8.0
-		 *
-		 * @param array|WP_Error $response HTTP response or WP_Error object.
-		 * @param string         $context  Context under which the hook is fired.
-		 * @param string         $class    HTTP transport used.
-		 * @param array          $args     HTTP request arguments.
-		 * @param string         $url      The request URL.
-		 */
+		/** This action is documented in wp-includes/class-http.php */
 		do_action( 'http_api_debug', $response, 'response', $class, $args, $url );
 
 		if ( is_wp_error( $response ) )
