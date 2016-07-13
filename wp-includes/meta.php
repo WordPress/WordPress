@@ -1032,6 +1032,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 
 	// There used to be individual args for sanitize and auth callbacks
 	$has_old_sanitize_cb = false;
+	$has_old_auth_cb = false;
 
 	if ( is_callable( $args ) ) {
 		$args = array(
@@ -1045,6 +1046,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 
 	if ( is_callable( $deprecated ) ) {
 		$args['auth_callback'] = $deprecated;
+		$has_old_auth_cb = true;
 	}
 
 	$args = wp_parse_args( $args, $defaults );
@@ -1062,7 +1064,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 	$args = apply_filters( 'register_meta_args', $args, $defaults, $object_type, $meta_key );
 
 	// Object subtype is required if using the args style of registration
-	if ( ! $has_old_sanitize_cb && empty( $args['object_subtype'] ) ) {
+	if ( ! $has_old_sanitize_cb && ! $has_old_auth_cb && empty( $args['object_subtype'] ) ) {
 		return new WP_Error( 'register_meta_failed', __( 'Meta must be registered against an object subtype.' ) );
 	}
 
@@ -1081,11 +1083,16 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 		$object_subtype = $args['object_subtype'];
 	}
 
-	// Back-compat: old sanitize and auth callbacks applied to all of an object type
-	if ( $has_old_sanitize_cb ) {
+	// Back-compat: old sanitize and auth callbacks are applied to all of an object type.
+	if ( $has_old_sanitize_cb && is_callable( $args['sanitize_callback'] ) ) {
 		add_filter( "sanitize_{$object_type}_meta_{$meta_key}", $args['sanitize_callback'], 10, 4 );
+	}
+
+	if ( $has_old_auth_cb && is_callable( $args['auth_callback'] ) ) {
 		add_filter( "auth_{$object_type}_meta_{$meta_key}", $args['auth_callback'], 10, 6 );
-	} else {
+	}
+
+	if ( ! $has_old_auth_cb && ! $has_old_sanitize_cb) {
 		if ( is_callable( $args['sanitize_callback'] ) ) {
 			add_filter( "sanitize_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['sanitize_callback'], 10, 4 );
 		}
