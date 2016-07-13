@@ -635,7 +635,11 @@ function customize_themes_print_templates() {
 			<# if ( ! data.active ) { #>
 				<div class="theme-actions">
 					<div class="inactive-theme">
-						<a href="<?php echo $preview_url; ?>" target="_top" class="button button-primary"><?php _e( 'Live Preview' ); ?></a>
+						<?php
+						/* translators: %s: Theme name */
+						$aria_label = sprintf( __( 'Preview %s' ), '{{ data.name }}' );
+						?>
+						<a href="<?php echo $preview_url; ?>" target="_top" class="button button-primary" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Live Preview' ); ?></a>
 					</div>
 				</div>
 			<# } #>

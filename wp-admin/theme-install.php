@@ -248,17 +248,25 @@ if ( $tab ) {
 
 	<div class="theme-actions">
 		<# if ( data.installed ) { #>
+			<?php
+			/* translators: %s: Theme name */
+			$aria_label = sprintf( __( 'Activate %s' ), '{{ data.name }}' );
+			?>
 			<# if ( data.activate_url ) { #>
-				<a class="button button-primary activate" href="{{ data.activate_url }}"><?php esc_html_e( 'Activate' ); ?></a>
+				<a class="button button-primary activate" href="{{ data.activate_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
 			<# } #>
 			<# if ( data.customize_url ) { #>
-				<a class="button button-secondary load-customize" href="{{ data.customize_url }}"><?php esc_html_e( 'Live Preview' ); ?></a>
+				<a class="button button-secondary load-customize" href="{{ data.customize_url }}"><?php _e( 'Live Preview' ); ?></a>
 			<# } else { #>
-				<button class="button-secondary preview install-theme-preview"><?php esc_html_e( 'Preview' ); ?></button>
+				<button class="button-secondary preview install-theme-preview"><?php _e( 'Preview' ); ?></button>
 			<# } #>
 		<# } else { #>
-			<a class="button button-primary theme-install" data-slug="{{ data.id }}" href="{{ data.install_url }}"><?php esc_html_e( 'Install' ); ?></a>
-			<button class="button-secondary preview install-theme-preview"><?php esc_html_e( 'Preview' ); ?></button>
+			<?php
+			/* translators: %s: Theme name */
+			$aria_label = sprintf( __( 'Install %s' ), '{{ data.name }}' );
+			?>
+			<a class="button button-primary theme-install" data-name="{{ data.name }}" data-slug="{{ data.id }}" href="{{ data.install_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Install' ); ?></a>
+			<button class="button-secondary preview install-theme-preview"><?php _e( 'Preview' ); ?></button>
 		<# } #>
 	</div>
 
@@ -274,9 +282,9 @@ if ( $tab ) {
 			<button class="previous-theme"><span class="screen-reader-text"><?php _ex( 'Previous', 'Button label for a theme' ); ?></span></button>
 			<button class="next-theme"><span class="screen-reader-text"><?php _ex( 'Next', 'Button label for a theme' ); ?></span></button>
 			<# if ( data.installed ) { #>
-				<a class="button button-primary activate" href="{{ data.activate_url }}"><?php esc_html_e( 'Activate' ); ?></a>
+				<a class="button button-primary activate" href="{{ data.activate_url }}"><?php _e( 'Activate' ); ?></a>
 			<# } else { #>
-				<a href="{{ data.install_url }}" class="button button-primary theme-install" data-slug="{{ data.id }}"><?php _e( 'Install' ); ?></a>
+				<a href="{{ data.install_url }}" class="button button-primary theme-install" data-name="{{ data.name }}" data-slug="{{ data.id }}"><?php _e( 'Install' ); ?></a>
 			<# } #>
 		</div>
 		<div class="wp-full-overlay-sidebar-content">

@@ -277,7 +277,11 @@ foreach ( $themes as $theme ) :
 			<a class="button button-primary customize load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Customize' ); ?></a>
 		<?php } ?>
 	<?php } else { ?>
-		<a class="button button-secondary activate" href="<?php echo $theme['actions']['activate']; ?>"><?php _e( 'Activate' ); ?></a>
+		<?php
+		/* translators: %s: Theme name */
+		$aria_label = sprintf( __( 'Activate %s' ), '{{ data.name }}' );
+		?>
+		<a class="button button-secondary activate" href="<?php echo $theme['actions']['activate']; ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
 		<?php if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) { ?>
 			<a class="button button-primary load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Live Preview' ); ?></a>
 		<?php } ?>
@@ -402,7 +406,11 @@ $can_install = current_user_can( 'install_themes' );
 				<a class="button button-primary customize load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Customize' ); ?></a>
 			<# } #>
 		<# } else { #>
-			<a class="button button-secondary activate" href="{{{ data.actions.activate }}}"><?php _e( 'Activate' ); ?></a>
+			<?php
+			/* translators: %s: Theme name */
+			$aria_label = sprintf( __( 'Activate %s' ), '{{ data.name }}' );
+			?>
+			<a class="button button-secondary activate" href="{{{ data.actions.activate }}}" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
 			<a class="button button-primary load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview' ); ?></a>
 		<# } #>
 	</div>
@@ -456,8 +464,12 @@ $can_install = current_user_can( 'install_themes' );
 				<?php echo implode( ' ', $current_theme_actions ); ?>
 			</div>
 			<div class="inactive-theme">
+				<?php
+				/* translators: %s: Theme name */
+				$aria_label = sprintf( __( 'Activate %s' ), '{{ data.name }}' );
+				?>
 				<# if ( data.actions.activate ) { #>
-					<a href="{{{ data.actions.activate }}}" class="button button-secondary activate"><?php _e( 'Activate' ); ?></a>
+					<a href="{{{ data.actions.activate }}}" class="button button-secondary activate" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
 				<# } #>
 				<a href="{{{ data.actions.customize }}}" class="button button-primary load-customize hide-if-no-customize"><?php _e( 'Live Preview' ); ?></a>
 			</div>

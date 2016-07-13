@@ -3344,6 +3344,8 @@ function wp_ajax_install_theme() {
 		wp_send_json_error( $status );
 	}
 
+	$status['themeName'] = wp_get_theme( $slug )->get( 'Name' );
+
 	if ( current_user_can( 'switch_themes' ) ) {
 		if ( is_multisite() ) {
 			$status['activateUrl'] = add_query_arg( array(

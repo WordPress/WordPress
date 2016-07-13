@@ -628,12 +628,18 @@ function wp_default_scripts( &$scripts ) {
 				'installFailedShort'         => __( 'Install Failed!' ),
 				/* translators: Error string for a failed installation */
 				'installFailed'              => __( 'Installation failed: %s' ),
-				/* translators: Plugin/Theme name and version */
-				'installingLabel'            => __( 'Installing %s...' ), // no ellipsis
-				/* translators: Plugin/Theme name and version */
-				'installedLabel'             => __( '%s installed!' ),
-				/* translators: Plugin/Theme name and version */
-				'installFailedLabel'         => __( '%s installation failed' ),
+				/* translators: Plugin name and version */
+				'pluginInstallingLabel'      => _x( 'Installing %s...', 'plugin' ), // no ellipsis
+				/* translators: Theme name and version */
+				'themeInstallingLabel'       => _x( 'Installing %s...', 'theme' ), // no ellipsis
+				/* translators: Plugin name and version */
+				'pluginInstalledLabel'       => _x( '%s installed!', 'plugin' ),
+				/* translators: Theme name and version */
+				'themeInstalledLabel'        => _x( '%s installed!', 'theme' ),
+				/* translators: Plugin name and version */
+				'pluginInstallFailedLabel'   => _x( '%s installation failed', 'plugin' ),
+				/* translators: Theme name and version */
+				'themeInstallFailedLabel'    => _x( '%s installation failed', 'theme' ),
 				'installingMsg'              => __( 'Installing... please wait.' ),
 				'installedMsg'               => __( 'Installation completed successfully.' ),
 				/* translators: Activation URL */
@@ -649,10 +655,15 @@ function wp_default_scripts( &$scripts ) {
 				'deleteFailed'               => __( 'Deletion failed: %s' ),
 				'deleted'                    => __( 'Deleted!' ),
 				'livePreview'                => __( 'Live Preview' ),
+				/* translators: %s: Theme name */
 				'activatePlugin'             => is_network_admin() ? __( 'Network Activate' ) : __( 'Activate' ),
 				'activateTheme'              => is_network_admin() ? __( 'Network Enable' ) : __( 'Activate' ),
+				/* translators: %s: Plugin name */
+				'activatePluginLabel'        => is_network_admin() ? _x( 'Network Activate %s', 'plugin' ) : _x( 'Activate %s', 'plugin' ),
+				/* translators: %s: Theme name */
+				'activateThemeLabel'         => is_network_admin() ? _x( 'Network Activate %s', 'theme' ) : _x( 'Activate %s', 'theme' ),
 				'activateImporter'           => __( 'Activate importer' ),
-				'unknownError'               => __( 'An unknown error occured' ),
+				'unknownError'               => __( 'An unknown error occurred' ),
 				'pluginsFound'               => __( 'Number of plugins found: %d' ),
 				'noPluginsFound'             => __( 'No plugins found. Try a different search.' ),
 			),

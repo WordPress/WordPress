@@ -690,7 +690,7 @@ function wp_print_admin_notice_templates() {
  *         @type string colspan The number of table columns this row spans.
  *         @type string content The row content.
  *     }
- *              
+ *
  * The delete template takes one argument with four values:
  *
  *     param {object} data {
@@ -716,13 +716,23 @@ function wp_print_update_row_templates() {
 	<script id="tmpl-item-deleted-row" type="text/template">
 		<tr class="plugin-deleted-tr inactive deleted" id="{{ data.slug }}-deleted" data-slug="{{ data.slug }}" <# if ( data.plugin ) { #>data-plugin="{{ data.plugin }}"<# } #>>
 			<td colspan="{{ data.colspan }}" class="plugin-update colspanchange">
-				<?php
-				printf(
-					/* translators: %s: Plugin or Theme name */
-					__( '%s was successfully deleted.' ),
-					'<strong>{{{ data.name }}}</strong>'
-				);
-				?>
+				<# if ( data.plugin ) { #>
+					<?php
+					printf(
+						/* translators: %s: Plugin name */
+						_x( '%s was successfully deleted.', 'plugin' ),
+						'<strong>{{{ data.name }}}</strong>'
+					);
+					?>
+				<# } else { #>
+					<?php
+					printf(
+						/* translators: %s: Theme name */
+						_x( '%s was successfully deleted.', 'theme' ),
+						'<strong>{{{ data.name }}}</strong>'
+					);
+					?>
+				<# } #>
 			</td>
 		</tr>
 	</script>

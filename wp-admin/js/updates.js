@@ -508,7 +508,9 @@
 			$message.text( wp.updates.l10n.installing );
 		}
 
-		$message.addClass( 'updating-message' );
+		$message
+			.addClass( 'updating-message' )
+			.attr( 'aria-label', wp.updates.l10n.pluginInstallingLabel.replace( '%s', $message.data( 'name' ) ) );
 
 		wp.a11y.speak( wp.updates.l10n.installingMsg, 'polite' );
 
@@ -535,6 +537,7 @@
 		$message
 			.removeClass( 'updating-message' )
 			.addClass( 'updated-message installed button-disabled' )
+			.attr( 'aria-label', wp.updates.l10n.pluginInstalledLabel.replace( '%s', response.pluginName ) )
 			.text( wp.updates.l10n.installed );
 
 		wp.a11y.speak( wp.updates.l10n.installedMsg, 'polite' );
@@ -547,6 +550,7 @@
 				// Transform the 'Install' button into an 'Activate' button.
 				$message.removeClass( 'install-now installed button-disabled updated-message' ).addClass( 'activate-now button-primary' )
 					.attr( 'href', response.activateUrl )
+					.attr( 'aria-label', wp.updates.l10n.activatePluginLabel.replace( '%s', response.pluginName ) )
 					.text( wp.updates.l10n.activatePlugin );
 			}, 1000 );
 		}
@@ -595,7 +599,7 @@
 
 		$button
 			.removeClass( 'updating-message' ).addClass( 'button-disabled' )
-			.attr( 'aria-label', wp.updates.l10n.installFailedLabel.replace( '%s', response.pluginName ) )
+			.attr( 'aria-label', wp.updates.l10n.pluginInstallFailedLabel.replace( '%s', $button.data( 'name' ) ) )
 			.text( wp.updates.l10n.installFailedShort );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
@@ -1003,7 +1007,9 @@
 			$message.data( 'originaltext', $message.html() );
 		}
 
-		$message.text( wp.updates.l10n.installing );
+		$message
+			.text( wp.updates.l10n.installing )
+			.attr( 'aria-label', wp.updates.l10n.themeInstallingLabel.replace( '%s', $message.data( 'name' ) ) );
 		wp.a11y.speak( wp.updates.l10n.installingMsg, 'polite' );
 
 		// Remove previous error messages, if any.
@@ -1032,6 +1038,7 @@
 		$message = $card.find( '.button-primary' )
 			.removeClass( 'updating-message' )
 			.addClass( 'updated-message disabled' )
+			.attr( 'aria-label', wp.updates.l10n.themeInstalledLabel.replace( '%s', response.themeName ) )
 			.text( wp.updates.l10n.installed );
 
 		wp.a11y.speak( wp.updates.l10n.installedMsg, 'polite' );
@@ -1045,6 +1052,7 @@
 					.attr( 'href', response.activateUrl )
 					.removeClass( 'theme-install updated-message disabled' )
 					.addClass( 'activate' )
+					.attr( 'aria-label', wp.updates.l10n.activateThemeLabel.replace( '%s', response.themeName ) )
 					.text( wp.updates.l10n.activateTheme );
 			}
 
@@ -1098,7 +1106,7 @@
 
 		$button
 			.removeClass( 'updating-message' )
-			.attr( 'aria-label', wp.updates.l10n.installFailedLabel.replace( '%s', $card.find( '.theme-name' ).text() ) )
+			.attr( 'aria-label', wp.updates.l10n.themeInstallFailedLabel.replace( '%s', $button.data( 'name' ) ) )
 			.text( wp.updates.l10n.installFailedShort );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
