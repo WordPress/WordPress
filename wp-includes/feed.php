@@ -7,6 +7,7 @@
  *
  * @package WordPress
  * @subpackage Feed
+ * @since 2.1.0
  */
 
 /**
