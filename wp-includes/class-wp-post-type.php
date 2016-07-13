@@ -11,6 +11,8 @@
  * Core class used for interacting with post types.
  *
  * @since 4.6.0
+ *
+ * @see register_post_type()
  */
 final class WP_Post_Type {
 	/**

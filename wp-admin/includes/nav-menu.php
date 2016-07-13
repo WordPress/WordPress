@@ -519,6 +519,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				 * to the slug of the current post type.
 				 *
 				 * @since 3.2.0
+				 * @since 4.6.0 Converted the `$post_type` parameter to accept a WP_Post_Type object.
 				 *
 				 * @see WP_Query::query()
 				 *
@@ -527,6 +528,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				 * @param WP_Post_Type $post_type The current post type object for this menu item meta box.
 				 */
 				$posts = apply_filters( "nav_menu_items_{$post_type_name}", $posts, $args, $post_type );
+
 				$checkbox_items = walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $posts), 0, (object) $args );
 
 				if ( 'all' == $current_tab && ! empty( $_REQUEST['selectall'] ) ) {

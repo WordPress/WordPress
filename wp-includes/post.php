@@ -837,6 +837,7 @@ function get_post_type( $post = null ) {
  * Retrieves a post type object by name.
  *
  * @since 3.0.0
+ * @since 4.6.0 Converted to use WP_Post_Type.
  *
  * @global array $wp_post_types List of post types.
  *
@@ -899,7 +900,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * @since 3.0.0 The `show_ui` argument is now enforced on the new post screen.
  * @since 4.4.0 The `show_ui` argument is now enforced on the post type listing
  *              screen and post editing screen.
- * @since 4.6.0 Converted to use `WP_Post_Type`.
+ * @since 4.6.0 Converted to use WP_Post_Type.
  *
  * @global array $wp_post_types List of post types.
  *
@@ -1041,6 +1042,7 @@ function register_post_type( $post_type, $args = array() ) {
 	 * Fires after a post type is registered.
 	 *
 	 * @since 3.3.0
+	 * @since 4.6.0 Converted the `$post_type` parameter to accept a WP_Post_Type object.
 	 *
 	 * @param string       $post_type        Post type.
 	 * @param WP_Post_Type $post_type_object Arguments used to register the post type.
@@ -1056,7 +1058,7 @@ function register_post_type( $post_type, $args = array() ) {
  * Can not be used to unregister built-in post types.
  *
  * @since 4.5.0
- * @since 4.6.0 Converted to use `WP_Post_Type`.
+ * @since 4.6.0 Converted to use WP_Post_Type.
  *
  * @global array $wp_post_types List of post types.
  *
@@ -1265,6 +1267,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  *              and `use_featured_image` labels.
  * @since 4.4.0 Added the `insert_into_item`, `uploaded_to_this_item`, `filter_items_list`,
  *              `items_list_navigation`, and `items_list` labels.
+ * @since 4.6.0 Converted the `$post_type` parameter to accept a WP_Post_Type object.
  *
  * @access private
  *
@@ -1522,6 +1525,7 @@ function set_post_type( $post_id = 0, $post_type = 'post' ) {
  *
  * @since 4.4.0
  * @since 4.5.0 Added the ability to pass a post type name in addition to object.
+ * @since 4.6.0 Converted the `$post_type` parameter to accept a WP_Post_Type object.
  *
  * @param string|WP_Post_Type $post_type Post type name or object.
  * @return bool Whether the post type should be considered viewable.
