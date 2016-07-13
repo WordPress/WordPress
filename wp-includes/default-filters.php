@@ -229,6 +229,7 @@ add_filter( 'rest_authentication_errors', 'rest_cookie_check_errors', 100 );
 // Actions
 add_action( 'wp_head',             '_wp_render_title_tag',            1     );
 add_action( 'wp_head',             'wp_enqueue_scripts',              1     );
+add_action( 'wp_head',             'wp_resource_hints',               2     );
 add_action( 'wp_head',             'feed_links',                      2     );
 add_action( 'wp_head',             'feed_links_extra',                3     );
 add_action( 'wp_head',             'rsd_link'                               );
@@ -242,7 +243,6 @@ add_action( 'wp_head',             'wp_print_styles',                  8    );
 add_action( 'wp_head',             'wp_print_head_scripts',            9    );
 add_action( 'wp_head',             'wp_generator'                           );
 add_action( 'wp_head',             'rel_canonical'                          );
-add_action( 'wp_head',             'wp_resource_hints'                      );
 add_action( 'wp_head',             'wp_shortlink_wp_head',            10, 0 );
 add_action( 'wp_head',             'wp_site_icon',                    99    );
 add_action( 'wp_footer',           'wp_print_footer_scripts',         20    );
@@ -256,6 +256,7 @@ if ( isset( $_GET['replytocom'] ) )
     add_action( 'wp_head', 'wp_no_robots' );
 
 // Login actions
+add_filter( 'login_head',          'wp_resource_hints',             8     );
 add_action( 'login_head',          'wp_print_head_scripts',         9     );
 add_action( 'login_head',          'print_admin_styles',            9     );
 add_action( 'login_head',          'wp_site_icon',                  99    );
@@ -416,6 +417,7 @@ add_action( 'wp_enqueue_scripts', 'wp_localize_jquery_ui_datepicker', 1000 );
 add_action( 'admin_enqueue_scripts', 'wp_localize_jquery_ui_datepicker', 1000 );
 add_filter( 'wp_print_scripts', 'wp_just_in_time_script_localization' );
 add_filter( 'print_scripts_array', 'wp_prototype_before_jquery' );
+add_filter( 'customize_controls_print_styles', 'wp_resource_hints', 1 );
 
 add_action( 'wp_default_styles', 'wp_default_styles' );
 add_filter( 'style_loader_src', 'wp_style_loader_src', 10, 2 );

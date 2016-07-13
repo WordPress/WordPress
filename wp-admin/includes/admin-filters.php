@@ -44,7 +44,9 @@ add_action( 'admin_head', 'wp_site_icon'             );
 add_action( 'admin_head', '_ipad_meta'               );
 
 // Prerendering.
-add_filter( 'admin_head', 'wp_resource_hints' );
+if ( ! is_customize_preview() ) {
+	add_filter( 'admin_print_styles', 'wp_resource_hints', 1 );
+}
 
 add_action( 'admin_print_scripts-post.php',     'wp_page_reload_on_back_button_js' );
 add_action( 'admin_print_scripts-post-new.php', 'wp_page_reload_on_back_button_js' );
