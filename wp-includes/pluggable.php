@@ -216,6 +216,8 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	}
 
 	// Headers
+	$cc = $bcc = $reply_to = array();
+
 	if ( empty( $headers ) ) {
 		$headers = array();
 	} else {
@@ -227,8 +229,6 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 			$tempheaders = $headers;
 		}
 		$headers = array();
-		$cc = array();
-		$bcc = array();
 
 		// If it's actually got contents
 		if ( !empty( $tempheaders ) ) {
@@ -291,6 +291,9 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 					case 'bcc':
 						$bcc = array_merge( (array) $bcc, explode( ',', $content ) );
 						break;
+					case 'reply-to':
+						$reply_to = array_merge( (array) $reply_to, explode( ',', $content ) );
+						break;
 					default:
 						// Add it to our grand headers array
 						$headers[trim( $name )] = trim( $content );
@@ -335,7 +338,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	 *
 	 * @param string $from_email Email address to send from.
 	 */
-	$phpmailer->From = apply_filters( 'wp_mail_from', $from_email );
+	$from_email = apply_filters( 'wp_mail_from', $from_email );
 
 	/**
 	 * Filters the name to associate with the "from" email address.
@@ -344,63 +347,52 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	 *
 	 * @param string $from_name Name associated with the "from" email address.
 	 */
-	$phpmailer->FromName = apply_filters( 'wp_mail_from_name', $from_name );
+	$from_name = apply_filters( 'wp_mail_from_name', $from_name );
+
+	$phpmailer->setFrom( $from_email, $from_name );
 
 	// Set destination addresses
 	if ( !is_array( $to ) )
 		$to = explode( ',', $to );
 
-	foreach ( (array) $to as $recipient ) {
-		try {
-			// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
-			$recipient_name = '';
-			if ( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
-				if ( count( $matches ) == 3 ) {
-					$recipient_name = $matches[1];
-					$recipient = $matches[2];
-				}
-			}
-			$phpmailer->AddAddress( $recipient, $recipient_name);
-		} catch ( phpmailerException $e ) {
-			continue;
-		}
-	}
-
 	// Set mail's subject and body
 	$phpmailer->Subject = $subject;
 	$phpmailer->Body    = $message;
 
-	// Add any CC and BCC recipients
-	if ( !empty( $cc ) ) {
-		foreach ( (array) $cc as $recipient ) {
-			try {
-				// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
-				$recipient_name = '';
-				if ( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
-					if ( count( $matches ) == 3 ) {
-						$recipient_name = $matches[1];
-						$recipient = $matches[2];
-					}
-				}
-				$phpmailer->AddCc( $recipient, $recipient_name );
-			} catch ( phpmailerException $e ) {
-				continue;
-			}
-		}
-	}
+	// Use appropriate methods for handling addresses, rather than treating them as generic headers
+	$address_headers = compact( 'to', 'cc', 'bcc', 'reply_to' );
 
-	if ( !empty( $bcc ) ) {
-		foreach ( (array) $bcc as $recipient) {
+	foreach ( $address_headers as $address_header => $addresses ) {
+		if ( empty( $addresses ) ) {
+			continue;
+		}
+
+		foreach ( (array) $addresses as $address ) {
 			try {
 				// Break $recipient into name and address parts if in the format "Foo <bar@baz.com>"
 				$recipient_name = '';
-				if ( preg_match( '/(.*)<(.+)>/', $recipient, $matches ) ) {
+
+				if ( preg_match( '/(.*)<(.+)>/', $address, $matches ) ) {
 					if ( count( $matches ) == 3 ) {
 						$recipient_name = $matches[1];
-						$recipient = $matches[2];
+						$address        = $matches[2];
 					}
 				}
-				$phpmailer->AddBcc( $recipient, $recipient_name );
+
+				switch ( $address_header ) {
+					case 'to':
+						$phpmailer->addAddress( $address, $recipient_name );
+						break;
+					case 'cc':
+						$phpmailer->addCc( $address, $recipient_name );
+						break;
+					case 'bcc':
+						$phpmailer->addBcc( $address, $recipient_name );
+						break;
+					case 'reply_to':
+						$phpmailer->addReplyTo( $address, $recipient_name );
+						break;
+				}
 			} catch ( phpmailerException $e ) {
 				continue;
 			}
