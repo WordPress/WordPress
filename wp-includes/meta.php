@@ -1162,6 +1162,16 @@ function unregister_meta_key( $object_type, $object_subtype, $meta_key ) {
 		return new WP_Error( 'invalid_meta_key', __( 'Invalid meta key' ) );
 	}
 
+	$args = $wp_meta_keys[ $object_type ][ $object_subtype ][ $meta_key ];
+
+	if ( isset( $args['sanitize_callback'] ) && is_callable( $args['sanitize_callback'] ) ) {
+		remove_filter( "sanitize_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['sanitize_callback'] );
+	}
+
+	if ( isset( $args['auth_callback'] ) && is_callable( $args['auth_callback'] ) ) {
+		remove_filter( "auth_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['auth_callback'] );
+	}
+
 	unset( $wp_meta_keys[ $object_type ][ $object_subtype ][ $meta_key ] );
 
 	// Do some clean up
