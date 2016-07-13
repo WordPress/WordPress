@@ -297,6 +297,15 @@ wpList = {
 			res = wpAjax.parseAjaxResponse(r, s.response, s.element);
 			rres = r;
 
+			if ( true === res ) {
+				return true;
+			}
+
+			if ( ! res || res.errors ) {
+				element.stop().stop().css( 'backgroundColor', '#FF3333' )[isClass?'removeClass':'addClass'](s.dimClass).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
+				return false;
+			}
+
 			if ( 'undefined' !== typeof res.responses[0].supplemental.comment_link ) {
 				var submittedOn = element.find( '.submitted-on' ),
 					commentLink = submittedOn.find( 'a' );
@@ -309,11 +318,6 @@ wpList = {
 				} else if ( commentLink.length ) {
 					submittedOn.text( commentLink.text() );
 				}
-			}
-
-			if ( !res || res.errors ) {
-				element.stop().stop().css( 'backgroundColor', '#FF3333' )[isClass?'removeClass':'addClass'](s.dimClass).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
-				return false;
 			}
 		};
 
