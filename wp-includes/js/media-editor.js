@@ -55,7 +55,14 @@
 			fallbacks = function( props ) {
 				// Generate alt fallbacks and strip tags.
 				if ( 'image' === props.type && ! props.alt ) {
-					props.alt = props.caption || props.title || '';
+					if ( props.caption ) {
+						props.alt = props.caption;
+					} else if ( props.title !== props.url ) {
+						props.alt = props.title;
+					} else {
+						props.alt = '';
+					}
+
 					props.alt = props.alt.replace( /<\/?[^>]+>/g, '' );
 					props.alt = props.alt.replace( /[\r\n]+/g, ' ' );
 				}
@@ -233,6 +240,7 @@
 			var img = {},
 				options, classes, shortcode, html;
 
+			props.type = 'image';
 			props = wp.media.string.props( props, attachment );
 			classes = props.classes || [];
 
