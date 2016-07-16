@@ -88,7 +88,7 @@ if ( $iis7_permalinks ) {
 	}
 }
 
-$usingpi = $wp_rewrite->using_index_permalinks();
+$using_index_permalinks = $wp_rewrite->using_index_permalinks();
 
 if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	check_admin_referer('update-permalink');
@@ -129,12 +129,12 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	$message = __( 'Permalink structure updated.' );
 
 	if ( $iis7_permalinks ) {
-		if ( $permalink_structure && ! $usingpi && ! $writable ) {
+		if ( $permalink_structure && ! $using_index_permalinks && ! $writable ) {
 			$message = __( 'You should update your web.config now.' );
-		} elseif ( $permalink_structure && ! $usingpi && $writable ) {
+		} elseif ( $permalink_structure && ! $using_index_permalinks && $writable ) {
 			$message = __( 'Permalink structure updated. Remove write access on web.config file now!' );
 		}
-	} elseif ( ! $is_nginx && $permalink_structure && ! $usingpi && ! $writable && $update_required ) {
+	} elseif ( ! $is_nginx && $permalink_structure && ! $using_index_permalinks && ! $writable && $update_required ) {
 		$message = __( 'You should update your .htaccess now.' );
 	}
 
@@ -233,7 +233,7 @@ printf( __( 'If you like, you may enter custom structures for your category and 
   </form>
 <?php if ( !is_multisite() ) { ?>
 <?php if ( $iis7_permalinks ) :
-	if ( isset($_POST['submit']) && $permalink_structure && ! $usingpi && ! $writable ) :
+	if ( isset($_POST['submit']) && $permalink_structure && ! $using_index_permalinks && ! $writable ) :
 		if ( file_exists($home_path . 'web.config') ) : ?>
 <p><?php _e('If your <code>web.config</code> file were <a href="https://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this rule inside of the <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> element in <code>web.config</code> file.') ?></p>
 <form action="options-permalink.php" method="post">
@@ -253,7 +253,7 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 <?php elseif ( $is_nginx ) : ?>
 	<p><?php _e( '<a href="https://codex.wordpress.org/Nginx">Documentation on Nginx configuration</a>.' ); ?></p>
 <?php else:
-	if ( $permalink_structure && ! $usingpi && ! $writable && $update_required ) : ?>
+	if ( $permalink_structure && ! $using_index_permalinks && ! $writable && $update_required ) : ?>
 <p><?php _e('If your <code>.htaccess</code> file were <a href="https://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
 <form action="options-permalink.php" method="post">
 <?php wp_nonce_field('update-permalink') ?>
