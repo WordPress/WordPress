@@ -279,7 +279,7 @@ foreach ( $themes as $theme ) :
 	<?php } else { ?>
 		<?php
 		/* translators: %s: Theme name */
-		$aria_label = sprintf( __( 'Activate %s' ), '{{ data.name }}' );
+		$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 		?>
 		<a class="button button-secondary activate" href="<?php echo $theme['actions']['activate']; ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
 		<?php if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) { ?>
@@ -408,7 +408,7 @@ $can_install = current_user_can( 'install_themes' );
 		<# } else { #>
 			<?php
 			/* translators: %s: Theme name */
-			$aria_label = sprintf( __( 'Activate %s' ), '{{ data.name }}' );
+			$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 			?>
 			<a class="button button-secondary activate" href="{{{ data.actions.activate }}}" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
 			<a class="button button-primary load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview' ); ?></a>
@@ -466,7 +466,7 @@ $can_install = current_user_can( 'install_themes' );
 			<div class="inactive-theme">
 				<?php
 				/* translators: %s: Theme name */
-				$aria_label = sprintf( __( 'Activate %s' ), '{{ data.name }}' );
+				$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 				?>
 				<# if ( data.actions.activate ) { #>
 					<a href="{{{ data.actions.activate }}}" class="button button-secondary activate" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>

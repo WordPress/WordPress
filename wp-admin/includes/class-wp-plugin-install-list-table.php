@@ -491,7 +491,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 								'<a href="%1$s" class="button activate-now button-secondary" aria-label="%2$s">%3$s</a>',
 								esc_url( $activate_url ),
 								/* translators: %s: Plugin name */
-								esc_attr( sprintf( __( 'Activate %s' ), $plugin['name'] ) ),
+								esc_attr( sprintf( _x( 'Activate %s', 'plugin' ), $plugin['name'] ) ),
 								$button_text
 							);
 						} else {

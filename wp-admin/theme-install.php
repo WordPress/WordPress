@@ -250,7 +250,7 @@ if ( $tab ) {
 		<# if ( data.installed ) { #>
 			<?php
 			/* translators: %s: Theme name */
-			$aria_label = sprintf( __( 'Activate %s' ), '{{ data.name }}' );
+			$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 			?>
 			<# if ( data.activate_url ) { #>
 				<a class="button button-primary activate" href="{{ data.activate_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
