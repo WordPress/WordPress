@@ -5042,12 +5042,12 @@ function wp_get_attachment_thumb_url( $post_id = 0 ) {
  *
  * @since 4.2.0
  *
- * @param string      $type    Attachment type. Accepts 'image', 'audio', or 'video'.
- * @param int|WP_Post $post_id Optional. Attachment ID. Default 0.
+ * @param string      $type Attachment type. Accepts 'image', 'audio', or 'video'.
+ * @param int|WP_Post $post Optional. Attachment ID or object. Default is global $post.
  * @return bool True if one of the accepted types, false otherwise.
  */
-function wp_attachment_is( $type, $post_id = 0 ) {
-	if ( ! $post = get_post( $post_id ) ) {
+function wp_attachment_is( $type, $post = null ) {
+	if ( ! $post = get_post( $post ) ) {
 		return false;
 	}
 
@@ -5093,10 +5093,10 @@ function wp_attachment_is( $type, $post_id = 0 ) {
  * @since 4.2.0 Modified into wrapper for wp_attachment_is() and
  *              allowed WP_Post object to be passed.
  *
- * @param int|WP_Post $post Optional. Attachment ID. Default 0.
+ * @param int|WP_Post $post Optional. Attachment ID or object. Default is global $post.
  * @return bool Whether the attachment is an image.
  */
-function wp_attachment_is_image( $post = 0 ) {
+function wp_attachment_is_image( $post = null ) {
 	return wp_attachment_is( 'image', $post );
 }
 
