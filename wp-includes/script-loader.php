@@ -655,7 +655,6 @@ function wp_default_scripts( &$scripts ) {
 				'deleteFailed'               => __( 'Deletion failed: %s' ),
 				'deleted'                    => __( 'Deleted!' ),
 				'livePreview'                => __( 'Live Preview' ),
-				/* translators: %s: Theme name */
 				'activatePlugin'             => is_network_admin() ? __( 'Network Activate' ) : __( 'Activate' ),
 				'activateTheme'              => is_network_admin() ? __( 'Network Enable' ) : __( 'Activate' ),
 				/* translators: %s: Plugin name */
