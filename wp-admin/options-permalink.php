@@ -66,6 +66,30 @@ if ( is_multisite() && ! is_subdomain_install() && is_main_site() && 0 === strpo
 	$blog_prefix = '/blog';
 }
 
+$category_base       = get_option( 'category_base' );
+$tag_base            = get_option( 'tag_base' );
+$update_required     = false;
+
+if ( $iis7_permalinks ) {
+	if ( ( ! file_exists($home_path . 'web.config') && win_is_writable($home_path) ) || win_is_writable($home_path . 'web.config') )
+		$writable = true;
+	else
+		$writable = false;
+} elseif ( $is_nginx ) {
+	$writable = false;
+} else {
+	if ( ( ! file_exists( $home_path . '.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path . '.htaccess' ) ) {
+		$writable = true;
+	} else {
+		$writable = false;
+		$existing_rules  = array_filter( extract_from_markers( $home_path . '.htaccess', 'WordPress' ) );
+		$new_rules       = array_filter( explode( "\n", $wp_rewrite->mod_rewrite_rules() ) );
+		$update_required = ( $new_rules !== $existing_rules );
+	}
+}
+
+$usingpi = $wp_rewrite->using_index_permalinks();
+
 if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	check_admin_referer('update-permalink');
 
@@ -123,30 +147,6 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	wp_redirect( admin_url( 'options-permalink.php?settings-updated=true' ) );
 	exit;
 }
-
-$category_base       = get_option( 'category_base' );
-$tag_base            = get_option( 'tag_base' );
-$update_required     = false;
-
-if ( $iis7_permalinks ) {
-	if ( ( ! file_exists($home_path . 'web.config') && win_is_writable($home_path) ) || win_is_writable($home_path . 'web.config') )
-		$writable = true;
-	else
-		$writable = false;
-} elseif ( $is_nginx ) {
-	$writable = false;
-} else {
-	if ( ( ! file_exists( $home_path . '.htaccess' ) && is_writable( $home_path ) ) || is_writable( $home_path . '.htaccess' ) ) {
-		$writable = true;
-	} else {
-		$writable = false;
-		$existing_rules  = array_filter( extract_from_markers( $home_path . '.htaccess', 'WordPress' ) );
-		$new_rules       = array_filter( explode( "\n", $wp_rewrite->mod_rewrite_rules() ) );
-		$update_required = ( $new_rules !== $existing_rules );
-	}
-}
-
-$usingpi = $wp_rewrite->using_index_permalinks();
 
 flush_rewrite_rules();
 
