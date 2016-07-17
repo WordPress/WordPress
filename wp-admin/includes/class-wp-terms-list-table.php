@@ -53,7 +53,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 			$taxonomy = 'post_tag';
 
 		if ( ! taxonomy_exists( $taxonomy ) )
-			wp_die( __( 'Invalid taxonomy' ) );
+			wp_die( __( 'Invalid taxonomy.' ) );
 
 		$tax = get_taxonomy( $taxonomy );
 

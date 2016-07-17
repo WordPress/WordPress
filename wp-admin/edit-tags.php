@@ -10,12 +10,12 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! $taxnow )
-	wp_die( __( 'Invalid taxonomy' ) );
+	wp_die( __( 'Invalid taxonomy.' ) );
 
 $tax = get_taxonomy( $taxnow );
 
 if ( ! $tax )
-	wp_die( __( 'Invalid taxonomy' ) );
+	wp_die( __( 'Invalid taxonomy.' ) );
 
 if ( ! in_array( $tax->name, get_taxonomies( array( 'show_ui' => true ) ) ) ) {
    wp_die( __( 'Sorry, you are not allowed to manage these items.' ) );
