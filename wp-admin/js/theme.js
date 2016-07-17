@@ -669,28 +669,26 @@ themes.view.Details = wp.Backbone.View.extend({
 		this.$el.toggleClass( 'active', this.model.get( 'active' ) );
 	},
 
-	// Keeps :focus within the theme details elements
+	// Set initial focus and constrain tabbing within the theme browser modal.
 	containFocus: function( $el ) {
-		var $target;
 
-		// Move focus to the primary action
+		// Set initial focus on the primary action control.
 		_.delay( function() {
 			$( '.theme-wrap a.button-primary:visible' ).focus();
-		}, 500 );
+		}, 100 );
 
+		// Constrain tabbing within the modal.
 		$el.on( 'keydown.wp-themes', function( event ) {
+			var $firstFocusable = $el.find( '.theme-header button:not(.disabled)' ).first(),
+				$lastFocusable = $el.find( '.theme-actions a:visible' ).last();
 
-			// Tab key
-			if ( event.which === 9 ) {
-				$target = $( event.target );
-
-				// Keep focus within the overlay by making the last link on theme actions
-				// switch focus to button.left on tabbing and vice versa
-				if ( $target.is( 'button.left' ) && event.shiftKey ) {
-					$el.find( '.theme-actions a:last-child' ).focus();
+			// Check for the Tab key.
+			if ( 9 === event.which ) {
+				if ( $firstFocusable[0] === event.target && event.shiftKey ) {
+					$lastFocusable.focus();
 					event.preventDefault();
-				} else if ( $target.is( '.theme-actions a:last-child' ) ) {
-					$el.find( 'button.left' ).focus();
+				} else if ( $lastFocusable[0] === event.target && ! event.shiftKey ) {
+					$firstFocusable.focus();
 					event.preventDefault();
 				}
 			}
@@ -747,10 +745,14 @@ themes.view.Details = wp.Backbone.View.extend({
 
 		// Disable Left/Right when at the start or end of the collection
 		if ( this.model.cid === this.model.collection.at(0).cid ) {
-			this.$el.find( '.left' ).addClass( 'disabled' );
+			this.$el.find( '.left' )
+				.addClass( 'disabled' )
+				.prop( 'disabled', true );
 		}
 		if ( this.model.cid === this.model.collection.at( this.model.collection.length - 1 ).cid ) {
-			this.$el.find( '.right' ).addClass( 'disabled' );
+			this.$el.find( '.right' )
+				.addClass( 'disabled' )
+				.prop( 'disabled', true );
 		}
 	},
 
