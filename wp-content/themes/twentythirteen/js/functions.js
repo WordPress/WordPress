@@ -119,9 +119,13 @@
 	/**
 	 * Arranges footer widgets vertically.
 	 */
-	if ( $.isFunction( $.fn.masonry ) ) {
-		var columnWidth = body.is( '.sidebar' ) ? 228 : 245,
-			widgetArea = $( '#secondary .widget-area' );
+	$( function() {
+		var columnWidth, widgetArea;
+		if ( ! $.isFunction( $.fn.masonry ) ) {
+			return;
+		}
+		columnWidth = body.is( '.sidebar' ) ? 228 : 245;
+		widgetArea = $( '#secondary .widget-area' );
 
 		widgetArea.masonry( {
 			itemSelector: '.widget',
@@ -157,5 +161,5 @@
 				}
 			} );
 		}
-	}
+	} );
 } )( jQuery );
