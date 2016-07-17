@@ -1302,7 +1302,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$post_type = get_post_type_object( $post_data['post_type'] );
 		if ( ! $post_type )
-			return new IXR_Error( 403, __( 'Invalid post type' ) );
+			return new IXR_Error( 403, __( 'Invalid post type.' ) );
 
 		$update = ! empty( $post_data['ID'] );
 
@@ -4098,7 +4098,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		do_action( 'xmlrpc_call', 'wp.getPostType' );
 
 		if ( ! post_type_exists( $post_type_name ) )
-			return new IXR_Error( 403, __( 'Invalid post type' ) );
+			return new IXR_Error( 403, __( 'Invalid post type.' ) );
 
 		$post_type = get_post_type_object( $post_type_name );
 
@@ -4857,7 +4857,7 @@ class wp_xmlrpc_server extends IXR_Server {
 				$post_type = 'post';
 			} else {
 				// No other post_type values are allowed here
-				return new IXR_Error( 401, __( 'Invalid post type' ) );
+				return new IXR_Error( 401, __( 'Invalid post type.' ) );
 			}
 		} else {
 			if ( $publish )
@@ -4915,7 +4915,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						return new IXR_Error( 401, __( 'Sorry, you are not allowed to create pages as this user.' ) );
 					break;
 				default:
-					return new IXR_Error( 401, __( 'Invalid post type' ) );
+					return new IXR_Error( 401, __( 'Invalid post type.' ) );
 			}
 			$author = get_userdata( $content_struct['wp_author_id'] );
 			if ( ! $author )
@@ -5193,7 +5193,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Use wp.editPost to edit post types other than post and page.
 		if ( ! in_array( $postdata[ 'post_type' ], array( 'post', 'page' ) ) )
-			return new IXR_Error( 401, __( 'Invalid post type' ) );
+			return new IXR_Error( 401, __( 'Invalid post type.' ) );
 
 		// Thwart attempt to change the post type.
 		if ( ! empty( $content_struct[ 'post_type' ] ) && ( $content_struct['post_type'] != $postdata[ 'post_type' ] ) )
@@ -5257,7 +5257,7 @@ class wp_xmlrpc_server extends IXR_Server {
 						}
 						break;
 					default:
-						return new IXR_Error( 401, __( 'Invalid post type' ) );
+						return new IXR_Error( 401, __( 'Invalid post type.' ) );
 				}
 				$post_author = $content_struct['wp_author_id'];
 			}

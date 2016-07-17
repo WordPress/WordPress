@@ -1069,7 +1069,7 @@ function unregister_post_type( $post_type ) {
 	global $wp_post_types;
 
 	if ( ! post_type_exists( $post_type ) ) {
-		return new WP_Error( 'invalid_post_type', __( 'Invalid post type' ) );
+		return new WP_Error( 'invalid_post_type', __( 'Invalid post type.' ) );
 	}
 
 	$post_type_object = get_post_type_object( $post_type );

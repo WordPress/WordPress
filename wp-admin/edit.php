@@ -10,7 +10,7 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! $typenow )
-	wp_die( __( 'Invalid post type' ) );
+	wp_die( __( 'Invalid post type.' ) );
 
 if ( ! in_array( $typenow, get_post_types( array( 'show_ui' => true ) ) ) ) {
 	wp_die( __( 'Sorry, you are not allowed to edit posts in this post type.' ) );
@@ -32,7 +32,7 @@ $post_type = $typenow;
 $post_type_object = get_post_type_object( $post_type );
 
 if ( ! $post_type_object )
-	wp_die( __( 'Invalid post type' ) );
+	wp_die( __( 'Invalid post type.' ) );
 
 if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
 	wp_die(
