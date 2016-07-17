@@ -60,7 +60,7 @@ function delete_theme($stylesheet, $redirect = '') {
 	// Get the base plugin folder.
 	$themes_dir = $wp_filesystem->wp_themes_dir();
 	if ( empty( $themes_dir ) ) {
-		return new WP_Error( 'fs_no_themes_dir', __( 'Unable to locate WordPress Theme directory.' ) );
+		return new WP_Error( 'fs_no_themes_dir', __( 'Unable to locate WordPress theme directory.' ) );
 	}
 
 	$themes_dir = trailingslashit( $themes_dir );
