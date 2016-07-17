@@ -2275,13 +2275,45 @@ body.iframe {
 	display: block;
 }
 
-.importers td {
-	padding-left: 14px;
-}
-
 .importers {
 	font-size: 16px;
 	width: auto;
+}
+
+.importers td {
+	padding-left: 14px;
+	line-height: 1.5em;
+}
+
+.importers .import-system {
+	max-width: 250px;
+}
+
+.importers td.desc {
+	max-width: 500px;
+}
+
+.importer-title,
+.importer-desc,
+.importer-action {
+	display: block;
+}
+
+.importer-title {
+	color: #000;
+	font-size: 14px;
+	font-weight: 400;
+	margin-bottom: .2em;
+}
+
+.importer-action {
+	line-height: 20px; /* Same as with .updating-message */
+	color: #ddd;
+	margin-bottom: 1em;
+}
+
+.not-installed-main-site .importer-action {
+	color: #555;
 }
 
 #post-body #post-body-content #namediv h3, /* Back-compat for pre-4.4 */

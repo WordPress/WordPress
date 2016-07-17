@@ -607,13 +607,13 @@ function wp_default_scripts( &$scripts ) {
 				'update'                     => __( 'Update' ),
 				'updateNow'                  => __( 'Update Now' ),
 				'updateFailedShort'          => __( 'Update Failed!' ),
-				/* translators: Error string for a failed update */
+				/* translators: %s: Error string for a failed update */
 				'updateFailed'               => __( 'Update Failed: %s' ),
-				/* translators: Plugin name and version */
+				/* translators: %s: Plugin name and version */
 				'updatingLabel'              => __( 'Updating %s...' ), // No ellipsis.
-				/* translators: Plugin name and version */
+				/* translators: %s: Plugin name and version */
 				'updatedLabel'               => __( '%s updated!' ),
-				/* translators: Plugin name and version */
+				/* translators: %s: Plugin name and version */
 				'updateFailedLabel'          => __( '%s update failed' ),
 				/* translators: JavaScript accessible string */
 				'updatingMsg'                => __( 'Updating... please wait.' ), // No ellipsis.
@@ -623,27 +623,29 @@ function wp_default_scripts( &$scripts ) {
 				'updateCancel'               => __( 'Update canceled.' ),
 				'beforeunload'               => __( 'Updates may not complete if you navigate away from this page.' ),
 				'installNow'                 => __( 'Install Now' ),
+				/* translators: %s: Plugin name */
+				'installNowLabel'            => __( 'Install %s' ),
 				'installing'                 => __( 'Installing...' ),
 				'installed'                  => __( 'Installed!' ),
 				'installFailedShort'         => __( 'Install Failed!' ),
-				/* translators: Error string for a failed installation */
+				/* translators: %s: Error string for a failed installation */
 				'installFailed'              => __( 'Installation failed: %s' ),
-				/* translators: Plugin name and version */
+				/* translators: %s: Plugin name and version */
 				'pluginInstallingLabel'      => _x( 'Installing %s...', 'plugin' ), // no ellipsis
-				/* translators: Theme name and version */
+				/* translators: %s: Theme name and version */
 				'themeInstallingLabel'       => _x( 'Installing %s...', 'theme' ), // no ellipsis
-				/* translators: Plugin name and version */
+				/* translators: %s: Plugin name and version */
 				'pluginInstalledLabel'       => _x( '%s installed!', 'plugin' ),
-				/* translators: Theme name and version */
+				/* translators: %s: Theme name and version */
 				'themeInstalledLabel'        => _x( '%s installed!', 'theme' ),
-				/* translators: Plugin name and version */
+				/* translators: %s: Plugin name and version */
 				'pluginInstallFailedLabel'   => _x( '%s installation failed', 'plugin' ),
-				/* translators: Theme name and version */
+				/* translators: %s: Theme name and version */
 				'themeInstallFailedLabel'    => _x( '%s installation failed', 'theme' ),
 				'installingMsg'              => __( 'Installing... please wait.' ),
 				'installedMsg'               => __( 'Installation completed successfully.' ),
-				/* translators: Activation URL */
-				'importerInstalledMsg'       => __( 'Importer installed successfully. <a href="%s">Activate plugin &#38; run importer</a>' ),
+				/* translators: %s: Activation URL */
+				'importerInstalledMsg'       => __( 'Importer installed successfully. <a href="%s">Run importer</a>' ),
 				/* translators: %s: Theme name */
 				'aysDelete'                  => __( 'Are you sure you want to delete %s?' ),
 				/* translators: %s: Plugin name */
@@ -661,7 +663,9 @@ function wp_default_scripts( &$scripts ) {
 				'activatePluginLabel'        => is_network_admin() ? _x( 'Network Activate %s', 'plugin' ) : _x( 'Activate %s', 'plugin' ),
 				/* translators: %s: Theme name */
 				'activateThemeLabel'         => is_network_admin() ? _x( 'Network Activate %s', 'theme' ) : _x( 'Activate %s', 'theme' ),
-				'activateImporter'           => __( 'Activate importer' ),
+				'activateImporter'           => __( 'Run Importer' ),
+				/* translators: %s: Importer name */
+				'activateImporterLabel'      => __( 'Run %s' ),
 				'unknownError'               => __( 'An unknown error occurred' ),
 				'pluginsFound'               => __( 'Number of plugins found: %d' ),
 				'noPluginsFound'             => __( 'No plugins found. Try a different search.' ),

@@ -503,10 +503,10 @@
 		}, args );
 
 		if ( 'import' === pagenow ) {
-			$message = $( 'a[href*="' + args.slug + '"]' );
-		} else {
-			$message.text( wp.updates.l10n.installing );
+			$message = $( '[data-slug="' + args.slug + '"]' );
 		}
+
+		$message.text( wp.updates.l10n.installing );
 
 		$message
 			.addClass( 'updating-message' )
@@ -625,11 +625,14 @@
 			message:   wp.updates.l10n.importerInstalledMsg.replace( '%s', response.activateUrl + '&from=import' )
 		} );
 
-		$( 'a[href*="' + response.slug + '"]' )
-			.removeClass( 'thickbox open-plugin-details-modal updating-message' )
-			.off( 'click' )
-			.attr( 'href', response.activateUrl + '&from=import' )
-			.attr( 'title', wp.updates.l10n.activateImporter );
+		$( '[data-slug="' + response.slug + '"]' )
+			.removeClass( 'install-now updating-message' )
+			.addClass( 'activate-now' )
+			.attr({
+				'href': response.activateUrl + '&from=import',
+				'aria-label': wp.updates.l10n.activateImporterLabel.replace( '%s', response.pluginName )
+			})
+			.text( wp.updates.l10n.activateImporter );
 
 		wp.a11y.speak( wp.updates.l10n.installedMsg, 'polite' );
 
@@ -649,7 +652,9 @@
 	 * @param {string}  response.errorMessage The error that occurred.
 	 */
 	wp.updates.installImporterError = function( response ) {
-		var errorMessage = wp.updates.l10n.installFailed.replace( '%s', response.errorMessage );
+		var errorMessage = wp.updates.l10n.installFailed.replace( '%s', response.errorMessage ),
+			$installLink = $( '[data-slug="' + response.slug + '"]' ),
+			pluginName = $installLink.data( 'name' );
 
 		if ( ! wp.updates.isValidResponse( response, 'install' ) ) {
 			return;
@@ -665,7 +670,10 @@
 			message:   errorMessage
 		} );
 
-		$( 'a[href*="' + response.slug + '"]' ).removeClass( 'updating-message' );
+		$installLink
+			.removeClass( 'updating-message' )
+			.text( wp.updates.l10n.installNow )
+			.attr( 'aria-label', wp.updates.l10n.installNowLabel.replace( '%s', pluginName ) );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
 
@@ -1762,6 +1770,44 @@
 
 			wp.updates.installPlugin( {
 				slug: $button.data( 'slug' )
+			} );
+		} );
+
+		/**
+		 * Click handler for importer plugins installs in the Import screen.
+		 *
+		 * @since 4.6.0
+		 *
+		 * @param {Event} event Event interface.
+		 */
+		$document.on( 'click', '.importer-item .install-now', function( event ) {
+			var $button = $( event.target ),
+				pluginName = $( this ).data( 'name' );
+
+			event.preventDefault();
+
+			if ( $button.hasClass( 'updating-message' ) ) {
+				return;
+			}
+
+			if ( wp.updates.shouldRequestFilesystemCredentials && ! wp.updates.ajaxLocked ) {
+				wp.updates.requestFilesystemCredentials( event );
+
+				$document.on( 'credential-modal-cancel', function() {
+
+					$button
+						.removeClass( 'updating-message' )
+						.text( wp.updates.l10n.installNow )
+						.attr( 'aria-label', wp.updates.l10n.installNowLabel.replace( '%s', pluginName ) );
+
+					wp.a11y.speak( wp.updates.l10n.updateCancel, 'polite' );
+				} );
+			}
+
+			wp.updates.installPlugin( {
+				slug:    $button.data( 'slug' ),
+				success: wp.updates.installImporterSuccess,
+				error:   wp.updates.installImporterError
 			} );
 		} );
 
