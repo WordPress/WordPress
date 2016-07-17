@@ -64,7 +64,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 		<?php if ( current_theme_supports( 'menus' ) ) : ?>
 		<ul class="menu-settings">
 			<li class="customize-control">
-				<span class="customize-control-title"><?php _e( 'Menu locations' ); ?></span>
+				<span class="customize-control-title"><?php _e( 'Menu Locations' ); ?></span>
 			</li>
 
 			<?php foreach ( get_registered_nav_menus() as $location => $description ) : ?>
