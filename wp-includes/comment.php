@@ -1057,7 +1057,7 @@ function wp_blacklist_check($author, $email, $url, $comment, $user_ip, $user_age
 		return false; // If moderation keys are empty
 
 	// Ensure HTML tags are not being used to bypass the blacklist.
-	$comment_without_html = wp_kses( $comment, array() );
+	$comment_without_html = wp_strip_all_tags( $comment );
 
 	$words = explode("\n", $mod_keys );
 
