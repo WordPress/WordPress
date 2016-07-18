@@ -60,12 +60,12 @@ function twentyfourteen_setup() {
 	/*
 	 * Make Twenty Fourteen available for translation.
 	 *
-	 * Translations can be added to the /languages/ directory.
+	 * Translations can be filed at WordPress.org. See: https://translate.wordpress.org/projects/wp-themes/twentyfourteen
 	 * If you're building a theme based on Twenty Fourteen, use a find and
 	 * replace to change 'twentyfourteen' to the name of your theme in all
 	 * template files.
 	 */
-	load_theme_textdomain( 'twentyfourteen', get_template_directory() . '/languages' );
+	load_theme_textdomain( 'twentyfourteen' );
 
 	// This theme styles the visual editor to resemble the theme style.
 	add_editor_style( array( 'css/editor-style.css', twentyfourteen_font_url(), 'genericons/genericons.css' ) );
