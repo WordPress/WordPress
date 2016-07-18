@@ -73,6 +73,13 @@
 				 */
 				context.fillText( stringFromCharCode( 55356, 57135 ), 0, 0 );
 				return context.getImageData( 16, 16, 1, 1 ).data[0] !== 0;
+			case 'unicode9':
+				/*
+				 * Do Unicode 9 emoji render?
+				 * ¯\_(ツ)_/¯
+				 */
+				context.fillText( stringFromCharCode( 55358, 56631 ), 0, 0 );
+				return context.getImageData( 16, 16, 1, 1 ).data[0] !== 0;
 		}
 
 		return false;
@@ -86,7 +93,7 @@
 		document.getElementsByTagName( 'head' )[0].appendChild( script );
 	}
 
-	tests = Array( 'simple', 'flag', 'unicode8', 'diversity' );
+	tests = Array( 'simple', 'flag', 'unicode8', 'diversity', 'unicode9' );
 
 	settings.supports = {
 		everything: true,
