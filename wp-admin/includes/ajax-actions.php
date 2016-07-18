@@ -3781,19 +3781,22 @@ function wp_ajax_delete_plugin() {
  *
  * @since 4.6.0
  *
- * @global WP_List_Table $wp_list_table Current list table instance.
- * @global string        $hook_suffix   Current admin page.
- * @global string        $s             Search term.
+ * @global string $s Search term.
  */
 function wp_ajax_search_plugins() {
 	check_ajax_referer( 'updates' );
 
-	global $wp_list_table, $hook_suffix, $s;
-	$hook_suffix = 'plugins.php';
+	$pagenow = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
+	if ( 'plugins-network' === $pagenow || 'plugins' === $pagenow ) {
+		set_current_screen( $pagenow );
+	}
 
 	/** @var WP_Plugins_List_Table $wp_list_table */
-	$wp_list_table = _get_list_table( 'WP_Plugins_List_Table' );
-	$status        = array();
+	$wp_list_table = _get_list_table( 'WP_Plugins_List_Table', array(
+		'screen' => get_current_screen(),
+	) );
+
+	$status = array();
 
 	if ( ! $wp_list_table->ajax_user_can() ) {
 		$status['errorMessage'] = __( 'Sorry, you are not allowed to manage plugins for this site.' );
@@ -3806,7 +3809,7 @@ function wp_ajax_search_plugins() {
 		'action'      => null,
 	) ), network_admin_url( 'plugins.php', 'relative' ) );
 
-	$s = sanitize_text_field( $_POST['s'] );
+	$GLOBALS['s'] = wp_unslash( $_POST['s'] );
 
 	$wp_list_table->prepare_items();
 
@@ -3822,19 +3825,21 @@ function wp_ajax_search_plugins() {
  * Ajax handler for searching plugins to install.
  *
  * @since 4.6.0
- *
- * @global WP_List_Table $wp_list_table Current list table instance.
- * @global string        $hook_suffix   Current admin page.
  */
 function wp_ajax_search_install_plugins() {
 	check_ajax_referer( 'updates' );
 
-	global $wp_list_table, $hook_suffix;
-	$hook_suffix = 'plugin-install.php';
+	$pagenow = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
+	if ( 'plugin-install-network' === $pagenow || 'plugin-install' === $pagenow ) {
+		set_current_screen( $pagenow );
+	}
 
 	/** @var WP_Plugin_Install_List_Table $wp_list_table */
-	$wp_list_table = _get_list_table( 'WP_Plugin_Install_List_Table' );
-	$status        = array();
+	$wp_list_table = _get_list_table( 'WP_Plugin_Install_List_Table', array(
+		'screen' => get_current_screen(),
+	) );
+
+	$status = array();
 
 	if ( ! $wp_list_table->ajax_user_can() ) {
 		$status['errorMessage'] = __( 'Sorry, you are not allowed to manage plugins for this site.' );

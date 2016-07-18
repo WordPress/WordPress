@@ -2031,9 +2031,10 @@
 			var $form = $( '#plugin-filter' ).empty(),
 				data  = _.extend( {
 					_ajax_nonce: wp.updates.ajaxNonce,
-					s:           $( '<p />' ).html( $( this ).val() ).text(),
+					s:           $( this ).val(),
 					tab:         'search',
-					type:        $( '#typeselector' ).val()
+					type:        $( '#typeselector' ).val(),
+					pagenow:     pagenow
 				}, { type: 'term' } );
 
 			if ( wp.updates.searchTerm === data.s ) {
@@ -2043,7 +2044,7 @@
 			}
 
 			if ( history.pushState ) {
-				history.pushState( null, '', location.href.split( '?' )[ 0 ] + '?' + $.param( _.omit( data, '_ajax_nonce' ) ) );
+				history.pushState( null, '', location.href.split( '?' )[ 0 ] + '?' + $.param( _.omit( data, [ '_ajax_nonce', 'pagenow' ] ) ) );
 			}
 
 			if ( 'undefined' !== typeof wp.updates.searchRequest ) {
@@ -2071,7 +2072,8 @@
 		$pluginSearch.on( 'keyup input', _.debounce( function( event ) {
 			var data = {
 				_ajax_nonce: wp.updates.ajaxNonce,
-				s:           event.target.value
+				s:           event.target.value,
+				pagenow:     pagenow
 			};
 
 			// Clear on escape.
@@ -2099,7 +2101,7 @@
 			wp.updates.searchRequest = wp.ajax.post( 'search-plugins', data ).done( function( response ) {
 
 				// Can we just ditch this whole subtitle business?
-				var $subTitle    = $( '<span />' ).addClass( 'subtitle' ).html( wp.updates.l10n.searchResults.replace( '%s', data.s ) ),
+				var $subTitle    = $( '<span />' ).addClass( 'subtitle' ).html( wp.updates.l10n.searchResults.replace( '%s', _.escape( data.s ) ) ),
 					$oldSubTitle = $( '.wrap .subtitle' );
 
 				if ( ! data.s.length ) {
