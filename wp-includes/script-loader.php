@@ -359,7 +359,7 @@ function wp_default_scripts( &$scripts ) {
 			'Unmute'                  => __( 'Unmute' ),
 			'Mute'                    => __( 'Mute' ),
 			'Use Up/Down Arrow keys to increase or decrease volume.' => __( 'Use Up/Down Arrow keys to increase or decrease volume.' ),
-			'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.' => 'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.',
+			'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.' => __( 'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.' ),
 		),
 	) );
 
