@@ -936,34 +936,14 @@ function is_protected_meta( $meta_key, $meta_type = null ) {
  * Sanitize meta value.
  *
  * @since 3.1.3
- * @since 4.6.0 Added the `$object_subtype` parameter.
  *
  * @param string $meta_key       Meta key.
  * @param mixed  $meta_value     Meta value to sanitize.
  * @param string $object_type    Type of object the meta is registered to.
- * @param string $object_subtype Optional. Subtype of object. Will inherit the object type by default.
  *
  * @return mixed Sanitized $meta_value.
  */
-function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = '' ) {
-	if ( ! empty( $object_subtype ) ) {
-		/**
-		 * Filters the sanitization of a specific meta key of a specific meta type and subtype.
-		 *
-		 * The dynamic portions of the hook name, `$meta_type`, `$meta_subtype`,
-		 * and `$meta_key`, refer to the metadata object type (comment, post, or user)
-		 * the object subtype, and the meta key value, respectively.
-		 *
-		 * @since 4.6.0
-		 *
-		 * @param mixed  $meta_value      Meta value to sanitize.
-		 * @param string $meta_key        Meta key.
-		 * @param string $object_type     Object type.
-		 * @param string $object_subtype  Object subtype.
-		 */
-		$meta_value = apply_filters( "sanitize_{$object_type}_{$object_subtype}_meta_{$meta_key}", $meta_value, $meta_key, $object_type, $object_subtype );
-	}
-
+function sanitize_meta( $meta_key, $meta_value, $object_type ) {
 	/**
 	 * Filters the sanitization of a specific meta key of a specific meta type.
 	 *
@@ -972,14 +952,12 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
 	 * key value, respectively.
 	 *
 	 * @since 3.3.0
-	 * @since 4.6.0 Added the `$object_subtype` parameter.
 	 *
 	 * @param mixed  $meta_value      Meta value to sanitize.
 	 * @param string $meta_key        Meta key.
 	 * @param string $object_type     Object type.
-	 * @param string $object_subtype  Object subtype.
 	 */
-	return apply_filters( "sanitize_{$object_type}_meta_{$meta_key}", $meta_value, $meta_key, $object_type, $object_subtype );
+	return apply_filters( "sanitize_{$object_type}_meta_{$meta_key}", $meta_value, $meta_key, $object_type );
 }
 
 /**
@@ -995,7 +973,6 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  * @param array  $args {
  *     Data used to describe the meta key when registered.
  *
- *     @type string $object_subtype    A subtype; e.g. if the object type is "post", the post type.
  *     @type string $type              The type of data associated with this meta key.
  *     @type string $description       A description of the data attached to this meta key.
  *     @type bool   $single            Whether the meta key has one value per object, or an array of values per object.
@@ -1005,9 +982,9 @@ function sanitize_meta( $meta_key, $meta_value, $object_type, $object_subtype = 
  * }
  * @param string|array $deprecated Deprecated. Use `$args` instead.
  *
- * @return bool|WP_error True if the meta key was successfully registered in the global array, WP_Error if not.
+ * @return bool True if the meta key was successfully registered in the global array, false if not.
  *                       Registering a meta key with distinct sanitize and auth callbacks will fire those
- *                       callbacks, but will not add to the global registry as it requires a subtype.
+ *                       callbacks, but will not add to the global registry.
  */
 function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 	global $wp_meta_keys;
@@ -1016,12 +993,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 		$wp_meta_keys = array();
 	}
 
-	if ( ! wp_object_type_exists( $object_type ) ) {
-		return new WP_Error( 'register_meta_failed', __( 'Meta can only be registered against a core object type.' ) );
-	}
-
 	$defaults = array(
-		'object_subtype'    => '',
 		'type'              => 'string',
 		'description'       => '',
 		'single'            => false,
@@ -1049,8 +1021,6 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 		$has_old_auth_cb = true;
 	}
 
-	$args = wp_parse_args( $args, $defaults );
-
 	/**
 	 * Filters the registration arguments when registering meta.
 	 *
@@ -1062,11 +1032,7 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 	 * @param string $meta_key    Meta key.
 	 */
 	$args = apply_filters( 'register_meta_args', $args, $defaults, $object_type, $meta_key );
-
-	// Object subtype is required if using the args style of registration
-	if ( ! $has_old_sanitize_cb && ! $has_old_auth_cb && empty( $args['object_subtype'] ) ) {
-		return new WP_Error( 'register_meta_failed', __( 'Meta must be registered against an object subtype.' ) );
-	}
+	$args = wp_parse_args( $args, $defaults );
 
 	// If `auth_callback` is not provided, fall back to `is_protected_meta()`.
 	if ( empty( $args['auth_callback'] ) ) {
@@ -1077,39 +1043,23 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
 		}
 	}
 
-	$object_subtype = '';
-
-	if ( ! empty( $args['object_subtype'] ) ) {
-		$object_subtype = $args['object_subtype'];
-	}
-
 	// Back-compat: old sanitize and auth callbacks are applied to all of an object type.
-	if ( $has_old_sanitize_cb && is_callable( $args['sanitize_callback'] ) ) {
-		add_filter( "sanitize_{$object_type}_meta_{$meta_key}", $args['sanitize_callback'], 10, 4 );
+	if ( is_callable( $args['sanitize_callback'] ) ) {
+		add_filter( "sanitize_{$object_type}_meta_{$meta_key}", $args['sanitize_callback'], 10, 3 );
 	}
 
-	if ( $has_old_auth_cb && is_callable( $args['auth_callback'] ) ) {
+	if ( is_callable( $args['auth_callback'] ) ) {
 		add_filter( "auth_{$object_type}_meta_{$meta_key}", $args['auth_callback'], 10, 6 );
 	}
 
-	if ( ! $has_old_auth_cb && ! $has_old_sanitize_cb) {
-		if ( is_callable( $args['sanitize_callback'] ) ) {
-			add_filter( "sanitize_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['sanitize_callback'], 10, 4 );
-		}
-
-		if ( is_callable( $args['auth_callback'] ) ) {
-			add_filter( "auth_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['auth_callback'], 10, 6 );
-		}
-	}
-
-	// Global registry only contains meta keys registered in the new way with a subtype.
-	if ( ! empty( $object_subtype ) ) {
-		$wp_meta_keys[ $object_type ][ $object_subtype ][ $meta_key ] = $args;
+	// Global registry only contains meta keys registered with the array of arguments added in 4.6.0.
+	if ( ! $has_old_auth_cb && ! $has_old_sanitize_cb ) {
+		$wp_meta_keys[ $object_type ][ $meta_key ] = $args;
 
 		return true;
 	}
 
-	return new WP_Error( 'register_meta_failed', __( 'Sanitize and auth callbacks registered; meta key not registered.' ) );
+	return false;
 }
 
 /**
@@ -1118,33 +1068,22 @@ function register_meta( $object_type, $meta_key, $args, $deprecated = null ) {
  * @since 4.6.0
  *
  * @param string $object_type    The type of object.
- * @param string $object_subtype The subtype of the object type.
  * @param string $meta_key       The meta key.
  *
- * @return bool|WP_error True if the meta key is registered to the object type and subtype. False if not.
- *                       WP_Error if an invalid object type is passed.
+ * @return bool True if the meta key is registered to the object type. False if not.
  */
-function registered_meta_key_exists( $object_type, $object_subtype, $meta_key ) {
+function registered_meta_key_exists( $object_type, $meta_key ) {
 	global $wp_meta_keys;
 
 	if ( ! is_array( $wp_meta_keys ) ) {
 		return false;
 	}
 
-	// Only specific core object types are supported.
-	if ( ! wp_object_type_exists( $object_type ) ) {
-		return new WP_Error( 'invalid_meta_key', __( 'Invalid meta key. Not a core object type.' ) );
-	}
-
 	if ( ! isset( $wp_meta_keys[ $object_type ] ) ) {
 		return false;
 	}
 
-	if ( ! isset( $wp_meta_keys[ $object_type ][ $object_subtype ] ) ) {
-		return false;
-	}
-
-	if ( isset( $wp_meta_keys[ $object_type ][ $object_subtype ][ $meta_key ] ) ) {
+	if ( isset( $wp_meta_keys[ $object_type ][ $meta_key ] ) ) {
 		return true;
 	}
 
@@ -1157,35 +1096,30 @@ function registered_meta_key_exists( $object_type, $object_subtype, $meta_key ) 
  * @since 4.6.0
  *
  * @param string $object_type    The type of object.
- * @param string $object_subtype The subtype of the object type.
  * @param string $meta_key       The meta key.
  *
- * @return bool|WP_Error True if successful. WP_Error if the meta key is invalid.
+ * @return bool True if successful. False if the meta key was not registered.
  */
-function unregister_meta_key( $object_type, $object_subtype, $meta_key ) {
+function unregister_meta_key( $object_type, $meta_key ) {
 	global $wp_meta_keys;
 
-	if ( ! registered_meta_key_exists( $object_type, $object_subtype, $meta_key ) ) {
-		return new WP_Error( 'invalid_meta_key', __( 'Invalid meta key' ) );
+	if ( ! registered_meta_key_exists( $object_type, $meta_key ) ) {
+		return false;
 	}
 
-	$args = $wp_meta_keys[ $object_type ][ $object_subtype ][ $meta_key ];
+	$args = $wp_meta_keys[ $object_type ][ $meta_key ];
 
 	if ( isset( $args['sanitize_callback'] ) && is_callable( $args['sanitize_callback'] ) ) {
-		remove_filter( "sanitize_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['sanitize_callback'] );
+		remove_filter( "sanitize_{$object_type}_meta_{$meta_key}", $args['sanitize_callback'] );
 	}
 
 	if ( isset( $args['auth_callback'] ) && is_callable( $args['auth_callback'] ) ) {
-		remove_filter( "auth_{$object_type}_{$object_subtype}_meta_{$meta_key}", $args['auth_callback'] );
+		remove_filter( "auth_{$object_type}_meta_{$meta_key}", $args['auth_callback'] );
 	}
 
-	unset( $wp_meta_keys[ $object_type ][ $object_subtype ][ $meta_key ] );
+	unset( $wp_meta_keys[ $object_type ][ $meta_key ] );
 
 	// Do some clean up
-	if ( empty( $wp_meta_keys[ $object_type ][ $object_subtype ] ) ) {
-		unset( $wp_meta_keys[ $object_type ][ $object_subtype ] );
-	}
-
 	if ( empty( $wp_meta_keys[ $object_type ] ) ) {
 		unset( $wp_meta_keys[ $object_type ] );
 	}
@@ -1194,31 +1128,22 @@ function unregister_meta_key( $object_type, $object_subtype, $meta_key ) {
 }
 
 /**
- * Retrieves a list of registered meta keys for an object type and optionally subtype.
+ * Retrieves a list of registered meta keys for an object type.
  *
  * @since 4.6.0
  *
- * @param string $object_type    The type of object. Post, comment, user, term.
- * @param string $object_subtype Optional. A subtype of the object (e.g. custom post type).
+ * @param string $object_type The type of object. Post, comment, user, term.
  *
  * @return array List of registered meta keys.
  */
-function get_registered_meta_keys( $object_type, $object_subtype = '' ) {
+function get_registered_meta_keys( $object_type ) {
 	global $wp_meta_keys;
 
 	if ( ! isset( $wp_meta_keys[ $object_type ] ) ) {
 		return array();
 	}
 
-	if ( empty( $object_subtype ) && isset( $wp_meta_keys[ $object_type ] ) ) {
-		return $wp_meta_keys[ $object_type ];
-	}
-
-	if ( ! isset( $wp_meta_keys[ $object_type ][ $object_subtype ] ) ) {
-		return array();
-	}
-
-	return $wp_meta_keys[ $object_type ][ $object_subtype ];
+	return $wp_meta_keys[ $object_type ];
 }
 
 /**
@@ -1226,30 +1151,20 @@ function get_registered_meta_keys( $object_type, $object_subtype = '' ) {
  *
  * @since 4.6.0
  *
- * @param string $object_type    Type of object to request metadata for. (e.g. comment, post, term, user)
- * @param string $object_subtype The subtype of the object's type to request metadata for. (e.g. custom post type)
- * @param int    $object_id      ID of the object the metadata is for.
- * @param string $meta_key       Optional. Registered metadata key. If not specified, retrieve all registered
- *                               metadata for the specified object.
+ * @param string $object_type Type of object to request metadata for. (e.g. comment, post, term, user)
+ * @param int    $object_id   ID of the object the metadata is for.
+ * @param string $meta_key    Optional. Registered metadata key. If not specified, retrieve all registered
+ *                            metadata for the specified object.
  *
- * @return mixed|WP_Error
+ * @return mixed A single value or array of values for a key if specified. An array of all registered keys
+ *               and values for an object ID if not.
  */
-function get_registered_metadata( $object_type, $object_subtype, $object_id, $meta_key = '' ) {
-	global $wp_meta_keys;
-
-	if ( ! is_array( $wp_meta_keys ) ) {
-		return new WP_Error( 'invalid_meta_key', __( 'Invalid meta key. Not registered.' ) );
-	}
-
-	if ( ! wp_object_type_exists( $object_type ) ) {
-		return new WP_Error( 'invalid_meta_key', __( 'Invalid meta key. Not a core object type.' ) );
-	}
-
+function get_registered_metadata( $object_type, $object_id, $meta_key = '' ) {
 	if ( ! empty( $meta_key ) ) {
-		if ( ! registered_meta_key_exists( $object_type, $object_subtype, $meta_key ) ) {
-			return new WP_Error( 'invalid_meta_key', __( 'Invalid meta key. Not registered.' ) );
+		if ( ! registered_meta_key_exists( $object_type, $meta_key ) ) {
+			return false;
 		}
-		$meta_keys = get_registered_meta_keys( $object_type, $object_subtype );
+		$meta_keys = get_registered_meta_keys( $object_type );
 		$meta_key_data = $meta_keys[ $meta_key ];
 
 		$data = get_metadata( $object_type, $object_id, $meta_key, $meta_key_data['single'] );
@@ -1259,7 +1174,7 @@ function get_registered_metadata( $object_type, $object_subtype, $object_id, $me
 
 	$data = get_metadata( $object_type, $object_id );
 
-	$meta_keys = get_registered_meta_keys( $object_type, $object_subtype );
+	$meta_keys = get_registered_meta_keys( $object_type );
 	$registered_data = array();
 
 	// Someday, array_filter()

@@ -5358,31 +5358,6 @@ function mysql_to_rfc3339( $date_string ) {
 }
 
 /**
- * Check if an object type exists. By default, these are `post`, `comment`, `user`, and `term`.
- *
- * @since 4.6.0
- *
- * @param  string $object_type Object type to check.
- * @return bool                True if the object type exists, false if not.
- */
-function wp_object_type_exists( $object_type ) {
-	/**
-	 * Filters WordPress object types.
-	 *
-	 * @since 4.6.0
-	 *
-	 * @param array  $types Array of object types.
-	 */
-	$types = apply_filters( 'wp_object_types', array( 'post', 'comment', 'user', 'term' ) );
-
-	if ( in_array( $object_type, $types ) ) {
-		return true;
-	}
-
-	return false;
-}
-
-/**
  * Attempts to raise the PHP memory limit for memory intensive processes.
  *
  * Only allows raising the existing limit and prevents lowering it.
