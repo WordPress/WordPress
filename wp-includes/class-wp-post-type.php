@@ -309,7 +309,7 @@ final class WP_Post_Type {
 	 *
 	 * @since 4.6.0
 	 * @access public
-	 * @var array $cap
+	 * @var object $cap
 	 */
 	public $cap;
 
