@@ -592,6 +592,36 @@ function image_make_intermediate_size( $file, $width, $height, $crop = false ) {
 }
 
 /**
+ * Helper function to test if aspect ratios for two images match.
+ *
+ * @since 4.6.0
+ *
+ * @param int $source_width  Width of the first image in pixels.
+ * @param int $source_height Height of the first image in pixels.
+ * @param int $target_width  Width of the second image in pixels.
+ * @param int $target_height Height of the second image in pixels.
+ * @return bool True if aspect ratios match within 1px. False if not.
+ */
+function wp_image_matches_ratio( $source_width, $source_height, $target_width, $target_height ) {
+	/*
+	 * To test for varying crops, we constrain the dimensions of the larger image
+	 * to the dimensions of the smaller image and see if they match.
+	 */
+	if ( $source_width > $target_width ) {
+		$constrained_size = wp_constrain_dimensions( $source_width, $source_height, $target_width );
+		$expected_size = array( $target_width, $target_height );
+	} else {
+		$constrained_size = wp_constrain_dimensions( $target_width, $target_height, $source_width );
+		$expected_size = array( $source_width, $source_height );
+	}
+
+	// If the image dimensions are within 1px of the expected size, we consider it a match.
+	$matched = ( abs( $constrained_size[0] - $expected_size[0] ) <= 1 && abs( $constrained_size[1] - $expected_size[1] ) <= 1 );
+
+	return $matched;
+}
+
+/**
  * Retrieves the image's intermediate size (resized) path, width, and height.
  *
  * The $size parameter can be an array with the width and height respectively.
@@ -623,64 +653,73 @@ function image_make_intermediate_size( $file, $width, $height, $crop = false ) {
  *     @type string $file   Image's path relative to uploads directory
  *     @type int    $width  Width of image
  *     @type int    $height Height of image
- *     @type string $path   Optional. Image's absolute filesystem path. Only returned if registered
- *                          size is passed to `$size` parameter.
- *     @type string $url    Optional. Image's URL. Only returned if registered size is passed to `$size`
- *                          parameter.
+ *     @type string $path   Image's absolute filesystem path.
+ *     @type string $url    Image's URL.
  * }
  */
 function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
-	if ( !is_array( $imagedata = wp_get_attachment_metadata( $post_id ) ) )
+	if ( ! $size || ! is_array( $imagedata = wp_get_attachment_metadata( $post_id ) ) || empty( $imagedata['sizes'] )  ) {
 		return false;
+	}
 
-	// get the best one for a specified set of dimensions
-	if ( is_array($size) && !empty($imagedata['sizes']) ) {
+	$data = array();
+
+	// Find the best match when '$size' is an array.
+	if ( is_array( $size ) ) {
 		$candidates = array();
 
 		foreach ( $imagedata['sizes'] as $_size => $data ) {
 			// If there's an exact match to an existing image size, short circuit.
 			if ( $data['width'] == $size[0] && $data['height'] == $size[1] ) {
-				list( $data['width'], $data['height'] ) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
-
-				/** This filter is documented in wp-includes/media.php */
-				return apply_filters( 'image_get_intermediate_size', $data, $post_id, $size );
+				$candidates[ $data['width'] * $data['height'] ] = $data;
+				break;
 			}
-			// If it's not an exact match but it's at least the dimensions requested.
+
+			// If it's not an exact match, consider larger sizes with the same aspect ratio.
 			if ( $data['width'] >= $size[0] && $data['height'] >= $size[1] ) {
-				$candidates[ $data['width'] * $data['height'] ] = $_size;
+				// If '0' is passed to either size, we test ratios against the original file.
+				if ( 0 === $size[0] || 0 === $size[1] ) {
+					$same_ratio = wp_image_matches_ratio( $data['width'], $data['height'], $imagedata['width'], $imagedata['height'] );
+				} else {
+					$same_ratio = wp_image_matches_ratio( $data['width'], $data['height'], $size[0], $size[1] );
+				}
+
+				if ( $same_ratio ) {
+					$candidates[ $data['width'] * $data['height'] ] = $data;
+				}
 			}
 		}
 
 		if ( ! empty( $candidates ) ) {
-			// find for the smallest image not smaller than the desired size
-			ksort( $candidates );
-			foreach ( $candidates as $_size ) {
-				$data = $imagedata['sizes'][$_size];
-
-				// Skip images with unexpectedly divergent aspect ratios (crops)
-				// First, we calculate what size the original image would be if constrained to a box the size of the current image in the loop
-				$maybe_cropped = image_resize_dimensions($imagedata['width'], $imagedata['height'], $data['width'], $data['height'], false );
-				// If the size doesn't match within one pixel, then it is of a different aspect ratio, so we skip it, unless it's the thumbnail size
-				if ( 'thumbnail' != $_size &&
-				  ( ! $maybe_cropped
-				    || ( $maybe_cropped[4] != $data['width'] && $maybe_cropped[4] + 1 != $data['width'] )
-				    || ( $maybe_cropped[5] != $data['height'] && $maybe_cropped[5] + 1 != $data['height'] )
-				  ) ) {
-				  continue;
-				}
-				// If we're still here, then we're going to use this size.
-				list( $data['width'], $data['height'] ) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
-
-				/** This filter is documented in wp-includes/media.php */
-				return apply_filters( 'image_get_intermediate_size', $data, $post_id, $size );
+			// Sort the array by size if we have more than one candidate.
+			if ( 1 < count( $candidates ) ) {
+				ksort( $candidates );
 			}
+
+			$data = array_shift( $candidates );
+		/*
+		 * When the size requested is smaller than the thumbnail dimensions, we
+		 * fall back to the thumbnail size to maintain backwards compatibility with
+		 * pre 4.6 versions of WordPress.
+		 */
+		} elseif ( ! empty( $imagedata['sizes']['thumbnail'] ) && $imagedata['sizes']['thumbnail']['width'] >= $size[0] && $imagedata['sizes']['thumbnail']['width'] >= $size[1] ) {
+			$data = $imagedata['sizes']['thumbnail'];
+		} else {
+			return false;
 		}
+
+		// Constrain the width and height attributes to the requested values.
+		list( $data['width'], $data['height'] ) = image_constrain_size_for_editor( $data['width'], $data['height'], $size );
+
+	} elseif ( ! empty( $imagedata['sizes'][ $size ] ) ) {
+		$data = $imagedata['sizes'][ $size ];
 	}
 
-	if ( is_array($size) || empty($size) || empty($imagedata['sizes'][$size]) )
+	// If we still don't have a match at this point, return false.
+	if ( empty( $data ) ) {
 		return false;
+	}
 
-	$data = $imagedata['sizes'][$size];
 	// include the full filesystem path of the intermediate file
 	if ( empty($data['path']) && !empty($data['file']) ) {
 		$file_url = wp_get_attachment_url($post_id);
@@ -1092,21 +1131,8 @@ function wp_calculate_image_srcset( $size_array, $image_src, $image_meta, $attac
 			continue;
 		}
 
-		/**
-		 * To check for varying crops, we calculate the expected size of the smaller
-		 * image if the larger were constrained by the width of the smaller and then
-		 * see if it matches what we're expecting.
-		 */
-		if ( $image_width > $image['width'] ) {
-			$constrained_size = wp_constrain_dimensions( $image_width, $image_height, $image['width'] );
-			$expected_size = array( $image['width'], $image['height'] );
-		} else {
-			$constrained_size = wp_constrain_dimensions( $image['width'], $image['height'], $image_width );
-			$expected_size = array( $image_width, $image_height );
-		}
-
 		// If the image dimensions are within 1px of the expected size, use it.
-		if ( abs( $constrained_size[0] - $expected_size[0] ) <= 1 && abs( $constrained_size[1] - $expected_size[1] ) <= 1 ) {
+		if ( wp_image_matches_ratio( $image_width, $image_height, $image['width'], $image['height'] ) ) {
 			// Add the URL, descriptor, and value to the sources array to be returned.
 			$source = array(
 				'url'        => $image_baseurl . $image['file'],
