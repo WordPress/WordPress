@@ -2799,7 +2799,7 @@ function wp_site_icon() {
  */
 function wp_resource_hints() {
 	$hints = array(
-		'dns-prefetch' => wp_resource_hints_scripts_styles(),
+		'dns-prefetch' => wp_dependencies_unique_hosts(),
 		'preconnect'   => array( 's.w.org' ),
 		'prefetch'     => array(),
 		'prerender'    => array(),
@@ -2851,31 +2851,27 @@ function wp_resource_hints() {
 }
 
 /**
- * Adds dns-prefetch for all scripts and styles enqueued from external hosts.
+ * Returns a list of unique hosts of all enqueued scripts and styles.
  *
  * @since 4.6.0
+ *
+ * @return array A list of unique hosts of enqueued scripts and styles.
  */
-function wp_resource_hints_scripts_styles() {
+function wp_dependencies_unique_hosts() {
 	global $wp_scripts, $wp_styles;
 
 	$unique_hosts = array();
 
-	if ( is_object( $wp_scripts ) && ! empty( $wp_scripts->registered ) ) {
-		foreach ( $wp_scripts->registered as $registered_script ) {
-			$parsed = wp_parse_url( $registered_script->src );
+	foreach ( array( $wp_scripts, $wp_styles ) as $dependencies ) {
+		if ( $dependencies instanceof WP_Dependencies && ! empty( $dependencies->queue ) ) {
+			foreach ( $dependencies->queue as $handle ) {
+				/* @var _WP_Dependency $dependency */
+				$dependency = $dependencies->registered[ $handle ];
+				$parsed     = wp_parse_url( $dependency->src );
 
-			if ( ! empty( $parsed['host'] ) && ! in_array( $parsed['host'], $unique_hosts ) && $parsed['host'] !== $_SERVER['SERVER_NAME'] ) {
-				$unique_hosts[] = $parsed['host'];
-			}
-		}
-	}
-
-	if ( is_object( $wp_styles ) && ! empty( $wp_styles->registered ) ) {
-		foreach ( $wp_styles->registered as $registered_style ) {
-			$parsed = wp_parse_url( $registered_style->src );
-
-			if ( ! empty( $parsed['host'] ) && ! in_array( $parsed['host'], $unique_hosts ) && $parsed['host'] !== $_SERVER['SERVER_NAME'] ) {
-				$unique_hosts[] = $parsed['host'];
+				if ( ! empty( $parsed['host'] ) && ! in_array( $parsed['host'], $unique_hosts ) && $parsed['host'] !== $_SERVER['SERVER_NAME'] ) {
+					$unique_hosts[] = $parsed['host'];
+				}
 			}
 		}
 	}
