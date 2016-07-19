@@ -1139,7 +1139,7 @@ function unregister_meta_key( $object_type, $meta_key ) {
 function get_registered_meta_keys( $object_type ) {
 	global $wp_meta_keys;
 
-	if ( ! isset( $wp_meta_keys[ $object_type ] ) ) {
+	if ( ! is_array( $wp_meta_keys ) || ! isset( $wp_meta_keys[ $object_type ] ) ) {
 		return array();
 	}
 
