@@ -481,7 +481,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			/**
 			 * Converts the first hex-encoded octet match to lowercase.
 			 *
-			 * @since 3.1
+			 * @since 3.1.0
 			 * @ignore
 			 *
 			 * @param array $matches Hex-encoded octet matches for the requested URL.
