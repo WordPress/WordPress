@@ -108,8 +108,8 @@ class WP_Network_Query {
  	 *                                              Default 0.
  	 *     @type bool         $no_found_rows        Whether to disable the `SQL_CALC_FOUND_ROWS` query. Default true.
  	 *     @type string|array $orderby              Network status or array of statuses. Accepts 'id', 'domain', 'path',
- 	 *                                              'domain_length', 'path_length' and 'network__in'. Also accepts false, an empty array, or 'none' to disable
- 	 *                                              `ORDER BY` clause. Default 'id'.
+ 	 *                                              'domain_length', 'path_length' and 'network__in'. Also accepts false,
+ 	 *                                              an empty array, or 'none' to disable `ORDER BY` clause. Default 'id'.
  	 *     @type string       $order                How to order retrieved networks. Accepts 'ASC', 'DESC'. Default 'ASC'.
  	 *     @type string       $domain               Limit results to those affiliated with a given network ID.
  	 *                                              Default current network ID.
@@ -132,7 +132,7 @@ class WP_Network_Query {
 			'number'               => '',
 			'offset'               => '',
 			'no_found_rows'        => true,
-			'orderby'              => '',
+			'orderby'              => 'id',
 			'order'                => 'ASC',
 			'domain'               => '',
 			'domain__in'           => '',
