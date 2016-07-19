@@ -101,8 +101,8 @@ class WP_Network_Query {
 	 *     @type array        $network__not_in      Array of network IDs to exclude. Default empty.
  	 *     @type bool         $count                Whether to return a network count (true) or array of network objects.
  	 *                                              Default false.
- 	 *     @type string       $fields               Network fields to return. Accepts 'ids' for network IDs only or empty
- 	 *                                              for all fields. Default empty.
+ 	 *     @type string       $fields               Network fields to return. Accepts 'ids' (returns an array of network IDs)
+ 	 *                                              or empty (returns an array of complete network objects). Default empty.
  	 *     @type int          $number               Maximum number of networks to retrieve. Default null (no limit).
  	 *     @type int          $offset               Number of networks to offset the query. Used to build LIMIT clause.
  	 *                                              Default 0.
