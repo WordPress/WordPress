@@ -320,11 +320,12 @@ function wp_install_maybe_enable_pretty_permalinks() {
 	 	 */
 		$wp_rewrite->flush_rules( true );
 
-		// Test against a real WordPress Post, or if none were created, a random 404 page.
-		$test_url = get_permalink( 1 );
+		$test_url = '';
 
-		if ( ! $test_url ) {
-			$test_url = home_url( '/wordpress-check-for-rewrites/' );
+		// Test against a real WordPress Post
+		$first_post = get_page_by_path( sanitize_title( _x( 'hello-world', 'Default post slug' ) ), OBJECT, 'post' );
+		if ( $first_post ) {
+			$test_url = get_permalink( $first_post->ID );
 		}
 
 		/*
