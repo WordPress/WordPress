@@ -20,6 +20,9 @@ window.wp = window.wp || {};
 		// Clear previous messages to allow repeated strings being read out.
 		clear();
 
+		// Ensure only text is sent to screen readers.
+		message = $( '<p>' ).html( message ).text();
+
 		if ( $containerAssertive && 'assertive' === ariaLive ) {
 			$containerAssertive.text( message );
 		} else if ( $containerPolite ) {
