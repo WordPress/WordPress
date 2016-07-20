@@ -1598,10 +1598,11 @@
 	};
 
 	$( function() {
-		var $pluginFilter    = $( '#plugin-filter' ),
-			$bulkActionForm  = $( '#bulk-action-form' ),
-			$filesystemModal = $( '#request-filesystem-credentials-dialog' ),
-			$pluginSearch    = $( '.plugins-php .wp-filter-search' );
+		var $pluginFilter        = $( '#plugin-filter' ),
+			$bulkActionForm      = $( '#bulk-action-form' ),
+			$filesystemModal     = $( '#request-filesystem-credentials-dialog' ),
+			$pluginSearch        = $( '.plugins-php .wp-filter-search' ),
+			$pluginInstallSearch = $( '.plugin-install-php .wp-filter-search' );
 
 		/*
 		 * Whether a user needs to submit filesystem credentials.
@@ -2021,30 +2022,59 @@
 			wp.updates.queueChecker();
 		} );
 
+		if ( $pluginInstallSearch.length ) {
+			$pluginInstallSearch.attr( 'aria-describedby', 'live-search-desc' );
+		}
+
 		/**
 		 * Handles changes to the plugin search box on the new-plugin page,
 		 * searching the repository dynamically.
 		 *
 		 * @since 4.6.0
 		 */
-		$( '.plugin-install-php .wp-filter-search' ).on( 'keyup search', _.debounce( function() {
-			var $form = $( '#plugin-filter' ).empty(),
-				data  = _.extend( {
-					_ajax_nonce: wp.updates.ajaxNonce,
-					s:           $( this ).val(),
-					tab:         'search',
-					type:        $( '#typeselector' ).val(),
-					pagenow:     pagenow
-				}, { type: 'term' } );
+		$pluginInstallSearch.on( 'keyup input', _.debounce( function( event, eventtype ) {
+			var $searchTab = $( '.plugin-install-search' ), data, searchLocation;
 
-			if ( wp.updates.searchTerm === data.s ) {
+			data = {
+				_ajax_nonce: wp.updates.ajaxNonce,
+				s:           event.target.value,
+				tab:         'search',
+				type:        $( '#typeselector' ).val(),
+				pagenow:     pagenow
+			};
+			searchLocation = location.href.split( '?' )[ 0 ] + '?' + $.param( _.omit( data, [ '_ajax_nonce', 'pagenow' ] ) );
+
+			// Clear on escape.
+			if ( 'keyup' === event.type && 27 === event.which ) {
+				event.target.value = '';
+			}
+
+			if ( wp.updates.searchTerm === data.s && 'typechange' !== eventtype ) {
 				return;
 			} else {
+				$pluginFilter.empty();
 				wp.updates.searchTerm = data.s;
 			}
 
-			if ( history.pushState ) {
-				history.pushState( null, '', location.href.split( '?' )[ 0 ] + '?' + $.param( _.omit( data, [ '_ajax_nonce', 'pagenow' ] ) ) );
+			if ( window.history && window.history.pushState ) {
+				window.history.pushState( null, '', searchLocation );
+			}
+
+			if ( ! $searchTab.length ) {
+				$searchTab = $( '<li class="plugin-install-search" />' )
+					.append( $( '<a />', {
+						'class': 'current',
+						'href': searchLocation,
+						'text': wp.updates.l10n.searchResultsLabel
+					} ) );
+
+				$( '.wp-filter .filter-links .current' )
+					.removeClass( 'current' )
+					.parents( '.filter-links' )
+					.prepend( $searchTab );
+
+				$pluginFilter.prev( 'p' ).remove();
+				$( '.plugins-popular-tags-wrapper' ).remove();
 			}
 
 			if ( 'undefined' !== typeof wp.updates.searchRequest ) {
@@ -2054,12 +2084,18 @@
 
 			wp.updates.searchRequest = wp.ajax.post( 'search-install-plugins', data ).done( function( response ) {
 				$( 'body' ).removeClass( 'loading-content' );
-				$form.append( response.items );
+				$pluginFilter.append( response.items );
 				delete wp.updates.searchRequest;
+
+				if ( 0 === response.count ) {
+					wp.a11y.speak( wp.updates.l10n.noPluginsFound );
+				} else {
+					wp.a11y.speak( wp.updates.l10n.pluginsFound.replace( '%d', response.count ) );
+				}
 			} );
 		}, 500 ) );
 
-		if ( $pluginSearch.length > 0 ) {
+		if ( $pluginSearch.length ) {
 			$pluginSearch.attr( 'aria-describedby', 'live-search-desc' );
 		}
 
@@ -2087,8 +2123,8 @@
 				wp.updates.searchTerm = data.s;
 			}
 
-			if ( history.pushState ) {
-				history.pushState( null, '', location.href.split( '?' )[ 0 ] + '?s=' + data.s );
+			if ( window.history && window.history.pushState ) {
+				window.history.pushState( null, '', location.href.split( '?' )[ 0 ] + '?s=' + data.s );
 			}
 
 			if ( 'undefined' !== typeof wp.updates.searchRequest ) {
@@ -2132,7 +2168,7 @@
 		$document.on( 'submit', '.search-plugins', function( event ) {
 			event.preventDefault();
 
-			$( 'input.wp-filter-search' ).trigger( 'search' );
+			$( 'input.wp-filter-search' ).trigger( 'input' );
 		} );
 
 		/**
@@ -2141,7 +2177,11 @@
 		 * @since 4.6.0
 		 */
 		$( '#typeselector' ).on( 'change', function() {
-			$( 'input[name="s"]' ).trigger( 'search' );
+			var $search = $( 'input[name="s"]' );
+
+			if ( $search.val().length ) {
+				$search.trigger( 'input', 'typechange' );
+			}
 		} );
 
 		/**

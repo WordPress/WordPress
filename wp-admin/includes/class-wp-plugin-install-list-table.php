@@ -285,7 +285,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		?>
 	</ul>
 
-	<?php install_search_form( isset( $views['plugin-install-search'] ) ); ?>
+	<?php install_search_form(); ?>
 </div>
 <?php
 	}

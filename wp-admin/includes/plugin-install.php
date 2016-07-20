@@ -214,6 +214,7 @@ function install_dashboard() {
 
 	<?php display_plugins_table(); ?>
 
+	<div class="plugins-popular-tags-wrapper">
 	<h2><?php _e( 'Popular tags' ) ?></h2>
 	<p><?php _e( 'You may also browse based on the most popular tags in the Plugin Directory:' ) ?></p>
 	<?php
@@ -239,40 +240,32 @@ function install_dashboard() {
 		}
 		echo wp_generate_tag_cloud($tags, array( 'single_text' => __('%s plugin'), 'multiple_text' => __('%s plugins') ) );
 	}
-	echo '</p><br class="clear" />';
+	echo '</p><br class="clear" /></div>';
 }
 
 /**
- * Display search form for searching plugins.
+ * Displays a search form for searching plugins.
  *
  * @since 2.7.0
+ * @since 4.6.0 The `$type_selector` parameter was deprecated.
  *
- * @param bool $type_selector
+ * @param bool $deprecated Not used.
  */
-function install_search_form( $type_selector = true ) {
-	$type = isset($_REQUEST['type']) ? wp_unslash( $_REQUEST['type'] ) : 'term';
-	$term = isset($_REQUEST['s']) ? wp_unslash( $_REQUEST['s'] ) : '';
-	$input_attrs = '';
-	$button_type = 'button screen-reader-text';
-
-	// assume no $type_selector means it's a simplified search form
-	if ( ! $type_selector ) {
-		$input_attrs = 'class="wp-filter-search" placeholder="' . esc_attr__( 'Search Plugins' ) . '" ';
-	}
-
+function install_search_form( $deprecated = true ) {
+	$type = isset( $_REQUEST['type'] ) ? wp_unslash( $_REQUEST['type'] ) : 'term';
+	$term = isset( $_REQUEST['s'] ) ? wp_unslash( $_REQUEST['s'] ) : '';
 	?><form class="search-form search-plugins" method="get">
 		<input type="hidden" name="tab" value="search" />
-		<?php if ( $type_selector ) : ?>
+		<label class="screen-reader-text" for="typeselector"><?php _e( 'Search plugins by:' ); ?></label>
 		<select name="type" id="typeselector">
-			<option value="term"<?php selected('term', $type) ?>><?php _e('Keyword'); ?></option>
-			<option value="author"<?php selected('author', $type) ?>><?php _e('Author'); ?></option>
-			<option value="tag"<?php selected('tag', $type) ?>><?php _ex('Tag', 'Plugin Installer'); ?></option>
+			<option value="term"<?php selected( 'term', $type ); ?>><?php _e( 'Keyword' ); ?></option>
+			<option value="author"<?php selected( 'author', $type ); ?>><?php _e( 'Author' ); ?></option>
+			<option value="tag"<?php selected( 'tag', $type ); ?>><?php _ex( 'Tag', 'Plugin Installer' ); ?></option>
 		</select>
-		<?php endif; ?>
-		<label><span class="screen-reader-text"><?php _e('Search Plugins'); ?></span>
-			<input type="search" name="s" value="<?php echo esc_attr($term) ?>" <?php echo $input_attrs; ?>/>
+		<label><span class="screen-reader-text"><?php _e( 'Search Plugins' ); ?></span>
+			<input type="search" name="s" value="<?php echo esc_attr( $term ) ?>" class="wp-filter-search" placeholder="<?php esc_attr_e( 'Search Plugins' ); ?>" />
 		</label>
-		<?php submit_button( __( 'Search Plugins' ), $button_type, false, false, array( 'id' => 'search-submit' ) ); ?>
+		<?php submit_button( __( 'Search Plugins' ), 'button hide-if-js', false, false, array( 'id' => 'search-submit' ) ); ?>
 	</form><?php
 }
 
