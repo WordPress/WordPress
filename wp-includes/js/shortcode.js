@@ -326,11 +326,6 @@ window.wp = window.wp || {};
 			_.each( options.attrs, function( value, attr ) {
 				text += ' ' + attr;
 
-				// Use empty attribute notation where possible.
-				if ( '' === value ) {
-					return;
-				}
-
 				// Convert boolean values to strings.
 				if ( _.isBoolean( value ) ) {
 					value = value ? 'true' : 'false';
