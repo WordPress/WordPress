@@ -1331,12 +1331,11 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Enable a theme for all sites on the current network.
+	 * Enables a theme for all sites on the current network.
 	 *
 	 * @since 4.6.0
-	 *
-	 * @static
 	 * @access public
+	 * @static
 	 *
 	 * @param string|array $stylesheets Stylesheet name or array of stylesheet names.
 	 */
@@ -1358,12 +1357,11 @@ final class WP_Theme implements ArrayAccess {
 	}
 
 	/**
-	 * Disable a theme for all sites on the current network.
+	 * Disables a theme for all sites on the current network.
 	 *
 	 * @since 4.6.0
-	 *
-	 * @static
 	 * @access public
+	 * @static
 	 *
 	 * @param string|array $stylesheets Stylesheet name or array of stylesheet names.
 	 */

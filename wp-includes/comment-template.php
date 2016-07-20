@@ -138,7 +138,7 @@ function comment_author_email( $comment_ID = 0 ) {
  * address and use it for their own means good and bad.
  *
  * @since 0.71
- * @since 4.6.0 The `$comment` parameter was added.
+ * @since 4.6.0 Added the `$comment` parameter.
  *
  * @param string         $linktext Optional. Text to display instead of the comment author's email address.
  *                                 Default empty.
@@ -162,7 +162,7 @@ function comment_author_email_link( $linktext = '', $before = '', $after = '', $
  * address and use it for their own means good and bad.
  *
  * @since 2.7.0
- * @since 4.6.0 The `$comment` parameter was added.
+ * @since 4.6.0 Added the `$comment` parameter.
  *
  * @param string         $linktext Optional. Text to display instead of the comment author's email address.
  *                                 Default empty.
@@ -358,7 +358,7 @@ function comment_author_url( $comment_ID = 0 ) {
  * in the order of $before, link, and finally $after.
  *
  * @since 1.5.0
- * @since 4.6.0 The `$comment` parameter was added.
+ * @since 4.6.0 Added the `$comment` parameter.
  *
  * @param string         $linktext Optional. The text to display instead of the comment
  *                                 author's email address. Default empty.
@@ -396,7 +396,7 @@ function get_comment_author_url_link( $linktext = '', $before = '', $after = '',
  * Displays the HTML link of the url of the author of the current comment.
  *
  * @since 0.71
- * @since 4.6.0 The `$comment` parameter was added.
+ * @since 4.6.0 Added the `$comment` parameter.
  *
  * @param string         $linktext Optional. Text to display instead of the comment author's
  *                                 email address. Default empty.

@@ -2035,7 +2035,7 @@ function wp_update_comment($commentarr) {
 	 * The hook also fires immediately before comment status transition hooks are fired.
 	 *
 	 * @since 1.2.0
-	 * @since 4.6.0 The `$data` parameter was added.
+	 * @since 4.6.0 Added the `$data` parameter.
 	 *
 	 * @param int   $comment_ID The comment ID.
 	 * @param array $data       Comment data.

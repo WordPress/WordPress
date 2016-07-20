@@ -2255,7 +2255,7 @@ function the_modified_date( $d = '', $before = '', $after = '', $echo = true ) {
  * Retrieve the date on which the post was last modified.
  *
  * @since 2.1.0
- * @since 4.6.0 The `$post` parameter was added.
+ * @since 4.6.0 Added the `$post` parameter.
  *
  * @param string      $d    Optional. PHP date format defaults to the date_format option if not specified.
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default current post.
@@ -2277,7 +2277,7 @@ function get_the_modified_date( $d = '', $post = null ) {
 	 * Filters the date a post was last modified.
 	 *
 	 * @since 2.1.0
-	 * @since 4.6.0 The `$post` parameter was added.
+	 * @since 4.6.0 Added the `$post` parameter.
 	 *
 	 * @param string  $the_time The formatted date.
 	 * @param string  $d        PHP date format. Defaults to value specified in
@@ -2408,7 +2408,7 @@ function the_modified_time($d = '') {
  * Retrieve the time at which the post was last modified.
  *
  * @since 2.0.0
- * @since 4.6.0 The `$post` parameter was added.
+ * @since 4.6.0 Added the `$post` parameter.
  *
  * @param string      $d     Optional. Format to use for retrieving the time the post
  *                           was modified. Either 'G', 'U', or php date format defaults
@@ -2432,7 +2432,7 @@ function get_the_modified_time( $d = '', $post = null ) {
 	 * Filters the localized time a post was last modified.
 	 *
 	 * @since 2.0.0
-	 * @since 4.6.0 The `$post` parameter was added.
+	 * @since 4.6.0 Added the `$post` parameter.
 	 *
 	 * @param string $the_time The formatted time.
 	 * @param string $d        Format to use for retrieving the time the post was
@@ -2788,10 +2788,12 @@ function wp_site_icon() {
 }
 
 /**
- * Prints resource hints to browsers for pre-fetching, pre-rendering and pre-connecting to web sites.
+ * Prints resource hints to browsers for pre-fetching, pre-rendering
+ * and pre-connecting to web sites.
  *
- * Gives hints to browsers to prefetch specific pages or render them in the background,
- * to perform DNS lookups or to begin the connection handshake (DNS, TCP, TLS) in the background.
+ * Gives hints to browsers to prefetch specific pages or render them
+ * in the background, to perform DNS lookups or to begin the connection
+ * handshake (DNS, TCP, TLS) in the background.
  *
  * These performance improving indicators work by using `<link rel"…">`.
  *
@@ -2851,7 +2853,7 @@ function wp_resource_hints() {
 }
 
 /**
- * Returns a list of unique hosts of all enqueued scripts and styles.
+ * Retrieves a list of unique hosts of all enqueued scripts and styles.
  *
  * @since 4.6.0
  *

@@ -1491,7 +1491,7 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
  * | U+00B7   | l·l   | ll          | Flown dot (between two Ls)              |
  *
  * @since 1.2.1
- * @since 4.6.0 Locale support was added for `de_CH`, `de_CH_informal`, and `ca`.
+ * @since 4.6.0 Added locale support for `de_CH`, `de_CH_informal`, and `ca`.
  *
  * @param string $string Text that might have accent characters
  * @return string Filtered string with replaced "nice" characters.
@@ -4922,13 +4922,13 @@ function print_emoji_detection_script() {
 }
 
 /**
- * Print inline Emoji dection script
+ * Prints inline Emoji dection script
  *
  * @ignore
  * @since 4.6.0
  * @access private
  *
- * @global string $wp_version
+ * @global string $wp_version WordPress version string.
  */
 function _print_emoji_detection_script() {
 	global $wp_version;

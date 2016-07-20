@@ -905,7 +905,8 @@ class WP_Comment_Query {
 	}
 
 	/**
-	 * Populates found_comments and max_num_pages properties for the current query if the limit clause was used.
+	 * Populates found_comments and max_num_pages properties for the current
+	 * query if the limit clause was used.
 	 *
 	 * @since 4.6.0
 	 * @access private
@@ -921,8 +922,8 @@ class WP_Comment_Query {
 			 *
 			 * @since 4.4.0
 			 *
-			 * @param string $found_comments_query SQL query. Default 'SELECT FOUND_ROWS()'.
-			 * @param WP_Comment_Query $comment_query The `WP_Comment_Query` instance.
+			 * @param string           $found_comments_query SQL query. Default 'SELECT FOUND_ROWS()'.
+			 * @param WP_Comment_Query $comment_query        The `WP_Comment_Query` instance.
 			 */
 			$found_comments_query = apply_filters( 'found_comments_query', 'SELECT FOUND_ROWS()', $this );
 

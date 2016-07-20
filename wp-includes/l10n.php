@@ -664,7 +664,7 @@ function load_default_textdomain( $locale = null ) {
 }
 
 /**
- * Load a plugin's translated strings.
+ * Loads a plugin's translated strings.
  *
  * If the path is not given then it will be the root of the plugin directory.
  *
@@ -674,7 +674,7 @@ function load_default_textdomain( $locale = null ) {
  * @since 4.6.0 The function now tries to load the .mo file from the languages directory first.
  *
  * @param string $domain          Unique identifier for retrieving translated strings
- * @param string $deprecated      Use the $plugin_rel_path parameter instead.
+ * @param string $deprecated      Optional. Use the $plugin_rel_path parameter instead. Defaukt false.
  * @param string $plugin_rel_path Optional. Relative path to WP_PLUGIN_DIR where the .mo file resides.
  *                                Default false.
  * @return bool True when textdomain is successfully loaded, false otherwise.
@@ -716,8 +716,8 @@ function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path 
  * @since 4.6.0 The function now tries to load the .mo file from the languages directory first.
  *
  * @param string $domain             Text domain. Unique identifier for retrieving translated strings.
- * @param string $mu_plugin_rel_path Relative to WPMU_PLUGIN_DIR directory in which the .mo file resides.
- *                                   Default empty string.
+ * @param string $mu_plugin_rel_path Optional. Relative to `WPMU_PLUGIN_DIR` directory in which the .mo
+ *                                   file resides. Default empty string.
  * @return bool True when textdomain is successfully loaded, false otherwise.
  */
 function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
@@ -799,11 +799,13 @@ function load_child_theme_textdomain( $domain, $path = false ) {
 }
 
 /**
- * Just in time loading of plugin and theme textdomains.
+ * Loads plugin and theme textdomains just-in-time.
  *
- * When a textdomain is encountered for the first time, we try to load the translation file
- * from wp-content/languages, removing the need to call `load_plugin_texdomain()` or
- * `load_theme_texdomain()`. Holds a cached list of available .mo files to improve performance.
+ * When a textdomain is encountered for the first time, we try to load
+ * the translation file from `wp-content/languages`, removing the need
+ * to call load_plugin_texdomain() or load_theme_texdomain().
+ *
+ * Holds a cached list of available .mo files to improve performance.
  *
  * @since 4.6.0
  * @access private

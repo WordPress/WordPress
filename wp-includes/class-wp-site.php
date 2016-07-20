@@ -301,7 +301,7 @@ final class WP_Site {
 	}
 
 	/**
-	 * Retrieve the details for this site.
+	 * Retrieves the details for this site.
 	 *
 	 * This method is used internally to lazy-load the extended properties of a site.
 	 *

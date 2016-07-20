@@ -352,7 +352,7 @@ function category_description( $category = 0 ) {
  *     @type string|array $taxonomy          Name of the category or categories to retrieve. Default 'category'.
  *     @type bool         $hide_if_empty     True to skip generating markup if no categories are found.
  *                                           Default false (create select element even if no categories are found).
- *     @type bool         $required          Whether the <select> element should have the HTML5 'required' attribute.
+ *     @type bool         $required          Whether the `<select>` element should have the HTML5 'required' attribute.
  *                                           Default false.
  * }
  * @return string HTML content only if 'echo' argument is 0.

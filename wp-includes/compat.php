@@ -517,13 +517,15 @@ if ( ! function_exists( 'spl_autoload_register' ) ):
 	}
 
 	/**
-	 * Register a function to be autoloaded.
+	 * Registers a function to be autoloaded.
 	 *
 	 * @since 4.6.0
 	 *
 	 * @param callable $autoload_function The function to register.
-	 * @param boolean $throw Should the function throw an exception if the function isn't callable?
-	 * @param boolean $prepend Should we prepend the function to the stack?
+	 * @param bool     $throw             Optional. Whether the function should throw an exception
+	 *                                    if the function isn't callable. Default true.
+	 * @param bool     $prepend           Whether the function should be prepended to the stack.
+	 *                                    Default false.
 	 */
 	function spl_autoload_register( $autoload_function, $throw = true, $prepend = false ) {
 		if ( $throw && ! is_callable( $autoload_function ) ) {
@@ -546,12 +548,12 @@ if ( ! function_exists( 'spl_autoload_register' ) ):
 	}
 
 	/**
-	 * Unregister an autoloader function.
+	 * Unregisters an autoloader function.
 	 *
 	 * @since 4.6.0
 	 *
 	 * @param callable $function The function to unregister.
-	 * @return boolean True if the function was unregistered, false if it could not be.
+	 * @return bool True if the function was unregistered, false if it could not be.
 	 */
 	function spl_autoload_unregister( $function ) {
 		global $_wp_spl_autoloaders;
@@ -566,7 +568,7 @@ if ( ! function_exists( 'spl_autoload_register' ) ):
 	}
 
 	/**
-	 * Get the registered autoloader functions.
+	 * Retrieves the registered autoloader functions.
 	 *
 	 * @since 4.6.0
 	 *

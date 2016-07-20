@@ -2438,7 +2438,7 @@ function wp_get_mime_types() {
 }
 
 /**
- * Retrieve list of common file extensions and their types.
+ * Retrieves the list of common file extensions and their types.
  *
  * @since 4.6.0
  *
@@ -3118,7 +3118,7 @@ function wp_send_json_error( $data = null ) {
 }
 
 /**
- * Check that a JSONP callback is a valid JavaScript callback.
+ * Checks that a JSONP callback is a valid JavaScript callback.
  *
  * Only allows alphanumeric characters and the dot character in callback
  * function names. This helps to mitigate XSS attacks caused by directly
@@ -3902,10 +3902,10 @@ function _deprecated_argument( $function, $version, $message = null ) {
 /**
  * Marks a deprecated action or filter hook as deprecated and throws a notice.
  *
- * Use the 'deprecated_hook_run' action to get the backtrace describing where the
- * deprecated hook was called.
+ * Use the {@see 'deprecated_hook_run'} action to get the backtrace describing where
+ * the deprecated hook was called.
  *
- * Default behavior is to trigger a user error if WP_DEBUG is true.
+ * Default behavior is to trigger a user error if `WP_DEBUG` is true.
  *
  * This function is called by the do_action_deprecated() and apply_filters_deprecated()
  * functions, and so generally does not need to be called directly.
@@ -3932,7 +3932,7 @@ function _deprecated_hook( $hook, $version, $replacement = null, $message = null
 	do_action( 'deprecated_hook_run', $hook, $replacement, $version, $message );
 
 	/**
-	 * Filter whether to trigger deprecated hook errors.
+	 * Filters whether to trigger deprecated hook errors.
 	 *
 	 * @since 4.6.0
 	 *
@@ -5364,11 +5364,10 @@ function mysql_to_rfc3339( $date_string ) {
  *
  * @since 4.6.0
  *
- * @param string $context  Context in which the function is called.
- *                         Either 'admin', 'image' or an arbitrary other context.
- *                         Defaults to 'admin'.
- *                         If an arbitrary context is passed, the similarly arbitrary
- *                         "{$context}_memory_limit" filter will be invoked.
+ * @param string $context Optional. Context in which the function is called. Accepts either 'admin',
+ *                        'image', or an arbitrary other context. If an arbitrary context is passed,
+ *                        the similarly arbitrary {@see '{$context}_memory_limit'} filter will be
+ *                        invoked. Default 'admin'.
  * @return bool|int|string The limit that was set or false on failure.
  */
 function wp_raise_memory_limit( $context = 'admin' ) {
@@ -5393,20 +5392,20 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 			/**
 			 * Filters the maximum memory limit available for administration screens.
 			 *
-			 * This only applies to administrators, who may require more memory for tasks like updates.
-			 * Memory limits when processing images (uploaded or edited by users of any role) are
-			 * handled separately.
+			 * This only applies to administrators, who may require more memory for tasks
+			 * like updates. Memory limits when processing images (uploaded or edited by
+			 * users of any role) are handled separately.
 			 *
-			 * The WP_MAX_MEMORY_LIMIT constant specifically defines the maximum memory limit available
-			 * when in the administration back end. The default is 256M (256 megabytes
-			 * of memory) or the original `memory_limit` php.ini value if this is higher.
+			 * The `WP_MAX_MEMORY_LIMIT` constant specifically defines the maximum memory
+			 * limit available when in the administration back end. The default is 256M
+			 * (256 megabytes of memory) or the original `memory_limit` php.ini value if
+			 * this is higher.
 			 *
 			 * @since 3.0.0
-			 * @since 4.6.0 The default takes the original `memory_limit` into account.
+			 * @since 4.6.0 The default now takes the original `memory_limit` into account.
 			 *
-			 * @param int|string $filtered_limit The maximum WordPress memory limit.
-			 *                                   Accepts an integer (bytes), or a shorthand string
-			 *                                   notation, such as '256M'.
+			 * @param int|string $filtered_limit The maximum WordPress memory limit. Accepts an integer
+			 *                                   (bytes), or a shorthand string notation, such as '256M'.
 			 */
 			$filtered_limit = apply_filters( 'admin_memory_limit', $filtered_limit );
 			break;
@@ -5416,11 +5415,11 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 			 * Filters the memory limit allocated for image manipulation.
 			 *
 			 * @since 3.5.0
-			 * @since 4.6.0 The default takes the original `memory_limit` into account.
+			 * @since 4.6.0 The default now takes the original `memory_limit` into account.
 			 *
 			 * @param int|string $filtered_limit Maximum memory limit to allocate for images.
-			 *                                   Default WP_MAX_MEMORY_LIMIT or the original
-			 *                                   php.ini memory_limit, whichever is higher.
+			 *                                   Default `WP_MAX_MEMORY_LIMIT` or the original
+			 *                                   php.ini `memory_limit`, whichever is higher.
 			 *                                   Accepts an integer (bytes), or a shorthand string
 			 *                                   notation, such as '256M'.
 			 */
@@ -5438,10 +5437,9 @@ function wp_raise_memory_limit( $context = 'admin' ) {
 			 * @since 4.6.0
 			 *
 			 * @param int|string $filtered_limit Maximum memory limit to allocate for images.
-			 *                                   Default 256M or the original php.ini memory_limit,
-			 *                                   whichever is higher.
-			 *                                   Accepts an integer (bytes), or a shorthand string
-			 *                                   notation, such as '256M'.
+			 *                                   Default '256M' or the original php.ini `memory_limit`,
+			 *                                   whichever is higher. Accepts an integer (bytes), or a
+			 *                                   shorthand string notation, such as '256M'.
 			 */
 			$filtered_limit = apply_filters( "{$context}_memory_limit", $filtered_limit );
 			break;

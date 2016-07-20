@@ -53,14 +53,14 @@ class WP_Widget_Factory {
 	 *
 	 * @since 4.6.0
 	 * @access private
-	 * @see WP_Widget_Factory::hash_object()
-	 *
 	 * @var array
+	 *
+	 * @see WP_Widget_Factory::hash_object()
 	 */
 	private $hashed_class_counts = array();
 
 	/**
-	 * Hash an object, doing fallback of `spl_object_hash()` if not available.
+	 * Hashes an object, doing fallback of `spl_object_hash()` if not available.
 	 *
 	 * This can be eliminated in favor of straight spl_object_hash() when 5.3
 	 * is the minimum requirement for PHP.
@@ -93,7 +93,8 @@ class WP_Widget_Factory {
 	 * Registers a widget subclass.
 	 *
 	 * @since 2.8.0
-	 * @since 4.6.0 The `$widget` param can also be an instance object of `WP_Widget` instead of just a `WP_Widget` subclass name.
+	 * @since 4.6.0 Updated the `$widget` parameter to also accept a WP_Widget instance object
+	 *              instead of simply a `WP_Widget` subclass name.
 	 * @access public
 	 *
 	 * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
@@ -110,7 +111,8 @@ class WP_Widget_Factory {
 	 * Un-registers a widget subclass.
 	 *
 	 * @since 2.8.0
-	 * @since 4.6.0 The `$widget` param can also be an instance object of `WP_Widget` instead of just a `WP_Widget` subclass name.
+	 * @since 4.6.0 Updated the `$widget` parameter to also accept a WP_Widget instance object
+	 *              instead of simply a `WP_Widget` subclass name.
 	 * @access public
 	 *
 	 * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.

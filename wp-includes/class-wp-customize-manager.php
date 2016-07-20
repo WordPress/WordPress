@@ -651,11 +651,13 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Return the sanitized value for a given setting from the request's POST data.
+	 * Returns the sanitized value for a given setting from the request's POST data.
 	 *
 	 * @since 3.4.0
-	 * @since 4.1.1 Introduced `$default` parameter.
-	 * @since 4.6.0 Return `$default` when setting post value is invalid.
+	 * @since 4.1.1 Introduced the `$default` parameter.
+	 * @since 4.6.0 `$default` is now returned early when the setting post value is invalid.
+	 * @access public
+	 *
 	 * @see WP_REST_Server::dispatch()
 	 * @see WP_Rest_Request::sanitize_params()
 	 * @see WP_Rest_Request::has_valid_params()
@@ -987,7 +989,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Validate setting values.
+	 * Validates setting values.
 	 *
 	 * Sanitization is applied to the values before being passed for validation.
 	 * Validation is skipped for unregistered settings or for values that are
@@ -995,6 +997,7 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.6.0
 	 * @access public
+	 *
 	 * @see WP_REST_Request::has_valid_params()
 	 * @see WP_Customize_Setting::validate()
 	 *
@@ -1026,7 +1029,7 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Prepare setting validity for exporting to the client (JS).
+	 * Prepares setting validity for exporting to the client (JS).
 	 *
 	 * Converts `WP_Error` instance into array suitable for passing into the
 	 * `wp.customize.Notification` JS model.
@@ -1035,9 +1038,9 @@ final class WP_Customize_Manager {
 	 * @access public
 	 *
 	 * @param true|WP_Error $validity Setting validity.
-	 * @return true|array If `$validity` was `WP_Error` then array mapping the error
-	 *                    codes to their respective `message` and `data` to pass
-	 *                    into the `wp.customize.Notification` JS model.
+	 * @return true|array If `$validity` was a WP_Error, the error codes will be array-mapped
+	 *                    to their respective `message` and `data` to pass into the
+	 *                    `wp.customize.Notification` JS model.
 	 */
 	public function prepare_setting_validity_for_js( $validity ) {
 		if ( is_wp_error( $validity ) ) {
@@ -1080,8 +1083,9 @@ final class WP_Customize_Manager {
 		/**
 		 * Fires before save validation happens.
 		 *
-		 * Plugins can add just-in-time `customize_validate_{$setting_id}` filters
+		 * Plugins can add just-in-time {@see 'customize_validate_{$this->ID}'} filters
 		 * at this point to catch any settings registered after `customize_register`.
+		 * The dynamic portion of the hook name, `$this->ID` referrs to the setting ID.
 		 *
 		 * @since 4.6.0
 		 *
