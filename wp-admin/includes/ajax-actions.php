@@ -2164,6 +2164,31 @@ function wp_ajax_set_post_thumbnail() {
 }
 
 /**
+ * Ajax handler for retrieving HTML for the featured image.
+ *
+ * @since 4.6.0
+ */
+function wp_ajax_get_post_thumbnail_html() {
+	$post_ID = intval( $_POST['post_id'] );
+
+	check_ajax_referer( "update-post_$post_ID" );
+
+	if ( ! current_user_can( 'edit_post', $post_ID ) ) {
+		wp_die( -1 );
+	}
+
+	$thumbnail_id = intval( $_POST['thumbnail_id'] );
+
+	// For backward compatibility, -1 refers to no featured image.
+	if ( -1 === $thumbnail_id ) {
+		$thumbnail_id = null;
+	}
+
+	$return = _wp_post_thumbnail_html( $thumbnail_id, $post_ID );
+	wp_send_json_success( $return );
+}
+
+/**
  * Ajax handler for setting the featured image for an attachment.
  *
  * @since 4.0.0

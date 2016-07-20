@@ -3260,6 +3260,16 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		}
 	}
 
+	// Set or remove featured image.
+	if ( isset( $postarr['_thumbnail_id'] ) && ( post_type_supports( $post_type, 'thumbnail' ) || 'revision' === $post_type ) ) {
+		$thumbnail_id = intval( $postarr['_thumbnail_id'] );
+		if ( -1 === $thumbnail_id ) {
+			delete_post_thumbnail( $post_ID );
+		} else {
+			set_post_thumbnail( $post_ID, $thumbnail_id );
+		}
+	}
+
 	if ( ! empty( $postarr['meta_input'] ) ) {
 		foreach ( $postarr['meta_input'] as $field => $value ) {
 			update_post_meta( $post_ID, $field, $value );
