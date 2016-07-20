@@ -2802,10 +2802,17 @@ function wp_site_icon() {
 function wp_resource_hints() {
 	$hints = array(
 		'dns-prefetch' => wp_dependencies_unique_hosts(),
-		'preconnect'   => array( 's.w.org' ),
+		'preconnect'   => array(),
 		'prefetch'     => array(),
 		'prerender'    => array(),
 	);
+
+	/*
+	 * Add DNS prefetch for the Emoji CDN.
+	 * The path is removed in the foreach loop below.
+	 */
+	/** This filter is documented in wp-includes/formatting.php */
+	$hints['dns-prefetch'][] = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2/svg/' );
 
 	foreach ( $hints as $relation_type => $urls ) {
 		/**
