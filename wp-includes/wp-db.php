@@ -756,15 +756,15 @@ class wpdb {
 	}
 
 	/**
-	 * Given a charset and collation, determine the best charset and collation to use.
+	 * Determines the best charset and collation to use given a charset and collation.
 	 *
 	 * For example, when able, utf8mb4 should be used instead of utf8.
 	 *
 	 * @since 4.6.0
+	 * @access public
 	 *
-	 * @param  string $charset The character set to check.
-	 * @param  string $collate The collation to check.
-	 *
+	 * @param string $charset The character set to check.
+	 * @param string $collate The collation to check.
 	 * @return array The most appropriate character set and collation to use.
 	 */
 	public function determine_charset( $charset, $collate ) {
@@ -3236,8 +3236,8 @@ class wpdb {
 	 * Determine if a database supports a particular feature.
 	 *
 	 * @since 2.7.0
-	 * @since 4.1.0 Support was added for the 'utf8mb4' feature.
-	 * @since 4.6.0 Support was added for the 'utf8mb4_520' feature.
+	 * @since 4.1.0 Added support for the 'utf8mb4' feature.
+	 * @since 4.6.0 Added support for the 'utf8mb4_520' feature.
 	 *
 	 * @see wpdb::db_version()
 	 *
@@ -3276,7 +3276,7 @@ class wpdb {
 				} else {
 					return version_compare( $client_version, '5.5.3', '>=' );
 				}
-			case 'utf8mb4_520' :  // @since 4.6.0
+			case 'utf8mb4_520' : // @since 4.6.0
 				return version_compare( $version, '5.6', '>=' );
 		}
 

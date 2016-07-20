@@ -461,8 +461,8 @@ function clean_blog_cache( $blog ) {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param int     $id Blog ID.
-	 * @param WP_Site $blog
+	 * @param int     $id              Blog ID.
+	 * @param WP_Site $blog            Site object.
 	 * @param string  $domain_path_key md5 hash of domain and path.
 	 */
 	do_action( 'clean_site_cache', $blog_id, $blog, $domain_path_key );
@@ -520,7 +520,6 @@ function get_site( &$site = null ) {
  * @access private
  *
  * @see update_site_cache()
- *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $ids ID list.
@@ -1089,7 +1088,7 @@ function get_networks( $args = array() ) {
  *
  * @global WP_Network $current_site
  *
- * @param WP_Network|int|null $network Network to retrieve.
+ * @param WP_Network|int|null $network Network to retrieve, passed by reference.
  * @return WP_Network|null The network object or null if not found.
  */
 function get_network( &$network = null ) {

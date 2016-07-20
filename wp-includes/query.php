@@ -1473,7 +1473,7 @@ class WP_Query {
 	 * @since 4.5.0 Removed the `$comments_popup` parameter.
 	 *              Introduced the `$comment_status` and `$ping_status` parameters.
 	 *              Introduced `RAND(x)` syntax for `$orderby`, which allows an integer seed value to random sorts.
-	 * @since 4.6.0 Added 'post_name__in' support for `$orderby`. Introduced `$lazy_load_term_meta`.
+	 * @since 4.6.0 Added 'post_name__in' support for `$orderby`. Introduced the `$lazy_load_term_meta` argument.
 	 * @access public
 	 *
 	 * @param string|array $query {

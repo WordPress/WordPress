@@ -4316,7 +4316,7 @@ function _page_traverse_name( $page_id, &$children, &$result ){
  * Sub pages will be in the "directory" under the parent page post name.
  *
  * @since 1.5.0
- * @since 4.6.0 The $page parameter is optional.
+ * @since 4.6.0 Converted the `$page` parameter to optional.
  *
  * @param WP_Post|object|int $page Optional. Page ID or WP_Post object. Default is global $post.
  * @return string|false Page URI, false on error.
@@ -4955,7 +4955,7 @@ function wp_get_attachment_url( $post_id = 0 ) {
  *
  * @since 4.6.0
  *
- * @param int $post_id Optional. Attachment ID. Default 0.
+ * @param int $post_id Optional. Attachment ID. Default is the ID of the global `$post`.
  * @return string|false False on failure. Attachment caption on success.
  */
 function wp_get_attachment_caption( $post_id = 0 ) {

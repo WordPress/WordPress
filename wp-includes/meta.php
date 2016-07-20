@@ -1095,9 +1095,8 @@ function registered_meta_key_exists( $object_type, $meta_key ) {
  *
  * @since 4.6.0
  *
- * @param string $object_type    The type of object.
- * @param string $meta_key       The meta key.
- *
+ * @param string $object_type The type of object.
+ * @param string $meta_key    The meta key.
  * @return bool True if successful. False if the meta key was not registered.
  */
 function unregister_meta_key( $object_type, $meta_key ) {
@@ -1133,7 +1132,6 @@ function unregister_meta_key( $object_type, $meta_key ) {
  * @since 4.6.0
  *
  * @param string $object_type The type of object. Post, comment, user, term.
- *
  * @return array List of registered meta keys.
  */
 function get_registered_meta_keys( $object_type ) {
@@ -1155,7 +1153,6 @@ function get_registered_meta_keys( $object_type ) {
  * @param int    $object_id   ID of the object the metadata is for.
  * @param string $meta_key    Optional. Registered metadata key. If not specified, retrieve all registered
  *                            metadata for the specified object.
- *
  * @return mixed A single value or array of values for a key if specified. An array of all registered keys
  *               and values for an object ID if not.
  */

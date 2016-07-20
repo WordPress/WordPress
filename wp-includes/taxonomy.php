@@ -1225,7 +1225,7 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	 * Filters the found terms.
 	 *
 	 * @since 2.3.0
-	 * @since 4.6.0 Added `$term_query`.
+	 * @since 4.6.0 Added the `$term_query` parameter.
 	 *
 	 * @param array         $terms      Array of found terms.
 	 * @param array         $taxonomies An array of taxonomies.
