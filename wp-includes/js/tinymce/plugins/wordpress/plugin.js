@@ -579,6 +579,11 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 		if ( window.getUserSetting( 'editor_plain_text_paste_warning' ) > 1 ) {
 			editor.settings.paste_plaintext_inform = false;
 		}
+
+		// Change the editor iframe title on MacOS, add the correct help shortcut.
+		if ( tinymce.Env.mac ) {
+			tinymce.$( editor.iframeElement ).attr( 'title', __( 'Rich Text Area. Press Control-Option-H for help.' ) );
+		}
 	} );
 
 	editor.on( 'PastePlainTextToggle', function( event ) {
