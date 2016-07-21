@@ -13,7 +13,7 @@
  * @param array    $args {
  *     Array of arguments for building the post submit meta box.
  *
- *     @type string   $id       Meta box ID.
+ *     @type string   $id       Meta box 'id' attribute.
  *     @type string   $title    Meta box title.
  *     @type callable $callback Meta box display callback.
  *     @type array    $args     Extra meta box arguments.
@@ -353,7 +353,7 @@ function attachment_submit_meta_box( $post ) {
  * @param array   $box {
  *     Post formats meta box arguments.
  *
- *     @type string   $id       Meta box ID.
+ *     @type string   $id       Meta box 'id' attribute.
  *     @type string   $title    Meta box title.
  *     @type callable $callback Meta box display callback.
  *     @type array    $args     Extra meta box arguments.
@@ -394,7 +394,7 @@ function post_format_meta_box( $post, $box ) {
  * @param array   $box {
  *     Tags meta box arguments.
  *
- *     @type string   $id       Meta box ID.
+ *     @type string   $id       Meta box 'id' attribute.
  *     @type string   $title    Meta box title.
  *     @type callable $callback Meta box display callback.
  *     @type array    $args {
@@ -455,7 +455,7 @@ function post_tags_meta_box( $post, $box ) {
  * @param array   $box {
  *     Categories meta box arguments.
  *
- *     @type string   $id       Meta box ID.
+ *     @type string   $id       Meta box 'id' attribute.
  *     @type string   $title    Meta box title.
  *     @type callable $callback Meta box display callback.
  *     @type array    $args {
