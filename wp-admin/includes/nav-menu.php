@@ -584,18 +584,18 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
  * @global int|string $nav_menu_selected_id
  *
  * @param string $object Not used.
- * @param array  $taxonomy {
+ * @param array  $box {
  *     Data that will be used as arguments of the taxonomy meta box.
  *
  *     @type string $id       Meta box ID (used in the 'id' attribute for the meta box).
- *     @type string $title    Title of the meta box.
- *     @type string $callback Function that fills the box with the desired content.
- *     @type object $args     The current taxonomy object for this menu item meta box.
+ *     @type string $title    Meta box title.
+ *     @type string $callback Meta box display callback.
+ *     @type object $args     Extra meta box arguments (the taxonomy object for this meta box).
  * }
  */
-function wp_nav_menu_item_taxonomy_meta_box( $object, $taxonomy ) {
+function wp_nav_menu_item_taxonomy_meta_box( $object, $box ) {
 	global $nav_menu_selected_id;
-	$taxonomy_name = $taxonomy['args']->name;
+	$taxonomy_name = $box['args']->name;
 
 	// Paginate browsing for large numbers of objects.
 	$per_page = 50;
