@@ -3906,26 +3906,25 @@ function wp_ajax_test_url() {
 		$href = get_bloginfo( 'url' ) . $href;
 	}
 
+	// No redirects
 	$response = wp_safe_remote_get( $href, array(
 		'timeout' => 15,
 		// Use an explicit user-agent
 		'user-agent' => 'WordPress URL Test',
 	) );
 
-	$message = null;
+	$error = false;
 
 	if ( is_wp_error( $response ) ) {
-		$error = $response->get_error_message();
-
-		if ( strpos( $message, 'resolve host' ) !== false ) {
-			$message = array( 'error' => __( 'Invalid host name.' ) );
+		if ( strpos( $response->get_error_message(), 'resolve host' ) !== false ) {
+			$error = true;
 		}
-
-		wp_send_json_error( $message );
+	} elseif ( wp_remote_retrieve_response_code( $response ) === 404 ) {
+		$error = true;
 	}
 
-	if ( wp_remote_retrieve_response_code( $response ) === 404 ) {
-		wp_send_json_error( array( 'error' => __( 'Not found, HTTP error 404.' ) ) );
+	if ( $error ) {
+		wp_send_json_error( array( 'httpError' => true ) );
 	}
 
 	wp_send_json_success();

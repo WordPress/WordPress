@@ -1065,7 +1065,7 @@ final class _WP_Editors {
 			'Ctrl + letter:' => __( 'Ctrl + letter:' ),
 			'Letter' => __( 'Letter' ),
 			'Action' => __( 'Action' ),
-			'Invalid host name.' => __( 'Invalid host name.' ),
+			'Warning: the link has been inserted but the destination cannot be reached.' => __( 'Warning: the link has been inserted but the destination cannot be reached.' ),
 			'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' =>
 				__( 'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' ),
 			'When starting a new paragraph with one of these formatting shortcuts followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' =>
