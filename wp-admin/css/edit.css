@@ -616,12 +616,8 @@ span.wp-media-buttons-icon:before {
 	position: absolute;
 }
 
-#poststuff h3.hndle, /* Back-compat for pre-4.4 */
+#poststuff .hndle,
 #poststuff .stuffbox > h3, /* Back-compat for pre-4.4 */
-#poststuff h1.hndle,
-#poststuff h4.hndle,
-#poststuff h5.hndle,
-#poststuff h6.hndle,
 #poststuff h2 {
 	font-size: 14px;
 	padding: 8px 12px;
