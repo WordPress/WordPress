@@ -1511,17 +1511,14 @@ table.links-table {
 	}
 
 	#wp-content-media-buttons a {
-		font-size: 16px;
-		line-height: 37px;
-		height: 39px;
-		padding: 0 15px 0 20px;
+		font-size: 14px;
+		padding: 6px 10px;
 	}
 
 	.wp-media-buttons span.wp-media-buttons-icon,
 	.wp-media-buttons span.jetpack-contact-form-icon {
 		width: 22px !important;
-		margin-top: -3px !important;
-		margin-right: -5px !important;
+		margin-right: -2px !important;
 	}
 
 	.wp-media-buttons .add_media span.wp-media-buttons-icon:before,
@@ -1570,13 +1567,5 @@ table.links-table {
 	.links-table th,
 	.links-table td {
 		padding: 10px 0;
-	}
-}
-
-@media only screen and (max-width: 500px) {
-	/* Align Add Media + Visual + Text tabs */
-	#wp-content-media-buttons a {
-		font-size: 14px;
-		padding: 0 10px 0 10px;
 	}
 }
