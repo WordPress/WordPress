@@ -297,19 +297,19 @@ function wp_nav_menu_item_link_meta_box() {
  * @global int|string $nav_menu_selected_id
  *
  * @param string $object Not used.
- * @param array $post_type {
- *     Data that will be used as arguments of the post type meta box.
+ * @param array  $box {
+ *     Post type menu item meta box arguments.
  *
  *     @type string       $id       Meta box ID (used in the 'id' attribute for the meta box).
- *     @type string       $title    Title of the meta box.
- *     @type string       $callback Function that fills the box with the desired content.
- *     @type WP_Post_Type $args     The current post type object for this menu item meta box.
+ *     @type string       $title    Meta box title.
+ *     @type string       $callback Meta box display callback.
+ *     @type WP_Post_Type $args     Extra meta box arguments (the post type object for this meta box).
  * }
  */
-function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
+function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
 	global $_nav_menu_placeholder, $nav_menu_selected_id;
 
-	$post_type_name = $post_type['args']->name;
+	$post_type_name = $box['args']->name;
 
 	// Paginate browsing for large numbers of post objects.
 	$per_page = 50;
@@ -327,8 +327,8 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 		'update_post_meta_cache' => false
 	);
 
-	if ( isset( $post_type['args']->_default_query ) )
-		$args = array_merge($args, (array) $post_type['args']->_default_query );
+	if ( isset( $box['args']->_default_query ) )
+		$args = array_merge($args, (array) $box['args']->_default_query );
 
 	// @todo transient caching of these results with proper invalidation on updating of a post of this type
 	$get_posts = new WP_Query;
@@ -418,11 +418,11 @@ function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 				 *
 				 * @since 4.3.0
 				 *
-				 * @param array  $most_recent An array of post objects being listed.
-				 * @param array  $args        An array of WP_Query arguments.
-				 * @param object $post_type   The current post type object for this menu item meta box.
+				 * @param array $most_recent An array of post objects being listed.
+				 * @param array $args        An array of WP_Query arguments.
+				 * @param array $box         Arguments passed to wp_nav_menu_item_post_type_meta_box().
 				 */
-				$most_recent = apply_filters( "nav_menu_items_{$post_type_name}_recent", $most_recent, $args, $post_type );
+				$most_recent = apply_filters( "nav_menu_items_{$post_type_name}_recent", $most_recent, $args, $box );
 
 				echo walk_nav_menu_tree( array_map('wp_setup_nav_menu_item', $most_recent), 0, (object) $args );
 				?>
