@@ -297,7 +297,14 @@ function wp_nav_menu_item_link_meta_box() {
  * @global int|string $nav_menu_selected_id
  *
  * @param string $object Not used.
- * @param string $post_type The post type object.
+ * @param array $post_type {
+ *     Data that will be used as arguments of the post type meta box.
+ *
+ *     @type string       $id       Meta box ID (used in the 'id' attribute for the meta box).
+ *     @type string       $title    Title of the meta box.
+ *     @type string       $callback Function that fills the box with the desired content.
+ *     @type WP_Post_Type $args     The current post type object for this menu item meta box.
+ * }
  */
 function wp_nav_menu_item_post_type_meta_box( $object, $post_type ) {
 	global $_nav_menu_placeholder, $nav_menu_selected_id;
