@@ -1419,8 +1419,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
 
 		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, $size );
 
-		if ( !empty( $thumbnail_html ) ) {
-			$ajax_nonce = wp_create_nonce( 'set_post_thumbnail-' . $post->ID );
+		if ( ! empty( $thumbnail_html ) ) {
 			$content = sprintf( $set_thumbnail_link,
 				esc_url( $upload_iframe_src ),
 				' aria-describedby="set-post-thumbnail-desc"',
