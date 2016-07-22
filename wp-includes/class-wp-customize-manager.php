@@ -1085,7 +1085,7 @@ final class WP_Customize_Manager {
 		 *
 		 * Plugins can add just-in-time {@see 'customize_validate_{$this->ID}'} filters
 		 * at this point to catch any settings registered after `customize_register`.
-		 * The dynamic portion of the hook name, `$this->ID` referrs to the setting ID.
+		 * The dynamic portion of the hook name, `$this->ID` refers to the setting ID.
 		 *
 		 * @since 4.6.0
 		 *
