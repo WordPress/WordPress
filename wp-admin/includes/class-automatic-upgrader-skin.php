@@ -22,11 +22,20 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	protected $messages = array();
 
 	/**
+	 * Determines whether the upgrader needs FTP/SSH details in order to connect
+	 * to the filesystem.
 	 *
-	 * @param bool   $error
-	 * @param string $context
-	 * @param bool   $allow_relaxed_file_ownership
-	 * @return bool
+	 * @since 3.7.0
+	 * @since 4.6.0 The `$context` parameter default changed from `false` to an empty string.
+	 *
+	 * @see request_filesystem_credentials()
+	 *
+	 * @param bool   $error                        Optional. Whether the current request has failed to connect.
+	 *                                             Default false.
+	 * @param string $context                      Optional. Full path to the directory that is tested
+	 *                                             for being writable. Default empty.
+	 * @param bool   $allow_relaxed_file_ownership Optional. Whether to allow Group/World writable. Default false.
+	 * @return bool True on success, false on failure.
 	 */
 	public function request_filesystem_credentials( $error = false, $context = '', $allow_relaxed_file_ownership = false ) {
 		if ( $context ) {
