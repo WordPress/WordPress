@@ -366,7 +366,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		?>
 		<p class="search-box">
 			<label class="screen-reader-text" for="<?php echo $input_id ?>"><?php echo $text; ?>:</label>
-			<input type="search" id="<?php echo $input_id ?>" class="wp-filter-search" name="s" value="<?php _admin_search_query(); ?>" placeholder="<?php echo esc_attr( 'Search installed plugins...' ); ?>"/>
+			<input type="search" id="<?php echo $input_id ?>" class="wp-filter-search" name="s" value="<?php _admin_search_query(); ?>" placeholder="<?php esc_attr_e( 'Search installed plugins...' ); ?>"/>
 			<input type="submit" id="search-submit" class="button hide-if-js" value="<?php echo esc_attr( $text ); ?>">
 		</p>
 		<?php
