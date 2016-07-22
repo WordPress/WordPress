@@ -1074,7 +1074,7 @@ function _wp_render_title_tag() {
  * important, which is the page that the user is looking at.
  *
  * There are also SEO benefits to having the blog title after or to the 'right'
- * or the page title. However, it is mostly common sense to have the blog title
+ * of the page title. However, it is mostly common sense to have the blog title
  * to the right with most browsers supporting tabs. You can achieve this by
  * using the seplocation parameter and setting the value to 'right'. This change
  * was introduced around 2.5.0, in case backward compatibility of themes is
