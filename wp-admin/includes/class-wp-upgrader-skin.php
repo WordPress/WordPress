@@ -20,8 +20,11 @@ class WP_Upgrader_Skin {
 	public $done_footer = false;
 
 	/**
+	 * Holds the result of an upgrade.
 	 *
-	 * @var string|false|WP_Error
+	 * @since 2.8.0
+	 * @access public
+	 * @var string|bool|WP_Error
 	 */
 	public $result = false;
 	public $options = array();
@@ -51,10 +54,14 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * Sets the result of an upgrade.
 	 *
-	 * @param string|false|WP_Error $result
+	 * @since 2.8.0
+	 * @access public
+	 *
+	 * @param string|bool|WP_Error $result The result of an upgrade.
 	 */
-	public function set_result($result) {
+	public function set_result( $result ) {
 		$this->result = $result;
 	}
 
