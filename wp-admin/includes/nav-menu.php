@@ -585,7 +585,7 @@ function wp_nav_menu_item_post_type_meta_box( $object, $box ) {
  *
  * @param string $object Not used.
  * @param array  $box {
- *     Data that will be used as arguments of the taxonomy meta box.
+ *     Taxonomy menu item meta box arguments.
  *
  *     @type string $id       Meta box 'id' attribute.
  *     @type string $title    Meta box title.
