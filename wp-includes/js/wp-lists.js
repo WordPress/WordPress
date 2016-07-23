@@ -1,3 +1,4 @@
+/* global ajaxurl, wpAjax */
 (function($) {
 var fs = {add:'ajaxAdd',del:'ajaxDel',dim:'ajaxDim',process:'process',recolor:'recolor'}, wpList;
 
@@ -21,18 +22,25 @@ wpList = {
 		return s.nonce || url._ajax_nonce || $('#' + s.element + ' input[name="_ajax_nonce"]').val() || url._wpnonce || $('#' + s.element + ' input[name="_wpnonce"]').val() || 0;
 	},
 
-	parseClass: function(e,t) {
-		var c = [], cl;
+	/**
+	 * Extract list item data from a DOM element.
+	 *
+	 * @param  {HTMLElement} e The DOM element.
+	 * @param  {string}      t
+	 * @return {array}
+	 */
+	parseData: function(e,t) {
+		var d = [], wpListsData;
 
 		try {
-			cl = $(e).attr('class') || '';
-			cl = cl.match(new RegExp(t+':[\\S]+'));
+			wpListsData = $(e).attr('data-wp-lists') || '';
+			wpListsData = wpListsData.match(new RegExp(t+':[\\S]+'));
 
-			if ( cl )
-				c = cl[0].split(':');
+			if ( wpListsData )
+				d = wpListsData[0].split(':');
 		} catch(r) {}
 
-		return c;
+		return d;
 	},
 
 	pre: function(e,s,a) {
@@ -64,14 +72,14 @@ wpList = {
 	ajaxAdd: function( e, s ) {
 		e = $(e);
 		s = s || {};
-		var list = this, cls = wpList.parseClass(e,'add'), es, valid, formData, res, rres;
+		var list = this, data = wpList.parseData(e,'add'), es, valid, formData, res, rres;
 
 		s = wpList.pre.call( list, e, s, 'add' );
 
-		s.element = cls[2] || e.attr( 'id' ) || s.element || null;
+		s.element = data[2] || e.attr( 'id' ) || s.element || null;
 
-		if ( cls[3] )
-			s.addColor = '#' + cls[3];
+		if ( data[3] )
+			s.addColor = '#' + data[3];
 		else
 			s.addColor = s.addColor || '#FFFF33';
 
@@ -94,7 +102,7 @@ wpList = {
 		if ( !valid )
 			return false;
 
-		s.data = $.param( $.extend( { _ajax_nonce: s.nonce, action: s.action }, wpAjax.unserialize( cls[4] || '' ) ) );
+		s.data = $.param( $.extend( { _ajax_nonce: s.nonce, action: s.action }, wpAjax.unserialize( data[4] || '' ) ) );
 		formData = $.isFunction(es.fieldSerialize) ? es.fieldSerialize() : es.serialize();
 
 		if ( formData )
@@ -144,17 +152,24 @@ wpList = {
 		return false;
 	},
 
+	/**
+	 * Delete an item in the list via AJAX.
+	 *
+	 * @param  {HTMLElement} e A DOM element containing item data.
+	 * @param  {Object}      s
+	 * @return {boolean}
+	 */
 	ajaxDel: function( e, s ) {
 		e = $(e);
 		s = s || {};
-		var list = this, cls = wpList.parseClass(e,'delete'), element, res, rres;
+		var list = this, data = wpList.parseData(e,'delete'), element, res, rres;
 
 		s = wpList.pre.call( list, e, s, 'delete' );
 
-		s.element = cls[2] || s.element || null;
+		s.element = data[2] || s.element || null;
 
-		if ( cls[3] )
-			s.delColor = '#' + cls[3];
+		if ( data[3] )
+			s.delColor = '#' + data[3];
 		else
 			s.delColor = s.delColor || '#faa';
 
@@ -167,7 +182,7 @@ wpList = {
 
 		s.data = $.extend(
 			{ action: s.action, id: s.element.split('-').pop(), _ajax_nonce: s.nonce },
-			wpAjax.unserialize( cls[4] || '' )
+			wpAjax.unserialize( data[4] || '' )
 		);
 
 		if ( $.isFunction(s.delBefore) ) {
@@ -208,7 +223,7 @@ wpList = {
 					s.delAfter( rres, _s );
 				}).dequeue();
 			}
-		}
+		};
 
 		$.ajax( s );
 		return false;
@@ -221,20 +236,20 @@ wpList = {
 		e = $(e);
 		s = s || {};
 
-		var list = this, cls = wpList.parseClass(e,'dim'), element, isClass, color, dimColor, res, rres;
+		var list = this, data = wpList.parseData(e,'dim'), element, isClass, color, dimColor, res, rres;
 
 		s = wpList.pre.call( list, e, s, 'dim' );
 
-		s.element = cls[2] || s.element || null;
-		s.dimClass =  cls[3] || s.dimClass || null;
+		s.element = data[2] || s.element || null;
+		s.dimClass =  data[3] || s.dimClass || null;
 
-		if ( cls[4] )
-			s.dimAddColor = '#' + cls[4];
+		if ( data[4] )
+			s.dimAddColor = '#' + data[4];
 		else
 			s.dimAddColor = s.dimAddColor || '#FFFF33';
 
-		if ( cls[5] )
-			s.dimDelColor = '#' + cls[5];
+		if ( data[5] )
+			s.dimDelColor = '#' + data[5];
 		else
 			s.dimDelColor = s.dimDelColor || '#FF3333';
 
@@ -247,7 +262,7 @@ wpList = {
 
 		s.data = $.extend(
 			{ action: s.action, id: s.element.split('-').pop(), dimClass: s.dimClass, _ajax_nonce : s.nonce },
-			wpAjax.unserialize( cls[6] || '' )
+			wpAjax.unserialize( data[6] || '' )
 		);
 
 		if ( $.isFunction(s.dimBefore) ) {
@@ -282,9 +297,27 @@ wpList = {
 			res = wpAjax.parseAjaxResponse(r, s.response, s.element);
 			rres = r;
 
-			if ( !res || res.errors ) {
+			if ( true === res ) {
+				return true;
+			}
+
+			if ( ! res || res.errors ) {
 				element.stop().stop().css( 'backgroundColor', '#FF3333' )[isClass?'removeClass':'addClass'](s.dimClass).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
 				return false;
+			}
+
+			if ( 'undefined' !== typeof res.responses[0].supplemental.comment_link ) {
+				var submittedOn = element.find( '.submitted-on' ),
+					commentLink = submittedOn.find( 'a' );
+
+				// Comment is approved; link the date field.
+				if ( '' !== res.responses[0].supplemental.comment_link ) {
+					submittedOn.html( $('<a></a>').text( submittedOn.text() ).prop( 'href', res.responses[0].supplemental.comment_link ) );
+
+				// Comment is not approved; unlink the date field.
+				} else if ( commentLink.length ) {
+					submittedOn.text( commentLink.text() );
+				}
 			}
 		};
 
@@ -308,7 +341,11 @@ wpList = {
 	},
 
 	add: function( e, s ) {
-		e = $(e);
+		if ( 'string' == typeof e ) {
+			e = $( $.trim( e ) ); // Trim leading whitespaces
+		} else {
+			e = $( e );
+		}
 
 		var list = $(this), old = false, _s = { pos: 0, id: 0, oldId: null }, ba, ref, color;
 
@@ -317,16 +354,16 @@ wpList = {
 
 		s = $.extend(_s, this.wpList.settings, s);
 
-		if ( !e.size() || !s.what )
+		if ( !e.length || !s.what )
 			return false;
 
 		if ( s.oldId )
 			old = $('#' + s.what + '-' + s.oldId);
 
-		if ( s.id && ( s.id != s.oldId || !old || !old.size() ) )
+		if ( s.id && ( s.id != s.oldId || !old || !old.length ) )
 			$('#' + s.what + '-' + s.id).remove();
 
-		if ( old && old.size() ) {
+		if ( old && old.length ) {
 			old.before(e);
 			old.remove();
 		} else if ( isNaN(s.pos) ) {
@@ -339,7 +376,7 @@ wpList = {
 
 			ref = list.find( '#' + s.pos );
 
-			if ( 1 === ref.size() )
+			if ( 1 === ref.length )
 				ref[ba](e);
 			else
 				list.append(e);
@@ -370,11 +407,11 @@ wpList = {
 
 		e = $(e);
 
-		if ( list.wpList && e.parents( '#' + list.id ).size() )
+		if ( list.wpList && e.parents( '#' + list.id ).length )
 			return;
 
 		e.find(':input').each( function() {
-			if ( $(this).parents('.form-no-clear').size() )
+			if ( $(this).parents('.form-no-clear').length )
 				return;
 
 			t = this.type.toLowerCase();
@@ -393,19 +430,19 @@ wpList = {
 		var list = this,
 			$el = $(el || document);
 
-		$el.delegate( 'form[class^="add:' + list.id + ':"]', 'submit', function(){
+		$el.delegate( 'form[data-wp-lists^="add:' + list.id + ':"]', 'submit', function(){
 			return list.wpList.add(this);
 		});
 
-		$el.delegate( 'a[class^="add:' + list.id + ':"], input[class^="add:' + list.id + ':"]', 'click', function(){
+		$el.delegate( 'a[data-wp-lists^="add:' + list.id + ':"], input[data-wp-lists^="add:' + list.id + ':"]', 'click', function(){
 			return list.wpList.add(this);
 		});
 
-		$el.delegate( '[class^="delete:' + list.id + ':"]', 'click', function(){
+		$el.delegate( '[data-wp-lists^="delete:' + list.id + ':"]', 'click', function(){
 			return list.wpList.del(this);
 		});
 
-		$el.delegate( '[class^="dim:' + list.id + ':"]', 'click', function(){
+		$el.delegate( '[data-wp-lists^="dim:' + list.id + ':"]', 'click', function(){
 			return list.wpList.dim(this);
 		});
 	},
@@ -418,7 +455,7 @@ wpList = {
 
 		items = $('.list-item:visible', list);
 
-		if ( !items.size() )
+		if ( !items.length )
 			items = $(list).children(':visible');
 
 		eo = [':even',':odd'];
@@ -450,7 +487,7 @@ $.fn.wpList = function( settings ) {
 	this.each( function() {
 		var _this = this;
 
-		this.wpList = { settings: $.extend( {}, wpList.settings, { what: wpList.parseClass(this,'list')[1] || '' }, settings ) };
+		this.wpList = { settings: $.extend( {}, wpList.settings, { what: wpList.parseData(this,'list')[1] || '' }, settings ) };
 		$.each( fs, function(i,f) { _this.wpList[i] = function( e, s ) { return wpList[f].call( _this, e, s ); }; } );
 	} );
 

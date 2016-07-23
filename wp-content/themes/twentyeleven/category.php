@@ -1,6 +1,6 @@
 <?php
 /**
- * The template for displaying Category Archive pages.
+ * Template for displaying Category Archive pages
  *
  * @package WordPress
  * @subpackage Twenty_Eleven
@@ -21,8 +21,16 @@ get_header(); ?>
 
 					<?php
 						$category_description = category_description();
-						if ( ! empty( $category_description ) )
+						if ( ! empty( $category_description ) ) {
+							/**
+							 * Filter the default Twenty Eleven category description.
+							 *
+							 * @since Twenty Eleven 1.0
+							 *
+							 * @param string The default category description HTML.
+							 */
 							echo apply_filters( 'category_archive_meta', '<div class="category-archive-meta">' . $category_description . '</div>' );
+						}
 					?>
 				</header>
 
@@ -32,7 +40,8 @@ get_header(); ?>
 				<?php while ( have_posts() ) : the_post(); ?>
 
 					<?php
-						/* Include the Post-Format-specific template for the content.
+						/*
+						 * Include the Post-Format-specific template for the content.
 						 * If you want to overload this in a child theme then include a file
 						 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
 						 */

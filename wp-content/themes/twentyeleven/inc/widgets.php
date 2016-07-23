@@ -1,8 +1,10 @@
 <?php
 /**
- * Makes a custom Widget for displaying Aside, Link, Status, and Quote Posts available with Twenty Eleven
+ * Widget For displaying post format posts
  *
- * Learn more: http://codex.wordpress.org/Widgets_API#Developing_Widgets
+ * Handles displaying Aside, Link, Status, and Quote Posts available with Twenty Eleven.
+ *
+ * @link https://codex.wordpress.org/Widgets_API#Developing_Widgets
  *
  * @package WordPress
  * @subpackage Twenty_Eleven
@@ -11,63 +13,77 @@
 class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 
 	/**
-	 * Constructor
+	 * PHP5 constructor.
 	 *
-	 * @return void
-	 **/
-	function Twenty_Eleven_Ephemera_Widget() {
-		$widget_ops = array( 'classname' => 'widget_twentyeleven_ephemera', 'description' => __( 'Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven' ) );
-		$this->WP_Widget( 'widget_twentyeleven_ephemera', __( 'Twenty Eleven Ephemera', 'twentyeleven' ), $widget_ops );
+	 * @since Twenty Eleven 2.2
+	 */
+	function __construct() {
+		parent::__construct( 'widget_twentyeleven_ephemera', __( 'Twenty Eleven Ephemera', 'twentyeleven' ), array(
+			'classname'   => 'widget_twentyeleven_ephemera',
+			'description' => __( 'Use this widget to list your recent Aside, Status, Quote, and Link posts', 'twentyeleven' ),
+			'customize_selective_refresh' => true,
+		) );
 		$this->alt_option_name = 'widget_twentyeleven_ephemera';
 
-		add_action( 'save_post', array(&$this, 'flush_widget_cache' ) );
-		add_action( 'deleted_post', array(&$this, 'flush_widget_cache' ) );
-		add_action( 'switch_theme', array(&$this, 'flush_widget_cache' ) );
+		add_action( 'save_post', array( &$this, 'flush_widget_cache' ) );
+		add_action( 'deleted_post', array( &$this, 'flush_widget_cache' ) );
+		add_action( 'switch_theme', array( &$this, 'flush_widget_cache' ) );
+	}
+
+	/**
+	 * PHP4 constructor.
+	 *
+	 * @since Twenty Eleven 1.0
+	 */
+	function Twenty_Eleven_Ephemera_Widget() {
+		self::__construct();
 	}
 
 	/**
 	 * Outputs the HTML for this widget.
 	 *
-	 * @param array An array of standard parameters for widgets in this theme
-	 * @param array An array of settings for this widget instance
-	 * @return void Echoes it's output
+	 * @since Twenty Eleven 1.0
+	 *
+	 * @param array $args     An array of standard parameters for widgets in this theme.
+	 * @param array $instance An array of settings for this widget instance.
 	 **/
 	function widget( $args, $instance ) {
 		$cache = wp_cache_get( 'widget_twentyeleven_ephemera', 'widget' );
 
-		if ( !is_array( $cache ) )
+		if ( ! is_array( $cache ) )
 			$cache = array();
 
 		if ( ! isset( $args['widget_id'] ) )
 			$args['widget_id'] = null;
 
-		if ( isset( $cache[$args['widget_id']] ) ) {
-			echo $cache[$args['widget_id']];
+		if ( ! is_customize_preview() && isset( $cache[ $args['widget_id'] ] ) ) {
+			echo $cache[ $args['widget_id'] ];
 			return;
 		}
 
 		ob_start();
 		extract( $args, EXTR_SKIP );
 
-		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Ephemera', 'twentyeleven' ) : $instance['title'], $instance, $this->id_base);
+		/** This filter is documented in wp-includes/default-widgets.php */
+		$args['title'] = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Ephemera', 'twentyeleven' ) : $instance['title'], $instance, $this->id_base );
 
 		if ( ! isset( $instance['number'] ) )
 			$instance['number'] = '10';
 
-		if ( ! $number = absint( $instance['number'] ) )
- 			$number = 10;
+		if ( ! $args['number'] = absint( $instance['number'] ) )
+			$args['number'] = 10;
 
 		$ephemera_args = array(
-			'order' => 'DESC',
-			'posts_per_page' => $number,
-			'no_found_rows' => true,
-			'post_status' => 'publish',
-			'post__not_in' => get_option( 'sticky_posts' ),
-			'tax_query' => array(
+			'order'          => 'DESC',
+			'posts_per_page' => $args['number'],
+			'no_found_rows'  => true,
+			'post_status'    => 'publish',
+			'post__not_in'   => get_option( 'sticky_posts' ),
+			'tax_query'      => array(
 				array(
 					'taxonomy' => 'post_format',
-					'terms' => array( 'post-format-aside', 'post-format-link', 'post-format-status', 'post-format-quote' ),
-					'field' => 'slug',
+					'terms'    => array( 'post-format-aside', 'post-format-link', 'post-format-status', 'post-format-quote' ),
+					'field'    => 'slug',
 					'operator' => 'IN',
 				),
 			),
@@ -75,10 +91,10 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		$ephemera = new WP_Query( $ephemera_args );
 
 		if ( $ephemera->have_posts() ) :
-			echo $before_widget;
-			echo $before_title;
-			echo $title; // Can set this with a widget option, or omit altogether
-			echo $after_title;
+			echo $args['before_widget'];
+			echo $args['before_title'];
+			echo $args['title'];
+			echo $args['after_title'];
 			?>
 			<ol>
 			<?php while ( $ephemera->have_posts() ) : $ephemera->the_post(); ?>
@@ -86,7 +102,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 				<?php if ( 'link' != get_post_format() ) : ?>
 
 				<li class="widget-entry-title">
-					<a href="<?php echo esc_url( get_permalink() ); ?>" title="<?php printf( esc_attr__( 'Permalink to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?></a>
+					<a href="<?php echo esc_url( get_permalink() ); ?>" rel="bookmark"><?php the_title(); ?></a>
 					<span class="comments-link">
 						<?php comments_popup_link( __( '0 <span class="reply">comments &rarr;</span>', 'twentyeleven' ), __( '1 <span class="reply">comment &rarr;</span>', 'twentyeleven' ), __( '% <span class="reply">comments &rarr;</span>', 'twentyeleven' ) ); ?>
 					</span>
@@ -95,14 +111,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 				<?php else : ?>
 
 				<li class="widget-entry-title">
-					<?php
-						// Grab first link from the post content. If none found, use the post permalink as fallback.
-						$link_url = twentyeleven_url_grabber();
-
-						if ( empty( $link_url ) )
-							$link_url = get_permalink();
-					?>
-					<a href="<?php echo esc_url( $link_url ); ?>" title="<?php printf( esc_attr__( 'Link to %s', 'twentyeleven' ), the_title_attribute( 'echo=0' ) ); ?>" rel="bookmark"><?php the_title(); ?>&nbsp;<span>&rarr;</span></a>
+					<a href="<?php echo esc_url( twentyeleven_get_first_url() ); ?>" rel="bookmark"><?php the_title(); ?>&nbsp;<span>&rarr;</span></a>
 					<span class="comments-link">
 						<?php comments_popup_link( __( '0 <span class="reply">comments &rarr;</span>', 'twentyeleven' ), __( '1 <span class="reply">comment &rarr;</span>', 'twentyeleven' ), __( '% <span class="reply">comments &rarr;</span>', 'twentyeleven' ) ); ?>
 					</span>
@@ -114,7 +123,7 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 			</ol>
 			<?php
 
-			echo $after_widget;
+			echo $args['after_widget'];
 
 			// Reset the post globals as this query will have stomped on it
 			wp_reset_postdata();
@@ -122,13 +131,20 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		// end check for ephemeral posts
 		endif;
 
-		$cache[$args['widget_id']] = ob_get_flush();
-		wp_cache_set( 'widget_twentyeleven_ephemera', $cache, 'widget' );
+		$cache[ $args['widget_id'] ] = ob_get_flush();
+		if ( ! is_customize_preview() ) {
+			wp_cache_set( 'widget_twentyeleven_ephemera', $cache, 'widget' );
+		}
+
 	}
 
 	/**
+	 * Update widget settings.
+	 *
 	 * Deals with the settings when they are saved by the admin. Here is
 	 * where any validation should be dealt with.
+	 *
+	 * @since Twenty Eleven 1.0
 	 **/
 	function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
@@ -143,12 +159,21 @@ class Twenty_Eleven_Ephemera_Widget extends WP_Widget {
 		return $instance;
 	}
 
+	/**
+	 * Flush widget cache.
+	 *
+	 * @since Twenty Eleven 1.0
+	 */
 	function flush_widget_cache() {
 		wp_cache_delete( 'widget_twentyeleven_ephemera', 'widget' );
 	}
 
 	/**
+	 * Set up the widget form.
+	 *
 	 * Displays the form for this widget on the Widgets page of the WP Admin area.
+	 *
+	 * @since Twenty Eleven 1.0
 	 **/
 	function form( $instance ) {
 		$title = isset( $instance['title']) ? esc_attr( $instance['title'] ) : '';

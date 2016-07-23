@@ -1,4 +1,4 @@
-// Utility functions for parsing and handling shortcodes in Javascript.
+// Utility functions for parsing and handling shortcodes in JavaScript.
 
 // Ensure the global `wp` object exists.
 window.wp = window.wp || {};
@@ -19,12 +19,14 @@ window.wp = window.wp || {};
 			re.lastIndex = index || 0;
 			match = re.exec( text );
 
-			if ( ! match )
+			if ( ! match ) {
 				return;
+			}
 
 			// If we matched an escaped shortcode, try again.
-			if ( match[1] === '[' && match[7] === ']' )
+			if ( '[' === match[1] && ']' === match[7] ) {
 				return wp.shortcode.next( tag, text, re.lastIndex );
+			}
 
 			result = {
 				index:     match.index,
@@ -35,13 +37,14 @@ window.wp = window.wp || {};
 			// If we matched a leading `[`, strip it from the match
 			// and increment the index accordingly.
 			if ( match[1] ) {
-				result.match = result.match.slice( 1 );
+				result.content = result.content.slice( 1 );
 				result.index++;
 			}
 
 			// If we matched a trailing `]`, strip it from the match.
-			if ( match[7] )
-				result.match = result.match.slice( 0, -1 );
+			if ( match[7] ) {
+				result.content = result.content.slice( 0, -1 );
+			}
 
 			return result;
 		},
@@ -56,11 +59,12 @@ window.wp = window.wp || {};
 		// a shortcode `attrs` object, the `content` between shortcode tags,
 		// and a boolean flag to indicate if the match was a `single` tag.
 		replace: function( tag, text, callback ) {
-			return text.replace( wp.shortcode.regexp( tag ), function( match, left, tag, attrs, slash, content, closing, right, offset ) {
+			return text.replace( wp.shortcode.regexp( tag ), function( match, left, tag, attrs, slash, content, closing, right ) {
 				// If both extra brackets exist, the shortcode has been
 				// properly escaped.
-				if ( left === '[' && right === ']' )
+				if ( left === '[' && right === ']' ) {
 					return match;
+				}
 
 				// Create the match object and pass it through the callback.
 				var result = callback( wp.shortcode.fromMatch( arguments ) );
@@ -98,7 +102,7 @@ window.wp = window.wp || {};
 		// 6. The closing tag.
 		// 7. An extra `]` to allow for escaping shortcodes with double `[[]]`
 		regexp: _.memoize( function( tag ) {
-			return new RegExp( '\\[(\\[?)(' + tag + ')\\b([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)', 'g' );
+			return new RegExp( '\\[(\\[?)(' + tag + ')(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*(?:\\[(?!\\/\\2\\])[^\\[]*)*)(\\[\\/\\2\\]))?)(\\]?)', 'g' );
 		}),
 
 
@@ -131,7 +135,7 @@ window.wp = window.wp || {};
 			// 6. an unquoted value.
 			// 7. A numeric attribute in double quotes.
 			// 8. An unquoted numeric attribute.
-			pattern = /(\w+)\s*=\s*"([^"]*)"(?:\s|$)|(\w+)\s*=\s*\'([^\']*)\'(?:\s|$)|(\w+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/g;
+			pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/g;
 
 			// Map zero-width spaces to actual spaces.
 			text = text.replace( /[\u00a0\u200b]/g, ' ' );
@@ -164,12 +168,13 @@ window.wp = window.wp || {};
 		fromMatch: function( match ) {
 			var type;
 
-			if ( match[4] )
+			if ( match[4] ) {
 				type = 'self-closing';
-			else if ( match[6] )
+			} else if ( match[6] ) {
 				type = 'closed';
-			else
+			} else {
 				type = 'single';
+			}
 
 			return new wp.shortcode({
 				tag:     match[2],
@@ -202,8 +207,9 @@ window.wp = window.wp || {};
 			numeric: []
 		};
 
-		if ( ! attrs )
+		if ( ! attrs ) {
 			return;
+		}
 
 		// Parse a string of attributes.
 		if ( _.isString( attrs ) ) {
@@ -244,10 +250,11 @@ window.wp = window.wp || {};
 			var text    = '[' + this.tag;
 
 			_.each( this.attrs.numeric, function( value ) {
-				if ( /\s/.test( value ) )
+				if ( /\s/.test( value ) ) {
 					text += ' "' + value + '"';
-				else
+				} else {
 					text += ' ' + value;
+				}
 			});
 
 			_.each( this.attrs.named, function( value, name ) {
@@ -256,19 +263,89 @@ window.wp = window.wp || {};
 
 			// If the tag is marked as `single` or `self-closing`, close the
 			// tag and ignore any additional content.
-			if ( 'single' === this.type )
+			if ( 'single' === this.type ) {
 				return text + ']';
-			else if ( 'self-closing' === this.type )
+			} else if ( 'self-closing' === this.type ) {
 				return text + ' /]';
+			}
 
 			// Complete the opening tag.
 			text += ']';
 
-			if ( this.content )
+			if ( this.content ) {
 				text += this.content;
+			}
 
 			// Add the closing tag.
 			return text + '[/' + this.tag + ']';
+		}
+	});
+}());
+
+// HTML utility functions
+// ----------------------
+//
+// Experimental. These functions may change or be removed in the future.
+(function(){
+	wp.html = _.extend( wp.html || {}, {
+		// ### Parse HTML attributes.
+		//
+		// Converts `content` to a set of parsed HTML attributes.
+		// Utilizes `wp.shortcode.attrs( content )`, which is a valid superset of
+		// the HTML attribute specification. Reformats the attributes into an
+		// object that contains the `attrs` with `key:value` mapping, and a record
+		// of the attributes that were entered using `empty` attribute syntax (i.e.
+		// with no value).
+		attrs: function( content ) {
+			var result, attrs;
+
+			// If `content` ends in a slash, strip it.
+			if ( '/' === content[ content.length - 1 ] ) {
+				content = content.slice( 0, -1 );
+			}
+
+			result = wp.shortcode.attrs( content );
+			attrs  = result.named;
+
+			_.each( result.numeric, function( key ) {
+				if ( /\s/.test( key ) ) {
+					return;
+				}
+
+				attrs[ key ] = '';
+			});
+
+			return attrs;
+		},
+
+		// ### Convert an HTML-representation of an object to a string.
+		string: function( options ) {
+			var text = '<' + options.tag,
+				content = options.content || '';
+
+			_.each( options.attrs, function( value, attr ) {
+				text += ' ' + attr;
+
+				// Convert boolean values to strings.
+				if ( _.isBoolean( value ) ) {
+					value = value ? 'true' : 'false';
+				}
+
+				text += '="' + value + '"';
+			});
+
+			// Return the result if it is a self-closing tag.
+			if ( options.single ) {
+				return text + ' />';
+			}
+
+			// Complete the opening tag.
+			text += '>';
+
+			// If `content` is an object, recursively call this function.
+			text += _.isObject( content ) ? wp.html.string( content ) : content;
+
+			return text + '</' + options.tag + '>';
 		}
 	});
 }());

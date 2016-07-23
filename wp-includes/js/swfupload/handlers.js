@@ -15,7 +15,12 @@ function fileQueued(fileObj) {
 		jQuery('.slidetoggle').slideUp(200).siblings().removeClass('hidden');
 	}
 	// Create a progress bar containing the filename
-	jQuery('#media-items').append('<div id="media-item-' + fileObj.id + '" class="media-item child-of-' + post_id + '"><div class="progress"><div class="bar"></div></div><div class="filename original"><span class="percent"></span> ' + fileObj.name + '</div></div>');
+	jQuery('<div class="media-item">')
+		.attr( 'id', 'media-item-' + fileObj.id )
+		.addClass('child-of-' + post_id)
+		.append('<div class="progress"><div class="bar"></div></div>',
+			jQuery('<div class="filename original"><span class="percent"></span>').text( ' ' + fileObj.name ))
+		.appendTo( jQuery('#media-items' ) );
 	// Display the progress div
 	jQuery('.progress', '#media-item-' + fileObj.id).show();
 
@@ -27,7 +32,7 @@ function fileQueued(fileObj) {
 function uploadStart(fileObj) {
 	try {
 		if ( typeof topWin.tb_remove != 'undefined' )
-			topWin.jQuery('#TB_overlay').unbind('click', topWin.tb_remove); 
+			topWin.jQuery('#TB_overlay').unbind('click', topWin.tb_remove);
 	} catch(e){}
 
 	return true;
@@ -207,11 +212,12 @@ function updateMediaForm() {
 	else
 		jQuery('.savebutton').hide();
 
-	// Only show Gallery button when there are at least two files.
-	if ( items.length > 1 )
+	// Only show Gallery buttons when there are at least two files.
+	if ( items.length > 1 ) {
 		jQuery('.insert-gallery').show();
-	else
+	} else {
 		jQuery('.insert-gallery').hide();
+	}
 }
 
 function uploadSuccess(fileObj, serverData) {

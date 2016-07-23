@@ -1,0 +1,12 @@
+.customize-partial-refreshing {
+	opacity: 0.25;
+	-webkit-transition: opacity 0.25s;
+	transition: opacity 0.25s;
+	cursor: progress;
+}
+
+/* Override highlight when refreshing */
+.customize-partial-refreshing.widget-customizer-highlighted-widget {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}

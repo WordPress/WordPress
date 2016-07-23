@@ -7,7 +7,7 @@
 	<supportsKeywords>Yes</supportsKeywords>
 	<supportsGetTags>Yes</supportsGetTags>
   </options>
-  
+
   <weblog>
     <serviceName>WordPress</serviceName>
     <imageUrl>images/wlw/wp-icon.png</imageUrl>
@@ -15,13 +15,13 @@
     <homepageLinkText>View site</homepageLinkText>
     <adminLinkText>Dashboard</adminLinkText>
     <adminUrl>
-      <![CDATA[ 
-			{blog-postapi-url}/../wp-admin/ 
+      <![CDATA[
+			{blog-postapi-url}/../wp-admin/
 		]]>
     </adminUrl>
     <postEditingUrl>
-      <![CDATA[ 
-			{blog-postapi-url}/../wp-admin/post.php?action=edit&post={post-id} 
+      <![CDATA[
+			{blog-postapi-url}/../wp-admin/post.php?action=edit&post={post-id}
 		]]>
     </postEditingUrl>
   </weblog>
@@ -32,7 +32,7 @@
       <text>Manage Comments</text>
       <imageUrl>images/wlw/wp-comments.png</imageUrl>
       <clickUrl>
-        <![CDATA[ 
+        <![CDATA[
 				{blog-postapi-url}/../wp-admin/edit-comments.php
 			]]>
       </clickUrl>

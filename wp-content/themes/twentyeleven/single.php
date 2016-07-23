@@ -1,6 +1,6 @@
 <?php
 /**
- * The Template for displaying all single posts.
+ * Template for displaying all single posts
  *
  * @package WordPress
  * @subpackage Twenty_Eleven

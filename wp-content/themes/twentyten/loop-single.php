@@ -1,10 +1,10 @@
 <?php
 /**
- * The loop that displays a single post.
+ * The loop that displays a single post
  *
  * The loop displays the posts and the post content. See
- * http://codex.wordpress.org/The_Loop to understand it and
- * http://codex.wordpress.org/Template_Tags to understand
+ * https://codex.wordpress.org/The_Loop to understand it and
+ * https://codex.wordpress.org/Template_Tags to understand
  * the tags used in it.
  *
  * This can be overridden in child themes with loop-single.php.
@@ -37,13 +37,16 @@
 <?php if ( get_the_author_meta( 'description' ) ) : // If a user has filled out their description, show a bio on their entries  ?>
 					<div id="entry-author-info">
 						<div id="author-avatar">
-							<?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyten_author_bio_avatar_size', 60 ) ); ?>
+							<?php
+							/** This filter is documented in author.php */
+							echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyten_author_bio_avatar_size', 60 ) );
+							?>
 						</div><!-- #author-avatar -->
 						<div id="author-description">
 							<h2><?php printf( __( 'About %s', 'twentyten' ), get_the_author() ); ?></h2>
 							<?php the_author_meta( 'description' ); ?>
 							<div id="author-link">
-								<a href="<?php echo get_author_posts_url( get_the_author_meta( 'ID' ) ); ?>" rel="author">
+								<a href="<?php echo esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ); ?>" rel="author">
 									<?php printf( __( 'View all posts by %s <span class="meta-nav">&rarr;</span>', 'twentyten' ), get_the_author() ); ?>
 								</a>
 							</div><!-- #author-link	-->

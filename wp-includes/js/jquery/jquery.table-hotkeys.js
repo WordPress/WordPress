@@ -8,7 +8,7 @@
 				p = p.parent();
 			}
 			return true;
-		}
+		};
 		return this.filter(is_visible);
 	};
 	$.table_hotkeys = function(table, keys, opts) {
@@ -16,7 +16,7 @@
 		var selected_class, destructive_class, set_current_row, adjacent_row_callback, get_adjacent_row, adjacent_row, prev_row, next_row, check, get_first_row, get_last_row, make_key_callback, first_row;
 		
 		selected_class = opts.class_prefix + opts.selected_suffix;
-		destructive_class = opts.class_prefix + opts.destructive_suffix
+		destructive_class = opts.class_prefix + opts.destructive_suffix;
 		set_current_row = function (tr) {
 			if ($.table_hotkeys.current_row) $.table_hotkeys.current_row.removeClass(selected_class);
 			tr.addClass(selected_class);
@@ -66,7 +66,7 @@
 				if (!clickable.length) return false;
 				if (clickable.is('.'+destructive_class)) next_row() || prev_row();
 				clickable.click();
-			}
+			};
 		};
 		first_row = get_first_row();
 		if (!first_row.length) return;
@@ -74,8 +74,8 @@
 			set_current_row(first_row);
 		else if (opts.highlight_last)
 			set_current_row(get_last_row());
-		$.hotkeys.add(opts.prev_key, opts.hotkeys_opts, function() {return adjacent_row_callback('prev')});
-		$.hotkeys.add(opts.next_key, opts.hotkeys_opts, function() {return adjacent_row_callback('next')});
+		$.hotkeys.add(opts.prev_key, opts.hotkeys_opts, function() {return adjacent_row_callback('prev');});
+		$.hotkeys.add(opts.next_key, opts.hotkeys_opts, function() {return adjacent_row_callback('next');});
 		$.hotkeys.add(opts.mark_key, opts.hotkeys_opts, check);
 		$.each(keys, function() {
 			var callback, key;

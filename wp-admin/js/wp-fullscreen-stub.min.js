@@ -1,0 +1,1 @@
+!function(){var a=function(){};window.wp=window.wp||{},window.wp.editor=window.wp.editor||{},window.wp.editor.fullscreen={bind_resize:a,dfwWidth:a,off:a,on:a,refreshButtons:a,resizeTextarea:a,save:a,switchmode:a,toggleUI:a,settings:{},pubsub:{publish:a,subscribe:a,unsubscribe:a,topics:{}},fade:{In:a,Out:a},ui:{fade:a,init:a}}}();

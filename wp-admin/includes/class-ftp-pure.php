@@ -3,13 +3,13 @@
  * PemFTP - A Ftp implementation in pure PHP
  *
  * @package PemFTP
- * @since 2.5
+ * @since 2.5.0
  *
  * @version 1.0
  * @copyright Alexey Dotsenko
  * @author Alexey Dotsenko
  * @link http://www.phpclasses.org/browse/package/1743.html Site
- * @license LGPL License http://www.opensource.org/licenses/lgpl-license.html
+ * @license LGPL http://www.opensource.org/licenses/lgpl-license.html
  */
 
 /**
@@ -17,22 +17,22 @@
  *
  * @package PemFTP
  * @subpackage Pure
- * @since 2.5
+ * @since 2.5.0
  *
  * @version 1.0
  * @copyright Alexey Dotsenko
  * @author Alexey Dotsenko
  * @link http://www.phpclasses.org/browse/package/1743.html Site
- * @license LGPL License http://www.opensource.org/licenses/lgpl-license.html
+ * @license LGPL http://www.opensource.org/licenses/lgpl-license.html
  */
 class ftp extends ftp_base {
 
-	function ftp($verb=FALSE, $le=FALSE) {
-		$this->__construct($verb, $le);
-	}
-
 	function __construct($verb=FALSE, $le=FALSE) {
 		parent::__construct(false, $verb, $le);
+	}
+
+	function ftp($verb=FALSE, $le=FALSE) {
+		$this->__construct($verb, $le);
 	}
 
 // <!-- --------------------------------------------------------------------------------------- -->
@@ -110,7 +110,7 @@ class ftp extends ftp_base {
 				$this->_data_close();
 				return FALSE;
 			}
-			$ip_port = explode(",", ereg_replace("^.+ \\(?([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]+,[0-9]+)\\)?.*".CRLF."$", "\\1", $this->_message));
+			$ip_port = explode(",", preg_replace("/^.+ \\(?([0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]{1,3},[0-9]+,[0-9]+)\\)?.*$/s", "\\1", $this->_message));
 			$this->_datahost=$ip_port[0].".".$ip_port[1].".".$ip_port[2].".".$ip_port[3];
             $this->_dataport=(((int)$ip_port[4])<<8) + ((int)$ip_port[5]);
 			$this->SendMSG("Connecting to ".$this->_datahost.":".$this->_dataport);

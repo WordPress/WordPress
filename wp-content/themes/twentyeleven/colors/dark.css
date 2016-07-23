@@ -35,12 +35,12 @@ ins {
 	background: #00063f;
 }
 input[type=text],
-.post-password-required input[type=password],
+input[type=password],
+input[type=email],
+input[type=url],
+input[type=number],
 textarea {
 	border: 1px solid #222;
-}
-input[type=text]:focus,
-textarea:focus {
 }
 input#s {
 	background-color: #ddd;

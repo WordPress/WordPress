@@ -1,6 +1,6 @@
 <?php
 /**
- * The Sidebar containing the main widget area.
+ * Sidebar containing the main widget area
  *
  * @package WordPress
  * @subpackage Twenty_Eleven

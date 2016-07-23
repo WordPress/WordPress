@@ -1,26 +1,31 @@
 /**
- * navigation.js
- *
- * Handles toggling the navigation menu for small screens.
+ * Handles toggling the navigation menu for small screens and
+ * accessibility for submenu items.
  */
 ( function() {
-	var button = document.getElementById( 'site-navigation' ).getElementsByTagName( 'h3' )[0],
-	    menu   = document.getElementById( 'site-navigation' ).getElementsByTagName( 'ul' )[0];
+	var nav = document.getElementById( 'site-navigation' ), button, menu;
+	if ( ! nav ) {
+		return;
+	}
 
-	if ( undefined === button )
-		return false;
+	button = nav.getElementsByTagName( 'button' )[0];
+	menu   = nav.getElementsByTagName( 'ul' )[0];
+	if ( ! button ) {
+		return;
+	}
 
 	// Hide button if menu is missing or empty.
-	if ( undefined === menu || ! menu.childNodes.length ) {
+	if ( ! menu || ! menu.childNodes.length ) {
 		button.style.display = 'none';
-		return false;
+		return;
 	}
 
 	button.onclick = function() {
-		if ( -1 == menu.className.indexOf( 'nav-menu' ) )
+		if ( -1 === menu.className.indexOf( 'nav-menu' ) ) {
 			menu.className = 'nav-menu';
+		}
 
-		if ( -1 != button.className.indexOf( 'toggled-on' ) ) {
+		if ( -1 !== button.className.indexOf( 'toggled-on' ) ) {
 			button.className = button.className.replace( ' toggled-on', '' );
 			menu.className = menu.className.replace( ' toggled-on', '' );
 		} else {
@@ -29,3 +34,22 @@
 		}
 	};
 } )();
+
+// Better focus for hidden submenu items for accessibility.
+( function( $ ) {
+	$( '.main-navigation' ).find( 'a' ).on( 'focus.twentytwelve blur.twentytwelve', function() {
+		$( this ).parents( '.menu-item, .page_item' ).toggleClass( 'focus' );
+	} );
+
+  if ( 'ontouchstart' in window ) {
+    $('body').on( 'touchstart.twentytwelve',  '.menu-item-has-children > a, .page_item_has_children > a', function( e ) {
+      var el = $( this ).parent( 'li' );
+
+      if ( ! el.hasClass( 'focus' ) ) {
+        e.preventDefault();
+        el.toggleClass( 'focus' );
+        el.siblings( '.focus').removeClass( 'focus' );
+      }
+    } );
+  }
+} )( jQuery );

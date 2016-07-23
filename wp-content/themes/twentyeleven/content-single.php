@@ -54,7 +54,10 @@
 		<?php if ( get_the_author_meta( 'description' ) && ( ! function_exists( 'is_multi_author' ) || is_multi_author() ) ) : // If a user has filled out their description and this is a multi-author blog, show a bio on their entries ?>
 		<div id="author-info">
 			<div id="author-avatar">
-				<?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyeleven_author_bio_avatar_size', 68 ) ); ?>
+				<?php
+				/** This filter is documented in author.php */
+				echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyeleven_author_bio_avatar_size', 68 ) );
+				?>
 			</div><!-- #author-avatar -->
 			<div id="author-description">
 				<h2><?php printf( __( 'About %s', 'twentyeleven' ), get_the_author() ); ?></h2>

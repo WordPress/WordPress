@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3
+ * @version 1.3.1
  * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
@@ -390,8 +390,8 @@ class SimplePie_IRI
 		}
 		else
 		{
-			trigger_error('This should never happen', E_USER_ERROR);
-			die;
+			// This can occur when a paragraph is accidentally parsed as a URI
+			return false;
 		}
 	}
 
@@ -824,6 +824,10 @@ class SimplePie_IRI
 		else
 		{
 			$parsed = $this->parse_iri((string) $iri);
+			if (!$parsed)
+			{
+				return false;
+			}
 
 			$return = $this->set_scheme($parsed['scheme'])
 				&& $this->set_authority($parsed['authority'])

@@ -1,3 +1,5 @@
+/* global postboxes, deleteUserSetting, setUserSetting, getUserSetting */
+
 jQuery(document).ready( function($) {
 
 	var newCat, noSyncChecks = false, syncChecks, catAddAfter;
@@ -22,14 +24,14 @@ jQuery(document).ready( function($) {
 		$('#category-tabs a[href="#categories-pop"]').click();
 
 	// Ajax Cat
-	newCat = $('#newcat').one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ) } );
+	newCat = $('#newcat').one( 'focus', function() { $(this).val( '' ).removeClass( 'form-input-tip' ); } );
 	$('#link-category-add-submit').click( function() { newCat.focus(); } );
 	syncChecks = function() {
 		if ( noSyncChecks )
 			return;
 		noSyncChecks = true;
 		var th = $(this), c = th.is(':checked'), id = th.val().toString();
-		$('#in-link-category-' + id + ', #in-popular-category-' + id).prop( 'checked', c );
+		$('#in-link-category-' + id + ', #in-popular-link_category-' + id).prop( 'checked', c );
 		noSyncChecks = false;
 	};
 

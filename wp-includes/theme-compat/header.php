@@ -2,24 +2,31 @@
 /**
  * @package WordPress
  * @subpackage Theme_Compat
- * @deprecated 3.0
+ * @deprecated 3.0.0
  *
- * This file is here for Backwards compatibility with old themes and will be removed in a future version
- *
+ * This file is here for backward compatibility with old themes and will be removed in a future version.
  */
-_deprecated_file( sprintf( __( 'Theme without %1$s' ), basename(__FILE__) ), '3.0', null, sprintf( __('Please include a %1$s template in your theme.'), basename(__FILE__) ) );
+_deprecated_file(
+	/* translators: %s: template name */
+	sprintf( __( 'Theme without %s' ), basename( __FILE__ ) ),
+	'3.0.0',
+	null,
+	/* translators: %s: template name */
+	sprintf( __( 'Please include a %s template in your theme.' ), basename( __FILE__ ) )
+);
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" <?php language_attributes(); ?>>
-
-<head profile="http://gmpg.org/xfn/11">
+<head>
+<link rel="profile" href="http://gmpg.org/xfn/11" />
 <meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
 
-<title><?php wp_title('&laquo;', true, 'right'); ?> <?php bloginfo('name'); ?></title>
+<title><?php echo wp_get_document_title(); ?></title>
 
 <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>" type="text/css" media="screen" />
 <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 
+<?php if ( file_exists( get_stylesheet_directory() . '/images/kubrickbgwide.jpg' ) ) { ?>
 <style type="text/css" media="screen">
 
 <?php
@@ -32,6 +39,7 @@ if ( empty($withcomments) && !is_single() ) {
 <?php } ?>
 
 </style>
+<?php } ?>
 
 <?php if ( is_singular() ) wp_enqueue_script( 'comment-reply' ); ?>
 

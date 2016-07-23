@@ -8,6 +8,6 @@
  */
 
 /** Load WordPress Administration Bootstrap */
-require_once( './admin.php' );
+require_once( dirname( __FILE__ ) . '/admin.php' );
 
-require( '../freedoms.php' );
+require( ABSPATH . 'wp-admin/freedoms.php' );

@@ -2,7 +2,7 @@
 /**
  * Disable error reporting
  *
- * Set this to error_reporting( E_ALL ) or error_reporting( E_ALL | E_STRICT ) for debugging
+ * Set this to error_reporting( -1 ) for debugging.
  */
 error_reporting(0);
 
@@ -19,9 +19,9 @@ function get_file($path) {
 	return @file_get_contents($path);
 }
 
-$expires_offset = 31536000;
+$expires_offset = 31536000; // 1 year
 
-header('Content-Type: application/x-javascript; charset=UTF-8');
+header('Content-Type: application/javascript; charset=UTF-8');
 header('Vary: Accept-Encoding'); // Handle proxies
 header('Expires: ' . gmdate( "D, d M Y H:i:s", time() + $expires_offset ) . ' GMT');
 header("Cache-Control: public, max-age=$expires_offset");
@@ -32,6 +32,8 @@ if ( isset($_GET['c']) && 1 == $_GET['c'] && isset($_SERVER['HTTP_ACCEPT_ENCODIN
 	header('Content-Encoding: gzip');
 	echo $file;
 } else {
-	echo get_file($basepath . '/tiny_mce.js');
+	// Back compat. This file shouldn't be used if this condition can occur (as in, if gzip isn't accepted).
+	echo get_file( $basepath . '/tinymce.min.js' );
+	echo get_file( $basepath . '/plugins/compat3x/plugin.min.js' );
 }
 exit;

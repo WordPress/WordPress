@@ -1,17 +1,18 @@
 /*
 Theme Name: Twenty Ten
-Theme URI: http://wordpress.org/
+Theme URI: https://wordpress.org/themes/twentyten/
 Description: The 2010 theme for WordPress is stylish, customizable, simple, and readable -- make it yours with a custom menu, header image, and background. Twenty Ten supports six widgetized areas (two in the sidebar, four in the footer) and featured images (thumbnails for gallery posts and custom header images for posts and pages). It includes stylesheets for print and the admin Visual Editor, special styles for posts in the "Asides" and "Gallery" categories, and has an optional one-column page template that removes the sidebar.
 Author: the WordPress team
-Version: 1.4
+Author URI: https://wordpress.org/
+Version: 2.1
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: black, blue, white, two-columns, fixed-width, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu, flexible-header
+Tags: black, blue, white, two-columns, fixed-layout, custom-header, custom-background, threaded-comments, sticky-post, translation-ready, microformats, rtl-language-support, editor-style, custom-menu, flexible-header, featured-images, featured-image-header
 Text Domain: twentyten
 */
 
 
-/* =Reset default browser CSS. Based on work by Eric Meyer: http://meyerweb.com/eric/tools/css/reset/index.html
+/* =Reset default browser CSS. Based on work by Eric Meyer.
 -------------------------------------------------------------- */
 
 html, body, div, span, applet, object, iframe,
@@ -145,7 +146,7 @@ h3#reply-title,
 .wp-caption-text {
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
-input[type=submit] {
+input[type="submit"] {
 	font-family: "Helvetica Neue", Arial, Helvetica, "Nimbus Sans L", sans-serif;
 }
 pre {
@@ -307,7 +308,14 @@ sup {
 sub {
 	top: .5ex;
 }
+small {
+	font-size: smaller;
+}
 input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="number"],
 textarea {
 	background: #f9f9f9;
 	border: 1px solid #ccc;
@@ -329,8 +337,11 @@ a:hover {
 
 /* Text meant only for screen readers */
 .screen-reader-text {
-	position: absolute;
-	left: -9000px;
+	clip: rect(1px, 1px, 1px, 1px);
+	overflow: hidden;
+	position: absolute !important;
+	height: 1px;
+	width: 1px;
 }
 
 
@@ -437,12 +448,14 @@ div.menu li {
 	display: block;
 }
 #access ul li.current_page_item > a,
+#access ul li.current_page_ancestor > a,
 #access ul li.current-menu-ancestor > a,
 #access ul li.current-menu-item > a,
 #access ul li.current-menu-parent > a {
 	color: #fff;
 }
 * html #access ul li.current_page_item a,
+* html #access ul li.current_page_ancestor a,
 * html #access ul li.current-menu-ancestor a,
 * html #access ul li.current-menu-item a,
 * html #access ul li.current-menu-parent a,
@@ -515,7 +528,7 @@ div.menu li {
 }
 #content tr th,
 #content thead th {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	font-weight: bold;
 	line-height: 18px;
@@ -555,7 +568,7 @@ div.menu li {
 }
 .page-title a:link,
 .page-title a:visited {
-	color: #888;
+	color: #777;
 	text-decoration: none;
 }
 .page-title a:active,
@@ -579,7 +592,7 @@ div.menu li {
 	color: #ff4b33;
 }
 .entry-meta {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 }
 .entry-meta abbr,
@@ -594,6 +607,9 @@ div.menu li {
 .entry-summary {
 	clear: both;
 	padding: 12px 0 0 0;
+}
+.entry-content .more-link {
+	white-space: nowrap;
 }
 #content .entry-summary p:last-child {
 	margin-bottom: 12px;
@@ -617,7 +633,7 @@ div.menu li {
 	margin-right: 24px;
 }
 .entry-content label {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 }
 .entry-content select {
@@ -645,7 +661,7 @@ div.menu li {
 	clear: both;
 	color: #000;
 	font-weight: bold;
-	margin: 0 0 22px 0;
+	line-height: 48px;
 	word-spacing: 0.5em;
 }
 .page-link a:link,
@@ -697,13 +713,13 @@ body.page .edit-link {
 }
 .entry-utility {
 	clear: both;
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	line-height: 18px;
 }
 .entry-meta a,
 .entry-utility a {
-	color: #888;
+	color: #777;
 }
 .entry-meta a:hover,
 .entry-utility a:hover {
@@ -712,7 +728,12 @@ body.page .edit-link {
 #content .video-player {
 	padding: 0;
 }
-
+.format-standard .wp-video,
+.format-standard .wp-audio-shortcode,
+.format-audio .wp-audio-shortcode,
+.format-standard .video-player {
+	margin-bottom: 24px;
+}
 
 /* =Asides
 -------------------------------------------------------------- */
@@ -781,7 +802,8 @@ img.size-auto,
 img.size-full,
 img.size-large,
 img.size-medium,
-.attachment img {
+.attachment img,
+.widget-container img {
 	max-width: 100%; /* When images are too wide for containing element, force them to fit. */
 	height: auto; /* Override height to match resized width for correct aspect ratio. */
 }
@@ -821,9 +843,10 @@ img.aligncenter {
 }
 .wp-caption img {
 	margin: 5px 5px 0;
+	max-width: 622px; /* caption width - 10px */
 }
 .wp-caption p.wp-caption-text {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	margin: 5px;
 }
@@ -857,7 +880,7 @@ img.aligncenter {
 	height: auto;
 }
 .gallery .gallery-caption {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	margin: 0 0 12px;
 }
@@ -880,14 +903,14 @@ img.aligncenter {
 -------------------------------------------------------------- */
 
 .navigation {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	line-height: 18px;
 	overflow: hidden;
 }
 .navigation a:link,
 .navigation a:visited {
-	color: #888;
+	color: #777;
 	text-decoration: none;
 }
 .navigation a:active,
@@ -985,7 +1008,7 @@ h3#comments-title {
 }
 .comment-meta a:link,
 .comment-meta a:visited {
-	color: #888;
+	color: #777;
 	text-decoration: none;
 }
 .comment-meta a:active,
@@ -1002,7 +1025,7 @@ h3#comments-title {
 }
 .reply a,
 a.comment-edit-link {
-	color: #888;
+	color: #777;
 }
 .reply a:hover,
 a.comment-edit-link:hover {
@@ -1029,7 +1052,7 @@ a.comment-edit-link:hover {
 	margin-top: -6px;
 }
 #comments .pingback p {
-	color: #888;
+	color: #777;
 	display: block;
 	font-size: 12px;
 	line-height: 18px;
@@ -1041,7 +1064,7 @@ a.comment-edit-link:hover {
 }
 
 /* Comments form */
-input[type=submit] {
+input[type="submit"] {
 	color: #333;
 }
 #respond {
@@ -1081,7 +1104,7 @@ h3#reply-title {
 	font-weight: bold;
 }
 #respond label {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 }
 #respond input {
@@ -1092,7 +1115,7 @@ h3#reply-title {
 	width: 98%;
 }
 #respond .form-allowed-tags {
-	color: #888;
+	color: #777;
 	font-size: 12px;
 	line-height: 18px;
 }
@@ -1129,7 +1152,14 @@ h3#reply-title {
 	display: none;
 }
 .widget-container {
+	word-wrap: break-word;
+	-webkit-hyphens: auto;
+	-moz-hyphens: auto;
+	hyphens: auto;
 	margin: 0 0 18px 0;
+}
+.widget-container .wp-caption img {
+	margin: auto;
 }
 .widget-title {
 	color: #222;

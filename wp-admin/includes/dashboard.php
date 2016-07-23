@@ -12,16 +12,15 @@
  * Handles POST data, sets up filters.
  *
  * @since 2.5.0
+ *
+ * @global array $wp_registered_widgets
+ * @global array $wp_registered_widget_controls
+ * @global array $wp_dashboard_control_callbacks
  */
 function wp_dashboard_setup() {
 	global $wp_registered_widgets, $wp_registered_widget_controls, $wp_dashboard_control_callbacks;
 	$wp_dashboard_control_callbacks = array();
 	$screen = get_current_screen();
-
-	$update = false;
-	$widget_options = get_option( 'dashboard_widget_options' );
-	if ( !$widget_options || !is_array($widget_options) )
-		$widget_options = array();
 
 	/* Register Widgets and Controls */
 
@@ -37,91 +36,75 @@ function wp_dashboard_setup() {
 
 	// Right Now
 	if ( is_blog_admin() && current_user_can('edit_posts') )
-		wp_add_dashboard_widget( 'dashboard_right_now', __( 'Right Now' ), 'wp_dashboard_right_now' );
+		wp_add_dashboard_widget( 'dashboard_right_now', __( 'At a Glance' ), 'wp_dashboard_right_now' );
 
 	if ( is_network_admin() )
 		wp_add_dashboard_widget( 'network_dashboard_right_now', __( 'Right Now' ), 'wp_network_dashboard_right_now' );
 
-	// Recent Comments Widget
-	if ( is_blog_admin() && current_user_can('moderate_comments') ) {
-		if ( !isset( $widget_options['dashboard_recent_comments'] ) || !isset( $widget_options['dashboard_recent_comments']['items'] ) ) {
-			$update = true;
-			$widget_options['dashboard_recent_comments'] = array(
-				'items' => 5,
-			);
-		}
-		$recent_comments_title = __( 'Recent Comments' );
-		wp_add_dashboard_widget( 'dashboard_recent_comments', $recent_comments_title, 'wp_dashboard_recent_comments', 'wp_dashboard_recent_comments_control' );
+	// Activity Widget
+	if ( is_blog_admin() ) {
+		wp_add_dashboard_widget( 'dashboard_activity', __( 'Activity' ), 'wp_dashboard_site_activity' );
 	}
-
-	// Incoming Links Widget
-	if ( is_blog_admin() && current_user_can('publish_posts') ) {
-		if ( !isset( $widget_options['dashboard_incoming_links'] ) || !isset( $widget_options['dashboard_incoming_links']['home'] ) || $widget_options['dashboard_incoming_links']['home'] != get_option('home') ) {
-			$update = true;
-			$num_items = isset($widget_options['dashboard_incoming_links']['items']) ? $widget_options['dashboard_incoming_links']['items'] : 10;
-			$widget_options['dashboard_incoming_links'] = array(
-				'home' => get_option('home'),
-				'link' => apply_filters( 'dashboard_incoming_links_link', 'http://blogsearch.google.com/blogsearch?scoring=d&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) ),
-				'url' => isset($widget_options['dashboard_incoming_links']['url']) ? apply_filters( 'dashboard_incoming_links_feed', $widget_options['dashboard_incoming_links']['url'] ) : apply_filters( 'dashboard_incoming_links_feed', 'http://blogsearch.google.com/blogsearch_feeds?scoring=d&ie=utf-8&num=' . $num_items . '&output=rss&partner=wordpress&q=link:' . trailingslashit( get_option('home') ) ),
-				'items' => $num_items,
-				'show_date' => isset($widget_options['dashboard_incoming_links']['show_date']) ? $widget_options['dashboard_incoming_links']['show_date'] : false
-			);
-		}
-		wp_add_dashboard_widget( 'dashboard_incoming_links', __( 'Incoming Links' ), 'wp_dashboard_incoming_links', 'wp_dashboard_incoming_links_control' );
-	}
-
-	// WP Plugins Widget
-	if ( ( ! is_multisite() && is_blog_admin() && current_user_can( 'install_plugins' ) ) || ( is_network_admin() && current_user_can( 'manage_network_plugins' ) && current_user_can( 'install_plugins' ) ) )
-		wp_add_dashboard_widget( 'dashboard_plugins', __( 'Plugins' ), 'wp_dashboard_plugins' );
 
 	// QuickPress Widget
-	if ( is_blog_admin() && current_user_can('edit_posts') )
-		wp_add_dashboard_widget( 'dashboard_quick_press', __( 'QuickPress' ), 'wp_dashboard_quick_press' );
-
-	// Recent Drafts
-	if ( is_blog_admin() && current_user_can('edit_posts') )
-		wp_add_dashboard_widget( 'dashboard_recent_drafts', __('Recent Drafts'), 'wp_dashboard_recent_drafts' );
-
-	// Primary feed (Dev Blog) Widget
-	if ( !isset( $widget_options['dashboard_primary'] ) ) {
-		$update = true;
-		$widget_options['dashboard_primary'] = array(
-			'link' => apply_filters( 'dashboard_primary_link', __( 'http://wordpress.org/news/' ) ),
-			'url' => apply_filters( 'dashboard_primary_feed', __( 'http://wordpress.org/news/feed/' ) ),
-			'title' => apply_filters( 'dashboard_primary_title', __( 'WordPress Blog' ) ),
-			'items' => 2,
-			'show_summary' => 1,
-			'show_author' => 0,
-			'show_date' => 1,
-		);
+	if ( is_blog_admin() && current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
+		$quick_draft_title = sprintf( '<span class="hide-if-no-js">%1$s</span> <span class="hide-if-js">%2$s</span>', __( 'Quick Draft' ), __( 'Drafts' ) );
+		wp_add_dashboard_widget( 'dashboard_quick_press', $quick_draft_title, 'wp_dashboard_quick_press' );
 	}
-	wp_add_dashboard_widget( 'dashboard_primary', $widget_options['dashboard_primary']['title'], 'wp_dashboard_primary', 'wp_dashboard_primary_control' );
 
-	// Secondary Feed (Planet) Widget
-	if ( !isset( $widget_options['dashboard_secondary'] ) ) {
-		$update = true;
-		$widget_options['dashboard_secondary'] = array(
-			'link' => apply_filters( 'dashboard_secondary_link', __( 'http://planet.wordpress.org/' ) ),
-			'url' => apply_filters( 'dashboard_secondary_feed', __( 'http://planet.wordpress.org/feed/' ) ),
-			'title' => apply_filters( 'dashboard_secondary_title', __( 'Other WordPress News' ) ),
-			'items' => 5,
-			'show_summary' => 0,
-			'show_author' => 0,
-			'show_date' => 0,
-		);
-	}
-	wp_add_dashboard_widget( 'dashboard_secondary', $widget_options['dashboard_secondary']['title'], 'wp_dashboard_secondary', 'wp_dashboard_secondary_control' );
+	// WordPress News
+	wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress News' ), 'wp_dashboard_primary' );
 
-	// Hook to register new widgets
-	// Filter widget order
 	if ( is_network_admin() ) {
+
+		/**
+		 * Fires after core widgets for the Network Admin dashboard have been registered.
+		 *
+		 * @since 3.1.0
+		 */
 		do_action( 'wp_network_dashboard_setup' );
+
+		/**
+		 * Filters the list of widgets to load for the Network Admin dashboard.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array $dashboard_widgets An array of dashboard widgets.
+		 */
 		$dashboard_widgets = apply_filters( 'wp_network_dashboard_widgets', array() );
 	} elseif ( is_user_admin() ) {
+
+		/**
+		 * Fires after core widgets for the User Admin dashboard have been registered.
+		 *
+		 * @since 3.1.0
+		 */
 		do_action( 'wp_user_dashboard_setup' );
+
+		/**
+		 * Filters the list of widgets to load for the User Admin dashboard.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array $dashboard_widgets An array of dashboard widgets.
+		 */
 		$dashboard_widgets = apply_filters( 'wp_user_dashboard_widgets', array() );
 	} else {
+
+		/**
+		 * Fires after core widgets for the admin dashboard have been registered.
+		 *
+		 * @since 2.5.0
+		 */
 		do_action( 'wp_dashboard_setup' );
+
+		/**
+		 * Filters the list of widgets to load for the admin dashboard.
+		 *
+		 * @since 2.5.0
+		 *
+		 * @param array $dashboard_widgets An array of dashboard widgets.
+		 */
 		$dashboard_widgets = apply_filters( 'wp_dashboard_widgets', array() );
 	}
 
@@ -131,6 +114,7 @@ function wp_dashboard_setup() {
 	}
 
 	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget_id']) ) {
+		check_admin_referer( 'edit-dashboard-widget_' . $_POST['widget_id'], 'dashboard-widget-nonce' );
 		ob_start(); // hack - but the same hack wp-admin/widgets.php uses
 		wp_dashboard_trigger_widget_control( $_POST['widget_id'] );
 		ob_end_clean();
@@ -138,16 +122,39 @@ function wp_dashboard_setup() {
 		exit;
 	}
 
-	if ( $update )
-		update_option( 'dashboard_widget_options', $widget_options );
+	/** This action is documented in wp-admin/edit-form-advanced.php */
+	do_action( 'do_meta_boxes', $screen->id, 'normal', '' );
 
-	do_action('do_meta_boxes', $screen->id, 'normal', '');
-	do_action('do_meta_boxes', $screen->id, 'side', '');
+	/** This action is documented in wp-admin/edit-form-advanced.php */
+	do_action( 'do_meta_boxes', $screen->id, 'side', '' );
 }
 
-function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null ) {
+/**
+ * Adds a new dashboard widget.
+ *
+ * @since 2.7.0
+ *
+ * @global array $wp_dashboard_control_callbacks
+ *
+ * @param string   $widget_id        Widget ID  (used in the 'id' attribute for the widget).
+ * @param string   $widget_name      Title of the widget.
+ * @param callable $callback         Function that fills the widget with the desired content.
+ *                                   The function should echo its output.
+ * @param callable $control_callback Optional. Function that outputs controls for the widget. Default null.
+ * @param array    $callback_args    Optional. Data that should be set as the $args property of the widget array
+ *                                   (which is the second parameter passed to your callback). Default null.
+ */
+function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_callback = null, $callback_args = null ) {
 	$screen = get_current_screen();
 	global $wp_dashboard_control_callbacks;
+
+	$private_callback_args = array( '__widget_basename' => $widget_name );
+
+	if ( is_null( $callback_args ) ) {
+		$callback_args = $private_callback_args;
+	} else if ( is_array( $callback_args ) ) {
+		$callback_args = array_merge( $callback_args, $private_callback_args );
+	}
 
 	if ( $control_callback && current_user_can( 'edit_dashboard' ) && is_callable( $control_callback ) ) {
 		$wp_dashboard_control_callbacks[$widget_id] = $control_callback;
@@ -161,12 +168,7 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 		}
 	}
 
-	if ( is_blog_admin () )
-		$side_widgets = array('dashboard_quick_press', 'dashboard_recent_drafts', 'dashboard_primary', 'dashboard_secondary');
-	else if (is_network_admin() )
-		$side_widgets = array('dashboard_primary', 'dashboard_secondary');
-	else
-		$side_widgets = array();
+	$side_widgets = array( 'dashboard_quick_press', 'dashboard_primary' );
 
 	$location = 'normal';
 	if ( in_array($widget_id, $side_widgets) )
@@ -176,12 +178,22 @@ function wp_add_dashboard_widget( $widget_id, $widget_name, $callback, $control_
 	if ( 'dashboard_browser_nag' === $widget_id )
 		$priority = 'high';
 
-	add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority );
+	add_meta_box( $widget_id, $widget_name, $callback, $screen, $location, $priority, $callback_args );
 }
 
+/**
+ * Outputs controls for the current dashboard widget.
+ *
+ * @access private
+ * @since 2.7.0
+ *
+ * @param mixed $dashboard
+ * @param array $meta_box
+ */
 function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
-	echo '<form action="" method="post" class="dashboard-widget-control-form">';
+	echo '<form method="post" class="dashboard-widget-control-form">';
 	wp_dashboard_trigger_widget_control( $meta_box['id'] );
+	wp_nonce_field( 'edit-dashboard-widget_' . $meta_box['id'], 'dashboard-widget-nonce' );
 	echo '<input type="hidden" name="widget_id" value="' . esc_attr($meta_box['id']) . '" />';
 	submit_button( __('Submit') );
 	echo '</form>';
@@ -194,20 +206,24 @@ function _wp_dashboard_control_callback( $dashboard, $meta_box ) {
  */
 function wp_dashboard() {
 	$screen = get_current_screen();
-	$class = 'columns-' . get_current_screen()->get_columns();
+	$columns = absint( $screen->get_columns() );
+	$columns_css = '';
+	if ( $columns ) {
+		$columns_css = " columns-$columns";
+	}
 
 ?>
-<div id="dashboard-widgets" class="metabox-holder <?php echo $class; ?>">
-	<div id='postbox-container-1' class='postbox-container'>
+<div id="dashboard-widgets" class="metabox-holder<?php echo $columns_css; ?>">
+	<div id="postbox-container-1" class="postbox-container">
 	<?php do_meta_boxes( $screen->id, 'normal', '' ); ?>
 	</div>
-	<div id='postbox-container-2' class='postbox-container'>
+	<div id="postbox-container-2" class="postbox-container">
 	<?php do_meta_boxes( $screen->id, 'side', '' ); ?>
 	</div>
-	<div id='postbox-container-3' class='postbox-container'>
+	<div id="postbox-container-3" class="postbox-container">
 	<?php do_meta_boxes( $screen->id, 'column3', '' ); ?>
 	</div>
-	<div id='postbox-container-4' class='postbox-container'>
+	<div id="postbox-container-4" class="postbox-container">
 	<?php do_meta_boxes( $screen->id, 'column4', '' ); ?>
 	</div>
 </div>
@@ -218,195 +234,154 @@ function wp_dashboard() {
 
 }
 
-/* Dashboard Widgets */
+//
+// Dashboard Widgets
+//
 
+/**
+ * Dashboard widget that displays some basic stats about the site.
+ *
+ * Formerly 'Right Now'. A streamlined 'At a Glance' as of 3.8.
+ *
+ * @since 2.7.0
+ */
 function wp_dashboard_right_now() {
-	global $wp_registered_sidebars;
+?>
+	<div class="main">
+	<ul>
+	<?php
+	// Posts and Pages
+	foreach ( array( 'post', 'page' ) as $post_type ) {
+		$num_posts = wp_count_posts( $post_type );
+		if ( $num_posts && $num_posts->publish ) {
+			if ( 'post' == $post_type ) {
+				$text = _n( '%s Post', '%s Posts', $num_posts->publish );
+			} else {
+				$text = _n( '%s Page', '%s Pages', $num_posts->publish );
+			}
+			$text = sprintf( $text, number_format_i18n( $num_posts->publish ) );
+			$post_type_object = get_post_type_object( $post_type );
+			if ( $post_type_object && current_user_can( $post_type_object->cap->edit_posts ) ) {
+				printf( '<li class="%1$s-count"><a href="edit.php?post_type=%1$s">%2$s</a></li>', $post_type, $text );
+			} else {
+				printf( '<li class="%1$s-count"><span>%2$s</span></li>', $post_type, $text );
+			}
 
-	$num_posts = wp_count_posts( 'post' );
-	$num_pages = wp_count_posts( 'page' );
-
-	$num_cats  = wp_count_terms('category');
-
-	$num_tags = wp_count_terms('post_tag');
-
-	$num_comm = wp_count_comments( );
-
-	echo "\n\t".'<div class="table table_content">';
-	echo "\n\t".'<p class="sub">' . __('Content') . '</p>'."\n\t".'<table>';
-	echo "\n\t".'<tr class="first">';
-
-	// Posts
-	$num = number_format_i18n( $num_posts->publish );
-	$text = _n( 'Post', 'Posts', intval($num_posts->publish) );
-	if ( current_user_can( 'edit_posts' ) ) {
-		$num = "<a href='edit.php'>$num</a>";
-		$text = "<a href='edit.php'>$text</a>";
-	}
-	echo '<td class="first b b-posts">' . $num . '</td>';
-	echo '<td class="t posts">' . $text . '</td>';
-
-	echo '</tr><tr>';
-	/* TODO: Show status breakdown on hover
-	if ( $can_edit_pages && !empty($num_pages->publish) ) { // how many pages is not exposed in feeds. Don't show if !current_user_can
-		$post_type_texts[] = '<a href="edit-pages.php">'.sprintf( _n( '%s page', '%s pages', $num_pages->publish ), number_format_i18n( $num_pages->publish ) ).'</a>';
-	}
-	if ( $can_edit_posts && !empty($num_posts->draft) ) {
-		$post_type_texts[] = '<a href="edit.php?post_status=draft">'.sprintf( _n( '%s draft', '%s drafts', $num_posts->draft ), number_format_i18n( $num_posts->draft ) ).'</a>';
-	}
-	if ( $can_edit_posts && !empty($num_posts->future) ) {
-		$post_type_texts[] = '<a href="edit.php?post_status=future">'.sprintf( _n( '%s scheduled post', '%s scheduled posts', $num_posts->future ), number_format_i18n( $num_posts->future ) ).'</a>';
-	}
-	if ( current_user_can('publish_posts') && !empty($num_posts->pending) ) {
-		$pending_text = sprintf( _n( 'There is <a href="%1$s">%2$s post</a> pending your review.', 'There are <a href="%1$s">%2$s posts</a> pending your review.', $num_posts->pending ), 'edit.php?post_status=pending', number_format_i18n( $num_posts->pending ) );
-	} else {
-		$pending_text = '';
-	}
-	*/
-
-	// Pages
-	$num = number_format_i18n( $num_pages->publish );
-	$text = _n( 'Page', 'Pages', $num_pages->publish );
-	if ( current_user_can( 'edit_pages' ) ) {
-		$num = "<a href='edit.php?post_type=page'>$num</a>";
-		$text = "<a href='edit.php?post_type=page'>$text</a>";
-	}
-	echo '<td class="first b b_pages">' . $num . '</td>';
-	echo '<td class="t pages">' . $text . '</td>';
-
-	echo '</tr><tr>';
-
-	// Categories
-	$num = number_format_i18n( $num_cats );
-	$text = _n( 'Category', 'Categories', $num_cats );
-	if ( current_user_can( 'manage_categories' ) ) {
-		$num = "<a href='edit-tags.php?taxonomy=category'>$num</a>";
-		$text = "<a href='edit-tags.php?taxonomy=category'>$text</a>";
-	}
-	echo '<td class="first b b-cats">' . $num . '</td>';
-	echo '<td class="t cats">' . $text . '</td>';
-
-	echo '</tr><tr>';
-
-	// Tags
-	$num = number_format_i18n( $num_tags );
-	$text = _n( 'Tag', 'Tags', $num_tags );
-	if ( current_user_can( 'manage_categories' ) ) {
-		$num = "<a href='edit-tags.php'>$num</a>";
-		$text = "<a href='edit-tags.php'>$text</a>";
-	}
-	echo '<td class="first b b-tags">' . $num . '</td>';
-	echo '<td class="t tags">' . $text . '</td>';
-
-	echo "</tr>";
-	do_action('right_now_content_table_end');
-	echo "\n\t</table>\n\t</div>";
-
-	echo "\n\t".'<div class="table table_discussion">';
-	echo "\n\t".'<p class="sub">' . __('Discussion') . '</p>'."\n\t".'<table>';
-	echo "\n\t".'<tr class="first">';
-
-	// Total Comments
-	$num = '<span class="total-count">' . number_format_i18n($num_comm->total_comments) . '</span>';
-	$text = _n( 'Comment', 'Comments', $num_comm->total_comments );
-	if ( current_user_can( 'moderate_comments' ) ) {
-		$num = '<a href="edit-comments.php">' . $num . '</a>';
-		$text = '<a href="edit-comments.php">' . $text . '</a>';
-	}
-	echo '<td class="b b-comments">' . $num . '</td>';
-	echo '<td class="last t comments">' . $text . '</td>';
-
-	echo '</tr><tr>';
-
-	// Approved Comments
-	$num = '<span class="approved-count">' . number_format_i18n($num_comm->approved) . '</span>';
-	$text = _nx( 'Approved', 'Approved', $num_comm->approved, 'Right Now' );
-	if ( current_user_can( 'moderate_comments' ) ) {
-		$num = "<a href='edit-comments.php?comment_status=approved'>$num</a>";
-		$text = "<a class='approved' href='edit-comments.php?comment_status=approved'>$text</a>";
-	}
-	echo '<td class="b b_approved">' . $num . '</td>';
-	echo '<td class="last t">' . $text . '</td>';
-
-	echo "</tr>\n\t<tr>";
-
-	// Pending Comments
-	$num = '<span class="pending-count">' . number_format_i18n($num_comm->moderated) . '</span>';
-	$text = _n( 'Pending', 'Pending', $num_comm->moderated );
-	if ( current_user_can( 'moderate_comments' ) ) {
-		$num = "<a href='edit-comments.php?comment_status=moderated'>$num</a>";
-		$text = "<a class='waiting' href='edit-comments.php?comment_status=moderated'>$text</a>";
-	}
-	echo '<td class="b b-waiting">' . $num . '</td>';
-	echo '<td class="last t">' . $text . '</td>';
-
-	echo "</tr>\n\t<tr>";
-
-	// Spam Comments
-	$num = number_format_i18n($num_comm->spam);
-	$text = _nx( 'Spam', 'Spam', $num_comm->spam, 'comment' );
-	if ( current_user_can( 'moderate_comments' ) ) {
-		$num = "<a href='edit-comments.php?comment_status=spam'><span class='spam-count'>$num</span></a>";
-		$text = "<a class='spam' href='edit-comments.php?comment_status=spam'>$text</a>";
-	}
-	echo '<td class="b b-spam">' . $num . '</td>';
-	echo '<td class="last t">' . $text . '</td>';
-
-	echo "</tr>";
-	do_action('right_now_table_end');
-	do_action('right_now_discussion_table_end');
-	echo "\n\t</table>\n\t</div>";
-
-	echo "\n\t".'<div class="versions">';
-	$theme = wp_get_theme();
-
-	echo "\n\t<p>";
-
-	if ( $theme->errors() ) {
-		if ( ! is_multisite() || is_super_admin() )
-			echo '<span class="error-message">' . __('ERROR: The themes directory is either empty or doesn&#8217;t exist. Please check your installation.') . '</span>';
-	} elseif ( ! empty($wp_registered_sidebars) ) {
-		$sidebars_widgets = wp_get_sidebars_widgets();
-		$num_widgets = 0;
-		foreach ( (array) $sidebars_widgets as $k => $v ) {
-			if ( 'wp_inactive_widgets' == $k || 'orphaned_widgets' == substr( $k, 0, 16 ) )
-				continue;
-			if ( is_array($v) )
-				$num_widgets = $num_widgets + count($v);
 		}
-		$num = number_format_i18n( $num_widgets );
-
-		$switch_themes = $theme->display('Name');
-		if ( current_user_can( 'switch_themes') )
-			$switch_themes = '<a href="themes.php">' . $switch_themes . '</a>';
-		if ( current_user_can( 'edit_theme_options' ) ) {
-			printf(_n('Theme <span class="b">%1$s</span> with <span class="b"><a href="widgets.php">%2$s Widget</a></span>', 'Theme <span class="b">%1$s</span> with <span class="b"><a href="widgets.php">%2$s Widgets</a></span>', $num_widgets), $switch_themes, $num);
-		} else {
-			printf(_n('Theme <span class="b">%1$s</span> with <span class="b">%2$s Widget</span>', 'Theme <span class="b">%1$s</span> with <span class="b">%2$s Widgets</span>', $num_widgets), $switch_themes, $num);
-		}
-	} else {
-		if ( current_user_can( 'switch_themes' ) )
-			printf( __('Theme <span class="b"><a href="themes.php">%1$s</a></span>'), $theme->display('Name') );
-		else
-			printf( __('Theme <span class="b">%1$s</span>'), $theme->display('Name') );
 	}
-	echo '</p>';
-
-	// Check if search engines are asked not to index this site.
-	if ( !is_network_admin() && !is_user_admin() && current_user_can('manage_options') && '1' != get_option('blog_public') ) {
-		$title = apply_filters('privacy_on_link_title', __('Your site is asking search engines not to index its content') );
-		$content = apply_filters('privacy_on_link_text', __('Search Engines Discouraged') );
-
-		echo "<p><a href='options-reading.php' title='$title'>$content</a></p>";
+	// Comments
+	$num_comm = wp_count_comments();
+	if ( $num_comm && ( $num_comm->approved || $num_comm->moderated ) ) {
+		$text = sprintf( _n( '%s Comment', '%s Comments', $num_comm->approved ), number_format_i18n( $num_comm->approved ) );
+		?>
+		<li class="comment-count"><a href="edit-comments.php"><?php echo $text; ?></a></li>
+		<?php
+		$moderated_comments_count_i18n = number_format_i18n( $num_comm->moderated );
+		/* translators: Number of comments in moderation */
+		$text = sprintf( _nx( '%s in moderation', '%s in moderation', $num_comm->moderated, 'comments' ), $moderated_comments_count_i18n );
+		/* translators: Number of comments in moderation */
+		$aria_label = sprintf( _nx( '%s comment in moderation', '%s comments in moderation', $num_comm->moderated, 'comments' ), $moderated_comments_count_i18n );
+		?>
+		<li class="comment-mod-count<?php
+			if ( ! $num_comm->moderated ) {
+				echo ' hidden';
+			}
+		?>"><a href="edit-comments.php?comment_status=moderated" aria-label="<?php esc_attr_e( $aria_label ); ?>"><?php echo $text; ?></a></li>
+		<?php
 	}
 
+	/**
+	 * Filters the array of extra elements to list in the 'At a Glance'
+	 * dashboard widget.
+	 *
+	 * Prior to 3.8.0, the widget was named 'Right Now'. Each element
+	 * is wrapped in list-item tags on output.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @param array $items Array of extra 'At a Glance' widget items.
+	 */
+	$elements = apply_filters( 'dashboard_glance_items', array() );
+
+	if ( $elements ) {
+		echo '<li>' . implode( "</li>\n<li>", $elements ) . "</li>\n";
+	}
+
+	?>
+	</ul>
+	<?php
 	update_right_now_message();
 
-	echo "\n\t".'<br class="clear" /></div>';
+	// Check if search engines are asked not to index this site.
+	if ( ! is_network_admin() && ! is_user_admin() && current_user_can( 'manage_options' ) && '0' == get_option( 'blog_public' ) ) {
+
+		/**
+		 * Filters the link title attribute for the 'Search Engines Discouraged'
+		 * message displayed in the 'At a Glance' dashboard widget.
+		 *
+		 * Prior to 3.8.0, the widget was named 'Right Now'.
+		 *
+		 * @since 3.0.0
+		 * @since 4.5.0 The default for `$title` was updated to an empty string.
+		 *
+		 * @param string $title Default attribute text.
+		 */
+		$title = apply_filters( 'privacy_on_link_title', '' );
+
+		/**
+		 * Filters the link label for the 'Search Engines Discouraged' message
+		 * displayed in the 'At a Glance' dashboard widget.
+		 *
+		 * Prior to 3.8.0, the widget was named 'Right Now'.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $content Default text.
+		 */
+		$content = apply_filters( 'privacy_on_link_text' , __( 'Search Engines Discouraged' ) );
+		$title_attr = '' === $title ? '' : " title='$title'";
+
+		echo "<p><a href='options-reading.php'$title_attr>$content</a></p>";
+	}
+	?>
+	</div>
+	<?php
+	/*
+	 * activity_box_end has a core action, but only prints content when multisite.
+	 * Using an output buffer is the only way to really check if anything's displayed here.
+	 */
+	ob_start();
+
+	/**
+	 * Fires at the end of the 'At a Glance' dashboard widget.
+	 *
+	 * Prior to 3.8.0, the widget was named 'Right Now'.
+	 *
+	 * @since 2.5.0
+	 */
 	do_action( 'rightnow_end' );
+
+	/**
+	 * Fires at the end of the 'At a Glance' dashboard widget.
+	 *
+	 * Prior to 3.8.0, the widget was named 'Right Now'.
+	 *
+	 * @since 2.0.0
+	 */
 	do_action( 'activity_box_end' );
+
+	$actions = ob_get_clean();
+
+	if ( !empty( $actions ) ) : ?>
+	<div class="sub">
+		<?php echo $actions; ?>
+	</div>
+	<?php endif;
 }
 
+/**
+ * @since 3.1.0
+ */
 function wp_network_dashboard_right_now() {
 	$actions = array();
 	if ( current_user_can('create_sites') )
@@ -434,54 +409,65 @@ function wp_network_dashboard_right_now() {
 	<br class="clear" />
 
 	<p class="youhave"><?php echo $sentence; ?></p>
-	<?php do_action( 'wpmuadminresult', '' ); ?>
+
+
+	<?php
+		/**
+		 * Fires in the Network Admin 'Right Now' dashboard widget
+		 * just before the user and site search form fields.
+		 *
+		 * @since MU
+		 *
+		 * @param null $unused
+		 */
+		do_action( 'wpmuadminresult', '' );
+	?>
 
 	<form action="<?php echo network_admin_url('users.php'); ?>" method="get">
 		<p>
-			<input type="search" name="s" value="" size="30" autocomplete="off" />
-			<?php submit_button( __( 'Search Users' ), 'button', 'submit', false, array( 'id' => 'submit_users' ) ); ?>
+			<label class="screen-reader-text" for="search-users"><?php _e( 'Search Users' ); ?></label>
+			<input type="search" name="s" value="" size="30" autocomplete="off" id="search-users"/>
+			<?php submit_button( __( 'Search Users' ), 'button', false, false, array( 'id' => 'submit_users' ) ); ?>
 		</p>
 	</form>
 
 	<form action="<?php echo network_admin_url('sites.php'); ?>" method="get">
 		<p>
-			<input type="search" name="s" value="" size="30" autocomplete="off" />
-			<?php submit_button( __( 'Search Sites' ), 'button', 'submit', false, array( 'id' => 'submit_sites' ) ); ?>
+			<label class="screen-reader-text" for="search-sites"><?php _e( 'Search Sites' ); ?></label>
+			<input type="search" name="s" value="" size="30" autocomplete="off" id="search-sites"/>
+			<?php submit_button( __( 'Search Sites' ), 'button', false, false, array( 'id' => 'submit_sites' ) ); ?>
 		</p>
 	</form>
 <?php
+	/**
+	 * Fires at the end of the 'Right Now' widget in the Network Admin dashboard.
+	 *
+	 * @since MU
+	 */
 	do_action( 'mu_rightnow_end' );
+
+	/**
+	 * Fires at the end of the 'Right Now' widget in the Network Admin dashboard.
+	 *
+	 * @since MU
+	 */
 	do_action( 'mu_activity_box_end' );
 }
 
-function wp_dashboard_quick_press() {
+/**
+ * The Quick Draft widget display and creation of drafts.
+ *
+ * @since 3.8.0
+ *
+ * @global int $post_ID
+ *
+ * @param string $error_msg Optional. Error message. Default false.
+ */
+function wp_dashboard_quick_press( $error_msg = false ) {
 	global $post_ID;
 
-	$drafts = false;
-	if ( 'post' === strtolower( $_SERVER['REQUEST_METHOD'] ) && isset( $_POST['action'] ) && 0 === strpos( $_POST['action'], 'post-quickpress' ) && (int) $_POST['post_ID'] ) {
-		$view = get_permalink( $_POST['post_ID'] );
-		$edit = esc_url( get_edit_post_link( $_POST['post_ID'] ) );
-		if ( 'post-quickpress-publish' == $_POST['action'] ) {
-			if ( current_user_can('publish_posts') )
-				printf( '<div class="updated"><p>' . __( 'Post published. <a href="%s">View post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( $view ), $edit );
-			else
-				printf( '<div class="updated"><p>' . __( 'Post submitted. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( add_query_arg( 'preview', 1, $view ) ), $edit );
-		} else {
-			printf( '<div class="updated"><p>' . __( 'Draft saved. <a href="%s">Preview post</a> | <a href="%s">Edit post</a>' ) . '</p></div>', esc_url( add_query_arg( 'preview', 1, $view ) ), $edit );
-			$drafts_query = new WP_Query( array(
-				'post_type' => 'post',
-				'post_status' => 'draft',
-				'author' => $GLOBALS['current_user']->ID,
-				'posts_per_page' => 1,
-				'orderby' => 'modified',
-				'order' => 'DESC'
-			) );
-
-			if ( $drafts_query->posts )
-				$drafts =& $drafts_query->posts;
-		}
-		printf('<p class="textright">' . __('You can also try %s, easy blogging from anywhere on the Web.') . '</p>', '<a href="' . esc_url( admin_url( 'tools.php' ) ) . '">' . __('Press This') . '</a>' );
-		$_REQUEST = array(); // hack for get_default_post_to_edit()
+	if ( ! current_user_can( 'edit_posts' ) ) {
+		return;
 	}
 
 	/* Check if a new auto-draft (= no new post_ID) is needed or if the old can be used */
@@ -489,119 +475,431 @@ function wp_dashboard_quick_press() {
 	if ( $last_post_id ) {
 		$post = get_post( $last_post_id );
 		if ( empty( $post ) || $post->post_status != 'auto-draft' ) { // auto-draft doesn't exists anymore
-			$post = get_default_post_to_edit('post', true);
-			update_user_option( (int) $GLOBALS['current_user']->ID, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
+			$post = get_default_post_to_edit( 'post', true );
+			update_user_option( get_current_user_id(), 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
 		} else {
 			$post->post_title = ''; // Remove the auto draft title
 		}
 	} else {
-		$post = get_default_post_to_edit('post', true);
-		update_user_option( (int) $GLOBALS['current_user']->ID, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
+		$post = get_default_post_to_edit( 'post' , true);
+		$user_id = get_current_user_id();
+		// Don't create an option if this is a super admin who does not belong to this site.
+		if ( ! ( is_super_admin( $user_id ) && ! in_array( get_current_blog_id(), array_keys( get_blogs_of_user( $user_id ) ) ) ) )
+			update_user_option( $user_id, 'dashboard_quick_press_last_post_id', (int) $post->ID ); // Save post_ID
 	}
 
 	$post_ID = (int) $post->ID;
 ?>
 
-	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press">
-		<div class="input-text-wrap" id="title-wrap">
-			<label class="screen-reader-text prompt" for="title" id="title-prompt-text"><?php _e( 'Enter title here' ); ?></label>
-			<input type="text" name="post_title" id="title" autocomplete="off" value="<?php echo esc_attr( $post->post_title ); ?>" />
-		</div>
+	<form name="post" action="<?php echo esc_url( admin_url( 'post.php' ) ); ?>" method="post" id="quick-press" class="initial-form hide-if-no-js">
 
-		<?php if ( current_user_can( 'upload_files' ) ) : ?>
-		<div id="wp-content-wrap" class="wp-editor-wrap hide-if-no-js wp-media-buttons">
-			<?php do_action( 'media_buttons', 'content' ); ?>
-		</div>
+		<?php if ( $error_msg ) : ?>
+		<div class="error"><?php echo $error_msg; ?></div>
 		<?php endif; ?>
 
-		<div class="textarea-wrap">
-			<label class="screen-reader-text" for="content"><?php _e( 'Content' ); ?></label>
-			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15"><?php echo esc_textarea( $post->post_content ); ?></textarea>
+		<div class="input-text-wrap" id="title-wrap">
+			<label class="screen-reader-text prompt" for="title" id="title-prompt-text">
+
+				<?php
+				/** This filter is documented in wp-admin/edit-form-advanced.php */
+				echo apply_filters( 'enter_title_here', __( 'Title' ), $post );
+				?>
+			</label>
+			<input type="text" name="post_title" id="title" autocomplete="off" />
 		</div>
 
-		<script type="text/javascript">edCanvas = document.getElementById('content');edInsertContent = null;</script>
-
-		<div class="input-text-wrap" id="tags-input-wrap">
-			<label class="screen-reader-text prompt" for="tags-input" id="tags-input-prompt-text"><?php _e( 'Tags (separate with commas)' ); ?></label>
-			<input type="text" name="tags_input" id="tags-input" value="<?php echo get_tags_to_edit( $post->ID ); ?>" />
+		<div class="textarea-wrap" id="description-wrap">
+			<label class="screen-reader-text prompt" for="content" id="content-prompt-text"><?php _e( 'What&#8217;s on your mind?' ); ?></label>
+			<textarea name="content" id="content" class="mceEditor" rows="3" cols="15" autocomplete="off"></textarea>
 		</div>
 
 		<p class="submit">
-			<input type="hidden" name="action" id="quickpost-action" value="post-quickpress-save" />
+			<input type="hidden" name="action" id="quickpost-action" value="post-quickdraft-save" />
 			<input type="hidden" name="post_ID" value="<?php echo $post_ID; ?>" />
 			<input type="hidden" name="post_type" value="post" />
-			<?php wp_nonce_field('add-post'); ?>
-			<?php submit_button( __( 'Save Draft' ), 'button', 'save', false, array( 'id' => 'save-post' ) ); ?>
-			<input type="reset" value="<?php esc_attr_e( 'Reset' ); ?>" class="button" />
-			<span id="publishing-action">
-				<input type="submit" name="publish" id="publish" accesskey="p" class="button-primary" value="<?php current_user_can('publish_posts') ? esc_attr_e('Publish') : esc_attr_e('Submit for Review'); ?>" />
-				<span class="spinner"></span>
-			</span>
+			<?php wp_nonce_field( 'add-post' ); ?>
+			<?php submit_button( __( 'Save Draft' ), 'primary', 'save', false, array( 'id' => 'save-post' ) ); ?>
 			<br class="clear" />
 		</p>
 
 	</form>
-
-<?php
-	if ( $drafts )
-		wp_dashboard_recent_drafts( $drafts );
-}
-
-function wp_dashboard_recent_drafts( $drafts = false ) {
-	if ( !$drafts ) {
-		$drafts_query = new WP_Query( array(
-			'post_type' => 'post',
-			'post_status' => 'draft',
-			'author' => $GLOBALS['current_user']->ID,
-			'posts_per_page' => 5,
-			'orderby' => 'modified',
-			'order' => 'DESC'
-		) );
-		$drafts =& $drafts_query->posts;
-	}
-
-	if ( $drafts && is_array( $drafts ) ) {
-		$list = array();
-		foreach ( $drafts as $draft ) {
-			$url = get_edit_post_link( $draft->ID );
-			$title = _draft_or_post_title( $draft->ID );
-			$item = "<h4><a href='$url' title='" . sprintf( __( 'Edit &#8220;%s&#8221;' ), esc_attr( $title ) ) . "'>" . esc_html($title) . "</a> <abbr title='" . get_the_time(__('Y/m/d g:i:s A'), $draft) . "'>" . get_the_time( get_option( 'date_format' ), $draft ) . '</abbr></h4>';
-			if ( $the_content = preg_split( '#\s#', strip_tags( $draft->post_content ), 11, PREG_SPLIT_NO_EMPTY ) )
-				$item .= '<p>' . join( ' ', array_slice( $the_content, 0, 10 ) ) . ( 10 < count( $the_content ) ? '&hellip;' : '' ) . '</p>';
-			$list[] = $item;
-		}
-?>
-	<ul>
-		<li><?php echo join( "</li>\n<li>", $list ); ?></li>
-	</ul>
-	<p class="textright"><a href="edit.php?post_status=draft" ><?php _e('View all'); ?></a></p>
-<?php
-	} else {
-		_e('There are no drafts at the moment');
-	}
+	<?php
+	wp_dashboard_recent_drafts();
 }
 
 /**
- * Display recent comments dashboard widget content.
+ * Show recent drafts of the user on the dashboard.
  *
- * @since 2.5.0
+ * @since 2.7.0
+ *
+ * @param array $drafts
  */
-function wp_dashboard_recent_comments() {
-	global $wpdb;
+function wp_dashboard_recent_drafts( $drafts = false ) {
+	if ( ! $drafts ) {
+		$query_args = array(
+			'post_type'      => 'post',
+			'post_status'    => 'draft',
+			'author'         => get_current_user_id(),
+			'posts_per_page' => 4,
+			'orderby'        => 'modified',
+			'order'          => 'DESC'
+		);
 
+		/**
+		 * Filters the post query arguments for the 'Recent Drafts' dashboard widget.
+		 *
+		 * @since 4.4.0
+		 *
+		 * @param array $query_args The query arguments for the 'Recent Drafts' dashboard widget.
+		 */
+		$query_args = apply_filters( 'dashboard_recent_drafts_query_args', $query_args );
+
+		$drafts = get_posts( $query_args );
+		if ( ! $drafts ) {
+			return;
+ 		}
+ 	}
+
+	echo '<div class="drafts">';
+	if ( count( $drafts ) > 3 ) {
+		echo '<p class="view-all"><a href="' . esc_url( admin_url( 'edit.php?post_status=draft' ) ) . '" aria-label="' . __( 'View all drafts' ) . '">' . _x( 'View all', 'drafts' ) . "</a></p>\n";
+ 	}
+	echo '<h2 class="hide-if-no-js">' . __( 'Drafts' ) . "</h2>\n<ul>";
+
+	$drafts = array_slice( $drafts, 0, 3 );
+	foreach ( $drafts as $draft ) {
+		$url = get_edit_post_link( $draft->ID );
+		$title = _draft_or_post_title( $draft->ID );
+		echo "<li>\n";
+		/* translators: %s: post title */
+		echo '<div class="draft-title"><a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $title ) ) . '">' . esc_html( $title ) . '</a>';
+		echo '<time datetime="' . get_the_time( 'c', $draft ) . '">' . get_the_time( __( 'F j, Y' ), $draft ) . '</time></div>';
+		if ( $the_content = wp_trim_words( $draft->post_content, 10 ) ) {
+			echo '<p>' . $the_content . '</p>';
+ 		}
+		echo "</li>\n";
+ 	}
+	echo "</ul>\n</div>";
+}
+
+/**
+ * Outputs a row for the Recent Comments widget.
+ *
+ * @access private
+ * @since 2.7.0
+ *
+ * @global WP_Comment $comment
+ *
+ * @param WP_Comment $comment   The current comment.
+ * @param bool       $show_date Optional. Whether to display the date.
+ */
+function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
+	$GLOBALS['comment'] = clone $comment;
+
+	if ( $comment->comment_post_ID > 0 ) {
+
+		$comment_post_title = _draft_or_post_title( $comment->comment_post_ID );
+		$comment_post_url = get_the_permalink( $comment->comment_post_ID );
+		$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
+	} else {
+		$comment_post_link = '';
+	}
+
+	$actions_string = '';
+	if ( current_user_can( 'edit_comment', $comment->comment_ID ) ) {
+		// Pre-order it: Approve | Reply | Edit | Spam | Trash.
+		$actions = array(
+			'approve' => '', 'unapprove' => '',
+			'reply' => '',
+			'edit' => '',
+			'spam' => '',
+			'trash' => '', 'delete' => '',
+			'view' => '',
+		);
+
+		$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
+		$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
+
+		$approve_url = esc_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$approve_nonce" );
+		$unapprove_url = esc_url( "comment.php?action=unapprovecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$approve_nonce" );
+		$spam_url = esc_url( "comment.php?action=spamcomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
+		$trash_url = esc_url( "comment.php?action=trashcomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
+		$delete_url = esc_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
+
+		$actions['approve'] = "<a href='$approve_url' data-wp-lists='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved' class='vim-a' aria-label='" . esc_attr__( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
+		$actions['unapprove'] = "<a href='$unapprove_url' data-wp-lists='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved' class='vim-u' aria-label='" . esc_attr__( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
+		$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' aria-label='" . esc_attr__( 'Edit this comment' ) . "'>". __( 'Edit' ) . '</a>';
+		$actions['reply'] = '<a onclick="window.commentReply && commentReply.open(\'' . $comment->comment_ID . '\',\''.$comment->comment_post_ID.'\');return false;" class="vim-r hide-if-no-js" aria-label="' . esc_attr__( 'Reply to this comment' ) . '" href="#">' . __( 'Reply' ) . '</a>';
+		$actions['spam'] = "<a href='$spam_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::spam=1' class='vim-s vim-destructive' aria-label='" . esc_attr__( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
+
+		if ( ! EMPTY_TRASH_DAYS ) {
+			$actions['delete'] = "<a href='$delete_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive' aria-label='" . esc_attr__( 'Delete this comment permanently' ) . "'>" . __( 'Delete Permanently' ) . '</a>';
+		} else {
+			$actions['trash'] = "<a href='$trash_url' data-wp-lists='delete:the-comment-list:comment-$comment->comment_ID::trash=1' class='delete vim-d vim-destructive' aria-label='" . esc_attr__( 'Move this comment to the Trash' ) . "'>" . _x( 'Trash', 'verb' ) . '</a>';
+		}
+
+		$actions['view'] = '<a class="comment-link" href="' . esc_url( get_comment_link( $comment ) ) . '" aria-label="' . esc_attr__( 'View this comment' ) . '">' . __( 'View' ) . '</a>';
+
+		/**
+		 * Filters the action links displayed for each comment in the 'Recent Comments'
+		 * dashboard widget.
+		 *
+		 * @since 2.6.0
+		 *
+		 * @param array      $actions An array of comment actions. Default actions include:
+		 *                            'Approve', 'Unapprove', 'Edit', 'Reply', 'Spam',
+		 *                            'Delete', and 'Trash'.
+		 * @param WP_Comment $comment The comment object.
+		 */
+		$actions = apply_filters( 'comment_row_actions', array_filter($actions), $comment );
+
+		$i = 0;
+		foreach ( $actions as $action => $link ) {
+			++$i;
+			( ( ('approve' == $action || 'unapprove' == $action) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
+
+			// Reply and quickedit need a hide-if-no-js span
+			if ( 'reply' == $action || 'quickedit' == $action ) {
+				$action .= ' hide-if-no-js';
+			}
+
+			if ( 'view' === $action && '1' !== $comment->comment_approved ) {
+				$action .= ' hidden';
+			}
+			$actions_string .= "<span class='$action'>$sep$link</span>";
+		}
+	}
+?>
+
+		<li id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class( array( 'comment-item', wp_get_comment_status( $comment ) ), $comment ); ?>>
+
+			<?php echo get_avatar( $comment, 50, 'mystery' ); ?>
+
+			<?php if ( !$comment->comment_type || 'comment' == $comment->comment_type ) : ?>
+
+			<div class="dashboard-comment-wrap has-row-actions">
+			<p class="comment-meta">
+			<?php
+				// Comments might not have a post they relate to, e.g. programmatically created ones.
+				if ( $comment_post_link ) {
+					printf(
+						/* translators: 1: comment author, 2: post link, 3: notification if the comment is pending */
+						__( 'From %1$s on %2$s %3$s' ),
+						'<cite class="comment-author">' . get_comment_author_link( $comment ) . '</cite>',
+						$comment_post_link,
+						'<span class="approve">' . __( '[Pending]' ) . '</span>'
+					);
+				} else {
+					printf(
+						/* translators: 1: comment author, 2: notification if the comment is pending */
+						__( 'From %1$s %2$s' ),
+						'<cite class="comment-author">' . get_comment_author_link( $comment ) . '</cite>',
+						'<span class="approve">' . __( '[Pending]' ) . '</span>'
+					);
+				}
+			?>
+			</p>
+
+			<?php
+			else :
+				switch ( $comment->comment_type ) {
+					case 'pingback' :
+						$type = __( 'Pingback' );
+						break;
+					case 'trackback' :
+						$type = __( 'Trackback' );
+						break;
+					default :
+						$type = ucwords( $comment->comment_type );
+				}
+				$type = esc_html( $type );
+			?>
+			<div class="dashboard-comment-wrap has-row-actions">
+			<p class="comment-meta">
+			<?php
+				// Pingbacks, Trackbacks or custom comment types might not have a post they relate to, e.g. programmatically created ones.
+				if ( $comment_post_link ) {
+					printf(
+						/* translators: 1: type of comment, 2: post link, 3: notification if the comment is pending */
+						_x( '%1$s on %2$s %3$s', 'dashboard' ),
+						"<strong>$type</strong>",
+						$comment_post_link,
+						'<span class="approve">' . __( '[Pending]' ) . '</span>'
+					);
+				} else {
+					printf(
+						/* translators: 1: type of comment, 2: notification if the comment is pending */
+						_x( '%1$s %2$s', 'dashboard' ),
+						"<strong>$type</strong>",
+						'<span class="approve">' . __( '[Pending]' ) . '</span>'
+					);
+				}
+			?>
+			</p>
+			<p class="comment-author"><?php comment_author_link( $comment ); ?></p>
+
+			<?php endif; // comment_type ?>
+			<blockquote><p><?php comment_excerpt( $comment ); ?></p></blockquote>
+			<?php if ( $actions_string ) : ?>
+			<p class="row-actions"><?php echo $actions_string; ?></p>
+			<?php endif; ?>
+			</div>
+		</li>
+<?php
+	$GLOBALS['comment'] = null;
+}
+
+/**
+ * Callback function for Activity widget.
+ *
+ * @since 3.8.0
+ */
+function wp_dashboard_site_activity() {
+
+	echo '<div id="activity-widget">';
+
+	$future_posts = wp_dashboard_recent_posts( array(
+		'max'     => 5,
+		'status'  => 'future',
+		'order'   => 'ASC',
+		'title'   => __( 'Publishing Soon' ),
+		'id'      => 'future-posts',
+	) );
+	$recent_posts = wp_dashboard_recent_posts( array(
+		'max'     => 5,
+		'status'  => 'publish',
+		'order'   => 'DESC',
+		'title'   => __( 'Recently Published' ),
+		'id'      => 'published-posts',
+	) );
+
+	$recent_comments = wp_dashboard_recent_comments();
+
+	if ( !$future_posts && !$recent_posts && !$recent_comments ) {
+		echo '<div class="no-activity">';
+		echo '<p class="smiley"></p>';
+		echo '<p>' . __( 'No activity yet!' ) . '</p>';
+		echo '</div>';
+	}
+
+	echo '</div>';
+}
+
+/**
+ * Generates Publishing Soon and Recently Published sections.
+ *
+ * @since 3.8.0
+ *
+ * @param array $args {
+ *     An array of query and display arguments.
+ *
+ *     @type int    $max     Number of posts to display.
+ *     @type string $status  Post status.
+ *     @type string $order   Designates ascending ('ASC') or descending ('DESC') order.
+ *     @type string $title   Section title.
+ *     @type string $id      The container id.
+ * }
+ * @return bool False if no posts were found. True otherwise.
+ */
+function wp_dashboard_recent_posts( $args ) {
+	$query_args = array(
+		'post_type'      => 'post',
+		'post_status'    => $args['status'],
+		'orderby'        => 'date',
+		'order'          => $args['order'],
+		'posts_per_page' => intval( $args['max'] ),
+		'no_found_rows'  => true,
+		'cache_results'  => false,
+		'perm'           => ( 'future' === $args['status'] ) ? 'editable' : 'readable',
+	);
+
+	/**
+	 * Filters the query arguments used for the Recent Posts widget.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $query_args The arguments passed to WP_Query to produce the list of posts.
+	 */
+	$query_args = apply_filters( 'dashboard_recent_posts_query_args', $query_args );
+	$posts = new WP_Query( $query_args );
+
+	if ( $posts->have_posts() ) {
+
+		echo '<div id="' . $args['id'] . '" class="activity-block">';
+
+		echo '<h3>' . $args['title'] . '</h3>';
+
+		echo '<ul>';
+
+		$today    = date( 'Y-m-d', current_time( 'timestamp' ) );
+		$tomorrow = date( 'Y-m-d', strtotime( '+1 day', current_time( 'timestamp' ) ) );
+
+		while ( $posts->have_posts() ) {
+			$posts->the_post();
+
+			$time = get_the_time( 'U' );
+			if ( date( 'Y-m-d', $time ) == $today ) {
+				$relative = __( 'Today' );
+			} elseif ( date( 'Y-m-d', $time ) == $tomorrow ) {
+				$relative = __( 'Tomorrow' );
+			} elseif ( date( 'Y', $time ) !== date( 'Y', current_time( 'timestamp' ) ) ) {
+				/* translators: date and time format for recent posts on the dashboard, from a different calendar year, see https://secure.php.net/date */
+				$relative = date_i18n( __( 'M jS Y' ), $time );
+			} else {
+				/* translators: date and time format for recent posts on the dashboard, see https://secure.php.net/date */
+				$relative = date_i18n( __( 'M jS' ), $time );
+			}
+
+			// Use the post edit link for those who can edit, the permalink otherwise.
+			$recent_post_link = current_user_can( 'edit_post', get_the_ID() ) ? get_edit_post_link() : get_permalink();
+
+			$draft_or_post_title = _draft_or_post_title();
+			printf(
+				'<li><span>%1$s</span> <a href="%2$s" aria-label="%3$s">%4$s</a></li>',
+				/* translators: 1: relative date, 2: time */
+				sprintf( _x( '%1$s, %2$s', 'dashboard' ), $relative, get_the_time() ),
+				$recent_post_link,
+				/* translators: %s: post title */
+				esc_attr( sprintf( __( 'Edit &#8220;%s&#8221;' ), $draft_or_post_title ) ),
+				$draft_or_post_title
+			);
+		}
+
+		echo '</ul>';
+		echo '</div>';
+
+	} else {
+		return false;
+	}
+
+	wp_reset_postdata();
+
+	return true;
+}
+
+/**
+ * Show Comments section.
+ *
+ * @since 3.8.0
+ *
+ * @param int $total_items Optional. Number of comments to query. Default 5.
+ * @return bool False if no comments were found. True otherwise.
+ */
+function wp_dashboard_recent_comments( $total_items = 5 ) {
 	// Select all comment types and filter out spam later for better query performance.
 	$comments = array();
-	$start = 0;
 
-	$widgets = get_option( 'dashboard_widget_options' );
-	$total_items = isset( $widgets['dashboard_recent_comments'] ) && isset( $widgets['dashboard_recent_comments']['items'] )
-		? absint( $widgets['dashboard_recent_comments']['items'] ) : 5;
-
-	$comments_query = array( 'number' => $total_items * 5, 'offset' => 0 );
+	$comments_query = array(
+		'number' => $total_items * 5,
+		'offset' => 0
+	);
 	if ( ! current_user_can( 'edit_posts' ) )
 		$comments_query['status'] = 'approve';
 
 	while ( count( $comments ) < $total_items && $possible = get_comments( $comments_query ) ) {
+		if ( ! is_array( $possible ) ) {
+			break;
+		}
 		foreach ( $possible as $comment ) {
 			if ( ! current_user_can( 'read_post', $comment->comment_post_ID ) )
 				continue;
@@ -614,239 +912,31 @@ function wp_dashboard_recent_comments() {
 	}
 
 	if ( $comments ) {
-		echo '<div id="the-comment-list" class="list:comment">';
+		echo '<div id="latest-comments" class="activity-block">';
+		echo '<h3>' . __( 'Recent Comments' ) . '</h3>';
+
+		echo '<ul id="the-comment-list" data-wp-lists="list:comment">';
 		foreach ( $comments as $comment )
 			_wp_dashboard_recent_comments_row( $comment );
-		echo '</div>';
+		echo '</ul>';
 
-		if ( current_user_can('edit_posts') )
-			_get_list_table('WP_Comments_List_Table')->views();
+		if ( current_user_can( 'edit_posts' ) ) {
+			echo '<h3 class="screen-reader-text">' . __( 'View more comments' ) . '</h3>';
+			_get_list_table( 'WP_Comments_List_Table' )->views();
+		}
 
 		wp_comment_reply( -1, false, 'dashboard', false );
 		wp_comment_trashnotice();
+
+		echo '</div>';
 	} else {
-		echo '<p>' . __( 'No comments yet.' ) . '</p>';
+		return false;
 	}
-}
-
-function _wp_dashboard_recent_comments_row( &$comment, $show_date = true ) {
-	$GLOBALS['comment'] =& $comment;
-
-	$comment_post_url = get_edit_post_link( $comment->comment_post_ID );
-	$comment_post_title = strip_tags(get_the_title( $comment->comment_post_ID ));
-	$comment_post_link = "<a href='$comment_post_url'>$comment_post_title</a>";
-	$comment_link = '<a class="comment-link" href="' . esc_url(get_comment_link()) . '">#</a>';
-
-	$actions_string = '';
-	if ( current_user_can( 'edit_comment', $comment->comment_ID ) ) {
-		// preorder it: Approve | Reply | Edit | Spam | Trash
-		$actions = array(
-			'approve' => '', 'unapprove' => '',
-			'reply' => '',
-			'edit' => '',
-			'spam' => '',
-			'trash' => '', 'delete' => ''
-		);
-
-		$del_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "delete-comment_$comment->comment_ID" ) );
-		$approve_nonce = esc_html( '_wpnonce=' . wp_create_nonce( "approve-comment_$comment->comment_ID" ) );
-
-		$approve_url = esc_url( "comment.php?action=approvecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$approve_nonce" );
-		$unapprove_url = esc_url( "comment.php?action=unapprovecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$approve_nonce" );
-		$spam_url = esc_url( "comment.php?action=spamcomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
-		$trash_url = esc_url( "comment.php?action=trashcomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
-		$delete_url = esc_url( "comment.php?action=deletecomment&p=$comment->comment_post_ID&c=$comment->comment_ID&$del_nonce" );
-
-		$actions['approve'] = "<a href='$approve_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=approved vim-a' title='" . esc_attr__( 'Approve this comment' ) . "'>" . __( 'Approve' ) . '</a>';
-		$actions['unapprove'] = "<a href='$unapprove_url' class='dim:the-comment-list:comment-$comment->comment_ID:unapproved:e7e7d3:e7e7d3:new=unapproved vim-u' title='" . esc_attr__( 'Unapprove this comment' ) . "'>" . __( 'Unapprove' ) . '</a>';
-		$actions['edit'] = "<a href='comment.php?action=editcomment&amp;c={$comment->comment_ID}' title='" . esc_attr__('Edit comment') . "'>". __('Edit') . '</a>';
-		$actions['reply'] = '<a onclick="commentReply.open(\''.$comment->comment_ID.'\',\''.$comment->comment_post_ID.'\');return false;" class="vim-r hide-if-no-js" title="'.esc_attr__('Reply to this comment').'" href="#">' . __('Reply') . '</a>';
-		$actions['spam'] = "<a href='$spam_url' class='delete:the-comment-list:comment-$comment->comment_ID::spam=1 vim-s vim-destructive' title='" . esc_attr__( 'Mark this comment as spam' ) . "'>" . /* translators: mark as spam link */ _x( 'Spam', 'verb' ) . '</a>';
-		if ( !EMPTY_TRASH_DAYS )
-			$actions['delete'] = "<a href='$delete_url' class='delete:the-comment-list:comment-$comment->comment_ID::trash=1 delete vim-d vim-destructive'>" . __('Delete Permanently') . '</a>';
-		else
-			$actions['trash'] = "<a href='$trash_url' class='delete:the-comment-list:comment-$comment->comment_ID::trash=1 delete vim-d vim-destructive' title='" . esc_attr__( 'Move this comment to the trash' ) . "'>" . _x('Trash', 'verb') . '</a>';
-
-		$actions = apply_filters( 'comment_row_actions', array_filter($actions), $comment );
-
-		$i = 0;
-		foreach ( $actions as $action => $link ) {
-			++$i;
-			( ( ('approve' == $action || 'unapprove' == $action) && 2 === $i ) || 1 === $i ) ? $sep = '' : $sep = ' | ';
-
-			// Reply and quickedit need a hide-if-no-js span
-			if ( 'reply' == $action || 'quickedit' == $action )
-				$action .= ' hide-if-no-js';
-
-			$actions_string .= "<span class='$action'>$sep$link</span>";
-		}
-	}
-
-?>
-
-		<div id="comment-<?php echo $comment->comment_ID; ?>" <?php comment_class( array( 'comment-item', wp_get_comment_status($comment->comment_ID) ) ); ?>>
-			<?php if ( !$comment->comment_type || 'comment' == $comment->comment_type ) : ?>
-
-			<?php echo get_avatar( $comment, 50 ); ?>
-
-			<div class="dashboard-comment-wrap">
-			<h4 class="comment-meta">
-				<?php printf( /* translators: 1: comment author, 2: post link, 3: notification if the comment is pending */__( 'From %1$s on %2$s%3$s' ),
-					'<cite class="comment-author">' . get_comment_author_link() . '</cite>', $comment_post_link.' '.$comment_link, ' <span class="approve">' . __( '[Pending]' ) . '</span>' ); ?>
-			</h4>
-
-			<?php
-			else :
-				switch ( $comment->comment_type ) :
-				case 'pingback' :
-					$type = __( 'Pingback' );
-					break;
-				case 'trackback' :
-					$type = __( 'Trackback' );
-					break;
-				default :
-					$type = ucwords( $comment->comment_type );
-				endswitch;
-				$type = esc_html( $type );
-			?>
-			<div class="dashboard-comment-wrap">
-			<?php /* translators: %1$s is type of comment, %2$s is link to the post */ ?>
-			<h4 class="comment-meta"><?php printf( _x( '%1$s on %2$s', 'dashboard' ), "<strong>$type</strong>", $comment_post_link." ".$comment_link ); ?></h4>
-			<p class="comment-author"><?php comment_author_link(); ?></p>
-
-			<?php endif; // comment_type ?>
-			<blockquote><p><?php comment_excerpt(); ?></p></blockquote>
-			<p class="row-actions"><?php echo $actions_string; ?></p>
-			</div>
-		</div>
-<?php
+	return true;
 }
 
 /**
- * The recent comments dashboard widget control.
- *
- * @since 3.0.0
- */
-function wp_dashboard_recent_comments_control() {
-	if ( !$widget_options = get_option( 'dashboard_widget_options' ) )
-		$widget_options = array();
-
-	if ( !isset($widget_options['dashboard_recent_comments']) )
-		$widget_options['dashboard_recent_comments'] = array();
-
-	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-recent-comments']) ) {
-		$number = absint( $_POST['widget-recent-comments']['items'] );
-		$widget_options['dashboard_recent_comments']['items'] = $number;
-		update_option( 'dashboard_widget_options', $widget_options );
-	}
-
-	$number = isset( $widget_options['dashboard_recent_comments']['items'] ) ? (int) $widget_options['dashboard_recent_comments']['items'] : '';
-
-	echo '<p><label for="comments-number">' . __('Number of comments to show:') . '</label>';
-	echo '<input id="comments-number" name="widget-recent-comments[items]" type="text" value="' . $number . '" size="3" /></p>';
-}
-
-function wp_dashboard_incoming_links() {
-	wp_dashboard_cached_rss_widget( 'dashboard_incoming_links', 'wp_dashboard_incoming_links_output' );
-}
-
-/**
- * Display incoming links dashboard widget content.
- *
- * @since 2.5.0
- */
-function wp_dashboard_incoming_links_output() {
-	$widgets = get_option( 'dashboard_widget_options' );
-	@extract( @$widgets['dashboard_incoming_links'], EXTR_SKIP );
-	$rss = fetch_feed( $url );
-
-	if ( is_wp_error($rss) ) {
-		if ( is_admin() || current_user_can('manage_options') ) {
-			echo '<p>';
-			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
-			echo '</p>';
-		}
-		return;
-	}
-
-	if ( !$rss->get_item_quantity() ) {
-		echo '<p>' . __('This dashboard widget queries <a href="http://blogsearch.google.com/">Google Blog Search</a> so that when another blog links to your site it will show up here. It has found no incoming links&hellip; yet. It&#8217;s okay &#8212; there is no rush.') . "</p>\n";
-		$rss->__destruct();
-		unset($rss);
-		return;
-	}
-
-	echo "<ul>\n";
-
-	if ( !isset($items) )
-		$items = 10;
-
-	foreach ( $rss->get_items(0, $items) as $item ) {
-		$publisher = '';
-		$site_link = '';
-		$link = '';
-		$content = '';
-		$date = '';
-		$link = esc_url( strip_tags( $item->get_link() ) );
-
-		$author = $item->get_author();
-		if ( $author ) {
-			$site_link = esc_url( strip_tags( $author->get_link() ) );
-
-			if ( !$publisher = esc_html( strip_tags( $author->get_name() ) ) )
-				$publisher = __( 'Somebody' );
-		} else {
-		  $publisher = __( 'Somebody' );
-		}
-		if ( $site_link )
-			$publisher = "<a href='$site_link'>$publisher</a>";
-		else
-			$publisher = "<strong>$publisher</strong>";
-
-		$content = $item->get_content();
-		$content = wp_html_excerpt($content, 50) . ' ...';
-
-		if ( $link )
-			/* translators: incoming links feed, %1$s is other person, %3$s is content */
-			$text = __( '%1$s linked here <a href="%2$s">saying</a>, "%3$s"' );
-		else
-			/* translators: incoming links feed, %1$s is other person, %3$s is content */
-			$text = __( '%1$s linked here saying, "%3$s"' );
-
-		if ( !empty( $show_date ) ) {
-			if ( $link )
-				/* translators: incoming links feed, %1$s is other person, %3$s is content, %4$s is the date */
-				$text = __( '%1$s linked here <a href="%2$s">saying</a>, "%3$s" on %4$s' );
-			else
-				/* translators: incoming links feed, %1$s is other person, %3$s is content, %4$s is the date */
-				$text = __( '%1$s linked here saying, "%3$s" on %4$s' );
-			$date = esc_html( strip_tags( $item->get_date() ) );
-			$date = strtotime( $date );
-			$date = gmdate( get_option( 'date_format' ), $date );
-		}
-
-		echo "\t<li>" . sprintf( $text, $publisher, $link, $content, $date ) . "</li>\n";
-	}
-
-	echo "</ul>\n";
-	$rss->__destruct();
-	unset($rss);
-}
-
-function wp_dashboard_incoming_links_control() {
-	wp_dashboard_rss_control( 'dashboard_incoming_links', array( 'title' => false, 'show_summary' => false, 'show_author' => false ) );
-}
-
-function wp_dashboard_primary() {
-	wp_dashboard_cached_rss_widget( 'dashboard_primary', 'wp_dashboard_rss_output' );
-}
-
-function wp_dashboard_primary_control() {
-	wp_dashboard_rss_control( 'dashboard_primary' );
-}
-
-/**
- * {@internal Missing Short Description}}
+ * Display generic dashboard RSS widget feed.
  *
  * @since 2.5.0
  *
@@ -855,75 +945,272 @@ function wp_dashboard_primary_control() {
 function wp_dashboard_rss_output( $widget_id ) {
 	$widgets = get_option( 'dashboard_widget_options' );
 	echo '<div class="rss-widget">';
-	wp_widget_rss_output( $widgets[$widget_id] );
+	wp_widget_rss_output( $widgets[ $widget_id ] );
 	echo "</div>";
 }
 
-function wp_dashboard_secondary() {
-	wp_dashboard_cached_rss_widget( 'dashboard_secondary', 'wp_dashboard_secondary_output' );
-}
-
-function wp_dashboard_secondary_control() {
-	wp_dashboard_rss_control( 'dashboard_secondary' );
-}
-
 /**
- * Display secondary dashboard RSS widget feed.
+ * Checks to see if all of the feed url in $check_urls are cached.
+ *
+ * If $check_urls is empty, look for the rss feed url found in the dashboard
+ * widget options of $widget_id. If cached, call $callback, a function that
+ * echoes out output for this widget. If not cache, echo a "Loading..." stub
+ * which is later replaced by Ajax call (see top of /wp-admin/index.php)
  *
  * @since 2.5.0
  *
- * @return unknown
+ * @param string $widget_id
+ * @param callable $callback
+ * @param array $check_urls RSS feeds
+ * @return bool False on failure. True on success.
  */
-function wp_dashboard_secondary_output() {
-	$widgets = get_option( 'dashboard_widget_options' );
-	@extract( @$widgets['dashboard_secondary'], EXTR_SKIP );
-	$rss = @fetch_feed( $url );
+function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array() ) {
+	$loading = '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><p class="hide-if-js">' . __( 'This widget requires JavaScript.' ) . '</p>';
+	$doing_ajax = ( defined('DOING_AJAX') && DOING_AJAX );
 
-	if ( is_wp_error($rss) ) {
-		if ( is_admin() || current_user_can('manage_options') ) {
-			echo '<div class="rss-widget"><p>';
-			printf(__('<strong>RSS Error</strong>: %s'), $rss->get_error_message());
-			echo '</p></div>';
+	if ( empty($check_urls) ) {
+		$widgets = get_option( 'dashboard_widget_options' );
+		if ( empty($widgets[$widget_id]['url']) && ! $doing_ajax ) {
+			echo $loading;
+			return false;
 		}
-	} elseif ( !$rss->get_item_quantity() ) {
-		$rss->__destruct();
-		unset($rss);
+		$check_urls = array( $widgets[$widget_id]['url'] );
+	}
+
+	$locale = get_locale();
+	$cache_key = 'dash_' . md5( $widget_id . '_' . $locale );
+	if ( false !== ( $output = get_transient( $cache_key ) ) ) {
+		echo $output;
+		return true;
+	}
+
+	if ( ! $doing_ajax ) {
+		echo $loading;
 		return false;
-	} else {
-		echo '<div class="rss-widget">';
-		wp_widget_rss_output( $rss, $widgets['dashboard_secondary'] );
-		echo '</div>';
-		$rss->__destruct();
-		unset($rss);
+	}
+
+	if ( $callback && is_callable( $callback ) ) {
+		$args = array_slice( func_get_args(), 3 );
+		array_unshift( $args, $widget_id, $check_urls );
+		ob_start();
+		call_user_func_array( $callback, $args );
+		set_transient( $cache_key, ob_get_flush(), 12 * HOUR_IN_SECONDS ); // Default lifetime in cache of 12 hours (same as the feeds)
+	}
+
+	return true;
+}
+
+//
+// Dashboard Widgets Controls
+//
+
+/**
+ * Calls widget control callback.
+ *
+ * @since 2.5.0
+ *
+ * @global array $wp_dashboard_control_callbacks
+ *
+ * @param int $widget_control_id Registered Widget ID.
+ */
+function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
+	global $wp_dashboard_control_callbacks;
+
+	if ( is_scalar($widget_control_id) && $widget_control_id && isset($wp_dashboard_control_callbacks[$widget_control_id]) && is_callable($wp_dashboard_control_callbacks[$widget_control_id]) ) {
+		call_user_func( $wp_dashboard_control_callbacks[$widget_control_id], '', array( 'id' => $widget_control_id, 'callback' => $wp_dashboard_control_callbacks[$widget_control_id] ) );
 	}
 }
 
-function wp_dashboard_plugins() {
-	wp_dashboard_cached_rss_widget( 'dashboard_plugins', 'wp_dashboard_plugins_output', array(
-		'http://wordpress.org/extend/plugins/rss/browse/popular/',
-		'http://wordpress.org/extend/plugins/rss/browse/new/'
-	) );
+/**
+ * The RSS dashboard widget control.
+ *
+ * Sets up $args to be used as input to wp_widget_rss_form(). Handles POST data
+ * from RSS-type widgets.
+ *
+ * @since 2.5.0
+ *
+ * @param string $widget_id
+ * @param array $form_inputs
+ */
+function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
+	if ( !$widget_options = get_option( 'dashboard_widget_options' ) )
+		$widget_options = array();
+
+	if ( !isset($widget_options[$widget_id]) )
+		$widget_options[$widget_id] = array();
+
+	$number = 1; // Hack to use wp_widget_rss_form()
+	$widget_options[$widget_id]['number'] = $number;
+
+	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-rss'][$number]) ) {
+		$_POST['widget-rss'][$number] = wp_unslash( $_POST['widget-rss'][$number] );
+		$widget_options[$widget_id] = wp_widget_rss_process( $_POST['widget-rss'][$number] );
+		$widget_options[$widget_id]['number'] = $number;
+
+		// Title is optional. If black, fill it if possible.
+		if ( !$widget_options[$widget_id]['title'] && isset($_POST['widget-rss'][$number]['title']) ) {
+			$rss = fetch_feed($widget_options[$widget_id]['url']);
+			if ( is_wp_error($rss) ) {
+				$widget_options[$widget_id]['title'] = htmlentities(__('Unknown Feed'));
+			} else {
+				$widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->get_title()));
+				$rss->__destruct();
+				unset($rss);
+			}
+		}
+		update_option( 'dashboard_widget_options', $widget_options );
+		$cache_key = 'dash_' . md5( $widget_id );
+		delete_transient( $cache_key );
+	}
+
+	wp_widget_rss_form( $widget_options[$widget_id], $form_inputs );
 }
 
 /**
- * Display plugins most popular, newest plugins, and recently updated widget text.
+ * WordPress News dashboard widget.
+ *
+ * @since 2.7.0
+ */
+function wp_dashboard_primary() {
+	$feeds = array(
+		'news' => array(
+
+			/**
+			 * Filters the primary link URL for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.5.0
+			 *
+			 * @param string $link The widget's primary link URL.
+			 */
+			'link' => apply_filters( 'dashboard_primary_link', __( 'https://wordpress.org/news/' ) ),
+
+			/**
+			 * Filters the primary feed URL for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $url The widget's primary feed URL.
+			 */
+			'url' => apply_filters( 'dashboard_primary_feed', __( 'http://wordpress.org/news/feed/' ) ),
+
+			/**
+			 * Filters the primary link title for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $title Title attribute for the widget's primary link.
+			 */
+			'title'        => apply_filters( 'dashboard_primary_title', __( 'WordPress Blog' ) ),
+			'items'        => 1,
+			'show_summary' => 1,
+			'show_author'  => 0,
+			'show_date'    => 1,
+		),
+		'planet' => array(
+
+			/**
+			 * Filters the secondary link URL for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $link The widget's secondary link URL.
+			 */
+			'link' => apply_filters( 'dashboard_secondary_link', __( 'https://planet.wordpress.org/' ) ),
+
+			/**
+			 * Filters the secondary feed URL for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $url The widget's secondary feed URL.
+			 */
+			'url' => apply_filters( 'dashboard_secondary_feed', __( 'https://planet.wordpress.org/feed/' ) ),
+
+			/**
+			 * Filters the secondary link title for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 2.3.0
+			 *
+			 * @param string $title Title attribute for the widget's secondary link.
+			 */
+			'title'        => apply_filters( 'dashboard_secondary_title', __( 'Other WordPress News' ) ),
+
+			/**
+			 * Filters the number of secondary link items for the 'WordPress News' dashboard widget.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param string $items How many items to show in the secondary feed.
+			 */
+			'items'        => apply_filters( 'dashboard_secondary_items', 3 ),
+			'show_summary' => 0,
+			'show_author'  => 0,
+			'show_date'    => 0,
+		)
+	);
+
+	if ( ( ! is_multisite() && is_blog_admin() && current_user_can( 'install_plugins' ) ) || ( is_network_admin() && current_user_can( 'manage_network_plugins' ) && current_user_can( 'install_plugins' ) ) ) {
+		$feeds['plugins'] = array(
+			'link'         => '',
+			'url'          => array(
+				'popular' => 'http://wordpress.org/plugins/rss/browse/popular/',
+			),
+			'title'        => '',
+			'items'        => 1,
+			'show_summary' => 0,
+			'show_author'  => 0,
+			'show_date'    => 0,
+		);
+	}
+
+	wp_dashboard_cached_rss_widget( 'dashboard_primary', 'wp_dashboard_primary_output', $feeds );
+}
+
+/**
+ * Display the WordPress news feeds.
+ *
+ * @since 3.8.0
+ *
+ * @param string $widget_id Widget ID.
+ * @param array  $feeds     Array of RSS feeds.
+ */
+function wp_dashboard_primary_output( $widget_id, $feeds ) {
+	foreach ( $feeds as $type => $args ) {
+		$args['type'] = $type;
+		echo '<div class="rss-widget">';
+		if ( $type === 'plugins' ) {
+			wp_dashboard_plugins_output( $args['url'], $args );
+		} else {
+			wp_widget_rss_output( $args['url'], $args );
+		}
+		echo "</div>";
+	}
+}
+
+/**
+ * Display plugins text for the WordPress news widget.
  *
  * @since 2.5.0
+ *
+ * @param string $rss  The RSS feed URL.
+ * @param array  $args Array of arguments for this RSS feed.
  */
-function wp_dashboard_plugins_output() {
-	$popular = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/popular/' );
-	$new     = fetch_feed( 'http://wordpress.org/extend/plugins/rss/browse/new/' );
+function wp_dashboard_plugins_output( $rss, $args = array() ) {
+	// Plugin feeds plus link to install them
+	$popular = fetch_feed( $args['url']['popular'] );
 
 	if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
 		$plugin_slugs = array_keys( get_plugins() );
 		set_transient( 'plugin_slugs', $plugin_slugs, DAY_IN_SECONDS );
 	}
 
-	foreach ( array( 'popular' => __('Most Popular'), 'new' => __('Newest Plugins') ) as $feed => $label ) {
-		if ( is_wp_error($$feed) || !$$feed->get_item_quantity() )
+	echo '<ul>';
+
+	foreach ( array( $popular ) as $feed ) {
+		if ( is_wp_error( $feed ) || ! $feed->get_item_quantity() )
 			continue;
 
-		$items = $$feed->get_items(0, 5);
+		$items = $feed->get_items(0, 5);
 
 		// Pick a random, non-installed plugin
 		while ( true ) {
@@ -964,136 +1251,32 @@ function wp_dashboard_plugins_output() {
 		if ( !isset($items[$item_key]) )
 			continue;
 
-		$title = esc_html( $item->get_title() );
+		$raw_title = $item->get_title();
 
-		$description = esc_html( strip_tags(@html_entity_decode($item->get_description(), ENT_QUOTES, get_option('blog_charset'))) );
+		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) . '&amp;TB_iframe=true&amp;width=600&amp;height=800';
+		echo '<li class="dashboard-news-plugin"><span>' . __( 'Popular Plugin' ) . ':</span> ' . esc_html( $raw_title ) .
+			'&nbsp;<a href="' . $ilink . '" class="thickbox open-plugin-details-modal" aria-label="' .
+			/* translators: %s: plugin name */
+			esc_attr( sprintf( __( 'Install %s' ), $raw_title ) ) . '">(' . __( 'Install' ) . ')</a></li>';
 
-		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) .
-							'&amp;TB_iframe=true&amp;width=600&amp;height=800';
-
-		echo "<h4>$label</h4>\n";
-		echo "<h5><a href='$link'>$title</a></h5>&nbsp;<span>(<a href='$ilink' class='thickbox' title='$title'>" . __( 'Install' ) . "</a>)</span>\n";
-		echo "<p>$description</p>\n";
-
-		$$feed->__destruct();
-		unset($$feed);
+		$feed->__destruct();
+		unset( $feed );
 	}
+
+	echo '</ul>';
 }
 
 /**
- * Checks to see if all of the feed url in $check_urls are cached.
+ * Display file upload quota on dashboard.
  *
- * If $check_urls is empty, look for the rss feed url found in the dashboard
- * widget options of $widget_id. If cached, call $callback, a function that
- * echoes out output for this widget. If not cache, echo a "Loading..." stub
- * which is later replaced by AJAX call (see top of /wp-admin/index.php)
+ * Runs on the {@see 'activity_box_end'} hook in wp_dashboard_right_now().
  *
- * @since 2.5.0
+ * @since 3.0.0
  *
- * @param string $widget_id
- * @param callback $callback
- * @param array $check_urls RSS feeds
- * @return bool False on failure. True on success.
+ * @return bool|null True if not multisite, user can't upload files, or the space check option is disabled.
  */
-function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array() ) {
-	$loading = '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><p class="hide-if-js">' . __( 'This widget requires JavaScript.' ) . '</p>';
-	$doing_ajax = ( defined('DOING_AJAX') && DOING_AJAX );
-
-	if ( empty($check_urls) ) {
-		$widgets = get_option( 'dashboard_widget_options' );
-		if ( empty($widgets[$widget_id]['url']) && ! $doing_ajax ) {
-			echo $loading;
-			return false;
-		}
-		$check_urls = array( $widgets[$widget_id]['url'] );
-	}
-
-	$cache_key = 'dash_' . md5( $widget_id );
-	if ( false !== ( $output = get_transient( $cache_key ) ) ) {
-		echo $output;
-		return true;
-	}
-
-	if ( ! $doing_ajax ) {
-		echo $loading;
-		return false;
-	}
-
-	if ( $callback && is_callable( $callback ) ) {
-		$args = array_slice( func_get_args(), 2 );
-		array_unshift( $args, $widget_id );
-		ob_start();
-		call_user_func_array( $callback, $args );
-		set_transient( $cache_key, ob_get_flush(), 12 * HOUR_IN_SECONDS ); // Default lifetime in cache of 12 hours (same as the feeds)
-	}
-
-	return true;
-}
-
-/* Dashboard Widgets Controls */
-
-// Calls widget_control callback
-/**
- * Calls widget control callback.
- *
- * @since 2.5.0
- *
- * @param int $widget_control_id Registered Widget ID.
- */
-function wp_dashboard_trigger_widget_control( $widget_control_id = false ) {
-	global $wp_dashboard_control_callbacks;
-
-	if ( is_scalar($widget_control_id) && $widget_control_id && isset($wp_dashboard_control_callbacks[$widget_control_id]) && is_callable($wp_dashboard_control_callbacks[$widget_control_id]) ) {
-		call_user_func( $wp_dashboard_control_callbacks[$widget_control_id], '', array( 'id' => $widget_control_id, 'callback' => $wp_dashboard_control_callbacks[$widget_control_id] ) );
-	}
-}
-
-/**
- * The RSS dashboard widget control.
- *
- * Sets up $args to be used as input to wp_widget_rss_form(). Handles POST data
- * from RSS-type widgets.
- *
- * @since 2.5.0
- *
- * @param string $widget_id
- * @param array $form_inputs
- */
-function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
-	if ( !$widget_options = get_option( 'dashboard_widget_options' ) )
-		$widget_options = array();
-
-	if ( !isset($widget_options[$widget_id]) )
-		$widget_options[$widget_id] = array();
-
-	$number = 1; // Hack to use wp_widget_rss_form()
-	$widget_options[$widget_id]['number'] = $number;
-
-	if ( 'POST' == $_SERVER['REQUEST_METHOD'] && isset($_POST['widget-rss'][$number]) ) {
-		$_POST['widget-rss'][$number] = stripslashes_deep( $_POST['widget-rss'][$number] );
-		$widget_options[$widget_id] = wp_widget_rss_process( $_POST['widget-rss'][$number] );
-		// title is optional. If black, fill it if possible
-		if ( !$widget_options[$widget_id]['title'] && isset($_POST['widget-rss'][$number]['title']) ) {
-			$rss = fetch_feed($widget_options[$widget_id]['url']);
-			if ( is_wp_error($rss) ) {
-				$widget_options[$widget_id]['title'] = htmlentities(__('Unknown Feed'));
-			} else {
-				$widget_options[$widget_id]['title'] = htmlentities(strip_tags($rss->get_title()));
-				$rss->__destruct();
-				unset($rss);
-			}
-		}
-		update_option( 'dashboard_widget_options', $widget_options );
-		$cache_key = 'dash_' . md5( $widget_id );
-		delete_transient( $cache_key );
-	}
-
-	wp_widget_rss_form( $widget_options[$widget_id], $form_inputs );
-}
-
-// Display File upload quota on dashboard
 function wp_dashboard_quota() {
-	if ( !is_multisite() || !current_user_can('upload_files') || get_site_option( 'upload_space_check_disabled' ) )
+	if ( !is_multisite() || !current_user_can( 'upload_files' ) || get_site_option( 'upload_space_check_disabled' ) )
 		return true;
 
 	$quota = get_space_allowed();
@@ -1103,32 +1286,44 @@ function wp_dashboard_quota() {
 		$percentused = '100';
 	else
 		$percentused = ( $used / $quota ) * 100;
-	$used_color = ( $percentused >= 70 ) ? ' spam' : '';
+	$used_class = ( $percentused >= 70 ) ? ' warning' : '';
 	$used = round( $used, 2 );
 	$percentused = number_format( $percentused );
 
 	?>
-	<p class="sub musub"><?php _e( 'Storage Space' ); ?></p>
-	<div class="table table_content musubtable">
-	<table>
-		<tr class="first">
-			<td class="first b b-posts"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB</a>' ), esc_url( admin_url( 'upload.php' ) ), $quota ); ?></td>
-			<td class="t posts"><?php _e( 'Space Allowed' ); ?></td>
-		</tr>
-	</table>
+	<h3 class="mu-storage"><?php _e( 'Storage Space' ); ?></h3>
+	<div class="mu-storage">
+	<ul>
+		<li class="storage-count">
+			<?php $text = sprintf(
+				/* translators: number of megabytes */
+				__( '%s MB Space Allowed' ),
+				number_format_i18n( $quota )
+			);
+			printf(
+				'<a href="%1$s">%2$s <span class="screen-reader-text">(%3$s)</span></a>',
+				esc_url( admin_url( 'upload.php' ) ),
+				$text,
+				__( 'Manage Uploads' )
+			); ?>
+		</li><li class="storage-count <?php echo $used_class; ?>">
+			<?php $text = sprintf(
+				/* translators: 1: number of megabytes, 2: percentage */
+				__( '%1$s MB (%2$s%%) Space Used' ),
+				number_format_i18n( $used, 2 ),
+				$percentused
+			);
+			printf(
+				'<a href="%1$s" class="musublink">%2$s <span class="screen-reader-text">(%3$s)</span></a>',
+				esc_url( admin_url( 'upload.php' ) ),
+				$text,
+				__( 'Manage Uploads' )
+			); ?>
+		</li>
+	</ul>
 	</div>
-	<div class="table table_discussion musubtable">
-	<table>
-		<tr class="first">
-			<td class="b b-comments"><?php printf( __( '<a href="%1$s" title="Manage Uploads" class="musublink">%2$sMB (%3$s%%)</a>' ), esc_url( admin_url( 'upload.php' ) ), $used, $percentused ); ?></td>
-			<td class="last t comments<?php echo $used_color;?>"><?php _e( 'Space Used' );?></td>
-		</tr>
-	</table>
-	</div>
-	<br class="clear" />
 	<?php
 }
-add_action( 'activity_box_end', 'wp_dashboard_quota' );
 
 // Display Browser Nag Meta Box
 function wp_dashboard_browser_nag() {
@@ -1137,9 +1332,15 @@ function wp_dashboard_browser_nag() {
 
 	if ( $response ) {
 		if ( $response['insecure'] ) {
-			$msg = sprintf( __( "It looks like you're using an insecure version of <a href='%s'>%s</a>. Using an outdated browser makes your computer unsafe. For the best WordPress experience, please update your browser." ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ) );
+			/* translators: %s: browser name and link */
+			$msg = sprintf( __( "It looks like you're using an insecure version of %s. Using an outdated browser makes your computer unsafe. For the best WordPress experience, please update your browser." ),
+				sprintf( '<a href="%s">%s</a>', esc_url( $response['update_url'] ), esc_html( $response['name'] ) )
+			);
 		} else {
-			$msg = sprintf( __( "It looks like you're using an old version of <a href='%s'>%s</a>. For the best WordPress experience, please update your browser." ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ) );
+			/* translators: %s: browser name and link */
+			$msg = sprintf( __( "It looks like you're using an old version of %s. For the best WordPress experience, please update your browser." ),
+				sprintf( '<a href="%s">%s</a>', esc_url( $response['update_url'] ), esc_html( $response['name'] ) )
+			);
 		}
 
 		$browser_nag_class = '';
@@ -1157,13 +1358,27 @@ function wp_dashboard_browser_nag() {
 			$browsehappy = add_query_arg( 'locale', $locale, $browsehappy );
 
 		$notice .= '<p>' . sprintf( __( '<a href="%1$s" class="update-browser-link">Update %2$s</a> or learn how to <a href="%3$s" class="browse-happy-link">browse happy</a>' ), esc_attr( $response['update_url'] ), esc_html( $response['name'] ), esc_url( $browsehappy ) ) . '</p>';
-		$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss">' . __( 'Dismiss' ) . '</a></p>';
+		$notice .= '<p class="hide-if-no-js"><a href="" class="dismiss" aria-label="' . esc_attr__( 'Dismiss the browser warning panel' ) . '">' . __( 'Dismiss' ) . '</a></p>';
 		$notice .= '<div class="clear"></div>';
 	}
 
+	/**
+	* Filters the notice output for the 'Browse Happy' nag meta box.
+	*
+	* @since 3.2.0
+	*
+	* @param string $notice   The notice content.
+	* @param array  $response An array containing web browser information.
+	*/
 	echo apply_filters( 'browse-happy-notice', $notice, $response );
 }
 
+/**
+ * @since 3.2.0
+ *
+ * @param array $classes
+ * @return array
+ */
 function dashboard_browser_nag_class( $classes ) {
 	$response = wp_check_browser_version();
 
@@ -1177,6 +1392,8 @@ function dashboard_browser_nag_class( $classes ) {
  * Check if the user needs a browser update
  *
  * @since 3.2.0
+ *
+ * @global string $wp_version
  *
  * @return array|bool False on failure, array of browser data on success.
  */
@@ -1194,7 +1411,7 @@ function wp_check_browser_version() {
 			'user-agent'	=> 'WordPress/' . $wp_version . '; ' . home_url()
 		);
 
-		$response = wp_remote_post( 'http://api.wordpress.org/core/browse-happy/1.0/', $options );
+		$response = wp_remote_post( 'http://api.wordpress.org/core/browse-happy/1.1/', $options );
 
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
 			return false;
@@ -1202,15 +1419,15 @@ function wp_check_browser_version() {
 		/**
 		 * Response should be an array with:
 		 *  'name' - string - A user friendly browser name
-		 *  'version' - string - The most recent version of the browser
-		 *  'current_version' - string - The version of the browser the user is using
+		 *  'version' - string - The version of the browser the user is using
+		 *  'current_version' - string - The most recent version of the browser
 		 *  'upgrade' - boolean - Whether the browser needs an upgrade
 		 *  'insecure' - boolean - Whether the browser is deemed insecure
 		 *  'upgrade_url' - string - The url to visit to upgrade
 		 *  'img_src' - string - An image representing the browser
 		 *  'img_src_ssl' - string - An image (over SSL) representing the browser
 		 */
-		$response = maybe_unserialize( wp_remote_retrieve_body( $response ) );
+		$response = json_decode( wp_remote_retrieve_body( $response ), true );
 
 		if ( ! is_array( $response ) )
 			return false;
@@ -1234,41 +1451,55 @@ function wp_dashboard_empty() {}
 function wp_welcome_panel() {
 	?>
 	<div class="welcome-panel-content">
-	<h3><?php _e( 'Welcome to WordPress!' ); ?></h3>
+	<h2><?php _e( 'Welcome to WordPress!' ); ?></h2>
 	<p class="about-description"><?php _e( 'We&#8217;ve assembled some links to get you started:' ); ?></p>
 	<div class="welcome-panel-column-container">
 	<div class="welcome-panel-column">
-		<h4><?php _e( 'Get Started' ); ?></h4>
-		<p><?php _e( 'First, tweak the look of your site:' ); ?></p>
-		<a class="button-primary welcome-button load-customize hide-if-no-customize" href="<?php echo wp_customize_url(); ?>"><?php _e( 'Customize Your Site' ); ?></a>
-		<a class="button-primary welcome-button hide-if-customize" href="<?php echo admin_url( 'themes.php' ); ?>"><?php _e( 'Customize Your Site' ); ?></a>
+		<?php if ( current_user_can( 'customize' ) ): ?>
+			<h3><?php _e( 'Get Started' ); ?></h3>
+			<a class="button button-primary button-hero load-customize hide-if-no-customize" href="<?php echo wp_customize_url(); ?>"><?php _e( 'Customize Your Site' ); ?></a>
+		<?php endif; ?>
+		<a class="button button-primary button-hero hide-if-customize" href="<?php echo admin_url( 'themes.php' ); ?>"><?php _e( 'Customize Your Site' ); ?></a>
 		<?php if ( current_user_can( 'install_themes' ) || ( current_user_can( 'switch_themes' ) && count( wp_get_themes( array( 'allowed' => true ) ) ) > 1 ) ) : ?>
 			<p class="hide-if-no-customize"><?php printf( __( 'or, <a href="%s">change your theme completely</a>' ), admin_url( 'themes.php' ) ); ?></p>
 		<?php endif; ?>
 	</div>
 	<div class="welcome-panel-column">
-		<h4><?php _e( 'Next Steps' ); ?></h4>
+		<h3><?php _e( 'Next Steps' ); ?></h3>
 		<ul>
 		<?php if ( 'page' == get_option( 'show_on_front' ) && ! get_option( 'page_for_posts' ) ) : ?>
-			<li><?php printf( '<a href="%s">' . __( 'Edit your front page' ) . '</a>', get_edit_post_link( get_option( 'page_on_front' ) ) ); ?></li>
-			<li><?php printf( '<a href="%s">' . __( 'Add additional pages' ) . '</a>', admin_url( 'post-new.php?post_type=page' ) ); ?></li>
+			<li><?php printf( '<a href="%s" class="welcome-icon welcome-edit-page">' . __( 'Edit your front page' ) . '</a>', get_edit_post_link( get_option( 'page_on_front' ) ) ); ?></li>
+			<li><?php printf( '<a href="%s" class="welcome-icon welcome-add-page">' . __( 'Add additional pages' ) . '</a>', admin_url( 'post-new.php?post_type=page' ) ); ?></li>
 		<?php elseif ( 'page' == get_option( 'show_on_front' ) ) : ?>
-			<li><?php printf( '<a href="%s">' . __( 'Edit your front page' ) . '</a>', get_edit_post_link( get_option( 'page_on_front' ) ) ); ?></li>
-			<li><?php printf( '<a href="%s">' . __( 'Add additional pages' ) . '</a>', admin_url( 'post-new.php?post_type=page' ) ); ?></li>
-			<li><?php printf( '<a href="%s">' . __( 'Add a blog post' ) . '</a>', admin_url( 'post-new.php' ) ); ?></li>
+			<li><?php printf( '<a href="%s" class="welcome-icon welcome-edit-page">' . __( 'Edit your front page' ) . '</a>', get_edit_post_link( get_option( 'page_on_front' ) ) ); ?></li>
+			<li><?php printf( '<a href="%s" class="welcome-icon welcome-add-page">' . __( 'Add additional pages' ) . '</a>', admin_url( 'post-new.php?post_type=page' ) ); ?></li>
+			<li><?php printf( '<a href="%s" class="welcome-icon welcome-write-blog">' . __( 'Add a blog post' ) . '</a>', admin_url( 'post-new.php' ) ); ?></li>
 		<?php else : ?>
-			<li><?php printf( '<a href="%s">' . __( 'Write your first blog post' ) . '</a>', admin_url( 'post-new.php' ) ); ?></li>
-			<li><?php printf( '<a href="%s">' . __( 'Add an About page' ) . '</a>', admin_url( 'post-new.php?post_type=page' ) ); ?></li>
+			<li><?php printf( '<a href="%s" class="welcome-icon welcome-write-blog">' . __( 'Write your first blog post' ) . '</a>', admin_url( 'post-new.php' ) ); ?></li>
+			<li><?php printf( '<a href="%s" class="welcome-icon welcome-add-page">' . __( 'Add an About page' ) . '</a>', admin_url( 'post-new.php?post_type=page' ) ); ?></li>
 		<?php endif; ?>
-			<li><?php printf( '<a href="%s">' . __( 'View your site' ) . '</a>', home_url( '/' ) ); ?></li>
+			<li><?php printf( '<a href="%s" class="welcome-icon welcome-view-site">' . __( 'View your site' ) . '</a>', home_url( '/' ) ); ?></li>
 		</ul>
 	</div>
 	<div class="welcome-panel-column welcome-panel-last">
-		<h4><?php _e( 'Learn How To' ); ?></h4>
+		<h3><?php _e( 'More Actions' ); ?></h3>
 		<ul>
-			<li><?php printf( '<a id="wp350_add_images" href="%s">' . __( 'Add image/media' ) . '</a>', admin_url( 'media-new.php' ) ); ?></li>
-			<li><?php printf( '<a id="wp350_widgets" href="%s">' . __( 'Add/remove widgets' ) . '</a>', admin_url( 'widgets.php' ) ); ?></li>
-			<li><?php printf( '<a id="wp350_edit_menu" href="%s">' . __( 'Edit your navigation menu' ) . '</a>', admin_url( 'nav-menus.php' ) ); ?></li>
+		<?php if ( current_theme_supports( 'widgets' ) || current_theme_supports( 'menus' ) ) : ?>
+			<li><div class="welcome-icon welcome-widgets-menus"><?php
+				if ( current_theme_supports( 'widgets' ) && current_theme_supports( 'menus' ) ) {
+					printf( __( 'Manage <a href="%1$s">widgets</a> or <a href="%2$s">menus</a>' ),
+						admin_url( 'widgets.php' ), admin_url( 'nav-menus.php' ) );
+				} elseif ( current_theme_supports( 'widgets' ) ) {
+					echo '<a href="' . admin_url( 'widgets.php' ) . '">' . __( 'Manage widgets' ) . '</a>';
+				} else {
+					echo '<a href="' . admin_url( 'nav-menus.php' ) . '">' . __( 'Manage menus' ) . '</a>';
+				}
+			?></div></li>
+		<?php endif; ?>
+		<?php if ( current_user_can( 'manage_options' ) ) : ?>
+			<li><?php printf( '<a href="%s" class="welcome-icon welcome-comments">' . __( 'Turn comments on or off' ) . '</a>', admin_url( 'options-discussion.php' ) ); ?></li>
+		<?php endif; ?>
+			<li><?php printf( '<a href="%s" class="welcome-icon welcome-learn-more">' . __( 'Learn more about getting started' ) . '</a>', __( 'https://codex.wordpress.org/First_Steps_With_WordPress' ) ); ?></li>
 		</ul>
 	</div>
 	</div>

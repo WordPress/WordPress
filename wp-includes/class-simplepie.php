@@ -1,5 +1,5 @@
 <?php
-if ( ! class_exists( 'SimplePie' ) ) :
+if ( ! class_exists( 'SimplePie', false ) ) :
 
 // Load classes we will need.
 require ABSPATH . WPINC . '/SimplePie/Misc.php';
@@ -26,38 +26,13 @@ function wp_simplepie_autoload( $class ) {
 		return;
 
 	$file = ABSPATH . WPINC . '/' . str_replace( '_', '/', $class ) . '.php';
-	include $file;
+	include( $file );
 }
 
-if ( function_exists( 'spl_autoload_register' ) ) {
-	/**
-	 * We autoload classes we may not need.
-	 *
-	 * If SPL is disabled, we load all of SimplePie manually.
-	 *
-	 * Core.php is not loaded manually, because SimplePie_Core (a deprecated class)
-	 * was never included in WordPress core.
-	 */
-	spl_autoload_register( 'wp_simplepie_autoload' );
-} else {
-	require ABSPATH . WPINC . '/SimplePie/Cache/Base.php';
-	require ABSPATH . WPINC . '/SimplePie/Cache/DB.php';
-	require ABSPATH . WPINC . '/SimplePie/Cache/File.php';
-	require ABSPATH . WPINC . '/SimplePie/Cache/Memcache.php';
-	require ABSPATH . WPINC . '/SimplePie/Cache/MySQL.php';
-	require ABSPATH . WPINC . '/SimplePie/Caption.php';
-	require ABSPATH . WPINC . '/SimplePie/Category.php';
-	require ABSPATH . WPINC . '/SimplePie/Copyright.php';
-	require ABSPATH . WPINC . '/SimplePie/Credit.php';
-	require ABSPATH . WPINC . '/SimplePie/Decode/HTML/Entities.php';
-	require ABSPATH . WPINC . '/SimplePie/Enclosure.php';
-	require ABSPATH . WPINC . '/SimplePie/gzdecode.php';
-	require ABSPATH . WPINC . '/SimplePie/HTTP/Parser.php';
-	require ABSPATH . WPINC . '/SimplePie/Net/IPv6.php';
-	require ABSPATH . WPINC . '/SimplePie/Rating.php';
-	require ABSPATH . WPINC . '/SimplePie/Restriction.php';
-	require ABSPATH . WPINC . '/SimplePie/Source.php';
-}
+/**
+ * We autoload classes we may not need.
+ */
+spl_autoload_register( 'wp_simplepie_autoload' );
 
 /**
  * SimplePie
@@ -93,7 +68,7 @@ if ( function_exists( 'spl_autoload_register' ) ) {
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @version 1.3
+ * @version 1.3.1
  * @copyright 2004-2012 Ryan Parman, Geoffrey Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Geoffrey Sneddon
@@ -110,7 +85,7 @@ define('SIMPLEPIE_NAME', 'SimplePie');
 /**
  * SimplePie Version
  */
-define('SIMPLEPIE_VERSION', '1.3');
+define('SIMPLEPIE_VERSION', '1.3.1');
 
 /**
  * SimplePie Build
@@ -696,7 +671,19 @@ class SimplePie
 
 		if (func_num_args() > 0)
 		{
-			trigger_error('Passing parameters to the constructor is no longer supported. Please use set_feed_url(), set_cache_location(), and set_cache_location() directly.');
+			$level = defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
+			trigger_error('Passing parameters to the constructor is no longer supported. Please use set_feed_url(), set_cache_location(), and set_cache_location() directly.', $level);
+
+			$args = func_get_args();
+			switch (count($args)) {
+				case 3:
+					$this->set_cache_duration($args[2]);
+				case 2:
+					$this->set_cache_location($args[1]);
+				case 1:
+					$this->set_feed_url($args[0]);
+					$this->init();
+			}
 		}
 	}
 
@@ -1323,7 +1310,7 @@ class SimplePie
 			// Decide whether to enable caching
 			if ($this->cache && $parsed_feed_url['scheme'] !== '')
 			{
-				$cache = $this->registry->call('Cache', 'create', array($this->cache_location, call_user_func($this->cache_name_function, $this->feed_url), 'spc'));
+				$cache = $this->registry->call('Cache', 'get_handler', array($this->cache_location, call_user_func($this->cache_name_function, $this->feed_url), 'spc'));
 			}
 
 			// Fetch the data via SimplePie_File into $this->raw_data
@@ -1560,10 +1547,20 @@ class SimplePie
 			{
 				// We need to unset this so that if SimplePie::set_file() has been called that object is untouched
 				unset($file);
-				if (!($file = $locate->find($this->autodiscovery, $this->all_discovered_feeds)))
+				try
 				{
-					$this->error = "A feed could not be found at $this->feed_url. A feed with an invalid mime type may fall victim to this error, or " . SIMPLEPIE_NAME . " was unable to auto-discover it.. Use force_feed() if you are certain this URL is a real feed.";
-					$this->registry->call('Misc', 'error', array($this->error, E_USER_NOTICE, __FILE__, __LINE__));
+					if (!($file = $locate->find($this->autodiscovery, $this->all_discovered_feeds)))
+					{
+						$this->error = "A feed could not be found at $this->feed_url. A feed with an invalid mime type may fall victim to this error, or " . SIMPLEPIE_NAME . " was unable to auto-discover it.. Use force_feed() if you are certain this URL is a real feed.";
+						$this->registry->call('Misc', 'error', array($this->error, E_USER_NOTICE, __FILE__, __LINE__));
+						return false;
+					}
+				}
+				catch (SimplePie_Exception $e)
+				{
+					// This is usually because DOMDocument doesn't exist
+					$this->error = $e->getMessage();
+					$this->registry->call('Misc', 'error', array($this->error, E_USER_NOTICE, $e->getFile(), $e->getLine()));
 					return false;
 				}
 				if ($cache)
@@ -1573,7 +1570,7 @@ class SimplePie
 					{
 						trigger_error("$this->cache_location is not writeable. Make sure you've set the correct relative or absolute path, and that the location is server-writable.", E_USER_WARNING);
 					}
-					$cache = $this->registry->call('Cache', 'create', array($this->cache_location, call_user_func($this->cache_name_function, $file->url), 'spc'));
+					$cache = $this->registry->call('Cache', 'get_handler', array($this->cache_location, call_user_func($this->cache_name_function, $file->url), 'spc'));
 				}
 				$this->feed_url = $file->url;
 			}
@@ -1590,7 +1587,7 @@ class SimplePie
 	}
 
 	/**
-	 * Get the error message for the occured error
+	 * Get the error message for the occurred error.
 	 *
 	 * @return string|array Error message, or array of messages for multifeeds
 	 */
@@ -2959,6 +2956,65 @@ class SimplePie
 		{
 			return array();
 		}
+	}
+
+	/**
+	 * Set the favicon handler
+	 *
+	 * @deprecated Use your own favicon handling instead
+	 */
+	public function set_favicon_handler($page = false, $qs = 'i')
+	{
+		$level = defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
+		trigger_error('Favicon handling has been removed, please use your own handling', $level);
+		return false;
+	}
+
+	/**
+	 * Get the favicon for the current feed
+	 *
+	 * @deprecated Use your own favicon handling instead
+	 */
+	public function get_favicon()
+	{
+		$level = defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
+		trigger_error('Favicon handling has been removed, please use your own handling', $level);
+
+		if (($url = $this->get_link()) !== null)
+		{
+			return 'http://g.etfv.co/' . urlencode($url);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Magic method handler
+	 *
+	 * @param string $method Method name
+	 * @param array $args Arguments to the method
+	 * @return mixed
+	 */
+	public function __call($method, $args)
+	{
+		if (strpos($method, 'subscribe_') === 0)
+		{
+			$level = defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
+			trigger_error('subscribe_*() has been deprecated, implement the callback yourself', $level);
+			return '';
+		}
+		if ($method === 'enable_xml_dump')
+		{
+			$level = defined('E_USER_DEPRECATED') ? E_USER_DEPRECATED : E_USER_WARNING;
+			trigger_error('enable_xml_dump() has been deprecated, use get_raw_data() instead', $level);
+			return false;
+		}
+
+		$class = get_class($this);
+		$trace = debug_backtrace();
+		$file = $trace[0]['file'];
+		$line = $trace[0]['line'];
+		trigger_error("Call to undefined method $class::$method() in $file on line $line", E_USER_ERROR);
 	}
 
 	/**

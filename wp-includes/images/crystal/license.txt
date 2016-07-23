@@ -6,4 +6,4 @@ Released under LGPL
 
 Modified February 2008
 for WordPress
-http://wordpress.org
+https://wordpress.org
