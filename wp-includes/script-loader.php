@@ -350,7 +350,9 @@ function wp_default_scripts( &$scripts ) {
 			'Captions/Subtitles'      => __( 'Captions/Subtitles' ),
 			'None'                    => __( 'None', 'no captions/subtitles' ),
 			'Time Slider'             => __( 'Time Slider' ),
+			/* translators: %1: number of seconds (30 by default) */
 			'Jump forward %1 seconds' => __( 'Jump forward %1 seconds' ),
+			/* translators: %1: number of seconds (30 by default) */
 			'Skip back %1 seconds'    => __( 'Skip back %1 seconds' ),
 			'Video Player'            => __( 'Video Player' ),
 			'Audio Player'            => __( 'Audio Player' ),
