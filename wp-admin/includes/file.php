@@ -168,7 +168,7 @@ function wp_tempnam( $filename = '', $dir = '' ) {
 		$dir = get_temp_dir();
 	}
 
-	if ( empty( $filename ) || '.' == $filename || '/' == $filename ) {
+	if ( empty( $filename ) || '.' == $filename || '/' == $filename || '\\' == $filename ) {
 		$filename = time();
 	}
 
