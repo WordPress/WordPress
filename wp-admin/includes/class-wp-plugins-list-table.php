@@ -816,7 +816,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					echo "</div></td>";
 					break;
 				default:
-					$classes = "$column_name column-$column_name$class";
+					$classes = "$column_name column-$column_name $class";
 
 					echo "<td class='$classes{$extra_classes}'>";
 
