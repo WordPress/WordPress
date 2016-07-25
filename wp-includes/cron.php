@@ -12,6 +12,10 @@
  * a time which you specify. The action will fire off when someone visits your
  * WordPress site, if the schedule time has passed.
  *
+ * Note that scheduling an event to occur within 10 minutes of an existing event
+ * with the same action hook will be ignored, unless you pass unique `$args` values
+ * for each scheduled event.
+ *
  * @since 2.1.0
  * @link https://codex.wordpress.org/Function_Reference/wp_schedule_single_event
  *
