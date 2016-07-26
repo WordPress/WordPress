@@ -592,8 +592,13 @@ define('tinymce/inlite/core/UrlType', [
 		return /^www\.|\.(com|org|edu|gov|uk|net|ca|de|jp|fr|au|us|ru|ch|it|nl|se|no|es|mil)$/i.test(href.trim());
 	};
 
+	var isAbsolute = function (href) {
+		return /^https?:\/\//.test(href.trim());
+	};
+
 	return {
-		isDomainLike: isDomainLike
+		isDomainLike: isDomainLike,
+		isAbsolute: isAbsolute
 	};
 });
 
@@ -658,7 +663,7 @@ define('tinymce/inlite/ui/Forms', [
 	};
 
 	var convertLinkToAbsolute = function (editor, href) {
-		return UrlType.isDomainLike(href) ? askAboutPrefix(editor, href) : Promise.resolve(href);
+		return !UrlType.isAbsolute(href) && UrlType.isDomainLike(href) ? askAboutPrefix(editor, href) : Promise.resolve(href);
 	};
 
 	var createQuickLinkForm = function (editor, hide) {
@@ -767,36 +772,27 @@ define('tinymce/inlite/core/Measure', [
 		};
 	};
 
+	var measureElement = function (elm) {
+		var clientRect = elm.getBoundingClientRect();
+
+		return toAbsolute({
+			x: clientRect.left,
+			y: clientRect.top,
+			w: Math.max(elm.clientWidth, elm.offsetWidth),
+			h: Math.max(elm.clientHeight, elm.offsetHeight)
+		});
+	};
+
 	var getElementRect = function (editor, elm) {
-		var pos, targetRect, root;
-
-		pos = DOM.getPos(editor.getContentAreaContainer());
-		targetRect = editor.dom.getRect(elm);
-		root = editor.dom.getRoot();
-
-		// Adjust targetPos for scrolling in the editor
-		if (root.nodeName == 'BODY') {
-			targetRect.x -= root.ownerDocument.documentElement.scrollLeft || root.scrollLeft;
-			targetRect.y -= root.ownerDocument.documentElement.scrollTop || root.scrollTop;
-		}
-
-		targetRect.x += pos.x;
-		targetRect.y += pos.y;
-
-		// We need to use these instead of the rect values since the style
-		// size properites might not be the same as the real size for a table
-		targetRect.w = elm.clientWidth > 0 ? elm.clientWidth : elm.offsetWidth;
-		targetRect.h = elm.clientHeight > 0 ? elm.clientHeight : elm.offsetHeight;
-
-		return targetRect;
+		return measureElement(elm);
 	};
 
 	var getPageAreaRect = function (editor) {
-		return DOM.getRect(editor.getElement().ownerDocument.body);
+		return measureElement(editor.getElement().ownerDocument.body);
 	};
 
 	var getContentAreaRect = function (editor) {
-		return toAbsolute(DOM.getRect(editor.getContentAreaContainer() || editor.getBody()));
+		return measureElement(editor.getContentAreaContainer() || editor.getBody());
 	};
 
 	var getSelectionRect = function (editor) {
@@ -927,138 +923,103 @@ define('tinymce/inlite/ui/Panel', [
 	'tinymce/inlite/core/Measure',
 	'tinymce/inlite/core/Layout'
 ], function (Tools, Factory, DOM, Toolbar, Forms, Measure, Layout) {
-	var DEFAULT_TEXT_SELECTION_ITEMS = 'bold italic | quicklink h2 h3 blockquote';
-	var DEFAULT_INSERT_TOOLBAR_ITEMS = 'quickimage quicktable';
-	var panel, currentRect;
+	return function () {
+		var DEFAULT_TEXT_SELECTION_ITEMS = 'bold italic | quicklink h2 h3 blockquote';
+		var DEFAULT_INSERT_TOOLBAR_ITEMS = 'quickimage quicktable';
+		var panel, currentRect;
 
-	var createToolbars = function (editor, toolbars) {
-		return Tools.map(toolbars, function (toolbar) {
-			return Toolbar.create(editor, toolbar.id, toolbar.items);
-		});
-	};
-
-	var getTextSelectionToolbarItems = function (settings) {
-		var value = settings.selection_toolbar;
-		return value ? value : DEFAULT_TEXT_SELECTION_ITEMS;
-	};
-
-	var getInsertToolbarItems = function (settings) {
-		var value = settings.insert_toolbar;
-		return value ? value : DEFAULT_INSERT_TOOLBAR_ITEMS;
-	};
-
-	var create = function (editor, toolbars) {
-		var items, settings = editor.settings;
-
-		items = createToolbars(editor, toolbars);
-		items = items.concat([
-			Toolbar.create(editor, 'text', getTextSelectionToolbarItems(settings)),
-			Toolbar.create(editor, 'insert', getInsertToolbarItems(settings)),
-			Forms.createQuickLinkForm(editor, hide)
-		]);
-
-		return Factory.create({
-			type: 'floatpanel',
-			role: 'dialog',
-			classes: 'tinymce tinymce-inline arrow',
-			ariaLabel: 'Inline toolbar',
-			layout: 'flex',
-			direction: 'column',
-			align: 'stretch',
-			autohide: false,
-			autofix: true,
-			fixed: true,
-			border: 1,
-			items: items,
-			oncancel: function() {
-				editor.focus();
-			}
-		});
-	};
-
-	var showPanel = function (panel) {
-		if (panel) {
-			panel.show();
-		}
-	};
-
-	var movePanelTo = function (panel, pos) {
-		panel.moveTo(pos.x, pos.y);
-	};
-
-	var togglePositionClass = function (panel, relPos) {
-		relPos = relPos ? relPos.substr(0, 2) : '';
-
-		Tools.each({
-			t: 'down',
-			b: 'up',
-			c: 'center'
-		}, function(cls, pos) {
-			panel.classes.toggle('arrow-' + cls, pos === relPos.substr(0, 1));
-		});
-
-		if (relPos === 'cr') {
-			panel.classes.toggle('arrow-left', true);
-			panel.classes.toggle('arrow-right', false);
-		} else if (relPos === 'cl') {
-			panel.classes.toggle('arrow-left', true);
-			panel.classes.toggle('arrow-right', true);
-		} else {
-			Tools.each({
-				l: 'left',
-				r: 'right'
-			}, function(cls, pos) {
-				panel.classes.toggle('arrow-' + cls, pos === relPos.substr(1, 1));
+		var createToolbars = function (editor, toolbars) {
+			return Tools.map(toolbars, function (toolbar) {
+				return Toolbar.create(editor, toolbar.id, toolbar.items);
 			});
-		}
-	};
+		};
 
-	var showToolbar = function (panel, id) {
-		var toolbars = panel.items().filter('#' + id);
+		var getTextSelectionToolbarItems = function (settings) {
+			var value = settings.selection_toolbar;
+			return value ? value : DEFAULT_TEXT_SELECTION_ITEMS;
+		};
 
-		if (toolbars.length > 0) {
-			toolbars[0].show();
-			panel.reflow();
-		}
-	};
+		var getInsertToolbarItems = function (settings) {
+			var value = settings.insert_toolbar;
+			return value ? value : DEFAULT_INSERT_TOOLBAR_ITEMS;
+		};
 
-	var showPanelAt = function (panel, id, editor, targetRect) {
-		var contentAreaRect, panelRect, result, userConstainHandler;
+		var create = function (editor, toolbars) {
+			var items, settings = editor.settings;
 
-		showPanel(panel);
-		panel.items().hide();
-		showToolbar(panel, id);
+			items = createToolbars(editor, toolbars);
+			items = items.concat([
+				Toolbar.create(editor, 'text', getTextSelectionToolbarItems(settings)),
+				Toolbar.create(editor, 'insert', getInsertToolbarItems(settings)),
+				Forms.createQuickLinkForm(editor, hide)
+			]);
 
-		userConstainHandler = editor.settings.inline_toolbar_position_handler;
-		contentAreaRect = Measure.getContentAreaRect(editor);
-		panelRect = DOM.getRect(panel.getEl());
+			return Factory.create({
+				type: 'floatpanel',
+				role: 'dialog',
+				classes: 'tinymce tinymce-inline arrow',
+				ariaLabel: 'Inline toolbar',
+				layout: 'flex',
+				direction: 'column',
+				align: 'stretch',
+				autohide: false,
+				autofix: true,
+				fixed: true,
+				border: 1,
+				items: items,
+				oncancel: function() {
+					editor.focus();
+				}
+			});
+		};
 
-		if (id === 'insert') {
-			result = Layout.calcInsert(targetRect, contentAreaRect, panelRect);
-		} else {
-			result = Layout.calc(targetRect, contentAreaRect, panelRect);
-		}
+		var showPanel = function (panel) {
+			if (panel) {
+				panel.show();
+			}
+		};
 
-		if (result) {
-			panelRect = result.rect;
-			currentRect = targetRect;
-			movePanelTo(panel, Layout.userConstrain(userConstainHandler, targetRect, contentAreaRect, panelRect));
+		var movePanelTo = function (panel, pos) {
+			panel.moveTo(pos.x, pos.y);
+		};
 
-			togglePositionClass(panel, result.position);
-		} else {
-			hide(panel);
-		}
-	};
+		var togglePositionClass = function (panel, relPos) {
+			relPos = relPos ? relPos.substr(0, 2) : '';
 
-	var hasFormVisible = function () {
-		return panel.items().filter('form:visible').length > 0;
-	};
+			Tools.each({
+				t: 'down',
+				b: 'up',
+				c: 'center'
+			}, function(cls, pos) {
+				panel.classes.toggle('arrow-' + cls, pos === relPos.substr(0, 1));
+			});
 
-	var showForm = function (editor, id) {
-		if (panel) {
-			panel.items().hide();
-			showToolbar(panel, id);
+			if (relPos === 'cr') {
+				panel.classes.toggle('arrow-left', true);
+				panel.classes.toggle('arrow-right', false);
+			} else if (relPos === 'cl') {
+				panel.classes.toggle('arrow-left', true);
+				panel.classes.toggle('arrow-right', true);
+			} else {
+				Tools.each({
+					l: 'left',
+					r: 'right'
+				}, function(cls, pos) {
+					panel.classes.toggle('arrow-' + cls, pos === relPos.substr(1, 1));
+				});
+			}
+		};
 
+		var showToolbar = function (panel, id) {
+			var toolbars = panel.items().filter('#' + id);
+
+			if (toolbars.length > 0) {
+				toolbars[0].show();
+				panel.reflow();
+			}
+		};
+
+		var showPanelAt = function (panel, id, editor, targetRect) {
 			var contentAreaRect, panelRect, result, userConstainHandler;
 
 			showPanel(panel);
@@ -1069,59 +1030,96 @@ define('tinymce/inlite/ui/Panel', [
 			contentAreaRect = Measure.getContentAreaRect(editor);
 			panelRect = DOM.getRect(panel.getEl());
 
-			result = Layout.calc(currentRect, contentAreaRect, panelRect);
+			if (id === 'insert') {
+				result = Layout.calcInsert(targetRect, contentAreaRect, panelRect);
+			} else {
+				result = Layout.calc(targetRect, contentAreaRect, panelRect);
+			}
 
 			if (result) {
 				panelRect = result.rect;
-				movePanelTo(panel, Layout.userConstrain(userConstainHandler, currentRect, contentAreaRect, panelRect));
+				currentRect = targetRect;
+				movePanelTo(panel, Layout.userConstrain(userConstainHandler, targetRect, contentAreaRect, panelRect));
 
 				togglePositionClass(panel, result.position);
+			} else {
+				hide(panel);
 			}
-		}
-	};
+		};
 
-	var show = function (editor, id, targetRect, toolbars) {
-		if (!panel) {
-			panel = create(editor, toolbars);
-			panel.renderTo(document.body).reflow().moveTo(targetRect.x, targetRect.y);
-			editor.nodeChanged();
-		}
+		var hasFormVisible = function () {
+			return panel.items().filter('form:visible').length > 0;
+		};
 
-		showPanelAt(panel, id, editor, targetRect);
-	};
+		var showForm = function (editor, id) {
+			if (panel) {
+				panel.items().hide();
+				showToolbar(panel, id);
 
-	var hide = function () {
-		if (panel) {
-			panel.hide();
-		}
-	};
+				var contentAreaRect, panelRect, result, userConstainHandler;
 
-	var focus = function () {
-		if (panel) {
-			panel.find('toolbar:visible').eq(0).each(function (item) {
-				item.focus(true);
-			});
-		}
-	};
+				showPanel(panel);
+				panel.items().hide();
+				showToolbar(panel, id);
 
-	var remove = function () {
-		if (panel) {
-			panel.remove();
-			panel = null;
-		}
-	};
+				userConstainHandler = editor.settings.inline_toolbar_position_handler;
+				contentAreaRect = Measure.getContentAreaRect(editor);
+				panelRect = DOM.getRect(panel.getEl());
 
-	var inForm = function () {
-		return panel && panel.visible() && hasFormVisible();
-	};
+				result = Layout.calc(currentRect, contentAreaRect, panelRect);
 
-	return {
-		show: show,
-		showForm: showForm,
-		inForm: inForm,
-		hide: hide,
-		focus: focus,
-		remove: remove
+				if (result) {
+					panelRect = result.rect;
+					movePanelTo(panel, Layout.userConstrain(userConstainHandler, currentRect, contentAreaRect, panelRect));
+
+					togglePositionClass(panel, result.position);
+				}
+			}
+		};
+
+		var show = function (editor, id, targetRect, toolbars) {
+			if (!panel) {
+				panel = create(editor, toolbars);
+				panel.renderTo(document.body).reflow().moveTo(targetRect.x, targetRect.y);
+				editor.nodeChanged();
+			}
+
+			showPanelAt(panel, id, editor, targetRect);
+		};
+
+		var hide = function () {
+			if (panel) {
+				panel.hide();
+			}
+		};
+
+		var focus = function () {
+			if (panel) {
+				panel.find('toolbar:visible').eq(0).each(function (item) {
+					item.focus(true);
+				});
+			}
+		};
+
+		var remove = function () {
+			if (panel) {
+				panel.remove();
+				panel = null;
+			}
+		};
+
+		var inForm = function () {
+			return panel && panel.visible() && hasFormVisible();
+		};
+
+		return {
+			show: show,
+			showForm: showForm,
+			inForm: inForm,
+			hide: hide,
+			focus: focus,
+			remove: remove
+		};
 	};
 });
 
@@ -1238,13 +1236,13 @@ define('tinymce/inlite/ui/Buttons', [
 		}
 	};
 
-	var addToEditor = function (editor) {
+	var addToEditor = function (editor, panel) {
 		editor.addButton('quicklink', {
 			icon: 'link',
 			tooltip: 'Insert/Edit link',
 			stateSelector: 'a[href]',
 			onclick: function () {
-				Panel.showForm(editor, 'quicklink');
+				panel.showForm(editor, 'quicklink');
 			}
 		});
 
@@ -1266,7 +1264,7 @@ define('tinymce/inlite/ui/Buttons', [
 			icon: 'table',
 			tooltip: 'Insert table',
 			onclick: function () {
-				Panel.hide();
+				panel.hide();
 				Actions.insertTable(editor, 2, 2);
 			}
 		});
@@ -1591,11 +1589,16 @@ define('tinymce/inlite/Theme', [
 		return result && result.rect ? result : null;
 	};
 
-	var togglePanel = function (editor) {
+	var togglePanel = function (editor, panel) {
 		var toggle = function () {
 			var toolbars = getToolbars(editor);
 			var result = findMatchResult(editor, toolbars);
-			result ? Panel.show(editor, result.id, result.rect, toolbars) : Panel.hide();
+
+			if (result) {
+				panel.show(editor, result.id, result.rect, toolbars);
+			} else {
+				panel.hide();
+			}
 		};
 
 		return function () {
@@ -1605,28 +1608,28 @@ define('tinymce/inlite/Theme', [
 		};
 	};
 
-	var ignoreWhenFormIsVisible = function (f) {
+	var ignoreWhenFormIsVisible = function (panel, f) {
 		return function () {
-			if (!Panel.inForm()) {
+			if (!panel.inForm()) {
 				f();
 			}
 		};
 	};
 
-	var bindContextualToolbarsEvents = function (editor) {
-		var throttledTogglePanel = Delay.throttle(togglePanel(editor), 0);
-		var throttledTogglePanelWhenNotInForm = Delay.throttle(ignoreWhenFormIsVisible(togglePanel(editor)), 0);
+	var bindContextualToolbarsEvents = function (editor, panel) {
+		var throttledTogglePanel = Delay.throttle(togglePanel(editor, panel), 0);
+		var throttledTogglePanelWhenNotInForm = Delay.throttle(ignoreWhenFormIsVisible(panel, togglePanel(editor, panel)), 0);
 
-		editor.on('blur hide ObjectResizeStart', Panel.hide);
+		editor.on('blur hide ObjectResizeStart', panel.hide);
 		editor.on('click', throttledTogglePanel);
 		editor.on('nodeChange mouseup', throttledTogglePanelWhenNotInForm);
 		editor.on('ResizeEditor ResizeWindow keyup', throttledTogglePanel);
-		editor.on('remove', Panel.remove);
+		editor.on('remove', panel.remove);
 
-		editor.shortcuts.add('Alt+F10', '', Panel.focus);
+		editor.shortcuts.add('Alt+F10', '', panel.focus);
 	};
 
-	var overrideLinkShortcut = function (editor) {
+	var overrideLinkShortcut = function (editor, panel) {
 		editor.shortcuts.remove('meta+k');
 		editor.shortcuts.add('meta+k', '', function () {
 			var toolbars = getToolbars(editor);
@@ -1635,17 +1638,17 @@ define('tinymce/inlite/Theme', [
 			]);
 
 			if (result) {
-				Panel.show(editor, result.id, result.rect, toolbars);
+				panel.show(editor, result.id, result.rect, toolbars);
 			}
 		});
 	};
 
-	var renderInlineUI = function (editor) {
+	var renderInlineUI = function (editor, panel) {
 		var skinName = editor.settings.skin || 'lightgray';
 
 		SkinLoader.load(editor, skinName, function () {
-			bindContextualToolbarsEvents(editor);
-			overrideLinkShortcut(editor);
+			bindContextualToolbarsEvents(editor, panel);
+			overrideLinkShortcut(editor, panel);
 		});
 
 		return {};
@@ -1656,10 +1659,12 @@ define('tinymce/inlite/Theme', [
 	};
 
 	ThemeManager.add('inlite', function (editor) {
-		Buttons.addToEditor(editor);
+		var panel = new Panel();
+
+		Buttons.addToEditor(editor, panel);
 
 		var renderUI = function () {
-			return editor.inline ? renderInlineUI(editor) : fail('inlite theme only supports inline mode.');
+			return editor.inline ? renderInlineUI(editor, panel) : fail('inlite theme only supports inline mode.');
 		};
 
 		return {

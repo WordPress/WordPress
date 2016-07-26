@@ -613,6 +613,9 @@ tinymce.PluginManager.add('lists', function(editor) {
 				var hasCompatibleStyle = function (sib) {
 					var sibStyle = dom.getStyle(sib, 'list-style-type');
 					var detailStyle = detail ? detail['list-style-type'] : '';
+
+					detailStyle = detailStyle === null ? '' : detailStyle;
+
 					return sibStyle === detailStyle;
 				};
 

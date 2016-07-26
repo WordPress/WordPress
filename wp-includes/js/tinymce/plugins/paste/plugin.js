@@ -268,12 +268,12 @@ define("tinymce/pasteplugin/SmartPaste", [
 	};
 
 	var isImageUrl = function (url) {
-		return isAbsoluteUrl(url) && /.(gif|jpe?g|jpng)$/.test(url);
+		return isAbsoluteUrl(url) && /.(gif|jpe?g|png)$/.test(url);
 	};
 
 	var createImage = function (editor, url, pasteHtml) {
 		editor.undoManager.extra(function () {
-			pasteHtml(url);
+			pasteHtml(editor, url);
 		}, function () {
 			editor.insertContent('<img src="' + url + '">');
 		});
@@ -283,7 +283,7 @@ define("tinymce/pasteplugin/SmartPaste", [
 
 	var createLink = function (editor, url, pasteHtml) {
 		editor.undoManager.extra(function () {
-			pasteHtml(url);
+			pasteHtml(editor, url);
 		}, function () {
 			editor.execCommand('mceInsertLink', false, url);
 		});
@@ -299,27 +299,31 @@ define("tinymce/pasteplugin/SmartPaste", [
 		return isImageUrl(html) ? createImage(editor, html, pasteHtml) : false;
 	};
 
-	var insertContent = function (editor, html) {
-		var pasteHtml = function (html) {
-			editor.insertContent(html, {
-				merge: editor.settings.paste_merge_formats !== false,
-				paste: true
-			});
+	var pasteHtml = function (editor, html) {
+		editor.insertContent(html, {
+			merge: editor.settings.paste_merge_formats !== false,
+			paste: true
+		});
 
-			return true;
-		};
+		return true;
+	};
 
-		var fallback = function (editor, html) {
-			pasteHtml(html);
-		};
-
+	var smartInsertContent = function (editor, html) {
 		Tools.each([
 			linkSelection,
 			insertImage,
-			fallback
+			pasteHtml
 		], function (action) {
 			return action(editor, html, pasteHtml) !== true;
 		});
+	};
+
+	var insertContent = function (editor, html) {
+		if (editor.settings.smart_paste === false) {
+			pasteHtml(editor, html);
+		} else {
+			smartInsertContent(editor, html);
+		}
 	};
 
 	return {

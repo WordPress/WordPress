@@ -4,7 +4,7 @@
  *
  * @global string $wp_version
  */
-$wp_version = '4.6-beta4-38154';
+$wp_version = '4.6-beta4-38155';
 
 /**
  * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.
@@ -18,7 +18,7 @@ $wp_db_version = 37965;
  *
  * @global string $tinymce_version
  */
-$tinymce_version = '4400-20160711';
+$tinymce_version = '4401-20160726';
 
 /**
  * Holds the required PHP version
