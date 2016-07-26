@@ -9,7 +9,7 @@
 	letter-spacing: normal;
 	font-size: 13px;
 	font-weight: 400;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	line-height: 32px;
 	-webkit-border-radius: 0;
 	border-radius: 0;
@@ -84,7 +84,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	color: #ccc;
 	font-size: 13px;
 	font-weight: 400;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	line-height: 32px;
 	height: 32px;
 	position: fixed;
@@ -627,7 +627,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	position: relative;
 	z-index: 30;
 	font-size: 13px;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	line-height: 24px;
 	height: 24px;
 	width: 24px;
@@ -810,7 +810,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	#wpadminbar * {
 		font-size: 14px;
 		font-weight: 400;
-		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+		font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 		line-height: 32px;
 	}
 
