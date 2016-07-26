@@ -1065,7 +1065,7 @@ final class _WP_Editors {
 			'Ctrl + letter:' => __( 'Ctrl + letter:' ),
 			'Letter' => __( 'Letter' ),
 			'Action' => __( 'Action' ),
-			'Warning: the link has been inserted but the destination cannot be reached.' => __( 'Warning: the link has been inserted but the destination cannot be reached.' ),
+			'Warning: the link has been inserted but may have errors. Please test it.' => __( 'Warning: the link has been inserted but may have errors. Please test it.' ),
 			'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' =>
 				__( 'To move focus to other buttons use Tab or the arrow keys. To return focus to the editor press Escape or use one of the buttons.' ),
 			'When starting a new paragraph with one of these formatting shortcuts followed by a space, the formatting will be applied automatically. Press Backspace or Escape to undo.' =>
@@ -1286,13 +1286,7 @@ final class _WP_Editors {
 		</script>
 		<?php
 
-		$has_wplink = in_array( 'wplink', self::$plugins, true );
-
-		if ( $has_wplink ) {
-			echo '<input type="hidden" id="_wplink_urltest_nonce" value="' . wp_create_nonce( 'wp-test-url' ) . '" />';
-		}
-
-		if ( $has_wplink || in_array( 'link', self::$qt_buttons, true ) ) {
+		if ( in_array( 'wplink', self::$plugins, true ) || in_array( 'link', self::$qt_buttons, true ) ) {
 			self::wp_link_dialog();
 		}
 

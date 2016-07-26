@@ -64,7 +64,7 @@ $core_actions_post = array(
 	'parse-media-shortcode', 'destroy-sessions', 'install-plugin', 'update-plugin', 'press-this-save-post',
 	'press-this-add-category', 'crop-image', 'generate-password', 'save-wporg-username', 'delete-plugin',
 	'search-plugins', 'search-install-plugins', 'activate-plugin', 'update-theme', 'delete-theme',
-	'install-theme', 'test_url', 'get-post-thumbnail-html',
+	'install-theme', 'get-post-thumbnail-html',
 );
 
 // Deprecated
