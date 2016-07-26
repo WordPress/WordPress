@@ -353,7 +353,6 @@
 		unbind: function() {
 			this.getNodes( function( editor, node ) {
 				this.unbindNode.call( this, editor, node );
-				$( node ).trigger( 'wp-mce-view-unbind' );
 			}, true );
 		},
 
@@ -394,7 +393,7 @@
 						return rendered ? data : ! data;
 					} )
 					.each( function() {
-						callback.call( self, editor, this );
+						callback.call( self, editor, this, this /* back compat */ );
 					} );
 			} );
 		},
@@ -429,7 +428,7 @@
 				}
 
 				$viewNode = editor.$(
-					'<div class="wpview" data-wpview-text="' + this.encodedText + '" data-wpview-type="' + this.type + '" contenteditable="false"></div>'
+					'<div class="wpview wpview-wrap" data-wpview-text="' + this.encodedText + '" data-wpview-type="' + this.type + '" contenteditable="false"></div>'
 				);
 
 				editor.$( node ).replaceWith( $viewNode );
@@ -485,8 +484,7 @@
 		 * @param {Boolean}  rendered Only set for (un)rendered nodes. Optional.
 		 */
 		setIframes: function( head, body, callback, rendered ) {
-			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver,
-				self = this;
+			var self = this;
 
 			this.getNodes( function( editor, node ) {
 				var dom = editor.dom,
@@ -516,7 +514,7 @@
 				// Seems the browsers need a bit of time to insert/set the view nodes,
 				// or the iframe will fail especially when switching Text => Visual.
 				setTimeout( function() {
-					var iframe, iframeDoc, observer, i, block;
+					var iframe, iframeWin, iframeDoc, MutationObserver, observer, i, block;
 
 					editor.undoManager.transact( function() {
 						node.innerHTML = '';
@@ -547,8 +545,8 @@
 						return;
 					}
 
-					iframeDoc = iframe.contentWindow.document;
-
+					iframeWin = iframe.contentWindow;
+					iframeDoc = iframeWin.document;
 					iframeDoc.open();
 
 					iframeDoc.write(
@@ -612,7 +610,9 @@
 						}, 3000 );
 					}
 
-					$( iframe.contentWindow ).on( 'load', resize );
+					$( iframeWin ).on( 'load', resize );
+
+					MutationObserver = iframeWin.MutationObserver || iframeWin.WebKitMutationObserver || iframeWin.MozMutationObserver;
 
 					if ( MutationObserver ) {
 						observer = new MutationObserver( _.debounce( resize, 100 ) );
@@ -622,25 +622,11 @@
 							childList: true,
 							subtree: true
 						} );
-
-						$( node ).one( 'wp-mce-view-unbind', function() {
-							observer.disconnect();
-						} );
 					} else {
 						for ( i = 1; i < 6; i++ ) {
 							setTimeout( resize, i * 700 );
 						}
 					}
-
-					function classChange() {
-						iframeDoc.body.className = editor.getBody().className;
-					}
-
-					editor.on( 'wp-body-class-change', classChange );
-
-					$( node ).one( 'wp-mce-view-unbind', function() {
-						editor.off( 'wp-body-class-change', classChange );
-					} );
 
 					callback && callback.call( self, editor, node );
 				}, 50 );
@@ -726,7 +712,6 @@
 		 */
 		remove: function( editor, node ) {
 			this.unbindNode.call( this, editor, node );
-			$( node ).trigger( 'wp-mce-view-unbind' );
 			editor.dom.remove( node );
 			editor.focus();
 		}

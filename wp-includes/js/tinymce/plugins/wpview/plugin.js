@@ -31,6 +31,35 @@
 				.replace( /<p[^>]+data-wpview-marker="([^"]+)"[^>]*>[\s\S]*?<\/p>/g, callback );
 		}
 
+		editor.on( 'init', function() {
+			var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+			if ( MutationObserver ) {
+				new MutationObserver( function() {
+					editor.fire( 'wp-body-class-change' );
+				} )
+				.observe( editor.getBody(), {
+					attributes: true,
+					attributeFilter: ['class']
+				} );
+			}
+
+			// Pass on body class name changes from the editor to the wpView iframes.
+			editor.on( 'wp-body-class-change', function() {
+				var className = editor.getBody().className;
+
+				editor.$( 'iframe[class="wpview-sandbox"]' ).each( function( i, iframe ) {
+					// Make sure it is a local iframe
+					// jshint scripturl: true
+					if ( ! iframe.src || iframe.src === 'javascript:""' ) {
+						try {
+							iframe.contentWindow.document.body.className = className;
+						} catch( er ) {}
+					}
+				});
+			} );
+		});
+
 		// Scan new content for matching view patterns and replace them with markers.
 		editor.on( 'beforesetcontent', function( event ) {
 			var node;
