@@ -79,24 +79,27 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 		}
 	} );
 
+	function isNonEditable( node ) {
+		var parent = editor.$( node ).parents( '[contenteditable]' );
+		return parent && parent.attr( 'contenteditable' ) === 'false';
+	}
+
 	// Safari on iOS fails to select images in contentEditoble mode on touch.
 	// Select them again.
 	if ( iOS ) {
 		editor.on( 'init', function() {
 			editor.on( 'touchstart', function( event ) {
-				if ( event.target.nodeName === 'IMG' ) {
+				if ( event.target.nodeName === 'IMG' && ! isNonEditable( event.target ) ) {
 					touchOnImage = true;
 				}
 			});
 
-			editor.dom.bind( editor.getDoc(), 'touchmove', function( event ) {
-				if ( event.target.nodeName === 'IMG' ) {
-					touchOnImage = false;
-				}
+			editor.dom.bind( editor.getDoc(), 'touchmove', function() {
+				touchOnImage = false;
 			});
 
 			editor.on( 'touchend', function( event ) {
-				if ( touchOnImage && event.target.nodeName === 'IMG' ) {
+				if ( touchOnImage && event.target.nodeName === 'IMG' && ! isNonEditable( event.target ) ) {
 					var node = event.target;
 
 					touchOnImage = false;
@@ -104,7 +107,7 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 					window.setTimeout( function() {
 						editor.selection.select( node );
 						editor.nodeChanged();
-					}, 200 );
+					}, 100 );
 				} else if ( toolbar ) {
 					toolbar.hide();
 				}
