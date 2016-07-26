@@ -2056,8 +2056,8 @@
 				wp.updates.searchTerm = data.s;
 			}
 
-			if ( window.history && window.history.pushState ) {
-				window.history.pushState( null, '', searchLocation );
+			if ( window.history && window.history.replaceState ) {
+				window.history.replaceState( null, '', searchLocation );
 			}
 
 			if ( ! $searchTab.length ) {
@@ -2123,8 +2123,8 @@
 				wp.updates.searchTerm = data.s;
 			}
 
-			if ( window.history && window.history.pushState ) {
-				window.history.pushState( null, '', location.href.split( '?' )[ 0 ] + '?s=' + data.s );
+			if ( window.history && window.history.replaceState ) {
+				window.history.replaceState( null, '', location.href.split( '?' )[ 0 ] + '?s=' + data.s );
 			}
 
 			if ( 'undefined' !== typeof wp.updates.searchRequest ) {
