@@ -3515,12 +3515,13 @@ function wp_ajax_delete_theme() {
 		wp_send_json_error( $status );
 	}
 
-	// Check filesystem credentials. `delete_plugins()` will bail otherwise.
-	ob_start();
+	// Check filesystem credentials. `delete_theme()` will bail otherwise.
 	$url = wp_nonce_url( 'themes.php?action=delete&stylesheet=' . urlencode( $stylesheet ), 'delete-theme_' . $stylesheet );
-	if ( false === ( $credentials = request_filesystem_credentials( $url ) ) || ! WP_Filesystem( $credentials ) ) {
+	ob_start();
+	$credentials = request_filesystem_credentials( $url );
+	ob_end_clean();
+	if ( false === $credentials || ! WP_Filesystem( $credentials ) ) {
 		global $wp_filesystem;
-		ob_end_clean();
 
 		$status['errorCode']    = 'unable_to_connect_to_filesystem';
 		$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
@@ -3771,11 +3772,12 @@ function wp_ajax_delete_plugin() {
 	}
 
 	// Check filesystem credentials. `delete_plugins()` will bail otherwise.
-	ob_start();
 	$url = wp_nonce_url( 'plugins.php?action=delete-selected&verify-delete=1&checked[]=' . $plugin, 'bulk-plugins' );
-	if ( false === ( $credentials = request_filesystem_credentials( $url ) ) || ! WP_Filesystem( $credentials ) ) {
+	ob_start();
+	$credentials = request_filesystem_credentials( $url );
+	ob_end_clean();
+	if ( false === $credentials || ! WP_Filesystem( $credentials ) ) {
 		global $wp_filesystem;
-		ob_end_clean();
 
 		$status['errorCode']    = 'unable_to_connect_to_filesystem';
 		$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );

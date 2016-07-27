@@ -23,13 +23,16 @@ function delete_theme($stylesheet, $redirect = '') {
 	if ( empty($stylesheet) )
 		return false;
 
-	ob_start();
-	if ( empty( $redirect ) )
+	if ( empty( $redirect ) ) {
 		$redirect = wp_nonce_url('themes.php?action=delete&stylesheet=' . urlencode( $stylesheet ), 'delete-theme_' . $stylesheet);
-	if ( false === ($credentials = request_filesystem_credentials($redirect)) ) {
-		$data = ob_get_clean();
+	}
 
-		if ( ! empty($data) ){
+	ob_start();
+	$credentials = request_filesystem_credentials( $redirect );
+	$data = ob_get_clean();
+
+	if ( false === $credentials ) {
+		if ( ! empty( $data ) ){
 			include_once( ABSPATH . 'wp-admin/admin-header.php');
 			echo $data;
 			include( ABSPATH . 'wp-admin/admin-footer.php');
@@ -38,8 +41,9 @@ function delete_theme($stylesheet, $redirect = '') {
 		return;
 	}
 
-	if ( ! WP_Filesystem($credentials) ) {
-		request_filesystem_credentials($redirect, '', true); // Failed to connect, Error and request again
+	if ( ! WP_Filesystem( $credentials ) ) {
+		ob_start();
+		request_filesystem_credentials( $redirect, '', true ); // Failed to connect, Error and request again.
 		$data = ob_get_clean();
 
 		if ( ! empty($data) ) {
