@@ -768,12 +768,11 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					},
 					toolbar = this.getEl(),
 					toolbarWidth = toolbar.offsetWidth,
-					toolbarHeight = toolbar.offsetHeight,
+					toolbarHeight = toolbar.clientHeight,
 					selection = currentSelection.getBoundingClientRect(),
 					selectionMiddle = ( selection.left + selection.right ) / 2,
 					buffer = 5,
-					margin = 8,
-					spaceNeeded = toolbarHeight + margin + buffer,
+					spaceNeeded = toolbarHeight + buffer,
 					wpAdminbarBottom = wpAdminbar ? wpAdminbar.getBoundingClientRect().bottom : 0,
 					mceToolbarBottom = mceToolbar ? mceToolbar.getBoundingClientRect().bottom : 0,
 					mceStatusbarTop = mceStatusbar ? windowHeight - mceStatusbar.getBoundingClientRect().top : 0,
@@ -807,12 +806,12 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 						top = selection.bottom + iframeRect.top + scrollY - iosOffsetBottom;
 					} else if ( spaceTop >= spaceNeeded ) {
 						className = ' mce-arrow-down';
-						top = selection.top + iframeRect.top + scrollY - toolbarHeight - margin + iosOffsetTop;
+						top = selection.top + iframeRect.top + scrollY - toolbarHeight + iosOffsetTop;
 					}
 				} else {
 					if ( spaceTop >= spaceNeeded ) {
 						className = ' mce-arrow-down';
-						top = selection.top + iframeRect.top + scrollY - toolbarHeight - margin + iosOffsetTop;
+						top = selection.top + iframeRect.top + scrollY - toolbarHeight + iosOffsetTop;
 					} else if ( spaceBottom >= spaceNeeded && editorHeight / 2 > selection.bottom + iframeRect.top - blockedTop ) {
 						className = ' mce-arrow-up';
 						top = selection.bottom + iframeRect.top + scrollY - iosOffsetBottom;
