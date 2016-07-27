@@ -2816,7 +2816,7 @@ function wp_resource_hints() {
 
 	foreach ( $hints as $relation_type => $urls ) {
 		/**
-		 * Filters domains and URLs for resource hints.
+		 * Filters domains and URLs for resource hints of relation type.
 		 *
 		 * @since 4.6.0
 		 *
