@@ -315,8 +315,7 @@ class WP_Http {
 		}
 		if ( empty( $r['redirection'] ) ) {
 			$options['follow_redirects'] = false;
-		}
-		else {
+		} else {
 			$options['redirects'] = $r['redirection'];
 		}
 
@@ -333,9 +332,13 @@ class WP_Http {
 		// SSL certificate handling
 		if ( ! $r['sslverify'] ) {
 			$options['verify'] = false;
-		}
-		else {
+		} else {
 			$options['verify'] = $r['sslcertificates'];
+		}
+
+		// All non-GET/HEAD requests should put the arguments in the form body.
+		if ( 'HEAD' !== $type && 'GET' !== $type ) {
+			$options['data_format'] = 'body';
 		}
 
 		/**
