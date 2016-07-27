@@ -2241,10 +2241,10 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	if ( is_wp_error( $term ) ) {
 		return $term;
 	}
-	if ( is_int($term) && 0 == $term ) {
+	if ( is_int( $term ) && 0 == $term ) {
 		return new WP_Error( 'invalid_term_id', __( 'Invalid term ID.' ) );
 	}
-	if ( '' == trim($term) ) {
+	if ( '' == trim( $term ) ) {
 		return new WP_Error( 'empty_term_name', __( 'A name is required for this term.' ) );
 	}
 	$defaults = array( 'alias_of' => '', 'description' => '', 'parent' => 0, 'slug' => '');
@@ -2845,8 +2845,9 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	$parsed_args['name'] = $name;
 	$parsed_args['description'] = $description;
 
-	if ( '' == trim($name) )
-		return new WP_Error('empty_term_name', __('A name is required for this term'));
+	if ( '' == trim( $name ) ) {
+		return new WP_Error( 'empty_term_name', __( 'A name is required for this term.' ) );
+	}
 
 	if ( $parsed_args['parent'] > 0 && ! term_exists( (int) $parsed_args['parent'] ) ) {
 		return new WP_Error( 'missing_parent', __( 'Parent term does not exist.' ) );
