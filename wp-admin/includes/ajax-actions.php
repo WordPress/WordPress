@@ -3653,26 +3653,27 @@ function wp_ajax_update_plugin() {
 		) );
 	}
 
-	$plugin      = plugin_basename( sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) );
-	$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+	$plugin = plugin_basename( sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) );
 
 	$status = array(
 		'update'     => 'plugin',
-		'plugin'     => $plugin,
 		'slug'       => sanitize_key( wp_unslash( $_POST['slug'] ) ),
-		'pluginName' => $plugin_data['Name'],
 		'oldVersion' => '',
 		'newVersion' => '',
 	);
 
+	if ( ! current_user_can( 'update_plugins' ) || 0 !== validate_file( $plugin ) ) {
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to update plugins for this site.' );
+		wp_send_json_error( $status );
+	}
+
+	$plugin_data          = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+	$status['plugin']     = $plugin;
+	$status['pluginName'] = $plugin_data['Name'];
+
 	if ( $plugin_data['Version'] ) {
 		/* translators: %s: Plugin version */
 		$status['oldVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
-	}
-
-	if ( ! current_user_can( 'update_plugins' ) ) {
-		$status['errorMessage'] = __( 'Sorry, you are not allowed to update plugins for this site.' );
-		wp_send_json_error( $status );
 	}
 
 	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
@@ -3748,23 +3749,28 @@ function wp_ajax_delete_plugin() {
 	check_ajax_referer( 'updates' );
 
 	if ( empty( $_POST['slug'] ) || empty( $_POST['plugin'] ) ) {
-		wp_send_json_error( array( 'errorCode' => 'no_plugin_specified' ) );
+		wp_send_json_error( array(
+			'slug'         => '',
+			'errorCode'    => 'no_plugin_specified',
+			'errorMessage' => __( 'No plugin specified.' ),
+		) );
 	}
 
-	$plugin      = plugin_basename( sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) );
-	$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+	$plugin = plugin_basename( sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) );
 
 	$status = array(
-		'delete'     => 'plugin',
-		'slug'       => sanitize_key( wp_unslash( $_POST['slug'] ) ),
-		'plugin'     => $plugin,
-		'pluginName' => $plugin_data['Name'],
+		'delete' => 'plugin',
+		'slug'   => sanitize_key( wp_unslash( $_POST['slug'] ) ),
 	);
 
-	if ( ! current_user_can( 'delete_plugins' ) ) {
+	if ( ! current_user_can( 'delete_plugins' ) || 0 !== validate_file( $plugin ) ) {
 		$status['errorMessage'] = __( 'Sorry, you are not allowed to delete plugins for this site.' );
 		wp_send_json_error( $status );
 	}
+
+	$plugin_data          = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+	$status['plugin']     = $plugin;
+	$status['pluginName'] = $plugin_data['Name'];
 
 	if ( is_plugin_active( $plugin ) ) {
 		$status['errorMessage'] = __( 'You cannot delete a plugin while it is active on the main site.' );

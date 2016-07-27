@@ -447,7 +447,11 @@
 		errorMessage = wp.updates.l10n.updateFailed.replace( '%s', response.errorMessage );
 
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
-			$message = $( 'tr[data-plugin="' + response.plugin + '"]' ).find( '.update-message' );
+			if ( response.plugin ) {
+				$message = $( 'tr[data-plugin="' + response.plugin + '"]' ).find( '.update-message' );
+			} else {
+				$message = $( 'tr[data-slug="' + response.slug + '"]' ).find( '.update-message' );
+			}
 			$message.removeClass( 'updating-message notice-warning' ).addClass( 'notice-error' ).find( 'p' ).html( errorMessage );
 		} else if ( 'plugin-install' === pagenow || 'plugin-install-network' === pagenow ) {
 			$card = $( '.plugin-card-' + response.slug )
@@ -458,8 +462,12 @@
 				} ) );
 
 			$card.find( '.update-now' )
-				.attr( 'aria-label', wp.updates.l10n.updateFailedLabel.replace( '%s', response.pluginName ) )
 				.text( wp.updates.l10n.updateFailedShort ).removeClass( 'updating-message' );
+
+			if ( response.pluginName ) {
+				$card.find( '.update-now' )
+					.attr( 'aria-label', wp.updates.l10n.updateFailedLabel.replace( '%s', response.pluginName ) );
+			}
 
 			$card.on( 'click', '.notice.is-dismissible .notice-dismiss', function() {
 
@@ -814,13 +822,20 @@
 	 * @param {string}  response.errorMessage The error that occurred.
 	 */
 	wp.updates.deletePluginError = function( response ) {
-		var $plugin          = $( 'tr.inactive[data-plugin="' + response.plugin + '"]' ),
+		var $plugin, $pluginUpdateRow,
 			pluginUpdateRow  = wp.template( 'item-update-row' ),
-			$pluginUpdateRow = $plugin.siblings( '[data-plugin="' + response.plugin + '"]' ),
 			noticeContent    = wp.updates.adminNotice( {
 				className: 'update-message notice-error notice-alt',
 				message:   response.errorMessage
 			} );
+
+		if ( response.plugin ) {
+			$plugin          = $( 'tr.inactive[data-plugin="' + response.plugin + '"]' );
+			$pluginUpdateRow = $plugin.siblings( '[data-plugin="' + response.plugin + '"]' );
+		} else {
+			$plugin          = $( 'tr.inactive[data-slug="' + response.slug + '"]' );
+			$pluginUpdateRow = $plugin.siblings( '[data-slug="' + response.slug + '"]' );
+		}
 
 		if ( ! wp.updates.isValidResponse( response, 'delete' ) ) {
 			return;
@@ -835,7 +850,7 @@
 			$plugin.addClass( 'update' ).after(
 				pluginUpdateRow( {
 					slug:    response.slug,
-					plugin:  response.plugin,
+					plugin:  response.plugin || response.slug,
 					colspan: $( '#bulk-action-form' ).find( 'thead th:not(.hidden), thead td' ).length,
 					content: noticeContent
 				} )
