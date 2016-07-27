@@ -216,4 +216,26 @@ class WP_Http_Cookie {
 	public function getFullHeader() {
 		return 'Cookie: ' . $this->getHeaderValue();
 	}
+
+	/**
+	 * Retrieves cookie attributes.
+	 *
+	 * @since 4.6.0
+	 * @access public
+	 *
+	 * @return array {
+	 *    List of attributes.
+	 *
+	 *    @type string $expires When the cookie expires.
+	 *    @type string $path    Cookie URL path.
+	 *    @type string $domain  Cookie domain.
+	 * }
+	 */
+	public function get_attributes() {
+		return array(
+			'expires' => $this->expires,
+			'path'    => $this->path,
+			'domain'  => $this->domain,
+		);
+	}
 }

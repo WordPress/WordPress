@@ -325,9 +325,9 @@ class WP_Http {
 			$options['max_bytes'] = $r['limit_response_size'];
 		}
 
-		// If we've got cookies, use them
+		// If we've got cookies, use and convert them to Requests_Cookie.
 		if ( ! empty( $r['cookies'] ) ) {
-			$options['cookies'] = $r['cookies'];
+			$options['cookies'] = WP_Http::normalize_cookies( $r['cookies'] );
 		}
 
 		// SSL certificate handling
@@ -414,15 +414,43 @@ class WP_Http {
 	}
 
 	/**
+	 * Normalizes cookies for using in Requests.
+	 *
+	 * @since 4.6.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $cookies List of cookies to send with the request.
+	 * @return Requests_Cookie_Jar Cookie holder object.
+	 */
+	public static function normalize_cookies( $cookies ) {
+		$cookie_jar = new Requests_Cookie_Jar();
+
+		foreach ( $cookies as $name => $value ) {
+			if ( $value instanceof WP_Http_Cookie ) {
+				$cookie_jar[ $value->name ] = new Requests_Cookie( $value->name, $value->value, $value->get_attributes() );
+			} elseif ( is_string( $value ) ) {
+				$cookie_jar[ $name ] = new Requests_Cookie( $name, $value );
+			}
+		}
+
+		return $cookie_jar;
+	}
+
+	/**
 	 * Match redirect behaviour to browser handling.
 	 *
 	 * Changes 302 redirects from POST to GET to match browser handling. Per
 	 * RFC 7231, user agents can deviate from the strict reading of the
 	 * specification for compatibility purposes.
 	 *
-	 * @param string $location URL to redirect to.
-	 * @param array $headers Headers for the redirect.
-	 * @param array $options Redirect request options.
+	 * @since 4.6.0
+	 * @access public
+	 * @static
+	 *
+	 * @param string            $location URL to redirect to.
+	 * @param array             $headers  Headers for the redirect.
+	 * @param array             $options  Redirect request options.
 	 * @param Requests_Response $original Response object.
 	 */
 	public static function browser_redirect_compatibility( $location, $headers, $data, &$options, $original ) {

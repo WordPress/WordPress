@@ -176,9 +176,9 @@ class WP_HTTP_Requests_Response extends WP_HTTP_Response {
 			$cookies[] = new WP_Http_Cookie( array(
 				'name'    => $cookie->name,
 				'value'   => urldecode( $cookie->value ),
-				'expires' => $cookie->attributes['expires'],
-				'path'    => $cookie->attributes['path'],
-				'domain'  => $cookie->attributes['domain'],
+				'expires' => isset( $cookie->attributes['expires'] ) ? $cookie->attributes['expires'] : null,
+				'path'    => isset( $cookie->attributes['path'] ) ? $cookie->attributes['path'] : null,
+				'domain'  => isset( $cookie->attributes['domain'] ) ? $cookie->attributes['domain'] : null,
 			));
 		}
 
