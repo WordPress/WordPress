@@ -1,0 +1,15 @@
+.et-wp-pre-3_8 #et_pb_widget_area_create { margin: 0 8px; border-radius: 5px; background-color: #FCFCFC; font-size: 16px; padding: 30px; border: 1px solid #DFDFDF; }
+#et_pb_widget_area_create p {padding: 0; margin: 0; font-size: 12px; color: #666; font-family: sans-serif; font-style: italic;}
+.et-wp-pre-3_8 #et_pb_widget_area_create p label { display: block; margin-top: 20px; font-style: normal; font-size: 15px; color: #464646; font-family: Georgia,"Times New Roman","Bitstream Charter",Times,serif; }
+#et_pb_widget_area_create p input {width: 95%; margin: 15px 0; }
+#et_pb_widget_area_create button.button { display: block; float: right: margin-top: 10px; }
+.et_pb_widget_area_remove { display: block; padding: 3px 8px; color: #fff; text-decoration: none; border-radius: 4px; background-color: #E94A4A; text-shadow: none; float: left; margin: 5px 0 0 5px;}
+.et_pb_widget_area_remove:hover {color: #fff; text-decoration: none; }
+
+/*------------------------------------------------*/
+/*---------------[RESPONSIVE LAYOUTS]-------------*/
+/*------------------------------------------------*/
+
+#et_pb_widget_area_create { background-color: #fff; max-width: 96%; margin-right: 0; margin-top: 10px;  border-radius: 0px; border: 1px solid #ddd; -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05); box-shadow: 0 1px 2px rgba(0,0,0,.05); margin-left: 0px; padding: 4%; }
+#et_pb_widget_area_create p label { font-size: 1.3em; display: block; font-weight: 600; color: #222; font-family:  "Open Sans",sans-serif;}
+.et_pb_widget_area_remove { margin-top: 11px; }

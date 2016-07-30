@@ -1,0 +1,2490 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/init\n"
+"POT-Creation-Date: 2016-03-30 15:21:59+00:00\n"
+"PO-Revision-Date: 2016-03-30 00:03+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+
+#: admin/includes/assets.php:21
+msgid "Got it, thanks!"
+msgstr "Mengerti, terima kasih!"
+
+#: admin/includes/class-portability.php:184
+msgid "The export process failed. Please refresh the page and try again."
+msgstr "Proses ekspor gagal. Harap segarkan laman lalu cobalah kembali."
+
+#: admin/includes/class-portability.php:854
+msgid ""
+"The browser version you are currently using is outdated. Please update to "
+"the newest version."
+msgstr ""
+"Versi peramban yang Anda gunakan sudah usang. Harap perbarui ke versi "
+"terbaru."
+
+#: admin/includes/class-portability.php:855
+msgid ""
+"You reached your server memory limit. Please try increasing your PHP memory "
+"limit."
+msgstr ""
+"Anda sudah mencapai limit memori server. Harap coba tingkatkan limit memori "
+"PHP Anda."
+
+#: admin/includes/class-portability.php:856
+msgid ""
+"This file cannot be imported. It may be caused by file_uploads being "
+"disabled in your php.ini. It may also be caused by post_max_size or/and "
+"upload_max_filesize being smaller than file selected. Please increase it or "
+"transfer more substantial data at the time."
+msgstr ""
+"Berkas ini tidak dapat diimpor. Mungkin dikarenakan file_uploads "
+"dinonaktifkan dalam php.ini Anda. Juga dapat disebabkan post_max_size atau/"
+"dan upload_max_filesize lebih kecil dari berkas yang dipilih. Harap "
+"memperbesarnya atau transfer data yang lebih substansial saat ini."
+
+#: admin/includes/class-portability.php:857
+msgid "Invalid File format. You should be uploading a JSON file."
+msgstr "Format berkas salah. Anda harus mengunggah berkas JSON."
+
+#: admin/includes/class-portability.php:858
+msgid "This file should not be imported in this context."
+msgstr "Berkas ini tidak dapat diimpor dalam konteks ini."
+
+#: admin/includes/class-portability.php:859
+msgid "Import estimated time remaining: %smin"
+msgstr "Estimasi sisa waktu impor: %smnt"
+
+#: admin/includes/class-portability.php:860
+msgid "Export estimated time remaining: %smin"
+msgstr "Estimasi sisa waktu ekspor: %smnt"
+
+#: admin/includes/class-portability.php:861
+msgid "Backup estimated time remaining: %smin"
+msgstr "Estimasi sisa waktu pencadangan: %smnt"
+
+#: admin/includes/class-portability.php:883
+msgid "Portability"
+msgstr "Portabilitas"
+
+#: admin/includes/class-portability.php:887
+msgid "Export"
+msgstr "Ekspor"
+
+#: admin/includes/class-portability.php:888
+msgid "Import"
+msgstr "Impor"
+
+#: admin/includes/class-portability.php:892
+msgid ""
+"Exporting your %s will create a JSON file that can be imported into a "
+"different website."
+msgstr ""
+"Mengekspor %s Anda akan menciptakan berkas JSON yang dapat diimpor ke dalam "
+"website lain."
+
+#: admin/includes/class-portability.php:893
+msgid "Export File Name"
+msgstr "Nama Berkas Ekspor"
+
+#: admin/includes/class-portability.php:898
+msgid "Only export selected items"
+msgstr "Hanya ekspor item terpilih"
+
+#: admin/includes/class-portability.php:902
+msgid "Export %s"
+msgstr "Ekspor %s"
+
+#: admin/includes/class-portability.php:903
+msgid "Cancel Export"
+msgstr ""
+
+#: admin/includes/class-portability.php:908
+msgid ""
+"Importing a previously-exported %s file will overwrite all content currently "
+"on this page."
+msgstr ""
+"Mengimpor berkas %s yang diekspor sebelumnya akan menimpa semua konten yang "
+"saat ini ada di laman ini."
+
+#: admin/includes/class-portability.php:910
+msgid ""
+"Select a previously-exported Divi Builder Layouts file to begin importing "
+"items. Large collections of image-heavy exports may take several minutes to "
+"upload."
+msgstr ""
+"Pilih berkas Tata Letak Divi Builder yang diekspor sebelumnya untuk mulai "
+"mengimpor item. Ekspor dengan gambar dalam jumlah besar dapat membutuhkan "
+"beberapa menit untuk diunggah."
+
+#: admin/includes/class-portability.php:912
+msgid ""
+"Importing a previously-exported %s file will overwrite all current data. "
+"Please proceed with caution!"
+msgstr ""
+"Mengimpor berkas %s yang diekspor sebelumnya akan menimpa semua data saat "
+"ini. Harap berhati-hati!"
+
+#: admin/includes/class-portability.php:914
+msgid "Select File To Import"
+msgstr "Pilih Berkas Untuk Diimpor"
+
+#: admin/includes/class-portability.php:916
+msgid "No File Selected"
+msgstr "Tidak Ada Berkas Dipilih"
+
+#: admin/includes/class-portability.php:917
+msgid "Choose File"
+msgstr "Pilih Berkas"
+
+#: admin/includes/class-portability.php:921
+msgid "Download backup before importing"
+msgstr "Unduh cadangan sebelum mengimpor"
+
+#: admin/includes/class-portability.php:925
+msgid "Import %s"
+msgstr "Impor %s"
+
+#: admin/includes/class-portability.php:926
+msgid "Cancel Import"
+msgstr ""
+
+#: admin/includes/portability.php:90
+msgid "Import & Export"
+msgstr "Impor & Ekspor"
+
+#~ msgid ""
+#~ "This post is password protected. Enter the password to view comments."
+#~ msgstr ""
+#~ "Postingan ini terlindungi kata sandi. Masukkan kata sandi untuk melihat "
+#~ "komentar."
+
+#~ msgid "0 Comments"
+#~ msgstr "0 Komentar"
+
+#~ msgid "1 Comment"
+#~ msgstr "1 Komentar"
+
+#~ msgid "Comments"
+#~ msgstr "Komentar"
+
+#~ msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+#~ msgstr "<span class=\"meta-nav\">&larr;</span> Komentar Lama"
+
+#~ msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+#~ msgstr "Komentar Baru <span class=\"meta-nav\">&rarr;</span>"
+
+#~ msgid "Trackbacks/Pingbacks"
+#~ msgstr "Trackback"
+
+#~ msgid "Submit Comment"
+#~ msgstr "Kirim Komentar"
+
+#~ msgid "Submit a Comment"
+#~ msgstr "Kirim Komentar"
+
+#~ msgid "Leave a Reply to %s"
+#~ msgstr "Beri Balasan pada %s"
+
+#~ msgid "Help"
+#~ msgstr "Bantuan"
+
+#~ msgid "Options"
+#~ msgstr "Opsi"
+
+#~ msgid "Theme Options"
+#~ msgstr "Opsi Tema"
+
+#~ msgid "settings saved."
+#~ msgstr "pengaturan tersimpan."
+
+#~ msgid "settings reset."
+#~ msgstr "pengaturan diatur ulang."
+
+#~ msgid "Save Changes"
+#~ msgstr "Simpan Perubahan"
+
+#~ msgid "%s Theme Options"
+#~ msgstr "Opsi Tema %s"
+
+#~ msgid "Reset to Defaults"
+#~ msgstr "Kembalikan ke Bawaan"
+
+#~ msgid "General"
+#~ msgstr "Umum"
+
+#~ msgid "Navigation"
+#~ msgstr "Navigasi"
+
+#~ msgid "Layout"
+#~ msgstr "Tata Letak"
+
+#~ msgid "Ads"
+#~ msgstr "Iklan"
+
+#~ msgid "Colorization"
+#~ msgstr "Warna"
+
+#~ msgid "SEO"
+#~ msgstr "SEO"
+
+#~ msgid "Integration"
+#~ msgstr "Integrasi"
+
+#~ msgid "Reset"
+#~ msgstr "Atur Ulang"
+
+#~ msgid "Upload"
+#~ msgstr "Unggah"
+
+#~ msgid "You don't have pages"
+#~ msgstr "Anda tak memiliki laman"
+
+#~ msgid "Yes"
+#~ msgstr "Ya"
+
+#~ msgid "No"
+#~ msgstr "Tidak"
+
+#~ msgid "Enable"
+#~ msgstr "Aktif"
+
+#~ msgid "Disable"
+#~ msgstr "Nonaktif"
+
+#~ msgid "Author"
+#~ msgstr "Penerbit"
+
+#~ msgid "Date"
+#~ msgstr "Tanggal"
+
+#~ msgid "Categories"
+#~ msgstr "Kategori"
+
+#~ msgid "Choose an Image"
+#~ msgstr "Pilih gambar"
+
+#~ msgid "&hellip;"
+#~ msgstr "&hellip;"
+
+#~ msgid "Home"
+#~ msgstr "Beranda"
+
+#~ msgid "Archives"
+#~ msgstr "Arsip"
+
+#~ msgid "Search results for \"%s\""
+#~ msgstr "Cari hasil untuk \"%s\""
+
+#~ msgid "404 Not Found"
+#~ msgstr "404 Tak Ditemukan"
+
+#~ msgid "Currently viewing archives from %1$s"
+#~ msgstr "Sedang melihat arsip dari %1$s"
+
+#~ msgid "Search Results for: %s"
+#~ msgstr "Hasil Pencarian untuk: %s"
+
+#~ msgid "Image doesn't exist"
+#~ msgstr "Gambar tidak ada"
+
+#~ msgid ""
+#~ "<div class=\"updated\"><p>This is a fresh installation of %1$s theme. "
+#~ "Don't forget to go to <a href=\"%2$s\">ePanel</a> to set it up. This "
+#~ "message will disappear once you have clicked the Save button within the "
+#~ "<a href=\"%2$s\">theme's options page</a>.</p></div>"
+#~ msgstr ""
+#~ "<div class=\"updated\"><p>Ini adalah pemasangan baru untuk tema %1$s. "
+#~ "Jangan lupa menuju <a href=\"%2$s\">Panel-e</a> untuk mengaturnya. Pesan "
+#~ "ini akan hilang setelah Anda mengklik tombol Simpan pada laman opsi tema "
+#~ "<a href=\"%2$s\"></a>.</p></div>"
+
+#~ msgid ""
+#~ "There is a new version of %1$s available. <a href=\"%2$s\" class="
+#~ "\"thickbox\" title=\"%1$s\">View version %3$s details</a>. <em>Before you "
+#~ "can update your Elegant Themes, you must first install the <a href="
+#~ "\"https://www.elegantthemes.com/members-area/documentation.html#updater\" "
+#~ "target=\"_blank\">Elegant Updater Plugin</a> to authenticate your "
+#~ "subscription.</em>"
+#~ msgstr ""
+#~ "Terdapat versi baru untuk %1$s. <a href=\"%2$s\" class=\"thickbox\" title="
+#~ "\"%1$s\">Lihat rincian versi %3$s</a>. <em>Sebelum Anda dapat memperbarui "
+#~ "Tema Elegant Anda, Anda harus terlebih dulu memasang <a href=\"https://"
+#~ "www.elegantthemes.com/members-area/documentation.html#updater\" target="
+#~ "\"_blank\">Plugin Pembaru Elegant</a> guna mengotentikasi langganan Anda."
+#~ "</em>"
+
+#~ msgid ""
+#~ "Before you can update your Elegant Themes, you must first install the <a "
+#~ "href=\"https://www.elegantthemes.com/members-area/documentation."
+#~ "html#updater\" target=\"_blank\">Elegant Updater Plugin</a> to "
+#~ "authenticate your subscription."
+#~ msgstr ""
+#~ "Sebelum Anda dapat memperbarui Tema Elegant Anda, Anda harus terlebih "
+#~ "dulu memasang <a href=\"https://www.elegantthemes.com/members-area/"
+#~ "documentation.html#updater\" target=\"_blank\">Plugin Pembaru Elegant</a> "
+#~ "guna mengotentikasi langganan Anda."
+
+#~ msgid "Previous"
+#~ msgstr "Sebelumnya"
+
+#~ msgid "Next"
+#~ msgstr "Lanjut"
+
+#~ msgid "Tweet"
+#~ msgstr "Tweet"
+
+#~ msgid "Member Login"
+#~ msgstr "Masuk bagi Member"
+
+#~ msgid "Username: "
+#~ msgstr "Nama Pengguna: "
+
+#~ msgid "Password: "
+#~ msgstr "Kata Sandi: "
+
+#~ msgid "Login"
+#~ msgstr "Masuk"
+
+#~ msgid "Add a Tooltip Text"
+#~ msgstr "Tambahkan Teks Petunjuk"
+
+#~ msgid "Click here to learn more"
+#~ msgstr "Klik di sini untuk mempelajari lebih jauh"
+
+#~ msgid "Join Now"
+#~ msgstr "Bergabung Sekarang"
+
+#~ msgid "Add ET Learn more block"
+#~ msgstr "Tambahkan Blok Toggle"
+
+#~ msgid "Add ET Box"
+#~ msgstr "Tambahkan Kotak"
+
+#~ msgid "Add ET Button"
+#~ msgstr "Tambah Tombol"
+
+#~ msgid "Add ET Tabs"
+#~ msgstr "Tambah Tab"
+
+#~ msgid "Add Author Bio"
+#~ msgstr "Tambah Bio Penulis"
+
+#~ msgid "Shortcodes"
+#~ msgstr "Shortcode"
+
+#~ msgid "Caption"
+#~ msgstr "Keterangan"
+
+#~ msgid "Caption goes here"
+#~ msgstr "Masukkan keterangan di sini"
+
+#~ msgid "Caption title goes here"
+#~ msgstr "Masukkan judul keterangan di sini"
+
+#~ msgid "State"
+#~ msgstr "Status"
+
+#~ msgid "Select between expanded and closed state"
+#~ msgstr "Pilih antara status terbuka dan tertutup"
+
+#~ msgid "Content"
+#~ msgstr "Konten"
+
+#~ msgid "Content goes here"
+#~ msgstr "Masukkan konten di sini"
+
+#~ msgid "Content text or html"
+#~ msgstr "Teks konten atau HTML"
+
+#~ msgid "Type"
+#~ msgstr "Jenis"
+
+#~ msgid "Type of the box"
+#~ msgstr "Jenis kotak"
+
+#~ msgid "Link"
+#~ msgstr "Tautan"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "Choose button type"
+#~ msgstr "Pilih jenis tombol"
+
+#~ msgid "Color"
+#~ msgstr "Warna"
+
+#~ msgid "Choose button color"
+#~ msgstr "Pilih warna tombol"
+
+#~ msgid "Link text"
+#~ msgstr "Teks tautan"
+
+#~ msgid "Icon"
+#~ msgstr "Ikon"
+
+#~ msgid "Used for icon button type"
+#~ msgstr "Digunakan untuk jenis tombol ikon"
+
+#~ msgid "Open link in new window"
+#~ msgstr "Buka tautan dalam jendela baru"
+
+#~ msgid "Select yes if the link should be opened in a new window"
+#~ msgstr "Pilih ya jika ingin tautan dibuka dalam jendela baru"
+
+#~ msgid "Slider Type"
+#~ msgstr "Jenis Slider"
+
+#~ msgid "Select Slider Type here"
+#~ msgstr "Pilih Jenis Slider di sini"
+
+#~ msgid "Effect"
+#~ msgstr "Efek"
+
+#~ msgid "Select Animation Effect"
+#~ msgstr "Pilih Efek Animasi"
+
+#~ msgid "Auto"
+#~ msgstr "Otomatis"
+
+#~ msgid "Choose yes if you want for automatic slider animation"
+#~ msgstr "Pilih ya jika Anda ingin mengaktifkan animasi slider otomatis"
+
+#~ msgid "Auto Speed"
+#~ msgstr "Kecepatan Otomatis"
+
+#~ msgid "Automattic slider speed (works only if Auto is set to yes)"
+#~ msgstr "Kecepatan slider otomatis (hanya bekerja jika Otomatis diset ke ya)"
+
+#~ msgid "Tab Text"
+#~ msgstr "Teks Tab"
+
+#~ msgid "Tab Content"
+#~ msgstr "Konten Tab"
+
+#~ msgid "Paste image url here, if you chose \"images\" slider type"
+#~ msgstr ""
+#~ "Tempel URL gambar di sini, jika Anda memilih jenis slider \"images\""
+
+#~ msgid "Image Url"
+#~ msgstr "URL gambar"
+
+#~ msgid "Author Image URL"
+#~ msgstr "URL Gambar Penulis"
+
+#~ msgid "Use resizing"
+#~ msgstr "Gunakan pembesaran ulang"
+
+#~ msgid "+ Add One More Tab"
+#~ msgstr "+ Tambahkan Satu Tab Lagi"
+
+#~ msgid "Image Height"
+#~ msgstr "Tinggi Gambar"
+
+#~ msgid "Image Width"
+#~ msgstr "Lebar Gambar"
+
+#~ msgid "Designed by %1$s | Powered by %2$s"
+#~ msgstr "Didesain oleh %1$s | Didukung oleh %2$s"
+
+#~ msgid "Primary Menu"
+#~ msgstr "Menu Utama"
+
+#~ msgid "Secondary Menu"
+#~ msgstr "Menu Sekunder"
+
+#~ msgid "Footer Menu"
+#~ msgstr "Menu Footer"
+
+#~ msgid ""
+#~ "Welcome to Divi! Before diving in to your new theme, please visit the <a "
+#~ "style=\"color: #fff; font-weight: bold;\" href=\"%1$s\" target=\"_blank"
+#~ "\">Divi Documentation</a> page for access to dozens of in-depth tutorials."
+#~ msgstr ""
+#~ "Selamat datang di Divi! Sebelum menjelajahi tema baru Anda, silakan "
+#~ "kunjungi laman <a style=\"color: #fff; font-weight: bold;\" href=\"%1$s\" "
+#~ "target=\"_blank\">Divi Documentation</a> untuk akses ke lusinan tutorial "
+#~ "menyeluruh."
+
+#~ msgctxt "Open Sans font: on or off"
+#~ msgid "on"
+#~ msgstr " "
+
+#~ msgid "Select Page"
+#~ msgstr "Pilih Laman"
+
+#~ msgid "Divi Page Settings"
+#~ msgstr "Pengaturan Laman Divi"
+
+#~ msgid "Divi Post Settings"
+#~ msgstr "Pengaturan Postingan Divi"
+
+#~ msgid "Divi Product Settings"
+#~ msgstr "Pengaturan Produk Divi"
+
+#~ msgid "Divi Project Settings"
+#~ msgstr "Pengaturan Proyek Divi"
+
+#~ msgid "Skills"
+#~ msgstr "Keahlian"
+
+#~ msgid "Posted on"
+#~ msgstr "Diposting pada"
+
+#~ msgid "Right Sidebar"
+#~ msgstr "Bilah samping Kanan"
+
+#~ msgid "Left Sidebar"
+#~ msgstr "Bilah Samping Kiri"
+
+#~ msgid "Full Width"
+#~ msgstr "Lebar Penuh"
+
+#~ msgid "Light"
+#~ msgstr "Terang"
+
+#~ msgid "Dark"
+#~ msgstr "Gelap"
+
+#~ msgid "Page Layout"
+#~ msgstr "Tata Letak Laman"
+
+#~ msgid "Dot Navigation"
+#~ msgstr "Navigasi Dot"
+
+#~ msgid "Off"
+#~ msgstr "Mati"
+
+#~ msgid "On"
+#~ msgstr "Nyala"
+
+#~ msgid "Hide Nav Before Scroll"
+#~ msgstr "Sembunyikan Nav Sebelum Bergulir"
+
+#~ msgid "Default"
+#~ msgstr "Default"
+
+#~ msgid "Post Title"
+#~ msgstr "Judul Postingan"
+
+#~ msgid "Show"
+#~ msgstr "Tampilkan"
+
+#~ msgid "Hide"
+#~ msgstr "Sembunyikan"
+
+#~ msgid "Use Background Color"
+#~ msgstr "Gunakan Warna Latar"
+
+#~ msgid "Hex Value"
+#~ msgstr "Nilai Warna"
+
+#~ msgid "Text Color"
+#~ msgstr "Warna Teks"
+
+#~ msgid "Project Navigation"
+#~ msgstr "Navigasi Proyek"
+
+#~ msgid "you don't have sufficient permissions to access this page"
+#~ msgstr "Anda tidak memiliki izin yang memadai untuk mengakses halaman ini"
+
+#~ msgid "General Settings"
+#~ msgstr "Pengaturan Umum"
+
+#~ msgid "Site Identity"
+#~ msgstr "situs Identity"
+
+#~ msgid "Layout Settings"
+#~ msgstr "Pengaturan Tata Letak"
+
+#~ msgid "Typography"
+#~ msgstr "Tipografi"
+
+#~ msgid "Mobile Styles"
+#~ msgstr "Gaya Seluler"
+
+#~ msgid "Tablet"
+#~ msgstr "Tablet"
+
+#~ msgid "Phone"
+#~ msgstr "Ponsel"
+
+#~ msgid "Mobile Menu"
+#~ msgstr "Menu Seluler"
+
+#~ msgid "Background"
+#~ msgstr "Latar Belakang"
+
+#~ msgid "Header & Navigation"
+#~ msgstr "Header & Navigasi"
+
+#~ msgid "Header Format"
+#~ msgstr "Format Header"
+
+#~ msgid "Primary Menu Bar"
+#~ msgstr "Bilah Menu Utama"
+
+#~ msgid "Secondary Menu Bar"
+#~ msgstr "Bilah Menu Sekunder"
+
+#~ msgid "Slide In & Fullscreen Header Settings"
+#~ msgstr "Pengaturan Header Layar Penuh & Slide In"
+
+#~ msgid "Fixed Navigation Settings"
+#~ msgstr "Pengaturan Navigasi Tetap"
+
+#~ msgid "Header Elements"
+#~ msgstr "Elemen Header"
+
+#~ msgid "Footer"
+#~ msgstr "Footer"
+
+#~ msgid "Widgets"
+#~ msgstr "Widget"
+
+#~ msgid "Footer Elements"
+#~ msgstr "Elemen Footer"
+
+#~ msgid "Bottom Bar"
+#~ msgstr "Bilah Bawah"
+
+#~ msgid "Color Schemes"
+#~ msgstr "Skema Warna"
+
+#~ msgid ""
+#~ "Note: Color settings set above should be applied to the Default color "
+#~ "scheme."
+#~ msgstr ""
+#~ "Catatan: Pengaturan warna yang diset di atas harus diaplikasikan ke skema "
+#~ "warna Default."
+
+#~ msgid "Buttons"
+#~ msgstr "Tombol"
+
+#~ msgid "Buttons Style"
+#~ msgstr "Gaya Tombol"
+
+#~ msgid "Buttons Hover Style"
+#~ msgstr "Gaya Tombol Saat Disorot"
+
+#~ msgid "Blog"
+#~ msgstr "Blog"
+
+#~ msgid "Post"
+#~ msgstr "Postingan"
+
+#~ msgid "Meta Text Size"
+#~ msgstr "Ukuran Teks pada Meta"
+
+#~ msgid "Meta Line Height"
+#~ msgstr "Tinggi Baris pada Meta"
+
+#~ msgid "Meta Letter Spacing"
+#~ msgstr "Jarak Antarhuruf pada Meta"
+
+#~ msgid "Meta Font Style"
+#~ msgstr "Gaya Huruf pada Meta"
+
+#~ msgid "Header Text Size"
+#~ msgstr "Ukuran Teks pada Header"
+
+#~ msgid "Header Line Height"
+#~ msgstr "Tinggi Baris pada Header"
+
+#~ msgid "Header Letter Spacing"
+#~ msgstr "Jarak Antarhuruf pada Header"
+
+#~ msgid "Header Font Style"
+#~ msgstr "Gaya Huruf pada Header"
+
+#~ msgid "Enable Boxed Layout"
+#~ msgstr "Aktifkan Boxed Layout"
+
+#~ msgid "Website Content Width"
+#~ msgstr "Lebar Konten pada Situs"
+
+#~ msgid "Website Gutter Width"
+#~ msgstr "Jarak Antarkolom pada Situs"
+
+#~ msgid "Use Custom Sidebar Width"
+#~ msgstr "Menggunakan Custom Sidebar Lebar"
+
+#~ msgid "Sidebar Width"
+#~ msgstr "Lebar Bilah Sisi"
+
+#~ msgid "Section Height"
+#~ msgstr "Tinggi Section"
+
+#~ msgid "Row Height"
+#~ msgstr "Tinggi Baris"
+
+#~ msgid "Stretch Background Image"
+#~ msgstr "Tarik Gambar Latar"
+
+#~ msgid "Background Color"
+#~ msgstr "Warna Latar"
+
+#~ msgid "Background Image"
+#~ msgstr "Gambar Latar Belakang:"
+
+#~ msgid "Background Repeat"
+#~ msgstr "Ulangi Latar Belakang"
+
+#~ msgid "No Repeat"
+#~ msgstr "Tidak Diulangi"
+
+#~ msgid "Tile"
+#~ msgstr "Tile"
+
+#~ msgid "Tile Horizontally"
+#~ msgstr "Tile Horizontal"
+
+#~ msgid "Tile Vertically"
+#~ msgstr "Tile Vertikal"
+
+#~ msgid "Background Position"
+#~ msgstr "Posisi Latar Belakang"
+
+#~ msgid "Left"
+#~ msgstr "Kiri"
+
+#~ msgid "Center"
+#~ msgstr "Tengah"
+
+#~ msgid "Right"
+#~ msgstr "Kanan"
+
+#~ msgid "Scroll"
+#~ msgstr "Gulir"
+
+#~ msgid "Fixed"
+#~ msgstr "Tetap"
+
+#~ msgid "Body Text Size"
+#~ msgstr "Ukuran Teks pada Body"
+
+#~ msgid "Body Line Height"
+#~ msgstr "Tinggi Baris pada Body"
+
+#~ msgid "Header Font"
+#~ msgstr "Font Header"
+
+#~ msgid "Body Font"
+#~ msgstr "Font Body"
+
+#~ msgid "Body Link Color"
+#~ msgstr "Warna Tautan pada Body"
+
+#~ msgid "Body Text Color"
+#~ msgstr "Warna Teks pada Body"
+
+#~ msgid "Header Text Color"
+#~ msgstr "Warna Teks pada Header"
+
+#~ msgid "Theme Accent Color"
+#~ msgstr "Warna Aksen Tema"
+
+#~ msgid "Header Style"
+#~ msgstr "Gaya Header"
+
+#~ msgid "Enable Vertical Navigation"
+#~ msgstr "Aktifkan Navigasi Vertikal"
+
+#~ msgid "Vertical Menu Orientation"
+#~ msgstr "Orientasi Menu Vertikal"
+
+#~ msgid "Hide Navigation Until Scroll"
+#~ msgstr "Sembunyikan Navigasi Sampai Bergulir"
+
+#~ msgid "Show Social Icons"
+#~ msgstr "Tampilkan Ikon Media Sosial"
+
+#~ msgid "Show Search Icon"
+#~ msgstr "Tampilkan Ikon Pencarian"
+
+#~ msgid "Show Top Bar"
+#~ msgstr "Tampilkan Bilah Atas"
+
+#~ msgid "Menu Width"
+#~ msgstr "Lebar Menu"
+
+#~ msgid "Menu Text Size"
+#~ msgstr "Ukuran Teks Menu"
+
+#~ msgid "Top Bar Text Size"
+#~ msgstr "Ukuran Teks Bilah Atas"
+
+#~ msgid "Letter Spacing"
+#~ msgstr "Jarak Antarhuruf"
+
+#~ msgid "Font"
+#~ msgstr "Jenis Huruf"
+
+#~ msgid "Font Style"
+#~ msgstr "Gaya Huruf"
+
+#~ msgid "Menu Link Color"
+#~ msgstr "Warna Tautan Menu"
+
+#~ msgid "Active Link Color"
+#~ msgstr "Warna Tautan Aktif"
+
+#~ msgid "Top Bar Text Color"
+#~ msgstr "Warna Teks Bilah Atas"
+
+#~ msgid "Search Bar Text Color"
+#~ msgstr "Warna Teks Bilah Pencarian"
+
+#~ msgid "Search Bar Background Color"
+#~ msgstr "Warna Latar Belakang Bilah Pencarian"
+
+#~ msgid "Make Full Width"
+#~ msgstr "Jadikan Lebar Penuh"
+
+#~ msgid "Hide Logo Image"
+#~ msgstr "Sembunyikan Gambar Logo"
+
+#~ msgid "Menu Height"
+#~ msgstr "menu Tinggi"
+
+#~ msgid "Logo Max Height"
+#~ msgstr "Logo Max Tinggi"
+
+#~ msgid "Text Size"
+#~ msgstr "Ukuran Teks"
+
+#~ msgid "Dropdown Menu Background Color"
+#~ msgstr "Warna Latar Belakang Menu Dropdown"
+
+#~ msgid "Dropdown Menu Line Color"
+#~ msgstr "Warna Baris Menu Dropdown"
+
+#~ msgid "Dropdown Menu Text Color"
+#~ msgstr "Warna Teks Menu Dropdown"
+
+#~ msgid "Dropdown Menu Animation"
+#~ msgstr "Animasi Menu Dropdown"
+
+#~ msgid "Fixed Menu Height"
+#~ msgstr "Tetap menu Tinggi"
+
+#~ msgid "Primary Menu Background Color"
+#~ msgstr "Warna Latar Belakang Menu Utama"
+
+#~ msgid "Secondary Menu Background Color"
+#~ msgstr "Warna Latar Belakang Menu Sekunder"
+
+#~ msgid "Primary Menu Link Color"
+#~ msgstr "Primer menu Link Color"
+
+#~ msgid "Secondary Menu Link Color"
+#~ msgstr "Sekunder menu Link Color"
+
+#~ msgid "Active Primary Menu Link Color"
+#~ msgstr "Primer menu aktif Link Color"
+
+#~ msgid "Phone Number"
+#~ msgstr "Nomor Telepon"
+
+#~ msgid "Email"
+#~ msgstr "Surel"
+
+#~ msgid "Column Layout"
+#~ msgstr "Layout Kolom"
+
+#~ msgid "Footer Background Color"
+#~ msgstr "Warna Latar Footer"
+
+#~ msgid "Body/Link Text Size"
+#~ msgstr "Ukuran Teks pada Body/Tautan"
+
+#~ msgid "Body/Link Line Height"
+#~ msgstr "Tinggi Baris pada Body/Tautan"
+
+#~ msgid "Body Font Style"
+#~ msgstr "Gaya Huruf pada Body"
+
+#~ msgid "Widget Text Color"
+#~ msgstr "Warna Teks pada Widget"
+
+#~ msgid "Widget Link Color"
+#~ msgstr "Warna Tautan pada Widget"
+
+#~ msgid "Widget Header Color"
+#~ msgstr "Warna Header pada Widget"
+
+#~ msgid "Widget Bullet Color"
+#~ msgstr "Warna Dot pada Widget"
+
+#~ msgid "Footer Menu Background Color"
+#~ msgstr "Warna Latar Belakang pada Menu Footer"
+
+#~ msgid "Footer Menu Text Color"
+#~ msgstr "Warna Teks pada Menu Footer"
+
+#~ msgid "Footer Menu Active Link Color"
+#~ msgstr "Warna Tautan Aktif pada Menu Footer"
+
+#~ msgid "Font Size"
+#~ msgstr "Ukuran Huruf"
+
+#~ msgid "Social Icon Size"
+#~ msgstr "Ukuran Ikon Media Sosial"
+
+#~ msgid "Social Icon Color"
+#~ msgstr "Warna Ikon Media Sosial"
+
+#~ msgid "Border Width"
+#~ msgstr "Lebar Garis Tepi"
+
+#~ msgid "Border Color"
+#~ msgstr "Warna Garis Tepi"
+
+#~ msgid "Border Radius"
+#~ msgstr "Radius Garis Tepi"
+
+#~ msgid "Button Font Style"
+#~ msgstr "Gaya Huruf pada Tombol"
+
+#~ msgid "Buttons Font"
+#~ msgstr "Jenis Huruf pada Tombol"
+
+#~ msgid "Add Button Icon"
+#~ msgstr "Tambah Ikon Tombol"
+
+#~ msgid "Select Icon"
+#~ msgstr "Pilih Ikon"
+
+#~ msgid "Icon Color"
+#~ msgstr "Warna Ikon"
+
+#~ msgid "Icon Placement"
+#~ msgstr "Posisi Ikon"
+
+#~ msgid "Only Show Icon on Hover"
+#~ msgstr "Hanya Tampilkan Ikon Saat Disorot"
+
+#~ msgid "Image"
+#~ msgstr "Gambar"
+
+#~ msgid "Image Module Settings"
+#~ msgstr "Pengaturan Modul Gambar"
+
+#~ msgid "Animation"
+#~ msgstr "Animasi"
+
+#~ msgid "This controls default direction of the lazy-loading animation."
+#~ msgstr "Ini menentukan arah default dari animasi yang dimuat."
+
+#~ msgid "Gallery"
+#~ msgstr "Galeri"
+
+#~ msgid "Zoom Icon Color"
+#~ msgstr "Warna Ikon Perbesar"
+
+#~ msgid "Hover Overlay Color"
+#~ msgstr "Warna Overlay Saat Disorot"
+
+#~ msgid "Title Font Size"
+#~ msgstr "Ukuran Huruf untuk Judul"
+
+#~ msgid "Title Font Style"
+#~ msgstr "Gaya Huruf untuk Judul"
+
+#~ msgid "Caption Font Size"
+#~ msgstr "Ukuran Huruf untuk Keterangan"
+
+#~ msgid "Caption Font Style"
+#~ msgstr "Gaya Huruf untuk Keterangan"
+
+#~ msgid "Blurb"
+#~ msgstr "Blurb"
+
+#~ msgid "Header Font Size"
+#~ msgstr "Ukuran Huruf pada Header"
+
+#~ msgid "Tabs"
+#~ msgstr "Tab"
+
+#~ msgid "Padding"
+#~ msgstr "Padding"
+
+#~ msgid "Slider"
+#~ msgstr "Slider"
+
+#~ msgid "Top & Bottom Padding"
+#~ msgstr "Padding Atas & Bawah"
+
+#~ msgid "Content Font Size"
+#~ msgstr "Ukuran Huruf pada Konten"
+
+#~ msgid "Content Font Style"
+#~ msgstr "Gaya Huruf pada Konten"
+
+#~ msgid "Testimonial"
+#~ msgstr "Testimonial"
+
+#~ msgid "Name Font Style"
+#~ msgstr "Gaya Huruf untuk Nama"
+
+#~ msgid "Details Font Style"
+#~ msgstr "Gaya Huruf untuk Detail"
+
+#~ msgid "Portrait Border Radius"
+#~ msgstr "Radius Garis Tepi Foto"
+
+#~ msgid "Pricing Table"
+#~ msgstr "Tabel Harga"
+
+#~ msgid "Subheader Font Size"
+#~ msgstr "Ukuran Huruf untuk Subkepala"
+
+#~ msgid "Subheader Font Style"
+#~ msgstr "Gaya Huruf Subkepala"
+
+#~ msgid "Price Font Size"
+#~ msgstr "Ukuran Huruf untuk Harga"
+
+#~ msgid "Pricing Font Style"
+#~ msgstr "Gaya Huruf untuk Harga"
+
+#~ msgid "Call To Action"
+#~ msgstr "Tombol Aksi"
+
+#~ msgid "Audio"
+#~ msgstr "Audio"
+
+#~ msgid "Email Optin"
+#~ msgstr "email Optin"
+
+#~ msgid "Portfolio"
+#~ msgstr "Portofolio"
+
+#~ msgid "Filterable Portfolio"
+#~ msgstr "Portofolio Filterable"
+
+#~ msgid "Filters Font Size"
+#~ msgstr "Ukuran Huruf untuk Filter"
+
+#~ msgid "Filters Font Style"
+#~ msgstr "Gaya Huruf untuk Filter"
+
+#~ msgid "Bar Counter"
+#~ msgstr "Grafik Batang"
+
+#~ msgid "Label Font Size"
+#~ msgstr "Ukuran Huruf untuk Label"
+
+#~ msgid "Label Font Style"
+#~ msgstr "Gaya Huruf untuk Label"
+
+#~ msgid "Percent Font Size"
+#~ msgstr "Ukuran Huruf untuk Simbol Persen"
+
+#~ msgid "Percent Font Style"
+#~ msgstr "Gaya Huruf untuk Simbol Persen"
+
+#~ msgid "Bar Padding"
+#~ msgstr "Padding Grafik Batang"
+
+#~ msgid "Bar Border Radius"
+#~ msgstr "Radius Garis Tepi pada Grafik Batang"
+
+#~ msgid "Circle Counter"
+#~ msgstr "Grafik Lingkaran"
+
+#~ msgid "Number Font Size"
+#~ msgstr "Ukuran Huruf untuk Angka"
+
+#~ msgid "Number Font Style"
+#~ msgstr "Gaya Huruf untuk Angka"
+
+#~ msgid "Number Counter"
+#~ msgstr "Penghitung Jumlah"
+
+#~ msgid "Accordion"
+#~ msgstr "Accordion"
+
+#~ msgid "Opened Title Font Style"
+#~ msgstr "Gaya Huruf untuk Judul Elemen yang Dibuka"
+
+#~ msgid "Closed Title Font Style"
+#~ msgstr "Gaya Huruf untuk Judul Elemen yang Ditutup"
+
+#~ msgid "Toggle Icon Size"
+#~ msgstr "Ukuran Ikon Toggle"
+
+#~ msgid "Toggle Padding"
+#~ msgstr "Padding Toggle"
+
+#~ msgid "Toggle"
+#~ msgstr "Toggle"
+
+#~ msgid "Contact Form"
+#~ msgstr "Formulir Kontak"
+
+#~ msgid "Input Font Size"
+#~ msgstr "Ukuran Huruf pada Bidang Masukan"
+
+#~ msgid "Input Font Style"
+#~ msgstr "Gaya Huruf pada Bidang Masukan"
+
+#~ msgid "Input Field Padding"
+#~ msgstr "Padding pada Bidang Masukan"
+
+#~ msgid "Captcha Font Size"
+#~ msgstr "Ukuran Huruf pada Captcha"
+
+#~ msgid "Captcha Font Style"
+#~ msgstr "Gaya Huruf pada Captcha"
+
+#~ msgid "Sidebar"
+#~ msgstr "Bar Sisi"
+
+#~ msgid "Widget Header Font Size"
+#~ msgstr "Ukuran Huruf pada Header Widget"
+
+#~ msgid "Widget Header Font Style"
+#~ msgstr "Gaya Huruf pada Header Widget"
+
+#~ msgid "Remove Vertical Divider"
+#~ msgstr "Hilangkan Divider Vertikal"
+
+#~ msgid "Divider"
+#~ msgstr "Garis Pemisah"
+
+#~ msgid "Show Divider"
+#~ msgstr "Tampilkan Pemisah"
+
+#~ msgid "Divider Style"
+#~ msgstr "Jenis Divider"
+
+#~ msgid "Divider Weight"
+#~ msgstr "Tinggi Divider"
+
+#~ msgid "Divider Height"
+#~ msgstr "Tinggi Divider"
+
+#~ msgid "Divider Position"
+#~ msgstr "Posisi Divider"
+
+#~ msgid "Person"
+#~ msgstr "Perorangan"
+
+#~ msgid "Name Font Size"
+#~ msgstr "Ukuran Huruf untuk Nama"
+
+#~ msgid "Social Network Icon Size"
+#~ msgstr "Ukuran Ikon Jejaring Sosial"
+
+#~ msgid "Post Title Font Size"
+#~ msgstr "Ukuran Huruf Judul Postingan"
+
+#~ msgid "Meta Font Size"
+#~ msgstr "Ukuran Huruf pada Meta"
+
+#~ msgid "Blog Grid"
+#~ msgstr "blog Grid"
+
+#~ msgid "Shop"
+#~ msgstr "Toko"
+
+#~ msgid "Product Name Font Size"
+#~ msgstr "Ukuran Huruf untuk Nama Produk"
+
+#~ msgid "Product Name Font Style"
+#~ msgstr "Gaya Huruf untuk Nama Produk"
+
+#~ msgid "Sale Badge Font Size"
+#~ msgstr "Ukuran Huruf pada Logo Diskon"
+
+#~ msgid "Sale Badge Font Style"
+#~ msgstr "Gaya Huruf pada Logo Diskon"
+
+#~ msgid "Price Font Style"
+#~ msgstr "Gaya Huruf untuk Harga"
+
+#~ msgid "Sale Price Font Size"
+#~ msgstr "Ukuran Huruf untuk Harga Diskon"
+
+#~ msgid "Sale Price Font Style"
+#~ msgstr "Gaya Huruf untuk Harga Diskon"
+
+#~ msgid "Countdown"
+#~ msgstr "Hitung Mundur"
+
+#~ msgid "Social Follow"
+#~ msgstr "Ikuti Media Sosial"
+
+#~ msgid "Follow Font & Icon Size"
+#~ msgstr "Ukuran Ikon & Huruf pada Tombol Ikuti"
+
+#~ msgid "Fullwidth Slider"
+#~ msgstr "Fullwidth Slider"
+
+#~ msgid "0 comments"
+#~ msgstr "0 Komentar"
+
+#~ msgid "1 comment"
+#~ msgstr "1 Komentar"
+
+#~ msgid "comments"
+#~ msgstr "Komentar"
+
+#~ msgid "Password Protected"
+#~ msgstr "Diamankan dengan Kata Sandi"
+
+#~ msgid "To view this protected post, enter the password below"
+#~ msgstr "Untuk menampilkan postingan ini, masukkan kata sandi bawah"
+
+#~ msgid "Password"
+#~ msgstr "Kata Sandi"
+
+#~ msgid "Submit"
+#~ msgstr "Kirim"
+
+#, fuzzy
+#~ msgctxt "WooCommerce items number"
+#~ msgid "1 Item"
+#~ msgid_plural "%1$s Items"
+#~ msgstr[0] " "
+
+#~ msgid "Theme Customizer"
+#~ msgstr "Penyesuai Tema"
+
+#~ msgid "Module Customizer"
+#~ msgstr "Penyesuai Modul"
+
+#~ msgid "Role Editor"
+#~ msgstr "peran Editor"
+
+#~ msgid "Divi Library"
+#~ msgstr "Pustaka Divi"
+
+#~ msgid "Divi Customizer Settings"
+#~ msgstr "Setelan Divi Customizer"
+
+#~ msgid "Search &hellip;"
+#~ msgstr "Cari &hellip;"
+
+#~ msgid "Search for:"
+#~ msgstr "Mencari:"
+
+#~ msgid "Bold"
+#~ msgstr "Cetak Tebal"
+
+#~ msgid "Italic"
+#~ msgstr "Cetak Miring"
+
+#~ msgid "Uppercase"
+#~ msgstr "Huruf Besar"
+
+#~ msgid "Underline"
+#~ msgstr "Garis Bawah"
+
+#~ msgid "Green"
+#~ msgstr "Hijau"
+
+#~ msgid "Orange"
+#~ msgstr "Jingga"
+
+#~ msgid "Pink"
+#~ msgstr "Pink"
+
+#~ msgid "Red"
+#~ msgstr "Merah"
+
+#~ msgid "Centered"
+#~ msgstr "Tengah"
+
+#~ msgid "Centered Inline Logo"
+#~ msgstr "Logo di Tengah dan Inline"
+
+#~ msgid "Slide In"
+#~ msgstr "Slide In"
+
+#~ msgid "Fullscreen"
+#~ msgstr "Layar Penuh"
+
+#~ msgid "Fade"
+#~ msgstr "Pudar"
+
+#~ msgid "Expand"
+#~ msgstr "Melebar"
+
+#~ msgid "Slide"
+#~ msgstr "Slide"
+
+#~ msgid "Flip"
+#~ msgstr "Balik"
+
+#~ msgid "%1$s Columns"
+#~ msgstr "%1$s Kolom"
+
+#~ msgid "1 Column"
+#~ msgstr "1 Kolom"
+
+#~ msgid "Left to Right"
+#~ msgstr "Kiri ke Kanan"
+
+#~ msgid "Right to Left"
+#~ msgstr "Kanan ke Kiri"
+
+#~ msgid "Top to Bottom"
+#~ msgstr "Atas ke Bawah"
+
+#~ msgid "Bottom to Top"
+#~ msgstr "Bawah ke Atas"
+
+#~ msgid "Fade In"
+#~ msgstr "Fade In"
+
+#~ msgid "No Animation"
+#~ msgstr "Tidak Ada Animasi"
+
+#~ msgid "Solid"
+#~ msgstr "Solid"
+
+#~ msgid "Dotted"
+#~ msgstr "Dotted"
+
+#~ msgid "Dashed"
+#~ msgstr "Dashed"
+
+#~ msgid "Double"
+#~ msgstr "Double"
+
+#~ msgid "Groove"
+#~ msgstr "Groove"
+
+#~ msgid "Ridge"
+#~ msgstr "Ridge"
+
+#~ msgid "Inset"
+#~ msgstr "Inset"
+
+#~ msgid "Outset"
+#~ msgstr "Outset"
+
+#~ msgid "Top"
+#~ msgstr "Atas"
+
+#~ msgid "Vertically Centered"
+#~ msgstr "Rata Tengah Secara Vertikal"
+
+#~ msgid "Bottom"
+#~ msgstr "Bawah"
+
+#~ msgid "Read Divi Documentation"
+#~ msgstr "Baca Dokumentasi Divi"
+
+#~ msgid "Footer Area"
+#~ msgstr "Area Footer"
+
+#~ msgid "Watch video tutorials"
+#~ msgstr "Tonton video tutorial"
+
+#~ msgid "&laquo; Older Entries"
+#~ msgstr "&laquo; Entri Terdahulu"
+
+#~ msgid "Next Entries &raquo;"
+#~ msgstr "Entri Selanjutnya &raquo;"
+
+#~ msgid "No Results Found"
+#~ msgstr "Tak Ditemukan Hasil"
+
+#~ msgid ""
+#~ "The page you requested could not be found. Try refining your search, or "
+#~ "use the navigation above to locate the post."
+#~ msgstr ""
+#~ "Laman yang Anda rikues tak dapat ditemukan. Cobalah mengganti pencarian "
+#~ "Anda, atau gunakan navigasi di atas untuk mencari postingan."
+
+#~ msgid "Facebook"
+#~ msgstr "Facebook"
+
+#~ msgid "Twitter"
+#~ msgstr "Twitter"
+
+#~ msgid "Google"
+#~ msgstr "Google"
+
+#~ msgid "RSS"
+#~ msgstr "RSS"
+
+#~ msgid "Displays About Me Information"
+#~ msgstr "Tampilkan Informasi Tentang Saya"
+
+#~ msgid "ET About Me Widget"
+#~ msgstr "Widget Tentang Saya"
+
+#~ msgid "About Me"
+#~ msgstr "Tentang Saya"
+
+#~ msgid "Title"
+#~ msgstr "Judul"
+
+#~ msgid "Text"
+#~ msgstr "Teks"
+
+#~ msgid "Displays Advertisements"
+#~ msgstr "Tampilkan Iklan"
+
+#~ msgid "ET Advertisement"
+#~ msgstr "ET Iklan"
+
+#~ msgid "Advertisement"
+#~ msgstr "Iklan"
+
+#~ msgid "Use Relative Image Paths"
+#~ msgstr "Gunakan Path Gambar Relatif"
+
+#~ msgid "Open in a new window"
+#~ msgstr "Buka di jendela baru"
+
+#~ msgid "Banner"
+#~ msgstr "Banner"
+
+#~ msgid "Url"
+#~ msgstr "URL"
+
+#~ msgid "Alt"
+#~ msgstr "Alt"
+
+#~ msgid ""
+#~ "If you don't want to display some banners - leave approptiate fields blank"
+#~ msgstr "Apabila Anda tidak ingin menampilkan banner - kosongkan bidang"
+
+#~ msgid "Displays Adsense Ads"
+#~ msgstr "Tampilkan Iklan Adsense"
+
+#~ msgid "ET Adsense Widget"
+#~ msgstr "Widget Adsense"
+
+#~ msgid "Adsense"
+#~ msgstr "Adsense"
+
+#~ msgid "Adsense Code"
+#~ msgstr "Kode Adsense"
+
+#~ msgid "Logo"
+#~ msgstr "Logo"
+
+#~ msgid "Set As Logo"
+#~ msgstr "Atur sebagai Logo"
+
+#~ msgid ""
+#~ "If you would like to use your own custom logo image click the Upload "
+#~ "Image button."
+#~ msgstr ""
+#~ "Jika Anda ingin menggunakan gambar logo kustom Anda sendiri kliklah "
+#~ "tombol \"Unggah gambar\"."
+
+#~ msgid "Favicon"
+#~ msgstr "Favicon"
+
+#~ msgid "Set As Favicon"
+#~ msgstr "Atur sebagai Favicon"
+
+#~ msgid ""
+#~ "If you would like to use your own custom favicon image click the Upload "
+#~ "Image button."
+#~ msgstr ""
+#~ "Jika Anda ingin menggunakan gambar favicon Anda sendiri kliklah tombol "
+#~ "Unggah Gambar."
+
+#~ msgid "Fixed Navigation Bar"
+#~ msgstr "Perbaikan Bilah Navigasi"
+
+#~ msgid ""
+#~ "By default the navigation bar stays on top of the screen at all times. We "
+#~ "suggest to disable this option, if you need to use a logo taller than the "
+#~ "default one."
+#~ msgstr ""
+#~ "Secara default, bilah navigasi selalu berada di bagian atas layar. Kami "
+#~ "sarankan untuk mematikan opsi ini jika Anda perlu menggunakan gambar logo "
+#~ "berukuran besar."
+
+#~ msgid "Enable Divi Gallery"
+#~ msgstr "Aktifkan Galeri Divi"
+
+#~ msgid ""
+#~ "Enable this if you want to replace the WordPress default gallery with the "
+#~ "Divi-style gallery."
+#~ msgstr ""
+#~ "Aktifkan ini jika Anda ingin mengganti galeri bawaan WordPress dengan "
+#~ "galeri bergaya Divi."
+
+#~ msgid "Color Pickers Default Palette"
+#~ msgstr "Palet Default Color Picker"
+
+#~ msgid ""
+#~ "Define the default color palette for color pickers in the Divi Builder."
+#~ msgstr "Tentukan palet warna default untuk color picker dalam Divi Builder."
+
+#~ msgid "Grab the first post image"
+#~ msgstr "Ambil gambar postingan pertama"
+
+#~ msgid ""
+#~ "By default thumbnail images are created using custom fields. However, if "
+#~ "you would rather use the images that are already in your post for your "
+#~ "thumbnail (and bypass using custom fields) you can activate this option. "
+#~ "Once activcated thumbnail images will be generated automatically using "
+#~ "the first image in your post. The image must be hosted on your own server."
+#~ msgstr ""
+#~ "Secara default, gambar mini dihasilkan menggunakan kolom kustom. Namun "
+#~ "jika Anda memilih menggunakan gambar yang sudah ada di postingan Anda "
+#~ "untuk gambar mini (dan melewatkan penggunaan kolom kustom) Anda dapat "
+#~ "mengaktifkan opsi ini. Setelah aktif, gambar mini akan dihasilkan secara "
+#~ "otomatis menggunakan gambar pertama dalam postingan Anda. Gambar harus "
+#~ "ditampung di server Anda."
+
+#~ msgid "Blog Style Mode"
+#~ msgstr "Modus Gaya Blog"
+
+#~ msgid ""
+#~ "By default the theme truncates your posts on index/homepages "
+#~ "automatically to create post previews. If you would rather show your "
+#~ "posts in full on index pages like a traditional blog then you can "
+#~ "activate this feature."
+#~ msgstr ""
+#~ "Secara default, tema akan otomatis memangkas kutipan postingan Anda untuk "
+#~ "membuat pratinjau postingan. Jika Anda memilih menampilkan postingan Anda "
+#~ "secara penuh ala blog tradisional, maka Anda dapat mengaktifkan fitur ini."
+
+#~ msgid "Shop Page & Category Page Layout for WooCommerce"
+#~ msgstr "Tata Letak Laman Gerai & Laman Kategori untuk WooCommerce"
+
+#~ msgid ""
+#~ "Here you can choose Shop Page & Category Page Layout for WooCommerce."
+#~ msgstr ""
+#~ "Di sini Anda dapat memilih Tata Letak Laman Gerai & Laman Kategori untuk "
+#~ "WooCommerce."
+
+#~ msgid "MailChimp API Key"
+#~ msgstr "Kunci API MailChimp"
+
+#~ msgid ""
+#~ "Enter your MailChimp API key. You can create an api key <a target=\"_blank"
+#~ "\" href=\"%1$s\">here</a>"
+#~ msgstr ""
+#~ "Masukkan kunci API MailChimp Anda. Anda dapat membuat kunci api <a target="
+#~ "\"_blank\" href=\"%1$s\">di sini</a>"
+
+#~ msgid "Aweber Authorization"
+#~ msgstr "Otorisasi Aweber"
+
+#~ msgid "Authorize your Aweber account here."
+#~ msgstr "Otorisasikan akun Aweber Anda di sini."
+
+#~ msgid "Regenerate MailChimp Lists"
+#~ msgstr "Hasilkan ulang Daftar MailChimp"
+
+#~ msgid ""
+#~ "By default, MailChimp lists are cached for one day. If you added new "
+#~ "list, but it doesn't appear within the Email Optin module settings, "
+#~ "activate this option. Don't forget to disable it once the list has been "
+#~ "regenerated."
+#~ msgstr ""
+#~ "Secara default, daftar MailChimp cache untuk satu hari. Jika Anda "
+#~ "menambahkan daftar baru, tetapi tidak muncul dalam pengaturan modul Email "
+#~ "Optin, aktifkan opsi ini. Jangan lupa untuk menonaktifkannya setelah "
+#~ "daftar telah diregenerasi."
+
+#~ msgid "Regenerate Aweber Lists"
+#~ msgstr "Hasilkan ulang Daftar Aweber"
+
+#~ msgid ""
+#~ "By default, Aweber lists are cached for one day. If you added new list, "
+#~ "but it doesn't appear within the Email Optin module settings, activate "
+#~ "this option. Don't forget to disable it once the list has been "
+#~ "regenerated."
+#~ msgstr ""
+#~ "Secara default, daftar aweber cache untuk satu hari. Jika Anda "
+#~ "menambahkan daftar baru, tetapi tidak muncul dalam pengaturan modul Email "
+#~ "Optin, aktifkan opsi ini. Jangan lupa untuk menonaktifkannya setelah "
+#~ "daftar telah diregenerasi."
+
+#~ msgid "Show Facebook Icon"
+#~ msgstr "Tampilkan Ikon Facebook"
+
+#~ msgid "Here you can choose to display the Facebook Icon on your homepage. "
+#~ msgstr ""
+#~ "Di sini Anda dapat memilih untuk menampilkan Ikon Facebook di beranda "
+#~ "Anda."
+
+#~ msgid "Show Twitter Icon"
+#~ msgstr "Tampilkan Ikon Twitter"
+
+#~ msgid "Here you can choose to display the Twitter Icon. "
+#~ msgstr "Di sini Anda dapat memilih untuk menampilkan Ikon Twitter. "
+
+#~ msgid "Show Google+ Icon"
+#~ msgstr "Tampilkan Ikon Google+"
+
+#~ msgid "Here you can choose to display the Google+ Icon on your homepage. "
+#~ msgstr ""
+#~ "Di sini Anda dapat memilih untuk menampilkan Ikon Google+ di beranda "
+#~ "Anda. "
+
+#~ msgid "Show RSS Icon"
+#~ msgstr "Tampilkan Ikon RSS"
+
+#~ msgid "Here you can choose to display the RSS Icon. "
+#~ msgstr "Di sini Anda dapat memilih untuk menampilkan Ikon RSS. "
+
+#~ msgid "Facebook Profile Url"
+#~ msgstr "URL Profil Facebook"
+
+#~ msgid "Enter the URL of your Facebook Profile. "
+#~ msgstr "Masukkan URL dari Profil Facebook Anda. "
+
+#~ msgid "Twitter Profile Url"
+#~ msgstr "URL Profil Twitter"
+
+#~ msgid "Enter the URL of your Twitter Profile."
+#~ msgstr "Masukkan URL dari Profil Twitter Anda."
+
+#~ msgid "Google+ Profile Url"
+#~ msgstr "URL Profil Google+"
+
+#~ msgid "Enter the URL of your Google+ Profile. "
+#~ msgstr "Masukkan URL dari Profil Google+ Anda. "
+
+#~ msgid "RSS Icon Url"
+#~ msgstr "URL Ikon RSS"
+
+#~ msgid "Enter the URL of your RSS feed. "
+#~ msgstr "Masukkan URL dari umpan RSS Anda. "
+
+#~ msgid "Number of Products displayed on WooCommerce archive pages"
+#~ msgstr "Jumlah Produk yang tampil pada halaman arsip WooCommerce"
+
+#~ msgid ""
+#~ "Here you can designate how many WooCommerce products are displayed on the "
+#~ "archive page. This option works independently from the Settings > Reading "
+#~ "options in wp-admin."
+#~ msgstr ""
+#~ "Di sini Anda dapat menentukan berapa banyak produk WooCommerce yang "
+#~ "tampil pada halaman arsip. Opsi ini bekerja independen dari opsi Settings "
+#~ "> Reading dalam wp-admin."
+
+#~ msgid "Number of Posts displayed on Category page"
+#~ msgstr "Jumlah postingan yang ditampilkan di laman Kategori"
+
+#~ msgid ""
+#~ "Here you can designate how many recent articles are displayed on the "
+#~ "Category page. This option works independently from the Settings > "
+#~ "Reading options in wp-admin."
+#~ msgstr ""
+#~ "Di sini Anda dapat mengatur berapa banyak artikel terkini yang "
+#~ "ditampilkan di laman Kategori. Opsi ini bekerja terpisah dari opsi "
+#~ "Membaca di wp-admin."
+
+#~ msgid "Number of Posts displayed on Archive pages"
+#~ msgstr "Jumlah Postingan yang ditampilkan di laman Arsip"
+
+#~ msgid ""
+#~ "Here you can designate how many recent articles are displayed on the "
+#~ "Archive pages. This option works independently from the Settings > "
+#~ "Reading options in wp-admin."
+#~ msgstr ""
+#~ "Di sini Anda dapat mengatur berapa banyak artikel terkini yang "
+#~ "ditampilkan di laman Arsip. Opsi ini bekerja terpisah dari opsi Membaca "
+#~ "di wp-admin."
+
+#~ msgid "Number of Posts displayed on Search pages"
+#~ msgstr "Jumlah Postingan yang ditampilkan di laman Pencarian"
+
+#~ msgid ""
+#~ "Here you can designate how many recent articles are displayed on the "
+#~ "Search results pages. This option works independently from the Settings > "
+#~ "Reading options in wp-admin."
+#~ msgstr ""
+#~ "Di sini Anda dapat mengatur berapa banyak artikel terkini yang "
+#~ "ditampilkan di laman hasil Pencarian. Opsi ini bekerja terpisah dari opsi "
+#~ "Membaca di wp-admin."
+
+#~ msgid "Number of Posts displayed on Tag pages"
+#~ msgstr "Jumlah Postingan yang ditampilkan di laman Tag"
+
+#~ msgid ""
+#~ "Here you can designate how many recent articles are displayed on the Tag "
+#~ "pages. This option works independently from the Settings > Reading "
+#~ "options in wp-admin."
+#~ msgstr ""
+#~ "Di sini Anda dapat mengatur berapa banyak artikel terkini yang "
+#~ "ditampilkan di laman hasil Tag. Opsi ini bekerja terpisah dari opsi "
+#~ "Membaca di wp-admin."
+
+#~ msgid "Date format"
+#~ msgstr "Format tanggal"
+
+#~ msgid ""
+#~ "This option allows you to change how your dates are displayed. For more "
+#~ "information please refer to the WordPress codex here:<a href='http://"
+#~ "codex.wordpress.org/Formatting_Date_and_Time' target='_blank'>Formatting "
+#~ "Date and Time</a>"
+#~ msgstr ""
+#~ "Opsi ini mengizinkan Anda mengubah bagaimana tanggal ditampilkan. Untuk "
+#~ "info lebih lanjut silakan merujuk pada naskah WordPress di sini:<a "
+#~ "href='http://codex.wordpress.org/Formatting_Date_and_Time' "
+#~ "target='_blank'>Memformat Tanggal dan Waktu</a>"
+
+#~ msgid "Use excerpts when defined"
+#~ msgstr "Gunakan naskah jika ditentukan"
+
+#~ msgid "This will enable the use of excerpts in posts or pages."
+#~ msgstr "Ini akan mengizinkan penggunaan naskah dalam postingan atau laman."
+
+#~ msgid "Responsive shortcodes"
+#~ msgstr "Shortcodes responsif"
+
+#~ msgid ""
+#~ "Enable this option to make shortcodes respond to various screen sizes"
+#~ msgstr ""
+#~ "Aktifkan opsi ini guna membuat shortcodes merespon terhadap berbagai "
+#~ "ukuran layar"
+
+#~ msgid "Google Fonts subsets"
+#~ msgstr "Himpunan bagian Google Fonts"
+
+#~ msgid "This will enable Google Fonts for Non-English languages."
+#~ msgstr "Ini akan mengaktifkan Google Fonts untuk bahasa Non-Inggris."
+
+#~ msgid "Back To Top Button"
+#~ msgstr "Tombol Kembali Ke Atas"
+
+#~ msgid "Enable this option to display Back To Top Button while scrolling"
+#~ msgstr ""
+#~ "Aktifkan opsi ini untuk menampilkan Tombol Kembali Ke Atas selagi "
+#~ "menggulir"
+
+#~ msgid "Smooth Scrolling"
+#~ msgstr "Guliran Halus"
+
+#~ msgid ""
+#~ "Enable this option to get the smooth scrolling effect with mouse wheel"
+#~ msgstr ""
+#~ "Aktifkan opsi ini untuk mendapatkan efek guliran halus dengan roda tetikus"
+
+#~ msgid "Disable Translations"
+#~ msgstr "Nonaktifkan Terjemahan"
+
+#~ msgid ""
+#~ "Disable translations if you don't want to display translated theme "
+#~ "strings on your site."
+#~ msgstr ""
+#~ "Nonaktifkan terjemahan jika Anda tidak ingin menampilkan terjemahan "
+#~ "string bertema di situs Anda."
+
+#~ msgid "Custom CSS"
+#~ msgstr "CSS Kustom"
+
+#~ msgid "Here you can add custom css to override or extend default styles."
+#~ msgstr ""
+#~ "Di sini Anda dapat menambahkan CSS kustom untuk menimpa atau menambah "
+#~ "gaya default."
+
+#~ msgid "Memory Limit Increase"
+#~ msgstr "Peningkatan Limit Memori"
+
+#~ msgid "Here you can disable automatic memory limit increase."
+#~ msgstr "Di sini Anda dapat menonaktifkan peningkatan limit memori otomatis."
+
+#~ msgid "Pages"
+#~ msgstr "Laman"
+
+#~ msgid "Exclude pages from the navigation bar"
+#~ msgstr "Kecualikan laman dari bilah navigasi"
+
+#~ msgid ""
+#~ "Here you can choose to remove certain pages from the navigation menu. All "
+#~ "pages marked with an X will not appear in your navigation bar. "
+#~ msgstr ""
+#~ "Di sini Anda dapat memilih untuk menghapus laman tertentu dari menu "
+#~ "navigasi. Semua laman yang ditandai dengan X tidak akan muncul pada bilah "
+#~ "navigasi Anda. "
+
+#~ msgid "Show dropdown menus"
+#~ msgstr "Tampilkan menu dropdown"
+
+#~ msgid ""
+#~ "If you would like to remove the dropdown menus from the pages navigation "
+#~ "bar disable this feature."
+#~ msgstr ""
+#~ "Jika Anda ingin menghapus menu dropdown dari bilah navigasi laman, "
+#~ "matikan fitur ini."
+
+#~ msgid "Display Home link"
+#~ msgstr "Tampilkan tautan Beranda"
+
+#~ msgid ""
+#~ "By default the theme creates a Home link that, when clicked, leads back "
+#~ "to your blog's homepage. If, however, you are using a static homepage and "
+#~ "have already created a page called Home to use, this will result in a "
+#~ "duplicate link. In this case you should disable this feature to remove "
+#~ "the link."
+#~ msgstr ""
+#~ "Secara default, tema membuat tautan Beranda yang, jika diklik, akan "
+#~ "membawa kembali ke laman beranda blog Anda. Namun jika Anda menggunakan "
+#~ "laman beranda statis dan sudah membuat laman bernama Beranda untuk "
+#~ "digunakan, ini akan menghasilkan tautan duplikat. Dalam kasus ini Anda "
+#~ "harus mematikan fitur ini guna menghapus tautan."
+
+#~ msgid "Sort Pages Links"
+#~ msgstr "Sortir Tautan Laman"
+
+#~ msgid "Here you can choose to sort your pages links."
+#~ msgstr "Di sini Anda dapat memilih metode sortir tautan laman Anda."
+
+#~ msgid "Order Pages Links by Ascending/Descending"
+#~ msgstr "Urutkan Tautan Laman dengan Menaik/Menurun"
+
+#~ msgid ""
+#~ "Here you can choose to reverse the order that your pages links are "
+#~ "displayed. You can choose between ascending and descending."
+#~ msgstr ""
+#~ "Di sini Anda dapat memilih untuk membalikkan urutan tampilan tautan laman "
+#~ "Anda. Anda dapat memilih antara menaik dan menurun."
+
+#~ msgid "Number of dropdown tiers shown"
+#~ msgstr "Jumlah tampilan tingkatan dropdown"
+
+#~ msgid ""
+#~ "This options allows you to control how many teirs your pages dropdown "
+#~ "menu has. Increasing the number allows for additional menu items to be "
+#~ "shown."
+#~ msgstr ""
+#~ "Opsi ini mengizinkan Anda mengatur jumlah tingkatan yang dimiliki menu "
+#~ "dropdown laman Anda. Menaikkan angka akan memunculkan item menu tambahan."
+
+#~ msgid "Exclude categories from the navigation bar"
+#~ msgstr "Kecualikan kategori dari bilah navigasi"
+
+#~ msgid ""
+#~ "Here you can choose to remove certain categories from the navigation "
+#~ "menu. All categories marked with an X will not appear in your navigation "
+#~ "bar. "
+#~ msgstr ""
+#~ "Di sini Anda dapat memilih untuk menghapus kategori tertentu dari menu "
+#~ "navigasi. Semua kategori bertanda X tidak akan muncul dalam bilah "
+#~ "navigasi Anda. "
+
+#~ msgid ""
+#~ "If you would like to remove the dropdown menus from the categories "
+#~ "navigation bar disable this feature."
+#~ msgstr ""
+#~ "Matikan fitur ini jika Anda ingin menghapus menu dropdown dari bilah "
+#~ "navigasi kategori."
+
+#~ msgid "Hide empty categories"
+#~ msgstr "Sembunyikan kategori kosong"
+
+#~ msgid ""
+#~ "If you would like categories to be displayed in your navigationbar that "
+#~ "don't have any posts in them then disable this option. By default empty "
+#~ "categories are hidden"
+#~ msgstr ""
+#~ "Matikan opsi ini jika Anda ingin kategori ditampilkan dalam bilah "
+#~ "navigasi yang tak memiliki postingan apapun. Kategori kosong "
+#~ "disembunyikan secara default."
+
+#~ msgid "Sort Categories Links by Name/ID/Slug/Count/Term Group"
+#~ msgstr "Sortir Tautan Kategori berdasarkan Grup Name/ID/Slug/Count/Term"
+
+#~ msgid ""
+#~ "By default pages are sorted by name. However if you would rather have "
+#~ "them sorted by ID you can adjust this setting."
+#~ msgstr ""
+#~ "Laman disortir berdasarkan nama secara default. Namun jika Anda ingin "
+#~ "mereka disortir berdasrkan ID Anda dapat menyesuaikan pengaturan ini."
+
+#~ msgid "Order Category Links by Ascending/Descending"
+#~ msgstr "Urutkan Tautan Kategori dengan Menaik atau Menurun"
+
+#~ msgid ""
+#~ "Here you can choose to reverse the order that your categories links are "
+#~ "displayed. You can choose between ascending and descending."
+#~ msgstr ""
+#~ "Di sini Anda dapat memilih untuk membalikkan urutan tampilan tautan "
+#~ "kategori Anda. Anda dapat memilih antara menaik dan menurun."
+
+#~ msgid "Disable top tier dropdown menu links"
+#~ msgstr "Matikan tautan tingkatan atas menu dropdown"
+
+#~ msgid ""
+#~ "In some cases users will want to create parent categories or links as "
+#~ "placeholders to hold a list of child links or categories. In this case it "
+#~ "is not desirable to have the parent links lead anywhere, but instead "
+#~ "merely serve an organizational function. Enabling this options will "
+#~ "remove the links from all parent pages/categories so that they don't lead "
+#~ "anywhere when clicked."
+#~ msgstr ""
+#~ "Di beberapa kasus pengguna akan ingin membuat kategori induk atau tautan "
+#~ "sebagai pengganti guna menampung daftar tautan atau kategori anak. Dalam "
+#~ "kasus ini tidak diharapkan memiliki tautan induk yang mengarahkan ke lain "
+#~ "tempat, namun hanya berfungsi sebagai pengorganisir. Mengaktifkan opsi "
+#~ "ini akan menghapus tautan dari semua laman/kategori induk agar mereka "
+#~ "tidak mengarahkan ke tempat lain sewaktu diklik."
+
+#~ msgid "Single Post Layout"
+#~ msgstr "Tata Letak Postingan Tunggal"
+
+#~ msgid "Single Page Layout"
+#~ msgstr "Tata Letak Laman Tunggal"
+
+#~ msgid "Choose which items to display in the postinfo section"
+#~ msgstr "Pilih item mana yang akan ditampilkan dalam bagian info postingan"
+
+#~ msgid ""
+#~ "Here you can choose which items appear in the postinfo section on single "
+#~ "post pages. This is the area, usually below the post title, which "
+#~ "displays basic information about your post. The highlighted itmes shown "
+#~ "below will appear. "
+#~ msgstr ""
+#~ "Di sini Anda dapat memilih item mana yang muncul dalam bagian info "
+#~ "postingan pada laman postingan tunggal. Ini adalah area yang umumnya "
+#~ "berada di bawah judul postingan, yang menampilkan informasi dasar tentang "
+#~ "postingan Anda. Item-item tersorot yang ditampilkan di bawah akan muncul. "
+
+#~ msgid "Show comments on posts"
+#~ msgstr "Tampilkan komentar pada postingan"
+
+#~ msgid ""
+#~ "You can disable this option if you want to remove the comments and "
+#~ "comment form from single post pages. "
+#~ msgstr ""
+#~ "Anda dapat mematikan opsi ini jika ingin menghapus komentar dan kolom "
+#~ "komentar dari postingan. "
+
+#~ msgid "Place Thumbs on Posts"
+#~ msgstr "Tempatkan Gambar Mini pada Postingan"
+
+#~ msgid ""
+#~ "By default thumbnails are placed at the beginning of your post on single "
+#~ "post pages. If you would like to remove this initial thumbnail image to "
+#~ "avoid repetition simply disable this option. "
+#~ msgstr ""
+#~ "Secara default gambar mini ditempatkan pada awal postingan Anda di laman "
+#~ "postingan tunggal. Jika ingin menghapus gambar mini awal ini guna "
+#~ "menghindari repetisi, cukup matikan opsi ini. "
+
+#~ msgid "Place Thumbs on Pages"
+#~ msgstr "Tempatkan Gambar Mini pada Laman"
+
+#~ msgid ""
+#~ "By default thumbnails are not placed on pages (they are only used on "
+#~ "posts). However, if you want to use thumbnails on pages you can! Just "
+#~ "enable this option. "
+#~ msgstr ""
+#~ "Secara default, thumbnail tidak ditampilkan pada laman (hanya digunakan "
+#~ "untuk postingan). Meski begitu, Anda dapat menggunakan thumbnail untuk "
+#~ "laman jika Anda menginginkannya! Cukup aktifkan opsi ini."
+
+#~ msgid "Show comments on pages"
+#~ msgstr "Tampilkan komentar pada laman"
+
+#~ msgid ""
+#~ "By default comments are not placed on pages, however, if you would like "
+#~ "to allow people to comment on your pages simply enable this option. "
+#~ msgstr ""
+#~ "Secara default komentar tidak ditempatkan pada laman, namun jika Anda "
+#~ "ingin mengizinkan publik untuk berkomentar di laman Anda maka cukup "
+#~ "nyalakan opsi ini. "
+
+#~ msgid "Post info section"
+#~ msgstr "Bagian info postingan"
+
+#~ msgid ""
+#~ "Here you can choose which items appear in the postinfo section on pages. "
+#~ "This is the area, usually below the post title, which displays basic "
+#~ "information about your post. The highlighted itmes shown below will "
+#~ "appear. "
+#~ msgstr ""
+#~ "Di sini Anda dapat memilih item mana yang muncul di bagian info artikel "
+#~ "pada laman. Ini adalah area yang umumnya berada di bawah judul postingan, "
+#~ "yang menampilkan informasi dasar tentang postingan Anda. Item-item "
+#~ "tersorot di bawah akan dimunculkan. "
+
+#~ msgid "Show Thumbs on Index pages"
+#~ msgstr "Tampilkan Gambar Mini pada laman Indeks"
+
+#~ msgid "Enable this option to show thumbnails on Index Pages."
+#~ msgstr "Nyalakan opsi ini untuk menampilkan gamabr mini pada Laman Indeks."
+
+#~ msgid "Homepage SEO"
+#~ msgstr "SEO Beranda"
+
+#~ msgid "Single Post Page SEO"
+#~ msgstr "SEO Laman Postingan Tunggal"
+
+#~ msgid "Index Page SEO"
+#~ msgstr "SEO Laman Indeks"
+
+#~ msgid " Enable custom title "
+#~ msgstr "Aktifkan judul kustom "
+
+#~ msgid ""
+#~ "By default the theme uses a combination of your blog name and your blog "
+#~ "description, as defined when you created your blog, to create your "
+#~ "homepage titles. However if you want to create a custom title then simply "
+#~ "enable this option and fill in the custom title field below. "
+#~ msgstr ""
+#~ "Secara default tema menggunakan kombinasi dari nama blog dan deskripsi "
+#~ "blog Anda, sebagaimana ditentukan saat Anda menciptakan blog Anda, dalam "
+#~ "membuat judul beranda Anda. Namun jika Anda ingin membuat judul kustom "
+#~ "maka cukup aktifkan opsi ini dan isi kolom judul kustom di bawah ini. "
+
+#~ msgid " Enable meta description"
+#~ msgstr "Aktfikan deskripsi label meta"
+
+#~ msgid ""
+#~ "By default the theme uses your blog description, as defined when you "
+#~ "created your blog, to fill in the meta description field. If you would "
+#~ "like to use a different description then enable this option and fill in "
+#~ "the custom description field below. "
+#~ msgstr ""
+#~ "Secara default tema menggunakan deskripsi blog Anda, sebagaimana "
+#~ "ditentukan saat Anda menciptakan blog Anda, dalam mengisi kolom deskripsi "
+#~ "meta. Namun jika Anda ingin menggunakan deskripsi berbeda maka cukup "
+#~ "aktifkan opsi ini dan isi kolom judul kustom di bawah ini. "
+
+#~ msgid " Enable meta keywords"
+#~ msgstr "Aktifkan kata kunci meta"
+
+#~ msgid ""
+#~ "By default the theme does not add keywords to your header. Most search "
+#~ "engines don't use keywords to rank your site anymore, but some people "
+#~ "define them anyway just in case. If you want to add meta keywords to your "
+#~ "header then enable this option and fill in the custom keywords field "
+#~ "below. "
+#~ msgstr ""
+#~ "Secara default, tema tidak menambahkan kata kunci pada header Anda. "
+#~ "Sebagian besar mesin pencari tidak lagi menggunakan kata kunci untuk "
+#~ "menilai situs Anda, namun sebagian orang tetap menentukannya untuk "
+#~ "berjaga-jaga. Jika Anda ingin menambahkan kata kunci meta ke bagian "
+#~ "header Anda maka aktifkan opsi ini dan isilah kolom kata kunci kustom di "
+#~ "bawah ini. "
+
+#~ msgid " Enable canonical URL's"
+#~ msgstr "Aktifkan URL resmi"
+
+#~ msgid ""
+#~ "Canonicalization helps to prevent the indexing of duplicate content by "
+#~ "search engines, and as a result, may help avoid duplicate content "
+#~ "penalties and pagerank degradation. Some pages may have different URLs "
+#~ "all leading to the same place. For example domain.com, domain.com/index."
+#~ "html, and www.domain.com are all different URLs leading to your homepage. "
+#~ "From a search engine's perspective these duplicate URLs, which also occur "
+#~ "often due to custom permalinks, may be treated individually instead of as "
+#~ "a single destination. Defining a canonical URL tells the search engine "
+#~ "which URL you would like to use officially. The theme bases its canonical "
+#~ "URLs off your permalinks and the domain name defined in the settings tab "
+#~ "of wp-admin."
+#~ msgstr ""
+#~ "Kanonikalisasi membantu untuk mencegah pengindeksan konten duplikat oleh "
+#~ "mesin telusur, dan sebagai hasilnya, dapat membantu menghindari penalti "
+#~ "konten duplikat dan penurunan peringkat laman. Beberapa laman mungkin "
+#~ "memiliki URL yang berbeda yang mengarah ke tempat yang sama. Sebagai "
+#~ "contoh domain.com, domain.com/index.html, dan www.domain.com semuanya "
+#~ "adalah URL yang berbeda yang mengarah ke halaman utama Anda. Dari sudut "
+#~ "pandang mesin telusur, URL duplikat ini, yang juga sering ditimbulkan "
+#~ "oleh tautan kustom, mungkin diperlakukan secara individu dan bukannya "
+#~ "sebagai destinasi tunggal. Menentukan URL kanonis memberi tahu mesin "
+#~ "telusur URL yang ingin Anda gunakan secara resmi. Tema ini mendasarkan "
+#~ "URL kanonisnya dari tautan Anda dan nama domain yang ditentukan pada tab "
+#~ "pengaturan di wp-admin."
+
+#~ msgid "Homepage custom title (if enabled)"
+#~ msgstr "Judul kustom beranda (jika diaktifkan)"
+
+#~ msgid ""
+#~ "If you have enabled custom titles you can add your custom title here. "
+#~ "Whatever you type here will be placed between the < title >< /title > "
+#~ "tags in header.php"
+#~ msgstr ""
+#~ "Jika Anda mengaktifkan judul kustom Anda dapat menambahkan judul kustom "
+#~ "Anda di sini. Apapun yang Anda ketikkan di sini akan ditempatkan antara "
+#~ "label < title >< /title > di header.php"
+
+#~ msgid "Homepage meta description (if enabled)"
+#~ msgstr "Deskripsi meta beranda (jika diaktfikan)"
+
+#~ msgid ""
+#~ "If you have enabled meta descriptions you can add your custom description "
+#~ "here."
+#~ msgstr ""
+#~ "Jika Anda mengaktifkan deskripsi meta Anda dapat menambahkan deskripsi "
+#~ "meta di sini."
+
+#~ msgid "Homepage meta keywords (if enabled)"
+#~ msgstr "Kata kunci meta beranda (jika diaktifkan)"
+
+#~ msgid ""
+#~ "If you have enabled meta keywords you can add your custom keywords here. "
+#~ "Keywords should be separated by comas. For example: wordpress,themes,"
+#~ "templates,elegant"
+#~ msgstr ""
+#~ "Jika Anda mengaktifkan kata kunci meta Anda dapat menambahkan kata kunci "
+#~ "kustom di sini. Kata kunci harus dipisahkan oleh koma. Contoh: wordpress,"
+#~ "themes,templates,elegant"
+
+#~ msgid "If custom titles are disabled, choose autogeneration method"
+#~ msgstr "Jika judul kustom dimatikan, pilihlah metode penghasilan otomatis"
+
+#~ msgid ""
+#~ "If you are not using cutsom post titles you can still have control over "
+#~ "how your titles are generated. Here you can choose which order you would "
+#~ "like your post title and blog name to be displayed, or you can remove the "
+#~ "blog name from the title completely."
+#~ msgstr ""
+#~ "Jika Anda tidak menggunakan judul postingan kustom Anda dapat tetap "
+#~ "mengatur bagaimana judul Anda dihasilkan. Di sini Anda dapat memilih "
+#~ "urutan tampilan judul postingan dan nama blog Anda, atau Anda dapat "
+#~ "sepenuhnya menghapus nama blog dari judul."
+
+#~ msgid "Define a character to separate BlogName and Post title"
+#~ msgstr ""
+#~ "Tentukan karakter untuk memisahkan Nama Situs Web dan Judul Postingan"
+
+#~ msgid ""
+#~ "Here you can change which character separates your blog title and post "
+#~ "name when using autogenerated post titles. Common values are | or -"
+#~ msgstr ""
+#~ "Di sini Anda dapat mengubah karakter mana yang memisahkan judul blog dan "
+#~ "nama postingan Anda jika menggunakan judul postingan yang dihasilkan "
+#~ "secara otomatis. Nilai umum adalah | atau -"
+
+#~ msgid "Enable custom titles"
+#~ msgstr "Aktifkan judul kustom"
+
+#~ msgid ""
+#~ "By default the theme creates post titles based on the title of your post "
+#~ "and your blog name. If you would like to make your meta title different "
+#~ "than your actual post title you can define a custom title for each post "
+#~ "using custom fields. This option must be enabled for custom titles to "
+#~ "work, and you must choose a custom field name for your title below."
+#~ msgstr ""
+#~ "Secara default, tema menciptakan judul postingan berdasarkan judul "
+#~ "postingan dan nama blog Anda. Jika Anda ingin membuat judul meta Anda "
+#~ "berbeda dari judul postingan asli Anda dapat menentukan judul kustom "
+#~ "untuk setiap postingan menggunakan kolom kustom. Opsi ini harus "
+#~ "diaktifkan agar judul kustom dapat berfungsi, dan Anda harus memilih nama "
+#~ "kolom kustom untuk judul Anda di bawah."
+
+#~ msgid "Enable custom description"
+#~ msgstr "Aktifkan deskripsi kustom"
+
+#~ msgid ""
+#~ "If you would like to add a meta description to your post you can do so "
+#~ "using custom fields. This option must be enabled for descriptions to be "
+#~ "displayed on post pages. You can add your meta description using custom "
+#~ "fields based off the custom field name you define below."
+#~ msgstr ""
+#~ "Jika Anda ingin menambahkan deskripsi meta pada postingan, Anda dapat "
+#~ "melakukannya menggunakan kolom kustom. Opsi ini harus diaktifkan agar "
+#~ "deskripsi ditampilkan pada laman postingan. Anda dapat menambahkan "
+#~ "deskripsi meta menggunakan kolom kustom berdasarkan nama kolom kustom "
+#~ "yang Anda tentukan di bawah ini."
+
+#~ msgid "Enable custom keywords"
+#~ msgstr "Aktifkan kata kunci kustom"
+
+#~ msgid ""
+#~ "If you would like to add meta keywords to your post you can do so using "
+#~ "custom fields. This option must be enabled for keywords to be displayed "
+#~ "on post pages. You can add your meta keywords using custom fields based "
+#~ "off the custom field name you define below."
+#~ msgstr ""
+#~ "Jika Anda ingin menambahkan kata kunci meta pada postingan, Anda dapat "
+#~ "melakukannya menggunakan kolom kustom. Opsi ini harus diaktifkan agar "
+#~ "kata kunci ditampilkan pada laman postingan. Anda dapat menambahkan kata "
+#~ "kunci meta menggunakan kolom kustom berdasarkan nama kolom kustom yang "
+#~ "Anda tentukan di bawah ini."
+
+#~ msgid "Enable canonical URL's"
+#~ msgstr "Aktifkan URL resmi"
+
+#~ msgid "Custom field Name to be used for title"
+#~ msgstr "Nama kolom kustom untuk digunakan sebagai judul"
+
+#~ msgid ""
+#~ "When you define your title using custom fields you should use this value "
+#~ "for the custom field Name. The Value of your custom field should be the "
+#~ "custom title you would like to use."
+#~ msgstr ""
+#~ "Jika Anda menentukan judul Anda menggunakan kolom kustom Anda harus "
+#~ "menggunakan nilai ini untuk Nama kolom kustom. Nilai kolom kustom Anda "
+#~ "adalah judul kustom yang ingin Anda gunakan."
+
+#~ msgid "Custom field Name to be used for description"
+#~ msgstr "Nama kolom kustom untuk digunakan sebagai deskripsi"
+
+#~ msgid ""
+#~ "When you define your meta description using custom fields you should use "
+#~ "this value for the custom field Name. The Value of your custom field "
+#~ "should be the custom description you would like to use."
+#~ msgstr ""
+#~ "Saat  Anda menentukan deskripsi meta Anda menggunakan kolom kustom, Anda "
+#~ "harus menggunakan nilai ini untuk Nama kolom kustom. Nilai kolom kustom "
+#~ "Anda adalah deskripsi kustom yang ingin Anda gunakan."
+
+#~ msgid "Custom field Name to be used for keywords"
+#~ msgstr "nama kolom kustom untuk digunakan sebagai kata kunci"
+
+#~ msgid ""
+#~ "When you define your keywords using custom fields you should use this "
+#~ "value for the custom field Name. The Value of your custom field should be "
+#~ "the meta keywords you would like to use, separated by comas."
+#~ msgstr ""
+#~ "Saat Anda menentukan kata kunci Anda menggunakan kolom kustom, Anda harus "
+#~ "menggunakan nilai ini untuk Nama kolom kustom. Nilai kolom kustom Anda "
+#~ "adalah kata kunci meta yang ingin Anda gunakan, dipisahkan oleh koma."
+
+#~ msgid ""
+#~ "If you are not using cutsom post titles you can still have control over "
+#~ "hw your titles are generated. Here you can choose which order you would "
+#~ "like your post title and blog name to be displayed, or you can remove the "
+#~ "blog name from the title completely."
+#~ msgstr ""
+#~ "Jika Anda tidak menggunakan judul postingan kustom Anda dapat tetap "
+#~ "mengatur bagaimana judul Anda dihasilkan. Di sini Anda dapat memilih "
+#~ "urutan tampilan judul postingan dan nama blog Anda, atau Anda dapat "
+#~ "sepenuhnya menghapus nama blog dari judul."
+
+#~ msgid "Enable meta descriptions"
+#~ msgstr "Aktifkan deskripsi meta"
+
+#~ msgid ""
+#~ "Check this box if you want to display meta descriptions on category/"
+#~ "archive pages. The description is based off the category description you "
+#~ "choose when creating/edit your category in wp-admin."
+#~ msgstr ""
+#~ "Centangi kotak ini jika Anda ingin menampilkan deskripsi meta pada laman "
+#~ "kategori/arsip. Deskripsi berdasarkan deskripsi kategori yang Anda pilih "
+#~ "saat membuat/menyunting kategori Anda di wp-admin."
+
+#~ msgid "Choose title autogeneration method"
+#~ msgstr "Pilih metode penghasil judul"
+
+#~ msgid ""
+#~ "Here you can choose how your titles on index pages are generated. You can "
+#~ "change which order your blog name and index title are displayed, or you "
+#~ "can remove the blog name from the title completely."
+#~ msgstr ""
+#~ "Di sini Anda dapat memilih metode penghasilan judul pada laman indeks. "
+#~ "Anda dapat mengubah urutan tampilan nama blog dan judul indeks, atau Anda "
+#~ "dapat sepenuhnya menghapus nama blog dari judul."
+
+#~ msgid ""
+#~ "Here you can change which character separates your blog title and index "
+#~ "page name when using autogenerated post titles. Common values are | or -"
+#~ msgstr ""
+#~ "Di sini Anda dapat mengubah karakter mana yang memisahkan judul blog dan "
+#~ "nama laman indeks jika menggunakan judul postingan yang dihasilkan "
+#~ "otomatis. Nilai umum adalah | atau -"
+
+#~ msgid "Code Integration"
+#~ msgstr "Integrasi Kode"
+
+#~ msgid "Enable header code"
+#~ msgstr "Aktifkan kode header"
+
+#~ msgid ""
+#~ "Disabling this option will remove the header code below from your blog. "
+#~ "This allows you to remove the code while saving it for later use."
+#~ msgstr ""
+#~ "Mematikan opsi ini akan menghapus kode header di bawah ini dari blog "
+#~ "Anda. Ini mengizinkan Anda untuk menghapus kode sambil menyimpannya untuk "
+#~ "digunakan nanti."
+
+#~ msgid "Enable body code"
+#~ msgstr "Aktifkan kode <body>"
+
+#~ msgid ""
+#~ "Disabling this option will remove the body code below from your blog. "
+#~ "This allows you to remove the code while saving it for later use."
+#~ msgstr ""
+#~ "Mematikan opsi ini akan menghapus kode body di bawah ini dari blog Anda. "
+#~ "Ini mengizinkan Anda untuk menghapus kode sambil menyimpannya untuk "
+#~ "digunakan nanti."
+
+#~ msgid "Enable single top code"
+#~ msgstr "Aktifkan kode teratas tunggal"
+
+#~ msgid ""
+#~ "Disabling this option will remove the single top code below from your "
+#~ "blog. This allows you to remove the code while saving it for later use."
+#~ msgstr ""
+#~ "Mematikan opsi ini akan menghapus kode teratas tunggal di bawah ini dari "
+#~ "blog Anda. Ini mengizinkan Anda untuk menghapus kode sambil menyimpannya "
+#~ "untuk digunakan nanti."
+
+#~ msgid "Enable single bottom code"
+#~ msgstr "Aktifkan kode terbawah tunggal"
+
+#~ msgid ""
+#~ "Disabling this option will remove the single bottom code below from your "
+#~ "blog. This allows you to remove the code while saving it for later use."
+#~ msgstr ""
+#~ "Mematikan opsi ini akan menghapus kode terbawah tunggal di bawah ini dari "
+#~ "blog Anda. Ini mengizinkan Anda untuk menghapus kode sambil menyimpannya "
+#~ "untuk digunakan nanti."
+
+#~ msgid "Add code to the < head > of your blog"
+#~ msgstr "Tambahkan kode ke < head > blog Anda"
+
+#~ msgid ""
+#~ "Any code you place here will appear in the head section of every page of "
+#~ "your blog. This is useful when you need to add javascript or css to all "
+#~ "pages."
+#~ msgstr ""
+#~ "Kode apapun yang Anda letakkan di sini akan muncul di bagian kepala semua "
+#~ "laman blog Anda. Ini berguna jika Anda perlu menambahkan Javascript atau "
+#~ "CSS ke semua laman."
+
+#~ msgid ""
+#~ "Add code to the < body > (good for tracking codes such as google "
+#~ "analytics)"
+#~ msgstr ""
+#~ "Tambahkan kode ke < body > (baik untuk melacak kode seperti Google "
+#~ "Analytics)"
+
+#~ msgid ""
+#~ "Any code you place here will appear in body section of all pages of your "
+#~ "blog. This is usefull if you need to input a tracking pixel for a state "
+#~ "counter such as Google Analytics."
+#~ msgstr ""
+#~ "Kode apapun yang Anda letakkan di sini akan muncul di bagian body semua "
+#~ "laman blog Anda. Ini berguna jika Anda perlu memasukkan piksel pelacak "
+#~ "untuk konter status seperti Google Analytics."
+
+#~ msgid "Add code to the top of your posts"
+#~ msgstr "Tambahkan kode ke puncak postingan Anda"
+
+#~ msgid ""
+#~ "Any code you place here will be placed at the top of all single posts. "
+#~ "This is useful if you are looking to integrating things such as social "
+#~ "bookmarking links."
+#~ msgstr ""
+#~ "Kode apapun yang Anda letakkan di sini akan muncul di bagian puncak semua "
+#~ "postingan. Ini berguna jika Anda ingin mengintegrasikan item seperti "
+#~ "tautan markah sosial."
+
+#~ msgid "Add code to the bottom of your posts, before the comments"
+#~ msgstr "Tambahkan kode ke bawah postingan Anda, sebelum komentar"
+
+#~ msgid "Manage Un-widgetized Advertisements"
+#~ msgstr "Kelola Iklan"
+
+#~ msgid "Enable Single Post 468x60 banner"
+#~ msgstr "Aktifkan banner 468x60 Postingan Tunggal"
+
+#~ msgid ""
+#~ "Enabling this option will display a 468x60 banner ad on the bottom of "
+#~ "your post pages below the single post content. If enabled you must fill "
+#~ "in the banner image and destination url below."
+#~ msgstr ""
+#~ "Mengaktifkan opsi ini akan menampilkan banner iklan 468x60 di bagian "
+#~ "bawah laman postingan Anda di bawah konten postingan tunggal. Jika "
+#~ "diaktifkan, Anda harus mengisi gambar banner dan URL tujuan di bawah ini."
+
+#~ msgid "Input 468x60 advertisement banner image"
+#~ msgstr "Input gambar banner iklan 468x60"
+
+#~ msgid "Here you can provide 468x60 banner image url"
+#~ msgstr "Di sini Anda dapat memasukkan URL gambar banner 468x60"
+
+#~ msgid "Input 468x60 advertisement destination url"
+#~ msgstr "Input URL tujuan iklan 468x60"
+
+#~ msgid "Here you can provide 468x60 banner destination url"
+#~ msgstr "Di sini Anda dapat memasukkan URL tujuan banner 468x60"
+
+#~ msgid "Input 468x60 adsense code"
+#~ msgstr "Input kode Google Adsense 468x60"
+
+#~ msgid "Place your adsense code here."
+#~ msgstr "Letakkan kode Google Adsense Anda di sini."
+
+#~ msgid "Pages:"
+#~ msgstr "Laman:"
+
+#~ msgctxt "Previous post link"
+#~ msgid "&larr;"
+#~ msgstr " "
+
+#~ msgctxt "Next post link"
+#~ msgid "&rarr;"
+#~ msgstr " "
+
+#~ msgid ""
+#~ "The broswer version you are currently using is outdated. Please update to "
+#~ "the newest version."
+#~ msgstr ""
+#~ "Versi peramban yang Anda gunakan sudah usang. Harap perbarui ke versi "
+#~ "terbaru."
+
+#~ msgid ""
+#~ "You reached your server memory limit. Please transfer more substantial "
+#~ "data at the time."
+#~ msgstr ""
+#~ "Anda sudah mencapai limit memori server. Harap coba tingkatkan limit "
+#~ "memori PHP Anda."
+
+#~ msgid ""
+#~ "This will return all of the settings throughout the options page to their "
+#~ "default values. <strong>Are you sure you want to do this?</strong>"
+#~ msgstr ""
+#~ "Ini akan mengembalikan semua pengaturan di laman opsi ke nilai default-"
+#~ "nya. <strong>Yakin ingin melakukan ini?</strong>"
+
+#~ msgid "%1$s %2$s"
+#~ msgstr "%1$s %2$s"
+
+#~ msgid "Items"
+#~ msgstr "Item"
+
+#~ msgid "Saving..."
+#~ msgstr "Menyimpan..."
+
+#~ msgid "Options Saved."
+#~ msgstr "Opsi Tersimpan."
+
+#~ msgid "Ad Management"
+#~ msgstr "Manajemen Iklan"
+
+#~ msgid "Support Docs"
+#~ msgstr "Dokumen Bantuan"
+
+#~ msgid "Documentation"
+#~ msgstr "Dokumentasi"
+
+#~ msgid "on %1$s at %2$s"
+#~ msgstr "pada %1$s pukul %2$s"
+
+#~ msgid "(Edit)"
+#~ msgstr "(Sunting)"
+
+#~ msgid "Reply"
+#~ msgstr "Balas"
+
+#~ msgid "Your comment is awaiting moderation."
+#~ msgstr "Komentar Anda menunggu moderasi."
