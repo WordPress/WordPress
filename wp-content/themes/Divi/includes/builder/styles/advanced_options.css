@@ -1,0 +1,7 @@
+#et_aweber_connection p, #et_aweber_connection li { margin-bottom: 12px; }
+#et_aweber_connection p:last-child, #et_aweber_connection li:last-child { margin-bottom: 0; }
+#epanel-content .epanel-box .et_remove_connection, #epanel-content .epanel-box .et_disable_memory_limit_increase { margin-left: 0;  }
+.et_result_error { padding: 15px; background: #BE5151; margin-top: 13px; color: #FFF; clear: both; top: 12px; position: relative; }
+#epanel .et_result_error strong { font-weight: bold; }
+.et_aweber_connect_done { text-align: center; }
+.et_aweber_connect_done span { float: none !important; }

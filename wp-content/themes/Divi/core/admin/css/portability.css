@@ -1,0 +1,129 @@
+/*------------------------------------------------------------------------------
+  Table of content - Portability
+
+  1.0 Modal
+  2.0 Form
+	2.1 Import Form
+  3.0 Loader
+  4.0 Link
+------------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------
+  1.0 - Modal
+------------------------------------------------------------------------------*/
+[data-et-core-portability] .et-core-modal {
+	top: 25%;
+}
+
+[data-et-core-portability-cancel] {
+	opacity: 0;
+	display: none;
+	position: absolute;
+	bottom: 0;
+}
+
+/*-----------------------------------------------------------------------------
+  2.0 - Form
+------------------------------------------------------------------------------*/
+[data-et-core-portability] form label {
+	margin: 1.5em 0 0;
+	display: block;
+}
+
+/* 2.1 - Import */
+.et-core-portability-import-form {
+	position: relative;
+}
+
+.et-core-portability-import-placeholder {
+	text-align: center;
+	height: 26px;
+	border: 2px dashed #E0E5EA;
+	color: #B1B7BD;
+	line-height: 26px;
+	float: left;
+	padding: 5px;
+	font-size: 11px;
+	overflow: hidden;
+}
+
+.et-core-portability-import-form input[type="file"] {
+	position: absolute;
+	left: 0;
+	top: 0;
+	height: 40px;
+	opacity: 0;
+}
+
+.et-core-portability-import-placeholder,
+.et-core-portability-import-form input[type="file"] {
+	width: 183px;
+}
+
+.et-core-portability-import-form .et-core-button {
+	float: left;
+}
+
+/*-----------------------------------------------------------------------------
+  3.0 - Loader, Progress Bar and Messages
+------------------------------------------------------------------------------*/
+[data-et-core-portability] .et-core-modal-temp-content {
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+
+[data-et-core-portability] .et-core-modal-temp-content > div {
+	width: 100%;
+}
+
+.ui-widget-content a {
+	color: #0073aa;
+}
+
+[data-et-core-portability] .et-core-loader,
+[data-et-core-portability] .et-core-progress {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/*-----------------------------------------------------------------------------
+  4.0 - Link
+------------------------------------------------------------------------------*/
+[data-et-core-modal*="data-et-core-portability"] {
+	text-decoration: none;
+	box-shadow: none !important;
+}
+
+[data-et-core-modal*="data-et-core-portability"] span {
+	display: none;
+}
+
+[data-et-core-modal*="data-et-core-portability"]:before {
+	font-family: 'ETmodules';
+	font-size: 16px;
+	content: '\e900';
+	-webkit-font-smoothing: antialiased;
+}
+
+.customize-controls-close[data-et-core-modal*="data-et-core-portability"] {
+	position: absolute;
+	left: -252px;
+	z-index: 9999;
+	width: 48px;
+}
+
+.customize-controls-close[data-et-core-modal*="data-et-core-portability"]:hover,
+.customize-controls-close[data-et-core-modal*="data-et-core-portability"]:focus {
+	border-left: 1px solid #ccc;
+	margin-left: -1px;
+}
+
+.customize-controls-close[data-et-core-modal*="data-et-core-portability"]:before {
+	font-size: 13px;
+	left: 15px;
+	top: 2px;
+}

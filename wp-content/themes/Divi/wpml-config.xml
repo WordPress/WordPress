@@ -1,0 +1,13 @@
+<wpml-config>
+	<custom-types>
+		<custom-type translate="1">project</custom-type>
+	</custom-types>
+	<admin-texts>
+		<key name="et_divi">
+			<key name="divi_date_format" />
+			<key name="divi_seo_home_titletext" />
+			<key name="divi_seo_home_descriptiontext" />
+			<key name="divi_seo_home_keywordstext" />
+		</key>
+	</admin-texts>
+</wpml-config>

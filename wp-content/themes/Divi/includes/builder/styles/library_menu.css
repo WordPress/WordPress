@@ -1,0 +1,11 @@
+@font-face {
+	font-family: 'ETmodules';
+	src:url('../../../core/admin/fonts/modules.eot');
+	src:url('../../../core/admin/fonts/modules.eot?#iefix') format('embedded-opentype'),
+	url('../../../core/admin/fonts/modules.ttf') format('truetype'),
+	url('../../../core/admin/fonts/modules.woff') format('woff'),
+	url('../../../core/admin/fonts/modules.svg#ETmodules') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+li.toplevel_page_et_divi_options div.wp-menu-image:before { font-family: 'ETmodules'; content: '\e625';   width: 30px !important; font-size: 30px !important; margin-top: -5px; }

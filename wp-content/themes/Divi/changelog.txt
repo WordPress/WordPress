@@ -1,0 +1,1572 @@
+version 2.7.8 ( updated 06-25-2016 )
+- Added Google Maps API setting ( Google no longer support keyless access )
+	* options_divi.php
+	* includes/builder/framework.php
+	* includes/builder/functions.php
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/builder.js
+	* includes/builder/styles/style.css
+
+version 2.7.7 ( updated 06-23-2016 )
+- Fixed the issue with some custom hover styles not working for Buttons
+	* includes/builder/class-et-builder-element.php
+- Text Module: Removed excessive padding that was mistakenly added to the final paragraph
+	* style.css
+
+version 2.7.6 ( updated 06-21-2016 )
+- Fixed the issue with scroll-to position for anchor links that was calculated before the page had fully loaded
+	* functions.php
+	* js/custom.js
+	* options_divi.php
+- Fixed unwanted collapse on mega menu's fourth column in RTL layout
+	* style.css
+	* rtl.css
+- Fixed unwanted spacing caused by setting menu height when vertical nav option is activated
+	* functions.php
+	* js/theme-customizer-controls.js
+	* js/theme-customizer.js
+	* style.css
+- Login module: Replaced deprecated get_currentuserinfo() function
+	* includes/builder/main-modules.php
+- Fixed the error when sub-menu requires 2 clicks on some devices
+- Accordion module: Fixed a bug which appears when clicking toggle title if vertical nav is activated
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Contact Module: Changed email field requirement
+	* includes/builder/main-modules.php
+- Fixed the issue with Magnific Popup script on default galleries
+	* includes/builder/functions.php
+	* styles.css
+- Slider Module: Fixed the issue with Background Video, shown in Fullscreen on iOS devices
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Button Module: Fixed Custom padding inside the module
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/main-modules.php
+- Slider module: Fixed some issues with Advanced settings / Header Font Size option on mobile
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/main-modules.php
+	* style.css
+- Text Module: Added header font options
+	* includes/builder/class-et-global-settings.php
+	* includes/builder/main-modules.php
+- Fixed different aspect ratio for embedded video on post content and post format's content
+	* includes/builder/functions.php
+- Added wider margin for aligned images
+- Mega Menu: Fixed some issues with links positions
+	* style.css
+
+version 2.7.5 ( updated 05-16-2016 )
+- Fixed issue where incorrect margin values were used in the Shop module.
+ 	* epanel/shortcodes/css/shortcodes.css
+- Fixed issue where Slide In header style was closed when an internal link was clicked.
+	* scripts/frontend-builder-global-functions.js
+- Fixed the issue with Page Builder styles, missing for non-admin users
+	* core/init.php
+- Fixed issue that caused menu items to stack in mega menus with more than 5 sub menus.
+	* style.css
+
+version 2.7.4 ( updated 05-10-2016 )
+- "Below posts and  above comments" code integration is now placed in the correct location on post pages.
+	* single.php
+- Links inside of gallery module captions will now function correctly.
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Added missing structured data classes to the Post Title modules.
+	* includes/builder/main-modules.php
+- Fullwidth Portfolio module images will now crop to a more optimal size.
+	* includes/builder/main-modules.php
+	* post_thumbnails_divi.php
+- Custom row padding in the Divi Builder will no longer be overwritten by custom row padding in from the Theme Customizer.
+	* includes/builder/main-structure-elements.php
+- Updated core and epanel submodules to latest versions (Fonts files were moved to /core. If you are currently calling these font files, your CSS files should be updated with new file paths).
+	* /core
+	* /epanel
+- Updated Google+ icon to match the new Google+ logo & branding guidlines.
+	* core/admin/fonts
+- Fixed "Theme Options / Post Meta" settings
+	* epanel/core_functions.php
+- Improved alignment in the Fullwidth Header module
+	* style.css
+
+version 2.7.3 ( updated 04-13-2016 )
+- Fixed the update notification text in WordPress 4.5
+	* core/admin/includes/class-updates.php
+
+version 2.7.2 ( updated 04-12-2016 )
+- Theme Options Page: Added option to configure auto updates from the ePanel
+	* epanel/core_functions.php
+	* epanel/css/panel.css
+	* epanel/custom_functions.php
+	* epanel/js/functions-init.js
+	* epanel/js/wp-color-picker-alpha.min.js
+	* /core
+- Customizer: Fixed the issue with Responsive preview in WordPress 4.5
+	* css/theme-customizer-controls-styles.css
+	* functions.php
+	* js/theme-customizer-controls.js
+
+version 2.7.1 ( updated 04-01-2016 )
+- Theme Options Page: Fixed modal windows vertical alignment
+	* epanel/css/panel.css
+	* epanel/js/functions-init.js
+- Code Module: Fixed the issue with broken images with names that have "x" letter
+	* includes/builder/functions.php
+- Fixed some issues with Split Test setup "cancel" action
+	* includes/builder/scripts/builder.js
+
+version 2.7 ( updated 03-30-2016 )
+- Added Split Testing feature
+- Added option to configure Gutter Width for individual pages
+- Added option to configure Light/Dark text color for individual pages
+- Added option to configure Content Area and Section background color for individual pages
+- Added option to define custom css for individual pages
+- Added ability to import/export Customizer settings, ePanel settings, Roles settings and Layouts of particular posts/pages made with Divi Builder
+- Improved import/export of Divi Library
+- Added option to configure color palette for color pickers in Divi Builder
+- Added mechanism which diagnoses common issues in Divi Builder ( such as cached files, low memory limit, etc ) and helps to resolve them
+	* /includes/builder
+	* /epanel
+	* functions.php
+- Added "Disable Global" option into right click menu
+	* includes/builder/functions.php
+	* includes/builder/scripts/builder.js
+- Added option to defined the item color for excluded option in pricing table module
+	* includes/builder/main-modules.php
+- Improved Accordion module to make it automatically scroll to the title of active tab
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Fixed the issue when parallax background is not recalculated if error in contact form occurs
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Fixed the typing lag with Yoast plugin
+	* includes/builder/scripts/builder.js
+- Updated jQuery-UI scripts to 1.11 version in support of upcoming WordPress 4.5
+	* includes/builder/scripts/ext/jquery-ui-1.11.4.custom.min.js
+	* includes/builder/scripts/builder.js
+	* includes/builder/functions.php
+- Fixed the issue when php warning in preg_replace_callback() function appears in some cases
+	* includes/builder/core.php
+	* includes/builder/functions.php
+- Fixed the issue with image overlay size in image module
+	* includes/builder/styles/frontend-builder-style.css
+- Fixed the issue when predefined layouts are not showing with WPML
+	* includes/builder/core.php
+- Fixed the issue when Yoast SEO analysis didn't work properly with Divi Builder shortcodes
+	* includes/builder/framework.php
+	* includes/builder/core.php
+- Fixed conflicts with events manager plugin
+	* includes/builder/core.php
+	* includes/builder/framework.php
+- Fixed the issue with Column padding option for smartphones
+	* includes/builder/class-et-builder-element.php
+- Fixed the issue with comments appearance on small screens
+	* includes/builder/styles/frontend-builder-style.css
+- Fixed the issue with incorrect number of posts in "mine" field in the Divi Library
+	* includes/builder/functions.php
+- Fixed the issue when animation is not triggered for the very bottom elements on the page and they never become visible
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Fixed the issue with appearance of WooCommerce cart page on tablet screens
+	* css/main-styles.css
+
+version 2.6.4.4 ( updated 02-25-2016 )
+- Fixed the issue when Customizer is not saving settings
+	* includes/builder/framework.php
+
+version 2.6.4.3 ( updated 02-24-2016 )
+- Added several performance enhancements. Those experiencing slow builder loads, server slowdown or 500 errors should update to fix these issues.
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/core.php
+	* includes/builder/functions.php
+	* includes/builder/scripts/builder.js
+- Fixed issue where < br > tags were replaced with physical line breaks in the post editor while in Text mode.
+	* includes/builder/scripts/builder.js
+- Fixed issue where new categories and widget areas did not appear in Divi Builder module settings.
+	* includes/builder/core.php
+
+version 2.6.4.2 ( updated 02-20-2016 )
+- Page Builder: Fixed Text Formatting Issues
+	* includes/builder/scripts/builder.js
+- Page Builder: Page Load Speed Improvements
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/functions.php
+	* includes/builder/scripts/builder.js
+
+version 2.6.4.1 ( updated 02-18-2016 )
+- Fixed escaping issues in comment count
+	* includes/builder/functions.php
+- Fixed the issue with line breaks, stripped from modules in Page Builder
+	* includes/builder/scripts/builder.js
+
+version 2.6.4 ( updated 02-17-2016 )
+- IMPORTANT: Fixed critical privilege escalation security vulnerability that, if properly exploited, could allow unprivileged registered WordPress users to perform a subset of actions within the Divi Builder, including the potential to manipulate posts.
+	* For more detailed information, please refer to the full public disclosure that was emailed to all customers on 2-17-2016: http://bit.ly/1Q9P13N
+- Added clear cache warning to remind users to clear their cache when Divi Builder files have been updated.
+	* includes/builder/functions.php
+- Reduced PHP memory usage within the Divi Builder to help reduce errors on hosting accounts with low memory limits.
+	* includes/builder/class-et-builder-element.php
+
+version 2.6.2 ( updated 02-04-2016 )
+- Fixed issue with malformed search for appearing the in the Theme Customizer
+	* header.php
+	* js/theme-customizer.js
+- Fixed issue with blog module pagination not functioning correctly in some situations.
+	* functions.php
+- Fixed issue with broken Divi Theme Options styling when the parent theme name was changed.
+	* functions.php
+	* epanel/core_functions.php
+- Added excerpt support for pages.
+	* epanel/custom_functions.php
+- Fixed bug where clearing selected color failed in some situations.
+	* scripts/builder.js
+- Fixed bug that caused Admin Labels to not be available for Sections.
+	* includes/builder/main-structure-elements.php
+- Fixed bug where responsive padding values where applied to the incorrect breakpoint in the Post Slider module.
+	* includes/builder/main-modules.php
+- Fixed bug where custom column CSS classes were incorrectly applied to the parent Row in some situations.
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Removed the inapplicable Read More button from the tinyMCE editor when used inside the Divi Builder.
+	* includes/builder/functions.php
+- Fixed bug that caused various plugin incompatibilities.
+	* includes/builder/layouts.php
+	* includes/builder/functions.php
+	* includes/builder/template-preview.php
+
+version 2.6.1 ( updated 01-25-2016 )
+- Fixed bug where builder would not load in certain browsers
+	* includes/builder/scripts/builder.js
+- Fixed bug where ePanel CSS would not load when a child theme was enabled.
+	* epanel/core_functions.php
+
+version 2.6 ( updated 01-25-2016 )
+- Customizer: Added standard fonts
+	* functions.php
+	* includes/builder/functions.php
+- Added option to display project navigation on projects created with Page Builder
+	* includes/builder/scripts/builder.js
+	* single-project.php
+- Added option to enable/disable Divi gallery for [gallery] shortcode
+	* includes/builder/functions.php
+- Fixed the issue when default accent color not being used for background color
+	* functions.php
+- Fixed the issue when page container top padding not updated correctly on resize
+	* js/custom.js
+- Fixed the issue with header animation in IE11
+- Added fixed header default height
+- Fixed vertical nav sidebar styling issues
+- Removed IE's clear input button on search input fields
+- Fixed the issue with appearance of Woocommerce 2.5 cart page on mobile screens
+	* css/main-styles.css
+- Fixed the issue with excluding more than one category for menu on epanel
+	* epanel/custom_functions.php
+- Added option to configure the orientation of vertical navigation
+	* css/main-styles.css
+	* functions.php
+	* js/theme-customizer-controls.js
+	* js/theme-customizer.js
+- Added Slide In and Fullscreen header styles
+	* css/main-styles.css
+	* css/theme-customizer-controls-styles.css
+	* functions.php
+	* header.php
+	* includes/functions/choices.php
+	* js/custom.js
+	* js/theme-customizer.js
+- Customizer: Fixed the issue when custom widget areas not displaying in theme Customizer
+	* et-pagebuilder/et-pagebuilder.php
+- ePanel: Updated ePanel To Look Like Divi
+	* /epanel
+- Customizer: Fixed menu bar appearance in customizer when secondary menu is empty
+	* header.php
+	* js/custom.js
+	* js/theme-customizer.js
+- Customizer: Fixed the issue with Background Image Stretch setting not working before first save
+	* functions.php
+- Fixed the issue with duplicated video on video post format when YOAST SEO plugin is used
+	* functions.php
+	* single.php
+- Fixed the issue with localization of WooCommerce items in header
+	* functions.php
+	* single.php
+- Updated Waypoints library to version 4.0.0
+	* includes/builder/scripts/waypoints.min.js
+- Fixed reset color picker to default error
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/scripts/builder.js
+- Fixed the issue with wrong appearance of reset button for the Font options
+	* includes/builder/class-et-builder-element.php
+- Fixed JetPack Related Posts unwanted shortcode
+	* includes/builder/functions.php
+- Fixed the issue with Video Post format when the first uploaded video is not updated if it's replaced by another video
+	* includes/builder/functions.php
+- Fixed the issue with modules saving when limited tabs available for user
+	* includes/builder/class-et-builder-element.php
+- Fixed the isue with missing "delete" button on custom widget areas
+	* includes/builder/scripts/ext/widgets.js
+- Fixed incorrect divi builder icon placement in RTL layout
+	* includes/builder/styles/style.css
+- Fixed translation issues in various modules
+	* includes/builder/framework.php
+	* includes/builder/functions.php
+- Gallery Module: Fixed image overlay styling in Safari
+	* includes/builder/styles/frontend-builder-style.css
+- Fixed the issue when custom widget areas not displaying in theme customizer
+	* includes/builder/functions.php
+- Fixed JetPack Related Posts unwanted shortcode issue
+	* includes/builder/functions.php
+- Сontact Form Module: Improved email validation
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Сontact Form Module: Improved spam protection
+- Сontact Form Module: Added ability to add/remove/sort fields
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/frontend-builder-scripts.js
+	* includes/builder/styles/frontend-builder-style.css
+- Fixed the issues with translation in Russian localization files
+	* includes/builder/languages/ru_RU.po
+	* includes/builder/languages/ru_RU.mo
+- Fixed the issue with preview error in library
+	* includes/builder/layouts.php
+- Page Builder: Fixed the issue with CTRL+Z not working inside input fields
+	* includes/builder/builder.js
+- Page Builder: Fixed the issue with disappearing predefined layouts sometimes
+	* includes/builder/layouts.php
+- Page Builder: Added animations to Modals and different elements in Builder interface
+	* includes/builder/styles/style.css
+	* includes/builder/builder.js
+- Added overlay option for the Blog and Image modules
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/builder.js
+	* includes/builder/styles/frontend-builder-style.css
+- Added Image overlay and Text overlay options for the Slider module
+	* includes/builder/main-modules.php
+	* includes/builder/styles/frontend-builder-style.css
+- Added missing reset button for Columns advanced settings
+	* includes/builder/class-et-builder-element.php
+- Slider Module: Fixed the Hide CTA on mobile and Hide Content on mobile options
+	* includes/builder/main-modules.php
+- Fixed the issue with duplicated entries in "Built For" filter in Library
+	* includes/builder/functions.php
+	* includes/builder/layouts.php
+- Moved CSS Class and CSS ID options on Custom CSS tab
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/main-modules.php
+- Page Builder: Optimized the Builder loading and made load faster
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/functions.php
+	* includes/builder/scripts/builder.js
+- Removed all monarch share button from preview screen
+	* includes/builder/styles/preview.css
+- Fullwidth Portfolio: Added Advanced settings
+	* includes/builder/main-modules.php
+- Fixed the issue when playing audio module stopped video background
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Fixed the issue with saving a row or section as global when it contains global items
+	* scripts/builder.js
+- Accordion Module: Fixed the issue with Open/Closed toggle text color option.
+	* includes/builder/main-modules.php
+- Custom CSS: Improved custom css options and made the selector visible for each option
+- Custom CSS: Added useful css options to various modules
+- Custom CSS: Added custom css options to columns
+- Added Responsive Settings to various options in Builder
+- Added Option to hide module/row/section on certain devices ( Phone, Tablet, Desktop )
+	* Almost all files updated in the /framework directory
+- Added support of swipe gestures in Slider modules
+	* includes/builder/frontend-builder-scripts.js
+	* includes/builder/framework.php
+- Added Posts Nav module
+- Added Search module
+- Added Button module
+- Added Comments module
+- Added Posts Slider module
+- Added Fullwidth Posts Slider module
+	* includes/builder/main-modules.php
+- Added system to sync the default Advanced Settings of child modules with current values of parent module
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/builder.js
+
+
+version 2.5.9 ( updated 12-14-2015 )
+- Fixed the issue with SEO titles, not working in ePanel
+	* epanel/custom_functions.php
+- Bumped version number
+	* style.css
+
+version 2.5.8 ( updated 12-08-2015 )
+- Fixed the issue with permalinks when Yoast plugin is activated and page contains Blog or Portfolio module
+	* includes/builder/functions.php
+- Bumped version number
+	* style.css
+
+version 2.5.7 ( updated 12-07-2015 )
+- Customizer: Fixed checkboxes position in WordPress 4.4
+	* css/theme-customizer-controls-styles.css
+- Customizer: Fixed the issue with some default styles printed out on front-end
+- Customizer: Fixed the issue with copying Color field custom values
+- Customizer: Fixed the issue with Logo resizing with Centered Navigation header style and Fixed Nav enabled
+- Customizer: Fixed blog header spacing sanatizing callback to allow negative values
+- Fixed the issue with some ET Settings not saved on custom post type pages
+	* functions.php
+	* includes/builder/functions.php
+- Fixed the issue with layout padding top value, calculated incorrectly on a post page, using Page Builder, with at least 1 comment
+	* js/custom.js
+- Page Builder: Fixed Close Preview button position in WordPress 4.4
+- Page Builder: Fixed the issue with expand/collapse button outline in WordPress 4.4
+	* includes/builder/styles/style.css
+- Page Builder: Fixed the error with Rows Duplication, where columns count became incorrect
+- Page Builder: Fixed the issue with Global Modules Admin Label reset, when a module is being duplicated
+	* includes/builder/scripts/builder.js
+- Page Builder: Fixed the issue with content analysis in Yoast SEO 3.0 plugin
+	* includes/builder/functions.php
+	* includes/builder/scripts/builder.js
+- Updated FitVids.js to version 1.1
+	* includes/builder/scripts/jquery.fitvids.js
+- Fixed the issue with {{unknown}} tag, appearing on pages with non-supported oEmbed videos
+- Portfolio Module: Added help text to the category option
+	* includes/builder/functions.php
+- Fixed the issue with incorrect video width and height saved values
+	* includes/builder/main-modules.php
+	* includes/builder/main-structure-elements.php
+- Map Module: Fixed unwanted pin title and info box behaviour
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Circle Counters: Fixed the issue with counters not being fully responsive on page load
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Video Slider: Fixed the issue with Cover Image low resolution
+	* includes/builder/functions.php
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Social Media Follow: Fixed the issue with wrong skype URL
+	* includes/builder/main-modules.php
+- Updated some localization files
+	* lang/nb_NO.mo
+	* lang/nb_NO.po
+	* lang/hu_HU.mo
+	* lang/hu_HU.po
+	* lang/cs_CZ.mo
+	* lang/cs_CZ.po
+	* includes/builder/languages/nb_NO.mo
+	* includes/builder/languages/nb_NO.po
+	* includes/builder/languages/da_DK.mo
+	* includes/builder/languages/da_DK.po
+	* includes/builder/languages/cs_CZ.mo
+	* includes/builder/languages/cs_CZ.po
+- Section: Fixed the issue when unwanted circle appearing in Section with video background on iOS
+- Bumped version number
+	* style.css
+
+version 2.5.6 ( updated 11-06-2015 )
+- Fixed the issue with deprecated wp_title function in WordPress 4.4
+	* functions.php
+	* epanel/custom_functions.php
+- Bumped version number
+	* style.css
+
+version 2.5.5 ( updated 10-21-2015 )
+- Fixed the issue with undefined et_get_option function, when some plugins are active on a site
+	* functions.php
+- Fixed the issue with incorrect font icons order
+	* includes/builder/functions.php
+- Fixed the issue with line-height default units in Page Builder advanced settings
+	* includes/builder/functions.php
+	* includes/builder/class-et-builder-element.php
+- Blog Module: Fixed the issue with WP-Pagenavi plugin
+	* includes/builder/main-modules.php
+- Bumped version number
+	* style.css
+
+version 2.5.4 ( updated 10-20-2015 )
+ - Fixed builder hotkeys, mistakenly capturing ALT + Z to undo changes
+	* includes/builder/scripts/builder.js
+- Image Module: Fixed the issue with Center alignment setting
+- Pricing table: Fixed the issue with Center alignment option not working properly
+	* includes/builder/main-modules.php
+	* includes/builder/styles/frontend-builder-style.css
+- Removed @import declarations from style.css. CSS code is located in style.css file now
+	* style.css
+- Fixed small design issues in predefined layouts
+	* includes/builder/layouts.php
+- Sidebar Module: Made the first registered sidebar default
+	* includes/builder/main-modules.php
+- Fixed the issue with Divi Library export feature when all the items were exported without Layout Type
+	* includes/builder/framework.php
+- Fixed the issue with right click feature not working on some elements inside the Row
+	* includes/builder/scripts/builder.js
+- Fixed the issue with gallery module caption custom styles not applied properly
+- Gallery and Filterable Portfolio: Fixed the issue with border option not applied properly
+- Person Module: Fixed the issue with hover icon color option not working properly
+- Portfolio module: Fixed the issue with "Caption color" option and renamed it to "Meta color"
+- Fullwidth Menu: Fixed the issue with broken menu styles, when Primary menu is not defined
+- Email Optin: Fixed the issue with Focus fields custom options not working
+	* includes/builder/main-modules.php
+- Fixed the issue with some float line-height values not working ( for example, 1.1em, 2.2em, 3.3em etc. )
+	* includes/builder/functions.php
+- Now multiple contact forms can be used on a page
+	* includes/builder/framework.php
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Fixed the conflict of button custom color option with color scheme colors
+	* functions.php
+	* includes/builder/class-et-builder-element.php
+- Fixed the unexpected behavior when gutter width is set to 0 in Rows
+	* includes/builder/main-structure-elements.php
+- Fixed the issue when unwanted circle appearing in slider with video background on iOS
+	* includes/builder/styles/frontend-builder-style.css
+- Fixed the issue with wrong behavior of Enter and Esc hotkeys, when WordPress modal windows are open ( ex. Image Upload )
+	* includes/builder/scripts/builder.js
+- Fixed the issue with Page Builder editor fullscreen mode incorrect display in Firefox
+	* includes/builder/scripts/builder.js
+- Gallery Module: Fixed the issue with pagination, when multiple galleries exist on a page and one of them has ID attribute
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Global Modules: Fixed the issue with Admin labels not being saved properly
+	* includes/builder/scripts/builder.js
+- Replaced enable/disable text in Dutch language to shorter version ( Aan/Uit )
+	* includes/builder/languages/nl_NL.po
+- Contact Form: Fixed wrongly decoded ampersand in module's email title
+	* includes/builder/main-modules.php
+- Updated Magnific Popup script to 1.0.0 version
+	* includes/builder/scripts/jquery.magnific-popup.js
+- Slider: Fixed item title's discrepancies
+	* style.css
+	* functions.php
+	* js/theme-customizer.js
+	* includes/builder/main-modules.php
+	* includes/builder/styles/frontend-builder-style.css
+- Added Parallax background images option for columns
+- Added Left/Right padding option for sections
+- Added custom margin options for Rows
+- Added Header Image to the CSS Tab in the Fullwidth Header module
+- Updated padding/margin/width option sanitization to accept "vh" and "vw"
+- Fixed the issue with CTA "max width" not being applied correctly
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/main-modules.php
+	* includes/builder/main-structure-elements.php
+	* includes/builder/scripts/builder.js
+	* includes/builder/styles/frontend-builder-style.css
+- Fullwidth header: Fixed the issue when the module becomes inactive, when specific button icons are selected
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/scripts/builder.js
+- Fixed the issue with Background color Reset button in Section settings
+	* includes/builder/main-structure-elements.php
+	* includes/builder/scripts/builder.js
+- Fixed encoding issue with French localization in Code Module
+	* includes/builder/class-et-builder-element.php
+- Countdown Module: Improved responsive layout on small screens
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Added missing "gift" icon into the Icon Picker option in all Modules
+	* includes/builder/functions.php
+- Improved localization in Contact Form Module
+	* includes/builder/framework.php
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Added support of Microformats
+	* includes/builder/functions.php
+	* includes/builder/main-modules.php
+	* index.php
+	* page.php
+	* single-project.php
+	* single.php
+- Fixed the issue with disappearing "Export Divi Layouts" button in FireFox
+	* includes/builder/scripts/library_scripts.js
+	* includes/builder/styles/library_pages.css
+- Fixed the issue with Submit button icon styling on hover in Contact Form module
+	* includes/builder/styles/frontend-builder-style.css
+- Blurb Module: Fixed the issue when description text alignment is always centered for 768px breakpoint and lower
+	* includes/builder/styles/frontend-builder-style.css
+- Fixed post title module padding issue
+	* includes/builder/styles/frontend-builder-style.css
+- Email Optin: Fixed the issue with 25 lists limit for MailChimp
+	* includes/builder/functions.php
+- Replaced curl function with wp_remote_post funciton in MailChimp_Divi class to avoid some issues
+	* includes/builder/subscription/mailchimp/mailchimp.php
+	* includes/builder/functions.php
+- Added Custom CSS tab to Individual Slides, Pricing tables, Bar Counters and Toggles
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/main-modules.php
+- Added Basic ( websafe ) fonts into the Font options in Page Builder
+	* includes/builder/functions.php
+- Fixed the issue when preview in Customizer stops working with certain options, if fixed menu is disabled
+	* js/theme-customizer.js
+- Added "Disable Translations" option which forces Divi to use English regardless of Wordpress language
+	* epanel/options_divi.php
+	* functions.php
+- Fixed the issue with WooCommerce product image popup appearing under the header
+- Fixed "Comments Reply" button position on mobile breakpoints
+	* style.css
+- Fixed the calendar pagination issue with Events+ plugin
+	* js/custom.js
+- Added option to control number of Products displayed on WooCommerce archive pages
+	* epanel/custom_functions.php
+	* epanel/options_divi.php
+- Fixed the issue with "Hide Nav Before Scroll" option, not working correctly on Single Pages
+	* functions.php
+- Added ability to enter the values manually in Customizer range options
+	* css/theme-customizer-controls-styles.css
+	* functions.php
+	* js/theme-customizer-controls.js
+- Improved theme security by adding sanitization to all options in Customizer
+	* js/theme-customizer.js
+	* js/theme-customizer-controls.js
+	* includes/functions/sanitization.php
+	* includes/functions/choices.php
+	* header.php
+- Removed various backward compatibilities from ePanel which are no longer relevant
+	* epanel/custom_functions.php
+
+version 2.5.3 ( updated 09-05-2015 )
+- Code Module: Fixed the issue with shortcodes, not working in the module with WYSIWIG Text mode activated
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/functions.php
+	* includes/builder/main-modules.php
+- Fixed HTML5 input elements styling issues
+	* css/main-styles.css
+- Fixed 'Show Thumbs on Index pages' option
+	* index.php
+- Fullwidth Post Title Module: Fixed the issue with the module preview in Page Builder
+	* includes/builder/functions.php
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/builder.js
+- Fixed single quote escaping issue in a module preview
+	* includes/builder/template-preview.php
+- Bumped version number
+	* style.css
+
+version 2.5.2.1 ( updated 09-04-2015 )
+- Code Module: Fixed encoding issues
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/builder.js
+- Fixed the issue with bulleted text and tables, displayed incorrectly in a module preview
+	* includes/builder/css/main-styles.css
+- Fixed incorrect module item height, when admin label is not defined
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/scripts/builder.js
+	* includes/builder/styles/style.css
+- Fixed the issue with "read more" button, when a blog post contains Blog module
+	* includes/builder/main-modules.php
+- Map Module: Fixed "uncaught range" error, appearing in some cases
+	* includes/builder/functions.php
+	* includes/builder/scripts/builder.js
+- Bumped version number
+	* style.css
+
+version 2.5.2 ( updated 09-03-2015 )
+- Updated lock/unlock permissions to use Divi's lock_module role
+- Fixed the conflict with BackupBuddy plugin and probably some other plugins
+	* includes/builder/functions.php
+- Updated Blog Module Thumbnail selector field to on/off field
+- Fixed the issue with disappearing Blurb module images on some sites
+	* includes/builder/main-modules.php
+- Fixed fullscreen header height issue, when vertical nav is activated and no secondary nav is defined
+	* includes/builder/scripts/frontend-builder-scripts.js
+- Fixed the issue with loading of Page Builder files on Import page
+	* includes/builder/framework.php
+- Page Builder hotkeys improvements
+	* includes/builder/scripts/builder.js
+- Bumped version number
+	* style.css
+
+version 2.5.1 ( updated 09-02-2015 )
+- Fixed issue with elements not appearing in Live Previews and on pages using the Blank Page Template.
+	* js/custom.js
+- Fixed "preg_match(): Compilation failed: nothing to repeat at offset 1" warning message
+	* includes/builder/functions.php
+- Bumped version number
+	* style.css
+
+version 2.5 ( updated 09-02-2015 )
+* All files changed/updated
+- Page Builder: Added Right Click Menu into
+- Added Role Editor feature
+- Added Lock Module feature
+- Added Disable Module feature
+- Added option to collapse Sections and Rows
+- Added option to copy and paste modules inside the Page Builder
+- Added Preview feature into the Page Builder
+- Added Undo/Redo and History of changes into the Page Builder
+- Added new field to allow users to define admin label for slides
+- Added option to display products from selected categories into Shop Module
+- Added captions support for the Divi galleries
+- Added Enter and Escape buttons support in Page Builder modals
+- Added option to disable custom padding for columns on mobile
+- Added quicktags panel into the tinyMCE editor inside the Page Builder
+- Code Module: Fixed the issue with some content, stripped off from the module
+- Fullwidth Menu Module: Added advanced design settings
+- Blog Module: Added option to display comment count
+- Added Author support to Project Post Types
+- Customizer: Added logo height option into
+- Customizer: Added secondary menu link color option in fixed nav option in
+- Customizer: Added Site Identity section
+- Modules are sorted alphabetically by name now
+- Global Tabs Module: Fixed the issue with duplication of tabs in a Global module
+- Fixed various line height range issues in Page Builder
+- Fixed the issue with more tag inside modules
+- Fixed the conflict between Blog module and Shop module, when products are ordered by popularity
+- Fixed the issue with adding saved rows with 1 column into specialty sections
+- Fixed image zoom on page load when using blog grid
+- Fixed the issue with custom icons in Gallery/Portfolio modules
+- Testimonial Module: Changed images width and height range settings to 1-200
+- Fixed the issue with image in blurb module when wrong image path defined
+- Fixed the conflict with some plugins that use different MailChimp class
+- Fixed the Fullscreen mode of tinyMCE editor when enabled from the builder modal window
+- Social Media Follow Module: Fixed the issue with Skype Button link
+- Fixed the issue with infinite blog loop if a post contains Portfolio module
+- Optimized Page Builder files loading in WP-Admin
+- Fixed the issue with Settings icon, disappering from specialty section in some cases
+- Fixed the issue with preview in customizer, when different WordPress Address and Site Address are defined
+- Fixed the issue with unexpected behavior, when Enter button is pressed in the builder
+- Fixed the issue with image edit tooltip, not showing in Page Builder's editor
+- Fixed the issue with duplication of predefined layouts, when a child theme is activated
+- Fixed the issue with overlay border color when custom overlay color is selected in Gallery, Portfolio, Filterable Portfolio and Shop modules
+- Fixed the issue with wrong total number of layouts displayed on Library page
+- Fixed some errors when Video or Video slider modules are added with no settings configured
+- Text Module: Fixed the issue with "Justified" text orientation
+- Fixed the issue with appearance of WooCommerce Related Products when Sidebar is enabled
+- Fixed the conflict between active menu color and color scheme options
+- Fixed the issue with Gallery post types appearance on category pages
+- Fixed the conflict between accent color option and button color in customizer preview
+- Fixed the issue with z-index of Side Navigation and Back to Top button to make sure it is always on top
+- Fixed unwanted space in main nav, if inline centered logo and hide logo are used together
+- Fixed the issue with logo transition on scroll ( made it more smooth )
+- Fixed the issue with disappearing adsense in footer widget
+- Fixed the issue with Primary Nav that breaks if user uses .svg based logo
+- Various bug fixes and code improvements
+
+version 2.4.6.4 ( updated 08-18-2015 )
+- Fixed issue with WordPress 4.3 that caused shortened post titles and excerpts to not be truncated correctly
+	* epanel/custom_functions.php
+- Bumped version number
+	* style.css
+
+version 2.4.6.3 ( updated 08-18-2015 )
+- Fixed WP_Widget class constructor warning message
+	* includes/widgets/widget-about.php
+	* includes/widgets/widget-ads.php
+	* includes/widgets/widget-adsense.php
+- Fixed Customizer styling issues
+	* css/theme-customizer-controls-styles.css
+- Fixed "Layouts / Add New" functionality issue with WordPress 4.3
+	* includes/builder/scripts/library_scripts.js
+	* includes/builder/styles/library_pages.css
+- Bumped version number
+	* style.css
+
+version 2.4.6.2 ( updated 08-12-2015 )
+- Fixed the issue with WooCommerce v2.4.2, where product tabs were not clickable
+	* js/custom.js
+- Bumped version number
+	* style.css
+
+version 2.4.6.1 ( updated 07-22-2015 )
+- Improved WYSIWYG functionality in the builder
+- Fixed various bugs related to the TinyMCE editor that caused unwanted line breaks to be added to builder content
+	* includes/builder/scripts/builder.js
+- Bumped version number
+	* style.css
+
+version 2.4.6 ( updated 07-16-2015 )
+- Added print styles to improve the page format when printed
+	* epanel/shortcodes/css/shortcodes_responsive.css
+	* rtl.css
+	* style.css
+- Customizer: Fixed the issue with menu/logo height option when "Fixed Navigation" is disabled
+	* js/custom.js
+	* js/theme-customizer.js
+	* style.css
+- Customizer: "Hide navigation until scroll" option is hidden if fixed nav is disabled now
+- Blog and Portfolio modules: Fixed the issue with pagination, not working properly on single pages with non-default permalinks
+- Pricing Table Module: Fixed the issue with "-" sign, not being recognized properly in some cases
+- Fixed the issue with custom body class, ovewritten in WP-Admin
+	* functions.php
+- Fullscreen Header Module: Fixed the issue with scrolling on pages with multiple Fullscreen Header modules
+- Circle Counter, Number Counter modules: Fixed the conflict with Form Maker Pro plugin
+	* js/custom.js
+- Countdown Timer Module: Fixed the issue with time, displaying incorrect values for visitors in different locations
+	* js/custom.js
+	* includes/builder/main-modules.php
+- Fixed the issue with the following setup: More than 1 fullwidth module in the first section + transparent navigation
+- Fullwidth Header Module: Fixed the issue with Down Arrow, not being visible with Transparent Navigation enabled
+	* js/custom.js
+	* js/theme-customizer.js
+- Megamenu: Added support for less than four columns
+- Fixed the issue with dropdown menu animation on iPad in landscape mode
+- Image module: Fixed 'Remove Space Below The Image' option functionality
+	* js/custom.js
+	* style.css
+- Updated localization files:
+	* lang/nl_NL.mo
+	* lang/nl_NL.po
+	* includes/builder/languages/nl_NL.mo
+	* includes/builder/languages/nl_NL.po
+- Customizer: Fixed incorrect page padding top value, applied when changing "Header Style" to "Center"
+	* js/theme-customizer.js
+- Fixed the issue with Gallery Post Format, combining all galleries in one single gallery
+- Fixed the issue with "Gallery" Posts, not displaying JetPack's tiled gallery format when it's enabled
+	* functions.php
+	* index.php
+- Fixed the issue with slider animations, not working properly in Firefox
+	* includes/builder/main-modules.php
+	* style.css
+- Applied alpha sliders to background color options in advanced settings
+- Contact Form Module: Improved Accessibility
+- Fixed the issue with Custom Margin Settings overridden, when custom gutter width is defined
+- Blurb Module: Fixed the issue with Title color option, conflicting with "color scheme" setting
+- Page Builder: Fixed some line height settings ranges in advanced settings
+	* includes/builder/main-modules.php
+- Slider Module: Added the option to animate the slider on hover, when Automattic Animation is enabled
+- Bar Counters: Fixed the issue with background color, not covering percentage text properly in some cases
+	* js/custom.js
+	* includes/builder/main-modules.php
+- Fixed various modules line-height issues
+- Contact Form Module: Fixed incorrect id attribute
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/main-modules.php
+- Page Builder: Fixed the issue with changes, not being saved in Text mode, when Elegant Builder plugin is enabled
+	* functions.php
+	* includes/builder/scripts/builder.js
+- Slider Module Advanced Settings: Fixed the issue with custom fonts settings
+- Page Builder: Fixed the issue with the ability to move a section above the main builder buttons
+- Page Builder: Improved Content WYSIWIG editors functionality
+- Gallery Module: Removed thumbnail-size options that is shown when choosing images
+	* includes/builder/scripts/builder.js
+- Fixed the issue with non-working icons in Page builder
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/scripts/builder.js
+- Global Modules: Fixed the issue with shortcodes, not working in a module
+- Page Builder: Fixed the issue with 1px border setting, ignored on front-end
+	* includes/builder/class-et-builder-element.php
+- Advanced Design Settings: Added validation to some settings
+	* functions.php
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/scripts/builder.js
+- Fullwidth Header Module: Fixed the issue with wrong icon set, provided for the "Icon" setting
+	* functions.php
+	* includes/builder/main-modules.php
+	* includes/builder/scripts/builder.js
+- Fixed the issue with Row width on Projects, when boxed layout is enabled
+- Fixed the issue with Row background, overriding column backgrounds if parallax background setting is enabled
+- Fixed the widths of select boxes on WooCommerce variable products pages
+- Text Module: Removed 100% width from Text Module to avoid custom margin overlap
+- Blog Module: Fixed the issue with items, overlapping the blog grid in small columns in Firefox
+- Megamenu: Fixed alignment issues, when "Vertical navigation" is enabled
+- Divider Module: Fixed some issues with the module rendering in IE11
+- Fixed Sub menu animation on some mobile devices
+- Fixed Project page layout width issues
+- Fixed centered inline logo padding issue on mobile
+- Fullwidth Header Module: Fixed Vertical alignment in IE 9-10
+- Added cursor pointer to mobile menu
+- Removed default search icon from webkit browsers
+- Reorganized style.css file
+- Bumped version number
+	* style.css
+
+version 2.4.5.1
+- Updated builder versioning on load to prevent potential problems due to browser cache.
+	* includes/builder/functions.php
+
+version 2.4.5 ( updated 07-02-2015 )
+- Fixed the issue with 404 page, displaying instead of "Edit Page / Post" page in WP-Admin on some servers
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/functions.php
+	* includes/builder/scripts/builder.js
+- Fixed the issue with shortcodes, not working in Pricing Table Module content
+	* includes/builder/functions.php
+- Fixed the issue with global modules and rows, not saving content properly inside the Specialty Section sidebar
+- Fixed the issue with <br/> tag, added to content in Text mode, when a new module is created
+	* includes/builder/scripts/builder.js
+- Pricing Table Module: Fixed some Custom CSS settings
+- Fullwidth Header Module: Added "Logo Title" and "Logo Image Alt Text" options
+	* includes/builder/main-modules.php
+- Updated some localization files
+	* lang/nl_NL.mo
+	* lang/nl_NL.po
+	* lang/it_IT.mo
+	* lang/it_IT.po
+	* lang/pl_PL.mo
+	* lang/pl_PL.po
+	* lang/fi.mo
+	* lang/fi.po
+	* includes/builder/languages/es_ES.mo
+	* includes/builder/languages/es_ES.po
+- Fixed the issue with Centered Inline Logo in IE
+- Bumped version number
+	* style.css
+
+version 2.4.4 ( updated 06-26-2015 )
+- Customizer: Fixed the issue with Footer Layout option, not working with localized text
+	* css/theme-customizer-controls-styles.css
+	* js/theme-customizer-controls.js
+- Customizer: Fixed the issue with light font variants, not being displayed properly in Live Preview
+	* epanel/google-fonts/et_google_fonts.js
+	* functions.php
+- Customizer: Fixed the issue with range slider tooltips, not being visible in Safari
+	* js/theme-customizer-controls.js
+- Fixed the issue with Customizer, not working properly if the Wordpress Address is different than Site Address
+	* functions.php
+- Fixed various formatting issues in WYSIWIG editor.
+	* includes/builder/scripts/builder.js
+- Fixed the issue with double quotes, disappearing in modules settings
+	* includes/builder/functions.php
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/scripts/builder.js
+- Made transparent background for pagebuilder sections to be used on single pages only
+- Fixed some RTL layout issues
+	* js/custom.js
+	* rtl.css
+	* includes/builder/styles/style.css
+- Removed unneeded space at the top of the site on mobile, when 'Fixed Navigation' option is disabled in ePanel
+	* functions.php
+	* style.css
+- Fullwidth Portfolio: Fixed the issue with resizing on the page with Blog module
+	* js/custom.js
+	* includes/builder/main-modules.php
+- Login Module: Fixed the issue with "Log out" link, not being displayed for logged in users
+- Fullwidth Header Module: Buttons and Logo image now show up, even if Title and/or Subheading is not set
+- Map / Fullwidth Map Module: Fixed the issue with Custom CSS settings, not being applied on frontend
+- Blog Module: Changed blog module output to not show post content if it also has a blog module enabled
+	* includes/builder/main-modules.php
+- Mega menu width is 100% in centered inline logo header style now
+- Fixed the issue with modules visibility inside rows and fullwidth section with parallax background
+- Blurb Module: Fixed Blurb image incorrect display in Firefox
+- Bumped version number
+	* style.css
+
+version 2.4.3 ( updated 06-22-2015 )
+- Fixed the issue with CSS parallax section, not working after the Map module
+	* js/custom.js
+	* style.css
+- Fixed the Accent Color conflict with some Advanced color settings
+- Updated the Project taxonomy labels for better readability
+	* functions.php
+- Fixed the issue with submenus, being visible at all times
+- Fixed custom dropdown animation in Safari
+- Fixed dropdown menu, not working in Safari with "Hide menu until scroll" option enabled
+- Fixed animation glitch in header when using "expand" animation in Firefox
+- Fixed the issue with mobile sub-menu links, not working with flip animation
+	* style.css
+- Fullwidth Header Module: Fixed the issue with header content alignment when no image is selected
+	* includes/builder/main-modules.php
+	* style.css
+- Customizer: Fixed the issue with primary menu background option preview
+	* js/theme-customizer.js
+- Page Builder: Fixed the issue with modules alignment
+	* includes/builder/styles/style.css
+- Contact Form Module: Fixed the issue with custom button icon
+	* includes/builder/main-modules.php
+- Fixed some issues with Global Modules, not being in sync in some cases
+	* includes/builder/class-et-builder-element.php
+- Fullwidth Header Module: Added 'Text Max Width' setting
+	* includes/builder/main-modules.php
+- Bumped version number
+	* style.css
+
+version 2.4.2 ( updated 06-18-2015 )
+- Fixed the issue with image module animation when default animation selected
+
+version 2.4.1 ( updated 06-18-2015 )
+- Blog module: Fixed the issue with with stretched images in Safari
+- Fixed mega menu styling issues
+- Fixed the issue with Search bar, not visible in Safari
+- Fixed fullwidth search field position
+	* style.css
+- Fixed modules initialization on frontend
+	* functions.php
+	* includes/builder/framework.php
+- Fixed the issue with Customizer, returning back to the homepage automatically on the page with Fullwidth Portfolio module
+- Accordion Module: Fixed the issue with toggles, being opened at the same time, when a user was clicking fast.
+	* js/custom.js
+- Updated "Masonry Blog" to "Blog Grid" to match Builder verbiage
+- Updated "Full Width Slider" to "Fullwidth Slider" to match builder verbiage
+	* functions.php
+	* js/theme-customizer.js
+- Added tooltips to the Builder module icons for better usability
+	* includes/builder/functions.php
+- Fixed some visual issues with TinyMCE editor buttons in Page Builder
+	* includes/builder/styles/style.css
+- Shop Module: Fixed sort functionality
+	* includes/builder/main-modules.php
+- Fixed some issues with items, dragged to Global Sections and Rows
+	* includes/builder/scripts/builder.js
+- Fixed the issue with default module settings values, being added to custom css on pages.
+	* includes/builder/class-et-builder-element.php
+	* includes/builder/main-modules.php
+- Map Modules: Fixed main map preview
+	* includes/builder/main-modules.php
+
+version 2.4 ( updated 06-17-2015 )
+* All files changed/updated
+- Made Divi fully fluid ( all Module are percentage based now )
+- Added Divi Library and ability to save modules, rows and sections
+- Added ability to create global modules, rows and sections and sync their content
+- Added Settings for Rows
+- Added "Change Column Structure" option for Rows
+- Added Gutter width options for the entire website and for single rows
+- Added Width option for the entire website and for single rows
+- Added Advanced options and Custom CSS options to all modules.
+- Added New options into Theme Customizer and updated existing options
+	* All existing sections of customizer have been updated with new settings
+	* Added Buttons settings
+	* Added Blog settings
+	* Added Mobile styles settings
+	* Added new font options for varius areas of website and modules
+	* Added section height and row height options
+	* Added Footer layout option
+	* Some more various options
+- Added new header options
+	* Header height
+	* Fixed header height
+	* "Centered inline logo" header style
+	* "Hide Navigation Until Scroll" option
+	* Various font options for navigation
+	* Dropdown menu animation
+	* Some more various options
+- Added Module Customizer to configure General settings for every module
+- Added "Code" Module
+- Added "Fullwidth Code" Module
+- Added "Post Title" Module
+- Added "Fullwidth Post Title" Module
+- Added "Fullwidth Image" Module
+- Improved the Page Builder appearance
+- Improved all modules css code
+- Added Page Builder for posts
+- Added fullscreen option into the Fullwidth Header module
+- Moved Divi options from the Appearance menu into its own "Divi" menu
+- Reworked the Divi search bar in the header
+- Fixed the issue with pagination in Blog module when offset is defined
+- Improved Builder code and made it easier to add new custom modules
+- Various bug fixes and code improvements
+
+version 2.3.2 ( updated 04-23-2015 )
+- Fixed the issue with Aweber, breaking Page Builder on some servers, when no settings were defined
+	* functions.php
+- Added minor security hardening
+	* epanel/custom_functions.php
+	* et-pagebuilder/et-pagebuilder.php
+	* functions.php
+- Bumped version number
+	* style.css
+
+version 2.3.1 ( updated 02-19-2015 )
+- Fixed some issues with Aweber functionality
+	* functions.php
+- Fixed the issue with "Search" text, not recognized in localization files
+	* header.php
+- Fixed the issue with secondary navigation items, not visible on mobile devices
+	* js/custom.js
+- Fullwidth Module: Fixed the issue with mobile menu background color
+	* js/custom.js
+	* style.css
+- Updated localization files
+	* lang/da_DK.mo
+	* lang/da_DK.po
+	* lang/fr_FR.mo
+	* lang/fr_FR.po
+	* lang/it_IT.mo
+	* lang/it_IT.po
+	* lang/nl_NL.mo
+	* lang/nl_NL.po
+- Improved compatibility with child themes, created before the previous version of the theme ( 2.3 )
+	* epanel/custom_functions.php
+- Renamed Portuguese localizaton files
+	* lang/pt_BR.mo
+	* lang/pt_BR.po
+- Bumped version number
+	* style.css
+
+version 2.3 ( updated 02-12-2015 )
+- The theme has been translated into the following languages:
+	* Arabic
+	* Bulgarian
+	* Chinese
+	* Czech
+	* Danish
+	* Dutch
+	* Finnish
+	* French
+	* German
+	* Greek
+	* Hebrew
+	* Hungarian
+	* Indonesian
+	* Italian
+	* Japanese
+	* Korean
+	* Malay
+	* Norwegian
+	* Polish
+	* Portuguese
+	* Romanian
+	* Russian
+	* Serbian
+	* Slovak
+	* Spanish
+	* Swedish
+	* Tagalog
+	* Thai
+	* Turkish
+	* Ukranian
+	* Vietnamese
+- Fixed character encoding in layouts code
+	* et-pagebuilder/layouts/layouts.php
+- Added missing text domains for translations
+- Added Offset Number option to the Blog Module
+- Removed text color option from Blog Module grid view and set dark text color as default
+	* et-pagebuilder/et-pagebuilder.php
+	* functions.php
+- Fixed the issue with video slides in fullscreen mode
+- Adjusted styling of mobile menu and search icon on mobile devices
+- Fixed the issue with parallax effect, when CSS and True Parallax sliders were used on the same page
+- Fixed Audio module Volume Bar Height
+	*  style.css
+- Fixed the issue with "NaN" value in the counter module
+- Fixed the issue with videos, breaking counters on a page
+- Clicking the logo always refresh a page properly now
+- Fixed the issue with parallax, not resizing with learn more content and toggle modules
+- Fixed the issue with multiple fullwidth mobile menus, not working properly on a page
+- Fixed the issue where mobile menu does not close after an anchor link is clicked
+	* js/custom.js
+- Fixed the issue with date, saved with double slashes
+	* epanel/core_functions.php
+	* epanel/options_divi.php
+	* functions.php
+- Fixed non-English slugs, breaking the filterable portfolio
+	* functions.php
+- Added sub-menu direction option and styling to Fullwidth Menu module
+- Added an option to allow background videos to not pause when audio is played
+	* et-pagebuilder/et-pagebuilder.php
+	* functions.php
+	* js/custom.js
+- Improved video background functionality
+	* js/custom.js
+	* style.css
+- Added support for webm format in video module
+	* et-pagebuilder/et-pagebuilder.php
+	* functions.php
+- Updated image uploader in ePanel
+	* epanel/core_functions.php
+	* epanel/js/custom_uploader.js
+	* epanel/options_divi.php
+- Fullwidth menus now use classes in place of ids to pass HTML validation
+	* functions.php
+	* style.css
+- Fixed styling for password protected posts, pages and projects
+	* functions.php
+	* js/theme-customizer.js
+	* style.css
+- Removed focus styling in ePanel
+	* epanel/css/panel.css
+- Fixed the issue with responsive shortcodes, not working correctly
+	* epanel/shortcodes/css/shortcodes_responsive.css
+- Fixed fonts preview in Customizer
+	* epanel/google-fonts/et_google_fonts.js
+- Fixed the issue with Video player, not shown for video posts using self hosted videos
+	* functions.php
+	* style.css
+- Fixed the issue with Aweber, breaking the page builder if no API options are set in ePanel
+- Fixed FeedBurner form html code in the Subscribe Module
+	* functions.php
+- Fixed the issue with Media Library images Grayed Out in "Upload image" modal window
+	* et-pagebuilder/css/jquery-ui-1.10.4.custom.css
+- Inner Shadow option works in sections with CSS parallax now
+	* functions.php
+- Switched the footer RSS link from the comments feed to the main feed
+	* includes/social_icons.php
+- Fixed fullwidth modules styling issues in the "Insert Module" modal box
+	* et-pagebuilder/css/style.css
+- Added localization to all strings in the theme
+- The theme is now compatible with Right-to-Left Languages
+- Code improvements
+
+version 2.2 ( updated 11-06-2014 )
+- 2 New Modules: Video and Video Slider
+	* et-pagebuilder/css/style.css
+	* et-pagebuilder/et-pagebuilder.php
+	* et-pagebuilder/js/admin.js
+	* functions.php
+	* js/custom.js
+	* style.css
+	* Renamed fonts:
+		* et-pagebuilder/fonts/etbuilder_v2_2.eot
+		* et-pagebuilder/fonts/etbuilder_v2_2.svg
+		* et-pagebuilder/fonts/etbuilder_v2_2.ttf
+		* et-pagebuilder/fonts/etbuilder_v2_2.woff
+- Renamed Team Member module to Person Module
+	* et-pagebuilder/et-pagebuilder.php
+	* et-pagebuilder/js/admin.js
+- Added login_post scheme variable to login form module ( Fixes issues with Login module on WP Engine )
+	* functions.php
+- Removed all "fuzzy" translations from localization files
+	* lang/de_DE.mo
+	* lang/de_DE.po
+	* lang/en_US.mo
+	* lang/en_US.po
+	* lang/ru_RU.mo
+	* lang/ru_RU.po
+- Fixed bug that would make countdown timer days negative when event has passed
+- Fixed the issue with Number Counter decimal values, rounded on scroll event
+	* js/custom.js
+- Increased z-index on Scroll To Top button to display it to ensure it's always displayed on top of all elements
+- Bumped version number
+	* style.css
+
+version 2.1.4 ( updated 09-02-2014 )
+- Fixed MailChimp API file name
+	* includes/subscription/mailchimp/mailchimp.php
+- Bumped version number
+	* style.css
+
+version 2.1.3 ( updated 09-01-2014 )
+- Date Option: Fixed the issue with slashes not being saved properly in ePanel
+	* epanel/core_functions.php
+- Subscribe Module: Fixed the issues with Aweber and MailChimp. Added ajax loader icon.
+	* functions.php
+	* includes/subscription/mailchimp
+	* js/custom.js
+	* style.css
+- Fixed the issue with WYSIWIG editor visibility, when default editor gets activated
+	* et-pagebuilder/js/admin.js
+- Fixed some issues with contact form, placed below the portfolio module
+- Fixed the issue with warning message, appearing when the account wasn't configured in ePanel
+	* functions.php
+- Bumped version number
+	* style.css
+
+version 2.1.2 ( updated 07-24-2014 )
+- Fixed the issue with wrong theme number value detected, if a child theme is being used
+	* functions.php
+- Bumped version number
+	* style.css
+
+version 2.1.1 ( updated 07-23-2014 )
+- Fixed the issue with ul and ol elements styling in Page Builder layouts
+- Bumped version number
+	* style.css
+
+version 2.1 ( updated 07-22-2014 )
+- Added "Back to top" button
+- Added Side Navigation on single pages
+- Fixed the issue with button arrow position in Chrome
+- Don't show page builder code on search results page
+- WYSIWIG mode in Page Builder is now saved, it defaulted to Visual before
+- Gallery module: Fixed the issue with "Random Order" option
+- Fixed 1/4 column slider appearance
+- Fixed html list appearance on index page
+- Fixed the issue with Firefox not saving the layout if modules were moved
+- Fixed the issue with double quotes, used in Page Builder settings
+- Modified Page Builder elements to be responsive
+- Added transparent background option to Sections
+- Added Close button to the Specialty Section Modal window
+- Image Module: Added Title Text option
+- Added smooth scrolling for internal links
+- Subscribe Module: Integrated Mailchimp 2.0 API
+- Added the option to enable smooth scrolling
+- Image module: Added "Remove space below the image" option
+- Filterable Portfolio: Fixed animation issues in Firefox
+- Fixed Widget Area Select ( dropdown ) styling issues
+- Added the option to enable/disable background-size: cover for "body"
+- Circle Counter: Added limit to the number field
+- Circle Counter: Fixed the issue with lazy loading animation
+- Disabled the Lazy Loading effect on mobile devices to improve usability
+- Filterable Portfolio: Fixed the animation in FF browser
+- Pagination: Added localization for Previous and Next links
+- Fixed the issue with scrolling to the top of window, when the user clones a section or a row
+- Fixed "Menu displayed behind the embedded videos in IE" issue
+- Users shouldn't create sidebars with certain names. Added a note to the Widgets page.
+- Fixed Woocommerce notification bar appearance
+- Fixed the issue with separator in postmeta
+- Fixed "Link color" option in the Customizer
+- Added sidebar on WooCommerce category pages
+- Fixed some styling issues on the category page
+- Section Module: Fixed Background Color option description
+- Blog Module: Fixed the width of posts in 4/4 column
+- Comments are now visible on pages, where they have been disabled, if there is at least 1 comment on the page
+- Map Module: Fixed the issue with custom ID/Class settings
+- Blurbs Module: Fixed settings description
+- Fixed the issue with inactive secondary menu items on mobile devices
+- Fixed the issue with lightbox on pages with several gallery modules. Lightbox scrolls through the images from a single gallery now.
+- Slider Module: Added parallax option
+- Fixed the issue with jumping image in the slider module
+- Pricing Table Module: Fixed layout issues
+- Fixed the issue with jumping slides during transitions
+- Secondary navigation: Added email link
+- Map Module: Added mouse zoom option
+- Fixed mega menu width on iPad
+- Filterable Portfolio Module: Now it displays only selected categories, not all the categories selected projects assigned to.
+- Blog Module: Added option to display the read more button if "Show Excerpts" option is selected
+- Login Module: Fixed the module appearance for logged in users
+- Map Module: Centered infowindow above the pin
+- Fixed the issue with module settings window visibility. It's not hidden below the Wordpress menu anymore.
+- Project Page: Fixed the issue with the space on top of the page
+- Fixed the issue with the search field display
+- Fixed the fullscreen editor visibility issues
+- Portfolio Module: Fixed portfolio layout issues
+- Renamed icon font files to fix the issue with cache
+- Accordion module: Fixed some animation glitches
+- Countdown Module: Fixed issues in Safari and IE
+- Fixed fonts options in the Customizer
+- Fixed the issue with content visible on some password protected posts pages
+
+List of modified files:
+* epanel/google-fonts/et_google_fonts.js
+* epanel/options_divi.php
+* et-pagebuilder/css/style.css
+* et-pagebuilder/et-pagebuilder.php
+* et-pagebuilder/fonts/etbuilder.eot
+* et-pagebuilder/fonts/etbuilder.svg
+* et-pagebuilder/fonts/etbuilder.ttf
+* et-pagebuilder/fonts/etbuilder.woff
+* et-pagebuilder/fonts/etbuilder_v2.eot
+* et-pagebuilder/fonts/etbuilder_v2.svg
+* et-pagebuilder/fonts/etbuilder_v2.ttf
+* et-pagebuilder/fonts/etbuilder_v2.woff
+* et-pagebuilder/js/admin.js
+* et-pagebuilder/js/widgets.js
+* fonts/ETmodules.eot
+* fonts/ETmodules.svg
+* fonts/ETmodules.ttf
+* fonts/ETmodules.woff
+* fonts/ETmodules_v2.eot
+* fonts/ETmodules_v2.svg
+* fonts/ETmodules_v2.ttf
+* fonts/ETmodules_v2.woff
+* footer.php
+* functions.php
+* header.php
+* includes/subscription/mailchimp/MCAPI.class.php
+* includes/subscription/mailchimp/Mailchimp.php
+* includes/subscription/mailchimp/Mailchimp/Campaigns.php
+* includes/subscription/mailchimp/Mailchimp/Conversations.php
+* includes/subscription/mailchimp/Mailchimp/Ecomm.php
+* includes/subscription/mailchimp/Mailchimp/Exceptions.php
+* includes/subscription/mailchimp/Mailchimp/Folders.php
+* includes/subscription/mailchimp/Mailchimp/Gallery.php
+* includes/subscription/mailchimp/Mailchimp/Goal.php
+* includes/subscription/mailchimp/Mailchimp/Helper.php
+* includes/subscription/mailchimp/Mailchimp/Lists.php
+* includes/subscription/mailchimp/Mailchimp/Mobile.php
+* includes/subscription/mailchimp/Mailchimp/Neapolitan.php
+* includes/subscription/mailchimp/Mailchimp/Reports.php
+* includes/subscription/mailchimp/Mailchimp/Templates.php
+* includes/subscription/mailchimp/Mailchimp/Users.php
+* includes/subscription/mailchimp/Mailchimp/Vip.php
+* index.php
+* js/custom.js
+* js/smoothscroll.js
+* js/theme-customizer.js
+* lang/de_DE.mo
+* lang/de_DE.po
+* lang/en_US.mo
+* lang/en_US.po
+* lang/ru_RU.mo
+* lang/ru_RU.po
+* page.php
+* single-project.php
+* single.php
+* style.css
+
+version 2.0 ( updated 05-21-2014 )
+* All files changed/updated
+- Added many options to WordPress Customizer
+- Added lightbox to images
+- Added real parallax effect
+- More elements utilize accent color setting
+- Added Aweber and Feedburner integrations for Subscribe module
+- Added post formats support
+	- Video
+	- Audio
+	- Quote
+	- Gallery
+	- Link
+- New Header Options
+	- Added vertical navigation option
+	- Added optional secondary header menu
+	- Added boxed layout option
+	- Added centered main menu option
+- Pagebuilder Updates
+	- New specialty sections
+	- Added many new pre-made layouts
+	- Added clone module functionality
+- Updated Modules
+	- Blurb
+	- Testimonials
+- Added New Modules
+	- Gallery
+	- Audio
+	- Login
+	- Filterable Portfolio
+	- Circle Counter
+	- Number Counter
+	- Accordion
+	- Team Member
+	- Countdown Timer
+	- Social Media Follow
+	- Map
+	- Fullwidth Map
+	- Fullwidth Menu
+	- Fullwidth Portfolio
+- Fixed the issue with jumping backround image in sliders
+- Many bug fixes and CSS improvements
+- Bumped version number
+
+
+version 1.9.1 ( updated 04-21-2014 )
+- Fixed Page Builder issues in IE9 and IE10
+	* et-pagebuilder/js/admin.js
+- Bumped version number
+	* style.css
+
+version 1.9 ( updated 04-17-2014 )
+- Corrected js files version number
+	* et-pagebuilder/et-pagebuilder.php
+- Bumped version number
+	* style.css
+
+version 1.8 ( updated 04-15-2014 )
+- The theme is compatible with WordPress 3.9 now
+	* et-pagebuilder/js/admin.js
+	* et-pagebuilder/css/style.css
+
+version 1.7 ( updated 03-06-2014 )
+- Fixed the issue with Blog and Portfolio modules pagination on static frontpage
+- Fixed the issue with video background in a section, overlaying any content within the section
+	* functions.php
+- Fixed mega menu styling at 960 breakpoint
+- Adjusted slider arrow positioning at small sizes
+- Improved readability of slider text
+- Fixed slider padding issue at mobile breakpoint
+- Consolidated header styles
+- Adjusted newsletter styling for added consistency
+- Changed Blurb & Toggle headings for improved hierarchy
+- Adjusted WooCommerce headings for added consistency
+- Adjusted portfolio headings for added consistency
+- Styled the search widget
+- Bumped version number
+	* style.css
+
+version 1.6 ( updated 02-26-2014 )
+- Added the slide link to heading in the Slider module
+- Fixed the issue with the separator symbol, appearing in the wrong place, when some items are disabled in the post info section.
+- Fixed validation errors in slider and section modules
+- Added "New Message From 'Site Name' - 'Contact Form Title'" to the email title field
+	* functions.php
+- Fixed the issue with resizing of images that have the x symbol between width and height values in the filename
+- Fixed the issue with .jpeg images and uppercase extensions in cached files
+- The theme doesn't strip slashes from custom css now, when saving the option to the database
+- Removed buzz shortcode ( Google retired Buzz )
+- Fixed ePanel SEO home options not appearing on static front page
+- Better compatibility with WordPress SEO and All In One SEO Pack plugins. ePanel SEO is disabled if these plugins are active now.
+	* epanel/core_functions.php
+	* epanel/custom_functions.php
+	* epanel/shortcodes/shortcodes.php
+- Disabled lazy loading animations on mobile devices
+- 'Slide Text Color' option affects navigation arrows and controls color now in the Slider Module
+	* js/custom.js
+	* style.css
+- Fixed the issue with "Disable Top Menu Links" option in ePanel
+	* js/custom.js
+- Fixed WooCommerce styling issues
+- Fixed the issue with post content, visible in tiled blog posts at 320 breakpoint
+- Fixed the issue with Portfolio module images not visible in IE8
+- Fixed the issue with mediaelementjs videos not displaying correctly in full-screen mode in IE10 and IE11
+- Fixed tiled blog post styling in 1/4 column at 480 and 320 breakpoints
+- Fixed Contact form module styling at 768px breakpoint
+- Bumped version number
+	* style.css
+
+version 1.5 ( updated 02-18-2014 )
+- Fixed 'Your theme has bundled outdated copies of WooCommerce template files' warning message
+	* functions.php
+	* deleted woocommerce folder
+- Fixed Review form styling
+- Bumped version number
+	* style.css
+
+version 1.4 ( updated 02-11-2014 )
+- Fixed WooCommerce Sidebar Error
+- Added Anti Aliasing
+- Fixed the issue with megamenu dropdown links visibility
+- Fixed Counters animation in Firefox
+- Fixed a typo in Porfolio module title
+- Fixed 'multiple sliders on one page' issues
+- Fixed the issue with hidden checkboxes and radio elements
+
+List of modified files:
+* style.css
+* js/custom.js
+* et-pagebuilder/et-pagebuilder.php
+* functions.php
+
+version 1.3 ( updated 01-14-2014 )
+- Fixed the issue with multiple categories selected in the Portfolio module
+- Fixed the issue with the Contact Form module, not using the Email setting
+- Fixed the issue with the More Tag in the Blog module
+- Added 'Fixed Navigation Bar' option
+- Added 'Automatic slider animation' option
+- Added id and class options to modules. Defined et-hide-mobile class, it can be used to hide the module on mobile devices.
+- Fixed validation issues with Contact form and top menu
+- Fixed Color Schemes options not saving in the Customizer
+- Fixed Text Orientation in the Blurb module
+- Fixed the issue with Footer Widget Areas not styled in the Sidebar module
+- Fixed the issue with dropdown menu not showing in Safari and iPad in landscape mode
+- Removed Cropping from standard blog posts featured images
+- Slider arrows are shown at all times on mobile devices now
+- Added 'Image Vertical Alignment' option to the Slider module
+- Added localization for the Subscribe Module
+- Added link to the Blurb module image
+- Added 'open in a new window' option to the Image module
+- Added 'Text orientation' option to the Fullwidth Header module
+- Applied fitVids jQuery plugin to all videos
+- Added 'No Animation' option to Image and Blurb modules
+- Fixed 'Bottom To Top' animation
+- Fixed Pricing tables columns structure in 1/3, 2/3, 1/4, 1/2 columns
+- Removed cropping from the main product image
+- Removed default iOS form elements styling
+- Fixed Calendar widget styling
+- Fixed video embedding issues
+- Fixed the issue with sub menu, displayed behind embedded videos
+- Fixed 1/3 and 1/4 tab modules display on mobile breakpoints
+- Fixed 3.8 admin bar front-end styling on mobile devices
+- Fixed Products pages styling
+- Fixed Blog module styling in 1/4 column
+- Fixed pagination styling for blog/shop/portfolio pages
+- Fixed the issue with Slide Video not displaying in Firefox
+- Fixed slider description text width at mobile sizes
+- Fixed pricing table styling at 768px breakpoint
+- Fixed 1/3 and 1/4 column styling at 768px breakpoint
+- Fixed shop module styling at 768px breakpoint
+- Fixed slider module youtube videos size for all columns
+- Fixed the issue with pagination on search pages
+
+List of modified files:
+* epanel/options_divi.php
+* epanel/post_thumbnails_divi.php
+* et-pagebuilder/et-pagebuilder.php
+* functions.php
+* header.php
+* includes/functions/sidebars.php
+* index.php
+* js/custom.js
+* lang/de_DE.mo
+* lang/de_DE.po
+* lang/en_US.mo
+* lang/en_US.po
+* lang/ru_RU.mo
+* lang/ru_RU.po
+* page.php
+* single.php
+* style.css
+
+version 1.2 ( updated 12-23-2013 )
+- Now you can update Elegant Themes in the Dashboard: https://www.elegantthemes.com/members-area/documentation.html#updater
+	* epanel/custom_functions.php
+- Bumped version number
+	* style.css
+
+version 1.1 ( updated 12-11-2013 )
+- Fixed errors with the theme on some servers
+	* et-pagebuilder/et-pagebuilder.php
+- Fixed issues with saving layouts with no modules
+	* et-pagebuilder/js/admin.js
+- Fixed Search Icon bug in Firefox
+	* style.css
+- Fixed the issue with flashing image in the slider with video preloader
+	* functions.php
+	* js/custom.js
+
+version 1.0
+
+- initial release

@@ -1,0 +1,30 @@
+/*
+
+ Theme Name:   Divi - Danny
+ Theme URI:    ""
+ Description:  Divi State Child Theme
+ Author:       Jesus D. Guzman
+ Author URI:   ""
+ Template: 	   Divi
+ Version:      1.0.0
+ License:      GNU General Public License v2 or later
+ License URI:  http://www.gnu.org/licenses/gpl-2.0.html
+ Tags:         light, dark, two-columns, right-sidebar, responsive-layout, accessibility-ready
+ Text Domain:  divi-state-child
+
+*/
+
+nav#top-menu-nav {
+    float: none;
+}
+.entry-content ul {
+    list-style-type: none;
+}
+.et_fixed_nav.et_show_nav #page-container {
+    padding-top: 0px;
+}
+
+.et_pb_row {
+     padding: 0;
+}
+

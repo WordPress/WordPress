@@ -1,0 +1,170 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/init\n"
+"POT-Creation-Date: 2016-03-30 15:21:59+00:00\n"
+"PO-Revision-Date: 2016-03-30 00:17+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: ms\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"esc_html_x:1,2c\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+
+#: admin/includes/assets.php:21
+msgid "Got it, thanks!"
+msgstr "Faham, terima kasih!"
+
+#: admin/includes/class-portability.php:184
+msgid "The export process failed. Please refresh the page and try again."
+msgstr ""
+"Proses mengeksport gagal. Sila segarkan semula halaman dan cuba sekali lagi."
+
+#: admin/includes/class-portability.php:854
+msgid ""
+"The browser version you are currently using is outdated. Please update to "
+"the newest version."
+msgstr ""
+"Versi pelayar yang anda gunakan sekarang sudah lapuk. Sila kemas kini ke "
+"versi terbaru."
+
+#: admin/includes/class-portability.php:855
+msgid ""
+"You reached your server memory limit. Please try increasing your PHP memory "
+"limit."
+msgstr ""
+"Anda telah mencapai had ingatan pelayan anda. Sila tambahkan had ingatan PHP "
+"anda."
+
+#: admin/includes/class-portability.php:856
+msgid ""
+"This file cannot be imported. It may be caused by file_uploads being "
+"disabled in your php.ini. It may also be caused by post_max_size or/and "
+"upload_max_filesize being smaller than file selected. Please increase it or "
+"transfer more substantial data at the time."
+msgstr ""
+"Fail ini tidak boleh diimport. Ia mungkin disebabkan file_uploads telah "
+"dilumpuhkan dalam php.ini anda. Ia juga mungkin disebabkan post_max_size "
+"atau/dan upload_max_filesize lebih kecil daripada fail yang telah dipilih. "
+"Sila tambah atau pindahkan data yang lebih besar buat masa sekarang."
+
+#: admin/includes/class-portability.php:857
+msgid "Invalid File format. You should be uploading a JSON file."
+msgstr "Format Fail tidak sah. Anda sepatutnya memuat naik fail JSON"
+
+#: admin/includes/class-portability.php:858
+msgid "This file should not be imported in this context."
+msgstr "Fail ini tidak sepatutnya diimport dalam konteks ini."
+
+#: admin/includes/class-portability.php:859
+msgid "Import estimated time remaining: %smin"
+msgstr "Anggaran masa import yang tinggal: %smin"
+
+#: admin/includes/class-portability.php:860
+msgid "Export estimated time remaining: %smin"
+msgstr "Anggaran masa eksport yang tinggal: %smin"
+
+#: admin/includes/class-portability.php:861
+msgid "Backup estimated time remaining: %smin"
+msgstr "Anggaran masa penyalinan yang tinggal: %smin"
+
+#: admin/includes/class-portability.php:883
+msgid "Portability"
+msgstr "Mudah alih"
+
+#: admin/includes/class-portability.php:887
+msgid "Export"
+msgstr "Eksport"
+
+#: admin/includes/class-portability.php:888
+msgid "Import"
+msgstr "Import"
+
+#: admin/includes/class-portability.php:892
+msgid ""
+"Exporting your %s will create a JSON file that can be imported into a "
+"different website."
+msgstr ""
+"Mengeksport %s anda akan mencipta fail JSON yang boleh diimport ke tapak web "
+"yang berbeza."
+
+#: admin/includes/class-portability.php:893
+msgid "Export File Name"
+msgstr "Nama Fail Eksport"
+
+#: admin/includes/class-portability.php:898
+msgid "Only export selected items"
+msgstr "Eksport butiran terpilih sahaja"
+
+#: admin/includes/class-portability.php:902
+msgid "Export %s"
+msgstr "Eksport %s"
+
+#: admin/includes/class-portability.php:903
+msgid "Cancel Export"
+msgstr ""
+
+#: admin/includes/class-portability.php:908
+msgid ""
+"Importing a previously-exported %s file will overwrite all content currently "
+"on this page."
+msgstr ""
+"Mengimport fail %s yang telah dieksport sebelum ini akan menulis ganti semua "
+"kandungan yang ada pada halaman ini."
+
+#: admin/includes/class-portability.php:910
+msgid ""
+"Select a previously-exported Divi Builder Layouts file to begin importing "
+"items. Large collections of image-heavy exports may take several minutes to "
+"upload."
+msgstr ""
+"Pilih fail Divi Builder yang telah dieksport sebelum ini untuk mula "
+"mengimport butiran. Mengeksport koleksi imej berat yang besar akan mengambil "
+"masa beberapa minit untuk memuat naik."
+
+#: admin/includes/class-portability.php:912
+msgid ""
+"Importing a previously-exported %s file will overwrite all current data. "
+"Please proceed with caution!"
+msgstr ""
+"Mengimport fail %s yang telah dieksport sebelum ini akan menulis ganti semua "
+"data yang ada. Sila teruskan dengan berhat-hati!"
+
+#: admin/includes/class-portability.php:914
+msgid "Select File To Import"
+msgstr "Pilih Fail untuk mengimport"
+
+#: admin/includes/class-portability.php:916
+msgid "No File Selected"
+msgstr "Tiada fail telah dipilih"
+
+#: admin/includes/class-portability.php:917
+msgid "Choose File"
+msgstr "Pilih Fail"
+
+#: admin/includes/class-portability.php:921
+msgid "Download backup before importing"
+msgstr "Muat turun penyalinan sebelum mengimport"
+
+#: admin/includes/class-portability.php:925
+msgid "Import %s"
+msgstr "Import %s"
+
+#: admin/includes/class-portability.php:926
+msgid "Cancel Import"
+msgstr ""
+
+#: admin/includes/portability.php:90
+msgid "Import & Export"
+msgstr "Import & Eksport"

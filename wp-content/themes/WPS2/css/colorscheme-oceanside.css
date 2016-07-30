@@ -1,0 +1,1507 @@
+/* cagov-template-v5 - v0.0.1 - Jul-18-2016 */
+/* STYLES COMPILED FROM SOURCE (LESS) DO NOT MODIFY */
+/* -----------------------------------------
+ Helper Mixins for service-group
+----------------------------------------- */
+/* -----------------------------------------
+   OCEANSIDE
+----------------------------------------- */
+/* -----------------------------------------
+   LAYOUT
+   /source/less/colorscheme/layout.less
+----------------------------------------- */
+/* Primary page with/without two-column */
+.primary {
+  /* Primary page with two column */
+}
+.primary.two-column {
+  /* Main content contains 2col bg and footer bg */
+}
+.primary.two-column .main-content {
+  background-color: #fff;
+}
+/* -----------------------------------------
+   GLOBAL HEADER
+   /source/less/colorscheme/global-header.less
+----------------------------------------- */
+.global-header {
+  /* Default header pattern */
+  /* Small screen gets solid color */
+}
+.explore-invite a:hover span[class^="ca-gov-icon-"] {
+  color: #FDB81E;
+}
+.explore-invite a:hover .explore-title {
+  color: #FDB81E;
+}
+/* -----------------------------------------
+   GLOBAL FOOTER
+   /source/less/colorscheme/global-footer.less
+----------------------------------------- */
+.global-footer {
+  background: #222222;
+}
+/* Targets icon of first h1 on the page  */
+h1 span[class^="ca-gov-icon-"]:first-child {
+  color: #046B99;
+}
+/* -----------------------------------------
+   NAVIGATION
+   /source/less/colorscheme/cs-navigation.less
+----------------------------------------- */
+.mobile-controls {
+  background: #035a80;
+}
+.mobile-control {
+  color: #fff;
+}
+.mobile-control a {
+  color: #fff;
+  text-decoration: none;
+}
+.mobile-control.toggle-sub-nav {
+  color: #777777;
+}
+.nav-item.active > a,
+.nav-item:hover > a {
+  color: #046B99;
+}
+.nav-item.active > a > span[class^="ca-gov-icon"],
+.nav-item:hover > a > span[class^="ca-gov-icon"] {
+  color: #046B99;
+}
+.nav-arrow-down {
+  background: #046B99;
+}
+.first-level-link {
+  color: #555555;
+}
+.first-level-link > span[class^="ca-gov-icon"] {
+  /* Navigation icons */
+  color: #9fc7da;
+}
+@media (max-width: 767px) {
+  .first-level-link {
+    border-bottom: 1px solid #E1F2F7;
+  }
+}
+.second-level-link {
+  color: #046B99;
+}
+.second-level-link [class^="ca-gov-icon-"] {
+  color: #046B99;
+}
+.second-level-nav > li {
+  border: 1px solid transparent;
+  border-right: 1px solid #d6d6d6;
+  border-bottom: 1px solid #d6d6d6;
+}
+.second-level-nav > li:hover,
+.second-level-nav > li:focus {
+  background: #fff;
+}
+.second-level-nav .link-description {
+  color: #555555;
+}
+.sub-nav {
+  border-top: 5px solid #FDB81E;
+  border-bottom: 5px solid #046B99;
+  border-left: 1px solid #d6d6d6;
+  border-right: 1px solid #d6d6d6;
+  background: #F5F9FB;
+}
+@media (max-width: 767px) {
+  .sub-nav {
+    border-top: none;
+    border-bottom: none;
+  }
+}
+.nav-media {
+  background: transparent;
+}
+.nav-media .media:hover {
+  background: #fff;
+}
+.nav-media .media {
+  border-bottom: 1px solid #d6d6d6;
+}
+/* -----------------------------------------
+   SEARCH
+   /source/less/colorscheme.search.less
+----------------------------------------- */
+.search-container .search-textfield {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.search-container .submit-container button {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.8);
+}
+.search-container:hover .search-textfield,
+.search-container:focus .search-textfield,
+.search-container.active .search-textfield {
+  background-color: #fff;
+}
+.search-container:hover .submit-container button,
+.search-container:focus .submit-container button,
+.search-container.active .submit-container button {
+  border-color: #fff;
+}
+.search-container.active {
+  background: #d6d6d6;
+}
+@media (min-width: 768px) {
+  .search-container.active {
+    border-bottom: 2px solid #d6d6d6;
+  }
+}
+.search-container.active .submit-container button {
+  border-color: #bdbdbd;
+  background: #555555;
+}
+.search-container.active .search-textfield {
+  border-color: #bdbdbd;
+}
+.search-container.featured-search {
+  background: #777777;
+  background: rgba(0, 0, 0, 0.65);
+}
+.search-container.featured-search:hover,
+.search-container.featured-search:focus {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.search-container.featured-search.active {
+  background: #d6d6d6;
+}
+/* -----------------------------------------
+   PANELS
+   /source/less/colorscheme/cs-panels.less
+----------------------------------------- */
+/* Default Panels */
+.panel-default {
+  border-color: #ddd;
+}
+.panel-default > .panel-heading {
+  color: inherit;
+  background-color: #f5f5f5;
+  border-color: #ddd;
+}
+.panel-default > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ddd;
+}
+.panel-default > .panel-heading .badge {
+  color: #f5f5f5;
+  background-color: inherit;
+}
+.panel-default > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ddd;
+}
+.panel-default .panel-heading h2 span[class^="ca-gov-icon-"],
+.panel-default .panel-heading h3 span[class^="ca-gov-icon-"],
+.panel-default .panel-heading h4 span[class^="ca-gov-icon-"],
+.panel-default .panel-heading h5 span[class^="ca-gov-icon-"] {
+  color: #323A45;
+}
+.panel-default .panel-heading .options .btn-default {
+  color: #000000;
+  background-color: #fcfcfc;
+  border-color: #ddd;
+}
+.panel-default .panel-heading .options .btn-default:hover,
+.panel-default .panel-heading .options .btn-default:focus,
+.panel-default .panel-heading .options .btn-default:active,
+.panel-default .panel-heading .options .btn-default.active,
+.open > .dropdown-toggle.panel-default .panel-heading .options .btn-default {
+  color: #000000;
+  background-color: #e2e2e2;
+  border-color: #bebebe;
+}
+.panel-default .panel-heading .options .btn-default:active,
+.panel-default .panel-heading .options .btn-default.active,
+.open > .dropdown-toggle.panel-default .panel-heading .options .btn-default {
+  background-image: none;
+}
+.panel-default .panel-heading .options .btn-default.disabled,
+.panel-default .panel-heading .options .btn-default[disabled],
+fieldset[disabled] .panel-default .panel-heading .options .btn-default,
+.panel-default .panel-heading .options .btn-default.disabled:hover,
+.panel-default .panel-heading .options .btn-default[disabled]:hover,
+fieldset[disabled] .panel-default .panel-heading .options .btn-default:hover,
+.panel-default .panel-heading .options .btn-default.disabled:focus,
+.panel-default .panel-heading .options .btn-default[disabled]:focus,
+fieldset[disabled] .panel-default .panel-heading .options .btn-default:focus,
+.panel-default .panel-heading .options .btn-default.disabled:active,
+.panel-default .panel-heading .options .btn-default[disabled]:active,
+fieldset[disabled] .panel-default .panel-heading .options .btn-default:active,
+.panel-default .panel-heading .options .btn-default.disabled.active,
+.panel-default .panel-heading .options .btn-default[disabled].active,
+fieldset[disabled] .panel-default .panel-heading .options .btn-default.active {
+  background-color: #fcfcfc;
+  border-color: #ddd;
+}
+.panel-default .panel-heading .options .btn-default .badge {
+  color: #fcfcfc;
+  background-color: #000000;
+}
+.panel-default .panel-body {
+  background: #fff;
+}
+/* Overstated Panels */
+.panel-overstated {
+  border-color: #ddd;
+}
+.panel-overstated > .panel-heading {
+  color: #fff;
+  background-color: #046B99;
+  border-color: #034867;
+}
+.panel-overstated > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ddd;
+}
+.panel-overstated > .panel-heading .badge {
+  color: #046B99;
+  background-color: #fff;
+}
+.panel-overstated > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ddd;
+}
+.panel-overstated .panel-heading {
+  border-bottom-width: 5px;
+  border-bottom-style: solid;
+}
+.panel-overstated .panel-heading h2 span[class^="ca-gov-icon-"],
+.panel-overstated .panel-heading h3 span[class^="ca-gov-icon-"],
+.panel-overstated .panel-heading h4 span[class^="ca-gov-icon-"],
+.panel-overstated .panel-heading h5 span[class^="ca-gov-icon-"] {
+  color: #fff;
+}
+.panel-overstated .panel-heading .options .btn-default {
+  color: #ffffff;
+  background-color: #4f97b8;
+  border-color: #034867;
+}
+.panel-overstated .panel-heading .options .btn-default:hover,
+.panel-overstated .panel-heading .options .btn-default:focus,
+.panel-overstated .panel-heading .options .btn-default:active,
+.panel-overstated .panel-heading .options .btn-default.active,
+.open > .dropdown-toggle.panel-overstated .panel-heading .options .btn-default {
+  color: #ffffff;
+  background-color: #3d7b97;
+  border-color: #011f2c;
+}
+.panel-overstated .panel-heading .options .btn-default:active,
+.panel-overstated .panel-heading .options .btn-default.active,
+.open > .dropdown-toggle.panel-overstated .panel-heading .options .btn-default {
+  background-image: none;
+}
+.panel-overstated .panel-heading .options .btn-default.disabled,
+.panel-overstated .panel-heading .options .btn-default[disabled],
+fieldset[disabled] .panel-overstated .panel-heading .options .btn-default,
+.panel-overstated .panel-heading .options .btn-default.disabled:hover,
+.panel-overstated .panel-heading .options .btn-default[disabled]:hover,
+fieldset[disabled] .panel-overstated .panel-heading .options .btn-default:hover,
+.panel-overstated .panel-heading .options .btn-default.disabled:focus,
+.panel-overstated .panel-heading .options .btn-default[disabled]:focus,
+fieldset[disabled] .panel-overstated .panel-heading .options .btn-default:focus,
+.panel-overstated .panel-heading .options .btn-default.disabled:active,
+.panel-overstated .panel-heading .options .btn-default[disabled]:active,
+fieldset[disabled] .panel-overstated .panel-heading .options .btn-default:active,
+.panel-overstated .panel-heading .options .btn-default.disabled.active,
+.panel-overstated .panel-heading .options .btn-default[disabled].active,
+fieldset[disabled] .panel-overstated .panel-heading .options .btn-default.active {
+  background-color: #4f97b8;
+  border-color: #034867;
+}
+.panel-overstated .panel-heading .options .btn-default .badge {
+  color: #4f97b8;
+  background-color: #ffffff;
+}
+.panel-overstated .panel-body {
+  background: #fff;
+}
+/* Uderstated Panels */
+.panel-understated {
+  border-color: #ccc;
+}
+.panel-understated > .panel-heading {
+  color: inherit;
+  background-color: #E1F2F7;
+  border-color: #ccc;
+}
+.panel-understated > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ccc;
+}
+.panel-understated > .panel-heading .badge {
+  color: #E1F2F7;
+  background-color: inherit;
+}
+.panel-understated > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ccc;
+}
+.panel-understated .panel-heading {
+  border-bottom-width: 2px;
+  border-bottom-style: dotted;
+}
+.panel-understated .panel-heading h2 span[class^="ca-gov-icon-"],
+.panel-understated .panel-heading h3 span[class^="ca-gov-icon-"],
+.panel-understated .panel-heading h4 span[class^="ca-gov-icon-"],
+.panel-understated .panel-heading h5 span[class^="ca-gov-icon-"] {
+  color: #323A45;
+}
+.panel-understated .panel-heading .options .btn-default {
+  color: #000000;
+  background-color: #f6fbfd;
+  border-color: #ccc;
+}
+.panel-understated .panel-heading .options .btn-default:hover,
+.panel-understated .panel-heading .options .btn-default:focus,
+.panel-understated .panel-heading .options .btn-default:active,
+.panel-understated .panel-heading .options .btn-default.active,
+.open > .dropdown-toggle.panel-understated .panel-heading .options .btn-default {
+  color: #000000;
+  background-color: #ceeaf2;
+  border-color: #adadad;
+}
+.panel-understated .panel-heading .options .btn-default:active,
+.panel-understated .panel-heading .options .btn-default.active,
+.open > .dropdown-toggle.panel-understated .panel-heading .options .btn-default {
+  background-image: none;
+}
+.panel-understated .panel-heading .options .btn-default.disabled,
+.panel-understated .panel-heading .options .btn-default[disabled],
+fieldset[disabled] .panel-understated .panel-heading .options .btn-default,
+.panel-understated .panel-heading .options .btn-default.disabled:hover,
+.panel-understated .panel-heading .options .btn-default[disabled]:hover,
+fieldset[disabled] .panel-understated .panel-heading .options .btn-default:hover,
+.panel-understated .panel-heading .options .btn-default.disabled:focus,
+.panel-understated .panel-heading .options .btn-default[disabled]:focus,
+fieldset[disabled] .panel-understated .panel-heading .options .btn-default:focus,
+.panel-understated .panel-heading .options .btn-default.disabled:active,
+.panel-understated .panel-heading .options .btn-default[disabled]:active,
+fieldset[disabled] .panel-understated .panel-heading .options .btn-default:active,
+.panel-understated .panel-heading .options .btn-default.disabled.active,
+.panel-understated .panel-heading .options .btn-default[disabled].active,
+fieldset[disabled] .panel-understated .panel-heading .options .btn-default.active {
+  background-color: #f6fbfd;
+  border-color: #ccc;
+}
+.panel-understated .panel-heading .options .btn-default .badge {
+  color: #f6fbfd;
+  background-color: #000000;
+}
+.panel-understated .panel-body {
+  background: #fff;
+}
+/* Standout Panels */
+.panel-standout {
+  border-color: #ccc;
+}
+.panel-standout > .panel-heading {
+  color: #fff;
+  background-color: #323A45;
+  border-color: #FDB81E;
+}
+.panel-standout > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ccc;
+}
+.panel-standout > .panel-heading .badge {
+  color: #323A45;
+  background-color: #fff;
+}
+.panel-standout > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ccc;
+}
+.panel-standout .panel-heading {
+  border-bottom-width: 5px;
+  border-bottom-style: solid;
+}
+.panel-standout .panel-heading h2 span[class^="ca-gov-icon-"],
+.panel-standout .panel-heading h3 span[class^="ca-gov-icon-"],
+.panel-standout .panel-heading h4 span[class^="ca-gov-icon-"],
+.panel-standout .panel-heading h5 span[class^="ca-gov-icon-"] {
+  color: #FDB81E;
+}
+.panel-standout .panel-heading .options .btn-default {
+  color: #ffffff;
+  background-color: #70757d;
+  border-color: #272e36;
+}
+.panel-standout .panel-heading .options .btn-default:hover,
+.panel-standout .panel-heading .options .btn-default:focus,
+.panel-standout .panel-heading .options .btn-default:active,
+.panel-standout .panel-heading .options .btn-default.active,
+.open > .dropdown-toggle.panel-standout .panel-heading .options .btn-default {
+  color: #ffffff;
+  background-color: #575c62;
+  border-color: #0e1013;
+}
+.panel-standout .panel-heading .options .btn-default:active,
+.panel-standout .panel-heading .options .btn-default.active,
+.open > .dropdown-toggle.panel-standout .panel-heading .options .btn-default {
+  background-image: none;
+}
+.panel-standout .panel-heading .options .btn-default.disabled,
+.panel-standout .panel-heading .options .btn-default[disabled],
+fieldset[disabled] .panel-standout .panel-heading .options .btn-default,
+.panel-standout .panel-heading .options .btn-default.disabled:hover,
+.panel-standout .panel-heading .options .btn-default[disabled]:hover,
+fieldset[disabled] .panel-standout .panel-heading .options .btn-default:hover,
+.panel-standout .panel-heading .options .btn-default.disabled:focus,
+.panel-standout .panel-heading .options .btn-default[disabled]:focus,
+fieldset[disabled] .panel-standout .panel-heading .options .btn-default:focus,
+.panel-standout .panel-heading .options .btn-default.disabled:active,
+.panel-standout .panel-heading .options .btn-default[disabled]:active,
+fieldset[disabled] .panel-standout .panel-heading .options .btn-default:active,
+.panel-standout .panel-heading .options .btn-default.disabled.active,
+.panel-standout .panel-heading .options .btn-default[disabled].active,
+fieldset[disabled] .panel-standout .panel-heading .options .btn-default.active {
+  background-color: #70757d;
+  border-color: #272e36;
+}
+.panel-standout .panel-heading .options .btn-default .badge {
+  color: #70757d;
+  background-color: #ffffff;
+}
+.panel-standout .panel-body {
+  background: #fff;
+}
+/* Adds triangle to panel */
+.panel-standout.highlight .panel-heading .triangle {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 12px solid #FDB81E;
+}
+/* -----------------------------------------
+   TABS
+   /source/less/colorscheme/cs-tabs.less
+----------------------------------------- */
+.tab-group {
+  background: #fff;
+}
+.tab-group .nav-tabs {
+  background: #f5f5f5;
+}
+/* -----------------------------------------
+   MEDIA
+   /source/less/colorscheme/media.less
+----------------------------------------- */
+figure {
+  background-color: #E1F2F7;
+  border-color: #9FDBF1;
+}
+/* -----------------------------------------
+   PANELS
+   /source/less/colorscheme/location.less
+----------------------------------------- */
+.location.mini [class^="ca-gov-icon"] {
+  background: #323A45;
+  color: #ffffff;
+}
+/* -----------------------------------------
+   TYPOGRAPHY
+   /source/less/colorscheme/typography.less
+----------------------------------------- */
+.published {
+  color: #777777;
+}
+/* -----------------------------------------
+   SECTIONS
+   /source/less/colorscheme/sections.less
+----------------------------------------- */
+.section-default,
+.card-default {
+  background: #f5f5f5;
+}
+.section-default .panel-heading,
+.card-default .panel-heading {
+  background: #ededed;
+}
+.section-search,
+.card-search {
+  background: #d6d6d6;
+}
+.section-understated,
+.card-understated {
+  background: #d6d6d6;
+}
+.section-overstated,
+.card-overstated {
+  background: #02BFE7;
+  color: #000000;
+}
+.section-overstated a:not(.btn),
+.card-overstated a:not(.btn) {
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.section-overstated a:not(.btn):hover,
+.card-overstated a:not(.btn):hover,
+.section-overstated a:not(.btn):focus,
+.card-overstated a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.section-overstated a:not(.btn):focus,
+.card-overstated a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.section-standout,
+.card-standout {
+  background: #323A45;
+  color: #ffffff;
+}
+.section-standout a:not(.btn),
+.card-standout a:not(.btn) {
+  color: #49bbf8;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.section-standout a:not(.btn):hover,
+.card-standout a:not(.btn):hover,
+.section-standout a:not(.btn):focus,
+.card-standout a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.section-standout a:not(.btn):focus,
+.card-standout a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.section-standout .half-gauge-chart .donut-background,
+.card-standout .half-gauge-chart .donut-background {
+  fill: #d6d6d6;
+}
+.section-standout .half-gauge-chart .donut-halfmark,
+.card-standout .half-gauge-chart .donut-halfmark {
+  stroke: #f5f5f5;
+}
+.section-impact,
+.card-impact {
+  background: #323A45;
+  color: #ffffff;
+}
+.section-impact a:not(.btn),
+.card-impact a:not(.btn) {
+  color: #f5f5f5;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.section-impact a:not(.btn):hover,
+.card-impact a:not(.btn):hover,
+.section-impact a:not(.btn):focus,
+.card-impact a:not(.btn):focus {
+  color: #FDB81E;
+  text-decoration: underline;
+}
+.section-impact a:not(.btn):focus,
+.card-impact a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.section-impact .half-gauge-chart .donut-background,
+.card-impact .half-gauge-chart .donut-background {
+  fill: #d6d6d6;
+}
+.section-impact .half-gauge-chart .donut-halfmark,
+.card-impact .half-gauge-chart .donut-halfmark {
+  stroke: #f5f5f5;
+}
+.section-impact h1,
+.card-impact h1,
+.section-impact h2,
+.card-impact h2,
+.section-impact h3,
+.card-impact h3,
+.section-impact h4,
+.card-impact h4,
+.section-impact h5,
+.card-impact h5,
+.section-impact h6,
+.card-impact h6 {
+  color: #9FDBF1;
+  font-weight: 900;
+}
+.section-impact .btn-default,
+.card-impact .btn-default {
+  color: #fff;
+  background-color: transparent;
+  border-color: #9FDBF1;
+  margin-bottom: 11px;
+}
+.section-impact .btn-default:hover,
+.card-impact .btn-default:hover,
+.section-impact .btn-default:focus,
+.card-impact .btn-default:focus,
+.section-impact .btn-default:active,
+.card-impact .btn-default:active,
+.section-impact .btn-default.active,
+.card-impact .btn-default.active,
+.open > .dropdown-toggle.section-impact .btn-default,
+.open > .dropdown-toggle.card-impact .btn-default {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: #fff;
+}
+.section-impact .btn-default:active,
+.card-impact .btn-default:active,
+.section-impact .btn-default.active,
+.card-impact .btn-default.active,
+.open > .dropdown-toggle.section-impact .btn-default,
+.open > .dropdown-toggle.card-impact .btn-default {
+  background-image: none;
+}
+.section-impact .btn-default.disabled,
+.card-impact .btn-default.disabled,
+.section-impact .btn-default[disabled],
+.card-impact .btn-default[disabled],
+fieldset[disabled] .section-impact .btn-default,
+fieldset[disabled] .card-impact .btn-default,
+.section-impact .btn-default.disabled:hover,
+.card-impact .btn-default.disabled:hover,
+.section-impact .btn-default[disabled]:hover,
+.card-impact .btn-default[disabled]:hover,
+fieldset[disabled] .section-impact .btn-default:hover,
+fieldset[disabled] .card-impact .btn-default:hover,
+.section-impact .btn-default.disabled:focus,
+.card-impact .btn-default.disabled:focus,
+.section-impact .btn-default[disabled]:focus,
+.card-impact .btn-default[disabled]:focus,
+fieldset[disabled] .section-impact .btn-default:focus,
+fieldset[disabled] .card-impact .btn-default:focus,
+.section-impact .btn-default.disabled:active,
+.card-impact .btn-default.disabled:active,
+.section-impact .btn-default[disabled]:active,
+.card-impact .btn-default[disabled]:active,
+fieldset[disabled] .section-impact .btn-default:active,
+fieldset[disabled] .card-impact .btn-default:active,
+.section-impact .btn-default.disabled.active,
+.card-impact .btn-default.disabled.active,
+.section-impact .btn-default[disabled].active,
+.card-impact .btn-default[disabled].active,
+fieldset[disabled] .section-impact .btn-default.active,
+fieldset[disabled] .card-impact .btn-default.active {
+  background-color: transparent;
+  border-color: #9FDBF1;
+}
+.section-impact .btn-default .badge,
+.card-impact .btn-default .badge {
+  color: transparent;
+  background-color: #fff;
+}
+.section-impact .btn-default [class^="ca-gov-icon-"],
+.card-impact .btn-default [class^="ca-gov-icon-"] {
+  color: #9FDBF1;
+  padding: 0 5px;
+}
+.section-primary,
+.card-primary {
+  background: #046B99;
+  color: #ffffff;
+}
+.section-primary a:not(.btn),
+.card-primary a:not(.btn) {
+  color: #f5f5f5;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.section-primary a:not(.btn):hover,
+.card-primary a:not(.btn):hover,
+.section-primary a:not(.btn):focus,
+.card-primary a:not(.btn):focus {
+  color: #FDB81E;
+  text-decoration: underline;
+}
+.section-primary a:not(.btn):focus,
+.card-primary a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.section-inverted,
+.card-inverted {
+  background: #222222;
+  color: #fff;
+}
+.section-inverted a:not(.btn),
+.card-inverted a:not(.btn) {
+  color: #f5f5f5;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.section-inverted a:not(.btn):hover,
+.card-inverted a:not(.btn):hover,
+.section-inverted a:not(.btn):focus,
+.card-inverted a:not(.btn):focus {
+  color: #FDB81E;
+  text-decoration: underline;
+}
+.section-inverted a:not(.btn):focus,
+.card-inverted a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.section-danger,
+.card-danger {
+  background: #d34a37;
+  color: #ffffff;
+}
+.section-danger a:not(.btn),
+.card-danger a:not(.btn) {
+  color: #000;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.section-danger a:not(.btn):hover,
+.card-danger a:not(.btn):hover,
+.section-danger a:not(.btn):focus,
+.card-danger a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.section-danger a:not(.btn):focus,
+.card-danger a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+/* -----------------------------------------
+   HEADER SLIDESHOW BANNER
+   /source/less/cagov/header-slideshow-banner.less
+----------------------------------------- */
+/* HEADER SLIDESHOW */
+.header-slideshow-banner {
+  position: relative;
+  height: 600px;
+  background: #000;
+  /* Adjusting the height of the banner controls */
+}
+.header-slideshow-banner .banner-pager,
+.header-slideshow-banner .banner-play-pause {
+  top: 350px;
+}
+.header-slideshow-banner .carousel {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* CA GOV Template hides the carousel by default. 
+   The following lines are to unhide it and make it look pretty */
+@media (max-width: 767px) {
+  .header-slideshow-banner {
+    display: block;
+    height: 160px;
+  }
+  .header-slideshow-banner #primary-carousel {
+    margin: 0;
+    padding: 0;
+  }
+  .header-slideshow-banner #primary-carousel .slide-text {
+    bottom: -11px;
+    right: 0;
+    font-size: 14px;
+    width: 100%;
+  }
+  .header-slideshow-banner #primary-carousel .slide-text .title {
+    font-size: 19px;
+  }
+}
+/* Move the slide text below the image for small mobile devices */
+@media (max-width: 767px) {
+  .header-slideshow-banner .banner-pager,
+  .header-slideshow-banner .banner-play-pause {
+    top: 15px;
+  }
+}
+/* -----------------------------------------
+   PROGRESS BARS
+   /source/less/cagov/cs-progress-bar.less
+----------------------------------------- */
+/* Traditional Colors */
+.progress-bar-default {
+  background-color: #d6d6d6;
+}
+.progress-striped .progress-bar-default {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-primary {
+  background-color: #046B99;
+}
+.progress-striped .progress-bar-primary {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-understated {
+  background-color: #E1F2F7;
+}
+.progress-striped .progress-bar-understated {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-overstated {
+  background-color: #02BFE7;
+}
+.progress-striped .progress-bar-overstated {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-standout {
+  background-color: #323A45;
+}
+.progress-striped .progress-bar-standout {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+/* Accent Colors */
+.progress-bar-accent1 {
+  background-color: #1f89db;
+}
+.progress-striped .progress-bar-accent1 {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-accent1 {
+  background-color: #1f89db;
+}
+.progress-striped .progress-bar-accent1 {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-accent2 {
+  background-color: #49bbf8;
+}
+.progress-striped .progress-bar-accent2 {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-accent3 {
+  background-color: #35bbaa;
+}
+.progress-striped .progress-bar-accent3 {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-accent4 {
+  background-color: #72ce6f;
+}
+.progress-striped .progress-bar-accent4 {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-accent5 {
+  background-color: #815ab4;
+}
+.progress-striped .progress-bar-accent5 {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-accent6 {
+  background-color: #dd99e5;
+}
+.progress-striped .progress-bar-accent6 {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-accent7 {
+  background-color: #d34a37;
+}
+.progress-striped .progress-bar-accent7 {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-accent8 {
+  background-color: #F27e31;
+}
+.progress-striped .progress-bar-accent8 {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+.progress-bar-accent9 {
+  background-color: #f7e455;
+}
+.progress-striped .progress-bar-accent9 {
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+}
+/* -----------------------------------------
+   COMMENT
+   /source/less/cagov/file.less
+----------------------------------------- */
+.testimonial-default {
+  background: #f5f5f5;
+}
+.testimonial-understated {
+  background: #E1F2F7;
+}
+.testimonial-overstated {
+  background: #02BFE7;
+  color: #000000;
+}
+.testimonial-overstated a:not(.btn) {
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.testimonial-overstated a:not(.btn):hover,
+.testimonial-overstated a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.testimonial-overstated a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.testimonial-overstated footer {
+  color: #000000;
+}
+.testimonial-standout {
+  background: #323A45;
+  color: #ffffff;
+}
+.testimonial-standout a:not(.btn) {
+  color: #FDB81E;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.testimonial-standout a:not(.btn):hover,
+.testimonial-standout a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.testimonial-standout a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.testimonial-standout footer {
+  color: #ffffff;
+}
+.testimonial-primary {
+  background: #046B99;
+  color: #ffffff;
+}
+.testimonial-primary a:not(.btn) {
+  color: #FDB81E;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.testimonial-primary a:not(.btn):hover,
+.testimonial-primary a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.testimonial-primary a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.testimonial-primary footer {
+  color: #ffffff;
+}
+.testimonial-inverted {
+  background: #222222;
+  color: #fff;
+}
+.testimonial-inverted a:not(.btn) {
+  color: #FDB81E;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.testimonial-inverted a:not(.btn):hover,
+.testimonial-inverted a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.testimonial-inverted a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.testimonial-inverted footer {
+  color: #ffffff;
+}
+.testimonial-danger {
+  background: #d34a37;
+  color: #ffffff;
+}
+.testimonial-danger a:not(.btn) {
+  color: #000;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.testimonial-danger a:not(.btn):hover,
+.testimonial-danger a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.testimonial-danger a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.testimonial-danger footer {
+  color: #ffffff;
+}
+/* -----------------------------------------
+   CARDS
+   /source/less/colorscheme/cs-cards.less
+----------------------------------------- */
+.card-default {
+  background-color: #ffffff;
+  border-color: #d6d6d6;
+  color: #000000;
+}
+.card-default .card-header {
+  border-bottom: 1px solid #d6d6d6;
+  background-color: #f2f2f2;
+}
+.card-default .card-footer {
+  border-top: 1px solid #d6d6d6;
+  background-color: #f2f2f2;
+}
+.card-primary {
+  background-color: #046B99;
+  border-color: #046B99;
+  color: #ffffff;
+}
+.card-primary a:not(.btn) {
+  color: gray-lightest;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.card-primary a:not(.btn):hover,
+.card-primary a:not(.btn):focus {
+  color: #FDB81E;
+  text-decoration: underline;
+}
+.card-primary a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.card-primary .card-header {
+  border-bottom: 1px solid #046B99;
+  background-color: #035a80;
+}
+.card-primary .card-footer {
+  border-top: 1px solid #046B99;
+  background-color: #035a80;
+}
+.card-understated {
+  background-color: #E1F2F7;
+  border-color: #cde9f2;
+  color: #000000;
+}
+.card-understated .card-header {
+  border-bottom: 1px solid #cde9f2;
+  background-color: #cde9f2;
+}
+.card-understated .card-footer {
+  border-top: 1px solid #cde9f2;
+  background-color: #cde9f2;
+}
+.card-overstated {
+  background-color: #02BFE7;
+  border-color: #029ebf;
+  color: #000000;
+}
+.card-overstated a:not(.btn) {
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.card-overstated a:not(.btn):hover,
+.card-overstated a:not(.btn):focus {
+  color: #FDB81E;
+  text-decoration: underline;
+}
+.card-overstated a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.card-overstated .card-header {
+  border-bottom: 1px solid #029ebf;
+  background-color: #02aace;
+}
+.card-overstated .card-footer {
+  border-top: 1px solid #029ebf;
+  background-color: #02aace;
+}
+.card-standout {
+  background-color: #323A45;
+  border-color: #21262d;
+  color: #ffffff;
+}
+.card-standout a:not(.btn) {
+  color: #f5f5f5;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.card-standout a:not(.btn):hover,
+.card-standout a:not(.btn):focus {
+  color: #FDB81E;
+  text-decoration: underline;
+}
+.card-standout a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.card-standout .card-header {
+  border-bottom: 1px solid #21262d;
+  background-color: #272e36;
+}
+.card-standout .card-footer {
+  border-top: 1px solid #21262d;
+  background-color: #272e36;
+}
+.card-inverted,
+.card-inverse {
+  background-color: #000000;
+  border-color: #000000;
+  color: #ffffff;
+}
+.card-inverted a:not(.btn),
+.card-inverse a:not(.btn) {
+  color: #f5f5f5;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.card-inverted a:not(.btn):hover,
+.card-inverse a:not(.btn):hover,
+.card-inverted a:not(.btn):focus,
+.card-inverse a:not(.btn):focus {
+  color: #FDB81E;
+  text-decoration: underline;
+}
+.card-inverted a:not(.btn):focus,
+.card-inverse a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.card-inverted .card-header,
+.card-inverse .card-header {
+  border-bottom: 1px solid #000000;
+  background-color: #000000;
+}
+.card-inverted .card-footer,
+.card-inverse .card-footer {
+  border-top: 1px solid #000000;
+  background-color: #000000;
+}
+.card-success {
+  background-color: #72ce6f;
+  border-color: #72ce6f;
+  color: #000000;
+}
+.card-success a:not(.btn) {
+  color: #FDB81E;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.card-success a:not(.btn):hover,
+.card-success a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.card-success a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.card-success .card-header {
+  border-bottom: 1px solid #72ce6f;
+  background-color: #5fc85c;
+}
+.card-success .card-footer {
+  border-top: 1px solid #72ce6f;
+  background-color: #5fc85c;
+}
+.card-info {
+  background-color: #02BFE7;
+  border-color: #02BFE7;
+  color: #000000;
+}
+.card-info a:not(.btn) {
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.card-info a:not(.btn):hover,
+.card-info a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.card-info a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.card-info .card-header {
+  border-bottom: 1px solid #02BFE7;
+  background-color: #02aace;
+}
+.card-info .card-footer {
+  border-top: 1px solid #02BFE7;
+  background-color: #02aace;
+}
+.card-warning {
+  background-color: #F27e31;
+  border-color: #F27e31;
+  color: #ffffff;
+}
+.card-warning a:not(.btn) {
+  color: #000;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.card-warning a:not(.btn):hover,
+.card-warning a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.card-warning a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.card-warning .card-header {
+  border-bottom: 1px solid #F27e31;
+  background-color: #f06f19;
+}
+.card-warning .card-footer {
+  border-top: 1px solid #F27e31;
+  background-color: #f06f19;
+}
+.card-danger {
+  background-color: #d34a37;
+  border-color: #d34a37;
+  color: #ffffff;
+}
+.card-danger a:not(.btn) {
+  color: #000;
+  text-decoration: none;
+  transition: all 0.25s;
+}
+.card-danger a:not(.btn):hover,
+.card-danger a:not(.btn):focus {
+  color: #fff;
+  text-decoration: underline;
+}
+.card-danger a:not(.btn):focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.card-danger .card-header {
+  border-bottom: 1px solid #d34a37;
+  background-color: #c53e2b;
+}
+.card-danger .card-footer {
+  border-top: 1px solid #d34a37;
+  background-color: #c53e2b;
+}
+.card-inverse .card-header,
+.card-inverted .card-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.card-inverse .card-footer,
+.card-inverted .card-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+/* -----------------------------------------
+   ACCENT TEXT
+   /source/less/colorscheme/cs-text-accent.less
+----------------------------------------- */
+.text-accent1 {
+  color: #1f89db;
+}
+.text-accent2 {
+  color: #49bbf8;
+}
+.text-accent3 {
+  color: #35bbaa;
+}
+.text-accent4 {
+  color: #72ce6f;
+}
+.text-accent5 {
+  color: #815ab4;
+}
+.text-accent6 {
+  color: #dd99e5;
+}
+.text-accent7 {
+  color: #d34a37;
+}
+.text-accent8 {
+  color: #F27e31;
+}
+.text-accent9 {
+  color: #f7e455;
+}
+.text-accent-p1 {
+  color: #FDB81E;
+}
+.text-accent-p2 {
+  color: #046B99;
+}
+.text-accent-p3 {
+  color: #323A45;
+}
+.text-accent-s1 {
+  color: #E1F2F7;
+}
+.text-accent-s2 {
+  color: #9FDBF1;
+}
+.text-accent-s3 {
+  color: #02BFE7;
+}
+/* -----------------------------------------
+   IMAGE HELPERS
+   /source/less/cagov/image.less
+----------------------------------------- */
+.section-understated .img-thumbnail,
+.card-understated .img-thumbnail {
+  padding: 4px;
+  background-color: #f5f5f5;
+  border: 1px solid #c2c2c2;
+}
+.section-overstated .img-thumbnail,
+.card-overstated .img-thumbnail {
+  padding: 4px;
+  background-color: #9ae5f5;
+  border: 1px solid #029ebf;
+}
+.section-standout .img-thumbnail,
+.card-standout .img-thumbnail,
+.section-impact .img-thumbnail,
+.card-impact .img-thumbnail {
+  padding: 4px;
+  background-color: #84898f;
+  border: 1px solid #21262d;
+}
+.section-primary .img-thumbnail,
+.card-primary .img-thumbnail {
+  padding: 4px;
+  background-color: #b4d3e0;
+  border: 1px solid #034867;
+}
+.section-inverted .img-thumbnail,
+.card-inverted .img-thumbnail {
+  padding: 4px;
+  background-color: #fff;
+  border: 1px solid #c2c2c2;
+}
+.section-danger .img-thumbnail,
+.card-danger .img-thumbnail {
+  padding: 4px;
+  background-color: #fff;
+  border: 1px solid #c2c2c2;
+}
+.carousel-video-submenu .owl-item.watching img {
+  border-color: #FDB81E;
+}
+/* -----------------------------------------
+   HIGH CONTRAST MODE
+   /source/less/cagov/file.less
+----------------------------------------- */
+html.high-contrast {
+  /* General Reset */
+  /* Additional custom overrides */
+}
+html.high-contrast * {
+  background-color: #000 !important;
+  background-image: none !important;
+  border-color: #ffd600 !important;
+  box-shadow: none !important;
+  color: #ffd600 !important;
+  text-shadow: none !important;
+}
+html.high-contrast .gauge-detail,
+html.high-contrast .gauge-number,
+html.high-contrast .percent-detail {
+  background: none !important;
+}
+html.high-contrast .service-tile .teaser:before {
+  border: none !important;
+}
+html.high-contrast .enableHighContrastMode.active,
+html.high-contrast .disableHighContrastMode.active {
+  background: #ffd600 !important;
+  color: #000 !important;
+}
+html.high-contrast .close {
+  opacity: 1;
+}
+/* -----------------------------------------
+   SHAME FILE
+
+   Intended for development or debugging aid.
+   This file should be empty when deploying to production.
+   All styles should be moved to their appropriate file.
+
+   /source/less/cagov/colorscheme/_cs-shame.less
+----------------------------------------- */
+@media (min-width: 768px) {
+  .global-header.fixed {
+    z-index: 7;
+  }
+  .ask-group {
+    z-index: 5;
+    position: fixed;
+  }
+  .search-results-container {
+    z-index: 6;
+    position: absolute;
+    top: 155px;
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  .ask-group {
+    float: none;
+    padding-bottom: 1px;
+  }
+}
+@media (min-width: 768px) {
+  .fixed.compact .search-container {
+    opacity: 0;
+  }
+  .active-search .fixed.compact .search-container,
+  .fixed.compact .search-container.active {
+    opacity: 1;
+    top: 51px;
+  }
+}
+.dev.nav-item .sub-nav {
+  display: block;
+}
