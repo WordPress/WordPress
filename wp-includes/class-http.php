@@ -356,6 +356,7 @@ class WP_Http {
 			$options['proxy'] = new Requests_Proxy_HTTP( $proxy->host() . ':' . $proxy->port() );
 
 			if ( $proxy->use_authentication() ) {
+				$options['proxy']->use_authentication = true;
 				$options['proxy']->user = $proxy->username();
 				$options['proxy']->pass = $proxy->password();
 			}
