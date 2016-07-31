@@ -2,9 +2,9 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Twenty Eleven 2.4\n"
+"Project-Id-Version: Twenty Eleven 2.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/twentyeleven\n"
-"POT-Creation-Date: 2016-04-05 09:48:39+00:00\n"
+"POT-Creation-Date: 2016-07-29 15:41:03+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -266,7 +266,7 @@ msgstr ""
 msgid "Featured"
 msgstr ""
 
-#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 2.4)  #-#-#-#-#
+#. #-#-#-#-#  twentyeleven.pot (Twenty Eleven 2.5)  #-#-#-#-#
 #. Author URI of the plugin/theme
 #: footer.php:28
 msgid "https://wordpress.org/"
@@ -563,11 +563,11 @@ msgstr ""
 msgid "% <span class=\"reply\">comments &rarr;</span>"
 msgstr ""
 
-#: inc/widgets.php:179
+#: inc/widgets.php:182
 msgid "Title:"
 msgstr ""
 
-#: inc/widgets.php:182
+#: inc/widgets.php:185
 msgid "Number of posts to show:"
 msgstr ""
 
