@@ -29,7 +29,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="wrap about-wrap">
 		<h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
 
-		<div class="about-text"><?php printf( __( 'Thank you for updating! WordPress %s streamlines your workflow, whether you&#8217;re writing or building your site.' ), $display_version ); ?></div>
+		<p class="about-text"><?php printf( ( 'Thank you for updating to the latest version. WordPress %s changes a lot behind the scenes to make your WordPress experience even better!' ), $display_version ); ?></p>
 		<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 		<h2 class="nav-tab-wrapper wp-clearfix">
@@ -39,146 +39,121 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</h2>
 
 		<div class="headline-feature feature-video" style="background-color:#191E23;">
+			<?php /*
 			<iframe width="1050" height="591" src="<?php echo esc_url( $video_url ); ?>" frameborder="0" allowfullscreen></iframe>
 			<script src="https://videopress.com/videopress-iframe.js"></script>
+			*/ ?>
 		</div>
 
 		<hr>
 
-		<div class="feature-section two-col">
-			<h2><?php _e( 'Editing Improvements' ); ?></h2>
-			<div class="col">
-				<img src="https://s.w.org/images/core/4.5/link-edit-560.png" alt="" srcset="https://s.w.org/images/core/4.5/link-edit-1000.png 1000w, https://s.w.org/images/core/4.5/link-edit-800.png 800w, https://s.w.org/images/core/4.5/link-edit-680.png 680w, https://s.w.org/images/core/4.5/link-edit-560.png 560w, https://s.w.org/images/core/4.5/link-edit-400.png 400w, https://s.w.org/images/core/4.5/link-edit-280.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
-				<h3><?php _e( 'Inline Linking' ); ?></h3>
-				<p><?php _e( 'Stay focused on your writing with a less distracting interface that keeps you in place and allows you to easily link to your content.' ); ?></p>
-			</div>
-			<div class="col">
-				<img src="https://s.w.org/images/core/4.5/formatting-560.png" alt="" srcset="https://s.w.org/images/core/4.5/formatting-1000.png 1000w, https://s.w.org/images/core/4.5/formatting-800.png 800w, https://s.w.org/images/core/4.5/formatting-680.png 680w, https://s.w.org/images/core/4.5/formatting-560.png 560w, https://s.w.org/images/core/4.5/formatting-400.png 400w, https://s.w.org/images/core/4.5/formatting-280.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
-				<h3><?php _e( 'Formatting Shortcuts' ); ?></h3>
-				<p><?php _e( 'Do you enjoy using formatting shortcuts for lists and headings? Now they&#8217;re even more useful, with horizontal lines and <code>&lt;code&gt;</code>.' ); ?></p>
+		<div class="streamlined-updates feature-section one-col">
+			<h2><?php echo( 'Streamlined Updates' ); ?></h2>
+			<p><?php echo( 'Inline Updates replaces progress updates with a simpler and more straight forward experience when installing, updating, and deleting plugins and themes.' ); ?></p>
+			<div class="streamlined-updates-demo">
+				<!-- Interactive Demo goes here -->
 			</div>
 		</div>
 
 		<hr />
 
+		<div class="native-fonts feature-section one-col">
+			<h2><?php echo( 'Native Fonts' ); ?></h2>
+			<p><?php echo( 'The WordPress dashboard now uses the fonts that come with your device, allowing it to load faster and feel more like a native application.' ); ?></p>
+			<img src="https://cldup.com/B4PdQgrZzH.png" alt="" srcset=""/>
+		</div>
+
+		<hr>
+
 		<div class="feature-section two-col">
-			<h2><?php _e( 'Customization Improvements' ); ?></h2>
+			<h2><?php echo( 'Editor Improvements' ); ?></h2>
 			<div class="col">
-				<img src="https://s.w.org/images/core/4.5/preview-icons-560.png" alt="" srcset="https://s.w.org/images/core/4.5/preview-icons-1000.png 1000w, https://s.w.org/images/core/4.5/preview-icons-800.png 800w, https://s.w.org/images/core/4.5/preview-icons-680.png 680w, https://s.w.org/images/core/4.5/preview-icons-560.png 560w, https://s.w.org/images/core/4.5/preview-icons-400.png 400w, https://s.w.org/images/core/4.5/preview-icons-280.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
-				<h3><?php _e( 'Live Responsive Previews' ); ?></h3>
-				<p><?php _e( 'Make sure your site looks great on all screens!' ); ?>
-					<?php
-					if ( current_user_can( 'customize' ) ) {
-						$customize_url = admin_url( 'customize.php' );
-						printf(
-							/* translators: %s: URL to customizer */
-							__( 'Preview mobile, tablet, and desktop views directly in the <a href="%s" class="load-customize">customizer</a>.' ),
-							esc_url( $customize_url )
-						);
-					} else {
-						_e( 'Preview mobile, tablet, and desktop views directly in the customizer.' );
-					}
-				?></p>
+				<img src="https://cldup.com/43RWsTMoXS.png" alt="" srcset="https://cldup.com/43RWsTMoXS.png 1000w, https://cldup.com/43RWsTMoXS.png 800w, https://cldup.com/43RWsTMoXS.png 680w, https://cldup.com/43RWsTMoXS.png 560w, https://cldup.com/43RWsTMoXS.png 400w, https://cldup.com/43RWsTMoXS.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
+				<h3><?php echo( 'Broken Link Checker' ); ?></h3>
+				<p><?php echo( 'Links are the foundation of the Internet&colon; when they break, so does the web. Now when you edit a post, you instantly see when a link you add is broken.' ); ?></p>
 			</div>
 			<div class="col">
-				<img src="https://s.w.org/images/core/4.5/custom-logos-560.png" alt="" srcset="https://s.w.org/images/core/4.5/custom-logos-1000.png 1000w, https://s.w.org/images/core/4.5/custom-logos-800.png 800w, https://s.w.org/images/core/4.5/custom-logos-680.png 680w, https://s.w.org/images/core/4.5/custom-logos-560.png 560w, https://s.w.org/images/core/4.5/custom-logos-400.png 400w, https://s.w.org/images/core/4.5/custom-logos-280.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
-				<h3><?php _e( 'Custom Logos' ); ?></h3>
-				<p><?php _e( 'Themes can now support logos for your business or brand.' ); ?>
-					<?php
-					if ( current_theme_supports( 'custom-logo' ) && current_user_can( 'customize' ) ) {
-						printf(
-							/* translators: %s: URL to Site Identity section of the customizer */
-							__( 'Your theme supports custom logos! Try it out right now in the <a href="%s" class="load-customize">Site Identity</a> section of the customizer.' ),
-							esc_url( add_query_arg( array( 'autofocus' => array( 'section' => 'title_tagline' ) ), $customize_url ) )
-						);
-					} else {
-						_e( 'The Twenty Fifteen and Twenty Sixteen themes have been updated to support custom logos, which can be found in the Site Identity section of the customizer.' );
-					}
-					?></p>
+				<img src="https://cldup.com/1r4sPoCL8d.png" alt="" srcset="https://cldup.com/1r4sPoCL8d.png 1000w, https://cldup.com/1r4sPoCL8d.png 800w, https://cldup.com/1r4sPoCL8d.png 680w, https://cldup.com/1r4sPoCL8d.png 560w, https://cldup.com/1r4sPoCL8d.png 400w, https://cldup.com/1r4sPoCL8d.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
+				<h3><?php echo( 'Simplified Disaster Recovery' ); ?></h3>
+				<p><?php echo( 'As you type, WordPress saves your content to the browser. Recovering saved content is even easier with WordPress 4.6.' ); ?></p>
 			</div>
 		</div>
 
 		<hr />
 
 		<div class="changelog">
-			<h2><?php _e( 'Under the Hood' ); ?></h2>
+			<h2><?php echo( 'Under the Hood' ); ?></h2>
 
 			<div class="under-the-hood three-col">
 				<div class="col">
-					<h3><?php _e( 'Selective Refresh' ); ?></h3>
-					<p><?php
-						printf(
-							/* translators: %s: URL to the development post of the new feature */
-							__( 'The customizer now supports a <a href="%s">comprehensive framework</a> for rendering parts of the preview without rewriting your PHP code in JavaScript.' ),
-							'https://make.wordpress.org/core/2016/02/16/selective-refresh-in-the-customizer/'
-						);
-						if ( current_user_can( 'customize' ) && current_user_can( 'edit_theme_options' ) ) {
-							if ( current_theme_supports( 'menus' ) && ! current_theme_supports( 'customize-selective-refresh-widgets' ) ) {
-								printf(
-									/* translators: %s: URL to Menus section of the customizer  */
-									' ' . __( 'See it in action with <a href="%s" class="load-customize">Menus</a>.' ),
-									esc_url( add_query_arg( array( 'autofocus' => array( 'panel' => 'nav_menus' ) ), $customize_url ) )
-								);
-							} elseif ( current_theme_supports( 'customize-selective-refresh-widgets' ) ) { // If widgets are supported, menus are also because of the menus widget.
-								printf(
-									/* translators: 1: URL to Menus section of the customizer, 2: URL to Widgets section of the customizer */
-									' ' . __( 'See it in action with <a href="%1$s" class="load-customize">Menus</a> or <a href="%2$s" class="load-customize">Widgets</a>.' ),
-									esc_url( add_query_arg( array( 'autofocus' => array( 'panel' => 'nav_menus' ) ), $customize_url ) ),
-									esc_url( add_query_arg( array( 'autofocus' => array( 'panel' => 'widgets' ) ), $customize_url ) )
-								);
-							}
-						}
-					?></p>
+					<h3><?php echo( 'Performance Everywhere' ); ?></h3>
+					<p><?php echo( 'A brand new technology is going to boost your site&#8217;s performance. Resource hints allow browsers to perform background tasks, WordPress 4.6 adds them automatically for your styles and scripts.' ); ?></p>
 				</div>
 				<div class="col">
-					<h3><?php _e( 'Smart Image Resizing' ); ?></h3>
+					<h3><?php echo( 'Robust Requests' ); ?></h3>
+					<p><?php echo( 'The HTTP API now leverages the Requests library, improving HTTP standard support and adding case-insensitive headers, parallel HTTP requests, and support for Internationalized Domain Names.' ); ?></p>
+				</div>
+				<div class="col">
+					<h3><?php
+						/* translators: 1: WP_Term_Query, 2: WP_Post_Type */
+						printf( ( '%1$s and %2$s' ), '<code>WP_Term_Query</code>', '<code>WP_Post_Type</code>' );
+					?></h3>
 					<p><?php
 						printf(
-							/* translators: %s: URL to the development post of the new feature */
-							__( 'Generated images now load up to 50&#37; faster with no noticeable quality loss. <a href="%s">It&#8217;s really cool</a>.' ),
-							'https://make.wordpress.org/core/2016/03/12/performance-improvements-for-images-in-wordpress-4-5/'
+							/* translators: 1: WP_Term_Query, 2: WP_Post_Type */
+							( 'A new %1$s class adds flexibility to query term information and a new %2$s object makes interacting with post types more predictable and intuitive in code.' ),
+							'<code>WP_Term_Query</code>',
+							'<code>WP_Post_Type</code>'
 						);
 					?></p>
 				</div>
+			</div>
+
+			<div class="under-the-hood three-col">
 				<div class="col">
-					<h3><?php _e( 'JavaScript Library Updates' ); ?></h3>
-					<p><?php _e( 'jQuery 1.12.3, jQuery Migrate 1.4.0, Backbone 1.2.3, and Underscore 1.8.3 are bundled.' ); ?></p>
+					<h3><?php echo( 'Meta Registration API' ); ?></h3>
+					<p><?php echo( 'The Meta Registration API has been expanded to support types, descriptions, and REST API visibility.' ); ?></p>
+				</div>
+				<div class="col">
+					<h3><?php echo( 'Timely Translations' ); ?></h3>
+					<p><?php echo( 'Preference is now given to <a href="https://translate.wordpress.org/">community translations</a> for plugins and themes served from WordPress.org which allows WordPress to load them just-in-time.' ); ?></p>
+				</div>
+				<div class="col">
+					<h3><?php echo( 'JavaScript Library Updates' ); ?></h3>
+					<p><?php echo( 'Masonry 3.3.2, imagesLoaded 3.2.0, MediaElement.js 2.22.0, TinyMCE 4.4.1, and Backbone.js 1.3.3 are bundled.' ); ?></p>
 				</div>
 			</div>
 
 			<div class="under-the-hood two-col">
 				<div class="col">
-					<h3><?php _e( 'Script Loader Improvements' ); ?></h3>
-					<p><?php
-						printf(
-							/* translators: %s: wp_add_inline_script() */
-							__( 'Better support has been added for script header/footer dependencies. New %s enables adding extra code to registered scripts.' ),
-							'<code><a href="https://make.wordpress.org/core/2016/03/08/enhanced-script-loader-in-wordpress-4-5/">wp_add_inline_script()</a></code>'
-						);
-					?></p>
+					<h3><?php echo( 'Customizer APIs for Setting Validation and Notifications' ); ?></h3>
+					<p><?php echo( 'Settings now have an API for enforcing validation constraints. Likewise Customizer controls now support notifications which are used to display validation errors instead of failing silently.' ); ?></p>
 				</div>
 				<div class="col">
-					<h3><?php _e( 'Better Embed Templates' ); ?></h3>
+					<h3><?php echo( 'Multisite, now faster than ever' ); ?></h3>
 					<p><?php
+						/* translators: 1: WP_Site_Query, 2: WP_Network_Query */
 						printf(
-							/* translators: %s: URL to the development post of the new feature */
-							__( 'Embed templates have been split into parts and can be <a href="%s">directly overridden by themes</a> via the template hierarchy.' ),
-							'https://make.wordpress.org/core/2016/03/11/embeds-changes-in-wordpress-4-5/'
+							( 'Cached and comprehensive site queries improve your multisite admin experience. Also, %1$s and %2$s make crafting robust queries simpler.' ),
+							'<code>WP_Site_Query</code>',
+							'<code>WP_Network_Query</code>'
 						);
-					?></p>
+						?></p>
 				</div>
 			</div>
-
-			<div class="return-to-dashboard">
-				<?php if ( current_user_can( 'update_core' ) && isset( $_GET['updated'] ) ) : ?>
-					<a href="<?php echo esc_url( self_admin_url( 'update-core.php' ) ); ?>">
-						<?php is_multisite() ? _e( 'Return to Updates' ) : _e( 'Return to Dashboard &rarr; Updates' ); ?>
-					</a> |
-				<?php endif; ?>
-				<a href="<?php echo esc_url( self_admin_url() ); ?>"><?php is_blog_admin() ? _e( 'Go to Dashboard &rarr; Home' ) : _e( 'Go to Dashboard' ); ?></a>
-			</div>
-
 		</div>
+
+		<hr />
+
+		<div class="return-to-dashboard">
+			<?php if ( current_user_can( 'update_core' ) && isset( $_GET['updated'] ) ) : ?>
+				<a href="<?php echo esc_url( self_admin_url( 'update-core.php' ) ); ?>">
+					<?php is_multisite() ? _e( 'Return to Updates' ) : _e( 'Return to Dashboard &rarr; Updates' ); ?>
+				</a> |
+			<?php endif; ?>
+			<a href="<?php echo esc_url( self_admin_url() ); ?>"><?php is_blog_admin() ? _e( 'Go to Dashboard &rarr; Home' ) : _e( 'Go to Dashboard' ); ?></a>
+		</div>
+
 	</div>
 <?php
 
