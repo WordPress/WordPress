@@ -16,8 +16,21 @@
 	color: #555;
 }
 
+/* The `edit-menu` button uses also the `button-link` class. */
 .customize-control-nav_menu_location .edit-menu {
-	margin-top: 1px;
+	margin-right: 6px;
+	vertical-align: middle;
+	color: #0073aa;
+	text-decoration: underline;
+}
+
+.customize-control-nav_menu_location .edit-menu:hover,
+.customize-control-nav_menu_location .edit-menu:active {
+	color: #00a0d2;
+}
+
+.customize-control-nav_menu_location .edit-menu:focus {
+	color: #124964;
 }
 
 .wp-customizer .menu-item-bar .menu-item-handle,
