@@ -88,8 +88,17 @@
 /* 1.1 - Typography */
 
 .about-wrap p {
-	line-height: 1.6em;
+	line-height: 1.5;
 	font-size: 14px;
+	max-width: 38em;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.about-wrap .changelog p {
+	max-width: 100%;
+	margin-right: 0;
+	margin-left: 0;
 }
 
 .about-wrap h1 {
@@ -109,17 +118,10 @@
 	text-align: center;
 }
 
-.about-wrap .changelog h2,
 .about-wrap h3 {
 	margin: 1.25em 0 .6em;
 	font-size: 1.25em;
-	line-height: 1.5em;
-}
-
-.about-wrap .changelog h2 {
-	margin-top: 40px;
-	font-weight: 600;
-	text-align: right;
+	line-height: 1.5;
 }
 
 .about-wrap h4 {
@@ -194,7 +196,8 @@
 	overflow: hidden;
 }
 
-.about-wrap .under-the-hood:nth-of-type(2n) {
+.about-wrap .under-the-hood:nth-of-type(2n),
+.about-wrap .under-the-hood:nth-of-type(3n) {
 	margin-top: 3em;
 }
 
