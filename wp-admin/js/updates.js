@@ -249,7 +249,7 @@
 			wp.updates.queueChecker();
 		}
 
-		if ( 'undefined' !== typeof response.debug ) {
+		if ( 'undefined' !== typeof response.debug && window.console && window.console.log ) {
 			_.map( response.debug, function( message ) {
 				window.console.log( $( '<p />' ).html( message ).text() );
 			} );
@@ -1349,7 +1349,6 @@
 				break;
 
 			default:
-				window.console.error( 'Failed to execute queued update job.', job );
 				break;
 		}
 	};
@@ -1938,7 +1937,6 @@
 					break;
 
 				default:
-					window.console.error( 'The page "%s" is not white-listed for bulk action handling.', pagenow );
 					return;
 			}
 
@@ -1970,7 +1968,6 @@
 					break;
 
 				default:
-					window.console.error( 'Failed to identify bulk action: %s', bulkAction );
 					return;
 			}
 
