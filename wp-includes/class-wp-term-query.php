@@ -219,7 +219,7 @@ class WP_Term_Query {
 			$query = $this->query_vars;
 		}
 
-		$taxonomies = isset( $query['taxonomy'] ) ? $query['taxonomy'] : null;
+		$taxonomies = isset( $query['taxonomy'] ) ? (array) $query['taxonomy'] : null;
 
 		/**
 		 * Filters the terms query default arguments.
