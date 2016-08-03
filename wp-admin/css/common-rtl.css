@@ -3024,7 +3024,8 @@ img {
 
 /* Metabox collapse arrow indicators */
 .js .sidebar-name .sidebar-name-arrow:before,
-.js .meta-box-sortables .postbox .toggle-indicator:before {
+.js .meta-box-sortables .postbox .toggle-indicator:before,
+.bulk-action-notice .toggle-indicator:before {
 	content: "\f142";
 	display: inline-block;
 	font: normal 20px/1 dashicons;
@@ -3035,7 +3036,8 @@ img {
 }
 
 .js .widgets-holder-wrap.closed .sidebar-name-arrow:before,
-.js .meta-box-sortables .postbox.closed .handlediv .toggle-indicator:before {
+.js .meta-box-sortables .postbox.closed .handlediv .toggle-indicator:before,
+.bulk-action-notice .bulk-action-errors-collapsed .toggle-indicator:before {
 	content: "\f140";
 }
 
@@ -3063,6 +3065,12 @@ img {
 
 .rtl.js .postbox .handlediv .toggle-indicator:before {
 	text-indent: 1px; /* account for the dashicon alignment */
+}
+
+.bulk-action-notice .toggle-indicator:before {
+	line-height: 16px;
+	vertical-align: top;
+	color: #72777c;
 }
 
 .js .postbox .handlediv:focus {
