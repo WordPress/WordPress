@@ -62,7 +62,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Prepares the list of sites for display.
 	 *
 	 * @since 3.1.0
-	 * @since 4.6.0 Converted to use get_sites()
 	 *
 	 * @global string $s
 	 * @global string $mode
