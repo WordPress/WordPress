@@ -453,6 +453,13 @@
 				$message = $( 'tr[data-slug="' + response.slug + '"]' ).find( '.update-message' );
 			}
 			$message.removeClass( 'updating-message notice-warning' ).addClass( 'notice-error' ).find( 'p' ).html( errorMessage );
+
+			if ( response.pluginName ) {
+				$message.find( 'p' )
+					.attr( 'aria-label', wp.updates.l10n.updateFailedLabel.replace( '%s', response.pluginName ) );
+			} else {
+				$message.find( 'p' ).removeAttr( 'aria-label' );
+			}
 		} else if ( 'plugin-install' === pagenow || 'plugin-install-network' === pagenow ) {
 			$card = $( '.plugin-card-' + response.slug )
 				.addClass( 'plugin-card-update-failed' )
@@ -467,6 +474,8 @@
 			if ( response.pluginName ) {
 				$card.find( '.update-now' )
 					.attr( 'aria-label', wp.updates.l10n.updateFailedLabel.replace( '%s', response.pluginName ) );
+			} else {
+				$card.find( '.update-now' ).removeAttr( 'aria-label' );
 			}
 
 			$card.on( 'click', '.notice.is-dismissible .notice-dismiss', function() {
@@ -1591,14 +1600,16 @@
 		// Change buttons of all running updates.
 		$( '.button.updating-message' )
 			.removeClass( 'updating-message' )
-			.attr( 'aria-label', wp.updates.l10n.updateFailedShort )
+			.removeAttr( 'aria-label' )
 			.prop( 'disabled', true )
 			.text( wp.updates.l10n.updateFailedShort );
 
 		$( '.updating-message:not(.button):not(.thickbox)' )
 			.removeClass( 'updating-message notice-warning' )
 			.addClass( 'notice-error' )
-			.find( 'p' ).text( errorMessage );
+			.find( 'p' )
+				.removeAttr( 'aria-label' )
+				.text( errorMessage );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
 
