@@ -837,7 +837,7 @@ function get_post_type( $post = null ) {
  * Retrieves a post type object by name.
  *
  * @since 3.0.0
- * @since 4.6.0 Converted to use WP_Post_Type.
+ * @since 4.6.0 Object returned is now an instance of WP_Post_Type.
  *
  * @global array $wp_post_types List of post types.
  *
@@ -900,7 +900,7 @@ function get_post_types( $args = array(), $output = 'names', $operator = 'and' )
  * @since 3.0.0 The `show_ui` argument is now enforced on the new post screen.
  * @since 4.4.0 The `show_ui` argument is now enforced on the post type listing
  *              screen and post editing screen.
- * @since 4.6.0 Converted to use WP_Post_Type.
+ * @since 4.6.0 Post type object returned is now an instance of WP_Post_Type.
  *
  * @global array $wp_post_types List of post types.
  *
@@ -1058,7 +1058,6 @@ function register_post_type( $post_type, $args = array() ) {
  * Can not be used to unregister built-in post types.
  *
  * @since 4.5.0
- * @since 4.6.0 Converted to use WP_Post_Type.
  *
  * @global array $wp_post_types List of post types.
  *

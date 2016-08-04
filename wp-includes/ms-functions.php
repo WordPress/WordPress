@@ -296,7 +296,6 @@ function get_blog_permalink( $blog_id, $post_id ) {
  * $domain is 'blog1.example.com' and $path is '/'.
  *
  * @since MU 2.6.5
- * @since 4.6.0 Converted to use get_sites()
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1252,7 +1251,6 @@ Disable these notifications: %3$s'), $user->user_login, wp_unslash( $_SERVER['RE
  * that each blogname is unique.
  *
  * @since MU
- * @since 4.6.0 Converted to use get_sites()
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -2259,7 +2257,6 @@ function wp_maybe_update_network_user_counts() {
  * Update the network-wide site count.
  *
  * @since 3.7.0
- * @since 4.6.0 Converted to use get_sites()
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  */

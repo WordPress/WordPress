@@ -468,7 +468,7 @@ class WP_Customize_Setting {
 	 * the value of the setting.
 	 *
 	 * @since 3.4.0
-	 * @since 4.6.0 Return the result of updating the value.
+	 *
 	 * @access public
 	 *
 	 * @return false|void False if cap check fails or value isn't set or is invalid.
