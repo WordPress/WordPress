@@ -244,7 +244,7 @@
 	 * @param {string=} response.errorCode Optional. Error code for an error that occurred.
 	 */
 	wp.updates.ajaxAlways = function( response ) {
-		if ( ! response.errorCode && 'unable_to_connect_to_filesystem' !== response.errorCode ) {
+		if ( ! response.errorCode || 'unable_to_connect_to_filesystem' !== response.errorCode ) {
 			wp.updates.ajaxLocked = false;
 			wp.updates.queueChecker();
 		}
@@ -1533,7 +1533,7 @@
 	 * @returns {boolean} Whether there is an error that needs to be handled or not.
 	 */
 	wp.updates.maybeHandleCredentialError = function( response, action ) {
-		if ( response.errorCode && 'unable_to_connect_to_filesystem' === response.errorCode ) {
+		if ( wp.updates.shouldRequestFilesystemCredentials && response.errorCode && 'unable_to_connect_to_filesystem' === response.errorCode ) {
 			wp.updates.credentialError( response, action );
 			return true;
 		}

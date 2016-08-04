@@ -3345,15 +3345,24 @@ function wp_ajax_install_theme() {
 		wp_send_json_error( $status );
 	}
 
-	$upgrader = new Theme_Upgrader( new Automatic_Upgrader_Skin() );
+	$skin     = new WP_Ajax_Upgrader_Skin();
+	$upgrader = new Theme_Upgrader( $skin );
 	$result   = $upgrader->install( $api->download_link );
 
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		$status['debug'] = $upgrader->skin->get_upgrade_messages();
+		$status['debug'] = $skin->get_upgrade_messages();
 	}
 
 	if ( is_wp_error( $result ) ) {
+		$status['errorCode']    = $result->get_error_code();
 		$status['errorMessage'] = $result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( is_wp_error( $skin->result ) ) {
+		$status['errorCode']    = $skin->result->get_error_code();
+		$status['errorMessage'] = $skin->result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( $skin->get_errors()->get_error_code() ) {
+		$status['errorMessage'] = $skin->get_error_messages();
 		wp_send_json_error( $status );
 	} elseif ( is_null( $result ) ) {
 		global $wp_filesystem;
@@ -3437,14 +3446,22 @@ function wp_ajax_update_theme() {
 		wp_update_themes();
 	}
 
-	$upgrader = new Theme_Upgrader( new Automatic_Upgrader_Skin() );
+	$skin     = new WP_Ajax_Upgrader_Skin();
+	$upgrader = new Theme_Upgrader( $skin );
 	$result   = $upgrader->bulk_upgrade( array( $stylesheet ) );
 
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		$status['debug'] = $upgrader->skin->get_upgrade_messages();
+		$status['debug'] = $skin->get_upgrade_messages();
 	}
 
-	if ( is_array( $result ) && ! empty( $result[ $stylesheet ] ) ) {
+	if ( is_wp_error( $skin->result ) ) {
+		$status['errorCode']    = $skin->result->get_error_code();
+		$status['errorMessage'] = $skin->result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( $skin->get_errors()->get_error_code() ) {
+		$status['errorMessage'] = $skin->get_error_messages();
+		wp_send_json_error( $status );
+	} elseif ( is_array( $result ) && ! empty( $result[ $stylesheet ] ) ) {
 
 		// Theme is already at the latest version.
 		if ( true === $result[ $stylesheet ] ) {
@@ -3458,10 +3475,6 @@ function wp_ajax_update_theme() {
 		}
 
 		wp_send_json_success( $status );
-	} elseif ( is_wp_error( $upgrader->skin->result ) ) {
-		$status['errorCode']    = $upgrader->skin->result->get_error_code();
-		$status['errorMessage'] = $upgrader->skin->result->get_error_message();
-		wp_send_json_error( $status );
 	} elseif ( false === $result ) {
 		global $wp_filesystem;
 
@@ -3594,15 +3607,24 @@ function wp_ajax_install_plugin() {
 
 	$status['pluginName'] = $api->name;
 
-	$upgrader = new Plugin_Upgrader( new Automatic_Upgrader_Skin() );
+	$skin     = new WP_Ajax_Upgrader_Skin();
+	$upgrader = new Plugin_Upgrader( $skin );
 	$result   = $upgrader->install( $api->download_link );
 
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		$status['debug'] = $upgrader->skin->get_upgrade_messages();
+		$status['debug'] = $skin->get_upgrade_messages();
 	}
 
 	if ( is_wp_error( $result ) ) {
+		$status['errorCode']    = $result->get_error_code();
 		$status['errorMessage'] = $result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( is_wp_error( $skin->result ) ) {
+		$status['errorCode']    = $skin->result->get_error_code();
+		$status['errorMessage'] = $skin->result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( $skin->get_errors()->get_error_code() ) {
+		$status['errorMessage'] = $skin->get_error_messages();
 		wp_send_json_error( $status );
 	} elseif ( is_null( $result ) ) {
 		global $wp_filesystem;
@@ -3680,19 +3702,22 @@ function wp_ajax_update_plugin() {
 
 	wp_update_plugins();
 
-	$skin     = new Automatic_Upgrader_Skin();
+	$skin     = new WP_Ajax_Upgrader_Skin();
 	$upgrader = new Plugin_Upgrader( $skin );
 	$result   = $upgrader->bulk_upgrade( array( $plugin ) );
 
 	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-		$status['debug'] = $upgrader->skin->get_upgrade_messages();
+		$status['debug'] = $skin->get_upgrade_messages();
 	}
 
-	if ( is_array( $result ) && empty( $result[ $plugin ] ) && is_wp_error( $skin->result ) ) {
-		$result = $skin->result;
-	}
-
-	if ( is_array( $result ) && ! empty( $result[ $plugin ] ) ) {
+	if ( is_wp_error( $skin->result ) ) {
+		$status['errorCode']    = $skin->result->get_error_code();
+		$status['errorMessage'] = $skin->result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( $skin->get_errors()->get_error_code() ) {
+		$status['errorMessage'] = $skin->get_error_messages();
+		wp_send_json_error( $status );
+	} elseif ( is_array( $result ) && ! empty( $result[ $plugin ] ) ) {
 		$plugin_update_data = current( $result );
 
 		/*
@@ -3716,9 +3741,6 @@ function wp_ajax_update_plugin() {
 			$status['newVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
 		}
 		wp_send_json_success( $status );
-	} elseif ( is_wp_error( $result ) ) {
-		$status['errorMessage'] = $result->get_error_message();
-		wp_send_json_error( $status );
 	} elseif ( false === $result ) {
 		global $wp_filesystem;
 
