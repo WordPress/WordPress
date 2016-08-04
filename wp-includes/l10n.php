@@ -867,7 +867,7 @@ function _load_textdomain_just_in_time( $domain ) {
  * @global array $l10n
  *
  * @param string $domain Text domain. Unique identifier for retrieving translated strings.
- * @return NOOP_Translations A Translations instance.
+ * @return Translations|NOOP_Translations A Translations instance.
  */
 function get_translations_for_domain( $domain ) {
 	global $l10n;
