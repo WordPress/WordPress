@@ -333,13 +333,6 @@ class Requests_Transport_cURL implements Requests_Transport {
 				curl_setopt($this->handle, CURLOPT_POST, true);
 				curl_setopt($this->handle, CURLOPT_POSTFIELDS, $data);
 				break;
-			case Requests::PATCH:
-			case Requests::PUT:
-			case Requests::DELETE:
-			case Requests::OPTIONS:
-				curl_setopt($this->handle, CURLOPT_CUSTOMREQUEST, $options['type']);
-				curl_setopt($this->handle, CURLOPT_POSTFIELDS, $data);
-				break;
 			case Requests::HEAD:
 				curl_setopt($this->handle, CURLOPT_CUSTOMREQUEST, $options['type']);
 				curl_setopt($this->handle, CURLOPT_NOBODY, true);
@@ -347,6 +340,15 @@ class Requests_Transport_cURL implements Requests_Transport {
 			case Requests::TRACE:
 				curl_setopt($this->handle, CURLOPT_CUSTOMREQUEST, $options['type']);
 				break;
+			case Requests::PATCH:
+			case Requests::PUT:
+			case Requests::DELETE:
+			case Requests::OPTIONS:
+			default:
+				curl_setopt($this->handle, CURLOPT_CUSTOMREQUEST, $options['type']);
+				if (!empty($data)) {
+					curl_setopt( $this->handle, CURLOPT_POSTFIELDS, $data );
+				}
 		}
 
 		// cURL requires a minimum timeout of 1 second when using the system
