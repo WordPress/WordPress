@@ -677,6 +677,8 @@ function wp_default_scripts( &$scripts ) {
 				/* translators: %s: Importer name */
 				'activateImporterLabel'      => __( 'Run %s' ),
 				'unknownError'               => __( 'An unknown error occurred' ),
+				'connectionError'            => __( 'Connection lost or the server is busy. Please try again later.' ),
+				'nonceError'                 => __( 'An error has occurred. Please reload the page and try again.' ),
 				'pluginsFound'               => __( 'Number of plugins found: %d' ),
 				'noPluginsFound'             => __( 'No plugins found. Try a different search.' ),
 			),
