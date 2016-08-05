@@ -1562,8 +1562,12 @@
 			return true;
 		}
 
-		if ( _.isString( response ) ) {
+		if ( _.isString( response ) && '-1' === response ) {
+			error = wp.updates.l10n.nonceError;
+		} else if ( _.isString( response ) ) {
 			error = response;
+		} else if ( 'undefined' !== typeof response.readyState && 0 === response.readyState ) {
+			error = wp.updates.l10n.connectionError;
 		} else if ( _.isString( response.responseText ) && '' !== response.responseText ) {
 			error = response.responseText;
 		} else if ( _.isString( response.statusText ) ) {
@@ -1584,6 +1588,8 @@
 				break;
 		}
 
+		// Messages are escaped, remove HTML tags to make them more readable.
+		error = error.replace( /<[\/a-z][^<>]*>/gi, '' );
 		errorMessage = errorMessage.replace( '%s', error );
 
 		// Add admin notice.
