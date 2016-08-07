@@ -641,7 +641,8 @@ class WP_Term_Query {
 				$cache = array_map( 'get_term', $cache );
 			}
 
-			return $cache;
+			$this->terms = $cache;
+			return $this->terms;
 		}
 
 		if ( 'count' == $_fields ) {
