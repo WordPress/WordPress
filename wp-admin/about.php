@@ -9,8 +9,28 @@
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-if ( current_user_can( 'customize' ) ) {
-	wp_enqueue_script( 'customize-loader' );
+if ( ! wp_is_mobile() ) {
+	wp_enqueue_style( 'wp-mediaelement' );
+	wp_enqueue_script( 'wp-mediaelement' );
+	wp_localize_script( 'mediaelement', '_wpmejsSettings', array(
+		'pluginPath'        => includes_url( 'js/mediaelement/', 'relative' ),
+		'pauseOtherPlayers' => '',
+	) );
+}
+
+/**
+ * Replaces the height and width attributes with values for full size.
+ *
+ * wp_video_shortcode() limits the width to 640px.
+ *
+ * @since 4.6.0
+ * @ignore
+ *
+ * @param $output Video shortcode HTML output.
+ * @return string Filtered HTML content to display video.
+ */
+function _wp_override_admin_video_width_limit( $output ) {
+	return str_replace( array( '640', '384' ), array( '1050', '630' ), $output );
 }
 
 $video_url = 'https://videopress.com/embed/scFdjVo6?hd=true';
@@ -50,9 +70,25 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="streamlined-updates feature-section one-col">
 			<h2><?php echo( 'Streamlined Updates' ); ?></h2>
 			<p><?php echo( 'Inline Updates replaces progress updates with a simpler and more straight forward experience when installing, updating, and deleting plugins and themes.' ); ?></p>
-			<div class="streamlined-updates-demo">
-				<!-- Interactive Demo goes here -->
-			</div>
+			<?php
+			if ( ! wp_is_mobile() ) {
+				add_filter( 'wp_video_shortcode', '_wp_override_admin_video_width_limit' );
+				echo wp_video_shortcode( array(
+					'mp4'      => 'https://cldup.com/NlOEbKLT_6.mp4',
+					'ogv'      => 'https://cldup.com/0XzDZMlYwb.ogv',
+					'webm'     => 'https://cldup.com/ngOx9w9VlE.webm',
+					'poster'   => 'https://cldup.com/c0kfjoVcFo.png',
+					'loop'     => true,
+					'autoplay' => true,
+					'width'    => 1050,
+					'height'   => 630,
+					'class'    => 'wp-video-shortcode feature-video',
+				) );
+				remove_filter( 'wp_video_shortcode', '_wp_override_admin_video_width_limit' );
+			} else {
+				echo '<img src="https://cldup.com/c0kfjoVcFo.png" alt="" srcset=""/>';
+			}
+			?>
 		</div>
 
 		<hr />
@@ -60,7 +96,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="native-fonts feature-section one-col">
 			<h2><?php echo( 'Native Fonts' ); ?></h2>
 			<p><?php echo( 'The WordPress dashboard now uses the fonts that come with your device, allowing it to load faster and feel more like a native application.' ); ?></p>
-			<img src="https://cldup.com/B4PdQgrZzH.png" alt="" srcset=""/>
+			<img src="https://cldup.com/bCuNzRdtHm.png" alt="" srcset=""/>
 		</div>
 
 		<hr>
@@ -68,13 +104,13 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<h2><?php echo( 'Editor Improvements' ); ?></h2>
 			<div class="col">
-				<img src="https://cldup.com/43RWsTMoXS.png" alt="" srcset="https://cldup.com/43RWsTMoXS.png 1000w, https://cldup.com/43RWsTMoXS.png 800w, https://cldup.com/43RWsTMoXS.png 680w, https://cldup.com/43RWsTMoXS.png 560w, https://cldup.com/43RWsTMoXS.png 400w, https://cldup.com/43RWsTMoXS.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
+				<img src="https://cldup.com/Kz3FL4I9iB.png" alt="" srcset="https://cldup.com/Kz3FL4I9iB.png 1000w, https://cldup.com/Kz3FL4I9iB.png 800w, https://cldup.com/Kz3FL4I9iB.png 680w, https://cldup.com/Kz3FL4I9iB.png 560w, https://cldup.com/Kz3FL4I9iB.png 400w, https://cldup.com/Kz3FL4I9iB.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
 				<h3><?php echo( 'Broken Link Checker' ); ?></h3>
 				<p><?php echo( 'Links are the foundation of the Internet&colon; when they break, so does the web. Now when you edit a post, you instantly see when a link you add is broken.' ); ?></p>
 			</div>
 			<div class="col">
-				<img src="https://cldup.com/1r4sPoCL8d.png" alt="" srcset="https://cldup.com/1r4sPoCL8d.png 1000w, https://cldup.com/1r4sPoCL8d.png 800w, https://cldup.com/1r4sPoCL8d.png 680w, https://cldup.com/1r4sPoCL8d.png 560w, https://cldup.com/1r4sPoCL8d.png 400w, https://cldup.com/1r4sPoCL8d.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
-				<h3><?php echo( 'Simplified Disaster Recovery' ); ?></h3>
+				<img src="https://cldup.com/fxzqZFrDxo.png" alt="" srcset="https://cldup.com/fxzqZFrDxo.png 1000w, https://cldup.com/fxzqZFrDxo.png 800w, https://cldup.com/fxzqZFrDxo.png 680w, https://cldup.com/fxzqZFrDxo.png 560w, https://cldup.com/fxzqZFrDxo.png 400w, https://cldup.com/fxzqZFrDxo.png 280w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
+				<h3><?php echo( 'Content Recovery' ); ?></h3>
 				<p><?php echo( 'As you type, WordPress saves your content to the browser. Recovering saved content is even easier with WordPress 4.6.' ); ?></p>
 			</div>
 		</div>

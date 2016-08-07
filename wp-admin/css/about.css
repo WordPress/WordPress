@@ -90,15 +90,12 @@
 .about-wrap p {
 	line-height: 1.5;
 	font-size: 14px;
+}
+
+.about-wrap .feature-section p {
 	max-width: 38em;
 	margin-left: auto;
 	margin-right: auto;
-}
-
-.about-wrap .changelog p {
-	max-width: 100%;
-	margin-left: 0;
-	margin-right: 0;
 }
 
 .about-wrap h1 {
@@ -199,6 +196,14 @@
 .about-wrap .under-the-hood:nth-of-type(2n),
 .about-wrap .under-the-hood:nth-of-type(3n) {
 	margin-top: 3em;
+}
+
+.about-wrap .feature-video .mejs-controls {
+	display: none !important;
+}
+
+.about-wrap .feature-video .mejs-overlay-loading span {
+	background: transparent; /* Hide loading.gif */
 }
 
 /* 1.3 - Point Releases */
@@ -474,11 +479,13 @@
 		padding-bottom: 0;
 	}
 
-	.about-wrap .under-the-hood:nth-of-type(2n) {
+	.about-wrap .under-the-hood:nth-of-type(2n),
+	.about-wrap .under-the-hood:nth-of-type(3n) {
 		margin-top: 0;
 	}
 
-	.about-wrap .under-the-hood:nth-of-type(2n) h4 {
+	.about-wrap .under-the-hood:nth-of-type(2n) h3,
+	.about-wrap .under-the-hood:nth-of-type(3n) h3 {
 		margin-top: 0;
 	}
 }
