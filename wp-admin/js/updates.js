@@ -1071,7 +1071,7 @@
 		var $card = $( '.wp-full-overlay-header, [data-slug=' + response.slug + ']' ),
 			$message;
 
-		$document.trigger( 'wp-install-theme-success', response );
+		$document.trigger( 'wp-theme-install-success', response );
 
 		$message = $card.find( '.button-primary' )
 			.removeClass( 'updating-message' )
@@ -1243,7 +1243,7 @@
 
 		wp.a11y.speak( wp.updates.l10n.deleted, 'polite' );
 
-		$document.trigger( 'wp-delete-theme-success', response );
+		$document.trigger( 'wp-theme-delete-success', response );
 	};
 
 	/**
