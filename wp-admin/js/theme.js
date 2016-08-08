@@ -597,7 +597,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 		wp.updates.maybeRequestFilesystemCredentials( event );
 
-		$( document ).on( 'wp-install-theme-success', function( event, response ) {
+		$( document ).on( 'wp-theme-install-success', function( event, response ) {
 			if ( _this.model.get( 'id' ) === response.slug ) {
 				_this.model.set( { 'installed': true } );
 			}
@@ -799,7 +799,7 @@ themes.view.Details = wp.Backbone.View.extend({
 
 		wp.updates.maybeRequestFilesystemCredentials( event );
 
-		$( document ).one( 'wp-delete-theme-success', function( event, response ) {
+		$( document ).one( 'wp-theme-delete-success', function( event, response ) {
 			_this.$el.find( '.close' ).trigger( 'click' );
 			$( '[data-slug="' + response.slug + '"' ).css( { backgroundColor:'#faafaa' } ).fadeOut( 350, function() {
 				$( this ).remove();
@@ -972,7 +972,7 @@ themes.view.Preview = themes.view.Details.extend({
 
 		wp.updates.maybeRequestFilesystemCredentials( event );
 
-		$( document ).on( 'wp-install-theme-success', function() {
+		$( document ).on( 'wp-theme-install-success', function() {
 			_this.model.set( { 'installed': true } );
 		} );
 
