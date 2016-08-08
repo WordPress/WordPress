@@ -478,15 +478,12 @@ function clean_blog_cache( $blog ) {
  *
  * @since 4.6.0
  *
- * @global WP_Site $current_blog The current site.
- *
  * @param WP_Site|int|null $site Optional. Site to retrieve. Default is the current site.
  * @return WP_Site|null The site object or null if not found.
  */
 function get_site( &$site = null ) {
-	global $current_blog;
-	if ( empty( $site ) && isset( $current_blog ) ) {
-		$site = $current_blog;
+	if ( empty( $site ) ) {
+		$site = get_current_blog_id();
 	}
 
 	if ( $site instanceof WP_Site ) {
