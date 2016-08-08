@@ -256,8 +256,7 @@ function redirect_canonical( $requested_url = null, $do_redirect = true ) {
 			}
 		} elseif ( is_single() && strpos($wp_rewrite->permalink_structure, '%category%') !== false && $cat = get_query_var( 'category_name' ) ) {
 			$category = get_category_by_path( $cat );
-			$post_terms = get_the_terms( $wp_query->get_queried_object_id(), 'category' );
-			if ( ( ! $category || is_wp_error( $category ) ) || ( ! is_wp_error( $post_terms ) && ! empty( $post_terms ) && ! in_array( $category, $post_terms ) ) ) {
+			if ( ( ! $category || is_wp_error( $category ) ) || ! has_term( $category->term_id, 'category', $wp_query->get_queried_object_id() ) ) {
 				$redirect_url = get_permalink($wp_query->get_queried_object_id());
 			}
 		}
