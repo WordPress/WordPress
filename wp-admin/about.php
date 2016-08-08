@@ -74,8 +74,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			if ( ! wp_is_mobile() ) {
 				add_filter( 'wp_video_shortcode', '_wp_override_admin_video_width_limit' );
 				echo wp_video_shortcode( array(
-					'mp4'      => 'https://cldup.com/NlOEbKLT_6.mp4',
-					'ogv'      => 'https://cldup.com/0XzDZMlYwb.ogv',
+					'mp4'      => 'https://cldup.com/i-avTa8Hi1.mp4',
 					'webm'     => 'https://cldup.com/ngOx9w9VlE.webm',
 					'poster'   => 'https://cldup.com/c0kfjoVcFo.png',
 					'loop'     => true,
