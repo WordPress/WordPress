@@ -1308,6 +1308,10 @@ div.error {
 	padding: 1px 12px;
 }
 
+div[class="update-message"] { /* back-compat for pre-4.6 */
+	padding: 0.5em 0 0.5em 12px;
+}
+
 .notice p,
 .notice-title,
 div.updated p,
