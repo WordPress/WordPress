@@ -83,7 +83,7 @@ wp_debug_mode();
  */
 if ( WP_CACHE && apply_filters( 'enable_loading_advanced_cache_dropin', true ) ) {
 // For an advanced caching plugin to use. Uses a static drop-in because you would only want one.
-	_backup_plugin_globals();
+	_backup_plugin_globals( true );
 	WP_DEBUG ? include( WP_CONTENT_DIR . '/advanced-cache.php' ) : @include( WP_CONTENT_DIR . '/advanced-cache.php' );
 	_restore_plugin_globals();
 }

@@ -1019,19 +1019,21 @@ function _wp_filter_build_unique_id($tag, $function, $priority) {
  *
  * @return array the staticvar from the first time it is set.
  */
-function _backup_plugin_globals(){
+function _backup_plugin_globals( $backup = true ) {
 	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
 
 	static $backup_globals = array();
 
-	if ( empty( $backup_globals ) ) {
+	if ( $backup ) {
 		$backup_globals = array(
 			'backup_wp_filter'         => $wp_filter,
 			'backup_wp_actions'        => $wp_actions,
 			'backup_merged_filters'    => $merged_filters,
 			'backup_wp_current_filter' => $wp_current_filter,
 		);
-	};
+
+		$wp_filter = $wp_actions = array();
+	}
 	return $backup_globals;
 }
 
@@ -1047,24 +1049,49 @@ function _backup_plugin_globals(){
  * @global array $wp_current_filter Stores the list of current filters with the current one last.
  * @staticvar array $backup_globals Backed up globals.
  */
-function _restore_plugin_globals(){
+function _restore_plugin_globals() {
 	global $wp_filter, $wp_actions, $merged_filters, $wp_current_filter;
 
-	$backup_globals = _backup_plugin_globals();
+	$backup_globals = _backup_plugin_globals( false );
 
-	if ( $wp_filter !== $backup_globals['backup_wp_filter'] ){
-		$wp_filter = array_merge_recursive( $wp_filter, $backup_globals['backup_wp_filter'] );
+	if ( empty( $wp_filter ) ) {
+		$wp_filter = $backup_globals['backup_wp_filter'];
+	} else {
+		$added_filters = $wp_filter;
+		$wp_filter = $backup_globals['backup_wp_filter'];
+
+		foreach ( $added_filters as $tag => $callback_groups ) {
+			// Loop through callback groups.
+			foreach ( $callback_groups as $priority => $callbacks ) {
+
+				// Loop through callbacks.
+				foreach ( $callbacks as $cb ) {
+					add_filter( $tag, $cb['function'], $priority, $cb['accepted_args'] );
+				}
+			}
+		}
 	}
 
-	if ( $wp_actions !== $backup_globals['backup_wp_actions'] ){
-		$wp_actions = array_merge_recursive( $wp_actions, $backup_globals['backup_wp_actions'] );
+	if ( empty ( $wp_actions ) ) {
+		$wp_actions = $backup_globals['backup_wp_actions'];
+	} else {
+		$run_actions = $wp_actions;
+		$wp_actions = $backup_globals['backup_wp_actions'];
+
+		foreach( $run_actions as $action => $count ) {
+			if ( ! isset( $wp_actions[ $action ] ) ) {
+				$wp_actions[ $action ] = 0;
+			}
+
+			$wp_actions[ $action ] += $count;
+		}
 	}
 
-	if ( $merged_filters !== $backup_globals['backup_merged_filters'] ){
+	if ( $merged_filters !== $backup_globals['backup_merged_filters'] ) {
 		$merged_filters = array_merge_recursive( $merged_filters, $backup_globals['backup_merged_filters'] );
 	}
 
-	if ( $wp_current_filter !== $backup_globals['backup_wp_current_filter'] ){
+	if ( $wp_current_filter !== $backup_globals['backup_wp_current_filter'] ) {
 		$wp_current_filter = array_merge_recursive( $wp_current_filter, $backup_globals['backup_wp_current_filter'] );
 	}
 }
