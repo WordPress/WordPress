@@ -252,7 +252,7 @@ class WP_oEmbed {
 	/**
 	 * Adds an oEmbed provider.
 	 *
-	 * The provider is removed just-in-time when wp_oembed_add_provider() is called before
+	 * The provider is added just-in-time when wp_oembed_add_provider() is called before
 	 * the {@see 'plugins_loaded'} hook.
 	 *
 	 * The just-in-time addition is for the benefit of the {@see 'oembed_providers'} filter.
