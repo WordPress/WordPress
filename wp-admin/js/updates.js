@@ -523,11 +523,14 @@
 			$message = $( '[data-slug="' + args.slug + '"]' );
 		}
 
-		$message.text( wp.updates.l10n.installing );
+		if ( $message.html() !== wp.updates.l10n.installing ) {
+			$message.data( 'originaltext', $message.html() );
+		}
 
 		$message
 			.addClass( 'updating-message' )
-			.attr( 'aria-label', wp.updates.l10n.pluginInstallingLabel.replace( '%s', $message.data( 'name' ) ) );
+			.attr( 'aria-label', wp.updates.l10n.pluginInstallingLabel.replace( '%s', $message.data( 'name' ) ) )
+			.text( wp.updates.l10n.installing );
 
 		wp.a11y.speak( wp.updates.l10n.installingMsg, 'polite' );
 
@@ -1505,7 +1508,7 @@
 		// Restore callbacks.
 		response = wp.updates._addCallbacks( response, action );
 
-		wp.updates.queue.push( {
+		wp.updates.queue.unshift( {
 			action: action,
 
 			/*
@@ -1708,13 +1711,11 @@
 				$updatingMessage.removeClass( 'updating-message' );
 			} else if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
 				$message = $( 'tr[data-plugin="' + job.data.plugin + '"]' ).find( '.update-message' );
-			} else if ( 'plugin-install' === pagenow || 'plugin-install-network' === pagenow ) {
-				$message = $( '.update-now.updating-message' );
 			} else {
 				$message = $updatingMessage;
 			}
 
-			if ( $message ) {
+			if ( $message && $message.hasClass( 'updating-message' ) ) {
 				originalText = $message.data( 'originaltext' );
 
 				if ( 'undefined' === typeof originalText ) {
@@ -1724,6 +1725,14 @@
 				$message
 					.removeClass( 'updating-message' )
 					.html( originalText );
+
+				if ( 'plugin-install' === pagenow || 'plugin-install-network' === pagenow ) {
+					if ( 'update-plugin' === job.action ) {
+						$message.attr( 'aria-label', wp.updates.l10n.updateNowLabel.replace( '%s', $message.data( 'name' ) ) );
+					} else if ( 'install-plugin' === job.action ) {
+						$message.attr( 'aria-label', wp.updates.l10n.installNowLabel.replace( '%s', $message.data( 'name' ) ) );
+					}
+				}
 			}
 
 			wp.a11y.speak( wp.updates.l10n.updateCancel, 'polite' );
@@ -1999,14 +2008,14 @@
 
 			// Find all the checkboxes which have been checked.
 			itemsSelected.each( function( index, element ) {
-				var $checkbox  = $( element ),
+				var $checkbox = $( element ),
 					$itemRow = $checkbox.parents( 'tr' );
-
-				// Un-check the box.
-				$checkbox.prop( 'checked', false );
 
 				// Only add update-able items to the update queue.
 				if ( 'update-selected' === bulkAction && ( ! $itemRow.hasClass( 'update' ) || $itemRow.find( 'notice-error' ).length ) ) {
+
+					// Un-check the box.
+					$checkbox.prop( 'checked', false );
 					return;
 				}
 
@@ -2022,16 +2031,19 @@
 
 			// Display bulk notification for updates of any kind.
 			$document.on( 'wp-plugin-update-success wp-plugin-update-error wp-theme-update-success wp-theme-update-error', function( event, response ) {
-				var $bulkActionNotice, itemName;
+				var $itemRow = $( '[data-slug="' + response.slug + '"]' ),
+					$bulkActionNotice, itemName;
 
 				if ( 'wp-' + response.update + '-update-success' === event.type ) {
 					success++;
 				} else {
-					itemName = response.pluginName ? response.pluginName : $( '[data-slug="' + response.slug + '"]' ).find( '.column-primary strong' ).text();
+					itemName = response.pluginName ? response.pluginName : $itemRow.find( '.column-primary strong' ).text();
 
 					error++;
 					errorMessages.push( itemName + ': ' + response.errorMessage );
 				}
+
+				$itemRow.find( 'input[name="checked[]"]:checked' ).prop( 'checked', false );
 
 				wp.updates.adminNotice = wp.template( 'wp-bulk-updates-admin-notice' );
 
