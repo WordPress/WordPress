@@ -1030,7 +1030,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 						$widget_title = $box[ 'title' ];
 
 						if ( is_array( $box[ 'args' ] ) && isset( $box[ 'args' ][ '__widget_basename' ] ) ) {
-							$widget_title = esc_html( $box[ 'args' ][ '__widget_basename' ] );
+							$widget_title = $box[ 'args' ][ '__widget_basename' ];
 							// Do not pass this parameter to the user callback function.
 							unset( $box[ 'args' ][ '__widget_basename' ] );
 						}
