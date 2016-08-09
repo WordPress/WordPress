@@ -716,15 +716,17 @@
 	 *                     decorated with an abort() method.
 	 */
 	wp.updates.deletePlugin = function( args ) {
-		var $message = $( '[data-plugin="' + args.plugin + '"]' ).find( '.update-message p' );
+		var $link = $( '[data-plugin="' + args.plugin + '"]' ).find( '.row-actions a.delete' );
 
 		args = _.extend( {
 			success: wp.updates.deletePluginSuccess,
 			error: wp.updates.deletePluginError
 		}, args );
 
-		if ( $message.html() !== wp.updates.l10n.updating ) {
-			$message.data( 'originaltext', $message.html() );
+		if ( $link.html() !== wp.updates.l10n.deleting ) {
+			$link
+				.data( 'originaltext', $link.html() )
+				.text( wp.updates.l10n.deleting );
 		}
 
 		wp.a11y.speak( wp.updates.l10n.deleting, 'polite' );
@@ -1168,18 +1170,25 @@
 	 *                     decorated with an abort() method.
 	 */
 	wp.updates.deleteTheme = function( args ) {
-		var $button = $( '.theme-actions .delete-theme' );
+		var $button;
+
+		if ( 'themes' === pagenow ) {
+			$button = $( '.theme-actions .delete-theme' );
+		} else if ( 'themes-network' === pagenow ) {
+			$button = $( '[data-slug="' + args.slug + '"]' ).find( '.row-actions a.delete' );
+		}
 
 		args = _.extend( {
 			success: wp.updates.deleteThemeSuccess,
 			error: wp.updates.deleteThemeError
 		}, args );
 
-		if ( $button.html() !== wp.updates.l10n.deleting ) {
-			$button.data( 'originaltext', $button.html() );
+		if ( $button && $button.html() !== wp.updates.l10n.deleting ) {
+			$button
+				.data( 'originaltext', $button.html() )
+				.text( wp.updates.l10n.deleting );
 		}
 
-		$button.text( wp.updates.l10n.deleting );
 		wp.a11y.speak( wp.updates.l10n.deleting, 'polite' );
 
 		// Remove previous error messages, if any.
@@ -1710,7 +1719,19 @@
 			if ( 'import' === pagenow ) {
 				$updatingMessage.removeClass( 'updating-message' );
 			} else if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
-				$message = $( 'tr[data-plugin="' + job.data.plugin + '"]' ).find( '.update-message' );
+				if ( 'update-plugin' === job.action ) {
+					$message = $( 'tr[data-plugin="' + job.data.plugin + '"]' ).find( '.update-message' );
+				} else if ( 'delete-plugin' === job.action ) {
+					$message = $( '[data-plugin="' + job.data.plugin + '"]' ).find( '.row-actions a.delete' );
+				}
+			} else if ( 'themes' === pagenow || 'themes-network' === pagenow ) {
+				if ( 'update-theme' === job.action ) {
+					$message = $( '[data-slug="' + job.data.slug + '"]' ).find( '.update-message' );
+				} else if ( 'delete-theme' === job.action && 'themes-network' === pagenow ) {
+					$message = $( '[data-slug="' + job.data.slug + '"]' ).find( '.row-actions a.delete' );
+				} else if ( 'delete-theme' === job.action && 'themes' === pagenow ) {
+					$message = $( '.theme-actions .delete-theme' );
+				}
 			} else {
 				$message = $updatingMessage;
 			}
