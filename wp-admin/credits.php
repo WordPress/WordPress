@@ -20,7 +20,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 <h1><?php printf( __( 'Welcome to WordPress %s' ), $display_version ); ?></h1>
 
-<p class="about-text"><?php printf( ( 'Thank you for updating to the latest version. WordPress %s changes a lot behind the scenes to make your WordPress experience even better!' ), $display_version ); ?></p>
+<p class="about-text"><?php printf( __( 'Thank you for updating to the latest version. WordPress %s changes a lot behind the scenes to make your WordPress experience even better!' ), $display_version ); ?></p>
 
 <div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
