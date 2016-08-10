@@ -1608,7 +1608,7 @@
 		wp.updates.addAdminNotice( {
 			id:        'unknown_error',
 			className: 'notice-error is-dismissible',
-			message:   errorMessage
+			message:   _.escape( errorMessage )
 		} );
 
 		// Remove the lock, and clear the queue.
