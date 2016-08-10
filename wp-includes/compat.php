@@ -450,7 +450,7 @@ if ( ! function_exists( 'array_replace_recursive' ) ) :
 	 *
 	 * @since 4.5.3
 	 *
-	 * @see http://php.net/manual/en/function.array-replace-recursive.php#109390
+	 * @see https://secure.php.net/manual/en/function.array-replace-recursive.php#109390
 	 *
 	 * @param  array $base         Array with keys needing to be replaced.
 	 * @param  array $replacements Array with the replaced keys.
