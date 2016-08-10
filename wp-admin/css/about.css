@@ -266,6 +266,11 @@
 	margin-top: 0;
 }
 
+.about-wrap .streamlined-updates p,
+.about-wrap .native-fonts p {
+	margin-bottom: 3em;
+}
+
 /* 2.2 - Structure */
 
 .about-wrap .headline-feature.feature-video {

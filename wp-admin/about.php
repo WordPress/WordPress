@@ -49,7 +49,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="wrap about-wrap">
 		<h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
 
-		<p class="about-text"><?php printf( ( 'Thank you for updating to the latest version. WordPress %s changes a lot behind the scenes to make your WordPress experience even better!' ), $display_version ); ?></p>
+		<p class="about-text"><?php printf( __( 'Thank you for updating to the latest version. WordPress %s changes a lot behind the scenes to make your WordPress experience even better!' ), $display_version ); ?></p>
 		<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 		<h2 class="nav-tab-wrapper wp-clearfix">
@@ -68,8 +68,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<hr>
 
 		<div class="streamlined-updates feature-section one-col">
-			<h2><?php echo( 'Streamlined Updates' ); ?></h2>
-			<p><?php echo( 'Inline Updates replaces progress updates with a simpler and more straight forward experience when installing, updating, and deleting plugins and themes.' ); ?></p>
+			<h2><?php _e( 'Streamlined Updates' ); ?></h2>
+			<p><?php _e( 'Don&#8217;t lose your place; stay on the same page while you update, install, and delete your plugins and themes.' ); ?></p>
 			<?php
 			if ( ! wp_is_mobile() ) {
 				add_filter( 'wp_video_shortcode', '_wp_override_admin_video_width_limit' );
@@ -93,50 +93,62 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<hr />
 
 		<div class="native-fonts feature-section one-col">
-			<h2><?php echo( 'Native Fonts' ); ?></h2>
-			<p><?php echo( 'The WordPress dashboard now uses the fonts that come with your device, allowing it to load faster and feel more like a native application.' ); ?></p>
+			<h2><?php _e( 'Native Fonts' ); ?></h2>
+			<p><?php _e( 'The WordPress dashboard now takes advantage of the fonts you already have, making it load faster and letting you feel more at home on whatever device you use.' ); ?></p>
 			<img src="https://cldup.com/bCuNzRdtHm.png" alt="" srcset="https://cldup.com/YiMPjePe7J.png 200w, https://cldup.com/xqWD9T2h61.png 371w, https://cldup.com/OGC8NS0zmX.png 510w, https://cldup.com/cXPTP-tbix.png 560w, https://cldup.com/gjZNfc58Ya.png 781w, https://cldup.com/Hqmo5VLb-E.png 922w, https://cldup.com/5tU3wu6537.png 2000w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px"/>
 		</div>
 
-		<hr>
+		<hr />
 
 		<div class="feature-section two-col">
-			<h2><?php echo( 'Editor Improvements' ); ?></h2>
+			<h2><?php _e( 'Editor Improvements' ); ?></h2>
 			<div class="col">
 				<img src="https://cldup.com/rUgTVXZedO.png" alt="" srcset="https://cldup.com/P9uN0OArJ7.png 200w, https://cldup.com/3TU9rBnLw5.png 384w, https://cldup.com/k3kZhYI0tE.png 608w, https://cldup.com/ACglmMoOdP.png 789w, https://cldup.com/rUgTVXZedO.png 992w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
-				<h3><?php echo( 'Broken Link Checker' ); ?></h3>
-				<p><?php echo( 'Links are the foundation of the Internet&colon; when they break, so does the web. Now when you edit a post, you instantly see when a link you add is broken.' ); ?></p>
+				<h3><?php _e( 'Inline Link Checker' ); ?></h3>
+				<p><?php
+					printf(
+						/* translators: %s: Home URL appended with 'wordpress.org'  */
+						__( 'Ever accidentally made a link to %s? Now WordPress automatically checks to make sure you didn&#8217;t.' ),
+						home_url( 'wordpress.org' )
+					);
+				?></p>
 			</div>
 			<div class="col">
 				<img src="https://cldup.com/fxzqZFrDxo.png" alt="" srcset="https://cldup.com/QAjwr6h33d.png 200w, https://cldup.com/YwJSETYBwk.png 400w, https://cldup.com/wbwkFYER9C.png 561w, https://cldup.com/9T-ckRM67P.png 701w, https://cldup.com/sQYWMMsU4g.png 992w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
-				<h3><?php echo( 'Content Recovery' ); ?></h3>
-				<p><?php echo( 'As you type, WordPress saves your content to the browser. Recovering saved content is even easier with WordPress 4.6.' ); ?></p>
+				<h3><?php _e( 'Content Recovery' ); ?></h3>
+				<p><?php _e( 'As you type, WordPress saves your content to the browser. Recovering saved content is even easier with WordPress 4.6.' ); ?></p>
 			</div>
 		</div>
 
 		<hr />
 
 		<div class="changelog">
-			<h2><?php echo( 'Under the Hood' ); ?></h2>
+			<h2><?php _e( 'Under the Hood' ); ?></h2>
 
 			<div class="under-the-hood three-col">
 				<div class="col">
-					<h3><?php echo( 'Performance Everywhere' ); ?></h3>
-					<p><?php echo( 'A brand new technology is going to boost your site&#8217;s performance. Resource hints allow browsers to perform background tasks, WordPress 4.6 adds them automatically for your styles and scripts.' ); ?></p>
+					<h3><?php _e( 'Resource Hints' ); ?></h3>
+					<p><?php
+						printf(
+							/* translators: %s: https://make.wordpress.org/core/2016/07/06/resource-hints-in-4-6/ */
+							__( '<a href="%s">Resource hints help browsers</a> decide which resources to fetch and preprocess. WordPress 4.6 adds them automatically for your styles and scripts making your site even faster.' ),
+							'https://make.wordpress.org/core/2016/07/06/resource-hints-in-4-6/'
+						);
+					?></p>
 				</div>
 				<div class="col">
-					<h3><?php echo( 'Robust Requests' ); ?></h3>
-					<p><?php echo( 'The HTTP API now leverages the Requests library, improving HTTP standard support and adding case-insensitive headers, parallel HTTP requests, and support for Internationalized Domain Names.' ); ?></p>
+					<h3><?php _e( 'Robust Requests' ); ?></h3>
+					<p><?php _e( 'The HTTP API now leverages the Requests library, improving HTTP standard support and adding case-insensitive headers, parallel HTTP requests, and support for Internationalized Domain Names.' ); ?></p>
 				</div>
 				<div class="col">
 					<h3><?php
 						/* translators: 1: WP_Term_Query, 2: WP_Post_Type */
-						printf( ( '%1$s and %2$s' ), '<code>WP_Term_Query</code>', '<code>WP_Post_Type</code>' );
+						printf( __( '%1$s and %2$s' ), '<code>WP_Term_Query</code>', '<code>WP_Post_Type</code>' );
 					?></h3>
 					<p><?php
 						printf(
 							/* translators: 1: WP_Term_Query, 2: WP_Post_Type */
-							( 'A new %1$s class adds flexibility to query term information and a new %2$s object makes interacting with post types more predictable and intuitive in code.' ),
+							__( 'A new %1$s class adds flexibility to query term information while a new %2$s object makes interacting with post types more predictable.' ),
 							'<code>WP_Term_Query</code>',
 							'<code>WP_Post_Type</code>'
 						);
@@ -146,34 +158,40 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 			<div class="under-the-hood three-col">
 				<div class="col">
-					<h3><?php echo( 'Meta Registration API' ); ?></h3>
-					<p><?php echo( 'The Meta Registration API has been expanded to support types, descriptions, and REST API visibility.' ); ?></p>
+					<h3><?php _e( 'Meta Registration API' ); ?></h3>
+					<p><?php
+						printf(
+							/* translators: %s: https://make.wordpress.org/core/2016/07/08/enhancing-register_meta-in-4-6/  */
+							__( 'The Meta Registration API <a href="%s">has been expanded</a> to support types, descriptions, and REST API visibility.' ),
+							'https://make.wordpress.org/core/2016/07/08/enhancing-register_meta-in-4-6/'
+						);
+					?></p>
 				</div>
 				<div class="col">
-					<h3><?php echo( 'Timely Translations' ); ?></h3>
-					<p><?php echo( 'Preference is now given to <a href="https://translate.wordpress.org/">community translations</a> for plugins and themes served from WordPress.org which allows WordPress to load them just-in-time.' ); ?></p>
+					<h3><?php _e( 'Translations On Demand' ); ?></h3>
+					<p><?php _e( 'WordPress will install and use the newest language packs for your plugins and themes as soon as they&#8217;re available from <a href="https://translate.wordpress.org/">WordPress.org&#8217;s community of translators</a>.' ); ?></p>
 				</div>
 				<div class="col">
-					<h3><?php echo( 'JavaScript Library Updates' ); ?></h3>
-					<p><?php echo( 'Masonry 3.3.2, imagesLoaded 3.2.0, MediaElement.js 2.22.0, TinyMCE 4.4.1, and Backbone.js 1.3.3 are bundled.' ); ?></p>
+					<h3><?php _e( 'JavaScript Library Updates' ); ?></h3>
+					<p><?php _e( 'Masonry 3.3.2, imagesLoaded 3.2.0, MediaElement.js 2.22.0, TinyMCE 4.4.1, and Backbone.js 1.3.3 are bundled.' ); ?></p>
 				</div>
 			</div>
 
 			<div class="under-the-hood two-col">
 				<div class="col">
-					<h3><?php echo( 'Customizer APIs for Setting Validation and Notifications' ); ?></h3>
-					<p><?php echo( 'Settings now have an API for enforcing validation constraints. Likewise Customizer controls now support notifications which are used to display validation errors instead of failing silently.' ); ?></p>
+					<h3><?php _e( 'Customizer APIs for Setting Validation and Notifications' ); ?></h3>
+					<p><?php _e( 'Settings now have an <a href="https://make.wordpress.org/core/2016/07/05/customizer-apis-in-4-6-for-setting-validation-and-notifications/">API for enforcing validation constraints</a>. Likewise Customizer controls now support notifications which are used to display validation errors instead of failing silently.' ); ?></p>
 				</div>
 				<div class="col">
-					<h3><?php echo( 'Multisite, now faster than ever' ); ?></h3>
+					<h3><?php _e( 'Multisite, now faster than ever' ); ?></h3>
 					<p><?php
-						/* translators: 1: WP_Site_Query, 2: WP_Network_Query */
 						printf(
-							( 'Cached and comprehensive site queries improve your multisite admin experience. Also, %1$s and %2$s make crafting robust queries simpler.' ),
+							/* translators: 1: WP_Site_Query, 2: WP_Network_Query */
+							__( 'Cached and comprehensive site queries improve your network admin experience. The addition of %1$s and %2$s help craft advanced queries with less effort.' ),
 							'<code>WP_Site_Query</code>',
 							'<code>WP_Network_Query</code>'
 						);
-						?></p>
+					?></p>
 				</div>
 			</div>
 		</div>
