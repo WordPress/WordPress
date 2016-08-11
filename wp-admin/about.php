@@ -69,7 +69,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="streamlined-updates feature-section one-col">
 			<h2><?php _e( 'Streamlined Updates' ); ?></h2>
-			<p><?php _e( 'Don&#8217;t lose your place; stay on the same page while you update, install, and delete your plugins and themes.' ); ?></p>
+			<p><?php _e( 'Don&#8217;t lose your place: stay on the same page while you update, install, and delete your plugins and themes.' ); ?></p>
 			<?php
 			if ( ! wp_is_mobile() ) {
 				add_filter( 'wp_video_shortcode', '_wp_override_admin_video_width_limit' );
@@ -180,7 +180,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="under-the-hood two-col">
 				<div class="col">
 					<h3><?php _e( 'Customizer APIs for Setting Validation and Notifications' ); ?></h3>
-					<p><?php _e( 'Settings now have an <a href="https://make.wordpress.org/core/2016/07/05/customizer-apis-in-4-6-for-setting-validation-and-notifications/">API for enforcing validation constraints</a>. Likewise Customizer controls now support notifications which are used to display validation errors instead of failing silently.' ); ?></p>
+					<p><?php _e( 'Settings now have an <a href="https://make.wordpress.org/core/2016/07/05/customizer-apis-in-4-6-for-setting-validation-and-notifications/">API for enforcing validation constraints</a>. Likewise, customizer controls now support notifications, which are used to display validation errors instead of failing silently.' ); ?></p>
 				</div>
 				<div class="col">
 					<h3><?php _e( 'Multisite, now faster than ever' ); ?></h3>
