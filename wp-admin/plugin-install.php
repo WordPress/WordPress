@@ -66,6 +66,15 @@ wp_enqueue_script( 'updates' );
  */
 do_action( "install_plugins_pre_$tab" );
 
+/*
+ * Call the pre upload action on every non-upload plugin install screen
+ * because the form is always displayed on these screens.
+ */
+if ( 'upload' !== $tab ) {
+	/** This action is documented in wp-admin/plugin-install.php */
+	do_action( 'install_plugins_pre_upload' );
+}
+
 get_current_screen()->add_help_tab( array(
 'id'		=> 'overview',
 'title'		=> __('Overview'),
@@ -101,22 +110,13 @@ get_current_screen()->set_screen_reader_content( array(
  */
 include(ABSPATH . 'wp-admin/admin-header.php');
 ?>
-<div class="wrap">
+<div class="wrap <?php echo esc_attr( "plugin-install-tab-$tab" ); ?>">
 <h1>
 	<?php
 	echo esc_html( $title );
 	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_plugins' ) ) {
-		if ( $tab === 'upload' ) {
-			$href = self_admin_url( 'plugin-install.php' );
-			$upload_tab_class = ' upload-tab';
-		} else {
-			$href = self_admin_url( 'plugin-install.php?tab=upload' );
-			$upload_tab_class = '';
-		}
-
-		printf( ' <a href="%s" class="upload-view-toggle page-title-action%s"><span class="upload">%s</span><span class="browse">%s</span></a>',
-			$href,
-			$upload_tab_class,
+		printf( ' <a href="%s" class="upload-view-toggle page-title-action"><span class="upload">%s</span><span class="browse">%s</span></a>',
+			( 'upload' === $tab ) ? self_admin_url( 'plugin-install.php' ) : self_admin_url( 'plugin-install.php?tab=upload' ),
 			__( 'Upload Plugin' ),
 			__( 'Browse Plugins' )
 		);
@@ -124,16 +124,22 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	?>
 </h1>
 
-<div class="upload-plugin-wrap<?php echo $upload_tab_class; ?>">
 <?php
 /*
- * Output the upload plugin form on every plugin install screen, so it can be
+ * Output the upload plugin form on every non-upload plugin install screen, so it can be
  * displayed via JavaScript rather then opening up the devoted upload plugin page.
  */
-install_plugins_upload(); ?>
-</div>
+if ( $tab !== 'upload' ) {
+	?>
+	<div class="upload-plugin-wrap">
+		<?php
+		/** This action is documented in wp-admin/plugin-install.php */
+		do_action( 'install_plugins_upload' );
+		?>
+	</div>
+	<?php
+}
 
-<?php
 if ( $tab !== 'upload' ) {
 	$wp_list_table->views();
 	echo '<br class="clear" />';

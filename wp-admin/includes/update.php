@@ -634,7 +634,7 @@ function wp_print_admin_notice_templates() {
 		<div <# if ( data.id ) { #>id="{{ data.id }}"<# } #> class="notice {{ data.className }}"><p>{{{ data.message }}}</p></div>
 	</script>
 	<script id="tmpl-wp-bulk-updates-admin-notice" type="text/html">
-		<div id="{{ data.id }}" class="notice <# if ( data.errors ) { #>notice-error<# } else { #>notice-success<# } #>">
+		<div id="{{ data.id }}" class="{{ data.className }} notice <# if ( data.errors ) { #>notice-error<# } else { #>notice-success<# } #>">
 			<p>
 				<# if ( data.successes ) { #>
 					<# if ( 1 === data.successes ) { #>
@@ -664,25 +664,25 @@ function wp_print_admin_notice_templates() {
 					<# } #>
 				<# } #>
 				<# if ( data.errors ) { #>
-					<# if ( 1 === data.errors ) { #>
-						<button class="button-link">
+					<button class="button-link bulk-action-errors-collapsed" aria-expanded="false">
+						<# if ( 1 === data.errors ) { #>
 							<?php
-							/* translators: %s: Number of failures */
-							printf( __( '%s failure.' ), '{{ data.errors }}' );
+							/* translators: %s: Number of failed updates */
+							printf( __( '%s update failed.' ), '{{ data.errors }}' );
 							?>
-						</button>
-					<# } else { #>
-						<button class="button-link">
+						<# } else { #>
 							<?php
-							/* translators: %s: Number of failures */
-							printf( __( '%s failures.' ), '{{ data.errors }}' );
+							/* translators: %s: Number of failed updates */
+							printf( __( '%s updates failed.' ), '{{ data.errors }}' );
 							?>
-						</button>
-					<# } #>
+						<# } #>
+						<span class="screen-reader-text"><?php _e( 'Show more details' ); ?></span>
+						<span class="toggle-indicator" aria-hidden="true"></span>
+					</button>
 				<# } #>
 			</p>
 			<# if ( data.errors ) { #>
-				<ul class="hidden">
+				<ul class="bulk-action-errors hidden">
 					<# _.each( data.errorMessages, function( errorMessage ) { #>
 						<li>{{ errorMessage }}</li>
 					<# } ); #>

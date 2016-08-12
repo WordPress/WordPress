@@ -2874,6 +2874,10 @@ function wp_dependencies_unique_hosts() {
 	foreach ( array( $wp_scripts, $wp_styles ) as $dependencies ) {
 		if ( $dependencies instanceof WP_Dependencies && ! empty( $dependencies->queue ) ) {
 			foreach ( $dependencies->queue as $handle ) {
+				if ( ! isset( $dependencies->registered[ $handle ] ) ) {
+					continue;
+				}
+
 				/* @var _WP_Dependency $dependency */
 				$dependency = $dependencies->registered[ $handle ];
 				$parsed     = wp_parse_url( $dependency->src );

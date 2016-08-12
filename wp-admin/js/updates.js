@@ -244,12 +244,12 @@
 	 * @param {string=} response.errorCode Optional. Error code for an error that occurred.
 	 */
 	wp.updates.ajaxAlways = function( response ) {
-		if ( ! response.errorCode && 'unable_to_connect_to_filesystem' !== response.errorCode ) {
+		if ( ! response.errorCode || 'unable_to_connect_to_filesystem' !== response.errorCode ) {
 			wp.updates.ajaxLocked = false;
 			wp.updates.queueChecker();
 		}
 
-		if ( 'undefined' !== typeof response.debug ) {
+		if ( 'undefined' !== typeof response.debug && window.console && window.console.log ) {
 			_.map( response.debug, function( message ) {
 				window.console.log( $( '<p />' ).html( message ).text() );
 			} );
@@ -350,7 +350,7 @@
 
 		if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
 			$updateRow = $( 'tr[data-plugin="' + args.plugin + '"]' );
-			$message   = $updateRow.find( '.update-message' ).addClass( 'updating-message' ).find( 'p' );
+			$message   = $updateRow.find( '.update-message' ).removeClass( 'notice-error' ).addClass( 'updating-message notice-warning' ).find( 'p' );
 			message    = wp.updates.l10n.updatingLabel.replace( '%s', $updateRow.find( '.plugin-title strong' ).text() );
 		} else if ( 'plugin-install' === pagenow || 'plugin-install-network' === pagenow ) {
 			$card    = $( '.plugin-card-' + args.slug );
@@ -369,7 +369,7 @@
 			.attr( 'aria-label', message )
 			.text( wp.updates.l10n.updating );
 
-		$document.trigger( 'wp-plugin-updating' );
+		$document.trigger( 'wp-plugin-updating', args );
 
 		return wp.updates.ajax( 'update-plugin', args );
 	};
@@ -453,6 +453,13 @@
 				$message = $( 'tr[data-slug="' + response.slug + '"]' ).find( '.update-message' );
 			}
 			$message.removeClass( 'updating-message notice-warning' ).addClass( 'notice-error' ).find( 'p' ).html( errorMessage );
+
+			if ( response.pluginName ) {
+				$message.find( 'p' )
+					.attr( 'aria-label', wp.updates.l10n.updateFailedLabel.replace( '%s', response.pluginName ) );
+			} else {
+				$message.find( 'p' ).removeAttr( 'aria-label' );
+			}
 		} else if ( 'plugin-install' === pagenow || 'plugin-install-network' === pagenow ) {
 			$card = $( '.plugin-card-' + response.slug )
 				.addClass( 'plugin-card-update-failed' )
@@ -467,6 +474,8 @@
 			if ( response.pluginName ) {
 				$card.find( '.update-now' )
 					.attr( 'aria-label', wp.updates.l10n.updateFailedLabel.replace( '%s', response.pluginName ) );
+			} else {
+				$card.find( '.update-now' ).removeAttr( 'aria-label' );
 			}
 
 			$card.on( 'click', '.notice.is-dismissible .notice-dismiss', function() {
@@ -514,16 +523,21 @@
 			$message = $( '[data-slug="' + args.slug + '"]' );
 		}
 
-		$message.text( wp.updates.l10n.installing );
+		if ( $message.html() !== wp.updates.l10n.installing ) {
+			$message.data( 'originaltext', $message.html() );
+		}
 
 		$message
 			.addClass( 'updating-message' )
-			.attr( 'aria-label', wp.updates.l10n.pluginInstallingLabel.replace( '%s', $message.data( 'name' ) ) );
+			.attr( 'aria-label', wp.updates.l10n.pluginInstallingLabel.replace( '%s', $message.data( 'name' ) ) )
+			.text( wp.updates.l10n.installing );
 
 		wp.a11y.speak( wp.updates.l10n.installingMsg, 'polite' );
 
 		// Remove previous error messages, if any.
 		$card.removeClass( 'plugin-card-install-failed' ).find( '.notice.notice-error' ).remove();
+
+		$document.trigger( 'wp-plugin-installing', args );
 
 		return wp.updates.ajax( 'install-plugin', args );
 	};
@@ -702,18 +716,22 @@
 	 *                     decorated with an abort() method.
 	 */
 	wp.updates.deletePlugin = function( args ) {
-		var $message = $( '[data-plugin="' + args.plugin + '"]' ).find( '.update-message p' );
+		var $link = $( '[data-plugin="' + args.plugin + '"]' ).find( '.row-actions a.delete' );
 
 		args = _.extend( {
 			success: wp.updates.deletePluginSuccess,
 			error: wp.updates.deletePluginError
 		}, args );
 
-		if ( $message.html() !== wp.updates.l10n.updating ) {
-			$message.data( 'originaltext', $message.html() );
+		if ( $link.html() !== wp.updates.l10n.deleting ) {
+			$link
+				.data( 'originaltext', $link.html() )
+				.text( wp.updates.l10n.deleting );
 		}
 
 		wp.a11y.speak( wp.updates.l10n.deleting, 'polite' );
+
+		$document.trigger( 'wp-plugin-deleting', args );
 
 		return wp.updates.ajax( 'delete-plugin', args );
 	};
@@ -887,7 +905,7 @@
 		}, args );
 
 		if ( 'themes-network' === pagenow ) {
-			$notice = $( '[data-slug="' + args.slug + '"]' ).find( '.update-message' ).addClass( 'updating-message' ).find( 'p' );
+			$notice = $( '[data-slug="' + args.slug + '"]' ).find( '.update-message' ).removeClass( 'notice-error' ).addClass( 'updating-message notice-warning' ).find( 'p' );
 
 		} else {
 			$notice = $( '#update-theme' ).closest( '.notice' ).removeClass( 'notice-large' );
@@ -905,7 +923,7 @@
 		wp.a11y.speak( wp.updates.l10n.updatingMsg, 'polite' );
 		$notice.text( wp.updates.l10n.updating );
 
-		$document.trigger( 'wp-theme-updating' );
+		$document.trigger( 'wp-theme-updating', args );
 
 		return wp.updates.ajax( 'update-theme', args );
 	};
@@ -1038,6 +1056,8 @@
 		// Remove previous error messages, if any.
 		$( '.install-theme-info, [data-slug="' + args.slug + '"]' ).removeClass( 'theme-install-failed' ).find( '.notice.notice-error' ).remove();
 
+		$document.trigger( 'wp-theme-installing', args );
+
 		return wp.updates.ajax( 'install-theme', args );
 	};
 
@@ -1056,7 +1076,7 @@
 		var $card = $( '.wp-full-overlay-header, [data-slug=' + response.slug + ']' ),
 			$message;
 
-		$document.trigger( 'wp-install-theme-success', response );
+		$document.trigger( 'wp-theme-install-success', response );
 
 		$message = $card.find( '.button-primary' )
 			.removeClass( 'updating-message' )
@@ -1150,22 +1170,31 @@
 	 *                     decorated with an abort() method.
 	 */
 	wp.updates.deleteTheme = function( args ) {
-		var $button = $( '.theme-actions .delete-theme' );
+		var $button;
+
+		if ( 'themes' === pagenow ) {
+			$button = $( '.theme-actions .delete-theme' );
+		} else if ( 'themes-network' === pagenow ) {
+			$button = $( '[data-slug="' + args.slug + '"]' ).find( '.row-actions a.delete' );
+		}
 
 		args = _.extend( {
 			success: wp.updates.deleteThemeSuccess,
 			error: wp.updates.deleteThemeError
 		}, args );
 
-		if ( $button.html() !== wp.updates.l10n.deleting ) {
-			$button.data( 'originaltext', $button.html() );
+		if ( $button && $button.html() !== wp.updates.l10n.deleting ) {
+			$button
+				.data( 'originaltext', $button.html() )
+				.text( wp.updates.l10n.deleting );
 		}
 
-		$button.text( wp.updates.l10n.deleting );
 		wp.a11y.speak( wp.updates.l10n.deleting, 'polite' );
 
 		// Remove previous error messages, if any.
 		$( '.theme-info .update-message' ).remove();
+
+		$document.trigger( 'wp-theme-deleting', args );
 
 		return wp.updates.ajax( 'delete-theme', args );
 	};
@@ -1226,7 +1255,7 @@
 
 		wp.a11y.speak( wp.updates.l10n.deleted, 'polite' );
 
-		$document.trigger( 'wp-delete-theme-success', response );
+		$document.trigger( 'wp-theme-delete-success', response );
 	};
 
 	/**
@@ -1341,7 +1370,6 @@
 				break;
 
 			default:
-				window.console.error( 'Failed to execute queued update job.', job );
 				break;
 		}
 	};
@@ -1489,7 +1517,7 @@
 		// Restore callbacks.
 		response = wp.updates._addCallbacks( response, action );
 
-		wp.updates.queue.push( {
+		wp.updates.queue.unshift( {
 			action: action,
 
 			/*
@@ -1517,7 +1545,7 @@
 	 * @returns {boolean} Whether there is an error that needs to be handled or not.
 	 */
 	wp.updates.maybeHandleCredentialError = function( response, action ) {
-		if ( response.errorCode && 'unable_to_connect_to_filesystem' === response.errorCode ) {
+		if ( wp.updates.shouldRequestFilesystemCredentials && response.errorCode && 'unable_to_connect_to_filesystem' === response.errorCode ) {
 			wp.updates.credentialError( response, action );
 			return true;
 		}
@@ -1546,8 +1574,12 @@
 			return true;
 		}
 
-		if ( _.isString( response ) ) {
+		if ( _.isString( response ) && '-1' === response ) {
+			error = wp.updates.l10n.nonceError;
+		} else if ( _.isString( response ) ) {
 			error = response;
+		} else if ( 'undefined' !== typeof response.readyState && 0 === response.readyState ) {
+			error = wp.updates.l10n.connectionError;
 		} else if ( _.isString( response.responseText ) && '' !== response.responseText ) {
 			error = response.responseText;
 		} else if ( _.isString( response.statusText ) ) {
@@ -1568,13 +1600,15 @@
 				break;
 		}
 
+		// Messages are escaped, remove HTML tags to make them more readable.
+		error = error.replace( /<[\/a-z][^<>]*>/gi, '' );
 		errorMessage = errorMessage.replace( '%s', error );
 
 		// Add admin notice.
 		wp.updates.addAdminNotice( {
 			id:        'unknown_error',
 			className: 'notice-error is-dismissible',
-			message:   errorMessage
+			message:   _.escape( errorMessage )
 		} );
 
 		// Remove the lock, and clear the queue.
@@ -1584,14 +1618,16 @@
 		// Change buttons of all running updates.
 		$( '.button.updating-message' )
 			.removeClass( 'updating-message' )
-			.attr( 'aria-label', wp.updates.l10n.updateFailedShort )
+			.removeAttr( 'aria-label' )
 			.prop( 'disabled', true )
 			.text( wp.updates.l10n.updateFailedShort );
 
 		$( '.updating-message:not(.button):not(.thickbox)' )
 			.removeClass( 'updating-message notice-warning' )
 			.addClass( 'notice-error' )
-			.find( 'p' ).text( errorMessage );
+			.find( 'p' )
+				.removeAttr( 'aria-label' )
+				.text( errorMessage );
 
 		wp.a11y.speak( errorMessage, 'assertive' );
 
@@ -1683,14 +1719,24 @@
 			if ( 'import' === pagenow ) {
 				$updatingMessage.removeClass( 'updating-message' );
 			} else if ( 'plugins' === pagenow || 'plugins-network' === pagenow ) {
-				$message = $( 'tr[data-plugin="' + job.data.plugin + '"]' ).find( '.update-message' );
-			} else if ( 'plugin-install' === pagenow || 'plugin-install-network' === pagenow ) {
-				$message = $( '.update-now.updating-message' );
+				if ( 'update-plugin' === job.action ) {
+					$message = $( 'tr[data-plugin="' + job.data.plugin + '"]' ).find( '.update-message' );
+				} else if ( 'delete-plugin' === job.action ) {
+					$message = $( '[data-plugin="' + job.data.plugin + '"]' ).find( '.row-actions a.delete' );
+				}
+			} else if ( 'themes' === pagenow || 'themes-network' === pagenow ) {
+				if ( 'update-theme' === job.action ) {
+					$message = $( '[data-slug="' + job.data.slug + '"]' ).find( '.update-message' );
+				} else if ( 'delete-theme' === job.action && 'themes-network' === pagenow ) {
+					$message = $( '[data-slug="' + job.data.slug + '"]' ).find( '.row-actions a.delete' );
+				} else if ( 'delete-theme' === job.action && 'themes' === pagenow ) {
+					$message = $( '.theme-actions .delete-theme' );
+				}
 			} else {
 				$message = $updatingMessage;
 			}
 
-			if ( $message ) {
+			if ( $message && $message.hasClass( 'updating-message' ) ) {
 				originalText = $message.data( 'originaltext' );
 
 				if ( 'undefined' === typeof originalText ) {
@@ -1700,6 +1746,14 @@
 				$message
 					.removeClass( 'updating-message' )
 					.html( originalText );
+
+				if ( 'plugin-install' === pagenow || 'plugin-install-network' === pagenow ) {
+					if ( 'update-plugin' === job.action ) {
+						$message.attr( 'aria-label', wp.updates.l10n.updateNowLabel.replace( '%s', $message.data( 'name' ) ) );
+					} else if ( 'install-plugin' === job.action ) {
+						$message.attr( 'aria-label', wp.updates.l10n.installNowLabel.replace( '%s', $message.data( 'name' ) ) );
+					}
+				}
 			}
 
 			wp.a11y.speak( wp.updates.l10n.updateCancel, 'polite' );
@@ -1930,7 +1984,6 @@
 					break;
 
 				default:
-					window.console.error( 'The page "%s" is not white-listed for bulk action handling.', pagenow );
 					return;
 			}
 
@@ -1962,7 +2015,6 @@
 					break;
 
 				default:
-					window.console.error( 'Failed to identify bulk action: %s', bulkAction );
 					return;
 			}
 
@@ -1973,16 +2025,18 @@
 			// Un-check the bulk checkboxes.
 			$bulkActionForm.find( '.manage-column [type="checkbox"]' ).prop( 'checked', false );
 
+			$document.trigger( 'wp-' + type + '-bulk-' + bulkAction, itemsSelected );
+
 			// Find all the checkboxes which have been checked.
 			itemsSelected.each( function( index, element ) {
-				var $checkbox  = $( element ),
+				var $checkbox = $( element ),
 					$itemRow = $checkbox.parents( 'tr' );
-
-				// Un-check the box.
-				$checkbox.prop( 'checked', false );
 
 				// Only add update-able items to the update queue.
 				if ( 'update-selected' === bulkAction && ( ! $itemRow.hasClass( 'update' ) || $itemRow.find( 'notice-error' ).length ) ) {
+
+					// Un-check the box.
+					$checkbox.prop( 'checked', false );
 					return;
 				}
 
@@ -1998,21 +2052,25 @@
 
 			// Display bulk notification for updates of any kind.
 			$document.on( 'wp-plugin-update-success wp-plugin-update-error wp-theme-update-success wp-theme-update-error', function( event, response ) {
-				var $bulkActionNotice, itemName;
+				var $itemRow = $( '[data-slug="' + response.slug + '"]' ),
+					$bulkActionNotice, itemName;
 
 				if ( 'wp-' + response.update + '-update-success' === event.type ) {
 					success++;
 				} else {
-					itemName = response.pluginName ? response.pluginName : $( '[data-slug="' + response.slug + '"]' ).find( '.theme-title strong' ).text();
+					itemName = response.pluginName ? response.pluginName : $itemRow.find( '.column-primary strong' ).text();
 
 					error++;
 					errorMessages.push( itemName + ': ' + response.errorMessage );
 				}
 
+				$itemRow.find( 'input[name="checked[]"]:checked' ).prop( 'checked', false );
+
 				wp.updates.adminNotice = wp.template( 'wp-bulk-updates-admin-notice' );
 
 				wp.updates.addAdminNotice( {
 					id:            'bulk-action-notice',
+					className:     'bulk-action-notice',
 					successes:     success,
 					errors:        error,
 					errorMessages: errorMessages,
@@ -2020,7 +2078,12 @@
 				} );
 
 				$bulkActionNotice = $( '#bulk-action-notice' ).on( 'click', 'button', function() {
-					$bulkActionNotice.find( 'ul' ).toggleClass( 'hidden' );
+					// $( this ) is the clicked button, no need to get it again.
+					$( this )
+						.toggleClass( 'bulk-action-errors-collapsed' )
+						.attr( 'aria-expanded', ! $( this ).hasClass( 'bulk-action-errors-collapsed' ) );
+					// Show the errors list.
+					$bulkActionNotice.find( '.bulk-action-errors' ).toggleClass( 'hidden' );
 				} );
 
 				if ( error > 0 && ! wp.updates.queue.length ) {

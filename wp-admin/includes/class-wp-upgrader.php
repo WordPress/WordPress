@@ -39,6 +39,9 @@ require_once ABSPATH . 'wp-admin/includes/class-language-pack-upgrader-skin.php'
 /** Automatic_Upgrader_Skin class */
 require_once ABSPATH . 'wp-admin/includes/class-automatic-upgrader-skin.php';
 
+/** WP_Ajax_Upgrader_Skin class */
+require_once ABSPATH . 'wp-admin/includes/class-wp-ajax-upgrader-skin.php';
+
 /**
  * Core class used for upgrading/installing a local set of files via
  * the Filesystem Abstraction classes from a Zip file.
@@ -900,5 +903,5 @@ require_once ABSPATH . 'wp-admin/includes/class-core-upgrader.php';
 /** File_Upload_Upgrader class */
 require_once ABSPATH . 'wp-admin/includes/class-file-upload-upgrader.php';
 
-/** WP_Automatic_Upgrader class */
-require_once ABSPATH . 'wp-admin/includes/class-wp-automatic-upgrader.php';
+/** WP_Automatic_Updater class */
+require_once ABSPATH . 'wp-admin/includes/class-wp-automatic-updater.php';

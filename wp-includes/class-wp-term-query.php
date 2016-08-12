@@ -219,7 +219,7 @@ class WP_Term_Query {
 			$query = $this->query_vars;
 		}
 
-		$taxonomies = isset( $query['taxonomy'] ) ? $query['taxonomy'] : null;
+		$taxonomies = isset( $query['taxonomy'] ) ? (array) $query['taxonomy'] : null;
 
 		/**
 		 * Filters the terms query default arguments.
@@ -641,7 +641,8 @@ class WP_Term_Query {
 				$cache = array_map( 'get_term', $cache );
 			}
 
-			return $cache;
+			$this->terms = $cache;
+			return $this->terms;
 		}
 
 		if ( 'count' == $_fields ) {

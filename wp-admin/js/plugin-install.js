@@ -12,7 +12,8 @@ jQuery( document ).ready( function( $ ) {
 		$tabbables,
 		$firstTabbable,
 		$lastTabbable,
-		uploadViewToggle = $( '.upload-view-toggle' ),
+		$uploadViewToggle = $( '.upload-view-toggle' ),
+		$wrap = $ ( '.wrap' ),
 		$body = $( document.body );
 
 	tb_position = function() {
@@ -183,12 +184,12 @@ jQuery( document ).ready( function( $ ) {
 	 * When a user presses the "Upload Plugin" button, show the upload form in place
 	 * rather than sending them to the devoted upload plugin page.
 	 * The `?tab=upload` page still exists for no-js support and for plugins that
-	 * might access it directly (?). When we're in this page, let the link behave
+	 * might access it directly. When we're in this page, let the link behave
 	 * like a link. Otherwise we're in the normal plugin installer pages and the
 	 * link should behave like a toggle button.
 	 */
-	if ( ! uploadViewToggle.hasClass( 'upload-tab' ) ) {
-		uploadViewToggle
+	if ( ! $wrap.hasClass( 'plugin-install-tab-upload' ) ) {
+		$uploadViewToggle
 			.attr({
 				role: 'button',
 				'aria-expanded': 'false'
@@ -196,7 +197,7 @@ jQuery( document ).ready( function( $ ) {
 			.on( 'click', function( event ) {
 				event.preventDefault();
 				$body.toggleClass( 'show-upload-view' );
-				uploadViewToggle.attr( 'aria-expanded', $body.hasClass( 'show-upload-view' ) );
+				$uploadViewToggle.attr( 'aria-expanded', $body.hasClass( 'show-upload-view' ) );
 			});
 	}
 });

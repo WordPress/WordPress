@@ -270,7 +270,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 
 	// You may have had one or more 'wp_handle_upload_prefilter' functions error out the file. Handle that gracefully.
 	if ( isset( $file['error'] ) && ! is_numeric( $file['error'] ) && $file['error'] ) {
-		return $upload_error_handler( $file, $file['error'] );
+		return call_user_func_array( $upload_error_handler, array( &$file, $file['error'] ) );
 	}
 
 	// Install user overrides. Did we mention that this voids your warranty?
@@ -312,11 +312,11 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 
 	// A correct form post will pass this test.
 	if ( $test_form && ( ! isset( $_POST['action'] ) || ( $_POST['action'] != $action ) ) ) {
-		return call_user_func( $upload_error_handler, $file, __( 'Invalid form submission.' ) );
+		return call_user_func_array( $upload_error_handler, array( &$file, __( 'Invalid form submission.' ) ) );
 	}
 	// A successful upload will pass this test. It makes no sense to override this one.
 	if ( isset( $file['error'] ) && $file['error'] > 0 ) {
-		return call_user_func( $upload_error_handler, $file, $upload_error_strings[ $file['error'] ] );
+		return call_user_func_array( $upload_error_handler, array( &$file, $upload_error_strings[ $file['error'] ] ) );
 	}
 
 	$test_file_size = 'wp_handle_upload' === $action ? $file['size'] : filesize( $file['tmp_name'] );
@@ -327,13 +327,13 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 		} else {
 			$error_msg = __( 'File is empty. Please upload something more substantial. This error could also be caused by uploads being disabled in your php.ini or by post_max_size being defined as smaller than upload_max_filesize in php.ini.' );
 		}
-		return call_user_func( $upload_error_handler, $file, $error_msg );
+		return call_user_func_array( $upload_error_handler, array( &$file, $error_msg ) );
 	}
 
 	// A properly uploaded file will pass this test. There should be no reason to override this one.
 	$test_uploaded_file = 'wp_handle_upload' === $action ? @ is_uploaded_file( $file['tmp_name'] ) : @ is_file( $file['tmp_name'] );
 	if ( ! $test_uploaded_file ) {
-		return call_user_func( $upload_error_handler, $file, __( 'Specified file failed upload test.' ) );
+		return call_user_func_array( $upload_error_handler, array( &$file, __( 'Specified file failed upload test.' ) ) );
 	}
 
 	// A correct MIME type will pass this test. Override $mimes or use the upload_mimes filter.
@@ -348,7 +348,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 			$file['name'] = $proper_filename;
 		}
 		if ( ( ! $type || !$ext ) && ! current_user_can( 'unfiltered_upload' ) ) {
-			return call_user_func( $upload_error_handler, $file, __( 'Sorry, this file type is not permitted for security reasons.' ) );
+			return call_user_func_array( $upload_error_handler, array( &$file, __( 'Sorry, this file type is not permitted for security reasons.' ) ) );
 		}
 		if ( ! $type ) {
 			$type = $file['type'];
@@ -362,7 +362,7 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	 * overriding this one.
 	 */
 	if ( ! ( ( $uploads = wp_upload_dir( $time ) ) && false === $uploads['error'] ) ) {
-		return call_user_func( $upload_error_handler, $file, $uploads['error'] );
+		return call_user_func_array( $upload_error_handler, array( &$file, $uploads['error'] ) );
 	}
 
 	$filename = wp_unique_filename( $uploads['path'], $file['name'], $unique_filename_callback );

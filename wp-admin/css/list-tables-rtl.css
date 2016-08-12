@@ -1350,7 +1350,8 @@ ul.cat-checklist {
 	padding: 0;
 }
 
-.plugins .plugin-update-tr .notice {
+.plugins .plugin-update-tr .notice,
+.plugins .plugin-update-tr div[class="update-message"] { /* back-compat for pre-4.6 */
 	margin: 5px 40px 15px 20px;
 }
 

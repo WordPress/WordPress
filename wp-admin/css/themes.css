@@ -1026,11 +1026,11 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 }
 
 .upload-view-toggle .browse,
-.upload-view-toggle.upload-tab .upload {
+.plugin-install-tab-upload .upload-view-toggle .upload {
 	display: none;
 }
 
-.upload-view-toggle.upload-tab .browse {
+.plugin-install-tab-upload .upload-view-toggle .browse {
 	display: inline;
 }
 
@@ -1048,9 +1048,14 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	top: 10px;
 }
 
+.upload-plugin-wrap {
+	display: none;
+}
+
 .show-upload-view .upload-theme,
 .show-upload-view .upload-plugin,
-.upload-tab .upload-plugin {
+.show-upload-view .upload-plugin-wrap,
+.plugin-install-tab-upload .upload-plugin {
 	display: block;
 }
 

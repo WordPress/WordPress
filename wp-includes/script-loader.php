@@ -351,8 +351,6 @@ function wp_default_scripts( &$scripts ) {
 			'None'                    => __( 'None', 'no captions/subtitles' ),
 			'Time Slider'             => __( 'Time Slider' ),
 			/* translators: %1: number of seconds (30 by default) */
-			'Jump forward %1 seconds' => __( 'Jump forward %1 seconds' ),
-			/* translators: %1: number of seconds (30 by default) */
 			'Skip back %1 seconds'    => __( 'Skip back %1 seconds' ),
 			'Video Player'            => __( 'Video Player' ),
 			'Audio Player'            => __( 'Audio Player' ),
@@ -402,7 +400,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'user-profile', "/wp-admin/js/user-profile$suffix.js", array( 'jquery', 'password-strength-meter', 'wp-util' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'user-profile', 'userProfileL10n', array(
 		'warn'     => __( 'Your new password has not been saved.' ),
-		'warnWeak' => __( 'Confirm use of weak password.' ),
+		'warnWeak' => __( 'Confirm use of weak password' ),
 		'show'     => __( 'Show' ),
 		'hide'     => __( 'Hide' ),
 		'cancel'   => __( 'Cancel' ),
@@ -618,6 +616,8 @@ function wp_default_scripts( &$scripts ) {
 				'updated'                    => __( 'Updated!' ),
 				'update'                     => __( 'Update' ),
 				'updateNow'                  => __( 'Update Now' ),
+				/* translators: %s: Plugin name and version */
+				'updateNowLabel'             => __( 'Update %s now' ),
 				'updateFailedShort'          => __( 'Update Failed!' ),
 				/* translators: %s: Error string for a failed update */
 				'updateFailed'               => __( 'Update Failed: %s' ),
@@ -636,7 +636,7 @@ function wp_default_scripts( &$scripts ) {
 				'beforeunload'               => __( 'Updates may not complete if you navigate away from this page.' ),
 				'installNow'                 => __( 'Install Now' ),
 				/* translators: %s: Plugin name */
-				'installNowLabel'            => __( 'Install %s' ),
+				'installNowLabel'            => __( 'Install %s now' ),
 				'installing'                 => __( 'Installing...' ),
 				'installed'                  => __( 'Installed!' ),
 				'installFailedShort'         => __( 'Install Failed!' ),
@@ -679,6 +679,8 @@ function wp_default_scripts( &$scripts ) {
 				/* translators: %s: Importer name */
 				'activateImporterLabel'      => __( 'Run %s' ),
 				'unknownError'               => __( 'An unknown error occurred' ),
+				'connectionError'            => __( 'Connection lost or the server is busy. Please try again later.' ),
+				'nonceError'                 => __( 'An error has occurred. Please reload the page and try again.' ),
 				'pluginsFound'               => __( 'Number of plugins found: %d' ),
 				'noPluginsFound'             => __( 'No plugins found. Try a different search.' ),
 			),
