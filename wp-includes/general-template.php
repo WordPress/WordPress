@@ -2839,12 +2839,11 @@ function wp_resource_hints() {
 					continue;
 				}
 
-				if ( 'dns-prefetch' === $relation_type ) {
-					$url = '//' . $parsed['host'];
-				} else if ( ! empty( $parsed['scheme'] ) ) {
+				if ( 'preconnect' === $relation_type && ! empty( $parsed['scheme'] ) ) {
 					$url = $parsed['scheme'] . '://' . $parsed['host'];
 				} else {
-					$url = $parsed['host'];
+					// Use protocol-relative URLs for dns-prefetch or if scheme is missing.
+					$url = '//' . $parsed['host'];
 				}
 			}
 
