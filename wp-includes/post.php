@@ -3259,16 +3259,6 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		}
 	}
 
-	// Set or remove featured image.
-	if ( isset( $postarr['_thumbnail_id'] ) && ( post_type_supports( $post_type, 'thumbnail' ) || 'revision' === $post_type ) ) {
-		$thumbnail_id = intval( $postarr['_thumbnail_id'] );
-		if ( -1 === $thumbnail_id ) {
-			delete_post_thumbnail( $post_ID );
-		} else {
-			set_post_thumbnail( $post_ID, $thumbnail_id );
-		}
-	}
-
 	if ( ! empty( $postarr['meta_input'] ) ) {
 		foreach ( $postarr['meta_input'] as $field => $value ) {
 			update_post_meta( $post_ID, $field, $value );
@@ -3289,6 +3279,27 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 		if ( ! empty( $postarr['context'] ) ) {
 			add_post_meta( $post_ID, '_wp_attachment_context', $postarr['context'], true );
+		}
+	}
+
+	// Set or remove featured image.
+	if ( isset( $postarr['_thumbnail_id'] ) ) {
+		$thumbnail_support = current_theme_supports( 'post-thumbnails', $post_type ) && post_type_supports( $post_type, 'thumbnail' ) || 'revision' === $post_type;
+		if ( ! $thumbnail_support && 'attachment' === $post_type && $post_mime_type ) {
+			if ( wp_attachment_is( 'audio', $post_ID ) ) {
+				$thumbnail_support = post_type_supports( 'attachment:audio', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:audio' );
+			} elseif ( wp_attachment_is( 'video', $post_ID ) ) {
+				$thumbnail_support = post_type_supports( 'attachment:video', 'thumbnail' ) || current_theme_supports( 'post-thumbnails', 'attachment:video' );
+			}
+		}
+
+		if ( $thumbnail_support ) {
+			$thumbnail_id = intval( $postarr['_thumbnail_id'] );
+			if ( -1 === $thumbnail_id ) {
+				delete_post_thumbnail( $post_ID );
+			} else {
+				set_post_thumbnail( $post_ID, $thumbnail_id );
+			}
 		}
 	}
 
