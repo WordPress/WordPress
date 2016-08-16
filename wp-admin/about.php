@@ -33,7 +33,7 @@ function _wp_override_admin_video_width_limit( $output ) {
 	return str_replace( array( '640', '384' ), array( '1050', '630' ), $output );
 }
 
-$video_url = 'https://videopress.com/embed/scFdjVo6?hd=true';
+$video_url = 'https://videopress.com/embed/GbdhpGF3?hd=true';
 $locale    = str_replace( '_', '-', get_locale() );
 list( $locale ) = explode( '-', $locale );
 if ( 'en' !== $locale ) {
@@ -58,11 +58,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
 		</h2>
 
-		<div class="headline-feature feature-video" style="background-color:#191E23;">
-			<?php /*
+		<div class="headline-feature feature-video">
 			<iframe width="1050" height="591" src="<?php echo esc_url( $video_url ); ?>" frameborder="0" allowfullscreen></iframe>
 			<script src="https://videopress.com/videopress-iframe.js"></script>
-			*/ ?>
 		</div>
 
 		<hr>
@@ -74,9 +72,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			if ( ! wp_is_mobile() ) {
 				add_filter( 'wp_video_shortcode', '_wp_override_admin_video_width_limit' );
 				echo wp_video_shortcode( array(
-					'mp4'      => 'https://cldup.com/5ho0rKdXXe.mp4',
-					'webm'     => 'https://cldup.com/VdSgwAtHNX.webm',
-					'poster'   => 'https://cldup.com/gqVj6h0cdN.png',
+					'mp4'      => 'https://s.w.org/images/core/4.6/streamlined-updates.mp4',
+					'webm'     => 'https://s.w.org/images/core/4.6/streamlined-updates.webm',
+					'poster'   => 'https://s.w.org/images/core/4.6/streamlined-updates-2000.png?v1',
 					'loop'     => true,
 					'autoplay' => true,
 					'width'    => 1050,
@@ -85,7 +83,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				) );
 				remove_filter( 'wp_video_shortcode', '_wp_override_admin_video_width_limit' );
 			} else {
-				echo '<img src="https://cldup.com/8pY6zLUSfW.png" alt="" srcset="https://cldup.com/ll_qMRAun3.png 1664w, https://cldup.com/ztNUcic9KZ.png 200w, https://cldup.com/8pY6zLUSfW.png 1057w, https://cldup.com/gqVj6h0cdN.png 2000w"  sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px" />';
+				echo '<img src="https://s.w.org/images/core/4.6/streamlined-updates-1057.png?v1" alt="" srcset="https://s.w.org/images/core/4.6/streamlined-updates-1664.png?v1 1664w, https://s.w.org/images/core/4.6/streamlined-updates-200.png?v1 200w, https://s.w.org/images/core/4.6/streamlined-updates-1057.png?v1 1057w, https://s.w.org/images/core/4.6/streamlined-updates-2000.png?v1 2000w"  sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px" />';
 			}
 			?>
 		</div>
@@ -95,7 +93,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="native-fonts feature-section one-col">
 			<h2><?php _e( 'Native Fonts' ); ?></h2>
 			<p><?php _e( 'The WordPress dashboard now takes advantage of the fonts you already have, making it load faster and letting you feel more at home on whatever device you use.' ); ?></p>
-			<img src="https://cldup.com/Hqmo5VLb-E.png" alt="" srcset="https://cldup.com/Hqmo5VLb-E.png 922w, https://cldup.com/YiMPjePe7J.png 200w, https://cldup.com/xqWD9T2h61.png 371w, https://cldup.com/OGC8NS0zmX.png 510w, https://cldup.com/cXPTP-tbix.png 560w, https://cldup.com/gjZNfc58Ya.png 781w, https://cldup.com/5tU3wu6537.png 2000w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px"/>
+			<img src="https://s.w.org/images/core/4.6/native-fonts-992.png?v1" alt="" srcset="https://cldup.com/Hqmo5VLb-E.png?v1 922w, https://s.w.org/images/core/4.6/native-fonts-200.png?v1 200w,https://s.w.org/images/core/4.6/native-fonts-371.png?v1 371w,https://s.w.org/images/core/4.6/native-fonts-510.png?v1 510w, https://s.w.org/images/core/4.6/native-fonts-560.png?v1 560w, https://s.w.org/images/core/4.6/native-fonts-781.png?v1 781w, https://s.w.org/images/core/4.6/native-fonts-2000.png?v1 2000w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px"/>
 		</div>
 
 		<hr />
@@ -103,7 +101,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<h2><?php _e( 'Editor Improvements' ); ?></h2>
 			<div class="col">
-				<img src="https://cldup.com/k3kZhYI0tE.png" alt="" srcset="https://cldup.com/ACglmMoOdP.png 789w, https://cldup.com/P9uN0OArJ7.png 200w, https://cldup.com/3TU9rBnLw5.png 384w, https://cldup.com/k3kZhYI0tE.png 608w, https://cldup.com/rUgTVXZedO.png 992w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
+				<img src="https://s.w.org/images/core/4.6/inline-link-checker-608.png?v1" alt="" srcset="https://s.w.org/images/core/4.6/inline-link-checker-789.png?v1 789w, https://s.w.org/images/core/4.6/inline-link-checker-200.png?v1 200w, https://s.w.org/images/core/4.6/inline-link-checker-384.png?v1 384w, https://s.w.org/images/core/4.6/inline-link-checker-608.png?v1 608w, https://s.w.org/images/core/4.6/inline-link-checker-992.png?v1 992w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
 				<h3><?php _e( 'Inline Link Checker' ); ?></h3>
 				<p><?php
 					printf(
@@ -114,7 +112,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				?></p>
 			</div>
 			<div class="col">
-				<img src="https://cldup.com/wbwkFYER9C.png" alt="" srcset="https://cldup.com/9T-ckRM67P.png 701w, https://cldup.com/QAjwr6h33d.png 200w, https://cldup.com/YwJSETYBwk.png 400w, https://cldup.com/wbwkFYER9C.png 561w, https://cldup.com/sQYWMMsU4g.png 992w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
+				<img src="https://s.w.org/images/core/4.6/content-recovery-561.png?v1" alt="" srcset="https://s.w.org/images/core/4.6/content-recovery-701.png?v1 701w, https://s.w.org/images/core/4.6/content-recovery-200.png?v1 200w, https://s.w.org/images/core/4.6/content-recovery-400.png?v1 400w, https://s.w.org/images/core/4.6/content-recovery-561.png?v1 561w, https://s.w.org/images/core/4.6/content-recovery-992.png?v1 992w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
 				<h3><?php _e( 'Content Recovery' ); ?></h3>
 				<p><?php _e( 'As you type, WordPress saves your content to the browser. Recovering saved content is even easier with WordPress 4.6.' ); ?></p>
 			</div>
