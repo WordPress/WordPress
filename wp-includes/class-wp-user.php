@@ -102,6 +102,13 @@ class WP_User {
 	private static $back_compat_keys;
 
 	/**
+	 * @since 4.7.0
+	 * @access protected
+	 * @var wpdb
+	 */
+	protected $db;
+
+	/**
 	 * Constructor.
 	 *
 	 * Retrieves the userdata and passes it to WP_User::init().
@@ -109,15 +116,15 @@ class WP_User {
 	 * @since 2.0.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
-	 *
 	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
 	 * @param string $name Optional. User's username
 	 * @param int $blog_id Optional Site ID, defaults to current site.
 	 */
 	public function __construct( $id = 0, $name = '', $blog_id = '' ) {
+		$this->db = $GLOBALS['wpdb'];
+
 		if ( ! isset( self::$back_compat_keys ) ) {
-			$prefix = $GLOBALS['wpdb']->prefix;
+			$prefix = $this->db->prefix;
 			self::$back_compat_keys = array(
 				'user_firstname' => 'first_name',
 				'user_lastname' => 'last_name',
@@ -232,10 +239,10 @@ class WP_User {
 		}
 
 		if ( !$user = $wpdb->get_row( $wpdb->prepare(
-			"SELECT * FROM $wpdb->users WHERE $db_field = %s", $value
-		) ) )
+			"SELECT * FROM {$wpdb->users} WHERE $db_field = %s", $value
+		) ) ) {
 			return false;
-
+		}
 		update_user_caches( $user );
 
 		return $user;
@@ -442,18 +449,14 @@ class WP_User {
 	 * @access protected
 	 * @since 2.1.0
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
-	 *
 	 * @param string $cap_key Optional capability key
 	 */
 	protected function _init_caps( $cap_key = '' ) {
-		global $wpdb;
-
-		if ( empty($cap_key) )
-			$this->cap_key = $wpdb->get_blog_prefix() . 'capabilities';
-		else
+		if ( empty( $cap_key ) ) {
+			$this->cap_key = $this->db->get_blog_prefix() . 'capabilities';
+		} else {
 			$this->cap_key = $cap_key;
-
+		}
 		$this->caps = get_user_meta( $this->ID, $this->cap_key, true );
 
 		if ( ! is_array( $this->caps ) )
@@ -631,13 +634,10 @@ class WP_User {
 	 *
 	 * @since 2.0.0
 	 * @access public
-	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function update_user_level_from_caps() {
-		global $wpdb;
 		$this->user_level = array_reduce( array_keys( $this->allcaps ), array( $this, 'level_reduction' ), 0 );
-		update_user_meta( $this->ID, $wpdb->get_blog_prefix() . 'user_level', $this->user_level );
+		update_user_meta( $this->ID, $this->db->get_blog_prefix() . 'user_level', $this->user_level );
 	}
 
 	/**
@@ -679,14 +679,11 @@ class WP_User {
 	 *
 	 * @since 2.1.0
 	 * @access public
-	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
 	 */
 	public function remove_all_caps() {
-		global $wpdb;
 		$this->caps = array();
 		delete_user_meta( $this->ID, $this->cap_key );
-		delete_user_meta( $this->ID, $wpdb->get_blog_prefix() . 'user_level' );
+		delete_user_meta( $this->ID, $this->db->get_blog_prefix() . 'user_level' );
 		$this->get_role_caps();
 	}
 
@@ -772,16 +769,14 @@ class WP_User {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
-	 *
 	 * @param int $blog_id Optional. Site ID, defaults to current site.
 	 */
 	public function for_blog( $blog_id = '' ) {
-		global $wpdb;
-		if ( ! empty( $blog_id ) )
-			$cap_key = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
-		else
+		if ( ! empty( $blog_id ) ) {
+			$cap_key = $this->db->get_blog_prefix( $blog_id ) . 'capabilities';
+		} else {
 			$cap_key = '';
+		}
 		$this->_init_caps( $cap_key );
 	}
 }

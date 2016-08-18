@@ -92,6 +92,13 @@ class WP_Tax_Query {
 	public $primary_id_column;
 
 	/**
+	 * @since 4.7.0
+	 * @access protected
+	 * @var wpdb
+	 */
+	protected $db;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.1.0
@@ -119,6 +126,8 @@ class WP_Tax_Query {
 	 * }
 	 */
 	public function __construct( $tax_query ) {
+		$this->db = $GLOBALS['wpdb'];
+
 		if ( isset( $tax_query['relation'] ) ) {
 			$this->relation = $this->sanitize_relation( $tax_query['relation'] );
 		} else {
@@ -387,8 +396,6 @@ class WP_Tax_Query {
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb The WordPress database abstraction object.
-	 *
 	 * @param array $clause       Query clause, passed by reference.
 	 * @param array $parent_query Parent query array.
 	 * @return array {
@@ -399,8 +406,6 @@ class WP_Tax_Query {
 	 * }
 	 */
 	public function get_sql_for_clause( &$clause, $parent_query ) {
-		global $wpdb;
-
 		$sql = array(
 			'where' => array(),
 			'join'  => array(),
@@ -432,7 +437,7 @@ class WP_Tax_Query {
 			$alias = $this->find_compatible_table_alias( $clause, $parent_query );
 			if ( false === $alias ) {
 				$i = count( $this->table_aliases );
-				$alias = $i ? 'tt' . $i : $wpdb->term_relationships;
+				$alias = $i ? 'tt' . $i : $this->db->term_relationships;
 
 				// Store the alias as part of a flat array to build future iterators.
 				$this->table_aliases[] = $alias;
@@ -440,7 +445,7 @@ class WP_Tax_Query {
 				// Store the alias with this clause, so later siblings can use it.
 				$clause['alias'] = $alias;
 
-				$join .= " LEFT JOIN $wpdb->term_relationships";
+				$join .= " LEFT JOIN {$this->db->term_relationships}";
 				$join .= $i ? " AS $alias" : '';
 				$join .= " ON ($this->primary_table.$this->primary_id_column = $alias.object_id)";
 			}
@@ -458,7 +463,7 @@ class WP_Tax_Query {
 
 			$where = "$this->primary_table.$this->primary_id_column NOT IN (
 				SELECT object_id
-				FROM $wpdb->term_relationships
+				FROM {$this->db->term_relationships}
 				WHERE term_taxonomy_id IN ($terms)
 			)";
 
@@ -474,20 +479,20 @@ class WP_Tax_Query {
 
 			$where = "(
 				SELECT COUNT(1)
-				FROM $wpdb->term_relationships
+				FROM {$this->db->term_relationships}
 				WHERE term_taxonomy_id IN ($terms)
 				AND object_id = $this->primary_table.$this->primary_id_column
 			) = $num_terms";
 
 		} elseif ( 'NOT EXISTS' === $operator || 'EXISTS' === $operator ) {
 
-			$where = $wpdb->prepare( "$operator (
+			$where = $this->db->prepare( "$operator (
 				SELECT 1
-				FROM $wpdb->term_relationships
-				INNER JOIN $wpdb->term_taxonomy
-				ON $wpdb->term_taxonomy.term_taxonomy_id = $wpdb->term_relationships.term_taxonomy_id
-				WHERE $wpdb->term_taxonomy.taxonomy = %s
-				AND $wpdb->term_relationships.object_id = $this->primary_table.$this->primary_id_column
+				FROM {$this->db->term_relationships}
+				INNER JOIN {$this->db->term_taxonomy}
+				ON {$this->db->term_taxonomy}.term_taxonomy_id = {$this->db->term_relationships}.term_taxonomy_id
+				WHERE {$this->db->term_taxonomy}.taxonomy = %s
+				AND {$this->db->term_relationships}.object_id = $this->primary_table.$this->primary_id_column
 			)", $clause['taxonomy'] );
 
 		}
@@ -597,15 +602,11 @@ class WP_Tax_Query {
 	 *
 	 * @since 3.2.0
 	 *
-	 * @global wpdb $wpdb The WordPress database abstraction object.
-	 *
 	 * @param array  $query           The single query. Passed by reference.
 	 * @param string $resulting_field The resulting field. Accepts 'slug', 'name', 'term_taxonomy_id',
 	 *                                or 'term_id'. Default 'term_id'.
 	 */
 	public function transform_query( &$query, $resulting_field ) {
-		global $wpdb;
-
 		if ( empty( $query['terms'] ) )
 			return;
 
@@ -628,27 +629,27 @@ class WP_Tax_Query {
 
 				$terms = implode( ",", $query['terms'] );
 
-				$terms = $wpdb->get_col( "
-					SELECT $wpdb->term_taxonomy.$resulting_field
-					FROM $wpdb->term_taxonomy
-					INNER JOIN $wpdb->terms USING (term_id)
+				$terms = $this->db->get_col( "
+					SELECT {$this->db->term_taxonomy}.$resulting_field
+					FROM {$this->db->term_taxonomy}
+					INNER JOIN {$this->db->terms} USING (term_id)
 					WHERE taxonomy = '{$query['taxonomy']}'
-					AND $wpdb->terms.{$query['field']} IN ($terms)
+					AND {$this->db->terms}.{$query['field']} IN ($terms)
 				" );
 				break;
 			case 'term_taxonomy_id':
 				$terms = implode( ',', array_map( 'intval', $query['terms'] ) );
-				$terms = $wpdb->get_col( "
+				$terms = $this->db->get_col( "
 					SELECT $resulting_field
-					FROM $wpdb->term_taxonomy
+					FROM {$this->db->term_taxonomy}
 					WHERE term_taxonomy_id IN ($terms)
 				" );
 				break;
 			default:
 				$terms = implode( ',', array_map( 'intval', $query['terms'] ) );
-				$terms = $wpdb->get_col( "
+				$terms = $this->db->get_col( "
 					SELECT $resulting_field
-					FROM $wpdb->term_taxonomy
+					FROM {$this->db->term_taxonomy}
 					WHERE taxonomy = '{$query['taxonomy']}'
 					AND term_id IN ($terms)
 				" );
