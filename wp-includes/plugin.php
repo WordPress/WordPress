@@ -14,6 +14,8 @@
  * Also see the {@link https://codex.wordpress.org/Plugin_API Plugin API} for
  * more information and examples on how to use a lot of these functions.
  *
+ * This file should have no external dependencies.
+ *
  * @package WordPress
  * @subpackage Plugin
  * @since 1.5.0
