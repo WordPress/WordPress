@@ -284,13 +284,12 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 	if ( isset($file['error']) )
 		return new WP_Error( 'upload_error', $file['error'] );
 
-	$name_parts = pathinfo($name);
-	$name = trim( substr( $name, 0, -(1 + strlen($name_parts['extension'])) ) );
+	$basename = pathinfo( $name, PATHINFO_BASENAME );
 
 	$url = $file['url'];
 	$type = $file['type'];
 	$file = $file['file'];
-	$title = $name;
+	$title = $basename;
 	$content = '';
 	$excerpt = '';
 

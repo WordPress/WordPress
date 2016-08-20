@@ -2034,13 +2034,16 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 	$filename = sanitize_file_name($filename);
 
 	// Separate the filename into a name and extension.
-	$info = pathinfo($filename);
-	$ext = !empty($info['extension']) ? '.' . $info['extension'] : '';
-	$name = basename($filename, $ext);
+	$ext = pathinfo( $filename, PATHINFO_EXTENSION );
+	$name = pathinfo( $filename, PATHINFO_BASENAME );
+	if ( $ext ) {
+		$ext = '.' . $ext;
+	}
 
 	// Edge case: if file is named '.ext', treat as an empty name.
-	if ( $name === $ext )
+	if ( $name === $ext ) {
 		$name = '';
+	}
 
 	/*
 	 * Increment the file number until we have a unique file to save in $dir.

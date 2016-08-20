@@ -761,28 +761,33 @@ function wp_save_image( $post_id ) {
 		$backup_sizes = array();
 
 	// Generate new filename.
-	$path = get_attached_file($post_id);
-	$path_parts = pathinfo( $path );
-	$filename = $path_parts['filename'];
+	$path = get_attached_file( $post_id );
+
+	$basename = pathinfo( $path, PATHINFO_BASENAME );
+	$dirname = pathinfo( $path, PATHINFO_DIRNAME );
+	$ext = pathinfo( $path, PATHINFO_EXTENSION );
+	$filename = pathinfo( $path, PATHINFO_FILENAME );
 	$suffix = time() . rand(100, 999);
 
 	if ( defined('IMAGE_EDIT_OVERWRITE') && IMAGE_EDIT_OVERWRITE &&
-		isset($backup_sizes['full-orig']) && $backup_sizes['full-orig']['file'] != $path_parts['basename'] ) {
+		isset($backup_sizes['full-orig']) && $backup_sizes['full-orig']['file'] != $basename ) {
 
-		if ( 'thumbnail' == $target )
-			$new_path = "{$path_parts['dirname']}/{$filename}-temp.{$path_parts['extension']}";
-		else
+		if ( 'thumbnail' == $target ) {
+			$new_path = "{$dirname}/{$filename}-temp.{$ext}";
+		} else {
 			$new_path = $path;
+		}
 	} else {
-		while( true ) {
+		while ( true ) {
 			$filename = preg_replace( '/-e([0-9]+)$/', '', $filename );
 			$filename .= "-e{$suffix}";
-			$new_filename = "{$filename}.{$path_parts['extension']}";
-			$new_path = "{$path_parts['dirname']}/$new_filename";
-			if ( file_exists($new_path) )
+			$new_filename = "{$filename}.{$ext}";
+			$new_path = "{$dirname}/$new_filename";
+			if ( file_exists($new_path) ) {
 				$suffix++;
-			else
+			} else {
 				break;
+			}
 		}
 	}
 
@@ -792,18 +797,19 @@ function wp_save_image( $post_id ) {
 		return $return;
 	}
 
-	if ( 'nothumb' == $target || 'all' == $target || 'full' == $target || $scaled ) {
+	if ( 'nothumb' === $target || 'all' === $target || 'full' === $target || $scaled ) {
 		$tag = false;
-		if ( isset($backup_sizes['full-orig']) ) {
-			if ( ( !defined('IMAGE_EDIT_OVERWRITE') || !IMAGE_EDIT_OVERWRITE ) && $backup_sizes['full-orig']['file'] != $path_parts['basename'] )
+		if ( isset( $backup_sizes['full-orig'] ) ) {
+			if ( ( ! defined( 'IMAGE_EDIT_OVERWRITE' ) || ! IMAGE_EDIT_OVERWRITE ) && $backup_sizes['full-orig']['file'] !== $basename ) {
 				$tag = "full-$suffix";
+			}
 		} else {
 			$tag = 'full-orig';
 		}
 
-		if ( $tag )
-			$backup_sizes[$tag] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $path_parts['basename']);
-
+		if ( $tag ) {
+			$backup_sizes[$tag] = array('width' => $meta['width'], 'height' => $meta['height'], 'file' => $basename );
+		}
 		$success = ( $path === $new_path ) || update_attached_file( $post_id, $new_path );
 
 		$meta['file'] = _wp_relative_upload_path( $new_path );
@@ -834,7 +840,7 @@ function wp_save_image( $post_id ) {
 	if ( defined( 'IMAGE_EDIT_OVERWRITE' ) && IMAGE_EDIT_OVERWRITE && ! empty( $meta['sizes'] ) ) {
 		foreach ( $meta['sizes'] as $size ) {
 			if ( ! empty( $size['file'] ) && preg_match( '/-e[0-9]{13}-/', $size['file'] ) ) {
-				$delete_file = path_join( $path_parts['dirname'], $size['file'] );
+				$delete_file = path_join( $dirname, $size['file'] );
 				wp_delete_file( $delete_file );
 			}
 		}
