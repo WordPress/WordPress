@@ -181,7 +181,7 @@ function get_object_taxonomies( $object, $output = 'names' ) {
 
 	if ( is_object($object) ) {
 		if ( $object->post_type == 'attachment' )
-			return get_attachment_taxonomies($object);
+			return get_attachment_taxonomies( $object, $output );
 		$object = $object->post_type;
 	}
 

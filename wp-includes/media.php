@@ -2694,11 +2694,15 @@ function adjacent_image_link( $prev = true, $size = 'thumbnail', $text = false )
  * Retrieves taxonomies attached to given the attachment.
  *
  * @since 2.5.0
+ * @since 4.7.0 Introduced the `$output` parameter.
  *
  * @param int|array|object $attachment Attachment ID, data array, or data object.
+ * @param string           $output     Output type. 'names' to return an array of taxonomy names,
+ *                                     or 'objects' to return an array of taxonomy objects.
+ *                                     Default is 'names'.
  * @return array Empty array on failure. List of taxonomies on success.
  */
-function get_attachment_taxonomies( $attachment ) {
+function get_attachment_taxonomies( $attachment, $output = 'names' ) {
 	if ( is_int( $attachment ) ) {
 		$attachment = get_post( $attachment );
 	} elseif ( is_array( $attachment ) ) {
@@ -2723,9 +2727,11 @@ function get_attachment_taxonomies( $attachment ) {
 	}
 
 	$taxonomies = array();
-	foreach ( $objects as $object )
-		if ( $taxes = get_object_taxonomies($object) )
-			$taxonomies = array_merge($taxonomies, $taxes);
+	foreach ( $objects as $object ) {
+		if ( $taxes = get_object_taxonomies( $object, $output ) ) {
+			$taxonomies = array_merge( $taxonomies, $taxes );
+		}
+	}
 
 	return array_unique($taxonomies);
 }
