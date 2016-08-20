@@ -1445,11 +1445,13 @@ function the_attachment_link( $id = 0, $fullsize = false, $deprecated = false, $
 function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = false, $icon = false, $text = false, $attr = '' ) {
 	$_post = get_post( $id );
 
-	if ( empty( $_post ) || ( 'attachment' != $_post->post_type ) || ! $url = wp_get_attachment_url( $_post->ID ) )
+	if ( empty( $_post ) || ( 'attachment' !== $_post->post_type ) || ! $url = wp_get_attachment_url( $_post->ID ) ) {
 		return __( 'Missing Attachment' );
+	}
 
-	if ( $permalink )
+	if ( $permalink ) {
 		$url = get_attachment_link( $_post->ID );
+	}
 
 	if ( $text ) {
 		$link_text = $text;
@@ -1459,9 +1461,13 @@ function wp_get_attachment_link( $id = 0, $size = 'thumbnail', $permalink = fals
 		$link_text = '';
 	}
 
-	if ( trim( $link_text ) == '' )
+	if ( '' === trim( $link_text ) ) {
 		$link_text = $_post->post_title;
+	}
 
+	if ( '' === trim( $link_text ) ) {
+		$link_text = esc_html( pathinfo( get_attached_file( $_post->ID ), PATHINFO_FILENAME ) );
+	}
 	/**
 	 * Filters a retrieved attachment page link.
 	 *
