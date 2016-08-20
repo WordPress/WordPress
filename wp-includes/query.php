@@ -1602,7 +1602,13 @@ class WP_Query {
 		if ( ! empty($qv['robots']) )
 			$this->is_robots = true;
 
-		$qv['p'] =  absint($qv['p']);
+		if ( ! is_scalar( $qv['p'] ) || $qv['p'] < 0 ) {
+			$qv['p'] = 0;
+			$qv['error'] = '404';
+		} else {
+			$qv['p'] = intval( $qv['p'] );
+		}
+
 		$qv['page_id'] =  absint($qv['page_id']);
 		$qv['year'] = absint($qv['year']);
 		$qv['monthnum'] = absint($qv['monthnum']);
