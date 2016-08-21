@@ -1012,7 +1012,7 @@ class WP_Comment_Query {
 
 		// Prime comment caches for non-top-level comments.
 		$descendant_ids = array();
-		for ( $i = 1; $i < count( $levels ); $i++ ) {
+		for ( $i = 1, $c = count( $levels ); $i <= $c; $i++ ) {
 			$descendant_ids = array_merge( $descendant_ids, $levels[ $i ] );
 		}
 
