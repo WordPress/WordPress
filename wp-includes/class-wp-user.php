@@ -27,6 +27,7 @@
  * @property string $user_registered
  * @property string $user_activation_key
  * @property string $user_status
+ * @property int    $user_level
  * @property string $display_name
  * @property string $spam
  * @property string $deleted
@@ -84,13 +85,6 @@ class WP_User {
 	 * @var array
 	 */
 	public $allcaps = array();
-
-	/**
-	 * @since 2.0.0
-	 * @access public
-	 * @var int
-	 */
-	public $user_level = 0;
 
 	/**
 	 * The filter context applied to user data fields.
