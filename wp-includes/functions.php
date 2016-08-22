@@ -3137,7 +3137,7 @@ function wp_check_jsonp_callback( $callback ) {
 		return false;
 	}
 
-	$jsonp_callback = preg_replace( '/[^\w\.]/', '', $callback, -1, $illegal_char_count );
+	preg_replace( '/[^\w\.]/', '', $callback, -1, $illegal_char_count );
 
 	return 0 === $illegal_char_count;
 }
