@@ -446,7 +446,7 @@
 				'url': itemUrl.val(),
 				'type': 'custom',
 				'type_label': api.Menus.data.l10n.custom_label,
-				'object': ''
+				'object': 'custom'
 			};
 
 			this.currentMenuControl.addItemToMenu( menuItem );
