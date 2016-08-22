@@ -1259,7 +1259,7 @@ function get_the_term_list( $id, $taxonomy, $before = '', $sep = '', $after = ''
 	 *
 	 * @param array $links An array of term links.
 	 */
-	$term_links = apply_filters( "term_links-$taxonomy", $links );
+	$term_links = apply_filters( "term_links-{$taxonomy}", $links );
 
 	return $before . join( $sep, $term_links ) . $after;
 }

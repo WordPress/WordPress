@@ -331,7 +331,7 @@ do_action( 'add_meta_boxes', $post_type, $post );
  *
  * @param WP_Post $post Post object.
  */
-do_action( 'add_meta_boxes_' . $post_type, $post );
+do_action( "add_meta_boxes_{$post_type}", $post );
 
 /**
  * Fires after meta boxes have been added.

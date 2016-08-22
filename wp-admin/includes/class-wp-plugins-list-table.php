@@ -864,7 +864,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		 *                            'Inactive', 'Recently Activated', 'Upgrade', 'Must-Use',
 		 *                            'Drop-ins', 'Search'.
 		 */
-		do_action( "after_plugin_row_$plugin_file", $plugin_file, $plugin_data, $status );
+		do_action( "after_plugin_row_{$plugin_file}", $plugin_file, $plugin_data, $status );
 	}
 
 	/**

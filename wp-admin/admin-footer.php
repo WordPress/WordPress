@@ -83,7 +83,7 @@ do_action( 'admin_footer', '' );
  *
  * @param string $hook_suffix The current admin page.
  */
-do_action( "admin_print_footer_scripts-$hook_suffix" );
+do_action( "admin_print_footer_scripts-{$hook_suffix}" );
 
 /**
  * Prints any scripts and data queued for the footer.
@@ -103,7 +103,7 @@ do_action( 'admin_print_footer_scripts' );
  * @global string $hook_suffix
  * @param string $hook_suffix The current admin page.
  */
-do_action( "admin_footer-$hook_suffix" );
+do_action( "admin_footer-{$hook_suffix}" );
 
 // get_site_option() won't exist when auto upgrading from <= 2.7
 if ( function_exists('get_site_option') ) {

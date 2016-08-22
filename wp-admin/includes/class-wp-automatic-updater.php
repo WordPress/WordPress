@@ -176,7 +176,7 @@ class WP_Automatic_Updater {
 		 * @param bool   $update Whether to update.
 		 * @param object $item   The update offer.
 		 */
-		$update = apply_filters( 'auto_update_' . $type, $update, $item );
+		$update = apply_filters( "auto_update_{$type}", $update, $item );
 
 		if ( ! $update ) {
 			if ( 'core' == $type )

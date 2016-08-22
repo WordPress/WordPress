@@ -383,7 +383,7 @@ class WP_Customize_Control {
 		 *
 		 * @param WP_Customize_Control $this WP_Customize_Control instance.
 		 */
-		do_action( 'customize_render_control_' . $this->id, $this );
+		do_action( "customize_render_control_{$this->id}", $this );
 
 		$this->render();
 	}

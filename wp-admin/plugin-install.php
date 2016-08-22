@@ -64,7 +64,7 @@ wp_enqueue_script( 'updates' );
  *
  * @since 2.7.0
  */
-do_action( "install_plugins_pre_$tab" );
+do_action( "install_plugins_pre_{$tab}" );
 
 /*
  * Call the pre upload action on every non-upload plugin install screen
@@ -155,7 +155,7 @@ if ( $tab !== 'upload' ) {
  *
  * @param int $paged The current page number of the plugins list table.
  */
-do_action( "install_plugins_$tab", $paged ); ?>
+do_action( "install_plugins_{$tab}", $paged ); ?>
 
 	<span class="spinner"></span>
 </div>

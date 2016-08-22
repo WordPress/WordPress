@@ -95,7 +95,7 @@ if ( $tab == 'type' || $tab == 'type_url' || ! array_key_exists( $tab , media_up
 	 *
 	 * @since 2.5.0
 	 */
-	do_action( "media_upload_$type" );
+	do_action( "media_upload_{$type}" );
 } else {
 	/**
 	 * Fires inside limited and specific upload-tab views in the legacy
@@ -107,6 +107,6 @@ if ( $tab == 'type' || $tab == 'type_url' || ! array_key_exists( $tab , media_up
 	 *
 	 * @since 2.5.0
 	 */
-	do_action( "media_upload_$tab" );
+	do_action( "media_upload_{$tab}" );
 }
 

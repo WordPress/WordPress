@@ -426,7 +426,7 @@ do_action( 'login_init' );
  *
  * @since 2.8.0
  */
-do_action( 'login_form_' . $action );
+do_action( "login_form_{$action}" );
 
 $http_post = ('POST' == $_SERVER['REQUEST_METHOD']);
 $interim_login = isset($_REQUEST['interim-login']);

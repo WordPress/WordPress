@@ -134,7 +134,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		 *
 		 * @param array $args An array of themes API arguments.
 		 */
-		$args = apply_filters( 'install_themes_table_api_args_' . $tab, $args );
+		$args = apply_filters( "install_themes_table_api_args_{$tab}", $args );
 
 		if ( ! $args )
 			return;

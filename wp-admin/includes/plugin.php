@@ -588,7 +588,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			 * @param bool $network_wide Whether to enable the plugin for all sites in the network
 			 *                           or just the current site. Multisite only. Default is false.
 			 */
-			do_action( 'activate_' . $plugin, $network_wide );
+			do_action( "activate_{$plugin}", $network_wide );
 		}
 
 		if ( $network_wide ) {
@@ -701,7 +701,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			 * @param bool $network_deactivating Whether the plugin is deactivated for all sites in the network
 			 *                                   or just the current site. Multisite only. Default is false.
 			 */
-			do_action( 'deactivate_' . $plugin, $network_deactivating );
+			do_action( "deactivate_{$plugin}", $network_deactivating );
 
 			/**
 			 * Fires after a plugin is deactivated.

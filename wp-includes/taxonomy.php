@@ -871,7 +871,7 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 	 * @param int|WP_Term $_term    Term object or ID.
 	 * @param string      $taxonomy The taxonomy slug.
 	 */
-	$_term = apply_filters( "get_$taxonomy", $_term, $taxonomy );
+	$_term = apply_filters( "get_{$taxonomy}", $_term, $taxonomy );
 
 	// Bail if a filter callback has changed the type of the `$_term` object.
 	if ( ! ( $_term instanceof WP_Term ) ) {
@@ -1915,7 +1915,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
 	 *                              by the parent function. WP_Error otherwise.
 	 * @param array   $object_ids   List of term object IDs.
 	 */
-	do_action( "delete_$taxonomy", $term, $tt_id, $deleted_term, $object_ids );
+	do_action( "delete_{$taxonomy}", $term, $tt_id, $deleted_term, $object_ids );
 
 	return true;
 }
@@ -2406,7 +2406,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * @param int $term_id Term ID.
 	 * @param int $tt_id   Term taxonomy ID.
 	 */
-	do_action( "create_$taxonomy", $term_id, $tt_id );
+	do_action( "create_{$taxonomy}", $term_id, $tt_id );
 
 	/**
 	 * Filters the term ID after a new term is created.
@@ -2442,7 +2442,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	 * @param int $term_id Term ID.
 	 * @param int $tt_id   Term taxonomy ID.
 	 */
-	do_action( "created_$taxonomy", $term_id, $tt_id );
+	do_action( "created_{$taxonomy}", $term_id, $tt_id );
 
 	return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
 }
@@ -2987,7 +2987,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 * @param int $term_id Term ID.
 	 * @param int $tt_id   Term taxonomy ID.
 	 */
-	do_action( "edit_$taxonomy", $term_id, $tt_id );
+	do_action( "edit_{$taxonomy}", $term_id, $tt_id );
 
 	/** This filter is documented in wp-includes/taxonomy.php */
 	$term_id = apply_filters( 'term_id_filter', $term_id, $tt_id );
@@ -3016,7 +3016,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 * @param int $term_id Term ID.
 	 * @param int $tt_id   Term taxonomy ID.
 	 */
-	do_action( "edited_$taxonomy", $term_id, $tt_id );
+	do_action( "edited_{$taxonomy}", $term_id, $tt_id );
 
 	return array('term_id' => $term_id, 'term_taxonomy_id' => $tt_id);
 }

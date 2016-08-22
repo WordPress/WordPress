@@ -200,7 +200,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		 *
 		 * @param array|bool $args Plugin Install API arguments.
 		 */
-		$args = apply_filters( "install_plugins_table_api_args_$tab", $args );
+		$args = apply_filters( "install_plugins_table_api_args_{$tab}", $args );
 
 		if ( !$args )
 			return;
