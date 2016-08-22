@@ -421,10 +421,8 @@ function rest_handle_options_request( $response, $handler, $request ) {
 	$response = new WP_REST_Response();
 	$data = array();
 
-	$accept = array();
-
 	foreach ( $handler->get_routes() as $route => $endpoints ) {
-		$match = preg_match( '@^' . $route . '$@i', $request->get_route(), $args );
+		$match = preg_match( '@^' . $route . '$@i', $request->get_route() );
 
 		if ( ! $match ) {
 			continue;
