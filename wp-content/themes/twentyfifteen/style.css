@@ -1565,6 +1565,7 @@ img.aligncenter {
 	padding: 0 7.6923%;
 }
 
+
 .secondary.toggled-on {
 	border-top: 1px solid transparent;
 	border-bottom: 1px solid transparent;
@@ -1580,6 +1581,12 @@ img.aligncenter {
 	border-top: 1px solid rgba(51, 51, 51, 0.1);
 	padding: 3.84615% 7.6923%;
 }
+
+.site-content { 
+        word-wrap: break-word; 
+        overflow-wrap: break-word; 
+	
+} 
 
 
 /**
