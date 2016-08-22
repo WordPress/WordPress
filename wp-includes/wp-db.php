@@ -1174,18 +1174,19 @@ class wpdb {
 	 *
 	 * @uses wpdb::_real_escape()
 	 * @since  2.8.0
-	 * @access private
+	 * @access public
 	 *
 	 * @param  string|array $data
 	 * @return string|array escaped
 	 */
-	function _escape( $data ) {
+	public function _escape( $data ) {
 		if ( is_array( $data ) ) {
 			foreach ( $data as $k => $v ) {
-				if ( is_array($v) )
+				if ( is_array( $v ) ) {
 					$data[$k] = $this->_escape( $v );
-				else
+				} else {
 					$data[$k] = $this->_real_escape( $v );
+				}
 			}
 		} else {
 			$data = $this->_real_escape( $data );
