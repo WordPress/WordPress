@@ -646,7 +646,9 @@
 	api.Menus.MenuSection = api.Section.extend({
 
 		/**
-		 * @since Menu Customizer 0.3
+		 * Initialize.
+		 *
+		 * @since 4.3.0
 		 *
 		 * @param {String} id
 		 * @param {Object} options
@@ -658,7 +660,7 @@
 		},
 
 		/**
-		 *
+		 * Ready.
 		 */
 		ready: function() {
 			var section = this;
@@ -798,7 +800,7 @@
 		},
 
 		/**
-		 * @param {array} themeLocations
+		 * @param {Array} themeLocationSlugs Theme location slugs.
 		 */
 		updateAssignedLocationsInSectionTitle: function( themeLocationSlugs ) {
 			var section = this,
@@ -861,7 +863,7 @@
 		/**
 		 * Add behaviors for the accordion section.
 		 *
-		 * @since Menu Customizer 0.3
+		 * @since 4.3.0
 		 */
 		attachEvents: function() {
 			var section = this;
@@ -1014,11 +1016,11 @@
 		},
 
 		/**
-		 * @since Menu Customizer 0.3
-		 *
 		 * Override the embed() method to do nothing,
 		 * so that the control isn't embedded on load,
 		 * unless the containing section is already expanded.
+		 *
+		 * @since 4.3.0
 		 */
 		embed: function() {
 			var control = this,
@@ -1037,7 +1039,7 @@
 		 * This function is called in Section.onChangeExpanded() so the control
 		 * will only get embedded when the Section is first expanded.
 		 *
-		 * @since Menu Customizer 0.3
+		 * @since 4.3.0
 		 */
 		actuallyEmbed: function() {
 			var control = this;
