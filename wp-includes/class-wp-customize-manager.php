@@ -991,9 +991,10 @@ final class WP_Customize_Manager {
 	/**
 	 * Validates setting values.
 	 *
-	 * Sanitization is applied to the values before being passed for validation.
 	 * Validation is skipped for unregistered settings or for values that are
-	 * already null since they will be skipped anyway.
+	 * already null since they will be skipped anyway. Sanitization is applied
+	 * to values that pass validation, and values that become null or `WP_Error`
+	 * after sanitizing are marked invalid.
 	 *
 	 * @since 4.6.0
 	 * @access public
@@ -1001,7 +1002,7 @@ final class WP_Customize_Manager {
 	 * @see WP_REST_Request::has_valid_params()
 	 * @see WP_Customize_Setting::validate()
 	 *
-	 * @param array $setting_values Mapping of setting IDs to values to sanitize and validate.
+	 * @param array $setting_values Mapping of setting IDs to values to validate and sanitize.
 	 * @return array Mapping of setting IDs to return value of validate method calls, either `true` or `WP_Error`.
 	 */
 	public function validate_setting_values( $setting_values ) {
