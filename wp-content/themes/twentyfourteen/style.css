@@ -1047,6 +1047,8 @@ span + .edit-link:before,
 
 .content-area {
 	padding-top: 48px;
+	word-wrap: break-word; 
+ 	overflow-wrap: break-word; 
 }
 
 .hentry {
