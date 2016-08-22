@@ -273,7 +273,7 @@ if ( isset( $_GET['updated'] ) ) {
 	}
 
 	if ( ! empty( $msg ) )
-		$msg = '<div class="updated" id="message notice is-dismissible"><p>' . $msg . '</p></div>';
+		$msg = '<div id="message" class="updated notice is-dismissible"><p>' . $msg . '</p></div>';
 }
 
 $wp_list_table->prepare_items();
