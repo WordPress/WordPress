@@ -86,6 +86,13 @@ class WP_User {
 	public $allcaps = array();
 
 	/**
+	 * @since 2.0.0
+	 * @access public
+	 * @var int
+	 */
+	public $user_level = 0;
+
+	/**
 	 * The filter context applied to user data fields.
 	 *
 	 * @since 2.9.0

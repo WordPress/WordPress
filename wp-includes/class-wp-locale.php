@@ -60,6 +60,14 @@ class WP_Locale {
 	public $month;
 
 	/**
+	 * Stores the translated strings for the month names in genitive case, if the locale specifies.
+	 *
+	 * @since 4.4.0
+	 * @var array
+	 */
+	public $month_genitive;
+
+	/**
 	 * Stores the translated strings for the abbreviated month names.
 	 *
 	 * @since 2.1.0

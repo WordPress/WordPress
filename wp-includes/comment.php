@@ -2741,7 +2741,7 @@ function _close_comments_for_old_post( $open, $post_id ) {
 function wp_handle_comment_submission( $comment_data ) {
 
 	$comment_post_ID = $comment_parent = 0;
-	$comment_author = $comment_author_email = $comment_author_url = $comment_content = $_wp_unfiltered_html_comment = null;
+	$comment_author = $comment_author_email = $comment_author_url = $comment_content = null;
 
 	if ( isset( $comment_data['comment_post_ID'] ) ) {
 		$comment_post_ID = (int) $comment_data['comment_post_ID'];
@@ -2760,9 +2760,6 @@ function wp_handle_comment_submission( $comment_data ) {
 	}
 	if ( isset( $comment_data['comment_parent'] ) ) {
 		$comment_parent = absint( $comment_data['comment_parent'] );
-	}
-	if ( isset( $comment_data['_wp_unfiltered_html_comment'] ) && is_string( $comment_data['_wp_unfiltered_html_comment'] ) ) {
-		$_wp_unfiltered_html_comment = trim( $comment_data['_wp_unfiltered_html_comment'] );
 	}
 
 	$post = get_post( $comment_post_ID );
