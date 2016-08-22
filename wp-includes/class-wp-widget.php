@@ -38,6 +38,24 @@ class WP_Widget {
 	public $name;
 
 	/**
+	 * Option name for this widget type.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
+	public $option_name;
+
+	/**
+	 * Alt option name for this widget type.
+	 *
+	 * @since 2.8.0
+	 * @access public
+	 * @var string
+	 */
+	public $alt_option_name;
+
+	/**
 	 * Option array passed to wp_register_sidebar_widget().
 	 *
 	 * @since 2.8.0
