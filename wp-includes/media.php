@@ -7,6 +7,23 @@
  */
 
 /**
+ * Retrieve additional image sizes.
+ *
+ * @since 4.7.0
+ *
+ * @global array $_wp_additional_image_sizes
+ *
+ * @return array Additional images size data.
+ */
+function wp_get_additional_image_sizes() {
+	global $_wp_additional_image_sizes;
+	if ( ! $_wp_additional_image_sizes ) {
+		$_wp_additional_image_sizes = array();
+	}
+	return $_wp_additional_image_sizes;
+}
+
+/**
  * Scale down the default size of an image.
  *
  * This is so that the image is a better fit for the editor and theme.
@@ -27,7 +44,6 @@
  * @since 2.5.0
  *
  * @global int   $content_width
- * @global array $_wp_additional_image_sizes
  *
  * @param int          $width   Width of the image in pixels.
  * @param int          $height  Height of the image in pixels.
@@ -39,7 +55,9 @@
  * @return array Width and height of what the result image should resize to.
  */
 function image_constrain_size_for_editor( $width, $height, $size = 'medium', $context = null ) {
-	global $content_width, $_wp_additional_image_sizes;
+	global $content_width;
+
+	$_wp_additional_image_sizes = wp_get_additional_image_sizes();
 
 	if ( ! $context )
 		$context = is_admin() ? 'edit' : 'display';
@@ -82,11 +100,13 @@ function image_constrain_size_for_editor( $width, $height, $size = 'medium', $co
 		if ( intval($content_width) > 0 ) {
 			$max_width = min( intval($content_width), $max_width );
 		}
-	} elseif ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) && in_array( $size, array_keys( $_wp_additional_image_sizes ) ) ) {
+	} elseif ( ! empty( $_wp_additional_image_sizes ) && in_array( $size, array_keys( $_wp_additional_image_sizes ) ) ) {
 		$max_width = intval( $_wp_additional_image_sizes[$size]['width'] );
 		$max_height = intval( $_wp_additional_image_sizes[$size]['height'] );
-		if ( intval($content_width) > 0 && 'edit' == $context ) // Only in admin. Assume that theme authors know what they're doing.
-			$max_width = min( intval($content_width), $max_width );
+		// Only in admin. Assume that theme authors know what they're doing.
+		if ( intval( $content_width ) > 0 && 'edit' === $context ) {
+			$max_width = min( intval( $content_width ), $max_width );
+		}
 	}
 	// $size == 'full' has no constraint
 	else {
@@ -258,15 +278,12 @@ function add_image_size( $name, $width = 0, $height = 0, $crop = false ) {
  *
  * @since 3.9.0
  *
- * @global array $_wp_additional_image_sizes
- *
  * @param string $name The image size to check.
  * @return bool True if the image size exists, false if not.
  */
 function has_image_size( $name ) {
-	global $_wp_additional_image_sizes;
-
-	return isset( $_wp_additional_image_sizes[ $name ] );
+	$sizes = wp_get_additional_image_sizes();
+	return isset( $sizes[ $name ] );
 }
 
 /**
@@ -748,15 +765,14 @@ function image_get_intermediate_size( $post_id, $size = 'thumbnail' ) {
  *
  * @since 3.0.0
  *
- * @global array $_wp_additional_image_sizes
- *
  * @return array Returns a filtered array of image size strings.
  */
 function get_intermediate_image_sizes() {
-	global $_wp_additional_image_sizes;
+	$_wp_additional_image_sizes = wp_get_additional_image_sizes();
 	$image_sizes = array('thumbnail', 'medium', 'medium_large', 'large'); // Standard sizes
-	if ( isset( $_wp_additional_image_sizes ) && count( $_wp_additional_image_sizes ) )
+	if ( ! empty( $_wp_additional_image_sizes ) ) {
 		$image_sizes = array_merge( $image_sizes, array_keys( $_wp_additional_image_sizes ) );
+	}
 
 	/**
 	 * Filters the list of intermediate image sizes.

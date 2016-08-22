@@ -700,13 +700,11 @@ function wp_restore_image($post_id) {
  * Saves image to post along with enqueued changes
  * in $_REQUEST['history']
  *
- * @global array $_wp_additional_image_sizes
- *
  * @param int $post_id
  * @return \stdClass
  */
 function wp_save_image( $post_id ) {
-	global $_wp_additional_image_sizes;
+	$_wp_additional_image_sizes = wp_get_additional_image_sizes();
 
 	$return = new stdClass;
 	$success = $delete = $scaled = $nocrop = false;
