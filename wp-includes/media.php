@@ -1565,10 +1565,10 @@ function img_caption_shortcode( $attr, $content = null ) {
 	$caption_width = apply_filters( 'img_caption_shortcode_width', $width, $atts, $content );
 
 	$style = '';
-	if ( $caption_width )
+	if ( $caption_width ) {
 		$style = 'style="width: ' . (int) $caption_width . 'px" ';
+	}
 
-	$html = '';
 	if ( $html5 ) {
 		$html = '<figure ' . $atts['id'] . $style . 'class="' . esc_attr( $class ) . '">'
 		. do_shortcode( $content ) . '<figcaption class="wp-caption-text">' . $atts['caption'] . '</figcaption></figure>';
