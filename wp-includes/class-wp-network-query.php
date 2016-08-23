@@ -110,7 +110,7 @@ class WP_Network_Query {
  	 *                                              Default false.
  	 *     @type string       $fields               Network fields to return. Accepts 'ids' (returns an array of network IDs)
  	 *                                              or empty (returns an array of complete network objects). Default empty.
- 	 *     @type int          $number               Maximum number of networks to retrieve. Default null (no limit).
+ 	 *     @type int          $number               Maximum number of networks to retrieve. Default empty (no limit).
  	 *     @type int          $offset               Number of networks to offset the query. Used to build LIMIT clause.
  	 *                                              Default 0.
  	 *     @type bool         $no_found_rows        Whether to disable the `SQL_CALC_FOUND_ROWS` query. Default true.
