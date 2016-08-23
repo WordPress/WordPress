@@ -208,6 +208,10 @@ class WP_Term_Query {
 			'cache_domain'           => 'core',
 			'update_term_meta_cache' => true,
 			'meta_query'             => '',
+			'meta_key'               => '',
+			'meta_value'             => '',
+			'meta_type'              => '',
+			'meta_compare'           => '',
 		);
 
 		if ( ! empty( $query ) ) {
