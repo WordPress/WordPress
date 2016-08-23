@@ -3169,8 +3169,10 @@ function wp_load_image( $file ) {
 	if ( is_numeric( $file ) )
 		$file = get_attached_file( $file );
 
-	if ( ! is_file( $file ) )
-		return sprintf(__('File &#8220;%s&#8221; doesn&#8217;t exist?'), $file);
+	if ( ! is_file( $file ) ) {
+		/* translators: %s: file name */
+		return sprintf( __( 'File &#8220;%s&#8221; doesn&#8217;t exist?' ), $file );
+	}
 
 	if ( ! function_exists('imagecreatefromstring') )
 		return __('The GD image library is not installed.');
@@ -3180,8 +3182,10 @@ function wp_load_image( $file ) {
 
 	$image = imagecreatefromstring( file_get_contents( $file ) );
 
-	if ( !is_resource( $image ) )
-		return sprintf(__('File &#8220;%s&#8221; is not an image.'), $file);
+	if ( ! is_resource( $image ) ) {
+		/* translators: %s: file name */
+		return sprintf( __( 'File &#8220;%s&#8221; is not an image.' ), $file );
+	}
 
 	return $image;
 }
