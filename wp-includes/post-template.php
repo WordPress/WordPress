@@ -1639,10 +1639,10 @@ function wp_post_revision_title( $revision, $link = true ) {
 
 	/* translators: revision date format, see https://secure.php.net/date */
 	$datef = _x( 'F j, Y @ H:i:s', 'revision date format' );
-	/* translators: 1: date */
-	$autosavef = _x( '%1$s [Autosave]', 'post revision title extra' );
-	/* translators: 1: date */
-	$currentf  = _x( '%1$s [Current Revision]', 'post revision title extra' );
+	/* translators: %s: revision date */
+	$autosavef = __( '%s [Autosave]' );
+	/* translators: %s: revision date */
+	$currentf  = __( '%s [Current Revision]' );
 
 	$date = date_i18n( $datef, strtotime( $revision->post_modified ) );
 	if ( $link && current_user_can( 'edit_post', $revision->ID ) && $link = get_edit_post_link( $revision->ID ) )
@@ -1691,8 +1691,10 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
 		$date
 	);
 
-	$autosavef = __( '%1$s [Autosave]' );
-	$currentf  = __( '%1$s [Current Revision]' );
+	/* translators: %s: revision date with author's Gravatar */
+	$autosavef = __( '%s [Autosave]' );
+	/* translators: %s: revision date with author's Gravatar */
+	$currentf  = __( '%s [Current Revision]' );
 
 	if ( !wp_is_post_revision( $revision ) )
 		$revision_date_author = sprintf( $currentf, $revision_date_author );
