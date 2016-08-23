@@ -678,7 +678,7 @@ function wp_clean_update_cache() {
 	delete_site_transient( 'update_core' );
 }
 
-if ( ( ! is_main_site() && ! is_network_admin() ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+if ( ( ! is_main_site() && ! is_network_admin() ) || wp_doing_ajax() ) {
 	return;
 }
 

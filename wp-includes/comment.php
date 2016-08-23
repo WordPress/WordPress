@@ -632,7 +632,7 @@ function wp_allow_comment( $commentdata ) {
 		 * @param array $commentdata Comment data.
 		 */
 		do_action( 'comment_duplicate_trigger', $commentdata );
-		if ( defined( 'DOING_AJAX' ) ) {
+		if ( wp_doing_ajax() ) {
 			die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
 		}
 		wp_die( __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ), 409 );
@@ -768,7 +768,7 @@ function check_comment_flood_db( $ip, $email, $date ) {
 			 */
 			do_action( 'comment_flood_trigger', $time_lastcomment, $time_newcomment );
 
-			if ( defined('DOING_AJAX') )
+			if ( wp_doing_ajax() )
 				die( __('You are posting comments too quickly. Slow down.') );
 
 			wp_die( __( 'You are posting comments too quickly. Slow down.' ), 429 );

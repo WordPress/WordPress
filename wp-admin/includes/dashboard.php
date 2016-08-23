@@ -966,7 +966,7 @@ function wp_dashboard_rss_output( $widget_id ) {
  */
 function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = array() ) {
 	$loading = '<p class="widget-loading hide-if-no-js">' . __( 'Loading&#8230;' ) . '</p><p class="hide-if-js">' . __( 'This widget requires JavaScript.' ) . '</p>';
-	$doing_ajax = ( defined('DOING_AJAX') && DOING_AJAX );
+	$doing_ajax = wp_doing_ajax();
 
 	if ( empty($check_urls) ) {
 		$widgets = get_option( 'dashboard_widget_options' );

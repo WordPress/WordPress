@@ -40,7 +40,7 @@ function check_upload_size( $file ) {
 		$file['error'] = __( 'You have used your space quota. Please delete files before uploading.' );
 	}
 
-	if ( $file['error'] != '0' && ! isset( $_POST['html-upload'] ) && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
+	if ( $file['error'] != '0' && ! isset( $_POST['html-upload'] ) && ! wp_doing_ajax() ) {
 		wp_die( $file['error'] . ' <a href="javascript:history.go(-1)">' . __( 'Back' ) . '</a>' );
 	}
 

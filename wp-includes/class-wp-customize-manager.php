@@ -315,8 +315,7 @@ final class WP_Customize_Manager {
 	 * @return bool True if it's an Ajax request, false otherwise.
 	 */
 	public function doing_ajax( $action = null ) {
-		$doing_ajax = ( defined( 'DOING_AJAX' ) && DOING_AJAX );
-		if ( ! $doing_ajax ) {
+		if ( ! wp_doing_ajax() ) {
 			return false;
 		}
 

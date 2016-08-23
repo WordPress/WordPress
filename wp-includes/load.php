@@ -334,7 +334,7 @@ function wp_debug_mode() {
 		error_reporting( E_CORE_ERROR | E_CORE_WARNING | E_COMPILE_ERROR | E_ERROR | E_WARNING | E_PARSE | E_USER_ERROR | E_USER_WARNING | E_RECOVERABLE_ERROR );
 	}
 
-	if ( defined( 'XMLRPC_REQUEST' ) || defined( 'REST_REQUEST' ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+	if ( defined( 'XMLRPC_REQUEST' ) || defined( 'REST_REQUEST' ) || wp_doing_ajax() ) {
 		@ini_set( 'display_errors', 0 );
 	}
 }
@@ -1026,4 +1026,22 @@ function wp_is_ini_value_changeable( $setting ) {
 	}
 
 	return false;
+}
+
+/**
+ * Determines whether the current request is a WordPress Ajax request.
+ *
+ * @since 4.7.0
+ *
+ * @return bool True if it's a WordPress Ajax request, false otherwise.
+ */
+function wp_doing_ajax() {
+	/**
+	 * Filter whether the current request is a WordPress Ajax request.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param bool $wp_doing_ajax Whether the current request is a WordPress Ajax request.
+	 */
+	return apply_filters( 'wp_doing_ajax', defined( 'DOING_AJAX' ) && DOING_AJAX );
 }

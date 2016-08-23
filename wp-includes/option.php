@@ -786,7 +786,7 @@ function set_transient( $transient, $value, $expiration = 0 ) {
  */
 function wp_user_settings() {
 
-	if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
+	if ( ! is_admin() || wp_doing_ajax() ) {
 		return;
 	}
 

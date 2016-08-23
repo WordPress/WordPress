@@ -2570,7 +2570,7 @@ function wp_die( $message = '', $title = '', $args = array() ) {
 		$title = '';
 	}
 
-	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+	if ( wp_doing_ajax() ) {
 		/**
 		 * Filters the callback for killing WordPress execution for Ajax requests.
 		 *
@@ -3064,7 +3064,7 @@ function _wp_json_prepare_data( $data ) {
 function wp_send_json( $response ) {
 	@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
 	echo wp_json_encode( $response );
-	if ( defined( 'DOING_AJAX' ) && DOING_AJAX )
+	if ( wp_doing_ajax() )
 		wp_die();
 	else
 		die;

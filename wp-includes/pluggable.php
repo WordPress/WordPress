@@ -603,7 +603,7 @@ function wp_validate_auth_cookie($cookie = '', $scheme = '') {
 	$expired = $expiration = $cookie_elements['expiration'];
 
 	// Allow a grace period for POST and Ajax requests
-	if ( defined('DOING_AJAX') || 'POST' == $_SERVER['REQUEST_METHOD'] ) {
+	if ( wp_doing_ajax() || 'POST' == $_SERVER['REQUEST_METHOD'] ) {
 		$expired += HOUR_IN_SECONDS;
 	}
 
@@ -1104,7 +1104,7 @@ function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 	do_action( 'check_ajax_referer', $action, $result );
 
 	if ( $die && false === $result ) {
-		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		if ( wp_doing_ajax() ) {
 			wp_die( -1 );
 		} else {
 			die( '-1' );

@@ -367,7 +367,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$qe_data = get_term( $tag->term_id, $taxonomy, OBJECT, 'edit' );
 
-		$uri = ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ? wp_get_referer() : $_SERVER['REQUEST_URI'];
+		$uri = wp_doing_ajax() ? wp_get_referer() : $_SERVER['REQUEST_URI'];
 
 		$edit_link = add_query_arg(
 			'wp_http_referer',
@@ -425,7 +425,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		$tax = get_taxonomy( $taxonomy );
 		$default_term = get_option( 'default_' . $taxonomy );
 
-		$uri = ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ? wp_get_referer() : $_SERVER['REQUEST_URI'];
+		$uri = wp_doing_ajax() ? wp_get_referer() : $_SERVER['REQUEST_URI'];
 
 		$edit_link = add_query_arg(
 			'wp_http_referer',
