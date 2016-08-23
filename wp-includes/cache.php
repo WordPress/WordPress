@@ -302,10 +302,10 @@ class WP_Object_Cache {
 	 * The amount of times the cache data was already stored in the cache.
 	 *
 	 * @since 2.5.0
-	 * @access private
+	 * @access public
 	 * @var int
 	 */
-	private $cache_hits = 0;
+	public $cache_hits = 0;
 
 	/**
 	 * Amount of times the cache did not have the request in cache.
