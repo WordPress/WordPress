@@ -144,8 +144,18 @@ function network_step1( $errors = false ) {
 		$error_codes = $errors->get_error_codes();
 	}
 
-	$site_name = ( ! empty( $_POST['sitename'] ) && ! in_array( 'empty_sitename', $error_codes ) ) ? $_POST['sitename'] : sprintf( _x('%s Sites', 'Default network name' ), get_option( 'blogname' ) );
-	$admin_email = ( ! empty( $_POST['email'] ) && ! in_array( 'invalid_email', $error_codes ) ) ? $_POST['email'] : get_option( 'admin_email' );
+	if ( ! empty( $_POST['sitename'] ) && ! in_array( 'empty_sitename', $error_codes ) ) {
+		$site_name = $_POST['sitename'];
+	} else {
+		/* translators: %s: Default network name */
+		$site_name = sprintf( __( '%s Sites' ), get_option( 'blogname' ) );
+	}
+
+	if ( ! empty( $_POST['email'] ) && ! in_array( 'invalid_email', $error_codes ) ) {
+		$admin_email = $_POST['email'];
+	} else {
+		$admin_email = get_option( 'admin_email' );
+	}
 	?>
 	<p><?php _e( 'Welcome to the Network installation process!' ); ?></p>
 	<p><?php _e( 'Fill in the information below and you&#8217;ll be on your way to creating a network of WordPress sites. We will create configuration files in the next step.' ); ?></p>
