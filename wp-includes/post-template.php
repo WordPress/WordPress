@@ -1684,16 +1684,16 @@ function wp_post_revision_title_expanded( $revision, $link = true ) {
 
 	$revision_date_author = sprintf(
 		/* translators: post revision title: 1: author avatar, 2: author name, 3: time ago, 4: date */
-		_x( '%1$s %2$s, %3$s ago (%4$s)', 'post revision title' ),
+		__( '%1$s %2$s, %3$s ago (%4$s)' ),
 		$gravatar,
 		$author,
 		human_time_diff( strtotime( $revision->post_modified ), current_time( 'timestamp' ) ),
 		$date
 	);
 
-	/* translators: %s: revision date with author's Gravatar */
+	/* translators: %s: revision date with author avatar */
 	$autosavef = __( '%s [Autosave]' );
-	/* translators: %s: revision date with author's Gravatar */
+	/* translators: %s: revision date with author avatar */
 	$currentf  = __( '%s [Current Revision]' );
 
 	if ( !wp_is_post_revision( $revision ) )
