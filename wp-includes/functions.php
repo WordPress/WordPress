@@ -1411,7 +1411,12 @@ function is_blog_installed() {
 		wp_load_translations_early();
 
 		// Die with a DB error.
-		$wpdb->error = sprintf( __( 'One or more database tables are unavailable. The database may need to be <a href="%s">repaired</a>.' ), 'maint/repair.php?referrer=is_blog_installed' );
+		$wpdb->error = sprintf(
+			/* translators: %s: database repair URL */
+			__( 'One or more database tables are unavailable. The database may need to be <a href="%s">repaired</a>.' ),
+			'maint/repair.php?referrer=is_blog_installed'
+		);
+
 		dead_db();
 	}
 
@@ -1895,7 +1900,11 @@ function wp_upload_dir( $time = null, $create_dir = true, $refresh_cache = false
 					$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
 				}
 
-				$uploads['error'] = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), esc_html( $error_path ) );
+				$uploads['error'] = sprintf(
+					/* translators: %s: directory path */
+					__( 'Unable to create directory %s. Is its parent directory writable by the server?' ),
+					esc_html( $error_path )
+				);
 			}
 
 			$tested_paths[ $path ] = $uploads['error'];
@@ -2157,7 +2166,11 @@ function wp_upload_bits( $name, $deprecated, $bits, $time = null ) {
 		else
 			$error_path = basename( $upload['basedir'] ) . $upload['subdir'];
 
-		$message = sprintf( __( 'Unable to create directory %s. Is its parent directory writable by the server?' ), $error_path );
+		$message = sprintf(
+			/* translators: %s: directory path */
+			__( 'Unable to create directory %s. Is its parent directory writable by the server?' ),
+			$error_path
+		);
 		return array( 'error' => $message );
 	}
 
@@ -2516,13 +2529,27 @@ function get_allowed_mime_types( $user = null ) {
  */
 function wp_nonce_ays( $action ) {
 	if ( 'log-out' == $action ) {
-		$html = sprintf( __( 'You are attempting to log out of %s' ), get_bloginfo( 'name' ) ) . '</p><p>';
+		$html = sprintf(
+			/* translators: %s: site name */
+			__( 'You are attempting to log out of %s' ),
+			get_bloginfo( 'name' )
+		);
+		$html .= '</p><p>';
 		$redirect_to = isset( $_REQUEST['redirect_to'] ) ? $_REQUEST['redirect_to'] : '';
-		$html .= sprintf( __( "Do you really want to <a href='%s'>log out</a>?"), wp_logout_url( $redirect_to ) );
+		$html .= sprintf(
+			/* translators: %s: logout URL */
+			__( 'Do you really want to <a href="%s">log out</a>?' ),
+			wp_logout_url( $redirect_to )
+		);
 	} else {
 		$html = __( 'Are you sure you want to do this?' );
-		if ( wp_get_referer() )
-			$html .= "</p><p><a href='" . esc_url( remove_query_arg( 'updated', wp_get_referer() ) ) . "'>" . __( 'Please try again.' ) . "</a>";
+		if ( wp_get_referer() ) {
+			$html .= '</p><p>';
+			$html .= sprintf( '<a href="%s">%s</a>',
+				esc_url( remove_query_arg( 'updated', wp_get_referer() ) ),
+				__( 'Please try again.' )
+			);
+		}
 	}
 
 	wp_die( $html, __( 'WordPress Failure Notice' ), 403 );
@@ -3990,14 +4017,23 @@ function _doing_it_wrong( $function, $message, $version ) {
 	 */
 	if ( WP_DEBUG && apply_filters( 'doing_it_wrong_trigger_error', true ) ) {
 		if ( function_exists( '__' ) ) {
-			$version = is_null( $version ) ? '' : sprintf( __( '(This message was added in version %s.)' ), $version );
+			if ( is_null( $version ) ) {
+				$version = '';
+			} else {
+				/* translators: %s: version number */
+				$version = sprintf( __( '(This message was added in version %s.)' ), $version );
+			}
 			/* translators: %s: Codex URL */
 			$message .= ' ' . sprintf( __( 'Please see <a href="%s">Debugging in WordPress</a> for more information.' ),
 				__( 'https://codex.wordpress.org/Debugging_in_WordPress' )
 			);
 			trigger_error( sprintf( __( '%1$s was called <strong>incorrectly</strong>. %2$s %3$s' ), $function, $message, $version ) );
 		} else {
-			$version = is_null( $version ) ? '' : sprintf( '(This message was added in version %s.)', $version );
+			if ( is_null( $version ) ) {
+				$version = '';
+			} else {
+				$version = sprintf( '(This message was added in version %s.)', $version );
+			}
 			$message .= sprintf( ' Please see <a href="%s">Debugging in WordPress</a> for more information.',
 				'https://codex.wordpress.org/Debugging_in_WordPress'
 			);
