@@ -20,7 +20,7 @@
 function create_initial_post_types() {
 	register_post_type( 'post', array(
 		'labels' => array(
-			'name_admin_bar' => _x( 'Post', 'add new on admin bar' ),
+			'name_admin_bar' => _x( 'Post', 'add new from admin bar' ),
 		),
 		'public'  => true,
 		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
@@ -37,7 +37,7 @@ function create_initial_post_types() {
 
 	register_post_type( 'page', array(
 		'labels' => array(
-			'name_admin_bar' => _x( 'Page', 'add new on admin bar' ),
+			'name_admin_bar' => _x( 'Page', 'add new from admin bar' ),
 		),
 		'public' => true,
 		'publicly_queryable' => false,
