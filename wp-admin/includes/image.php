@@ -563,7 +563,7 @@ function _load_image_to_edit_path( $attachment_id, $size = 'full' ) {
 			 */
 			$filepath = apply_filters( 'load_image_to_edit_filesystempath', path_join( dirname( $filepath ), $data['file'] ), $attachment_id, $size );
 		}
-	} elseif ( function_exists( 'fopen' ) && function_exists( 'ini_get' ) && true == ini_get( 'allow_url_fopen' ) ) {
+	} elseif ( function_exists( 'fopen' ) && true == ini_get( 'allow_url_fopen' ) ) {
 		/**
 		 * Filters the image URL if not in the local filesystem.
 		 *
