@@ -12,7 +12,7 @@ require(dirname(__FILE__) . '/wp-load.php');
 
 /** This filter is documented in wp-admin/options.php */
 if ( ! apply_filters( 'enable_post_by_email_configuration', true ) )
-	wp_die( __( 'This action has been disabled by the administrator.' ) );
+	wp_die( __( 'This action has been disabled by the administrator.' ), 403 );
 
 /**
  * Fires to allow a plugin to do a complete takeover of Post by Email.
