@@ -39,6 +39,7 @@ function _wp_scripts_maybe_doing_it_wrong( $function ) {
 	}
 
 	_doing_it_wrong( $function, sprintf(
+		/* translators: 1: wp_enqueue_scripts, 2: admin_enqueue_scripts, 3: login_enqueue_scripts */
 		__( 'Scripts and styles should not be registered or enqueued until the %1$s, %2$s, or %3$s hooks.' ),
 		'<code>wp_enqueue_scripts</code>',
 		'<code>admin_enqueue_scripts</code>',
@@ -224,8 +225,12 @@ function wp_deregister_script( $handle ) {
 		);
 
 		if ( in_array( $handle, $no ) ) {
-			$message = sprintf( __( 'Do not deregister the %1$s script in the administration area. To target the front-end theme, use the %2$s hook.' ),
-				"<code>$handle</code>", '<code>wp_enqueue_scripts</code>' );
+			$message = sprintf(
+				/* translators: 1: script name, 2: wp_enqueue_scripts */
+				__( 'Do not deregister the %1$s script in the administration area. To target the front-end theme, use the %2$s hook.' ),
+				"<code>$handle</code>",
+				'<code>wp_enqueue_scripts</code>'
+			);
 			_doing_it_wrong( __FUNCTION__, $message, '3.6.0' );
 			return;
 		}
