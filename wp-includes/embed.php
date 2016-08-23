@@ -380,14 +380,10 @@ function get_post_embed_url( $post = null ) {
 function get_oembed_endpoint_url( $permalink = '', $format = 'json' ) {
 	$url = rest_url( 'oembed/1.0/embed' );
 
-	if ( 'json' === $format ) {
-		$format = false;
-	}
-
 	if ( '' !== $permalink ) {
 		$url = add_query_arg( array(
 			'url'    => urlencode( $permalink ),
-			'format' => $format,
+			'format' => ( 'json' !== $format ) ? $format : false,
 		), $url );
 	}
 
