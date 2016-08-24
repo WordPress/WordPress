@@ -2098,14 +2098,6 @@ html.wp-toolbar {
 	font-style: italic;
 }
 
-#wpfooter a {
-	text-decoration: none;
-}
-
-#wpfooter a:hover {
-	text-decoration: underline;
-}
-
 /*------------------------------------------------------------------------------
   25.0 - Tabbed Admin Screen Interface (Experimental)
 ------------------------------------------------------------------------------*/
