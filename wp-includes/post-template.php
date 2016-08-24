@@ -30,14 +30,14 @@ function get_the_ID() {
 }
 
 /**
- * Display or retrieve the current post title with optional content.
+ * Display or retrieve the current post title with optional markup.
  *
  * @since 0.71
  *
- * @param string $before Optional. Content to prepend to the title.
- * @param string $after  Optional. Content to append to the title.
- * @param bool   $echo   Optional, default to true.Whether to display or return.
- * @return string|void String if $echo parameter is false.
+ * @param string $before Optional. Markup to prepend to the title. Default empty.
+ * @param string $after  Optional. Markup to append to the title. Default empty.
+ * @param bool   $echo   Optional. Whether to echo or return the title. Default true for echo.
+ * @return string|void Current post title if $echo is false.
  */
 function the_title( $before = '', $after = '', $echo = true ) {
 	$title = get_the_title();
