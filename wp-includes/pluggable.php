@@ -1128,7 +1128,7 @@ if ( !function_exists('wp_redirect') ) :
  * Exiting can also be selectively manipulated by using wp_redirect() as a conditional
  * in conjunction with the {@see 'wp_redirect'} and {@see 'wp_redirect_location'} hooks:
  *
- *     if ( wp_redirect( $url ) {
+ *     if ( wp_redirect( $url ) ) {
  *         exit;
  *     }
  *
