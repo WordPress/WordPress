@@ -14,6 +14,21 @@
  *
  * @since 1.5.0
  * @since 4.5.0 Removed the `$comments_popup` property.
+ *
+ * @method bool is_archive()      Is the query for an existing archive page? Month, Year, Category, Author, Post Type archive...
+ * @method bool is_date()         Is the query for an existing date archive?
+ * @method bool is_day()          Is the query for an existing day archive?
+ * @method bool is_comment_feed() Is the query for a comments feed?
+ * @method bool is_month()        Is the query for an existing month archive?
+ * @method bool is_paged()        Is the query for paged result and not for the first page?
+ * @method bool is_preview()      Is the query for a post or page preview?
+ * @method bool is_robots()       Is the query for the robots file?
+ * @method bool is_search()       Is the query for a search?
+ * @method bool is_time()         Is the query for a specific time?
+ * @method bool is_trackback()    Is the query for a trackback endpoint call?
+ * @method bool is_year()         Is the query for an existing year archive?
+ * @method bool is_404()          Is the query a 404 (returns no results)?
+ * @method bool is_embed()        Is the query for an embedded post?
  */
 class WP_Query {
 
@@ -3381,20 +3396,12 @@ class WP_Query {
 		if ( in_array( $name, $this->compat_methods ) ) {
 			return call_user_func_array( array( $this, $name ), $arguments );
 		}
-		return false;
-	}
 
-	/**
- 	 * Is the query for an existing archive page?
- 	 *
- 	 * Month, Year, Category, Author, Post Type archive...
-	 *
- 	 * @since 3.1.0
- 	 *
- 	 * @return bool
- 	 */
-	public function is_archive() {
-		return (bool) $this->is_archive;
+		if ( 'is_' === substr( $name, 0, 3 ) && property_exists( $this, $name ) ) {
+			return (bool) $this->{$name};
+		}
+
+		return false;
 	}
 
 	/**
@@ -3605,28 +3612,6 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing date archive?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_date() {
-		return (bool) $this->is_date;
-	}
-
-	/**
-	 * Is the query for an existing day archive?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_day() {
-		return (bool) $this->is_day;
-	}
-
-	/**
 	 * Is the query for a feed?
 	 *
 	 * @since 3.1.0
@@ -3641,17 +3626,6 @@ class WP_Query {
 		if ( 'feed' == $qv )
 			$qv = get_default_feed();
 		return in_array( $qv, (array) $feeds );
-	}
-
-	/**
-	 * Is the query for a comments feed?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_comment_feed() {
-		return (bool) $this->is_comment_feed;
 	}
 
 	/**
@@ -3701,17 +3675,6 @@ class WP_Query {
 	}
 
 	/**
-	 * Is the query for an existing month archive?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_month() {
-		return (bool) $this->is_month;
-	}
-
-	/**
 	 * Is the query for an existing single page?
 	 *
 	 * If the $page parameter is specified, this function will additionally
@@ -3756,50 +3719,6 @@ class WP_Query {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Is the query for paged result and not for the first page?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_paged() {
-		return (bool) $this->is_paged;
-	}
-
-	/**
-	 * Is the query for a post or page preview?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_preview() {
-		return (bool) $this->is_preview;
-	}
-
-	/**
-	 * Is the query for the robots file?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_robots() {
-		return (bool) $this->is_robots;
-	}
-
-	/**
-	 * Is the query for a search?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_search() {
-		return (bool) $this->is_search;
 	}
 
 	/**
@@ -3871,61 +3790,6 @@ class WP_Query {
 		$post_obj = $this->get_queried_object();
 
 		return in_array( $post_obj->post_type, (array) $post_types );
-	}
-
-	/**
-	 * Is the query for a specific time?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_time() {
-		return (bool) $this->is_time;
-	}
-
-	/**
-	 * Is the query for a trackback endpoint call?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_trackback() {
-		return (bool) $this->is_trackback;
-	}
-
-	/**
-	 * Is the query for an existing year archive?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_year() {
-		return (bool) $this->is_year;
-	}
-
-	/**
-	 * Is the query a 404 (returns no results)?
-	 *
-	 * @since 3.1.0
-	 *
-	 * @return bool
-	 */
-	public function is_404() {
-		return (bool) $this->is_404;
-	}
-
-	/**
-	 * Is the query for an embedded post?
-	 *
-	 * @since 4.4.0
-	 *
-	 * @return bool
-	 */
-	public function is_embed() {
-		return (bool) $this->is_embed;
 	}
 
 	/**
