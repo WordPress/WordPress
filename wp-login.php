@@ -439,7 +439,6 @@ case 'postpass' :
 		exit();
 	}
 
-	require_once ABSPATH . WPINC . '/class-phpass.php';
 	$hasher = new PasswordHash( 8, true );
 
 	/**
