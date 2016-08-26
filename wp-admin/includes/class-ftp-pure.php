@@ -25,14 +25,10 @@
  * @link http://www.phpclasses.org/browse/package/1743.html Site
  * @license LGPL http://www.opensource.org/licenses/lgpl-license.html
  */
-class ftp extends ftp_base {
+class ftp_pure extends ftp_base {
 
 	function __construct($verb=FALSE, $le=FALSE) {
 		parent::__construct(false, $verb, $le);
-	}
-
-	function ftp($verb=FALSE, $le=FALSE) {
-		$this->__construct($verb, $le);
 	}
 
 // <!-- --------------------------------------------------------------------------------------- -->
