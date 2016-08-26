@@ -26,6 +26,20 @@ function get_query_template( $type, $templates = array() ) {
 	if ( empty( $templates ) )
 		$templates = array("{$type}.php");
 
+	/**
+	 * Filter the list of template filenames that are searched for when retrieving a template to use.
+	 *
+	 * The last element in the array should always be the fallback template for this query type.
+	 *
+	 * Possible values for `$type` include: 'index', '404', 'archive', 'author', 'category', 'tag', 'taxonomy', 'date',
+	 * 'embed', home', 'front_page', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param array $templates A list of template candidates, in descending order of priority.
+	 */
+	$templates = apply_filters( "{$type}_template_hierarchy", $templates );
+
 	$template = locate_template( $templates );
 
 	/**
@@ -36,7 +50,7 @@ function get_query_template( $type, $templates = array() ) {
 	 * This hook also applies to various types of files loaded as part of the Template Hierarchy.
 	 *
 	 * Possible values for `$type` include: 'index', '404', 'archive', 'author', 'category', 'tag', 'taxonomy', 'date',
-	 * 'home', 'front_page', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
+	 * 'embed', home', 'front_page', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
 	 *
 	 * @since 1.5.0
 	 *
