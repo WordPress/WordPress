@@ -94,9 +94,27 @@ function wp_embed_defaults( $url = '' ) {
  * @return false|string False on failure or the embed HTML on success.
  */
 function wp_oembed_get( $url, $args = '' ) {
-	require_once( ABSPATH . WPINC . '/class-oembed.php' );
 	$oembed = _wp_oembed_get_object();
 	return $oembed->get_html( $url, $args );
+}
+
+/**
+ * Returns the initialized WP_oEmbed object.
+ *
+ * @since 2.9.0
+ * @access private
+ *
+ * @staticvar WP_oEmbed $wp_oembed
+ *
+ * @return WP_oEmbed object.
+ */
+function _wp_oembed_get_object() {
+	static $wp_oembed = null;
+
+	if ( is_null( $wp_oembed ) ) {
+		$wp_oembed = new WP_oEmbed();
+	}
+	return $wp_oembed;
 }
 
 /**
@@ -112,8 +130,6 @@ function wp_oembed_get( $url, $args = '' ) {
  * @param boolean $regex    Optional. Whether the `$format` parameter is in a RegEx format. Default false.
  */
 function wp_oembed_add_provider( $format, $provider, $regex = false ) {
-	require_once( ABSPATH . WPINC . '/class-oembed.php' );
-
 	if ( did_action( 'plugins_loaded' ) ) {
 		$oembed = _wp_oembed_get_object();
 		$oembed->providers[$format] = array( $provider, $regex );
@@ -133,8 +149,6 @@ function wp_oembed_add_provider( $format, $provider, $regex = false ) {
  * @return bool Was the provider removed successfully?
  */
 function wp_oembed_remove_provider( $format ) {
-	require_once( ABSPATH . WPINC . '/class-oembed.php' );
-
 	if ( did_action( 'plugins_loaded' ) ) {
 		$oembed = _wp_oembed_get_object();
 
@@ -706,7 +720,6 @@ function wp_filter_oembed_result( $result, $data, $url ) {
 		return $result;
 	}
 
-	require_once( ABSPATH . WPINC . '/class-oembed.php' );
 	$wp_oembed = _wp_oembed_get_object();
 
 	// Don't modify the HTML for trusted providers.
