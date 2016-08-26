@@ -706,6 +706,7 @@ $_old_files = array(
 // 4.6
 'wp-admin/includes/class-wp-automatic-upgrader.php', // Wrong file name, see #37628.
 // 4.7
+'wp-admin/includes/class-wp-upgrader-skins.php',
 'wp-includes/class-feed.php',
 'wp-includes/locale.php',
 'wp-includes/session.php',
