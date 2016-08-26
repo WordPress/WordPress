@@ -384,4 +384,3 @@ class WP_Embed {
 		return apply_filters( 'embed_maybe_make_link', $output, $url );
 	}
 }
-$GLOBALS['wp_embed'] = new WP_Embed();

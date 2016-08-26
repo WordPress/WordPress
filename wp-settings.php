@@ -214,6 +214,8 @@ require( ABSPATH . WPINC . '/rest-api/class-wp-rest-server.php' );
 require( ABSPATH . WPINC . '/rest-api/class-wp-rest-response.php' );
 require( ABSPATH . WPINC . '/rest-api/class-wp-rest-request.php' );
 
+$GLOBALS['wp_embed'] = new WP_Embed();
+
 // Load multisite-specific files.
 if ( is_multisite() ) {
 	require( ABSPATH . WPINC . '/ms-functions.php' );
