@@ -97,7 +97,7 @@ class WP_oEmbed {
 			'#https?://(www\.)?speakerdeck\.com/.*#i'             => array( 'https://speakerdeck.com/oembed.{format}',                   true  ),
 			'#https?://www\.facebook\.com/.*/posts/.*#i'          => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
 			'#https?://www\.facebook\.com/.*/activity/.*#i'       => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
-			'#https?://www\.facebook\.com/photo(s/|\.php).*i'     => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
+			'#https?://www\.facebook\.com/photo(s/|\.php).*#i'    => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
 			'#https?://www\.facebook\.com/permalink\.php.*#i'     => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
 			'#https?://www\.facebook\.com/media/.*#i'             => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
 			'#https?://www\.facebook\.com/questions/.*#i'         => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
