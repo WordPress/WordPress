@@ -91,18 +91,18 @@ function get_locale() {
  */
 function translate( $text, $domain = 'default' ) {
 	$translations = get_translations_for_domain( $domain );
-	$translations = $translations->translate( $text );
+	$translation  = $translations->translate( $text );
 
 	/**
 	 * Filters text with its translation.
 	 *
 	 * @since 2.0.11
 	 *
-	 * @param string $translations Translated text.
+	 * @param string $translation  Translated text.
 	 * @param string $text         Text to translate.
 	 * @param string $domain       Text domain. Unique identifier for retrieving translated strings.
 	 */
-	return apply_filters( 'gettext', $translations, $text, $domain );
+	return apply_filters( 'gettext', $translation, $text, $domain );
 }
 
 /**
@@ -143,18 +143,18 @@ function before_last_bar( $string ) {
  */
 function translate_with_gettext_context( $text, $context, $domain = 'default' ) {
 	$translations = get_translations_for_domain( $domain );
-	$translations = $translations->translate( $text, $context );
+	$translation  = $translations->translate( $text, $context );
 	/**
 	 * Filters text with its translation based on context information.
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param string $translations Translated text.
+	 * @param string $translation  Translated text.
 	 * @param string $text         Text to translate.
 	 * @param string $context      Context information for the translators.
 	 * @param string $domain       Text domain. Unique identifier for retrieving translated strings.
 	 */
-	return apply_filters( 'gettext_with_context', $translations, $text, $context, $domain );
+	return apply_filters( 'gettext_with_context', $translation, $text, $context, $domain );
 }
 
 /**
@@ -318,7 +318,7 @@ function esc_html_x( $text, $context, $domain = 'default' ) {
  *
  * Example:
  *
- *     $people = sprintf( _n( '%s person', '%s people', $count, 'text-domain' ), number_format_i18n( $count ) );
+ *     printf( _n( '%s person', '%s people', $count, 'text-domain' ), number_format_i18n( $count ) );
  *
  * @since 2.8.0
  *
@@ -331,7 +331,7 @@ function esc_html_x( $text, $context, $domain = 'default' ) {
  */
 function _n( $single, $plural, $number, $domain = 'default' ) {
 	$translations = get_translations_for_domain( $domain );
-	$translation = $translations->translate_plural( $single, $plural, $number );
+	$translation  = $translations->translate_plural( $single, $plural, $number );
 
 	/**
 	 * Filters the singular or plural form of a string.
@@ -355,9 +355,10 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
  * Used when you want to use the appropriate form of a string with context based on whether a
  * number is singular or plural.
  *
- * Example:
+ * Example of a generic phrase which is disambiguated via the context parameter:
  *
- *     $people = sprintf( _n( '%s person', '%s people', $count, 'context', 'text-domain' ), number_format_i18n( $count ) );
+ *     printf( _nx( '%s group', '%s groups', $people, 'group of people', 'text-domain' ), number_format_i18n( $people ) );
+ *     printf( _nx( '%s group', '%s groups', $animals, 'group of animals', 'text-domain' ), number_format_i18n( $animals ) );
  *
  * @since 2.8.0
  *
@@ -371,7 +372,7 @@ function _n( $single, $plural, $number, $domain = 'default' ) {
  */
 function _nx($single, $plural, $number, $context, $domain = 'default') {
 	$translations = get_translations_for_domain( $domain );
-	$translation = $translations->translate_plural( $single, $plural, $number, $context );
+	$translation  = $translations->translate_plural( $single, $plural, $number, $context );
 
 	/**
 	 * Filters the singular or plural form of a string with gettext context.
@@ -396,13 +397,9 @@ function _nx($single, $plural, $number, $context, $domain = 'default') {
  *
  * Example:
  *
- *     $messages = array(
- *      	'post' => _n_noop( '%s post', '%s posts', 'text-domain' ),
- *      	'page' => _n_noop( '%s pages', '%s pages', 'text-domain' ),
- *     );
+ *     $message = _n_noop( '%s post', '%s posts', 'text-domain' );
  *     ...
- *     $message = $messages[ $type ];
- *     $usable_text = sprintf( translate_nooped_plural( $message, $count, 'text-domain' ), number_format_i18n( $count ) );
+ *     printf( translate_nooped_plural( $message, $count, 'text-domain' ), number_format_i18n( $count ) );
  *
  * @since 2.5.0
  *
@@ -431,15 +428,15 @@ function _n_noop( $singular, $plural, $domain = null ) {
  * Used when you want to keep structures with translatable plural
  * strings and use them later when the number is known.
  *
- * Example:
+ * Example of a generic phrase which is disambiguated via the context parameter:
  *
  *     $messages = array(
- *      	'post' => _n_noop( '%s post', '%s posts', 'context', 'text-domain' ),
- *      	'page' => _n_noop( '%s pages', '%s pages', 'context', 'text-domain' ),
+ *      	'people'  => _nx_noop( '%s group', '%s groups', 'people', 'text-domain' ),
+ *      	'animals' => _nx_noop( '%s group', '%s groups', 'animals', 'text-domain' ),
  *     );
  *     ...
  *     $message = $messages[ $type ];
- *     $usable_text = sprintf( translate_nooped_plural( $message, $count, 'text-domain' ), number_format_i18n( $count ) );
+ *     printf( translate_nooped_plural( $message, $count, 'text-domain' ), number_format_i18n( $count ) );
  *
  * @since 2.8.0
  *
@@ -472,13 +469,9 @@ function _nx_noop( $singular, $plural, $context, $domain = null ) {
  *
  * Example:
  *
- *     $messages = array(
- *      	'post' => _n_noop( '%s post', '%s posts', 'text-domain' ),
- *      	'page' => _n_noop( '%s pages', '%s pages', 'text-domain' ),
- *     );
+ *     $message = _n_noop( '%s post', '%s posts', 'text-domain' );
  *     ...
- *     $message = $messages[ $type ];
- *     $usable_text = sprintf( translate_nooped_plural( $message, $count, 'text-domain' ), number_format_i18n( $count ) );
+ *     printf( translate_nooped_plural( $message, $count, 'text-domain' ), number_format_i18n( $count ) );
  *
  * @since 3.1.0
  *
