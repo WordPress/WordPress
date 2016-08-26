@@ -4275,23 +4275,19 @@ function wp_suspend_cache_invalidation( $suspend = true ) {
  *
  * @since 3.0.0
  *
- * @global object $current_site
- *
  * @param int $site_id Optional. Site ID to test. Defaults to current site.
  * @return bool True if $site_id is the main site of the network, or if not
  *              running Multisite.
  */
 function is_main_site( $site_id = null ) {
-	// This is the current network's information; 'site' is old terminology.
-	global $current_site;
-
-	if ( ! is_multisite() )
+	if ( ! is_multisite() ) {
 		return true;
+	}
 
-	if ( ! $site_id )
+	if ( ! $site_id ) {
 		$site_id = get_current_blog_id();
-
-	return (int) $site_id === (int) $current_site->blog_id;
+	}
+	return (int) $site_id === (int) get_current_site()->blog_id;
 }
 
 /**
