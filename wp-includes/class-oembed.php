@@ -95,6 +95,15 @@ class WP_oEmbed {
 			'#https?://videopress.com/v/.*#'                      => array( 'https://public-api.wordpress.com/oembed/1.0/?for=' . $host, true  ),
 			'#https?://(www\.)?reddit\.com/r/[^/]+/comments/.*#i' => array( 'https://www.reddit.com/oembed',                             true  ),
 			'#https?://(www\.)?speakerdeck\.com/.*#i'             => array( 'https://speakerdeck.com/oembed.{format}',                   true  ),
+			'#https?://www\.facebook\.com/.*/posts/.*#i'          => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
+			'#https?://www\.facebook\.com/.*/activity/.*#i'       => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
+			'#https?://www\.facebook\.com/photo(s/|\.php).*i'     => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
+			'#https?://www\.facebook\.com/permalink\.php.*#i'     => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
+			'#https?://www\.facebook\.com/media/.*#i'             => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
+			'#https?://www\.facebook\.com/questions/.*#i'         => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
+			'#https?://www\.facebook\.com/notes/.*#i'             => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
+			'#https?://www\.facebook\.com/.*/videos/.*#i'         => array( 'https://www.facebook.com/plugins/video/oembed.json/',       true  ),
+			'#https?://www\.facebook\.com/video\.php.*#i'         => array( 'https://www.facebook.com/plugins/video/oembed.json/',       true  ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
@@ -164,6 +173,7 @@ class WP_oEmbed {
 		 * | Speaker Deck | speakerdeck.com       |      Yes       | 4.4.0     |
 		 * | Twitter      | twitter.com/timelines |      Yes       | 4.5.0     |
 		 * | Twitter      | twitter.com/moments   |      Yes       | 4.5.0     |
+		 * | Facebook     | facebook.com          |      Yes       | 4.7.0     |
 		 *
 		 * No longer supported providers:
 		 *
