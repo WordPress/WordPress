@@ -67,6 +67,11 @@ function map_meta_cap( $cap, $user_id ) {
 			}
 		}
 
+		if ( ( get_option( 'page_for_posts' ) == $post->ID ) || ( get_option( 'page_on_front' ) == $post->ID ) ) {
+			$caps[] = 'manage_options';
+			break;
+		}
+
 		$post_type = get_post_type_object( $post->post_type );
 		if ( ! $post_type ) {
 			/* translators: 1: post type, 2: capability name */
