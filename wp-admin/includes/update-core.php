@@ -707,6 +707,7 @@ $_old_files = array(
 'wp-admin/includes/class-wp-automatic-upgrader.php', // Wrong file name, see #37628.
 // 4.7
 'wp-includes/locale.php',
+'wp-includes/session.php',
 );
 
 /**
