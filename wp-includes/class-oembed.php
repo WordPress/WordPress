@@ -55,12 +55,9 @@ class WP_oEmbed {
 	public function __construct() {
 		$host = urlencode( home_url() );
 		$providers = array(
-			'#http://((m|www)\.)?youtube\.com/watch.*#i'          => array( 'http://www.youtube.com/oembed',                             true  ),
-			'#https://((m|www)\.)?youtube\.com/watch.*#i'         => array( 'http://www.youtube.com/oembed?scheme=https',                true  ),
-			'#http://((m|www)\.)?youtube\.com/playlist.*#i'       => array( 'http://www.youtube.com/oembed',                             true  ),
-			'#https://((m|www)\.)?youtube\.com/playlist.*#i'      => array( 'http://www.youtube.com/oembed?scheme=https',                true  ),
-			'#http://youtu\.be/.*#i'                              => array( 'http://www.youtube.com/oembed',                             true  ),
-			'#https://youtu\.be/.*#i'                             => array( 'http://www.youtube.com/oembed?scheme=https',                true  ),
+			'#https?://((m|www)\.)?youtube\.com/watch.*#i'        => array( 'https://www.youtube.com/oembed',                            true  ),
+			'#https?://((m|www)\.)?youtube\.com/playlist.*#i'     => array( 'https://www.youtube.com/oembed',                            true  ),
+			'#https?://youtu\.be/.*#i'                            => array( 'https://www.youtube.com/oembed',                            true  ),
 			'#https?://(.+\.)?vimeo\.com/.*#i'                    => array( 'http://vimeo.com/api/oembed.{format}',                      true  ),
 			'#https?://(www\.)?dailymotion\.com/.*#i'             => array( 'https://www.dailymotion.com/services/oembed',               true  ),
 			'#https?://dai.ly/.*#i'                               => array( 'https://www.dailymotion.com/services/oembed',               true  ),
