@@ -213,6 +213,7 @@ require( ABSPATH . WPINC . '/rest-api.php' );
 require( ABSPATH . WPINC . '/rest-api/class-wp-rest-server.php' );
 require( ABSPATH . WPINC . '/rest-api/class-wp-rest-response.php' );
 require( ABSPATH . WPINC . '/rest-api/class-wp-rest-request.php' );
+require( ABSPATH . WPINC . '/class-wp-locale.php' );
 
 $GLOBALS['wp_embed'] = new WP_Embed();
 
@@ -372,9 +373,6 @@ $locale_file = WP_LANG_DIR . "/$locale.php";
 if ( ( 0 === validate_file( $locale ) ) && is_readable( $locale_file ) )
 	require( $locale_file );
 unset( $locale_file );
-
-// Pull in locale data after loading text domain.
-require_once( ABSPATH . WPINC . '/locale.php' );
 
 /**
  * WordPress Locale object for loading locale domain date and various strings.
