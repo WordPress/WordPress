@@ -171,7 +171,7 @@ function edit_user( $user_id = 0 ) {
 	 *
 	 * @param WP_Error &$errors WP_Error object, passed by reference.
 	 * @param bool     $update  Whether this is a user update.
-	 * @param WP_User  &$user   WP_User object, passed by reference.
+	 * @param stdClass &$user   User object, passed by reference.
 	 */
 	do_action_ref_array( 'user_profile_update_errors', array( &$errors, $update, &$user ) );
 

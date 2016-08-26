@@ -176,8 +176,8 @@ function get_permalink( $post = 0, $leavename = false ) {
 				 *
 				 * @since 3.5.0
 				 *
-				 * @param stdClass $cat  The category to use in the permalink.
-				 * @param array    $cats Array of all categories associated with the post.
+				 * @param WP_Term  $cat  The category to use in the permalink.
+				 * @param array    $cats Array of all categories (WP_Term objects) associated with the post.
 				 * @param WP_Post  $post The post in question.
 				 */
 				$category_object = apply_filters( 'post_link_category', $cats[0], $cats, $post );

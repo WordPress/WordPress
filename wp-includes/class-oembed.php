@@ -556,7 +556,7 @@ class WP_oEmbed {
 	 * @access private
 	 *
 	 * @param string $response_body
-	 * @return object|false
+	 * @return stdClass|false
 	 */
 	private function _parse_xml_body( $response_body ) {
 		if ( ! function_exists( 'simplexml_import_dom' ) || ! class_exists( 'DOMDocument', false ) )
