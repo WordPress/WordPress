@@ -1,0 +1,26 @@
+{
+    "name": "xrstf/composer-php52",
+    "license": "MIT",
+    "support": {
+        "source": "https://github.com/composer-php52/composer-php52",
+        "issues": "https://github.com/composer-php52/composer-php52/issues"
+    },
+    "autoload": {
+        "psr-0": {
+            "xrstf\\Composer52": "lib/"
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "xrstf\\Composer52\\Generator::onPostInstallCmd"
+        ],
+        "post-update-cmd": [
+            "xrstf\\Composer52\\Generator::onPostInstallCmd"
+        ]
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-default": "1.x-dev"
+        }
+    }
+}
