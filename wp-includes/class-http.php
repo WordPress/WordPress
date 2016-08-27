@@ -7,7 +7,7 @@
  * @since 2.7.0
  */
 
-if ( ! class_exists( 'Requests' ) ) {
+if ( ! class_exists( 'Requests', false ) ) {
 	require( ABSPATH . WPINC . '/class-requests.php' );
 
 	Requests::register_autoloader();
