@@ -1,0 +1,67 @@
+{
+	"name": "wordpress/wordpress",
+	"description": "WordPress is web software you can use to create a beautiful website or blog.",
+	"keywords": [
+		"blog",
+		"cms"
+	],
+	"type": "wordpress-core",
+	"homepage": "https://wordpress.org/",
+	"license": "GPL-2.0+",
+	"authors": [
+		{
+			"name": "WordPress Community",
+			"homepage": "https://wordpress.org/about/"
+		}
+	],
+	"support": {
+		"issues": "https://core.trac.wordpress.org/",
+		"forum": "https://wordpress.org/support/",
+		"wiki": "https://codex.wordpress.org/",
+		"irc": "irc://irc.freenode.net/wordpress",
+		"source": "https://core.trac.wordpress.org/browser"
+	},
+	"require": {
+		"xrstf/composer-php52": "^1.0"
+	},
+	"scripts": {
+		"post-install-cmd": [
+			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+		],
+		"post-update-cmd": [
+			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+		],
+		"post-autoload-dump": [
+			"xrstf\\Composer52\\Generator::onPostInstallCmd"
+		]
+	},
+	"autoload": {
+		"classmap": [
+			"src/wp-includes/",
+			"src/wp-admin/"
+		],
+		"exclude-from-classmap": [
+			"src/wp-admin/includes/deprecated.php",
+			"src/wp-includes/atomlib.php",
+			"src/wp-includes/cache.php",
+			"src/wp-includes/class-json.php",
+			"src/wp-includes/class-phpmailer.php",
+			"src/wp-includes/class-requests.php",
+			"src/wp-includes/class-simplepie.php",
+			"src/wp-includes/class-snoopy.php",
+			"src/wp-includes/compat.php",
+			"src/wp-includes/pluggable-deprecated.php",
+			"src/wp-includes/rss.php",
+			"src/wp-includes/ID3/",
+			"src/wp-includes/pomo/",
+			"src/wp-includes/random_compat/error_polyfill.php",
+			"src/wp-includes/Requests/",
+			"src/wp-includes/SimplePie/",
+			"src/wp-includes/Text/",
+			"src/wp-includes/widgets/"
+		]
+	},
+	"config": {
+		"vendor-dir": "src/wp-vendor"
+	}
+}
