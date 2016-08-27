@@ -24,6 +24,7 @@ if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_obj
  */
 if ( empty( $GLOBALS['wp_press_this'] ) ) {
 	include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
+	$GLOBALS['wp_press_this'] = new WP_Press_This();
 }
 
 $GLOBALS['wp_press_this']->html();

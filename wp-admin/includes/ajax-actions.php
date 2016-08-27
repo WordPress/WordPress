@@ -3138,6 +3138,7 @@ function wp_ajax_destroy_sessions() {
 function wp_ajax_press_this_save_post() {
 	if ( empty( $GLOBALS['wp_press_this'] ) ) {
 		include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
+		$GLOBALS['wp_press_this'] = new WP_Press_This();
 	}
 
 	$GLOBALS['wp_press_this']->save_post();
@@ -3153,6 +3154,7 @@ function wp_ajax_press_this_save_post() {
 function wp_ajax_press_this_add_category() {
 	if ( empty( $GLOBALS['wp_press_this'] ) ) {
 		include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
+		$GLOBALS['wp_press_this'] = new WP_Press_This();
 	}
 
 	$GLOBALS['wp_press_this']->add_category();

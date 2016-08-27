@@ -1516,9 +1516,3 @@ class WP_Press_This {
 		die();
 	}
 }
-
-/**
- *
- * @global WP_Press_This $wp_press_this
- */
-$GLOBALS['wp_press_this'] = new WP_Press_This;
