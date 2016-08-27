@@ -12,8 +12,6 @@ if ( ! defined( 'IFRAME_REQUEST' ) && isset( $_GET['action'] ) && in_array( $_GE
 /** WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
-include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-
 if ( isset($_GET['action']) ) {
 	$plugin = isset($_REQUEST['plugin']) ? trim($_REQUEST['plugin']) : '';
 	$theme = isset($_REQUEST['theme']) ? urldecode($_REQUEST['theme']) : '';
@@ -217,8 +215,6 @@ if ( isset($_GET['action']) ) {
 
 		if ( ! current_user_can('install_themes') )
 			wp_die( __( 'Sorry, you are not allowed to install themes on this site.' ) );
-
-		include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' ); //for themes_api..
 
 		check_admin_referer( 'install-theme_' . $theme );
 		$api = themes_api('theme_information', array('slug' => $theme, 'fields' => array('sections' => false, 'tags' => false) ) ); //Save on a bit of bandwidth.

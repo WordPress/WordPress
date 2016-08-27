@@ -384,6 +384,3 @@ class WP_Customize_Panel {
 		<?php
 	}
 }
-
-/** WP_Customize_Nav_Menus_Panel class */
-require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menus-panel.php' );

@@ -7,9 +7,6 @@
  * @since 3.0.0
  */
 
-/** Walker_Nav_Menu class */
-require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
-
 /**
  * Displays a navigation menu.
  *

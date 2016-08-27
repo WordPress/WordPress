@@ -8,12 +8,6 @@
  * @subpackage Administration
  */
 
-/** Walker_Category_Checklist class */
-require_once( ABSPATH . 'wp-admin/includes/class-walker-category-checklist.php' );
-
-/** WP_Internal_Pointers class */
-require_once( ABSPATH . 'wp-admin/includes/class-wp-internal-pointers.php' );
-
 //
 // Category Checklists
 //
