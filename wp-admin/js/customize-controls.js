@@ -3210,12 +3210,14 @@
 			// ssl certs.
 
 			this.add( 'previewUrl', params.previewUrl ).setter( function( to ) {
-				var result;
+				var result, urlParser;
+				urlParser = document.createElement( 'a' );
+				urlParser.href = to;
 
-				// Check for URLs that include "/wp-admin/" or end in "/wp-admin".
-				// Strip hashes and query strings before testing.
-				if ( /\/wp-admin(\/|$)/.test( to.replace( /[#?].*$/, '' ) ) )
+				// Abort if URL is for admin or (static) files in wp-includes or wp-content.
+				if ( /\/wp-(admin|includes|content)(\/|$)/.test( urlParser.pathname ) ) {
 					return null;
+				}
 
 				// Attempt to match the URL to the control frame's scheme
 				// and check if it's allowed. If not, try the original URL.
