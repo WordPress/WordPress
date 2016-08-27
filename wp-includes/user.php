@@ -1042,12 +1042,12 @@ function wp_dropdown_users( $args = '' ) {
 	$option_none_value = $r['option_none_value'];
 
 	/**
-	 * Filters the query arguments for the user drop-down.
+	 * Filters the query arguments for the list of users in the dropdown.
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param array $query_args The query arguments for wp_dropdown_users().
-	 * @param array $r          The default arguments for wp_dropdown_users().
+	 * @param array $query_args The query arguments for get_users().
+	 * @param array $r          The arguments passed to wp_dropdown_users() combined with the defaults.
 	 */
 	$query_args = apply_filters( 'wp_dropdown_users_args', $query_args, $r );
 
