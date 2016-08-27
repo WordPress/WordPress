@@ -37,31 +37,33 @@
 	},
 	"autoload": {
 		"classmap": [
-			"src/wp-includes/",
-			"src/wp-admin/"
+			"wp-includes/",
+			"wp-admin/"
 		],
 		"exclude-from-classmap": [
-			"src/wp-admin/includes/deprecated.php",
-			"src/wp-includes/atomlib.php",
-			"src/wp-includes/cache.php",
-			"src/wp-includes/class-json.php",
-			"src/wp-includes/class-phpmailer.php",
-			"src/wp-includes/class-requests.php",
-			"src/wp-includes/class-simplepie.php",
-			"src/wp-includes/class-snoopy.php",
-			"src/wp-includes/compat.php",
-			"src/wp-includes/pluggable-deprecated.php",
-			"src/wp-includes/rss.php",
-			"src/wp-includes/ID3/",
-			"src/wp-includes/pomo/",
-			"src/wp-includes/random_compat/error_polyfill.php",
-			"src/wp-includes/Requests/",
-			"src/wp-includes/SimplePie/",
-			"src/wp-includes/Text/",
-			"src/wp-includes/widgets/"
+			"wp-admin/includes/deprecated.php",
+			"wp-includes/atomlib.php",
+			"wp-includes/cache.php",
+			"wp-includes/class-json.php",
+			"wp-includes/class-phpmailer.php",
+			"wp-includes/class-requests.php",
+			"wp-includes/class-simplepie.php",
+			"wp-includes/class-snoopy.php",
+			"wp-includes/compat.php",
+			"wp-includes/pluggable-deprecated.php",
+			"wp-includes/rss.php",
+			"wp-includes/ID3/",
+			"wp-includes/pomo/",
+			"wp-includes/random_compat/error_polyfill.php",
+			"wp-includes/Requests/",
+			"wp-includes/SimplePie/",
+			"wp-includes/Text/",
+			"wp-includes/widgets/"
 		]
 	},
 	"config": {
-		"vendor-dir": "src/wp-vendor"
+		"classmap-authoritative": true,
+		"optimize-autoloader": true,
+		"vendor-dir": "wp-vendor"
 	}
 }
