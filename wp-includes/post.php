@@ -2866,7 +2866,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *     @type array  $tax_input             Array of taxonomy terms keyed by their taxonomy name. Default empty.
  *     @type array  $meta_input            Array of post meta values keyed by their post meta key. Default empty.
  * }
- * @param bool  $wp_error Optional. Whether to allow return of WP_Error on failure. Default false.
+ * @param bool  $wp_error Optional. Whether to return a WP_Error on failure. Default false.
  * @return int|WP_Error The post ID on success. The value 0 or WP_Error on failure.
  */
 function wp_insert_post( $postarr, $wp_error = false ) {
@@ -4694,15 +4694,17 @@ function is_local_attachment($url) {
  * setting the value for the 'comment_status' key.
  *
  * @since 2.0.0
+ * @since 4.7.0 Added the `$wp_error` parameter to allow a WP_Error to be returned on failure.
  *
  * @see wp_insert_post()
  *
- * @param string|array $args   Arguments for inserting an attachment.
- * @param string       $file   Optional. Filename.
- * @param int          $parent Optional. Parent post ID.
- * @return int Attachment ID.
+ * @param string|array $args     Arguments for inserting an attachment.
+ * @param string       $file     Optional. Filename.
+ * @param int          $parent   Optional. Parent post ID.
+ * @param bool         $wp_error Optional. Whether to return a WP_Error on failure. Default false.
+ * @return int|WP_Error The attachment ID on success. The value 0 or WP_Error on failure.
  */
-function wp_insert_attachment( $args, $file = false, $parent = 0 ) {
+function wp_insert_attachment( $args, $file = false, $parent = 0, $wp_error = false ) {
 	$defaults = array(
 		'file'        => $file,
 		'post_parent' => 0
@@ -4716,7 +4718,7 @@ function wp_insert_attachment( $args, $file = false, $parent = 0 ) {
 
 	$data['post_type'] = 'attachment';
 
-	return wp_insert_post( $data );
+	return wp_insert_post( $data, $wp_error );
 }
 
 /**
