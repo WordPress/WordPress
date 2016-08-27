@@ -7,6 +7,12 @@
  * @since 3.0.0
  */
 
+/** Walker_Nav_Menu_Edit class */
+require_once( ABSPATH . 'wp-admin/includes/class-walker-nav-menu-edit.php' );
+
+/** Walker_Nav_Menu_Checklist class */
+require_once( ABSPATH . 'wp-admin/includes/class-walker-nav-menu-checklist.php' );
+
 /**
  * Prints the appropriate response to a menu quick search.
  *

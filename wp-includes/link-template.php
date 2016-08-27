@@ -2909,6 +2909,7 @@ function the_comments_pagination( $args = array() ) {
 function get_shortcut_link() {
 	global $is_IE, $wp_version;
 
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
 	$GLOBALS['wp_press_this'] = new WP_Press_This();
 	$bookmarklet_version = $GLOBALS['wp_press_this']->version;
 	$link = '';

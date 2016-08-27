@@ -737,6 +737,8 @@ function _unzip_file_pclzip($file, $to, $needed_dirs = array()) {
 
 	mbstring_binary_safe_encoding();
 
+	require_once(ABSPATH . 'wp-admin/includes/class-pclzip.php');
+
 	$archive = new PclZip($file);
 
 	$archive_files = $archive->extract(PCLZIP_OPT_EXTRACT_AS_STRING);
@@ -884,27 +886,14 @@ function copy_dir($from, $to, $skip_list = array() ) {
 function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_ownership = false ) {
 	global $wp_filesystem;
 
+	require_once(ABSPATH . 'wp-admin/includes/class-wp-filesystem-base.php');
+
 	$method = get_filesystem_method( $args, $context, $allow_relaxed_file_ownership );
 
 	if ( ! $method )
 		return false;
 
-	$map = array(
-		'base' => 'WP_Filesystem_Base',
-		'direct' => 'WP_Filesystem_Direct',
-		'ftpext' => 'WP_Filesystem_FTPext',
-		'ftpsockets' => 'WP_Filesystem_ftpsockets',
-		'ssh2' => 'WP_Filesystem_SSH2',
-	);
-
-	$l = strtolower( $method );
-	if ( array_key_exists( $l, $map ) ) {
-		$classname = $map[ $l ];
-	} else {
-		$classname = "WP_Filesystem_{$method}";
-	}
-
-	if ( ! class_exists( $classname ) ) {
+	if ( ! class_exists( "WP_Filesystem_$method" ) ) {
 
 		/**
 		 * Filters the path for a specific filesystem method class file.
@@ -918,14 +907,14 @@ function WP_Filesystem( $args = false, $context = false, $allow_relaxed_file_own
 		 */
 		$abstraction_file = apply_filters( 'filesystem_method_file', ABSPATH . 'wp-admin/includes/class-wp-filesystem-' . $method . '.php', $method );
 
-		if ( ! file_exists( $abstraction_file ) ) {
+		if ( ! file_exists($abstraction_file) )
 			return;
-		}
 
-		require_once( $abstraction_file );
+		require_once($abstraction_file);
 	}
+	$method = "WP_Filesystem_$method";
 
-	$wp_filesystem = new $classname( $args );
+	$wp_filesystem = new $method($args);
 
 	//Define the timeouts for the connections. Only available after the construct is called to allow for per-transport overriding of the default.
 	if ( ! defined('FS_CONNECT_TIMEOUT') )

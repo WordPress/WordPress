@@ -22,6 +22,12 @@
  */
 global $current_site, $current_blog;
 
+/** WP_Network class */
+require_once( ABSPATH . WPINC . '/class-wp-network.php' );
+
+/** WP_Site class */
+require_once( ABSPATH . WPINC . '/class-wp-site.php' );
+
 /** Multisite loader */
 require_once( ABSPATH . WPINC . '/ms-load.php' );
 

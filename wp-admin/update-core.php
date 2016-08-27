@@ -163,6 +163,7 @@ function core_upgrade_preamble() {
 		_e('You have the latest version of WordPress.');
 
 		if ( wp_http_supports( array( 'ssl' ) ) ) {
+			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 			$upgrader = new WP_Automatic_Updater;
 			$future_minor_update = (object) array(
 				'current'       => $wp_version . '.1.next.minor',
@@ -186,6 +187,7 @@ function core_upgrade_preamble() {
 	}
 
 	if ( isset( $updates[0] ) && $updates[0]->response == 'development' ) {
+		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 		$upgrader = new WP_Automatic_Updater;
 		if ( wp_http_supports( 'ssl' ) && $upgrader->should_update( 'core', $updates[0], ABSPATH ) ) {
 			echo '<div class="updated inline"><p>';
@@ -435,6 +437,8 @@ function list_translation_updates() {
  */
 function do_core_upgrade( $reinstall = false ) {
 	global $wp_filesystem;
+
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 	if ( $reinstall )
 		$url = 'update-core.php?action=do-core-reinstall';
@@ -706,6 +710,7 @@ if ( 'upgrade-core' == $action ) {
 	check_admin_referer( 'upgrade-translations' );
 
 	require_once( ABSPATH . 'wp-admin/admin-header.php' );
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 	$url = 'update-core.php?action=do-translation-upgrade';
 	$nonce = 'upgrade-translations';

@@ -41,6 +41,9 @@ require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 /** Load WordPress Translation Install API */
 require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 
+/** Load wpdb */
+require_once( ABSPATH . WPINC . '/wp-db.php' );
+
 nocache_headers();
 
 $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;

@@ -1507,6 +1507,7 @@ function wp_ajax_wp_link_ajax() {
 
 	$args['pagenum'] = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
+	require(ABSPATH . WPINC . '/class-wp-editor.php');
 	$results = _WP_Editors::wp_link_query( $args );
 
 	if ( ! isset( $results ) )
@@ -3136,6 +3137,7 @@ function wp_ajax_destroy_sessions() {
  */
 function wp_ajax_press_this_save_post() {
 	if ( empty( $GLOBALS['wp_press_this'] ) ) {
+		include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
 		$GLOBALS['wp_press_this'] = new WP_Press_This();
 	}
 
@@ -3151,6 +3153,7 @@ function wp_ajax_press_this_save_post() {
  */
 function wp_ajax_press_this_add_category() {
 	if ( empty( $GLOBALS['wp_press_this'] ) ) {
+		include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
 		$GLOBALS['wp_press_this'] = new WP_Press_This();
 	}
 
@@ -3180,6 +3183,7 @@ function wp_ajax_crop_image() {
 
 	switch ( $context ) {
 		case 'site-icon':
+			require_once ABSPATH . '/wp-admin/includes/class-wp-site-icon.php';
 			$wp_site_icon = new WP_Site_Icon();
 
 			// Skip creating a new attachment if the attachment is a Site Icon.
@@ -3328,6 +3332,7 @@ function wp_ajax_install_theme() {
 		wp_send_json_error( $status );
 	}
 
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 	include_once( ABSPATH . 'wp-admin/includes/theme.php' );
 
 	$api = themes_api( 'theme_information', array(
@@ -3433,6 +3438,8 @@ function wp_ajax_update_theme() {
 		$status['errorMessage'] = __( 'Sorry, you are not allowed to update themes for this site.' );
 		wp_send_json_error( $status );
 	}
+
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 	$current = get_site_transient( 'update_themes' );
 	if ( empty( $current ) ) {
@@ -3583,6 +3590,7 @@ function wp_ajax_install_plugin() {
 		wp_send_json_error( $status );
 	}
 
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 	include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
 
 	$api = plugins_api( 'plugin_information', array(
@@ -3689,6 +3697,8 @@ function wp_ajax_update_plugin() {
 		/* translators: %s: Plugin version */
 		$status['oldVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
 	}
+
+	include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 	wp_update_plugins();
 
