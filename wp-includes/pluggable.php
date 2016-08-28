@@ -1108,7 +1108,7 @@ function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
 
 	if ( $die && false === $result ) {
 		if ( wp_doing_ajax() ) {
-			wp_die( -1 );
+			wp_die( -1, 403 );
 		} else {
 			die( '-1' );
 		}
