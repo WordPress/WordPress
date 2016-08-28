@@ -1080,6 +1080,10 @@ if ( !function_exists('check_ajax_referer') ) :
  *                   0-12 hours ago, 2 if the nonce is valid and generated between 12-24 hours ago.
  */
 function check_ajax_referer( $action = -1, $query_arg = false, $die = true ) {
+	if ( -1 == $action ) {
+		_doing_it_wrong( __FUNCTION__, __( 'You should specify a nonce action to be verified by using the first parameter.' ), '4.7' );
+	}
+
 	$nonce = '';
 
 	if ( $query_arg && isset( $_REQUEST[ $query_arg ] ) )
