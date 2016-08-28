@@ -53,6 +53,47 @@
 				sideSortablesHeight: 0
 			};
 
+		var shrinkTextarea = window._.throttle( function() {
+			var x = window.scrollX || document.documentElement.scrollLeft;
+			var y = window.scrollY || document.documentElement.scrollTop;
+			var height = parseInt( textEditor.style.height, 10 );
+
+			textEditor.style.height = autoresizeMinHeight + 'px';
+
+			if ( textEditor.scrollHeight > autoresizeMinHeight ) {
+				textEditor.style.height = textEditor.scrollHeight + 'px';
+			}
+
+			if ( typeof x !== 'undefined' ) {
+				window.scrollTo( x, y );
+			}
+
+			if ( textEditor.scrollHeight < height ) {
+				adjust();
+			}
+		}, 300 );
+
+		function textEditorResize() {
+			var length = textEditor.value.length;
+
+			if ( mceEditor && ! mceEditor.isHidden() ) {
+				return;
+			}
+
+			if ( ! mceEditor && initialMode === 'tinymce' ) {
+				return;
+			}
+
+			if ( length < oldTextLength ) {
+				shrinkTextarea();
+			} else if ( parseInt( textEditor.style.height, 10 ) < textEditor.scrollHeight ) {
+				textEditor.style.height = Math.ceil( textEditor.scrollHeight ) + 'px';
+				adjust();
+			}
+
+			oldTextLength = length;
+		}
+
 		function getHeights() {
 			var windowWidth = $window.width();
 
@@ -73,43 +114,6 @@
 			if ( heights.menuBarHeight < 3 ) {
 				heights.menuBarHeight = 0;
 			}
-		}
-
-		function textEditorResize() {
-			if ( mceEditor && ! mceEditor.isHidden() ) {
-				return;
-			}
-
-			if ( ! mceEditor && initialMode === 'tinymce' ) {
-				return;
-			}
-
-			var length = textEditor.value.length;
-			var height = parseInt( textEditor.style.height, 10 );
-			var top = window.scrollTop;
-
-			if ( length < oldTextLength ) {
-				// textEditor.scrollHeight is not adjusted until the next line.
-				textEditor.style.height = 'auto';
-
-				if ( textEditor.scrollHeight > autoresizeMinHeight ) {
-					textEditor.style.height = textEditor.scrollHeight + 'px';
-				} else {
-					textEditor.style.height = autoresizeMinHeight + 'px';
-				}
-
-				// Prevent scroll-jumping in Firefox and IE.
-				window.scrollTop = top;
-
-				if ( textEditor.scrollHeight < height ) {
-					adjust();
-				}
-			} else if ( height < textEditor.scrollHeight ) {
-				textEditor.style.height = textEditor.scrollHeight + 'px';
-				adjust();
-			}
-
-			oldTextLength = length;
 		}
 
 		// We need to wait for TinyMCE to initialize.
