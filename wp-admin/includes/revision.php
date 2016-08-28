@@ -340,7 +340,7 @@ function wp_print_revision_templates() {
 				}
 				#>
 				/>
-				<?php esc_attr_e( 'Compare any two revisions' ); ?>
+				<?php esc_html_e( 'Compare any two revisions' ); ?>
 			</label>
 		</div>
 	</script>

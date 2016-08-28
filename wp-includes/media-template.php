@@ -610,16 +610,16 @@ function wp_print_media_templates() {
 					<# } #>>
 
 					<option value="left">
-						<?php esc_attr_e('Left'); ?>
+						<?php esc_html_e( 'Left' ); ?>
 					</option>
 					<option value="center">
-						<?php esc_attr_e('Center'); ?>
+						<?php esc_html_e( 'Center' ); ?>
 					</option>
 					<option value="right">
-						<?php esc_attr_e('Right'); ?>
+						<?php esc_html_e( 'Right' ); ?>
 					</option>
 					<option value="none" selected>
-						<?php esc_attr_e('None'); ?>
+						<?php esc_html_e( 'None' ); ?>
 					</option>
 				</select>
 			</label>
@@ -641,31 +641,31 @@ function wp_print_media_templates() {
 
 				<# if ( data.model.canEmbed ) { #>
 					<option value="embed" selected>
-						<?php esc_attr_e('Embed Media Player'); ?>
+						<?php esc_html_e( 'Embed Media Player' ); ?>
 					</option>
 					<option value="file">
 				<# } else { #>
 					<option value="none" selected>
-						<?php esc_attr_e('None'); ?>
+						<?php esc_html_e( 'None' ); ?>
 					</option>
 					<option value="file">
 				<# } #>
 					<# if ( data.model.canEmbed ) { #>
-						<?php esc_attr_e('Link to Media File'); ?>
+						<?php esc_html_e( 'Link to Media File' ); ?>
 					<# } else { #>
-						<?php esc_attr_e('Media File'); ?>
+						<?php esc_html_e( 'Media File' ); ?>
 					<# } #>
 					</option>
 					<option value="post">
 					<# if ( data.model.canEmbed ) { #>
-						<?php esc_attr_e('Link to Attachment Page'); ?>
+						<?php esc_html_e( 'Link to Attachment Page' ); ?>
 					<# } else { #>
-						<?php esc_attr_e('Attachment Page'); ?>
+						<?php esc_html_e( 'Attachment Page' ); ?>
 					<# } #>
 					</option>
 				<# if ( 'image' === data.type ) { #>
 					<option value="custom">
-						<?php esc_attr_e('Custom URL'); ?>
+						<?php esc_html_e( 'Custom URL' ); ?>
 					</option>
 				<# } #>
 				</select>
@@ -718,13 +718,13 @@ function wp_print_media_templates() {
 				<option value="post" <# if ( ! wp.media.galleryDefaults.link || 'post' == wp.media.galleryDefaults.link ) {
 					#>selected="selected"<# }
 				#>>
-					<?php esc_attr_e('Attachment Page'); ?>
+					<?php esc_html_e( 'Attachment Page' ); ?>
 				</option>
 				<option value="file" <# if ( 'file' == wp.media.galleryDefaults.link ) { #>selected="selected"<# } #>>
-					<?php esc_attr_e('Media File'); ?>
+					<?php esc_html_e( 'Media File' ); ?>
 				</option>
 				<option value="none" <# if ( 'none' == wp.media.galleryDefaults.link ) { #>selected="selected"<# } #>>
-					<?php esc_attr_e('None'); ?>
+					<?php esc_html_e( 'None' ); ?>
 				</option>
 			</select>
 		</label>
@@ -841,16 +841,16 @@ function wp_print_media_templates() {
 			<span><?php _e('Align'); ?></span>
 			<div class="button-group button-large" data-setting="align">
 				<button class="button" value="left">
-					<?php esc_attr_e('Left'); ?>
+					<?php esc_html_e( 'Left' ); ?>
 				</button>
 				<button class="button" value="center">
-					<?php esc_attr_e('Center'); ?>
+					<?php esc_html_e( 'Center' ); ?>
 				</button>
 				<button class="button" value="right">
-					<?php esc_attr_e('Right'); ?>
+					<?php esc_html_e( 'Right' ); ?>
 				</button>
 				<button class="button active" value="none">
-					<?php esc_attr_e('None'); ?>
+					<?php esc_html_e( 'None' ); ?>
 				</button>
 			</div>
 		</div>
@@ -859,13 +859,13 @@ function wp_print_media_templates() {
 			<span><?php _e('Link To'); ?></span>
 			<div class="button-group button-large" data-setting="link">
 				<button class="button" value="file">
-					<?php esc_attr_e('Image URL'); ?>
+					<?php esc_html_e( 'Image URL' ); ?>
 				</button>
 				<button class="button" value="custom">
-					<?php esc_attr_e('Custom URL'); ?>
+					<?php esc_html_e( 'Custom URL' ); ?>
 				</button>
 				<button class="button active" value="none">
-					<?php esc_attr_e('None'); ?>
+					<?php esc_html_e( 'None' ); ?>
 				</button>
 			</div>
 			<input type="text" class="link-to-custom" data-setting="linkUrl" />
@@ -907,16 +907,16 @@ function wp_print_media_templates() {
 						<span><?php _e('Align'); ?></span>
 						<div class="button-group button-large" data-setting="align">
 							<button class="button" value="left">
-								<?php esc_attr_e('Left'); ?>
+								<?php esc_html_e( 'Left' ); ?>
 							</button>
 							<button class="button" value="center">
-								<?php esc_attr_e('Center'); ?>
+								<?php esc_html_e( 'Center' ); ?>
 							</button>
 							<button class="button" value="right">
-								<?php esc_attr_e('Right'); ?>
+								<?php esc_html_e( 'Right' ); ?>
 							</button>
 							<button class="button active" value="none">
-								<?php esc_attr_e('None'); ?>
+								<?php esc_html_e( 'None' ); ?>
 							</button>
 						</div>
 					</div>
@@ -964,21 +964,21 @@ function wp_print_media_templates() {
 						<select data-setting="link">
 						<# if ( data.attachment ) { #>
 							<option value="file">
-								<?php esc_attr_e('Media File'); ?>
+								<?php esc_html_e( 'Media File' ); ?>
 							</option>
 							<option value="post">
-								<?php esc_attr_e('Attachment Page'); ?>
+								<?php esc_html_e( 'Attachment Page' ); ?>
 							</option>
 						<# } else { #>
 							<option value="file">
-								<?php esc_attr_e('Image URL'); ?>
+								<?php esc_html_e( 'Image URL' ); ?>
 							</option>
 						<# } #>
 							<option value="custom">
-								<?php esc_attr_e('Custom URL'); ?>
+								<?php esc_html_e( 'Custom URL' ); ?>
 							</option>
 							<option value="none">
-								<?php esc_attr_e('None'); ?>
+								<?php esc_html_e( 'None' ); ?>
 							</option>
 						</select>
 						<input type="text" class="link-to-custom" data-setting="linkUrl" />
