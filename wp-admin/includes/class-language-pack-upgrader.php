@@ -282,9 +282,9 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 
 		// Re-add upgrade hooks.
 		add_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
-		add_action( 'upgrader_process_complete', 'wp_version_check' );
-		add_action( 'upgrader_process_complete', 'wp_update_plugins' );
-		add_action( 'upgrader_process_complete', 'wp_update_themes' );
+		add_action( 'upgrader_process_complete', 'wp_version_check', 10, 0 );
+		add_action( 'upgrader_process_complete', 'wp_update_plugins', 10, 0 );
+		add_action( 'upgrader_process_complete', 'wp_update_themes', 10, 0 );
 
 		$this->skin->bulk_footer();
 
