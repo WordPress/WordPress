@@ -30,7 +30,7 @@ function get_header( $name = null ) {
 	 * @since 2.1.0
 	 * @since 2.8.0 $name parameter added.
 	 *
-	 * @param string $name Name of the specific header file to use.
+	 * @param string|null $name Name of the specific header file to use. null for the default header.
 	 */
 	do_action( 'get_header', $name );
 
@@ -69,7 +69,7 @@ function get_footer( $name = null ) {
 	 * @since 2.1.0
 	 * @since 2.8.0 $name parameter added.
 	 *
-	 * @param string $name Name of the specific footer file to use.
+	 * @param string|null $name Name of the specific footer file to use. null for the default footer.
 	 */
 	do_action( 'get_footer', $name );
 
@@ -108,7 +108,7 @@ function get_sidebar( $name = null ) {
 	 * @since 2.2.0
 	 * @since 2.8.0 $name parameter added.
 	 *
-	 * @param string $name Name of the specific sidebar file to use.
+	 * @param string|null $name Name of the specific sidebar file to use. null for the default sidebar.
 	 */
 	do_action( 'get_sidebar', $name );
 
@@ -152,8 +152,8 @@ function get_template_part( $slug, $name = null ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param string $slug The slug name for the generic template.
-	 * @param string $name The name of the specialized template.
+	 * @param string      $slug The slug name for the generic template.
+	 * @param string|null $name The name of the specialized template.
 	 */
 	do_action( "get_template_part_{$slug}", $slug, $name );
 
