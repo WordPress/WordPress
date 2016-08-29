@@ -1219,7 +1219,8 @@ body.cheatin p {
 }
 
 .add-new-widget:before,
-.add-new-menu-item:before {
+.add-new-menu-item:before,
+#available-menu-items .new-content-item .add-content:before {
 	content: "\f132";
 	display: inline-block;
 	position: relative;

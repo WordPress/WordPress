@@ -56,16 +56,16 @@ final class WP_Customize_Nav_Menus {
 		add_filter( 'customize_refresh_nonces', array( $this, 'filter_nonces' ) );
 		add_action( 'wp_ajax_load-available-menu-items-customizer', array( $this, 'ajax_load_available_items' ) );
 		add_action( 'wp_ajax_search-available-menu-items-customizer', array( $this, 'ajax_search_available_items' ) );
+		add_action( 'wp_ajax_customize-nav-menus-insert-auto-draft', array( $this, 'ajax_insert_auto_draft_post' ) );
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-
-		// Needs to run after core Navigation section is set up.
 		add_action( 'customize_register', array( $this, 'customize_register' ), 11 );
-
 		add_filter( 'customize_dynamic_setting_args', array( $this, 'filter_dynamic_setting_args' ), 10, 2 );
 		add_filter( 'customize_dynamic_setting_class', array( $this, 'filter_dynamic_setting_class' ), 10, 3 );
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'print_templates' ) );
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'available_items_template' ) );
 		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
+		add_action( 'customize_preview_init', array( $this, 'make_auto_draft_status_previewable' ) );
+		add_action( 'customize_save_nav_menus_created_posts', array( $this, 'save_nav_menus_created_posts' ) );
 
 		// Selective Refresh partials.
 		add_filter( 'customize_dynamic_partial_args', array( $this, 'customize_dynamic_partial_args' ), 10, 2 );
@@ -626,6 +626,12 @@ final class WP_Customize_Nav_Menus {
 			'section'  => 'add_menu',
 			'settings' => array(),
 		) ) );
+
+		$this->manager->add_setting( new WP_Customize_Filter_Setting( $this->manager, 'nav_menus_created_posts', array(
+			'transport' => 'postMessage',
+			'default' => array(),
+			'sanitize_callback' => array( $this, 'sanitize_nav_menus_created_posts' ),
+		) ) );
 	}
 
 	/**
@@ -648,6 +654,7 @@ final class WP_Customize_Nav_Menus {
 	 * Return an array of all the available item types.
 	 *
 	 * @since 4.3.0
+	 * @since 4.7.0  Each array item now includes a `$type_label` in in addition to `$title`, `$type`, and `$object`.
 	 * @access public
 	 *
 	 * @return array The available menu item types.
@@ -660,7 +667,8 @@ final class WP_Customize_Nav_Menus {
 			foreach ( $post_types as $slug => $post_type ) {
 				$item_types[] = array(
 					'title'  => $post_type->labels->name,
-					'type'   => 'post_type',
+					'type_label' => $post_type->labels->singular_name,
+					'type' => 'post_type',
 					'object' => $post_type->name,
 				);
 			}
@@ -673,8 +681,9 @@ final class WP_Customize_Nav_Menus {
 					continue;
 				}
 				$item_types[] = array(
-					'title'  => $taxonomy->labels->name,
-					'type'   => 'taxonomy',
+					'title' => $taxonomy->labels->name,
+					'type_label' => $taxonomy->labels->singular_name,
+					'type' => 'taxonomy',
 					'object' => $taxonomy->name,
 				);
 			}
@@ -684,12 +693,126 @@ final class WP_Customize_Nav_Menus {
 		 * Filters the available menu item types.
 		 *
 		 * @since 4.3.0
+		 * @since 4.7.0  Each array item now includes a `$type_label` in in addition to `$title`, `$type`, and `$object`.
 		 *
 		 * @param array $item_types Custom menu item types.
 		 */
 		$item_types = apply_filters( 'customize_nav_menu_available_item_types', $item_types );
 
 		return $item_types;
+	}
+
+	/**
+	 * Add a new `auto-draft` post.
+	 *
+	 * @access public
+	 * @since 4.7.0
+	 *
+	 * @param array $postarr {
+	 *     Abbreviated post array.
+	 *
+	 *     @var string $post_title Post title.
+	 *     @var string $post_type  Post type.
+	 * }
+	 * @return WP_Post|WP_Error Inserted auto-draft post object or error.
+	 */
+	public function insert_auto_draft_post( $postarr ) {
+		if ( ! isset( $postarr['post_type'] ) || ! post_type_exists( $postarr['post_type'] )  ) {
+			return new WP_Error( 'unknown_post_type', __( 'Unknown post type' ) );
+		}
+		if ( ! isset( $postarr['post_title'] ) ) {
+			$postarr['post_title'] = '';
+		}
+
+		add_filter( 'wp_insert_post_empty_content', '__return_false', 1000 );
+		$args = array(
+			'post_status' => 'auto-draft',
+			'post_type'   => $postarr['post_type'],
+			'post_title'  => $postarr['post_title'],
+			'post_name'   => sanitize_title( $postarr['post_title'] ), // Auto-drafts are allowed to have empty post_names, so we need to explicitly set it.
+		);
+		$r = wp_insert_post( wp_slash( $args ), true );
+		remove_filter( 'wp_insert_post_empty_content', '__return_false', 1000 );
+
+		if ( is_wp_error( $r ) ) {
+			return $r;
+		} else {
+			return get_post( $r );
+		}
+	}
+
+	/**
+	 * Ajax handler for adding a new auto-draft post.
+	 *
+	 * @access public
+	 * @since 4.7.0
+	 */
+	public function ajax_insert_auto_draft_post() {
+		if ( ! check_ajax_referer( 'customize-menus', 'customize-menus-nonce', false ) ) {
+			status_header( 400 );
+			wp_send_json_error( 'bad_nonce' );
+		}
+
+		if ( ! current_user_can( 'customize' ) ) {
+			status_header( 403 );
+			wp_send_json_error( 'customize_not_allowed' );
+		}
+
+		if ( empty( $_POST['params'] ) || ! is_array( $_POST['params'] ) ) {
+			status_header( 400 );
+			wp_send_json_error( 'missing_params' );
+		}
+
+		$params = wp_array_slice_assoc(
+			array_merge(
+				array(
+					'post_type' => '',
+					'post_title' => '',
+				),
+				wp_unslash( $_POST['params'] )
+			),
+			array( 'post_type', 'post_title' )
+		);
+
+		if ( empty( $params['post_type'] ) || ! post_type_exists( $params['post_type'] ) ) {
+			status_header( 400 );
+			wp_send_json_error( 'missing_post_type_param' );
+		}
+
+		$post_type_object = get_post_type_object( $params['post_type'] );
+		if ( ! current_user_can( $post_type_object->cap->create_posts ) || ! current_user_can( $post_type_object->cap->publish_posts ) ) {
+			status_header( 403 );
+			wp_send_json_error( 'insufficient_post_permissions' );
+		}
+
+		$params['post_title'] = trim( $params['post_title'] );
+		if ( '' === $params['post_title'] ) {
+			status_header( 400 );
+			wp_send_json_error( 'missing_post_title' );
+		}
+
+		$r = $this->insert_auto_draft_post( $params );
+		if ( is_wp_error( $r ) ) {
+			$error = $r;
+			if ( ! empty( $post_type_object->labels->singular_name ) ) {
+				$singular_name = $post_type_object->labels->singular_name;
+			} else {
+				$singular_name = __( 'Post' );
+			}
+
+			$data = array(
+				/* translators: %1$s is the post type name and %2$s is the error message. */
+				'message' => sprintf( __( '%1$s could not be created: %2$s' ), $singular_name, $error->get_error_message() ),
+			);
+			wp_send_json_error( $data );
+		} else {
+			$post = $r;
+			$data = array(
+				'post_id' => $post->ID,
+				'url'     => get_permalink( $post->ID ),
+			);
+			wp_send_json_success( $data );
+		}
 	}
 
 	/**
@@ -768,7 +891,7 @@ final class WP_Customize_Nav_Menus {
 					<span class="spinner"></span>
 				</div>
 				<button type="button" class="clear-results"><span class="screen-reader-text"><?php _e( 'Clear Results' ); ?></span></button>
-				<ul class="accordion-section-content" data-type="search"></ul>
+				<ul class="accordion-section-content available-menu-items-list" data-type="search"></ul>
 			</div>
 			<div id="new-custom-menu-item" class="accordion-section">
 				<h4 class="accordion-section-title" role="presentation">
@@ -797,7 +920,8 @@ final class WP_Customize_Nav_Menus {
 				</div>
 			</div>
 			<?php
-			// Containers for per-post-type item browsing; items added with JS.
+
+			// Containers for per-post-type item browsing; items are added with JS.
 			foreach ( $this->available_item_types() as $available_item_type ) {
 				$id = sprintf( 'available-menu-items-%s-%s', $available_item_type['type'], $available_item_type['object'] );
 				?>
@@ -813,7 +937,20 @@ final class WP_Customize_Nav_Menus {
 							<span class="toggle-indicator" aria-hidden="true"></span>
 						</button>
 					</h4>
-					<ul class="accordion-section-content" data-type="<?php echo esc_attr( $available_item_type['type'] ); ?>" data-object="<?php echo esc_attr( $available_item_type['object'] ); ?>"></ul>
+					<div class="accordion-section-content">
+						<?php if ( 'post_type' === $available_item_type['type'] ) : ?>
+							<?php $post_type_obj = get_post_type_object( $available_item_type['object'] ); ?>
+							<?php if ( current_user_can( $post_type_obj->cap->create_posts ) && current_user_can( $post_type_obj->cap->publish_posts ) ) : ?>
+								<div class="new-content-item">
+									<input type="text" class="create-item-input" placeholder="<?php
+									/* translators: %s: Singular title of post type or taxonomy */
+									printf( __( 'Create New %s' ), $post_type_obj->labels->singular_name ); ?>">
+									<button type="button" class="button add-content"><?php _e( 'Add' ); ?></button>
+								</div>
+							<?php endif; ?>
+						<?php endif; ?>
+						<ul class="available-menu-items-list" data-type="<?php echo esc_attr( $available_item_type['type'] ); ?>" data-object="<?php echo esc_attr( $available_item_type['object'] ); ?>" data-type_label="<?php echo esc_attr( isset( $available_item_type['type_label'] ) ? $available_item_type['type_label'] : $available_item_type['type'] ); ?>"></ul>
+					</div>
 				</div>
 				<?php
 			}
@@ -878,6 +1015,70 @@ final class WP_Customize_Nav_Menus {
 		add_filter( 'wp_nav_menu', array( $this, 'filter_wp_nav_menu' ), 10, 2 );
 		add_filter( 'wp_footer', array( $this, 'export_preview_data' ), 1 );
 		add_filter( 'customize_render_partials_response', array( $this, 'export_partial_rendered_nav_menu_instances' ) );
+	}
+
+	/**
+	 * Make the auto-draft status protected so that it can be queried.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 */
+	public function make_auto_draft_status_previewable() {
+		global $wp_post_statuses;
+		$wp_post_statuses['auto-draft']->protected = true;
+	}
+
+	/**
+	 * Sanitize post IDs for auto-draft posts created for nav menu items to be published.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param array $value Post IDs.
+	 * @returns array Post IDs.
+	 */
+	public function sanitize_nav_menus_created_posts( $value ) {
+		$post_ids = array();
+		foreach ( wp_parse_id_list( $value ) as $post_id ) {
+			if ( empty( $post_id ) ) {
+				continue;
+			}
+			$post = get_post( $post_id );
+			if ( 'auto-draft' !== $post->post_status ) {
+				continue;
+			}
+			$post_type_obj = get_post_type_object( $post->post_type );
+			if ( ! $post_type_obj ) {
+				continue;
+			}
+			if ( ! current_user_can( $post_type_obj->cap->publish_posts ) || ! current_user_can( $post_type_obj->cap->edit_post, $post_id ) ) {
+				continue;
+			}
+			$post_ids[] = $post->ID;
+		}
+		return $post_ids;
+	}
+
+	/**
+	 * Publish the auto-draft posts that were created for nav menu items.
+	 *
+	 * The post IDs will have been sanitized by already by
+	 * `WP_Customize_Nav_Menu_Items::sanitize_nav_menus_created_posts()` to
+	 * remove any post IDs for which the user cannot publish or for which the
+	 * post is not an auto-draft.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param WP_Customize_Setting $setting Customizer setting object.
+	 */
+	public function save_nav_menus_created_posts( $setting ) {
+		$post_ids = $setting->post_value();
+		if ( ! empty( $post_ids ) ) {
+			foreach ( $post_ids as $post_id ) {
+				wp_publish_post( $post_id );
+			}
+		}
 	}
 
 	/**

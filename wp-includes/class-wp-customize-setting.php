@@ -498,6 +498,8 @@ class WP_Customize_Setting {
 	/**
 	 * Fetch and sanitize the $_POST value for the setting.
 	 *
+	 * During a save request prior to save, post_value() provides the new value while value() does not.
+	 *
 	 * @since 3.4.0
 	 *
 	 * @param mixed $default A default value which is used as a fallback. Default is null.
