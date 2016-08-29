@@ -204,6 +204,7 @@ textarea {
 
 .wp-admin input[type="file"] {
 	padding: 3px 0;
+	cursor: pointer;
 }
 
 label {
@@ -297,6 +298,7 @@ input[type="range"].disabled {
 	background: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
+	cursor: default;
 }
 
 input[type="checkbox"]:disabled,
