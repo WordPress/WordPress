@@ -990,8 +990,16 @@ class WP_Comment_Query {
 			}
 
 			if ( $uncached_parent_ids ) {
-				$where = 'WHERE ' . $_where . ' AND comment_parent IN (' . implode( ',', array_map( 'intval', $uncached_parent_ids ) ) . ')';
-				$level_comments = $this->db->get_results( "SELECT {$this->db->comments}.comment_ID, {$this->db->comments}.comment_parent {$this->sql_clauses['from']} {$where} {$this->sql_clauses['groupby']} ORDER BY comment_date_gmt ASC, comment_ID ASC" );
+				// Fetch this level of comments.
+				$parent_query_args = $this->query_vars;
+				foreach ( $exclude_keys as $exclude_key ) {
+					$parent_query_args[ $exclude_key ] = '';
+				}
+				$parent_query_args['parent__in']    = $uncached_parent_ids;
+				$parent_query_args['no_found_rows'] = true;
+				$parent_query_args['hierarchical']  = false;
+
+				$level_comments = get_comments( $parent_query_args );
 
 				// Cache parent-child relationships.
 				$parent_map = array_fill_keys( $uncached_parent_ids, array() );
