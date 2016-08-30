@@ -2749,7 +2749,11 @@ function get_attachment_taxonomies( $attachment, $output = 'names' ) {
 		}
 	}
 
-	return array_unique($taxonomies);
+	if ( 'names' === $output ) {
+		$taxonomies = array_unique( $taxonomies );
+	}
+
+	return $taxonomies;
 }
 
 /**
