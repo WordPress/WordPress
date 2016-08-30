@@ -811,22 +811,29 @@ class wpdb {
 		if ( ! isset( $collate ) )
 			$collate = $this->collate;
 		if ( $this->has_cap( 'collation' ) && ! empty( $charset ) ) {
+			$set_charset_succeeded = true;
+
 			if ( $this->use_mysqli ) {
 				if ( function_exists( 'mysqli_set_charset' ) && $this->has_cap( 'set_charset' ) ) {
-					mysqli_set_charset( $dbh, $charset );
+					$set_charset_succeeded = mysqli_set_charset( $dbh, $charset );
 				}
-				$query = $this->prepare( 'SET NAMES %s', $charset );
-				if ( ! empty( $collate ) )
-					$query .= $this->prepare( ' COLLATE %s', $collate );
-				mysqli_query( $dbh, $query );
+
+				if ( $set_charset_succeeded ) {
+					$query = $this->prepare( 'SET NAMES %s', $charset );
+					if ( ! empty( $collate ) )
+						$query .= $this->prepare( ' COLLATE %s', $collate );
+					mysqli_query( $dbh, $query );
+				}
 			} else {
 				if ( function_exists( 'mysql_set_charset' ) && $this->has_cap( 'set_charset' ) ) {
-					mysql_set_charset( $charset, $dbh );
+					$set_charset_succeeded = mysql_set_charset( $charset, $dbh );
 				}
-				$query = $this->prepare( 'SET NAMES %s', $charset );
-				if ( ! empty( $collate ) )
-					$query .= $this->prepare( ' COLLATE %s', $collate );
-				mysql_query( $query, $dbh );
+				if ( $set_charset_succeeded ) {
+					$query = $this->prepare( 'SET NAMES %s', $charset );
+					if ( ! empty( $collate ) )
+						$query .= $this->prepare( ' COLLATE %s', $collate );
+					mysql_query( $query, $dbh );
+				}
 			}
 		}
 	}
