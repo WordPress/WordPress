@@ -79,21 +79,19 @@ function wp_ajax_nopriv_heartbeat() {
  * Ajax handler for fetching a list table.
  *
  * @since 3.1.0
- *
- * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_fetch_list() {
-	global $wp_list_table;
-
 	$list_class = $_GET['list_args']['class'];
 	check_ajax_referer( "fetch-list-$list_class", '_ajax_fetch_list_nonce' );
 
 	$wp_list_table = _get_list_table( $list_class, array( 'screen' => $_GET['list_args']['screen']['id'] ) );
-	if ( ! $wp_list_table )
+	if ( ! $wp_list_table ) {
 		wp_die( 0 );
+	}
 
-	if ( ! $wp_list_table->ajax_user_can() )
+	if ( ! $wp_list_table->ajax_user_can() ) {
 		wp_die( -1 );
+	}
 
 	$wp_list_table->ajax_response();
 
@@ -829,12 +827,8 @@ function wp_ajax_add_link_category( $action ) {
  * Ajax handler to add a tag.
  *
  * @since 3.1.0
- *
- * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_add_tag() {
-	global $wp_list_table;
-
 	check_ajax_referer( 'add-tag', '_wpnonce_add-tag' );
 	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
 	$tax = get_taxonomy($taxonomy);
@@ -933,36 +927,39 @@ function wp_ajax_get_tagcloud() {
  *
  * @since 3.1.0
  *
- * @global WP_List_Table $wp_list_table
  * @global int           $post_id
  *
  * @param string $action Action to perform.
  */
 function wp_ajax_get_comments( $action ) {
-	global $wp_list_table, $post_id;
-	if ( empty( $action ) )
+	global $post_id;
+	if ( empty( $action ) ) {
 		$action = 'get-comments';
-
+	}
 	check_ajax_referer( $action );
 
 	if ( empty( $post_id ) && ! empty( $_REQUEST['p'] ) ) {
 		$id = absint( $_REQUEST['p'] );
-		if ( ! empty( $id ) )
+		if ( ! empty( $id ) ) {
 			$post_id = $id;
+		}
 	}
 
-	if ( empty( $post_id ) )
+	if ( empty( $post_id ) ) {
 		wp_die( -1 );
+	}
 
 	$wp_list_table = _get_list_table( 'WP_Post_Comments_List_Table', array( 'screen' => 'edit-comments' ) );
 
-	if ( ! current_user_can( 'edit_post', $post_id ) )
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		wp_die( -1 );
+	}
 
 	$wp_list_table->prepare_items();
 
-	if ( !$wp_list_table->has_items() )
+	if ( ! $wp_list_table->has_items() ) {
 		wp_die( 1 );
+	}
 
 	$x = new WP_Ajax_Response();
 	ob_start();
@@ -986,12 +983,9 @@ function wp_ajax_get_comments( $action ) {
  *
  * @since 3.1.0
  *
- * @global WP_List_Table $wp_list_table
- *
  * @param string $action Action to perform.
  */
 function wp_ajax_replyto_comment( $action ) {
-	global $wp_list_table;
 	if ( empty( $action ) )
 		$action = 'replyto-comment';
 
@@ -1108,12 +1102,8 @@ function wp_ajax_replyto_comment( $action ) {
  * Ajax handler for editing a comment.
  *
  * @since 3.1.0
- *
- * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_edit_comment() {
-	global $wp_list_table;
-
 	check_ajax_referer( 'replyto-comment', '_ajax_nonce-replyto-comment' );
 
 	$comment_id = (int) $_POST['comment_ID'];
@@ -1327,14 +1317,12 @@ function wp_ajax_add_meta() {
  *
  * @since 3.1.0
  *
- * @global WP_List_Table $wp_list_table
- *
  * @param string $action Action to perform.
  */
 function wp_ajax_add_user( $action ) {
-	global $wp_list_table;
-	if ( empty( $action ) )
+	if ( empty( $action ) ) {
 		$action = 'add-user';
+	}
 
 	check_ajax_referer( $action );
 	if ( ! current_user_can('create_users') )
@@ -1607,11 +1595,9 @@ function wp_ajax_sample_permalink() {
  * Ajax handler for Quick Edit saving a post from a list table.
  *
  * @since 3.1.0
- *
- * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_inline_save() {
-	global $wp_list_table, $mode;
+	global $mode;
 
 	check_ajax_referer( 'inlineeditnonce', '_inline_edit' );
 
@@ -1707,12 +1693,8 @@ function wp_ajax_inline_save() {
  * Ajax handler for quick edit saving for a term.
  *
  * @since 3.1.0
- *
- * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_inline_save_tax() {
-	global $wp_list_table;
-
 	check_ajax_referer( 'taxinlineeditnonce', '_inline_edit' );
 
 	$taxonomy = sanitize_key( $_POST['taxonomy'] );
