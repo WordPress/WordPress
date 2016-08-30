@@ -659,8 +659,10 @@ function wp_parse_url( $url, $component = -1 ) {
 			if ( ! $parts = @parse_url( 'placeholder://placeholder' . $url, $component ) ) {
 				return $parts;
 			}
-			// Remove the placeholder values
-			unset( $parts['scheme'], $parts['host'] );
+			if ( is_array( $parts ) ) {
+				// Remove the placeholder values
+				unset( $parts['scheme'], $parts['host'] );
+			}
 		} else {
 			return $parts;
 		}
