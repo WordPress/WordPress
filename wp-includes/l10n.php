@@ -1144,5 +1144,8 @@ function wp_dropdown_languages( $args = array() ) {
  */
 function is_rtl() {
 	global $wp_locale;
+	if ( ! ( $wp_locale instanceof WP_Locale ) ) {
+		return false;
+	}
 	return $wp_locale->is_rtl();
 }
