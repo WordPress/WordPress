@@ -2896,11 +2896,15 @@ function the_comments_pagination( $args = array() ) {
  * Retrieves the Press This bookmarklet link.
  *
  * @since 2.6.0
+ *
+ * @global bool          $is_IE      Whether the browser matches an Internet Explorer user agent.
  */
 function get_shortcut_link() {
+	global $is_IE;
+
 	$link = '';
 
-	if ( wp_is_IE() ) {
+	if ( $is_IE ) {
 		/*
 		 * Return the old/shorter bookmarklet code for MSIE 8 and lower,
 		 * since they only support a max length of ~2000 characters for

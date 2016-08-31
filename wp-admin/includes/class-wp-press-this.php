@@ -1187,6 +1187,7 @@ class WP_Press_This {
 	 * @access public
 	 *
 	 * @global WP_Locale $wp_locale
+	 * @global bool      $is_IE
 	 */
 	public function html() {
 		global $wp_locale;
@@ -1226,7 +1227,7 @@ class WP_Press_This {
 
 		add_filter( 'mce_css', array( $this, 'add_editor_style' ) );
 
-		if ( wp_is_IE() ) {
+		if ( ! empty( $GLOBALS['is_IE'] ) ) {
 			@header( 'X-UA-Compatible: IE=edge' );
 		}
 
