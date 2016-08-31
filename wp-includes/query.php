@@ -844,13 +844,10 @@ function the_comment() {
  *
  * @since 2.1.0
  *
- * @global WP_Query   $wp_query   Global WP_Query instance.
- * @global wpdb       $wpdb       WordPress database abstraction object.
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function wp_old_slug_redirect() {
-	global $wp_query;
-
-	if ( is_404() && '' !== $wp_query->query_vars['name'] ) :
+	if ( is_404() && '' !== get_query_var( 'name' ) ) {
 		global $wpdb;
 
 		// Guess the current post_type based on the query vars.
@@ -858,42 +855,48 @@ function wp_old_slug_redirect() {
 			$post_type = get_query_var( 'post_type' );
 		} elseif ( get_query_var( 'attachment' ) ) {
 			$post_type = 'attachment';
-		} elseif ( ! empty( $wp_query->query_vars['pagename'] ) ) {
+		} elseif ( get_query_var( 'pagename' ) ) {
 			$post_type = 'page';
 		} else {
 			$post_type = 'post';
 		}
 
 		if ( is_array( $post_type ) ) {
-			if ( count( $post_type ) > 1 )
+			if ( count( $post_type ) > 1 ) {
 				return;
+			}
 			$post_type = reset( $post_type );
 		}
 
 		// Do not attempt redirect for hierarchical post types
-		if ( is_post_type_hierarchical( $post_type ) )
+		if ( is_post_type_hierarchical( $post_type ) ) {
 			return;
+		}
 
-		$query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_slug' AND meta_value = %s", $post_type, $wp_query->query_vars['name']);
+		$query = $wpdb->prepare("SELECT post_id FROM $wpdb->postmeta, $wpdb->posts WHERE ID = post_id AND post_type = %s AND meta_key = '_wp_old_slug' AND meta_value = %s", $post_type, get_query_var( 'name' ) );
 
 		// if year, monthnum, or day have been specified, make our query more precise
 		// just in case there are multiple identical _wp_old_slug values
-		if ( '' != $wp_query->query_vars['year'] )
-			$query .= $wpdb->prepare(" AND YEAR(post_date) = %d", $wp_query->query_vars['year']);
-		if ( '' != $wp_query->query_vars['monthnum'] )
-			$query .= $wpdb->prepare(" AND MONTH(post_date) = %d", $wp_query->query_vars['monthnum']);
-		if ( '' != $wp_query->query_vars['day'] )
-			$query .= $wpdb->prepare(" AND DAYOFMONTH(post_date) = %d", $wp_query->query_vars['day']);
+		if ( get_query_var( 'year' ) ) {
+			$query .= $wpdb->prepare(" AND YEAR(post_date) = %d", get_query_var( 'year' ) );
+		}
+		if ( get_query_var( 'monthnum' ) ) {
+			$query .= $wpdb->prepare(" AND MONTH(post_date) = %d", get_query_var( 'monthnum' ) );
+		}
+		if ( get_query_var( 'day' ) ) {
+			$query .= $wpdb->prepare(" AND DAYOFMONTH(post_date) = %d", get_query_var( 'day' ) );
+		}
 
-		$id = (int) $wpdb->get_var($query);
+		$id = (int) $wpdb->get_var( $query );
 
-		if ( ! $id )
+		if ( ! $id ) {
 			return;
+		}
 
 		$link = get_permalink( $id );
 
-		if ( isset( $GLOBALS['wp_query']->query_vars['paged'] ) && $GLOBALS['wp_query']->query_vars['paged'] > 1 ) {
-			$link = user_trailingslashit( trailingslashit( $link ) . 'page/' . $GLOBALS['wp_query']->query_vars['paged'] );
+		if ( get_query_var( 'paged' ) > 1 ) {
+			$link = user_trailingslashit( trailingslashit( $link ) . 'page/' . get_query_var( 'paged' ) );
 		} elseif( is_embed() ) {
 			$link = user_trailingslashit( trailingslashit( $link ) . 'embed' );
 		}
@@ -913,7 +916,7 @@ function wp_old_slug_redirect() {
 
 		wp_redirect( $link, 301 ); // Permanent redirect
 		exit;
-	endif;
+	}
 }
 
 /**
