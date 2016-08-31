@@ -104,7 +104,7 @@ class WP_User_Query {
 	 */
 	public static function fill_query_vars( $args ) {
 		$defaults = array(
-			'blog_id' => $GLOBALS['blog_id'],
+			'blog_id' => get_current_blog_id(),
 			'role' => '',
 			'role__in' => array(),
 			'role__not_in' => array(),

@@ -965,8 +965,6 @@ function setup_userdata($for_user_id = '') {
  * @since 2.3.0
  * @since 4.5.0 Added the 'display_name_with_login' value for 'show'.
  *
- * @global int  $blog_id
- *
  * @param array|string $args {
  *     Optional. Array or string of arguments to generate a drop-down of users.
  *     See WP_User_Query::prepare_query() for additional available arguments.
@@ -1016,7 +1014,7 @@ function wp_dropdown_users( $args = '' ) {
 		'include' => '', 'exclude' => '', 'multi' => 0,
 		'show' => 'display_name', 'echo' => 1,
 		'selected' => 0, 'name' => 'user', 'class' => '', 'id' => '',
-		'blog_id' => $GLOBALS['blog_id'], 'who' => '', 'include_selected' => false,
+		'blog_id' => get_current_blog_id(), 'who' => '', 'include_selected' => false,
 		'option_none_value' => -1
 	);
 

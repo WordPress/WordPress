@@ -766,17 +766,19 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
 function switch_to_blog( $new_blog, $deprecated = null ) {
 	global $wpdb;
 
-	if ( empty( $new_blog ) )
-		$new_blog = $GLOBALS['blog_id'];
+	$blog_id = get_current_blog_id();
+	if ( empty( $new_blog ) ) {
+		$new_blog = $blog_id;
+	}
 
-	$GLOBALS['_wp_switched_stack'][] = $GLOBALS['blog_id'];
+	$GLOBALS['_wp_switched_stack'][] = $blog_id;
 
 	/*
 	 * If we're switching to the same blog id that we're on,
 	 * set the right vars, do the associated actions, but skip
 	 * the extra unnecessary work
 	 */
-	if ( $new_blog == $GLOBALS['blog_id'] ) {
+	if ( $new_blog == $blog_id ) {
 		/**
 		 * Fires when the blog is switched.
 		 *
@@ -792,7 +794,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 
 	$wpdb->set_blog_id( $new_blog );
 	$GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
-	$prev_blog_id = $GLOBALS['blog_id'];
+	$prev_blog_id = $blog_id;
 	$GLOBALS['blog_id'] = $new_blog;
 
 	if ( function_exists( 'wp_cache_switch_to_blog' ) ) {
@@ -800,11 +802,11 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 	} else {
 		global $wp_object_cache;
 
-		if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) )
+		if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) ) {
 			$global_groups = $wp_object_cache->global_groups;
-		else
+		} else {
 			$global_groups = false;
-
+		}
 		wp_cache_init();
 
 		if ( function_exists( 'wp_cache_add_global_groups' ) ) {
@@ -848,12 +850,14 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 function restore_current_blog() {
 	global $wpdb;
 
-	if ( empty( $GLOBALS['_wp_switched_stack'] ) )
+	if ( empty( $GLOBALS['_wp_switched_stack'] ) ) {
 		return false;
+	}
 
 	$blog = array_pop( $GLOBALS['_wp_switched_stack'] );
+	$blog_id = get_current_blog_id();
 
-	if ( $GLOBALS['blog_id'] == $blog ) {
+	if ( $blog_id == $blog ) {
 		/** This filter is documented in wp-includes/ms-blogs.php */
 		do_action( 'switch_blog', $blog, $blog );
 		// If we still have items in the switched stack, consider ourselves still 'switched'
@@ -862,7 +866,7 @@ function restore_current_blog() {
 	}
 
 	$wpdb->set_blog_id( $blog );
-	$prev_blog_id = $GLOBALS['blog_id'];
+	$prev_blog_id = $blog_id;
 	$GLOBALS['blog_id'] = $blog;
 	$GLOBALS['table_prefix'] = $wpdb->get_blog_prefix();
 
@@ -871,10 +875,11 @@ function restore_current_blog() {
 	} else {
 		global $wp_object_cache;
 
-		if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) )
+		if ( is_object( $wp_object_cache ) && isset( $wp_object_cache->global_groups ) ) {
 			$global_groups = $wp_object_cache->global_groups;
-		else
+		} else {
 			$global_groups = false;
+		}
 
 		wp_cache_init();
 

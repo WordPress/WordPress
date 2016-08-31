@@ -729,14 +729,10 @@ class WP_Object_Cache {
 	 * Sets up object properties; PHP 5 style constructor.
 	 *
 	 * @since 2.0.8
-	 *
-     * @global int $blog_id Global blog ID.
 	 */
 	public function __construct() {
-		global $blog_id;
-
 		$this->multisite = is_multisite();
-		$this->blog_prefix =  $this->multisite ? $blog_id . ':' : '';
+		$this->blog_prefix =  $this->multisite ? get_current_blog_id() . ':' : '';
 
 
 		/**

@@ -1966,15 +1966,12 @@ function maybe_add_existing_user_to_blog() {
  *
  * @since MU
  *
- * @global int $blog_id
- *
  * @param array $details
  * @return true|WP_Error|void
  */
 function add_existing_user_to_blog( $details = false ) {
-	global $blog_id;
-
 	if ( is_array( $details ) ) {
+		$blog_id = get_current_blog_id();
 		$result = add_user_to_blog( $blog_id, $details[ 'user_id' ], $details[ 'role' ] );
 		/**
 		 * Fires immediately after an existing user is added to a site.

@@ -470,18 +470,15 @@ function wp_using_ext_object_cache( $using = null ) {
  *
  * @since 3.0.0
  * @access private
- *
- * @global int $blog_id Blog ID.
  */
 function wp_start_object_cache() {
-	global $blog_id;
-
 	$first_init = false;
  	if ( ! function_exists( 'wp_cache_init' ) ) {
 		if ( file_exists( WP_CONTENT_DIR . '/object-cache.php' ) ) {
 			require_once ( WP_CONTENT_DIR . '/object-cache.php' );
-			if ( function_exists( 'wp_cache_init' ) )
+			if ( function_exists( 'wp_cache_init' ) ) {
 				wp_using_ext_object_cache( true );
+			}
 		}
 
 		$first_init = true;
@@ -495,18 +492,20 @@ function wp_start_object_cache() {
 		wp_using_ext_object_cache( true );
 	}
 
-	if ( ! wp_using_ext_object_cache() )
+	if ( ! wp_using_ext_object_cache() ) {
 		require_once ( ABSPATH . WPINC . '/cache.php' );
+	}
 
 	/*
 	 * If cache supports reset, reset instead of init if already
 	 * initialized. Reset signals to the cache that global IDs
 	 * have changed and it may need to update keys and cleanup caches.
 	 */
-	if ( ! $first_init && function_exists( 'wp_cache_switch_to_blog' ) )
-		wp_cache_switch_to_blog( $blog_id );
-	elseif ( function_exists( 'wp_cache_init' ) )
+	if ( ! $first_init && function_exists( 'wp_cache_switch_to_blog' ) ) {
+		wp_cache_switch_to_blog( get_current_blog_id() );
+	} elseif ( function_exists( 'wp_cache_init' ) ) {
 		wp_cache_init();
+	}
 
 	if ( function_exists( 'wp_cache_add_global_groups' ) ) {
 		wp_cache_add_global_groups( array( 'users', 'userlogins', 'usermeta', 'user_meta', 'useremail', 'userslugs', 'site-transient', 'site-options', 'site-lookup', 'blog-lookup', 'blog-details', 'site-details', 'rss', 'global-posts', 'blog-id-cache', 'networks', 'sites' ) );
