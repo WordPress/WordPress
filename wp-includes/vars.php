@@ -139,3 +139,15 @@ function wp_is_mobile() {
 
 	return $is_mobile;
 }
+
+/**
+ * @since 4.7.0
+ *
+ * @global bool $is_IE Whether the current user agent is Internet Explorer
+ *
+ * @return bool Return the value of the $is_IE global.
+ */
+function wp_is_IE() {
+	global $is_IE;
+	return $is_IE;
+}
