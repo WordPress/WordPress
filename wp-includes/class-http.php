@@ -362,6 +362,9 @@ class WP_Http {
 			}
 		}
 
+		// Work around a bug in Requests when the path starts with // See https://github.com/rmccue/Requests/issues/231
+		$url = preg_replace( '!^(\w+://[^/]+)//(.*)$!i', '$1/$2', $url );
+
 		try {
 			$requests_response = Requests::request( $url, $headers, $data, $type, $options );
 
