@@ -1505,7 +1505,7 @@ function get_the_archive_title() {
 }
 
 /**
- * Display category, tag, or term description.
+ * Display category, tag, term, or author description.
  *
  * @since 4.1.0
  *
@@ -1522,13 +1522,20 @@ function the_archive_description( $before = '', $after = '' ) {
 }
 
 /**
- * Retrieve category, tag, or term description.
+ * Retrieve category, tag, term, or author description.
  *
  * @since 4.1.0
+ * @since 4.7.0 Added support for author archives.
  *
  * @return string Archive description.
  */
 function get_the_archive_description() {
+	if ( is_author() ) {
+		$description = get_the_author_meta( 'description' );
+	} else {
+		$description = term_description();
+	}
+
 	/**
 	 * Filters the archive description.
 	 *
