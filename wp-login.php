@@ -336,14 +336,15 @@ function retrieve_password() {
 	$message .= __('To reset your password, visit the following address:') . "\r\n\r\n";
 	$message .= '<' . network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') . ">\r\n";
 
-	if ( is_multisite() )
-		$blogname = $GLOBALS['current_site']->site_name;
-	else
+	if ( is_multisite() ) {
+		$blogname = get_current_site()->site_name;
+	} else {
 		/*
 		 * The blogname option is escaped with esc_html on the way into the database
 		 * in sanitize_option we want to reverse this for the plain text arena of emails.
 		 */
 		$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+	}
 
 	$title = sprintf( __('[%s] Password Reset'), $blogname );
 
