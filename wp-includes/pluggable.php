@@ -211,6 +211,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	// (Re)create it, if it's gone missing
 	if ( ! ( $phpmailer instanceof PHPMailer ) ) {
 		require_once ABSPATH . WPINC . '/class-phpmailer.php';
+		require_once ABSPATH . WPINC . '/class-smtp.php'; 
 		$phpmailer = new PHPMailer( true );
 	}
 

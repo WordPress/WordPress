@@ -749,6 +749,9 @@ function wp_tiny_mce( $teeny = false, $settings = false ) {
 
 	static $num = 1;
 
+	if ( ! class_exists( '_WP_Editors', false ) )
+		require_once( ABSPATH . WPINC . '/class-wp-editor.php' );
+
 	$editor_id = 'content' . $num++;
 
 	$set = array(
@@ -1141,6 +1144,7 @@ function wp_update_core($current, $feedback = '') {
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
+	include( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 	$upgrader = new Core_Upgrader();
 	return $upgrader->upgrade($current);
 
@@ -1163,6 +1167,7 @@ function wp_update_plugin($plugin, $feedback = '') {
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
+	include( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 	$upgrader = new Plugin_Upgrader();
 	return $upgrader->upgrade($plugin);
 }
@@ -1184,6 +1189,7 @@ function wp_update_theme($theme, $feedback = '') {
 	if ( !empty($feedback) )
 		add_filter('update_feedback', $feedback);
 
+	include( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 	$upgrader = new Theme_Upgrader();
 	return $upgrader->upgrade($theme);
 }

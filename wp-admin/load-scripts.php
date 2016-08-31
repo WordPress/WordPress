@@ -24,7 +24,6 @@ $load = array_unique( explode( ',', $load ) );
 if ( empty($load) )
 	exit;
 
-require( ABSPATH . 'wp-vendor/autoload_52.php' );
 require( ABSPATH . 'wp-admin/includes/noop.php' );
 require( ABSPATH . WPINC . '/script-loader.php' );
 require( ABSPATH . WPINC . '/version.php' );

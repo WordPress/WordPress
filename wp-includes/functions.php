@@ -563,6 +563,8 @@ function do_enclose( $content, $post_ID ) {
 	global $wpdb;
 
 	//TODO: Tidy this ghetto code up and make the debug code optional
+	include_once( ABSPATH . WPINC . '/class-IXR.php' ); 
+
 	$post_links = array();
 
 	$pung = get_enclosed( $post_ID );
@@ -2863,18 +2865,18 @@ function _xmlrpc_wp_die_handler( $message, $title = '', $args = array() ) {
  * @since 3.4.0
  * @access private
  *
- * @param string       $message Error message. 
- * @param string       $title   Optional. Error title (unused). Default empty. 
- * @param string|array $args    Optional. Arguments to control behavior. Default empty array. 
- */ 
-function _ajax_wp_die_handler( $message, $title = '', $args = array() ) { 
-	$defaults = array( 
-		'response' => 200, 
-	); 
-	$r = wp_parse_args( $args, $defaults ); 
+ * @param string       $message Error message.
+ * @param string       $title   Optional. Error title (unused). Default empty.
+ * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
+ */
+function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
+	$defaults = array(
+		'response' => 200,
+	);
+	$r = wp_parse_args( $args, $defaults );
 
-	if ( ! headers_sent() ) { 
-		status_header( $r['response'] ); 
+	if ( ! headers_sent() ) {
+		status_header( $r['response'] );
 	}
 	if ( is_scalar( $message ) )
 		die( (string) $message );

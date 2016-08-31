@@ -667,6 +667,11 @@ function fetch_feed( $url ) {
 		require_once( ABSPATH . WPINC . '/class-simplepie.php' );
 	}
 
+	require_once( ABSPATH . WPINC . '/class-wp-feed-cache.php' );
+	require_once( ABSPATH . WPINC . '/class-wp-feed-cache-transient.php' );
+	require_once( ABSPATH . WPINC . '/class-wp-simplepie-file.php' );
+	require_once( ABSPATH . WPINC . '/class-wp-simplepie-sanitize-kses.php' );
+
 	$feed = new SimplePie();
 
 	$feed->set_sanitize_class( 'WP_SimplePie_Sanitize_KSES' );

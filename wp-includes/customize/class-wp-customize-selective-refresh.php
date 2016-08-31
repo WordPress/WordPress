@@ -67,6 +67,7 @@ final class WP_Customize_Selective_Refresh {
 	 */
 	public function __construct( WP_Customize_Manager $manager ) {
 		$this->manager = $manager;
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-partial.php' );
 
 		add_action( 'customize_preview_init', array( $this, 'init_preview' ) );
 	}

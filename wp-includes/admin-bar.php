@@ -23,9 +23,11 @@
 function _wp_admin_bar_init() {
 	global $wp_admin_bar;
 
-	if ( ! is_admin_bar_showing() ) {
+	if ( ! is_admin_bar_showing() )
 		return false;
-	}
+
+	/* Load the admin bar class code ready for instantiation */
+	require_once( ABSPATH . WPINC . '/class-wp-admin-bar.php' );
 
 	/* Instantiate the admin bar */
 
@@ -37,11 +39,11 @@ function _wp_admin_bar_init() {
 	 * @param string $wp_admin_bar_class Admin bar class to use. Default 'WP_Admin_Bar'.
 	 */
 	$admin_bar_class = apply_filters( 'wp_admin_bar_class', 'WP_Admin_Bar' );
-	if ( class_exists( $admin_bar_class ) ) {
+	if ( class_exists( $admin_bar_class ) )
 		$wp_admin_bar = new $admin_bar_class;
-	} else {
+	else
 		return false;
-	}
+
 	$wp_admin_bar->initialize();
 	$wp_admin_bar->add_menus();
 
@@ -292,10 +294,10 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 	}
 
 	if ( is_network_admin() ) {
-		/* translators: %s: site name */
+		/* translators: %s: site name */ 
 		$blogname = sprintf( __( 'Network Admin: %s' ), esc_html( get_current_site()->site_name ) );
 	} elseif ( is_user_admin() ) {
-		/* translators: %s: site name */
+		/* translators: %s: site name */ 
 		$blogname = sprintf( __( 'User Dashboard: %s' ), esc_html( get_current_site()->site_name ) );
 	}
 
