@@ -19,11 +19,5 @@ if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( get_post_type_obj
 	);
 }
 
-/**
- * @global WP_Press_This $wp_press_this
- */
-if ( empty( $GLOBALS['wp_press_this'] ) ) {
-	$GLOBALS['wp_press_this'] = new WP_Press_This();
-}
-
-$GLOBALS['wp_press_this']->html();
+$wp_press_this = new WP_Press_This();
+$wp_press_this->html();
