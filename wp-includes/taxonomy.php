@@ -2340,7 +2340,20 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 
 	$slug = wp_unique_term_slug( $slug, (object) $args );
 
-	if ( false === $wpdb->insert( $wpdb->terms, compact( 'name', 'slug', 'term_group' ) ) ) {
+	$data = compact( 'name', 'slug', 'term_group' );
+
+	/**
+	 * Filters term data before it is inserted into the database.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param array  $data     Term data to be inserted.
+	 * @param string $taxonomy Taxonomy slug.
+	 * @param array  $args     Arguments passed to wp_insert_term().
+	 */
+	$data = apply_filters( 'wp_insert_term_data', $data, $taxonomy, $args );
+
+	if ( false === $wpdb->insert( $wpdb->terms, $data ) ) {
 		return new WP_Error( 'db_insert_error', __( 'Could not insert term into the database' ), $wpdb->last_error );
 	}
 
@@ -2927,7 +2940,22 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	 * @param string $taxonomy Taxonomy slug.
 	 */
 	do_action( 'edit_terms', $term_id, $taxonomy );
-	$wpdb->update($wpdb->terms, compact( 'name', 'slug', 'term_group' ), compact( 'term_id' ) );
+
+	$data = compact( 'name', 'slug', 'term_group' );
+
+	/**
+	 * Filters term data before it is updated in the database.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param array  $data     Term data to be updated.
+	 * @param int    $term_id  Term ID.
+	 * @param string $taxonomy Taxonomy slug.
+	 * @param array  $args     Arguments passed to wp_update_term().
+	 */
+	$data = apply_filters( 'wp_update_term_data', $data, $term_id, $taxonomy, $args );
+
+	$wpdb->update( $wpdb->terms, $data, compact( 'term_id' ) );
 	if ( empty($slug) ) {
 		$slug = sanitize_title($name, $term_id);
 		$wpdb->update( $wpdb->terms, compact( 'slug' ), compact( 'term_id' ) );
