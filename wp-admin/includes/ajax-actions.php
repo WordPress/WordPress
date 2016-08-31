@@ -3113,30 +3113,20 @@ function wp_ajax_destroy_sessions() {
  * Ajax handler for saving a post from Press This.
  *
  * @since 4.2.0
- *
- * @global WP_Press_This $wp_press_this
  */
 function wp_ajax_press_this_save_post() {
-	if ( empty( $GLOBALS['wp_press_this'] ) ) {
-		$GLOBALS['wp_press_this'] = new WP_Press_This();
-	}
-
-	$GLOBALS['wp_press_this']->save_post();
+	$wp_press_this = new WP_Press_This();
+	$wp_press_this->save_post();
 }
 
 /**
  * Ajax handler for creating new category from Press This.
  *
  * @since 4.2.0
- *
- * @global WP_Press_This $wp_press_this
  */
 function wp_ajax_press_this_add_category() {
-	if ( empty( $GLOBALS['wp_press_this'] ) ) {
-		$GLOBALS['wp_press_this'] = new WP_Press_This();
-	}
-
-	$GLOBALS['wp_press_this']->add_category();
+	$wp_press_this = new WP_Press_This();
+	$wp_press_this->add_category();
 }
 
 /**
