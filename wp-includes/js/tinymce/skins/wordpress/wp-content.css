@@ -20,7 +20,8 @@ body.rtl {
 	font-family: Tahoma, "Times New Roman", "Bitstream Charter", Times, serif;
 }
 
-body.locale-he-il {
+body.locale-he-il,
+body.locale-vi {
 	font-family: Arial, "Times New Roman", "Bitstream Charter", Times, serif;
 }
 
