@@ -594,7 +594,13 @@ function _wp_preview_post_thumbnail_filter( $value, $post_id, $meta_key ) {
 		return $value;
 	}
 
-	if ( empty( $_REQUEST['_thumbnail_id'] ) || $post->ID != $post_id || '_thumbnail_id' != $meta_key || 'revision' == $post->post_type ) {
+	if ( empty( $_REQUEST['_thumbnail_id'] ) ||
+	     empty( $_REQUEST['preview_id'] ) ||
+	     $post->ID != $post_id ||
+	     '_thumbnail_id' != $meta_key ||
+	     'revision' == $post->post_type ||
+	     $post_id != $_REQUEST['preview_id']
+	) {
 		return $value;
 	}
 
