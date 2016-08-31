@@ -2966,11 +2966,24 @@
 				};
 				_( constructs ).each( function ( activeConstructs, type ) {
 					api[ type ].each( function ( construct, id ) {
-						var active = !! ( activeConstructs && activeConstructs[ id ] );
-						if ( active ) {
-							construct.activate();
-						} else {
-							construct.deactivate();
+						var isDynamicallyCreated = _.isUndefined( api.settings[ type + 's' ][ id ] );
+
+						/*
+						 * If the construct was created statically in PHP (not dynamically in JS)
+						 * then consider a missing (undefined) value in the activeConstructs to
+						 * mean it should be deactivated (since it is gone). But if it is
+						 * dynamically created then only toggle activation if the value is defined,
+						 * as this means that the construct was also then correspondingly
+						 * created statically in PHP and the active callback is available.
+						 * Otherwise, dynamically-created constructs should normally have
+						 * their active states toggled in JS rather than from PHP.
+						 */
+						if ( ! isDynamicallyCreated || ! _.isUndefined( activeConstructs[ id ] ) ) {
+							if ( activeConstructs[ id ] ) {
+								construct.activate();
+							} else {
+								construct.deactivate();
+							}
 						}
 					} );
 				} );
