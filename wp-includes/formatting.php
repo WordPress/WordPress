@@ -4927,12 +4927,8 @@ function print_emoji_detection_script() {
  * @ignore
  * @since 4.6.0
  * @access private
- *
- * @global string $wp_version WordPress version string.
  */
 function _print_emoji_detection_script() {
-	global $wp_version;
-
 	$settings = array(
 		/**
 		 * Filters the URL where emoji png images are hosted.
@@ -4971,7 +4967,7 @@ function _print_emoji_detection_script() {
 		'svgExt' => apply_filters( 'emoji_svg_ext', '.svg' ),
 	);
 
-	$version = 'ver=' . $wp_version;
+	$version = 'ver=' . get_bloginfo( 'version' );
 
 	if ( SCRIPT_DEBUG ) {
 		$settings['source'] = array(

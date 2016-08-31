@@ -18,12 +18,11 @@ if ( ! defined( 'WP_ADMIN' ) )
  * @global WP_Screen $current_screen
  * @global WP_Locale $wp_locale
  * @global string    $pagenow
- * @global string    $wp_version
  * @global string    $update_title
  * @global int       $total_update_count
  * @global string    $parent_file
  */
-global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
+global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow,
 	$update_title, $total_update_count, $parent_file;
 
 // Catch plugins that include admin-header.php before admin.php completes.
@@ -154,8 +153,8 @@ if ( $current_screen->post_type )
 if ( $current_screen->taxonomy )
 	$admin_body_class .= ' taxonomy-' . $current_screen->taxonomy;
 
-$admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( $wp_version ) );
-$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
+$admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( get_bloginfo( 'version' ) ) );
+$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', get_bloginfo( 'version' ) ) );
 $admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
 $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 

@@ -371,13 +371,8 @@ class WP_Automatic_Updater {
 	 *
 	 * @since 3.7.0
 	 * @access public
-	 *
-	 * @global wpdb   $wpdb
-	 * @global string $wp_version
 	 */
 	public function run() {
-		global $wpdb, $wp_version;
-
 		if ( $this->is_disabled() )
 			return;
 
@@ -457,7 +452,7 @@ class WP_Automatic_Updater {
 
 		// Send debugging email to all development installs.
 		if ( ! empty( $this->update_results ) ) {
-			$development_version = false !== strpos( $wp_version, '-' );
+			$development_version = false !== strpos( get_bloginfo( 'version' ), '-' );
 
 			/**
 			 * Filters whether to send a debugging email for each automatic background update.
@@ -494,12 +489,10 @@ class WP_Automatic_Updater {
 	 * @since Unknown
 	 * @access protected
 	 *
-	 * @global string $wp_version
-	 *
 	 * @param object $update_result The result of the core update. Includes the update offer and result.
 	 */
 	protected function after_core_update( $update_result ) {
-		global $wp_version;
+		$wp_version = get_bloginfo( 'version' );
 
 		$core_update = $update_result->item;
 		$result      = $update_result->result;
@@ -583,8 +576,6 @@ class WP_Automatic_Updater {
 	 *
 	 * @since 3.7.0
 	 * @access protected
-	 *
-	 * @global string $wp_version
 	 *
 	 * @param string $type        The type of email to send. Can be one of 'success', 'fail', 'manual', 'critical'.
 	 * @param object $core_update The update offer that was attempted.
@@ -722,7 +713,7 @@ class WP_Automatic_Updater {
 
 		if ( 'critical' == $type && is_wp_error( $result ) ) {
 			$body .= "\n***\n\n";
-			$body .= sprintf( __( 'Your site was running version %s.' ), $GLOBALS['wp_version'] );
+			$body .= sprintf( __( 'Your site was running version %s.' ), get_bloginfo( 'version' ) );
 			$body .= ' ' . __( 'We have some data that describes the error your site encountered.' );
 			$body .= ' ' . __( 'Your hosting company, support forum volunteers, or a friendly developer may be able to use this information to help you:' );
 

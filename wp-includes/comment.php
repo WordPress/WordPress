@@ -2362,14 +2362,10 @@ function generic_ping( $post_id = 0 ) {
  *
  * @since 0.71
  *
- * @global string $wp_version
- *
  * @param string $content Post content to check for links.
  * @param int $post_ID Post ID.
  */
 function pingback($content, $post_ID) {
-	global $wp_version;
-
 	// original code by Mort (http://mort.mine.nu:8080)
 	$post_links = array();
 
@@ -2435,7 +2431,7 @@ function pingback($content, $post_ID) {
 			 * @param string $pagelinkedto        URL of page linked to.
 			 * @param string $pagelinkedfrom      URL of page linked from.
 			 */
-			$client->useragent = apply_filters( 'pingback_useragent', $client->useragent . ' -- WordPress/' . $wp_version, $client->useragent, $pingback_server_url, $pagelinkedto, $pagelinkedfrom );
+			$client->useragent = apply_filters( 'pingback_useragent', $client->useragent . ' -- WordPress/' . get_bloginfo( 'version' ), $client->useragent, $pingback_server_url, $pagelinkedto, $pagelinkedfrom );
 			// when set to true, this outputs debug messages by itself
 			$client->debug = false;
 
@@ -2504,18 +2500,14 @@ function trackback($trackback_url, $title, $excerpt, $ID) {
  *
  * @since 1.2.0
  *
- * @global string $wp_version
- *
  * @param string $server Host of blog to connect to.
  * @param string $path Path to send the ping.
  */
 function weblog_ping($server = '', $path = '') {
-	global $wp_version;
-
 	// using a timeout of 3 seconds should be enough to cover slow servers
 	$client = new WP_HTTP_IXR_Client($server, ((!strlen(trim($path)) || ('/' == $path)) ? false : $path));
 	$client->timeout = 3;
-	$client->useragent .= ' -- WordPress/'.$wp_version;
+	$client->useragent .= ' -- WordPress/' . get_bloginfo( 'version' );
 
 	// when set to true, this outputs debug messages by itself
 	$client->debug = false;

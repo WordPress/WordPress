@@ -2897,17 +2897,13 @@ function the_comments_pagination( $args = array() ) {
  *
  * @since 2.6.0
  *
- * @global bool   $is_IE      Whether the browser matches an Internet Explorer user agent.
- * @global string $wp_version WP version.
- *
- * @global bool          $is_IE
- * @global string        $wp_version
+ * @global bool          $is_IE      Whether the browser matches an Internet Explorer user agent.
  * @global WP_Press_This $wp_press_this
  *
  * @return string The Press This bookmarklet link URL.
  */
 function get_shortcut_link() {
-	global $is_IE, $wp_version;
+	global $is_IE;
 
 	$GLOBALS['wp_press_this'] = new WP_Press_This();
 	$bookmarklet_version = $GLOBALS['wp_press_this']->version;

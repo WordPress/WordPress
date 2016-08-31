@@ -125,7 +125,6 @@ class WP_Locale {
 	 * @access private
 	 *
 	 * @global string $text_direction
-	 * @global string $wp_version
 	 */
 	public function init() {
 		// The Weekdays
@@ -231,7 +230,7 @@ class WP_Locale {
 		elseif ( 'rtl' == _x( 'ltr', 'text direction' ) )
 			$this->text_direction = 'rtl';
 
-		if ( 'rtl' === $this->text_direction && strpos( $GLOBALS['wp_version'], '-src' ) ) {
+		if ( 'rtl' === $this->text_direction && strpos( get_bloginfo( 'version' ), '-src' ) ) {
 			$this->text_direction = 'ltr';
 			add_action( 'all_admin_notices', array( $this, 'rtl_src_admin_notice' ) );
 		}

@@ -267,8 +267,6 @@ class WP_Press_This {
 	 * @return string Source's HTML sanitized markup
 	 */
 	public function fetch_source_html( $url ) {
-		global $wp_version;
-
 		if ( empty( $url ) ) {
 			return new WP_Error( 'invalid-url', __( 'A valid URL was not provided.' ) );
 		}
@@ -276,7 +274,7 @@ class WP_Press_This {
 		$remote_url = wp_safe_remote_get( $url, array(
 			'timeout' => 30,
 			// Use an explicit user-agent for Press This
-			'user-agent' => 'Press This (WordPress/' . $wp_version . '); ' . get_bloginfo( 'url' )
+			'user-agent' => 'Press This (WordPress/' . get_bloginfo( 'version' ) . '); ' . get_bloginfo( 'url' )
 		) );
 
 		if ( is_wp_error( $remote_url ) ) {
@@ -1189,11 +1187,12 @@ class WP_Press_This {
 	 * @access public
 	 *
 	 * @global WP_Locale $wp_locale
-	 * @global string    $wp_version
 	 * @global bool      $is_IE
 	 */
 	public function html() {
-		global $wp_locale, $wp_version;
+		global $wp_locale;
+
+		$wp_version = get_bloginfo( 'version' );
 
 		// Get data, new (POST) and old (GET).
 		$data = $this->merge_or_fetch_data();
