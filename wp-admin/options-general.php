@@ -150,7 +150,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <?php echo wp_timezone_choice($tzstring); ?>
 </select>
 
-<p class="description" id="timezone-description"><?php _e( 'Choose a city in the same timezone as you.' ); ?></p>
+<p class="description" id="timezone-description"><?php _e( 'Choose either a city in the same timezone as you or a UTC timezone offset.' ); ?></p>
 
 <p class="timezone-info">
 	<span id="utc-time"><?php
