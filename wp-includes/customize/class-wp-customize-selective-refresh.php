@@ -315,11 +315,9 @@ final class WP_Customize_Selective_Refresh {
 		 * WP_Customize_Manager::setup_theme() is where the previewing flag is set.
 		 */
 		if ( ! is_customize_preview() ) {
-			status_header( 403 );
-			wp_send_json_error( 'expected_customize_preview' );
+			wp_send_json_error( 'expected_customize_preview', 403 );
 		} else if ( ! isset( $_POST['partials'] ) ) {
-			status_header( 400 );
-			wp_send_json_error( 'missing_partials' );
+			wp_send_json_error( 'missing_partials', 400 );
 		}
 
 		$partials = json_decode( wp_unslash( $_POST['partials'] ), true );

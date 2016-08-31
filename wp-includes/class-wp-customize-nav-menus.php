@@ -749,18 +749,15 @@ final class WP_Customize_Nav_Menus {
 	 */
 	public function ajax_insert_auto_draft_post() {
 		if ( ! check_ajax_referer( 'customize-menus', 'customize-menus-nonce', false ) ) {
-			status_header( 400 );
-			wp_send_json_error( 'bad_nonce' );
+			wp_send_json_error( 'bad_nonce', 400 );
 		}
 
 		if ( ! current_user_can( 'customize' ) ) {
-			status_header( 403 );
-			wp_send_json_error( 'customize_not_allowed' );
+			wp_send_json_error( 'customize_not_allowed', 403 );
 		}
 
 		if ( empty( $_POST['params'] ) || ! is_array( $_POST['params'] ) ) {
-			status_header( 400 );
-			wp_send_json_error( 'missing_params' );
+			wp_send_json_error( 'missing_params', 400 );
 		}
 
 		$params = wp_array_slice_assoc(
