@@ -939,9 +939,7 @@ final class WP_Customize_Nav_Menus {
 							<?php $post_type_obj = get_post_type_object( $available_item_type['object'] ); ?>
 							<?php if ( current_user_can( $post_type_obj->cap->create_posts ) && current_user_can( $post_type_obj->cap->publish_posts ) ) : ?>
 								<div class="new-content-item">
-									<input type="text" class="create-item-input" placeholder="<?php
-									/* translators: %s: Singular title of post type or taxonomy */
-									printf( __( 'Create New %s' ), $post_type_obj->labels->singular_name ); ?>">
+									<input type="text" class="create-item-input" placeholder="<?php echo esc_attr( $post_type_obj->labels->add_new_item ); ?>">
 									<button type="button" class="button add-content"><?php _e( 'Add' ); ?></button>
 								</div>
 							<?php endif; ?>
