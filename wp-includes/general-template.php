@@ -2853,7 +2853,7 @@ function wp_resource_hints() {
 		$urls = array_unique( $urls );
 
 		foreach ( $urls as $url ) {
-			printf( "<link rel='%s' href='%s'>\n", $relation_type, $url );
+			printf( "<link rel='%s' href='%s' />\n", $relation_type, $url );
 		}
 	}
 }
