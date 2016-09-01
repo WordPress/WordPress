@@ -680,7 +680,7 @@ ul.striped > :nth-child(odd),
 }
 
 .wp-ui-highlight {
-	color: white;
+	color: #fff;
 	background-color: #1e8cbe;
 }
 .wp-ui-text-highlight {

@@ -40,7 +40,7 @@ input[type=radio]:checked:before {
 .wp-core-ui .button-primary {
   background: #04a4cc;
   border-color: #037c9a #036881 #036881;
-  color: white;
+  color: #fff;
   -webkit-box-shadow: 0 1px 0 #036881;
   box-shadow: 0 1px 0 #036881;
   text-shadow: 0 -1px 1px #036881, -1px 0 1px #036881, 0 1px 1px #036881, 1px 0 1px #036881;
@@ -49,7 +49,7 @@ input[type=radio]:checked:before {
 .wp-core-ui .button-primary:hover, .wp-core-ui .button-primary:focus {
   background: #04b0db;
   border-color: #036881;
-  color: white;
+  color: #fff;
   -webkit-box-shadow: 0 1px 0 #036881;
   box-shadow: 0 1px 0 #036881;
 }
