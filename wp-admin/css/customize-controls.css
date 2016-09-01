@@ -3,7 +3,8 @@ body {
 	-webkit-text-size-adjust: 100%;
 }
 
-#customize-controls a {
+.customize-controls-close,
+.widget-control-actions a {
 	text-decoration: none;
 }
 
