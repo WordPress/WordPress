@@ -157,7 +157,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 		/* translators: 1: UTC abbreviation, 2: UTC time */
 		printf( __( 'Universal time (%1$s) is %2$s.' ),
 			'<abbr>' . __( 'UTC' ) . '</abbr>',
-			'<code>' . date_i18n( $timezone_format, false, 'gmt' ) . '</code>'
+			'<code>' . date_i18n( $timezone_format, false, true ) . '</code>'
 		);
 	?></span>
 <?php if ( get_option( 'timezone_string' ) || ! empty( $current_offset ) ) : ?>
