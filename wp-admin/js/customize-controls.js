@@ -125,6 +125,8 @@
 		} else {
 			params.completeCallback = focus;
 		}
+
+		api.state( 'paneVisible' ).set( true );
 		if ( construct.expand ) {
 			construct.expand( params );
 		} else {
@@ -441,6 +443,7 @@
 				return false;
 			}
 
+			api.state( 'paneVisible' ).set( true );
 			params.completeCallback = function() {
 				if ( previousCompleteCallback ) {
 					previousCompleteCallback.apply( instance, arguments );
@@ -3912,7 +3915,8 @@
 			var state = new api.Values(),
 				saved = state.create( 'saved' ),
 				activated = state.create( 'activated' ),
-				processing = state.create( 'processing' );
+				processing = state.create( 'processing' ),
+				paneVisible = state.create( 'paneVisible' );
 
 			state.bind( 'change', function() {
 				if ( ! activated() ) {
@@ -3933,6 +3937,7 @@
 			saved( true );
 			activated( api.settings.theme.active );
 			processing( 0 );
+			paneVisible( true );
 
 			api.bind( 'change', function() {
 				state('saved').set( false );
@@ -3974,13 +3979,18 @@
 		});
 
 		$( '.collapse-sidebar' ).on( 'click', function() {
-			if ( 'true' === $( this ).attr( 'aria-expanded' ) ) {
-				$( this ).attr({ 'aria-expanded': 'false', 'aria-label': api.l10n.expandSidebar });
-			} else {
-				$( this ).attr({ 'aria-expanded': 'true', 'aria-label': api.l10n.collapseSidebar });
-			}
+			api.state( 'paneVisible' ).set( ! api.state( 'paneVisible' ).get() );
+		});
 
-			overlay.toggleClass( 'collapsed' ).toggleClass( 'expanded' );
+		api.state( 'paneVisible' ).bind( function( paneVisible ) {
+			overlay.toggleClass( 'expanded', paneVisible );
+			overlay.toggleClass( 'collapsed', ! paneVisible );
+
+			if ( ! paneVisible ) {
+				$( '.collapse-sidebar' ).attr({ 'aria-expanded': 'false', 'aria-label': api.l10n.expandSidebar });
+			} else {
+				$( '.collapse-sidebar' ).attr({ 'aria-expanded': 'true', 'aria-label': api.l10n.collapseSidebar });
+			}
 		});
 
 		// Keyboard shortcuts - esc to exit section/panel.
