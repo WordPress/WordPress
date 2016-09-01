@@ -130,6 +130,7 @@ if ( SHORTINIT )
 
 // Load the L10n library.
 require_once( ABSPATH . WPINC . '/l10n.php' );
+require_once( ABSPATH . WPINC . '/class-wp-locale.php' );
 
 // Run the installer if WordPress is not installed.
 wp_not_installed();
@@ -216,7 +217,6 @@ require( ABSPATH . WPINC . '/rest-api.php' );
 require( ABSPATH . WPINC . '/rest-api/class-wp-rest-server.php' );
 require( ABSPATH . WPINC . '/rest-api/class-wp-rest-response.php' );
 require( ABSPATH . WPINC . '/rest-api/class-wp-rest-request.php' );
-require( ABSPATH . WPINC . '/class-wp-locale.php' );
 
 $GLOBALS['wp_embed'] = new WP_Embed();
 
