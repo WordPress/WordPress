@@ -786,7 +786,7 @@ function wp_ajax_dim_comment() {
 }
 
 /**
- * Ajax handler for deleting a link category.
+ * Ajax handler for adding a link category.
  *
  * @since 3.1.0
  *
