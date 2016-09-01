@@ -1545,7 +1545,7 @@ function get_the_archive_description() {
 	 *
 	 * @param string $description Archive description to be displayed.
 	 */
-	return apply_filters( 'get_the_archive_description', term_description() );
+	return apply_filters( 'get_the_archive_description', $description );
 }
 
 /**
