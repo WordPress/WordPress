@@ -1527,6 +1527,8 @@ function the_archive_description( $before = '', $after = '' ) {
  * @since 4.1.0
  * @since 4.7.0 Added support for author archives.
  *
+ * @see term_description()
+ *
  * @return string Archive description.
  */
 function get_the_archive_description() {
@@ -1540,8 +1542,6 @@ function get_the_archive_description() {
 	 * Filters the archive description.
 	 *
 	 * @since 4.1.0
-	 *
-	 * @see term_description()
 	 *
 	 * @param string $description Archive description to be displayed.
 	 */
