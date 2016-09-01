@@ -773,7 +773,7 @@ class WP_Term_Query {
 		} elseif ( 'slug' == $_orderby ) {
 			$orderby = 't.slug';
 		} elseif ( 'include' == $_orderby && ! empty( $this->query_vars['include'] ) ) {
-			$include = implode( ',', array_map( 'absint', $this->query_vars['include'] ) );
+			$include = implode( ',', wp_parse_id_list( $this->query_vars['include'] ) );
 			$orderby = "FIELD( t.term_id, $include )";
 		} elseif ( 'term_group' == $_orderby ) {
 			$orderby = 't.term_group';
