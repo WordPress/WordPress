@@ -3342,6 +3342,18 @@ function smilies_init() {
 		);
 	}
 
+	/**
+	 * Filter all the smilies.
+	 *
+	 * This filter must be added before `smilies_init` is run, as
+	 * it is normally only run once to setup the smilies regex.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param array $wpsmiliestrans List of the smilies.
+	 */
+	$wpsmiliestrans = apply_filters('smilies', $wpsmiliestrans);
+
 	if (count($wpsmiliestrans) == 0) {
 		return;
 	}
