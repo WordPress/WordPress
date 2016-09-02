@@ -762,18 +762,30 @@ window.wp = window.wp || {};
 	 * @augments wp.customize.Class
 	 * @since 4.6.0
 	 *
-	 * @param {string} code                The error code.
-	 * @param {object} params              Params.
-	 * @param {string} params.message      The error message.
-	 * @param {string} [params.type=error] The notification type.
-	 * @param {*}      [params.data]       Any additional data.
+	 * @param {string}  code - The error code.
+	 * @param {object}  params - Params.
+	 * @param {string}  params.message=null - The error message.
+	 * @param {string}  [params.type=error] - The notification type.
+	 * @param {boolean} [params.fromServer=false] - Whether the notification was server-sent.
+	 * @param {string}  [params.setting=null] - The setting ID that the notification is related to.
+	 * @param {*}       [params.data=null] - Any additional data.
 	 */
 	api.Notification = api.Class.extend({
 		initialize: function( code, params ) {
+			var _params;
 			this.code = code;
-			this.message = params.message;
-			this.type = params.type || 'error';
-			this.data = params.data || null;
+			_params = _.extend(
+				{
+					message: null,
+					type: 'error',
+					fromServer: false,
+					data: null,
+					setting: null
+				},
+				params
+			);
+			delete _params.code;
+			_.extend( this, _params );
 		}
 	});
 

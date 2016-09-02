@@ -3461,12 +3461,13 @@
 				// Add notifications for invalidities.
 				if ( _.isObject( validity ) ) {
 					_.each( validity, function( params, code ) {
-						var notification = new api.Notification( code, params ), existingNotification, needsReplacement = false;
+						var notification, existingNotification, needsReplacement = false;
+						notification = new api.Notification( code, _.extend( { fromServer: true }, params ) );
 
 						// Remove existing notification if already exists for code but differs in parameters.
 						existingNotification = setting.notifications( notification.code );
 						if ( existingNotification ) {
-							needsReplacement = ( notification.type !== existingNotification.type ) || ! _.isEqual( notification.data, existingNotification.data );
+							needsReplacement = notification.type !== existingNotification.type || notification.message !== existingNotification.message || ! _.isEqual( notification.data, existingNotification.data );
 						}
 						if ( needsReplacement ) {
 							setting.notifications.remove( code );
@@ -3715,7 +3716,7 @@
 					 */
 					api.each( function( setting ) {
 						setting.notifications.each( function( notification ) {
-							if ( 'error' === notification.type && ( ! notification.data || ! notification.data.from_server ) ) {
+							if ( 'error' === notification.type && ! notification.fromServer ) {
 								invalidSettings.push( setting.id );
 							}
 						} );

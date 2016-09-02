@@ -1046,17 +1046,9 @@ final class WP_Customize_Manager {
 		if ( is_wp_error( $validity ) ) {
 			$notification = array();
 			foreach ( $validity->errors as $error_code => $error_messages ) {
-				$error_data = $validity->get_error_data( $error_code );
-				if ( is_null( $error_data ) ) {
-					$error_data = array();
-				}
-				$error_data = array_merge(
-					$error_data,
-					array( 'from_server' => true )
-				);
 				$notification[ $error_code ] = array(
 					'message' => join( ' ', $error_messages ),
-					'data' => $error_data,
+					'data' => $validity->get_error_data( $error_code ),
 				);
 			}
 			return $notification;
