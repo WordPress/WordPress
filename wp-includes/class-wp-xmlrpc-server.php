@@ -5812,8 +5812,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$upload = wp_upload_bits($name, null, $bits);
 		if ( ! empty($upload['error']) ) {
-			$errorString = sprintf(__('Could not write file %1$s (%2$s).'), $name, $upload['error']);
-			return new IXR_Error(500, $errorString);
+			/* translators: 1: file name, 2: error message */
+			$errorString = sprintf( __( 'Could not write file %1$s (%2$s).' ), $name, $upload['error'] );
+			return new IXR_Error( 500, $errorString );
 		}
 		// Construct the attachment array
 		$post_id = 0;
@@ -6383,7 +6384,8 @@ class wp_xmlrpc_server extends IXR_Server {
 		 */
 		do_action( 'pingback_post', $comment_ID );
 
-		return sprintf(__('Pingback from %1$s to %2$s registered. Keep the web talking! :-)'), $pagelinkedfrom, $pagelinkedto);
+		/* translators: 1: URL of the page linked from, 2: URL of the page linked to */
+		return sprintf( __( 'Pingback from %1$s to %2$s registered. Keep the web talking! :-)' ), $pagelinkedfrom, $pagelinkedto );
 	}
 
 	/**
