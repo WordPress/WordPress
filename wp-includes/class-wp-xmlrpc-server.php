@@ -1329,12 +1329,12 @@ class wp_xmlrpc_server extends IXR_Server {
 				break;
 			case 'private':
 				if ( ! current_user_can( $post_type->cap->publish_posts ) )
-					return new IXR_Error( 401, __( 'Sorry, you are not allowed to create private posts in this post type' ) );
+					return new IXR_Error( 401, __( 'Sorry, you are not allowed to create private posts in this post type.' ) );
 				break;
 			case 'publish':
 			case 'future':
 				if ( ! current_user_can( $post_type->cap->publish_posts ) )
-					return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts in this post type' ) );
+					return new IXR_Error( 401, __( 'Sorry, you are not allowed to publish posts in this post type.' ) );
 				break;
 			default:
 				if ( ! get_post_status_object( $post_data['post_status'] ) )
@@ -1343,7 +1343,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! empty( $post_data['post_password'] ) && ! current_user_can( $post_type->cap->publish_posts ) )
-			return new IXR_Error( 401, __( 'Sorry, you are not allowed to create password protected posts in this post type' ) );
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to create password protected posts in this post type.' ) );
 
 		$post_data['post_author'] = absint( $post_data['post_author'] );
 		if ( ! empty( $post_data['post_author'] ) && $post_data['post_author'] != $user->ID ) {
@@ -1528,7 +1528,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 500, $post_ID->get_error_message() );
 
 		if ( ! $post_ID )
-			return new IXR_Error( 401, __( 'Sorry, your entry could not be posted. Something wrong happened.' ) );
+			return new IXR_Error( 401, __( 'Sorry, your entry could not be posted.' ) );
 
 		return strval( $post_ID );
 	}
@@ -1794,7 +1794,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $filter['post_type'] ) ) {
 			$post_type = get_post_type_object( $filter['post_type'] );
 			if ( ! ( (bool) $post_type ) )
-				return new IXR_Error( 403, __( 'The post type specified is not valid' ) );
+				return new IXR_Error( 403, __( 'Invalid post type.' ) );
 		} else {
 			$post_type = get_post_type_object( 'post' );
 		}
@@ -1922,7 +1922,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 500, $term->get_error_message() );
 
 		if ( ! $term )
-			return new IXR_Error( 500, __( 'Sorry, your term could not be created. Something wrong happened.' ) );
+			return new IXR_Error( 500, __( 'Sorry, your term could not be created.' ) );
 
 		return strval( $term['term_id'] );
 	}
@@ -2494,7 +2494,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( isset( $filter['role'] ) ) {
 			if ( get_role( $filter['role'] ) === null )
-				return new IXR_Error( 403, __( 'The role specified is not valid' ) );
+				return new IXR_Error( 403, __( 'Invalid role.' ) );
 
 			$query['role'] = $filter['role'];
 		}
@@ -3472,7 +3472,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error(500, $result->get_error_message());
 
 		if ( !$result )
-			return new IXR_Error(500, __('Sorry, the comment could not be edited. Something wrong happened.'));
+			return new IXR_Error(500, __('Sorry, the comment could not be edited.'));
 
 		/**
 		 * Fires after a comment has been successfully updated via XML-RPC.
@@ -3526,7 +3526,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( !$user ) {
 			$logged_in = false;
 			if ( $allow_anon && get_option('comment_registration') ) {
-				return new IXR_Error( 403, __( 'You must be registered to comment' ) );
+				return new IXR_Error( 403, __( 'You must be registered to comment.' ) );
 			} elseif ( ! $allow_anon ) {
 				return $this->error;
 			}
@@ -3580,9 +3580,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			if ( get_option('require_name_email') ) {
 				if ( 6 > strlen($comment['comment_author_email']) || '' == $comment['comment_author'] )
-					return new IXR_Error( 403, __( 'Comment author name and email are required' ) );
+					return new IXR_Error( 403, __( 'Comment author name and email are required.' ) );
 				elseif ( !is_email($comment['comment_author_email']) )
-					return new IXR_Error( 403, __( 'A valid email address is required' ) );
+					return new IXR_Error( 403, __( 'A valid email address is required.' ) );
 			}
 		}
 
@@ -4626,7 +4626,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error(500, $post_ID->get_error_message());
 
 		if ( !$post_ID )
-			return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
+			return new IXR_Error(500, __('Sorry, your entry could not be posted.'));
 
 		$this->attach_uploads( $post_ID, $post_content );
 
@@ -4880,7 +4880,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $content_struct['wp_post_format'] ) ) {
 			$content_struct['wp_post_format'] = sanitize_key( $content_struct['wp_post_format'] );
 			if ( !array_key_exists( $content_struct['wp_post_format'], get_post_format_strings() ) ) {
-				return new IXR_Error( 404, __( 'Invalid post format' ) );
+				return new IXR_Error( 404, __( 'Invalid post format.' ) );
 			}
 		}
 
@@ -5085,7 +5085,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error(500, $post_ID->get_error_message());
 
 		if ( !$post_ID )
-			return new IXR_Error(500, __('Sorry, your entry could not be posted. Something wrong happened.'));
+			return new IXR_Error(500, __('Sorry, your entry could not be posted.'));
 
 		/**
 		 * Fires after a new post has been successfully created via the XML-RPC MovableType API.
@@ -5201,7 +5201,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( isset( $content_struct['wp_post_format'] ) ) {
 			$content_struct['wp_post_format'] = sanitize_key( $content_struct['wp_post_format'] );
 			if ( !array_key_exists( $content_struct['wp_post_format'], get_post_format_strings() ) ) {
-				return new IXR_Error( 404, __( 'Invalid post format' ) );
+				return new IXR_Error( 404, __( 'Invalid post format.' ) );
 			}
 		}
 
@@ -5403,7 +5403,7 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error(500, $result->get_error_message());
 
 		if ( !$result )
-			return new IXR_Error(500, __('Sorry, your entry could not be edited. Something wrong happened.'));
+			return new IXR_Error(500, __('Sorry, your entry could not be edited.'));
 
 		// Only posts can be sticky
 		if ( $post_type == 'post' && isset( $content_struct['sticky'] ) ) {
@@ -5812,7 +5812,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$upload = wp_upload_bits($name, null, $bits);
 		if ( ! empty($upload['error']) ) {
-			$errorString = sprintf(__('Could not write file %1$s (%2$s)'), $name, $upload['error']);
+			$errorString = sprintf(__('Could not write file %1$s (%2$s).'), $name, $upload['error']);
 			return new IXR_Error(500, $errorString);
 		}
 		// Construct the attachment array
