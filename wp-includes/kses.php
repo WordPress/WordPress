@@ -781,7 +781,7 @@ function wp_kses_split2($string, $allowed_html, $allowed_protocols) {
 	}
 	// Allow HTML comments
 
-	if (!preg_match('%^<\s*(/\s*)?([a-zA-Z0-9]+)([^>]*)>?$%', $string, $matches))
+	if (!preg_match('%^<\s*(/\s*)?([a-zA-Z0-9-]+)([^>]*)>?$%', $string, $matches))
 		return '';
 	// It's seriously malformed
 
