@@ -2572,7 +2572,8 @@ function wp_nonce_ays( $action ) {
  *              an integer to be used as the response code.
  *
  * @param string|WP_Error  $message Optional. Error message. If this is a WP_Error object,
- *                                  the error's messages are used. Default empty.
+ *                                  and not an Ajax or XML-RPC request, the error's messages are used.
+ *                                  Default empty.
  * @param string|int       $title   Optional. Error title. If `$message` is a `WP_Error` object,
  *                                  error data with the key 'title' may be used to specify the title.
  *                                  If `$title` is an integer, then it is treated as the response
@@ -2638,9 +2639,9 @@ function wp_die( $message = '', $title = '', $args = array() ) {
  * @since 3.0.0
  * @access private
  *
- * @param string       $message Error message.
- * @param string       $title   Optional. Error title. Default empty.
- * @param string|array $args    Optional. Arguments to control behavior. Default empty array.
+ * @param string|WP_Error $message Error message or WP_Error object.
+ * @param string          $title   Optional. Error title. Default empty.
+ * @param string|array    $args    Optional. Arguments to control behavior. Default empty array.
  */
 function _default_wp_die_handler( $message, $title = '', $args = array() ) {
 	$defaults = array( 'response' => 500 );
