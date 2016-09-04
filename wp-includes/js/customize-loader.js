@@ -183,11 +183,11 @@ window.wp = window.wp || {};
 		 * Callback after the Customizer has been opened.
 		 */
 		opened: function() {
-			Loader.body.addClass( 'customize-active full-overlay-active' );
+			Loader.body.addClass( 'customize-active full-overlay-active' ).attr( 'aria-busy', 'true' );
 		},
 
 		/**
-		 * Close the Customizer overlay and return focus to the link that opened it.
+		 * Close the Customizer overlay.
 		 */
 		close: function() {
 			if ( ! this.active ) {
@@ -209,11 +209,6 @@ window.wp = window.wp || {};
 			if ( this.originalDocumentTitle ) {
 				document.title = this.originalDocumentTitle;
 			}
-
-			// Return focus to link that was originally clicked.
-			if ( this.link ) {
-				this.link.focus();
-			}
 		},
 
 		/**
@@ -227,13 +222,20 @@ window.wp = window.wp || {};
 			Loader.saved     = null;
 			Loader.body.removeClass( 'customize-active full-overlay-active' ).removeClass( 'customize-loading' );
 			$( window ).off( 'beforeunload', Loader.beforeunload );
+			/*
+			 * Return focus to the link that opened the Customizer overlay after
+			 * the body element visibility is restored.
+			 */
+			if ( Loader.link ) {
+				Loader.link.focus();
+			}
 		},
 
 		/**
 		 * Callback for the `load` event on the Customizer iframe.
 		 */
 		loaded: function() {
-			Loader.body.removeClass('customize-loading');
+			Loader.body.removeClass( 'customize-loading' ).attr( 'aria-busy', 'false' );
 		},
 
 		/**

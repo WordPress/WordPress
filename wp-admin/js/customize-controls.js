@@ -3620,7 +3620,7 @@
 			return;
 		}
 
-		var parent, topFocus,
+		var parent,
 			body = $( document.body ),
 			overlay = body.children( '.wp-full-overlay' ),
 			title = $( '#customize-info .panel-title.site-title' ),
@@ -4234,14 +4234,6 @@
 		});
 
 		api.trigger( 'ready' );
-
-		// Make sure left column gets focus
-		topFocus = closeBtn;
-		topFocus.focus();
-		setTimeout(function () {
-			topFocus.focus();
-		}, 200);
-
 	});
 
 })( wp, jQuery );

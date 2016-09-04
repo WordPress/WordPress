@@ -1182,6 +1182,8 @@ div#custom-background-image img {
 
 body.full-overlay-active {
 	overflow: hidden;
+	/* Hide all the content, the Customizer overlay is then made visible to be the only available content. */
+	visibility: hidden;
 }
 
 .wp-full-overlay {
@@ -1613,8 +1615,10 @@ body.full-overlay-active {
 	height: 100%;
 }
 
-.customize-active #customize-container {
-	display: block;
+/* Make the Customizer and Theme installer overlays the only available content. */
+#customize-container,
+.theme-install-overlay {
+	visibility: visible;
 }
 
 .customize-loading #customize-container iframe {
