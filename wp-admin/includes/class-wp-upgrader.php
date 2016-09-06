@@ -2326,8 +2326,12 @@ class File_Upload_Upgrader {
 			if ( ! ( ( $uploads = wp_upload_dir() ) && false === $uploads['error'] ) )
 				wp_die( $uploads['error'] );
 
-			$this->filename = $_GET[$urlholder];
+			$this->filename = sanitize_file_name( $_GET[ $urlholder ] );
 			$this->package = $uploads['basedir'] . '/' . $this->filename;
+
+			if ( 0 !== strpos( realpath( $this->package ), realpath( $uploads['basedir'] ) ) ) {
+				wp_die( __( 'Please select a file' ) );
+			}
 		}
 	}
 
