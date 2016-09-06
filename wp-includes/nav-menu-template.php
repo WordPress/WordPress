@@ -40,6 +40,7 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  *                                               in order to be selectable by the user.
  *     @type string             $items_wrap      How the list items should be wrapped. Default is a ul with an id and class.
  *                                               Uses printf() format with numbered placeholders.
+ *     @type string             $item_spacing    Whether whitespace format the menu's HTML: 'discard' or 'preserve' (default).
  * }
  * @return object|false|void Menu output if $echo is false, false if there are no items or no menu was found.
  */
@@ -47,10 +48,16 @@ function wp_nav_menu( $args = array() ) {
 	static $menu_id_slugs = array();
 
 	$defaults = array( 'menu' => '', 'container' => 'div', 'container_class' => '', 'container_id' => '', 'menu_class' => 'menu', 'menu_id' => '',
-	'echo' => true, 'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '', 'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+	'echo' => true, 'fallback_cb' => 'wp_page_menu', 'before' => '', 'after' => '', 'link_before' => '', 'link_after' => '', 'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>', 'item_spacing' => 'preserve',
 	'depth' => 0, 'walker' => '', 'theme_location' => '' );
 
 	$args = wp_parse_args( $args, $defaults );
+
+	if ( ! in_array( $args['item_spacing'], array( 'preserve', 'discard' ), true ) ) {
+		// invalid value, fall back to default.
+		$args['item_spacing'] = $defaults['item_spacing'];
+	}
+
 	/**
 	 * Filters the arguments used to display a navigation menu.
 	 *

@@ -53,8 +53,15 @@ class Walker_Page extends Walker {
 	 *                       Default empty array.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "\n$indent<ul class='children'>\n";
+		if ( 'preserve' === $args['item_spacing'] ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		$indent = str_repeat( $t, $depth );
+		$output .= "{$n}{$indent}<ul class='children'>{$n}";
 	}
 
 	/**
@@ -71,8 +78,15 @@ class Walker_Page extends Walker {
 	 *                       Default empty array.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "$indent</ul>\n";
+		if ( 'preserve' === $args['item_spacing'] ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		$indent = str_repeat( $t, $depth );
+		$output .= "{$indent}</ul>{$n}";
 	}
 
 	/**
@@ -89,8 +103,15 @@ class Walker_Page extends Walker {
 	 * @param int     $current_page Optional. Page ID. Default 0.
 	 */
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
+		if ( 'preserve' === $args['item_spacing'] ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
 		if ( $depth ) {
-			$indent = str_repeat( "\t", $depth );
+			$indent = str_repeat( $t, $depth );
 		} else {
 			$indent = '';
 		}
@@ -175,7 +196,14 @@ class Walker_Page extends Walker {
 	 * @param array   $args   Optional. Array of arguments. Default empty array.
 	 */
 	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
-		$output .= "</li>\n";
+		if ( 'preserve' === $args['item_spacing'] ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		$output .= "</li>{$n}";
 	}
 
 }

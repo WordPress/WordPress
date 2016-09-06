@@ -50,8 +50,15 @@ class Walker_Nav_Menu extends Walker {
 	 * @param array  $args   An array of wp_nav_menu() arguments.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "\n$indent<ul class=\"sub-menu\">\n";
+		if ( 'preserve' === $args->item_spacing ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		$indent = str_repeat( $t, $depth );
+		$output .= "{$n}{$indent}<ul class=\"sub-menu\">{$n}";
 	}
 
 	/**
@@ -66,8 +73,15 @@ class Walker_Nav_Menu extends Walker {
 	 * @param array  $args   An array of wp_nav_menu() arguments.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
-		$indent = str_repeat("\t", $depth);
-		$output .= "$indent</ul>\n";
+		if ( 'preserve' === $args->item_spacing ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		$indent = str_repeat( $t, $depth );
+		$output .= "$indent</ul>{$n}";
 	}
 
 	/**
@@ -85,7 +99,14 @@ class Walker_Nav_Menu extends Walker {
 	 * @param int    $id     Current item ID.
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+		if ( 'preserve' === $args->item_spacing ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		$indent = ( $depth ) ? str_repeat( $t, $depth ) : '';
 
 		$classes = empty( $item->classes ) ? array() : (array) $item->classes;
 		$classes[] = 'menu-item-' . $item->ID;
@@ -216,7 +237,14 @@ class Walker_Nav_Menu extends Walker {
 	 * @param array  $args   An array of wp_nav_menu() arguments.
 	 */
 	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
-		$output .= "</li>\n";
+		if ( 'preserve' === $args->item_spacing ) {
+			$t = "\t";
+			$n = "\n";
+		} else {
+			$t = '';
+			$n = '';
+		}
+		$output .= "</li>{$n}";
 	}
 
 } // Walker_Nav_Menu
