@@ -826,6 +826,8 @@ hr {
 	border-bottom: 1px solid #fafafa;
 }
 
+.widget-control-remove,
+.widget-control-remove:focus,
 .row-actions span.delete a,
 .row-actions span.trash a,
 .row-actions span.spam a,
@@ -842,7 +844,6 @@ hr {
 abbr.required,
 span.required,
 .file-error,
-.widget-control-remove:hover,
 .row-actions .delete a:hover,
 .row-actions .trash a:hover,
 .row-actions .spam a:hover,
@@ -856,6 +857,10 @@ span.required,
 	color: #f00;
 	text-decoration: none;
 	border: none;
+}
+
+.widget-control-remove:hover {
+	color: #f00;
 }
 
 /*------------------------------------------------------------------------------
