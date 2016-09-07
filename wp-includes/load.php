@@ -971,7 +971,9 @@ function is_ssl() {
 		}
 	} elseif ( isset($_SERVER['SERVER_PORT'] ) && ( '443' == $_SERVER['SERVER_PORT'] ) ) {
 		return true;
-	}
+	} elseif ( isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https' ) {
+            	return true;
+        }
 	return false;
 }
 
