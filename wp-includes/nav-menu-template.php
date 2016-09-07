@@ -82,7 +82,7 @@ function wp_nav_menu( $args = array() ) {
 	 * @see wp_nav_menu()
 	 *
 	 * @param string|null $output Nav menu output to short-circuit with. Default null.
-	 * @param object      $args   An object containing wp_nav_menu() arguments.
+	 * @param stdClass    $args   An object containing wp_nav_menu() arguments.
 	 */
 	$nav_menu = apply_filters( 'pre_wp_nav_menu', null, $args );
 
@@ -182,8 +182,8 @@ function wp_nav_menu( $args = array() ) {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @param array  $sorted_menu_items The menu items, sorted by each menu item's menu order.
-	 * @param object $args              An object containing wp_nav_menu() arguments.
+	 * @param array    $sorted_menu_items The menu items, sorted by each menu item's menu order.
+	 * @param stdClass $args              An object containing wp_nav_menu() arguments.
 	 */
 	$sorted_menu_items = apply_filters( 'wp_nav_menu_objects', $sorted_menu_items, $args );
 
@@ -213,8 +213,8 @@ function wp_nav_menu( $args = array() ) {
 	 *
 	 * @see wp_nav_menu()
 	 *
-	 * @param string $items The HTML list content for the menu items.
-	 * @param object $args  An object containing wp_nav_menu() arguments.
+	 * @param string   $items The HTML list content for the menu items.
+	 * @param stdClass $args  An object containing wp_nav_menu() arguments.
 	 */
 	$items = apply_filters( 'wp_nav_menu_items', $items, $args );
 	/**
@@ -224,8 +224,8 @@ function wp_nav_menu( $args = array() ) {
 	 *
 	 * @see wp_nav_menu()
 	 *
-	 * @param string $items The HTML list content for the menu items.
-	 * @param object $args  An object containing wp_nav_menu() arguments.
+	 * @param string   $items The HTML list content for the menu items.
+	 * @param stdClass $args  An object containing wp_nav_menu() arguments.
 	 */
 	$items = apply_filters( "wp_nav_menu_{$menu->slug}_items", $items, $args );
 
@@ -246,8 +246,8 @@ function wp_nav_menu( $args = array() ) {
 	 *
 	 * @see wp_nav_menu()
 	 *
-	 * @param string $nav_menu The HTML content for the navigation menu.
-	 * @param object $args     An object containing wp_nav_menu() arguments.
+	 * @param string   $nav_menu The HTML content for the navigation menu.
+	 * @param stdClass $args     An object containing wp_nav_menu() arguments.
 	 */
 	$nav_menu = apply_filters( 'wp_nav_menu', $nav_menu, $args );
 
@@ -495,10 +495,10 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
  * @uses Walker_Nav_Menu to create HTML list content.
  * @since 3.0.0
  *
- * @param array  $items
- * @param int    $depth
- * @param object $r
- * @return string
+ * @param array    $items The menu items, sorted by each menu item's menu order.
+ * @param int      $depth Depth of the item in reference to parents.
+ * @param stdClass $r     An object containing wp_nav_menu() arguments.
+ * @return string The HTML list content for the menu items.
  */
 function walk_nav_menu_tree( $items, $depth, $r ) {
 	$walker = ( empty($r->walker) ) ? new Walker_Nav_Menu : $r->walker;
