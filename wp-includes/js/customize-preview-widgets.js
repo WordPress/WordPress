@@ -537,7 +537,9 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 			// Remove class names that incorporate the string formatting placeholders %1$s and %2$s.
 			widgetClasses = widgetClasses.replace( /\S*%[12]\$s\S*/g, '' );
 			widgetClasses = widgetClasses.replace( /^\s+|\s+$/g, '' );
-			widgetSelector += '.' + widgetClasses.split( /\s+/ ).join( '.' );
+			if ( widgetClasses ) {
+				widgetSelector += '.' + widgetClasses.split( /\s+/ ).join( '.' );
+			}
 			self.widgetSelectors.push( widgetSelector );
 		});
 	};
