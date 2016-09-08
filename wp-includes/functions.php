@@ -3101,9 +3101,11 @@ function _wp_json_prepare_data( $data ) {
  *                           then print and die.
  * @param int   $status_code The HTTP status code to output.
  */
-function wp_send_json( $response, $status_code = 200 ) {
+function wp_send_json( $response, $status_code = null ) {
 	@header( 'Content-Type: application/json; charset=' . get_option( 'blog_charset' ) );
-	status_header( $status_code );
+	if ( null !== $status_code ) {
+		status_header( $status_code );
+	}
 	echo wp_json_encode( $response );
 	if ( wp_doing_ajax() )
 		wp_die();
@@ -3120,7 +3122,7 @@ function wp_send_json( $response, $status_code = 200 ) {
  * @param mixed $data        Data to encode as JSON, then print and die.
  * @param int   $status_code The HTTP status code to output.
  */
-function wp_send_json_success( $data = null, $status_code = 200 ) {
+function wp_send_json_success( $data = null, $status_code = null ) {
 	$response = array( 'success' => true );
 
 	if ( isset( $data ) )
@@ -3144,7 +3146,7 @@ function wp_send_json_success( $data = null, $status_code = 200 ) {
  * @param mixed $data        Data to encode as JSON, then print and die.
  * @param int   $status_code The HTTP status code to output.
  */
-function wp_send_json_error( $data = null, $status_code = 200 ) {
+function wp_send_json_error( $data = null, $status_code = null ) {
 	$response = array( 'success' => false );
 
 	if ( isset( $data ) ) {
