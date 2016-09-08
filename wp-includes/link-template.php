@@ -930,7 +930,7 @@ function get_edit_term_link( $term_id, $taxonomy = '', $object_type = '' ) {
 	}
 
 	$tax = get_taxonomy( $term->taxonomy );
-	if ( ! $tax || ! current_user_can( $tax->cap->edit_terms ) ) {
+	if ( ! $tax || ! current_user_can( 'edit_term', $term->term_id ) ) {
 		return;
 	}
 
@@ -984,8 +984,9 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $e
 		return;
 
 	$tax = get_taxonomy( $term->taxonomy );
-	if ( ! current_user_can( $tax->cap->edit_terms ) )
+	if ( ! current_user_can( 'edit_term', $term->term_id ) ) {
 		return;
+	}
 
 	if ( empty( $link ) )
 		$link = __('Edit This');
@@ -4022,4 +4023,126 @@ function get_avatar_data( $id_or_email, $args = null ) {
 	 *                            user email, WP_User object, WP_Post object, or WP_Comment object.
 	 */
 	return apply_filters( 'get_avatar_data', $args, $id_or_email );
+}
+
+/**
+ * Retrieve the URL of a file in the theme.
+ *
+ * Searches in the stylesheet directory before the template directory so themes
+ * which inherit from a parent theme can just override one file.
+ *
+ * @since 4.7.0
+ *
+ * @param string $file Optional. File to search for in the stylesheet directory.
+ * @return string The URL of the file.
+ */
+function get_theme_file_uri( $file = '' ) {
+	$file = ltrim( $file, '/' );
+
+	if ( empty( $file ) ) {
+		$url = get_stylesheet_directory_uri();
+	} elseif ( file_exists( get_stylesheet_directory() . '/' . $file ) ) {
+		$url = get_stylesheet_directory_uri() . '/' . $file;
+	} else {
+		$url = get_template_directory_uri() . '/' . $file;
+	}
+
+	/**
+	 * Filter the URL to a file in the theme.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param string $url  The file URL.
+	 * @param string $file The requested file to search for.
+	 */
+	return apply_filters( 'theme_file_uri', $url, $file );
+}
+
+/**
+ * Retrieve the URL of a file in the parent theme.
+ *
+ * @since 4.7.0
+ *
+ * @param string $file Optional. File to return the URL for in the template directory.
+ * @return string The URL of the file.
+ */
+function get_parent_theme_file_uri( $file = '' ) {
+	$file = ltrim( $file, '/' );
+
+	if ( empty( $file ) ) {
+		$url = get_template_directory_uri();
+	} else {
+		$url = get_template_directory_uri() . '/' . $file;
+	}
+
+	/**
+	 * Filter the URL to a file in the parent theme.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param string $url  The file URL.
+	 * @param string $file The requested file to search for.
+	 */
+	return apply_filters( 'parent_theme_file_uri', $url, $file );
+}
+
+/**
+ * Retrieve the path of a file in the theme.
+ *
+ * Searches in the stylesheet directory before the template directory so themes
+ * which inherit from a parent theme can just override one file.
+ *
+ * @since 4.7.0
+ *
+ * @param string $file Optional. File to search for in the stylesheet directory.
+ * @return string The path of the file.
+ */
+function get_theme_file_path( $file = '' ) {
+	$file = ltrim( $file, '/' );
+
+	if ( empty( $file ) ) {
+		$path = get_stylesheet_directory();
+	} elseif ( file_exists( get_stylesheet_directory() . '/' . $file ) ) {
+		$path = get_stylesheet_directory() . '/' . $file;
+	} else {
+		$path = get_template_directory() . '/' . $file;
+	}
+
+	/**
+	 * Filter the path to a file in the theme.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param string $path The file path.
+	 * @param string $file The requested file to search for.
+	 */
+	return apply_filters( 'theme_file_path', $path, $file );
+}
+
+/**
+ * Retrieve the path of a file in the parent theme.
+ *
+ * @since 4.7.0
+ *
+ * @param string $file Optional. File to return the path for in the template directory.
+ * @return string The path of the file.
+ */
+function get_parent_theme_file_path( $file = '' ) {
+	$file = ltrim( $file, '/' );
+
+	if ( empty( $file ) ) {
+		$path = get_template_directory();
+	} else {
+		$path = get_template_directory() . '/' . $file;
+	}
+
+	/**
+	 * Filter the path to a file in the parent theme.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param string $path The file path.
+	 * @param string $file The requested file to search for.
+	 */
+	return apply_filters( 'parent_theme_file_path', $path, $file );
 }
