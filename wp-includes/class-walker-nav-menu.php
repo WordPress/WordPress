@@ -50,12 +50,12 @@ class Walker_Nav_Menu extends Walker {
 	 * @param stdClass $args   An object of wp_nav_menu() arguments.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
-		if ( 'preserve' === $args->item_spacing ) {
-			$t = "\t";
-			$n = "\n";
-		} else {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
 			$n = '';
+		} else {
+			$t = "\t";
+			$n = "\n";
 		}
 		$indent = str_repeat( $t, $depth );
 		$output .= "{$n}{$indent}<ul class=\"sub-menu\">{$n}";
@@ -73,12 +73,12 @@ class Walker_Nav_Menu extends Walker {
 	 * @param stdClass $args   An object of wp_nav_menu() arguments.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
-		if ( 'preserve' === $args->item_spacing ) {
-			$t = "\t";
-			$n = "\n";
-		} else {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
 			$n = '';
+		} else {
+			$t = "\t";
+			$n = "\n";
 		}
 		$indent = str_repeat( $t, $depth );
 		$output .= "$indent</ul>{$n}";
@@ -99,12 +99,12 @@ class Walker_Nav_Menu extends Walker {
 	 * @param int      $id     Current item ID.
 	 */
 	public function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
-		if ( 'preserve' === $args->item_spacing ) {
-			$t = "\t";
-			$n = "\n";
-		} else {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
 			$n = '';
+		} else {
+			$t = "\t";
+			$n = "\n";
 		}
 		$indent = ( $depth ) ? str_repeat( $t, $depth ) : '';
 
@@ -237,12 +237,12 @@ class Walker_Nav_Menu extends Walker {
 	 * @param stdClass $args   An object of wp_nav_menu() arguments.
 	 */
 	public function end_el( &$output, $item, $depth = 0, $args = array() ) {
-		if ( 'preserve' === $args->item_spacing ) {
-			$t = "\t";
-			$n = "\n";
-		} else {
+		if ( isset( $args->item_spacing ) && 'discard' === $args->item_spacing ) {
 			$t = '';
 			$n = '';
+		} else {
+			$t = "\t";
+			$n = "\n";
 		}
 		$output .= "</li>{$n}";
 	}
