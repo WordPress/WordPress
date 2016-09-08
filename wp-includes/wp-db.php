@@ -779,6 +779,11 @@ class wpdb {
 			$charset = 'utf8mb4';
 		}
 
+		if ( 'utf8mb4' === $charset && ! $this->has_cap( 'utf8mb4' ) ) {
+			$charset = 'utf8';
+			$collate = str_replace( 'utf8mb4_', 'utf8_', $collate );
+		}
+
 		if ( 'utf8mb4' === $charset ) {
 			// _general_ is outdated, so we can upgrade it to _unicode_, instead.
 			if ( ! $collate || 'utf8_general_ci' === $collate ) {
