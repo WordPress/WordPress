@@ -1109,6 +1109,7 @@ function wp_dropdown_pages( $args = '' ) {
  * Retrieve or display list of pages in list (li) format.
  *
  * @since 1.5.0
+ * @since 4.7.0 Added the `item_spacing` argument.
  *
  * @see get_pages()
  *
@@ -1138,7 +1139,7 @@ function wp_dropdown_pages( $args = '' ) {
  *                                'menu_order', 'post_parent', 'ID', 'rand', or 'comment_count'. Default 'post_title'.
  *     @type string $title_li     List heading. Passing a null or empty value will result in no heading, and the list
  *                                will not be wrapped with unordered list `<ul>` tags. Default 'Pages'.
- *     @type string $item_spacing Whether whitespace format the menu's HTML: 'discard' or 'preserve' (default).
+ *     @type string $item_spacing Whether to preserve whitespace within the menu's HTML. Accepts 'preserve' or 'discard'. Default 'preserve'.
  *     @type Walker $walker       Walker instance to use for listing pages. Default empty (Walker_Page).
  * }
  * @return string|void HTML list of pages.
@@ -1232,6 +1233,7 @@ function wp_list_pages( $args = '' ) {
  *
  * @since 2.7.0
  * @since 4.4.0 Added `menu_id`, `container`, `before`, `after`, and `walker` arguments.
+ * @since 4.7.0 Added the `item_spacing` argument.
  *
  * @param array|string $args {
  *     Optional. Arguments to generate a page menu. See wp_list_pages() for additional arguments.
@@ -1249,7 +1251,7 @@ function wp_list_pages( $args = '' ) {
  *     @type string          $link_after   The HTML or text to append to $show_home text. Default empty.
  *     @type string          $before       The HTML or text to prepend to the menu. Default is '<ul>'.
  *     @type string          $after        The HTML or text to append to the menu. Default is '</ul>'.
- *     @type string          $item_spacing Whether whitespace format the menu's HTML: 'discard' or 'preserve' (default).
+ *     @type string          $item_spacing Whether to preserve whitespace within the menu's HTML. Accepts 'preserve' or 'discard'. Default 'discard'.
  *     @type Walker          $walker       Walker instance to use for listing pages. Default empty (Walker_Page).
  * }
  * @return string|void HTML menu

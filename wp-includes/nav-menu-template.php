@@ -14,6 +14,7 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  * Displays a navigation menu.
  *
  * @since 3.0.0
+ * @since 4.7.0 Added the `item_spacing` argument.
  *
  * @staticvar array $menu_id_slugs
  *
@@ -40,7 +41,7 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  *                                               in order to be selectable by the user.
  *     @type string             $items_wrap      How the list items should be wrapped. Default is a ul with an id and class.
  *                                               Uses printf() format with numbered placeholders.
- *     @type string             $item_spacing    Whether whitespace format the menu's HTML: 'discard' or 'preserve' (default).
+ *     @type string             $item_spacing    Whether to preserve whitespace within the menu's HTML. Accepts 'preserve' or 'discard'. Default 'preserve'.
  * }
  * @return object|false|void Menu output if $echo is false, false if there are no items or no menu was found.
  */
