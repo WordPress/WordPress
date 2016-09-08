@@ -58,7 +58,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 *
 	 * @since 4.7.0
 	 * @access private
-	 * @var boolean
+	 * @var bool
 	 */
 	private $doing_action = false;
 
@@ -101,8 +101,10 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 * @since 4.7.0
 	 * @access private
 	 *
-	 * @param bool|int $new_priority      The priority of the new filter being added. Default false, for no priority being added.
-	 * @param bool     $priority_existed  Flag for whether the priority already existed before the new filter was added.
+	 * @param bool|int $new_priority     Optional. The priority of the new filter being added. Default false,
+	 *                                   for no priority being added.
+	 * @param bool     $priority_existed Optional. Flag for whether the priority already existed before the new
+	 *                                   filter was added. Default false.
 	 */
 	private function resort_active_iterations( $new_priority = false, $priority_existed = false ) {
 		$new_priorities = array_keys( $this->callbacks );
@@ -138,8 +140,10 @@ final class WP_Hook implements Iterator, ArrayAccess {
 
 			// If we have a new priority that didn't exist, but ::apply_filters() or ::do_action() thinks it's the current priority...
 			if ( $new_priority === $this->current_priority[ $index ] && ! $priority_existed ) {
-				// ... and the new priority is the same as what $this->iterations thinks is the previous priority,
-				// We need to move back to it.
+				/*
+				 * ... and the new priority is the same as what $this->iterations thinks is the previous
+				 * priority, we need to move back to it.
+				 */
 
 				if ( false === current( $iteration ) ) {
 					// If we've already moved off the end of the array, go back to the last element.
@@ -195,8 +199,8 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 * @access public
 	 *
 	 * @param callable|bool $function_to_check Optional. The callback to check for. Default false.
-	 * @param string        $tag               Optional. The name of the filter hook. Default empty.
-	 *                                         Used for building the callback ID when SPL is not available.
+	 * @param string        $tag               Optional. The name of the filter hook. Used for building
+	 *                                         the callback ID when SPL is not available. Default empty.
 	 * @return bool|int The priority of that hook is returned, or false if the function is not attached.
 	 */
 	public function has_filter( $tag = '', $function_to_check = false ) {
@@ -224,7 +228,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 * @since 4.7.0
 	 * @access public
 	 *
-	 * @return bool True if callbacks have been registered for the current hook, false otherwise.
+	 * @return bool True if callbacks have been registered for the current hook, otherwise false.
 	 */
 	public function has_filters() {
 		foreach ( $this->callbacks as $callbacks ) {
@@ -348,7 +352,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	}
 
 	/**
-	 * Normalizes filters setup before WordPress has initialized to WP_Hook objects.
+	 * Normalizes filters set up before WordPress has initialized to WP_Hook objects.
 	 *
 	 * @since 4.7.0
 	 * @access public
@@ -445,7 +449,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	}
 
 	/**
-	 * Return the current element
+	 * Returns the current element.
 	 *
 	 * @since 4.7.0
 	 * @access public
@@ -459,7 +463,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	}
 
 	/**
-	 * Move forward to the next element
+	 * Moves forward to the next element.
 	 *
 	 * @since 4.7.0
 	 * @access public
@@ -473,7 +477,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	}
 
 	/**
-	 * Return the key of the current element
+	 * Returns the key of the current element.
 	 *
 	 * @since 4.7.0
 	 * @access public
@@ -487,7 +491,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	}
 
 	/**
-	 * Checks if current position is valid
+	 * Checks if current position is valid.
 	 *
 	 * @since 4.7.0
 	 * @access public
@@ -501,7 +505,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	}
 
 	/**
-	 * Rewind the Iterator to the first element
+	 * Rewinds the Iterator to the first element.
 	 *
 	 * @since 4.7.0
 	 * @access public
@@ -511,6 +515,5 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	public function rewind() {
 		reset( $this->callbacks );
 	}
-
 
 }
