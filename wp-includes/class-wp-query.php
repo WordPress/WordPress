@@ -3264,7 +3264,7 @@ class WP_Query {
 					$matched_taxonomy = reset( $queried_taxonomies );
 					$query = $tax_query_in_and[ $matched_taxonomy ];
 
-					if ( $query['terms'] ) {
+					if ( ! empty( $query['terms'] ) ) {
 						if ( 'term_id' == $query['field'] ) {
 							$term = get_term( reset( $query['terms'] ), $matched_taxonomy );
 						} else {
