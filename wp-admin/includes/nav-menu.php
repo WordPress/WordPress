@@ -70,14 +70,19 @@ function _wp_ajax_menu_quick_search( $request = array() ) {
 
 	} elseif ( preg_match('/quick-search-(posttype|taxonomy)-([a-zA-Z_-]*\b)/', $type, $matches) ) {
 		if ( 'posttype' == $matches[1] && get_post_type_object( $matches[2] ) ) {
-			$search_results_query = new WP_Query( array(
+			$post_type_obj = _wp_nav_menu_meta_box_object( get_post_type_object( $matches[2] ) );
+			$args = array(
 				'no_found_rows'          => true,
 				'update_post_meta_cache' => false,
 				'update_post_term_cache' => false,
 				'posts_per_page'         => 10,
 				'post_type'              => $matches[2],
 				's'                      => $query,
-			) );
+			);
+			if ( isset( $post_type_obj->_default_query ) ) {
+				$args = array_merge( $args, (array) $post_type_obj->_default_query );
+			}
+			$search_results_query = new WP_Query( $args );
 			if ( ! $search_results_query->have_posts() ) {
 				return;
 			}
