@@ -189,6 +189,12 @@ function get_category_template() {
 	$templates = array();
 
 	if ( ! empty( $category->slug ) ) {
+
+		$slug_decoded = urldecode( $category->slug );
+		if ( $slug_decoded !== $category->slug ) {
+			$templates[] = "category-{$slug_decoded}.php";
+		}
+
 		$templates[] = "category-{$category->slug}.php";
 		$templates[] = "category-{$category->term_id}.php";
 	}
@@ -219,6 +225,12 @@ function get_tag_template() {
 	$templates = array();
 
 	if ( ! empty( $tag->slug ) ) {
+
+		$slug_decoded = urldecode( $tag->slug );
+		if ( $slug_decoded !== $tag->slug ) {
+			$templates[] = "tag-{$slug_decoded}.php";
+		}
+
 		$templates[] = "tag-{$tag->slug}.php";
 		$templates[] = "tag-{$tag->term_id}.php";
 	}
@@ -255,6 +267,12 @@ function get_taxonomy_template() {
 
 	if ( ! empty( $term->slug ) ) {
 		$taxonomy = $term->taxonomy;
+
+		$slug_decoded = urldecode( $term->slug );
+		if ( $slug_decoded !== $term->slug ) {
+			$templates[] = "taxonomy-$taxonomy-{$slug_decoded}.php";
+		}
+
 		$templates[] = "taxonomy-$taxonomy-{$term->slug}.php";
 		$templates[] = "taxonomy-$taxonomy.php";
 	}
@@ -349,8 +367,13 @@ function get_page_template() {
 	$templates = array();
 	if ( $template && 0 === validate_file( $template ) )
 		$templates[] = $template;
-	if ( $pagename )
+	if ( $pagename ) {
+		$pagename_decoded = urldecode( $pagename );
+		if ( $pagename_decoded !== $pagename ) {
+			$templates[] = "page-{$pagename_decoded}.php";
+		}
 		$templates[] = "page-$pagename.php";
+	}
 	if ( $id )
 		$templates[] = "page-$id.php";
 	$templates[] = 'page.php';
@@ -409,6 +432,12 @@ function get_single_template() {
 	$templates = array();
 
 	if ( ! empty( $object->post_type ) ) {
+
+		$name_decoded = urldecode( $object->post_name );
+		if ( $name_decoded !== $object->post_name ) {
+			$templates[] = "single-{$object->post_type}-{$name_decoded}.php";
+		}
+
 		$templates[] = "single-{$object->post_type}-{$object->post_name}.php";
 		$templates[] = "single-{$object->post_type}.php";
 	}
