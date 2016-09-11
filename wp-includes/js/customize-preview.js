@@ -75,8 +75,8 @@
 				 * submission is already being handled by JS), and if it has a GET
 				 * request method, then take the serialized form data and add it as
 				 * a query string to the action URL and send this in a url message
-				 * to the Customizer pane so that it will be loaded. If the form's
-				 * action points to a non-previewable URL, the the Customizer pane's
+				 * to the customizer pane so that it will be loaded. If the form's
+				 * action points to a non-previewable URL, the customizer pane's
 				 * previewUrl setter will reject it so that the form submission is
 				 * a no-op, which is the same behavior as when clicking a link to an
 				 * external site in the preview.
