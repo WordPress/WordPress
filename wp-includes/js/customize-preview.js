@@ -67,8 +67,30 @@
 			});
 
 			// You cannot submit forms.
-			// @todo: Allow form submissions by mixing $_POST data with the customize setting $_POST data.
 			this.body.on( 'submit.preview', 'form', function( event ) {
+				var urlParser;
+
+				/*
+				 * If the default wasn't prevented already (in which case the form
+				 * submission is already being handled by JS), and if it has a GET
+				 * request method, then take the serialized form data and add it as
+				 * a query string to the action URL and send this in a url message
+				 * to the Customizer pane so that it will be loaded. If the form's
+				 * action points to a non-previewable URL, the the Customizer pane's
+				 * previewUrl setter will reject it so that the form submission is
+				 * a no-op, which is the same behavior as when clicking a link to an
+				 * external site in the preview.
+				 */
+				if ( ! event.isDefaultPrevented() && 'GET' === this.method.toUpperCase() ) {
+					urlParser = document.createElement( 'a' );
+					urlParser.href = this.action;
+					if ( urlParser.search.substr( 1 ).length > 1 ) {
+						urlParser.search += '&';
+					}
+					urlParser.search += $( this ).serialize();
+					api.preview.send( 'url', urlParser.href );
+				}
+
 				event.preventDefault();
 			});
 
