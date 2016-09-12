@@ -165,7 +165,7 @@ CREATE TABLE $wpdb->posts (
   post_status varchar(20) NOT NULL default 'publish',
   comment_status varchar(20) NOT NULL default 'open',
   ping_status varchar(20) NOT NULL default 'open',
-  post_password varchar(20) NOT NULL default '',
+  post_password varchar(255) NOT NULL default '',
   post_name varchar(200) NOT NULL default '',
   to_ping text NOT NULL,
   pinged text NOT NULL,
