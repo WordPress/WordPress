@@ -2283,7 +2283,7 @@ function dbDelta( $queries = '', $execute = true ) {
 					$index_type = str_replace( 'INDEX', 'KEY', $index_type );
 
 					// Escape the index name with backticks. An index for a primary key has no name.
-					$index_name = ( 'PRIMARY KEY' === $index_type ) ? '' : '`' . $index_matches['index_name'] . '`';
+					$index_name = ( 'PRIMARY KEY' === $index_type ) ? '' : '`' . strtolower( $index_matches['index_name'] ) . '`';
 
 					// Parse the columns. Multiple columns are separated by a comma.
 					$index_columns = array_map( 'trim', explode( ',', $index_matches['index_columns'] ) );
@@ -2407,7 +2407,7 @@ function dbDelta( $queries = '', $execute = true ) {
 			foreach ($tableindices as $tableindex) {
 
 				// Add the index to the index data array.
-				$keyname = $tableindex->Key_name;
+				$keyname = strtolower( $tableindex->Key_name );
 				$index_ary[$keyname]['columns'][] = array('fieldname' => $tableindex->Column_name, 'subpart' => $tableindex->Sub_part);
 				$index_ary[$keyname]['unique'] = ($tableindex->Non_unique == 0)?true:false;
 				$index_ary[$keyname]['index_type'] = $tableindex->Index_type;
@@ -2418,7 +2418,7 @@ function dbDelta( $queries = '', $execute = true ) {
 
 				// Build a create string to compare to the query.
 				$index_string = '';
-				if ($index_name == 'PRIMARY') {
+				if ($index_name == 'primary') {
 					$index_string .= 'PRIMARY ';
 				} elseif ( $index_data['unique'] ) {
 					$index_string .= 'UNIQUE ';
@@ -2430,7 +2430,7 @@ function dbDelta( $queries = '', $execute = true ) {
 					$index_string .= 'SPATIAL ';
 				}
 				$index_string .= 'KEY ';
-				if ( 'PRIMARY' !== $index_name  ) {
+				if ( 'primary' !== $index_name  ) {
 					$index_string .= '`' . $index_name . '`';
 				}
 				$index_columns = '';
