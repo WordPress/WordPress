@@ -274,7 +274,7 @@
 
 			text = text + '\n\n';
 			text = text.replace( /<br \/>\s*<br \/>/gi, '\n\n' );
-			text = text.replace( new RegExp( '(<(?:' + blocklist + ')(?: [^>]*)?>)', 'gi' ), '\n$1' );
+			text = text.replace( new RegExp( '(<(?:' + blocklist + ')(?: [^>]*)?>)', 'gi' ), '\n\n$1' );
 			text = text.replace( new RegExp( '(</(?:' + blocklist + ')>)', 'gi' ), '$1\n\n' );
 			text = text.replace( /<hr( [^>]*)?>/gi, '<hr$1>\n\n' ); // hr is self closing block element
 			text = text.replace( /\s*<option/gi, '<option' ); // No <p> or <br> around <option>
