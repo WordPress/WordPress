@@ -1,501 +1,854 @@
 /* global ajaxurl, wpAjax */
-(function($) {
-var fs = {add:'ajaxAdd',del:'ajaxDel',dim:'ajaxDim',process:'process',recolor:'recolor'}, wpList;
 
+/**
+ * @param {jQuery} $ jQuery object.
+ */
+( function( $ ) {
+var functions = {
+	add:     'ajaxAdd',
+	del:     'ajaxDel',
+	dim:     'ajaxDim',
+	process: 'process',
+	recolor: 'recolor'
+}, wpList;
+
+/**
+ * @namespace
+ */
 wpList = {
+
+	/**
+	 * @member {object}
+	 */
 	settings: {
-		url: ajaxurl, type: 'POST',
+
+		/**
+		 * URL for Ajax requests.
+		 *
+		 * @member {string}
+		 */
+		url: ajaxurl,
+
+		/**
+		 * The HTTP method to use for Ajax requests.
+		 *
+		 * @member {string}
+		 */
+		type: 'POST',
+
+		/**
+		 * ID of the element the parsed Ajax response will be stored in.
+		 *
+		 * @member {string}
+		 */
 		response: 'ajax-response',
 
+		/**
+		 * The type of list.
+		 *
+		 * @member {string}
+		 */
 		what: '',
-		alt: 'alternate', altOffset: 0,
-		addColor: null, delColor: null, dimAddColor: null, dimDelColor: null,
 
+		/**
+		 * CSS class name for alternate styling.
+		 *
+		 * @member {string}
+		 */
+		alt: 'alternate',
+
+		/**
+		 * Offset to start alternate styling from.
+		 *
+		 * @member {number}
+		 */
+		altOffset: 0,
+
+		/**
+		 * Color used in animation when adding an element.
+		 *
+		 * Can be 'none' to disable the animation.
+		 *
+		 * @member {string}
+		 */
+		addColor: '#ffff33',
+
+		/**
+		 * Color used in animation when deleting an element.
+		 *
+		 * Can be 'none' to disable the animation.
+		 *
+		 * @member {string}
+		 */
+		delColor: '#faafaa',
+
+		/**
+		 * Color used in dim add animation.
+		 *
+		 * Can be 'none' to disable the animation.
+		 *
+		 * @member {string}
+		 */
+		dimAddColor: '#ffff33',
+
+		/**
+		 * Color used in dim delete animation.
+		 *
+		 * Can be 'none' to disable the animation.
+		 *
+		 * @member {string}
+		 */
+		dimDelColor: '#ff3333',
+
+		/**
+		 * Callback that's run before a request is made.
+		 *
+		 * @callback wpList~confirm
+		 * @param {object}      this
+		 * @param {HTMLElement} list            The list DOM element.
+		 * @param {object}      settings        Settings for the current list.
+		 * @param {string}      action          The type of action to perform: 'add', 'delete', or 'dim'.
+		 * @param {string}      backgroundColor Background color of the list's DOM element.
+		 * @returns {boolean} Whether to proceed with the action or not.
+		 */
 		confirm: null,
-		addBefore: null, addAfter: null,
-		delBefore: null, delAfter: null,
-		dimBefore: null, dimAfter: null
+
+		/**
+		 * Callback that's run before an item gets added to the list.
+		 *
+		 * Allows to cancel the request.
+		 *
+		 * @callback wpList~addBefore
+		 * @param {object} settings Settings for the Ajax request.
+		 * @returns {object|boolean} Settings for the Ajax request or false to abort.
+		 */
+		addBefore: null,
+
+		/**
+		 * Callback that's run after an item got added to the list.
+		 *
+		 * @callback wpList~addAfter
+		 * @param {XML}    returnedResponse Raw response returned from the server.
+		 * @param {object} settings         Settings for the Ajax request.
+		 * @param {jqXHR}  settings.xml     jQuery XMLHttpRequest object.
+		 * @param {string} settings.status  Status of the request: 'success', 'notmodified', 'nocontent', 'error',
+		 *                                  'timeout', 'abort', or 'parsererror'.
+		 * @param {object} settings.parsed  Parsed response object.
+		 */
+		addAfter: null,
+
+		/**
+		 * Callback that's run before an item gets deleted from the list.
+		 *
+		 * Allows to cancel the request.
+		 *
+		 * @callback wpList~delBefore
+		 * @param {object}      settings Settings for the Ajax request.
+		 * @param {HTMLElement} list     The list DOM element.
+		 * @returns {object|boolean} Settings for the Ajax request or false to abort.
+		 */
+		delBefore: null,
+
+		/**
+		 * Callback that's run after an item got deleted from the list.
+		 *
+		 * @callback wpList~delAfter
+		 * @param {XML}    returnedResponse Raw response returned from the server.
+		 * @param {object} settings         Settings for the Ajax request.
+		 * @param {jqXHR}  settings.xml     jQuery XMLHttpRequest object.
+		 * @param {string} settings.status  Status of the request: 'success', 'notmodified', 'nocontent', 'error',
+		 *                                  'timeout', 'abort', or 'parsererror'.
+		 * @param {object} settings.parsed  Parsed response object.
+		 */
+		delAfter: null,
+
+		/**
+		 * Callback that's run before an item gets dim'd.
+		 *
+		 * Allows to cancel the request.
+		 *
+		 * @callback wpList~dimBefore
+		 * @param {object} settings Settings for the Ajax request.
+		 * @returns {object|boolean} Settings for the Ajax request or false to abort.
+		 */
+		dimBefore: null,
+
+		/**
+		 * Callback that's run after an item got dim'd.
+		 *
+		 * @callback wpList~dimAfter
+		 * @param {XML}    returnedResponse Raw response returned from the server.
+		 * @param {object} settings         Settings for the Ajax request.
+		 * @param {jqXHR}  settings.xml     jQuery XMLHttpRequest object.
+		 * @param {string} settings.status  Status of the request: 'success', 'notmodified', 'nocontent', 'error',
+		 *                                  'timeout', 'abort', or 'parsererror'.
+		 * @param {object} settings.parsed  Parsed response object.
+		 */
+		dimAfter: null
 	},
 
-	nonce: function(e,s) {
-		var url = wpAjax.unserialize(e.attr('href'));
-		return s.nonce || url._ajax_nonce || $('#' + s.element + ' input[name="_ajax_nonce"]').val() || url._wpnonce || $('#' + s.element + ' input[name="_wpnonce"]').val() || 0;
+	/**
+	 * Finds a nonce.
+	 *
+	 * 1. Nonce in settings.
+	 * 2. `_ajax_nonce` value in element's href attribute.
+	 * 3. `_ajax_nonce` input field that is a descendant of element.
+	 * 4. `_wpnonce` value in element's href attribute.
+	 * 5. `_wpnonce` input field that is a descendant of element.
+	 * 6. 0 if none can be found.
+	 *
+	 * @param {jQuery} element  Element that triggered the request.
+	 * @param {object} settings Settings for the Ajax request.
+	 * @returns {string|number} Nonce
+	 */
+	nonce: function( element, settings ) {
+		var url      = wpAjax.unserialize( element.attr( 'href' ) ),
+			$element = $( '#' + settings.element );
+
+		return settings.nonce || url._ajax_nonce || $element.find( 'input[name="_ajax_nonce"]' ).val() || url._wpnonce || $element.find( 'input[name="_wpnonce"]' ).val() || 0;
 	},
 
 	/**
 	 * Extract list item data from a DOM element.
 	 *
-	 * @param  {HTMLElement} e The DOM element.
-	 * @param  {string}      t
-	 * @return {array}
+	 * Example 1: data-wp-lists="delete:the-comment-list:comment-{comment_ID}:66cc66:unspam=1"
+	 * Example 2: data-wp-lists="dim:the-comment-list:comment-{comment_ID}:unapproved:e7e7d3:e7e7d3:new=approved"
+	 *
+	 * Returns an unassociated array with the following data:
+	 * data[0] - Data identifier: 'list', 'add', 'delete', or 'dim'.
+	 * data[1] - ID of the corresponding list. If data[0] is 'list', the type of list ('comment', 'category', etc).
+	 * data[2] - ID of the parent element of all inputs necessary for the request.
+	 * data[3] - Hex color to be used in this request. If data[0] is 'dim', dim class.
+	 * data[4] - Additional arguments in query syntax that are added to the request. Example: 'post_id=1234'.
+	 *           If data[0] is 'dim', dim add color.
+	 * data[5] - Only available if data[0] is 'dim', dim delete color.
+	 * data[6] - Only available if data[0] is 'dim', additional arguments in query syntax that are added to the request.
+	 *
+	 * Result for Example 1:
+	 * data[0] - delete
+	 * data[1] - the-comment-list
+	 * data[2] - comment-{comment_ID}
+	 * data[3] - 66cc66
+	 * data[4] - unspam=1
+	 *
+	 * @param  {HTMLElement} element The DOM element.
+	 * @param  {string}      type    The type of data to look for: 'list', 'add', 'delete', or 'dim'.
+	 * @returns {Array} Extracted list item data.
 	 */
-	parseData: function(e,t) {
-		var d = [], wpListsData;
+	parseData: function( element, type ) {
+		var data = [], wpListsData;
 
 		try {
-			wpListsData = $(e).attr('data-wp-lists') || '';
-			wpListsData = wpListsData.match(new RegExp(t+':[\\S]+'));
+			wpListsData = $( element ).data( 'wp-lists' ) || '';
+			wpListsData = wpListsData.match( new RegExp( type + ':[\\S]+' ) );
 
-			if ( wpListsData )
-				d = wpListsData[0].split(':');
-		} catch(r) {}
-
-		return d;
-	},
-
-	pre: function(e,s,a) {
-		var bg, r;
-
-		s = $.extend( {}, this.wpList.settings, {
-			element: null,
-			nonce: 0,
-			target: e.get(0)
-		}, s || {} );
-
-		if ( $.isFunction( s.confirm ) ) {
-			if ( 'add' != a ) {
-				bg = $('#' + s.element).css('backgroundColor');
-				$('#' + s.element).css('backgroundColor', '#FF9966');
+			if ( wpListsData ) {
+				data = wpListsData[0].split( ':' );
 			}
-			r = s.confirm.call(this, e, s, a, bg);
+		} catch ( error ) {}
 
-			if ( 'add' != a )
-				$('#' + s.element).css('backgroundColor', bg );
-
-			if ( !r )
-				return false;
-		}
-
-		return s;
+		return data;
 	},
 
-	ajaxAdd: function( e, s ) {
-		e = $(e);
-		s = s || {};
-		var list = this, data = wpList.parseData(e,'add'), es, valid, formData, res, rres;
+	/**
+	 * Calls a confirm callback to verify the action that is about to be performed.
+	 *
+	 * @param {HTMLElement} list     The DOM element.
+	 * @param {object}      settings Settings for this list.
+	 * @param {string}      action   The type of action to perform: 'add', 'delete', or 'dim'.
+	 * @returns {object|boolean} Settings if confirmed, false if not.
+	 */
+	pre: function( list, settings, action ) {
+		var $element, backgroundColor, confirmed;
 
-		s = wpList.pre.call( list, e, s, 'add' );
+		settings = $.extend( {}, this.wpList.settings, {
+			element: null,
+			nonce:   0,
+			target:  list.get( 0 )
+		}, settings || {} );
 
-		s.element = data[2] || e.attr( 'id' ) || s.element || null;
+		if ( $.isFunction( settings.confirm ) ) {
+			$element = $( '#' + settings.element );
 
-		if ( data[3] )
-			s.addColor = '#' + data[3];
-		else
-			s.addColor = s.addColor || '#FFFF33';
+			if ( 'add' !== action ) {
+				backgroundColor = $element.css( 'backgroundColor' );
+				$element.css( 'backgroundColor', '#ff9966' );
+			}
 
-		if ( !s )
-			return false;
+			confirmed = settings.confirm.call( this, list, settings, action, backgroundColor );
 
-		if ( !e.is('[id="' + s.element + '-submit"]') )
-			return !wpList.add.call( list, e, s );
+			if ( 'add' !== action ) {
+				$element.css( 'backgroundColor', backgroundColor );
+			}
 
-		if ( !s.element )
-			return true;
-
-		s.action = 'add-' + s.what;
-
-		s.nonce = wpList.nonce(e,s);
-
-		es = $('#' + s.element + ' :input').not('[name="_ajax_nonce"], [name="_wpnonce"], [name="action"]');
-		valid = wpAjax.validateForm( '#' + s.element );
-
-		if ( !valid )
-			return false;
-
-		s.data = $.param( $.extend( { _ajax_nonce: s.nonce, action: s.action }, wpAjax.unserialize( data[4] || '' ) ) );
-		formData = $.isFunction(es.fieldSerialize) ? es.fieldSerialize() : es.serialize();
-
-		if ( formData )
-			s.data += '&' + formData;
-
-		if ( $.isFunction(s.addBefore) ) {
-			s = s.addBefore( s );
-			if ( !s )
-				return true;
+			if ( ! confirmed ) {
+				return false;
+			}
 		}
 
-		if ( !s.data.match(/_ajax_nonce=[a-f0-9]+/) )
+		return settings;
+	},
+
+	/**
+	 * Adds an item to the list via AJAX.
+	 *
+	 * @param {HTMLElement} element  The DOM element.
+	 * @param {object}      settings Settings for this list.
+	 * @returns {boolean} Whether the item was added.
+	 */
+	ajaxAdd: function( element, settings ) {
+		var list     = this,
+			$element = $( element ),
+			data     = wpList.parseData( $element, 'add' ),
+			formValues, formData, parsedResponse, returnedResponse;
+
+		settings = settings || {};
+		settings = wpList.pre.call( list, $element, settings, 'add' );
+
+		settings.element  = data[2] || $element.prop( 'id' ) || settings.element || null;
+		settings.addColor = data[3] ? '#' + data[3] : settings.addColor;
+
+		if ( ! settings ) {
+			return false;
+		}
+
+		if ( ! $element.is( '[id="' + settings.element + '-submit"]' ) ) {
+			return ! wpList.add.call( list, $element, settings );
+		}
+
+		if ( ! settings.element ) {
 			return true;
+		}
 
-		s.success = function(r) {
-			res = wpAjax.parseAjaxResponse(r, s.response, s.element);
+		settings.action = 'add-' + settings.what;
+		settings.nonce  = wpList.nonce( $element, settings );
 
-			rres = r;
+		if ( ! wpAjax.validateForm( '#' + settings.element ) ) {
+			return false;
+		}
 
-			if ( !res || res.errors )
-				return false;
+		settings.data = $.param( $.extend( {
+			_ajax_nonce: settings.nonce,
+			action:      settings.action
+		}, wpAjax.unserialize( data[4] || '' ) ) );
 
-			if ( true === res )
+		formValues = $( '#' + settings.element + ' :input' ).not( '[name="_ajax_nonce"], [name="_wpnonce"], [name="action"]' );
+		formData   = $.isFunction( formValues.fieldSerialize ) ? formValues.fieldSerialize() : formValues.serialize();
+
+		if ( formData ) {
+			settings.data += '&' + formData;
+		}
+
+		if ( $.isFunction( settings.addBefore ) ) {
+			settings = settings.addBefore( settings );
+
+			if ( ! settings ) {
 				return true;
+			}
+		}
 
-			jQuery.each( res.responses, function() {
-				wpList.add.call( list, this.data, $.extend( {}, s, { // this.firstChild.nodevalue
-					pos: this.position || 0,
-					id: this.id || 0,
-					oldId: this.oldId || null
+		if ( ! settings.data.match( /_ajax_nonce=[a-f0-9]+/ ) ) {
+			return true;
+		}
+
+		settings.success = function( response ) {
+			parsedResponse   = wpAjax.parseAjaxResponse( response, settings.response, settings.element );
+			returnedResponse = response;
+
+			if ( ! parsedResponse || parsedResponse.errors ) {
+				return false;
+			}
+
+			if ( true === parsedResponse ) {
+				return true;
+			}
+
+			$.each( parsedResponse.responses, function() {
+				wpList.add.call( list, this.data, $.extend( {}, settings, { // this.firstChild.nodevalue
+					position: this.position || 0,
+					id:       this.id || 0,
+					oldId:    this.oldId || null
 				} ) );
 			} );
 
 			list.wpList.recolor();
-			$(list).trigger( 'wpListAddEnd', [ s, list.wpList ] );
-			wpList.clear.call(list,'#' + s.element);
+			$( list ).trigger( 'wpListAddEnd', [ settings, list.wpList ] );
+			wpList.clear.call( list, '#' + settings.element );
 		};
 
-		s.complete = function(x, st) {
-			if ( $.isFunction(s.addAfter) ) {
-				var _s = $.extend( { xml: x, status: st, parsed: res }, s );
-				s.addAfter( rres, _s );
+		settings.complete = function( jqXHR, status ) {
+			if ( $.isFunction( settings.addAfter ) ) {
+				settings.addAfter( returnedResponse, $.extend( {
+					xml:    jqXHR,
+					status: status,
+					parsed: parsedResponse
+				}, settings ) );
 			}
 		};
 
-		$.ajax( s );
+		$.ajax( settings );
+
 		return false;
 	},
 
 	/**
 	 * Delete an item in the list via AJAX.
 	 *
-	 * @param  {HTMLElement} e A DOM element containing item data.
-	 * @param  {Object}      s
-	 * @return {boolean}
+	 * @param {HTMLElement} element  A DOM element containing item data.
+	 * @param {object}      settings Settings for this list.
+	 * @returns {boolean} Whether the item was deleted.
 	 */
-	ajaxDel: function( e, s ) {
-		e = $(e);
-		s = s || {};
-		var list = this, data = wpList.parseData(e,'delete'), element, res, rres;
+	ajaxDel: function( element, settings ) {
+		var list     = this,
+			$element = $( element ),
+			data     = wpList.parseData( $element, 'delete' ),
+			$eventTarget, parsedResponse, returnedResponse;
 
-		s = wpList.pre.call( list, e, s, 'delete' );
+		settings = settings || {};
+		settings = wpList.pre.call( list, $element, settings, 'delete' );
 
-		s.element = data[2] || s.element || null;
+		settings.element  = data[2] || settings.element || null;
+		settings.delColor = data[3] ? '#' + data[3] : settings.delColor;
 
-		if ( data[3] )
-			s.delColor = '#' + data[3];
-		else
-			s.delColor = s.delColor || '#faa';
-
-		if ( !s || !s.element )
+		if ( ! settings || ! settings.element ) {
 			return false;
-
-		s.action = 'delete-' + s.what;
-
-		s.nonce = wpList.nonce(e,s);
-
-		s.data = $.extend(
-			{ action: s.action, id: s.element.split('-').pop(), _ajax_nonce: s.nonce },
-			wpAjax.unserialize( data[4] || '' )
-		);
-
-		if ( $.isFunction(s.delBefore) ) {
-			s = s.delBefore( s, list );
-			if ( !s )
-				return true;
 		}
 
-		if ( !s.data._ajax_nonce )
+		settings.action = 'delete-' + settings.what;
+		settings.nonce  = wpList.nonce( $element, settings );
+
+		settings.data = $.extend( {
+			_ajax_nonce: settings.nonce,
+			action:      settings.action,
+			id:          settings.element.split( '-' ).pop()
+		}, wpAjax.unserialize( data[4] || '' ) );
+
+		if ( $.isFunction( settings.delBefore ) ) {
+			settings = settings.delBefore( settings, list );
+
+			if ( ! settings ) {
+				return true;
+			}
+		}
+
+		if ( ! settings.data._ajax_nonce ) {
 			return true;
+		}
 
-		element = $('#' + s.element);
+		$eventTarget = $( '#' + settings.element );
 
-		if ( 'none' != s.delColor ) {
-			element.css( 'backgroundColor', s.delColor ).fadeOut( 350, function(){
+		if ( 'none' !== settings.delColor ) {
+			$eventTarget.css( 'backgroundColor', settings.delColor ).fadeOut( 350, function() {
 				list.wpList.recolor();
-				$(list).trigger( 'wpListDelEnd', [ s, list.wpList ] );
-			});
+				$( list ).trigger( 'wpListDelEnd', [ settings, list.wpList ] );
+			} );
 		} else {
 			list.wpList.recolor();
-			$(list).trigger( 'wpListDelEnd', [ s, list.wpList ] );
+			$( list ).trigger( 'wpListDelEnd', [ settings, list.wpList ] );
 		}
 
-		s.success = function(r) {
-			res = wpAjax.parseAjaxResponse(r, s.response, s.element);
-			rres = r;
+		settings.success = function( response ) {
+			parsedResponse   = wpAjax.parseAjaxResponse( response, settings.response, settings.element );
+			returnedResponse = response;
 
-			if ( !res || res.errors ) {
-				element.stop().stop().css( 'backgroundColor', '#faa' ).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
+			if ( ! parsedResponse || parsedResponse.errors ) {
+				$eventTarget.stop().stop().css( 'backgroundColor', '#faa' ).show().queue( function() {
+					list.wpList.recolor();
+					$( this ).dequeue();
+				} );
+
 				return false;
 			}
 		};
 
-		s.complete = function(x, st) {
-			if ( $.isFunction(s.delAfter) ) {
-				element.queue( function() {
-					var _s = $.extend( { xml: x, status: st, parsed: res }, s );
-					s.delAfter( rres, _s );
-				}).dequeue();
+		settings.complete = function( jqXHR, status ) {
+			if ( $.isFunction( settings.delAfter ) ) {
+				$eventTarget.queue( function() {
+					settings.delAfter( returnedResponse, $.extend( {
+						xml:    jqXHR,
+						status: status,
+						parsed: parsedResponse
+					}, settings ) );
+				} ).dequeue();
 			}
 		};
 
-		$.ajax( s );
+		$.ajax( settings );
+
 		return false;
 	},
 
-	ajaxDim: function( e, s ) {
-		if ( $(e).parent().css('display') == 'none' ) // Prevent hidden links from being clicked by hotkeys
+	/**
+	 * Dim an item in the list via AJAX.
+	 *
+	 * @param {HTMLElement} element  A DOM element containing item data.
+	 * @param {object}      settings Settings for this list.
+	 * @returns {boolean} Whether the item was dim'ed.
+	 */
+	ajaxDim: function( element, settings ) {
+		var list     = this,
+			$element = $( element ),
+			data     = wpList.parseData( $element, 'dim' ),
+			$eventTarget, isClass, color, dimColor, parsedResponse, returnedResponse;
+
+		// Prevent hidden links from being clicked by hotkeys.
+		if ( 'none' === $element.parent().css( 'display' ) ) {
 			return false;
+		}
 
-		e = $(e);
-		s = s || {};
+		settings = settings || {};
+		settings = wpList.pre.call( list, $element, settings, 'dim' );
 
-		var list = this, data = wpList.parseData(e,'dim'), element, isClass, color, dimColor, res, rres;
+		settings.element     = data[2] || settings.element || null;
+		settings.dimClass    = data[3] || settings.dimClass || null;
+		settings.dimAddColor = data[4] ? '#' + data[4] : settings.dimAddColor;
+		settings.dimDelColor = data[5] ? '#' + data[5] : settings.dimDelColor;
 
-		s = wpList.pre.call( list, e, s, 'dim' );
-
-		s.element = data[2] || s.element || null;
-		s.dimClass =  data[3] || s.dimClass || null;
-
-		if ( data[4] )
-			s.dimAddColor = '#' + data[4];
-		else
-			s.dimAddColor = s.dimAddColor || '#FFFF33';
-
-		if ( data[5] )
-			s.dimDelColor = '#' + data[5];
-		else
-			s.dimDelColor = s.dimDelColor || '#FF3333';
-
-		if ( !s || !s.element || !s.dimClass )
+		if ( ! settings || ! settings.element || ! settings.dimClass ) {
 			return true;
+		}
 
-		s.action = 'dim-' + s.what;
+		settings.action = 'dim-' + settings.what;
+		settings.nonce  = wpList.nonce( $element, settings );
 
-		s.nonce = wpList.nonce(e,s);
+		settings.data = $.extend( {
+			_ajax_nonce: settings.nonce,
+			action:      settings.action,
+			id:          settings.element.split( '-' ).pop(),
+			dimClass:    settings.dimClass
+		}, wpAjax.unserialize( data[6] || '' ) );
 
-		s.data = $.extend(
-			{ action: s.action, id: s.element.split('-').pop(), dimClass: s.dimClass, _ajax_nonce : s.nonce },
-			wpAjax.unserialize( data[6] || '' )
-		);
+		if ( $.isFunction( settings.dimBefore ) ) {
+			settings = settings.dimBefore( settings );
 
-		if ( $.isFunction(s.dimBefore) ) {
-			s = s.dimBefore( s );
-			if ( !s )
+			if ( ! settings ) {
 				return true;
+			}
 		}
 
-		element = $('#' + s.element);
-		isClass = element.toggleClass(s.dimClass).is('.' + s.dimClass);
-		color = wpList.getColor( element );
-		element.toggleClass( s.dimClass );
-		dimColor = isClass ? s.dimAddColor : s.dimDelColor;
+		$eventTarget = $( '#' + settings.element );
+		isClass      = $eventTarget.toggleClass( settings.dimClass ).is( '.' + settings.dimClass );
+		color        = wpList.getColor( $eventTarget );
+		dimColor     = isClass ? settings.dimAddColor : settings.dimDelColor;
+		$eventTarget.toggleClass( settings.dimClass );
 
-		if ( 'none' != dimColor ) {
-			element
+		if ( 'none' !== dimColor ) {
+			$eventTarget
 				.animate( { backgroundColor: dimColor }, 'fast' )
-				.queue( function() { element.toggleClass(s.dimClass); $(this).dequeue(); } )
-				.animate( { backgroundColor: color }, { complete: function() {
-						$(this).css( 'backgroundColor', '' );
-						$(list).trigger( 'wpListDimEnd', [ s, list.wpList ] );
+				.queue( function() {
+					$eventTarget.toggleClass( settings.dimClass );
+					$( this ).dequeue();
+				} )
+				.animate( { backgroundColor: color }, {
+					complete: function() {
+						$( this ).css( 'backgroundColor', '' );
+						$( list ).trigger( 'wpListDimEnd', [ settings, list.wpList ] );
 					}
-				});
+				} );
 		} else {
-			$(list).trigger( 'wpListDimEnd', [ s, list.wpList ] );
+			$( list ).trigger( 'wpListDimEnd', [ settings, list.wpList ] );
 		}
 
-		if ( !s.data._ajax_nonce )
+		if ( ! settings.data._ajax_nonce ) {
 			return true;
+		}
 
-		s.success = function(r) {
-			res = wpAjax.parseAjaxResponse(r, s.response, s.element);
-			rres = r;
+		settings.success = function( response ) {
+			parsedResponse   = wpAjax.parseAjaxResponse( response, settings.response, settings.element );
+			returnedResponse = response;
 
-			if ( true === res ) {
+			if ( true === parsedResponse ) {
 				return true;
 			}
 
-			if ( ! res || res.errors ) {
-				element.stop().stop().css( 'backgroundColor', '#FF3333' )[isClass?'removeClass':'addClass'](s.dimClass).show().queue( function() { list.wpList.recolor(); $(this).dequeue(); } );
+			if ( ! parsedResponse || parsedResponse.errors ) {
+				$eventTarget.stop().stop().css( 'backgroundColor', '#ff3333' )[isClass ? 'removeClass' : 'addClass']( settings.dimClass ).show().queue( function() {
+					list.wpList.recolor();
+					$( this ).dequeue();
+				} );
+
 				return false;
 			}
 
-			if ( 'undefined' !== typeof res.responses[0].supplemental.comment_link ) {
-				var submittedOn = element.find( '.submitted-on' ),
-					commentLink = submittedOn.find( 'a' );
+			/** @property {string} comment_link Link of the comment to be dimmed. */
+			if ( 'undefined' !== typeof parsedResponse.responses[0].supplemental.comment_link ) {
+				var $submittedOn = $element.find( '.submitted-on' ),
+					$commentLink = $submittedOn.find( 'a' );
 
 				// Comment is approved; link the date field.
-				if ( '' !== res.responses[0].supplemental.comment_link ) {
-					submittedOn.html( $('<a></a>').text( submittedOn.text() ).prop( 'href', res.responses[0].supplemental.comment_link ) );
+				if ( '' !== parsedResponse.responses[0].supplemental.comment_link ) {
+					$submittedOn.html( $('<a></a>').text( $submittedOn.text() ).prop( 'href', parsedResponse.responses[0].supplemental.comment_link ) );
 
 				// Comment is not approved; unlink the date field.
-				} else if ( commentLink.length ) {
-					submittedOn.text( commentLink.text() );
+				} else if ( $commentLink.length ) {
+					$submittedOn.text( $commentLink.text() );
 				}
 			}
 		};
 
-		s.complete = function(x, st) {
-			if ( $.isFunction(s.dimAfter) ) {
-				element.queue( function() {
-					var _s = $.extend( { xml: x, status: st, parsed: res }, s );
-					s.dimAfter( rres, _s );
-				}).dequeue();
+		settings.complete = function( jqXHR, status ) {
+			if ( $.isFunction( settings.dimAfter ) ) {
+				$eventTarget.queue( function() {
+					settings.dimAfter( returnedResponse, $.extend( {
+						xml:    jqXHR,
+						status: status,
+						parsed: parsedResponse
+					}, settings ) );
+				} ).dequeue();
 			}
 		};
 
-		$.ajax( s );
+		$.ajax( settings );
+
 		return false;
 	},
 
-	getColor: function( el ) {
-		var color = jQuery(el).css('backgroundColor');
-
-		return color || '#ffffff';
+	/**
+	 * Returns the background color of the passed element.
+	 *
+	 * @param {jQuery|string} element Element to check.
+	 * @returns {string} Background color value in HEX. Default: '#ffffff'.
+	 */
+	getColor: function( element ) {
+		return $( element ).css( 'backgroundColor' ) || '#ffffff';
 	},
 
-	add: function( e, s ) {
-		if ( 'string' == typeof e ) {
-			e = $( $.trim( e ) ); // Trim leading whitespaces
-		} else {
-			e = $( e );
+	/**
+	 * Adds something.
+	 *
+	 * @param {HTMLElement} element  A DOM element containing item data.
+	 * @param {object}      settings Settings for this list.
+	 * @returns {boolean} Whether the item was added.
+	 */
+	add: function( element, settings ) {
+		var $list    = $( this ),
+			$element = $( element ),
+			old      = false,
+			position, reference;
+
+		if ( 'string' === typeof settings ) {
+			settings = { what: settings };
 		}
 
-		var list = $(this), old = false, _s = { pos: 0, id: 0, oldId: null }, ba, ref, color;
+		settings = $.extend( { position: 0, id: 0, oldId: null }, this.wpList.settings, settings );
 
-		if ( 'string' == typeof s )
-			s = { what: s };
-
-		s = $.extend(_s, this.wpList.settings, s);
-
-		if ( !e.length || !s.what )
+		if ( ! $element.length || ! settings.what ) {
 			return false;
+		}
 
-		if ( s.oldId )
-			old = $('#' + s.what + '-' + s.oldId);
+		if ( settings.oldId ) {
+			old = $( '#' + settings.what + '-' + settings.oldId );
+		}
 
-		if ( s.id && ( s.id != s.oldId || !old || !old.length ) )
-			$('#' + s.what + '-' + s.id).remove();
+		if ( settings.id && ( settings.id !== settings.oldId || ! old || ! old.length ) ) {
+			$( '#' + settings.what + '-' + settings.id ).remove();
+		}
 
 		if ( old && old.length ) {
-			old.before(e);
+			old.before( $element );
 			old.remove();
-		} else if ( isNaN(s.pos) ) {
-			ba = 'after';
 
-			if ( '-' == s.pos.substr(0,1) ) {
-				s.pos = s.pos.substr(1);
-				ba = 'before';
+		} else if ( isNaN( settings.position ) ) {
+			position = 'after';
+
+			if ( '-' === settings.position.substr( 0, 1 ) ) {
+				settings.position = settings.position.substr( 1 );
+				position = 'before';
 			}
 
-			ref = list.find( '#' + s.pos );
+			reference = $list.find( '#' + settings.position );
 
-			if ( 1 === ref.length )
-				ref[ba](e);
-			else
-				list.append(e);
-
-		} else if ( 'comment' != s.what || 0 === $('#' + s.element).length ) {
-			if ( s.pos < 0 ) {
-				list.prepend(e);
+			if ( 1 === reference.length ) {
+				reference[position]( $element );
 			} else {
-				list.append(e);
+				$list.append( $element );
+			}
+
+		} else if ( 'comment' !== settings.what || 0 === $( '#' + settings.element ).length ) {
+			if ( settings.position < 0 ) {
+				$list.prepend( $element );
+			} else {
+				$list.append( $element );
 			}
 		}
 
-		if ( s.alt ) {
-			if ( ( list.children(':visible').index( e[0] ) + s.altOffset ) % 2 ) { e.removeClass( s.alt ); }
-			else { e.addClass( s.alt ); }
+		if ( settings.alt ) {
+			$element.toggleClass( settings.alt, ( $list.children( ':visible' ).index( $element[0] ) + settings.altOffset ) % 2 );
 		}
 
-		if ( 'none' != s.addColor ) {
-			color = wpList.getColor( e );
-			e.css( 'backgroundColor', s.addColor ).animate( { backgroundColor: color }, { complete: function() { $(this).css( 'backgroundColor', '' ); } } );
+		if ( 'none' !== settings.addColor ) {
+			$element.css( 'backgroundColor', settings.addColor ).animate( { backgroundColor: wpList.getColor( $element ) }, {
+				complete: function() {
+					$( this ).css( 'backgroundColor', '' );
+				}
+			} );
 		}
-		list.each( function() { this.wpList.process( e ); } );
-		return e;
+
+		// Add event handlers.
+		$list.each( function( index, list ) {
+			list.wpList.process( $element );
+		} );
+
+		return $element;
 	},
 
-	clear: function(e) {
-		var list = this, t, tag;
+	/**
+	 * Clears all input fields within the element passed.
+	 *
+	 * @param {string} elementId ID of the element to check, including leading #.
+	 */
+	clear: function( elementId ) {
+		var list     = this,
+			$element = $( elementId ),
+			type, tagName;
 
-		e = $(e);
-
-		if ( list.wpList && e.parents( '#' + list.id ).length )
+		// Bail if we're within the list.
+		if ( list.wpList && $element.parents( '#' + list.id ).length ) {
 			return;
+		}
 
-		e.find(':input').each( function() {
-			if ( $(this).parents('.form-no-clear').length )
+		// Check each input field.
+		$element.find( ':input' ).each( function( index, input ) {
+
+			// Bail if the form was marked to not to be cleared.
+			if ( $( input ).parents( '.form-no-clear' ).length ) {
 				return;
+			}
 
-			t = this.type.toLowerCase();
-			tag = this.tagName.toLowerCase();
+			type    = input.type.toLowerCase();
+			tagName = input.tagName.toLowerCase();
 
-			if ( 'text' == t || 'password' == t || 'textarea' == tag )
-				this.value = '';
-			else if ( 'checkbox' == t || 'radio' == t )
-				this.checked = false;
-			else if ( 'select' == tag )
-				this.selectedIndex = null;
-		});
+			if ( 'text' === type || 'password' === type || 'textarea' === tagName ) {
+				input.value = '';
+
+			} else if ( 'checkbox' === type || 'radio' === type ) {
+				input.checked = false;
+
+			} else if ( 'select' === tagName ) {
+				input.selectedIndex = null;
+			}
+		} );
 	},
 
-	process: function(el) {
-		var list = this,
-			$el = $(el || document);
+	/**
+	 * Registers event handlers to add, delete, and dim items.
+	 *
+	 * @param {string} elementId
+	 */
+	process: function( elementId ) {
+		var list     = this,
+			$element = $( elementId || document );
 
-		$el.delegate( 'form[data-wp-lists^="add:' + list.id + ':"]', 'submit', function(){
-			return list.wpList.add(this);
-		});
+		$element.on( 'submit', 'form[data-wp-lists^="add:' + list.id + ':"]', function() {
+			return list.wpList.add( this );
+		} );
 
-		$el.delegate( 'a[data-wp-lists^="add:' + list.id + ':"], input[data-wp-lists^="add:' + list.id + ':"]', 'click', function(){
-			return list.wpList.add(this);
-		});
+		$element.on( 'click', 'a[data-wp-lists^="add:' + list.id + ':"], input[data-wp-lists^="add:' + list.id + ':"]', function() {
+			return list.wpList.add( this );
+		} );
 
-		$el.delegate( '[data-wp-lists^="delete:' + list.id + ':"]', 'click', function(){
-			return list.wpList.del(this);
-		});
+		$element.on( 'click', '[data-wp-lists^="delete:' + list.id + ':"]', function() {
+			return list.wpList.del( this );
+		} );
 
-		$el.delegate( '[data-wp-lists^="dim:' + list.id + ':"]', 'click', function(){
-			return list.wpList.dim(this);
-		});
+		$element.on( 'click', '[data-wp-lists^="dim:' + list.id + ':"]', function() {
+			return list.wpList.dim( this );
+		} );
 	},
 
+	/**
+	 * Updates list item background colors.
+	 */
 	recolor: function() {
-		var list = this, items, eo;
+		var list    = this,
+			evenOdd = [':even', ':odd'],
+			items;
 
-		if ( !list.wpList.settings.alt )
+		// Bail if there is no alternate class name specified.
+		if ( ! list.wpList.settings.alt ) {
 			return;
+		}
 
-		items = $('.list-item:visible', list);
+		items = $( '.list-item:visible', list );
 
-		if ( !items.length )
-			items = $(list).children(':visible');
+		if ( ! items.length ) {
+			items = $( list ).children( ':visible' );
+		}
 
-		eo = [':even',':odd'];
+		if ( list.wpList.settings.altOffset % 2 ) {
+			evenOdd.reverse();
+		}
 
-		if ( list.wpList.settings.altOffset % 2 )
-			eo.reverse();
-
-		items.filter(eo[0]).addClass(list.wpList.settings.alt).end().filter(eo[1]).removeClass(list.wpList.settings.alt);
+		items.filter( evenOdd[0] ).addClass( list.wpList.settings.alt ).end();
+		items.filter( evenOdd[1] ).removeClass( list.wpList.settings.alt );
 	},
 
+	/**
+	 * Sets up `process()` and `recolor()` functions.
+	 */
 	init: function() {
-		var lists = this;
+		var $list = this;
 
-		lists.wpList.process = function(a) {
-			lists.each( function() {
-				this.wpList.process(a);
+		$list.wpList.process = function() {
+			$list.each( function( index, element ) {
+				this.wpList.process( element );
 			} );
 		};
 
-		lists.wpList.recolor = function() {
-			lists.each( function() {
+		$list.wpList.recolor = function() {
+			$list.each( function() {
 				this.wpList.recolor();
 			} );
 		};
 	}
 };
 
+/**
+ * Initializes wpList object.
+ *
+ * @param {Object}           settings
+ * @param {string}           settings.url         URL for ajax calls. Default: ajaxurl.
+ * @param {string}           settings.type        The HTTP method to use for Ajax requests. Default: 'POST'.
+ * @param {string}           settings.response    ID of the element the parsed ajax response will be stored in.
+ *                                                Default: 'ajax-response'.
+ *
+ * @param {string}           settings.what        Default: ''.
+ * @param {string}           settings.alt         CSS class name for alternate styling. Default: 'alternate'.
+ * @param {number}           settings.altOffset   Offset to start alternate styling from. Default: 0.
+ * @param {string}           settings.addColor    Hex code or 'none' to disable animation. Default: '#ffff33'.
+ * @param {string}           settings.delColor    Hex code or 'none' to disable animation. Default: '#faafaa'.
+ * @param {string}           settings.dimAddColor Hex code or 'none' to disable animation. Default: '#ffff33'.
+ * @param {string}           settings.dimDelColor Hex code or 'none' to disable animation. Default: '#ff3333'.
+ *
+ * @param {wpList~confirm}   settings.confirm     Callback that's run before a request is made. Default: null.
+ * @param {wpList~addBefore} settings.addBefore   Callback that's run before an item gets added to the list.
+ *                                                Default: null.
+ * @param {wpList~addAfter}  settings.addAfter    Callback that's run after an item got added to the list.
+ *                                                Default: null.
+ * @param {wpList~delBefore} settings.delBefore   Callback that's run before an item gets deleted from the list.
+ *                                                Default: null.
+ * @param {wpList~delAfter}  settings.delAfter    Callback that's run after an item got deleted from the list.
+ *                                                Default: null.
+ * @param {wpList~dimBefore} settings.dimBefore   Callback that's run before an item gets dim'd. Default: null.
+ * @param {wpList~dimAfter}  settings.dimAfter    Callback that's run after an item got dim'd. Default: null.
+ * @returns {$.fn} wpList API function.
+ */
 $.fn.wpList = function( settings ) {
-	this.each( function() {
-		var _this = this;
+	this.each( function( index, list ) {
+		list.wpList = {
+			settings: $.extend( {}, wpList.settings, { what: wpList.parseData( list, 'list' )[1] || '' }, settings )
+		};
 
-		this.wpList = { settings: $.extend( {}, wpList.settings, { what: wpList.parseData(this,'list')[1] || '' }, settings ) };
-		$.each( fs, function(i,f) { _this.wpList[i] = function( e, s ) { return wpList[f].call( _this, e, s ); }; } );
+		$.each( functions, function( func, callback ) {
+			list.wpList[func] = function( element, setting ) {
+				return wpList[callback].call( list, element, setting );
+			};
+		} );
 	} );
 
-	wpList.init.call(this);
-
+	wpList.init.call( this );
 	this.wpList.process();
 
 	return this;
 };
-
-})(jQuery);
+} ) ( jQuery );
