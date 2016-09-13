@@ -118,12 +118,10 @@ class WP_Network_Query {
  	 *                                              'domain_length', 'path_length' and 'network__in'. Also accepts false,
  	 *                                              an empty array, or 'none' to disable `ORDER BY` clause. Default 'id'.
  	 *     @type string       $order                How to order retrieved networks. Accepts 'ASC', 'DESC'. Default 'ASC'.
- 	 *     @type string       $domain               Limit results to those affiliated with a given network ID.
- 	 *                                              Default current network ID.
+ 	 *     @type string       $domain               Limit results to those affiliated with a given domain. Default empty.
  	 *     @type array        $domain__in           Array of domains to include affiliated networks for. Default empty.
  	 *     @type array        $domain__not_in       Array of domains to exclude affiliated networks for. Default empty.
- 	 *     @type string       $path                 Limit results to those affiliated with a given network ID.
- 	 *                                              Default current network ID.
+ 	 *     @type string       $path                 Limit results to those affiliated with a given path. Default empty.
  	 *     @type array        $path__in             Array of paths to include affiliated networks for. Default empty.
  	 *     @type array        $path__not_in         Array of paths to exclude affiliated networks for. Default empty.
  	 *     @type string       $search               Search term(s) to retrieve matching networks for. Default empty.
