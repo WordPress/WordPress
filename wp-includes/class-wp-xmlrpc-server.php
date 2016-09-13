@@ -596,6 +596,10 @@ class wp_xmlrpc_server extends IXR_Server {
 	 *  - 'xmlrpc' - url of xmlrpc endpoint
 	 */
 	public function wp_getUsersBlogs( $args ) {
+		if ( ! $this->minimum_args( $args, 2 ) ) {
+			return $this->error;
+		}
+
 		// If this isn't on WPMU then just use blogger_getUsersBlogs
 		if ( !is_multisite() ) {
 			array_unshift( $args, 1 );
@@ -4322,8 +4326,13 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @return array|IXR_Error
 	 */
 	public function blogger_getUsersBlogs($args) {
-		if ( is_multisite() )
+		if ( ! $this->minimum_args( $args, 3 ) ) {
+			return $this->error;
+		}
+
+		if ( is_multisite() ) {
 			return $this->_multisite_getUsersBlogs($args);
+		}
 
 		$this->escape($args);
 
