@@ -1046,7 +1046,7 @@ function wp_is_ini_value_changeable( $setting ) {
  */
 function wp_doing_ajax() {
 	/**
-	 * Filter whether the current request is a WordPress Ajax request.
+	 * Filters whether the current request is a WordPress Ajax request.
 	 *
 	 * @since 4.7.0
 	 *
