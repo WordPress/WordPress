@@ -366,7 +366,7 @@ final class WP_Post_Type {
 		$args = wp_parse_args( $args );
 
 		/**
-		 * Filter the arguments for registering a post type.
+		 * Filters the arguments for registering a post type.
 		 *
 		 * @since 4.4.0
 		 *
