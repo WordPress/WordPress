@@ -27,7 +27,7 @@ function get_query_template( $type, $templates = array() ) {
 		$templates = array("{$type}.php");
 
 	/**
-	 * Filter the list of template filenames that are searched for when retrieving a template to use.
+	 * Filters the list of template filenames that are searched for when retrieving a template to use.
 	 *
 	 * The last element in the array should always be the fallback template for this query type.
 	 *
