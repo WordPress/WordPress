@@ -799,11 +799,13 @@ function post_password_required( $post = null ) {
 	}
 
 	/**
-	 * Filter whether a post requires the user to supply a password.
+	 * Filters whether a post requires the user to supply a password.
+	 *
+	 * @since 4.7.0
 	 *
 	 * @param bool    $required Whether the user needs to supply a password. True if password has not been
 	 *                          provided or is incorrect, false if password has been supplied or is not required.
-	 * @param WP_Post $post Post data.
+	 * @param WP_Post $post     Post data.
 	 */
 	return apply_filters( 'post_password_required', $required, $post );
 }
