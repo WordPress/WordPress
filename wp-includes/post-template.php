@@ -779,19 +779,33 @@ function get_body_class( $class = '' ) {
 function post_password_required( $post = null ) {
 	$post = get_post($post);
 
-	if ( empty( $post->post_password ) )
-		return false;
+	if ( empty( $post->post_password ) ) {
+		/** This filter is documented in wp-includes/post.php */
+		return apply_filters( 'post_password_required', false, $post );
+	}
 
-	if ( ! isset( $_COOKIE['wp-postpass_' . COOKIEHASH] ) )
-		return true;
+	if ( ! isset( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] ) ) {
+		/** This filter is documented in wp-includes/post.php */
+		return apply_filters( 'post_password_required', true, $post );
+	}
 
 	$hasher = new PasswordHash( 8, true );
 
 	$hash = wp_unslash( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] );
-	if ( 0 !== strpos( $hash, '$P$B' ) )
-		return true;
+	if ( 0 !== strpos( $hash, '$P$B' ) ) {
+		$required = true;
+	} else {
+		$required = ! $hasher->CheckPassword( $post->post_password, $hash );
+	}
 
-	return ! $hasher->CheckPassword( $post->post_password, $hash );
+	/**
+	 * Filter whether a post requires the user to supply a password.
+	 *
+	 * @param bool    $required Whether the user needs to supply a password. True if password has not been
+	 *                          provided or is incorrect, false if password has been supplied or is not required.
+	 * @param WP_Post $post Post data.
+	 */
+	return apply_filters( 'post_password_required', $required, $post );
 }
 
 //
