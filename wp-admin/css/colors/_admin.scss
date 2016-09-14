@@ -485,6 +485,15 @@ body.more-filters-opened .more-filters:focus:before {
 	border-bottom-color: $highlight-color;
 }
 
+#customize-controls .control-section:hover > .accordion-section-title,
+#customize-controls .control-section .accordion-section-title:hover,
+#customize-controls .control-section.open .accordion-section-title,
+#customize-controls .control-section .accordion-section-title:focus,
+#available-widgets .widget-tpl:hover,
+#available-widgets .widget-tpl.selected {
+	border-left-color: $highlight-color;
+}
+
 /* Responsive Component */
 
 div#wp-responsive-toggle a:before {

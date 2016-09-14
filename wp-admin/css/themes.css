@@ -1487,7 +1487,7 @@ body.full-overlay-active {
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	width: 300px;
+	width: 299px;
 	height: 45px;
 	border-top: 1px solid #ddd;
 	background: #eee;

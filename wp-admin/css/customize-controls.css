@@ -49,7 +49,6 @@ body {
 
 #customize-controls .customize-info {
 	border: none;
-	border-top: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 15px;
 }
@@ -156,6 +155,7 @@ body {
 	color: #555;
 	background-color: #fff;
 	border-bottom: 1px solid #eee;
+	border-left: 4px solid #fff;
 }
 
 #customize-theme-controls .accordion-section-title:after {
@@ -172,8 +172,13 @@ body {
 #customize-controls .control-section .accordion-section-title:hover,
 #customize-controls .control-section.open .accordion-section-title,
 #customize-controls .control-section .accordion-section-title:focus {
-	color: #23282d;
+	color: #191e23;
 	background: #f5f5f5;
+	border-left: 4px solid #0073aa;
+}
+
+#accordion-section-themes + .control-section {
+	border-top: 1px solid #ddd;
 }
 
 .js .control-section:hover .accordion-section-title,
@@ -201,6 +206,11 @@ body {
 #customize-theme-controls .control-section:last-of-type.open,
 #customize-theme-controls .control-section:last-of-type > .accordion-section-title {
 	border-bottom-color: #ddd;
+}
+
+#customize-theme-controls .control-panel-content .control-section:nth-child(2),
+#customize-theme-controls .control-panel-nav_menus .control-section:nth-child(3) {
+	border-top: 1px solid #ddd;
 }
 
 #customize-theme-controls > ul {
@@ -362,6 +372,7 @@ h3.customize-section-title {
 #customize-controls .panel-meta.customize-info .accordion-section-title:hover {
 	background: #fff;
 	color: #555;
+	border-left: none;
 }
 
 .customize-controls-close:focus,
@@ -976,17 +987,24 @@ p.customize-section-description {
 	animation: customize-reload .75s;
 }
 
-.control-section-themes .accordion-section-title {
+#customize-theme-controls .control-section-themes .accordion-section-title:hover, /* Not a focusable element. */
+#customize-theme-controls .control-section-themes .accordion-section-title {
 	cursor: default;
-}
-
-#customize-theme-controls .control-section-themes .accordion-section-title:hover,
-#customize-theme-controls .control-section-themes .accordion-section-title:focus {
+	background: #fff;
 	color: #555;
-	background-color: #fff;
+	border-top: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	border-left: none;
+	margin-top: 0;
 }
 
-.control-section-themes .accordion-section-title {
+#customize-theme-controls .control-section-themes .customize-themes-panel .accordion-section-title:first-child:hover, /* Not a focusable element. */
+#customize-theme-controls .control-section-themes .customize-themes-panel .accordion-section-title:first-child {
+	border-top: 0;
+}
+
+#customize-theme-controls .control-section-themes > .accordion-section-title:hover, /* Not a focusable element. */
+#customize-theme-controls .control-section-themes > .accordion-section-title {
 	margin: 15px 0;
 }
 
@@ -1444,6 +1462,7 @@ body.adding-widget .add-new-widget:before,
 	padding: 20px 15px 20px 60px;
 	background: #fff;
 	border-bottom: 1px solid #e5e5e5;
+	border-left: 4px solid #fff;
 	cursor: pointer;
 	display: none;
 }
