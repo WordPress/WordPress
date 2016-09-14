@@ -4026,7 +4026,7 @@ function get_avatar_data( $id_or_email, $args = null ) {
 }
 
 /**
- * Retrieve the URL of a file in the theme.
+ * Retrieves the URL of a file in the theme.
  *
  * Searches in the stylesheet directory before the template directory so themes
  * which inherit from a parent theme can just override one file.
@@ -4059,7 +4059,7 @@ function get_theme_file_uri( $file = '' ) {
 }
 
 /**
- * Retrieve the URL of a file in the parent theme.
+ * Retrieves the URL of a file in the parent theme.
  *
  * @since 4.7.0
  *
@@ -4087,7 +4087,7 @@ function get_parent_theme_file_uri( $file = '' ) {
 }
 
 /**
- * Retrieve the path of a file in the theme.
+ * Retrieves the path of a file in the theme.
  *
  * Searches in the stylesheet directory before the template directory so themes
  * which inherit from a parent theme can just override one file.
@@ -4120,7 +4120,7 @@ function get_theme_file_path( $file = '' ) {
 }
 
 /**
- * Retrieve the path of a file in the parent theme.
+ * Retrieves the path of a file in the parent theme.
  *
  * @since 4.7.0
  *
