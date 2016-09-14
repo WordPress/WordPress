@@ -3346,7 +3346,7 @@ function smilies_init() {
 	}
 
 	/**
-	 * Filter all the smilies.
+	 * Filters all the smilies.
 	 *
 	 * This filter must be added before `smilies_init` is run, as
 	 * it is normally only run once to setup the smilies regex.
