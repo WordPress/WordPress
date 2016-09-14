@@ -866,9 +866,12 @@ class WP_REST_Server {
 					$check_required = $request->has_valid_params();
 					if ( is_wp_error( $check_required ) ) {
 						$response = $check_required;
+					} else {
+						$check_sanitized = $request->sanitize_params();
+						if ( is_wp_error( $check_sanitized ) ) {
+							$response = $check_sanitized;
+						}
 					}
-
-					$request->sanitize_params();
 				}
 
 				if ( ! is_wp_error( $response ) ) {

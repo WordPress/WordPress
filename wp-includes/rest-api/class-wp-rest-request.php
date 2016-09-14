@@ -780,10 +780,9 @@ class WP_REST_Request implements ArrayAccess {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @return true|null True if there are no parameters to sanitize, null otherwise.
+	 * @return true|WP_Error True if parameters were sanitized, WP_Error if an error occurred during sanitization.
 	 */
 	public function sanitize_params() {
-
 		$attributes = $this->get_attributes();
 
 		// No arguments set, skip sanitizing.
@@ -793,18 +792,33 @@ class WP_REST_Request implements ArrayAccess {
 
 		$order = $this->get_parameter_order();
 
+		$invalid_params = array();
+
 		foreach ( $order as $type ) {
 			if ( empty( $this->params[ $type ] ) ) {
 				continue;
 			}
 			foreach ( $this->params[ $type ] as $key => $value ) {
 				// Check if this param has a sanitize_callback added.
-				if ( isset( $attributes['args'][ $key ] ) && ! empty( $attributes['args'][ $key ]['sanitize_callback'] ) ) {
-					$this->params[ $type ][ $key ] = call_user_func( $attributes['args'][ $key ]['sanitize_callback'], $value, $this, $key );
+				if ( ! isset( $attributes['args'][ $key ] ) || empty( $attributes['args'][ $key ]['sanitize_callback'] ) ) {
+					continue;
+				}
+
+				$sanitized_value = call_user_func( $attributes['args'][ $key ]['sanitize_callback'], $value, $this, $key );
+
+				if ( is_wp_error( $sanitized_value ) ) {
+					$invalid_params[ $key ] = $sanitized_value->get_error_message();
+				} else {
+					$this->params[ $type ][ $key ] = $sanitized_value;
 				}
 			}
 		}
-		return null;
+
+		if ( $invalid_params ) {
+			return new WP_Error( 'rest_invalid_param', sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ), array( 'status' => 400, 'params' => $invalid_params ) );
+		}
+
+		return true;
 	}
 
 	/**
@@ -817,7 +831,6 @@ class WP_REST_Request implements ArrayAccess {
 	 *                       WP_Error if required parameters are missing.
 	 */
 	public function has_valid_params() {
-
 		$attributes = $this->get_attributes();
 		$required = array();
 
