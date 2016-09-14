@@ -4048,7 +4048,7 @@ function get_theme_file_uri( $file = '' ) {
 	}
 
 	/**
-	 * Filter the URL to a file in the theme.
+	 * Filters the URL to a file in the theme.
 	 *
 	 * @since 4.7.0
 	 *
@@ -4076,7 +4076,7 @@ function get_parent_theme_file_uri( $file = '' ) {
 	}
 
 	/**
-	 * Filter the URL to a file in the parent theme.
+	 * Filters the URL to a file in the parent theme.
 	 *
 	 * @since 4.7.0
 	 *
@@ -4109,7 +4109,7 @@ function get_theme_file_path( $file = '' ) {
 	}
 
 	/**
-	 * Filter the path to a file in the theme.
+	 * Filters the path to a file in the theme.
 	 *
 	 * @since 4.7.0
 	 *
@@ -4137,7 +4137,7 @@ function get_parent_theme_file_path( $file = '' ) {
 	}
 
 	/**
-	 * Filter the path to a file in the parent theme.
+	 * Filters the path to a file in the parent theme.
 	 *
 	 * @since 4.7.0
 	 *
