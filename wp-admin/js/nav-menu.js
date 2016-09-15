@@ -82,9 +82,12 @@ var wpNavMenu;
 				shiftDepthClass : function(change) {
 					return this.each(function(){
 						var t = $(this),
-							depth = t.menuItemDepth();
-						$(this).removeClass('menu-item-depth-'+ depth )
-							.addClass('menu-item-depth-'+ (depth + change) );
+							depth = t.menuItemDepth(),
+							newDepth = depth + change;
+						t.removeClass( 'menu-item-depth-'+ depth )
+							.addClass( 'menu-item-depth-'+ ( newDepth ) );
+						if ( newDepth == 0 )
+							t.find( '.is-submenu' ).hide();
 					});
 				},
 				childMenuItems : function() {
