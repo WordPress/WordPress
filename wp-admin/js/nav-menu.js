@@ -84,10 +84,13 @@ var wpNavMenu;
 						var t = $(this),
 							depth = t.menuItemDepth(),
 							newDepth = depth + change;
+
 						t.removeClass( 'menu-item-depth-'+ depth )
 							.addClass( 'menu-item-depth-'+ ( newDepth ) );
-						if ( newDepth == 0 )
+
+						if ( 0 === newDepth ) {
 							t.find( '.is-submenu' ).hide();
+						}
 					});
 				},
 				childMenuItems : function() {
