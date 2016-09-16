@@ -16,6 +16,12 @@
  * used in that manner. It does not use ArrayObject (as we cannot rely on SPL),
  * so be aware it may have non-array behaviour in some cases.
  *
+ * Note: When using features provided by ArrayAccess, be aware that WordPress deliberately
+ * does not distinguish between arguments of the same name for different request methods.
+ * For instance, in a request with `GET id=1` and `POST id=2`, `$request['id']` will equal
+ * 2 (`POST`) not 1 (`GET`). For more precision between request methods, use
+ * WP_REST_Request::get_body_params(), WP_REST_Request::get_url_params(), etc.
+ *
  * @since 4.4.0
  *
  * @see ArrayAccess
@@ -177,7 +183,7 @@ class WP_REST_Request implements ArrayAccess {
 	 *
 	 * @link http://stackoverflow.com/q/18185366
 	 * @link http://wiki.nginx.org/Pitfalls#Missing_.28disappearing.29_HTTP_headers
-	 * @link http://nginx.org/en/docs/http/ngx_http_core_module.html#underscores_in_headers
+	 * @link https://nginx.org/en/docs/http/ngx_http_core_module.html#underscores_in_headers
 	 *
 	 * @since 4.4.0
 	 * @access public
@@ -367,7 +373,7 @@ class WP_REST_Request implements ArrayAccess {
 		$order[] = 'defaults';
 
 		/**
-		 * Filter the parameter order.
+		 * Filters the parameter order.
 		 *
 		 * The order affects which parameters are checked when using get_param() and family.
 		 * This acts similarly to PHP's `request_order` setting.
@@ -774,10 +780,9 @@ class WP_REST_Request implements ArrayAccess {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @return true|null True if there are no parameters to sanitize, null otherwise.
+	 * @return true|WP_Error True if parameters were sanitized, WP_Error if an error occurred during sanitization.
 	 */
 	public function sanitize_params() {
-
 		$attributes = $this->get_attributes();
 
 		// No arguments set, skip sanitizing.
@@ -787,18 +792,33 @@ class WP_REST_Request implements ArrayAccess {
 
 		$order = $this->get_parameter_order();
 
+		$invalid_params = array();
+
 		foreach ( $order as $type ) {
 			if ( empty( $this->params[ $type ] ) ) {
 				continue;
 			}
 			foreach ( $this->params[ $type ] as $key => $value ) {
 				// Check if this param has a sanitize_callback added.
-				if ( isset( $attributes['args'][ $key ] ) && ! empty( $attributes['args'][ $key ]['sanitize_callback'] ) ) {
-					$this->params[ $type ][ $key ] = call_user_func( $attributes['args'][ $key ]['sanitize_callback'], $value, $this, $key );
+				if ( ! isset( $attributes['args'][ $key ] ) || empty( $attributes['args'][ $key ]['sanitize_callback'] ) ) {
+					continue;
+				}
+
+				$sanitized_value = call_user_func( $attributes['args'][ $key ]['sanitize_callback'], $value, $this, $key );
+
+				if ( is_wp_error( $sanitized_value ) ) {
+					$invalid_params[ $key ] = $sanitized_value->get_error_message();
+				} else {
+					$this->params[ $type ][ $key ] = $sanitized_value;
 				}
 			}
 		}
-		return null;
+
+		if ( $invalid_params ) {
+			return new WP_Error( 'rest_invalid_param', sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ), array( 'status' => 400, 'params' => $invalid_params ) );
+		}
+
+		return true;
 	}
 
 	/**
@@ -811,7 +831,6 @@ class WP_REST_Request implements ArrayAccess {
 	 *                       WP_Error if required parameters are missing.
 	 */
 	public function has_valid_params() {
-
 		$attributes = $this->get_attributes();
 		$required = array();
 
@@ -847,17 +866,17 @@ class WP_REST_Request implements ArrayAccess {
 				$valid_check = call_user_func( $arg['validate_callback'], $param, $this, $key );
 
 				if ( false === $valid_check ) {
-					$invalid_params[ $key ] = __( 'Invalid param.' );
+					$invalid_params[ $key ] = __( 'Invalid parameter.' );
 				}
 
 				if ( is_wp_error( $valid_check ) ) {
-					$invalid_params[] = sprintf( '%s (%s)', $key, $valid_check->get_error_message() );
+					$invalid_params[ $key ] = $valid_check->get_error_message();
 				}
 			}
 		}
 
 		if ( $invalid_params ) {
-			return new WP_Error( 'rest_invalid_param', sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', $invalid_params ) ), array( 'status' => 400, 'params' => $invalid_params ) );
+			return new WP_Error( 'rest_invalid_param', sprintf( __( 'Invalid parameter(s): %s' ), implode( ', ', array_keys( $invalid_params ) ) ), array( 'status' => 400, 'params' => $invalid_params ) );
 		}
 
 		return true;
@@ -926,5 +945,52 @@ class WP_REST_Request implements ArrayAccess {
 		foreach ( $order as $type ) {
 			unset( $this->params[ $type ][ $offset ] );
 		}
+	}
+
+	/**
+	 * Retrieves a WP_REST_Request object from a full URL.
+	 *
+	 * @static
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @param string $url URL with protocol, domain, path and query args.
+	 * @return WP_REST_Request|false WP_REST_Request object on success, false on failure.
+	 */
+	public static function from_url( $url ) {
+		$bits = parse_url( $url );
+		$query_params = array();
+
+		if ( ! empty( $bits['query'] ) ) {
+			wp_parse_str( $bits['query'], $query_params );
+		}
+
+		$api_root = rest_url();
+		if ( get_option( 'permalink_structure' ) && 0 === strpos( $url, $api_root ) ) {
+			// Pretty permalinks on, and URL is under the API root
+			$api_url_part = substr( $url, strlen( untrailingslashit( $api_root ) ) );
+			$route = parse_url( $api_url_part, PHP_URL_PATH );
+		} elseif ( ! empty( $query_params['rest_route'] ) ) {
+			// ?rest_route=... set directly
+			$route = $query_params['rest_route'];
+			unset( $query_params['rest_route'] );
+		}
+
+		$request = false;
+		if ( ! empty( $route ) ) {
+			$request = new WP_REST_Request( 'GET', $route );
+			$request->set_query_params( $query_params );
+		}
+
+		/**
+		 * Filters the request generated from a URL.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param WP_REST_Request|false $request Generated request object, or false if URL
+		 *                                       could not be parsed.
+		 * @param string                $url     URL the request was generated from.
+		 */
+		return apply_filters( 'rest_request_from_url', $request, $url );
 	}
 }

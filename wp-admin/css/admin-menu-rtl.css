@@ -38,7 +38,7 @@
 /* New Menu icons */
 
 .icon16:before {
-	color: #999;
+	color: #82878c; /* same as new icons */
 	font: normal 20px/1 dashicons;
 	speak: none;
 	padding: 6px 0;
@@ -97,7 +97,7 @@
 }
 
 .icon16.icon-site:before {
-	content: "\f112";
+	content: "\f541";
 }
 
 .icon16.icon-generic:before {

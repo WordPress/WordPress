@@ -244,7 +244,7 @@ table.fixed td {
 }
 
 #wpbody-content .postbox {
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 }
 
 #wpbody-content .postbox .hndle {
@@ -638,7 +638,7 @@ input[type="password"],
 .mce-close {
 	font-family: 'tinymce', Arial;
 	font-style: normal;
-	font-weight: normal;
+	font-weight: 400;
 	font-variant: normal;
 	font-size: 16px;
 	margin-right: 0;
@@ -687,7 +687,7 @@ input[type="password"],
 * html .stuffbox,
 * html .stuffbox input,
 * html .stuffbox textarea {
-	border: 1px solid #DFDFDF;
+	border: 1px solid #ddd;
 }
 
 * html div.widget-liquid-left {
@@ -721,7 +721,7 @@ input[type="password"],
 }
 
 * html input {
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 }
 
 * html .edit-box {

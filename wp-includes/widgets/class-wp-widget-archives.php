@@ -23,7 +23,11 @@ class WP_Widget_Archives extends WP_Widget {
 	 * @access public
 	 */
 	public function __construct() {
-		$widget_ops = array('classname' => 'widget_archive', 'description' => __( 'A monthly archive of your site&#8217;s Posts.') );
+		$widget_ops = array(
+			'classname' => 'widget_archive',
+			'description' => __( 'A monthly archive of your site&#8217;s Posts.' ),
+			'customize_selective_refresh' => true,
+		);
 		parent::__construct('archives', __('Archives'), $widget_ops);
 	}
 
@@ -56,7 +60,7 @@ class WP_Widget_Archives extends WP_Widget {
 		<select id="<?php echo esc_attr( $dropdown_id ); ?>" name="archive-dropdown" onchange='document.location.href=this.options[this.selectedIndex].value;'>
 			<?php
 			/**
-			 * Filter the arguments for the Archives widget drop-down.
+			 * Filters the arguments for the Archives widget drop-down.
 			 *
 			 * @since 2.8.0
 			 *
@@ -97,7 +101,7 @@ class WP_Widget_Archives extends WP_Widget {
 		<ul>
 		<?php
 		/**
-		 * Filter the arguments for the Archives widget.
+		 * Filters the arguments for the Archives widget.
 		 *
 		 * @since 2.8.0
 		 *

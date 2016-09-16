@@ -14,7 +14,7 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( !current_user_can('manage_network_themes') )
-	wp_die( __( 'You do not have sufficient permissions to manage network themes.' ) );
+	wp_die( __( 'Sorry, you are not allowed to manage network themes.' ) );
 
 $wp_list_table = _get_list_table('WP_MS_Themes_List_Table');
 $pagenum = $wp_list_table->get_pagenum();
@@ -29,12 +29,10 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( $temp_args, $_SERVER['REQUEST_URI'] 
 $referer = remove_query_arg( $temp_args, wp_get_referer() );
 
 if ( $action ) {
-	$allowed_themes = get_site_option( 'allowedthemes' );
 	switch ( $action ) {
 		case 'enable':
 			check_admin_referer('enable-theme_' . $_GET['theme']);
-			$allowed_themes[ $_GET['theme'] ] = true;
-			update_site_option( 'allowedthemes', $allowed_themes );
+			WP_Theme::network_enable_theme( $_GET['theme'] );
 			if ( false === strpos( $referer, '/network/themes.php' ) )
 				wp_redirect( network_admin_url( 'themes.php?enabled=1' ) );
 			else
@@ -42,8 +40,7 @@ if ( $action ) {
 			exit;
 		case 'disable':
 			check_admin_referer('disable-theme_' . $_GET['theme']);
-			unset( $allowed_themes[ $_GET['theme'] ] );
-			update_site_option( 'allowedthemes', $allowed_themes );
+			WP_Theme::network_disable_theme( $_GET['theme'] );
 			wp_safe_redirect( add_query_arg( 'disabled', '1', $referer ) );
 			exit;
 		case 'enable-selected':
@@ -53,9 +50,7 @@ if ( $action ) {
 				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
-			foreach ( (array) $themes as $theme )
-				$allowed_themes[ $theme ] = true;
-			update_site_option( 'allowedthemes', $allowed_themes );
+			WP_Theme::network_enable_theme( (array) $themes );
 			wp_safe_redirect( add_query_arg( 'enabled', count( $themes ), $referer ) );
 			exit;
 		case 'disable-selected':
@@ -65,9 +60,7 @@ if ( $action ) {
 				wp_safe_redirect( add_query_arg( 'error', 'none', $referer ) );
 				exit;
 			}
-			foreach ( (array) $themes as $theme )
-				unset( $allowed_themes[ $theme ] );
-			update_site_option( 'allowedthemes', $allowed_themes );
+			WP_Theme::network_disable_theme( (array) $themes );
 			wp_safe_redirect( add_query_arg( 'disabled', count( $themes ), $referer ) );
 			exit;
 		case 'update-selected' :
@@ -97,7 +90,7 @@ if ( $action ) {
 			exit;
 		case 'delete-selected':
 			if ( ! current_user_can( 'delete_themes' ) ) {
-				wp_die( __('You do not have sufficient permissions to delete themes for this site.') );
+				wp_die( __('Sorry, you are not allowed to delete themes for this site.') );
 			}
 
 			check_admin_referer( 'bulk-themes' );
@@ -116,27 +109,9 @@ if ( $action ) {
 				exit;
 			}
 
-			$files_to_delete = $theme_info = array();
-			$theme_translations = wp_get_installed_translations( 'themes' );
+			$theme_info = array();
 			foreach ( $themes as $key => $theme ) {
 				$theme_info[ $theme ] = wp_get_theme( $theme );
-
-				// Locate all the files in that folder.
-				$files = list_files( $theme_info[ $theme ]->get_stylesheet_directory() );
-				if ( $files ) {
-					$files_to_delete = array_merge( $files_to_delete, $files );
-				}
-
-				// Add translation files.
-				$theme_slug = $theme_info[ $theme ]->get_stylesheet();
-				if ( ! empty( $theme_translations[ $theme_slug ] ) ) {
-					$translations = $theme_translations[ $theme_slug ];
-
-					foreach ( $translations as $translation => $data ) {
-						$files_to_delete[] = $theme_slug . '-' . $translation . '.po';
-						$files_to_delete[] = $theme_slug . '-' . $translation . '.mo';
-					}
-				}
 			}
 
 			include(ABSPATH . 'wp-admin/update.php');
@@ -161,8 +136,12 @@ if ( $action ) {
 					<ul class="ul-disc">
 					<?php
 						foreach ( $theme_info as $theme ) {
-							/* translators: 1: theme name, 2: theme author */
-							echo '<li>', sprintf( __('<strong>%1$s</strong> by <em>%2$s</em>' ), $theme->display('Name'), $theme->display('Author') ), '</li>';
+							echo '<li>' . sprintf(
+								/* translators: 1: theme name, 2: theme author */
+								_x( '%1$s by %2$s', 'theme' ),
+								'<strong>' . $theme->display( 'Name' ) . '</strong>',
+								'<em>' . $theme->display( 'Author' ) . '</em>'
+							) . '</li>';
 						}
 					?>
 					</ul>
@@ -194,17 +173,6 @@ if ( $action ) {
 				<form method="post" action="<?php echo $referer ? esc_url( $referer ) : ''; ?>" style="display:inline;">
 					<?php submit_button( __( 'No, return me to the theme list' ), 'button', 'submit', false ); ?>
 				</form>
-
-				<p><a href="#" onclick="jQuery('#files-list').toggle(); return false;"><?php _e('Click to view entire list of files which will be deleted'); ?></a></p>
-				<div id="files-list" style="display:none;">
-					<ul class="code">
-					<?php
-						foreach ( (array) $files_to_delete as $file ) {
-							echo '<li>' . esc_html( str_replace( WP_CONTENT_DIR . '/themes', '', $file ) ) . '</li>';
-						}
-					?>
-					</ul>
-				</div>
 			</div>
 				<?php
 				require_once(ABSPATH . 'wp-admin/admin-footer.php');
@@ -260,6 +228,7 @@ get_current_screen()->set_screen_reader_content( array(
 $title = __('Themes');
 $parent_file = 'themes.php';
 
+wp_enqueue_script( 'updates' );
 wp_enqueue_script( 'theme-preview' );
 
 require_once(ABSPATH . 'wp-admin/admin-header.php');
@@ -268,8 +237,11 @@ require_once(ABSPATH . 'wp-admin/admin-header.php');
 
 <div class="wrap">
 <h1><?php echo esc_html( $title ); if ( current_user_can('install_themes') ) { ?> <a href="theme-install.php" class="page-title-action"><?php echo esc_html_x('Add New', 'theme'); ?></a><?php }
-if ( $s )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $s ) ); ?>
+if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
+	/* translators: %s: search keywords */
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
+}
+?>
 </h1>
 
 <?php
@@ -313,10 +285,10 @@ if ( isset( $_GET['enabled'] ) ) {
 $wp_list_table->views();
 
 if ( 'broken' == $status )
-	echo '<p class="clear">' . __('The following themes are installed but incomplete. Themes must have a stylesheet and a template.') . '</p>';
+	echo '<p class="clear">' . __( 'The following themes are installed but incomplete.' ) . '</p>';
 ?>
 
-<form method="post">
+<form id="bulk-action-form" method="post">
 <input type="hidden" name="theme_status" value="<?php echo esc_attr($status) ?>" />
 <input type="hidden" name="paged" value="<?php echo esc_attr($page) ?>" />
 
@@ -326,4 +298,8 @@ if ( 'broken' == $status )
 </div>
 
 <?php
+wp_print_request_filesystem_credentials_modal();
+wp_print_admin_notice_templates();
+wp_print_update_row_templates();
+
 include(ABSPATH . 'wp-admin/admin-footer.php');

@@ -113,7 +113,6 @@ function edit_user( $user_id = 0 ) {
 		$errors->add( 'nickname', __( '<strong>ERROR</strong>: Please enter a nickname.' ) );
 	}
 
-	/* checking the password has been typed twice */
 	/**
 	 * Fires before the password and confirm password fields are checked for congruity.
 	 *
@@ -125,13 +124,20 @@ function edit_user( $user_id = 0 ) {
 	 */
 	do_action_ref_array( 'check_passwords', array( $user->user_login, &$pass1, &$pass2 ) );
 
-	/* Check for "\" in password */
-	if ( false !== strpos( wp_unslash( $pass1 ), "\\" ) )
-		$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
+	// Check for blank password when adding a user.
+	if ( ! $update && empty( $pass1 ) ) {
+		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter a password.' ), array( 'form-field' => 'pass1' ) );
+	}
 
-	/* checking the password has been typed twice the same */
-	if ( $pass1 != $pass2 )
+	// Check for "\" in password.
+	if ( false !== strpos( wp_unslash( $pass1 ), "\\" ) ) {
+		$errors->add( 'pass', __( '<strong>ERROR</strong>: Passwords may not contain the character "\\".' ), array( 'form-field' => 'pass1' ) );
+	}
+
+	// Checking the password has been typed twice the same.
+	if ( ( $update || ! empty( $pass1 ) ) && $pass1 != $pass2 ) {
 		$errors->add( 'pass', __( '<strong>ERROR</strong>: Please enter the same password in both password fields.' ), array( 'form-field' => 'pass1' ) );
+	}
 
 	if ( !empty( $pass1 ) )
 		$user->user_pass = $pass1;
@@ -146,7 +152,7 @@ function edit_user( $user_id = 0 ) {
 	$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
 
 	if ( in_array( strtolower( $user->user_login ), array_map( 'strtolower', $illegal_logins ) ) ) {
-		$errors->add( 'illegal_user_login', __( '<strong>ERROR</strong>: Sorry, that username is not allowed.' ) );
+		$errors->add( 'invalid_username', __( '<strong>ERROR</strong>: Sorry, that username is not allowed.' ) );
 	}
 
 	/* checking email address */
@@ -165,7 +171,7 @@ function edit_user( $user_id = 0 ) {
 	 *
 	 * @param WP_Error &$errors WP_Error object, passed by reference.
 	 * @param bool     $update  Whether this is a user update.
-	 * @param WP_User  &$user   WP_User object, passed by reference.
+	 * @param stdClass &$user   User object, passed by reference.
 	 */
 	do_action_ref_array( 'user_profile_update_errors', array( &$errors, $update, &$user ) );
 
@@ -176,14 +182,18 @@ function edit_user( $user_id = 0 ) {
 		$user_id = wp_update_user( $user );
 	} else {
 		$user_id = wp_insert_user( $user );
+		$notify  = isset( $_POST['send_user_notification'] ) ? 'both' : 'admin';
+
 		/**
 		  * Fires after a new user has been created.
 		  *
 		  * @since 4.4.0
 		  *
-		  * @param int $user_id ID of the newly created user.
+		  * @param int    $user_id ID of the newly created user.
+		  * @param string $notify  Type of notification that should happen. See wp_send_new_user_notifications()
+		  *                        for more information on possible values.
 		  */
-		do_action( 'edit_user_created_user', $user_id );
+		do_action( 'edit_user_created_user', $user_id, $notify );
 	}
 	return $user_id;
 }
@@ -208,7 +218,7 @@ function get_editable_roles() {
 	$all_roles = wp_roles()->roles;
 
 	/**
-	 * Filter the list of editable roles.
+	 * Filters the list of editable roles.
 	 *
 	 * @since 2.8.0
 	 *
@@ -251,7 +261,7 @@ function get_users_drafts( $user_id ) {
 	$query = $wpdb->prepare("SELECT ID, post_title FROM $wpdb->posts WHERE post_type = 'post' AND post_status = 'draft' AND post_author = %d ORDER BY post_modified DESC", $user_id);
 
 	/**
-	 * Filter the user's drafts query string.
+	 * Filters the user's drafts query string.
 	 *
 	 * @since 2.0.0
 	 *
@@ -265,7 +275,7 @@ function get_users_drafts( $user_id ) {
  * Remove user and optionally reassign posts and links to another user.
  *
  * If the $reassign parameter is not assigned to a User ID, then all posts will
- * be deleted of that user. The action 'delete_user' that is passed the User ID
+ * be deleted of that user. The action {@see 'delete_user'} that is passed the User ID
  * being deleted will be run after the posts are either reassigned or deleted.
  * The user meta will also be deleted that are for that User ID.
  *
@@ -319,7 +329,7 @@ function wp_delete_user( $id, $reassign = null ) {
 		}
 
 		/**
-		 * Filter the list of post types to delete with a user.
+		 * Filters the list of post types to delete with a user.
 		 *
 		 * @since 3.4.0
 		 *
@@ -479,6 +489,8 @@ jQuery(document).ready( function($) {
 
 /**
  * Optional SSL preference that can be turned on by hooking to the 'personal_options' action.
+ *
+ * See the {@see 'personal_options'} action.
  *
  * @since 2.7.0
  *

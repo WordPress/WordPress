@@ -13,14 +13,14 @@
  */
 
 /**
- * Entire Post data.
+ * Retrieves all post data for a given post.
  *
  * @since 0.71
  * @deprecated 1.5.1 Use get_post()
  * @see get_post()
  *
- * @param int $postid
- * @return array
+ * @param int $postid Post ID.
+ * @return array Post data.
  */
 function get_postdata($postid) {
 	_deprecated_function( __FUNCTION__, '1.5.1', 'get_post()' );
@@ -61,7 +61,7 @@ function get_postdata($postid) {
 function start_wp() {
 	global $wp_query;
 
-	_deprecated_function( __FUNCTION__, '1.5', __('new WordPress Loop') );
+	_deprecated_function( __FUNCTION__, '1.5.0', __('new WordPress Loop') );
 
 	// Since the old style loop is being used, advance the query iterator here.
 	$wp_query->next_post();
@@ -70,14 +70,14 @@ function start_wp() {
 }
 
 /**
- * Return or Print Category ID.
+ * Returns or prints a category ID.
  *
  * @since 0.71
  * @deprecated 0.71 Use get_the_category()
  * @see get_the_category()
  *
- * @param bool $echo
- * @return null|int
+ * @param bool $echo Optional. Whether to echo the output. Default true.
+ * @return int Category ID.
  */
 function the_category_ID($echo = true) {
 	_deprecated_function( __FUNCTION__, '0.71', 'get_the_category()' );
@@ -93,16 +93,16 @@ function the_category_ID($echo = true) {
 }
 
 /**
- * Print category with optional text before and after.
+ * Prints a category with optional text before and after.
  *
  * @since 0.71
  * @deprecated 0.71 Use get_the_category_by_ID()
  * @see get_the_category_by_ID()
  *
- * @param string $before
- * @param string $after
+ * @param string $before Optional. Text to display before the category. Default empty.
+ * @param string $after  Optional. Text to display after the category. Default empty.
  */
-function the_category_head($before='', $after='') {
+function the_category_head( $before = '', $after = '' ) {
 	global $currentcat, $previouscat;
 
 	_deprecated_function( __FUNCTION__, '0.71', 'get_the_category_by_ID()' );
@@ -119,7 +119,7 @@ function the_category_head($before='', $after='') {
 }
 
 /**
- * Prints link to the previous post.
+ * Prints a link to the previous post.
  *
  * @since 1.5.0
  * @deprecated 2.0.0 Use previous_post_link()
@@ -129,12 +129,12 @@ function the_category_head($before='', $after='') {
  * @param string $previous
  * @param string $title
  * @param string $in_same_cat
- * @param int $limitprev
+ * @param int    $limitprev
  * @param string $excluded_categories
  */
 function previous_post($format='%', $previous='previous post: ', $title='yes', $in_same_cat='no', $limitprev=1, $excluded_categories='') {
 
-	_deprecated_function( __FUNCTION__, '2.0', 'previous_post_link()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'previous_post_link()' );
 
 	if ( empty($in_same_cat) || 'no' == $in_same_cat )
 		$in_same_cat = false;
@@ -169,7 +169,7 @@ function previous_post($format='%', $previous='previous post: ', $title='yes', $
  * @param string $excluded_categories
  */
 function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat='no', $limitnext=1, $excluded_categories='') {
-	_deprecated_function( __FUNCTION__, '2.0', 'next_post_link()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'next_post_link()' );
 
 	if ( empty($in_same_cat) || 'no' == $in_same_cat )
 		$in_same_cat = false;
@@ -202,7 +202,7 @@ function next_post($format='%', $next='next post: ', $title='yes', $in_same_cat=
  * @return bool
  */
 function user_can_create_post($user_id, $blog_id = 1, $category_id = 'None') {
-	_deprecated_function( __FUNCTION__, '2.0', 'current_user_can()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'current_user_can()' );
 
 	$author_data = get_userdata($user_id);
 	return ($author_data->user_level > 1);
@@ -221,7 +221,7 @@ function user_can_create_post($user_id, $blog_id = 1, $category_id = 'None') {
  * @return bool
  */
 function user_can_create_draft($user_id, $blog_id = 1, $category_id = 'None') {
-	_deprecated_function( __FUNCTION__, '2.0', 'current_user_can()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'current_user_can()' );
 
 	$author_data = get_userdata($user_id);
 	return ($author_data->user_level >= 1);
@@ -240,7 +240,7 @@ function user_can_create_draft($user_id, $blog_id = 1, $category_id = 'None') {
  * @return bool
  */
 function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
-	_deprecated_function( __FUNCTION__, '2.0', 'current_user_can()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'current_user_can()' );
 
 	$author_data = get_userdata($user_id);
 	$post = get_post($post_id);
@@ -268,7 +268,7 @@ function user_can_edit_post($user_id, $post_id, $blog_id = 1) {
  * @return bool
  */
 function user_can_delete_post($user_id, $post_id, $blog_id = 1) {
-	_deprecated_function( __FUNCTION__, '2.0', 'current_user_can()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'current_user_can()' );
 
 	// right now if one can edit, one can delete
 	return user_can_edit_post($user_id, $post_id, $blog_id);
@@ -287,7 +287,7 @@ function user_can_delete_post($user_id, $post_id, $blog_id = 1) {
  * @return bool
  */
 function user_can_set_post_date($user_id, $blog_id = 1, $category_id = 'None') {
-	_deprecated_function( __FUNCTION__, '2.0', 'current_user_can()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'current_user_can()' );
 
 	$author_data = get_userdata($user_id);
 	return (($author_data->user_level > 4) && user_can_create_post($user_id, $blog_id, $category_id));
@@ -306,7 +306,7 @@ function user_can_set_post_date($user_id, $blog_id = 1, $category_id = 'None') {
  * @return bool returns true if $user_id can edit $post_id's date
  */
 function user_can_edit_post_date($user_id, $post_id, $blog_id = 1) {
-	_deprecated_function( __FUNCTION__, '2.0', 'current_user_can()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'current_user_can()' );
 
 	$author_data = get_userdata($user_id);
 	return (($author_data->user_level > 4) && user_can_edit_post($user_id, $post_id, $blog_id));
@@ -325,7 +325,7 @@ function user_can_edit_post_date($user_id, $post_id, $blog_id = 1) {
  * @return bool returns true if $user_id can edit $post_id's comments
  */
 function user_can_edit_post_comments($user_id, $post_id, $blog_id = 1) {
-	_deprecated_function( __FUNCTION__, '2.0', 'current_user_can()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'current_user_can()' );
 
 	// right now if one can edit a post, one can edit comments made on it
 	return user_can_edit_post($user_id, $post_id, $blog_id);
@@ -344,7 +344,7 @@ function user_can_edit_post_comments($user_id, $post_id, $blog_id = 1) {
  * @return bool returns true if $user_id can delete $post_id's comments
  */
 function user_can_delete_post_comments($user_id, $post_id, $blog_id = 1) {
-	_deprecated_function( __FUNCTION__, '2.0', 'current_user_can()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'current_user_can()' );
 
 	// right now if one can edit comments, one can delete comments
 	return user_can_edit_post_comments($user_id, $post_id, $blog_id);
@@ -362,7 +362,7 @@ function user_can_delete_post_comments($user_id, $post_id, $blog_id = 1) {
  * @return bool
  */
 function user_can_edit_user($user_id, $other_user) {
-	_deprecated_function( __FUNCTION__, '2.0', 'current_user_can()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'current_user_can()' );
 
 	$user  = get_userdata($user_id);
 	$other = get_userdata($other_user);
@@ -395,7 +395,7 @@ function user_can_edit_user($user_id, $other_user) {
 function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />', $between = " ", $show_images = true, $orderby = 'id',
 						 $show_description = true, $show_rating = false,
 						 $limit = -1, $show_updated = 0) {
-	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmarks()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'get_bookmarks()' );
 
 	$cat_id = -1;
 	$cat = get_term_by('name', $cat_name, 'link_category');
@@ -417,7 +417,7 @@ function get_linksbyname($cat_name = "noname", $before = '', $after = '<br />', 
  * @return string|null
  */
 function wp_get_linksbyname($category, $args = '') {
-	_deprecated_function(__FUNCTION__, '2.1', 'wp_list_bookmarks()');
+	_deprecated_function(__FUNCTION__, '2.1.0', 'wp_list_bookmarks()');
 
 	$defaults = array(
 		'after' => '<br />',
@@ -455,7 +455,7 @@ function wp_get_linksbyname($category, $args = '') {
  * @return array
  */
 function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit = -1) {
-	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmarks()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'get_bookmarks()' );
 
 	$cat_id = -1;
 	$cat = get_term_by('name', $cat_name, 'link_category');
@@ -506,7 +506,7 @@ function get_linkobjectsbyname($cat_name = "noname" , $orderby = 'name', $limit 
  * @return array
  */
 function get_linkobjects($category = 0, $orderby = 'name', $limit = 0) {
-	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmarks()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'get_bookmarks()' );
 
 	$links = get_bookmarks( array( 'category' => $category, 'orderby' => $orderby, 'limit' => $limit ) ) ;
 
@@ -539,7 +539,7 @@ function get_linkobjects($category = 0, $orderby = 'name', $limit = 0) {
  */
 function get_linksbyname_withrating($cat_name = "noname", $before = '', $after = '<br />', $between = " ",
 									$show_images = true, $orderby = 'id', $show_description = true, $limit = -1, $show_updated = 0) {
-	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmarks()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'get_bookmarks()' );
 
 	get_linksbyname($cat_name, $before, $after, $between, $show_images, $orderby, $show_description, true, $limit, $show_updated);
 }
@@ -566,7 +566,7 @@ function get_linksbyname_withrating($cat_name = "noname", $before = '', $after =
  */
 function get_links_withrating($category = -1, $before = '', $after = '<br />', $between = " ", $show_images = true,
 							  $orderby = 'id', $show_description = true, $limit = -1, $show_updated = 0) {
-	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmarks()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'get_bookmarks()' );
 
 	get_links($category, $before, $after, $between, $show_images, $orderby, $show_description, true, $limit, $show_updated);
 }
@@ -581,7 +581,7 @@ function get_links_withrating($category = -1, $before = '', $after = '<br />', $
  * @return int Only returns 0.
  */
 function get_autotoggle($id = 0) {
-	_deprecated_function( __FUNCTION__, '2.1' );
+	_deprecated_function( __FUNCTION__, '2.1.0' );
 	return 0;
 }
 
@@ -615,7 +615,7 @@ function get_autotoggle($id = 0) {
 function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_order = 'asc', $file = '', $list = true, $optiondates = 0,
 				   $optioncount = 0, $hide_empty = 1, $use_desc_for_title = 1, $children=false, $child_of=0, $categories=0,
 				   $recurse=0, $feed = '', $feed_image = '', $exclude = '', $hierarchical=false) {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_list_categories()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_list_categories()' );
 
 	$query = compact('optionall', 'all', 'sort_column', 'sort_order', 'file', 'list', 'optiondates', 'optioncount', 'hide_empty', 'use_desc_for_title', 'children',
 		'child_of', 'categories', 'recurse', 'feed', 'feed_image', 'exclude', 'hierarchical');
@@ -633,7 +633,7 @@ function list_cats($optionall = 1, $all = 'All', $sort_column = 'ID', $sort_orde
  * @return false|null|string
  */
 function wp_list_cats($args = '') {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_list_categories()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_list_categories()' );
 
 	$r = wp_parse_args( $args );
 
@@ -677,7 +677,7 @@ function wp_list_cats($args = '') {
 function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = 'asc',
 		$show_last_update = 0, $show_count = 0, $hide_empty = 1, $optionnone = false,
 		$selected = 0, $exclude = 0) {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_dropdown_categories()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_dropdown_categories()' );
 
 	$show_option_all = '';
 	if ( $optionall )
@@ -709,7 +709,7 @@ function dropdown_cats($optionall = 1, $all = 'All', $orderby = 'ID', $order = '
  * @return null|string
  */
 function list_authors($optioncount = false, $exclude_admin = true, $show_fullname = false, $hide_empty = true, $feed = '', $feed_image = '') {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_list_authors()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_list_authors()' );
 
 	$args = compact('optioncount', 'exclude_admin', 'show_fullname', 'hide_empty', 'feed', 'feed_image');
 	return wp_list_authors($args);
@@ -727,7 +727,7 @@ function list_authors($optioncount = false, $exclude_admin = true, $show_fullnam
  * @return array
  */
 function wp_get_post_cats($blogid = '1', $post_ID = 0) {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_get_post_categories()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_get_post_categories()' );
 	return wp_get_post_categories($post_ID);
 }
 
@@ -745,7 +745,7 @@ function wp_get_post_cats($blogid = '1', $post_ID = 0) {
  * @return bool|mixed
  */
 function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array()) {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_set_post_categories()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_set_post_categories()' );
 	return wp_set_post_categories($post_ID, $post_categories);
 }
 
@@ -765,7 +765,7 @@ function wp_set_post_cats($blogid = '1', $post_ID = 0, $post_categories = array(
  * @return string|null
  */
 function get_archives($type='', $limit='', $format='html', $before = '', $after = '', $show_post_count = false) {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_get_archives()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_get_archives()' );
 	$args = compact('type', 'limit', 'format', 'before', 'after', 'show_post_count');
 	return wp_get_archives($args);
 }
@@ -783,7 +783,7 @@ function get_archives($type='', $limit='', $format='html', $before = '', $after 
  * @return string|null
  */
 function get_author_link($echo, $author_id, $author_nicename = '') {
-	_deprecated_function( __FUNCTION__, '2.1', 'get_author_posts_url()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'get_author_posts_url()' );
 
 	$link = get_author_posts_url($author_id, $author_nicename);
 
@@ -810,7 +810,7 @@ function get_author_link($echo, $author_id, $author_nicename = '') {
  */
 function link_pages($before='<br />', $after='<br />', $next_or_number='number', $nextpagelink='next page', $previouspagelink='previous page',
 					$pagelink='%', $more_file='') {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_link_pages()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_link_pages()' );
 
 	$args = compact('before', 'after', 'next_or_number', 'nextpagelink', 'previouspagelink', 'pagelink', 'more_file');
 	return wp_link_pages($args);
@@ -827,7 +827,7 @@ function link_pages($before='<br />', $after='<br />', $next_or_number='number',
  * @return string
  */
 function get_settings($option) {
-	_deprecated_function( __FUNCTION__, '2.1', 'get_option()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'get_option()' );
 
 	return get_option($option);
 }
@@ -840,7 +840,7 @@ function get_settings($option) {
  * @see the_permalink()
  */
 function permalink_link() {
-	_deprecated_function( __FUNCTION__, '1.2', 'the_permalink()' );
+	_deprecated_function( __FUNCTION__, '1.2.0', 'the_permalink()' );
 	the_permalink();
 }
 
@@ -854,7 +854,7 @@ function permalink_link() {
  * @param string $deprecated
  */
 function permalink_single_rss($deprecated = '') {
-	_deprecated_function( __FUNCTION__, '2.3', 'the_permalink_rss()' );
+	_deprecated_function( __FUNCTION__, '2.3.0', 'the_permalink_rss()' );
 	the_permalink_rss();
 }
 
@@ -869,7 +869,7 @@ function permalink_single_rss($deprecated = '') {
  * @return null|string
  */
 function wp_get_links($args = '') {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_list_bookmarks()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_list_bookmarks()' );
 
 	if ( strpos( $args, '=' ) === false ) {
 		$cat_id = $args;
@@ -923,7 +923,7 @@ function wp_get_links($args = '') {
  */
 function get_links($category = -1, $before = '', $after = '<br />', $between = ' ', $show_images = true, $orderby = 'name',
 			$show_description = true, $show_rating = false, $limit = -1, $show_updated = 1, $echo = true) {
-	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmarks()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'get_bookmarks()' );
 
 	$order = 'ASC';
 	if ( substr($orderby, 0, 1) == '_' ) {
@@ -1015,7 +1015,7 @@ function get_links($category = -1, $before = '', $after = '<br />', $between = '
  * @param string $order Sort link categories by 'name' or 'id'
  */
 function get_links_list($order = 'name') {
-	_deprecated_function( __FUNCTION__, '2.1', 'wp_list_bookmarks()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'wp_list_bookmarks()' );
 
 	$order = strtolower($order);
 
@@ -1060,19 +1060,21 @@ function get_links_list($order = 'name') {
  * @param bool $count the number of links in the db
  */
 function links_popup_script($text = 'Links', $width=400, $height=400, $file='links.all.php', $count = true) {
-	_deprecated_function( __FUNCTION__, '2.1' );
+	_deprecated_function( __FUNCTION__, '2.1.0' );
 }
 
 /**
+ * Legacy function that retrieved the value of a link's link_rating field.
+ *
  * @since 1.0.1
  * @deprecated 2.1.0 Use sanitize_bookmark_field()
  * @see sanitize_bookmark_field()
  *
- * @param object $link
- * @return mixed
+ * @param object $link Link object.
+ * @return mixed Value of the 'link_rating' field, false otherwise.
  */
-function get_linkrating($link) {
-	_deprecated_function( __FUNCTION__, '2.1', 'sanitize_bookmark_field()' );
+function get_linkrating( $link ) {
+	_deprecated_function( __FUNCTION__, '2.1.0', 'sanitize_bookmark_field()' );
 	return sanitize_bookmark_field('link_rating', $link->link_rating, $link->link_id, 'display');
 }
 
@@ -1087,7 +1089,7 @@ function get_linkrating($link) {
  * @return string
  */
 function get_linkcatname($id = 0) {
-	_deprecated_function( __FUNCTION__, '2.1', 'get_category()' );
+	_deprecated_function( __FUNCTION__, '2.1.0', 'get_category()' );
 
 	$id = (int) $id;
 
@@ -1115,7 +1117,7 @@ function get_linkcatname($id = 0) {
  * @param string $link_text
  */
 function comments_rss_link($link_text = 'Comments RSS') {
-	_deprecated_function( __FUNCTION__, '2.5', 'post_comments_feed_link()' );
+	_deprecated_function( __FUNCTION__, '2.5.0', 'post_comments_feed_link()' );
 	post_comments_feed_link($link_text);
 }
 
@@ -1131,7 +1133,7 @@ function comments_rss_link($link_text = 'Comments RSS') {
  * @return string
  */
 function get_category_rss_link($echo = false, $cat_ID = 1) {
-	_deprecated_function( __FUNCTION__, '2.5', 'get_category_feed_link()' );
+	_deprecated_function( __FUNCTION__, '2.5.0', 'get_category_feed_link()' );
 
 	$link = get_category_feed_link($cat_ID, 'rss2');
 
@@ -1152,7 +1154,7 @@ function get_category_rss_link($echo = false, $cat_ID = 1) {
  * @return string
  */
 function get_author_rss_link($echo = false, $author_id = 1) {
-	_deprecated_function( __FUNCTION__, '2.5', 'get_author_feed_link()' );
+	_deprecated_function( __FUNCTION__, '2.5.0', 'get_author_feed_link()' );
 
 	$link = get_author_feed_link($author_id);
 	if ( $echo )
@@ -1170,7 +1172,7 @@ function get_author_rss_link($echo = false, $author_id = 1) {
  * @return string
  */
 function comments_rss() {
-	_deprecated_function( __FUNCTION__, '2.2', 'get_post_comments_feed_link()' );
+	_deprecated_function( __FUNCTION__, '2.2.0', 'get_post_comments_feed_link()' );
 	return esc_url( get_post_comments_feed_link() );
 }
 
@@ -1187,7 +1189,7 @@ function comments_rss() {
  * @return int The new user's ID.
  */
 function create_user($username, $password, $email) {
-	_deprecated_function( __FUNCTION__, '2.0', 'wp_create_user()' );
+	_deprecated_function( __FUNCTION__, '2.0.0', 'wp_create_user()' );
 	return wp_create_user($username, $password, $email);
 }
 
@@ -1195,9 +1197,9 @@ function create_user($username, $password, $email) {
  * Unused function.
  *
  * @deprecated 2.5.0
-*/
+ */
 function gzip_compression() {
-	_deprecated_function( __FUNCTION__, '2.5' );
+	_deprecated_function( __FUNCTION__, '2.5.0' );
 	return false;
 }
 
@@ -1214,7 +1216,7 @@ function gzip_compression() {
  * @return array The comment data
  */
 function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = false ) {
-	_deprecated_function( __FUNCTION__, '2.7', 'get_comment()' );
+	_deprecated_function( __FUNCTION__, '2.7.0', 'get_comment()' );
 	return get_comment($comment_ID, ARRAY_A);
 }
 
@@ -1229,7 +1231,7 @@ function get_commentdata( $comment_ID, $no_cache = 0, $include_unapproved = fals
  * @return string category name
  */
 function get_catname( $cat_ID ) {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_cat_name()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_cat_name()' );
 	return get_cat_name( $cat_ID );
 }
 
@@ -1247,7 +1249,7 @@ function get_catname( $cat_ID ) {
  * @return string
  */
 function get_category_children( $id, $before = '/', $after = '', $visited = array() ) {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_term_children()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_term_children()' );
 	if ( 0 == $id )
 		return '';
 
@@ -1282,7 +1284,7 @@ function get_category_children( $id, $before = '/', $after = '', $visited = arra
  * @return object List of all of the category IDs.
  */
 function get_all_category_ids() {
-	_deprecated_function( __FUNCTION__, '4.0', 'get_terms()' );
+	_deprecated_function( __FUNCTION__, '4.0.0', 'get_terms()' );
 
 	if ( ! $cat_ids = wp_cache_get( 'all_category_ids', 'category' ) ) {
 		$cat_ids = get_terms( 'category', array('fields' => 'ids', 'get' => 'all') );
@@ -1302,7 +1304,7 @@ function get_all_category_ids() {
  * @return string The author's description.
  */
 function get_the_author_description() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'description\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'description\')' );
 	return get_the_author_meta('description');
 }
 
@@ -1314,7 +1316,7 @@ function get_the_author_description() {
  * @see the_author_meta()
  */
 function the_author_description() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'description\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'description\')' );
 	the_author_meta('description');
 }
 
@@ -1328,7 +1330,7 @@ function the_author_description() {
  * @return string The author's login name (username).
  */
 function get_the_author_login() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'login\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'login\')' );
 	return get_the_author_meta('login');
 }
 
@@ -1340,7 +1342,7 @@ function get_the_author_login() {
  * @see the_author_meta()
  */
 function the_author_login() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'login\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'login\')' );
 	the_author_meta('login');
 }
 
@@ -1354,7 +1356,7 @@ function the_author_login() {
  * @return string The author's first name.
  */
 function get_the_author_firstname() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'first_name\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'first_name\')' );
 	return get_the_author_meta('first_name');
 }
 
@@ -1366,7 +1368,7 @@ function get_the_author_firstname() {
  * @see the_author_meta()
  */
 function the_author_firstname() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'first_name\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'first_name\')' );
 	the_author_meta('first_name');
 }
 
@@ -1380,7 +1382,7 @@ function the_author_firstname() {
  * @return string The author's last name.
  */
 function get_the_author_lastname() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'last_name\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'last_name\')' );
 	return get_the_author_meta('last_name');
 }
 
@@ -1392,7 +1394,7 @@ function get_the_author_lastname() {
  * @see the_author_meta()
  */
 function the_author_lastname() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'last_name\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'last_name\')' );
 	the_author_meta('last_name');
 }
 
@@ -1406,7 +1408,7 @@ function the_author_lastname() {
  * @return string The author's nickname.
  */
 function get_the_author_nickname() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'nickname\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'nickname\')' );
 	return get_the_author_meta('nickname');
 }
 
@@ -1418,7 +1420,7 @@ function get_the_author_nickname() {
  * @see the_author_meta()
  */
 function the_author_nickname() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'nickname\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'nickname\')' );
 	the_author_meta('nickname');
 }
 
@@ -1432,7 +1434,7 @@ function the_author_nickname() {
  * @return string The author's username.
  */
 function get_the_author_email() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'email\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'email\')' );
 	return get_the_author_meta('email');
 }
 
@@ -1444,7 +1446,7 @@ function get_the_author_email() {
  * @see the_author_meta()
  */
 function the_author_email() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'email\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'email\')' );
 	the_author_meta('email');
 }
 
@@ -1458,7 +1460,7 @@ function the_author_email() {
  * @return string The author's ICQ number.
  */
 function get_the_author_icq() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'icq\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'icq\')' );
 	return get_the_author_meta('icq');
 }
 
@@ -1470,7 +1472,7 @@ function get_the_author_icq() {
  * @see the_author_meta()
  */
 function the_author_icq() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'icq\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'icq\')' );
 	the_author_meta('icq');
 }
 
@@ -1484,7 +1486,7 @@ function the_author_icq() {
  * @return string The author's Yahoo! IM name.
  */
 function get_the_author_yim() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'yim\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'yim\')' );
 	return get_the_author_meta('yim');
 }
 
@@ -1496,7 +1498,7 @@ function get_the_author_yim() {
  * @see the_author_meta()
  */
 function the_author_yim() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'yim\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'yim\')' );
 	the_author_meta('yim');
 }
 
@@ -1510,7 +1512,7 @@ function the_author_yim() {
  * @return string The author's MSN address.
  */
 function get_the_author_msn() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'msn\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'msn\')' );
 	return get_the_author_meta('msn');
 }
 
@@ -1522,7 +1524,7 @@ function get_the_author_msn() {
  * @see the_author_meta()
  */
 function the_author_msn() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'msn\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'msn\')' );
 	the_author_meta('msn');
 }
 
@@ -1536,7 +1538,7 @@ function the_author_msn() {
  * @return string The author's AIM address.
  */
 function get_the_author_aim() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'aim\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'aim\')' );
 	return get_the_author_meta('aim');
 }
 
@@ -1548,7 +1550,7 @@ function get_the_author_aim() {
  * @see the_author_meta()
  */
 function the_author_aim() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'aim\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'aim\')' );
 	the_author_meta('aim');
 }
 
@@ -1563,7 +1565,7 @@ function the_author_aim() {
  * @return string The author's display name.
  */
 function get_author_name( $auth_id = false ) {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'display_name\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'display_name\')' );
 	return get_the_author_meta('display_name', $auth_id);
 }
 
@@ -1577,7 +1579,7 @@ function get_author_name( $auth_id = false ) {
  * @return string The URL to the author's page.
  */
 function get_the_author_url() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'url\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'url\')' );
 	return get_the_author_meta('url');
 }
 
@@ -1589,7 +1591,7 @@ function get_the_author_url() {
  * @see the_author_meta()
  */
 function the_author_url() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'url\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'url\')' );
 	the_author_meta('url');
 }
 
@@ -1603,7 +1605,7 @@ function the_author_url() {
  * @return string|int The author's ID.
  */
 function get_the_author_ID() {
-	_deprecated_function( __FUNCTION__, '2.8', 'get_the_author_meta(\'ID\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'get_the_author_meta(\'ID\')' );
 	return get_the_author_meta('ID');
 }
 
@@ -1613,9 +1615,9 @@ function get_the_author_ID() {
  * @since 0.71
  * @deprecated 2.8.0 Use the_author_meta()
  * @see the_author_meta()
-*/
+ */
 function the_author_ID() {
-	_deprecated_function( __FUNCTION__, '2.8', 'the_author_meta(\'ID\')' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'the_author_meta(\'ID\')' );
 	the_author_meta('ID');
 }
 
@@ -1648,7 +1650,7 @@ function the_author_ID() {
  * @param int $encode_html Optional. How to encode the content.
  */
 function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
-	_deprecated_function( __FUNCTION__, '2.9', 'the_content_feed' );
+	_deprecated_function( __FUNCTION__, '2.9.0', 'the_content_feed' );
 	$content = get_the_content($more_link_text, $stripteaser);
 	$content = apply_filters('the_content_rss', $content);
 	if ( $cut && !$encode_html )
@@ -1694,7 +1696,7 @@ function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file
  * @return string HTML stripped out of content with links at the bottom.
  */
 function make_url_footnote( $content ) {
-	_deprecated_function( __FUNCTION__, '2.9', '' );
+	_deprecated_function( __FUNCTION__, '2.9.0', '' );
 	preg_match_all( '/<a(.+?)href=\"(.+?)\"(.*?)>(.+?)<\/a>/', $content, $matches );
 	$links_summary = "\n";
 	for ( $i = 0, $c = count( $matches[0] ); $i < $c; $i++ ) {
@@ -1733,7 +1735,7 @@ function make_url_footnote( $content ) {
  * @return string Translated context string without pipe
  */
 function _c( $text, $domain = 'default' ) {
-	_deprecated_function( __FUNCTION__, '2.9', '_x()' );
+	_deprecated_function( __FUNCTION__, '2.9.0', '_x()' );
 	return before_last_bar( translate( $text, $domain ) );
 }
 
@@ -1750,20 +1752,28 @@ function _c( $text, $domain = 'default' ) {
  * @return string Translated text
  */
 function translate_with_context( $text, $domain = 'default' ) {
-	_deprecated_function( __FUNCTION__, '2.9', '_x()' );
+	_deprecated_function( __FUNCTION__, '2.9.0', '_x()' );
 	return before_last_bar( translate( $text, $domain ) );
 }
 
 /**
- * A version of _n(), which supports contexts.
+ * Legacy version of _n(), which supports contexts.
+ *
  * Strips everything from the translation after the last bar.
  *
  * @since 2.7.0
  * @deprecated 3.0.0 Use _nx()
  * @see _nx()
+ *
+ * @param string $single The text to be used if the number is singular.
+ * @param string $plural The text to be used if the number is plural.
+ * @param int    $number The number to compare against to use either the singular or plural form.
+ * @param string $domain Optional. Text domain. Unique identifier for retrieving translated strings.
+ *                       Default 'default'.
+ * @return string The translated singular or plural form.
  */
 function _nc( $single, $plural, $number, $domain = 'default' ) {
-	_deprecated_function( __FUNCTION__, '2.9', '_nx()' );
+	_deprecated_function( __FUNCTION__, '2.9.0', '_nx()' );
 	return before_last_bar( _n( $single, $plural, $number, $domain ) );
 }
 
@@ -1775,7 +1785,7 @@ function _nc( $single, $plural, $number, $domain = 'default' ) {
  * @see _n()
  */
 function __ngettext() {
-	_deprecated_function( __FUNCTION__, '2.8', '_n()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', '_n()' );
 	$args = func_get_args();
 	return call_user_func_array('_n', $args);
 }
@@ -1788,7 +1798,7 @@ function __ngettext() {
  * @see _n_noop()
  */
 function __ngettext_noop() {
-	_deprecated_function( __FUNCTION__, '2.8', '_n_noop()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', '_n_noop()' );
 	$args = func_get_args();
 	return call_user_func_array('_n_noop', $args);
 
@@ -1804,7 +1814,7 @@ function __ngettext_noop() {
  * @return array List of all options.
  */
 function get_alloptions() {
-	_deprecated_function( __FUNCTION__, '3.0', 'wp_load_alloptions()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'wp_load_alloptions()' );
 	return wp_load_alloptions();
 }
 
@@ -1822,7 +1832,7 @@ function get_alloptions() {
  * @return string
  */
 function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, $permalink = false) {
-	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_link()' );
+	_deprecated_function( __FUNCTION__, '2.5.0', 'wp_get_attachment_link()' );
 	$id = (int) $id;
 	$_post = get_post($id);
 
@@ -1850,7 +1860,7 @@ function get_the_attachment_link($id = 0, $fullsize = false, $max_dims = false, 
  * @return array Icon URL and full path to file, respectively.
  */
 function get_attachment_icon_src( $id = 0, $fullsize = false ) {
-	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image_src()' );
+	_deprecated_function( __FUNCTION__, '2.5.0', 'wp_get_attachment_image_src()' );
 	$id = (int) $id;
 	if ( !$post = get_post($id) )
 		return false;
@@ -1892,7 +1902,7 @@ function get_attachment_icon_src( $id = 0, $fullsize = false ) {
  * @return false|string HTML content.
  */
 function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
-	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image()' );
+	_deprecated_function( __FUNCTION__, '2.5.0', 'wp_get_attachment_image()' );
 	$id = (int) $id;
 	if ( !$post = get_post($id) )
 		return false;
@@ -1948,7 +1958,7 @@ function get_attachment_icon( $id = 0, $fullsize = false, $max_dims = false ) {
  * @return false|string
  */
 function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false) {
-	_deprecated_function( __FUNCTION__, '2.5', 'wp_get_attachment_image()' );
+	_deprecated_function( __FUNCTION__, '2.5.0', 'wp_get_attachment_image()' );
 	$id = (int) $id;
 	if ( !$post = get_post($id) )
 		return false;
@@ -1962,18 +1972,21 @@ function get_attachment_innerHTML($id = 0, $fullsize = false, $max_dims = false)
 }
 
 /**
- * Retrieve bookmark data based on ID.
+ * Retrieves bookmark data based on ID.
  *
  * @since 2.0.0
  * @deprecated 2.1.0 Use get_bookmark()
  * @see get_bookmark()
  *
- * @param int $bookmark_id ID of link
- * @param string $output OBJECT, ARRAY_N, or ARRAY_A
- * @return object|array
+ * @param int    $bookmark_id ID of link
+ * @param string $output      Optional. Type of output. Accepts OBJECT, ARRAY_N, or ARRAY_A.
+ *                            Default OBJECT.
+ * @param string $filter      Optional. How to filter the link for output. Accepts 'raw', 'edit',
+ *                            'attribute', 'js', 'db', or 'display'. Default 'raw'.
+ * @return object|array Bookmark object or array, depending on the type specified by `$output`.
  */
-function get_link($bookmark_id, $output = OBJECT, $filter = 'raw') {
-	_deprecated_function( __FUNCTION__, '2.1', 'get_bookmark()' );
+function get_link( $bookmark_id, $output = OBJECT, $filter = 'raw' ) {
+	_deprecated_function( __FUNCTION__, '2.1.0', 'get_bookmark()' );
 	return get_bookmark($bookmark_id, $output, $filter);
 }
 
@@ -1989,7 +2002,7 @@ function get_link($bookmark_id, $output = OBJECT, $filter = 'raw') {
  * @return string The cleaned URL.
  */
 function sanitize_url( $url, $protocols = null ) {
-	_deprecated_function( __FUNCTION__, '2.8', 'esc_url_raw()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'esc_url_raw()' );
 	return esc_url_raw( $url, $protocols );
 }
 
@@ -2007,20 +2020,20 @@ function sanitize_url( $url, $protocols = null ) {
  * @param string $url The URL to be cleaned.
  * @param array $protocols Optional. An array of acceptable protocols.
  * @param string $context Optional. How the URL will be used. Default is 'display'.
- * @return string The cleaned $url after the 'clean_url' filter is applied.
+ * @return string The cleaned $url after the {@see 'clean_url'} filter is applied.
  */
 function clean_url( $url, $protocols = null, $context = 'display' ) {
 	if ( $context == 'db' )
-		_deprecated_function( 'clean_url( $context = \'db\' )', '3.0', 'esc_url_raw()' );
+		_deprecated_function( 'clean_url( $context = \'db\' )', '3.0.0', 'esc_url_raw()' );
 	else
-		_deprecated_function( __FUNCTION__, '3.0', 'esc_url()' );
+		_deprecated_function( __FUNCTION__, '3.0.0', 'esc_url()' );
 	return esc_url( $url, $protocols, $context );
 }
 
 /**
  * Escape single quotes, specialchar double quotes, and fix line endings.
  *
- * The filter 'js_escape' is also applied by esc_js()
+ * The filter {@see 'js_escape'} is also applied by esc_js().
  *
  * @since 2.0.4
  * @deprecated 2.8.0 Use esc_js()
@@ -2030,19 +2043,25 @@ function clean_url( $url, $protocols = null, $context = 'display' ) {
  * @return string Escaped text.
  */
 function js_escape( $text ) {
-	_deprecated_function( __FUNCTION__, '2.8', 'esc_js()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'esc_js()' );
 	return esc_js( $text );
 }
 
 /**
- * Escaping for HTML blocks.
+ * Legacy escaping for HTML blocks.
  *
  * @deprecated 2.8.0 Use esc_html()
  * @see esc_html()
+ *
+ * @param string       $string        String to escape.
+ * @param string       $quote_style   Unused.
+ * @param false|string $charset       Unused.
+ * @param false        $double_encode Whether to double encode. Unused.
+ * @return string Escaped `$string`.
  */
 function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false, $double_encode = false ) {
-	_deprecated_function( __FUNCTION__, '2.8', 'esc_html()' );
-	if ( func_num_args() > 1 ) { // Maintain backwards compat for people passing additional args
+	_deprecated_function( __FUNCTION__, '2.8.0', 'esc_html()' );
+	if ( func_num_args() > 1 ) { // Maintain back-compat for people passing additional arguments.
 		$args = func_get_args();
 		return call_user_func_array( '_wp_specialchars', $args );
 	} else {
@@ -2061,31 +2080,31 @@ function wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = false
  * @return string
  */
 function attribute_escape( $text ) {
-	_deprecated_function( __FUNCTION__, '2.8', 'esc_attr()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'esc_attr()' );
 	return esc_attr( $text );
 }
 
 /**
- * Register widget for sidebar with backwards compatibility.
+ * Register widget for sidebar with backward compatibility.
  *
  * Allows $name to be an array that accepts either three elements to grab the
  * first element and the third for the name or just uses the first element of
  * the array for the name.
  *
- * Passes to {@link wp_register_sidebar_widget()} after argument list and
- * backwards compatibility is complete.
+ * Passes to wp_register_sidebar_widget() after argument list and backward
+ * compatibility is complete.
  *
  * @since 2.2.0
  * @deprecated 2.8.0 Use wp_register_sidebar_widget()
  * @see wp_register_sidebar_widget()
  *
- * @param string|int $name Widget ID.
- * @param callable $output_callback Run when widget is called.
- * @param string $classname Classname widget option.
- * @param mixed $params ,... Widget parameters.
+ * @param string|int $name            Widget ID.
+ * @param callable   $output_callback Run when widget is called.
+ * @param string     $classname       Optional. Classname widget option. Default empty.
+ * @param mixed      $params ,...     Widget parameters.
  */
 function register_sidebar_widget($name, $output_callback, $classname = '') {
-	_deprecated_function( __FUNCTION__, '2.8', 'wp_register_sidebar_widget()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'wp_register_sidebar_widget()' );
 	// Compat
 	if ( is_array($name) ) {
 		if ( count($name) == 3 )
@@ -2107,7 +2126,7 @@ function register_sidebar_widget($name, $output_callback, $classname = '') {
 }
 
 /**
- * Alias of {@link wp_unregister_sidebar_widget()}.
+ * Serves as an alias of wp_unregister_sidebar_widget().
  *
  * @since 2.2.0
  * @deprecated 2.8.0 Use wp_unregister_sidebar_widget()
@@ -2116,7 +2135,7 @@ function register_sidebar_widget($name, $output_callback, $classname = '') {
  * @param int|string $id Widget ID.
  */
 function unregister_sidebar_widget($id) {
-	_deprecated_function( __FUNCTION__, '2.8', 'wp_unregister_sidebar_widget()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'wp_unregister_sidebar_widget()' );
 	return wp_unregister_sidebar_widget($id);
 }
 
@@ -2140,7 +2159,7 @@ function unregister_sidebar_widget($id) {
  * @param int $height Widget height.
  */
 function register_widget_control($name, $control_callback, $width = '', $height = '') {
-	_deprecated_function( __FUNCTION__, '2.8', 'wp_register_widget_control()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'wp_register_widget_control()' );
 	// Compat
 	if ( is_array($name) ) {
 		if ( count($name) == 3 )
@@ -2173,7 +2192,7 @@ function register_widget_control($name, $control_callback, $width = '', $height 
  * @param int|string $id Widget ID.
  */
 function unregister_widget_control($id) {
-	_deprecated_function( __FUNCTION__, '2.8', 'wp_unregister_widget_control()' );
+	_deprecated_function( __FUNCTION__, '2.8.0', 'wp_unregister_widget_control()' );
 	return wp_unregister_widget_control($id);
 }
 
@@ -2190,7 +2209,7 @@ function unregister_widget_control($id) {
  * @return bool True deletion completed and false if user_id is not a number.
  */
 function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'delete_user_meta()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'delete_user_meta()' );
 	global $wpdb;
 	if ( !is_numeric( $user_id ) )
 		return false;
@@ -2236,7 +2255,7 @@ function delete_usermeta( $user_id, $meta_key, $meta_value = '' ) {
  * @return mixed
  */
 function get_usermeta( $user_id, $meta_key = '' ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'get_user_meta()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'get_user_meta()' );
 	global $wpdb;
 	$user_id = (int) $user_id;
 
@@ -2289,7 +2308,7 @@ function get_usermeta( $user_id, $meta_key = '' ) {
  * @return bool True on successful update, false on failure.
  */
 function update_usermeta( $user_id, $meta_key, $meta_value ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'update_user_meta()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'update_user_meta()' );
 	global $wpdb;
 	if ( !is_numeric( $user_id ) )
 		return false;
@@ -2328,27 +2347,27 @@ function update_usermeta( $user_id, $meta_key, $meta_value ) {
 }
 
 /**
- * Get users for the blog.
+ * Get users for the site.
  *
- * For setups that use the multi-blog feature. Can be used outside of the
- * multi-blog feature.
+ * For setups that use the multisite feature. Can be used outside of the
+ * multisite feature.
  *
  * @since 2.2.0
  * @deprecated 3.1.0 Use get_users()
  * @see get_users()
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- * @uses $blog_id The Blog id of the blog for those that use more than one blog
+ * @global wpdb $wpdb    WordPress database abstraction object.
  *
- * @param int $id Blog ID.
- * @return array List of users that are part of that Blog ID
+ * @param int $id Site ID.
+ * @return array List of users that are part of that site ID
  */
 function get_users_of_blog( $id = '' ) {
-	_deprecated_function( __FUNCTION__, '3.1', 'get_users()' );
+	_deprecated_function( __FUNCTION__, '3.1.0', 'get_users()' );
 
-	global $wpdb, $blog_id;
-	if ( empty($id) )
-		$id = (int) $blog_id;
+	global $wpdb;
+	if ( empty( $id ) ) {
+		$id = get_current_blog_id();
+	}
 	$blog_prefix = $wpdb->get_blog_prefix($id);
 	$users = $wpdb->get_results( "SELECT user_id, user_id AS ID, user_login, display_name, user_email, meta_value FROM $wpdb->users, $wpdb->usermeta WHERE {$wpdb->users}.ID = {$wpdb->usermeta}.user_id AND meta_key = '{$blog_prefix}capabilities' ORDER BY {$wpdb->usermeta}.user_id" );
 	return $users;
@@ -2364,7 +2383,7 @@ function get_users_of_blog( $id = '' ) {
  * @param bool $add Optional, default is true. Add or remove links. Defaults to true.
  */
 function automatic_feed_links( $add = true ) {
-	_deprecated_function( __FUNCTION__, '3.0', "add_theme_support( 'automatic-feed-links' )" );
+	_deprecated_function( __FUNCTION__, '3.0.0', "add_theme_support( 'automatic-feed-links' )" );
 
 	if ( $add )
 		add_theme_support( 'automatic-feed-links' );
@@ -2378,9 +2397,13 @@ function automatic_feed_links( $add = true ) {
  * @since 1.5.0
  * @deprecated 3.0.0 Use get_the_author_meta()
  * @see get_the_author_meta()
+ *
+ * @param string    $field User meta field.
+ * @param false|int $user Optional. User ID to retrieve the field for. Default false (current user).
+ * @return string The author's field from the current author's DB object.
  */
 function get_profile( $field, $user = false ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'get_the_author_meta()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'get_the_author_meta()' );
 	if ( $user ) {
 		$user = get_user_by( 'login', $user );
 		$user = $user->ID;
@@ -2389,14 +2412,17 @@ function get_profile( $field, $user = false ) {
 }
 
 /**
- * Number of posts user has written.
+ * Retrieves the number of posts a user has written.
  *
  * @since 0.71
  * @deprecated 3.0.0 Use count_user_posts()
  * @see count_user_posts()
+ *
+ * @param int $userid User to count posts for.
+ * @return int Number of posts the given user has written.
  */
 function get_usernumposts( $userid ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'count_user_posts()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'count_user_posts()' );
 	return count_user_posts( $userid );
 }
 
@@ -2422,14 +2448,14 @@ function funky_javascript_callback($matches) {
  * @since 1.5.0
  * @deprecated 3.0.0
  *
- * @uses $is_macIE
- * @uses $is_winIE
+ * @global $is_macIE
+ * @global $is_winIE
  *
  * @param string $text Text to be made safe.
  * @return string Fixed text.
  */
 function funky_javascript_fix($text) {
-	_deprecated_function( __FUNCTION__, '3.0' );
+	_deprecated_function( __FUNCTION__, '3.0.0' );
 	// Fixes for browsers' JavaScript bugs.
 	global $is_macIE, $is_winIE;
 
@@ -2452,7 +2478,7 @@ function funky_javascript_fix($text) {
  * @return bool Whether the taxonomy exists.
  */
 function is_taxonomy( $taxonomy ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'taxonomy_exists()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'taxonomy_exists()' );
 	return taxonomy_exists( $taxonomy );
 }
 
@@ -2469,7 +2495,7 @@ function is_taxonomy( $taxonomy ) {
  * @return mixed Get the term id or Term Object, if exists.
  */
 function is_term( $term, $taxonomy = '', $parent = 0 ) {
-	_deprecated_function( __FUNCTION__, '3.0', 'term_exists()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'term_exists()' );
 	return term_exists( $term, $taxonomy, $parent );
 }
 
@@ -2486,7 +2512,7 @@ function is_term( $term, $taxonomy = '', $parent = 0 ) {
  * @return bool
  */
 function is_plugin_page() {
-	_deprecated_function( __FUNCTION__, '3.1'  );
+	_deprecated_function( __FUNCTION__, '3.1.0'  );
 
 	global $plugin_page;
 
@@ -2509,7 +2535,7 @@ function is_plugin_page() {
  * @return bool Always return True
  */
 function update_category_cache() {
-	_deprecated_function( __FUNCTION__, '3.1'  );
+	_deprecated_function( __FUNCTION__, '3.1.0'  );
 
 	return true;
 }
@@ -2523,26 +2549,27 @@ function update_category_cache() {
  * @return bool
  */
 function wp_timezone_supported() {
-	_deprecated_function( __FUNCTION__, '3.2' );
+	_deprecated_function( __FUNCTION__, '3.2.0' );
 
 	return true;
 }
 
 /**
- * Display editor: TinyMCE, HTML, or both.
+ * Displays an editor: TinyMCE, HTML, or both.
  *
  * @since 2.1.0
  * @deprecated 3.3.0 Use wp_editor()
  * @see wp_editor()
  *
- * @param string $content Textarea content.
- * @param string $id Optional, default is 'content'. HTML ID attribute value.
- * @param string $prev_id Optional, not used
- * @param bool $media_buttons Optional, default is true. Whether to display media buttons.
- * @param int $tab_index Optional, not used
+ * @param string $content       Textarea content.
+ * @param string $id            Optional. HTML ID attribute value. Default 'content'.
+ * @param string $prev_id       Optional. Unused.
+ * @param bool   $media_buttons Optional. Whether to display media buttons. Default true.
+ * @param int    $tab_index     Optional. Unused.
+ * @param bool   $extended      Optional. Unused.
  */
 function the_editor($content, $id = 'content', $prev_id = 'title', $media_buttons = true, $tab_index = 2, $extended = true) {
-	_deprecated_function( __FUNCTION__, '3.3', 'wp_editor()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_editor()' );
 
 	wp_editor( $content, $id, array( 'media_buttons' => $media_buttons ) );
 }
@@ -2557,7 +2584,7 @@ function the_editor($content, $id = 'content', $prev_id = 'title', $media_button
  * @return array of arrays. The array is indexed by user_id, containing $metavalues object arrays.
  */
 function get_user_metavalues($ids) {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3.0' );
 
 	$objects = array();
 
@@ -2591,7 +2618,7 @@ function get_user_metavalues($ids) {
  * @return object|array The now sanitized User Object or Array (will be the same type as $user)
  */
 function sanitize_user_object($user, $context = 'display') {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3.0' );
 
 	if ( is_object($user) ) {
 		if ( !isset($user->ID) )
@@ -2630,7 +2657,7 @@ function sanitize_user_object($user, $context = 'display') {
  * @return string
  */
 function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '', $start = true) {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3.0' );
 
 	$posts = get_boundary_post($in_same_cat, $excluded_categories, $start);
 	// If there is no post stop.
@@ -2668,7 +2695,7 @@ function get_boundary_post_rel_link($title = '%title', $in_same_cat = false, $ex
  * @param string $excluded_categories Optional. Excluded categories IDs.
  */
 function start_post_rel_link($title = '%title', $in_same_cat = false, $excluded_categories = '') {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3.0' );
 
 	echo get_boundary_post_rel_link($title, $in_same_cat, $excluded_categories, true);
 }
@@ -2682,7 +2709,7 @@ function start_post_rel_link($title = '%title', $in_same_cat = false, $excluded_
  * @return string
  */
 function get_index_rel_link() {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3.0' );
 
 	$link = "<link rel='index' title='" . esc_attr( get_bloginfo( 'name', 'display' ) ) . "' href='" . esc_url( user_trailingslashit( get_bloginfo( 'url', 'display' ) ) ) . "' />\n";
 	return apply_filters( "index_rel_link", $link );
@@ -2695,7 +2722,7 @@ function get_index_rel_link() {
  * @deprecated 3.3.0
  */
 function index_rel_link() {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3.0' );
 
 	echo get_index_rel_link();
 }
@@ -2706,11 +2733,11 @@ function index_rel_link() {
  * @since 2.8.0
  * @deprecated 3.3.0
  *
- * @param string $title Optional. Link title format.
+ * @param string $title Optional. Link title format. Default '%title'.
  * @return string
  */
-function get_parent_post_rel_link($title = '%title') {
-	_deprecated_function( __FUNCTION__, '3.3' );
+function get_parent_post_rel_link( $title = '%title' ) {
+	_deprecated_function( __FUNCTION__, '3.3.0' );
 
 	if ( ! empty( $GLOBALS['post'] ) && ! empty( $GLOBALS['post']->post_parent ) )
 		$post = get_post($GLOBALS['post']->post_parent);
@@ -2736,9 +2763,11 @@ function get_parent_post_rel_link($title = '%title') {
  *
  * @since 2.8.0
  * @deprecated 3.3.0
+ *
+ * @param string $title Optional. Link title format. Default '%title'.
  */
-function parent_post_rel_link($title = '%title') {
-	_deprecated_function( __FUNCTION__, '3.3' );
+function parent_post_rel_link( $title = '%title' ) {
+	_deprecated_function( __FUNCTION__, '3.3.0' );
 
 	echo get_parent_post_rel_link($title);
 }
@@ -2748,9 +2777,11 @@ function parent_post_rel_link($title = '%title') {
  *
  * @since 3.2.0
  * @deprecated 3.3.0
+ *
+ * @param WP_Admin_Bar $wp_admin_bar WP_Admin_Bar instance.
  */
 function wp_admin_bar_dashboard_view_site_menu( $wp_admin_bar ) {
-	_deprecated_function( __FUNCTION__, '3.3' );
+	_deprecated_function( __FUNCTION__, '3.3.0' );
 
 	$user_id = get_current_user_id();
 
@@ -2765,17 +2796,17 @@ function wp_admin_bar_dashboard_view_site_menu( $wp_admin_bar ) {
 }
 
 /**
- * Checks if the current user belong to a given blog.
+ * Checks if the current user belong to a given site.
  *
  * @since MU
  * @deprecated 3.3.0 Use is_user_member_of_blog()
  * @see is_user_member_of_blog()
  *
- * @param int $blog_id Blog ID
+ * @param int $blog_id Site ID
  * @return bool True if the current users belong to $blog_id, false if not.
  */
 function is_blog_user( $blog_id = 0 ) {
-	_deprecated_function( __FUNCTION__, '3.3', 'is_user_member_of_blog()' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'is_user_member_of_blog()' );
 
 	return is_user_member_of_blog( get_current_user_id(), $blog_id );
 }
@@ -2787,7 +2818,11 @@ function is_blog_user( $blog_id = 0 ) {
  * @deprecated 3.4.0 Use error_log()
  * @see error_log()
  *
- * @link http://www.php.net/manual/en/function.error-log.php
+ * @link https://secure.php.net/manual/en/function.error-log.php
+ *
+ * @param string $filename File name.
+ * @param string $mode     Type of access you required to the stream.
+ * @return false Always false.
  */
 function debug_fopen( $filename, $mode ) {
 	_deprecated_function( __FUNCTION__, 'error_log()' );
@@ -2801,7 +2836,10 @@ function debug_fopen( $filename, $mode ) {
  * @deprecated 3.4.0 Use error_log()
  * @see error_log()
  *
- * @link http://www.php.net/manual/en/function.error-log.php
+ * @link https://secure.php.net/manual/en/function.error-log.php
+ *
+ * @param mixed  $fp     Unused.
+ * @param string $string Message to log.
  */
 function debug_fwrite( $fp, $string ) {
 	_deprecated_function( __FUNCTION__, 'error_log()' );
@@ -2816,7 +2854,9 @@ function debug_fwrite( $fp, $string ) {
  * @deprecated 3.4.0 Use error_log()
  * @see error_log()
  *
- * @link http://www.php.net/manual/en/function.error-log.php
+ * @link https://secure.php.net/manual/en/function.error-log.php
+ *
+ * @param mixed $fp Unused.
  */
 function debug_fclose( $fp ) {
 	_deprecated_function( __FUNCTION__, 'error_log()' );
@@ -2836,7 +2876,7 @@ function debug_fclose( $fp ) {
  * @return array Theme list with theme data.
  */
 function get_themes() {
-	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_themes()' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'wp_get_themes()' );
 
 	global $wp_themes;
 	if ( isset( $wp_themes ) )
@@ -2867,7 +2907,7 @@ function get_themes() {
  * @return array|null Null, if theme name does not exist. Theme data, if exists.
  */
 function get_theme( $theme ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme( $stylesheet )' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'wp_get_theme( $stylesheet )' );
 
 	$themes = get_themes();
 	if ( is_array( $themes ) && array_key_exists( $theme, $themes ) )
@@ -2885,7 +2925,7 @@ function get_theme( $theme ) {
  * @return string
  */
 function get_current_theme() {
-	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme()' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'wp_get_theme()' );
 
 	if ( $theme = get_option( 'current_theme' ) )
 		return $theme;
@@ -2906,7 +2946,7 @@ function get_current_theme() {
  * @return string The pre block without paragraph/line-break conversion.
  */
 function clean_pre($matches) {
-	_deprecated_function( __FUNCTION__, '3.4' );
+	_deprecated_function( __FUNCTION__, '3.4.0' );
 
 	if ( is_array($matches) )
 		$text = $matches[1] . $matches[2] . "</pre>";
@@ -2928,12 +2968,12 @@ function clean_pre($matches) {
  * @deprecated 3.4.0 Use add_theme_support()
  * @see add_theme_support()
  *
- * @param callable $wp_head_callback Call on 'wp_head' action.
+ * @param callable $wp_head_callback Call on the {@see 'wp_head'} action.
  * @param callable $admin_head_callback Call on custom header administration screen.
  * @param callable $admin_preview_callback Output a custom header image div on the custom header administration screen. Optional.
  */
 function add_custom_image_header( $wp_head_callback, $admin_head_callback, $admin_preview_callback = '' ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support( \'custom-header\', $args )' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'add_theme_support( \'custom-header\', $args )' );
 	$args = array(
 		'wp-head-callback'    => $wp_head_callback,
 		'admin-head-callback' => $admin_head_callback,
@@ -2953,7 +2993,7 @@ function add_custom_image_header( $wp_head_callback, $admin_head_callback, $admi
  * @return null|bool Whether support was removed.
  */
 function remove_custom_image_header() {
-	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support( \'custom-header\' )' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'remove_theme_support( \'custom-header\' )' );
 	return remove_theme_support( 'custom-header' );
 }
 
@@ -2964,12 +3004,12 @@ function remove_custom_image_header() {
  * @deprecated 3.4.0 Use add_theme_support()
  * @see add_theme_support()
  *
- * @param callable $wp_head_callback Call on 'wp_head' action.
+ * @param callable $wp_head_callback Call on the {@see 'wp_head'} action.
  * @param callable $admin_head_callback Call on custom background administration screen.
  * @param callable $admin_preview_callback Output a custom background image div on the custom background administration screen. Optional.
  */
 function add_custom_background( $wp_head_callback = '', $admin_head_callback = '', $admin_preview_callback = '' ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'add_theme_support( \'custom-background\', $args )' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'add_theme_support( \'custom-background\', $args )' );
 	$args = array();
 	if ( $wp_head_callback )
 		$args['wp-head-callback'] = $wp_head_callback;
@@ -2990,7 +3030,7 @@ function add_custom_background( $wp_head_callback = '', $admin_head_callback = '
  * @return null|bool Whether support was removed.
  */
 function remove_custom_background() {
-	_deprecated_function( __FUNCTION__, '3.4', 'remove_theme_support( \'custom-background\' )' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'remove_theme_support( \'custom-background\' )' );
 	return remove_theme_support( 'custom-background' );
 }
 
@@ -3005,7 +3045,7 @@ function remove_custom_background() {
  * @return array Theme data.
  */
 function get_theme_data( $theme_file ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'wp_get_theme()' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'wp_get_theme()' );
 	$theme = new WP_Theme( basename( dirname( $theme_file ) ), dirname( dirname( $theme_file ) ) );
 
 	$theme_data = array(
@@ -3042,7 +3082,7 @@ function get_theme_data( $theme_file ) {
  * @param array $pages list of page objects
  */
 function update_page_cache( &$pages ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'update_post_cache()' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'update_post_cache()' );
 
 	update_post_cache( $pages );
 }
@@ -3060,7 +3100,7 @@ function update_page_cache( &$pages ) {
  * @param int $id Page ID to clean
  */
 function clean_page_cache( $id ) {
-	_deprecated_function( __FUNCTION__, '3.4', 'clean_post_cache()' );
+	_deprecated_function( __FUNCTION__, '3.4.0', 'clean_post_cache()' );
 
 	clean_post_cache( $id );
 }
@@ -3092,7 +3132,7 @@ function wp_explain_nonce( $action ) {
  * @param int $post_id An optional post ID.
  */
 function sticky_class( $post_id = null ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'post_class()' );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'post_class()' );
 	if ( is_sticky( $post_id ) )
 		echo ' sticky';
 }
@@ -3106,9 +3146,11 @@ function sticky_class( $post_id = null ) {
  * @since 2.3.4
  * @deprecated 3.5.0 Use get_post_ancestors()
  * @see get_post_ancestors()
+ *
+ * @param WP_Post &$post Post object, passed by reference (unused).
  */
 function _get_post_ancestors( &$post ) {
-	_deprecated_function( __FUNCTION__, '3.5' );
+	_deprecated_function( __FUNCTION__, '3.5.0' );
 }
 
 /**
@@ -3122,23 +3164,28 @@ function _get_post_ancestors( &$post ) {
  * @return resource The resulting image resource on success, Error string on failure.
  */
 function wp_load_image( $file ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'wp_get_image_editor()' );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'wp_get_image_editor()' );
 
 	if ( is_numeric( $file ) )
 		$file = get_attached_file( $file );
 
-	if ( ! is_file( $file ) )
-		return sprintf(__('File &#8220;%s&#8221; doesn&#8217;t exist?'), $file);
+	if ( ! is_file( $file ) ) {
+		/* translators: %s: file name */
+		return sprintf( __( 'File &#8220;%s&#8221; doesn&#8217;t exist?' ), $file );
+	}
 
 	if ( ! function_exists('imagecreatefromstring') )
 		return __('The GD image library is not installed.');
 
-	// Set artificially high because GD uses uncompressed images in memory
-	@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
+	// Set artificially high because GD uses uncompressed images in memory.
+	wp_raise_memory_limit( 'image' );
+
 	$image = imagecreatefromstring( file_get_contents( $file ) );
 
-	if ( !is_resource( $image ) )
-		return sprintf(__('File &#8220;%s&#8221; is not an image.'), $file);
+	if ( ! is_resource( $image ) ) {
+		/* translators: %s: file name */
+		return sprintf( __( 'File &#8220;%s&#8221; is not an image.' ), $file );
+	}
 
 	return $image;
 }
@@ -3168,7 +3215,7 @@ function wp_load_image( $file ) {
  * @return mixed WP_Error on failure. String with new destination path.
  */
 function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $dest_path = null, $jpeg_quality = 90 ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'wp_get_image_editor()' );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'wp_get_image_editor()' );
 
 	$editor = wp_get_image_editor( $file );
 	if ( is_wp_error( $editor ) )
@@ -3203,7 +3250,7 @@ function image_resize( $file, $max_w, $max_h, $crop = false, $suffix = null, $de
  * @return WP_Post|null Post object or array holding post contents and information
  */
 function wp_get_single_post( $postid = 0, $mode = OBJECT ) {
-	_deprecated_function( __FUNCTION__, '3.5', 'get_post()' );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'get_post()' );
 	return get_post( $postid, $mode );
 }
 
@@ -3219,7 +3266,7 @@ function wp_get_single_post( $postid = 0, $mode = OBJECT ) {
  * @return bool False if does not authenticate, true if username and password authenticates.
  */
 function user_pass_ok($user_login, $user_pass) {
-	_deprecated_function( __FUNCTION__, '3.5', 'wp_authenticate()' );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'wp_authenticate()' );
 	$user = wp_authenticate( $user_login, $user_pass );
 	if ( is_wp_error( $user ) )
 		return false;
@@ -3246,7 +3293,7 @@ function _save_post_hook() {}
  * @return bool
  */
 function gd_edit_image_support($mime_type) {
-	_deprecated_function( __FUNCTION__, '3.5', 'wp_image_editor_supports()' );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'wp_image_editor_supports()' );
 
 	if ( function_exists('imagetypes') ) {
 		switch( $mime_type ) {
@@ -3281,9 +3328,9 @@ function gd_edit_image_support($mime_type) {
  * @return string A shorthand byte value.
  */
 function wp_convert_bytes_to_hr( $bytes ) {
-	_deprecated_function( __FUNCTION__, '3.6', 'size_format()' );
+	_deprecated_function( __FUNCTION__, '3.6.0', 'size_format()' );
 
-	$units = array( 0 => 'B', 1 => 'kB', 2 => 'MB', 3 => 'GB', 4 => 'TB' );
+	$units = array( 0 => 'B', 1 => 'KB', 2 => 'MB', 3 => 'GB', 4 => 'TB' );
 	$log   = log( $bytes, KB_IN_BYTES );
 	$power = (int) $log;
 	$size  = pow( KB_IN_BYTES, $log - $power );
@@ -3304,9 +3351,12 @@ function wp_convert_bytes_to_hr( $bytes ) {
  * @since 2.9.0
  * @access private
  * @deprecated 3.7.0
+ *
+ * @param string $t Search terms to "tidy", e.g. trim.
+ * @return string Trimmed search terms.
  */
 function _search_terms_tidy( $t ) {
-	_deprecated_function( __FUNCTION__, '3.7' );
+	_deprecated_function( __FUNCTION__, '3.7.0' );
 	return trim( $t, "\"'\n\r " );
 }
 
@@ -3323,7 +3373,7 @@ function _search_terms_tidy( $t ) {
  */
 function rich_edit_exists() {
 	global $wp_rich_edit_exists;
-	_deprecated_function( __FUNCTION__, '3.9' );
+	_deprecated_function( __FUNCTION__, '3.9.0' );
 
 	if ( ! isset( $wp_rich_edit_exists ) )
 		$wp_rich_edit_exists = file_exists( ABSPATH . WPINC . '/js/tinymce/tinymce.js' );
@@ -3337,6 +3387,9 @@ function rich_edit_exists() {
  * @since 2.7.0
  * @access private
  * @deprecated 3.9.0
+ *
+ * @param int $count Number of topics.
+ * @return int Number of topics.
  */
 function default_topic_count_text( $count ) {
 	return $count;
@@ -3354,7 +3407,7 @@ function default_topic_count_text( $count ) {
  * @return string The very same text.
  */
 function format_to_post( $content ) {
-	_deprecated_function( __FUNCTION__, '3.9' );
+	_deprecated_function( __FUNCTION__, '3.9.0' );
 	return $content;
 }
 
@@ -3369,7 +3422,7 @@ function format_to_post( $content ) {
  * @return string text, safe for inclusion in LIKE query.
  */
 function like_escape($text) {
-	_deprecated_function( __FUNCTION__, '4.0', 'wpdb::esc_like()' );
+	_deprecated_function( __FUNCTION__, '4.0.0', 'wpdb::esc_like()' );
 	return str_replace( array( "%", "_" ), array( "\\%", "\\_" ), $text );
 }
 
@@ -3386,7 +3439,7 @@ function like_escape($text) {
  * @return bool Whether SSL access is available.
  */
 function url_is_accessable_via_ssl( $url ) {
-	_deprecated_function( __FUNCTION__, '4.0' );
+	_deprecated_function( __FUNCTION__, '4.0.0' );
 
 	$response = wp_remote_get( set_url_scheme( $url, 'https' ) );
 
@@ -3410,7 +3463,7 @@ function url_is_accessable_via_ssl( $url ) {
  * @deprecated 4.3.0
  */
 function preview_theme() {
-	_deprecated_function( __FUNCTION__, '4.3' );
+	_deprecated_function( __FUNCTION__, '4.3.0' );
 }
 
 /**
@@ -3423,7 +3476,7 @@ function preview_theme() {
  * @return string
  */
 function _preview_theme_template_filter() {
-	_deprecated_function( __FUNCTION__, '4.3' );
+	_deprecated_function( __FUNCTION__, '4.3.0' );
 	return '';
 }
 
@@ -3437,7 +3490,7 @@ function _preview_theme_template_filter() {
  * @return string
  */
 function _preview_theme_stylesheet_filter() {
-	_deprecated_function( __FUNCTION__, '4.3' );
+	_deprecated_function( __FUNCTION__, '4.3.0' );
 	return '';
 }
 
@@ -3452,7 +3505,7 @@ function _preview_theme_stylesheet_filter() {
  * @return string
  */
 function preview_theme_ob_filter( $content ) {
-	_deprecated_function( __FUNCTION__, '4.3' );
+	_deprecated_function( __FUNCTION__, '4.3.0' );
 	return $content;
 }
 
@@ -3469,14 +3522,14 @@ function preview_theme_ob_filter( $content ) {
  * @return string
  */
 function preview_theme_ob_filter_callback( $matches ) {
-	_deprecated_function( __FUNCTION__, '4.3' );
+	_deprecated_function( __FUNCTION__, '4.3.0' );
 	return '';
 }
 
 /**
  * Formats text for the rich text editor.
  *
- * The filter 'richedit_pre' is applied here. If $text is empty the filter will
+ * The {@see 'richedit_pre'} filter is applied here. If $text is empty the filter will
  * be applied to an empty string.
  *
  * @since 2.0.0
@@ -3486,11 +3539,11 @@ function preview_theme_ob_filter_callback( $matches ) {
  * @return string The formatted text after filter is applied.
  */
 function wp_richedit_pre($text) {
-	_deprecated_function( __FUNCTION__, '4.3', 'format_for_editor()' );
+	_deprecated_function( __FUNCTION__, '4.3.0', 'format_for_editor()' );
 
 	if ( empty( $text ) ) {
 		/**
-		 * Filter text returned for the rich text editor.
+		 * Filters text returned for the rich text editor.
 		 *
 		 * This filter is first evaluated, and the value returned, if an empty string
 		 * is passed to wp_richedit_pre(). If an empty string is passed, it results
@@ -3519,7 +3572,7 @@ function wp_richedit_pre($text) {
  * Formats text for the HTML editor.
  *
  * Unless $output is empty it will pass through htmlspecialchars before the
- * 'htmledit_pre' filter is applied.
+ * {@see 'htmledit_pre'} filter is applied.
  *
  * @since 2.5.0
  * @deprecated 4.3.0 Use format_for_editor()
@@ -3529,13 +3582,13 @@ function wp_richedit_pre($text) {
  * @return string Formatted text after filter applied.
  */
 function wp_htmledit_pre($output) {
-	_deprecated_function( __FUNCTION__, '4.3', 'format_for_editor()' );
+	_deprecated_function( __FUNCTION__, '4.3.0', 'format_for_editor()' );
 
 	if ( !empty($output) )
 		$output = htmlspecialchars($output, ENT_NOQUOTES, get_option( 'blog_charset' ) ); // convert only < > &
 
 	/**
-	 * Filter the text before it is formatted for the HTML editor.
+	 * Filters the text before it is formatted for the HTML editor.
 	 *
 	 * @since 2.5.0
 	 * @deprecated 4.3.0
@@ -3556,7 +3609,7 @@ function wp_htmledit_pre($output) {
  * @return string|false
  */
 function post_permalink( $post_id = 0 ) {
-	_deprecated_function( __FUNCTION__, '4.4', 'get_permalink()' );
+	_deprecated_function( __FUNCTION__, '4.4.0', 'get_permalink()' );
 
 	return get_permalink( $post_id );
 }
@@ -3578,7 +3631,7 @@ function post_permalink( $post_id = 0 ) {
  * @return bool|string False on failure and string of headers if HEAD request.
  */
 function wp_get_http( $url, $file_path = false, $red = 1 ) {
-	_deprecated_function( __FUNCTION__, '4.4', 'WP_Http' );
+	_deprecated_function( __FUNCTION__, '4.4.0', 'WP_Http' );
 
 	@set_time_limit( 60 );
 
@@ -3632,6 +3685,76 @@ function wp_get_http( $url, $file_path = false, $red = 1 ) {
  * @return bool True if forced, false if not forced.
  */
 function force_ssl_login( $force = null ) {
-	_deprecated_function( __FUNCTION__, '4.4', 'force_ssl_admin()' );
+	_deprecated_function( __FUNCTION__, '4.4.0', 'force_ssl_admin()' );
 	return force_ssl_admin( $force );
+}
+
+/**
+ * Retrieve path of comment popup template in current or parent template.
+ *
+ * @since 1.5.0
+ * @deprecated 4.5.0
+ *
+ * @return string Full path to comments popup template file.
+ */
+function get_comments_popup_template() {
+	_deprecated_function( __FUNCTION__, '4.5.0' );
+
+	return '';
+}
+
+/**
+ * Whether the current URL is within the comments popup window.
+ *
+ * @since 1.5.0
+ * @deprecated 4.5.0
+ *
+ * @return bool
+ */
+function is_comments_popup() {
+	_deprecated_function( __FUNCTION__, '4.5.0' );
+
+	return false;
+}
+
+/**
+ * Display the JS popup script to show a comment.
+ *
+ * @since 0.71
+ * @deprecated 4.5.0
+ */
+function comments_popup_script() {
+	_deprecated_function( __FUNCTION__, '4.5.0' );
+}
+
+/**
+ * Adds element attributes to open links in new windows.
+ *
+ * @since 0.71
+ * @deprecated 4.5.0
+ *
+ * @param string $text Content to replace links to open in a new window.
+ * @return string Content that has filtered links.
+ */
+function popuplinks( $text ) {
+	_deprecated_function( __FUNCTION__, '4.5.0' );
+	$text = preg_replace('/<a (.+?)>/i', "<a $1 target='_blank' rel='external'>", $text);
+	return $text;
+}
+
+/**
+ * The Google Video embed handler callback.
+ *
+ * Deprecated function that previously assisted in turning Google Video URLs
+ * into embeds but that service has since been shut down.
+ *
+ * @since 2.9.0
+ * @deprecated 4.6.0
+ *
+ * @return string An empty string.
+ */
+function wp_embed_handler_googlevideo( $matches, $attr, $url, $rawattr ) {
+	_deprecated_function( __FUNCTION__, '4.6.0' );
+
+	return '';
 }

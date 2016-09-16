@@ -55,12 +55,12 @@ get_current_screen()->set_help_sidebar(
     '<p>' . __('<a href="https://wordpress.org/support/" target="_blank">Support Forums</a>') . '</p>'
 );
 
-$wp_http_referer = remove_query_arg(array('update', 'delete_count'), $wp_http_referer );
+$wp_http_referer = remove_query_arg( array( 'update', 'delete_count', 'user_id' ), $wp_http_referer );
 
 $user_can_edit = current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' );
 
 /**
- * Filter whether to allow administrators on Multisite to edit every user.
+ * Filters whether to allow administrators on Multisite to edit every user.
  *
  * Enabling the user editing form via this filter also hinges on the user holding
  * the 'manage_network_users' cap, and the logged-in user not matching the user
@@ -77,25 +77,29 @@ if ( is_multisite()
 	&& $user_id != $current_user->ID
 	&& ! apply_filters( 'enable_edit_any_user_configuration', true )
 ) {
-	wp_die( __( 'You do not have permission to edit this user.' ) );
+	wp_die( __( 'Sorry, you are not allowed to edit this user.' ) );
 }
 
 // Execute confirmed email change. See send_confirmation_on_profile_email().
 if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
-	$new_email = get_option( $current_user->ID . '_new_email' );
-	if ( $new_email[ 'hash' ] == $_GET[ 'newuseremail' ] ) {
+	$new_email = get_user_meta( $current_user->ID, '_new_email', true );
+	if ( $new_email && hash_equals( $new_email[ 'hash' ], $_GET[ 'newuseremail' ] ) ) {
 		$user = new stdClass;
 		$user->ID = $current_user->ID;
 		$user->user_email = esc_html( trim( $new_email[ 'newemail' ] ) );
-		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) )
+		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) ) {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $user->user_email, $current_user->user_login ) );
+		}
 		wp_update_user( $user );
-		delete_option( $current_user->ID . '_new_email' );
-		wp_redirect( add_query_arg( array('updated' => 'true'), self_admin_url( 'profile.php' ) ) );
+		delete_user_meta( $current_user->ID, '_new_email' );
+		wp_redirect( add_query_arg( array( 'updated' => 'true' ), self_admin_url( 'profile.php' ) ) );
 		die();
+	} else {
+		wp_redirect( add_query_arg( array( 'error' => 'new-email' ), self_admin_url( 'profile.php' ) ) );
 	}
-} elseif ( is_multisite() && IS_PROFILE_PAGE && !empty( $_GET['dismiss'] ) && $current_user->ID . '_new_email' == $_GET['dismiss'] ) {
-	delete_option( $current_user->ID . '_new_email' );
+} elseif ( is_multisite() && IS_PROFILE_PAGE && !empty( $_GET['dismiss'] ) && $current_user->ID . '_new_email' === $_GET['dismiss'] ) {
+	check_admin_referer( 'dismiss-' . $current_user->ID . '_new_email' );
+	delete_user_meta( $current_user->ID, '_new_email' );
 	wp_redirect( add_query_arg( array('updated' => 'true'), self_admin_url( 'profile.php' ) ) );
 	die();
 }
@@ -106,7 +110,7 @@ case 'update':
 check_admin_referer('update-user_' . $user_id);
 
 if ( !current_user_can('edit_user', $user_id) )
-	wp_die(__('You do not have permission to edit this user.'));
+	wp_die(__('Sorry, you are not allowed to edit this user.'));
 
 if ( IS_PROFILE_PAGE ) {
 	/**
@@ -159,7 +163,7 @@ default:
 $profileuser = get_user_to_edit($user_id);
 
 if ( !current_user_can('edit_user', $user_id) )
-	wp_die(__('You do not have permission to edit this user.'));
+	wp_die(__('Sorry, you are not allowed to edit this user.'));
 
 $sessions = WP_Session_Tokens::get_instance( $profileuser->ID );
 
@@ -176,8 +180,15 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	<?php else: ?>
 	<p><strong><?php _e('User updated.') ?></strong></p>
 	<?php endif; ?>
-	<?php if ( $wp_http_referer && !IS_PROFILE_PAGE ) : ?>
+	<?php if ( $wp_http_referer && false === strpos( $wp_http_referer, 'user-new.php' ) && ! IS_PROFILE_PAGE ) : ?>
 	<p><a href="<?php echo esc_url( $wp_http_referer ); ?>"><?php _e('&larr; Back to Users'); ?></a></p>
+	<?php endif; ?>
+</div>
+<?php endif; ?>
+<?php if ( isset( $_GET['error'] ) ) : ?>
+<div class="notice notice-error">
+	<?php if ( 'new-email' == $_GET['error'] ) : ?>
+	<p><?php _e( 'Error while saving the new email address. Please try again.' ); ?></p>
 	<?php endif; ?>
 </div>
 <?php endif; ?>
@@ -383,15 +394,21 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	<th><label for="email"><?php _e('Email'); ?> <span class="description"><?php _e('(required)'); ?></span></label></th>
 	<td><input type="email" name="email" id="email" value="<?php echo esc_attr( $profileuser->user_email ) ?>" class="regular-text ltr" />
 	<?php
-	$new_email = get_option( $current_user->ID . '_new_email' );
+	$new_email = get_user_meta( $current_user->ID, '_new_email', true );
 	if ( $new_email && $new_email['newemail'] != $current_user->user_email && $profileuser->ID == $current_user->ID ) : ?>
 	<div class="updated inline">
 	<p><?php
 		printf(
-			__( 'There is a pending change of your email to %1$s. <a href="%2$s">Cancel</a>' ),
-			'<code>' . $new_email['newemail'] . '</code>',
-			esc_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ) )
-	); ?></p>
+			/* translators: %s: new email */
+			__( 'There is a pending change of your email to %s.' ),
+			'<code>' . esc_html( $new_email['newemail'] ) . '</code>'
+		);
+		printf(
+			' <a href="%1$s">%2$s</a>',
+			esc_url( wp_nonce_url( self_admin_url( 'profile.php?dismiss=' . $current_user->ID . '_new_email' ), 'dismiss-' . $current_user->ID . '_new_email' ) ),
+			__( 'Cancel' )
+		);
+	?></p>
 	</div>
 	<?php endif; ?>
 	</td>
@@ -409,7 +426,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 	<th><label for="<?php echo $name; ?>">
 		<?php
 		/**
-		 * Filter a user contactmethod label.
+		 * Filters a user contactmethod label.
 		 *
 		 * The dynamic portion of the filter hook, `$name`, refers to
 		 * each of the keys in the contactmethods array.
@@ -453,13 +470,15 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 			}
 
 			/**
-			 * Filter the user profile picture description displayed under the Gravatar.
+			 * Filters the user profile picture description displayed under the Gravatar.
 			 *
 			 * @since 4.4.0
+			 * @since 4.7.0 Added the `$profileuser` parameter.
 			 *
-			 * @param string $description The description that will be printed.
+			 * @param string  $description The description that will be printed.
+			 * @param WP_User $profileuser The current WP_User object.
 			 */
-			echo apply_filters( 'user_profile_picture_description', $description );
+			echo apply_filters( 'user_profile_picture_description', $description, $profileuser );
 		?></p>
 	</td>
 </tr>
@@ -467,7 +486,7 @@ if ( is_multisite() && is_network_admin() && ! IS_PROFILE_PAGE && current_user_c
 
 <?php
 /**
- * Filter the display of the password fields.
+ * Filters the display of the password fields.
  *
  * @since 1.5.1
  * @since 2.8.0 Added the `$profileuser` parameter.
@@ -514,7 +533,7 @@ if ( $show_password_fields = apply_filters( 'show_password_fields', true, $profi
 	<td>
 		<label>
 			<input type="checkbox" name="pw_weak" class="pw-checkbox" />
-			<?php _e( 'Confirm use of weak password' ); ?>
+			<span id="pw-weak-text-label"><?php _e( 'Confirm use of potentially weak password' ); ?></span>
 		</label>
 	</td>
 </tr>
@@ -584,7 +603,7 @@ if ( IS_PROFILE_PAGE && count( $sessions->get_all() ) === 1 ) : ?>
 
 <?php
 /**
- * Filter whether to display additional capabilities for the user.
+ * Filters whether to display additional capabilities for the user.
  *
  * The 'Additional Capabilities' section will only be enabled if
  * the number of the user's capabilities exceeds their number of

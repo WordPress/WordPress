@@ -63,12 +63,12 @@ class WP_Role {
 	}
 
 	/**
-	 * Remove capability from role.
+	 * Removes a capability from a role.
 	 *
-	 * This is a container for {@link WP_Roles::remove_cap()} to remove the
-	 * capability from the role. That is to say, that {@link
-	 * WP_Roles::remove_cap()} implements the functionality, but it also makes
-	 * sense to use this class, because you don't need to enter the role name.
+	 * This is a container for WP_Roles::remove_cap() to remove the
+	 * capability from the role. That is to say, that WP_Roles::remove_cap()
+	 * implements the functionality, but it also makes sense to use this class,
+	 * because you don't need to enter the role name.
 	 *
 	 * @since 2.0.0
 	 * @access public
@@ -81,22 +81,22 @@ class WP_Role {
 	}
 
 	/**
-	 * Whether role has capability.
+	 * Determines whether the role has the given capability.
 	 *
-	 * The capabilities is passed through the 'role_has_cap' filter. The first
-	 * parameter for the hook is the list of capabilities the class has
-	 * assigned. The second parameter is the capability name to look for. The
-	 * third and final parameter for the hook is the role name.
+	 * The capabilities is passed through the {@see 'role_has_cap'} filter.
+	 * The first parameter for the hook is the list of capabilities the class
+	 * has assigned. The second parameter is the capability name to look for.
+	 * The third and final parameter for the hook is the role name.
 	 *
 	 * @since 2.0.0
 	 * @access public
 	 *
 	 * @param string $cap Capability name.
-	 * @return bool True, if user has capability. False, if doesn't have capability.
+	 * @return bool True if the role has the given capability. False otherwise.
 	 */
 	public function has_cap( $cap ) {
 		/**
-		 * Filter which capabilities a role has.
+		 * Filters which capabilities a role has.
 		 *
 		 * @since 2.0.0
 		 *
@@ -105,6 +105,7 @@ class WP_Role {
 		 * @param string $name         Role name.
 		 */
 		$capabilities = apply_filters( 'role_has_cap', $this->capabilities, $cap, $this->name );
+
 		if ( !empty( $capabilities[$cap] ) )
 			return $capabilities[$cap];
 		else

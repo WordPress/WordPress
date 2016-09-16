@@ -116,11 +116,16 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 		$tempfile = wp_tempnam($file);
 		$temp = fopen($tempfile, 'w+');
 
-		if ( ! $temp )
+		if ( ! $temp ) {
+			unlink( $tempfile );
 			return false;
+		}
 
-		if ( ! @ftp_fget($this->link, $temp, $file, FTP_BINARY ) )
+		if ( ! @ftp_fget( $this->link, $temp, $file, FTP_BINARY ) ) {
+			fclose( $temp );
+			unlink( $tempfile );
 			return false;
+		}
 
 		fseek( $temp, 0 ); // Skip back to the start of the file being written to
 		$contents = '';
@@ -154,8 +159,11 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	public function put_contents($file, $contents, $mode = false ) {
 		$tempfile = wp_tempnam($file);
 		$temp = fopen( $tempfile, 'wb+' );
-		if ( ! $temp )
+
+		if ( ! $temp ) {
+			unlink( $tempfile );
 			return false;
+		}
 
 		mbstring_binary_safe_encoding();
 
@@ -326,16 +334,14 @@ class WP_Filesystem_FTPext extends WP_Filesystem_Base {
 	 * @param string $file
 	 * @return bool
 	 */
-	public function exists( $file ) {
-		$path = dirname( $file );
-		$filename = basename( $file );
+	public function exists($file) {
+		$list = @ftp_nlist($this->link, $file);
 
-		$file_list = @ftp_nlist( $this->link, '-a ' . $path );
-		if ( $file_list ) {
-			$file_list = array_map( 'basename', $file_list );
+		if ( empty( $list ) && $this->is_dir( $file ) ) {
+			return true; // File is an empty directory.
 		}
 
-		return $file_list && in_array( $filename, $file_list );
+		return !empty($list); //empty list = no file, so invert.
 	}
 
 	/**

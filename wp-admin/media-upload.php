@@ -16,7 +16,7 @@ if ( ! isset( $_GET['inline'] ) )
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'upload_files' ) ) {
-	wp_die( __( 'You do not have permission to upload files.' ), 403 );
+	wp_die( __( 'Sorry, you are not allowed to upload files.' ), 403 );
 }
 
 wp_enqueue_script('plupload-handlers');
@@ -43,7 +43,7 @@ if ( isset( $action ) && $action == 'edit' && !$ID ) {
 if ( ! empty( $_REQUEST['post_id'] ) && ! current_user_can( 'edit_post' , $_REQUEST['post_id'] ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to edit this item.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to edit this item.' ) . '</p>',
 		403
 	);
 }
@@ -53,7 +53,7 @@ if ( isset($_GET['type']) ) {
 	$type = strval($_GET['type']);
 } else {
 	/**
-	 * Filter the default media upload type in the legacy (pre-3.5.0) media popup.
+	 * Filters the default media upload type in the legacy (pre-3.5.0) media popup.
 	 *
 	 * @since 2.5.0
 	 *
@@ -68,7 +68,7 @@ if ( isset($_GET['tab']) ) {
 	$tab = strval($_GET['tab']);
 } else {
 	/**
-	 * Filter the default tab in the legacy (pre-3.5.0) media popup.
+	 * Filters the default tab in the legacy (pre-3.5.0) media popup.
 	 *
 	 * @since 2.5.0
 	 *
@@ -95,7 +95,7 @@ if ( $tab == 'type' || $tab == 'type_url' || ! array_key_exists( $tab , media_up
 	 *
 	 * @since 2.5.0
 	 */
-	do_action( "media_upload_$type" );
+	do_action( "media_upload_{$type}" );
 } else {
 	/**
 	 * Fires inside limited and specific upload-tab views in the legacy
@@ -107,6 +107,6 @@ if ( $tab == 'type' || $tab == 'type_url' || ! array_key_exists( $tab , media_up
 	 *
 	 * @since 2.5.0
 	 */
-	do_action( "media_upload_$tab" );
+	do_action( "media_upload_{$tab}" );
 }
 

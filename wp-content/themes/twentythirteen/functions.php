@@ -61,12 +61,12 @@ function twentythirteen_setup() {
 	/*
 	 * Makes Twenty Thirteen available for translation.
 	 *
-	 * Translations can be added to the /languages/ directory.
+	 * Translations can be filed at WordPress.org. See: https://translate.wordpress.org/projects/wp-themes/twentythirteen
 	 * If you're building a theme based on Twenty Thirteen, use a find and
 	 * replace to change 'twentythirteen' to the name of your theme in all
 	 * template files.
 	 */
-	load_theme_textdomain( 'twentythirteen', get_template_directory() . '/languages' );
+	load_theme_textdomain( 'twentythirteen' );
 
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
@@ -105,6 +105,9 @@ function twentythirteen_setup() {
 
 	// This theme uses its own gallery styles.
 	add_filter( 'use_default_gallery_style', '__return_false' );
+
+	// Indicate widget sidebars can use selective refresh in the Customizer.
+	add_theme_support( 'customize-selective-refresh-widgets' );
 }
 add_action( 'after_setup_theme', 'twentythirteen_setup' );
 
@@ -170,7 +173,7 @@ function twentythirteen_scripts_styles() {
 		wp_enqueue_script( 'jquery-masonry' );
 
 	// Loads JavaScript file with functionality specific to Twenty Thirteen.
-	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20150330', true );
+	wp_enqueue_script( 'twentythirteen-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '20160717', true );
 
 	// Add Source Sans Pro and Bitter fonts, used in the main stylesheet.
 	wp_enqueue_style( 'twentythirteen-fonts', twentythirteen_fonts_url(), array(), null );
@@ -283,9 +286,9 @@ endif;
 if ( ! function_exists( 'twentythirteen_post_nav' ) ) :
 /**
  * Display navigation to next/previous post when applicable.
-*
-* @since Twenty Thirteen 1.0
-*/
+ *
+ * @since Twenty Thirteen 1.0
+ */
 function twentythirteen_post_nav() {
 	global $post;
 
@@ -418,9 +421,9 @@ function twentythirteen_the_attached_image() {
 
 	// If there is more than 1 attachment in a gallery...
 	if ( count( $attachment_ids ) > 1 ) {
-		foreach ( $attachment_ids as $attachment_id ) {
+		foreach ( $attachment_ids as $idx => $attachment_id ) {
 			if ( $attachment_id == $post->ID ) {
-				$next_id = current( $attachment_ids );
+				$next_id = $attachment_ids[ ( $idx + 1 ) % count( $attachment_ids ) ];
 				break;
 			}
 		}
@@ -535,8 +538,45 @@ function twentythirteen_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
+
+	if ( isset( $wp_customize->selective_refresh ) ) {
+		$wp_customize->selective_refresh->add_partial( 'blogname', array(
+			'selector' => '.site-title',
+			'container_inclusive' => false,
+			'render_callback' => 'twentythirteen_customize_partial_blogname',
+		) );
+		$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
+			'selector' => '.site-description',
+			'container_inclusive' => false,
+			'render_callback' => 'twentythirteen_customize_partial_blogdescription',
+		) );
+	}
 }
 add_action( 'customize_register', 'twentythirteen_customize_register' );
+
+/**
+ * Render the site title for the selective refresh partial.
+ *
+ * @since Twenty Thirteen 1.9
+ * @see twentythirteen_customize_register()
+ *
+ * @return void
+ */
+function twentythirteen_customize_partial_blogname() {
+	bloginfo( 'name' );
+}
+
+/**
+ * Render the site tagline for the selective refresh partial.
+ *
+ * @since Twenty Thirteen 1.9
+ * @see twentythirteen_customize_register()
+ *
+ * @return void
+ */
+function twentythirteen_customize_partial_blogdescription() {
+	bloginfo( 'description' );
+}
 
 /**
  * Enqueue Javascript postMessage handlers for the Customizer.

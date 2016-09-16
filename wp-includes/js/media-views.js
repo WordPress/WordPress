@@ -282,8 +282,10 @@ Cropper = wp.media.controller.State.extend({
 		toolbar:     'crop',
 		content:     'crop',
 		router:      false,
+		canSkipCrop: false,
 
-		canSkipCrop: false
+		// Default doCrop Ajax arguments to allow the Customizer (for example) to inject state.
+		doCropArgs: {}
 	},
 
 	activate: function() {
@@ -367,11 +369,15 @@ Cropper = wp.media.controller.State.extend({
 	},
 
 	doCrop: function( attachment ) {
-		return wp.ajax.post( 'custom-header-crop', {
-			nonce: attachment.get('nonces').edit,
-			id: attachment.get('id'),
-			cropDetails: attachment.get('cropDetails')
-		} );
+		return wp.ajax.post( 'custom-header-crop', _.extend(
+			{},
+			this.defaults.doCropArgs,
+			{
+				nonce: attachment.get( 'nonces' ).edit,
+				id: attachment.get( 'id' ),
+				cropDetails: attachment.get( 'cropDetails' )
+			}
+		) );
 	}
 });
 
@@ -394,10 +400,19 @@ var Controller = wp.media.controller,
 CustomizeImageCropper = Controller.Cropper.extend({
 	doCrop: function( attachment ) {
 		var cropDetails = attachment.get( 'cropDetails' ),
-			control = this.get( 'control' );
+			control = this.get( 'control' ),
+			ratio = cropDetails.width / cropDetails.height;
 
-		cropDetails.dst_width  = control.params.width;
-		cropDetails.dst_height = control.params.height;
+		// Use crop measurements when flexible in both directions.
+		if ( control.params.flex_width && control.params.flex_height ) {
+			cropDetails.dst_width  = cropDetails.width;
+			cropDetails.dst_height = cropDetails.height;
+
+		// Constrain flexible side based on image ratio and size of the fixed side.
+		} else {
+			cropDetails.dst_width  = control.params.flex_width  ? control.params.height * ratio : control.params.width;
+			cropDetails.dst_height = control.params.flex_height ? control.params.width  / ratio : control.params.height;
+		}
 
 		return wp.ajax.post( 'crop-image', {
 			wp_customize: 'on',
@@ -447,14 +462,14 @@ EditImage = wp.media.controller.State.extend({
 	 * @since 3.9.0
 	 */
 	activate: function() {
-		this.listenTo( this.frame, 'toolbar:render:edit-image', this.toolbar );
+		this.frame.on( 'toolbar:render:edit-image', _.bind( this.toolbar, this ) );
 	},
 
 	/**
 	 * @since 3.9.0
 	 */
 	deactivate: function() {
-		this.stopListening( this.frame );
+		this.frame.off( 'toolbar:render:edit-image' );
 	},
 
 	/**
@@ -1214,11 +1229,32 @@ Library = wp.media.controller.State.extend({
 	 * @returns {Object}
 	 */
 	defaultDisplaySettings: function( attachment ) {
-		var settings = this._defaultDisplaySettings;
+		var settings = _.clone( this._defaultDisplaySettings );
+
 		if ( settings.canEmbed = this.canEmbed( attachment ) ) {
 			settings.link = 'embed';
+		} else if ( ! this.isImageAttachment( attachment ) && settings.link === 'none' ) {
+			settings.link = 'file';
 		}
+
 		return settings;
+	},
+
+	/**
+	 * Whether an attachment is image.
+	 *
+	 * @since 4.4.1
+	 *
+	 * @param {wp.media.model.Attachment} attachment
+	 * @returns {Boolean}
+	 */
+	isImageAttachment: function( attachment ) {
+		// If uploading, we know the filename but not the mime type.
+		if ( attachment.get('uploading') ) {
+			return /\.(jpe?g|png|gif)$/i.test( attachment.get('filename') );
+		}
+
+		return attachment.get('type') === 'image';
 	},
 
 	/**
@@ -3733,14 +3769,14 @@ AttachmentsBrowser = View.extend({
 			AttachmentView: wp.media.view.Attachment.Library
 		});
 
-		this.listenTo( this.controller, 'toggle:upload:attachment', _.bind( this.toggleUploader, this ) );
+		this.controller.on( 'toggle:upload:attachment', this.toggleUploader, this );
 		this.controller.on( 'edit:selection', this.editSelection );
 		this.createToolbar();
+		this.createUploader();
+		this.createAttachments();
 		if ( this.options.sidebar ) {
 			this.createSidebar();
 		}
-		this.createUploader();
-		this.createAttachments();
 		this.updateContent();
 
 		if ( ! this.options.sidebar || 'errors' === this.options.sidebar ) {
@@ -4049,8 +4085,8 @@ AttachmentsBrowser = View.extend({
 		});
 
 		// Add keydown listener to the instance of the Attachments view
-		this.attachments.listenTo( this.controller, 'attachment:keydown:arrow',     this.attachments.arrowEvent );
-		this.attachments.listenTo( this.controller, 'attachment:details:shift-tab', this.attachments.restoreFocus );
+		this.controller.on( 'attachment:keydown:arrow',     _.bind( this.attachments.arrowEvent, this.attachments ) );
+		this.controller.on( 'attachment:details:shift-tab', _.bind( this.attachments.restoreFocus, this.attachments ) );
 
 		this.views.add( this.attachments );
 

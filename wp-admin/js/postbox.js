@@ -1,4 +1,4 @@
-/* global ajaxurl */
+/* global ajaxurl, postBoxL10n */
 
 var postboxes;
 
@@ -50,7 +50,7 @@ var postboxes;
 			this.page = page;
 			this.init( page, args );
 
-			$handles.on( 'click.postboxes',  this.handle_click );
+			$handles.on( 'click.postboxes', this.handle_click );
 
 			$('.postbox .hndle a').click( function(e) {
 				e.stopPropagation();
@@ -109,7 +109,20 @@ var postboxes;
 				distance: 2,
 				tolerance: 'pointer',
 				forcePlaceholderSize: true,
-				helper: 'clone',
+				helper: function( event, element ) {
+					// `helper: 'clone'` is equivalent to `return element.clone();`
+					// Cloning a checked radio and then inserting that clone next to the original
+					// radio unchecks the original radio (since only one of the two can be checked).
+					// We get around this by renaming the helper's inputs' name attributes so that,
+					// when the helper is inserted into the DOM for the sortable, no radios are
+					// duplicated, and no original radio gets unchecked.
+					return element.clone()
+						.find( ':input' )
+							.attr( 'name', function( i, currentName ) {
+								return 'sort_' + parseInt( Math.random() * 100000, 10 ).toString() + '_' + currentName;
+							} )
+						.end();
+				},
 				opacity: 0.65,
 				stop: function() {
 					var $el = $( this );
@@ -126,6 +139,7 @@ var postboxes;
 						$(ui.sender).sortable('cancel');
 
 					postboxes._mark_area();
+					$document.trigger( 'postbox-moved', ui.item );
 				}
 			});
 
@@ -144,8 +158,15 @@ var postboxes;
 		},
 
 		save_state : function(page) {
-			var closed = $('.postbox').filter('.closed').map(function() { return this.id; }).get().join(','),
-				hidden = $('.postbox').filter(':hidden').map(function() { return this.id; }).get().join(',');
+			var closed, hidden;
+
+			// Return on the nav-menus.php screen, see #35112.
+			if ( 'nav-menus' === page ) {
+				return;
+			}
+
+			closed = $( '.postbox' ).filter( '.closed' ).map( function() { return this.id; } ).get().join( ',' );
+			hidden = $( '.postbox' ).filter( ':hidden' ).map( function() { return this.id; } ).get().join( ',' );
 
 			$.post(ajaxurl, {
 				action: 'closed-postboxes',
@@ -177,10 +198,13 @@ var postboxes;
 			$( '#dashboard-widgets .meta-box-sortables:visible' ).each( function() {
 				var t = $(this);
 
-				if ( visible == 1 || t.children('.postbox:visible').length )
+				if ( visible == 1 || t.children('.postbox:visible').length ) {
 					t.removeClass('empty-container');
-				else
+				}
+				else {
 					t.addClass('empty-container');
+					t.attr('data-emptyString', postBoxL10n.postBoxEmptyString);
+				}
 			});
 
 			if ( side.length ) {

@@ -20,7 +20,7 @@
 		 */
 		function initialize() {
 			if ( typeof _wpmejsSettings !== 'undefined' ) {
-				settings = _wpmejsSettings;
+				settings = $.extend( true, {}, _wpmejsSettings );
 			}
 
 			settings.success = settings.success || function (mejs) {
@@ -56,6 +56,6 @@
 
 	window.wp.mediaelement = new wpMediaElement();
 
-	$( document ).on( 'ready', window.wp.mediaelement.initialize );
+	$( window.wp.mediaelement.initialize );
 
 })( window, jQuery );

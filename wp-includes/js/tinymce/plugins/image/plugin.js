@@ -83,7 +83,7 @@ tinymce.PluginManager.add('image', function(editor) {
 	}
 
 	function showDialog(imageList) {
-		var win, data = {}, dom = editor.dom, imgElm = editor.selection.getNode();
+		var win, data = {}, dom = editor.dom, imgElm, figureElm;
 		var width, height, imageListCtrl, classListCtrl, imageDimensions = editor.settings.image_dimensions !== false;
 
 		function recalcSize() {
@@ -120,6 +120,8 @@ tinymce.PluginManager.add('image', function(editor) {
 		}
 
 		function onSubmitForm() {
+			var figureElm, oldImg;
+
 			function waitLoad(imgElm) {
 				function selectImage() {
 					imgElm.onload = imgElm.onerror = null;
@@ -150,7 +152,7 @@ tinymce.PluginManager.add('image', function(editor) {
 			recalcSize();
 
 			data = tinymce.extend(data, win.toJSON());
-			var caption = data.caption; // WP
+			var wpcaption = data.wpcaption; // WP
 
 			if (!data.alt) {
 				data.alt = '';
@@ -181,12 +183,13 @@ tinymce.PluginManager.add('image', function(editor) {
 				width: data.width,
 				height: data.height,
 				style: data.style,
+				caption: data.caption,
 				"class": data["class"]
 			};
 
 			editor.undoManager.transact(function() {
 				// WP
-				var eventData = { node: imgElm, data: data, caption: caption };
+				var eventData = { node: imgElm, data: data, wpcaption: wpcaption };
 
 				editor.fire( 'wpImageFormSubmit', { imgData: eventData } );
 
@@ -218,7 +221,42 @@ tinymce.PluginManager.add('image', function(editor) {
 					dom.setAttrib(imgElm, 'id', null);
 				} else {
 					dom.setAttribs(imgElm, data);
-					editor.editorUpload.uploadImagesAuto();
+				}
+
+				editor.editorUpload.uploadImagesAuto();
+
+				if (data.caption === false) {
+					if (dom.is(imgElm.parentNode, 'figure.image')) {
+						figureElm = imgElm.parentNode;
+						dom.insertAfter(imgElm, figureElm);
+						dom.remove(figureElm);
+					}
+				}
+
+				function isTextBlock(node) {
+					return editor.schema.getTextBlockElements()[node.nodeName];
+				}
+
+				if (data.caption === true) {
+					if (!dom.is(imgElm.parentNode, 'figure.image')) {
+						oldImg = imgElm;
+						imgElm = imgElm.cloneNode(true);
+						figureElm = dom.create('figure', {'class': 'image'});
+						figureElm.appendChild(imgElm);
+						figureElm.appendChild(dom.create('figcaption', {contentEditable: true}, 'Caption'));
+						figureElm.contentEditable = false;
+
+						var textBlock = dom.getParent(oldImg, isTextBlock);
+						if (textBlock) {
+							dom.split(textBlock, oldImg, figureElm);
+						} else {
+							dom.replace(figureElm, oldImg);
+						}
+
+						editor.selection.select(figureElm);
+					}
+
+					return;
 				}
 
 				waitLoad(imgElm);
@@ -268,23 +306,32 @@ tinymce.PluginManager.add('image', function(editor) {
 			}
 		}
 
-		width = dom.getAttrib(imgElm, 'width');
-		height = dom.getAttrib(imgElm, 'height');
+		imgElm = editor.selection.getNode();
+		figureElm = dom.getParent(imgElm, 'figure.image');
+		if (figureElm) {
+			imgElm = dom.select('img', figureElm)[0];
+		}
 
-		if (imgElm.nodeName == 'IMG' && !imgElm.getAttribute('data-mce-object') && !imgElm.getAttribute('data-mce-placeholder')) {
+		if (imgElm && (imgElm.nodeName != 'IMG' || imgElm.getAttribute('data-mce-object') || imgElm.getAttribute('data-mce-placeholder'))) {
+			imgElm = null;
+		}
+
+		if (imgElm) {
+			width = dom.getAttrib(imgElm, 'width');
+			height = dom.getAttrib(imgElm, 'height');
+
 			data = {
 				src: dom.getAttrib(imgElm, 'src'),
 				alt: dom.getAttrib(imgElm, 'alt'),
 				title: dom.getAttrib(imgElm, 'title'),
 				"class": dom.getAttrib(imgElm, 'class'),
 				width: width,
-				height: height
+				height: height,
+				caption: !!figureElm
 			};
 
 			// WP
 			editor.fire( 'wpLoadImageData', { imgData: { data: data, node: imgElm } } );
-		} else {
-			imgElm = null;
 		}
 
 		if (imageList) {
@@ -372,6 +419,10 @@ tinymce.PluginManager.add('image', function(editor) {
 		}
 
 		generalFormItems.push(classListCtrl);
+
+		if (editor.settings.image_caption && tinymce.Env.ceFalse) {
+			generalFormItems.push({name: 'caption', type: 'checkbox', label: 'Caption'});
+		}
 
 		// WP
 		editor.fire( 'wpLoadImageForm', { data: generalFormItems } );
@@ -551,11 +602,40 @@ tinymce.PluginManager.add('image', function(editor) {
 		}
 	}
 
+	editor.on('preInit', function() {
+		function hasImageClass(node) {
+			var className = node.attr('class');
+			return className && /\bimage\b/.test(className);
+		}
+
+		function toggleContentEditableState(state) {
+			return function(nodes) {
+				var i = nodes.length, node;
+
+				function toggleContentEditable(node) {
+					node.attr('contenteditable', state ? 'true' : null);
+				}
+
+				while (i--) {
+					node = nodes[i];
+
+					if (hasImageClass(node)) {
+						node.attr('contenteditable', state ? 'false' : null);
+						tinymce.each(node.getAll('figcaption'), toggleContentEditable);
+					}
+				}
+			};
+		}
+
+		editor.parser.addNodeFilter('figure', toggleContentEditableState(true));
+		editor.serializer.addNodeFilter('figure', toggleContentEditableState(false));
+	});
+
 	editor.addButton('image', {
 		icon: 'image',
 		tooltip: 'Insert/edit image',
 		onclick: createImageList(showDialog),
-		stateSelector: 'img:not([data-mce-object],[data-mce-placeholder])'
+		stateSelector: 'img:not([data-mce-object],[data-mce-placeholder]),figure.image'
 	});
 
 	editor.addMenuItem('image', {

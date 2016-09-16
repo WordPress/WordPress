@@ -15,36 +15,42 @@
  * @see Walker
  */
 class Walker_Category extends Walker {
+
 	/**
 	 * What the class handles.
 	 *
-	 * @see Walker::$tree_type
 	 * @since 2.1.0
+	 * @access public
 	 * @var string
+	 *
+	 * @see Walker::$tree_type
 	 */
 	public $tree_type = 'category';
 
 	/**
 	 * Database fields to use.
 	 *
-	 * @see Walker::$db_fields
 	 * @since 2.1.0
-	 * @todo Decouple this
+	 * @access public
 	 * @var array
+	 *
+	 * @see Walker::$db_fields
+	 * @todo Decouple this
 	 */
 	public $db_fields = array ('parent' => 'parent', 'id' => 'term_id');
 
 	/**
 	 * Starts the list before the elements are added.
 	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
 	 * @see Walker::start_lvl()
 	 *
-	 * @since 2.1.0
-	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments. Will only append content if style argument value is 'list'.
-	 *                       @see wp_list_categories()
+	 * @param string $output Used to append additional content. Passed by reference.
+	 * @param int    $depth  Optional. Depth of category. Used for tab indentation. Default 0.
+	 * @param array  $args   Optional. An array of arguments. Will only append content if style argument
+	 *                       value is 'list'. See wp_list_categories(). Default empty array.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
@@ -57,14 +63,15 @@ class Walker_Category extends Walker {
 	/**
 	 * Ends the list of after the elements are added.
 	 *
+	 * @since 2.1.0
+	 * @access public
+	 *
 	 * @see Walker::end_lvl()
 	 *
-	 * @since 2.1.0
-	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param int    $depth  Depth of category. Used for tab indentation.
-	 * @param array  $args   An array of arguments. Will only append content if style argument value is 'list'.
-	 *                       @wsee wp_list_categories()
+	 * @param string $output Used to append additional content. Passed by reference.
+	 * @param int    $depth  Optional. Depth of category. Used for tab indentation. Default 0.
+	 * @param array  $args   Optional. An array of arguments. Will only append content if style argument
+	 *                       value is 'list'. See wp_list_categories(). Default empty array.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )
@@ -75,17 +82,18 @@ class Walker_Category extends Walker {
 	}
 
 	/**
-	 * Start the element output.
+	 * Starts the element output.
+	 *
+	 * @since 2.1.0
+	 * @access public
 	 *
 	 * @see Walker::start_el()
 	 *
-	 * @since 2.1.0
-	 *
 	 * @param string $output   Passed by reference. Used to append additional content.
 	 * @param object $category Category data object.
-	 * @param int    $depth    Depth of category in reference to parents. Default 0.
-	 * @param array  $args     An array of arguments. @see wp_list_categories()
-	 * @param int    $id       ID of the current category.
+	 * @param int    $depth    Optional. Depth of category in reference to parents. Default 0.
+	 * @param array  $args     Optional. An array of arguments. See wp_list_categories(). Default empty array.
+	 * @param int    $id       Optional. ID of the current category. Default 0.
 	 */
 	public function start_el( &$output, $category, $depth = 0, $args = array(), $id = 0 ) {
 		/** This filter is documented in wp-includes/category-template.php */
@@ -103,7 +111,7 @@ class Walker_Category extends Walker {
 		$link = '<a href="' . esc_url( get_term_link( $category ) ) . '" ';
 		if ( $args['use_desc_for_title'] && ! empty( $category->description ) ) {
 			/**
-			 * Filter the category description for display.
+			 * Filters the category description for display.
 			 *
 			 * @since 1.2.0
 			 *
@@ -170,11 +178,18 @@ class Walker_Category extends Walker {
 					} elseif ( $category->term_id == $_current_term->parent ) {
 						$css_classes[] = 'current-cat-parent';
 					}
+					while ( $_current_term->parent ) {
+						if ( $category->term_id == $_current_term->parent ) {
+							$css_classes[] =  'current-cat-ancestor';
+							break;
+						}
+						$_current_term = get_term( $_current_term->parent, $category->taxonomy );
+					}
 				}
 			}
 
 			/**
-			 * Filter the list of CSS classes to include with each category in the list.
+			 * Filters the list of CSS classes to include with each category in the list.
 			 *
 			 * @since 4.2.0
 			 *
@@ -199,14 +214,16 @@ class Walker_Category extends Walker {
 	/**
 	 * Ends the element output, if needed.
 	 *
-	 * @see Walker::end_el()
-	 *
 	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @see Walker::end_el()
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param object $page   Not used.
-	 * @param int    $depth  Depth of category. Not used.
-	 * @param array  $args   An array of arguments. Only uses 'list' for whether should append to output. @see wp_list_categories()
+	 * @param int    $depth  Optional. Depth of category. Not used.
+	 * @param array  $args   Optional. An array of arguments. Only uses 'list' for whether should append
+	 *                       to output. See wp_list_categories(). Default empty array.
 	 */
 	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
 		if ( 'list' != $args['style'] )

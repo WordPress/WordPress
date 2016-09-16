@@ -16,6 +16,7 @@ header( 'Content-Type: text/html; charset=utf-8' );
 <head>
 	<meta name="viewport" content="width=device-width" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="robots" content="noindex,nofollow" />
 	<title><?php _e( 'WordPress &rsaquo; Database Repair' ); ?></title>
 	<?php
 	wp_admin_css( 'install', true );
@@ -30,7 +31,13 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 
 	echo '<h1 class="screen-reader-text">' . __( 'Allow automatic database repair' ) . '</h1>';
 
-	echo '<p>' . __( 'To allow use of this page to automatically repair database problems, please add the following line to your <code>wp-config.php</code> file. Once this line is added to your config, reload this page.' ) . "</p><p><code>define('WP_ALLOW_REPAIR', true);</code></p>";
+	echo '<p>';
+	printf(
+		/* translators: %s: wp-config.php */
+		__( 'To allow use of this page to automatically repair database problems, please add the following line to your %s file. Once this line is added to your config, reload this page.' ),
+		'<code>wp-config.php</code>'
+	);
+	echo "</p><p><code>define('WP_ALLOW_REPAIR', true);</code></p>";
 
 	$default_key     = 'put your unique phrase here';
 	$missing_key     = false;
@@ -79,7 +86,7 @@ if ( ! defined( 'WP_ALLOW_REPAIR' ) ) {
 	}
 
 	/**
-	 * Filter additional database tables to repair.
+	 * Filters additional database tables to repair.
 	 *
 	 * @since 3.0.0
 	 *

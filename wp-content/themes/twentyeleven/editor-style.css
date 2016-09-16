@@ -3,21 +3,12 @@ Theme Name: Twenty Eleven
 Description: Used to style the TinyMCE editor.
 */
 
-html .mceContentBody {
-	max-width: 584px;
-}
-* {
-	color: inherit;
-	font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-style: inherit;
-	font-weight: inherit;
-	line-height: 1.625;
-}
 body {
 	color: #333;
 	font: 15px "Helvetica Neue", Helvetica, Arial, "Nimbus Sans L", sans-serif;
 	font-weight: 300;
 	line-height: 1.625;
+	max-width: 584px;
 }
 
 /* Headings */
@@ -237,10 +228,6 @@ td {
 }
 
 /* Images */
-img[class*="wp-image-"] {
-	height: auto;
-	max-width: 97.5%;
-}
 img.size-full {
 	width: auto; /* Prevent stretching of full-size images in IE8 */
 }
@@ -254,10 +241,12 @@ p img,
 .wp-caption {
 	margin-top: 0.4em;
 }
-img,
-.editor-attachment {
+img {
 	border: 1px solid #ddd;
 	padding: 6px;
+	height: auto;
+	max-width: 97.5%;
+	max-width: calc( 100% - 14px );
 }
 img.alignleft,
 img.alignright,
@@ -269,25 +258,25 @@ img.aligncenter {
 	border: none;
 	margin-bottom: 1.625em;
 	max-width: 96%;
-	padding: 9px;
+	max-width: calc( 100% - 22px );
+	padding: 9px 11px;
 }
 .wp-caption img {
 	display: block;
-	margin: 5px auto 0 !important;
+	margin: 0 -2px;
 	max-width: 98%;
+	max-width: calc( 100% - 10px );
 	border-color: #eee;
 }
-.wp-caption .wp-caption-text,
-.wp-caption-dd {
+.wp-caption .wp-caption-dd {
 	color: #666;
-	font-family: Georgia, serif !important;
+	font-family: Georgia, serif;
 	font-size: 12px;
-	margin: 0 0 0.6em 0 !important;
-	padding: 0 0 5px 40px;
+	margin-bottom: 0.6em;
+	padding: 10px 0 5px 40px;
 	position: relative;
-	text-align: left;
 }
-.wp-caption .wp-caption-text:before {
+.wp-caption .wp-caption-dd:before {
 	color: #666;
 	content: '\2014';
 	font-size: 14px;
@@ -298,9 +287,9 @@ img.aligncenter {
 	left: 10px;
 	top: 7px;
 }
-a:focus img[class*="wp-image-"],
-a:hover img[class*="wp-image-"],
-a:active img[class*="wp-image-"] {
+a:focus img,
+a:hover img,
+a:active img {
 	background: #eee;
 	border-color: #bbb;
 }

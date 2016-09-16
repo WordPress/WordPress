@@ -30,8 +30,25 @@ if ( !function_exists('set_current_user') ) :
  * @return WP_User returns wp_set_current_user()
  */
 function set_current_user($id, $name = '') {
-	_deprecated_function( __FUNCTION__, '3.0', 'wp_set_current_user()' );
+	_deprecated_function( __FUNCTION__, '3.0.0', 'wp_set_current_user()' );
 	return wp_set_current_user($id, $name);
+}
+endif;
+
+if ( !function_exists('get_currentuserinfo') ) :
+/**
+ * Populate global variables with information about the currently logged in user.
+ *
+ * @since 0.71
+ * @deprecated 4.5.0 Use wp_get_current_user()
+ * @see wp_get_current_user()
+ *
+ * @return bool|WP_User False on XMLRPC Request and invalid auth cookie, WP_User instance otherwise.
+ */
+function get_currentuserinfo() {
+	_deprecated_function( __FUNCTION__, '4.5.0', 'wp_get_current_user()' );
+
+	return _wp_get_current_user();
 }
 endif;
 
@@ -47,7 +64,7 @@ if ( !function_exists('get_userdatabylogin') ) :
  * @return bool|object False on failure, User DB row object
  */
 function get_userdatabylogin($user_login) {
-	_deprecated_function( __FUNCTION__, '3.3', "get_user_by('login')" );
+	_deprecated_function( __FUNCTION__, '3.3.0', "get_user_by('login')" );
 	return get_user_by('login', $user_login);
 }
 endif;
@@ -64,7 +81,7 @@ if ( !function_exists('get_user_by_email') ) :
  * @return bool|object False on failure, User DB row object
  */
 function get_user_by_email($email) {
-	_deprecated_function( __FUNCTION__, '3.3', "get_user_by('email')" );
+	_deprecated_function( __FUNCTION__, '3.3.0', "get_user_by('email')" );
 	return get_user_by('email', $email);
 }
 endif;
@@ -85,12 +102,12 @@ if ( !function_exists('wp_setcookie') ) :
  * @param bool $remember Optional. Remember that the user is logged in
  */
 function wp_setcookie($username, $password = '', $already_md5 = false, $home = '', $siteurl = '', $remember = false) {
-	_deprecated_function( __FUNCTION__, '2.5', 'wp_set_auth_cookie()' );
+	_deprecated_function( __FUNCTION__, '2.5.0', 'wp_set_auth_cookie()' );
 	$user = get_user_by('login', $username);
 	wp_set_auth_cookie($user->ID, $remember);
 }
 else :
-	_deprecated_function( 'wp_setcookie', '2.5', 'wp_set_auth_cookie()' );
+	_deprecated_function( 'wp_setcookie', '2.5.0', 'wp_set_auth_cookie()' );
 endif;
 
 if ( !function_exists('wp_clearcookie') ) :
@@ -102,11 +119,11 @@ if ( !function_exists('wp_clearcookie') ) :
  * @see wp_clear_auth_cookie()
  */
 function wp_clearcookie() {
-	_deprecated_function( __FUNCTION__, '2.5', 'wp_clear_auth_cookie()' );
+	_deprecated_function( __FUNCTION__, '2.5.0', 'wp_clear_auth_cookie()' );
 	wp_clear_auth_cookie();
 }
 else :
-	_deprecated_function( 'wp_clearcookie', '2.5', 'wp_clear_auth_cookie()' );
+	_deprecated_function( 'wp_clearcookie', '2.5.0', 'wp_clear_auth_cookie()' );
 endif;
 
 if ( !function_exists('wp_get_cookie_login') ):
@@ -122,11 +139,11 @@ if ( !function_exists('wp_get_cookie_login') ):
  * @return bool Always returns false
  */
 function wp_get_cookie_login() {
-	_deprecated_function( __FUNCTION__, '2.5' );
+	_deprecated_function( __FUNCTION__, '2.5.0' );
 	return false;
 }
 else :
-	_deprecated_function( 'wp_get_cookie_login', '2.5' );
+	_deprecated_function( 'wp_get_cookie_login', '2.5.0' );
 endif;
 
 if ( !function_exists('wp_login') ) :
@@ -152,7 +169,7 @@ if ( !function_exists('wp_login') ) :
  * @return bool False on login failure, true on successful check
  */
 function wp_login($username, $password, $deprecated = '') {
-	_deprecated_function( __FUNCTION__, '2.5', 'wp_signon()' );
+	_deprecated_function( __FUNCTION__, '2.5.0', 'wp_signon()' );
 	global $error;
 
 	$user = wp_authenticate($username, $password);
@@ -164,7 +181,7 @@ function wp_login($username, $password, $deprecated = '') {
 	return false;
 }
 else :
-	_deprecated_function( 'wp_login', '2.5', 'wp_signon()' );
+	_deprecated_function( 'wp_login', '2.5.0', 'wp_signon()' );
 endif;
 
 /**
@@ -181,11 +198,11 @@ endif;
 if ( ! class_exists( 'wp_atom_server', false ) ) {
 	class wp_atom_server {
 		public function __call( $name, $arguments ) {
-			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Protocol plugin' );
+			_deprecated_function( __CLASS__ . '::' . $name, '3.5.0', 'the Atom Publishing Protocol plugin' );
 		}
 
 		public static function __callStatic( $name, $arguments ) {
-			_deprecated_function( __CLASS__ . '::' . $name, '3.5', 'the Atom Publishing Protocol plugin' );
+			_deprecated_function( __CLASS__ . '::' . $name, '3.5.0', 'the Atom Publishing Protocol plugin' );
 		}
 	}
 }

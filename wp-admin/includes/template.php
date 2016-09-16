@@ -8,6 +8,12 @@
  * @subpackage Administration
  */
 
+/** Walker_Category_Checklist class */
+require_once( ABSPATH . 'wp-admin/includes/class-walker-category-checklist.php' );
+
+/** WP_Internal_Pointers class */
+require_once( ABSPATH . 'wp-admin/includes/class-wp-internal-pointers.php' );
+
 //
 // Category Checklists
 //
@@ -80,7 +86,7 @@ function wp_terms_checklist( $post_id = 0, $args = array() ) {
 	);
 
 	/**
-	 * Filter the taxonomy terms checklist arguments.
+	 * Filters the taxonomy terms checklist arguments.
 	 *
 	 * @since 3.4.0
 	 *
@@ -197,7 +203,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 	$popular_ids = array();
 	foreach ( (array) $terms as $term ) {
 		$popular_ids[] = $term->term_id;
-		if ( !$echo ) // hack for AJAX use
+		if ( !$echo ) // Hack for Ajax use.
 			continue;
 		$id = "popular-$taxonomy-$term->term_id";
 		$checked = in_array( $term->term_id, $checked_terms ) ? 'checked="checked"' : '';
@@ -305,7 +311,7 @@ function get_inline_data($post) {
 			$terms = get_object_term_cache( $post->ID, $taxonomy_name );
 			if ( false === $terms ) {
 				$terms = wp_get_object_terms( $post->ID, $taxonomy_name );
-				wp_cache_add( $post->ID, $terms, $taxonomy_name . '_relationships' );
+				wp_cache_add( $post->ID, wp_list_pluck( $terms, 'term_id' ), $taxonomy_name . '_relationships' );
 			}
 			$term_ids = empty( $terms ) ? array() : wp_list_pluck( $terms, 'term_id' );
 
@@ -348,7 +354,7 @@ function get_inline_data($post) {
 function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $table_row = true ) {
 	global $wp_list_table;
 	/**
-	 * Filter the in-line comment reply-to form output in the Comments
+	 * Filters the in-line comment reply-to form output in the Comments
 	 * list table.
 	 *
 	 * Returning a non-empty value here will short-circuit display
@@ -576,7 +582,7 @@ function meta_form( $post = null ) {
 	$post = get_post( $post );
 
 	/**
-	 * Filter values for the meta key dropdown in the Custom Fields meta box.
+	 * Filters values for the meta key dropdown in the Custom Fields meta box.
 	 *
 	 * Returning a non-null value will effectively short-circuit and avoid a
 	 * potentially expensive query against postmeta.
@@ -584,12 +590,13 @@ function meta_form( $post = null ) {
 	 * @since 4.4.0
 	 *
 	 * @param array|null $keys Pre-defined meta keys to be used in place of a postmeta query. Default null.
+	 * @param WP_Post    $post The current post object.
 	 */
-	$keys = apply_filters( 'postmeta_form_keys', null );
+	$keys = apply_filters( 'postmeta_form_keys', null, $post );
 
 	if ( null === $keys ) {
 		/**
-		 * Filter the number of custom fields to retrieve for the drop-down
+		 * Filters the number of custom fields to retrieve for the drop-down
 		 * in the Custom Fields meta box.
 		 *
 		 * @since 2.1.0
@@ -836,7 +843,7 @@ function wp_dropdown_roles( $selected = '' ) {
 function wp_import_upload_form( $action ) {
 
 	/**
-	 * Filter the maximum allowed upload size for import files.
+	 * Filters the maximum allowed upload size for import files.
 	 *
 	 * @since 2.3.0
 	 *
@@ -1020,8 +1027,16 @@ function do_meta_boxes( $screen, $context, $object ) {
 					$hidden_class = in_array($box['id'], $hidden) ? ' hide-if-js' : '';
 					echo '<div id="' . $box['id'] . '" class="postbox ' . postbox_classes($box['id'], $page) . $hidden_class . '" ' . '>' . "\n";
 					if ( 'dashboard_browser_nag' != $box['id'] ) {
+						$widget_title = $box[ 'title' ];
+
+						if ( is_array( $box[ 'args' ] ) && isset( $box[ 'args' ][ '__widget_basename' ] ) ) {
+							$widget_title = $box[ 'args' ][ '__widget_basename' ];
+							// Do not pass this parameter to the user callback function.
+							unset( $box[ 'args' ][ '__widget_basename' ] );
+						}
+
 						echo '<button type="button" class="handlediv button-link" aria-expanded="true">';
-						echo '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s' ), $box['title'] ) . '</span>';
+						echo '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s' ), $widget_title ) . '</span>';
 						echo '<span class="toggle-indicator" aria-hidden="true"></span>';
 						echo '</button>';
 					}
@@ -1053,12 +1068,11 @@ function do_meta_boxes( $screen, $context, $object ) {
  * @param string|array|WP_Screen $screen  The screen or screens on which the meta box is shown (such as a
  *                                        post type, 'link', or 'comment'). Accepts a single screen ID,
  *                                        WP_Screen object, or array of screen IDs.
- * @param string                 $context Optional. The context within the screen where the boxes
- *                                        should display. Available contexts vary from screen to
- *                                        screen. Post edit screen contexts include 'normal', 'side',
- *                                        and 'advanced'. Comments screen contexts include 'normal'
- *                                        and 'side'. Menus meta boxes (accordion sections) all use
- *                                        the 'side' context. Global default is 'advanced'.
+ * @param string                 $context The context within the screen where the box is set to display.
+ *                                        Contexts vary from screen to screen. Post edit screen contexts
+ *                                        include 'normal', 'side', and 'advanced'. Comments screen contexts
+ *                                        include 'normal' and 'side'. Menus meta boxes (accordion sections)
+ *                                        all use the 'side' context.
  */
 function remove_meta_box( $id, $screen, $context ) {
 	global $wp_meta_boxes;
@@ -1093,7 +1107,7 @@ function remove_meta_box( $id, $screen, $context ) {
 /**
  * Meta Box Accordion Template Function
  *
- * Largely made up of abstracted code from {@link do_meta_boxes()}, this
+ * Largely made up of abstracted code from do_meta_boxes(), this
  * function serves to build meta boxes as list items for display as
  * a collapsible accordion.
  *
@@ -1179,21 +1193,23 @@ function do_accordion_sections( $screen, $context, $object ) {
  *
  * @global $wp_settings_sections Storage array of all settings sections added to admin pages
  *
- * @param string $id       Slug-name to identify the section. Used in the 'id' attribute of tags.
- * @param string $title    Formatted title of the section. Shown as the heading for the section.
- * @param string $callback Function that echos out any content at the top of the section (between heading and fields).
- * @param string $page     The slug-name of the settings page on which to show the section. Built-in pages include 'general', 'reading', 'writing', 'discussion', 'media', etc. Create your own using add_options_page();
+ * @param string   $id       Slug-name to identify the section. Used in the 'id' attribute of tags.
+ * @param string   $title    Formatted title of the section. Shown as the heading for the section.
+ * @param callable $callback Function that echos out any content at the top of the section (between heading and fields).
+ * @param string   $page     The slug-name of the settings page on which to show the section. Built-in pages include
+ *                           'general', 'reading', 'writing', 'discussion', 'media', etc. Create your own using
+ *                           add_options_page();
  */
 function add_settings_section($id, $title, $callback, $page) {
 	global $wp_settings_sections;
 
 	if ( 'misc' == $page ) {
-		_deprecated_argument( __FUNCTION__, '3.0', sprintf( __( 'The "%s" options group has been removed. Use another settings group.' ), 'misc' ) );
+		_deprecated_argument( __FUNCTION__, '3.0.0', sprintf( __( 'The "%s" options group has been removed. Use another settings group.' ), 'misc' ) );
 		$page = 'general';
 	}
 
 	if ( 'privacy' == $page ) {
-		_deprecated_argument( __FUNCTION__, '3.5', sprintf( __( 'The "%s" options group has been removed. Use another settings group.' ), 'privacy' ) );
+		_deprecated_argument( __FUNCTION__, '3.5.0', sprintf( __( 'The "%s" options group has been removed. Use another settings group.' ), 'privacy' ) );
 		$page = 'reading';
 	}
 
@@ -1216,16 +1232,16 @@ function add_settings_section($id, $title, $callback, $page) {
  *
  * @global $wp_settings_fields Storage array of settings fields and info about their pages/sections
  *
- * @param string $id       Slug-name to identify the field. Used in the 'id' attribute of tags.
- * @param string $title    Formatted title of the field. Shown as the label for the field
- *                         during output.
- * @param string $callback Function that fills the field with the desired form inputs. The
- *                         function should echo its output.
- * @param string $page     The slug-name of the settings page on which to show the section
- *                         (general, reading, writing, ...).
- * @param string $section  Optional. The slug-name of the section of the settings page
- *                         in which to show the box. Default 'default'.
- * @param array  $args {
+ * @param string   $id       Slug-name to identify the field. Used in the 'id' attribute of tags.
+ * @param string   $title    Formatted title of the field. Shown as the label for the field
+ *                           during output.
+ * @param callable $callback Function that fills the field with the desired form inputs. The
+ *                           function should echo its output.
+ * @param string   $page     The slug-name of the settings page on which to show the section
+ *                           (general, reading, writing, ...).
+ * @param string   $section  Optional. The slug-name of the section of the settings page
+ *                           in which to show the box. Default 'default'.
+ * @param array    $args {
  *     Optional. Extra arguments used when outputting the field.
  *
  *     @type string $label_for When supplied, the setting title will be wrapped
@@ -1239,12 +1255,12 @@ function add_settings_field($id, $title, $callback, $page, $section = 'default',
 	global $wp_settings_fields;
 
 	if ( 'misc' == $page ) {
-		_deprecated_argument( __FUNCTION__, '3.0', __( 'The miscellaneous options group has been removed. Use another settings group.' ) );
+		_deprecated_argument( __FUNCTION__, '3.0.0', __( 'The miscellaneous options group has been removed. Use another settings group.' ) );
 		$page = 'general';
 	}
 
 	if ( 'privacy' == $page ) {
-		_deprecated_argument( __FUNCTION__, '3.5', __( 'The privacy options group has been removed. Use another settings group.' ) );
+		_deprecated_argument( __FUNCTION__, '3.5.0', __( 'The privacy options group has been removed. Use another settings group.' ) );
 		$page = 'reading';
 	}
 
@@ -1374,7 +1390,8 @@ function add_settings_error( $setting, $code, $message, $type = 'error' ) {
  *
  * Use the $sanitize argument to manually re-sanitize the option before returning errors.
  * This is useful if you have errors or notices you want to show even when the user
- * hasn't submitted data (i.e. when they first load an options page, or in admin_notices action hook)
+ * hasn't submitted data (i.e. when they first load an options page, or in the {@see 'admin_notices'}
+ * action hook).
  *
  * @since 3.0.0
  *
@@ -1419,16 +1436,16 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
 }
 
 /**
- * Display settings errors registered by {@see add_settings_error()}.
+ * Display settings errors registered by add_settings_error().
  *
  * Part of the Settings API. Outputs a div for each error retrieved by
- * {@see get_settings_errors()}.
+ * get_settings_errors().
  *
  * This is called automatically after a settings page based on the
  * Settings API is submitted. Errors should be added during the validation
- * callback function for a setting defined in {@see register_setting()}
+ * callback function for a setting defined in register_setting().
  *
- * The $sanitize option is passed into {@see get_settings_errors()} and will
+ * The $sanitize option is passed into get_settings_errors() and will
  * re-run the setting sanitization
  * on its current value.
  *
@@ -1442,7 +1459,8 @@ function get_settings_errors( $setting = '', $sanitize = false ) {
  *
  * @param string $setting        Optional slug title of a specific setting who's errors you want.
  * @param bool   $sanitize       Whether to re-sanitize the setting value before returning errors.
- * @param bool   $hide_on_update If set to true errors will not be shown if the settings page has already been submitted.
+ * @param bool   $hide_on_update If set to true errors will not be shown if the settings page has
+ *                               already been submitted.
  */
 function settings_errors( $setting = '', $sanitize = false, $hide_on_update = false ) {
 
@@ -1476,8 +1494,8 @@ function find_posts_div($found_action = '') {
 ?>
 	<div id="find-posts" class="find-box" style="display: none;">
 		<div id="find-posts-head" class="find-box-head">
-			<?php _e( 'Find Posts or Pages' ); ?>
-			<div id="find-posts-close"></div>
+			<?php _e( 'Attach to existing content' ); ?>
+			<button type="button" id="find-posts-close"><span class="screen-reader-text"><?php _e( 'Close media attachment panel' ); ?></button>
 		</div>
 		<div class="find-box-inside">
 			<div class="find-box-search">
@@ -1503,10 +1521,9 @@ function find_posts_div($found_action = '') {
 }
 
 /**
- * Display the post password.
+ * Displays the post password.
  *
- * The password is passed through {@link esc_attr()} to ensure that it
- * is safe for placing in an html attribute.
+ * The password is passed through esc_attr() to ensure that it is safe for placing in an html attribute.
  *
  * @since 2.7.0
  */
@@ -1535,10 +1552,10 @@ function _draft_or_post_title( $post = 0 ) {
 }
 
 /**
- * Display the search query.
+ * Displays the search query.
  *
- * A simple wrapper to display the "s" parameter in a GET URI. This function
- * should only be used when {@link the_search_query()} cannot.
+ * A simple wrapper to display the "s" parameter in a `GET` URI. This function
+ * should only be used when the_search_query() cannot.
  *
  * @since 2.7.0
  */
@@ -1642,11 +1659,19 @@ function iframe_footer() {
 	 * but run the hooks anyway since they output JavaScript
 	 * or other needed content.
 	 */
-	 ?>
+
+	/**
+	 * @global string $hook_suffix
+	 */
+	global $hook_suffix;
+	?>
 	<div class="hidden">
 <?php
 	/** This action is documented in wp-admin/admin-footer.php */
-	do_action( 'admin_footer', '' );
+	do_action( 'admin_footer', $hook_suffix );
+
+	/** This action is documented in wp-admin/admin-footer.php */
+	do_action( "admin_print_footer_scripts-$hook_suffix" );
 
 	/** This action is documented in wp-admin/admin-footer.php */
 	do_action( 'admin_print_footer_scripts' );
@@ -1676,8 +1701,7 @@ function _post_states($post) {
 	if ( 'draft' == $post->post_status && 'draft' != $post_status )
 		$post_states['draft'] = __('Draft');
 	if ( 'pending' == $post->post_status && 'pending' != $post_status )
-		/* translators: post state */
-		$post_states['pending'] = _x('Pending', 'post state');
+		$post_states['pending'] = _x('Pending', 'post status');
 	if ( is_sticky($post->ID) )
 		$post_states['sticky'] = __('Sticky');
 
@@ -1696,7 +1720,7 @@ function _post_states($post) {
 	}
 
 	/**
-	 * Filter the default post display states used in the posts list table.
+	 * Filters the default post display states used in the posts list table.
 	 *
 	 * @since 2.8.0
 	 *
@@ -1742,13 +1766,17 @@ function _media_states( $post ) {
 		$media_states[] = __( 'Site Icon' );
 	}
 
+	if ( $post->ID == get_theme_mod( 'site_logo' ) ) {
+		$media_states[] = __( 'Logo' );
+	}
+
 	/**
-	 * Filter the default media display states for items in the Media list table.
+	 * Filters the default media display states for items in the Media list table.
 	 *
 	 * @since 3.2.0
 	 *
 	 * @param array $media_states An array of media states. Default 'Header Image',
-	 *                            'Background Image', 'Site Icon'.
+	 *                            'Background Image', 'Site Icon', 'Logo'.
 	 */
 	$media_states = apply_filters( 'display_media_states', $media_states );
 
@@ -1777,6 +1805,7 @@ function _media_states( $post ) {
 function compression_test() {
 ?>
 	<script type="text/javascript">
+	var compressionNonce = <?php echo wp_json_encode( wp_create_nonce( 'update_can_compress_scripts' ) ); ?>;
 	var testCompression = {
 		get : function(test) {
 			var x;
@@ -1796,7 +1825,7 @@ function compression_test() {
 					}
 				};
 
-				x.open('GET', ajaxurl + '?action=wp-compression-test&test='+test+'&'+(new Date()).getTime(), true);
+				x.open('GET', ajaxurl + '?action=wp-compression-test&test='+test+'&_ajax_nonce='+compressionNonce+'&'+(new Date()).getTime(), true);
 				x.send('');
 			}
 		},
@@ -1966,8 +1995,8 @@ function _wp_admin_html_begin() {
  * @return WP_Screen Screen object.
  */
 function convert_to_screen( $hook_name ) {
-	if ( ! class_exists( 'WP_Screen', false ) ) {
-		_doing_it_wrong( 'convert_to_screen(), add_meta_box()', __( "Likely direct inclusion of wp-admin/includes/template.php in order to use add_meta_box(). This is very wrong. Hook the add_meta_box() call into the add_meta_boxes action instead." ), '3.3' );
+	if ( ! class_exists( 'WP_Screen' ) ) {
+		_doing_it_wrong( 'convert_to_screen(), add_meta_box()', __( "Likely direct inclusion of wp-admin/includes/template.php in order to use add_meta_box(). This is very wrong. Hook the add_meta_box() call into the add_meta_boxes action instead." ), '3.3.0' );
 		return (object) array( 'id' => '_invalid', 'base' => '_are_belong_to_us' );
 	}
 
@@ -1982,14 +2011,13 @@ function convert_to_screen( $hook_name ) {
  */
 function _local_storage_notice() {
 	?>
-	<div id="local-storage-notice" class="hidden notice">
+	<div id="local-storage-notice" class="hidden notice is-dismissible">
 	<p class="local-restore">
-		<?php _e('The backup of this post in your browser is different from the version below.'); ?>
-		<a class="restore-backup" href="#"><?php _e('Restore the backup.'); ?></a>
+		<?php _e( 'The backup of this post in your browser is different from the version below.' ); ?>
+		<button type="button" class="button restore-backup"><?php _e('Restore the backup'); ?></button>
 	</p>
-	<p class="undo-restore hidden">
-		<?php _e('Post restored successfully.'); ?>
-		<a class="undo-restore-backup" href="#"><?php _e('Undo.'); ?></a>
+	<p class="help">
+		<?php _e( 'This will replace the current editor content with the last backup version. You can use undo and redo in the editor to get the old content back or to return to the restored version.' ); ?>
 	</p>
 	</div>
 	<?php
@@ -2048,11 +2076,11 @@ function wp_star_rating( $args = array() ) {
 		$title = sprintf( __( '%s rating' ), number_format_i18n( $rating, 1 ) );
 	}
 
-	$output = '<div class="star-rating" title="' . esc_attr( $title ) . '">';
+	$output = '<div class="star-rating">';
 	$output .= '<span class="screen-reader-text">' . $title . '</span>';
-	$output .= str_repeat( '<div class="star star-full"></div>', $full_stars );
-	$output .= str_repeat( '<div class="star star-half"></div>', $half_stars );
-	$output .= str_repeat( '<div class="star star-empty"></div>', $empty_stars );
+	$output .= str_repeat( '<div class="star star-full" aria-hidden="true"></div>', $full_stars );
+	$output .= str_repeat( '<div class="star star-half" aria-hidden="true"></div>', $half_stars );
+	$output .= str_repeat( '<div class="star star-empty" aria-hidden="true"></div>', $empty_stars );
 	$output .= '</div>';
 
 	if ( $r['echo'] ) {

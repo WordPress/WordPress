@@ -41,7 +41,7 @@ class WP_Customize_Nav_Menu_Auto_Add_Control extends WP_Customize_Control {
 	 */
 	protected function content_template() {
 		?>
-		<span class="customize-control-title"><?php _e( 'Menu options' ); ?></span>
+		<span class="customize-control-title"><?php _e( 'Menu Options' ); ?></span>
 		<label>
 			<input type="checkbox" class="auto_add" />
 			<?php _e( 'Automatically add new top-level pages to this menu' ); ?>

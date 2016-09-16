@@ -10,7 +10,7 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !current_user_can('upload_files') )
-	wp_die( __( 'You do not have permission to upload files.' ) );
+	wp_die( __( 'Sorry, you are not allowed to upload files.' ) );
 
 $mode = get_user_option( 'media_library_mode', get_current_user_id() ) ? get_user_option( 'media_library_mode', get_current_user_id() ) : 'grid';
 $modes = array( 'grid', 'list' );
@@ -77,12 +77,16 @@ if ( 'grid' === $mode ) {
 		<?php
 		echo esc_html( $title );
 		if ( current_user_can( 'upload_files' ) ) { ?>
-			<a href="media-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'file' ); ?></a><?php
+			<a href="<?php echo admin_url( 'media-new.php' ); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'file' ); ?></a><?php
 		}
 		?>
 		</h1>
 		<div class="error hide-if-js">
-			<p><?php _e( 'The grid view for the Media Library requires JavaScript. <a href="upload.php?mode=list">Switch to the list view</a>.' ); ?></p>
+			<p><?php printf(
+				/* translators: %s: list view URL */
+				__( 'The grid view for the Media Library requires JavaScript. <a href="%s">Switch to the list view</a>.' ),
+				'upload.php?mode=list'
+			); ?></p>
 		</div>
 	</div>
 	<?php
@@ -128,7 +132,7 @@ if ( $doaction ) {
 				break;
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id ) )
-					wp_die( __( 'You are not allowed to move this item to the Trash.' ) );
+					wp_die( __( 'Sorry, you are not allowed to move this item to the Trash.' ) );
 
 				if ( !wp_trash_post( $post_id ) )
 					wp_die( __( 'Error in moving to Trash.' ) );
@@ -140,7 +144,7 @@ if ( $doaction ) {
 				break;
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id ) )
-					wp_die( __( 'You are not allowed to move this item out of the Trash.' ) );
+					wp_die( __( 'Sorry, you are not allowed to restore this item from the Trash.' ) );
 
 				if ( !wp_untrash_post( $post_id ) )
 					wp_die( __( 'Error in restoring from Trash.' ) );
@@ -152,7 +156,7 @@ if ( $doaction ) {
 				break;
 			foreach ( (array) $post_ids as $post_id_del ) {
 				if ( !current_user_can( 'delete_post', $post_id_del ) )
-					wp_die( __( 'You are not allowed to delete this item.' ) );
+					wp_die( __( 'Sorry, you are not allowed to delete this item.' ) );
 
 				if ( !wp_delete_attachment( $post_id_del ) )
 					wp_die( __( 'Error in deleting.' ) );
@@ -182,7 +186,7 @@ get_current_screen()->add_help_tab( array(
 'title'		=> __('Overview'),
 'content'	=>
 	'<p>' . __( 'All the files you&#8217;ve uploaded are listed in the Media Library, with the most recent uploads listed first. You can use the Screen Options tab to customize the display of this screen.' ) . '</p>' .
-	'<p>' . __( 'You can narrow the list by file type/status using the text link filters at the top of the screen. You also can refine the list by date using the dropdown menu above the media table.' ) . '</p>' .
+	'<p>' . __( 'You can narrow the list by file type/status or by date using the dropdown menus above the media table.' ) . '</p>' .
 	'<p>' . __( 'You can view your media in a simple visual grid or a list with columns. Switch between these views using the icons to the left above the media.' ) . '</p>'
 ) );
 get_current_screen()->add_help_tab( array(
@@ -195,7 +199,7 @@ get_current_screen()->add_help_tab( array(
 'id'		=> 'attaching-files',
 'title'		=> __('Attaching Files'),
 'content'	=>
-	'<p>' . __( 'If a media file has not been attached to any post, you will see that in the Attached To column, and can click on Attach File to launch a small popup that will allow you to search for a post and attach the file.' ) . '</p>'
+	'<p>' . __( 'If a media file has not been attached to any content, you will see that in the Uploaded To column, and can click on Attach to launch a small popup that will allow you to search for existing content and attach the file.' ) . '</p>'
 ) );
 
 get_current_screen()->set_help_sidebar(
@@ -218,34 +222,50 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 <?php
 echo esc_html( $title );
 if ( current_user_can( 'upload_files' ) ) { ?>
-	<a href="media-new.php" class="page-title-action"><?php echo esc_html_x('Add New', 'file'); ?></a><?php
+	<a href="<?php echo admin_url( 'media-new.php' ); ?>" class="page-title-action"><?php echo esc_html_x('Add New', 'file'); ?></a><?php
 }
-if ( ! empty( $_REQUEST['s'] ) )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() ); ?>
+if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
+	/* translators: %s: search keywords */
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', get_search_query() );
+}
+?>
 </h1>
 
 <?php
 $message = '';
 if ( ! empty( $_GET['posted'] ) ) {
-	$message = __( 'Media attachment updated.' );
+	$message = __( 'Media file updated.' );
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('posted'), $_SERVER['REQUEST_URI']);
 }
 
 if ( ! empty( $_GET['attached'] ) && $attached = absint( $_GET['attached'] ) ) {
-	$message = sprintf( _n( 'Reattached %d attachment.', 'Reattached %d attachments.', $attached ), $attached );
+	if ( 1 == $attached ) {
+		$message = __( 'Media file attached.' );
+	} else {
+		/* translators: %s: number of media files */
+		$message = _n( '%s media file attached.', '%s media files attached.', $attached );
+	}
+	$message = sprintf( $message, number_format_i18n( $attached ) );
 	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detach', 'attached' ), $_SERVER['REQUEST_URI'] );
 }
 
 if ( ! empty( $_GET['detach'] ) && $detached = absint( $_GET['detach'] ) ) {
-	$message = sprintf( _n( 'Detached %d attachment.', 'Detached %d attachments.', $detached ), $detached );
+	if ( 1 == $detached ) {
+		$message = __( 'Media file detached.' );
+	} else {
+		/* translators: %s: number of media files */
+		$message = _n( '%s media file detached.', '%s media files detached.', $detached );
+	}
+	$message = sprintf( $message, number_format_i18n( $detached ) );
 	$_SERVER['REQUEST_URI'] = remove_query_arg( array( 'detach', 'attached' ), $_SERVER['REQUEST_URI'] );
 }
 
 if ( ! empty( $_GET['deleted'] ) && $deleted = absint( $_GET['deleted'] ) ) {
 	if ( 1 == $deleted ) {
-		$message = __( 'Media attachment permanently deleted.' );
+		$message = __( 'Media file permanently deleted.' );
 	} else {
-		$message = _n( '%d media attachment permanently deleted.', '%d media attachments permanently deleted.', $deleted );
+		/* translators: %s: number of media files */
+		$message = _n( '%s media file permanently deleted.', '%s media files permanently deleted.', $deleted );
 	}
 	$message = sprintf( $message, number_format_i18n( $deleted ) );
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('deleted'), $_SERVER['REQUEST_URI']);
@@ -253,9 +273,10 @@ if ( ! empty( $_GET['deleted'] ) && $deleted = absint( $_GET['deleted'] ) ) {
 
 if ( ! empty( $_GET['trashed'] ) && $trashed = absint( $_GET['trashed'] ) ) {
 	if ( 1 == $trashed ) {
-		$message = __( 'Media attachment moved to the trash.' );
+		$message = __( 'Media file moved to the trash.' );
 	} else {
-		$message = _n( '%d media attachment moved to the trash.', '%d media attachments moved to the trash.', $trashed );
+		/* translators: %s: number of media files */
+		$message = _n( '%s media file moved to the trash.', '%s media files moved to the trash.', $trashed );
 	}
 	$message = sprintf( $message, number_format_i18n( $trashed ) );
 	$message .= ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __('Undo') . '</a>';
@@ -264,19 +285,20 @@ if ( ! empty( $_GET['trashed'] ) && $trashed = absint( $_GET['trashed'] ) ) {
 
 if ( ! empty( $_GET['untrashed'] ) && $untrashed = absint( $_GET['untrashed'] ) ) {
 	if ( 1 == $untrashed ) {
-		$message = __( 'Media attachment restored from the trash.' );
+		$message = __( 'Media file restored from the trash.' );
 	} else {
-		$message = _n( '%d media attachment restored from the trash.', '%d media attachments restored from the trash.', $untrashed );
+		/* translators: %s: number of media files */
+		$message = _n( '%s media file restored from the trash.', '%s media files restored from the trash.', $untrashed );
 	}
 	$message = sprintf( $message, number_format_i18n( $untrashed ) );
 	$_SERVER['REQUEST_URI'] = remove_query_arg(array('untrashed'), $_SERVER['REQUEST_URI']);
 }
 
-$messages[1] = __( 'Media attachment updated.' );
-$messages[2] = __( 'Media attachment permanently deleted.' );
-$messages[3] = __( 'Error saving media attachment.' );
-$messages[4] = __( 'Media attachment moved to the trash.' ) . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __( 'Undo' ) . '</a>';
-$messages[5] = __( 'Media attachment restored from the trash.' );
+$messages[1] = __( 'Media file updated.' );
+$messages[2] = __( 'Media file permanently deleted.' );
+$messages[3] = __( 'Error saving media file.' );
+$messages[4] = __( 'Media file moved to the trash.' ) . ' <a href="' . esc_url( wp_nonce_url( 'upload.php?doaction=undo&action=untrash&ids='.(isset($_GET['ids']) ? $_GET['ids'] : ''), "bulk-media" ) ) . '">' . __( 'Undo' ) . '</a>';
+$messages[5] = __( 'Media file restored from the trash.' );
 
 if ( ! empty( $_GET['message'] ) && isset( $messages[ $_GET['message'] ] ) ) {
 	$message = $messages[ $_GET['message'] ];

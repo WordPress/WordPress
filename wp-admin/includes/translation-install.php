@@ -72,7 +72,7 @@ function translations_api( $type, $args = null ) {
 	}
 
 	/**
-	 * Filter the Translation Install API response results.
+	 * Filters the Translation Install API response results.
 	 *
 	 * @since 4.0.0
 	 *

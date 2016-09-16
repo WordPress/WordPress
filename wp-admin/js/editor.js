@@ -118,20 +118,29 @@
 
 		// Replace paragraphs with double line breaks
 		function removep( html ) {
-			var blocklist = 'blockquote|ul|ol|li|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset',
+			var blocklist = 'blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset',
 				blocklist1 = blocklist + '|div|p',
 				blocklist2 = blocklist + '|pre',
 				preserve_linebreaks = false,
-				preserve_br = false;
+				preserve_br = false,
+				preserve = [];
 
 			if ( ! html ) {
 				return '';
 			}
 
-			// Protect pre|script tags
-			if ( html.indexOf( '<pre' ) !== -1 || html.indexOf( '<script' ) !== -1 ) {
+			// Preserve script and style tags.
+			if ( html.indexOf( '<script' ) !== -1 || html.indexOf( '<style' ) !== -1 ) {
+				html = html.replace( /<(script|style)[^>]*>[\s\S]*?<\/\1>/g, function( match ) {
+					preserve.push( match );
+					return '<wp-preserve>';
+				} );
+			}
+
+			// Protect pre tags.
+			if ( html.indexOf( '<pre' ) !== -1 ) {
 				preserve_linebreaks = true;
-				html = html.replace( /<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function( a ) {
+				html = html.replace( /<pre[^>]*>[\s\S]+?<\/pre>/g, function( a ) {
 					a = a.replace( /<br ?\/?>(\r\n|\n)?/g, '<wp-line-break>' );
 					a = a.replace( /<\/?p( [^>]*)?>(\r\n|\n)?/g, '<wp-line-break>' );
 					return a.replace( /\r?\n/g, '<wp-line-break>' );
@@ -170,7 +179,7 @@
 
 			html = html.replace( new RegExp('\\s*<((?:' + blocklist2 + ')(?: [^>]*)?)\\s*>', 'g' ), '\n<$1>' );
 			html = html.replace( new RegExp('\\s*</(' + blocklist2 + ')>\\s*', 'g' ), '</$1>\n' );
-			html = html.replace( /<li([^>]*)>/g, '\t<li$1>' );
+			html = html.replace( /<((li|dt|dd)[^>]*)>/g, ' \t<$1>' );
 
 			if ( html.indexOf( '<option' ) !== -1 ) {
 				html = html.replace( /\s*<option/g, '\n<option' );
@@ -205,6 +214,13 @@
 				html = html.replace( /<wp-temp-br([^>]*)>/g, '<br$1>' );
 			}
 
+			// Put back preserved tags.
+			if ( preserve.length ) {
+				html = html.replace( /<wp-preserve>/g, function() {
+					return preserve.shift();
+				} );
+			}
+
 			return html;
 		}
 
@@ -236,7 +252,7 @@
 			// Protect pre|script tags
 			if ( text.indexOf( '<pre' ) !== -1 || text.indexOf( '<script' ) !== -1 ) {
 				preserve_linebreaks = true;
-				text = text.replace( /<(pre|script)[^>]*>[\s\S]+?<\/\1>/g, function( a ) {
+				text = text.replace( /<(pre|script)[^>]*>[\s\S]*?<\/\1>/g, function( a ) {
 					return a.replace( /\n/g, '<wp-line-break>' );
 				});
 			}
@@ -258,7 +274,7 @@
 
 			text = text + '\n\n';
 			text = text.replace( /<br \/>\s*<br \/>/gi, '\n\n' );
-			text = text.replace( new RegExp( '(<(?:' + blocklist + ')(?: [^>]*)?>)', 'gi' ), '\n$1' );
+			text = text.replace( new RegExp( '(<(?:' + blocklist + ')(?: [^>]*)?>)', 'gi' ), '\n\n$1' );
 			text = text.replace( new RegExp( '(</(?:' + blocklist + ')>)', 'gi' ), '$1\n\n' );
 			text = text.replace( /<hr( [^>]*)?>/gi, '<hr$1>\n\n' ); // hr is self closing block element
 			text = text.replace( /\s*<option/gi, '<option' ); // No <p> or <br> around <option>

@@ -10,10 +10,10 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! $typenow )
-	wp_die( __( 'Invalid post type' ) );
+	wp_die( __( 'Invalid post type.' ) );
 
 if ( ! in_array( $typenow, get_post_types( array( 'show_ui' => true ) ) ) ) {
-	wp_die( __( 'You are not allowed to edit posts in this post type.' ) );
+	wp_die( __( 'Sorry, you are not allowed to edit posts in this post type.' ) );
 }
 
 if ( 'attachment' === $typenow ) {
@@ -23,8 +23,8 @@ if ( 'attachment' === $typenow ) {
 }
 
 /**
- * @global string $post_type
- * @global object $post_type_object
+ * @global string       $post_type
+ * @global WP_Post_Type $post_type_object
  */
 global $post_type, $post_type_object;
 
@@ -32,12 +32,12 @@ $post_type = $typenow;
 $post_type_object = get_post_type_object( $post_type );
 
 if ( ! $post_type_object )
-	wp_die( __( 'Invalid post type' ) );
+	wp_die( __( 'Invalid post type.' ) );
 
 if ( ! current_user_can( $post_type_object->cap->edit_posts ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to edit posts in this post type.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to edit posts in this post type.' ) . '</p>',
 		403
 	);
 }
@@ -103,7 +103,7 @@ if ( $doaction ) {
 
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id) )
-					wp_die( __('You are not allowed to move this item to the Trash.') );
+					wp_die( __('Sorry, you are not allowed to move this item to the Trash.') );
 
 				if ( wp_check_post_lock( $post_id ) ) {
 					$locked++;
@@ -122,7 +122,7 @@ if ( $doaction ) {
 			$untrashed = 0;
 			foreach ( (array) $post_ids as $post_id ) {
 				if ( !current_user_can( 'delete_post', $post_id) )
-					wp_die( __('You are not allowed to restore this item from the Trash.') );
+					wp_die( __('Sorry, you are not allowed to restore this item from the Trash.') );
 
 				if ( !wp_untrash_post($post_id) )
 					wp_die( __('Error in restoring from Trash.') );
@@ -137,7 +137,7 @@ if ( $doaction ) {
 				$post_del = get_post($post_id);
 
 				if ( !current_user_can( 'delete_post', $post_id ) )
-					wp_die( __('You are not allowed to delete this item.') );
+					wp_die( __('Sorry, you are not allowed to delete this item.') );
 
 				if ( $post_del->post_type == 'attachment' ) {
 					if ( ! wp_delete_attachment($post_id) )
@@ -194,7 +194,7 @@ if ( 'post' == $post_type ) {
 		'<p>' . __('You can customize the display of this screen&#8217;s contents in a number of ways:') . '</p>' .
 		'<ul>' .
 			'<li>' . __('You can hide/display columns based on your needs and decide how many posts to list per screen using the Screen Options tab.') . '</li>' .
-			'<li>' . __('You can filter the list of posts by post status using the text links in the upper left to show All, Published, Draft, or Trashed posts. The default view is to show all posts.') . '</li>' .
+			'<li>' . __( 'You can filter the list of posts by post status using the text links above the posts list to only show posts with that status. The default view is to show all posts.' ) . '</li>' .
 			'<li>' . __('You can view posts in a simple title list or with an excerpt using the Screen Options tab.') . '</li>' .
 			'<li>' . __('You can refine the list to show only posts in a specific category or from a specific month by using the dropdown menus above the posts list. Click the Filter button after making your selection. You also can refine the list by clicking on the post author, category or tag in the posts list.') . '</li>' .
 		'</ul>'
@@ -283,7 +283,7 @@ $bulk_messages['page'] = array(
 );
 
 /**
- * Filter the bulk action updated messages.
+ * Filters the bulk action updated messages.
  *
  * By default, custom post types use the messages for the 'post' post type.
  *
@@ -303,8 +303,11 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 echo esc_html( $post_type_object->labels->name );
 if ( current_user_can( $post_type_object->cap->create_posts ) )
 	echo ' <a href="' . esc_url( admin_url( $post_new_file ) ) . '" class="page-title-action">' . esc_html( $post_type_object->labels->add_new ) . '</a>';
-if ( ! empty( $_REQUEST['s'] ) )
-	printf( ' <span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', get_search_query() );
+
+if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
+	/* translators: %s: search keywords */
+	printf( ' <span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', get_search_query() );
+}
 ?></h1>
 
 <?php

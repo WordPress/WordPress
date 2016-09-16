@@ -694,7 +694,7 @@ class ftp_base {
 		}
 		foreach($list as $k=>$v) {
 			$list[$k]=$this->parselisting($v);
-			if($list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
+			if( ! $list[$k] or $list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
 		}
 		$ret=true;
 		foreach($list as $el) {
@@ -727,7 +727,7 @@ class ftp_base {
 
 		foreach($list as $k=>$v) {
 			$list[$k]=$this->parselisting($v);
-			if($list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
+			if( ! $list[$k] or $list[$k]["name"]=="." or $list[$k]["name"]=="..") unset($list[$k]);
 		}
 		$ret=true;
 
@@ -818,7 +818,7 @@ class ftp_base {
 	function glob_regexp($pattern,$probe) {
 		$sensitive=(PHP_OS!='WIN32');
 		return ($sensitive?
-			preg_match( '/' . preg_quote( $pattern, '/' ) . '/', $probe ) : 
+			preg_match( '/' . preg_quote( $pattern, '/' ) . '/', $probe ) :
 			preg_match( '/' . preg_quote( $pattern, '/' ) . '/i', $probe )
 		);
 	}
@@ -904,3 +904,9 @@ if ( ! $mod_sockets && function_exists( 'dl' ) && is_callable( 'dl' ) ) {
 }
 
 require_once dirname( __FILE__ ) . "/class-ftp-" . ( $mod_sockets ? "sockets" : "pure" ) . ".php";
+
+if ( $mod_sockets ) {
+	class ftp extends ftp_sockets {}
+} else {
+	class ftp extends ftp_pure {}
+}

@@ -704,8 +704,9 @@ window.wp = window.wp || {};
 
 			event = event.originalEvent;
 
-			if ( ! this.targetWindow() )
+			if ( ! this.targetWindow || ! this.targetWindow() ) {
 				return;
+			}
 
 			// Check to make sure the origin is valid.
 			if ( this.origin() && event.origin !== this.origin() )
@@ -753,6 +754,40 @@ window.wp = window.wp || {};
 
 	// Add the Events mixin to api.Messenger.
 	$.extend( api.Messenger.prototype, api.Events );
+
+	/**
+	 * Notification.
+	 *
+	 * @class
+	 * @augments wp.customize.Class
+	 * @since 4.6.0
+	 *
+	 * @param {string}  code - The error code.
+	 * @param {object}  params - Params.
+	 * @param {string}  params.message=null - The error message.
+	 * @param {string}  [params.type=error] - The notification type.
+	 * @param {boolean} [params.fromServer=false] - Whether the notification was server-sent.
+	 * @param {string}  [params.setting=null] - The setting ID that the notification is related to.
+	 * @param {*}       [params.data=null] - Any additional data.
+	 */
+	api.Notification = api.Class.extend({
+		initialize: function( code, params ) {
+			var _params;
+			this.code = code;
+			_params = _.extend(
+				{
+					message: null,
+					type: 'error',
+					fromServer: false,
+					data: null,
+					setting: null
+				},
+				params
+			);
+			delete _params.code;
+			_.extend( this, _params );
+		}
+	});
 
 	// The main API object is also a collection of all customizer settings.
 	api = $.extend( new api.Values(), api );

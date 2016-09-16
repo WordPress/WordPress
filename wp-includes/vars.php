@@ -59,7 +59,7 @@ if ( isset($_SERVER['HTTP_USER_AGENT']) ) {
 		if ( stripos( $_SERVER['HTTP_USER_AGENT'], 'chromeframe' ) !== false ) {
 			$is_admin = is_admin();
 			/**
-			 * Filter whether Google Chrome Frame should be used, if available.
+			 * Filters whether Google Chrome Frame should be used, if available.
 			 *
 			 * @since 3.2.0
 			 *
@@ -120,17 +120,9 @@ $is_iis7 = $is_IIS && intval( substr( $_SERVER['SERVER_SOFTWARE'], strpos( $_SER
 /**
  * Test if the current browser runs on a mobile device (smart phone, tablet, etc.)
  *
- * @staticvar bool $is_mobile
- *
  * @return bool
  */
 function wp_is_mobile() {
-	static $is_mobile = null;
-
-	if ( isset( $is_mobile ) ) {
-		return $is_mobile;
-	}
-
 	if ( empty($_SERVER['HTTP_USER_AGENT']) ) {
 		$is_mobile = false;
 	} elseif ( strpos($_SERVER['HTTP_USER_AGENT'], 'Mobile') !== false // many mobile devices (all iPhone, iPad, etc.)

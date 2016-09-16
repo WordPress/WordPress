@@ -17,10 +17,12 @@ abstract class WP_Image_Editor {
 	protected $mime_type = null;
 	protected $default_mime_type = 'image/jpeg';
 	protected $quality = false;
-	protected $default_quality = 90;
+	protected $default_quality = 82;
 
 	/**
 	 * Each instance handles a single file.
+	 *
+	 * @param string $file Path to the file to load.
 	 */
 	public function __construct( $file ) {
 		$this->file = $file;
@@ -235,7 +237,7 @@ abstract class WP_Image_Editor {
 	public function set_quality( $quality = null ) {
 		if ( null === $quality ) {
 			/**
-			 * Filter the default image compression quality setting.
+			 * Filters the default image compression quality setting.
 			 *
 			 * Applies only during initial editor instantiation, or when set_quality() is run
 			 * manually without the `$quality` argument.
@@ -251,7 +253,7 @@ abstract class WP_Image_Editor {
 
 			if ( 'image/jpeg' == $this->mime_type ) {
 				/**
-				 * Filter the JPEG compression quality for backward-compatibility.
+				 * Filters the JPEG compression quality for backward-compatibility.
 				 *
 				 * Applies only during initial editor instantiation, or when set_quality() is run
 				 * manually without the `$quality` argument.
@@ -274,7 +276,7 @@ abstract class WP_Image_Editor {
 			}
 		}
 
-		// Allow 0, but squash to 1 due to identical images in GD, and for backwards compatibility.
+		// Allow 0, but squash to 1 due to identical images in GD, and for backward compatibility.
 		if ( 0 === $quality ) {
 			$quality = 1;
 		}
@@ -331,7 +333,7 @@ abstract class WP_Image_Editor {
 		// If not, choose a default instead.
 		if ( ! $this->supports_mime_type( $mime_type ) ) {
 			/**
-			 * Filter default mime type prior to getting the file extension.
+			 * Filters default mime type prior to getting the file extension.
 			 *
 			 * @see wp_get_mime_types()
 			 *
@@ -344,12 +346,8 @@ abstract class WP_Image_Editor {
 		}
 
 		if ( $filename ) {
-			$ext = '';
-			$info = pathinfo( $filename );
-			$dir  = $info['dirname'];
-
-			if ( isset( $info['extension'] ) )
-				$ext = $info['extension'];
+			$dir = pathinfo( $filename, PATHINFO_DIRNAME );
+			$ext = pathinfo( $filename, PATHINFO_EXTENSION );
 
 			$filename = trailingslashit( $dir ) . wp_basename( $filename, ".$ext" ) . ".{$new_ext}";
 		}
@@ -373,9 +371,8 @@ abstract class WP_Image_Editor {
 		if ( ! $suffix )
 			$suffix = $this->get_suffix();
 
-		$info = pathinfo( $this->file );
-		$dir  = $info['dirname'];
-		$ext  = $info['extension'];
+		$dir  = pathinfo( $this->file, PATHINFO_DIRNAME );
+		$ext  = pathinfo( $this->file, PATHINFO_EXTENSION );
 
 		$name = wp_basename( $this->file, ".$ext" );
 		$new_ext = strtolower( $extension ? $extension : $ext );

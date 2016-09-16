@@ -12,7 +12,7 @@ if ( defined('WP_USE_THEMES') && WP_USE_THEMES )
 	do_action( 'template_redirect' );
 
 /**
- * Filter whether to allow 'HEAD' requests to generate content.
+ * Filters whether to allow 'HEAD' requests to generate content.
  *
  * Provides a significant performance bump by exiting before the page
  * content loads for 'HEAD' requests. See #14348.
@@ -39,25 +39,12 @@ elseif ( is_feed() ) :
 elseif ( is_trackback() ) :
 	include( ABSPATH . 'wp-trackback.php' );
 	return;
-elseif ( is_embed() ) :
-	$template = ABSPATH . WPINC . '/embed-template.php';
-
-	/**
-	 * Filter the template used for embedded posts.
-	 *
-	 * @since 4.4.0
-	 *
-	 * @param string $template Path to the template file.
-	 */
-	$template = apply_filters( 'embed_template', $template );
-
-	include ( $template );
-	return;
 endif;
 
 if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
 	$template = false;
-	if     ( is_404()            && $template = get_404_template()            ) :
+	if     ( is_embed()          && $template = get_embed_template()          ) :
+	elseif ( is_404()            && $template = get_404_template()            ) :
 	elseif ( is_search()         && $template = get_search_template()         ) :
 	elseif ( is_front_page()     && $template = get_front_page_template()     ) :
 	elseif ( is_home()           && $template = get_home_template()           ) :
@@ -73,19 +60,24 @@ if ( defined('WP_USE_THEMES') && WP_USE_THEMES ) :
 	elseif ( is_author()         && $template = get_author_template()         ) :
 	elseif ( is_date()           && $template = get_date_template()           ) :
 	elseif ( is_archive()        && $template = get_archive_template()        ) :
-	elseif ( is_comments_popup() && $template = get_comments_popup_template() ) :
 	elseif ( is_paged()          && $template = get_paged_template()          ) :
 	else :
 		$template = get_index_template();
 	endif;
 	/**
-	 * Filter the path of the current template before including it.
+	 * Filters the path of the current template before including it.
 	 *
 	 * @since 3.0.0
 	 *
 	 * @param string $template The path of the template to include.
 	 */
-	if ( $template = apply_filters( 'template_include', $template ) )
+	if ( $template = apply_filters( 'template_include', $template ) ) {
 		include( $template );
+	} elseif ( current_user_can( 'switch_themes' ) ) {
+		$theme = wp_get_theme();
+		if ( $theme->errors() ) {
+			wp_die( $theme->errors() );
+		}
+	}
 	return;
 endif;

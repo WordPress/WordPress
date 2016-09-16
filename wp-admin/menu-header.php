@@ -27,7 +27,7 @@ $self = preg_replace('|^.*/mu-plugins/|i', '', $self);
 global $menu, $submenu, $parent_file, $submenu_file;
 
 /**
- * Filter the parent file of an admin menu sub-menu item.
+ * Filters the parent file of an admin menu sub-menu item.
  *
  * Allows plugins to move sub-menu items around.
  *
@@ -38,7 +38,7 @@ global $menu, $submenu, $parent_file, $submenu_file;
 $parent_file = apply_filters( 'parent_file', $parent_file );
 
 /**
- * Filter the file of an admin menu sub-menu item.
+ * Filters the file of an admin menu sub-menu item.
  *
  * @since 4.4.0
  *
@@ -109,7 +109,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		}
 
 		/*
-		 * If the string 'none' (previously 'div') is passed instead of an URL, don't output
+		 * If the string 'none' (previously 'div') is passed instead of a URL, don't output
 		 * the default menu image so an icon can be added to div.wp-menu-image as background
 		 * with CSS. Dashicons and base64-encoded data:image/svg_xml URIs are also handled
 		 * as special cases.

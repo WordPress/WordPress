@@ -15,31 +15,46 @@
  * @see Walker
  */
 class Walker_PageDropdown extends Walker {
+
 	/**
-	 * @see Walker::$tree_type
+	 * What the class handles.
+	 *
 	 * @since 2.1.0
+	 * @access public
 	 * @var string
+	 *
+	 * @see Walker::$tree_type
 	 */
 	public $tree_type = 'page';
 
 	/**
-	 * @see Walker::$db_fields
+	 * Database fields to use.
+	 *
 	 * @since 2.1.0
-	 * @todo Decouple this
+	 * @access public
 	 * @var array
+	 *
+	 * @see Walker::$db_fields
+	 * @todo Decouple this
 	 */
-	public $db_fields = array ('parent' => 'post_parent', 'id' => 'ID');
+	public $db_fields = array( 'parent' => 'post_parent', 'id' => 'ID' );
 
 	/**
-	 * @see Walker::start_el()
-	 * @since 2.1.0
+	 * Starts the element output.
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
-	 * @param object $page   Page data object.
-	 * @param int    $depth  Depth of page in reference to parent pages. Used for padding.
-	 * @param array  $args   Uses 'selected' argument for selected page to set selected HTML attribute for option
-	 *                       element. Uses 'value_field' argument to fill "value" attribute. See {@see wp_dropdown_pages()}.
-	 * @param int    $id
+	 * @since 2.1.0
+	 * @access public
+	 *
+	 * @see Walker::start_el()
+	 *
+	 * @param string  $output Used to append additional content. Passed by reference.
+	 * @param WP_Post $page   Page data object.
+	 * @param int     $depth  Optional. Depth of page in reference to parent pages. Used for padding.
+	 *                        Default 0.
+	 * @param array   $args   Optional. Uses 'selected' argument for selected page to set selected HTML
+	 *                        attribute for option element. Uses 'value_field' argument to fill "value"
+	 *                        attribute. See wp_dropdown_pages(). Default empty array.
+	 * @param int     $id     Optional. ID of the current page. Default 0 (unused).
 	 */
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $id = 0 ) {
 		$pad = str_repeat('&nbsp;', $depth * 3);
@@ -60,7 +75,7 @@ class Walker_PageDropdown extends Walker {
 		}
 
 		/**
-		 * Filter the page title when creating an HTML drop-down list of pages.
+		 * Filters the page title when creating an HTML drop-down list of pages.
 		 *
 		 * @since 3.1.0
 		 *
@@ -68,6 +83,7 @@ class Walker_PageDropdown extends Walker {
 		 * @param object $page  Page data object.
 		 */
 		$title = apply_filters( 'list_pages', $title, $page );
+
 		$output .= $pad . esc_html( $title );
 		$output .= "</option>\n";
 	}

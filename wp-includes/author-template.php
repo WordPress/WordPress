@@ -24,10 +24,10 @@ function get_the_author($deprecated = '') {
 	global $authordata;
 
 	if ( !empty( $deprecated ) )
-		_deprecated_argument( __FUNCTION__, '2.1' );
+		_deprecated_argument( __FUNCTION__, '2.1.0' );
 
 	/**
-	 * Filter the display name of the current post's author.
+	 * Filters the display name of the current post's author.
 	 *
 	 * @since 2.9.0
 	 *
@@ -45,7 +45,7 @@ function get_the_author($deprecated = '') {
  * still use the old behavior will also pass the value from get_the_author().
  *
  * The normal, expected behavior of this function is to echo the author and not
- * return it. However, backwards compatibility has to be maintained.
+ * return it. However, backward compatibility has to be maintained.
  *
  * @since 0.71
  * @see get_the_author()
@@ -57,11 +57,11 @@ function get_the_author($deprecated = '') {
  */
 function the_author( $deprecated = '', $deprecated_echo = true ) {
 	if ( ! empty( $deprecated ) ) {
-		_deprecated_argument( __FUNCTION__, '2.1' );
+		_deprecated_argument( __FUNCTION__, '2.1.0' );
 	}
 
 	if ( true !== $deprecated_echo ) {
-		_deprecated_argument( __FUNCTION__, '1.5',
+		_deprecated_argument( __FUNCTION__, '1.5.0',
 			/* translators: %s: get_the_author() */
 			sprintf( __( 'Use %s instead if you do not want the value echoed.' ),
 				'<code>get_the_author()</code>'
@@ -88,7 +88,7 @@ function get_the_modified_author() {
 		$last_user = get_userdata($last_id);
 
 		/**
-		 * Filter the display name of the author who last edited the current post.
+		 * Filters the display name of the author who last edited the current post.
 		 *
 		 * @since 2.8.0
 		 *
@@ -137,7 +137,7 @@ function get_the_author_meta( $field = '', $user_id = false ) {
 	$value = isset( $authordata->$field ) ? $authordata->$field : '';
 
 	/**
-	 * Filter the value of the requested user metadata.
+	 * Filters the value of the requested user metadata.
 	 *
 	 * The filter name is dynamic and depends on the $field parameter of the function.
 	 *
@@ -188,7 +188,12 @@ function the_author_meta( $field = '', $user_id = false ) {
  */
 function get_the_author_link() {
 	if ( get_the_author_meta('url') ) {
-		return '<a href="' . esc_url( get_the_author_meta('url') ) . '" title="' . esc_attr( sprintf(__("Visit %s&#8217;s website"), get_the_author()) ) . '" rel="author external">' . get_the_author() . '</a>';
+		return sprintf( '<a href="%1$s" title="%2$s" rel="author external">%3$s</a>',
+			esc_url( get_the_author_meta('url') ),
+			/* translators: %s: author's display name */
+			esc_attr( sprintf( __( 'Visit %s&#8217;s website' ), get_the_author() ) ),
+			get_the_author()
+		);
 	} else {
 		return get_the_author();
 	}
@@ -250,15 +255,15 @@ function get_the_author_posts_link() {
 		return;
 	}
 
-	$link = sprintf(
-		'<a href="%1$s" title="%2$s" rel="author">%3$s</a>',
+	$link = sprintf( '<a href="%1$s" title="%2$s" rel="author">%3$s</a>',
 		esc_url( get_author_posts_url( $authordata->ID, $authordata->user_nicename ) ),
+		/* translators: %s: author's display name */
 		esc_attr( sprintf( __( 'Posts by %s' ), get_the_author() ) ),
 		get_the_author()
 	);
 
 	/**
-	 * Filter the link to the author page of the author of the current post.
+	 * Filters the link to the author page of the author of the current post.
 	 *
 	 * @since 2.9.0
 	 *
@@ -277,7 +282,7 @@ function get_the_author_posts_link() {
  */
 function the_author_posts_link( $deprecated = '' ) {
 	if ( ! empty( $deprecated ) ) {
-		_deprecated_argument( __FUNCTION__, '2.1' );
+		_deprecated_argument( __FUNCTION__, '2.1.0' );
 	}
 	echo get_the_author_posts_link();
 }
@@ -289,9 +294,11 @@ function the_author_posts_link( $deprecated = '' ) {
  *
  * @global WP_Rewrite $wp_rewrite
  *
+ * @param int    $author_id       Author ID.
+ * @param string $author_nicename Optional. The author's nicename (slug). Default empty.
  * @return string The URL to the author's page.
  */
-function get_author_posts_url($author_id, $author_nicename = '') {
+function get_author_posts_url( $author_id, $author_nicename = '' ) {
 	global $wp_rewrite;
 	$auth_ID = (int) $author_id;
 	$link = $wp_rewrite->get_author_permastruct();
@@ -310,7 +317,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
 	}
 
 	/**
-	 * Filter the URL to the author's page.
+	 * Filters the URL to the author's page.
 	 *
 	 * @since 2.1.0
 	 *
@@ -324,7 +331,7 @@ function get_author_posts_url($author_id, $author_nicename = '') {
 }
 
 /**
- * List all the authors of the blog, with several options available.
+ * List all the authors of the site, with several options available.
  *
  * @link https://codex.wordpress.org/Template_Tags/wp_list_authors
  *
@@ -335,26 +342,26 @@ function get_author_posts_url($author_id, $author_nicename = '') {
  * @param string|array $args {
  *     Optional. Array or string of default arguments.
  *
- *     @type string $orderby       How to sort the authors. Accepts 'nicename', 'email', 'url', 'registered',
- *                                 'user_nicename', 'user_email', 'user_url', 'user_registered', 'name',
- *                                 'display_name', 'post_count', 'ID', 'meta_value', 'user_login'. Default 'name'.
- *     @type string $order         Sorting direction for $orderby. Accepts 'ASC', 'DESC'. Default 'ASC'.
- *     @type int    $number        Maximum authors to return or display. Default empty (all authors).
- *     @type bool   $optioncount   Show the count in parenthesis next to the author's name. Default false.
- *     @type bool   $exclude_admin Whether to exclude the 'admin' account, if it exists. Default false.
- *     @type bool   $show_fullname Whether to show the author's full name. Default false.
- *     @type bool   $hide_empty    Whether to hide any authors with no posts. Default true.
- *     @type string $feed          If not empty, show a link to the author's feed and use this text as the alt
- *                                 parameter of the link. Default empty.
- *     @type string $feed_image    If not empty, show a link to the author's feed and use this image URL as
- *                                 clickable anchor. Default empty.
- *     @type string $feed_type     The feed type to link to, such as 'rss2'. Defaults to default feed type.
- *     @type bool   $echo          Whether to output the result or instead return it. Default true.
- *     @type string $style         If 'list', each author is wrapped in an `<li>` element, otherwise the authors
- *                                 will be separated by commas.
- *     @type bool   $html          Whether to list the items in HTML form or plaintext. Default true.
- *     @type string $exclude       An array, comma-, or space-separated list of author IDs to exclude. Default empty.
- *     @type string $exclude       An array, comma-, or space-separated list of author IDs to include. Default empty.
+ *     @type string       $orderby       How to sort the authors. Accepts 'nicename', 'email', 'url', 'registered',
+ *                                       'user_nicename', 'user_email', 'user_url', 'user_registered', 'name',
+ *                                       'display_name', 'post_count', 'ID', 'meta_value', 'user_login'. Default 'name'.
+ *     @type string       $order         Sorting direction for $orderby. Accepts 'ASC', 'DESC'. Default 'ASC'.
+ *     @type int          $number        Maximum authors to return or display. Default empty (all authors).
+ *     @type bool         $optioncount   Show the count in parenthesis next to the author's name. Default false.
+ *     @type bool         $exclude_admin Whether to exclude the 'admin' account, if it exists. Default false.
+ *     @type bool         $show_fullname Whether to show the author's full name. Default false.
+ *     @type bool         $hide_empty    Whether to hide any authors with no posts. Default true.
+ *     @type string       $feed          If not empty, show a link to the author's feed and use this text as the alt
+ *                                       parameter of the link. Default empty.
+ *     @type string       $feed_image    If not empty, show a link to the author's feed and use this image URL as
+ *                                       clickable anchor. Default empty.
+ *     @type string       $feed_type     The feed type to link to, such as 'rss2'. Defaults to default feed type.
+ *     @type bool         $echo          Whether to output the result or instead return it. Default true.
+ *     @type string       $style         If 'list', each author is wrapped in an `<li>` element, otherwise the authors
+ *                                       will be separated by commas.
+ *     @type bool         $html          Whether to list the items in HTML form or plaintext. Default true.
+ *     @type array|string $exclude       Array or comma/space-separated list of author IDs to exclude. Default empty.
+ *     @type array|string $include       Array or comma/space-separated list of author IDs to include. Default empty.
  * }
  * @return string|void The output, if echo is set to false.
  */
@@ -410,7 +417,12 @@ function wp_list_authors( $args = '' ) {
 			$return .= '<li>';
 		}
 
-		$link = '<a href="' . get_author_posts_url( $author->ID, $author->user_nicename ) . '" title="' . esc_attr( sprintf(__("Posts by %s"), $author->display_name) ) . '">' . $name . '</a>';
+		$link = sprintf( '<a href="%1$s" title="%2$s">%3$s</a>',
+			get_author_posts_url( $author->ID, $author->user_nicename ),
+			/* translators: %s: author's display name */
+			esc_attr( sprintf( __( 'Posts by %s' ), $author->display_name ) ),
+			$name
+		);
 
 		if ( ! empty( $args['feed_image'] ) || ! empty( $args['feed'] ) ) {
 			$link .= ' ';
@@ -478,7 +490,7 @@ function is_multi_author() {
 	}
 
 	/**
-	 * Filter whether the site has more than one author with published posts.
+	 * Filters whether the site has more than one author with published posts.
 	 *
 	 * @since 3.2.0
 	 *

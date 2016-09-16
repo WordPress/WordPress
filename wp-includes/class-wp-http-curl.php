@@ -298,13 +298,17 @@ class WP_Http_Curl {
 	}
 
 	/**
-	 * Grab the headers of the cURL request
+	 * Grabs the headers of the cURL request.
 	 *
-	 * Each header is sent individually to this callback, so we append to the $header property for temporary storage
+	 * Each header is sent individually to this callback, so we append to the `$header` property
+	 * for temporary storage
 	 *
 	 * @since 3.2.0
 	 * @access private
-	 * @return int
+	 *
+	 * @param resource $handle  cURL handle.
+	 * @param string   $headers cURL request headers.
+	 * @return int Length of the request headers.
 	 */
 	private function stream_headers( $handle, $headers ) {
 		$this->headers .= $headers;
@@ -312,14 +316,18 @@ class WP_Http_Curl {
 	}
 
 	/**
-	 * Grab the body of the cURL request
+	 * Grabs the body of the cURL request.
 	 *
-	 * The contents of the document are passed in chunks, so we append to the $body property for temporary storage.
-	 * Returning a length shorter than the length of $data passed in will cause cURL to abort the request with CURLE_WRITE_ERROR
+	 * The contents of the document are passed in chunks, so we append to the `$body`
+	 * property for temporary storage. Returning a length shorter than the length of
+	 * `$data` passed in will cause cURL to abort the request with `CURLE_WRITE_ERROR`.
 	 *
 	 * @since 3.6.0
 	 * @access private
-	 * @return int
+	 *
+	 * @param resource $handle  cURL handle.
+	 * @param string   $data    cURL request body.
+	 * @return int Total bytes of data written.
 	 */
 	private function stream_body( $handle, $data ) {
 		$data_length = strlen( $data );
@@ -343,11 +351,12 @@ class WP_Http_Curl {
 	}
 
 	/**
-	 * Whether this class can be used for retrieving an URL.
+	 * Determines whether this class can be used for retrieving a URL.
 	 *
 	 * @static
 	 * @since 2.7.0
 	 *
+	 * @param array $args Optional. Array of request arguments. Default empty array.
 	 * @return bool False means this class can not be used, true means it can.
 	 */
 	public static function test( $args = array() ) {
@@ -364,7 +373,7 @@ class WP_Http_Curl {
 		}
 
 		/**
-		 * Filter whether cURL can be used as a transport for retrieving a URL.
+		 * Filters whether cURL can be used as a transport for retrieving a URL.
 		 *
 		 * @since 2.7.0
 		 *

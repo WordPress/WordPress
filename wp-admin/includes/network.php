@@ -52,11 +52,11 @@ function allow_subdomain_install() {
 function allow_subdirectory_install() {
 	global $wpdb;
         /**
-         * Filter whether to enable the subdirectory install feature in Multisite.
+         * Filters whether to enable the subdirectory install feature in Multisite.
          *
          * @since 3.0.0
          *
-         * @param bool true Whether to enable the subdirectory install feature in Multisite. Default is false.
+         * @param bool $allow Whether to enable the subdirectory install feature in Multisite. Default is false.
          */
 	if ( apply_filters( 'allow_subdirectory_install', false ) )
 		return true;
@@ -144,8 +144,18 @@ function network_step1( $errors = false ) {
 		$error_codes = $errors->get_error_codes();
 	}
 
-	$site_name = ( ! empty( $_POST['sitename'] ) && ! in_array( 'empty_sitename', $error_codes ) ) ? $_POST['sitename'] : sprintf( _x('%s Sites', 'Default network name' ), get_option( 'blogname' ) );
-	$admin_email = ( ! empty( $_POST['email'] ) && ! in_array( 'invalid_email', $error_codes ) ) ? $_POST['email'] : get_option( 'admin_email' );
+	if ( ! empty( $_POST['sitename'] ) && ! in_array( 'empty_sitename', $error_codes ) ) {
+		$site_name = $_POST['sitename'];
+	} else {
+		/* translators: %s: Default network name */
+		$site_name = sprintf( __( '%s Sites' ), get_option( 'blogname' ) );
+	}
+
+	if ( ! empty( $_POST['email'] ) && ! in_array( 'invalid_email', $error_codes ) ) {
+		$admin_email = $_POST['email'];
+	} else {
+		$admin_email = get_option( 'admin_email' );
+	}
 	?>
 	<p><?php _e( 'Welcome to the Network installation process!' ); ?></p>
 	<p><?php _e( 'Fill in the information below and you&#8217;ll be on your way to creating a network of WordPress sites. We will create configuration files in the next step.' ); ?></p>
@@ -159,7 +169,7 @@ function network_step1( $errors = false ) {
 		$subdomain_install = true;
 	} else {
 		$subdomain_install = false;
-		if ( $got_mod_rewrite = got_mod_rewrite() ) { // dangerous assumptions 
+		if ( $got_mod_rewrite = got_mod_rewrite() ) { // dangerous assumptions
 			echo '<div class="updated inline"><p><strong>' . __( 'Note:' ) . '</strong> ';
 			/* translators: %s: mod_rewrite */
 			printf( __( 'Please make sure the Apache %s module is installed as it will be used at the end of this installation.' ),
@@ -180,8 +190,8 @@ function network_step1( $errors = false ) {
 			/* translators: 1: mod_rewrite, 2: mod_rewrite documentation URL, 3: Google search for mod_rewrite */
 			printf( __( 'If %1$s is disabled, ask your administrator to enable that module, or look at the <a href="%2$s">Apache documentation</a> or <a href="%3$s">elsewhere</a> for help setting it up.' ),
 				'<code>mod_rewrite</code>',
-				'http://httpd.apache.org/docs/mod/mod_rewrite.html',
-				'http://www.google.com/search?q=apache+mod_rewrite'
+				'https://httpd.apache.org/docs/mod/mod_rewrite.html',
+				'https://www.google.com/search?q=apache+mod_rewrite'
 			);
 			echo '</p></div>';
 		}
@@ -376,23 +386,26 @@ function network_step2( $errors = false ) {
 		<p><?php _e( 'Complete the following steps to enable the features for creating a network of sites.' ); ?></p>
 		<div class="updated inline"><p><?php
 			if ( file_exists( $home_path . '.htaccess' ) ) {
+				echo '<strong>' . __( 'Caution:' ) . '</strong> ';
 				printf(
 					/* translators: 1: wp-config.php 2: .htaccess */
-					__( '<strong>Caution:</strong> We recommend you back up your existing %1$s and %2$s files.' ),
+					__( 'We recommend you back up your existing %1$s and %2$s files.' ),
 					'<code>wp-config.php</code>',
 					'<code>.htaccess</code>'
 				);
 			} elseif ( file_exists( $home_path . 'web.config' ) ) {
+				echo '<strong>' . __( 'Caution:' ) . '</strong> ';
 				printf(
 					/* translators: 1: wp-config.php 2: web.config */
-					__( '<strong>Caution:</strong> We recommend you back up your existing %1$s and %2$s files.' ),
+					__( 'We recommend you back up your existing %1$s and %2$s files.' ),
 					'<code>wp-config.php</code>',
 					'<code>web.config</code>'
 				);
 			} else {
+				echo '<strong>' . __( 'Caution:' ) . '</strong> ';
 				printf(
 					/* translators: 1: wp-config.php */
-					__( '<strong>Caution:</strong> We recommend you back up your existing %s file.' ),
+					__( 'We recommend you back up your existing %s file.' ),
 					'<code>wp-config.php</code>'
 				);
 			}
@@ -402,10 +415,16 @@ function network_step2( $errors = false ) {
 ?>
 		<ol>
 			<li><p><?php printf(
-				/* translators: 1: wp-config.php 2: location of wp-config file */
-				__( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading <code>/* That&#8217;s all, stop editing! Happy blogging. */</code>:' ),
+				/* translators: 1: wp-config.php 2: location of wp-config file, 3: translated version of "That's all, stop editing! Happy blogging." */
+				__( 'Add the following to your %1$s file in %2$s <strong>above</strong> the line reading %3$s:' ),
 				'<code>wp-config.php</code>',
-				'<code>' . $location_of_wp_config . '</code>'
+				'<code>' . $location_of_wp_config . '</code>',
+				/*
+				 * translators: This string should only be translated if wp-config-sample.php is localized.
+				 * You can check the localized release package or
+				 * https://i18n.svn.wordpress.org/<locale code>/branches/<wp version>/dist/wp-config-sample.php
+				 */
+				'<code>/* ' . __( 'That&#8217;s all, stop editing! Happy blogging.' ) . ' */</code>'
 			); ?></p>
 				<textarea class="code" readonly="readonly" cols="100" rows="7">
 define('MULTISITE', true);

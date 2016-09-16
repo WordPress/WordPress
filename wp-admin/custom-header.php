@@ -261,6 +261,9 @@ class Custom_Image_Header {
 	 * Random image option is on by default if no header has been set.
 	 *
 	 * @since 3.0.0
+	 *
+	 * @param string $type The header type. One of 'default' (for the Uploaded Images control)
+	 *                     or 'uploaded' (for the Uploaded Images control).
 	 */
 	public function show_header_selector( $type = 'default' ) {
 		if ( 'default' == $type ) {
@@ -282,14 +285,13 @@ class Custom_Image_Header {
 		foreach ( $headers as $header_key => $header ) {
 			$header_thumbnail = $header['thumbnail_url'];
 			$header_url = $header['url'];
-			$header_desc = empty( $header['description'] ) ? '' : $header['description'];
-			$header_alt_text = empty( $header['alt_text'] ) ? $header_desc : $header['alt_text'];
+			$header_alt_text = empty( $header['alt_text'] ) ? '' : $header['alt_text'];
 			echo '<div class="default-header">';
 			echo '<label><input name="default-header" type="radio" value="' . esc_attr( $header_key ) . '" ' . checked( $header_url, get_theme_mod( 'header_image' ), false ) . ' />';
 			$width = '';
 			if ( !empty( $header['attachment_id'] ) )
 				$width = ' width="230"';
-			echo '<img src="' . set_url_scheme( $header_thumbnail ) . '" alt="' . esc_attr( $header_alt_text ) .'" title="' . esc_attr( $header_desc ) . '"' . $width . ' /></label>';
+			echo '<img src="' . set_url_scheme( $header_thumbnail ) . '" alt="' . esc_attr( $header_alt_text ) .'"' . $width . ' /></label>';
 			echo '</div>';
 		}
 		echo '<div class="clear"></div></div>';
@@ -524,16 +526,48 @@ class Custom_Image_Header {
 		printf( __( 'Images of exactly <strong>%1$d &times; %2$d pixels</strong> will be used as-is.' ) . '<br />', get_theme_support( 'custom-header', 'width' ), get_theme_support( 'custom-header', 'height' ) );
 	} elseif ( current_theme_supports( 'custom-header', 'flex-height' ) ) {
 		if ( ! current_theme_supports( 'custom-header', 'flex-width' ) )
-			printf( __( 'Images should be at least <strong>%1$d pixels</strong> wide.' ) . ' ', get_theme_support( 'custom-header', 'width' ) );
+			printf(
+				/* translators: %s: size in pixels */
+				__( 'Images should be at least %s wide.' ) . ' ',
+				sprintf(
+					/* translators: %d: custom header width */
+					'<strong>' . __( '%d pixels' ) . '</strong>',
+					get_theme_support( 'custom-header', 'width' )
+				)
+			);
 	} elseif ( current_theme_supports( 'custom-header', 'flex-width' ) ) {
 		if ( ! current_theme_supports( 'custom-header', 'flex-height' ) )
-			printf( __( 'Images should be at least <strong>%1$d pixels</strong> tall.' ) . ' ', get_theme_support( 'custom-header', 'height' ) );
+			printf(
+				/* translators: %s: size in pixels */
+				__( 'Images should be at least %s tall.' ) . ' ',
+				sprintf(
+					/* translators: %d: custom header height */
+					'<strong>' . __( '%d pixels' ) . '</strong>',
+					get_theme_support( 'custom-header', 'height' )
+				)
+			);
 	}
 	if ( current_theme_supports( 'custom-header', 'flex-height' ) || current_theme_supports( 'custom-header', 'flex-width' ) ) {
 		if ( current_theme_supports( 'custom-header', 'width' ) )
-			printf( __( 'Suggested width is <strong>%1$d pixels</strong>.' ) . ' ', get_theme_support( 'custom-header', 'width' ) );
+			printf(
+				/* translators: %s: size in pixels */
+				__( 'Suggested width is %s.' ) . ' ',
+				sprintf(
+					/* translators: %d: custom header width */
+					'<strong>' . __( '%d pixels' ) . '</strong>',
+					get_theme_support( 'custom-header', 'width' )
+				)
+			);
 		if ( current_theme_supports( 'custom-header', 'height' ) )
-			printf( __( 'Suggested height is <strong>%1$d pixels</strong>.' ) . ' ', get_theme_support( 'custom-header', 'height' ) );
+			printf(
+				/* translators: %s: size in pixels */
+				__( 'Suggested height is %s.' ) . ' ',
+				sprintf(
+					/* translators: %d: custom header height */
+					'<strong>' . __( '%d pixels' ) . '</strong>',
+					get_theme_support( 'custom-header', 'height' )
+				)
+			);
 	}
 	?></p>
 	<form enctype="multipart/form-data" id="upload-form" class="wp-upload-form" method="post" action="<?php echo esc_url( add_query_arg( 'step', 2 ) ) ?>">
@@ -932,7 +966,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 */
 	public function admin_page() {
 		if ( ! current_user_can('edit_theme_options') )
-			wp_die(__('You do not have permission to customize headers.'));
+			wp_die(__('Sorry, you are not allowed to customize headers.'));
 		$step = $this->step();
 		if ( 2 == $step )
 			$this->step_2();
@@ -970,15 +1004,13 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 	 * Choose a header image, selected from existing uploaded and default headers,
 	 * or provide an array of uploaded header data (either new, or from media library).
 	 *
+	 * @since 3.4.0
+	 *
 	 * @param mixed $choice Which header image to select. Allows for values of 'random-default-image',
 	 * 	for randomly cycling among the default images; 'random-uploaded-image', for randomly cycling
 	 * 	among the uploaded images; the key of a default image registered for that theme; and
-	 * 	the key of an image uploaded for that theme (the basename of the URL).
+	 * 	the key of an image uploaded for that theme (the attachment ID of the image).
 	 *  Or an array of arguments: attachment_id, url, width, height. All are required.
-	 *
-	 * @since 3.4.0
-	 *
-	 * @param array|object|string $choice
 	 */
 	final public function set_header_image( $choice ) {
 		if ( is_array( $choice ) || is_object( $choice ) ) {
@@ -1151,7 +1183,7 @@ wp_nonce_field( 'custom-header-options', '_wpnonce-custom-header-options' ); ?>
 		$attachment_id = wp_insert_attachment( $object, $cropped );
 		$metadata = wp_generate_attachment_metadata( $attachment_id, $cropped );
 		/**
-		 * Filter the header image attachment metadata.
+		 * Filters the header image attachment metadata.
 		 *
 		 * @since 3.9.0
 		 *

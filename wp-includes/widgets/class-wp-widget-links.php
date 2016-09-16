@@ -23,8 +23,11 @@ class WP_Widget_Links extends WP_Widget {
 	 * @access public
 	 */
 	public function __construct() {
-		$widget_ops = array('description' => __( "Your blogroll" ) );
-		parent::__construct('links', __('Links'), $widget_ops);
+		$widget_ops = array(
+			'description' => __( 'Your blogroll' ),
+			'customize_selective_refresh' => true,
+		);
+		parent::__construct( 'links', __( 'Links' ), $widget_ops );
 	}
 
 	/**
@@ -66,7 +69,7 @@ class WP_Widget_Links extends WP_Widget {
 		);
 
 		/**
-		 * Filter the arguments for the Links widget.
+		 * Filters the arguments for the Links widget.
 		 *
 		 * @since 2.6.0
 		 * @since 4.4.0 The `$instance` parameter was added.

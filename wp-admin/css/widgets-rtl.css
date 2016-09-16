@@ -114,7 +114,12 @@
 	padding: 0 0 15px;
 	margin: 0;
 	font-style: normal;
-	color: #777;
+	color: #72777c;
+}
+
+.widget-holder .description,
+.inactive-sidebar .description {
+	color: #555d66;
 }
 
 #widgets-right .widgets-holder-wrap .description {
@@ -155,7 +160,7 @@ div#widgets-left .sidebar-name h3 {
 	padding: 9px;
 }
 
-#widgets-left #available-widgets,
+#widgets-left .widgets-holder-wrap,
 div#widgets-left .widget-holder {
 	background: transparent;
 	border: none;
@@ -225,14 +230,6 @@ div#widgets-left .inactive-sidebar .widgets-sortables {
 
 /* Widgets Right */
 
-div#widgets-right:after {
-	content: ".";
-	display: block;
-	height: 0;
-	clear: both;
-	visibility: hidden;
-}
-
 div#widgets-right .sidebars-column-1,
 div#widgets-right .sidebars-column-2 {
 	max-width: 450px;
@@ -282,7 +279,7 @@ div#widgets-right .closed .widgets-sortables {
 
 /* Dragging a widget over a closed sidebar */
 #widgets-right .widgets-holder-wrap.widget-hover {
-	border-color: #777;
+	border-color: #72777c;
 	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 	box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
@@ -350,6 +347,7 @@ div#widgets-right .closed .widgets-sortables {
 .js .widgets-holder-wrap.closed .widget,
 .js .widgets-holder-wrap.closed .sidebar-description,
 .js .widgets-holder-wrap.closed .remove-inactive-widgets,
+.js .widgets-holder-wrap.closed .description,
 .js .closed br.clear {
 	display: none;
 }
@@ -371,7 +369,7 @@ div#widgets-right .closed .widgets-sortables {
 /* Dragging widgets over the available widget area show's a "Deactivate" message */
 #removing-widget {
 	display: none;
-	font-weight: normal;
+	font-weight: 400;
 	padding-right: 15px;
 	font-size: 12px;
 	line-height: 1;
@@ -464,6 +462,7 @@ div#widgets-right .widget-top:hover,
 	transition: background 0.2s ease-in-out;
 }
 
+ /* @todo looks like these hover/focus states are overridden by .widgets-chooser-selected */
 .widgets-chooser li:hover,
 .widgets-chooser li:focus {
 	background: rgba(255,255,255,0.7);
@@ -474,7 +473,7 @@ div#widgets-right .widget-top:hover,
 	display: block;
 	-webkit-font-smoothing: antialiased;
 	font: normal 26px/1 dashicons;
-	color: #999;
+	color: #555d66;
 	position: absolute;
 	top: 7px;
 	right: 5px;

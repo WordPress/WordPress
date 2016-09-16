@@ -210,9 +210,11 @@ final class WP_Post {
 	public static function get_instance( $post_id ) {
 		global $wpdb;
 
-		$post_id = (int) $post_id;
-		if ( ! $post_id )
+		if ( ! is_numeric( $post_id ) || $post_id != floor( $post_id ) || ! $post_id ) {
 			return false;
+		}
+
+		$post_id = (int) $post_id;
 
 		$_post = wp_cache_get( $post_id, 'posts' );
 

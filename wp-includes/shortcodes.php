@@ -1,7 +1,7 @@
 <?php
 /**
- * WordPress API for creating bbcode like tags or what WordPress calls
- * "shortcodes." The tag and attribute parsing or regular expression code is
+ * WordPress API for creating bbcode-like tags or what WordPress calls
+ * "shortcodes". The tag and attribute parsing or regular expression code is
  * based on the Textpattern tag parser.
  *
  * A few examples are below:
@@ -95,9 +95,9 @@ function add_shortcode($tag, $func) {
 		return;
 	}
 
-	if ( 0 !== preg_match( '@[<>&/\[\]\x00-\x20]@', $tag ) ) {
-		/* translators: %s: shortcode name */
-		$message = sprintf( __( 'Invalid shortcode name: %s. Do not use spaces or reserved characters: & / < > [ ]' ), $tag );
+	if ( 0 !== preg_match( '@[<>&/\[\]\x00-\x20=]@', $tag ) ) {
+		/* translators: 1: shortcode name, 2: space separated list of reserved characters */
+		$message = sprintf( __( 'Invalid shortcode name: %1$s. Do not use spaces or reserved characters: %2$s' ), $tag, '& / < > [ ] =' );
 		_doing_it_wrong( __FUNCTION__, $message, '4.4.0' );
 		return;
 	}
@@ -210,7 +210,7 @@ function do_shortcode( $content, $ignore_html = false ) {
 		return $content;
 
 	// Find all registered tag names in $content.
-	preg_match_all( '@\[([^<>&/\[\]\x00-\x20]++)@', $content, $matches );
+	preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $content, $matches );
 	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
 
 	if ( empty( $tagnames ) ) {
@@ -319,6 +319,24 @@ function do_shortcode_tag( $m ) {
 		$message = sprintf( __( 'Attempting to parse a shortcode without a valid callback: %s' ), $tag );
 		_doing_it_wrong( __FUNCTION__, $message, '4.3.0' );
 		return $m[0];
+	}
+
+	/**
+	 * Filters whether to call a shortcode callback.
+	 *
+	 * Passing a truthy value to the filter will effectively short-circuit the
+	 * shortcode generation process, returning that value instead.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param bool|string $return      Short-circuit return value. Either false or the value to replace the shortcode with.
+	 * @param string      $tag         Shortcode name.
+	 * @param array       $attr        Shortcode attributes array,
+	 * @param array       $m           Regular expression match array.
+	 */
+	$return = apply_filters( 'pre_do_shortcode_tag', false, $tag, $attr, $m );
+	if ( false !== $return ) {
+		return $return;
 	}
 
 	if ( isset( $m[5] ) ) {
@@ -537,7 +555,7 @@ function shortcode_atts( $pairs, $atts, $shortcode = '' ) {
 			$out[$name] = $default;
 	}
 	/**
-	 * Filter a shortcode's default attributes.
+	 * Filters a shortcode's default attributes.
 	 *
 	 * If the third parameter of the shortcode_atts() function is present then this filter is available.
 	 * The third parameter, $shortcode, is the name of the shortcode.
@@ -578,7 +596,7 @@ function strip_shortcodes( $content ) {
 		return $content;
 
 	// Find all registered tag names in $content.
-	preg_match_all( '@\[([^<>&/\[\]\x00-\x20]++)@', $content, $matches );
+	preg_match_all( '@\[([^<>&/\[\]\x00-\x20=]++)@', $content, $matches );
 	$tagnames = array_intersect( array_keys( $shortcode_tags ), $matches[1] );
 
 	if ( empty( $tagnames ) ) {
@@ -597,9 +615,12 @@ function strip_shortcodes( $content ) {
 }
 
 /**
+ * Strips a shortcode tag based on RegEx matches against post content.
  *
- * @param array $m
- * @return string|false
+ * @since 3.3.0
+ *
+ * @param array $m RegEx matches against post content.
+ * @return string|false The content stripped of the tag, otherwise false.
  */
 function strip_shortcode_tag( $m ) {
 	// allow [[foo]] syntax for escaping a tag

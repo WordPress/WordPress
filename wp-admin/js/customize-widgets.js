@@ -34,7 +34,7 @@
 		multi_number: null,
 		name: null,
 		id_base: null,
-		transport: 'refresh',
+		transport: null,
 		params: [],
 		width: null,
 		height: null,
@@ -430,6 +430,7 @@
 				args = $.extend( {}, control.defaultExpandedArguments, args );
 				control.onChangeExpanded( expanded, args );
 			});
+			control.altNotice = true;
 
 			api.Control.prototype.initialize.call( control, id, options );
 		},
@@ -663,7 +664,7 @@
 		 */
 		_setupReorderUI: function() {
 			var self = this, selectSidebarItem, $moveWidgetArea,
-				$reorderNav, updateAvailableSidebars;
+				$reorderNav, updateAvailableSidebars, template;
 
 			/**
 			 * select the provided sidebar list item in the move widget area
@@ -681,8 +682,10 @@
 			 * Add the widget reordering elements to the widget control
 			 */
 			this.container.find( '.widget-title-action' ).after( $( api.Widgets.data.tpl.widgetReorderNav ) );
-			$moveWidgetArea = $(
-				_.template( api.Widgets.data.tpl.moveWidgetArea, {
+
+
+			template = _.template( api.Widgets.data.tpl.moveWidgetArea );
+			$moveWidgetArea = $( template( {
 					sidebars: _( api.Widgets.registeredSidebars.toArray() ).pluck( 'attributes' )
 				} )
 			);
@@ -959,7 +962,7 @@
 		 * comparing the loaded form with the sanitized form, whose fields will
 		 * be aligned to copy the sanitized over. The elements returned by this
 		 * are passed into this._getInputsSignature(), and they are iterated
-		 * over when copying sanitized values over to the the form loaded.
+		 * over when copying sanitized values over to the form loaded.
 		 *
 		 * @param {jQuery} container element in which to look for inputs
 		 * @returns {jQuery} inputs
@@ -1107,7 +1110,7 @@
 			params = {};
 			params.action = 'update-widget';
 			params.wp_customize = 'on';
-			params.nonce = api.Widgets.data.nonce;
+			params.nonce = api.settings.nonce['update-widget'];
 			params.theme = api.settings.theme.stylesheet;
 			params.customized = wp.customize.previewer.query().customized;
 
@@ -1829,7 +1832,7 @@
 				}
 			});
 
-			if ( ! widgetControls.length ) {
+			if ( 0 === widgetControls.length || ( 1 === api.Widgets.registeredSidebars.length && widgetControls.length <= 1 ) ) {
 				this.container.find( '.reorder-toggle' ).hide();
 				return;
 			} else {
@@ -1899,7 +1902,7 @@
 		/**
 		 * Get the widget_form Customize controls associated with the current sidebar.
 		 *
-		 * @since 3.9
+		 * @since 3.9.0
 		 * @return {wp.customize.controlConstructor.widget_form[]}
 		 */
 		getWidgetFormControls: function() {
@@ -1980,7 +1983,7 @@
 			isExistingWidget = api.has( settingId );
 			if ( ! isExistingWidget ) {
 				settingArgs = {
-					transport: 'refresh',
+					transport: api.Widgets.data.selectiveRefreshableWidgets[ widget.get( 'id_base' ) ] ? 'postMessage' : 'refresh',
 					previewer: this.setting.previewer
 				};
 				setting = api.create( settingId, settingId, '', settingArgs );
@@ -2056,11 +2059,6 @@
 	$.extend( api.controlConstructor, {
 		widget_form: api.Widgets.WidgetControl,
 		sidebar_widgets: api.Widgets.SidebarControl
-	});
-
-	// Refresh the nonce if login sends updated nonces over.
-	api.bind( 'nonce-refresh', function( nonces ) {
-		api.Widgets.data.nonce = nonces['update-widget'];
 	});
 
 	/**
@@ -2141,6 +2139,58 @@
 
 		return foundControl;
 	};
+
+	/**
+	 * Initialize Edit Menu button in Nav Menu widget.
+	 */
+	$( document ).on( 'widget-added', function( event, widgetContainer ) {
+		var parsedWidgetId, widgetControl, navMenuSelect, editMenuButton;
+		parsedWidgetId = parseWidgetId( widgetContainer.find( '> .widget-inside > .form > .widget-id' ).val() );
+		if ( 'nav_menu' !== parsedWidgetId.id_base ) {
+			return;
+		}
+		widgetControl = api.control( 'widget_nav_menu[' + String( parsedWidgetId.number ) + ']' );
+		if ( ! widgetControl ) {
+			return;
+		}
+		navMenuSelect = widgetContainer.find( 'select[name*="nav_menu"]' );
+		editMenuButton = widgetContainer.find( '.edit-selected-nav-menu > button' );
+		if ( 0 === navMenuSelect.length || 0 === editMenuButton.length ) {
+			return;
+		}
+		navMenuSelect.on( 'change', function() {
+			if ( api.section.has( 'nav_menu[' + navMenuSelect.val() + ']' ) ) {
+				editMenuButton.parent().show();
+			} else {
+				editMenuButton.parent().hide();
+			}
+		});
+		editMenuButton.on( 'click', function() {
+			var section = api.section( 'nav_menu[' + navMenuSelect.val() + ']' );
+			if ( section ) {
+				focusConstructWithBreadcrumb( section, widgetControl );
+			}
+		} );
+	} );
+
+	/**
+	 * Focus (expand) one construct and then focus on another construct after the first is collapsed.
+	 *
+	 * This overrides the back button to serve the purpose of breadcrumb navigation.
+	 *
+	 * @param {wp.customize.Section|wp.customize.Panel|wp.customize.Control} focusConstruct - The object to initially focus.
+	 * @param {wp.customize.Section|wp.customize.Panel|wp.customize.Control} returnConstruct - The object to return focus.
+	 */
+	function focusConstructWithBreadcrumb( focusConstruct, returnConstruct ) {
+		focusConstruct.focus();
+		function onceCollapsed( isExpanded ) {
+			if ( ! isExpanded ) {
+				focusConstruct.expanded.unbind( onceCollapsed );
+				returnConstruct.focus();
+			}
+		}
+		focusConstruct.expanded.bind( onceCollapsed );
+	}
 
 	/**
 	 * @param {String} widgetId

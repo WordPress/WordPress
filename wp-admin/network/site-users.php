@@ -14,7 +14,7 @@ if ( ! is_multisite() )
 	wp_die( __( 'Multisite support is not enabled.' ) );
 
 if ( ! current_user_can('manage_sites') )
-	wp_die(__('You do not have sufficient permissions to edit this site.'));
+	wp_die(__('Sorry, you are not allowed to edit this site.'));
 
 $wp_list_table = _get_list_table('WP_Users_List_Table');
 $wp_list_table->prepare_items();
@@ -60,7 +60,7 @@ if ( ! $details ) {
 }
 
 if ( ! can_edit_network( $details->site_id ) )
-	wp_die( __( 'You do not have permission to access this page.' ), 403 );
+	wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
 
 $is_main_site = is_main_site( $id );
 
@@ -179,13 +179,14 @@ if ( isset( $_GET['action'] ) && 'update-site' == $_GET['action'] ) {
 
 add_screen_option( 'per_page' );
 
+/* translators: %s: site name */
 $title = sprintf( __( 'Edit Site: %s' ), esc_html( $details->blogname ) );
 
 $parent_file = 'sites.php';
 $submenu_file = 'sites.php';
 
 /**
- * Filter whether to show the Add Existing User form on the Multisite Users screen.
+ * Filters whether to show the Add Existing User form on the Multisite Users screen.
  *
  * @since 3.1.0
  *
@@ -204,20 +205,12 @@ var current_site_id = <?php echo $id; ?>;
 <div class="wrap">
 <h1 id="edit-site"><?php echo $title; ?></h1>
 <p class="edit-site-actions"><a href="<?php echo esc_url( get_home_url( $id, '/' ) ); ?>"><?php _e( 'Visit' ); ?></a> | <a href="<?php echo esc_url( get_admin_url( $id ) ); ?>"><?php _e( 'Dashboard' ); ?></a></p>
-<h2 class="nav-tab-wrapper nav-tab-small">
 <?php
-$tabs = array(
-	'site-info'     => array( 'label' => __( 'Info' ),     'url' => 'site-info.php'     ),
-	'site-users'    => array( 'label' => __( 'Users' ),    'url' => 'site-users.php'    ),
-	'site-themes'   => array( 'label' => __( 'Themes' ),   'url' => 'site-themes.php'   ),
-	'site-settings' => array( 'label' => __( 'Settings' ), 'url' => 'site-settings.php' ),
-);
-foreach ( $tabs as $tab_id => $tab ) {
-	$class = ( $tab['url'] == $pagenow ) ? ' nav-tab-active' : '';
-	echo '<a href="' . $tab['url'] . '?id=' . $id .'" class="nav-tab' . $class . '">' . esc_html( $tab['label'] ) . '</a>';
-}
-?>
-</h2><?php
+
+network_edit_site_nav( array(
+	'blog_id'  => $id,
+	'selected' => 'site-users'
+) );
 
 if ( isset($_GET['update']) ) :
 	switch($_GET['update']) {
@@ -300,7 +293,7 @@ if ( current_user_can( 'promote_users' ) && apply_filters( 'show_network_site_us
 
 <?php
 /**
- * Filter whether to show the Add New User form on the Multisite Users screen.
+ * Filters whether to show the Add New User form on the Multisite Users screen.
  *
  * @since 3.1.0
  *

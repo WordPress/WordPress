@@ -48,12 +48,36 @@
 }
 
 #wp-auth-check-wrap #wp-auth-check-form {
-	background: url(../images/spinner-2x.gif) no-repeat center center;
-	-webkit-background-size: 16px 16px;
-	background-size: 16px 16px;
 	height: 100%;
+	position: relative;
 	overflow: auto;
 	-webkit-overflow-scrolling: touch;
+}
+
+#wp-auth-check-form.loading:before {
+	content: "";
+	display: block;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -10px 0 0 -10px;
+	background: url(../images/spinner.gif) no-repeat center;
+	-webkit-background-size: 20px 20px;
+	background-size: 20px 20px;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
+}
+
+@media print,
+  (-webkit-min-device-pixel-ratio: 1.25),
+  (min-resolution: 120dpi) {
+
+	#wp-auth-check-form.loading:before {
+		background-image: url(../images/spinner-2x.gif);
+	}
+
 }
 
 #wp-auth-check-wrap #wp-auth-check-form iframe {
@@ -63,33 +87,24 @@
 
 #wp-auth-check-wrap .wp-auth-check-close {
 	position: absolute;
-	top: 8px;
-	right: 8px;
+	top: 5px;
+	right: 5px;
 	height: 22px;
 	width: 22px;
-	cursor: pointer;
+	color: #72777c;
 }
 
 #wp-auth-check-wrap .wp-auth-check-close:before {
 	content: "\f158";
-	display: block !important;
-	font: normal 20px/1 dashicons;
+	font: normal 20px/22px dashicons;
 	speak: none;
-	height: 22px;
-	margin: 2px 0;
-	text-align: center;
-	width: 22px;
-	color: #777;
 	-webkit-font-smoothing: antialiased !important;
 	-moz-osx-font-smoothing: grayscale;
 }
 
-#wp-auth-check-wrap .wp-auth-check-close:hover:before {
-	color: #0073aa;
-}
-
+#wp-auth-check-wrap .wp-auth-check-close:hover,
 #wp-auth-check-wrap .wp-auth-check-close:focus {
-	outline: 1px dotted #82878c;
+	color: #0073aa;
 }
 
 #wp-auth-check-wrap .wp-auth-fallback-expired {

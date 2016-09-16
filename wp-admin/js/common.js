@@ -83,7 +83,7 @@ validateForm = function( form ) {
 		.addClass( 'form-invalid' )
 		.find( 'input:visible' )
 		.change( function() { $( this ).closest( '.form-invalid' ).removeClass( 'form-invalid' ); } )
-		.size();
+		.length;
 };
 
 // stub for doing better warnings
@@ -394,10 +394,10 @@ $document.ready( function() {
 	}
 
 	/*
-	 * The `.below-h2` class is here just for backwards compatibility with plugins
+	 * The `.below-h2` class is here just for backward compatibility with plugins
 	 * that are (incorrectly) using it. Do not use. Use `.inline` instead. See #34570.
 	 */
-	$( 'div.updated, div.error, div.notice' ).not( '.inline, .below-h2' ).insertAfter( $( '.wrap' ).children( ':header' ).first() );
+	$( 'div.updated, div.error, div.notice' ).not( '.inline, .below-h2' ).insertAfter( $( '.wrap h1, .wrap h2' ).first() );
 
 	// Make notices dismissible
 	function makeNoticesDismissible() {
@@ -421,9 +421,7 @@ $document.ready( function() {
 		});
 	}
 
-	$document.on( 'wp-plugin-update-error', function() {
-		makeNoticesDismissible();
-	});
+	$document.on( 'wp-updates-notice-added wp-plugin-install-error wp-plugin-update-error wp-plugin-delete-error wp-theme-install-error wp-theme-delete-error', makeNoticesDismissible );
 
 	// Init screen meta
 	screenMeta.init();
@@ -897,12 +895,25 @@ $document.ready( function() {
 		}
 	};
 
+	// Add an ARIA role `button` to elements that behave like UI controls when JavaScript is on.
+	function aria_button_if_js() {
+		$( '.aria-button-if-js' ).attr( 'role', 'button' );
+	}
+
+	$( document ).ajaxComplete( function() {
+		aria_button_if_js();
+	});
+
 	window.wpResponsive.init();
 	setPinMenu();
 	currentMenuItemHasPopup();
 	makeNoticesDismissible();
+	aria_button_if_js();
 
 	$document.on( 'wp-pin-menu wp-window-resized.pin-menu postboxes-columnchange.pin-menu postbox-toggled.pin-menu wp-collapse-menu.pin-menu wp-scroll-start.pin-menu', setPinMenu );
+
+	// Set initial focus on a specific element.
+	$( '.wp-initial-focus' ).focus();
 });
 
 // Fire a custom jQuery event at the end of window resize

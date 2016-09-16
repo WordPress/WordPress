@@ -139,7 +139,7 @@ class Walker {
 		//display this element
 		$this->has_children = ! empty( $children_elements[ $id ] );
 		if ( isset( $args[0] ) && is_array( $args[0] ) ) {
-			$args[0]['has_children'] = $this->has_children; // Backwards compatibility.
+			$args[0]['has_children'] = $this->has_children; // Back-compat.
 		}
 
 		$cb_args = array_merge( array(&$output, $element, $depth), $args);
@@ -215,7 +215,7 @@ class Walker {
 		$top_level_elements = array();
 		$children_elements  = array();
 		foreach ( $elements as $e) {
-			if ( 0 == $e->$parent_field )
+			if ( empty( $e->$parent_field ) )
 				$top_level_elements[] = $e;
 			else
 				$children_elements[ $e->$parent_field ][] = $e;
@@ -386,7 +386,7 @@ class Walker {
 	 *
 	 * @since 2.7.0
 	 * @access public
-	 * 
+	 *
 	 * @param array $elements Elements to list.
 	 * @return int Number of root elements.
 	 */

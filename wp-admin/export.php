@@ -10,7 +10,7 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( !current_user_can('export') )
-	wp_die(__('You do not have sufficient permissions to export the content of this site.'));
+	wp_die(__('Sorry, you are not allowed to export the content of this site.'));
 
 /** Load WordPress export API */
 require_once( ABSPATH . 'wp-admin/includes/export.php' );
@@ -103,7 +103,7 @@ if ( isset( $_GET['download'] ) ) {
 	}
 
 	/**
-	 * Filter the export args.
+	 * Filters the export args.
 	 *
 	 * @since 3.5.0
 	 *
@@ -164,7 +164,7 @@ function export_date_options( $post_type = 'post' ) {
 <legend class="screen-reader-text"><?php _e( 'Content to export' ); ?></legend>
 <input type="hidden" name="download" value="true" />
 <p><label><input type="radio" name="content" value="all" checked="checked" aria-describedby="all-content-desc" /> <?php _e( 'All content' ); ?></label></p>
-<p class="description" id="all-content-desc"><?php _e( 'This will contain all of your posts, pages, comments, custom fields, terms, navigation menus and custom posts.' ); ?></p>
+<p class="description" id="all-content-desc"><?php _e( 'This will contain all of your posts, pages, comments, custom fields, terms, navigation menus, and custom posts.' ); ?></p>
 
 <p><label><input type="radio" name="content" value="posts" /> <?php _e( 'Posts' ); ?></label></p>
 <ul id="post-filters" class="export-filters">
@@ -177,8 +177,13 @@ function export_date_options( $post_type = 'post' ) {
 		<label><span class="label-responsive"><?php _e( 'Authors:' ); ?></span>
 		<?php
 		$authors = $wpdb->get_col( "SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'post'" );
-		wp_dropdown_users( array( 'include' => $authors, 'name' => 'post_author', 'multi' => true, 'show_option_all' => __('All') ) );
-		?>
+		wp_dropdown_users( array(
+			'include' => $authors,
+			'name' => 'post_author',
+			'multi' => true,
+			'show_option_all' => __( 'All' ),
+			'show' => 'display_name_with_login',
+		) ); ?>
 		</label>
 	</li>
 	<li>
@@ -214,8 +219,13 @@ function export_date_options( $post_type = 'post' ) {
 		<label><span class="label-responsive"><?php _e( 'Authors:' ); ?></span>
 		<?php
 		$authors = $wpdb->get_col( "SELECT DISTINCT post_author FROM {$wpdb->posts} WHERE post_type = 'page'" );
-		wp_dropdown_users( array( 'include' => $authors, 'name' => 'page_author', 'multi' => true, 'show_option_all' => __('All') ) );
-		?>
+		wp_dropdown_users( array(
+			'include' => $authors,
+			'name' => 'page_author',
+			'multi' => true,
+			'show_option_all' => __( 'All' ),
+			'show' => 'display_name_with_login',
+		) ); ?>
 		</label>
 	</li>
 	<li>

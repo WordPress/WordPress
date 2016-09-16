@@ -25,7 +25,7 @@ function get_column_headers( $screen ) {
 	if ( ! isset( $column_headers[ $screen->id ] ) ) {
 
 		/**
-		 * Filter the column headers for a list table on a specific screen.
+		 * Filters the column headers for a list table on a specific screen.
 		 *
 		 * The dynamic portion of the hook name, `$screen->id`, refers to the
 		 * ID of a specific screen. For example, the screen ID for the Posts
@@ -57,11 +57,13 @@ function get_hidden_columns( $screen ) {
 
 	$hidden = get_user_option( 'manage' . $screen->id . 'columnshidden' );
 
-	if ( ! $hidden ) {
+	$use_defaults = ! is_array( $hidden );
+
+	if ( $use_defaults ) {
 		$hidden = array();
 
 		/**
-		 * Filter the default list of hidden columns.
+		 * Filters the default list of hidden columns.
 		 *
 		 * @since 4.4.0
 		 *
@@ -72,14 +74,16 @@ function get_hidden_columns( $screen ) {
 	}
 
 	/**
-	 * Filter the list of hidden columns.
+	 * Filters the list of hidden columns.
 	 *
 	 * @since 4.4.0
+	 * @since 4.4.1 Added the `use_defaults` parameter.
 	 *
 	 * @param array     $hidden An array of hidden columns.
 	 * @param WP_Screen $screen WP_Screen object of the current screen.
+	 * @param bool      $use_defaults Whether to show the default columns.
 	 */
-	return apply_filters( 'hidden_columns', $hidden, $screen );
+	return apply_filters( 'hidden_columns', $hidden, $screen, $use_defaults );
 }
 
 /**
@@ -113,10 +117,19 @@ function meta_box_prefs( $screen ) {
 				// Submit box cannot be hidden
 				if ( 'submitdiv' == $box['id'] || 'linksubmitdiv' == $box['id'] )
 					continue;
-				$box_id = $box['id'];
-				echo '<label for="' . $box_id . '-hide">';
-				echo '<input class="hide-postbox-tog" name="' . $box_id . '-hide" type="checkbox" id="' . $box_id . '-hide" value="' . $box_id . '"' . (! in_array($box_id, $hidden) ? ' checked="checked"' : '') . ' />';
-				echo "{$box['title']}</label>\n";
+
+				$widget_title = $box['title'];
+
+				if ( is_array( $box['args'] ) && isset( $box['args']['__widget_basename'] ) ) {
+					$widget_title = $box['args']['__widget_basename'];
+				}
+
+				printf(
+					'<label for="%1$s-hide"><input class="hide-postbox-tog" name="%1$s-hide" type="checkbox" id="%1$s-hide" value="%1$s" %2$s />%3$s</label>',
+					esc_attr( $box['id'] ),
+					checked( in_array( $box['id'], $hidden ), false, false ),
+					$widget_title
+				);
 			}
 		}
 	}
@@ -149,7 +162,7 @@ function get_hidden_meta_boxes( $screen ) {
 		}
 
 		/**
-		 * Filter the default list of hidden meta boxes.
+		 * Filters the default list of hidden meta boxes.
 		 *
 		 * @since 3.1.0
 		 *
@@ -160,7 +173,7 @@ function get_hidden_meta_boxes( $screen ) {
 	}
 
 	/**
-	 * Filter the list of hidden meta boxes.
+	 * Filters the list of hidden meta boxes.
 	 *
 	 * @since 3.3.0
 	 *
@@ -196,7 +209,7 @@ function add_screen_option( $option, $args = array() ) {
  *
  * @global WP_Screen $current_screen
  *
- * @return WP_Screen Current screen object
+ * @return WP_Screen|null Current screen object or null when screen not defined.
  */
 function get_current_screen() {
 	global $current_screen;
