@@ -855,7 +855,6 @@ span.required,
 #media-items a.delete-permanently:hover,
 #nav-menu-footer .menu-delete:hover {
 	color: #f00;
-	text-decoration: none;
 	border: none;
 }
 
@@ -875,10 +874,8 @@ span.required,
 }
 
 #delete-action {
-	line-height: 28px;
-	vertical-align: middle;
-	text-align: left;
 	float: left;
+	line-height: 28px;
 }
 
 #publishing-action {

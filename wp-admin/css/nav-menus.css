@@ -139,12 +139,15 @@ ul.add-menu-item-tabs li {
 }
 
 /* Menu Container */
+
+/* @todo: responsive view. */
 #menu-management-liquid {
 	float: left;
 	min-width: 100%;
 	margin-top: 3px;
 }
 
+/* @todo: responsive view. */
 #menu-management {
 	position: relative;
 	margin-right: 20px;
@@ -282,19 +285,6 @@ ul.add-menu-item-tabs li {
 #menu-container .submit {
 	margin: 0 0 10px;
 	padding: 0;
-}
-
-.nav-menus-php .meta-sep,
-.nav-menus-php .submitdelete,
-.nav-menus-php .submitcancel {
-	display: block;
-	float: left;
-	margin: 6px 0;
-	line-height: 15px;
-}
-
-.meta-sep {
-	padding: 0 2px;
 }
 
 /* @todo: is this actually used? */
@@ -480,6 +470,7 @@ ul.add-menu-item-tabs li {
 	font-weight: 600;
 	line-height: 20px;
 	display: block;
+	/* @todo: responsive view. */
 	margin-right: 13em;
 }
 
@@ -671,7 +662,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 .link-to-original {
 	display: block;
-	margin: 0 0 10px;
+	margin: 0 0 15px;
 	padding: 3px 5px 5px;
 	border: 1px solid #ddd;
 	color: #72777c;
@@ -704,6 +695,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 .menu-item-actions {
 	padding-top: 15px;
+	padding-bottom: 7px;
 }
 
 #cancel-save {
@@ -713,7 +705,8 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 /* Major/minor publishing actions (classes) */
 .nav-menus-php .major-publishing-actions {
 	clear: both;
-	padding: 7px 0 6px;
+	padding: 10px 0;
+	line-height: 28px;
 }
 
 .nav-menus-php .major-publishing-actions .publishing-action {
@@ -725,21 +718,10 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	display: none;
 }
 
+/* Same as the Publish Meta Box #delete-action */
 .nav-menus-php .delete-action {
 	float: left;
-	margin-top: 2px;
-}
-
-.nav-menus-php .submitbox .submitcancel {
-	border-bottom: 1px solid #0073aa;
-	padding: 1px 2px;
-	color: #0073aa;
-	text-decoration: none;
-}
-
-.nav-menus-php .submitbox .submitcancel:hover {
-	background: #0073aa;
-	color: #fff;
+	line-height: 28px;
 }
 
 .nav-menus-php .major-publishing-actions .form-invalid {
@@ -825,14 +807,9 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 		margin-top: 4px;
 	}
 
-	.nav-menus-php .major-publishing-actions .publishing-action {
-		margin-top: 6px;
-	}
-
 	.nav-menus-php .delete-action {
 		font-size: 14px;
-		line-height: 50px;
-		margin-top: 12px;
+		line-height: 30px;
 	}
 
 	.menu-item-bar .menu-item-handle,

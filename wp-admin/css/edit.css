@@ -129,21 +129,8 @@ input#link_url {
 	float: left;
 }
 
-.submitbox .submitdelete {
-	text-decoration: none;
-	padding: 1px 2px;
-}
-
 body.post-new-php .submitbox .submitdelete {
 	display: none;
-}
-
-/* @todo: do we really need this? word on the street is we don't and this
-stray rule may actually be compensated for elsewhere. */
-#normal-sortables .submitbox .submitdelete:hover {
-	color: #000;
-	background-color: #f00;
-	border-bottom-color: #f00;
 }
 
 .submitbox .submit a:hover {
@@ -644,6 +631,7 @@ span.wp-media-buttons-icon:before {
 	margin-top: 3px;
 }
 
+#linksubmitdiv .inside, /* Old Link Manager back-compat. */
 #poststuff #submitdiv .inside {
 	margin: 0;
 	padding: 0;
