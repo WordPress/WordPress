@@ -278,18 +278,17 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 			$time = $post->post_date;
 	}
 
-	$name = $_FILES[$file_id]['name'];
 	$file = wp_handle_upload($_FILES[$file_id], $overrides, $time);
 
 	if ( isset($file['error']) )
 		return new WP_Error( 'upload_error', $file['error'] );
 
-	$basename = pathinfo( $name, PATHINFO_BASENAME );
+	$name = pathinfo( $_FILES[$file_id]['name'], PATHINFO_FILENAME );
 
 	$url = $file['url'];
 	$type = $file['type'];
 	$file = $file['file'];
-	$title = sanitize_title( $basename );
+	$title = sanitize_text_field( $name );
 	$content = '';
 	$excerpt = '';
 
