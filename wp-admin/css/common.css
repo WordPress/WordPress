@@ -2817,6 +2817,11 @@ div.action-links {
 	font-size: 13px;
 }
 
+/* For non-js plugin installation screen ticket #36430. */
+.update-php .button.button-primary {
+	margin-right: 1em;
+}
+
 @media screen and ( max-width: 771px ) {
 	#plugin-information-title.with-banner {
 		height: 100px;
