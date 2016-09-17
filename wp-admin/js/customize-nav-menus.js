@@ -1397,14 +1397,14 @@
 				}
 
 				var titleEl = control.container.find( '.menu-item-title' ),
-				    titleText = item.title || api.Menus.data.l10n.untitled;
+				    titleText = item.title || item.original_title || api.Menus.data.l10n.untitled;
 
 				if ( item._invalid ) {
 					titleText = api.Menus.data.l10n.invalidTitleTpl.replace( '%s', titleText );
 				}
 
 				// Don't update to an empty title.
-				if ( item.title ) {
+				if ( item.title || item.original_title ) {
 					titleEl
 						.text( titleText )
 						.removeClass( 'no-title' );

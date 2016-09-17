@@ -69,7 +69,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 				<span class="item-type" aria-hidden="true">{{ data.item_type_label }}</span>
 				<span class="item-title" aria-hidden="true">
 					<span class="spinner"></span>
-					<span class="menu-item-title<# if ( ! data.title ) { #> no-title<# } #>">{{ data.title || wp.customize.Menus.data.l10n.untitled }}</span>
+					<span class="menu-item-title<# if ( ! data.title && ! data.original_title ) { #> no-title<# } #>">{{ data.title || data.original_title || wp.customize.Menus.data.l10n.untitled }}</span>
 				</span>
 				<span class="item-controls">
 					<button type="button" class="button-link item-edit" aria-expanded="false"><span class="screen-reader-text"><?php
@@ -96,7 +96,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 			<p class="description description-thin">
 				<label for="edit-menu-item-title-{{ data.menu_item_id }}">
 					<?php _e( 'Navigation Label' ); ?><br />
-					<input type="text" id="edit-menu-item-title-{{ data.menu_item_id }}" class="widefat edit-menu-item-title" name="menu-item-title" />
+					<input type="text" id="edit-menu-item-title-{{ data.menu_item_id }}" placeholder="{{ data.original_title }}" class="widefat edit-menu-item-title" name="menu-item-title" />
 				</label>
 			</p>
 			<p class="field-link-target description description-thin">

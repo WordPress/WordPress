@@ -587,6 +587,10 @@ final class WP_Customize_Nav_Menus {
 				$menu_item_setting_id = 'nav_menu_item[' . $item->ID . ']';
 
 				$value = (array) $item;
+				if ( empty( $value['post_title'] ) ) {
+					$value['title'] = '';
+				}
+
 				$value['nav_menu_term_id'] = $menu_id;
 				$this->manager->add_setting( new WP_Customize_Nav_Menu_Item_Setting( $this->manager, $menu_item_setting_id, array(
 					'value'     => $value,
