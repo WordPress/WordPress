@@ -6323,9 +6323,10 @@ class wp_xmlrpc_server extends IXR_Server {
 		$remote_source = preg_replace( "/<\/*(h1|h2|h3|h4|h5|h6|p|th|td|li|dt|dd|pre|caption|input|textarea|button|body)[^>]*>/", "\n\n", $remote_source );
 
 		preg_match( '|<title>([^<]*?)</title>|is', $remote_source, $matchtitle );
-		$title = $matchtitle[1];
-		if ( empty( $title ) )
-			return $this->pingback_error( 32, __('We cannot find a title on that page.' ) );
+		$title = isset( $matchtitle[1] ) ? $matchtitle[1] : '';
+		if ( empty( $title ) ) {
+			return $this->pingback_error( 32, __( 'We cannot find a title on that page.' ) );
+		}
 
 		$remote_source = strip_tags( $remote_source, '<a>' ); // just keep the tag we need
 
