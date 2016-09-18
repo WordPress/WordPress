@@ -2526,22 +2526,26 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 		 * Fires immediately before an object-term relationship is added.
 		 *
 		 * @since 2.9.0
+		 * @since 4.7.0 Added the `$taxonomy` parameter.
 		 *
-		 * @param int $object_id Object ID.
-		 * @param int $tt_id     Term taxonomy ID.
+		 * @param int    $object_id Object ID.
+		 * @param int    $tt_id     Term taxonomy ID.
+		 * @param string $taxonomy  Taxonomy slug.
 		 */
-		do_action( 'add_term_relationship', $object_id, $tt_id );
+		do_action( 'add_term_relationship', $object_id, $tt_id, $taxonomy );
 		$wpdb->insert( $wpdb->term_relationships, array( 'object_id' => $object_id, 'term_taxonomy_id' => $tt_id ) );
 
 		/**
 		 * Fires immediately after an object-term relationship is added.
 		 *
 		 * @since 2.9.0
+		 * @since 4.7.0 Added the `$taxonomy` parameter.
 		 *
-		 * @param int $object_id Object ID.
-		 * @param int $tt_id     Term taxonomy ID.
+		 * @param int    $object_id Object ID.
+		 * @param int    $tt_id     Term taxonomy ID.
+		 * @param string $taxonomy  Taxonomy slug.
 		 */
-		do_action( 'added_term_relationship', $object_id, $tt_id );
+		do_action( 'added_term_relationship', $object_id, $tt_id, $taxonomy );
 		$new_tt_ids[] = $tt_id;
 	}
 
@@ -2661,11 +2665,13 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 		 * Fires immediately before an object-term relationship is deleted.
 		 *
 		 * @since 2.9.0
+		 * @since 4.7.0 Added the `$taxonomy` parameter.
 		 *
 		 * @param int   $object_id Object ID.
 		 * @param array $tt_ids    An array of term taxonomy IDs.
+		 * @param string $taxonomy  Taxonomy slug.
 		 */
-		do_action( 'delete_term_relationships', $object_id, $tt_ids );
+		do_action( 'delete_term_relationships', $object_id, $tt_ids, $taxonomy );
 		$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id ) );
 
 		wp_cache_delete( $object_id, $taxonomy . '_relationships' );
@@ -2674,11 +2680,13 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 		 * Fires immediately after an object-term relationship is deleted.
 		 *
 		 * @since 2.9.0
+		 * @since 4.7.0 Added the `$taxonomy` parameter.
 		 *
-		 * @param int   $object_id Object ID.
-		 * @param array $tt_ids    An array of term taxonomy IDs.
+		 * @param int    $object_id Object ID.
+		 * @param array  $tt_ids    An array of term taxonomy IDs.
+		 * @param string $taxonomy  Taxonomy slug.
 		 */
-		do_action( 'deleted_term_relationships', $object_id, $tt_ids );
+		do_action( 'deleted_term_relationships', $object_id, $tt_ids, $taxonomy );
 
 		wp_update_term_count( $tt_ids, $taxonomy );
 
