@@ -10,7 +10,7 @@
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can( 'manage_options' ) )
-	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
+	wp_die( __( 'Sorry, you are not allowed to manage options for this site.' ) );
 
 $title = __('Permalink Settings');
 $parent_file = 'options-general.php';
@@ -66,43 +66,6 @@ if ( is_multisite() && ! is_subdomain_install() && is_main_site() && 0 === strpo
 	$blog_prefix = '/blog';
 }
 
-if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
-	check_admin_referer('update-permalink');
-
-	if ( isset( $_POST['permalink_structure'] ) ) {
-		if ( isset( $_POST['selection'] ) && 'custom' != $_POST['selection'] )
-			$permalink_structure = $_POST['selection'];
-		else
-			$permalink_structure = $_POST['permalink_structure'];
-
-		if ( ! empty( $permalink_structure ) ) {
-			$permalink_structure = preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $permalink_structure ) );
-			if ( $prefix && $blog_prefix )
-				$permalink_structure = $prefix . preg_replace( '#^/?index\.php#', '', $permalink_structure );
-			else
-				$permalink_structure = $blog_prefix . $permalink_structure;
-		}
-		$wp_rewrite->set_permalink_structure( $permalink_structure );
-	}
-
-	if ( isset( $_POST['category_base'] ) ) {
-		$category_base = $_POST['category_base'];
-		if ( ! empty( $category_base ) )
-			$category_base = $blog_prefix . preg_replace('#/+#', '/', '/' . str_replace( '#', '', $category_base ) );
-		$wp_rewrite->set_category_base( $category_base );
-	}
-
-	if ( isset( $_POST['tag_base'] ) ) {
-		$tag_base = $_POST['tag_base'];
-		if ( ! empty( $tag_base ) )
-			$tag_base = $blog_prefix . preg_replace('#/+#', '/', '/' . str_replace( '#', '', $tag_base ) );
-		$wp_rewrite->set_tag_base( $tag_base );
-	}
-
-	wp_redirect( admin_url( 'options-permalink.php?settings-updated=true' ) );
-	exit;
-}
-
 $category_base       = get_option( 'category_base' );
 $tag_base            = get_option( 'tag_base' );
 $update_required     = false;
@@ -125,42 +88,70 @@ if ( $iis7_permalinks ) {
 	}
 }
 
-if ( $wp_rewrite->using_index_permalinks() )
-	$usingpi = true;
-else
-	$usingpi = false;
+$using_index_permalinks = $wp_rewrite->using_index_permalinks();
+
+if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
+	check_admin_referer('update-permalink');
+
+	if ( isset( $_POST['permalink_structure'] ) ) {
+		if ( isset( $_POST['selection'] ) && 'custom' != $_POST['selection'] )
+			$permalink_structure = $_POST['selection'];
+		else
+			$permalink_structure = $_POST['permalink_structure'];
+
+		if ( ! empty( $permalink_structure ) ) {
+			$permalink_structure = preg_replace( '#/+#', '/', '/' . str_replace( '#', '', $permalink_structure ) );
+			if ( $prefix && $blog_prefix )
+				$permalink_structure = $prefix . preg_replace( '#^/?index\.php#', '', $permalink_structure );
+			else
+				$permalink_structure = $blog_prefix . $permalink_structure;
+		}
+
+		$permalink_structure = sanitize_option( 'permalink_structure', $permalink_structure );
+
+		$wp_rewrite->set_permalink_structure( $permalink_structure );
+	}
+
+	if ( isset( $_POST['category_base'] ) ) {
+		$category_base = $_POST['category_base'];
+		if ( ! empty( $category_base ) )
+			$category_base = $blog_prefix . preg_replace('#/+#', '/', '/' . str_replace( '#', '', $category_base ) );
+		$wp_rewrite->set_category_base( $category_base );
+	}
+
+	if ( isset( $_POST['tag_base'] ) ) {
+		$tag_base = $_POST['tag_base'];
+		if ( ! empty( $tag_base ) )
+			$tag_base = $blog_prefix . preg_replace('#/+#', '/', '/' . str_replace( '#', '', $tag_base ) );
+		$wp_rewrite->set_tag_base( $tag_base );
+	}
+
+	$message = __( 'Permalink structure updated.' );
+
+	if ( $iis7_permalinks ) {
+		if ( $permalink_structure && ! $using_index_permalinks && ! $writable ) {
+			$message = __( 'You should update your web.config now.' );
+		} elseif ( $permalink_structure && ! $using_index_permalinks && $writable ) {
+			$message = __( 'Permalink structure updated. Remove write access on web.config file now!' );
+		}
+	} elseif ( ! $is_nginx && $permalink_structure && ! $using_index_permalinks && ! $writable && $update_required ) {
+		$message = __( 'You should update your .htaccess now.' );
+	}
+
+	if ( ! get_settings_errors() ) {
+		add_settings_error( 'general', 'settings_updated', $message, 'updated' );
+	}
+
+	set_transient( 'settings_errors', get_settings_errors(), 30 );
+
+	wp_redirect( admin_url( 'options-permalink.php?settings-updated=true' ) );
+	exit;
+}
 
 flush_rewrite_rules();
 
 require( ABSPATH . 'wp-admin/admin-header.php' );
-
-if ( ! empty( $_GET['settings-updated'] ) ) : ?>
-<div id="message" class="updated notice is-dismissible"><p><?php
-if ( ! is_multisite() ) {
-	if ( $iis7_permalinks ) {
-		if ( $permalink_structure && ! $usingpi && ! $writable ) {
-			_e('You should update your web.config now.');
-		} elseif ( $permalink_structure && ! $usingpi && $writable ) {
-			_e('Permalink structure updated. Remove write access on web.config file now!');
-		} else {
-			_e('Permalink structure updated.');
-		}
-	} elseif ( $is_nginx ) {
-		_e('Permalink structure updated.');
-	} else {
-		if ( $permalink_structure && ! $usingpi && ! $writable && $update_required ) {
-			_e('You should update your .htaccess now.');
-		} else {
-			_e('Permalink structure updated.');
-		}
-	}
-} else {
-	_e('Permalink structure updated.');
-}
 ?>
-</p></div>
-<?php endif; ?>
-
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
 
@@ -222,7 +213,7 @@ $structures = array(
 <h2 class="title"><?php _e('Optional'); ?></h2>
 <p><?php
 /* translators: %s is a placeholder that must come at the start of the URL. */
-printf( __('If you like, you may enter custom structures for your category and tag <abbr title="Universal Resource Locator">URL</abbr>s here. For example, using <code>topics</code> as your category base would make your category links like <code>%s/topics/uncategorized/</code>. If you leave these blank the defaults will be used.'), get_option('home') . $blog_prefix . $prefix ); ?></p>
+printf( __( 'If you like, you may enter custom structures for your category and tag URLs here. For example, using <code>topics</code> as your category base would make your category links like <code>%s/topics/uncategorized/</code>. If you leave these blank the defaults will be used.' ), get_option( 'home' ) . $blog_prefix . $prefix ); ?></p>
 
 <table class="form-table">
 	<tr>
@@ -242,7 +233,7 @@ printf( __('If you like, you may enter custom structures for your category and t
   </form>
 <?php if ( !is_multisite() ) { ?>
 <?php if ( $iis7_permalinks ) :
-	if ( isset($_POST['submit']) && $permalink_structure && ! $usingpi && ! $writable ) :
+	if ( isset($_POST['submit']) && $permalink_structure && ! $using_index_permalinks && ! $writable ) :
 		if ( file_exists($home_path . 'web.config') ) : ?>
 <p><?php _e('If your <code>web.config</code> file were <a href="https://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so this is the url rewrite rule you should have in your <code>web.config</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all. Then insert this rule inside of the <code>/&lt;configuration&gt;/&lt;system.webServer&gt;/&lt;rewrite&gt;/&lt;rules&gt;</code> element in <code>web.config</code> file.') ?></p>
 <form action="options-permalink.php" method="post">
@@ -262,7 +253,7 @@ printf( __('If you like, you may enter custom structures for your category and t
 <?php elseif ( $is_nginx ) : ?>
 	<p><?php _e( '<a href="https://codex.wordpress.org/Nginx">Documentation on Nginx configuration</a>.' ); ?></p>
 <?php else:
-	if ( $permalink_structure && ! $usingpi && ! $writable && $update_required ) : ?>
+	if ( $permalink_structure && ! $using_index_permalinks && ! $writable && $update_required ) : ?>
 <p><?php _e('If your <code>.htaccess</code> file were <a href="https://codex.wordpress.org/Changing_File_Permissions">writable</a>, we could do this automatically, but it isn&#8217;t so these are the mod_rewrite rules you should have in your <code>.htaccess</code> file. Click in the field and press <kbd>CTRL + a</kbd> to select all.') ?></p>
 <form action="options-permalink.php" method="post">
 <?php wp_nonce_field('update-permalink') ?>

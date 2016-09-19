@@ -55,7 +55,14 @@
 			fallbacks = function( props ) {
 				// Generate alt fallbacks and strip tags.
 				if ( 'image' === props.type && ! props.alt ) {
-					props.alt = props.caption || props.title || '';
+					if ( props.caption ) {
+						props.alt = props.caption;
+					} else if ( props.title !== props.url ) {
+						props.alt = props.title;
+					} else {
+						props.alt = '';
+					}
+
 					props.alt = props.alt.replace( /<\/?[^>]+>/g, '' );
 					props.alt = props.alt.replace( /[\r\n]+/g, ' ' );
 				}
@@ -233,6 +240,7 @@
 			var img = {},
 				options, classes, shortcode, html;
 
+			props.type = 'image';
 			props = wp.media.string.props( props, attachment );
 			classes = props.classes || [];
 
@@ -649,14 +657,24 @@
 
 			settings.post.featuredImageId = id;
 
-			wp.media.post( 'set-post-thumbnail', {
-				json:         true,
+			wp.media.post( 'get-post-thumbnail-html', {
 				post_id:      settings.post.id,
 				thumbnail_id: settings.post.featuredImageId,
 				_wpnonce:     settings.post.nonce
 			}).done( function( html ) {
+				if ( html == '0' ) {
+					window.alert( window.setPostThumbnailL10n.error );
+					return;
+				}
 				$( '.inside', '#postimagediv' ).html( html );
 			});
+		},
+		/**
+		 * Remove the featured image id, save the post thumbnail data and
+		 * set the HTML in the post meta box to no featured image.
+		 */
+		remove: function() {
+			wp.media.featuredImage.set( -1 );
 		},
 		/**
 		 * The Featured Image workflow
@@ -735,7 +753,8 @@
 
 				wp.media.featuredImage.frame().open();
 			}).on( 'click', '#remove-post-thumbnail', function() {
-				wp.media.view.settings.post.featuredImageId = -1;
+				wp.media.featuredImage.remove();
+				return false;
 			});
 		}
 	};

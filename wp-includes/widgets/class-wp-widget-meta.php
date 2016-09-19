@@ -25,8 +25,12 @@ class WP_Widget_Meta extends WP_Widget {
 	 * @access public
 	 */
 	public function __construct() {
-		$widget_ops = array('classname' => 'widget_meta', 'description' => __( "Login, RSS, &amp; WordPress.org links.") );
-		parent::__construct('meta', __('Meta'), $widget_ops);
+		$widget_ops = array(
+			'classname' => 'widget_meta',
+			'description' => __( 'Login, RSS, &amp; WordPress.org links.' ),
+			'customize_selective_refresh' => true,
+		);
+		parent::__construct( 'meta', __( 'Meta' ), $widget_ops );
 	}
 
 	/**
@@ -55,7 +59,7 @@ class WP_Widget_Meta extends WP_Widget {
 			<li><a href="<?php echo esc_url( get_bloginfo( 'comments_rss2_url' ) ); ?>"><?php _e('Comments <abbr title="Really Simple Syndication">RSS</abbr>'); ?></a></li>
 			<?php
 			/**
-			 * Filter the "Powered by WordPress" text in the Meta widget.
+			 * Filters the "Powered by WordPress" text in the Meta widget.
 			 *
 			 * @since 3.6.0
 			 *

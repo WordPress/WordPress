@@ -351,7 +351,7 @@ class WP_Http_Curl {
 	}
 
 	/**
-	 * Determines whether this class can be used for retrieving an URL.
+	 * Determines whether this class can be used for retrieving a URL.
 	 *
 	 * @static
 	 * @since 2.7.0
@@ -373,7 +373,7 @@ class WP_Http_Curl {
 		}
 
 		/**
-		 * Filter whether cURL can be used as a transport for retrieving a URL.
+		 * Filters whether cURL can be used as a transport for retrieving a URL.
 		 *
 		 * @since 2.7.0
 		 *

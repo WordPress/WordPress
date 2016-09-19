@@ -7,6 +7,13 @@
  * @since 2.7.0
  */
 
+if ( ! class_exists( 'Requests' ) ) {
+	require( ABSPATH . WPINC . '/class-requests.php' );
+
+	Requests::register_autoloader();
+	Requests::set_certificate_path( ABSPATH . WPINC . '/certificates/ca-bundle.crt' );
+}
+
 /**
  * Core class used for managing HTTP transports and making HTTP requests.
  *
@@ -20,6 +27,71 @@
  */
 class WP_Http {
 
+	// Aliases for HTTP response codes.
+	const HTTP_CONTINUE                   = 100;
+	const SWITCHING_PROTOCOLS             = 101;
+	const PROCESSING                      = 102;
+
+	const OK                              = 200;
+	const CREATED                         = 201;
+	const ACCEPTED                        = 202;
+	const NON_AUTHORITATIVE_INFORMATION   = 203;
+	const NO_CONTENT                      = 204;
+	const RESET_CONTENT                   = 205;
+	const PARTIAL_CONTENT                 = 206;
+	const MULTI_STATUS                    = 207;
+	const IM_USED                         = 226;
+
+	const MULTIPLE_CHOICES                = 300;
+	const MOVED_PERMANENTLY               = 301;
+	const FOUND                           = 302;
+	const SEE_OTHER                       = 303;
+	const NOT_MODIFIED                    = 304;
+	const USE_PROXY                       = 305;
+	const RESERVED                        = 306;
+	const TEMPORARY_REDIRECT              = 307;
+	const PERMANENT_REDIRECT              = 308;
+
+	const BAD_REQUEST                     = 400;
+	const UNAUTHORIZED                    = 401;
+	const PAYMENT_REQUIRED                = 402;
+	const FORBIDDEN                       = 403;
+	const NOT_FOUND                       = 404;
+	const METHOD_NOT_ALLOWED              = 405;
+	const NOT_ACCEPTABLE                  = 406;
+	const PROXY_AUTHENTICATION_REQUIRED   = 407;
+	const REQUEST_TIMEOUT                 = 408;
+	const CONFLICT                        = 409;
+	const GONE                            = 410;
+	const LENGTH_REQUIRED                 = 411;
+	const PRECONDITION_FAILED             = 412;
+	const REQUEST_ENTITY_TOO_LARGE        = 413;
+	const REQUEST_URI_TOO_LONG            = 414;
+	const UNSUPPORTED_MEDIA_TYPE          = 415;
+	const REQUESTED_RANGE_NOT_SATISFIABLE = 416;
+	const EXPECTATION_FAILED              = 417;
+	const IM_A_TEAPOT                     = 418;
+	const MISDIRECTED_REQUEST             = 421;
+	const UNPROCESSABLE_ENTITY            = 422;
+	const LOCKED                          = 423;
+	const FAILED_DEPENDENCY               = 424;
+	const UPGRADE_REQUIRED                = 426;
+	const PRECONDITION_REQUIRED           = 428;
+	const TOO_MANY_REQUESTS               = 429;
+	const REQUEST_HEADER_FIELDS_TOO_LARGE = 431;
+	const UNAVAILABLE_FOR_LEGAL_REASONS   = 451;
+
+	const INTERNAL_SERVER_ERROR           = 500;
+	const NOT_IMPLEMENTED                 = 501;
+	const BAD_GATEWAY                     = 502;
+	const SERVICE_UNAVAILABLE             = 503;
+	const GATEWAY_TIMEOUT                 = 504;
+	const HTTP_VERSION_NOT_SUPPORTED      = 505;
+	const VARIANT_ALSO_NEGOTIATES         = 506;
+	const INSUFFICIENT_STORAGE            = 507;
+	const NOT_EXTENDED                    = 510;
+	const NETWORK_AUTHENTICATION_REQUIRED = 511;
+
 	/**
 	 * Send an HTTP request to a URI.
 	 *
@@ -28,8 +100,6 @@ class WP_Http {
 	 *
 	 * @access public
 	 * @since 2.7.0
-	 *
-	 * @global string $wp_version
 	 *
 	 * @param string       $url  The request URL.
 	 * @param string|array $args {
@@ -44,8 +114,8 @@ class WP_Http {
 	 *     @type string       $httpversion         Version of the HTTP protocol to use. Accepts '1.0' and '1.1'.
 	 *                                             Default '1.0'.
 	 *     @type string       $user-agent          User-agent value sent.
-	 *                                             Default WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' ).
-	 *     @type bool         $reject_unsafe_urls  Whether to pass URLs through {@see wp_http_validate_url()}.
+	 *                                             Default WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ).
+	 *     @type bool         $reject_unsafe_urls  Whether to pass URLs through wp_http_validate_url().
 	 *                                             Default false.
 	 *     @type bool         $blocking            Whether the calling code requires the result of the request.
 	 *                                             If set to false, the request will be sent to the remote server,
@@ -76,12 +146,10 @@ class WP_Http {
 	 *                        A WP_Error instance upon error.
 	 */
 	public function request( $url, $args = array() ) {
-		global $wp_version;
-
 		$defaults = array(
 			'method' => 'GET',
 			/**
-			 * Filter the timeout value for an HTTP request.
+			 * Filters the timeout value for an HTTP request.
 			 *
 			 * @since 2.7.0
 			 *
@@ -90,7 +158,7 @@ class WP_Http {
 			 */
 			'timeout' => apply_filters( 'http_request_timeout', 5 ),
 			/**
-			 * Filter the number of redirects allowed during an HTTP request.
+			 * Filters the number of redirects allowed during an HTTP request.
 			 *
 			 * @since 2.7.0
 			 *
@@ -98,7 +166,7 @@ class WP_Http {
 			 */
 			'redirection' => apply_filters( 'http_request_redirection_count', 5 ),
 			/**
-			 * Filter the version of the HTTP protocol used in a request.
+			 * Filters the version of the HTTP protocol used in a request.
 			 *
 			 * @since 2.7.0
 			 *
@@ -107,15 +175,15 @@ class WP_Http {
 			 */
 			'httpversion' => apply_filters( 'http_request_version', '1.0' ),
 			/**
-			 * Filter the user agent value sent with an HTTP request.
+			 * Filters the user agent value sent with an HTTP request.
 			 *
 			 * @since 2.7.0
 			 *
 			 * @param string $user_agent WordPress user agent string.
 			 */
-			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . $wp_version . '; ' . get_bloginfo( 'url' ) ),
+			'user-agent' => apply_filters( 'http_headers_useragent', 'WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ) ),
 			/**
-			 * Filter whether to pass URLs through wp_http_validate_url() in an HTTP request.
+			 * Filters whether to pass URLs through wp_http_validate_url() in an HTTP request.
 			 *
 			 * @since 3.6.0
 			 *
@@ -145,7 +213,7 @@ class WP_Http {
 
 		$r = wp_parse_args( $args, $defaults );
 		/**
-		 * Filter the arguments used in an HTTP request.
+		 * Filters the arguments used in an HTTP request.
 		 *
 		 * @since 2.7.0
 		 *
@@ -159,7 +227,7 @@ class WP_Http {
 			$r['_redirection'] = $r['redirection'];
 
 		/**
-		 * Filter whether to preempt an HTTP request's return value.
+		 * Filters whether to preempt an HTTP request's return value.
 		 *
 		 * Returning a non-false value from the filter will short-circuit the HTTP request and return
 		 * early with that value. A filter should return either:
@@ -182,8 +250,9 @@ class WP_Http {
 			return $pre;
 
 		if ( function_exists( 'wp_kses_bad_protocol' ) ) {
-			if ( $r['reject_unsafe_urls'] )
+			if ( $r['reject_unsafe_urls'] ) {
 				$url = wp_http_validate_url( $url );
+			}
 			if ( $url ) {
 				$url = wp_kses_bad_protocol( $url, array( 'http', 'https', 'ssl' ) );
 			}
@@ -191,114 +260,214 @@ class WP_Http {
 
 		$arrURL = @parse_url( $url );
 
-		if ( empty( $url ) || empty( $arrURL['scheme'] ) )
+		if ( empty( $url ) || empty( $arrURL['scheme'] ) ) {
 			return new WP_Error('http_request_failed', __('A valid URL was not provided.'));
+		}
 
-		if ( $this->block_request( $url ) )
+		if ( $this->block_request( $url ) ) {
 			return new WP_Error( 'http_request_failed', __( 'User has blocked requests through HTTP.' ) );
-
-		/*
-		 * Determine if this is a https call and pass that on to the transport functions
-		 * so that we can blacklist the transports that do not support ssl verification
-		 */
-		$r['ssl'] = $arrURL['scheme'] == 'https' || $arrURL['scheme'] == 'ssl';
-
-		// Determine if this request is to OUR install of WordPress.
-		$homeURL = parse_url( get_bloginfo( 'url' ) );
-		$r['local'] = 'localhost' == $arrURL['host'] || ( isset( $homeURL['host'] ) && $homeURL['host'] == $arrURL['host'] );
-		unset( $homeURL );
-
-		/*
-		 * If we are streaming to a file but no filename was given drop it in the WP temp dir
-		 * and pick its name using the basename of the $url.
-		 */
-		if ( $r['stream']  && empty( $r['filename'] ) ) {
-			$r['filename'] = get_temp_dir() . wp_unique_filename( get_temp_dir(), basename( $url ) );
 		}
 
-		/*
-		 * Force some settings if we are streaming to a file and check for existence and perms
-		 * of destination directory.
-		 */
+		// If we are streaming to a file but no filename was given drop it in the WP temp dir
+		// and pick its name using the basename of the $url
 		if ( $r['stream'] ) {
+			if ( empty( $r['filename'] ) ) {
+				$r['filename'] = get_temp_dir() . basename( $url );
+			}
+
+			// Force some settings if we are streaming to a file and check for existence and perms of destination directory
 			$r['blocking'] = true;
-			if ( ! wp_is_writable( dirname( $r['filename'] ) ) )
+			if ( ! wp_is_writable( dirname( $r['filename'] ) ) ) {
 				return new WP_Error( 'http_request_failed', __( 'Destination directory for file streaming does not exist or is not writable.' ) );
+			}
 		}
 
-		if ( is_null( $r['headers'] ) )
+		if ( is_null( $r['headers'] ) ) {
 			$r['headers'] = array();
+		}
 
+		// WP allows passing in headers as a string, weirdly.
 		if ( ! is_array( $r['headers'] ) ) {
-			$processedHeaders = self::processHeaders( $r['headers'], $url );
+			$processedHeaders = WP_Http::processHeaders( $r['headers'] );
 			$r['headers'] = $processedHeaders['headers'];
 		}
 
-		if ( isset( $r['headers']['User-Agent'] ) ) {
-			$r['user-agent'] = $r['headers']['User-Agent'];
-			unset( $r['headers']['User-Agent'] );
+		// Setup arguments
+		$headers = $r['headers'];
+		$data = $r['body'];
+		$type = $r['method'];
+		$options = array(
+			'timeout' => $r['timeout'],
+			'useragent' => $r['user-agent'],
+			'blocking' => $r['blocking'],
+			'hooks' => new Requests_Hooks(),
+		);
+
+		// Ensure redirects follow browser behaviour.
+		$options['hooks']->register( 'requests.before_redirect', array( get_class(), 'browser_redirect_compatibility' ) );
+
+		if ( $r['stream'] ) {
+			$options['filename'] = $r['filename'];
+		}
+		if ( empty( $r['redirection'] ) ) {
+			$options['follow_redirects'] = false;
+		} else {
+			$options['redirects'] = $r['redirection'];
 		}
 
-		if ( isset( $r['headers']['user-agent'] ) ) {
-			$r['user-agent'] = $r['headers']['user-agent'];
-			unset( $r['headers']['user-agent'] );
+		// Use byte limit, if we can
+		if ( isset( $r['limit_response_size'] ) ) {
+			$options['max_bytes'] = $r['limit_response_size'];
 		}
 
-		if ( '1.1' == $r['httpversion'] && !isset( $r['headers']['connection'] ) ) {
-			$r['headers']['connection'] = 'close';
-		}
-
-		// Construct Cookie: header if any cookies are set.
-		self::buildCookieHeader( $r );
-
-		// Avoid issues where mbstring.func_overload is enabled.
-		mbstring_binary_safe_encoding();
-
-		if ( ! isset( $r['headers']['Accept-Encoding'] ) ) {
-			if ( $encoding = WP_Http_Encoding::accept_encoding( $url, $r ) )
-				$r['headers']['Accept-Encoding'] = $encoding;
-		}
-
-		if ( ( ! is_null( $r['body'] ) && '' != $r['body'] ) || 'POST' == $r['method'] || 'PUT' == $r['method'] ) {
-			if ( is_array( $r['body'] ) || is_object( $r['body'] ) ) {
-				$r['body'] = http_build_query( $r['body'], null, '&' );
-
-				if ( ! isset( $r['headers']['Content-Type'] ) )
-					$r['headers']['Content-Type'] = 'application/x-www-form-urlencoded; charset=' . get_option( 'blog_charset' );
-			}
-
-			if ( '' === $r['body'] )
-				$r['body'] = null;
-
-			if ( ! isset( $r['headers']['Content-Length'] ) && ! isset( $r['headers']['content-length'] ) )
-				$r['headers']['Content-Length'] = strlen( $r['body'] );
-		}
-
-		$response = $this->_dispatch_request( $url, $r );
-
-		reset_mbstring_encoding();
-
-		if ( is_wp_error( $response ) )
-			return $response;
-
-		// Append cookies that were used in this request to the response
+		// If we've got cookies, use and convert them to Requests_Cookie.
 		if ( ! empty( $r['cookies'] ) ) {
-			$cookies_set = wp_list_pluck( $response['cookies'], 'name' );
-			foreach ( $r['cookies'] as $cookie ) {
-				if ( ! in_array( $cookie->name, $cookies_set ) && $cookie->test( $url ) ) {
-					$response['cookies'][] = $cookie;
-				}
+			$options['cookies'] = WP_Http::normalize_cookies( $r['cookies'] );
+		}
+
+		// SSL certificate handling
+		if ( ! $r['sslverify'] ) {
+			$options['verify'] = false;
+		} else {
+			$options['verify'] = $r['sslcertificates'];
+		}
+
+		// All non-GET/HEAD requests should put the arguments in the form body.
+		if ( 'HEAD' !== $type && 'GET' !== $type ) {
+			$options['data_format'] = 'body';
+		}
+
+		/**
+		 * Filters whether SSL should be verified for non-local requests.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param bool $ssl_verify Whether to verify the SSL connection. Default true.
+		 */
+		$options['verify'] = apply_filters( 'https_ssl_verify', $options['verify'] );
+
+		// Check for proxies.
+		$proxy = new WP_HTTP_Proxy();
+		if ( $proxy->is_enabled() && $proxy->send_through_proxy( $url ) ) {
+			$options['proxy'] = new Requests_Proxy_HTTP( $proxy->host() . ':' . $proxy->port() );
+
+			if ( $proxy->use_authentication() ) {
+				$options['proxy']->use_authentication = true;
+				$options['proxy']->user = $proxy->username();
+				$options['proxy']->pass = $proxy->password();
 			}
 		}
 
-		return $response;
+		// Work around a bug in Requests when the path starts with // See https://github.com/rmccue/Requests/issues/231
+		$url = preg_replace( '!^(\w+://[^/]+)//(.*)$!i', '$1/$2', $url );
+
+		try {
+			$requests_response = Requests::request( $url, $headers, $data, $type, $options );
+
+			// Convert the response into an array
+			$http_response = new WP_HTTP_Requests_Response( $requests_response, $r['filename'] );
+			$response = $http_response->to_array();
+
+			// Add the original object to the array.
+			$response['http_response'] = $http_response;
+		}
+		catch ( Requests_Exception $e ) {
+			$response = new WP_Error( 'http_request_failed', $e->getMessage() );
+		}
+
+		/**
+		 * Fires after an HTTP API response is received and before the response is returned.
+		 *
+		 * @since 2.8.0
+		 *
+		 * @param array|WP_Error $response HTTP response or WP_Error object.
+		 * @param string         $context  Context under which the hook is fired.
+		 * @param string         $class    HTTP transport used.
+		 * @param array          $args     HTTP request arguments.
+		 * @param string         $url      The request URL.
+		 */
+		do_action( 'http_api_debug', $response, 'response', 'Requests', $r, $url );
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		if ( ! $r['blocking'] ) {
+			return array(
+				'headers' => array(),
+				'body' => '',
+				'response' => array(
+					'code' => false,
+					'message' => false,
+				),
+				'cookies' => array(),
+				'http_response' => null,
+			);
+		}
+
+		/**
+		 * Filters the HTTP API response immediately before the response is returned.
+		 *
+		 * @since 2.9.0
+		 *
+		 * @param array  $response HTTP response.
+		 * @param array  $r        HTTP request arguments.
+		 * @param string $url      The request URL.
+		 */
+		return apply_filters( 'http_response', $response, $r, $url );
+	}
+
+	/**
+	 * Normalizes cookies for using in Requests.
+	 *
+	 * @since 4.6.0
+	 * @access public
+	 * @static
+	 *
+	 * @param array $cookies List of cookies to send with the request.
+	 * @return Requests_Cookie_Jar Cookie holder object.
+	 */
+	public static function normalize_cookies( $cookies ) {
+		$cookie_jar = new Requests_Cookie_Jar();
+
+		foreach ( $cookies as $name => $value ) {
+			if ( $value instanceof WP_Http_Cookie ) {
+				$cookie_jar[ $value->name ] = new Requests_Cookie( $value->name, $value->value, $value->get_attributes() );
+			} elseif ( is_scalar( $value ) ) {
+				$cookie_jar[ $name ] = new Requests_Cookie( $name, $value );
+			}
+		}
+
+		return $cookie_jar;
+	}
+
+	/**
+	 * Match redirect behaviour to browser handling.
+	 *
+	 * Changes 302 redirects from POST to GET to match browser handling. Per
+	 * RFC 7231, user agents can deviate from the strict reading of the
+	 * specification for compatibility purposes.
+	 *
+	 * @since 4.6.0
+	 * @access public
+	 * @static
+	 *
+	 * @param string            $location URL to redirect to.
+	 * @param array             $headers  Headers for the redirect.
+	 * @param array             $options  Redirect request options.
+	 * @param Requests_Response $original Response object.
+	 */
+	public static function browser_redirect_compatibility( $location, $headers, $data, &$options, $original ) {
+		// Browser compat
+		if ( $original->status_code === 302 ) {
+			$options['type'] = Requests::GET;
+		}
 	}
 
 	/**
 	 * Tests which transports are capable of supporting the request.
 	 *
 	 * @since 3.2.0
-	 * @access private
+	 * @access public
 	 *
 	 * @param array $args Request arguments
 	 * @param string $url URL to Request
@@ -307,8 +476,9 @@ class WP_Http {
 	 */
 	public function _get_first_available_transport( $args, $url = null ) {
 		$transports = array( 'curl', 'streams' );
+
 		/**
-		 * Filter which HTTP transports are available and in what order.
+		 * Filters which HTTP transports are available and in what order.
 		 *
 		 * @since 3.7.0
 		 *
@@ -366,24 +536,14 @@ class WP_Http {
 
 		$response = $transports[$class]->request( $url, $args );
 
-		/**
-		 * Fires after an HTTP API response is received and before the response is returned.
-		 *
-		 * @since 2.8.0
-		 *
-		 * @param array|WP_Error $response HTTP response or WP_Error object.
-		 * @param string         $context  Context under which the hook is fired.
-		 * @param string         $class    HTTP transport used.
-		 * @param array          $args     HTTP request arguments.
-		 * @param string         $url      The request URL.
-		 */
+		/** This action is documented in wp-includes/class-http.php */
 		do_action( 'http_api_debug', $response, 'response', $class, $args, $url );
 
 		if ( is_wp_error( $response ) )
 			return $response;
 
 		/**
-		 * Filter the HTTP API response immediately before the response is returned.
+		 * Filters the HTTP API response immediately before the response is returned.
 		 *
 		 * @since 2.9.0
 		 *
@@ -577,7 +737,7 @@ class WP_Http {
 	 *
 	 * Based off the HTTP http_encoding_dechunk function.
 	 *
-	 * @link http://tools.ietf.org/html/rfc2616#section-19.4.6 Process for chunked decoding.
+	 * @link https://tools.ietf.org/html/rfc2616#section-19.4.6 Process for chunked decoding.
 	 *
 	 * @access public
 	 * @since 2.7.0
@@ -623,7 +783,7 @@ class WP_Http {
 	 * prevent plugins from working and core functionality, if you don't include api.wordpress.org.
 	 *
 	 * You block external URL requests by defining WP_HTTP_BLOCK_EXTERNAL as true in your wp-config.php
-	 * file and this will only allow localhost and your blog to make requests. The constant
+	 * file and this will only allow localhost and your site to make requests. The constant
 	 * WP_ACCESSIBLE_HOSTS will allow additional hosts to go through for requests. The format of the
 	 * WP_ACCESSIBLE_HOSTS constant is a comma separated list of hostnames to allow, wildcard domains
 	 * are supported, eg *.wordpress.org will allow for all subdomains of wordpress.org to be contacted.
@@ -652,7 +812,7 @@ class WP_Http {
 		// Don't block requests back to ourselves by default.
 		if ( 'localhost' == $check['host'] || ( isset( $home['host'] ) && $home['host'] == $check['host'] ) ) {
 			/**
-			 * Filter whether to block local requests through the proxy.
+			 * Filters whether to block local requests through the proxy.
 			 *
 			 * @since 2.8.0
 			 *

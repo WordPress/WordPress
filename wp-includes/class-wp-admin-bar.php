@@ -27,7 +27,7 @@ class WP_Admin_Bar {
 				return is_ssl() ? 'https://' : 'http://';
 
 			case 'menu' :
-				_deprecated_argument( 'WP_Admin_Bar', '3.3', 'Modify admin bar nodes with WP_Admin_Bar::get_node(), WP_Admin_Bar::add_node(), and WP_Admin_Bar::remove_node(), not the <code>menu</code> property.' );
+				_deprecated_argument( 'WP_Admin_Bar', '3.3.0', 'Modify admin bar nodes with WP_Admin_Bar::get_node(), WP_Admin_Bar::add_node(), and WP_Admin_Bar::remove_node(), not the <code>menu</code> property.' );
 				return array(); // Sorry, folks.
 		}
 	}
@@ -96,9 +96,11 @@ class WP_Admin_Bar {
 	}
 
 	/**
-	 * Add a node to the menu.
+	 * Adds a node to the menu.
 	 *
+	 * @since 3.1.0
 	 * @since 4.5.0 Added the ability to pass 'lang' and 'dir' meta data.
+	 * @access public
 	 *
 	 * @param array $args {
 	 *     Arguments for adding a node.
@@ -125,7 +127,7 @@ class WP_Admin_Bar {
 			if ( empty( $args['title'] ) )
 				return;
 
-			_doing_it_wrong( __METHOD__, __( 'The menu ID should not be empty.' ), '3.3' );
+			_doing_it_wrong( __METHOD__, __( 'The menu ID should not be empty.' ), '3.3.0' );
 			// Deprecated: Generate an ID from the title.
 			$args['id'] = esc_attr( sanitize_title( trim( $args['title'] ) ) );
 		}
@@ -475,8 +477,9 @@ class WP_Admin_Bar {
 		$is_parent = ! empty( $node->children );
 		$has_link  = ! empty( $node->href );
 
-		$tabindex = isset( $node->meta['tabindex'] ) ? (int) $node->meta['tabindex'] : '';
-		$aria_attributes = $tabindex ? 'tabindex="' . $tabindex . '"' : '';
+		// Allow only numeric values, then casted to integers, and allow a tabindex value of `0` for a11y.
+		$tabindex = ( isset( $node->meta['tabindex'] ) && is_numeric( $node->meta['tabindex'] ) ) ? (int) $node->meta['tabindex'] : '';
+		$aria_attributes = ( '' !== $tabindex ) ? ' tabindex="' . $tabindex . '"' : '';
 
 		$menuclass = '';
 
@@ -495,7 +498,7 @@ class WP_Admin_Bar {
 
 		<li id="<?php echo esc_attr( 'wp-admin-bar-' . $node->id ); ?>"<?php echo $menuclass; ?>><?php
 			if ( $has_link ):
-				?><a class="ab-item" <?php echo $aria_attributes; ?> href="<?php echo esc_url( $node->href ) ?>"<?php
+				?><a class="ab-item"<?php echo $aria_attributes; ?> href="<?php echo esc_url( $node->href ) ?>"<?php
 					if ( ! empty( $node->meta['onclick'] ) ) :
 						?> onclick="<?php echo esc_js( $node->meta['onclick'] ); ?>"<?php
 					endif;
@@ -516,7 +519,7 @@ class WP_Admin_Bar {
 				endif;
 				?>><?php
 			else:
-				?><div class="ab-item ab-empty-item" <?php echo $aria_attributes;
+				?><div class="ab-item ab-empty-item"<?php echo $aria_attributes;
 				if ( ! empty( $node->meta['title'] ) ) :
 					?> title="<?php echo esc_attr( $node->meta['title'] ); ?>"<?php
 				endif;
@@ -557,7 +560,7 @@ class WP_Admin_Bar {
 	 * @param object $node
 	 */
 	public function recursive_render( $id, $node ) {
-		_deprecated_function( __METHOD__, '3.3', 'WP_Admin_bar::render(), WP_Admin_Bar::_render_item()' );
+		_deprecated_function( __METHOD__, '3.3.0', 'WP_Admin_bar::render(), WP_Admin_Bar::_render_item()' );
 		$this->_render_item( $node );
 	}
 

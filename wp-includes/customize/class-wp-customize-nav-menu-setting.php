@@ -74,7 +74,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	/**
 	 * Previous (placeholder) term ID used before creating a new menu.
 	 *
-	 * This value will be exported to JS via the customize_save_response filter
+	 * This value will be exported to JS via the {@see 'customize_save_response'} filter
 	 * so that JavaScript can update the settings to refer to the newly-assigned
 	 * term ID. This value is always negative to indicate it does not refer to
 	 * a real term.
@@ -100,8 +100,10 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	/**
 	 * Status for calling the update method, used in customize_save_response filter.
 	 *
-	 * When status is inserted, the placeholder term ID is stored in $previous_term_id.
-	 * When status is error, the error is stored in $update_error.
+	 * See {@see 'customize_save_response'}.
+	 *
+	 * When status is inserted, the placeholder term ID is stored in `$previous_term_id`.
+	 * When status is error, the error is stored in `$update_error`.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -235,7 +237,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Filter the wp_get_nav_menus() result to ensure the inserted menu object is included, and the deleted one is removed.
+	 * Filters the wp_get_nav_menus() result to ensure the inserted menu object is included, and the deleted one is removed.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -324,7 +326,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Filter the wp_get_nav_menu_object() result to supply the previewed menu object.
+	 * Filters the wp_get_nav_menu_object() result to supply the previewed menu object.
 	 *
 	 * Requesting a nav_menu object by anything but ID is not supported.
 	 *
@@ -375,7 +377,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Filter the nav_menu_options option to include this menu's auto_add preference.
+	 * Filters the nav_menu_options option to include this menu's auto_add preference.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -447,6 +449,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	/**
 	 * Storage for data to be sent back to client in customize_save_response filter.
 	 *
+	 * See {@see 'customize_save_response'}.
+	 *
 	 * @access protected
 	 * @since 4.3.0
 	 * @var array
@@ -459,7 +463,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * Create/update the nav_menu term for this setting.
 	 *
 	 * Any created menus will have their assigned term IDs exported to the client
-	 * via the customize_save_response filter. Likewise, any errors will be exported
+	 * via the {@see 'customize_save_response'} filter. Likewise, any errors will be exported
 	 * to the client via the customize_save_response() filter.
 	 *
 	 * To delete a menu, the client can send false as the value.
@@ -513,14 +517,14 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 			$menu_data['menu-name'] = $value['name'];
 
 			$menu_id = $is_placeholder ? 0 : $this->term_id;
-			$r = wp_update_nav_menu_object( $menu_id, $menu_data );
+			$r = wp_update_nav_menu_object( $menu_id, wp_slash( $menu_data ) );
 			$original_name = $menu_data['menu-name'];
 			$name_conflict_suffix = 1;
 			while ( is_wp_error( $r ) && 'menu_exists' === $r->get_error_code() ) {
 				$name_conflict_suffix += 1;
 				/* translators: 1: original menu name, 2: duplicate count */
 				$menu_data['menu-name'] = sprintf( __( '%1$s (%2$d)' ), $original_name, $name_conflict_suffix );
-				$r = wp_update_nav_menu_object( $menu_id, $menu_data );
+				$r = wp_update_nav_menu_object( $menu_id, wp_slash( $menu_data ) );
 			}
 
 			if ( is_wp_error( $r ) ) {

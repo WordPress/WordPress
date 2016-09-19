@@ -63,12 +63,12 @@ class WP_Role {
 	}
 
 	/**
-	 * Remove capability from role.
+	 * Removes a capability from a role.
 	 *
-	 * This is a container for {@link WP_Roles::remove_cap()} to remove the
-	 * capability from the role. That is to say, that {@link
-	 * WP_Roles::remove_cap()} implements the functionality, but it also makes
-	 * sense to use this class, because you don't need to enter the role name.
+	 * This is a container for WP_Roles::remove_cap() to remove the
+	 * capability from the role. That is to say, that WP_Roles::remove_cap()
+	 * implements the functionality, but it also makes sense to use this class,
+	 * because you don't need to enter the role name.
 	 *
 	 * @since 2.0.0
 	 * @access public
@@ -96,7 +96,7 @@ class WP_Role {
 	 */
 	public function has_cap( $cap ) {
 		/**
-		 * Filter which capabilities a role has.
+		 * Filters which capabilities a role has.
 		 *
 		 * @since 2.0.0
 		 *

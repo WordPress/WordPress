@@ -13,14 +13,14 @@ if ( is_multisite() ) {
 	if ( ! current_user_can( 'create_users' ) && ! current_user_can( 'promote_users' ) ) {
 		wp_die(
 			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-			'<p>' . __( 'You do not have sufficient permissions to add users to this network.' ) . '</p>',
+			'<p>' . __( 'Sorry, you are not allowed to add users to this network.' ) . '</p>',
 			403
 		);
 	}
 } elseif ( ! current_user_can( 'create_users' ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to create users.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to create users.' ) . '</p>',
 		403
 	);
 }
@@ -53,7 +53,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 	if ( ! current_user_can( 'promote_user', $user_details->ID ) ) {
 		wp_die(
 			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-			'<p>' . __( 'You do not have sufficient permissions to add users to this network.' ) . '</p>',
+			'<p>' . __( 'Sorry, you are not allowed to add users to this network.' ) . '</p>',
 			403
 		);
 	}
@@ -68,7 +68,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 	} else {
 		if ( isset( $_POST[ 'noconfirmation' ] ) && current_user_can( 'manage_network_users' ) ) {
 			add_existing_user_to_blog( array( 'user_id' => $user_id, 'role' => $_REQUEST[ 'role' ] ) );
-			$redirect = add_query_arg( array('update' => 'addnoconfirmation'), 'user-new.php' );
+			$redirect = add_query_arg( array( 'update' => 'addnoconfirmation' , 'user_id' => $user_id ), 'user-new.php' );
 		} else {
 			$newuser_key = substr( md5( $user_id ), 0, 5 );
 			add_option( 'new_user_' . $newuser_key, array( 'user_id' => $user_id, 'email' => $user_details->user_email, 'role' => $_REQUEST[ 'role' ] ) );
@@ -107,7 +107,7 @@ Please click the following link to confirm the invite:
 	if ( ! current_user_can( 'create_users' ) ) {
 		wp_die(
 			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-			'<p>' . __( 'You are not allowed to create users.' ) . '</p>',
+			'<p>' . __( 'Sorry, you are not allowed to create users.' ) . '</p>',
 			403
 		);
 	}
@@ -133,7 +133,7 @@ Please click the following link to confirm the invite:
 			$add_user_errors = $user_details[ 'errors' ];
 		} else {
 			/**
-			 * Filter the user_login, also known as the username, before it is added to the site.
+			 * Filters the user_login, also known as the username, before it is added to the site.
 			 *
 			 * @since 2.0.3
 			 *
@@ -147,8 +147,12 @@ Please click the following link to confirm the invite:
 			wpmu_signup_user( $new_user_login, $new_user_email, array( 'add_to_blog' => $wpdb->blogid, 'new_role' => $_REQUEST['role'] ) );
 			if ( isset( $_POST[ 'noconfirmation' ] ) && current_user_can( 'manage_network_users' ) ) {
 				$key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $new_user_email ) );
-				wpmu_activate_signup( $key );
-				$redirect = add_query_arg( array('update' => 'addnoconfirmation'), 'user-new.php' );
+				$new_user = wpmu_activate_signup( $key );
+				if ( is_wp_error( $new_user ) ) {
+					$redirect = add_query_arg( array( 'update' => 'addnoconfirmation' ), 'user-new.php' );
+				} else {
+					$redirect = add_query_arg( array( 'update' => 'addnoconfirmation', 'user_id' => $new_user['user_id'] ), 'user-new.php' );
+				}
 			} else {
 				$redirect = add_query_arg( array('update' => 'newuserconfirmation'), 'user-new.php' );
 			}
@@ -171,8 +175,9 @@ if ( is_multisite() ) {
 	$help .= '<p>' . __('Because this is a multisite installation, you may add accounts that already exist on the Network by specifying a username or email, and defining a role. For more options, such as specifying a password, you have to be a Network Administrator and use the hover link under an existing user&#8217;s name to Edit the user profile under Network Admin > All Users.') . '</p>' .
 	'<p>' . __('New users will receive an email letting them know they&#8217;ve been added as a user for your site. This email will also contain their password. Check the box if you don&#8217;t want the user to receive a welcome email.') . '</p>';
 } else {
-	$help .= '<p>' . __('You must assign a password to the new user, which they can change after logging in. The username, however, cannot be changed.') . '</p>' .
-	'<p>' . __('New users will receive an email letting them know they&#8217;ve been added as a user for your site. By default, this email will also contain their password. Uncheck the box if you don&#8217;t want the password to be included in the welcome email.') . '</p>';
+	$help .= '<p>' . __('New users are automatically assigned a password, which they can change after logging in. You can view or edit the assigned password by clicking the Show Password button. The username cannot be changed once the user has been added.') . '</p>' .
+
+	'<p>' . __('By default, new users will receive an email letting them know they&#8217;ve been added as a user for your site. This email will also contain a password reset link. Uncheck the box if you don&#8217;t want to send the new user a welcome email.') . '</p>';
 }
 
 $help .= '<p>' . __('Remember to click the Add New User button at the bottom of this screen when you are finished.') . '</p>';
@@ -206,7 +211,7 @@ wp_enqueue_script('wp-ajax-response');
 wp_enqueue_script( 'user-profile' );
 
 /**
- * Filter whether to enable user auto-complete for non-super admins in Multisite.
+ * Filters whether to enable user auto-complete for non-super admins in Multisite.
  *
  * @since 3.4.0
  *
@@ -223,6 +228,14 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 if ( isset($_GET['update']) ) {
 	$messages = array();
 	if ( is_multisite() ) {
+		$edit_link = '';
+		if ( ( isset( $_GET['user_id'] ) ) ) {
+			$user_id_new = absint( $_GET['user_id'] );
+			if ( $user_id_new ) {
+				$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user_id_new ) ) );
+			}
+		}
+
 		switch ( $_GET['update'] ) {
 			case "newuserconfirmation":
 				$messages[] = __('Invitation email sent to new user. A confirmation link must be clicked before their account is created.');
@@ -231,7 +244,12 @@ if ( isset($_GET['update']) ) {
 				$messages[] = __('Invitation email sent to user. A confirmation link must be clicked for them to be added to your site.');
 				break;
 			case "addnoconfirmation":
-				$messages[] = __('User has been added to your site.');
+				if ( empty( $edit_link ) ) {
+					$messages[] = __( 'User has been added to your site.' );
+				} else {
+					/* translators: %s: edit page url */
+					$messages[] = sprintf( __( 'User has been added to your site. <a href="%s">Edit user</a>' ), $edit_link );
+				}
 				break;
 			case "addexisting":
 				$messages[] = __('That user is already a member of this site.');
@@ -252,9 +270,9 @@ if ( isset($_GET['update']) ) {
 <div class="wrap">
 <h1 id="add-new-user"><?php
 if ( current_user_can( 'create_users' ) ) {
-	echo _x( 'Add New User', 'user' );
+	_e( 'Add New User' );
 } elseif ( current_user_can( 'promote_users' ) ) {
-	echo _x( 'Add Existing User', 'user' );
+	_e( 'Add Existing User' );
 } ?>
 </h1>
 

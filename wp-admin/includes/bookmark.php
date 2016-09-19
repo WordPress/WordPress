@@ -29,7 +29,7 @@ function edit_link( $link_id = 0 ) {
 	if ( ! current_user_can( 'manage_links' ) ) {
 		wp_die(
 			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-			'<p>' . __( 'You do not have sufficient permissions to edit the links for this site.' ) . '</p>',
+			'<p>' . __( 'Sorry, you are not allowed to edit the links for this site.' ) . '</p>',
 			403
 		);
 	}
@@ -131,11 +131,11 @@ function wp_get_link_cats( $link_id = 0 ) {
  *
  * @since 2.0.0
  *
- * @param int $link_id ID of link to retrieve.
+ * @param int|stdClass $link Link ID or object to retrieve.
  * @return object Link object for editing.
  */
-function get_link_to_edit( $link_id ) {
-	return get_bookmark( $link_id, OBJECT, 'edit' );
+function get_link_to_edit( $link ) {
+	return get_bookmark( $link, OBJECT, 'edit' );
 }
 
 /**
@@ -312,5 +312,5 @@ function wp_link_manager_disabled_message() {
 		wp_die( sprintf( __( 'If you are looking to use the link manager, please install the <a href="%s">Link Manager</a> plugin.' ), $link ) );
 	}
 
-	wp_die( __( 'You do not have sufficient permissions to edit the links for this site.' ) );
+	wp_die( __( 'Sorry, you are not allowed to edit the links for this site.' ) );
 }

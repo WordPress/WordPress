@@ -13,11 +13,11 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 
 if ( ! current_user_can( 'manage_options' ) )
-	wp_die( __( 'You do not have sufficient permissions to manage options for this site.' ) );
+	wp_die( __( 'Sorry, you are not allowed to manage options for this site.' ) );
 
 $title = __('General Settings');
 $parent_file = 'options-general.php';
-/* translators: date and time format for exact current time, mainly about timezones, see http://php.net/date */
+/* translators: date and time format for exact current time, mainly about timezones, see https://secure.php.net/date */
 $timezone_format = _x('Y-m-d H:i:s', 'timezone date format');
 
 add_action('admin_head', 'options_general_add_js');
@@ -105,10 +105,15 @@ $new_admin_email = get_option( 'new_admin_email' );
 if ( $new_admin_email && $new_admin_email != get_option('admin_email') ) : ?>
 <div class="updated inline">
 <p><?php
-	/* translators: 1: new admin email, 2: Cancel link URL */
-	printf( __( 'There is a pending change of the admin email to %1$s. <a href="%2$s">Cancel</a>' ),
-		'<code>' . esc_html( $new_admin_email ) . '</code>',
-		esc_url( admin_url( 'options.php?dismiss=new_admin_email' ) )
+	printf(
+		/* translators: %s: new admin email */
+		__( 'There is a pending change of the admin email to %s.' ),
+		'<code>' . esc_html( $new_admin_email ) . '</code>'
+	);
+	printf(
+		' <a href="%1$s">%2$s</a>',
+		esc_url( wp_nonce_url( admin_url( 'options.php?dismiss=new_admin_email' ), 'dismiss-' . get_current_blog_id() . '-new_admin_email' ) ),
+		__( 'Cancel' )
 	);
 ?></p>
 </div>
@@ -145,23 +150,28 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 <?php echo wp_timezone_choice($tzstring); ?>
 </select>
 
+<p class="description" id="timezone-description"><?php _e( 'Choose either a city in the same timezone as you or a UTC timezone offset.' ); ?></p>
+
+<p class="timezone-info">
 	<span id="utc-time"><?php
-		/* translators: %s: UTC time */
-		printf( __( '<abbr title="Coordinated Universal Time">UTC</abbr> time is %s' ),
-			'<code>' . date_i18n( $timezone_format, false, 'gmt' ) . '</code>'
+		/* translators: 1: UTC abbreviation, 2: UTC time */
+		printf( __( 'Universal time (%1$s) is %2$s.' ),
+			'<abbr>' . __( 'UTC' ) . '</abbr>',
+			'<code>' . date_i18n( $timezone_format, false, true ) . '</code>'
 		);
 	?></span>
-<?php if ( get_option('timezone_string') || !empty($current_offset) ) : ?>
+<?php if ( get_option( 'timezone_string' ) || ! empty( $current_offset ) ) : ?>
 	<span id="local-time"><?php
 		/* translators: %s: local time */
-		printf( __( 'Local time is %s' ),
+		printf( __( 'Local time is %s.' ),
 			'<code>' . date_i18n( $timezone_format ) . '</code>'
 		);
 	?></span>
 <?php endif; ?>
-<p class="description" id="timezone-description"><?php _e( 'Choose a city in the same timezone as you.' ); ?></p>
-<?php if ($check_zone_info && $tzstring) : ?>
-<br />
+</p>
+
+<?php if ( $check_zone_info && $tzstring ) : ?>
+<p class="timezone-info">
 <span>
 	<?php
 	// Set TZ so localtime works.
@@ -210,6 +220,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	date_default_timezone_set('UTC');
 	?>
 	</span>
+</p>
 <?php endif; ?>
 </td>
 
@@ -220,7 +231,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	<fieldset><legend class="screen-reader-text"><span><?php _e('Date Format') ?></span></legend>
 <?php
 	/**
-	* Filter the default date formats.
+	* Filters the default date formats.
 	*
 	* @since 2.7.0
 	* @since 4.0.0 Added ISO date standard YYYY-MM-DD format.
@@ -232,18 +243,21 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	$custom = true;
 
 	foreach ( $date_formats as $format ) {
-		echo "\t<label title='" . esc_attr($format) . "'><input type='radio' name='date_format' value='" . esc_attr($format) . "'";
+		echo "\t<label><input type='radio' name='date_format' value='" . esc_attr( $format ) . "'";
 		if ( get_option('date_format') === $format ) { // checked() uses "==" rather than "==="
 			echo " checked='checked'";
 			$custom = false;
 		}
-		echo ' /> ' . date_i18n( $format ) . "</label><br />\n";
+		echo ' /> <span class="date-time-text format-i18n">' . date_i18n( $format ) . '</span><code>' . esc_html( $format ) . "</code></label><br />\n";
 	}
 
-	echo '	<label><input type="radio" name="date_format" id="date_format_custom_radio" value="\c\u\s\t\o\m"';
+	echo '<label><input type="radio" name="date_format" id="date_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom );
-	echo '/> ' . __( 'Custom:' ) . '<span class="screen-reader-text"> ' . __( 'enter a custom date format in the following field' ) . "</span></label>\n";
-	echo '<label for="date_format_custom" class="screen-reader-text">' . __( 'Custom date format:' ) . '</label><input type="text" name="date_format_custom" id="date_format_custom" value="' . esc_attr( get_option('date_format') ) . '" class="small-text" /> <span class="screen-reader-text">' . __( 'example:' ) . ' </span><span class="example"> ' . date_i18n( get_option('date_format') ) . "</span> <span class='spinner'></span>\n";
+	echo '/> <span class="date-time-text date-time-custom-text">' . __( 'Custom:' ) . '<span class="screen-reader-text"> ' . __( 'enter a custom date format in the following field' ) . '</span></label>' .
+		'<label for="date_format_custom" class="screen-reader-text">' . __( 'Custom date format:' ) . '</label>' .
+		'<input type="text" name="date_format_custom" id="date_format_custom" value="' . esc_attr( get_option( 'date_format' ) ) . '" class="small-text" /></span>' .
+		'<span class="screen-reader-text">' . __( 'example:' ) . ' </span> <span class="example">' . date_i18n( get_option( 'date_format' ) ) . '</span>' .
+		"<span class='spinner'></span>\n";
 ?>
 	</fieldset>
 </td>
@@ -254,7 +268,7 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	<fieldset><legend class="screen-reader-text"><span><?php _e('Time Format') ?></span></legend>
 <?php
 	/**
-	* Filter the default time formats.
+	* Filters the default time formats.
 	*
 	* @since 2.7.0
 	*
@@ -265,20 +279,23 @@ if ( empty($tzstring) ) { // Create a UTC+- zone if no timezone string exists
 	$custom = true;
 
 	foreach ( $time_formats as $format ) {
-		echo "\t<label title='" . esc_attr($format) . "'><input type='radio' name='time_format' value='" . esc_attr($format) . "'";
+		echo "\t<label><input type='radio' name='time_format' value='" . esc_attr( $format ) . "'";
 		if ( get_option('time_format') === $format ) { // checked() uses "==" rather than "==="
 			echo " checked='checked'";
 			$custom = false;
 		}
-		echo ' /> ' . date_i18n( $format ) . "</label><br />\n";
+		echo ' /> <span class="date-time-text format-i18n">' . date_i18n( $format ) . '</span><code>' . esc_html( $format ) . "</code></label><br />\n";
 	}
 
-	echo '	<label><input type="radio" name="time_format" id="time_format_custom_radio" value="\c\u\s\t\o\m"';
+	echo '<label><input type="radio" name="time_format" id="time_format_custom_radio" value="\c\u\s\t\o\m"';
 	checked( $custom );
-	echo '/> ' . __( 'Custom:' ) . '<span class="screen-reader-text"> ' . __( 'enter a custom time format in the following field' ) . "</span></label>\n";
-	echo '<label for="time_format_custom" class="screen-reader-text">' . __( 'Custom time format:' ) . '</label><input type="text" name="time_format_custom" id="time_format_custom" value="' . esc_attr( get_option('time_format') ) . '" class="small-text" /> <span class="screen-reader-text">' . __( 'example:' ) . ' </span><span class="example"> ' . date_i18n( get_option('time_format') ) . "</span> <span class='spinner'></span>\n";
+	echo '/> <span class="date-time-text date-time-custom-text">' . __( 'Custom:' ) . '<span class="screen-reader-text"> ' . __( 'enter a custom time format in the following field' ) . '</span></label>' .
+		'<label for="time_format_custom" class="screen-reader-text">' . __( 'Custom time format:' ) . '</label>' .
+		'<input type="text" name="time_format_custom" id="time_format_custom" value="' . esc_attr( get_option( 'time_format' ) ) . '" class="small-text" /></span>' .
+		'<span class="screen-reader-text">' . __( 'example:' ) . ' </span> <span class="example">' . date_i18n( get_option( 'time_format' ) ) . '</span>' .
+		"<span class='spinner'></span>\n";
 
-	echo "\t<p>" . __('<a href="https://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date and time formatting</a>.') . "</p>\n";
+	echo "\t<p class='date-time-doc'>" . __('<a href="https://codex.wordpress.org/Formatting_Date_and_Time">Documentation on date and time formatting</a>.') . "</p>\n";
 ?>
 	</fieldset>
 </td>
@@ -336,7 +353,7 @@ if ( ! empty( $languages ) || ! empty( $translations ) ) {
 					</p>
 					<?php
 				}
-				_deprecated_argument( 'define()', '4.0', sprintf( __( 'The %s constant in your %s file is no longer needed.' ), 'WPLANG', 'wp-config.php' ) );
+				_deprecated_argument( 'define()', '4.0.0', sprintf( __( 'The %s constant in your %s file is no longer needed.' ), 'WPLANG', 'wp-config.php' ) );
 			}
 			?>
 		</td>

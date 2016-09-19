@@ -17,35 +17,49 @@
 function wp_initial_constants() {
 	global $blog_id;
 
-	// set memory limits
-	if ( !defined('WP_MEMORY_LIMIT') ) {
-		if ( is_multisite() ) {
-			define('WP_MEMORY_LIMIT', '64M');
+	/**#@+
+	 * Constants for expressing human-readable data sizes in their respective number of bytes.
+	 *
+	 * @since 4.4.0
+	 */
+	define( 'KB_IN_BYTES', 1024 );
+	define( 'MB_IN_BYTES', 1024 * KB_IN_BYTES );
+	define( 'GB_IN_BYTES', 1024 * MB_IN_BYTES );
+	define( 'TB_IN_BYTES', 1024 * GB_IN_BYTES );
+	/**#@-*/
+
+	$current_limit     = @ini_get( 'memory_limit' );
+	$current_limit_int = wp_convert_hr_to_bytes( $current_limit );
+
+	// Define memory limits.
+	if ( ! defined( 'WP_MEMORY_LIMIT' ) ) {
+		if ( false === wp_is_ini_value_changeable( 'memory_limit' ) ) {
+			define( 'WP_MEMORY_LIMIT', $current_limit );
+		} elseif ( is_multisite() ) {
+			define( 'WP_MEMORY_LIMIT', '64M' );
 		} else {
-			define('WP_MEMORY_LIMIT', '40M');
+			define( 'WP_MEMORY_LIMIT', '40M' );
 		}
 	}
 
 	if ( ! defined( 'WP_MAX_MEMORY_LIMIT' ) ) {
-		define( 'WP_MAX_MEMORY_LIMIT', '256M' );
+		if ( false === wp_is_ini_value_changeable( 'memory_limit' ) ) {
+			define( 'WP_MAX_MEMORY_LIMIT', $current_limit );
+		} elseif ( -1 === $current_limit_int || $current_limit_int > 268435456 /* = 256M */ ) {
+			define( 'WP_MAX_MEMORY_LIMIT', $current_limit );
+		} else {
+			define( 'WP_MAX_MEMORY_LIMIT', '256M' );
+		}
+	}
+
+	// Set memory limits.
+	$wp_limit_int = wp_convert_hr_to_bytes( WP_MEMORY_LIMIT );
+	if ( -1 !== $current_limit_int && ( -1 === $wp_limit_int || $wp_limit_int > $current_limit_int ) ) {
+		@ini_set( 'memory_limit', WP_MEMORY_LIMIT );
 	}
 
 	if ( ! isset($blog_id) )
 		$blog_id = 1;
-
-	// set memory limits.
-	if ( function_exists( 'memory_get_usage' ) ) {
-		$current_limit = @ini_get( 'memory_limit' );
-		$current_limit_int = intval( $current_limit );
-		if ( false !== strpos( $current_limit, 'G' ) )
-			$current_limit_int *= 1024;
-		$wp_limit_int = intval( WP_MEMORY_LIMIT );
-		if ( false !== strpos( WP_MEMORY_LIMIT, 'G' ) )
-			$wp_limit_int *= 1024;
-
-		if ( -1 != $current_limit && ( -1 == WP_MEMORY_LIMIT || $current_limit_int < $wp_limit_int ) )
-			@ini_set( 'memory_limit', WP_MEMORY_LIMIT );
-	}
 
 	if ( !defined('WP_CONTENT_DIR') )
 		define( 'WP_CONTENT_DIR', ABSPATH . 'wp-content' ); // no trailing slash, full paths only - WP_CONTENT_URL is defined further down
@@ -98,7 +112,7 @@ function wp_initial_constants() {
 	 * For example, MONTH_IN_SECONDS wrongly assumes every month has 30 days and
 	 * YEAR_IN_SECONDS does not take leap years into account.
 	 *
-	 * If you need more accuracy please consider using the DateTime class (http://php.net/manual/class.datetime.php).
+	 * If you need more accuracy please consider using the DateTime class (https://secure.php.net/manual/en/class.datetime.php).
 	 *
 	 * @since 3.5.0
 	 * @since 4.4.0 Introduced `MONTH_IN_SECONDS`.
@@ -109,17 +123,6 @@ function wp_initial_constants() {
 	define( 'WEEK_IN_SECONDS',    7 * DAY_IN_SECONDS    );
 	define( 'MONTH_IN_SECONDS',  30 * DAY_IN_SECONDS    );
 	define( 'YEAR_IN_SECONDS',  365 * DAY_IN_SECONDS    );
-	/**#@-*/
-
-	/**#@+
-	 * Constants for expressing human-readable data sizes in their respective number of bytes.
-	 *
-	 * @since 4.4.0
-	 */
-	define( 'KB_IN_BYTES', 1024 );
-	define( 'MB_IN_BYTES', 1024 * KB_IN_BYTES );
-	define( 'GB_IN_BYTES', 1024 * MB_IN_BYTES );
-	define( 'TB_IN_BYTES', 1024 * GB_IN_BYTES );
 	/**#@-*/
 }
 
@@ -202,7 +205,7 @@ function wp_cookie_constants() {
 		if ( $siteurl )
 			define( 'COOKIEHASH', md5( $siteurl ) );
 		else
-			define( 'COOKIEHASH', '' );
+			define( 'COOKIEHASH', md5( wp_guess_url() ) );
 	}
 
 	/**

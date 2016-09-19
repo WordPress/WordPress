@@ -139,9 +139,9 @@ class WP_Customize_Section {
 	 * @see WP_Customize_Section::active()
 	 *
 	 * @var callable Callback is called with one argument, the instance of
-	 *               {@see WP_Customize_Section}, and returns bool to indicate
-	 *               whether the section is active (such as it relates to the URL
-	 *               currently being previewed).
+	 *               WP_Customize_Section, and returns bool to indicate whether
+	 *               the section is active (such as it relates to the URL currently
+	 *               being previewed).
 	 */
 	public $active_callback = '';
 
@@ -188,12 +188,12 @@ class WP_Customize_Section {
 		$active = call_user_func( $this->active_callback, $this );
 
 		/**
-		 * Filter response of {@see WP_Customize_Section::active()}.
+		 * Filters response of WP_Customize_Section::active().
 		 *
 		 * @since 4.1.0
 		 *
 		 * @param bool                 $active  Whether the Customizer section is active.
-		 * @param WP_Customize_Section $section {@see WP_Customize_Section} instance.
+		 * @param WP_Customize_Section $section WP_Customize_Section instance.
 		 */
 		$active = apply_filters( 'customize_section_active', $active, $section );
 
@@ -201,7 +201,7 @@ class WP_Customize_Section {
 	}
 
 	/**
-	 * Default callback used when invoking {@see WP_Customize_Section::active()}.
+	 * Default callback used when invoking WP_Customize_Section::active().
 	 *
 	 * Subclasses can override this with their specific logic, or they may provide
 	 * an 'active_callback' argument to the constructor.
@@ -306,7 +306,7 @@ class WP_Customize_Section {
 	/**
 	 * Render the section UI in a subclass.
 	 *
-	 * Sections are now rendered in JS by default, see {@see WP_Customize_Section::print_template()}.
+	 * Sections are now rendered in JS by default, see WP_Customize_Section::print_template().
 	 *
 	 * @since 3.4.0
 	 */

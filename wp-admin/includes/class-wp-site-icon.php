@@ -121,7 +121,7 @@ class WP_Site_Icon {
 		$metadata      = wp_generate_attachment_metadata( $attachment_id, $file );
 
 		/**
-		 * Filter the site icon attachment metadata.
+		 * Filters the site icon attachment metadata.
 		 *
 		 * @since 4.3.0
 		 *
@@ -148,7 +148,7 @@ class WP_Site_Icon {
 		$only_crop_sizes = array();
 
 		/**
-		 * Filter the different dimensions that a site icon is saved in.
+		 * Filters the different dimensions that a site icon is saved in.
 		 *
 		 * @since 4.3.0
 		 *
@@ -240,8 +240,3 @@ class WP_Site_Icon {
 		return $value;
 	}
 }
-
-/**
- * @global WP_Site_Icon $wp_site_icon
- */
-$GLOBALS['wp_site_icon'] = new WP_Site_Icon;

@@ -20,7 +20,7 @@ case 'editattachment' :
 	check_admin_referer('media-form');
 
 	if ( !current_user_can('edit_post', $attachment_id) )
-		wp_die ( __('You are not allowed to edit this attachment.') );
+		wp_die ( __('Sorry, you are not allowed to edit this attachment.') );
 
 	$errors = media_upload_form_handler();
 
@@ -54,7 +54,7 @@ case 'edit' :
 	$att_id = (int) $_GET['attachment_id'];
 
 	if ( !current_user_can('edit_post', $att_id) )
-		wp_die ( __('You are not allowed to edit this attachment.') );
+		wp_die ( __('Sorry, you are not allowed to edit this attachment.') );
 
 	$att = get_post($att_id);
 
@@ -92,7 +92,7 @@ case 'edit' :
 	if ( isset($_GET['message']) ) {
 		switch ( $_GET['message'] ) {
 			case 'updated' :
-				$message = __('Media attachment updated.');
+				$message = __('Media file updated.');
 				$class = 'updated';
 				break;
 		}

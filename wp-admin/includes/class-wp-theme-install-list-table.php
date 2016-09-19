@@ -13,7 +13,7 @@
  * @since 3.1.0
  * @access private
  *
- * @see WP_Thenes_List_Table
+ * @see WP_Themes_List_Table
  */
 class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 
@@ -72,7 +72,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$tabs = apply_filters( 'install_themes_tabs', $tabs );
 
 		/**
-		 * Filter tabs not associated with a menu item on the Install Themes screen.
+		 * Filters tabs not associated with a menu item on the Install Themes screen.
 		 *
 		 * @since 2.8.0
 		 *
@@ -124,7 +124,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		}
 
 		/**
-		 * Filter API request arguments for each Install Themes screen tab.
+		 * Filters API request arguments for each Install Themes screen tab.
 		 *
 		 * The dynamic portion of the hook name, `$tab`, refers to the theme install
 		 * tabs. Default tabs are 'dashboard', 'search', 'upload', 'featured',
@@ -134,7 +134,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		 *
 		 * @param array $args An array of themes API arguments.
 		 */
-		$args = apply_filters( 'install_themes_table_api_args_' . $tab, $args );
+		$args = apply_filters( "install_themes_table_api_args_{$tab}", $args );
 
 		if ( ! $args )
 			return;
@@ -241,7 +241,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	 *     public 'rating' => float 80
 	 *     public 'num_ratings' => int 1
 	 *     public 'homepage' => string 'http://wordpress.org/themes/magazine-basic'
-	 *     public 'description' => string 'A basic magazine style layout with a fully customizable layout through a backend interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.'
+	 *     public 'description' => string 'A basic magazine style layout with a fully customizable layout through a back-end interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.'
 	 *     public 'download_link' => string 'http://wordpress.org/themes/download/magazine-basic.1.1.zip'
 	 */
 	public function single_row( $theme ) {
@@ -290,7 +290,7 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 		$actions[] = '<a class="install-theme-preview" href="' . esc_url( $preview_url ) . '" title="' . esc_attr( sprintf( __( 'Preview %s' ), $name ) ) . '">' . __( 'Preview' ) . '</a>';
 
 		/**
-		 * Filter the install action links for a theme in the Install Themes list table.
+		 * Filters the install action links for a theme in the Install Themes list table.
 		 *
 		 * @since 3.4.0
 		 *

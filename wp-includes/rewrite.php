@@ -144,7 +144,7 @@ function add_rewrite_rule( $regex, $query, $after = 'bottom' ) {
  * Add a new rewrite tag (like %postname%).
  *
  * The $query parameter is optional. If it is omitted you must ensure that
- * you call this on, or before, the 'init' hook. This is because $query defaults
+ * you call this on, or before, the {@see 'init'} hook. This is because $query defaults
  * to "$tag=", and for this to work a new query var has to be added.
  *
  * @since 2.1.0
@@ -173,12 +173,26 @@ function add_rewrite_tag( $tag, $regex, $query = '' ) {
 }
 
 /**
+ * Removes an existing rewrite tag (like %postname%).
+ *
+ * @since 4.5.0
+ *
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ *
+ * @param string $tag Name of the rewrite tag.
+ */
+function remove_rewrite_tag( $tag ) {
+	global $wp_rewrite;
+	$wp_rewrite->remove_rewrite_tag( $tag );
+}
+
+/**
  * Add permalink structure.
  *
  * @since 3.0.0
  *
  * @see WP_Rewrite::add_permastruct()
- * @global WP_Rewrite $wp_rewrite
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
  *
  * @param string $name   Name for permalink structure.
  * @param string $struct Permalink structure.
@@ -188,13 +202,32 @@ function add_rewrite_tag( $tag, $regex, $query = '' ) {
 function add_permastruct( $name, $struct, $args = array() ) {
 	global $wp_rewrite;
 
-	// backwards compatibility for the old parameters: $with_front and $ep_mask
+	// Back-compat for the old parameters: $with_front and $ep_mask.
 	if ( ! is_array( $args ) )
 		$args = array( 'with_front' => $args );
 	if ( func_num_args() == 4 )
 		$args['ep_mask'] = func_get_arg( 3 );
 
 	$wp_rewrite->add_permastruct( $name, $struct, $args );
+}
+
+/**
+ * Removes a permalink structure.
+ *
+ * Can only be used to remove permastructs that were added using add_permastruct().
+ * Built-in permastructs cannot be removed.
+ *
+ * @since 4.5.0
+ *
+ * @see WP_Rewrite::remove_permastruct()
+ * @global WP_Rewrite $wp_rewrite WordPress rewrite component.
+ *
+ * @param string $name Name for permalink structure.
+ */
+function remove_permastruct( $name ) {
+	global $wp_rewrite;
+
+	$wp_rewrite->remove_permastruct( $name );
 }
 
 /**
@@ -278,7 +311,7 @@ function add_rewrite_endpoint( $name, $places, $query_var = true ) {
 }
 
 /**
- * Filter the URL base for taxonomies.
+ * Filters the URL base for taxonomies.
  *
  * To remove any manually prepended /index.php/.
  *
@@ -414,7 +447,7 @@ function wp_resolve_numeric_slug_conflicts( $query_vars = array() ) {
 }
 
 /**
- * Examine a url and try to determine the post ID it represents.
+ * Examine a URL and try to determine the post ID it represents.
  *
  * Checks are supposedly from the hosted site blog.
  *
@@ -430,7 +463,7 @@ function url_to_postid( $url ) {
 	global $wp_rewrite;
 
 	/**
-	 * Filter the URL to derive the post ID from.
+	 * Filters the URL to derive the post ID from.
 	 *
 	 * @since 2.2.0
 	 *
@@ -445,13 +478,6 @@ function url_to_postid( $url ) {
 			return $id;
 	}
 
-	// Check to see if we are using rewrite rules
-	$rewrite = $wp_rewrite->wp_rewrite_rules();
-
-	// Not using rewrite rules, and 'p=N' and 'page_id=N' methods failed, so we're out of options
-	if ( empty($rewrite) )
-		return 0;
-
 	// Get rid of the #anchor
 	$url_split = explode('#', $url);
 	$url = $url_split[0];
@@ -461,7 +487,8 @@ function url_to_postid( $url ) {
 	$url = $url_split[0];
 
 	// Set the correct URL scheme.
-	$url = set_url_scheme( $url );
+	$scheme = parse_url( home_url(), PHP_URL_SCHEME );
+	$url = set_url_scheme( $url, $scheme );
 
 	// Add 'www.' if it is absent and should be there
 	if ( false !== strpos(home_url(), '://www.') && false === strpos($url, '://www.') )
@@ -470,6 +497,21 @@ function url_to_postid( $url ) {
 	// Strip 'www.' if it is present and shouldn't be
 	if ( false === strpos(home_url(), '://www.') )
 		$url = str_replace('://www.', '://', $url);
+
+	if ( trim( $url, '/' ) === home_url() && 'page' == get_option( 'show_on_front' ) ) {
+		$page_on_front = get_option( 'page_on_front' );
+
+		if ( $page_on_front && get_post( $page_on_front ) instanceof WP_Post ) {
+			return (int) $page_on_front;
+		}
+	}
+
+	// Check to see if we are using rewrite rules
+	$rewrite = $wp_rewrite->wp_rewrite_rules();
+
+	// Not using rewrite rules, and 'p=N' and 'page_id=N' methods failed, so we're out of options
+	if ( empty($rewrite) )
+		return 0;
 
 	// Strip 'index.php/' if we're not using path info permalinks
 	if ( !$wp_rewrite->using_index_permalinks() )

@@ -68,16 +68,10 @@
 }
 
 #titlediv #title-prompt-text {
-	color: #777;
+	color: #72777c;
 	position: absolute;
 	font-size: 1.7em;
 	padding: 11px 10px;
-}
-
-#poststuff .inside-submitbox,
-#side-sortables .inside-submitbox {
-	margin: 0 3px;
-	font-size: 11px;
 }
 
 input#link_description,
@@ -120,12 +114,12 @@ input#link_url {
 }
 
 #editable-post-name {
-	font-weight: bold;
+	font-weight: 600;
 }
 
 #editable-post-name input {
 	font-size: 13px;
-	font-weight: normal;
+	font-weight: 400;
 	height: 22px;
 	margin: 0;
 	width: 16em;
@@ -135,25 +129,8 @@ input#link_url {
 	float: right;
 }
 
-.submitbox .submit {
-	text-align: right;
-	padding: 12px 10px 10px;
-	font-size: 11px;
-	background-color: #464646;
-	color: #ccc;
-}
-
-.submitbox .submitdelete {
-	text-decoration: none;
-	padding: 1px 2px;
-}
-
-/* @todo: do we really need this? word on the street is we don't and this
-stray rule may actually be compensated for elsewhere. */
-#normal-sortables .submitbox .submitdelete:hover {
-	color: #000;
-	background-color: #f00;
-	border-bottom-color: #f00;
+body.post-new-php .submitbox .submitdelete {
+	display: none;
 }
 
 .submitbox .submit a:hover {
@@ -164,10 +141,6 @@ stray rule may actually be compensated for elsewhere. */
 	margin-bottom: 8px;
 	margin-left: 4px;
 	padding: 6px;
-}
-
-.inside-submitbox #post_status {
-	margin: 2px -2px 2px 0;
 }
 
 #post-status-select {
@@ -271,11 +244,6 @@ ul.category-tabs li,
 	border: 0 none;
 }
 
-#side-sortables .inside-submitbox .insidebox,
-.stuffbox .insidebox {
-	margin: 11px 0;
-}
-
 /* @todo: make this a more generic class */
 ul.category-tabs,
 ul.add-menu-item-tabs,
@@ -292,7 +260,7 @@ ul.add-menu-item-tabs li {
 ul.category-tabs li.tabs,
 ul.add-menu-item-tabs li.tabs,
 .wp-tab-active {
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 	border-bottom-color: #fdfdfd;
 	background-color: #fdfdfd;
 }
@@ -300,7 +268,7 @@ ul.add-menu-item-tabs li.tabs,
 ul.category-tabs li,
 ul.add-menu-item-tabs li,
 ul.wp-tab-bar li {
-	padding: 3px 5px 5px;
+	padding: 3px 5px 6px;
 }
 
 #set-post-thumbnail {
@@ -313,8 +281,8 @@ ul.wp-tab-bar li {
 	height: auto;
 	width: auto;
 	vertical-align: top;
-	background-image: -webkit-linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), -webkit-linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
-	background-image: linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), linear-gradient(45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
+	background-image: -webkit-linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), -webkit-linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
+	background-image: linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4), linear-gradient(-45deg, #c4c4c4 25%, transparent 25%, transparent 75%, #c4c4c4 75%, #c4c4c4);
 	background-position: 100% 0, 10px 10px;
 	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
@@ -368,13 +336,15 @@ form#tags-filter {
 }
 
 #content-resize-handle {
-	background: transparent url(../images/resize.gif) no-repeat scroll left bottom;
+	background: transparent url(../images/resize.gif) no-repeat scroll right bottom;
 	width: 12px;
 	cursor: row-resize;
 }
 
+/*rtl:ignore*/
 .rtl #content-resize-handle {
-	background: transparent url(../images/resize-rtl.gif) no-repeat scroll right bottom;
+	background-image: url(../images/resize-rtl.gif);
+	background-position: left bottom;
 }
 
 .wp-editor-expand #content-resize-handle {
@@ -392,16 +362,6 @@ form#tags-filter {
 
 #wp-content-editor-container {
 	position: relative;
-}
-
-#content-textarea-clone {
-	z-index: -1;
-	position: absolute;
-	top: 0;
-	visibility: hidden;
-	overflow: hidden;
-	max-width: 100%;
-	border: 1px solid transparent;
 }
 
 .wp-editor-expand #wp-content-editor-tools {
@@ -661,19 +621,6 @@ span.wp-media-buttons-icon:before {
 	max-width: 100%;
 }
 
-#poststuff .inside label.spam,
-#poststuff .inside label.deleted {
-	color: red;
-}
-
-#poststuff .inside label.waiting {
-	color: orange;
-}
-
-#poststuff .inside label.approved {
-	color: green;
-}
-
 .ie8 #poststuff .inside #parent_id,
 .ie8 #poststuff .inside #page_template {
 	width: 250px;
@@ -684,6 +631,7 @@ span.wp-media-buttons-icon:before {
 	margin-top: 3px;
 }
 
+#linksubmitdiv .inside, /* Old Link Manager back-compat. */
 #poststuff #submitdiv .inside {
 	margin: 0;
 	padding: 0;
@@ -727,7 +675,7 @@ span.wp-media-buttons-icon:before {
 #postcustomstuff table {
 	margin: 0;
 	width: 100%;
-	border: 1px solid #dfdfdf;
+	border: 1px solid #ddd;
 	border-spacing: 0;
 	background-color: #f9f9f9;
 }
@@ -960,7 +908,7 @@ a.post-state-format.format-link:before {
 	max-height: 200px;
 	overflow: auto;
 	padding: 0 0.9em;
-	border: solid 1px #dfdfdf;
+	border: solid 1px #ddd;
 	background-color: #fdfdfd;
 }
 
@@ -998,15 +946,9 @@ ul.categorychecklist li {
 	border-style: solid;
 }
 
-.form-wrap p,
-.form-wrap label {
-	font-size: 11px;
-}
-
 .form-wrap label {
 	display: block;
-	padding: 2px;
-	font-size: 12px;
+	padding: 2px 0;
 }
 
 .form-field input[type="text"],
@@ -1037,8 +979,8 @@ span.description,
 }
 
 .form-wrap .form-field {
-	margin: 0 0 10px;
-	padding: 8px 0;
+	margin: 1em 0;
+	padding: 0;
 }
 
 .form-wrap .form-field #parent {
@@ -1054,6 +996,9 @@ span.description,
 	margin-top: -10px;
 }
 
+.edit-term-notes {
+	margin-top: 2em;
+}
 
 /*------------------------------------------------------------------------------
   13.0 - Tags
@@ -1105,13 +1050,13 @@ p.popular-tags a {
 }
 
 .ac_results {
+	display: none;
+	margin: -1px 0 0;
 	padding: 0;
-	margin: 0;
 	list-style: none;
 	position: absolute;
 	z-index: 10000;
-	display: none;
-	border: 1px solid #808080;
+	border: 1px solid #5b9dd9;
 	background-color: #fff;
 }
 
@@ -1120,14 +1065,16 @@ p.popular-tags a {
 }
 
 .ac_results li {
-	padding: 2px 5px;
+	margin: 0;
+	padding: 5px 10px;
 	white-space: nowrap;
-	color: #101010;
 	text-align: right;
 }
 
-.ac_over {
-	background-color: #f0f0b8;
+.ac_results .ac_over,
+.ac_over .ac_match {
+	background-color: #0073aa;
+	color: #fff;
 	cursor: pointer;
 }
 
@@ -1144,6 +1091,29 @@ p.popular-tags a {
 .comment-ays th,
 .comment-ays td {
 	padding: 10px 15px;
+}
+
+.comment-ays .comment-content ul {
+	list-style: initial;
+	margin-right: 2em;
+}
+
+.comment-ays .comment-content a[href]:after {
+	content: '(' attr( href ) ')';
+	display: inline-block;
+	padding: 0 4px;
+	color: #72777C;
+	font-size: 13px;
+	word-break: break-all;
+}
+
+.comment-ays .comment-content p.edit-comment {
+	margin-top: 10px;
+}
+
+.comment-ays .comment-content p.edit-comment a[href]:after {
+	content: '';
+	padding: 0;
 }
 
 .comment-ays-submit .button-cancel {
@@ -1188,7 +1158,7 @@ table.links-table {
 }
 
 .links-table th {
-	font-weight: normal;
+	font-weight: 400;
 	text-align: right;
 	vertical-align: top;
 	min-width: 80px;
@@ -1318,14 +1288,16 @@ table.links-table {
   (min-resolution: 120dpi) {
 	#content-resize-handle,
 	#post-body .wp_themeSkin .mceStatusbar a.mceResize {
-		background: transparent url(../images/resize-2x.gif) no-repeat scroll left bottom;
+		background: transparent url(../images/resize-2x.gif) no-repeat scroll right bottom;
 		-webkit-background-size: 11px 11px;
 		background-size: 11px 11px;
 	}
 
+	/*rtl:ignore*/
 	.rtl #content-resize-handle,
 	.rtl #post-body .wp_themeSkin .mceStatusbar a.mceResize {
-		background: transparent url(../images/resize-rtl-2x.gif) no-repeat scroll left bottom;
+		background-image: url(../images/resize-rtl-2x.gif);
+		background-position: left bottom;
 	}
 }
 
@@ -1527,17 +1499,14 @@ table.links-table {
 	}
 
 	#wp-content-media-buttons a {
-		font-size: 16px;
-		line-height: 37px;
-		height: 39px;
-		padding: 0 15px 0 20px;
+		font-size: 14px;
+		padding: 6px 10px;
 	}
 
 	.wp-media-buttons span.wp-media-buttons-icon,
 	.wp-media-buttons span.jetpack-contact-form-icon {
 		width: 22px !important;
-		margin-top: -3px !important;
-		margin-right: -5px !important;
+		margin-right: -2px !important;
 	}
 
 	.wp-media-buttons .add_media span.wp-media-buttons-icon:before,
@@ -1586,13 +1555,5 @@ table.links-table {
 	.links-table th,
 	.links-table td {
 		padding: 10px 0;
-	}
-}
-
-@media only screen and (max-width: 500px) {
-	/* Align Add Media + Visual + Text tabs */
-	#wp-content-media-buttons a {
-		font-size: 14px;
-		padding: 0 10px 0 10px;
 	}
 }

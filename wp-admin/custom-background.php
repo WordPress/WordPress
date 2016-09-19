@@ -410,7 +410,7 @@ if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	}
 
 	/**
-	 * AJAX handler for adding custom background context to an attachment.
+	 * Ajax handler for adding custom background context to an attachment.
 	 *
 	 * Triggered when the user adds a new background image from the
 	 * Media Manager.

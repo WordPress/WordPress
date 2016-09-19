@@ -30,18 +30,13 @@ $charset_collate = $wpdb->get_charset_collate();
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $scope Optional. The tables for which to retrieve SQL. Can be all, global, ms_global, or blog tables. Defaults to all.
- * @param int $blog_id Optional. The blog ID for which to retrieve SQL. Default is the current blog ID.
+ * @param int $blog_id Optional. The site ID for which to retrieve SQL. Default is the current site ID.
  * @return string The SQL needed to create the requested tables.
  */
 function wp_get_db_schema( $scope = 'all', $blog_id = null ) {
 	global $wpdb;
 
-	$charset_collate = '';
-
-	if ( ! empty($wpdb->charset) )
-		$charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-	if ( ! empty($wpdb->collate) )
-		$charset_collate .= " COLLATE $wpdb->collate";
+	$charset_collate = $wpdb->get_charset_collate();
 
 	if ( $blog_id && $blog_id != $wpdb->blogid )
 		$old_blog_id = $wpdb->set_blog_id( $blog_id );
@@ -170,7 +165,7 @@ CREATE TABLE $wpdb->posts (
   post_status varchar(20) NOT NULL default 'publish',
   comment_status varchar(20) NOT NULL default 'open',
   ping_status varchar(20) NOT NULL default 'open',
-  post_password varchar(20) NOT NULL default '',
+  post_password varchar(255) NOT NULL default '',
   post_name varchar(200) NOT NULL default '',
   to_ping text NOT NULL,
   pinged text NOT NULL,
@@ -204,7 +199,8 @@ CREATE TABLE $wpdb->posts (
   display_name varchar(250) NOT NULL default '',
   PRIMARY KEY  (ID),
   KEY user_login_key (user_login),
-  KEY user_nicename (user_nicename)
+  KEY user_nicename (user_nicename),
+  KEY user_email (user_email)
 ) $charset_collate;\n";
 
 	// Multisite users table
@@ -223,7 +219,8 @@ CREATE TABLE $wpdb->posts (
   deleted tinyint(2) NOT NULL default '0',
   PRIMARY KEY  (ID),
   KEY user_login_key (user_login),
-  KEY user_nicename (user_nicename)
+  KEY user_nicename (user_nicename),
+  KEY user_email (user_email)
 ) $charset_collate;\n";
 
 	// Usermeta.
@@ -384,7 +381,7 @@ function populate_options() {
 	$timezone_string = '';
 	$gmt_offset = 0;
 	/* translators: default GMT offset or timezone string. Must be either a valid offset (-12 to 14)
-	   or a valid timezone string (America/New_York). See http://us3.php.net/manual/en/timezones.php
+	   or a valid timezone string (America/New_York). See https://secure.php.net/manual/en/timezones.php
 	   for all timezone strings supported by PHP.
 	*/
 	$offset_or_tz = _x( '0', 'default GMT offset or timezone string' );
@@ -397,7 +394,7 @@ function populate_options() {
 	'siteurl' => $guessurl,
 	'home' => $guessurl,
 	'blogname' => __('My Site'),
-	/* translators: blog tagline */
+	/* translators: site tagline */
 	'blogdescription' => __('Just another WordPress site'),
 	'users_can_register' => 0,
 	'admin_email' => 'you@example.com',
@@ -418,15 +415,16 @@ function populate_options() {
 	'default_ping_status' => 'open',
 	'default_pingback_flag' => 1,
 	'posts_per_page' => 10,
-	/* translators: default date format, see http://php.net/date */
+	/* translators: default date format, see https://secure.php.net/date */
 	'date_format' => __('F j, Y'),
-	/* translators: default time format, see http://php.net/date */
+	/* translators: default time format, see https://secure.php.net/date */
 	'time_format' => __('g:i a'),
-	/* translators: links last updated date format, see http://php.net/date */
+	/* translators: links last updated date format, see https://secure.php.net/date */
 	'links_updated_date_format' => __('F j, Y g:i a'),
 	'comment_moderation' => 0,
 	'moderation_notify' => 1,
 	'permalink_structure' => '',
+	'rewrite_rules' => '',
 	'hack_file' => 0,
 	'blog_charset' => 'UTF-8',
 	'moderation_keys' => '',
@@ -528,7 +526,7 @@ function populate_options() {
 
 	// 3.0 multisite
 	if ( is_multisite() ) {
-		/* translators: blog tagline */
+		/* translators: site tagline */
 		$options[ 'blogdescription' ] = sprintf(__('Just another %s site'), get_current_site()->site_name );
 		$options[ 'permalink_structure' ] = '/%year%/%monthnum%/%day%/%postname%/';
 	}
@@ -888,7 +886,13 @@ endif;
  * @global int        $wp_db_version
  * @global WP_Rewrite $wp_rewrite
  *
- * @param int $network_id ID of network to populate.
+ * @param int    $network_id        ID of network to populate.
+ * @param string $domain            The domain name for the network (eg. "example.com").
+ * @param string $email             Email address for the network administrator.
+ * @param string $site_name         The name of the network.
+ * @param string $path              Optional. The path to append to the network's domain name. Default '/'.
+ * @param bool   $subdomain_install Optional. Whether the network is a subdomain install or a subdirectory install.
+ *                                  Default false, meaning the network is a subdirectory install.
  * @return bool|WP_Error True on success, or WP_Error on warning (with the install otherwise successful,
  *                       so the error code must be checked) or failure.
  */
@@ -1019,7 +1023,7 @@ We hope you enjoy your new site. Thanks!
 		$sitemeta['illegal_names'][] = 'blog';
 
 	/**
-	 * Filter meta for a network on creation.
+	 * Filters meta for a network on creation.
 	 *
 	 * @since 3.7.0
 	 *

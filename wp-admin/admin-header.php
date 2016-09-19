@@ -18,12 +18,11 @@ if ( ! defined( 'WP_ADMIN' ) )
  * @global WP_Screen $current_screen
  * @global WP_Locale $wp_locale
  * @global string    $pagenow
- * @global string    $wp_version
  * @global string    $update_title
  * @global int       $total_update_count
  * @global string    $parent_file
  */
-global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow, $wp_version,
+global $title, $hook_suffix, $current_screen, $wp_locale, $pagenow,
 	$update_title, $total_update_count, $parent_file;
 
 // Catch plugins that include admin-header.php before admin.php completes.
@@ -46,7 +45,7 @@ else
 	$admin_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $admin_title );
 
 /**
- * Filter the title tag content for an admin page.
+ * Filters the title tag content for an admin page.
  *
  * @since 3.1.0
  *
@@ -96,7 +95,7 @@ do_action( 'admin_enqueue_scripts', $hook_suffix );
  *
  * @since 2.6.0
  */
-do_action( "admin_print_styles-$hook_suffix" );
+do_action( "admin_print_styles-{$hook_suffix}" );
 
 /**
  * Fires when styles are printed for all admin pages.
@@ -110,7 +109,7 @@ do_action( 'admin_print_styles' );
  *
  * @since 2.1.0
  */
-do_action( "admin_print_scripts-$hook_suffix" );
+do_action( "admin_print_scripts-{$hook_suffix}" );
 
 /**
  * Fires when scripts are printed for all admin pages.
@@ -127,7 +126,7 @@ do_action( 'admin_print_scripts' );
  *
  * @since 2.1.0
  */
-do_action( "admin_head-$hook_suffix" );
+do_action( "admin_head-{$hook_suffix}" );
 
 /**
  * Fires in head section for all admin pages.
@@ -154,8 +153,8 @@ if ( $current_screen->post_type )
 if ( $current_screen->taxonomy )
 	$admin_body_class .= ' taxonomy-' . $current_screen->taxonomy;
 
-$admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( $wp_version ) );
-$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', $wp_version ) );
+$admin_body_class .= ' branch-' . str_replace( array( '.', ',' ), '-', floatval( get_bloginfo( 'version' ) ) );
+$admin_body_class .= ' version-' . str_replace( '.', '-', preg_replace( '/^([.0-9]+).*/', '$1', get_bloginfo( 'version' ) ) );
 $admin_body_class .= ' admin-color-' . sanitize_html_class( get_user_option( 'admin_color' ), 'fresh' );
 $admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
@@ -174,7 +173,7 @@ $admin_body_class .= ' no-customize-support no-svg';
 </head>
 <?php
 /**
- * Filter the CSS classes for the body tag in the admin.
+ * Filters the CSS classes for the body tag in the admin.
  *
  * This filter differs from the {@see 'post_class'} and {@see 'body_class'} filters
  * in two important ways:
@@ -229,21 +228,21 @@ $current_screen->render_screen_meta();
 
 if ( is_network_admin() ) {
 	/**
-	 * Print network admin screen notices.
+	 * Prints network admin screen notices.
 	 *
 	 * @since 3.1.0
 	 */
 	do_action( 'network_admin_notices' );
 } elseif ( is_user_admin() ) {
 	/**
-	 * Print user admin screen notices.
+	 * Prints user admin screen notices.
 	 *
 	 * @since 3.1.0
 	 */
 	do_action( 'user_admin_notices' );
 } else {
 	/**
-	 * Print admin screen notices.
+	 * Prints admin screen notices.
 	 *
 	 * @since 3.1.0
 	 */
@@ -251,7 +250,7 @@ if ( is_network_admin() ) {
 }
 
 /**
- * Print generic admin screen notices.
+ * Prints generic admin screen notices.
  *
  * @since 3.1.0
  */

@@ -15,7 +15,7 @@ if ( !defined( 'IFRAME_REQUEST' ) && isset( $_GET['tab'] ) && ( 'plugin-informat
 require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! current_user_can('install_plugins') )
-	wp_die(__('You do not have sufficient permissions to install plugins on this site.'));
+	wp_die(__('Sorry, you are not allowed to install plugins on this site.'));
 
 if ( is_multisite() && ! is_network_admin() ) {
 	wp_redirect( network_admin_url( 'plugin-install.php' ) );
@@ -64,22 +64,33 @@ wp_enqueue_script( 'updates' );
  *
  * @since 2.7.0
  */
-do_action( "install_plugins_pre_$tab" );
+do_action( "install_plugins_pre_{$tab}" );
+
+/*
+ * Call the pre upload action on every non-upload plugin install screen
+ * because the form is always displayed on these screens.
+ */
+if ( 'upload' !== $tab ) {
+	/** This action is documented in wp-admin/plugin-install.php */
+	do_action( 'install_plugins_pre_upload' );
+}
 
 get_current_screen()->add_help_tab( array(
 'id'		=> 'overview',
 'title'		=> __('Overview'),
 'content'	=>
-	'<p>' . sprintf(__('Plugins hook into WordPress to extend its functionality with custom features. Plugins are developed independently from the core WordPress application by thousands of developers all over the world. All plugins in the official <a href="%s" target="_blank">WordPress.org Plugin Directory</a> are compatible with the license WordPress uses. You can find new plugins to install by searching or browsing the Directory right here in your own Plugins section.'), 'https://wordpress.org/plugins/') . '</p>'
+	'<p>' . sprintf( __('Plugins hook into WordPress to extend its functionality with custom features. Plugins are developed independently from the core WordPress application by thousands of developers all over the world. All plugins in the official <a href="%s" target="_blank">WordPress Plugin Directory</a> are compatible with the license WordPress uses.' ), __( 'https://wordpress.org/plugins/' ) ) . '</p>' .
+	'<p>' . __( 'You can find new plugins to install by searching or browsing the directory right here in your own Plugins section.' ) . ' <span id="live-search-desc" class="hide-if-no-js">' . __( 'The search results will be updated as you type.' ) . '</span></p>'
+
 ) );
 get_current_screen()->add_help_tab( array(
 'id'		=> 'adding-plugins',
 'title'		=> __('Adding Plugins'),
 'content'	=>
-	'<p>' . __('If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress.org Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting popular tags. Tags in larger type mean more plugins have been labeled with that tag.') . '</p>' .
-	'<p>' . __('If you just want to get an idea of what&#8217;s available, you can browse Featured and Popular plugins by using the links in the upper left of the screen. These sections rotate regularly.') . '</p>' .
-	'<p>' . __('You can also browse a user&#8217;s favorite plugins, by using the Favorites link in the upper left of the screen and entering their WordPress.org username.') . '</p>' .
-	'<p>' . __('If you want to install a plugin that you&#8217;ve downloaded elsewhere, click the Upload link in the upper left. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.') . '</p>'
+	'<p>' . __('If you know what you&#8217;re looking for, Search is your best bet. The Search screen has options to search the WordPress Plugin Directory for a particular Term, Author, or Tag. You can also search the directory by selecting popular tags. Tags in larger type mean more plugins have been labeled with that tag.') . '</p>' .
+	'<p>' . __( 'If you just want to get an idea of what&#8217;s available, you can browse Featured and Popular plugins by using the links above the plugins list. These sections rotate regularly.' ) . '</p>' .
+	'<p>' . __( 'You can also browse a user&#8217;s favorite plugins, by using the Favorites link above the plugins list and entering their WordPress.org username.' ) . '</p>' .
+	'<p>' . __( 'If you want to install a plugin that you&#8217;ve downloaded elsewhere, click the Upload Plugin button above the plugins list. You will be prompted to upload the .zip package, and once uploaded, you can activate the new plugin.' ) . '</p>'
 ) );
 
 get_current_screen()->set_help_sidebar(
@@ -99,24 +110,36 @@ get_current_screen()->set_screen_reader_content( array(
  */
 include(ABSPATH . 'wp-admin/admin-header.php');
 ?>
-<div class="wrap">
+<div class="wrap <?php echo esc_attr( "plugin-install-tab-$tab" ); ?>">
 <h1>
 	<?php
 	echo esc_html( $title );
 	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_plugins' ) ) {
-		if ( $tab === 'upload' ) {
-			$href = self_admin_url( 'plugin-install.php' );
-			$text = _x( 'Browse', 'plugins' );
-		} else {
-			$href = self_admin_url( 'plugin-install.php?tab=upload' );
-			$text = __( 'Upload Plugin' );
-		}
-		echo ' <a href="' . $href . '" class="upload page-title-action">' . $text . '</a>';
+		printf( ' <a href="%s" class="upload-view-toggle page-title-action"><span class="upload">%s</span><span class="browse">%s</span></a>',
+			( 'upload' === $tab ) ? self_admin_url( 'plugin-install.php' ) : self_admin_url( 'plugin-install.php?tab=upload' ),
+			__( 'Upload Plugin' ),
+			__( 'Browse Plugins' )
+		);
 	}
 	?>
 </h1>
 
 <?php
+/*
+ * Output the upload plugin form on every non-upload plugin install screen, so it can be
+ * displayed via JavaScript rather then opening up the devoted upload plugin page.
+ */
+if ( $tab !== 'upload' ) {
+	?>
+	<div class="upload-plugin-wrap">
+		<?php
+		/** This action is documented in wp-admin/plugin-install.php */
+		do_action( 'install_plugins_upload' );
+		?>
+	</div>
+	<?php
+}
+
 if ( $tab !== 'upload' ) {
 	$wp_list_table->views();
 	echo '<br class="clear" />';
@@ -132,11 +155,14 @@ if ( $tab !== 'upload' ) {
  *
  * @param int $paged The current page number of the plugins list table.
  */
-do_action( "install_plugins_$tab", $paged ); ?>
+do_action( "install_plugins_{$tab}", $paged ); ?>
+
+	<span class="spinner"></span>
 </div>
 
 <?php
 wp_print_request_filesystem_credentials_modal();
+wp_print_admin_notice_templates();
 
 /**
  * WordPress Administration Template Footer.

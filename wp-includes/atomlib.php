@@ -159,7 +159,7 @@ class AtomParser {
 
     function start_element($parser, $name, $attrs) {
 
-        $tag = array_pop(split(":", $name));
+        $tag = array_pop(explode(":", $name));
 
         switch($name) {
             case $this->NS . ':feed':
@@ -238,7 +238,7 @@ class AtomParser {
 
     function end_element($parser, $name) {
 
-        $tag = array_pop(split(":", $name));
+        $tag = array_pop(explode(":", $name));
 
         $ccount = count($this->in_content);
 
@@ -313,7 +313,7 @@ class AtomParser {
 
     function ns_to_prefix($qname, $attr=false) {
         # split 'http://www.w3.org/1999/xhtml:div' into ('http','//www.w3.org/1999/xhtml','div')
-        $components = split(":", $qname);
+        $components = explode(":", $qname);
 
         # grab the last one (e.g 'div')
         $name = array_pop($components);

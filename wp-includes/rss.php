@@ -16,7 +16,7 @@
 /**
  * Deprecated. Use SimplePie (class-simplepie.php) instead.
  */
-_deprecated_file( basename( __FILE__ ), '3.0', WPINC . '/class-simplepie.php' );
+_deprecated_file( basename( __FILE__ ), '3.0.0', WPINC . '/class-simplepie.php' );
 
 /**
  * Fires before MagpieRSS is loaded, to optionally replace it.
@@ -63,12 +63,12 @@ class MagpieRSS {
 		# if PHP xml isn't compiled in, die
 		#
 		if ( !function_exists('xml_parser_create') )
-			trigger_error( "Failed to load PHP's XML Extension. http://www.php.net/manual/en/ref.xml.php" );
+			trigger_error( "Failed to load PHP's XML Extension. https://secure.php.net/manual/en/ref.xml.php" );
 
 		$parser = @xml_parser_create();
 
 		if ( !is_resource($parser) )
-			trigger_error( "Failed to create an instance of PHP's XML parser. http://www.php.net/manual/en/ref.xml.php");
+			trigger_error( "Failed to create an instance of PHP's XML parser. https://secure.php.net/manual/en/ref.xml.php");
 
 		$this->parser = $parser;
 
@@ -114,7 +114,7 @@ class MagpieRSS {
 		// check for a namespace, and split if found
 		$ns	= false;
 		if ( strpos( $element, ':' ) ) {
-			list($ns, $el) = split( ':', $element, 2);
+			list($ns, $el) = explode( ':', $element, 2);
 		}
 		if ( $ns and $ns != 'rdf' ) {
 			$this->current_namespace = $ns;

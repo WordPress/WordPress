@@ -30,20 +30,30 @@
 	function generatePassword() {
 		if ( typeof zxcvbn !== 'function' ) {
 			setTimeout( generatePassword, 50 );
-		} else {
+			return;
+		} else if ( ! $pass1.val() ) {
+			// zxcvbn loaded before user entered password.
 			$pass1.val( $pass1.data( 'pw' ) );
-			$pass1.trigger( 'pwupdate' ).trigger( 'wp-check-valid-field' );
-			if ( 1 !== parseInt( $toggleButton.data( 'start-masked' ), 10 ) ) {
-				$pass1Wrap.addClass( 'show-password' );
-			} else {
-				$toggleButton.trigger( 'click' );
-			}
+			$pass1.trigger( 'pwupdate' );
+			showOrHideWeakPasswordCheckbox();
 		}
+		else {
+			// zxcvbn loaded after the user entered password, check strength.
+			check_pass_strength();
+			showOrHideWeakPasswordCheckbox();
+		}
+
+		if ( 1 !== parseInt( $toggleButton.data( 'start-masked' ), 10 ) ) {
+			$pass1Wrap.addClass( 'show-password' );
+		} else {
+			$toggleButton.trigger( 'click' );
+		}
+
+		// Once zxcvbn loads, passwords strength is known.
+		$( '#pw-weak-text-label' ).html( userProfileL10n.warnWeak );
 	}
 
 	function bindPass1() {
-		var passStrength = $('#pass-strength-result')[0];
-
 		currentPass = $pass1.val();
 
 		$pass1Wrap = $pass1.parent();
@@ -82,19 +92,7 @@
 				$pass1Text.val( currentPass );
 			}
 			$pass1.add( $pass1Text ).removeClass( 'short bad good strong' );
-
-			if ( passStrength.className ) {
-				$pass1.add( $pass1Text ).addClass( passStrength.className );
-				if ( 'short' === passStrength.className || 'bad' === passStrength.className ) {
-					if ( ! $weakCheckbox.prop( 'checked' ) ) {
-						$submitButtons.prop( 'disabled', true );
-					}
-					$weakRow.show();
-				} else {
-					$submitButtons.prop( 'disabled', false );
-					$weakRow.hide();
-				}
-			}
+			showOrHideWeakPasswordCheckbox();
 		} );
 	}
 
@@ -262,12 +260,14 @@
 
 			resetToggle();
 
-			// Clear password field to prevent update
-			$pass1.val( '' ).trigger( 'pwupdate' );
-			$submitButtons.prop( 'disabled', false );
+			if ( $pass1Row.closest( 'form' ).is( '#your-profile' ) ) {
+				// Clear password field to prevent update
+				$pass1.val( '' ).trigger( 'pwupdate' );
+				$submitButtons.prop( 'disabled', false );
+			}
 		} );
 
-		$pass1Row.closest('form').on( 'submit', function () {
+		$pass1Row.closest( 'form' ).on( 'submit', function () {
 			updateLock = false;
 
 			$pass1.prop( 'disabled', false );
@@ -289,6 +289,9 @@
 		strength = wp.passwordStrength.meter( pass1, wp.passwordStrength.userInputBlacklist(), pass1 );
 
 		switch ( strength ) {
+			case -1:
+				$( '#pass-strength-result' ).addClass( 'bad' ).html( pwsL10n.unknown );
+				break;
 			case 2:
 				$('#pass-strength-result').addClass('bad').html( pwsL10n.bad );
 				break;
@@ -303,6 +306,23 @@
 				break;
 			default:
 				$('#pass-strength-result').addClass('short').html( pwsL10n['short'] );
+		}
+	}
+
+	function showOrHideWeakPasswordCheckbox() {
+		var passStrength = $('#pass-strength-result')[0];
+
+		if ( passStrength.className ) {
+			$pass1.add( $pass1Text ).addClass( passStrength.className );
+			if ( 'short' === passStrength.className || 'bad' === passStrength.className ) {
+				if ( ! $weakCheckbox.prop( 'checked' ) ) {
+					$submitButtons.prop( 'disabled', true );
+				}
+				$weakRow.show();
+			} else {
+				$submitButtons.prop( 'disabled', false );
+				$weakRow.hide();
+			}
 		}
 	}
 

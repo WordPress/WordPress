@@ -28,7 +28,7 @@ class WP_HTTP_Response {
 	 *
 	 * @since 4.4.0
 	 * @access public
-	 * @var int
+	 * @var array
 	 */
 	public $headers;
 
@@ -37,7 +37,7 @@ class WP_HTTP_Response {
 	 *
 	 * @since 4.4.0
 	 * @access public
-	 * @var array
+	 * @var int
 	 */
 	public $status;
 

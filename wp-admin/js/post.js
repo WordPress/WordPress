@@ -73,7 +73,7 @@ WPSetThumbnailHTML = function(html){
 
 WPSetThumbnailID = function(id){
 	var field = $('input[value="_thumbnail_id"]', '#list-table');
-	if ( field.size() > 0 ) {
+	if ( field.length > 0 ) {
 		$('#meta\\[' + field.attr('id').match(/[0-9]+/) + '\\]\\[value\\]').text(id);
 	}
 };
@@ -272,6 +272,14 @@ jQuery(document).ready( function($) {
 
 			if ( typeof commentReply !== 'undefined' ) {
 				/*
+				 * Warn the user they have an unsaved comment before submitting
+				 * the post data for update.
+				 */
+				if ( ! commentReply.discardCommentChanges() ) {
+					return false;
+				}
+
+				/*
 				 * Close the comment edit/reply form if open to stop the form
 				 * action from interfering with the post's form action.
 				 */
@@ -374,6 +382,10 @@ jQuery(document).ready( function($) {
 		$( '.autosave-message' ).text( postL10n.savingText );
 	}).on( 'after-autosave.edit-post', function( event, data ) {
 		$( '.autosave-message' ).text( data.message );
+
+		if ( $( document.body ).hasClass( 'post-new-php' ) ) {
+			$( '.submitbox .submitdelete' ).show();
+		}
 	});
 
 	$(window).on( 'beforeunload.edit-post', function() {
@@ -395,16 +407,31 @@ jQuery(document).ready( function($) {
 			return;
 		}
 
-		$.ajax({
-			type: 'POST',
-			url: ajaxurl,
-			async: false,
-			data: {
-				action: 'wp-remove-post-lock',
-				_wpnonce: $('#_wpnonce').val(),
-				post_ID: $('#post_ID').val(),
-				active_post_lock: $('#active_post_lock').val()
+		var data = {
+			action: 'wp-remove-post-lock',
+			_wpnonce: $('#_wpnonce').val(),
+			post_ID: $('#post_ID').val(),
+			active_post_lock: $('#active_post_lock').val()
+		};
+
+		if (window.FormData && window.navigator.sendBeacon) {
+			var formData = new window.FormData();
+
+			$.each(data, function(key, value) {
+				formData.append(key, value);
+			});
+
+			if (window.navigator.sendBeacon(ajaxurl, formData)) {
+				return;
 			}
+		}
+
+		// Fall back to a synchronous POST request.
+		// See https://developer.mozilla.org/en-US/docs/Web/API/Navigator/sendBeacon
+		$.post({
+			async: false,
+			data: data,
+			url: ajaxurl
 		});
 	});
 
@@ -412,7 +439,7 @@ jQuery(document).ready( function($) {
 	if ( $('#tagsdiv-post_tag').length ) {
 		window.tagBox && window.tagBox.init();
 	} else {
-		$('#side-sortables, #normal-sortables, #advanced-sortables').children('div.postbox').each(function(){
+		$('.meta-box-sortables').children('div.postbox').each(function(){
 			if ( this.id.indexOf('tagsdiv-') === 0 ) {
 				window.tagBox && window.tagBox.init();
 				return false;

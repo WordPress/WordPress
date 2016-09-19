@@ -21,7 +21,7 @@ if ( ! isset( $_GET['post_type'] ) ) {
 } elseif ( in_array( $_GET['post_type'], get_post_types( array('show_ui' => true ) ) ) ) {
 	$post_type = $_GET['post_type'];
 } else {
-	wp_die( __('Invalid post type') );
+	wp_die( __( 'Invalid post type.' ) );
 }
 $post_type_object = get_post_type_object( $post_type );
 
@@ -57,7 +57,7 @@ $editing = true;
 if ( ! current_user_can( $post_type_object->cap->edit_posts ) || ! current_user_can( $post_type_object->cap->create_posts ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to create posts as this user.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to create posts as this user.' ) . '</p>',
 		403
 	);
 }

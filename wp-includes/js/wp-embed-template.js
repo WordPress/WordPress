@@ -26,7 +26,7 @@
 			share_dialog_close = document.querySelector( '.wp-embed-share-dialog-close' ),
 			share_input = document.querySelectorAll( '.wp-embed-share-input' ),
 			share_dialog_tabs = document.querySelectorAll( '.wp-embed-share-tab-button button' ),
-			links = document.getElementsByTagName( 'a' ),
+			featured_image = document.querySelector( '.wp-embed-featured-image img' ),
 			i;
 
 		if ( share_input ) {
@@ -139,6 +139,13 @@
 		 */
 		sendEmbedMessage( 'height', Math.ceil( document.body.getBoundingClientRect().height ) );
 
+		// Send the document's height again after the featured image has been loaded.
+		if ( featured_image ) {
+			featured_image.addEventListener( 'load', function() {
+				sendEmbedMessage( 'height', Math.ceil( document.body.getBoundingClientRect().height ) );
+			} );
+		}
+
 		/**
 		 * Detect clicks to external (_top) links.
 		 */
@@ -154,13 +161,13 @@
 			/**
 			 * Send link target to the parent (embedding) site.
 			 */
-			sendEmbedMessage( 'link', href );
-			e.preventDefault();
+			if ( href ) {
+				sendEmbedMessage( 'link', href );
+				e.preventDefault();
+			}
 		}
 
-		for ( i = 0; i < links.length; i++ ) {
-			links[ i ].addEventListener( 'click', linkClickHandler );
-		}
+		document.addEventListener( 'click', linkClickHandler );
 	}
 
 	/**

@@ -841,6 +841,28 @@ class WP_Rewrite {
 		}
 	}
 
+
+	/**
+	 * Removes an existing rewrite tag.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @see WP_Rewrite::$rewritecode
+	 * @see WP_Rewrite::$rewritereplace
+	 * @see WP_Rewrite::$queryreplace
+	 *
+	 * @param string $tag Name of the rewrite tag to remove.
+	 */
+	public function remove_rewrite_tag( $tag ) {
+		$position = array_search( $tag, $this->rewritecode );
+		if ( false !== $position && null !== $position ) {
+			unset( $this->rewritecode[ $position ] );
+			unset( $this->rewritereplace[ $position ] );
+			unset( $this->queryreplace[ $position ] );
+		}
+	}
+
 	/**
 	 * Generates rewrite rules from a permalink structure.
 	 *
@@ -1000,6 +1022,10 @@ class WP_Rewrite {
 			$feedmatch2 = $match . $feedregex2;
 			$feedquery2 = $feedindex . '?' . $query . '&feed=' . $this->preg_index($num_toks + 1);
 
+			// Create query and regex for embeds.
+			$embedmatch = $match . $embedregex;
+			$embedquery = $embedindex . '?' . $query . '&embed=true';
+
 			// If asked to, turn the feed queries into comment feed ones.
 			if ( $forcomments ) {
 				$feedquery .= '&withcomments=1';
@@ -1011,7 +1037,7 @@ class WP_Rewrite {
 
 			// ...adding on /feed/ regexes => queries
 			if ( $feed ) {
-				$rewrite = array( $feedmatch => $feedquery, $feedmatch2 => $feedquery2 );
+				$rewrite = array( $feedmatch => $feedquery, $feedmatch2 => $feedquery2, $embedmatch => $embedquery );
 			}
 
 			//...and /page/xx ones
@@ -1226,13 +1252,13 @@ class WP_Rewrite {
 	/**
 	 * Constructs rewrite matches and queries from permalink structure.
 	 *
-	 * Runs the action 'generate_rewrite_rules' with the parameter that is an
+	 * Runs the action {@see 'generate_rewrite_rules'} with the parameter that is an
 	 * reference to the current WP_Rewrite instance to further manipulate the
-	 * permalink structures and rewrite rules. Runs the 'rewrite_rules_array'
+	 * permalink structures and rewrite rules. Runs the {@see 'rewrite_rules_array'}
 	 * filter on the full rewrite rule array.
 	 *
 	 * There are two ways to manipulate the rewrite rules, one by hooking into
-	 * the 'generate_rewrite_rules' action and gaining full control of the
+	 * the {@see 'generate_rewrite_rules'} action and gaining full control of the
 	 * object or just manipulating the rewrite rule array before it is passed
 	 * from the function.
 	 *
@@ -1271,7 +1297,7 @@ class WP_Rewrite {
 		$post_rewrite = $this->generate_rewrite_rules( $this->permalink_structure, EP_PERMALINK );
 
 		/**
-		 * Filter rewrite rules used for "post" archives.
+		 * Filters rewrite rules used for "post" archives.
 		 *
 		 * @since 1.5.0
 		 *
@@ -1283,7 +1309,7 @@ class WP_Rewrite {
 		$date_rewrite = $this->generate_rewrite_rules($this->get_date_permastruct(), EP_DATE);
 
 		/**
-		 * Filter rewrite rules used for date archives.
+		 * Filters rewrite rules used for date archives.
 		 *
 		 * Likely date archives would include /yyyy/, /yyyy/mm/, and /yyyy/mm/dd/.
 		 *
@@ -1297,7 +1323,7 @@ class WP_Rewrite {
 		$root_rewrite = $this->generate_rewrite_rules($this->root . '/', EP_ROOT);
 
 		/**
-		 * Filter rewrite rules used for root-level archives.
+		 * Filters rewrite rules used for root-level archives.
 		 *
 		 * Likely root-level archives would include pagination rules for the homepage
 		 * as well as site-wide post feeds (e.g. /feed/, and /feed/atom/).
@@ -1312,7 +1338,7 @@ class WP_Rewrite {
 		$comments_rewrite = $this->generate_rewrite_rules($this->root . $this->comments_base, EP_COMMENTS, false, true, true, false);
 
 		/**
-		 * Filter rewrite rules used for comment feed archives.
+		 * Filters rewrite rules used for comment feed archives.
 		 *
 		 * Likely comments feed archives include /comments/feed/, and /comments/feed/atom/.
 		 *
@@ -1327,7 +1353,7 @@ class WP_Rewrite {
 		$search_rewrite = $this->generate_rewrite_rules($search_structure, EP_SEARCH);
 
 		/**
-		 * Filter rewrite rules used for search archives.
+		 * Filters rewrite rules used for search archives.
 		 *
 		 * Likely search-related archives include /search/search+query/ as well as
 		 * pagination and feed paths for a search.
@@ -1342,7 +1368,7 @@ class WP_Rewrite {
 		$author_rewrite = $this->generate_rewrite_rules($this->get_author_permastruct(), EP_AUTHORS);
 
 		/**
-		 * Filter rewrite rules used for author archives.
+		 * Filters rewrite rules used for author archives.
 		 *
 		 * Likely author archives would include /author/author-name/, as well as
 		 * pagination and feed paths for author archives.
@@ -1357,7 +1383,7 @@ class WP_Rewrite {
 		$page_rewrite = $this->page_rewrite_rules();
 
 		/**
-		 * Filter rewrite rules used for "page" post type archives.
+		 * Filters rewrite rules used for "page" post type archives.
 		 *
 		 * @since 1.5.0
 		 *
@@ -1377,7 +1403,7 @@ class WP_Rewrite {
 			}
 
 			/**
-			 * Filter rewrite rules used for individual permastructs.
+			 * Filters rewrite rules used for individual permastructs.
 			 *
 			 * The dynamic portion of the hook name, `$permastructname`, refers
 			 * to the name of the registered permastruct, e.g. 'post_tag' (tags),
@@ -1387,11 +1413,11 @@ class WP_Rewrite {
 			 *
 			 * @param array $rules The rewrite rules generated for the current permastruct.
 			 */
-			$rules = apply_filters( $permastructname . '_rewrite_rules', $rules );
+			$rules = apply_filters( "{$permastructname}_rewrite_rules", $rules );
 			if ( 'post_tag' == $permastructname ) {
 
 				/**
-				 * Filter rewrite rules used specifically for Tags.
+				 * Filters rewrite rules used specifically for Tags.
 				 *
 				 * @since 2.3.0
 				 * @deprecated 3.1.0 Use 'post_tag_rewrite_rules' instead
@@ -1420,7 +1446,7 @@ class WP_Rewrite {
 		do_action_ref_array( 'generate_rewrite_rules', array( &$this ) );
 
 		/**
-		 * Filter the full set of generated rewrite rules.
+		 * Filters the full set of generated rewrite rules.
 		 *
 		 * @since 1.5.0
 		 *
@@ -1524,7 +1550,7 @@ class WP_Rewrite {
 		$rules .= "</IfModule>\n";
 
 		/**
-		 * Filter the list of rewrite rules formatted for output to an .htaccess file.
+		 * Filters the list of rewrite rules formatted for output to an .htaccess file.
 		 *
 		 * @since 1.5.0
 		 *
@@ -1533,7 +1559,7 @@ class WP_Rewrite {
 		$rules = apply_filters( 'mod_rewrite_rules', $rules );
 
 		/**
-		 * Filter the list of rewrite rules formatted for output to an .htaccess file.
+		 * Filters the list of rewrite rules formatted for output to an .htaccess file.
 		 *
 		 * @since 1.5.0
 		 * @deprecated 1.5.0 Use the mod_rewrite_rules filter instead.
@@ -1568,7 +1594,7 @@ class WP_Rewrite {
 		}
 
 		$rules .= '
-			<rule name="wordpress" patternSyntax="Wildcard">
+			<rule name="WordPress: ' . esc_attr( home_url() ) . '" patternSyntax="Wildcard">
 				<match url="*" />
 					<conditions>
 						<add input="{REQUEST_FILENAME}" matchType="IsFile" negate="true" />
@@ -1586,7 +1612,7 @@ class WP_Rewrite {
 		}
 
 		/**
-		 * Filter the list of rewrite rules formatted for output to a web.config.
+		 * Filters the list of rewrite rules formatted for output to a web.config.
 		 *
 		 * @since 2.8.0
 		 *
@@ -1717,7 +1743,7 @@ class WP_Rewrite {
 	 * }
 	 */
 	public function add_permastruct( $name, $struct, $args = array() ) {
-		// Backwards compatibility for the old parameters: $with_front and $ep_mask.
+		// Back-compat for the old parameters: $with_front and $ep_mask.
 		if ( ! is_array( $args ) )
 			$args = array( 'with_front' => $args );
 		if ( func_num_args() == 4 )
@@ -1742,6 +1768,18 @@ class WP_Rewrite {
 		$args['struct'] = $struct;
 
 		$this->extra_permastructs[ $name ] = $args;
+	}
+
+	/**
+	 * Removes a permalink structure.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @param string $name Name for permalink structure.
+	 */
+	public function remove_permastruct( $name ) {
+		unset( $this->extra_permastructs[ $name ] );
 	}
 
 	/**
@@ -1772,11 +1810,11 @@ class WP_Rewrite {
 			unset( $do_hard_later );
 		}
 
-		delete_option('rewrite_rules');
+		update_option( 'rewrite_rules', '' );
 		$this->wp_rewrite_rules();
 
 		/**
-		 * Filter whether a "hard" rewrite rule flush should be performed when requested.
+		 * Filters whether a "hard" rewrite rule flush should be performed when requested.
 		 *
 		 * A "hard" flush updates .htaccess (Apache) or web.config (IIS).
 		 *
@@ -1834,7 +1872,7 @@ class WP_Rewrite {
 	 * between the current permalink structure and the parameter value. Calls
 	 * WP_Rewrite::init() after the option is updated.
 	 *
-	 * Fires the 'permalink_structure_changed' action once the init call has
+	 * Fires the {@see 'permalink_structure_changed'} action once the init call has
 	 * processed passing the old and new values
 	 *
 	 * @since 1.5.0

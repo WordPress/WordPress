@@ -11,7 +11,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! current_user_can( 'edit_posts' ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to edit comments.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to edit comments.' ) . '</p>',
 		403
 	);
 }
@@ -191,7 +191,7 @@ if ( $post_id ) {
 	_e( 'Comments' );
 }
 
-if ( isset($_REQUEST['s']) && $_REQUEST['s'] ) {
+if ( isset($_REQUEST['s']) && strlen( $_REQUEST['s'] ) ) {
 	echo '<span class="subtitle">';
 	/* translators: %s: search keywords */
 	printf( __( 'Search results for &#8220;%s&#8221;' ),
@@ -210,7 +210,7 @@ if ( isset( $_REQUEST['error'] ) ) {
 			$error_msg = __( 'Invalid comment ID.' );
 			break;
 		case 2 :
-			$error_msg = __( 'You are not allowed to edit comments on this post.' );
+			$error_msg = __( 'Sorry, you are not allowed to edit comments on this post.' );
 			break;
 	}
 	if ( $error_msg )

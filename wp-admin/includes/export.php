@@ -18,12 +18,40 @@ define( 'WXR_VERSION', '1.2' );
 /**
  * Generates the WXR export file for download.
  *
+ * Default behavior is to export all content, however, note that post content will only
+ * be exported for post types with the `can_export` argument enabled. Any posts with the
+ * 'auto-draft' status will be skipped.
+ *
  * @since 2.1.0
  *
- * @global wpdb    $wpdb
- * @global WP_Post $post
+ * @global wpdb    $wpdb WordPress database abstraction object.
+ * @global WP_Post $post Global `$post`.
  *
- * @param array $args Filters defining what should be included in the export.
+ * @param array $args {
+ *     Optional. Arguments for generating the WXR export file for download. Default empty array.
+ *
+ *     @type string $content        Type of content to export. If set, only the post content of this post type
+ *                                  will be exported. Accepts 'all', 'post', 'page', 'attachment', or a defined
+ *                                  custom post. If an invalid custom post type is supplied, every post type for
+ *                                  which `can_export` is enabled will be exported instead. If a valid custom post
+ *                                  type is supplied but `can_export` is disabled, then 'posts' will be exported
+ *                                  instead. When 'all' is supplied, only post types with `can_export` enabled will
+ *                                  be exported. Default 'all'.
+ *     @type string $author         Author to export content for. Only used when `$content` is 'post', 'page', or
+ *                                  'attachment'. Accepts false (all) or a specific author ID. Default false (all).
+ *     @type string $category       Category (slug) to export content for. Used only when `$content` is 'post'. If
+ *                                  set, only post content assigned to `$category will be exported. Accepts false
+ *                                  or a specific category slug. Default is false (all categories).
+ *     @type string $start_date     Start date to export content from. Expected date format is 'Y-m-d'. Used only
+ *                                  when `$content` is 'post', 'page' or 'attachment'. Default false (since the
+ *                                  beginning of time).
+ *     @type string $end_date       End date to export content to. Expected date format is 'Y-m-d'. Used only when
+ *                                  `$content` is 'post', 'page' or 'attachment'. Default false (latest publish date).
+ *     @type string $status         Post status to export posts for. Used only when `$content` is 'post' or 'page'.
+ *                                  Accepts false (all statuses except 'auto-draft'), or a specific status, i.e.
+ *                                  'publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', or
+ *                                  'trash'. Default false (all statuses except 'auto-draft').
+ * }
  */
 function export_wp( $args = array() ) {
 	global $wpdb, $post;
@@ -49,7 +77,7 @@ function export_wp( $args = array() ) {
 	$date = date( 'Y-m-d' );
 	$wp_filename = $sitename . 'wordpress.' . $date . '.xml';
 	/**
-	 * Filter the export filename.
+	 * Filters the export filename.
 	 *
 	 * @since 4.4.0
 	 *
@@ -182,7 +210,7 @@ function export_wp( $args = array() ) {
 		if ( empty( $category->name ) )
 			return;
 
-		echo '<wp:cat_name>' . wxr_cdata( $category->name ) . '</wp:cat_name>';
+		echo '<wp:cat_name>' . wxr_cdata( $category->name ) . "</wp:cat_name>\n";
 	}
 
 	/**
@@ -196,7 +224,7 @@ function export_wp( $args = array() ) {
 		if ( empty( $category->description ) )
 			return;
 
-		echo '<wp:category_description>' . wxr_cdata( $category->description ) . '</wp:category_description>';
+		echo '<wp:category_description>' . wxr_cdata( $category->description ) . "</wp:category_description>\n";
 	}
 
 	/**
@@ -210,7 +238,7 @@ function export_wp( $args = array() ) {
 		if ( empty( $tag->name ) )
 			return;
 
-		echo '<wp:tag_name>' . wxr_cdata( $tag->name ) . '</wp:tag_name>';
+		echo '<wp:tag_name>' . wxr_cdata( $tag->name ) . "</wp:tag_name>\n";
 	}
 
 	/**
@@ -224,7 +252,7 @@ function export_wp( $args = array() ) {
 		if ( empty( $tag->description ) )
 			return;
 
-		echo '<wp:tag_description>' . wxr_cdata( $tag->description ) . '</wp:tag_description>';
+		echo '<wp:tag_description>' . wxr_cdata( $tag->description ) . "</wp:tag_description>\n";
 	}
 
 	/**
@@ -238,7 +266,7 @@ function export_wp( $args = array() ) {
 		if ( empty( $term->name ) )
 			return;
 
-		echo '<wp:term_name>' . wxr_cdata( $term->name ) . '</wp:term_name>';
+		echo '<wp:term_name>' . wxr_cdata( $term->name ) . "</wp:term_name>\n";
 	}
 
 	/**
@@ -252,7 +280,38 @@ function export_wp( $args = array() ) {
 		if ( empty( $term->description ) )
 			return;
 
-		echo '<wp:term_description>' . wxr_cdata( $term->description ) . '</wp:term_description>';
+		echo "\t\t<wp:term_description>" . wxr_cdata( $term->description ) . "</wp:term_description>\n";
+	}
+
+	/**
+	 * Output term meta XML tags for a given term object.
+	 *
+	 * @since 4.6.0
+	 *
+	 * @param WP_Term $term Term object.
+	 */
+	function wxr_term_meta( $term ) {
+		global $wpdb;
+
+		$termmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->termmeta WHERE term_id = %d", $term->term_id ) );
+
+		foreach ( $termmeta as $meta ) {
+			/**
+			 * Filters whether to selectively skip term meta used for WXR exports.
+			 *
+			 * Returning a truthy value to the filter will skip the current meta
+			 * object from being exported.
+			 *
+			 * @since 4.6.0
+			 *
+			 * @param bool   $skip     Whether to skip the current piece of term meta. Default false.
+			 * @param string $meta_key Current meta key.
+			 * @param object $meta     Current meta object.
+			 */
+			if ( ! apply_filters( 'wxr_export_skip_termmeta', false, $meta->meta_key, $meta ) ) {
+				printf( "\t\t<wp:termmeta>\n\t\t\t<wp:meta_key>%s</wp:meta_key>\n\t\t\t<wp:meta_value>%s</wp:meta_value>\n\t\t</wp:termmeta>\n", wxr_cdata( $meta->meta_key ), wxr_cdata( $meta->meta_value ) );
+			}
+		}
 	}
 
 	/**
@@ -386,13 +445,34 @@ function export_wp( $args = array() ) {
 <?php wxr_authors_list( $post_ids ); ?>
 
 <?php foreach ( $cats as $c ) : ?>
-	<wp:category><wp:term_id><?php echo intval( $c->term_id ); ?></wp:term_id><wp:category_nicename><?php echo wxr_cdata( $c->slug ); ?></wp:category_nicename><wp:category_parent><?php echo wxr_cdata( $c->parent ? $cats[$c->parent]->slug : '' ); ?></wp:category_parent><?php wxr_cat_name( $c ); ?><?php wxr_category_description( $c ); ?></wp:category>
+	<wp:category>
+		<wp:term_id><?php echo intval( $c->term_id ); ?></wp:term_id>
+		<wp:category_nicename><?php echo wxr_cdata( $c->slug ); ?></wp:category_nicename>
+		<wp:category_parent><?php echo wxr_cdata( $c->parent ? $cats[$c->parent]->slug : '' ); ?></wp:category_parent>
+		<?php wxr_cat_name( $c );
+		wxr_category_description( $c );
+		wxr_term_meta( $c ); ?>
+	</wp:category>
 <?php endforeach; ?>
 <?php foreach ( $tags as $t ) : ?>
-	<wp:tag><wp:term_id><?php echo intval( $t->term_id ); ?></wp:term_id><wp:tag_slug><?php echo wxr_cdata( $t->slug ); ?></wp:tag_slug><?php wxr_tag_name( $t ); ?><?php wxr_tag_description( $t ); ?></wp:tag>
+	<wp:tag>
+		<wp:term_id><?php echo intval( $t->term_id ); ?></wp:term_id>
+		<wp:tag_slug><?php echo wxr_cdata( $t->slug ); ?></wp:tag_slug>
+		<?php wxr_tag_name( $t );
+		wxr_tag_description( $t );
+		wxr_term_meta( $t ); ?>
+	</wp:tag>
 <?php endforeach; ?>
 <?php foreach ( $terms as $t ) : ?>
-	<wp:term><wp:term_id><?php echo wxr_cdata( $t->term_id ); ?></wp:term_id><wp:term_taxonomy><?php echo wxr_cdata( $t->taxonomy ); ?></wp:term_taxonomy><wp:term_slug><?php echo wxr_cdata( $t->slug ); ?></wp:term_slug><wp:term_parent><?php echo wxr_cdata( $t->parent ? $terms[$t->parent]->slug : '' ); ?></wp:term_parent><?php wxr_term_name( $t ); ?><?php wxr_term_description( $t ); ?></wp:term>
+	<wp:term>
+		<wp:term_id><?php echo wxr_cdata( $t->term_id ); ?></wp:term_id>
+		<wp:term_taxonomy><?php echo wxr_cdata( $t->taxonomy ); ?></wp:term_taxonomy>
+		<wp:term_slug><?php echo wxr_cdata( $t->slug ); ?></wp:term_slug>
+		<wp:term_parent><?php echo wxr_cdata( $t->parent ? $terms[$t->parent]->slug : '' ); ?></wp:term_parent>
+		<?php wxr_term_name( $t );
+		wxr_term_description( $t );
+		wxr_term_meta( $t ); ?>
+	</wp:term>
 <?php endforeach; ?>
 <?php if ( 'all' == $args['content'] ) wxr_nav_menu_terms(); ?>
 
@@ -432,7 +512,7 @@ function export_wp( $args = array() ) {
 		<description></description>
 		<content:encoded><?php
 			/**
-			 * Filter the post content used for WXR exports.
+			 * Filters the post content used for WXR exports.
 			 *
 			 * @since 2.5.0
 			 *
@@ -442,7 +522,7 @@ function export_wp( $args = array() ) {
 		?></content:encoded>
 		<excerpt:encoded><?php
 			/**
-			 * Filter the post excerpt used for WXR exports.
+			 * Filters the post excerpt used for WXR exports.
 			 *
 			 * @since 2.6.0
 			 *
@@ -469,7 +549,7 @@ function export_wp( $args = array() ) {
 <?php	$postmeta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->postmeta WHERE post_id = %d", $post->ID ) );
 		foreach ( $postmeta as $meta ) :
 			/**
-			 * Filter whether to selectively skip post meta used for WXR exports.
+			 * Filters whether to selectively skip post meta used for WXR exports.
 			 *
 			 * Returning a truthy value to the filter will skip the current meta
 			 * object from being exported.
@@ -508,7 +588,7 @@ function export_wp( $args = array() ) {
 <?php		$c_meta = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->commentmeta WHERE comment_id = %d", $c->comment_ID ) );
 			foreach ( $c_meta as $meta ) :
 				/**
-				 * Filter whether to selectively skip comment meta used for WXR exports.
+				 * Filters whether to selectively skip comment meta used for WXR exports.
 				 *
 				 * Returning a truthy value to the filter will skip the current meta
 				 * object from being exported.

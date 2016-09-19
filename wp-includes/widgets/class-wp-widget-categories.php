@@ -23,8 +23,12 @@ class WP_Widget_Categories extends WP_Widget {
 	 * @access public
 	 */
 	public function __construct() {
-		$widget_ops = array( 'classname' => 'widget_categories', 'description' => __( "A list or dropdown of categories." ) );
-		parent::__construct('categories', __('Categories'), $widget_ops);
+		$widget_ops = array(
+			'classname' => 'widget_categories',
+			'description' => __( 'A list or dropdown of categories.' ),
+			'customize_selective_refresh' => true,
+		);
+		parent::__construct( 'categories', __( 'Categories' ), $widget_ops );
 	}
 
 	/**
@@ -68,7 +72,7 @@ class WP_Widget_Categories extends WP_Widget {
 			$cat_args['id'] = $dropdown_id;
 
 			/**
-			 * Filter the arguments for the Categories widget drop-down.
+			 * Filters the arguments for the Categories widget drop-down.
 			 *
 			 * @since 2.8.0
 			 *
@@ -101,7 +105,7 @@ class WP_Widget_Categories extends WP_Widget {
 		$cat_args['title_li'] = '';
 
 		/**
-		 * Filter the arguments for the Categories widget.
+		 * Filters the arguments for the Categories widget.
 		 *
 		 * @since 2.8.0
 		 *

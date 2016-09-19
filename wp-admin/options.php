@@ -32,7 +32,7 @@ if ( empty($option_page) ) {
 } else {
 
 	/**
-	 * Filter the capability required when using the Settings API.
+	 * Filters the capability required when using the Settings API.
 	 *
 	 * By default, the options groups for all registered settings require the manage_options capability.
 	 * This filter is required to change the capability required for a certain options page.
@@ -47,7 +47,7 @@ if ( empty($option_page) ) {
 if ( ! current_user_can( $capability ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to manage these items.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to manage these items.' ) . '</p>',
 		403
 	);
 }
@@ -57,7 +57,7 @@ if ( is_multisite() ) {
 	if ( ! empty($_GET[ 'adminhash' ] ) ) {
 		$new_admin_details = get_option( 'adminhash' );
 		$redirect = 'options-general.php?updated=false';
-		if ( is_array( $new_admin_details ) && $new_admin_details[ 'hash' ] == $_GET[ 'adminhash' ] && !empty($new_admin_details[ 'newemail' ]) ) {
+		if ( is_array( $new_admin_details ) && hash_equals( $new_admin_details[ 'hash' ], $_GET[ 'adminhash' ] ) && !empty($new_admin_details[ 'newemail' ]) ) {
 			update_option( 'admin_email', $new_admin_details[ 'newemail' ] );
 			delete_option( 'adminhash' );
 			delete_option( 'new_admin_email' );
@@ -66,6 +66,7 @@ if ( is_multisite() ) {
 		wp_redirect( admin_url( $redirect ) );
 		exit;
 	} elseif ( ! empty( $_GET['dismiss'] ) && 'new_admin_email' == $_GET['dismiss'] ) {
+		check_admin_referer( 'dismiss-' . get_current_blog_id() . '-new_admin_email' );
 		delete_option( 'adminhash' );
 		delete_option( 'new_admin_email' );
 		wp_redirect( admin_url( 'options-general.php?updated=true' ) );
@@ -76,7 +77,7 @@ if ( is_multisite() ) {
 if ( is_multisite() && ! is_super_admin() && 'update' != $action ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to delete these items.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to delete these items.' ) . '</p>',
 		403
 	);
 }
@@ -84,7 +85,7 @@ if ( is_multisite() && ! is_super_admin() && 'update' != $action ) {
 $whitelist_options = array(
 	'general' => array( 'blogname', 'blogdescription', 'gmt_offset', 'date_format', 'time_format', 'start_of_week', 'timezone_string', 'WPLANG' ),
 	'discussion' => array( 'default_pingback_flag', 'default_ping_status', 'default_comment_status', 'comments_notify', 'moderation_notify', 'comment_moderation', 'require_name_email', 'comment_whitelist', 'comment_max_links', 'moderation_keys', 'blacklist_keys', 'show_avatars', 'avatar_rating', 'avatar_default', 'close_comments_for_old_posts', 'close_comments_days_old', 'thread_comments', 'thread_comments_depth', 'page_comments', 'comments_per_page', 'default_comments_page', 'comment_order', 'comment_registration' ),
-	'media' => array( 'thumbnail_size_w', 'thumbnail_size_h', 'thumbnail_crop', 'medium_size_w', 'medium_size_h', 'medium_large_size_w', 'medium_large_size_h', 'large_size_w', 'large_size_h', 'image_default_size', 'image_default_align', 'image_default_link_type' ),
+	'media' => array( 'thumbnail_size_w', 'thumbnail_size_h', 'thumbnail_crop', 'medium_size_w', 'medium_size_h', 'large_size_w', 'large_size_h', 'image_default_size', 'image_default_align', 'image_default_link_type' ),
 	'reading' => array( 'posts_per_page', 'posts_per_rss', 'rss_use_excerpt', 'show_on_front', 'page_on_front', 'page_for_posts', 'blog_public' ),
 	'writing' => array( 'default_category', 'default_email_category', 'default_link_category', 'default_post_format' )
 );
@@ -124,7 +125,7 @@ if ( !is_multisite() ) {
 	$whitelist_options['general'][] = 'new_admin_email';
 
 	/**
-	 * Filter whether the post-by-email functionality is enabled.
+	 * Filters whether the post-by-email functionality is enabled.
 	 *
 	 * @since 3.0.0
 	 *
@@ -135,7 +136,7 @@ if ( !is_multisite() ) {
 }
 
 /**
- * Filter the options white list.
+ * Filters the options white list.
  *
  * @since 2.7.0
  *
@@ -160,7 +161,7 @@ if ( 'update' == $action ) {
 
 	if ( 'options' == $option_page ) {
 		if ( is_multisite() && ! is_super_admin() )
-			wp_die( __( 'You do not have sufficient permissions to modify unregistered settings for this site.' ) );
+			wp_die( __( 'Sorry, you are not allowed to modify unregistered settings for this site.' ) );
 		$options = explode( ',', wp_unslash( $_POST[ 'page_options' ] ) );
 	} else {
 		$options = $whitelist_options[ $option_page ];
@@ -195,7 +196,7 @@ if ( 'update' == $action ) {
 	if ( $options ) {
 		foreach ( $options as $option ) {
 			if ( $unregistered ) {
-				_deprecated_argument( 'options.php', '2.7',
+				_deprecated_argument( 'options.php', '2.7.0',
 					sprintf(
 						/* translators: %s: the option/setting */
 						__( 'The %s setting is unregistered. Unregistered settings are deprecated. See https://codex.wordpress.org/Settings_API' ),

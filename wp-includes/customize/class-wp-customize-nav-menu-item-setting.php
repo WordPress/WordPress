@@ -67,10 +67,11 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Default transport.
 	 *
 	 * @since 4.3.0
+	 * @since 4.5.0 Default changed to 'refresh'
 	 * @access public
 	 * @var string
 	 */
-	public $transport = 'postMessage';
+	public $transport = 'refresh';
 
 	/**
 	 * The post ID represented by this setting instance. This is the db_id.
@@ -130,6 +131,8 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 
 	/**
 	 * Status for calling the update method, used in customize_save_response filter.
+	 *
+	 * See {@see 'customize_save_response'}.
 	 *
 	 * When status is inserted, the placeholder post ID is stored in $previous_post_id.
 	 * When status is error, the error is stored in $update_error.
@@ -230,7 +233,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			} else {
 				$value = $post_value;
 			}
-		} else if ( isset( $this->value ) ) {
+		} elseif ( isset( $this->value ) ) {
 			$value = $this->value;
 		} else {
 			$value = false;
@@ -239,7 +242,11 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			if ( $this->post_id > 0 ) {
 				$post = get_post( $this->post_id );
 				if ( $post && self::POST_TYPE === $post->post_type ) {
+					$is_title_empty = empty( $post->post_title );
 					$value = (array) wp_setup_nav_menu_item( $post );
+					if ( $is_title_empty ) {
+						$value['title'] = '';
+					}
 				}
 			}
 
@@ -254,6 +261,40 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Get original title.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param object $item Nav menu item.
+	 * @return string The original title.
+	 */
+	protected function get_original_title( $item ) {
+		if ( empty( $item->object_id ) ) {
+			return '';
+		}
+		$original_title = '';
+		if ( 'post_type' === $item->type ) {
+			$original_object = get_post( $item->object_id );
+			if ( $original_object ) {
+				/** This filter is documented in wp-includes/post-template.php */
+				$original_title = apply_filters( 'the_title', $original_object->post_title, $original_object->ID );
+
+				if ( '' === $original_title ) {
+					/* translators: %d: ID of a post */
+					$original_title = sprintf( __( '#%d (no title)' ), $original_object->ID );
+				}
+			}
+		} elseif ( 'taxonomy' === $item->type ) {
+			$original_term_title = get_term_field( 'name', $item->object_id, $item->object, 'raw' );
+			if ( ! is_wp_error( $original_term_title ) ) {
+				$original_title = $original_term_title;
+			}
+		}
+		$original_title = html_entity_decode( $original_title, ENT_QUOTES, get_bloginfo( 'charset' ) );
+		return $original_title;
 	}
 
 	/**
@@ -281,16 +322,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		}
 
 		if ( ! isset( $this->value['original_title'] ) ) {
-			$original_title = '';
-			if ( 'post_type' === $this->value['type'] ) {
-				$original_title = get_the_title( $this->value['object_id'] );
-			} elseif ( 'taxonomy' === $this->value['type'] ) {
-				$original_title = get_term_field( 'name', $this->value['object_id'], $this->value['object'], 'raw' );
-				if ( is_wp_error( $original_title ) ) {
-					$original_title = '';
-				}
-			}
-			$this->value['original_title'] = html_entity_decode( $original_title, ENT_QUOTES, get_bloginfo( 'charset' ) );
+			$this->value['original_title'] = $this->get_original_title( (object) $this->value );
 		}
 
 		if ( ! isset( $this->value['nav_menu_term_id'] ) && $this->post_id > 0 ) {
@@ -403,7 +435,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Filter the wp_get_nav_menu_items() result to supply the previewed menu items.
+	 * Filters the wp_get_nav_menu_items() result to supply the previewed menu items.
 	 *
 	 * @since 4.3.0
 	 * @access public
@@ -494,7 +526,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		// @todo We should probably re-apply some constraints imposed by $args.
 		unset( $args['include'] );
 
-		// Remove invalid items only in frontend.
+		// Remove invalid items only in front end.
 		if ( ! is_admin() ) {
 			$items = array_filter( $items, '_is_valid_nav_menu_item' );
 		}
@@ -531,6 +563,12 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		$item->menu_order = $item->position;
 		unset( $item->position );
 
+		if ( empty( $item->original_title ) ) {
+			$item->original_title = $this->get_original_title( $item );
+		}
+		if ( empty( $item->title ) && ! empty( $item->original_title ) ) {
+			$item->title = $item->original_title;
+		}
 		if ( $item->title ) {
 			$item->post_title = $item->title;
 		}
@@ -551,7 +589,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 				} else {
 					$post->type_label = $post->object;
 				}
-			} elseif ( 'taxonomy' == $post->type ) {
+			} elseif ( 'taxonomy' === $post->type ) {
 				$object = get_taxonomy( $post->object );
 				if ( $object ) {
 					$post->type_label = $object->labels->singular_name;
@@ -568,6 +606,9 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 
 		/** This filter is documented in wp-includes/nav-menu.php */
 		$post->description = apply_filters( 'nav_menu_description', wp_trim_words( $post->description, 200 ) );
+
+		/** This filter is documented in wp-includes/nav-menu.php */
+		$post = apply_filters( 'wp_setup_nav_menu_item', $post );
 
 		return $post;
 	}
@@ -638,9 +679,9 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		$menu_item_value['original_title'] = sanitize_text_field( $menu_item_value['original_title'] );
 
 		// Apply the same filters as when calling wp_insert_post().
-		$menu_item_value['title'] = apply_filters( 'title_save_pre', $menu_item_value['title'] );
-		$menu_item_value['attr_title'] = apply_filters( 'excerpt_save_pre', $menu_item_value['attr_title'] );
-		$menu_item_value['description'] = apply_filters( 'content_save_pre', $menu_item_value['description'] );
+		$menu_item_value['title'] = wp_unslash( apply_filters( 'title_save_pre', wp_slash( $menu_item_value['title'] ) ) );
+		$menu_item_value['attr_title'] = wp_unslash( apply_filters( 'excerpt_save_pre', wp_slash( $menu_item_value['attr_title'] ) ) );
+		$menu_item_value['description'] = wp_unslash( apply_filters( 'content_save_pre', wp_slash( $menu_item_value['description'] ) ) );
 
 		$menu_item_value['url'] = esc_url_raw( $menu_item_value['url'] );
 		if ( 'publish' !== $menu_item_value['status'] ) {
@@ -654,11 +695,11 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	}
 
 	/**
-	 * Create/update the nav_menu_item post for this setting.
+	 * Creates/updates the nav_menu_item post for this setting.
 	 *
 	 * Any created menu items will have their assigned post IDs exported to the client
-	 * via the customize_save_response filter. Likewise, any errors will be exported
-	 * to the client via the customize_save_response() filter.
+	 * via the {@see 'customize_save_response'} filter. Likewise, any errors will be
+	 * exported to the client via the customize_save_response() filter.
 	 *
 	 * To delete a menu, the client can send false as the value.
 	 *
@@ -775,7 +816,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			$r = wp_update_nav_menu_item(
 				$value['nav_menu_term_id'],
 				$is_placeholder ? 0 : $this->post_id,
-				$menu_item_data
+				wp_slash( $menu_item_data )
 			);
 
 			if ( is_wp_error( $r ) ) {

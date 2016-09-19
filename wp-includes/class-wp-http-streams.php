@@ -89,7 +89,7 @@ class WP_Http_Streams {
 		$ssl_verify = isset( $r['sslverify'] ) && $r['sslverify'];
 		if ( $is_local ) {
 			/**
-			 * Filter whether SSL should be verified for local requests.
+			 * Filters whether SSL should be verified for local requests.
 			 *
 			 * @since 2.8.0
 			 *
@@ -98,7 +98,7 @@ class WP_Http_Streams {
 			$ssl_verify = apply_filters( 'https_local_ssl_verify', $ssl_verify );
 		} elseif ( ! $is_local ) {
 			/**
-			 * Filter whether SSL should be verified for non-local requests.
+			 * Filters whether SSL should be verified for non-local requests.
 			 *
 			 * @since 2.8.0
 			 *
@@ -401,7 +401,7 @@ class WP_Http_Streams {
 		}
 
 		/**
-		 * Filter whether streams can be used as a transport for retrieving a URL.
+		 * Filters whether streams can be used as a transport for retrieving a URL.
 		 *
 		 * @since 2.7.0
 		 *
@@ -415,7 +415,7 @@ class WP_Http_Streams {
 /**
  * Deprecated HTTP Transport method which used fsockopen.
  *
- * This class is not used, and is included for backwards compatibility only.
+ * This class is not used, and is included for backward compatibility only.
  * All code should make use of WP_Http directly through its API.
  *
  * @see WP_HTTP::request
@@ -424,5 +424,5 @@ class WP_Http_Streams {
  * @deprecated 3.7.0 Please use WP_HTTP::request() directly
  */
 class WP_HTTP_Fsockopen extends WP_HTTP_Streams {
-	// For backwards compatibility for users who are using the class directly.
+	// For backward compatibility for users who are using the class directly.
 }

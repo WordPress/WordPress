@@ -55,7 +55,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 	}
 
 	/**
-	 * Filter the locale requested for WordPress core translations.
+	 * Filters the locale requested for WordPress core translations.
 	 *
 	 * @since 2.8.0
 	 *
@@ -169,7 +169,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		}
 	}
 
-	// Trigger a background updates check if running non-interactively, and we weren't called from the update handler.
+	// Trigger background updates if running non-interactively, and we weren't called from the update handler.
 	if ( defined( 'DOING_CRON' ) && DOING_CRON && ! doing_action( 'wp_maybe_auto_update' ) ) {
 		do_action( 'wp_maybe_auto_update' );
 	}
@@ -262,14 +262,18 @@ function wp_update_plugins( $extra_stats = array() ) {
 
 	$to_send = compact( 'plugins', 'active' );
 
+	$locales = array_values( get_available_languages() );
+
 	/**
-	 * Filter the locales requested for plugin translations.
+	 * Filters the locales requested for plugin translations.
 	 *
 	 * @since 3.7.0
+	 * @since 4.5.0 The default value of the `$locales` parameter changed to include all locales.
 	 *
-	 * @param array $locales Plugin locale. Default is current locale of the site.
+	 * @param array $locales Plugin locales. Default is all available locales of the site.
 	 */
-	$locales = apply_filters( 'plugins_update_check_locales', array( get_locale() ) );
+	$locales = apply_filters( 'plugins_update_check_locales', $locales );
+	$locales = array_unique( $locales );
 
 	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 		$timeout = 30;
@@ -310,8 +314,14 @@ function wp_update_plugins( $extra_stats = array() ) {
 	$response = json_decode( wp_remote_retrieve_body( $raw_response ), true );
 	foreach ( $response['plugins'] as &$plugin ) {
 		$plugin = (object) $plugin;
+		if ( isset( $plugin->compatibility ) ) {
+			$plugin->compatibility = (object) $plugin->compatibility;
+			foreach ( $plugin->compatibility as &$data ) {
+				$data = (object) $data;
+			}
+		}
 	}
-	unset( $plugin );
+	unset( $plugin, $data );
 	foreach ( $response['no_update'] as &$plugin ) {
 		$plugin = (object) $plugin;
 	}
@@ -426,14 +436,18 @@ function wp_update_themes( $extra_stats = array() ) {
 
 	$request['themes'] = $themes;
 
+	$locales = array_values( get_available_languages() );
+
 	/**
-	 * Filter the locales requested for theme translations.
+	 * Filters the locales requested for theme translations.
 	 *
 	 * @since 3.7.0
+	 * @since 4.5.0 The default value of the `$locales` parameter changed to include all locales.
 	 *
-	 * @param array $locales Theme locale. Default is current locale of the site.
+	 * @param array $locales Theme locales. Default is all available locales of the site.
 	 */
-	$locales = apply_filters( 'themes_update_check_locales', array( get_locale() ) );
+	$locales = apply_filters( 'themes_update_check_locales', $locales );
+	$locales = array_unique( $locales );
 
 	if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
 		$timeout = 30;
@@ -565,7 +579,7 @@ function wp_get_update_data() {
 
 	$update_data = array( 'counts' => $counts, 'title' => $update_title );
 	/**
-	 * Filter the returned array of update data for plugins, themes, and WordPress core.
+	 * Filters the returned array of update data for plugins, themes, and WordPress core.
 	 *
 	 * @since 3.5.0
 	 *
@@ -647,20 +661,6 @@ function wp_schedule_update_checks() {
 
 	if ( ! wp_next_scheduled( 'wp_update_themes' ) && ! wp_installing() )
 		wp_schedule_event(time(), 'twicedaily', 'wp_update_themes');
-
-	if ( ! wp_next_scheduled( 'wp_maybe_auto_update' ) && ! wp_installing() ) {
-		// Schedule auto updates for 7 a.m. and 7 p.m. in the timezone of the site.
-		$next = strtotime( 'today 7am' );
-		$now = time();
-		// Find the next instance of 7 a.m. or 7 p.m., but skip it if it is within 3 hours from now.
-		while ( ( $now + 3 * HOUR_IN_SECONDS ) > $next ) {
-			$next += 12 * HOUR_IN_SECONDS;
-		}
-		$next = $next - get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
-		// Add a random number of minutes, so we don't have all sites trying to update exactly on the hour
-		$next = $next + rand( 0, 59 ) * MINUTE_IN_SECONDS;
-		wp_schedule_event( $next, 'twicedaily', 'wp_maybe_auto_update' );
-	}
 }
 
 /**
@@ -678,27 +678,24 @@ function wp_clean_update_cache() {
 	delete_site_transient( 'update_core' );
 }
 
-if ( ( ! is_main_site() && ! is_network_admin() ) || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
+if ( ( ! is_main_site() && ! is_network_admin() ) || wp_doing_ajax() ) {
 	return;
 }
 
 add_action( 'admin_init', '_maybe_update_core' );
 add_action( 'wp_version_check', 'wp_version_check' );
-add_action( 'upgrader_process_complete', 'wp_version_check', 10, 0 );
 
 add_action( 'load-plugins.php', 'wp_update_plugins' );
 add_action( 'load-update.php', 'wp_update_plugins' );
 add_action( 'load-update-core.php', 'wp_update_plugins' );
 add_action( 'admin_init', '_maybe_update_plugins' );
 add_action( 'wp_update_plugins', 'wp_update_plugins' );
-add_action( 'upgrader_process_complete', 'wp_update_plugins', 10, 0 );
 
 add_action( 'load-themes.php', 'wp_update_themes' );
 add_action( 'load-update.php', 'wp_update_themes' );
 add_action( 'load-update-core.php', 'wp_update_themes' );
 add_action( 'admin_init', '_maybe_update_themes' );
 add_action( 'wp_update_themes', 'wp_update_themes' );
-add_action( 'upgrader_process_complete', 'wp_update_themes', 10, 0 );
 
 add_action( 'update_option_WPLANG', 'wp_clean_update_cache' , 10, 0 );
 

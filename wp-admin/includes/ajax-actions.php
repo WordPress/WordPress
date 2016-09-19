@@ -32,7 +32,7 @@ function wp_ajax_nopriv_heartbeat() {
 		$data = wp_unslash( (array) $_POST['data'] );
 
 		/**
-		 * Filter Heartbeat AJAX response in no-privilege environments.
+		 * Filters Heartbeat Ajax response in no-privilege environments.
 		 *
 		 * @since 3.6.0
 		 *
@@ -44,7 +44,7 @@ function wp_ajax_nopriv_heartbeat() {
 	}
 
 	/**
-	 * Filter Heartbeat AJAX response when no data is passed.
+	 * Filters Heartbeat Ajax response when no data is passed.
 	 *
 	 * @since 3.6.0
 	 *
@@ -79,21 +79,19 @@ function wp_ajax_nopriv_heartbeat() {
  * Ajax handler for fetching a list table.
  *
  * @since 3.1.0
- *
- * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_fetch_list() {
-	global $wp_list_table;
-
 	$list_class = $_GET['list_args']['class'];
 	check_ajax_referer( "fetch-list-$list_class", '_ajax_fetch_list_nonce' );
 
 	$wp_list_table = _get_list_table( $list_class, array( 'screen' => $_GET['list_args']['screen']['id'] ) );
-	if ( ! $wp_list_table )
+	if ( ! $wp_list_table ) {
 		wp_die( 0 );
+	}
 
-	if ( ! $wp_list_table->ajax_user_can() )
+	if ( ! $wp_list_table->ajax_user_can() ) {
 		wp_die( -1 );
+	}
 
 	$wp_list_table->ajax_response();
 
@@ -132,7 +130,7 @@ function wp_ajax_ajax_tag_search() {
 	$s = trim( $s );
 
 	/**
-	 * Filter the minimum number of characters required to fire a tag search via AJAX.
+	 * Filters the minimum number of characters required to fire a tag search via Ajax.
 	 *
 	 * @since 4.0.0
 	 *
@@ -174,7 +172,6 @@ function wp_ajax_wp_compression_test() {
 		header( 'Expires: Wed, 11 Jan 1984 05:00:00 GMT' );
 		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
 		header( 'Cache-Control: no-cache, must-revalidate, max-age=0' );
-		header( 'Pragma: no-cache' );
 		header('Content-Type: application/javascript; charset=UTF-8');
 		$force_gzip = ( defined('ENFORCE_GZIP') && ENFORCE_GZIP );
 		$test_str = '"wpCompressionTest Lorem ipsum dolor sit amet consectetuer mollis sapien urna ut a. Eu nonummy condimentum fringilla tempor pretium platea vel nibh netus Maecenas. Hac molestie amet justo quis pellentesque est ultrices interdum nibh Morbi. Cras mattis pretium Phasellus ante ipsum ipsum ut sociis Suspendisse Lorem. Ante et non molestie. Porta urna Vestibulum egestas id congue nibh eu risus gravida sit. Ac augue auctor Ut et non a elit massa id sodales. Elit eu Nulla at nibh adipiscing mattis lacus mauris at tempus. Netus nibh quis suscipit nec feugiat eget sed lorem et urna. Pellentesque lacus at ut massa consectetuer ligula ut auctor semper Pellentesque. Ut metus massa nibh quam Curabitur molestie nec mauris congue. Volutpat molestie elit justo facilisis neque ac risus Ut nascetur tristique. Vitae sit lorem tellus et quis Phasellus lacus tincidunt nunc Fusce. Pharetra wisi Suspendisse mus sagittis libero lacinia Integer consequat ac Phasellus. Et urna ac cursus tortor aliquam Aliquam amet tellus volutpat Vestibulum. Justo interdum condimentum In augue congue tellus sollicitudin Quisque quis nibh."';
@@ -197,8 +194,10 @@ function wp_ajax_wp_compression_test() {
 			echo $out;
 			wp_die();
 		} elseif ( 'no' == $_GET['test'] ) {
+			check_ajax_referer( 'update_can_compress_scripts' );
 			update_site_option('can_compress_scripts', 0);
 		} elseif ( 'yes' == $_GET['test'] ) {
+			check_ajax_referer( 'update_can_compress_scripts' );
 			update_site_option('can_compress_scripts', 1);
 		}
 	}
@@ -334,8 +333,9 @@ function wp_ajax_logged_in() {
 /**
  * Sends back current comment total and new page links if they need to be updated.
  *
- * Contrary to normal success AJAX response ("1"), die with time() on success.
+ * Contrary to normal success Ajax response ("1"), die with time() on success.
  *
+ * @access private
  * @since 2.7.0
  *
  * @param int $comment_id
@@ -349,8 +349,18 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 
 	// JS didn't send us everything we need to know. Just die with success message
 	if ( ! $total || ! $per_page || ! $page || ! $url ) {
-		$time = time();
-		$comment = get_comment( $comment_id );
+		$time           = time();
+		$comment        = get_comment( $comment_id );
+		$comment_status = '';
+		$comment_link   = '';
+
+		if ( $comment ) {
+			$comment_status = $comment->comment_approved;
+		}
+
+		if ( 1 === (int) $comment_status ) {
+			$comment_link = get_comment_link( $comment );
+		}
 
 		$counts = wp_count_comments();
 
@@ -359,7 +369,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 			// Here for completeness - not used.
 			'id' => $comment_id,
 			'supplemental' => array(
-				'status' => $comment ? $comment->comment_approved : '',
+				'status' => $comment_status,
 				'postId' => $comment ? $comment->comment_post_ID : '',
 				'time' => $time,
 				'in_moderation' => $counts->moderated,
@@ -370,7 +380,8 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 				'i18n_moderation_text' => sprintf(
 					_nx( '%s in moderation', '%s in moderation', $counts->moderated, 'comments' ),
 					number_format_i18n( $counts->moderated )
-				)
+				),
+				'comment_link' => $comment_link,
 			)
 		) );
 		$x->send();
@@ -392,14 +403,20 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 				$status = $query_vars['comment_status'];
 			if ( !empty( $query_vars['p'] ) )
 				$post_id = (int) $query_vars['p'];
+			if ( ! empty( $query_vars['comment_type'] ) )
+				$type = $query_vars['comment_type'];
 		}
 
-		$comment_count = wp_count_comments($post_id);
+		if ( empty( $type ) ) {
+			// Only use the comment count if not filtering by a comment_type.
+			$comment_count = wp_count_comments($post_id);
 
-		// We're looking for a known type of comment count.
-		if ( isset( $comment_count->$status ) )
-			$total = $comment_count->$status;
-			// Else use the decremented value from above.
+			// We're looking for a known type of comment count.
+			if ( isset( $comment_count->$status ) ) {
+				$total = $comment_count->$status;
+			}
+		}
+		// Else use the decremented value from above.
 	}
 
 	// The time since the last comment count.
@@ -430,6 +447,7 @@ function _wp_ajax_delete_comment_response( $comment_id, $delta = -1 ) {
 /**
  * Ajax handler for adding a hierarchical term.
  *
+ * @access private
  * @since 3.1.0
  */
 function _wp_ajax_add_hierarchical_term() {
@@ -768,7 +786,7 @@ function wp_ajax_dim_comment() {
 }
 
 /**
- * Ajax handler for deleting a link category.
+ * Ajax handler for adding a link category.
  *
  * @since 3.1.0
  *
@@ -809,12 +827,8 @@ function wp_ajax_add_link_category( $action ) {
  * Ajax handler to add a tag.
  *
  * @since 3.1.0
- *
- * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_add_tag() {
-	global $wp_list_table;
-
 	check_ajax_referer( 'add-tag', '_wpnonce_add-tag' );
 	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
 	$tax = get_taxonomy($taxonomy);
@@ -913,41 +927,44 @@ function wp_ajax_get_tagcloud() {
  *
  * @since 3.1.0
  *
- * @global WP_List_Table $wp_list_table
  * @global int           $post_id
  *
  * @param string $action Action to perform.
  */
 function wp_ajax_get_comments( $action ) {
-	global $wp_list_table, $post_id;
-	if ( empty( $action ) )
+	global $post_id;
+	if ( empty( $action ) ) {
 		$action = 'get-comments';
-
+	}
 	check_ajax_referer( $action );
 
 	if ( empty( $post_id ) && ! empty( $_REQUEST['p'] ) ) {
 		$id = absint( $_REQUEST['p'] );
-		if ( ! empty( $id ) )
+		if ( ! empty( $id ) ) {
 			$post_id = $id;
+		}
 	}
 
-	if ( empty( $post_id ) )
+	if ( empty( $post_id ) ) {
 		wp_die( -1 );
+	}
 
 	$wp_list_table = _get_list_table( 'WP_Post_Comments_List_Table', array( 'screen' => 'edit-comments' ) );
 
-	if ( ! current_user_can( 'edit_post', $post_id ) )
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
 		wp_die( -1 );
+	}
 
 	$wp_list_table->prepare_items();
 
-	if ( !$wp_list_table->has_items() )
+	if ( ! $wp_list_table->has_items() ) {
 		wp_die( 1 );
+	}
 
 	$x = new WP_Ajax_Response();
 	ob_start();
 	foreach ( $wp_list_table->items as $comment ) {
-		if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) )
+		if ( ! current_user_can( 'edit_comment', $comment->comment_ID ) && 0 === $comment->comment_approved )
 			continue;
 		get_comment( $comment );
 		$wp_list_table->single_row( $comment );
@@ -966,12 +983,9 @@ function wp_ajax_get_comments( $action ) {
  *
  * @since 3.1.0
  *
- * @global WP_List_Table $wp_list_table
- *
  * @param string $action Action to perform.
  */
 function wp_ajax_replyto_comment( $action ) {
-	global $wp_list_table;
 	if ( empty( $action ) )
 		$action = 'replyto-comment';
 
@@ -1088,12 +1102,8 @@ function wp_ajax_replyto_comment( $action ) {
  * Ajax handler for editing a comment.
  *
  * @since 3.1.0
- *
- * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_edit_comment() {
-	global $wp_list_table;
-
 	check_ajax_referer( 'replyto-comment', '_ajax_nonce-replyto-comment' );
 
 	$comment_id = (int) $_POST['comment_ID'];
@@ -1307,14 +1317,12 @@ function wp_ajax_add_meta() {
  *
  * @since 3.1.0
  *
- * @global WP_List_Table $wp_list_table
- *
  * @param string $action Action to perform.
  */
 function wp_ajax_add_user( $action ) {
-	global $wp_list_table;
-	if ( empty( $action ) )
+	if ( empty( $action ) ) {
 		$action = 'add-user';
+	}
 
 	check_ajax_referer( $action );
 	if ( ! current_user_can('create_users') )
@@ -1477,8 +1485,14 @@ function wp_ajax_wp_link_ajax() {
 
 	$args = array();
 
-	if ( isset( $_POST['search'] ) )
+	if ( isset( $_POST['search'] ) ) {
 		$args['s'] = wp_unslash( $_POST['search'] );
+	}
+
+	if ( isset( $_POST['term'] ) ) {
+		$args['s'] = wp_unslash( $_POST['term'] );
+	}
+
 	$args['pagenum'] = ! empty( $_POST['page'] ) ? absint( $_POST['page'] ) : 1;
 
 	require(ABSPATH . WPINC . '/class-wp-editor.php');
@@ -1582,11 +1596,9 @@ function wp_ajax_sample_permalink() {
  * Ajax handler for Quick Edit saving a post from a list table.
  *
  * @since 3.1.0
- *
- * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_inline_save() {
-	global $wp_list_table, $mode;
+	global $mode;
 
 	check_ajax_referer( 'inlineeditnonce', '_inline_edit' );
 
@@ -1595,10 +1607,10 @@ function wp_ajax_inline_save() {
 
 	if ( 'page' == $_POST['post_type'] ) {
 		if ( ! current_user_can( 'edit_page', $post_ID ) )
-			wp_die( __( 'You are not allowed to edit this page.' ) );
+			wp_die( __( 'Sorry, you are not allowed to edit this page.' ) );
 	} else {
 		if ( ! current_user_can( 'edit_post', $post_ID ) )
-			wp_die( __( 'You are not allowed to edit this post.' ) );
+			wp_die( __( 'Sorry, you are not allowed to edit this post.' ) );
 	}
 
 	if ( $last = wp_check_post_lock( $post_ID ) ) {
@@ -1662,13 +1674,15 @@ function wp_ajax_inline_save() {
 	$mode = $_POST['post_view'] === 'excerpt' ? 'excerpt' : 'list';
 
 	$level = 0;
-	$request_post = array( get_post( $_POST['post_ID'] ) );
-	$parent = $request_post[0]->post_parent;
+	if ( is_post_type_hierarchical( $wp_list_table->screen->post_type ) ) {
+		$request_post = array( get_post( $_POST['post_ID'] ) );
+		$parent       = $request_post[0]->post_parent;
 
-	while ( $parent > 0 ) {
-		$parent_post = get_post( $parent );
-		$parent = $parent_post->post_parent;
-		$level++;
+		while ( $parent > 0 ) {
+			$parent_post = get_post( $parent );
+			$parent      = $parent_post->post_parent;
+			$level++;
+		}
 	}
 
 	$wp_list_table->display_rows( array( get_post( $_POST['post_ID'] ) ), $level );
@@ -1680,12 +1694,8 @@ function wp_ajax_inline_save() {
  * Ajax handler for quick edit saving for a term.
  *
  * @since 3.1.0
- *
- * @global WP_List_Table $wp_list_table
  */
 function wp_ajax_inline_save_tax() {
-	global $wp_list_table;
-
 	check_ajax_referer( 'taxinlineeditnonce', '_inline_edit' );
 
 	$taxonomy = sanitize_key( $_POST['taxonomy'] );
@@ -1781,7 +1791,7 @@ function wp_ajax_find_posts() {
 		if ( '0000-00-00 00:00:00' == $post->post_date ) {
 			$time = '';
 		} else {
-			/* translators: date format in table columns, see http://php.net/date */
+			/* translators: date format in table columns, see https://secure.php.net/date */
 			$time = mysql2date(__('Y/m/d'), $post->post_date);
 		}
 
@@ -1991,7 +2001,7 @@ function wp_ajax_upload_attachment() {
 		echo wp_json_encode( array(
 			'success' => false,
 			'data'    => array(
-				'message'  => __( 'You do not have permission to upload files.' ),
+				'message'  => __( 'Sorry, you are not allowed to upload files.' ),
 				'filename' => $_FILES['async-upload']['name'],
 			)
 		) );
@@ -2136,7 +2146,32 @@ function wp_ajax_set_post_thumbnail() {
 }
 
 /**
- * AJAX handler for setting the featured image for an attachment.
+ * Ajax handler for retrieving HTML for the featured image.
+ *
+ * @since 4.6.0
+ */
+function wp_ajax_get_post_thumbnail_html() {
+	$post_ID = intval( $_POST['post_id'] );
+
+	check_ajax_referer( "update-post_$post_ID" );
+
+	if ( ! current_user_can( 'edit_post', $post_ID ) ) {
+		wp_die( -1 );
+	}
+
+	$thumbnail_id = intval( $_POST['thumbnail_id'] );
+
+	// For backward compatibility, -1 refers to no featured image.
+	if ( -1 === $thumbnail_id ) {
+		$thumbnail_id = null;
+	}
+
+	$return = _wp_post_thumbnail_html( $thumbnail_id, $post_ID );
+	wp_send_json_success( $return );
+}
+
+/**
+ * Ajax handler for setting the featured image for an attachment.
  *
  * @since 4.0.0
  *
@@ -2266,7 +2301,7 @@ function wp_ajax_wp_remove_post_lock() {
 		wp_die( 0 );
 
 	/**
-	 * Filter the post lock window duration.
+	 * Filters the post lock window duration.
 	 *
 	 * @since 3.3.0
 	 *
@@ -2363,7 +2398,7 @@ function wp_ajax_query_attachments() {
 		$query['post_status'] .= ',private';
 
 	/**
-	 * Filter the arguments passed to WP_Query during an AJAX
+	 * Filters the arguments passed to WP_Query during an Ajax
 	 * call for querying attachments.
 	 *
 	 * @since 3.7.0
@@ -2456,7 +2491,7 @@ function wp_ajax_save_attachment() {
 }
 
 /**
- * Ajax handler for saving backwards compatible attachment attributes.
+ * Ajax handler for saving backward compatible attachment attributes.
  *
  * @since 3.5.0
  */
@@ -2542,7 +2577,7 @@ function wp_ajax_save_attachment_order() {
  * Ajax handler for sending an attachment to the editor.
  *
  * Generates the HTML to send an attachment to the editor.
- * Backwards compatible with the media_send_to_editor filter
+ * Backward compatible with the {@see 'media_send_to_editor'} filter
  * and the chain of filters that follow.
  *
  * @since 3.5.0
@@ -2567,11 +2602,8 @@ function wp_ajax_send_attachment_to_editor() {
 		}
 	}
 
-	$rel = '';
 	$url = empty( $attachment['url'] ) ? '' : $attachment['url'];
-	if ( strpos( $url, 'attachment_id') || get_attachment_link( $id ) == $url ) {
-		$rel = 'attachment wp-att-' . $id;
-	}
+	$rel = ( strpos( $url, 'attachment_id') || get_attachment_link( $id ) == $url );
 
 	remove_filter( 'media_send_to_editor', 'image_media_send_to_editor' );
 
@@ -2592,8 +2624,10 @@ function wp_ajax_send_attachment_to_editor() {
 		$html = stripslashes_deep( $_POST['html'] );
 	} else {
 		$html = isset( $attachment['post_title'] ) ? $attachment['post_title'] : '';
+		$rel = $rel ? ' rel="attachment wp-att-' . $id . '"' : ''; // Hard-coded string, $id is already sanitized
+
 		if ( ! empty( $url ) ) {
-			$html = '<a href="' . esc_url( $url ) . '"' . 'rel="' . esc_attr( $rel ) . '">' . $html . '</a>';
+			$html = '<a href="' . esc_url( $url ) . '"' . $rel . '>' . $html . '</a>';
 		}
 	}
 
@@ -2608,7 +2642,7 @@ function wp_ajax_send_attachment_to_editor() {
  *
  * Generates the HTML to send a non-image embed link to the editor.
  *
- * Backwards compatible with the following filters:
+ * Backward compatible with the following filters:
  * - file_send_to_editor_url
  * - audio_send_to_editor_url
  * - video_send_to_editor_url
@@ -2702,24 +2736,24 @@ function wp_ajax_heartbeat() {
 
 	if ( ! empty( $data ) ) {
 		/**
-		 * Filter the Heartbeat response received.
+		 * Filters the Heartbeat response received.
 		 *
 		 * @since 3.6.0
 		 *
-		 * @param array|object $response  The Heartbeat response object or array.
-		 * @param array        $data      The $_POST data sent.
-		 * @param string       $screen_id The screen id.
+		 * @param array  $response  The Heartbeat response.
+		 * @param array  $data      The $_POST data sent.
+		 * @param string $screen_id The screen id.
 		 */
 		$response = apply_filters( 'heartbeat_received', $response, $data, $screen_id );
 	}
 
 	/**
-	 * Filter the Heartbeat response sent.
+	 * Filters the Heartbeat response sent.
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array|object $response  The Heartbeat response object or array.
-	 * @param string       $screen_id The screen id.
+	 * @param array  $response  The Heartbeat response.
+	 * @param string $screen_id The screen id.
 	 */
 	$response = apply_filters( 'heartbeat_send', $response, $screen_id );
 
@@ -2730,8 +2764,8 @@ function wp_ajax_heartbeat() {
 	 *
 	 * @since 3.6.0
 	 *
-	 * @param array|object $response  The Heartbeat response object or array.
-	 * @param string       $screen_id The screen id.
+	 * @param array  $response  The Heartbeat response.
+	 * @param string $screen_id The screen id.
 	 */
 	do_action( 'heartbeat_tick', $response, $screen_id );
 
@@ -2752,7 +2786,7 @@ function wp_ajax_get_revision_diffs() {
 	if ( ! $post = get_post( (int) $_REQUEST['post_id'] ) )
 		wp_send_json_error();
 
-	if ( ! current_user_can( 'read_post', $post->ID ) )
+	if ( ! current_user_can( 'edit_post', $post->ID ) )
 		wp_send_json_error();
 
 	// Really just pre-loading the cache here.
@@ -2846,6 +2880,28 @@ function wp_ajax_query_themes() {
 			'_wpnonce' => wp_create_nonce( 'install-theme_' . $theme->slug )
 		), $update_php );
 
+		if ( current_user_can( 'switch_themes' ) ) {
+			if ( is_multisite() ) {
+				$theme->activate_url = add_query_arg( array(
+					'action'   => 'enable',
+					'_wpnonce' => wp_create_nonce( 'enable-theme_' . $theme->slug ),
+					'theme'    => $theme->slug,
+				), network_admin_url( 'themes.php' ) );
+			} else {
+				$theme->activate_url = add_query_arg( array(
+					'action'     => 'activate',
+					'_wpnonce'   => wp_create_nonce( 'switch-theme_' . $theme->slug ),
+					'stylesheet' => $theme->slug,
+				), admin_url( 'themes.php' ) );
+			}
+		}
+
+		if ( ! is_multisite() && current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) {
+			$theme->customize_url = add_query_arg( array(
+				'return' => urlencode( network_admin_url( 'theme-install.php', 'relative' ) ),
+			), wp_customize_url( $theme->slug ) );
+		}
+
 		$theme->name        = wp_kses( $theme->name, $themes_allowedtags );
 		$theme->author      = wp_kses( $theme->author, $themes_allowedtags );
 		$theme->version     = wp_kses( $theme->version, $themes_allowedtags );
@@ -2859,7 +2915,7 @@ function wp_ajax_query_themes() {
 }
 
 /**
- * Apply [embed] AJAX handlers to a string.
+ * Apply [embed] Ajax handlers to a string.
  *
  * @since 4.0.0
  *
@@ -3020,7 +3076,7 @@ function wp_ajax_parse_media_shortcode() {
 }
 
 /**
- * AJAX handler for destroying multiple open sessions for a user.
+ * Ajax handler for destroying multiple open sessions for a user.
  *
  * @since 4.1.0
  */
@@ -3054,133 +3110,32 @@ function wp_ajax_destroy_sessions() {
 	wp_send_json_success( array( 'message' => $message ) );
 }
 
-
 /**
- * AJAX handler for updating a plugin.
+ * Ajax handler for saving a post from Press This.
  *
  * @since 4.2.0
- *
- * @see Plugin_Upgrader
- */
-function wp_ajax_update_plugin() {
-	global $wp_filesystem;
-
-	$plugin = urldecode( $_POST['plugin'] );
-
-	$status = array(
-		'update'     => 'plugin',
-		'plugin'     => $plugin,
-		'slug'       => sanitize_key( $_POST['slug'] ),
-		'oldVersion' => '',
-		'newVersion' => '',
-	);
-
-	$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
-	if ( $plugin_data['Version'] ) {
-		$status['oldVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
-	}
-
-	if ( ! current_user_can( 'update_plugins' ) ) {
-		$status['error'] = __( 'You do not have sufficient permissions to update plugins for this site.' );
- 		wp_send_json_error( $status );
-	}
-
-	check_ajax_referer( 'updates' );
-
-	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
-
-	wp_update_plugins();
-
-	$skin = new Automatic_Upgrader_Skin();
-	$upgrader = new Plugin_Upgrader( $skin );
-	$result = $upgrader->bulk_upgrade( array( $plugin ) );
-
-	if ( is_array( $result ) && empty( $result[$plugin] ) && is_wp_error( $skin->result ) ) {
-		$result = $skin->result;
-	}
-
-	if ( is_array( $result ) && !empty( $result[ $plugin ] ) ) {
-		$plugin_update_data = current( $result );
-
-		/*
-		 * If the `update_plugins` site transient is empty (e.g. when you update
-		 * two plugins in quick succession before the transient repopulates),
-		 * this may be the return.
-		 *
-		 * Preferably something can be done to ensure `update_plugins` isn't empty.
-		 * For now, surface some sort of error here.
-		 */
-		if ( $plugin_update_data === true ) {
-			$status['error'] = __( 'Plugin update failed.' );
- 			wp_send_json_error( $status );
-		}
-
-		$plugin_data = get_plugins( '/' . $result[ $plugin ]['destination_name'] );
-		$plugin_data = reset( $plugin_data );
-
-		if ( $plugin_data['Version'] ) {
-			$status['newVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
-		}
-
-		wp_send_json_success( $status );
-	} else if ( is_wp_error( $result ) ) {
-		$status['error'] = $result->get_error_message();
- 		wp_send_json_error( $status );
-
- 	} else if ( is_bool( $result ) && ! $result ) {
-		$status['errorCode'] = 'unable_to_connect_to_filesystem';
-		$status['error'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
-
-		// Pass through the error from WP_Filesystem if one was raised
-		if ( is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
-			$status['error'] = $wp_filesystem->errors->get_error_message();
-		}
-
-		wp_send_json_error( $status );
-
-	} else {
-		// An unhandled error occured
-		$status['error'] = __( 'Plugin update failed.' );
-		wp_send_json_error( $status );
-	}
-}
-
-/**
- * AJAX handler for saving a post from Press This.
- *
- * @since 4.2.0
- *
- * @global WP_Press_This $wp_press_this
  */
 function wp_ajax_press_this_save_post() {
-	if ( empty( $GLOBALS['wp_press_this'] ) ) {
-		include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
-	}
-
-	$GLOBALS['wp_press_this']->save_post();
+	include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
+	$wp_press_this = new WP_Press_This();
+	$wp_press_this->save_post();
 }
 
 /**
- * AJAX handler for creating new category from Press This.
+ * Ajax handler for creating new category from Press This.
  *
  * @since 4.2.0
- *
- * @global WP_Press_This $wp_press_this
  */
 function wp_ajax_press_this_add_category() {
-	if ( empty( $GLOBALS['wp_press_this'] ) ) {
-		include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
-	}
-
-	$GLOBALS['wp_press_this']->add_category();
+	include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
+	$wp_press_this = new WP_Press_This();
+	$wp_press_this->add_category();
 }
 
 /**
- * AJAX handler for cropping an image.
+ * Ajax handler for cropping an image.
  *
  * @since 4.3.0
- *
- * @global WP_Site_Icon $wp_site_icon
  */
 function wp_ajax_crop_image() {
 	$attachment_id = absint( $_POST['id'] );
@@ -3201,7 +3156,7 @@ function wp_ajax_crop_image() {
 	switch ( $context ) {
 		case 'site-icon':
 			require_once ABSPATH . '/wp-admin/includes/class-wp-site-icon.php';
-			global $wp_site_icon;
+			$wp_site_icon = new WP_Site_Icon();
 
 			// Skip creating a new attachment if the attachment is a Site Icon.
 			if ( get_post_meta( $attachment_id, '_wp_attachment_context', true ) == $context ) {
@@ -3264,7 +3219,7 @@ function wp_ajax_crop_image() {
 			$metadata = wp_generate_attachment_metadata( $attachment_id, $cropped );
 
 			/**
-			 * Filter the cropped image attachment metadata.
+			 * Filters the cropped image attachment metadata.
 			 *
 			 * @since 4.3.0
 			 *
@@ -3276,7 +3231,7 @@ function wp_ajax_crop_image() {
 			wp_update_attachment_metadata( $attachment_id, $metadata );
 
 			/**
-			 * Filter the attachment ID for a cropped image.
+			 * Filters the attachment ID for a cropped image.
 			 *
 			 * @since 4.3.0
 			 *
@@ -3308,6 +3263,8 @@ function wp_ajax_save_wporg_username() {
 		wp_send_json_error();
 	}
 
+	check_ajax_referer( 'save_wporg_username_' . get_current_user_id() );
+
 	$username = isset( $_REQUEST['username'] ) ? wp_unslash( $_REQUEST['username'] ) : false;
 
 	if ( ! $username ) {
@@ -3315,4 +3272,619 @@ function wp_ajax_save_wporg_username() {
 	}
 
 	wp_send_json_success( update_user_meta( get_current_user_id(), 'wporg_favorites', $username ) );
+}
+
+/**
+ * Ajax handler for installing a theme.
+ *
+ * @since 4.6.0
+ *
+ * @see Theme_Upgrader
+ */
+function wp_ajax_install_theme() {
+	check_ajax_referer( 'updates' );
+
+	if ( empty( $_POST['slug'] ) ) {
+		wp_send_json_error( array(
+			'slug'         => '',
+			'errorCode'    => 'no_theme_specified',
+			'errorMessage' => __( 'No theme specified.' ),
+		) );
+	}
+
+	$slug = sanitize_key( wp_unslash( $_POST['slug'] ) );
+
+	$status = array(
+		'install' => 'theme',
+		'slug'    => $slug,
+	);
+
+	if ( ! current_user_can( 'install_themes' ) ) {
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to install themes on this site.' );
+		wp_send_json_error( $status );
+	}
+
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	include_once( ABSPATH . 'wp-admin/includes/theme.php' );
+
+	$api = themes_api( 'theme_information', array(
+		'slug'   => $slug,
+		'fields' => array( 'sections' => false ),
+	) );
+
+	if ( is_wp_error( $api ) ) {
+		$status['errorMessage'] = $api->get_error_message();
+		wp_send_json_error( $status );
+	}
+
+	$skin     = new WP_Ajax_Upgrader_Skin();
+	$upgrader = new Theme_Upgrader( $skin );
+	$result   = $upgrader->install( $api->download_link );
+
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		$status['debug'] = $skin->get_upgrade_messages();
+	}
+
+	if ( is_wp_error( $result ) ) {
+		$status['errorCode']    = $result->get_error_code();
+		$status['errorMessage'] = $result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( is_wp_error( $skin->result ) ) {
+		$status['errorCode']    = $skin->result->get_error_code();
+		$status['errorMessage'] = $skin->result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( $skin->get_errors()->get_error_code() ) {
+		$status['errorMessage'] = $skin->get_error_messages();
+		wp_send_json_error( $status );
+	} elseif ( is_null( $result ) ) {
+		global $wp_filesystem;
+
+		$status['errorCode']    = 'unable_to_connect_to_filesystem';
+		$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+
+		// Pass through the error from WP_Filesystem if one was raised.
+		if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+			$status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
+		}
+
+		wp_send_json_error( $status );
+	}
+
+	$status['themeName'] = wp_get_theme( $slug )->get( 'Name' );
+
+	if ( current_user_can( 'switch_themes' ) ) {
+		if ( is_multisite() ) {
+			$status['activateUrl'] = add_query_arg( array(
+				'action'   => 'enable',
+				'_wpnonce' => wp_create_nonce( 'enable-theme_' . $slug ),
+				'theme'    => $slug,
+			), network_admin_url( 'themes.php' ) );
+		} else {
+			$status['activateUrl'] = add_query_arg( array(
+				'action'     => 'activate',
+				'_wpnonce'   => wp_create_nonce( 'switch-theme_' . $slug ),
+				'stylesheet' => $slug,
+			), admin_url( 'themes.php' ) );
+		}
+	}
+
+	if ( ! is_multisite() && current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) {
+		$status['customizeUrl'] = add_query_arg( array(
+			'return' => urlencode( network_admin_url( 'theme-install.php', 'relative' ) ),
+		), wp_customize_url( $slug ) );
+	}
+
+	/*
+	 * See WP_Theme_Install_List_Table::_get_theme_status() if we wanted to check
+	 * on post-install status.
+	 */
+	wp_send_json_success( $status );
+}
+
+/**
+ * Ajax handler for updating a theme.
+ *
+ * @since 4.6.0
+ *
+ * @see Theme_Upgrader
+ */
+function wp_ajax_update_theme() {
+	check_ajax_referer( 'updates' );
+
+	if ( empty( $_POST['slug'] ) ) {
+		wp_send_json_error( array(
+			'slug'         => '',
+			'errorCode'    => 'no_theme_specified',
+			'errorMessage' => __( 'No theme specified.' ),
+		) );
+	}
+
+	$stylesheet = sanitize_key( wp_unslash( $_POST['slug'] ) );
+	$status     = array(
+		'update'     => 'theme',
+		'slug'       => $stylesheet,
+		'newVersion' => '',
+	);
+
+	if ( ! current_user_can( 'update_themes' ) ) {
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to update themes for this site.' );
+		wp_send_json_error( $status );
+	}
+
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+
+	$current = get_site_transient( 'update_themes' );
+	if ( empty( $current ) ) {
+		wp_update_themes();
+	}
+
+	$skin     = new WP_Ajax_Upgrader_Skin();
+	$upgrader = new Theme_Upgrader( $skin );
+	$result   = $upgrader->bulk_upgrade( array( $stylesheet ) );
+
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		$status['debug'] = $skin->get_upgrade_messages();
+	}
+
+	if ( is_wp_error( $skin->result ) ) {
+		$status['errorCode']    = $skin->result->get_error_code();
+		$status['errorMessage'] = $skin->result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( $skin->get_errors()->get_error_code() ) {
+		$status['errorMessage'] = $skin->get_error_messages();
+		wp_send_json_error( $status );
+	} elseif ( is_array( $result ) && ! empty( $result[ $stylesheet ] ) ) {
+
+		// Theme is already at the latest version.
+		if ( true === $result[ $stylesheet ] ) {
+			$status['errorMessage'] = $upgrader->strings['up_to_date'];
+			wp_send_json_error( $status );
+		}
+
+		$theme = wp_get_theme( $stylesheet );
+		if ( $theme->get( 'Version' ) ) {
+			$status['newVersion'] = $theme->get( 'Version' );
+		}
+
+		wp_send_json_success( $status );
+	} elseif ( false === $result ) {
+		global $wp_filesystem;
+
+		$status['errorCode']    = 'unable_to_connect_to_filesystem';
+		$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+
+		// Pass through the error from WP_Filesystem if one was raised.
+		if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+			$status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
+		}
+
+		wp_send_json_error( $status );
+	}
+
+	// An unhandled error occurred.
+	$status['errorMessage'] = __( 'Update failed.' );
+	wp_send_json_error( $status );
+}
+
+/**
+ * Ajax handler for deleting a theme.
+ *
+ * @since 4.6.0
+ *
+ * @see delete_theme()
+ */
+function wp_ajax_delete_theme() {
+	check_ajax_referer( 'updates' );
+
+	if ( empty( $_POST['slug'] ) ) {
+		wp_send_json_error( array(
+			'slug'         => '',
+			'errorCode'    => 'no_theme_specified',
+			'errorMessage' => __( 'No theme specified.' ),
+		) );
+	}
+
+	$stylesheet = sanitize_key( wp_unslash( $_POST['slug'] ) );
+	$status     = array(
+		'delete' => 'theme',
+		'slug'   => $stylesheet,
+	);
+
+	if ( ! current_user_can( 'delete_themes' ) ) {
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to delete themes on this site.' );
+		wp_send_json_error( $status );
+	}
+
+	if ( ! wp_get_theme( $stylesheet )->exists() ) {
+		$status['errorMessage'] = __( 'The requested theme does not exist.' );
+		wp_send_json_error( $status );
+	}
+
+	// Check filesystem credentials. `delete_theme()` will bail otherwise.
+	$url = wp_nonce_url( 'themes.php?action=delete&stylesheet=' . urlencode( $stylesheet ), 'delete-theme_' . $stylesheet );
+	ob_start();
+	$credentials = request_filesystem_credentials( $url );
+	ob_end_clean();
+	if ( false === $credentials || ! WP_Filesystem( $credentials ) ) {
+		global $wp_filesystem;
+
+		$status['errorCode']    = 'unable_to_connect_to_filesystem';
+		$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+
+		// Pass through the error from WP_Filesystem if one was raised.
+		if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+			$status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
+		}
+
+		wp_send_json_error( $status );
+	}
+
+	include_once( ABSPATH . 'wp-admin/includes/theme.php' );
+
+	$result = delete_theme( $stylesheet );
+
+	if ( is_wp_error( $result ) ) {
+		$status['errorMessage'] = $result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( false === $result ) {
+		$status['errorMessage'] = __( 'Theme could not be deleted.' );
+		wp_send_json_error( $status );
+	}
+
+	wp_send_json_success( $status );
+}
+
+/**
+ * Ajax handler for installing a plugin.
+ *
+ * @since 4.6.0
+ *
+ * @see Plugin_Upgrader
+ */
+function wp_ajax_install_plugin() {
+	check_ajax_referer( 'updates' );
+
+	if ( empty( $_POST['slug'] ) ) {
+		wp_send_json_error( array(
+			'slug'         => '',
+			'errorCode'    => 'no_plugin_specified',
+			'errorMessage' => __( 'No plugin specified.' ),
+		) );
+	}
+
+	$status = array(
+		'install' => 'plugin',
+		'slug'    => sanitize_key( wp_unslash( $_POST['slug'] ) ),
+	);
+
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to install plugins on this site.' );
+		wp_send_json_error( $status );
+	}
+
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+	include_once( ABSPATH . 'wp-admin/includes/plugin-install.php' );
+
+	$api = plugins_api( 'plugin_information', array(
+		'slug'   => sanitize_key( wp_unslash( $_POST['slug'] ) ),
+		'fields' => array(
+			'sections' => false,
+		),
+	) );
+
+	if ( is_wp_error( $api ) ) {
+		$status['errorMessage'] = $api->get_error_message();
+		wp_send_json_error( $status );
+	}
+
+	$status['pluginName'] = $api->name;
+
+	$skin     = new WP_Ajax_Upgrader_Skin();
+	$upgrader = new Plugin_Upgrader( $skin );
+	$result   = $upgrader->install( $api->download_link );
+
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		$status['debug'] = $skin->get_upgrade_messages();
+	}
+
+	if ( is_wp_error( $result ) ) {
+		$status['errorCode']    = $result->get_error_code();
+		$status['errorMessage'] = $result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( is_wp_error( $skin->result ) ) {
+		$status['errorCode']    = $skin->result->get_error_code();
+		$status['errorMessage'] = $skin->result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( $skin->get_errors()->get_error_code() ) {
+		$status['errorMessage'] = $skin->get_error_messages();
+		wp_send_json_error( $status );
+	} elseif ( is_null( $result ) ) {
+		global $wp_filesystem;
+
+		$status['errorCode']    = 'unable_to_connect_to_filesystem';
+		$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+
+		// Pass through the error from WP_Filesystem if one was raised.
+		if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+			$status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
+		}
+
+		wp_send_json_error( $status );
+	}
+
+	$install_status = install_plugin_install_status( $api );
+
+	if ( current_user_can( 'activate_plugins' ) && is_plugin_inactive( $install_status['file'] ) ) {
+		$status['activateUrl'] = add_query_arg( array(
+			'_wpnonce' => wp_create_nonce( 'activate-plugin_' . $install_status['file'] ),
+			'action'   => 'activate',
+			'plugin'   => $install_status['file'],
+		), network_admin_url( 'plugins.php' ) );
+	}
+
+	if ( is_multisite() && current_user_can( 'manage_network_plugins' ) ) {
+		$status['activateUrl'] = add_query_arg( array( 'networkwide' => 1 ), $status['activateUrl'] );
+	}
+
+	wp_send_json_success( $status );
+}
+
+/**
+ * Ajax handler for updating a plugin.
+ *
+ * @since 4.2.0
+ *
+ * @see Plugin_Upgrader
+ */
+function wp_ajax_update_plugin() {
+	check_ajax_referer( 'updates' );
+
+	if ( empty( $_POST['plugin'] ) || empty( $_POST['slug'] ) ) {
+		wp_send_json_error( array(
+			'slug'         => '',
+			'errorCode'    => 'no_plugin_specified',
+			'errorMessage' => __( 'No plugin specified.' ),
+		) );
+	}
+
+	$plugin = plugin_basename( sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) );
+
+	$status = array(
+		'update'     => 'plugin',
+		'slug'       => sanitize_key( wp_unslash( $_POST['slug'] ) ),
+		'oldVersion' => '',
+		'newVersion' => '',
+	);
+
+	if ( ! current_user_can( 'update_plugins' ) || 0 !== validate_file( $plugin ) ) {
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to update plugins for this site.' );
+		wp_send_json_error( $status );
+	}
+
+	$plugin_data          = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+	$status['plugin']     = $plugin;
+	$status['pluginName'] = $plugin_data['Name'];
+
+	if ( $plugin_data['Version'] ) {
+		/* translators: %s: Plugin version */
+		$status['oldVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
+	}
+
+	include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+
+	wp_update_plugins();
+
+	$skin     = new WP_Ajax_Upgrader_Skin();
+	$upgrader = new Plugin_Upgrader( $skin );
+	$result   = $upgrader->bulk_upgrade( array( $plugin ) );
+
+	if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+		$status['debug'] = $skin->get_upgrade_messages();
+	}
+
+	if ( is_wp_error( $skin->result ) ) {
+		$status['errorCode']    = $skin->result->get_error_code();
+		$status['errorMessage'] = $skin->result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( $skin->get_errors()->get_error_code() ) {
+		$status['errorMessage'] = $skin->get_error_messages();
+		wp_send_json_error( $status );
+	} elseif ( is_array( $result ) && ! empty( $result[ $plugin ] ) ) {
+		$plugin_update_data = current( $result );
+
+		/*
+		 * If the `update_plugins` site transient is empty (e.g. when you update
+		 * two plugins in quick succession before the transient repopulates),
+		 * this may be the return.
+		 *
+		 * Preferably something can be done to ensure `update_plugins` isn't empty.
+		 * For now, surface some sort of error here.
+		 */
+		if ( true === $plugin_update_data ) {
+			$status['errorMessage'] = __( 'Plugin update failed.' );
+			wp_send_json_error( $status );
+		}
+
+		$plugin_data = get_plugins( '/' . $result[ $plugin ]['destination_name'] );
+		$plugin_data = reset( $plugin_data );
+
+		if ( $plugin_data['Version'] ) {
+			/* translators: %s: Plugin version */
+			$status['newVersion'] = sprintf( __( 'Version %s' ), $plugin_data['Version'] );
+		}
+		wp_send_json_success( $status );
+	} elseif ( false === $result ) {
+		global $wp_filesystem;
+
+		$status['errorCode']    = 'unable_to_connect_to_filesystem';
+		$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+
+		// Pass through the error from WP_Filesystem if one was raised.
+		if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+			$status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
+		}
+
+		wp_send_json_error( $status );
+	}
+
+	// An unhandled error occurred.
+	$status['errorMessage'] = __( 'Plugin update failed.' );
+	wp_send_json_error( $status );
+}
+
+/**
+ * Ajax handler for deleting a plugin.
+ *
+ * @since 4.6.0
+ *
+ * @see delete_plugins()
+ */
+function wp_ajax_delete_plugin() {
+	check_ajax_referer( 'updates' );
+
+	if ( empty( $_POST['slug'] ) || empty( $_POST['plugin'] ) ) {
+		wp_send_json_error( array(
+			'slug'         => '',
+			'errorCode'    => 'no_plugin_specified',
+			'errorMessage' => __( 'No plugin specified.' ),
+		) );
+	}
+
+	$plugin = plugin_basename( sanitize_text_field( wp_unslash( $_POST['plugin'] ) ) );
+
+	$status = array(
+		'delete' => 'plugin',
+		'slug'   => sanitize_key( wp_unslash( $_POST['slug'] ) ),
+	);
+
+	if ( ! current_user_can( 'delete_plugins' ) || 0 !== validate_file( $plugin ) ) {
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to delete plugins for this site.' );
+		wp_send_json_error( $status );
+	}
+
+	$plugin_data          = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
+	$status['plugin']     = $plugin;
+	$status['pluginName'] = $plugin_data['Name'];
+
+	if ( is_plugin_active( $plugin ) ) {
+		$status['errorMessage'] = __( 'You cannot delete a plugin while it is active on the main site.' );
+		wp_send_json_error( $status );
+	}
+
+	// Check filesystem credentials. `delete_plugins()` will bail otherwise.
+	$url = wp_nonce_url( 'plugins.php?action=delete-selected&verify-delete=1&checked[]=' . $plugin, 'bulk-plugins' );
+	ob_start();
+	$credentials = request_filesystem_credentials( $url );
+	ob_end_clean();
+	if ( false === $credentials || ! WP_Filesystem( $credentials ) ) {
+		global $wp_filesystem;
+
+		$status['errorCode']    = 'unable_to_connect_to_filesystem';
+		$status['errorMessage'] = __( 'Unable to connect to the filesystem. Please confirm your credentials.' );
+
+		// Pass through the error from WP_Filesystem if one was raised.
+		if ( $wp_filesystem instanceof WP_Filesystem_Base && is_wp_error( $wp_filesystem->errors ) && $wp_filesystem->errors->get_error_code() ) {
+			$status['errorMessage'] = esc_html( $wp_filesystem->errors->get_error_message() );
+		}
+
+		wp_send_json_error( $status );
+	}
+
+	$result = delete_plugins( array( $plugin ) );
+
+	if ( is_wp_error( $result ) ) {
+		$status['errorMessage'] = $result->get_error_message();
+		wp_send_json_error( $status );
+	} elseif ( false === $result ) {
+		$status['errorMessage'] = __( 'Plugin could not be deleted.' );
+		wp_send_json_error( $status );
+	}
+
+	wp_send_json_success( $status );
+}
+
+/**
+ * Ajax handler for searching plugins.
+ *
+ * @since 4.6.0
+ *
+ * @global string $s Search term.
+ */
+function wp_ajax_search_plugins() {
+	check_ajax_referer( 'updates' );
+
+	$pagenow = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
+	if ( 'plugins-network' === $pagenow || 'plugins' === $pagenow ) {
+		set_current_screen( $pagenow );
+	}
+
+	/** @var WP_Plugins_List_Table $wp_list_table */
+	$wp_list_table = _get_list_table( 'WP_Plugins_List_Table', array(
+		'screen' => get_current_screen(),
+	) );
+
+	$status = array();
+
+	if ( ! $wp_list_table->ajax_user_can() ) {
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to manage plugins for this site.' );
+		wp_send_json_error( $status );
+	}
+
+	// Set the correct requester, so pagination works.
+	$_SERVER['REQUEST_URI'] = add_query_arg( array_diff_key( $_POST, array(
+		'_ajax_nonce' => null,
+		'action'      => null,
+	) ), network_admin_url( 'plugins.php', 'relative' ) );
+
+	$GLOBALS['s'] = wp_unslash( $_POST['s'] );
+
+	$wp_list_table->prepare_items();
+
+	ob_start();
+	$wp_list_table->display();
+	$status['count'] = count( $wp_list_table->items );
+	$status['items'] = ob_get_clean();
+
+	wp_send_json_success( $status );
+}
+
+/**
+ * Ajax handler for searching plugins to install.
+ *
+ * @since 4.6.0
+ */
+function wp_ajax_search_install_plugins() {
+	check_ajax_referer( 'updates' );
+
+	$pagenow = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
+	if ( 'plugin-install-network' === $pagenow || 'plugin-install' === $pagenow ) {
+		set_current_screen( $pagenow );
+	}
+
+	/** @var WP_Plugin_Install_List_Table $wp_list_table */
+	$wp_list_table = _get_list_table( 'WP_Plugin_Install_List_Table', array(
+		'screen' => get_current_screen(),
+	) );
+
+	$status = array();
+
+	if ( ! $wp_list_table->ajax_user_can() ) {
+		$status['errorMessage'] = __( 'Sorry, you are not allowed to manage plugins for this site.' );
+		wp_send_json_error( $status );
+	}
+
+	// Set the correct requester, so pagination works.
+	$_SERVER['REQUEST_URI'] = add_query_arg( array_diff_key( $_POST, array(
+		'_ajax_nonce' => null,
+		'action'      => null,
+	) ), network_admin_url( 'plugin-install.php', 'relative' ) );
+
+	$wp_list_table->prepare_items();
+
+	ob_start();
+	$wp_list_table->display();
+	$status['count'] = (int) $wp_list_table->get_pagination_arg( 'total_items' );
+	$status['items'] = ob_get_clean();
+
+	wp_send_json_success( $status );
 }

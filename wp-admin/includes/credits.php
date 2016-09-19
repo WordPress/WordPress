@@ -10,14 +10,12 @@
 /**
  * Retrieve the contributor credits.
  *
- * @global string $wp_version The current WordPress version.
- *
  * @since 3.2.0
  *
  * @return array|false A list of all of the contributors, or false on error.
  */
 function wp_credits() {
-	global $wp_version;
+	$wp_version = get_bloginfo( 'version' );
 	$locale = get_locale();
 
 	$results = get_site_transient( 'wordpress_credits_' . $locale );
@@ -26,7 +24,7 @@ function wp_credits() {
 		|| false !== strpos( $wp_version, '-' )
 		|| ( isset( $results['data']['version'] ) && strpos( $wp_version, $results['data']['version'] ) !== 0 )
 	) {
-		$response = wp_remote_get( "http://api.wordpress.org/core/credits/1.1/?version=$wp_version&locale=$locale" );
+		$response = wp_remote_get( "http://api.wordpress.org/core/credits/1.1/?version={$wp_version}&locale={$locale}" );
 
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) )
 			return false;

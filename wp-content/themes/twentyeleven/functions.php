@@ -226,6 +226,9 @@ function twentyeleven_setup() {
 			'description' => __( 'Hanoi Plant', 'twentyeleven' )
 		)
 	) );
+
+	// Indicate widget sidebars can use selective refresh in the Customizer.
+	add_theme_support( 'customize-selective-refresh-widgets' );
 }
 endif; // twentyeleven_setup
 

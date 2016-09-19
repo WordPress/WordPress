@@ -1385,7 +1385,7 @@ class PHPMailer
     public function getSMTPInstance()
     {
         if (!is_object($this->smtp)) {
-        	require_once( 'class-smtp.php' );
+			require_once( 'class-smtp.php' );
             $this->smtp = new SMTP;
         }
         return $this->smtp;

@@ -15,7 +15,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! current_user_can( 'customize' ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to customize the appearance of this site.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to customize this site.' ) . '</p>',
 		403
 	);
 }
@@ -118,23 +118,23 @@ do_action( 'customize_controls_print_scripts' );
 			submit_button( $save_text, 'primary save', 'save', false );
 			?>
 			<span class="spinner"></span>
-			<a class="customize-controls-preview-toggle" href="#">
+			<button type="button" class="customize-controls-preview-toggle">
 				<span class="controls"><?php _e( 'Customize' ); ?></span>
 				<span class="preview"><?php _e( 'Preview' ); ?></span>
-			</a>
+			</button>
 			<a class="customize-controls-close" href="<?php echo esc_url( $wp_customize->get_return_url() ); ?>">
-				<span class="screen-reader-text"><?php _e( 'Cancel' ); ?></span>
+				<span class="screen-reader-text"><?php _e( 'Close the Customizer and go back to the previous page' ); ?></span>
 			</a>
 		</div>
 
-		<div id="widgets-right"><!-- For Widget Customizer, many widgets try to look for instances under div#widgets-right, so we have to add that ID to a container div in the Customizer for compat -->
+		<div id="widgets-right" class="wp-clearfix"><!-- For Widget Customizer, many widgets try to look for instances under div#widgets-right, so we have to add that ID to a container div in the Customizer for compat -->
 		<div class="wp-full-overlay-sidebar-content" tabindex="-1">
 			<div id="customize-info" class="accordion-section customize-info">
 				<div class="accordion-section-title">
 					<span class="preview-notice"><?php
 						echo sprintf( __( 'You are customizing %s' ), '<strong class="panel-title site-title">' . get_bloginfo( 'name' ) . '</strong>' );
 					?></span>
-					<button class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text"><?php _e( 'Help' ); ?></span></button>
+					<button type="button" class="customize-help-toggle dashicons dashicons-editor-help" aria-expanded="false"><span class="screen-reader-text"><?php _e( 'Help' ); ?></span></button>
 				</div>
 				<div class="customize-panel-description"><?php
 					_e( 'The Customizer allows you to preview changes to your site before publishing them. You can also navigate to different pages on your site to preview them.' );
@@ -148,6 +148,26 @@ do_action( 'customize_controls_print_scripts' );
 		</div>
 
 		<div id="customize-footer-actions" class="wp-full-overlay-footer">
+			<?php $previewable_devices = $wp_customize->get_previewable_devices(); ?>
+			<?php if ( ! empty( $previewable_devices ) ) : ?>
+			<div class="devices">
+				<?php foreach ( (array) $previewable_devices as $device => $settings ) : ?>
+					<?php
+					if ( empty( $settings['label'] ) ) {
+						continue;
+					}
+					$active = ! empty( $settings['default'] );
+					$class = 'preview-' . $device;
+					if ( $active ) {
+						$class .= ' active';
+					}
+					?>
+					<button type="button" class="<?php echo esc_attr( $class ); ?>" aria-pressed="<?php echo esc_attr( $active ) ?>" data-device="<?php echo esc_attr( $device ); ?>">
+						<span class="screen-reader-text"><?php echo esc_html( $settings['label'] ); ?></span>
+					</button>
+				<?php endforeach; ?>
+			</div>
+			<?php endif; ?>
 			<button type="button" class="collapse-sidebar button-secondary" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
 				<span class="collapse-sidebar-arrow"></span>
 				<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
@@ -158,7 +178,7 @@ do_action( 'customize_controls_print_scripts' );
 	<?php
 
 	/**
-	 * Print templates, control scripts, and settings in the footer.
+	 * Prints templates, control scripts, and settings in the footer.
 	 *
 	 * @since 3.4.0
 	 */

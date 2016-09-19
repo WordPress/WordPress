@@ -42,7 +42,7 @@ class WP_Themes_List_Table extends WP_List_Table {
 	 * @return bool
 	 */
 	public function ajax_user_can() {
-		// Do not check edit_theme_options here. AJAX calls for available themes require switch_themes.
+		// Do not check edit_theme_options here. Ajax calls for available themes require switch_themes.
 		return current_user_can( 'switch_themes' );
 	}
 
@@ -91,20 +91,21 @@ class WP_Themes_List_Table extends WP_List_Table {
 			return;
 		}
 
+		$blog_id = get_current_blog_id();
 		if ( is_multisite() ) {
 			if ( current_user_can( 'install_themes' ) && current_user_can( 'manage_network_themes' ) ) {
-				printf( __( 'You only have one theme enabled for this site right now. Visit the Network Admin to <a href="%1$s">enable</a> or <a href="%2$s">install</a> more themes.' ), network_admin_url( 'site-themes.php?id=' . $GLOBALS['blog_id'] ), network_admin_url( 'theme-install.php' ) );
+				printf( __( 'You only have one theme enabled for this site right now. Visit the Network Admin to <a href="%1$s">enable</a> or <a href="%2$s">install</a> more themes.' ), network_admin_url( 'site-themes.php?id=' . $blog_id ), network_admin_url( 'theme-install.php' ) );
 
 				return;
 			} elseif ( current_user_can( 'manage_network_themes' ) ) {
-				printf( __( 'You only have one theme enabled for this site right now. Visit the Network Admin to <a href="%1$s">enable</a> more themes.' ), network_admin_url( 'site-themes.php?id=' . $GLOBALS['blog_id'] ) );
+				printf( __( 'You only have one theme enabled for this site right now. Visit the Network Admin to <a href="%1$s">enable</a> more themes.' ), network_admin_url( 'site-themes.php?id=' . $blog_id ) );
 
 				return;
 			}
 			// Else, fallthrough. install_themes doesn't help if you can't enable it.
 		} else {
 			if ( current_user_can( 'install_themes' ) ) {
-				printf( __( 'You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress.org Theme Directory at any time: just click on the <a href="%s">Install Themes</a> tab above.' ), admin_url( 'theme-install.php' ) );
+				printf( __( 'You only have one theme installed right now. Live a little! You can choose from over 1,000 free themes in the WordPress Theme Directory at any time: just click on the <a href="%s">Install Themes</a> tab above.' ), admin_url( 'theme-install.php' ) );
 
 				return;
 			}

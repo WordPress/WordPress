@@ -230,7 +230,7 @@
 				settings.onPostRender = patchedPostRender;
 			}
 
-			if ( settings.title ) {
+			if (settings.title) {
 				// WP
 				string = (editor.settings.language || "en") + "." + settings.title;
 				translated = tinymce.i18n.translate(string);

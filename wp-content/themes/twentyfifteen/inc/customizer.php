@@ -20,6 +20,19 @@ function twentyfifteen_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogname' )->transport        = 'postMessage';
 	$wp_customize->get_setting( 'blogdescription' )->transport = 'postMessage';
 
+	if ( isset( $wp_customize->selective_refresh ) ) {
+		$wp_customize->selective_refresh->add_partial( 'blogname', array(
+			'selector' => '.site-title a',
+			'container_inclusive' => false,
+			'render_callback' => 'twentyfifteen_customize_partial_blogname',
+		) );
+		$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
+			'selector' => '.site-description',
+			'container_inclusive' => false,
+			'render_callback' => 'twentyfifteen_customize_partial_blogdescription',
+		) );
+	}
+
 	// Add color scheme setting and control.
 	$wp_customize->add_setting( 'color_scheme', array(
 		'default'           => 'default',
@@ -68,6 +81,30 @@ function twentyfifteen_customize_register( $wp_customize ) {
 	$wp_customize->get_section( 'header_image' )->description = __( 'Applied to the header on small screens and the sidebar on wide screens.', 'twentyfifteen' );
 }
 add_action( 'customize_register', 'twentyfifteen_customize_register', 11 );
+
+/**
+ * Render the site title for the selective refresh partial.
+ *
+ * @since Twenty Fifteen 1.5
+ * @see twentyfifteen_customize_register()
+ *
+ * @return void
+ */
+function twentyfifteen_customize_partial_blogname() {
+	bloginfo( 'name' );
+}
+
+/**
+ * Render the site tagline for the selective refresh partial.
+ *
+ * @since Twenty Fifteen 1.5
+ * @see twentyfifteen_customize_register()
+ *
+ * @return void
+ */
+function twentyfifteen_customize_partial_blogdescription() {
+	bloginfo( 'description' );
+}
 
 /**
  * Register color schemes for Twenty Fifteen.

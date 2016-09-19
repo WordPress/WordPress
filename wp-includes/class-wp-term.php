@@ -125,10 +125,11 @@ final class WP_Term {
 	public static function get_instance( $term_id, $taxonomy = null ) {
 		global $wpdb;
 
-		$term_id = (int) $term_id;
-		if ( ! $term_id ) {
+		if ( ! is_numeric( $term_id ) || $term_id != floor( $term_id ) || ! $term_id ) {
 			return false;
 		}
+
+		$term_id = (int) $term_id;
 
 		$_term = wp_cache_get( $term_id, 'terms' );
 
@@ -176,7 +177,7 @@ final class WP_Term {
 
 			// Don't return terms from invalid taxonomies.
 			if ( ! taxonomy_exists( $_term->taxonomy ) ) {
-				return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
+				return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy.' ) );
 			}
 
 			$_term = sanitize_term( $_term, $_term->taxonomy, 'raw' );
@@ -237,7 +238,8 @@ final class WP_Term {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @return mixed
+	 * @param string $key Property to get.
+	 * @return mixed Property value.
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {
@@ -249,7 +251,6 @@ final class WP_Term {
 				}
 
 				return sanitize_term( $data, $data->taxonomy, 'raw' );
-				break;
 		}
 	}
 }

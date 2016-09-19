@@ -20,21 +20,22 @@ if ( is_multisite() && ! is_network_admin() ) {
 }
 
 if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' ) && ! current_user_can( 'update_plugins' ) )
-	wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+	wp_die( __( 'Sorry, you are not allowed to update this site.' ) );
 
 /**
  *
  * @global string $wp_local_package
  * @global wpdb   $wpdb
- * @global string $wp_version
  *
  * @staticvar bool $first_pass
  *
  * @param object $update
  */
 function list_core_update( $update ) {
- 	global $wp_local_package, $wpdb, $wp_version;
+ 	global $wp_local_package, $wpdb;
   	static $first_pass = true;
+
+	$wp_version = get_bloginfo( 'version' );
 
  	if ( 'en_US' == $update->locale && 'en_US' == get_locale() )
  		$version_string = $update->current;
@@ -149,13 +150,13 @@ function dismissed_updates() {
  *
  * @since 2.7.0
  *
- * @global string $wp_version
  * @global string $required_php_version
  * @global string $required_mysql_version
  */
 function core_upgrade_preamble() {
-	global $wp_version, $required_php_version, $required_mysql_version;
+	global $required_php_version, $required_mysql_version;
 
+	$wp_version = get_bloginfo( 'version' );
 	$updates = get_core_updates();
 
 	if ( !isset($updates[0]->response) || 'latest' == $updates[0]->response ) {
@@ -213,14 +214,9 @@ function core_upgrade_preamble() {
 	dismissed_updates();
 }
 
-/**
- *
- * @global string $wp_version
- */
 function list_plugin_updates() {
-	global $wp_version;
-
-	$cur_wp_version = preg_replace('/-.*$/', '', $wp_version);
+	$wp_version = get_bloginfo( 'version' );
+	$cur_wp_version = preg_replace( '/-.*$/', '', $wp_version );
 
 	require_once(ABSPATH . 'wp-admin/includes/plugin-install.php');
 	$plugins = get_plugin_updates();
@@ -242,55 +238,33 @@ function list_plugin_updates() {
 <form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-plugins" class="upgrade">
 <?php wp_nonce_field('upgrade-core'); ?>
 <p><input id="upgrade-plugins" class="button" type="submit" value="<?php esc_attr_e('Update Plugins'); ?>" name="upgrade" /></p>
-<table class="widefat" id="update-plugins-table">
+<table class="widefat updates-table" id="update-plugins-table">
 	<thead>
 	<tr>
-		<td scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all" /></td>
-		<th scope="col" class="manage-column"><label for="plugins-select-all"><?php _e('Select All'); ?></label></th>
+		<td class="manage-column check-column"><input type="checkbox" id="plugins-select-all" /></td>
+		<td class="manage-column"><label for="plugins-select-all"><?php _e( 'Select All' ); ?></label></td>
 	</tr>
 	</thead>
 
 	<tbody class="plugins">
 <?php
 	foreach ( (array) $plugins as $plugin_file => $plugin_data ) {
-		$info = plugins_api( 'plugin_information', array(
-			'slug' => $plugin_data->update->slug,
-			'fields' => array(
-				'short_description' => false,
-				'sections' => false,
-				'requires' => false,
-				'rating' => false,
-				'ratings' => false,
-				'downloaded' => false,
-				'downloadlink' => false,
-				'last_updated' => false,
-				'added' => false,
-				'tags' => false,
-				'homepage' => false,
-				'donate_link' => false,
-			),
-		) );
-
-		if ( is_wp_error( $info ) ) {
-			$info = false;
-		}
-
 		// Get plugin compat for running version of WordPress.
-		if ( isset($info->tested) && version_compare($info->tested, $cur_wp_version, '>=') ) {
+		if ( isset($plugin_data->update->tested) && version_compare($plugin_data->update->tested, $cur_wp_version, '>=') ) {
 			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: 100%% (according to its author)'), $cur_wp_version);
-		} elseif ( isset($info->compatibility[$cur_wp_version][$plugin_data->update->new_version]) ) {
-			$compat = $info->compatibility[$cur_wp_version][$plugin_data->update->new_version];
-			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)'), $cur_wp_version, $compat[0], $compat[2], $compat[1]);
+		} elseif ( isset($plugin_data->update->compatibility->{$cur_wp_version}) ) {
+			$compat = $plugin_data->update->compatibility->{$cur_wp_version};
+			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)'), $cur_wp_version, $compat->percent, $compat->votes, $compat->total_votes);
 		} else {
 			$compat = '<br />' . sprintf(__('Compatibility with WordPress %1$s: Unknown'), $cur_wp_version);
 		}
 		// Get plugin compat for updated version of WordPress.
 		if ( $core_update_version ) {
-			if ( isset( $info->tested ) && version_compare( $info->tested, $core_update_version, '>=' ) ) {
+			if ( isset( $plugin_data->update->tested ) && version_compare( $plugin_data->update->tested, $core_update_version, '>=' ) ) {
 				$compat .= '<br />' . sprintf( __( 'Compatibility with WordPress %1$s: 100%% (according to its author)' ), $core_update_version );
-			} elseif ( isset( $info->compatibility[ $core_update_version ][ $plugin_data->update->new_version ] ) ) {
-				$update_compat = $info->compatibility[$core_update_version][$plugin_data->update->new_version];
-				$compat .= '<br />' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)'), $core_update_version, $update_compat[0], $update_compat[2], $update_compat[1]);
+			} elseif ( isset( $plugin_data->update->compatibility->{$core_update_version} ) ) {
+				$update_compat = $plugin_data->update->compatibility->{$core_update_version};
+				$compat .= '<br />' . sprintf(__('Compatibility with WordPress %1$s: %2$d%% (%3$d "works" votes out of %4$d total)'), $core_update_version, $update_compat->percent, $update_compat->votes, $update_compat->total_votes);
 			} else {
 				$compat .= '<br />' . sprintf(__('Compatibility with WordPress %1$s: Unknown'), $core_update_version);
 			}
@@ -303,30 +277,38 @@ function list_plugin_updates() {
 		}
 
 		$details_url = self_admin_url('plugin-install.php?tab=plugin-information&plugin=' . $plugin_data->update->slug . '&section=changelog&TB_iframe=true&width=640&height=662');
-		$details_name = sprintf( '<span class="screen-reader-text">%1$s</span>', esc_attr( $plugin_data->Name ) );
-		/* translators: 1: Plugin name 2: Plugin version */
-		$details_text = sprintf( __( 'View %1$s version %2$s details.' ), $details_name, $plugin_data->update->new_version );
-		$details = sprintf( '<a href="%1$s" class="thickbox">%2$s</a>', esc_url( $details_url ), $details_text );
-		$checkbox_id =  "checkbox_" . md5( $plugin_data->Name );
+		$details = sprintf(
+			'<a href="%1$s" class="thickbox open-plugin-details-modal" aria-label="%2$s">%3$s</a>',
+			esc_url( $details_url ),
+			/* translators: 1: plugin name, 2: version number */
+			esc_attr( sprintf( __( 'View %1$s version %2$s details' ), $plugin_data->Name, $plugin_data->update->new_version ) ),
+			/* translators: %s: plugin version */
+			sprintf( __( 'View version %s details.' ), $plugin_data->update->new_version )
+		);
+
+		$checkbox_id = "checkbox_" . md5( $plugin_data->Name );
 		?>
 		<tr>
-			<th scope="row" class="check-column">
+			<td class="check-column">
+				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
 				<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text"><?php
 					/* translators: %s: plugin name */
 					printf( __( 'Select %s' ),
 						$plugin_data->Name
 					);
 				?></label>
-				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $plugin_file ); ?>" />
-			</th>
-			<td><p><strong><?php echo $plugin_data->Name; ?></strong><br /><?php
-				/* translators: 1: plugin version, 2: new version */
-				printf( __( 'You have version %1$s installed. Update to %2$s.' ),
-					$plugin_data->Version,
-					$plugin_data->update->new_version
-				);
-				echo ' ' . $details . $compat . $upgrade_notice;
-			?></p></td>
+			</td>
+			<td class="plugin-title"><p>
+				<strong><?php echo $plugin_data->Name; ?></strong>
+				<?php
+					/* translators: 1: plugin version, 2: new version */
+					printf( __( 'You have version %1$s installed. Update to %2$s.' ),
+						$plugin_data->Version,
+						$plugin_data->update->new_version
+					);
+					echo ' ' . $details . $compat . $upgrade_notice;
+				?>
+			</p></td>
 		</tr>
 		<?php
 	}
@@ -335,8 +317,8 @@ function list_plugin_updates() {
 
 	<tfoot>
 	<tr>
-		<td scope="col" class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></td>
-		<th scope="col" class="manage-column"><label for="plugins-select-all-2"><?php _e( 'Select All' ); ?></label></th>
+		<td class="manage-column check-column"><input type="checkbox" id="plugins-select-all-2" /></td>
+		<td class="manage-column"><label for="plugins-select-all-2"><?php _e( 'Select All' ); ?></label></td>
 	</tr>
 	</tfoot>
 </table>
@@ -364,11 +346,11 @@ function list_theme_updates() {
 <form method="post" action="<?php echo esc_url( $form_action ); ?>" name="upgrade-themes" class="upgrade">
 <?php wp_nonce_field('upgrade-core'); ?>
 <p><input id="upgrade-themes" class="button" type="submit" value="<?php esc_attr_e('Update Themes'); ?>" name="upgrade" /></p>
-<table class="widefat" id="update-themes-table">
+<table class="widefat updates-table" id="update-themes-table">
 	<thead>
 	<tr>
-		<td scope="col" class="manage-column check-column"><input type="checkbox" id="themes-select-all" /></td>
-		<th scope="col" class="manage-column"><label for="themes-select-all"><?php _e('Select All'); ?></label></th>
+		<td class="manage-column check-column"><input type="checkbox" id="themes-select-all" /></td>
+		<td class="manage-column"><label for="themes-select-all"><?php _e( 'Select All' ); ?></label></td>
 	</tr>
 	</thead>
 
@@ -378,17 +360,17 @@ function list_theme_updates() {
 		$checkbox_id = 'checkbox_' . md5( $theme->get( 'Name' ) );
 		?>
 		<tr>
-			<th scope="row" class="check-column">
+			<td class="check-column">
+				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
 				<label for="<?php echo $checkbox_id; ?>" class="screen-reader-text"><?php
 					/* translators: %s: theme name */
 					printf( __( 'Select %s' ),
 						$theme->display( 'Name' )
 					);
 				?></label>
-				<input type="checkbox" name="checked[]" id="<?php echo $checkbox_id; ?>" value="<?php echo esc_attr( $stylesheet ); ?>" />
-			</th>
-			<td class="plugin-title">
-				<img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" width="85" height="64" style="float:left; padding: 0 5px 5px" alt="" />
+			</td>
+			<td class="plugin-title"><p>
+				<img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" width="85" height="64" class="updates-table-screenshot" alt="" />
 				<strong><?php echo $theme->display( 'Name' ); ?></strong>
 				<?php
 					/* translators: 1: theme version, 2: new version */
@@ -397,7 +379,7 @@ function list_theme_updates() {
 						$theme->update['new_version']
 					);
 				?>
-			</td>
+			</p></td>
 		</tr>
 		<?php
 	}
@@ -406,8 +388,8 @@ function list_theme_updates() {
 
 	<tfoot>
 	<tr>
-		<td scope="col" class="manage-column check-column"><input type="checkbox" id="themes-select-all-2" /></td>
-		<th scope="col" class="manage-column"><label for="themes-select-all-2"><?php _e( 'Select All' ); ?></label></th>
+		<td class="manage-column check-column"><input type="checkbox" id="themes-select-all-2" /></td>
+		<td class="manage-column"><label for="themes-select-all-2"><?php _e( 'Select All' ); ?></label></td>
 	</tr>
 	</tfoot>
 </table>
@@ -506,7 +488,7 @@ function do_core_upgrade( $reinstall = false ) {
 
 	if ( is_wp_error($result) ) {
 		show_message($result);
-		if ('up_to_date' != $result->get_error_code() )
+		if ( 'up_to_date' != $result->get_error_code() && 'locked' != $result->get_error_code() )
 			show_message( __('Installation Failed') );
 		echo '</div>';
 		return;
@@ -637,7 +619,7 @@ if ( 'upgrade-core' == $action ) {
 } elseif ( 'do-core-upgrade' == $action || 'do-core-reinstall' == $action ) {
 
 	if ( ! current_user_can( 'update_core' ) )
-		wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+		wp_die( __( 'Sorry, you are not allowed to update this site.' ) );
 
 	check_admin_referer('upgrade-core');
 
@@ -661,7 +643,7 @@ if ( 'upgrade-core' == $action ) {
 } elseif ( 'do-plugin-upgrade' == $action ) {
 
 	if ( ! current_user_can( 'update_plugins' ) )
-		wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+		wp_die( __( 'Sorry, you are not allowed to update this site.' ) );
 
 	check_admin_referer('upgrade-core');
 
@@ -689,7 +671,7 @@ if ( 'upgrade-core' == $action ) {
 } elseif ( 'do-theme-upgrade' == $action ) {
 
 	if ( ! current_user_can( 'update_themes' ) )
-		wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+		wp_die( __( 'Sorry, you are not allowed to update this site.' ) );
 
 	check_admin_referer('upgrade-core');
 
@@ -719,7 +701,7 @@ if ( 'upgrade-core' == $action ) {
 } elseif ( 'do-translation-upgrade' == $action ) {
 
 	if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_plugins' ) && ! current_user_can( 'update_themes' ) )
-		wp_die( __( 'You do not have sufficient permissions to update this site.' ) );
+		wp_die( __( 'Sorry, you are not allowed to update this site.' ) );
 
 	check_admin_referer( 'upgrade-translations' );
 

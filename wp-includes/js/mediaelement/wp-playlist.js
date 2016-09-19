@@ -1,7 +1,7 @@
-/*globals window, document, jQuery, _, Backbone, _wpmejsSettings */
+/* global _wpmejsSettings, MediaElementPlayer */
 
 (function ($, _, Backbone) {
-	"use strict";
+	'use strict';
 
 	var WPPlaylistView = Backbone.View.extend({
 		initialize : function (options) {
@@ -31,7 +31,7 @@
 			_.bindAll( this, 'bindPlayer', 'bindResetPlayer', 'setPlayer', 'ended', 'clickTrack' );
 
 			if ( ! _.isUndefined( window._wpmejsSettings ) ) {
-				this.settings = _wpmejsSettings;
+				this.settings = _.clone( _wpmejsSettings );
 			}
 			this.settings.success = this.bindPlayer;
 			this.setPlayer();

@@ -51,8 +51,8 @@ class WP_REST_Response extends WP_HTTP_Response {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @link http://tools.ietf.org/html/rfc5988
-	 * @link http://www.iana.org/assignments/link-relations/link-relations.xml
+	 * @link https://tools.ietf.org/html/rfc5988
+	 * @link https://www.iana.org/assignments/link-relations/link-relations.xml
 	 *
 	 * @param string $rel        Link relation. Either an IANA registered type,
 	 *                           or an absolute URL.
@@ -147,8 +147,8 @@ class WP_REST_Response extends WP_HTTP_Response {
 	 * @since 4.4.0
 	 * @access public
 	 *
-	 * @link http://tools.ietf.org/html/rfc5988
-	 * @link http://www.iana.org/assignments/link-relations/link-relations.xml
+	 * @link https://tools.ietf.org/html/rfc5988
+	 * @link https://www.iana.org/assignments/link-relations/link-relations.xml
 	 *
 	 * @param string $rel   Link relation. Either an IANA registered type, or an absolute URL.
 	 * @param string $link  Target IRI for the link.
@@ -255,5 +255,51 @@ class WP_REST_Response extends WP_HTTP_Response {
 		}
 
 		return $error;
+	}
+
+	/**
+	 * Retrieves the CURIEs (compact URIs) used for relations.
+	 *
+	 * @since 4.5.0
+	 * @access public
+	 *
+	 * @return array Compact URIs.
+	 */
+	public function get_curies() {
+		$curies = array(
+			array(
+				'name' => 'wp',
+				'href' => 'https://api.w.org/{rel}',
+				'templated' => true,
+			),
+		);
+
+		/**
+		 * Filters extra CURIEs available on API responses.
+		 *
+		 * CURIEs allow a shortened version of URI relations. This allows a more
+		 * usable form for custom relations than using the full URI. These work
+		 * similarly to how XML namespaces work.
+		 *
+		 * Registered CURIES need to specify a name and URI template. This will
+		 * automatically transform URI relations into their shortened version.
+		 * The shortened relation follows the format `{name}:{rel}`. `{rel}` in
+		 * the URI template will be replaced with the `{rel}` part of the
+		 * shortened relation.
+		 *
+		 * For example, a CURIE with name `example` and URI template
+		 * `http://w.org/{rel}` would transform a `http://w.org/term` relation
+		 * into `example:term`.
+		 *
+		 * Well-behaved clients should expand and normalise these back to their
+		 * full URI relation, however some naive clients may not resolve these
+		 * correctly, so adding new CURIEs may break backward compatibility.
+		 *
+		 * @since 4.5.0
+		 *
+		 * @param array $additional Additional CURIEs to register with the API.
+		 */
+		$additional = apply_filters( 'rest_response_link_curies', array() );
+		return array_merge( $curies, $additional );
 	}
 }

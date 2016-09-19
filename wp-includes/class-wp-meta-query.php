@@ -12,7 +12,8 @@
  *
  * Used for generating SQL clauses that filter a primary query according to metadata keys and values.
  *
- * `WP_Meta_Query` is a helper that allows primary query classes, such as {@see WP_Query} and {@see WP_User_Query},
+ * WP_Meta_Query is a helper that allows primary query classes, such as WP_Query and WP_User_Query,
+ *
  * to filter their results by object metadata, by generating `JOIN` and `WHERE` subclauses to be attached
  * to the primary SQL query string.
  *
@@ -24,7 +25,7 @@ class WP_Meta_Query {
 	/**
 	 * Array of metadata queries.
 	 *
-	 * See {@see WP_Meta_Query::__construct()} for information on meta query arguments.
+	 * See WP_Meta_Query::__construct() for information on meta query arguments.
 	 *
 	 * @since 3.2.0
 	 * @access public
@@ -105,6 +106,13 @@ class WP_Meta_Query {
 	protected $has_or_relation = false;
 
 	/**
+	 * @since 4.7.0
+	 * @access protected
+	 * @var wpdb
+	 */
+	protected $db;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.2.0
@@ -113,8 +121,8 @@ class WP_Meta_Query {
 	 * @access public
 	 *
 	 * @param array $meta_query {
-	 *     Array of meta query clauses. When first-order clauses use strings as their array keys, they may be
-	 *     referenced in the 'orderby' parameter of the parent query.
+	 *     Array of meta query clauses. When first-order clauses or sub-clauses use strings as
+	 *     their array keys, they may be referenced in the 'orderby' parameter of the parent query.
 	 *
 	 *     @type string $relation Optional. The MySQL keyword used to join
 	 *                            the clauses of the query. Accepts 'AND', or 'OR'. Default 'AND'.
@@ -124,8 +132,9 @@ class WP_Meta_Query {
 	 *         @type string $key     Meta key to filter by.
 	 *         @type string $value   Meta value to filter by.
 	 *         @type string $compare MySQL operator used for comparing the $value. Accepts '=',
-	 *                               '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE', 'IN', 'NOT IN',
-	 *                               'BETWEEN', 'NOT BETWEEN', 'REGEXP', 'NOT REGEXP', or 'RLIKE'.
+	 *                               '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE',
+	 *                               'IN', 'NOT IN', 'BETWEEN', 'NOT BETWEEN', 'REGEXP',
+	 *                               'NOT REGEXP', 'RLIKE', 'EXISTS' or 'NOT EXISTS'.
 	 *                               Default is 'IN' when `$value` is an array, '=' otherwise.
 	 *         @type string $type    MySQL data type that the meta_value column will be CAST to for
 	 *                               comparisons. Accepts 'NUMERIC', 'BINARY', 'CHAR', 'DATE',
@@ -135,8 +144,11 @@ class WP_Meta_Query {
 	 * }
 	 */
 	public function __construct( $meta_query = false ) {
-		if ( !$meta_query )
+		$this->db = $GLOBALS['wpdb'];
+
+		if ( ! $meta_query ) {
 			return;
+		}
 
 		if ( isset( $meta_query['relation'] ) && strtoupper( $meta_query['relation'] ) == 'OR' ) {
 			$this->relation = 'OR';
@@ -325,6 +337,8 @@ class WP_Meta_Query {
 			return false;
 		}
 
+		$this->table_aliases = array();
+
 		$this->meta_table     = $meta_table;
 		$this->meta_id_column = sanitize_key( $type . '_id' );
 
@@ -342,20 +356,16 @@ class WP_Meta_Query {
 		}
 
 		/**
-		 * Filter the meta query's generated SQL.
+		 * Filters the meta query's generated SQL.
 		 *
 		 * @since 3.1.0
 		 *
-		 * @param array $args {
-		 *     An array of meta query SQL arguments.
-		 *
-		 *     @type array  $clauses           Array containing the query's JOIN and WHERE clauses.
-		 *     @type array  $queries           Array of meta queries.
-		 *     @type string $type              Type of meta.
-		 *     @type string $primary_table     Primary table.
-		 *     @type string $primary_id_column Primary column ID.
-		 *     @type object $context           The main query object.
-		 * }
+		 * @param array  $clauses           Array containing the query's JOIN and WHERE clauses.
+		 * @param array  $queries           Array of meta queries.
+		 * @param string $type              Type of meta.
+		 * @param string $primary_table     Primary table.
+		 * @param string $primary_id_column Primary column ID.
+		 * @param object $context           The main query object.
 		 */
 		return apply_filters_ref_array( 'get_meta_sql', array( $sql, $this->queries, $type, $primary_table, $primary_id_column, $context ) );
 	}
@@ -363,8 +373,8 @@ class WP_Meta_Query {
 	/**
 	 * Generate SQL clauses to be appended to a main query.
 	 *
-	 * Called by the public {@see WP_Meta_Query::get_sql()}, this method
-	 * is abstracted out to maintain parity with the other Query classes.
+	 * Called by the public WP_Meta_Query::get_sql(), this method is abstracted
+	 * out to maintain parity with the other Query classes.
 	 *
 	 * @since 4.1.0
 	 * @access protected
@@ -484,8 +494,6 @@ class WP_Meta_Query {
 	 * @since 4.1.0
 	 * @access public
 	 *
-	 * @global wpdb $wpdb WordPress database abstraction object.
-	 *
 	 * @param array  $clause       Query clause, passed by reference.
 	 * @param array  $parent_query Parent query array.
 	 * @param string $clause_key   Optional. The array key used to name the clause in the original `$meta_query`
@@ -498,8 +506,6 @@ class WP_Meta_Query {
 	 * }
 	 */
 	public function get_sql_for_clause( &$clause, $parent_query, $clause_key = '' ) {
-		global $wpdb;
-
 		$sql_chunks = array(
 			'where' => array(),
 			'join' => array(),
@@ -537,7 +543,7 @@ class WP_Meta_Query {
 			if ( 'NOT EXISTS' === $meta_compare ) {
 				$join .= " LEFT JOIN $this->meta_table";
 				$join .= $i ? " AS $alias" : '';
-				$join .= $wpdb->prepare( " ON ($this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column AND $alias.meta_key = %s )", $clause['key'] );
+				$join .= $this->db->prepare( " ON ($this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column AND $alias.meta_key = %s )", $clause['key'] );
 
 			// All other JOIN clauses.
 			} else {
@@ -581,7 +587,7 @@ class WP_Meta_Query {
 			if ( 'NOT EXISTS' === $meta_compare ) {
 				$sql_chunks['where'][] = $alias . '.' . $this->meta_id_column . ' IS NULL';
 			} else {
-				$sql_chunks['where'][] = $wpdb->prepare( "$alias.meta_key = %s", trim( $clause['key'] ) );
+				$sql_chunks['where'][] = $this->db->prepare( "$alias.meta_key = %s", trim( $clause['key'] ) );
 			}
 		}
 
@@ -601,25 +607,25 @@ class WP_Meta_Query {
 				case 'IN' :
 				case 'NOT IN' :
 					$meta_compare_string = '(' . substr( str_repeat( ',%s', count( $meta_value ) ), 1 ) . ')';
-					$where = $wpdb->prepare( $meta_compare_string, $meta_value );
+					$where = $this->db->prepare( $meta_compare_string, $meta_value );
 					break;
 
 				case 'BETWEEN' :
 				case 'NOT BETWEEN' :
 					$meta_value = array_slice( $meta_value, 0, 2 );
-					$where = $wpdb->prepare( '%s AND %s', $meta_value );
+					$where = $this->db->prepare( '%s AND %s', $meta_value );
 					break;
 
 				case 'LIKE' :
 				case 'NOT LIKE' :
-					$meta_value = '%' . $wpdb->esc_like( $meta_value ) . '%';
-					$where = $wpdb->prepare( '%s', $meta_value );
+					$meta_value = '%' . $this->db->esc_like( $meta_value ) . '%';
+					$where = $this->db->prepare( '%s', $meta_value );
 					break;
 
 				// EXISTS with a value is interpreted as '='.
 				case 'EXISTS' :
 					$meta_compare = '=';
-					$where = $wpdb->prepare( '%s', $meta_value );
+					$where = $this->db->prepare( '%s', $meta_value );
 					break;
 
 				// 'value' is ignored for NOT EXISTS.
@@ -628,13 +634,17 @@ class WP_Meta_Query {
 					break;
 
 				default :
-					$where = $wpdb->prepare( '%s', $meta_value );
+					$where = $this->db->prepare( '%s', $meta_value );
 					break;
 
 			}
 
 			if ( $where ) {
-				$sql_chunks['where'][] = "CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$where}";
+				if ( 'CHAR' === $meta_type ) {
+					$sql_chunks['where'][] = "$alias.meta_value {$meta_compare} {$where}";
+				} else {
+					$sql_chunks['where'][] = "CAST($alias.meta_value AS {$meta_type}) {$meta_compare} {$where}";
+				}
 			}
 		}
 
@@ -675,8 +685,8 @@ class WP_Meta_Query {
 	 * An existing alias is compatible if (a) it is a sibling of `$clause`
 	 * (ie, it's under the scope of the same relation), and (b) the combination
 	 * of operator and relation between the clauses allows for a shared table join.
-	 * In the case of {@see WP_Meta_Query}, this only applies to 'IN' clauses that
-	 * are connected by the relation 'OR'.
+	 * In the case of WP_Meta_Query, this only applies to 'IN' clauses that are
+	 * connected by the relation 'OR'.
 	 *
 	 * @since 4.1.0
 	 * @access protected
@@ -719,7 +729,7 @@ class WP_Meta_Query {
 		}
 
 		/**
-		 * Filter the table alias identified as compatible with the current clause.
+		 * Filters the table alias identified as compatible with the current clause.
 		 *
 		 * @since 4.1.0
 		 *

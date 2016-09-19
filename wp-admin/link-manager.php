@@ -9,7 +9,7 @@
 /** Load WordPress Administration Bootstrap */
 require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! current_user_can( 'manage_links' ) )
-	wp_die( __( 'You do not have sufficient permissions to edit the links for this site.' ) );
+	wp_die( __( 'Sorry, you are not allowed to edit the links for this site.' ) );
 
 $wp_list_table = _get_list_table('WP_Links_List_Table');
 
@@ -68,14 +68,17 @@ get_current_screen()->set_screen_reader_content( array(
 include_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 if ( ! current_user_can('manage_links') )
-	wp_die(__("You do not have sufficient permissions to edit the links for this site."));
+	wp_die(__('Sorry, you are not allowed to edit the links for this site.'));
 
 ?>
 
 <div class="wrap nosubsub">
 <h1><?php echo esc_html( $title ); ?> <a href="link-add.php" class="page-title-action"><?php echo esc_html_x('Add New', 'link'); ?></a> <?php
-if ( !empty($_REQUEST['s']) )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( wp_unslash($_REQUEST['s']) ) ); ?>
+if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
+	/* translators: %s: search keywords */
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( wp_unslash( $_REQUEST['s'] ) ) );
+}
+?>
 </h1>
 
 <?php

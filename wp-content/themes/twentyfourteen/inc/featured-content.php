@@ -8,7 +8,7 @@
  * For maximum compatibility with different methods of posting users
  * will designate a featured post tag to associate posts with. Since
  * this tag now has special meaning beyond that of a normal tags, users
- * will have the ability to hide it from the front-end of their site.
+ * will have the ability to hide it from the front end of their site.
  */
 class Featured_Content {
 
@@ -95,7 +95,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Hide "featured" tag from the front-end.
+	 * Hide "featured" tag from the front end.
 	 *
 	 * Has to run on wp_loaded so that the preview filters of the Customizer
 	 * have a chance to alter the value.
@@ -288,7 +288,7 @@ class Featured_Content {
 	}
 
 	/**
-	 * Hide featured tag from displaying when global terms are queried from the front-end.
+	 * Hide featured tag from displaying when global terms are queried from the front end.
 	 *
 	 * Hooks into the "get_terms" filter.
 	 *
@@ -304,7 +304,7 @@ class Featured_Content {
 	 */
 	public static function hide_featured_term( $terms, $taxonomies, $args ) {
 
-		// This filter is only appropriate on the front-end.
+		// This filter is only appropriate on the front end.
 		if ( is_admin() ) {
 			return $terms;
 		}
@@ -336,7 +336,7 @@ class Featured_Content {
 
 	/**
 	 * Hide featured tag from display when terms associated with a post object
-	 * are queried from the front-end.
+	 * are queried from the front end.
 	 *
 	 * Hooks into the "get_the_terms" filter.
 	 *
@@ -353,7 +353,7 @@ class Featured_Content {
 	 */
 	public static function hide_the_featured_term( $terms, $id, $taxonomy ) {
 
-		// This filter is only appropriate on the front-end.
+		// This filter is only appropriate on the front end.
 		if ( is_admin() ) {
 			return $terms;
 		}

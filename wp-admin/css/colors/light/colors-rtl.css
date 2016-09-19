@@ -40,7 +40,7 @@ input[type=radio]:checked:before {
 .wp-core-ui .button-primary {
   background: #04a4cc;
   border-color: #037c9a #036881 #036881;
-  color: white;
+  color: #fff;
   -webkit-box-shadow: 0 1px 0 #036881;
   box-shadow: 0 1px 0 #036881;
   text-shadow: 0 -1px 1px #036881, -1px 0 1px #036881, 0 1px 1px #036881, 1px 0 1px #036881;
@@ -49,7 +49,7 @@ input[type=radio]:checked:before {
 .wp-core-ui .button-primary:hover, .wp-core-ui .button-primary:focus {
   background: #04b0db;
   border-color: #036881;
-  color: white;
+  color: #fff;
   -webkit-box-shadow: 0 1px 0 #036881;
   box-shadow: 0 1px 0 #036881;
 }
@@ -383,26 +383,6 @@ ul#adminmenu > li.current > a.current:after {
   background: #f7f7f7;
 }
 
-#wpadminbar #adminbarsearch .adminbar-input::-webkit-input-placeholder {
-  color: #333;
-  opacity: 0.7;
-}
-
-#wpadminbar #adminbarsearch .adminbar-input:-moz-placeholder {
-  color: #333;
-  opacity: 0.7;
-}
-
-#wpadminbar #adminbarsearch .adminbar-input::-moz-placeholder {
-  color: #333;
-  opacity: 0.7;
-}
-
-#wpadminbar #adminbarsearch .adminbar-input:-ms-input-placeholder {
-  color: #333;
-  opacity: 0.7;
-}
-
 /* Admin Bar: my account */
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar > a img {
   border-color: #f7f7f7;
@@ -512,6 +492,19 @@ body.more-filters-opened .more-filters:focus:before {
 #customize-theme-controls .widget-area-select .selected {
   background-color: #888;
   color: #fff;
+}
+
+#customize-footer-actions .devices button:focus {
+  border-bottom-color: #04a4cc;
+}
+
+#customize-controls .control-section:hover > .accordion-section-title,
+#customize-controls .control-section .accordion-section-title:hover,
+#customize-controls .control-section.open .accordion-section-title,
+#customize-controls .control-section .accordion-section-title:focus,
+#available-widgets .widget-tpl:hover,
+#available-widgets .widget-tpl.selected {
+  border-right-color: #04a4cc;
 }
 
 /* Responsive Component */

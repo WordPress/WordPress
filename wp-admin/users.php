@@ -13,7 +13,7 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 if ( ! current_user_can( 'list_users' ) ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'You are not allowed to browse users.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to browse users.' ) . '</p>',
 		403
 	);
 }
@@ -39,7 +39,7 @@ get_current_screen()->add_help_tab( array(
 	'content' => '<p>' . __('You can customize the display of this screen in a number of ways:') . '</p>' .
 					'<ul>' .
 					'<li>' . __('You can hide/display columns based on your needs and decide how many users to list per screen using the Screen Options tab.') . '</li>' .
-					'<li>' . __('You can filter the list of users by User Role using the text links in the upper left to show All, Administrator, Editor, Author, Contributor, or Subscriber. The default view is to show all users. Unused User Roles are not listed.') . '</li>' .
+					'<li>' . __( 'You can filter the list of users by User Role using the text links above the users list to show All, Administrator, Editor, Author, Contributor, or Subscriber. The default view is to show all users. Unused User Roles are not listed.' ) . '</li>' .
 					'<li>' . __('You can view all posts made by a user by clicking on the number under the Posts column.') . '</li>' .
 					'</ul>'
 ) );
@@ -248,8 +248,10 @@ case 'delete':
 	foreach ( $userids as $id ) {
 		$user = get_userdata( $id );
 		if ( $id == $current_user->ID ) {
+			/* translators: 1: user id, 2: user login */
 			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>The current user will not be deleted.</strong>'), $id, $user->user_login) . "</li>\n";
 		} else {
+			/* translators: 1: user id, 2: user login */
 			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"" . esc_attr($id) . "\" />" . sprintf(__('ID #%1$s: %2$s'), $id, $user->user_login) . "</li>\n";
 			$go_delete++;
 		}
@@ -282,10 +284,12 @@ case 'delete':
 	 * Fires at the end of the delete users form prior to the confirm button.
 	 *
 	 * @since 4.0.0
+	 * @since 4.5.0 The `$userids` parameter was added.
 	 *
-	 * @param WP_User $current_user WP_User object for the user being deleted.
+	 * @param WP_User $current_user WP_User object for the current user.
+	 * @param array   $userids      Array of IDs for users being deleted.
 	 */
-	do_action( 'delete_user_form', $current_user );
+	do_action( 'delete_user_form', $current_user, $userids );
 	?>
 	<input type="hidden" name="action" value="dodelete" />
 	<?php submit_button( __('Confirm Deletion'), 'primary' ); ?>
@@ -374,10 +378,13 @@ case 'remove':
 		$id = (int) $id;
  		$user = get_userdata( $id );
 		if ( $id == $current_user->ID && !is_super_admin() ) {
+			/* translators: 1: user id, 2: user login */
 			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>The current user will not be removed.</strong>'), $id, $user->user_login) . "</li>\n";
 		} elseif ( !current_user_can('remove_user', $id) ) {
-			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>You don\'t have permission to remove this user.</strong>'), $id, $user->user_login) . "</li>\n";
+			/* translators: 1: user id, 2: user login */
+			echo "<li>" . sprintf(__('ID #%1$s: %2$s <strong>You don&#8217;t have permission to remove this user.</strong>'), $id, $user->user_login) . "</li>\n";
 		} else {
+			/* translators: 1: user id, 2: user login */
 			echo "<li><input type=\"hidden\" name=\"users[]\" value=\"{$id}\" />" . sprintf(__('ID #%1$s: %2$s'), $id, $user->user_login) . "</li>\n";
 			$go_remove = true;
 		}
@@ -427,6 +434,7 @@ default:
 			break;
 		case 'add':
 			if ( isset( $_GET['id'] ) && ( $user_id = $_GET['id'] ) && current_user_can( 'edit_user', $user_id ) ) {
+				/* translators: %s: edit page url */
 				$messages[] = '<div id="message" class="updated notice is-dismissible"><p>' . sprintf( __( 'New user created. <a href="%s">Edit user</a>' ),
 					esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
 						self_admin_url( 'user-edit.php?user_id=' . $user_id ) ) ) ) . '</p></div>';
@@ -476,13 +484,16 @@ if ( ! empty($messages) ) {
 <?php
 echo esc_html( $title );
 if ( current_user_can( 'create_users' ) ) { ?>
-	<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user' ); ?></a>
+	<a href="<?php echo admin_url( 'user-new.php' ); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user' ); ?></a>
 <?php } elseif ( is_multisite() && current_user_can( 'promote_users' ) ) { ?>
-	<a href="user-new.php" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
+	<a href="<?php echo admin_url( 'user-new.php' ); ?>" class="page-title-action"><?php echo esc_html_x( 'Add Existing', 'user' ); ?></a>
 <?php }
 
-if ( $usersearch )
-	printf( '<span class="subtitle">' . __('Search results for &#8220;%s&#8221;') . '</span>', esc_html( $usersearch ) ); ?>
+if ( strlen( $usersearch ) ) {
+	/* translators: %s: search keywords */
+	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
+}
+?>
 </h1>
 
 <?php $wp_list_table->views(); ?>
