@@ -1765,19 +1765,59 @@ function user_can_access_admin_page() {
 /* Whitelist functions */
 
 /**
- * Register a setting and its sanitization callback
+ * Register a setting and its data.
  *
  * @since 2.7.0
  *
  * @global array $new_whitelist_options
+ * @global array $wp_registered_settings
  *
  * @param string $option_group A settings group name. Should correspond to a whitelisted option key name.
  * 	Default whitelisted option key names include "general," "discussion," and "reading," among others.
  * @param string $option_name The name of an option to sanitize and save.
- * @param callable $sanitize_callback A callback function that sanitizes the option's value.
+ * @param array  $args {
+ *     Data used to describe the setting when registered.
+ *
+ *     @type string   $type              The type of data associated with this setting.
+ *     @type string   $description       A description of the data attached to this setting.
+ *     @type callable $sanitize_callback A callback function that sanitizes the option's value.
+ *     @type bool     $show_in_rest      Whether data associated with this setting should be included in the REST API.
+ * }
  */
-function register_setting( $option_group, $option_name, $sanitize_callback = '' ) {
-	global $new_whitelist_options;
+function register_setting( $option_group, $option_name, $args = array() ) {
+	global $new_whitelist_options, $wp_registered_settings;
+
+	$defaults = array(
+		'type'              => 'string',
+		'group'             => $option_group,
+		'description'       => '',
+		'sanitize_callback' => null,
+		'show_in_rest'      => false,
+	);
+
+	// Back-compat: old sanitize callback is added.
+	if ( is_callable( $args ) ) {
+		$args = array(
+			'sanitize_callback' => $args,
+		);
+	}
+
+	/**
+	 * Filters the registration arguments when registering a setting.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param array  $args         Array of setting registration arguments.
+	 * @param array  $defaults     Array of default arguments.
+	 * @param string $option_group Setting group.
+	 * @param string $option_name  Setting name.
+	 */
+	$args = apply_filters( 'register_setting_args', $args, $defaults, $option_group, $option_name );
+	$args = wp_parse_args( $args, $defaults );
+
+	if ( ! is_array( $wp_registered_settings ) ) {
+		$wp_registered_settings = array();
+	}
 
 	if ( 'misc' == $option_group ) {
 		_deprecated_argument( __FUNCTION__, '3.0.0', sprintf( __( 'The "%s" options group has been removed. Use another settings group.' ), 'misc' ) );
@@ -1790,23 +1830,27 @@ function register_setting( $option_group, $option_name, $sanitize_callback = '' 
 	}
 
 	$new_whitelist_options[ $option_group ][] = $option_name;
-	if ( $sanitize_callback != '' )
-		add_filter( "sanitize_option_{$option_name}", $sanitize_callback );
+	if ( ! empty( $args['sanitize_callback'] ) ) {
+		add_filter( "sanitize_option_{$option_name}", $args['sanitize_callback'] );
+	}
+
+	$wp_registered_settings[ $option_name ] = $args;
 }
 
 /**
- * Unregister a setting
+ * Unregister a setting.
  *
  * @since 2.7.0
+ * @since 4.7.0 `$sanitize_callback` was deprecated. The callback from `register_setting()` is now used instead.
  *
  * @global array $new_whitelist_options
  *
- * @param string   $option_group
- * @param string   $option_name
- * @param callable $sanitize_callback
+ * @param string   $option_group      The settings group name used during registration.
+ * @param string   $option_name       The name of the option to unregister.
+ * @param callable $deprecated        Deprecated.
  */
-function unregister_setting( $option_group, $option_name, $sanitize_callback = '' ) {
-	global $new_whitelist_options;
+function unregister_setting( $option_group, $option_name, $deprecated = '' ) {
+	global $new_whitelist_options, $wp_registered_settings;
 
 	if ( 'misc' == $option_group ) {
 		_deprecated_argument( __FUNCTION__, '3.0.0', sprintf( __( 'The "%s" options group has been removed. Use another settings group.' ), 'misc' ) );
@@ -1819,10 +1863,39 @@ function unregister_setting( $option_group, $option_name, $sanitize_callback = '
 	}
 
 	$pos = array_search( $option_name, (array) $new_whitelist_options[ $option_group ] );
-	if ( $pos !== false )
+	if ( $pos !== false ) {
 		unset( $new_whitelist_options[ $option_group ][ $pos ] );
-	if ( $sanitize_callback != '' )
-		remove_filter( "sanitize_option_{$option_name}", $sanitize_callback );
+	}
+	if ( '' !== $deprecated ) {
+		_deprecated_argument( __FUNCTION__, '4.7.0', __( '$sanitize_callback is deprecated. The callback from register_setting() is used instead.' ) );
+		remove_filter( "sanitize_option_{$option_name}", $deprecated );
+	}
+
+	if ( isset( $wp_registered_settings[ $option_name ] ) ) {
+		// Remove the sanitize callback if one was set during registration.
+		if ( ! empty( $wp_registered_settings[ $option_name ]['sanitize_callback'] ) ) {
+			remove_filter( "sanitize_option_{$option_name}", $wp_registered_settings[ $option_name ]['sanitize_callback'] );
+		}
+
+		unset( $wp_registered_settings[ $option_name ] );
+	}
+}
+
+/**
+ * Retrieves an array of registered settings.
+ *
+ * @since 4.7.0
+ *
+ * @return array List of registered settings, keyed by option name.
+ */
+function get_registered_settings() {
+	global $wp_registered_settings;
+
+	if ( ! is_array( $wp_registered_settings ) ) {
+		return array();
+	}
+
+	return $wp_registered_settings;
 }
 
 /**
