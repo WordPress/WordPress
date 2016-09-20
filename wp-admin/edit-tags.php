@@ -392,10 +392,9 @@ if ( current_user_can($tax->cap->edit_terms) ) {
 
 <div class="form-wrap">
 <h2><?php echo $tax->labels->add_new_item; ?></h2>
-<form id="addtag" method="post" action="edit-tags.php" class="validate"
-<?php
+<form id="addtag" method="post" action="edit-tags.php" class="validate"<?php
 /**
- * Fires at the beginning of the Add Tag form.
+ * Fires inside the Add Tag form tag.
  *
  * The dynamic portion of the hook name, `$taxonomy`, refers to the taxonomy slug.
  *
