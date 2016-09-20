@@ -514,6 +514,8 @@ class WP_Site_Query {
 			$this->sql_clauses['where']['date_query'] = preg_replace( '/^\s*AND\s*/', '', $this->date_query->get_sql() );
 		}
 
+		$join = '';
+
 		$where = implode( ' AND ', $this->sql_clauses['where'] );
 
 		$pieces = array( 'fields', 'join', 'where', 'orderby', 'limits', 'groupby' );
