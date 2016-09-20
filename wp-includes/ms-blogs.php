@@ -1088,11 +1088,13 @@ function get_networks( $args = array() ) {
  *
  * @since 4.6.0
  *
+ * @global WP_Network $current_site
+ *
  * @param WP_Network|int|null $network Optional. Network to retrieve. Default is the current network.
  * @return WP_Network|null The network object or null if not found.
  */
 function get_network( $network = null ) {
-	$current_site = get_current_site();
+	global $current_site;
 	if ( empty( $network ) && isset( $current_site ) ) {
 		$network = $current_site;
 	}

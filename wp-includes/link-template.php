@@ -3257,15 +3257,13 @@ function network_site_url( $path = '', $scheme = null ) {
 
 	$current_site = get_current_site();
 
-	if ( 'relative' == $scheme ) {
+	if ( 'relative' == $scheme )
 		$url = $current_site->path;
-	} else {
+	else
 		$url = set_url_scheme( 'http://' . $current_site->domain . $current_site->path, $scheme );
-	}
 
-	if ( $path && is_string( $path ) ) {
+	if ( $path && is_string( $path ) )
 		$url .= ltrim( $path, '/' );
-	}
 
 	/**
 	 * Filters the network site URL.
@@ -3305,15 +3303,13 @@ function network_home_url( $path = '', $scheme = null ) {
 	if ( ! in_array( $scheme, array( 'http', 'https', 'relative' ) ) )
 		$scheme = is_ssl() && ! is_admin() ? 'https' : 'http';
 
-	if ( 'relative' == $scheme ) {
+	if ( 'relative' == $scheme )
 		$url = $current_site->path;
-	} else {
+	else
 		$url = set_url_scheme( 'http://' . $current_site->domain . $current_site->path, $scheme );
-	}
 
-	if ( $path && is_string( $path ) ) {
+	if ( $path && is_string( $path ) )
 		$url .= ltrim( $path, '/' );
-	}
 
 	/**
 	 * Filters the network home URL.

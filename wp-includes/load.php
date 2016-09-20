@@ -1068,22 +1068,3 @@ function wp_doing_ajax() {
 function is_wp_error( $thing ) {
 	return ( $thing instanceof WP_Error );
 }
-
-/**
- * Get the current network.
- *
- * Returns an object containing the 'id', 'domain', 'path', and 'site_name'
- * properties of the network being viewed.
- *
- * @see wpmu_current_site()
- *
- * @since MU
- *
- * @global WP_Network $current_site
- *
- * @return WP_Network
- */
-function get_current_site() {
-	global $current_site;
-	return $current_site;
-}
