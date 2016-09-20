@@ -1234,6 +1234,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * - `edit_item` - Label for editing a singular item. Default is 'Edit Post' / 'Edit Page'.
  * - `new_item` - Label for the new item page title. Default is 'New Post' / 'New Page'.
  * - `view_item` - Label for viewing a singular item. Default is 'View Post' / 'View Page'.
+ * - `view_items` - Label for viewing post type archives. Default is 'View Posts' / 'View Pages'.
  * - `search_items` - Label for searching plural items. Default is 'Search Posts' / 'Search Pages'.
  * - `not_found` - Label used when no items are found. Default is 'No posts found' / 'No pages found'.
  * - `not_found_in_trash` - Label used when no items are in the trash. Default is 'No posts found in Trash' /
@@ -1267,6 +1268,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @since 4.4.0 Added the `insert_into_item`, `uploaded_to_this_item`, `filter_items_list`,
  *              `items_list_navigation`, and `items_list` labels.
  * @since 4.6.0 Converted the `$post_type` parameter to accept a WP_Post_Type object.
+ * @since 4.7.0 Added the `view_items` label.
  *
  * @access private
  *
@@ -1282,6 +1284,7 @@ function get_post_type_labels( $post_type_object ) {
 		'edit_item' => array( __('Edit Post'), __('Edit Page') ),
 		'new_item' => array( __('New Post'), __('New Page') ),
 		'view_item' => array( __('View Post'), __('View Page') ),
+		'view_items' => array( __('View Posts'), __('View Pages') ),
 		'search_items' => array( __('Search Posts'), __('Search Pages') ),
 		'not_found' => array( __('No posts found.'), __('No pages found.') ),
 		'not_found_in_trash' => array( __('No posts found in Trash.'), __('No pages found in Trash.') ),
