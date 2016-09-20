@@ -2169,7 +2169,7 @@ function wp_customize_support_script() {
 <?php		endif; ?>
 
 			b[c] = b[c].replace( rcs, ' ' );
-			b[c] += ( window.postMessage && request ? ' ' : ' no-' ) + cs;
+			b[c] += ( window.postMessage && request && Array.prototype.indexOf ? ' ' : ' no-' ) + cs;
 		}());
 	</script>
 	<?php
