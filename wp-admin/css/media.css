@@ -1144,7 +1144,7 @@ span.imgedit-scale-warn {
 .imgedit-settings .imgedit-crop-sel input[type="text"] {
 	width: 50px;
 	font-size: 14px;
-	padding: 3px 5px;
+	padding: 5px 8px;
 }
 
 .imgedit-separator {
