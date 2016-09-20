@@ -533,15 +533,24 @@ class WP_Customize_Control {
 					<span class="description customize-control-description"><?php echo $this->description; ?></span>
 				<?php endif; ?>
 
-				<?php $dropdown = wp_dropdown_pages(
+				<?php
+				$dropdown_name = '_customize-dropdown-pages-' . $this->id;
+				$show_option_none = __( '&mdash; Select &mdash;' );
+				$option_none_value = '0';
+				$dropdown = wp_dropdown_pages(
 					array(
-						'name'              => '_customize-dropdown-pages-' . $this->id,
+						'name'              => $dropdown_name,
 						'echo'              => 0,
-						'show_option_none'  => __( '&mdash; Select &mdash;' ),
-						'option_none_value' => '0',
+						'show_option_none'  => $show_option_none,
+						'option_none_value' => $option_none_value,
 						'selected'          => $this->value(),
 					)
 				);
+				if ( empty( $dropdown ) ) {
+					$dropdown = sprintf( '<select id="%1$s" name="%1$s">', esc_attr( $dropdown_name ) );
+					$dropdown .= sprintf( '<option value="%1$s">%2$s</option>', esc_attr( $option_none_value ), esc_html( $show_option_none ) );
+					$dropdown .= '</select>';
+				}
 
 				// Hackily add in the data link parameter.
 				$dropdown = str_replace( '<select', '<select ' . $this->get_link(), $dropdown );
