@@ -2397,6 +2397,9 @@ function wp_ajax_query_attachments() {
 	if ( current_user_can( get_post_type_object( 'attachment' )->cap->read_private_posts ) )
 		$query['post_status'] .= ',private';
 
+	// Filter query clauses to include filenames.
+	add_filter( 'posts_clauses', '_filter_query_attachment_filenames' );
+
 	/**
 	 * Filters the arguments passed to WP_Query during an Ajax
 	 * call for querying attachments.
