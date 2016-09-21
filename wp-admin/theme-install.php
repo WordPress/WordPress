@@ -37,22 +37,24 @@ foreach ( $installed_themes as $k => $v ) {
 wp_localize_script( 'theme', '_wpThemeSettings', array(
 	'themes'   => false,
 	'settings' => array(
-		'isInstall'     => true,
-		'canInstall'    => current_user_can( 'install_themes' ),
-		'installURI'    => current_user_can( 'install_themes' ) ? self_admin_url( 'theme-install.php' ) : null,
-		'adminUrl'      => parse_url( self_admin_url(), PHP_URL_PATH )
+		'isInstall'  => true,
+		'canInstall' => current_user_can( 'install_themes' ),
+		'installURI' => current_user_can( 'install_themes' ) ? self_admin_url( 'theme-install.php' ) : null,
+		'adminUrl'   => parse_url( self_admin_url(), PHP_URL_PATH )
 	),
 	'l10n' => array(
-		'addNew' => __( 'Add New Theme' ),
-		'search' => __( 'Search Themes' ),
-		'searchPlaceholder' => __( 'Search themes...' ), // placeholder (no ellipsis)
-		'upload' => __( 'Upload Theme' ),
-		'back'   => __( 'Back' ),
-		'error'  => __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ),
-		'themesFound'   => __( 'Number of Themes found: %d' ),
-		'noThemesFound' => __( 'No themes found. Try a different search.' ),
-		'collapseSidebar'    => __( 'Collapse Sidebar' ),
-		'expandSidebar'      => __( 'Expand Sidebar' ),
+		'addNew'              => __( 'Add New Theme' ),
+		'search'              => __( 'Search Themes' ),
+		'searchPlaceholder'   => __( 'Search themes...' ), // placeholder (no ellipsis)
+		'upload'              => __( 'Upload Theme' ),
+		'back'                => __( 'Back' ),
+		'error'               => __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ),
+		'themesFound'         => __( 'Number of Themes found: %d' ),
+		'noThemesFound'       => __( 'No themes found. Try a different search.' ),
+		'collapseSidebar'     => __( 'Collapse Sidebar' ),
+		'expandSidebar'       => __( 'Expand Sidebar' ),
+		/* translators: hidden accessibility text */
+		'selectFeatureFilter' => __( 'Select one or more Theme features to filter by' ),
 	),
 	'installedThemes' => array_keys( $installed_themes ),
 ) );
@@ -152,7 +154,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			<li><a href="#" data-sort="favorites"><?php _ex( 'Favorites', 'themes' ); ?></a></li>
 		</ul>
 
-		<a class="drawer-toggle" href="#"><?php _e( 'Feature Filter' ); ?></a>
+		<button type="button" class="button drawer-toggle" aria-expanded="false"><?php _e( 'Feature Filter' ); ?></button>
 
 		<div class="search-form"></div>
 
@@ -178,8 +180,8 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 
 		<div class="filter-drawer">
 			<div class="buttons">
-				<a class="apply-filters button button-secondary" href="#"><?php _e( 'Apply Filters' ); ?><span></span></a>
-				<a class="clear-filters button button-secondary" href="#"><?php _e( 'Clear' ); ?></a>
+				<button type="button" class="apply-filters button"><?php _e( 'Apply Filters' ); ?><span></span></button>
+				<button type="button" class="clear-filters button" aria-label="<?php esc_attr_e( 'Clear current filters' ); ?>"><?php _e( 'Clear' ); ?></button>
 			</div>
 		<?php
 		$feature_list = get_theme_feature_list();
@@ -197,10 +199,14 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 			echo '</fieldset>';
 		}
 		?>
+			<div class="buttons">
+				<button type="button" class="apply-filters button"><?php _e( 'Apply Filters' ); ?><span></span></button>
+				<button type="button" class="clear-filters button" aria-label="<?php esc_attr_e( 'Clear current filters' ); ?>"><?php _e( 'Clear' ); ?></button>
+			</div>
 			<div class="filtered-by">
 				<span><?php _e( 'Filtering by:' ); ?></span>
 				<div class="tags"></div>
-				<a href="#"><?php _e( 'Edit' ); ?></a>
+				<button type="button" class="button-link edit-filters"><?php _e( 'Edit Filters' ); ?></button>
 			</div>
 		</div>
 	</div>
