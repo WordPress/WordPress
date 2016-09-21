@@ -2,7 +2,7 @@
  * Button mixin- creates 3d-ish button effect with correct
  * highlights/shadows, based on a base color.
  */
-html {
+body {
   background: #f5f5f5;
 }
 
