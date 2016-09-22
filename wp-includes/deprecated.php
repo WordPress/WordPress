@@ -2015,7 +2015,7 @@ function sanitize_url( $url, $protocols = null ) {
  *
  * @since 1.2.0
  * @deprecated 3.0.0 Use esc_url()
- * @see Alias for esc_url()
+ * @see esc_url()
  *
  * @param string $url The URL to be cleaned.
  * @param array $protocols Optional. An array of acceptable protocols.
