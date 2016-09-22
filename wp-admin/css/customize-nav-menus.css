@@ -482,6 +482,11 @@
 	background: #fff;
 	-webkit-transition: background-color 0.15s;
 	transition: background-color 0.15s;
+	/* Reset the value inherited from the base .accordion-section-title style. Ticket #37589. */
+	-webkit-user-select: auto;
+	-moz-user-select: auto;
+	-ms-user-select: auto;
+	user-select: auto;
 }
 
 #available-menu-items .open .accordion-section-title,
