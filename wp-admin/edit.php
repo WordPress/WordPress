@@ -162,6 +162,21 @@ if ( $doaction ) {
 				}
 			}
 			break;
+		default:
+			/**
+			 * Fires when a custom bulk action should be handled.
+			 *
+			 * The sendback link should be modified with success or failure feedback
+			 * from the action to be used to display feedback to the user.
+			 *
+			 * @since 4.7.0
+			 *
+			 * @param string $sendback The redirect URL.
+			 * @param string $doaction The action being taken.
+			 * @param array  $post_ids The post IDs to take the action on. 
+			 */
+			$sendback = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $sendback, $doaction, $post_ids );
+			break;
 	}
 
 	$sendback = remove_query_arg( array('action', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status', 'post', 'bulk_edit', 'post_view'), $sendback );

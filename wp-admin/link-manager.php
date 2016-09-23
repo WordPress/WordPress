@@ -19,17 +19,34 @@ $doaction = $wp_list_table->current_action();
 if ( $doaction && isset( $_REQUEST['linkcheck'] ) ) {
 	check_admin_referer( 'bulk-bookmarks' );
 
+	$redirect_to = admin_url( 'link-manager.php' );
+	$bulklinks = (array) $_REQUEST['linkcheck'];
+
 	if ( 'delete' == $doaction ) {
-		$bulklinks = (array) $_REQUEST['linkcheck'];
 		foreach ( $bulklinks as $link_id ) {
 			$link_id = (int) $link_id;
 
 			wp_delete_link( $link_id );
 		}
 
-		wp_redirect( add_query_arg('deleted', count( $bulklinks ), admin_url( 'link-manager.php' ) ) );
-		exit;
+		$redirect_to = add_query_arg( 'deleted', count( $bulklinks ), $redirect_to );
+	} else {
+		/**
+		 * Fires when a custom bulk action should be handled.
+		 *
+		 * The redirect link should be modified with success or failure feedback
+		 * from the action to be used to display feedback to the user.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param string $redirect_to The redirect URL.
+		 * @param string $doaction    The action being taken.
+		 * @param array  $bulklinks   The links to take the action on.
+		 */
+		$redirect_to = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $redirect_to, $doaction, $bulklinks );
 	}
+	wp_redirect( $redirect_to );
+	exit;
 } elseif ( ! empty( $_GET['_wp_http_referer'] ) ) {
 	 wp_redirect( remove_query_arg( array( '_wp_http_referer', '_wpnonce' ), wp_unslash( $_SERVER['REQUEST_URI'] ) ) );
 	 exit;

@@ -82,6 +82,22 @@ if ( $doaction ) {
 		}
 	}
 
+	if ( ! in_array( $doaction, array( 'approve', 'unapprove', 'spam', 'unspam', 'trash', 'delete' ), true ) ) {
+		/**
+		 * Fires when a custom bulk action should be handled.
+		 *
+		 * The redirect link should be modified with success or failure feedback
+		 * from the action to be used to display feedback to the user.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param string $redirect_to The redirect URL.
+		 * @param string $doaction    The action being taken.
+		 * @param array  $comment_ids The comments to take the action on.
+		 */
+		$redirect_to = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $redirect_to, $doaction, $comment_ids );
+	}
+
 	wp_defer_comment_counting( false );
 
 	if ( $approved )

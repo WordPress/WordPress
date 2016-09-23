@@ -160,6 +160,26 @@ if ( isset( $_GET['action'] ) ) {
 						wp_die( __( 'Sorry, you are not allowed to change the current site.' ) );
 					}
 				}
+				if ( ! in_array( $doaction, array( 'delete', 'spam', 'notspam' ), true ) ) {
+					$redirect_to = wp_get_referer();
+					$blogs = (array) $_POST['allblogs'];
+					/**
+					 * Fires when a custom bulk action should be handled.
+					 *
+					 * The redirect link should be modified with success or failure feedback
+					 * from the action to be used to display feedback to the user.
+					 *
+					 * @since 4.7.0
+					 *
+					 * @param string $redirect_to The redirect URL.
+					 * @param string $doaction      The action being taken.
+					 * @param array  $blogs       The blogs to take the action on.
+					 * @param int    $site_id     The current site id.
+					 */
+					$redirect_to = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $redirect_to, $doaction, $blogs, $id );
+					wp_safe_redirect( $redirect_to );
+					exit();
+				}
 			} else {
 				$location = network_admin_url( 'sites.php' );
 				if ( ! empty( $_REQUEST['paged'] ) ) {

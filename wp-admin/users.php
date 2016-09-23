@@ -410,6 +410,28 @@ default:
 		exit;
 	}
 
+	if ( $wp_list_table->current_action() && ! empty( $_REQUEST['users'] ) ) {
+		$userids = $_REQUEST['users'];
+		$sendback = wp_get_referer();
+
+		/**
+		 * Fires when a custom bulk action should be handled.
+		 *
+		 * The sendback link should be modified with success or failure feedback
+		 * from the action to be used to display feedback to the user.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param string $sendback The redirect URL.
+		 * @param string $action   The action being taken.
+		 * @param array  $userids  The users to take the action on.
+		 */
+		$sendback = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $sendback, $wp_list_table->current_action(), $userids );
+
+		wp_safe_redirect( $sendback );
+		exit;
+	}
+
 	$wp_list_table->prepare_items();
 	$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
 	if ( $pagenum > $total_pages && $total_pages > 0 ) {
