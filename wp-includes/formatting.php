@@ -1490,8 +1490,16 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
  * | -------- | ----- | ----------- | --------------------------------------- |
  * | U+00B7   | l·l   | ll          | Flown dot (between two Ls)              |
  *
+ * Serbian (`sr_RS`) locale:
+ *
+ * |   Code   | Glyph | Replacement |               Description               |
+ * | -------- | ----- | ----------- | --------------------------------------- |
+ * | U+0110   | Đ     | DJ          | Latin capital letter D with stroke      |
+ * | U+0111   | đ     | dj          | Latin small letter d with stroke        |
+ *
  * @since 1.2.1
  * @since 4.6.0 Added locale support for `de_CH`, `de_CH_informal`, and `ca`.
+ * @since 4.7.0 Added locale support for `sr_RS`.
  *
  * @param string $string Text that might have accent characters
  * @return string Filtered string with replaced "nice" characters.
@@ -1697,6 +1705,9 @@ function remove_accents( $string ) {
 			$chars[ 'å' ] = 'aa';
 		} elseif ( 'ca' === $locale ) {
 			$chars[ 'l·l' ] = 'll';
+		} elseif ( 'sr_RS' === $locale ) {
+			$chars[ 'Đ' ] = 'DJ';
+			$chars[ 'đ' ] = 'dj';
 		}
 
 		$string = strtr($string, $chars);
