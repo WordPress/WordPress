@@ -851,7 +851,7 @@
 
 			api.bind( 'pane-contents-reflowed', function() {
 				// Skip menus that have been removed.
-				if ( ! section.container.parent().length ) {
+				if ( ! section.contentContainer.parent().length ) {
 					return;
 				}
 				section.container.find( '.menu-item .menu-item-reorder-nav button' ).attr({ 'tabindex': '0', 'aria-hidden': 'false' });
@@ -969,7 +969,7 @@
 			var section = this;
 
 			if ( expanded ) {
-				wpNavMenu.menuList = section.container.find( '.accordion-section-content:first' );
+				wpNavMenu.menuList = section.contentContainer;
 				wpNavMenu.targetList = wpNavMenu.menuList;
 
 				// Add attributes needed by wpNavMenu
@@ -1031,8 +1031,8 @@
 		onChangeExpanded: function( expanded ) {
 			var section = this,
 				button = section.container.find( '.add-menu-toggle' ),
-				content = section.container.find( '.new-menu-section-content' ),
-				customizer = section.container.closest( '.wp-full-overlay-sidebar-content' );
+				content = section.contentContainer,
+				customizer = section.headContainer.closest( '.wp-full-overlay-sidebar-content' );
 			if ( expanded ) {
 				button.addClass( 'open' );
 				button.attr( 'aria-expanded', 'true' );
@@ -1045,6 +1045,17 @@
 				content.slideUp( 'fast' );
 				content.find( '.menu-name-field' ).removeClass( 'invalid' );
 			}
+		},
+
+		/**
+		 * Find the content element.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @returns {jQuery} Content UL element.
+		 */
+		getContent: function() {
+			return this.container.find( 'ul:first' );
 		}
 	});
 
@@ -2001,6 +2012,7 @@
 		 */
 		ready: function() {
 			var control = this,
+				section = api.section( control.section() ),
 				menuId = control.params.menu_id,
 				menu = control.setting(),
 				name,
@@ -2017,7 +2029,7 @@
 			 * being deactivated.
 			 */
 			control.active.validate = function() {
-				var value, section = api.section( control.section() );
+				var value;
 				if ( section ) {
 					value = section.active();
 				} else {
@@ -2026,7 +2038,7 @@
 				return value;
 			};
 
-			control.$controlSection = control.container.closest( '.control-section' );
+			control.$controlSection = section.headContainer;
 			control.$sectionContent = control.container.closest( '.accordion-section-content' );
 
 			this._setupModel();
@@ -2300,11 +2312,11 @@
 					return;
 				}
 
-				var section = control.container.closest( '.accordion-section' ),
+				var section = api.section( control.section() ),
 					menuId = control.params.menu_id,
-					controlTitle = section.find( '.accordion-section-title' ),
-					sectionTitle = section.find( '.customize-section-title h3' ),
-					location = section.find( '.menu-in-location' ),
+					controlTitle = section.headContainer.find( '.accordion-section-title' ),
+					sectionTitle = section.contentContainer.find( '.customize-section-title h3' ),
+					location = section.headContainer.find( '.menu-in-location' ),
 					action = sectionTitle.find( '.customize-action' ),
 					name = displayNavMenuName( menu.name );
 
@@ -2328,7 +2340,7 @@
 				} );
 
 				// Update the nav menu name in all location checkboxes.
-				section.find( '.customize-control-checkbox input' ).each( function() {
+				section.contentContainer.find( '.customize-control-checkbox input' ).each( function() {
 					if ( $( this ).prop( 'checked' ) ) {
 						$( '.current-menu-location-name-' + $( this ).data( 'location-id' ) ).text( name );
 					}
@@ -2642,9 +2654,6 @@
 
 			// Focus on the new menu section.
 			api.section( customizeId ).focus(); // @todo should we focus on the new menu's control and open the add-items panel? Thinking user flow...
-
-			// Fix an issue with extra space at top immediately after creating new menu.
-			$( '#menu-to-edit' ).css( 'margin-top', 0 );
 		}
 	});
 

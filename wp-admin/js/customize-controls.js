@@ -1,6 +1,6 @@
 /* global _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n, MediaElementPlayer */
 (function( exports, $ ){
-	var Container, focus, api = wp.customize;
+	var Container, focus, normalizedTransitionendEventName, api = wp.customize;
 
 	/**
 	 * A Customizer Setting.
@@ -101,10 +101,8 @@
 		params = params || {};
 		focus = function () {
 			var focusContainer;
-			if ( construct.extended( api.Panel ) && construct.expanded && construct.expanded() ) {
-				focusContainer = construct.container.find( 'ul.control-panel-content' );
-			} else if ( construct.extended( api.Section ) && construct.expanded && construct.expanded() ) {
-				focusContainer = construct.container.find( 'ul.accordion-section-content' );
+			if ( ( construct.extended( api.Panel ) || construct.extended( api.Section ) ) && construct.expanded && construct.expanded() ) {
+				focusContainer = construct.contentContainer;
 			} else {
 				focusContainer = construct.container;
 			}
@@ -188,6 +186,32 @@
 	};
 
 	/**
+	 * Return browser supported `transitionend` event name.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @returns {string|null} Normalized `transitionend` event name or null if CSS transitions are not supported.
+	 */
+	normalizedTransitionendEventName = (function () {
+		var el, transitions, prop;
+		el = document.createElement( 'div' );
+		transitions = {
+			'transition'      : 'transitionend',
+			'OTransition'     : 'oTransitionEnd',
+			'MozTransition'   : 'transitionend',
+			'WebkitTransition': 'webkitTransitionEnd'
+		};
+		prop = _.find( _.keys( transitions ), function( prop ) {
+			return ! _.isUndefined( el.style[ prop ] );
+		} );
+		if ( prop ) {
+			return transitions[ prop ];
+		} else {
+			return null;
+		}
+	})();
+
+	/**
 	 * Base class for Panel and Section.
 	 *
 	 * @since 4.1.0
@@ -238,6 +262,9 @@
 			if ( 0 === container.container.length ) {
 				container.container = $( container.getContainer() );
 			}
+			container.headContainer = container.container;
+			container.contentContainer = container.getContent();
+			container.container = container.container.add( container.contentContainer );
 
 			container.deferred = {
 				embedded: new $.Deferred()
@@ -325,7 +352,10 @@
 		 * @param {Object}  args.completeCallback
 		 */
 		onChangeActive: function( active, args ) {
-			var duration, construct = this, expandedOtherPanel;
+			var construct = this,
+				headContainer = construct.headContainer,
+				duration, expandedOtherPanel;
+
 			if ( args.unchanged ) {
 				if ( args.completeCallback ) {
 					args.completeCallback();
@@ -352,30 +382,25 @@
 				}
 			}
 
-			if ( ! $.contains( document, construct.container[0] ) ) {
+			if ( ! $.contains( document, headContainer ) ) {
 				// jQuery.fn.slideUp is not hiding an element if it is not in the DOM
-				construct.container.toggle( active );
+				headContainer.toggle( active );
 				if ( args.completeCallback ) {
 					args.completeCallback();
 				}
 			} else if ( active ) {
-				construct.container.stop( true, true ).slideDown( duration, args.completeCallback );
+				headContainer.stop( true, true ).slideDown( duration, args.completeCallback );
 			} else {
 				if ( construct.expanded() ) {
 					construct.collapse({
 						duration: duration,
 						completeCallback: function() {
-							construct.container.stop( true, true ).slideUp( duration, args.completeCallback );
+							headContainer.stop( true, true ).slideUp( duration, args.completeCallback );
 						}
 					});
 				} else {
-					construct.container.stop( true, true ).slideUp( duration, args.completeCallback );
+					headContainer.stop( true, true ).slideUp( duration, args.completeCallback );
 				}
-			}
-
-			// Recalculate the margin-top immediately, not waiting for debounced reflow, to prevent momentary (100ms) vertical jiggle.
-			if ( expandedOtherPanel ) {
-				expandedOtherPanel._recalculateTopMargin();
 			}
 		},
 
@@ -483,6 +508,66 @@
 		},
 
 		/**
+		 * Animate container state change if transitions are supported by the browser.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param {function} completeCallback Function to be called after transition is completed.
+		 * @returns {void}
+		 * @private
+		 */
+		_animateChangeExpanded: function( completeCallback ) {
+			// Return if CSS transitions are not supported.
+			if ( ! normalizedTransitionendEventName ) {
+				if ( completeCallback ) {
+					completeCallback();
+				}
+				return;
+			}
+
+			var construct = this,
+				content = construct.contentContainer,
+				overlay = content.closest( '.wp-full-overlay' ),
+				elements, transitionEndCallback;
+
+			// Determine set of elements that are affected by the animation.
+			elements = overlay.add( content );
+			if ( _.isUndefined( construct.panel ) || '' === construct.panel() ) {
+				elements = elements.add( '#customize-info, .customize-pane-parent' );
+			}
+
+			// Handle `transitionEnd` event.
+			transitionEndCallback = function( e ) {
+				if ( 2 !== e.eventPhase || ! $( e.target ).is( content ) ) {
+					return;
+				}
+				content.off( normalizedTransitionendEventName, transitionEndCallback );
+				elements.removeClass( 'busy' );
+				if ( completeCallback ) {
+					completeCallback();
+				}
+			};
+			content.on( normalizedTransitionendEventName, transitionEndCallback );
+			elements.addClass( 'busy' );
+
+			// Prevent screen flicker when pane has been scrolled before expanding.
+			_.defer( function() {
+				var container = content.closest( '.wp-full-overlay-sidebar-content' ),
+					currentScrollTop = container.scrollTop(),
+					previousScrollTop = content.data( 'previous-scrollTop' ) || 0,
+					expanded = construct.expanded();
+
+				if ( expanded && 0 < currentScrollTop ) {
+					content.css( 'top', currentScrollTop + 'px' );
+					content.data( 'previous-scrollTop', currentScrollTop );
+				} else if ( ! expanded && 0 < currentScrollTop + previousScrollTop ) {
+					content.css( 'top', previousScrollTop - currentScrollTop + 'px' );
+					container.scrollTop( previousScrollTop );
+				}
+			} );
+		},
+
+		/**
 		 * Bring the container into view and then expand this and bring it into view
 		 * @param {Object} [params]
 		 */
@@ -507,6 +592,39 @@
 			}
 
 			return '<li></li>';
+		},
+
+		/**
+		 * Find content element which is displayed when the section is expanded.
+		 *
+		 * After a construct is initialized, the return value will be available via the `contentContainer` property.
+		 * By default the element will be related it to the parent container with `aria-owns` and detached.
+		 * Custom panels and sections (such as the `NewMenuSection`) that do not have a sliding pane should
+		 * just return the content element without needing to add the `aria-owns` element or detach it from
+		 * the container. Such non-sliding pane custom sections also need to override the `onChangeExpanded`
+		 * method to handle animating the panel/section into and out of view.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @returns {jQuery} Detached content element.
+		 */
+		getContent: function() {
+			var construct = this,
+				container = construct.container,
+				content = container.find( '.accordion-section-content, .control-panel-content' ).first(),
+				contentId = 'sub-' + container.attr( 'id' ),
+				ownedElements = contentId,
+				alreadyOwnedElements = container.attr( 'aria-owns' );
+
+			if ( alreadyOwnedElements ) {
+				ownedElements = ownedElements + ' ' + alreadyOwnedElements;
+			}
+			container.attr( 'aria-owns', ownedElements );
+
+			return content.detach().attr( {
+				'id': contentId,
+				'class': 'customize-pane-child ' + content.attr( 'class' ) + ' ' + container.attr( 'class' )
+			} );
 		}
 	});
 
@@ -552,7 +670,7 @@
 			section.id = id;
 			section.panel = new api.Value();
 			section.panel.bind( function ( id ) {
-				$( section.container ).toggleClass( 'control-subsection', !! id );
+				$( section.headContainer ).toggleClass( 'control-subsection', !! id );
 			});
 			section.panel.set( section.params.panel || '' );
 			api.utils.bubbleChildValueChanges( section, [ 'panel' ] );
@@ -569,7 +687,9 @@
 		 * @since 4.1.0
 		 */
 		embed: function () {
-			var section = this, inject;
+			var inject,
+				section = this,
+				container = $( '#customize-theme-controls' );
 
 			// Watch for changes to the panel state
 			inject = function ( panelId ) {
@@ -579,31 +699,30 @@
 					api.panel( panelId, function ( panel ) {
 						// The panel has been registered, wait for it to become ready/initialized
 						panel.deferred.embedded.done( function () {
-							parentContainer = panel.container.find( 'ul:first' );
-							if ( ! section.container.parent().is( parentContainer ) ) {
-								parentContainer.append( section.container );
+							parentContainer = panel.contentContainer;
+							if ( ! section.headContainer.parent().is( parentContainer ) ) {
+								parentContainer.append( section.headContainer );
+							}
+							if ( ! section.contentContainer.parent().is( section.headContainer ) ) {
+								container.append( section.contentContainer );
 							}
 							section.deferred.embedded.resolve();
 						});
 					} );
 				} else {
 					// There is no panel, so embed the section in the root of the customizer
-					parentContainer = $( '#customize-theme-controls' ).children( 'ul' ); // @todo This should be defined elsewhere, and to be configurable
-					if ( ! section.container.parent().is( parentContainer ) ) {
-						parentContainer.append( section.container );
+					parentContainer = $( '.customize-pane-parent' ); // @todo This should be defined elsewhere, and to be configurable
+					if ( ! section.headContainer.parent().is( parentContainer ) ) {
+						parentContainer.append( section.headContainer );
+					}
+					if ( ! section.contentContainer.parent().is( section.headContainer ) ) {
+						container.append( section.contentContainer );
 					}
 					section.deferred.embedded.resolve();
 				}
 			};
 			section.panel.bind( inject );
 			inject( section.panel.get() ); // Since a section may never get a panel, assume that it won't ever get one
-
-			section.deferred.embedded.done(function() {
-				// Fix the top margin after reflow.
-				api.bind( 'pane-contents-reflowed', _.debounce( function() {
-					section._recalculateTopMargin();
-				}, 100 ) );
-			});
 		},
 
 		/**
@@ -669,50 +788,35 @@
 		 */
 		onChangeExpanded: function ( expanded, args ) {
 			var section = this,
-				container = section.container.closest( '.wp-full-overlay-sidebar-content' ),
-				content = section.container.find( '.accordion-section-content' ),
-				overlay = section.container.closest( '.wp-full-overlay' ),
-				backBtn = section.container.find( '.customize-section-back' ),
-				sectionTitle = section.container.find( '.accordion-section-title' ).first(),
-				headerActionsHeight = $( '#customize-header-actions' ).height(),
-				resizeContentHeight, expand, position, scroll;
+				container = section.headContainer.closest( '.wp-full-overlay-sidebar-content' ),
+				content = section.contentContainer,
+				overlay = section.headContainer.closest( '.wp-full-overlay' ),
+				backBtn = content.find( '.customize-section-back' ),
+				sectionTitle = section.headContainer.find( '.accordion-section-title' ).first(),
+				expand;
 
-			if ( expanded && ! section.container.hasClass( 'open' ) ) {
+			if ( expanded && ! content.hasClass( 'open' ) ) {
 
 				if ( args.unchanged ) {
 					expand = args.completeCallback;
 				} else {
-					container.scrollTop( 0 );
-					resizeContentHeight = function() {
-						var matchMedia, offset;
-						matchMedia = window.matchMedia || window.msMatchMedia;
-						offset = 90; // 45px for customize header actions + 45px for footer actions.
+					expand = $.proxy( function() {
+						section._animateChangeExpanded( function() {
+							sectionTitle.attr( 'tabindex', '-1' );
+							backBtn.attr( 'tabindex', '0' );
 
-						// No footer on small screens.
-						if ( matchMedia && matchMedia( '(max-width: 640px)' ).matches ) {
-							offset = 45;
-						}
-						content.css( 'height', ( window.innerHeight - offset ) );
-					};
-					expand = function() {
-						section.container.addClass( 'open' );
+							backBtn.focus();
+							content.css( 'top', '' );
+							container.scrollTop( 0 );
+
+							if ( args.completeCallback ) {
+								args.completeCallback();
+							}
+						} );
+
+						content.addClass( 'open' );
 						overlay.addClass( 'section-open' );
-						position = content.offset().top;
-						scroll = container.scrollTop();
-						content.css( 'margin-top', ( headerActionsHeight - position - scroll ) );
-						resizeContentHeight();
-						sectionTitle.attr( 'tabindex', '-1' );
-						backBtn.attr( 'tabindex', '0' );
-						backBtn.focus();
-						if ( args.completeCallback ) {
-							args.completeCallback();
-						}
-
-						// Fix the height after browser resize.
-						$( window ).on( 'resize.customizer-section', _.debounce( resizeContentHeight, 100 ) );
-
-						setTimeout( _.bind( section._recalculateTopMargin, section ), 0 );
-					};
+					}, this );
 				}
 
 				if ( ! args.allowMultiple ) {
@@ -735,41 +839,26 @@
 					expand();
 				}
 
-			} else if ( ! expanded && section.container.hasClass( 'open' ) ) {
-				section.container.removeClass( 'open' );
+			} else if ( ! expanded && content.hasClass( 'open' ) ) {
+				section._animateChangeExpanded( function() {
+					backBtn.attr( 'tabindex', '-1' );
+					sectionTitle.attr( 'tabindex', '0' );
+
+					sectionTitle.focus();
+					content.css( 'top', '' );
+
+					if ( args.completeCallback ) {
+						args.completeCallback();
+					}
+				} );
+
+				content.removeClass( 'open' );
 				overlay.removeClass( 'section-open' );
-				content.css( 'margin-top', '' );
-				container.scrollTop( 0 );
-				backBtn.attr( 'tabindex', '-1' );
-				sectionTitle.attr( 'tabindex', '0' );
-				sectionTitle.focus();
-				if ( args.completeCallback ) {
-					args.completeCallback();
-				}
-				$( window ).off( 'resize.customizer-section' );
+
 			} else {
 				if ( args.completeCallback ) {
 					args.completeCallback();
 				}
-			}
-		},
-
-		/**
-		 * Recalculate the top margin.
-		 *
-		 * @since 4.4.0
-		 * @private
-		 */
-		_recalculateTopMargin: function() {
-			var section = this, content, offset, headerActionsHeight;
-			content = section.container.find( '.accordion-section-content' );
-			if ( 0 === content.length ) {
-				return;
-			}
-			headerActionsHeight = $( '#customize-header-actions' ).height();
-			offset = ( content.offset().top - headerActionsHeight );
-			if ( 0 < offset ) {
-				content.css( 'margin-top', ( parseInt( content.css( 'margin-top' ), 10 ) - offset ) );
 			}
 		}
 	});
@@ -948,18 +1037,14 @@
 			}
 
 			// Note: there is a second argument 'args' passed
-			var position, scroll,
-				panel = this,
-				section = panel.container.closest( '.accordion-section' ),
+			var panel = this,
+				section = panel.contentContainer,
 				overlay = section.closest( '.wp-full-overlay' ),
 				container = section.closest( '.wp-full-overlay-sidebar-content' ),
-				siblings = container.find( '.open' ),
 				customizeBtn = section.find( '.customize-theme' ),
-				changeBtn = section.find( '.change-theme' ),
-				content = section.find( '.control-panel-content' );
+				changeBtn = panel.headContainer.find( '.change-theme' );
 
-			if ( expanded ) {
-
+			if ( expanded && ! section.hasClass( 'current-panel' ) ) {
 				// Collapse any sibling sections/panels
 				api.section.each( function ( otherSection ) {
 					if ( otherSection !== panel ) {
@@ -970,45 +1055,38 @@
 					otherPanel.collapse( { duration: 0 } );
 				});
 
-				content.show( 0, function() {
-					position = content.offset().top;
-					scroll = container.scrollTop();
-					content.css( 'margin-top', ( $( '#customize-header-actions' ).height() - position - scroll ) );
-					section.addClass( 'current-panel' );
-					overlay.addClass( 'in-themes-panel' );
-					container.scrollTop( 0 );
-					_.delay( panel.renderScreenshots, 10 ); // Wait for the controls
-					panel.$customizeSidebar.on( 'scroll.customize-themes-section', _.throttle( panel.renderScreenshots, 300 ) );
-					if ( args.completeCallback ) {
-						args.completeCallback();
-					}
-				} );
-				customizeBtn.focus();
-			} else {
-				siblings.removeClass( 'open' );
-				section.removeClass( 'current-panel' );
-				overlay.removeClass( 'in-themes-panel' );
-				panel.$customizeSidebar.off( 'scroll.customize-themes-section' );
-				content.delay( 180 ).hide( 0, function() {
-					content.css( 'margin-top', 'inherit' ); // Reset
-					if ( args.completeCallback ) {
-						args.completeCallback();
-					}
-				} );
-				customizeBtn.attr( 'tabindex', '0' );
-				changeBtn.focus();
-				container.scrollTop( 0 );
-			}
-		},
+				panel._animateChangeExpanded( function() {
+					changeBtn.attr( 'tabindex', '-1' );
+					customizeBtn.attr( 'tabindex', '0' );
 
-		/**
-		 * Recalculate the top margin.
-		 *
-		 * @since 4.4.0
-		 * @private
-		 */
-		_recalculateTopMargin: function() {
-			api.Panel.prototype._recalculateTopMargin.call( this );
+					customizeBtn.focus();
+					section.css( 'top', '' );
+					container.scrollTop( 0 );
+
+					if ( args.completeCallback ) {
+						args.completeCallback();
+					}
+				} );
+
+				overlay.addClass( 'in-themes-panel' );
+				section.addClass( 'current-panel' );
+
+			} else if ( ! expanded && section.hasClass( 'current-panel' ) ) {
+				panel._animateChangeExpanded( function() {
+					changeBtn.attr( 'tabindex', '0' );
+					customizeBtn.attr( 'tabindex', '-1' );
+
+					changeBtn.focus();
+					section.css( 'top', '' );
+
+					if ( args.completeCallback ) {
+						args.completeCallback();
+					}
+				} );
+
+				overlay.removeClass( 'in-themes-panel' );
+				section.removeClass( 'current-panel' );
+			}
 		},
 
 		/**
@@ -1237,16 +1315,16 @@
 		 */
 		embed: function () {
 			var panel = this,
-				parentContainer = $( '#customize-theme-controls > ul' ); // @todo This should be defined elsewhere, and to be configurable
+				container = $( '#customize-theme-controls' ),
+				parentContainer = $( '.customize-pane-parent' ); // @todo This should be defined elsewhere, and to be configurable
 
-			if ( ! panel.container.parent().is( parentContainer ) ) {
-				parentContainer.append( panel.container );
+			if ( ! panel.headContainer.parent().is( parentContainer ) ) {
+				parentContainer.append( panel.headContainer );
+			}
+			if ( ! panel.contentContainer.parent().is( panel.headContainer ) ) {
+				container.append( panel.contentContainer );
 				panel.renderContent();
 			}
-
-			api.bind( 'pane-contents-reflowed', _.debounce( function() {
-				panel._recalculateTopMargin();
-			}, 100 ) );
 
 			panel.deferred.embedded.resolve();
 		},
@@ -1258,7 +1336,7 @@
 			var meta, panel = this;
 
 			// Expand/Collapse accordion sections on click.
-			panel.container.find( '.accordion-section-title' ).on( 'click keydown', function( event ) {
+			panel.headContainer.find( '.accordion-section-title' ).on( 'click keydown', function( event ) {
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
@@ -1289,7 +1367,6 @@
 				}
 				event.preventDefault(); // Keep this AFTER the key filter above
 
-				meta = panel.container.find( '.panel-meta' );
 				if ( meta.hasClass( 'cannot-expand' ) ) {
 					return;
 				}
@@ -1359,20 +1436,14 @@
 			}
 
 			// Note: there is a second argument 'args' passed
-			var position, scroll,
-				panel = this,
-				accordionSection = panel.container.closest( '.accordion-section' ),
+			var panel = this,
+				accordionSection = panel.contentContainer,
 				overlay = accordionSection.closest( '.wp-full-overlay' ),
 				container = accordionSection.closest( '.wp-full-overlay-sidebar-content' ),
-				siblings = container.find( '.open' ),
-				topPanel = overlay.find( '#customize-theme-controls > ul > .accordion-section > .accordion-section-title' ),
-				backBtn = accordionSection.find( '.customize-panel-back' ),
-				panelTitle = accordionSection.find( '.accordion-section-title' ).first(),
-				content = accordionSection.find( '.control-panel-content' ),
-				headerActionsHeight = $( '#customize-header-actions' ).height();
+				topPanel = panel.headContainer.find( '.accordion-section-title' ),
+				backBtn = accordionSection.find( '.customize-panel-back' );
 
-			if ( expanded ) {
-
+			if ( expanded && ! accordionSection.hasClass( 'current-panel' ) ) {
 				// Collapse any sibling sections/panels
 				api.section.each( function ( section ) {
 					if ( panel.id !== section.panel() ) {
@@ -1385,51 +1456,38 @@
 					}
 				});
 
-				content.show( 0, function() {
-					content.parent().show();
-					position = content.offset().top;
-					scroll = container.scrollTop();
-					content.css( 'margin-top', ( headerActionsHeight - position - scroll ) );
-					accordionSection.addClass( 'current-panel' );
-					overlay.addClass( 'in-sub-panel' );
-					container.scrollTop( 0 );
-					if ( args.completeCallback ) {
-						args.completeCallback();
-					}
-				} );
-				topPanel.attr( 'tabindex', '-1' );
-				backBtn.attr( 'tabindex', '0' );
-				backBtn.focus();
-				panel._recalculateTopMargin();
-			} else {
-				siblings.removeClass( 'open' );
-				accordionSection.removeClass( 'current-panel' );
-				overlay.removeClass( 'in-sub-panel' );
-				content.delay( 180 ).hide( 0, function() {
-					content.css( 'margin-top', 'inherit' ); // Reset
-					if ( args.completeCallback ) {
-						args.completeCallback();
-					}
-				} );
-				topPanel.attr( 'tabindex', '0' );
-				backBtn.attr( 'tabindex', '-1' );
-				panelTitle.focus();
-				container.scrollTop( 0 );
-			}
-		},
+				panel._animateChangeExpanded( function() {
+					topPanel.attr( 'tabindex', '-1' );
+					backBtn.attr( 'tabindex', '0' );
 
-		/**
-		 * Recalculate the top margin.
-		 *
-		 * @since 4.4.0
-		 * @private
-		 */
-		_recalculateTopMargin: function() {
-			var panel = this, headerActionsHeight, content, accordionSection;
-			headerActionsHeight = $( '#customize-header-actions' ).height();
-			accordionSection = panel.container.closest( '.accordion-section' );
-			content = accordionSection.find( '.control-panel-content' );
-			content.css( 'margin-top', ( parseInt( content.css( 'margin-top' ), 10 ) - ( content.offset().top - headerActionsHeight ) ) );
+					backBtn.focus();
+					accordionSection.css( 'top', '' );
+					container.scrollTop( 0 );
+
+					if ( args.completeCallback ) {
+						args.completeCallback();
+					}
+				} );
+
+				overlay.addClass( 'in-sub-panel' );
+				accordionSection.addClass( 'current-panel' );
+
+			} else if ( ! expanded && accordionSection.hasClass( 'current-panel' ) ) {
+				panel._animateChangeExpanded( function() {
+					topPanel.attr( 'tabindex', '0' );
+					backBtn.attr( 'tabindex', '-1' );
+
+					topPanel.focus();
+					accordionSection.css( 'top', '' );
+
+					if ( args.completeCallback ) {
+						args.completeCallback();
+					}
+				} );
+
+				overlay.removeClass( 'in-sub-panel' );
+				accordionSection.removeClass( 'current-panel' );
+			}
 		},
 
 		/**
@@ -1449,8 +1507,8 @@
 			} else {
 				template = wp.template( 'customize-panel-default-content' );
 			}
-			if ( template && panel.container ) {
-				panel.container.find( '.accordion-sub-container' ).html( template( panel.params ) );
+			if ( template && panel.headContainer ) {
+				panel.contentContainer.html( template( panel.params ) );
 			}
 		}
 	});
@@ -1626,7 +1684,7 @@
 				api.section( sectionId, function ( section ) {
 					// Wait for the section to be ready/initialized
 					section.deferred.embedded.done( function () {
-						parentContainer = section.container.find( 'ul:first' );
+						parentContainer = ( section.contentContainer.is( 'ul' ) ) ? section.contentContainer : section.contentContainer.find( 'ul:first' );
 						if ( ! control.container.parent().is( parentContainer ) ) {
 							parentContainer.append( control.container );
 							control.renderContent();
@@ -3542,7 +3600,7 @@
 	 */
 	api.reflowPaneContents = _.bind( function () {
 
-		var appendContainer, activeElement, rootContainers, rootNodes = [], wasReflowed = false;
+		var appendContainer, activeElement, rootHeadContainers, rootNodes = [], wasReflowed = false;
 
 		if ( document.activeElement ) {
 			activeElement = $( document.activeElement );
@@ -3551,12 +3609,12 @@
 		// Sort the sections within each panel
 		api.panel.each( function ( panel ) {
 			var sections = panel.sections(),
-				sectionContainers = _.pluck( sections, 'container' );
+				sectionHeadContainers = _.pluck( sections, 'headContainer' );
 			rootNodes.push( panel );
-			appendContainer = panel.container.find( 'ul:first' );
-			if ( ! api.utils.areElementListsEqual( sectionContainers, appendContainer.children( '[id]' ) ) ) {
+			appendContainer = ( panel.contentContainer.is( 'ul' ) ) ? panel.contentContainer : panel.contentContainer.find( 'ul:first' );
+			if ( ! api.utils.areElementListsEqual( sectionHeadContainers, appendContainer.children( '[id]' ) ) ) {
 				_( sections ).each( function ( section ) {
-					appendContainer.append( section.container );
+					appendContainer.append( section.headContainer );
 				} );
 				wasReflowed = true;
 			}
@@ -3569,7 +3627,7 @@
 			if ( ! section.panel() ) {
 				rootNodes.push( section );
 			}
-			appendContainer = section.container.find( 'ul:first' );
+			appendContainer = ( section.contentContainer.is( 'ul' ) ) ? section.contentContainer : section.contentContainer.find( 'ul:first' );
 			if ( ! api.utils.areElementListsEqual( controlContainers, appendContainer.children( '[id]' ) ) ) {
 				_( controls ).each( function ( control ) {
 					appendContainer.append( control.container );
@@ -3580,11 +3638,11 @@
 
 		// Sort the root panels and sections
 		rootNodes.sort( api.utils.prioritySort );
-		rootContainers = _.pluck( rootNodes, 'container' );
-		appendContainer = $( '#customize-theme-controls' ).children( 'ul' ); // @todo This should be defined elsewhere, and to be configurable
-		if ( ! api.utils.areElementListsEqual( rootContainers, appendContainer.children() ) ) {
+		rootHeadContainers = _.pluck( rootNodes, 'headContainer' );
+		appendContainer = $( '#customize-theme-controls .customize-pane-parent' ); // @todo This should be defined elsewhere, and to be configurable
+		if ( ! api.utils.areElementListsEqual( rootHeadContainers, appendContainer.children() ) ) {
 			_( rootNodes ).each( function ( rootNode ) {
-				appendContainer.append( rootNode.container );
+				appendContainer.append( rootNode.headContainer );
 			} );
 			wasReflowed = true;
 		}

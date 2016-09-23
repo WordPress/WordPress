@@ -77,8 +77,8 @@ body {
 	line-height: 24px;
 }
 
-#customize-controls .control-section .customize-section-title h3,
-#customize-controls .control-section h3.customize-section-title,
+#customize-controls .customize-pane-child .customize-section-title h3,
+#customize-controls .customize-pane-child h3.customize-section-title,
 #customize-controls .customize-info .panel-title {
 	font-size: 20px;
 	font-weight: 200;
@@ -229,6 +229,103 @@ body {
 	box-sizing: border-box;
 }
 
+#customize-info,
+#customize-theme-controls .customize-pane-parent,
+#customize-theme-controls .customize-pane-child {
+	overflow: visible;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-transition: 0.18s -webkit-transform cubic-bezier(0.645, 0.045, 0.355, 1);
+	transition: 0.18s -webkit-transform cubic-bezier(0.645, 0.045, 0.355, 1);
+	transition: 0.18s transform cubic-bezier(0.645, 0.045, 0.355, 1);
+	transition: 0.18s transform cubic-bezier(0.645, 0.045, 0.355, 1), 0.18s -webkit-transform cubic-bezier(0.645, 0.045, 0.355, 1); /* easeInOutCubic */
+}
+
+#customize-info,
+#customize-theme-controls .customize-pane-parent {
+	position: relative;
+	visibility: visible;
+	height: auto;
+	max-height: none;
+	overflow: auto;
+	-webkit-transform: none;
+	-ms-transform: none;
+	transform: none;
+}
+
+#customize-theme-controls .customize-pane-child {
+	position: absolute;
+	top: 0;
+	left: 0;
+	visibility: hidden;
+	height: 0;
+	max-height: none;
+	overflow: hidden;
+	-webkit-transform: translateX(100%);
+	-ms-transform: translateX(100%);
+	transform: translateX(100%);
+}
+
+#customize-theme-controls .customize-pane-child.open,
+#customize-theme-controls .customize-pane-child.current-panel,
+#customize-theme-controls .customize-themes-panel.customize-pane-child.current-panel {
+	-webkit-transform: none;
+	-ms-transform: none;
+	transform: none;
+}
+
+#customize-theme-controls .customize-themes-panel.customize-pane-child,
+.section-open #customize-theme-controls .customize-pane-parent,
+.in-sub-panel #customize-theme-controls .customize-pane-parent,
+.section-open #customize-info,
+.in-sub-panel #customize-info,
+.in-sub-panel.section-open #customize-theme-controls .customize-pane-child.current-panel,
+.in-themes-panel #customize-theme-controls .customize-pane-parent,
+.in-themes-panel #customize-info {
+	visibility: hidden;
+	height: 0;
+	overflow: hidden;
+	-webkit-transform: translateX(-100%);
+	-ms-transform: translateX(-100%);
+	transform: translateX(-100%);
+}
+
+.section-open #customize-theme-controls .customize-pane-parent.busy,
+.in-sub-panel #customize-theme-controls .customize-pane-parent.busy,
+.in-themes-panel #customize-theme-controls .customize-pane-parent.busy,
+.section-open #customize-info.busy,
+.in-sub-panel #customize-info.busy,
+.in-themes-panel #customize-info.busy,
+.busy.section-open.in-sub-panel #customize-theme-controls .customize-pane-child.current-panel,
+#customize-theme-controls .customize-pane-child.open,
+#customize-theme-controls .customize-pane-child.current-panel,
+#customize-theme-controls .customize-pane-child.busy {
+	visibility: visible;
+	height: auto;
+	overflow: auto;
+}
+
+.in-themes-panel #customize-theme-controls .customize-pane-parent,
+.in-themes-panel #customize-info {
+	-webkit-transform: translateX(100%);
+	-ms-transform: translateX(100%);
+	transform: translateX(100%);
+}
+
+#customize-theme-controls .customize-pane-child.accordion-section-content,
+#customize-theme-controls .customize-pane-child.accordion-sub-container {
+	display: block;
+	overflow-x: hidden;
+}
+
+#customize-theme-controls .customize-pane-child.accordion-section-content {
+	padding: 12px;
+}
+
 .customize-section-description-container {
 	margin-bottom: 15px;
 }
@@ -268,39 +365,14 @@ h3.customize-section-title {
 	color: #555;
 }
 
-#customize-theme-controls {
-	position: relative;
-	left: 0;
-	-webkit-transition: .18s left ease-in-out;
-	transition: .18s left ease-in-out;
-}
-
-.ios #customize-theme-controls {
-	-webkit-transition: left 0s;
-	transition: left 0s;
-}
-
-.section-open #customize-info,
-.section-open #customize-theme-controls {
-	left: -100%;
-}
-
 .accordion-sub-container.control-panel-content {
 	display: none;
 	position: absolute;
-	left: 100%;
 	top: 0;
 	width: 100%;
-	-webkit-transition: left ease-in-out .18s;
-	transition: left ease-in-out .18s;
 }
 
-.ios .accordion-sub-container.control-panel-content {
-	-webkit-transition: left 0s;
-	transition: left 0s;
-}
-
-.accordion-sub-container.control-panel-content.animating {
+.accordion-sub-container.control-panel-content.busy {
 	display: block;
 }
 
@@ -343,18 +415,12 @@ h3.customize-section-title {
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	cursor: pointer;
-	-webkit-transition: left .18s ease-in-out, color .1s ease-in-out, background .1s ease-in-out;
-	transition: left .18s ease-in-out, color .1s ease-in-out, background .1s ease-in-out;
+	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
+	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
 .customize-section-back {
 	height: 74px;
-}
-
-.ios .customize-panel-back,
-.ios .customize-section-back {
-	-webkit-transition: left 0s;
-	transition: left 0s;
 }
 
 .ios .customize-panel-back {
@@ -421,63 +487,6 @@ h3.customize-section-title {
 
 .in-sub-panel .wp-full-overlay-sidebar .wp-full-overlay-header {
 	padding-left: 62px;
-}
-
-#customize-info,
-#customize-theme-controls > ul > .accordion-section {
-	position: relative;
-	left: 0;
-	-webkit-transition: left ease-in-out .18s;
-	transition: left ease-in-out .18s;
-}
-
-.ios #customize-info,
-.ios #customize-theme-controls > ul > .accordion-section {
-	-webkit-transition: left 0s;
-	transition: left 0s;
-}
-
-.in-sub-panel #customize-info,
-.in-sub-panel #customize-theme-controls > ul > .accordion-section {
-	left: -100%;
-	width: 100%;
-}
-
-.in-sub-panel #customize-theme-controls .accordion-section.current-panel {
-	width: 100%;
-}
-
-#customize-theme-controls .control-section.current-panel {
-	padding: 0;
-}
-
-#customize-theme-controls .control-section > h3.accordion-section-title {
-	position: relative;
-	left: 0;
-}
-
-#customize-theme-controls .control-section.current-panel > h3.accordion-section-title {
-	left: -354px;
-	-webkit-transition: left ease-in-out .18s;
-	transition: left ease-in-out .18s;
-}
-
-.ios #customize-theme-controls .control-section.current-panel > h3.accordion-section-title {
-	-webkit-transition: left 0s;
-	transition: left 0s;
-}
-
-.wp-full-overlay.section-open #customize-controls .wp-full-overlay-sidebar-content {
-	visibility: hidden;
-	overflow-y: hidden;
-}
-
-.wp-full-overlay.section-open .wp-full-overlay-sidebar-content .accordion-section.open {
-	visibility: visible;
-}
-
-.wp-full-overlay.section-open .wp-full-overlay-sidebar-content .accordion-section.open .accordion-section-content {
-	overflow-y: auto;
 }
 
 p.customize-section-description {
@@ -1005,26 +1014,27 @@ p.customize-section-description {
 
 #customize-theme-controls .control-section-themes > .accordion-section-title:hover, /* Not a focusable element. */
 #customize-theme-controls .control-section-themes > .accordion-section-title {
-	margin: 15px 0;
+	margin: 0 0 15px;
 }
 
-.customize-themes-panel .accordion-section-title {
+#customize-controls .customize-themes-panel .accordion-section-title {
 	margin: 15px -8px;
 }
 
-.control-section-themes .accordion-section-title {
+#customize-controls .control-section-themes .accordion-section-title,
+#customize-controls .customize-themes-panel .accordion-section-title {
 	padding-right: 100px; /* Space for the button */
 }
 
-.control-section-themes .accordion-section-title span.customize-action,
+#customize-controls .control-section-themes .accordion-section-title span.customize-action,
 #customize-controls .customize-section-title span.customize-action {
 	font-size: 13px;
 	display: block;
 	font-weight: 400;
 }
 
-.control-section-themes .accordion-section-title .change-theme,
-.control-section-themes .accordion-section-title .customize-theme {
+#customize-controls .control-section-themes .accordion-section-title .change-theme,
+#customize-controls .customize-themes-panel .accordion-section-title .customize-theme {
 	position: absolute;
 	right: 10px;
 	top: 50%;
@@ -1032,12 +1042,11 @@ p.customize-section-description {
 	font-weight: 400;
 }
 
-.control-section-themes .accordion-section-title:before {
+#customize-controls .control-section-themes .accordion-section-title:before {
 	display: none;
 }
 
-.customize-themes-panel {
-	display: none;
+#customize-controls .customize-themes-panel {
 	padding: 0 8px;
 	background: #f1f1f1;
 	-webkit-box-sizing: border-box;
@@ -1045,7 +1054,7 @@ p.customize-section-description {
 	box-sizing: border-box;
 }
 
-.customize-themes-panel .accordion-section-title:first-child {
+#customize-controls .customize-themes-panel .accordion-section-title:first-child {
 	margin-top: 0;
 }
 
@@ -1054,12 +1063,8 @@ p.customize-section-description {
 	font-weight: 600;
 }
 
-.customize-themes-panel > h2 {
+#customize-controls .customize-themes-panel > h2 {
 	padding: 15px 8px 0 8px;
-}
-
-.control-section.open .customize-themes-panel {
-	display: block;
 }
 
 #customize-theme-controls .customize-themes-panel .accordion-section-content {
@@ -1107,25 +1112,13 @@ p.customize-section-description {
 	width: 100%;
 }
 
-#accordion-section-themes .accordion-section-title:after {
+.control-section-themes .accordion-section-title:after,
+.customize-themes-panel .accordion-section-title:after {
 	display: none;
 }
 
-#customize-theme-controls .control-section-themes.current-panel > h3.accordion-section-title {
-	left: 0;
-}
-
 .customize-themes-panel.control-panel-content {
-	position: absolute;
-	left: -100%;
-	top: 0;
-	width: 100%;
 	border-top: 1px solid #ddd;
-}
-
-.in-themes-panel #customize-info,
-.in-themes-panel #customize-theme-controls > ul > .accordion-section {
-	left: 100%;
 }
 
 /* Details View */
@@ -1159,10 +1152,6 @@ p.customize-section-description {
 
 .wp-customizer .theme-overlay .theme-actions {
 	text-align: right; /* Because there's only one action, match the pattern of media modals and right-align the action. */
-}
-
-.modal-open .in-themes-panel #customize-controls .wp-full-overlay-sidebar-content {
-	overflow: visible; /* Prevent the top-level Customizer controls from becoming visible when elements on the right of the details modal are focused. */
 }
 
 .ie8 .wp-customizer .theme-overlay .theme-header,

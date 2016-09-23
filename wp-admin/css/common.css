@@ -3367,7 +3367,8 @@ img {
 	display: none;
 }
 
-.control-section .accordion-section-title {
+.control-section .accordion-section-title,
+.customize-pane-child .accordion-section-title {
 	border-left: none;
 	border-right: none;
 	padding: 10px 10px 11px 14px;
@@ -3375,7 +3376,8 @@ img {
 	background: #fff;
 }
 
-.control-section .accordion-section-title:after {
+.control-section .accordion-section-title:after,
+.customize-pane-child .accordion-section-title:after {
 	top: 11px;
 }
 
