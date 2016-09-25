@@ -1111,13 +1111,6 @@
 
 					event.preventDefault();
 
-					// Remove focus from the `.insert-media` button.
-					// Prevents Opera from showing the outline of the button
-					// above the modal.
-					//
-					// See: https://core.trac.wordpress.org/ticket/22445
-					elem.blur();
-
 					if ( elem.hasClass( 'gallery' ) ) {
 						options.state = 'gallery';
 						options.title = wp.media.view.l10n.createGalleryTitle;
