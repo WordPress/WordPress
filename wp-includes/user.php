@@ -964,6 +964,7 @@ function setup_userdata($for_user_id = '') {
  *
  * @since 2.3.0
  * @since 4.5.0 Added the 'display_name_with_login' value for 'show'.
+ * @since 4.7.0 Added the `$role`, `$role__in`, and `$role__not_in` parameters.
  *
  * @param array|string $args {
  *     Optional. Array or string of arguments to generate a drop-down of users.
@@ -1004,6 +1005,13 @@ function setup_userdata($for_user_id = '') {
  *     @type int          $blog_id                 ID of blog (Multisite only). Default is ID of the current blog.
  *     @type string       $who                     Which type of users to query. Accepts only an empty string or
  *                                                 'authors'. Default empty.
+ *     @type string|array $role                    An array or a comma-separated list of role names that users must
+ *                                                 match to be included in results. Note that this is an inclusive
+ *                                                 list: users must match *each* role. Default empty.
+ *     @type array        $role__in                An array of role names. Matched users must have at least one of
+ *                                                 these roles. Default empty array.
+ *     @type array        $role__not_in            An array of role names to exclude. Users matching one or more of
+ *                                                 these roles will not be included in results. Default empty array.
  * }
  * @return string String of HTML content.
  */
@@ -1015,14 +1023,17 @@ function wp_dropdown_users( $args = '' ) {
 		'show' => 'display_name', 'echo' => 1,
 		'selected' => 0, 'name' => 'user', 'class' => '', 'id' => '',
 		'blog_id' => get_current_blog_id(), 'who' => '', 'include_selected' => false,
-		'option_none_value' => -1
+		'option_none_value' => -1,
+		'role' => '',
+		'role__in' => array(),
+		'role__not_in' => array(),
 	);
 
 	$defaults['selected'] = is_author() ? get_query_var( 'author' ) : 0;
 
 	$r = wp_parse_args( $args, $defaults );
 
-	$query_args = wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order', 'who' ) );
+	$query_args = wp_array_slice_assoc( $r, array( 'blog_id', 'include', 'exclude', 'orderby', 'order', 'who', 'role', 'role__in', 'role__not_in' ) );
 
 	$fields = array( 'ID', 'user_login' );
 
