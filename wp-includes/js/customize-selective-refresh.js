@@ -745,11 +745,6 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 	api.bind( 'preview-ready', function() {
 		var handleSettingChange, watchSettingChange, unwatchSettingChange;
 
-		// Polyfill for IE8 to support the document.head attribute.
-		if ( ! document.head ) {
-			document.head = $( 'head:first' )[0];
-		}
-
 		_.extend( self.data, _customizePartialRefreshExports );
 
 		// Create the partial JS models.

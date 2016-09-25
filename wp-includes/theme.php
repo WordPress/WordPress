@@ -2151,6 +2151,7 @@ function wp_customize_url( $stylesheet = null ) {
  * to the body tag by default.
  *
  * @since 3.4.0
+ * @since 4.7.0 Support for IE8 and below is explicitly removed via conditional comments.
  */
 function wp_customize_support_script() {
 	$admin_origin = parse_url( admin_url() );
@@ -2158,20 +2159,28 @@ function wp_customize_support_script() {
 	$cross_domain = ( strtolower( $admin_origin[ 'host' ] ) != strtolower( $home_origin[ 'host' ] ) );
 
 	?>
-	<script type="text/javascript">
-		(function() {
-			var request, b = document.body, c = 'className', cs = 'customize-support', rcs = new RegExp('(^|\\s+)(no-)?'+cs+'(\\s+|$)');
+	<!--[if lte IE 8]>
+		<script type="text/javascript">
+			document.body.className = document.body.className.replace( /(^|\s)(no-)?customize-support(?=\s|$)/, '' ) + ' no-customize-support';
+		</script>
+	<![endif]-->
+	<!--[if gte IE 9]><!-->
+		<script type="text/javascript">
+			(function() {
+				var request, b = document.body, c = 'className', cs = 'customize-support', rcs = new RegExp('(^|\\s+)(no-)?'+cs+'(\\s+|$)');
 
-<?php		if ( $cross_domain ): ?>
-			request = (function(){ var xhr = new XMLHttpRequest(); return ('withCredentials' in xhr); })();
-<?php		else: ?>
-			request = true;
-<?php		endif; ?>
+		<?php	if ( $cross_domain ) : ?>
+				request = (function(){ var xhr = new XMLHttpRequest(); return ('withCredentials' in xhr); })();
+		<?php	else : ?>
+				request = true;
+		<?php	endif; ?>
 
-			b[c] = b[c].replace( rcs, ' ' );
-			b[c] += ( window.postMessage && request && Array.prototype.indexOf ? ' ' : ' no-' ) + cs;
-		}());
-	</script>
+				b[c] = b[c].replace( rcs, ' ' );
+				// The customizer requires postMessage and CORS (if the site is cross domain)
+				b[c] += ( window.postMessage && request ? ' ' : ' no-' ) + cs;
+			}());
+		</script>
+	<!--<![endif]-->
 	<?php
 }
 

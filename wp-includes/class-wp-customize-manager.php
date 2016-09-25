@@ -740,7 +740,6 @@ final class WP_Customize_Manager {
 		wp_enqueue_script( 'customize-preview' );
 		add_action( 'wp', array( $this, 'customize_preview_override_404_status' ) );
 		add_action( 'wp_head', array( $this, 'customize_preview_base' ) );
-		add_action( 'wp_head', array( $this, 'customize_preview_html5' ) );
 		add_action( 'wp_head', array( $this, 'customize_preview_loading_style' ) );
 		add_action( 'wp_footer', array( $this, 'customize_preview_settings' ), 20 );
 		add_action( 'shutdown', array( $this, 'customize_preview_signature' ), 1000 );
@@ -787,18 +786,10 @@ final class WP_Customize_Manager {
 	 * Print a workaround to handle HTML5 tags in IE < 9.
 	 *
 	 * @since 3.4.0
+	 * @deprecated 4.7.0 Customizer no longer supports IE8, so all supported browsers recognize HTML5.
 	 */
-	public function customize_preview_html5() { ?>
-		<!--[if lt IE 9]>
-		<script type="text/javascript">
-			var e = [ 'abbr', 'article', 'aside', 'audio', 'canvas', 'datalist', 'details',
-				'figure', 'footer', 'header', 'hgroup', 'mark', 'menu', 'meter', 'nav',
-				'output', 'progress', 'section', 'time', 'video' ];
-			for ( var i = 0; i < e.length; i++ ) {
-				document.createElement( e[i] );
-			}
-		</script>
-		<![endif]--><?php
+	public function customize_preview_html5() {
+		_deprecated_function( __FUNCTION__, '4.7.0' );
 	}
 
 	/**
