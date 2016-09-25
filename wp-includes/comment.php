@@ -945,6 +945,7 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 	 * Filters the calculated page on which a comment appears.
 	 *
 	 * @since 4.4.0
+	 * @since 4.7.0 Introduced the `$comment_ID` parameter.
 	 *
 	 * @param int   $page          Comment page.
 	 * @param array $args {
@@ -965,8 +966,9 @@ function get_page_of_comment( $comment_ID, $args = array() ) {
 	 *     @type int    $per_page  Number of comments per page.
 	 *     @type int    $max_depth Maximum comment threading depth allowed.
 	 * }
+	 * @param int $comment_ID ID of the comment.
 	 */
-	return apply_filters( 'get_page_of_comment', (int) $page, $args, $original_args );
+	return apply_filters( 'get_page_of_comment', (int) $page, $args, $original_args, $comment_ID );
 }
 
 /**
