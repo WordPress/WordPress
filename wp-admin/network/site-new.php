@@ -65,10 +65,14 @@ if ( isset($_REQUEST['action']) && 'add-site' == $_REQUEST['action'] ) {
 	);
 
 	// Handle translation install for the new site.
-	if ( ! empty( $_POST['WPLANG'] ) && wp_can_install_language_pack() ) {
-		$language = wp_download_language_pack( wp_unslash( $_POST['WPLANG'] ) );
-		if ( $language ) {
-			$meta['WPLANG'] = $language;
+	if ( isset( $_POST['WPLANG'] ) ) {
+		if ( '' === $_POST['WPLANG'] ) {
+			$meta['WPLANG'] = ''; // en_US
+		} elseif ( wp_can_install_language_pack() ) {
+			$language = wp_download_language_pack( wp_unslash( $_POST['WPLANG'] ) );
+			if ( $language ) {
+				$meta['WPLANG'] = $language;
+			}
 		}
 	}
 
