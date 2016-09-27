@@ -72,24 +72,17 @@ function get_blogaddress_by_name( $blogname ) {
 }
 
 /**
- * Given a blog's (subdomain or directory) slug, retrieve its id.
+ * Retrieves a sites ID given its (subdomain or directory) slug.
  *
  * @since MU
+ * @since 4.7.0 Converted to use get_sites().
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
- * @param string $slug
- * @return int A blog id
+ * @param string $slug A site's slug.
+ * @return int|null The site ID, or null if no site is found for the given slug.
  */
 function get_id_from_blogname( $slug ) {
-	global $wpdb;
-
 	$current_site = get_current_site();
 	$slug = trim( $slug, '/' );
-
-	$blog_id = wp_cache_get( 'get_id_from_blogname_' . $slug, 'blog-details' );
-	if ( $blog_id )
-		return $blog_id;
 
 	if ( is_subdomain_install() ) {
 		$domain = $slug . '.' . preg_replace( '|^www\.|', '', $current_site->domain );
@@ -99,9 +92,18 @@ function get_id_from_blogname( $slug ) {
 		$path = $current_site->path . $slug . '/';
 	}
 
-	$blog_id = $wpdb->get_var( $wpdb->prepare("SELECT blog_id FROM {$wpdb->blogs} WHERE domain = %s AND path = %s", $domain, $path) );
-	wp_cache_set( 'get_id_from_blogname_' . $slug, $blog_id, 'blog-details' );
-	return $blog_id;
+	$site_ids = get_sites( array(
+		'number' => 1,
+		'fields' => 'ids',
+		'domain' => $domain,
+		'path' => $path,
+	) );
+
+	if ( empty( $site_ids ) ) {
+		return null;
+	}
+
+	return array_shift( $site_ids );
 }
 
 /**
@@ -453,7 +455,6 @@ function clean_blog_cache( $blog ) {
 	wp_cache_delete(  $domain_path_key, 'blog-lookup' );
 	wp_cache_delete( 'current_blog_' . $blog->domain, 'site-options' );
 	wp_cache_delete( 'current_blog_' . $blog->domain . $blog->path, 'site-options' );
-	wp_cache_delete( 'get_id_from_blogname_' . trim( $blog->path, '/' ), 'blog-details' );
 	wp_cache_delete( $domain_path_key, 'blog-id-cache' );
 
 	/**
