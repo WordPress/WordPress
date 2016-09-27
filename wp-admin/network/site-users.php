@@ -115,7 +115,7 @@ if ( $action ) {
 
 		case 'remove':
 			if ( ! current_user_can( 'remove_users' ) ) {
-				wp_die( __( 'You can&#8217;t remove users.' ) );
+				wp_die( __( 'Sorry, you are not allowed to remove users.' ) );
 			}
 
 			check_admin_referer( 'bulk-users' );
@@ -138,8 +138,9 @@ if ( $action ) {
 		case 'promote':
 			check_admin_referer( 'bulk-users' );
 			$editable_roles = get_editable_roles();
-			if ( empty( $editable_roles[$_REQUEST['new_role']] ) )
-				wp_die(__('You can&#8217;t give users that role.'));
+			if ( empty( $editable_roles[ $_REQUEST['new_role'] ] ) ) {
+				wp_die( __( 'Sorry, you are not allowed to give users that role.' ) );
+			}
 
 			if ( isset( $_REQUEST['users'] ) ) {
 				$userids = $_REQUEST['users'];
