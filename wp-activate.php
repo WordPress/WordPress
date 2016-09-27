@@ -125,7 +125,7 @@ get_header( 'wp-activate' );
 				<?php
 			}
 		} else {
-			$url = isset( $result['blog_id'] ) ? get_blogaddress_by_id( (int) $result['blog_id'] ) : '';
+			$url = isset( $result['blog_id'] ) ? get_home_url( (int) $result['blog_id'] ) : '';
 			$user = get_userdata( (int) $result['user_id'] );
 			?>
 			<h2><?php _e('Your account is now active!'); ?></h2>
