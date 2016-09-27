@@ -117,8 +117,10 @@ if ( $action ) {
 			break;
 
 		case 'remove':
-			if ( ! current_user_can( 'remove_users' )  )
-				die(__('You can&#8217;t remove users.'));
+			if ( ! current_user_can( 'remove_users' ) ) {
+				wp_die( __( 'You can&#8217;t remove users.' ) );
+			}
+
 			check_admin_referer( 'bulk-users' );
 
 			$update = 'remove';
