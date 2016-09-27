@@ -80,3 +80,4 @@ if ( ( $client_last_modified && $client_etag )
 
 // If we made it this far, just serve the file
 readfile( $file );
+flush();
