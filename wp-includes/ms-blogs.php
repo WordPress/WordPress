@@ -92,7 +92,7 @@ function get_id_from_blogname( $slug ) {
 		return $blog_id;
 
 	if ( is_subdomain_install() ) {
-		$domain = $slug . '.' . $current_site->domain;
+		$domain = $slug . '.' . preg_replace( '|^www\.|', '', $current_site->domain );
 		$path = $current_site->path;
 	} else {
 		$domain = $current_site->domain;
