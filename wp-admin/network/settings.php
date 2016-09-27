@@ -13,9 +13,6 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 /** WordPress Translation Install API */
 require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 
-if ( ! is_multisite() )
-	wp_die( __( 'Multisite support is not enabled.' ) );
-
 if ( ! current_user_can( 'manage_network_options' ) )
 	wp_die( __( 'Sorry, you are not allowed to access this page.' ), 403 );
 
