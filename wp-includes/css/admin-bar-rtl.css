@@ -294,6 +294,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar li:hover .ab-item:before,
 #wpadminbar li a:focus .ab-icon:before,
 #wpadminbar li .ab-item:focus:before,
+#wpadminbar li .ab-item:focus .ab-icon:before,
 #wpadminbar li.hover .ab-icon:before,
 #wpadminbar li.hover .ab-item:before,
 #wpadminbar li:hover #adminbarsearch:before,

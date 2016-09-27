@@ -107,19 +107,36 @@ function wp_admin_bar_render() {
  * @param WP_Admin_Bar $wp_admin_bar
  */
 function wp_admin_bar_wp_menu( $wp_admin_bar ) {
-	$wp_admin_bar->add_menu( array(
+	if ( current_user_can( 'read' ) ) {
+		$about_url = self_admin_url( 'about.php' );
+	} elseif ( is_multisite() ) {
+		$about_url = get_dashboard_url( get_current_user_id(), 'about.php' );
+	} else {
+		$about_url = false;
+	}
+
+	$wp_logo_menu_args = array(
 		'id'    => 'wp-logo',
 		'title' => '<span class="ab-icon"></span><span class="screen-reader-text">' . __( 'About WordPress' ) . '</span>',
-		'href'  => self_admin_url( 'about.php' ),
-	) );
+		'href'  => $about_url,
+	);
 
-	if ( is_user_logged_in() ) {
+	// Set tabindex="0" to make sub menus accessible when no URL is available.
+	if ( ! $about_url ) {
+		$wp_logo_menu_args['meta'] = array(
+			'tabindex' => 0,
+		);
+	}
+
+	$wp_admin_bar->add_menu( $wp_logo_menu_args );
+
+	if ( $about_url ) {
 		// Add "About WordPress" link
 		$wp_admin_bar->add_menu( array(
 			'parent' => 'wp-logo',
 			'id'     => 'about',
 			'title'  => __('About WordPress'),
-			'href'   => self_admin_url( 'about.php' ),
+			'href'   => $about_url,
 		) );
 	}
 
@@ -294,10 +311,10 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 	}
 
 	if ( is_network_admin() ) {
-		/* translators: %s: site name */ 
+		/* translators: %s: site name */
 		$blogname = sprintf( __( 'Network Admin: %s' ), esc_html( get_current_site()->site_name ) );
 	} elseif ( is_user_admin() ) {
-		/* translators: %s: site name */ 
+		/* translators: %s: site name */
 		$blogname = sprintf( __( 'User Dashboard: %s' ), esc_html( get_current_site()->site_name ) );
 	}
 
