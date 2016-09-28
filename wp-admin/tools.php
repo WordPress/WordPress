@@ -49,7 +49,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<p class="pressthis-bookmarklet-wrapper">
 			<a class="pressthis-bookmarklet" onclick="return false;" href="<?php echo htmlspecialchars( get_shortcut_link() ); ?>"><span><?php _e( 'Press This' ); ?></span></a>
-			<button type="button" class="button button-secondary pressthis-js-toggle js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-code-wrap">
+			<button type="button" class="button pressthis-js-toggle js-show-pressthis-code-wrap" aria-expanded="false" aria-controls="pressthis-code-wrap">
 				<span class="dashicons dashicons-clipboard"></span>
 				<span class="screen-reader-text"><?php _e( 'Copy &#8220;Press This&#8221; bookmarklet code' ) ?></span>
 			</button>
@@ -68,7 +68,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<p><?php _e( 'Follow the link to open Press This. Then add it to your device&#8217;s bookmarks or home screen.' ); ?></p>
 
 		<p>
-			<a class="button button-secondary" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e( 'Open Press This' ) ?></a>
+			<a class="button" href="<?php echo htmlspecialchars( admin_url( 'press-this.php' ) ); ?>"><?php _e( 'Open Press This' ) ?></a>
 		</p>
 		<script>
 			jQuery( document ).ready( function( $ ) {

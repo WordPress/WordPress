@@ -443,7 +443,7 @@ body.language-chooser {
 	margin-left: 15px;
 }
 
-.button-secondary.hide-if-no-js,
+.button.hide-if-no-js,
 .hide-if-no-js {
 	display: none;
 }

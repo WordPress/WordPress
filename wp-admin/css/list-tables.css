@@ -656,6 +656,7 @@ th.asc a:focus span.sorting-indicator {
 	margin-left: 2px;
 }
 
+.tablenav a.button,
 .tablenav a.button-secondary {
 	display: block;
 	margin: 3px 8px 0 0;

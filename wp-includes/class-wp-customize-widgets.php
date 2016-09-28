@@ -712,7 +712,7 @@ final class WP_Customize_Widgets {
 					<% }); %>
 				</ul>
 				<div class="move-widget-actions">
-					<button class="move-widget-btn button-secondary" type="button">{btn}</button>
+					<button class="move-widget-btn button" type="button">{btn}</button>
 				</div>
 			</div>'
 		);

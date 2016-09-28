@@ -221,8 +221,7 @@ table.fixed td {
 }
 
 #wpbody-content input.button,
-#wpbody-content input.button-primary,
-#wpbody-content input.button-secondary {
+#wpbody-content input.button-primary {
 	overflow: visible;
 }
 
@@ -447,8 +446,8 @@ div#dashboard-widgets {
 	display: block;
 }
 
-.tablenav .button-secondary,
-.nav .button-secondary {
+.tablenav .button,
+.nav .button {
 	padding-top: 2px;
 	padding-bottom: 2px;
 }
@@ -507,7 +506,7 @@ table.ie-fixed {
 	border-collapse: collapse;
 }
 
-.tablenav a.button-secondary {
+.tablenav a.button {
 	display: inline-block;
 	padding: 2px 5px;
 }

@@ -914,7 +914,7 @@ final class WP_Customize_Nav_Menus {
 					</p>
 					<p class="button-controls">
 						<span class="add-to-menu">
-							<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-custom-menu-item" id="custom-menu-item-submit">
+							<input type="submit" class="button submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-custom-menu-item" id="custom-menu-item-submit">
 							<span class="spinner"></span>
 						</span>
 					</p>

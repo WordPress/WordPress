@@ -92,18 +92,18 @@ function list_core_update( $update ) {
 	echo '<input name="locale" value="'. esc_attr($update->locale) .'" type="hidden"/>';
 	if ( $show_buttons ) {
 		if ( $first_pass ) {
-			submit_button( $submit, $current ? 'button' : 'primary regular', 'upgrade', false );
+			submit_button( $submit, $current ? '' : 'primary regular', 'upgrade', false );
 			$first_pass = false;
 		} else {
-			submit_button( $submit, 'button', 'upgrade', false );
+			submit_button( $submit, '', 'upgrade', false );
 		}
 		echo '&nbsp;<a href="' . esc_url( $update->download ) . '" class="button">' . $download . '</a>&nbsp;';
 	}
 	if ( 'en_US' != $update->locale )
 		if ( !isset( $update->dismissed ) || !$update->dismissed )
-			submit_button( __('Hide this update'), 'button', 'dismiss', false );
+			submit_button( __( 'Hide this update' ), '', 'dismiss', false );
 		else
-			submit_button( __('Bring back this update'), 'button', 'undismiss', false );
+			submit_button( __( 'Bring back this update' ), '', 'undismiss', false );
 	echo '</p>';
 	if ( 'en_US' != $update->locale && ( !isset($wp_local_package) || $wp_local_package != $update->locale ) )
 	    echo '<p class="hint">'.__('This localized version contains both the translation and various other localization fixes. You can skip upgrading if you want to keep your current translation.').'</p>';

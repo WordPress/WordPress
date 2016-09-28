@@ -479,7 +479,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			 */
 			do_action( 'restrict_manage_posts', $this->screen->post_type, $which );
 
-			submit_button( __( 'Filter' ), 'button', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
+			submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 		}
 
 		if ( $this->is_trash && current_user_can( get_post_type_object( $this->screen->post_type )->cap->edit_others_posts ) ) {
@@ -1713,14 +1713,14 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 	?>
 		<p class="submit inline-edit-save">
-			<button type="button" class="button-secondary cancel alignleft"><?php _e( 'Cancel' ); ?></button>
+			<button type="button" class="button cancel alignleft"><?php _e( 'Cancel' ); ?></button>
 			<?php if ( ! $bulk ) {
 				wp_nonce_field( 'inlineeditnonce', '_inline_edit', false );
 				?>
-				<button type="button" class="button-primary save alignright"><?php _e( 'Update' ); ?></button>
+				<button type="button" class="button button-primary save alignright"><?php _e( 'Update' ); ?></button>
 				<span class="spinner"></span>
 			<?php } else {
-				submit_button( __( 'Update' ), 'button-primary alignright', 'bulk_edit', false );
+				submit_button( __( 'Update' ), 'primary alignright', 'bulk_edit', false );
 			} ?>
 			<input type="hidden" name="post_view" value="<?php echo esc_attr( $m ); ?>" />
 			<input type="hidden" name="screen" value="<?php echo esc_attr( $screen->id ); ?>" />

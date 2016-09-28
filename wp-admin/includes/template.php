@@ -423,11 +423,11 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 	</div>
 
 	<p id="replysubmit" class="submit">
-	<a href="#comments-form" class="save button-primary alignright">
+	<a href="#comments-form" class="save button button-primary alignright">
 	<span id="addbtn" style="display:none;"><?php _e('Add Comment'); ?></span>
 	<span id="savebtn" style="display:none;"><?php _e('Update Comment'); ?></span>
 	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
-	<a href="#comments-form" class="cancel button-secondary alignleft"><?php _e('Cancel'); ?></a>
+	<a href="#comments-form" class="cancel button alignleft"><?php _e('Cancel'); ?></a>
 	<span class="waiting spinner"></span>
 	<span class="error" style="display:none;"></span>
 	</p>
@@ -657,7 +657,7 @@ function meta_form( $post = null ) {
 
 <tr><td colspan="2">
 <div class="submit">
-<?php submit_button( __( 'Add Custom Field' ), 'secondary', 'addmeta', false, array( 'id' => 'newmeta-submit', 'data-wp-lists' => 'add:the-list:newmeta' ) ); ?>
+<?php submit_button( __( 'Add Custom Field' ), '', 'addmeta', false, array( 'id' => 'newmeta-submit', 'data-wp-lists' => 'add:the-list:newmeta' ) ); ?>
 </div>
 <?php wp_nonce_field( 'add-meta', '_ajax_nonce-add-meta', false ); ?>
 </td></tr>
@@ -1513,7 +1513,7 @@ function find_posts_div($found_action = '') {
 			<div id="find-posts-response"></div>
 		</div>
 		<div class="find-box-buttons">
-			<?php submit_button( __( 'Select' ), 'button-primary alignright', 'find-posts-submit', false ); ?>
+			<?php submit_button( __( 'Select' ), 'primary alignright', 'find-posts-submit', false ); ?>
 			<div class="clear"></div>
 		</div>
 	</div>
@@ -1914,10 +1914,11 @@ function get_submit_button( $text = '', $type = 'primary large', $name = 'submit
 			continue;
 		$classes[] = in_array( $t, $button_shorthand ) ? 'button-' . $t : $t;
 	}
-	$class = implode( ' ', array_unique( $classes ) );
+	// Remove empty items, remove duplicate items, and finally build a string.
+	$class = implode( ' ', array_unique( array_filter( $classes ) ) );
 
 	if ( 'delete' === $type )
-		$class = 'button-secondary delete';
+		$class = 'button delete';
 
 	$text = $text ? $text : __( 'Save Changes' );
 

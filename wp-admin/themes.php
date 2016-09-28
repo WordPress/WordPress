@@ -200,17 +200,17 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 				$submenu[$item[2]] = array_values($submenu[$item[2]]); // Re-index.
 				$menu_hook = get_plugin_page_hook($submenu[$item[2]][0][2], $item[2]);
 				if ( file_exists(WP_PLUGIN_DIR . "/{$submenu[$item[2]][0][2]}") || !empty($menu_hook))
-					$current_theme_actions[] = "<a class='button button-secondary$class' href='admin.php?page={$submenu[$item[2]][0][2]}'>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button$class' href='admin.php?page={$submenu[$item[2]][0][2]}'>{$item[0]}</a>";
 				else
-					$current_theme_actions[] = "<a class='button button-secondary$class' href='{$submenu[$item[2]][0][2]}'>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button$class' href='{$submenu[$item[2]][0][2]}'>{$item[0]}</a>";
 			} elseif ( ! empty( $item[2] ) && current_user_can( $item[1] ) ) {
 				$menu_file = $item[2];
 
 				if ( current_user_can( 'customize' ) ) {
 					if ( 'custom-header' === $menu_file ) {
-						$current_theme_actions[] = "<a class='button button-secondary hide-if-no-customize$class' href='customize.php?autofocus[control]=header_image'>{$item[0]}</a>";
+						$current_theme_actions[] = "<a class='button hide-if-no-customize$class' href='customize.php?autofocus[control]=header_image'>{$item[0]}</a>";
 					} elseif ( 'custom-background' === $menu_file ) {
-						$current_theme_actions[] = "<a class='button button-secondary hide-if-no-customize$class' href='customize.php?autofocus[control]=background_image'>{$item[0]}</a>";
+						$current_theme_actions[] = "<a class='button hide-if-no-customize$class' href='customize.php?autofocus[control]=background_image'>{$item[0]}</a>";
 					}
 				}
 
@@ -219,9 +219,9 @@ if ( ! $ct->errors() || ( 1 == count( $ct->errors()->get_error_codes() )
 				}
 
 				if ( file_exists( ABSPATH . "wp-admin/$menu_file" ) ) {
-					$current_theme_actions[] = "<a class='button button-secondary$class' href='{$item[2]}'>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button$class' href='{$item[2]}'>{$item[0]}</a>";
 				} else {
-					$current_theme_actions[] = "<a class='button button-secondary$class' href='themes.php?page={$item[2]}'>{$item[0]}</a>";
+					$current_theme_actions[] = "<a class='button$class' href='themes.php?page={$item[2]}'>{$item[0]}</a>";
 				}
 			}
 		}
@@ -281,7 +281,7 @@ foreach ( $themes as $theme ) :
 		/* translators: %s: Theme name */
 		$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 		?>
-		<a class="button button-secondary activate" href="<?php echo $theme['actions']['activate']; ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
+		<a class="button activate" href="<?php echo $theme['actions']['activate']; ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
 		<?php if ( current_user_can( 'edit_theme_options' ) && current_user_can( 'customize' ) ) { ?>
 			<a class="button button-primary load-customize hide-if-no-customize" href="<?php echo $theme['actions']['customize']; ?>"><?php _e( 'Live Preview' ); ?></a>
 		<?php } ?>
@@ -333,7 +333,7 @@ $can_install = current_user_can( 'install_themes' );
 				), admin_url( 'themes.php' ) );
 				$delete_url = wp_nonce_url( $delete_url, 'delete-theme_' . $stylesheet );
 				?>
-				<td><a href="<?php echo esc_url( $delete_url ); ?>" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a></td>
+				<td><a href="<?php echo esc_url( $delete_url ); ?>" class="button delete-theme"><?php _e( 'Delete' ); ?></a></td>
 				<?php
 			}
 
@@ -348,7 +348,7 @@ $can_install = current_user_can( 'install_themes' );
 					), admin_url( 'update.php' ) );
 					$install_url = wp_nonce_url( $install_url, 'install-theme_' . $parent_theme_name );
 					?>
-					<td><a href="<?php echo esc_url( $install_url ); ?>" class="button button-secondary install-theme"><?php _e( 'Install Parent Theme' ); ?></a></td>
+					<td><a href="<?php echo esc_url( $install_url ); ?>" class="button install-theme"><?php _e( 'Install Parent Theme' ); ?></a></td>
 					<?php
 				}
 			}
@@ -410,7 +410,7 @@ $can_install = current_user_can( 'install_themes' );
 			/* translators: %s: Theme name */
 			$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 			?>
-			<a class="button button-secondary activate" href="{{{ data.actions.activate }}}" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
+			<a class="button activate" href="{{{ data.actions.activate }}}" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
 			<a class="button button-primary load-customize hide-if-no-customize" href="{{{ data.actions.customize }}}"><?php _e( 'Live Preview' ); ?></a>
 		<# } #>
 	</div>
@@ -469,13 +469,13 @@ $can_install = current_user_can( 'install_themes' );
 				$aria_label = sprintf( _x( 'Activate %s', 'theme' ), '{{ data.name }}' );
 				?>
 				<# if ( data.actions.activate ) { #>
-					<a href="{{{ data.actions.activate }}}" class="button button-secondary activate" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
+					<a href="{{{ data.actions.activate }}}" class="button activate" aria-label="<?php echo $aria_label; ?>"><?php _e( 'Activate' ); ?></a>
 				<# } #>
 				<a href="{{{ data.actions.customize }}}" class="button button-primary load-customize hide-if-no-customize"><?php _e( 'Live Preview' ); ?></a>
 			</div>
 
 			<# if ( ! data.active && data.actions['delete'] ) { #>
-				<a href="{{{ data.actions['delete'] }}}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
+				<a href="{{{ data.actions['delete'] }}}" class="button delete-theme"><?php _e( 'Delete' ); ?></a>
 			<# } #>
 		</div>
 	</div>

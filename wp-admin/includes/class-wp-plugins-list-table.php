@@ -367,7 +367,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		<p class="search-box">
 			<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo $text; ?>:</label>
 			<input type="search" id="<?php echo esc_attr( $input_id ); ?>" class="wp-filter-search" name="s" value="<?php _admin_search_query(); ?>" placeholder="<?php esc_attr_e( 'Search installed plugins...' ); ?>"/>
-			<?php submit_button( $text, 'button hide-if-js', '', false, array( 'id' => 'search-submit' ) ); ?>
+			<?php submit_button( $text, 'hide-if-js', '', false, array( 'id' => 'search-submit' ) ); ?>
 		</p>
 		<?php
 	}
@@ -496,7 +496,7 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		echo '<div class="alignleft actions">';
 
 		if ( 'recently_activated' == $status ) {
-			submit_button( __( 'Clear List' ), 'button', 'clear-recent-list', false );
+			submit_button( __( 'Clear List' ), '', 'clear-recent-list', false );
 		} elseif ( 'top' === $which && 'mustuse' === $status ) {
 			/* translators: %s: mu-plugins directory name */
 			echo '<p>' . sprintf( __( 'Files in the %s directory are executed automatically.' ),

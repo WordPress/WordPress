@@ -265,7 +265,7 @@ function install_search_form( $deprecated = true ) {
 		<label><span class="screen-reader-text"><?php _e( 'Search Plugins' ); ?></span>
 			<input type="search" name="s" value="<?php echo esc_attr( $term ) ?>" class="wp-filter-search" placeholder="<?php esc_attr_e( 'Search Plugins' ); ?>" />
 		</label>
-		<?php submit_button( __( 'Search Plugins' ), 'button hide-if-js', false, false, array( 'id' => 'search-submit' ) ); ?>
+		<?php submit_button( __( 'Search Plugins' ), 'hide-if-js', false, false, array( 'id' => 'search-submit' ) ); ?>
 	</form><?php
 }
 
@@ -281,7 +281,7 @@ function install_plugins_upload() {
 		<?php wp_nonce_field( 'plugin-upload' ); ?>
 		<label class="screen-reader-text" for="pluginzip"><?php _e( 'Plugin zip file' ); ?></label>
 		<input type="file" id="pluginzip" name="pluginzip" />
-		<?php submit_button( __( 'Install Now' ), 'button', 'install-plugin-submit', false ); ?>
+		<?php submit_button( __( 'Install Now' ), '', 'install-plugin-submit', false ); ?>
 	</form>
 </div>
 <?php

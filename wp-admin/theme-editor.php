@@ -182,7 +182,7 @@ foreach ( wp_get_themes( array( 'errors' => null ) ) as $a_stylesheet => $a_them
 }
 ?>
 		</select>
-		<?php submit_button( __( 'Select' ), 'button', 'Submit', false ); ?>
+		<?php submit_button( __( 'Select' ), '', 'Submit', false ); ?>
 	</form>
 </div>
 <br class="clear" />

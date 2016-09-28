@@ -1261,7 +1261,7 @@ foreach ( (array) $extra_fields as $field ) {
 ?>
 	<p class="request-filesystem-credentials-action-buttons">
 		<button class="button cancel-button" data-js-action="close" type="button"><?php _e( 'Cancel' ); ?></button>
-		<?php submit_button( __( 'Proceed' ), 'button', 'upgrade', false ); ?>
+		<?php submit_button( __( 'Proceed' ), '', 'upgrade', false ); ?>
 	</p>
 </div>
 </form>

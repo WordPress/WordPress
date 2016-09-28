@@ -488,7 +488,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 							}
 
 							$action_links[] = sprintf(
-								'<a href="%1$s" class="button activate-now button-secondary" aria-label="%2$s">%3$s</a>',
+								'<a href="%1$s" class="button activate-now" aria-label="%2$s">%3$s</a>',
 								esc_url( $activate_url ),
 								esc_attr( sprintf( $button_label, $plugin['name'] ) ),
 								$button_text

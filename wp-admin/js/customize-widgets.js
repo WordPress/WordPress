@@ -835,7 +835,7 @@
 			$saveBtn = this.container.find( '.widget-control-save' );
 			$saveBtn.val( l10n.saveBtnLabel );
 			$saveBtn.attr( 'title', l10n.saveBtnTooltip );
-			$saveBtn.removeClass( 'button-primary' ).addClass( 'button-secondary' );
+			$saveBtn.removeClass( 'button-primary' );
 			$saveBtn.on( 'click', function( e ) {
 				e.preventDefault();
 				self.updateWidget( { disable_form: true } ); // @todo disable_form is unused?

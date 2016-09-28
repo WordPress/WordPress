@@ -168,7 +168,7 @@ do_action( 'customize_controls_print_scripts' );
 				<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
-			<button type="button" class="collapse-sidebar button-secondary" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
+			<button type="button" class="collapse-sidebar button" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
 				<span class="collapse-sidebar-arrow"></span>
 				<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
 			</button>

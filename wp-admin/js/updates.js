@@ -1105,7 +1105,7 @@
 				$message.siblings( '.preview' ).replaceWith( function () {
 					return $( '<a>' )
 						.attr( 'href', response.customizeUrl )
-						.addClass( 'button button-secondary load-customize' )
+						.addClass( 'button load-customize' )
 						.text( wp.updates.l10n.livePreview );
 				} );
 			}

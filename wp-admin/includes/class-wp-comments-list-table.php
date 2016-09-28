@@ -351,7 +351,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			 * @since 3.5.0
 			 */
 			do_action( 'restrict_manage_comments' );
-			submit_button( __( 'Filter' ), 'button', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
+			submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 		}
 
 		if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_user_can( 'moderate_comments' ) ) {

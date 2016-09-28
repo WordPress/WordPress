@@ -174,7 +174,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 				<label for="wporg-username-input"><?php _e( 'Your WordPress.org username:' ); ?></label>
 				<input type="hidden" id="wporg-username-nonce" name="_wpnonce" value="<?php echo esc_attr( wp_create_nonce( $action ) ); ?>" />
 				<input type="search" id="wporg-username-input" value="<?php echo esc_attr( $user ); ?>" />
-				<input type="button" class="button button-secondary favorites-form-submit" value="<?php esc_attr_e( 'Get Favorites' ); ?>" />
+				<input type="button" class="button favorites-form-submit" value="<?php esc_attr_e( 'Get Favorites' ); ?>" />
 			</p>
 		</div>
 
@@ -262,9 +262,9 @@ if ( $tab ) {
 				<a class="button button-primary activate" href="{{ data.activate_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Activate' ); ?></a>
 			<# } #>
 			<# if ( data.customize_url ) { #>
-				<a class="button button-secondary load-customize" href="{{ data.customize_url }}"><?php _e( 'Live Preview' ); ?></a>
+				<a class="button load-customize" href="{{ data.customize_url }}"><?php _e( 'Live Preview' ); ?></a>
 			<# } else { #>
-				<button class="button-secondary preview install-theme-preview"><?php _e( 'Preview' ); ?></button>
+				<button class="button preview install-theme-preview"><?php _e( 'Preview' ); ?></button>
 			<# } #>
 		<# } else { #>
 			<?php
@@ -272,7 +272,7 @@ if ( $tab ) {
 			$aria_label = sprintf( __( 'Install %s' ), '{{ data.name }}' );
 			?>
 			<a class="button button-primary theme-install" data-name="{{ data.name }}" data-slug="{{ data.id }}" href="{{ data.install_url }}" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Install' ); ?></a>
-			<button class="button-secondary preview install-theme-preview"><?php _e( 'Preview' ); ?></button>
+			<button class="button preview install-theme-preview"><?php _e( 'Preview' ); ?></button>
 		<# } #>
 	</div>
 
@@ -325,7 +325,7 @@ if ( $tab ) {
 				</div>
 			</div>
 			<div class="wp-full-overlay-footer">
-				<button type="button" class="collapse-sidebar button-secondary" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
+				<button type="button" class="collapse-sidebar button" aria-expanded="true" aria-label="<?php esc_attr_e( 'Collapse Sidebar' ); ?>">
 					<span class="collapse-sidebar-arrow"></span>
 					<span class="collapse-sidebar-label"><?php _e( 'Collapse' ); ?></span>
 				</button>

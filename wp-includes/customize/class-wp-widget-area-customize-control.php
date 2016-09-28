@@ -57,7 +57,7 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 	public function render_content() {
 		$id = 'reorder-widgets-desc-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );
 		?>
-		<button type="button" class="button-secondary add-new-widget" aria-expanded="false" aria-controls="available-widgets">
+		<button type="button" class="button add-new-widget" aria-expanded="false" aria-controls="available-widgets">
 			<?php _e( 'Add a Widget' ); ?>
 		</button>
 		<button type="button" class="button-link reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder widgets' ); ?>" aria-describedby="<?php echo esc_attr( $id ); ?>">

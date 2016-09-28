@@ -315,9 +315,9 @@ if ( isset($_GET['editwidget']) && $_GET['editwidget'] ) {
 	<a href="widgets.php" class="button alignleft"><?php _e('Cancel'); ?></a>
 <?php
 	} else {
-		submit_button( __( 'Delete' ), 'button alignleft', 'removewidget', false );
+		submit_button( __( 'Delete' ), 'alignleft', 'removewidget', false );
 	}
-	submit_button( __( 'Save Widget' ), 'button-primary alignright', 'savewidget', false ); ?>
+	submit_button( __( 'Save Widget' ), 'primary alignright', 'savewidget', false ); ?>
 	<input type="hidden" name="widget-id" class="widget-id" value="<?php echo esc_attr($widget_id); ?>" />
 	<input type="hidden" name="id_base" class="id_base" value="<?php echo esc_attr($id_base); ?>" />
 	<input type="hidden" name="multi_number" class="multi_number" value="<?php echo esc_attr($multi_number); ?>" />
@@ -500,8 +500,8 @@ foreach ( $theme_sidebars as $sidebar => $registered_sidebar ) {
 <div class="widgets-chooser">
 	<ul class="widgets-chooser-sidebars"></ul>
 	<div class="widgets-chooser-actions">
-		<button class="button-secondary"><?php _e( 'Cancel' ); ?></button>
-		<button class="button-primary"><?php _e( 'Add Widget' ); ?></button>
+		<button class="button widgets-chooser-cancel"><?php _e( 'Cancel' ); ?></button>
+		<button class="button button-primary widgets-chooser-add"><?php _e( 'Add Widget' ); ?></button>
 	</div>
 </div>
 

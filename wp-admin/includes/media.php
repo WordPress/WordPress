@@ -1480,7 +1480,7 @@ function get_media_item( $attachment_id, $args = null ) {
 	);
 
 	if ( $r['send'] ) {
-		$r['send'] = get_submit_button( __( 'Insert into Post' ), 'button', "send[$attachment_id]", false );
+		$r['send'] = get_submit_button( __( 'Insert into Post' ), '', "send[$attachment_id]", false );
 	}
 
 	$delete = empty( $r['delete'] ) ? '' : $r['delete'];
@@ -2031,7 +2031,7 @@ if ( $id ) {
 ?></div>
 
 <p class="savebutton ml-submit">
-<?php submit_button( __( 'Save all changes' ), 'button', 'save', false ); ?>
+<?php submit_button( __( 'Save all changes' ), '', 'save', false ); ?>
 </p>
 </form>
 <?php
@@ -2242,7 +2242,7 @@ jQuery(function($){
 </div>
 
 <p class="ml-submit">
-<?php submit_button( __( 'Save all changes' ), 'button savebutton', 'save', false, array( 'id' => 'save-all', 'style' => 'display: none;' ) ); ?>
+<?php submit_button( __( 'Save all changes' ), 'savebutton', 'save', false, array( 'id' => 'save-all', 'style' => 'display: none;' ) ); ?>
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 <input type="hidden" name="type" value="<?php echo esc_attr( $GLOBALS['type'] ); ?>" />
 <input type="hidden" name="tab" value="<?php echo esc_attr( $GLOBALS['tab'] ); ?>" />
@@ -2382,7 +2382,7 @@ function media_upload_library_form($errors) {
 <p id="media-search" class="search-box">
 	<label class="screen-reader-text" for="media-search-input"><?php _e('Search Media');?>:</label>
 	<input type="search" id="media-search-input" name="s" value="<?php the_search_query(); ?>" />
-	<?php submit_button( __( 'Search Media' ), 'button', '', false ); ?>
+	<?php submit_button( __( 'Search Media' ), '', '', false ); ?>
 </p>
 
 <ul class="subsubsub">
@@ -2479,7 +2479,7 @@ foreach ($arc_result as $arc_row) {
 </select>
 <?php } ?>
 
-<?php submit_button( __( 'Filter &#187;' ), 'button', 'post-query-submit', false ); ?>
+<?php submit_button( __( 'Filter &#187;' ), '', 'post-query-submit', false ); ?>
 
 </div>
 
@@ -2509,7 +2509,7 @@ jQuery(function($){
 <?php echo get_media_items(null, $errors); ?>
 </div>
 <p class="ml-submit">
-<?php submit_button( __( 'Save all changes' ), 'button savebutton', 'save', false ); ?>
+<?php submit_button( __( 'Save all changes' ), 'savebutton', 'save', false ); ?>
 <input type="hidden" name="post_id" id="post_id" value="<?php echo (int) $post_id; ?>" />
 </p>
 </form>
@@ -2612,7 +2612,7 @@ function wp_media_insert_url_form( $default_view = 'image' ) {
 		<tr class="not-image">
 			<td></td>
 			<td>
-				' . get_submit_button( __( 'Insert into Post' ), 'button', 'insertonlybutton', false ) . '
+				' . get_submit_button( __( 'Insert into Post' ), '', 'insertonlybutton', false ) . '
 			</td>
 		</tr>
 	</tbody></table>

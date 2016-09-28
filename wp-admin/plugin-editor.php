@@ -224,7 +224,7 @@ default:
 	}
 ?>
 		</select>
-		<?php submit_button( __( 'Select' ), 'button', 'Submit', false ); ?>
+		<?php submit_button( __( 'Select' ), '', 'Submit', false ); ?>
 	</form>
 </div>
 <br class="clear" />
