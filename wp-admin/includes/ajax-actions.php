@@ -2015,7 +2015,7 @@ function wp_ajax_upload_attachment() {
 			echo wp_json_encode( array(
 				'success' => false,
 				'data'    => array(
-					'message'  => __( "You don't have permission to attach files to this post." ),
+					'message'  => __( 'Sorry, you are not allowed to attach files to this post.' ),
 					'filename' => $_FILES['async-upload']['name'],
 				)
 			) );
