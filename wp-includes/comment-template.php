@@ -1576,7 +1576,8 @@ function comments_popup_link( $zero = false, $one = false, $more = false, $css_c
  *                              Default 'respond'.
  *     @type string $reply_text The text of the Reply link. Default 'Reply'.
  *     @type string $login_text The text of the link to reply if logged out. Default 'Log in to Reply'.
- *     @type int    $depth'     The depth of the new comment. Must be greater than 0 and less than the value
+ *     @type int    $max_depth  The max depth of the comment tree. Default 0.
+ *     @type int    $depth      The depth of the new comment. Must be greater than 0 and less than the value
  *                              of the 'thread_comments_depth' option set in Settings > Discussion. Default 0.
  *     @type string $before     The text or HTML to add before the reply link. Default empty.
  *     @type string $after      The text or HTML to add after the reply link. Default empty.
@@ -1593,6 +1594,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		'reply_text'    => __( 'Reply' ),
 		'reply_to_text' => __( 'Reply to %s' ),
 		'login_text'    => __( 'Log in to Reply' ),
+		'max_depth'     => 0,
 		'depth'         => 0,
 		'before'        => '',
 		'after'         => ''
