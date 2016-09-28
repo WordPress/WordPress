@@ -1941,27 +1941,13 @@ function wp_delete_category( $cat_ID ) {
  *              Introduced `$parent` argument.
  * @since 4.4.0 Introduced `$meta_query` and `$update_term_meta_cache` arguments. When `$fields` is 'all' or
  *              'all_with_object_id', an array of `WP_Term` objects will be returned.
+ * @since 4.7.0 Refactored to use WP_Term_Query, and to support any WP_Term_Query arguments.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|array    $object_ids The ID(s) of the object(s) to retrieve.
  * @param string|array $taxonomies The taxonomies to retrieve terms from.
- * @param array|string $args {
- *     Array of arguments.
- *     @type string $orderby                Field by which results should be sorted. Accepts 'name', 'count', 'slug',
- *                                          'term_group', 'term_order', 'taxonomy', 'parent', or 'term_taxonomy_id'.
- *                                          Default 'name'.
- *     @type string $order                  Sort order. Accepts 'ASC' or 'DESC'. Default 'ASC'.
- *     @type string $fields                 Fields to return for matched terms. Accepts 'all', 'ids', 'names', and
- *                                          'all_with_object_id'. Note that 'all' or 'all_with_object_id' will result
- *                                          in an array of term objects being returned, 'ids' will return an array of
- *                                          integers, and 'names' an array of strings.
- *     @type int    $parent                 Optional. Limit results to the direct children of a given term ID.
- *     @type bool   $update_term_meta_cache Whether to prime termmeta cache for matched terms. Only applies when
- *                                          `$fields` is 'all', 'all_with_object_id', or 'term_id'. Default true.
- *     @type array  $meta_query             Meta query clauses to limit retrieved terms by. See `WP_Meta_Query`.
- *                                          Default empty.
- * }
+ * @param array|string $args       See WP_Term_Query::__construct() for supported arguments.
  * @return array|WP_Error The requested term data or empty array if no terms found.
  *                        WP_Error if any of the $taxonomies don't exist.
  */
@@ -1983,185 +1969,26 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 		$object_ids = array($object_ids);
 	$object_ids = array_map('intval', $object_ids);
 
-	$defaults = array(
-		'orderby' => 'name',
-		'order'   => 'ASC',
-		'fields'  => 'all',
-		'parent'  => '',
-		'update_term_meta_cache' => true,
-		'meta_query' => '',
-	);
-	$args = wp_parse_args( $args, $defaults );
+	$args['taxonomy'] = $taxonomies;
+	$args['object_ids'] = $object_ids;
 
-	$terms = array();
-	if ( count($taxonomies) > 1 ) {
-		foreach ( $taxonomies as $index => $taxonomy ) {
-			$t = get_taxonomy($taxonomy);
-			if ( isset($t->args) && is_array($t->args) && $args != array_merge($args, $t->args) ) {
-				unset($taxonomies[$index]);
-				$terms = array_merge($terms, wp_get_object_terms($object_ids, $taxonomy, array_merge($args, $t->args)));
-			}
-		}
-	} else {
-		$t = get_taxonomy($taxonomies[0]);
-		if ( isset($t->args) && is_array($t->args) )
-			$args = array_merge($args, $t->args);
-	}
-
-	$orderby = $args['orderby'];
-	$order = $args['order'];
-	$fields = $args['fields'];
-
-	if ( in_array( $orderby, array( 'term_id', 'name', 'slug', 'term_group' ) ) ) {
-		$orderby = "t.$orderby";
-	} elseif ( in_array( $orderby, array( 'count', 'parent', 'taxonomy', 'term_taxonomy_id' ) ) ) {
-		$orderby = "tt.$orderby";
-	} elseif ( 'term_order' === $orderby ) {
-		$orderby = 'tr.term_order';
-	} elseif ( 'none' === $orderby ) {
-		$orderby = '';
-		$order = '';
-	} else {
-		$orderby = 't.term_id';
-	}
-
-	// tt_ids queries can only be none or tr.term_taxonomy_id
-	if ( ('tt_ids' == $fields) && !empty($orderby) )
-		$orderby = 'tr.term_taxonomy_id';
-
-	if ( !empty($orderby) )
-		$orderby = "ORDER BY $orderby";
-
-	$order = strtoupper( $order );
-	if ( '' !== $order && ! in_array( $order, array( 'ASC', 'DESC' ) ) )
-		$order = 'ASC';
-
-	$taxonomy_array = $taxonomies;
-	$object_id_array = $object_ids;
-	$taxonomies = "'" . implode("', '", array_map( 'esc_sql', $taxonomies ) ) . "'";
-	$object_ids = implode(', ', $object_ids);
-
-	$select_this = '';
-	if ( 'all' == $fields ) {
-		$select_this = 't.*, tt.*';
-	} elseif ( 'ids' == $fields ) {
-		$select_this = 't.term_id';
-	} elseif ( 'names' == $fields ) {
-		$select_this = 't.name';
-	} elseif ( 'slugs' == $fields ) {
-		$select_this = 't.slug';
-	} elseif ( 'all_with_object_id' == $fields ) {
-		$select_this = 't.*, tt.*, tr.object_id';
-	}
-
-	$where = array(
-		"tt.taxonomy IN ($taxonomies)",
-		"tr.object_id IN ($object_ids)",
-	);
-
-	if ( '' !== $args['parent'] ) {
-		$where[] = $wpdb->prepare( 'tt.parent = %d', $args['parent'] );
-	}
-
-	// Meta query support.
-	$meta_query_join = '';
-	if ( ! empty( $args['meta_query'] ) ) {
-		$mquery = new WP_Meta_Query( $args['meta_query'] );
-		$mq_sql = $mquery->get_sql( 'term', 't', 'term_id' );
-
-		$meta_query_join .= $mq_sql['join'];
-
-		// Strip leading AND.
-		$where[] = preg_replace( '/^\s*AND/', '', $mq_sql['where'] );
-	}
-
-	$where = implode( ' AND ', $where );
-
-	$query = "SELECT $select_this FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON tt.term_id = t.term_id INNER JOIN $wpdb->term_relationships AS tr ON tr.term_taxonomy_id = tt.term_taxonomy_id $meta_query_join WHERE $where $orderby $order";
-
-	$objects = false;
-	if ( 'all' == $fields || 'all_with_object_id' == $fields ) {
-		$_terms = $wpdb->get_results( $query );
-		$object_id_index = array();
-		foreach ( $_terms as $key => $term ) {
-			$term = sanitize_term( $term, $taxonomy, 'raw' );
-			$_terms[ $key ] = $term;
-
-			if ( isset( $term->object_id ) ) {
-				$object_id_index[ $key ] = $term->object_id;
-			}
-		}
-
-		update_term_cache( $_terms );
-		$_terms = array_map( 'get_term', $_terms );
-
-		// Re-add the object_id data, which is lost when fetching terms from cache.
-		if ( 'all_with_object_id' === $fields ) {
-			foreach ( $_terms as $key => $_term ) {
-				if ( isset( $object_id_index[ $key ] ) ) {
-					$_term->object_id = $object_id_index[ $key ];
-				}
-			}
-		}
-
-		$terms = array_merge( $terms, $_terms );
-		$objects = true;
-
-	} elseif ( 'ids' == $fields || 'names' == $fields || 'slugs' == $fields ) {
-		$_terms = $wpdb->get_col( $query );
-		$_field = ( 'ids' == $fields ) ? 'term_id' : 'name';
-		foreach ( $_terms as $key => $term ) {
-			$_terms[$key] = sanitize_term_field( $_field, $term, $term, $taxonomy, 'raw' );
-		}
-		$terms = array_merge( $terms, $_terms );
-	} elseif ( 'tt_ids' == $fields ) {
-		$terms = $wpdb->get_col("SELECT tr.term_taxonomy_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tr.object_id IN ($object_ids) AND tt.taxonomy IN ($taxonomies) $orderby $order");
-		foreach ( $terms as $key => $tt_id ) {
-			$terms[$key] = sanitize_term_field( 'term_taxonomy_id', $tt_id, 0, $taxonomy, 'raw' ); // 0 should be the term id, however is not needed when using raw context.
-		}
-	}
-
-	// Update termmeta cache, if necessary.
-	if ( $args['update_term_meta_cache'] && ( 'all' === $fields || 'all_with_object_id' === $fields || 'ids' === $fields ) ) {
-		if ( 'ids' === $fields ) {
-			$term_ids = $terms;
-		} else {
-			$term_ids = wp_list_pluck( $terms, 'term_id' );
-		}
-
-		update_termmeta_cache( $term_ids );
-	}
-
-	if ( ! $terms ) {
-		$terms = array();
-	} elseif ( $objects && 'all_with_object_id' !== $fields ) {
-		$_tt_ids = array();
-		$_terms = array();
-		foreach ( $terms as $term ) {
-			if ( in_array( $term->term_taxonomy_id, $_tt_ids ) ) {
-				continue;
-			}
-
-			$_tt_ids[] = $term->term_taxonomy_id;
-			$_terms[] = $term;
-		}
-		$terms = $_terms;
-	} elseif ( ! $objects ) {
-		$terms = array_values( array_unique( $terms ) );
-	}
+	$terms = get_terms( $args );
 
 	/**
 	 * Filters the terms for a given object or objects.
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param array $terms           An array of terms for the given object or objects.
-	 * @param array $object_id_array Array of object IDs for which `$terms` were retrieved.
-	 * @param array $taxonomy_array  Array of taxonomies from which `$terms` were retrieved.
-	 * @param array $args            An array of arguments for retrieving terms for the given
-	 *                               object(s). See wp_get_object_terms() for details.
+	 * @param array $terms      An array of terms for the given object or objects.
+	 * @param array $object_ids Array of object IDs for which `$terms` were retrieved.
+	 * @param array $taxonomies Array of taxonomies from which `$terms` were retrieved.
+	 * @param array $args       An array of arguments for retrieving terms for the given
+	 *                          object(s). See wp_get_object_terms() for details.
 	 */
-	$terms = apply_filters( 'get_object_terms', $terms, $object_id_array, $taxonomy_array, $args );
+	$terms = apply_filters( 'get_object_terms', $terms, $object_ids, $taxonomies, $args );
+
+	$object_ids = implode( ',', $object_ids );
+	$taxonomies = implode( ',', $taxonomies );
 
 	/**
 	 * Filters the terms for a given object or objects.
