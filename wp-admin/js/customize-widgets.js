@@ -1325,7 +1325,7 @@
 		 * @param {Object} args  merged on top of this.defaultActiveArguments
 		 */
 		onChangeExpanded: function ( expanded, args ) {
-			var self = this, $widget, $inside, complete, prevComplete;
+			var self = this, $widget, $inside, complete, prevComplete, expandControl;
 
 			self.embedWidgetControl(); // Make sure the outer form is embedded so that the expanded state can be set in the UI.
 			if ( expanded ) {
@@ -1345,11 +1345,7 @@
 			$widget = this.container.find( 'div.widget:first' );
 			$inside = $widget.find( '.widget-inside:first' );
 
-			if ( expanded ) {
-
-				if ( self.section() && api.section( self.section() ) ) {
-					self.expandControlSection();
-				}
+			expandControl = function() {
 
 				// Close all other widget controls before expanding this one
 				api.control.each( function( otherControl ) {
@@ -1379,6 +1375,16 @@
 
 				self.container.trigger( 'expand' );
 				self.container.addClass( 'expanding' );
+			};
+
+			if ( expanded ) {
+				if ( api.section.has( self.section() ) ) {
+					api.section( self.section() ).expand( {
+						completeCallback: expandControl
+					} );
+				} else {
+					expandControl();
+				}
 			} else {
 
 				complete = function() {

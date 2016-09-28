@@ -1529,7 +1529,6 @@
 		 */
 		expandControlSection: function() {
 			var $section = this.container.closest( '.accordion-section' );
-
 			if ( ! $section.hasClass( 'open' ) ) {
 				$section.find( '.accordion-section-title:first' ).trigger( 'click' );
 			}
@@ -1683,23 +1682,33 @@
 		 */
 		focus: function( params ) {
 			params = params || {};
-			var control = this, originalCompleteCallback = params.completeCallback;
+			var control = this, originalCompleteCallback = params.completeCallback, focusControl;
 
-			control.expandControlSection();
+			focusControl = function() {
+				control.expandControlSection();
 
-			params.completeCallback = function() {
-				var focusable;
+				params.completeCallback = function() {
+					var focusable;
 
-				// Note that we can't use :focusable due to a jQuery UI issue. See: https://github.com/jquery/jquery-ui/pull/1583
-				focusable = control.container.find( '.menu-item-settings' ).find( 'input, select, textarea, button, object, a[href], [tabindex]' ).filter( ':visible' );
-				focusable.first().focus();
+					// Note that we can't use :focusable due to a jQuery UI issue. See: https://github.com/jquery/jquery-ui/pull/1583
+					focusable = control.container.find( '.menu-item-settings' ).find( 'input, select, textarea, button, object, a[href], [tabindex]' ).filter( ':visible' );
+					focusable.first().focus();
 
-				if ( originalCompleteCallback ) {
-					originalCompleteCallback();
-				}
+					if ( originalCompleteCallback ) {
+						originalCompleteCallback();
+					}
+				};
+
+				control.expandForm( params );
 			};
 
-			control.expandForm( params );
+			if ( api.section.has( control.section() ) ) {
+				api.section( control.section() ).expand( {
+					completeCallback: focusControl
+				} );
+			} else {
+				focusControl();
+			}
 		},
 
 		/**
@@ -2955,7 +2964,6 @@
 	 */
 	api.Menus.focusMenuItemControl = function( menuItemId ) {
 		var control = api.Menus.getMenuItemControl( menuItemId );
-
 		if ( control ) {
 			control.focus();
 		}
