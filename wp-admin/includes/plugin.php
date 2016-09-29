@@ -1768,6 +1768,7 @@ function user_can_access_admin_page() {
  * Register a setting and its data.
  *
  * @since 2.7.0
+ * @since 4.7.0 `$args` can be passed to set flags on the setting, similar to `register_meta()`.
  *
  * @global array $new_whitelist_options
  * @global array $wp_registered_settings
