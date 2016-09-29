@@ -2027,6 +2027,20 @@ function wp_update_comment($commentarr) {
 	$comment_post_ID = $data['comment_post_ID'];
 	$keys = array( 'comment_post_ID', 'comment_content', 'comment_author', 'comment_author_email', 'comment_approved', 'comment_karma', 'comment_author_url', 'comment_date', 'comment_date_gmt', 'comment_type', 'comment_parent', 'user_id', 'comment_agent', 'comment_author_IP' );
 	$data = wp_array_slice_assoc( $data, $keys );
+
+	/**
+	 * Filters the comment data immediately before it is updated in the database.
+	 *
+	 * Note: data being passed to the filter is already unslashed.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param array $data       The new, processed comment data.
+	 * @param array $comment    The old, unslashed comment data.
+	 * @param array $commentarr The new, raw comment data.
+	 */
+	$data = apply_filters( 'wp_update_comment_data', $data, $comment, $commentarr );
+
 	$rval = $wpdb->update( $wpdb->comments, $data, compact( 'comment_ID' ) );
 
 	clean_comment_cache( $comment_ID );
