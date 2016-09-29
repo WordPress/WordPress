@@ -166,7 +166,7 @@ class WP_oEmbed {
 		 * | Tumblr       | tumblr.com            |      Yes       | 4.2.0     |
 		 * | Kickstarter  | kickstarter.com       |      Yes       | 4.2.0     |
 		 * | Kickstarter  | kck.st                |      Yes       | 4.2.0     |
-		 * | Cloudup      | cloudup.com           |      Yes       | 4.4.0     |
+		 * | Cloudup      | cloudup.com           |      Yes       | 4.3.0     |
 		 * | ReverbNation | reverbnation.com      |      Yes       | 4.4.0     |
 		 * | VideoPress   | videopress.com        |      Yes       | 4.4.0     |
 		 * | Reddit       | reddit.com            |      Yes       | 4.4.0     |
