@@ -72,8 +72,11 @@ class WP_oEmbed {
 			'#https?://(.+\.)?polldaddy\.com/.*#i'                => array( 'https://polldaddy.com/oembed/',                             true  ),
 			'#https?://poll\.fm/.*#i'                             => array( 'https://polldaddy.com/oembed/',                             true  ),
 			'#https?://(www\.)?funnyordie\.com/videos/.*#i'       => array( 'http://www.funnyordie.com/oembed',                          true  ),
-			'#https?://(www\.)?twitter\.com/.+?/status(es)?/.*#i' => array( 'https://publish.twitter.com/oembed',                        true  ),
-			'#https?://(www\.)?twitter\.com/.+?/timelines/.*#i'   => array( 'https://publish.twitter.com/oembed',                        true  ),
+			'#https?://(www\.)?twitter\.com/\w{1,15}/status(es)?/.*#i' => array( 'https://publish.twitter.com/oembed',                        true  ),
+			'#https?://(www\.)?twitter\.com/\w{1,15}$#i'               => array( 'https://publish.twitter.com/oembed',                        true  ),
+			'#https?://(www\.)?twitter\.com/\w{1,15}/likes$#i'         => array( 'https://publish.twitter.com/oembed',                        true  ),
+			'#https?://(www\.)?twitter\.com/\w{1,15}/lists/.*#i'       => array( 'https://publish.twitter.com/oembed',                        true  ),
+			'#https?://(www\.)?twitter\.com/\w{1,15}/timelines/.*#i'   => array( 'https://publish.twitter.com/oembed',                        true  ),
 			'#https?://(www\.)?twitter\.com/i/moments/.*#i'       => array( 'https://publish.twitter.com/oembed',                        true  ),
 			'#https?://vine\.co/v/.*#i'                           => array( 'https://vine.co/oembed.{format}',                           true  ),
 			'#https?://(www\.)?soundcloud\.com/.*#i'              => array( 'https://soundcloud.com/oembed',                             true  ),
@@ -175,6 +178,9 @@ class WP_oEmbed {
 		 * | Twitter      | twitter.com/timelines |      Yes       | 4.5.0     |
 		 * | Twitter      | twitter.com/moments   |      Yes       | 4.5.0     |
 		 * | Facebook     | facebook.com          |      Yes       | 4.7.0     |
+		 * | Twitter      | twitter.com/user      |      Yes       | 4.7.0     |
+		 * | Twitter      | twitter.com/likes     |      Yes       | 4.7.0     |
+		 * | Twitter      | twitter.com/lists     |      Yes       | 4.7.0     |
 		 *
 		 * No longer supported providers:
 		 *
