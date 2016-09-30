@@ -402,6 +402,16 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_site':
 		$caps[] = 'manage_options';
 		break;
+	case 'create_sites':
+	case 'delete_sites':
+	case 'manage_network':
+	case 'manage_sites':
+	case 'manage_network_users':
+	case 'manage_network_plugins':
+	case 'manage_network_themes':
+	case 'manage_network_options':
+		$caps[] = $cap;
+		break;
 	default:
 		// Handle meta capabilities for custom post types.
 		global $post_type_meta_caps;
