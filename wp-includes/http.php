@@ -633,35 +633,68 @@ function ms_allowed_http_request_hosts( $is_external, $host ) {
  * when URL parsing failed.
  *
  * @since 4.4.0
+ * @since 4.7.0 The $component parameter was added for parity with PHP's parse_url().
  *
- * @param string $url The URL to parse.
- * @return bool|array False on failure; Array of URL components on success;
- *                    See parse_url()'s return values.
+ * @param string $url       The URL to parse.
+ * @param int    $component The specific component to retrieve. Use one of the PHP
+ *                          predefined constants to specify which one.
+ *                          Defaults to -1 (= return all parts as an array).
+ *                          @see http://php.net/manual/en/function.parse-url.php
+ * @return mixed False on failure; Array of URL components on success;
+ *               When a specific component has been requested: null if the component doesn't
+ *               exist in the given URL; a sting or - in the case of PHP_URL_PORT - integer
+ *               when it does; See parse_url()'s return values.
  */
-function wp_parse_url( $url ) {
-	$parts = @parse_url( $url );
-	if ( ! $parts ) {
-		// < PHP 5.4.7 compat, trouble with relative paths including a scheme break in the path
+function wp_parse_url( $url, $component = -1 ) {
+	$parts = @parse_url( $url, $component );
+
+	if ( version_compare( PHP_VERSION, '5.4.7', '>=' ) ) {
+		return $parts;
+	}
+
+	if ( false === $parts ) {
+		// < PHP 5.4.7 compat, trouble with relative paths including a scheme break in the path.
 		if ( '/' == $url[0] && false !== strpos( $url, '://' ) ) {
-			// Since we know it's a relative path, prefix with a scheme/host placeholder and try again
-			if ( ! $parts = @parse_url( 'placeholder://placeholder' . $url ) ) {
+			if ( in_array( $component, array( PHP_URL_SCHEME, PHP_URL_HOST ), true ) ) {
+				return null;
+			}
+			// Since we know it's a relative path, prefix with a scheme/host placeholder and try again.
+			if ( ! $parts = @parse_url( 'placeholder://placeholder' . $url, $component ) ) {
 				return $parts;
 			}
-			// Remove the placeholder values
-			unset( $parts['scheme'], $parts['host'] );
+			// Remove the placeholder values.
+			if ( -1 === $component ) {
+				unset( $parts['scheme'], $parts['host'] );
+			}
 		} else {
 			return $parts;
 		}
 	}
 
-	// < PHP 5.4.7 compat, doesn't detect schemeless URL's host field
-	if ( '//' == substr( $url, 0, 2 ) && ! isset( $parts['host'] ) ) {
-		$path_parts = explode( '/', substr( $parts['path'], 2 ), 2 );
-		$parts['host'] = $path_parts[0];
-		if ( isset( $path_parts[1] ) ) {
-			$parts['path'] = '/' . $path_parts[1];
-		} else {
-			unset( $parts['path'] );
+	// < PHP 5.4.7 compat, doesn't detect a schemeless URL's host field.
+	if ( '//' == substr( $url, 0, 2 ) ) {
+		if ( -1 === $component && ! isset( $parts['host'] ) ) {
+			$path_parts = explode( '/', substr( $parts['path'], 2 ), 2 );
+			$parts['host'] = $path_parts[0];
+			if ( isset( $path_parts[1] ) ) {
+				$parts['path'] = '/' . $path_parts[1];
+			} else {
+				unset( $parts['path'] );
+			}
+		} elseif ( PHP_URL_HOST === $component || PHP_URL_PATH === $component ) {
+			$all_parts = @parse_url( $url );
+			if ( ! isset( $all_parts['host'] ) ) {
+				$path_parts = explode( '/', substr( $all_parts['path'], 2 ), 2 );
+				if ( PHP_URL_PATH === $component ) {
+					if ( isset( $path_parts[1] ) ) {
+						$parts = '/' . $path_parts[1];
+					} else {
+						$parts = null;
+					}
+				} elseif ( PHP_URL_HOST === $component ) {
+					$parts = $path_parts[0];
+				}
+			}
 		}
 	}
 
