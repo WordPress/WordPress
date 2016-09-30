@@ -874,6 +874,24 @@ class WP_REST_Server {
 					}
 				}
 
+				/**
+				 * Call a filter before executing any REST API callbacks.
+				 *
+				 * Allows plugins to perform additional validation after a
+				 * request is initialized and matched to a registered route,
+				 * but before it is executed.
+				 *
+				 * Note that this filter will not be called for requests that
+				 * fail to authenticate or match to a registered route.
+				 *
+				 * @since 4.7.0
+				 *
+				 * @param WP_HTTP_Response $response Result to send to the client. Usually a WP_REST_Response.
+				 * @param WP_REST_Server   $handler  ResponseHandler instance (usually WP_REST_Server).
+				 * @param WP_REST_Request  $request  Request used to generate the response.
+				 */
+				$response = apply_filters( 'rest_request_before_callbacks', $response, $handler, $request );
+
 				if ( ! is_wp_error( $response ) ) {
 					// Check permission specified on the route.
 					if ( ! empty( $handler['permission_callback'] ) ) {
@@ -910,6 +928,28 @@ class WP_REST_Server {
 						$response = call_user_func( $callback, $request );
 					}
 				}
+
+				/**
+				 * Call a filter immediately after executing any REST API
+				 * callbacks.
+				 *
+				 * Allows plugins to perform any needed cleanup, for example,
+				 * to undo changes made during `rest_request_before_callbacks`.
+				 *
+				 * Note that this filter will not be called for requests that
+				 * fail to authenticate or match to a registered route.
+				 *
+				 * Note that an endpoint's `permission_callback` can still be
+				 * called after this filter - see the `rest_send_allow_header`
+				 * function.
+				 *
+				 * @since 4.7.0
+				 *
+				 * @param WP_HTTP_Response $response Result to send to the client. Usually a WP_REST_Response.
+				 * @param WP_REST_Server   $handler  ResponseHandler instance (usually WP_REST_Server).
+				 * @param WP_REST_Request  $request  Request used to generate the response.
+				 */
+				$response = apply_filters( 'rest_request_after_callbacks', $response, $handler, $request );
 
 				if ( is_wp_error( $response ) ) {
 					$response = $this->error_to_response( $response );
