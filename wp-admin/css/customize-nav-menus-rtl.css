@@ -568,6 +568,7 @@
 }
 
 #available-menu-items .accordion-section-content .new-content-item {
+	width: -webkit-calc(100% - 30px);
 	width: calc(100% - 30px);
 	padding: 8px 15px;
 	position: absolute;
