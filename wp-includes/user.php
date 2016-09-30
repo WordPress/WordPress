@@ -559,24 +559,25 @@ function get_users( $args = array() ) {
 }
 
 /**
- * Get the blogs a user belongs to.
+ * Get the sites a user belongs to.
  *
  * @since 3.0.0
+ * @since 4.7.0 Converted to use get_sites().
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int  $user_id User ID
- * @param bool $all     Whether to retrieve all blogs, or only blogs that are not
+ * @param bool $all     Whether to retrieve all sites, or only sites that are not
  *                      marked as deleted, archived, or spam.
- * @return array A list of the user's blogs. An empty array if the user doesn't exist
- *               or belongs to no blogs.
+ * @return array A list of the user's sites. An empty array if the user doesn't exist
+ *               or belongs to no sites.
  */
 function get_blogs_of_user( $user_id, $all = false ) {
 	global $wpdb;
 
 	$user_id = (int) $user_id;
 
-	// Logged out users can't have blogs
+	// Logged out users can't have sites
 	if ( empty( $user_id ) )
 		return array();
 
@@ -588,15 +589,15 @@ function get_blogs_of_user( $user_id, $all = false ) {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param null|array $blogs   An array of WP_Site objects of which the user is a member.
+	 * @param null|array $sites   An array of site objects of which the user is a member.
 	 * @param int        $user_id User ID.
 	 * @param bool       $all     Whether the returned array should contain all sites, including
 	 *                            those marked 'deleted', 'archived', or 'spam'. Default false.
 	 */
-	$blogs = apply_filters( 'pre_get_blogs_of_user', null, $user_id, $all );
+	$sites = apply_filters( 'pre_get_blogs_of_user', null, $user_id, $all );
 
-	if ( null !== $blogs ) {
-		return $blogs;
+	if ( null !== $sites ) {
+		return $sites;
 	}
 
 	$keys = get_user_meta( $user_id );
@@ -604,38 +605,24 @@ function get_blogs_of_user( $user_id, $all = false ) {
 		return array();
 
 	if ( ! is_multisite() ) {
-		$blog_id = get_current_blog_id();
-		$blogs = array( $blog_id => new stdClass );
-		$blogs[ $blog_id ]->userblog_id = $blog_id;
-		$blogs[ $blog_id ]->blogname = get_option('blogname');
-		$blogs[ $blog_id ]->domain = '';
-		$blogs[ $blog_id ]->path = '';
-		$blogs[ $blog_id ]->site_id = 1;
-		$blogs[ $blog_id ]->siteurl = get_option('siteurl');
-		$blogs[ $blog_id ]->archived = 0;
-		$blogs[ $blog_id ]->spam = 0;
-		$blogs[ $blog_id ]->deleted = 0;
-		return $blogs;
+		$site_id = get_current_blog_id();
+		$sites = array( $site_id => new stdClass );
+		$sites[ $site_id ]->userblog_id = $site_id;
+		$sites[ $site_id ]->blogname = get_option('blogname');
+		$sites[ $site_id ]->domain = '';
+		$sites[ $site_id ]->path = '';
+		$sites[ $site_id ]->site_id = 1;
+		$sites[ $site_id ]->siteurl = get_option('siteurl');
+		$sites[ $site_id ]->archived = 0;
+		$sites[ $site_id ]->spam = 0;
+		$sites[ $site_id ]->deleted = 0;
+		return $sites;
 	}
 
-	$blogs = array();
+	$site_ids = array();
 
 	if ( isset( $keys[ $wpdb->base_prefix . 'capabilities' ] ) && defined( 'MULTISITE' ) ) {
-		$blog = get_blog_details( 1 );
-		if ( $blog && isset( $blog->domain ) && ( $all || ( ! $blog->archived && ! $blog->spam && ! $blog->deleted ) ) ) {
-			$blogs[ 1 ] = (object) array(
-				'userblog_id' => 1,
-				'blogname'    => $blog->blogname,
-				'domain'      => $blog->domain,
-				'path'        => $blog->path,
-				'site_id'     => $blog->site_id,
-				'siteurl'     => $blog->siteurl,
-				'archived'    => $blog->archived,
-				'mature'      => $blog->mature,
-				'spam'        => $blog->spam,
-				'deleted'     => $blog->deleted,
-			);
-		}
+		$site_ids[] = 1;
 		unset( $keys[ $wpdb->base_prefix . 'capabilities' ] );
 	}
 
@@ -646,39 +633,55 @@ function get_blogs_of_user( $user_id, $all = false ) {
 			continue;
 		if ( $wpdb->base_prefix && 0 !== strpos( $key, $wpdb->base_prefix ) )
 			continue;
-		$blog_id = str_replace( array( $wpdb->base_prefix, '_capabilities' ), '', $key );
-		if ( ! is_numeric( $blog_id ) )
+		$site_id = str_replace( array( $wpdb->base_prefix, '_capabilities' ), '', $key );
+		if ( ! is_numeric( $site_id ) )
 			continue;
 
-		$blog_id = (int) $blog_id;
-		$blog = get_blog_details( $blog_id );
-		if ( $blog && isset( $blog->domain ) && ( $all || ( ! $blog->archived && ! $blog->spam && ! $blog->deleted ) ) ) {
-			$blogs[ $blog_id ] = (object) array(
-				'userblog_id' => $blog_id,
-				'blogname'    => $blog->blogname,
-				'domain'      => $blog->domain,
-				'path'        => $blog->path,
-				'site_id'     => $blog->site_id,
-				'siteurl'     => $blog->siteurl,
-				'archived'    => $blog->archived,
-				'mature'      => $blog->mature,
-				'spam'        => $blog->spam,
-				'deleted'     => $blog->deleted,
+		$site_ids[] = (int) $site_id;
+	}
+
+	$sites = array();
+
+	if ( ! empty( $site_ids ) ) {
+		$args = array(
+			'number'   => '',
+			'site__in' => $site_ids,
+		);
+		if ( ! $all ) {
+			$args['archived'] = 0;
+			$args['spam']     = 0;
+			$args['deleted']  = 0;
+		}
+
+		$_sites = get_sites( $args );
+
+		foreach ( $_sites as $site ) {
+			$sites[ $site->id ] = (object) array(
+				'userblog_id' => $site->id,
+				'blogname'    => $site->blogname,
+				'domain'      => $site->domain,
+				'path'        => $site->path,
+				'site_id'     => $site->network_id,
+				'siteurl'     => $site->siteurl,
+				'archived'    => $site->archived,
+				'mature'      => $site->mature,
+				'spam'        => $site->spam,
+				'deleted'     => $site->deleted,
 			);
 		}
 	}
 
 	/**
-	 * Filters the list of blogs a user belongs to.
+	 * Filters the list of sites a user belongs to.
 	 *
 	 * @since MU
 	 *
-	 * @param array $blogs   An array of blog objects belonging to the user.
+	 * @param array $sites   An array of site objects belonging to the user.
 	 * @param int   $user_id User ID.
-	 * @param bool  $all     Whether the returned blogs array should contain all blogs, including
+	 * @param bool  $all     Whether the returned sites array should contain all sites, including
 	 *                       those marked 'deleted', 'archived', or 'spam'. Default false.
 	 */
-	return apply_filters( 'get_blogs_of_user', $blogs, $user_id, $all );
+	return apply_filters( 'get_blogs_of_user', $sites, $user_id, $all );
 }
 
 /**
