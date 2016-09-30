@@ -434,6 +434,8 @@ function post_tags_meta_box( $post, $box ) {
 		<input type="button" class="button tagadd" value="<?php esc_attr_e('Add'); ?>" /></p>
 	</div>
 	<p class="howto" id="new-tag-<?php echo $tax_name; ?>-desc"><?php echo $taxonomy->labels->separate_items_with_commas; ?></p>
+	<?php elseif ( empty( $terms_to_edit ) ): ?>
+		<p><?php echo $taxonomy->labels->no_terms; ?></p>
 	<?php endif; ?>
 	</div>
 	<div class="tagchecklist"></div>

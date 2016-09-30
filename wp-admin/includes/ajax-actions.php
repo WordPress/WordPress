@@ -594,12 +594,11 @@ function wp_ajax_delete_tag() {
 	$tag_id = (int) $_POST['tag_ID'];
 	check_ajax_referer( "delete-tag_$tag_id" );
 
-	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
-	$tax = get_taxonomy($taxonomy);
-
-	if ( !current_user_can( $tax->cap->delete_terms ) )
+	if ( ! current_user_can( 'delete_term', $tag_id ) ) {
 		wp_die( -1 );
+	}
 
+	$taxonomy = !empty($_POST['taxonomy']) ? $_POST['taxonomy'] : 'post_tag';
 	$tag = get_term( $tag_id, $taxonomy );
 	if ( !$tag || is_wp_error( $tag ) )
 		wp_die( 1 );
@@ -796,8 +795,10 @@ function wp_ajax_add_link_category( $action ) {
 	if ( empty( $action ) )
 		$action = 'add-link-category';
 	check_ajax_referer( $action );
-	if ( !current_user_can( 'manage_categories' ) )
+	$tax = get_taxonomy( 'link_category' );
+	if ( ! current_user_can( $tax->cap->manage_terms ) ) {
 		wp_die( -1 );
+	}
 	$names = explode(',', wp_unslash( $_POST['newcat'] ) );
 	$x = new WP_Ajax_Response();
 	foreach ( $names as $cat_name ) {
@@ -1703,13 +1704,15 @@ function wp_ajax_inline_save_tax() {
 	if ( ! $tax )
 		wp_die( 0 );
 
-	if ( ! current_user_can( $tax->cap->edit_terms ) )
+	if ( ! isset( $_POST['tax_ID'] ) || ! ( $id = (int) $_POST['tax_ID'] ) ) {
 		wp_die( -1 );
+	}
+
+	if ( ! current_user_can( 'edit_term', $id ) ) {
+		wp_die( -1 );
+	}
 
 	$wp_list_table = _get_list_table( 'WP_Terms_List_Table', array( 'screen' => 'edit-' . $taxonomy ) );
-
-	if ( ! isset($_POST['tax_ID']) || ! ( $id = (int) $_POST['tax_ID'] ) )
-		wp_die( -1 );
 
 	$tag = get_term( $id, $taxonomy );
 	$_POST['description'] = $tag->description;

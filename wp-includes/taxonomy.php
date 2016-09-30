@@ -61,6 +61,12 @@ function create_initial_taxonomies() {
 		'show_ui' => true,
 		'show_admin_column' => true,
 		'_builtin' => true,
+		'capabilities' => array(
+			'manage_terms' => 'manage_categories',
+			'edit_terms'   => 'edit_categories',
+			'delete_terms' => 'delete_categories',
+			'assign_terms' => 'assign_categories',
+		),
 	) );
 
 	register_taxonomy( 'post_tag', 'post', array(
@@ -71,6 +77,12 @@ function create_initial_taxonomies() {
 		'show_ui' => true,
 		'show_admin_column' => true,
 		'_builtin' => true,
+		'capabilities' => array(
+			'manage_terms' => 'manage_post_tags',
+			'edit_terms'   => 'edit_post_tags',
+			'delete_terms' => 'delete_post_tags',
+			'assign_terms' => 'assign_post_tags',
+		),
 	) );
 
 	register_taxonomy( 'nav_menu', 'nav_menu_item', array(

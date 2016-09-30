@@ -930,7 +930,7 @@ function get_edit_term_link( $term_id, $taxonomy = '', $object_type = '' ) {
 	}
 
 	$tax = get_taxonomy( $term->taxonomy );
-	if ( ! $tax || ! current_user_can( $tax->cap->edit_terms ) ) {
+	if ( ! $tax || ! current_user_can( 'edit_term', $term->term_id ) ) {
 		return;
 	}
 
@@ -984,7 +984,7 @@ function edit_term_link( $link = '', $before = '', $after = '', $term = null, $e
 		return;
 
 	$tax = get_taxonomy( $term->taxonomy );
-	if ( ! current_user_can( $tax->cap->edit_terms ) ) {
+	if ( ! current_user_can( 'edit_term', $term->term_id ) ) {
 		return;
 	}
 

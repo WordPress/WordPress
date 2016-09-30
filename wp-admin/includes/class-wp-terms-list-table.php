@@ -151,7 +151,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 */
 	protected function get_bulk_actions() {
 		$actions = array();
-		$actions['delete'] = __( 'Delete' );
+
+		if ( current_user_can( get_taxonomy( $this->screen->taxonomy )->cap->delete_terms ) ) {
+			$actions['delete'] = __( 'Delete' );
+		}
 
 		return $actions;
 	}
@@ -332,11 +335,10 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * @return string
 	 */
 	public function column_cb( $tag ) {
-		$default_term = get_option( 'default_' . $this->screen->taxonomy );
-
-		if ( current_user_can( get_taxonomy( $this->screen->taxonomy )->cap->delete_terms ) && $tag->term_id != $default_term )
+		if ( current_user_can( 'delete_term', $tag->term_id ) ) {
 			return '<label class="screen-reader-text" for="cb-select-' . $tag->term_id . '">' . sprintf( __( 'Select %s' ), $tag->name ) . '</label>'
 				. '<input type="checkbox" name="delete_tags[]" value="' . $tag->term_id . '" id="cb-select-' . $tag->term_id . '" />';
+		}
 
 		return '&nbsp;';
 	}
@@ -423,8 +425,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 		$taxonomy = $this->screen->taxonomy;
 		$tax = get_taxonomy( $taxonomy );
-		$default_term = get_option( 'default_' . $taxonomy );
-
 		$uri = wp_doing_ajax() ? wp_get_referer() : $_SERVER['REQUEST_URI'];
 
 		$edit_link = add_query_arg(
@@ -434,7 +434,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 		);
 
 		$actions = array();
-		if ( current_user_can( $tax->cap->edit_terms ) ) {
+		if ( current_user_can( 'edit_term', $tag->term_id ) ) {
 			$actions['edit'] = sprintf(
 				'<a href="%s" aria-label="%s">%s</a>',
 				esc_url( $edit_link ),
@@ -449,7 +449,7 @@ class WP_Terms_List_Table extends WP_List_Table {
 				__( 'Quick&nbsp;Edit' )
 			);
 		}
-		if ( current_user_can( $tax->cap->delete_terms ) && $tag->term_id != $default_term ) {
+		if ( current_user_can( 'delete_term', $tag->term_id ) ) {
 			$actions['delete'] = sprintf(
 				'<a href="%s" class="delete-tag aria-button-if-js" aria-label="%s">%s</a>',
 				wp_nonce_url( "edit-tags.php?action=delete&amp;taxonomy=$taxonomy&amp;tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ),

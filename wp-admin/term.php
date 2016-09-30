@@ -31,11 +31,11 @@ $taxonomy = $tax->name;
 $title    = $tax->labels->edit_item;
 
 if ( ! in_array( $taxonomy, get_taxonomies( array( 'show_ui' => true ) ) ) ||
-     ! current_user_can( $tax->cap->manage_terms )
+     ! current_user_can( 'edit_term', $tag->term_id )
 ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'Sorry, you are not allowed to manage this item.' ) . '</p>',
+		'<p>' . __( 'Sorry, you are not allowed to edit this item.' ) . '</p>',
 		403
 	);
 }

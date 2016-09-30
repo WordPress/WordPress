@@ -108,7 +108,7 @@ case 'delete':
 	$tag_ID = (int) $_REQUEST['tag_ID'];
 	check_admin_referer( 'delete-tag_' . $tag_ID );
 
-	if ( ! current_user_can( $tax->cap->delete_terms ) ) {
+	if ( ! current_user_can( 'delete_term', $tag_ID ) ) {
 		wp_die(
 			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
 			'<p>' . __( 'Sorry, you are not allowed to delete this item.' ) . '</p>',
@@ -168,7 +168,7 @@ case 'editedtag':
 	$tag_ID = (int) $_POST['tag_ID'];
 	check_admin_referer( 'update-tag_' . $tag_ID );
 
-	if ( ! current_user_can( $tax->cap->edit_terms ) ) {
+	if ( ! current_user_can( 'edit_term', $tag_ID ) ) {
 		wp_die(
 			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
 			'<p>' . __( 'Sorry, you are not allowed to edit this item.' ) . '</p>',
@@ -313,14 +313,6 @@ if ( 'category' == $taxonomy || 'link_category' == $taxonomy || 'post_tag' == $t
 }
 
 require_once( ABSPATH . 'wp-admin/admin-header.php' );
-
-if ( ! current_user_can( $tax->cap->edit_terms ) ) {
-	wp_die(
-		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
-		'<p>' . __( 'Sorry, you are not allowed to edit this item.' ) . '</p>',
-		403
-	);
-}
 
 /** Also used by the Edit Tag  form */
 require_once( ABSPATH . 'wp-admin/includes/edit-tag-messages.php' );

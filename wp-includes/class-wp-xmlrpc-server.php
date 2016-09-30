@@ -1886,8 +1886,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$taxonomy = get_taxonomy( $content_struct['taxonomy'] );
 
-		if ( ! current_user_can( $taxonomy->cap->manage_terms ) )
+		if ( ! current_user_can( $taxonomy->cap->edit_terms ) ) {
 			return new IXR_Error( 401, __( 'Sorry, you are not allowed to create terms in this taxonomy.' ) );
+		}
 
 		$taxonomy = (array) $taxonomy;
 
@@ -1973,9 +1974,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$taxonomy = get_taxonomy( $content_struct['taxonomy'] );
 
-		if ( ! current_user_can( $taxonomy->cap->edit_terms ) )
-			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit terms in this taxonomy.' ) );
-
 		$taxonomy = (array) $taxonomy;
 
 		// hold the data of the term
@@ -1988,6 +1986,10 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( ! $term )
 			return new IXR_Error( 404, __( 'Invalid term ID.' ) );
+
+		if ( ! current_user_can( 'edit_term', $term_id ) ) {
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to edit this term.' ) );
+		}
 
 		if ( isset( $content_struct['name'] ) ) {
 			$term_data['name'] = trim( $content_struct['name'] );
@@ -2068,10 +2070,6 @@ class wp_xmlrpc_server extends IXR_Server {
 			return new IXR_Error( 403, __( 'Invalid taxonomy.' ) );
 
 		$taxonomy = get_taxonomy( $taxonomy );
-
-		if ( ! current_user_can( $taxonomy->cap->delete_terms ) )
-			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete terms in this taxonomy.' ) );
-
 		$term = get_term( $term_id, $taxonomy->name );
 
 		if ( is_wp_error( $term ) )
@@ -2079,6 +2077,10 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( ! $term )
 			return new IXR_Error( 404, __( 'Invalid term ID.' ) );
+
+		if ( ! current_user_can( 'delete_term', $term_id ) ) {
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to delete this term.' ) );
+		}
 
 		$result = wp_delete_term( $term_id, $taxonomy->name );
 
@@ -2140,9 +2142,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		$taxonomy = get_taxonomy( $taxonomy );
 
-		if ( ! current_user_can( $taxonomy->cap->assign_terms ) )
-			return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign terms in this taxonomy.' ) );
-
 		$term = get_term( $term_id , $taxonomy->name, ARRAY_A );
 
 		if ( is_wp_error( $term ) )
@@ -2150,6 +2149,10 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( ! $term )
 			return new IXR_Error( 404, __( 'Invalid term ID.' ) );
+
+		if ( ! current_user_can( 'assign_term', $term_id ) ) {
+			return new IXR_Error( 401, __( 'Sorry, you are not allowed to assign this term.' ) );
+		}
 
 		return $this->_prepare_term( $term );
 	}

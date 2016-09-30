@@ -402,6 +402,43 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'delete_site':
 		$caps[] = 'manage_options';
 		break;
+	case 'edit_term':
+	case 'delete_term':
+	case 'assign_term':
+		$term_id = $args[0];
+		$term = get_term( $term_id );
+		if ( ! $term || is_wp_error( $term ) ) {
+			$caps[] = 'do_not_allow';
+			break;
+		}
+
+		$tax = get_taxonomy( $term->taxonomy );
+		if ( ! $tax ) {
+			$caps[] = 'do_not_allow';
+			break;
+		}
+
+		if ( 'delete_term' === $cap && ( $term->term_id == get_option( 'default_' . $term->taxonomy ) ) ) {
+			$caps[] = 'do_not_allow';
+			break;
+		}
+
+		$taxo_cap = $cap . 's';
+
+		$caps = map_meta_cap( $tax->cap->$taxo_cap, $user_id, $term_id );
+
+		break;
+	case 'manage_post_tags':
+	case 'edit_categories':
+	case 'edit_post_tags':
+	case 'delete_categories':
+	case 'delete_post_tags':
+		$caps[] = 'manage_categories';
+		break;
+	case 'assign_categories':
+	case 'assign_post_tags':
+		$caps[] = 'edit_posts';
+		break;
 	case 'create_sites':
 	case 'delete_sites':
 	case 'manage_network':
