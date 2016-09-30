@@ -52,14 +52,24 @@ switch ( $action ) {
 			update_site_option( 'wpmu_upgrade_site', $wp_db_version );
 		}
 
-		$blogs = $wpdb->get_results( "SELECT blog_id FROM {$wpdb->blogs} WHERE site_id = '{$wpdb->siteid}' AND spam = '0' AND deleted = '0' AND archived = '0' ORDER BY blog_id DESC LIMIT {$n}, 5", ARRAY_A );
-		if ( empty( $blogs ) ) {
+		$site_ids = get_sites( array(
+			'spam'       => '0',
+			'deleted'    => '0',
+			'archived'   => '0',
+			'network_id' => get_current_network_id(),
+			'number'     => 5,
+			'offset'     => $n,
+			'fields'     => 'ids',
+			'order'      => 'DESC',
+			'orderby'    => 'id',
+		) );
+		if ( empty( $site_ids ) ) {
 			echo '<p>' . __( 'All done!' ) . '</p>';
 			break;
 		}
 		echo "<ul>";
-		foreach ( (array) $blogs as $details ) {
-			switch_to_blog( $details['blog_id'] );
+		foreach ( (array) $site_ids as $site_id ) {
+			switch_to_blog( $site_id );
 			$siteurl = site_url();
 			$upgrade_url = admin_url( 'upgrade.php?step=upgrade_db' );
 			restore_current_blog();
@@ -93,9 +103,9 @@ switch ( $action ) {
 			 *
 			 * @since MU
 			 *
-			 * @param int $blog_id The Site ID.
+			 * @param int $site_id The Site ID.
 			 */
-			do_action( 'wpmu_upgrade_site', $details[ 'blog_id' ] );
+			do_action( 'wpmu_upgrade_site', $site_id );
 		}
 		echo "</ul>";
 		?><p><?php _e( 'If your browser doesn&#8217;t start loading the next page automatically, click this link:' ); ?> <a class="button" href="upgrade.php?action=upgrade&amp;n=<?php echo ($n + 5) ?>"><?php _e("Next Sites"); ?></a></p>
