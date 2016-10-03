@@ -789,8 +789,8 @@ wpList = {
 	init: function() {
 		var $list = this;
 
-		$list.wpList.process = function() {
-			$list.each( function( index, element ) {
+		$list.wpList.process = function( element ) {
+			$list.each( function() {
 				this.wpList.process( element );
 			} );
 		};
