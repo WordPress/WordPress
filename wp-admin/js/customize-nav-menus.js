@@ -170,6 +170,7 @@
 		currentMenuControl: null,
 		debounceSearch: null,
 		$search: null,
+		$clearResults: null,
 		searchTerm: '',
 		rendered: false,
 		pages: {},
@@ -185,6 +186,7 @@
 			}
 
 			this.$search = $( '#menu-items-search' );
+			this.$clearResults = this.$el.find( '.clear-results' );
 			this.sectionContent = this.$el.find( '.available-menu-items-list' );
 
 			this.debounceSearch = _.debounce( self.search, 500 );
@@ -202,8 +204,8 @@
 				}
 			} );
 
-			// Clear the search results.
-			$( '.clear-results' ).on( 'click', function() {
+			// Clear the search results and trigger a `keyup` event to fire a new search.
+			this.$clearResults.on( 'click', function() {
 				self.$search.val( '' ).focus().trigger( 'keyup' );
 			} );
 
@@ -261,11 +263,11 @@
 				$otherSections.fadeOut( 100 );
 				$searchSection.find( '.accordion-section-content' ).slideDown( 'fast' );
 				$searchSection.addClass( 'open' );
-				$searchSection.find( '.clear-results' ).addClass( 'is-visible' );
+				this.$clearResults.addClass( 'is-visible' );
 			} else if ( '' === event.target.value ) {
 				$searchSection.removeClass( 'open' );
 				$otherSections.show();
-				$searchSection.find( '.clear-results' ).removeClass( 'is-visible' );
+				this.$clearResults.removeClass( 'is-visible' );
 			}
 
 			this.searchTerm = event.target.value;
@@ -337,7 +339,7 @@
 			self.currentRequest.fail(function( data ) {
 				// data.message may be undefined, for example when typing slow and the request is aborted.
 				if ( data.message ) {
-					$content.empty().append( $( '<p class="nothing-found"></p>' ).text( data.message ) );
+					$content.empty().append( $( '<li class="nothing-found"></li>' ).text( data.message ) );
 					wp.a11y.speak( data.message );
 				}
 				self.pages.search = -1;

@@ -70,8 +70,7 @@
 				this.search( this.terms );
 			}
 
-			// If search is blank, show all themes
-			// Useful for resetting the views when you clean the input
+			// If search is blank, set all the widgets as they matched the search to reset the views.
 			if ( this.terms === '' ) {
 				this.each( function ( widget ) {
 					widget.set( 'search_matched', true );
@@ -149,8 +148,6 @@
 		events: {
 			'input #widgets-search': 'search',
 			'keyup #widgets-search': 'search',
-			'change #widgets-search': 'search',
-			'search #widgets-search': 'search',
 			'focus .widget-tpl' : 'focus',
 			'click .widget-tpl' : '_submit',
 			'keypress .widget-tpl' : '_submit',
@@ -163,17 +160,24 @@
 		// Cache sidebar control which has opened panel
 		currentSidebarControl: null,
 		$search: null,
+		$clearResults: null,
+		searchMatchesCount: null,
 
 		initialize: function() {
 			var self = this;
 
 			this.$search = $( '#widgets-search' );
 
+			this.$clearResults = this.$el.find( '.clear-results' );
+
 			_.bindAll( this, 'close' );
 
 			this.listenTo( this.collection, 'change', this.updateList );
 
 			this.updateList();
+
+			// Set the initial search count to the number of available widgets.
+			this.searchMatchesCount = this.collection.length;
 
 			// If the available widgets panel is open and the customize controls are
 			// interacted with (i.e. available widgets panel is blurred) then close the
@@ -185,6 +189,11 @@
 				}
 			} );
 
+			// Clear the search results and trigger a `keyup` event to fire a new search.
+			this.$clearResults.on( 'click', function() {
+				self.$search.val( '' ).focus().trigger( 'keyup' );
+			} );
+
 			// Close the panel if the URL in the preview changes
 			api.previewer.bind( 'url', this.close );
 		},
@@ -194,6 +203,10 @@
 			var firstVisible;
 
 			this.collection.doSearch( event.target.value );
+			// Update the search matches count.
+			this.updateSearchMatchesCount();
+			// Announce how many search results.
+			this.announceSearchMatches();
 
 			// Remove a widget from being selected if it is no longer visible
 			if ( this.selected && ! this.selected.is( ':visible' ) ) {
@@ -214,7 +227,37 @@
 					this.select( firstVisible );
 				}
 			}
+
+			// Toggle the clear search results button.
+			if ( '' !== event.target.value ) {
+				this.$clearResults.addClass( 'is-visible' );
+			} else if ( '' === event.target.value ) {
+				this.$clearResults.removeClass( 'is-visible' );
+			}
+
+			// Set a CSS class on the search container when there are no search results.
+			if ( ! this.searchMatchesCount ) {
+				this.$el.addClass( 'no-widgets-found' );
+			} else {
+				this.$el.removeClass( 'no-widgets-found' );
+			}
 		},
+
+		// Update the count of the available widgets that have the `search_matched` attribute.
+		updateSearchMatchesCount: function() {
+			this.searchMatchesCount = this.collection.where({ search_matched: true }).length;
+		},
+
+		// Send a message to the aria-live region to announce how many search results.
+		announceSearchMatches: _.debounce( function() {
+			var message = l10n.widgetsFound.replace( '%d', this.searchMatchesCount ) ;
+
+			if ( ! this.searchMatchesCount ) {
+				message = l10n.noWidgetsFound;
+			}
+
+			wp.a11y.speak( message );
+		}, 500 ),
 
 		// Changes visibility of available widgets
 		updateList: function() {

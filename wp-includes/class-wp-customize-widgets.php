@@ -733,7 +733,8 @@ final class WP_Customize_Widgets {
 				'reorderModeOn'    => __( 'Reorder mode enabled' ),
 				'reorderModeOff'   => __( 'Reorder mode closed' ),
 				'reorderLabelOn'   => esc_attr__( 'Reorder widgets' ),
-				'reorderLabelOff'  => esc_attr__( 'Close reorder mode' ),
+				'widgetsFound'     => __( 'Number of widgets found: %d' ),
+				'noWidgetsFound'   => __( 'No widgets found.' ),
 			),
 			'tpl' => array(
 				'widgetReorderNav' => $widget_reorder_nav_tpl,
@@ -777,7 +778,10 @@ final class WP_Customize_Widgets {
 			</div>
 			<div id="available-widgets-filter">
 				<label class="screen-reader-text" for="widgets-search"><?php _e( 'Search Widgets' ); ?></label>
-				<input type="search" id="widgets-search" placeholder="<?php esc_attr_e( 'Search widgets&hellip;' ) ?>" />
+				<input type="text" id="widgets-search" placeholder="<?php esc_attr_e( 'Search widgets&hellip;' ) ?>" aria-describedby="widgets-search-desc" />
+				<div class="search-icon" aria-hidden="true"></div>
+				<button type="button" class="clear-results"><span class="screen-reader-text"><?php _e( 'Clear Results' ); ?></span></button>
+				<p class="screen-reader-text" id="widgets-search-desc"><?php _e( 'The search results will be updated as you type.' ); ?></p>
 			</div>
 			<div id="available-widgets-list">
 			<?php foreach ( $this->get_available_widgets() as $available_widget ): ?>
@@ -785,6 +789,7 @@ final class WP_Customize_Widgets {
 					<?php echo $available_widget['control_tpl']; ?>
 				</div>
 			<?php endforeach; ?>
+			<p class="no-widgets-found-message"><?php _e( 'No widgets found.' ); ?></p>
 			</div><!-- #available-widgets-list -->
 		</div><!-- #available-widgets -->
 		</div><!-- #widgets-left -->

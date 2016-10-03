@@ -891,6 +891,7 @@ final class WP_Customize_Nav_Menus {
 					<p class="screen-reader-text" id="menu-items-search-desc"><?php _e( 'The search results will be updated as you type.' ); ?></p>
 					<span class="spinner"></span>
 				</div>
+				<div class="search-icon" aria-hidden="true"></div>
 				<button type="button" class="clear-results"><span class="screen-reader-text"><?php _e( 'Clear Results' ); ?></span></button>
 				<ul class="accordion-section-content available-menu-items-list" data-type="search"></ul>
 			</div>

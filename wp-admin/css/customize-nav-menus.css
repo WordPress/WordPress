@@ -688,58 +688,17 @@
 	margin: 0 20px;
 }
 
-#available-menu-items-search .clear-results {
-	position: absolute;
-	top: 18px; /* 12 container padding +1 input margin +1 input border +4 ( 4 is ( 28 input height - 20 button height ) / 2 ) */
-	right: 20px;
-	width: 20px;
-	height: 20px;
-	padding: 0;
-	border: 0;
-	cursor: pointer;
-	background: none;
-	color: #a00;
-	text-decoration: none;
-	outline: 0;
-}
-
-#available-menu-items-search .clear-results,
-#available-menu-items-search.loading .clear-results.is-visible {
-	display: none;
-}
-
-#available-menu-items-search .clear-results.is-visible {
-	display: block;
-}
-
-.ie8 #available-menu-items-search.loading .clear-results:before {
-	content: ""; /* help IE8 redraw the pseudo element */
-}
-
-#available-menu-items-search .clear-results:before {
-	content: "\f335";
-	font: normal 20px/1 dashicons;
-	vertical-align: middle;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-#available-menu-items-search .clear-results:hover,
-#available-menu-items-search .clear-results:focus {
-	color: #f00;
-}
-
 #available-menu-items-search .spinner {
 	position: absolute;
-	top: 18px; /* 12 container padding +1 input margin +1 input border +4 ( ( 28 input height - 20 button height ) / 2 ) */
-	right: 20px;
+	top: 20px; /* 13 container padding +1 input margin +6 ( ( 32 input height - 20 spinner height ) / 2 ) */
+	right: 21px;
 	margin: 0 !important;
 }
 
 /* search results list */
 #available-menu-items #available-menu-items-search .accordion-section-content {
 	position: absolute;
-	left: 1px;
+	left: 0;
 	top: 60px; /* below title div / search input */
 	bottom: 0px; /* 100% height that still triggers lazy load */
 	max-height: none;
@@ -748,6 +707,11 @@
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
+}
+
+#available-menu-items-search .nothing-found {
+	/* Compensate the 1px top padding of the container. */
+	margin-top: -1px;
 }
 
 #available-menu-items-search .accordion-section-title:after {
@@ -920,7 +884,6 @@ li.assigned-to-menu-location .add-new-menu-item {
 .customize-screen-options-toggle:focus:before,
 #customize-controls .customize-info .customize-help-toggle:focus:before,
 .wp-customizer button:focus .toggle-indicator:after,
-#available-menu-items-search .clear-results:focus,
 .menu-delete:focus,
 .menu-item-bar .item-delete:focus:before,
 #available-menu-items .item-add:focus:before {
@@ -937,19 +900,10 @@ li.assigned-to-menu-location .add-new-menu-item {
 	#available-menu-items #available-menu-items-search .accordion-section-content {
 		top: 63px;
 	}
-
-	#available-menu-items-search .spinner,
-	#available-menu-items-search .clear-results {
-		top: 20px; /* 12 container padding +1 input margin +1 input border +5.5 ( 5.5 rounded to 6 is ( 31 input height - 20 button height ) / 2 ) */
-	}
 }
 
 @media screen and ( max-width: 640px ) {
 	#available-menu-items #available-menu-items-search .accordion-section-content {
-		top: 133px;
-	}
-
-	#available-menu-items-search .clear-results {
-		top: 90px; /* 70 section title height + 12 container padding +1 input margin +1 input border +5.5 ( 5.5 rounded to 6 is ( 31 input height - 20 button height ) / 2 ) */
+		top: 130px;
 	}
 }
