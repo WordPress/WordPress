@@ -2899,21 +2899,21 @@ function wp_dependencies_unique_hosts() {
 }
 
 /**
- * Whether the user should have a WYSIWIG editor.
+ * Whether the user can access the visual editor.
  *
- * Checks that the user requires a WYSIWIG editor and that the editor is
- * supported in the users browser.
+ * Checks if the user can access the visual editor and that it's supported by the user's browser.
  *
  * @since 2.0.0
  *
- * @global bool $wp_rich_edit
- * @global bool $is_gecko
- * @global bool $is_opera
- * @global bool $is_safari
- * @global bool $is_chrome
- * @global bool $is_IE
+ * @global bool $wp_rich_edit Whether the user can access the visual editor.
+ * @global bool $is_gecko     Whether the browser is Gecko-based.
+ * @global bool $is_opera     Whether the browser is Opera.
+ * @global bool $is_safari    Whether the browser is Safari.
+ * @global bool $is_chrome    Whether the browser is Chrome.
+ * @global bool $is_IE        Whether the browser is Internet Explorer.
+ * @global bool $is_edge      Whether the browser is Microsoft Edge.
  *
- * @return bool
+ * @return bool True if the user can access the visual editor, false otherwise.
  */
 function user_can_richedit() {
 	global $wp_rich_edit, $is_gecko, $is_opera, $is_safari, $is_chrome, $is_IE, $is_edge;
@@ -2931,11 +2931,11 @@ function user_can_richedit() {
 	}
 
 	/**
-	 * Filters whether the user can access the rich (Visual) editor.
+	 * Filters whether the user can access the visual editor.
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param bool $wp_rich_edit Whether the user can access to the rich (Visual) editor.
+	 * @param bool $wp_rich_edit Whether the user can access the visual editor.
 	 */
 	return apply_filters( 'user_can_richedit', $wp_rich_edit );
 }
