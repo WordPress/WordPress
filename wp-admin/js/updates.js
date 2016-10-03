@@ -1876,6 +1876,7 @@
 
 			wp.updates.installPlugin( {
 				slug:    $button.data( 'slug' ),
+				pagenow: pagenow,
 				success: wp.updates.installImporterSuccess,
 				error:   wp.updates.installImporterError
 			} );
