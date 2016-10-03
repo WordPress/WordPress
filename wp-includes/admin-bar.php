@@ -598,7 +598,8 @@ function wp_admin_bar_edit_menu( $wp_admin_bar ) {
  			&& ( $post_type_object = get_post_type_object( $current_screen->post_type ) )
  			&& ( $post_type_object->public )
  			&& ( $post_type_object->show_in_admin_bar )
- 			&& ( get_post_type_archive_link( $post_type_object->name ) ) )
+ 			&& ( get_post_type_archive_link( $post_type_object->name ) )
+			&& ! ( 'post' === $post_type_object->name && 'posts' === get_option( 'show_on_front' ) ) )
  		{
  			$wp_admin_bar->add_node( array(
  				'id' => 'archive',
