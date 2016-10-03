@@ -3405,7 +3405,7 @@ function wp_ajax_update_theme() {
 		) );
 	}
 
-	$stylesheet = sanitize_key( wp_unslash( $_POST['slug'] ) );
+	$stylesheet = preg_replace( '/[^A-z0-9_\-]/', '', wp_unslash( $_POST['slug'] ) );
 	$status     = array(
 		'update'     => 'theme',
 		'slug'       => $stylesheet,
@@ -3490,7 +3490,7 @@ function wp_ajax_delete_theme() {
 		) );
 	}
 
-	$stylesheet = sanitize_key( wp_unslash( $_POST['slug'] ) );
+	$stylesheet = preg_replace( '/[^A-z0-9_\-]/', '', wp_unslash( $_POST['slug'] ) );
 	$status     = array(
 		'delete' => 'theme',
 		'slug'   => $stylesheet,
