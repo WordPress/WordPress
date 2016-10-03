@@ -427,7 +427,7 @@ $document.ready( function() {
 	screenMeta.init();
 
 	// This event needs to be delegated. Ticket #37973.
-	$body.on( 'click', 'tbody .check-column :checkbox', function( even ) {
+	$body.on( 'click', 'tbody .check-column :checkbox', function( event ) {
 		// Shift click to select a range of checkboxes.
 		if ( 'undefined' == event.shiftKey ) { return true; }
 		if ( event.shiftKey ) {
