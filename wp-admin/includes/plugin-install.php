@@ -109,7 +109,7 @@ function plugins_api( $action, $args = array() ) {
 	}
 
 	if ( ! isset( $args->locale ) ) {
-		$args->locale = get_locale();
+		$args->locale = get_user_locale();
 	}
 
 	/**

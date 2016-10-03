@@ -1358,6 +1358,7 @@ function validate_username( $username ) {
  * @since 2.0.0
  * @since 3.6.0 The `aim`, `jabber`, and `yim` fields were removed as default user contact
  *              methods for new installs. See wp_get_user_contact_methods().
+ * @since 4.7.0 The user's locale can be passed to `$userdata`.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1392,6 +1393,7 @@ function validate_username( $username ) {
  *     @type string|bool $show_admin_bar_front Whether to display the Admin Bar for the user on the
  *                                             site's front end. Default true.
  *     @type string      $role                 User's role.
+ *     @type string      $locale               User's locale. Default empty.
  * }
  * @return int|WP_Error The newly created user's ID or a WP_Error object if the user could not
  *                      be created.
@@ -1605,6 +1607,8 @@ function wp_insert_user( $userdata ) {
 	$user_registered = empty( $userdata['user_registered'] ) ? gmdate( 'Y-m-d H:i:s' ) : $userdata['user_registered'];
 
 	$meta['show_admin_bar_front'] = empty( $userdata['show_admin_bar_front'] ) ? 'true' : $userdata['show_admin_bar_front'];
+
+	$meta['locale'] = isset( $userdata['locale'] ) ? $userdata['locale'] : '';
 
 	$user_nicename_check = $wpdb->get_var( $wpdb->prepare("SELECT ID FROM $wpdb->users WHERE user_nicename = %s AND user_login != %s LIMIT 1" , $user_nicename, $user_login));
 
@@ -1965,7 +1969,7 @@ function wp_create_user($username, $password, $email = '') {
  * @return array List of user keys to be populated in wp_update_user().
  */
 function _get_additional_user_keys( $user ) {
-	$keys = array( 'first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front' );
+	$keys = array( 'first_name', 'last_name', 'nickname', 'description', 'rich_editing', 'comment_shortcuts', 'admin_color', 'use_ssl', 'show_admin_bar_front', 'locale' );
 	return array_merge( $keys, array_keys( wp_get_user_contact_methods( $user ) ) );
 }
 

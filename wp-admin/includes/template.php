@@ -1622,7 +1622,7 @@ do_action( "admin_head-$hook_suffix" );
 /** This action is documented in wp-admin/admin-header.php */
 do_action( 'admin_head' );
 
-$admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
+$admin_body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_user_locale() ) ) );
 
 if ( is_rtl() )
 	$admin_body_class .= ' rtl';

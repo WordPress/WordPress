@@ -269,6 +269,38 @@ if ( !( IS_PROFILE_PAGE && !$user_can_edit ) ) : ?>
 </fieldset>
 </td>
 </tr>
+
+<?php
+$languages = get_available_languages();
+if ( $languages ) : ?>
+<tr class="user-language-wrap">
+	<th scope="row">
+		<label for="site_language"><?php _e( 'Site Language' ); ?></label>
+	</th>
+	<td>
+		<?php
+		$user_locale = get_user_option( 'locale', $profileuser->ID );
+
+		if ( 'en_US' === $user_locale ) { // en_US
+			$user_locale = false;
+		} elseif ( ! in_array( $user_locale, $languages, true ) ) {
+			$user_locale = get_locale();
+		}
+
+		wp_dropdown_languages( array(
+			'name'                        => 'locale',
+			'id'                          => 'locale',
+			'selected'                    => $user_locale,
+			'languages'                   => $languages,
+			'show_available_translations' => false
+		) );
+		?>
+	</td>
+</tr>
+<?php
+endif;
+?>
+
 <?php
 /**
  * Fires at the end of the 'Personal Options' settings table on the user editing screen.

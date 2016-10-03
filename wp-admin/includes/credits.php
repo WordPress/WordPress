@@ -16,7 +16,7 @@
  */
 function wp_credits() {
 	$wp_version = get_bloginfo( 'version' );
-	$locale = get_locale();
+	$locale = get_user_locale();
 
 	$results = get_site_transient( 'wordpress_credits_' . $locale );
 

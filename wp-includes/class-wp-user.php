@@ -31,6 +31,7 @@
  * @property string $display_name
  * @property string $spam
  * @property string $deleted
+ * @property string $locale
  */
 class WP_User {
 	/**

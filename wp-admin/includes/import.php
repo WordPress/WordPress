@@ -125,13 +125,13 @@ function wp_import_handle_upload() {
 function wp_get_popular_importers() {
 	include( ABSPATH . WPINC . '/version.php' ); // include an unmodified $wp_version
 
-	$locale = get_locale();
+	$locale = get_user_locale();
 	$cache_key = 'popular_importers_' . md5( $locale . $wp_version );
 	$popular_importers = get_site_transient( $cache_key );
 
 	if ( ! $popular_importers ) {
 		$url = add_query_arg( array(
-			'locale'  => get_locale(),
+			'locale'  => get_user_locale(),
 			'version' => $wp_version,
 		), 'http://api.wordpress.org/core/importers/1.1/' );
 		$options = array( 'user-agent' => 'WordPress/' . $wp_version . '; ' . home_url() );

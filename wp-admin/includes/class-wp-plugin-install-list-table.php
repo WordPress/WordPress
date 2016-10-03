@@ -134,7 +134,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				'active_installs' => true
 			),
 			// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
-			'locale' => get_locale(),
+			'locale' => get_user_locale(),
 			'installed_plugins' => $this->get_installed_plugin_slugs(),
 		);
 

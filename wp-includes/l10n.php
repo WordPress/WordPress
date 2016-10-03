@@ -76,6 +76,23 @@ function get_locale() {
 }
 
 /**
+ * Retrieves the locale of the current user.
+ *
+ * If the user has a locale set to a non-empty string then it will be
+ * returned. Otherwise it returns the locale of get_locale().
+ *
+ * @since 4.7.0
+ *
+ * @return string The locale of the current user.
+ */
+function get_user_locale() {
+	$user = wp_get_current_user();
+
+	$locale = $user->locale;
+	return ( '' === $locale ) ? get_locale() : $locale;
+}
+
+/**
  * Retrieve the translation of $text.
  *
  * If there is no translation, or the text domain isn't loaded, the original text is returned.
@@ -633,7 +650,7 @@ function unload_textdomain( $domain ) {
  */
 function load_default_textdomain( $locale = null ) {
 	if ( null === $locale ) {
-		$locale = get_locale();
+		$locale = is_admin() ? get_user_locale() : get_locale();
 	}
 
 	// Unload previously loaded strings so we can switch translations.

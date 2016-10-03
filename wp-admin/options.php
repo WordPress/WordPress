@@ -209,19 +209,23 @@ if ( 'update' == $action ) {
 			$value = null;
 			if ( isset( $_POST[ $option ] ) ) {
 				$value = $_POST[ $option ];
-				if ( ! is_array( $value ) )
+				if ( ! is_array( $value ) ) {
 					$value = trim( $value );
+				}
 				$value = wp_unslash( $value );
 			}
 			update_option( $option, $value );
 		}
 
 		// Switch translation in case WPLANG was changed.
-		$language = get_option( 'WPLANG' );
-		if ( $language ) {
-			load_default_textdomain( $language );
-		} else {
-			unload_textdomain( 'default' );
+		$language      = get_option( 'WPLANG' );
+		$user_language = get_user_locale();
+		if ( $language === $user_language ) {
+			if ( $language ) {
+				load_default_textdomain( $language );
+			} else {
+				unload_textdomain( 'default' );
+			}
 		}
 	}
 

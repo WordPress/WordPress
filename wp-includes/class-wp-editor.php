@@ -351,7 +351,7 @@ final class _WP_Editors {
 			if ( empty( self::$first_init ) ) {
 				self::$baseurl = includes_url( 'js/tinymce' );
 
-				$mce_locale = get_locale();
+				$mce_locale = get_user_locale();
 				self::$mce_locale = $mce_locale = empty( $mce_locale ) ? 'en' : strtolower( substr( $mce_locale, 0, 2 ) ); // ISO 639-1
 
 				/** This filter is documented in wp-admin/includes/media.php */
@@ -672,7 +672,7 @@ final class _WP_Editors {
 				}
 			}
 
-			$body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
+			$body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_user_locale() ) ) );
 
 			if ( !empty($set['tinymce']['body_class']) ) {
 				$body_class .= ' ' . $set['tinymce']['body_class'];
