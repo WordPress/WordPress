@@ -339,13 +339,21 @@ function do_shortcode_tag( $m ) {
 		return $return;
 	}
 
-	if ( isset( $m[5] ) ) {
-		// enclosing tag - extra parameter
-		return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, $m[5], $tag ) . $m[6];
-	} else {
-		// self-closing tag
-		return $m[1] . call_user_func( $shortcode_tags[$tag], $attr, null,  $tag ) . $m[6];
-	}
+	$content = isset( $m[5] ) ? $m[5] : null;
+
+	$output = $m[1] . call_user_func( $shortcode_tags[ $tag ], $attr, $content, $tag ) . $m[6];
+
+	/**
+	 * Filters the output created by a shortcode callback.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param string $output Shortcode output.
+	 * @param string $tag    Shortcode name.
+	 * @param array  $attr   Shortcode attributes array,
+	 * @param array  $m      Regular expression match array.
+	 */
+	return apply_filters( 'do_shortcode_tag', $output, $tag, $attr, $m );
 }
 
 /**
