@@ -1397,7 +1397,7 @@ function update_termmeta_cache( $term_ids ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int|string $term     The term to check
+ * @param int|string $term     The term to check. Accepts term ID, slug, or name.
  * @param string     $taxonomy The taxonomy name to use
  * @param int        $parent   Optional. ID of parent term under which to confine the exists search.
  * @return mixed Returns null if the term does not exist. Returns the term ID
