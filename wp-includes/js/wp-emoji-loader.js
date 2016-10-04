@@ -14,7 +14,7 @@
 		var canvas = document.createElement( 'canvas' ),
 			context = canvas.getContext && canvas.getContext( '2d' ),
 			stringFromCharCode = String.fromCharCode,
-			flag, flag2, tonedata, tone, tone2;
+			flag, flag2, tonedata, tone, tone2, technologist, technologist2;
 
 		if ( ! context || ! context.fillText ) {
 			return false;
@@ -102,6 +102,23 @@
 				 */
 				context.fillText( stringFromCharCode( 55358, 56631 ), 0, 0 );
 				return context.getImageData( 16, 16, 1, 1 ).data[0] !== 0;
+			case 'emoji4':
+				/*
+				 * Emoji 4 has the best technologists. So does WordPress!
+				 *
+				 * To test for support, try to render a new emoji (woman technologist: medium skin tone),
+				 * then compare it to how it would look if the browser doesn't render it correctly
+				 * (woman technologist: medium skin tone + personal computer).
+				 */
+				context.fillText( stringFromCharCode( 55357, 56425, 55356, 57341, 8205, 55357, 56507), 0, 0 );
+				technologist = canvas.toDataURL();
+
+				context.clearRect( 0, 0, canvas.width, canvas.height );
+
+				context.fillText( stringFromCharCode( 55357, 56425, 55356, 57341, 55357, 56507), 0, 0 );
+				technologist2 = canvas.toDataURL();
+
+				return technologist !== technologist2;
 		}
 
 		return false;
@@ -115,7 +132,7 @@
 		document.getElementsByTagName( 'head' )[0].appendChild( script );
 	}
 
-	tests = Array( 'simple', 'flag', 'unicode8', 'diversity', 'unicode9' );
+	tests = Array( 'simple', 'flag', 'unicode8', 'diversity', 'unicode9', 'emoji4' );
 
 	settings.supports = {
 		everything: true,
