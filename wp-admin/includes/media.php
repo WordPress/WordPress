@@ -135,7 +135,7 @@ function get_image_send_to_editor( $id, $caption, $title, $align, $url = '', $re
 		$html = '<a href="' . esc_attr( $url ) . '"' . $rel . '>' . $html . '</a>';
 
 	/**
-	 * Filters the image HTML markup to send to the editor.
+	 * Filters the image HTML markup to send to the editor when inserting an image.
 	 *
 	 * @since 2.5.0
 	 *
