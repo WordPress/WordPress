@@ -551,26 +551,7 @@ if ( 'category' == $taxonomy ) {
 do_action( "{$taxonomy}_add_form", $taxonomy );
 ?>
 </form></div>
-<?php }
-
-if ( ! is_null( $tax->labels->popular_items ) ) {
-	if ( current_user_can( $tax->cap->edit_terms ) ) {
-		$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'post_type' => $post_type, 'echo' => false, 'link' => 'edit' ) );
-	} else {
-		$tag_cloud = wp_tag_cloud( array( 'taxonomy' => $taxonomy, 'echo' => false ) );
-	}
-
-	if ( $tag_cloud ) :
-	?>
-<div class="tagcloud">
-<h2><?php echo $tax->labels->popular_items; ?></h2>
-<?php echo $tag_cloud; unset( $tag_cloud ); ?>
-</div>
-<?php
-	endif;
-}
-
-?>
+<?php } ?>
 
 </div>
 </div><!-- /col-left -->
