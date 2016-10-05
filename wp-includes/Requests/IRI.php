@@ -688,10 +688,7 @@ class Requests_IRI {
 		$isauthority = $this->iuserinfo !== null || $this->ihost !== null || $this->port !== null;
 		if ($this->ipath !== '' &&
 			(
-				$isauthority && (
-					$this->ipath[0] !== '/' ||
-					substr($this->ipath, 0, 2) === '//'
-				) ||
+				$isauthority && $this->ipath[0] !== '/' ||
 				(
 					$this->scheme === null &&
 					!$isauthority &&

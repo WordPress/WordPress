@@ -332,6 +332,7 @@ class WP_Http {
 		// SSL certificate handling
 		if ( ! $r['sslverify'] ) {
 			$options['verify'] = false;
+			$options['verifyname'] = false;
 		} else {
 			$options['verify'] = $r['sslcertificates'];
 		}
@@ -361,9 +362,6 @@ class WP_Http {
 				$options['proxy']->pass = $proxy->password();
 			}
 		}
-
-		// Work around a bug in Requests when the path starts with // See https://github.com/rmccue/Requests/issues/231
-		$url = preg_replace( '!^(\w+://[^/]+)//(.*)$!i', '$1/$2', $url );
 
 		try {
 			$requests_response = Requests::request( $url, $headers, $data, $type, $options );
