@@ -1145,7 +1145,9 @@ function wp_edit_attachments_query_vars( $q = false ) {
 	}
 
 	// Filter query clauses to include filenames.
-	add_filter( 'posts_clauses', '_filter_query_attachment_filenames' );
+	if ( isset( $q['s'] ) ) {
+		add_filter( 'posts_clauses', '_filter_query_attachment_filenames' );
+	}
 
 	return $q;
 }
@@ -1164,12 +1166,14 @@ function _filter_query_attachment_filenames( $clauses ) {
 	global $wpdb;
 	remove_filter( 'posts_clauses', __FUNCTION__ );
 
-	$clauses['join'] = " INNER JOIN {$wpdb->postmeta} ON ( {$wpdb->posts}.ID = {$wpdb->postmeta}.post_id )";
+	// Add a LEFT JOIN of the postmeta table so we don't trample existing JOINs.
+	$clauses['join'] .= " LEFT JOIN {$wpdb->postmeta} AS sq1 ON ( {$wpdb->posts}.ID = sq1.post_id AND sq1.meta_key = '_wp_attached_file' )";
+
 	$clauses['groupby'] = "{$wpdb->posts}.ID";
 
 	$clauses['where'] = preg_replace(
 		"/\({$wpdb->posts}.post_content (NOT LIKE|LIKE) (\'[^']+\')\)/",
-		"$0 OR ( {$wpdb->postmeta}.meta_key = '_wp_attached_file' AND {$wpdb->postmeta}.meta_value $1 $2 )",
+		"$0 OR ( sq1.meta_value $1 $2 )",
 		$clauses['where'] );
 
 	return $clauses;
