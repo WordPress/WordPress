@@ -293,16 +293,14 @@ function is_taxonomy_hierarchical($taxonomy) {
  * @global WP    $wp            WP instance.
  *
  * @param string       $taxonomy    Taxonomy key, must not exceed 32 characters.
- * @param array|string $object_type Name of the object type for the taxonomy object.
+ * @param array|string $object_type Object type or array of object types with which the taxonomy should be associated.
  * @param array|string $args        {
  *     Optional. Array or query string of arguments for registering a taxonomy.
  *
- *     @type string        $label                 Name of the taxonomy shown in the menu. Usually plural. If not set,
- *                                                `$labels['name']` will be used.
- *     @type array         $labels                An array of labels for this taxonomy. By default, Tag labels are used for
- *                                                non-hierarchical taxonmies, and Category labels are used for hierarchical
- *                                                taxonomies. See accepted values in get_taxonomy_labels().
- *                                                Default empty array.
+ *     @type array         $labels                An array of labels for this taxonomy. By default, Tag labels are
+ *                                                used for non-hierarchical taxonomies, and Category labels are used
+ *                                                for hierarchical taxonomies. See accepted values in
+ *                                                get_taxonomy_labels(). Default empty array.
  *     @type string        $description           A short descriptive summary of what the taxonomy is for. Default empty.
  *     @type bool          $public                Whether a taxonomy is intended for use publicly either via
  *                                                the admin interface or by front-end users. The default settings
