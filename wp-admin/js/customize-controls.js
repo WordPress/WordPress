@@ -3105,6 +3105,7 @@
 
 				// Create the iframe and inject the html content.
 				self.iframe = $( '<iframe />', { 'title': api.l10n.previewIframeTitle } ).appendTo( self.container );
+				self.iframe.attr( 'onmousewheel', '' ); // Workaround for Safari bug. See WP Trac #38149.
 
 				// Bind load event after the iframe has been added to the page;
 				// otherwise it will fire when injected into the DOM.
