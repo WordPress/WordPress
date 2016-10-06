@@ -36,8 +36,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	// Don't index any of these forms
 	add_action( 'login_head', 'wp_no_robots' );
 
-	if ( wp_is_mobile() )
-		add_action( 'login_head', 'wp_login_viewport_meta' );
+	add_action( 'login_head', 'wp_login_viewport_meta' );
 
 	if ( empty($wp_error) )
 		$wp_error = new WP_Error();
@@ -124,8 +123,6 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	$login_header_title = apply_filters( 'login_headertitle', $login_header_title );
 
 	$classes = array( 'login-action-' . $action, 'wp-core-ui' );
-	if ( wp_is_mobile() )
-		$classes[] = 'mobile';
 	if ( is_rtl() )
 		$classes[] = 'rtl';
 	if ( $interim_login ) {
@@ -260,8 +257,6 @@ function login_footer($input_id = '') {
  * @since 3.0.0
  */
 function wp_shake_js() {
-	if ( wp_is_mobile() )
-		return;
 ?>
 <script type="text/javascript">
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};

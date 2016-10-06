@@ -216,19 +216,6 @@ p {
 	width: 100%;
 }
 
-.mobile #login {
-	padding: 20px 0;
-}
-
-.mobile #login form {
-	margin-right: 0;
-}
-
-.mobile #login #nav,
-.mobile #login #backtoblog {
-	margin-right: 8px;
-}
-
 body.interim-login {
 	height: auto;
 }
@@ -253,6 +240,12 @@ body.interim-login {
 
 @-ms-viewport {
 	width: device-width;
+}
+
+@media screen and ( max-height: 550px ) {
+	#login {
+		padding: 20px 0;
+	}
 }
 
 @media screen and ( max-width: 782px ) {
