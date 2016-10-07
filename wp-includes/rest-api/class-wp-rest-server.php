@@ -875,7 +875,7 @@ class WP_REST_Server {
 				}
 
 				/**
-				 * Call a filter before executing any REST API callbacks.
+				 * Filters the response before executing any REST API callbacks.
 				 *
 				 * Allows plugins to perform additional validation after a
 				 * request is initialized and matched to a registered route,
@@ -930,18 +930,18 @@ class WP_REST_Server {
 				}
 
 				/**
-				 * Call a filter immediately after executing any REST API
+				 * Filters the response immediately after executing any REST API
 				 * callbacks.
 				 *
 				 * Allows plugins to perform any needed cleanup, for example,
-				 * to undo changes made during `rest_request_before_callbacks`.
+				 * to undo changes made during the {@see 'rest_request_before_callbacks'}
+				 * filter.
 				 *
 				 * Note that this filter will not be called for requests that
 				 * fail to authenticate or match to a registered route.
 				 *
 				 * Note that an endpoint's `permission_callback` can still be
-				 * called after this filter - see the `rest_send_allow_header`
-				 * function.
+				 * called after this filter - see `rest_send_allow_header()`.
 				 *
 				 * @since 4.7.0
 				 *
