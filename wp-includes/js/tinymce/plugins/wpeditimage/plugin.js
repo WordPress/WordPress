@@ -1,6 +1,6 @@
 /* global tinymce */
 tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
-	var toolbar, serializer, touchOnImage,
+	var toolbar, serializer, touchOnImage, pasteInCaption,
 		each = tinymce.each,
 		trim = tinymce.trim,
 		iOS = tinymce.Env.iOS;
@@ -857,19 +857,63 @@ tinymce.PluginManager.add( 'wpeditimage', function( editor ) {
 				}
 			});
 		}
-    });
+	});
+
+	editor.on( 'pastePostProcess', function( event ) {
+		// Pasting in a caption node.
+		if ( editor.dom.getParent( editor.selection.getNode(), 'dd.wp-caption-dd' ) ) {
+			// Remove "non-block" elements that should not be in captions.
+			editor.$( 'img, audio, video, object, embed, iframe, script, style', event.node ).remove();
+
+			editor.$( '*', event.node ).each( function( i, node ) {
+				if ( editor.dom.isBlock( node ) ) {
+					// Insert <br> where the blocks used to be. Makes it look better after pasting in the caption.
+					if ( tinymce.trim( node.textContent || node.innerText ) ) {
+						editor.dom.insertAfter( editor.dom.create( 'br' ), node );
+						editor.dom.remove( node, true );
+					} else {
+						editor.dom.remove( node );
+					}
+				}
+			});
+
+			// Trim <br> tags.
+			editor.$( 'br',  event.node ).each( function( i, node ) {
+				if ( ! node.nextSibling || node.nextSibling.nodeName === 'BR' ||
+					! node.previousSibling || node.previousSibling.nodeName === 'BR' ) {
+
+					editor.dom.remove( node );
+				}
+			} );
+
+			// Pasted HTML is cleaned up for inserting in the caption.
+			pasteInCaption = true;
+		}
+	});
 
 	editor.on( 'BeforeExecCommand', function( event ) {
-		var node, p, DL, align, replacement,
+		var node, p, DL, align, replacement, captionParent,
 			cmd = event.command,
 			dom = editor.dom;
 
 		if ( cmd === 'mceInsertContent' ) {
-			// When inserting content, if the caret is inside a caption create new paragraph under
-			// and move the caret there
-			if ( node = dom.getParent( editor.selection.getNode(), 'div.mceTemp' ) ) {
+			node = editor.selection.getNode();
+			captionParent = dom.getParent( node, 'div.mceTemp' );
+
+			if ( captionParent ) {
+				if ( pasteInCaption ) {
+					pasteInCaption = false;
+					// We are in the caption element, and in 'paste' context,
+					// and the pasted HTML was cleaned up on 'pastePostProcess' above.
+					// Let it be pasted in the caption.
+					return;
+				}
+
+				// The paste is somewhere else in the caption DL element.
+				// Prevent pasting in there as it will break the caption.
+				// Make new paragraph under the caption DL and move the caret there.
 				p = dom.create( 'p' );
-				dom.insertAfter( p, node );
+				dom.insertAfter( p, captionParent );
 				editor.selection.setCursorLocation( p, 0 );
 				editor.nodeChanged();
 			}
