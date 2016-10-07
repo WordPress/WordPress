@@ -1060,6 +1060,13 @@ var wpNavMenu;
 					// select the search bar
 					$('.quick-search', wrapper).focus();
 
+					// Hide controls in the search tab if no items found.
+					if ( ! wrapper.find( '.tabs-panel-active .menu-item-title' ).length ) {
+						wrapper.addClass( 'has-no-menu-item' );
+					} else {
+						wrapper.removeClass( 'has-no-menu-item' );
+					}
+
 					e.preventDefault();
 				} else if ( target.hasClass('select-all') ) {
 					selectAreaMatch = /#(.*)$/.exec(e.target.href);
@@ -1192,11 +1199,13 @@ var wpNavMenu;
 			form = document.getElementById('nav-menu-meta'),
 			pattern = /menu-item[(\[^]\]*/,
 			$items = $('<div>').html(resp).find('li'),
+			wrapper = panel.closest( '.accordion-section-content' ),
 			$item;
 
 			if( ! $items.length ) {
 				$('.categorychecklist', panel).html( '<li><p>' + navMenuL10n.noResultsFound + '</p></li>' );
 				$( '.spinner', panel ).removeClass( 'is-active' );
+				wrapper.addClass( 'has-no-menu-item' );
 				return;
 			}
 
@@ -1224,6 +1233,7 @@ var wpNavMenu;
 
 			$('.categorychecklist', panel).html( $items );
 			$( '.spinner', panel ).removeClass( 'is-active' );
+			wrapper.removeClass( 'has-no-menu-item' );
 		},
 
 		removeMenuItem : function(el) {

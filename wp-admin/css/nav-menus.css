@@ -27,6 +27,10 @@ ul.add-menu-item-tabs li {
 	margin-bottom: 0;
 }
 
+.has-no-menu-item .button-controls {
+	display: none;
+}
+
 #nav-menus-frame {
 	margin-left: 300px;
 	margin-top: 23px;
