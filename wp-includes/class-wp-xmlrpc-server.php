@@ -717,9 +717,9 @@ class wp_xmlrpc_server extends IXR_Server {
 		 *
 		 * @since 3.4.0
 		 *
-		 * @param array  $_taxonomy An array of taxonomy data.
-		 * @param object $taxonomy  Taxonomy object.
-		 * @param array  $fields    The subset of taxonomy fields to return.
+		 * @param array       $_taxonomy An array of taxonomy data.
+		 * @param WP_Taxonomy $taxonomy  Taxonomy object.
+		 * @param array       $fields    The subset of taxonomy fields to return.
 		 */
 		return apply_filters( 'xmlrpc_prepare_taxonomy', $_taxonomy, $taxonomy, $fields );
 	}

@@ -187,6 +187,7 @@ require( ABSPATH . WPINC . '/cron.php' );
 require( ABSPATH . WPINC . '/deprecated.php' );
 require( ABSPATH . WPINC . '/script-loader.php' );
 require( ABSPATH . WPINC . '/taxonomy.php' );
+require( ABSPATH . WPINC . '/class-wp-taxonomy.php' );
 require( ABSPATH . WPINC . '/class-wp-term.php' );
 require( ABSPATH . WPINC . '/class-wp-term-query.php' );
 require( ABSPATH . WPINC . '/class-wp-tax-query.php' );

@@ -134,9 +134,9 @@ function wp_ajax_ajax_tag_search() {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param int    $characters The minimum number of characters required. Default 2.
-	 * @param object $tax        The taxonomy object.
-	 * @param string $s          The search term.
+	 * @param int         $characters The minimum number of characters required. Default 2.
+	 * @param WP_Taxonomy $tax        The taxonomy object.
+	 * @param string      $s          The search term.
 	 */
 	$term_search_min_chars = (int) apply_filters( 'term_search_min_chars', 2, $tax, $s );
 
