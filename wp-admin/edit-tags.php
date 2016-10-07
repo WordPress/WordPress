@@ -64,7 +64,7 @@ $referer = wp_get_referer();
 if ( ! $referer ) { // For POST requests.
 	$referer = wp_unslash( $_SERVER['REQUEST_URI'] );
 }
-$referer = remove_query_arg( array( '_wp_http_referer', '_wpnonce', 'error', 'message' ), $referer );
+$referer = remove_query_arg( array( '_wp_http_referer', '_wpnonce', 'error', 'message', 'paged' ), $referer );
 
 switch ( $wp_list_table->current_action() ) {
 
@@ -195,7 +195,9 @@ if ( ! $location && ! empty( $_REQUEST['_wp_http_referer'] ) ) {
 }
 
 if ( $location ) {
-	$location = add_query_arg( 'paged', $pagenum, $location ); // $pagenum takes care of $total_pages.
+	if ( $pagenum > 1 ) {
+		$location = add_query_arg( 'paged', $pagenum, $location ); // $pagenum takes care of $total_pages.
+	}
 
 	/**
 	 * Filters the taxonomy redirect destination URL.
