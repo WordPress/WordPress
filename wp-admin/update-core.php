@@ -589,9 +589,16 @@ if ( 'upgrade-core' == $action ) {
 		echo '</p></div>';
 	}
 
+	$last_update_check = false;
+	$current = get_site_transient( 'update_core' );
+
+	if ( $current && isset ( $current->last_checked ) )	{
+		$last_update_check = $current->last_checked + get_option( 'gmt_offset' ) * HOUR_IN_SECONDS;
+	}
+
 	echo '<p>';
 	/* translators: %1 date, %2 time. */
-	printf( __( 'Last checked on %1$s at %2$s.' ), date_i18n( __( 'F j, Y' ) ), date_i18n( __( 'g:i a' ) ) );
+	printf( __( 'Last checked on %1$s at %2$s.' ), date_i18n( __( 'F j, Y' ), $last_update_check ), date_i18n( __( 'g:i a' ), $last_update_check ) );
 	echo ' &nbsp; <a class="button" href="' . esc_url( self_admin_url('update-core.php?force-check=1') ) . '">' . __( 'Check Again' ) . '</a>';
 	echo '</p>';
 
