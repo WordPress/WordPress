@@ -54,11 +54,13 @@ function check_comment($author, $email, $url, $comment, $user_ip, $user_agent, $
 		 * Filters the number of links found in a comment.
 		 *
 		 * @since 3.0.0
+		 * @since 4.7.0 Added the `$comment` parameter.
 		 *
 		 * @param int    $num_links The number of links found.
 		 * @param string $url       Comment author's URL. Included in allowed links total.
+		 * @param string $comment   Content of the comment.
 		 */
-		$num_links = apply_filters( 'comment_max_links_url', $num_links, $url );
+		$num_links = apply_filters( 'comment_max_links_url', $num_links, $url, $comment );
 
 		/*
 		 * If the number of links in the comment exceeds the allowed amount,
