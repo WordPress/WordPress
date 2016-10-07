@@ -747,6 +747,10 @@ function wp_setup_nav_menu_item( $menu_item ) {
 					$menu_item->_invalid = true;
 				}
 
+				if ( 'trash' === get_post_status( $menu_item->object_id ) ) {
+					$menu_item->_invalid = true;
+				}
+
 				$menu_item->url = get_permalink( $menu_item->object_id );
 
 				$original_object = get_post( $menu_item->object_id );
