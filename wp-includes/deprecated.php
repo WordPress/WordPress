@@ -3758,3 +3758,17 @@ function wp_embed_handler_googlevideo( $matches, $attr, $url, $rawattr ) {
 
 	return '';
 }
+
+/**
+ * Retrieve path of paged template in current or parent template.
+ *
+ * @since 1.5.0
+ * @deprecated 4.7.0 The paged.php template is no longer part of the theme template heirarchy.
+ *
+ * @return string Full path to paged template file.
+ */
+function get_paged_template() {
+	_deprecated_function( __FUNCTION__, '4.7.0' );
+
+	return get_query_template( 'paged' );
+}

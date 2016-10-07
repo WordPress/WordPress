@@ -382,22 +382,6 @@ function get_page_template() {
 }
 
 /**
- * Retrieve path of paged template in current or parent template.
- *
- * The template hierarchy is filterable via the {@see 'paged_template_hierarchy'} hook.
- * The template path is filterable via the {@see 'paged_template'} hook.
- *
- * @since 1.5.0
- *
- * @see get_query_template()
- *
- * @return string Full path to paged template file.
- */
-function get_paged_template() {
-	return get_query_template('paged');
-}
-
-/**
  * Retrieve path of search template in current or parent template.
  *
  * The template hierarchy is filterable via the {@see 'search_template_hierarchy'} hook.
