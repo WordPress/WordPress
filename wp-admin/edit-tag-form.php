@@ -78,11 +78,6 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 		/* translators: %s: taxonomy name */
 		printf( _x( '&larr; Back to %s', 'admin screen' ), $tax->labels->name );
 	?></a></p>
-	<?php } else { ?>
-	<p><a href="<?php echo esc_url( wp_get_referer() ); ?>"><?php
-		/* translators: %s: taxonomy name */
-		printf( _x( '&larr; Back to %s', 'admin screen' ), $tax->labels->name );
-	?></a></p>
 	<?php } ?>
 </div>
 <?php endif; ?>
