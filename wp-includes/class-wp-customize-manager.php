@@ -1004,6 +1004,13 @@ final class WP_Customize_Manager {
 			}
 			$validity = $setting->validate( $unsanitized_value );
 			if ( ! is_wp_error( $validity ) ) {
+				/** This filter is documented in wp-includes/class-wp-customize-setting.php */
+				$late_validity = apply_filters( "customize_validate_{$setting->id}", new WP_Error(), $unsanitized_value, $setting );
+				if ( ! empty( $late_validity->errors ) ) {
+					$validity = $late_validity;
+				}
+			}
+			if ( ! is_wp_error( $validity ) ) {
 				$value = $setting->sanitize( $unsanitized_value );
 				if ( is_null( $value ) ) {
 					$validity = false;
