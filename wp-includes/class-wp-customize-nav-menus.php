@@ -895,68 +895,110 @@ final class WP_Customize_Nav_Menus {
 				<button type="button" class="clear-results"><span class="screen-reader-text"><?php _e( 'Clear Results' ); ?></span></button>
 				<ul class="accordion-section-content available-menu-items-list" data-type="search"></ul>
 			</div>
-			<div id="new-custom-menu-item" class="accordion-section">
-				<h4 class="accordion-section-title" role="presentation">
-					<?php _e( 'Custom Links' ); ?>
-					<button type="button" class="button-link" aria-expanded="false">
-						<span class="screen-reader-text"><?php _e( 'Toggle section: Custom Links' ); ?></span>
-						<span class="toggle-indicator" aria-hidden="true"></span>
-					</button>
-				</h4>
-				<div class="accordion-section-content customlinkdiv">
-					<input type="hidden" value="custom" id="custom-menu-item-type" name="menu-item[-1][menu-item-type]" />
-					<p id="menu-item-url-wrap" class="wp-clearfix">
-						<label class="howto" for="custom-menu-item-url"><?php _e( 'URL' ); ?></label>
-						<input id="custom-menu-item-url" name="menu-item[-1][menu-item-url]" type="text" class="code menu-item-textbox" value="http://">
-					</p>
-					<p id="menu-item-name-wrap" class="wp-clearfix">
-						<label class="howto" for="custom-menu-item-name"><?php _e( 'Link Text' ); ?></label>
-						<input id="custom-menu-item-name" name="menu-item[-1][menu-item-title]" type="text" class="regular-text menu-item-textbox">
-					</p>
-					<p class="button-controls">
-						<span class="add-to-menu">
-							<input type="submit" class="button submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-custom-menu-item" id="custom-menu-item-submit">
-							<span class="spinner"></span>
-						</span>
-					</p>
-				</div>
-			</div>
 			<?php
 
+			// Ensure the page post type comes first in the list.
+			$item_types = $this->available_item_types();
+			$page_item_type = null;
+			foreach ( $item_types as $i => $item_type ) {
+				if ( isset( $item_type['object'] ) && 'page' === $item_type['object'] ) {
+					$page_item_type = $item_type;
+					unset( $item_types[ $i ] );
+				}
+			}
+
+			if ( $page_item_type ) {
+				$this->print_post_type_container( $page_item_type );
+			}
+			$this->print_custom_links_available_menu_item();
 			// Containers for per-post-type item browsing; items are added with JS.
-			foreach ( $this->available_item_types() as $available_item_type ) {
-				$id = sprintf( 'available-menu-items-%s-%s', $available_item_type['type'], $available_item_type['object'] );
-				?>
-				<div id="<?php echo esc_attr( $id ); ?>" class="accordion-section">
-					<h4 class="accordion-section-title" role="presentation">
-						<?php echo esc_html( $available_item_type['title'] ); ?>
-						<span class="spinner"></span>
-						<span class="no-items"><?php _e( 'No items' ); ?></span>
-						<button type="button" class="button-link" aria-expanded="false">
-							<span class="screen-reader-text"><?php
-							/* translators: %s: Title of a section with menu items */
-							printf( __( 'Toggle section: %s' ), esc_html( $available_item_type['title'] ) ); ?></span>
-							<span class="toggle-indicator" aria-hidden="true"></span>
-						</button>
-					</h4>
-					<div class="accordion-section-content">
-						<?php if ( 'post_type' === $available_item_type['type'] ) : ?>
-							<?php $post_type_obj = get_post_type_object( $available_item_type['object'] ); ?>
-							<?php if ( current_user_can( $post_type_obj->cap->create_posts ) && current_user_can( $post_type_obj->cap->publish_posts ) ) : ?>
-								<div class="new-content-item">
-									<input type="text" class="create-item-input" placeholder="<?php echo esc_attr( $post_type_obj->labels->add_new_item ); ?>">
-									<button type="button" class="button add-content"><?php _e( 'Add' ); ?></button>
-								</div>
-							<?php endif; ?>
-						<?php endif; ?>
-						<ul class="available-menu-items-list" data-type="<?php echo esc_attr( $available_item_type['type'] ); ?>" data-object="<?php echo esc_attr( $available_item_type['object'] ); ?>" data-type_label="<?php echo esc_attr( isset( $available_item_type['type_label'] ) ? $available_item_type['type_label'] : $available_item_type['type'] ); ?>"></ul>
-					</div>
-				</div>
-				<?php
+			foreach ( $item_types as $item_type ) {
+				$this->print_post_type_container( $item_type );
 			}
 			?>
 		</div><!-- #available-menu-items -->
 	<?php
+	}
+
+	/**
+	 * Print the markup for new menu items.
+	 *
+	 * To be used in the template #available-menu-items.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @param array $available_item_type Menu item data to output, including title, type, and label.
+	 * @return void
+	 */
+	protected function print_post_type_container( $available_item_type ) {
+		$id = sprintf( 'available-menu-items-%s-%s', $available_item_type['type'], $available_item_type['object'] );
+		?>
+		<div id="<?php echo esc_attr( $id ); ?>" class="accordion-section">
+			<h4 class="accordion-section-title" role="presentation">
+				<?php echo esc_html( $available_item_type['title'] ); ?>
+				<span class="spinner"></span>
+				<span class="no-items"><?php _e( 'No items' ); ?></span>
+				<button type="button" class="button-link" aria-expanded="false">
+					<span class="screen-reader-text"><?php
+						/* translators: %s: Title of a section with menu items */
+						printf( __( 'Toggle section: %s' ), esc_html( $available_item_type['title'] ) ); ?></span>
+					<span class="toggle-indicator" aria-hidden="true"></span>
+				</button>
+			</h4>
+			<div class="accordion-section-content">
+				<?php if ( 'post_type' === $available_item_type['type'] ) : ?>
+					<?php $post_type_obj = get_post_type_object( $available_item_type['object'] ); ?>
+					<?php if ( current_user_can( $post_type_obj->cap->create_posts ) && current_user_can( $post_type_obj->cap->publish_posts ) ) : ?>
+						<div class="new-content-item">
+							<input type="text" class="create-item-input" placeholder="<?php echo esc_attr( $post_type_obj->labels->add_new_item ); ?>">
+							<button type="button" class="button add-content"><?php _e( 'Add' ); ?></button>
+						</div>
+					<?php endif; ?>
+				<?php endif; ?>
+				<ul class="available-menu-items-list" data-type="<?php echo esc_attr( $available_item_type['type'] ); ?>" data-object="<?php echo esc_attr( $available_item_type['object'] ); ?>" data-type_label="<?php echo esc_attr( isset( $available_item_type['type_label'] ) ? $available_item_type['type_label'] : $available_item_type['type'] ); ?>"></ul>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Print the markup for available menu item custom links.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @return void
+	 */
+	protected function print_custom_links_available_menu_item() {
+		?>
+		<div id="new-custom-menu-item" class="accordion-section">
+			<h4 class="accordion-section-title" role="presentation">
+				<?php _e( 'Custom Links' ); ?>
+				<button type="button" class="button-link" aria-expanded="false">
+					<span class="screen-reader-text"><?php _e( 'Toggle section: Custom Links' ); ?></span>
+					<span class="toggle-indicator" aria-hidden="true"></span>
+				</button>
+			</h4>
+			<div class="accordion-section-content customlinkdiv">
+				<input type="hidden" value="custom" id="custom-menu-item-type" name="menu-item[-1][menu-item-type]" />
+				<p id="menu-item-url-wrap" class="wp-clearfix">
+					<label class="howto" for="custom-menu-item-url"><?php _e( 'URL' ); ?></label>
+					<input id="custom-menu-item-url" name="menu-item[-1][menu-item-url]" type="text" class="code menu-item-textbox" value="http://">
+				</p>
+				<p id="menu-item-name-wrap" class="wp-clearfix">
+					<label class="howto" for="custom-menu-item-name"><?php _e( 'Link Text' ); ?></label>
+					<input id="custom-menu-item-name" name="menu-item[-1][menu-item-title]" type="text" class="regular-text menu-item-textbox">
+				</p>
+				<p class="button-controls">
+					<span class="add-to-menu">
+						<input type="submit" class="button submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu' ); ?>" name="add-custom-menu-item" id="custom-menu-item-submit">
+						<span class="spinner"></span>
+					</span>
+				</p>
+			</div>
+		</div>
+		<?php
 	}
 
 	//

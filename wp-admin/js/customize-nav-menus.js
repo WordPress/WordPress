@@ -397,6 +397,8 @@
 					}
 					self.pages[ type + ':' + object ] = -1;
 					return;
+				} else if ( 'page' === object ) {
+					availableMenuItemContainer.find( '.accordion-section-title > button' ).click();
 				}
 				items = new api.Menus.AvailableItemCollection( items ); // @todo Why is this collection created and then thrown away?
 				self.collection.add( items.models );
