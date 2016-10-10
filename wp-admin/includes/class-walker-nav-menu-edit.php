@@ -197,16 +197,14 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					</label>
 				</p>
 
-				<p class="field-move hide-if-no-js description description-wide">
-					<label>
-						<span><?php _e( 'Move' ); ?></span>
-						<a href="#" class="menus-move menus-move-up" data-dir="up"><?php _e( 'Up one' ); ?></a>
-						<a href="#" class="menus-move menus-move-down" data-dir="down"><?php _e( 'Down one' ); ?></a>
-						<a href="#" class="menus-move menus-move-left" data-dir="left"></a>
-						<a href="#" class="menus-move menus-move-right" data-dir="right"></a>
-						<a href="#" class="menus-move menus-move-top" data-dir="top"><?php _e( 'To the top' ); ?></a>
-					</label>
-				</p>
+				<fieldset class="field-move hide-if-no-js description description-wide">
+					<span class="field-move-visual-label" aria-hidden="true"><?php _e( 'Move' ); ?></span>
+					<button type="button" class="button-link menus-move menus-move-up" data-dir="up"><?php _e( 'Up one' ); ?></button>
+					<button type="button" class="button-link menus-move menus-move-down" data-dir="down"><?php _e( 'Down one' ); ?></button>
+					<button type="button" class="button-link menus-move menus-move-left" data-dir="left"></button>
+					<button type="button" class="button-link menus-move menus-move-right" data-dir="right"></button>
+					<button type="button" class="button-link menus-move menus-move-top" data-dir="top"><?php _e( 'To the top' ); ?></button>
+				</fieldset>
 
 				<div class="menu-item-actions description-wide submitbox">
 					<?php if ( 'custom' != $item->type && $original_title !== false ) : ?>

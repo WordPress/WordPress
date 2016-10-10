@@ -406,14 +406,13 @@ var wpNavMenu;
 			} );
 
 			// Links for moving items
-			menu.on( 'click', '.menus-move', function ( e ) {
+			menu.on( 'click', '.menus-move', function () {
 				var $this = $( this ),
 					dir = $this.data( 'dir' );
 
 				if ( 'undefined' !== typeof dir ) {
 					api.moveMenuItem( $( this ).parents( 'li.menu-item' ).find( 'a.item-edit' ), dir );
 				}
-				e.preventDefault();
 			});
 		},
 
@@ -515,8 +514,8 @@ var wpNavMenu;
 		 */
 		refreshAdvancedAccessibility : function() {
 
-			// Hide all links by default
-			$( '.menu-item-settings .field-move a' ).hide();
+			// Hide all the move buttons by default.
+			$( '.menu-item-settings .field-move .menus-move' ).hide();
 
 			// Mark all menu items as unprocessed
 			$( 'a.item-edit' ).data( 'needs_accessibility_refresh', true );
