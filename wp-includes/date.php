@@ -63,13 +63,6 @@ class WP_Date_Query {
 	public $time_keys = array( 'after', 'before', 'year', 'month', 'monthnum', 'week', 'w', 'dayofyear', 'day', 'dayofweek', 'dayofweek_iso', 'hour', 'minute', 'second' );
 
 	/**
-	 * @since 4.7.0
-	 * @access protected
-	 * @var wpdb
-	 */
-	protected $db;
-
-	/**
 	 * Constructor.
 	 *
 	 * Time-related parameters that normally require integer values ('year', 'month', 'week', 'dayofyear', 'day',
@@ -158,8 +151,6 @@ class WP_Date_Query {
 	 *                              'comment_date', 'comment_date_gmt'.
 	 */
 	public function __construct( $date_query, $default_column = 'post_date' ) {
-		$this->db = $GLOBALS['wpdb'];
-
 		if ( isset( $date_query['relation'] ) && 'OR' === strtoupper( $date_query['relation'] ) ) {
 			$this->relation = 'OR';
 		} else {
@@ -494,6 +485,8 @@ class WP_Date_Query {
 	 * @return string A validated column name value.
 	 */
 	public function validate_column( $column ) {
+		global $wpdb;
+
 		$valid_columns = array(
 			'post_date', 'post_date_gmt', 'post_modified',
 			'post_modified_gmt', 'comment_date', 'comment_date_gmt',
@@ -518,20 +511,20 @@ class WP_Date_Query {
 			}
 
 			$known_columns = array(
-				$this->db->posts => array(
+				$wpdb->posts => array(
 					'post_date',
 					'post_date_gmt',
 					'post_modified',
 					'post_modified_gmt',
 				),
-				$this->db->comments => array(
+				$wpdb->comments => array(
 					'comment_date',
 					'comment_date_gmt',
 				),
-				$this->db->users => array(
+				$wpdb->users => array(
 					'user_registered',
 				),
-				$this->db->blogs => array(
+				$wpdb->blogs => array(
 					'registered',
 					'last_updated',
 				),
@@ -723,6 +716,8 @@ class WP_Date_Query {
 	 * }
 	 */
 	protected function get_sql_for_clause( $query, $parent_query ) {
+		global $wpdb;
+
 		// The sub-parts of a $where part.
 		$where_parts = array();
 
@@ -745,10 +740,10 @@ class WP_Date_Query {
 
 		// Range queries.
 		if ( ! empty( $query['after'] ) ) {
-			$where_parts[] = $this->db->prepare( "$column $gt %s", $this->build_mysql_datetime( $query['after'], ! $inclusive ) );
+			$where_parts[] = $wpdb->prepare( "$column $gt %s", $this->build_mysql_datetime( $query['after'], ! $inclusive ) );
 		}
 		if ( ! empty( $query['before'] ) ) {
-			$where_parts[] = $this->db->prepare( "$column $lt %s", $this->build_mysql_datetime( $query['before'], $inclusive ) );
+			$where_parts[] = $wpdb->prepare( "$column $lt %s", $this->build_mysql_datetime( $query['before'], $inclusive ) );
 		}
 		// Specific value queries.
 
@@ -962,6 +957,8 @@ class WP_Date_Query {
 	 * @return string|false A query part or false on failure.
 	 */
 	public function build_time_query( $column, $compare, $hour = null, $minute = null, $second = null ) {
+		global $wpdb;
+
 		// Have to have at least one
 		if ( ! isset( $hour ) && ! isset( $minute ) && ! isset( $second ) )
 			return false;
@@ -1015,6 +1012,6 @@ class WP_Date_Query {
 			$time   .= sprintf( '%02d', $second );
 		}
 
-		return $this->db->prepare( "DATE_FORMAT( $column, %s ) $compare %f", $format, $time );
+		return $wpdb->prepare( "DATE_FORMAT( $column, %s ) $compare %f", $format, $time );
 	}
 }

@@ -106,13 +106,6 @@ class WP_Meta_Query {
 	protected $has_or_relation = false;
 
 	/**
-	 * @since 4.7.0
-	 * @access protected
-	 * @var wpdb
-	 */
-	protected $db;
-
-	/**
 	 * Constructor.
 	 *
 	 * @since 3.2.0
@@ -144,11 +137,8 @@ class WP_Meta_Query {
 	 * }
 	 */
 	public function __construct( $meta_query = false ) {
-		$this->db = $GLOBALS['wpdb'];
-
-		if ( ! $meta_query ) {
+		if ( !$meta_query )
 			return;
-		}
 
 		if ( isset( $meta_query['relation'] ) && strtoupper( $meta_query['relation'] ) == 'OR' ) {
 			$this->relation = 'OR';
@@ -494,6 +484,8 @@ class WP_Meta_Query {
 	 * @since 4.1.0
 	 * @access public
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @param array  $clause       Query clause, passed by reference.
 	 * @param array  $parent_query Parent query array.
 	 * @param string $clause_key   Optional. The array key used to name the clause in the original `$meta_query`
@@ -506,6 +498,8 @@ class WP_Meta_Query {
 	 * }
 	 */
 	public function get_sql_for_clause( &$clause, $parent_query, $clause_key = '' ) {
+		global $wpdb;
+
 		$sql_chunks = array(
 			'where' => array(),
 			'join' => array(),
@@ -543,7 +537,7 @@ class WP_Meta_Query {
 			if ( 'NOT EXISTS' === $meta_compare ) {
 				$join .= " LEFT JOIN $this->meta_table";
 				$join .= $i ? " AS $alias" : '';
-				$join .= $this->db->prepare( " ON ($this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column AND $alias.meta_key = %s )", $clause['key'] );
+				$join .= $wpdb->prepare( " ON ($this->primary_table.$this->primary_id_column = $alias.$this->meta_id_column AND $alias.meta_key = %s )", $clause['key'] );
 
 			// All other JOIN clauses.
 			} else {
@@ -587,7 +581,7 @@ class WP_Meta_Query {
 			if ( 'NOT EXISTS' === $meta_compare ) {
 				$sql_chunks['where'][] = $alias . '.' . $this->meta_id_column . ' IS NULL';
 			} else {
-				$sql_chunks['where'][] = $this->db->prepare( "$alias.meta_key = %s", trim( $clause['key'] ) );
+				$sql_chunks['where'][] = $wpdb->prepare( "$alias.meta_key = %s", trim( $clause['key'] ) );
 			}
 		}
 
@@ -607,25 +601,25 @@ class WP_Meta_Query {
 				case 'IN' :
 				case 'NOT IN' :
 					$meta_compare_string = '(' . substr( str_repeat( ',%s', count( $meta_value ) ), 1 ) . ')';
-					$where = $this->db->prepare( $meta_compare_string, $meta_value );
+					$where = $wpdb->prepare( $meta_compare_string, $meta_value );
 					break;
 
 				case 'BETWEEN' :
 				case 'NOT BETWEEN' :
 					$meta_value = array_slice( $meta_value, 0, 2 );
-					$where = $this->db->prepare( '%s AND %s', $meta_value );
+					$where = $wpdb->prepare( '%s AND %s', $meta_value );
 					break;
 
 				case 'LIKE' :
 				case 'NOT LIKE' :
-					$meta_value = '%' . $this->db->esc_like( $meta_value ) . '%';
-					$where = $this->db->prepare( '%s', $meta_value );
+					$meta_value = '%' . $wpdb->esc_like( $meta_value ) . '%';
+					$where = $wpdb->prepare( '%s', $meta_value );
 					break;
 
 				// EXISTS with a value is interpreted as '='.
 				case 'EXISTS' :
 					$meta_compare = '=';
-					$where = $this->db->prepare( '%s', $meta_value );
+					$where = $wpdb->prepare( '%s', $meta_value );
 					break;
 
 				// 'value' is ignored for NOT EXISTS.
@@ -634,7 +628,7 @@ class WP_Meta_Query {
 					break;
 
 				default :
-					$where = $this->db->prepare( '%s', $meta_value );
+					$where = $wpdb->prepare( '%s', $meta_value );
 					break;
 
 			}
