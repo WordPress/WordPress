@@ -354,9 +354,13 @@ tinymce.PluginManager.add('charmap', function(editor) {
 				var index = y * width + x;
 				if (index < charmap.length) {
 					var chr = charmap[index];
+					var chrText = chr ? String.fromCharCode(parseInt(chr[0], 10)) : '&nbsp;';
 
-					gridHtml += '<td title="' + chr[1] + '"><div tabindex="-1" title="' + chr[1] + '" role="button">' +
-						(chr ? String.fromCharCode(parseInt(chr[0], 10)) : '&nbsp;') + '</div></td>';
+					gridHtml += (
+						'<td title="' + chr[1] + '"><div tabindex="-1" title="' + chr[1] + '" role="button" data-chr="' + chrText + '">' +
+							chrText +
+						'</div></td>'
+					);
 				} else {
 					gridHtml += '<td />';
 				}
@@ -375,7 +379,7 @@ tinymce.PluginManager.add('charmap', function(editor) {
 
 				if (/^(TD|DIV)$/.test(target.nodeName)) {
 					if (getParentTd(target).firstChild) {
-						insertChar(tinymce.trim(target.innerText || target.textContent));
+						insertChar(target.getAttribute('data-chr'));
 
 						if (!e.ctrlKey) {
 							win.close();
