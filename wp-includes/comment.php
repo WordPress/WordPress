@@ -588,13 +588,19 @@ function sanitize_comment_cookies() {
  * Validates whether this comment is allowed to be made.
  *
  * @since 2.0.0
+ * @since 4.7.0 The `$avoid_die` parameter was added, allowing the function to
+ *              return a WP_Error object instead of dying.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param array $commentdata Contains information on the comment
- * @return int|string Signifies the approval status (0|1|'spam')
+ * @param array $commentdata Contains information on the comment.
+ * @param bool  $avoid_die   When true, a disallowed comment will result in the function
+ *                           returning a WP_Error object, rather than executing wp_die().
+ *                           Default false.
+ * @return int|string|WP_Error Allowed comments return the approval status (0|1|'spam').
+ *                             If `$avoid_die` is true, disallowed comments return a WP_Error.
  */
-function wp_allow_comment( $commentdata ) {
+function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	global $wpdb;
 
 	// Simple duplicate check
@@ -639,10 +645,15 @@ function wp_allow_comment( $commentdata ) {
 		 * @param array $commentdata Comment data.
 		 */
 		do_action( 'comment_duplicate_trigger', $commentdata );
-		if ( wp_doing_ajax() ) {
-			die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
+		if ( true === $avoid_die ) {
+			return new WP_Error( 'comment_duplicate', __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ), $dupe_id );
+		} else {
+			if ( wp_doing_ajax() ) {
+				die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
+			}
+
+			wp_die( __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ), 409 );
 		}
-		wp_die( __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ), 409 );
 	}
 
 	/**
@@ -651,17 +662,48 @@ function wp_allow_comment( $commentdata ) {
 	 * Allows checking for comment flooding.
 	 *
 	 * @since 2.3.0
+	 * @since 4.7.0 The `$avoid_die` parameter was added.
 	 *
 	 * @param string $comment_author_IP    Comment author's IP address.
 	 * @param string $comment_author_email Comment author's email.
 	 * @param string $comment_date_gmt     GMT date the comment was posted.
+	 * @param bool   $avoid_die            Whether to prevent executing wp_die()
+	 *                                     or die() if a comment flood is occurring.
 	 */
 	do_action(
 		'check_comment_flood',
 		$commentdata['comment_author_IP'],
 		$commentdata['comment_author_email'],
-		$commentdata['comment_date_gmt']
+		$commentdata['comment_date_gmt'],
+		$avoid_die
 	);
+
+	/**
+	 * Filters whether a comment is part of a comment flood.
+	 *
+	 * The default check is wp_check_comment_flood(). See check_comment_flood_db().
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param bool   $is_flood             Is a comment flooding occurring? Default false.
+	 * @param string $comment_author_IP    Comment author's IP address.
+	 * @param string $comment_author_email Comment author's email.
+	 * @param string $comment_date_gmt     GMT date the comment was posted.
+	 * @param bool   $avoid_die            Whether to prevent executing wp_die()
+	 *                                     or die() if a comment flood is occurring.
+	 */
+	$is_flood = apply_filters(
+		'wp_is_comment_flood',
+		false,
+		$commentdata['comment_author_IP'],
+		$commentdata['comment_author_email'],
+		$commentdata['comment_date_gmt'],
+		$avoid_die
+	);
+
+	if ( $is_flood ) {
+		return new WP_Error( 'comment_flood', __( 'You are posting comments too quickly. Slow down.' ) );
+	}
 
 	if ( ! empty( $commentdata['user_id'] ) ) {
 		$user = get_userdata( $commentdata['user_id'] );
@@ -715,24 +757,50 @@ function wp_allow_comment( $commentdata ) {
 }
 
 /**
- * Check whether comment flooding is occurring.
+ * Hooks WP's native database-based comment-flood check.
+ *
+ * This wrapper maintains backward compatibility with plugins that expect to
+ * be able to unhook the legacy check_comment_flood_db() function from
+ * 'check_comment_flood' using remove_action().
+ *
+ * @since 2.3.0
+ * @since 4.7.0 Converted to be an add_filter() wrapper.
+ */
+function check_comment_flood_db() {
+	add_filter( 'wp_is_comment_flood', 'wp_check_comment_flood', 10, 5 );
+}
+
+/**
+ * Checks whether comment flooding is occurring.
  *
  * Won't run, if current user can manage options, so to not block
  * administrators.
  *
- * @since 2.3.0
+ * @since 4.7.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $ip Comment IP.
- * @param string $email Comment author email address.
- * @param string $date MySQL time string.
+ * @param bool   $is_flood  Is a comment flooding occurring?
+ * @param string $ip        Comment IP.
+ * @param string $email     Comment author email address.
+ * @param string $date      MySQL time string.
+ * @param bool   $avoid_die When true, a disallowed comment will result in the function
+ *                          returning a WP_Error object, rather than executing wp_die().
+ *                          Default false.
+ * @return bool Whether comment flooding is occurring.
  */
-function check_comment_flood_db( $ip, $email, $date ) {
+function wp_check_comment_flood( $is_flood, $ip, $email, $date, $avoid_die = false ) {
+
 	global $wpdb;
+
+	// Another callback has declared a flood. Trust it.
+	if ( true === $is_flood ) {
+		return $is_flood;
+	}
+
 	// don't throttle admins or moderators
 	if ( current_user_can( 'manage_options' ) || current_user_can( 'moderate_comments' ) ) {
-		return;
+		return false;
 	}
 	$hour_ago = gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS );
 
@@ -774,13 +842,19 @@ function check_comment_flood_db( $ip, $email, $date ) {
 			 * @param int $time_newcomment  Timestamp of when the new comment was posted.
 			 */
 			do_action( 'comment_flood_trigger', $time_lastcomment, $time_newcomment );
+			if ( true === $avoid_die ) {
+				return true;
+			} else {
+				if ( wp_doing_ajax() ) {
+					die( __('You are posting comments too quickly. Slow down.') );
+				}
 
-			if ( wp_doing_ajax() )
-				die( __('You are posting comments too quickly. Slow down.') );
-
-			wp_die( __( 'You are posting comments too quickly. Slow down.' ), 429 );
+				wp_die( __( 'You are posting comments too quickly. Slow down.' ), 429 );
+			}
 		}
 	}
+
+	return false;
 }
 
 /**
@@ -1730,6 +1804,8 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  *
  * @since 1.5.0
  * @since 4.3.0 'comment_agent' and 'comment_author_IP' can be set via `$commentdata`.
+ * @since 4.7.0 The `$avoid_die` parameter was added, allowing the function to
+ *              return a WP_Error object instead of dying.
  *
  * @see wp_insert_comment()
  * @global wpdb $wpdb WordPress database abstraction object.
@@ -1753,9 +1829,11 @@ function wp_throttle_comment_flood($block, $time_lastcomment, $time_newcomment) 
  *     @type string $comment_author_IP    Comment author IP address in IPv4 format. Default is the value of
  *                                        'REMOTE_ADDR' in the `$_SERVER` superglobal sent in the original request.
  * }
- * @return int|false The ID of the comment on success, false on failure.
+ * @param bool $avoid_die Should errors be returned as WP_Error objects instead of
+ *                        executing wp_die()? Default false.
+ * @return int|false|WP_Error The ID of the comment on success, false or WP_Error on failure.
  */
-function wp_new_comment( $commentdata ) {
+function wp_new_comment( $commentdata, $avoid_die = false ) {
 	global $wpdb;
 
 	if ( isset( $commentdata['user_ID'] ) ) {
@@ -1804,7 +1882,10 @@ function wp_new_comment( $commentdata ) {
 
 	$commentdata = wp_filter_comment($commentdata);
 
-	$commentdata['comment_approved'] = wp_allow_comment($commentdata);
+	$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $avoid_die );
+	if ( is_wp_error( $commentdata['comment_approved'] ) ) {
+		return $commentdata['comment_approved'];
+	}
 
 	$comment_ID = wp_insert_comment($commentdata);
 	if ( ! $comment_ID ) {
@@ -1818,7 +1899,10 @@ function wp_new_comment( $commentdata ) {
 
 		$commentdata = wp_filter_comment( $commentdata );
 
-		$commentdata['comment_approved'] = wp_allow_comment( $commentdata );
+		$commentdata['comment_approved'] = wp_allow_comment( $commentdata, $avoid_die );
+		if ( is_wp_error( $commentdata['comment_approved'] ) ) {
+			return $commentdata['comment_approved'];
+		}
 
 		$comment_ID = wp_insert_comment( $commentdata );
 		if ( ! $comment_ID ) {
@@ -2940,11 +3024,14 @@ function wp_handle_comment_submission( $comment_data ) {
 		'user_ID'
 	);
 
-	$comment_id = wp_new_comment( wp_slash( $commentdata ) );
+	$comment_id = wp_new_comment( wp_slash( $commentdata ), true );
+	if ( is_wp_error( $comment_id ) ) {
+		return $comment_id;
+	}
+
 	if ( ! $comment_id ) {
 		return new WP_Error( 'comment_save_error', __( '<strong>ERROR</strong>: The comment could not be saved. Please try again later.' ), 500 );
 	}
 
 	return get_comment( $comment_id );
-
 }
