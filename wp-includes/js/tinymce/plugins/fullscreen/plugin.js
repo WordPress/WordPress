@@ -135,7 +135,7 @@ tinymce.PluginManager.add('fullscreen', function(editor) {
 
 	editor.addButton('fullscreen', {
 		tooltip: 'Fullscreen',
-		shortcut: 'Ctrl+Alt+F',
+		shortcut: 'Ctrl+Shift+F',
 		onClick: toggleFullscreen,
 		onPostRender: function() {
 			var self = this;

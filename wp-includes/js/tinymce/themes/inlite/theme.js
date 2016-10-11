@@ -81,13 +81,56 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce/inlite/Theme","global!tinymce.ThemeManager","global!tinymce.util.Delay","tinymce/inlite/ui/Panel","tinymce/inlite/ui/Buttons","tinymce/inlite/core/SkinLoader","tinymce/inlite/core/SelectionMatcher","tinymce/inlite/core/ElementMatcher","tinymce/inlite/core/Matcher","tinymce/inlite/alien/Arr","tinymce/inlite/core/PredicateId","global!tinymce.util.Tools","global!tinymce.ui.Factory","global!tinymce.DOM","tinymce/inlite/ui/Toolbar","tinymce/inlite/ui/Forms","tinymce/inlite/core/Measure","tinymce/inlite/core/Layout","tinymce/inlite/file/Conversions","tinymce/inlite/file/Picker","tinymce/inlite/core/Actions","global!tinymce.EditorManager","global!tinymce.util.Promise","tinymce/inlite/alien/Uuid","tinymce/inlite/alien/Unlink","tinymce/inlite/core/UrlType","global!tinymce.geom.Rect","tinymce/inlite/core/Convert","tinymce/inlite/alien/Bookmark","global!tinymce.dom.TreeWalker","global!tinymce.dom.RangeUtils"]
+["tinymce/inlite/Theme","global!tinymce.ThemeManager","global!tinymce.util.Delay","tinymce/inlite/ui/Panel","tinymce/inlite/ui/Buttons","tinymce/inlite/core/SkinLoader","tinymce/inlite/core/SelectionMatcher","tinymce/inlite/core/ElementMatcher","tinymce/inlite/core/Matcher","tinymce/inlite/alien/Arr","tinymce/inlite/alien/EditorSettings","tinymce/inlite/core/PredicateId","global!tinymce.util.Tools","global!tinymce.ui.Factory","global!tinymce.DOM","tinymce/inlite/ui/Toolbar","tinymce/inlite/ui/Forms","tinymce/inlite/core/Measure","tinymce/inlite/core/Layout","tinymce/inlite/alien/Type","tinymce/inlite/file/Conversions","tinymce/inlite/file/Picker","tinymce/inlite/core/Actions","global!tinymce.EditorManager","global!tinymce.util.Promise","tinymce/inlite/alien/Uuid","tinymce/inlite/alien/Unlink","tinymce/inlite/core/UrlType","global!tinymce.geom.Rect","tinymce/inlite/core/Convert","tinymce/inlite/alien/Bookmark","global!tinymce.dom.TreeWalker","global!tinymce.dom.RangeUtils"]
 jsc*/
 defineGlobal("global!tinymce.ThemeManager", tinymce.ThemeManager);
 defineGlobal("global!tinymce.util.Delay", tinymce.util.Delay);
 defineGlobal("global!tinymce.util.Tools", tinymce.util.Tools);
 defineGlobal("global!tinymce.ui.Factory", tinymce.ui.Factory);
 defineGlobal("global!tinymce.DOM", tinymce.DOM);
+/**
+ * Type.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2016 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define('tinymce/inlite/alien/Type', [
+], function () {
+	var isType = function (type) {
+		return function (value) {
+			return typeof value === type;
+		};
+	};
+
+	var isArray = function (value) {
+		return Array.isArray(value);
+	};
+
+	var isNull = function (value) {
+		return value === null;
+	};
+
+	var isObject = function (predicate) {
+		return function (value) {
+			return !isNull(value) && !isArray(value) && predicate(value);
+		};
+	};
+
+	return {
+		isString: isType("string"),
+		isNumber: isType("number"),
+		isBoolean: isType("boolean"),
+		isFunction: isType("function"),
+		isObject: isObject(isType("object")),
+		isNull: isNull,
+		isArray: isArray
+	};
+});
+
 /**
  * Toolbar.js
  *
@@ -100,8 +143,9 @@ defineGlobal("global!tinymce.DOM", tinymce.DOM);
 
 define('tinymce/inlite/ui/Toolbar', [
 	'global!tinymce.util.Tools',
-	'global!tinymce.ui.Factory'
-], function (Tools, Factory) {
+	'global!tinymce.ui.Factory',
+	'tinymce/inlite/alien/Type'
+], function (Tools, Factory, Type) {
 	var setActiveItem = function (item, name) {
 		return function(state, args) {
 			var nodeName, i = args.parents.length;
@@ -161,6 +205,16 @@ define('tinymce/inlite/ui/Toolbar', [
 		};
 	};
 
+	var itemsToArray = function (items) {
+		if (Type.isArray(items)) {
+			return items;
+		} else if (Type.isString(items)) {
+			return items.split(/[ ,]/);
+		}
+
+		return [];
+	};
+
 	var create = function (editor, name, items) {
 		var toolbarItems = [], buttonGroup;
 
@@ -168,7 +222,7 @@ define('tinymce/inlite/ui/Toolbar', [
 			return;
 		}
 
-		Tools.each(items.split(/[ ,]/), function(item) {
+		Tools.each(itemsToArray(items), function(item) {
 			var itemName;
 
 			if (item == '|') {
@@ -179,12 +233,12 @@ define('tinymce/inlite/ui/Toolbar', [
 					toolbarItems.push(item);
 					buttonGroup = null;
 				} else {
-					if (!buttonGroup) {
-						buttonGroup = {type: 'buttongroup', items: []};
-						toolbarItems.push(buttonGroup);
-					}
-
 					if (editor.buttons[item]) {
+						if (!buttonGroup) {
+							buttonGroup = {type: 'buttongroup', items: []};
+							toolbarItems.push(buttonGroup);
+						}
+
 						itemName = item;
 						item = editor.buttons[itemName];
 
@@ -897,10 +951,88 @@ define('tinymce/inlite/core/Layout', [
 		return panelRect;
 	};
 
+	var defaultHandler = function (rects) {
+		return rects.panelRect;
+	};
+
 	return {
 		calcInsert: calcInsert,
 		calc: calc,
-		userConstrain: userConstrain
+		userConstrain: userConstrain,
+		defaultHandler: defaultHandler
+	};
+});
+
+/**
+ * EditorSettings.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2016 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define('tinymce/inlite/alien/EditorSettings', [
+	'tinymce/inlite/alien/Type'
+], function (Type) {
+	var validDefaultOrDie = function (value, predicate) {
+		if (predicate(value)) {
+			return true;
+		}
+
+		throw new Error('Default value doesn\'t match requested type.');
+	};
+
+	var getByTypeOr = function (predicate) {
+		return function (editor, name, defaultValue) {
+			var settings = editor.settings;
+			validDefaultOrDie(defaultValue, predicate);
+			return name in settings && predicate(settings[name]) ? settings[name] : defaultValue;
+		};
+	};
+
+	var splitNoEmpty = function (str, delim) {
+		return str.split(delim).filter(function (item) {
+			return item.length > 0;
+		});
+	};
+
+	var itemsToArray = function (value, defaultValue) {
+		var stringToItemsArray = function (value) {
+			return typeof value === 'string' ? splitNoEmpty(value, /[ ,]/) : value;
+		};
+
+		var boolToItemsArray = function (value, defaultValue) {
+			return value === false ? [ ] : defaultValue;
+		};
+
+		if (Type.isArray(value)) {
+			return value;
+		} else if (Type.isString(value)) {
+			return stringToItemsArray(value);
+		} else if (Type.isBoolean(value)) {
+			return boolToItemsArray(value, defaultValue);
+		}
+
+		return defaultValue;
+	};
+
+	var getToolbarItemsOr = function (predicate) {
+		return function (editor, name, defaultValue) {
+			var value = name in editor.settings ? editor.settings[name] : defaultValue;
+			validDefaultOrDie(defaultValue, predicate);
+			return itemsToArray(value, defaultValue);
+		};
+	};
+
+	return {
+		// TODO: Add Option based getString, getBool if merged with core
+		getStringOr: getByTypeOr(Type.isString),
+		getBoolOr: getByTypeOr(Type.isBoolean),
+		getNumberOr: getByTypeOr(Type.isNumber),
+		getHandlerOr: getByTypeOr(Type.isFunction),
+		getToolbarItemsOr: getToolbarItemsOr(Type.isArray)
 	};
 });
 
@@ -921,11 +1053,12 @@ define('tinymce/inlite/ui/Panel', [
 	'tinymce/inlite/ui/Toolbar',
 	'tinymce/inlite/ui/Forms',
 	'tinymce/inlite/core/Measure',
-	'tinymce/inlite/core/Layout'
-], function (Tools, Factory, DOM, Toolbar, Forms, Measure, Layout) {
+	'tinymce/inlite/core/Layout',
+	'tinymce/inlite/alien/EditorSettings'
+], function (Tools, Factory, DOM, Toolbar, Forms, Measure, Layout, EditorSettings) {
 	return function () {
-		var DEFAULT_TEXT_SELECTION_ITEMS = 'bold italic | quicklink h2 h3 blockquote';
-		var DEFAULT_INSERT_TOOLBAR_ITEMS = 'quickimage quicktable';
+		var DEFAULT_TEXT_SELECTION_ITEMS = ['bold', 'italic', '|', 'quicklink', 'h2', 'h3', 'blockquote'];
+		var DEFAULT_INSERT_TOOLBAR_ITEMS = ['quickimage', 'quicktable'];
 		var panel, currentRect;
 
 		var createToolbars = function (editor, toolbars) {
@@ -934,23 +1067,22 @@ define('tinymce/inlite/ui/Panel', [
 			});
 		};
 
-		var getTextSelectionToolbarItems = function (settings) {
-			var value = settings.selection_toolbar;
-			return value ? value : DEFAULT_TEXT_SELECTION_ITEMS;
+		var getTextSelectionToolbarItems = function (editor) {
+			return EditorSettings.getToolbarItemsOr(editor, 'selection_toolbar', DEFAULT_TEXT_SELECTION_ITEMS);
 		};
 
-		var getInsertToolbarItems = function (settings) {
-			var value = settings.insert_toolbar;
-			return value ? value : DEFAULT_INSERT_TOOLBAR_ITEMS;
+		var getInsertToolbarItems = function (editor) {
+			return EditorSettings.getToolbarItemsOr(editor, 'insert_toolbar', DEFAULT_INSERT_TOOLBAR_ITEMS);
+		};
+
+		var hasToolbarItems = function (toolbar) {
+			return toolbar.items().length > 0;
 		};
 
 		var create = function (editor, toolbars) {
-			var items, settings = editor.settings;
-
-			items = createToolbars(editor, toolbars);
-			items = items.concat([
-				Toolbar.create(editor, 'text', getTextSelectionToolbarItems(settings)),
-				Toolbar.create(editor, 'insert', getInsertToolbarItems(settings)),
+			var items = createToolbars(editor, toolbars).concat([
+				Toolbar.create(editor, 'text', getTextSelectionToolbarItems(editor)),
+				Toolbar.create(editor, 'insert', getInsertToolbarItems(editor)),
 				Forms.createQuickLinkForm(editor, hide)
 			]);
 
@@ -966,7 +1098,7 @@ define('tinymce/inlite/ui/Panel', [
 				autofix: true,
 				fixed: true,
 				border: 1,
-				items: items,
+				items: Tools.grep(items, hasToolbarItems),
 				oncancel: function() {
 					editor.focus();
 				}
@@ -1016,7 +1148,10 @@ define('tinymce/inlite/ui/Panel', [
 			if (toolbars.length > 0) {
 				toolbars[0].show();
 				panel.reflow();
+				return true;
 			}
+
+			return false;
 		};
 
 		var showPanelAt = function (panel, id, editor, targetRect) {
@@ -1024,9 +1159,13 @@ define('tinymce/inlite/ui/Panel', [
 
 			showPanel(panel);
 			panel.items().hide();
-			showToolbar(panel, id);
 
-			userConstainHandler = editor.settings.inline_toolbar_position_handler;
+			if (!showToolbar(panel, id)) {
+				hide(panel);
+				return;
+			}
+
+			userConstainHandler = EditorSettings.getHandlerOr(editor, 'inline_toolbar_position_handler', Layout.defaultHandler);
 			contentAreaRect = Measure.getContentAreaRect(editor);
 			panelRect = DOM.getRect(panel.getEl());
 
@@ -1040,7 +1179,6 @@ define('tinymce/inlite/ui/Panel', [
 				panelRect = result.rect;
 				currentRect = targetRect;
 				movePanelTo(panel, Layout.userConstrain(userConstainHandler, targetRect, contentAreaRect, panelRect));
-
 				togglePositionClass(panel, result.position);
 			} else {
 				hide(panel);
@@ -1054,7 +1192,11 @@ define('tinymce/inlite/ui/Panel', [
 		var showForm = function (editor, id) {
 			if (panel) {
 				panel.items().hide();
-				showToolbar(panel, id);
+
+				if (!showToolbar(panel, id)) {
+					hide(panel);
+					return;
+				}
 
 				var contentAreaRect, panelRect, result, userConstainHandler;
 
@@ -1062,7 +1204,7 @@ define('tinymce/inlite/ui/Panel', [
 				panel.items().hide();
 				showToolbar(panel, id);
 
-				userConstainHandler = editor.settings.inline_toolbar_position_handler;
+				userConstainHandler = EditorSettings.getHandlerOr(editor, 'inline_toolbar_position_handler', Layout.defaultHandler);
 				contentAreaRect = Measure.getContentAreaRect(editor);
 				panelRect = DOM.getRect(panel.getEl());
 
@@ -1071,7 +1213,6 @@ define('tinymce/inlite/ui/Panel', [
 				if (result) {
 					panelRect = result.rect;
 					movePanelTo(panel, Layout.userConstrain(userConstainHandler, currentRect, contentAreaRect, panelRect));
-
 					togglePositionClass(panel, result.position);
 				}
 			}
@@ -1305,9 +1446,18 @@ define('tinymce/inlite/core/SkinLoader', [
 		}
 	};
 
-	var load = function (editor, skin, callback) {
-		var baseUrl = EditorManager.baseURL;
-		var skinUrl = baseUrl + '/skins/' + skin;
+	var urlFromName = function (name) {
+		var prefix = EditorManager.baseURL + '/skins/';
+		return name ? prefix + name : prefix + 'lightgray';
+	};
+
+	var toAbsoluteUrl = function (editor, url) {
+		return editor.documentBaseURI.toAbsolute(url);
+	};
+
+	var load = function (editor, callback) {
+		var settings = editor.settings;
+		var skinUrl = settings.skin_url ? toAbsoluteUrl(editor, settings.skin_url) : urlFromName(settings.skin);
 
 		var done = function () {
 			fireSkinLoaded(editor, callback);
@@ -1544,8 +1694,9 @@ define('tinymce/inlite/Theme', [
 	'tinymce/inlite/core/ElementMatcher',
 	'tinymce/inlite/core/Matcher',
 	'tinymce/inlite/alien/Arr',
+	'tinymce/inlite/alien/EditorSettings',
 	'tinymce/inlite/core/PredicateId'
-], function(ThemeManager, Delay, Panel, Buttons, SkinLoader, SelectionMatcher, ElementMatcher, Matcher, Arr, PredicateId) {
+], function(ThemeManager, Delay, Panel, Buttons, SkinLoader, SelectionMatcher, ElementMatcher, Matcher, Arr, EditorSettings, PredicateId) {
 	var getSelectionElements = function (editor) {
 		var node = editor.selection.getNode();
 		var elms = editor.dom.getParents(node);
@@ -1644,9 +1795,7 @@ define('tinymce/inlite/Theme', [
 	};
 
 	var renderInlineUI = function (editor, panel) {
-		var skinName = editor.settings.skin || 'lightgray';
-
-		SkinLoader.load(editor, skinName, function () {
+		SkinLoader.load(editor, function () {
 			bindContextualToolbarsEvents(editor, panel);
 			overrideLinkShortcut(editor, panel);
 		});

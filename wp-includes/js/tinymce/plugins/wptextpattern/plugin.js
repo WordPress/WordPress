@@ -124,7 +124,7 @@
 				editor.undoManager.add();
 
 				editor.undoManager.transact( function() {
-					node.insertData( offset, '\u200b' );
+					node.insertData( offset, '\uFEFF' );
 
 					node = node.splitText( startOffset );
 					zero = node.splitText( offset - startOffset );
@@ -145,7 +145,7 @@
 						var offset;
 
 						if ( zero ) {
-							offset = zero.data.indexOf( '\u200b' );
+							offset = zero.data.indexOf( '\uFEFF' );
 
 							if ( offset !== -1 ) {
 								zero.deleteData( offset, offset + 1 );
