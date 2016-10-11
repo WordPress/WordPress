@@ -3010,10 +3010,14 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
  * function only fetches relationship data that is already in the cache.
  *
  * @since 2.3.0
+ * @since 4.6.2 Returns a WP_Error object if get_term() returns an error for
+ *              any of the matched terms.
  *
  * @param int    $id       Term object ID.
  * @param string $taxonomy Taxonomy name.
- * @return bool|array Array of `WP_Term` objects, if cached False if cache is empty for `$taxonomy` and `$id`.
+ * @return bool|array|WP_Error Array of `WP_Term` objects, if cached.
+ *                             False if cache is empty for `$taxonomy` and `$id`.
+ *                             WP_Error if get_term() returns an error object for any term.
  */
 function get_object_term_cache( $id, $taxonomy ) {
 	$_term_ids = wp_cache_get( $id, "{$taxonomy}_relationships" );
@@ -3038,10 +3042,15 @@ function get_object_term_cache( $id, $taxonomy ) {
 
 	$terms = array();
 	foreach ( $term_ids as $term_id ) {
-		$terms[] = wp_cache_get( $term_id, 'terms' );
+		$term = get_term( $term_id );
+		if ( is_wp_error( $term ) ) {
+			return $term;
+		}
+
+		$terms[] = $term;
 	}
 
-	return array_map( 'get_term', $terms );
+	return $terms;
 }
 
 /**
