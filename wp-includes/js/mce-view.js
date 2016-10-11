@@ -636,10 +636,10 @@
 		/**
 		 * Sets a loader for all view nodes tied to this view instance.
 		 */
-		setLoader: function() {
+		setLoader: function( dashicon ) {
 			this.setContent(
 				'<div class="loading-placeholder">' +
-					'<div class="dashicons dashicons-admin-media"></div>' +
+					'<div class="dashicons dashicons-' + ( dashicon || 'admin-media' ) + '"></div>' +
 					'<div class="wpview-loading"><ins></ins></div>' +
 				'</div>'
 			);
