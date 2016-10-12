@@ -690,7 +690,9 @@ class WP_Term_Query {
 		}
 
 		if ( 'count' == $_fields ) {
-			return $wpdb->get_var( $this->request );
+			$count = $wpdb->get_var( $this->request );
+			wp_cache_set( $cache_key, $count, 'terms' );
+			return $count;
 		}
 
 		$terms = $wpdb->get_results( $this->request );
