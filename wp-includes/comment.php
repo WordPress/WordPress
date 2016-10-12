@@ -646,7 +646,7 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 		 */
 		do_action( 'comment_duplicate_trigger', $commentdata );
 		if ( true === $avoid_die ) {
-			return new WP_Error( 'comment_duplicate', __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ), $dupe_id );
+			return new WP_Error( 'comment_duplicate', __( 'Duplicate comment detected; it looks as though you&#8217;ve already said that!' ), 409 );
 		} else {
 			if ( wp_doing_ajax() ) {
 				die( __('Duplicate comment detected; it looks as though you&#8217;ve already said that!') );
@@ -702,7 +702,7 @@ function wp_allow_comment( $commentdata, $avoid_die = false ) {
 	);
 
 	if ( $is_flood ) {
-		return new WP_Error( 'comment_flood', __( 'You are posting comments too quickly. Slow down.' ) );
+		return new WP_Error( 'comment_flood', __( 'You are posting comments too quickly. Slow down.' ), 429 );
 	}
 
 	if ( ! empty( $commentdata['user_id'] ) ) {
