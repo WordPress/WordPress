@@ -4,6 +4,11 @@ html {
 	cursor: text;
 }
 
+html.ios {
+	width: 100px;
+    min-width: 100%;
+}
+
 body {
 	font-family: Georgia, "Times New Roman", "Bitstream Charter", Times, serif;
 	font-size: 16px;
