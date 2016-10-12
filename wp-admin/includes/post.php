@@ -662,7 +662,7 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
 }
 
 /**
- * Determine if a post exists based on title, content, and date
+ * Determine if a post exists based on title, content, date, type and status
  *
  * @since 2.0.0
  *
@@ -671,14 +671,18 @@ function get_default_post_to_edit( $post_type = 'post', $create_in_db = false ) 
  * @param string $title Post title
  * @param string $content Optional post content
  * @param string $date Optional post date
+ * @param string $post_type Optional post type
+ * @param string $post_status Optional post status
  * @return int Post ID if post exists, 0 otherwise.
  */
-function post_exists($title, $content = '', $date = '') {
+function post_exists($title, $content = '', $date = '', $post_type = '' , $post_status = '') {
 	global $wpdb;
 
 	$post_title = wp_unslash( sanitize_post_field( 'post_title', $title, 0, 'db' ) );
 	$post_content = wp_unslash( sanitize_post_field( 'post_content', $content, 0, 'db' ) );
 	$post_date = wp_unslash( sanitize_post_field( 'post_date', $date, 0, 'db' ) );
+   	$post_type = wp_unslash(sanitize_post_field('post_type', $post_type, 0, 'db'));
+ 	$post_status = wp_unslash(sanitize_post_field('post_status', $post_status, 0, 'db'));
 
 	$query = "SELECT ID FROM $wpdb->posts WHERE 1=1";
 	$args = array();
@@ -696,6 +700,15 @@ function post_exists($title, $content = '', $date = '') {
 	if ( !empty ( $content ) ) {
 		$query .= ' AND post_content = %s';
 		$args[] = $post_content;
+	}
+	if (!empty ( $post_type ) && in_array( $post_type, get_post_types('', 'names') ) ) {
+	        $query .= ' AND post_type = %s';
+		$args[] = $post_type;
+	}
+	
+	if (!empty ( $post_status ) && array_key_exists( $post_status, get_post_statuses() ) ) {
+		$query .= ' AND post_status = %s';
+		$args[] = $post_status;
 	}
 
 	if ( !empty ( $args ) )
