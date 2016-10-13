@@ -783,8 +783,11 @@ function get_bloginfo( $show = '', $filter = 'raw' ) {
  * @return string Site Icon URL.
  */
 function get_site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
-	if ( is_multisite() && (int) $blog_id !== get_current_blog_id() ) {
+	$switched_blog = false;
+
+	if ( is_multisite() && ! empty( $blog_id ) && (int) $blog_id !== get_current_blog_id() ) {
 		switch_to_blog( $blog_id );
+		$switched_blog = true;
 	}
 
 	$site_icon_id = get_option( 'site_icon' );
@@ -798,7 +801,7 @@ function get_site_icon_url( $size = 512, $url = '', $blog_id = 0 ) {
 		$url = wp_get_attachment_image_url( $site_icon_id, $size_data );
 	}
 
-	if ( is_multisite() && ms_is_switched() ) {
+	if ( $switched_blog ) {
 		restore_current_blog();
 	}
 
@@ -848,13 +851,16 @@ function has_site_icon( $blog_id = 0 ) {
  * @return bool Whether the site has a custom logo or not.
  */
 function has_custom_logo( $blog_id = 0 ) {
-	if ( is_multisite() && (int) $blog_id !== get_current_blog_id() ) {
+	$switched_blog = false;
+
+	if ( is_multisite() && ! empty( $blog_id ) && (int) $blog_id !== get_current_blog_id() ) {
 		switch_to_blog( $blog_id );
+		$switched_blog = true;
 	}
 
 	$custom_logo_id = get_theme_mod( 'custom_logo' );
 
-	if ( is_multisite() && ms_is_switched() ) {
+	if ( $switched_blog ) {
 		restore_current_blog();
 	}
 
@@ -871,9 +877,11 @@ function has_custom_logo( $blog_id = 0 ) {
  */
 function get_custom_logo( $blog_id = 0 ) {
 	$html = '';
+	$switched_blog = false;
 
-	if ( is_multisite() && (int) $blog_id !== get_current_blog_id() ) {
+	if ( is_multisite() && ! empty( $blog_id ) && (int) $blog_id !== get_current_blog_id() ) {
 		switch_to_blog( $blog_id );
+		$switched_blog = true;
 	}
 
 	$custom_logo_id = get_theme_mod( 'custom_logo' );
@@ -896,7 +904,7 @@ function get_custom_logo( $blog_id = 0 ) {
 		);
 	}
 
-	if ( is_multisite() && ms_is_switched() ) {
+	if ( $switched_blog ) {
 		restore_current_blog();
 	}
 
