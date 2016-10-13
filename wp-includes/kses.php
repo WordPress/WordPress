@@ -527,7 +527,6 @@ function wp_kses( $string, $allowed_html, $allowed_protocols = array() ) {
 	if ( empty( $allowed_protocols ) )
 		$allowed_protocols = wp_allowed_protocols();
 	$string = wp_kses_no_null( $string, array( 'slash_zero' => 'keep' ) );
-	$string = wp_kses_js_entities($string);
 	$string = wp_kses_normalize_entities($string);
 	$string = wp_kses_hook($string, $allowed_html, $allowed_protocols); // WP changed the order of these funcs and added args to wp_kses_hook
 	return wp_kses_split($string, $allowed_html, $allowed_protocols);
@@ -550,7 +549,6 @@ function wp_kses_one_attr( $string, $element ) {
 	$allowed_html = wp_kses_allowed_html( 'post' );
 	$allowed_protocols = wp_allowed_protocols();
 	$string = wp_kses_no_null( $string, array( 'slash_zero' => 'keep' ) );
-	$string = wp_kses_js_entities( $string );
 	
 	// Preserve leading and trailing whitespace.
 	$matches = array();
@@ -1293,18 +1291,6 @@ function wp_kses_array_lc($inarray) {
 	} // foreach $inarray
 
 	return $outarray;
-}
-
-/**
- * Removes the HTML JavaScript entities found in early versions of Netscape 4.
- *
- * @since 1.0.0
- *
- * @param string $string
- * @return string
- */
-function wp_kses_js_entities($string) {
-	return preg_replace('%&\s*\{[^}]*(\}\s*;?|$)%', '', $string);
 }
 
 /**
