@@ -721,7 +721,9 @@ class WP_Query {
 	 *     @type array        $post_name__in           An array of post slugs that results must match.
 	 *     @type string       $s                       Search keyword(s). Prepending a term with a hyphen will
 	 *                                                 exclude posts matching that term. Eg, 'pillow -sofa' will
-	 *                                                 return posts containing 'pillow' but not 'sofa'.
+	 *                                                 return posts containing 'pillow' but not 'sofa'. This feature
+	 *                                                 can be disabled using the
+	 *                                                 'wp_query_use_hyphen_for_exclusion' filter.
 	 *     @type int          $second                  Second of the minute. Default empty. Accepts numbers 0-60.
 	 *     @type bool         $sentence                Whether to search by phrase. Default false.
 	 *     @type bool         $suppress_filters        Whether to suppress filters. Default false.
@@ -1318,10 +1320,20 @@ class WP_Query {
 		$n = ! empty( $q['exact'] ) ? '' : '%';
 		$searchand = '';
 		$q['search_orderby_title'] = array();
+
+		/**
+		 * Filters whether search terms preceded by hyphens should excluded from results.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param bool Whether the query should exclude terms preceded with a hyphen.
+		 */
+		$hyphen_exclusion = apply_filters( 'wp_query_use_hyphen_for_exclusion', true );
+
 		foreach ( $q['search_terms'] as $term ) {
 			// Terms prefixed with '-' should be excluded.
 			$include = '-' !== substr( $term, 0, 1 );
-			if ( $include ) {
+			if ( $include || ! $hyphen_exclusion ) {
 				$like_op  = 'LIKE';
 				$andor_op = 'OR';
 			} else {
