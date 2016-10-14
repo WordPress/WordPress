@@ -907,10 +907,10 @@ final class WP_Customize_Nav_Menus {
 				}
 			}
 
+			$this->print_custom_links_available_menu_item();
 			if ( $page_item_type ) {
 				$this->print_post_type_container( $page_item_type );
 			}
-			$this->print_custom_links_available_menu_item();
 			// Containers for per-post-type item browsing; items are added with JS.
 			foreach ( $item_types as $item_type ) {
 				$this->print_post_type_container( $item_type );
