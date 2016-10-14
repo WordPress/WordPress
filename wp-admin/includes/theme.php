@@ -572,6 +572,7 @@ function wp_prepare_themes_for_js( $themes = null ) {
 			'parent'       => $parent,
 			'active'       => $slug === $current_theme,
 			'hasUpdate'    => isset( $updates[ $slug ] ),
+			'hasPackage'   => isset( $updates[ $slug ] ) && ! empty( $updates[ $slug ][ 'package' ] ),
 			'update'       => get_theme_update_available( $theme ),
 			'actions'      => array(
 				'activate' => current_user_can( 'switch_themes' ) ? wp_nonce_url( admin_url( 'themes.php?action=activate&amp;stylesheet=' . $encoded_slug ), 'switch-theme_' . $slug ) : null,
