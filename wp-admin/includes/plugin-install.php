@@ -263,7 +263,7 @@ function install_search_form( $deprecated = true ) {
 			<option value="tag"<?php selected( 'tag', $type ); ?>><?php _ex( 'Tag', 'Plugin Installer' ); ?></option>
 		</select>
 		<label><span class="screen-reader-text"><?php _e( 'Search Plugins' ); ?></span>
-			<input type="search" name="s" value="<?php echo esc_attr( $term ) ?>" class="wp-filter-search" placeholder="<?php esc_attr_e( 'Search Plugins' ); ?>" />
+			<input type="search" name="s" value="<?php echo esc_attr( $term ) ?>" class="wp-filter-search" placeholder="<?php esc_attr_e( 'Search plugins...' ); ?>" />
 		</label>
 		<?php submit_button( __( 'Search Plugins' ), 'hide-if-js', false, false, array( 'id' => 'search-submit' ) ); ?>
 	</form><?php

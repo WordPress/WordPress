@@ -1017,7 +1017,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 }
 
 .theme-install-php .wp-filter {
-	padding: 0 20px;
+	padding-left: 20px;
 }
 
 .theme-install-php a.upload,

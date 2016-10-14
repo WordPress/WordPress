@@ -7069,7 +7069,7 @@ Search = wp.media.View.extend({
 
 	attributes: {
 		type:        'search',
-		placeholder: l10n.search
+		placeholder: l10n.searchMediaPlaceholder
 	},
 
 	events: {
