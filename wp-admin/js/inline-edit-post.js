@@ -83,7 +83,7 @@ inlineEditPost = {
 	},
 
 	setBulk : function(){
-		var te = '', type = this.type, tax, c = true;
+		var te = '', type = this.type, c = true;
 		this.revert();
 
 		$( '#bulk-edit td' ).attr( 'colspan', $( 'th:visible, td:visible', '.widefat:first thead' ).length );
@@ -114,9 +114,9 @@ inlineEditPost = {
 
 		// enable autocomplete for tags
 		if ( 'post' === type ) {
-			// support multi taxonomies?
-			tax = 'post_tag';
-			$('tr.inline-editor textarea[name="tax_input['+tax+']"]').suggest( ajaxurl + '?action=ajax-tag-search&tax=' + tax, { delay: 500, minchars: 2, multiple: true, multipleSep: inlineEditL10n.comma } );
+			$( 'tr.inline-editor textarea[data-wp-taxonomy]' ).each( function ( i, element ) {
+				$( element ).wpTagsSuggest();
+			} );
 		}
 		$('html, body').animate( { scrollTop: 0 }, 'fast' );
 	},
@@ -196,7 +196,7 @@ inlineEditPost = {
 				textarea.val(terms);
 			}
 
-			textarea.suggest( ajaxurl + '?action=ajax-tag-search&tax=' + taxname, { delay: 500, minchars: 2, multiple: true, multipleSep: inlineEditL10n.comma } );
+			textarea.wpTagsSuggest();
 		});
 
 		// handle the post status

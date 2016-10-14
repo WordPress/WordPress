@@ -1550,10 +1550,13 @@ class WP_Posts_List_Table extends WP_List_Table {
 	<?php if ( count( $flat_taxonomies ) && !$bulk ) : ?>
 
 	<?php foreach ( $flat_taxonomies as $taxonomy ) : ?>
-		<?php if ( current_user_can( $taxonomy->cap->assign_terms ) ) : ?>
+		<?php if ( current_user_can( $taxonomy->cap->assign_terms ) ) :
+			$taxonomy_name = esc_attr( $taxonomy->name );
+	
+			?>
 			<label class="inline-edit-tags">
 				<span class="title"><?php echo esc_html( $taxonomy->labels->name ) ?></span>
-				<textarea cols="22" rows="1" name="tax_input[<?php echo esc_attr( $taxonomy->name )?>]" class="tax_input_<?php echo esc_attr( $taxonomy->name )?>"></textarea>
+				<textarea data-wp-taxonomy="<?php echo $taxonomy_name; ?>" cols="22" rows="1" name="tax_input[<?php echo $taxonomy_name; ?>]" class="tax_input_<?php echo $taxonomy_name; ?>"></textarea>
 			</label>
 		<?php endif; ?>
 

@@ -4,6 +4,8 @@
 var tagBox, array_unique_noempty;
 
 ( function( $ ) {
+	var tagDelimiter = ( window.tagsSuggestL10n && window.tagsSuggestL10n.tagDelimiter ) || ',';
+
 	// Return an array with any duplicate, whitespace or empty values removed
 	array_unique_noempty = function( array ) {
 		var out = [];
@@ -20,13 +22,17 @@ var tagBox, array_unique_noempty;
 	};
 
 	tagBox = {
-		clean : function(tags) {
-			var comma = window.tagsBoxL10n.tagDelimiter;
-			if ( ',' !== comma )
-				tags = tags.replace(new RegExp(comma, 'g'), ',');
+		clean : function( tags ) {
+			if ( ',' !== tagDelimiter ) {
+				tags = tags.replace( new RegExp( tagDelimiter, 'g' ), ',' );
+			}
+
 			tags = tags.replace(/\s*,\s*/g, ',').replace(/,+/g, ',').replace(/[,\s]+$/, '').replace(/^[,\s]+/, '');
-			if ( ',' !== comma )
-				tags = tags.replace(/,/g, comma);
+
+			if ( ',' !== tagDelimiter ) {
+				tags = tags.replace( /,/g, tagDelimiter );
+			}
+
 			return tags;
 		},
 
@@ -35,8 +41,7 @@ var tagBox, array_unique_noempty;
 				num = id.split('-check-num-')[1],
 				taxbox = $(el).closest('.tagsdiv'),
 				thetags = taxbox.find('.the-tags'),
-				comma = window.tagsBoxL10n.tagDelimiter,
-				current_tags = thetags.val().split( comma ),
+				current_tags = thetags.val().split( tagDelimiter ),
 				new_tags = [];
 
 			delete current_tags[num];
@@ -48,7 +53,7 @@ var tagBox, array_unique_noempty;
 				}
 			});
 
-			thetags.val( this.clean( new_tags.join( comma ) ) );
+			thetags.val( this.clean( new_tags.join( tagDelimiter ) ) );
 
 			this.quickClicks( taxbox );
 			return false;
@@ -65,7 +70,7 @@ var tagBox, array_unique_noempty;
 
 			disabled = thetags.prop('disabled');
 
-			current_tags = thetags.val().split( window.tagsBoxL10n.tagDelimiter );
+			current_tags = thetags.val().split( tagDelimiter );
 			tagchecklist.empty();
 
 			$.each( current_tags, function( key, val ) {
@@ -106,8 +111,7 @@ var tagBox, array_unique_noempty;
 		flushTags : function( el, a, f ) {
 			var tagsval, newtags, text,
 				tags = $( '.the-tags', el ),
-				newtag = $( 'input.newtag', el ),
-				comma = window.tagsBoxL10n.tagDelimiter;
+				newtag = $( 'input.newtag', el );
 
 			a = a || false;
 
@@ -118,10 +122,10 @@ var tagBox, array_unique_noempty;
 			}
 
 			tagsval = tags.val();
-			newtags = tagsval ? tagsval + comma + text : text;
+			newtags = tagsval ? tagsval + tagDelimiter + text : text;
 
 			newtags = this.clean( newtags );
-			newtags = array_unique_noempty( newtags.split( comma ) ).join( comma );
+			newtags = array_unique_noempty( newtags.split( tagDelimiter ) ).join( tagDelimiter );
 			tags.val( newtags );
 			this.quickClicks( el );
 
@@ -153,32 +157,29 @@ var tagBox, array_unique_noempty;
 		},
 
 		init : function() {
-			var t = this, ajaxtag = $('div.ajaxtag');
+			var ajaxtag = $('div.ajaxtag');
 
 			$('.tagsdiv').each( function() {
-				tagBox.quickClicks(this);
+				tagBox.quickClicks( this );
 			});
 
-			$('.tagadd', ajaxtag).click(function(){
-				t.flushTags( $(this).closest('.tagsdiv') );
+			$( '.tagadd', ajaxtag ).click( function() {
+				tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
 			});
 
-			$('input.newtag', ajaxtag).keyup(function(e){
-				if ( 13 == e.which ) {
-					tagBox.flushTags( $(this).closest('.tagsdiv') );
-					return false;
+			$( 'input.newtag', ajaxtag ).keyup( function( event ) {
+				if ( 13 == event.which ) {
+					tagBox.flushTags( $( this ).closest( '.tagsdiv' ) );
+					event.preventDefault();
+					event.stopPropagation();
 				}
-			}).keypress(function(e){
-				if ( 13 == e.which ) {
-					e.preventDefault();
-					return false;
+			}).keypress( function( event ) {
+				if ( 13 == event.which ) {
+					event.preventDefault();
+					event.stopPropagation();
 				}
-			}).each( function() {
-				var tax = $(this).closest('div.tagsdiv').attr('id');
-				$(this).suggest(
-					ajaxurl + '?action=ajax-tag-search&tax=' + tax,
-					{ delay: 500, minchars: 2, multiple: true, multipleSep: window.tagsBoxL10n.tagDelimiter }
-				);
+			}).each( function( i, element ) {
+				$( element ).wpTagsSuggest();
 			});
 
 			// save tags on post save/publish
