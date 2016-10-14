@@ -91,10 +91,15 @@ function rest_api_init() {
  * @since 4.4.0
  *
  * @see add_rewrite_rule()
+ * @global WP_Rewrite $wp_rewrite
  */
 function rest_api_register_rewrites() {
+	global $wp_rewrite;
+
 	add_rewrite_rule( '^' . rest_get_url_prefix() . '/?$','index.php?rest_route=/','top' );
 	add_rewrite_rule( '^' . rest_get_url_prefix() . '/(.*)?','index.php?rest_route=/$matches[1]','top' );
+	add_rewrite_rule( '^' . $wp_rewrite->index . '/' . rest_get_url_prefix() . '/?$','index.php?rest_route=/','top' );
+	add_rewrite_rule( '^' . $wp_rewrite->index . '/' . rest_get_url_prefix() . '/(.*)?','index.php?rest_route=/$matches[1]','top' );
 }
 
 /**
@@ -176,6 +181,7 @@ function rest_get_url_prefix() {
  * @since 4.4.0
  *
  * @todo Check if this is even necessary
+ * @global WP_Rewrite $wp_rewrite
  *
  * @param int    $blog_id Optional. Blog ID. Default of null returns URL for current blog.
  * @param string $path    Optional. REST route. Default '/'.
@@ -188,7 +194,14 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 	}
 
 	if ( is_multisite() && get_blog_option( $blog_id, 'permalink_structure' ) || get_option( 'permalink_structure' ) ) {
-		$url = get_home_url( $blog_id, rest_get_url_prefix(), $scheme );
+		global $wp_rewrite;
+
+		if ( $wp_rewrite->using_index_permalinks() ) {
+			$url = get_home_url( $blog_id, $wp_rewrite->index . '/' . rest_get_url_prefix(), $scheme );
+		} else {
+			$url = get_home_url( $blog_id, rest_get_url_prefix(), $scheme );
+		}
+
 		$url .= '/' . ltrim( $path, '/' );
 	} else {
 		$url = trailingslashit( get_home_url( $blog_id, '', $scheme ) );
