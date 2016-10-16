@@ -887,17 +887,21 @@ var wpNavMenu;
 				inputEvent = 'keyup';
 			}
 
-			$( '.quick-search' ).on( inputEvent, function() {
-				var t = $(this);
+			$( '#nav-menu-meta' ).on( inputEvent, '.quick-search', function() {
+				var $this = $( this );
 
-				if( searchTimer ) clearTimeout(searchTimer);
+				$this.attr( 'autocomplete', 'off' );
 
-				searchTimer = setTimeout(function(){
-					api.updateQuickSearchResults( t );
-				}, 500 );
-			}).on( 'blur', function() {
+				if ( searchTimer ) {
+					clearTimeout( searchTimer );
+				}
+
+				searchTimer = setTimeout( function() {
+					api.updateQuickSearchResults( $this );
+ 				}, 500 );
+			}).on( 'blur', '.quick-search', function() {
 				api.lastSearch = '';
-			}).attr('autocomplete','off');
+			});
 		},
 
 		updateQuickSearchResults : function(input) {
