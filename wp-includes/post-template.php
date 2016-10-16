@@ -1134,40 +1134,48 @@ function wp_dropdown_pages( $args = '' ) {
  * @param array|string $args {
  *     Array or string of arguments. Optional.
  *
- *     @type int    $child_of     Display only the sub-pages of a single page by ID. Default 0 (all pages).
- *     @type string $authors      Comma-separated list of author IDs. Default empty (all authors).
- *     @type string $date_format  PHP date format to use for the listed pages. Relies on the 'show_date' parameter.
- *                                Default is the value of 'date_format' option.
- *     @type int    $depth        Number of levels in the hierarchy of pages to include in the generated list.
- *                                Accepts -1 (any depth), 0 (all pages), 1 (top-level pages only), and n (pages to
- *                                the given n depth). Default 0.
- *     @type bool   $echo         Whether or not to echo the list of pages. Default true.
- *     @type string $exclude      Comma-separated list of page IDs to exclude. Default empty.
- *     @type array  $include      Comma-separated list of page IDs to include. Default empty.
- *     @type string $link_after   Text or HTML to follow the page link label. Default null.
- *     @type string $link_before  Text or HTML to precede the page link label. Default null.
- *     @type string $post_type    Post type to query for. Default 'page'.
- *     @type string $post_status  Comma-separated list of post statuses to include. Default 'publish'.
- *     @type string $show_date	  Whether to display the page publish or modified date for each page. Accepts
- *                                'modified' or any other value. An empty value hides the date. Default empty.
- *     @type string $sort_column  Comma-separated list of column names to sort the pages by. Accepts 'post_author',
- *                                'post_date', 'post_title', 'post_name', 'post_modified', 'post_modified_gmt',
- *                                'menu_order', 'post_parent', 'ID', 'rand', or 'comment_count'. Default 'post_title'.
- *     @type string $title_li     List heading. Passing a null or empty value will result in no heading, and the list
- *                                will not be wrapped with unordered list `<ul>` tags. Default 'Pages'.
- *     @type string $item_spacing Whether to preserve whitespace within the menu's HTML. Accepts 'preserve' or 'discard'. Default 'preserve'.
- *     @type Walker $walker       Walker instance to use for listing pages. Default empty (Walker_Page).
+ *     @type int          $child_of     Display only the sub-pages of a single page by ID. Default 0 (all pages).
+ *     @type string       $authors      Comma-separated list of author IDs. Default empty (all authors).
+ *     @type string       $date_format  PHP date format to use for the listed pages. Relies on the 'show_date' parameter.
+ *                                      Default is the value of 'date_format' option.
+ *     @type int          $depth        Number of levels in the hierarchy of pages to include in the generated list.
+ *                                      Accepts -1 (any depth), 0 (all pages), 1 (top-level pages only), and n (pages to
+ *                                      the given n depth). Default 0.
+ *     @type bool         $echo         Whether or not to echo the list of pages. Default true.
+ *     @type string       $exclude      Comma-separated list of page IDs to exclude. Default empty.
+ *     @type array        $include      Comma-separated list of page IDs to include. Default empty.
+ *     @type string       $link_after   Text or HTML to follow the page link label. Default null.
+ *     @type string       $link_before  Text or HTML to precede the page link label. Default null.
+ *     @type string       $post_type    Post type to query for. Default 'page'.
+ *     @type string|array $post_status  Comma-separated list or array of post statuses to include. Default 'publish'.
+ *     @type string       $show_date    Whether to display the page publish or modified date for each page. Accepts
+ *                                      'modified' or any other value. An empty value hides the date. Default empty.
+ *     @type string       $sort_column  Comma-separated list of column names to sort the pages by. Accepts 'post_author',
+ *                                      'post_date', 'post_title', 'post_name', 'post_modified', 'post_modified_gmt',
+ *                                      'menu_order', 'post_parent', 'ID', 'rand', or 'comment_count'. Default 'post_title'.
+ *     @type string       $title_li     List heading. Passing a null or empty value will result in no heading, and the list
+ *                                      will not be wrapped with unordered list `<ul>` tags. Default 'Pages'.
+ *     @type string       $item_spacing Whether to preserve whitespace within the menu's HTML. Accepts 'preserve' or 'discard'.
+ *                                      Default 'preserve'.
+ *     @type Walker       $walker       Walker instance to use for listing pages. Default empty (Walker_Page).
  * }
  * @return string|void HTML list of pages.
  */
 function wp_list_pages( $args = '' ) {
 	$defaults = array(
-		'depth' => 0, 'show_date' => '',
-		'date_format' => get_option( 'date_format' ),
-		'child_of' => 0, 'exclude' => '',
-		'title_li' => __( 'Pages' ), 'echo' => 1,
-		'authors' => '', 'sort_column' => 'menu_order, post_title',
-		'link_before' => '', 'link_after' => '', 'item_spacing' => 'preserve', 'walker' => '',
+		'depth'        => 0,
+		'show_date'    => '',
+		'date_format'  => get_option( 'date_format' ),
+		'child_of'     => 0,
+		'exclude'      => '',
+		'title_li'     => __( 'Pages' ),
+		'echo'         => 1,
+		'authors'      => '',
+		'sort_column'  => 'menu_order, post_title',
+		'link_before'  => '',
+		'link_after'   => '',
+		'item_spacing' => 'preserve',
+		'walker'       => '',
 	);
 
 	$r = wp_parse_args( $args, $defaults );

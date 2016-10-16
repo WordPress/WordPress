@@ -4399,7 +4399,7 @@ function get_page_uri( $page = 0 ) {
  *     @type int          $offset       The number of pages to skip before returning. Requires `$number`.
  *                                      Default 0.
  *     @type string       $post_type    The post type to query. Default 'page'.
- *     @type string       $post_status  A comma-separated list of post status types to include.
+ *     @type string|array $post_status  A comma-separated list or array of post statuses to include.
  *                                      Default 'publish'.
  * }
  * @return array|false List of pages matching defaults or `$args`.
@@ -4408,13 +4408,21 @@ function get_pages( $args = array() ) {
 	global $wpdb;
 
 	$defaults = array(
-		'child_of' => 0, 'sort_order' => 'ASC',
-		'sort_column' => 'post_title', 'hierarchical' => 1,
-		'exclude' => array(), 'include' => array(),
-		'meta_key' => '', 'meta_value' => '',
-		'authors' => '', 'parent' => -1, 'exclude_tree' => array(),
-		'number' => '', 'offset' => 0,
-		'post_type' => 'page', 'post_status' => 'publish',
+		'child_of'     => 0,
+		'sort_order'   => 'ASC',
+		'sort_column'  => 'post_title',
+		'hierarchical' => 1,
+		'exclude'      => array(),
+		'include'      => array(),
+		'meta_key'     => '',
+		'meta_value'   => '',
+		'authors'      => '',
+		'parent'       => -1,
+		'exclude_tree' => array(),
+		'number'       => '',
+		'offset'       => 0,
+		'post_type'    => 'page',
+		'post_status'  => 'publish',
 	);
 
 	$r = wp_parse_args( $args, $defaults );
