@@ -12,6 +12,13 @@
 	font-family: inherit;
 }
 
+.mce-container .mce-monospace,
+.mce-widget .mce-monospace {
+	font-family: Consolas, Monaco, monospace;
+	font-size: 13px;
+	line-height: 150%;
+}
+
 /* TinyMCE windows */
 #mce-modal-block,
 #mce-modal-block.mce-fade {
