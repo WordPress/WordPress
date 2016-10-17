@@ -91,13 +91,7 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 	$i = $unixtimestamp;
 
 	if ( false === $i ) {
-		if ( ! $gmt )
-			$i = current_time( 'timestamp' );
-		else
-			$i = time();
-		// we should not let date() interfere with our
-		// specially computed timestamp
-		$gmt = true;
+		$i = current_time( 'timestamp', $gmt );
 	}
 
 	/*
@@ -106,15 +100,13 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 	 */
 	$req_format = $dateformatstring;
 
-	$datefunc = $gmt? 'gmdate' : 'date';
-
 	if ( ( !empty( $wp_locale->month ) ) && ( !empty( $wp_locale->weekday ) ) ) {
-		$datemonth = $wp_locale->get_month( $datefunc( 'm', $i ) );
+		$datemonth = $wp_locale->get_month( date( 'm', $i ) );
 		$datemonth_abbrev = $wp_locale->get_month_abbrev( $datemonth );
-		$dateweekday = $wp_locale->get_weekday( $datefunc( 'w', $i ) );
+		$dateweekday = $wp_locale->get_weekday( date( 'w', $i ) );
 		$dateweekday_abbrev = $wp_locale->get_weekday_abbrev( $dateweekday );
-		$datemeridiem = $wp_locale->get_meridiem( $datefunc( 'a', $i ) );
-		$datemeridiem_capital = $wp_locale->get_meridiem( $datefunc( 'A', $i ) );
+		$datemeridiem = $wp_locale->get_meridiem( date( 'a', $i ) );
+		$datemeridiem_capital = $wp_locale->get_meridiem( date( 'A', $i ) );
 		$dateformatstring = ' '.$dateformatstring;
 		$dateformatstring = preg_replace( "/([^\\\])D/", "\\1" . backslashit( $dateweekday_abbrev ), $dateformatstring );
 		$dateformatstring = preg_replace( "/([^\\\])F/", "\\1" . backslashit( $datemonth ), $dateformatstring );
@@ -142,7 +134,7 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
 			}
 		}
 	}
-	$j = @$datefunc( $dateformatstring, $i );
+	$j = @date( $dateformatstring, $i );
 
 	/**
 	 * Filters the date formatted based on the locale.
