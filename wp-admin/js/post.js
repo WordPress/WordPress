@@ -1167,6 +1167,23 @@ jQuery(document).ready( function($) {
 				$( document ).trigger( 'editor-classchange' );
 			}
 		});
+
+		// When changing page template, change the editor body class
+		$( '#page_template' ).on( 'change.set-editor-class', function() {
+			var editor, body, pageTemplate = $( this ).val() || '';
+
+			pageTemplate = pageTemplate.substr( pageTemplate.lastIndexOf( '/' ) + 1, pageTemplate.length )
+				.replace( /\.php$/, '' )
+				.replace( /\./g, '-' );
+
+			if ( pageTemplate && ( editor = tinymce.get( 'content' ) ) ) {
+				body = editor.getBody();
+				body.className = body.className.replace( /\bpage-template-[^ ]+/, '' );
+				editor.dom.addClass( body, 'page-template-' + pageTemplate );
+				$( document ).trigger( 'editor-classchange' );
+			}
+		});
+
 	}
 
 	// Save on pressing [ctrl]/[command] + [s] in the Text editor.
