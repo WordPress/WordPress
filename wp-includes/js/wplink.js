@@ -125,10 +125,6 @@ var wpLink;
 				} else {
 					editor = null;
 				}
-
-				if ( editor && window.tinymce.isIE ) {
-					editor.windowManager.wplinkBookmark = editor.selection.getBookmark();
-				}
 			}
 
 			if ( ! wpLink.isMCE() && document.selection ) {
@@ -306,10 +302,15 @@ var wpLink;
 		getAttrs: function() {
 			wpLink.correctURL();
 
-			return {
-				href: $.trim( inputs.url.val() ),
-				target: inputs.openInNewTab.prop( 'checked' ) ? '_blank' : ''
+			var attrs = {
+				href: $.trim( inputs.url.val() )
 			};
+
+			if ( inputs.openInNewTab.prop( 'checked' ) ) {
+				attrs.target = '_blank';
+			}
+
+			return attrs;
 		},
 
 		buildHtml: function(attrs) {
@@ -391,12 +392,7 @@ var wpLink;
 
 		mceUpdate: function() {
 			var attrs = wpLink.getAttrs(),
-				link, text;
-
-			if ( window.tinymce.isIE && editor.windowManager.wplinkBookmark ) {
-				editor.selection.moveToBookmark( editor.windowManager.wplinkBookmark );
-				editor.windowManager.wplinkBookmark = null;
-			}
+				$link, text, hasText, $mceCaret;
 
 			if ( ! attrs.href ) {
 				editor.execCommand( 'unlink' );
@@ -404,39 +400,53 @@ var wpLink;
 				return;
 			}
 
-			link = getLink();
+			$link = editor.$( getLink() );
 
-			if ( inputs.wrap.hasClass( 'has-text-field' ) ) {
-				text = inputs.text.val() || attrs.href;
-			}
-
-			if ( link ) {
-				if ( text ) {
-					if ( 'innerText' in link ) {
-						link.innerText = text;
-					} else {
-						link.textContent = text;
-					}
+			editor.undoManager.transact( function() {
+				if ( ! $link.length ) {
+					editor.execCommand( 'mceInsertLink', false, { href: '_wp_link_placeholder', 'data-wp-temp-link': 1 } );
+					$link = editor.$( 'a[data-wp-temp-link="1"]' ).removeAttr( 'data-wp-temp-link' );
+					hasText = $.trim( $link.text() );
 				}
 
-				// Not editing any more
-				attrs['data-wplink-edit'] = null;
-				editor.dom.setAttribs( link, attrs );
-			} else {
-				if ( text ) {
-					editor.selection.setNode( editor.dom.create( 'a', attrs, editor.dom.encode( text ) ) );
+				if ( ! $link.length ) {
+					editor.execCommand( 'unlink' );
 				} else {
-					editor.execCommand( 'mceInsertLink', false, attrs );
+					if ( inputs.wrap.hasClass( 'has-text-field' ) ) {
+						text = inputs.text.val();
+
+						if ( text ) {
+							$link.text( text );
+						} else if ( ! hasText ) {
+							$link.text( attrs.href );
+						}
+					}
+
+					attrs['data-wplink-edit'] = null;
+					attrs['data-mce-href'] = null; // attrs.href
+					$link.attr( attrs );
 				}
-			}
+			} );
 
 			wpLink.close( 'noReset' );
 			editor.focus();
-			editor.nodeChanged();
 
-			if ( link && editor.plugins.wplink ) {
-				editor.plugins.wplink.checkLink( link );
+			if ( $link.length ) {
+				$mceCaret = $link.parent( '#_mce_caret' );
+
+				if ( $mceCaret.length ) {
+					$mceCaret.before( $link.removeAttr( 'data-mce-bogus' ) );
+				}
+
+				editor.selection.select( $link[0] );
+				editor.selection.collapse();
+
+				if ( editor.plugins.wplink ) {
+					editor.plugins.wplink.checkLink( $link[0] );
+				}
 			}
+
+			editor.nodeChanged();
 
 			// Audible confirmation message when a link has been inserted in the Editor.
 			wp.a11y.speak( wpLinkL10n.linkInserted );
