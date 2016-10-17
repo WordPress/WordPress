@@ -555,7 +555,7 @@ function do_enclose( $content, $post_ID ) {
 	global $wpdb;
 
 	//TODO: Tidy this ghetto code up and make the debug code optional
-	include_once( ABSPATH . WPINC . '/class-IXR.php' ); 
+	include_once( ABSPATH . WPINC . '/class-IXR.php' );
 
 	$post_links = array();
 
@@ -5250,13 +5250,15 @@ function get_tag_regex( $tag ) {
  * @return string The canonical form of the charset.
  */
 function _canonical_charset( $charset ) {
-	if ( 'UTF-8' === $charset || 'utf-8' === $charset || 'utf8' === $charset ||
-		'UTF8' === $charset )
-		return 'UTF-8';
+	if ( 'utf-8' === strtolower( $charset ) || 'utf8' === strtolower( $charset) ) {
 
-	if ( 'ISO-8859-1' === $charset || 'iso-8859-1' === $charset ||
-		'iso8859-1' === $charset || 'ISO8859-1' === $charset )
+		return 'UTF-8';
+	}
+
+	if ( 'iso-8859-1' === strtolower( $charset ) || 'iso8859-1' === strtolower( $charset ) ) {
+
 		return 'ISO-8859-1';
+	}
 
 	return $charset;
 }
