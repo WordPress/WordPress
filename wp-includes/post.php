@@ -111,6 +111,51 @@ function create_initial_post_types() {
 		'query_var' => false,
 	) );
 
+	register_post_type( 'customize_changeset', array(
+		'labels' => array(
+			'name'               => _x( 'Changesets', 'post type general name' ),
+			'singular_name'      => _x( 'Changeset', 'post type singular name' ),
+			'menu_name'          => _x( 'Changesets', 'admin menu' ),
+			'name_admin_bar'     => _x( 'Changeset', 'add new on admin bar' ),
+			'add_new'            => _x( 'Add New', 'Customize Changeset' ),
+			'add_new_item'       => __( 'Add New Changeset' ),
+			'new_item'           => __( 'New Changeset' ),
+			'edit_item'          => __( 'Edit Changeset' ),
+			'view_item'          => __( 'View Changeset' ),
+			'all_items'          => __( 'All Changesets' ),
+			'search_items'       => __( 'Search Changesets' ),
+			'not_found'          => __( 'No changesets found.' ),
+			'not_found_in_trash' => __( 'No changesets found in Trash.' ),
+		),
+		'public' => false,
+		'_builtin' => true, /* internal use only. don't use this when registering your own post type. */
+		'map_meta_cap' => true,
+		'hierarchical' => false,
+		'rewrite' => false,
+		'query_var' => false,
+		'can_export' => false,
+		'delete_with_user' => false,
+		'supports' => array( 'title', 'author' ),
+		'capability_type' => 'customize_changeset',
+		'capabilities' => array(
+			'create_posts' => 'customize',
+			'delete_others_posts' => 'customize',
+			'delete_post' => 'customize',
+			'delete_posts' => 'customize',
+			'delete_private_posts' => 'customize',
+			'delete_published_posts' => 'customize',
+			'edit_others_posts' => 'customize',
+			'edit_post' => 'customize',
+			'edit_posts' => 'customize',
+			'edit_private_posts' => 'customize',
+			'edit_published_posts' => 'do_not_allow',
+			'publish_posts' => 'customize',
+			'read' => 'read',
+			'read_post' => 'customize',
+			'read_private_posts' => 'customize',
+		),
+	) );
+
 	register_post_status( 'publish', array(
 		'label'       => _x( 'Published', 'post status' ),
 		'public'      => true,

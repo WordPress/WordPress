@@ -1154,7 +1154,7 @@
 			params.action = 'update-widget';
 			params.wp_customize = 'on';
 			params.nonce = api.settings.nonce['update-widget'];
-			params.theme = api.settings.theme.stylesheet;
+			params.customize_theme = api.settings.theme.stylesheet;
 			params.customized = wp.customize.previewer.query().customized;
 
 			data = $.param( params );

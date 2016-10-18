@@ -75,6 +75,7 @@ foreach ( array( 'user_url', 'link_url', 'link_image', 'link_rss', 'comment_url'
 
 // Slugs
 add_filter( 'pre_term_slug', 'sanitize_title' );
+add_filter( 'wp_insert_post_data', '_wp_customize_changeset_filter_insert_post_data', 10, 2 );
 
 // Keys
 foreach ( array( 'pre_post_type', 'pre_post_status', 'pre_post_comment_status', 'pre_post_ping_status' ) as $filter ) {
@@ -382,6 +383,7 @@ add_action( 'parse_request', 'rest_api_loaded' );
 add_action( 'wp_loaded', '_custom_header_background_just_in_time' );
 add_action( 'wp_head', '_custom_logo_header_styles' );
 add_action( 'plugins_loaded', '_wp_customize_include' );
+add_action( 'transition_post_status', '_wp_customize_publish_changeset', 10, 3 );
 add_action( 'admin_enqueue_scripts', '_wp_customize_loader_settings' );
 add_action( 'delete_attachment', '_delete_attachment_theme_mod' );
 

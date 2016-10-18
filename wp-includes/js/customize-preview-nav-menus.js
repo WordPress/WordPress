@@ -106,7 +106,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 			 * @returns {boolean}
 			 */
 			isRelatedSetting: function( setting, newValue, oldValue ) {
-				var partial = this, navMenuLocationSetting, navMenuId, isNavMenuItemSetting;
+				var partial = this, navMenuLocationSetting, navMenuId, isNavMenuItemSetting, _newValue, _oldValue, urlParser;
 				if ( _.isString( setting ) ) {
 					setting = api( setting );
 				}
@@ -123,9 +123,23 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 				 */
 				isNavMenuItemSetting = /^nav_menu_item\[/.test( setting.id );
 				if ( isNavMenuItemSetting && _.isObject( newValue ) && _.isObject( oldValue ) ) {
-					delete newValue.type_label;
-					delete oldValue.type_label;
-					if ( _.isEqual( oldValue, newValue ) ) {
+					_newValue = _.clone( newValue );
+					_oldValue = _.clone( oldValue );
+					delete _newValue.type_label;
+					delete _oldValue.type_label;
+
+					// Normalize URL scheme when parent frame is HTTPS to prevent selective refresh upon initial page load.
+					if ( 'https' === api.preview.scheme.get() ) {
+						urlParser = document.createElement( 'a' );
+						urlParser.href = _newValue.url;
+						urlParser.protocol = 'https:';
+						_newValue.url = urlParser.href;
+						urlParser.href = _oldValue.url;
+						urlParser.protocol = 'https:';
+						_oldValue.url = urlParser.href;
+					}
+
+					if ( _.isEqual( _oldValue, _newValue ) ) {
 						return false;
 					}
 				}
@@ -364,6 +378,11 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 	 */
 	self.highlightControls = function() {
 		var selector = '.menu-item';
+
+		// Skip adding highlights if not in the customizer preview iframe.
+		if ( ! api.settings.channel ) {
+			return;
+		}
 
 		// Focus on the menu item control when shift+clicking the menu item.
 		$( document ).on( 'click', selector, function( e ) {

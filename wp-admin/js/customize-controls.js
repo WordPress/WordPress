@@ -22,26 +22,42 @@
 	 */
 	api.Setting = api.Value.extend({
 		initialize: function( id, value, options ) {
-			api.Value.prototype.initialize.call( this, value, options );
+			var setting = this;
+			api.Value.prototype.initialize.call( setting, value, options );
 
-			this.id = id;
-			this.transport = this.transport || 'refresh';
-			this._dirty = options.dirty || false;
-			this.notifications = new api.Values({ defaultConstructor: api.Notification });
+			setting.id = id;
+			setting.transport = setting.transport || 'refresh';
+			setting._dirty = options.dirty || false;
+			setting.notifications = new api.Values({ defaultConstructor: api.Notification });
 
 			// Whenever the setting's value changes, refresh the preview.
-			this.bind( this.preview );
+			setting.bind( setting.preview );
 		},
 
 		/**
 		 * Refresh the preview, respective of the setting's refresh policy.
+		 *
+		 * If the preview hasn't sent a keep-alive message and is likely
+		 * disconnected by having navigated to a non-allowed URL, then the
+		 * refresh transport will be forced when postMessage is the transport.
+		 * Note that postMessage does not throw an error when the recipient window
+		 * fails to match the origin window, so using try/catch around the
+		 * previewer.send() call to then fallback to refresh will not work.
+		 *
+		 * @since 3.4.0
 		 */
 		preview: function() {
-			switch ( this.transport ) {
-				case 'refresh':
-					return this.previewer.refresh();
-				case 'postMessage':
-					return this.previewer.send( 'setting', [ this.id, this() ] );
+			var setting = this, transport;
+			transport = setting.transport;
+
+			if ( 'postMessage' === transport && ! api.state( 'previewerAlive' ).get() ) {
+				transport = 'refresh';
+			}
+
+			if ( 'postMessage' === transport ) {
+				return setting.previewer.send( 'setting', [ setting.id, setting() ] );
+			} else if ( 'refresh' === transport ) {
+				return setting.previewer.refresh();
 			}
 		},
 
@@ -65,9 +81,166 @@
 	});
 
 	/**
-	 * Utility function namespace
+	 * Current change count.
+	 *
+	 * @since 4.7.0
+	 * @type {number}
+	 * @protected
 	 */
-	api.utils = {};
+	api._latestRevision = 0;
+
+	/**
+	 * Last revision that was saved.
+	 *
+	 * @since 4.7.0
+	 * @type {number}
+	 * @protected
+	 */
+	api._lastSavedRevision = 0;
+
+	/**
+	 * Latest revisions associated with the updated setting.
+	 *
+	 * @since 4.7.0
+	 * @type {object}
+	 * @protected
+	 */
+	api._latestSettingRevisions = {};
+
+	/*
+	 * Keep track of the revision associated with each updated setting so that
+	 * requestChangesetUpdate knows which dirty settings to include. Also, once
+	 * ready is triggered and all initial settings have been added, increment
+	 * revision for each newly-created initially-dirty setting so that it will
+	 * also be included in changeset update requests.
+	 */
+	api.bind( 'change', function incrementChangedSettingRevision( setting ) {
+		api._latestRevision += 1;
+		api._latestSettingRevisions[ setting.id ] = api._latestRevision;
+	} );
+	api.bind( 'ready', function() {
+		api.bind( 'add', function incrementCreatedSettingRevision( setting ) {
+			if ( setting._dirty ) {
+				api._latestRevision += 1;
+				api._latestSettingRevisions[ setting.id ] = api._latestRevision;
+			}
+		} );
+	} );
+
+	/**
+	 * Get the dirty setting values.
+	 *
+	 * @param {object} [options] Options.
+	 * @param {boolean} [options.unsaved=false] Whether only values not saved yet into a changeset will be returned (differential changes).
+	 * @returns {object} Dirty setting values.
+	 */
+	api.dirtyValues = function dirtyValues( options ) {
+		var values = {};
+		api.each( function( setting ) {
+			var settingRevision;
+
+			if ( ! setting._dirty ) {
+				return;
+			}
+
+			settingRevision = api._latestSettingRevisions[ setting.id ];
+
+			// Skip including settings that have already been included in the changeset, if only requesting unsaved.
+			if ( ( options && options.unsaved ) && ( _.isUndefined( settingRevision ) || settingRevision <= api._lastSavedRevision ) ) {
+				return;
+			}
+
+			values[ setting.id ] = setting.get();
+		} );
+		return values;
+	};
+
+	/**
+	 * Request updates to the changeset.
+	 *
+	 * @param {object} [changes] Mapping of setting IDs to setting params each normally including a value property, or mapping to null.
+	 *                           If not provided, then the changes will still be obtained from unsaved dirty settings.
+	 * @returns {jQuery.Promise}
+	 */
+	api.requestChangesetUpdate = function requestChangesetUpdate( changes ) {
+		var deferred, request, submittedChanges = {}, data;
+		deferred = new $.Deferred();
+
+		if ( changes ) {
+			_.extend( submittedChanges, changes );
+		}
+
+		// Ensure all revised settings (changes pending save) are also included, but not if marked for deletion in changes.
+		_.each( api.dirtyValues( { unsaved: true } ), function( dirtyValue, settingId ) {
+			if ( ! changes || null !== changes[ settingId ] ) {
+				submittedChanges[ settingId ] = _.extend(
+					{},
+					submittedChanges[ settingId ] || {},
+					{ value: dirtyValue }
+				);
+			}
+		} );
+
+		// Short-circuit when there are no pending changes.
+		if ( _.isEmpty( submittedChanges ) ) {
+			deferred.resolve( {} );
+			return deferred.promise();
+		}
+
+		// Make sure that publishing a changeset waits for all changeset update requests to complete.
+		api.state( 'processing' ).set( api.state( 'processing' ).get() + 1 );
+		deferred.always( function() {
+			api.state( 'processing' ).set( api.state( 'processing' ).get() - 1 );
+		} );
+
+		// Allow plugins to attach additional params to the settings.
+		api.trigger( 'changeset-save', submittedChanges );
+
+		// Ensure that if any plugins add data to save requests by extending query() that they get included here.
+		data = api.previewer.query( { excludeCustomizedSaved: true } );
+		delete data.customized; // Being sent in customize_changeset_data instead.
+		_.extend( data, {
+			nonce: api.settings.nonce.save,
+			customize_theme: api.settings.theme.stylesheet,
+			customize_changeset_data: JSON.stringify( submittedChanges )
+		} );
+
+		request = wp.ajax.post( 'customize_save', data );
+
+		request.done( function requestChangesetUpdateDone( data ) {
+			var savedChangesetValues = {};
+
+			// Ensure that all settings updated subsequently will be included in the next changeset update request.
+			api._lastSavedRevision = Math.max( api._latestRevision, api._lastSavedRevision );
+
+			api.state( 'changesetStatus' ).set( data.changeset_status );
+			deferred.resolve( data );
+			api.trigger( 'changeset-saved', data );
+
+			if ( data.setting_validities ) {
+				_.each( data.setting_validities, function( validity, settingId ) {
+					if ( true === validity && _.isObject( submittedChanges[ settingId ] ) && ! _.isUndefined( submittedChanges[ settingId ].value ) ) {
+						savedChangesetValues[ settingId ] = submittedChanges[ settingId ].value;
+					}
+				} );
+			}
+
+			api.previewer.send( 'changeset-saved', _.extend( {}, data, { saved_changeset_values: savedChangesetValues } ) );
+		} );
+		request.fail( function requestChangesetUpdateFail( data ) {
+			deferred.reject( data );
+			api.trigger( 'changeset-error', data );
+		} );
+		request.always( function( data ) {
+			if ( data.setting_validities ) {
+				api._handleSettingValidities( {
+					settingValidities: data.setting_validities
+				} );
+			}
+		} );
+
+		return deferred.promise();
+	};
 
 	/**
 	 * Watch all changes to Value properties, and bubble changes to parent Values instance
@@ -1216,6 +1389,57 @@
 		},
 
 		/**
+		 * Load theme preview.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param {string} themeId Theme ID.
+		 * @returns {jQuery.promise} Promise.
+		 */
+		loadThemePreview: function( themeId ) {
+			var deferred = $.Deferred(), onceProcessingComplete, overlay, urlParser;
+
+			urlParser = document.createElement( 'a' );
+			urlParser.href = location.href;
+			urlParser.search = $.param( _.extend(
+				api.utils.parseQueryString( urlParser.search.substr( 1 ) ),
+				{
+					theme: themeId,
+					changeset_uuid: api.settings.changeset.uuid
+				}
+			) );
+
+			overlay = $( '.wp-full-overlay' );
+			overlay.addClass( 'customize-loading' );
+
+			onceProcessingComplete = function() {
+				var request;
+				if ( api.state( 'processing' ).get() > 0 ) {
+					return;
+				}
+
+				api.state( 'processing' ).unbind( onceProcessingComplete );
+
+				request = api.requestChangesetUpdate();
+				request.done( function() {
+					$( window ).off( 'beforeunload.customize-confirm' );
+					window.location.href = urlParser.href;
+				} );
+				request.fail( function() {
+					overlay.removeClass( 'customize-loading' );
+				} );
+			};
+
+			if ( 0 === api.state( 'processing' ).get() ) {
+				onceProcessingComplete();
+			} else {
+				api.state( 'processing' ).bind( onceProcessingComplete );
+			}
+
+			return deferred.promise();
+		},
+
+		/**
 		 * Render & show the theme details for a given theme model.
 		 *
 		 * @since 4.2.0
@@ -1223,7 +1447,7 @@
 		 * @param {Object}   theme
 		 */
 		showDetails: function ( theme, callback ) {
-			var section = this;
+			var section = this, link;
 			callback = callback || function(){};
 			section.currentTheme = theme.id;
 			section.overlay.html( section.template( theme ) )
@@ -1232,6 +1456,22 @@
 			$( 'body' ).addClass( 'modal-open' );
 			section.containFocus( section.overlay );
 			section.updateLimits();
+
+			link = section.overlay.find( '.inactive-theme > a' );
+
+			link.on( 'click', function( event ) {
+				event.preventDefault();
+
+				// Short-circuit if request is currently being made.
+				if ( link.hasClass( 'disabled' ) ) {
+					return;
+				}
+				link.addClass( 'disabled' );
+
+				section.loadThemePreview( theme.id ).fail( function() {
+					link.removeClass( 'disabled' );
+				} );
+			} );
 			callback();
 		},
 
@@ -2227,7 +2467,7 @@
 			wp.ajax.post( 'custom-background-add', {
 				nonce: _wpCustomizeBackground.nonces.add,
 				wp_customize: 'on',
-				theme: api.settings.theme.stylesheet,
+				customize_theme: api.settings.theme.stylesheet,
 				attachment_id: this.params.attachment.id
 			} );
 		}
@@ -2592,7 +2832,7 @@
 
 			// Ensure custom-header-crop Ajax requests bootstrap the Customizer to activate the previewed theme.
 			wp.media.controller.Cropper.prototype.defaults.doCropArgs.wp_customize = 'on';
-			wp.media.controller.Cropper.prototype.defaults.doCropArgs.theme = api.settings.theme.stylesheet;
+			wp.media.controller.Cropper.prototype.defaults.doCropArgs.customize_theme = api.settings.theme.stylesheet;
 		},
 
 		/**
@@ -2883,11 +3123,7 @@
 					return;
 				}
 
-				var previewUrl = $( this ).data( 'previewUrl' );
-
-				$( '.wp-full-overlay' ).addClass( 'customize-loading' );
-
-				window.parent.location = previewUrl;
+				api.section( control.section() ).loadThemePreview( control.params.theme.id );
 			});
 
 			control.container.on( 'click keydown', '.theme-actions .theme-details', function( event ) {
@@ -2948,13 +3184,12 @@
 	 * @mixes wp.customize.Events
 	 */
 	api.PreviewFrame = api.Messenger.extend({
-		sensitivity: 2000,
+		sensitivity: null, // Will get set to api.settings.timeouts.previewFrameSensitivity.
 
 		/**
 		 * Initialize the PreviewFrame.
 		 *
 		 * @param {object} params.container
-		 * @param {object} params.signature
 		 * @param {object} params.previewUrl
 		 * @param {object} params.query
 		 * @param {object} options
@@ -2969,7 +3204,6 @@
 			deferred.promise( this );
 
 			this.container = params.container;
-			this.signature = params.signature;
 
 			$.extend( params, { channel: api.PreviewFrame.uuid() });
 
@@ -2989,143 +3223,118 @@
 		 *                          the request.
 		 */
 		run: function( deferred ) {
-			var self   = this,
+			var previewFrame = this,
 				loaded = false,
-				ready  = false;
+				ready = false,
+				readyData = null,
+				hasPendingChangesetUpdate = '{}' !== previewFrame.query.customized,
+				urlParser,
+				params,
+				form;
 
-			if ( this._ready ) {
-				this.unbind( 'ready', this._ready );
+			if ( previewFrame._ready ) {
+				previewFrame.unbind( 'ready', previewFrame._ready );
 			}
 
-			this._ready = function() {
+			previewFrame._ready = function( data ) {
 				ready = true;
-
-				if ( loaded ) {
-					deferred.resolveWith( self );
-				}
-			};
-
-			this.bind( 'ready', this._ready );
-
-			this.bind( 'ready', function ( data ) {
-
-				this.container.addClass( 'iframe-ready' );
-
+				readyData = data;
+				previewFrame.container.addClass( 'iframe-ready' );
 				if ( ! data ) {
 					return;
 				}
 
-				/*
-				 * Walk over all panels, sections, and controls and set their
-				 * respective active states to true if the preview explicitly
-				 * indicates as such.
-				 */
-				var constructs = {
-					panel: data.activePanels,
-					section: data.activeSections,
-					control: data.activeControls
-				};
-				_( constructs ).each( function ( activeConstructs, type ) {
-					api[ type ].each( function ( construct, id ) {
-						var isDynamicallyCreated = _.isUndefined( api.settings[ type + 's' ][ id ] );
+				if ( loaded ) {
+					deferred.resolveWith( previewFrame, [ data ] );
+				}
+			};
 
-						/*
-						 * If the construct was created statically in PHP (not dynamically in JS)
-						 * then consider a missing (undefined) value in the activeConstructs to
-						 * mean it should be deactivated (since it is gone). But if it is
-						 * dynamically created then only toggle activation if the value is defined,
-						 * as this means that the construct was also then correspondingly
-						 * created statically in PHP and the active callback is available.
-						 * Otherwise, dynamically-created constructs should normally have
-						 * their active states toggled in JS rather than from PHP.
-						 */
-						if ( ! isDynamicallyCreated || ! _.isUndefined( activeConstructs[ id ] ) ) {
-							if ( activeConstructs[ id ] ) {
-								construct.activate();
-							} else {
-								construct.deactivate();
-							}
-						}
-					} );
+			previewFrame.bind( 'ready', previewFrame._ready );
+
+			urlParser = document.createElement( 'a' );
+			urlParser.href = previewFrame.previewUrl();
+
+			params = _.extend(
+				api.utils.parseQueryString( urlParser.search.substr( 1 ) ),
+				{
+					customize_changeset_uuid: previewFrame.query.customize_changeset_uuid,
+					customize_theme: previewFrame.query.customize_theme,
+					customize_messenger_channel: previewFrame.query.customize_messenger_channel
+				}
+			);
+
+			urlParser.search = $.param( params );
+			previewFrame.iframe = $( '<iframe />', {
+				title: api.l10n.previewIframeTitle,
+				name: 'customize-' + previewFrame.channel()
+			} );
+			previewFrame.iframe.attr( 'onmousewheel', '' ); // Workaround for Safari bug. See WP Trac #38149.
+
+			if ( ! hasPendingChangesetUpdate ) {
+				previewFrame.iframe.attr( 'src', urlParser.href );
+			} else {
+				previewFrame.iframe.attr( 'data-src', urlParser.href ); // For debugging purposes.
+			}
+
+			previewFrame.iframe.appendTo( previewFrame.container );
+			previewFrame.targetWindow( previewFrame.iframe[0].contentWindow );
+
+			/*
+			 * Submit customized data in POST request to preview frame window since
+			 * there are setting value changes not yet written to changeset.
+			 */
+			if ( hasPendingChangesetUpdate ) {
+				form = $( '<form>', {
+					action: urlParser.href,
+					target: previewFrame.iframe.attr( 'name' ),
+					method: 'post',
+					hidden: 'hidden'
 				} );
+				form.append( $( '<input>', {
+					type: 'hidden',
+					name: '_method',
+					value: 'GET'
+				} ) );
+				_.each( previewFrame.query, function( value, key ) {
+					form.append( $( '<input>', {
+						type: 'hidden',
+						name: key,
+						value: value
+					} ) );
+				} );
+				previewFrame.container.append( form );
+				form.submit();
+				form.remove(); // No need to keep the form around after submitted.
+			}
 
-				if ( data.settingValidities ) {
-					api._handleSettingValidities( {
-						settingValidities: data.settingValidities,
-						focusInvalidControl: false
-					} );
-				}
-			} );
-
-			this.request = $.ajax( this.previewUrl(), {
-				type: 'POST',
-				data: this.query,
-				xhrFields: {
-					withCredentials: true
-				}
-			} );
-
-			this.request.fail( function() {
-				deferred.rejectWith( self, [ 'request failure' ] );
-			});
-
-			this.request.done( function( response ) {
-				var location = self.request.getResponseHeader('Location'),
-					signature = self.signature,
-					index;
-
-				// Check if the location response header differs from the current URL.
-				// If so, the request was redirected; try loading the requested page.
-				if ( location && location !== self.previewUrl() ) {
-					deferred.rejectWith( self, [ 'redirect', location ] );
-					return;
-				}
+			previewFrame.bind( 'iframe-loading-error', function( error ) {
+				previewFrame.iframe.remove();
 
 				// Check if the user is not logged in.
-				if ( '0' === response ) {
-					self.login( deferred );
+				if ( 0 === error ) {
+					previewFrame.login( deferred );
 					return;
 				}
 
 				// Check for cheaters.
-				if ( '-1' === response ) {
-					deferred.rejectWith( self, [ 'cheatin' ] );
+				if ( -1 === error ) {
+					deferred.rejectWith( previewFrame, [ 'cheatin' ] );
 					return;
 				}
 
-				// Check for a signature in the request.
-				index = response.lastIndexOf( signature );
-				if ( -1 === index || index < response.lastIndexOf('</html>') ) {
-					deferred.rejectWith( self, [ 'unsigned' ] );
-					return;
+				deferred.rejectWith( previewFrame, [ 'request failure' ] );
+			} );
+
+			previewFrame.iframe.one( 'load', function() {
+				loaded = true;
+
+				if ( ready ) {
+					deferred.resolveWith( previewFrame, [ readyData ] );
+				} else {
+					setTimeout( function() {
+						deferred.rejectWith( previewFrame, [ 'ready timeout' ] );
+					}, previewFrame.sensitivity );
 				}
-
-				// Strip the signature from the request.
-				response = response.slice( 0, index ) + response.slice( index + signature.length );
-
-				// Create the iframe and inject the html content.
-				self.iframe = $( '<iframe />', { 'title': api.l10n.previewIframeTitle } ).appendTo( self.container );
-				self.iframe.attr( 'onmousewheel', '' ); // Workaround for Safari bug. See WP Trac #38149.
-
-				// Bind load event after the iframe has been added to the page;
-				// otherwise it will fire when injected into the DOM.
-				self.iframe.one( 'load', function() {
-					loaded = true;
-
-					if ( ready ) {
-						deferred.resolveWith( self );
-					} else {
-						setTimeout( function() {
-							deferred.rejectWith( self, [ 'ready timeout' ] );
-						}, self.sensitivity );
-					}
-				});
-
-				self.targetWindow( self.iframe[0].contentWindow );
-
-				self.targetWindow().document.open();
-				self.targetWindow().document.write( response );
-				self.targetWindow().document.close();
 			});
 		},
 
@@ -3164,26 +3373,29 @@
 
 		destroy: function() {
 			api.Messenger.prototype.destroy.call( this );
-			this.request.abort();
 
-			if ( this.iframe )
+			if ( this.iframe ) {
 				this.iframe.remove();
+			}
 
-			delete this.request;
 			delete this.iframe;
 			delete this.targetWindow;
 		}
 	});
 
 	(function(){
-		var uuid = 0;
+		var id = 0;
 		/**
-		 * Create a universally unique identifier.
+		 * Return an incremented ID for a preview messenger channel.
 		 *
-		 * @return {int}
+		 * This function is named "uuid" for historical reasons, but it is a
+		 * misnomer as it is not an actual UUID, and it is not universally unique.
+		 * This is not to be confused with `api.settings.changeset.uuid`.
+		 *
+		 * @return {string}
 		 */
 		api.PreviewFrame.uuid = function() {
-			return 'preview-' + uuid++;
+			return 'preview-' + String( id++ );
 		};
 	}());
 
@@ -3209,7 +3421,7 @@
 	 * @mixes wp.customize.Events
 	 */
 	api.Previewer = api.Messenger.extend({
-		refreshBuffer: 250,
+		refreshBuffer: null, // Will get set to api.settings.timeouts.windowRefresh.
 
 		/**
 		 * @param {array}  params.allowedUrls
@@ -3217,64 +3429,50 @@
 		 *                                    frame to be placed.
 		 * @param {string} params.form
 		 * @param {string} params.previewUrl  The URL to preview.
-		 * @param {string} params.signature
 		 * @param {object} options
 		 */
 		initialize: function( params, options ) {
-			var self = this,
-				rscheme = /^https?/;
+			var previewer = this,
+				urlParser = document.createElement( 'a' );
 
-			$.extend( this, options || {} );
-			this.deferred = {
+			$.extend( previewer, options || {} );
+			previewer.deferred = {
 				active: $.Deferred()
 			};
 
-			/*
-			 * Wrap this.refresh to prevent it from hammering the servers:
-			 *
-			 * If refresh is called once and no other refresh requests are
-			 * loading, trigger the request immediately.
-			 *
-			 * If refresh is called while another refresh request is loading,
-			 * debounce the refresh requests:
-			 * 1. Stop the loading request (as it is instantly outdated).
-			 * 2. Trigger the new request once refresh hasn't been called for
-			 *    self.refreshBuffer milliseconds.
-			 */
-			this.refresh = (function( self ) {
-				var refresh  = self.refresh,
-					callback = function() {
-						timeout = null;
-						refresh.call( self );
-					},
-					timeout;
-
-				return function() {
-					if ( typeof timeout !== 'number' ) {
-						if ( self.loading ) {
-							self.abort();
+			// Debounce to prevent hammering server and then wait for any pending update requests.
+			previewer.refresh = _.debounce(
+				( function( originalRefresh ) {
+					return function() {
+						var isProcessingComplete, refreshOnceProcessingComplete;
+						isProcessingComplete = function() {
+							return 0 === api.state( 'processing' ).get();
+						};
+						if ( isProcessingComplete() ) {
+							originalRefresh.call( previewer );
 						} else {
-							return callback();
+							refreshOnceProcessingComplete = function() {
+								if ( isProcessingComplete() ) {
+									originalRefresh.call( previewer );
+									api.state( 'processing' ).unbind( refreshOnceProcessingComplete );
+								}
+							};
+							api.state( 'processing' ).bind( refreshOnceProcessingComplete );
 						}
-					}
+					};
+				}( previewer.refresh ) ),
+				previewer.refreshBuffer
+			);
 
-					clearTimeout( timeout );
-					timeout = setTimeout( callback, self.refreshBuffer );
-				};
-			})( this );
-
-			this.container   = api.ensure( params.container );
-			this.allowedUrls = params.allowedUrls;
-			this.signature   = params.signature;
+			previewer.container   = api.ensure( params.container );
+			previewer.allowedUrls = params.allowedUrls;
 
 			params.url = window.location.href;
 
-			api.Messenger.prototype.initialize.call( this, params );
+			api.Messenger.prototype.initialize.call( previewer, params );
 
-			this.add( 'scheme', this.origin() ).link( this.origin ).setter( function( to ) {
-				var match = to.match( rscheme );
-				return match ? match[0] : '';
-			});
+			urlParser.href = previewer.origin();
+			previewer.add( 'scheme', urlParser.protocol.replace( /:$/, '' ) );
 
 			// Limit the URL to internal, front-end links.
 			//
@@ -3284,8 +3482,8 @@
 			// are on different domains to avoid the case where the front end doesn't have
 			// ssl certs.
 
-			this.add( 'previewUrl', params.previewUrl ).setter( function( to ) {
-				var result, urlParser;
+			previewer.add( 'previewUrl', params.previewUrl ).setter( function( to ) {
+				var result, urlParser, newPreviewUrl, schemeMatchingPreviewUrl, queryParams;
 				urlParser = document.createElement( 'a' );
 				urlParser.href = to;
 
@@ -3294,10 +3492,27 @@
 					return null;
 				}
 
+				// Remove state query params.
+				if ( urlParser.search.length > 1 ) {
+					queryParams = api.utils.parseQueryString( urlParser.search.substr( 1 ) );
+					delete queryParams.customize_changeset_uuid;
+					delete queryParams.customize_theme;
+					delete queryParams.customize_messenger_channel;
+					if ( _.isEmpty( queryParams ) ) {
+						urlParser.search = '';
+					} else {
+						urlParser.search = $.param( queryParams );
+					}
+				}
+
+				newPreviewUrl = urlParser.href;
+				urlParser.protocol = previewer.scheme.get() + ':';
+				schemeMatchingPreviewUrl = urlParser.href;
+
 				// Attempt to match the URL to the control frame's scheme
 				// and check if it's allowed. If not, try the original URL.
-				$.each([ to.replace( rscheme, self.scheme() ), to ], function( i, url ) {
-					$.each( self.allowedUrls, function( i, allowed ) {
+				$.each( [ schemeMatchingPreviewUrl, newPreviewUrl ], function( i, url ) {
+					$.each( previewer.allowedUrls, function( i, allowed ) {
 						var path;
 
 						allowed = allowed.replace( /\/+$/, '' );
@@ -3308,29 +3523,170 @@
 							return false;
 						}
 					});
-					if ( result )
+					if ( result ) {
 						return false;
+					}
 				});
 
 				// If we found a matching result, return it. If not, bail.
 				return result ? result : null;
 			});
 
-			// Refresh the preview when the URL is changed (but not yet).
-			this.previewUrl.bind( this.refresh );
+			previewer.bind( 'ready', previewer.ready );
 
-			this.scroll = 0;
-			this.bind( 'scroll', function( distance ) {
-				this.scroll = distance;
+			// Start listening for keep-alive messages when iframe first loads.
+			previewer.deferred.active.done( _.bind( previewer.keepPreviewAlive, previewer ) );
+
+			previewer.bind( 'synced', function() {
+				previewer.send( 'active' );
+			} );
+
+			// Refresh the preview when the URL is changed (but not yet).
+			previewer.previewUrl.bind( previewer.refresh );
+
+			previewer.scroll = 0;
+			previewer.bind( 'scroll', function( distance ) {
+				previewer.scroll = distance;
 			});
 
-			// Update the URL when the iframe sends a URL message.
-			this.bind( 'url', this.previewUrl );
+			// Update the URL when the iframe sends a URL message, resetting scroll position. If URL is unchanged, then refresh.
+			previewer.bind( 'url', function( url ) {
+				var onUrlChange, urlChanged = false;
+				previewer.scroll = 0;
+				onUrlChange = function() {
+					urlChanged = true;
+				};
+				previewer.previewUrl.bind( onUrlChange );
+				previewer.previewUrl.set( url );
+				previewer.previewUrl.unbind( onUrlChange );
+				if ( ! urlChanged ) {
+					previewer.refresh();
+				}
+			} );
 
 			// Update the document title when the preview changes.
-			this.bind( 'documentTitle', function ( title ) {
+			previewer.bind( 'documentTitle', function ( title ) {
 				api.setDocumentTitle( title );
 			} );
+		},
+
+		/**
+		 * Handle the preview receiving the ready message.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param {object} data - Data from preview.
+		 * @param {string} data.currentUrl - Current URL.
+		 * @param {object} data.activePanels - Active panels.
+		 * @param {object} data.activeSections Active sections.
+		 * @param {object} data.activeControls Active controls.
+		 * @returns {void}
+		 */
+		ready: function( data ) {
+			var previewer = this, synced = {}, constructs;
+
+			synced.settings = api.get();
+			if ( 'resolved' !== previewer.deferred.active.state() || previewer.loading ) {
+				synced.scroll = previewer.scroll;
+			}
+			previewer.send( 'sync', synced );
+
+			// Set the previewUrl without causing the url to set the iframe.
+			if ( data.currentUrl ) {
+				previewer.previewUrl.unbind( previewer.refresh );
+				previewer.previewUrl.set( data.currentUrl );
+				previewer.previewUrl.bind( previewer.refresh );
+			}
+
+			/*
+			 * Walk over all panels, sections, and controls and set their
+			 * respective active states to true if the preview explicitly
+			 * indicates as such.
+			 */
+			constructs = {
+				panel: data.activePanels,
+				section: data.activeSections,
+				control: data.activeControls
+			};
+			_( constructs ).each( function ( activeConstructs, type ) {
+				api[ type ].each( function ( construct, id ) {
+					var isDynamicallyCreated = _.isUndefined( api.settings[ type + 's' ][ id ] );
+
+					/*
+					 * If the construct was created statically in PHP (not dynamically in JS)
+					 * then consider a missing (undefined) value in the activeConstructs to
+					 * mean it should be deactivated (since it is gone). But if it is
+					 * dynamically created then only toggle activation if the value is defined,
+					 * as this means that the construct was also then correspondingly
+					 * created statically in PHP and the active callback is available.
+					 * Otherwise, dynamically-created constructs should normally have
+					 * their active states toggled in JS rather than from PHP.
+					 */
+					if ( ! isDynamicallyCreated || ! _.isUndefined( activeConstructs[ id ] ) ) {
+						if ( activeConstructs[ id ] ) {
+							construct.activate();
+						} else {
+							construct.deactivate();
+						}
+					}
+				} );
+			} );
+
+			if ( data.settingValidities ) {
+				api._handleSettingValidities( {
+					settingValidities: data.settingValidities,
+					focusInvalidControl: false
+				} );
+			}
+		},
+
+		/**
+		 * Keep the preview alive by listening for ready and keep-alive messages.
+		 *
+		 * If a message is not received in the allotted time then the iframe will be set back to the last known valid URL.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @returns {void}
+		 */
+		keepPreviewAlive: function keepPreviewAlive() {
+			var previewer = this, keepAliveTick, timeoutId, handleMissingKeepAlive, scheduleKeepAliveCheck;
+
+			/**
+			 * Schedule a preview keep-alive check.
+			 *
+			 * Note that if a page load takes longer than keepAliveCheck milliseconds,
+			 * the keep-alive messages will still be getting sent from the previous
+			 * URL.
+			 */
+			scheduleKeepAliveCheck = function() {
+				timeoutId = setTimeout( handleMissingKeepAlive, api.settings.timeouts.keepAliveCheck );
+			};
+
+			/**
+			 * Set the previewerAlive state to true when receiving a message from the preview.
+			 */
+			keepAliveTick = function() {
+				api.state( 'previewerAlive' ).set( true );
+				clearTimeout( timeoutId );
+				scheduleKeepAliveCheck();
+			};
+
+			/**
+			 * Set the previewerAlive state to false if keepAliveCheck milliseconds have transpired without a message.
+			 *
+			 * This is most likely to happen in the case of a connectivity error, or if the theme causes the browser
+			 * to navigate to a non-allowed URL. Setting this state to false will force settings with a postMessage
+			 * transport to use refresh instead, causing the preview frame also to be replaced with the current
+			 * allowed preview URL.
+			 */
+			handleMissingKeepAlive = function() {
+				api.state( 'previewerAlive' ).set( false );
+			};
+			scheduleKeepAliveCheck();
+
+			previewer.bind( 'ready', keepAliveTick );
+			previewer.bind( 'keep-alive', keepAliveTick );
 		},
 
 		/**
@@ -3348,62 +3704,59 @@
 		},
 
 		/**
-		 * Refresh the preview.
+		 * Refresh the preview seamlessly.
 		 */
 		refresh: function() {
-			var self = this;
+			var previewer = this;
 
 			// Display loading indicator
-			this.send( 'loading-initiated' );
+			previewer.send( 'loading-initiated' );
 
-			this.abort();
+			previewer.abort();
 
-			this.loading = new api.PreviewFrame({
-				url:        this.url(),
-				previewUrl: this.previewUrl(),
-				query:      this.query() || {},
-				container:  this.container,
-				signature:  this.signature
+			previewer.loading = new api.PreviewFrame({
+				url:        previewer.url(),
+				previewUrl: previewer.previewUrl(),
+				query:      previewer.query( { excludeCustomizedSaved: true } ) || {},
+				container:  previewer.container
 			});
 
-			this.loading.done( function() {
-				// 'this' is the loading frame
-				this.bind( 'synced', function() {
-					if ( self.preview )
-						self.preview.destroy();
-					self.preview = this;
-					delete self.loading;
+			previewer.loading.done( function( readyData ) {
+				var loadingFrame = this, previousPreview, onceSynced;
 
-					self.targetWindow( this.targetWindow() );
-					self.channel( this.channel() );
+				previousPreview = previewer.preview;
+				previewer.preview = loadingFrame;
+				previewer.targetWindow( loadingFrame.targetWindow() );
+				previewer.channel( loadingFrame.channel() );
 
-					self.deferred.active.resolve();
-					self.send( 'active' );
-				});
+				onceSynced = function() {
+					loadingFrame.unbind( 'synced', onceSynced );
+					if ( previousPreview ) {
+						previousPreview.destroy();
+					}
+					previewer.deferred.active.resolve();
+					delete previewer.loading;
+				};
+				loadingFrame.bind( 'synced', onceSynced );
 
-				this.send( 'sync', {
-					scroll:   self.scroll,
-					settings: api.get()
-				});
+				// This event will be received directly by the previewer in normal navigation; this is only needed for seamless refresh.
+				previewer.trigger( 'ready', readyData );
 			});
 
-			this.loading.fail( function( reason, location ) {
-				self.send( 'loading-failed' );
-				if ( 'redirect' === reason && location ) {
-					self.previewUrl( location );
-				}
+			previewer.loading.fail( function( reason ) {
+				previewer.send( 'loading-failed' );
 
 				if ( 'logged out' === reason ) {
-					if ( self.preview ) {
-						self.preview.destroy();
-						delete self.preview;
+					if ( previewer.preview ) {
+						previewer.preview.destroy();
+						delete previewer.preview;
 					}
 
-					self.login().done( self.refresh );
+					previewer.login().done( previewer.refresh );
 				}
 
 				if ( 'cheatin' === reason ) {
-					self.cheatin();
+					previewer.cheatin();
 				}
 			});
 		},
@@ -3463,7 +3816,7 @@
 
 			request = wp.ajax.post( 'customize_refresh_nonces', {
 				wp_customize: 'on',
-				theme: api.settings.theme.stylesheet
+				customize_theme: api.settings.theme.stylesheet
 			});
 
 			request.done( function( response ) {
@@ -3679,6 +4032,13 @@
 			return;
 		}
 
+		if ( null === api.PreviewFrame.prototype.sensitivity ) {
+			api.PreviewFrame.prototype.sensitivity = api.settings.timeouts.previewFrameSensitivity;
+		}
+		if ( null === api.Previewer.prototype.refreshBuffer ) {
+			api.Previewer.prototype.refreshBuffer = api.settings.timeouts.windowRefresh;
+		}
+
 		var parent,
 			body = $( document.body ),
 			overlay = body.children( '.wp-full-overlay' ),
@@ -3722,8 +4082,7 @@
 			container:   '#customize-preview',
 			form:        '#customize-controls',
 			previewUrl:  api.settings.url.preview,
-			allowedUrls: api.settings.url.allowed,
-			signature:   'WP_CUSTOMIZER_SIGNATURE'
+			allowedUrls: api.settings.url.allowed
 		}, {
 
 			nonce: api.settings.nonce,
@@ -3731,26 +4090,51 @@
 			/**
 			 * Build the query to send along with the Preview request.
 			 *
-			 * @return {object}
+			 * @since 4.7.0 Added options param.
+			 *
+			 * @param {object}  [options] Options.
+			 * @param {boolean} [options.excludeCustomizedSaved=false] Exclude saved settings in customized response (values pending writing to changeset).
+			 * @return {object} Query vars.
 			 */
-			query: function() {
-				var dirtyCustomized = {};
-				api.each( function ( value, key ) {
-					if ( value._dirty ) {
-						dirtyCustomized[ key ] = value();
-					}
-				} );
-
-				return {
+			query: function( options ) {
+				var queryVars = {
 					wp_customize: 'on',
-					theme:      api.settings.theme.stylesheet,
-					customized: JSON.stringify( dirtyCustomized ),
-					nonce:      this.nonce.preview
+					customize_theme: api.settings.theme.stylesheet,
+					nonce: this.nonce.preview,
+					customize_changeset_uuid: api.settings.changeset.uuid
 				};
+
+				/*
+				 * Exclude customized data if requested especially for calls to requestChangesetUpdate.
+				 * Changeset updates are differential and so it is a performance waste to send all of
+				 * the dirty settings with each update.
+				 */
+				queryVars.customized = JSON.stringify( api.dirtyValues( {
+					unsaved: options && options.excludeCustomizedSaved
+				} ) );
+
+				return queryVars;
 			},
 
-			save: function() {
-				var self = this,
+			/**
+			 * Save (and publish) the customizer changeset.
+			 *
+			 * Updates to the changeset are transactional. If any of the settings
+			 * are invalid then none of them will be written into the changeset.
+			 * A revision will be made for the changeset post if revisions support
+			 * has been added to the post type.
+			 *
+			 * @param {object} [args] Args.
+			 * @param {string} [args.status=publish] Status.
+			 * @param {string} [args.date] Date, in local time in MySQL format.
+			 * @param {string} [args.title] Title
+			 *
+			 * @returns {jQuery.promise}
+			 */
+			save: function( args ) {
+				var previewer = this,
+					deferred = $.Deferred(),
+					changesetStatus = 'publish',
 					processing = api.state( 'processing' ),
 					submitWhenDoneProcessing,
 					submit,
@@ -3758,7 +4142,16 @@
 					invalidSettings = [],
 					invalidControls;
 
-				body.addClass( 'saving' );
+				if ( args && args.status ) {
+					changesetStatus = args.status;
+				}
+
+				if ( api.state( 'saving' ).get() ) {
+					deferred.reject( 'already_saving' );
+					deferred.promise();
+				}
+
+				api.state( 'saving' ).set( true );
 
 				function captureSettingModifiedDuringSave( setting ) {
 					modifiedWhileSaving[ setting.id ] = true;
@@ -3766,7 +4159,7 @@
 				api.bind( 'change', captureSettingModifiedDuringSave );
 
 				submit = function () {
-					var request, query;
+					var request, query, settingInvalidities = {};
 
 					/*
 					 * Block saving if there are any settings that are marked as
@@ -3777,20 +4170,50 @@
 						setting.notifications.each( function( notification ) {
 							if ( 'error' === notification.type && ! notification.fromServer ) {
 								invalidSettings.push( setting.id );
+								if ( ! settingInvalidities[ setting.id ] ) {
+									settingInvalidities[ setting.id ] = {};
+								}
+								settingInvalidities[ setting.id ][ notification.code ] = notification;
 							}
 						} );
 					} );
 					invalidControls = api.findControlsForSettings( invalidSettings );
 					if ( ! _.isEmpty( invalidControls ) ) {
 						_.values( invalidControls )[0][0].focus();
-						body.removeClass( 'saving' );
 						api.unbind( 'change', captureSettingModifiedDuringSave );
-						return;
+						deferred.rejectWith( previewer, [
+							{ setting_invalidities: settingInvalidities }
+						] );
+						api.state( 'saving' ).set( false );
+						return deferred.promise();
 					}
 
-					query = $.extend( self.query(), {
-						nonce:  self.nonce.save
+					/*
+					 * Note that excludeCustomizedSaved is intentionally false so that the entire
+					 * set of customized data will be included if bypassed changeset update.
+					 */
+					query = $.extend( previewer.query( { excludeCustomizedSaved: false } ), {
+						nonce: previewer.nonce.save,
+						customize_changeset_status: changesetStatus
 					} );
+					if ( args && args.date ) {
+						query.customize_changeset_date = args.date;
+					}
+					if ( args && args.title ) {
+						query.customize_changeset_title = args.title;
+					}
+
+					/*
+					 * Note that the dirty customized values will have already been set in the
+					 * changeset and so technically query.customized could be deleted. However,
+					 * it is remaining here to make sure that any settings that got updated
+					 * quietly which may have not triggered an update request will also get
+					 * included in the values that get saved to the changeset. This will ensure
+					 * that values that get injected via the saved event will be included in
+					 * the changeset. This also ensures that setting values that were invalid
+					 * will get re-validated, perhaps in the case of settings that are invalid
+					 * due to dependencies on other settings.
+					 */
 					request = wp.ajax.post( 'customize_save', query );
 
 					// Disable save button during the save request.
@@ -3799,12 +4222,13 @@
 					api.trigger( 'save', request );
 
 					request.always( function () {
-						body.removeClass( 'saving' );
+						api.state( 'saving' ).set( false );
 						saveBtn.prop( 'disabled', false );
 						api.unbind( 'change', captureSettingModifiedDuringSave );
 					} );
 
 					request.fail( function ( response ) {
+
 						if ( '0' === response ) {
 							response = 'not_logged_in';
 						} else if ( '-1' === response ) {
@@ -3813,12 +4237,12 @@
 						}
 
 						if ( 'invalid_nonce' === response ) {
-							self.cheatin();
+							previewer.cheatin();
 						} else if ( 'not_logged_in' === response ) {
-							self.preview.iframe.hide();
-							self.login().done( function() {
-								self.save();
-								self.preview.iframe.show();
+							previewer.preview.iframe.hide();
+							previewer.login().done( function() {
+								previewer.save();
+								previewer.preview.iframe.show();
 							} );
 						}
 
@@ -3829,19 +4253,20 @@
 							} );
 						}
 
+						deferred.rejectWith( previewer, [ response ] );
 						api.trigger( 'error', response );
 					} );
 
 					request.done( function( response ) {
 
-						// Clear setting dirty states, if setting wasn't modified while saving.
-						api.each( function( setting ) {
-							if ( ! modifiedWhileSaving[ setting.id ] ) {
-								setting._dirty = false;
-							}
-						} );
+						previewer.send( 'saved', response );
 
-						api.previewer.send( 'saved', response );
+						api.state( 'changesetStatus' ).set( response.changeset_status );
+						if ( 'publish' === response.changeset_status ) {
+							api.state( 'changesetStatus' ).set( '' );
+							api.settings.changeset.uuid = response.next_changeset_uuid;
+							parent.send( 'changeset-uuid', api.settings.changeset.uuid );
+						}
 
 						if ( response.setting_validities ) {
 							api._handleSettingValidities( {
@@ -3850,6 +4275,7 @@
 							} );
 						}
 
+						deferred.resolveWith( previewer, [ response ] );
 						api.trigger( 'saved', response );
 
 						// Restore the global dirty state if any settings were modified during save.
@@ -3871,6 +4297,7 @@
 					api.state.bind( 'change', submitWhenDoneProcessing );
 				}
 
+				return deferred.promise();
 			}
 		});
 
@@ -3957,55 +4384,71 @@
 
 		api.bind( 'ready', api.reflowPaneContents );
 		$( [ api.panel, api.section, api.control ] ).each( function ( i, values ) {
-			var debouncedReflowPaneContents = _.debounce( api.reflowPaneContents, 100 );
+			var debouncedReflowPaneContents = _.debounce( api.reflowPaneContents, api.settings.timeouts.reflowPaneContents );
 			values.bind( 'add', debouncedReflowPaneContents );
 			values.bind( 'change', debouncedReflowPaneContents );
 			values.bind( 'remove', debouncedReflowPaneContents );
 		} );
 
-		// Check if preview url is valid and load the preview frame.
-		if ( api.previewer.previewUrl() ) {
-			api.previewer.refresh();
-		} else {
-			api.previewer.previewUrl( api.settings.url.home );
-		}
-
 		// Save and activated states
 		(function() {
 			var state = new api.Values(),
 				saved = state.create( 'saved' ),
+				saving = state.create( 'saving' ),
 				activated = state.create( 'activated' ),
 				processing = state.create( 'processing' ),
-				paneVisible = state.create( 'paneVisible' );
+				paneVisible = state.create( 'paneVisible' ),
+				changesetStatus = state.create( 'changesetStatus' ),
+				previewerAlive = state.create( 'previewerAlive' ),
+				populateChangesetUuidParam;
 
 			state.bind( 'change', function() {
+				var canSave;
+
 				if ( ! activated() ) {
-					saveBtn.val( api.l10n.activate ).prop( 'disabled', false );
+					saveBtn.val( api.l10n.activate );
 					closeBtn.find( '.screen-reader-text' ).text( api.l10n.cancel );
 
-				} else if ( saved() ) {
-					saveBtn.val( api.l10n.saved ).prop( 'disabled', true );
+				} else if ( '' === changesetStatus.get() && saved() ) {
+					saveBtn.val( api.l10n.saved );
 					closeBtn.find( '.screen-reader-text' ).text( api.l10n.close );
 
 				} else {
-					saveBtn.val( api.l10n.save ).prop( 'disabled', false );
+					saveBtn.val( api.l10n.save );
 					closeBtn.find( '.screen-reader-text' ).text( api.l10n.cancel );
 				}
+
+				/*
+				 * Save (publish) button should be enabled if saving is not currently happening,
+				 * and if the theme is not active or the changeset exists but is not published.
+				 */
+				canSave = ! saving() && ( ! activated() || ! saved() || ( '' !== changesetStatus() && 'publish' !== changesetStatus() ) );
+
+				saveBtn.prop( 'disabled', ! canSave );
 			});
 
 			// Set default states.
 			saved( true );
+			saving( false );
 			activated( api.settings.theme.active );
 			processing( 0 );
 			paneVisible( true );
+			previewerAlive( true );
+			changesetStatus( api.settings.changeset.status );
 
 			api.bind( 'change', function() {
 				state('saved').set( false );
 			});
 
-			api.bind( 'saved', function() {
+			saving.bind( function( isSaving ) {
+				body.toggleClass( 'saving', isSaving );
+			} );
+
+			api.bind( 'saved', function( response ) {
 				state('saved').set( true );
-				state('activated').set( true );
+				if ( 'publish' === response.changeset_status ) {
+					state( 'activated' ).set( true );
+				}
 			});
 
 			activated.bind( function( to ) {
@@ -4014,9 +4457,47 @@
 				}
 			});
 
+			populateChangesetUuidParam = function( isIncluded ) {
+				var urlParser, queryParams;
+				urlParser = document.createElement( 'a' );
+				urlParser.href = location.href;
+				queryParams = api.utils.parseQueryString( urlParser.search.substr( 1 ) );
+				if ( isIncluded ) {
+					if ( queryParams.changeset_uuid === api.settings.changeset.uuid ) {
+						return;
+					}
+					queryParams.changeset_uuid = api.settings.changeset.uuid;
+				} else {
+					if ( ! queryParams.changeset_uuid ) {
+						return;
+					}
+					delete queryParams.changeset_uuid;
+				}
+				urlParser.search = $.param( queryParams );
+				history.replaceState( {}, document.title, urlParser.href );
+			};
+
+			if ( history.replaceState ) {
+				saved.bind( function( isSaved ) {
+					if ( ! isSaved ) {
+						populateChangesetUuidParam( true );
+					}
+				} );
+				changesetStatus.bind( function( newStatus ) {
+					populateChangesetUuidParam( '' !== newStatus );
+				} );
+			}
+
 			// Expose states to the API.
 			api.state = state;
 		}());
+
+		// Check if preview url is valid and load the preview frame.
+		if ( api.previewer.previewUrl() ) {
+			api.previewer.refresh();
+		} else {
+			api.previewer.previewUrl( api.settings.url.home );
+		}
 
 		// Button bindings.
 		saveBtn.click( function( event ) {
@@ -4169,7 +4650,7 @@
 		});
 
 		// Prompt user with AYS dialog if leaving the Customizer with unsaved changes
-		$( window ).on( 'beforeunload', function () {
+		$( window ).on( 'beforeunload.customize-confirm', function () {
 			if ( ! api.state( 'saved' )() ) {
 				setTimeout( function() {
 					overlay.removeClass( 'customize-loading' );
@@ -4189,6 +4670,8 @@
 		api.bind( 'title', function( newTitle ) {
 			parent.send( 'title', newTitle );
 		});
+
+		parent.send( 'changeset-uuid', api.settings.changeset.uuid );
 
 		// Initialize the connection with the parent frame.
 		parent.send( 'ready' );
@@ -4291,6 +4774,51 @@
 		api.previewer.bind( 'refresh', function() {
 			api.previewer.refresh();
 		});
+
+		// Autosave changeset.
+		( function() {
+			var timeoutId, updateChangesetWithReschedule, scheduleChangesetUpdate, updatePending = false;
+
+			/**
+			 * Request changeset update and then re-schedule the next changeset update time.
+			 *
+			 * @private
+			 */
+			updateChangesetWithReschedule = function() {
+				if ( ! updatePending ) {
+					updatePending = true;
+					api.requestChangesetUpdate().always( function() {
+						updatePending = false;
+					} );
+				}
+				scheduleChangesetUpdate();
+			};
+
+			/**
+			 * Schedule changeset update.
+			 *
+			 * @private
+			 */
+			scheduleChangesetUpdate = function() {
+				clearTimeout( timeoutId );
+				timeoutId = setTimeout( function() {
+					updateChangesetWithReschedule();
+				}, api.settings.timeouts.changesetAutoSave );
+			};
+
+			// Start auto-save interval for updating changeset.
+			scheduleChangesetUpdate();
+
+			// Save changeset when focus removed from window.
+			$( window ).on( 'blur.wp-customize-changeset-update', function() {
+				updateChangesetWithReschedule();
+			} );
+
+			// Save changeset before unloading window.
+			$( window ).on( 'beforeunload.wp-customize-changeset-update', function() {
+				updateChangesetWithReschedule();
+			} );
+		} ());
 
 		api.trigger( 'ready' );
 	});

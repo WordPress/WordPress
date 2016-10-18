@@ -48,7 +48,12 @@ final class WP_Customize_Nav_Menus {
 		$this->previewed_menus = array();
 		$this->manager         = $manager;
 
-		// Skip useless hooks when the user can't manage nav menus anyway.
+		// See https://github.com/xwp/wp-customize-snapshots/blob/962586659688a5b1fd9ae93618b7ce2d4e7a421c/php/class-customize-snapshot-manager.php#L469-L499
+		add_action( 'customize_register', array( $this, 'customize_register' ), 11 );
+		add_filter( 'customize_dynamic_setting_args', array( $this, 'filter_dynamic_setting_args' ), 10, 2 );
+		add_filter( 'customize_dynamic_setting_class', array( $this, 'filter_dynamic_setting_class' ), 10, 3 );
+
+		// Skip remaining hooks when the user can't manage nav menus anyway.
 		if ( ! current_user_can( 'edit_theme_options' ) ) {
 			return;
 		}
@@ -58,9 +63,6 @@ final class WP_Customize_Nav_Menus {
 		add_action( 'wp_ajax_search-available-menu-items-customizer', array( $this, 'ajax_search_available_items' ) );
 		add_action( 'wp_ajax_customize-nav-menus-insert-auto-draft', array( $this, 'ajax_insert_auto_draft_post' ) );
 		add_action( 'customize_controls_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		add_action( 'customize_register', array( $this, 'customize_register' ), 11 );
-		add_filter( 'customize_dynamic_setting_args', array( $this, 'filter_dynamic_setting_args' ), 10, 2 );
-		add_filter( 'customize_dynamic_setting_class', array( $this, 'filter_dynamic_setting_class' ), 10, 3 );
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'print_templates' ) );
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'available_items_template' ) );
 		add_action( 'customize_preview_init', array( $this, 'customize_preview_init' ) );
@@ -485,6 +487,23 @@ final class WP_Customize_Nav_Menus {
 	 * @access public
 	 */
 	public function customize_register() {
+
+		/*
+		 * Preview settings for nav menus early so that the sections and controls will be added properly.
+		 * See https://github.com/xwp/wp-customize-snapshots/blob/962586659688a5b1fd9ae93618b7ce2d4e7a421c/php/class-customize-snapshot-manager.php#L506-L543
+		 */
+		$nav_menus_setting_ids = array();
+		foreach ( array_keys( $this->manager->unsanitized_post_values() ) as $setting_id ) {
+			if ( preg_match( '/^(nav_menu_locations|nav_menu|nav_menu_item)\[/', $setting_id ) ) {
+				$nav_menus_setting_ids[] = $setting_id;
+			}
+		}
+		foreach ( $nav_menus_setting_ids as $setting_id ) {
+			$setting = $this->manager->get_setting( $setting_id );
+			if ( $setting ) {
+				$setting->preview();
+			}
+		}
 
 		// Require JS-rendered control types.
 		$this->manager->register_panel_type( 'WP_Customize_Nav_Menus_Panel' );

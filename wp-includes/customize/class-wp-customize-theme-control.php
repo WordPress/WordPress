@@ -63,8 +63,8 @@ class WP_Customize_Theme_Control extends WP_Customize_Control {
 	 */
 	public function content_template() {
 		$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
-		$active_url  = esc_url( remove_query_arg( 'theme', $current_url ) );
-		$preview_url = esc_url( add_query_arg( 'theme', '__THEME__', $current_url ) ); // Token because esc_url() strips curly braces.
+		$active_url  = esc_url( remove_query_arg( 'customize_theme', $current_url ) );
+		$preview_url = esc_url( add_query_arg( 'customize_theme', '__THEME__', $current_url ) ); // Token because esc_url() strips curly braces.
 		$preview_url = str_replace( '__THEME__', '{{ data.theme.id }}', $preview_url );
 		?>
 		<# if ( data.theme.isActiveTheme ) { #>

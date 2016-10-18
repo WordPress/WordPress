@@ -20,6 +20,31 @@ if ( ! current_user_can( 'customize' ) ) {
 	);
 }
 
+/**
+ * @global WP_Scripts           $wp_scripts
+ * @global WP_Customize_Manager $wp_customize
+ */
+global $wp_scripts, $wp_customize;
+
+if ( $wp_customize->changeset_post_id() ) {
+	if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->edit_post, $wp_customize->changeset_post_id() ) ) {
+		wp_die(
+			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<p>' . __( 'Sorry, you are not allowed to edit this changeset.' ) . '</p>',
+			403
+		);
+	}
+	if ( in_array( get_post_status( $wp_customize->changeset_post_id() ), array( 'publish', 'trash' ), true ) ) {
+		wp_die(
+			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
+			'<p>' . __( 'This changeset has already been published and cannot be further modified.' ) . '</p>' .
+			'<p><a href="' . esc_url( remove_query_arg( 'changeset_uuid' ) ) . '">' . __( 'Customize New Changes' ) . '</a></p>',
+			403
+		);
+	}
+}
+
+
 wp_reset_vars( array( 'url', 'return', 'autofocus' ) );
 if ( ! empty( $url ) ) {
 	$wp_customize->set_preview_url( wp_unslash( $url ) );
@@ -30,12 +55,6 @@ if ( ! empty( $return ) ) {
 if ( ! empty( $autofocus ) && is_array( $autofocus ) ) {
 	$wp_customize->set_autofocus( wp_unslash( $autofocus ) );
 }
-
-/**
- * @global WP_Scripts           $wp_scripts
- * @global WP_Customize_Manager $wp_customize
- */
-global $wp_scripts, $wp_customize;
 
 $registered = $wp_scripts->registered;
 $wp_scripts = new WP_Scripts;
@@ -115,7 +134,11 @@ do_action( 'customize_controls_print_scripts' );
 		<div id="customize-header-actions" class="wp-full-overlay-header">
 			<?php
 			$save_text = $wp_customize->is_theme_active() ? __( 'Save &amp; Publish' ) : __( 'Save &amp; Activate' );
-			submit_button( $save_text, 'primary save', 'save', false );
+			$save_attrs = array();
+			if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->publish_posts ) ) {
+				$save_attrs['style'] = 'display: none';
+			}
+			submit_button( $save_text, 'primary save', 'save', false, $save_attrs );
 			?>
 			<span class="spinner"></span>
 			<button type="button" class="customize-controls-preview-toggle">

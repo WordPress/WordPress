@@ -307,8 +307,6 @@ final class WP_Customize_Selective_Refresh {
 			return;
 		}
 
-		$this->manager->remove_preview_signature();
-
 		/*
 		 * Note that is_customize_preview() returning true will entail that the
 		 * user passed the 'customize' capability check and the nonce check, since

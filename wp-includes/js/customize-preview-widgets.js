@@ -572,6 +572,11 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 		var self = this,
 			selector = this.widgetSelectors.join( ',' );
 
+		// Skip adding highlights if not in the customizer preview iframe.
+		if ( ! api.settings.channel ) {
+			return;
+		}
+
 		$( selector ).attr( 'title', this.l10n.widgetTooltip );
 
 		$( document ).on( 'mouseenter', selector, function() {
