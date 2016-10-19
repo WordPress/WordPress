@@ -14,7 +14,7 @@ $submenu['index.php'][0] = array( __( 'Home' ), 'read', 'index.php' );
 
 $update_data = wp_get_update_data();
 if ( $update_data['counts']['total'] ) {
-	$submenu['index.php'][10] = array( sprintf( __( 'Updates %s' ), "<span class='update-plugins count-{$update_data['counts']['total']}' title='{$update_data['title']}'><span class='update-count'>" . number_format_i18n( $update_data['counts']['total'] ) . "</span></span>" ), 'update_core', 'update-core.php' );
+	$submenu['index.php'][10] = array( sprintf( __( 'Updates %s' ), "<span class='update-plugins count-{$update_data['counts']['total']}'><span class='update-count'>" . number_format_i18n( $update_data['counts']['total'] ) . "</span></span>" ), 'update_core', 'update-core.php' );
 } else {
 	$submenu['index.php'][10] = array( __( 'Updates' ), 'update_core', 'update-core.php' );
 }

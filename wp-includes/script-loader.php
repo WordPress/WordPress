@@ -611,7 +611,7 @@ function wp_default_scripts( &$scripts ) {
 			'ays' => __('Are you sure you want to install this plugin?')
 		) );
 
-		$scripts->add( 'updates', "/wp-admin/js/updates$suffix.js", array( 'jquery', 'wp-util', 'wp-a11y' ) );
+		$scripts->add( 'updates', "/wp-admin/js/updates$suffix.js", array( 'jquery', 'wp-util', 'wp-a11y' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'updates', '_wpUpdatesSettings', array(
 			'ajax_nonce' => wp_create_nonce( 'updates' ),
 			'l10n'       => array(

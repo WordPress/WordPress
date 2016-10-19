@@ -490,4 +490,8 @@ wp_print_request_filesystem_credentials_modal();
 wp_print_admin_notice_templates();
 wp_print_update_row_templates();
 
+wp_localize_script( 'updates', '_wpUpdatesItemCounts', array(
+	'totals'  => wp_get_update_data(),
+) );
+
 require( ABSPATH . 'wp-admin/admin-footer.php' );

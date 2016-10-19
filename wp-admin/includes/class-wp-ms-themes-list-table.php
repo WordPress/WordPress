@@ -150,7 +150,8 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		$total_this_page = $totals[ $status ];
 
 		wp_localize_script( 'updates', '_wpUpdatesItemCounts', array(
-			'totals' => $totals,
+			'themes' => $totals,
+			'totals' => wp_get_update_data(),
 		) );
 
 		if ( $orderby ) {
