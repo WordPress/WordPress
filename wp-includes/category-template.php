@@ -255,7 +255,7 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 }
 
 /**
- * Check if the current post in within any of the given categories.
+ * Check if the current post is within any of the given categories.
  *
  * The given categories are checked against the post's categories' term_ids, names and slugs.
  * Categories given as integers will only be checked against the post's categories' term_ids.
