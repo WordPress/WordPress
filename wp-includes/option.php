@@ -1221,12 +1221,14 @@ function add_network_option( $network_id, $option, $value ) {
 	 *
 	 * @since 2.9.0 As 'pre_add_site_option_' . $key
 	 * @since 3.0.0
-	 * @since 4.4.0 The `$option` parameter was added
+	 * @since 4.4.0 The `$option` parameter was added.
+	 * @since 4.7.0 The `$network_id` parameter was added.
 	 *
-	 * @param mixed  $value  Value of network option.
-	 * @param string $option Option name.
+	 * @param mixed  $value      Value of network option.
+	 * @param string $option     Option name.
+	 * @param int    $network_id ID of the network.
 	 */
-	$value = apply_filters( "pre_add_site_option_{$option}", $value, $option );
+	$value = apply_filters( "pre_add_site_option_{$option}", $value, $option, $network_id );
 
 	$notoptions_key = "$network_id:notoptions";
 
@@ -1271,21 +1273,25 @@ function add_network_option( $network_id, $option, $value ) {
 		 *
 		 * @since 2.9.0 As "add_site_option_{$key}"
 		 * @since 3.0.0
+		 * @since 4.7.0 The `$network_id` parameter was added.
 		 *
-		 * @param string $option Name of the network option.
-		 * @param mixed  $value  Value of the network option.
+		 * @param string $option     Name of the network option.
+		 * @param mixed  $value      Value of the network option.
+		 * @param int    $network_id ID of the network.
 		 */
-		do_action( "add_site_option_{$option}", $option, $value );
+		do_action( "add_site_option_{$option}", $option, $value, $network_id );
 
 		/**
 		 * Fires after a network option has been successfully added.
 		 *
 		 * @since 3.0.0
+		 * @since 4.7.0 The `$network_id` parameter was added.
 		 *
-		 * @param string $option Name of the network option.
-		 * @param mixed  $value  Value of the network option.
+		 * @param string $option     Name of the network option.
+		 * @param mixed  $value      Value of the network option.
+		 * @param int    $network_id ID of the network.
 		 */
-		do_action( 'add_site_option', $option, $value );
+		do_action( 'add_site_option', $option, $value, $network_id );
 
 		return true;
 	}
