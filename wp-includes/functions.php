@@ -4302,23 +4302,18 @@ function wp_suspend_cache_invalidation( $suspend = true ) {
  *
  * @since 3.0.0
  *
- * @global object $current_site
- *
  * @param int $site_id Optional. Site ID to test. Defaults to current site.
  * @return bool True if $site_id is the main site of the network, or if not
  *              running Multisite.
  */
 function is_main_site( $site_id = null ) {
-	// This is the current network's information; 'site' is old terminology.
-	global $current_site;
-
 	if ( ! is_multisite() )
 		return true;
 
 	if ( ! $site_id )
 		$site_id = get_current_blog_id();
 
-	return (int) $site_id === (int) $current_site->blog_id;
+	return (int) $site_id === (int) get_network()->site_id;
 }
 
 /**
@@ -4334,10 +4329,8 @@ function is_main_network( $network_id = null ) {
 		return true;
 	}
 
-	$current_network_id = (int) get_current_site()->id;
-
 	if ( null === $network_id ) {
-		$network_id = $current_network_id;
+		$network_id = get_current_network_id();
 	}
 
 	$network_id = (int) $network_id;
@@ -4357,11 +4350,11 @@ function get_main_network_id() {
 		return 1;
 	}
 
-	$current_site = get_current_site();
+	$current_network = get_network();
 
 	if ( defined( 'PRIMARY_NETWORK_ID' ) ) {
 		$main_network_id = PRIMARY_NETWORK_ID;
-	} elseif ( isset( $current_site->id ) && 1 === (int) $current_site->id ) {
+	} elseif ( isset( $current_network->id ) && 1 === (int) $current_network->id ) {
 		// If the current network has an ID of 1, assume it is the main network.
 		$main_network_id = 1;
 	} else {

@@ -628,7 +628,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		foreach ( $blogs as $blog ) {
 			// Don't include blogs that aren't hosted at this site.
-			if ( $blog->site_id != get_current_site()->id )
+			if ( $blog->site_id != get_current_network_id() )
 				continue;
 
 			$blog_id = $blog->userblog_id;

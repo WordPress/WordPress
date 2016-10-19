@@ -1069,8 +1069,7 @@ function update_site_option( $option, $value ) {
  *
  * @see get_option()
  *
- * @global wpdb   $wpdb
- * @global object $current_site
+ * @global wpdb $wpdb
  *
  * @param int      $network_id ID of the network. Can be null to default to the current network ID.
  * @param string   $option     Name of option to retrieve. Expected to not be SQL-escaped.
@@ -1078,7 +1077,7 @@ function update_site_option( $option, $value ) {
  * @return mixed Value set for the option.
  */
 function get_network_option( $network_id, $option, $default = false ) {
-	global $wpdb, $current_site;
+	global $wpdb;
 
 	if ( $network_id && ! is_numeric( $network_id ) ) {
 		return false;
@@ -1087,8 +1086,8 @@ function get_network_option( $network_id, $option, $default = false ) {
 	$network_id = (int) $network_id;
 
 	// Fallback to the current network if a network ID is not specified.
-	if ( ! $network_id && is_multisite() ) {
-		$network_id = $current_site->id;
+	if ( ! $network_id ) {
+		$network_id = get_current_network_id();
 	}
 
 	/**
@@ -1186,8 +1185,7 @@ function get_network_option( $network_id, $option, $default = false ) {
  *
  * @see add_option()
  *
- * @global wpdb   $wpdb
- * @global object $current_site
+ * @global wpdb $wpdb
  *
  * @param int    $network_id ID of the network. Can be null to default to the current network ID.
  * @param string $option     Name of option to add. Expected to not be SQL-escaped.
@@ -1195,7 +1193,7 @@ function get_network_option( $network_id, $option, $default = false ) {
  * @return bool False if option was not added and true if option was added.
  */
 function add_network_option( $network_id, $option, $value ) {
-	global $wpdb, $current_site;
+	global $wpdb;
 
 	if ( $network_id && ! is_numeric( $network_id ) ) {
 		return false;
@@ -1204,8 +1202,8 @@ function add_network_option( $network_id, $option, $value ) {
 	$network_id = (int) $network_id;
 
 	// Fallback to the current network if a network ID is not specified.
-	if ( ! $network_id && is_multisite() ) {
-		$network_id = $current_site->id;
+	if ( ! $network_id ) {
+		$network_id = get_current_network_id();
 	}
 
 	wp_protect_special_option( $option );
@@ -1296,15 +1294,14 @@ function add_network_option( $network_id, $option, $value ) {
  *
  * @see delete_option()
  *
- * @global wpdb   $wpdb
- * @global object $current_site
+ * @global wpdb $wpdb
  *
  * @param int    $network_id ID of the network. Can be null to default to the current network ID.
  * @param string $option     Name of option to remove. Expected to not be SQL-escaped.
  * @return bool True, if succeed. False, if failure.
  */
 function delete_network_option( $network_id, $option ) {
-	global $wpdb, $current_site;
+	global $wpdb;
 
 	if ( $network_id && ! is_numeric( $network_id ) ) {
 		return false;
@@ -1313,8 +1310,8 @@ function delete_network_option( $network_id, $option ) {
 	$network_id = (int) $network_id;
 
 	// Fallback to the current network if a network ID is not specified.
-	if ( ! $network_id && is_multisite() ) {
-		$network_id = $current_site->id;
+	if ( ! $network_id ) {
+		$network_id = get_current_network_id();
 	}
 
 	/**
@@ -1378,8 +1375,7 @@ function delete_network_option( $network_id, $option ) {
  *
  * @see update_option()
  *
- * @global wpdb   $wpdb
- * @global object $current_site
+ * @global wpdb $wpdb
  *
  * @param int      $network_id ID of the network. Can be null to default to the current network ID.
  * @param string   $option     Name of option. Expected to not be SQL-escaped.
@@ -1387,7 +1383,7 @@ function delete_network_option( $network_id, $option ) {
  * @return bool False if value was not updated and true if value was updated.
  */
 function update_network_option( $network_id, $option, $value ) {
-	global $wpdb, $current_site;
+	global $wpdb;
 
 	if ( $network_id && ! is_numeric( $network_id ) ) {
 		return false;
@@ -1396,8 +1392,8 @@ function update_network_option( $network_id, $option, $value ) {
 	$network_id = (int) $network_id;
 
 	// Fallback to the current network if a network ID is not specified.
-	if ( ! $network_id && is_multisite() ) {
-		$network_id = $current_site->id;
+	if ( ! $network_id ) {
+		$network_id = get_current_network_id();
 	}
 
 	wp_protect_special_option( $option );

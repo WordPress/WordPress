@@ -72,7 +72,7 @@ if ( isset( $_GET['action'] ) ) {
 								$userfunction = 'all_spam';
 								$blogs = get_blogs_of_user( $user_id, true );
 								foreach ( (array) $blogs as $details ) {
-									if ( $details->userblog_id != $current_site->blog_id ) // main blog not a spam !
+									if ( $details->userblog_id != get_network()->site_id ) // main blog not a spam !
 										update_blog_status( $details->userblog_id, 'spam', '1' );
 								}
 								update_user_status( $user_id, 'spam', '1' );

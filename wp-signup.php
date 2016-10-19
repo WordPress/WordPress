@@ -100,7 +100,7 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 		$errors = new WP_Error();
 	}
 
-	$current_site = get_current_site();
+	$current_network = get_network();
 	// Blog name
 	if ( !is_subdomain_install() )
 		echo '<label for="blogname">' . __('Site Name:') . '</label>';
@@ -112,15 +112,15 @@ function show_blog_form( $blogname = '', $blog_title = '', $errors = '' ) {
 	<?php }
 
 	if ( !is_subdomain_install() )
-		echo '<span class="prefix_address">' . $current_site->domain . $current_site->path . '</span><input name="blogname" type="text" id="blogname" value="'. esc_attr($blogname) .'" maxlength="60" /><br />';
+		echo '<span class="prefix_address">' . $current_network->domain . $current_network->path . '</span><input name="blogname" type="text" id="blogname" value="'. esc_attr($blogname) .'" maxlength="60" /><br />';
 	else
-		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="60" /><span class="suffix_address">.' . ( $site_domain = preg_replace( '|^www\.|', '', $current_site->domain ) ) . '</span><br />';
+		echo '<input name="blogname" type="text" id="blogname" value="'.esc_attr($blogname).'" maxlength="60" /><span class="suffix_address">.' . ( $site_domain = preg_replace( '|^www\.|', '', $current_network->domain ) ) . '</span><br />';
 
 	if ( ! is_user_logged_in() ) {
 		if ( ! is_subdomain_install() ) {
-			$site = $current_site->domain . $current_site->path . __( 'sitename' );
+			$site = $current_network->domain . $current_network->path . __( 'sitename' );
 		} else {
-			$site = __( 'domain' ) . '.' . $site_domain . $current_site->path;
+			$site = __( 'domain' ) . '.' . $site_domain . $current_network->path;
 		}
 
 		/* translators: %s: site address */
@@ -304,7 +304,7 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
 	$blog_title = $filtered_results['blog_title'];
 	$errors = $filtered_results['errors'];
 
-	echo '<h2>' . sprintf( __( 'Get <em>another</em> %s site in seconds' ), get_current_site()->site_name ) . '</h2>';
+	echo '<h2>' . sprintf( __( 'Get <em>another</em> %s site in seconds' ), get_network()->site_name ) . '</h2>';
 
 	if ( $errors->get_error_code() ) {
 		echo '<p>' . __( 'There was a problem, please correct the form below and try again.' ) . '</p>';
@@ -532,7 +532,7 @@ function signup_user( $user_name = '', $user_email = '', $errors = '' ) {
 
 	<h2><?php
 		/* translators: %s: name of the network */
-		printf( __( 'Get your own %s account in seconds' ), get_current_site()->site_name );
+		printf( __( 'Get your own %s account in seconds' ), get_network()->site_name );
 	?></h2>
 	<form id="setupform" method="post" action="wp-signup.php" novalidate="novalidate">
 		<input type="hidden" name="stage" value="validate-user-signup" />

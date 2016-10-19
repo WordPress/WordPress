@@ -161,12 +161,12 @@ function wp_install_defaults( $user_id ) {
 		}
 
 		$first_post = sprintf( $first_post,
-			sprintf( '<a href="%s">%s</a>', esc_url( network_home_url() ), get_current_site()->site_name )
+			sprintf( '<a href="%s">%s</a>', esc_url( network_home_url() ), get_network()->site_name )
 		);
 
 		// Back-compat for pre-4.4
 		$first_post = str_replace( 'SITE_URL', esc_url( network_home_url() ), $first_post );
-		$first_post = str_replace( 'SITE_NAME', get_current_site()->site_name, $first_post );
+		$first_post = str_replace( 'SITE_NAME', get_network()->site_name, $first_post );
 	} else {
 		$first_post = __( 'Welcome to WordPress. This is your first post. Edit or delete it, then start writing!' );
 	}

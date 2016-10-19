@@ -47,19 +47,19 @@ function ms_upload_constants() {
  * @since 3.0.0
  */
 function ms_cookie_constants(  ) {
-	$current_site = get_current_site();
+	$current_network = get_network();
 
 	/**
 	 * @since 1.2.0
 	 */
 	if ( !defined( 'COOKIEPATH' ) )
-		define( 'COOKIEPATH', $current_site->path );
+		define( 'COOKIEPATH', $current_network->path );
 
 	/**
 	 * @since 1.5.0
 	 */
 	if ( !defined( 'SITECOOKIEPATH' ) )
-		define( 'SITECOOKIEPATH', $current_site->path );
+		define( 'SITECOOKIEPATH', $current_network->path );
 
 	/**
 	 * @since 2.6.0
@@ -76,10 +76,10 @@ function ms_cookie_constants(  ) {
 	 * @since 2.0.0
 	 */
 	if ( !defined('COOKIE_DOMAIN') && is_subdomain_install() ) {
-		if ( !empty( $current_site->cookie_domain ) )
-			define('COOKIE_DOMAIN', '.' . $current_site->cookie_domain);
+		if ( !empty( $current_network->cookie_domain ) )
+			define('COOKIE_DOMAIN', '.' . $current_network->cookie_domain);
 		else
-			define('COOKIE_DOMAIN', '.' . $current_site->domain);
+			define('COOKIE_DOMAIN', '.' . $current_network->domain);
 	}
 }
 

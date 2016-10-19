@@ -81,15 +81,15 @@ function get_blogaddress_by_name( $blogname ) {
  * @return int|null The site ID, or null if no site is found for the given slug.
  */
 function get_id_from_blogname( $slug ) {
-	$current_site = get_current_site();
+	$current_network = get_network();
 	$slug = trim( $slug, '/' );
 
 	if ( is_subdomain_install() ) {
-		$domain = $slug . '.' . preg_replace( '|^www\.|', '', $current_site->domain );
-		$path = $current_site->path;
+		$domain = $slug . '.' . preg_replace( '|^www\.|', '', $current_network->domain );
+		$path = $current_network->path;
 	} else {
-		$domain = $current_site->domain;
-		$path = $current_site->path . $slug . '/';
+		$domain = $current_network->domain;
+		$path = $current_network->path . $slug . '/';
 	}
 
 	$site_ids = get_sites( array(

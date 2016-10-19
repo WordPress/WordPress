@@ -88,7 +88,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 
 	update_blog_status( $blog_id, 'deleted', 1 );
 
-	$current_site = get_current_site();
+	$current_network = get_network();
 
 	// If a full blog object is not available, do not destroy anything.
 	if ( $drop && ! $blog ) {
@@ -96,7 +96,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	}
 
 	// Don't destroy the initial, main, or root blog.
-	if ( $drop && ( 1 == $blog_id || is_main_site( $blog_id ) || ( $blog->path == $current_site->path && $blog->domain == $current_site->domain ) ) ) {
+	if ( $drop && ( 1 == $blog_id || is_main_site( $blog_id ) || ( $blog->path == $current_network->path && $blog->domain == $current_network->domain ) ) ) {
 		$drop = false;
 	}
 

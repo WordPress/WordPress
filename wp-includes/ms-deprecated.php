@@ -28,7 +28,7 @@ function get_dashboard_blog() {
     if ( $blog = get_site_option( 'dashboard_blog' ) )
         return get_blog_details( $blog );
 
-    return get_blog_details( get_current_site()->blog_id );
+    return get_blog_details( get_network()->site_id );
 }
 
 /**
