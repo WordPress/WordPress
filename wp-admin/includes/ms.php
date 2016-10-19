@@ -66,7 +66,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		switch_to_blog( $blog_id );
 	}
 
-	$blog = get_blog_details( $blog_id );
+	$blog = get_site( $blog_id );
 	/**
 	 * Fires before a site is deleted.
 	 *
