@@ -23,7 +23,7 @@ $updated = false;
 if ( 'updateblogsettings' == $action && isset( $_POST['primary_blog'] ) ) {
 	check_admin_referer( 'update-my-sites' );
 
-	$blog = get_blog_details( (int) $_POST['primary_blog'] );
+	$blog = get_site( (int) $_POST['primary_blog'] );
 	if ( $blog && isset( $blog->domain ) ) {
 		update_user_option( $current_user->ID, 'primary_blog', (int) $_POST['primary_blog'], true );
 		$updated = true;
