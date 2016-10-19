@@ -58,7 +58,7 @@ if ( ! $id )
 
 $wp_list_table->prepare_items();
 
-$details = get_blog_details( $id );
+$details = get_site( $id );
 if ( ! $details ) {
 	wp_die( __( 'The requested site does not exist.' ) );
 }

@@ -91,7 +91,7 @@ if ( isset( $_GET['action'] ) ) {
 			wp_die( __( 'Sorry, you are not allowed to change the current site.' ) );
 		}
 
-		$site_details = get_blog_details( $id );
+		$site_details = get_site( $id );
 		$site_address = untrailingslashit( $site_details->domain . $site_details->path );
 
 		require_once( ABSPATH . 'wp-admin/admin-header.php' );
