@@ -1752,14 +1752,39 @@ function _media_states( $post ) {
 
 	if ( current_theme_supports( 'custom-header') ) {
 		$meta_header = get_post_meta($post->ID, '_wp_attachment_is_custom_header', true );
-		if ( ! empty( $meta_header ) && $meta_header == $stylesheet )
-			$media_states[] = __( 'Header Image' );
+
+		if ( is_random_header_image() ) {
+			$header_images = wp_list_pluck( get_uploaded_header_images(), 'attachment_id' );
+
+			if ( $meta_header == $stylesheet && in_array( $post->ID, $header_images ) ) {
+				$media_states[] = __( 'Header Image' );
+			}
+		} else {
+			$header_image = get_header_image();
+
+			// Display "Header Image" if the image was ever used as a header image
+			if ( ! empty( $meta_header ) && $meta_header == $stylesheet && $header_image !== wp_get_attachment_url( $post->ID ) ) {
+				$media_states[] = __( 'Header Image' );
+			}
+
+			// Display "Current Header Image" if the image is currently the header image
+			if ( $header_image && $header_image == wp_get_attachment_url( $post->ID ) ) {
+				$media_states[] = __( 'Current Header Image' );
+			}
+		}
 	}
 
 	if ( current_theme_supports( 'custom-background') ) {
 		$meta_background = get_post_meta($post->ID, '_wp_attachment_is_custom_background', true );
-		if ( ! empty( $meta_background ) && $meta_background == $stylesheet )
+
+		if ( ! empty( $meta_background ) && $meta_background == $stylesheet ) {
 			$media_states[] = __( 'Background Image' );
+
+			$background_image = get_background_image();
+			if ( $background_image && $background_image == wp_get_attachment_url( $post->ID ) ) {
+				$media_states[] = __( 'Current Background Image' );
+			}
+		}
 	}
 
 	if ( $post->ID == get_option( 'site_icon' ) ) {
