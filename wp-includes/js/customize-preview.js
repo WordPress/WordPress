@@ -786,6 +786,12 @@
 			$( 'body' ).toggleClass( 'wp-custom-logo', !! setting.get() );
 			setting.bind( function( attachmentId ) {
 				$( 'body' ).toggleClass( 'wp-custom-logo', !! attachmentId );
+			});
+		});
+
+		api( 'custom_css[' + api.settings.theme.stylesheet + ']', function( value ) {
+			value.bind( function( to ) {
+				$( '#wp-custom-css' ).text( to );
 			} );
 		} );
 

@@ -1401,6 +1401,89 @@ body.custom-background { <?php echo trim( $style ); ?> }
 }
 
 /**
+ * Render the Custom CSS style element.
+ *
+ * @since 4.7.0
+ * @access public
+ */
+function wp_custom_css_cb() {
+	$styles = wp_get_custom_css();
+	if ( $styles || is_customize_preview() ) : ?>
+		<style type="text/css" id="wp-custom-css">
+			<?php echo strip_tags( $styles ); // Note that esc_html() cannot be used because `div &gt; span` is not interpreted properly. ?>
+		</style>
+	<?php endif;
+}
+
+/**
+ * Fetch the saved Custom CSS content.
+ *
+ * Gets the content of a Custom CSS post that matches the
+ * current theme.
+ *
+ * @since 4.7.0
+ * @access public
+ *
+ * @param string $stylesheet Optional. A theme object stylesheet name. Defaults to the current theme.
+ *
+ * @return string The Custom CSS Post content.
+ */
+function wp_get_custom_css( $stylesheet = '' ) {
+	$css = '';
+
+	if ( empty( $stylesheet ) ) {
+		$stylesheet = get_stylesheet();
+	}
+
+	$custom_css_query_vars = array(
+		'post_type' => 'custom_css',
+		'post_status' => get_post_stati(),
+		'name' => sanitize_title( $stylesheet ),
+		'number' => 1,
+		'no_found_rows' => true,
+		'cache_results' => true,
+		'update_post_meta_cache' => false,
+		'update_term_meta_cache' => false,
+	);
+
+	$post = null;
+	if ( get_stylesheet() === $stylesheet ) {
+		$post_id = get_theme_mod( 'custom_css_post_id' );
+		if ( ! $post_id ) {
+			$query = new WP_Query( $custom_css_query_vars );
+			$post = $query->post;
+
+			/*
+			 * Cache the lookup. See WP_Customize_Custom_CSS_Setting::update().
+			 * @todo This should get cleared if a custom_css post is added/removed.
+			 */
+			set_theme_mod( 'custom_css_post_id', $post ? $post->ID : -1 );
+		} elseif ( $post_id > 0 ) {
+			$post = get_post( $post_id );
+		}
+	} else {
+		$query = new WP_Query( $custom_css_query_vars );
+		$post = $query->post;
+	}
+
+	if ( $post ) {
+		$css = $post->post_content;
+	}
+
+	/**
+	 * Modify the Custom CSS Output into the <head>.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param string $css        CSS pulled in from the Custom CSS CPT.
+	 * @param string $stylesheet The theme stylesheet name.
+	 */
+	$css = apply_filters( 'wp_get_custom_css', $css, $stylesheet );
+
+	return $css;
+}
+
+/**
  * Add callback for custom TinyMCE editor stylesheets.
  *
  * The parameter $stylesheet is the name of the stylesheet, relative to

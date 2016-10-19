@@ -329,6 +329,9 @@ function map_meta_cap( $cap, $user_id ) {
 		else
 			$caps[] = $cap;
 		break;
+	case 'unfiltered_css' :
+		$caps[] = 'unfiltered_html';
+		break;
 	case 'edit_files':
 	case 'edit_plugins':
 	case 'edit_themes':

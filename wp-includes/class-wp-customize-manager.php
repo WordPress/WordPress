@@ -300,6 +300,7 @@ final class WP_Customize_Manager {
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-section.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-new-menu-section.php' );
 
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-custom-css-setting.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-filter-setting.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-header-image-setting.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-image-setting.php' );
@@ -2493,7 +2494,7 @@ final class WP_Customize_Manager {
 		<script type="text/html" id="tmpl-customize-control-notifications">
 			<ul>
 				<# _.each( data.notifications, function( notification ) { #>
-					<li class="notice notice-{{ notification.type || 'info' }} {{ data.altNotice ? 'notice-alt' : '' }}" data-code="{{ notification.code }}" data-type="{{ notification.type }}">{{ notification.message || notification.code }}</li>
+					<li class="notice notice-{{ notification.type || 'info' }} {{ data.altNotice ? 'notice-alt' : '' }}" data-code="{{ notification.code }}" data-type="{{ notification.type }}">{{{ notification.message || notification.code }}}</li>
 				<# } ); #>
 			</ul>
 		</script>
@@ -3220,7 +3221,6 @@ final class WP_Customize_Manager {
 			'section' => 'colors',
 		) ) );
 
-
 		/* Custom Header */
 
 		$this->add_section( 'header_image', array(
@@ -3366,6 +3366,30 @@ final class WP_Customize_Manager {
 			'section' => 'static_front_page',
 			'type' => 'dropdown-pages',
 		) );
+
+		/* Custom CSS */
+		$this->add_section( 'custom_css', array(
+			'title'              => __( 'Additional CSS' ),
+			'priority'           => 140,
+			'description_hidden' => true,
+			'description'        => sprintf( '%s<br /><a href="%s" class="external-link" target="_blank">%s<span class="screen-reader-text">%s</span></a>',
+				__( 'CSS allows you to customize the appearance and layout of your site with code. Separate CSS is saved for each of your themes.' ),
+				'https://codex.wordpress.org/Know_Your_Sources#CSS',
+				__( 'Learn more about CSS' ),
+				__( '(link opens in a new window)' )
+			),
+		) );
+
+		$custom_css_setting = new WP_Customize_Custom_CSS_Setting( $this, sprintf( 'custom_css[%s]', get_stylesheet() ), array(
+			'capability' => 'unfiltered_css',
+		) );
+		$this->add_setting( $custom_css_setting );
+
+		$this->add_control( 'custom_css', array(
+			'type'     => 'textarea',
+			'section'  => 'custom_css',
+			'settings' => array( 'default' => $custom_css_setting->id ),
+		) );
 	}
 
 	/**
@@ -3388,7 +3412,6 @@ final class WP_Customize_Manager {
 				}
 			}
 		}
-
 		return 0 !== count( get_pages() );
 	}
 

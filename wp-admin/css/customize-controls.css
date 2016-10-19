@@ -53,6 +53,10 @@ body {
 	margin-bottom: 15px;
 }
 
+#customize-controls .customize-info.section-meta {
+	margin-bottom: 15px;
+}
+
 #customize-controls .customize-info .accordion-section-title {
 	background: #fff;
 	color: #555;
@@ -124,6 +128,7 @@ body {
 }
 
 #customize-controls .customize-info .customize-panel-description,
+#customize-controls .customize-info .customize-section-description,
 #customize-controls .no-widget-areas-rendered-notice {
 	color: #555;
 	display: none;
@@ -131,15 +136,22 @@ body {
 	padding: 12px 15px;
 	border-top: 1px solid #ddd;
 }
+
 #customize-controls .customize-info .customize-panel-description.open + .no-widget-areas-rendered-notice {
 	border-top: none;
 }
 
-#customize-controls .customize-info .customize-panel-description p:first-child {
+#customize-controls .customize-info .customize-section-description {
+	margin-bottom: 15px;
+}
+
+#customize-controls .customize-info .customize-panel-description p:first-child,
+#customize-controls .customize-info .customize-section-description p:first-child {
 	margin-top: 0;
 }
 
-#customize-controls .customize-info .customize-panel-description p:last-child {
+#customize-controls .customize-info .customize-panel-description p:last-child,
+#customize-controls .customize-info .customize-section-description p:last-child {
 	margin-bottom: 0;
 }
 
@@ -325,6 +337,10 @@ body {
 
 div.customize-section-description {
 	margin-top: 22px;
+}
+
+.customize-info div.customize-section-description {
+	margin-top: 0;
 }
 
 div.customize-section-description p:first-child {
@@ -540,6 +556,16 @@ p.customize-section-description {
 	font-style: italic;
 	line-height: 18px;
 	margin-bottom: 5px;
+}
+
+.customize-section-description a.external-link:after {
+	font: 16px/11px dashicons;
+	content: "\f310";
+	top: 3px;
+	position: relative;
+	padding-left: 3px;
+	display: inline-block;
+	text-decoration: none;
 }
 
 .customize-control-color .color-picker,
@@ -960,6 +986,40 @@ p.customize-section-description {
 .customize-control .attachment-media-view .upload-button,
 .customize-control-header .new {
 	float: right;
+}
+
+/**
+ * Custom CSS Section
+ *
+ * Modifications to the Section Container to
+ * make the textarea full-width.
+ */
+#customize-theme-controls #sub-accordion-section-custom_css {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+#customize-theme-controls #sub-accordion-section-custom_css .customize-section-title {
+	margin-left: 0;
+}
+
+#customize-theme-controls #sub-accordion-section-custom_css .customize-control-title,
+#customize-theme-controls #sub-accordion-section-custom_css .notice {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#sub-accordion-section-custom_css .customize-control-notifications-container {
+	margin-bottom: 15px;
+}
+
+#sub-accordion-section-custom_css textarea {
+	border-right: 0;
+	border-left: 0;
+	font-family: Consolas, Monaco, monospace;
+	font-size: 12px;
+	padding: 6px 8px;
+	height: 553px;
 }
 
 /**

@@ -111,6 +111,35 @@ function create_initial_post_types() {
 		'query_var' => false,
 	) );
 
+	register_post_type( 'custom_css', array(
+		'labels' => array(
+			'name'          => __( 'Custom CSS' ),
+			'singular_name' => __( 'Custom CSS' ),
+		),
+		'public'           => false,
+		'hierarchical'     => false,
+		'rewrite'          => false,
+		'query_var'        => false,
+		'delete_with_user' => false,
+		'can_export'       => true,
+		'_builtin'         => true, /* internal use only. don't use this when registering your own post type. */
+		'supports'         => array( 'title' ),
+		'capabilities'     => array(
+			'delete_posts'           => 'edit_theme_options',
+			'delete_post'            => 'edit_theme_options',
+			'delete_published_posts' => 'edit_theme_options',
+			'delete_private_posts'   => 'edit_theme_options',
+			'delete_others_posts'    => 'edit_theme_options',
+			'edit_post'              => 'unfiltered_css',
+			'edit_posts'             => 'unfiltered_css',
+			'edit_others_posts'      => 'unfiltered_css',
+			'edit_published_posts'   => 'unfiltered_css',
+			'read_post'              => 'read',
+			'read_private_posts'     => 'read',
+			'publish_posts'          => 'edit_theme_options',
+		),
+	) );
+
 	register_post_type( 'customize_changeset', array(
 		'labels' => array(
 			'name'               => _x( 'Changesets', 'post type general name' ),

@@ -904,7 +904,7 @@
 		 * @since 4.1.0
 		 */
 		attachEvents: function () {
-			var section = this;
+			var meta, content, section = this;
 
 			// Expand/Collapse accordion sections on click.
 			section.container.find( '.accordion-section-title, .customize-section-back' ).on( 'click keydown', function( event ) {
@@ -918,6 +918,21 @@
 				} else {
 					section.expand();
 				}
+			});
+
+			// This is very similar to what is found for api.Panel.attachEvents().
+			section.container.find( '.customize-section-title .customize-help-toggle' ).on( 'click', function() {
+
+				meta = section.container.find( '.section-meta' );
+				if ( meta.hasClass( 'cannot-expand' ) ) {
+					return;
+				}
+				content = meta.find( '.customize-section-description:first' );
+				content.toggleClass( 'open' );
+				content.slideToggle();
+				content.attr( 'aria-expanded', function ( i, attr ) {
+					return attr === 'true' ? 'false' : 'true';
+				});
 			});
 		},
 
