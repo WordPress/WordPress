@@ -48,27 +48,8 @@
 		 * @returns {Object} Joined props
 		 */
 		props: function( props, attachment ) {
-			var link, linkUrl, size, sizes, fallbacks,
+			var link, linkUrl, size, sizes,
 				defaultProps = wp.media.view.settings.defaultProps;
-
-			// Final fallbacks run after all processing has been completed.
-			fallbacks = function( props ) {
-				// Generate alt fallbacks and strip tags.
-				if ( 'image' === props.type && ! props.alt ) {
-					if ( props.caption ) {
-						props.alt = props.caption;
-					} else if ( props.title !== props.url ) {
-						props.alt = props.title;
-					} else {
-						props.alt = '';
-					}
-
-					props.alt = props.alt.replace( /<\/?[^>]+>/g, '' );
-					props.alt = props.alt.replace( /[\r\n]+/g, ' ' );
-				}
-
-				return props;
-			};
 
 			props = props ? _.clone( props ) : {};
 
@@ -87,7 +68,7 @@
 
 			// All attachment-specific settings follow.
 			if ( ! attachment ) {
-				return fallbacks( props );
+				return props;
 			}
 
 			props.title = props.title || attachment.title;
@@ -123,7 +104,7 @@
 				props.rel = props.rel || 'attachment wp-att-' + attachment.id;
 			}
 
-			return fallbacks( props );
+			return props;
 		},
 		/**
 		 * Create link markup that is suitable for passing to the editor
