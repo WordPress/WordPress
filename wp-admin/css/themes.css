@@ -570,7 +570,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	float: left;
 	margin: 0 30px 0 0;
 	width: 55%;
-	max-width: 880px;
+	max-width: 1200px; /* Recommended theme screenshot width, set here to avoid stretching */
 	text-align: center;
 }
 

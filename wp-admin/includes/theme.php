@@ -607,8 +607,6 @@ function wp_prepare_themes_for_js( $themes = null ) {
  * @since 4.2.0
  */
 function customize_themes_print_templates() {
-	$preview_url = esc_url( add_query_arg( 'theme', '__THEME__' ) ); // Token because esc_url() strips curly braces.
-	$preview_url = str_replace( '__THEME__', '{{ data.id }}', $preview_url );
 	?>
 	<script type="text/html" id="tmpl-customize-themes-details-view">
 		<div class="theme-backdrop"></div>
@@ -620,7 +618,7 @@ function customize_themes_print_templates() {
 			</div>
 			<div class="theme-about wp-clearfix">
 				<div class="theme-screenshots">
-				<# if ( data.screenshot[0] ) { #>
+				<# if ( data.screenshot && data.screenshot[0] ) { #>
 					<div class="screenshot"><img src="{{ data.screenshot[0] }}" alt="" /></div>
 				<# } else { #>
 					<div class="screenshot blank"></div>
@@ -633,29 +631,47 @@ function customize_themes_print_templates() {
 					<# } #>
 					<h2 class="theme-name">{{{ data.name }}}<span class="theme-version"><?php printf( __( 'Version: %s' ), '{{ data.version }}' ); ?></span></h2>
 					<h3 class="theme-author"><?php printf( __( 'By %s' ), '{{{ data.authorAndUri }}}' ); ?></h3>
+
+					<# if ( data.stars && 0 != data.num_ratings ) { #>
+						<div class="theme-rating">
+							{{{ data.stars }}}
+							<span class="num-ratings"><?php echo sprintf( __( '(%s ratings)' ), '{{ data.num_ratings }}' ); ?></span>
+						</div>
+					<# } #>
+
+					<# if ( data.hasUpdate ) { #>
+						<div class="notice notice-warning notice-alt notice-large" data-slug="{{ data.id }}">
+							<h3 class="notice-title"><?php _e( 'Update Available' ); ?></h3>
+							{{{ data.update }}}
+						</div>
+					<# } #>
+
 					<p class="theme-description">{{{ data.description }}}</p>
 
 					<# if ( data.parent ) { #>
 						<p class="parent-theme"><?php printf( __( 'This is a child theme of %s.' ), '<strong>{{{ data.parent }}}</strong>' ); ?></p>
 					<# } #>
-
 					<# if ( data.tags ) { #>
-						<p class="theme-tags"><span><?php _e( 'Tags:' ); ?></span> {{ data.tags }}</p>
+						<p class="theme-tags"><span><?php _e( 'Tags:' ); ?></span> {{{ data.tags }}}</p>
 					<# } #>
 				</div>
 			</div>
 
-			<# if ( ! data.active ) { #>
-				<div class="theme-actions">
-					<div class="inactive-theme">
-						<?php
-						/* translators: %s: Theme name */
-						$aria_label = sprintf( __( 'Preview %s' ), '{{ data.name }}' );
-						?>
-						<a href="<?php echo $preview_url; ?>" target="_top" class="button button-primary" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Live Preview' ); ?></a>
-					</div>
-				</div>
-			<# } #>
+			<div class="theme-actions">
+				<# if ( data.active ) { #>
+					<button type="button" class="button button-primary customize-theme"><?php _e( 'Customize' ); ?></a>
+				<# } else if ( 'installed' === data.type ) { #>
+					<?php if ( current_user_can( 'delete_themes' ) ) { ?>
+						<# if ( data.actions && data.actions['delete'] ) { #>
+							<a href="{{{ data.actions['delete'] }}}" data-slug="{{ data.id }}" class="button button-secondary delete-theme"><?php _e( 'Delete' ); ?></a>
+						<# } #>
+					<?php } ?>
+					<button type="button" class="button button-primary preview-theme" data-slug="{{ data.id }}"><?php _e( 'Live Preview' ); ?></span>
+				<# } else { #>
+					<button type="button" class="button theme-install" data-slug="{{ data.id }}"><?php _e( 'Install' ); ?></button>
+					<button type="button" class="button button-primary theme-install preview" data-slug="{{ data.id }}"><?php _e( 'Install & Preview' ); ?></button>
+				<# } #>
+			</div>
 		</div>
 	</script>
 	<?php
