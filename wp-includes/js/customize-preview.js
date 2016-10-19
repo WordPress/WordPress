@@ -105,88 +105,14 @@
 			preview.add( 'scheme', urlParser.protocol.replace( /:$/, '' ) );
 
 			preview.body = $( document.body );
+
 			preview.body.on( 'click.preview', 'a', function( event ) {
-				var link, isInternalJumpLink;
-				link = $( this );
-
-				// No-op if the anchor is not a link.
-				if ( _.isUndefined( link.attr( 'href' ) ) ) {
-					return;
-				}
-
-				isInternalJumpLink = ( '#' === link.attr( 'href' ).substr( 0, 1 ) );
-
-				// Allow internal jump links to behave normally without preventing default.
-				if ( isInternalJumpLink ) {
-					return;
-				}
-
-				// If the link is not previewable, prevent the browser from navigating to it.
-				if ( ! api.isLinkPreviewable( link[0] ) ) {
-					wp.a11y.speak( api.settings.l10n.linkUnpreviewable );
-					event.preventDefault();
-					return;
-				}
-
-				// If not in an iframe, then allow the link click to proceed normally since the state query params are added.
-				if ( ! api.settings.channel ) {
-					return;
-				}
-
-				// Prevent initiating navigating from click and instead rely on sending url message to pane.
-				event.preventDefault();
-
-				/*
-				 * Note the shift key is checked so shift+click on widgets or
-				 * nav menu items can just result on focusing on the corresponding
-				 * control instead of also navigating to the URL linked to.
-				 */
-				if ( event.shiftKey ) {
-					return;
-				}
-
-				// Note: It's not relevant to send scroll because sending url message will have the same effect.
-				preview.send( 'url', link.prop( 'href' ) );
+				preview.handleLinkClick( event );
 			} );
 
 			preview.body.on( 'submit.preview', 'form', function( event ) {
-				var urlParser = document.createElement( 'a' );
-				urlParser.href = this.action;
-
-				// If the link is not previewable, prevent the browser from navigating to it.
-				if ( 'GET' !== this.method.toUpperCase() || ! api.isLinkPreviewable( urlParser ) ) {
-					wp.a11y.speak( api.settings.l10n.formUnpreviewable );
-					event.preventDefault();
-					return;
-				}
-
-				// If not in an iframe, then allow the form submission to proceed normally with the state inputs injected.
-				if ( ! api.settings.channel ) {
-					return;
-				}
-
-				/*
-				 * If the default wasn't prevented already (in which case the form
-				 * submission is already being handled by JS), and if it has a GET
-				 * request method, then take the serialized form data and add it as
-				 * a query string to the action URL and send this in a url message
-				 * to the customizer pane so that it will be loaded. If the form's
-				 * action points to a non-previewable URL, the customizer pane's
-				 * previewUrl setter will reject it so that the form submission is
-				 * a no-op, which is the same behavior as when clicking a link to an
-				 * external site in the preview.
-				 */
-				if ( ! event.isDefaultPrevented() ) {
-					if ( urlParser.search.length > 1 ) {
-						urlParser.search += '&';
-					}
-					urlParser.search += $( this ).serialize();
-					api.preview.send( 'url', urlParser.href );
-				}
-
-				// Prevent default since navigation should be done via sending url message or via JS submit handler.
-				event.preventDefault();
-			});
+				preview.handleFormSubmit( event );
+			} );
 
 			preview.window = $( window );
 
@@ -199,6 +125,105 @@
 					preview.window.scrollTop( distance );
 				});
 			}
+		},
+
+		/**
+		 * Handle link clicks in preview.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param {jQuery.Event} event Event.
+		 */
+		handleLinkClick: function( event ) {
+			var preview = this, link, isInternalJumpLink;
+			link = $( event.target );
+
+			// No-op if the anchor is not a link.
+			if ( _.isUndefined( link.attr( 'href' ) ) ) {
+				return;
+			}
+
+			isInternalJumpLink = ( '#' === link.attr( 'href' ).substr( 0, 1 ) );
+
+			// Allow internal jump links to behave normally without preventing default.
+			if ( isInternalJumpLink ) {
+				return;
+			}
+
+			// If the link is not previewable, prevent the browser from navigating to it.
+			if ( ! api.isLinkPreviewable( link[0] ) ) {
+				wp.a11y.speak( api.settings.l10n.linkUnpreviewable );
+				event.preventDefault();
+				return;
+			}
+
+			// If not in an iframe, then allow the link click to proceed normally since the state query params are added.
+			if ( ! api.settings.channel ) {
+				return;
+			}
+
+			// Prevent initiating navigating from click and instead rely on sending url message to pane.
+			event.preventDefault();
+
+			/*
+			 * Note the shift key is checked so shift+click on widgets or
+			 * nav menu items can just result on focusing on the corresponding
+			 * control instead of also navigating to the URL linked to.
+			 */
+			if ( event.shiftKey ) {
+				return;
+			}
+
+			// Note: It's not relevant to send scroll because sending url message will have the same effect.
+			preview.send( 'url', link.prop( 'href' ) );
+		},
+
+		/**
+		 * Handle form submit.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param {jQuery.Event} event Event.
+		 */
+		handleFormSubmit: function( event ) {
+			var preview = this, urlParser, form;
+			urlParser = document.createElement( 'a' );
+			form = $( event.target );
+			urlParser.href = form.prop( 'action' );
+
+			// If the link is not previewable, prevent the browser from navigating to it.
+			if ( 'GET' !== form.prop( 'method' ).toUpperCase() || ! api.isLinkPreviewable( urlParser ) ) {
+				wp.a11y.speak( api.settings.l10n.formUnpreviewable );
+				event.preventDefault();
+				return;
+			}
+
+			// If not in an iframe, then allow the form submission to proceed normally with the state inputs injected.
+			if ( ! api.settings.channel ) {
+				return;
+			}
+
+			/*
+			 * If the default wasn't prevented already (in which case the form
+			 * submission is already being handled by JS), and if it has a GET
+			 * request method, then take the serialized form data and add it as
+			 * a query string to the action URL and send this in a url message
+			 * to the customizer pane so that it will be loaded. If the form's
+			 * action points to a non-previewable URL, the customizer pane's
+			 * previewUrl setter will reject it so that the form submission is
+			 * a no-op, which is the same behavior as when clicking a link to an
+			 * external site in the preview.
+			 */
+			if ( ! event.isDefaultPrevented() ) {
+				if ( urlParser.search.length > 1 ) {
+					urlParser.search += '&';
+				}
+				urlParser.search += form.serialize();
+				preview.send( 'url', urlParser.href );
+			}
+
+			// Prevent default since navigation should be done via sending url message or via JS submit handler.
+			event.preventDefault();
 		}
 	});
 
