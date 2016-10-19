@@ -1100,12 +1100,14 @@ function get_network_option( $network_id, $option, $default = false ) {
 	 *
 	 * @since 2.9.0 As 'pre_site_option_' . $key
 	 * @since 3.0.0
-	 * @since 4.4.0 The `$option` parameter was added
+	 * @since 4.4.0 The `$option` parameter was added.
+	 * @since 4.7.0 The `$network_id` parameter was added.
 	 *
 	 * @param mixed  $pre_option The default value to return if the option does not exist.
 	 * @param string $option     Option name.
+	 * @param int    $network_id ID of the network.
 	 */
-	$pre = apply_filters( "pre_site_option_{$option}", false, $option );
+	$pre = apply_filters( "pre_site_option_{$option}", false, $option, $network_id );
 
 	if ( false !== $pre ) {
 		return $pre;
@@ -1124,17 +1126,19 @@ function get_network_option( $network_id, $option, $default = false ) {
 		 *
 		 * @since 3.4.0
 		 * @since 4.4.0 The `$option` parameter was added.
+		 * @since 4.7.0 The `$network_id` parameter was added.
 		 *
-		 * @param mixed  $default The value to return if the site option does not exist
-		 *                        in the database.
-		 * @param string $option  Option name.
+		 * @param mixed  $default    The value to return if the site option does not exist
+		 *                           in the database.
+		 * @param string $option     Option name.
+		 * @param int    $network_id ID of the network.
 		 */
-		return apply_filters( "default_site_option_{$option}", $default, $option );
+		return apply_filters( "default_site_option_{$option}", $default, $option, $network_id );
 	}
 
 	if ( ! is_multisite() ) {
 		/** This filter is documented in wp-includes/option.php */
-		$default = apply_filters( 'default_site_option_' . $option, $default, $option );
+		$default = apply_filters( 'default_site_option_' . $option, $default, $option, $network_id );
 		$value = get_option( $option, $default );
 	} else {
 		$cache_key = "$network_id:$option";
@@ -1156,7 +1160,7 @@ function get_network_option( $network_id, $option, $default = false ) {
 				wp_cache_set( $notoptions_key, $notoptions, 'site-options' );
 
 				/** This filter is documented in wp-includes/option.php */
-				$value = apply_filters( 'default_site_option_' . $option, $default, $option );
+				$value = apply_filters( 'default_site_option_' . $option, $default, $option, $network_id );
 			}
 		}
 	}
@@ -1168,12 +1172,14 @@ function get_network_option( $network_id, $option, $default = false ) {
 	 *
 	 * @since 2.9.0 As 'site_option_' . $key
 	 * @since 3.0.0
-	 * @since 4.4.0 The `$option` parameter was added
+	 * @since 4.4.0 The `$option` parameter was added.
+	 * @since 4.7.0 The `$network_id` parameter was added.
 	 *
-	 * @param mixed  $value  Value of network option.
-	 * @param string $option Option name.
+	 * @param mixed  $value      Value of network option.
+	 * @param string $option     Option name.
+	 * @param int    $network_id ID of the network.
 	 */
-	return apply_filters( "site_option_{$option}", $value, $option );
+	return apply_filters( "site_option_{$option}", $value, $option, $network_id );
 }
 
 /**
