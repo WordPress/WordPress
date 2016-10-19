@@ -24,7 +24,7 @@ if ( isset( $_GET['h'] ) && $_GET['h'] != '' && get_option( 'delete_blog_hash' )
 	}
 }
 
-$blog = get_blog_details();
+$blog = get_site();
 $user = wp_get_current_user();
 
 $title = __( 'Delete Site' );
