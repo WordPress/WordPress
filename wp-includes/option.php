@@ -1332,11 +1332,13 @@ function delete_network_option( $network_id, $option ) {
 	 * The dynamic portion of the hook name, `$option`, refers to the option name.
 	 *
 	 * @since 3.0.0
-	 * @since 4.4.0 The `$option` parameter was added
+	 * @since 4.4.0 The `$option` parameter was added.
+	 * @since 4.7.0 The `$network_id` parameter was added.
 	 *
-	 * @param string $option Option name.
+	 * @param string $option     Option name.
+	 * @param int    $network_id ID of the network.
 	 */
-	do_action( "pre_delete_site_option_{$option}", $option );
+	do_action( "pre_delete_site_option_{$option}", $option, $network_id );
 
 	if ( ! is_multisite() ) {
 		$result = delete_option( $option );
@@ -1360,19 +1362,23 @@ function delete_network_option( $network_id, $option ) {
 		 *
 		 * @since 2.9.0 As "delete_site_option_{$key}"
 		 * @since 3.0.0
+		 * @since 4.7.0 The `$network_id` parameter was added.
 		 *
-		 * @param string $option Name of the network option.
+		 * @param string $option     Name of the network option.
+		 * @param int    $network_id ID of the network.
 		 */
-		do_action( "delete_site_option_{$option}", $option );
+		do_action( "delete_site_option_{$option}", $option, $network_id );
 
 		/**
 		 * Fires after a network option has been deleted.
 		 *
 		 * @since 3.0.0
+		 * @since 4.7.0 The `$network_id` parameter was added.
 		 *
-		 * @param string $option Name of the network option.
+		 * @param string $option     Name of the network option.
+		 * @param int    $network_id ID of the network.
 		 */
-		do_action( 'delete_site_option', $option );
+		do_action( 'delete_site_option', $option, $network_id );
 
 		return true;
 	}
