@@ -1708,6 +1708,115 @@ function set_site_transient( $transient, $value, $expiration = 0 ) {
 }
 
 /**
+ * Register default settings available in WordPress.
+ *
+ * The settings registered here are primarily useful for the REST API, so this
+ * does not encompass all settings available in WordPress.
+ *
+ * @since 4.7.0
+ */
+function register_initial_settings() {
+	register_setting( 'general', 'blogname', array(
+		'show_in_rest' => array(
+			'name' => 'title',
+		),
+		'type'         => 'string',
+		'description'  => __( 'Site title.' ),
+	) );
+
+	register_setting( 'general', 'blogdescription', array(
+		'show_in_rest' => array(
+			'name' => 'description',
+		),
+		'type'         => 'string',
+		'description'  => __( 'Site description.' ),
+	) );
+
+	register_setting( 'general', 'siteurl', array(
+		'show_in_rest' => array(
+			'name'    => 'url',
+			'schema'  => array(
+				'format' => 'uri',
+			),
+		),
+		'type'         => 'string',
+		'description'  => __( 'Site URL.' ),
+	) );
+
+	register_setting( 'general', 'admin_email', array(
+		'show_in_rest' => array(
+			'name'    => 'email',
+			'schema'  => array(
+				'format' => 'email',
+			),
+		),
+		'type'         => 'string',
+		'description'  => __( 'This address is used for admin purposes. If you change this we will send you an email at your new address to confirm it. The new address will not become active until confirmed.' ),
+	) );
+
+	register_setting( 'general', 'timezone_string', array(
+		'show_in_rest' => array(
+			'name' => 'timezone',
+		),
+		'type'         => 'string',
+		'description'  => __( 'A city in the same timezone as you.' ),
+	) );
+
+	register_setting( 'general', 'date_format', array(
+		'show_in_rest' => true,
+		'type'         => 'string',
+		'description'  => __( 'A date format for all date strings.' ),
+	) );
+
+	register_setting( 'general', 'time_format', array(
+		'show_in_rest' => true,
+		'type'         => 'string',
+		'description'  => __( 'A time format for all time strings.' ),
+	) );
+
+	register_setting( 'general', 'start_of_week', array(
+		'show_in_rest' => true,
+		'type'         => 'number',
+		'description'  => __( 'A day number of the week that the week should start on.' ),
+	) );
+
+	register_setting( 'general', 'WPLANG', array(
+		'show_in_rest' => array(
+			'name' => 'language',
+		),
+		'type'         => 'string',
+		'description'  => __( 'WordPress locale code.' ),
+		'default'      => 'en_US',
+	) );
+
+	register_setting( 'writing', 'use_smilies', array(
+		'show_in_rest' => true,
+		'type'         => 'boolean',
+		'description'  => __( 'Convert emoticons like :-) and :-P to graphics on display.' ),
+		'default'      => true,
+	) );
+
+	register_setting( 'writing', 'default_category', array(
+		'show_in_rest' => true,
+		'type'         => 'number',
+		'description'  => __( 'Default category.' ),
+	) );
+
+	register_setting( 'writing', 'default_post_format', array(
+		'show_in_rest' => true,
+		'type'         => 'string',
+		'description'  => __( 'Default post format.' ),
+	) );
+
+	register_setting( 'reading', 'posts_per_page', array(
+		'show_in_rest' => true,
+		'type'         => 'number',
+		'description'  => __( 'Blog pages show at most.' ),
+		'default'      => 10,
+	) );
+}
+
+/**
  * Register a setting and its data.
  *
  * @since 2.7.0

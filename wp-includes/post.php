@@ -33,6 +33,9 @@ function create_initial_post_types() {
 		'query_var' => false,
 		'delete_with_user' => true,
 		'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'trackbacks', 'custom-fields', 'comments', 'revisions', 'post-formats' ),
+		'show_in_rest' => true,
+		'rest_base' => 'posts',
+		'rest_controller_class' => 'WP_REST_Posts_Controller',
 	) );
 
 	register_post_type( 'page', array(
@@ -51,6 +54,9 @@ function create_initial_post_types() {
 		'query_var' => false,
 		'delete_with_user' => true,
 		'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'page-attributes', 'custom-fields', 'comments', 'revisions' ),
+		'show_in_rest' => true,
+		'rest_base' => 'pages',
+		'rest_controller_class' => 'WP_REST_Posts_Controller',
 	) );
 
 	register_post_type( 'attachment', array(
@@ -76,6 +82,9 @@ function create_initial_post_types() {
 		'show_in_nav_menus' => false,
 		'delete_with_user' => true,
 		'supports' => array( 'title', 'author', 'comments' ),
+		'show_in_rest' => true,
+		'rest_base' => 'media',
+		'rest_controller_class' => 'WP_REST_Attachments_Controller',
 	) );
 	add_post_type_support( 'attachment:audio', 'thumbnail' );
 	add_post_type_support( 'attachment:video', 'thumbnail' );

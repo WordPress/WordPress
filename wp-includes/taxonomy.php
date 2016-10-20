@@ -67,6 +67,9 @@ function create_initial_taxonomies() {
 			'delete_terms' => 'delete_categories',
 			'assign_terms' => 'assign_categories',
 		),
+		'show_in_rest' => true,
+		'rest_base' => 'categories',
+		'rest_controller_class' => 'WP_REST_Terms_Controller',
 	) );
 
 	register_taxonomy( 'post_tag', 'post', array(
@@ -83,6 +86,9 @@ function create_initial_taxonomies() {
 			'delete_terms' => 'delete_post_tags',
 			'assign_terms' => 'assign_post_tags',
 		),
+		'show_in_rest' => true,
+		'rest_base' => 'tags',
+		'rest_controller_class' => 'WP_REST_Terms_Controller',
 	) );
 
 	register_taxonomy( 'nav_menu', 'nav_menu_item', array(
