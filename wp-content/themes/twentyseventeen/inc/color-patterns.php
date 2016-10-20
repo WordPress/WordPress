@@ -12,6 +12,14 @@
  */
 function twentyseventeen_custom_colors_css() {
 	$hue = get_theme_mod( 'colorscheme_hue', 250 );
+
+	/**
+	 * Filter Twenty Seventeen default saturation level.
+	 *
+	 * @since Twenty Seventeen 1.0
+	 *
+	 * @param $saturation integer
+	 */
 	$saturation = apply_filters( 'twentyseventeen_custom_colors_saturation', 50 );
 	$reduced_saturation = ( .8 * $saturation ) . '%';
 	$saturation = $saturation . '%';

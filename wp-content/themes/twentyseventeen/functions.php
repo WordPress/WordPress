@@ -117,6 +117,13 @@ function twentyseventeen_content_width() {
 		$content_width = 1120;
 	}
 
+	/**
+	 * Filter Twenty Seventeen content width of the theme.
+	 *
+	 * @since Twenty Seventeen 1.0
+	 *
+	 * @param $content_width integer
+	 */
 	$GLOBALS['content_width'] = apply_filters( 'twentyseventeen_content_width', $content_width );
 }
 add_action( 'after_setup_theme', 'twentyseventeen_content_width', 0 );

@@ -195,5 +195,12 @@ function twentyseventeen_social_links_icons() {
 		'youtube.com'     => 'youtube',
 	);
 
+	/**
+	 * Filter Twenty Seventeen social links icons.
+	 *
+	 * @since Twenty Seventeen 1.0
+	 *
+	 * @param array $social_links_icons
+	 */
 	return apply_filters( 'twentyseventeen_social_links_icons', $social_links_icons );
 }
