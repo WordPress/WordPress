@@ -1910,7 +1910,7 @@ function comment_form_title( $noreplytext = false, $replytext = false, $linktopa
  *     @type int    $page              Page ID to list comments for. Default empty.
  *     @type int    $per_page          Number of comments to list per page. Default empty.
  *     @type int    $avatar_size       Height and width dimensions of the avatar size. Default 32.
- *     @type string $reverse_top_level Ordering of the listed comments. Default null. Accepts 'desc', 'asc'.
+ *     @type bool   $reverse_top_level Ordering of the listed comments. If true, will display newest comments first.
  *     @type bool   $reverse_children  Whether to reverse child comments in the list. Default null.
  *     @type string $format            How to format the comments list.
  *                                     Default 'html5' if the theme supports it. Accepts 'html5', 'xhtml'.
