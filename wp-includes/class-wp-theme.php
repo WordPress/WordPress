@@ -48,15 +48,16 @@ final class WP_Theme implements ArrayAccess {
 	 * @var array
 	 */
 	private static $default_themes = array(
-		'classic'        => 'WordPress Classic',
-		'default'        => 'WordPress Default',
-		'twentyten'      => 'Twenty Ten',
-		'twentyeleven'   => 'Twenty Eleven',
-		'twentytwelve'   => 'Twenty Twelve',
-		'twentythirteen' => 'Twenty Thirteen',
-		'twentyfourteen' => 'Twenty Fourteen',
-		'twentyfifteen'  => 'Twenty Fifteen',
-		'twentysixteen'  => 'Twenty Sixteen',
+		'classic'         => 'WordPress Classic',
+		'default'         => 'WordPress Default',
+		'twentyten'       => 'Twenty Ten',
+		'twentyeleven'    => 'Twenty Eleven',
+		'twentytwelve'    => 'Twenty Twelve',
+		'twentythirteen'  => 'Twenty Thirteen',
+		'twentyfourteen'  => 'Twenty Fourteen',
+		'twentyfifteen'   => 'Twenty Fifteen',
+		'twentysixteen'   => 'Twenty Sixteen',
+		'twentyseventeen' => 'Twenty Seventeen',
 	);
 
 	/**
