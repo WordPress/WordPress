@@ -721,9 +721,9 @@ class WP_Query {
 	 *     @type array        $post_name__in           An array of post slugs that results must match.
 	 *     @type string       $s                       Search keyword(s). Prepending a term with a hyphen will
 	 *                                                 exclude posts matching that term. Eg, 'pillow -sofa' will
-	 *                                                 return posts containing 'pillow' but not 'sofa'. This feature
-	 *                                                 can be disabled using the
-	 *                                                 'wp_query_use_hyphen_for_exclusion' filter.
+	 *                                                 return posts containing 'pillow' but not 'sofa'. The
+	 *                                                 character used for exclusion can be modified using the
+	 *                                                 the 'wp_query_search_exclusion_prefix' filter.
 	 *     @type int          $second                  Second of the minute. Default empty. Accepts numbers 0-60.
 	 *     @type bool         $sentence                Whether to search by phrase. Default false.
 	 *     @type bool         $suppress_filters        Whether to suppress filters. Default false.
@@ -1322,27 +1322,28 @@ class WP_Query {
 		$q['search_orderby_title'] = array();
 
 		/**
-		 * Filters whether search terms preceded by hyphens should excluded from results.
+		 * Filters the prefix that indicates that a search term should be excluded from results.
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param bool Whether the query should exclude terms preceded with a hyphen.
+		 * @param string $exclusion_prefix The prefix. Default '-'. Returning
+		 *                                 an empty value disables exclusions.
 		 */
-		$hyphen_exclusion = apply_filters( 'wp_query_use_hyphen_for_exclusion', true );
+		$exclusion_prefix = apply_filters( 'wp_query_search_exclusion_prefix', '-' );
 
 		foreach ( $q['search_terms'] as $term ) {
-			// Terms prefixed with '-' should be excluded.
-			$include = '-' !== substr( $term, 0, 1 );
-			if ( $include || ! $hyphen_exclusion ) {
-				$like_op  = 'LIKE';
-				$andor_op = 'OR';
-			} else {
+			// If there is an $exclusion_prefix, terms prefixed with it should be excluded.
+			$exclude = $exclusion_prefix && ( $exclusion_prefix === substr( $term, 0, 1 ) );
+			if ( $exclude ) {
 				$like_op  = 'NOT LIKE';
 				$andor_op = 'AND';
 				$term     = substr( $term, 1 );
+			} else {
+				$like_op  = 'LIKE';
+				$andor_op = 'OR';
 			}
 
-			if ( $n && $include ) {
+			if ( $n && ! $exclude ) {
 				$like = '%' . $wpdb->esc_like( $term ) . '%';
 				$q['search_orderby_title'][] = $wpdb->prepare( "{$wpdb->posts}.post_title LIKE %s", $like );
 			}
