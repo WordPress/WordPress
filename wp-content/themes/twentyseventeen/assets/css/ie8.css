@@ -1,0 +1,115 @@
+/*
+Theme Name: Twenty Seventeen
+Description: IE8 specific style.
+*/
+
+
+h1 {
+	font-size: 30px;
+	font-size: 1.875rem;
+}
+
+h2,
+.page .panel-content .recent-posts .entry-title {
+	font-size: 26px;
+	font-size: 1.625rem;
+}
+
+h3 {
+	font-size: 22px;
+	font-size: 1.375rem;
+}
+
+h4 {
+	font-size: 18px;
+	font-size: 1.125rem;
+}
+
+h5 {
+	font-size: 13px;
+	font-size: 0.8125rem;
+}
+
+h6 {
+	font-size: 16px;
+	font-size: 1rem;
+}
+
+/* Site Branding */
+
+.site-title {
+	font-weight: bolder;
+}
+
+/* Main Navigation */
+
+.menu-toggle {
+	width: 150px;
+}
+
+.main-navigation ul#top-menu {
+	margin-bottom: -1px;
+	padding: 0;
+}
+
+.dropdown-toggle .svg-fallback.icon-expand {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=-1, M12=1.2246467991473532e-16, M21=-1.2246467991473532e-16, M22=-1, SizingMethod='auto expand')";
+}
+
+.dropdown-toggle.toggled-on .svg-fallback.icon-expand {
+	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=1, M12=0, M21=0, M22=1, SizingMethod='auto expand')";
+}
+
+/* Front Page */
+
+.custom-header-image,
+.panel-image {
+	height: 1000px;
+	max-height: 1000px;
+	padding-top: 0;
+}
+
+.page .panel-content .entry-title,
+.page-title,
+.page .entry-title {
+	font-size: 14px;
+	font-size: 0.875rem;
+	font-weight: 700;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+/* Posts */
+
+time.updated {
+	display: none;
+}
+
+time.published {
+	display: inline-block;
+}
+
+.blog .entry-title {
+	padding-top: 0;
+}
+
+.blog .post,
+.archive .post,
+.search .post,
+.search .page {
+	padding-bottom: 4em;
+}
+
+.comment-author .avatar {
+	z-index: -1;
+}
+
+img {
+	width: inherit;  /* Make images fill their parent's space. */
+}
+
+/* Fixes linked images */
+.entry-content a img,
+.widget a img {
+	filter: progid:DXImageTransform.Microsoft.DropShadow(OffX=0, OffY=5, Color=#fff);
+}
