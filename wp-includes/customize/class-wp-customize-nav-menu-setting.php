@@ -287,9 +287,8 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 
 		// Make sure the menu objects get re-sorted after an update/insert.
 		if ( ! $is_delete && ! empty( $args['orderby'] ) ) {
-			$menus = wp_list_sort( $menus, array(
-				$args['orderby'] => 'ASC',
-			) );
+			$this->_current_menus_sort_orderby = $args['orderby'];
+			usort( $menus, array( $this, '_sort_menus_by_orderby' ) );
 		}
 		// @todo add support for $args['hide_empty'] === true
 
@@ -314,9 +313,7 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * This is a workaround for a lack of closures.
 	 *
 	 * @since 4.3.0
-	 * @deprecated 4.7.0 Use wp_list_sort()
 	 * @access protected
-	 *
 	 * @param object $menu1
 	 * @param object $menu2
 	 * @return int
@@ -324,8 +321,6 @@ class WP_Customize_Nav_Menu_Setting extends WP_Customize_Setting {
 	 * @see WP_Customize_Nav_Menu_Setting::filter_wp_get_nav_menus()
 	 */
 	protected function _sort_menus_by_orderby( $menu1, $menu2 ) {
-		_deprecated_function( __METHOD__, '4.7.0', 'wp_list_sort' );
-
 		$key = $this->_current_menus_sort_orderby;
 		return strcmp( $menu1->$key, $menu2->$key );
 	}

@@ -532,9 +532,8 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		}
 
 		if ( ARRAY_A === $args['output'] ) {
-			$items = wp_list_sort( $items, array(
-				$args['output_key'] => 'ASC',
-			) );
+			$GLOBALS['_menu_item_sort_prop'] = $args['output_key'];
+			usort( $items, '_sort_nav_menu_items' );
 			$i = 1;
 
 			foreach ( $items as $k => $item ) {

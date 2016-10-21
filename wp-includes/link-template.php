@@ -169,9 +169,7 @@ function get_permalink( $post = 0, $leavename = false ) {
 		if ( strpos($permalink, '%category%') !== false ) {
 			$cats = get_the_category($post->ID);
 			if ( $cats ) {
-				$cats = wp_list_sort( $cats, array(
-					'term_id' => 'ASC',
-				) );
+				usort($cats, '_usort_terms_by_ID'); // order by ID
 
 				/**
 				 * Filters the category that gets used in the %category% permalink token.

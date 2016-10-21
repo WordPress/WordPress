@@ -100,6 +100,45 @@ function get_the_category( $id = false ) {
 }
 
 /**
+ * Sort categories by name.
+ *
+ * Used by usort() as a callback, should not be used directly. Can actually be
+ * used to sort any term object.
+ *
+ * @since 2.3.0
+ * @access private
+ *
+ * @param object $a
+ * @param object $b
+ * @return int
+ */
+function _usort_terms_by_name( $a, $b ) {
+	return strcmp( $a->name, $b->name );
+}
+
+/**
+ * Sort categories by ID.
+ *
+ * Used by usort() as a callback, should not be used directly. Can actually be
+ * used to sort any term object.
+ *
+ * @since 2.3.0
+ * @access private
+ *
+ * @param object $a
+ * @param object $b
+ * @return int
+ */
+function _usort_terms_by_ID( $a, $b ) {
+	if ( $a->term_id > $b->term_id )
+		return 1;
+	elseif ( $a->term_id < $b->term_id )
+		return -1;
+	else
+		return 0;
+}
+
+/**
  * Retrieve category name based on category ID.
  *
  * @since 0.71
