@@ -209,11 +209,7 @@ class WP_Network_Query {
 
 		// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
 		$key = md5( serialize( wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) ) ) );
-		$last_changed = wp_cache_get( 'last_changed', 'networks' );
-		if ( ! $last_changed ) {
-			$last_changed = microtime();
-			wp_cache_set( 'last_changed', $last_changed, 'networks' );
-		}
+		$last_changed = wp_cache_get_last_changed( 'networks' );
 
 		$cache_key = "get_network_ids:$key:$last_changed";
 		$cache_value = wp_cache_get( $cache_key, 'networks' );
