@@ -419,7 +419,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$prepared_comment['comment_author_url'] = '';
 		}
 
-		$prepared_comment['comment_agent'] = '';
+		if ( ! isset( $prepared_comment['comment_agent'] ) ) {
+			$prepared_comment['comment_agent'] = '';
+		}
+
 		$prepared_comment['comment_approved'] = wp_allow_comment( $prepared_comment, true );
 
 		if ( is_wp_error( $prepared_comment['comment_approved'] ) ) {
@@ -888,6 +891,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$prepared_comment['comment_author_IP'] = $request['author_ip'];
 		}
 
+		if ( isset( $request['author_user_agent'] ) ) {
+			$prepared_comment['comment_agent'] = $request['author_user_agent'];
+		}
+
 		if ( isset( $request['type'] ) ) {
 			// Comment type "comment" needs to be created as an empty string.
 			$prepared_comment['comment_type'] = 'comment' === $request['type'] ? '' : $request['type'];
@@ -975,7 +982,9 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'description'  => __( 'User agent for the object author.' ),
 					'type'         => 'string',
 					'context'      => array( 'edit' ),
-					'readonly'     => true,
+					'arg_options'  => array(
+						'sanitize_callback' => 'sanitize_text_field',
+					),
 				),
 				'content'          => array(
 					'description'     => __( 'The content for the object.' ),
