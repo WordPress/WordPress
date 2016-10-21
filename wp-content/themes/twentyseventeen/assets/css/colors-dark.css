@@ -7,7 +7,6 @@
 .colors-dark button,
 .colors-dark input[type="button"],
 .colors-dark input[type="submit"],
-.colors-dark .bypostauthor > .comment-body > .comment-meta > .comment-author:before,
 .colors-dark .entry-footer .edit-link a.post-edit-link {
 	background-color: #fff;
 }
@@ -87,7 +86,8 @@ body.colors-dark,
 .colors-dark input[type="datetime"]:focus,
 .colors-dark input[type="datetime-local"]:focus,
 .colors-dark input[type="color"]:focus,
-.colors-dark textarea:focus {
+.colors-dark textarea:focus,
+.bypostauthor > .comment-body > .comment-meta > .comment-author .avatar {
 	border-color: #eee;
 }
 
@@ -403,10 +403,6 @@ body.colors-dark,
 .colors-dark .navigation-top,
 .colors-dark .main-navigation ul {
 	background: #222;
-}
-
-.colors-dark .bypostauthor > .comment-body > .comment-meta > .comment-author:before {
-	border-color: #222;
 }
 
 .colors-dark .menu-toggle,

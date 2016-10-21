@@ -178,17 +178,6 @@ input[type="checkbox"] {
 	right: -45px;
 }
 
-.bypostauthor > .comment-body > .comment-meta > .comment-author:before {
-	left: auto;
-	right: -65px;
-	margin: -6px -6px 0 0;
-}
-
-.children .bypostauthor > .comment-body > .comment-meta > .comment-author:before {
-	left: auto;
-	right: -45px;
-}
-
 .form-submit {
 	text-align: left;
 }

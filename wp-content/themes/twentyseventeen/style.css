@@ -2333,30 +2333,9 @@ body:not(.twentyseventeen-front-page) .entry-header {
 	width: 30px;
 }
 
-.bypostauthor > .comment-body > .comment-meta > .comment-author:before {
-	background: #222;
-	-webkit-border-radius: 20px;
-	border-radius: 20px;
-	border: 1px solid #fff;
-	color: #fff;
-	left: -65px;
-	font-size: 16px;
-	font-size: 1rem;
-	height: 20px;
-	line-height: 1;
-	margin: -6px 0 0 -6px;
-	position: absolute;
-	text-align: center;
-	width: 20px;
-	z-index: 2;
-}
-
-.children .bypostauthor > .comment-body > .comment-meta > .comment-author:before {
-	font-size: 12px;
-	font-size: 0.75rem;
-	height: 16px;
-	left: -45px;
-	width: 16px;
+.bypostauthor > .comment-body > .comment-meta > .comment-author .avatar {
+	border: 1px solid #333;
+	padding: 2px;
 }
 
 .no-comments,

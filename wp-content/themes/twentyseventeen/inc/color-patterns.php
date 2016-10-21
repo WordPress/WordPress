@@ -31,7 +31,6 @@ function twentyseventeen_custom_colors_css() {
 .colors-custom button,
 .colors-custom input[type="button"],
 .colors-custom input[type="submit"],
-.colors-custom .bypostauthor > .comment-body > .comment-meta > .comment-author:before,
 .colors-custom .entry-footer .edit-link a.post-edit-link {
 	background-color: hsl( ' . esc_attr( $hue ) . ', ' . esc_attr( $saturation ) . ', 13% ); /* base: #222; */
 }
@@ -111,7 +110,8 @@ body.colors-custom,
 .colors-custom input[type="datetime"]:focus,
 .colors-custom input[type="datetime-local"]:focus,
 .colors-custom input[type="color"]:focus,
-.colors-custom textarea:focus {
+.colors-custom textarea:focus,
+.bypostauthor > .comment-body > .comment-meta > .comment-author .avatar {
 	border-color: hsl( ' . esc_attr( $hue ) . ', ' . $reduced_saturation . ', 20% ); /* base: #333; */
 }
 
@@ -406,10 +406,6 @@ body.colors-custom,
 .colors-custom .navigation-top,
 .colors-custom .main-navigation ul {
 	background: hsl( ' . esc_attr( $hue ) . ', ' . esc_attr( $saturation ) . ', 100% ); /* base: #fff; */
-}
-
-.colors-custom .bypostauthor > .comment-body > .comment-meta > .comment-author:before {
-	border-color: hsl( ' . esc_attr( $hue ) . ', ' . esc_attr( $saturation ) . ', 100% ); /* base: #fff; */
 }
 
 .colors-custom .menu-toggle,
