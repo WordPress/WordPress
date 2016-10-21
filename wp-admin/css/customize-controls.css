@@ -57,6 +57,29 @@ body {
 	margin-bottom: 15px;
 }
 
+#customize-controls .customize-info.is-in-view,
+#customize-controls .customize-section-title.is-in-view {
+	position: absolute;
+	z-index: 9;
+	width: 100%;
+	-webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+}
+
+#customize-controls .customize-section-title.is-in-view {
+	margin-top: 0;
+}
+
+#customize-controls .customize-info.is-in-view + .accordion-section {
+	margin-top: 15px;
+}
+
+#customize-controls .customize-info.is-sticky,
+#customize-controls .customize-section-title.is-sticky {
+	position: fixed;
+	top: 46px;
+}
+
 #customize-controls .customize-info .accordion-section-title {
 	background: #fff;
 	color: #555;
@@ -325,6 +348,10 @@ body {
 	padding: 12px;
 }
 
+#customize-theme-controls .customize-pane-child.menu li {
+	position: static;
+}
+
 .customize-section-description-container {
 	margin-bottom: 15px;
 }
@@ -409,7 +436,7 @@ h3.customize-section-title {
 	display: block;
 	float: left;
 	width: 48px;
-	height: 70px;
+	height: 71px;
 	padding: 0 24px 0 0;
 	margin: 0;
 	background: #fff;
@@ -423,7 +450,7 @@ h3.customize-section-title {
 }
 
 .customize-section-back {
-	height: 73px;
+	height: 74px;
 }
 
 .ios .customize-panel-back {
@@ -484,6 +511,7 @@ h3.customize-section-title {
 }
 
 .wp-full-overlay-sidebar .wp-full-overlay-header {
+	background-color: #eee;
 	-webkit-transition: padding ease-in-out .18s;
 	transition: padding ease-in-out .18s;
 }
@@ -1088,11 +1116,14 @@ p.customize-section-description {
 	position: fixed;
 	top: 0;
 	left: 0;
+	-webkit-transition: .18s left ease-in-out;
 	transition: .18s left ease-in-out;
 	margin: 0 0 0 300px;
 	padding:25px;
 	overflow-y: scroll;
+	width: -webkit-calc(100% - 350px);
 	width: calc(100% - 350px);
+	height: -webkit-calc(100% - 50px);
 	height: calc(100% - 50px);
 	background: #eee;
 	z-index: 20;
@@ -1104,12 +1135,14 @@ p.customize-section-description {
 #customize-header-actions .customize-controls-preview-toggle {
 	position: relative;
 	top: 0;
+	-webkit-transition: .18s top ease-in-out;
 	transition: .18s top ease-in-out;
 }
 
 #customize-footer-actions,
 #customize-footer-actions .collapse-sidebar {
 	bottom: 0;
+	-webkit-transition: .18s bottom ease-in-out;
 	transition: .18s bottom ease-in-out;
 }
 
@@ -1146,6 +1179,17 @@ p.customize-section-description {
 }
 
 /* Adds a delay before fading in to avoid it "jumping" */
+@-webkit-keyframes themes-fade-in {
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
 @keyframes themes-fade-in {
 	0% {
 		opacity: 0;
@@ -1159,10 +1203,12 @@ p.customize-section-description {
 }
 
 .control-panel-themes .customize-themes-full-container.animate {
+	-webkit-animation: .6s themes-fade-in 1;
 	animation: .6s themes-fade-in 1;
 }
 
 .in-themes-panel:not(.animating) .control-panel-themes .filter-themes-count {
+	-webkit-animation: .6s themes-fade-in 1;
 	animation: .6s themes-fade-in 1;
 }
 
@@ -1205,6 +1251,7 @@ p.customize-section-description {
 	}
 
 	.control-panel-themes .filter-themes-count {
+		width: -webkit-calc(100% - 93px);
 		width: calc(100% - 93px);
 	}
 
@@ -1236,9 +1283,11 @@ p.customize-section-description {
 	}
 
 	.control-panel-themes .customize-themes-full-container {
+		width: -webkit-calc(100% - 50px);
 		width: calc(100% - 50px);
 		margin: 0;
 		top: 46px;
+		height: -webkit-calc(100% - 96px);
 		height: calc(100% - 96px);
 		z-index: 1;
 		display: none;
@@ -1273,6 +1322,7 @@ p.customize-section-description {
 .control-panel-themes .customize-themes-section-title {
 	width: 100%;
 	background: #fff;
+	-webkit-box-shadow: none;
 	box-shadow: none;
 	outline: none;
 	border-top: none;
@@ -1304,10 +1354,13 @@ p.customize-section-description {
 .control-panel-themes .theme-section .customize-themes-section-title.selected:after {
 	content: "\f147";
 	font: 16px/1 dashicons;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 20px;
 	height: 20px;
 	padding: 3px 3px 1px 1px; /* Re-align the icon to the smaller grid */
+	-webkit-border-radius: 100%;
 	border-radius: 100%;
 	position: absolute;
 	top: 9px;
@@ -1376,6 +1429,7 @@ p.customize-section-description {
 	background: transparent;
 	border: none;
 	padding: 0;
+	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -1406,6 +1460,7 @@ p.customize-section-description {
 	color: #0073aa;
 	border-bottom-color: #0073aa; /* Color change for focus style should be acceptable because border-bottom is barely visible previously. */
 	outline: none;
+	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -1425,6 +1480,7 @@ p.customize-section-description {
 	color: #555d66;
 	margin: 0;
 	padding: 12px 10px 12px 34px;
+	width: -webkit-calc(100% - 46px);
 	width: calc(100% - 46px);
 	line-height: 16px;
 	font-weight: 600;
@@ -1453,6 +1509,7 @@ p.customize-section-description {
 	clear: both;
 	width: 20px;
 	height: 20px;
+	left: -webkit-calc(50% - 10px);
 	left: calc(50% - 10px);
 	float: none;
 	margin-top: 50px;
@@ -1488,6 +1545,8 @@ p.customize-section-description {
 }
 
 .customize-control.customize-control-theme { /* override most properties on .customize-control */
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 18.4%;
 	margin: 0 2% 2% 0;

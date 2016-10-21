@@ -1004,6 +1004,7 @@
 
 						content.addClass( 'open' );
 						overlay.addClass( 'section-open' );
+						api.state( 'expandedSection' ).set( section );
 					}, this );
 				}
 
@@ -1042,6 +1043,9 @@
 
 				content.removeClass( 'open' );
 				overlay.removeClass( 'section-open' );
+				if ( section === api.state( 'expandedSection' ).get() ) {
+					api.state( 'expandedSection' ).set( false );
+				}
 
 			} else {
 				if ( args.completeCallback ) {
@@ -1995,6 +1999,7 @@
 
 				overlay.addClass( 'in-sub-panel' );
 				accordionSection.addClass( 'current-panel' );
+				api.state( 'expandedPanel' ).set( panel );
 
 			} else if ( ! expanded && accordionSection.hasClass( 'current-panel' ) ) {
 				panel._animateChangeExpanded( function() {
@@ -2011,6 +2016,9 @@
 
 				overlay.removeClass( 'in-sub-panel' );
 				accordionSection.removeClass( 'current-panel' );
+				if ( panel === api.state( 'expandedPanel' ).get() ) {
+					api.state( 'expandedPanel' ).set( false );
+				}
 			}
 		},
 
@@ -4968,6 +4976,8 @@
 				activated = state.create( 'activated' ),
 				processing = state.create( 'processing' ),
 				paneVisible = state.create( 'paneVisible' ),
+				expandedPanel = state.create( 'expandedPanel' ),
+				expandedSection = state.create( 'expandedSection' ),
 				changesetStatus = state.create( 'changesetStatus' ),
 				previewerAlive = state.create( 'previewerAlive' ),
 				populateChangesetUuidParam;
@@ -5003,6 +5013,8 @@
 			activated( api.settings.theme.active );
 			processing( 0 );
 			paneVisible( true );
+			expandedPanel( false );
+			expandedSection( false );
 			previewerAlive( true );
 			changesetStatus( api.settings.changeset.status );
 
@@ -5155,6 +5167,165 @@
 		$( '.customize-controls-preview-toggle' ).on( 'click', function() {
 			overlay.toggleClass( 'preview-only' );
 		});
+
+		/*
+		 * Sticky header feature.
+		 */
+		(function initStickyHeaders() {
+			var parentContainer = $( '.wp-full-overlay-sidebar-content' ),
+				changeContainer, getHeaderHeight, releaseStickyHeader, resetStickyHeader, positionStickyHeader,
+				activeHeader, lastScrollTop;
+
+			// Determine which panel or section is currently expanded.
+			changeContainer = function( container ) {
+				var newInstance = container,
+					expandedSection = api.state( 'expandedSection' ).get(),
+					expandedPanel = api.state( 'expandedPanel' ).get(),
+					headerElement;
+
+				// Release previously active header element.
+				if ( activeHeader && activeHeader.element ) {
+					releaseStickyHeader( activeHeader.element );
+				}
+
+				if ( ! newInstance ) {
+					if ( ! expandedSection && expandedPanel && expandedPanel.contentContainer ) {
+						newInstance = expandedPanel;
+					} else if ( ! expandedPanel && expandedSection && expandedSection.contentContainer ) {
+						newInstance = expandedSection;
+					} else {
+						activeHeader = false;
+						return;
+					}
+				}
+
+				headerElement = newInstance.contentContainer.find( '.customize-section-title, .panel-meta' ).first();
+				if ( headerElement.length ) {
+					activeHeader = {
+						instance: newInstance,
+						element:  headerElement,
+						parent:   headerElement.closest( '.customize-pane-child' ),
+						height:   getHeaderHeight( headerElement )
+					};
+					if ( expandedSection ) {
+						resetStickyHeader( activeHeader.element, activeHeader.parent );
+					}
+				} else {
+					activeHeader = false;
+				}
+			};
+			api.state( 'expandedSection' ).bind( changeContainer );
+			api.state( 'expandedPanel' ).bind( changeContainer );
+
+			// Throttled scroll event handler.
+			parentContainer.on( 'scroll', _.throttle( function() {
+				if ( ! activeHeader ) {
+					return;
+				}
+
+				var scrollTop = parentContainer.scrollTop(),
+					isScrollingUp = ( lastScrollTop ) ? scrollTop <= lastScrollTop : true;
+
+				lastScrollTop = scrollTop;
+				positionStickyHeader( activeHeader, scrollTop, isScrollingUp );
+			}, 8 ) );
+
+			// Release header element if it is sticky.
+			releaseStickyHeader = function( headerElement ) {
+				if ( ! headerElement.hasClass( 'is-sticky' ) ) {
+					return;
+				}
+				headerElement
+					.removeClass( 'is-sticky' )
+					.addClass( 'maybe-sticky is-in-view' )
+					.css( 'top', parentContainer.scrollTop() + 'px' );
+			};
+
+			// Reset position of the sticky header.
+			resetStickyHeader = function( headerElement, headerParent ) {
+				headerElement
+					.removeClass( 'maybe-sticky is-in-view' )
+					.css( {
+						width: '',
+						top: ''
+					} );
+				headerParent.css( 'padding-top', '' );
+			};
+
+			// Get header height.
+			getHeaderHeight = function( headerElement ) {
+				var height = headerElement.data( 'height' );
+				if ( ! height ) {
+					height = headerElement.outerHeight();
+					headerElement.data( 'height', height );
+				}
+				return height;
+			};
+
+			// Reposition header on throttled `scroll` event.
+			positionStickyHeader = function( header, scrollTop, isScrollingUp ) {
+				var headerElement = header.element,
+					headerParent = header.parent,
+					headerHeight = header.height,
+					headerTop = parseInt( headerElement.css( 'top' ), 10 ),
+					maybeSticky = headerElement.hasClass( 'maybe-sticky' ),
+					isSticky = headerElement.hasClass( 'is-sticky' ),
+					isInView = headerElement.hasClass( 'is-in-view' );
+
+				// When scrolling down, gradually hide sticky header.
+				if ( ! isScrollingUp ) {
+					if ( isSticky ) {
+						headerTop = scrollTop;
+						headerElement
+							.removeClass( 'is-sticky' )
+							.css( {
+								top:   headerTop + 'px',
+								width: ''
+							} );
+					}
+					if ( isInView && scrollTop > headerTop + headerHeight ) {
+						headerElement.removeClass( 'is-in-view' );
+						headerParent.css( 'padding-top', '' );
+					}
+					return;
+				}
+
+				// Scrolling up.
+				if ( ! maybeSticky && scrollTop >= headerHeight ) {
+					maybeSticky = true;
+					headerElement.addClass( 'maybe-sticky' );
+				} else if ( 0 === scrollTop ) {
+					// Reset header in base position.
+					headerElement
+						.removeClass( 'maybe-sticky is-in-view is-sticky' )
+						.css( {
+							top:   '',
+							width: ''
+						} );
+					headerParent.css( 'padding-top', '' );
+					return;
+				}
+
+				if ( isInView && ! isSticky ) {
+					// Header is in the view but is not yet sticky.
+					if ( headerTop >= scrollTop ) {
+						// Header is fully visible.
+						headerElement
+							.addClass( 'is-sticky' )
+							.css( {
+								top:   '',
+								width: headerParent.outerWidth() + 'px'
+							} );
+					}
+				} else if ( maybeSticky && ! isInView ) {
+					// Header is out of the view.
+					headerElement
+						.addClass( 'is-in-view' )
+						.css( 'top', ( scrollTop - headerHeight ) + 'px' );
+					headerParent.css( 'padding-top', headerHeight + 'px' );
+				}
+			};
+		}());
 
 		// Previewed device bindings.
 		api.previewedDevice = new api.Value();

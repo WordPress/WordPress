@@ -65,6 +65,10 @@
 	text-align: right;
 }
 
+.wp-customizer .menu-item-handle:hover {
+	z-index: 8;
+}
+
 .customize-control-nav_menu_item.has-notifications .menu-item-handle {
 	border-left: 4px solid #00a0d2;
 }
@@ -72,6 +76,7 @@
 .wp-customizer .menu-item-settings {
 	max-width: 100%;
 	overflow: hidden;
+	z-index: 8;
 	padding: 10px;
 	background: #eee;
 	border: 1px solid #999;
