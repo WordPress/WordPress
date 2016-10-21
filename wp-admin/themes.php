@@ -252,7 +252,11 @@ foreach ( $themes as $theme ) :
 
 	<?php if ( $theme['hasUpdate'] ) : ?>
 		<div class="update-message notice inline notice-warning notice-alt">
+		<?php if ( $theme['hasPackage'] ) : ?>
 			<p><?php _e( 'New version available. <button class="button-link" type="button">Update now</button>' ); ?></p>
+		<?php else : ?>
+			<p><?php _e( 'New version available.' ); ?></p>
+		<?php endif; ?>
 		</div>
 	<?php endif; ?>
 

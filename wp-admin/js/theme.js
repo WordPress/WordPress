@@ -610,6 +610,11 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 	updateTheme: function( event ) {
 		var _this = this;
+
+		if ( ! this.model.get( 'hasPackage' ) ) {
+			return;
+		}
+
 		event.preventDefault();
 
 		wp.updates.maybeRequestFilesystemCredentials( event );
