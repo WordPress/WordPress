@@ -13,13 +13,9 @@
  * @param WP_Customize_Manager $wp_customize Theme Customizer object.
  */
 function twentyseventeen_customize_register( $wp_customize ) {
-	$postMessage_settings = array( 'blogname', 'blogdescription', 'header_textcolor' );
-	foreach( $postMessage_settings as $postMessage_setting ) {
-		$setting = $wp_customize->get_setting( $postMessage_setting );
-		if ( $setting ) {
-			$setting->transport = 'postMessage';
-		}
-	}
+	$wp_customize->get_setting( 'blogname' )->transport         = 'postMessage';
+	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
+	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
 	/**
 	 * Custom colors.
