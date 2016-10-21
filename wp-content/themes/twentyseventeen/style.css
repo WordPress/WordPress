@@ -2241,6 +2241,7 @@ body:not(.twentyseventeen-front-page) .entry-header {
 --------------------------------------------------------------*/
 
 #comments {
+	clear: both;
 	padding: 2em 0 0.5em;
 }
 
@@ -3669,7 +3670,8 @@ article.panel-placeholder {
 	.search:not(.has-sidebar) #primary article,
 	.error404:not(.has-sidebar) #primary .page-content,
 	.error404.has-sidebar #primary .page-content,
-	body.page-two-column #primary .entry-content {
+	body.page-two-column #primary .entry-content,
+	body.page-two-column #comments {
 		float: right;
 		width: 58%;
 	}

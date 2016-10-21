@@ -373,7 +373,8 @@ input[type="checkbox"] {
 	.search:not(.has-sidebar) #primary article,
 	.has-sidebar.error404 #primary .page-content,
 	.error404.has-sidebar #primary .page-content,
-	body.page-two-column #primary .entry-content {
+	body.page-two-column #primary .entry-content,
+	body.page-two-column #comments {
 		float: left;
 	}
 
