@@ -94,6 +94,9 @@ function twentyseventeen_setup() {
 		'flex-width'  => true,
 	) );
 
+	// Add theme support for selective refresh for widgets.
+	add_theme_support( 'customize-selective-refresh-widgets' );
+
 	/*
 	 * This theme styles the visual editor to resemble the theme style,
 	 * specifically font, colors, and column width.
