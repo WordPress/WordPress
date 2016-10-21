@@ -2505,15 +2505,12 @@ final class WP_Customize_Manager {
 	 * Helper function to compare two objects by priority, ensuring sort stability via instance_number.
 	 *
 	 * @since 3.4.0
-	 * @deprecated 4.7.0 Use wp_list_sort()
 	 *
 	 * @param WP_Customize_Panel|WP_Customize_Section|WP_Customize_Control $a Object A.
 	 * @param WP_Customize_Panel|WP_Customize_Section|WP_Customize_Control $b Object B.
 	 * @return int
 	 */
 	protected function _cmp_priority( $a, $b ) {
-		_deprecated_function( __METHOD__, '4.7.0', 'wp_list_sort' );
-
 		if ( $a->priority === $b->priority ) {
 			return $a->instance_number - $b->instance_number;
 		} else {
@@ -2533,10 +2530,7 @@ final class WP_Customize_Manager {
 	public function prepare_controls() {
 
 		$controls = array();
-		$this->controls = wp_list_sort( $this->controls, array(
-			'priority'        => 'ASC',
-			'instance_number' => 'ASC',
-		) );
+		uasort( $this->controls, array( $this, '_cmp_priority' ) );
 
 		foreach ( $this->controls as $id => $control ) {
 			if ( ! isset( $this->sections[ $control->section ] ) || ! $control->check_capabilities() ) {
@@ -2549,10 +2543,7 @@ final class WP_Customize_Manager {
 		$this->controls = $controls;
 
 		// Prepare sections.
-		$this->sections = wp_list_sort( $this->sections, array(
-			'priority'        => 'ASC',
-			'instance_number' => 'ASC',
-		) );
+		uasort( $this->sections, array( $this, '_cmp_priority' ) );
 		$sections = array();
 
 		foreach ( $this->sections as $section ) {
@@ -2560,11 +2551,7 @@ final class WP_Customize_Manager {
 				continue;
 			}
 
-
-			$section->controls = wp_list_sort( $section->controls, array(
-				'priority'        => 'ASC',
-				'instance_number' => 'ASC',
-			) );
+			usort( $section->controls, array( $this, '_cmp_priority' ) );
 
 			if ( ! $section->panel ) {
 				// Top-level section.
@@ -2579,10 +2566,7 @@ final class WP_Customize_Manager {
 		$this->sections = $sections;
 
 		// Prepare panels.
-		$this->panels = wp_list_sort( $this->panels, array(
-			'priority'        => 'ASC',
-			'instance_number' => 'ASC',
-		) );
+		uasort( $this->panels, array( $this, '_cmp_priority' ) );
 		$panels = array();
 
 		foreach ( $this->panels as $panel ) {
@@ -2590,20 +2574,14 @@ final class WP_Customize_Manager {
 				continue;
 			}
 
-			$panel->sections = wp_list_sort( $panel->sections, array(
-				'priority'        => 'ASC',
-				'instance_number' => 'ASC',
-			) );
+			uasort( $panel->sections, array( $this, '_cmp_priority' ) );
 			$panels[ $panel->id ] = $panel;
 		}
 		$this->panels = $panels;
 
 		// Sort panels and top-level sections together.
 		$this->containers = array_merge( $this->panels, $this->sections );
-		$this->containers = wp_list_sort( $this->containers, array(
-			'priority'        => 'ASC',
-			'instance_number' => 'ASC',
-		) );
+		uasort( $this->containers, array( $this, '_cmp_priority' ) );
 	}
 
 	/**
