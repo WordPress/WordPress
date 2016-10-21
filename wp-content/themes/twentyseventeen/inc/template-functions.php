@@ -34,8 +34,8 @@ function twentyseventeen_body_classes( $classes ) {
 		$classes[] = 'twentyseventeen-front-page';
 	}
 
-	// Add a class if there is a featured image or custom header.
-	if ( has_header_image() || ( has_post_thumbnail() && twentyseventeen_is_frontpage() ) ) {
+	// Add a class if there is a custom header.
+	if ( has_header_image() ) {
 		$classes[] = 'has-header-image';
 	}
 
