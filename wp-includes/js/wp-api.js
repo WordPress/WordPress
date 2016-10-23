@@ -302,7 +302,7 @@
 				deferred  = jQuery.Deferred();
 				embeddeds = parentModel.get( '_embedded' ) || {};
 
-				// Verify that we have a valied object id.
+				// Verify that we have a valid object id.
 				if ( ! _.isNumber( modelId ) || 0 === modelId ) {
 					deferred.reject();
 					return deferred;
@@ -362,7 +362,7 @@
 				postId    = parentModel.get( 'id' );
 				embeddeds = parentModel.get( '_embedded' ) || {};
 
-				// Verify that we have a valied post id.
+				// Verify that we have a valid post id.
 				if ( ! _.isNumber( postId ) || 0 === postId ) {
 					deferred.reject();
 					return deferred;
