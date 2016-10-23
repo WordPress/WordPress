@@ -20,10 +20,10 @@ get_header(); ?>
 		<?php // Show the selected frontpage content.
 		if ( have_posts() ) :
 			while ( have_posts() ) : the_post();
-				get_template_part( 'components/page/content', 'front-page' );
+				get_template_part( 'template-parts/page/content', 'front-page' );
 			endwhile;
 		else : // I'm not sure it's possible to have no posts when this page is shown, but WTH.
-			get_template_part( 'components/post/content', 'none' );
+			get_template_part( 'template-parts/post/content', 'none' );
 		endif; ?>
 
 		<?php
@@ -31,7 +31,7 @@ get_header(); ?>
 		$panels = array( '1', '2', '3', '4' );
 		$titles = array();
 
-		global $twentyseventeencounter; // Used in components/page/content-front-page-panels.php file.
+		global $twentyseventeencounter; // Used in template-parts/page/content-front-page-panels.php file.
 
 		if ( 0 !== twentyseventeen_panel_count() || is_customize_preview() ) : // If we have pages to show.
 
@@ -44,7 +44,7 @@ get_header(); ?>
 					set_query_var( 'panel', $panel );
 
 					$titles[] = get_the_title(); // Put page titles in an array for use in navigation.
-					get_template_part( 'components/page/content', 'front-page-panels' );
+					get_template_part( 'template-parts/page/content', 'front-page-panels' );
 
 					wp_reset_postdata();
 				else :
