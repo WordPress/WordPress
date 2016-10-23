@@ -594,11 +594,18 @@ ul#add-to-blog-users {
 	padding: 4px 10px;
 	white-space: nowrap;
 	text-align: left;
+	cursor: pointer;
 }
 
-.ui-autocomplete li.ui-state-focus {
+/* Colors for the wplink toolbar autocomplete. */
+.ui-autocomplete .ui-state-focus {
 	background-color: #ddd;
-	cursor: pointer;
+}
+
+/* Colors for the tags autocomplete. */
+.wp-tags-autocomplete .ui-state-focus {
+	background-color: #0073aa;
+	color: #fff;
 }
 
 /*------------------------------------------------------------------------------

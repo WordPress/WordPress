@@ -582,10 +582,9 @@ span.wp-media-buttons-icon:before {
 	position: absolute;
 }
 
-.tagchecklist span {
-	margin-right: 25px;
-	display: block;
+.tagchecklist > span {
 	float: left;
+	margin-right: 25px;
 	font-size: 13px;
 	line-height: 1.8em;
 	cursor: default;
@@ -594,16 +593,16 @@ span.wp-media-buttons-icon:before {
 	text-overflow: ellipsis;
 }
 
-.tagchecklist span a {
-	margin: 1px 0 0 -17px;
-	cursor: pointer;
-	width: 20px;
-	height: 20px;
-	display: block;
-	float: left;
-	text-indent: 0;
-	overflow: hidden;
+.tagchecklist .ntdelbutton {
 	position: absolute;
+	width: 24px;
+	height: 24px;
+	border: none;
+	margin: 0 0 0 -19px;
+	padding: 0;
+	background: none;
+	cursor: pointer;
+	text-indent: 0;
 }
 
 #poststuff h3.hndle, /* Back-compat for pre-4.4 */
@@ -1027,6 +1026,25 @@ span.description,
 	width: 260px;
 }
 
+.tagcloud-link.button-link {
+	color: #0073aa;
+	text-decoration: underline;
+}
+
+.tagcloud-link.button-link:hover {
+	color: #00a0d2;
+}
+
+.tagcloud-link.button-link:focus {
+	color: #124964;
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+}
+
 #post-body-content .tagsdiv .the-tags {
 	margin: 0 5px;
 }
@@ -1052,6 +1070,7 @@ p.popular-tags a {
 	margin: 2px 0 12px;
 }
 
+/* Suggest.js autocomplete, no more used by core. */
 .ac_results {
 	display: none;
 	margin: -1px 0 0;
@@ -1438,7 +1457,7 @@ table.links-table {
 		margin: 25px 10px;
 	}
 
-	.tagchecklist span {
+	.tagchecklist > span {
 		font-size: 16px;
 		line-height: 1.4;
 	}

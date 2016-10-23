@@ -441,9 +441,13 @@ div#dashboard-widgets {
 	padding-right: 1px;
 }
 
-.tagchecklist span, .tagchecklist span a {
+.tagchecklist > span, .tagchecklist .ntdelbutton {
 	display: inline-block;
 	display: block;
+}
+
+.tagchecklist .ntdelbutton:focus .remove-tag-icon:before {
+	outline: 1px solid #5b9dd9;
 }
 
 .tablenav .button,

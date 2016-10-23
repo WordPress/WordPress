@@ -1,6 +1,13 @@
+/**
+ * Default settings for jQuery UI Autocomplete for use with non-hierarchical taxonomies.
+ */
 ( function( $ ) {
+	if ( typeof window.tagsSuggestL10n === 'undefined' || typeof window.uiAutocompleteL10n === 'undefined' ) {
+		return;
+	}
+
 	var tempID = 0;
-	var separator = ( window.tagsSuggestL10n && window.tagsSuggestL10n.tagDelimiter ) || ',';
+	var separator = window.tagsSuggestL10n.tagDelimiter || ',';
 
 	function split( val ) {
 		return val.split( new RegExp( separator + '\\s*' ) );
@@ -10,19 +17,33 @@
 		return split( term ).pop();
 	}
 
+	/**
+	 * Add UI Autocomplete to an input or textarea element with presets for use
+	 * with non-hierarchical taxonomies.
+	 *
+	 * Example: `$( element ).wpTagsSuggest( options )`.
+	 *
+	 * The taxonomy can be passed in a `data-wp-taxonomy` attribute on the element or
+	 * can be in `options.taxonomy`.
+	 *
+	 * @since 4.7
+	 *
+	 * @param {object} options Options that are passed to UI Autocomplete. Can be used to override the default settings.
+	 * @returns {object} jQuery instance.
+	 */
 	$.fn.wpTagsSuggest = function( options ) {
 		var cache;
 		var last;
 		var $element = $( this );
 
 		options = options || {};
-		
+
 		var taxonomy = options.taxonomy || $element.attr( 'data-wp-taxonomy' ) || 'post_tag';
-		
+
 		delete( options.taxonomy );
 
 		options = $.extend( {
-			source: function( request, response ) {				
+			source: function( request, response ) {
 				var term;
 
 				if ( last === request.term ) {
@@ -39,25 +60,25 @@
 				} ).always( function() {
 					$element.removeClass( 'ui-autocomplete-loading' ); // UI fails to remove this sometimes?
 				} ).done( function( data ) {
-					var value;
-					var terms = [];
+					var tagName;
+					var tags = [];
 
 					if ( data ) {
 						data = data.split( '\n' );
 
-						for ( value in data ) {
+						for ( tagName in data ) {
 							var id = ++tempID;
 
-							terms.push({
+							tags.push({
 								id: id,
-								name: data[value]
+								name: data[tagName]
 							});
 						}
 
-						cache = terms;
-						response( terms );
+						cache = tags;
+						response( tags );
 					} else {
-						response( terms );
+						response( tags );
 					}
 				} );
 
@@ -80,11 +101,8 @@
 				$element.val( tags.join( separator + ' ' ) );
 
 				if ( $.ui.keyCode.TAB === event.keyCode ) {
-					if ( typeof window.uiAutocompleteL10n !== 'undefined' ) {
-						// Audible confirmation message when a tag has been selected.
-						window.wp.a11y.speak( window.uiAutocompleteL10n.itemSelected );
-					}
-
+					// Audible confirmation message when a tag has been selected.
+					window.wp.a11y.speak( window.tagsSuggestL10n.termSelected, 'assertive' );
 					event.preventDefault();
 				} else if ( $.ui.keyCode.ENTER === event.keyCode ) {
 					// Do not close Quick Edit / Bulk Edit
@@ -105,15 +123,13 @@
 				my: 'left top+2'
 			},
 			messages: {
-				noResults: ( typeof window.uiAutocompleteL10n !== 'undefined' ) ? window.uiAutocompleteL10n.noResults : '',
+				noResults: window.uiAutocompleteL10n.noResults,
 				results: function( number ) {
-					if ( typeof window.uiAutocompleteL10n !== 'undefined' ) {
-						if ( number > 1 ) {
-							return window.uiAutocompleteL10n.manyResults.replace( '%d', number );
-						}
-
-						return window.uiAutocompleteL10n.oneResult;
+					if ( number > 1 ) {
+						return window.uiAutocompleteL10n.manyResults.replace( '%d', number );
 					}
+
+					return window.uiAutocompleteL10n.oneResult;
 				}
 			}
 		}, options );
@@ -160,7 +176,7 @@
 				// so we need to find the active item with other means.
 				$( this ).find( '[aria-selected="true"]' ).removeAttr( 'aria-selected' );
 			});
-			
+
 		return this;
 	};
 

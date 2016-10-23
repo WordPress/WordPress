@@ -759,7 +759,7 @@ img.emoji {
 
 /* @todo can we combine these into a class or use an existing dashicon one? */
 .welcome-panel .welcome-panel-close:before,
-.tagchecklist span a:before,
+.tagchecklist .ntdelbutton .remove-tag-icon:before,
 #bulk-titles div a:before,
 .notice-dismiss:before {
 	background: none;
@@ -779,16 +779,39 @@ img.emoji {
 	margin: 0;
 }
 
-.tagchecklist span a:before,
 #bulk-titles div a:before {
 	margin: 1px 0;
 }
 
+.tagchecklist .ntdelbutton .remove-tag-icon:before {
+	margin-left: 2px;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	color: #0073aa;
+	/* vertically center the icon cross browsers */
+	line-height: 1.28;
+}
+
+.tagchecklist .ntdelbutton:focus {
+	outline: 0;
+}
+
 .welcome-panel .welcome-panel-close:hover:before,
 .welcome-panel .welcome-panel-close:focus:before,
-.tagchecklist span a:hover:before,
-#bulk-titles div a:hover:before {
+.tagchecklist .ntdelbutton:hover .remove-tag-icon:before,
+.tagchecklist .ntdelbutton:focus .remove-tag-icon:before,
+#bulk-titles div a:hover:before,
+#bulk-titles div a:focus:before {
 	color: #c00;
+}
+
+.tagchecklist .ntdelbutton:focus .remove-tag-icon:before {
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .key-labels label {
@@ -3571,9 +3594,7 @@ img {
 	.sidebar-name-arrow,
 	.sidebar-name:hover .sidebar-name-arrow,
 	.meta-box-sortables .postbox:hover .handlediv,
-	.tagchecklist span a,
 	#bulk-titles div a,
-	.tagchecklist span a:hover,
 	#bulk-titles div a:hover {
 		background: none !important;
 	}
