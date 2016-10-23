@@ -179,7 +179,7 @@
 				// Add any non empty args, merging them into the args object.
 				if ( ! _.isEmpty( routeEndpoint.args ) ) {
 
-					// Set as defauls if no args yet.
+					// Set as default if no args yet.
 					if ( _.isEmpty( modelInstance.prototype.args ) ) {
 						modelInstance.prototype.args = routeEndpoint.args;
 					} else {
@@ -196,7 +196,7 @@
 					// Add any non empty args, merging them into the defaults object.
 					if ( ! _.isEmpty( routeEndpoint.args ) ) {
 
-						// Set as defauls if no defaults yet.
+						// Set as default if no defaults yet.
 						if ( _.isEmpty( modelInstance.prototype.options ) ) {
 							modelInstance.prototype.options = routeEndpoint.args;
 						} else {
