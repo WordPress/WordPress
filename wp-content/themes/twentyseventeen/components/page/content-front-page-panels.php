@@ -73,7 +73,7 @@ global $twentyseventeencounter;
 
 						<?php
 						while ( $recent_posts->have_posts() ) : $recent_posts->the_post();
-							get_template_part( 'template-parts/post/content', 'excerpt' );
+							get_template_part( 'components/post/content', 'excerpt' );
 						endwhile;
 						wp_reset_postdata();
 						?>
