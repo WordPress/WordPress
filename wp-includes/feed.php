@@ -538,6 +538,12 @@ function prep_atom_text_construct($data) {
 		return array('text', $data);
 	}
 
+	if ( ! function_exists( 'xml_parser_create' ) ) {
+		trigger_error( __( "PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension." ) );
+
+		return array( 'html', "<![CDATA[$data]]>" );
+	}
+
 	$parser = xml_parser_create();
 	xml_parse($parser, '<div>' . $data . '</div>', true);
 	$code = xml_get_error_code($parser);
