@@ -17,7 +17,8 @@ function twentyseventeen_posted_on() {
 
 	// Get the author name; wrap it in a link.
 	$byline = sprintf(
-		_x( 'by %s', 'post author', 'twentyseventeen' ),
+		/* translators: %s: post author */
+		__( 'by %s', 'twentyseventeen' ),
 		'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . get_the_author() . '</a></span>'
 	);
 
@@ -45,7 +46,11 @@ function twentyseventeen_time_link() {
 	);
 
 	// Wrap the time string in a link, and preface it with 'Posted on'.
-	return '<span class="screen-reader-text">' . _x( 'Posted on', 'post date', 'twentyseventeen' ) . '</span> <a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>';
+	return sprintf(
+		/* translators: %s: post date */
+		__( '<span class="screen-reader-text">Posted on</span> %s', 'twentyseventeen' ),
+		'<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">' . $time_string . '</a>'
+	);
 }
 endif;
 
