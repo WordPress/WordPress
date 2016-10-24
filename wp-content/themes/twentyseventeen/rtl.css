@@ -113,7 +113,7 @@ input[type="checkbox"] {
 
 .sticky .icon-pinned {
 	left: auto;
-	right: -1em;
+	right: -1.5em;
 }
 
 .prev.page-numbers .icon,

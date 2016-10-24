@@ -1770,10 +1770,10 @@ body:not(.has-header-image) .custom-header-image {
 
 .sticky .icon-pinned {
 	display: block;
-	height: 20px;
-	left: -1em;
+	height: 18px;
+	left: -1.5em;
 	position: absolute;
-	top: 1.75em;
+	top: 1.65em;
 	-ms-transform: rotate(-45deg); /* IE 9 */
 	-webkit-transform: rotate(-45deg); /* Chrome, Safari, Opera */
 	transform: rotate(-45deg);
@@ -3652,8 +3652,8 @@ article.panel-placeholder {
 
 	/* Blog, archive, search */
 
-	.sticky .icon {
-		height: 32px;
+	.sticky .icon-pinned {
+		height: 23px;
 		left: -2.5em;
 		top: 1.5em;
 		width: 32px;
@@ -3930,7 +3930,7 @@ article.panel-placeholder {
 	.sticky .icon-pinned {
 		font-size: 32px;
 		font-size: 2rem;
-		height: 32px;
+		height: 22px;
 		left: -1.25em;
 		top: 0.75em;
 		width: 32px;
