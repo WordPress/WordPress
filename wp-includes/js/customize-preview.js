@@ -275,13 +275,13 @@
 	 * @param {HTMLAnchorElement|HTMLAreaElement} element Link element.
 	 * @param {string} element.search Query string.
 	 * @param {string} element.pathname Path.
-	 * @param {string} element.hostname Hostname.
+	 * @param {string} element.host Host.
 	 * @param {object} [options]
 	 * @param {object} [options.allowAdminAjax=false] Allow admin-ajax.php requests.
 	 * @returns {boolean} Is appropriate for changeset link.
 	 */
 	api.isLinkPreviewable = function isLinkPreviewable( element, options ) {
-		var hasMatchingHost, urlParser, args;
+		var matchesAllowedUrl, parsedAllowedUrl, args;
 
 		args = _.extend( {}, { allowAdminAjax: false }, options || {} );
 
@@ -294,15 +294,12 @@
 			return false;
 		}
 
-		urlParser = document.createElement( 'a' );
-		hasMatchingHost = ! _.isUndefined( _.find( api.settings.url.allowed, function( allowedUrl ) {
-			urlParser.href = allowedUrl;
-			if ( urlParser.hostname === element.hostname && urlParser.protocol === element.protocol ) {
-				return true;
-			}
-			return false;
+		parsedAllowedUrl = document.createElement( 'a' );
+		matchesAllowedUrl = ! _.isUndefined( _.find( api.settings.url.allowed, function( allowedUrl ) {
+			parsedAllowedUrl.href = allowedUrl;
+			return parsedAllowedUrl.protocol === element.protocol && parsedAllowedUrl.host === element.host && 0 === element.pathname.indexOf( parsedAllowedUrl.pathname );
 		} ) );
-		if ( ! hasMatchingHost ) {
+		if ( ! matchesAllowedUrl ) {
 			return false;
 		}
 
@@ -331,7 +328,9 @@
 	 * @access protected
 	 *
 	 * @param {HTMLAnchorElement|HTMLAreaElement} element Link element.
-	 * @param {object} element.search Query string.
+	 * @param {string} element.search Query string.
+	 * @param {string} element.host Host.
+	 * @param {string} element.protocol Protocol.
 	 * @returns {void}
 	 */
 	api.prepareLinkPreview = function prepareLinkPreview( element ) {
@@ -348,7 +347,7 @@
 		}
 
 		// Make sure links in preview use HTTPS if parent frame uses HTTPS.
-		if ( 'https' === api.preview.scheme.get() && 'http:' === element.protocol && -1 !== api.settings.url.allowedHosts.indexOf( element.hostname ) ) {
+		if ( 'https' === api.preview.scheme.get() && 'http:' === element.protocol && -1 !== api.settings.url.allowedHosts.indexOf( element.host ) ) {
 			element.protocol = 'https:';
 		}
 
@@ -496,7 +495,7 @@
 		urlParser.href = form.action;
 
 		// Make sure forms in preview use HTTPS if parent frame uses HTTPS.
-		if ( 'https' === api.preview.scheme.get() && 'http:' === urlParser.protocol && -1 !== api.settings.url.allowedHosts.indexOf( urlParser.hostname ) ) {
+		if ( 'https' === api.preview.scheme.get() && 'http:' === urlParser.protocol && -1 !== api.settings.url.allowedHosts.indexOf( urlParser.host ) ) {
 			urlParser.protocol = 'https:';
 			form.action = urlParser.href;
 		}
