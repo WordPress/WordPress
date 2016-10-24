@@ -1186,7 +1186,7 @@
 
 			// Preview installed themes.
 			section.container.on( 'click', '.theme-actions .preview-theme', function() {
-				var themeId = $( this ).data( 'themeId' );
+				var themeId = $( this ).data( 'slug' );
 
 				$( '.wp-full-overlay' ).addClass( 'customize-loading' );
 				api.panel( 'themes' ).loadThemePreview( themeId ).fail( function() {
@@ -1735,7 +1735,7 @@
 		 * @param {Object}   theme
 		 */
 		showDetails: function ( theme, callback ) {
-			var section = this, link;
+			var section = this;
 			callback = callback || function(){};
 			section.currentTheme = theme.id;
 			section.overlay.html( section.template( theme ) )
@@ -1745,21 +1745,6 @@
 			section.containFocus( section.overlay );
 			section.updateLimits();
 			wp.a11y.speak( api.settings.l10n.announceThemeDetails.replace( '%s', theme.name ) );
-
-			link = section.overlay.find( '.inactive-theme > a' );
-			link.on( 'click', function( event ) {
-				event.preventDefault();
-
-				// Short-circuit if request is currently being made.
-				if ( link.hasClass( 'disabled' ) ) {
-					return;
-				}
-				link.addClass( 'disabled' );
-
-				api.panel( 'themes' ).loadThemePreview( theme.id ).fail( function() {
-					link.removeClass( 'disabled' );
-				} );
-			} );
 			callback();
 		},
 
