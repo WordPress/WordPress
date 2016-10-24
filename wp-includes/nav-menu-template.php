@@ -376,6 +376,11 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 				$classes[] = 'page-item-' . $menu_item->object_id;
 				$classes[] = 'current_page_item';
 			}
+
+			if ( 'page_on_front' ) {
+				$classes[] = 'menu-item-home';
+			}
+
 			$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
 			$active_parent_object_ids[] = (int) $menu_item->post_parent;
 			$active_object = $menu_item->object;
