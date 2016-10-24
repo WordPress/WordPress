@@ -2574,7 +2574,7 @@ function wp_nonce_ays( $action ) {
  *     Optional. Arguments to control behavior. If `$args` is an integer, then it is treated
  *     as the response code. Default empty array.
  *
- *     @type int    $response       The HTTP response code. Default 500.
+ *     @type int    $response       The HTTP response code. Default 200 for Ajax requests, 500 otherwise.
  *     @type bool   $back_link      Whether to include a link to go back. Default false.
  *     @type string $text_direction The text direction. This is only useful internally, when WordPress
  *                                  is still loading and the site's locale is not set up yet. Accepts 'rtl'.
