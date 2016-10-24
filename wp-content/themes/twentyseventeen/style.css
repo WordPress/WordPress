@@ -936,6 +936,7 @@ input[type="datetime-local"],
 input[type="color"],
 textarea {
 	color: #666;
+	background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0));
 	border: 1px solid #bbb;
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
