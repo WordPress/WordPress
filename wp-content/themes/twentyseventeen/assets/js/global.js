@@ -23,7 +23,7 @@
 			idealNavHeight,
 			navIsNotTooTall,
 			headerOffset,
-			menuTop,
+			menuTop = 0,
 			resizeTimer;
 
 	/**
@@ -149,7 +149,7 @@
 			 * 'Scroll Down' arrow in menu area
 			 */
 			if ( $( 'body' ).hasClass( 'admin-bar' ) ) {
-				menuTop = -32;
+				menuTop -= 32;
 			}
 			if ( $( 'body' ).hasClass( 'blog' ) ) {
 				menuTop -= 30; // The div for latest posts has no space above content, add some to account for this
