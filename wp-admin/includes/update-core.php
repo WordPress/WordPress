@@ -743,6 +743,7 @@ $_new_bundled_files = array(
 	'themes/twentyfourteen/' => '3.8',
 	'themes/twentyfifteen/'  => '4.1',
 	'themes/twentysixteen/'  => '4.4',
+	'themes/twentyseventeen/' => '4.7',
 );
 
 // If not explicitly defined as false, don't install new default themes.
