@@ -300,7 +300,7 @@ function update_option( $option, $value, $autoload = null ) {
 		return false;
 
 	/** This filter is documented in wp-includes/option.php */
-	if ( apply_filters( 'default_option_' . $option, false, $option ) === $old_value ) {
+	if ( apply_filters( 'default_option_' . $option, false, $option, false ) === $old_value ) {
 		// Default setting for new options is 'yes'.
 		if ( null === $autoload ) {
 			$autoload = 'yes';
