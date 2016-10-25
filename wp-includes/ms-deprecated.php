@@ -18,17 +18,18 @@
  * Dashboard blog functionality was removed in WordPress 3.1, replaced by the user admin.
  *
  * @since MU
- * @deprecated 3.1.0 Use get_blog_details()
+ * @deprecated 3.1.0 Use get_site()
  * @see get_blog_details()
  *
  * @return int Current site ID.
  */
 function get_dashboard_blog() {
     _deprecated_function( __FUNCTION__, '3.1.0' );
-    if ( $blog = get_site_option( 'dashboard_blog' ) )
-        return get_blog_details( $blog );
+    if ( $blog = get_site_option( 'dashboard_blog' ) ) {
+	    return get_site( $blog );
+    }
 
-    return get_blog_details( get_network()->site_id );
+    return get_site( get_network()->site_id );
 }
 
 /**
