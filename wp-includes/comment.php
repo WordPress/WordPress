@@ -293,38 +293,46 @@ function get_default_comment_status( $post_type = 'post', $comment_type = 'comme
  * The date the last comment was modified.
  *
  * @since 1.5.0
+ * @since 4.7.0 Replaced caching the modified date in a local static variable
+ *              with the Object Cache API.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
- * @staticvar array $cache_lastcommentmodified
  *
- * @param string $timezone Which timezone to use in reference to 'gmt', 'blog',
- *		or 'server' locations.
- * @return string Last comment modified date.
+ * @param string $timezone Which timezone to use in reference to 'gmt', 'blog', or 'server' locations.
+ * @return string|false Last comment modified date on success, false on failure.
  */
-function get_lastcommentmodified($timezone = 'server') {
+function get_lastcommentmodified( $timezone = 'server' ) {
 	global $wpdb;
-	static $cache_lastcommentmodified = array();
 
-	if ( isset($cache_lastcommentmodified[$timezone]) )
-		return $cache_lastcommentmodified[$timezone];
+	$timezone = strtolower( $timezone );
+	$key = "lastcommentmodified:$timezone";
 
-	$add_seconds_server = date('Z');
+	$comment_modified_date = wp_cache_get( $key, 'timeinfo' );
+	if ( false !== $comment_modified_date ) {
+		return $comment_modified_date;
+	}
 
-	switch ( strtolower($timezone)) {
+	switch ( $timezone ) {
 		case 'gmt':
-			$lastcommentmodified = $wpdb->get_var("SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1");
+			$comment_modified_date = $wpdb->get_var( "SELECT comment_date_gmt FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1" );
 			break;
 		case 'blog':
-			$lastcommentmodified = $wpdb->get_var("SELECT comment_date FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1");
+			$comment_modified_date = $wpdb->get_var( "SELECT comment_date FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1" );
 			break;
 		case 'server':
-			$lastcommentmodified = $wpdb->get_var($wpdb->prepare("SELECT DATE_ADD(comment_date_gmt, INTERVAL %s SECOND) FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1", $add_seconds_server));
+			$add_seconds_server = date( 'Z' );
+
+			$comment_modified_date = $wpdb->get_var( $wpdb->prepare( "SELECT DATE_ADD(comment_date_gmt, INTERVAL %s SECOND) FROM $wpdb->comments WHERE comment_approved = '1' ORDER BY comment_date_gmt DESC LIMIT 1", $add_seconds_server ) );
 			break;
 	}
 
-	$cache_lastcommentmodified[$timezone] = $lastcommentmodified;
+	if ( $comment_modified_date ) {
+		wp_cache_set( $key, $comment_modified_date, 'timeinfo' );
 
-	return $lastcommentmodified;
+		return $comment_modified_date;
+	}
+
+	return false;
 }
 
 /**
@@ -1573,6 +1581,26 @@ function wp_transition_comment_status($new_status, $old_status, $comment) {
 }
 
 /**
+ * Clear the lastcommentmodified cached value when a comment status is changed.
+ *
+ * Deletes the lastcommentmodified cache key when a comment enters or leaves
+ * 'approved' status.
+ *
+ * @since 4.7.0
+ * @access private
+ *
+ * @param string $new_status The new comment status.
+ * @param string $old_status The old comment status.
+ */
+function _clear_modified_cache_on_transition_comment_status( $new_status, $old_status ) {
+	if ( 'approved' === $new_status || 'approved' === $old_status ) {
+		foreach ( array( 'server', 'gmt', 'blog' ) as $timezone ) {
+			wp_cache_delete( "lastcommentmodified:$timezone", 'timeinfo' );
+		}
+	}
+}
+
+/**
  * Get current commenter's name, email, and URL.
  *
  * Expects cookies content to already be sanitized. User of this function might
@@ -1681,6 +1709,10 @@ function wp_insert_comment( $commentdata ) {
 
 	if ( $comment_approved == 1 ) {
 		wp_update_comment_count( $comment_post_ID );
+
+		foreach ( array( 'server', 'gmt', 'blog' ) as $timezone ) {
+			wp_cache_delete( "lastcommentmodified:$timezone", 'timeinfo' );
+		}
 	}
 
 	clean_comment_cache( $id );

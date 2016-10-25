@@ -5612,35 +5612,38 @@ function _get_last_post_time( $timezone, $field, $post_type = 'any' ) {
 	}
 
 	$date = wp_cache_get( $key, 'timeinfo' );
-
-	if ( ! $date ) {
-		if ( 'any' === $post_type ) {
-			$post_types = get_post_types( array( 'public' => true ) );
-			array_walk( $post_types, array( $wpdb, 'escape_by_ref' ) );
-			$post_types = "'" . implode( "', '", $post_types ) . "'";
-		} else {
-			$post_types = "'" . sanitize_key( $post_type ) . "'";
-		}
-
-		switch ( $timezone ) {
-			case 'gmt':
-				$date = $wpdb->get_var("SELECT post_{$field}_gmt FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
-				break;
-			case 'blog':
-				$date = $wpdb->get_var("SELECT post_{$field} FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
-				break;
-			case 'server':
-				$add_seconds_server = date( 'Z' );
-				$date = $wpdb->get_var("SELECT DATE_ADD(post_{$field}_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
-				break;
-		}
-
-		if ( $date ) {
-			wp_cache_set( $key, $date, 'timeinfo' );
-		}
+	if ( false !== $date ) {
+		return $date;
 	}
 
-	return $date;
+	if ( 'any' === $post_type ) {
+		$post_types = get_post_types( array( 'public' => true ) );
+		array_walk( $post_types, array( $wpdb, 'escape_by_ref' ) );
+		$post_types = "'" . implode( "', '", $post_types ) . "'";
+	} else {
+		$post_types = "'" . sanitize_key( $post_type ) . "'";
+	}
+
+	switch ( $timezone ) {
+		case 'gmt':
+			$date = $wpdb->get_var("SELECT post_{$field}_gmt FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
+			break;
+		case 'blog':
+			$date = $wpdb->get_var("SELECT post_{$field} FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
+			break;
+		case 'server':
+			$add_seconds_server = date( 'Z' );
+			$date = $wpdb->get_var("SELECT DATE_ADD(post_{$field}_gmt, INTERVAL '$add_seconds_server' SECOND) FROM $wpdb->posts WHERE post_status = 'publish' AND post_type IN ({$post_types}) ORDER BY post_{$field}_gmt DESC LIMIT 1");
+			break;
+	}
+
+	if ( $date ) {
+		wp_cache_set( $key, $date, 'timeinfo' );
+
+		return $date;
+	}
+
+	return false;
 }
 
 /**

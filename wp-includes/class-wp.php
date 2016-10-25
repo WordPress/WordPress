@@ -422,22 +422,30 @@ class WP {
 			}
 			$headers['Content-Type'] = feed_content_type( $type ) . '; charset=' . get_option( 'blog_charset' );
 
-			// We're showing a feed, so WP is indeed the only thing that last changed
-			if ( !empty($this->query_vars['withcomments'])
-				|| false !== strpos( $this->query_vars['feed'], 'comments-' )
-				|| ( empty($this->query_vars['withoutcomments'])
-					&& ( !empty($this->query_vars['p'])
-						|| !empty($this->query_vars['name'])
-						|| !empty($this->query_vars['page_id'])
-						|| !empty($this->query_vars['pagename'])
-						|| !empty($this->query_vars['attachment'])
-						|| !empty($this->query_vars['attachment_id'])
-					)
-				)
-			)
-				$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastcommentmodified('GMT'), 0).' GMT';
-			else
-				$wp_last_modified = mysql2date('D, d M Y H:i:s', get_lastpostmodified('GMT'), 0).' GMT';
+			// We're showing a feed, so WP is indeed the only thing that last changed.
+			if ( ! empty( $this->query_vars['withcomments'] )
+			     || false !== strpos( $this->query_vars['feed'], 'comments-' )
+			     || ( empty( $this->query_vars['withoutcomments'] )
+			          && ( ! empty( $this->query_vars['p'] )
+			               || ! empty( $this->query_vars['name'] )
+			               || ! empty( $this->query_vars['page_id'] )
+			               || ! empty( $this->query_vars['pagename'] )
+			               || ! empty( $this->query_vars['attachment'] )
+			               || ! empty( $this->query_vars['attachment_id'] )
+			          )
+			     )
+			) {
+				$wp_last_modified = mysql2date( 'D, d M Y H:i:s', get_lastcommentmodified( 'GMT' ), false );
+			} else {
+				$wp_last_modified = mysql2date( 'D, d M Y H:i:s', get_lastpostmodified( 'GMT' ), false );
+			}
+
+			if ( ! $wp_last_modified ) {
+				$wp_last_modified = date( 'D, d M Y H:i:s' );
+			}
+
+			$wp_last_modified .= ' GMT';
+
 			$wp_etag = '"' . md5($wp_last_modified) . '"';
 			$headers['Last-Modified'] = $wp_last_modified;
 			$headers['ETag'] = $wp_etag;
