@@ -346,6 +346,9 @@ final class WP_Site {
 			}
 		}
 
+		/** This filter is documented in wp-includes/ms-blogs.php */
+		$details = apply_filters_deprecated( 'blog_details', array( $details ), '4.7.0', 'site_details' );
+
 		/**
 		 * Filters a site's extended properties.
 		 *

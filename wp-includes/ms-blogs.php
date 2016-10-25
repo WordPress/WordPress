@@ -240,10 +240,11 @@ function get_blog_details( $fields = null, $get_all = true ) {
 	 * Filters a blog's details.
 	 *
 	 * @since MU
+	 * @deprecated 4.7.0 Use site_details
 	 *
 	 * @param object $details The blog details.
 	 */
-	$details = apply_filters( 'blog_details', $details );
+	$details = apply_filters_deprecated( 'blog_details', array( $details ), '4.7.0', 'site_details' );
 
 	wp_cache_set( $blog_id . $all, $details, 'blog-details' );
 
