@@ -363,6 +363,9 @@ class WP_Http {
 			}
 		}
 
+		// Avoid issues where mbstring.func_overload is enabled
+		mbstring_binary_safe_encoding();
+
 		try {
 			$requests_response = Requests::request( $url, $headers, $data, $type, $options );
 
@@ -376,6 +379,8 @@ class WP_Http {
 		catch ( Requests_Exception $e ) {
 			$response = new WP_Error( 'http_request_failed', $e->getMessage() );
 		}
+
+		reset_mbstring_encoding();
 
 		/**
 		 * Fires after an HTTP API response is received and before the response is returned.
