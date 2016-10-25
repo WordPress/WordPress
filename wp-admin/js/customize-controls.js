@@ -906,6 +906,10 @@
 		attachEvents: function () {
 			var meta, content, section = this;
 
+			if ( section.container.hasClass( 'cannot-expand' ) ) {
+				return;
+			}
+
 			// Expand/Collapse accordion sections on click.
 			section.container.find( '.accordion-section-title, .customize-section-back' ).on( 'click keydown', function( event ) {
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {

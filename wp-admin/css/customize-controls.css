@@ -463,14 +463,16 @@ h3.customize-section-title {
 	display: block;
 }
 
-.panel-meta.customize-info .accordion-section-title {
+#customize-controls .panel-meta.customize-info .accordion-section-title {
 	margin-left: 48px;
+	border-left: none;
 }
 
-#customize-controls .panel-meta.customize-info .accordion-section-title:hover {
+#customize-controls .panel-meta.customize-info .accordion-section-title:hover,
+#customize-controls .cannot-expand:hover .accordion-section-title {
 	background: #fff;
 	color: #555;
-	border-left: none;
+	border-left-color: #fff;
 }
 
 .customize-controls-close:focus,
