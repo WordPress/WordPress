@@ -3356,6 +3356,7 @@ final class WP_Customize_Manager {
 			'label' => __( 'Front page' ),
 			'section' => 'static_front_page',
 			'type' => 'dropdown-pages',
+			'allow_addition' => true,
 		) );
 
 		$this->add_setting( 'page_for_posts', array(
@@ -3367,6 +3368,7 @@ final class WP_Customize_Manager {
 			'label' => __( 'Posts page' ),
 			'section' => 'static_front_page',
 			'type' => 'dropdown-pages',
+			'allow_addition' => true,
 		) );
 
 		/* Custom CSS */

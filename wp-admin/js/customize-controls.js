@@ -2516,9 +2516,28 @@
 		/**
 		 * Triggered when the control's markup has been injected into the DOM.
 		 *
-		 * @abstract
+		 * @returns {void}
 		 */
-		ready: function() {},
+		ready: function() {
+			var control = this, newItem;
+			if ( 'dropdown-pages' === control.params.type && control.params.allow_addition ) {
+				newItem = control.container.find( '.new-content-item' );
+				newItem.hide(); // Hide in JS to preserve flex display when showing.
+				control.container.on( 'click', '.add-new-toggle', function( e ) {
+					$( e.currentTarget ).slideUp( 180 );
+					newItem.slideDown( 180 );
+					newItem.find( '.create-item-input' ).focus();
+				});
+				control.container.on( 'click', '.add-content', function() {
+					control.addNewPage();
+				});
+				control.container.on( 'keyup', '.create-item-input', function( e ) {
+					if ( 13 === e.which ) { // Enter
+						control.addNewPage();
+					}
+				});
+			}
+		},
 
 		/**
 		 * Get the element inside of a control's container that contains the validation error message.
@@ -2736,6 +2755,73 @@
 					control.container.html( template( control.params ) );
 				}
 			}
+		},
+
+		/**
+		 * Add a new page to a dropdown-pages control reusing menus code for this.
+		 *
+		 * @since 4.7.0
+		 * @access private
+		 * @returns {void}
+		 */
+		addNewPage: function () {
+			var control = this, promise, toggle, container, input, title, select;
+
+			if ( 'dropdown-pages' !== control.params.type || ! control.params.allow_addition || ! api.Menus ) {
+				return;
+			}
+
+			toggle = control.container.find( '.add-new-toggle' );
+			container = control.container.find( '.new-content-item' );
+			input = control.container.find( '.create-item-input' );
+			title = input.val();
+			select = control.container.find( 'select' );
+
+			if ( ! title ) {
+				input.addClass( 'invalid' );
+				return;
+			}
+
+			input.removeClass( 'invalid' );
+			input.attr( 'disabled', 'disabled' );
+
+			// The menus functions add the page, publish when appropriate, and also add the new page to the dropdown-pages controls.
+			promise = api.Menus.insertAutoDraftPost( {
+				post_title: title,
+				post_type: 'page'
+			} );
+			promise.done( function( data ) {
+				var availableItem, $content, itemTemplate;
+
+				// Prepare the new page as an available menu item.
+				// See api.Menus.submitNew().
+				availableItem = new api.Menus.AvailableItemModel( {
+					'id': 'post-' + data.post_id, // Used for available menu item Backbone models.
+					'title': title,
+					'type': 'page',
+					'type_label': api.Menus.data.l10n.page_label,
+					'object': 'post_type',
+					'object_id': data.post_id,
+					'url': data.url
+				} );
+
+				// Add the new item to the list of available menu items.
+				api.Menus.availableMenuItemsPanel.collection.add( availableItem );
+				$content = $( '#available-menu-items-post_type-page' ).find( '.available-menu-items-list' );
+				itemTemplate = wp.template( 'available-menu-item' );
+				$content.prepend( itemTemplate( availableItem.attributes ) );
+
+				// Focus the select control.
+				select.focus();
+				control.setting.set( String( data.post_id ) ); // Triggers a preview refresh and updates the setting.
+
+				// Reset the create page form.
+				container.slideUp( 180 );
+				toggle.slideDown( 180 );
+			} )
+			.always( function() {
+				input.val( '' ).removeAttr( 'disabled' );
+			} );
 		}
 	});
 

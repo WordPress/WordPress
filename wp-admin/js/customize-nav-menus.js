@@ -101,7 +101,6 @@
 
 		request.done( function( response ) {
 			if ( response.post_id ) {
-				deferred.resolve( response );
 				api.Menus.insertedAutoDrafts.push( response.post_id );
 				api( 'nav_menus_created_posts' ).set( _.clone( api.Menus.insertedAutoDrafts ) );
 
@@ -121,6 +120,7 @@
 						}
 					} );
 				}
+				deferred.resolve( response );
 			}
 		} );
 

@@ -115,6 +115,15 @@ class WP_Customize_Control {
 	public $input_attrs = array();
 
 	/**
+	 * Show UI for adding new content, currently only used for the dropdown-pages control.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 * @var array
+	 */
+	public $allow_addition = false;
+
+	/**
 	 * @deprecated It is better to just call the json() method
 	 * @access public
 	 * @var array
@@ -296,6 +305,10 @@ class WP_Customize_Control {
 		$this->json['label'] = $this->label;
 		$this->json['description'] = $this->description;
 		$this->json['instanceNumber'] = $this->instance_number;
+
+		if ( 'dropdown-pages' === $this->type ) {
+			$this->json['allow_addition'] = $this->allow_addition;
+		}
 	}
 
 	/**
@@ -554,10 +567,34 @@ class WP_Customize_Control {
 
 				// Hackily add in the data link parameter.
 				$dropdown = str_replace( '<select', '<select ' . $this->get_link(), $dropdown );
+
+				// Even more hacikly add auto-draft page stubs.
+				// @todo Eventually this should be removed in favor of the pages being injected into the underlying get_pages() call. See <https://github.com/xwp/wp-customize-posts/pull/250>.
+				$nav_menus_created_posts_setting = $this->manager->get_setting( 'nav_menus_created_posts' );
+				if ( $nav_menus_created_posts_setting && current_user_can( 'publish_pages' ) ) {
+					$auto_draft_page_options = '';
+					foreach ( $nav_menus_created_posts_setting->value() as $auto_draft_page_id ) {
+						$post = get_post( $auto_draft_page_id );
+						if ( $post && 'page' === $post->post_type ) {
+							$auto_draft_page_options .= sprintf( '<option value="%1$s">%2$s</option>', esc_attr( $post->ID ), esc_html( $post->post_title ) );
+						}
+					}
+					if ( $auto_draft_page_options ) {
+						$dropdown = str_replace( '</select>', $auto_draft_page_options . '</select>', $dropdown );
+					}
+				}
+
 				echo $dropdown;
 				?>
 				</label>
-				<?php
+				<?php if ( $this->allow_addition && current_user_can( 'publish_pages' ) && current_user_can( 'edit_theme_options' ) ) : // Currently tied to menus functionality. ?>
+					<button type="button" class="button add-new-toggle"><?php echo get_post_type_object( 'page' )->labels->add_new_item; ?></button>
+					<div class="new-content-item">
+						<label for="create-input-<?php echo $this->id; ?>"><span class="screen-reader-text"><?php _e( 'New page title' ); ?></span></label>
+						<input type="text" id="create-input-<?php echo $this->id; ?>" class="create-item-input" placeholder="<?php esc_attr_e( 'New page title&hellip;' ); ?>">
+						<button type="button" class="button add-content"><?php _e( 'Add' ); ?></button>
+					</div>
+				<?php endif;
 				break;
 			default:
 				?>
