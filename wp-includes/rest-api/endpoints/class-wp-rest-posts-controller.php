@@ -1947,11 +1947,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 */
 	public function validate_user_can_query_private_statuses( $value, $request, $parameter ) {
 		if ( 'publish' === $value ) {
-			return true;
+			return rest_validate_request_arg( $value, $request, $parameter );
 		}
 		$post_type_obj = get_post_type_object( $this->post_type );
 		if ( current_user_can( $post_type_obj->cap->edit_posts ) ) {
-			return true;
+			return rest_validate_request_arg( $value, $request, $parameter );
 		}
 		return new WP_Error( 'rest_forbidden_status', __( 'Status is forbidden.' ), array( 'status' => rest_authorization_required_code() ) );
 	}
