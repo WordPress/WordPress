@@ -558,38 +558,6 @@ function wp_get_nav_menus( $args = array() ) {
 }
 
 /**
- * Sort menu items by the desired key.
- *
- * @since 3.0.0
- * @access private
- *
- * @global string $_menu_item_sort_prop
- *
- * @param object $a The first object to compare
- * @param object $b The second object to compare
- * @return int -1, 0, or 1 if $a is considered to be respectively less than, equal to, or greater than $b.
- */
-function _sort_nav_menu_items( $a, $b ) {
-	global $_menu_item_sort_prop;
-
-	if ( empty( $_menu_item_sort_prop ) )
-		return 0;
-
-	if ( ! isset( $a->$_menu_item_sort_prop ) || ! isset( $b->$_menu_item_sort_prop ) )
-		return 0;
-
-	$_a = (int) $a->$_menu_item_sort_prop;
-	$_b = (int) $b->$_menu_item_sort_prop;
-
-	if ( $a->$_menu_item_sort_prop == $b->$_menu_item_sort_prop )
-		return 0;
-	elseif ( $_a == $a->$_menu_item_sort_prop && $_b == $b->$_menu_item_sort_prop )
-		return $_a < $_b ? -1 : 1;
-	else
-		return strcmp( $a->$_menu_item_sort_prop, $b->$_menu_item_sort_prop );
-}
-
-/**
  * Return if a menu item is valid.
  *
  * @link https://core.trac.wordpress.org/ticket/13958
@@ -682,8 +650,9 @@ function wp_get_nav_menu_items( $menu, $args = array() ) {
 	}
 
 	if ( ARRAY_A == $args['output'] ) {
-		$GLOBALS['_menu_item_sort_prop'] = $args['output_key'];
-		usort($items, '_sort_nav_menu_items');
+		$items = wp_list_sort( $items, array(
+			$args['output_key'] => 'ASC',
+		) );
 		$i = 1;
 		foreach ( $items as $k => $item ) {
 			$items[$k]->{$args['output_key']} = $i++;
@@ -776,7 +745,7 @@ function wp_setup_nav_menu_item( $menu_item ) {
 
 				$menu_item->type_label = __( 'Post Type Archive' );
 				$post_content = wp_trim_words( $menu_item->post_content, 200 );
-				$post_type_description = '' == $post_content ? $post_type_description : $post_content; 
+				$post_type_description = '' == $post_content ? $post_type_description : $post_content;
 				$menu_item->url = get_post_type_archive_link( $menu_item->object );
 			} elseif ( 'taxonomy' == $menu_item->type ) {
 				$object = get_taxonomy( $menu_item->object );
