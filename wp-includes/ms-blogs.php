@@ -38,7 +38,7 @@ function wpmu_update_blogs_date() {
  * @return string Full URL of the blog if found. Empty string if not.
  */
 function get_blogaddress_by_id( $blog_id ) {
-	$bloginfo = get_blog_details( (int) $blog_id );
+	$bloginfo = get_site( (int) $blog_id );
 
 	if ( empty( $bloginfo ) ) {
 		return '';
@@ -266,7 +266,7 @@ function refresh_blog_details( $blog_id = 0 ) {
 		$blog_id = get_current_blog_id();
 	}
 
-	$details = get_blog_details( $blog_id, false );
+	$details = get_site( $blog_id );
 	if ( ! $details ) {
 		// Make sure clean_blog_cache() gets the blog ID
 		// when the blog has been previously cached as
@@ -310,7 +310,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 	if ( is_object($details) )
 		$details = get_object_vars($details);
 
-	$current_details = get_blog_details($blog_id, false);
+	$current_details = get_site( $blog_id );
 	if ( empty($current_details) )
 		return false;
 
@@ -1038,7 +1038,7 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 function get_blog_status( $id, $pref ) {
 	global $wpdb;
 
-	$details = get_blog_details( $id, false );
+	$details = get_site( $id );
 	if ( $details )
 		return $details->$pref;
 
