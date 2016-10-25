@@ -231,46 +231,73 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			meta = tinymce.Env.mac ? __( 'Cmd + letter:' ) : __( 'Ctrl + letter:' ),
 			table1 = [],
 			table2 = [],
+			row1 = {},
+			row2 = {},
+			i1 = 0,
+			i2 = 0,
+			labels = editor.settings.wp_shortcut_labels,
 			header, html, dialog, $wrap;
 
-		each( [
-			{ c: 'Copy',      x: 'Cut'              },
-			{ v: 'Paste',     a: 'Select all'       },
-			{ z: 'Undo',      y: 'Redo'             },
-			{ b: 'Bold',      i: 'Italic'           },
-			{ u: 'Underline', k: 'Insert/edit link' }
-		], function( row ) {
-			table1.push( tr( row ) );
-		} );
+		if ( ! labels ) {
+			return;
+		}
 
-		each( [
-			{ 1: 'Heading 1',             2: 'Heading 2'                     },
-			{ 3: 'Heading 3',             4: 'Heading 4'                     },
-			{ 5: 'Heading 5',             6: 'Heading 6'                     },
-			{ l: 'Align left',            c: 'Align center'                  },
-			{ r: 'Align right',           j: 'Justify'                       },
-			{ d: 'Strikethrough',         q: 'Blockquote'                    },
-			{ u: 'Bullet list',           o: 'Numbered list'                 },
-			{ a: 'Insert/edit link',      s: 'Remove link'                   },
-			{ m: 'Insert/edit image',     t: 'Insert Read More tag'          },
-			{ h: 'Keyboard Shortcuts',    x: 'Code'                          },
-			{ p: 'Insert Page Break tag', w: 'Distraction-free writing mode' }
-		], function( row ) {
-			table2.push( tr( row ) );
-		} );
-
-		function tr( row ) {
+		function tr( row, columns ) {
 			var out = '<tr>';
+			var i = 0;
+
+			columns = columns || 1;
 
 			each( row, function( text, key ) {
-				if ( ! text ) {
-					out += '<td></td><td></td>';
-				} else {
-					out += '<td><kbd>' + key + '</kbd></td><td>' + __( text ) + '</td>';
-				}
+				out += '<td><kbd>' + key + '</kbd></td><td>' + __( text ) + '</td>';
+				i++;
 			});
 
+			while ( i < columns ) {
+				out += '<td></td><td></td>';
+				i++;
+			}
+
 			return out + '</tr>';
+		}
+
+		each ( labels, function( label, name ) {
+			var letter;
+
+			if ( label.indexOf( 'meta' ) !== -1 ) {
+				i1++;
+				letter = label.replace( 'meta', '' ).toLowerCase();
+
+				if ( letter ) {
+					row1[ letter ] = name;
+
+					if ( i1 % 2 === 0 ) {
+						table1.push( tr( row1, 2 ) );
+						row1 = {};
+					}
+				}
+			} else if ( label.indexOf( 'access' ) !== -1 ) {
+				i2++;
+				letter = label.replace( 'access', '' ).toLowerCase();
+
+				if ( letter ) {
+					row2[ letter ] = name;
+
+					if ( i2 % 2 === 0 ) {
+						table2.push( tr( row2, 2 ) );
+						row2 = {};
+					}
+				}
+			}
+		} );
+
+		// Add remaining single entries.
+		if ( i1 % 2 > 0 ) {
+			table1.push( tr( row1, 2 ) );
+		}
+
+		if ( i2 % 2 > 0 ) {
+			table2.push( tr( row2, 2 ) );
 		}
 
 		header = [ __( 'Letter' ), __( 'Action' ), __( 'Letter' ), __( 'Action' ) ];
@@ -520,6 +547,41 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					}
 				});
 			});
+		}
+
+		if ( editor.settings.wp_shortcut_labels ) {
+			var labels = {};
+			var access = 'Shift+Alt+';
+			var meta = 'Ctrl+';
+
+			// For Mac: shift = \u2303, ctrl = \u21E7, cmd = \u2318, alt = \u2325
+
+			if ( tinymce.Env.mac ) {
+				access = '\u2303\u2325 ';
+				meta = '\u2318';
+			}
+
+			each( editor.settings.wp_shortcut_labels, function( value, name ) {
+				labels[ name ] = value.replace( 'access', access ).replace( 'meta', meta );
+			} );
+
+			each( editor.theme.panel.find('button'), function( button ) {
+				if ( button && button.settings.tooltip && labels.hasOwnProperty( button.settings.tooltip ) ) {
+					// Need to translate now. We are changing the string so it won't match and cannot be translated later.
+					button.settings.tooltip = editor.translate( button.settings.tooltip ) + ' (' + labels[ button.settings.tooltip ] + ')';
+				}
+			} );
+
+			// listbox for the "blocks" drop-down
+			each( editor.theme.panel.find('listbox'), function( listbox ) {
+				if ( listbox && listbox.settings.text === 'Paragraph' ) {
+					each( listbox.settings.values, function( item ) {
+						if ( item.text && labels.hasOwnProperty( item.text ) ) {
+							item.shortcut = '(' + labels[ item.text ] + ')';
+						}
+					} );
+				}
+			} );
 		}
 	});
 

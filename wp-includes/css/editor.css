@@ -588,6 +588,7 @@ div.mce-path {
 .mce-menu .mce-menu-item-normal.mce-active,
 .mce-menu .mce-menu-item-preview.mce-active {
 	background: #0073aa; /* See color scheme. */
+	color: #fff;
 }
 
 .mce-menu .mce-menu-item-preview.mce-active {
@@ -648,6 +649,15 @@ div.mce-menu .mce-menu-item-sep,
 
 .mce-menu-has-icons i.mce-ico:before {
 	margin-left: -2px;
+}
+
+/* Keyboard shortcuts position */
+.mce-menu.mce-menu-align .mce-menu-item-normal {
+	position: relative;
+}
+
+.mce-menu.mce-menu-align .mce-menu-shortcut {
+	bottom: 0.5em;
 }
 
 /* Buttons in modals */
