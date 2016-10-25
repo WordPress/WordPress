@@ -4173,7 +4173,7 @@
 				_.find( parsedCandidateUrls, function( parsedCandidateUrl ) {
 					return ! _.isUndefined( _.find( previewer.allowedUrls, function( allowedUrl ) {
 						parsedAllowedUrl.href = allowedUrl;
-						if ( urlParser.protocol === parsedAllowedUrl.protocol && urlParser.host === parsedAllowedUrl.host && 0 === parsedAllowedUrl.pathname.indexOf( urlParser.pathname ) ) {
+						if ( urlParser.protocol === parsedAllowedUrl.protocol && urlParser.host === parsedAllowedUrl.host && 0 === urlParser.pathname.indexOf( parsedAllowedUrl.pathname.replace( /\/$/, '' ) ) ) {
 							result = parsedCandidateUrl.href;
 							return true;
 						}
