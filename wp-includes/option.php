@@ -56,6 +56,9 @@ function get_option( $option, $default = false ) {
 	if ( defined( 'WP_SETUP_CONFIG' ) )
 		return false;
 
+	// Distinguish between `false` as a default, and not passing one.
+	$passed_default = func_num_args() > 1;
+
 	if ( ! wp_installing() ) {
 		// prevent non-existent options from triggering multiple queries
 		$notoptions = wp_cache_get( 'notoptions', 'options' );
@@ -67,12 +70,14 @@ function get_option( $option, $default = false ) {
 			 *
 			 * @since 3.4.0
 			 * @since 4.4.0 The `$option` parameter was added.
+			 * @since 4.7.0 The `$passed_default` parameter was added to distinguish between a `false` value and the default parameter value.
 			 *
 			 * @param mixed  $default The default value to return if the option does not exist
 			 *                        in the database.
 			 * @param string $option  Option name.
+			 * @param bool   $passed_default Was `get_option()` passed a default value?
 			 */
-			return apply_filters( "default_option_{$option}", $default, $option );
+			return apply_filters( "default_option_{$option}", $default, $option, $passed_default );
 		}
 
 		$alloptions = wp_load_alloptions();
@@ -97,7 +102,7 @@ function get_option( $option, $default = false ) {
 					wp_cache_set( 'notoptions', $notoptions, 'options' );
 
 					/** This filter is documented in wp-includes/option.php */
-					return apply_filters( 'default_option_' . $option, $default, $option );
+					return apply_filters( 'default_option_' . $option, $default, $option, $passed_default );
 				}
 			}
 		}
@@ -109,7 +114,7 @@ function get_option( $option, $default = false ) {
 			$value = $row->option_value;
 		} else {
 			/** This filter is documented in wp-includes/option.php */
-			return apply_filters( 'default_option_' . $option, $default, $option );
+			return apply_filters( 'default_option_' . $option, $default, $option, $passed_default );
 		}
 	}
 
@@ -1835,6 +1840,7 @@ function register_initial_settings() {
  *     @type string   $description       A description of the data attached to this setting.
  *     @type callable $sanitize_callback A callback function that sanitizes the option's value.
  *     @type bool     $show_in_rest      Whether data associated with this setting should be included in the REST API.
+ *     @type mixed    $default           Default value when calling `get_option()`.
  * }
  */
 function register_setting( $option_group, $option_name, $args = array() ) {
@@ -1885,6 +1891,9 @@ function register_setting( $option_group, $option_name, $args = array() ) {
 	$new_whitelist_options[ $option_group ][] = $option_name;
 	if ( ! empty( $args['sanitize_callback'] ) ) {
 		add_filter( "sanitize_option_{$option_name}", $args['sanitize_callback'] );
+	}
+	if ( array_key_exists( 'default', $args ) ) {
+		add_filter( "default_option_{$option_name}", 'filter_default_option', 10, 3 );
 	}
 
 	$wp_registered_settings[ $option_name ] = $args;
@@ -1949,4 +1958,30 @@ function get_registered_settings() {
 	}
 
 	return $wp_registered_settings;
+}
+
+/**
+ * Filter the default value for the option.
+ *
+ * For settings which register a default setting in `register_setting()`, this
+ * function is added as a filter to `default_option_{$option}`.
+ *
+ * @since 4.7.0
+ *
+ * @param mixed $default Existing default value to return.
+ * @param string $option Option name.
+ * @param bool $passed_default Was `get_option()` passed a default value?
+ * @return mixed Filtered default value.
+ */
+function filter_default_option( $default, $option, $passed_default ) {
+	if ( $passed_default ) {
+		return $default;
+	}
+
+	$registered = get_registered_settings();
+	if ( empty( $registered[ $option ] ) ) {
+		return $default;
+	}
+
+	return $registered[ $option ]['default'];
 }
