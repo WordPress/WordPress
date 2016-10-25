@@ -703,7 +703,7 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 		$user_id = get_current_user_id();
 	}
 
-	// Technically not needed, but does save calls to get_blog_details and get_user_meta
+	// Technically not needed, but does save calls to get_site and get_user_meta
 	// in the event that the function is called when a user isn't logged in
 	if ( empty( $user_id ) ) {
 		return false;
@@ -722,7 +722,7 @@ function is_user_member_of_blog( $user_id = 0, $blog_id = 0 ) {
 		$blog_id = get_current_blog_id();
 	}
 
-	$blog = get_blog_details( $blog_id );
+	$blog = get_site( $blog_id );
 
 	if ( ! $blog || ! isset( $blog->domain ) || $blog->archived || $blog->spam || $blog->deleted ) {
 		return false;
