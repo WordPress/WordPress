@@ -907,6 +907,8 @@ function update_core($from, $to) {
 					continue;
 				if ( ! file_exists( $working_dir_local . $file ) )
 					continue;
+				if ( '.' === dirname( $file ) && in_array( pathinfo( $file, PATHINFO_EXTENSION ), array( 'html', 'txt' ) ) )
+					continue;
 				if ( md5_file( ABSPATH . $file ) === $checksum )
 					$skip[] = $file;
 				else
@@ -968,6 +970,10 @@ function update_core($from, $to) {
 				continue;
 			if ( ! file_exists( $working_dir_local . $file ) )
 				continue;
+			if ( '.' === dirname( $file ) && in_array( pathinfo( $file, PATHINFO_EXTENSION ), array( 'html', 'txt' ) ) ) {
+				$skip[] = $file;
+				continue;
+			}
 			if ( file_exists( ABSPATH . $file ) && md5_file( ABSPATH . $file ) == $checksum )
 				$skip[] = $file;
 			else
