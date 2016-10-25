@@ -109,24 +109,28 @@ ul.add-menu-item-tabs li {
 	margin-top: 2em;
 }
 
-.menu-settings dl {
+.menu-settings-group {
 	margin: 0 0 10px;
 	overflow: hidden;
-	padding-left: 18%;
+	padding-left: 20%;
 }
 
-.menu-settings dd {
+.menu-settings-group:last-of-type {
+	margin-bottom: 0;
+}
+
+.menu-settings-input {
 	float: left;
 	margin: 0;
 	width: 100%;
 }
 
-.menu-settings dt {
+.menu-settings-group-name {
 	float: left;
 	clear: both;
-	width: 21.951%;
+	width: 25%;
 	padding: 3px 0 0;
-	margin-left: -21.951%;
+	margin-left: -25%; /* 20 container left padding x ( 100 container % width / 80 this % width ) */
 }
 
 .menu-settings label {
@@ -869,21 +873,24 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 		width: 25px;
 	}
 
-	.menu-settings dl {
+	.menu-settings-group {
 		padding-left: 0;
 	}
 
-	.menu-settings dd {
-		float: none;
-		width: 100%;
-		margin-bottom: 15px;
-	}
-
-	.menu-settings dt {
+	.menu-settings-group-name {
 		float: none;
 		width: auto;
 		margin-left: 0;
 		margin-bottom: 15px;
+	}
+
+	.menu-settings-input {
+		float: none;
+		margin-bottom: 15px;
+	}
+
+	.menu-edit .checkbox-input {
+	    margin-top: 0;
 	}
 
 	.manage-menus select {

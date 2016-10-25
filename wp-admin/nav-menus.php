@@ -798,17 +798,19 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 										$auto_add = false;
 								} ?>
 
-								<dl class="auto-add-pages">
-									<dt class="howto"><?php _e( 'Auto add pages' ); ?></dt>
-									<dd class="checkbox-input"><input type="checkbox"<?php checked( $auto_add ); ?> name="auto-add-pages" id="auto-add-pages" value="1" /> <label for="auto-add-pages"><?php printf( __('Automatically add new top-level pages to this menu' ), esc_url( admin_url( 'edit.php?post_type=page' ) ) ); ?></label></dd>
-								</dl>
+								<fieldset class="menu-settings-group auto-add-pages">
+									<legend class="menu-settings-group-name howto"><?php _e( 'Auto add pages' ); ?></legend>
+									<div class="menu-settings-input checkbox-input">
+										<input type="checkbox"<?php checked( $auto_add ); ?> name="auto-add-pages" id="auto-add-pages" value="1" /> <label for="auto-add-pages"><?php printf( __('Automatically add new top-level pages to this menu' ), esc_url( admin_url( 'edit.php?post_type=page' ) ) ); ?></label>
+									</div>
+								</fieldset>
 
 								<?php if ( current_theme_supports( 'menus' ) ) : ?>
 
-									<dl class="menu-theme-locations">
-										<dt class="howto"><?php _e( 'Theme locations' ); ?></dt>
+									<fieldset class="menu-settings-group menu-theme-locations">
+										<legend class="menu-settings-group-name howto"><?php _e( 'Theme locations' ); ?></legend>
 										<?php foreach ( $locations as $location => $description ) : ?>
-										<dd class="checkbox-input">
+										<div class="menu-settings-input checkbox-input">
 											<input type="checkbox"<?php checked( isset( $menu_locations[ $location ] ) && $menu_locations[ $location ] == $nav_menu_selected_id ); ?> name="menu-locations[<?php echo esc_attr( $location ); ?>]" id="locations-<?php echo esc_attr( $location ); ?>" value="<?php echo esc_attr( $nav_menu_selected_id ); ?>" />
 											<label for="locations-<?php echo esc_attr( $location ); ?>"><?php echo $description; ?></label>
 											<?php if ( ! empty( $menu_locations[ $location ] ) && $menu_locations[ $location ] != $nav_menu_selected_id ) : ?>
@@ -819,9 +821,9 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 													);
 												?></span>
 											<?php endif; ?>
-										</dd>
+										</div>
 										<?php endforeach; ?>
-									</dl>
+									</fieldset>
 
 								<?php endif; ?>
 
