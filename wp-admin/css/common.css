@@ -2922,7 +2922,7 @@ div.action-links {
 	#section-holder {
 		position: static;
 		margin: 0;
-		padding-bottom: 70px; /* reset from the two column height fix, plus accomodate footer */
+		padding-bottom: 70px; /* reset from the two column height fix, plus accommodate footer */
 	}
 
 	#plugin-information .fyi h3,

@@ -140,7 +140,7 @@ window.wp = window.wp || {};
 			/**
 			 * Handle server response
 			 *
-			 * @param {string} str Response, will be '0' when an error occured otherwise contains link to add Featured Image.
+			 * @param {string} str Response, will be '0' when an error occurred otherwise contains link to add Featured Image.
 			 */
 			function(str){
 			if ( str == '0' ) {
