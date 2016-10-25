@@ -161,8 +161,8 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 
 	if ( !get_user_meta($user_id, 'primary_blog', true) ) {
 		update_user_meta($user_id, 'primary_blog', $blog_id);
-		$details = get_blog_details($blog_id);
-		update_user_meta($user_id, 'source_domain', $details->domain);
+		$site = get_site( $blog_id );
+		update_user_meta( $user_id, 'source_domain', $site->domain );
 	}
 
 	$user->set_role($role);
