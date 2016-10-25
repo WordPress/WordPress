@@ -10,7 +10,7 @@
 			$navWrap = $navigation.find( '.wrap' ),
 			$navMenuItem = $navigation.find( '.menu-item' ),
 			$menuToggle = $navigation.find( '.menu-toggle' ),
-			$menuScrollDown = $navigation.find( '.menu-scroll-down' ),
+			$menuScrollDown = $body.find( '.menu-scroll-down' ),
 			$sidebar = $body.find( '#secondary' ),
 			$entryContent = $body.find( '.entry-content' ),
 			$formatQuote = $body.find( '.format-quote blockquote' ),
@@ -143,7 +143,7 @@
 	$( document ).ready( function() {
 
 		// Let's fire some JavaScript!
-		if ( 'true' === twentyseventeenScreenReaderText.has_navigation ) {
+		if ( $menuScrollDown.length ) {
 
 			/**
 			 * 'Scroll Down' arrow in menu area
