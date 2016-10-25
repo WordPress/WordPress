@@ -2835,21 +2835,43 @@
 	api.ColorControl = api.Control.extend({
 		ready: function() {
 			var control = this,
-				picker = this.container.find('.color-picker-hex');
+				isHueSlider = this.params.mode === 'hue',
+				updating = false,
+				picker;
 
-			picker.val( control.setting() ).wpColorPicker({
-				change: function() {
-					control.setting.set( picker.wpColorPicker('color') );
-				},
-				clear: function() {
-					control.setting.set( '' );
-				}
-			});
+			if ( isHueSlider ) {
+				picker = this.container.find( '.color-picker-hue' );
+				picker.val( control.setting() ).wpColorPicker({
+					change: function( event, ui ) {
+						updating = true;
+						control.setting( ui.color.h() );
+						updating = false;
+					}
+				});
+			} else {
+				picker = this.container.find( '.color-picker-hex' );
+				picker.val( control.setting() ).wpColorPicker({
+					change: function() {
+						updating = true;
+						control.setting.set( picker.wpColorPicker( 'color' ) );
+						updating = false;
+					},
+					clear: function() {
+						updating = true;
+						control.setting.set( '' );
+						updating = false;
+					}
+				});
+			}
 
 			this.setting.bind( function ( value ) {
+				// bail if the update came from the control itself
+				if ( updating ) {
+					return;
+				}
 				picker.val( value );
 				picker.wpColorPicker( 'color', value );
-			});
+			} );
 		}
 	});
 
@@ -4618,7 +4640,7 @@
 			if ( 'themes' === panel.id ) {
 				return; // Don't reflow theme sections, as doing so moves them after the themes container.
 			}
-			
+
 			var sections = panel.sections(),
 				sectionHeadContainers = _.pluck( sections, 'headContainer' );
 			rootNodes.push( panel );

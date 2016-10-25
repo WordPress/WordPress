@@ -17,7 +17,33 @@
 			hide: true,
 			palettes: true,
 			width: 255,
-			mode: 'hsv'
+			mode: 'hsv',
+			type: 'full',
+			slider: 'horizontal'
+		},
+		_createHueOnly: function() {
+			var self = this,
+				el = self.element,
+				color;
+
+			// hide input
+			el.hide();
+			// max saturated color for hue to be obvious
+			color = 'hsl(' + el.val() + ', 100, 50)';
+
+			el.iris( {
+				mode: 'hsl',
+				type: 'hue',
+				hide: false,
+				color: color,
+				change: function( event, ui ) {
+					if ( $.isFunction( self.options.change ) ) {
+						self.options.change.call( this, event, ui );
+					}
+				},
+				width: self.options.width,
+				slider: self.options.slider
+			} );
 		},
 		_create: function() {
 			// bail early for unsupported Iris.
@@ -29,6 +55,11 @@
 				el = self.element;
 
 			$.extend( self.options, el.data() );
+
+			// hue-only gets created differently
+			if ( self.options.type === 'hue' ) {
+				return self._createHueOnly();
+			}
 
 			// keep close bound so it can be attached to a body listener
 			self.close = $.proxy( self.close, self );
@@ -141,7 +172,6 @@
 			if ( newColor === undef ) {
 				return this.element.iris( 'option', 'color' );
 			}
-
 			this.element.iris( 'option', 'color', newColor );
 		},
 		//$("#input").wpColorPicker('defaultColor') returns the current default color

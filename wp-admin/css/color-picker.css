@@ -124,3 +124,13 @@
 	border-color: #c00;
 	color: #000;
 }
+
+.iris-picker .ui-square-handle:focus,
+.iris-picker .iris-strip .ui-slider-handle:focus {
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+}

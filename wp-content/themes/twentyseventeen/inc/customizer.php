@@ -44,20 +44,11 @@ function twentyseventeen_customize_register( $wp_customize ) {
 		'priority' => 5,
 	) );
 
-	$wp_customize->add_control( 'colorscheme_hue', array(
-		'type'    => 'range',
-		'input_attrs' => array(
-			'min' => 0,
-			'max' => 359,
-			'step' => 1,
-		),
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'colorscheme_hue', array(
+		'mode' => 'hue',
 		'section'  => 'colors',
 		'priority' => 6,
-		'description' => 'Temporary hue slider will be replaced with a visual hue picker that is only shown when a custom scheme is selected', // temporary, intentionally untranslated.
-		// @todo change this to a visual hue picker control, ideally extending the color control and leveraging iris by adding a `hue` mode in core.
-		// See https://core.trac.wordpress.org/ticket/38263
-		// @todo only show this control when the colorscheme is custom.
-	) );
+	) ) );
 
 	/**
 	 * Add the Theme Options section.
