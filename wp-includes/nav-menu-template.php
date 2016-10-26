@@ -334,6 +334,7 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 	$possible_object_parents = array_filter( $possible_object_parents );
 
 	$front_page_url = home_url();
+	$front_page_id  = (int) get_option( 'page_on_front' );
 
 	foreach ( (array) $menu_items as $key => $menu_item ) {
 
@@ -343,6 +344,11 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 		$classes[] = 'menu-item';
 		$classes[] = 'menu-item-type-' . $menu_item->type;
 		$classes[] = 'menu-item-object-' . $menu_item->object;
+
+		// This menu item is set as the 'Front Page'.
+		if ( 'post_type' === $menu_item->type && $front_page_id === (int) $menu_item->object_id ) {
+			$classes[] = 'menu-item-home';
+		}
 
 		// if the menu item corresponds to a taxonomy term for the currently-queried non-hierarchical post object
 		if ( $wp_query->is_singular && 'taxonomy' == $menu_item->type && in_array( $menu_item->object_id, $possible_object_parents ) ) {
@@ -375,10 +381,6 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 				$classes[] = 'page_item';
 				$classes[] = 'page-item-' . $menu_item->object_id;
 				$classes[] = 'current_page_item';
-			}
-
-			if ( 'page_on_front' ) {
-				$classes[] = 'menu-item-home';
 			}
 
 			$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
