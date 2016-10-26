@@ -211,7 +211,7 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 
 	/*
 	 * @todo
-	 * get_blog_details(), caching, etc. Consider alternative optimization routes,
+	 * caching, etc. Consider alternative optimization routes,
 	 * perhaps as an opt-in for plugins, rather than using the pre_* filter.
 	 * For example: The segments filter can expand or ignore paths.
 	 * If persistent caching is enabled, we could query the DB for a path <> '/'
@@ -243,7 +243,6 @@ function get_site_by_path( $domain, $path, $segments = null ) {
 	$site = array_shift( $result );
 
 	if ( $site ) {
-		// @todo get_blog_details()
 		return $site;
 	}
 

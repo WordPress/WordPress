@@ -19,9 +19,9 @@
  *
  * @since MU
  * @deprecated 3.1.0 Use get_site()
- * @see get_blog_details()
+ * @see get_site()
  *
- * @return int Current site ID.
+ * @return WP_Site Current site object.
  */
 function get_dashboard_blog() {
     _deprecated_function( __FUNCTION__, '3.1.0' );
