@@ -6,6 +6,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 
 	self = {
 		ready: $.Deferred(),
+		editShortcutVisibility: new api.Value(),
 		data: {
 			partials: {},
 			renderQueryVar: '',
@@ -42,7 +43,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 
 		id: null,
 
-		 /**
+		/**
 		 * Constructor.
 		 *
 		 * @since 4.5.0
@@ -82,8 +83,9 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		 */
 		ready: function() {
 			var partial = this;
-			_.each( _.pluck( partial.placements(), 'container' ), function( container ) {
-				$( container ).attr( 'title', self.data.l10n.shiftClickToEdit );
+			_.each( partial.placements(), function( placement ) {
+				$( placement.container ).attr( 'title', self.data.l10n.shiftClickToEdit );
+				partial.createEditShortcutForPlacement( placement );
 			} );
 			$( document ).on( 'click', partial.params.selector, function( e ) {
 				if ( ! e.shiftKey ) {
@@ -95,6 +97,181 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 						partial.showControl();
 					}
 				} );
+			} );
+		},
+
+		/**
+		 * Create and show the edit shortcut for a given partial placement container.
+		 *
+		 * @since 4.7
+		 *
+		 * @param {Placement} placement The placement container element.
+		 * @returns {void}
+		 */
+		createEditShortcutForPlacement: function( placement ) {
+			var partial = this, $shortcut, $placementContainer;
+			if ( ! placement.container ) {
+				return;
+			}
+			$placementContainer = $( placement.container );
+			if ( ! $placementContainer.length ) {
+				return;
+			}
+			$shortcut = partial.createEditShortcut();
+			partial.positionEditShortcut( placement, $shortcut );
+			$shortcut.on( 'click', function( event ) {
+				event.preventDefault();
+				event.stopPropagation();
+				partial.showControl();
+			} );
+		},
+
+		/**
+		 * Position an edit shortcut for the placement container.
+		 *
+		 * The shortcut must already be created and added to the page.
+		 *
+		 * @since 4.7
+		 *
+		 * @param {Placement} placement The placement for the partial.
+		 * @param {jQuery} $editShortcut The shortcut element as a jQuery object.
+		 * @returns {void}
+		 */
+		positionEditShortcut: function( placement, $editShortcut ) {
+			var partial = this, $placementContainer;
+			$placementContainer = $( placement.container );
+			$placementContainer.prepend( $editShortcut );
+			if ( 'absolute' === $placementContainer.css( 'position' ) ) {
+				$editShortcut.addClass( 'customize-partial-edit-shortcut-absolute' );
+				$editShortcut.css( partial.getEditShortcutPositionStyles( $placementContainer ) );
+				partial.whenPageChanges( function() {
+					$editShortcut.css( partial.getEditShortcutPositionStyles( $placementContainer ) );
+				} );
+			}
+			if ( ! $placementContainer.is( ':visible' ) || 'none' === $placementContainer.css( 'display' ) ) {
+				$editShortcut.addClass( 'customize-partial-edit-shortcut-hidden' );
+			}
+			$editShortcut.toggleClass( 'customize-partial-edit-shortcut-left-margin', $editShortcut.offset().left < 1 );
+		},
+
+		/**
+		 * Call a callback function when the page changes.
+		 *
+		 * This calls a callback for any change that might require refreshing the edit shortcuts.
+		 *
+		 * @since 4.7
+		 *
+		 * @param {Function} callback The function to call when the page changes.
+		 * @returns {void}
+		 */
+		whenPageChanges: function( callback ) {
+			var debouncedCallback, $document;
+			debouncedCallback = _.debounce( function() {
+				// Timeout allows any page animations to finish
+				setTimeout( callback, 100 );
+			}, 350 );
+			// When window is resized.
+			$( window ).resize( debouncedCallback );
+			// When any customizer setting changes.
+			api.bind( 'change', debouncedCallback );
+			$document = $( window.document );
+			// After scroll in case there are fixed position elements
+			$document.on( 'scroll', debouncedCallback );
+			// After page click (eg: hamburger menus)
+			$document.on( 'click', debouncedCallback );
+		},
+
+		/**
+		 * Return the CSS positioning for the edit shortcut for a given partial placement.
+		 *
+		 * @since 4.7
+		 *
+		 * @param {jQuery} $placementContainer The placement container element as a jQuery object.
+		 * @return {Object} Object containing CSS positions.
+		 */
+		getEditShortcutPositionStyles: function( $placementContainer ) {
+			return {
+				top: $placementContainer.css( 'top' ),
+				left: $placementContainer.css( 'left' ),
+				right: 'auto'
+			};
+		},
+
+		/**
+		 * Return the unique class name for the edit shortcut button for this partial.
+		 *
+		 * @since 4.7
+		 *
+		 * @return {string} Partial ID converted into a class name for use in shortcut.
+		 */
+		getEditShortcutClassName: function() {
+			var partial = this, cleanId;
+			cleanId = partial.id.replace( /]/g, '' ).replace( /\[/g, '-' );
+			return 'customize-partial-edit-shortcut-' + cleanId;
+		},
+
+		/**
+		 * Return the appropriate translated string for the edit shortcut button.
+		 *
+		 * @since 4.7
+		 *
+		 * @return {string} Tooltip for edit shortcut.
+		 */
+		getEditShortcutTitle: function() {
+			var partial = this, l10n = self.data.l10n;
+			switch ( partial.getType() ) {
+				case 'widget':
+					return l10n.clickEditWidget;
+				case 'blogname':
+					return l10n.clickEditTitle;
+				case 'blogdescription':
+					return l10n.clickEditTitle;
+				case 'nav_menu':
+					return l10n.clickEditMenu;
+				default:
+					return l10n.clickEditMisc;
+			}
+		},
+
+		/**
+		 * Return the type of this partial
+		 *
+		 * Will use `params.type` if set, but otherwise will try to infer type from settingId.
+		 *
+		 * @since 4.7
+		 *
+		 * @return {string} Type of partial derived from type param or the related setting ID.
+		 */
+		getType: function() {
+			var partial = this, settingId;
+			settingId = partial.params.primarySetting || _.first( partial.settings() ) || 'unknown';
+			if ( partial.params.type ) {
+				return partial.params.type;
+			}
+			if ( settingId.match( /^nav_menu_instance\[/ ) ) {
+				return 'nav_menu';
+			}
+			if ( settingId.match( /^widget_.+\[\d+]$/ ) ) {
+				return 'widget';
+			}
+			return settingId;
+		},
+
+		/**
+		 * Create an edit shortcut button for this partial.
+		 *
+		 * @since 4.7
+		 *
+		 * @return {jQuery} The edit shortcut button element.
+		 */
+		createEditShortcut: function() {
+			var partial = this, shortcutTitle;
+			shortcutTitle = partial.getEditShortcutTitle();
+			return $( '<button>', {
+				'aria-label': shortcutTitle,
+				'title': shortcutTitle,
+				'type': 'button',
+				'class': 'customize-partial-edit-shortcut ' + partial.getEditShortcutClassName()
 			} );
 		},
 
@@ -175,9 +352,15 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		 * @since 4.5.0
 		 */
 		showControl: function() {
-			var partial = this, settingId = partial.params.primarySetting;
+			var partial = this, settingId = partial.params.primarySetting, menuSlug;
 			if ( ! settingId ) {
 				settingId = _.first( partial.settings() );
+			}
+			if ( partial.getType() === 'nav_menu' ) {
+				menuSlug = partial.params.navMenuArgs.theme_location;
+				if ( menuSlug ) {
+					settingId = 'nav_menu_locations[' + menuSlug + ']';
+				}
 			}
 			api.preview.send( 'focus-control-for-setting', settingId );
 		},
@@ -319,6 +502,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			self.orginalDocumentWrite = null;
 			/* jshint ignore:end */
 
+			partial.createEditShortcutForPlacement( placement );
 			placement.container.removeClass( 'customize-partial-refreshing' );
 
 			// Prevent placement container from being being re-triggered as being rendered among nested partials.
@@ -854,7 +1038,31 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			}
 		} );
 
+		api.preview.bind( 'edit-shortcut-visibility', function( visibility ) {
+			api.selectiveRefresh.editShortcutVisibility.set( visibility );
+		} );
+		api.selectiveRefresh.editShortcutVisibility.bind( function( visibility ) {
+			var body = $( document.body ), shouldAnimateHide;
+
+			shouldAnimateHide = ( 'hidden' === visibility && body.hasClass( 'customize-partial-edit-shortcuts-shown' ) && ! body.hasClass( 'customize-partial-edit-shortcuts-hidden' ) );
+			body.toggleClass( 'customize-partial-edit-shortcuts-hidden', shouldAnimateHide );
+			body.toggleClass( 'customize-partial-edit-shortcuts-shown', 'visible' === visibility );
+			body.toggleClass( 'customize-partial-edit-shortcuts-flash', 'initial' === visibility );
+		} );
+
 		api.preview.bind( 'active', function() {
+			var body = $( document.body ), buttonText, $editShortcutVisibilityButton;
+
+			// Add invisible button to toggle editShortcutVisibility.
+			if ( $( '.edit-shortcut-visibility-button' ).length < 1 ) {
+				buttonText = self.data.l10n.editShortcutVisibilityToggle || 'Toggle edit shortcuts';
+				$editShortcutVisibilityButton = $( '<button type="button" class="edit-shortcut-visibility-button screen-reader-text"></button>' );
+				$editShortcutVisibilityButton.text( buttonText );
+				$editShortcutVisibilityButton.on( 'click', function() {
+					api.selectiveRefresh.editShortcutVisibility.set( 'visible' === api.selectiveRefresh.editShortcutVisibility.get() ? 'hidden' : 'visible' );
+				} );
+				body.prepend( $editShortcutVisibilityButton );
+			}
 
 			// Make all partials ready.
 			self.partial.each( function( partial ) {
@@ -864,6 +1072,14 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			// Make all partials added henceforth as ready upon add.
 			self.partial.bind( 'add', function( partial ) {
 				partial.deferred.ready.resolve();
+			} );
+
+			body.on( 'click', function( event ) {
+				if ( $( event.target ).is( '.customize-partial-edit-shortcut, :input, a[href]' ) || 0 !== $( event.target ).closest( 'a' ).length ) {
+					return; // Don't toggle shortcuts on form, link, or link child clicks.
+				}
+				api.selectiveRefresh.editShortcutVisibility.set( 'visible' === api.selectiveRefresh.editShortcutVisibility.get() ? 'hidden' : 'visible' );
+				api.preview.send( 'edit-shortcut-visibility', api.selectiveRefresh.editShortcutVisibility.get() );
 			} );
 		} );
 

@@ -357,7 +357,6 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 				widgetPartial = new self.WidgetPartial( partialId, {
 					params: {}
 				} );
-				api.selectiveRefresh.partial.add( widgetPartial.id, widgetPartial );
 			}
 
 			// Make sure that there is a container element for the widget in the sidebar, if at least a placeholder.
@@ -399,6 +398,8 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 				sidebarPlacement.endNode.parentNode.insertBefore( widgetContainerElement[0], sidebarPlacement.endNode );
 				wasInserted = true;
 			} );
+
+			api.selectiveRefresh.partial.add( widgetPartial.id, widgetPartial );
 
 			if ( wasInserted ) {
 				sidebarPartial.reflowWidgets();

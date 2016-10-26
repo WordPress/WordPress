@@ -1039,6 +1039,10 @@ span + .edit-link:before,
 	outline: 1px dotted;
 }
 
+.secondary-navigation .customize-partial-edit-shortcut:before,
+.footer-sidebar .widget:first-child .customize-partial-edit-shortcut:before {
+	left: 0;
+}
 
 /**
  * 6.0 Content

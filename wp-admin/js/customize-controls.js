@@ -4302,6 +4302,7 @@
 			if ( 'resolved' !== previewer.deferred.active.state() || previewer.loading ) {
 				synced.scroll = previewer.scroll;
 			}
+			synced['edit-shortcut-visibility'] = api.state( 'editShortcutVisibility' ).get();
 			previewer.send( 'sync', synced );
 
 			// Set the previewUrl without causing the url to set the iframe.
@@ -5122,6 +5123,7 @@
 				expandedSection = state.create( 'expandedSection' ),
 				changesetStatus = state.create( 'changesetStatus' ),
 				previewerAlive = state.create( 'previewerAlive' ),
+				editShortcutVisibility  = state.create( 'editShortcutVisibility' ),
 				populateChangesetUuidParam;
 
 			state.bind( 'change', function() {
@@ -5158,6 +5160,7 @@
 			expandedPanel( false );
 			expandedSection( false );
 			previewerAlive( true );
+			editShortcutVisibility( 'initial' );
 			changesetStatus( api.settings.changeset.status );
 
 			api.bind( 'change', function() {
@@ -5750,6 +5753,14 @@
 		api.previewer.bind( 'refresh', function() {
 			api.previewer.refresh();
 		});
+
+		// Update the edit shortcut visibility state.
+		api.previewer.bind( 'edit-shortcut-visibility', function( visibility ) {
+			api.state( 'editShortcutVisibility' ).set( visibility );
+		} );
+		api.state( 'editShortcutVisibility' ).bind( function( visibility ) {
+			api.previewer.send( 'edit-shortcut-visibility', visibility );
+		} );
 
 		// Autosave changeset.
 		( function() {

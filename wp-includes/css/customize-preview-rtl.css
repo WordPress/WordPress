@@ -15,11 +15,11 @@
 .widget button.customize-partial-edit-shortcut,
 .customize-partial-edit-shortcut {
 	position: relative;
-	float: left;
+	float: right;
 	width: 1px; /* required to have a size to be focusable in Safari */
 	height: 1px;
 	padding: 0;
-	margin: -1px 0 0 -1px;
+	margin: -1px -1px 0 0;
 	border: 0;
 	background: transparent;
 	color: transparent;
@@ -36,7 +36,7 @@
 /* Styles for the actual shortcut */
 .customize-partial-edit-shortcut:before {
 	position: absolute;
-	left: -36px;
+	right: -36px;
 	color: #fff;
 	width: 30px;
 	height: 30px;
@@ -60,9 +60,9 @@
 	opacity: 0;
 	pointer-events: none;
 	text-shadow: 0 -1px 1px #006799,
-	             1px 0 1px #006799,
+	             -1px 0 1px #006799,
 	             0 1px 1px #006799,
-	             -1px 0 1px #006799;
+	             1px 0 1px #006799;
 }
 
 .customize-partial-edit-shortcut:hover:before,
@@ -98,7 +98,7 @@ body.customize-partial-edit-shortcuts-flash .customize-partial-edit-shortcut:bef
 }
 
 .customize-partial-edit-shortcut-left-margin:before {
-	left: 0;
+	right: 0;
 }
 
 @keyframes customize-partial-edit-shortcut-bounce-appear {
@@ -157,6 +157,6 @@ body.customize-partial-edit-shortcuts-flash .customize-partial-edit-shortcut:bef
 
 @media screen and (max-width:800px) {
 	.customize-partial-edit-shortcut:before {
-		left: -18px; /* Assume there will be less of a margin available on smaller screens */
+		right: -18px; /* Assume there will be less of a margin available on smaller screens */
 	}
 }
