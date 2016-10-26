@@ -2880,9 +2880,10 @@ function _ajax_wp_die_handler( $message, $title = '', $args = array() ) {
 	);
 	$r = wp_parse_args( $args, $defaults );
 
-	if ( ! headers_sent() ) {
+	if ( ! headers_sent() && null !== $r['response'] ) {
 		status_header( $r['response'] );
 	}
+
 	if ( is_scalar( $message ) )
 		die( (string) $message );
 	die( '0' );
@@ -3111,10 +3112,14 @@ function wp_send_json( $response, $status_code = null ) {
 		status_header( $status_code );
 	}
 	echo wp_json_encode( $response );
-	if ( wp_doing_ajax() )
-		wp_die();
-	else
+
+	if ( wp_doing_ajax() ) {
+		wp_die( '', '', array(
+			'response' => null,
+		) );
+	} else {
 		die;
+	}
 }
 
 /**
