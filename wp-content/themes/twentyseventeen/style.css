@@ -1042,6 +1042,29 @@ input[type="submit"].secondary:focus {
 	background: #bbb;
 }
 
+/* Placeholder text color -- selectors need to be separate to work. */
+::-webkit-input-placeholder {
+	color: #333;
+	font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif;
+}
+
+:-moz-placeholder {
+	color: #333;
+	font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif;
+}
+
+::-moz-placeholder {
+	color: #333;
+	font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif;
+	opacity: 1;
+	/* Since FF19 lowers the opacity of the placeholder by default */
+}
+
+:-ms-input-placeholder {
+	color: #333;
+	font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif;
+}
+
 /*--------------------------------------------------------------
 # Formatting
 --------------------------------------------------------------*/

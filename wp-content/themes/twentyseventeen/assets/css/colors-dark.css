@@ -151,6 +151,23 @@ body.colors-dark,
 	color: #eee;
 }
 
+/* Placeholder text color -- selectors need to be separate to work. */
+.colors-dark ::-webkit-input-placeholder {
+	color: #ddd;
+}
+
+.colors-dark :-moz-placeholder {
+	color: #ddd;
+}
+
+.colors-dark ::-moz-placeholder {
+	color: #ddd;
+}
+
+.colors-dark :-ms-input-placeholder {
+	color: #ddd;
+}
+
 .colors-dark input[type="text"]:focus,
 .colors-dark input[type="email"]:focus,
 .colors-dark input[type="url"]:focus,
