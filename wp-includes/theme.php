@@ -1374,24 +1374,50 @@ function _custom_background_cb() {
 	$style = $color ? "background-color: #$color;" : '';
 
 	if ( $background ) {
-		$image = " background-image: url('$background');";
+		$image = " background-image: url(" . wp_json_encode( $background ) . ");";
 
+		// Background Position.
+		$position_x = get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) );
+		$position_y = get_theme_mod( 'background_position_y', get_theme_support( 'custom-background', 'default-position-y' ) );
+
+		if ( ! in_array( $position_x, array( 'left', 'center', 'right' ), true ) ) {
+			$position_x = 'left';
+		}
+
+		if ( ! in_array( $position_y, array( 'top', 'center', 'bottom' ), true ) ) {
+			$position_y = 'top';
+		}
+
+		$position = " background-position: $position_x $position_y;";
+
+		// Background Size.
+		$size = get_theme_mod( 'background_size', get_theme_support( 'custom-background', 'default-size' ) );
+
+		if ( ! in_array( $size, array( 'auto', 'contain', 'cover' ), true ) ) {
+			$size = 'auto';
+		}
+
+		$size = " background-size: $size;";
+
+		// Background Repeat.
 		$repeat = get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) );
-		if ( ! in_array( $repeat, array( 'no-repeat', 'repeat-x', 'repeat-y', 'repeat' ) ) )
+
+		if ( ! in_array( $repeat, array( 'repeat-x', 'repeat-y', 'repeat', 'no-repeat' ), true ) ) {
 			$repeat = 'repeat';
+		}
+
 		$repeat = " background-repeat: $repeat;";
 
-		$position = get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) );
-		if ( ! in_array( $position, array( 'center', 'right', 'left' ) ) )
-			$position = 'left';
-		$position = " background-position: top $position;";
-
+		// Background Scroll.
 		$attachment = get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'default-attachment' ) );
-		if ( ! in_array( $attachment, array( 'fixed', 'scroll' ) ) )
+
+		if ( 'fixed' !== $attachment ) {
 			$attachment = 'scroll';
+		}
+
 		$attachment = " background-attachment: $attachment;";
 
-		$style .= $image . $repeat . $position . $attachment;
+		$style .= $image . $position . $size . $repeat . $attachment;
 	}
 ?>
 <style type="text/css" id="custom-background-css">
@@ -1772,8 +1798,11 @@ function add_theme_support( $feature ) {
 
 			$defaults = array(
 				'default-image'          => '',
-				'default-repeat'         => 'repeat',
+				'default-preset'         => 'default',
 				'default-position-x'     => 'left',
+				'default-position-y'     => 'top',
+				'default-size'           => 'auto',
+				'default-repeat'         => 'repeat',
 				'default-attachment'     => 'scroll',
 				'default-color'          => '',
 				'wp-head-callback'       => '_custom_background_cb',

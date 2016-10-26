@@ -3158,6 +3158,46 @@
 	});
 
 	/**
+	 * A control for positioning a background image.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @class
+	 * @augments wp.customize.Control
+	 * @augments wp.customize.Class
+	 */
+	api.BackgroundPositionControl = api.Control.extend( {
+
+		/**
+		 * Set up control UI once embedded in DOM and settings are created.
+		 *
+		 * @since 4.7.0
+		 */
+		ready: function() {
+			var control = this, updateRadios;
+
+			control.container.on( 'change', 'input[name="background-position"]', function() {
+				var position = $( this ).val().split( ' ' );
+				control.settings.x( position[0] );
+				control.settings.y( position[1] );
+			} );
+
+			updateRadios = _.debounce( function() {
+				var x, y, radioInput, inputValue;
+				x = control.settings.x.get();
+				y = control.settings.y.get();
+				inputValue = String( x ) + ' ' + String( y );
+				radioInput = control.container.find( 'input[name="background-position"][value="' + inputValue + '"]' );
+				radioInput.click();
+			} );
+			control.settings.x.bind( updateRadios );
+			control.settings.y.bind( updateRadios );
+
+			updateRadios(); // Set initial UI.
+		}
+	} );
+
+	/**
 	 * A control for selecting and cropping an image.
 	 *
 	 * @class
@@ -4507,15 +4547,16 @@
 
 	api.settingConstructor = {};
 	api.controlConstructor = {
-		color:         api.ColorControl,
-		media:         api.MediaControl,
-		upload:        api.UploadControl,
-		image:         api.ImageControl,
-		cropped_image: api.CroppedImageControl,
-		site_icon:     api.SiteIconControl,
-		header:        api.HeaderControl,
-		background:    api.BackgroundControl,
-		theme:         api.ThemeControl
+		color:               api.ColorControl,
+		media:               api.MediaControl,
+		upload:              api.UploadControl,
+		image:               api.ImageControl,
+		cropped_image:       api.CroppedImageControl,
+		site_icon:           api.SiteIconControl,
+		header:              api.HeaderControl,
+		background:          api.BackgroundControl,
+		background_position: api.BackgroundPositionControl,
+		theme:               api.ThemeControl
 	};
 	api.panelConstructor = {
 		themes: api.ThemesPanel
@@ -5531,7 +5572,7 @@
 		// Control visibility for default controls
 		$.each({
 			'background_image': {
-				controls: [ 'background_repeat', 'background_position_x', 'background_attachment' ],
+				controls: [ 'background_preset', 'background_position', 'background_size', 'background_repeat', 'background_attachment' ],
 				callback: function( to ) { return !! to; }
 			},
 			'show_on_front': {
@@ -5556,6 +5597,89 @@
 				});
 			});
 		});
+
+		api.control( 'background_preset', function( control ) {
+			var visibility, defaultValues, values, toggleVisibility, updateSettings, preset;
+
+			visibility = { // position, size, repeat, attachment
+				'default': [ false, false, false, false ],
+				'fill': [ true, false, false, false ],
+				'fit': [ true, false, true, false ],
+				'repeat': [ true, false, false, true ],
+				'custom': [ true, true, true, true ]
+			};
+
+			defaultValues = [
+				_wpCustomizeBackground.defaults['default-position-x'],
+				_wpCustomizeBackground.defaults['default-position-y'],
+				_wpCustomizeBackground.defaults['default-size'],
+				_wpCustomizeBackground.defaults['default-repeat'],
+				_wpCustomizeBackground.defaults['default-attachment']
+			];
+
+			values = { // position_x, position_y, size, repeat, attachment
+				'default': defaultValues,
+				'fill': [ 'left', 'top', 'cover', 'no-repeat', 'fixed' ],
+				'fit': [ 'left', 'top', 'contain', 'no-repeat', 'fixed' ],
+				'repeat': [ 'left', 'top', 'auto', 'repeat', 'scroll' ]
+			};
+
+			// @todo These should actually toggle the active state, but without the preview overriding the state in data.activeControls.
+			toggleVisibility = function( preset ) {
+				api.control( 'background_position' ).container.toggle( visibility[ preset ][0] );
+				api.control( 'background_size' ).container.toggle( visibility[ preset ][1] );
+				api.control( 'background_repeat' ).container.toggle( visibility[ preset ][2] );
+				api.control( 'background_attachment' ).container.toggle( visibility[ preset ][3] );
+			};
+
+			updateSettings = function( preset ) {
+				api( 'background_position_x' ).set( values[ preset ][0] );
+				api( 'background_position_y' ).set( values[ preset ][1] );
+				api( 'background_size' ).set( values[ preset ][2] );
+				api( 'background_repeat' ).set( values[ preset ][3] );
+				api( 'background_attachment' ).set( values[ preset ][4] );
+			};
+
+			preset = control.setting.get();
+			toggleVisibility( preset );
+
+			control.setting.bind( 'change', function( preset ) {
+				toggleVisibility( preset );
+				if ( 'custom' !== preset ) {
+					updateSettings( preset );
+				}
+			} );
+		} );
+
+		api.control( 'background_repeat', function( control ) {
+			control.elements[0].unsync( api( 'background_repeat' ) );
+
+			control.element = new api.Element( control.container.find( 'input' ) );
+			control.element.set( 'no-repeat' !== control.setting() );
+
+			control.element.bind( function( to ) {
+				control.setting.set( to ? 'repeat' : 'no-repeat' );
+			} );
+
+			control.setting.bind( function( to ) {
+				control.element.set( 'no-repeat' !== to );
+			} );
+		} );
+
+		api.control( 'background_attachment', function( control ) {
+			control.elements[0].unsync( api( 'background_attachment' ) );
+
+			control.element = new api.Element( control.container.find( 'input' ) );
+			control.element.set( 'fixed' !== control.setting() );
+
+			control.element.bind( function( to ) {
+				control.setting.set( to ? 'scroll' : 'fixed' );
+			} );
+
+			control.setting.bind( function( to ) {
+				control.element.set( 'fixed' !== to );
+			} );
+		} );
 
 		// Juggle the two controls that use header_textcolor
 		api.control( 'display_header_text', function( control ) {

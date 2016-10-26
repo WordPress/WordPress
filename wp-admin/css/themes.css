@@ -1176,6 +1176,135 @@ div#custom-background-image img {
 	max-height: 300px;
 }
 
+.background-position-control input[type="radio"]:checked ~ .button {
+	background: #eee;
+	border-color: #999;
+	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, .5 );
+	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, .5 );
+	z-index: 1;
+}
+
+.background-position-control input[type="radio"]:focus ~ .button {
+	border-color: #5b9dd9;
+	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, .5 ), 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, .5 ), 0 0 3px rgba( 0, 115, 170, .8 );
+	color: #23282d;
+}
+
+.background-position-control .background-position-center-icon,
+.background-position-control .background-position-center-icon:before {
+	display: inline-block;
+	line-height: 1;
+	text-align: center;
+	-webkit-transition: background-color .1s ease-in 0;
+	transition: background-color .1s ease-in 0;
+}
+
+.background-position-control .background-position-center-icon {
+	height: 20px;
+	margin-top: 13px;
+	vertical-align: top;
+	width: 20px;
+}
+
+.background-position-control .background-position-center-icon:before {
+	background-color: #555;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	content: "";
+	height: 12px;
+	width: 12px;
+}
+
+.background-position-control .button:hover .background-position-center-icon:before,
+.background-position-control input[type="radio"]:focus ~ .button .background-position-center-icon:before {
+	background-color: #23282d;
+}
+
+.background-position-control .button-group {
+	display: block;
+}
+
+.background-position-control .button-group .button {
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	/* Following properties are overridden by buttons responsive styles (see: wp-includes/css/buttons.css). */
+	height: 40px !important;
+	line-height: 37px !important;
+	margin: 0 -1px 0 0 !important;
+	padding: 0 10px 1px !important;
+	position: relative;
+}
+
+.background-position-control .button-group .button:active,
+.background-position-control .button-group .button:hover,
+.background-position-control .button-group .button:focus {
+	z-index: 1;
+}
+
+.background-position-control .button-group:last-child .button {
+	-webkit-box-shadow: 0 1px 0 #ccc;
+	box-shadow: 0 1px 0 #ccc;
+}
+
+.background-position-control .button-group > label {
+	margin: 0 !important;
+}
+
+.background-position-control .button-group:first-child > label:first-child .button {
+	-webkit-border-radius: 3px 0 0;
+	border-radius: 3px 0 0;
+}
+
+.background-position-control .button-group:first-child > label:first-child .dashicons {
+	-webkit-transform: rotate( 45deg );
+	-ms-transform: rotate( 45deg );
+	transform: rotate( 45deg );
+}
+
+.background-position-control .button-group:first-child > label:last-child .button {
+	-webkit-border-radius: 0 3px 0 0;
+	border-radius: 0 3px 0 0;
+}
+
+.background-position-control .button-group:first-child > label:last-child .dashicons {
+	-webkit-transform: rotate( -45deg );
+	-ms-transform: rotate( -45deg );
+	transform: rotate( -45deg );
+}
+
+.background-position-control .button-group:last-child > label:first-child .button {
+	-webkit-border-radius: 0 0 0 3px;
+	border-radius: 0 0 0 3px;
+}
+
+.background-position-control .button-group:last-child > label:first-child .dashicons {
+	-webkit-transform: rotate( -45deg );
+	-ms-transform: rotate( -45deg );
+	transform: rotate( -45deg );
+}
+
+.background-position-control .button-group:last-child > label:last-child .button {
+	-webkit-border-radius: 0 0 3px 0;
+	border-radius: 0 0 3px 0;
+}
+
+.background-position-control .button-group:last-child > label:last-child .dashicons {
+	-webkit-transform: rotate( 45deg );
+	-ms-transform: rotate( 45deg );
+	transform: rotate( 45deg );
+}
+
+.background-position-control .button-group .dashicons {
+	margin-top: 9px;
+}
+
+.background-position-control .button-group + .button-group {
+	margin-top: -1px;
+}
+
 /*------------------------------------------------------------------------------
   23.0 - Full Overlay w/ Sidebar
 ------------------------------------------------------------------------------*/

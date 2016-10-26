@@ -735,11 +735,11 @@
 		});
 
 		/* Custom Backgrounds */
-		bg = $.map(['color', 'image', 'position_x', 'repeat', 'attachment'], function( prop ) {
+		bg = $.map( ['color', 'image', 'preset', 'position_x', 'position_y', 'size', 'repeat', 'attachment'], function( prop ) {
 			return 'background_' + prop;
-		});
+		} );
 
-		api.when.apply( api, bg ).done( function( color, image, position_x, repeat, attachment ) {
+		api.when.apply( api, bg ).done( function( color, image, preset, positionX, positionY, size, repeat, attachment ) {
 			var body = $(document.body),
 				head = $('head'),
 				style = $('#custom-background-css'),
@@ -759,7 +759,8 @@
 
 				if ( image() ) {
 					css += 'background-image: url("' + image() + '");';
-					css += 'background-position: top ' + position_x() + ';';
+					css += 'background-size: ' + size() + ';';
+					css += 'background-position: ' + positionX() + ' ' + positionY() + ';';
 					css += 'background-repeat: ' + repeat() + ';';
 					css += 'background-attachment: ' + attachment() + ';';
 				}

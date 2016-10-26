@@ -1090,6 +1090,11 @@ p.customize-section-description {
 	float: right;
 }
 
+/* Background position control */
+.customize-control-background_position .background-position-control .button-group {
+	display: block;
+}
+
 /**
  * Custom CSS Section
  *

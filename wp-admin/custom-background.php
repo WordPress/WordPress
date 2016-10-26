@@ -133,31 +133,73 @@ class Custom_Background {
 			return;
 		}
 
-		if ( isset($_POST['background-repeat']) ) {
-			check_admin_referer('custom-background');
-			if ( in_array($_POST['background-repeat'], array('repeat', 'no-repeat', 'repeat-x', 'repeat-y')) )
-				$repeat = $_POST['background-repeat'];
-			else
+		if ( isset( $_POST['background-preset'] ) ) {
+			check_admin_referer( 'custom-background' );
+
+			if ( in_array( $_POST['background-preset'], array( 'default', 'fill', 'fit', 'repeat', 'custom' ), true ) ) {
+				$preset = $_POST['background-preset'];
+			} else {
+				$preset = 'default';
+			}
+
+			set_theme_mod( 'background_preset', $preset );
+		}
+
+		if ( isset( $_POST['background-position'] ) ) {
+			check_admin_referer( 'custom-background' );
+
+			$position = explode( ' ', $_POST['background-position'] );
+
+			if ( in_array( $position[0], array( 'left', 'center', 'right' ), true ) ) {
+				$position_x = $position[0];
+			} else {
+				$position_x = 'left';
+			}
+
+			if ( in_array( $position[1], array( 'top', 'center', 'bottom' ), true ) ) {
+				$position_y = $position[1];
+			} else {
+				$position_y = 'top';
+			}
+
+			set_theme_mod( 'background_position_x', $position_x );
+			set_theme_mod( 'background_position_y', $position_y );
+		}
+
+		if ( isset( $_POST['background-size'] ) ) {
+			check_admin_referer( 'custom-background' );
+
+			if ( in_array( $_POST['background-size'], array( 'auto', 'contain', 'cover' ), true ) ) {
+				$size = $_POST['background-size'];
+			} else {
+				$size = 'auto';
+			}
+
+			set_theme_mod( 'background_size', $size );
+		}
+
+		if ( isset( $_POST['background-repeat'] ) ) {
+			check_admin_referer( 'custom-background' );
+
+			$repeat = $_POST['background-repeat'];
+
+			if ( 'no-repeat' !== $repeat ) {
 				$repeat = 'repeat';
-			set_theme_mod('background_repeat', $repeat);
+			}
+
+			set_theme_mod( 'background_repeat', $repeat );
 		}
 
-		if ( isset($_POST['background-position-x']) ) {
-			check_admin_referer('custom-background');
-			if ( in_array($_POST['background-position-x'], array('center', 'right', 'left')) )
-				$position = $_POST['background-position-x'];
-			else
-				$position = 'left';
-			set_theme_mod('background_position_x', $position);
-		}
+		if ( isset( $_POST['background-attachment'] ) ) {
+			check_admin_referer( 'custom-background' );
 
-		if ( isset($_POST['background-attachment']) ) {
-			check_admin_referer('custom-background');
-			if ( in_array($_POST['background-attachment'], array('fixed', 'scroll')) )
-				$attachment = $_POST['background-attachment'];
-			else
-				$attachment = 'fixed';
-			set_theme_mod('background_attachment', $attachment);
+			$attachment = $_POST['background-attachment'];
+
+			if ( 'fixed' !== $attachment ) {
+				$attachment = 'scroll';
+			}
+
+			set_theme_mod( 'background_attachment', $attachment );
 		}
 
 		if ( isset($_POST['background-color']) ) {
@@ -219,11 +261,18 @@ class Custom_Background {
 		$background_image_thumb = get_background_image();
 		if ( $background_image_thumb ) {
 			$background_image_thumb = esc_url( set_url_scheme( get_theme_mod( 'background_image_thumb', str_replace( '%', '%%', $background_image_thumb ) ) ) );
+			$background_position_x = get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) );
+			$background_position_y = get_theme_mod( 'background_position_y', get_theme_support( 'custom-background', 'default-position-y' ) );
+			$background_size = get_theme_mod( 'background_size', get_theme_support( 'custom-background', 'default-size' ) );
+			$background_repeat = get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) );
+			$background_attachment = get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'default-attachment' ) );
 
 			// Background-image URL must be single quote, see below.
-			$background_styles .= ' background-image: url(\'' . $background_image_thumb . '\');'
-				. ' background-repeat: ' . get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) ) . ';'
-				. ' background-position: top ' . get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) );
+			$background_styles .= " background-image: url('$background_image_thumb');"
+				. " background-size: $background_size;"
+				. " background-position: $background_position_x $background_position_y;"
+				. " background-repeat: $background_repeat;"
+				. " background-attachment: $background_attachment;";
 		}
 	?>
 	<div id="custom-background-image" style="<?php echo $background_styles; ?>"><?php // must be double quote, see above ?>
@@ -287,50 +336,81 @@ class Custom_Background {
 </tbody>
 </table>
 
-<h3><?php _e('Display Options') ?></h3>
+<h3><?php _e( 'Display Options' ); ?></h3>
 <form method="post">
 <table class="form-table">
 <tbody>
 <?php if ( get_background_image() ) : ?>
+<input name="background-preset" type="hidden" value="custom">
+
+<?php
+$background_position = sprintf(
+	'%s %s',
+	get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) ),
+	get_theme_mod( 'background_position_y', get_theme_support( 'custom-background', 'default-position-y' ) )
+);
+
+$background_position_options = array(
+	array(
+		'left top'   => array( 'label' => __( 'Top Left' ), 'icon' => 'dashicons dashicons-arrow-left-alt' ),
+		'center top' => array( 'label' => __( 'Top' ), 'icon' => 'dashicons dashicons-arrow-up-alt' ),
+		'right top'  => array( 'label' => __( 'Top Right' ), 'icon' => 'dashicons dashicons-arrow-right-alt' ),
+	),
+	array(
+		'left center'   => array( 'label' => __( 'Left' ), 'icon' => 'dashicons dashicons-arrow-left-alt' ),
+		'center center' => array( 'label' => __( 'Center' ), 'icon' => 'background-position-center-icon' ),
+		'right center'  => array( 'label' => __( 'Right' ), 'icon' => 'dashicons dashicons-arrow-right-alt' ),
+	),
+	array(
+		'left bottom'   => array( 'label' => __( 'Bottom Left' ), 'icon' => 'dashicons dashicons-arrow-left-alt' ),
+		'center bottom' => array( 'label' => __( 'Bottom' ), 'icon' => 'dashicons dashicons-arrow-down-alt' ),
+		'right bottom'  => array( 'label' => __( 'Bottom Right' ), 'icon' => 'dashicons dashicons-arrow-right-alt' ),
+	),
+);
+?>
 <tr>
-<th scope="row"><?php _e( 'Position' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Position' ); ?></span></legend>
-<label>
-<input name="background-position-x" type="radio" value="left"<?php checked( 'left', get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) ) ); ?> />
-<?php _e('Left') ?>
-</label>
-<label>
-<input name="background-position-x" type="radio" value="center"<?php checked( 'center', get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) ) ); ?> />
-<?php _e('Center') ?>
-</label>
-<label>
-<input name="background-position-x" type="radio" value="right"<?php checked( 'right', get_theme_mod( 'background_position_x', get_theme_support( 'custom-background', 'default-position-x' ) ) ); ?> />
-<?php _e('Right') ?>
-</label>
+<th scope="row"><?php _e( 'Image Position' ); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Image Position' ); ?></span></legend>
+<div class="background-position-control">
+<?php foreach ( $background_position_options as $group ) : ?>
+	<div class="button-group">
+	<?php foreach ( $group as $value => $input ) : ?>
+		<label>
+			<input class="screen-reader-text" name="background-position" type="radio" value="<?php echo esc_attr( $value ); ?>"<?php checked( $value, $background_position ); ?>>
+			<span class="button display-options position"><span class="<?php echo esc_attr( $input['icon'] ); ?>" aria-hidden="true"></span></span>
+			<span class="screen-reader-text"><?php echo $input['label']; ?></span>
+		</label>
+	<?php endforeach; ?>
+	</div>
+<?php endforeach; ?>
+</div>
 </fieldset></td>
 </tr>
 
 <tr>
-<th scope="row"><?php _e( 'Repeat' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Repeat' ); ?></span></legend>
-<label><input type="radio" name="background-repeat" value="no-repeat"<?php checked( 'no-repeat', get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) ) ); ?> /> <?php _e('No Repeat'); ?></label>
-	<label><input type="radio" name="background-repeat" value="repeat"<?php checked( 'repeat', get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) ) ); ?> /> <?php _e('Tile'); ?></label>
-	<label><input type="radio" name="background-repeat" value="repeat-x"<?php checked( 'repeat-x', get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) ) ); ?> /> <?php _e('Tile Horizontally'); ?></label>
-	<label><input type="radio" name="background-repeat" value="repeat-y"<?php checked( 'repeat-y', get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) ) ); ?> /> <?php _e('Tile Vertically'); ?></label>
+<th scope="row"><label for="background-size"><?php _e( 'Image Size' ); ?></label></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Image Size' ); ?></span></legend>
+<select id="background-size" name="background-size">
+<option value="auto"<?php selected( 'auto', get_theme_mod( 'background_size', get_theme_support( 'custom-background', 'default-size' ) ) ); ?>><?php _ex( 'Original', 'Original Size' ); ?></option>
+<option value="contain"<?php selected( 'contain', get_theme_mod( 'background_size', get_theme_support( 'custom-background', 'default-size' ) ) ); ?>><?php _e( 'Fit to Screen' ); ?></option>
+<option value="cover"<?php selected( 'cover', get_theme_mod( 'background_size', get_theme_support( 'custom-background', 'default-size' ) ) ); ?>><?php _e( 'Fill Screen' ); ?></option>
+</select>
 </fieldset></td>
 </tr>
 
 <tr>
-<th scope="row"><?php _ex( 'Attachment', 'Background Attachment' ); ?></th>
-<td><fieldset><legend class="screen-reader-text"><span><?php _e( 'Background Attachment' ); ?></span></legend>
-<label>
-<input name="background-attachment" type="radio" value="scroll" <?php checked( 'scroll', get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'default-attachment' ) ) ); ?> />
-<?php _e( 'Scroll' ); ?>
-</label>
-<label>
-<input name="background-attachment" type="radio" value="fixed" <?php checked( 'fixed', get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'default-attachment' ) ) ); ?> />
-<?php _e( 'Fixed' ); ?>
-</label>
+<th scope="row"><?php _ex( 'Repeat', 'Background Repeat' ); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _ex( 'Repeat', 'Background Repeat' ); ?></span></legend>
+<input name="background-repeat" type="hidden" value="no-repeat">
+<label><input type="checkbox" name="background-repeat" value="repeat"<?php checked( 'repeat', get_theme_mod( 'background_repeat', get_theme_support( 'custom-background', 'default-repeat' ) ) ); ?>> <?php _e( 'Repeat Background Image' ); ?></label>
+</fieldset></td>
+</tr>
+
+<tr>
+<th scope="row"><?php _ex( 'Scroll', 'Background Scroll' ); ?></th>
+<td><fieldset><legend class="screen-reader-text"><span><?php _ex( 'Scroll', 'Background Scroll' ); ?></span></legend>
+<input name="background-attachment" type="hidden" value="fixed">
+<label><input name="background-attachment" type="checkbox" value="scroll" <?php checked( 'scroll', get_theme_mod( 'background_attachment', get_theme_support( 'custom-background', 'default-attachment' ) ) ); ?>> <?php _e( 'Scroll with Page' ); ?></label>
 </fieldset></td>
 </tr>
 <?php endif; // get_background_image() ?>
@@ -342,7 +422,7 @@ $default_color = '';
 if ( current_theme_supports( 'custom-background', 'default-color' ) )
 	$default_color = ' data-default-color="#' . esc_attr( get_theme_support( 'custom-background', 'default-color' ) ) . '"';
 ?>
-<input type="text" name="background-color" id="background-color" value="#<?php echo esc_attr( get_background_color() ); ?>"<?php echo $default_color ?> />
+<input type="text" name="background-color" id="background-color" value="#<?php echo esc_attr( get_background_color() ); ?>"<?php echo $default_color ?>>
 </fieldset></td>
 </tr>
 </tbody>

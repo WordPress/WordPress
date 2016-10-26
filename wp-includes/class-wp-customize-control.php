@@ -660,6 +660,9 @@ require_once( ABSPATH . WPINC . '/customize/class-wp-customize-image-control.php
 /** WP_Customize_Background_Image_Control class */
 require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-image-control.php' );
 
+/** WP_Customize_Background_Position_Control class */
+require_once( ABSPATH . WPINC . '/customize/class-wp-customize-background-position-control.php' );
+
 /** WP_Customize_Cropped_Image_Control class */
 require_once( ABSPATH . WPINC . '/customize/class-wp-customize-cropped-image-control.php' );
 
