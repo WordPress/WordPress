@@ -48,6 +48,18 @@ li > ol {
 	margin-right: 1.5em;
 }
 
+th:first-child,
+td:first-child {
+	padding-left: 0.4em;
+	padding-right: 0;
+}
+
+th:last-child,
+td:last-child {
+	padding-left: 0;
+	padding-right: 0.4em;
+}
+
 /* Forms */
 
 input[type="radio"],
@@ -496,7 +508,7 @@ input[type="checkbox"] {
 	}
 }
 
-@media screen and ( min-width: 67em ) {
+@media screen and (min-width: 67em) {
 
 	/* Sticky posts */
 
@@ -506,7 +518,7 @@ input[type="checkbox"] {
 	}
 }
 
-@media screen and ( min-width: 79em ) {
+@media screen and (min-width: 79em) {
 
 	.has-sidebar #primary .entry-content blockquote.alignright,
 	.has-sidebar #primary .entry-content blockquote.alignright.below-entry-meta {

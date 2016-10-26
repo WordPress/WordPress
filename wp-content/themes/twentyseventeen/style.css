@@ -1114,7 +1114,7 @@ thead th {
 }
 
 th {
-	padding: 0.4em 0;
+	padding: 0.4em;
 	text-align: left;
 }
 
@@ -1124,6 +1124,16 @@ tr {
 
 td {
 	padding: 0.4em;
+}
+
+th:first-child,
+td:first-child {
+	padding-left: 0;
+}
+
+th:last-child,
+td:last-child {
+	padding-right: 0;
 }
 
 /*--------------------------------------------------------------
