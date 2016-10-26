@@ -363,20 +363,8 @@ if ( $action ) {
 				$plugins = isset( $_POST['checked'] ) ? (array) $_POST['checked'] : array();
 				$sendback = wp_get_referer();
 
-				/**
-				 * Fires when a custom bulk action should be handled.
-				 *
-				 * The sendback link should be modified with success or failure feedback
-				 * from the action to be used to display feedback to the user.
-				 *
-				 * @since 4.7.0
-				 *
-				 * @param string $sendback The redirect URL.
-				 * @param string $action   The action being taken.
-				 * @param array  $plugins  The plugins to take the action on.
-				 */
+				/** This action is documented in wp-admin/edit-comments.php */
 				$sendback = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $sendback, $action, $plugins );
-
 				wp_safe_redirect( $sendback );
 				exit;
 			}

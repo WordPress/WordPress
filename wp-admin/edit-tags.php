@@ -174,18 +174,7 @@ default:
 	}
 	check_admin_referer( 'bulk-tags' );
 	$tags = (array) $_REQUEST['delete_tags'];
-	/**
-	 * Fires when a custom bulk action should be handled.
-	 *
-	 * The sendback link should be modified with success or failure feedback
-	 * from the action to be used to display feedback to the user.
-	 *
-	 * @since 4.7.0
-	 *
-	 * @param string $location The redirect URL.
-	 * @param string $action   The action being taken.
-	 * @param array  $tags     The tag IDs to take the action on.
-	 */
+	/** This action is documented in wp-admin/edit-comments.php */
 	$location = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $location, $wp_list_table->current_action(), $tags );
 	break;
 }

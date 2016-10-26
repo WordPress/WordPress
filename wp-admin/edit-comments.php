@@ -91,9 +91,9 @@ if ( $doaction ) {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param string $redirect_to The redirect URL.
-		 * @param string $doaction    The action being taken.
-		 * @param array  $comment_ids The comments to take the action on.
+		 * @param string $redirect_url The redirect URL.
+		 * @param string $doaction     The action being taken.
+		 * @param array  $items        The items to take the action on.
 		 */
 		$redirect_to = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $redirect_to, $doaction, $comment_ids );
 	}
