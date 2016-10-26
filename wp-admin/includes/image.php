@@ -76,7 +76,9 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 
 	$metadata = array();
 	$support = false;
-	if ( preg_match('!^image/!', get_post_mime_type( $attachment )) && file_is_displayable_image($file) ) {
+	$mime_type = get_post_mime_type( $attachment );
+
+	if ( preg_match( '!^image/!', $mime_type ) && file_is_displayable_image( $file ) ) {
 		$imagesize = getimagesize( $file );
 		$metadata['width'] = $imagesize[0];
 		$metadata['height'] = $imagesize[1];
@@ -198,6 +200,44 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 				$attach_data = wp_generate_attachment_metadata( $sub_attachment_id, $uploaded['file'] );
 				wp_update_attachment_metadata( $sub_attachment_id, $attach_data );
 				update_post_meta( $attachment_id, '_thumbnail_id', $sub_attachment_id );
+			}
+		}
+	}
+	// Try to create image thumbnails for PDFs
+	else if ( 'application/pdf' === $mime_type ) {
+		$editor = wp_get_image_editor( $file );
+
+		$fallback_sizes = array(
+			'thumbnail',
+			'medium',
+			'large',
+		);
+
+		$sizes = array();
+
+		foreach ( $fallback_sizes as $s ) {
+			$sizes[$s]['width']  = get_option( "{$s}_size_w" );
+			$sizes[$s]['height'] = get_option( "{$s}_size_h" );
+
+			// Force thumbnails to be soft crops.
+			if ( ! 'thumbnail' === $s ) {
+				$sizes[$s]['crop'] = get_option( "{$s}_crop" );
+			}
+		}
+
+		if ( ! is_wp_error( $editor ) ) { // No support for this type of file
+			$uploaded = $editor->save( $file, 'image/jpeg' );
+			unset( $editor );
+
+			// Resize based on the full size image, rather than the source.
+			if ( ! is_wp_error( $uploaded ) ) {
+				$editor = wp_get_image_editor( $uploaded['path'] );
+				unset( $uploaded['path'] );
+
+				if ( ! is_wp_error( $editor ) ) {
+					$metadata['sizes'] = $editor->multi_resize( $sizes );
+					$metadata['sizes']['full'] = $uploaded;
+				}
 			}
 		}
 	}

@@ -73,6 +73,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			'rotateimage',
 			'flipimage',
 			'flopimage',
+			'readimage',
 		);
 
 		// Now, test for deep requirements within Imagick.
@@ -144,7 +145,18 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		wp_raise_memory_limit( 'image' );
 
 		try {
-			$this->image = new Imagick( $this->file );
+			$this->image = new Imagick();
+			$file_parts = pathinfo( $this->file );
+
+			// By default, PDFs are rendered in a very low resolution.
+			// We want the thumbnail to be readable, so increase the rendering dpi.
+			if ( 'pdf' == strtolower( $file_parts['extension'] ) ) {
+				$this->image->setResolution( 128, 128 );
+			}
+
+			// Reading image after Imagick instantiation because `setResolution`
+			// only applies correctly before the image is read.
+			$this->image->readImage( $this->file );
 
 			if ( ! $this->image->valid() )
 				return new WP_Error( 'invalid_image', __('File is not an image.'), $this->file);

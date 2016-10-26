@@ -290,9 +290,9 @@ function wp_print_media_templates() {
 			<div class="thumbnail thumbnail-{{ data.type }}">
 				<# if ( data.uploading ) { #>
 					<div class="media-progress-bar"><div></div></div>
-				<# } else if ( 'image' === data.type && data.sizes && data.sizes.large ) { #>
+				<# } else if ( data.sizes && data.sizes.large ) { #>
 					<img class="details-image" src="{{ data.sizes.large.url }}" draggable="false" alt="" />
-				<# } else if ( 'image' === data.type && data.sizes && data.sizes.full ) { #>
+				<# } else if ( data.sizes && data.sizes.full ) { #>
 					<img class="details-image" src="{{ data.sizes.full.url }}" draggable="false" alt="" />
 				<# } else if ( -1 === jQuery.inArray( data.type, [ 'audio', 'video' ] ) ) { #>
 					<img class="details-image icon" src="{{ data.icon }}" draggable="false" alt="" />
@@ -454,6 +454,8 @@ function wp_print_media_templates() {
 					<div class="centered">
 						<# if ( data.image && data.image.src && data.image.src !== data.icon ) { #>
 							<img src="{{ data.image.src }}" class="thumbnail" draggable="false" alt="" />
+						<# } else if ( data.sizes && data.sizes.medium ) { #>
+							<img src="{{ data.sizes.medium.url }}" class="thumbnail" draggable="false" alt="" />
 						<# } else { #>
 							<img src="{{ data.icon }}" class="icon" draggable="false" alt="" />
 						<# } #>
