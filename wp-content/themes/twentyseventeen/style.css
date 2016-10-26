@@ -1567,6 +1567,7 @@ body {
 .site-title,
 .site-title a {
 	color: #222;
+	opacity: 1; /* Prevent opacity from changing during selective refreshes in the customize preview */
 }
 
 body.has-header-image .site-title,

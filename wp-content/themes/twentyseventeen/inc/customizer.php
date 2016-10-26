@@ -17,6 +17,15 @@ function twentyseventeen_customize_register( $wp_customize ) {
 	$wp_customize->get_setting( 'blogdescription' )->transport  = 'postMessage';
 	$wp_customize->get_setting( 'header_textcolor' )->transport = 'postMessage';
 
+	$wp_customize->selective_refresh->add_partial( 'blogname', array(
+		'selector' => '.site-title a',
+		'render_callback' => 'twentyseventeen_customize_partial_blogname',
+	) );
+	$wp_customize->selective_refresh->add_partial( 'blogdescription', array(
+		'selector' => '.site-description',
+		'render_callback' => 'twentyseventeen_customize_partial_blogdescription',
+	) );
+
 	/**
 	 * Custom colors.
 	 */
@@ -187,6 +196,30 @@ function twentyseventeen_sanitize_colorscheme( $input ) {
 	}
 
 	return 'light';
+}
+
+/**
+ * Render the site title for the selective refresh partial.
+ *
+ * @since Twenty Seventeen 1.0
+ * @see twentyseventeen_customize_register()
+ *
+ * @return void
+ */
+function twentyseventeen_customize_partial_blogname() {
+	bloginfo( 'name' );
+}
+
+/**
+ * Render the site tagline for the selective refresh partial.
+ *
+ * @since Twenty Seventeen 1.0
+ * @see twentyseventeen_customize_register()
+ *
+ * @return void
+ */
+function twentyseventeen_customize_partial_blogdescription() {
+	bloginfo( 'description' );
 }
 
 /**
