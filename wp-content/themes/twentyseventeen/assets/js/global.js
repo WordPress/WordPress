@@ -143,6 +143,8 @@
 	$( document ).ready( function() {
 
 		// Let's fire some JavaScript!
+		setNavProps();
+
 		if ( $menuScrollDown.length ) {
 
 			/**
@@ -162,7 +164,6 @@
 				} );
 			} );
 
-			setNavProps();
 			adjustScrollClass();
 		}
 
