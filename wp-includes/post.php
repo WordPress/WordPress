@@ -66,6 +66,7 @@ function create_initial_post_types() {
 			'add_new' => _x( 'Add New', 'add new media' ),
  			'edit_item' => __( 'Edit Media' ),
  			'view_item' => __( 'View Attachment Page' ),
+			'attributes' => __( 'Attachment Attributes' ),
 		),
 		'public' => true,
 		'show_ui' => true,
@@ -1326,6 +1327,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  *                       post types. Default is 'Parent Page:'.
  * - `all_items` - Label to signify all items in a submenu link. Default is 'All Posts' / 'All Pages'.
  * - `archives` - Label for archives in nav menus. Default is 'Post Archives' / 'Page Archives'.
+ * - `attributes` - Label for the attributes meta box. Default is 'Post Attributes' / 'Page Attributes'.
  * - `insert_into_item` - Label for the media frame button. Default is 'Insert into post' / 'Insert into page'.
  * - `uploaded_to_this_item` - Label for the media frame filter. Default is 'Uploaded to this post' /
  *                           'Uploaded to this page'.
@@ -1351,7 +1353,7 @@ function _post_type_meta_capabilities( $capabilities = null ) {
  * @since 4.4.0 Added the `insert_into_item`, `uploaded_to_this_item`, `filter_items_list`,
  *              `items_list_navigation`, and `items_list` labels.
  * @since 4.6.0 Converted the `$post_type` parameter to accept a WP_Post_Type object.
- * @since 4.7.0 Added the `view_items` label.
+ * @since 4.7.0 Added the `view_items` and `attributes` labels.
  *
  * @access private
  *
@@ -1374,6 +1376,7 @@ function get_post_type_labels( $post_type_object ) {
 		'parent_item_colon' => array( null, __('Parent Page:') ),
 		'all_items' => array( __( 'All Posts' ), __( 'All Pages' ) ),
 		'archives' => array( __( 'Post Archives' ), __( 'Page Archives' ) ),
+		'attributes' => array( __( 'Post Attributes' ), __( 'Page Attributes' ) ),
 		'insert_into_item' => array( __( 'Insert into post' ), __( 'Insert into page' ) ),
 		'uploaded_to_this_item' => array( __( 'Uploaded to this post' ), __( 'Uploaded to this page' ) ),
 		'featured_image' => array( __( 'Featured Image' ), __( 'Featured Image' ) ),
@@ -3393,7 +3396,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 
 	$post = get_post( $post_ID );
 
-	if ( ! empty( $postarr['page_template'] ) && 'page' == $data['post_type'] ) {
+	if ( ! empty( $postarr['page_template'] ) ) {
 		$post->page_template = $postarr['page_template'];
 		$page_templates = wp_get_theme()->get_page_templates( $post );
 		if ( 'default' != $postarr['page_template'] && ! isset( $page_templates[ $postarr['page_template'] ] ) ) {

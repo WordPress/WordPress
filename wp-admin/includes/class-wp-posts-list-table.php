@@ -1528,30 +1528,27 @@ class WP_Posts_List_Table extends WP_List_Table {
 				<span class="input-text-wrap"><input type="text" name="menu_order" class="inline-edit-menu-order-input" value="<?php echo $post->menu_order ?>" /></span>
 			</label>
 
-	<?php	endif; // !$bulk
-
-			if ( 'page' === $screen->post_type ) :
-	?>
-
-			<label>
-				<span class="title"><?php _e( 'Template' ); ?></span>
-				<select name="page_template">
-	<?php	if ( $bulk ) : ?>
-					<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
-	<?php	endif; // $bulk ?>
-    				<?php
-					/** This filter is documented in wp-admin/includes/meta-boxes.php */
-					$default_title = apply_filters( 'default_page_template_title',  __( 'Default Template' ), 'quick-edit' );
-    				?>
-					<option value="default"><?php echo esc_html( $default_title ); ?></option>
-					<?php page_template_dropdown() ?>
-				</select>
-			</label>
-
 	<?php
-			endif; // page post_type
+			endif; // !$bulk
 		endif; // page-attributes
 	?>
+
+	<?php if ( 0 < count( get_page_templates( null, $screen->post_type ) ) ) : ?>
+		<label>
+			<span class="title"><?php _e( 'Template' ); ?></span>
+			<select name="page_template">
+<?php	if ( $bulk ) : ?>
+				<option value="-1"><?php _e( '&mdash; No Change &mdash;' ); ?></option>
+<?php	endif; // $bulk ?>
+                <?php
+				/** This filter is documented in wp-admin/includes/meta-boxes.php */
+				$default_title = apply_filters( 'default_page_template_title',  __( 'Default Template' ), 'quick-edit' );
+                ?>
+				<option value="default"><?php echo esc_html( $default_title ); ?></option>
+				<?php page_template_dropdown( $post->page_template, $screen->post_type ) ?>
+			</select>
+		</label>
+	<?php endif; ?>
 
 	<?php if ( count( $flat_taxonomies ) && !$bulk ) : ?>
 

@@ -788,8 +788,7 @@ function post_revisions_meta_box( $post ) {
  * @param object $post
  */
 function page_attributes_meta_box($post) {
-	$post_type_object = get_post_type_object($post->post_type);
-	if ( $post_type_object->hierarchical ) {
+	if ( is_post_type_hierarchical( $post->post_type ) ) :
 		$dropdown_args = array(
 			'post_type'        => $post->post_type,
 			'exclude_tree'     => $post->ID,
@@ -812,16 +811,17 @@ function page_attributes_meta_box($post) {
 		 */
 		$dropdown_args = apply_filters( 'page_attributes_dropdown_pages_args', $dropdown_args, $post );
 		$pages = wp_dropdown_pages( $dropdown_args );
-		if ( ! empty($pages) ) {
+		if ( ! empty($pages) ) :
 ?>
 <p><strong><?php _e('Parent') ?></strong></p>
 <label class="screen-reader-text" for="parent_id"><?php _e('Parent') ?></label>
 <?php echo $pages; ?>
 <?php
-		} // end empty pages check
-	} // end hierarchical check.
-	if ( 'page' == $post->post_type && 0 != count( get_page_templates( $post ) ) && get_option( 'page_for_posts' ) != $post->ID ) {
-		$template = !empty($post->page_template) ? $post->page_template : false;
+		endif; // end empty pages check
+	endif;  // end hierarchical check.
+
+	if ( count( get_page_templates( $post ) ) > 0 && get_option( 'page_for_posts' ) != $post->ID ) :
+		$template = ! empty( $post->page_template ) ? $post->page_template : false;
 		?>
 <p><strong><?php _e('Template') ?></strong><?php
 	/**
@@ -835,7 +835,13 @@ function page_attributes_meta_box($post) {
 	 */
 	do_action( 'page_attributes_meta_box_template', $template, $post );
 ?></p>
-<label class="screen-reader-text" for="page_template"><?php _e('Page Template') ?></label><select name="page_template" id="page_template">
+<label class="screen-reader-text" for="page_template">
+	<?php
+	$post_type_object = get_post_type_object( $post->post_type );
+	echo esc_html( $post_type_object->labels->attributes );
+	?>
+</label>
+<select name="page_template" id="page_template">
 <?php
 /**
  * Filters the title of the default page template displayed in the drop-down.
@@ -849,16 +855,16 @@ function page_attributes_meta_box($post) {
 $default_title = apply_filters( 'default_page_template_title',  __( 'Default Template' ), 'meta-box' );
 ?>
 <option value="default"><?php echo esc_html( $default_title ); ?></option>
-<?php page_template_dropdown($template); ?>
+<?php page_template_dropdown( $template, $post->post_type ); ?>
 </select>
-<?php
-	} ?>
+<?php endif; ?>
+<?php if ( post_type_supports( $post->post_type, 'page-attributes' ) ) : ?>
 <p><strong><?php _e('Order') ?></strong></p>
 <p><label class="screen-reader-text" for="menu_order"><?php _e('Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr($post->menu_order) ?>" /></p>
-<?php if ( 'page' == $post->post_type && get_current_screen()->get_help_tabs() ) { ?>
+<?php if ( 'page' == $post->post_type && get_current_screen()->get_help_tabs() ) : ?>
 <p><?php _e( 'Need help? Use the Help tab above the screen title.' ); ?></p>
-<?php
-	}
+<?php endif;
+	endif;
 }
 
 // -- Link related Meta Boxes
