@@ -132,12 +132,12 @@ if ( $action ) {
 				 *
 				 * @since 4.7.0
 				 *
-				 * @param string $referer The redirect URL.
-				 * @param string $action  The action being taken.
-				 * @param array  $themes  The themes to take the action on.
-				 * @param int    $site_id The current site id
+				 * @param string $redirect_url The redirect URL.
+				 * @param string $action       The action being taken.
+				 * @param array  $items        The items to take the action on.
+				 * @param int    $site_id      The site id.
 				 */
-				$referer = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $referer, $action, $themes, $id );
+				$referer = apply_filters( 'handle_network_bulk_actions-' . get_current_screen()->id, $referer, $action, $themes, $id );
 			} else {
 				$action = 'error';
 				$n = 'none';

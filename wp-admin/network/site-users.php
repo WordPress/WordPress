@@ -170,20 +170,8 @@ if ( $action ) {
 			}
 			check_admin_referer( 'bulk-users' );
 			$userids = $_REQUEST['users'];
-			/**
-			 * Fires when a custom bulk action should be handled.
-			 *
-			 * The redirect link should be modified with success or failure feedback
-			 * from the action to be used to display feedback to the user.
-			 *
-			 * @since 4.7.0
-			 *
-			 * @param string $referer The redirect URL.
-			 * @param string $action  The action being taken.
-			 * @param array  $userids The users to take the action on.
-			 * @param int    $id      The id of the current site
-			 */
-			$referer = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $referer, $action, $userids, $id );
+			/** This action is documented in wp-admin/network/site-themes.php */
+			$referer = apply_filters( 'handle_network_bulk_actions-' . get_current_screen()->id, $referer, $action, $userids, $id );
 			$update = $action;
 			break;
 	}

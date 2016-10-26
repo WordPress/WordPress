@@ -94,19 +94,8 @@ if ( isset( $_GET['action'] ) ) {
 					$sendback = wp_get_referer();
 
 					$user_ids = (array) $_POST['allusers'];
-					/**
-					 * Fires when a custom bulk action should be handled.
-					 *
-					 * The sendback link should be modified with success or failure feedback
-					 * from the action to be used to display feedback to the user.
-					 *
-					 * @since 4.7.0
-					 *
-					 * @param string $sendback The redirect URL.
-					 * @param string $doaction The action being taken.
-					 * @param array  $user_ids The users to take the action on.
-					 */
-					$sendback = apply_filters( 'handle_bulk_actions-' . get_current_screen()->id, $sendback, $doaction, $user_ids );
+					/** This action is documented in wp-admin/network/site-themes.php */
+					$sendback = apply_filters( 'handle_network_bulk_actions-' . get_current_screen()->id, $sendback, $doaction, $user_ids );
 
 					wp_safe_redirect( $sendback );
 					exit();
