@@ -578,6 +578,12 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 					each( listbox.settings.values, function( item ) {
 						if ( item.text && labels.hasOwnProperty( item.text ) ) {
 							item.shortcut = '(' + labels[ item.text ] + ')';
+
+							// Drop the numbers after the labels for headings.
+							// TinyMCE makes previews for the h1-h6. It uses the same styles that are applied in the editor body.
+							if ( item.text.indexOf( 'Heading' ) !== -1 ) {
+								item.text = 'Heading';
+							}
 						}
 					} );
 				}

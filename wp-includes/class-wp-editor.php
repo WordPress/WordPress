@@ -839,6 +839,7 @@ final class _WP_Editors {
 			'Formats' => _x( 'Formats', 'TinyMCE' ),
 
 			'Headings' => _x( 'Headings', 'TinyMCE' ),
+			'Heading' => _x( 'Heading', 'TinyMCE' ),
 			'Heading 1' => array( __( 'Heading 1' ), 'access1' ),
 			'Heading 2' => array( __( 'Heading 2' ), 'access2' ),
 			'Heading 3' => array( __( 'Heading 3' ), 'access3' ),
