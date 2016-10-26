@@ -555,15 +555,13 @@ tr.wp-locked .locked-indicator {
 	width: 16px;
 }
 
-tr.wp-locked .locked-indicator:before {
+tr.wp-locked .locked-indicator-icon:before {
 	color: #82878c;
 	content: "\f160";
 	display: inline-block;
-	float: left;
 	font: normal 20px/1 dashicons;
 	speak: none;
 	vertical-align: middle;
-	margin-left: 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
@@ -581,7 +579,7 @@ tr .locked-info {
 }
 
 tr.wp-locked .locked-info {
-	margin-top: 8px;
+	margin-top: 4px;
 	height: auto;
 	opacity: 1;
 }

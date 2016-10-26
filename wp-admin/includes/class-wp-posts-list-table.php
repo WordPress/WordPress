@@ -835,7 +835,16 @@ class WP_Posts_List_Table extends WP_List_Table {
 				printf( __( 'Select %s' ), _draft_or_post_title() );
 			?></label>
 			<input id="cb-select-<?php the_ID(); ?>" type="checkbox" name="post[]" value="<?php the_ID(); ?>" />
-			<div class="locked-indicator"></div>
+			<div class="locked-indicator">
+				<span class="locked-indicator-icon" aria-hidden="true"></span>
+				<span class="screen-reader-text"><?php
+				printf(
+					/* translators: %s: post title */
+					__( '&#8220;%s&#8221; is locked' ),
+					_draft_or_post_title()
+				);
+				?></span>
+			</div>
 		<?php endif;
 	}
 
@@ -890,6 +899,22 @@ class WP_Posts_List_Table extends WP_List_Table {
 			}
 		}
 
+		$can_edit_post = current_user_can( 'edit_post', $post->ID );
+
+		if ( $can_edit_post && $post->post_status != 'trash' ) {
+			$lock_holder = wp_check_post_lock( $post->ID );
+
+			if ( $lock_holder ) {
+				$lock_holder = get_userdata( $lock_holder );
+				$locked_avatar = get_avatar( $lock_holder->ID, 18 );
+				$locked_text = esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name ) );
+			} else {
+				$locked_avatar = $locked_text = '';
+			}
+
+			echo '<div class="locked-info"><span class="locked-avatar">' . $locked_avatar . '</span> <span class="locked-text">' . $locked_text . "</span></div>\n";
+		}
+
 		$pad = str_repeat( '&#8212; ', $this->current_level );
 		echo "<strong>";
 
@@ -907,7 +932,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 			echo $this->get_edit_link( $format_args, $label . ':', $format_class );
 		}
 
-		$can_edit_post = current_user_can( 'edit_post', $post->ID );
 		$title = _draft_or_post_title();
 
 		if ( $can_edit_post && $post->post_status != 'trash' ) {
@@ -929,20 +953,6 @@ class WP_Posts_List_Table extends WP_List_Table {
 			echo ' | ' . $post_type_object->labels->parent_item_colon . ' ' . esc_html( $parent_name );
 		}
 		echo "</strong>\n";
-
-		if ( $can_edit_post && $post->post_status != 'trash' ) {
-			$lock_holder = wp_check_post_lock( $post->ID );
-
-			if ( $lock_holder ) {
-				$lock_holder = get_userdata( $lock_holder );
-				$locked_avatar = get_avatar( $lock_holder->ID, 18 );
-				$locked_text = esc_html( sprintf( __( '%s is currently editing' ), $lock_holder->display_name ) );
-			} else {
-				$locked_avatar = $locked_text = '';
-			}
-
-			echo '<div class="locked-info"><span class="locked-avatar">' . $locked_avatar . '</span> <span class="locked-text">' . $locked_text . "</span></div>\n";
-		}
 
 		if ( ! is_post_type_hierarchical( $this->screen->post_type ) && 'excerpt' === $mode && current_user_can( 'read_post', $post->ID ) ) {
 			the_excerpt();
