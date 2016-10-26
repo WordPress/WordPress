@@ -92,11 +92,6 @@ body.customize-partial-edit-shortcuts-flash .customize-partial-edit-shortcut:bef
 	visibility: hidden;
 }
 
-.widget button.customize-partial-edit-shortcut-absolute,
-.customize-partial-edit-shortcut-absolute {
-	position: static;
-}
-
 .customize-partial-edit-shortcut-left-margin:before {
 	left: 0;
 }

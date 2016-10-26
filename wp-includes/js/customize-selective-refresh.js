@@ -141,60 +141,10 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			var partial = this, $placementContainer;
 			$placementContainer = $( placement.container );
 			$placementContainer.prepend( $editShortcut );
-			if ( 'absolute' === $placementContainer.css( 'position' ) ) {
-				$editShortcut.addClass( 'customize-partial-edit-shortcut-absolute' );
-				$editShortcut.css( partial.getEditShortcutPositionStyles( $placementContainer ) );
-				partial.whenPageChanges( function() {
-					$editShortcut.css( partial.getEditShortcutPositionStyles( $placementContainer ) );
-				} );
-			}
 			if ( ! $placementContainer.is( ':visible' ) || 'none' === $placementContainer.css( 'display' ) ) {
 				$editShortcut.addClass( 'customize-partial-edit-shortcut-hidden' );
 			}
 			$editShortcut.toggleClass( 'customize-partial-edit-shortcut-left-margin', $editShortcut.offset().left < 1 );
-		},
-
-		/**
-		 * Call a callback function when the page changes.
-		 *
-		 * This calls a callback for any change that might require refreshing the edit shortcuts.
-		 *
-		 * @since 4.7
-		 *
-		 * @param {Function} callback The function to call when the page changes.
-		 * @returns {void}
-		 */
-		whenPageChanges: function( callback ) {
-			var debouncedCallback, $document;
-			debouncedCallback = _.debounce( function() {
-				// Timeout allows any page animations to finish
-				setTimeout( callback, 100 );
-			}, 350 );
-			// When window is resized.
-			$( window ).resize( debouncedCallback );
-			// When any customizer setting changes.
-			api.bind( 'change', debouncedCallback );
-			$document = $( window.document );
-			// After scroll in case there are fixed position elements
-			$document.on( 'scroll', debouncedCallback );
-			// After page click (eg: hamburger menus)
-			$document.on( 'click', debouncedCallback );
-		},
-
-		/**
-		 * Return the CSS positioning for the edit shortcut for a given partial placement.
-		 *
-		 * @since 4.7
-		 *
-		 * @param {jQuery} $placementContainer The placement container element as a jQuery object.
-		 * @return {Object} Object containing CSS positions.
-		 */
-		getEditShortcutPositionStyles: function( $placementContainer ) {
-			return {
-				top: $placementContainer.css( 'top' ),
-				left: $placementContainer.css( 'left' ),
-				right: 'auto'
-			};
 		},
 
 		/**
