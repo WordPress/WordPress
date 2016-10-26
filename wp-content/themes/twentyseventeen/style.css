@@ -3017,13 +3017,18 @@ article.panel-placeholder {
 	display: inline-block;
 }
 
+.no-svg .dropdown-toggle {
+	padding: 0.5em 0 0;
+	right: 0;
+	text-align: center;
+	width: 2em;
+}
+
 .no-svg .dropdown-toggle .svg-fallback.icon-expand {
-	font-size: 16px;
-	font-size: 1em;
-	font-weight: 400;
-	line-height: 2.5em;
-	position: absolute;
-	top: 8px;
+	font-size: 20px;
+	font-size: 1.25rem;
+	font-weight: normal;
+	line-height: 1;
 	-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
 	-ms-transform: rotate(180deg); /* IE 9 */
 	transform: rotate(180deg);
@@ -3037,10 +3042,6 @@ article.panel-placeholder {
 
 .no-svg .dropdown-toggle .svg-fallback.icon-expand:before {
 	content: "\005E";
-	display: block;
-	height: 25px;
-	text-align: center;
-	width: 20px;
 }
 
 /* Social Menu fallbacks */

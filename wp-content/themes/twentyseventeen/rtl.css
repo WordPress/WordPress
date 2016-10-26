@@ -246,6 +246,13 @@ input[type="checkbox"] {
 	text-align: right;
 }
 
+/* SVG Fallback */
+
+.no-svg .dropdown-toggle {
+	left: 0;
+	right: auto;
+}
+
 /* Media queries */
 
 @media screen and (min-width: 48em) {
