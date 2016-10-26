@@ -554,16 +554,6 @@ final class _WP_Editors {
 					// Limit the preview styles in the menu/toolbar
 					'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform',
 
-					// Disable H1 in the drop-down and the menu.
-					'block_formats' => 
-						'Paragraph=p;' .
-						'Heading 2=h2;' .
-						'Heading 3=h3;' .
-						'Heading 4=h4;' .
-						'Heading 5=h5;' .
-						'Heading 6=h6;' .
-						'Preformatted=pre',
-
 					'end_container_on_empty_block' => true,
 					'wpeditimage_disable_captions' => $no_captions,
 					'wpeditimage_html5_captions' => current_theme_supports( 'html5', 'caption' ),
