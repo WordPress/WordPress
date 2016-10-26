@@ -260,10 +260,11 @@ class WP_REST_Server {
 		 * Filters whether the REST API is enabled.
 		 *
 		 * @since 4.4.0
+		 * @deprecated 4.7.0 Use the rest_authentication_errors filter to restrict access to the API
 		 *
 		 * @param bool $rest_enabled Whether the REST API is enabled. Default true.
 		 */
-		$enabled = apply_filters( 'rest_enabled', true );
+		apply_filters_deprecated( 'rest_enabled', array( true ), '4.7.0', 'rest_authentication_errors', __( 'The REST API can no longer be completely disabled, the rest_authentication_errors can be used to restrict access to the API, instead.' ) );
 
 		/**
 		 * Filters whether jsonp is enabled.
@@ -276,10 +277,6 @@ class WP_REST_Server {
 
 		$jsonp_callback = null;
 
-		if ( ! $enabled ) {
-			echo $this->json_error( 'rest_disabled', __( 'The REST API is disabled on this site.' ), 404 );
-			return false;
-		}
 		if ( isset( $_GET['_jsonp'] ) ) {
 			if ( ! $jsonp_enabled ) {
 				echo $this->json_error( 'rest_callback_disabled', __( 'JSONP support is disabled on this site.' ), 400 );
