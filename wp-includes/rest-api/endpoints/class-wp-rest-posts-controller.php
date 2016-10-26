@@ -111,7 +111,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	public function get_items( $request ) {
 
 		// Make sure a search string is set in case the orderby is set to 'relevance'.
-		if ( ! empty( $request['orderby'] ) && 'relevance' === $request['orderby'] && empty( $request['search'] ) && empty( $request['filter']['s'] ) ) {
+		if ( ! empty( $request['orderby'] ) && 'relevance' === $request['orderby'] && empty( $request['search'] ) ) {
 			return new WP_Error( 'rest_no_search_term_defined', __( 'You need to define a search term to order by relevance.' ), array( 'status' => 400 ) );
 		}
 
@@ -159,11 +159,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		// Set after into date query. Date query must be specified as an array of an array.
 		if ( isset( $registered['after'], $request['after'] ) ) {
 			$args['date_query'][0]['after'] = $request['after'];
-		}
-
-		if ( isset( $registered['filter'] ) && is_array( $request['filter'] ) ) {
-			$args = array_merge( $args, $request['filter'] );
-			unset( $args['filter'] );
 		}
 
 		// Ensure our per_page parameter overrides any provided posts_per_page filter.
@@ -269,17 +264,13 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$total_posts = $count_query->found_posts;
 		}
 
-		$max_pages = ceil( $total_posts / (int) $query_args['posts_per_page'] );
+		$max_pages = ceil( $total_posts / (int) $posts_query->query_vars['posts_per_page'] );
 
 		$response = rest_ensure_response( $posts );
 		$response->header( 'X-WP-Total', (int) $total_posts );
 		$response->header( 'X-WP-TotalPages', (int) $max_pages );
 
 		$request_params = $request->get_query_params();
-		if ( ! empty( $request_params['filter'] ) ) {
-			// Normalize the pagination params.
-			unset( $request_params['filter']['posts_per_page'], $request_params['filter']['paged'] );
-		}
 		$base = add_query_arg( $request_params, rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ) );
 
 		if ( $page > 1 ) {
@@ -1909,9 +1900,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			'sanitize_callback' => 'sanitize_key',
 			'type'              => 'string',
 			'validate_callback' => array( $this, 'validate_user_can_query_private_statuses' ),
-		);
-		$params['filter'] = array(
-			'description'       => __( 'Use WP Query arguments to modify the response; private query vars require appropriate authorization.' ),
 		);
 
 		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
