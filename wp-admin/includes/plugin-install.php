@@ -574,7 +574,7 @@ function install_plugin_information() {
 					}
 					?></li>
 			<?php } if ( ! empty( $api->slug ) && empty( $api->external ) ) { ?>
-				<li><a target="_blank" href="https://wordpress.org/plugins/<?php echo $api->slug; ?>/"><?php _e( 'WordPress.org Plugin Page &#187;' ); ?></a></li>
+				<li><a target="_blank" href="<?php echo __( 'https://wordpress.org/plugins/' ) . $api->slug; ?>/"><?php _e( 'WordPress.org Plugin Page &#187;' ); ?></a></li>
 			<?php } if ( ! empty( $api->homepage ) ) { ?>
 				<li><a target="_blank" href="<?php echo esc_url( $api->homepage ); ?>"><?php _e( 'Plugin Homepage &#187;' ); ?></a></li>
 			<?php } if ( ! empty( $api->donate_link ) && empty( $api->contributors ) ) { ?>
