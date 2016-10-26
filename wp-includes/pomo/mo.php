@@ -16,15 +16,36 @@ class MO extends Gettext_Translations {
 	var $_nplurals = 2;
 
 	/**
+	 * Loaded MO file.
+	 *
+	 * @var string
+	 */
+	private $filename = '';
+
+	/**
+	 * Returns the loaded MO file.
+	 *
+	 * @return string The loaded MO file.
+	 */
+	public function get_filename() {
+		return $this->filename;
+	}
+
+	/**
 	 * Fills up with the entries from MO file $filename
 	 *
 	 * @param string $filename MO file to load
 	 */
 	function import_from_file($filename) {
-		$reader = new POMO_FileReader($filename);
-		if (!$reader->is_resource())
+		$reader = new POMO_FileReader( $filename );
+
+		if ( ! $reader->is_resource() ) {
 			return false;
-		return $this->import_from_reader($reader);
+		}
+
+		$this->filename = (string) $filename;
+
+		return $this->import_from_reader( $reader );
 	}
 
 	/**

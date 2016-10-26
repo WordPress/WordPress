@@ -211,7 +211,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	// (Re)create it, if it's gone missing
 	if ( ! ( $phpmailer instanceof PHPMailer ) ) {
 		require_once ABSPATH . WPINC . '/class-phpmailer.php';
-		require_once ABSPATH . WPINC . '/class-smtp.php'; 
+		require_once ABSPATH . WPINC . '/class-smtp.php';
 		$phpmailer = new PHPMailer( true );
 	}
 
@@ -1418,6 +1418,8 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 		$emails = array_flip( $emails );
 	}
 
+	$switched_locale = switch_to_locale( get_locale() );
+
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
 
 	// The blogname option is escaped with esc_html on the way into the database in sanitize_option
@@ -1522,6 +1524,10 @@ function wp_notify_postauthor( $comment_id, $deprecated = null ) {
 		@wp_mail( $email, wp_specialchars_decode( $subject ), $notify_message, $message_headers );
 	}
 
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
+
 	return true;
 }
 endif;
@@ -1568,6 +1574,8 @@ function wp_notify_moderator($comment_id) {
 		if ( 0 !== strcasecmp( $user->user_email, get_option( 'admin_email' ) ) )
 			$emails[] = $user->user_email;
 	}
+
+	$switched_locale = switch_to_locale( get_locale() );
 
 	$comment_author_domain = @gethostbyaddr($comment->comment_author_IP);
 	$comments_waiting = $wpdb->get_var("SELECT count(comment_ID) FROM $wpdb->comments WHERE comment_approved = '0'");
@@ -1664,6 +1672,10 @@ function wp_notify_moderator($comment_id) {
 		@wp_mail( $email, wp_specialchars_decode( $subject ), $notify_message, $message_headers );
 	}
 
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
+
 	return true;
 }
 endif;
@@ -1723,11 +1735,16 @@ function wp_new_user_notification( $user_id, $deprecated = null, $notify = '' ) 
 	$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 
 	if ( 'user' !== $notify ) {
+		$switched_locale = switch_to_locale( get_locale() );
 		$message  = sprintf( __( 'New user registration on your site %s:' ), $blogname ) . "\r\n\r\n";
 		$message .= sprintf( __( 'Username: %s' ), $user->user_login ) . "\r\n\r\n";
 		$message .= sprintf( __( 'Email: %s' ), $user->user_email ) . "\r\n";
 
 		@wp_mail( get_option( 'admin_email' ), sprintf( __( '[%s] New User Registration' ), $blogname ), $message );
+
+		if ( $switched_locale ) {
+			restore_previous_locale();
+		}
 	}
 
 	// `$deprecated was pre-4.3 `$plaintext_pass`. An empty `$plaintext_pass` didn't sent a user notifcation.
@@ -1748,6 +1765,8 @@ function wp_new_user_notification( $user_id, $deprecated = null, $notify = '' ) 
 	$hashed = time() . ':' . $wp_hasher->HashPassword( $key );
 	$wpdb->update( $wpdb->users, array( 'user_activation_key' => $hashed ), array( 'user_login' => $user->user_login ) );
 
+	$switched_locale = switch_to_locale( get_user_locale( $user ) );
+
 	$message = sprintf(__('Username: %s'), $user->user_login) . "\r\n\r\n";
 	$message .= __('To set your password, visit the following address:') . "\r\n\r\n";
 	$message .= '<' . network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user->user_login), 'login') . ">\r\n\r\n";
@@ -1755,6 +1774,10 @@ function wp_new_user_notification( $user_id, $deprecated = null, $notify = '' ) 
 	$message .= wp_login_url() . "\r\n";
 
 	wp_mail($user->user_email, sprintf(__('[%s] Your username and password info'), $blogname), $message);
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
 }
 endif;
 

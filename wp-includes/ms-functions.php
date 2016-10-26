@@ -800,6 +800,10 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
 		$admin_email = 'support@' . $_SERVER['SERVER_NAME'];
 	$from_name = get_site_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
+
+	$user = get_user_by( 'login', $user );
+	$switched_locale = switch_to_locale( get_user_locale( $user ) );
+
 	$message = sprintf(
 		/**
 		 * Filters the message content of the new blog notification email.
@@ -849,6 +853,11 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
 		esc_url( 'http://' . $domain . $path )
 	);
 	wp_mail( $user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
+
 	return true;
 }
 
@@ -886,6 +895,9 @@ function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array(
 	 */
 	if ( ! apply_filters( 'wpmu_signup_user_notification', $user, $user_email, $key, $meta ) )
 		return false;
+
+	$user = get_user_by( 'login', $user );
+	$switched_locale = switch_to_locale( get_user_locale( $user ) );
 
 	// Send email with activation link.
 	$admin_email = get_site_option( 'admin_email' );
@@ -934,6 +946,11 @@ function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array(
 		$user
 	);
 	wp_mail( $user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
+
 	return true;
 }
 
@@ -1448,6 +1465,10 @@ function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta
 	if ( ! apply_filters( 'wpmu_welcome_notification', $blog_id, $user_id, $password, $title, $meta ) )
 		return false;
 
+	$user = get_userdata( $user_id );
+
+	$switched_locale = switch_to_locale( get_user_locale( $user ) );
+
 	$welcome_email = get_site_option( 'welcome_email' );
 	if ( $welcome_email == false ) {
 		/* translators: Do not translate USERNAME, SITE_NAME, BLOG_URL, PASSWORD: those are placeholders. */
@@ -1468,7 +1489,6 @@ We hope you enjoy your new site. Thanks!
 	}
 
 	$url = get_blogaddress_by_id($blog_id);
-	$user = get_userdata( $user_id );
 
 	$welcome_email = str_replace( 'SITE_NAME', $current_network->site_name, $welcome_email );
 	$welcome_email = str_replace( 'BLOG_TITLE', $title, $welcome_email );
@@ -1512,6 +1532,11 @@ We hope you enjoy your new site. Thanks!
 	 */
 	$subject = apply_filters( 'update_welcome_subject', sprintf( __( 'New %1$s Site: %2$s' ), $current_network->site_name, wp_unslash( $title ) ) );
 	wp_mail( $user->user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
+
 	return true;
 }
 
@@ -1550,6 +1575,8 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	$welcome_email = get_site_option( 'welcome_user_email' );
 
 	$user = get_userdata( $user_id );
+
+	$switched_locale = switch_to_locale( get_user_locale( $user ) );
 
 	/**
 	 * Filters the content of the welcome email after user activation.
@@ -1590,6 +1617,11 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	 */
 	$subject = apply_filters( 'update_welcome_user_subject', sprintf( __( 'New %1$s User: %2$s' ), $current_network->site_name, $user->user_login) );
 	wp_mail( $user->user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
+
 	return true;
 }
 

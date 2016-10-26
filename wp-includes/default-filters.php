@@ -406,6 +406,7 @@ add_action( 'init', 'create_initial_post_types', 0 ); // highest priority
 add_action( 'admin_menu', '_add_post_type_submenus' );
 add_action( 'before_delete_post', '_reset_front_page_settings_for_post' );
 add_action( 'wp_trash_post',      '_reset_front_page_settings_for_post' );
+add_action( 'change_locale', 'create_initial_post_types' );
 
 // Post Formats
 add_filter( 'request', '_post_format_request' );
@@ -431,6 +432,7 @@ add_filter( 'style_loader_src', 'wp_style_loader_src', 10, 2 );
 
 // Taxonomy
 add_action( 'init', 'create_initial_taxonomies', 0 ); // highest priority
+add_action( 'change_locale', 'create_initial_taxonomies' );
 
 // Canonical
 add_action( 'template_redirect', 'redirect_canonical' );

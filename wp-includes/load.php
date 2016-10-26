@@ -841,13 +841,14 @@ function get_current_network_id() {
  * @since 3.4.0
  * @access private
  *
- * @global string    $text_direction
- * @global WP_Locale $wp_locale      The WordPress date and time locale object.
+ * @global string             $text_direction
+ * @global WP_Locale          $wp_locale      The WordPress date and time locale object.
+ * @global WP_Locale_Switcher $wp_locale_switcher WordPress locale switcher object.
  *
  * @staticvar bool $loaded
  */
 function wp_load_translations_early() {
-	global $text_direction, $wp_locale;
+	global $text_direction, $wp_locale, $wp_locale_switcher;
 
 	static $loaded = false;
 	if ( $loaded )
@@ -864,6 +865,7 @@ function wp_load_translations_early() {
 	require_once ABSPATH . WPINC . '/pomo/mo.php';
 	require_once ABSPATH . WPINC . '/l10n.php';
 	require_once ABSPATH . WPINC . '/class-wp-locale.php';
+	require_once ABSPATH . WPINC . '/class-wp-locale-switcher.php';
 
 	// General libraries
 	require_once ABSPATH . WPINC . '/plugin.php';
@@ -915,6 +917,8 @@ function wp_load_translations_early() {
 	}
 
 	$wp_locale = new WP_Locale();
+	$wp_locale_switcher = new WP_Locale_Switcher();
+	$wp_locale_switcher->init();
 }
 
 /**

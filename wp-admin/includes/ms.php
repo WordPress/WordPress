@@ -272,6 +272,8 @@ function update_option_new_admin_email( $old_value, $value ) {
 	);
 	update_option( 'adminhash', $new_admin_email );
 
+	$switched_locale = switch_to_locale( get_user_locale() );
+
 	/* translators: Do not translate USERNAME, ADMIN_URL, EMAIL, SITENAME, SITEURL: those are placeholders. */
 	$email_text = __( 'Howdy ###USERNAME###,
 
@@ -315,6 +317,10 @@ All at ###SITENAME###
 	$content = str_replace( '###SITEURL###', network_home_url(), $content );
 
 	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $content );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
 }
 
 /**
@@ -352,6 +358,8 @@ function send_confirmation_on_profile_email() {
 			'newemail' => $_POST['email']
 		);
 		update_user_meta( $current_user->ID, '_new_email', $new_user_email );
+
+		$switched_locale = switch_to_locale( get_user_locale() );
 
 		/* translators: Do not translate USERNAME, ADMIN_URL, EMAIL, SITENAME, SITEURL: those are placeholders. */
 		$email_text = __( 'Howdy ###USERNAME###,
@@ -395,6 +403,10 @@ All at ###SITENAME###
 
 		wp_mail( $_POST['email'], sprintf( __( '[%s] New Email Address' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $content );
 		$_POST['email'] = $current_user->user_email;
+
+		if ( $switched_locale ) {
+			restore_previous_locale();
+		}
 	}
 }
 

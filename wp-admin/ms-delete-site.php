@@ -42,6 +42,8 @@ if ( isset( $_POST['action'] ) && $_POST['action'] == 'deleteblog' && isset( $_P
 
 	$url_delete = esc_url( admin_url( 'ms-delete-site.php?h=' . $hash ) );
 
+	$switched_locale = switch_to_locale( get_locale() );
+
 	/* translators: Do not translate USERNAME, URL_DELETE, SITE_NAME: those are placeholders. */
 	$content = __( "Howdy ###USERNAME###,
 
@@ -73,6 +75,10 @@ Webmaster
 	$content = str_replace( '###SITE_NAME###', get_network()->site_name, $content );
 
 	wp_mail( get_option( 'admin_email' ), "[ " . wp_specialchars_decode( get_option( 'blogname' ) ) . " ] ".__( 'Delete My Site' ), $content );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
 	?>
 
 	<p><?php _e( 'Thank you. Please check your email for a link to confirm your action. Your site will not be deleted until this link is clicked.' ) ?></p>
