@@ -867,6 +867,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			'description'       => __( 'Whether to hide resources not assigned to any posts.' ),
 			'type'              => 'boolean',
 			'default'           => false,
+			'sanitize_callback' => 'rest_sanitize_request_arg',
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 		if ( $taxonomy->hierarchical ) {
