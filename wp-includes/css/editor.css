@@ -657,7 +657,8 @@ div.mce-menu .mce-menu-item-sep,
 }
 
 .mce-menu.mce-menu-align .mce-menu-shortcut {
-	bottom: 0.5em;
+	bottom: 0.6em;
+	font-size: 0.9em;
 }
 
 /* Buttons in modals */
