@@ -1819,6 +1819,27 @@ function register_initial_settings() {
 		'description'  => __( 'Blog pages show at most.' ),
 		'default'      => 10,
 	) );
+
+	register_setting( 'discussion', 'default_ping_status', array(
+		'show_in_rest' => array(
+			'schema'   => array(
+				'enum' => array( 'open', 'closed' ),
+			),
+		),
+		'type'         => 'string',
+		'description'  => __( 'Allow link notifications from other blogs (pingbacks and trackbacks) on new articles.' ),
+	) );
+
+	register_setting( 'discussion', 'default_comment_status', array(
+		'show_in_rest' => array(
+			'schema'   => array(
+				'enum' => array( 'open', 'closed' ),
+			),
+		),
+		'type'         => 'string',
+		'description'  => __( 'Allow people to post comments on new articles.' ),
+	) );
+
 }
 
 /**
