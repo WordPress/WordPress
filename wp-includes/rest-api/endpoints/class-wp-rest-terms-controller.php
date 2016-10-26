@@ -451,8 +451,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_term_invalid', __( "Resource doesn't exist." ), array( 'status' => 404 ) );
 		}
 
-		$taxonomy_obj = get_taxonomy( $this->taxonomy );
-		if ( ! current_user_can( $taxonomy_obj->cap->edit_terms ) ) {
+		if ( ! current_user_can( 'edit_term', $term->term_id ) ) {
 			return new WP_Error( 'rest_cannot_update', __( 'Sorry, you cannot update resource.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
@@ -527,8 +526,8 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		if ( ! $term ) {
 			return new WP_Error( 'rest_term_invalid', __( "Resource doesn't exist." ), array( 'status' => 404 ) );
 		}
-		$taxonomy_obj = get_taxonomy( $this->taxonomy );
-		if ( ! current_user_can( $taxonomy_obj->cap->delete_terms ) ) {
+
+		if ( ! current_user_can( 'delete_term', $term->term_id ) ) {
 			return new WP_Error( 'rest_cannot_delete', __( 'Sorry, you cannot delete resource.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 		return true;
