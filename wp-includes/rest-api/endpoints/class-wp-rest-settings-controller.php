@@ -3,11 +3,18 @@
 /**
  * Manage a WordPress site's settings.
  */
-
 class WP_REST_Settings_Controller extends WP_REST_Controller {
 
-	protected $rest_base = 'settings';
-	protected $namespace = 'wp/v2';
+	/**
+	 * Constructor.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 */
+	public function __construct() {
+		$this->namespace = 'wp/v2';
+		$this->rest_base = 'settings';
+	}
 
 	/**
 	 * Register the routes for the objects of the controller.
