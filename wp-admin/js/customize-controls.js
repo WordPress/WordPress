@@ -5629,18 +5629,21 @@
 
 			// @todo These should actually toggle the active state, but without the preview overriding the state in data.activeControls.
 			toggleVisibility = function( preset ) {
-				api.control( 'background_position' ).container.toggle( visibility[ preset ][0] );
-				api.control( 'background_size' ).container.toggle( visibility[ preset ][1] );
-				api.control( 'background_repeat' ).container.toggle( visibility[ preset ][2] );
-				api.control( 'background_attachment' ).container.toggle( visibility[ preset ][3] );
+				_.each( [ 'background_position', 'background_size', 'background_repeat', 'background_attachment' ], function( controlId, i ) {
+					var control = api.control( controlId );
+					if ( control ) {
+						control.container.toggle( visibility[ preset ][ i ] );
+					}
+				} );
 			};
 
 			updateSettings = function( preset ) {
-				api( 'background_position_x' ).set( values[ preset ][0] );
-				api( 'background_position_y' ).set( values[ preset ][1] );
-				api( 'background_size' ).set( values[ preset ][2] );
-				api( 'background_repeat' ).set( values[ preset ][3] );
-				api( 'background_attachment' ).set( values[ preset ][4] );
+				_.each( [ 'background_position_x', 'background_position_y', 'background_size', 'background_repeat', 'background_attachment' ], function( settingId, i ) {
+					var setting = api( settingId );
+					if ( setting ) {
+						setting.set( values[ preset ][ i ] );
+					}
+				} );
 			};
 
 			preset = control.setting.get();
