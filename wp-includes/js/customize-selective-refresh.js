@@ -138,8 +138,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		 * @returns {void}
 		 */
 		positionEditShortcut: function( placement, $editShortcut ) {
-			var partial = this, $placementContainer;
-			$placementContainer = $( placement.container );
+			var $placementContainer = $( placement.container );
 			$placementContainer.prepend( $editShortcut );
 			if ( ! $placementContainer.is( ':visible' ) || 'none' === $placementContainer.css( 'display' ) ) {
 				$editShortcut.addClass( 'customize-partial-edit-shortcut-hidden' );
