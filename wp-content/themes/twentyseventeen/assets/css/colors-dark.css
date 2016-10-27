@@ -435,6 +435,7 @@ body.colors-dark,
 }
 
 body.colors-dark,
+.colors-dark .site-content-contain,
 .colors-dark .navigation-top,
 .colors-dark .main-navigation ul {
 	background: #222;
