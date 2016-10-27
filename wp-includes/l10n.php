@@ -53,10 +53,11 @@ function get_locale() {
 	// If $wpdb hasn't been initialised yet, we can only return what we have.
 	if ( ! $wpdb ) {
 		if ( ! $locale ) {
-			return 'en_US';
+			$locale = 'en_US';
 		}
 
-		return $locale;
+		/** This filter is documented in wp-includes/l10n.php */
+		return apply_filters( 'locale', $locale );
 	}
 
 	// If multisite, check options.
