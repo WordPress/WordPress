@@ -693,8 +693,17 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 .add-menu-item-pagelinks {
-	margin: .5em auto;
+	margin: .5em -10px;
 	text-align: center;
+}
+
+.add-menu-item-pagelinks .page-numbers {
+	display: inline-block;
+	min-width: 20px;
+}
+
+.add-menu-item-pagelinks .page-numbers.dots {
+	min-width: 0;
 }
 
 .link-to-original {
