@@ -474,18 +474,25 @@ class WP_Admin_Bar {
 		if ( $node->type != 'item' )
 			return;
 
-		$is_parent = ! empty( $node->children );
-		$has_link  = ! empty( $node->href );
+		$is_parent             = ! empty( $node->children );
+		$has_link              = ! empty( $node->href );
+		$is_root_top_item      = 'root-default' === $node->parent;
+		$is_top_secondary_item = 'top-secondary' === $node->parent;
 
 		// Allow only numeric values, then casted to integers, and allow a tabindex value of `0` for a11y.
 		$tabindex = ( isset( $node->meta['tabindex'] ) && is_numeric( $node->meta['tabindex'] ) ) ? (int) $node->meta['tabindex'] : '';
 		$aria_attributes = ( '' !== $tabindex ) ? ' tabindex="' . $tabindex . '"' : '';
 
-		$menuclass = '';
+		$menuclass = $arrow_right = '';
 
 		if ( $is_parent ) {
 			$menuclass = 'menupop ';
 			$aria_attributes .= ' aria-haspopup="true"';
+		}
+
+		// Print the right arrow icon for the primary menu children with children.
+		if ( ! $is_root_top_item && ! $is_top_secondary_item && $is_parent ) {
+			$arrow_right = '<span class="wp-admin-bar-arrow-right" aria-hidden="true"></span>';
 		}
 
 		if ( ! empty( $node->meta['class'] ) )
@@ -532,7 +539,7 @@ class WP_Admin_Bar {
 				?>><?php
 			endif;
 
-			echo $node->title;
+			echo $arrow_right . $node->title;
 
 			if ( $has_link ) :
 				?></a><?php
