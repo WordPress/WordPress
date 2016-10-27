@@ -572,8 +572,18 @@ code {
 	font-size: 23px;
 	font-weight: 400;
 	margin: 0;
-	padding: 9px 15px 4px 0;
+	padding: 9px 0 4px 0;
 	line-height: 29px;
+}
+
+.wrap h1.wp-heading-inline {
+	display: inline-block;
+	margin-right: 5px;
+}
+
+.wp-header-end {
+	visibility: hidden;
+	margin: -2px 0 0;
 }
 
 .subtitle {
@@ -606,6 +616,10 @@ code {
 	color: #0073aa; /* some of these controls are button elements and don't inherit from links */
 	cursor: pointer;
 	outline: 0;
+}
+
+.wrap .wp-heading-inline + .page-title-action {
+	margin-left: 0;
 }
 
 .wrap .add-new-h2:hover, /* deprecated */
@@ -3652,6 +3666,10 @@ img {
 	#collapse-menu,
 	.post-format-select {
 		display: none !important;
+	}
+
+	.wrap h1.wp-heading-inline {
+		margin-bottom: 0.5em;
 	}
 
 	.wrap .add-new-h2, /* deprecated */

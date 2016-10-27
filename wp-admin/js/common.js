@@ -202,7 +202,8 @@ $document.ready( function() {
 			wpwrap: $wpwrap.height(),
 			adminbar: $adminbar.height(),
 			menu: $adminMenuWrap.height()
-		};
+		},
+		$headerEnd = $( '.wp-header-end' );
 
 
 	// when the menu is folded, make the fly-out submenu header clickable
@@ -396,8 +397,13 @@ $document.ready( function() {
 	/*
 	 * The `.below-h2` class is here just for backward compatibility with plugins
 	 * that are (incorrectly) using it. Do not use. Use `.inline` instead. See #34570.
+	 * If '.wp-header-end' is found, append the notices after it otherwise
+	 * after the first h1 or h2 heading found within the main content.
 	 */
-	$( 'div.updated, div.error, div.notice' ).not( '.inline, .below-h2' ).insertAfter( $( '.wrap h1, .wrap h2' ).first() );
+	if ( ! $headerEnd.length ) {
+		$headerEnd = $( '.wrap h1, .wrap h2' ).first();
+	}
+	$( 'div.updated, div.error, div.notice' ).not( '.inline, .below-h2' ).insertAfter( $headerEnd );
 
 	// Make notices dismissible
 	function makeNoticesDismissible() {
