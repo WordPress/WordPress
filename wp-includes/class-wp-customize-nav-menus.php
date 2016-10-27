@@ -499,6 +499,7 @@ final class WP_Customize_Nav_Menus {
 				$nav_menus_setting_ids[] = $setting_id;
 			}
 		}
+		$this->manager->add_dynamic_settings( $nav_menus_setting_ids );
 		foreach ( $nav_menus_setting_ids as $setting_id ) {
 			$setting = $this->manager->get_setting( $setting_id );
 			if ( $setting ) {
