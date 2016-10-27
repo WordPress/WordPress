@@ -1314,6 +1314,7 @@ a:hover .nav-title,
 	border-top: 1px solid #eee;
 	font-size: 16px;
 	font-size: 1rem;
+	position: relative;
 }
 
 .navigation-top .wrap {
@@ -1555,8 +1556,10 @@ body {
 
 .site-branding {
 	padding: 1em 0;
+	position: relative;
 	-webkit-transition: margin-bottom 0.2s;
 	transition: margin-bottom 0.2s;
+	z-index: 3;
 }
 
 .site-branding a {
@@ -1650,15 +1653,13 @@ body:not(.title-tagline-hidden) .site-branding-text {
 }
 
 .custom-header-image {
-	background-position: center center;
-	background-repeat: no-repeat;
-	-webkit-background-size: cover;
-	background-size: cover;
 	bottom: 0;
 	left: 0;
+	overflow: hidden;
 	position: absolute;
 	right: 0;
 	top: 0;
+	width: 100%;
 }
 
 .custom-header-image:before {
@@ -1674,10 +1675,35 @@ body:not(.title-tagline-hidden) .site-branding-text {
 	left: 0;
 	position: absolute;
 	right: 0;
+	z-index: 2;
 }
 
-.has-header-image:not(.twentyseventeen-front-page):not(.home) .custom-header-image {
-	background-position: center bottom;
+.has-header-image .custom-header-image img,
+.has-header-image .custom-header-image video,
+.has-header-image .custom-header-image iframe {
+	position: fixed;
+	height: auto;
+	left: 50%;
+	max-width: 1000%;
+	min-height: 100%;
+	min-width: 100%;
+	min-width: 100vw; /* vw prevents 1px gap on left that 100% has */
+	width: auto;
+	top: 50%;
+	-ms-transform: translateX(-50%) translateY(-50%);
+	-moz-transform: translateX(-50%) translateY(-50%);
+	-webkit-transform: translateX(-50%) translateY(-50%);
+	transform: translateX(-50%) translateY(-50%);
+}
+
+.has-header-image:not(.twentyseventeen-front-page):not(.home) .custom-header-image img {
+	bottom: 0;
+	position: absolute;
+	top: auto;
+	-ms-transform: translateX(-50%) translateY(0);
+	-moz-transform: translateX(-50%) translateY(0);
+	-webkit-transform: translateX(-50%) translateY(0);
+	transform: translateX(-50%) translateY(0);
 }
 
 body:not(.has-header-image) .custom-header-image {
@@ -1776,6 +1802,11 @@ body:not(.has-header-image) .custom-header-image {
 /*--------------------------------------------------------------
 ## Regular Content
 --------------------------------------------------------------*/
+
+.site-content-contain {
+	background-color: #fff;
+	position: relative;
+}
 
 .site-content {
 	padding: 2.5em 0 0;
@@ -2642,7 +2673,8 @@ h2.widget-title {
 # Media
 --------------------------------------------------------------*/
 
-img {
+img,
+video {
 	height: auto; /* Make sure images are scaled correctly. */
 	max-width: 100%; /* Adhere to container width. */
 }
@@ -3287,12 +3319,17 @@ article.panel-placeholder {
 
 	.has-header-image.twentyseventeen-front-page .custom-header,
 	.has-header-image.home.blog .custom-header {
-		display: block;
 		min-height: 0;
 	}
 
 	.custom-header-image {
 		height: 165px;
+		position: relative;
+	}
+
+	.twentyseventeen-front-page.has-header-image .custom-header-image,
+	.home.blog.has-header-image .custom-header-image {
+		height: 0;
 		position: relative;
 	}
 
@@ -3303,13 +3340,6 @@ article.panel-placeholder {
 		position: absolute;
 		right: 0;
 		top: 0;
-	}
-
-	.twentyseventeen-front-page.has-header-image .custom-header-image,
-	.home.blog.has-header-image .custom-header-image {
-		height: 0;
-		padding-top: 66%;
-		position: relative;
 	}
 
 	.custom-logo-link {
@@ -3591,7 +3621,8 @@ article.panel-placeholder {
 		height: 1200px;
 		height: 100vh;
 		max-height: 100%;
-		padding: 10% 0;
+		overflow: hidden;
+		/* padding: 10% 0; */
 	}
 
 	.twentyseventeen-front-page.has-header-image .custom-header-image:before,
@@ -3937,11 +3968,6 @@ article.panel-placeholder {
 }
 
 @media screen and ( min-width: 55em ) {
-
-	.twentyseventeen-front-page.has-header-image .custom-header-image,
-	.home.blog.has-header-image .custom-header-image {
-		background-attachment: fixed;
-	}
 
 	.panel-image {
 		background-attachment: fixed;

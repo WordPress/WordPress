@@ -40,6 +40,7 @@ function twentyfourteen_custom_header_setup() {
 		'width'                  => 1260,
 		'height'                 => 240,
 		'flex-height'            => true,
+		'video'                  => true,
 		'wp-head-callback'       => 'twentyfourteen_header_style',
 		'admin-head-callback'    => 'twentyfourteen_admin_header_style',
 		'admin-preview-callback' => 'twentyfourteen_admin_header_image',

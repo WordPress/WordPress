@@ -35,7 +35,7 @@ function twentyseventeen_body_classes( $classes ) {
 	}
 
 	// Add a class if there is a custom header.
-	if ( has_header_image() ) {
+	if ( has_header_image() || has_header_video() && is_front_page() ) {
 		$classes[] = 'has-header-image';
 	}
 

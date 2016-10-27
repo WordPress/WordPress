@@ -434,7 +434,7 @@ function twentyfourteen_body_classes( $classes ) {
 		$classes[] = 'group-blog';
 	}
 
-	if ( get_header_image() ) {
+	if ( get_header_image() || function_exists( 'has_header_video' ) && has_header_video() ) {
 		$classes[] = 'header-image';
 	} elseif ( ! in_array( $GLOBALS['pagenow'], array( 'wp-activate.php', 'wp-signup.php' ) ) ) {
 		$classes[] = 'masthead-fixed';

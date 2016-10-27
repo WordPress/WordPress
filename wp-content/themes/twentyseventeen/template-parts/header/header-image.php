@@ -14,12 +14,17 @@
 	$header_image = get_header_image();
 
 	// Check if Custom Header image has been added.
-	if ( ! empty( $header_image ) ) : ?>
+	if ( has_custom_header() ) :
+	?>
 
-		<div class="custom-header-image" style="background-image: url(<?php echo esc_url( $header_image ); ?>)"></div>
+		<?php // Output the full custom header - video and/or image fallback. ?>
+		<div class="custom-header-image">
+			<?php the_custom_header_markup(); ?>
+		</div>
 		<?php get_template_part( 'template-parts/header/site', 'branding' ); ?>
 
 	<?php else : ?>
+
 		<?php // Otherwise, show a blank header. ?>
 		<div class="custom-header-simple">
 			<?php get_template_part( 'template-parts/header/site', 'branding' ); ?>

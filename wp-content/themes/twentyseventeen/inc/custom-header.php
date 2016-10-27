@@ -39,6 +39,7 @@ function twentyseventeen_custom_header_setup() {
 		'width'              => 2000,
 		'height'             => 1200,
 		'flex-height'        => true,
+		'video'              => true,
 		'wp-head-callback'   => 'twentyseventeen_header_style',
 	) ) );
 

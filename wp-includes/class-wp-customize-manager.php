@@ -363,6 +363,9 @@ final class WP_Customize_Manager {
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'render_section_templates' ), 1 );
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'render_control_templates' ), 1 );
 
+		// Export header video settings with the partial response.
+		add_filter( 'customize_render_partials_response', array( $this, 'export_header_video_settings' ), 10, 3 );
+
 		// Export the settings to JS via the _wpCustomizeSettings variable.
 		add_action( 'customize_controls_print_footer_scripts', array( $this, 'customize_pane_settings' ), 1000 );
 
@@ -3249,10 +3252,52 @@ final class WP_Customize_Manager {
 
 		/* Custom Header */
 
+		if ( current_theme_supports( 'custom-header', 'video' ) ) {
+			$title = __( 'Header Visuals' );
+			$description = __( 'If you add a video, the image will be used as a fallback while the video loads.' );
+			$width = absint( get_theme_support( 'custom-header', 'width' ) );
+			$height = absint( get_theme_support( 'custom-header', 'height' ) );
+			if ( $width && $height ) {
+				/* translators: %s: header size in pixels */
+				$control_description = sprintf( __( 'Upload your video in <code>.mp4</code> format and minimize its file size for best results. Your theme recommends dimensions of %s pixels.' ),
+					sprintf( '<strong>%s &times; %s</strong>', $width, $height )
+				);
+			} elseif ( $width ) {
+				/* translators: %s: header width in pixels */
+				$control_description = sprintf( __( 'Upload your video in <code>.mp4</code> format and minimize its file size for best results. Your theme recommends a width of %s pixels.' ),
+					sprintf( '<strong>%s</strong>', $width )
+				);
+			} else {
+				/* translators: %s: header height in pixels */
+				$control_description = sprintf( __( 'Upload your video in <code>.mp4</code> format and minimize its file size for best results. Your theme recommends a height of %s pixels.' ),
+					sprintf( '<strong>%s</strong>', $height )
+				);
+			}
+		} else {
+			$title = __( 'Header Image' );
+			$description = '';
+			$control_description = '';
+		}
+
 		$this->add_section( 'header_image', array(
-			'title'          => __( 'Header Image' ),
+			'title'          => $title,
+			'description'    => $description,
 			'theme_supports' => 'custom-header',
 			'priority'       => 60,
+		) );
+
+		$this->add_setting( 'header_video', array(
+			'theme_supports'    => array( 'custom-header', 'video' ),
+			'transport'         => 'postMessage',
+			'sanitize_callback' => 'absint',
+			'validate_callback' => array( $this, '_validate_header_video' ),
+		) );
+
+		$this->add_setting( 'external_header_video', array(
+			'theme_supports'    => array( 'custom-header', 'video' ),
+			'transport'         => 'postMessage',
+			'sanitize_callback' => 'esc_url',
+			'validate_callback' => array( $this, '_validate_external_header_video' ),
 		) );
 
 		$this->add_setting( new WP_Customize_Filter_Setting( $this, 'header_image', array(
@@ -3265,7 +3310,29 @@ final class WP_Customize_Manager {
 			'theme_supports' => 'custom-header',
 		) ) );
 
+		$this->add_control( new WP_Customize_Media_Control( $this, 'header_video', array(
+			'theme_supports' => array( 'custom-header', 'video' ),
+			'label'          => __( 'Header Video' ),
+			'description'    => $control_description,
+			'section'        => 'header_image',
+			'mime_type'      => 'video',
+		) ) );
+
+		$this->add_control( 'external_header_video', array(
+			'theme_supports' => array( 'custom-header', 'video' ),
+			'type'           => 'url',
+			'description'    => __( 'Or, enter a YouTube or Vimeo URL:' ),
+			'section'        => 'header_image',
+		) );
+
 		$this->add_control( new WP_Customize_Header_Image_Control( $this ) );
+
+		$this->selective_refresh->add_partial( 'custom_header', array(
+			'selector'            => '#wp-custom-header',
+			'render_callback'     => 'the_custom_header_markup',
+			'settings'            => array( 'header_video', 'external_header_video', 'header_image' ), // The image is used as a video fallback here.
+			'container_inclusive' => true,
+		) );
 
 		/* Custom Background */
 
@@ -3702,6 +3769,71 @@ final class WP_Customize_Manager {
 			return new WP_Error( 'unrecognized_setting', __( 'Unrecognized background setting.' ) );
 		}
 		return $value;
+	}
+
+	/**
+	 * Export header video settings to facilitate selective refresh.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param array $response Response.
+	 * @param WP_Customize_Selective_Refresh $selective_refresh Selective refresh component.
+	 * @param array $partials Array of partials.
+	 * @return array
+	 */
+	public function export_header_video_settings( $response, $selective_refresh, $partials ) {
+		if ( isset( $partials['header_video'] ) || isset( $partials['external_header_video'] ) ) {
+			$response['custom_header_settings'] = get_header_video_settings();
+		}
+
+		return $response;
+	}
+
+	/**
+	 * Callback for validating the header_video value.
+	 *
+	 * Ensures that the selected video is less than 8MB and provides an error message.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param WP_Error $validity
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function _validate_header_video( $validity, $value ) {
+		$video = get_attached_file( absint( $value ) );
+		if ( $video ) {
+			$size = filesize( $video );
+			if ( 8 < $size / pow( 1024, 2 ) ) { // Check whether the size is larger than 8MB.
+				$validity->add( 'size_too_large', __( 'This video file is too large to use as a header video. Try a shorter video or optimize the compression settings and re-upload a file that is less than 8MB. Or, upload your video to YouTube and link it with the option below.' ) );
+			}
+			if ( '.mp4' !== substr( $video, -4 ) && '.mov' !== substr( $video, -4 ) ) { // Check for .mp4 or .mov format, which (assuming h.264 encoding) are the only cross-browser-supported formats.
+				$validity->add( 'invalid_file_type', __( 'Only <code>.mp4</code> or <code>.mov</code> files may be used for header video. Please convert your video file and try again, or, upload your video to YouTube and link it with the option below.' ) );
+			}
+		}
+		return $validity;
+	}
+
+	/**
+	 * Callback for validating the external_header_video value.
+	 *
+	 * Ensures that the provided URL is for YouTube or Vimeo.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param WP_Error $validity
+	 * @param mixed $value
+	 * @return mixed
+	 */
+	public function _validate_external_header_video( $validity, $value ) {
+		$video = esc_url( $value );
+		if ( $video ) {
+			if ( ! preg_match( '#^https?://(?:www\.)?(?:youtube\.com/watch|youtu\.be/)#', $video )
+			     && ! preg_match( '#^https?://(.+\.)?vimeo\.com/.*#', $video ) ) {
+				$validity->add( 'invalid_url', __( 'Please enter a valid YouTube or Vimeo video URL.' ) );
+			}
+		}
+		return $validity;
 	}
 
 	/**

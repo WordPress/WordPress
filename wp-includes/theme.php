@@ -1264,6 +1264,7 @@ function get_custom_header() {
 		'thumbnail_url' => '',
 		'width'         => get_theme_support( 'custom-header', 'width' ),
 		'height'        => get_theme_support( 'custom-header', 'height' ),
+		'video'         => get_theme_support( 'custom-header', 'video' ),
 	);
 	return (object) wp_parse_args( $data, $default );
 }
@@ -1307,6 +1308,138 @@ function unregister_default_headers( $header ) {
 		return true;
 	} else {
 		return false;
+	}
+}
+
+/**
+ * Check whether a header video is set or not.
+ *
+ * @since 4.7.0
+ *
+ * @see get_header_video_url()
+ *
+ * @return bool Whether a header video is set or not.
+ */
+function has_header_video() {
+	return (bool) get_header_video_url();
+}
+
+/* Retrieve header video URL for custom header.
+ *
+ * Uses a local video if present, or falls back to an external video. Returns false if there is no video.
+ *
+ * @since 4.7.0
+ *
+ * @return string|false
+ */
+function get_header_video_url() {
+	$id = absint( get_theme_mod( 'header_video' ) );
+	$url = esc_url( get_theme_mod( 'external_header_video' ) );
+
+	if ( ! $id && ! $url ) {
+		return false;
+	}
+
+	if ( $id ) {
+		// Get the file URL from the attachment ID.
+		$url = wp_get_attachment_url( $id );
+	}
+
+	return esc_url_raw( set_url_scheme( $url ) );
+}
+
+/**
+ * Display header video URL.
+ *
+ * @since 4.7.0
+ */
+function the_header_video_url() {
+	$video = get_header_video_url();
+	if ( $video ) {
+		echo esc_url( $video );
+	}
+}
+
+/**
+ * Retrieve header video settings.
+ *
+ * @since 4.7.0
+ *
+ * @return array
+ */
+function get_header_video_settings() {
+	$header     = get_custom_header();
+	$video_url  = get_header_video_url();
+	$video_type = wp_check_filetype( $video_url, wp_get_mime_types() );
+
+	$settings = array(
+		'mimeType'  => '',
+		'posterUrl' => get_header_image(),
+		'videoUrl'  => $video_url,
+		'width'     => absint( $header->width ),
+		'height'    => absint( $header->height ),
+		'minWidth'  => 900,
+		'minHeight' => 500,
+	);
+
+	if ( preg_match( '#^https?://(?:www\.)?(?:youtube\.com/watch|youtu\.be/)#', $video_url ) ) {
+		$settings['mimeType'] = 'video/x-youtube';
+	} elseif ( preg_match( '#^https?://(.+\.)?vimeo\.com/.*#', $video_url ) ) {
+		$settings['mimeType'] = 'video/x-vimeo';
+	} elseif ( ! empty( $video_type['type'] ) ) {
+		$settings['mimeType'] = $video_type['type'];
+	}
+
+	return apply_filters( 'header_video_settings', $settings );
+}
+
+/**
+ * Check whether a custom header is set or not.
+ *
+ * @since 4.7.0
+ *
+ * @return bool True if a custom header is set. False if not.
+ */
+function has_custom_header() {
+	if ( has_header_image() || ( is_front_page() && has_header_video() ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Retrieve the markup for a custom header.
+ *
+ * @since 4.7.0
+ *
+ * @return string|false The markup for a custom header on success. False if not.
+ */
+function get_custom_header_markup() {
+	if ( ! has_custom_header() ) {
+		return false;
+	}
+
+	return sprintf(
+		'<div id="wp-custom-header" class="wp-custom-header">%s</div>',
+		get_header_image_tag()
+	);
+}
+
+/**
+ * Print the markup for a custom header.
+ *
+ * @since 4.7.0
+ */
+function the_custom_header_markup() {
+	if ( ! $custom_header = get_custom_header_markup() ) {
+		return;
+	}
+	echo $custom_header;
+
+	if ( has_header_video() && is_front_page() ) {
+		wp_enqueue_script( 'wp-custom-header' );
+		wp_localize_script( 'wp-custom-header', '_wpCustomHeaderSettings', get_header_video_settings() );
 	}
 }
 
@@ -1732,6 +1865,7 @@ function add_theme_support( $feature ) {
 				'wp-head-callback' => '',
 				'admin-head-callback' => '',
 				'admin-preview-callback' => '',
+				'video' => false,
 			);
 
 			$jit = isset( $args[0]['__jit'] );

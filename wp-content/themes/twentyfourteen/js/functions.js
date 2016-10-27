@@ -95,15 +95,20 @@
 		 */
 		if ( _window.width() > 781 ) {
 			var mastheadHeight = $( '#masthead' ).height(),
-				toolbarOffset, mastheadOffset;
+				mastheadOffset;
 
 			if ( mastheadHeight > 48 ) {
 				body.removeClass( 'masthead-fixed' );
 			}
 
+			mastheadOffset = $( '#site-header' ).height();
+
 			if ( body.is( '.header-image' ) ) {
-				toolbarOffset  = body.is( '.admin-bar' ) ? $( '#wpadminbar' ).height() : 0;
-				mastheadOffset = $( '#masthead' ).offset().top - toolbarOffset;
+
+				// Recaculate the header height when a custom header loads.
+				$( 'body' ).on( 'wp-custom-header-video-loaded', function() {
+					mastheadOffset = $( '#site-header' ).height();
+				} );
 
 				_window.on( 'scroll.twentyfourteen', function() {
 					if ( _window.scrollTop() > mastheadOffset && mastheadHeight < 49 ) {
@@ -112,6 +117,13 @@
 						body.removeClass( 'masthead-fixed' );
 					}
 				} );
+
+				// Update masthead offset after a selective refresh.
+				if ( 'undefined' !== typeof wp && wp.customize && wp.customize.selectiveRefresh ) {
+					wp.customize.selectiveRefresh.bind( 'partial-content-rendered', function() {
+						mastheadOffset = $( '#site-header' ).height();
+					} );
+				}
 			}
 		}
 

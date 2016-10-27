@@ -68,6 +68,12 @@ img {
 	padding: 45px 0;
 }
 
+.has-header-image .custom-header-image img,
+.has-header-image .custom-header-image video {
+	left: 0;
+	top: 0;
+}
+
 .site-title {
 	font-size: 36px;
 	font-weight: bolder;

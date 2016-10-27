@@ -88,6 +88,7 @@ canvas,
 video {
 	display: inline-block;
 	max-width: 100%;
+	height: auto;
 }
 
 html {
@@ -606,6 +607,11 @@ object,
 video {
 	margin-bottom: 24px;
 	max-width: 100%;
+}
+
+#wp-custom-header iframe,
+#wp-custom-header video {
+	margin-bottom: -8px;
 }
 
 p > embed,
