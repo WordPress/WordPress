@@ -189,20 +189,23 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		$prepared_args = apply_filters( "rest_{$this->taxonomy}_query", $prepared_args, $request );
 
 		if ( ! empty( $prepared_args['post'] )  ) {
-			$query_result = $this->get_terms_for_post( $prepared_args );
-			$total_terms = $this->total_terms;
+			$query_result = wp_get_object_terms( $prepared_args['post'], $this->taxonomy, $prepared_args );
+
+			// Used when calling wp_count_terms() below.
+			$prepared_args['object_ids'] = $prepared_args['post'];
 		} else {
 			$query_result = get_terms( $this->taxonomy, $prepared_args );
-
-			$count_args = $prepared_args;
-			unset( $count_args['number'], $count_args['offset'] );
-			$total_terms = wp_count_terms( $this->taxonomy, $count_args );
-
-			// wp_count_terms can return a falsy value when the term has no children
-			if ( ! $total_terms ) {
-				$total_terms = 0;
-			}
 		}
+
+		$count_args = $prepared_args;
+		unset( $count_args['number'], $count_args['offset'] );
+		$total_terms = wp_count_terms( $this->taxonomy, $count_args );
+
+		// wp_count_terms can return a falsy value when the term has no children
+		if ( ! $total_terms ) {
+			$total_terms = 0;
+		}
+
 		$response = array();
 		foreach ( $query_result as $term ) {
 			$data = $this->prepare_item_for_response( $term, $request );
@@ -235,77 +238,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		}
 
 		return $response;
-	}
-
-	/**
-	 * Gets the terms attached to a post.
-	 *
-	 * This is an alternative to get_terms() that uses get_the_terms()
-	 * instead, which hits the object cache. There are a few things not
-	 * supported, notably `include`, `exclude`. In `self::get_items()` these
-	 * are instead treated as a full query.
-	 *
-	 * @param array $prepared_args Arguments for get_terms().
-	 * @return array List of term objects. (Total count in `$this->total_terms`)
-	 */
-	protected function get_terms_for_post( $prepared_args ) {
-		$query_result = get_the_terms( $prepared_args['post'], $this->taxonomy );
-		if ( empty( $query_result ) ) {
-			$this->total_terms = 0;
-			return array();
-		}
-
-		/*
-		 * get_items() verifies that we don't have `include` set, and default
-		 * ordering is by `name`.
-		 */
-		if ( ! in_array( $prepared_args['orderby'], array( 'name', 'none', 'include' ), true ) ) {
-			switch ( $prepared_args['orderby'] ) {
-				case 'id':
-					$this->sort_column = 'term_id';
-					break;
-
-				case 'slug':
-				case 'term_group':
-				case 'description':
-				case 'count':
-					$this->sort_column = $prepared_args['orderby'];
-					break;
-			}
-			usort( $query_result, array( $this, 'compare_terms' ) );
-		}
-		if ( strtolower( $prepared_args['order'] ) !== 'asc' ) {
-			$query_result = array_reverse( $query_result );
-		}
-
-		// Pagination.
-		$this->total_terms = count( $query_result );
-		$query_result = array_slice( $query_result, $prepared_args['offset'], $prepared_args['number'] );
-
-		return $query_result;
-	}
-
-	/**
-	 * Comparison function for sorting terms by a column.
-	 *
-	 * Uses `$this->sort_column` to determine field to sort by.
-	 *
-	 * @access protected
-	 *
-	 * @param stdClass $left Term object.
-	 * @param stdClass $right Term object.
-	 * @return int <0 if left is higher "priority" than right, 0 if equal, >0 if right is higher "priority" than left.
-	 */
-	protected function compare_terms( $left, $right ) {
-		$col = $this->sort_column;
-		$left_val = $left->$col;
-		$right_val = $right->$col;
-
-		if ( is_int( $left_val ) && is_int( $right_val ) ) {
-			return $left_val - $right_val;
-		}
-
-		return strcmp( $left_val, $right_val );
 	}
 
 	/**
