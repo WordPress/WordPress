@@ -46,7 +46,7 @@ function twentyseventeen_body_classes( $classes ) {
 
 	// Add class for one or two column page layouts.
 	if ( is_page() ) {
-		if ( 'one-column' === get_theme_mod( 'page_options' ) ) {
+		if ( 'one-column' === get_theme_mod( 'page_layout' ) ) {
 			$classes[] = 'page-one-column';
 		} else {
 			$classes[] = 'page-two-column';
@@ -72,11 +72,21 @@ add_filter( 'body_class', 'twentyseventeen_body_classes' );
  * Primarily used to see if we have any panels active, duh.
  */
 function twentyseventeen_panel_count() {
-	$panels = array( '1', '2', '3', '4' );
+
 	$panel_count = 0;
 
-	foreach ( $panels as $panel ) {
-		if ( get_theme_mod( 'panel_' . $panel ) ) {
+	/**
+	 * Filter number of front page sections in Twenty Seventeen.
+	 *
+	 * @since Twenty Seventeen 1.0
+	 *
+	 * @param $num_sections integer
+	 */
+	$num_sections = apply_filters( 'twentyseventeen_front_page_sections', 4 );
+
+	// Create a setting and control for each of the sections available in the theme.
+	for ( $i = 1; $i < ( 1 + $num_sections ); $i++ ) {
+		if ( get_theme_mod( 'panel_' . $i ) ) {
 			$panel_count++;
 		}
 	}
@@ -89,11 +99,4 @@ function twentyseventeen_panel_count() {
  */
 function twentyseventeen_is_frontpage() {
 	return ( is_front_page() && ! is_home() );
-}
-
-/**
- * Custom Active Callback to check for page.
- */
-function twentyseventeen_is_page() {
-	return ( is_page() );
 }

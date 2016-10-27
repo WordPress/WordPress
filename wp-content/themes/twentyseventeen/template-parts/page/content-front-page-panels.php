@@ -12,11 +12,7 @@ global $twentyseventeencounter;
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'twentyseventeen-panel ' ); ?> >
-
-	<span class="panel twentyseventeen-panel<?php echo esc_attr( $twentyseventeencounter ); ?>" id="panel<?php echo esc_attr( $twentyseventeencounter ); ?>">
-		<span class="twentyseventeen-panel-title"><?php printf( __( 'Panel %1$s', 'twentyseventeen' ), esc_attr( $twentyseventeencounter ) ); ?></span>
-	</span>
+<article id="panel<?php echo $twentyseventeencounter; ?>" <?php post_class( 'twentyseventeen-panel ' ); ?> >
 
 	<?php if ( has_post_thumbnail() ) :
 		$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'twentyseventeen-featured-image' );
@@ -77,7 +73,7 @@ global $twentyseventeencounter;
 						endwhile;
 						wp_reset_postdata();
 						?>
-					</div><!-- .pique-recent-posts -->
+					</div><!-- .recent-posts -->
 				<?php endif; ?>
 			<?php endif; ?>
 

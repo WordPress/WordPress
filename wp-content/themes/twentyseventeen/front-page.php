@@ -28,36 +28,25 @@ get_header(); ?>
 
 		<?php
 		// Get each of our panels and show the post data.
-		$panels = array( '1', '2', '3', '4' );
-		$titles = array();
-
-		global $twentyseventeencounter; // Used in template-parts/page/content-front-page-panels.php file.
-
 		if ( 0 !== twentyseventeen_panel_count() || is_customize_preview() ) : // If we have pages to show.
 
-			$twentyseventeencounter = 1;
+			/**
+			 * Filter number of front page sections in Twenty Seventeen.
+			 *
+			 * @since Twenty Seventeen 1.0
+			 *
+			 * @param $num_sections integer
+			 */
+			$num_sections = apply_filters( 'twentyseventeen_front_page_sections', 4 );
+			global $twentyseventeencounter;
 
-			foreach ( $panels as $panel ) :
-				if ( get_theme_mod( 'panel_' . $panel ) ) :
-					$post = get_post( get_theme_mod( 'panel_' . $panel ) );
-					setup_postdata( $post );
-					set_query_var( 'panel', $panel );
+			// Create a setting and control for each of the sections available in the theme.
+			for ( $i = 1; $i < ( 1 + $num_sections ); $i++ ) {
+				$twentyseventeencounter = $i;
+				twentyseventeen_front_page_section( null, $i );
+			}
 
-					$titles[] = get_the_title(); // Put page titles in an array for use in navigation.
-					get_template_part( 'template-parts/page/content', 'front-page-panels' );
-
-					wp_reset_postdata();
-				else :
-					// The output placeholder anchor.
-					echo '<article class="panel-placeholder panel twentyseventeen-panel twentyseventeen-panel' . esc_attr( $twentyseventeencounter ) . '" id="panel' . esc_attr( $twentyseventeencounter ) . '"><span class="twentyseventeen-panel-title">' . sprintf( __( 'Panel %1$s Placeholder', 'twentyseventeen' ), esc_attr( $twentyseventeencounter ) ) . '</span></article>';
-				endif;
-
-				$twentyseventeencounter++;
-			endforeach;
-			?>
-
-	<?php endif; // The if ( 0 !== twentyseventeen_panel_count() ) ends here.
-	?>
+	endif; // The if ( 0 !== twentyseventeen_panel_count() ) ends here. ?>
 
 	</main><!-- #main -->
 </div><!-- #primary -->

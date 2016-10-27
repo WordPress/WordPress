@@ -1,32 +1,34 @@
 /**
- * File customizer.js.
+ * File customize-preview.js.
  *
- * Theme Customizer enhancements for a better user experience.
- *
- * Contains handlers to make Theme Customizer preview reload changes asynchronously.
+ * Instantly live-update customizer settings in the preview for improved user experience.
  */
 
 ( function( $ ) {
 
-	// Collect information from panel-customizer.js about which panels are opening
+	// Collect information from customize-controls.js about which panels are opening
 	wp.customize.bind( 'preview-ready', function() {
 		wp.customize.preview.bind( 'section-highlight', function( data ) {
 
-			// If there's an expanded panel section, scroll down to that panel & highlight in the preview
-			if ( true === data.expanded ) {
-				$.scrollTo( $( '.' + data.section ), {
-					duration: 600,
-					offset: { 'top': -40 }
-				} );
-				$( '.' + data.section ).addClass( 'twentyseventeen-highlight' );
+			// Only on the front page.
+			if ( ! $( 'body' ).hasClass( 'twentyseventeen-front-page' ) ) {
+				return;
+			}
 
-			// If we've left the panel, remove the highlight and scroll back to the top
+			// When the section is expanded, show and scroll to the content placeholders, exposing the edit links.
+			if ( true === data.expanded ) {
+				$( 'body' ).addClass( 'highlight-front-sections' );
+				$( '.panel-placeholder' ).slideDown( 200, function() {
+					$.scrollTo( $( '#panel1' ), {
+						duration: 600,
+						offset: { 'top': -70 } // Account for sticky menu.
+					} );
+				});
+
+			// If we've left the panel, hide the placeholders and scroll back to the top
 			} else {
-				$.scrollTo( $( '#masthead' ), {
-					duration: 300,
-					offset: { 'top': 0 }
-				} );
-				$( '.' + data.section ).removeClass( 'twentyseventeen-highlight' );
+				$( 'body' ).removeClass( 'highlight-front-sections' );
+				$( '.panel-placeholder' ).slideUp( 200 ); // Don't change scroll when leaving - it's likely to have unintended consequences.
 			}
 		} );
 	} );
@@ -71,7 +73,7 @@
 
 			// Update color body class.
 			$( 'body' ).removeClass( 'colors-light colors-dark colors-custom' )
-				.addClass( 'colors-' + to );
+			           .addClass( 'colors-' + to );
 		} );
 	} );
 
@@ -91,7 +93,7 @@
 	} );
 
 	// Page layouts.
-	wp.customize( 'page_options', function( value ) {
+	wp.customize( 'page_layout', function( value ) {
 		value.bind( function( to ) {
 			if ( 'one-column' === to ) {
 				$( 'body' ).addClass( 'page-one-column' ).removeClass( 'page-two-column' );

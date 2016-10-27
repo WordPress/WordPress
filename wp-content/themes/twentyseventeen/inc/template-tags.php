@@ -125,6 +125,35 @@ function twentyseventeen_edit_link() {
 }
 endif;
 
+/**
+ * Display a front page section.
+ *
+ * @param $partial WP_Customize_Partial Partial associated with a selective refresh request.
+ * @param $id integer Front page section to display.
+ */
+function twentyseventeen_front_page_section( $partial = null, $id = 0 ) {
+	if ( is_a( $partial, 'WP_Customize_Partial' ) ) {
+		// Find out the id and set it up during a selective refresh.
+		global $twentyseventeencounter;
+		$id = str_replace( 'panel_', '', $partial->id );
+		$twentyseventeencounter = $id;
+	}
+
+	global $post; // Modify the global post object before setting up post data.
+	if ( get_theme_mod( 'panel_' . $id ) ) {
+		global $post;
+		$post = get_post( get_theme_mod( 'panel_' . $id ) );
+		setup_postdata( $post );
+		set_query_var( 'panel', $id );
+
+		get_template_part( 'template-parts/page/content', 'front-page-panels' );
+
+		wp_reset_postdata();
+	} else {
+		// The output placeholder anchor.
+		echo '<article class="panel-placeholder panel twentyseventeen-panel twentyseventeen-panel' . $id . '" id="panel' . $id . '"><span class="twentyseventeen-panel-title">' . sprintf( __( 'Panel %1$s Placeholder', 'twentyseventeen' ), $id ) . '</span></article>';
+	}
+}
 
 /**
  * Returns true if a blog has more than 1 category.

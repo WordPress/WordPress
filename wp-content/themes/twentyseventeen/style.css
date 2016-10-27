@@ -2935,17 +2935,12 @@ object {
 # Customizer
 --------------------------------------------------------------*/
 
-/* Hide this until we're in the Customizer */
-
-.twentyseventeen-panel-title {
+/* Hide placeholders until we're in the front page sections section */
+.panel-placeholder {
 	display: none;
 }
 
-.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel {
-	/* Colour-code all panels (add 1 to account for #twentyseventeen-hero, so 2 is actually panel 1)*/
-}
-
-.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:after {
+.highlight-front-sections.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:after {
 	border: 2px dashed;
 	bottom: 1em;
 	content: "";
@@ -2954,122 +2949,69 @@ object {
 	position: absolute;
 	right: 1em;
 	top: 1em;
+	z-index: -1; /* Prevent :after from preventing interactions within the section */
 }
 
+/* Used for placeholder text */
 .twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel .twentyseventeen-panel-title {
-	color: #fff;
-	display: inline-block;
+	display: block;
 	font-size: 14px;
 	font-size: 0.875rem;
 	font-weight: 700;
 	letter-spacing: 1px;
-	padding: 5px 10px;
-	position: absolute;
-	right: 3.2em;
+	padding: 3em;
 	text-transform: uppercase;
-	top: 3.2em;
-	-webkit-transform: translate(3px, -3px);
-	-ms-transform: translate(3px, -3px);
-	transform: translate(3px, -3px);
-	z-index: 3;
+	text-align: center;
 }
 
-.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(1):after {
+/* Show borders on the custom page panels only when the front page sections are being edited */
+.highlight-front-sections.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(1):after {
 	border: none;
 }
 
-.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(2) .twentyseventeen-panel-title {
-	background: #b569a2;
-}
-
-.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(2):after {
+.highlight-front-sections.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(2):after {
 	border-color: #b569a2;
 	color: #b569a2;
 }
 
-.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(3) .twentyseventeen-panel-title {
-	background: #8f68bd;
-}
-
-.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(3):after {
+.highlight-front-sections.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(3):after {
 	border-color: #8f68bd;
 	color: #8f68bd;
 }
 
-.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(4) .twentyseventeen-panel-title {
-	background: #575ebd;
-}
-
-.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(4):after {
+.highlight-front-sections.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:nth-of-type(4):after {
 	border-color: #575ebd;
 	color: #575ebd;
-}
-
-/* Add a highlight class to improve Customizer behaviour */
-
-@-webkit-keyframes flash {
-
-	0%,
-	20%,
-	40%,
-	60%,
-	80%,
-	100% {
-		opacity: 1;
-	}
-
-	10%,
-	30%,
-	50%,
-	70%,
-	90% {
-		opacity: 0;
-	}
-}
-
-@keyframes flash {
-
-	0%,
-	20%,
-	40%,
-	60%,
-	80%,
-	100% {
-		opacity: 1;
-	}
-
-	10%,
-	30%,
-	50%,
-	70%,
-	90% {
-		opacity: 0;
-	}
-}
-
-article.panel-placeholder {
-	display: none;
 }
 
 .twentyseventeen-front-page.twentyseventeen-customizer #primary article.panel-placeholder {
 	border: 0;
 }
 
-.twentyseventeen-customizer .panel-placeholder.twentyseventeen-highlight {
-	display: block;
-	height: 112px;
+/* Add some space around the visual edit shortcut buttons. */
+.twentyseventeen-panel .customize-partial-edit-shortcut:before {
+	top: 30px;
+	left: 30px;
 }
 
-.twentyseventeen-highlight:after {
-	-webkit-animation-duration: 2s;
-	animation-duration: 2s;
-	-webkit-animation-name: flash;
-	animation-name: flash;
-	-webkit-animation-timing-function: ease-in-out;
-	animation-timing-function: ease-in-out;
-	-webkit-animation-fill-mode: both;
-	animation-fill-mode: both;
+/* Prevent color schemes from showing 1px dots everywhere. */
+.customize-partial-edit-shortcut {
+	background: transparent !important;
 }
+
+/* Ensure that placeholder icons are visible. */
+.twentyseventeen-panel .customize-partial-edit-shortcut-hidden:before {
+	visibility: visible;
+}
+
+/* Prevent icon colors from clashing with color schemes. */
+.colors-custom .customize-partial-edit-shortcut:before {
+	text-shadow: 0 -1px 1px rgba(0,0,0,.2),
+	             1px 0 1px rgba(0,0,0,.2),
+	             0 1px 1px rgba(0,0,0,.2),
+	            -1px 0 1px rgba(0,0,0,.2);
+}
+
 
 /*--------------------------------------------------------------
 ## SVGs Fallbacks

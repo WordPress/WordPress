@@ -1,6 +1,6 @@
 <?php
 /**
- * Twenty Seventeen: Theme Customizer
+ * Twenty Seventeen: Customizer
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen
@@ -62,119 +62,71 @@ function twentyseventeen_customize_register( $wp_customize ) {
 	) ) );
 
 	/**
-	 * Add the Theme Options section.
+	 * Theme options.
 	 */
-	$wp_customize->add_panel( 'options_panel', array(
-		'title'       => __( 'Theme Options', 'twentyseventeen' ),
-		'description' => __( 'Configure your theme settings', 'twentyseventeen' ),
+	$wp_customize->add_section( 'theme_options', array(
+		'title'    => __( 'Theme Options', 'twentyseventeen' ),
+		'priority' => 130, // Before Additional CSS.
 	) );
 
-	// Page Options.
-	$wp_customize->add_section( 'page_options', array(
-		'title'           => __( 'Single Page Layout', 'twentyseventeen' ),
-		'active_callback' => 'twentyseventeen_is_page',
-		'panel'           => 'options_panel',
-	) );
-
-	$wp_customize->add_setting( 'page_options', array(
+	$wp_customize->add_setting( 'page_layout', array(
 		'default'           => 'two-column',
-		'sanitize_callback' => 'twentyseventeen_sanitize_layout',
+		'sanitize_callback' => 'twentyseventeen_sanitize_page_layout',
 		'transport'         => 'postMessage',
 	) );
 
-	$wp_customize->add_control( 'page_options', array(
+	$wp_customize->add_control( 'page_layout', array(
 		'label'       => __( 'Page Layout', 'twentyseventeen' ),
-		'section'     => 'page_options',
+		'section'     => 'theme_options',
 		'type'        => 'radio',
 		'description' => __( 'When no sidebar widgets are assigned, you can opt to display all pages with a one column or two column layout. When the two column layout is assigned, the page title is in one column and content is in the other.', 'twentyseventeen' ),
 		'choices'     => array(
 			'one-column' => __( 'One Column', 'twentyseventeen' ),
 			'two-column' => __( 'Two Column', 'twentyseventeen' ),
 		),
+		'active_callback' => 'twentyseventeen_is_page_without_sidebar',
 	) );
 
-	// Panel 1.
-	$wp_customize->add_section( 'panel_1', array(
-		'title'           => __( 'Panel 1', 'twentyseventeen' ),
-		'active_callback' => 'is_front_page',
-		'panel'           => 'options_panel',
-		'description'     => __( 'Add an image to your panel by setting a featured image in the page editor. If you don&rsquo;t select a page, this panel will not be displayed.', 'twentyseventeen' ),
-	) );
+	/**
+	 * Filter number of front page sections in Twenty Seventeen.
+	 *
+	 * @since Twenty Seventeen 1.0
+	 *
+	 * @param $num_sections integer
+	 */
+	$num_sections = apply_filters( 'twentyseventeen_front_page_sections', 4 );
 
-	$wp_customize->add_setting( 'panel_1', array(
-		'default'           => false,
-		'sanitize_callback' => 'absint',
-	) );
+	// Create a setting and control for each of the sections available in the theme.
+	for ( $i = 1; $i < ( 1 + $num_sections ); $i++ ) {
+		$wp_customize->add_setting( 'panel_' . $i, array(
+			'default'           => false,
+			'sanitize_callback' => 'absint',
+			'transport'         => 'postMessage',
+		) );
 
-	$wp_customize->add_control( 'panel_1', array(
-		'label'   => __( 'Panel Content', 'twentyseventeen' ),
-		'section' => 'panel_1',
-		'type'    => 'dropdown-pages',
-	) );
+		$wp_customize->add_control( 'panel_' . $i, array(
+			/* translators: %d is the front page section number */
+			'label'          => sprintf( __( 'Front Page Section %d Content', 'twentyseventeen' ), $i ),
+			'description'    => ( 1 !== $i ? '' : __( 'Select pages to feature in each area from the dropdowns. Add an image to a section by setting a featured image in the page editor. Empty sections will not be displayed.', 'twentyseventeen' ) ),
+			'section'        => 'theme_options',
+			'type'           => 'dropdown-pages',
+			'allow_addition' => true,
+			'active_callback' => 'twentyseventeen_is_static_front_page',
+		) );
 
-	// Panel 2.
-	$wp_customize->add_section( 'panel_2', array(
-		'title'           => __( 'Panel 2', 'twentyseventeen' ),
-		'active_callback' => 'is_front_page',
-		'panel'           => 'options_panel',
-		'description'     => __( 'Add an image to your panel by setting a featured image in the page editor. If you don&rsquo;t select a page, this panel will not be displayed.', 'twentyseventeen' ),
-	) );
-
-	$wp_customize->add_setting( 'panel_2', array(
-		'default'           => false,
-		'sanitize_callback' => 'absint',
-	) );
-
-	$wp_customize->add_control( 'panel_2', array(
-		'label'   => __( 'Panel Content', 'twentyseventeen' ),
-		'section' => 'panel_2',
-		'type'    => 'dropdown-pages',
-	) );
-
-	// Panel 3.
-	$wp_customize->add_section( 'panel_3', array(
-		'title'           => __( 'Panel 3', 'twentyseventeen' ),
-		'active_callback' => 'is_front_page',
-		'panel'           => 'options_panel',
-		'description'     => __( 'Add an image to your panel by setting a featured image in the page editor. If you don&rsquo;t select a page, this panel will not be displayed.', 'twentyseventeen' ),
-	) );
-
-	$wp_customize->add_setting( 'panel_3', array(
-		'default'           => false,
-		'sanitize_callback' => 'absint',
-	) );
-
-	$wp_customize->add_control( 'panel_3', array(
-		'label'   => __( 'Panel Content', 'twentyseventeen' ),
-		'section' => 'panel_3',
-		'type'    => 'dropdown-pages',
-	) );
-
-	// Panel 4.
-	$wp_customize->add_section( 'panel_4', array(
-		'title'           => __( 'Panel 4', 'twentyseventeen' ),
-		'active_callback' => 'is_front_page',
-		'panel'           => 'options_panel',
-		'description'     => __( 'Add an image to your panel by setting a featured image in the page editor. If you don&rsquo;t select a page, this panel will not be displayed.', 'twentyseventeen' ),
-	) );
-
-	$wp_customize->add_setting( 'panel_4', array(
-		'default'           => false,
-		'sanitize_callback' => 'absint',
-	) );
-
-	$wp_customize->add_control( 'panel_4', array(
-		'label'   => __( 'Panel Content', 'twentyseventeen' ),
-		'section' => 'panel_4',
-		'type'    => 'dropdown-pages',
-	) );
+		$wp_customize->selective_refresh->add_partial( 'panel_' . $i, array(
+			'selector'            => '#panel' . $i,
+			'render_callback'     => 'twentyseventeen_front_page_section',
+			'container_inclusive' => true,
+		) );
+	}
 }
 add_action( 'customize_register', 'twentyseventeen_customize_register' );
 
 /**
- * Sanitize a radio button.
+ * Sanitize the page layout options.
  */
-function twentyseventeen_sanitize_layout( $input ) {
+function twentyseventeen_sanitize_page_layout( $input ) {
 	$valid = array(
 		'one-column' => __( 'One Column', 'twentyseventeen' ),
 		'two-column' => __( 'Two Column', 'twentyseventeen' ),
@@ -225,17 +177,31 @@ function twentyseventeen_customize_partial_blogdescription() {
 }
 
 /**
- * Binds JS handlers to make Theme Customizer preview reload changes asynchronously.
+ * Return whether we're previewing the front page and it's a static page.
+ */
+function twentyseventeen_is_static_front_page() {
+	return ( is_front_page() && ! is_home() );
+}
+
+/**
+ * Return whether we're previewing a page and there are no widgets in the sidebar.
+ */
+function twentyseventeen_is_page_without_sidebar() {
+	return ( is_page() && ! is_active_sidebar( 'sidebar-1' ) );
+}
+
+/**
+ * Bind JS handlers to instantly live-preview changes.
  */
 function twentyseventeen_customize_preview_js() {
-	wp_enqueue_script( 'twentyseventeen-customizer', get_theme_file_uri( '/assets/js/customizer.js' ), array( 'customize-preview' ), '1.0', true );
+	wp_enqueue_script( 'twentyseventeen-customize-preview', get_theme_file_uri( '/assets/js/customize-preview.js' ), array( 'customize-preview' ), '1.0', true );
 }
 add_action( 'customize_preview_init', 'twentyseventeen_customize_preview_js' );
 
 /**
- * Some extra JavaScript to improve the user experience in the Customizer for this theme.
+ * Load dynamic logic for the customizer controls area.
  */
 function twentyseventeen_panels_js() {
-	wp_enqueue_script( 'twentyseventeen-panel-customizer', get_theme_file_uri( '/assets/js/panel-customizer.js' ), array(), '1.0', true );
+	wp_enqueue_script( 'twentyseventeen-customize-controls', get_theme_file_uri( '/assets/js/customize-controls.js' ), array(), '1.0', true );
 }
 add_action( 'customize_controls_enqueue_scripts', 'twentyseventeen_panels_js' );
