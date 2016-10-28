@@ -288,6 +288,8 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		$user = wp_get_current_user();
 		$response = $this->prepare_item_for_response( $user, $request );
 		$response = rest_ensure_response( $response );
+		$response->header( 'Location', rest_url( sprintf( '%s/%s/%d', $this->namespace, $this->rest_base, $current_user_id ) ) );
+		$response->set_status( 302 );
 
 		return $response;
 	}
