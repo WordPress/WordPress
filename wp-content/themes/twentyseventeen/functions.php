@@ -57,7 +57,7 @@ function twentyseventeen_setup() {
 
 	// This theme uses wp_nav_menu() in two locations.
 	register_nav_menus( array(
-		'top'    => __( 'Top', 'twentyseventeen' ),
+		'top'    => __( 'Top Menu', 'twentyseventeen' ),
 		'social' => __( 'Social Links Menu', 'twentyseventeen' ),
 	) );
 
@@ -143,7 +143,7 @@ function twentyseventeen_setup() {
 
 		'nav_menus' => array(
 			'top' => array(
-				'name' => __( 'Top' ),
+				'name' => __( 'Top', 'twentyseventeen' ),
 				'items' => array(
 					'page_home',
 					'page_about',
@@ -152,7 +152,7 @@ function twentyseventeen_setup() {
 				),
 			),
 			'social' => array(
-				'name' => __( 'Social' ),
+				'name' => __( 'Social', 'twentyseventeen' ),
 				'items' => array(
 					'link_yelp',
 					'link_facebook',
