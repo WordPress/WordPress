@@ -2950,11 +2950,6 @@ object {
 # Customizer
 --------------------------------------------------------------*/
 
-/* Hide placeholders until we're in the front page sections section */
-.panel-placeholder {
-	display: none;
-}
-
 .highlight-front-sections.twentyseventeen-customizer.twentyseventeen-front-page .twentyseventeen-panel:after {
 	border: 2px dashed #0085ba; /* Matches visible edit shortcuts. */
 	bottom: 1em;
