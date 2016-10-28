@@ -70,6 +70,10 @@ function twentyseventeen_custom_colors_css() {
 .colors-custom .entry-footer .tags-links a:hover,
 .colors-custom .post-navigation a:focus,
 .colors-custom .post-navigation a:hover,
+.colors-custom .pagination a:not(.prev):not(.next):focus,
+.colors-custom .pagination a:not(.prev):not(.next):hover,
+.colors-custom .comments-pagination a:not(.prev):not(.next):focus,
+.colors-custom .comments-pagination a:not(.prev):not(.next):hover,
 .colors-custom .logged-in-as a:focus,
 .colors-custom .logged-in-as a:hover,
 .colors-custom a:focus .nav-title,
@@ -180,10 +184,10 @@ function twentyseventeen_custom_colors_css() {
 .colors-custom .entry-footer .tags-links a:hover,
 .colors-custom .post-navigation a:focus,
 .colors-custom .post-navigation a:hover,
-.colors-custom .pagination a:focus,
-.colors-custom .pagination a:hover,
-.colors-custom .comments-pagination a:focus,
-.colors-custom .comments-pagination a:hover,
+.colors-custom .pagination a:not(.prev):not(.next):focus,
+.colors-custom .pagination a:not(.prev):not(.next):hover,
+.colors-custom .comments-pagination a:not(.prev):not(.next):focus,
+.colors-custom .comments-pagination a:not(.prev):not(.next):hover,
 .colors-custom .logged-in-as a:focus,
 .colors-custom .logged-in-as a:hover,
 .colors-custom a:focus .nav-title,
@@ -477,11 +481,7 @@ body.colors-custom,
 .colors-custom .wp_widget_tag_cloud a:focus,
 .colors-custom .wp_widget_tag_cloud a:hover,
 .colors-custom .entry-footer .edit-link a.post-edit-link:focus,
-.colors-custom .entry-footer .edit-link a.post-edit-link:hover,
-.colors-custom .prev.page-numbers:focus,
-.colors-custom .prev.page-numbers:hover,
-.colors-custom .next.page-numbers:focus,
-.colors-custom .next.page-numbers:hover {
+.colors-custom .entry-footer .edit-link a.post-edit-link:hover {
 	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 }

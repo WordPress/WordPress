@@ -1210,6 +1210,7 @@ a:active {
 .comment-reply-link,
 a .nav-title,
 .pagination a,
+.comments-pagination a,
 .site-info a,
 .widget .widget-title a,
 .widget ul li a,
@@ -1256,6 +1257,10 @@ a .nav-title,
 .entry-footer .tags-links a:hover,
 .post-navigation a:focus,
 .post-navigation a:hover,
+.pagination a:not(.prev):not(.next):focus,
+.pagination a:not(.prev):not(.next):hover,
+.comments-pagination a:not(.prev):not(.next):focus,
+.comments-pagination a:not(.prev):not(.next):hover,
 .logged-in-as a:focus,
 .logged-in-as a:hover,
 a:focus .nav-title,
@@ -1360,7 +1365,7 @@ a:hover .nav-title,
 
 .main-navigation > div > ul {
 	border-top: 1px solid #eee;
-	padding: 0.75em 3.375em;
+	padding: 0.75em 1.695em;
 }
 
 .js .main-navigation.toggled-on > div > ul {
@@ -1529,8 +1534,8 @@ body {
 	margin-left: auto;
 	margin-right: auto;
 	max-width: 700px;
-	padding-left: 3em;
-	padding-right: 3em;
+	padding-left: 2em;
+	padding-right: 2em;
 }
 
 .wrap:after {
@@ -1902,11 +1907,21 @@ body.page:not(.twentyseventeen-front-page) .entry-title {
 }
 
 .page-numbers {
-	padding: 0.5em 1em;
+	display: none;
+	padding: 0.5em 0.75em;
 }
 
 .page-numbers.current {
 	color: #767676;
+	display: inline-block;
+}
+
+.page-numbers.current .screen-reader-text {
+	clip: auto;
+	height: auto;
+	overflow: auto;
+	position: relative !important;
+	width: auto;
 }
 
 .prev.page-numbers,
@@ -1914,10 +1929,10 @@ body.page:not(.twentyseventeen-front-page) .entry-title {
 	background-color: #ddd;
 	-webkit-border-radius: 2px;
 	border-radius: 2px;
+	display: inline-block;
 	font-size: 24px;
 	font-size: 1.5rem;
 	line-height: 1;
-	margin-top: -0.3em;
 	padding: 0.25em 0.5em 0.4em;
 }
 
@@ -3162,6 +3177,10 @@ object {
 		font-size: 0.875rem;
 	}
 
+	.page-numbers.current {
+		font-size: 16px;
+		font-size: 1rem;
+	}
 
 	/* Site Footer */
 
@@ -3217,6 +3236,8 @@ object {
 
 	.wrap {
 		max-width: 1000px;
+		padding-left: 3em;
+		padding-right: 3em;
 	}
 
 	.has-sidebar:not(.error404) #primary {
@@ -3927,6 +3948,25 @@ object {
 		left: -1.25em;
 		top: 0.75em;
 		width: 32px;
+	}
+
+	/* Pagination */
+
+	.page-numbers {
+		display: inline-block;
+	}
+
+	.page-numbers.current {
+		font-size: 15px;
+		font-size: 0.9375rem;
+	}
+
+	.page-numbers.current .screen-reader-text {
+		clip: rect(1px, 1px, 1px, 1px);
+		height: 1px;
+		overflow: hidden;
+		position: absolute !important;
+		width: 1px;
 	}
 
 	/* Comments */
