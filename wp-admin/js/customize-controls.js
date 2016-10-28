@@ -146,7 +146,7 @@
 			settingRevision = api._latestSettingRevisions[ setting.id ];
 
 			// Skip including settings that have already been included in the changeset, if only requesting unsaved.
-			if ( ( options && options.unsaved ) && ( _.isUndefined( settingRevision ) || settingRevision <= api._lastSavedRevision ) ) {
+			if ( api.state( 'changesetStatus' ).get() && ( options && options.unsaved ) && ( _.isUndefined( settingRevision ) || settingRevision <= api._lastSavedRevision ) ) {
 				return;
 			}
 
@@ -4880,7 +4880,7 @@
 				api.bind( 'change', captureSettingModifiedDuringSave );
 
 				submit = function () {
-					var request, query, settingInvalidities = {};
+					var request, query, settingInvalidities = {}, latestRevision = api._latestRevision;
 
 					/*
 					 * Block saving if there are any settings that are marked as
@@ -4984,6 +4984,20 @@
 
 						api.state( 'changesetStatus' ).set( response.changeset_status );
 						if ( 'publish' === response.changeset_status ) {
+
+							// Mark all published as clean if they haven't been modified during the request.
+							api.each( function( setting ) {
+								/*
+								 * Note that the setting revision will be undefined in the case of setting
+								 * values that are marked as dirty when the customizer is loaded, such as
+								 * when applying starter content. All other dirty settings will have an
+								 * associated revision due to their modification triggering a change event.
+								 */
+								if ( setting._dirty && ( _.isUndefined( api._latestSettingRevisions[ setting.id ] ) || api._latestSettingRevisions[ setting.id ] <= latestRevision ) ) {
+									setting._dirty = false;
+								}
+							} );
+
 							api.state( 'changesetStatus' ).set( '' );
 							api.settings.changeset.uuid = response.next_changeset_uuid;
 							parent.send( 'changeset-uuid', api.settings.changeset.uuid );
@@ -5152,7 +5166,15 @@
 			});
 
 			// Set default states.
+			changesetStatus( api.settings.changeset.status );
 			saved( true );
+			if ( '' === changesetStatus() ) { // Handle case for loading starter content.
+				api.each( function( setting ) {
+					if ( setting._dirty ) {
+						saved( false );
+					}
+				} );
+			}
 			saving( false );
 			activated( api.settings.theme.active );
 			processing( 0 );
@@ -5161,7 +5183,6 @@
 			expandedSection( false );
 			previewerAlive( true );
 			editShortcutVisibility( 'initial' );
-			changesetStatus( api.settings.changeset.status );
 
 			api.bind( 'change', function() {
 				state('saved').set( false );

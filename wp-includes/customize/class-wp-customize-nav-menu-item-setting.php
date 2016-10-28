@@ -602,6 +602,17 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			}
 		}
 
+		// Ensure nav menu item URL is set according to linked object.
+		if ( ! empty( $post->object_id ) ) {
+			if ( 'post_type' === $post->type ) {
+				$post->url = get_permalink( $post->object_id );
+			} elseif ( 'post_type_archive' === $post->type && ! empty( $post->object ) ) {
+				$post->url = get_post_type_archive_link( $post->object );
+			} elseif ( 'taxonomy' == $post->type && ! empty( $post->object ) ) {
+				$post->url = get_term_link( (int) $post->object, $post->object );
+			}
+		}
+
 		/** This filter is documented in wp-includes/nav-menu.php */
 		$post->attr_title = apply_filters( 'nav_menu_attr_title', $post->attr_title );
 

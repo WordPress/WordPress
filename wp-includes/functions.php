@@ -3241,6 +3241,16 @@ function _config_wp_siteurl( $url = '' ) {
 }
 
 /**
+ * Delete the fresh site option.
+ *
+ * @since 4.7.0
+ * @access private
+ */
+function _delete_option_fresh_site() {
+	update_option( 'fresh_site', 0 );
+}
+
+/**
  * Set the localized direction for MCE plugin.
  *
  * Will only set the direction to 'rtl', if the WordPress locale has

@@ -102,6 +102,67 @@ function twentyseventeen_setup() {
 	 * specifically font, colors, and column width.
  	 */
 	add_editor_style( array( 'assets/css/editor-style.css', twentyseventeen_fonts_url() ) );
+
+	add_theme_support( 'starter-content', array(
+		'widgets' => array(
+			'sidebar-1' => array(
+				'text_business_info',
+				'search',
+				'text_credits',
+			),
+
+			'sidebar-2' => array(
+				'text_business_info',
+			),
+
+			'sidebar-3' => array(
+				'text_credits',
+			),
+		),
+
+		'posts' => array(
+			'home',
+			'about-us',
+			'contact-us',
+			'blog',
+			'homepage-section',
+		),
+
+		'options' => array(
+			'show_on_front' => 'page',
+			'page_on_front' => '{{home}}',
+			'page_for_posts' => '{{blog}}',
+		),
+
+		'theme_mods' => array(
+			'panel_1' => '{{homepage-section}}',
+			'panel_2' => '{{about-us}}',
+			'panel_3' => '{{blog}}',
+			'panel_4' => '{{contact-us}}',
+		),
+
+		'nav_menus' => array(
+			'top' => array(
+				'name' => __( 'Top' ),
+				'items' => array(
+					'page_home',
+					'page_about',
+					'page_blog',
+					'page_contact',
+				),
+			),
+			'social' => array(
+				'name' => __( 'Social' ),
+				'items' => array(
+					'link_yelp',
+					'link_facebook',
+					'link_twitter',
+					'link_instagram',
+					'link_email',
+				),
+			),
+		),
+	) );
 }
 add_action( 'after_setup_theme', 'twentyseventeen_setup' );
 

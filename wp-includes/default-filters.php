@@ -188,6 +188,13 @@ add_filter( 'the_guid',           'esc_url'                       );
 // Email filters
 add_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
 
+// Mark site as no longer fresh
+if ( get_option( 'fresh_site' ) ) {
+	foreach ( array( 'publish_post', 'publish_page', 'wp_ajax_save-widget', 'wp_ajax_widgets-order', 'customize_save_after' ) as $action ) {
+		add_action( $action, '_delete_option_fresh_site' );
+	}
+}
+
 // Misc filters
 add_filter( 'option_ping_sites',        'privacy_ping_filter'                 );
 add_filter( 'option_blog_charset',      '_wp_specialchars'                    ); // IMPORTANT: This must not be wp_specialchars() or esc_html() or it'll cause an infinite loop

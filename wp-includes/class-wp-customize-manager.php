@@ -531,6 +531,11 @@ final class WP_Customize_Manager {
 			}
 		}
 
+		// Import theme starter content for fresh installs when landing in the customizer and no existing changeset loaded.
+		if ( get_option( 'fresh_site' ) && 'customize.php' === $pagenow && ! $this->changeset_post_id() ) {
+			add_action( 'after_setup_theme', array( $this, 'import_theme_starter_content' ), 100 );
+		}
+
 		$this->start_previewing_theme();
 	}
 
@@ -885,6 +890,135 @@ final class WP_Customize_Manager {
 			}
 		}
 		return $this->_changeset_data;
+	}
+
+	/**
+	 * Import theme starter content into post values.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param array $starter_content Starter content. Defaults to `get_theme_starter_content()`.
+	 */
+	function import_theme_starter_content( $starter_content = array() ) {
+		if ( empty( $starter_content ) ) {
+			$starter_content = get_theme_starter_content();
+		}
+
+		$sidebars_widgets = isset( $starter_content['widgets'] ) && ! empty( $this->widgets ) ? $starter_content['widgets'] : array();
+		$posts = isset( $starter_content['posts'] ) && ! empty( $this->nav_menus ) ? $starter_content['posts'] : array();
+		$options = isset( $starter_content['options'] ) ? $starter_content['options'] : array();
+		$nav_menus = isset( $starter_content['nav_menus'] ) && ! empty( $this->nav_menus ) ? $starter_content['nav_menus'] : array();
+		$theme_mods = isset( $starter_content['theme_mods'] ) ? $starter_content['theme_mods'] : array();
+
+		// Widgets.
+		$max_widget_numbers = array();
+		foreach ( $sidebars_widgets as $sidebar_id => $widgets ) {
+			$sidebar_widget_ids = array();
+			foreach ( $widgets as $widget ) {
+				list( $id_base, $instance ) = $widget;
+
+				if ( ! isset( $max_widget_numbers[ $id_base ] ) ) {
+
+					// When $settings is an array-like object, get an intrinsic array for use with array_keys().
+					$settings = get_option( "widget_{$id_base}", array() );
+					if ( $settings instanceof ArrayObject || $settings instanceof ArrayIterator ) {
+						$settings = $settings->getArrayCopy();
+					}
+
+					// Find the max widget number for this type.
+					$widget_numbers = array_keys( $settings );
+					$widget_numbers[] = 1;
+					$max_widget_numbers[ $id_base ] = call_user_func_array( 'max', $widget_numbers );
+				}
+				$max_widget_numbers[ $id_base ] += 1;
+
+				$widget_id = sprintf( '%s-%d', $id_base, $max_widget_numbers[ $id_base ] );
+				$setting_id = sprintf( 'widget_%s[%d]', $id_base, $max_widget_numbers[ $id_base ] );
+
+				$class = 'WP_Customize_Setting';
+
+				/** This filter is documented in wp-includes/class-wp-customize-manager.php */
+				$args = apply_filters( 'customize_dynamic_setting_args', false, $setting_id );
+
+				if ( false !== $args ) {
+
+					/** This filter is documented in wp-includes/class-wp-customize-manager.php */
+					$class = apply_filters( 'customize_dynamic_setting_class', $class, $setting_id, $args );
+
+					$setting = new $class( $this, $setting_id, $args );
+					$setting_value = call_user_func( $setting->sanitize_js_callback, $instance, $setting );
+					$this->set_post_value( $setting_id, $setting_value );
+					$sidebar_widget_ids[] = $widget_id;
+				}
+			}
+
+			$this->set_post_value( sprintf( 'sidebars_widgets[%s]', $sidebar_id ), $sidebar_widget_ids );
+		}
+
+		// Posts & pages.
+		if ( ! empty( $posts ) ) {
+			foreach ( array_keys( $posts ) as $post_symbol ) {
+				$posts[ $post_symbol ]['ID'] = wp_insert_post( wp_slash( array_merge(
+					$posts[ $post_symbol ],
+					array( 'post_status' => 'auto-draft' )
+				) ) );
+			}
+			$this->set_post_value( 'nav_menus_created_posts', wp_list_pluck( $posts, 'ID' ) ); // This is why nav_menus component is dependency for adding posts.
+		}
+
+		// Nav menus.
+		$placeholder_id = -1;
+		foreach ( $nav_menus as $nav_menu_location => $nav_menu ) {
+			$nav_menu_term_id = $placeholder_id--;
+			$nav_menu_setting_id = sprintf( 'nav_menu[%d]', $nav_menu_term_id );
+			$this->set_post_value( $nav_menu_setting_id, array(
+				'name' => isset( $nav_menu['name'] ) ? $nav_menu['name'] : $nav_menu_location,
+			) );
+
+			// @todo Add support for menu_item_parent.
+			$position = 0;
+			foreach ( $nav_menu['items'] as $nav_menu_item ) {
+				$nav_menu_item_setting_id = sprintf( 'nav_menu_item[%d]', $placeholder_id-- );
+				if ( ! isset( $nav_menu_item['position'] ) ) {
+					$nav_menu_item['position'] = $position++;
+				}
+				$nav_menu_item['nav_menu_term_id'] = $nav_menu_term_id;
+
+				if ( isset( $nav_menu_item['object_id'] ) ) {
+					if ( 'post_type' === $nav_menu_item['type'] && preg_match( '/^{{(?P<symbol>.+)}}$/', $nav_menu_item['object_id'], $matches ) && isset( $posts[ $matches['symbol'] ] ) ) {
+						$nav_menu_item['object_id'] = $posts[ $matches['symbol'] ]['ID'];
+						if ( empty( $nav_menu_item['title'] ) ) {
+							$original_object = get_post( $nav_menu_item['object_id'] );
+							$nav_menu_item['title'] = $original_object->post_title;
+						}
+					} else {
+						continue;
+					}
+				} else {
+					$nav_menu_item['object_id'] = 0;
+				}
+				$this->set_post_value( $nav_menu_item_setting_id, $nav_menu_item );
+			}
+
+			$this->set_post_value( sprintf( 'nav_menu_locations[%s]', $nav_menu_location ), $nav_menu_term_id );
+		}
+
+		// Options.
+		foreach ( $options as $name => $value ) {
+			if ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) && isset( $posts[ $matches['symbol'] ] ) ) {
+				$value = $posts[ $matches['symbol'] ]['ID'];
+			}
+			$this->set_post_value( $name, $value );
+		}
+
+		// Theme mods.
+		foreach ( $theme_mods as $name => $value ) {
+			if ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) && isset( $posts[ $matches['symbol'] ] ) ) {
+				$value = $posts[ $matches['symbol'] ]['ID'];
+			}
+			$this->set_post_value( $name, $value );
+		}
 	}
 
 	/**

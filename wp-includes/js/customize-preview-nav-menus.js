@@ -139,6 +139,12 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 						_oldValue.url = urlParser.href;
 					}
 
+					// Prevent original_title differences from causing refreshes if title is present.
+					if ( newValue.title ) {
+						delete _oldValue.original_title;
+						delete _newValue.original_title;
+					}
+
 					if ( _.isEqual( _oldValue, _newValue ) ) {
 						return false;
 					}
