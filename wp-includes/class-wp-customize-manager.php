@@ -3782,7 +3782,7 @@ final class WP_Customize_Manager {
 	 * @return array
 	 */
 	public function export_header_video_settings( $response, $selective_refresh, $partials ) {
-		if ( isset( $partials['header_video'] ) || isset( $partials['external_header_video'] ) ) {
+		if ( isset( $partials['custom_header'] ) ) {
 			$response['custom_header_settings'] = get_header_video_settings();
 		}
 
