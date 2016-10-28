@@ -549,7 +549,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			});
 		}
 
-		if ( editor.settings.wp_shortcut_labels ) {
+		if ( editor.settings.wp_shortcut_labels && editor.theme.panel ) {
 			var labels = {};
 			var access = 'Shift+Alt+';
 			var meta = 'Ctrl+';
