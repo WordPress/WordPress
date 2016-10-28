@@ -189,10 +189,8 @@ add_filter( 'the_guid',           'esc_url'                       );
 add_filter( 'wp_mail', 'wp_staticize_emoji_for_email' );
 
 // Mark site as no longer fresh
-if ( get_option( 'fresh_site' ) ) {
-	foreach ( array( 'publish_post', 'publish_page', 'wp_ajax_save-widget', 'wp_ajax_widgets-order', 'customize_save_after' ) as $action ) {
-		add_action( $action, '_delete_option_fresh_site' );
-	}
+foreach ( array( 'publish_post', 'publish_page', 'wp_ajax_save-widget', 'wp_ajax_widgets-order', 'customize_save_after' ) as $action ) {
+	add_action( $action, '_delete_option_fresh_site' );
 }
 
 // Misc filters
