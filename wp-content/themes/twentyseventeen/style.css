@@ -3519,7 +3519,7 @@ object {
 		display: none;
 	}
 
-	.site-navigation-fixed.site-header.menu-scroll-down {
+	.site-header .site-navigation-fixed .menu-scroll-down {
 		display: none;
 	}
 
