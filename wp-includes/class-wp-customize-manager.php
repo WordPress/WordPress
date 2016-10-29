@@ -3635,7 +3635,7 @@ final class WP_Customize_Manager {
 		/* Custom CSS */
 		$this->add_section( 'custom_css', array(
 			'title'              => __( 'Additional CSS' ),
-			'priority'           => 140,
+			'priority'           => 200,
 			'description_hidden' => true,
 			'description'        => sprintf( '%s<br /><a href="%s" class="external-link" target="_blank">%s<span class="screen-reader-text">%s</span></a>',
 				__( 'CSS allows you to customize the appearance and layout of your site with code. Separate CSS is saved for each of your themes.' ),
