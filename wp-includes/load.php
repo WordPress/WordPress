@@ -917,8 +917,6 @@ function wp_load_translations_early() {
 	}
 
 	$wp_locale = new WP_Locale();
-	$wp_locale_switcher = new WP_Locale_Switcher();
-	$wp_locale_switcher->init();
 }
 
 /**

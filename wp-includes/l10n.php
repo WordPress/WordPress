@@ -50,16 +50,6 @@ function get_locale() {
 		$locale = WPLANG;
 	}
 
-	// If $wpdb hasn't been initialised yet, we can only return what we have.
-	if ( ! $wpdb ) {
-		if ( ! $locale ) {
-			$locale = 'en_US';
-		}
-
-		/** This filter is documented in wp-includes/l10n.php */
-		return apply_filters( 'locale', $locale );
-	}
-
 	// If multisite, check options.
 	if ( is_multisite() ) {
 		// Don't check blog option when installing.
