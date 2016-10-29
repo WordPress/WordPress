@@ -45,7 +45,7 @@ class IXR_Message
     function parse()
     {
         if ( ! function_exists( 'xml_parser_create' ) ) {
-            trigger_error( __( "PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML" ) );
+            trigger_error( __( "PHP's XML extension is not available. Please contact your hosting provider to enable PHP's XML extension." ) );
             return false;
         }
 
