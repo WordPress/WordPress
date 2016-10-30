@@ -1,14 +1,39 @@
 <?php
+/**
+ * REST API: WP_REST_Taxonomies_Controller class
+ *
+ * @package WordPress
+ * @subpackage REST_API
+ * @since 4.7.0
+ */
 
+/**
+ * Core class used to manage taxonomies via the REST API.
+ *
+ * @since 4.7.0
+ *
+ * @see WP_REST_Controller
+ */
 class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 
+	/**
+	 * Constructor.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 */
 	public function __construct() {
 		$this->namespace = 'wp/v2';
 		$this->rest_base = 'taxonomies';
 	}
 
 	/**
-	 * Register the routes for the objects of the controller.
+	 * Registers the routes for the objects of the controller.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @see register_rest_route()
 	 */
 	public function register_routes() {
 
@@ -36,10 +61,13 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Check whether a given request has permission to read taxonomies.
+	 * Checks whether a given request has permission to read taxonomies.
 	 *
-	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_Error|boolean
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
 		if ( 'edit' === $request['context'] ) {
@@ -59,10 +87,13 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get all public taxonomies
+	 * Retrieves all public taxonomies.
 	 *
-	 * @param WP_REST_Request $request
-	 * @return array
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Response Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
 
@@ -93,10 +124,13 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Check if a given request has access a taxonomy
+	 * Checks if a given request has access to a taxonomy.
+	 *
+	 * @since 4.7.0
+	 * @access public
 	 *
 	 * @param  WP_REST_Request $request Full details about the request.
-	 * @return WP_Error|boolean
+	 * @return true|WP_Error True if the request has read access for the item, otherwise false or WP_Error object.
 	 */
 	public function get_item_permissions_check( $request ) {
 
@@ -115,10 +149,13 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get a specific taxonomy
+	 * Retrieves a specific taxonomy.
 	 *
-	 * @param WP_REST_Request $request
-	 * @return array|WP_Error
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
 		$tax_obj = get_taxonomy( $request['taxonomy'] );
@@ -130,11 +167,14 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Prepare a taxonomy object for serialization
+	 * Prepares a taxonomy object for serialization.
 	 *
-	 * @param stdClass $taxonomy Taxonomy data
-	 * @param WP_REST_Request $request
-	 * @return WP_REST_Response $response
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param stdClass        $taxonomy Taxonomy data.
+	 * @param WP_REST_Request $request  Full details about the request.
+	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $taxonomy, $request ) {
 
@@ -167,21 +207,26 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 		) );
 
 		/**
-		 * Filter a taxonomy returned from the API.
+		 * Filters a taxonomy returned from the REST API.
 		 *
 		 * Allows modification of the taxonomy data right before it is returned.
 		 *
-		 * @param WP_REST_Response  $response   The response object.
-		 * @param object            $item       The original taxonomy object.
-		 * @param WP_REST_Request   $request    Request used to generate the response.
+		 * @since 4.7.0
+		 *
+		 * @param WP_REST_Response $response The response object.
+		 * @param object           $item     The original taxonomy object.
+		 * @param WP_REST_Request  $request  Request used to generate the response.
 		 */
 		return apply_filters( 'rest_prepare_taxonomy', $response, $taxonomy, $request );
 	}
 
 	/**
-	 * Get the taxonomy's schema, conforming to JSON Schema
+	 * Retrieves the taxonomy's schema, conforming to JSON Schema.
 	 *
-	 * @return array
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @return array Item schema data.
 	 */
 	public function get_item_schema() {
 		$schema = array(
@@ -243,9 +288,12 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Get the query params for collections
+	 * Retrieves the query params for collections.
 	 *
-	 * @return array
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @return array Collection parameters.
 	 */
 	public function get_collection_params() {
 		$new_params = array();
