@@ -359,7 +359,8 @@ class WP_REST_Request implements ArrayAccess {
 
 		// Ensure we parse the body data.
 		$body = $this->get_body();
-		if ( $this->method !== 'POST' && ! empty( $body ) ) {
+
+		if ( 'POST' !== $this->method && ! empty( $body ) ) {
 			$this->parse_body_params();
 		}
 
@@ -967,7 +968,7 @@ class WP_REST_Request implements ArrayAccess {
 
 		$api_root = rest_url();
 		if ( get_option( 'permalink_structure' ) && 0 === strpos( $url, $api_root ) ) {
-			// Pretty permalinks on, and URL is under the API root
+			// Pretty permalinks on, and URL is under the API root.
 			$api_url_part = substr( $url, strlen( untrailingslashit( $api_root ) ) );
 			$route = parse_url( $api_url_part, PHP_URL_PATH );
 		} elseif ( ! empty( $query_params['rest_route'] ) ) {
