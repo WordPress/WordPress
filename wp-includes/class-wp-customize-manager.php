@@ -959,10 +959,10 @@ final class WP_Customize_Manager {
 		// Posts & pages.
 		if ( ! empty( $posts ) ) {
 			foreach ( array_keys( $posts ) as $post_symbol ) {
-				$posts[ $post_symbol ]['ID'] = wp_insert_post( wp_slash( array_merge(
-					$posts[ $post_symbol ],
-					array( 'post_status' => 'auto-draft' )
-				) ) );
+				$r = $this->nav_menus->insert_auto_draft_post( $posts[ $post_symbol ] );
+				if ( $r instanceof WP_Post ) {
+					$posts[ $post_symbol ]['ID'] = $r->ID;
+				}
 			}
 			$this->set_post_value( 'nav_menus_created_posts', wp_list_pluck( $posts, 'ID' ) ); // This is why nav_menus component is dependency for adding posts.
 		}

@@ -734,10 +734,12 @@ final class WP_Customize_Nav_Menus {
 	 * @since 4.7.0
 	 *
 	 * @param array $postarr {
-	 *     Abbreviated post array.
+	 *     Post array. Note that post_status is overridden to be `auto-draft`.
 	 *
-	 *     @var string $post_title Post title.
-	 *     @var string $post_type  Post type.
+	 *     @var string $post_title   Post title. Required.
+	 *     @var string $post_type    Post type. Required.
+	 *     @var string $post_name    Post name.
+	 *     @var string $post_content Post content.
 	 * }
 	 * @return WP_Post|WP_Error Inserted auto-draft post object or error.
 	 */
@@ -745,18 +747,22 @@ final class WP_Customize_Nav_Menus {
 		if ( ! isset( $postarr['post_type'] ) || ! post_type_exists( $postarr['post_type'] )  ) {
 			return new WP_Error( 'unknown_post_type', __( 'Unknown post type' ) );
 		}
-		if ( ! isset( $postarr['post_title'] ) ) {
-			$postarr['post_title'] = '';
+		if ( empty( $postarr['post_title'] ) ) {
+			return new WP_Error( 'empty_title', __( 'Empty title' ) );
+		}
+		if ( ! empty( $postarr['post_status'] ) ) {
+			return new WP_Error( 'status_forbidden', __( 'Status is forbidden' ) );
+		}
+
+		$postarr['post_status'] = 'auto-draft';
+
+		// Auto-drafts are allowed to have empty post_names, so it has to be explicitly set.
+		if ( empty( $postarr['post_name'] ) ) {
+			$postarr['post_name'] = sanitize_title( $postarr['post_title'] );
 		}
 
 		add_filter( 'wp_insert_post_empty_content', '__return_false', 1000 );
-		$args = array(
-			'post_status' => 'auto-draft',
-			'post_type'   => $postarr['post_type'],
-			'post_title'  => $postarr['post_title'],
-			'post_name'   => sanitize_title( $postarr['post_title'] ), // Auto-drafts are allowed to have empty post_names, so we need to explicitly set it.
-		);
-		$r = wp_insert_post( wp_slash( $args ), true );
+		$r = wp_insert_post( wp_slash( $postarr ), true );
 		remove_filter( 'wp_insert_post_empty_content', '__return_false', 1000 );
 
 		if ( is_wp_error( $r ) ) {
@@ -785,15 +791,18 @@ final class WP_Customize_Nav_Menus {
 			wp_send_json_error( 'missing_params', 400 );
 		}
 
-		$params = wp_array_slice_assoc(
-			array_merge(
-				array(
-					'post_type' => '',
-					'post_title' => '',
-				),
-				wp_unslash( $_POST['params'] )
+		$params = wp_unslash( $_POST['params'] );
+		$illegal_params = array_diff( array_keys( $params ), array( 'post_type', 'post_title' ) );
+		if ( ! empty( $illegal_params ) ) {
+			wp_send_json_error( 'illegal_params', 400 );
+		}
+
+		$params = array_merge(
+			array(
+				'post_type' => '',
+				'post_title' => '',
 			),
-			array( 'post_type', 'post_title' )
+			$params
 		);
 
 		if ( empty( $params['post_type'] ) || ! post_type_exists( $params['post_type'] ) ) {
@@ -1139,7 +1148,8 @@ final class WP_Customize_Nav_Menus {
 		$post_ids = $setting->post_value();
 		if ( ! empty( $post_ids ) ) {
 			foreach ( $post_ids as $post_id ) {
-				wp_publish_post( $post_id );
+				// Note that wp_publish_post() cannot be used because unique slugs need to be assigned.
+				wp_update_post( array( 'ID' => $post_id, 'post_status' => 'publish' ) );
 			}
 		}
 	}
