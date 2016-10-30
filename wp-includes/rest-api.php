@@ -443,8 +443,9 @@ function rest_ensure_request( $request ) {
  * @since 4.4.0
  *
  * @param WP_Error|WP_HTTP_Response|mixed $response Response to check.
- * @return mixed WP_Error if response generated an error, WP_HTTP_Response if response
- *               is a already an instance, otherwise returns a new WP_REST_Response instance.
+ * @return WP_REST_Response|mixed If response generated an error, WP_Error, if response
+ *                                is already an instance, WP_HTTP_Response, otherwise
+ *                                returns a new WP_REST_Response instance.
  */
 function rest_ensure_response( $response ) {
 	if ( is_wp_error( $response ) ) {
