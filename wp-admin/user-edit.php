@@ -277,7 +277,7 @@ if ( $languages ) : ?>
 <tr class="user-language-wrap">
 	<th scope="row">
 		<?php /* translators: The user language selection field label */ ?>
-		<label for="site_language"><?php _e( 'Language' ); ?></label>
+		<label for="locale"><?php _e( 'Language' ); ?></label>
 	</th>
 	<td>
 		<?php
