@@ -5272,6 +5272,7 @@
 		});
 
 		api.state( 'paneVisible' ).bind( function( paneVisible ) {
+			overlay.toggleClass( 'preview-only', ! paneVisible );
 			overlay.toggleClass( 'expanded', paneVisible );
 			overlay.toggleClass( 'collapsed', ! paneVisible );
 
@@ -5331,7 +5332,7 @@
 		});
 
 		$( '.customize-controls-preview-toggle' ).on( 'click', function() {
-			overlay.toggleClass( 'preview-only' );
+			api.state( 'paneVisible' ).set( ! api.state( 'paneVisible' ).get() );
 		});
 
 		/*
