@@ -114,7 +114,7 @@ class WP_REST_Server {
 	 */
 	public function check_authentication() {
 		/**
-		 * Pass an authentication error to the API
+		 * Filters REST authentication errors.
 		 *
 		 * This is used to pass a WP_Error from an authentication method back to
 		 * the API.
@@ -391,7 +391,7 @@ class WP_REST_Server {
 			}
 
 			if ( $jsonp_callback ) {
-				// Prepend '/**/' to mitigate possible JSONP Flash attacks
+				// Prepend '/**/' to mitigate possible JSONP Flash attacks.
 				// https://miki.it/blog/2014/7/8/abusing-jsonp-with-rosetta-flash/
 				echo '/**/' . $jsonp_callback . '(' . $result . ')';
 			} else {
@@ -502,7 +502,7 @@ class WP_REST_Server {
 					continue;
 				}
 
-				// Relation now changes from '$uri' to '$curie:$relation'
+				// Relation now changes from '$uri' to '$curie:$relation'.
 				$rel_regex = str_replace( '\{rel\}', '(.+)', preg_quote( $curie['href'], '!' ) );
 				preg_match( '!' . $rel_regex . '!', $rel, $matches );
 				if ( $matches ) {
@@ -582,6 +582,7 @@ class WP_REST_Server {
 
 			// Determine if any real links were found.
 			$has_links = count( array_filter( $embeds ) );
+
 			if ( $has_links ) {
 				$embedded[ $rel ] = $embeds;
 			}
@@ -741,7 +742,7 @@ class WP_REST_Server {
 				// Allow comma-separated HTTP methods.
 				if ( is_string( $handler['methods'] ) ) {
 					$methods = explode( ',', $handler['methods'] );
-				} else if ( is_array( $handler['methods'] ) ) {
+				} elseif ( is_array( $handler['methods'] ) ) {
 					$methods = $handler['methods'];
 				} else {
 					$methods = array();
@@ -755,6 +756,7 @@ class WP_REST_Server {
 				}
 			}
 		}
+
 		return $endpoints;
 	}
 
@@ -896,7 +898,7 @@ class WP_REST_Server {
 
 						if ( is_wp_error( $permission ) ) {
 							$response = $permission;
-						} else if ( false === $permission || null === $permission ) {
+						} elseif ( false === $permission || null === $permission ) {
 							$response = new WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to do that.' ), array( 'status' => 403 ) );
 						}
 					}
