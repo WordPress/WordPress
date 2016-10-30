@@ -281,9 +281,9 @@ if ( $languages ) : ?>
 	</th>
 	<td>
 		<?php
-		$user_locale = get_user_option( 'locale', $profileuser->ID );
+		$user_locale = $profileuser->locale;
 
-		if ( 'en_US' === $user_locale ) { // en_US
+		if ( 'en_US' === $user_locale ) {
 			$user_locale = false;
 		} elseif ( ! in_array( $user_locale, $languages, true ) ) {
 			$user_locale = get_locale();
