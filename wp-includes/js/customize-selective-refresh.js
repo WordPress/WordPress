@@ -1024,8 +1024,8 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			} );
 
 			body.on( 'click', function( event ) {
-				if ( $( event.target ).is( '.customize-partial-edit-shortcut, :input, a[href]' ) || 0 !== $( event.target ).closest( 'a' ).length ) {
-					return; // Don't toggle shortcuts on form, link, or link child clicks.
+				if ( event.shiftKey || $( event.target ).is( '.customize-partial-edit-shortcut, :input, button *, a[href], a[href] *, object, object *, [tabindex], [tabindex] *' ) ) {
+					return; // Don't toggle shortcuts on shift-clicks or clicks on (or in) interactive elements.
 				}
 				api.selectiveRefresh.editShortcutVisibility.set( 'visible' === api.selectiveRefresh.editShortcutVisibility.get() ? 'hidden' : 'visible' );
 				api.preview.send( 'edit-shortcut-visibility', api.selectiveRefresh.editShortcutVisibility.get() );
