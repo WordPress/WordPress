@@ -320,6 +320,7 @@ function map_meta_cap( $cap, $user_id ) {
 		else
 			$caps[] = 'do_not_allow';
 		break;
+	case 'unfiltered_css' :
 	case 'unfiltered_html' :
 		// Disallow unfiltered_html for all users, even admins and super admins.
 		if ( defined( 'DISALLOW_UNFILTERED_HTML' ) && DISALLOW_UNFILTERED_HTML )
@@ -327,10 +328,7 @@ function map_meta_cap( $cap, $user_id ) {
 		elseif ( is_multisite() && ! is_super_admin( $user_id ) )
 			$caps[] = 'do_not_allow';
 		else
-			$caps[] = $cap;
-		break;
-	case 'unfiltered_css' :
-		$caps[] = 'unfiltered_html';
+			$caps[] = 'unfiltered_html';
 		break;
 	case 'edit_files':
 	case 'edit_plugins':
