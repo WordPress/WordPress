@@ -203,7 +203,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 			$imbalanced = true;
 		}
 		if ( $imbalanced && $this->is_possible_content_error( $css ) ) {
-			$validity->add( 'possible_false_positive', __( 'Imbalanced/Unclosed character errors can be caused <code>content: "";</code> declarations. You may need to remove this or add it a custom CSS file.' ) );
+			$validity->add( 'possible_false_positive', __( 'Imbalanced/unclosed character errors can be caused by <code>content: "";</code> declarations. You may need to remove this or add it to a custom CSS file.' ) );
 		}
 
 		if ( empty( $validity->errors ) ) {
