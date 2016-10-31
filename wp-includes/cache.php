@@ -254,7 +254,7 @@ function wp_cache_add_non_persistent_groups( $groups ) {
  * This function is deprecated. Use wp_cache_switch_to_blog() instead of this
  * function when preparing the cache for a blog switch. For clearing the cache
  * during unit tests, consider using wp_cache_init(). wp_cache_init() is not
- * recommended outside of unit tests as the performance penality for using it is
+ * recommended outside of unit tests as the performance penalty for using it is
  * high.
  *
  * @since 2.6.0

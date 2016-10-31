@@ -10,7 +10,7 @@
 /**
  * Core base class extended to register widgets.
  *
- * This class must be extended for each widget, and WP_Widget::widget() must be overriden.
+ * This class must be extended for each widget, and WP_Widget::widget() must be overridden.
  *
  * If adding widget options, WP_Widget::update() and WP_Widget::form() should also be overridden.
  *
@@ -104,7 +104,7 @@ class WP_Widget {
 	public $updated = false;
 
 	//
-	// Member functions that must be overriden by subclasses.
+	// Member functions that must be overridden by subclasses.
 	//
 
 	/**

@@ -741,7 +741,7 @@ class RSSCache {
 /*=======================================================================*\
 	Function:	set
 	Purpose:	add an item to the cache, keyed on url
-	Input:		url from wich the rss file was fetched
+	Input:		url from which the rss file was fetched
 	Output:		true on success
 \*=======================================================================*/
 	function set ($url, $rss) {
@@ -755,7 +755,7 @@ class RSSCache {
 /*=======================================================================*\
 	Function:	get
 	Purpose:	fetch an item from the cache
-	Input:		url from wich the rss file was fetched
+	Input:		url from which the rss file was fetched
 	Output:		cached object on HIT, false on MISS
 \*=======================================================================*/
 	function get ($url) {
@@ -776,7 +776,7 @@ class RSSCache {
 	Function:	check_cache
 	Purpose:	check a url for membership in the cache
 				and whether the object is older then MAX_AGE (ie. STALE)
-	Input:		url from wich the rss file was fetched
+	Input:		url from which the rss file was fetched
 	Output:		cached object on HIT, false on MISS
 \*=======================================================================*/
 	function check_cache ( $url ) {
@@ -809,7 +809,7 @@ class RSSCache {
 /*=======================================================================*\
 	Function:	file_name
 	Purpose:	map url to location in cache
-	Input:		url from wich the rss file was fetched
+	Input:		url from which the rss file was fetched
 	Output:		a file name
 \*=======================================================================*/
 	function file_name ($url) {

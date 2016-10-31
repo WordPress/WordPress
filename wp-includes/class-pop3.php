@@ -430,7 +430,7 @@ class POP3 {
         if(!$this->is_ok($reply))
         {
             //  The POP3 RSET command -never- gives a -ERR
-            //  response - if it ever does, something truely
+            //  response - if it ever does, something truly
             //  wild is going on.
 
             $this->ERROR = "POP3 reset: " . _("Error ") . "[$reply]";

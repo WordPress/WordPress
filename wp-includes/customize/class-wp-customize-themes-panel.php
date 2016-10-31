@@ -72,11 +72,11 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel {
 		?>
 		<li class="filter-themes-count">
 			<span class="themes-displayed"><?php
-				/* translators: %s: number of themes displayed; plural forms cannot be accomodated here so assume plurality or translate as "Themes: %s" */
+				/* translators: %s: number of themes displayed; plural forms cannot be accommodated here so assume plurality or translate as "Themes: %s" */
 				echo sprintf( __( 'Displaying %s themes' ), '<span class="theme-count">0</span>' );
 			?></span>
 			<button type="button" class="button button-primary see-themes"><?php
-				/* translators: %s: number of themes displayed; plural forms cannot be accomodated here so assume plurality or omit the count and translate as "Show themes" */
+				/* translators: %s: number of themes displayed; plural forms cannot be accommodated here so assume plurality or omit the count and translate as "Show themes" */
 				echo sprintf( __( 'Show %s themes' ), '<span class="theme-count">0</span>' );
 			?></button>
 			<button type="button" class="button button-primary filter-themes"><?php _e( 'Filter themes' ); ?></button>

@@ -639,7 +639,7 @@ class WP_REST_Server {
 	 * @param string $namespace  Namespace.
 	 * @param string $route      The REST route.
 	 * @param array  $route_args Route arguments.
-	 * @param bool   $override   Optional. Whether the route should be overriden if it already exists.
+	 * @param bool   $override   Optional. Whether the route should be overridden if it already exists.
 	 *                           Default false.
 	 */
 	public function register_route( $namespace, $route, $route_args, $override = false ) {

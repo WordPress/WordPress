@@ -49,7 +49,7 @@ class Walker_Page extends Walker {
 	 *
 	 * @param string $output Passed by reference. Used to append additional content.
 	 * @param int    $depth  Optional. Depth of page. Used for padding. Default 0.
-	 * @param array  $args   Optional. Arguments for outputing the next level.
+	 * @param array  $args   Optional. Arguments for outputting the next level.
 	 *                       Default empty array.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {

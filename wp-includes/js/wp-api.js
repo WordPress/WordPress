@@ -422,7 +422,7 @@
 			},
 
 			/**
-			 * Add a helper funtion to handle post Meta.
+			 * Add a helper function to handle post Meta.
 			 */
 			MetaMixin = {
 				getMeta: function() {
@@ -431,7 +431,7 @@
 			},
 
 			/**
-			 * Add a helper funtion to handle post Revisions.
+			 * Add a helper function to handle post Revisions.
 			 */
 			RevisionsMixin = {
 				getRevisions: function() {
@@ -440,7 +440,7 @@
 			},
 
 			/**
-			 * Add a helper funtion to handle post Tags.
+			 * Add a helper function to handle post Tags.
 			 */
 			TagsMixin = {
 
@@ -524,7 +524,7 @@
 			},
 
 			/**
-			 * Add a helper funtion to handle post Categories.
+			 * Add a helper function to handle post Categories.
 			 */
 			CategoriesMixin = {
 

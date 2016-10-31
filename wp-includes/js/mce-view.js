@@ -294,7 +294,7 @@
 		initialize: function() {},
 
 		/**
-		 * Retuns the content to render in the view node.
+		 * Returns the content to render in the view node.
 		 *
 		 * @return {*}
 		 */

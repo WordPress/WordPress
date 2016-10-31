@@ -696,7 +696,7 @@ var Attachments = Backbone.Collection.extend({
 		delete this.mirroring;
 	},
 	/**
-	 * Retrive more attachments from the server for the collection.
+	 * Retrieve more attachments from the server for the collection.
 	 *
 	 * Only works if the collection is mirroring a Query Attachments collection,
 	 * and forwards to its `more` method. This collection class doesn't have

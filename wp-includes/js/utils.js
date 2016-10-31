@@ -110,7 +110,7 @@ var wpCookies = {
 		if ( typeof( expires ) === 'object' && expires.toGMTString ) {
 			expires = expires.toGMTString();
 		} else if ( parseInt( expires, 10 ) ) {
-			d.setTime( d.getTime() + ( parseInt( expires, 10 ) * 1000 ) ); // time must be in miliseconds
+			d.setTime( d.getTime() + ( parseInt( expires, 10 ) * 1000 ) ); // time must be in milliseconds
 			expires = d.toGMTString();
 		} else {
 			expires = '';
