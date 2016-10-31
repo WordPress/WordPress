@@ -996,7 +996,7 @@ function rest_get_avatar_sizes() {
 function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 	if ( 'array' === $args['type'] ) {
 		if ( ! is_array( $value ) ) {
-			return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: type name */ __( '%1$s is not of type %2$s.' ), $param, 'array' ) );
+			$value = preg_split( '/[\s,]+/', $value );
 		}
 		foreach ( $value as $index => $v ) {
 			$is_valid = rest_validate_value_from_schema( $v, $args['items'], $param . '[' . $index . ']' );
