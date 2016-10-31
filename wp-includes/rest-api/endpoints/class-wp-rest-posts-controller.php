@@ -844,15 +844,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	protected function get_allowed_query_vars( $request = null ) {
 		global $wp;
 
-		/**
-		 * Filters the publicly allowed query vars.
-		 *
-		 * Allows adjusting of the default query vars that are made public.
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param array  Array of allowed WP_Query query vars.
-		 */
+		/** This filter is documented in wp-includes/class-wp.php */
 		$valid_vars = apply_filters( 'query_vars', $wp->public_query_vars );
 
 		$post_type_obj = get_post_type_object( $this->post_type );
