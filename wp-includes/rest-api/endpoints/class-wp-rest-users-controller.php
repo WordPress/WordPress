@@ -1010,6 +1010,9 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 						'type'    => 'string',
 					),
 					'context'     => array( 'edit' ),
+					'arg_options' => array(
+						'sanitize_callback' => 'wp_parse_slug_list',
+					),
 				),
 				'password'        => array(
 					'description' => __( 'Password for the resource (never included).' ),
