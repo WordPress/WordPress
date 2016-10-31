@@ -1,5 +1,10 @@
 (function( window, $, settings ) {
 
+	if ( ! ( 'addEventListener' in window ) ) {
+		// Fail gracefully in unsupported browsers.
+		return;
+	}
+
 	function wpCustomHeader() {
 		var handlers = {
 			nativeVideo: {
