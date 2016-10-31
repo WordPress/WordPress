@@ -1747,6 +1747,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
 				),
+				'password'        => array(
+					'description' => __( 'A password to protect access to the content and excerpt.' ),
+					'type'        => 'string',
+					'context'     => array( 'edit' ),
+				),
 			),
 		);
 
@@ -1947,12 +1952,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'description' => __( 'Whether or not the object should be treated as sticky.' ),
 				'type'        => 'boolean',
 				'context'     => array( 'view', 'edit' ),
-			);
-
-			$schema['properties']['password'] = array(
-				'description' => __( 'A password to protect access to the content and excerpt.' ),
-				'type'        => 'string',
-				'context'     => array( 'edit' ),
 			);
 		}
 
