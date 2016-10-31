@@ -1196,8 +1196,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				continue;
 			}
 
-			$terms  = array_map( 'absint', $request[ $base ] );
-			$result = wp_set_object_terms( $post_id, $terms, $taxonomy->name );
+			$result = wp_set_object_terms( $post_id, $request[ $base ], $taxonomy->name );
 
 			if ( is_wp_error( $result ) ) {
 				return $result;
@@ -1965,11 +1964,20 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'items'       => array(
 					'type'    => 'integer',
 				),
+				'arg_options' => array(
+					'sanitize_callback' => 'wp_parse_id_list',
+				),
 				'context'     => array( 'view', 'edit' ),
 			);
 			$schema['properties'][ $base . '_exclude' ] = array(
 				'description' => sprintf( __( 'The terms in the %s taxonomy that should not be assigned to the object.' ), $taxonomy->name ),
 				'type'        => 'array',
+				'items'       => array(
+					'type'    => 'integer',
+				),
+				'arg_options' => array(
+					'sanitize_callback' => 'wp_parse_id_list',
+				),
 				'context'     => array( 'view', 'edit' ),
 			);
 		}
