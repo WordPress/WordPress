@@ -29,20 +29,21 @@
 		 * @returns {string} URL with customized state.
 		 */
 		injectUrlWithState = function( url ) {
-			var urlParser, queryParams;
+			var urlParser, oldQueryParams, newQueryParams;
 			urlParser = document.createElement( 'a' );
 			urlParser.href = url;
-			queryParams = api.utils.parseQueryString( urlParser.search.substr( 1 ) );
+			oldQueryParams = api.utils.parseQueryString( location.search.substr( 1 ) );
+			newQueryParams = api.utils.parseQueryString( urlParser.search.substr( 1 ) );
 
-			queryParams.customize_changeset_uuid = api.settings.changeset.uuid;
-			if ( ! api.settings.theme.active ) {
-				queryParams.customize_theme = api.settings.theme.stylesheet;
+			newQueryParams.customize_changeset_uuid = oldQueryParams.customize_changeset_uuid;
+			if ( oldQueryParams.customize_theme ) {
+				newQueryParams.customize_theme = oldQueryParams.customize_theme;
 			}
-			if ( api.settings.theme.channel ) {
-				queryParams.customize_messenger_channel = api.settings.channel;
+			if ( oldQueryParams.customize_messenger_channel ) {
+				newQueryParams.customize_messenger_channel = oldQueryParams.customize_messenger_channel;
 			}
-			urlParser.search = $.param( queryParams );
-			return url;
+			urlParser.search = $.param( newQueryParams );
+			return urlParser.href;
 		};
 
 		history.replaceState = ( function( nativeReplaceState ) {
