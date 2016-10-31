@@ -1097,6 +1097,9 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 		if ( empty( $args['items'] ) ) {
 			return (array) $value;
 		}
+		if ( ! is_array( $value ) ) {
+			$value = preg_split( '/[\s,]+/', $value );
+		}
 		foreach ( $value as $index => $v ) {
 			$value[ $index ] = rest_sanitize_value_from_schema( $v, $args['items'] );
 		}
