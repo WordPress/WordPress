@@ -1781,7 +1781,7 @@ function register_initial_settings() {
 
 	register_setting( 'general', 'start_of_week', array(
 		'show_in_rest' => true,
-		'type'         => 'number',
+		'type'         => 'integer',
 		'description'  => __( 'A day number of the week that the week should start on.' ),
 	) );
 
@@ -1803,7 +1803,7 @@ function register_initial_settings() {
 
 	register_setting( 'writing', 'default_category', array(
 		'show_in_rest' => true,
-		'type'         => 'number',
+		'type'         => 'integer',
 		'description'  => __( 'Default category.' ),
 	) );
 
@@ -1815,7 +1815,7 @@ function register_initial_settings() {
 
 	register_setting( 'reading', 'posts_per_page', array(
 		'show_in_rest' => true,
-		'type'         => 'number',
+		'type'         => 'integer',
 		'description'  => __( 'Blog pages show at most.' ),
 		'default'      => 10,
 	) );

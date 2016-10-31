@@ -404,6 +404,9 @@ abstract class WP_REST_Meta_Fields {
 			case 'string':
 				$value = (string) $value;
 				break;
+			case 'integer':
+				$value = (int) $value;
+				break;
 			case 'number':
 				$value = (float) $value;
 				break;
