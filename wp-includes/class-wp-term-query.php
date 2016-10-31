@@ -265,15 +265,7 @@ class WP_Term_Query {
 
 		$query['taxonomy'] = $taxonomies;
 
-		/**
-		 * Filters the terms query arguments.
-		 *
-		 * @since 3.1.0
-		 *
-		 * @param array $args       An array of get_terms() arguments.
-		 * @param array $taxonomies An array of taxonomies.
-		 */
-		$this->query_vars = apply_filters( 'get_terms_args', $query, $taxonomies );
+		$this->query_vars = $query;
 
 		/**
 		 * Fires after term query vars have been parsed.
