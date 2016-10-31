@@ -61,7 +61,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		 *
 		 * @see wp_tag_cloud()
 		 *
-		 * @param array $current_taxonomy The taxonomy to use in the tag cloud. Default 'tags'.
+		 * @param array $args Args used for the tag cloud widget.
 		 */
 		$tag_cloud = wp_tag_cloud( apply_filters( 'widget_tag_cloud_args', array(
 			'taxonomy' => $current_taxonomy,
