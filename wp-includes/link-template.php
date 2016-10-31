@@ -2954,9 +2954,9 @@ function get_shortcut_link() {
 /**
  * Retrieves the URL for the current site where the front end is accessible.
  *
- * Returns the 'home' option with the appropriate protocol, 'https' if
- * is_ssl() and 'http' otherwise. If `$scheme` is 'http' or 'https',
- * `is_ssl()` is overridden.
+ * Returns the 'home' option with the appropriate protocol. The protocol will be 'https'
+ * if is_ssl() evaluates to true; otherwise, it will be the same as the 'home' option.
+ * If `$scheme` is 'http' or 'https', is_ssl() is overridden.
  *
  * @since 3.0.0
  *
@@ -2972,9 +2972,9 @@ function home_url( $path = '', $scheme = null ) {
 /**
  * Retrieves the URL for a given site where the front end is accessible.
  *
- * Returns the 'home' option with the appropriate protocol, 'https' if
- * is_ssl() and 'http' otherwise. If `$scheme` is 'http' or 'https',
- * `is_ssl()` is overridden.
+ * Returns the 'home' option with the appropriate protocol. The protocol will be 'https'
+ * if is_ssl() evaluates to true; otherwise, it will be the same as the 'home' option.
+ * If `$scheme` is 'http' or 'https', is_ssl() is overridden.
  *
  * @since 3.0.0
  *
