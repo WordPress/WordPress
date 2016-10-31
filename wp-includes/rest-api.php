@@ -820,80 +820,7 @@ function rest_validate_request_arg( $value, $request, $param ) {
 	}
 	$args = $attributes['args'][ $param ];
 
-	if ( ! empty( $args['enum'] ) ) {
-		if ( ! in_array( $value, $args['enum'], true ) ) {
-			return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: list of valid values */ __( '%1$s is not one of %2$s.' ), $param, implode( ', ', $args['enum'] ) ) );
-		}
-	}
-
-	if ( 'integer' === $args['type'] && ! is_numeric( $value ) ) {
-		return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: type name */ __( '%1$s is not of type %2$s.' ), $param, 'integer' ) );
-	}
-
-	if ( 'boolean' === $args['type'] && ! rest_is_boolean( $value ) ) {
-		return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: type name */ __( '%1$s is not of type %2$s.' ), $value, 'boolean' ) );
-	}
-
-	if ( 'string' === $args['type'] && ! is_string( $value ) ) {
-		return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: type name */ __( '%1$s is not of type %2$s.' ), $param, 'string' ) );
-	}
-
-	if ( isset( $args['format'] ) ) {
-		switch ( $args['format'] ) {
-			case 'date-time' :
-				if ( ! rest_parse_date( $value ) ) {
-					return new WP_Error( 'rest_invalid_date', __( 'The date you provided is invalid.' ) );
-				}
-				break;
-
-			case 'email' :
-				if ( ! is_email( $value ) ) {
-					return new WP_Error( 'rest_invalid_email', __( 'The email address you provided is invalid.' ) );
-				}
-				break;
-			case 'ipv4' :
-				if ( ! rest_is_ip_address( $value ) ) {
-					return new WP_Error( 'rest_invalid_param', sprintf( __( '%s is not a valid IP address.' ), $value ) );
-				}
-				break;
-		}
-	}
-
-	if ( in_array( $args['type'], array( 'numeric', 'integer' ), true ) && ( isset( $args['minimum'] ) || isset( $args['maximum'] ) ) ) {
-		if ( isset( $args['minimum'] ) && ! isset( $args['maximum'] ) ) {
-			if ( ! empty( $args['exclusiveMinimum'] ) && $value <= $args['minimum'] ) {
-				return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must be greater than %2$d (exclusive)' ), $param, $args['minimum'] ) );
-			} elseif ( empty( $args['exclusiveMinimum'] ) && $value < $args['minimum'] ) {
-				return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must be greater than %2$d (inclusive)' ), $param, $args['minimum'] ) );
-			}
-		} elseif ( isset( $args['maximum'] ) && ! isset( $args['minimum'] ) ) {
-			if ( ! empty( $args['exclusiveMaximum'] ) && $value >= $args['maximum'] ) {
-				return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must be less than %2$d (exclusive)' ), $param, $args['maximum'] ) );
-			} elseif ( empty( $args['exclusiveMaximum'] ) && $value > $args['maximum'] ) {
-				return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must be less than %2$d (inclusive)' ), $param, $args['maximum'] ) );
-			}
-		} elseif ( isset( $args['maximum'] ) && isset( $args['minimum'] ) ) {
-			if ( ! empty( $args['exclusiveMinimum'] ) && ! empty( $args['exclusiveMaximum'] ) ) {
-				if ( $value >= $args['maximum'] || $value <= $args['minimum'] ) {
-					return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: minimum number, 3: maximum number */ __( '%1$s must be between %2$d (exclusive) and %3$d (exclusive)' ), $param, $args['minimum'], $args['maximum'] ) );
-				}
-			} elseif ( empty( $args['exclusiveMinimum'] ) && ! empty( $args['exclusiveMaximum'] ) ) {
-				if ( $value >= $args['maximum'] || $value < $args['minimum'] ) {
-					return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: minimum number, 3: maximum number */ __( '%1$s must be between %2$d (inclusive) and %3$d (exclusive)' ), $param, $args['minimum'], $args['maximum'] ) );
-				}
-			} elseif ( ! empty( $args['exclusiveMinimum'] ) && empty( $args['exclusiveMaximum'] ) ) {
-				if ( $value > $args['maximum'] || $value <= $args['minimum'] ) {
-					return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: minimum number, 3: maximum number */ __( '%1$s must be between %2$d (exclusive) and %3$d (inclusive)' ), $param, $args['minimum'], $args['maximum'] ) );
-				}
-			} elseif ( empty( $args['exclusiveMinimum'] ) && empty( $args['exclusiveMaximum'] ) ) {
-				if ( $value > $args['maximum'] || $value < $args['minimum'] ) {
-					return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: minimum number, 3: maximum number */ __( '%1$s must be between %2$d (inclusive) and %3$d (inclusive)' ), $param, $args['minimum'], $args['maximum'] ) );
-				}
-			}
-		}
-	}
-
-	return true;
+	return rest_validate_value_from_schema( $value, $args, $param );
 }
 
 /**
@@ -913,34 +840,7 @@ function rest_sanitize_request_arg( $value, $request, $param ) {
 	}
 	$args = $attributes['args'][ $param ];
 
-	if ( 'integer' === $args['type'] ) {
-		return (int) $value;
-	}
-
-	if ( 'boolean' === $args['type'] ) {
-		return rest_sanitize_boolean( $value );
-	}
-
-	if ( isset( $args['format'] ) ) {
-		switch ( $args['format'] ) {
-			case 'date-time' :
-				return sanitize_text_field( $value );
-
-			case 'email' :
-				/*
-				 * sanitize_email() validates, which would be unexpected
-				 */
-				return sanitize_text_field( $value );
-
-			case 'uri' :
-				return esc_url_raw( $value );
-
-			case 'ipv4' :
-				return sanitize_text_field( $value );
-		}
-	}
-
-	return $value;
+	return rest_sanitize_value_from_schema( $value, $args, $param );
 }
 
 /**
@@ -1083,4 +983,155 @@ function rest_get_avatar_sizes() {
 	 *                     Default `[ 24, 48, 96 ]`.
 	 */
 	return apply_filters( 'rest_avatar_sizes', array( 24, 48, 96 ) );
+}
+
+/**
+ * Validate a value based on a schema.
+ *
+ * @param mixed  $value The value to validate.
+ * @param array  $args  Schema array to use for validation.
+ * @param string $param The parameter name, used in error messages.
+ * @return true|WP_Error
+ */
+function rest_validate_value_from_schema( $value, $args, $param = '' ) {
+	if ( 'array' === $args['type'] ) {
+		if ( ! is_array( $value ) ) {
+			return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: type name */ __( '%1$s is not of type %2$s.' ), $param, 'array' ) );
+		}
+		foreach ( $value as $index => $v ) {
+			$is_valid = rest_validate_value_from_schema( $v, $args['items'], $param . '[' . $index . ']' );
+			if ( is_wp_error( $is_valid ) ) {
+				return $is_valid;
+			}
+		}
+	}
+	if ( ! empty( $args['enum'] ) ) {
+		if ( ! in_array( $value, $args['enum'], true ) ) {
+			return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: list of valid values */ __( '%1$s is not one of %2$s.' ), $param, implode( ', ', $args['enum'] ) ) );
+		}
+	}
+
+	if ( in_array( $args['type'], array( 'integer', 'number' ) ) && ! is_numeric( $value ) ) {
+		return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: type name */ __( '%1$s is not of type %2$s.' ), $param, $args['type'] ) );
+	}
+
+	if ( 'integer' === $args['type'] && round( floatval( $value ) ) !== floatval( $value ) ) {
+		return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: type name */ __( '%1$s is not of type %2$s.' ), $param, 'integer' ) );
+	}
+
+	if ( 'boolean' === $args['type'] && ! rest_is_boolean( $value ) ) {
+		return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: type name */ __( '%1$s is not of type %2$s.' ), $value, 'boolean' ) );
+	}
+
+	if ( 'string' === $args['type'] && ! is_string( $value ) ) {
+		return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: type name */ __( '%1$s is not of type %2$s.' ), $param, 'string' ) );
+	}
+
+	if ( isset( $args['format'] ) ) {
+		switch ( $args['format'] ) {
+			case 'date-time' :
+				if ( ! rest_parse_date( $value ) ) {
+					return new WP_Error( 'rest_invalid_date', __( 'The date you provided is invalid.' ) );
+				}
+				break;
+
+			case 'email' :
+				if ( ! is_email( $value ) ) {
+					return new WP_Error( 'rest_invalid_email', __( 'The email address you provided is invalid.' ) );
+				}
+				break;
+			case 'ipv4' :
+				if ( ! rest_is_ip_address( $value ) ) {
+					return new WP_Error( 'rest_invalid_param', sprintf( __( '%s is not a valid IP address.' ), $value ) );
+				}
+				break;
+		}
+	}
+
+	if ( in_array( $args['type'], array( 'number', 'integer' ), true ) && ( isset( $args['minimum'] ) || isset( $args['maximum'] ) ) ) {
+		if ( isset( $args['minimum'] ) && ! isset( $args['maximum'] ) ) {
+			if ( ! empty( $args['exclusiveMinimum'] ) && $value <= $args['minimum'] ) {
+				return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must be greater than %2$d (exclusive)' ), $param, $args['minimum'] ) );
+			} elseif ( empty( $args['exclusiveMinimum'] ) && $value < $args['minimum'] ) {
+				return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must be greater than %2$d (inclusive)' ), $param, $args['minimum'] ) );
+			}
+		} elseif ( isset( $args['maximum'] ) && ! isset( $args['minimum'] ) ) {
+			if ( ! empty( $args['exclusiveMaximum'] ) && $value >= $args['maximum'] ) {
+				return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must be less than %2$d (exclusive)' ), $param, $args['maximum'] ) );
+			} elseif ( empty( $args['exclusiveMaximum'] ) && $value > $args['maximum'] ) {
+				return new WP_Error( 'rest_invalid_param', sprintf( __( '%1$s must be less than %2$d (inclusive)' ), $param, $args['maximum'] ) );
+			}
+		} elseif ( isset( $args['maximum'] ) && isset( $args['minimum'] ) ) {
+			if ( ! empty( $args['exclusiveMinimum'] ) && ! empty( $args['exclusiveMaximum'] ) ) {
+				if ( $value >= $args['maximum'] || $value <= $args['minimum'] ) {
+					return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: minimum number, 3: maximum number */ __( '%1$s must be between %2$d (exclusive) and %3$d (exclusive)' ), $param, $args['minimum'], $args['maximum'] ) );
+				}
+			} elseif ( empty( $args['exclusiveMinimum'] ) && ! empty( $args['exclusiveMaximum'] ) ) {
+				if ( $value >= $args['maximum'] || $value < $args['minimum'] ) {
+					return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: minimum number, 3: maximum number */ __( '%1$s must be between %2$d (inclusive) and %3$d (exclusive)' ), $param, $args['minimum'], $args['maximum'] ) );
+				}
+			} elseif ( ! empty( $args['exclusiveMinimum'] ) && empty( $args['exclusiveMaximum'] ) ) {
+				if ( $value > $args['maximum'] || $value <= $args['minimum'] ) {
+					return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: minimum number, 3: maximum number */ __( '%1$s must be between %2$d (exclusive) and %3$d (inclusive)' ), $param, $args['minimum'], $args['maximum'] ) );
+				}
+			} elseif ( empty( $args['exclusiveMinimum'] ) && empty( $args['exclusiveMaximum'] ) ) {
+				if ( $value > $args['maximum'] || $value < $args['minimum'] ) {
+					return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: minimum number, 3: maximum number */ __( '%1$s must be between %2$d (inclusive) and %3$d (inclusive)' ), $param, $args['minimum'], $args['maximum'] ) );
+				}
+			}
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Sanitize a value based on a schema.
+ *
+ * @param mixed $value The value to sanitize.
+ * @param array $args  Schema array to use for sanitization.
+ * @return true|WP_Error
+ */
+function rest_sanitize_value_from_schema( $value, $args ) {
+	if ( 'array' === $args['type'] ) {
+		if ( empty( $args['items'] ) ) {
+			return (array) $value;
+		}
+		foreach ( $value as $index => $v ) {
+			$value[ $index ] = rest_sanitize_value_from_schema( $v, $args['items'] );
+		}
+		return $value;
+	}
+	if ( 'integer' === $args['type'] ) {
+		return (int) $value;
+	}
+
+	if ( 'number' === $args['type'] ) {
+		return (float) $value;
+	}
+
+	if ( 'boolean' === $args['type'] ) {
+		return rest_sanitize_boolean( $value );
+	}
+
+	if ( isset( $args['format'] ) ) {
+		switch ( $args['format'] ) {
+			case 'date-time' :
+				return sanitize_text_field( $value );
+
+			case 'email' :
+				/*
+				 * sanitize_email() validates, which would be unexpected.
+				 */
+				return sanitize_text_field( $value );
+
+			case 'uri' :
+				return esc_url_raw( $value );
+
+			case 'ipv4' :
+				return sanitize_text_field( $value );
+		}
+	}
+
+	return $value;
 }

@@ -1971,6 +1971,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$schema['properties'][ $base ] = array(
 				'description' => sprintf( __( 'The terms assigned to the object in the %s taxonomy.' ), $taxonomy->name ),
 				'type'        => 'array',
+				'items'       => array(
+					'type'    => 'integer',
+				),
 				'context'     => array( 'view', 'edit' ),
 			);
 			$schema['properties'][ $base . '_exclude' ] = array(

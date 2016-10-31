@@ -288,8 +288,30 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 
 		foreach ( $options as $option_name => $option ) {
 			$schema['properties'][ $option_name ] = $option['schema'];
+			$schema['properties'][ $option_name ]['arg_options'] = array(
+				'sanitize_callback' => array( $this, 'sanitize_callback' ),
+			);
 		}
 
 		return $this->add_additional_fields_schema( $schema );
+	}
+
+	/**
+	 * Custom sanitize callback used for all options to allow the use of 'null'.
+	 *
+	 * By default, the schema of settings will throw an error if a value is set to
+	 * `null` as it's not a valid value for something like "type => string". We
+	 * provide a wrapper sanitizer to whitelist the use of `null`.
+	 *
+	 * @param  mixed           $value   The value for the setting.
+	 * @param  WP_REST_Request $request The request object.
+	 * @param  string          $param   The parameter name.
+	 * @return mixed|WP_Error
+	 */
+	public function sanitize_callback( $value, $request, $param ) {
+		if ( is_null( $value ) ) {
+			return $value;
+		}
+		return rest_parse_request_arg( $value, $request, $param );
 	}
 }

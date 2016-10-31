@@ -559,7 +559,7 @@ abstract class WP_REST_Controller {
 				$endpoint_args[ $field_id ]['required'] = true;
 			}
 
-			foreach ( array( 'type', 'format', 'enum' ) as $schema_prop ) {
+			foreach ( array( 'type', 'format', 'enum', 'items' ) as $schema_prop ) {
 				if ( isset( $params[ $schema_prop ] ) ) {
 					$endpoint_args[ $field_id ][ $schema_prop ] = $params[ $schema_prop ];
 				}

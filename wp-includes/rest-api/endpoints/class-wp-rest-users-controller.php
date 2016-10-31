@@ -1006,6 +1006,9 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				'roles'           => array(
 					'description' => __( 'Roles assigned to the resource.' ),
 					'type'        => 'array',
+					'items'       => array(
+						'type'    => 'string',
+					),
 					'context'     => array( 'edit' ),
 				),
 				'password'        => array(
