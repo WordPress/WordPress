@@ -3816,7 +3816,7 @@ class WP_Query {
 	/**
 	 * Is the query for an existing single post?
 	 *
-	 * Works for any post type, except attachments and pages
+	 * Works for any post type excluding pages.
 	 *
 	 * If the $post parameter is specified, this function will additionally
 	 * check if the query is for one of the Posts specified.
