@@ -1827,19 +1827,16 @@ body:not(.has-header-image) .custom-header-image {
 	position: relative;
 }
 
-.icon-pinned {
+.icon-thumb-tack {
 	display: none;
 }
 
-.sticky .icon-pinned {
+.sticky .icon-thumb-tack {
 	display: block;
 	height: 18px;
 	left: -1.5em;
 	position: absolute;
 	top: 1.65em;
-	-ms-transform: rotate(-45deg); /* IE 9 */
-	-webkit-transform: rotate(-45deg); /* Chrome, Safari, Opera */
-	transform: rotate(-45deg);
 	width: 20px;
 }
 
@@ -1900,6 +1897,12 @@ body.page:not(.twentyseventeen-front-page) .entry-title {
 	font-weight: 800;
 	padding: 2em 0 3em;
 	text-align: center;
+}
+
+.pagination .icon,
+.comments-pagination .icon {
+	width: 0.666666666em;
+	height: 0.666666666em;
 }
 
 .comments-pagination {
@@ -2179,15 +2182,6 @@ body:not(.twentyseventeen-front-page) .entry-header {
 	color: #333;
 	font-size: 16px;
 	font-size: 1rem;
-}
-
-.nav-links .nav-next .nav-title .icon,
-.nav-links .nav-previous .nav-title .icon {
-	height: 24px;
-	height: 1.5rem;
-	width: 24px;
-	width: 1.5rem;
-	font-weight: 400;
 }
 
 .post-navigation .nav-next {
@@ -2487,6 +2481,7 @@ h2.widget-title {
 
 .widget ul li li {
 	border: 0;
+	padding-left: 24px;
 	padding-left: 1.5rem;
 }
 
@@ -2626,10 +2621,8 @@ h2.widget-title {
 
 .search-form .search-submit .icon {
 	height: 24px;
-	height: 1.5rem;
 	top: -2px;
 	width: 24px;
-	width: 1.5rem;
 }
 
 /* Tag cloud widget */
@@ -3031,7 +3024,7 @@ object {
 	width: 2em;
 }
 
-.no-svg .dropdown-toggle .svg-fallback.icon-expand {
+.no-svg .dropdown-toggle .svg-fallback.icon-angle-down {
 	font-size: 20px;
 	font-size: 1.25rem;
 	font-weight: normal;
@@ -3041,13 +3034,13 @@ object {
 	transform: rotate(180deg);
 }
 
-.no-svg .dropdown-toggle.toggled-on .svg-fallback.icon-expand {
+.no-svg .dropdown-toggle.toggled-on .svg-fallback.icon-angle-down {
 	-webkit-transform: rotate(0); /* Chrome, Safari, Opera */
 	-ms-transform: rotate(0); /* IE 9 */
 	transform: rotate(0);
 }
 
-.no-svg .dropdown-toggle .svg-fallback.icon-expand:before {
+.no-svg .dropdown-toggle .svg-fallback.icon-angle-down:before {
 	content: "\005E";
 }
 
@@ -3487,7 +3480,7 @@ object {
 		display: inline;
 		left: 5px;
 		position: relative;
-		top: -2px;
+		top: -1px;
 	}
 
 	.main-navigation ul ul .menu-item-has-children > a > .icon,
@@ -3527,7 +3520,7 @@ object {
 
 	.site-header .menu-scroll-down {
 		display: block;
-		padding: 0.5em 0.5em 0.4em;
+		padding: 1em;
 		position: absolute;
 		right: 0;
 		-webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
@@ -3542,7 +3535,7 @@ object {
 
 	.site-header .navigation-top .menu-scroll-down {
 		color: #767676;
-		top: 0.9em;
+		top: 0.7em;
 	}
 
 	.menu-scroll-down:focus {
@@ -3550,10 +3543,8 @@ object {
 	}
 
 	.menu-scroll-down .icon {
-		height: 32px;
-		height: 2rem;
-		width: 32px;
-		width: 2rem;
+		height: 18px;
+		width: 18px;
 	}
 
 	/* Front Page */
@@ -3666,7 +3657,7 @@ object {
 
 	/* Blog, archive, search */
 
-	.sticky .icon-pinned {
+	.sticky .icon-thumb-tack {
 		height: 23px;
 		left: -2.5em;
 		top: 1.5em;
@@ -3936,7 +3927,7 @@ object {
 
 	/* Sticky posts */
 
-	.sticky .icon-pinned {
+	.sticky .icon-thumb-tack {
 		font-size: 32px;
 		font-size: 2rem;
 		height: 22px;
@@ -4012,7 +4003,7 @@ object {
 	.content-bottom-widgets,
 	.header-image,
 	.panel-image-prop,
-	.icon-pinned,
+	.icon-thumb-tack,
 	.page-links,
 	.edit-link,
 	.post-navigation,

@@ -139,7 +139,7 @@ function twentyseventeen_dropdown_icon_to_menu_link( $title, $item, $args, $dept
 	if ( 'top' === $args->theme_location ) {
 		foreach ( $item->classes as $value ) {
 			if ( 'menu-item-has-children' === $value || 'page_item_has_children' === $value ) {
-				$title = $title . twentyseventeen_get_svg( array( 'icon' => 'expand' ) );
+				$title = $title . twentyseventeen_get_svg( array( 'icon' => 'angle-down' ) );
 			}
 		}
 	}
@@ -171,10 +171,8 @@ function twentyseventeen_social_links_icons() {
 		'linkedin.com'    => 'linkedin',
 		'mailto:'         => 'envelope-o',
 		'medium.com'      => 'medium',
-		'path.com'        => 'path',
 		'pinterest.com'   => 'pinterest-p',
 		'getpocket.com'   => 'get-pocket',
-		'polldaddy.com'   => 'polldaddy',
 		'reddit.com'      => 'reddit-alien',
 		'skype.com'       => 'skype',
 		'skype:'          => 'skype',

@@ -123,7 +123,7 @@ input[type="checkbox"] {
 	margin-right: 0;
 }
 
-.sticky .icon-pinned {
+.sticky .icon-thumb-tack {
 	left: auto;
 	right: -1.5em;
 }
@@ -376,7 +376,7 @@ input[type="checkbox"] {
 
 	/* Blog, Archive, Search */
 
-	.sticky .icon-pinned {
+	.sticky .icon-thumb-tack {
 		left: auto;
 		right: -2.5em;
 	}
@@ -512,7 +512,7 @@ input[type="checkbox"] {
 
 	/* Sticky posts */
 
-	.sticky .icon-pinned {
+	.sticky .icon-thumb-tack {
 		left: auto;
 		right: -1.25em;
 	}
