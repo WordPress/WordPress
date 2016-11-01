@@ -79,12 +79,12 @@ function twentyseventeen_customize_register( $wp_customize ) {
 		'label'       => __( 'Page Layout', 'twentyseventeen' ),
 		'section'     => 'theme_options',
 		'type'        => 'radio',
-		'description' => __( 'When no sidebar widgets are assigned, you can opt to display all pages with a one column or two column layout. When the two column layout is assigned, the page title is in one column and content is in the other.', 'twentyseventeen' ),
+		'description' => __( 'When the two column layout is assigned, the page title is in one column and content is in the other.', 'twentyseventeen' ),
 		'choices'     => array(
 			'one-column' => __( 'One Column', 'twentyseventeen' ),
 			'two-column' => __( 'Two Column', 'twentyseventeen' ),
 		),
-		'active_callback' => 'twentyseventeen_is_page_without_sidebar',
+		'active_callback' => 'twentyseventeen_is_view_with_layout_option',
 	) );
 
 	/**
@@ -184,10 +184,11 @@ function twentyseventeen_is_static_front_page() {
 }
 
 /**
- * Return whether we're previewing a page and there are no widgets in the sidebar.
+ * Return whether we're on a view that supports a one or two column layout.
  */
-function twentyseventeen_is_page_without_sidebar() {
-	return ( is_page() && ! is_active_sidebar( 'sidebar-1' ) );
+function twentyseventeen_is_view_with_layout_option() {
+	// This option is available on all pages. It's also available on archives when there isn't a sidebar.
+	return ( is_page() || ( is_archive() && ! is_active_sidebar( 'sidebar-1' ) ) );
 }
 
 /**

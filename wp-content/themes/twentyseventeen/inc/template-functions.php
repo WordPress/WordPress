@@ -45,7 +45,7 @@ function twentyseventeen_body_classes( $classes ) {
 	}
 
 	// Add class for one or two column page layouts.
-	if ( is_page() ) {
+	if ( is_page() || is_archive() ) {
 		if ( 'one-column' === get_theme_mod( 'page_layout' ) ) {
 			$classes[] = 'page-one-column';
 		} else {
