@@ -710,7 +710,7 @@ function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path 
 	 * @param string $locale The plugin's current locale.
 	 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
 	 */
-	$locale = apply_filters( 'plugin_locale', is_admin() ? get_user_locale() : get_locale(), $domain );
+	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 	$mofile = $domain . '-' . $locale . '.mo';
 
@@ -744,7 +744,7 @@ function load_plugin_textdomain( $domain, $deprecated = false, $plugin_rel_path 
  */
 function load_muplugin_textdomain( $domain, $mu_plugin_rel_path = '' ) {
 	/** This filter is documented in wp-includes/l10n.php */
-	$locale = apply_filters( 'plugin_locale', is_admin() ? get_user_locale() : get_locale(), $domain );
+	$locale = apply_filters( 'plugin_locale', get_locale(), $domain );
 
 	$mofile = $domain . '-' . $locale . '.mo';
 
@@ -783,7 +783,7 @@ function load_theme_textdomain( $domain, $path = false ) {
 	 * @param string $locale The theme's current locale.
 	 * @param string $domain Text domain. Unique identifier for retrieving translated strings.
 	 */
-	$locale = apply_filters( 'theme_locale', is_admin() ? get_user_locale() : get_locale(), $domain );
+	$locale = apply_filters( 'theme_locale', get_locale(), $domain );
 
 	$mofile = $domain . '-' . $locale . '.mo';
 
@@ -865,7 +865,7 @@ function _load_textdomain_just_in_time( $domain ) {
 		}
 	}
 
-	$locale = is_admin() ? get_user_locale() : get_locale();
+	$locale = get_locale();
 	$mofile = "{$domain}-{$locale}.mo";
 
 	if ( in_array( WP_LANG_DIR . '/plugins/' . $mofile, $cached_mofiles ) ) {
