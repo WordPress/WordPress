@@ -71,12 +71,14 @@
 				event.stopImmediatePropagation();
 			}
 
-			if ( event.keyCode === VK.ENTER && ! VK.modifierPressed( event ) ) {
-				enter();
+			if ( VK.metaKeyPressed( event ) ) {
+				return;
 			}
 
+			if ( event.keyCode === VK.ENTER ) {
+				enter();
 			// Wait for the browser to insert the character.
-			if ( event.keyCode === VK.SPACEBAR && ! event.ctrlKey && ! event.metaKey && ! event.altKey ) {
+			} else if ( event.keyCode === VK.SPACEBAR ) {
 				setTimeout( space );
 			} else if ( event.keyCode > 47 && ! ( event.keyCode >= 91 && event.keyCode <= 93 ) ) {
 				setTimeout( inline );
