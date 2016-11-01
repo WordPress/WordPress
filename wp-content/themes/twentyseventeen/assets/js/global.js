@@ -130,9 +130,9 @@
 	}
 
 	/**
-     * Test if inline SVGs are supported.
-     * @link https://github.com/Modernizr/Modernizr/
-     */
+	 * Test if inline SVGs are supported.
+	 * @link https://github.com/Modernizr/Modernizr/
+	 */
 	function supportsInlineSVG() {
 		var div = document.createElement( 'div' );
 		div.innerHTML = '<svg/>';
@@ -172,7 +172,6 @@
 
 		adjustHeaderHeight();
 		setQuotesIcon();
-		supportsInlineSVG();
 		if ( true === supportsInlineSVG() ) {
 			document.documentElement.className = document.documentElement.className.replace( /(\s*)no-svg(\s*)/, '$1svg$2' );
 		}
