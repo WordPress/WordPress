@@ -15,15 +15,27 @@
 		return;
 	}
 
+	/**
+	 * Escapes characters for use in a Regular Expression.
+	 *
+	 * @param  {String} string Characters to escape
+	 *
+	 * @return {String}        Escaped characters
+	 */
+	function escapeRegExp( string ) {
+		return string.replace( /[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&' );
+	}
+
 	tinymce.PluginManager.add( 'wptextpattern', function( editor ) {
 		var VK = tinymce.util.VK;
+		var settings = editor.settings.wptextpattern || {};
 
-		var spacePatterns = [
+		var spacePatterns = settings.space || [
 			{ regExp: /^[*-]\s/, cmd: 'InsertUnorderedList' },
 			{ regExp: /^1[.)]\s/, cmd: 'InsertOrderedList' }
 		];
 
-		var enterPatterns = [
+		var enterPatterns = settings.enter || [
 			{ start: '##', format: 'h2' },
 			{ start: '###', format: 'h3' },
 			{ start: '####', format: 'h4' },
@@ -33,7 +45,7 @@
 			{ regExp: /^(-){3,}$/, element: 'hr' }
 		];
 
-		var inlinePatterns = [
+		var inlinePatterns = settings.inline || [
 			{ start: '`', end: '`', format: 'code' }
 		];
 
@@ -81,40 +93,39 @@
 			var format;
 			var zero;
 
+			// We need a non empty text node with an offset greater than zero.
 			if ( ! node || node.nodeType !== 3 || ! node.data.length || ! offset ) {
 				return;
 			}
 
+			// The ending character should exist in the patterns registered.
 			if ( tinymce.inArray( chars, node.data.charAt( offset - 1 ) ) === -1 ) {
 				return;
 			}
 
-			function findStart( node ) {
-				var i = inlinePatterns.length;
-				var offset;
+			var string = node.data.slice( 0, offset );
 
-				while ( i-- ) {
-					pattern = inlinePatterns[ i ];
-					offset = node.data.indexOf( pattern.end );
+			tinymce.each( inlinePatterns, function( p ) {
+				var regExp = new RegExp( escapeRegExp( p.start ) + '\\S+' + escapeRegExp( p.end ) + '$' );
+				var match = string.match( regExp );
 
-					if ( offset !== -1 ) {
-						return offset;
-					}
+				if ( ! match ) {
+					return;
 				}
-			}
 
-			startOffset = findStart( node );
-			endOffset = node.data.lastIndexOf( pattern.end );
+				// Don't allow pattern characters in the text.
+				if ( node.data.slice( match.index + p.start.length, offset - p.end.length ).indexOf( p.start.slice( 0, 1 ) ) !== -1 ) {
+					return;
+				}
 
-			if ( startOffset === endOffset || endOffset === -1 ) {
-				return;
-			}
+				startOffset = match.index;
+				endOffset = offset - p.end.length;
+				pattern = p;
 
-			if ( endOffset - startOffset <= pattern.start.length ) {
-				return;
-			}
+				return false;
+			} );
 
-			if ( node.data.slice( startOffset + pattern.start.length, endOffset ).indexOf( pattern.start.slice( 0, 1 ) ) !== -1 ) {
+			if ( ! pattern ) {
 				return;
 			}
 
