@@ -33,15 +33,6 @@ textarea {
 	padding-right: 3px;
 }
 
-ol {
-	counter-reset: item;
-}
-
-ol li:before {
-	left: auto;
-	right: -1.5em;
-}
-
 li > ul,
 li > ol {
 	margin-left: 0;
