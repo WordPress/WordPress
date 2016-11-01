@@ -142,20 +142,25 @@
 	// Fires on document ready
 	$( document ).ready( function() {
 
-		// Let's fire some JavaScript!
-		setNavProps();
+		// If navigation menu is present on page, setNavProps and adjustScrollClass
+		if( $navigation.length ) {
+			setNavProps();
+			adjustScrollClass();
+		}
 
+		// If 'Scroll Down' arrow in present on page, calculate scroll offset and bind an event handler to the click event
 		if ( $menuScrollDown.length ) {
 
-			/**
-			 * 'Scroll Down' arrow in menu area
-			 */
 			if ( $( 'body' ).hasClass( 'admin-bar' ) ) {
 				menuTop -= 32;
 			}
 			if ( $( 'body' ).hasClass( 'blog' ) ) {
 				menuTop -= 30; // The div for latest posts has no space above content, add some to account for this
 			}
+			if ( ! $navigation.length ) {
+				navigationOuterHeight = 0;
+			}
+
 			$menuScrollDown.click( function( e ) {
 				e.preventDefault();
 				$( window ).scrollTo( '#primary', {
@@ -163,8 +168,6 @@
 					offset: { 'top': menuTop - navigationOuterHeight }
 				} );
 			} );
-
-			adjustScrollClass();
 		}
 
 		adjustHeaderHeight();
@@ -175,7 +178,8 @@
 		}
 	} );
 
-	if ( 'true' === twentyseventeenScreenReaderText.has_navigation ) {
+	// If navigation menu is present on page, adjust it on scroll and screen resize
+	if ( $navigation.length ) {
 
 		// On scroll, we want to stick/unstick the navigation
 		$( window ).on( 'scroll', function() {
@@ -187,7 +191,6 @@
 		$( window ).resize( function() {
 			setNavProps();
 			setTimeout( adjustScrollClass, 500 );
-			setTimeout( adjustHeaderHeight, 1000 );
 		} );
 	}
 
@@ -196,6 +199,7 @@
 		resizeTimer = setTimeout( function() {
 			belowEntryMetaClass( 'blockquote.alignleft, blockquote.alignright' );
 		}, 300 );
+		setTimeout( adjustHeaderHeight, 1000 );
 	} );
 
 }( jQuery ) );
