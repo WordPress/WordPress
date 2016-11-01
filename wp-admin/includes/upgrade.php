@@ -50,6 +50,9 @@ function wp_install( $blog_title, $user_name, $user_email, $public, $deprecated 
 	update_option('admin_email', $user_email);
 	update_option('blog_public', $public);
 
+	// Freshness of site - in the future, this could get more specific about actions taken, perhaps.
+	update_option( 'fresh_site', 1 );
+
 	if ( $language ) {
 		update_option( 'WPLANG', $language );
 	}
