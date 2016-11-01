@@ -1814,7 +1814,7 @@ body:not(.has-header-image) .custom-header-image {
 	position: relative;
 }
 
-.icon-thumb-tack {
+.post:not(.sticky) .icon-thumb-tack {
 	display: none;
 }
 
