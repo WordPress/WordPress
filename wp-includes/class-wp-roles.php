@@ -133,7 +133,7 @@ class WP_Roles {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param WP_Roles A reference to the WP_Roles object.
+		 * @param WP_Roles $this A reference to the WP_Roles object.
 		 */
 		do_action( 'wp_roles_init', $this );
 	}
