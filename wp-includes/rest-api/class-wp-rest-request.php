@@ -804,6 +804,11 @@ class WP_REST_Request implements ArrayAccess {
 				continue;
 			}
 			foreach ( $this->params[ $type ] as $key => $value ) {
+				// if no sanitize_callback was specified, default to rest_parse_request_arg
+				// if a type was specified in the args.
+				if ( ! isset( $attributes['args'][ $key ]['sanitize_callback'] ) && ! empty( $attributes['args'][ $key ]['type'] ) ) {
+					$attributes['args'][ $key ]['sanitize_callback'] = 'rest_parse_request_arg';
+				}
 				// Check if this param has a sanitize_callback added.
 				if ( ! isset( $attributes['args'][ $key ] ) || empty( $attributes['args'][ $key ]['sanitize_callback'] ) ) {
 					continue;
