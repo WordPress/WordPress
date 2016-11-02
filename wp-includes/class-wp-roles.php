@@ -149,7 +149,7 @@ class WP_Roles {
 	 * @access public
 	 */
 	public function reinit() {
-		__deprecated_function( __METHOD__, '4.7.0', 'new WP_Roles()' );
+		_deprecated_function( __METHOD__, '4.7.0', 'new WP_Roles()' );
 		$this->_init();
 	}
 
