@@ -696,6 +696,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			$data['link'] = get_author_posts_url( $user->ID, $user->user_nicename );
 		}
 
+		if ( ! empty( $schema['properties']['locale'] ) ) {
+			$data['locale'] = get_user_locale( $user );
+		}
+
 		if ( ! empty( $schema['properties']['nickname'] ) ) {
 			$data['nickname'] = $user->nickname;
 		}
@@ -831,6 +835,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		if ( isset( $request['url'] ) && ! empty( $schema['properties']['url'] ) ) {
 			$prepared_user->user_url = $request['url'];
+		}
+
+		if ( isset( $request['locale'] ) && ! empty( $schema['properties']['locale'] ) ) {
+			$prepared_user->locale = $request['locale'];
 		}
 
 		// setting roles will be handled outside of this function.
@@ -977,6 +985,12 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 					'format'      => 'uri',
 					'context'     => array( 'embed', 'view', 'edit' ),
 					'readonly'    => true,
+				),
+				'locale'    => array(
+					'description' => __( 'Locale for the resource.' ),
+					'type'        => 'string',
+					'enum'        => get_available_languages(),
+					'context'     => array( 'edit' ),
 				),
 				'nickname'    => array(
 					'description' => __( 'The nickname for the resource.' ),
