@@ -472,16 +472,17 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	} catch ( phpmailerException $e ) {
 
 		$mail_error_data = compact( 'to', 'subject', 'message', 'headers', 'attachments' );
+		$mail_error_data['phpmailer_exception_code'] = $e->getCode();
 
 		/**
 		 * Fires after a phpmailerException is caught.
 		 *
 		 * @since 4.4.0
 		 *
-		 * @param WP_Error $error A WP_Error object with the phpmailerException code, message, and an array
+		 * @param WP_Error $error A WP_Error object with the phpmailerException message, and an array
 		 *                        containing the mail recipient, subject, message, headers, and attachments.
 		 */
- 		do_action( 'wp_mail_failed', new WP_Error( $e->getCode(), $e->getMessage(), $mail_error_data ) );
+		do_action( 'wp_mail_failed', new WP_Error( 'wp_mail_failed', $e->getMessage(), $mail_error_data ) );
 
 		return false;
 	}
