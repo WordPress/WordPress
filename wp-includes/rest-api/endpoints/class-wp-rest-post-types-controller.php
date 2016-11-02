@@ -146,6 +146,8 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $post_type, $request ) {
+		$taxonomies = wp_list_filter( get_object_taxonomies( $post_type->name, 'objects' ), array( 'show_in_rest' => true ) );
+		$taxonomies = wp_list_pluck( $taxonomies, 'name' );
 		$data = array(
 			'capabilities' => $post_type->cap,
 			'description'  => $post_type->description,
@@ -153,6 +155,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 			'labels'       => $post_type->labels,
 			'name'         => $post_type->label,
 			'slug'         => $post_type->name,
+			'taxonomies'   => array_values( $taxonomies ),
 		);
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
 		$data    = $this->add_additional_fields_to_object( $data, $request );
@@ -203,6 +206,9 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 				'capabilities'     => array(
 					'description'  => __( 'All capabilities used by the resource.' ),
 					'type'         => 'array',
+					'items'        => array(
+						'type' => 'string',
+					),
 					'context'      => array( 'edit' ),
 					'readonly'     => true,
 				),
@@ -234,6 +240,15 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 					'description'  => __( 'An alphanumeric identifier for the resource.' ),
 					'type'         => 'string',
 					'context'      => array( 'view', 'edit', 'embed' ),
+					'readonly'     => true,
+				),
+				'taxonomies'       => array(
+					'description'  => __( 'Taxonomies associated with resource.' ),
+					'type'         => 'array',
+					'items'        => array(
+						'type' => 'string',
+					),
+					'context'      => array( 'view', 'edit' ),
 					'readonly'     => true,
 				),
 			),
