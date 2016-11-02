@@ -1132,6 +1132,9 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'description'     => __( 'The content for the object.' ),
 					'type'            => 'object',
 					'context'         => array( 'view', 'edit', 'embed' ),
+					'arg_options'     => array(
+						'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database()
+					),
 					'properties'      => array(
 						'raw'         => array(
 							'description'     => __( 'Content for the object, as it exists in the database.' ),
