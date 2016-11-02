@@ -95,10 +95,30 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		) );
 
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/me', array(
-			'methods'  => WP_REST_Server::READABLE,
-			'callback' => array( $this, 'get_current_item' ),
-			'args'     => array(
-				'context' => array(),
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_current_item' ),
+				'args'                => array(
+					'context'          => array(),
+				),
+			),
+			array(
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'update_current_item' ),
+				'permission_callback' => array( $this, 'update_current_item_permissions_check' ),
+				'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
+			),
+			array(
+				'methods'             => WP_REST_Server::DELETABLE,
+				'callback'            => array( $this, 'delete_current_item' ),
+				'permission_callback' => array( $this, 'delete_current_item_permissions_check' ),
+				'args'                => array(
+					'force'    => array(
+						'default'     => false,
+						'description' => __( 'Required to be true, as resource does not support trashing.' ),
+					),
+					'reassign' => array(),
+				),
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
 		));
@@ -568,6 +588,36 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Checks if a given request has access to update the current user.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return true|WP_Error True if the request has access to update the item, WP_Error object otherwise.
+	 */
+	public function update_current_item_permissions_check( $request ) {
+		$request['id'] = get_current_user_id();
+
+		return $this->update_item_permissions_check( $request );
+	}
+
+	/**
+	 * Updates the current user.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	function update_current_item( $request ) {
+		$request['id'] = get_current_user_id();
+
+		return $this->update_item( $request );
+	}
+
+	/**
 	 * Checks if a given request has access delete a user.
 	 *
 	 * @since 4.7.0
@@ -643,6 +693,36 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		do_action( 'rest_delete_user', $user, $response, $request );
 
 		return $response;
+	}
+
+	/**
+	 * Checks if a given request has access to delete the current user.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return true|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
+	 */
+	public function delete_current_item_permissions_check( $request ) {
+		$request['id'] = get_current_user_id();
+
+		return $this->delete_item_permissions_check( $request );
+	}
+
+	/**
+	 * Deletes the current user.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
+	 */
+	function delete_current_item( $request ) {
+		$request['id'] = get_current_user_id();
+
+		return $this->delete_item( $request );
 	}
 
 	/**
