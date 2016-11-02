@@ -2245,10 +2245,12 @@
 		 */
 		$pluginSearch.on( 'keyup input', _.debounce( function( event ) {
 			var data = {
-				_ajax_nonce: wp.updates.ajaxNonce,
-				s:           event.target.value,
-				pagenow:     pagenow
-			};
+				_ajax_nonce:   wp.updates.ajaxNonce,
+				s:             event.target.value,
+				pagenow:       pagenow,
+				plugin_status: 'all'
+			},
+			queryArgs;
 
 			// Clear on escape.
 			if ( 'keyup' === event.type && 27 === event.which ) {
@@ -2261,8 +2263,14 @@
 				wp.updates.searchTerm = data.s;
 			}
 
+			queryArgs = _.object( _.compact( _.map( location.search.slice( 1 ).split( '&' ), function( item ) {
+				if ( item ) return item.split( '=' );
+			} ) ) );
+
+			data.plugin_status = queryArgs.plugin_status || 'all';
+
 			if ( window.history && window.history.replaceState ) {
-				window.history.replaceState( null, '', location.href.split( '?' )[ 0 ] + '?s=' + data.s );
+				window.history.replaceState( null, '', location.href.split( '?' )[ 0 ] + '?s=' + data.s + '&plugin_status=' + data.plugin_status );
 			}
 
 			if ( 'undefined' !== typeof wp.updates.searchRequest ) {
@@ -2271,6 +2279,7 @@
 
 			$bulkActionForm.empty();
 			$( 'body' ).addClass( 'loading-content' );
+			$( '.subsubsub .current' ).removeClass( 'current' );
 
 			wp.updates.searchRequest = wp.ajax.post( 'search-plugins', data ).done( function( response ) {
 
@@ -2280,6 +2289,7 @@
 
 				if ( ! data.s.length ) {
 					$oldSubTitle.remove();
+					$( '.subsubsub .' + data.plugin_status + ' a' ).addClass( 'current' );
 				} else if ( $oldSubTitle.length ) {
 					$oldSubTitle.replaceWith( $subTitle );
 				} else {
