@@ -169,7 +169,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			'parent'         => 'post_parent__in',
 			'parent_exclude' => 'post_parent__not_in',
 			'search'         => 's',
-			'slug'           => 'name',
+			'slug'           => 'post_name__in',
 			'status'         => 'post_status',
 		);
 
@@ -882,6 +882,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			'post_parent__not_in',
 			'posts_per_page',
 			'date_query',
+			'post_name__in',
 		);
 
 		$valid_vars = array_merge( $valid_vars, $rest_valid );
@@ -2112,9 +2113,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		$params['slug'] = array(
-			'description'       => __( 'Limit result set to posts with a specific slug.' ),
-			'type'              => 'string',
-			'validate_callback' => 'rest_validate_request_arg',
+			'description'       => __( 'Limit result set to posts with one or more specific slugs.' ),
+			'type'              => 'array',
+			'sanitize_callback' => 'wp_parse_slug_list',
 		);
 
 		$params['status'] = array(
