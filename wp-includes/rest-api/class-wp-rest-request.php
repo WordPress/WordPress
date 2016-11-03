@@ -683,9 +683,12 @@ class WP_REST_Request implements ArrayAccess {
 
 			$error_data = array(
 				'status' => WP_Http::BAD_REQUEST,
-				'json_error_code' => json_last_error(),
-				'json_error_message' => json_last_error_msg(),
 			);
+			if ( function_exists( 'json_last_error' ) ) {
+				$error_data['json_error_code'] = json_last_error();
+				$error_data['json_error_message'] = json_last_error_msg();
+			}
+
 			return new WP_Error( 'rest_invalid_json', __( 'Invalid JSON body passed.' ), $error_data );
 		}
 
