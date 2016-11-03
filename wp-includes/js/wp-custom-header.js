@@ -1,4 +1,4 @@
-(function( window, $, settings ) {
+(function( window, settings ) {
 
 	if ( ! ( 'addEventListener' in window ) ) {
 		// Fail gracefully in unsupported browsers.
@@ -31,11 +31,16 @@
 
 					if ( handlers.hasOwnProperty( id ) && handler.test( settings ) ) {
 						handler.callback( settings );
+
+						// Set up and dispatch custom event when the video is loaded.
+						if ( 'dispatchEvent' in window ) {
+							var videoLoaded = new Event( 'wp-custom-header-video-loaded' );
+							document.dispatchEvent( videoLoaded );
+						}
+
 						break;
 					}
 				}
-
-				$( 'body' ).trigger( 'wp-custom-header-video-loaded' );
 			}
 		}
 
@@ -151,4 +156,4 @@
 		});
 	}
 
-})( window, jQuery, window._wpCustomHeaderSettings || {} );
+})( window, window._wpCustomHeaderSettings || {} );

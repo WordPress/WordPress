@@ -105,11 +105,6 @@
 
 			if ( body.is( '.header-image' ) ) {
 
-				// Recaculate the header height when a custom header loads.
-				$( 'body' ).on( 'wp-custom-header-video-loaded', function() {
-					mastheadOffset = $( '#site-header' ).height();
-				} );
-
 				_window.on( 'scroll.twentyfourteen', function() {
 					if ( _window.scrollTop() > mastheadOffset && mastheadHeight < 49 ) {
 						body.addClass( 'masthead-fixed' );
@@ -117,6 +112,12 @@
 						body.removeClass( 'masthead-fixed' );
 					}
 				} );
+
+				// Update masthead offset once a custom header video loads.
+				$( document ).on( 'wp-custom-header-video-loaded', function() {
+					mastheadOffset = $( '#site-header' ).height();
+				} );
+
 
 				// Update masthead offset after a selective refresh.
 				if ( 'undefined' !== typeof wp && wp.customize && wp.customize.selectiveRefresh ) {
