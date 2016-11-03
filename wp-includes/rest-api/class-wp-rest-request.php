@@ -651,11 +651,13 @@ class WP_REST_Request implements ArrayAccess {
 	 * Avoids parsing the JSON data until we need to access it.
 	 *
 	 * @since 4.4.0
+	 * @since 4.7.0 Returns error instance if value cannot be decoded.
 	 * @access protected
+	 * @return true|WP_Error True if the JSON data was passed or no JSON data was provided, WP_Error if invalid JSON was passed.
 	 */
 	protected function parse_json_params() {
 		if ( $this->parsed_json ) {
-			return;
+			return true;
 		}
 
 		$this->parsed_json = true;
@@ -664,7 +666,7 @@ class WP_REST_Request implements ArrayAccess {
 		$content_type = $this->get_content_type();
 
 		if ( empty( $content_type ) || 'application/json' !== $content_type['value'] ) {
-			return;
+			return true;
 		}
 
 		$params = json_decode( $this->get_body(), true );
@@ -676,10 +678,19 @@ class WP_REST_Request implements ArrayAccess {
 		 * might not be defined: https://core.trac.wordpress.org/ticket/27799
 		 */
 		if ( null === $params && ( ! function_exists( 'json_last_error' ) || JSON_ERROR_NONE !== json_last_error() ) ) {
-			return;
+			// Ensure subsequent calls receive error instance.
+			$this->parsed_json = false;
+
+			$error_data = array(
+				'status' => WP_Http::BAD_REQUEST,
+				'json_error_code' => json_last_error(),
+				'json_error_message' => json_last_error_msg(),
+			);
+			return new WP_Error( 'rest_invalid_json', __( 'Invalid JSON body passed.' ), $error_data );
 		}
 
 		$this->params['JSON'] = $params;
+		return true;
 	}
 
 	/**
@@ -841,6 +852,12 @@ class WP_REST_Request implements ArrayAccess {
 	 *                       WP_Error if required parameters are missing.
 	 */
 	public function has_valid_params() {
+		// If JSON data was passed, check for errors.
+		$json_error = $this->parse_json_params();
+		if ( is_wp_error( $json_error ) ) {
+			return $json_error;
+		}
+
 		$attributes = $this->get_attributes();
 		$required = array();
 
