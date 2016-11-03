@@ -459,6 +459,10 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_cannot_create', __( 'Sorry, you are not allowed to create new posts.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
+		if ( ! $this->check_assign_terms_permission( $request ) ) {
+			return new WP_Error( 'rest_cannot_assign_term', __( 'You do not have permission to assign the provided terms.' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+
 		return true;
 	}
 
@@ -590,6 +594,10 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( ! empty( $request['sticky'] ) && ! current_user_can( $post_type->cap->edit_others_posts ) ) {
 			return new WP_Error( 'rest_cannot_assign_sticky', __( 'You do not have permission to make posts sticky.' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+
+		if ( ! $this->check_assign_terms_permission( $request ) ) {
+			return new WP_Error( 'rest_cannot_assign_term', __( 'You do not have permission to assign the provided terms.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -1203,6 +1211,38 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				return $result;
 			}
 		}
+	}
+
+	/**
+	 * Checks whether current user can assign all terms sent with the current request.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param WP_REST_Request $request The request object with post and terms data.
+	 * @return bool Whether the current user can assign the provided terms.
+	 */
+	protected function check_assign_terms_permission( $request ) {
+		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
+		foreach ( $taxonomies as $taxonomy ) {
+			$base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
+
+			if ( ! isset( $request[ $base ] ) ) {
+				continue;
+			}
+
+			foreach ( $request[ $base ] as $term_id ) {
+				// Invalid terms will be rejected later.
+				if ( ! get_term( $term_id, $taxonomy->name ) ) {
+					continue;
+				}
+
+				if ( ! current_user_can( 'assign_term', (int) $term_id ) ) {
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	/**
