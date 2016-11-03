@@ -376,7 +376,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 */
 	public function get_item_schema() {
 		$schema = array(
-			'$schema'    => 'http://json-schema.org/draft-04/schema#',
+			'$schema'    => 'http://json-schema.org/schema#',
 			'title'      => "{$this->parent_post_type}-revision",
 			'type'       => 'object',
 			// Base properties for every Revision.
