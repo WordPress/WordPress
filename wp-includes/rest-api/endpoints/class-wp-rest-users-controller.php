@@ -1102,9 +1102,6 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 						'type'    => 'string',
 					),
 					'context'     => array( 'edit' ),
-					'arg_options' => array(
-						'sanitize_callback' => 'wp_parse_slug_list',
-					),
 				),
 				'password'        => array(
 					'description' => __( 'Password for the resource (never included).' ),
@@ -1171,31 +1168,31 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		$query_params['exclude'] = array(
 			'description'        => __( 'Ensure result set excludes specific ids.' ),
 			'type'               => 'array',
+			'items'              => array(
+				'type'           => 'integer',
+			),
 			'default'            => array(),
-			'sanitize_callback'  => 'wp_parse_id_list',
 		);
 
 		$query_params['include'] = array(
 			'description'        => __( 'Limit result set to specific ids.' ),
 			'type'               => 'array',
+			'items'              => array(
+				'type'           => 'integer',
+			),
 			'default'            => array(),
-			'sanitize_callback'  => 'wp_parse_id_list',
 		);
 
 		$query_params['offset'] = array(
 			'description'        => __( 'Offset the result set by a specific number of items.' ),
 			'type'               => 'integer',
-			'sanitize_callback'  => 'absint',
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		$query_params['order'] = array(
 			'default'            => 'asc',
 			'description'        => __( 'Order sort attribute ascending or descending.' ),
 			'enum'               => array( 'asc', 'desc' ),
-			'sanitize_callback'  => 'sanitize_key',
 			'type'               => 'string',
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		$query_params['orderby'] = array(
@@ -1210,21 +1207,20 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				'email',
 				'url',
 			),
-			'sanitize_callback'  => 'sanitize_key',
 			'type'               => 'string',
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		$query_params['slug']    = array(
 			'description'        => __( 'Limit result set to resources with a specific slug.' ),
 			'type'               => 'string',
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		$query_params['roles']   = array(
 			'description'        => __( 'Limit result set to resources matching at least one specific role provided. Accepts csv list or single role.' ),
 			'type'               => 'array',
-			'sanitize_callback'  => 'wp_parse_slug_list',
+			'items'              => array(
+				'type'           => 'string',
+			),
 		);
 
 		return $query_params;

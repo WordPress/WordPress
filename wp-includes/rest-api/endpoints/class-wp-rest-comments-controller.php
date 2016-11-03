@@ -1114,9 +1114,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'type'         => 'string',
 					'format'       => 'ipv4',
 					'context'      => array( 'edit' ),
-					'arg_options'  => array(
-						'default'           => '127.0.0.1',
-					),
+					'default'      => '127.0.0.1',
 				),
 				'author_name'     => array(
 					'description'  => __( 'Display name for the object author.' ),
@@ -1188,17 +1186,13 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'description'  => __( 'The id for the parent of the object.' ),
 					'type'         => 'integer',
 					'context'      => array( 'view', 'edit', 'embed' ),
-					'arg_options'  => array(
-						'default'           => 0,
-					),
+					'default'      => 0,
 				),
 				'post'             => array(
 					'description'  => __( 'The id of the associated post object.' ),
 					'type'         => 'integer',
 					'context'      => array( 'view', 'edit' ),
-					'arg_options'  => array(
-						'default'           => 0,
-					),
+					'default'      => 0,
 				),
 				'status'           => array(
 					'description'  => __( 'State of the object.' ),
@@ -1264,26 +1258,28 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			'description'       => __( 'Limit response to resources published after a given ISO8601 compliant date.' ),
 			'type'              => 'string',
 			'format'            => 'date-time',
-			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		$query_params['author'] = array(
 			'description'       => __( 'Limit result set to comments assigned to specific user ids. Requires authorization.' ),
-			'sanitize_callback' => 'wp_parse_id_list',
 			'type'              => 'array',
+			'items'             => array(
+				'type'          => 'integer',
+			),
 		);
 
 		$query_params['author_exclude'] = array(
 			'description'       => __( 'Ensure result set excludes comments assigned to specific user ids. Requires authorization.' ),
-			'sanitize_callback' => 'wp_parse_id_list',
 			'type'              => 'array',
+			'items'             => array(
+				'type'          => 'integer',
+			),
 		);
 
 		$query_params['author_email'] = array(
 			'default'           => null,
 			'description'       => __( 'Limit result set to that from a specific author email. Requires authorization.' ),
 			'format'            => 'email',
-			'sanitize_callback' => 'sanitize_email',
 			'type'              => 'string',
 		);
 
@@ -1291,43 +1287,40 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			'description'       => __( 'Limit response to resources published before a given ISO8601 compliant date.' ),
 			'type'              => 'string',
 			'format'            => 'date-time',
-			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		$query_params['exclude'] = array(
 			'description'        => __( 'Ensure result set excludes specific ids.' ),
 			'type'               => 'array',
+			'items'              => array(
+				'type'           => 'integer',
+			),
 			'default'            => array(),
-			'sanitize_callback'  => 'wp_parse_id_list',
 		);
 
 		$query_params['include'] = array(
 			'description'        => __( 'Limit result set to specific ids.' ),
 			'type'               => 'array',
+			'items'              => array(
+				'type'           => 'integer',
+			),
 			'default'            => array(),
-			'sanitize_callback'  => 'wp_parse_id_list',
 		);
 
 		$query_params['karma'] = array(
 			'default'           => null,
 			'description'       => __( 'Limit result set to that of a particular comment karma. Requires authorization.' ),
-			'sanitize_callback' => 'absint',
 			'type'              => 'integer',
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		$query_params['offset'] = array(
 			'description'        => __( 'Offset the result set by a specific number of comments.' ),
 			'type'               => 'integer',
-			'sanitize_callback'  => 'absint',
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		$query_params['order']      = array(
 			'description'           => __( 'Order sort attribute ascending or descending.' ),
 			'type'                  => 'string',
-			'sanitize_callback'     => 'sanitize_key',
-			'validate_callback'     => 'rest_validate_request_arg',
 			'default'               => 'desc',
 			'enum'                  => array(
 				'asc',
@@ -1338,8 +1331,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		$query_params['orderby']    = array(
 			'description'           => __( 'Sort collection by object attribute.' ),
 			'type'                  => 'string',
-			'sanitize_callback'     => 'sanitize_key',
-			'validate_callback'     => 'rest_validate_request_arg',
 			'default'               => 'date_gmt',
 			'enum'                  => array(
 				'date',
@@ -1355,22 +1346,28 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		$query_params['parent'] = array(
 			'default'           => array(),
 			'description'       => __( 'Limit result set to resources of specific parent ids.' ),
-			'sanitize_callback' => 'wp_parse_id_list',
 			'type'              => 'array',
+			'items'             => array(
+				'type'          => 'integer',
+			),
 		);
 
 		$query_params['parent_exclude'] = array(
 			'default'           => array(),
 			'description'       => __( 'Ensure result set excludes specific parent ids.' ),
-			'sanitize_callback' => 'wp_parse_id_list',
 			'type'              => 'array',
+			'items'             => array(
+				'type'          => 'integer',
+			),
 		);
 
 		$query_params['post']   = array(
 			'default'           => array(),
 			'description'       => __( 'Limit result set to resources assigned to specific post ids.' ),
 			'type'              => 'array',
-			'sanitize_callback' => 'wp_parse_id_list',
+			'items'             => array(
+				'type'          => 'integer',
+			),
 		);
 
 		$query_params['status'] = array(

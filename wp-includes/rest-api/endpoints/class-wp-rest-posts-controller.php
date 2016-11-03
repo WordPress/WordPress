@@ -1975,20 +1975,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'items'       => array(
 					'type'    => 'integer',
 				),
-				'arg_options' => array(
-					'sanitize_callback' => 'wp_parse_id_list',
-				),
-				'context'     => array( 'view', 'edit' ),
-			);
-			$schema['properties'][ $base . '_exclude' ] = array(
-				'description' => sprintf( __( 'The terms in the %s taxonomy that should not be assigned to the object.' ), $taxonomy->name ),
-				'type'        => 'array',
-				'items'       => array(
-					'type'    => 'integer',
-				),
-				'arg_options' => array(
-					'sanitize_callback' => 'wp_parse_id_list',
-				),
 				'context'     => array( 'view', 'edit' ),
 			);
 		}
@@ -2013,21 +1999,24 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			'description'        => __( 'Limit response to resources published after a given ISO8601 compliant date.' ),
 			'type'               => 'string',
 			'format'             => 'date-time',
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		if ( post_type_supports( $this->post_type, 'author' ) ) {
 			$params['author'] = array(
 				'description'         => __( 'Limit result set to posts assigned to specific authors.' ),
 				'type'                => 'array',
+				'items'               => array(
+					'type'            => 'integer',
+				),
 				'default'             => array(),
-				'sanitize_callback'   => 'wp_parse_id_list',
 			);
 			$params['author_exclude'] = array(
 				'description'         => __( 'Ensure result set excludes posts assigned to specific authors.' ),
 				'type'                => 'array',
+				'items'               => array(
+					'type'            => 'integer',
+				),
 				'default'             => array(),
-				'sanitize_callback'   => 'wp_parse_id_list',
 			);
 		}
 
@@ -2035,37 +2024,36 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			'description'        => __( 'Limit response to resources published before a given ISO8601 compliant date.' ),
 			'type'               => 'string',
 			'format'             => 'date-time',
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		$params['exclude'] = array(
 			'description'        => __( 'Ensure result set excludes specific ids.' ),
 			'type'               => 'array',
+			'items'              => array(
+				'type'           => 'integer',
+			),
 			'default'            => array(),
-			'sanitize_callback'  => 'wp_parse_id_list',
 		);
 
 		$params['include'] = array(
 			'description'        => __( 'Limit result set to specific ids.' ),
 			'type'               => 'array',
+			'items'              => array(
+				'type'           => 'integer',
+			),
 			'default'            => array(),
-			'sanitize_callback'  => 'wp_parse_id_list',
 		);
 
 		if ( 'page' === $this->post_type || post_type_supports( $this->post_type, 'page-attributes' ) ) {
 			$params['menu_order'] = array(
 				'description'        => __( 'Limit result set to resources with a specific menu_order value.' ),
 				'type'               => 'integer',
-				'sanitize_callback'  => 'absint',
-				'validate_callback'  => 'rest_validate_request_arg',
 			);
 		}
 
 		$params['offset'] = array(
 			'description'        => __( 'Offset the result set by a specific number of items.' ),
 			'type'               => 'integer',
-			'sanitize_callback'  => 'absint',
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		$params['order'] = array(
@@ -2073,7 +2061,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			'type'               => 'string',
 			'default'            => 'desc',
 			'enum'               => array( 'asc', 'desc' ),
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		$params['orderby'] = array(
@@ -2088,7 +2075,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'title',
 				'slug',
 			),
-			'validate_callback'  => 'rest_validate_request_arg',
 		);
 
 		if ( 'page' === $this->post_type || post_type_supports( $this->post_type, 'page-attributes' ) ) {
@@ -2101,13 +2087,17 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$params['parent'] = array(
 				'description'       => __( 'Limit result set to those of particular parent ids.' ),
 				'type'              => 'array',
-				'sanitize_callback' => 'wp_parse_id_list',
+				'items'             => array(
+					'type'          => 'integer',
+				),
 				'default'           => array(),
 			);
 			$params['parent_exclude'] = array(
 				'description'       => __( 'Limit result set to all items except those of a particular parent id.' ),
 				'type'              => 'array',
-				'sanitize_callback' => 'wp_parse_id_list',
+				'items'             => array(
+					'type'          => 'integer',
+				),
 				'default'           => array(),
 			);
 		}
@@ -2137,7 +2127,18 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$params[ $base ] = array(
 				'description'       => sprintf( __( 'Limit result set to all items that have the specified term assigned in the %s taxonomy.' ), $base ),
 				'type'              => 'array',
-				'sanitize_callback' => 'wp_parse_id_list',
+				'items'             => array(
+					'type'          => 'integer',
+				),
+				'default'           => array(),
+			);
+
+			$params[ $base . '_exclude' ] = array(
+				'description' => sprintf( __( 'Limit result set to all items except those that have the specified term assigned in the %s taxonomy.' ), $base ),
+				'type'        => 'array',
+				'items'       => array(
+					'type'    => 'integer',
+				),
 				'default'           => array(),
 			);
 		}
@@ -2146,7 +2147,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$params['sticky'] = array(
 				'description'       => __( 'Limit result set to items that are sticky.' ),
 				'type'              => 'boolean',
-				'sanitize_callback' => 'rest_parse_request_arg',
 			);
 		}
 

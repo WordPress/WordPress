@@ -304,7 +304,6 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 		$new_params['type'] = array(
 			'description'  => __( 'Limit results to resources associated with a specific post type.' ),
 			'type'         => 'string',
-			'validate_callback' => 'rest_validate_request_arg',
 		);
 		return $new_params;
 	}

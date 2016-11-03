@@ -594,7 +594,6 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			'description'       => __( 'Limit result set to attachments of a particular media type.' ),
 			'type'              => 'string',
 			'enum'              => array_keys( $media_types ),
-			'validate_callback' => 'rest_validate_request_arg',
 		);
 
 		$params['mime_type'] = array(
