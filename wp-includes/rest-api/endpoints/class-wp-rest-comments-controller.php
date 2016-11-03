@@ -484,6 +484,12 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$prepared_comment['comment_agent'] = '';
 		}
 
+		$check_comment_lengths = wp_check_comment_data_max_lengths( $prepared_comment );
+		if ( is_wp_error( $check_comment_lengths ) ) {
+			$error_code = $check_comment_lengths->get_error_code();
+			return new WP_Error( $error_code, __( 'Comment field exceeds maximum length allowed.' ), array( 'status' => 400 ) );
+		}
+
 		$prepared_comment['comment_approved'] = wp_allow_comment( $prepared_comment, true );
 
 		if ( is_wp_error( $prepared_comment['comment_approved'] ) ) {
@@ -630,6 +636,12 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 
 			$prepared_args['comment_ID'] = $id;
+
+			$check_comment_lengths = wp_check_comment_data_max_lengths( $prepared_args );
+			if ( is_wp_error( $check_comment_lengths ) ) {
+				$error_code = $check_comment_lengths->get_error_code();
+				return new WP_Error( $error_code, __( 'Comment field exceeds maximum length allowed.' ), array( 'status' => 400 ) );
+			}
 
 			$updated = wp_update_comment( $prepared_args );
 
