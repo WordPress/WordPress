@@ -654,6 +654,25 @@
 		});
 
 		api.preview.bind( 'sync', function( events ) {
+
+			/*
+			 * Delete any settings that already exist locally which haven't been
+			 * modified in the controls while the preview was loading. This prevents
+			 * situations where the JS value being synced from the pane may differ
+			 * from the PHP-sanitized JS value in the preview which causes the
+			 * non-sanitized JS value to clobber the PHP-sanitized value. This
+			 * is particularly important for selective refresh partials that
+			 * have a fallback refresh behavior since infinite refreshing would
+			 * result.
+			 */
+			if ( events.settings && events['settings-modified-while-loading'] ) {
+				_.each( _.keys( events.settings ), function( syncedSettingId ) {
+					if ( api.has( syncedSettingId ) && ! events['settings-modified-while-loading'][ syncedSettingId ] ) {
+						delete events.settings[ syncedSettingId ];
+					}
+				} );
+			}
+
 			$.each( events, function( event, args ) {
 				api.preview.trigger( event, args );
 			});

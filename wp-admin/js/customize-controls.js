@@ -4299,6 +4299,7 @@
 			var previewer = this, synced = {}, constructs;
 
 			synced.settings = api.get();
+			synced['settings-modified-while-loading'] = previewer.settingsModifiedWhileLoading;
 			if ( 'resolved' !== previewer.deferred.active.state() || previewer.loading ) {
 				synced.scroll = previewer.scroll;
 			}
@@ -4421,7 +4422,7 @@
 		 * Refresh the preview seamlessly.
 		 */
 		refresh: function() {
-			var previewer = this;
+			var previewer = this, onSettingChange;
 
 			// Display loading indicator
 			previewer.send( 'loading-initiated' );
@@ -4434,6 +4435,15 @@
 				query:      previewer.query( { excludeCustomizedSaved: true } ) || {},
 				container:  previewer.container
 			});
+
+			previewer.settingsModifiedWhileLoading = {};
+			onSettingChange = function( setting ) {
+				previewer.settingsModifiedWhileLoading[ setting.id ] = true;
+			};
+			api.bind( 'change', onSettingChange );
+			previewer.loading.always( function() {
+				api.unbind( 'change', onSettingChange );
+			} );
 
 			previewer.loading.done( function( readyData ) {
 				var loadingFrame = this, previousPreview, onceSynced;
