@@ -279,6 +279,9 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 				'types'            => array(
 					'description'  => __( 'Types associated with resource.' ),
 					'type'         => 'array',
+					'items'        => array(
+						'type' => 'string',
+					),
 					'context'      => array( 'view', 'edit' ),
 					'readonly'     => true,
 				),
