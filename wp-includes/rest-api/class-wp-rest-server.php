@@ -1183,6 +1183,12 @@ class WP_REST_Server {
 					if ( isset( $opts['description'] ) ) {
 						$arg_data['description'] = $opts['description'];
 					}
+					if ( isset( $opts['type'] ) ) {
+						$arg_data['type'] = $opts['type'];
+					}
+					if ( isset( $opts['items'] ) ) {
+						$arg_data['items'] = $opts['items'];
+					}
 					$endpoint_data['args'][ $key ] = $arg_data;
 				}
 			}

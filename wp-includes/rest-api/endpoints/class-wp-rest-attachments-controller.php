@@ -30,7 +30,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	protected function prepare_items_query( $prepared_args = array(), $request = null ) {
 		$query_args = parent::prepare_items_query( $prepared_args, $request );
 
-		if ( empty( $query_args['post_status'] ) || ! in_array( $query_args['post_status'], array( 'inherit', 'private', 'trash' ), true ) ) {
+		if ( empty( $query_args['post_status'] ) ) {
 			$query_args['post_status'] = 'inherit';
 		}
 
@@ -586,7 +586,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	public function get_collection_params() {
 		$params = parent::get_collection_params();
 		$params['status']['default'] = 'inherit';
-		$params['status']['enum'] = array( 'inherit', 'private', 'trash' );
+		$params['status']['items']['enum'] = array( 'inherit', 'private', 'trash' );
 		$media_types = $this->get_media_types();
 
 		$params['media_type'] = array(

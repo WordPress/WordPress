@@ -2120,11 +2120,13 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$params['status'] = array(
 			'default'           => 'publish',
-			'description'       => __( 'Limit result set to posts assigned a specific status; can be comma-delimited list of status types.' ),
-			'enum'              => array_merge( array_keys( get_post_stati() ), array( 'any' ) ),
-			'sanitize_callback' => 'sanitize_key',
-			'type'              => 'string',
-			'validate_callback' => array( $this, 'validate_user_can_query_private_statuses' ),
+			'description'       => __( 'Limit result set to posts assigned one or more statuses.' ),
+			'type'              => 'array',
+			'items'             => array(
+				'enum'          => array_merge( array_keys( get_post_stati() ), array( 'any' ) ),
+				'type'          => 'string',
+			),
+			'sanitize_callback' => array( $this, 'sanitize_post_statuses' ),
 		);
 
 		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
@@ -2152,27 +2154,41 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Validates whether the user can query private statuses.
+	 * Sanitizes and validates the list of post statuses, including whether the
+	 * user can query private statuses.
 	 *
 	 * @since 4.7.0
 	 * @access public
 	 *
-	 * @param  mixed           $value     Post status.
+	 * @param  string|array    $statuses  One or more post statuses.
 	 * @param  WP_REST_Request $request   Full details about the request.
 	 * @param  string          $parameter Additional parameter to pass to validation.
-	 * @return bool|WP_Error Whether the request can query private statuses, otherwise WP_Error object.
+	 * @return array|WP_Error A list of valid statuses, otherwise WP_Error object.
 	 */
-	public function validate_user_can_query_private_statuses( $value, $request, $parameter ) {
-		if ( 'publish' === $value ) {
-			return rest_validate_request_arg( $value, $request, $parameter );
+	public function sanitize_post_statuses( $statuses, $request, $parameter ) {
+		$statuses = wp_parse_slug_list( $statuses );
+
+		// The default status is different in WP_REST_Attachments_Controller
+		$attributes = $request->get_attributes();
+		$default_status = $attributes['args']['status']['default'];
+
+		foreach ( $statuses as $status ) {
+			if ( $status === $default_status ) {
+				continue;
+			}
+
+			$post_type_obj = get_post_type_object( $this->post_type );
+
+			if ( current_user_can( $post_type_obj->cap->edit_posts ) ) {
+				$result = rest_validate_request_arg( $status, $request, $parameter );
+				if ( is_wp_error( $result ) ) {
+					return $result;
+				}
+			} else {
+				return new WP_Error( 'rest_forbidden_status', __( 'Status is forbidden.' ), array( 'status' => rest_authorization_required_code() ) );
+			}
 		}
 
-		$post_type_obj = get_post_type_object( $this->post_type );
-
-		if ( current_user_can( $post_type_obj->cap->edit_posts ) ) {
-			return rest_validate_request_arg( $value, $request, $parameter );
-		}
-
-		return new WP_Error( 'rest_forbidden_status', __( 'Status is forbidden.' ), array( 'status' => rest_authorization_required_code() ) );
+		return $statuses;
 	}
 }
