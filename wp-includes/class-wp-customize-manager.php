@@ -928,8 +928,12 @@ final class WP_Customize_Manager {
 
 					// Find the max widget number for this type.
 					$widget_numbers = array_keys( $settings );
-					$widget_numbers[] = 1;
-					$max_widget_numbers[ $id_base ] = call_user_func_array( 'max', $widget_numbers );
+					if ( count( $widget_numbers ) > 0 ) {
+						$widget_numbers[] = 1;
+						$max_widget_numbers[ $id_base ] = call_user_func_array( 'max', $widget_numbers );
+					} else {
+						$max_widget_numbers[ $id_base ] = 1;
+					}
 				}
 				$max_widget_numbers[ $id_base ] += 1;
 
