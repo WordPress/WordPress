@@ -80,13 +80,6 @@ body.customize-partial-edit-shortcuts-hidden .customize-partial-edit-shortcut:be
 	pointer-events: none;
 }
 
-body.customize-partial-edit-shortcuts-flash .customize-partial-edit-shortcut:before {
-	animation-duration: 1.5s;
-	animation-delay: 0.4s;
-	animation-name: customize-partial-edit-shortcut-bounce-disappear;
-	pointer-events: none;
-}
-
 .page-sidebar-collapsed .customize-partial-edit-shortcut:before,
 .customize-partial-edit-shortcut-hidden:before {
 	visibility: hidden;

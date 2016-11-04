@@ -5207,7 +5207,7 @@
 			expandedPanel( false );
 			expandedSection( false );
 			previewerAlive( true );
-			editShortcutVisibility( 'initial' );
+			editShortcutVisibility( 'visible' );
 
 			api.bind( 'change', function() {
 				state('saved').set( false );
@@ -5813,6 +5813,21 @@
 		});
 
 		// Update the edit shortcut visibility state.
+		api.state( 'paneVisible' ).bind( function( isPaneVisible ) {
+			var isMobileScreen;
+			if ( window.matchMedia ) {
+				isMobileScreen = window.matchMedia( 'screen and ( max-width: 640px )' ).matches;
+			} else {
+				isMobileScreen = $( window ).width() <= 640;
+			}
+			api.state( 'editShortcutVisibility' ).set( isPaneVisible || isMobileScreen ? 'visible' : 'hidden' );
+		} );
+		if ( window.matchMedia ) {
+			window.matchMedia( 'screen and ( max-width: 640px )' ).addListener( function() {
+				var state = api.state( 'paneVisible' );
+				state.callbacks.fireWith( state, [ state.get(), state.get() ] );
+			} );
+		}
 		api.previewer.bind( 'edit-shortcut-visibility', function( visibility ) {
 			api.state( 'editShortcutVisibility' ).set( visibility );
 		} );

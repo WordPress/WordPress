@@ -996,7 +996,6 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			shouldAnimateHide = ( 'hidden' === visibility && body.hasClass( 'customize-partial-edit-shortcuts-shown' ) && ! body.hasClass( 'customize-partial-edit-shortcuts-hidden' ) );
 			body.toggleClass( 'customize-partial-edit-shortcuts-hidden', shouldAnimateHide );
 			body.toggleClass( 'customize-partial-edit-shortcuts-shown', 'visible' === visibility );
-			body.toggleClass( 'customize-partial-edit-shortcuts-flash', 'initial' === visibility );
 		} );
 
 		api.preview.bind( 'active', function() {
@@ -1021,14 +1020,6 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			// Make all partials added henceforth as ready upon add.
 			self.partial.bind( 'add', function( partial ) {
 				partial.deferred.ready.resolve();
-			} );
-
-			body.on( 'click', function( event ) {
-				if ( event.shiftKey || $( event.target ).is( '.customize-partial-edit-shortcut, :input, button *, a[href], a[href] *, object, object *, [tabindex], [tabindex] *' ) ) {
-					return; // Don't toggle shortcuts on shift-clicks or clicks on (or in) interactive elements.
-				}
-				api.selectiveRefresh.editShortcutVisibility.set( 'visible' === api.selectiveRefresh.editShortcutVisibility.get() ? 'hidden' : 'visible' );
-				api.preview.send( 'edit-shortcut-visibility', api.selectiveRefresh.editShortcutVisibility.get() );
 			} );
 		} );
 
