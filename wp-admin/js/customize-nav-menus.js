@@ -235,7 +235,9 @@
 							self.doSearch( self.pages.search );
 						}
 					} else {
-						self.loadItems( type, object );
+						self.loadItems( [
+							{ type: type, object: object }
+						] );
 					}
 				}
 			});
@@ -360,53 +362,82 @@
 			// Render the template for each item by type.
 			_.each( api.Menus.data.itemTypes, function( itemType ) {
 				self.pages[ itemType.type + ':' + itemType.object ] = 0;
-				self.loadItems( itemType.type, itemType.object ); // @todo we need to combine these Ajax requests.
 			} );
+			self.loadItems( api.Menus.data.itemTypes );
 		},
 
-		// Load available menu items.
-		loadItems: function( type, object ) {
-			var self = this, params, request, itemTemplate, availableMenuItemContainer;
+		/**
+		 * Load available nav menu items.
+		 *
+		 * @since 4.3.0
+		 * @since 4.7.0 Changed function signature to take list of item types instead of single type/object.
+		 * @access private
+		 *
+		 * @param {Array.<object>} itemTypes List of objects containing type and key.
+		 * @param {string} deprecated Formerly the object parameter.
+		 * @returns {void}
+		 */
+		loadItems: function( itemTypes, deprecated ) {
+			var self = this, _itemTypes, requestItemTypes = [], request, itemTemplate, availableMenuItemContainers = {};
 			itemTemplate = wp.template( 'available-menu-item' );
 
-			if ( -1 === self.pages[ type + ':' + object ] ) {
+			if ( _.isString( itemTypes ) && _.isString( deprecated ) ) {
+				_itemTypes = [ { type: itemTypes, object: deprecated } ];
+			} else {
+				_itemTypes = itemTypes;
+			}
+
+			_.each( _itemTypes, function( itemType ) {
+				var container, name = itemType.type + ':' + itemType.object;
+				if ( -1 === self.pages[ name ] ) {
+					return; // Skip types for which there are no more results.
+				}
+				container = $( '#available-menu-items-' + itemType.type + '-' + itemType.object );
+				container.find( '.accordion-section-title' ).addClass( 'loading' );
+				availableMenuItemContainers[ name ] = container;
+
+				requestItemTypes.push( {
+					object: itemType.object,
+					type: itemType.type,
+					page: self.pages[ name ]
+				} );
+			} );
+
+			if ( 0 === requestItemTypes.length ) {
 				return;
 			}
-			availableMenuItemContainer = $( '#available-menu-items-' + type + '-' + object );
-			availableMenuItemContainer.find( '.accordion-section-title' ).addClass( 'loading' );
+
 			self.loading = true;
-			params = {
+			request = wp.ajax.post( 'load-available-menu-items-customizer', {
 				'customize-menus-nonce': api.settings.nonce['customize-menus'],
 				'wp_customize': 'on',
-				'type': type,
-				'object': object,
-				'page': self.pages[ type + ':' + object ]
-			};
-			request = wp.ajax.post( 'load-available-menu-items-customizer', params );
+				'item_types': requestItemTypes
+			} );
 
 			request.done(function( data ) {
-				var items, typeInner;
-				items = data.items;
-				if ( 0 === items.length ) {
-					if ( 0 === self.pages[ type + ':' + object ] ) {
-						availableMenuItemContainer
-							.addClass( 'cannot-expand' )
-							.removeClass( 'loading' )
-							.find( '.accordion-section-title > button' )
-							.prop( 'tabIndex', -1 );
+				var typeInner;
+				_.each( data.items, function( typeItems, name ) {
+					if ( 0 === typeItems.length ) {
+						if ( 0 === self.pages[ name ] ) {
+							availableMenuItemContainers[ name ].find( '.accordion-section-title' )
+								.addClass( 'cannot-expand' )
+								.removeClass( 'loading' )
+								.find( '.accordion-section-title > button' )
+								.prop( 'tabIndex', -1 );
+						}
+						self.pages[ name ] = -1;
+						return;
+					} else if ( ( 'post_type:page' === name ) && ( ! availableMenuItemContainers[ name ].hasClass( 'open' ) ) ) {
+						availableMenuItemContainers[ name ].find( '.accordion-section-title > button' ).click();
 					}
-					self.pages[ type + ':' + object ] = -1;
-					return;
-				} else if ( ( 'page' === object ) && ( ! availableMenuItemContainer.hasClass( 'open' ) ) ) {
-					availableMenuItemContainer.find( '.accordion-section-title > button' ).click();
-				}
-				items = new api.Menus.AvailableItemCollection( items ); // @todo Why is this collection created and then thrown away?
-				self.collection.add( items.models );
-				typeInner = availableMenuItemContainer.find( '.available-menu-items-list' );
-				items.each(function( menuItem ) {
-					typeInner.append( itemTemplate( menuItem.attributes ) );
+					typeItems = new api.Menus.AvailableItemCollection( typeItems ); // @todo Why is this collection created and then thrown away?
+					self.collection.add( typeItems.models );
+					typeInner = availableMenuItemContainers[ name ].find( '.available-menu-items-list' );
+					typeItems.each( function( menuItem ) {
+						typeInner.append( itemTemplate( menuItem.attributes ) );
+					} );
+					self.pages[ name ] += 1;
 				});
-				self.pages[ type + ':' + object ] += 1;
 			});
 			request.fail(function( data ) {
 				if ( typeof console !== 'undefined' && console.error ) {
@@ -414,7 +445,9 @@
 				}
 			});
 			request.always(function() {
-				availableMenuItemContainer.find( '.accordion-section-title' ).removeClass( 'loading' );
+				_.each( availableMenuItemContainers, function( container ) {
+					container.find( '.accordion-section-title' ).removeClass( 'loading' );
+				} );
 				self.loading = false;
 			});
 		},
