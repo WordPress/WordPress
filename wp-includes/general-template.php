@@ -3018,8 +3018,7 @@ function wp_default_editor() {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param string $r string Which editor should be displayed by default. Either 'tinymce',
-	 *                         'html', or 'test'
+	 * @param string $r Which editor should be displayed by default. Either 'tinymce', 'html', or 'test'.
 	 */
 	return apply_filters( 'wp_default_editor', $r );
 }
