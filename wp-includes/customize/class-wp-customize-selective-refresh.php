@@ -188,7 +188,6 @@ final class WP_Customize_Selective_Refresh {
 				'clickEditWidget' => __( 'Click to edit this widget.' ),
 				'clickEditTitle' => __( 'Click to edit the site title.' ),
 				'clickEditMisc' => __( 'Click to edit this element.' ),
-				'editShortcutVisibilityToggle'  => __( 'Toggle edit shortcuts' ),
 				/* translators: %s: document.write() */
 				'badDocumentWrite' => sprintf( __( '%s is forbidden' ), 'document.write()' ),
 			),

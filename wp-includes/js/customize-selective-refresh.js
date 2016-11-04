@@ -1006,18 +1006,6 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		} );
 
 		api.preview.bind( 'active', function() {
-			var body = $( document.body ), buttonText, $editShortcutVisibilityButton;
-
-			// Add invisible button to toggle editShortcutVisibility.
-			if ( $( '.edit-shortcut-visibility-button' ).length < 1 ) {
-				buttonText = self.data.l10n.editShortcutVisibilityToggle || 'Toggle edit shortcuts';
-				$editShortcutVisibilityButton = $( '<button type="button" class="edit-shortcut-visibility-button screen-reader-text"></button>' );
-				$editShortcutVisibilityButton.text( buttonText );
-				$editShortcutVisibilityButton.on( 'click', function() {
-					api.selectiveRefresh.editShortcutVisibility.set( 'visible' === api.selectiveRefresh.editShortcutVisibility.get() ? 'hidden' : 'visible' );
-				} );
-				body.prepend( $editShortcutVisibilityButton );
-			}
 
 			// Make all partials ready.
 			self.partial.each( function( partial ) {
