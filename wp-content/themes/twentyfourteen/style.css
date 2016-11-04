@@ -1045,8 +1045,8 @@ span + .edit-link:before,
 	outline: 1px dotted;
 }
 
-.secondary-navigation .customize-partial-edit-shortcut:before,
-.footer-sidebar .widget:first-child .customize-partial-edit-shortcut:before {
+.secondary-navigation .customize-partial-edit-shortcut button,
+.footer-sidebar .widget:first-child .customize-partial-edit-shortcut button {
 	left: 0;
 }
 

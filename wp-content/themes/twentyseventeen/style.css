@@ -2967,7 +2967,7 @@ object {
 }
 
 /* Add some space around the visual edit shortcut buttons. */
-.twentyseventeen-panel .customize-partial-edit-shortcut:before {
+.twentyseventeen-panel .customize-partial-edit-shortcut button {
 	top: 30px;
 	left: 30px;
 }
@@ -2983,7 +2983,7 @@ object {
 }
 
 /* Prevent icon colors from clashing with color schemes. */
-.colors-custom .customize-partial-edit-shortcut:before {
+.colors-custom .customize-partial-edit-shortcut button {
 	text-shadow: 0 -1px 1px rgba(0,0,0,.2),
 	             1px 0 1px rgba(0,0,0,.2),
 	             0 1px 1px rgba(0,0,0,.2),
