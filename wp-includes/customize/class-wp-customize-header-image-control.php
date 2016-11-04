@@ -169,6 +169,7 @@ class WP_Customize_Header_Image_Control extends WP_Customize_Image_Control {
 			<?php if ( current_theme_supports( 'custom-header', 'video' ) ) {
 				echo '<span class="customize-control-title">' . $this->label . '</span>';
 			} ?>
+			<div class="customize-control-notifications-container"></div>
 			<p class="customizer-section-intro customize-control-description">
 				<?php
 				if ( current_theme_supports( 'custom-header', 'video' ) ) {

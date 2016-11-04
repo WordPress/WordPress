@@ -898,6 +898,7 @@ p.customize-section-description {
 	margin-bottom: 8px;
 }
 
+.customize-control-header .actions,
 .customize-control-header .uploaded {
 	margin-bottom: 18px;
 }
