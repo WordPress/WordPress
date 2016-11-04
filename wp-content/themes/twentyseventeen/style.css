@@ -1542,7 +1542,6 @@ body {
 .site-header {
 	background-color: #fafafa;
 	position: relative;
-	overflow: hidden;
 }
 
 /* Site branding */
@@ -1636,9 +1635,8 @@ body:not(.title-tagline-hidden) .site-branding-text {
 .has-header-image.twentyseventeen-front-page .custom-header,
 .has-header-image.home.blog .custom-header {
 	display: table;
-	height: 100%;
-	min-height: 300px;
-	min-height: 75vh;
+	height: 300px;
+	height: 75vh;
 	width: 100%;
 }
 
@@ -3257,7 +3255,7 @@ object {
 	.has-header-image.twentyseventeen-front-page .custom-header,
 	.has-header-image.home.blog .custom-header {
 		display: block;
-		min-height: 0;
+		height: auto;
 	}
 
 	.custom-header-image {
@@ -3521,6 +3519,9 @@ object {
 		padding: 1em;
 		position: absolute;
 		right: 0;
+	}
+
+	.site-header .menu-scroll-down .icon {
 		-webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
 		-ms-transform: rotate(90deg); /* IE 9 */
 		transform: rotate(90deg);
