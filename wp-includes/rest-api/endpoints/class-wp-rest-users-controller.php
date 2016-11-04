@@ -85,6 +85,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'delete_item_permissions_check' ),
 				'args'                => array(
 					'force'    => array(
+						'type'        => 'boolean',
 						'default'     => false,
 						'description' => __( 'Required to be true, as resource does not support trashing.' ),
 					),
@@ -114,6 +115,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'delete_current_item_permissions_check' ),
 				'args'                => array(
 					'force'    => array(
+						'type'        => 'boolean',
 						'default'     => false,
 						'description' => __( 'Required to be true, as resource does not support trashing.' ),
 					),
@@ -653,7 +655,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		// We don't support trashing for this type, error out.
 		if ( ! $force ) {
-			return new WP_Error( 'rest_trash_not_supported', __( 'Users do not support trashing.' ), array( 'status' => 501 ) );
+			return new WP_Error( 'rest_trash_not_supported', __( 'Users do not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
 		}
 
 		$user = get_userdata( $id );
@@ -670,7 +672,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		$request->set_param( 'context', 'edit' );
 
-		$response = $this->prepare_item_for_response( $user, $request );
+		$previous = $this->prepare_item_for_response( $user, $request );
 
 		/** Include admin user functions to get access to wp_delete_user() */
 		require_once ABSPATH . 'wp-admin/includes/user.php';
@@ -680,6 +682,9 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		if ( ! $result ) {
 			return new WP_Error( 'rest_cannot_delete', __( 'The resource cannot be deleted.' ), array( 'status' => 500 ) );
 		}
+
+		$response = new WP_REST_Response();
+		$response->set_data( array( 'deleted' => true, 'previous' => $previous->get_data() ) );
 
 		/**
 		 * Fires immediately after a user is deleted via the REST API.

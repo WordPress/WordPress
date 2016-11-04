@@ -101,6 +101,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'delete_item_permissions_check' ),
 				'args'                => array(
 					'force' => array(
+						'type'        => 'boolean',
 						'default'     => false,
 						'description' => __( 'Whether to bypass trash and force deletion.' ),
 					),
@@ -757,15 +758,17 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		$request->set_param( 'context', 'edit' );
 
-		$response = $this->prepare_item_for_response( $post, $request );
 
 		// If we're forcing, then delete permanently.
 		if ( $force ) {
+			$previous = $this->prepare_item_for_response( $post, $request );
 			$result = wp_delete_post( $id, true );
+			$response = new WP_REST_Response();
+			$response->set_data( array( 'deleted' => true, 'previous' => $previous->get_data() ) );
 		} else {
 			// If we don't support trashing for this type, error out.
 			if ( ! $supports_trash ) {
-				return new WP_Error( 'rest_trash_not_supported', __( 'The post does not support trashing.' ), array( 'status' => 501 ) );
+				return new WP_Error( 'rest_trash_not_supported', __( 'The post does not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
 			}
 
 			// Otherwise, only trash if we haven't already.
@@ -776,6 +779,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			// (Note that internally this falls through to `wp_delete_post` if
 			// the trash is disabled.)
 			$result = wp_trash_post( $id );
+			$post = $this->get_post( $id );
+			$response = $this->prepare_item_for_response( $post, $request );
 		}
 
 		if ( ! $result ) {

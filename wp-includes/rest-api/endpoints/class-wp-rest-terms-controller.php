@@ -116,6 +116,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'delete_item_permissions_check' ),
 				'args'                => array(
 					'force' => array(
+						'type'        => 'boolean',
 						'default'     => false,
 						'description' => __( 'Required to be true, as resource does not support trashing.' ),
 					),
@@ -566,20 +567,23 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		// We don't support trashing for this resource type.
 		if ( ! $force ) {
-			return new WP_Error( 'rest_trash_not_supported', __( 'Resource does not support trashing.' ), array( 'status' => 501 ) );
+			return new WP_Error( 'rest_trash_not_supported', __( 'Terms do not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
 		}
 
 		$term = get_term( (int) $request['id'], $this->taxonomy );
 
 		$request->set_param( 'context', 'view' );
 
-		$response = $this->prepare_item_for_response( $term, $request );
+		$previous = $this->prepare_item_for_response( $term, $request );
 
 		$retval = wp_delete_term( $term->term_id, $term->taxonomy );
 
 		if ( ! $retval ) {
 			return new WP_Error( 'rest_cannot_delete', __( 'The resource cannot be deleted.' ), array( 'status' => 500 ) );
 		}
+
+		$response = new WP_REST_Response();
+		$response->set_data( array( 'deleted' => true, 'previous' => $previous->get_data() ) );
 
 		/**
 		 * Fires after a single term is deleted via the REST API.

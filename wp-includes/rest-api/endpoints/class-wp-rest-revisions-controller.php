@@ -93,6 +93,13 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 				'methods'             => WP_REST_Server::DELETABLE,
 				'callback'            => array( $this, 'delete_item' ),
 				'permission_callback' => array( $this, 'delete_item_permissions_check' ),
+				'args'                => array(
+					'force' => array(
+						'type'        => 'boolean',
+						'default'     => false,
+						'description' => __( 'Required to be true, as resource does not support trashing.' ),
+					),
+				),
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
 		));
@@ -220,6 +227,16 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True on success, or WP_Error object on failure.
 	 */
 	public function delete_item( $request ) {
+		$force = isset( $request['force'] ) ? (bool) $request['force'] : false;
+
+		// We don't support trashing for this resource type.
+		if ( ! $force ) {
+			return new WP_Error( 'rest_trash_not_supported', __( 'Revisions do not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
+		}
+
+		$revision = $this->get_post( $request['id'] );
+		$previous = $this->prepare_item_for_response( $revision, $request );
+
 		$result = wp_delete_post( $request['id'], true );
 
 		/**
@@ -234,11 +251,13 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		 */
 		do_action( 'rest_delete_revision', $result, $request );
 
-		if ( $result ) {
-			return true;
-		} else {
+		if ( ! $result ) {
 			return new WP_Error( 'rest_cannot_delete', __( 'The post cannot be deleted.' ), array( 'status' => 500 ) );
 		}
+
+		$response = new WP_REST_Response();
+		$response->set_data( array( 'deleted' => true, 'previous' => $previous->get_data() ) );
+		return $response;
 	}
 
 	/**

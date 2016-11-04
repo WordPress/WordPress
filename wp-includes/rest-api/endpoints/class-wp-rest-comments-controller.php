@@ -83,6 +83,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'delete_item_permissions_check' ),
 				'args'     => array(
 					'force'    => array(
+						'type'        => 'boolean',
 						'default'     => false,
 						'description' => __( 'Whether to bypass trash and force deletion.' ),
 					),
@@ -738,14 +739,15 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		$request->set_param( 'context', 'edit' );
 
-		$response = $this->prepare_item_for_response( $comment, $request );
-
 		if ( $force ) {
+			$previous = $this->prepare_item_for_response( $comment, $request );
 			$result = wp_delete_comment( $comment->comment_ID, true );
+			$response = new WP_REST_Response();
+			$response->set_data( array( 'deleted' => true, 'previous' => $previous->get_data() ) );
 		} else {
 			// If this type doesn't support trashing, error out.
 			if ( ! $supports_trash ) {
-				return new WP_Error( 'rest_trash_not_supported', __( 'The comment does not support trashing.' ), array( 'status' => 501 ) );
+				return new WP_Error( 'rest_trash_not_supported', __( 'The comment does not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
 			}
 
 			if ( 'trash' === $comment->comment_approved ) {
@@ -753,6 +755,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 
 			$result = wp_trash_comment( $comment->comment_ID );
+			$comment = get_comment( $comment->comment_ID );
+			$response = $this->prepare_item_for_response( $comment, $request );
 		}
 
 		if ( ! $result ) {
