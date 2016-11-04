@@ -10,7 +10,7 @@
 /**
  * Customize Themes Section class.
  *
- * A UI container for theme controls, which are displayed in tabbed sections.
+ * A UI container for theme controls, which behaves like a backwards Panel.
  *
  * @since 4.2.0
  *
@@ -28,115 +28,57 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	public $type = 'themes';
 
 	/**
-	 * Theme section action.
+	 * Render the themes section, which behaves like a panel.
 	 *
-	 * Defines the type of themes to load (installed, featured, latest, etc.).
-	 *
-	 * @since 4.7.0
-	 * @access public
-	 * @var string
-	 */
-	public $action = '';
-
-	/**
-	 * Text before theme section heading.
-	 *
-	 * @since 4.7.0
-	 * @access public
-	 * @var string
-	 */
-	public $text_before = '';
-
-	/**
-	 * Get section parameters for JS.
-	 *
-	 * @since 4.7.0
-	 * @access public
-	 * @return array Exported parameters.
-	 */
-	public function json() {
-		$exported = parent::json();
-		$exported['action'] = $this->action;
-		$exported['text_before'] = $this->text_before;
-
-		return $exported;
-	}
-
-	/**
-	 * Render a themes section as a JS template.
-	 *
-	 * The template is only rendered by PHP once, so all actions are prepared at once on the server side.
-	 *
-	 * @since 4.7.0
+	 * @since 4.2.0
 	 * @access protected
 	 */
-	protected function render_template() {
+	protected function render() {
+		$classes = 'accordion-section control-section control-section-' . $this->type;
 		?>
-		<li id="accordion-section-{{ data.id }}" class="theme-section">
-			<# if ( '' !== data.text_before ) { #>
-				<p class="customize-themes-text-before">{{ data.text_before }}</p>
-			<# } #>
-			<# if ( 'search' === data.action ) { #>
-				<div class="search-form customize-themes-section-title themes-section-search_themes">
-					<label class="screen-reader-text" for="wp-filter-search-input">{{ data.title }}</label>
-					<input placeholder="{{ data.title }}" type="text" aria-describedby="live-search-desc" id="wp-filter-search-input" class="wp-filter-search">
-					<span id="live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
-				</div>
-			<# } else { #>
-				<# if ( 'favorites' === data.action || 'feature_filter' === data.action ) {
-					var attr = ' aria-expanded="false"';
+		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
+			<h3 class="accordion-section-title">
+				<?php
+				if ( $this->manager->is_theme_active() ) {
+					echo '<span class="customize-action">' . __( 'Active theme' ) . '</span> ' . $this->title;
 				} else {
-					var attr = '';
-				} #>
-				<button type="button" class="customize-themes-section-title themes-section-{{ data.id }}"{{{ attr }}}>{{ data.title }}</button>
-			<# } #>
-			<?php if ( ! current_user_can( 'install_themes' ) || is_multisite() ) : ?>
-				<# if ( 'installed' === data.action ) { #>
-					<p class="themes-filter-container">
-						<label for="themes-filter">
-							<span class="screen-reader-text"><?php _e( 'Search installed themes&hellip;' ); ?></span>
-							<input type="text" id="themes-filter" placeholder="<?php esc_attr_e( 'Search installed themes&hellip;' ); ?>" />
-						</label>
-					</p>
-				<# } #>
-			<?php endif; ?>
-			<# if ( 'favorites' === data.action ) { #>
-				<div class="favorites-form filter-details">
-					<p class="install-help"><?php _e( 'If you have marked themes as favorites on WordPress.org, you can browse them here.' ); ?></p>
-					<p>
-						<label for="wporg-username-input"><?php _e( 'Your WordPress.org username:' ); ?></label>
-						<input type="search" id="wporg-username-input" value="">
-						<button type="button" class="button button-secondary favorites-form-submit"><?php _e( 'Get Favorites' ); ?></button>
-					</p>
-				</div>
-			<# } else if ( 'feature_filter' === data.action ) { #>
-				<div class="filter-drawer filter-details">
+					echo '<span class="customize-action">' . __( 'Previewing theme' ) . '</span> ' . $this->title;
+				}
+				?>
+
+				<?php if ( count( $this->controls ) > 0 ) : ?>
+					<button type="button" class="button change-theme" tabindex="0"><?php _ex( 'Change', 'theme' ); ?></button>
+				<?php endif; ?>
+			</h3>
+			<div class="customize-themes-panel control-panel-content themes-php">
+				<h3 class="accordion-section-title customize-section-title">
+					<span class="customize-action"><?php _e( 'Customizing' ); ?></span>
+					<?php _e( 'Themes' ); ?>
+					<span class="title-count theme-count"><?php echo count( $this->controls ) + 1 /* Active theme */; ?></span>
+				</h3>
+				<h3 class="accordion-section-title customize-section-title">
 					<?php
-					$feature_list = get_theme_feature_list();
-					foreach ( $feature_list as $feature_name => $features ) {
-						echo '<fieldset class="filter-group">';
-						$feature_name = esc_html( $feature_name );
-						echo '<legend><button type="button" class="button-link" aria-expanded="false">' . $feature_name . '</button></legend>';
-						echo '<div class="filter-group-feature">';
-						foreach ( $features as $feature => $feature_name ) {
-							$feature = esc_attr( $feature );
-							echo '<input type="checkbox" id="filter-id-' . $feature . '" value="' . $feature . '" /> ';
-							echo '<label for="filter-id-' . $feature . '">' . $feature_name . '</label><br>';
-						}
-						echo '</div>';
-						echo '</fieldset>';
+					if ( $this->manager->is_theme_active() ) {
+						echo '<span class="customize-action">' . __( 'Active theme' ) . '</span> ' . $this->title;
+					} else {
+						echo '<span class="customize-action">' . __( 'Previewing theme' ) . '</span> ' . $this->title;
 					}
 					?>
-				</div>
-			<# } #>
-			<div class="customize-themes-section themes-section-{{ data.id }} control-section-content themes-php">
+					<button type="button" class="button customize-theme"><?php _e( 'Customize' ); ?></button>
+				</h3>
+
 				<div class="theme-overlay" tabindex="0" role="dialog" aria-label="<?php esc_attr_e( 'Theme Details' ); ?>"></div>
+
+				<div id="customize-container"></div>
+				<?php if ( count( $this->controls ) > 4 ) : ?>
+					<p><label for="themes-filter">
+						<span class="screen-reader-text"><?php _e( 'Search installed themes&hellip;' ); ?></span>
+						<input type="text" id="themes-filter" placeholder="<?php esc_attr_e( 'Search installed themes&hellip;' ); ?>" />
+					</label></p>
+				<?php endif; ?>
 				<div class="theme-browser rendered">
-					<div class="error unexpected-error" style="display: none; "><p><?php _e( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ); ?></p></div>
-					<ul class="themes">
+					<ul class="themes accordion-section-content">
 					</ul>
-					<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
-					<p class="spinner"></p>
 				</div>
 			</div>
 		</li>

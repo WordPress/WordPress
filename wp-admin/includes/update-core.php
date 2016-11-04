@@ -710,6 +710,7 @@ $_old_files = array(
 'wp-includes/class-feed.php',
 'wp-includes/locale.php',
 'wp-includes/session.php',
+'wp-includes/customize/class-wp-customize-themes-panel.php', // Removed in beta; when the feature comes back remember to remove it from this array. See #37661.
 );
 
 /**

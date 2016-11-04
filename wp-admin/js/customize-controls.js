@@ -1,4 +1,4 @@
-/* global _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n, MediaElementPlayer, console */
+/* global _wpCustomizeHeader, _wpCustomizeBackground, _wpMediaViewsL10n, MediaElementPlayer */
 (function( exports, $ ){
 	var Container, focus, normalizedTransitionendEventName, api = wp.customize;
 
@@ -864,13 +864,13 @@
 				section = this,
 				container = $( '#customize-theme-controls' );
 
-			// Watch for changes to the panel state.
+			// Watch for changes to the panel state
 			inject = function ( panelId ) {
 				var parentContainer;
 				if ( panelId ) {
-					// The panel has been supplied, so wait until the panel object is registered.
+					// The panel has been supplied, so wait until the panel object is registered
 					api.panel( panelId, function ( panel ) {
-						// The panel has been registered, wait for it to become ready/initialized.
+						// The panel has been registered, wait for it to become ready/initialized
 						panel.deferred.embedded.done( function () {
 							parentContainer = panel.contentContainer;
 							if ( ! section.headContainer.parent().is( parentContainer ) ) {
@@ -895,7 +895,7 @@
 				}
 			};
 			section.panel.bind( inject );
-			inject( section.panel.get() ); // Since a section may never get a panel, assume that it won't ever get one.
+			inject( section.panel.get() ); // Since a section may never get a panel, assume that it won't ever get one
 		},
 
 		/**
@@ -1062,8 +1062,8 @@
 	/**
 	 * wp.customize.ThemesSection
 	 *
-	 * Custom section for themes that loads themes by category, and also
-	 * handles the theme-details view rendering and navigation.
+	 * Custom section for themes that functions similarly to a backwards panel,
+	 * and also handles the theme-details view rendering and navigation.
 	 *
 	 * @constructor
 	 * @augments wp.customize.Section
@@ -1075,43 +1075,13 @@
 		template: '',
 		screenshotQueue: null,
 		$window: $( window ),
-		loaded: 0,
-		loading: false,
-		fullyLoaded: false,
-		term: '',
-		filterContainer: $(),
 
 		/**
-		 * Embed the section in the DOM when the themes panel is ready.
-		 *
-		 * Insert the section before the themes container. Assume that a themes section is within a panel, but not necessarily the themes panel.
-		 *
-		 * @since 4.7.0
+		 * @since 4.2.0
 		 */
-		embed: function () {
-			var inject,
-				section = this,
-				container = $( '#customize-theme-controls' );
-
-			// Watch for changes to the panel state
-			inject = function ( panelId ) {
-				var parentContainer;
-				api.panel( panelId, function ( panel ) {
-					// The panel has been registered, wait for it to become ready/initialized
-					panel.deferred.embedded.done( function () {
-						parentContainer = panel.contentContainer;
-						if ( ! section.headContainer.parent().is( parentContainer ) ) {
-							parentContainer.find( '.customize-themes-full-container-container' ).before( section.headContainer );
-						}
-						if ( ! section.contentContainer.parent().is( section.headContainer ) ) {
-							container.append( section.contentContainer );
-						}
-						section.deferred.embedded.resolve();
-					});
-				} );
-			};
-			section.panel.bind( inject );
-			inject( section.panel.get() ); // Since a section may never get a panel, assume that it won't ever get one
+		initialize: function () {
+			this.$customizeSidebar = $( '.wp-full-overlay-sidebar-content:first' );
+			return api.Section.prototype.initialize.apply( this, arguments );
 		},
 
 		/**
@@ -1145,15 +1115,15 @@
 				}
 			});
 
-			_.bindAll( this, 'renderScreenshots', 'loadMore', 'checkTerm', 'filtersChecked' );
+			_.bindAll( this, 'renderScreenshots' );
 		},
 
 		/**
 		 * Override Section.isContextuallyActive method.
 		 *
 		 * Ignore the active states' of the contained theme controls, and just
-		 * use the section's own active state instead. This prevents empty search
-		 * results for theme sections from causing the section to become inactive.
+		 * use the section's own active state instead. This ensures empty search
+		 * results for themes to cause the section to become inactive.
 		 *
 		 * @since 4.2.0
 		 *
@@ -1169,53 +1139,53 @@
 		attachEvents: function () {
 			var section = this;
 
-			section.filterContainer = $( '#accordion-section-' + section.id );
+			// Expand/Collapse section/panel.
+			section.container.find( '.change-theme, .customize-theme' ).on( 'click keydown', function( event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+					return;
+				}
+				event.preventDefault(); // Keep this AFTER the key filter above
 
-			// Expand section/panel. Only collapse when opening another section.
-			section.filterContainer.on( 'click', '.customize-themes-section-title', function() {
-				// Open the section.
-				if ( ! section.expanded() ) {
+				if ( section.expanded() ) {
+					section.collapse();
+				} else {
 					section.expand();
 				}
-
-				// Toggle filters.
-				if ( section.filterContainer.find( '.filter-details' ).length ) {
-					section.filterContainer.find( '.customize-themes-section-title' )
-						.toggleClass( 'details-open' )
-						.attr('aria-expanded', function ( i, attr ) {
-							return attr === 'true' ? 'false' : 'true';
-						});
-					section.filterContainer.find( '.filter-details' ).slideToggle( 180 );
-				}
-			});
-
-			// Preview installed themes.
-			section.container.on( 'click', '.theme-actions .preview-theme', function() {
-				var themeId = $( this ).data( 'slug' );
-
-				$( '.wp-full-overlay' ).addClass( 'customize-loading' );
-				api.panel( 'themes' ).loadThemePreview( themeId ).fail( function() {
-					$( '.wp-full-overlay' ).removeClass( 'customize-loading' );
-				} );
 			});
 
 			// Theme navigation in details view.
-			section.container.on( 'click', '.left', function() {
+			section.container.on( 'click keydown', '.left', function( event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+					return;
+				}
+
+				event.preventDefault(); // Keep this AFTER the key filter above
+
 				section.previousTheme();
 			});
 
-			section.container.on( 'click', '.right', function() {
+			section.container.on( 'click keydown', '.right', function( event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+					return;
+				}
+
+				event.preventDefault(); // Keep this AFTER the key filter above
+
 				section.nextTheme();
 			});
 
-			section.container.on( 'click', '.theme-backdrop, .close', function() {
+			section.container.on( 'click keydown', '.theme-backdrop, .close', function( event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+					return;
+				}
+
+				event.preventDefault(); // Keep this AFTER the key filter above
+
 				section.closeDetails();
 			});
 
 			var renderScreenshots = _.throttle( _.bind( section.renderScreenshots, this ), 100 );
-
-			// Only used when there is only one section - installed themes.
-			$( '.control-panel-themes' ).on( 'input', '#themes-filter', function( event ) {
+			section.container.on( 'input', '#themes-filter', function( event ) {
 				var count,
 					term = event.currentTarget.value.toLowerCase().trim().replace( '-', ' ' ),
 					controls = section.controls();
@@ -1227,58 +1197,19 @@
 				renderScreenshots();
 
 				// Update theme count.
-				count = section.contentContainer.find( 'li.customize-control:visible' ).length;
-				$( '.control-panel-themes' ).find( '.theme-count' ).text( count );
+				count = section.container.find( 'li.customize-control:visible' ).length;
+				section.container.find( '.theme-count' ).text( count );
 			});
 
-			// Event listeners for queries with user-entered terms.
-			if ( 'search' === section.params.action ) {
-				var debounced = _.debounce( section.checkTerm, 500 ); // Wait until there is no input for 500 milliseconds to initiate a search.
-				$( '.control-panel-themes' ).on( 'input', '#wp-filter-search-input', function() {
-					debounced( section );
-					if ( ! section.expanded() ) {
-						section.expand();
-					}
-				});
-
-				// Focus the input if the icon is clicked.
-				section.filterContainer.find( '.search-form' ).on( 'click', function( e ) {
-					if ( ! $( e.currentTarget ).hasClass( 'wp-filter-search' ) ) {
-						$( e.currentTarget ).find( '.wp-filter-search' ).focus();
-					}
-				});
-			} else if ( 'favorites' === section.params.action ) {
-				section.container.on( 'click', '.favorites-form-submit', function() {
-					section.checkTerm( section );
-				});
-				section.container.on( 'keydown', '#wporg-username-input', function( e ) {
-					if ( api.utils.isKeydownButNotEnterEvent( e ) ) {
-						return;
-					}
-					section.checkTerm( section );
-				});
-			} else if ( 'feature_filter' === section.params.action ) {
-				section.container.on( 'click', '.filter-group input', function() {
-					section.filtersChecked();
-					section.checkTerm( section );
-				});
-
-				// Toggle feature filter sections.
-				section.container.on( 'click', '.filter-group legend button', function( e ) {
-					$( e.currentTarget )
-						.toggleClass( 'open' )
-						.attr('aria-expanded', function ( i, attr ) {
-							return attr === 'true' ? 'false' : 'true';
-						})
-						.parent().next( '.filter-group-feature' ).slideToggle( 180 );
-				});
-			}
-
-			// Move section controls to the themes area.
+			// Pre-load the first 3 theme screenshots.
 			api.bind( 'ready', function () {
-				section.contentContainer = section.container.find( '.customize-themes-section' );
-				section.contentContainer.appendTo( $( '.customize-themes-full-container' ) );
-				section.container.add( section.filterContainer );
+				_.each( section.controls().slice( 0, 3 ), function ( control ) {
+					var img, src = control.params.theme.screenshot[0];
+					if ( src ) {
+						img = new Image();
+						img.src = src;
+					}
+				});
 			});
 		},
 
@@ -1290,7 +1221,7 @@
 		 * @param {Boolean}  expanded
 		 * @param {Object}   args
 		 * @param {Boolean}  args.unchanged
-		 * @param {Function} args.completeCallback
+		 * @param {Callback} args.completeCallback
 		 */
 		onChangeExpanded: function ( expanded, args ) {
 
@@ -1303,278 +1234,55 @@
 			}
 
 			// Note: there is a second argument 'args' passed
-			var section = this,
-				container = section.contentContainer.closest( '.customize-themes-full-container' );
+			var panel = this,
+				section = panel.contentContainer,
+				overlay = section.closest( '.wp-full-overlay' ),
+				container = section.closest( '.wp-full-overlay-sidebar-content' ),
+				customizeBtn = section.find( '.customize-theme' ),
+				changeBtn = panel.headContainer.find( '.change-theme' );
 
-			if ( expanded ) {
-
-				if ( -1 !== $.inArray( section.params.action, [ 'search', 'favorites', 'feature_filter' ] ) && '' === section.term ) {
-					section.collapse(); // Note that the current section hasn't been collapsed yet, so this is all we need to do to do nothing.
-					return; // Don't expand to an empty section that can't load any themes.
-				}
-
-				// Load controls if none are loaded yet.
-				if ( 0 === section.loaded ) {
-					section.loadControls();
-				}
-
+			if ( expanded && ! section.hasClass( 'current-panel' ) ) {
 				// Collapse any sibling sections/panels
 				api.section.each( function ( otherSection ) {
-					if ( otherSection !== section ) {
+					if ( otherSection !== panel ) {
 						otherSection.collapse( { duration: args.duration } );
 					}
 				});
+				api.panel.each( function ( otherPanel ) {
+					otherPanel.collapse( { duration: 0 } );
+				});
 
-				section.contentContainer.addClass( 'current-section' );
-				container.scrollTop();
-				section.filterContainer.find( '.customize-themes-section-title' ).addClass( 'selected' );
+				panel._animateChangeExpanded( function() {
+					changeBtn.attr( 'tabindex', '-1' );
+					customizeBtn.attr( 'tabindex', '0' );
 
-				container.on( 'scroll', _.throttle( section.renderScreenshots, 300 ) );
-				container.on( 'scroll', _.throttle( section.loadMore, 300 ) );
+					customizeBtn.focus();
+					section.css( 'top', '' );
+					container.scrollTop( 0 );
 
-				if ( args.completeCallback ) {
-					args.completeCallback();
-				}
-				section.updateCount(); // Show this section's count.
-			} else {
-				section.contentContainer.removeClass( 'current-section' );
-
-				// Always hide, even if they don't exist or are already hidden.
-				section.filterContainer.find( '.customize-themes-section-title' ).removeClass( 'selected details-open' ).attr( 'aria-expanded', 'false' );
-				section.filterContainer.find( '.filter-details' ).slideUp( 180 );
-
-				container.off( 'scroll' );
-
-				if ( args.completeCallback ) {
-					args.completeCallback();
-				}
-			}
-		},
-
-		/**
-		 * Return the section's content element without detachng from the parent.
-		 *
-		 * @since 4.7.0
-		 */
-		getContent: function() {
-			return this.container.find( '.control-section-content' );
-		},
-
-		/**
-		 * Load theme data via ajax and add themes to the section as controls.
-		 *
-		 * @since 4.7.0
-		 */
-		loadControls: function() {
-			var section = this, params, page, request;
-
-			if ( section.loading ) {
-				return; // We're already loading a batch of themes.
-			}
-
-			// Parameters for every API query. Additional params are set in PHP.
-			page = Math.ceil( section.loaded / 100 ) + 1;
-			params = {
-				'switch-themes-nonce': api.settings.nonce['switch-themes'],
-				'wp_customize': 'on',
-				'theme_action': section.params.action,
-				'customized_theme': api.settings.theme.stylesheet,
-				'page': page
-			};
-
-			// Add fields for special request actions.
-			if ( 'search' === section.params.action ) {
-				if ( '' === section.term ) {
-					return;
-				} else {
-					params.search = section.term;
-				}
-			} else if ( 'favorites' === section.params.action ) {
-				if ( '' === section.term ) {
-					return;
-				} else {
-					params.user = section.term;
-				}
-			} else if ( 'feature_filter' === section.params.action ) {
-				if ( '' === section.term ) {
-					return;
-				} else {
-					params.tags = section.term;
-				}
-			}
-
-			// Load themes.
-			section.headContainer.closest( '.wp-full-overlay' ).addClass( 'loading' );
-			section.loading = true;
-			section.container.find( '.no-themes' ).hide();
-			request = wp.ajax.post( 'customize-load-themes', params );
-			request.done(function( data ) {
-				var themes = data.themes,
-				    themeControl, newThemeControls;
-				if ( 0 !== themes.length ) {
-					newThemeControls = [];
-					// Add controls for each theme.
-					_.each( themes, function ( theme ) {
-						var customizeId = section.params.action + '_theme_' + theme.id;
-						themeControl = new api.controlConstructor.theme( customizeId, {
-							params: {
-								type: 'theme',
-								content: '<li id="customize-control-theme-' + section.params.action + '_' + theme.id + '" class="customize-control customize-control-theme"></li>',
-								section: section.params.id,
-								active: true,
-								theme: theme,
-								priority: section.loaded + 1
-							},
-							previewer: api.previewer
-						} );
-
-						api.control.add( customizeId, themeControl );
-						newThemeControls.push( themeControl );
-						section.loaded = section.loaded + 1;
-					});
-
-					if ( 1 === page ) {
-						// Pre-load the first 3 theme screenshots.
-						_.each( section.controls().slice( 0, 3 ), function ( control ) {
-							var img, src = control.params.theme.screenshot[0];
-							if ( src ) {
-								img = new Image();
-								img.src = src;
-							}
-						});
-						if ( 'search' === section.params.action ) {
-							wp.a11y.speak( api.settings.l10n.themeSearchResults.replace( '%d', data.info.results ) );
-						}
-					} else {
-						Array.prototype.push.apply( section.screenshotQueue, newThemeControls ); // Add new themes to the screenshot queue.
+					if ( args.completeCallback ) {
+						args.completeCallback();
 					}
-					_.delay( section.renderScreenshots, 100 ); // Wait for the controls to become visible.
+				} );
 
-					if ( 'installed' === section.action || 100 > themes.length ) { // If we have less than the requested 100 themes, it's the end of the list.
-						section.fullyLoaded = true;
+				overlay.addClass( 'in-themes-panel' );
+				section.addClass( 'current-panel' );
+
+			} else if ( ! expanded && section.hasClass( 'current-panel' ) ) {
+				panel._animateChangeExpanded( function() {
+					changeBtn.attr( 'tabindex', '0' );
+					customizeBtn.attr( 'tabindex', '-1' );
+
+					changeBtn.focus();
+					section.css( 'top', '' );
+
+					if ( args.completeCallback ) {
+						args.completeCallback();
 					}
-				} else {
-					if ( 0 === section.loaded ) {
-						section.container.find( '.no-themes' ).show();
-						wp.a11y.speak( section.container.find( '.no-themes' ).text() );
-					} else {
-						section.fullyLoaded = true;
-					}
-				}
-				if ( 'installed' === section.params.action ) {
-					section.updateCount();
-				} else {
-					section.updateCount( data.info.results );
-				}
-				section.container.find( '.unexpected-error' ).hide(); // Hide error notice in case it was previously shown.
+				} );
 
-				// This cannot run on request.always, as section.loading may turn false before the new controls load in the success case.
-				section.headContainer.closest( '.wp-full-overlay' ).removeClass( 'loading' );
-				section.loading = false;
-			});
-			request.fail(function( data ) {
-				if ( 'undefined' === typeof data ) {
-					section.container.find( '.unexpected-error' ).show();
-					wp.a11y.speak( section.container.find( '.unexpected-error' ).text() );
-				} else if ( typeof console !== 'undefined' && console.error ) {
-					console.error( data );
-				}
-
-				// This cannot run on request.always, as section.loading may turn false before the new controls load in the success case.
-				section.headContainer.closest( '.wp-full-overlay' ).removeClass( 'loading' );
-				section.loading = false;
-			});
-		},
-
-		/**
-		 * Determines whether more themes should be loaded, and loads them.
-		 *
-		 * @since 4.7.0
-		 */
-		loadMore: function() {
-			var section = this, container, bottom, threshold;
-			if ( ! section.fullyLoaded && ! section.loading ) {
-				container = section.container.closest( '.customize-themes-full-container' );
-
-				bottom = container.scrollTop() + container.height();
-				threshold = container.prop( 'scrollHeight' ) - 3000; // Use a fixed distance to the bottom of loaded results to avoid unnecessarily loading results sooner when using a percentage of scroll distance.
-
-				if ( bottom > threshold ) {
-					section.loadControls();
-				}
-			}
-		},
-
-		/**
-		 * Event handler for search, feature filter, and favorites input that determines if the term has changed and loads new controls as needed.
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param {wp.customize.ThemesSection} section The current theme section, passed through the debouncer.
-		 */
-		checkTerm: function( section ) {
-			var newTerm;
-
-			// Find term.
-			if ( 'search' === section.params.action ) {
-				newTerm = $( '#wp-filter-search-input' ).val();
-			} else if ( 'favorites' === section.params.action ) {
-				newTerm = $( '#wporg-username-input' ).val();
-			} else if ( 'feature_filter' === section.params.action ) {
-				newTerm = section.term; // Set separately by filtersChecked(), as they're changed.
-				if ( '' === newTerm ) {
-					return;
-				}
-			} else {
-				return;
-			}
-
-			if ( section.term === newTerm && 'feature_filter' !== section.params.action ) {
-				return;
-			}
-
-			// Clear the controls in the section.
-			_.each( section.controls(), function( control ) {
-				control.container.remove();
-				api.control.remove( control.id );
-			});
-			section.loaded = 0;
-			section.fullyLoaded = false;
-			section.screenshotQueue = null;
-
-			if ( '' !== newTerm ) { // Empty term should not show any results.
-				// Run a new query, with loadControls handling paging, etc.
-				section.term = newTerm;
-				section.loadControls();
-				if ( ! section.expanded() ) {
-					section.expand(); // Expand the section if it isn't expanded.
-				}
-			}
-		},
-
-		/**
-		 * Check for filters checked in the feature filter list.
-		 *
-		 * @since 4.7.0
-		 */
-		filtersChecked: function() {
-			var section = this,
-			    items = section.container.find( '.filter-group' ).find( ':checkbox' ),
-			    tags = [];
-
-			if ( 'feature_filter' !== section.params.action ) {
-				return false;
-			}
-
-			_.each( items.filter( ':checked' ), function( item ) {
-				tags.push( $( item ).prop( 'value' ) );
-			});
-
-			// When no filters are checked, restore initial state and return
-			if ( tags.length === 0 ) {
-				section.term = '';
-			} else {
-				section.term = tags;
+				overlay.removeClass( 'in-themes-panel' );
+				section.removeClass( 'current-panel' );
 			}
 		},
 
@@ -1586,15 +1294,12 @@
 		renderScreenshots: function( ) {
 			var section = this;
 
-			// Fill queue initially, or check for more if empty.
-			if ( section.screenshotQueue === null || 0 === section.screenshotQueue.length ) {
-				// Add controls that haven't had their screenshots rendered.
-				section.screenshotQueue = _.filter( section.controls(), function( control ) {
-					return ! control.screenshotRendered;
-				});
+			// Fill queue initially.
+			if ( section.screenshotQueue === null ) {
+				section.screenshotQueue = section.controls();
 			}
 
-			// Are all screenshots rendered (for now)?
+			// Are all screenshots rendered?
 			if ( ! section.screenshotQueue.length ) {
 				return;
 			}
@@ -1630,31 +1335,6 @@
 		},
 
 		/**
-		 * Update the number of themes in the section.
-		 *
-		 * @since 4.7.0
-		 */
-		updateCount: function ( count ) {
-			if ( ! count ) {
-				count = this.loaded;
-			}
-
-			var displayed = this.container.closest( '.control-panel-content' ).find( '.themes-displayed' ),
-			    countEl = this.container.closest( '.control-panel-content' ).find( '.theme-count' );
-
-			if ( 0 === count ) {
-				countEl.text( count );
-			} else {
-				// Animate the count change for emphasis.
-				displayed.fadeOut( 180, function() {
-					countEl.text( count );
-					displayed.fadeIn( 180 );
-				} );
-				wp.a11y.speak( api.settings.l10n.announceThemeCount.replace( '%d', count ) );
-			}
-		},
-
-		/**
 		 * Advance the modal to the next theme.
 		 *
 		 * @since 4.2.0
@@ -1674,13 +1354,13 @@
 		 * @since 4.2.0
 		 */
 		getNextTheme: function () {
-			var section = this, control, next;
-			control = api.control( section.params.action + '_theme_' + this.currentTheme );
+			var control, next;
+			control = api.control( 'theme_' + this.currentTheme );
 			next = control.container.next( 'li.customize-control-theme' );
 			if ( ! next.length ) {
 				return false;
 			}
-			next = next[0].id.replace( 'customize-control-theme-' + section.params.action, section.params.action + '_theme' );
+			next = next[0].id.replace( 'customize-control-', '' );
 			control = api.control( next );
 
 			return control.params.theme;
@@ -1706,13 +1386,13 @@
 		 * @since 4.2.0
 		 */
 		getPreviousTheme: function () {
-			var section = this, control, previous;
-			control = api.control( section.params.action + '_theme_' + this.currentTheme );
+			var control, previous;
+			control = api.control( 'theme_' + this.currentTheme );
 			previous = control.container.prev( 'li.customize-control-theme' );
 			if ( ! previous.length ) {
 				return false;
 			}
-			previous = previous[0].id.replace( 'customize-control-theme-' + section.params.action, section.params.action + '_theme' );
+			previous = previous[0].id.replace( 'customize-control-', '' );
 			control = api.control( previous );
 
 			return control.params.theme;
@@ -1733,6 +1413,57 @@
 		},
 
 		/**
+		 * Load theme preview.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param {string} themeId Theme ID.
+		 * @returns {jQuery.promise} Promise.
+		 */
+		loadThemePreview: function( themeId ) {
+			var deferred = $.Deferred(), onceProcessingComplete, overlay, urlParser;
+
+			urlParser = document.createElement( 'a' );
+			urlParser.href = location.href;
+			urlParser.search = $.param( _.extend(
+				api.utils.parseQueryString( urlParser.search.substr( 1 ) ),
+				{
+					theme: themeId,
+					changeset_uuid: api.settings.changeset.uuid
+				}
+			) );
+
+			overlay = $( '.wp-full-overlay' );
+			overlay.addClass( 'customize-loading' );
+
+			onceProcessingComplete = function() {
+				var request;
+				if ( api.state( 'processing' ).get() > 0 ) {
+					return;
+				}
+
+				api.state( 'processing' ).unbind( onceProcessingComplete );
+
+				request = api.requestChangesetUpdate();
+				request.done( function() {
+					$( window ).off( 'beforeunload.customize-confirm' );
+					window.location.href = urlParser.href;
+				} );
+				request.fail( function() {
+					overlay.removeClass( 'customize-loading' );
+				} );
+			};
+
+			if ( 0 === api.state( 'processing' ).get() ) {
+				onceProcessingComplete();
+			} else {
+				api.state( 'processing' ).bind( onceProcessingComplete );
+			}
+
+			return deferred.promise();
+		},
+
+		/**
 		 * Render & show the theme details for a given theme model.
 		 *
 		 * @since 4.2.0
@@ -1740,7 +1471,7 @@
 		 * @param {Object}   theme
 		 */
 		showDetails: function ( theme, callback ) {
-			var section = this;
+			var section = this, link;
 			callback = callback || function(){};
 			section.currentTheme = theme.id;
 			section.overlay.html( section.template( theme ) )
@@ -1749,7 +1480,22 @@
 			$( 'body' ).addClass( 'modal-open' );
 			section.containFocus( section.overlay );
 			section.updateLimits();
-			wp.a11y.speak( api.settings.l10n.announceThemeDetails.replace( '%s', theme.name ) );
+
+			link = section.overlay.find( '.inactive-theme > a' );
+
+			link.on( 'click', function( event ) {
+				event.preventDefault();
+
+				// Short-circuit if request is currently being made.
+				if ( link.hasClass( 'disabled' ) ) {
+					return;
+				}
+				link.addClass( 'disabled' );
+
+				section.loadThemePreview( theme.id ).fail( function() {
+					link.removeClass( 'disabled' );
+				} );
+			} );
 			callback();
 		},
 
@@ -1761,7 +1507,7 @@
 		closeDetails: function () {
 			$( 'body' ).removeClass( 'modal-open' );
 			this.overlay.fadeOut( 'fast' );
-			api.control( this.params.action + '_theme_' + this.currentTheme ).container.find( '.theme' ).focus();
+			api.control( 'theme_' + this.currentTheme ).focus();
 		},
 
 		/**
@@ -1841,8 +1587,8 @@
 			}
 			if ( ! panel.contentContainer.parent().is( panel.headContainer ) ) {
 				container.append( panel.contentContainer );
+				panel.renderContent();
 			}
-			panel.renderContent();
 
 			panel.deferred.embedded.resolve();
 		},
@@ -2034,301 +1780,6 @@
 			}
 		}
 	});
-
-
-	/**
-	 * wp.customize.ThemesPanel
-	 *
-	 * Custom section for themes that displays without the customize preview.
-	 *
-	 * @constructor
-	 * @augments wp.customize.Panel
-	 * @augments wp.customize.Container
-	 */
-	api.ThemesPanel = api.Panel.extend({
-		installingThemes: [],
-
-		/**
-		 * @since 4.7.0
-		 */
-		attachEvents: function () {
-			var panel = this;
-
-			// Attach regular panel events.
-			api.Panel.prototype.attachEvents.apply( this );
-
-			// Collapse panel to customize the current theme.
-			panel.contentContainer.on( 'click', '.customize-theme', function() {
-				panel.collapse();
-			});
-
-			// Toggle between filtering and browsing themes on mobile.
-			panel.contentContainer.on( 'click', '.see-themes, .filter-themes', function() {
-				$( '.wp-full-overlay' ).toggleClass( 'showing-themes' );
-			});
-
-			// Install (and maybe preview) a theme.
-			panel.contentContainer.on( 'click', '.theme-install', function( event ) {
-				panel.installTheme( event );
-			});
-
-			// Update a theme. Theme cards have the class, the details modal has the id.
-			panel.contentContainer.on( 'click', '.update-theme, #update-theme', function( event ) {
-				// #update-theme is a link.
-				event.preventDefault();
-				event.stopPropagation();
-
-				panel.updateTheme( event );
-			});
-
-			// Delete a theme.
-			panel.contentContainer.on( 'click', '.delete-theme', function( event ) {
-				panel.deleteTheme( event );
-			});
-
-			_.bindAll( this, 'installTheme', 'updateTheme' );
-		},
-
-		/**
-		 * Update UI to reflect expanded state
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param {Boolean}  expanded
-		 * @param {Object}   args
-		 * @param {Boolean}  args.unchanged
-		 * @param {Function} args.completeCallback
-		 */
-		onChangeExpanded: function ( expanded, args ) {
-
-			// Expand/collapse the panel normally.
-			api.Panel.prototype.onChangeExpanded.apply( this, [ expanded, args ] );
-
-			// Immediately call the complete callback if there were no changes
-			if ( args.unchanged ) {
-				if ( args.completeCallback ) {
-					args.completeCallback();
-				}
-				return;
-			}
-
-			// Note: there is a second argument 'args' passed
-			var panel = this,
-				overlay = panel.headContainer.closest( '.wp-full-overlay' );
-
-			if ( expanded ) {
-				overlay
-					.addClass( 'in-themes-panel' ).addClass( 'showing-themes' )
-					.delay( 200 ).find( '.customize-themes-full-container' ).addClass( 'animate' );
-
-				// Automatically open the installed themes section.
-				api.section( 'installed_themes' ).expand();
-			} else {
-				overlay
-					.removeClass( 'in-themes-panel' )
-					.find( '.customize-themes-full-container' ).removeClass( 'animate' );
-			}
-		},
-
-		/**
-		 * Install a theme via wp.updates.
-		 *
-		 * @since 4.7.0
-		 */
-		installTheme: function( event ) {
-			var panel = this, preview = false, slug = $( event.target ).data( 'slug' );
-
-			if ( -1 !== $.inArray( this.installingThemes, slug ) ) {
-				return; // Theme is already being installed.
-			}
-
-			wp.updates.maybeRequestFilesystemCredentials( event );
-
-			$( document ).one( 'wp-theme-install-success', function( event, response ) {
-				var theme = false, customizeId, themeControl;
-				if ( preview ) {
-
-					panel.loadThemePreview( slug ).fail( function() {
-						$( '.wp-full-overlay' ).removeClass( 'customize-loading' );
-					} );
-
-				} else {
-					api.control.each( function( control ) {
-						if ( 'theme' === control.params.type && control.params.theme.id === response.slug ) {
-							theme = control.params.theme; // Used below to add theme control.
-							control.rerenderAsInstalled( true );
-						}
-					});
-
-					// Don't add the same theme more than once.
-					if ( ! theme || 'undefined' !== typeof api.control( 'installed_theme_' + theme.id ) ) {
-						return;
-					}
-
-					// Add theme control to installed section.
-					theme.type = 'installed';
-					customizeId = 'installed_theme_' + theme.id;
-					themeControl = new api.controlConstructor.theme( customizeId, {
-						params: {
-							type: 'theme',
-							content: $( '<li class="customize-control customize-control-theme"></li>' ).attr( 'id', 'customize-control-theme-installed_' + theme.id ).prop( 'outerHTML' ),
-							section: 'installed_themes',
-							active: true,
-							theme: theme,
-							priority: 0 // Add all newly-installed themes to the top.
-						},
-						previewer: api.previewer
-					} );
-
-					api.control.add( customizeId, themeControl );
-					api.control( customizeId ).container.trigger( 'render-screenshot' );
-
-					// Close the details modal if it's open to the installed theme.
-					api.section.each( function( section ) {
-						if ( 'themes' === section.params.type ) {
-							if ( theme.id === section.currentTheme ) { // Don't close the modal if the user has navigated elsewhere.
-								section.closeDetails();
-							}
-						}
-					});
-				}
-			} );
-
-			this.installingThemes.push( $( event.target ).data( 'slug' ) ); // Note: we don't remove elements from installingThemes, since they shouldn't be installed again.
-			wp.updates.installTheme( {
-				slug: slug
-			} );
-
-			// Also preview the theme as the event is triggered on Install & Preview.
-			if ( $( event.target ).hasClass( 'preview' ) ) {
-				preview = true;
-				$( '.wp-full-overlay' ).addClass( 'customize-loading' );
-			}
-		},
-
-		/**
-		 * Load theme preview.
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param {string} themeId Theme ID.
-		 * @returns {jQuery.promise} Promise.
-		 */
-		loadThemePreview: function( themeId ) {
-			var deferred = $.Deferred(), onceProcessingComplete, overlay, urlParser;
-
-			urlParser = document.createElement( 'a' );
-			urlParser.href = location.href;
-			urlParser.search = $.param( _.extend(
-				api.utils.parseQueryString( urlParser.search.substr( 1 ) ),
-				{
-					theme: themeId,
-					changeset_uuid: api.settings.changeset.uuid
-				}
-			) );
-
-			overlay = $( '.wp-full-overlay' );
-			overlay.addClass( 'customize-loading' );
-
-			onceProcessingComplete = function() {
-				var request;
-				if ( api.state( 'processing' ).get() > 0 ) {
-					return;
-				}
-
-				api.state( 'processing' ).unbind( onceProcessingComplete );
-
-				request = api.requestChangesetUpdate();
-				request.done( function() {
-					$( window ).off( 'beforeunload.customize-confirm' );
-					window.location.href = urlParser.href;
-				} );
-				request.fail( function() {
-					overlay.removeClass( 'customize-loading' );
-				} );
-			};
-
-			if ( 0 === api.state( 'processing' ).get() ) {
-				onceProcessingComplete();
-			} else {
-				api.state( 'processing' ).bind( onceProcessingComplete );
-			}
-
-			return deferred.promise();
-		},
-
-		/**
-		 * Update a theme via wp.updates.
-		 *
-		 * @since 4.7.0
-		 */
-		updateTheme: function( event ) {
-			wp.updates.maybeRequestFilesystemCredentials( event );
-
-			$( document ).one( 'wp-theme-update-success', function( event, response ) {
-				// Rerender the control to reflect the update.
-				api.control.each( function( control ) {
-					if ( 'theme' === control.params.type && control.params.theme.id === response.slug ) {
-						control.params.theme.hasUpdate = false;
-						control.rerenderAsInstalled( true );
-					}
-				});
-			} );
-
-			wp.updates.updateTheme( {
-				slug: $( event.target ).closest( '.notice' ).data( 'slug' )
-			} );
-		},
-
-		/**
-		 * Delete a theme via wp.updates.
-		 *
-		 * @since 4.7.0
-		 */
-		deleteTheme: function( event ) {
-			var theme, section;
-			theme = $( event.target ).data( 'slug' );
-			section = api.section( 'installed_themes' );
-
-			event.preventDefault();
-
-			// Confirmation dialog for deleting a theme.
-			if ( ! window.confirm( api.settings.l10n.confirmDeleteTheme ) ) {
-				return;
-			}
-
-			wp.updates.maybeRequestFilesystemCredentials( event );
-
-			$( document ).one( 'wp-theme-delete-success', function() {
-				var control = api.control( 'installed_theme_' + theme );
-
-				// Remove theme control.
-				control.container.remove();
-				api.control.remove( control.id );
-
-				// Update installed count.
-				section.loaded = section.loaded - 1;
-				section.updateCount();
-
-				// Rerender any other theme controls as uninstalled.
-				api.control.each( function( control ) {
-					if ( 'theme' === control.params.type && control.params.theme.id === theme ) {
-						control.rerenderAsInstalled( false );
-					}
-				});
-			} );
-
-			wp.updates.deleteTheme( {
-				slug: theme
-			} );
-
-			// Close modal and focus the section.
-			section.closeDetails();
-			section.focus();
-		}
-
-	});
-
 
 	/**
 	 * A Customizer Control.
@@ -2644,7 +2095,7 @@
 		 * @param {Boolean}  active
 		 * @param {Object}   args
 		 * @param {Number}   args.duration
-		 * @param {Function} args.completeCallback
+		 * @param {Callback} args.completeCallback
 		 */
 		onChangeActive: function ( active, args ) {
 			if ( args.unchanged ) {
@@ -3815,7 +3266,31 @@
 	api.ThemeControl = api.Control.extend({
 
 		touchDrag: false,
-		screenshotRendered: false,
+		isRendered: false,
+
+		/**
+		 * Defer rendering the theme control until the section is displayed.
+		 *
+		 * @since 4.2.0
+		 */
+		renderContent: function () {
+			var control = this,
+				renderContentArgs = arguments;
+
+			api.section( control.section(), function( section ) {
+				if ( section.expanded() ) {
+					api.Control.prototype.renderContent.apply( control, renderContentArgs );
+					control.isRendered = true;
+				} else {
+					section.expanded.bind( function( expanded ) {
+						if ( expanded && ! control.isRendered ) {
+							api.Control.prototype.renderContent.apply( control, renderContentArgs );
+							control.isRendered = true;
+						}
+					} );
+				}
+			} );
+		},
 
 		/**
 		 * @since 4.2.0
@@ -3839,11 +3314,20 @@
 				}
 
 				// Prevent the modal from showing when the user clicks the action button.
-				if ( $( event.target ).is( '.theme-actions .button, .update-theme' ) ) {
+				if ( $( event.target ).is( '.theme-actions .button' ) ) {
+					return;
+				}
+
+				api.section( control.section() ).loadThemePreview( control.params.theme.id );
+			});
+
+			control.container.on( 'click keydown', '.theme-actions .theme-details', function( event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
 					return;
 				}
 
 				event.preventDefault(); // Keep this AFTER the key filter above
+
 				api.section( control.section() ).showDetails( control.params.theme );
 			});
 
@@ -3854,12 +3338,11 @@
 				if ( source ) {
 					$screenshot.attr( 'src', source );
 				}
-				control.screenshotRendered = true;
 			});
 		},
 
 		/**
-		 * Show or hide the theme based on the presence of the term in the title, description, tags, and author.
+		 * Show or hide the theme based on the presence of the term in the title, description, and author.
 		 *
 		 * @since 4.2.0
 		 */
@@ -3875,23 +3358,6 @@
 			} else {
 				control.deactivate();
 			}
-		},
-
-		/**
-		 * Rerender the theme from its JS template with the installed type.
-		 *
-		 * @since 4.7.0
-		 */
-		rerenderAsInstalled: function( installed ) {
-			var control = this, section;
-			if ( installed ) {
-				control.params.theme.type = 'installed';
-			} else {
-				section = api.section( control.params.section );
-				control.params.theme.type = section.params.action;
-			}
-			control.renderContent(); // replaces existing content
-			control.container.trigger( 'render-screenshot' );
 		}
 	});
 
@@ -4584,9 +4050,7 @@
 		background_position: api.BackgroundPositionControl,
 		theme:               api.ThemeControl
 	};
-	api.panelConstructor = {
-		themes: api.ThemesPanel
-	};
+	api.panelConstructor = {};
 	api.sectionConstructor = {
 		themes: api.ThemesSection
 	};
@@ -4704,10 +4168,6 @@
 
 		// Sort the sections within each panel
 		api.panel.each( function ( panel ) {
-			if ( 'themes' === panel.id ) {
-				return; // Don't reflow theme sections, as doing so moves them after the themes container.
-			}
-
 			var sections = panel.sections(),
 				sectionHeadContainers = _.pluck( sections, 'headContainer' );
 			rootNodes.push( panel );
@@ -5349,16 +4809,6 @@
 			// Collapse the most granular expanded object.
 			collapsedObject = expandedControls[0] || expandedSections[0] || expandedPanels[0];
 			if ( collapsedObject ) {
-				if ( 'themes' === collapsedObject.params.type ) {
-					// Themes panel or section.
-					if ( $( 'body' ).hasClass( 'modal-open' ) ) {
-						collapsedObject.closeDetails();
-					} else {
-						// If we're collapsing a section, collapse the panel also.
-						wp.customize.panel( 'themes' ).collapse();
-					}
-					return;
-				}
 				collapsedObject.collapse();
 				event.preventDefault();
 			}
