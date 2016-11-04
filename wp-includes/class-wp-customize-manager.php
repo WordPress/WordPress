@@ -3458,7 +3458,7 @@ final class WP_Customize_Manager {
 		$this->add_control( 'external_header_video', array(
 			'theme_supports' => array( 'custom-header', 'video' ),
 			'type'           => 'url',
-			'description'    => __( 'Or, enter a YouTube or Vimeo URL:' ),
+			'description'    => __( 'Or, enter a YouTube URL:' ),
 			'section'        => 'header_image',
 		) );
 
