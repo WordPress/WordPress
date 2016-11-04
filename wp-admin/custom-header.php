@@ -639,7 +639,7 @@ class Custom_Image_Header {
 </tr>
 	<?php endif;
 
-	$default_image = get_theme_support( 'custom-header', 'default-image' );
+	$default_image = sprintf( get_theme_support( 'custom-header', 'default-image' ), get_template_directory_uri(), get_stylesheet_directory_uri() );
 	if ( $default_image && get_header_image() != $default_image ) : ?>
 <tr>
 <th scope="row"><?php _e( 'Reset Image' ); ?></th>
