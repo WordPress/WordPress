@@ -227,22 +227,14 @@ ul#adminmenu > li.current > a.current:after {
 
 /* Admin Menu: collapse button */
 
-#collapse-menu {
+#collapse-button {
     color: $menu-collapse-text;
 }
 
-#collapse-menu:hover {
-    color: $menu-collapse-focus-text;
+#collapse-button:hover,
+#collapse-button:focus {
+    color: $menu-submenu-focus-text;
 }
-
-#collapse-button div:after {
-    color: $menu-collapse-icon;
-}
-
-#collapse-menu:hover #collapse-button div:after {
-    color: $menu-collapse-focus-icon;
-}
-
 
 /* Admin Bar */
 

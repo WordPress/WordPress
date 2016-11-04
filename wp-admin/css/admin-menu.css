@@ -264,7 +264,7 @@
 .folded #adminmenu .wp-has-current-submenu.opensub .wp-submenu,
 .folded #adminmenu a.menu-top:focus + .wp-submenu,
 .folded #adminmenu .wp-has-current-submenu a.menu-top:focus + .wp-submenu,
-.no-js.folded #adminmenu .wp-has-submenu:hover .wp-submenu  {
+.no-js.folded #adminmenu .wp-has-submenu:hover .wp-submenu {
 	top: 0;
 	left: 36px;
 }
@@ -547,77 +547,80 @@ ul#adminmenu > li.current > a.current:after {
 	display: none;
 }
 
-#collapse-menu {
-	font-size: 13px;
+#collapse-button {
+	display: block;
+	width: 100%;
+	height: 34px;
+	margin: 0;
+	border: none;
+	padding: 0;
+	position: relative;
+	overflow: visible;
 	line-height: 34px;
-	margin-top: 10px;
-	color: #a0a5aa;
-	color: rgba(240,245,250,0.6);
-	-webkit-transition: all .1s ease-in-out;
-	transition: all .1s ease-in-out;
+	background: none;
+	color: #aaa;
+	cursor: pointer;
+	outline: 0;
 }
 
-#collapse-menu:hover,
-#collapse-menu:hover #collapse-button div:after {
+#collapse-button:hover,
+#collapse-button:focus {
 	color: #00b9eb;
 }
 
-.folded #collapse-menu span {
+#collapse-button .collapse-button-icon,
+#collapse-button .collapse-button-label {
+	/* absolutely positioned to avoid 1px shift in IE when button is pressed */
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	line-height: 34px;
+}
+
+#collapse-button .collapse-button-icon {
+	width: 36px;
+	height: 34px;
+}
+
+#collapse-button .collapse-button-label {
+	padding: 0 0 0 36px;
+}
+
+.folded #collapse-button .collapse-button-label {
 	display: none;
 }
 
-#collapse-button,
-#collapse-button div {
-	width: 15px;
-	height: 15px;
-}
-
-#collapse-button {
-	float: left;
-	height: 15px;
-	margin: 10px 8px 10px 11px;
-	width: 15px;
-	-webkit-border-radius: 10px;
-	border-radius: 10px;
-}
-
-#wpwrap #collapse-button div {
-	padding: 0;
-}
-
-#collapse-button div:after {
+#collapse-button .collapse-button-icon:after {
 	content: "\f148";
 	display: block;
-	line-height: 15px;
-	left: -3px;
-	top: -3px;
-	color: #a0a5aa;
-	color: rgba(240,245,250,0.6);
+	position: relative;
+	top: 7px;
+	text-align: center;
 	font: normal 20px/1 dashicons !important;
 	speak: none;
-	margin: 0 auto;
-	padding: 0 !important;
-	position: relative;
-	text-align: center;
-	width: 20px;
-	-webkit-transition: all .1s ease-in-out;
-	transition: all .1s ease-in-out;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 /* rtl:ignore */
-.folded #collapse-button div:after,
-.rtl #collapse-button div:after {
+.folded #collapse-button .collapse-button-icon:after,
+.rtl #collapse-button .collapse-button-icon:after {
 	-webkit-transform: rotate(180deg);
 	-ms-transform: rotate(180deg);
 	transform: rotate(180deg);
 }
 
-.rtl.folded #collapse-button div:after {
+.rtl.folded #collapse-button .collapse-button-icon:after {
 	-webkit-transform: none;
 	-ms-transform: none;
 	transform: none;
+}
+
+#collapse-button .collapse-button-icon:after,
+#collapse-button .collapse-button-label {
+	-webkit-transition: all .1s ease-in-out;
+	transition: all .1s ease-in-out;
 }
 
 /**
@@ -652,7 +655,7 @@ li#wp-admin-bar-menu-toggle {
 	.auto-fold #adminmenu .wp-has-current-submenu .wp-submenu.sub-open,
 	.auto-fold #adminmenu .wp-has-current-submenu.opensub .wp-submenu,
 	.auto-fold #adminmenu a.menu-top:focus + .wp-submenu,
-	.auto-fold #adminmenu .wp-has-current-submenu a.menu-top:focus + .wp-submenu  {
+	.auto-fold #adminmenu .wp-has-current-submenu a.menu-top:focus + .wp-submenu {
 		top: 0px;
 		left: 36px;
 	}
@@ -731,22 +734,18 @@ li#wp-admin-bar-menu-toggle {
 		z-index: 10000;
 	}
 
-	.auto-fold #collapse-menu span {
+	.auto-fold #collapse-menu .collapse-button-label {
 		display: none;
 	}
 
-	.auto-fold #collapse-button div {
-		background: none;
-	}
-
 	/* rtl:ignore */
-	.auto-fold #collapse-button div:after {
+	.auto-fold #collapse-button .collapse-button-icon:after {
 		-webkit-transform: rotate(180deg);
 		-ms-transform: rotate(180deg);
 		transform: rotate(180deg);
 	}
 
-	.rtl.auto-fold #collapse-button div:after {
+	.rtl.auto-fold #collapse-button .collapse-button-icon:after {
 		-webkit-transform: none;
 		-ms-transform: none;
 		transform: none;

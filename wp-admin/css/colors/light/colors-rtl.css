@@ -259,20 +259,13 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 /* Admin Menu: collapse button */
-#collapse-menu {
+#collapse-button {
   color: #777;
 }
 
-#collapse-menu:hover {
-  color: #333;
-}
-
-#collapse-button div:after {
-  color: #999;
-}
-
-#collapse-menu:hover #collapse-button div:after {
-  color: #555;
+#collapse-button:hover,
+#collapse-button:focus {
+  color: #04a4cc;
 }
 
 /* Admin Bar */

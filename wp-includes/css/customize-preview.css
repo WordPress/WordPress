@@ -23,6 +23,7 @@
 	border: 0;
 	background: transparent;
 	color: transparent;
+	-webkit-box-shadow: none;
 	box-shadow: none;
 	outline: none;
 	z-index: 5;
@@ -48,17 +49,39 @@
 	z-index: 5;
 	background-color: #0085ba;
 	background: #0085ba;
+	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	border: 2px solid #fff;
+	-webkit-box-shadow: 0 2px 1px rgba(46,68,83,0.15);
 	box-shadow: 0 2px 1px rgba(46,68,83,0.15);
 	text-align: center;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
 	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: row;
+	-moz-box-orient: horizontal;
+	-moz-box-direction: normal;
+	-ms-flex-direction: row;
 	flex-direction: row;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-moz-box-pack: center;
+	-ms-flex-pack: center;
 	justify-content: center;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
 	align-items: center;
 	cursor: pointer;
 	padding: 0;
+	-webkit-animation-fill-mode: both;
 	animation-fill-mode: both;
+	-webkit-animation-duration: .4s;
 	animation-duration: .4s;
 	opacity: 0;
 	pointer-events: none;
@@ -84,10 +107,12 @@
 }
 
 body.customize-partial-edit-shortcuts-shown .customize-partial-edit-shortcut button {
+	-webkit-animation-name: customize-partial-edit-shortcut-bounce-appear;
 	animation-name: customize-partial-edit-shortcut-bounce-appear;
 	pointer-events: auto;
 }
 body.customize-partial-edit-shortcuts-hidden .customize-partial-edit-shortcut button {
+	-webkit-animation-name: customize-partial-edit-shortcut-bounce-disappear;
 	animation-name: customize-partial-edit-shortcut-bounce-disappear;
 	pointer-events: none;
 }
@@ -101,56 +126,138 @@ body.customize-partial-edit-shortcuts-hidden .customize-partial-edit-shortcut bu
 	left: 0;
 }
 
-@keyframes customize-partial-edit-shortcut-bounce-appear {
+@-webkit-keyframes customize-partial-edit-shortcut-bounce-appear {
 	from, 20%, 40%, 60%, 80%, to {
+		-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 	}
 	0% {
 		opacity: 0;
+		-webkit-transform: scale3d(.3, .3, .3);
 		transform: scale3d(.3, .3, .3);
 	}
 	20% {
+		-webkit-transform: scale3d(1.1, 1.1, 1.1);
 		transform: scale3d(1.1, 1.1, 1.1);
 	}
 	40% {
+		-webkit-transform: scale3d(.9, .9, .9);
 		transform: scale3d(.9, .9, .9);
 	}
 	60% {
 		opacity: 1;
+		-webkit-transform: scale3d(1.03, 1.03, 1.03);
 		transform: scale3d(1.03, 1.03, 1.03);
 	}
 	80% {
+		-webkit-transform: scale3d(.97, .97, .97);
 		transform: scale3d(.97, .97, .97);
 	}
 	to {
 		opacity: 1;
+		-webkit-transform: scale3d(1, 1, 1);
 		transform: scale3d(1, 1, 1);
+	}
+}
+
+@keyframes customize-partial-edit-shortcut-bounce-appear {
+	from, 20%, 40%, 60%, 80%, to {
+		-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+	}
+	0% {
+		opacity: 0;
+		-webkit-transform: scale3d(.3, .3, .3);
+		transform: scale3d(.3, .3, .3);
+	}
+	20% {
+		-webkit-transform: scale3d(1.1, 1.1, 1.1);
+		transform: scale3d(1.1, 1.1, 1.1);
+	}
+	40% {
+		-webkit-transform: scale3d(.9, .9, .9);
+		transform: scale3d(.9, .9, .9);
+	}
+	60% {
+		opacity: 1;
+		-webkit-transform: scale3d(1.03, 1.03, 1.03);
+		transform: scale3d(1.03, 1.03, 1.03);
+	}
+	80% {
+		-webkit-transform: scale3d(.97, .97, .97);
+		transform: scale3d(.97, .97, .97);
+	}
+	to {
+		opacity: 1;
+		-webkit-transform: scale3d(1, 1, 1);
+		transform: scale3d(1, 1, 1);
+	}
+}
+
+@-webkit-keyframes customize-partial-edit-shortcut-bounce-disappear {
+	from, 20%, 40%, 60%, 80%, to {
+		-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+	}
+	0% {
+		opacity: 1;
+		-webkit-transform: scale3d(1, 1, 1);
+		transform: scale3d(1, 1, 1);
+	}
+	20% {
+		-webkit-transform: scale3d(.97, .97, .97);
+		transform: scale3d(.97, .97, .97);
+	}
+	40% {
+		opacity: 1;
+		-webkit-transform: scale3d(1.03, 1.03, 1.03);
+		transform: scale3d(1.03, 1.03, 1.03);
+	}
+	60% {
+		-webkit-transform: scale3d(.9, .9, .9);
+		transform: scale3d(.9, .9, .9);
+	}
+	80% {
+		-webkit-transform: scale3d(1.1, 1.1, 1.1);
+		transform: scale3d(1.1, 1.1, 1.1);
+	}
+	to {
+		opacity: 0;
+		-webkit-transform: scale3d(.3, .3, .3);
+		transform: scale3d(.3, .3, .3);
 	}
 }
 
 @keyframes customize-partial-edit-shortcut-bounce-disappear {
 	from, 20%, 40%, 60%, 80%, to {
+		-webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 		animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
 	}
 	0% {
 		opacity: 1;
+		-webkit-transform: scale3d(1, 1, 1);
 		transform: scale3d(1, 1, 1);
 	}
 	20% {
+		-webkit-transform: scale3d(.97, .97, .97);
 		transform: scale3d(.97, .97, .97);
 	}
 	40% {
 		opacity: 1;
+		-webkit-transform: scale3d(1.03, 1.03, 1.03);
 		transform: scale3d(1.03, 1.03, 1.03);
 	}
 	60% {
+		-webkit-transform: scale3d(.9, .9, .9);
 		transform: scale3d(.9, .9, .9);
 	}
 	80% {
+		-webkit-transform: scale3d(1.1, 1.1, 1.1);
 		transform: scale3d(1.1, 1.1, 1.1);
 	}
 	to {
 		opacity: 0;
+		-webkit-transform: scale3d(.3, .3, .3);
 		transform: scale3d(.3, .3, .3);
 	}
 }
