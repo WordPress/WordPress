@@ -1027,8 +1027,9 @@ function get_header_image() {
  */
 function get_header_image_tag( $attr = array() ) {
 	$header = get_custom_header();
+	$header->url = get_header_image();
 
-	if ( empty( $header->url ) ) {
+	if ( ! $header->url ) {
 		return '';
 	}
 
