@@ -194,6 +194,8 @@ if ( 'update' == $action ) {
 	}
 
 	if ( $options ) {
+		$user_language_old = get_user_locale();
+
 		foreach ( $options as $option ) {
 			if ( $unregistered ) {
 				_deprecated_argument( 'options.php', '2.7.0',
@@ -217,15 +219,15 @@ if ( 'update' == $action ) {
 			update_option( $option, $value );
 		}
 
-		// Switch translation in case WPLANG was changed.
-		$language      = get_option( 'WPLANG' );
-		$user_language = get_user_locale();
-		if ( $language === $user_language ) {
-			if ( $language ) {
-				load_default_textdomain( $language );
-			} else {
-				unload_textdomain( 'default' );
-			}
+		/*
+		 * Switch translation in case WPLANG was changed.
+		 * The global $locale is used in get_locale() which is
+		 * used as a fallback in get_user_locale().
+		 */
+		unset( $GLOBALS['locale'] );
+		$user_language_new = get_user_locale();
+		if ( $user_language_old !== $user_language_new  ) {
+			load_default_textdomain( $user_language_new );
 		}
 	}
 
