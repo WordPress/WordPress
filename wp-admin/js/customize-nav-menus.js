@@ -302,12 +302,14 @@
 
 			$section.addClass( 'loading' );
 			self.loading = true;
-			params = {
+
+			params = api.previewer.query( { excludeCustomizedSaved: true } );
+			_.extend( params, {
 				'customize-menus-nonce': api.settings.nonce['customize-menus'],
 				'wp_customize': 'on',
 				'search': self.searchTerm,
 				'page': page
-			};
+			} );
 
 			self.currentRequest = wp.ajax.post( 'search-available-menu-items-customizer', params );
 
@@ -378,7 +380,7 @@
 		 * @returns {void}
 		 */
 		loadItems: function( itemTypes, deprecated ) {
-			var self = this, _itemTypes, requestItemTypes = [], request, itemTemplate, availableMenuItemContainers = {};
+			var self = this, _itemTypes, requestItemTypes = [], params, request, itemTemplate, availableMenuItemContainers = {};
 			itemTemplate = wp.template( 'available-menu-item' );
 
 			if ( _.isString( itemTypes ) && _.isString( deprecated ) ) {
@@ -408,11 +410,15 @@
 			}
 
 			self.loading = true;
-			request = wp.ajax.post( 'load-available-menu-items-customizer', {
+
+			params = api.previewer.query( { excludeCustomizedSaved: true } );
+			_.extend( params, {
 				'customize-menus-nonce': api.settings.nonce['customize-menus'],
 				'wp_customize': 'on',
 				'item_types': requestItemTypes
 			} );
+
+			request = wp.ajax.post( 'load-available-menu-items-customizer', params );
 
 			request.done(function( data ) {
 				var typeInner;

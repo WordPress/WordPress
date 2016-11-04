@@ -174,13 +174,25 @@ final class WP_Customize_Nav_Menus {
 				);
 			}
 
-			$posts = get_posts( array(
+			// Prepend posts with nav_menus_created_posts on first page.
+			$posts = array();
+			if ( 0 === $page && $this->manager->get_setting( 'nav_menus_created_posts' ) ) {
+				foreach ( $this->manager->get_setting( 'nav_menus_created_posts' )->value() as $post_id ) {
+					$auto_draft_post = get_post( $post_id );
+					if ( $post_type->name === $auto_draft_post->post_type ) {
+						$posts[] = $auto_draft_post;
+					}
+				}
+			}
+
+			$posts = array_merge( $posts, get_posts( array(
 				'numberposts' => 10,
 				'offset'      => 10 * $page,
 				'orderby'     => 'date',
 				'order'       => 'DESC',
 				'post_type'   => $object,
-			) );
+			) ) );
+
 			foreach ( $posts as $post ) {
 				$post_title = $post->post_title;
 				if ( '' === $post_title ) {
@@ -305,27 +317,42 @@ final class WP_Customize_Nav_Menus {
 			$query['s'] = $args['s'];
 		}
 
+		$posts = array();
+
+		// Prepend list of posts with nav_menus_created_posts search results on first page.
+		$nav_menus_created_posts_setting = $this->manager->get_setting( 'nav_menus_created_posts' );
+		if ( 1 === $args['pagenum'] && $nav_menus_created_posts_setting && count( $nav_menus_created_posts_setting ) > 0 ) {
+			$stub_post_query = new WP_Query( array_merge(
+				$query,
+				array(
+					'post_status' => 'auto-draft',
+					'post__in' => $nav_menus_created_posts_setting->value(),
+					'posts_per_page' => -1,
+				)
+			) );
+			$posts = array_merge( $posts, $stub_post_query->posts );
+		}
+
 		// Query posts.
 		$get_posts = new WP_Query( $query );
+		$posts = array_merge( $posts, $get_posts->posts );
 
-		// Check if any posts were found.
-		if ( $get_posts->post_count ) {
-			foreach ( $get_posts->posts as $post ) {
-				$post_title = $post->post_title;
-				if ( '' === $post_title ) {
-					/* translators: %d: ID of a post */
-					$post_title = sprintf( __( '#%d (no title)' ), $post->ID );
-				}
-				$items[] = array(
-					'id'         => 'post-' . $post->ID,
-					'title'      => html_entity_decode( $post_title, ENT_QUOTES, get_bloginfo( 'charset' ) ),
-					'type'       => 'post_type',
-					'type_label' => $post_type_objects[ $post->post_type ]->labels->singular_name,
-					'object'     => $post->post_type,
-					'object_id'  => intval( $post->ID ),
-					'url'        => get_permalink( intval( $post->ID ) ),
-				);
+		// Create items for posts.
+		foreach ( $posts as $post ) {
+			$post_title = $post->post_title;
+			if ( '' === $post_title ) {
+				/* translators: %d: ID of a post */
+				$post_title = sprintf( __( '#%d (no title)' ), $post->ID );
 			}
+			$items[] = array(
+				'id'         => 'post-' . $post->ID,
+				'title'      => html_entity_decode( $post_title, ENT_QUOTES, get_bloginfo( 'charset' ) ),
+				'type'       => 'post_type',
+				'type_label' => $post_type_objects[ $post->post_type ]->labels->singular_name,
+				'object'     => $post->post_type,
+				'object_id'  => intval( $post->ID ),
+				'url'        => get_permalink( intval( $post->ID ) ),
+			);
 		}
 
 		// Query taxonomy terms.
