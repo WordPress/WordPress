@@ -1123,7 +1123,7 @@
 			section.template = wp.template( 'customize-themes-details-view' );
 
 			// Bind global keyboard events.
-			$( 'body' ).on( 'keyup', function( event ) {
+			section.container.on( 'keydown', function( event ) {
 				if ( ! section.overlay.find( '.theme-wrap' ).is( ':visible' ) ) {
 					return;
 				}
@@ -1141,6 +1141,7 @@
 				// Pressing the escape key fires a theme:collapse event
 				if ( 27 === event.keyCode ) {
 					section.closeDetails();
+					event.stopPropagation(); // Prevent section from being collapsed.
 				}
 			});
 
@@ -2864,13 +2865,27 @@
 				});
 			}
 
-			this.setting.bind( function ( value ) {
+			control.setting.bind( function ( value ) {
 				// bail if the update came from the control itself
 				if ( updating ) {
 					return;
 				}
 				picker.val( value );
 				picker.wpColorPicker( 'color', value );
+			} );
+
+			// Collapse color picker when hitting Esc instead of collapsing the current section.
+			control.container.on( 'keydown', function( event ) {
+				var pickerContainer;
+				if ( 27 !== event.which ) { // Esc.
+					return;
+				}
+				pickerContainer = control.container.find( '.wp-picker-container' );
+				if ( pickerContainer.hasClass( 'wp-picker-active' ) ) {
+					picker.wpColorPicker( 'close' );
+					control.container.find( '.wp-color-result' ).focus();
+					event.stopPropagation(); // Prevent section from being collapsed.
+				}
 			} );
 		}
 	});
@@ -5298,6 +5313,14 @@
 			var collapsedObject, expandedControls = [], expandedSections = [], expandedPanels = [];
 
 			if ( 27 !== event.which ) { // Esc.
+				return;
+			}
+
+			/*
+			 * Abort if the event target is not the body (the default) and not inside of #customize-controls.
+			 * This ensures that ESC meant to collapse a modal dialog or a TinyMCE toolbar won't collapse something else.
+			 */
+			if ( ! $( event.target ).is( 'body' ) && ! $.contains( $( '#customize-controls' )[0], event.target ) ) {
 				return;
 			}
 
