@@ -92,7 +92,7 @@ function get_user_locale( $user_id = 0 ) {
 		$user = wp_get_current_user();
 	} elseif ( $user_id instanceof WP_User ) {
 		$user = $user_id;
-	} elseif ( is_numeric( $user_id ) ) {
+	} elseif ( $user_id && is_numeric( $user_id ) ) {
 		$user = get_user_by( 'id', $user_id );
 	}
 
