@@ -841,14 +841,12 @@ function get_current_network_id() {
  * @since 3.4.0
  * @access private
  *
- * @global string             $text_direction
- * @global WP_Locale          $wp_locale      The WordPress date and time locale object.
- * @global WP_Locale_Switcher $wp_locale_switcher WordPress locale switcher object.
+ * @global WP_Locale $wp_locale The WordPress date and time locale object.
  *
  * @staticvar bool $loaded
  */
 function wp_load_translations_early() {
-	global $text_direction, $wp_locale, $wp_locale_switcher;
+	global $wp_locale;
 
 	static $loaded = false;
 	if ( $loaded )
