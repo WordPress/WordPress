@@ -1542,6 +1542,7 @@ body {
 .site-header {
 	background-color: #fafafa;
 	position: relative;
+	overflow: hidden;
 }
 
 /* Site branding */
@@ -1563,11 +1564,6 @@ body {
 .site-branding a:hover,
 .site-branding a:focus {
 	opacity: 0.7;
-}
-
-.has-header-image.twentyseventeen-front-page .site-branding,
-.has-header-image.home.blog .site-branding {
-	align-self: flex-end;
 }
 
 .site-title {
@@ -1639,9 +1635,11 @@ body:not(.title-tagline-hidden) .site-branding-text {
 
 .has-header-image.twentyseventeen-front-page .custom-header,
 .has-header-image.home.blog .custom-header {
-	display: flex;
+	display: table;
+	height: 100%;
 	min-height: 300px;
 	min-height: 75vh;
+	width: 100%;
 }
 
 .custom-header-image {
@@ -1700,6 +1698,13 @@ body:not(.title-tagline-hidden) .site-branding-text {
 
 body:not(.has-header-image) .custom-header-image {
 	padding: 5% 0;
+}
+
+.has-header-image.twentyseventeen-front-page .site-branding,
+.has-header-image.home.blog .site-branding {
+	display: table-cell;
+	height: 100%;
+	vertical-align: bottom;
 }
 
 /*--------------------------------------------------------------
@@ -3241,6 +3246,9 @@ object {
 	.has-header-image.twentyseventeen-front-page .site-branding,
 	.has-header-image.home.blog .site-branding {
 		bottom: 0;
+		display: block;
+		left: 0;
+		height: auto;
 		padding-top: 0;
 		position: absolute;
 		width: 100%;
@@ -3248,6 +3256,7 @@ object {
 
 	.has-header-image.twentyseventeen-front-page .custom-header,
 	.has-header-image.home.blog .custom-header {
+		display: block;
 		min-height: 0;
 	}
 
@@ -3549,7 +3558,6 @@ object {
 		height: 100vh;
 		max-height: 100%;
 		overflow: hidden;
-		/* padding: 10% 0; */
 	}
 
 	.twentyseventeen-front-page.has-header-image .custom-header-image:before,

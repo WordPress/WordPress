@@ -60,12 +60,28 @@ img {
 	overflow: hidden;
 }
 
+.has-header-image.twentyseventeen-front-page .custom-header,
+.has-header-image.home.blog .custom-header {
+	display: block;
+}
+
 .custom-header-image {
 	background-position: bottom center;
 }
 
 .site-branding {
 	padding: 45px 0;
+}
+
+.has-header-image.twentyseventeen-front-page .site-branding,
+.has-header-image.home.blog .site-branding {
+	bottom: 0;
+	display: block;
+	left: 0;
+	height: auto;
+	padding-top: 0;
+	position: absolute;
+	width: 100%;
 }
 
 .has-header-image .custom-header-image img,
@@ -192,6 +208,12 @@ ol.children .children {
 }
 
 /* RTL Styles */
+
+.rtl .has-header-image.twentyseventeen-front-page .site-branding,
+.rtl .has-header-image.home.blog .site-branding {
+	left: auto;
+	right: 0;
+}
 
 .rtl .entry-footer .cat-links,
 .rtl .entry-footer .tags-links {
