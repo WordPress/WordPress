@@ -3768,11 +3768,10 @@ final class WP_Customize_Manager {
 	 * @return mixed
 	 */
 	public function _validate_external_header_video( $validity, $value ) {
-		$video = esc_url( $value );
+		$video = esc_url_raw( $value );
 		if ( $video ) {
-			if ( ! preg_match( '#^https?://(?:www\.)?(?:youtube\.com/watch|youtu\.be/)#', $video )
-			     && ! preg_match( '#^https?://(.+\.)?vimeo\.com/.*#', $video ) ) {
-				$validity->add( 'invalid_url', __( 'Please enter a valid YouTube or Vimeo video URL.' ) );
+			if ( ! preg_match( '#^https?://(?:www\.)?(?:youtube\.com/watch|youtu\.be/)#', $video ) ) {
+				$validity->add( 'invalid_url', __( 'Please enter a valid YouTube URL.' ) );
 			}
 		}
 		return $validity;
