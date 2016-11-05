@@ -234,8 +234,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 #wpadminbar > #wp-toolbar > #wp-admin-bar-root-default .ab-icon,
 #wpadminbar .ab-icon,
-#wpadminbar .ab-item:before,
-.wp-admin-bar-arrow-right {
+#wpadminbar .ab-item:before {
 	position: relative;
 	float: left;
 	font: normal 20px/1 dashicons;
@@ -313,7 +312,7 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	color: #00b9eb;
 }
 
-#wpadminbar .menupop .menupop > .ab-item .wp-admin-bar-arrow-right:before,
+#wpadminbar .menupop .menupop > .ab-item:before,
 #wpadminbar .ab-top-secondary .menupop .menupop > .ab-item:before {
 	position: absolute;
 	font: normal 17px/1 dashicons;
@@ -327,10 +326,9 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	padding-right: 2em;
 }
 
-#wpadminbar .menupop .menupop > .ab-item .wp-admin-bar-arrow-right:before {
+#wpadminbar .menupop .menupop > .ab-item:before {
 	top: 1px;
-	right: 10px;
-	padding: 4px 0;
+	right: 4px;
 	content: "\f139";
 	color: inherit;
 }
