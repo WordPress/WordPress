@@ -1129,6 +1129,10 @@ p.customize-section-description {
 	margin-left: 10px;
 	margin-right: 10px;
 }
+#customize-theme-controls #sub-accordion-section-custom_css textarea {
+	-moz-tab-size: 4;
+	tab-size: 4;
+}
 
 #sub-accordion-section-custom_css .customize-control-notifications-container {
 	margin-bottom: 15px;
