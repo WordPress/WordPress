@@ -3,12 +3,46 @@
  *
  * @since 4.3.0
  *
- * This plugin can automatically format text patterns as you type. It includes two patterns:
+ * This plugin can automatically format text patterns as you type. It includes several groups of patterns.
+ *
+ * Start of line patterns:
+ *  As-you-type:
  *  - Unordered list (`* ` and `- `).
  *  - Ordered list (`1. ` and `1) `).
  *
+ *  On enter:
+ *  - h2 (## ).
+ *  - h3 (### ).
+ *  - h4 (#### ).
+ *  - h5 (##### ).
+ *  - h6 (###### ).
+ *  - blockquote (> ).
+ *  - hr (---).
+ *
+ * Inline patterns:
+ *  - <code> (`) (backtick).
+ *
  * If the transformation in unwanted, the user can undo the change by pressing backspace,
  * using the undo shortcut, or the undo button in the toolbar.
+ *
+ * Setting for the patterns can be overridden by plugins by using the `tiny_mce_before_init` PHP filter.
+ * The setting name is `wptextpattern` and the value is an object containing override arrays for each
+ * patterns group. There are three groups: "space", "enter", and "inline". Example (PHP):
+ *
+ * add_filter( 'tiny_mce_before_init', 'my_mce_init_wptextpattern' );
+ * function my_mce_init_wptextpattern( $init ) {
+ *   $init['wptextpattern'] = wp_json_encode( array(
+ *      'inline' => array(
+ *        array( 'delimiter' => '**', 'format' => 'bold' ),
+ *        array( 'delimiter' => '__', 'format' => 'italic' ),
+ *      ),
+ *   ) );
+ *
+ *   return $init;
+ * }
+ *
+ * Note that setting this will override the default text patterns. You will need to include them
+ * in your settings array if you want to keep them working.
  */
 ( function( tinymce, setTimeout ) {
 	if ( tinymce.Env.ie && tinymce.Env.ie < 9 ) {
@@ -46,19 +80,10 @@
 		];
 
 		var inlinePatterns = settings.inline || [
-			{ start: '`', end: '`', format: 'code' }
+			{ delimiter: '`', format: 'code' }
 		];
 
 		var canUndo;
-		var chars = [];
-
-		tinymce.each( inlinePatterns, function( pattern ) {
-			tinymce.each( ( pattern.start + pattern.end ).split( '' ), function( c ) {
-				if ( tinymce.inArray( chars, c ) === -1 ) {
-					chars.push( c );
-				}
-			} );
-		} );
 
 		editor.on( 'selectionchange', function() {
 			canUndo = null;
@@ -100,28 +125,44 @@
 				return;
 			}
 
-			// The ending character should exist in the patterns registered.
-			if ( tinymce.inArray( chars, node.data.charAt( offset - 1 ) ) === -1 ) {
-				return;
-			}
-
 			var string = node.data.slice( 0, offset );
+			var lastChar = node.data.charAt( offset - 1 );
 
 			tinymce.each( inlinePatterns, function( p ) {
-				var regExp = new RegExp( escapeRegExp( p.start ) + '\\S+' + escapeRegExp( p.end ) + '$' );
+				// Character before selection should be delimiter.
+				if ( lastChar !== p.delimiter.slice( -1 ) ) {
+					return;
+				}
+
+				var escDelimiter = escapeRegExp( p.delimiter );
+				var delimiterFirstChar = p.delimiter.charAt( 0 );
+				var regExp = new RegExp( '(.*)' + escDelimiter + '.+' + escDelimiter + '$' );
 				var match = string.match( regExp );
 
 				if ( ! match ) {
 					return;
 				}
 
-				// Don't allow pattern characters in the text.
-				if ( node.data.slice( match.index + p.start.length, offset - p.end.length ).indexOf( p.start.slice( 0, 1 ) ) !== -1 ) {
+				startOffset = match[1].length;
+				endOffset = offset - p.delimiter.length;
+
+				var before = string.charAt( startOffset - 1 );
+				var after = string.charAt( startOffset + p.delimiter.length );
+
+				// test*test* => format applied
+				// test *test* => applied
+				// test* test* => not applied
+				if ( startOffset && /\S/.test( before ) ) {
+					if ( /\s/.test( after ) || before === delimiterFirstChar ) {
+						return;
+					}
+				}
+
+				// Do not replace when only whitespace and delimiter characters.
+				if ( ( new RegExp( '^[\\s' + escapeRegExp( delimiterFirstChar ) + ']+$' ) ).test( string.slice( startOffset, endOffset ) ) ) {
 					return;
 				}
 
-				startOffset = match.index;
-				endOffset = offset - p.end.length;
 				pattern = p;
 
 				return false;
@@ -142,8 +183,8 @@
 					node = node.splitText( startOffset );
 					zero = node.splitText( offset - startOffset );
 
-					node.deleteData( 0, pattern.start.length );
-					node.deleteData( node.data.length - pattern.end.length, pattern.end.length );
+					node.deleteData( 0, pattern.delimiter.length );
+					node.deleteData( node.data.length - pattern.delimiter.length, pattern.delimiter.length );
 
 					editor.formatter.apply( pattern.format, {}, node );
 
