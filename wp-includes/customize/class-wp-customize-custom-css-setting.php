@@ -128,7 +128,11 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * @return string
 	 */
 	public function value() {
-		return wp_get_custom_css( $this->stylesheet );
+		$value = wp_get_custom_css( $this->stylesheet );
+		if ( empty( $value ) ) {
+			$value = $this->default;
+		}
+		return $value;
 	}
 
 	/**

@@ -3599,6 +3599,7 @@ final class WP_Customize_Manager {
 
 		$custom_css_setting = new WP_Customize_Custom_CSS_Setting( $this, sprintf( 'custom_css[%s]', get_stylesheet() ), array(
 			'capability' => 'unfiltered_css',
+			'default' => sprintf( "/*\n%s\n*/", __( "You can add your own CSS here.\n\nClick the help icon above to learn more." ) ),
 		) );
 		$this->add_setting( $custom_css_setting );
 
@@ -3606,9 +3607,6 @@ final class WP_Customize_Manager {
 			'type'     => 'textarea',
 			'section'  => 'custom_css',
 			'settings' => array( 'default' => $custom_css_setting->id ),
-			'input_attrs' => array(
-				'placeholder' => __( "/*\nYou can add your own CSS here.\n\nClick the help icon above to learn more.\n*/" ),
-			)
 		) );
 	}
 
