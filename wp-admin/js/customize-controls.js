@@ -1267,6 +1267,8 @@
 
 				overlay.addClass( 'in-themes-panel' );
 				section.addClass( 'current-panel' );
+				_.delay( panel.renderScreenshots, 10 ); // Wait for the controls
+				panel.$customizeSidebar.on( 'scroll.customize-themes-section', _.throttle( panel.renderScreenshots, 300 ) );
 
 			} else if ( ! expanded && section.hasClass( 'current-panel' ) ) {
 				panel._animateChangeExpanded( function() {
@@ -1283,6 +1285,7 @@
 
 				overlay.removeClass( 'in-themes-panel' );
 				section.removeClass( 'current-panel' );
+				panel.$customizeSidebar.off( 'scroll.customize-themes-section' );
 			}
 		},
 

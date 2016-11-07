@@ -193,6 +193,12 @@ body {
 	border-left: 4px solid #fff;
 }
 
+#customize-controls #customize-theme-controls .customize-themes-panel .accordion-section-title {
+	color: #555;
+	background-color: #fff;
+	border-left: 4px solid #fff;
+}
+
 #customize-theme-controls .accordion-section-title:after {
 	content: "\f345";
 	color: #a0a5aa;
@@ -1189,6 +1195,7 @@ p.customize-section-description {
 	margin: 0 0 15px;
 }
 
+#customize-controls .customize-themes-panel .accordion-section-title:hover,
 #customize-controls .customize-themes-panel .accordion-section-title {
 	margin: 15px -8px;
 }
