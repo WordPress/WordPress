@@ -135,6 +135,16 @@ input[type="checkbox"] {
 	float: left;
 }
 
+.nav-links .nav-previous .nav-title .nav-title-icon-wrapper {
+	margin-left: 0.5em;
+	margin-right: 0;
+}
+
+.nav-links .nav-next .nav-title .nav-title-icon-wrapper {
+	margin-left: 0;
+	margin-right: 0.5em;
+}
+
 /* Blog Entries */
 
 .entry-footer .cat-links,

@@ -2166,12 +2166,20 @@ body:not(.twentyseventeen-front-page) .entry-header {
 
 .nav-title {
 	color: #333;
-	font-size: 16px;
-	font-size: 1rem;
+	font-size: 15px;
+	font-size: 0.9375rem;
 }
 
 .post-navigation .nav-next {
 	margin-top: 1.5em;
+}
+
+.nav-links .nav-previous .nav-title .nav-title-icon-wrapper {
+	margin-right: 0.5em;
+}
+
+.nav-links .nav-next .nav-title .nav-title-icon-wrapper {
+	margin-left: 0.5em;
 }
 
 /*--------------------------------------------------------------
