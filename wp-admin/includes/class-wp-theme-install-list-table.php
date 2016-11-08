@@ -226,23 +226,26 @@ class WP_Theme_Install_List_Table extends WP_Themes_List_Table {
 	/**
 	 * Prints a theme from the WordPress.org API.
 	 *
+	 * @since 3.1.0
+	 * @access public
+	 *
 	 * @global array $themes_allowedtags
 	 *
-	 * @param object $theme An object that contains theme data returned by the WordPress.org API.
+	 * @param object $theme {
+	 *     An object that contains theme data returned by the WordPress.org API.
 	 *
-	 * Example theme data:
-	 *   object(stdClass)[59]
-	 *     public 'name' => string 'Magazine Basic'
-	 *     public 'slug' => string 'magazine-basic'
-	 *     public 'version' => string '1.1'
-	 *     public 'author' => string 'tinkerpriest'
-	 *     public 'preview_url' => string 'http://wp-themes.com/?magazine-basic'
-	 *     public 'screenshot_url' => string 'http://wp-themes.com/wp-content/themes/magazine-basic/screenshot.png'
-	 *     public 'rating' => float 80
-	 *     public 'num_ratings' => int 1
-	 *     public 'homepage' => string 'http://wordpress.org/themes/magazine-basic'
-	 *     public 'description' => string 'A basic magazine style layout with a fully customizable layout through a back-end interface. Designed by <a href="http://bavotasan.com">c.bavota</a> of <a href="http://tinkerpriestmedia.com">Tinker Priest Media</a>.'
-	 *     public 'download_link' => string 'http://wordpress.org/themes/download/magazine-basic.1.1.zip'
+	 *     @type string $name           Theme name, e.g. 'Twenty Seventeen'.
+	 *     @type string $slug           Theme slug, e.g. 'twentyseventeen'.
+	 *     @type string $version        Theme version, e.g. '1.1'.
+	 *     @type string $author         Theme author username, e.g. 'melchoyce'.
+	 *     @type string $preview_url    Preview URL, e.g. 'http://2017.wordpress.net/'.
+	 *     @type string $screenshot_url Screenshot URL, e.g. 'https://wordpress.org/themes/twentyseventeen/'.
+	 *     @type float  $rating         Rating score.
+	 *     @type int    $num_ratings    The number of ratings.
+	 *     @type string $homepage       Theme homepage, e.g. 'https://wordpress.org/themes/twentyseventeen/'.
+	 *     @type string $description    Theme description.
+	 *     @type string $download_link  Theme ZIP download URL.
+	 * }
 	 */
 	public function single_row( $theme ) {
 		global $themes_allowedtags;
