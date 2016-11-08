@@ -284,9 +284,9 @@ if ( $languages ) : ?>
 		$user_locale = $profileuser->locale;
 
 		if ( 'en_US' === $user_locale ) {
-			$user_locale = false;
-		} elseif ( ! in_array( $user_locale, $languages, true ) ) {
-			$user_locale = get_locale();
+			$user_locale = '';
+		} elseif ( '' === $user_locale || ! in_array( $user_locale, $languages, true ) ) {
+			$user_locale = 'site-default';
 		}
 
 		wp_dropdown_languages( array(
@@ -294,7 +294,8 @@ if ( $languages ) : ?>
 			'id'                          => 'locale',
 			'selected'                    => $user_locale,
 			'languages'                   => $languages,
-			'show_available_translations' => false
+			'show_available_translations' => false,
+			'show_site_locale_default'    => true
 		) );
 		?>
 	</td>

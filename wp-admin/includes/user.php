@@ -98,11 +98,13 @@ function edit_user( $user_id = 0 ) {
 
 		if ( isset( $_POST['locale'] ) ) {
 			$locale = sanitize_text_field( $_POST['locale'] );
-			if ( ! in_array( $locale, get_available_languages(), true ) ) {
+			if ( 'site-default' === $locale ) {
 				$locale = '';
+			} elseif ( ! in_array( $locale, get_available_languages(), true ) ) {
+				$locale = 'en_US';
 			}
 
-			$user->locale = ( '' === $locale ) ? 'en_US' : $locale;
+			$user->locale = $locale;
 		}
 	}
 

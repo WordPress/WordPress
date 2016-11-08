@@ -1048,6 +1048,7 @@ function wp_get_pomo_file_data( $po_file ) {
  *
  * @since 4.0.0
  * @since 4.3.0 Introduced the `echo` argument.
+ * @since 4.7.0 Introduced the `show_site_locale_default` argument.
  *
  * @see get_available_languages()
  * @see wp_get_available_translations()
@@ -1065,6 +1066,7 @@ function wp_get_pomo_file_data( $po_file ) {
  *     @type bool|int $echo                         Whether to echo the generated markup. Accepts 0, 1, or their
  *                                                  boolean equivalents. Default 1.
  *     @type bool     $show_available_translations  Whether to show available translations. Default true.
+ *     @type bool     $show_site_locale_default     Whether to show an option to fall back to the site's locale. Default false.
  * }
  * @return string HTML content
  */
@@ -1078,7 +1080,13 @@ function wp_dropdown_languages( $args = array() ) {
 		'selected'     => '',
 		'echo'         => 1,
 		'show_available_translations' => true,
+		'show_site_locale_default'    => false,
 	) );
+
+	// English (United States) uses an empty string for the value attribute.
+	if ( 'en_US' === $args['selected'] ) {
+		$args['selected'] = '';
+	}
 
 	$translations = $args['translations'];
 	if ( empty( $translations ) ) {
@@ -1122,7 +1130,20 @@ function wp_dropdown_languages( $args = array() ) {
 	if ( $translations_available ) {
 		$structure[] = '<optgroup label="' . esc_attr_x( 'Installed', 'translations' ) . '">';
 	}
-	$structure[] = '<option value="" lang="en" data-installed="1">English (United States)</option>';
+
+	if ( $args['show_site_locale_default'] ) {
+		$structure[] = sprintf(
+			'<option value="site-default" data-installed="1"%s>%s</option>',
+			selected( 'site-default', $args['selected'], false ),
+			_x( 'Site Default', 'default site language' )
+		);
+	}
+
+	$structure[] = sprintf(
+		'<option value="" lang="en" data-installed="1"%s>English (United States)</option>',
+		selected( '', $args['selected'], false )
+	);
+
 	foreach ( $languages as $language ) {
 		$structure[] = sprintf(
 			'<option value="%s" lang="%s"%s data-installed="1">%s</option>',
