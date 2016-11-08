@@ -488,7 +488,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		$post->post_type = $this->post_type;
-		$post_id         = wp_insert_post( $post, true );
+		$post_id         = wp_insert_post( wp_slash( (array) $post ), true );
 
 		if ( is_wp_error( $post_id ) ) {
 
@@ -628,7 +628,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		// convert the post object to an array, otherwise wp_update_post will expect non-escaped input.
-		$post_id = wp_update_post( (array) $post, true );
+		$post_id = wp_update_post( wp_slash( (array) $post ), true );
 
 		if ( is_wp_error( $post_id ) ) {
 			if ( 'db_update_error' === $post_id->get_error_code() ) {
@@ -969,27 +969,27 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		// Post title.
 		if ( ! empty( $schema['properties']['title'] ) && isset( $request['title'] ) ) {
 			if ( is_string( $request['title'] ) ) {
-				$prepared_post->post_title = wp_filter_post_kses( $request['title'] );
+				$prepared_post->post_title = $request['title'];
 			} elseif ( ! empty( $request['title']['raw'] ) ) {
-				$prepared_post->post_title = wp_filter_post_kses( $request['title']['raw'] );
+				$prepared_post->post_title = $request['title']['raw'];
 			}
 		}
 
 		// Post content.
 		if ( ! empty( $schema['properties']['content'] ) && isset( $request['content'] ) ) {
 			if ( is_string( $request['content'] ) ) {
-				$prepared_post->post_content = wp_filter_post_kses( $request['content'] );
+				$prepared_post->post_content = $request['content'];
 			} elseif ( isset( $request['content']['raw'] ) ) {
-				$prepared_post->post_content = wp_filter_post_kses( $request['content']['raw'] );
+				$prepared_post->post_content = $request['content']['raw'];
 			}
 		}
 
 		// Post excerpt.
 		if ( ! empty( $schema['properties']['excerpt'] ) && isset( $request['excerpt'] ) ) {
 			if ( is_string( $request['excerpt'] ) ) {
-				$prepared_post->post_excerpt = wp_filter_post_kses( $request['excerpt'] );
+				$prepared_post->post_excerpt = $request['excerpt'];
 			} elseif ( isset( $request['excerpt']['raw'] ) ) {
-				$prepared_post->post_excerpt = wp_filter_post_kses( $request['excerpt']['raw'] );
+				$prepared_post->post_excerpt = $request['excerpt']['raw'];
 			}
 		}
 

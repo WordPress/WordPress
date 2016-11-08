@@ -142,7 +142,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$attachment->post_title = preg_replace( '/\.[^.]+$/', '', basename( $file ) );
 		}
 
-		$id = wp_insert_post( $attachment, true );
+		$id = wp_insert_post( wp_slash( (array) $attachment ), true );
 
 		if ( is_wp_error( $id ) ) {
 			if ( 'db_update_error' === $id->get_error_code() ) {
@@ -250,18 +250,18 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		// Attachment caption (post_excerpt internally)
 		if ( isset( $request['caption'] ) ) {
 			if ( is_string( $request['caption'] ) ) {
-				$prepared_attachment->post_excerpt = wp_filter_post_kses( $request['caption'] );
+				$prepared_attachment->post_excerpt = $request['caption'];
 			} elseif ( isset( $request['caption']['raw'] ) ) {
-				$prepared_attachment->post_excerpt = wp_filter_post_kses( $request['caption']['raw'] );
+				$prepared_attachment->post_excerpt = $request['caption']['raw'];
 			}
 		}
 
 		// Attachment description (post_content internally)
 		if ( isset( $request['description'] ) ) {
 			if ( is_string( $request['description'] ) ) {
-				$prepared_attachment->post_content = wp_filter_post_kses( $request['description'] );
+				$prepared_attachment->post_content = $request['description'];
 			} elseif ( isset( $request['description']['raw'] ) ) {
-				$prepared_attachment->post_content = wp_filter_post_kses( $request['description']['raw'] );
+				$prepared_attachment->post_content = $request['description']['raw'];
 			}
 		}
 
