@@ -106,7 +106,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		if ( ! empty( $request['post'] ) ) {
 			foreach ( (array) $request['post'] as $post_id ) {
-				$post = $this->get_post( $post_id );
+				$post = get_post( $post_id );
 
 				if ( ! empty( $post_id ) && $post && ! $this->check_read_post_permission( $post ) ) {
 					return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you cannot read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
@@ -314,7 +314,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_cannot_read', __( 'Sorry, you cannot read this comment.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
-		$post = $this->get_post( $comment->comment_post_ID );
+		$post = get_post( $comment->comment_post_ID );
 
 		if ( $post && ! $this->check_read_post_permission( $post ) ) {
 			return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you cannot read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
@@ -345,7 +345,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! empty( $comment->comment_post_ID ) ) {
-			$post = $this->get_post( $comment->comment_post_ID );
+			$post = get_post( $comment->comment_post_ID );
 			if ( empty( $post ) ) {
 				return new WP_Error( 'rest_post_invalid_id', __( 'Invalid post id.' ), array( 'status' => 404 ) );
 			}
@@ -389,7 +389,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_comment_invalid_post_id', __( 'Sorry, you cannot create this comment without a post.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
-		if ( ! empty( $request['post'] ) && $post = $this->get_post( (int) $request['post'] ) ) {
+		if ( ! empty( $request['post'] ) && $post = get_post( (int) $request['post'] ) ) {
 			if ( 'draft' === $post->post_status ) {
 				return new WP_Error( 'rest_comment_draft_post', __( 'Sorry, you cannot create a comment on this post.' ), array( 'status' => 403 ) );
 			}
@@ -871,7 +871,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( 0 !== (int) $comment->comment_post_ID ) {
-			$post = $this->get_post( $comment->comment_post_ID );
+			$post = get_post( $comment->comment_post_ID );
 
 			if ( ! empty( $post->ID ) ) {
 				$obj = get_post_type_object( $post->post_type );

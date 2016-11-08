@@ -72,7 +72,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		// Attaching media to a post requires ability to edit said post.
 		if ( ! empty( $request['post'] ) ) {
-			$parent = $this->get_post( (int) $request['post'] );
+			$parent = get_post( (int) $request['post'] );
 			$post_parent_type = get_post_type_object( $parent->post_type );
 
 			if ( ! current_user_can( $post_parent_type->cap->edit_post, $request['post'] ) ) {
@@ -153,7 +153,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			return $id;
 		}
 
-		$attachment = $this->get_post( $id );
+		$attachment = get_post( $id );
 
 		// Include admin functions to get access to wp_generate_attachment_metadata().
 		require_once ABSPATH . 'wp-admin/includes/admin.php';
@@ -217,7 +217,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			update_post_meta( $data['id'], '_wp_attachment_image_alt', $request['alt_text'] );
 		}
 
-		$attachment = $this->get_post( $request['id'] );
+		$attachment = get_post( $request['id'] );
 
 		$fields_update = $this->update_additional_fields_for_object( $attachment, $request );
 
