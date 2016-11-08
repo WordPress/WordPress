@@ -520,7 +520,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		 */
 		$prepared_comment = apply_filters( 'rest_pre_insert_comment', $prepared_comment, $request );
 
-		$comment_id = wp_insert_comment( $prepared_comment );
+		$comment_id = wp_insert_comment( wp_filter_comment( wp_slash( (array) $prepared_comment ) ) );
 
 		if ( ! $comment_id ) {
 			return new WP_Error( 'rest_comment_failed_create', __( 'Creating comment failed.' ), array( 'status' => 500 ) );
@@ -644,7 +644,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				return new WP_Error( $error_code, __( 'Comment field exceeds maximum length allowed.' ), array( 'status' => 400 ) );
 			}
 
-			$updated = wp_update_comment( $prepared_args );
+			$updated = wp_update_comment( wp_slash( (array) $prepared_args ) );
 
 			if ( 0 === $updated ) {
 				return new WP_Error( 'rest_comment_failed_edit', __( 'Updating comment failed.' ), array( 'status' => 500 ) );
@@ -995,9 +995,9 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		 * the 'content.raw' properties of the Request object.
 		 */
 		if ( isset( $request['content'] ) && is_string( $request['content'] ) ) {
-			$prepared_comment['comment_content'] = wp_filter_kses( $request['content'] );
+			$prepared_comment['comment_content'] = $request['content'];
 		} elseif ( isset( $request['content']['raw'] ) && is_string( $request['content']['raw'] ) ) {
-			$prepared_comment['comment_content'] = wp_filter_kses( $request['content']['raw'] );
+			$prepared_comment['comment_content'] = $request['content']['raw'];
 		}
 
 		if ( isset( $request['post'] ) ) {
