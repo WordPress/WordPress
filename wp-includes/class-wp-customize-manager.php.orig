@@ -3757,7 +3757,7 @@ final class WP_Customize_Manager {
 	/**
 	 * Callback for validating the external_header_video value.
 	 *
-	 * Ensures that the provided URL is supported.
+	 * Ensures that the provided URL is for YouTube or Vimeo.
 	 *
 	 * @since 4.7.0
 	 *

@@ -1385,8 +1385,6 @@ function get_header_video_settings() {
 
 	if ( preg_match( '#^https?://(?:www\.)?(?:youtube\.com/watch|youtu\.be/)#', $video_url ) ) {
 		$settings['mimeType'] = 'video/x-youtube';
-	} elseif ( preg_match( '#^https?://(.+\.)?vimeo\.com/.*#', $video_url ) ) {
-		$settings['mimeType'] = 'video/x-vimeo';
 	} elseif ( ! empty( $video_type['type'] ) ) {
 		$settings['mimeType'] = $video_type['type'];
 	}
