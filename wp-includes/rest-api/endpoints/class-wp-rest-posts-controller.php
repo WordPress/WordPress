@@ -815,23 +815,19 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * @return array Items query arguments.
 	 */
 	protected function prepare_items_query( $prepared_args = array(), $request = null ) {
-
-		$valid_vars = array_flip( $this->get_allowed_query_vars( $request ) );
 		$query_args = array();
 
-		foreach ( $valid_vars as $var => $index ) {
-			if ( isset( $prepared_args[ $var ] ) ) {
-				/**
-				 * Filters the query_vars used in get_items() for the constructed query.
-				 *
-				 * The dynamic portion of the hook name, `$var`, refers to the query_var key.
-				 *
-				 * @since 4.7.0
-				 *
-				 * @param string $var The query_var value.
-				 */
-				$query_args[ $var ] = apply_filters( "rest_query_var-{$var}", $prepared_args[ $var ] );
-			}
+		foreach ( $prepared_args as $key => $value ) {
+			/**
+			 * Filters the query_vars used in get_items() for the constructed query.
+			 *
+			 * The dynamic portion of the hook name, `$key`, refers to the query_var key.
+			 *
+			 * @since 4.7.0
+			 *
+			 * @param string $value The query_var value.
+			 */
+			$query_args[ $key ] = apply_filters( "rest_query_var-{$key}", $value );
 		}
 
 		if ( 'post' !== $this->post_type || ! isset( $query_args['ignore_sticky_posts'] ) ) {
@@ -843,82 +839,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		return $query_args;
-	}
-
-	/**
-	 * Retrieves all of the WP Query vars that are allowed for the REST API request.
-	 *
-	 * @since 4.7.0
-	 * @access protected
-	 *
-	 * @param WP_REST_Request $request Optional. Full details about the request.
-	 * @return array Allowed query variables.
-	 */
-	protected function get_allowed_query_vars( $request = null ) {
-		global $wp;
-
-		/** This filter is documented in wp-includes/class-wp.php */
-		$valid_vars = apply_filters( 'query_vars', $wp->public_query_vars );
-
-		$post_type_obj = get_post_type_object( $this->post_type );
-		if ( current_user_can( $post_type_obj->cap->edit_posts ) ) {
-			/**
-			 * Filters the allowed 'private' query vars for authorized users.
-			 *
-			 * If the user has the `edit_posts` capability, we also allow use of
-			 * private query parameters, which are only undesirable on the
-			 * frontend, but are safe for use in query strings.
-			 *
-			 * To disable anyway, use
-			 * `add_filter( 'rest_private_query_vars', '__return_empty_array' );`
-			 *
-			 * @since 4.7.0
-			 *
-			 * @param array $private_query_vars Array of allowed query vars for authorized users.
-			 */
-			$private = apply_filters( 'rest_private_query_vars', $wp->private_query_vars );
-
-			$valid_vars = array_merge( $valid_vars, $private );
-		}
-
-		// Define our own in addition to WP's normal vars.
-		$rest_valid = array(
-			'author__in',
-			'author__not_in',
-			'ignore_sticky_posts',
-			'menu_order',
-			'offset',
-			'post__in',
-			'post__not_in',
-			'post_parent',
-			'post_parent__in',
-			'post_parent__not_in',
-			'posts_per_page',
-			'date_query',
-			'post_name__in',
-		);
-
-		$valid_vars = array_merge( $valid_vars, $rest_valid );
-
-		/**
-		 * Filters allowed query vars for the REST API.
-		 *
-		 * This filter allows you to add or remove query vars from the final allowed
-		 * list for all requests, including unauthenticated ones. To alter the
-		 * vars for editors only, see {@see 'rest_private_query_vars'}.
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param array {
-		 *    Array of allowed WP_Query query vars.
-		 *
-		 *    @param string          $allowed_query_var The query var to allow.
-		 *    @param WP_REST_Request $request           Request object.
-		 * }
-		 */
-		$valid_vars = apply_filters( 'rest_query_vars', $valid_vars, $request );
-
-		return $valid_vars;
 	}
 
 	/**
@@ -2195,7 +2115,22 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			);
 		}
 
-		return $params;
+		/**
+		 * Filter collection parameters for the posts controller.
+		 *
+		 * The dynamic part of the filter `$this->post_type` refers to the post
+		 * type slug for the controller.
+		 *
+		 * This filter registers the collection parameter, but does not map the
+		 * collection parameter to an internal WP_Query parameter. Use the
+		 * `rest_{$this->post_type}_query` filter to set WP_Query parameters.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param $params JSON Schema-formatted collection parameters.
+		 * @param WP_Post_Type $post_type_obj Post type object.
+		 */
+		return apply_filters( "rest_{$this->post_type}_collection_params", $params, $post_type_obj );
 	}
 
 	/**
