@@ -320,7 +320,7 @@ function map_meta_cap( $cap, $user_id ) {
 		else
 			$caps[] = 'do_not_allow';
 		break;
-	case 'unfiltered_css' :
+	case 'edit_css' :
 	case 'unfiltered_html' :
 		// Disallow unfiltered_html for all users, even admins and super admins.
 		if ( defined( 'DISALLOW_UNFILTERED_HTML' ) && DISALLOW_UNFILTERED_HTML )

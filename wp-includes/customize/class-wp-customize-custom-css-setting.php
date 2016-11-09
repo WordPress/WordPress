@@ -46,7 +46,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 *
 	 * @var string
 	 */
-	public $capability = 'unfiltered_css';
+	public $capability = 'edit_css';
 
 	/**
 	 * Stylesheet

@@ -3598,7 +3598,7 @@ final class WP_Customize_Manager {
 		) );
 
 		$custom_css_setting = new WP_Customize_Custom_CSS_Setting( $this, sprintf( 'custom_css[%s]', get_stylesheet() ), array(
-			'capability' => 'unfiltered_css',
+			'capability' => 'edit_css',
 			'default' => sprintf( "/*\n%s\n*/", __( "You can add your own CSS here.\n\nClick the help icon above to learn more." ) ),
 		) );
 		$this->add_setting( $custom_css_setting );
