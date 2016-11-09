@@ -3909,13 +3909,6 @@ object {
 	}
 }
 
-@media screen and ( min-width: 55em ) {
-
-	.panel-image {
-		background-attachment: fixed;
-	}
-}
-
 @media screen and ( min-width: 67em ) {
 
 	/* Layout */
@@ -3977,6 +3970,13 @@ object {
 	.page-two-column .entry-content blockquote.alignright,
 	.twentyseventeen-front-page .entry-content blockquote.alignright {
 		margin-right: -20%;
+	}
+}
+
+@media screen and ( min-width: 85.45em ) {
+
+	.panel-image {
+		background-attachment: fixed;
 	}
 }
 
