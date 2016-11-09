@@ -2549,7 +2549,7 @@ function _wp_customize_include() {
  * @param WP_Post $changeset_post Changeset post object.
  */
 function _wp_customize_publish_changeset( $new_status, $old_status, $changeset_post ) {
-	global $wp_customize;
+	global $wp_customize, $wpdb;
 
 	$is_publishing_changeset = (
 		'customize_changeset' === $changeset_post->post_type
@@ -2600,7 +2600,47 @@ function _wp_customize_publish_changeset( $new_status, $old_status, $changeset_p
 	 * and thus garbage collected.
 	 */
 	if ( ! wp_revisions_enabled( $changeset_post ) ) {
-		wp_trash_post( $changeset_post->ID );
+		$post = $changeset_post;
+		$post_id = $changeset_post->ID;
+
+		/*
+		 * The following re-formulates the logic from wp_trash_post() as done in
+		 * wp_publish_post(). The reason for bypassing wp_trash_post() is that it
+		 * will mutate the the post_content and the post_name when they should be
+		 * untouched.
+		 */
+		if ( ! EMPTY_TRASH_DAYS ) {
+			wp_delete_post( $post_id, true );
+		} else {
+			/** This action is documented in wp-includes/post.php */
+			do_action( 'wp_trash_post', $post_id );
+
+			add_post_meta( $post_id, '_wp_trash_meta_status', $post->post_status );
+			add_post_meta( $post_id, '_wp_trash_meta_time', time() );
+
+			$old_status = $post->post_status;
+			$new_status = 'trash';
+			$wpdb->update( $wpdb->posts, array( 'post_status' => $new_status ), array( 'ID' => $post->ID ) );
+			clean_post_cache( $post->ID );
+
+			$post->post_status = $new_status;
+			wp_transition_post_status( $new_status, $old_status, $post );
+
+			/** This action is documented in wp-includes/post.php */
+			do_action( 'edit_post', $post->ID, $post );
+
+			/** This action is documented in wp-includes/post.php */
+			do_action( "save_post_{$post->post_type}", $post->ID, $post, true );
+
+			/** This action is documented in wp-includes/post.php */
+			do_action( 'save_post', $post->ID, $post, true );
+
+			/** This action is documented in wp-includes/post.php */
+			do_action( 'wp_insert_post', $post->ID, $post, true );
+
+			/** This action is documented in wp-includes/post.php */
+			do_action( 'trashed_post', $post_id );
+		}
 	}
 }
 
