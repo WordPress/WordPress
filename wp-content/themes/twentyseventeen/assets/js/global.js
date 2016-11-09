@@ -27,6 +27,27 @@
 			resizeTimer;
 
 	/**
+	 * Ensure the sticky navigation doesn't cover current focused links
+	 */
+	$( '#content a, #colophon a' ).focus( function() {
+		if ( $navigation.hasClass( 'site-navigation-fixed' ) ) {
+			var windowScrollTop = $( window ).scrollTop(),
+				fixedNavHeight = $navigation.height(),
+				itemScrollTop = $( this ).offset().top,
+				offsetDiff = itemScrollTop - windowScrollTop;
+
+			// Account for Admin bar.
+			if ( $( '#wpadminbar' ).length ) {
+				offsetDiff -= $( '#wpadminbar' ).height();
+			}
+
+			if ( offsetDiff < fixedNavHeight ) {
+				$( window ).scrollTo( itemScrollTop - ( fixedNavHeight + 50 ), 600);
+			};
+		}
+	} );
+
+	/**
 	 * Sets properties of navigation
 	 */
 	function setNavProps() {
