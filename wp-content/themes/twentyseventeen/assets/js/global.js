@@ -43,7 +43,7 @@
 
 			if ( offsetDiff < fixedNavHeight ) {
 				$( window ).scrollTo( itemScrollTop - ( fixedNavHeight + 50 ), 600);
-			};
+			}
 		}
 	} );
 
