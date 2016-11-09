@@ -631,7 +631,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			if ( ! $change ) {
 				return new WP_Error( 'rest_comment_failed_edit', __( 'Updating comment status failed.' ), array( 'status' => 500 ) );
 			}
-		} else {
+		} elseif ( ! empty( $prepared_args ) ) {
 			if ( is_wp_error( $prepared_args ) ) {
 				return $prepared_args;
 			}

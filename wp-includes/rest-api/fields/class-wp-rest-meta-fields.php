@@ -122,7 +122,6 @@ abstract class WP_REST_Meta_Fields {
 	 */
 	public function update_value( $request, $object_id ) {
 		$fields = $this->get_registered_fields();
-
 		foreach ( $fields as $name => $args ) {
 			if ( ! array_key_exists( $name, $request ) ) {
 				continue;
@@ -159,7 +158,8 @@ abstract class WP_REST_Meta_Fields {
 	 * @return bool|WP_Error True if meta field is deleted, WP_Error otherwise.
 	 */
 	protected function delete_meta_value( $object_id, $name ) {
-		if ( ! current_user_can( 'delete_post_meta', $object_id, $name ) ) {
+		$meta_type = $this->get_meta_type();
+		if ( ! current_user_can( "delete_{$meta_type}_meta", $object_id, $name ) ) {
 			return new WP_Error(
 				'rest_cannot_delete',
 				sprintf( __( 'You do not have permission to edit the %s custom field.' ), $name ),
@@ -167,7 +167,7 @@ abstract class WP_REST_Meta_Fields {
 			);
 		}
 
-		if ( ! delete_metadata( $this->get_meta_type(), $object_id, wp_slash( $name ) ) ) {
+		if ( ! delete_metadata( $meta_type, $object_id, wp_slash( $name ) ) ) {
 			return new WP_Error(
 				'rest_meta_database_error',
 				__( 'Could not delete meta value from database.' ),
@@ -192,7 +192,8 @@ abstract class WP_REST_Meta_Fields {
 	 * @return bool|WP_Error True if meta fields are updated, WP_Error otherwise.
 	 */
 	protected function update_multi_meta_value( $object_id, $name, $values ) {
-		if ( ! current_user_can( 'edit_post_meta', $object_id, $name ) ) {
+		$meta_type = $this->get_meta_type();
+		if ( ! current_user_can( "edit_{$meta_type}_meta", $object_id, $name ) ) {
 			return new WP_Error(
 				'rest_cannot_update',
 				sprintf( __( 'You do not have permission to edit the %s custom field.' ), $name ),
@@ -200,7 +201,7 @@ abstract class WP_REST_Meta_Fields {
 			);
 		}
 
-		$current = get_metadata( $this->get_meta_type(), $object_id, $name, false );
+		$current = get_metadata( $meta_type, $object_id, $name, false );
 
 		$to_remove = $current;
 		$to_add    = $values;
@@ -227,7 +228,7 @@ abstract class WP_REST_Meta_Fields {
 		$to_remove = array_unique( $to_remove );
 
 		foreach ( $to_remove as $value ) {
-			if ( ! delete_metadata( $this->get_meta_type(), $object_id, wp_slash( $name ), wp_slash( $value ) ) ) {
+			if ( ! delete_metadata( $meta_type, $object_id, wp_slash( $name ), wp_slash( $value ) ) ) {
 				return new WP_Error(
 					'rest_meta_database_error',
 					__( 'Could not update meta value in database.' ),
@@ -237,7 +238,7 @@ abstract class WP_REST_Meta_Fields {
 		}
 
 		foreach ( $to_add as $value ) {
-			if ( ! add_metadata( $this->get_meta_type(), $object_id, wp_slash( $name ), wp_slash( $value ) ) ) {
+			if ( ! add_metadata( $meta_type, $object_id, wp_slash( $name ), wp_slash( $value ) ) ) {
 				return new WP_Error(
 					'rest_meta_database_error',
 					__( 'Could not update meta value in database.' ),
@@ -261,7 +262,8 @@ abstract class WP_REST_Meta_Fields {
 	 * @return bool|WP_Error True if the meta field was updated, WP_Error otherwise.
 	 */
 	protected function update_meta_value( $object_id, $name, $value ) {
-		if ( ! current_user_can( 'edit_post_meta', $object_id, $name ) ) {
+		$meta_type = $this->get_meta_type();
+		if ( ! current_user_can(  "edit_{$meta_type}_meta", $object_id, $name ) ) {
 			return new WP_Error(
 				'rest_cannot_update',
 				sprintf( __( 'You do not have permission to edit the %s custom field.' ), $name ),
@@ -269,7 +271,6 @@ abstract class WP_REST_Meta_Fields {
 			);
 		}
 
-		$meta_type  = $this->get_meta_type();
 		$meta_key   = wp_slash( $name );
 		$meta_value = wp_slash( $value );
 

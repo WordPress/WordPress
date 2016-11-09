@@ -242,56 +242,77 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'edit_post_meta':
 	case 'delete_post_meta':
 	case 'add_post_meta':
-		$post = get_post( $args[0] );
-		if ( ! $post ) {
+	case 'edit_comment_meta':
+	case 'delete_comment_meta':
+	case 'add_comment_meta':
+	case 'edit_term_meta':
+	case 'delete_term_meta':
+	case 'add_term_meta':
+	case 'edit_user_meta':
+	case 'delete_user_meta':
+	case 'add_user_meta':
+		list( $_, $object_type, $_ ) = explode( '_', $cap );
+		$object_id = (int) $args[0];
+
+		switch ( $object_type ) {
+			case 'post':
+				$post = get_post( $object_id );
+				if ( ! $post ) {
+					break;
+				}
+
+				$sub_type = get_post_type( $post );
+				break;
+
+			case 'comment':
+				$comment = get_comment( $object_id );
+				if ( ! $comment ) {
+					break;
+				}
+
+				$sub_type = empty( $comment->comment_type ) ? 'comment' : $comment->comment_type;
+				break;
+
+			case 'term':
+				$term = get_term( $object_id );
+				if ( ! $term ) {
+					break;
+				}
+
+				$sub_type = $term->taxonomy;
+				break;
+
+			case 'user':
+				$user = get_user_by( 'id', $object_id );
+				if ( ! $user ) {
+					break;
+				}
+
+				$sub_type = 'user';
+				break;
+		}
+
+		if ( empty( $sub_type ) ) {
 			$caps[] = 'do_not_allow';
 			break;
 		}
 
-		$post_type = get_post_type( $post );
+		$caps = map_meta_cap( "edit_{$object_type}", $user_id, $object_id );
 
-		$caps = map_meta_cap( 'edit_post', $user_id, $post->ID );
+		$meta_key = isset( $args[1] ) ? $args[1] : false;
 
-		$meta_key = isset( $args[ 1 ] ) ? $args[ 1 ] : false;
+		$has_filter = has_filter( "auth_{$object_type}_meta_{$meta_key}" ) || has_filter( "auth_{$object_type}_{$sub_type}_meta_{$meta_key}" );
+		if ( $meta_key && $has_filter ) {
+			/** This filter is documented in wp-includes/meta.php */
+			$allowed = apply_filters( "auth_{$object_type}_meta_{$meta_key}", false, $meta_key, $object_id, $user_id, $cap, $caps );
 
-		if ( $meta_key && ( has_filter( "auth_post_meta_{$meta_key}" ) || has_filter( "auth_post_{$post_type}_meta_{$meta_key}" ) ) ) {
-			/**
-			 * Filters whether the user is allowed to add post meta to a post.
-			 *
-			 * The dynamic portion of the hook name, `$meta_key`, refers to the
-			 * meta key passed to map_meta_cap().
-			 *
-			 * @since 3.3.0
-			 *
-			 * @param bool   $allowed  Whether the user can add the post meta. Default false.
-			 * @param string $meta_key The meta key.
-			 * @param int    $post_id  Post ID.
-			 * @param int    $user_id  User ID.
-			 * @param string $cap      Capability name.
-			 * @param array  $caps     User capabilities.
-			 */
-			$allowed = apply_filters( "auth_post_meta_{$meta_key}", false, $meta_key, $post->ID, $user_id, $cap, $caps );
+			/** This filter is documented in wp-includes/meta.php */
+			$allowed = apply_filters( "auth_{$object_type}_{$sub_type}_meta_{$meta_key}", $allowed, $meta_key, $object_id, $user_id, $cap, $caps );
 
-			/**
-			 * Filters whether the user is allowed to add post meta to a post of a given type.
-			 *
-			 * The dynamic portions of the hook name, `$meta_key` and `$post_type`,
-			 * refer to the meta key passed to map_meta_cap() and the post type, respectively.
-			 *
-			 * @since 4.6.0
-			 *
-			 * @param bool   $allowed  Whether the user can add the post meta. Default false.
-			 * @param string $meta_key The meta key.
-			 * @param int    $post_id  Post ID.
-			 * @param int    $user_id  User ID.
-			 * @param string $cap      Capability name.
-			 * @param array  $caps     User capabilities.
-			 */
-			$allowed = apply_filters( "auth_post_{$post_type}_meta_{$meta_key}", $allowed, $meta_key, $post->ID, $user_id, $cap, $caps );
-
-			if ( ! $allowed )
+			if ( ! $allowed ) {
 				$caps[] = $cap;
-		} elseif ( $meta_key && is_protected_meta( $meta_key, 'post' ) ) {
+			}
+		} elseif ( $meta_key && is_protected_meta( $meta_key, $object_type ) ) {
 			$caps[] = $cap;
 		}
 		break;
