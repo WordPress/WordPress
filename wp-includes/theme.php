@@ -1574,32 +1574,26 @@ function wp_custom_css_cb() {
 }
 
 /**
- * Fetch the saved Custom CSS content.
- *
- * Gets the content of a Custom CSS post that matches the
- * current theme.
+ * Fetch the `custom_css` post for a given theme.
  *
  * @since 4.7.0
  * @access public
  *
  * @param string $stylesheet Optional. A theme object stylesheet name. Defaults to the current theme.
- *
- * @return string The Custom CSS Post content.
+ * @return WP_Post|null The custom_css post or null if none exists.
  */
-function wp_get_custom_css( $stylesheet = '' ) {
-	$css = '';
-
+function wp_get_custom_css_post( $stylesheet = '' ) {
 	if ( empty( $stylesheet ) ) {
 		$stylesheet = get_stylesheet();
 	}
 
 	$custom_css_query_vars = array(
-		'post_type' => 'custom_css',
-		'post_status' => get_post_stati(),
-		'name' => sanitize_title( $stylesheet ),
-		'number' => 1,
-		'no_found_rows' => true,
-		'cache_results' => true,
+		'post_type'              => 'custom_css',
+		'post_status'            => get_post_stati(),
+		'name'                   => sanitize_title( $stylesheet ),
+		'number'                 => 1,
+		'no_found_rows'          => true,
+		'cache_results'          => true,
 		'update_post_meta_cache' => false,
 		'update_term_meta_cache' => false,
 	);
@@ -1607,10 +1601,9 @@ function wp_get_custom_css( $stylesheet = '' ) {
 	$post = null;
 	if ( get_stylesheet() === $stylesheet ) {
 		$post_id = get_theme_mod( 'custom_css_post_id' );
-		if ( ! $post_id ) {
+		if ( ! $post_id || ! get_post( $post_id ) ) {
 			$query = new WP_Query( $custom_css_query_vars );
 			$post = $query->post;
-
 			/*
 			 * Cache the lookup. See WP_Customize_Custom_CSS_Setting::update().
 			 * @todo This should get cleared if a custom_css post is added/removed.
@@ -1624,6 +1617,26 @@ function wp_get_custom_css( $stylesheet = '' ) {
 		$post = $query->post;
 	}
 
+	return $post;
+}
+
+/**
+ * Fetch the saved Custom CSS content.
+ *
+ * @since 4.7.0
+ * @access public
+ *
+ * @param string $stylesheet Optional. A theme object stylesheet name. Defaults to the current theme.
+ * @return string The Custom CSS Post content.
+ */
+function wp_get_custom_css( $stylesheet = '' ) {
+	$css = '';
+
+	if ( empty( $stylesheet ) ) {
+		$stylesheet = get_stylesheet();
+	}
+
+	$post = wp_get_custom_css_post( $stylesheet );
 	if ( $post ) {
 		$css = $post->post_content;
 	}

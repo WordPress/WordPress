@@ -236,20 +236,9 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 		);
 
 		// Update post if it already exists, otherwise create a new one.
-		$post_id = null;
-		$query = new WP_Query( array(
-			'post_type' => 'custom_css',
-			'post_status' => get_post_stati(),
-			'name' => sanitize_title( $this->stylesheet ),
-			'number' => 1,
-			'no_found_rows' => true,
-			'cache_results' => true,
-			'update_post_meta_cache' => false,
-			'update_term_meta_cache' => false,
-			'suppress_filters' => true,
-		) );
-		if ( ! empty( $query->post ) ) {
-			$args['ID'] = $query->post->ID;
+		$post = wp_get_custom_css_post( $this->stylesheet );
+		if ( $post ) {
+			$args['ID'] = $post->ID;
 			$post_id = wp_update_post( wp_slash( $args ) );
 		} else {
 			$post_id = wp_insert_post( wp_slash( $args ) );
