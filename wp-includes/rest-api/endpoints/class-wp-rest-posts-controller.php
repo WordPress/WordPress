@@ -1094,7 +1094,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Sets the template for a page.
+	 * Sets the template for a post.
 	 *
 	 * @since 4.7.0
 	 * @access public
@@ -1922,14 +1922,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			);
 		}
 
-		if ( 'page' === $this->post_type ) {
-			$schema['properties']['template'] = array(
-				'description' => __( 'The theme file to use to display the object.' ),
-				'type'        => 'string',
-				'enum'        => array_keys( wp_get_theme()->get_page_templates() ),
-				'context'     => array( 'view', 'edit' ),
-			);
-		}
+		$schema['properties']['template'] = array(
+			'description' => __( 'The theme file to use to display the object.' ),
+			'type'        => 'string',
+			'enum'        => array_keys( wp_get_theme()->get_page_templates( null, $this->post_type ) ),
+			'context'     => array( 'view', 'edit' ),
+		);
 
 		$taxonomies = wp_list_filter( get_object_taxonomies( $this->post_type, 'objects' ), array( 'show_in_rest' => true ) );
 		foreach ( $taxonomies as $taxonomy ) {
