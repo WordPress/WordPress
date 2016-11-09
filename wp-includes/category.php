@@ -82,7 +82,8 @@ function get_categories( $args = '' ) {
  * @since 1.5.1
  *
  * @param int|object $category Category ID or Category row object
- * @param string $output Optional. Constant OBJECT, ARRAY_A, or ARRAY_N
+ * @param string $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to a
+ *                       WP_Term object, an associative array, or a numeric array, respectively. Default OBJECT.
  * @param string $filter Optional. Default is raw or no WordPress defined filter will applied.
  * @return object|array|WP_Error|null Category data in type defined by $output parameter.
  *                                    WP_Error if $category is empty, null if it does not exist.
@@ -113,9 +114,10 @@ function get_category( $category, $output = OBJECT, $filter = 'raw' ) {
  * @since 2.1.0
  *
  * @param string $category_path URL containing category slugs.
- * @param bool $full_match Optional. Whether full path should be matched.
- * @param string $output Optional. Constant OBJECT, ARRAY_A, or ARRAY_N
- * @return object|array|WP_Error|void Type is based on $output value.
+ * @param bool   $full_match    Optional. Whether full path should be matched.
+ * @param string $output        Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
+ *                              a WP_Term object, an associative array, or a numeric array, respectively. Default OBJECT.
+ * @return WP_Term|array|WP_Error|null Type is based on $output value.
  */
 function get_category_by_path( $category_path, $full_match = true, $output = OBJECT ) {
 	$category_path = rawurlencode( urldecode( $category_path ) );
@@ -296,10 +298,11 @@ function get_tags( $args = '' ) {
  *
  * @since 2.3.0
  *
- * @param int|object $tag
- * @param string $output Optional. Constant OBJECT, ARRAY_A, or ARRAY_N
- * @param string $filter Optional. Default is raw or no WordPress defined filter will applied.
- * @return object|array|WP_Error|null Tag data in type defined by $output parameter. WP_Error if $tag is empty, null if it does not exist.
+ * @param int|WP_Term|object $tag    A tag ID or object.
+ * @param string             $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
+ *                                   a WP_Term object, an associative array, or a numeric array, respectively. Default OBJECT.
+ * @param string             $filter Optional. Default is raw or no WordPress defined filter will applied.
+ * @return WP_Term|array|WP_Error|null Tag data in type defined by $output parameter. WP_Error if $tag is empty, null if it does not exist.
  */
 function get_tag( $tag, $output = OBJECT, $filter = 'raw' ) {
 	return get_term( $tag, 'post_tag', $output, $filter );

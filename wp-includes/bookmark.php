@@ -14,7 +14,8 @@
  * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int|stdClass $bookmark
- * @param string $output Optional. Either OBJECT, ARRAY_N, or ARRAY_A constant
+ * @param string $output Optional. The required return type. One of OBJECT, ARRAY_A, or ARRAY_N, which correspond to
+ *                       an stdClass object, an associative array, or a numeric array, respectively. Default OBJECT.
  * @param string $filter Optional, default is 'raw'.
  * @return array|object|null Type returned depends on $output value.
  */
@@ -300,10 +301,10 @@ function get_bookmarks( $args = '' ) {
  *
  * @since 2.3.0
  *
- * @param object|array $bookmark Bookmark row
+ * @param stdClass|array $bookmark Bookmark row
  * @param string $context Optional, default is 'display'. How to filter the
  *		fields
- * @return object|array Same type as $bookmark but with fields sanitized.
+ * @return stdClass|array Same type as $bookmark but with fields sanitized.
  */
 function sanitize_bookmark($bookmark, $context = 'display') {
 	$fields = array('link_id', 'link_url', 'link_name', 'link_image', 'link_target', 'link_category',
