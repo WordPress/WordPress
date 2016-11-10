@@ -380,7 +380,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		$prepared_term = $this->prepare_item_for_database( $request );
 
-		$term = wp_insert_term( addslashes( $prepared_term->name ), $this->taxonomy, wp_slash( (array) $prepared_term ) );
+		$term = wp_insert_term( wp_slash( $prepared_term->name ), $this->taxonomy, wp_slash( (array) $prepared_term ) );
 		if ( is_wp_error( $term ) ) {
 			/*
 			 * If we're going to inform the client that the term already exists,
