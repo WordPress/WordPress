@@ -742,6 +742,23 @@ p.customize-section-description {
 	border: 1px solid #f00;
 }
 
+.customize-control-dropdown-pages .add-new-toggle {
+	margin-left: 1px;
+	color: #0073aa;
+	font-weight: 600;
+	line-height: 28px;
+	text-decoration: underline;
+}
+
+.customize-control-dropdown-pages .add-new-toggle:hover,
+.customize-control-dropdown-pages .add-new-toggle:active {
+	color: #00a0d2;
+}
+
+.customize-control-dropdown-pages .add-new-toggle:focus {
+	color: #124964;
+}
+
 #customize-preview iframe {
 	width: 100%;
 	height: 100%;
