@@ -380,7 +380,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		$prepared_term = $this->prepare_item_for_database( $request );
 
-		$term = wp_insert_term( $prepared_term->name, $this->taxonomy, $prepared_term );
+		$term = wp_insert_term( addslashes( $prepared_term->name ), $this->taxonomy, wp_slash( (array) $prepared_term ) );
 		if ( is_wp_error( $term ) ) {
 			/*
 			 * If we're going to inform the client that the term already exists,
@@ -491,7 +491,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		// Only update the term if we haz something to update.
 		if ( ! empty( $prepared_term ) ) {
-			$update = wp_update_term( $term->term_id, $term->taxonomy, (array) $prepared_term );
+			$update = wp_update_term( $term->term_id, $term->taxonomy, wp_slash( (array) $prepared_term ) );
 
 			if ( is_wp_error( $update ) ) {
 				return $update;
@@ -821,9 +821,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 					'description'  => __( 'HTML description of the resource.' ),
 					'type'         => 'string',
 					'context'      => array( 'view', 'edit' ),
-					'arg_options'  => array(
-						'sanitize_callback' => 'wp_filter_post_kses',
-					),
 				),
 				'link'        => array(
 					'description'  => __( 'URL to the resource.' ),
