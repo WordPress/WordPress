@@ -431,10 +431,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		/*
-		 * Do not allow a comment to be created with an empty string for
+		 * Do not allow a comment to be created with missing or empty
 		 * comment_content. See wp_handle_comment_submission().
 		 */
-		if ( '' === $prepared_comment['comment_content'] ) {
+		if ( empty( $prepared_comment['comment_content'] ) ) {
 			return new WP_Error( 'rest_comment_content_invalid', __( 'Comment content is invalid.' ), array( 'status' => 400 ) );
 		}
 
@@ -634,6 +634,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		} elseif ( ! empty( $prepared_args ) ) {
 			if ( is_wp_error( $prepared_args ) ) {
 				return $prepared_args;
+			}
+
+			if ( isset( $prepared_args['comment_content'] ) && empty( $prepared_args['comment_content'] ) ) {
+				return new WP_Error( 'rest_comment_content_invalid', __( 'Comment content is invalid.' ), array( 'status' => 400 ) );
 			}
 
 			$prepared_args['comment_ID'] = $id;
@@ -1062,11 +1066,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			if ( ! empty( $date_data ) ) {
 				list( $prepared_comment['comment_date'], $prepared_comment['comment_date_gmt'] ) = $date_data;
 			}
-		}
-
-		// Require 'comment_content' unless only the 'comment_status' is being updated.
-		if ( ! empty( $prepared_comment ) && ! isset( $prepared_comment['comment_content'] ) ) {
-			return new WP_Error( 'rest_comment_content_required', __( 'Missing comment content.' ), array( 'status' => 400 ) );
 		}
 
 		/**
