@@ -353,6 +353,11 @@ input[type="checkbox"] {
 		right: auto;
 	}
 
+	.site-header .menu-scroll-down {
+		left: 0;
+		right: auto;
+	}
+
 	.entry-title a {
 		margin-left: auto;
 		margin-right: -2px;
