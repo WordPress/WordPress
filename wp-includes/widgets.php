@@ -538,7 +538,7 @@ function _register_widget_update_callback( $id_base, $update_callback, $options 
 		'params' => array_slice(func_get_args(), 3)
 	);
 
-	$widget = array_merge($widget, $options);
+	$widget = array_merge($widget, array($options));
 	$wp_registered_widget_updates[$id_base] = $widget;
 }
 
