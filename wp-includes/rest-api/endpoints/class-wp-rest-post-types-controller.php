@@ -148,6 +148,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 	public function prepare_item_for_response( $post_type, $request ) {
 		$taxonomies = wp_list_filter( get_object_taxonomies( $post_type->name, 'objects' ), array( 'show_in_rest' => true ) );
 		$taxonomies = wp_list_pluck( $taxonomies, 'name' );
+		$base = ! empty( $post_type->rest_base ) ? $post_type->rest_base : $post_type->name;
 		$data = array(
 			'capabilities' => $post_type->cap,
 			'description'  => $post_type->description,
@@ -156,6 +157,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 			'name'         => $post_type->label,
 			'slug'         => $post_type->name,
 			'taxonomies'   => array_values( $taxonomies ),
+			'rest_base'    => $base,
 		);
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
 		$data    = $this->add_additional_fields_to_object( $data, $request );
@@ -163,8 +165,6 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
-
-		$base = ! empty( $post_type->rest_base ) ? $post_type->rest_base : $post_type->name;
 
 		$response->add_links( array(
 			'collection' => array(
@@ -249,6 +249,12 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 						'type' => 'string',
 					),
 					'context'      => array( 'view', 'edit' ),
+					'readonly'     => true,
+				),
+				'rest_base'            => array(
+					'description'  => __( 'REST base route for the resource.' ),
+					'type'         => 'string',
+					'context'      => array( 'view', 'edit', 'embed' ),
 					'readonly'     => true,
 				),
 			),

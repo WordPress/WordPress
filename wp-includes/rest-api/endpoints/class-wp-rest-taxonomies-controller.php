@@ -177,7 +177,7 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $taxonomy, $request ) {
-
+		$base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 		$data = array(
 			'name'         => $taxonomy->label,
 			'slug'         => $taxonomy->name,
@@ -187,6 +187,7 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 			'types'        => $taxonomy->object_type,
 			'show_cloud'   => $taxonomy->show_tagcloud,
 			'hierarchical' => $taxonomy->hierarchical,
+			'rest_base'    => $base,
 		);
 
 		$context = ! empty( $request['context'] ) ? $request['context'] : 'view';
@@ -196,7 +197,6 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 		// Wrap the data in a response object.
 		$response = rest_ensure_response( $data );
 
-		$base = ! empty( $taxonomy->rest_base ) ? $taxonomy->rest_base : $taxonomy->name;
 		$response->add_links( array(
 			'collection'                => array(
 				'href'                  => rest_url( sprintf( '%s/%s', $this->namespace, $this->rest_base ) ),
@@ -283,6 +283,12 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 						'type' => 'string',
 					),
 					'context'      => array( 'view', 'edit' ),
+					'readonly'     => true,
+				),
+				'rest_base'            => array(
+					'description'  => __( 'REST base route for the resource.' ),
+					'type'         => 'string',
+					'context'      => array( 'view', 'edit', 'embed' ),
 					'readonly'     => true,
 				),
 			),
