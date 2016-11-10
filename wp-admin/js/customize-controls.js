@@ -3930,18 +3930,18 @@
 			} );
 
 			previewer.loading.done( function( readyData ) {
-				var loadingFrame = this, previousPreview, onceSynced;
+				var loadingFrame = this, onceSynced;
 
-				previousPreview = previewer.preview;
 				previewer.preview = loadingFrame;
 				previewer.targetWindow( loadingFrame.targetWindow() );
 				previewer.channel( loadingFrame.channel() );
 
 				onceSynced = function() {
 					loadingFrame.unbind( 'synced', onceSynced );
-					if ( previousPreview ) {
-						previousPreview.destroy();
+					if ( previewer._previousPreview ) {
+						previewer._previousPreview.destroy();
 					}
+					previewer._previousPreview = previewer.preview;
 					previewer.deferred.active.resolve();
 					delete previewer.loading;
 				};
