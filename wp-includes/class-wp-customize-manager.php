@@ -3406,7 +3406,7 @@ final class WP_Customize_Manager {
 		/* Custom Header */
 
 		if ( current_theme_supports( 'custom-header', 'video' ) ) {
-			$title = __( 'Header Visuals' );
+			$title = __( 'Header Media' );
 			$description = __( 'If you add a video, the image will be used as a fallback while the video loads.' );
 			$width = absint( get_theme_support( 'custom-header', 'width' ) );
 			$height = absint( get_theme_support( 'custom-header', 'height' ) );
