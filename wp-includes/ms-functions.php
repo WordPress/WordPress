@@ -764,13 +764,13 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
  * @param string $domain     The new blog domain.
  * @param string $path       The new blog path.
  * @param string $title      The site title.
- * @param string $user       The user's login name.
+ * @param string $user_login The user's login name.
  * @param string $user_email The user's email address.
  * @param string $key        The activation key created in wpmu_signup_blog()
  * @param array  $meta       By default, contains the requested privacy setting and lang_id.
  * @return bool
  */
-function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_email, $key, $meta = array() ) {
+function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $user_email, $key, $meta = array() ) {
 	/**
 	 * Filters whether to bypass the new site email notification.
 	 *
@@ -779,12 +779,12 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
 	 * @param string|bool $domain     Site domain.
 	 * @param string      $path       Site path.
 	 * @param string      $title      Site title.
-	 * @param string      $user       User login name.
+	 * @param string      $user_login User login name.
 	 * @param string      $user_email User email address.
 	 * @param string      $key        Activation key created in wpmu_signup_blog().
 	 * @param array       $meta       By default, contains the requested privacy setting and lang_id.
 	 */
-	if ( ! apply_filters( 'wpmu_signup_blog_notification', $domain, $path, $title, $user, $user_email, $key, $meta ) ) {
+	if ( ! apply_filters( 'wpmu_signup_blog_notification', $domain, $path, $title, $user_login, $user_email, $key, $meta ) ) {
 		return false;
 	}
 
@@ -801,7 +801,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
 	$from_name = get_site_option( 'site_name' ) == '' ? 'WordPress' : esc_html( get_site_option( 'site_name' ) );
 	$message_headers = "From: \"{$from_name}\" <{$admin_email}>\n" . "Content-Type: text/plain; charset=\"" . get_option('blog_charset') . "\"\n";
 
-	$user = get_user_by( 'login', $user );
+	$user = get_user_by( 'login', $user_login );
 	$switched_locale = switch_to_locale( get_user_locale( $user ) );
 
 	$message = sprintf(
@@ -816,14 +816,14 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
 		 * @param string $domain     Site domain.
 		 * @param string $path       Site path.
 		 * @param string $title      Site title.
-		 * @param string $user       User login name.
+		 * @param string $user_login User login name.
 		 * @param string $user_email User email address.
 		 * @param string $key        Activation key created in wpmu_signup_blog().
 		 * @param array  $meta       By default, contains the requested privacy setting and lang_id.
 		 */
 		apply_filters( 'wpmu_signup_blog_notification_email',
 			__( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your site here:\n\n%s" ),
-			$domain, $path, $title, $user, $user_email, $key, $meta
+			$domain, $path, $title, $user_login, $user_email, $key, $meta
 		),
 		$activate_url,
 		esc_url( "http://{$domain}{$path}" ),
@@ -840,14 +840,14 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
 		 * @param string $domain     Site domain.
 		 * @param string $path       Site path.
 		 * @param string $title      Site title.
-		 * @param string $user       User login name.
+		 * @param string $user_login User login name.
 		 * @param string $user_email User email address.
 		 * @param string $key        Activation key created in wpmu_signup_blog().
 		 * @param array  $meta       By default, contains the requested privacy setting and lang_id.
 		 */
 		apply_filters( 'wpmu_signup_blog_notification_subject',
 			__( '[%1$s] Activate %2$s' ),
-			$domain, $path, $title, $user, $user_email, $key, $meta
+			$domain, $path, $title, $user_login, $user_email, $key, $meta
 		),
 		$from_name,
 		esc_url( 'http://' . $domain . $path )
@@ -876,27 +876,27 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user, $user_ema
  *
  * @since MU
  *
- * @param string $user       The user's login name.
+ * @param string $user_login The user's login name.
  * @param string $user_email The user's email address.
  * @param string $key        The activation key created in wpmu_signup_user()
  * @param array  $meta       By default, an empty array.
  * @return bool
  */
-function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array() ) {
+function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = array() ) {
 	/**
 	 * Filters whether to bypass the email notification for new user sign-up.
 	 *
 	 * @since MU
 	 *
-	 * @param string $user       User login name.
+	 * @param string $user_login User login name.
 	 * @param string $user_email User email address.
 	 * @param string $key        Activation key created in wpmu_signup_user().
 	 * @param array  $meta       Signup meta data.
 	 */
-	if ( ! apply_filters( 'wpmu_signup_user_notification', $user, $user_email, $key, $meta ) )
+	if ( ! apply_filters( 'wpmu_signup_user_notification', $user_login, $user_email, $key, $meta ) )
 		return false;
 
-	$user = get_user_by( 'login', $user );
+	$user = get_user_by( 'login', $user_login );
 	$switched_locale = switch_to_locale( get_user_locale( $user ) );
 
 	// Send email with activation link.
@@ -914,14 +914,14 @@ function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array(
 		 * @since MU
 		 *
 		 * @param string $content    Content of the notification email.
-		 * @param string $user       User login name.
+		 * @param string $user_login User login name.
 		 * @param string $user_email User email address.
 		 * @param string $key        Activation key created in wpmu_signup_user().
 		 * @param array  $meta       Signup meta data.
 		 */
 		apply_filters( 'wpmu_signup_user_notification_email',
 			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login." ),
-			$user, $user_email, $key, $meta
+			$user_login, $user_email, $key, $meta
 		),
 		site_url( "wp-activate.php?key=$key" )
 	);
@@ -933,17 +933,17 @@ function wpmu_signup_user_notification( $user, $user_email, $key, $meta = array(
 		 * @since MU
 		 *
 		 * @param string $subject    Subject of the notification email.
-		 * @param string $user       User login name.
+		 * @param string $user_login User login name.
 		 * @param string $user_email User email address.
 		 * @param string $key        Activation key created in wpmu_signup_user().
 		 * @param array  $meta       Signup meta data.
 		 */
 		apply_filters( 'wpmu_signup_user_notification_subject',
 			__( '[%1$s] Activate %2$s' ),
-			$user, $user_email, $key, $meta
+			$user_login, $user_email, $key, $meta
 		),
 		$from_name,
-		$user
+		$user_login
 	);
 	wp_mail( $user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 
