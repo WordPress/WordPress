@@ -35,11 +35,16 @@
 	border: 1px solid #0085ba;
 }
 
-/* Styles for the actual shortcut */
+/**
+ * Styles for the actual shortcut
+ *
+ * Note that some properties are overly verbose to prevent theme interference.
+ */
 .widget .customize-partial-edit-shortcut button,
 .customize-partial-edit-shortcut button {
 	position: absolute;
-	left: -36px;
+	left: -30px;
+	top: 2px;
 	color: #fff;
 	width: 30px;
 	height: 30px;
@@ -99,10 +104,6 @@ body.customize-partial-edit-shortcuts-hidden .customize-partial-edit-shortcut bu
 .page-sidebar-collapsed .customize-partial-edit-shortcut button,
 .customize-partial-edit-shortcut-hidden .customize-partial-edit-shortcut button {
 	visibility: hidden;
-}
-
-.customize-partial-edit-shortcut-left-margin.customize-partial-edit-shortcut button {
-	left: 0;
 }
 
 @-webkit-keyframes customize-partial-edit-shortcut-bounce-appear {
@@ -242,7 +243,23 @@ body.customize-partial-edit-shortcuts-hidden .customize-partial-edit-shortcut bu
 }
 
 @media screen and (max-width:800px) {
+	.widget .customize-partial-edit-shortcut button,
 	.customize-partial-edit-shortcut button {
-		left: -18px; /* Assume there will be less of a margin available on smaller screens */
+		left: -32px;
+	}
+}
+
+@media screen and (max-width:320px) {
+	.site-title {
+		padding-left: 10px;
+	}
+
+	.widget-area .widget {
+		padding-left: 10px;
+	}
+
+	.widget .customize-partial-edit-shortcut button,
+	.customize-partial-edit-shortcut button {
+		left: -30px;
 	}
 }

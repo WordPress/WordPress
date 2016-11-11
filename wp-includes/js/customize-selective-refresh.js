@@ -118,7 +118,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 				return;
 			}
 			$shortcut = partial.createEditShortcut();
-			partial.positionEditShortcut( placement, $shortcut );
+			partial.addEditShortcutToPlacement( placement, $shortcut );
 			$shortcut.on( 'click', function( event ) {
 				event.preventDefault();
 				event.stopPropagation();
@@ -127,9 +127,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		},
 
 		/**
-		 * Position an edit shortcut for the placement container.
-		 *
-		 * The shortcut must already be created and added to the page.
+		 * Add an edit shortcut to the placement container.
 		 *
 		 * @since 4.7
 		 *
@@ -137,14 +135,12 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		 * @param {jQuery} $editShortcut The shortcut element as a jQuery object.
 		 * @returns {void}
 		 */
-		positionEditShortcut: function( placement, $editShortcut ) {
-			var $placementContainer = $( placement.container ), $editButton;
+		addEditShortcutToPlacement: function( placement, $editShortcut ) {
+			var $placementContainer = $( placement.container );
 			$placementContainer.prepend( $editShortcut );
 			if ( ! $placementContainer.is( ':visible' ) || 'none' === $placementContainer.css( 'display' ) ) {
 				$editShortcut.addClass( 'customize-partial-edit-shortcut-hidden' );
 			}
-			$editButton = $editShortcut.find( 'button' );
-			$editShortcut.toggleClass( 'customize-partial-edit-shortcut-left-margin', $editButton.offset().left < 2 );
 		},
 
 		/**
