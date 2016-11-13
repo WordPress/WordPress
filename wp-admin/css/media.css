@@ -769,11 +769,15 @@ border color while dragging a file over the uploader drop area */
 
 .edit-attachment-frame .attachment-media-view .details-image {
 	display: block;
-	margin-bottom: 16px;
+	margin: 0 auto 16px;
 	max-width: 100%;
 	max-height: 90%;
 	max-height: -webkit-calc( 100% - 42px );
 	max-height: calc( 100% - 42px ); /* leave space for actions underneath */
+}
+
+.edit-attachment-frame .attachment-media-view .attachment-actions {
+	text-align: center;
 }
 
 .edit-attachment-frame .wp-media-wrapper {

@@ -325,6 +325,8 @@ function wp_print_media_templates() {
 				<div class="attachment-actions">
 					<# if ( 'image' === data.type && ! data.uploading && data.sizes && data.can.save ) { #>
 					<button type="button" class="button edit-attachment"><?php _e( 'Edit Image' ); ?></button>
+					<# } else if ( 'pdf' === data.subtype && data.sizes ) { #>
+					<?php _e( 'Document Preview' ); ?>
 					<# } #>
 				</div>
 			</div>
