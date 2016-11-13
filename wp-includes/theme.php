@@ -1500,8 +1500,12 @@ function _custom_background_cb() {
 		$color = false;
 	}
 
-	if ( ! $background && ! $color )
+	if ( ! $background && ! $color ) {
+		if ( is_customize_preview() ) {
+			echo '<style type="text/css" id="custom-background-css"></style>';
+		}
 		return;
+	}
 
 	$style = $color ? "background-color: #$color;" : '';
 
@@ -1621,7 +1625,7 @@ function wp_get_custom_css_post( $stylesheet = '' ) {
 }
 
 /**
- * Fetch the saved Custom CSS content.
+ * Fetch the saved Custom CSS content for rendering.
  *
  * @since 4.7.0
  * @access public

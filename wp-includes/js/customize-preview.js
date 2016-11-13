@@ -594,6 +594,63 @@
 		};
 	} )();
 
+	api.settingPreviewHandlers = {
+
+		/**
+		 * Preview changes to custom logo.
+		 *
+		 * @param {number} attachmentId Attachment ID for custom logo.
+		 * @returns {void}
+		 */
+		custom_logo: function( attachmentId ) {
+			$( 'body' ).toggleClass( 'wp-custom-logo', !! attachmentId );
+		},
+
+		/**
+		 * Preview changes to custom css.
+		 *
+		 * @param {string} value Custom CSS..
+		 * @returns {void}
+		 */
+		custom_css: function( value ) {
+			$( '#wp-custom-css' ).text( value );
+		},
+
+		/**
+		 * Preview changes to any of the background settings.
+		 *
+		 * @returns {void}
+		 */
+		background: function() {
+			var css = '', settings = {};
+
+			_.each( ['color', 'image', 'preset', 'position_x', 'position_y', 'size', 'repeat', 'attachment'], function( prop ) {
+				settings[ prop ] = api( 'background_' + prop );
+			} );
+
+			/*
+			 * The body will support custom backgrounds if either the color or image are set.
+			 *
+			 * See get_body_class() in /wp-includes/post-template.php
+			 */
+			$( document.body ).toggleClass( 'custom-background', !! ( settings.color() || settings.image() ) );
+
+			if ( settings.color() ) {
+				css += 'background-color: ' + settings.color() + ';';
+			}
+
+			if ( settings.image() ) {
+				css += 'background-image: url("' + settings.image() + '");';
+				css += 'background-size: ' + settings.size() + ';';
+				css += 'background-position: ' + settings.position_x() + ' ' + settings.position_y() + ';';
+				css += 'background-repeat: ' + settings.repeat() + ';';
+				css += 'background-attachment: ' + settings.attachment() + ';';
+			}
+
+			$( '#custom-background-css' ).text( 'body.custom-background { ' + css + ' }' );
+		}
+	};
+
 	$( function() {
 		var bg, setValue;
 
@@ -759,39 +816,9 @@
 			return 'background_' + prop;
 		} );
 
-		api.when.apply( api, bg ).done( function( color, image, preset, positionX, positionY, size, repeat, attachment ) {
-			var body = $(document.body),
-				head = $('head'),
-				style = $('#custom-background-css'),
-				update;
-
-			update = function() {
-				var css = '';
-
-				// The body will support custom backgrounds if either
-				// the color or image are set.
-				//
-				// See get_body_class() in /wp-includes/post-template.php
-				body.toggleClass( 'custom-background', !! ( color() || image() ) );
-
-				if ( color() )
-					css += 'background-color: ' + color() + ';';
-
-				if ( image() ) {
-					css += 'background-image: url("' + image() + '");';
-					css += 'background-size: ' + size() + ';';
-					css += 'background-position: ' + positionX() + ' ' + positionY() + ';';
-					css += 'background-repeat: ' + repeat() + ';';
-					css += 'background-attachment: ' + attachment() + ';';
-				}
-
-				// Refresh the stylesheet by removing and recreating it.
-				style.remove();
-				style = $('<style type="text/css" id="custom-background-css">body.custom-background { ' + css + ' }</style>').appendTo( head );
-			};
-
+		api.when.apply( api, bg ).done( function() {
 			$.each( arguments, function() {
-				this.bind( update );
+				this.bind( api.settingPreviewHandlers.background );
 			});
 		});
 
@@ -802,17 +829,13 @@
 		 *
 		 * @since 4.5.0
 		 */
-		api( 'custom_logo', function( setting ) {
-			$( 'body' ).toggleClass( 'wp-custom-logo', !! setting.get() );
-			setting.bind( function( attachmentId ) {
-				$( 'body' ).toggleClass( 'wp-custom-logo', !! attachmentId );
-			});
-		});
+		api( 'custom_logo', function ( setting ) {
+			api.settingPreviewHandlers.custom_logo.call( setting, setting.get() );
+			setting.bind( api.settingPreviewHandlers.custom_logo );
+		} );
 
-		api( 'custom_css[' + api.settings.theme.stylesheet + ']', function( value ) {
-			value.bind( function( to ) {
-				$( '#wp-custom-css' ).text( to );
-			} );
+		api( 'custom_css[' + api.settings.theme.stylesheet + ']', function( setting ) {
+			setting.bind( api.settingPreviewHandlers.custom_css );
 		} );
 
 		api.trigger( 'preview-ready' );
