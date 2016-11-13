@@ -1,0 +1,37 @@
+/*
+Theme Name: Twenty Seventeen
+Description: IE9 specific styles.
+*/
+
+.has-header-image.twentyseventeen-front-page .custom-header,
+.has-header-image.home.blog .custom-header {
+	height: 300px;
+}
+
+.has-header-image .custom-header-image img,
+.has-header-image .custom-header-image video,
+.has-header-image .custom-header-image iframe {
+	min-width: 100%;
+}
+
+@media screen and (min-width: 30em) {
+
+	.has-header-image.twentyseventeen-front-page .custom-header,
+	.has-header-image.home.blog .custom-header,
+	.twentyseventeen-front-page.has-header-image .custom-header-image,
+	.home.blog.has-header-image .custom-header-image,
+	.panel-image {
+		height: 700px;
+	}
+}
+
+@media screen and (min-width: 48em) {
+
+	.has-header-image.twentyseventeen-front-page .custom-header,
+	.has-header-image.home.blog .custom-header,
+	.twentyseventeen-front-page.has-header-image .custom-header-image,
+	.home.blog.has-header-image .custom-header-image,
+	.panel-image {
+		height: 1000px;
+	}
+}
