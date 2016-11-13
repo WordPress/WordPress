@@ -200,10 +200,10 @@ function twentyseventeen_fonts_url() {
 
 	/**
 	 * Translators: If there are characters in your language that are not
-	 * supported by Libre Frankin, translate this to 'off'. Do not translate
+	 * supported by Libre Franklin, translate this to 'off'. Do not translate
 	 * into your own language.
 	 */
-	$libre_franklin = _x( 'on', 'libre_franklin font: on or off', 'twentyseventeen' );
+	$libre_franklin = _x( 'on', 'Libre Franklin font: on or off', 'twentyseventeen' );
 
 	if ( 'off' !== $libre_franklin ) {
 		$font_families = array();
