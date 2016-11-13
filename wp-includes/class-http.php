@@ -300,7 +300,7 @@ class WP_Http {
 			'timeout' => $r['timeout'],
 			'useragent' => $r['user-agent'],
 			'blocking' => $r['blocking'],
-			'hooks' => new Requests_Hooks(),
+			'hooks' => new WP_HTTP_Requests_Hooks( $url, $r ),
 		);
 
 		// Ensure redirects follow browser behaviour.
