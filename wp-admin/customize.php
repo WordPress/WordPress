@@ -191,9 +191,9 @@ do_action( 'customize_controls_print_scripts' );
 				<?php endforeach; ?>
 			</div>
 			<?php endif; ?>
-			<button type="button" class="collapse-sidebar button" aria-expanded="true" aria-label="<?php esc_attr_e( 'Hide Controls' ); ?>">
+			<button type="button" class="collapse-sidebar button" aria-expanded="true" aria-label="<?php echo esc_attr( _x( 'Hide Controls', 'label for hide controls button without length constraints' ) ); ?>">
 				<span class="collapse-sidebar-arrow"></span>
-				<span class="collapse-sidebar-label"><?php _e( 'Hide Controls' ); ?></span>
+				<span class="collapse-sidebar-label"><?php _ex( 'Hide Controls', 'short (~12 characters) label for hide controls button' ); ?></span>
 			</button>
 		</div>
 	</form>

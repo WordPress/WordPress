@@ -1521,6 +1521,7 @@ body.full-overlay-active {
 	box-shadow: none !important;
 	-webkit-border-radius: 0 !important;
 	border-radius: 0 !important;
+	z-index: -1; /* Below device buttons */
 }
 
 .wp-core-ui .wp-full-overlay .collapse-sidebar:hover,
@@ -1624,6 +1625,9 @@ body.full-overlay-active {
 
 .wp-full-overlay-footer .devices {
 	float: right;
+	background: #eee;
+	-webkit-box-shadow: -20px 0 10px -5px #eee;
+	box-shadow: -20px 0 10px -5px #eee;
 }
 
 .wp-full-overlay-footer .devices button {
