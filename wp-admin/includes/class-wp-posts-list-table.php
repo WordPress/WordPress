@@ -1555,7 +1555,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				$default_title = apply_filters( 'default_page_template_title',  __( 'Default Template' ), 'quick-edit' );
                 ?>
 				<option value="default"><?php echo esc_html( $default_title ); ?></option>
-				<?php page_template_dropdown( $post->page_template, $screen->post_type ) ?>
+				<?php page_template_dropdown( '', $screen->post_type ) ?>
 			</select>
 		</label>
 	<?php endif; ?>

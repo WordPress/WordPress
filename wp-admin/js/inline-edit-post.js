@@ -129,9 +129,9 @@ inlineEditPost = {
 			id = t.getId(id);
 		}
 
-		fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'ss', 'post_password', 'post_format', 'menu_order'];
+		fields = ['post_title', 'post_name', 'post_author', '_status', 'jj', 'mm', 'aa', 'hh', 'mn', 'ss', 'post_password', 'post_format', 'menu_order', 'page_template'];
 		if ( t.type === 'page' ) {
-			fields.push('post_parent', 'page_template');
+			fields.push('post_parent');
 		}
 
 		// add the new edit row with an extra blank row underneath to maintain zebra striping.
