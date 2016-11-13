@@ -306,6 +306,7 @@ template {
 	overflow: hidden;
 	position: absolute !important;
 	width: 1px;
+	word-wrap: normal !important; /* Many screen reader and browser combinations announce broken words as they would appear visually. */
 }
 
 .screen-reader-text:focus {
@@ -1507,7 +1508,6 @@ body {
 
 #page {
 	position: relative;
-	-ms-word-wrap: break-word;
 	word-wrap: break-word;
 }
 
@@ -2515,7 +2515,6 @@ h2.widget-title {
 /* Text widget */
 
 .widget_text {
-	-ms-word-wrap: break-word;
 	word-wrap: break-word;
 }
 
@@ -2643,7 +2642,6 @@ h2.widget-title {
 	-webkit-transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.3s ease-in-out;
 	transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.3s ease-in-out;
 	width: auto;
-	-ms-word-wrap: break-word;
 	word-wrap: break-word;
 	z-index: 0;
 }
