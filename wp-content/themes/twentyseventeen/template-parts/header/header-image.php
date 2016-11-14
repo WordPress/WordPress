@@ -11,7 +11,6 @@
 ?>
 <div class="custom-header">
 	<?php
-	$header_image = get_header_image();
 
 	// Check if Custom Header image has been added.
 	if ( has_custom_header() ) :
