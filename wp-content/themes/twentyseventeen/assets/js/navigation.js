@@ -21,9 +21,6 @@
 		container.find( '.current-menu-ancestor > button' ).addClass( 'toggled-on' );
 		container.find( '.current-menu-ancestor > .sub-menu' ).addClass( 'toggled-on' );
 
-		// Add menu items with submenus to aria-haspopup="true".
-		container.find( '.menu-item-has-children, .page_item_has_children' ).attr( 'aria-haspopup', 'true' );
-
 		container.find( '.dropdown-toggle' ).click( function( e ) {
 			var _this = $( this ),
 				screenReaderSpan = _this.find( '.screen-reader-text' );
