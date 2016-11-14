@@ -32,11 +32,7 @@
 
 <body <?php body_class(); ?>>
 <div id="page" class="hfeed site">
-	<?php if ( function_exists( 'has_header_video' ) && has_header_video() ) : ?>
-		<div id="site-header">
-			<?php the_custom_header_markup(); ?>
-		</div>
-	<?php elseif ( get_header_image() ) : ?>
+	<?php if ( get_header_image() ) : ?>
 	<div id="site-header">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 			<img src="<?php header_image(); ?>" width="<?php echo get_custom_header()->width; ?>" height="<?php echo get_custom_header()->height; ?>" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>">
