@@ -29,12 +29,6 @@
 	z-index: 5;
 }
 
-.widget .customize-partial-edit-shortcut button:active,
-.customize-partial-edit-shortcut button:active {
-	padding: 3px;
-	border: 1px solid #0085ba;
-}
-
 /**
  * Styles for the actual shortcut
  *
@@ -87,10 +81,12 @@
 	margin: auto;
 }
 
-.customize-partial-edit-shortcut button:hover,
+.customize-partial-edit-shortcut button:hover {
+	background: #008ec2; /* matches primary buttons */
+}
+
 .customize-partial-edit-shortcut button:focus {
-    background: #008ec2; /* matches primary buttons */
-	border-color: #191e23; /* provides visual focus style with 4.5 contrast against background color */
+	box-shadow: 0 0 0 2px #008ec2;
 }
 
 body.customize-partial-edit-shortcuts-shown .customize-partial-edit-shortcut button {
