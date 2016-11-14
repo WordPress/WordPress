@@ -1795,20 +1795,20 @@ function get_theme_starter_content() {
 	$core_content = array (
 		'widgets' => array(
 			'text_business_info' => array ( 'text', array (
-				'title' => __( 'Find Us' ),
+				'title' => _x( 'Find Us', 'Theme starter content' ),
 				'text' => join( '', array (
-					'<p><strong>' . __( 'Address' ) . '</strong><br />',
-					__( '123 Main Street' ) . '<br />' . __( 'New York, NY 10001' ) . '</p>',
-					'<p><strong>' . __( 'Hours' ) . '</strong><br />',
-					__( 'Monday&mdash;Friday: 9:00AM&ndash;5:00PM' ) . '<br />' . __( 'Saturday &amp; Sunday: 11:00AM&ndash;3:00PM' ) . '</p>'
+					'<p><strong>' . _x( 'Address', 'Theme starter content' ) . '</strong><br />',
+					_x( '123 Main Street', 'Theme starter content' ) . '<br />' . _x( 'New York, NY 10001', 'Theme starter content' ) . '</p>',
+					'<p><strong>' . _x( 'Hours', 'Theme starter content' ) . '</strong><br />',
+					_x( 'Monday&mdash;Friday: 9:00AM&ndash;5:00PM', 'Theme starter content' ) . '<br />' . _x( 'Saturday &amp; Sunday: 11:00AM&ndash;3:00PM', 'Theme starter content' ) . '</p>'
 				) ),
 			) ),
 			'search' => array ( 'search', array (
-				'title' => __( 'Site Search' ),
+				'title' => _x( 'Site Search', 'Theme starter content' ),
 			) ),
 			'text_credits' => array ( 'text', array (
-				'title' => __( 'Site Credits' ),
-				'text' => sprintf( __( 'This site was created on %s' ), get_date_from_gmt( current_time( 'mysql', 1 ), 'c' ) ),
+				'title' => _x( 'Site Credits', 'Theme starter content' ),
+				'text' => sprintf( _x( 'This site was created on %s', 'Theme starter content' ), get_date_from_gmt( current_time( 'mysql', 1 ), 'c' ) ),
 			) ),
 		),
 		'nav_menus' => array (
@@ -1834,51 +1834,51 @@ function get_theme_starter_content() {
 			),
 
 			'link_yelp' => array(
-				'title' => __( 'Yelp' ),
+				'title' => _x( 'Yelp', 'Theme starter content' ),
 				'url' => 'https://www.yelp.com',
 			),
 			'link_facebook' => array(
-				'title' => __( 'Facebook' ),
+				'title' => _x( 'Facebook', 'Theme starter content' ),
 				'url' => 'https://www.facebook.com/wordpress',
 			),
 			'link_twitter' => array(
-				'title' => __( 'Twitter' ),
+				'title' => _x( 'Twitter', 'Theme starter content' ),
 				'url' => 'https://twitter.com/wordpress',
 			),
 			'link_instagram' => array(
-				'title' => __( 'Instagram' ),
+				'title' => _x( 'Instagram', 'Theme starter content' ),
 				'url' => 'https://www.instagram.com/explore/tags/wordcamp/',
 			),
 			'link_email' => array(
-				'title' => __( 'Email' ),
+				'title' => _x( 'Email', 'Theme starter content' ),
 				'url' => 'mailto:wordpress@example.com',
 			),
 		),
 		'posts' => array(
 			'home' => array(
 				'post_type' => 'page',
-				'post_title' => __( 'Homepage' ),
-				'post_content' => __( 'Welcome home.' ),
+				'post_title' => _x( 'Homepage', 'Theme starter content' ),
+				'post_content' => _x( 'Welcome home.', 'Theme starter content' ),
 			),
 			'about-us' => array(
 				'post_type' => 'page',
-				'post_title' => __( 'About Us' ),
-				'post_content' => __( 'More than you ever wanted to know.' ),
+				'post_title' => _x( 'About Us', 'Theme starter content' ),
+				'post_content' => _x( 'More than you ever wanted to know.', 'Theme starter content' ),
 			),
 			'contact-us' => array(
 				'post_type' => 'page',
-				'post_title' => __( 'Contact Us' ),
-				'post_content' => __( 'Call us at 999-999-9999.' ),
+				'post_title' => _x( 'Contact Us', 'Theme starter content' ),
+				'post_content' => _x( 'Call us at 999-999-9999.', 'Theme starter content' ),
 			),
 			'blog' => array(
 				'post_type' => 'page',
-				'post_title' => __( 'Blog' ),
+				'post_title' => _x( 'Blog', 'Theme starter content' ),
 			),
 
 			'homepage-section' => array(
 				'post_type' => 'page',
-				'post_title' => __( 'A homepage section' ),
-				'post_content' => __( 'This is an example of a homepage section, which are managed in theme options.' ),
+				'post_title' => _x( 'A homepage section', 'Theme starter content' ),
+				'post_content' => _x( 'This is an example of a homepage section, which are managed in theme options.', 'Theme starter content' ),
 			),
 		),
 	);
