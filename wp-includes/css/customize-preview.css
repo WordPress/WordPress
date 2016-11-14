@@ -74,6 +74,9 @@
 	             0 1px 1px #006799,
 	             -1px 0 1px #006799;
 }
+.wp-custom-header .customize-partial-edit-shortcut button {
+	left: 2px
+}
 
 .customize-partial-edit-shortcut button svg {
 	fill: #fff;

@@ -1410,13 +1410,15 @@ function has_custom_header() {
 /**
  * Retrieve the markup for a custom header.
  *
+ * The container div will always be returned in the Customizer preview.
+ *
  * @since 4.7.0
  *
- * @return string|false The markup for a custom header on success. False if not.
+ * @return string The markup for a custom header on success.
  */
 function get_custom_header_markup() {
-	if ( ! has_custom_header() ) {
-		return false;
+	if ( ! has_custom_header() && ! is_customize_preview() ) {
+		return '';
 	}
 
 	return sprintf(
@@ -1428,15 +1430,19 @@ function get_custom_header_markup() {
 /**
  * Print the markup for a custom header.
  *
+ * A container div will always be printed in the Customizer preview.
+ *
  * @since 4.7.0
  */
 function the_custom_header_markup() {
-	if ( ! $custom_header = get_custom_header_markup() ) {
+	$custom_header = get_custom_header_markup();
+	if ( empty( $custom_header ) ) {
 		return;
 	}
+
 	echo $custom_header;
 
-	if ( has_header_video() && is_front_page() ) {
+	if ( is_front_page() && ( has_header_video() || is_customize_preview() ) ) {
 		wp_enqueue_script( 'wp-custom-header' );
 		wp_localize_script( 'wp-custom-header', '_wpCustomHeaderSettings', get_header_video_settings() );
 	}

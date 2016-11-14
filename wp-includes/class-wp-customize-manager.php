@@ -3462,6 +3462,16 @@ final class WP_Customize_Manager {
 			'theme_supports' => 'custom-header',
 		) ) );
 
+		/*
+		 * Switch image settings to postMessage when video support is enabled since
+		 * it entails that the_custom_header_markup() will be used, and thus selective
+		 * refresh can be utilized.
+		 */
+		if ( current_theme_supports( 'custom-header', 'video' ) ) {
+			$this->get_setting( 'header_image' )->transport = 'postMessage';
+			$this->get_setting( 'header_image_data' )->transport = 'postMessage';
+		}
+
 		$this->add_control( new WP_Customize_Media_Control( $this, 'header_video', array(
 			'theme_supports' => array( 'custom-header', 'video' ),
 			'label'          => __( 'Header Video' ),
