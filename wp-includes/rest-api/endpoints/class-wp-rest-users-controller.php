@@ -417,7 +417,16 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			$ret = wpmu_validate_user_signup( $user->user_login, $user->user_email );
 
 			if ( is_wp_error( $ret['errors'] ) && ! empty( $ret['errors']->errors ) ) {
-				return $ret['errors'];
+				$error = new WP_Error( 'rest_invalid_param', __( 'Invalid user parameter(s).' ), array( 'status' => 400 ) );
+				foreach ( $ret['errors']->errors as $code => $messages ) {
+					foreach ( $messages as $message ) {
+						$error->add( $code, $message );
+					}
+					if ( $error_data = $error->get_error_data( $code ) ) {
+						$error->add_data( $error_data, $code );
+					}
+				}
+				return $error;
 			}
 		}
 
@@ -429,7 +438,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			}
 
 			$user->ID = $user_id;
-			$user_id  = wp_update_user( $user );
+			$user_id  = wp_update_user( wp_slash( (array) $user ) );
 
 			if ( is_wp_error( $user_id ) ) {
 				return $user_id;
@@ -437,7 +446,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 			add_user_to_blog( get_site()->id, $user_id, '' );
 		} else {
-			$user_id = wp_insert_user( $user );
+			$user_id = wp_insert_user( wp_slash( (array) $user ) );
 
 			if ( is_wp_error( $user_id ) ) {
 				return $user_id;
@@ -552,7 +561,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		// Ensure we're operating on the same user we already checked.
 		$user->ID = $id;
 
-		$user_id = wp_update_user( $user );
+		$user_id = wp_update_user( wp_slash( (array) $user ) );
 
 		if ( is_wp_error( $user_id ) ) {
 			return $user_id;
@@ -997,6 +1006,61 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Check a username for the REST API.
+	 *
+	 * Performs a couple of checks like edit_user() in wp-admin/includes/user.php.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param  mixed            $value   The username submitted in the request.
+	 * @param  WP_REST_Request  $request Full details about the request.
+	 * @param  string           $param   The parameter name.
+	 * @return WP_Error|string The sanitized username, if valid, otherwise an error.
+	 */
+	public function check_username( $value, $request, $param ) {
+		$username = (string) rest_sanitize_value_from_schema( $value, $request, $param );
+
+		if ( ! validate_username( $username ) ) {
+			return new WP_Error( 'rest_user_invalid_username', __( 'Username contains invalid characters.' ), array( 'status' => 400 ) );
+		}
+
+		/** This filter is documented in wp-includes/user.php */
+		$illegal_logins = (array) apply_filters( 'illegal_user_logins', array() );
+
+		if ( in_array( strtolower( $username ), array_map( 'strtolower', $illegal_logins ) ) ) {
+			return new WP_Error( 'rest_user_invalid_username', __( 'Sorry, that username is not allowed.' ), array( 'status' => 400 ) );
+		}
+
+		return $username;
+	}
+
+	/**
+	 * Check a user password for the REST API.
+	 *
+	 * Performs a couple of checks like edit_user() in wp-admin/includes/user.php.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param  mixed            $value   The password submitted in the request.
+	 * @param  WP_REST_Request  $request Full details about the request.
+	 * @param  string           $param   The parameter name.
+	 * @return WP_Error|string The sanitized password, if valid, otherwise an error.
+	 */
+	public function check_user_password( $value, $request, $param ) {
+		$password = (string) rest_sanitize_value_from_schema( $value, $request, $param );
+
+		if ( empty( $password ) ) {
+			return new WP_Error( 'rest_user_invalid_password', __( 'Passwords cannot be empty.' ), array( 'status' => 400 ) );
+		}
+
+		if ( false !== strpos( $password, "\\" ) ) {
+			return new WP_Error( 'rest_user_invalid_password', __( 'Passwords cannot contain the "\\" character.' ), array( 'status' => 400 ) );
+		}
+
+		return $password;
+	}
+
+	/**
 	 * Retrieves the user's schema, conforming to JSON Schema.
 	 *
 	 * @since 4.7.0
@@ -1022,7 +1086,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 					'context'     => array( 'edit' ),
 					'required'    => true,
 					'arg_options' => array(
-						'sanitize_callback' => 'sanitize_user',
+						'sanitize_callback' => array( $this, 'check_username' ),
 					),
 				),
 				'name'        => array(
@@ -1066,9 +1130,6 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 					'description' => __( 'Description of the resource.' ),
 					'type'        => 'string',
 					'context'     => array( 'embed', 'view', 'edit' ),
-					'arg_options' => array(
-						'sanitize_callback' => 'wp_filter_post_kses',
-					),
 				),
 				'link'        => array(
 					'description' => __( 'Author URL to the resource.' ),
@@ -1119,6 +1180,9 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 					'type'        => 'string',
 					'context'     => array(), // Password is never displayed.
 					'required'    => true,
+					'arg_options' => array(
+						'sanitize_callback' => array( $this, 'check_user_password' ),
+					),
 				),
 				'capabilities'    => array(
 					'description' => __( 'All capabilities assigned to the resource.' ),
