@@ -1135,40 +1135,54 @@ p.customize-section-description {
 /**
  * Custom CSS Section
  *
- * Modifications to the Section Container to
- * make the textarea full-width.
+ * Modifications to the Section Container to make the textarea full-width and
+ * full-height, if the control is the only control in the section.
  */
-#customize-theme-controls #sub-accordion-section-custom_css {
-	padding-left: 0;
-	padding-right: 0;
-}
 
-#customize-theme-controls #sub-accordion-section-custom_css .customize-section-title {
-	margin-left: 0;
-}
-
-#customize-theme-controls #sub-accordion-section-custom_css .customize-control-title,
-#customize-theme-controls #sub-accordion-section-custom_css .notice {
-	margin-left: 10px;
-	margin-right: 10px;
-}
-#customize-theme-controls #sub-accordion-section-custom_css textarea {
-	-moz-tab-size: 4;
-	-o-tab-size: 4;
-	tab-size: 4;
+#customize-controls .customize-section-description-container.section-meta.customize-info {
+	border-bottom: none;
 }
 
 #sub-accordion-section-custom_css .customize-control-notifications-container {
 	margin-bottom: 15px;
 }
 
-#sub-accordion-section-custom_css textarea {
-	border-right: 0;
-	border-left: 0;
+#customize-control-custom_css textarea {
+	display: block;
 	font-family: Consolas, Monaco, monospace;
 	font-size: 12px;
 	padding: 6px 8px;
-	height: 553px;
+	height: 500px;
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+}
+
+.customize-section-description-container + #customize-control-custom_css:last-child textarea {
+	border-right: 0;
+	border-left: 0;
+	height: -webkit-calc( 100vh - 185px );
+	height: calc( 100vh - 185px );
+	resize: none;
+}
+.customize-section-description-container + #customize-control-custom_css:last-child {
+	margin-left: -12px;
+	width: 299px;
+	margin-bottom: -12px;
+}
+
+@media screen and ( max-width: 640px ) {
+	.customize-section-description-container + #customize-control-custom_css:last-child {
+		margin-left: 0;
+		margin-right: 0;
+		width: 100%;
+	}
+	.customize-section-description-container + #customize-control-custom_css:last-child textarea {
+		height: -webkit-calc( 100vh - 140px );
+		height: calc( 100vh - 140px );
+		width: 100%;
+		border: solid 1px #ddd;
+	}
 }
 
 /**
