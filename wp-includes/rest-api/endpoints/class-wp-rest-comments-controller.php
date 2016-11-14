@@ -1389,7 +1389,18 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
-		return $query_params;
+		/**
+		 * Filter collection parameters for the comments controller.
+		 *
+		 * This filter registers the collection parameter, but does not map the
+		 * collection parameter to an internal WP_Comment_Query parameter. Use the
+		 * `rest_comment_query` filter to set WP_Comment_Query parameters.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param $params JSON Schema-formatted collection parameters.
+		 */
+		return apply_filters( 'rest_comment_collection_params', $query_params );
 	}
 
 	/**

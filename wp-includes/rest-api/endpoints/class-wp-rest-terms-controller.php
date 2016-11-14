@@ -959,7 +959,22 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			'type'              => 'string',
 		);
 
-		return $query_params;
+		/**
+		 * Filter collection parameters for the terms controller.
+		 *
+		 * The dynamic part of the filter `$this->taxonomy` refers to the taxonomy
+		 * slug for the controller.
+		 *
+		 * This filter registers the collection parameter, but does not map the
+		 * collection parameter to an internal WP_Term_Query parameter.  Use the
+		 * `rest_{$this->taxonomy}_query` filter to set WP_Term_Query parameters.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param $params JSON Schema-formatted collection parameters.
+		 * @param WP_Taxonomy $taxonomy_obj Taxonomy object.
+		 */
+		return apply_filters( 'rest_{$this->taxonomy}_collection_params', $query_params, $taxonomy );
 	}
 
 	/**
