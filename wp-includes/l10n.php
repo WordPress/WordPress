@@ -859,8 +859,9 @@ function _load_textdomain_just_in_time( $domain ) {
 		);
 
 		foreach ( $locations as $location ) {
-			foreach ( get_available_languages( $location ) as $file ) {
-				$cached_mofiles[] = "{$location}/{$file}.mo";
+			$mofiles = glob( $location . '/*.mo' );
+			if ( $mofiles ) {
+				$cached_mofiles = array_merge( $cached_mofiles, $mofiles );
 			}
 		}
 	}
