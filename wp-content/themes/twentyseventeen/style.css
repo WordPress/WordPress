@@ -1690,8 +1690,10 @@ body:not(.title-tagline-hidden) .site-branding-text {
 	transform: translateX(-50%) translateY(0);
 }
 
+/* Hides div in Customizer preview when header images or videos change. */
+
 body:not(.has-header-image) .custom-header-image {
-	padding: 5% 0;
+	display: none;
 }
 
 .has-header-image.twentyseventeen-front-page .site-branding,
