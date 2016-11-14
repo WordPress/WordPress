@@ -998,6 +998,9 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		if ( ! is_array( $value ) ) {
 			$value = preg_split( '/[\s,]+/', $value );
 		}
+		if ( ! wp_is_numeric_array( $value ) ) {
+			return new WP_Error( 'rest_invalid_param', sprintf( /* translators: 1: parameter, 2: type name */ __( '%1$s is not of type %2$s.' ), $param, 'array' ) );
+		}
 		foreach ( $value as $index => $v ) {
 			$is_valid = rest_validate_value_from_schema( $v, $args['items'], $param . '[' . $index . ']' );
 			if ( is_wp_error( $is_valid ) ) {
@@ -1107,6 +1110,9 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 		foreach ( $value as $index => $v ) {
 			$value[ $index ] = rest_sanitize_value_from_schema( $v, $args['items'] );
 		}
+		// Normalize to numeric array so nothing unexpected
+		// is in the keys.
+		$value = array_values( $value );
 		return $value;
 	}
 	if ( 'integer' === $args['type'] ) {
@@ -1138,6 +1144,10 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 			case 'ipv4' :
 				return sanitize_text_field( $value );
 		}
+	}
+
+	if ( 'string' === $args['type'] ) {
+		return strval( $value );
 	}
 
 	return $value;

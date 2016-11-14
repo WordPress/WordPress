@@ -84,7 +84,7 @@ abstract class WP_REST_Meta_Fields {
 			$response[ $name ] = $value;
 		}
 
-		return (object) $response;
+		return $response;
 	}
 
 	/**
@@ -133,10 +133,24 @@ abstract class WP_REST_Meta_Fields {
 			 */
 			if ( is_null( $request[ $name ] ) ) {
 				$result = $this->delete_meta_value( $object_id, $name );
-			} elseif ( $args['single'] ) {
-				$result = $this->update_meta_value( $object_id, $name, $request[ $name ] );
+				if ( is_wp_error( $result ) ) {
+					return $result;
+				}
+				continue;
+			}
+
+			$is_valid = rest_validate_value_from_schema( $request[ $name ], $args['schema'], 'meta.' . $name );
+			if ( is_wp_error( $is_valid ) ) {
+				$is_valid->add_data( array( 'status' => 400 ) );
+				return $is_valid;
+			}
+
+			$value = rest_sanitize_value_from_schema( $request[ $name ], $args['schema'] );
+
+			if ( $args['single'] ) {
+				$result = $this->update_meta_value( $object_id, $name, $value );
 			} else {
-				$result = $this->update_multi_meta_value( $object_id, $name, $request[ $name ] );
+				$result = $this->update_multi_meta_value( $object_id, $name, $value );
 			}
 
 			if ( is_wp_error( $result ) ) {
@@ -319,12 +333,13 @@ abstract class WP_REST_Meta_Fields {
 			$default_args = array(
 				'name'             => $name,
 				'single'           => $args['single'],
+				'type'             => ! empty( $args['type'] ) ? $args['type'] : null,
 				'schema'           => array(),
 				'prepare_callback' => array( $this, 'prepare_value' ),
 			);
 
 			$default_schema = array(
-				'type'        => null,
+				'type'        => $default_args['type'],
 				'description' => empty( $args['description'] ) ? '' : $args['description'],
 				'default'     => isset( $args['default'] ) ? $args['default'] : null,
 			);
@@ -332,20 +347,18 @@ abstract class WP_REST_Meta_Fields {
 			$rest_args = array_merge( $default_args, $rest_args );
 			$rest_args['schema'] = array_merge( $default_schema, $rest_args['schema'] );
 
-			if ( empty( $rest_args['schema']['type'] ) ) {
-				// Skip over meta fields that don't have a defined type.
-				if ( empty( $args['type'] ) ) {
-					continue;
-				}
+			$type = ! empty( $rest_args['type'] ) ? $rest_args['type'] : null;
+			$type = ! empty( $rest_args['schema']['type'] ) ? $rest_args['schema']['type'] : $type;
 
-				if ( $rest_args['single'] ) {
-					$rest_args['schema']['type'] = $args['type'];
-				} else {
-					$rest_args['schema']['type'] = 'array';
-					$rest_args['schema']['items'] = array(
-						'type' => $args['type'],
-					);
-				}
+			if ( ! in_array( $type, array( 'string', 'boolean', 'integer', 'number' ) ) ) {
+				continue;
+			}
+
+			if ( empty( $rest_args['single'] ) ) {
+				$rest_args['schema']['items'] = array(
+					'type' => $rest_args['type'],
+				);
+				$rest_args['schema']['type'] = 'array';
 			}
 
 			$registered[ $rest_args['name'] ] = $rest_args;
