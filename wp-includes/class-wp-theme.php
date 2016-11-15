@@ -1038,7 +1038,7 @@ final class WP_Theme implements ArrayAccess {
 				}
 
 				foreach ( $types as $type ) {
-					$type = trim( $type );
+					$type = sanitize_key( $type );
 					if ( ! isset( $post_templates[ $type ] ) ) {
 						$post_templates[ $type ] = array();
 					}
