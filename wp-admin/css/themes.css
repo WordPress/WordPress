@@ -1641,8 +1641,9 @@ body.full-overlay-active {
 	box-shadow: none;
 	border-top: 1px solid transparent;
 	border-bottom: 4px solid transparent;
-	-webkit-transition: background .1s ease-in-out;
-	transition: background .1s ease-in-out;
+	transition: .15s color ease-in-out,
+	            .15s background-color ease-in-out,
+	            .15s border-color ease-in-out;
 }
 
 .wp-full-overlay-footer .devices button:focus {
@@ -1670,15 +1671,18 @@ body.full-overlay-active {
 	background-color: #fff;
 }
 
-.wp-full-overlay-footer .devices button:focus {
-	background-color: #fff;
+.wp-full-overlay-footer .devices button:focus,
+.wp-full-overlay-footer .devices button.active:hover {
 	border-bottom-color: #0073aa;
 }
 
-.wp-full-overlay-footer .devices button.active:before,
+.wp-full-overlay-footer .devices button.active:before {
+	color: #191e23;
+}
+
 .wp-full-overlay-footer .devices button:hover:before,
 .wp-full-overlay-footer .devices button:focus:before {
-	color: #191e23;
+	color: #0073aa;
 }
 
 .wp-full-overlay-footer .devices .preview-desktop:before {

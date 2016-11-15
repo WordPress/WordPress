@@ -21,7 +21,7 @@ body {
 }
 
 #customize-controls .description {
-	color: #555;
+	color: #555d66;
 }
 
 #customize-header-actions .button-primary {
@@ -82,7 +82,7 @@ body {
 
 #customize-controls .customize-info .accordion-section-title {
 	background: #fff;
-	color: #555;
+	color: #555d66;
 	border-left: none;
 	border-right: none;
 	border-bottom: none;
@@ -92,7 +92,7 @@ body {
 #customize-controls .customize-info.open .accordion-section-title:after,
 #customize-controls .customize-info .accordion-section-title:hover:after,
 #customize-controls .customize-info .accordion-section-title:focus:after {
-	color: #333;
+	color: #32373c;
 }
 
 #customize-controls .customize-info .accordion-section-title:after {
@@ -134,7 +134,7 @@ body {
 	box-shadow: none;
 	-webkit-appearance: none;
 	background: transparent;
-	color: #555;
+	color: #555d66;
 	border: none;
 }
 
@@ -153,7 +153,7 @@ body {
 #customize-controls .customize-info .customize-panel-description,
 #customize-controls .customize-info .customize-section-description,
 #customize-controls .no-widget-areas-rendered-notice {
-	color: #555;
+	color: #555d66;
 	display: none;
 	background: #fff;
 	padding: 12px 15px;
@@ -187,10 +187,13 @@ body {
 }
 
 #customize-theme-controls .accordion-section-title {
-	color: #555;
+	color: #555d66;
 	background-color: #fff;
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #ddd;
 	border-left: 4px solid #fff;
+	transition: .15s color ease-in-out,
+	            .15s background-color ease-in-out,
+	            .15s border-color ease-in-out;
 }
 
 #customize-controls #customize-theme-controls .customize-themes-panel .accordion-section-title {
@@ -205,7 +208,7 @@ body {
 }
 
 #customize-theme-controls .accordion-section-content {
-	color: #555;
+	color: #555d66;
 	background: transparent;
 }
 
@@ -213,9 +216,9 @@ body {
 #customize-controls .control-section .accordion-section-title:hover,
 #customize-controls .control-section.open .accordion-section-title,
 #customize-controls .control-section .accordion-section-title:focus {
-	color: #191e23;
-	background: #f5f5f5;
-	border-left: 4px solid #0073aa;
+	color: #0073aa;
+	background: #f3f3f5;
+	border-left-color: #0073aa;
 }
 
 #accordion-section-themes + .control-section {
@@ -226,14 +229,14 @@ body {
 .js .control-section .accordion-section-title:hover,
 .js .control-section.open .accordion-section-title,
 .js .control-section .accordion-section-title:focus {
-	background: #f5f5f5;
+	background: #f3f3f5;
 }
 
 #customize-theme-controls .control-section:hover > .accordion-section-title:after,
 #customize-theme-controls .control-section .accordion-section-title:hover:after,
 #customize-theme-controls .control-section.open .accordion-section-title:after,
 #customize-theme-controls .control-section .accordion-section-title:focus:after {
-	color: #23282d;
+	color: #0073aa;
 }
 
 #customize-theme-controls .control-section.open {
@@ -413,7 +416,7 @@ h3.customize-section-title {
 	padding: 10px 10px 12px 14px;
 	margin: 0;
 	line-height: 21px;
-	color: #555;
+	color: #555d66;
 }
 
 .accordion-sub-container.control-panel-content {
@@ -437,16 +440,21 @@ h3.customize-section-title {
 	top: 0;
 	left: 0;
 	width: 45px;
-	height: 45px;
+	height: 41px;
 	padding: 0 2px 0 0;
 	background: #eee;
 	border: none;
+	border-top: 4px solid #eee;
 	border-right: 1px solid #ddd;
 	color: #444;
 	text-align: left;
 	cursor: pointer;
-	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
-	transition: color .1s ease-in-out, background .1s ease-in-out;
+	-webkit-transition: color .15s ease-in-out,
+	                    border-color .15s ease-in-out,
+	                    background .15s ease-in-out;
+	transition: color .1s ease-in-out,
+	            border-color .15s ease-in-out,
+	            background .15s ease-in-out;
 	-webkit-box-sizing: content-box;
 	-moz-box-sizing: content-box;
 	box-sizing: content-box;
@@ -463,11 +471,16 @@ h3.customize-section-title {
 	background: #fff;
 	border: none;
 	border-right: 1px solid #ddd;
+	border-left: 4px solid #fff;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 	cursor: pointer;
-	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
-	transition: color .1s ease-in-out, background .1s ease-in-out;
+	-webkit-transition: color .15s ease-in-out,
+	                    border-color .15s ease-in-out,
+	                    background .15s ease-in-out;
+	transition: color .15s ease-in-out,
+	            border-color .15s ease-in-out,
+	            background .15s ease-in-out;
 }
 
 .customize-section-back {
@@ -490,7 +503,7 @@ h3.customize-section-title {
 #customize-controls .panel-meta.customize-info .accordion-section-title:hover,
 #customize-controls .cannot-expand:hover .accordion-section-title {
 	background: #fff;
-	color: #555;
+	color: #555d66;
 	border-left-color: #fff;
 }
 
@@ -498,20 +511,22 @@ h3.customize-section-title {
 .customize-controls-close:hover,
 .customize-controls-preview-toggle:focus,
 .customize-controls-preview-toggle:hover {
-	background: #ddd;
-	border-color: #ccc;
-	color: #000;
+	background: #fff;
+	color: #0073aa;
+	border-top-color: #0073aa;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
+
 .customize-panel-back:hover,
 .customize-panel-back:focus,
 .customize-section-back:hover,
 .customize-section-back:focus {
-	color: #23282d;
-	background: #f5f5f5;
+	color: #0073aa;
+	background: #f3f3f5;
+	border-left-color: #0073aa;
 	outline: none;
 	-webkit-box-shadow: none;
 	box-shadow: none;
@@ -521,7 +536,7 @@ h3.customize-section-title {
 	font: normal 22px/45px dashicons;
 	content: "\f335";
 	position: relative;
-	top: 1px;
+	top: -3px;
 	left: 13px;
 }
 
@@ -530,7 +545,7 @@ h3.customize-section-title {
 	font: normal 20px/72px dashicons;
 	content: "\f341";
 	position: relative;
-	left: 13px;
+	left: 9px;
 }
 
 .wp-full-overlay-sidebar .wp-full-overlay-header {
@@ -890,7 +905,7 @@ p.customize-section-description {
 }
 
 .customize-control-color .dropdown .dropdown-content {
-	background-color: #555;
+	background-color: #555d66;
 	border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
@@ -974,7 +989,7 @@ p.customize-section-description {
 	display: none;
 	position: absolute;
 	width: 100%;
-	color: #555;
+	color: #555d66;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -1029,7 +1044,7 @@ p.customize-section-description {
 .customize-control-header .uploaded .header-view .close {
 	font-size: 20px;
 	color: #fff;
-	background: #555;
+	background: #555d66;
 	background: rgba(0, 0, 0, 0.5);
 	position: absolute;
 	top: 10px;
@@ -1210,7 +1225,7 @@ p.customize-section-description {
 #customize-theme-controls .control-section-themes .accordion-section-title {
 	cursor: default;
 	background: #fff;
-	color: #555;
+	color: #555d66;
 	border-top: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
 	border-left: none;
@@ -1760,6 +1775,9 @@ body.adding-widget .add-new-widget:before,
 	background: #fff;
 	border-bottom: 1px solid #ddd;
 	border-left: 4px solid #fff;
+	transition: .15s color ease-in-out,
+	            .15s background-color ease-in-out,
+	            .15s border-color ease-in-out;
 	cursor: pointer;
 	display: none;
 }
@@ -1835,7 +1853,7 @@ body.adding-widget .add-new-widget:before,
 		background: #eee;
 		border: 0;
 		border-right: 1px solid #ddd;
-		color: #444;
+		color: #555d66;
 		cursor: pointer;
 		-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
 		transition: color .1s ease-in-out, background .1s ease-in-out;
@@ -1916,7 +1934,7 @@ body.adding-widget .add-new-widget:before,
 		padding: 9px 10px 12px 14px;
 		margin: 0;
 		line-height: 24px;
-		color: #555;
+		color: #555d66;
 		display: block;
 		overflow: hidden;
 		white-space: nowrap;

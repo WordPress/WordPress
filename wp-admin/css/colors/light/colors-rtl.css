@@ -482,25 +482,6 @@ body.more-filters-opened .more-filters:focus:before {
   color: #fff;
 }
 
-/* Customize */
-#customize-theme-controls .widget-area-select .selected {
-  background-color: #888;
-  color: #fff;
-}
-
-#customize-footer-actions .devices button:focus {
-  border-bottom-color: #04a4cc;
-}
-
-#customize-controls .control-section:hover > .accordion-section-title,
-#customize-controls .control-section .accordion-section-title:hover,
-#customize-controls .control-section.open .accordion-section-title,
-#customize-controls .control-section .accordion-section-title:focus,
-#available-widgets .widget-tpl:hover,
-#available-widgets .widget-tpl.selected {
-  border-right-color: #04a4cc;
-}
-
 /* Responsive Component */
 div#wp-responsive-toggle a:before {
   color: #999;

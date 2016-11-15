@@ -229,8 +229,9 @@
 
 #available-widgets .widget-tpl:hover,
 #available-widgets .widget-tpl.selected {
-	background: #f5f5f5;
+	background: #f3f3f5;
 	border-bottom-color: #ccc;
+	color: #0073aa;
 	border-left: 4px solid #0073aa;
 }
 
