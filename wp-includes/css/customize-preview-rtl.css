@@ -44,6 +44,7 @@
 	height: 30px;
 	min-width: 30px;
 	min-height: 30px;
+	line-height: 1em !important;
 	font-size: 18px;
 	z-index: 5;
 	background-color: #0085ba;
