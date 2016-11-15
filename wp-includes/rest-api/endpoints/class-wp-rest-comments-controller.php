@@ -1223,7 +1223,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$avatar_sizes = rest_get_avatar_sizes();
 			foreach ( $avatar_sizes as $size ) {
 				$avatar_properties[ $size ] = array(
-					'description' => sprintf( __( 'Avatar URL with image size of %d pixels.' ), $size ),
+					'description' => sprintf( __( /* translators: %d: avatar image size in pixels */ 'Avatar URL with image size of %d pixels.' ), $size ),
 					'type'        => 'string',
 					'format'      => 'uri',
 					'context'     => array( 'embed', 'view', 'edit' ),

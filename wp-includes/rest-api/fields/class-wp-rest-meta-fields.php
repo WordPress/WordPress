@@ -176,7 +176,7 @@ abstract class WP_REST_Meta_Fields {
 		if ( ! current_user_can( "delete_{$meta_type}_meta", $object_id, $name ) ) {
 			return new WP_Error(
 				'rest_cannot_delete',
-				sprintf( __( 'You do not have permission to edit the %s custom field.' ), $name ),
+				sprintf( __( /* translators: %s: custom field key */ 'You do not have permission to edit the %s custom field.' ), $name ),
 				array( 'key' => $name, 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -210,7 +210,7 @@ abstract class WP_REST_Meta_Fields {
 		if ( ! current_user_can( "edit_{$meta_type}_meta", $object_id, $name ) ) {
 			return new WP_Error(
 				'rest_cannot_update',
-				sprintf( __( 'You do not have permission to edit the %s custom field.' ), $name ),
+				sprintf( __( /* translators: %s: custom field key */ 'You do not have permission to edit the %s custom field.' ), $name ),
 				array( 'key' => $name, 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -280,7 +280,7 @@ abstract class WP_REST_Meta_Fields {
 		if ( ! current_user_can(  "edit_{$meta_type}_meta", $object_id, $name ) ) {
 			return new WP_Error(
 				'rest_cannot_update',
-				sprintf( __( 'You do not have permission to edit the %s custom field.' ), $name ),
+				sprintf( __( /* translators: %s: custom field key */ 'You do not have permission to edit the %s custom field.' ), $name ),
 				array( 'key' => $name, 'status' => rest_authorization_required_code() )
 			);
 		}
