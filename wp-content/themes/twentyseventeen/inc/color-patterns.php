@@ -316,8 +316,7 @@ body.colors-custom,
 .colors-custom .next.page-numbers:focus,
 .colors-custom .next.page-numbers:hover,
 .colors-custom .site-content .wp-playlist-light .wp-playlist-item:hover,
-.colors-custom .site-content .wp-playlist-light .wp-playlist-item:focus,
-.colors-custom .customize-partial-edit-shortcut button {
+.colors-custom .site-content .wp-playlist-light .wp-playlist-item:focus {
 	background: hsl( ' . esc_attr( $hue ) . ', ' . esc_attr( $saturation ) . ', 46% ); /* base: #767676; */
 }
 

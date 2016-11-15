@@ -47,8 +47,7 @@
 	line-height: 1em !important;
 	font-size: 18px;
 	z-index: 5;
-	background-color: #0085ba;
-	background: #0085ba;
+	background: #0085ba !important;
 	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	border: 2px solid #fff;
@@ -85,7 +84,7 @@
 }
 
 .customize-partial-edit-shortcut button:hover {
-	background: #008ec2; /* matches primary buttons */
+	background: #008ec2 !important; /* matches primary buttons */
 }
 
 .customize-partial-edit-shortcut button:focus {
