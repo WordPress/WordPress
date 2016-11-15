@@ -123,7 +123,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		}
 		$parent_post_type_obj = get_post_type_object( $parent->post_type );
 		if ( ! current_user_can( $parent_post_type_obj->cap->edit_post, $parent->ID ) ) {
-			return new WP_Error( 'rest_cannot_read', __( 'Sorry, you cannot view revisions of this post.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_read', __( 'Sorry, you are not allowed to view revisions of this post.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;

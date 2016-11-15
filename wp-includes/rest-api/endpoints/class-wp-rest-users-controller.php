@@ -144,15 +144,15 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	public function get_items_permissions_check( $request ) {
 		// Check if roles is specified in GET request and if user can list users.
 		if ( ! empty( $request['roles'] ) && ! current_user_can( 'list_users' ) ) {
-			return new WP_Error( 'rest_user_cannot_view', __( 'Sorry, you cannot filter by role.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_user_cannot_view', __( 'Sorry, you are not allowed to filter by role.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		if ( 'edit' === $request['context'] && ! current_user_can( 'list_users' ) ) {
-			return new WP_Error( 'rest_forbidden_context', __( 'Sorry, you cannot view this resource with edit context.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to view this resource with edit context.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		if ( in_array( $request['orderby'], array( 'email', 'registered_date' ), true ) && ! current_user_can( 'list_users' ) ) {
-			return new WP_Error( 'rest_forbidden_orderby', __( 'Sorry, you cannot order by this parameter.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_forbidden_orderby', __( 'Sorry, you are not allowed to order by this parameter.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -320,9 +320,9 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		}
 
 		if ( 'edit' === $request['context'] && ! current_user_can( 'list_users' ) ) {
-			return new WP_Error( 'rest_user_cannot_view', __( 'Sorry, you cannot view this resource with edit context.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_user_cannot_view', __( 'Sorry, you are not allowed to view this resource with edit context.' ), array( 'status' => rest_authorization_required_code() ) );
 		} elseif ( ! count_user_posts( $id, $types ) && ! current_user_can( 'edit_user', $id ) && ! current_user_can( 'list_users' ) ) {
-			return new WP_Error( 'rest_user_cannot_view', __( 'Sorry, you cannot view this resource.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_user_cannot_view', __( 'Sorry, you are not allowed to view this resource.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -995,7 +995,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				&& get_current_user_id() === $user_id
 				&& ! $potential_role->has_cap( 'edit_users' )
 			) {
-				return new WP_Error( 'rest_user_invalid_role', __( 'You cannot give resource that role.' ), array( 'status' => rest_authorization_required_code() ) );
+				return new WP_Error( 'rest_user_invalid_role', __( 'Sorry, you are not allowed to give resource that role.' ), array( 'status' => rest_authorization_required_code() ) );
 			}
 
 			/** Include admin functions to get access to get_editable_roles() */
@@ -1005,7 +1005,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			$editable_roles = get_editable_roles();
 
 			if ( empty( $editable_roles[ $role ] ) ) {
-				return new WP_Error( 'rest_user_invalid_role', __( 'You cannot give resource that role.' ), array( 'status' => 403 ) );
+				return new WP_Error( 'rest_user_invalid_role', __( 'Sorry, you are not allowed to give resource that role.' ), array( 'status' => 403 ) );
 			}
 		}
 
