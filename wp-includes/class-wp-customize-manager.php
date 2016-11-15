@@ -3478,6 +3478,13 @@ final class WP_Customize_Manager {
 			'description'    => $control_description,
 			'section'        => 'header_image',
 			'mime_type'      => 'video',
+			'button_labels'  => array(
+				'select'       => __( 'Select Video' ),
+				'change'       => __( 'Change Video' ),
+				'placeholder'  => __( 'No video selected' ),
+				'frame_title'  => __( 'Select Video' ),
+				'frame_button' => __( 'Choose Video' ),
+			)
 		) ) );
 
 		$this->add_control( 'external_header_video', array(
