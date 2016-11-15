@@ -86,6 +86,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					'context'  => $this->get_context_param( array( 'default' => 'view' ) ),
 					'password' => array(
 						'description' => __( 'The password for the post if it is password protected.' ),
+						'type'        => 'string',
 					),
 				),
 			),
@@ -2069,6 +2070,9 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$params['slug'] = array(
 			'description'       => __( 'Limit result set to posts with one or more specific slugs.' ),
 			'type'              => 'array',
+			'items'             => array(
+				'type'          => 'string',
+			),
 			'sanitize_callback' => 'wp_parse_slug_list',
 		);
 

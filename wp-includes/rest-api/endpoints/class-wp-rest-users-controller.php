@@ -89,7 +89,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 						'default'     => false,
 						'description' => __( 'Required to be true, as resource does not support trashing.' ),
 					),
-					'reassign' => array(),
+					'reassign' => array(
+						'type'        => 'integer',
+						'description' => __( 'Reassign the deleted user\'s posts and links to this user ID.' ),
+					),
 				),
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
@@ -100,7 +103,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_current_item' ),
 				'args'                => array(
-					'context'          => array(),
+					'context' => $this->get_context_param( array( 'default' => 'view' ) ),
 				),
 			),
 			array(
@@ -119,7 +122,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 						'default'     => false,
 						'description' => __( 'Required to be true, as resource does not support trashing.' ),
 					),
-					'reassign' => array(),
+					'reassign' => array(
+						'type'        => 'integer',
+						'description' => __( 'Reassign the deleted user\'s posts and links to this user ID.' ),
+					),
 				),
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),

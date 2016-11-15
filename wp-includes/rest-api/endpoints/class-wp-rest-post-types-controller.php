@@ -205,10 +205,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 			'properties'           => array(
 				'capabilities'     => array(
 					'description'  => __( 'All capabilities used by the resource.' ),
-					'type'         => 'array',
-					'items'        => array(
-						'type' => 'string',
-					),
+					'type'         => 'object',
 					'context'      => array( 'edit' ),
 					'readonly'     => true,
 				),
