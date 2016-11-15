@@ -813,8 +813,7 @@ function page_attributes_meta_box($post) {
 		$pages = wp_dropdown_pages( $dropdown_args );
 		if ( ! empty($pages) ) :
 ?>
-<p><strong><?php _e('Parent') ?></strong></p>
-<label class="screen-reader-text" for="parent_id"><?php _e('Parent') ?></label>
+<p class="post-attributes-label-wrapper"><label class="post-attributes-label" for="parent_id"><?php _e( 'Parent' ); ?></label></p>
 <?php echo $pages; ?>
 <?php
 		endif; // end empty pages check
@@ -823,9 +822,9 @@ function page_attributes_meta_box($post) {
 	if ( count( get_page_templates( $post ) ) > 0 && get_option( 'page_for_posts' ) != $post->ID ) :
 		$template = ! empty( $post->page_template ) ? $post->page_template : false;
 		?>
-<p><strong><?php _e('Template') ?></strong><?php
+<p class="post-attributes-label-wrapper"><label class="post-attributes-label" for="page_template"><?php _e( 'Template' ); ?></label><?php
 	/**
-	 * Fires immediately after the heading inside the 'Template' section
+	 * Fires immediately after the label inside the 'Template' section
 	 * of the 'Page Attributes' meta box.
 	 *
 	 * @since 4.4.0
@@ -835,12 +834,6 @@ function page_attributes_meta_box($post) {
 	 */
 	do_action( 'page_attributes_meta_box_template', $template, $post );
 ?></p>
-<label class="screen-reader-text" for="page_template">
-	<?php
-	$post_type_object = get_post_type_object( $post->post_type );
-	echo esc_html( $post_type_object->labels->attributes );
-	?>
-</label>
 <select name="page_template" id="page_template">
 <?php
 /**
@@ -859,8 +852,8 @@ $default_title = apply_filters( 'default_page_template_title',  __( 'Default Tem
 </select>
 <?php endif; ?>
 <?php if ( post_type_supports( $post->post_type, 'page-attributes' ) ) : ?>
-<p><strong><?php _e('Order') ?></strong></p>
-<p><label class="screen-reader-text" for="menu_order"><?php _e('Order') ?></label><input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr($post->menu_order) ?>" /></p>
+<p class="post-attributes-label-wrapper"><label class="post-attributes-label" for="menu_order"><?php _e( 'Order' ); ?></label></p>
+<input name="menu_order" type="text" size="4" id="menu_order" value="<?php echo esc_attr( $post->menu_order ); ?>" />
 <?php if ( 'page' == $post->post_type && get_current_screen()->get_help_tabs() ) : ?>
 <p><?php _e( 'Need help? Use the Help tab above the screen title.' ); ?></p>
 <?php endif;

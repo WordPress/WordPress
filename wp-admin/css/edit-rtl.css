@@ -628,6 +628,15 @@ span.wp-media-buttons-icon:before {
 	width: 250px;
 }
 
+.post-attributes-label-wrapper {
+	margin-bottom: 0.5em;
+}
+
+.post-attributes-label {
+	vertical-align: baseline;
+	font-weight: 600;
+}
+
 #post-visibility-select {
 	line-height: 1.5em;
 	margin-top: 3px;
