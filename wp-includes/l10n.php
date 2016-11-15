@@ -948,6 +948,7 @@ function translate_user_role( $name ) {
  * The default directory is WP_LANG_DIR.
  *
  * @since 3.0.0
+ * @since 4.7.0 The results are now filterable with the get_available_languages filter.
  *
  * @param string $dir A directory to search for language files.
  *                    Default WP_LANG_DIR.
@@ -956,7 +957,7 @@ function translate_user_role( $name ) {
 function get_available_languages( $dir = null ) {
 	$languages = array();
 
-	$lang_files = glob( ( is_null( $dir) ? WP_LANG_DIR : $dir ) . '/*.mo' );
+	$lang_files = glob( ( is_null( $dir ) ? WP_LANG_DIR : $dir ) . '/*.mo' );
 	if ( $lang_files ) {
 		foreach ( $lang_files as $lang_file ) {
 			$lang_file = basename( $lang_file, '.mo' );
@@ -967,7 +968,15 @@ function get_available_languages( $dir = null ) {
 		}
 	}
 
-	return $languages;
+	/**
+	 * Filters the list of available language codes
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param array $languages An array of available language codes.
+	 * @param string $dir The directory where the language files were found.
+	 */
+	return apply_filters( 'get_available_languages', $languages, $dir );
 }
 
 /**
