@@ -3407,7 +3407,12 @@ final class WP_Customize_Manager {
 
 		if ( current_theme_supports( 'custom-header', 'video' ) ) {
 			$title = __( 'Header Media' );
-			$description = __( 'If you add a video, the image will be used as a fallback while the video loads.' );
+			$description = '<p>' . __( 'If you add a video, the image will be used as a fallback while the video loads.' ) . '</p>';
+
+			// @todo Customizer sections should support having notifications just like controls do. See <https://core.trac.wordpress.org/ticket/38794>.
+			$description .= '<div class="customize-control-notifications-container header-video-not-currently-previewable" style="display: none"><ul>';
+			$description .= '<li class="notice notice-info">' . __( 'This theme doesn\'t support video headers on this page. Navigate to the front page or another page that supports video headers.' ) . '</li>';
+			$description .= '</ul></div>';
 			$width = absint( get_theme_support( 'custom-header', 'width' ) );
 			$height = absint( get_theme_support( 'custom-header', 'height' ) );
 			if ( $width && $height ) {
@@ -3478,13 +3483,15 @@ final class WP_Customize_Manager {
 			'description'    => $control_description,
 			'section'        => 'header_image',
 			'mime_type'      => 'video',
+			// @todo These button_labels can be removed once WP_Customize_Media_Control provides mime_type-specific labels automatically. See <https://core.trac.wordpress.org/ticket/38796>.
 			'button_labels'  => array(
 				'select'       => __( 'Select Video' ),
 				'change'       => __( 'Change Video' ),
 				'placeholder'  => __( 'No video selected' ),
 				'frame_title'  => __( 'Select Video' ),
 				'frame_button' => __( 'Choose Video' ),
-			)
+			),
+			'active_callback' => 'is_front_page',
 		) ) );
 
 		$this->add_control( 'external_header_video', array(
@@ -3492,6 +3499,7 @@ final class WP_Customize_Manager {
 			'type'           => 'url',
 			'description'    => __( 'Or, enter a YouTube URL:' ),
 			'section'        => 'header_image',
+			'active_callback'=> 'is_front_page',
 		) );
 
 		$this->add_control( new WP_Customize_Header_Image_Control( $this ) );

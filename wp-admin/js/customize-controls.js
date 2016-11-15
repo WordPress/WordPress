@@ -5284,6 +5284,26 @@
 			} );
 		} );
 
+		// Toggle visibility of Header Video notice when active state change.
+		api.control( 'header_video', function( headerVideoControl ) {
+			headerVideoControl.deferred.embedded.done( function() {
+				var toggleNotice = function() {
+					var section = api.section( headerVideoControl.section() ), notice;
+					if ( ! section ) {
+						return;
+					}
+					notice = section.container.find( '.header-video-not-currently-previewable:first' );
+					if ( headerVideoControl.active.get() ) {
+						notice.stop().slideUp( 'fast' );
+					} else {
+						notice.stop().slideDown( 'fast' );
+					}
+				};
+				toggleNotice();
+				headerVideoControl.active.bind( toggleNotice );
+			} );
+		} );
+
 		// Update the setting validities.
 		api.previewer.bind( 'selective-refresh-setting-validities', function handleSelectiveRefreshedSettingValidities( settingValidities ) {
 			api._handleSettingValidities( {
