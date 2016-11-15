@@ -3491,7 +3491,7 @@ final class WP_Customize_Manager {
 				'frame_title'  => __( 'Select Video' ),
 				'frame_button' => __( 'Choose Video' ),
 			),
-			'active_callback' => 'is_front_page',
+			'active_callback' => 'is_header_video_active',
 		) ) );
 
 		$this->add_control( 'external_header_video', array(

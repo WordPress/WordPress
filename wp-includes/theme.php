@@ -1400,11 +1400,43 @@ function get_header_video_settings() {
  * @return bool True if a custom header is set. False if not.
  */
 function has_custom_header() {
-	if ( has_header_image() || ( is_front_page() && has_header_video() ) ) {
+	if ( has_header_image() || ( has_header_video() && is_header_video_active() ) ) {
 		return true;
 	}
 
 	return false;
+}
+
+/**
+ * Checks whether the custom header video is eligible to show on the current page.
+ *
+ * @since 4.7.0
+ *
+ * @return bool True if the custom header video should be shown. False if not.
+ */
+function is_header_video_active() {
+	if ( ! get_theme_support( 'custom-header', 'video' ) ) {
+		return false;
+	}
+
+	$video_active_cb = get_theme_support( 'custom-header', 'video-active-callback' );
+
+	if ( empty( $video_active_cb ) || ! is_callable( $video_active_cb ) ) {
+		$show_video = true;
+	} else {
+		$show_video = call_user_func( $video_active_cb );
+	}
+
+	/**
+	 * Modify whether the custom header video is eligible to show on the current page.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param bool $show_video Whether the custom header video should be shown. Returns the value
+	 *                         of the theme setting for the `custom-header`'s `video-active-callback`.
+	 *                         If no callback is set, the default value is that of `is_front_page()`.
+	 */
+	return apply_filters( 'is_header_video_active', $show_video );
 }
 
 /**
@@ -1442,7 +1474,7 @@ function the_custom_header_markup() {
 
 	echo $custom_header;
 
-	if ( is_front_page() && ( has_header_video() || is_customize_preview() ) ) {
+	if ( is_header_video_active() && ( has_header_video() || is_customize_preview() ) ) {
 		wp_enqueue_script( 'wp-custom-header' );
 		wp_localize_script( 'wp-custom-header', '_wpCustomHeaderSettings', get_header_video_settings() );
 	}
@@ -2058,6 +2090,7 @@ function add_theme_support( $feature ) {
 				'admin-head-callback' => '',
 				'admin-preview-callback' => '',
 				'video' => false,
+				'video-active-callback' => 'is_front_page',
 			);
 
 			$jit = isset( $args[0]['__jit'] );
@@ -2319,10 +2352,13 @@ function _remove_theme_support( $feature ) {
 			if ( ! did_action( 'wp_loaded' ) )
 				break;
 			$support = get_theme_support( 'custom-header' );
-			if ( $support[0]['wp-head-callback'] )
+			if ( isset( $support[0]['wp-head-callback'] ) ) {
 				remove_action( 'wp_head', $support[0]['wp-head-callback'] );
-			remove_action( 'admin_menu', array( $GLOBALS['custom_image_header'], 'init' ) );
-			unset( $GLOBALS['custom_image_header'] );
+			}
+			if ( isset( $GLOBALS['custom_image_header'] ) ) {
+				remove_action( 'admin_menu', array( $GLOBALS['custom_image_header'], 'init' ) );
+				unset( $GLOBALS['custom_image_header'] );
+			}
 			break;
 
 		case 'custom-background' :
