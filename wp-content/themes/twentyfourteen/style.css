@@ -3092,6 +3092,18 @@ a.post-thumbnail:hover {
 	width: device-width;
 }
 
+/* Adjust positioning of edit shortcuts, override style in customize-preview.css */
+@media screen and (max-width:800px) {
+	body.customize-partial-edit-shortcuts-shown .site-header .site-title {
+		padding-left: 8px;
+	}
+
+	.site-header .customize-partial-edit-shortcut button {
+		top: 10px;
+	}
+}
+
+
 @media screen and (max-width: 400px) {
 	.list-view .site-content .post-thumbnail {
 		background: none;
@@ -3163,6 +3175,17 @@ a.post-thumbnail:hover {
 		border-bottom: 0;
 		margin: 0 auto 24px;
 		padding: 0 10px;
+	}
+}
+
+/* Adjust positioning of edit shortcuts, override style in customize-preview.css */
+@media screen and (max-width:320px) {
+	.site-header .customize-partial-edit-shortcut button {
+		left: -32px;
+	}
+
+	body.customize-partial-edit-shortcuts-shown .site-header .site-title {
+		padding-left: 28px;
 	}
 }
 
