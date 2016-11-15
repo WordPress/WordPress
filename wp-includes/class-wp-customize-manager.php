@@ -3552,18 +3552,24 @@ final class WP_Customize_Manager {
 			$width = absint( get_theme_support( 'custom-header', 'width' ) );
 			$height = absint( get_theme_support( 'custom-header', 'height' ) );
 			if ( $width && $height ) {
-				/* translators: %s: header size in pixels */
-				$control_description = sprintf( __( 'Upload your video in <code>.mp4</code> format and minimize its file size for best results. Your theme recommends dimensions of %s pixels.' ),
+				$control_description = sprintf(
+					/* translators: 1: .mp4, 2: header size in pixels */
+					__( 'Upload your video in %1$s format and minimize its file size for best results. Your theme recommends dimensions of %2$s pixels.' ),
+					'<code>.mp4</code>',
 					sprintf( '<strong>%s &times; %s</strong>', $width, $height )
 				);
 			} elseif ( $width ) {
-				/* translators: %s: header width in pixels */
-				$control_description = sprintf( __( 'Upload your video in <code>.mp4</code> format and minimize its file size for best results. Your theme recommends a width of %s pixels.' ),
+				$control_description = sprintf(
+					/* translators: 1: .mp4, 2: header width in pixels */
+					__( 'Upload your video in %1$s format and minimize its file size for best results. Your theme recommends a width of %2$s pixels.' ),
+					'<code>.mp4</code>',
 					sprintf( '<strong>%s</strong>', $width )
 				);
 			} else {
-				/* translators: %s: header height in pixels */
-				$control_description = sprintf( __( 'Upload your video in <code>.mp4</code> format and minimize its file size for best results. Your theme recommends a height of %s pixels.' ),
+				$control_description = sprintf(
+					/* translators: 1: .mp4, 2: header height in pixels */
+					__( 'Upload your video in %1$s format and minimize its file size for best results. Your theme recommends a height of %2$s pixels.' ),
+					'<code>.mp4</code>',
 					sprintf( '<strong>%s</strong>', $height )
 				);
 			}
@@ -3972,10 +3978,17 @@ final class WP_Customize_Manager {
 		if ( $video ) {
 			$size = filesize( $video );
 			if ( 8 < $size / pow( 1024, 2 ) ) { // Check whether the size is larger than 8MB.
-				$validity->add( 'size_too_large', __( 'This video file is too large to use as a header video. Try a shorter video or optimize the compression settings and re-upload a file that is less than 8MB. Or, upload your video to YouTube and link it with the option below.' ) );
+				$validity->add( 'size_too_large',
+					__( 'This video file is too large to use as a header video. Try a shorter video or optimize the compression settings and re-upload a file that is less than 8MB. Or, upload your video to YouTube and link it with the option below.' )
+				);
 			}
 			if ( '.mp4' !== substr( $video, -4 ) && '.mov' !== substr( $video, -4 ) ) { // Check for .mp4 or .mov format, which (assuming h.264 encoding) are the only cross-browser-supported formats.
-				$validity->add( 'invalid_file_type', __( 'Only <code>.mp4</code> or <code>.mov</code> files may be used for header video. Please convert your video file and try again, or, upload your video to YouTube and link it with the option below.' ) );
+				$validity->add( 'invalid_file_type', sprintf(
+					/* translators: 1: .mp4, 2: .mov */
+					__( 'Only %1$s or %2$s files may be used for header video. Please convert your video file and try again, or, upload your video to YouTube and link it with the option below.' ),
+					'<code>.mp4</code>',
+					'<code>.mov</code>'
+				) );
 			}
 		}
 		return $validity;
