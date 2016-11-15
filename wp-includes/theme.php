@@ -1865,25 +1865,45 @@ function get_theme_starter_content() {
 				'object_id' => '{{contact-us}}',
 			),
 
-			'link_yelp' => array(
-				'title' => _x( 'Yelp', 'Theme starter content' ),
-				'url' => 'https://www.yelp.com',
+			'link_email' => array(
+				'title' => _x( 'Email', 'Theme starter content' ),
+				'url' => 'mailto:wordpress@example.com',
 			),
 			'link_facebook' => array(
 				'title' => _x( 'Facebook', 'Theme starter content' ),
 				'url' => 'https://www.facebook.com/wordpress',
 			),
-			'link_twitter' => array(
-				'title' => _x( 'Twitter', 'Theme starter content' ),
-				'url' => 'https://twitter.com/wordpress',
+			'link_foursquare' => array(
+				'title' => _x( 'Foursquare', 'Theme starter content' ),
+				'url' => 'https://foursquare.com/',
+			),
+			'link_github' => array(
+				'title' => _x( 'GitHub', 'Theme starter content' ),
+				'url' => 'https://github.com/wordpress/',
 			),
 			'link_instagram' => array(
 				'title' => _x( 'Instagram', 'Theme starter content' ),
 				'url' => 'https://www.instagram.com/explore/tags/wordcamp/',
 			),
-			'link_email' => array(
-				'title' => _x( 'Email', 'Theme starter content' ),
-				'url' => 'mailto:wordpress@example.com',
+			'link_linkedin' => array(
+				'title' => _x( 'LinkedIn', 'Theme starter content' ),
+				'url' => 'https://www.linkedin.com/company/1089783',
+			),
+			'link_pinterest' => array(
+				'title' => _x( 'Pinterest', 'Theme starter content' ),
+				'url' => 'https://www.pinterest.com/',
+			),
+			'link_twitter' => array(
+				'title' => _x( 'Twitter', 'Theme starter content' ),
+				'url' => 'https://twitter.com/wordpress',
+			),
+			'link_yelp' => array(
+				'title' => _x( 'Yelp', 'Theme starter content' ),
+				'url' => 'https://www.yelp.com',
+			),
+			'link_youtube' => array(
+				'title' => _x( 'YouTube', 'Theme starter content' ),
+				'url' => 'https://www.youtube.com/channel/UCdof4Ju7amm1chz1gi1T2ZA',
 			),
 		),
 		'posts' => array(
