@@ -523,8 +523,12 @@ final class WP_Customize_Manager {
 			}
 		}
 
-		// Import theme starter content for fresh installs when landing in the customizer and no existing changeset loaded.
-		if ( get_option( 'fresh_site' ) && 'customize.php' === $pagenow && ! $this->changeset_post_id() ) {
+		/*
+		 * Import theme starter content for fresh installs when landing in the customizer.
+		 * Import starter content at after_setup_theme:100 so that any
+		 * add_theme_support( 'starter-content' ) calls will have been made.
+		 */
+		if ( get_option( 'fresh_site' ) && 'customize.php' === $pagenow ) {
 			add_action( 'after_setup_theme', array( $this, 'import_theme_starter_content' ), 100 );
 		}
 
@@ -885,7 +889,16 @@ final class WP_Customize_Manager {
 	}
 
 	/**
-	 * Import theme starter content into post values.
+	 * Starter content setting IDs.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 * @var array
+	 */
+	protected $starter_content_settings_ids = array();
+
+	/**
+	 * Import theme starter content into the customized state.
 	 *
 	 * @since 4.7.0
 	 * @access public
@@ -895,6 +908,11 @@ final class WP_Customize_Manager {
 	function import_theme_starter_content( $starter_content = array() ) {
 		if ( empty( $starter_content ) ) {
 			$starter_content = get_theme_starter_content();
+		}
+
+		$changeset_data = array();
+		if ( $this->changeset_post_id() ) {
+			$changeset_data = $this->get_changeset_post_data( $this->changeset_post_id() );
 		}
 
 		$sidebars_widgets = isset( $starter_content['widgets'] ) && ! empty( $this->widgets ) ? $starter_content['widgets'] : array();
@@ -932,45 +950,113 @@ final class WP_Customize_Manager {
 				$widget_id = sprintf( '%s-%d', $id_base, $max_widget_numbers[ $id_base ] );
 				$setting_id = sprintf( 'widget_%s[%d]', $id_base, $max_widget_numbers[ $id_base ] );
 
-				$class = 'WP_Customize_Setting';
-
-				/** This filter is documented in wp-includes/class-wp-customize-manager.php */
-				$args = apply_filters( 'customize_dynamic_setting_args', false, $setting_id );
-
-				if ( false !== $args ) {
-
-					/** This filter is documented in wp-includes/class-wp-customize-manager.php */
-					$class = apply_filters( 'customize_dynamic_setting_class', $class, $setting_id, $args );
-
-					$setting = new $class( $this, $setting_id, $args );
-					$setting_value = call_user_func( $setting->sanitize_js_callback, $instance, $setting );
+				$setting_value = $this->widgets->sanitize_widget_js_instance( $instance );
+				if ( empty( $changeset_data[ $setting_id ] ) || ! empty( $changeset_data[ $setting_id ]['starter_content'] ) ) {
 					$this->set_post_value( $setting_id, $setting_value );
-					$sidebar_widget_ids[] = $widget_id;
+					$this->starter_content_settings_ids[] = $setting_id;
 				}
+				$sidebar_widget_ids[] = $widget_id;
 			}
 
-			$this->set_post_value( sprintf( 'sidebars_widgets[%s]', $sidebar_id ), $sidebar_widget_ids );
+			$setting_id = sprintf( 'sidebars_widgets[%s]', $sidebar_id );
+			if ( empty( $changeset_data[ $setting_id ] ) || ! empty( $changeset_data[ $setting_id ]['starter_content'] ) ) {
+				$this->set_post_value( $setting_id, $sidebar_widget_ids );
+				$this->starter_content_settings_ids[] = $setting_id;
+			}
 		}
 
 		// Posts & pages.
 		if ( ! empty( $posts ) ) {
+			$nav_menus_created_posts = array();
+			if ( ! empty( $changeset_data['nav_menus_created_posts']['value'] ) ) {
+				$nav_menus_created_posts = $changeset_data['nav_menus_created_posts']['value'];
+			}
+
+			$existing_posts = array();
+			if ( ! empty( $nav_menus_created_posts ) ) {
+				$existing_posts_query = new WP_Query( array(
+					'post__in' => $nav_menus_created_posts,
+					'post_status' => 'auto-draft',
+					'post_type' => 'any',
+					'number' => -1,
+				) );
+				foreach ( $existing_posts_query->posts as $existing_post ) {
+					$existing_posts[ $existing_post->post_type . ':' . $existing_post->post_name ] = $existing_post;
+				}
+			}
+
 			foreach ( array_keys( $posts ) as $post_symbol ) {
+				if ( empty( $posts[ $post_symbol ]['post_type'] ) ) {
+					continue;
+				}
+				$post_type = $posts[ $post_symbol ]['post_type'];
+				if ( ! empty( $posts[ $post_symbol ]['post_name'] ) ) {
+					$post_name = $posts[ $post_symbol ]['post_name'];
+				} elseif ( ! empty( $posts[ $post_symbol ]['post_title'] ) ) {
+					$post_name = sanitize_title( $posts[ $post_symbol ]['post_title'] );
+				} else {
+					continue;
+				}
+
+				// Use existing auto-draft post if one already exists with the same type and name.
+				if ( isset( $existing_posts[ $post_type . ':' . $post_name ] ) ) {
+					$posts[ $post_symbol ]['ID'] = $existing_posts[ $post_type . ':' . $post_name ]->ID;
+					continue;
+				}
+
 				$r = $this->nav_menus->insert_auto_draft_post( $posts[ $post_symbol ] );
 				if ( $r instanceof WP_Post ) {
 					$posts[ $post_symbol ]['ID'] = $r->ID;
 				}
 			}
-			$this->set_post_value( 'nav_menus_created_posts', wp_list_pluck( $posts, 'ID' ) ); // This is why nav_menus component is dependency for adding posts.
+
+			// The nav_menus_created_posts setting is why nav_menus component is dependency for adding posts.
+			$setting_id = 'nav_menus_created_posts';
+			if ( empty( $changeset_data[ $setting_id ] ) || ! empty( $changeset_data[ $setting_id ]['starter_content'] ) ) {
+				$nav_menus_created_posts = array_unique( array_merge( $nav_menus_created_posts, wp_list_pluck( $posts, 'ID' ) ) );
+				$this->set_post_value( $setting_id, array_values( $nav_menus_created_posts ) );
+				$this->starter_content_settings_ids[] = $setting_id;
+			}
 		}
 
 		// Nav menus.
 		$placeholder_id = -1;
+		$reused_nav_menu_setting_ids = array();
 		foreach ( $nav_menus as $nav_menu_location => $nav_menu ) {
-			$nav_menu_term_id = $placeholder_id--;
-			$nav_menu_setting_id = sprintf( 'nav_menu[%d]', $nav_menu_term_id );
+
+			$nav_menu_term_id = null;
+			$nav_menu_setting_id = null;
+			$matches = array();
+
+			// Look for an existing placeholder menu with starter content to re-use.
+			foreach ( $changeset_data as $setting_id => $setting_params ) {
+				$can_reuse = (
+					! empty( $setting_params['starter_content'] )
+					&&
+					! in_array( $setting_id, $reused_nav_menu_setting_ids, true )
+					&&
+					preg_match( '#^nav_menu\[(?P<nav_menu_id>-?\d+)\]$#', $setting_id, $matches )
+				);
+				if ( $can_reuse ) {
+					$nav_menu_term_id = intval( $matches['nav_menu_id'] );
+					$nav_menu_setting_id = $setting_id;
+					$reused_nav_menu_setting_ids[] = $setting_id;
+					break;
+				}
+			}
+
+			if ( ! $nav_menu_term_id ) {
+				while ( isset( $changeset_data[ sprintf( 'nav_menu[%d]', $placeholder_id ) ] ) ) {
+					$placeholder_id--;
+				}
+				$nav_menu_term_id = $placeholder_id;
+				$nav_menu_setting_id = sprintf( 'nav_menu[%d]', $placeholder_id );
+			}
+
 			$this->set_post_value( $nav_menu_setting_id, array(
 				'name' => isset( $nav_menu['name'] ) ? $nav_menu['name'] : $nav_menu_location,
 			) );
+			$this->starter_content_settings_ids[] = $nav_menu_setting_id;
 
 			// @todo Add support for menu_item_parent.
 			$position = 0;
@@ -994,10 +1080,18 @@ final class WP_Customize_Manager {
 				} else {
 					$nav_menu_item['object_id'] = 0;
 				}
-				$this->set_post_value( $nav_menu_item_setting_id, $nav_menu_item );
+
+				if ( empty( $changeset_data[ $nav_menu_item_setting_id ] ) || ! empty( $changeset_data[ $nav_menu_item_setting_id ]['starter_content'] ) ) {
+					$this->set_post_value( $nav_menu_item_setting_id, $nav_menu_item );
+					$this->starter_content_settings_ids[] = $nav_menu_item_setting_id;
+				}
 			}
 
-			$this->set_post_value( sprintf( 'nav_menu_locations[%s]', $nav_menu_location ), $nav_menu_term_id );
+			$setting_id = sprintf( 'nav_menu_locations[%s]', $nav_menu_location );
+			if ( empty( $changeset_data[ $setting_id ] ) || ! empty( $changeset_data[ $setting_id ]['starter_content'] ) ) {
+				$this->set_post_value( $setting_id, $nav_menu_term_id );
+				$this->starter_content_settings_ids[] = $setting_id;
+			}
 		}
 
 		// Options.
@@ -1005,7 +1099,11 @@ final class WP_Customize_Manager {
 			if ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) && isset( $posts[ $matches['symbol'] ] ) ) {
 				$value = $posts[ $matches['symbol'] ]['ID'];
 			}
-			$this->set_post_value( $name, $value );
+
+			if ( empty( $changeset_data[ $name ] ) || ! empty( $changeset_data[ $name ]['starter_content'] ) ) {
+				$this->set_post_value( $name, $value );
+				$this->starter_content_settings_ids[] = $name;
+			}
 		}
 
 		// Theme mods.
@@ -1013,8 +1111,38 @@ final class WP_Customize_Manager {
 			if ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) && isset( $posts[ $matches['symbol'] ] ) ) {
 				$value = $posts[ $matches['symbol'] ]['ID'];
 			}
-			$this->set_post_value( $name, $value );
+
+			if ( empty( $changeset_data[ $name ] ) || ! empty( $changeset_data[ $name ]['starter_content'] ) ) {
+				$this->set_post_value( $name, $value );
+				$this->starter_content_settings_ids[] = $name;
+			}
 		}
+
+		if ( ! empty( $this->starter_content_settings_ids ) ) {
+			if ( did_action( 'customize_register' ) ) {
+				$this->_save_starter_content_changeset();
+			} else {
+				add_action( 'customize_register', array( $this, '_save_starter_content_changeset' ), 1000 );
+			}
+		}
+	}
+
+	/**
+	 * Save starter content changeset.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 */
+	public function _save_starter_content_changeset() {
+
+		if ( empty( $this->starter_content_settings_ids ) ) {
+			return;
+		}
+
+		$this->save_changeset_post( array(
+			'data' => array_fill_keys( $this->starter_content_settings_ids, array( 'starter_content' => true ) ),
+			'starter_content' => true,
+		) );
 	}
 
 	/**
@@ -1823,11 +1951,12 @@ final class WP_Customize_Manager {
 	 * @param array $args {
 	 *     Args for changeset post.
 	 *
-	 *     @type array  $data     Optional additional changeset data. Values will be merged on top of any existing post values.
-	 *     @type string $status   Post status. Optional. If supplied, the save will be transactional and a post revision will be allowed.
-	 *     @type string $title    Post title. Optional.
-	 *     @type string $date_gmt Date in GMT. Optional.
-	 *     @type int    $user_id  ID for user who is saving the changeset. Optional, defaults to the current user ID.
+	 *     @type array  $data            Optional additional changeset data. Values will be merged on top of any existing post values.
+	 *     @type string $status          Post status. Optional. If supplied, the save will be transactional and a post revision will be allowed.
+	 *     @type string $title           Post title. Optional.
+	 *     @type string $date_gmt        Date in GMT. Optional.
+	 *     @type int    $user_id         ID for user who is saving the changeset. Optional, defaults to the current user ID.
+	 *     @type bool   $starter_content Whether the data is starter content. If false (default), then $starter_content will be cleared for any $data being saved.
 	 * }
 	 *
 	 * @return array|WP_Error Returns array on success and WP_Error with array data on error.
@@ -1841,6 +1970,7 @@ final class WP_Customize_Manager {
 				'data' => array(),
 				'date_gmt' => null,
 				'user_id' => get_current_user_id(),
+				'starter_content' => false,
 			),
 			$args
 		);
@@ -1977,6 +2107,7 @@ final class WP_Customize_Manager {
 				if ( ! isset( $data[ $changeset_setting_id ] ) ) {
 					$data[ $changeset_setting_id ] = array();
 				}
+
 				$data[ $changeset_setting_id ] = array_merge(
 					$data[ $changeset_setting_id ],
 					$setting_params,
@@ -1985,6 +2116,11 @@ final class WP_Customize_Manager {
 						'user_id' => $args['user_id'],
 					)
 				);
+
+				// Clear starter_content flag in data if changeset is not explicitly being updated for starter content.
+				if ( empty( $args['starter_content'] ) ) {
+					unset( $data[ $changeset_setting_id ]['starter_content'] );
+				}
 			}
 		}
 

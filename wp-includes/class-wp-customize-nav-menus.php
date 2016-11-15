@@ -696,6 +696,7 @@ final class WP_Customize_Nav_Menus {
 
 		$this->manager->add_setting( new WP_Customize_Filter_Setting( $this->manager, 'nav_menus_created_posts', array(
 			'transport' => 'postMessage',
+			'type' => 'option', // To prevent theme prefix in changeset.
 			'default' => array(),
 			'sanitize_callback' => array( $this, 'sanitize_nav_menus_created_posts' ),
 		) ) );

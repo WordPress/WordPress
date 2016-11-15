@@ -1824,26 +1824,26 @@ function get_theme_starter_content() {
 		$config = array();
 	}
 
-	$core_content = array (
+	$core_content = array(
 		'widgets' => array(
-			'text_business_info' => array ( 'text', array (
+			'text_business_info' => array( 'text', array(
 				'title' => _x( 'Find Us', 'Theme starter content' ),
-				'text' => join( '', array (
+				'text' => join( '', array(
 					'<p><strong>' . _x( 'Address', 'Theme starter content' ) . '</strong><br />',
 					_x( '123 Main Street', 'Theme starter content' ) . '<br />' . _x( 'New York, NY 10001', 'Theme starter content' ) . '</p>',
 					'<p><strong>' . _x( 'Hours', 'Theme starter content' ) . '</strong><br />',
 					_x( 'Monday&mdash;Friday: 9:00AM&ndash;5:00PM', 'Theme starter content' ) . '<br />' . _x( 'Saturday &amp; Sunday: 11:00AM&ndash;3:00PM', 'Theme starter content' ) . '</p>'
 				) ),
 			) ),
-			'search' => array ( 'search', array (
+			'search' => array( 'search', array(
 				'title' => _x( 'Site Search', 'Theme starter content' ),
 			) ),
-			'text_credits' => array ( 'text', array (
+			'text_credits' => array( 'text', array(
 				'title' => _x( 'Site Credits', 'Theme starter content' ),
 				'text' => sprintf( _x( 'This site was created on %s', 'Theme starter content' ), get_date_from_gmt( current_time( 'mysql', 1 ), 'c' ) ),
 			) ),
 		),
-		'nav_menus' => array (
+		'nav_menus' => array(
 			'page_home' => array(
 				'type' => 'post_type',
 				'object' => 'page',
@@ -1919,48 +1919,53 @@ function get_theme_starter_content() {
 
 	foreach ( $config as $type => $args ) {
 		switch( $type ) {
-			// Use options and theme_mods as-is
+			// Use options and theme_mods as-is.
 			case 'options' :
 			case 'theme_mods' :
 				$content[ $type ] = $config[ $type ];
 				break;
 
-			// Widgets are an extra level down due to groupings
+			// Widgets are grouped into sidebars.
 			case 'widgets' :
-				foreach ( $config[ $type ] as $group => $items ) {
-					foreach ( $items as $id ) {
-						if ( ! empty( $core_content[ $type ] ) && ! empty( $core_content[ $type ][ $id ] ) ) {
-							$content[ $type ][ $group ][ $id ] = $core_content[ $type ][ $id ];
+				foreach ( $config[ $type ] as $sidebar_id => $widgets ) {
+					foreach ( $widgets as $widget ) {
+						if ( is_array( $widget ) ) {
+							$content[ $type ][ $sidebar_id ][] = $widget;
+						} elseif ( is_string( $widget ) && ! empty( $core_content[ $type ] ) && ! empty( $core_content[ $type ][ $widget ] ) ) {
+							$content[ $type ][ $sidebar_id ][] = $core_content[ $type ][ $widget ];
 						}
 					}
 				}
 				break;
 
-			// And nav menus are yet another level down
+			// And nav menu items are grouped into nav menus.
 			case 'nav_menus' :
-				foreach ( $config[ $type ] as $group => $args2 ) {
-					// Menu groups need a name
-					if ( empty( $args['name'] ) ) {
-						$args2['name'] = $group;
+				foreach ( $config[ $type ] as $nav_menu_location => $nav_menu ) {
+
+					// Ensure nav menus get a name.
+					if ( empty( $nav_menu['name'] ) ) {
+						$nav_menu['name'] = $nav_menu_location;
 					}
 
-					$content[ $type ][ $group ]['name'] = $args2['name'];
+					$content[ $type ][ $nav_menu_location ]['name'] = $nav_menu['name'];
 
-					// Do we need to check if this is empty?
-					foreach ( $args2['items'] as $id ) {
-						if ( ! empty( $core_content[ $type ] ) && ! empty( $core_content[ $type ][ $id ] ) ) {
-							$content[ $type ][ $group ]['items'][ $id ] = $core_content[ $type ][ $id ];
+					foreach ( $nav_menu['items'] as $nav_menu_item ) {
+						if ( is_array( $nav_menu_item ) ) {
+							$content[ $type ][ $nav_menu_location ]['items'][] = $nav_menu_item;
+						} elseif ( is_string( $nav_menu_item ) && ! empty( $core_content[ $type ] ) && ! empty( $core_content[ $type ][ $nav_menu_item ] ) ) {
+							$content[ $type ][ $nav_menu_location ]['items'][] = $core_content[ $type ][ $nav_menu_item ];
 						}
 					}
 				}
 				break;
 
-
-			// Everything else should map at the next level
+			// Everything else should map at the next level.
 			default :
-				foreach( $config[ $type ] as $id ) {
-					if ( ! empty( $core_content[ $type ] ) && ! empty( $core_content[ $type ][ $id ] ) ) {
-						$content[ $type ][ $id ] = $core_content[ $type ][ $id ];
+				foreach( $config[ $type ] as $i => $item ) {
+					if ( is_array( $item ) ) {
+						$content[ $type ][ $i ] = $item;
+					} elseif ( is_string( $item ) && ! empty( $core_content[ $type ] ) && ! empty( $core_content[ $type ][ $item ] ) ) {
+						$content[ $type ][ $item ] = $core_content[ $type ][ $item ];
 					}
 				}
 				break;
