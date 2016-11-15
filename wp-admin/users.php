@@ -94,7 +94,7 @@ case 'promote':
 	check_admin_referer('bulk-users');
 
 	if ( ! current_user_can( 'promote_users' ) )
-		wp_die( __( 'You can&#8217;t edit that user.' ) );
+		wp_die( __( 'Sorry, you are not allowed to edit that user.' ) );
 
 	if ( empty($_REQUEST['users']) ) {
 		wp_redirect($redirect);
@@ -110,7 +110,7 @@ case 'promote':
 	}
 
 	if ( ! $role || empty( $editable_roles[ $role ] ) ) {
-		wp_die( __( 'You can&#8217;t give users that role.' ) );
+		wp_die( __( 'Sorry, you are not allowed to give users that role.' ) );
 	}
 
 	$userids = $_REQUEST['users'];
@@ -119,7 +119,7 @@ case 'promote':
 		$id = (int) $id;
 
 		if ( ! current_user_can('promote_user', $id) )
-			wp_die(__('You can&#8217;t edit that user.'));
+			wp_die(__('Sorry, you are not allowed to edit that user.'));
 		// The new role of the current user must also have the promote_users cap or be a multisite super admin
 		if ( $id == $current_user->ID && ! $wp_roles->role_objects[ $role ]->has_cap('promote_users')
 			&& ! ( is_multisite() && is_super_admin() ) ) {
@@ -164,14 +164,14 @@ case 'dodelete':
 	}
 
 	if ( ! current_user_can( 'delete_users' ) )
-		wp_die(__('You can&#8217;t delete users.'));
+		wp_die(__('Sorry, you are not allowed to delete users.'));
 
 	$update = 'del';
 	$delete_count = 0;
 
 	foreach ( $userids as $id ) {
 		if ( ! current_user_can( 'delete_user', $id ) )
-			wp_die(__( 'You can&#8217;t delete that user.' ) );
+			wp_die(__( 'Sorry, you are not allowed to delete that user.' ) );
 
 		if ( $id == $current_user->ID ) {
 			$update = 'err_admin_del';
@@ -204,7 +204,7 @@ case 'delete':
 	}
 
 	if ( ! current_user_can( 'delete_users' ) )
-		$errors = new WP_Error( 'edit_users', __( 'You can&#8217;t delete users.' ) );
+		$errors = new WP_Error( 'edit_users', __( 'Sorry, you are not allowed to delete users.' ) );
 
 	if ( empty($_REQUEST['users']) )
 		$userids = array( intval( $_REQUEST['user'] ) );
@@ -314,7 +314,7 @@ case 'doremove':
 	}
 
 	if ( ! current_user_can( 'remove_users' ) )
-		wp_die( __( 'You can&#8217;t remove users.' ) );
+		wp_die( __( 'Sorry, you are not allowed to remove users.' ) );
 
 	$userids = $_REQUEST['users'];
 
@@ -349,7 +349,7 @@ case 'remove':
 	}
 
 	if ( !current_user_can('remove_users') )
-		$error = new WP_Error('edit_users', __('You can&#8217;t remove users.'));
+		$error = new WP_Error('edit_users', __('Sorry, you are not allowed to remove users.'));
 
 	if ( empty($_REQUEST['users']) )
 		$userids = array(intval($_REQUEST['user']));
