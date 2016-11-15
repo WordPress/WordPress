@@ -1838,9 +1838,9 @@ function get_theme_starter_content() {
 			'search' => array( 'search', array(
 				'title' => _x( 'Site Search', 'Theme starter content' ),
 			) ),
-			'text_credits' => array( 'text', array(
-				'title' => _x( 'Site Credits', 'Theme starter content' ),
-				'text' => sprintf( _x( 'This site was created on %s', 'Theme starter content' ), get_date_from_gmt( current_time( 'mysql', 1 ), 'c' ) ),
+			'text_about' => array( 'text', array(
+				'title' => _x( 'About This Site', 'Theme starter content' ),
+				'text' => _x( 'This may be a good place to introduce yourself and your site or include some credits.', 'Theme starter content' ),
 			) ),
 		),
 		'nav_menus' => array(

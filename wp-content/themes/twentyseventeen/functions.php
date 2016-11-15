@@ -108,7 +108,7 @@ function twentyseventeen_setup() {
 			'sidebar-1' => array(
 				'text_business_info',
 				'search',
-				'text_credits',
+				'text_about',
 			),
 
 			'sidebar-2' => array(
@@ -116,7 +116,7 @@ function twentyseventeen_setup() {
 			),
 
 			'sidebar-3' => array(
-				'text_credits',
+				'text_about',
 			),
 		),
 
