@@ -109,7 +109,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				$post = get_post( $post_id );
 
 				if ( ! empty( $post_id ) && $post && ! $this->check_read_post_permission( $post ) ) {
-					return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you cannot read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
+					return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you are not allowed to read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
 				} elseif ( 0 === $post_id && ! current_user_can( 'moderate_comments' ) ) {
 					return new WP_Error( 'rest_cannot_read', __( 'Sorry, you are not allowed to read comments without a post.' ), array( 'status' => rest_authorization_required_code() ) );
 				}
@@ -399,7 +399,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 
 			if ( ! $this->check_read_post_permission( $post ) ) {
-				return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you cannot read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
+				return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you are not allowed to read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
 			}
 
 			if ( ! comments_open( $post->ID ) ) {
@@ -615,7 +615,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( isset( $request['type'] ) && get_comment_type( $id ) !== $request['type'] ) {
-			return new WP_Error( 'rest_comment_invalid_type', __( 'Sorry, you cannot change the comment type.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_comment_invalid_type', __( 'Sorry, you are not allowed to change the comment type.' ), array( 'status' => 404 ) );
 		}
 
 		$prepared_args = $this->prepare_item_for_database( $request );
