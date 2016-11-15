@@ -205,38 +205,50 @@ function wp_generate_attachment_metadata( $attachment_id, $file ) {
 	}
 	// Try to create image thumbnails for PDFs
 	else if ( 'application/pdf' === $mime_type ) {
-		$editor = wp_get_image_editor( $file );
-
 		$fallback_sizes = array(
 			'thumbnail',
 			'medium',
 			'large',
 		);
 
+		/**
+		 * Filters the image sizes generated for non-image mime types.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param array $fallback_sizes An array of image size names.
+		 */
+		$fallback_sizes = apply_filters( 'fallback_intermediate_image_sizes', $fallback_sizes, $metadata );
+
 		$sizes = array();
 
 		foreach ( $fallback_sizes as $s ) {
-			$sizes[$s]['width']  = get_option( "{$s}_size_w" );
-			$sizes[$s]['height'] = get_option( "{$s}_size_h" );
+			$sizes[ $s ]['width']  = get_option( "{$s}_size_w" );
+			$sizes[ $s ]['height'] = get_option( "{$s}_size_h" );
 
 			// Force thumbnails to be soft crops.
 			if ( ! 'thumbnail' === $s ) {
-				$sizes[$s]['crop'] = get_option( "{$s}_crop" );
+				$sizes[ $s ]['crop'] = get_option( "{$s}_crop" );
 			}
 		}
 
-		if ( ! is_wp_error( $editor ) ) { // No support for this type of file
-			$uploaded = $editor->save( $file, 'image/jpeg' );
-			unset( $editor );
+		// Only load PDFs in an image editor if we're processing sizes.
+		if ( ! empty( $sizes ) ) {
+			$editor = wp_get_image_editor( $file );
 
-			// Resize based on the full size image, rather than the source.
-			if ( ! is_wp_error( $uploaded ) ) {
-				$editor = wp_get_image_editor( $uploaded['path'] );
-				unset( $uploaded['path'] );
+			if ( ! is_wp_error( $editor ) ) { // No support for this type of file
+				$uploaded = $editor->save( $file, 'image/jpeg' );
+				unset( $editor );
 
-				if ( ! is_wp_error( $editor ) ) {
-					$metadata['sizes'] = $editor->multi_resize( $sizes );
-					$metadata['sizes']['full'] = $uploaded;
+				// Resize based on the full size image, rather than the source.
+				if ( ! is_wp_error( $uploaded ) ) {
+					$editor = wp_get_image_editor( $uploaded['path'] );
+					unset( $uploaded['path'] );
+
+					if ( ! is_wp_error( $editor ) ) {
+						$metadata['sizes'] = $editor->multi_resize( $sizes );
+						$metadata['sizes']['full'] = $uploaded;
+					}
 				}
 			}
 		}
