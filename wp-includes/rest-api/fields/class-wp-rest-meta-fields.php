@@ -177,7 +177,7 @@ abstract class WP_REST_Meta_Fields {
 			return new WP_Error(
 				'rest_cannot_delete',
 				/* translators: %s: custom field key */
-				sprintf( __( 'You do not have permission to edit the %s custom field.' ), $name ),
+				sprintf( __( 'Sorry, you are not allowed to edit the %s custom field.' ), $name ),
 				array( 'key' => $name, 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -212,7 +212,7 @@ abstract class WP_REST_Meta_Fields {
 			return new WP_Error(
 				'rest_cannot_update',
 				/* translators: %s: custom field key */
-				sprintf( __( 'You do not have permission to edit the %s custom field.' ), $name ),
+				sprintf( __( 'Sorry, you are not allowed to edit the %s custom field.' ), $name ),
 				array( 'key' => $name, 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -283,7 +283,7 @@ abstract class WP_REST_Meta_Fields {
 			return new WP_Error(
 				'rest_cannot_update',
 				/* translators: %s: custom field key */
-				sprintf( __( 'You do not have permission to edit the %s custom field.' ), $name ),
+				sprintf( __( 'Sorry, you are not allowed to edit the %s custom field.' ), $name ),
 				array( 'key' => $name, 'status' => rest_authorization_required_code() )
 			);
 		}
