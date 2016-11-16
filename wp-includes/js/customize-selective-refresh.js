@@ -109,12 +109,14 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 		 * @returns {void}
 		 */
 		createEditShortcutForPlacement: function( placement ) {
-			var partial = this, $shortcut, $placementContainer;
+			var partial = this, $shortcut, $placementContainer, illegalAncestorSelector, illegalContainerSelector;
 			if ( ! placement.container ) {
 				return;
 			}
 			$placementContainer = $( placement.container );
-			if ( ! $placementContainer.length ) {
+			illegalAncestorSelector = 'head';
+			illegalContainerSelector = 'area, audio, base, bdi, bdo, br, button, canvas, col, colgroup, command, datalist, embed, head, hr, html, iframe, img, input, keygen, label, link, map, math, menu, meta, noscript, object, optgroup, option, param, progress, rp, rt, ruby, script, select, source, style, svg, table, tbody, textarea, tfoot, thead, title, tr, track, video, wbr';
+			if ( ! $placementContainer.length || $placementContainer.is( illegalContainerSelector ) || $placementContainer.closest( illegalAncestorSelector ).length ) {
 				return;
 			}
 			$shortcut = partial.createEditShortcut();
