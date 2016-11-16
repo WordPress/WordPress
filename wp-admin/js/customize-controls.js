@@ -1450,7 +1450,7 @@
 				request = api.requestChangesetUpdate();
 				request.done( function() {
 					$( window ).off( 'beforeunload.customize-confirm' );
-					window.location.href = urlParser.href;
+					top.location.href = urlParser.href;
 				} );
 				request.fail( function() {
 					overlay.removeClass( 'customize-loading' );
