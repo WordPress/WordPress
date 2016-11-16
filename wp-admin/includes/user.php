@@ -100,8 +100,10 @@ function edit_user( $user_id = 0 ) {
 			$locale = sanitize_text_field( $_POST['locale'] );
 			if ( 'site-default' === $locale ) {
 				$locale = '';
-			} elseif ( ! in_array( $locale, get_available_languages(), true ) ) {
+			} elseif ( '' === $locale ) {
 				$locale = 'en_US';
+			} elseif ( ! in_array( $locale, get_available_languages(), true ) ) {
+				$locale = '';
 			}
 
 			$user->locale = $locale;
