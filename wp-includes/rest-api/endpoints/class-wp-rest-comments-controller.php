@@ -1266,7 +1266,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		);
 
 		$query_params['author'] = array(
-			'description'       => __( 'Limit result set to comments assigned to specific user ids. Requires authorization.' ),
+			'description'       => __( 'Limit result set to comments assigned to specific user IDs. Requires authorization.' ),
 			'type'              => 'array',
 			'items'             => array(
 				'type'          => 'integer',
@@ -1274,7 +1274,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		);
 
 		$query_params['author_exclude'] = array(
-			'description'       => __( 'Ensure result set excludes comments assigned to specific user ids. Requires authorization.' ),
+			'description'       => __( 'Ensure result set excludes comments assigned to specific user IDs. Requires authorization.' ),
 			'type'              => 'array',
 			'items'             => array(
 				'type'          => 'integer',
@@ -1295,7 +1295,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		);
 
 		$query_params['exclude'] = array(
-			'description'        => __( 'Ensure result set excludes specific ids.' ),
+			'description'        => __( 'Ensure result set excludes specific IDs.' ),
 			'type'               => 'array',
 			'items'              => array(
 				'type'           => 'integer',
@@ -1304,7 +1304,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		);
 
 		$query_params['include'] = array(
-			'description'        => __( 'Limit result set to specific ids.' ),
+			'description'        => __( 'Limit result set to specific IDs.' ),
 			'type'               => 'array',
 			'items'              => array(
 				'type'           => 'integer',
@@ -1350,7 +1350,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		$query_params['parent'] = array(
 			'default'           => array(),
-			'description'       => __( 'Limit result set to resources of specific parent ids.' ),
+			'description'       => __( 'Limit result set to resources of specific parent IDs.' ),
 			'type'              => 'array',
 			'items'             => array(
 				'type'          => 'integer',
@@ -1359,7 +1359,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		$query_params['parent_exclude'] = array(
 			'default'           => array(),
-			'description'       => __( 'Ensure result set excludes specific parent ids.' ),
+			'description'       => __( 'Ensure result set excludes specific parent IDs.' ),
 			'type'              => 'array',
 			'items'             => array(
 				'type'          => 'integer',
@@ -1368,7 +1368,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		$query_params['post']   = array(
 			'default'           => array(),
-			'description'       => __( 'Limit result set to resources assigned to specific post ids.' ),
+			'description'       => __( 'Limit result set to resources assigned to specific post IDs.' ),
 			'type'              => 'array',
 			'items'             => array(
 				'type'          => 'integer',

@@ -886,7 +886,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		$query_params['context']['default'] = 'view';
 
 		$query_params['exclude'] = array(
-			'description'       => __( 'Ensure result set excludes specific ids.' ),
+			'description'       => __( 'Ensure result set excludes specific IDs.' ),
 			'type'              => 'array',
 			'items'             => array(
 				'type'          => 'integer',
@@ -895,7 +895,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		);
 
 		$query_params['include'] = array(
-			'description'       => __( 'Limit result set to specific ids.' ),
+			'description'       => __( 'Limit result set to specific IDs.' ),
 			'type'              => 'array',
 			'items'             => array(
 				'type'          => 'integer',

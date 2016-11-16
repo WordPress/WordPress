@@ -1992,7 +1992,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		);
 
 		$params['exclude'] = array(
-			'description'        => __( 'Ensure result set excludes specific ids.' ),
+			'description'        => __( 'Ensure result set excludes specific IDs.' ),
 			'type'               => 'array',
 			'items'              => array(
 				'type'           => 'integer',
@@ -2001,7 +2001,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		);
 
 		$params['include'] = array(
-			'description'        => __( 'Limit result set to specific ids.' ),
+			'description'        => __( 'Limit result set to specific IDs.' ),
 			'type'               => 'array',
 			'items'              => array(
 				'type'           => 'integer',
