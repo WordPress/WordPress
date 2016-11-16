@@ -1852,17 +1852,22 @@ function get_theme_starter_content() {
 			'page_about' => array(
 				'type' => 'post_type',
 				'object' => 'page',
-				'object_id' => '{{about-us}}',
+				'object_id' => '{{about}}',
 			),
 			'page_blog' => array(
 				'type' => 'post_type',
 				'object' => 'page',
 				'object_id' => '{{blog}}',
 			),
+			'page_news' => array(
+				'type' => 'post_type',
+				'object' => 'page',
+				'object_id' => '{{news}}',
+			),
 			'page_contact' => array(
 				'type' => 'post_type',
 				'object' => 'page',
-				'object_id' => '{{contact-us}}',
+				'object_id' => '{{contact}}',
 			),
 
 			'link_email' => array(
@@ -1909,28 +1914,32 @@ function get_theme_starter_content() {
 		'posts' => array(
 			'home' => array(
 				'post_type' => 'page',
-				'post_title' => _x( 'Homepage', 'Theme starter content' ),
-				'post_content' => _x( 'Welcome home.', 'Theme starter content' ),
+				'post_title' => _x( 'Home', 'Theme starter content' ),
+				'post_content' => _x( 'Welcome to your site! This is your homepage, which is what most visitors will see when they come to your site for the first time.', 'Theme starter content' ),
 			),
-			'about-us' => array(
+			'about' => array(
 				'post_type' => 'page',
-				'post_title' => _x( 'About Us', 'Theme starter content' ),
-				'post_content' => _x( 'More than you ever wanted to know.', 'Theme starter content' ),
+				'post_title' => _x( 'About', 'Theme starter content' ),
+				'post_content' => _x( 'You might be an artist who would like to introduce yourself and your work here or maybe you&rsquo;re a business with a mission to describe.', 'Theme starter content' ),
 			),
-			'contact-us' => array(
+			'contact' => array(
 				'post_type' => 'page',
-				'post_title' => _x( 'Contact Us', 'Theme starter content' ),
-				'post_content' => _x( 'Call us at 999-999-9999.', 'Theme starter content' ),
+				'post_title' => _x( 'Contact', 'Theme starter content' ),
+				'post_content' => _x( 'This is a page with some basic contact information, such as an address and phone number. You might also try a plugin to add a contact form.', 'Theme starter content' ),
 			),
 			'blog' => array(
 				'post_type' => 'page',
 				'post_title' => _x( 'Blog', 'Theme starter content' ),
 			),
+			'news' => array(
+				'post_type' => 'page',
+				'post_title' => _x( 'News', 'Theme starter content' ),
+			),
 
 			'homepage-section' => array(
 				'post_type' => 'page',
 				'post_title' => _x( 'A homepage section', 'Theme starter content' ),
-				'post_content' => _x( 'This is an example of a homepage section, which are managed in theme options.', 'Theme starter content' ),
+				'post_content' => _x( 'This is an example of a homepage section. Homepage sections can be any page other than the homepage itself, including the page that shows your latest blog posts.', 'Theme starter content' ),
 			),
 		),
 	);

@@ -122,8 +122,8 @@ function twentyseventeen_setup() {
 
 		'posts' => array(
 			'home',
-			'about-us',
-			'contact-us',
+			'about',
+			'contact',
 			'blog',
 			'homepage-section',
 		),
@@ -136,9 +136,9 @@ function twentyseventeen_setup() {
 
 		'theme_mods' => array(
 			'panel_1' => '{{homepage-section}}',
-			'panel_2' => '{{about-us}}',
+			'panel_2' => '{{about}}',
 			'panel_3' => '{{blog}}',
-			'panel_4' => '{{contact-us}}',
+			'panel_4' => '{{contact}}',
 		),
 
 		'nav_menus' => array(
