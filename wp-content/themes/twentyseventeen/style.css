@@ -1680,6 +1680,32 @@ body:not(.title-tagline-hidden) .site-branding-text {
 	transform: translateX(-50%) translateY(-50%);
 }
 
+.wp-custom-header .wp-custom-header-video-button { /* Speficity prevents .color-dark button overrides */
+	background-color: rgba( 34, 34, 34, 0.5 );
+	border: 1px solid rgba( 255, 255, 255, 0.6 );
+	color: rgba( 255, 255, 255, 0.6 );
+	height: 45px;
+	overflow: hidden;
+	padding: 0;
+	position: fixed;
+	right: 30px;
+	top: 30px;
+	-webkit-transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.3s ease-in-out;
+	transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, color 0.3s ease-in-out;
+	width: 45px;
+}
+
+.wp-custom-header .wp-custom-header-video-button:hover,
+.wp-custom-header .wp-custom-header-video-button:focus { /* SSpeficity prevents .color-dark button overrides */
+	border-color: rgba( 255, 255, 255, 0.8 );
+	background-color: rgba( 34, 34, 34, 0.8 );
+	color: #fff;
+}
+
+.admin-bar .wp-custom-header-video-button {
+	top: 62px;
+}
+
 .has-header-image:not(.twentyseventeen-front-page):not(.home) .custom-header-image img {
 	bottom: 0;
 	position: absolute;
