@@ -964,7 +964,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				$user_obj = get_userdata( $post_author );
 
 				if ( ! $user_obj ) {
-					return new WP_Error( 'rest_invalid_author', __( 'Invalid author id.' ), array( 'status' => 400 ) );
+					return new WP_Error( 'rest_invalid_author', __( 'Invalid author ID.' ), array( 'status' => 400 ) );
 				}
 			}
 
@@ -995,7 +995,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$parent = get_post( (int) $request['parent'] );
 
 			if ( empty( $parent ) ) {
-				return new WP_Error( 'rest_post_invalid_id', __( 'Invalid post parent id.' ), array( 'status' => 400 ) );
+				return new WP_Error( 'rest_post_invalid_id', __( 'Invalid post parent ID.' ), array( 'status' => 400 ) );
 			}
 
 			$prepared_post->post_parent = (int) $parent->ID;
@@ -1086,7 +1086,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			if ( $result ) {
 				return true;
 			} else {
-				return new WP_Error( 'rest_invalid_featured_media', __( 'Invalid featured media id.' ), array( 'status' => 400 ) );
+				return new WP_Error( 'rest_invalid_featured_media', __( 'Invalid featured media ID.' ), array( 'status' => 400 ) );
 			}
 		} else {
 			return delete_post_thumbnail( $post_id );
@@ -1717,7 +1717,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( $post_type_obj->hierarchical ) {
 			$schema['properties']['parent'] = array(
-				'description' => __( 'The id for the parent of the object.' ),
+				'description' => __( 'The ID for the parent of the object.' ),
 				'type'        => 'integer',
 				'context'     => array( 'view', 'edit' ),
 			);
@@ -1831,7 +1831,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 				case 'author':
 					$schema['properties']['author'] = array(
-						'description' => __( 'The id for the author of the object.' ),
+						'description' => __( 'The ID for the author of the object.' ),
 						'type'        => 'integer',
 						'context'     => array( 'view', 'edit', 'embed' ),
 					);
@@ -1869,7 +1869,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 				case 'thumbnail':
 					$schema['properties']['featured_media'] = array(
-						'description' => __( 'The id of the featured media for the object.' ),
+						'description' => __( 'The ID of the featured media for the object.' ),
 						'type'        => 'integer',
 						'context'     => array( 'view', 'edit' ),
 					);
@@ -2050,7 +2050,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( $post_type_obj->hierarchical || 'attachment' === $this->post_type ) {
 			$params['parent'] = array(
-				'description'       => __( 'Limit result set to those of particular parent ids.' ),
+				'description'       => __( 'Limit result set to those of particular parent IDs.' ),
 				'type'              => 'array',
 				'items'             => array(
 					'type'          => 'integer',
@@ -2058,7 +2058,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				'default'           => array(),
 			);
 			$params['parent_exclude'] = array(
-				'description'       => __( 'Limit result set to all items except those of a particular parent id.' ),
+				'description'       => __( 'Limit result set to all items except those of a particular parent ID.' ),
 				'type'              => 'array',
 				'items'             => array(
 					'type'          => 'integer',

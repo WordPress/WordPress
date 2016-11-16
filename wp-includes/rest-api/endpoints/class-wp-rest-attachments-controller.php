@@ -453,7 +453,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		);
 
 		$schema['properties']['post'] = array(
-			'description'     => __( 'The id for the associated post of the resource.' ),
+			'description'     => __( 'The ID for the associated post of the resource.' ),
 			'type'            => 'integer',
 			'context'         => array( 'view', 'edit' ),
 		);

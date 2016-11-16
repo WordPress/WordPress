@@ -1021,7 +1021,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				$prepared_comment['comment_author_email'] = $user->user_email;
 				$prepared_comment['comment_author_url'] = $user->user_url;
 			} else {
-				return new WP_Error( 'rest_comment_author_invalid', __( 'Invalid comment author id.' ), array( 'status' => 400 ) );
+				return new WP_Error( 'rest_comment_author_invalid', __( 'Invalid comment author ID.' ), array( 'status' => 400 ) );
 			}
 		}
 
@@ -1102,7 +1102,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'readonly'     => true,
 				),
 				'author'           => array(
-					'description'  => __( 'The id of the user object, if author was a user.' ),
+					'description'  => __( 'The ID of the user object, if author was a user.' ),
 					'type'         => 'integer',
 					'context'      => array( 'view', 'edit', 'embed' ),
 				),
@@ -1187,13 +1187,13 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'readonly'     => true,
 				),
 				'parent'           => array(
-					'description'  => __( 'The id for the parent of the object.' ),
+					'description'  => __( 'The ID for the parent of the object.' ),
 					'type'         => 'integer',
 					'context'      => array( 'view', 'edit', 'embed' ),
 					'default'      => 0,
 				),
 				'post'             => array(
-					'description'  => __( 'The id of the associated post object.' ),
+					'description'  => __( 'The ID of the associated post object.' ),
 					'type'         => 'integer',
 					'context'      => array( 'view', 'edit' ),
 					'default'      => 0,

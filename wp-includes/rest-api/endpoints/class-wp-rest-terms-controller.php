@@ -860,7 +860,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		if ( $taxonomy->hierarchical ) {
 			$schema['properties']['parent'] = array(
-				'description'  => __( 'The id for the parent of the resource.' ),
+				'description'  => __( 'The ID for the parent of the resource.' ),
 				'type'         => 'integer',
 				'context'      => array( 'view', 'edit' ),
 			);

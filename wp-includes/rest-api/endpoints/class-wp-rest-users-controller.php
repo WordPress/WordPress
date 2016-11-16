@@ -312,7 +312,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		$types = get_post_types( array( 'show_in_rest' => true ), 'names' );
 
 		if ( empty( $id ) || empty( $user->ID ) ) {
-			return new WP_Error( 'rest_user_invalid_id', __( 'Invalid resource id.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_user_invalid_id', __( 'Invalid resource ID.' ), array( 'status' => 404 ) );
 		}
 
 		if ( get_current_user_id() === $id ) {
@@ -342,7 +342,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		$user = get_userdata( $id );
 
 		if ( empty( $id ) || empty( $user->ID ) ) {
-			return new WP_Error( 'rest_user_invalid_id', __( 'Invalid resource id.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_user_invalid_id', __( 'Invalid resource ID.' ), array( 'status' => 404 ) );
 		}
 
 		$user = $this->prepare_item_for_response( $user, $request );
@@ -539,7 +539,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		$user = get_userdata( $id );
 
 		if ( ! $user ) {
-			return new WP_Error( 'rest_user_invalid_id', __( 'Invalid resource id.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_user_invalid_id', __( 'Invalid resource ID.' ), array( 'status' => 404 ) );
 		}
 
 		if ( email_exists( $request['email'] ) && $request['email'] !== $user->user_email ) {
@@ -682,12 +682,12 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		$user = get_userdata( $id );
 
 		if ( ! $user ) {
-			return new WP_Error( 'rest_user_invalid_id', __( 'Invalid resource id.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_user_invalid_id', __( 'Invalid resource ID.' ), array( 'status' => 404 ) );
 		}
 
 		if ( ! empty( $reassign ) ) {
 			if ( $reassign === $id || ! get_userdata( $reassign ) ) {
-				return new WP_Error( 'rest_user_invalid_reassign', __( 'Invalid resource id for reassignment.' ), array( 'status' => 400 ) );
+				return new WP_Error( 'rest_user_invalid_reassign', __( 'Invalid resource ID for reassignment.' ), array( 'status' => 400 ) );
 			}
 		}
 
