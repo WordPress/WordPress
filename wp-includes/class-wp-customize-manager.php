@@ -3596,7 +3596,7 @@ final class WP_Customize_Manager {
 		$this->add_setting( 'external_header_video', array(
 			'theme_supports'    => array( 'custom-header', 'video' ),
 			'transport'         => 'postMessage',
-			'sanitize_callback' => 'esc_url',
+			'sanitize_callback' => 'esc_url_raw',
 			'validate_callback' => array( $this, '_validate_external_header_video' ),
 		) );
 

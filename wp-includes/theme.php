@@ -1381,6 +1381,12 @@ function get_header_video_settings() {
 		'height'    => absint( $header->height ),
 		'minWidth'  => 900,
 		'minHeight' => 500,
+		'l10n'      => array(
+			'pause'      => __( 'Pause' ),
+			'play'       => __( 'Play' ),
+			'pauseSpeak' => __( 'Video is paused.'),
+			'playSpeak'  => __( 'Video is playing.'),
+		),
 	);
 
 	if ( preg_match( '#^https?://(?:www\.)?(?:youtube\.com/watch|youtu\.be/)#', $video_url ) ) {
