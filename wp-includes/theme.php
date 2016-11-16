@@ -1835,12 +1835,30 @@ function get_theme_starter_content() {
 					_x( 'Monday&mdash;Friday: 9:00AM&ndash;5:00PM', 'Theme starter content' ) . '<br />' . _x( 'Saturday &amp; Sunday: 11:00AM&ndash;3:00PM', 'Theme starter content' ) . '</p>'
 				) ),
 			) ),
-			'search' => array( 'search', array(
-				'title' => _x( 'Site Search', 'Theme starter content' ),
-			) ),
 			'text_about' => array( 'text', array(
 				'title' => _x( 'About This Site', 'Theme starter content' ),
 				'text' => _x( 'This may be a good place to introduce yourself and your site or include some credits.', 'Theme starter content' ),
+			) ),
+			'archives' => array( 'archives', array(
+				'title' => _x( 'Archives', 'Theme starter content' ),
+			) ),
+			'calendar' => array( 'calendar', array(
+				'title' => _x( 'Calendar', 'Theme starter content' ),
+			) ),
+			'categories' => array( 'categories', array(
+				'title' => _x( 'Categories', 'Theme starter content' ),
+			) ),
+			'meta' => array( 'meta', array(
+				'title' => _x( 'Meta', 'Theme starter content' ),
+			) ),
+			'recent-comments' => array( 'recent-comments', array(
+				'title' => _x( 'Recent Comments', 'Theme starter content' ),
+			) ),
+			'recent-posts' => array( 'recent-posts', array(
+				'title' => _x( 'Recent Posts', 'Theme starter content' ),
+			) ),
+			'search' => array( 'search', array(
+				'title' => _x( 'Search', 'Theme starter content' ),
 			) ),
 		),
 		'nav_menus' => array(

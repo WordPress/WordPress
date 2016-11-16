@@ -117,6 +117,7 @@ function twentyseventeen_setup() {
 
 			'sidebar-3' => array(
 				'text_about',
+				'search',
 			),
 		),
 
