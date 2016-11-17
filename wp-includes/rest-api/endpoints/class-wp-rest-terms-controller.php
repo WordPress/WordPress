@@ -546,7 +546,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! current_user_can( 'delete_term', $term->term_id ) ) {
-			return new WP_Error( 'rest_cannot_delete', __( 'Sorry, you are not allowed to delete resource.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_delete', __( 'Sorry, you are not allowed to delete this resource.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -823,7 +823,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 					'context'      => array( 'view', 'edit' ),
 				),
 				'link'        => array(
-					'description'  => __( 'URL to the resource.' ),
+					'description'  => __( 'URL of the resource.' ),
 					'type'         => 'string',
 					'format'       => 'uri',
 					'context'      => array( 'view', 'embed', 'edit' ),

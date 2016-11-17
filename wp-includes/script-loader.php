@@ -231,7 +231,7 @@ function wp_default_scripts( &$scripts ) {
 
 	// Strings for 'jquery-ui-autocomplete' live region messages
 	did_action( 'init' ) && $scripts->localize( 'jquery-ui-autocomplete', 'uiAutocompleteL10n', array(
-		'noResults' => __( 'No search results.' ),
+		'noResults' => __( 'No results found.' ),
 		/* translators: Number of results found when using jQuery UI Autocomplete */
 		'oneResult' => __( '1 result found. Use up and down arrow keys to navigate.' ),
 		/* translators: %d: Number of results found when using jQuery UI Autocomplete */

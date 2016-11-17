@@ -3123,7 +3123,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 	$valid_date = wp_checkdate( $mm, $jj, $aa, $post_date );
 	if ( ! $valid_date ) {
 		if ( $wp_error ) {
-			return new WP_Error( 'invalid_date', __( 'Whoops, the provided date is invalid.' ) );
+			return new WP_Error( 'invalid_date', __( 'Invalid date.' ) );
 		} else {
 			return 0;
 		}
@@ -3403,7 +3403,7 @@ function wp_insert_post( $postarr, $wp_error = false ) {
 		$page_templates = wp_get_theme()->get_page_templates( $post );
 		if ( 'default' != $postarr['page_template'] && ! isset( $page_templates[ $postarr['page_template'] ] ) ) {
 			if ( $wp_error ) {
-				return new WP_Error('invalid_page_template', __('The page template is invalid.'));
+				return new WP_Error( 'invalid_page_template', __( 'Invalid page template.' ) );
 			}
 			update_post_meta( $post_ID, '_wp_page_template', 'default' );
 		} else {

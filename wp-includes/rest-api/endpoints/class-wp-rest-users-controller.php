@@ -387,7 +387,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	public function create_item_permissions_check( $request ) {
 
 		if ( ! current_user_can( 'create_users' ) ) {
-			return new WP_Error( 'rest_cannot_create_user', __( 'Sorry, you are not allowed to create resource.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_create_user', __( 'Sorry, you are not allowed to create new resource.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -543,7 +543,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		}
 
 		if ( email_exists( $request['email'] ) && $request['email'] !== $user->user_email ) {
-			return new WP_Error( 'rest_user_invalid_email', __( 'Email address is invalid.' ), array( 'status' => 400 ) );
+			return new WP_Error( 'rest_user_invalid_email', __( 'Invalid email address.' ), array( 'status' => 400 ) );
 		}
 
 		if ( ! empty( $request['username'] ) && $request['username'] !== $user->user_login ) {
@@ -551,7 +551,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! empty( $request['slug'] ) && $request['slug'] !== $user->user_nicename && get_user_by( 'slug', $request['slug'] ) ) {
-			return new WP_Error( 'rest_user_invalid_slug', __( 'Slug is invalid.' ), array( 'status' => 400 ) );
+			return new WP_Error( 'rest_user_invalid_slug', __( 'Invalid slug.' ), array( 'status' => 400 ) );
 		}
 
 		if ( ! empty( $request['roles'] ) ) {
@@ -1139,7 +1139,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 					'context'     => array( 'embed', 'view', 'edit' ),
 				),
 				'link'        => array(
-					'description' => __( 'Author URL to the resource.' ),
+					'description' => __( 'Author URL of the resource.' ),
 					'type'        => 'string',
 					'format'      => 'uri',
 					'context'     => array( 'embed', 'view', 'edit' ),

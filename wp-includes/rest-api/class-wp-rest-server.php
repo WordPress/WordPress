@@ -285,7 +285,7 @@ class WP_REST_Server {
 
 			$jsonp_callback = $_GET['_jsonp'];
 			if ( ! wp_check_jsonp_callback( $jsonp_callback ) ) {
-				echo $this->json_error( 'rest_callback_invalid', __( 'The JSONP callback function is invalid.' ), 400 );
+				echo $this->json_error( 'rest_callback_invalid', __( 'Invalid JSONP callback function.' ), 400 );
 				return false;
 			}
 		}

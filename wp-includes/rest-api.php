@@ -1040,7 +1040,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 		switch ( $args['format'] ) {
 			case 'date-time' :
 				if ( ! rest_parse_date( $value ) ) {
-					return new WP_Error( 'rest_invalid_date', __( 'The date you provided is invalid.' ) );
+					return new WP_Error( 'rest_invalid_date', __( 'Invalid date.' ) );
 				}
 				break;
 
@@ -1050,7 +1050,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 				//
 				// https://core.trac.wordpress.org/ticket/38506
 				if ( ! is_email( $value ) || strlen( $value ) < 6 ) {
-					return new WP_Error( 'rest_invalid_email', __( 'The email address you provided is invalid.' ) );
+					return new WP_Error( 'rest_invalid_email', __( 'Invalid email address.' ) );
 				}
 				break;
 			case 'ipv4' :
