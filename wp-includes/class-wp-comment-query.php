@@ -996,6 +996,8 @@ class WP_Comment_Query {
 				$parent_query_args['parent__in']    = $uncached_parent_ids;
 				$parent_query_args['no_found_rows'] = true;
 				$parent_query_args['hierarchical']  = false;
+				$parent_query_args['offset']        = 0;
+				$parent_query_args['number']        = 0;
 
 				$level_comments = get_comments( $parent_query_args );
 
