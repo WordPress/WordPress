@@ -93,11 +93,14 @@
 
 		// Replace any new markers nodes with views.
 		editor.on( 'setcontent', function() {
+			// Make sure that the editor is focussed.
+			// May refresh the content internally which resets the iframes.
+			editor.focus();
 			wp.mce.views.render();
 		} );
 
 		// Empty view nodes for easier processing.
-		editor.on( 'preprocess', function( event ) {
+		editor.on( 'preprocess hide', function( event ) {
 			editor.$( 'div[data-wpview-text], p[data-wpview-marker]', event.node ).each( function( i, node ) {
 				node.innerHTML = '.';
 			} );
