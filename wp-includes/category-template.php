@@ -624,8 +624,9 @@ function wp_list_categories( $args = '' ) {
 		$output .= walk_category_tree( $categories, $depth, $r );
 	}
 
-	if ( $r['title_li'] && 'list' == $r['style'] )
+	if ( $r['title_li'] && 'list' == $r['style'] && ( ! empty( $categories ) || ! $r['hide_title_if_empty'] ) ) {
 		$output .= '</ul></li>';
+	}
 
 	/**
 	 * Filters the HTML output of a taxonomy list.
