@@ -1824,7 +1824,7 @@ function get_editor_stylesheets() {
  */
 function get_theme_starter_content() {
 	$theme_support = get_theme_support( 'starter-content' );
-	if ( ! empty( $theme_support ) ) {
+	if ( is_array( $theme_support ) && ! empty( $theme_support[0] ) && is_array( $theme_support[0] ) ) {
 		$config = $theme_support[0];
 	} else {
 		$config = array();

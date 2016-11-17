@@ -895,7 +895,7 @@ final class WP_Customize_Manager {
 	 * @access private
 	 * @var array
 	 */
-	protected $starter_content_settings_ids = array();
+	protected $pending_starter_content_settings_ids = array();
 
 	/**
 	 * Import theme starter content into the customized state.
@@ -953,7 +953,7 @@ final class WP_Customize_Manager {
 				$setting_value = $this->widgets->sanitize_widget_js_instance( $instance );
 				if ( empty( $changeset_data[ $setting_id ] ) || ! empty( $changeset_data[ $setting_id ]['starter_content'] ) ) {
 					$this->set_post_value( $setting_id, $setting_value );
-					$this->starter_content_settings_ids[] = $setting_id;
+					$this->pending_starter_content_settings_ids[] = $setting_id;
 				}
 				$sidebar_widget_ids[] = $widget_id;
 			}
@@ -961,7 +961,7 @@ final class WP_Customize_Manager {
 			$setting_id = sprintf( 'sidebars_widgets[%s]', $sidebar_id );
 			if ( empty( $changeset_data[ $setting_id ] ) || ! empty( $changeset_data[ $setting_id ]['starter_content'] ) ) {
 				$this->set_post_value( $setting_id, $sidebar_widget_ids );
-				$this->starter_content_settings_ids[] = $setting_id;
+				$this->pending_starter_content_settings_ids[] = $setting_id;
 			}
 		}
 
@@ -1015,7 +1015,7 @@ final class WP_Customize_Manager {
 			if ( empty( $changeset_data[ $setting_id ] ) || ! empty( $changeset_data[ $setting_id ]['starter_content'] ) ) {
 				$nav_menus_created_posts = array_unique( array_merge( $nav_menus_created_posts, wp_list_pluck( $posts, 'ID' ) ) );
 				$this->set_post_value( $setting_id, array_values( $nav_menus_created_posts ) );
-				$this->starter_content_settings_ids[] = $setting_id;
+				$this->pending_starter_content_settings_ids[] = $setting_id;
 			}
 		}
 
@@ -1056,7 +1056,7 @@ final class WP_Customize_Manager {
 			$this->set_post_value( $nav_menu_setting_id, array(
 				'name' => isset( $nav_menu['name'] ) ? $nav_menu['name'] : $nav_menu_location,
 			) );
-			$this->starter_content_settings_ids[] = $nav_menu_setting_id;
+			$this->pending_starter_content_settings_ids[] = $nav_menu_setting_id;
 
 			// @todo Add support for menu_item_parent.
 			$position = 0;
@@ -1083,14 +1083,14 @@ final class WP_Customize_Manager {
 
 				if ( empty( $changeset_data[ $nav_menu_item_setting_id ] ) || ! empty( $changeset_data[ $nav_menu_item_setting_id ]['starter_content'] ) ) {
 					$this->set_post_value( $nav_menu_item_setting_id, $nav_menu_item );
-					$this->starter_content_settings_ids[] = $nav_menu_item_setting_id;
+					$this->pending_starter_content_settings_ids[] = $nav_menu_item_setting_id;
 				}
 			}
 
 			$setting_id = sprintf( 'nav_menu_locations[%s]', $nav_menu_location );
 			if ( empty( $changeset_data[ $setting_id ] ) || ! empty( $changeset_data[ $setting_id ]['starter_content'] ) ) {
 				$this->set_post_value( $setting_id, $nav_menu_term_id );
-				$this->starter_content_settings_ids[] = $setting_id;
+				$this->pending_starter_content_settings_ids[] = $setting_id;
 			}
 		}
 
@@ -1102,7 +1102,7 @@ final class WP_Customize_Manager {
 
 			if ( empty( $changeset_data[ $name ] ) || ! empty( $changeset_data[ $name ]['starter_content'] ) ) {
 				$this->set_post_value( $name, $value );
-				$this->starter_content_settings_ids[] = $name;
+				$this->pending_starter_content_settings_ids[] = $name;
 			}
 		}
 
@@ -1114,11 +1114,11 @@ final class WP_Customize_Manager {
 
 			if ( empty( $changeset_data[ $name ] ) || ! empty( $changeset_data[ $name ]['starter_content'] ) ) {
 				$this->set_post_value( $name, $value );
-				$this->starter_content_settings_ids[] = $name;
+				$this->pending_starter_content_settings_ids[] = $name;
 			}
 		}
 
-		if ( ! empty( $this->starter_content_settings_ids ) ) {
+		if ( ! empty( $this->pending_starter_content_settings_ids ) ) {
 			if ( did_action( 'customize_register' ) ) {
 				$this->_save_starter_content_changeset();
 			} else {
@@ -1135,14 +1135,16 @@ final class WP_Customize_Manager {
 	 */
 	public function _save_starter_content_changeset() {
 
-		if ( empty( $this->starter_content_settings_ids ) ) {
+		if ( empty( $this->pending_starter_content_settings_ids ) ) {
 			return;
 		}
 
 		$this->save_changeset_post( array(
-			'data' => array_fill_keys( $this->starter_content_settings_ids, array( 'starter_content' => true ) ),
+			'data' => array_fill_keys( $this->pending_starter_content_settings_ids, array( 'starter_content' => true ) ),
 			'starter_content' => true,
 		) );
+
+		$this->pending_starter_content_settings_ids = array();
 	}
 
 	/**
