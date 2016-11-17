@@ -3037,12 +3037,18 @@ class wpdb {
 			return str_replace( '`', '', $maybe[1] );
 		}
 
-		// SHOW TABLE STATUS and SHOW TABLES
-		if ( preg_match( '/^\s*(?:'
-				. 'SHOW\s+TABLE\s+STATUS.+(?:LIKE\s+|WHERE\s+Name\s*=\s*)'
-				. '|SHOW\s+(?:FULL\s+)?TABLES.+(?:LIKE\s+|WHERE\s+Name\s*=\s*)'
-				. ')\W((?:[0-9a-zA-Z$_.`-]|[\xC2-\xDF][\x80-\xBF])+)\W/is', $query, $maybe ) ) {
-			return str_replace( '`', '', $maybe[1] );
+		// SHOW TABLE STATUS and SHOW TABLES WHERE Name = 'wp_posts'
+		if ( preg_match( '/^\s*SHOW\s+(?:TABLE\s+STATUS|(?:FULL\s+)?TABLES).+WHERE\s+Name\s*=\s*("|\')((?:[0-9a-zA-Z$_.-]|[\xC2-\xDF][\x80-\xBF])+)\\1/is', $query, $maybe ) ) {
+			return $maybe[2];
+		}
+
+		// SHOW TABLE STATUS LIKE and SHOW TABLES LIKE 'wp\_123\_%'
+		// This quoted LIKE operand seldom holds a full table name.
+		// It is usually a pattern for matching a prefix so we just
+		// strip the trailing % and unescape the _ to get 'wp_123_'
+		// which drop-ins can use for routing these SQL statements.
+		if ( preg_match( '/^\s*SHOW\s+(?:TABLE\s+STATUS|(?:FULL\s+)?TABLES)\s+(?:WHERE\s+Name\s+)?LIKE\s*("|\')((?:[\\\\0-9a-zA-Z$_.-]|[\xC2-\xDF][\x80-\xBF])+)%?\\1/is', $query, $maybe ) ) {
+			return str_replace( '\\_', '_', $maybe[2] );
 		}
 
 		// Big pattern for the rest of the table-related queries.
