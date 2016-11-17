@@ -1,5 +1,5 @@
 /* global YT */
-( function( window, settings ) {
+(function( window, settings ) {
 
 	var NativeHandler, YouTubeHandler;
 
@@ -106,7 +106,7 @@
 				button = document.createElement( 'button' );
 
 			this.settings = settings;
-			this.container = document.getElementById( 'wp-custom-header' ),
+			this.container = document.getElementById( 'wp-custom-header' );
 			this.button = button;
 
 			button.setAttribute( 'type', 'button' );
@@ -228,7 +228,7 @@
 	/**
 	 * Create a custom handler.
 	 *
-	 * @param  {object} protoProps Properties to apply to the prototype.
+	 * @param {object} protoProps Properties to apply to the prototype.
 	 * @return CustomHandler The subclass.
 	 */
 	BaseHandler.extend = function( protoProps ) {
