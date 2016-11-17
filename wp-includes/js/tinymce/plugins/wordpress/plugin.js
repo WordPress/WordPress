@@ -553,10 +553,10 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			var access = 'Shift+Alt+';
 			var meta = 'Ctrl+';
 
-			// For Mac: shift = \u2303, ctrl = \u21E7, cmd = \u2318, alt = \u2325
+			// For Mac: ctrl = \u2303, cmd = \u2318, alt = \u2325
 
 			if ( tinymce.Env.mac ) {
-				access = '\u2303\u2325 ';
+				access = '\u2303\u2325';
 				meta = '\u2318';
 			}
 
