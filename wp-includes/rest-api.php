@@ -869,23 +869,23 @@ function rest_parse_request_arg( $value, $request, $param ) {
 }
 
 /**
- * Determines if a IPv4 address is valid.
+ * Determines if an IP address is valid.
  *
- * Does not handle IPv6 addresses.
+ * Handles both IPv4 and IPv6 addresses.
  *
  * @since 4.7.0
  *
- * @param  string $ipv4 IP 32-bit address.
- * @return string|false The valid IPv4 address, otherwise false.
+ * @param  string $ip IP address.
+ * @return string|false The valid IP address, otherwise false.
  */
-function rest_is_ip_address( $ipv4 ) {
-	$pattern = '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/';
+function rest_is_ip_address( $ip ) {
+	$ipv4_pattern = '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/';
 
-	if ( ! preg_match( $pattern, $ipv4 ) ) {
+	if ( ! preg_match( $ipv4_pattern, $ip ) && ! Requests_IPv6::check_ipv6( $ip ) ) {
 		return false;
 	}
 
-	return $ipv4;
+	return $ip;
 }
 
 /**
@@ -1053,9 +1053,9 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 					return new WP_Error( 'rest_invalid_email', __( 'Invalid email address.' ) );
 				}
 				break;
-			case 'ipv4' :
+			case 'ip' :
 				if ( ! rest_is_ip_address( $value ) ) {
-					/* translators: %s: IP address */ 
+					/* translators: %s: IP address */
 					return new WP_Error( 'rest_invalid_param', sprintf( __( '%s is not a valid IP address.' ), $value ) );
 				}
 				break;
@@ -1156,7 +1156,7 @@ function rest_sanitize_value_from_schema( $value, $args ) {
 			case 'uri' :
 				return esc_url_raw( $value );
 
-			case 'ipv4' :
+			case 'ip' :
 				return sanitize_text_field( $value );
 		}
 	}

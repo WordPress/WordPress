@@ -1115,7 +1115,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				'author_ip'     => array(
 					'description'  => __( 'IP address for the object author.' ),
 					'type'         => 'string',
-					'format'       => 'ipv4',
+					'format'       => 'ip',
 					'context'      => array( 'edit' ),
 					'default'      => '127.0.0.1',
 				),
