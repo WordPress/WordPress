@@ -385,26 +385,29 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_comment_invalid_status', __( 'Sorry, you are not allowed to set status for comments.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
-		if ( empty( $request['post'] ) && ! current_user_can( 'moderate_comments' ) ) {
-			return new WP_Error( 'rest_comment_invalid_post_id', __( 'Sorry, you are not allowed to create this comment without a post.' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( empty( $request['post'] ) ) {
+			return new WP_Error( 'rest_comment_invalid_post_id', __( 'Sorry, you are not allowed to create this comment without a post.' ), array( 'status' => 403 ) );
 		}
 
-		if ( ! empty( $request['post'] ) && $post = get_post( (int) $request['post'] ) ) {
-			if ( 'draft' === $post->post_status ) {
-				return new WP_Error( 'rest_comment_draft_post', __( 'Sorry, you are not allowed to create a comment on this post.' ), array( 'status' => 403 ) );
-			}
+		$post = get_post( (int) $request['post'] );
+		if ( ! $post ) {
+			return new WP_Error( 'rest_comment_invalid_post_id', __( 'Sorry, you are not allowed to create this comment without a post.' ), array( 'status' => 403 ) );
+		}
 
-			if ( 'trash' === $post->post_status ) {
-				return new WP_Error( 'rest_comment_trash_post', __( 'Sorry, you are not allowed to create a comment on this post.' ), array( 'status' => 403 ) );
-			}
+		if ( 'draft' === $post->post_status ) {
+			return new WP_Error( 'rest_comment_draft_post', __( 'Sorry, you are not allowed to create a comment on this post.' ), array( 'status' => 403 ) );
+		}
 
-			if ( ! $this->check_read_post_permission( $post ) ) {
-				return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you are not allowed to read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
-			}
+		if ( 'trash' === $post->post_status ) {
+			return new WP_Error( 'rest_comment_trash_post', __( 'Sorry, you are not allowed to create a comment on this post.' ), array( 'status' => 403 ) );
+		}
 
-			if ( ! comments_open( $post->ID ) ) {
-				return new WP_Error( 'rest_comment_closed', __( 'Sorry, comments are closed on this post.' ), array( 'status' => 403 ) );
-			}
+		if ( ! $this->check_read_post_permission( $post ) ) {
+			return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you are not allowed to read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+
+		if ( ! comments_open( $post->ID ) ) {
+			return new WP_Error( 'rest_comment_closed', __( 'Sorry, comments are closed on this post.' ), array( 'status' => 403 ) );
 		}
 
 		return true;
