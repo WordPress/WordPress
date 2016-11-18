@@ -373,11 +373,13 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		// Limit who can set comment `author` or `status` to anything other than the default.
 		if ( isset( $request['author'] ) && get_current_user_id() !== $request['author'] && ! current_user_can( 'moderate_comments' ) ) {
-			return new WP_Error( 'rest_comment_invalid_author', __( 'Comment author invalid.' ), array( 'status' => rest_authorization_required_code() ) );
+			/* translators: %s: request parameter */
+			return new WP_Error( 'rest_comment_invalid_author', sprintf( __( "Sorry, you are not allowed to edit '%s' for comments." ), 'author' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		if ( isset( $request['status'] ) && ! current_user_can( 'moderate_comments' ) ) {
-			return new WP_Error( 'rest_comment_invalid_status', __( 'Sorry, you are not allowed to set status for comments.' ), array( 'status' => rest_authorization_required_code() ) );
+			/* translators: %s: request parameter */
+			return new WP_Error( 'rest_comment_invalid_status', sprintf( __( "Sorry, you are not allowed to edit '%s' for comments." ), 'status' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		if ( empty( $request['post'] ) ) {
