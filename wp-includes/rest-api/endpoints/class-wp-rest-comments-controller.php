@@ -1041,8 +1041,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$prepared_comment['comment_author_IP'] = $request['author_ip'];
 		}
 
-		if ( isset( $request['author_user_agent'] ) ) {
+		if ( ! empty( $request['author_user_agent'] ) ) {
 			$prepared_comment['comment_agent'] = $request['author_user_agent'];
+		} elseif ( $request->get_header( 'user_agent' ) ) {
+			$prepared_comment['comment_agent'] = $request->get_header( 'user_agent' );
 		}
 
 		if ( isset( $request['type'] ) ) {
