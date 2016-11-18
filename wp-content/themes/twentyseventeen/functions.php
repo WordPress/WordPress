@@ -144,7 +144,7 @@ function twentyseventeen_setup() {
 
 		'nav_menus' => array(
 			'top' => array(
-				'name' => __( 'Top', 'twentyseventeen' ),
+				'name' => __( 'Top Menu', 'twentyseventeen' ),
 				'items' => array(
 					'page_home',
 					'page_about',
@@ -153,7 +153,7 @@ function twentyseventeen_setup() {
 				),
 			),
 			'social' => array(
-				'name' => __( 'Social', 'twentyseventeen' ),
+				'name' => __( 'Social Links Menu', 'twentyseventeen' ),
 				'items' => array(
 					'link_yelp',
 					'link_facebook',
