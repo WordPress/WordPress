@@ -3007,22 +3007,9 @@ object {
 	left: 30px;
 }
 
-/* Prevent color schemes from showing 1px dots everywhere. */
-.customize-partial-edit-shortcut {
-	background: transparent !important;
-}
-
 /* Ensure that placeholder icons are visible. */
 .twentyseventeen-panel .customize-partial-edit-shortcut-hidden:before {
 	visibility: visible;
-}
-
-/* Prevent icon colors from clashing with color schemes. */
-.colors-custom .customize-partial-edit-shortcut button {
-	text-shadow: 0 -1px 1px rgba(0,0,0,.2),
-	             1px 0 1px rgba(0,0,0,.2),
-	             0 1px 1px rgba(0,0,0,.2),
-	            -1px 0 1px rgba(0,0,0,.2);
 }
 
 /*--------------------------------------------------------------
