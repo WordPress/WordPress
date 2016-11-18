@@ -433,6 +433,11 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return $prepared_comment;
 		}
 
+		// Do not allow comments to be created with a non-default type.
+		if ( ! empty( $request['type'] ) && 'comment' !== $request['type'] ) {
+			return new WP_Error( 'rest_invalid_comment_type', __( 'Cannot create a comment with that type.' ), array( 'status' => 400 ) );
+		}
+
 		/*
 		 * Do not allow a comment to be created with missing or empty
 		 * comment_content. See wp_handle_comment_submission().
