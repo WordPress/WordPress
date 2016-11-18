@@ -991,14 +991,16 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		// Parent.
-		if ( ! empty( $schema['properties']['parent'] ) && ! empty( $request['parent'] ) ) {
-			$parent = get_post( (int) $request['parent'] );
-
-			if ( empty( $parent ) ) {
-				return new WP_Error( 'rest_post_invalid_id', __( 'Invalid post parent ID.' ), array( 'status' => 400 ) );
+		if ( ! empty( $schema['properties']['parent'] ) && isset( $request['parent'] ) ) {
+			if ( 0 === (int) $request['parent'] ) {
+				$prepared_post->post_parent = 0;
+			} else {
+				$parent = get_post( (int) $request['parent'] );
+				if ( empty( $parent ) ) {
+					return new WP_Error( 'rest_post_invalid_id', __( 'Invalid post parent ID.' ), array( 'status' => 400 ) );
+				}
+				$prepared_post->post_parent = (int) $parent->ID;
 			}
-
-			$prepared_post->post_parent = (int) $parent->ID;
 		}
 
 		// Menu order.
