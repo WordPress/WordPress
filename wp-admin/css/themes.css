@@ -1641,6 +1641,9 @@ body.full-overlay-active {
 	box-shadow: none;
 	border-top: 1px solid transparent;
 	border-bottom: 4px solid transparent;
+	-webkit-transition: .15s color ease-in-out,
+	            .15s background-color ease-in-out,
+	            .15s border-color ease-in-out;
 	transition: .15s color ease-in-out,
 	            .15s background-color ease-in-out,
 	            .15s border-color ease-in-out;

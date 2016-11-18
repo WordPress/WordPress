@@ -191,6 +191,9 @@ body {
 	background-color: #fff;
 	border-bottom: 1px solid #ddd;
 	border-left: 4px solid #fff;
+	-webkit-transition: .15s color ease-in-out,
+	            .15s background-color ease-in-out,
+	            .15s border-color ease-in-out;
 	transition: .15s color ease-in-out,
 	            .15s background-color ease-in-out,
 	            .15s border-color ease-in-out;
@@ -450,9 +453,9 @@ h3.customize-section-title {
 	text-align: left;
 	cursor: pointer;
 	-webkit-transition: color .15s ease-in-out,
-	                    border-color .15s ease-in-out,
-	                    background .15s ease-in-out;
-	transition: color .1s ease-in-out,
+	            border-color .15s ease-in-out,
+	            background .15s ease-in-out;
+	transition: color .15s ease-in-out,
 	            border-color .15s ease-in-out,
 	            background .15s ease-in-out;
 	-webkit-box-sizing: content-box;
@@ -476,8 +479,8 @@ h3.customize-section-title {
 	box-shadow: none;
 	cursor: pointer;
 	-webkit-transition: color .15s ease-in-out,
-	                    border-color .15s ease-in-out,
-	                    background .15s ease-in-out;
+	            border-color .15s ease-in-out,
+	            background .15s ease-in-out;
 	transition: color .15s ease-in-out,
 	            border-color .15s ease-in-out,
 	            background .15s ease-in-out;
@@ -1775,6 +1778,9 @@ body.adding-widget .add-new-widget:before,
 	background: #fff;
 	border-bottom: 1px solid #ddd;
 	border-left: 4px solid #fff;
+	-webkit-transition: .15s color ease-in-out,
+	            .15s background-color ease-in-out,
+	            .15s border-color ease-in-out;
 	transition: .15s color ease-in-out,
 	            .15s background-color ease-in-out,
 	            .15s border-color ease-in-out;
