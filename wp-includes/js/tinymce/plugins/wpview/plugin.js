@@ -92,10 +92,13 @@
 		} );
 
 		// Replace any new markers nodes with views.
-		editor.on( 'setcontent', function() {
-			// Make sure that the editor is focussed.
-			// May refresh the content internally which resets the iframes.
-			editor.focus();
+		editor.on( 'setcontent', function( event ) {
+			if ( event.load && ! event.initial ) {
+				// Make sure that the editor is focussed.
+				// May refresh the content internally which resets the iframes.
+				editor.focus();
+			}
+
 			wp.mce.views.render();
 		} );
 
