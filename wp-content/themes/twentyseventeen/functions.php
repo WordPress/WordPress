@@ -425,6 +425,21 @@ function twentyseventeen_content_image_sizes_attr( $sizes, $size ) {
 add_filter( 'wp_calculate_image_sizes', 'twentyseventeen_content_image_sizes_attr', 10, 2 );
 
 /**
+ * Filter the `sizes` value in the header image markup.
+ *
+ * @since Twenty Seventeen 1.0
+ *
+ * @param string $html   The HTML image tag markup being filtered.
+ * @param object $header The custom header object returned by 'get_custom_header()'.
+ * @param array  $attr   Array of the attributes for the image tag.
+ * @return string The filtered header image HTML.
+ */
+function twentyseventeen_header_image_tag( $html, $header, $attr ) {
+	return str_replace( $attr['sizes'], '100vw', $html );
+}
+add_filter ( 'get_header_image_tag', 'twentyseventeen_header_image_tag', 10, 3 );
+
+/**
  * Add custom image sizes attribute to enhance responsive image functionality
  * for post thumbnails.
  *
