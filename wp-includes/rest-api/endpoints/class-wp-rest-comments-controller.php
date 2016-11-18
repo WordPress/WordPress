@@ -1454,6 +1454,11 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 */
 	protected function check_read_post_permission( $post ) {
 		$posts_controller = new WP_REST_Posts_Controller( $post->post_type );
+		$post_type = get_post_type_object( $post->post_type );
+
+		if ( post_password_required( $post ) ) {
+			return current_user_can( $post_type->cap->edit_post, $post->ID );
+		}
 
 		return $posts_controller->check_read_permission( $post );
 	}
