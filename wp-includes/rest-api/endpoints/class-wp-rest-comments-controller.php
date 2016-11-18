@@ -371,10 +371,16 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_comment_login_required', __( 'Sorry, you must be logged in to comment.' ), array( 'status' => 401 ) );
 		}
 
-		// Limit who can set comment `author` or `status` to anything other than the default.
+		// Limit who can set comment `author`, `author_ip` or `status` to anything other than the default.
 		if ( isset( $request['author'] ) && get_current_user_id() !== $request['author'] && ! current_user_can( 'moderate_comments' ) ) {
 			/* translators: %s: request parameter */
 			return new WP_Error( 'rest_comment_invalid_author', sprintf( __( "Sorry, you are not allowed to edit '%s' for comments." ), 'author' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+
+		if ( isset( $request['author_ip'] ) && ! current_user_can( 'moderate_comments' ) ) {
+			if ( empty( $_SERVER['REMOTE_ADDR'] ) || $request['author_ip'] !== $_SERVER['REMOTE_ADDR'] ) {
+				return new WP_Error( 'rest_comment_invalid_author_ip', __( 'Sorry, you are not allowed to set author_ip for comments.' ), array( 'status' => rest_authorization_required_code() ) );
+			}
 		}
 
 		if ( isset( $request['status'] ) && ! current_user_can( 'moderate_comments' ) ) {
@@ -1041,8 +1047,12 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$prepared_comment['comment_author_url'] = $request['author_url'];
 		}
 
-		if ( isset( $request['author_ip'] ) ) {
+		if ( isset( $request['author_ip'] ) && current_user_can( 'moderate_comments' ) ) {
 			$prepared_comment['comment_author_IP'] = $request['author_ip'];
+		} elseif ( ! empty( $_SERVER['REMOTE_ADDR'] ) && rest_is_ip_address( $_SERVER['REMOTE_ADDR'] ) ) {
+			$prepared_comment['comment_author_IP'] = $_SERVER['REMOTE_ADDR'];
+		} else {
+			$prepared_comment['comment_author_IP'] = '127.0.0.1';
 		}
 
 		if ( ! empty( $request['author_user_agent'] ) ) {
@@ -1119,7 +1129,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'type'         => 'string',
 					'format'       => 'ip',
 					'context'      => array( 'edit' ),
-					'default'      => '127.0.0.1',
 				),
 				'author_name'     => array(
 					'description'  => __( 'Display name for the object author.' ),
