@@ -121,7 +121,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! current_user_can( 'edit_posts' ) ) {
-			$protected_params = array( 'author', 'author_exclude', 'karma', 'author_email', 'type', 'status' );
+			$protected_params = array( 'author', 'author_exclude', 'author_email', 'type', 'status' );
 			$forbidden_params = array();
 
 			foreach ( $protected_params as $param ) {
@@ -172,7 +172,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			'author_exclude' => 'author__not_in',
 			'exclude'        => 'comment__not_in',
 			'include'        => 'comment__in',
-			'karma'          => 'karma',
 			'offset'         => 'offset',
 			'order'          => 'order',
 			'parent'         => 'parent__in',
@@ -197,7 +196,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		// Ensure certain parameter values default to empty strings.
-		foreach ( array( 'author_email', 'karma', 'search' ) as $param ) {
+		foreach ( array( 'author_email', 'search' ) as $param ) {
 			if ( ! isset( $prepared_args[ $param ] ) ) {
 				$prepared_args[ $param ] = '';
 			}
@@ -372,13 +371,9 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_comment_login_required', __( 'Sorry, you must be logged in to comment.' ), array( 'status' => 401 ) );
 		}
 
-		// Limit who can set comment `author`, `karma` or `status` to anything other than the default.
+		// Limit who can set comment `author` or `status` to anything other than the default.
 		if ( isset( $request['author'] ) && get_current_user_id() !== $request['author'] && ! current_user_can( 'moderate_comments' ) ) {
 			return new WP_Error( 'rest_comment_invalid_author', __( 'Comment author invalid.' ), array( 'status' => rest_authorization_required_code() ) );
-		}
-
-		if ( isset( $request['karma'] ) && $request['karma'] > 0 && ! current_user_can( 'moderate_comments' ) ) {
-			return new WP_Error( 'rest_comment_invalid_karma', __( 'Sorry, you are not allowed to set karma for comments.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		if ( isset( $request['status'] ) && ! current_user_can( 'moderate_comments' ) ) {
@@ -817,7 +812,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				'rendered' => apply_filters( 'comment_text', $comment->comment_content, $comment ),
 				'raw'      => $comment->comment_content,
 			),
-			'karma'              => (int) $comment->comment_karma,
 			'link'               => get_comment_link( $comment ),
 			'status'             => $this->prepare_status_response( $comment->comment_approved ),
 			'type'               => get_comment_type( $comment->comment_ID ),
@@ -1060,10 +1054,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$prepared_comment['comment_type'] = 'comment' === $request['type'] ? '' : $request['type'];
 		}
 
-		if ( isset( $request['karma'] ) ) {
-			$prepared_comment['comment_karma'] = $request['karma'] ;
-		}
-
 		if ( ! empty( $request['date'] ) ) {
 			$date_data = rest_get_date_with_gmt( $request['date'] );
 
@@ -1183,11 +1173,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'type'         => 'string',
 					'format'       => 'date-time',
 					'context'      => array( 'view', 'edit' ),
-				),
-				'karma'             => array(
-					'description'  => __( 'Karma for the object.' ),
-					'type'         => 'integer',
-					'context'      => array( 'edit' ),
 				),
 				'link'             => array(
 					'description'  => __( 'URL to the object.' ),
@@ -1320,12 +1305,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				'type'           => 'integer',
 			),
 			'default'            => array(),
-		);
-
-		$query_params['karma'] = array(
-			'default'           => null,
-			'description'       => __( 'Limit result set to that of a particular comment karma. Requires authorization.' ),
-			'type'              => 'integer',
 		);
 
 		$query_params['offset'] = array(
