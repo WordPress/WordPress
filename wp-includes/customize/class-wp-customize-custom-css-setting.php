@@ -132,10 +132,13 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * @return string
 	 */
 	public function value() {
-		$id_base = $this->id_data['base'];
-		if ( $this->is_previewed && null !== $this->post_value( null ) ) {
-			return $this->post_value();
+		if ( $this->is_previewed ) {
+			$post_value = $this->post_value( null );
+			if ( null !== $post_value ) {
+				return $post_value;
+			}
 		}
+		$id_base = $this->id_data['base'];
 		$value = '';
 		$post = wp_get_custom_css_post( $this->stylesheet );
 		if ( $post ) {
