@@ -94,7 +94,7 @@ case 'promote':
 	check_admin_referer('bulk-users');
 
 	if ( ! current_user_can( 'promote_users' ) )
-		wp_die( __( 'Sorry, you are not allowed to edit that user.' ) );
+		wp_die( __( 'Sorry, you are not allowed to edit this user.' ) );
 
 	if ( empty($_REQUEST['users']) ) {
 		wp_redirect($redirect);
@@ -119,7 +119,7 @@ case 'promote':
 		$id = (int) $id;
 
 		if ( ! current_user_can('promote_user', $id) )
-			wp_die(__('Sorry, you are not allowed to edit that user.'));
+			wp_die(__('Sorry, you are not allowed to edit this user.'));
 		// The new role of the current user must also have the promote_users cap or be a multisite super admin
 		if ( $id == $current_user->ID && ! $wp_roles->role_objects[ $role ]->has_cap('promote_users')
 			&& ! ( is_multisite() && is_super_admin() ) ) {
