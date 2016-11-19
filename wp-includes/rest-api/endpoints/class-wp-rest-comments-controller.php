@@ -384,7 +384,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			if ( empty( $_SERVER['REMOTE_ADDR'] ) || $request['author_ip'] !== $_SERVER['REMOTE_ADDR'] ) {
 				return new WP_Error( 'rest_comment_invalid_author_ip',
 					/* translators: %s: request parameter */
-					sprintf( __( "Sorry, you are not allowed to edit '%s' for comments.", 'author_ip' ) ),
+					sprintf( __( "Sorry, you are not allowed to edit '%s' for comments." ), 'author_ip' ),
 					array( 'status' => rest_authorization_required_code() )
 				);
 			}
