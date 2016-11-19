@@ -373,19 +373,29 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		// Limit who can set comment `author`, `author_ip` or `status` to anything other than the default.
 		if ( isset( $request['author'] ) && get_current_user_id() !== $request['author'] && ! current_user_can( 'moderate_comments' ) ) {
-			/* translators: %s: request parameter */
-			return new WP_Error( 'rest_comment_invalid_author', sprintf( __( "Sorry, you are not allowed to edit '%s' for comments." ), 'author' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_comment_invalid_author',
+				/* translators: %s: request parameter */
+				sprintf( __( "Sorry, you are not allowed to edit '%s' for comments." ), 'author' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
 		}
 
 		if ( isset( $request['author_ip'] ) && ! current_user_can( 'moderate_comments' ) ) {
 			if ( empty( $_SERVER['REMOTE_ADDR'] ) || $request['author_ip'] !== $_SERVER['REMOTE_ADDR'] ) {
-				return new WP_Error( 'rest_comment_invalid_author_ip', __( 'Sorry, you are not allowed to set author_ip for comments.' ), array( 'status' => rest_authorization_required_code() ) );
+				return new WP_Error( 'rest_comment_invalid_author_ip',
+					/* translators: %s: request parameter */
+					sprintf( __( "Sorry, you are not allowed to edit '%s' for comments.", 'author_ip' ) ),
+					array( 'status' => rest_authorization_required_code() )
+				);
 			}
 		}
 
 		if ( isset( $request['status'] ) && ! current_user_can( 'moderate_comments' ) ) {
-			/* translators: %s: request parameter */
-			return new WP_Error( 'rest_comment_invalid_status', sprintf( __( "Sorry, you are not allowed to edit '%s' for comments." ), 'status' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_comment_invalid_status',
+				/* translators: %s: request parameter */
+				sprintf( __( "Sorry, you are not allowed to edit '%s' for comments." ), 'status' ),
+				array( 'status' => rest_authorization_required_code() )
+			);
 		}
 
 		if ( empty( $request['post'] ) ) {
