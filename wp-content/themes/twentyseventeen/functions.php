@@ -435,9 +435,12 @@ add_filter( 'wp_calculate_image_sizes', 'twentyseventeen_content_image_sizes_att
  * @return string The filtered header image HTML.
  */
 function twentyseventeen_header_image_tag( $html, $header, $attr ) {
-	return str_replace( $attr['sizes'], '100vw', $html );
+	if ( isset( $attr['sizes'] ) ) {
+		$html = str_replace( $attr['sizes'], '100vw', $html );
+	}
+	return $html;
 }
-add_filter ( 'get_header_image_tag', 'twentyseventeen_header_image_tag', 10, 3 );
+add_filter( 'get_header_image_tag', 'twentyseventeen_header_image_tag', 10, 3 );
 
 /**
  * Add custom image sizes attribute to enhance responsive image functionality
