@@ -387,7 +387,7 @@ function _image_get_preview_ratio($w, $h) {
  * @return resource|false GD image resource, false otherwise.
  */
 function _rotate_image_resource($img, $angle) {
-	_deprecated_function( __FUNCTION__, '3.5.0', __( 'Use WP_Image_Editor::rotate' ) );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'WP_Image_Editor::rotate()' );
 	if ( function_exists('imagerotate') ) {
 		$rotated = imagerotate($img, $angle, 0);
 		if ( is_resource($rotated) ) {
@@ -410,7 +410,7 @@ function _rotate_image_resource($img, $angle) {
  * @return resource (maybe) flipped image resource.
  */
 function _flip_image_resource($img, $horz, $vert) {
-	_deprecated_function( __FUNCTION__, '3.5.0', __( 'Use WP_Image_Editor::flip' ) );
+	_deprecated_function( __FUNCTION__, '3.5.0', 'WP_Image_Editor::flip()' );
 	$w = imagesx($img);
 	$h = imagesy($img);
 	$dst = wp_imagecreatetruecolor($w, $h);
