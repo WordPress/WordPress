@@ -611,7 +611,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		$comment = get_comment( $id );
 
 		if ( $comment && ! $this->check_edit_permission( $comment ) ) {
-			return new WP_Error( 'rest_cannot_edit', __( 'Sorry, you can not edit this comment.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_edit', __( 'Sorry, you are not allowed to edit this comment.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -726,7 +726,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! $this->check_edit_permission( $comment ) ) {
-			return new WP_Error( 'rest_cannot_delete', __( 'Sorry, you can not delete this comment.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_delete', __( 'Sorry, you are not allowed to delete this comment.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 		return true;
 	}
