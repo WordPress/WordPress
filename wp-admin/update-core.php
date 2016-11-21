@@ -662,8 +662,6 @@ if ( 'upgrade-core' == $action ) {
 	if ( ! current_user_can( 'update_plugins' ) )
 		wp_die( __( 'Sorry, you are not allowed to update this site.' ) );
 
-	// @TODO
-
 	check_admin_referer('upgrade-core');
 
 	if ( isset( $_GET['plugins'] ) ) {
