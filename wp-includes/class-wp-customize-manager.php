@@ -1353,6 +1353,7 @@ final class WP_Customize_Manager {
 
 		wp_enqueue_script( 'customize-preview' );
 		add_action( 'wp_head', array( $this, 'customize_preview_loading_style' ) );
+		add_action( 'wp_head', array( $this, 'remove_frameless_preview_messenger_channel' ) );
 		add_action( 'wp_footer', array( $this, 'customize_preview_settings' ), 20 );
 		add_filter( 'get_edit_post_link', '__return_empty_string' );
 
@@ -1485,6 +1486,44 @@ final class WP_Customize_Manager {
 				cursor: not-allowed !important;
 			}
 		</style><?php
+	}
+
+	/**
+	 * Remove customize_messenger_channel query parameter from the preview window when it is not in an iframe.
+	 *
+	 * This ensures that the admin bar will be shown. It also ensures that link navigation will
+	 * work as expected since the parent frame is not being sent the URL to navigate to.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 */
+	public function remove_frameless_preview_messenger_channel() {
+		if ( ! $this->messenger_channel ) {
+			return;
+		}
+		?>
+		<script>
+		( function() {
+			var urlParser, oldQueryParams, newQueryParams, i;
+			if ( parent !== window ) {
+				return;
+			}
+			urlParser = document.createElement( 'a' );
+			urlParser.href = location.href;
+			oldQueryParams = urlParser.search.substr( 1 ).split( /&/ );
+			newQueryParams = [];
+			for ( i = 0; i < oldQueryParams.length; i += 1 ) {
+				if ( ! /^customize_messenger_channel=/.test( oldQueryParams[ i ] ) ) {
+					newQueryParams.push( oldQueryParams[ i ] );
+				}
+			}
+			urlParser.search = newQueryParams.join( '&' );
+			if ( urlParser.search !== location.search ) {
+				location.replace( urlParser.href );
+			}
+		} )();
+		</script>
+		<?php
 	}
 
 	/**
