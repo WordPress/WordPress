@@ -458,16 +458,17 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_comment_exists', __( 'Cannot create existing comment.' ), array( 'status' => 400 ) );
 		}
 
-		$prepared_comment = $this->prepare_item_for_database( $request );
-
-		if ( is_wp_error( $prepared_comment ) ) {
-			return $prepared_comment;
-		}
-
 		// Do not allow comments to be created with a non-default type.
 		if ( ! empty( $request['type'] ) && 'comment' !== $request['type'] ) {
 			return new WP_Error( 'rest_invalid_comment_type', __( 'Cannot create a comment with that type.' ), array( 'status' => 400 ) );
 		}
+
+		$prepared_comment = $this->prepare_item_for_database( $request );
+		if ( is_wp_error( $prepared_comment ) ) {
+			return $prepared_comment;
+		}
+
+		$prepared_comment['comment_type'] = '';
 
 		/*
 		 * Do not allow a comment to be created with missing or empty
@@ -1089,11 +1090,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			$prepared_comment['comment_agent'] = $request->get_header( 'user_agent' );
 		}
 
-		if ( isset( $request['type'] ) ) {
-			// Comment type "comment" needs to be created as an empty string.
-			$prepared_comment['comment_type'] = 'comment' === $request['type'] ? '' : $request['type'];
-		}
-
 		if ( ! empty( $request['date'] ) ) {
 			$date_data = rest_get_date_with_gmt( $request['date'] );
 
@@ -1244,10 +1240,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'description'  => __( 'Type of Comment for the object.' ),
 					'type'         => 'string',
 					'context'      => array( 'view', 'edit', 'embed' ),
-					'default'      => 'comment',
-					'arg_options'  => array(
-						'sanitize_callback' => 'sanitize_key',
-					),
+					'readonly'     => true,
 				),
 			),
 		);
