@@ -827,8 +827,6 @@ function load_child_theme_textdomain( $domain, $path = false ) {
  * the translation file from `wp-content/languages`, removing the need
  * to call load_plugin_texdomain() or load_theme_texdomain().
  *
- * Holds a cached list of available .mo files to improve performance.
- *
  * @since 4.6.0
  * @access private
  *
@@ -843,12 +841,62 @@ function _load_textdomain_just_in_time( $domain ) {
 
 	$l10n_unloaded = (array) $l10n_unloaded;
 
-	static $cached_mofiles = null;
-
 	// Short-circuit if domain is 'default' which is reserved for core.
 	if ( 'default' === $domain || isset( $l10n_unloaded[ $domain ] ) ) {
 		return false;
 	}
+
+	$translation_path = _get_path_to_translation( $domain );
+	if ( false === $translation_path ) {
+		return false;
+	}
+
+	return load_textdomain( $domain, $translation_path );
+}
+
+/**
+ * Gets the path to a translation file for loading a textdomain just in time.
+ *
+ * Caches the retrieved results internally.
+ *
+ * @since 4.7.0
+ * @access private
+ *
+ * @see _load_textdomain_just_in_time()
+ *
+ * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+ * @param bool   $reset  Whether to reset the internal cache. Used by the switch to locale functionality.
+ * @return string|false The path to the translation file or false if no translation file was found.
+ */
+function _get_path_to_translation( $domain, $reset = false ) {
+	static $available_translations = array();
+
+	if ( true === $reset ) {
+		$available_translations = array();
+	}
+
+	if ( ! isset( $available_translations[ $domain ] ) ) {
+		$available_translations[ $domain ] = _get_path_to_translation_from_lang_dir( $domain );
+	}
+
+	return $available_translations[ $domain ];
+}
+
+/**
+ * Gets the path to a translation file in the languages directory for the current locale.
+ *
+ * Holds a cached list of available .mo files to improve performance.
+ *
+ * @since 4.7.0
+ * @access private
+ *
+ * @see _get_path_to_translation()
+ *
+ * @param string $domain Text domain. Unique identifier for retrieving translated strings.
+ * @return string|false The path to the translation file or false if no translation file was found.
+ */
+function _get_path_to_translation_from_lang_dir( $domain ) {
+	static $cached_mofiles = null;
 
 	if ( null === $cached_mofiles ) {
 		$cached_mofiles = array();
@@ -869,12 +917,14 @@ function _load_textdomain_just_in_time( $domain ) {
 	$locale = is_admin() ? get_user_locale() : get_locale();
 	$mofile = "{$domain}-{$locale}.mo";
 
-	if ( in_array( WP_LANG_DIR . '/plugins/' . $mofile, $cached_mofiles ) ) {
-		return load_textdomain( $domain, WP_LANG_DIR . '/plugins/' . $mofile );
+	$path = WP_LANG_DIR . '/plugins/' . $mofile;
+	if ( in_array( $path, $cached_mofiles ) ) {
+		return $path;
 	}
 
-	if ( in_array( WP_LANG_DIR . '/themes/' . $mofile, $cached_mofiles ) ) {
-		return load_textdomain( $domain, WP_LANG_DIR . '/themes/' . $mofile );
+	$path = WP_LANG_DIR . '/themes/' . $mofile;
+	if ( in_array( $path, $cached_mofiles ) ) {
+		return $path;
 	}
 
 	return false;

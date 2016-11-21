@@ -202,14 +202,7 @@ class WP_Locale_Switcher {
 				continue;
 			}
 
-			$mofile = $l10n[ $domain ]->get_filename();
-
 			unload_textdomain( $domain );
-
-			if ( $mofile ) {
-				load_textdomain( $domain, $mofile );
-			}
-
 			get_translations_for_domain( $domain );
 		}
 	}
@@ -228,6 +221,9 @@ class WP_Locale_Switcher {
 	 * @param string $locale The locale to change to.
 	 */
 	private function change_locale( $locale ) {
+		// Reset translation availability information.
+		_get_path_to_translation( null, true );
+
 		$this->load_translations( $locale );
 
 		$GLOBALS['wp_locale'] = new WP_Locale();
