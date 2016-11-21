@@ -462,17 +462,39 @@ function themes_api( $action, $args = array() ) {
 
 		if ( $ssl && is_wp_error( $request ) ) {
 			if ( ! wp_doing_ajax() ) {
-				trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ), headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
+				trigger_error(
+					sprintf(
+						/* translators: %s: support forums URL */
+						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
+						__( 'https://wordpress.org/support/' )
+					) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
+					headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
+				);
 			}
 			$request = wp_remote_post( $http_url, $http_args );
 		}
 
 		if ( is_wp_error($request) ) {
-			$res = new WP_Error('themes_api_failed', __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ), $request->get_error_message() );
+			$res = new WP_Error( 'themes_api_failed',
+				sprintf(
+					/* translators: %s: support forums URL */
+					__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
+					__( 'https://wordpress.org/support/' )
+				),
+				$request->get_error_message()
+			);
 		} else {
 			$res = maybe_unserialize( wp_remote_retrieve_body( $request ) );
-			if ( ! is_object( $res ) && ! is_array( $res ) )
-				$res = new WP_Error('themes_api_failed', __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ), wp_remote_retrieve_body( $request ) );
+			if ( ! is_object( $res ) && ! is_array( $res ) ) {
+				$res = new WP_Error( 'themes_api_failed',
+					sprintf(
+						/* translators: %s: support forums URL */
+						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
+						__( 'https://wordpress.org/support/' )
+					),
+					wp_remote_retrieve_body( $request )
+				);
+			}
 		}
 	}
 

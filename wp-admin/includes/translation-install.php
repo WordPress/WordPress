@@ -56,17 +56,38 @@ function translations_api( $type, $args = null ) {
 		$request = wp_remote_post( $url, $options );
 
 		if ( $ssl && is_wp_error( $request ) ) {
-			trigger_error( __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ), headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE );
+			trigger_error(
+				sprintf(
+					/* translators: %s: support forums URL */
+					__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
+					__( 'https://wordpress.org/support/' )
+				) . ' ' . __( '(WordPress could not establish a secure connection to WordPress.org. Please contact your server administrator.)' ),
+				headers_sent() || WP_DEBUG ? E_USER_WARNING : E_USER_NOTICE
+			);
 
 			$request = wp_remote_post( $http_url, $options );
 		}
 
 		if ( is_wp_error( $request ) ) {
-			$res = new WP_Error( 'translations_api_failed', __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ), $request->get_error_message() );
+			$res = new WP_Error( 'translations_api_failed',
+				sprintf(
+					/* translators: %s: support forums URL */
+					__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
+					__( 'https://wordpress.org/support/' )
+				),
+				$request->get_error_message()
+			);
 		} else {
 			$res = json_decode( wp_remote_retrieve_body( $request ), true );
 			if ( ! is_object( $res ) && ! is_array( $res ) ) {
-				$res = new WP_Error( 'translations_api_failed', __( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ), wp_remote_retrieve_body( $request ) );
+				$res = new WP_Error( 'translations_api_failed',
+					sprintf(
+						/* translators: %s: support forums URL */
+						__( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="%s">support forums</a>.' ),
+						__( 'https://wordpress.org/support/' )
+					),
+					wp_remote_retrieve_body( $request )
+				);
 			}
 		}
 	}
