@@ -1734,7 +1734,7 @@ function register_initial_settings() {
 			'name' => 'description',
 		),
 		'type'         => 'string',
-		'description'  => __( 'Site description.' ),
+		'description'  => __( 'Site tagline.' ),
 	) );
 
 	register_setting( 'general', 'siteurl', array(
@@ -1804,7 +1804,7 @@ function register_initial_settings() {
 	register_setting( 'writing', 'default_category', array(
 		'show_in_rest' => true,
 		'type'         => 'integer',
-		'description'  => __( 'Default category.' ),
+		'description'  => __( 'Default post category.' ),
 	) );
 
 	register_setting( 'writing', 'default_post_format', array(
