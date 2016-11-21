@@ -1248,6 +1248,7 @@ function wp_ajax_add_meta() {
 			$post_data['post_type'] = $post->post_type;
 			$post_data['post_status'] = 'draft';
 			$now = current_time('timestamp', 1);
+			/* translators: 1: Post creation date, 2: Post creation time */
 			$post_data['post_title'] = sprintf( __( 'Draft created on %1$s at %2$s' ), date( __( 'F j, Y' ), $now ), date( __( 'g:i a' ), $now ) );
 
 			$pid = edit_post( $post_data );

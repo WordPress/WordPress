@@ -341,6 +341,7 @@ function retrieve_password() {
 		$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
 	}
 
+	/* translators: Password reset email subject. 1: Site name */
 	$title = sprintf( __('[%s] Password Reset'), $blogname );
 
 	/**

@@ -32,17 +32,23 @@ if ( empty( $current_screen ) )
 get_admin_page_title();
 $title = esc_html( strip_tags( $title ) );
 
-if ( is_network_admin() )
+if ( is_network_admin() ) {
+	/* translators: Network admin screen title. 1: Network name */
 	$admin_title = sprintf( __( 'Network Admin: %s' ), esc_html( get_network()->site_name ) );
-elseif ( is_user_admin() )
+} elseif ( is_user_admin() ) {
+	/* translators: User dashboard screen title. 1: Network name */
 	$admin_title = sprintf( __( 'User Dashboard: %s' ), esc_html( get_network()->site_name ) );
-else
+} else {
 	$admin_title = get_bloginfo( 'name' );
+}
 
-if ( $admin_title == $title )
+if ( $admin_title == $title ) {
+	/* translators: Admin screen title. 1: Admin screen name */
 	$admin_title = sprintf( __( '%1$s &#8212; WordPress' ), $title );
-else
+} else {
+	/* translators: Admin screen title. 1: Admin screen name, 2: Network or site name */
 	$admin_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $admin_title );
+}
 
 /**
  * Filters the title tag content for an admin page.

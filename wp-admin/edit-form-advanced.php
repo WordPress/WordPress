@@ -639,8 +639,10 @@ if ( post_type_supports($post_type, 'editor') ) {
 	if ( 'auto-draft' != $post->post_status ) {
 		echo '<span id="last-edit">';
 		if ( $last_user = get_userdata( get_post_meta( $post_ID, '_edit_last', true ) ) ) {
+			/* translators: 1: Name of most recent post author, 2: Post edited date, 3: Post edited time */
 			printf( __( 'Last edited by %1$s on %2$s at %3$s' ), esc_html( $last_user->display_name ), mysql2date( __( 'F j, Y' ), $post->post_modified ), mysql2date( __( 'g:i a' ), $post->post_modified ) );
 		} else {
+			/* translators: 1: Post edited date, 2: Post edited time */
 			printf( __( 'Last edited on %1$s at %2$s' ), mysql2date( __( 'F j, Y' ), $post->post_modified ), mysql2date( __( 'g:i a' ), $post->post_modified ) );
 		}
 		echo '</span>';

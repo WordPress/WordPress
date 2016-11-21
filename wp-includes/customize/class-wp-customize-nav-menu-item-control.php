@@ -134,7 +134,10 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 			<div class="menu-item-actions description-thin submitbox">
 				<# if ( ( 'post_type' === data.item_type || 'taxonomy' === data.item_type ) && '' !== data.original_title ) { #>
 				<p class="link-to-original">
-					<?php printf( __( 'Original: %s' ), '<a class="original-link" href="{{ data.url }}">{{ data.original_title }}</a>' ); ?>
+					<?php
+						/* translators: Nav menu item original title. 1: Original title */
+						printf( __( 'Original: %s' ), '<a class="original-link" href="{{ data.url }}">{{ data.original_title }}</a>' );
+					?>
 				</p>
 				<# } #>
 

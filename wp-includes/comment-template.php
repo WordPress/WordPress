@@ -1592,6 +1592,7 @@ function get_comment_reply_link( $args = array(), $comment = null, $post = null 
 		'add_below'     => 'comment',
 		'respond_id'    => 'respond',
 		'reply_text'    => __( 'Reply' ),
+		/* translators: Comment reply button text. 1: Comment author name */
 		'reply_to_text' => __( 'Reply to %s' ),
 		'login_text'    => __( 'Log in to Reply' ),
 		'max_depth'     => 0,

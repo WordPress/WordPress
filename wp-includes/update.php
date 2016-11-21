@@ -587,14 +587,21 @@ function wp_get_update_data() {
 
 	$counts['total'] = $counts['plugins'] + $counts['themes'] + $counts['wordpress'] + $counts['translations'];
 	$titles = array();
-	if ( $counts['wordpress'] )
+	if ( $counts['wordpress'] ) {
+		/* translators: 1: Number of updates available to WordPress */
 		$titles['wordpress'] = sprintf( __( '%d WordPress Update'), $counts['wordpress'] );
-	if ( $counts['plugins'] )
+	}
+	if ( $counts['plugins'] ) {
+		/* translators: 1: Number of updates available to plugins */
 		$titles['plugins'] = sprintf( _n( '%d Plugin Update', '%d Plugin Updates', $counts['plugins'] ), $counts['plugins'] );
-	if ( $counts['themes'] )
+	}
+	if ( $counts['themes'] ) {
+		/* translators: 1: Number of updates available to themes */
 		$titles['themes'] = sprintf( _n( '%d Theme Update', '%d Theme Updates', $counts['themes'] ), $counts['themes'] );
-	if ( $counts['translations'] )
+	}
+	if ( $counts['translations'] ) {
 		$titles['translations'] = __( 'Translation Updates' );
+	}
 
 	$update_title = $titles ? esc_attr( implode( ', ', $titles ) ) : '';
 

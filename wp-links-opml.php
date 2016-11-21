@@ -26,7 +26,10 @@ echo '<?xml version="1.0"?'.">\n";
 ?>
 <opml version="1.0">
 	<head>
-		<title><?php printf( __('Links for %s'), esc_attr(get_bloginfo('name', 'display')) ); ?></title>
+		<title><?php
+			/* translators: 1: Site name */
+			printf( __('Links for %s'), esc_attr(get_bloginfo('name', 'display')) );
+		?></title>
 		<dateCreated><?php echo gmdate("D, d M Y H:i:s"); ?> GMT</dateCreated>
 		<?php
 		/**
