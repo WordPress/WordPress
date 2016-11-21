@@ -33,12 +33,16 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
 >
 <channel>
 	<title><?php
-		if ( is_singular() )
+		if ( is_singular() ) {
+			/* translators: Comments feed title. 1: Post title */
 			printf( ent2ncr( __( 'Comments on: %s' ) ), get_the_title_rss() );
-		elseif ( is_search() )
+		} elseif ( is_search() ) {
+			/* translators: Comments feed title. 1: Site name, 2: Search query */
 			printf( ent2ncr( __( 'Comments for %1$s searching on %2$s' ) ), get_bloginfo_rss( 'name' ), get_search_query() );
-		else
+		} else {
+			/* translators: Comments feed title. 1: Site name */
 			printf( ent2ncr( __( 'Comments for %s' ) ), get_wp_title_rss() );
+		}
 	?></title>
 	<atom:link href="<?php self_link(); ?>" rel="self" type="application/rss+xml" />
 	<link><?php (is_single()) ? the_permalink_rss() : bloginfo_rss("url") ?></link>
@@ -72,8 +76,10 @@ do_action( 'rss_tag_pre', 'rss2-comments' );
 				$title = get_the_title($comment_post->ID);
 				/** This filter is documented in wp-includes/feed.php */
 				$title = apply_filters( 'the_title_rss', $title );
+				/* translators: Individual comment title. 1: Post title, 2: Comment author name */
 				printf(ent2ncr(__('Comment on %1$s by %2$s')), $title, get_comment_author_rss());
 			} else {
+				/* translators: Comment author title. 1: Comment author name */
 				printf(ent2ncr(__('By: %s')), get_comment_author_rss());
 			}
 		?></title>

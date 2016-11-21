@@ -846,7 +846,8 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		 * @param array  $meta       By default, contains the requested privacy setting and lang_id.
 		 */
 		apply_filters( 'wpmu_signup_blog_notification_subject',
-			__( '[%1$s] Activate %2$s' ),
+			/* translators: New site notification email subject. 1: Network name, 2: New site URL */
+			_x( '[%1$s] Activate %2$s', 'New site notification email subject' ),
 			$domain, $path, $title, $user_login, $user_email, $key, $meta
 		),
 		$from_name,
@@ -939,7 +940,8 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		 * @param array  $meta       Signup meta data.
 		 */
 		apply_filters( 'wpmu_signup_user_notification_subject',
-			__( '[%1$s] Activate %2$s' ),
+			/* translators: New user notification email subject. 1: Network name, 2: New user login */
+			_x( '[%1$s] Activate %2$s', 'New user notification email subject' ),
 			$user_login, $user_email, $key, $meta
 		),
 		$from_name,
@@ -1202,6 +1204,7 @@ function newblog_notify_siteadmin( $blog_id, $deprecated = '' ) {
 	$siteurl = site_url();
 	restore_current_blog();
 
+	/* translators: New site notification email. 1: Site URL, 2: User IP address, 3: Settings screen URL */
 	$msg = sprintf( __( 'New Site: %1$s
 URL: %2$s
 Remote IP: %3$s
@@ -1244,6 +1247,7 @@ function newuser_notify_siteadmin( $user_id ) {
 	$user = get_userdata( $user_id );
 
 	$options_site_url = esc_url(network_admin_url('settings.php'));
+	/* translators: New user notification email. 1: User login, 2: User IP address, 3: Settings screen URL */
 	$msg = sprintf(__('New User: %1$s
 Remote IP: %2$s
 
@@ -1523,6 +1527,9 @@ We hope you enjoy your new site. Thanks!
 	if ( empty( $current_network->site_name ) )
 		$current_network->site_name = 'WordPress';
 
+	/* translators: New site notification email subject. 1: Network name, 2: New site name */
+	$subject = __( 'New %1$s Site: %2$s' );
+
 	/**
 	 * Filters the subject of the welcome email after site activation.
 	 *
@@ -1530,7 +1537,7 @@ We hope you enjoy your new site. Thanks!
 	 *
 	 * @param string $subject Subject of the email.
 	 */
-	$subject = apply_filters( 'update_welcome_subject', sprintf( __( 'New %1$s Site: %2$s' ), $current_network->site_name, wp_unslash( $title ) ) );
+	$subject = apply_filters( 'update_welcome_subject', sprintf( $subject, $current_network->site_name, wp_unslash( $title ) ) );
 	wp_mail( $user->user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 
 	if ( $switched_locale ) {
@@ -1608,6 +1615,9 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	if ( empty( $current_network->site_name ) )
 		$current_network->site_name = 'WordPress';
 
+	/* translators: New user notification email subject. 1: Network name, 2: New user login */
+	$subject = __( 'New %1$s User: %2$s' );
+
 	/**
 	 * Filters the subject of the welcome email after user activation.
 	 *
@@ -1615,7 +1625,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	 *
 	 * @param string $subject Subject of the email.
 	 */
-	$subject = apply_filters( 'update_welcome_user_subject', sprintf( __( 'New %1$s User: %2$s' ), $current_network->site_name, $user->user_login) );
+	$subject = apply_filters( 'update_welcome_user_subject', sprintf( $subject, $current_network->site_name, $user->user_login) );
 	wp_mail( $user->user_email, wp_specialchars_decode( $subject ), $message, $message_headers );
 
 	if ( $switched_locale ) {
