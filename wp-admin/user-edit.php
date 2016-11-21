@@ -295,7 +295,7 @@ if ( $languages ) : ?>
 			'selected'                    => $user_locale,
 			'languages'                   => $languages,
 			'show_available_translations' => false,
-			'show_site_locale_default'    => true
+			'show_option_site_default'    => true
 		) );
 		?>
 	</td>

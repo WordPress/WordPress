@@ -1108,7 +1108,7 @@ function wp_get_pomo_file_data( $po_file ) {
  *
  * @since 4.0.0
  * @since 4.3.0 Introduced the `echo` argument.
- * @since 4.7.0 Introduced the `show_site_locale_default` argument.
+ * @since 4.7.0 Introduced the `show_option_site_default` argument.
  *
  * @see get_available_languages()
  * @see wp_get_available_translations()
@@ -1126,7 +1126,7 @@ function wp_get_pomo_file_data( $po_file ) {
  *     @type bool|int $echo                         Whether to echo the generated markup. Accepts 0, 1, or their
  *                                                  boolean equivalents. Default 1.
  *     @type bool     $show_available_translations  Whether to show available translations. Default true.
- *     @type bool     $show_site_locale_default     Whether to show an option to fall back to the site's locale. Default false.
+ *     @type bool     $show_option_site_default     Whether to show an option to fall back to the site's locale. Default false.
  * }
  * @return string HTML content
  */
@@ -1140,7 +1140,7 @@ function wp_dropdown_languages( $args = array() ) {
 		'selected'     => '',
 		'echo'         => 1,
 		'show_available_translations' => true,
-		'show_site_locale_default'    => false,
+		'show_option_site_default'    => false,
 	) );
 
 	// English (United States) uses an empty string for the value attribute.
@@ -1191,7 +1191,7 @@ function wp_dropdown_languages( $args = array() ) {
 		$structure[] = '<optgroup label="' . esc_attr_x( 'Installed', 'translations' ) . '">';
 	}
 
-	if ( $args['show_site_locale_default'] ) {
+	if ( $args['show_option_site_default'] ) {
 		$structure[] = sprintf(
 			'<option value="site-default" data-installed="1"%s>%s</option>',
 			selected( 'site-default', $args['selected'], false ),
