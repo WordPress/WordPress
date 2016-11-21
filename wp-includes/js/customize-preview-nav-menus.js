@@ -23,7 +23,17 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 				self.bindSettingListener( setting );
 			} );
 			api.bind( 'add', function( setting ) {
-				self.bindSettingListener( setting, { fire: true } );
+
+				/*
+				 * Handle case where an invalid nav menu item (one for which its associated object has been deleted)
+				 * is synced from the controls into the preview. Since invalid nav menu items are filtered out from
+				 * being exported to the frontend by the _is_valid_nav_menu_item filter in wp_get_nav_menu_items(),
+				 * the customizer controls will have a nav_menu_item setting where the preview will have none, and
+				 * this can trigger an infinite fallback refresh when the nav menu item lacks any valid items.
+				 */
+				if ( setting.get() && ! setting.get()._invalid ) {
+					self.bindSettingListener( setting, { fire: true } );
+				}
 			} );
 			api.bind( 'remove', function( setting ) {
 				self.unbindSettingListener( setting );
