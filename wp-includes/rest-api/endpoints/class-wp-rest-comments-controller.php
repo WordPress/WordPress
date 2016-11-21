@@ -366,9 +366,27 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * @return WP_Error|bool True if the request has access to create items, error object otherwise.
 	 */
 	public function create_item_permissions_check( $request ) {
+		if ( ! is_user_logged_in() ) {
+			if ( get_option( 'comment_registration' ) ) {
+				return new WP_Error( 'rest_comment_login_required', __( 'Sorry, you must be logged in to comment.' ), array( 'status' => 401 ) );
+			}
 
-		if ( ! is_user_logged_in() && get_option( 'comment_registration' ) ) {
-			return new WP_Error( 'rest_comment_login_required', __( 'Sorry, you must be logged in to comment.' ), array( 'status' => 401 ) );
+			/**
+			 * Filter whether comments can be created without authentication.
+			 *
+			 * Enables creating comments for anonymous users.
+			 *
+			 * @since 4.7.0
+			 *
+			 * @param bool $allow_anonymous Whether to allow anonymous comments to
+			 *                              be created. Default `false`.
+			 * @param WP_REST_Request $request Request used to generate the
+			 *                                 response.
+			 */
+			$allow_anonymous = apply_filters( 'rest_allow_anonymous_comments', false, $request );
+			if ( false === $allow_anonymous ) {
+				return new WP_Error( 'rest_comment_login_required', __( 'Sorry, you must be logged in to comment.' ), array( 'status' => 401 ) );
+			}
 		}
 
 		// Limit who can set comment `author`, `author_ip` or `status` to anything other than the default.
