@@ -121,7 +121,7 @@ strong {
 
 b,
 strong {
-	font-weight: bolder;
+	font-weight: 700;
 }
 
 code,
@@ -1680,10 +1680,10 @@ body:not(.title-tagline-hidden) .site-branding-text {
 	transform: translateX(-50%) translateY(-50%);
 }
 
-.wp-custom-header .wp-custom-header-video-button { /* Speficity prevents .color-dark button overrides */
-	background-color: rgba( 34, 34, 34, 0.5 );
-	border: 1px solid rgba( 255, 255, 255, 0.6 );
-	color: rgba( 255, 255, 255, 0.6 );
+.wp-custom-header .wp-custom-header-video-button { /* Specificity prevents .color-dark button overrides */
+	background-color: rgba(34, 34, 34, 0.5);
+	border: 1px solid rgba(255, 255, 255, 0.6);
+	color: rgba(255, 255, 255, 0.6);
 	height: 45px;
 	overflow: hidden;
 	padding: 0;
@@ -1696,9 +1696,9 @@ body:not(.title-tagline-hidden) .site-branding-text {
 }
 
 .wp-custom-header .wp-custom-header-video-button:hover,
-.wp-custom-header .wp-custom-header-video-button:focus { /* SSpeficity prevents .color-dark button overrides */
-	border-color: rgba( 255, 255, 255, 0.8 );
-	background-color: rgba( 34, 34, 34, 0.8 );
+.wp-custom-header .wp-custom-header-video-button:focus { /* Specificity prevents .color-dark button overrides */
+	border-color: rgba(255, 255, 255, 0.8);
+	background-color: rgba(34, 34, 34, 0.8);
 	color: #fff;
 }
 
@@ -3035,7 +3035,7 @@ object {
 .no-svg .dropdown-toggle .svg-fallback.icon-angle-down {
 	font-size: 20px;
 	font-size: 1.25rem;
-	font-weight: normal;
+	font-weight: 400;
 	line-height: 1;
 	-webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
 	-ms-transform: rotate(180deg); /* IE 9 */
@@ -3082,6 +3082,7 @@ object {
 
 /* Adjust positioning of edit shortcuts, override style in customize-preview.css */
 @media screen and (min-width: 20em) {
+
 	body.customize-partial-edit-shortcuts-shown .site-header .site-title {
 		padding-left: 0;
 	}

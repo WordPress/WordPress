@@ -92,7 +92,7 @@ img {
 
 .site-title {
 	font-size: 36px;
-	font-weight: bolder;
+	font-weight: 700;
 }
 
 .site-description {
@@ -188,7 +188,7 @@ time.published {
 .page .entry-title,
 .entry-meta + .entry-title {
 	font-size: 26px;
-	font-weight: normal;
+	font-weight: 400;
 	letter-spacing: normal;
 	padding-top: 0;
 	text-transform: none;
