@@ -1639,7 +1639,7 @@ function wp_get_custom_css_post( $stylesheet = '' ) {
 		'post_type'              => 'custom_css',
 		'post_status'            => get_post_stati(),
 		'name'                   => sanitize_title( $stylesheet ),
-		'number'                 => 1,
+		'posts_per_page'         => 1,
 		'no_found_rows'          => true,
 		'cache_results'          => true,
 		'update_post_meta_cache' => false,
@@ -1649,16 +1649,21 @@ function wp_get_custom_css_post( $stylesheet = '' ) {
 	$post = null;
 	if ( get_stylesheet() === $stylesheet ) {
 		$post_id = get_theme_mod( 'custom_css_post_id' );
-		if ( ! $post_id || ! get_post( $post_id ) ) {
+
+		if ( $post_id > 0 && get_post( $post_id ) ) {
+			$post = get_post( $post_id );
+		} else {
 			$query = new WP_Query( $custom_css_query_vars );
 			$post = $query->post;
 			/*
 			 * Cache the lookup. See WP_Customize_Custom_CSS_Setting::update().
 			 * @todo This should get cleared if a custom_css post is added/removed.
 			 */
-			set_theme_mod( 'custom_css_post_id', $post ? $post->ID : -1 );
-		} elseif ( $post_id > 0 ) {
-			$post = get_post( $post_id );
+			if ( $post ) {
+				set_theme_mod( 'custom_css_post_id', $post->ID );
+			} elseif ( -1 !== $post_id ) {
+				set_theme_mod( 'custom_css_post_id', -1 );
+			}
 		}
 	} else {
 		$query = new WP_Query( $custom_css_query_vars );
