@@ -1191,8 +1191,10 @@ final class WP_Customize_Nav_Menus {
 		$post_ids = $setting->post_value();
 		if ( ! empty( $post_ids ) ) {
 			foreach ( $post_ids as $post_id ) {
+				$target_status = 'attachment' === get_post_type( $post_id ) ? 'inherit' : 'publish';
+
 				// Note that wp_publish_post() cannot be used because unique slugs need to be assigned.
-				wp_update_post( array( 'ID' => $post_id, 'post_status' => 'publish' ) );
+				wp_update_post( array( 'ID' => $post_id, 'post_status' => $target_status ) );
 			}
 		}
 	}

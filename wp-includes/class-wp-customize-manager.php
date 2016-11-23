@@ -916,6 +916,7 @@ final class WP_Customize_Manager {
 		}
 
 		$sidebars_widgets = isset( $starter_content['widgets'] ) && ! empty( $this->widgets ) ? $starter_content['widgets'] : array();
+		$attachments = isset( $starter_content['attachments'] ) && ! empty( $this->nav_menus ) ? $starter_content['attachments'] : array();
 		$posts = isset( $starter_content['posts'] ) && ! empty( $this->nav_menus ) ? $starter_content['posts'] : array();
 		$options = isset( $starter_content['options'] ) ? $starter_content['options'] : array();
 		$nav_menus = isset( $starter_content['nav_menus'] ) && ! empty( $this->nav_menus ) ? $starter_content['nav_menus'] : array();
@@ -965,26 +966,126 @@ final class WP_Customize_Manager {
 			}
 		}
 
+		$starter_content_auto_draft_post_ids = array();
+		if ( ! empty( $changeset_data['nav_menus_created_posts']['value'] ) ) {
+			$starter_content_auto_draft_post_ids = array_merge( $starter_content_auto_draft_post_ids, $changeset_data['nav_menus_created_posts']['value'] );
+		}
+
+		$existing_starter_content_posts = array();
+		if ( ! empty( $starter_content_auto_draft_post_ids ) ) {
+			$existing_posts_query = new WP_Query( array(
+				'post__in' => $starter_content_auto_draft_post_ids,
+				'post_status' => 'auto-draft',
+				'post_type' => 'any',
+				'number' => -1,
+			) );
+			foreach ( $existing_posts_query->posts as $existing_post ) {
+				$existing_starter_content_posts[ $existing_post->post_type . ':' . $existing_post->post_name ] = $existing_post;
+			}
+		}
+
+		// Attachments are technically posts but handled differently.
+		if ( ! empty( $attachments ) ) {
+			// Such is The WordPress Way.
+			require_once( ABSPATH . 'wp-admin/includes/file.php' );
+			require_once( ABSPATH . 'wp-admin/includes/media.php' );
+			require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+			$attachment_ids = array();
+
+			foreach ( $attachments as $symbol => $attachment ) {
+
+				// A file is required and URLs to files are not currently allowed.
+				if ( empty( $attachment['file'] ) || preg_match( '#^https?://$#', $attachment['file'] ) ) {
+					continue;
+				}
+
+				$file_array = array();
+				$file_path = null;
+				if ( file_exists( $attachment['file'] ) ) {
+					$file_path = $attachment['file']; // Could be absolute path to file in plugin.
+				} elseif ( is_child_theme() && file_exists( get_stylesheet_directory() . '/' . $attachment['file'] ) ) {
+					$file_path = get_stylesheet_directory() . '/' . $attachment['file'];
+				} elseif ( file_exists( get_template_directory() . '/' . $attachment['file'] ) ) {
+					$file_path = get_template_directory() . '/' . $attachment['file'];
+				} else {
+					continue;
+				}
+				$file_array['name'] = basename( $attachment['file'] );
+
+				// Skip file types that are not recognized.
+				$checked_filetype = wp_check_filetype( $file_array['name'] );
+				if ( empty( $checked_filetype['type'] ) ) {
+					continue;
+				}
+
+				// Ensure post_name is set since not automatically derived from post_title for new auto-draft posts.
+				if ( empty( $attachment['post_name'] ) ) {
+					if ( ! empty( $attachment['post_title'] ) ) {
+						$attachment['post_name'] = sanitize_title( $attachment['post_title'] );
+					} else {
+						$attachment['post_name'] = sanitize_title( preg_replace( '/\.\w+$/', '', $file_array['name'] ) );
+					}
+				}
+
+				$attachment_id = null;
+				$attached_file = null;
+				if ( isset( $existing_starter_content_posts[ 'attachment:' . $attachment['post_name'] ] ) ) {
+					$attachment_post = $existing_starter_content_posts[ 'attachment:' . $attachment['post_name'] ];
+					$attachment_id = $attachment_post->ID;
+					$attached_file = get_attached_file( $attachment_id );
+					if ( empty( $attached_file ) || ! file_exists( $attached_file ) ) {
+						$attachment_id = null;
+						$attached_file = null;
+					} elseif ( $this->get_stylesheet() !== get_post_meta( $attachment_post->ID, '_starter_content_theme', true ) ) {
+
+						// Re-generate attachment metadata since it was previously generated for a different theme.
+						$metadata = wp_generate_attachment_metadata( $attachment_post->ID, $attached_file );
+						wp_update_attachment_metadata( $attachment_id, $metadata );
+						update_post_meta( $attachment_id, '_starter_content_theme', $this->get_stylesheet() );
+					}
+				}
+
+				// Insert the attachment auto-draft because it doesn't yet exist or the attached file is gone.
+				if ( ! $attachment_id ) {
+
+					// Copy file to temp location so that original file won't get deleted from theme after sideloading.
+					$temp_file_name = wp_tempnam( basename( $file_path ) );
+					if ( $temp_file_name && copy( $file_path, $temp_file_name ) ) {
+						$file_array['tmp_name'] = $temp_file_name;
+					}
+					if ( empty( $file_array['tmp_name'] ) ) {
+						continue;
+					}
+
+					$attachment_post_data = array_merge(
+						wp_array_slice_assoc( $attachment, array( 'post_title', 'post_content', 'post_excerpt', 'post_name' ) ),
+						array(
+							'post_status' => 'auto-draft', // So attachment will be garbage collected in a week if changeset is never published.
+						)
+					);
+
+					// In PHP < 5.6 filesize() returns 0 for the temp files unless we clear the file status cache.
+					// Technically, PHP < 5.6.0 || < 5.5.13 || < 5.4.29 but no need to be so targeted.
+					// See https://bugs.php.net/bug.php?id=65701
+					if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
+						clearstatcache();
+					}
+
+					$attachment_id = media_handle_sideload( $file_array, 0, null, $attachment_post_data );
+					if ( is_wp_error( $attachment_id ) ) {
+						continue;
+					}
+					update_post_meta( $attachment_id, '_starter_content_theme', $this->get_stylesheet() );
+				}
+
+				$attachment_ids[ $symbol ] = $attachment_id;
+				$starter_content_auto_draft_post_ids = array_merge( $starter_content_auto_draft_post_ids, array_values( $attachment_ids ) );
+			}
+		}
+
 		// Posts & pages.
 		if ( ! empty( $posts ) ) {
-			$nav_menus_created_posts = array();
-			if ( ! empty( $changeset_data['nav_menus_created_posts']['value'] ) ) {
-				$nav_menus_created_posts = $changeset_data['nav_menus_created_posts']['value'];
-			}
-
-			$existing_posts = array();
-			if ( ! empty( $nav_menus_created_posts ) ) {
-				$existing_posts_query = new WP_Query( array(
-					'post__in' => $nav_menus_created_posts,
-					'post_status' => 'auto-draft',
-					'post_type' => 'any',
-					'number' => -1,
-				) );
-				foreach ( $existing_posts_query->posts as $existing_post ) {
-					$existing_posts[ $existing_post->post_type . ':' . $existing_post->post_name ] = $existing_post;
-				}
-			}
-
 			foreach ( array_keys( $posts ) as $post_symbol ) {
 				if ( empty( $posts[ $post_symbol ]['post_type'] ) ) {
 					continue;
@@ -999,9 +1100,20 @@ final class WP_Customize_Manager {
 				}
 
 				// Use existing auto-draft post if one already exists with the same type and name.
-				if ( isset( $existing_posts[ $post_type . ':' . $post_name ] ) ) {
-					$posts[ $post_symbol ]['ID'] = $existing_posts[ $post_type . ':' . $post_name ]->ID;
+				if ( isset( $existing_starter_content_posts[ $post_type . ':' . $post_name ] ) ) {
+					$posts[ $post_symbol ]['ID'] = $existing_starter_content_posts[ $post_type . ':' . $post_name ]->ID;
 					continue;
+				}
+
+				// Translate the featured image symbol.
+				if ( ! empty( $posts[ $post_symbol ]['thumbnail'] )
+					&& preg_match( '/^{{(?P<symbol>.+)}}$/', $posts[ $post_symbol ]['thumbnail'], $matches )
+					&& isset( $attachment_ids[ $matches['symbol'] ] ) ) {
+					$posts[ $post_symbol ]['meta_input']['_thumbnail_id'] = $attachment_ids[ $matches['symbol'] ];
+				}
+
+				if ( ! empty( $posts[ $post_symbol ]['template'] ) ) {
+					$posts[ $post_symbol ]['meta_input']['_wp_page_template'] = $posts[ $post_symbol ]['template'];
 				}
 
 				$r = $this->nav_menus->insert_auto_draft_post( $posts[ $post_symbol ] );
@@ -1010,13 +1122,14 @@ final class WP_Customize_Manager {
 				}
 			}
 
-			// The nav_menus_created_posts setting is why nav_menus component is dependency for adding posts.
+			$starter_content_auto_draft_post_ids = array_merge( $starter_content_auto_draft_post_ids, wp_list_pluck( $posts, 'ID' ) );
+		}
+
+		// The nav_menus_created_posts setting is why nav_menus component is dependency for adding posts.
+		if ( ! empty( $this->nav_menus ) && ! empty( $starter_content_auto_draft_post_ids ) ) {
 			$setting_id = 'nav_menus_created_posts';
-			if ( empty( $changeset_data[ $setting_id ] ) || ! empty( $changeset_data[ $setting_id ]['starter_content'] ) ) {
-				$nav_menus_created_posts = array_unique( array_merge( $nav_menus_created_posts, wp_list_pluck( $posts, 'ID' ) ) );
-				$this->set_post_value( $setting_id, array_values( $nav_menus_created_posts ) );
-				$this->pending_starter_content_settings_ids[] = $setting_id;
-			}
+			$this->set_post_value( $setting_id, array_unique( array_values( $starter_content_auto_draft_post_ids ) ) );
+			$this->pending_starter_content_settings_ids[] = $setting_id;
 		}
 
 		// Nav menus.
