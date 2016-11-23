@@ -11,7 +11,7 @@
  * Core class used to access revisions via the REST API.
  *
  * @since 4.7.0
- *
+ *0
  * @see WP_REST_Controller
  */
 class WP_REST_Revisions_Controller extends WP_REST_Controller {
@@ -97,7 +97,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 					'force' => array(
 						'type'        => 'boolean',
 						'default'     => false,
-						'description' => __( 'Required to be true, as resource does not support trashing.' ),
+						'description' => __( 'Required to be true, as revisions do not support trashing.' ),
 					),
 				),
 			),
@@ -227,7 +227,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	public function delete_item( $request ) {
 		$force = isset( $request['force'] ) ? (bool) $request['force'] : false;
 
-		// We don't support trashing for this resource type.
+		// We don't support trashing for revisions.
 		if ( ! $force ) {
 			return new WP_Error( 'rest_trash_not_supported', __( 'Revisions do not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
 		}

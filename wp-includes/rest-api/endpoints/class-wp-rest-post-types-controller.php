@@ -119,11 +119,11 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 		$obj = get_post_type_object( $request['type'] );
 
 		if ( empty( $obj ) ) {
-			return new WP_Error( 'rest_type_invalid', __( 'Invalid resource.' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_type_invalid', __( 'Invalid post type.' ), array( 'status' => 404 ) );
 		}
 
 		if ( empty( $obj->show_in_rest ) ) {
-			return new WP_Error( 'rest_cannot_read_type', __( 'Cannot view resource.' ), array( 'status' => rest_authorization_required_code() ) );
+			return new WP_Error( 'rest_cannot_read_type', __( 'Cannot view post type.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		if ( 'edit' === $request['context'] && ! current_user_can( $obj->cap->edit_posts ) ) {
@@ -204,43 +204,43 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 			'type'                 => 'object',
 			'properties'           => array(
 				'capabilities'     => array(
-					'description'  => __( 'All capabilities used by the resource.' ),
+					'description'  => __( 'All capabilities used by the post type.' ),
 					'type'         => 'object',
 					'context'      => array( 'edit' ),
 					'readonly'     => true,
 				),
 				'description'      => array(
-					'description'  => __( 'A human-readable description of the resource.' ),
+					'description'  => __( 'A human-readable description of the post type.' ),
 					'type'         => 'string',
 					'context'      => array( 'view', 'edit' ),
 					'readonly'     => true,
 				),
 				'hierarchical'     => array(
-					'description'  => __( 'Whether or not the resource should have children.' ),
+					'description'  => __( 'Whether or not the post type should have children.' ),
 					'type'         => 'boolean',
 					'context'      => array( 'view', 'edit' ),
 					'readonly'     => true,
 				),
 				'labels'           => array(
-					'description'  => __( 'Human-readable labels for the resource for various contexts.' ),
+					'description'  => __( 'Human-readable labels for the post type for various contexts.' ),
 					'type'         => 'object',
 					'context'      => array( 'edit' ),
 					'readonly'     => true,
 				),
 				'name'             => array(
-					'description'  => __( 'The title for the resource.' ),
+					'description'  => __( 'The title for the post type.' ),
 					'type'         => 'string',
 					'context'      => array( 'view', 'edit', 'embed' ),
 					'readonly'     => true,
 				),
 				'slug'             => array(
-					'description'  => __( 'An alphanumeric identifier for the resource.' ),
+					'description'  => __( 'An alphanumeric identifier for the post type.' ),
 					'type'         => 'string',
 					'context'      => array( 'view', 'edit', 'embed' ),
 					'readonly'     => true,
 				),
 				'taxonomies'       => array(
-					'description'  => __( 'Taxonomies associated with resource.' ),
+					'description'  => __( 'Taxonomies associated with post type.' ),
 					'type'         => 'array',
 					'items'        => array(
 						'type' => 'string',
@@ -249,7 +249,7 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 					'readonly'     => true,
 				),
 				'rest_base'            => array(
-					'description'  => __( 'REST base route for the resource.' ),
+					'description'  => __( 'REST base route for the post type.' ),
 					'type'         => 'string',
 					'context'      => array( 'view', 'edit', 'embed' ),
 					'readonly'     => true,

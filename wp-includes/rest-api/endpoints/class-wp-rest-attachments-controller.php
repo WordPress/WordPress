@@ -76,7 +76,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$post_parent_type = get_post_type_object( $parent->post_type );
 
 			if ( ! current_user_can( $post_parent_type->cap->edit_post, $request['post'] ) ) {
-				return new WP_Error( 'rest_cannot_edit', __( 'Sorry, you are not allowed to upload media to this resource.' ), array( 'status' => rest_authorization_required_code() ) );
+				return new WP_Error( 'rest_cannot_edit', __( 'Sorry, you are not allowed to upload media to this post.' ), array( 'status' => rest_authorization_required_code() ) );
 			}
 		}
 
@@ -378,7 +378,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		$schema = parent::get_item_schema();
 
 		$schema['properties']['alt_text'] = array(
-			'description'     => __( 'Alternative text to display when resource is not displayed.' ),
+			'description'     => __( 'Alternative text to display when attachment is not displayed.' ),
 			'type'            => 'string',
 			'context'         => array( 'view', 'edit', 'embed' ),
 			'arg_options'     => array(
@@ -387,7 +387,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		);
 
 		$schema['properties']['caption'] = array(
-			'description' => __( 'The caption for the resource.' ),
+			'description' => __( 'The attachment caption.' ),
 			'type'        => 'object',
 			'context'     => array( 'view', 'edit', 'embed' ),
 			'arg_options' => array(
@@ -395,12 +395,12 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			),
 			'properties'  => array(
 				'raw' => array(
-					'description' => __( 'Caption for the resource, as it exists in the database.' ),
+					'description' => __( 'Caption for the attachment, as it exists in the database.' ),
 					'type'        => 'string',
 					'context'     => array( 'edit' ),
 				),
 				'rendered' => array(
-					'description' => __( 'HTML caption for the resource, transformed for display.' ),
+					'description' => __( 'HTML caption for the attachment, transformed for display.' ),
 					'type'        => 'string',
 					'context'     => array( 'view', 'edit', 'embed' ),
 					'readonly'    => true,
@@ -409,7 +409,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		);
 
 		$schema['properties']['description'] = array(
-			'description' => __( 'The description for the resource.' ),
+			'description' => __( 'The attachment description.' ),
 			'type'        => 'object',
 			'context'     => array( 'view', 'edit' ),
 			'arg_options' => array(
@@ -431,7 +431,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		);
 
 		$schema['properties']['media_type'] = array(
-			'description'     => __( 'Type of resource.' ),
+			'description'     => __( 'Attachment type.' ),
 			'type'            => 'string',
 			'enum'            => array( 'image', 'file' ),
 			'context'         => array( 'view', 'edit', 'embed' ),
@@ -439,27 +439,27 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		);
 
 		$schema['properties']['mime_type'] = array(
-			'description'     => __( 'MIME type of resource.' ),
+			'description'     => __( 'The attachment MIME type.' ),
 			'type'            => 'string',
 			'context'         => array( 'view', 'edit', 'embed' ),
 			'readonly'        => true,
 		);
 
 		$schema['properties']['media_details'] = array(
-			'description'     => __( 'Details about the resource file, specific to its type.' ),
+			'description'     => __( 'Details about the media file, specific to its type.' ),
 			'type'            => 'object',
 			'context'         => array( 'view', 'edit', 'embed' ),
 			'readonly'        => true,
 		);
 
 		$schema['properties']['post'] = array(
-			'description'     => __( 'The ID for the associated post of the resource.' ),
+			'description'     => __( 'The ID for the associated post of the attachment.' ),
 			'type'            => 'integer',
 			'context'         => array( 'view', 'edit' ),
 		);
 
 		$schema['properties']['source_url'] = array(
-			'description'     => __( 'URL to the original resource file.' ),
+			'description'     => __( 'URL to the original attachment file.' ),
 			'type'            => 'string',
 			'format'          => 'uri',
 			'context'         => array( 'view', 'edit', 'embed' ),

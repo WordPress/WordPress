@@ -1963,7 +1963,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		$params['context']['default'] = 'view';
 
 		$params['after'] = array(
-			'description'        => __( 'Limit response to resources published after a given ISO8601 compliant date.' ),
+			'description'        => __( 'Limit response to posts published after a given ISO8601 compliant date.' ),
 			'type'               => 'string',
 			'format'             => 'date-time',
 		);
@@ -1988,7 +1988,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		$params['before'] = array(
-			'description'        => __( 'Limit response to resources published before a given ISO8601 compliant date.' ),
+			'description'        => __( 'Limit response to posts published before a given ISO8601 compliant date.' ),
 			'type'               => 'string',
 			'format'             => 'date-time',
 		);
@@ -2013,7 +2013,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( 'page' === $this->post_type || post_type_supports( $this->post_type, 'page-attributes' ) ) {
 			$params['menu_order'] = array(
-				'description'        => __( 'Limit result set to resources with a specific menu_order value.' ),
+				'description'        => __( 'Limit result set to posts with a specific menu_order value.' ),
 				'type'               => 'integer',
 			);
 		}
