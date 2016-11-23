@@ -482,14 +482,15 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_post_exists', __( 'Cannot create existing post.' ), array( 'status' => 400 ) );
 		}
 
-		$post = $this->prepare_item_for_database( $request );
+		$prepared_post = $this->prepare_item_for_database( $request );
 
-		if ( is_wp_error( $post ) ) {
-			return $post;
+		if ( is_wp_error( $prepared_post ) ) {
+			return $prepared_post;
 		}
 
-		$post->post_type = $this->post_type;
-		$post_id         = wp_insert_post( wp_slash( (array) $post ), true );
+		$prepared_post->post_type = $this->post_type;
+
+		$post_id = wp_insert_post( wp_slash( (array) $prepared_post ), true );
 
 		if ( is_wp_error( $post_id ) ) {
 
@@ -502,7 +503,20 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return $post_id;
 		}
 
-		$post->ID = $post_id;
+		$post = get_post( $post_id );
+
+		/**
+		 * Fires after a single post is created or updated via the REST API.
+		 *
+		 * The dynamic portion of the hook name, `$this->post_type`, refers to the post type slug.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param WP_Post         $post     Inserted or updated post object.
+		 * @param WP_REST_Request $request  Request object.
+		 * @param bool            $creating True when creating a post, false when updating.
+		 */
+		do_action( "rest_insert_{$this->post_type}", $post, $request, true );
 
 		$schema = $this->get_item_schema();
 
@@ -515,7 +529,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! empty( $schema['properties']['featured_media'] ) && isset( $request['featured_media'] ) ) {
-			$this->handle_featured_media( $request['featured_media'], $post->ID );
+			$this->handle_featured_media( $request['featured_media'], $post_id );
 		}
 
 		if ( ! empty( $schema['properties']['format'] ) && ! empty( $request['format'] ) ) {
@@ -523,43 +537,29 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! empty( $schema['properties']['template'] ) && isset( $request['template'] ) ) {
-			$this->handle_template( $request['template'], $post->ID );
+			$this->handle_template( $request['template'], $post_id );
 		}
 
-		$terms_update = $this->handle_terms( $post->ID, $request );
+		$terms_update = $this->handle_terms( $post_id, $request );
 
 		if ( is_wp_error( $terms_update ) ) {
 			return $terms_update;
 		}
 
-		$post = get_post( $post_id );
-
 		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], (int) $request['id'] );
+			$meta_update = $this->meta->update_value( $request['meta'], $post_id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
 			}
 		}
 
+		$post = get_post( $post_id );
 		$fields_update = $this->update_additional_fields_for_object( $post, $request );
 
 		if ( is_wp_error( $fields_update ) ) {
 			return $fields_update;
 		}
-
-		/**
-		 * Fires after a single post is created or updated via the REST API.
-		 *
-		 * The dynamic portion of the hook name, `$this->post_type`, refers to the post type slug.
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param object          $post     Inserted Post object (not a WP_Post object).
-		 * @param WP_REST_Request $request  Request object.
-		 * @param bool            $creating True when creating post, false when updating.
-		 */
-		do_action( "rest_insert_{$this->post_type}", $post, $request, true );
 
 		$request->set_param( 'context', 'edit' );
 
@@ -640,6 +640,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return $post_id;
 		}
 
+		$post = get_post( $post_id );
+
+		/* This action is documented in lib/endpoints/class-wp-rest-controller.php */
+		do_action( "rest_insert_{$this->post_type}", $post, $request, false );
+
 		$schema = $this->get_item_schema();
 
 		if ( ! empty( $schema['properties']['format'] ) && ! empty( $request['format'] ) ) {
@@ -668,8 +673,6 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return $terms_update;
 		}
 
-		$post = get_post( $post_id );
-
 		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
 			$meta_update = $this->meta->update_value( $request['meta'], $post->ID );
 
@@ -678,14 +681,12 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			}
 		}
 
+		$post = get_post( $post_id );
 		$fields_update = $this->update_additional_fields_for_object( $post, $request );
 
 		if ( is_wp_error( $fields_update ) ) {
 			return $fields_update;
 		}
-
-		/* This action is documented in lib/endpoints/class-wp-rest-controller.php */
-		do_action( "rest_insert_{$this->post_type}", $post, $request, false );
 
 		$request->set_param( 'context', 'edit' );
 

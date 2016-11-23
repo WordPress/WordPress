@@ -403,9 +403,9 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param WP_Term         $term     Inserted Term object.
+		 * @param WP_Term         $term     Inserted or updated term object.
 		 * @param WP_REST_Request $request  Request object.
-		 * @param bool            $creating True when creating term, false when updating.
+		 * @param bool            $creating True when creating a term, false when updating.
 		 */
 		do_action( "rest_insert_{$this->taxonomy}", $term, $request, true );
 

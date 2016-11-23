@@ -155,6 +155,18 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		$attachment = get_post( $id );
 
+		/**
+		 * Fires after a single attachment is created or updated via the REST API.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param WP_Post         $attachment Inserted or updated attachment
+		 *                                    object.
+		 * @param WP_REST_Request $request    The request sent to the API.
+		 * @param bool            $creating   True when creating an attachment, false when updating.
+		 */
+		do_action( 'rest_insert_attachment', $attachment, $request, true );
+
 		// Include admin functions to get access to wp_generate_attachment_metadata().
 		require_once ABSPATH . 'wp-admin/includes/admin.php';
 
@@ -175,17 +187,6 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		$response = rest_ensure_response( $response );
 		$response->set_status( 201 );
 		$response->header( 'Location', rest_url( sprintf( '%s/%s/%d', $this->namespace, $this->rest_base, $id ) ) );
-
-		/**
-		 * Fires after a single attachment is created or updated via the REST API.
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param object          $attachment Inserted attachment.
-		 * @param WP_REST_Request $request    The request sent to the API.
-		 * @param bool            $creating   True when creating an attachment, false when updating.
-		 */
-		do_action( 'rest_insert_attachment', $attachment, $request, true );
 
 		return $response;
 	}
@@ -219,6 +220,9 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		$attachment = get_post( $request['id'] );
 
+		/* This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-attachments-controller.php */
+		do_action( 'rest_insert_attachment', $data, $request, false );
+
 		$fields_update = $this->update_additional_fields_for_object( $attachment, $request );
 
 		if ( is_wp_error( $fields_update ) ) {
@@ -228,9 +232,6 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		$request->set_param( 'context', 'edit' );
 		$response = $this->prepare_item_for_response( $attachment, $request );
 		$response = rest_ensure_response( $response );
-
-		/* This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-attachments-controller.php */
-		do_action( 'rest_insert_attachment', $data, $request, false );
 
 		return $response;
 	}

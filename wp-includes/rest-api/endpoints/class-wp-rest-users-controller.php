@@ -461,6 +461,17 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		$user = get_user_by( 'id', $user_id );
 
+		/**
+		 * Fires immediately after a user is created or updated via the REST API.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param WP_User         $user     Inserted or updated user object.
+		 * @param WP_REST_Request $request  Request object.
+		 * @param bool            $creating True when creating a user, false when updating.
+		 */
+		do_action( 'rest_insert_user', $user, $request, true );
+
 		if ( ! empty( $request['roles'] ) && ! empty( $schema['properties']['roles'] ) ) {
 			array_map( array( $user, 'add_role' ), $request['roles'] );
 		}
@@ -473,22 +484,12 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			}
 		}
 
+		$user = get_user_by( 'id', $user_id );
 		$fields_update = $this->update_additional_fields_for_object( $user, $request );
 
 		if ( is_wp_error( $fields_update ) ) {
 			return $fields_update;
 		}
-
-		/**
-		 * Fires immediately after a user is created or updated via the REST API.
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param WP_User         $user     Data used to create the user.
-		 * @param WP_REST_Request $request  Request object.
-		 * @param bool            $creating True when creating user, false when updating user.
-		 */
-		do_action( 'rest_insert_user', $user, $request, true );
 
 		$request->set_param( 'context', 'edit' );
 
@@ -573,7 +574,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			return $user_id;
 		}
 
-		$user = get_user_by( 'id', $id );
+		$user = get_user_by( 'id', $user_id );
+
+		/* This action is documented in lib/endpoints/class-wp-rest-users-controller.php */
+		do_action( 'rest_insert_user', $user, $request, false );
 
 		if ( is_multisite() && ! is_user_member_of_blog( $id ) ) {
 			add_user_to_blog( get_current_blog_id(), $id, '' );
@@ -593,14 +597,12 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			}
 		}
 
+		$user = get_user_by( 'id', $user_id );
 		$fields_update = $this->update_additional_fields_for_object( $user, $request );
 
 		if ( is_wp_error( $fields_update ) ) {
 			return $fields_update;
 		}
-
-		/* This action is documented in lib/endpoints/class-wp-rest-users-controller.php */
-		do_action( 'rest_insert_user', $user, $request, false );
 
 		$request->set_param( 'context', 'edit' );
 

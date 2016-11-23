@@ -567,10 +567,22 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( isset( $request['status'] ) ) {
-			$comment = get_comment( $comment_id );
-
-			$this->handle_status_param( $request['status'], $comment );
+			$this->handle_status_param( $request['status'], $comment_id );
 		}
+
+		$comment = get_comment( $comment_id );
+
+		/**
+		 * Fires after a comment is created or updated via the REST API.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param WP_Comment      $comment  Inserted or updated comment object.
+		 * @param WP_REST_Request $request  Request object.
+		 * @param bool            $creating True when creating a comment, false
+		 *                                  when updating.
+		 */
+		do_action( 'rest_insert_comment', $comment, $request, true );
 
 		$schema = $this->get_item_schema();
 
@@ -581,8 +593,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				return $meta_update;
 			}
 		}
-
-		$comment = get_comment( $comment_id );
 
 		$fields_update = $this->update_additional_fields_for_object( $comment, $request );
 
@@ -600,16 +610,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		$response->set_status( 201 );
 		$response->header( 'Location', rest_url( sprintf( '%s/%s/%d', $this->namespace, $this->rest_base, $comment_id ) ) );
 
-		/**
-		 * Fires after a comment is created or updated via the REST API.
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param array           $comment  Comment as it exists in the database.
-		 * @param WP_REST_Request $request  The request sent to the API.
-		 * @param bool            $creating True when creating a comment, false when updating.
-		 */
-		do_action( 'rest_insert_comment', $comment, $request, true );
 
 		return $response;
 	}
@@ -666,7 +666,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		if ( empty( $prepared_args ) && isset( $request['status'] ) ) {
 			// Only the comment status is being changed.
-			$change = $this->handle_status_param( $request['status'], $comment );
+			$change = $this->handle_status_param( $request['status'], $id );
 
 			if ( ! $change ) {
 				return new WP_Error( 'rest_comment_failed_edit', __( 'Updating comment status failed.' ), array( 'status' => 500 ) );
@@ -695,9 +695,14 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 
 			if ( isset( $request['status'] ) ) {
-				$this->handle_status_param( $request['status'], $comment );
+				$this->handle_status_param( $request['status'], $id );
 			}
 		}
+
+		$comment = get_comment( $id );
+
+		/* This action is documented in lib/endpoints/class-wp-rest-comments-controller.php */
+		do_action( 'rest_insert_comment', $comment, $request, false );
 
 		$schema = $this->get_item_schema();
 
@@ -709,8 +714,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			}
 		}
 
-		$comment = get_comment( $id );
-
 		$fields_update = $this->update_additional_fields_for_object( $comment, $request );
 
 		if ( is_wp_error( $fields_update ) ) {
@@ -720,9 +723,6 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		$request->set_param( 'context', 'edit' );
 
 		$response = $this->prepare_item_for_response( $comment, $request );
-
-		/* This action is documented in lib/endpoints/class-wp-rest-comments-controller.php */
-		do_action( 'rest_insert_comment', $comment, $request, false );
 
 		return rest_ensure_response( $response );
 	}
@@ -1433,11 +1433,11 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * @access protected
 	 *
 	 * @param string|int $new_status New comment status.
-	 * @param WP_Comment $comment    Comment data.
+	 * @param int        $comment_id Comment ID.
 	 * @return bool Whether the status was changed.
 	 */
-	protected function handle_status_param( $new_status, $comment ) {
-		$old_status = wp_get_comment_status( $comment->comment_ID );
+	protected function handle_status_param( $new_status, $comment_id ) {
+		$old_status = wp_get_comment_status( $comment_id );
 
 		if ( $new_status === $old_status ) {
 			return false;
@@ -1447,23 +1447,23 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			case 'approved' :
 			case 'approve':
 			case '1':
-				$changed = wp_set_comment_status( $comment->comment_ID, 'approve' );
+				$changed = wp_set_comment_status( $comment_id, 'approve' );
 				break;
 			case 'hold':
 			case '0':
-				$changed = wp_set_comment_status( $comment->comment_ID, 'hold' );
+				$changed = wp_set_comment_status( $comment_id, 'hold' );
 				break;
 			case 'spam' :
-				$changed = wp_spam_comment( $comment->comment_ID );
+				$changed = wp_spam_comment( $comment_id );
 				break;
 			case 'unspam' :
-				$changed = wp_unspam_comment( $comment->comment_ID );
+				$changed = wp_unspam_comment( $comment_id );
 				break;
 			case 'trash' :
-				$changed = wp_trash_comment( $comment->comment_ID );
+				$changed = wp_trash_comment( $comment_id );
 				break;
 			case 'untrash' :
-				$changed = wp_untrash_comment( $comment->comment_ID );
+				$changed = wp_untrash_comment( $comment_id );
 				break;
 			default :
 				$changed = false;
