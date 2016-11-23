@@ -383,13 +383,13 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * check in core with a filter.
 	 *
 	 * @since 4.7.0
-	 * @access protected
+	 * @access public
 	 *
 	 * @param WP_Post         $post    Post to check against.
 	 * @param WP_REST_Request $request Request data to check.
 	 * @return bool True if the user can access password-protected content, otherwise false.
 	 */
-	protected function can_access_password_content( $post, $request ) {
+	public function can_access_password_content( $post, $request ) {
 		if ( empty( $post->post_password ) ) {
 			// No filter required.
 			return false;

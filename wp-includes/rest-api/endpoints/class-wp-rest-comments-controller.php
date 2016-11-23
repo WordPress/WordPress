@@ -69,6 +69,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'get_item_permissions_check' ),
 				'args'     => array(
 					'context'          => $this->get_context_param( array( 'default' => 'view' ) ),
+					'password' => array(
+						'description' => __( 'The password for the post if it is password protected.' ),
+						'type'        => 'string',
+					),
 				),
 			),
 			array(
@@ -86,6 +90,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 						'type'        => 'boolean',
 						'default'     => false,
 						'description' => __( 'Whether to bypass trash and force deletion.' ),
+					),
+					'password' => array(
+						'description' => __( 'The password for the post if it is password protected.' ),
+						'type'        => 'string',
 					),
 				),
 			),
@@ -108,7 +116,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			foreach ( (array) $request['post'] as $post_id ) {
 				$post = get_post( $post_id );
 
-				if ( ! empty( $post_id ) && $post && ! $this->check_read_post_permission( $post ) ) {
+				if ( ! empty( $post_id ) && $post && ! $this->check_read_post_permission( $post, $request ) ) {
 					return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you are not allowed to read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
 				} elseif ( 0 === $post_id && ! current_user_can( 'moderate_comments' ) ) {
 					return new WP_Error( 'rest_cannot_read', __( 'Sorry, you are not allowed to read comments without a post.' ), array( 'status' => rest_authorization_required_code() ) );
@@ -242,7 +250,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		$comments = array();
 
 		foreach ( $query_result as $comment ) {
-			if ( ! $this->check_read_permission( $comment ) ) {
+			if ( ! $this->check_read_permission( $comment, $request ) ) {
 				continue;
 			}
 
@@ -309,18 +317,18 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return true;
 		}
 
-		if ( ! $this->check_read_permission( $comment ) ) {
-			return new WP_Error( 'rest_cannot_read', __( 'Sorry, you are not allowed to read this comment.' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( ! empty( $request['context'] ) && 'edit' === $request['context'] && ! current_user_can( 'moderate_comments' ) ) {
+			return new WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to edit comments.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		$post = get_post( $comment->comment_post_ID );
 
-		if ( $post && ! $this->check_read_post_permission( $post ) ) {
-			return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you are not allowed to read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( ! $this->check_read_permission( $comment, $request ) ) {
+			return new WP_Error( 'rest_cannot_read', __( 'Sorry, you are not allowed to read this comment.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
-		if ( ! empty( $request['context'] ) && 'edit' === $request['context'] && ! current_user_can( 'moderate_comments' ) ) {
-			return new WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to edit comments.' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( $post && ! $this->check_read_post_permission( $post, $request ) ) {
+			return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you are not allowed to read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
@@ -433,7 +441,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_comment_trash_post', __( 'Sorry, you are not allowed to create a comment on this post.' ), array( 'status' => 403 ) );
 		}
 
-		if ( ! $this->check_read_post_permission( $post ) ) {
+		if ( ! $this->check_read_post_permission( $post, $request ) ) {
 			return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you are not allowed to read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
@@ -1412,6 +1420,11 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			'validate_callback' => 'rest_validate_request_arg',
 		);
 
+		$query_params['password'] = array(
+			'description' => __( 'The password for the post if it is password protected.' ),
+			'type'        => 'string',
+		);
+
 		/**
 		 * Filter collection parameters for the comments controller.
 		 *
@@ -1481,18 +1494,36 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 * @access protected
 	 *
-	 * @param WP_Post $post Post Object.
+	 * @param WP_Post         $post    Post object.
+	 * @param WP_REST_Request $request Request data to check.
 	 * @return bool Whether post can be read.
 	 */
-	protected function check_read_post_permission( $post ) {
+	protected function check_read_post_permission( $post, $request ) {
 		$posts_controller = new WP_REST_Posts_Controller( $post->post_type );
 		$post_type = get_post_type_object( $post->post_type );
 
-		if ( post_password_required( $post ) ) {
-			return current_user_can( $post_type->cap->edit_post, $post->ID );
+		$has_password_filter = false;
+
+		// Only check password if a specific post was queried for or a single comment
+		$requested_post = ! empty( $request['post'] ) && 1 === count( $request['post'] );
+		$requested_comment = ! empty( $request['id'] );
+		if ( ( $requested_post || $requested_comment ) && $posts_controller->can_access_password_content( $post, $request ) ) {
+			add_filter( 'post_password_required', '__return_false' );
+
+			$has_password_filter = true;
 		}
 
-		return $posts_controller->check_read_permission( $post );
+		if ( post_password_required( $post ) ) {
+			$result = current_user_can( $post_type->cap->edit_post, $post->ID );
+		} else {
+			$result = $posts_controller->check_read_permission( $post );
+		}
+
+		if ( $has_password_filter ) {
+			remove_filter( 'post_password_required', '__return_false' );
+		}
+
+		return $result;
 	}
 
 	/**
@@ -1501,14 +1532,15 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * @since 4.7.0
 	 * @access protected
 	 *
-	 * @param WP_Comment $comment Comment object.
+	 * @param WP_Comment      $comment Comment object.
+	 * @param WP_REST_Request $request Request data to check.
 	 * @return bool Whether the comment can be read.
 	 */
-	protected function check_read_permission( $comment ) {
+	protected function check_read_permission( $comment, $request ) {
 		if ( ! empty( $comment->comment_post_ID ) ) {
 			$post = get_post( $comment->comment_post_ID );
 			if ( $post ) {
-				if ( $this->check_read_post_permission( $post ) && 1 === (int) $comment->comment_approved ) {
+				if ( $this->check_read_post_permission( $post, $request ) && 1 === (int) $comment->comment_approved ) {
 					return true;
 				}
 			}
