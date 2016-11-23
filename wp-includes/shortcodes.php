@@ -244,10 +244,11 @@ function do_shortcode( $content, $ignore_html = false ) {
  * 6 - An extra ] to allow for escaping shortcodes with double [[]]
  *
  * @since 2.5.0
+ * @since 4.4.0 Added the `$tagnames` parameter.
  *
  * @global array $shortcode_tags
  *
- * @param array $tagnames List of shortcodes to find. Optional. Defaults to all registered shortcodes.
+ * @param array $tagnames Optional. List of shortcodes to find. Defaults to all registered shortcodes.
  * @return string The shortcode search regular expression
  */
 function get_shortcode_regex( $tagnames = null ) {
