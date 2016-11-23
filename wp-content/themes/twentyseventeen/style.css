@@ -2014,10 +2014,12 @@ body:not(.twentyseventeen-front-page) .entry-header {
 	color: #222;
 	display: inline-block;
 	margin-left: 1em;
+	white-space: nowrap;
 }
 
 .search .page .entry-meta a.post-edit-link {
 	margin-left: 0;
+	white-space: nowrap;
 }
 
 .taxonomy-description {
@@ -2134,6 +2136,7 @@ body:not(.twentyseventeen-front-page) .entry-header {
 	padding: 0.7em 2em;
 	-webkit-transition: background-color 0.2s ease-in-out;
 	transition: background-color 0.2s ease-in-out;
+	white-space: nowrap;
 }
 
 .entry-footer .edit-link a.post-edit-link:hover,
