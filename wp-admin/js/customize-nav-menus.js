@@ -85,6 +85,9 @@
 	/**
 	 * Insert a new `auto-draft` post.
 	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
 	 * @param {object} params - Parameters for the draft post to create.
 	 * @param {string} params.post_type - Post type to add.
 	 * @param {string} params.post_title - Post title to use.
@@ -562,7 +565,15 @@
 			itemName.val( '' );
 		},
 
-		// Submit handler for keypress (enter) on field and click on button.
+		/**
+		 * Submit handler for keypress (enter) on field and click on button.
+		 *
+		 * @since 4.7.0
+		 * @private
+		 *
+		 * @param {jQuery.Event} event Event.
+		 * @returns {void}
+		 */
 		_submitNew: function( event ) {
 			var container;
 
@@ -580,7 +591,15 @@
 			this.submitNew( container );
 		},
 
-		// Creates a new object and adds an associated menu item to the menu.
+		/**
+		 * Creates a new object and adds an associated menu item to the menu.
+		 *
+		 * @since 4.7.0
+		 * @private
+		 *
+		 * @param {jQuery} container
+		 * @returns {void}
+		 */
 		submitNew: function( container ) {
 			var panel = this,
 				itemName = container.find( '.create-item-input' ),

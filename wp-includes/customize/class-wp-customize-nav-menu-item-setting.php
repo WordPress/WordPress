@@ -267,6 +267,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Get original title.
 	 *
 	 * @since 4.7.0
+	 * @access protected
 	 *
 	 * @param object $item Nav menu item.
 	 * @return string The original title.

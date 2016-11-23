@@ -3967,27 +3967,27 @@ final class WP_Customize_Manager {
 			if ( ! in_array( $value, array( 'repeat-x', 'repeat-y', 'repeat', 'no-repeat' ) ) ) {
 				return new WP_Error( 'invalid_value', __( 'Invalid value for background repeat.' ) );
 			}
-		} else if ( 'background_attachment' === $setting->id ) {
+		} elseif ( 'background_attachment' === $setting->id ) {
 			if ( ! in_array( $value, array( 'fixed', 'scroll' ) ) ) {
 				return new WP_Error( 'invalid_value', __( 'Invalid value for background attachment.' ) );
 			}
-		} else if ( 'background_position_x' === $setting->id ) {
+		} elseif ( 'background_position_x' === $setting->id ) {
 			if ( ! in_array( $value, array( 'left', 'center', 'right' ), true ) ) {
 				return new WP_Error( 'invalid_value', __( 'Invalid value for background position X.' ) );
 			}
-		} else if ( 'background_position_y' === $setting->id ) {
+		} elseif ( 'background_position_y' === $setting->id ) {
 			if ( ! in_array( $value, array( 'top', 'center', 'bottom' ), true ) ) {
 				return new WP_Error( 'invalid_value', __( 'Invalid value for background position Y.' ) );
 			}
-		} else if ( 'background_size' === $setting->id ) {
+		} elseif ( 'background_size' === $setting->id ) {
 			if ( ! in_array( $value, array( 'auto', 'contain', 'cover' ), true ) ) {
 				return new WP_Error( 'invalid_value', __( 'Invalid value for background size.' ) );
 			}
-		} else if ( 'background_preset' === $setting->id ) {
+		} elseif ( 'background_preset' === $setting->id ) {
 			if ( ! in_array( $value, array( 'default', 'fill', 'fit', 'repeat', 'custom' ), true ) ) {
 				return new WP_Error( 'invalid_value', __( 'Invalid value for background size.' ) );
 			}
-		} else if ( 'background_image' === $setting->id || 'background_image_thumb' === $setting->id ) {
+		} elseif ( 'background_image' === $setting->id || 'background_image_thumb' === $setting->id ) {
 			$value = empty( $value ) ? '' : esc_url_raw( $value );
 		} else {
 			return new WP_Error( 'unrecognized_setting', __( 'Unrecognized background setting.' ) );

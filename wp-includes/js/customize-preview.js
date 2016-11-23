@@ -132,6 +132,7 @@
 		 * Handle link clicks in preview.
 		 *
 		 * @since 4.7.0
+		 * @access public
 		 *
 		 * @param {jQuery.Event} event Event.
 		 */
@@ -178,6 +179,7 @@
 		 * Handle form submit.
 		 *
 		 * @since 4.7.0
+		 * @access public
 		 *
 		 * @param {jQuery.Event} event Event.
 		 */

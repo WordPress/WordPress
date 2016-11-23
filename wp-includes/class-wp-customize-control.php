@@ -119,7 +119,7 @@ class WP_Customize_Control {
 	 *
 	 * @since 4.7.0
 	 * @access public
-	 * @var array
+	 * @var bool
 	 */
 	public $allow_addition = false;
 

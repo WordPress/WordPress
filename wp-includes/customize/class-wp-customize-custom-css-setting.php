@@ -21,10 +21,9 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	/**
 	 * The setting type.
 	 *
-	 * @var string
-	 *
 	 * @since 4.7.0
 	 * @access public
+	 * @var string
 	 */
 	public $type = 'custom_css';
 
@@ -33,7 +32,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 *
 	 * @since 4.7.0
 	 * @access public
-	 *
 	 * @var string
 	 */
 	public $transport = 'postMessage';
@@ -43,7 +41,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 *
 	 * @since 4.7.0
 	 * @access public
-	 *
 	 * @var string
 	 */
 	public $capability = 'edit_css';
@@ -53,7 +50,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 *
 	 * @since 4.7.0
 	 * @access public
-	 *
 	 * @var string
 	 */
 	public $stylesheet = '';

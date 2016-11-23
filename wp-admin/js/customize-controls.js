@@ -45,6 +45,9 @@
 		 * previewer.send() call to then fallback to refresh will not work.
 		 *
 		 * @since 3.4.0
+		 * @access public
+		 *
+		 * @returns {void}
 		 */
 		preview: function() {
 			var setting = this, transport;
@@ -55,9 +58,9 @@
 			}
 
 			if ( 'postMessage' === transport ) {
-				return setting.previewer.send( 'setting', [ setting.id, setting() ] );
+				setting.previewer.send( 'setting', [ setting.id, setting() ] );
 			} else if ( 'refresh' === transport ) {
-				return setting.previewer.refresh();
+				setting.previewer.refresh();
 			}
 		},
 
@@ -130,6 +133,9 @@
 	/**
 	 * Get the dirty setting values.
 	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
 	 * @param {object} [options] Options.
 	 * @param {boolean} [options.unsaved=false] Whether only values not saved yet into a changeset will be returned (differential changes).
 	 * @returns {object} Dirty setting values.
@@ -158,9 +164,12 @@
 	/**
 	 * Request updates to the changeset.
 	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
 	 * @param {object} [changes] Mapping of setting IDs to setting params each normally including a value property, or mapping to null.
 	 *                           If not provided, then the changes will still be obtained from unsaved dirty settings.
-	 * @returns {jQuery.Promise}
+	 * @returns {jQuery.Promise} Promise resolving with the response data.
 	 */
 	api.requestChangesetUpdate = function requestChangesetUpdate( changes ) {
 		var deferred, request, submittedChanges = {}, data;
@@ -684,10 +693,10 @@
 		 * Animate container state change if transitions are supported by the browser.
 		 *
 		 * @since 4.7.0
+		 * @private
 		 *
 		 * @param {function} completeCallback Function to be called after transition is completed.
 		 * @returns {void}
-		 * @private
 		 */
 		_animateChangeExpanded: function( completeCallback ) {
 			// Return if CSS transitions are not supported.
@@ -778,6 +787,7 @@
 		 * method to handle animating the panel/section into and out of view.
 		 *
 		 * @since 4.7.0
+		 * @access public
 		 *
 		 * @returns {jQuery} Detached content element.
 		 */
@@ -935,7 +945,7 @@
 				content.toggleClass( 'open' );
 				content.slideToggle();
 				content.attr( 'aria-expanded', function ( i, attr ) {
-					return attr === 'true' ? 'false' : 'true';
+					return 'true' === attr ? 'false' : 'true';
 				});
 			});
 		},
@@ -1419,6 +1429,7 @@
 		 * Load theme preview.
 		 *
 		 * @since 4.7.0
+		 * @access public
 		 *
 		 * @param {string} themeId Theme ID.
 		 * @returns {jQuery.promise} Promise.
@@ -1451,9 +1462,11 @@
 				request.done( function() {
 					$( window ).off( 'beforeunload.customize-confirm' );
 					top.location.href = urlParser.href;
+					deferred.resolve();
 				} );
 				request.fail( function() {
 					overlay.removeClass( 'customize-loading' );
+					deferred.reject();
 				} );
 			};
 
@@ -2273,8 +2286,8 @@
 				// Reset the create page form.
 				container.slideUp( 180 );
 				toggle.slideDown( 180 );
-			} )
-			.always( function() {
+			} );
+			promise.always( function() {
 				input.val( '' ).removeAttr( 'disabled' );
 			} );
 		}
@@ -2320,7 +2333,7 @@
 			}
 
 			control.setting.bind( function ( value ) {
-				// bail if the update came from the control itself
+				// Bail if the update came from the control itself.
 				if ( updating ) {
 					return;
 				}
@@ -2641,6 +2654,7 @@
 		 * Set up control UI once embedded in DOM and settings are created.
 		 *
 		 * @since 4.7.0
+		 * @access public
 		 */
 		ready: function() {
 			var control = this, updateRadios;
@@ -3713,8 +3727,7 @@
 					parsedCandidateUrls.unshift( urlParser );
 				}
 
-				// Attempt to match the URL to the control frame's scheme
-				// and check if it's allowed. If not, try the original URL.
+				// Attempt to match the URL to the control frame's scheme and check if it's allowed. If not, try the original URL.
 				parsedAllowedUrl = document.createElement( 'a' );
 				_.find( parsedCandidateUrls, function( parsedCandidateUrl ) {
 					return ! _.isUndefined( _.find( previewer.allowedUrls, function( allowedUrl ) {
@@ -3771,6 +3784,7 @@
 		 * Handle the preview receiving the ready message.
 		 *
 		 * @since 4.7.0
+		 * @access public
 		 *
 		 * @param {object} data - Data from preview.
 		 * @param {string} data.currentUrl - Current URL.
@@ -3845,6 +3859,7 @@
 		 * If a message is not received in the allotted time then the iframe will be set back to the last known valid URL.
 		 *
 		 * @since 4.7.0
+		 * @access public
 		 *
 		 * @returns {void}
 		 */
@@ -3904,6 +3919,10 @@
 
 		/**
 		 * Refresh the preview seamlessly.
+		 *
+		 * @since 3.4.0
+		 * @access public
+		 * @returns {void}
 		 */
 		refresh: function() {
 			var previewer = this, onSettingChange;
@@ -4299,7 +4318,9 @@
 			/**
 			 * Build the query to send along with the Preview request.
 			 *
+			 * @since 3.4.0
 			 * @since 4.7.0 Added options param.
+			 * @access public
 			 *
 			 * @param {object}  [options] Options.
 			 * @param {boolean} [options.excludeCustomizedSaved=false] Exclude saved settings in customized response (values pending writing to changeset).
@@ -4333,12 +4354,14 @@
 			 * A revision will be made for the changeset post if revisions support
 			 * has been added to the post type.
 			 *
+			 * @since 3.4.0
+			 * @since 4.7.0 Added args param and return value.
+			 *
 			 * @param {object} [args] Args.
 			 * @param {string} [args.status=publish] Status.
 			 * @param {string} [args.date] Date, in local time in MySQL format.
 			 * @param {string} [args.title] Title
-			 *
-			 * @returns {jQuery.promise}
+			 * @returns {jQuery.promise} Promise.
 			 */
 			save: function( args ) {
 				var previewer = this,
@@ -4693,6 +4716,15 @@
 				}
 			});
 
+			/**
+			 * Populate URL with UUID via `history.replaceState()`.
+			 *
+			 * @since 4.7.0
+			 * @access private
+			 *
+			 * @param {boolean} isIncluded Is UUID included.
+			 * @returns {void}
+			 */
 			populateChangesetUuidParam = function( isIncluded ) {
 				var urlParser, queryParams;
 				urlParser = document.createElement( 'a' );
@@ -4829,7 +4861,15 @@
 				changeContainer, getHeaderHeight, releaseStickyHeader, resetStickyHeader, positionStickyHeader,
 				activeHeader, lastScrollTop;
 
-			// Determine which panel or section is currently expanded.
+			/**
+			 * Determine which panel or section is currently expanded.
+			 *
+			 * @since 4.7.0
+			 * @access private
+			 *
+			 * @param {wp.customize.Panel|wp.customize.Section} container Construct.
+			 * @returns {void}
+			 */
 			changeContainer = function( container ) {
 				var newInstance = container,
 					expandedSection = api.state( 'expandedSection' ).get(),
@@ -4905,7 +4945,15 @@
 				headerParent.css( 'padding-top', '' );
 			};
 
-			// Get header height.
+			/**
+			 * Get header height.
+			 *
+			 * @since 4.7.0
+			 * @access private
+			 *
+			 * @param {jQuery} headerElement Header element.
+			 * @returns {number} Height.
+			 */
 			getHeaderHeight = function( headerElement ) {
 				var height = headerElement.data( 'height' );
 				if ( ! height ) {
@@ -4915,7 +4963,17 @@
 				return height;
 			};
 
-			// Reposition header on throttled `scroll` event.
+			/**
+			 * Reposition header on throttled `scroll` event.
+			 *
+			 * @since 4.7.0
+			 * @access private
+			 *
+			 * @param {object}  header        Header.
+			 * @param {number}  scrollTop     Scroll top.
+			 * @param {boolean} isScrollingUp Is scrolling up?
+			 * @returns {void}
+			 */
 			positionStickyHeader = function( header, scrollTop, isScrollingUp ) {
 				var headerElement = header.element,
 					headerParent = header.parent,
@@ -5362,6 +5420,7 @@
 			/**
 			 * Request changeset update and then re-schedule the next changeset update time.
 			 *
+			 * @since 4.7.0
 			 * @private
 			 */
 			updateChangesetWithReschedule = function() {
@@ -5377,6 +5436,7 @@
 			/**
 			 * Schedule changeset update.
 			 *
+			 * @since 4.7.0
 			 * @private
 			 */
 			scheduleChangesetUpdate = function() {

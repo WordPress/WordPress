@@ -16,21 +16,28 @@
  */
 class WP_Customize_Color_Control extends WP_Customize_Control {
 	/**
+	 * Type.
+	 *
 	 * @access public
 	 * @var string
 	 */
 	public $type = 'color';
 
 	/**
+	 * Statuses.
+	 *
 	 * @access public
 	 * @var array
 	 */
 	public $statuses;
 
 	/**
-	* @access public
-	* @var string
-	*/
+	 * Mode.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 * @var string
+	 */
 	public $mode = 'full';
 
 	/**
