@@ -973,15 +973,17 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		// Post password.
-		if ( ! empty( $schema['properties']['password'] ) && isset( $request['password'] ) && '' !== $request['password'] ) {
+		if ( ! empty( $schema['properties']['password'] ) && isset( $request['password'] ) ) {
 			$prepared_post->post_password = $request['password'];
 
-			if ( ! empty( $schema['properties']['sticky'] ) && ! empty( $request['sticky'] ) ) {
-				return new WP_Error( 'rest_invalid_field', __( 'A post can not be sticky and have a password.' ), array( 'status' => 400 ) );
-			}
+			if ( '' !== $request['password'] ) {
+				if ( ! empty( $schema['properties']['sticky'] ) && ! empty( $request['sticky'] ) ) {
+					return new WP_Error( 'rest_invalid_field', __( 'A post can not be sticky and have a password.' ), array( 'status' => 400 ) );
+				}
 
-			if ( ! empty( $prepared_post->ID ) && is_sticky( $prepared_post->ID ) ) {
-				return new WP_Error( 'rest_invalid_field', __( 'A sticky post can not be password protected.' ), array( 'status' => 400 ) );
+				if ( ! empty( $prepared_post->ID ) && is_sticky( $prepared_post->ID ) ) {
+					return new WP_Error( 'rest_invalid_field', __( 'A sticky post can not be password protected.' ), array( 'status' => 400 ) );
+				}
 			}
 		}
 
