@@ -1708,6 +1708,93 @@ function wp_get_custom_css( $stylesheet = '' ) {
 }
 
 /**
+ * Update the `custom_css` post for a given theme.
+ *
+ * Inserts a `custom_css` post when one doesn't yet exist.
+ *
+ * @since 4.7.0
+ * @access public
+ *
+ * @param string $css CSS, stored in `post_content`.
+ * @param array  $args {
+ *     Args.
+ *
+ *     @type string $preprocessed Pre-processed CSS, stored in `post_content_filtered`. Normally empty string. Optional.
+ *     @type string $stylesheet   Stylesheet (child theme) to update. Optional, defaults to current theme/stylesheet.
+ * }
+ * @return WP_Post|WP_Error Post on success, error on failure.
+ */
+function wp_update_custom_css_post( $css, $args = array() ) {
+	$args = wp_parse_args( $args, array(
+		'preprocessed' => '',
+		'stylesheet' => get_stylesheet(),
+	) );
+
+	$data = array(
+		'css' => $css,
+		'preprocessed' => $args['preprocessed'],
+	);
+
+	/**
+	 * Filters the `css` (`post_content`) and `preprocessed` (`post_content_filtered`) args for a `custom_css` post being updated.
+	 *
+	 * This filter can be used by plugin that offer CSS pre-processors, to store the original
+	 * pre-processed CSS in `post_content_filtered` and then store processed CSS in `post_content`.
+	 * When used in this way, the `post_content_filtered` should be supplied as the setting value
+	 * instead of `post_content` via a the `customize_value_custom_css` filter, for example:
+	 *
+	 * <code>
+	 * add_filter( 'customize_value_custom_css', function( $value, $setting ) {
+	 *     $post = wp_get_custom_css_post( $setting->stylesheet );
+	 *     if ( $post && ! empty( $post->post_content_filtered ) ) {
+	 *         $css = $post->post_content_filtered;
+	 *     }
+	 *     return $css;
+	 * }, 10, 2 );
+	 * </code>
+	 *
+	 * @since 4.7.0
+	 * @param array $data {
+	 *     Custom CSS data.
+	 *
+	 *     @type string $css          CSS stored in `post_content`.
+	 *     @type string $preprocessed Pre-processed CSS stored in `post_content_filtered`. Normally empty string.
+	 * }
+	 * @param array $args {
+	 *     The args passed into `wp_update_custom_css_post()` merged with defaults.
+	 *
+	 *     @type string $css          The original CSS passed in to be updated.
+	 *     @type string $preprocessed The original preprocessed CSS passed in to be updated.
+	 *     @type string $stylesheet   The stylesheet (theme) being updated.
+	 * }
+	 */
+	$data = apply_filters( 'update_custom_css_data', $data, array_merge( $args, compact( 'css' ) ) );
+
+	$post_data = array(
+		'post_title' => $args['stylesheet'],
+		'post_name' => sanitize_title( $args['stylesheet'] ),
+		'post_type' => 'custom_css',
+		'post_status' => 'publish',
+		'post_content' => $data['css'],
+		'post_content_filtered' => $data['preprocessed'],
+	);
+
+	// Update post if it already exists, otherwise create a new one.
+	$post = wp_get_custom_css_post( $args['stylesheet'] );
+	if ( $post ) {
+		$post_data['ID'] = $post->ID;
+		$r = wp_update_post( wp_slash( $post_data ), true );
+	} else {
+		$r = wp_insert_post( wp_slash( $post_data ), true );
+	}
+
+	if ( $r instanceof WP_Error ) {
+		return $r;
+	}
+	return get_post( $r );
+}
+
+/**
  * Add callback for custom TinyMCE editor stylesheets.
  *
  * The parameter $stylesheet is the name of the stylesheet, relative to
