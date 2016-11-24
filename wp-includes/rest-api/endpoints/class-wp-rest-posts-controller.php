@@ -1908,7 +1908,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					$schema['properties']['format'] = array(
 						'description' => __( 'The format for the object.' ),
 						'type'        => 'string',
-						'enum'        => $supports_formats ? array_values( $supports_formats[0] ) : array(),
+						'enum'        => array_merge( array( 'standard' ), $supports_formats ? array_values( $supports_formats[0] ) : array() ),
 						'context'     => array( 'view', 'edit' ),
 					);
 					break;
