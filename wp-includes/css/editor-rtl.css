@@ -858,6 +858,11 @@ div.mce-menu .mce-menu-item-sep,
 	border-right-color: #23282d;
 }
 
+div.mce-notification {
+	right: 10% !important;
+	left: 10%;
+}
+
 .mce-notification button.mce-close {
 	left: 6px;
 	top: 3px;
