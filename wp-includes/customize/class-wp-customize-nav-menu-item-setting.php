@@ -233,6 +233,9 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			} else {
 				$value = $post_value;
 			}
+			if ( ! empty( $value ) && empty( $value['original_title'] ) ) {
+				$value['original_title'] = $this->get_original_title( (object) $value );
+			}
 		} elseif ( isset( $this->value ) ) {
 			$value = $this->value;
 		} else {
@@ -260,6 +263,10 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 			$value = $this->value;
 		}
 
+		if ( ! empty( $value ) && empty( $value['type_label'] ) ) {
+			$value['type_label'] = $this->get_type_label( (object) $value );
+		}
+
 		return $value;
 	}
 
@@ -273,11 +280,8 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * @return string The original title.
 	 */
 	protected function get_original_title( $item ) {
-		if ( empty( $item->object_id ) ) {
-			return '';
-		}
 		$original_title = '';
-		if ( 'post_type' === $item->type ) {
+		if ( 'post_type' === $item->type && ! empty( $item->object_id ) ) {
 			$original_object = get_post( $item->object_id );
 			if ( $original_object ) {
 				/** This filter is documented in wp-includes/post-template.php */
@@ -288,14 +292,51 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 					$original_title = sprintf( __( '#%d (no title)' ), $original_object->ID );
 				}
 			}
-		} elseif ( 'taxonomy' === $item->type ) {
+		} elseif ( 'taxonomy' === $item->type && ! empty( $item->object_id ) ) {
 			$original_term_title = get_term_field( 'name', $item->object_id, $item->object, 'raw' );
 			if ( ! is_wp_error( $original_term_title ) ) {
 				$original_title = $original_term_title;
 			}
+		} elseif ( 'post_type_archive' === $item->type ) {
+			$original_object = get_post_type_object( $item->object );
+			if ( $original_object ) {
+				$original_title = $original_object->labels->archives;
+			}
 		}
 		$original_title = html_entity_decode( $original_title, ENT_QUOTES, get_bloginfo( 'charset' ) );
 		return $original_title;
+	}
+
+	/**
+	 * Get type label.
+	 *
+	 * @since 4.7.0
+	 * @access protected
+	 *
+	 * @param object $item Nav menu item.
+	 * @returns string The type label.
+	 */
+	protected function get_type_label( $item ) {
+		if ( 'post_type' === $item->type ) {
+			$object = get_post_type_object( $item->object );
+			if ( $object ) {
+				$type_label = $object->labels->singular_name;
+			} else {
+				$type_label = $item->object;
+			}
+		} elseif ( 'taxonomy' === $item->type ) {
+			$object = get_taxonomy( $item->object );
+			if ( $object ) {
+				$type_label = $object->labels->singular_name;
+			} else {
+				$type_label = $item->object;
+			}
+		} elseif ( 'post_type_archive' === $item->type ) {
+			$type_label = __( 'Post Type Archive' );
+		} else {
+			$type_label = __( 'Custom Link' );
+		}
+		return $type_label;
 	}
 
 	/**
@@ -584,23 +625,7 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 		}
 
 		if ( ! isset( $post->type_label ) ) {
-			if ( 'post_type' === $post->type ) {
-				$object = get_post_type_object( $post->object );
-				if ( $object ) {
-					$post->type_label = $object->labels->singular_name;
-				} else {
-					$post->type_label = $post->object;
-				}
-			} elseif ( 'taxonomy' === $post->type ) {
-				$object = get_taxonomy( $post->object );
-				if ( $object ) {
-					$post->type_label = $object->labels->singular_name;
-				} else {
-					$post->type_label = $post->object;
-				}
-			} else {
-				$post->type_label = __( 'Custom Link' );
-			}
+			$post->type_label = $this->get_type_label( $post );
 		}
 
 		// Ensure nav menu item URL is set according to linked object.
