@@ -1160,6 +1160,8 @@ function wp_edit_attachments_query_vars( $q = false ) {
  * @since 4.7.0
  * @access private
  *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @param array $clauses An array including WHERE, GROUP BY, JOIN, ORDER BY,
  *                       DISTINCT, fields (SELECT), and LIMITS clauses.
  * @return array The modified clauses.
