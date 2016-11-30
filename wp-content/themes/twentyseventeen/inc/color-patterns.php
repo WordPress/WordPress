@@ -557,5 +557,15 @@ body.colors-custom,
 	}
 }';
 
-	return $css;
+
+	/**
+	 * Filters Twenty Seventeen custom colors CSS.
+	 *
+	 * @since Twenty Seventeen 1.0
+	 *
+	 * @param $css        string Base theme colors CSS.
+	 * @param $hue        int    The user's selected color hue.
+	 * @param $saturation string Filtered theme color saturation level.
+	 */
+	return apply_filters( 'twentyseventeen_custom_colors_css', $css, $hue, $saturation );
 }
