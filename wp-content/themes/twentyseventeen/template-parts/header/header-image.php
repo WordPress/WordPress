@@ -11,9 +11,11 @@
 ?>
 <div class="custom-header">
 
-	<div class="custom-header-image">
-		<?php the_custom_header_markup(); ?>
-	</div>
+	<?php if ( has_custom_header() ) : ?>
+		<div class="custom-header-image">
+			<?php the_custom_header_markup(); ?>
+		</div>
+	<?php endif; ?>
 
 	<?php get_template_part( 'template-parts/header/site', 'branding' ); ?>
 
