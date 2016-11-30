@@ -1074,7 +1074,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				'locale'    => array(
 					'description' => __( 'Locale for the resource.' ),
 					'type'        => 'string',
-					'enum'        => array_merge( array( 'en_US' ), get_available_languages() ),
+					'enum'        => array_merge( array( '', 'en_US' ), get_available_languages() ),
 					'context'     => array( 'edit' ),
 				),
 				'nickname'    => array(

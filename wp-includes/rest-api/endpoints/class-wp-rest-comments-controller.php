@@ -106,7 +106,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		if ( ! empty( $request['post'] ) ) {
 			foreach ( (array) $request['post'] as $post_id ) {
-				$post = $this->get_post( $post_id );
+				$post = get_post( $post_id );
 
 				if ( ! empty( $post_id ) && $post && ! $this->check_read_post_permission( $post ) ) {
 					return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you cannot read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
@@ -314,7 +314,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_cannot_read', __( 'Sorry, you cannot read this comment.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
-		$post = $this->get_post( $comment->comment_post_ID );
+		$post = get_post( $comment->comment_post_ID );
 
 		if ( $post && ! $this->check_read_post_permission( $post ) ) {
 			return new WP_Error( 'rest_cannot_read_post', __( 'Sorry, you cannot read the post for this comment.' ), array( 'status' => rest_authorization_required_code() ) );
@@ -345,7 +345,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! empty( $comment->comment_post_ID ) ) {
-			$post = $this->get_post( $comment->comment_post_ID );
+			$post = get_post( $comment->comment_post_ID );
 			if ( empty( $post ) ) {
 				return new WP_Error( 'rest_post_invalid_id', __( 'Invalid post id.' ), array( 'status' => 404 ) );
 			}
@@ -389,7 +389,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_comment_invalid_post_id', __( 'Sorry, you cannot create this comment without a post.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
-		if ( ! empty( $request['post'] ) && $post = $this->get_post( (int) $request['post'] ) ) {
+		if ( ! empty( $request['post'] ) && $post = get_post( (int) $request['post'] ) ) {
 			if ( 'draft' === $post->post_status ) {
 				return new WP_Error( 'rest_comment_draft_post', __( 'Sorry, you cannot create a comment on this post.' ), array( 'status' => 403 ) );
 			}
@@ -520,7 +520,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		 */
 		$prepared_comment = apply_filters( 'rest_pre_insert_comment', $prepared_comment, $request );
 
-		$comment_id = wp_insert_comment( $prepared_comment );
+		$comment_id = wp_insert_comment( wp_filter_comment( wp_slash( (array) $prepared_comment ) ) );
 
 		if ( ! $comment_id ) {
 			return new WP_Error( 'rest_comment_failed_create', __( 'Creating comment failed.' ), array( 'status' => 500 ) );
@@ -644,7 +644,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				return new WP_Error( $error_code, __( 'Comment field exceeds maximum length allowed.' ), array( 'status' => 400 ) );
 			}
 
-			$updated = wp_update_comment( $prepared_args );
+			$updated = wp_update_comment( wp_slash( (array) $prepared_args ) );
 
 			if ( 0 === $updated ) {
 				return new WP_Error( 'rest_comment_failed_edit', __( 'Updating comment failed.' ), array( 'status' => 500 ) );
@@ -871,7 +871,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		if ( 0 !== (int) $comment->comment_post_ID ) {
-			$post = $this->get_post( $comment->comment_post_ID );
+			$post = get_post( $comment->comment_post_ID );
 
 			if ( ! empty( $post->ID ) ) {
 				$obj = get_post_type_object( $post->post_type );
@@ -995,9 +995,9 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		 * the 'content.raw' properties of the Request object.
 		 */
 		if ( isset( $request['content'] ) && is_string( $request['content'] ) ) {
-			$prepared_comment['comment_content'] = wp_filter_kses( $request['content'] );
+			$prepared_comment['comment_content'] = $request['content'];
 		} elseif ( isset( $request['content']['raw'] ) && is_string( $request['content']['raw'] ) ) {
-			$prepared_comment['comment_content'] = wp_filter_kses( $request['content']['raw'] );
+			$prepared_comment['comment_content'] = $request['content']['raw'];
 		}
 
 		if ( isset( $request['post'] ) ) {

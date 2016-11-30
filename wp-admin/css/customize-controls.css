@@ -193,6 +193,12 @@ body {
 	border-left: 4px solid #fff;
 }
 
+#customize-controls #customize-theme-controls .customize-themes-panel .accordion-section-title {
+	color: #555;
+	background-color: #fff;
+	border-left: 4px solid #fff;
+}
+
 #customize-theme-controls .accordion-section-title:after {
 	content: "\f345";
 	color: #a0a5aa;
@@ -1129,6 +1135,11 @@ p.customize-section-description {
 	margin-left: 10px;
 	margin-right: 10px;
 }
+#customize-theme-controls #sub-accordion-section-custom_css textarea {
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+}
 
 #sub-accordion-section-custom_css .customize-control-notifications-container {
 	margin-bottom: 15px;
@@ -1185,6 +1196,7 @@ p.customize-section-description {
 	margin: 0 0 15px;
 }
 
+#customize-controls .customize-themes-panel .accordion-section-title:hover,
 #customize-controls .customize-themes-panel .accordion-section-title {
 	margin: 15px -8px;
 }

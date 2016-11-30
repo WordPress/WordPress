@@ -117,7 +117,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 */
 	public function get_items_permissions_check( $request ) {
 
-		$parent = $this->get_post( $request['parent'] );
+		$parent = get_post( $request['parent'] );
 		if ( ! $parent ) {
 			return true;
 		}
@@ -139,8 +139,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-
-		$parent = $this->get_post( $request['parent'] );
+		$parent = get_post( $request['parent'] );
 		if ( ! $request['parent'] || ! $parent || $this->parent_post_type !== $parent->post_type ) {
 			return new WP_Error( 'rest_post_invalid_parent', __( 'Invalid post parent id.' ), array( 'status' => 404 ) );
 		}
@@ -178,13 +177,12 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
-
-		$parent = $this->get_post( $request['parent'] );
+		$parent = get_post( $request['parent'] );
 		if ( ! $request['parent'] || ! $parent || $this->parent_post_type !== $parent->post_type ) {
 			return new WP_Error( 'rest_post_invalid_parent', __( 'Invalid post parent id.' ), array( 'status' => 404 ) );
 		}
 
-		$revision = $this->get_post( $request['id'] );
+		$revision = get_post( $request['id'] );
 		if ( ! $revision || 'revision' !== $revision->post_type ) {
 			return new WP_Error( 'rest_post_invalid_id', __( 'Invalid revision id.' ), array( 'status' => 404 ) );
 		}
@@ -209,7 +207,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 			return $response;
 		}
 
-		$post = $this->get_post( $request['id'] );
+		$post = get_post( $request['id'] );
 		if ( ! $post ) {
 			return new WP_Error( 'rest_post_invalid_id', __( 'Invalid revision id.' ), array( 'status' => 404 ) );
 		}
@@ -234,7 +232,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_trash_not_supported', __( 'Revisions do not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
 		}
 
-		$revision = $this->get_post( $request['id'] );
+		$revision = get_post( $request['id'] );
 		$previous = $this->prepare_item_for_response( $revision, $request );
 
 		$result = wp_delete_post( $request['id'], true );

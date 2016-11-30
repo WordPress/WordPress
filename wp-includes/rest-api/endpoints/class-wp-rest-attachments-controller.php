@@ -72,7 +72,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 
 		// Attaching media to a post requires ability to edit said post.
 		if ( ! empty( $request['post'] ) ) {
-			$parent = $this->get_post( (int) $request['post'] );
+			$parent = get_post( (int) $request['post'] );
 			$post_parent_type = get_post_type_object( $parent->post_type );
 
 			if ( ! current_user_can( $post_parent_type->cap->edit_post, $request['post'] ) ) {
@@ -142,7 +142,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			$attachment->post_title = preg_replace( '/\.[^.]+$/', '', basename( $file ) );
 		}
 
-		$id = wp_insert_post( $attachment, true );
+		$id = wp_insert_post( wp_slash( (array) $attachment ), true );
 
 		if ( is_wp_error( $id ) ) {
 			if ( 'db_update_error' === $id->get_error_code() ) {
@@ -153,7 +153,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			return $id;
 		}
 
-		$attachment = $this->get_post( $id );
+		$attachment = get_post( $id );
 
 		// Include admin functions to get access to wp_generate_attachment_metadata().
 		require_once ABSPATH . 'wp-admin/includes/admin.php';
@@ -217,7 +217,7 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 			update_post_meta( $data['id'], '_wp_attachment_image_alt', $request['alt_text'] );
 		}
 
-		$attachment = $this->get_post( $request['id'] );
+		$attachment = get_post( $request['id'] );
 
 		$fields_update = $this->update_additional_fields_for_object( $attachment, $request );
 
@@ -247,12 +247,22 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 	protected function prepare_item_for_database( $request ) {
 		$prepared_attachment = parent::prepare_item_for_database( $request );
 
+		// Attachment caption (post_excerpt internally)
 		if ( isset( $request['caption'] ) ) {
-			$prepared_attachment->post_excerpt = $request['caption'];
+			if ( is_string( $request['caption'] ) ) {
+				$prepared_attachment->post_excerpt = $request['caption'];
+			} elseif ( isset( $request['caption']['raw'] ) ) {
+				$prepared_attachment->post_excerpt = $request['caption']['raw'];
+			}
 		}
 
+		// Attachment description (post_content internally)
 		if ( isset( $request['description'] ) ) {
-			$prepared_attachment->post_content = $request['description'];
+			if ( is_string( $request['description'] ) ) {
+				$prepared_attachment->post_content = $request['description'];
+			} elseif ( isset( $request['description']['raw'] ) ) {
+				$prepared_attachment->post_content = $request['description']['raw'];
+			}
 		}
 
 		if ( isset( $request['post'] ) ) {
@@ -276,9 +286,20 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		$response = parent::prepare_item_for_response( $post, $request );
 		$data = $response->get_data();
 
+		$data['description'] = array(
+			'raw'       => $post->post_content,
+			/** This filter is documented in wp-includes/post-template.php */
+			'rendered'  => apply_filters( 'the_content', $post->post_content ),
+		);
+
+		/** This filter is documented in wp-includes/post-template.php */
+		$caption = apply_filters( 'the_excerpt', apply_filters( 'get_the_excerpt', $post->post_excerpt, $post ) );
+		$data['caption'] = array(
+			'raw'       => $post->post_excerpt,
+			'rendered'  => $caption,
+		);
+
 		$data['alt_text']      = get_post_meta( $post->ID, '_wp_attachment_image_alt', true );
-		$data['caption']       = $post->post_excerpt;
-		$data['description']   = $post->post_content;
 		$data['media_type']    = wp_attachment_is_image( $post->ID ) ? 'image' : 'file';
 		$data['mime_type']     = $post->post_mime_type;
 		$data['media_details'] = wp_get_attachment_metadata( $post->ID );
@@ -366,20 +387,46 @@ class WP_REST_Attachments_Controller extends WP_REST_Posts_Controller {
 		);
 
 		$schema['properties']['caption'] = array(
-			'description'     => __( 'The caption for the resource.' ),
-			'type'            => 'string',
-			'context'         => array( 'view', 'edit' ),
-			'arg_options'     => array(
-				'sanitize_callback' => 'wp_filter_post_kses',
+			'description' => __( 'The caption for the resource.' ),
+			'type'        => 'object',
+			'context'     => array( 'view', 'edit', 'embed' ),
+			'arg_options' => array(
+				'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database()
+			),
+			'properties'  => array(
+				'raw' => array(
+					'description' => __( 'Caption for the resource, as it exists in the database.' ),
+					'type'        => 'string',
+					'context'     => array( 'edit' ),
+				),
+				'rendered' => array(
+					'description' => __( 'HTML caption for the resource, transformed for display.' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit', 'embed' ),
+					'readonly'    => true,
+				),
 			),
 		);
 
 		$schema['properties']['description'] = array(
-			'description'     => __( 'The description for the resource.' ),
-			'type'            => 'string',
-			'context'         => array( 'view', 'edit' ),
-			'arg_options'     => array(
-				'sanitize_callback' => 'wp_filter_post_kses',
+			'description' => __( 'The description for the resource.' ),
+			'type'        => 'object',
+			'context'     => array( 'view', 'edit' ),
+			'arg_options' => array(
+				'sanitize_callback' => null, // Note: sanitization implemented in self::prepare_item_for_database()
+			),
+			'properties'  => array(
+				'raw' => array(
+					'description' => __( 'Description for the object, as it exists in the database.' ),
+					'type'        => 'string',
+					'context'     => array( 'edit' ),
+				),
+				'rendered' => array(
+					'description' => __( 'HTML description for the object, transformed for display.' ),
+					'type'        => 'string',
+					'context'     => array( 'view', 'edit' ),
+					'readonly'    => true,
+				),
 			),
 		);
 
