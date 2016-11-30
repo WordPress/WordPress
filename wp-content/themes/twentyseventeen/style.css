@@ -1674,6 +1674,7 @@ body:not(.title-tagline-hidden) .site-branding-text {
 	min-width: 100vw; /* vw prevents 1px gap on left that 100% has */
 	width: auto;
 	top: 50%;
+	padding-bottom: 1px; /* Prevent header from extending beyond the footer */
 	-ms-transform: translateX(-50%) translateY(-50%);
 	-moz-transform: translateX(-50%) translateY(-50%);
 	-webkit-transform: translateX(-50%) translateY(-50%);
