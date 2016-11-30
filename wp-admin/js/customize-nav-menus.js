@@ -1029,7 +1029,7 @@
 		},
 
 		onChangeExpanded: function( expanded, args ) {
-			var section = this;
+			var section = this, completeCallback;
 
 			if ( expanded ) {
 				wpNavMenu.menuList = section.contentContainer;
@@ -1045,13 +1045,22 @@
 					}
 				} );
 
-				if ( 'resolved' !== section.deferred.initSortables.state() ) {
-					wpNavMenu.initSortables(); // Depends on menu-to-edit ID being set above.
-					section.deferred.initSortables.resolve( wpNavMenu.menuList ); // Now MenuControl can extend the sortable.
-
-					// @todo Note that wp.customize.reflowPaneContents() is debounced, so this immediate change will show a slight flicker while priorities get updated.
-					api.control( 'nav_menu[' + String( section.params.menu_id ) + ']' ).reflowMenuItems();
+				// Make sure Sortables is initialized after the section has been expanded to prevent `offset` issues.
+				if ( args.completeCallback ) {
+					completeCallback = args.completeCallback;
 				}
+				args.completeCallback = function() {
+					if ( 'resolved' !== section.deferred.initSortables.state() ) {
+						wpNavMenu.initSortables(); // Depends on menu-to-edit ID being set above.
+						section.deferred.initSortables.resolve( wpNavMenu.menuList ); // Now MenuControl can extend the sortable.
+
+						// @todo Note that wp.customize.reflowPaneContents() is debounced, so this immediate change will show a slight flicker while priorities get updated.
+						api.control( 'nav_menu[' + String( section.params.menu_id ) + ']' ).reflowMenuItems();
+					}
+					if ( _.isFunction( completeCallback ) ) {
+						completeCallback();
+					}
+				};
 			}
 			api.Section.prototype.onChangeExpanded.call( section, expanded, args );
 		}
