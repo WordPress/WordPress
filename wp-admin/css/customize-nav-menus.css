@@ -301,19 +301,19 @@
 	text-decoration: none !important;
 }
 
-#accordion-panel-nav_menus .field-link-target,
-#accordion-panel-nav_menus .field-title-attribute,
-#accordion-panel-nav_menus .field-css-classes,
-#accordion-panel-nav_menus .field-xfn,
-#accordion-panel-nav_menus .field-description {
+.control-section-nav_menu .field-link-target,
+.control-section-nav_menu .field-title-attribute,
+.control-section-nav_menu .field-css-classes,
+.control-section-nav_menu .field-xfn,
+.control-section-nav_menu .field-description {
 	display: none;
 }
 
-#accordion-panel-nav_menus.field-link-target-active .field-link-target,
-#accordion-panel-nav_menus.field-title-attribute-active .field-title-attribute,
-#accordion-panel-nav_menus.field-css-classes-active .field-css-classes,
-#accordion-panel-nav_menus.field-xfn-active .field-xfn,
-#accordion-panel-nav_menus.field-description-active .field-description {
+.control-section-nav_menu.field-link-target-active .field-link-target,
+.control-section-nav_menu.field-title-attribute-active .field-title-attribute,
+.control-section-nav_menu.field-css-classes-active .field-css-classes,
+.control-section-nav_menu.field-xfn-active .field-xfn,
+.control-section-nav_menu.field-description-active .field-description {
 	display: block;
 }
 
