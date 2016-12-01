@@ -840,7 +840,7 @@ function rest_sanitize_request_arg( $value, $request, $param ) {
 	}
 	$args = $attributes['args'][ $param ];
 
-	return rest_sanitize_value_from_schema( $value, $args, $param );
+	return rest_sanitize_value_from_schema( $value, $args );
 }
 
 /**
