@@ -3139,7 +3139,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	if ( current_user_can( 'delete_post', $attachment->ID ) )
 		$response['nonces']['delete'] = wp_create_nonce( 'delete-post_' . $attachment->ID );
 
-	if ( $meta && ! empty( $meta['sizes'] ) ) {
+	if ( $meta && ( 'image' === $type || ! empty( $meta['sizes'] ) ) ) {
 		$sizes = array();
 
 		/** This filter is documented in wp-admin/includes/media.php */
