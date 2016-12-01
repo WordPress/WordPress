@@ -94,9 +94,6 @@ $time_format = __( 'g:i a' );
 
 wp_enqueue_script( 'common' );
 
-
-
-
 /**
  * $pagenow is set in vars.php
  * $wp_importers is sometimes set in wp-admin/includes/import.php
