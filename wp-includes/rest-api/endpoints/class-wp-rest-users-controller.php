@@ -1027,7 +1027,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @return WP_Error|string The sanitized username, if valid, otherwise an error.
 	 */
 	public function check_username( $value, $request, $param ) {
-		$username = (string) rest_sanitize_value_from_schema( $value, $request, $param );
+		$username = (string) $value;
 
 		if ( ! validate_username( $username ) ) {
 			return new WP_Error( 'rest_user_invalid_username', __( 'Username contains invalid characters.' ), array( 'status' => 400 ) );
@@ -1056,7 +1056,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * @return WP_Error|string The sanitized password, if valid, otherwise an error.
 	 */
 	public function check_user_password( $value, $request, $param ) {
-		$password = (string) rest_sanitize_value_from_schema( $value, $request, $param );
+		$password = (string) $value;
 
 		if ( empty( $password ) ) {
 			return new WP_Error( 'rest_user_invalid_password', __( 'Passwords cannot be empty.' ), array( 'status' => 400 ) );
