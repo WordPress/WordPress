@@ -1756,7 +1756,7 @@ function register_initial_settings() {
 			),
 		),
 		'type'         => 'string',
-		'description'  => __( 'This address is used for admin purposes. If you change this we will send you an email at your new address to confirm it. The new address will not become active until confirmed.' ),
+		'description'  => is_multisite() ? __( 'This address is used for admin purposes. If you change this we will send you an email at your new address to confirm it. The new address will not become active until confirmed.' ) : __( 'This address is used for admin purposes, like new user notification.' ),
 	) );
 
 	register_setting( 'general', 'timezone_string', array(
