@@ -971,6 +971,32 @@ final class WP_Customize_Manager {
 			$starter_content_auto_draft_post_ids = array_merge( $starter_content_auto_draft_post_ids, $changeset_data['nav_menus_created_posts']['value'] );
 		}
 
+		// Make an index of all the posts needed and what their slugs are.
+		$needed_posts = array();
+		$attachments = $this->prepare_starter_content_attachments( $attachments );
+		foreach ( $attachments as $attachment ) {
+			$key = 'attachment:' . $attachment['post_name'];
+			$needed_posts[ $key ] = true;
+		}
+		foreach ( array_keys( $posts ) as $post_symbol ) {
+			if ( empty( $posts[ $post_symbol ]['post_name'] ) && empty( $posts[ $post_symbol ]['post_title'] ) ) {
+				unset( $posts[ $post_symbol ] );
+				continue;
+			}
+			if ( empty( $posts[ $post_symbol ]['post_name'] ) ) {
+				$posts[ $post_symbol ]['post_name'] = sanitize_title( $posts[ $post_symbol ]['post_title'] );
+			}
+			if ( empty( $posts[ $post_symbol ]['post_type'] ) ) {
+				$posts[ $post_symbol ]['post_type'] = 'post';
+			}
+			$needed_posts[ $posts[ $post_symbol ]['post_type'] . ':' . $posts[ $post_symbol ]['post_name'] ] = true;
+		}
+		$all_post_slugs = array_merge(
+			wp_list_pluck( $attachments, 'post_name' ),
+			wp_list_pluck( $posts, 'post_name' )
+		);
+
+		// Re-use auto-draft starter content posts referenced in the current customized state.
 		$existing_starter_content_posts = array();
 		if ( ! empty( $starter_content_auto_draft_post_ids ) ) {
 			$existing_posts_query = new WP_Query( array(
@@ -984,50 +1010,32 @@ final class WP_Customize_Manager {
 			}
 		}
 
+		// Re-use non-auto-draft posts.
+		if ( ! empty( $all_post_slugs ) ) {
+			$existing_posts_query = new WP_Query( array(
+				'post_name__in' => $all_post_slugs,
+				'post_status' => array_diff( get_post_stati(), array( 'auto-draft' ) ),
+				'post_type' => 'any',
+				'number' => -1,
+			) );
+			foreach ( $existing_posts_query->posts as $existing_post ) {
+				$key = $existing_post->post_type . ':' . $existing_post->post_name;
+				if ( isset( $needed_posts[ $key ] ) && ! isset( $existing_starter_content_posts[ $key ] ) ) {
+					$existing_starter_content_posts[ $key ] = $existing_post;
+				}
+			}
+		}
+
 		// Attachments are technically posts but handled differently.
 		if ( ! empty( $attachments ) ) {
-			// Such is The WordPress Way.
-			require_once( ABSPATH . 'wp-admin/includes/file.php' );
-			require_once( ABSPATH . 'wp-admin/includes/media.php' );
-			require_once( ABSPATH . 'wp-admin/includes/image.php' );
 
 			$attachment_ids = array();
 
 			foreach ( $attachments as $symbol => $attachment ) {
-
-				// A file is required and URLs to files are not currently allowed.
-				if ( empty( $attachment['file'] ) || preg_match( '#^https?://$#', $attachment['file'] ) ) {
-					continue;
-				}
-
-				$file_array = array();
-				$file_path = null;
-				if ( file_exists( $attachment['file'] ) ) {
-					$file_path = $attachment['file']; // Could be absolute path to file in plugin.
-				} elseif ( is_child_theme() && file_exists( get_stylesheet_directory() . '/' . $attachment['file'] ) ) {
-					$file_path = get_stylesheet_directory() . '/' . $attachment['file'];
-				} elseif ( file_exists( get_template_directory() . '/' . $attachment['file'] ) ) {
-					$file_path = get_template_directory() . '/' . $attachment['file'];
-				} else {
-					continue;
-				}
-				$file_array['name'] = basename( $attachment['file'] );
-
-				// Skip file types that are not recognized.
-				$checked_filetype = wp_check_filetype( $file_array['name'] );
-				if ( empty( $checked_filetype['type'] ) ) {
-					continue;
-				}
-
-				// Ensure post_name is set since not automatically derived from post_title for new auto-draft posts.
-				if ( empty( $attachment['post_name'] ) ) {
-					if ( ! empty( $attachment['post_title'] ) ) {
-						$attachment['post_name'] = sanitize_title( $attachment['post_title'] );
-					} else {
-						$attachment['post_name'] = sanitize_title( preg_replace( '/\.\w+$/', '', $file_array['name'] ) );
-					}
-				}
-
+				$file_array = array(
+					'name' => $attachment['file_name'],
+				);
+				$file_path = $attachment['file_path'];
 				$attachment_id = null;
 				$attached_file = null;
 				if ( isset( $existing_starter_content_posts[ 'attachment:' . $attachment['post_name'] ] ) ) {
@@ -1080,14 +1088,14 @@ final class WP_Customize_Manager {
 				}
 
 				$attachment_ids[ $symbol ] = $attachment_id;
-				$starter_content_auto_draft_post_ids = array_merge( $starter_content_auto_draft_post_ids, array_values( $attachment_ids ) );
 			}
+			$starter_content_auto_draft_post_ids = array_merge( $starter_content_auto_draft_post_ids, array_values( $attachment_ids ) );
 		}
 
 		// Posts & pages.
 		if ( ! empty( $posts ) ) {
 			foreach ( array_keys( $posts ) as $post_symbol ) {
-				if ( empty( $posts[ $post_symbol ]['post_type'] ) ) {
+				if ( empty( $posts[ $post_symbol ]['post_type'] ) || empty( $posts[ $post_symbol ]['post_name'] ) ) {
 					continue;
 				}
 				$post_type = $posts[ $post_symbol ]['post_type'];
@@ -1209,8 +1217,14 @@ final class WP_Customize_Manager {
 
 		// Options.
 		foreach ( $options as $name => $value ) {
-			if ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) && isset( $posts[ $matches['symbol'] ] ) ) {
-				$value = $posts[ $matches['symbol'] ]['ID'];
+			if ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) ) {
+				if ( isset( $posts[ $matches['symbol'] ] ) ) {
+					$value = $posts[ $matches['symbol'] ]['ID'];
+				} elseif ( isset( $attachment_ids[ $matches['symbol'] ] ) ) {
+					$value = $attachment_ids[ $matches['symbol'] ];
+				} else {
+					continue;
+				}
 			}
 
 			if ( empty( $changeset_data[ $name ] ) || ! empty( $changeset_data[ $name ]['starter_content'] ) ) {
@@ -1221,8 +1235,31 @@ final class WP_Customize_Manager {
 
 		// Theme mods.
 		foreach ( $theme_mods as $name => $value ) {
-			if ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) && isset( $posts[ $matches['symbol'] ] ) ) {
-				$value = $posts[ $matches['symbol'] ]['ID'];
+			if ( preg_match( '/^{{(?P<symbol>.+)}}$/', $value, $matches ) ) {
+				if ( isset( $posts[ $matches['symbol'] ] ) ) {
+					$value = $posts[ $matches['symbol'] ]['ID'];
+				} elseif ( isset( $attachment_ids[ $matches['symbol'] ] ) ) {
+					$value = $attachment_ids[ $matches['symbol'] ];
+				} else {
+					continue;
+				}
+			}
+
+			// Handle header image as special case since setting has a legacy format.
+			if ( 'header_image' === $name ) {
+				$name = 'header_image_data';
+				$metadata = wp_get_attachment_metadata( $value );
+				if ( empty( $metadata ) ) {
+					continue;
+				}
+				$value = array(
+					'attachment_id' => $value,
+					'url' => wp_get_attachment_url( $value ),
+					'height' => $metadata['height'],
+					'width' => $metadata['width'],
+				);
+			} elseif ( 'background_image' === $name ) {
+				$value = wp_get_attachment_url( $value );
 			}
 
 			if ( empty( $changeset_data[ $name ] ) || ! empty( $changeset_data[ $name ]['starter_content'] ) ) {
@@ -1238,6 +1275,69 @@ final class WP_Customize_Manager {
 				add_action( 'customize_register', array( $this, '_save_starter_content_changeset' ), 1000 );
 			}
 		}
+	}
+
+	/**
+	 * Prepare starter content attachments.
+	 *
+	 * Ensure that the attachments are valid and that they have slugs and file name/path.
+	 *
+	 * @since 4.7.0
+	 * @access private
+	 *
+	 * @param array $attachments Attachments.
+	 * @return array Prepared attachments.
+	 */
+	protected function prepare_starter_content_attachments( $attachments ) {
+		$prepared_attachments = array();
+		if ( empty( $attachments ) ) {
+			return $prepared_attachments;
+		}
+
+		// Such is The WordPress Way.
+		require_once( ABSPATH . 'wp-admin/includes/file.php' );
+		require_once( ABSPATH . 'wp-admin/includes/media.php' );
+		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+
+		foreach ( $attachments as $symbol => $attachment ) {
+
+			// A file is required and URLs to files are not currently allowed.
+			if ( empty( $attachment['file'] ) || preg_match( '#^https?://$#', $attachment['file'] ) ) {
+				continue;
+			}
+
+			$file_path = null;
+			if ( file_exists( $attachment['file'] ) ) {
+				$file_path = $attachment['file']; // Could be absolute path to file in plugin.
+			} elseif ( is_child_theme() && file_exists( get_stylesheet_directory() . '/' . $attachment['file'] ) ) {
+				$file_path = get_stylesheet_directory() . '/' . $attachment['file'];
+			} elseif ( file_exists( get_template_directory() . '/' . $attachment['file'] ) ) {
+				$file_path = get_template_directory() . '/' . $attachment['file'];
+			} else {
+				continue;
+			}
+			$file_name = basename( $attachment['file'] );
+
+			// Skip file types that are not recognized.
+			$checked_filetype = wp_check_filetype( $file_name );
+			if ( empty( $checked_filetype['type'] ) ) {
+				continue;
+			}
+
+			// Ensure post_name is set since not automatically derived from post_title for new auto-draft posts.
+			if ( empty( $attachment['post_name'] ) ) {
+				if ( ! empty( $attachment['post_title'] ) ) {
+					$attachment['post_name'] = sanitize_title( $attachment['post_title'] );
+				} else {
+					$attachment['post_name'] = sanitize_title( preg_replace( '/\.\w+$/', '', $file_name ) );
+				}
+			}
+
+			$attachment['file_name'] = $file_name;
+			$attachment['file_path'] = $file_path;
+			$prepared_attachments[ $symbol ] = $attachment;
+		}
+		return $prepared_attachments;
 	}
 
 	/**
