@@ -352,6 +352,22 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	}
 
 	/**
+	 * Return the current priority level of the currently running iteration of the hook.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @return int|false If the hook is running, return the current priority level. If it isn't running, return false.
+	 */
+	public function current_priority() {
+		if ( false === current( $this->iterations ) ) {
+			return false;
+		}
+
+		return current( current( $this->iterations ) );
+	}
+
+	/**
 	 * Normalizes filters set up before WordPress has initialized to WP_Hook objects.
 	 *
 	 * @since 4.7.0
