@@ -794,7 +794,7 @@ final class WP_Customize_Manager {
 			'post_type' => 'customize_changeset',
 			'post_status' => get_post_stati(),
 			'name' => $uuid,
-			'number' => 1,
+			'posts_per_page' => 1,
 			'no_found_rows' => true,
 			'cache_results' => true,
 			'update_post_meta_cache' => false,
@@ -1003,7 +1003,7 @@ final class WP_Customize_Manager {
 				'post__in' => $starter_content_auto_draft_post_ids,
 				'post_status' => 'auto-draft',
 				'post_type' => 'any',
-				'number' => -1,
+				'posts_per_page' => -1,
 			) );
 			foreach ( $existing_posts_query->posts as $existing_post ) {
 				$existing_starter_content_posts[ $existing_post->post_type . ':' . $existing_post->post_name ] = $existing_post;
@@ -1016,7 +1016,7 @@ final class WP_Customize_Manager {
 				'post_name__in' => $all_post_slugs,
 				'post_status' => array_diff( get_post_stati(), array( 'auto-draft' ) ),
 				'post_type' => 'any',
-				'number' => -1,
+				'posts_per_page' => -1,
 			) );
 			foreach ( $existing_posts_query->posts as $existing_post ) {
 				$key = $existing_post->post_type . ':' . $existing_post->post_name;
