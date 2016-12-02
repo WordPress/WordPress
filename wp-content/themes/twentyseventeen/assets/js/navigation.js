@@ -6,7 +6,7 @@
  */
 
 (function( $ ) {
-	var masthead, menuToggle, siteNavigation;
+	var masthead, menuToggle, siteNavContain, siteNavigation;
 
 	function initMainNavigation( container ) {
 
@@ -39,6 +39,7 @@
 
 	masthead       = $( '#masthead' );
 	menuToggle     = masthead.find( '.menu-toggle' );
+	siteNavContain = masthead.find( '.main-navigation' );
 	siteNavigation = masthead.find( '.main-navigation > div > ul' );
 
 	// Enable menuToggle.
@@ -53,7 +54,7 @@
 		menuToggle.add( siteNavigation ).attr( 'aria-expanded', 'false' );
 
 		menuToggle.on( 'click.twentyseventeen', function() {
-			$( siteNavigation.closest( '.main-navigation' ), this ).toggleClass( 'toggled-on' );
+			$( siteNavContain ).toggleClass( 'toggled-on' );
 
 			$( this )
 				.add( siteNavigation )
