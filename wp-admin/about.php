@@ -133,7 +133,13 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<hr />
 
 		<div class="changelog">
-			<h2><?php _e( 'Even More Developer Happiness 😊' ); ?></h2>
+			<h2><?php
+				printf(
+					/* translators: %s: smiling face with smiling eyes emoji */
+					__( 'Even More Developer Happiness %s' ),
+					'&#x1F60A'
+				);
+			?></h2>
 
 			<div class="under-the-hood three-col">
 				<div class="col">
