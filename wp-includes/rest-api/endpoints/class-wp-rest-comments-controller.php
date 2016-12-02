@@ -508,16 +508,8 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 
 		// Honor the discussion setting that requires a name and email address of the comment author.
 		if ( get_option( 'require_name_email' ) ) {
-			if ( ! isset( $prepared_comment['comment_author'] ) && ! isset( $prepared_comment['comment_author_email'] ) ) {
+			if ( empty( $prepared_comment['comment_author'] ) || empty( $prepared_comment['comment_author_email'] ) ) {
 				return new WP_Error( 'rest_comment_author_data_required', __( 'Creating a comment requires valid author name and email values.' ), array( 'status' => 400 ) );
-			}
-
-			if ( ! isset( $prepared_comment['comment_author'] ) ) {
-				return new WP_Error( 'rest_comment_author_required', __( 'Creating a comment requires a valid author name.' ), array( 'status' => 400 ) );
-			}
-
-			if ( ! isset( $prepared_comment['comment_author_email'] ) ) {
-				return new WP_Error( 'rest_comment_author_email_required', __( 'Creating a comment requires a valid author email.' ), array( 'status' => 400 ) );
 			}
 		}
 
@@ -1155,6 +1147,10 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					'type'         => 'string',
 					'format'       => 'email',
 					'context'      => array( 'edit' ),
+					'arg_options'  => array(
+						'sanitize_callback' => array( $this, 'check_comment_author_email' ),
+						'validate_callback' => null, // skip built-in validation of 'email'.
+					),
 				),
 				'author_ip'     => array(
 					'description'  => __( 'IP address for the object author.' ),
@@ -1580,5 +1576,34 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		}
 
 		return current_user_can( 'edit_comment', $comment->comment_ID );
+	}
+
+	/**
+	 * Checks a comment author email for validity.
+	 *
+	 * Accepts either a valid email address or empty string as a valid comment
+	 * author email address. Setting the comment author email to an empty
+	 * string is allowed when a comment is being updated.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param string          $value   Author email value submitted.
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @param string          $param   The parameter name.
+	 * @return WP_Error|string The sanitized email address, if valid,
+	 *                         otherwise an error.
+	 */
+	public function check_comment_author_email( $value, $request, $param ) {
+		$email = (string) $value;
+		if ( empty( $email ) ) {
+			return $email;
+		}
+
+		$check_email = rest_validate_request_arg( $email, $request, $param );
+		if ( is_wp_error( $check_email ) ) {
+			return $check_email;
+		}
+
+		return $email;
 	}
 }
