@@ -2952,7 +2952,7 @@ object {
 	box-shadow: none;
 	background: none;
 	display: inline-block;
-	width: 100%;
+	max-width: 100%;
 }
 
 .gallery-item a img {
