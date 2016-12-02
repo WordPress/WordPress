@@ -474,8 +474,8 @@ body.colors-dark,
 }
 
 /* Fixes linked images */
-.entry-content a img,
-.widget a img {
+.colors-dark .entry-content a img,
+.colors-dark .widget a img {
 	-webkit-box-shadow: 0 0 0 8px #222;
 	box-shadow: 0 0 0 8px #222;
 }
@@ -496,6 +496,9 @@ body.colors-dark,
 	background-color: transparent;
 }
 
+.colors-dark .gallery-item a,
+.colors-dark .gallery-item a:hover,
+.colors-dark .gallery-item a:focus,
 .colors-dark .widget .tagcloud a,
 .colors-dark .widget .tagcloud a:focus,
 .colors-dark .widget .tagcloud a:hover,
