@@ -123,10 +123,14 @@
 	$.each( [ 'external_header_video', 'header_image', 'header_video' ], function( index, settingId ) {
 		wp.customize( settingId, function( setting ) {
 			setting.bind(function() {
-				if ( hasHeaderImage() || ( hasHeaderVideo() && $( 'body' ).hasClass( 'twentyseventeen-front-page' ) ) ) {
+				if ( hasHeaderImage() ) {
 					$( document.body ).addClass( 'has-header-image' );
 				} else {
 					$( document.body ).removeClass( 'has-header-image' );
+				}
+
+				if ( ! hasHeaderVideo() ) {
+					$( document.body ).removeClass( 'has-header-video' );
 				}
 			} );
 		} );

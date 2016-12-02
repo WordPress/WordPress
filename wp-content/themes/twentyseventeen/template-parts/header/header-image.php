@@ -1,6 +1,6 @@
 <?php
 /**
- * Displays header image
+ * Displays header media
  *
  * @package WordPress
  * @subpackage Twenty_Seventeen
@@ -11,7 +11,7 @@
 ?>
 <div class="custom-header">
 
-	<div class="custom-header-image">
+	<div class="custom-header-media">
 		<?php the_custom_header_markup(); ?>
 	</div>
 
