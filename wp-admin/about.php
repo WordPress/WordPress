@@ -172,9 +172,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<div class="col">
 					<h3><?php
 						printf(
-							/* translators: 1: WP_Hook, 2: https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/ */
-							__( '<a href="%1$s">%2$s</a>' ),
-							'<code>https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/</code>',
+							'<a href="%1$s">%2$s</a>',
+							'https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/',
 							'<code>WP_Hook</code>'
 						);
 					?></h3>
@@ -193,7 +192,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 							/* translators: 1: register_setting(), 2: https://make.wordpress.org/core/2016/10/26/registering-your-settings-in-wordpress-4-7/ */
 							__( '%1$s <a href="%2$s">has been enhanced</a> to include type, description, and REST API visibility.' ),
 							'<code>register_setting()</code>',
-							'<code>https://make.wordpress.org/core/2016/10/26/registering-your-settings-in-wordpress-4-7/</code>'
+							'https://make.wordpress.org/core/2016/10/26/registering-your-settings-in-wordpress-4-7/'
 						);
 					?></p>
 				</div>
