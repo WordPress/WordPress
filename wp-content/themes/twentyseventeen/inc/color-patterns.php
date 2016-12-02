@@ -443,8 +443,11 @@ body.colors-custom,
 .colors-custom .next.page-numbers:focus,
 .colors-custom .next.page-numbers:hover,
 .colors-custom.has-header-image .site-title,
+.colors-custom.has-header-video .site-title,
 .colors-custom.has-header-image .site-title a,
-.colors-custom.has-header-image .site-description {
+.colors-custom.has-header-video .site-title a,
+.colors-custom.has-header-image .site-description,
+.colors-custom.has-header-video .site-description {
 	color: hsl( ' . $hue . ', ' . $saturation . ', 100% ); /* base: #fff; */
 }
 

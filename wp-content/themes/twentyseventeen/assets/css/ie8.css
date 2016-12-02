@@ -65,7 +65,7 @@ img {
 	display: block;
 }
 
-.custom-header-image {
+.custom-header-media {
 	background-position: bottom center;
 }
 
@@ -84,8 +84,7 @@ img {
 	width: 100%;
 }
 
-.has-header-image .custom-header-image img,
-.has-header-image .custom-header-image video {
+.has-header-image .custom-header-media img {
 	left: 0;
 	top: 0;
 }
@@ -142,8 +141,8 @@ img {
 	padding-top: 0;
 }
 
-.twentyseventeen-front-page .custom-header-image,
-.blog.home .custom-header-image {
+.twentyseventeen-front-page .custom-header-media,
+.blog.home .custom-header-media {
 	background-position: center center;
 }
 
