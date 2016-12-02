@@ -92,6 +92,8 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 					'reassign' => array(
 						'type'        => 'integer',
 						'description' => __( 'Reassign the deleted user\'s posts and links to this user ID.' ),
+						'required'    => true,
+						'sanitize_callback' => array( $this, 'check_reassign' ),
 					),
 				),
 			),
@@ -125,11 +127,38 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 					'reassign' => array(
 						'type'        => 'integer',
 						'description' => __( 'Reassign the deleted user\'s posts and links to this user ID.' ),
+						'required'    => true,
+						'sanitize_callback' => array( $this, 'check_reassign' ),
 					),
 				),
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
 		));
+	}
+
+	/**
+	 * Checks for a valid value for the reassign parameter when deleting users.
+	 *
+	 * The value can be an integer, 'false', false, or ''.
+	 *
+	 * @since 4.7.0
+	 *
+	 * @param int|bool        $value   The value passed to the reassign parameter.
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @param string          $param   The parameter that is being sanitized.
+	 *
+	 * @return int|bool|WP_Error
+	 */
+	public function check_reassign( $value, $request, $param ) {
+		if ( is_numeric( $value ) ) {
+			return $value;
+		}
+
+		if ( empty( $value ) || false === $value || 'false' === $value ) {
+			return false;
+		}
+
+		return new WP_Error( 'rest_invalid_param', __( 'Invalid user parameter(s).' ), array( 'status' => 400 ) );
 	}
 
 	/**
@@ -673,7 +702,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 */
 	public function delete_item( $request ) {
 		$id       = (int) $request['id'];
-		$reassign = isset( $request['reassign'] ) ? absint( $request['reassign'] ) : null;
+		$reassign = false === $request['reassign'] ? null : absint( $request['reassign'] );
 		$force    = isset( $request['force'] ) ? (bool) $request['force'] : false;
 
 		// We don't support trashing for users.
