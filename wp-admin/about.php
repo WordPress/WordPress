@@ -49,7 +49,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="wrap about-wrap">
 		<h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
 
-		<p class="about-text"><?php printf( __( 'Thank you for updating to the latest version. WordPress %s changes a lot behind the scenes to make your WordPress experience even better!' ), $display_version ); ?></p>
+		<p class="about-text"><?php printf( __( 'Thank you for updating to the latest version! WordPress %s helps you get your site set up the way you want it.' ), $display_version ); ?></p>
 		<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 		<h2 class="nav-tab-wrapper wp-clearfix">
@@ -63,135 +63,152 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<script src="https://videopress.com/videopress-iframe.js"></script>
 		</div>
 
-		<hr>
+		<hr />
 
-		<div class="streamlined-updates feature-section one-col">
-			<h2><?php _e( 'Streamlined Updates' ); ?></h2>
-			<p><?php _e( 'Don&#8217;t lose your place: stay on the same page while you update, install, and delete your plugins and themes.' ); ?></p>
-			<?php
-			if ( ! wp_is_mobile() ) {
-				add_filter( 'wp_video_shortcode', '_wp_override_admin_video_width_limit' );
-				echo wp_video_shortcode( array(
-					'mp4'      => 'https://s.w.org/images/core/4.6/streamlined-updates.mp4',
-					'webm'     => 'https://s.w.org/images/core/4.6/streamlined-updates.webm',
-					'poster'   => 'https://s.w.org/images/core/4.6/streamlined-updates-2000.png?v1',
-					'loop'     => true,
-					'autoplay' => true,
-					'width'    => 1050,
-					'height'   => 630,
-					'class'    => 'wp-video-shortcode feature-video',
-				) );
-				remove_filter( 'wp_video_shortcode', '_wp_override_admin_video_width_limit' );
-			} else {
-				echo '<img src="https://s.w.org/images/core/4.6/streamlined-updates-1057.png?v1" alt="" srcset="https://s.w.org/images/core/4.6/streamlined-updates-1664.png?v1 1664w, https://s.w.org/images/core/4.6/streamlined-updates-200.png?v1 200w, https://s.w.org/images/core/4.6/streamlined-updates-1057.png?v1 1057w, https://s.w.org/images/core/4.6/streamlined-updates-2000.png?v1 2000w"  sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px" />';
-			}
-			?>
+		<div class="twenty-seventeen feature-section one-col">
+			<h2><?php _e( 'Presenting Twenty Seventeen' ); ?></h2>
+			<p><?php _e( 'A brand new default theme brings your site to life with immersive featured images and video headers.' ); ?></p>
+			<p><?php _e( 'Twenty Seventeen focuses on business sites and features a customizable front page with multiple sections. Personalize it with widgets, navigation, social menus, a logo, custom colors, and more. Our default theme for 2017 works great in many languages, on any device, and for a wide range of users.' ); ?></p>
 		</div>
 
 		<hr />
 
-		<div class="native-fonts feature-section one-col">
-			<h2><?php _e( 'Native Fonts' ); ?></h2>
-			<p><?php _e( 'The WordPress dashboard now takes advantage of the fonts you already have, making it load faster and letting you feel more at home on whatever device you use.' ); ?></p>
-			<img src="https://s.w.org/images/core/4.6/native-fonts-992.png?v1" alt="" srcset="https://cldup.com/Hqmo5VLb-E.png?v1 922w, https://s.w.org/images/core/4.6/native-fonts-200.png?v1 200w,https://s.w.org/images/core/4.6/native-fonts-371.png?v1 371w,https://s.w.org/images/core/4.6/native-fonts-510.png?v1 510w, https://s.w.org/images/core/4.6/native-fonts-560.png?v1 560w, https://s.w.org/images/core/4.6/native-fonts-781.png?v1 781w, https://s.w.org/images/core/4.6/native-fonts-2000.png?v1 2000w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px"/>
+		<div class="site-customization feature-section one-col">
+			<h2><?php _e( 'Your Site, Your Way' ); ?></h2>
+			<p><?php _e( 'WordPress 4.7 adds new features to the customizer to help take you through the initial setup of a theme, with non-destructive live previews of all your changes in one uninterrupted workflow.' ); ?></p>
+
+			<h3><?php _e( 'Theme Starter Content' ); ?></h2>
+			<p><?php _e( 'To help give you a solid base to build from, individual themes can provide starter content that appears when you go to customize your brand new site. This can range from placing a business information widget in the best location to providing a sample menu with social icon links to a static front page complete with beautiful images. Don&#8217;t worry - nothing new will appear on the live site until you&#8217;re ready to save and publish your initial theme setup.' ); ?></p>
+		</div>
+
+		<div class="feature-section two-col">
+			<div class="col">
+				<h3><?php _e( 'Edit Shortcuts' ); ?></h3>
+				<p><?php _e( 'Visible icons appear to show you which parts of your site can be customized while live previewing. Click on a shortcut and get straight to editing. Paired with starter content, getting started with customizing your site is faster than ever.' );?></p>
+			</div>
+			<div class="col">
+				<h3><?php _e( 'Video Headers' ); ?></h3>
+				<p><?php _e( 'Sometimes a big atmospheric video as a moving header image is just what you need to showcase your wares; go ahead and try it out with Twenty Seventeen. Need some video inspiration? Try searching for sites with video headers available for download and use.' ); ?></p>
+			</div>
+		</div>
+
+		<div class="feature-section two-col">
+			<div class="col">
+				<h3><?php _e( 'Smoother Menu Building' ); ?></h3>
+				<p><?php _e( 'Many menus for sites contain links to the pages of your site, but what happens when you don&#8217;t have any pages yet? Now you can add new pages while building menus instead of leaving the customizer and abandoning your changes. Once you&#8217;ve published your customizations, you&#8217;ll have new pages ready for you to fill with content.' );?></p>
+			</div>
+			<div class="col">
+				<h3><?php _e( 'Custom CSS' ); ?></h3>
+				<p><?php _e( 'Sometimes you just need a few visual tweaks to make your site perfect. WordPress 4.7 allows you to add custom CSS and instantly see how your changes affect your site. The live preview allows you to work quickly without page refreshes slowing you down.' ); ?></p>
+			</div>
 		</div>
 
 		<hr />
 
 		<div class="feature-section two-col">
-			<h2><?php _e( 'Editor Improvements' ); ?></h2>
 			<div class="col">
-				<img src="https://s.w.org/images/core/4.6/inline-link-checker-608.png?v1" alt="" srcset="https://s.w.org/images/core/4.6/inline-link-checker-789.png?v1 789w, https://s.w.org/images/core/4.6/inline-link-checker-200.png?v1 200w, https://s.w.org/images/core/4.6/inline-link-checker-384.png?v1 384w, https://s.w.org/images/core/4.6/inline-link-checker-608.png?v1 608w, https://s.w.org/images/core/4.6/inline-link-checker-992.png?v1 992w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
-				<h3><?php _e( 'Inline Link Checker' ); ?></h3>
-				<p><?php
-					printf(
-						/* translators: %s: Home URL appended with 'wordpress.org'  */
-						__( 'Ever accidentally made a link to %s? Now WordPress automatically checks to make sure you didn&#8217;t.' ),
-						home_url( 'wordpress.org' )
-					);
-				?></p>
+				<h3><?php _e( 'PDF Thumbnail Previews' ); ?></h3>
+				<p><?php _e( 'Managing your document collection is easier with WordPress 4.7. Uploading PDFs will generate thumbnail images so you can more easily distinguish between all your documents.' ); ?></p>
 			</div>
 			<div class="col">
-				<img src="https://s.w.org/images/core/4.6/content-recovery-561.png?v1" alt="" srcset="https://s.w.org/images/core/4.6/content-recovery-701.png?v1 701w, https://s.w.org/images/core/4.6/content-recovery-200.png?v1 200w, https://s.w.org/images/core/4.6/content-recovery-400.png?v1 400w, https://s.w.org/images/core/4.6/content-recovery-561.png?v1 561w, https://s.w.org/images/core/4.6/content-recovery-992.png?v1 992w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px"/>
-				<h3><?php _e( 'Content Recovery' ); ?></h3>
-				<p><?php _e( 'As you type, WordPress saves your content to the browser. Recovering saved content is even easier with WordPress 4.6.' ); ?></p>
+				<h3><?php _e( 'Dashboard in your language' ); ?></h3>
+				<p><?php _e( 'Just because your site is in one language doesn&#8217;t mean that everybody helping manage it prefers that language for their admin. Add more languages to your site and a user language option will show up in your user&#8217;s profiles.' );?></p>
 			</div>
 		</div>
 
 		<hr />
 
+		<div class="rest-api feature-section one-col">
+			<h2><?php _e( 'Introducing REST API Content Endpoints' ); ?></h2>
+			<p><?php _e( 'WordPress 4.7 comes with REST API endpoints for posts, comments, terms, users, meta, and settings.' ); ?></p>
+			<p><?php
+				printf(
+					/* translators: %s: https://developer.wordpress.org/rest-api/  */
+					__( 'Content endpoints provide machine-readable external access to your WordPress site with a clear, standards-driven interface, paving the way for new and innovative methods of interacting with sites through plugins, themes, apps, and beyond. Ready to get started with development? <a href="%s">Check out the REST API reference.</a>' ),
+					'https://developer.wordpress.org/rest-api/'
+				);
+			?></p>
+		</div>
+
+		<hr />
+
 		<div class="changelog">
-			<h2><?php _e( 'Under the Hood' ); ?></h2>
+			<h2><?php _e( 'Even More Developer Happiness 😊' ); ?></h2>
 
 			<div class="under-the-hood three-col">
 				<div class="col">
-					<h3><?php _e( 'Resource Hints' ); ?></h3>
-					<p><?php
+					<h3><?php
 						printf(
-							/* translators: %s: https://make.wordpress.org/core/2016/07/06/resource-hints-in-4-6/ */
-							__( '<a href="%s">Resource hints help browsers</a> decide which resources to fetch and preprocess. WordPress 4.6 adds them automatically for your styles and scripts making your site even faster.' ),
-							'https://make.wordpress.org/core/2016/07/06/resource-hints-in-4-6/'
+							/* translators: %s: https://make.wordpress.org/core/2016/11/03/post-type-templates-in-4-7/  */
+							__( '<a href="%s">Post Type Templates</a>' ),
+							'https://make.wordpress.org/core/2016/11/03/post-type-templates-in-4-7/'
 						);
-					?></p>
+					?></h3>
+					<p><?php _e( 'By opening up the page template functionality to all post types, theme developers have even more flexibility with the WordPress template hierarchy.' ); ?></p>
 				</div>
 				<div class="col">
-					<h3><?php _e( 'Robust Requests' ); ?></h3>
-					<p><?php _e( 'The HTTP API now leverages the Requests library, improving HTTP standard support and adding case-insensitive headers, parallel HTTP requests, and support for Internationalized Domain Names.' ); ?></p>
+					<h3><?php _e( 'More Theme API Goodies' ); ?></h3>
+					<p><?php
+						printf(
+							/* translators: %s: https://make.wordpress.org/core/2016/09/09/new-functions-hooks-and-behaviour-for-theme-developers-in-wordpress-4-7/  */
+							__( 'WordPress 4.7 includes <a href="%s">new functions, hooks, and behavior</a> for theme developers.' ),
+							'https://make.wordpress.org/core/2016/09/09/new-functions-hooks-and-behaviour-for-theme-developers-in-wordpress-4-7/'
+						);
+					?></p>
 				</div>
 				<div class="col">
 					<h3><?php
-						/* translators: 1: WP_Term_Query, 2: WP_Post_Type */
-						printf( __( '%1$s and %2$s' ), '<code>WP_Term_Query</code>', '<code>WP_Post_Type</code>' );
-					?></h3>
-					<p><?php
 						printf(
-							/* translators: 1: WP_Term_Query, 2: WP_Post_Type */
-							__( 'A new %1$s class adds flexibility to query term information while a new %2$s object makes interacting with post types more predictable.' ),
-							'<code>WP_Term_Query</code>',
-							'<code>WP_Post_Type</code>'
+							/* translators: %s: https://make.wordpress.org/core/2016/10/04/custom-bulk-actions/  */
+							__( '<a href="%s">Custom Bulk Actions</a>' ),
+							'https://make.wordpress.org/core/2016/10/04/custom-bulk-actions/'
 						);
-					?></p>
+					?></h3>
+					<p><?php _e( 'List tables, now with more than bulk edit and delete.' ); ?></p>
 				</div>
 			</div>
 
 			<div class="under-the-hood three-col">
 				<div class="col">
-					<h3><?php _e( 'Meta Registration API' ); ?></h3>
+					<h3><?php
+						printf(
+							/* translators: 1: WP_Hook, 2: https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/ */
+							__( '<a href="%1$s">%2$s</a>' ),
+							'<code>https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/</code>',
+							'<code>WP_Hook</code>'
+						);
+					?></h3>
 					<p><?php
 						printf(
-							/* translators: %s: https://make.wordpress.org/core/2016/07/08/enhancing-register_meta-in-4-6/  */
-							__( 'The Meta Registration API <a href="%s">has been expanded</a> to support types, descriptions, and REST API visibility.' ),
-							'https://make.wordpress.org/core/2016/07/08/enhancing-register_meta-in-4-6/'
+							/* translators: %s: https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/  */
+							__( 'The code that lies beneath actions and filters has been overhauled and modernized, fixing bugs along the way.' ),
+							'https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/'
 						);
 					?></p>
 				</div>
 				<div class="col">
-					<h3><?php _e( 'Translations On Demand' ); ?></h3>
-					<p><?php _e( 'WordPress will install and use the newest language packs for your plugins and themes as soon as they&#8217;re available from <a href="https://translate.wordpress.org/">WordPress.org&#8217;s community of translators</a>.' ); ?></p>
+					<h3><?php _e( 'Settings Registration API' ); ?></h3>
+					<p><?php
+						printf(
+							/* translators: 1: register_setting(), 2: https://make.wordpress.org/core/2016/10/26/registering-your-settings-in-wordpress-4-7/ */
+							__( '%1$s <a href="%2$s">has been enhanced</a> to include type, description, and REST API visibility.' ),
+							'<code>register_setting()</code>',
+							'<code>https://make.wordpress.org/core/2016/10/26/registering-your-settings-in-wordpress-4-7/</code>'
+						);
+					?></p>
 				</div>
 				<div class="col">
-					<h3><?php _e( 'JavaScript Library Updates' ); ?></h3>
-					<p><?php _e( 'Masonry 3.3.2, imagesLoaded 3.2.0, MediaElement.js 2.22.0, TinyMCE 4.4.1, and Backbone.js 1.3.3 are bundled.' ); ?></p>
+					<h3><?php
+						printf(
+							/* translators: %s: https://make.wordpress.org/core/2016/10/12/customize-changesets-technical-design-decisions/  */
+							__( '<a href="%s">Customize Changesets</a>' ),
+							'https://make.wordpress.org/core/2016/10/12/customize-changesets-technical-design-decisions/'
+						);
+					?></h3>
+					<p><?php _e( 'Customize changesets make changes in the customizer persistent, like autosave drafts. They also make exciting new features like starter content possible.' ); ?></p>
 				</div>
 			</div>
 
-			<div class="under-the-hood two-col">
-				<div class="col">
-					<h3><?php _e( 'Customizer APIs for Setting Validation and Notifications' ); ?></h3>
-					<p><?php _e( 'Settings now have an <a href="https://make.wordpress.org/core/2016/07/05/customizer-apis-in-4-6-for-setting-validation-and-notifications/">API for enforcing validation constraints</a>. Likewise, customizer controls now support notifications, which are used to display validation errors instead of failing silently.' ); ?></p>
-				</div>
-				<div class="col">
-					<h3><?php _e( 'Multisite, now faster than ever' ); ?></h3>
-					<p><?php
-						printf(
-							/* translators: 1: WP_Site_Query, 2: WP_Network_Query */
-							__( 'Cached and comprehensive site queries improve your network admin experience. The addition of %1$s and %2$s help craft advanced queries with less effort.' ),
-							'<code>WP_Site_Query</code>',
-							'<code>WP_Network_Query</code>'
-						);
-					?></p>
-				</div>
-			</div>
 		</div>
 
 		<hr />
