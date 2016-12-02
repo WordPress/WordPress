@@ -143,13 +143,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 			<div class="under-the-hood three-col">
 				<div class="col">
-					<h3><?php
-						printf(
-							/* translators: %s: https://make.wordpress.org/core/2016/11/03/post-type-templates-in-4-7/  */
-							__( '<a href="%s">Post Type Templates</a>' ),
-							'https://make.wordpress.org/core/2016/11/03/post-type-templates-in-4-7/'
-						);
-					?></h3>
+					<h3><a href="https://make.wordpress.org/core/2016/11/03/post-type-templates-in-4-7/"><?php _e( 'Post Type Templates' ); ?></a></h3>
 					<p><?php _e( 'By opening up the page template functionality to all post types, theme developers have even more flexibility with the WordPress template hierarchy.' ); ?></p>
 				</div>
 				<div class="col">
@@ -163,26 +157,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					?></p>
 				</div>
 				<div class="col">
-					<h3><?php
-						printf(
-							/* translators: %s: https://make.wordpress.org/core/2016/10/04/custom-bulk-actions/  */
-							__( '<a href="%s">Custom Bulk Actions</a>' ),
-							'https://make.wordpress.org/core/2016/10/04/custom-bulk-actions/'
-						);
-					?></h3>
+					<h3><a href="https://make.wordpress.org/core/2016/10/04/custom-bulk-actions/"><?php _e( 'Custom Bulk Actions' ); ?></a></h3>
 					<p><?php _e( 'List tables, now with more than bulk edit and delete.' ); ?></p>
 				</div>
 			</div>
 
 			<div class="under-the-hood three-col">
 				<div class="col">
-					<h3><?php
-						printf(
-							'<a href="%1$s">%2$s</a>',
-							'https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/',
-							'<code>WP_Hook</code>'
-						);
-					?></h3>
+					<h3><a href="https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/"><code>WP_Hook</code></a></h3>
 					<p><?php
 						printf(
 							/* translators: %s: https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/  */
@@ -203,13 +185,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					?></p>
 				</div>
 				<div class="col">
-					<h3><?php
-						printf(
-							/* translators: %s: https://make.wordpress.org/core/2016/10/12/customize-changesets-technical-design-decisions/  */
-							__( '<a href="%s">Customize Changesets</a>' ),
-							'https://make.wordpress.org/core/2016/10/12/customize-changesets-technical-design-decisions/'
-						);
-					?></h3>
+					<h3><a href="https://make.wordpress.org/core/2016/10/12/customize-changesets-technical-design-decisions/"><?php _e( 'Customize Changesets' ); ?></a></h3>
 					<p><?php _e( 'Customize changesets make changes in the customizer persistent, like autosave drafts. They also make exciting new features like starter content possible.' ); ?></p>
 				</div>
 			</div>
