@@ -117,15 +117,15 @@ abstract class WP_REST_Meta_Fields {
 	 * @since 4.7.0
 	 * @access public
 	 *
-	 * @param WP_REST_Request $request   Full details about the request.
+	 * @param array           $meta      Array of meta parsed from the request.
 	 * @param int             $object_id Object ID to fetch meta for.
 	 * @return WP_Error|null WP_Error if one occurs, null on success.
 	 */
-	public function update_value( $request, $object_id ) {
+	public function update_value( $meta, $object_id ) {
 		$fields = $this->get_registered_fields();
 		foreach ( $fields as $meta_key => $args ) {
 			$name = $args['name'];
-			if ( ! array_key_exists( $name, $request ) ) {
+			if ( ! array_key_exists( $name, $meta ) ) {
 				continue;
 			}
 
@@ -133,7 +133,7 @@ abstract class WP_REST_Meta_Fields {
 			 * A null value means reset the field, which is essentially deleting it
 			 * from the database and then relying on the default value.
 			 */
-			if ( is_null( $request[ $name ] ) ) {
+			if ( is_null( $meta[ $name ] ) ) {
 				$result = $this->delete_meta_value( $object_id, $meta_key, $name );
 				if ( is_wp_error( $result ) ) {
 					return $result;
@@ -141,13 +141,13 @@ abstract class WP_REST_Meta_Fields {
 				continue;
 			}
 
-			$is_valid = rest_validate_value_from_schema( $request[ $name ], $args['schema'], 'meta.' . $name );
+			$is_valid = rest_validate_value_from_schema( $meta[ $name ], $args['schema'], 'meta.' . $name );
 			if ( is_wp_error( $is_valid ) ) {
 				$is_valid->add_data( array( 'status' => 400 ) );
 				return $is_valid;
 			}
 
-			$value = rest_sanitize_value_from_schema( $request[ $name ], $args['schema'] );
+			$value = rest_sanitize_value_from_schema( $meta[ $name ], $args['schema'] );
 
 			if ( $args['single'] ) {
 				$result = $this->update_meta_value( $object_id, $meta_key, $name, $value );
@@ -391,6 +391,10 @@ abstract class WP_REST_Meta_Fields {
 			'type'        => 'object',
 			'context'     => array( 'view', 'edit' ),
 			'properties'  => array(),
+			'arg_options' => array(
+				'sanitize_callback' => null,
+				'validate_callback' => array( $this, 'check_meta_is_array' ),
+			),
 		);
 
 		foreach ( $fields as $args ) {
@@ -440,6 +444,25 @@ abstract class WP_REST_Meta_Fields {
 		// Don't allow objects to be output.
 		if ( is_object( $value ) && ! ( $value instanceof JsonSerializable ) ) {
 			return null;
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Check the 'meta' value of a request is an associative array.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param  mixed           $value   The meta value submitted in the request.
+	 * @param  WP_REST_Request $request Full details about the request.
+	 * @param  string          $param   The parameter name.
+	 * @return WP_Error|string The meta array, if valid, otherwise an error.
+	 */
+	public function check_meta_is_array( $value, $request, $param ) {
+		if ( ! is_array( $value ) ) {
+			return false;
 		}
 
 		return $value;
