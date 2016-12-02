@@ -148,6 +148,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_no_search_term_defined', __( 'You need to define a search term to order by relevance.' ), array( 'status' => 400 ) );
 		}
 
+		// Ensure an include parameter is set in case the orderby is set to 'include'.
+		if ( ! empty( $request['orderby'] ) && 'include' === $request['orderby'] && empty( $request['include'] ) ) {
+			return new WP_Error( 'rest_orderby_include_missing_include', sprintf( __( 'Missing parameter(s): %s' ), 'include' ), array( 'status' => 400 ) );
+		}
+
 		// Retrieve the list of registered collection query parameters.
 		$registered = $this->get_collection_params();
 		$args = array();
@@ -836,8 +841,17 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			$query_args['ignore_sticky_posts'] = true;
 		}
 
-		if ( 'include' === $query_args['orderby'] ) {
-			$query_args['orderby'] = 'post__in';
+		// Map to proper WP_Query orderby param.
+		if ( isset( $query_args['orderby'] ) && isset( $request['orderby'] ) ) {
+			$orderby_mappings = array(
+				'id'      => 'ID',
+				'include' => 'post__in',
+				'slug'    => 'post_name',
+			);
+
+			if ( isset( $orderby_mappings[ $request['orderby'] ] ) ) {
+				$query_args['orderby'] = $orderby_mappings[ $request['orderby'] ];
+			}
 		}
 
 		return $query_args;
