@@ -1961,10 +1961,6 @@ final class WP_Customize_Manager {
 		}
 
 		$changeset_post_id = $this->changeset_post_id();
-		if ( $changeset_post_id && in_array( get_post_status( $changeset_post_id ), array( 'publish', 'trash' ) ) ) {
-			wp_send_json_error( 'changeset_already_published' );
-		}
-
 		if ( empty( $changeset_post_id ) ) {
 			if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->create_posts ) ) {
 				wp_send_json_error( 'cannot_create_changeset_post' );
@@ -1999,13 +1995,8 @@ final class WP_Customize_Manager {
 				wp_send_json_error( 'bad_customize_changeset_status', 400 );
 			}
 			$is_publish = ( 'publish' === $changeset_status || 'future' === $changeset_status );
-			if ( $is_publish ) {
-				if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->publish_posts ) ) {
-					wp_send_json_error( 'changeset_publish_unauthorized', 403 );
-				}
-				if ( false === has_action( 'transition_post_status', '_wp_customize_publish_changeset' ) ) {
-					wp_send_json_error( 'missing_publish_callback', 500 );
-				}
+			if ( $is_publish && ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->publish_posts ) ) {
+				wp_send_json_error( 'changeset_publish_unauthorized', 403 );
 			}
 		}
 
@@ -2034,20 +2025,6 @@ final class WP_Customize_Manager {
 				}
 				$changeset_date_gmt = gmdate( 'Y-m-d H:i:s', $timestamp );
 			}
-			$now = gmdate( 'Y-m-d H:i:59' );
-
-			$is_future_dated = ( mysql2date( 'U', $changeset_date_gmt, false ) > mysql2date( 'U', $now, false ) );
-			if ( ! $is_future_dated ) {
-				wp_send_json_error( 'not_future_date', 400 ); // Only future dates are allowed.
-			}
-
-			if ( ! $this->is_theme_active() && ( 'future' === $changeset_status || $is_future_dated ) ) {
-				wp_send_json_error( 'cannot_schedule_theme_switches', 400 ); // This should be allowed in the future, when theme is a regular setting.
-			}
-			$will_remain_auto_draft = ( ! $changeset_status && ( ! $changeset_post_id || 'auto-draft' === get_post_status( $changeset_post_id ) ) );
-			if ( $changeset_date && $will_remain_auto_draft ) {
-				wp_send_json_error( 'cannot_supply_date_for_auto_draft_changeset', 400 );
-			}
 		}
 
 		$r = $this->save_changeset_post( array(
@@ -2057,7 +2034,15 @@ final class WP_Customize_Manager {
 			'data' => $input_changeset_data,
 		) );
 		if ( is_wp_error( $r ) ) {
-			$response = $r->get_error_data();
+			$response = array(
+				'message' => $r->get_error_message(),
+				'code' => $r->get_error_code(),
+			);
+			if ( is_array( $r->get_error_data() ) ) {
+				$response = array_merge( $response, $r->get_error_data() );
+			} else {
+				$response['data'] = $r->get_error_data();
+			}
 		} else {
 			$response = $r;
 
@@ -2132,7 +2117,41 @@ final class WP_Customize_Manager {
 		$changeset_post_id = $this->changeset_post_id();
 		$existing_changeset_data = array();
 		if ( $changeset_post_id ) {
+			$existing_status = get_post_status( $changeset_post_id );
+			if ( 'publish' === $existing_status || 'trash' === $existing_status ) {
+				return new WP_Error( 'changeset_already_published' );
+			}
+
 			$existing_changeset_data = $this->get_changeset_post_data( $changeset_post_id );
+		}
+
+		// Fail if attempting to publish but publish hook is missing.
+		if ( 'publish' === $args['status'] && false === has_action( 'transition_post_status', '_wp_customize_publish_changeset' ) ) {
+			return new WP_Error( 'missing_publish_callback' );
+		}
+
+		// Validate date.
+		$now = gmdate( 'Y-m-d H:i:59' );
+		if ( $args['date_gmt'] ) {
+			$is_future_dated = ( mysql2date( 'U', $args['date_gmt'], false ) > mysql2date( 'U', $now, false ) );
+			if ( ! $is_future_dated ) {
+				return new WP_Error( 'not_future_date' ); // Only future dates are allowed.
+			}
+
+			if ( ! $this->is_theme_active() && ( 'future' === $args['status'] || $is_future_dated ) ) {
+				return new WP_Error( 'cannot_schedule_theme_switches' ); // This should be allowed in the future, when theme is a regular setting.
+			}
+			$will_remain_auto_draft = ( ! $args['status'] && ( ! $changeset_post_id || 'auto-draft' === get_post_status( $changeset_post_id ) ) );
+			if ( $will_remain_auto_draft ) {
+				return new WP_Error( 'cannot_supply_date_for_auto_draft_changeset' );
+			}
+		} elseif ( $changeset_post_id && 'future' === $args['status'] ) {
+
+			// Fail if the new status is future but the existing post's date is not in the future.
+			$changeset_post = get_post( $changeset_post_id );
+			if ( mysql2date( 'U', $changeset_post->post_date_gmt, false ) <= mysql2date( 'U', $now, false ) ) {
+				return new WP_Error( 'not_future_date' );
+			}
 		}
 
 		// The request was made via wp.customize.previewer.save().
@@ -2347,7 +2366,12 @@ final class WP_Customize_Manager {
 		if ( $args['status'] ) {
 			$post_array['post_status'] = $args['status'];
 		}
-		if ( $args['date_gmt'] ) {
+
+		// Reset post date to now if we are publishing, otherwise pass post_date_gmt and translate for post_date.
+		if ( 'publish' === $args['status'] ) {
+			$post_array['post_date_gmt'] = '0000-00-00 00:00:00';
+			$post_array['post_date'] = '0000-00-00 00:00:00';
+		} elseif ( $args['date_gmt'] ) {
 			$post_array['post_date_gmt'] = $args['date_gmt'];
 			$post_array['post_date'] = get_date_from_gmt( $args['date_gmt'] );
 		}
