@@ -824,54 +824,48 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
  *                             or `$term` was not found.
  */
 function get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
+	global $wpdb;
 
 	// 'term_taxonomy_id' lookups don't require taxonomy checks.
 	if ( 'term_taxonomy_id' !== $field && ! taxonomy_exists( $taxonomy ) ) {
 		return false;
 	}
 
-	if ( 'id' === $field || 'term_id' === $field ) {
+	$tax_clause = $wpdb->prepare( "AND tt.taxonomy = %s", $taxonomy );
+
+	if ( 'slug' == $field ) {
+		$_field = 't.slug';
+		$value = sanitize_title($value);
+		if ( empty($value) )
+			return false;
+	} elseif ( 'name' == $field ) {
+		// Assume already escaped
+		$value = wp_unslash($value);
+		$_field = 't.name';
+	} elseif ( 'term_taxonomy_id' == $field ) {
+		$value = (int) $value;
+		$_field = 'tt.term_taxonomy_id';
+
+		// No `taxonomy` clause when searching by 'term_taxonomy_id'.
+		$tax_clause = '';
+	} else {
 		$term = get_term( (int) $value, $taxonomy, $output, $filter );
-		if ( is_wp_error( $term ) || null === $term ) {
+		if ( is_wp_error( $term ) || is_null( $term ) ) {
 			$term = false;
 		}
 		return $term;
 	}
 
-	$args = array(
-		'get'                    => 'all',
-		'number'                 => 1,
-		'taxonomy'               => $taxonomy,
-		'update_term_meta_cache' => false,
-		'orderby'                => 'none',
-	);
-
-	switch ( $field ) {
-		case 'slug' :
-			$args['slug'] = $value;
-			break;
-		case 'name' :
-			$args['name'] = $value;
-			break;
-		case 'term_taxonomy_id' :
-			$args['term_taxonomy_id'] = $value;
-			unset( $args[ 'taxonomy' ] );
-			break;
-		default :
-			return false;
-	}
-
-	$terms = get_terms( $args );
-	if ( is_wp_error( $terms ) || empty( $terms ) ) {
+	$term = $wpdb->get_row( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE $_field = %s", $value ) . " $tax_clause LIMIT 1" );
+	if ( ! $term )
 		return false;
-	}
-
-	$term = array_shift( $terms );
 
 	// In the case of 'term_taxonomy_id', override the provided `$taxonomy` with whatever we find in the db.
 	if ( 'term_taxonomy_id' === $field ) {
 		$taxonomy = $term->taxonomy;
 	}
+
+	wp_cache_add( $term->term_id, $term, 'terms' );
 
 	return get_term( $term, $taxonomy, $output, $filter );
 }
