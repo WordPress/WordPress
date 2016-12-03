@@ -288,7 +288,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Checks if a request has access to read the specified term.
+	 * Checks if a request has access to read or edit the specified term.
 	 *
 	 * @since 4.7.0
 	 * @access public
@@ -301,8 +301,8 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		if ( ! $tax_obj || ! $this->check_is_taxonomy_allowed( $this->taxonomy ) ) {
 			return false;
 		}
-		if ( 'edit' === $request['context'] && ! current_user_can( $tax_obj->cap->edit_terms ) ) {
-			return new WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to edit terms in this taxonomy.' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( 'edit' === $request['context'] && ! current_user_can( 'edit_term', (int) $request['id'] ) ) {
+			return new WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to edit this term.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 		return true;
 	}
