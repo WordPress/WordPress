@@ -1737,16 +1737,18 @@ function register_initial_settings() {
 		'description'  => __( 'Site tagline.' ),
 	) );
 
-	register_setting( 'general', 'siteurl', array(
-		'show_in_rest' => array(
-			'name'    => 'url',
-			'schema'  => array(
-				'format' => 'uri',
+	if ( ! is_multisite() ) {
+		register_setting( 'general', 'siteurl', array(
+			'show_in_rest' => array(
+				'name'    => 'url',
+				'schema'  => array(
+					'format' => 'uri',
+				),
 			),
-		),
-		'type'         => 'string',
-		'description'  => __( 'Site URL.' ),
-	) );
+			'type'         => 'string',
+			'description'  => __( 'Site URL.' ),
+		) );
+	}
 
 	register_setting( 'general', 'admin_email', array(
 		'show_in_rest' => array(
