@@ -4112,7 +4112,7 @@ final class WP_Customize_Manager {
 			'description_hidden' => true,
 			'description'        => sprintf( '%s<br /><a href="%s" class="external-link" target="_blank">%s<span class="screen-reader-text">%s</span></a>',
 				__( 'CSS allows you to customize the appearance and layout of your site with code. Separate CSS is saved for each of your themes. In the editing area the Tab key enters a tab character. To move below this area by pressing Tab, press the Esc key followed by the Tab key.' ),
-				esc_url( __( 'https://codex.wordpress.org/Know_Your_Sources#CSS' ) ),
+				esc_url( __( 'https://codex.wordpress.org/CSS' ) ),
 				__( 'Learn more about CSS' ),
 				__( '(link opens in a new window)' )
 			),
