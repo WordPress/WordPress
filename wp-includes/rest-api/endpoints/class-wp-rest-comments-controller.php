@@ -1344,7 +1344,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		);
 
 		$query_params['offset'] = array(
-			'description'        => __( 'Offset the result set by a specific number of comments.' ),
+			'description'        => __( 'Offset the result set by a specific number of items.' ),
 			'type'               => 'integer',
 		);
 
