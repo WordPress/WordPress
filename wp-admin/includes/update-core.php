@@ -708,7 +708,7 @@ $_old_files = array(
 // 4.7
 // Don't delete, yet: 'wp-admin/includes/class-wp-upgrader-skins.php',
 // Don't delete, yet: 'wp-includes/class-feed.php',
-'wp-includes/locale.php',
+// Don't delete, yet: 'wp-includes/locale.php',
 // Don't delete, yet: 'wp-includes/session.php',
 'wp-includes/customize/class-wp-customize-themes-panel.php', // Removed in beta; when the feature comes back remember to remove it from this array. See #37661.
 );
