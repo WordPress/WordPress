@@ -868,6 +868,7 @@ html[lang="th"] h4,
 html[lang="th"] h5,
 html[lang="th"] h6 {
 	line-height: 1.65;
+	font-family: "Sukhumvit Set", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 html[lang="th"] body,
@@ -876,6 +877,7 @@ html[lang="th"] input,
 html[lang="th"] select,
 html[lang="th"] textarea {
 	line-height: 1.8;
+	font-family: "Sukhumvit Set", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* Remove letter-spacing for all non-latin alphabets */
