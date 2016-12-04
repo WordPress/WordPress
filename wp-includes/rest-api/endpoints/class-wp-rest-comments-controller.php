@@ -392,7 +392,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 			 *                                 response.
 			 */
 			$allow_anonymous = apply_filters( 'rest_allow_anonymous_comments', false, $request );
-			if ( false === $allow_anonymous ) {
+			if ( ! $allow_anonymous ) {
 				return new WP_Error( 'rest_comment_login_required', __( 'Sorry, you must be logged in to comment.' ), array( 'status' => 401 ) );
 			}
 		}
