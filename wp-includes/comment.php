@@ -3059,7 +3059,7 @@ function wp_handle_comment_submission( $comment_data ) {
 		}
 	} else {
 		if ( get_option( 'comment_registration' ) ) {
-			return new WP_Error( 'not_logged_in', __( 'Sorry, you must be logged in to post a comment.' ), 403 );
+			return new WP_Error( 'not_logged_in', __( 'Sorry, you must be logged in to comment.' ), 403 );
 		}
 	}
 
