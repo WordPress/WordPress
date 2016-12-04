@@ -422,7 +422,11 @@ function map_meta_cap( $cap, $user_id ) {
 		$caps[] = 'edit_theme_options';
 		break;
 	case 'delete_site':
-		$caps[] = 'manage_options';
+		if ( is_multisite() ) {
+			$caps[] = 'manage_options';
+		} else {
+			$caps[] = 'do_not_allow';
+		}
 		break;
 	case 'edit_term':
 	case 'delete_term':
