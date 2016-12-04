@@ -3019,7 +3019,7 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
  * function only fetches relationship data that is already in the cache.
  *
  * @since 2.3.0
- * @since 4.6.2 Returns a WP_Error object if get_term() returns an error for
+ * @since 4.7.0 Returns a WP_Error object if get_term() returns an error for
  *              any of the matched terms.
  *
  * @param int    $id       Term object ID.
