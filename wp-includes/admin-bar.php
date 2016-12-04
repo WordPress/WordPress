@@ -301,8 +301,9 @@ function wp_admin_bar_site_menu( $wp_admin_bar ) {
 		return;
 
 	// Show only when the user is a member of this site, or they're a super admin.
-	if ( ! is_user_member_of_blog() && ! is_super_admin() )
+	if ( ! is_user_member_of_blog() && ! current_user_can( 'manage_network' ) ) {
 		return;
+	}
 
 	$blogname = get_bloginfo('name');
 
@@ -415,8 +416,9 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 		return;
 
 	// Show only when the user has at least one site, or they're a super admin.
-	if ( count( $wp_admin_bar->user->blogs ) < 1 && ! is_super_admin() )
+	if ( count( $wp_admin_bar->user->blogs ) < 1 && ! current_user_can( 'manage_network' ) ) {
 		return;
+	}
 
 	if ( $wp_admin_bar->user->active_blog ) {
 		$my_sites_url = get_admin_url( $wp_admin_bar->user->active_blog->blog_id, 'my-sites.php' );
@@ -430,7 +432,7 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 		'href'  => $my_sites_url,
 	) );
 
-	if ( is_super_admin() ) {
+	if ( current_user_can( 'manage_network' ) ) {
 		$wp_admin_bar->add_group( array(
 			'parent' => 'my-sites',
 			'id'     => 'my-sites-super-admin',
@@ -486,7 +488,7 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 		'parent' => 'my-sites',
 		'id'     => 'my-sites-list',
 		'meta'   => array(
-			'class' => is_super_admin() ? 'ab-sub-secondary' : '',
+			'class' => current_user_can( 'manage_network' ) ? 'ab-sub-secondary' : '',
 		),
 	) );
 
