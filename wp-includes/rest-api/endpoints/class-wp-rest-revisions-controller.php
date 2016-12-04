@@ -404,7 +404,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 				'date'            => array(
-					'description' => __( 'The date the object was published.' ),
+					'description' => __( "The date the object was published, in the site's timezone." ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 					'context'     => array( 'view', 'edit', 'embed' ),
@@ -426,7 +426,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 					'context'     => array( 'view', 'edit', 'embed' ),
 				),
 				'modified'        => array(
-					'description' => __( 'The date the object was last modified.' ),
+					'description' => __( "The date the object was last modified, in the site's timezone." ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 					'context'     => array( 'view', 'edit' ),
