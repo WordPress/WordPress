@@ -1202,13 +1202,13 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 					),
 				),
 				'date'             => array(
-					'description'  => __( 'The date the object was published.' ),
+					'description'  => __( "The date the object was published, in the site's timezone." ),
 					'type'         => 'string',
 					'format'       => 'date-time',
 					'context'      => array( 'view', 'edit', 'embed' ),
 				),
 				'date_gmt'         => array(
-					'description'  => __( 'The date the object was published as GMT.' ),
+					'description'  => __( 'The date the object was published, as GMT.' ),
 					'type'         => 'string',
 					'format'       => 'date-time',
 					'context'      => array( 'view', 'edit' ),
