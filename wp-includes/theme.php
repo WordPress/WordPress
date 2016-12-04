@@ -1786,9 +1786,14 @@ function wp_update_custom_css_post( $css, $args = array() ) {
 		$r = wp_update_post( wp_slash( $post_data ), true );
 	} else {
 		$r = wp_insert_post( wp_slash( $post_data ), true );
+
+		// Trigger creation of a revision. This should be removed once #30854 is resolved.
+		if ( ! is_wp_error( $r ) && 0 === count( wp_get_post_revisions( $r ) ) ) {
+			wp_save_post_revision( $r );
+		}
 	}
 
-	if ( $r instanceof WP_Error ) {
+	if ( is_wp_error( $r ) ) {
 		return $r;
 	}
 	return get_post( $r );
