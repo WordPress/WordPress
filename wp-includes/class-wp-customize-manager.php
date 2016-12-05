@@ -4128,6 +4128,9 @@ final class WP_Customize_Manager {
 			'type'     => 'textarea',
 			'section'  => 'custom_css',
 			'settings' => array( 'default' => $custom_css_setting->id ),
+			'input_attrs' => array(
+				'class' => 'code', // Ensures contents displayed as LTR instead of RTL.
+			),
 		) );
 	}
 
