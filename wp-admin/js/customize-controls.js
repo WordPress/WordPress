@@ -4746,13 +4746,8 @@
 			};
 
 			if ( history.replaceState ) {
-				saved.bind( function( isSaved ) {
-					if ( ! isSaved ) {
-						populateChangesetUuidParam( true );
-					}
-				} );
 				changesetStatus.bind( function( newStatus ) {
-					populateChangesetUuidParam( '' !== newStatus );
+					populateChangesetUuidParam( '' !== newStatus && 'publish' !== newStatus );
 				} );
 			}
 
