@@ -80,8 +80,6 @@
 	});
 	api.Menus.availableMenuItems = new api.Menus.AvailableItemCollection( api.Menus.data.availableMenuItems );
 
-	api.Menus.insertedAutoDrafts = [];
-
 	/**
 	 * Insert a new `auto-draft` post.
 	 *
@@ -104,8 +102,9 @@
 
 		request.done( function( response ) {
 			if ( response.post_id ) {
-				api.Menus.insertedAutoDrafts.push( response.post_id );
-				api( 'nav_menus_created_posts' ).set( _.clone( api.Menus.insertedAutoDrafts ) );
+				api( 'nav_menus_created_posts' ).set(
+					api( 'nav_menus_created_posts' ).get().concat( [ response.post_id ] )
+				);
 
 				if ( 'page' === params.post_type ) {
 
@@ -2797,9 +2796,17 @@
 			if ( data.nav_menu_updates || data.nav_menu_item_updates ) {
 				api.Menus.applySavedData( data );
 			}
+		} );
 
-			// Reset list of inserted auto draft post IDs.
-			api.Menus.insertedAutoDrafts = [];
+		/*
+		 * Reset the list of posts created in the customizer once published.
+		 * The setting is updated quietly (bypassing events being triggered)
+		 * so that the customized state doesn't become immediately dirty.
+		 */
+		api.state( 'changesetStatus' ).bind( function( status ) {
+			if ( 'publish' === status ) {
+				api( 'nav_menus_created_posts' )._value = [];
+			}
 		} );
 
 		// Open and focus menu control.
