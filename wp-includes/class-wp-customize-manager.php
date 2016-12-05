@@ -1006,7 +1006,11 @@ final class WP_Customize_Manager {
 				'posts_per_page' => -1,
 			) );
 			foreach ( $existing_posts_query->posts as $existing_post ) {
-				$existing_starter_content_posts[ $existing_post->post_type . ':' . $existing_post->post_name ] = $existing_post;
+				$post_name = $existing_post->post_name;
+				if ( empty( $post_name ) ) {
+					$post_name = get_post_meta( $existing_post->ID, '_customize_draft_post_name', true );
+				}
+				$existing_starter_content_posts[ $existing_post->post_type . ':' . $post_name ] = $existing_post;
 			}
 		}
 
@@ -1067,7 +1071,7 @@ final class WP_Customize_Manager {
 					}
 
 					$attachment_post_data = array_merge(
-						wp_array_slice_assoc( $attachment, array( 'post_title', 'post_content', 'post_excerpt', 'post_name' ) ),
+						wp_array_slice_assoc( $attachment, array( 'post_title', 'post_content', 'post_excerpt' ) ),
 						array(
 							'post_status' => 'auto-draft', // So attachment will be garbage collected in a week if changeset is never published.
 						)
@@ -1085,6 +1089,7 @@ final class WP_Customize_Manager {
 						continue;
 					}
 					update_post_meta( $attachment_id, '_starter_content_theme', $this->get_stylesheet() );
+					update_post_meta( $attachment_id, '_customize_draft_post_name', $attachment['post_name'] );
 				}
 
 				$attachment_ids[ $symbol ] = $attachment_id;
