@@ -701,23 +701,17 @@
 	left: 0;
 }
 
-.media-frame.hide-menu .media-frame-menu {
-	left: -200px;
-}
-
 .media-frame.hide-toolbar .media-frame-content {
 	bottom: 0;
-}
-
-.media-frame.hide-toolbar .media-frame-toolbar {
-	bottom: -61px;
 }
 
 .media-frame.hide-router .media-frame-content {
 	top: 50px;
 }
 
-.media-frame.hide-router .media-frame-router {
+.media-frame.hide-menu .media-frame-menu,
+.media-frame.hide-router .media-frame-router,
+.media-frame.hide-toolbar .media-frame-toolbar {
 	display: none;
 }
 
