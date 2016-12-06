@@ -83,7 +83,7 @@ themes.view.Appearance = wp.Backbone.View.extend({
 	},
 
 	// Defines search element container
-	searchContainer: $( '#wpbody h1:first' ),
+	searchContainer: $( '.search-form' ),
 
 	// Search input and view
 	// for current theme collection
@@ -1772,10 +1772,6 @@ themes.view.Installer = themes.view.Appearance.extend({
 	},
 
 	activeClass: 'current',
-
-	// Overwrite search container class to append search
-	// in new location
-	searchContainer: $( '.wp-filter .search-form' ),
 
 	/*
 	 * When users press the "Upload Theme" button, show the upload form in place.
