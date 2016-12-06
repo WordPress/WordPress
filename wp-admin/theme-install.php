@@ -119,8 +119,9 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 
 ?>
 <div class="wrap">
-	<h1><?php
-	echo esc_html( $title );
+	<h1 class="wp-heading-inline"><?php echo esc_html( $title ); ?></h1>
+
+	<?php
 
 	/**
 	 * Filters the tabs shown on the Add Themes screen.
@@ -135,7 +136,10 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 	if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_themes' ) ) {
 		echo ' <button type="button" class="upload-view-toggle page-title-action hide-if-no-js" aria-expanded="false">' . __( 'Upload Theme' ) . '</button>';
 	}
-	?></h1>
+	?>
+
+	<hr class="wp-header-end">
+
 	<div class="error hide-if-js">
 		<p><?php _e( 'The Theme Installer screen requires JavaScript.' ); ?></p>
 	</div>
