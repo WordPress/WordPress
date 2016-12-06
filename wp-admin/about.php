@@ -76,7 +76,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="col">
 				<?php
 				echo wp_video_shortcode( array(
-					'mp4'      => 'https://s.w.org/images/core/4.7/starter-content.mp4',
+					'mp4'      => 'https://s.w.org/images/core/4.7/starter-content-v1.mp4',
 					'poster'   => 'https://s.w.org/images/core/4.7/starter-content.jpg?v2',
 					'loop'     => true,
 					'autoplay' => true,
@@ -93,7 +93,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<h3><?php _e( 'Edit Shortcuts' ); ?></h3>
 				<?php
 				echo wp_video_shortcode( array(
-					'mp4'      => 'https://s.w.org/images/core/4.7/edit-shortcuts.mp4',
+					'mp4'      => 'https://s.w.org/images/core/4.7/edit-shortcuts-v1.mp4',
 					'poster'   => 'https://s.w.org/images/core/4.7/edit-shortcuts.jpg?v2',
 					'loop'     => true,
 					'autoplay' => true,
@@ -108,7 +108,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<h3><?php _e( 'Video Headers' ); ?></h3>
 				<?php
 				echo wp_video_shortcode( array(
-					'mp4'      => 'https://s.w.org/images/core/4.7/header-video.mp4',
+					'mp4'      => 'https://s.w.org/images/core/4.7/header-video-v1.mp4',
 					'poster'   => 'https://s.w.org/images/core/4.7/header-video.jpg?v2',
 					'loop'     => true,
 					'autoplay' => true,
@@ -159,7 +159,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				printf(
 					/* translators: %s: https://developer.wordpress.org/rest-api/  */
 					__( 'Content endpoints provide machine-readable external access to your WordPress site with a clear, standards-driven interface, paving the way for new and innovative methods of interacting with sites through plugins, themes, apps, and beyond. Ready to get started with development? <a href="%s">Check out the REST API reference.</a>' ),
-					'https://developer.wordpress.org/rest-api/'
+					'https://developer.wordpress.org/rest-api/reference/'
 				);
 			?></p>
 		</div>
