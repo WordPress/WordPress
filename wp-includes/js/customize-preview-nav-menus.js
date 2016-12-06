@@ -15,7 +15,19 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 	 * Initialize nav menus preview.
 	 */
 	self.init = function() {
-		var self = this;
+		var self = this, synced = false;
+
+		/*
+		 * Keep track of whether we synced to determine whether or not bindSettingListener
+		 * should also initially fire the listener. This initial firing needs to wait until
+		 * after all of the settings have been synced from the pane in order to prevent
+		 * an infinite selective fallback-refresh. Note that this sync handler will be
+		 * added after the sync handler in customize-preview.js, so it will be triggered
+		 * after all of the settings are added.
+		 */
+		api.preview.bind( 'sync', function() {
+			synced = true;
+		} );
 
 		if ( api.selectiveRefresh ) {
 			// Listen for changes to settings related to nav menus.
@@ -32,7 +44,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 				 * this can trigger an infinite fallback refresh when the nav menu item lacks any valid items.
 				 */
 				if ( setting.get() && ! setting.get()._invalid ) {
-					self.bindSettingListener( setting, { fire: true } );
+					self.bindSettingListener( setting, { fire: synced } );
 				}
 			} );
 			api.bind( 'remove', function( setting ) {
