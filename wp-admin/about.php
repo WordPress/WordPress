@@ -54,9 +54,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<h2><?php _e( 'Presenting Twenty Seventeen' ); ?></h2>
 			<p class="lead-description"><?php _e( 'A brand new default theme brings your site to life with immersive featured images and video headers.' ); ?></p>
 			<picture>
-				<source media="(min-width: 450px)" srcset="https://s.w.org/images/core/4.7/twenty-seventeen-1600.jpg?v1 1600w, https://s.w.org/images/core/4.7/twenty-seventeen-493.jpg?v1 493w, https://s.w.org/images/core/4.7/twenty-seventeen-663.jpg?v1 663w, https://s.w.org/images/core/4.7/twenty-seventeen-804.jpg?v1 804w, https://s.w.org/images/core/4.7/twenty-seventeen-928.jpg?v1 928w, https://s.w.org/images/core/4.7/twenty-seventeen-1058.jpg?v1 1058w, https://s.w.org/images/core/4.7/twenty-seventeen-1173.jpg?v1 1173w, https://s.w.org/images/core/4.7/twenty-seventeen-1299.jpg?v1 1299w, https://s.w.org/images/core/4.7/twenty-seventeen-1410.jpg?v1 1410w, https://s.w.org/images/core/4.7/twenty-seventeen-1513.jpg?v1 1513w, https://s.w.org/images/core/4.7/twenty-seventeen-1595.jpg?v1 1595w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px">
-				<source srcset="https://s.w.org/images/core/4.7/twenty-seventeen-mobile-564.jpg?v1 564w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-280.jpg?v1 280w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-372.jpg?v1 372w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-454.jpg?v1 454w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-541.jpg?v1 541w" sizes="calc(100vw - 40px)">
-				<img src="https://s.w.org/images/core/4.7/twenty-seventeen-1600.jpg?v1" srcset="https://s.w.org/images/core/4.7/twenty-seventeen-1600.jpg?v1 1600w, https://s.w.org/images/core/4.7/twenty-seventeen-280.jpg?v1 280w, https://s.w.org/images/core/4.7/twenty-seventeen-493.jpg?v1 493w, https://s.w.org/images/core/4.7/twenty-seventeen-663.jpg?v1 663w, https://s.w.org/images/core/4.7/twenty-seventeen-804.jpg?v1 804w, https://s.w.org/images/core/4.7/twenty-seventeen-928.jpg?v1 928w, https://s.w.org/images/core/4.7/twenty-seventeen-1058.jpg?v1 1058w, https://s.w.org/images/core/4.7/twenty-seventeen-1173.jpg?v1 1173w, https://s.w.org/images/core/4.7/twenty-seventeen-1299.jpg?v1 1299w, https://s.w.org/images/core/4.7/twenty-seventeen-1410.jpg?v1 1410w, https://s.w.org/images/core/4.7/twenty-seventeen-1513.jpg?v1 1513w, https://s.w.org/images/core/4.7/twenty-seventeen-1595.jpg?v1 1595w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px" alt="" />
+				<source media="(min-width: 450px)" srcset="https://s.w.org/images/core/4.7/twenty-seventeen-1600.jpg?v2 1600w, https://s.w.org/images/core/4.7/twenty-seventeen-493.jpg?v2 493w, https://s.w.org/images/core/4.7/twenty-seventeen-663.jpg?v2 663w, https://s.w.org/images/core/4.7/twenty-seventeen-804.jpg?v2 804w, https://s.w.org/images/core/4.7/twenty-seventeen-928.jpg?v2 928w, https://s.w.org/images/core/4.7/twenty-seventeen-1058.jpg?v2 1058w, https://s.w.org/images/core/4.7/twenty-seventeen-1173.jpg?v2 1173w, https://s.w.org/images/core/4.7/twenty-seventeen-1299.jpg?v2 1299w, https://s.w.org/images/core/4.7/twenty-seventeen-1410.jpg?v2 1410w, https://s.w.org/images/core/4.7/twenty-seventeen-1513.jpg?v2 1513w, https://s.w.org/images/core/4.7/twenty-seventeen-1595.jpg?v2 1595w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px">
+				<source srcset="https://s.w.org/images/core/4.7/twenty-seventeen-mobile-564.jpg?v2 564w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-280.jpg?v2 280w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-372.jpg?v2 372w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-454.jpg?v2 454w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-541.jpg?v2 541w" sizes="calc(100vw - 40px)">
+				<img src="https://s.w.org/images/core/4.7/twenty-seventeen-1600.jpg?v2" srcset="https://s.w.org/images/core/4.7/twenty-seventeen-1600.jpg?v2 1600w, https://s.w.org/images/core/4.7/twenty-seventeen-280.jpg?v2 280w, https://s.w.org/images/core/4.7/twenty-seventeen-493.jpg?v2 493w, https://s.w.org/images/core/4.7/twenty-seventeen-663.jpg?v2 663w, https://s.w.org/images/core/4.7/twenty-seventeen-804.jpg?v2 804w, https://s.w.org/images/core/4.7/twenty-seventeen-928.jpg?v2 928w, https://s.w.org/images/core/4.7/twenty-seventeen-1058.jpg?v2 1058w, https://s.w.org/images/core/4.7/twenty-seventeen-1173.jpg?v2 1173w, https://s.w.org/images/core/4.7/twenty-seventeen-1299.jpg?v2 1299w, https://s.w.org/images/core/4.7/twenty-seventeen-1410.jpg?v2 1410w, https://s.w.org/images/core/4.7/twenty-seventeen-1513.jpg?v2 1513w, https://s.w.org/images/core/4.7/twenty-seventeen-1595.jpg?v2 1595w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px" alt="" />
 			</picture>
 			<p><?php _e( 'Twenty Seventeen focuses on business sites and features a customizable front page with multiple sections. Personalize it with widgets, navigation, social menus, a logo, custom colors, and more. Our default theme for 2017 works great in many languages, on any device, and for a wide range of users.' ); ?></p>
 		</div>
@@ -77,7 +77,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<?php
 				echo wp_video_shortcode( array(
 					'mp4'      => 'https://s.w.org/images/core/4.7/starter-content.mp4',
-					'poster'   => 'https://s.w.org/images/core/4.7/starter-content.jpg?v1',
+					'poster'   => 'https://s.w.org/images/core/4.7/starter-content.jpg?v2',
 					'loop'     => true,
 					'autoplay' => true,
 					'width'    => 1140,
@@ -94,7 +94,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<?php
 				echo wp_video_shortcode( array(
 					'mp4'      => 'https://s.w.org/images/core/4.7/edit-shortcuts.mp4',
-					'poster'   => 'https://s.w.org/images/core/4.7/edit-shortcuts.jpg?v1',
+					'poster'   => 'https://s.w.org/images/core/4.7/edit-shortcuts.jpg?v2',
 					'loop'     => true,
 					'autoplay' => true,
 					'width'    => 2520,
@@ -109,7 +109,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<?php
 				echo wp_video_shortcode( array(
 					'mp4'      => 'https://s.w.org/images/core/4.7/header-video.mp4',
-					'poster'   => 'https://s.w.org/images/core/4.7/header-video.jpg?v1',
+					'poster'   => 'https://s.w.org/images/core/4.7/header-video.jpg?v2',
 					'loop'     => true,
 					'autoplay' => true,
 					'width'    => 2520,
@@ -124,12 +124,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<div class="col">
 				<h3><?php _e( 'Smoother Menu Building' ); ?></h3>
-				<img src="https://s.w.org/images/core/4.7/nav-menus-760.jpg?v1" srcset="https://s.w.org/images/core/4.7/nav-menus-760.jpg?v1 760w, https://s.w.org/images/core/4.7/nav-menus-280.jpg?v1 280w, https://s.w.org/images/core/4.7/nav-menus-536.jpg?v1 536w, https://s.w.org/images/core/4.7/nav-menus-745.jpg?v1 745w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
+				<img src="https://s.w.org/images/core/4.7/nav-menus-760.jpg?v2" srcset="https://s.w.org/images/core/4.7/nav-menus-760.jpg?v2 760w, https://s.w.org/images/core/4.7/nav-menus-280.jpg?v2 280w, https://s.w.org/images/core/4.7/nav-menus-536.jpg?v2 536w, https://s.w.org/images/core/4.7/nav-menus-745.jpg?v2 745w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
 				<p><?php _e( 'Many menus for sites contain links to the pages of your site, but what happens when you don&#8217;t have any pages yet? Now you can add new pages while building menus instead of leaving the customizer and abandoning your changes. Once you&#8217;ve published your customizations, you&#8217;ll have new pages ready for you to fill with content.' );?></p>
 			</div>
 			<div class="col">
 				<h3><?php _e( 'Custom CSS' ); ?></h3>
-				<img src="https://s.w.org/images/core/4.7/css-760.jpg?v1" srcset="https://s.w.org/images/core/4.7/css-760.jpg?v1 760w, https://s.w.org/images/core/4.7/css-280.jpg?v1 280w, https://s.w.org/images/core/4.7/css-547.jpg?v1 547w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
+				<img src="https://s.w.org/images/core/4.7/css-760.jpg?v2" srcset="https://s.w.org/images/core/4.7/css-760.jpg?v2 760w, https://s.w.org/images/core/4.7/css-280.jpg?v2 280w, https://s.w.org/images/core/4.7/css-547.jpg?v2 547w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
 				<p><?php _e( 'Sometimes you just need a few visual tweaks to make your site perfect. WordPress 4.7 allows you to add custom CSS and instantly see how your changes affect your site. The live preview allows you to work quickly without page refreshes slowing you down.' ); ?></p>
 			</div>
 		</div>
@@ -139,12 +139,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section no-heading two-col">
 			<div class="col">
 				<h3><?php _e( 'PDF Thumbnail Previews' ); ?></h3>
-				<img src="https://s.w.org/images/core/4.7/pdf-760.jpg?v1" srcset="https://s.w.org/images/core/4.7/pdf-760.jpg?v1 760w, https://s.w.org/images/core/4.7/pdf-280.jpg?v1 280w, https://s.w.org/images/core/4.7/pdf-412.jpg?v1 412w, https://s.w.org/images/core/4.7/pdf-516.jpg?v1 516w, https://s.w.org/images/core/4.7/pdf-615.jpg?v1 615w, https://s.w.org/images/core/4.7/pdf-716.jpg?v1 716w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
+				<img src="https://s.w.org/images/core/4.7/pdf-760.jpg?v2" srcset="https://s.w.org/images/core/4.7/pdf-760.jpg?v2 760w, https://s.w.org/images/core/4.7/pdf-280.jpg?v2 280w, https://s.w.org/images/core/4.7/pdf-412.jpg?v2 412w, https://s.w.org/images/core/4.7/pdf-516.jpg?v2 516w, https://s.w.org/images/core/4.7/pdf-615.jpg?v2 615w, https://s.w.org/images/core/4.7/pdf-716.jpg?v2 716w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
 				<p><?php _e( 'Managing your document collection is easier with WordPress 4.7. Uploading PDFs will generate thumbnail images so you can more easily distinguish between all your documents.' ); ?></p>
 			</div>
 			<div class="col">
 				<h3><?php _e( 'Dashboard in your language' ); ?></h3>
-				<img src="https://s.w.org/images/core/4.7/language-760.jpg?v1" srcset="https://s.w.org/images/core/4.7/language-760.jpg?v1 760w, https://s.w.org/images/core/4.7/language-280.jpg?v1 280w, https://s.w.org/images/core/4.7/language-568.jpg?v1 568w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
+				<img src="https://s.w.org/images/core/4.7/language-760.jpg?v2" srcset="https://s.w.org/images/core/4.7/language-760.jpg?v2 760w, https://s.w.org/images/core/4.7/language-280.jpg?v2 280w, https://s.w.org/images/core/4.7/language-568.jpg?v2 568w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
 				<p><?php _e( 'Just because your site is in one language doesn&#8217;t mean that everybody helping manage it prefers that language for their admin. Add more languages to your site and a user language option will show up in your user&#8217;s profiles.' );?></p>
 			</div>
 		</div>
@@ -154,7 +154,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="rest-api feature-section one-col">
 			<h2><?php _e( 'Introducing REST API Content Endpoints' ); ?></h2>
 			<p class="lead-description"><?php _e( 'WordPress 4.7 comes with REST API endpoints for posts, comments, terms, users, meta, and settings.' ); ?></p>
-			<img src="https://s.w.org/images/core/4.7/api-1559.jpg?v1" srcset="https://s.w.org/images/core/4.7/api-2100.jpg?v1 2100w, https://s.w.org/images/core/4.7/api-280.jpg?v1 280w, https://s.w.org/images/core/4.7/api-1034.jpg?v1 1034w, https://s.w.org/images/core/4.7/api-1559.jpg?v1 1559w, https://s.w.org/images/core/4.7/api-2032.jpg?v1 2032w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px" alt="" />
+			<img src="https://s.w.org/images/core/4.7/api-1559.jpg?v2" srcset="https://s.w.org/images/core/4.7/api-2100.jpg?v2 2100w, https://s.w.org/images/core/4.7/api-280.jpg?v2 280w, https://s.w.org/images/core/4.7/api-1034.jpg?v2 1034w, https://s.w.org/images/core/4.7/api-1559.jpg?v2 1559w, https://s.w.org/images/core/4.7/api-2032.jpg?v2 2032w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px" alt="" />
 			<p><?php
 				printf(
 					/* translators: %s: https://developer.wordpress.org/rest-api/  */
