@@ -18,22 +18,7 @@ if ( ! wp_is_mobile() ) {
 	) );
 }
 
-/**
- * Replaces the height and width attributes with values for full size.
- *
- * wp_video_shortcode() limits the width to 640px.
- *
- * @since 4.6.0
- * @ignore
- *
- * @param $output Video shortcode HTML output.
- * @return string Filtered HTML content to display video.
- */
-function _wp_override_admin_video_width_limit( $output ) {
-	return str_replace( array( '640', '384' ), array( '1050', '630' ), $output );
-}
-
-$video_url = 'https://videopress.com/embed/GbdhpGF3?hd=true';
+$video_url = 'https://videopress.com/embed/AHz0Ca46?hd=true';
 $lang_code = str_replace( '_', '-', get_user_locale() );
 list( $lang_code ) = explode( '-', $lang_code );
 if ( 'en' !== $lang_code ) {
@@ -65,29 +50,72 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<hr />
 
-		<div class="twenty-seventeen feature-section one-col">
+		<div class="feature-section one-col">
 			<h2><?php _e( 'Presenting Twenty Seventeen' ); ?></h2>
-			<p><?php _e( 'A brand new default theme brings your site to life with immersive featured images and video headers.' ); ?></p>
+			<p class="lead-description"><?php _e( 'A brand new default theme brings your site to life with immersive featured images and video headers.' ); ?></p>
+			<img src="https://cldup.com/vOUPhX0Y1J.jpg" alt="" />
 			<p><?php _e( 'Twenty Seventeen focuses on business sites and features a customizable front page with multiple sections. Personalize it with widgets, navigation, social menus, a logo, custom colors, and more. Our default theme for 2017 works great in many languages, on any device, and for a wide range of users.' ); ?></p>
 		</div>
 
 		<hr />
 
-		<div class="site-customization feature-section one-col">
+		<div class="feature-section one-col">
 			<h2><?php _e( 'Your Site, Your Way' ); ?></h2>
-			<p><?php _e( 'WordPress 4.7 adds new features to the customizer to help take you through the initial setup of a theme, with non-destructive live previews of all your changes in one uninterrupted workflow.' ); ?></p>
+			<p class="lead-description"><?php _e( 'WordPress 4.7 adds new features to the customizer to help take you through the initial setup of a theme, with non-destructive live previews of all your changes in one uninterrupted workflow.' ); ?></p>
+		</div>
 
-			<h3><?php _e( 'Theme Starter Content' ); ?></h2>
-			<p><?php _e( 'To help give you a solid base to build from, individual themes can provide starter content that appears when you go to customize your brand new site. This can range from placing a business information widget in the best location to providing a sample menu with social icon links to a static front page complete with beautiful images. Don&#8217;t worry - nothing new will appear on the live site until you&#8217;re ready to save and publish your initial theme setup.' ); ?></p>
+		<div class="feature-section two-col">
+			<div class="col">
+				<h3><?php _e( 'Theme Starter Content' ); ?></h3>
+				<p><?php _e( 'To help give you a solid base to build from, individual themes can provide starter content that appears when you go to customize your brand new site. This can range from placing a business information widget in the best location to providing a sample menu with social icon links to a static front page complete with beautiful images. Don&#8217;t worry - nothing new will appear on the live site until you&#8217;re ready to save and publish your initial theme setup.' ); ?></p>
+			</div>
+			<div class="col">
+				<?php
+				echo wp_video_shortcode( array(
+					'mp4'      => 'https://cldup.com/drMtx9mh_D.mp4',
+					// 'webm'     => 'https://s.w.org/images/core/4.6/streamlined-updates.webm',
+					// 'poster'   => 'https://s.w.org/images/core/4.6/streamlined-updates-2000.png?v1',
+					'loop'     => true,
+					'autoplay' => true,
+					'width'    => 1140,
+					'height'   => 624,
+					// 'class'    => 'wp-video-shortcode feature-video',
+				) );
+				?>
+			</div>
 		</div>
 
 		<div class="feature-section two-col">
 			<div class="col">
 				<h3><?php _e( 'Edit Shortcuts' ); ?></h3>
+				<?php
+				echo wp_video_shortcode( array(
+					'mp4'      => 'https://cldup.com/PaNFgzdnna.mp4',
+					// 'webm'     => 'https://s.w.org/images/core/4.6/streamlined-updates.webm',
+					// 'poster'   => 'https://s.w.org/images/core/4.6/streamlined-updates-2000.png?v1',
+					'loop'     => true,
+					'autoplay' => true,
+					'width'    => 2520,
+					'height'   => 1454,
+					// 'class'    => 'wp-video-shortcode feature-video',
+				) );
+				?>
 				<p><?php _e( 'Visible icons appear to show you which parts of your site can be customized while live previewing. Click on a shortcut and get straight to editing. Paired with starter content, getting started with customizing your site is faster than ever.' );?></p>
 			</div>
 			<div class="col">
 				<h3><?php _e( 'Video Headers' ); ?></h3>
+				<?php
+				echo wp_video_shortcode( array(
+					'mp4'      => 'https://cldup.com/qPvXxrut7L.mp4',
+					// 'webm'     => 'https://s.w.org/images/core/4.6/streamlined-updates.webm',
+					// 'poster'   => 'https://s.w.org/images/core/4.6/streamlined-updates-2000.png?v1',
+					'loop'     => true,
+					'autoplay' => true,
+					'width'    => 2520,
+					'height'   => 1454,
+					// 'class'    => 'wp-video-shortcode feature-video',
+				) );
+				?>
 				<p><?php _e( 'Sometimes a big atmospheric video as a moving header image is just what you need to showcase your wares; go ahead and try it out with Twenty Seventeen. Need some video inspiration? Try searching for sites with video headers available for download and use.' ); ?></p>
 			</div>
 		</div>
@@ -95,23 +123,27 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<div class="col">
 				<h3><?php _e( 'Smoother Menu Building' ); ?></h3>
+				<img src="https://cldup.com/qhkOJVA69G.jpg" alt="" />
 				<p><?php _e( 'Many menus for sites contain links to the pages of your site, but what happens when you don&#8217;t have any pages yet? Now you can add new pages while building menus instead of leaving the customizer and abandoning your changes. Once you&#8217;ve published your customizations, you&#8217;ll have new pages ready for you to fill with content.' );?></p>
 			</div>
 			<div class="col">
 				<h3><?php _e( 'Custom CSS' ); ?></h3>
+				<img src="https://cldup.com/uLLUgWamG1.jpg" alt="" />
 				<p><?php _e( 'Sometimes you just need a few visual tweaks to make your site perfect. WordPress 4.7 allows you to add custom CSS and instantly see how your changes affect your site. The live preview allows you to work quickly without page refreshes slowing you down.' ); ?></p>
 			</div>
 		</div>
 
 		<hr />
 
-		<div class="feature-section two-col">
+		<div class="feature-section no-heading two-col">
 			<div class="col">
 				<h3><?php _e( 'PDF Thumbnail Previews' ); ?></h3>
+				<img src="https://cldup.com/tDz71MBtjn.jpg" alt="" />
 				<p><?php _e( 'Managing your document collection is easier with WordPress 4.7. Uploading PDFs will generate thumbnail images so you can more easily distinguish between all your documents.' ); ?></p>
 			</div>
 			<div class="col">
 				<h3><?php _e( 'Dashboard in your language' ); ?></h3>
+				<img src="https://cldup.com/PtlX3xeJpX.jpg" alt="" />
 				<p><?php _e( 'Just because your site is in one language doesn&#8217;t mean that everybody helping manage it prefers that language for their admin. Add more languages to your site and a user language option will show up in your user&#8217;s profiles.' );?></p>
 			</div>
 		</div>
@@ -120,7 +152,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="rest-api feature-section one-col">
 			<h2><?php _e( 'Introducing REST API Content Endpoints' ); ?></h2>
-			<p><?php _e( 'WordPress 4.7 comes with REST API endpoints for posts, comments, terms, users, meta, and settings.' ); ?></p>
+			<p class="lead-description"><?php _e( 'WordPress 4.7 comes with REST API endpoints for posts, comments, terms, users, meta, and settings.' ); ?></p>
+			<img src="https://cldup.com/WkGAL4UJfI.jpg" alt="" />
 			<p><?php
 				printf(
 					/* translators: %s: https://developer.wordpress.org/rest-api/  */
