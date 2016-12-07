@@ -946,33 +946,12 @@ class WP_Comment_Query {
 			0 => wp_list_pluck( $comments, 'comment_ID' ),
 		);
 
-		/*
-		 * The WHERE clause for the descendant query is the same as for the top-level
-		 * query, minus the `parent`, `parent__in`, and `parent__not_in` sub-clauses.
-		 */
-		$_where = $this->filtered_where_clause;
-		$exclude_keys = array( 'parent', 'parent__in', 'parent__not_in' );
-		foreach ( $exclude_keys as $exclude_key ) {
-			if ( isset( $this->sql_clauses['where'][ $exclude_key ] ) ) {
-				$clause = $this->sql_clauses['where'][ $exclude_key ];
-
-				// Strip the clause as well as any adjacent ANDs.
-				$pattern = '|(?:AND)?\s*' . $clause . '\s*(?:AND)?|';
-				$_where_parts = preg_split( $pattern, $_where );
-
-				// Remove empties.
-				$_where_parts = array_filter( array_map( 'trim', $_where_parts ) );
-
-				// Reassemble with an AND.
-				$_where = implode( ' AND ', $_where_parts );
-			}
-		}
-
 		$key = md5( serialize( wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) ) ) );
 		$last_changed = wp_cache_get_last_changed( 'comment' );
 
 		// Fetch an entire level of the descendant tree at a time.
 		$level = 0;
+		$exclude_keys = array( 'parent', 'parent__in', 'parent__not_in' );
 		do {
 			// Parent-child relationships may be cached. Only query for those that are not.
 			$child_ids = $uncached_parent_ids = array();
