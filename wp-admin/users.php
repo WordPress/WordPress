@@ -491,9 +491,11 @@ if ( ! empty($messages) ) {
 } ?>
 
 <div class="wrap">
-<h1>
-<?php
+<h1 class="wp-heading-inline"><?php
 echo esc_html( $title );
+?></h1>
+
+<?php
 if ( current_user_can( 'create_users' ) ) { ?>
 	<a href="<?php echo admin_url( 'user-new.php' ); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'user' ); ?></a>
 <?php } elseif ( is_multisite() && current_user_can( 'promote_users' ) ) { ?>
@@ -505,7 +507,8 @@ if ( strlen( $usersearch ) ) {
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $usersearch ) );
 }
 ?>
-</h1>
+
+<hr class="wp-header-end">
 
 <?php $wp_list_table->views(); ?>
 
