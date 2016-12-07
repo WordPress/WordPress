@@ -28,8 +28,9 @@ if ( is_multisite() ) {
 	$submenu[ 'index.php' ][5] = array( __('My Sites'), 'read', 'my-sites.php' );
 }
 
-if ( ! is_multisite() || is_super_admin() )
+if ( ! is_multisite() || current_user_can( 'update_core' ) ) {
 	$update_data = wp_get_update_data();
+}
 
 if ( ! is_multisite() ) {
 	if ( current_user_can( 'update_core' ) )
