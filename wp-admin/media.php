@@ -103,13 +103,16 @@ case 'edit' :
 ?>
 
 <div class="wrap">
-<h1>
-<?php
+<h1 class="wp-heading-inline"><?php
 echo esc_html( $title );
+?></h1>
+
+<?php
 if ( current_user_can( 'upload_files' ) ) { ?>
 	<a href="media-new.php" class="page-title-action"><?php echo esc_html_x('Add New', 'file'); ?></a>
 <?php } ?>
-</h1>
+
+<hr class="wp-header-end">
 
 <form method="post" class="media-upload-form" id="media-single-form">
 <p class="submit" style="padding-bottom: 0;">
