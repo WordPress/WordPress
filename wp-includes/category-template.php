@@ -207,7 +207,7 @@ function get_the_category_list( $separator = '', $parents='', $post_id = false )
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param array  $thelist   List of categories for the current post.
+	 * @param string $thelist   List of categories for the current post.
 	 * @param string $separator Separator used between the categories.
 	 * @param string $parents   How to display the category parents. Accepts 'multiple',
 	 *                          'single', or empty.
