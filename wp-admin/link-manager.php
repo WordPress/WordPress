@@ -79,13 +79,20 @@ if ( ! current_user_can('manage_links') )
 ?>
 
 <div class="wrap nosubsub">
-<h1><?php echo esc_html( $title ); ?> <a href="link-add.php" class="page-title-action"><?php echo esc_html_x('Add New', 'link'); ?></a> <?php
+<h1 class="wp-heading-inline"><?php
+echo esc_html( $title );
+?></h1>
+
+<a href="link-add.php" class="page-title-action"><?php echo esc_html_x( 'Add New', 'link' ); ?></a>
+
+<?php
 if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 	/* translators: %s: search keywords */
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( wp_unslash( $_REQUEST['s'] ) ) );
 }
 ?>
-</h1>
+
+<hr class="wp-header-end">
 
 <?php
 if ( isset($_REQUEST['deleted']) ) {
