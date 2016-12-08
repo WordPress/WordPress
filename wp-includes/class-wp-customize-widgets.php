@@ -1123,15 +1123,21 @@ final class WP_Customize_Widgets {
 	public function export_preview_data() {
 		global $wp_registered_sidebars, $wp_registered_widgets;
 
+		$switched_locale = switch_to_locale( get_user_locale() );
+		$l10n = array(
+			'widgetTooltip'  => __( 'Shift-click to edit this widget.' ),
+		);
+		if ( $switched_locale ) {
+			restore_previous_locale();
+		}
+
 		// Prepare Customizer settings to pass to JavaScript.
 		$settings = array(
 			'renderedSidebars'   => array_fill_keys( array_unique( $this->rendered_sidebars ), true ),
 			'renderedWidgets'    => array_fill_keys( array_keys( $this->rendered_widgets ), true ),
 			'registeredSidebars' => array_values( $wp_registered_sidebars ),
 			'registeredWidgets'  => $wp_registered_widgets,
-			'l10n'               => array(
-				'widgetTooltip'  => __( 'Shift-click to edit this widget.' ),
-			),
+			'l10n'               => $l10n,
 			'selectiveRefreshableWidgets' => $this->get_selective_refreshable_widgets(),
 		);
 		foreach ( $settings['registeredWidgets'] as &$registered_widget ) {
