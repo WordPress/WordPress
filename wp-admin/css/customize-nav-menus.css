@@ -719,6 +719,10 @@ body.adding-menu-items #customize-preview {
 	opacity: 0.4;
 }
 
+body.adding-menu-items #customize-preview iframe {
+	pointer-events: none;
+}
+
 .menu-item-handle .spinner {
 	display: none;
 	float: left;
