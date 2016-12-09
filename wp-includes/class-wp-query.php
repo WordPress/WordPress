@@ -3229,7 +3229,7 @@ class WP_Query {
 	 * @since 1.5.0
 	 * @access public
 	 *
-	 * @param string $query URL query string.
+	 * @param string|array $query URL query string or array of query arguments.
 	 * @return array List of posts.
 	 */
 	public function query( $query ) {
