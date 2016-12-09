@@ -287,7 +287,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 ?>
 
 <div class="wrap">
-<h1><?php _e( 'Sites' ); ?>
+<h1 class="wp-heading-inline"><?php _e( 'Sites' ); ?></h1>
 
 <?php if ( current_user_can( 'create_sites') ) : ?>
 	<a href="<?php echo network_admin_url('site-new.php'); ?>" class="page-title-action"><?php echo esc_html_x( 'Add New', 'site' ); ?></a>
@@ -297,8 +297,10 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 if ( isset( $_REQUEST['s'] ) && strlen( $_REQUEST['s'] ) ) {
 	/* translators: %s: search keywords */
 	printf( '<span class="subtitle">' . __( 'Search results for &#8220;%s&#8221;' ) . '</span>', esc_html( $s ) );
-} ?>
-</h1>
+}
+?>
+
+<hr class="wp-header-end">
 
 <?php echo $msg; ?>
 
