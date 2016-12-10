@@ -1965,7 +1965,12 @@ function get_theme_starter_content() {
 			) ),
 		),
 		'nav_menus' => array(
-			'page_home' => array(
+			'link_home' => array(
+				'type' => 'custom',
+				'title' => _x( 'Home', 'Theme starter content' ),
+				'url' => home_url(),
+			),
+			'page_home' => array( // Deprecated in favor of home_link.
 				'type' => 'post_type',
 				'object' => 'page',
 				'object_id' => '{{home}}',

@@ -169,7 +169,7 @@ function twentyseventeen_setup() {
 			'top' => array(
 				'name' => __( 'Top Menu', 'twentyseventeen' ),
 				'items' => array(
-					'page_home',
+					'link_home',
 					'page_about',
 					'page_blog',
 					'page_contact',
