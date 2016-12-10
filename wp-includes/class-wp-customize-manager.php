@@ -3896,7 +3896,7 @@ final class WP_Customize_Manager {
 		$this->add_setting( 'external_header_video', array(
 			'theme_supports'    => array( 'custom-header', 'video' ),
 			'transport'         => 'postMessage',
-			'sanitize_callback' => 'esc_url_raw',
+			'sanitize_callback' => array( $this, '_sanitize_external_header_video' ),
 			'validate_callback' => array( $this, '_validate_external_header_video' ),
 		) );
 
@@ -4316,6 +4316,18 @@ final class WP_Customize_Manager {
 			}
 		}
 		return $validity;
+	}
+
+	/**
+	 * Callback for sanitizing the external_header_video value.
+	 *
+	 * @since 4.7.1
+	 *
+	 * @param string $value URL.
+	 * @return string Sanitized URL.
+	 */
+	public function _sanitize_external_header_video( $value ) {
+		return esc_url_raw( trim( $value ) );
 	}
 
 	/**
