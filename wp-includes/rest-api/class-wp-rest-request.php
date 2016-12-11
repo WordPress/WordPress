@@ -818,17 +818,21 @@ class WP_REST_Request implements ArrayAccess {
 				continue;
 			}
 			foreach ( $this->params[ $type ] as $key => $value ) {
-				// if no sanitize_callback was specified, default to rest_parse_request_arg
-				// if a type was specified in the args.
-				if ( ! isset( $attributes['args'][ $key ]['sanitize_callback'] ) && ! empty( $attributes['args'][ $key ]['type'] ) ) {
-					$attributes['args'][ $key ]['sanitize_callback'] = 'rest_parse_request_arg';
+				if ( ! isset( $attributes['args'][ $key ] ) ) {
+					continue;
 				}
-				// Check if this param has a sanitize_callback added.
-				if ( ! isset( $attributes['args'][ $key ] ) || empty( $attributes['args'][ $key ]['sanitize_callback'] ) ) {
+				$param_args = $attributes['args'][ $key ];
+
+				// If the arg has a type but no sanitize_callback attribute, default to rest_parse_request_arg.
+				if ( ! array_key_exists( 'sanitize_callback', $param_args ) && ! empty( $param_args['type'] ) ) {
+					$param_args['sanitize_callback'] = 'rest_parse_request_arg';
+				}
+				// If there's still no sanitize_callback, nothing to do here.
+				if ( empty( $param_args['sanitize_callback'] ) ) {
 					continue;
 				}
 
-				$sanitized_value = call_user_func( $attributes['args'][ $key ]['sanitize_callback'], $value, $this, $key );
+				$sanitized_value = call_user_func( $param_args['sanitize_callback'], $value, $this, $key );
 
 				if ( is_wp_error( $sanitized_value ) ) {
 					$invalid_params[ $key ] = $sanitized_value->get_error_message();
