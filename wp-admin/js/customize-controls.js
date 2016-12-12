@@ -5300,7 +5300,7 @@
 				} );
 
 				$textarea.on( 'keydown', function onKeydown( event ) {
-					var selectionStart, selectionEnd, value, scroll, tabKeyCode = 9, escKeyCode = 27;
+					var selectionStart, selectionEnd, value, tabKeyCode = 9, escKeyCode = 27;
 
 					if ( escKeyCode === event.keyCode ) {
 						if ( ! $textarea.data( 'next-tab-blurs' ) ) {
@@ -5325,10 +5325,8 @@
 					value = textarea.value;
 
 					if ( selectionStart >= 0 ) {
-						scroll = $textarea.scrollTop;
 						textarea.value = value.substring( 0, selectionStart ).concat( '\t', value.substring( selectionEnd ) );
 						$textarea.selectionStart = textarea.selectionEnd = selectionStart + 1;
-						textarea.scrollTop = scroll;
 					}
 
 					event.stopPropagation();
