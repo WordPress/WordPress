@@ -419,7 +419,7 @@ wp.customize.navMenusPreview = wp.customize.MenusCustomizerPreview = ( function(
 				return;
 			}
 
-			navMenuItemParts = $( this ).attr( 'class' ).match( /(?:^|\s)menu-item-(\d+)(?:\s|$)/ );
+			navMenuItemParts = $( this ).attr( 'class' ).match( /(?:^|\s)menu-item-(-?\d+)(?:\s|$)/ );
 			if ( navMenuItemParts ) {
 				e.preventDefault();
 				e.stopPropagation(); // Make sure a sub-nav menu item will get focused instead of parent items.
