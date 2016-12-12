@@ -49,14 +49,14 @@
 		history.replaceState = ( function( nativeReplaceState ) {
 			return function historyReplaceState( data, title, url ) {
 				currentHistoryState = data;
-				return nativeReplaceState.call( history, data, title, injectUrlWithState( url ) );
+				return nativeReplaceState.call( history, data, title, 'string' === typeof url && url.length > 0 ? injectUrlWithState( url ) : url );
 			};
 		} )( history.replaceState );
 
 		history.pushState = ( function( nativePushState ) {
 			return function historyPushState( data, title, url ) {
 				currentHistoryState = data;
-				return nativePushState.call( history, data, title, injectUrlWithState( url ) );
+				return nativePushState.call( history, data, title, 'string' === typeof url && url.length > 0 ? injectUrlWithState( url ) : url );
 			};
 		} )( history.pushState );
 
