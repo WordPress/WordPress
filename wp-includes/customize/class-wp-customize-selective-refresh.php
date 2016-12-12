@@ -179,18 +179,24 @@ final class WP_Customize_Selective_Refresh {
 			}
 		}
 
+		$switched_locale = switch_to_locale( get_user_locale() );
+		$l10n = array(
+			'shiftClickToEdit' => __( 'Shift-click to edit this element.' ),
+			'clickEditMenu' => __( 'Click to edit this menu.' ),
+			'clickEditWidget' => __( 'Click to edit this widget.' ),
+			'clickEditTitle' => __( 'Click to edit the site title.' ),
+			'clickEditMisc' => __( 'Click to edit this element.' ),
+			/* translators: %s: document.write() */
+			'badDocumentWrite' => sprintf( __( '%s is forbidden' ), 'document.write()' ),
+		);
+		if ( $switched_locale ) {
+			restore_previous_locale();
+		}
+
 		$exports = array(
 			'partials'       => $partials,
 			'renderQueryVar' => self::RENDER_QUERY_VAR,
-			'l10n'           => array(
-				'shiftClickToEdit' => __( 'Shift-click to edit this element.' ),
-				'clickEditMenu' => __( 'Click to edit this menu.' ),
-				'clickEditWidget' => __( 'Click to edit this widget.' ),
-				'clickEditTitle' => __( 'Click to edit the site title.' ),
-				'clickEditMisc' => __( 'Click to edit this element.' ),
-				/* translators: %s: document.write() */
-				'badDocumentWrite' => sprintf( __( '%s is forbidden' ), 'document.write()' ),
-			),
+			'l10n'           => $l10n,
 		);
 
 		// Export data to JS.

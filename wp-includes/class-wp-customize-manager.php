@@ -1776,6 +1776,17 @@ final class WP_Customize_Manager {
 			}
 			$allowed_hosts[] = $host;
 		}
+
+		$switched_locale = switch_to_locale( get_user_locale() );
+		$l10n = array(
+			'shiftClickToEdit' => __( 'Shift-click to edit this element.' ),
+			'linkUnpreviewable' => __( 'This link is not live-previewable.' ),
+			'formUnpreviewable' => __( 'This form is not live-previewable.' ),
+		);
+		if ( $switched_locale ) {
+			restore_previous_locale();
+		}
+
 		$settings = array(
 			'changeset' => array(
 				'uuid' => $this->_changeset_uuid,
@@ -1800,11 +1811,7 @@ final class WP_Customize_Manager {
 			'activeControls' => array(),
 			'settingValidities' => $exported_setting_validities,
 			'nonce' => current_user_can( 'customize' ) ? $this->get_nonces() : array(),
-			'l10n' => array(
-				'shiftClickToEdit' => __( 'Shift-click to edit this element.' ),
-				'linkUnpreviewable' => __( 'This link is not live-previewable.' ),
-				'formUnpreviewable' => __( 'This form is not live-previewable.' ),
-			),
+			'l10n' => $l10n,
 			'_dirty' => array_keys( $post_values ),
 		);
 
