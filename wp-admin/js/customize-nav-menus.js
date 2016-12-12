@@ -1169,7 +1169,11 @@
 
 			// @todo It would be better if this was added directly on the setting itself, as opposed to the control.
 			control.setting.validate = function( value ) {
-				return parseInt( value, 10 );
+				if ( '' === value ) {
+					return 0;
+				} else {
+					return parseInt( value, 10 );
+				}
 			};
 
 			// Edit menu button.

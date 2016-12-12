@@ -531,10 +531,7 @@ final class WP_Customize_Nav_Menus {
 	 */
 	public function customize_register() {
 
-		/*
-		 * Preview settings for nav menus early so that the sections and controls will be added properly.
-		 * See https://github.com/xwp/wp-customize-snapshots/blob/962586659688a5b1fd9ae93618b7ce2d4e7a421c/php/class-customize-snapshot-manager.php#L506-L543
-		 */
+		// Preview settings for nav menus early so that the sections and controls will be added properly.
 		$nav_menus_setting_ids = array();
 		foreach ( array_keys( $this->manager->unsanitized_post_values() ) as $setting_id ) {
 			if ( preg_match( '/^(nav_menu_locations|nav_menu|nav_menu_item)\[/', $setting_id ) ) {
@@ -542,10 +539,12 @@ final class WP_Customize_Nav_Menus {
 			}
 		}
 		$this->manager->add_dynamic_settings( $nav_menus_setting_ids );
-		foreach ( $nav_menus_setting_ids as $setting_id ) {
-			$setting = $this->manager->get_setting( $setting_id );
-			if ( $setting ) {
-				$setting->preview();
+		if ( ! $this->manager->doing_ajax( 'customize_save' ) ) {
+			foreach ( $nav_menus_setting_ids as $setting_id ) {
+				$setting = $this->manager->get_setting( $setting_id );
+				if ( $setting ) {
+					$setting->preview();
+				}
 			}
 		}
 
