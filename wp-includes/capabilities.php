@@ -32,7 +32,12 @@ function map_meta_cap( $cap, $user_id ) {
 
 	switch ( $cap ) {
 	case 'remove_user':
-		$caps[] = 'remove_users';
+		// In multisite the user must be a super admin to remove themselves.
+		if ( isset( $args[0] ) && $user_id == $args[0] && ! is_super_admin( $user_id ) ) {
+			$caps[] = 'do_not_allow';
+		} else {
+			$caps[] = 'remove_users';
+		}
 		break;
 	case 'promote_user':
 	case 'add_users':
