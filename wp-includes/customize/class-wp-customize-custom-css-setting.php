@@ -191,13 +191,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 			$imbalanced = true;
 		}
 
-		// Ensure single quotes are equal.
-		if ( ! $this->validate_equal_characters( '\'', $css ) ) {
-			$validity->add( 'unequal_single_quotes', __( 'Your single quotes <code>\'</code> are uneven. Make sure there is a closing <code>\'</code> for every opening <code>\'</code>.' ) );
-			$imbalanced = true;
-		}
-
-		// Ensure single quotes are equal.
+		// Ensure double quotes are equal.
 		if ( ! $this->validate_equal_characters( '"', $css ) ) {
 			$validity->add( 'unequal_double_quotes', __( 'Your double quotes <code>"</code> are uneven. Make sure there is a closing <code>"</code> for every opening <code>"</code>.' ) );
 			$imbalanced = true;
