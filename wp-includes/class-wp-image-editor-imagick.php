@@ -146,10 +146,10 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 		try {
 			$this->image = new Imagick();
-			$file_parts = pathinfo( $this->file );
+			$file_extension = strtolower( pathinfo( $this->file, PATHINFO_EXTENSION ) );
 			$filename = $this->file;
 
-			if ( 'pdf' == strtolower( $file_parts['extension'] ) ) {
+			if ( 'pdf' == $file_extension ) {
 				$filename = $this->pdf_setup();
 			}
 
