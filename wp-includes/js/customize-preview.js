@@ -138,7 +138,7 @@
 		 */
 		handleLinkClick: function( event ) {
 			var preview = this, link, isInternalJumpLink;
-			link = $( event.target );
+			link = $( event.target ).closest( 'a' );
 
 			// No-op if the anchor is not a link.
 			if ( _.isUndefined( link.attr( 'href' ) ) ) {
