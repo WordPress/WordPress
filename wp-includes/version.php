@@ -4,7 +4,7 @@
  *
  * @global string $wp_version
  */
-$wp_version = '4.8-alpha-39565';
+$wp_version = '4.8-alpha-39577';
 
 /**
  * Holds the WordPress DB revision, increments when changes are made to the WordPress DB schema.
