@@ -806,7 +806,7 @@ themes.view.Details = wp.Backbone.View.extend({
 
 		$( document ).one( 'wp-theme-delete-success', function( event, response ) {
 			_this.$el.find( '.close' ).trigger( 'click' );
-			$( '[data-slug="' + response.slug + '"' ).css( { backgroundColor:'#faafaa' } ).fadeOut( 350, function() {
+			$( '[data-slug="' + response.slug + '"]' ).css( { backgroundColor:'#faafaa' } ).fadeOut( 350, function() {
 				$( this ).remove();
 				_themes.data.themes = _.without( _themes.data.themes, _.findWhere( _themes.data.themes, { id: response.slug } ) );
 
