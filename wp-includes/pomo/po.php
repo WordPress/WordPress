@@ -169,7 +169,7 @@ class PO extends Gettext_Translations {
 	public static function prepend_each_line($string, $with) {
 		$lines = explode("\n", $string);
 		$append = '';
-		if ('' === end($lines)) {
+		if ("\n" === substr($string, -1) && '' === end($lines)) {
 			// Last line might be empty because $string was terminated
 			// with a newline, remove it from the $lines array,
 			// we'll restore state by re-terminating the string at the end
