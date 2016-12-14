@@ -302,15 +302,10 @@ var wpLink;
 		getAttrs: function() {
 			wpLink.correctURL();
 
-			var attrs = {
-				href: $.trim( inputs.url.val() )
+			return {
+				href: $.trim( inputs.url.val() ),
+				target: inputs.openInNewTab.prop( 'checked' ) ? '_blank' : null
 			};
-
-			if ( inputs.openInNewTab.prop( 'checked' ) ) {
-				attrs.target = '_blank';
-			}
-
-			return attrs;
 		},
 
 		buildHtml: function(attrs) {
