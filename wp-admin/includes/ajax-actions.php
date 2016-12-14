@@ -2702,7 +2702,7 @@ function wp_ajax_send_link_to_editor() {
 			$type = $ext_type;
 
 	/** This filter is documented in wp-admin/includes/media.php */
-	$html = apply_filters( $type . '_send_to_editor_url', $html, $src, $link_text );
+	$html = apply_filters( "{$type}_send_to_editor_url", $html, $src, $link_text );
 
 	wp_send_json_success( $html );
 }

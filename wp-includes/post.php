@@ -2061,7 +2061,7 @@ function sanitize_post_field( $field, $value, $post_id, $context = 'display' ) {
 			 *                        values include 'raw', 'edit', 'db', 'display',
 			 *                        'attribute' and 'js'.
 			 */
-			$value = apply_filters( $field, $value, $post_id, $context );
+			$value = apply_filters( "{$field}", $value, $post_id, $context );
 		} else {
 			$value = apply_filters( "post_{$field}", $value, $post_id, $context );
 		}

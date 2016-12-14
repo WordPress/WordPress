@@ -1208,7 +1208,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
 		if ( $prefixed ) {
 
 			/** This filter is documented in wp-includes/post.php */
-			$value = apply_filters( $field, $value, $user_id, $context );
+			$value = apply_filters( "{$field}", $value, $user_id, $context );
 		} else {
 
 			/**

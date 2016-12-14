@@ -1162,7 +1162,7 @@ final class WP_Screen {
 			$per_page = apply_filters( 'edit_categories_per_page', $per_page );
 		} else {
 			/** This filter is documented in wp-admin/includes/class-wp-list-table.php */
-			$per_page = apply_filters( $option, $per_page );
+			$per_page = apply_filters( "{$option}", $per_page );
 		}
 
 		// Back compat
