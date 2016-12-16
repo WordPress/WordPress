@@ -9,32 +9,33 @@
  * @since 1.0
  * @version 1.0
  */
+
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php
-		if ( is_sticky() && is_home() ) :
-			echo twentyseventeen_get_svg( array( 'icon' => 'thumb-tack' ) );
-		endif;
+	if ( is_sticky() && is_home() ) {
+		echo twentyseventeen_get_svg( array( 'icon' => 'thumb-tack' ) );
+	}
 	?>
 	<header class="entry-header">
 		<?php
-			if ( 'post' === get_post_type() ) :
-				echo '<div class="entry-meta">';
-					if ( is_single() ) :
-						twentyseventeen_posted_on();
-					else :
-						echo twentyseventeen_time_link();
-						twentyseventeen_edit_link();
-					endif;
-				echo '</div><!-- .entry-meta -->';
-			endif;
+		if ( 'post' === get_post_type() ) {
+			echo '<div class="entry-meta">';
+				if ( is_single() ) {
+					twentyseventeen_posted_on();
+				} else {
+					echo twentyseventeen_time_link();
+					twentyseventeen_edit_link();
+				};
+			echo '</div><!-- .entry-meta -->';
+		};
 
-			if ( is_single() ) {
-				the_title( '<h1 class="entry-title">', '</h1>' );
-			} else {
-				the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
-			}
+		if ( is_single() ) {
+			the_title( '<h1 class="entry-title">', '</h1>' );
+		} else {
+			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
+		}
 		?>
 	</header><!-- .entry-header -->
 
@@ -48,18 +49,19 @@
 
 	<div class="entry-content">
 
-		<?php if ( ! is_single() ) :
+		<?php
+		if ( ! is_single() ) {
 
 			// If not a single post, highlight the gallery.
-			if ( get_post_gallery() ) :
+			if ( get_post_gallery() ) {
 				echo '<div class="entry-gallery">';
 					echo get_post_gallery();
 				echo '</div>';
-			endif;
+			};
 
-		endif;
+		};
 
-		if ( is_single() || ! get_post_gallery() ) :
+		if ( is_single() || ! get_post_gallery() ) {
 
 			/* translators: %s: Name of current post */
 			the_content( sprintf(
@@ -74,12 +76,15 @@
 				'link_after'  => '</span>',
 			) );
 
-		endif; ?>
+		};
+		?>
 
 	</div><!-- .entry-content -->
 
-	<?php if ( is_single() ) : ?>
-		<?php twentyseventeen_entry_footer(); ?>
-	<?php endif; ?>
+	<?php
+	if ( is_single() ) {
+		twentyseventeen_entry_footer();
+	}
+	?>
 
 </article><!-- #post-## -->

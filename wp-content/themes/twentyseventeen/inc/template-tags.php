@@ -128,8 +128,8 @@ endif;
 /**
  * Display a front page section.
  *
- * @param $partial WP_Customize_Partial Partial associated with a selective refresh request.
- * @param $id integer Front page section to display.
+ * @param WP_Customize_Partial $partial Partial associated with a selective refresh request.
+ * @param integer              $id Front page section to display.
  */
 function twentyseventeen_front_page_section( $partial = null, $id = 0 ) {
 	if ( is_a( $partial, 'WP_Customize_Partial' ) ) {

@@ -9,26 +9,27 @@
  * @since 1.0
  * @version 1.0
  */
+
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php
-		if ( is_sticky() && is_home() ) :
+		if ( is_sticky() && is_home() ) {
 			echo twentyseventeen_get_svg( array( 'icon' => 'thumb-tack' ) );
-		endif;
+		}
 	?>
 	<header class="entry-header">
 		<?php
-			if ( 'post' === get_post_type() ) :
+			if ( 'post' === get_post_type() ) {
 				echo '<div class="entry-meta">';
-					if ( is_single() ) :
+					if ( is_single() ) {
 						twentyseventeen_posted_on();
-					else :
+					} else {
 						echo twentyseventeen_time_link();
 						twentyseventeen_edit_link();
-					endif;
+					};
 				echo '</div><!-- .entry-meta -->';
-			endif;
+			};
 
 			if ( is_single() ) {
 				the_title( '<h1 class="entry-title">', '</h1>' );
@@ -48,7 +49,7 @@
 
 	<div class="entry-content">
 
-		<?php if ( is_single() || '' === get_the_post_thumbnail() ) :
+		<?php if ( is_single() || '' === get_the_post_thumbnail() ) {
 
 			// Only show content if is a single post, or if there's no featured image.
 			/* translators: %s: Name of current post */
@@ -64,12 +65,15 @@
 				'link_after'  => '</span>',
 			) );
 
-		endif; ?>
+		};
+		?>
 
 	</div><!-- .entry-content -->
 
-	<?php if ( is_single() ) : ?>
-		<?php twentyseventeen_entry_footer(); ?>
-	<?php endif; ?>
+	<?php
+	if ( is_single() ) {
+		twentyseventeen_entry_footer();
+	}
+	?>
 
 </article><!-- #post-## -->

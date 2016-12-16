@@ -95,7 +95,7 @@ function twentyseventeen_custom_colors_css() {
 .colors-custom .site-footer .widget-area a,
 .colors-custom .posts-navigation a,
 .colors-custom .widget_authors a strong {
-	-webkit-box-shadow: inset 0 -1px 0 hsl( ' . $hue . ', ' . $saturation  . ', 6% ); /* base: rgba(15, 15, 15, 1); */
+	-webkit-box-shadow: inset 0 -1px 0 hsl( ' . $hue . ', ' . $saturation . ', 6% ); /* base: rgba(15, 15, 15, 1); */
 	box-shadow: inset 0 -1px 0 hsl( ' . $hue . ', ' . $saturation . ', 6% ); /* base: rgba(15, 15, 15, 1); */
 }
 
@@ -201,7 +201,7 @@ function twentyseventeen_custom_colors_css() {
 .colors-custom .widget ul li a:focus,
 .colors-custom .widget ul li a:hover {
 	-webkit-box-shadow: inset 0 0 0 hsl( ' . $hue . ', ' . $saturation . ', 13% ), 0 3px 0 hsl( ' . $hue . ', ' . $saturation . ', 13% );
-	box-shadow: inset 0 0 0 hsl( ' . $hue . ', ' . $saturation. ' , 13% ), 0 3px 0 hsl( ' . $hue . ', ' . $saturation . ', 13% );
+	box-shadow: inset 0 0 0 hsl( ' . $hue . ', ' . $saturation . ' , 13% ), 0 3px 0 hsl( ' . $hue . ', ' . $saturation . ', 13% );
 }
 
 body.colors-custom,
@@ -559,7 +559,6 @@ body.colors-custom,
 		color: hsl( ' . $hue . ', ' . $saturation . ', 100% ); /* base: #fff; */
 	}
 }';
-
 
 	/**
 	 * Filters Twenty Seventeen custom colors CSS.

@@ -14,22 +14,22 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<?php
-		if ( is_sticky() && is_home() ) :
+		if ( is_sticky() && is_home() ) {
 			echo twentyseventeen_get_svg( array( 'icon' => 'thumb-tack' ) );
-		endif;
+		}
 	?>
 	<header class="entry-header">
 		<?php
-			if ( 'post' === get_post_type() ) :
+			if ( 'post' === get_post_type() ) {
 				echo '<div class="entry-meta">';
-					if ( is_single() ) :
+					if ( is_single() ) {
 						twentyseventeen_posted_on();
-					else :
+					} else {
 						echo twentyseventeen_time_link();
 						twentyseventeen_edit_link();
-					endif;
+					};
 				echo '</div><!-- .entry-meta -->';
-			endif;
+			};
 
 			if ( is_single() ) {
 				the_title( '<h1 class="entry-title">', '</h1>' );
@@ -60,20 +60,21 @@
 
 	<div class="entry-content">
 
-		<?php if ( ! is_single() ) :
+		<?php
+		if ( ! is_single() ) {
 
 			// If not a single post, highlight the audio file.
-			if ( ! empty( $audio ) ) :
+			if ( ! empty( $audio ) ) {
 				foreach ( $audio as $audio_html ) {
 					echo '<div class="entry-audio">';
 						echo $audio_html;
 					echo '</div><!-- .entry-audio -->';
 				}
-			endif;
+			};
 
-		endif;
+		};
 
-		if ( is_single() || empty( $audio ) ) :
+		if ( is_single() || empty( $audio ) ) {
 
 			/* translators: %s: Name of current post */
 			the_content( sprintf(
@@ -88,12 +89,15 @@
 				'link_after'  => '</span>',
 			) );
 
-		endif; ?>
+		};
+		?>
 
 	</div><!-- .entry-content -->
 
-	<?php if ( is_single() ) : ?>
-		<?php twentyseventeen_entry_footer(); ?>
-	<?php endif; ?>
+	<?php
+	if ( is_single() ) {
+		twentyseventeen_entry_footer();
+	}
+	?>
 
 </article><!-- #post-## -->

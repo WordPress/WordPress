@@ -123,6 +123,8 @@ add_action( 'customize_register', 'twentyseventeen_customize_register' );
 
 /**
  * Sanitize the page layout options.
+ *
+ * @param string $input Page layout.
  */
 function twentyseventeen_sanitize_page_layout( $input ) {
 	$valid = array(
@@ -139,11 +141,13 @@ function twentyseventeen_sanitize_page_layout( $input ) {
 
 /**
  * Sanitize the colorscheme.
+ *
+ * @param string $input Color scheme.
  */
 function twentyseventeen_sanitize_colorscheme( $input ) {
 	$valid = array( 'light', 'dark', 'custom' );
 
-	if ( in_array( $input, $valid ) ) {
+	if ( in_array( $input, $valid, true ) ) {
 		return $input;
 	}
 

@@ -310,6 +310,7 @@ add_action( 'widgets_init', 'twentyseventeen_widgets_init' );
  *
  * @since Twenty Seventeen 1.0
  *
+ * @param string $link Link to single post/page.
  * @return string 'Continue reading' link prepended with an ellipsis.
  */
 function twentyseventeen_excerpt_more( $link ) {
