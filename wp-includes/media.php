@@ -3063,6 +3063,7 @@ function wp_prepare_attachment_for_js( $attachment ) {
 		list( $type, $subtype ) = array( $attachment->post_mime_type, '' );
 
 	$attachment_url = wp_get_attachment_url( $attachment->ID );
+	$base_url = str_replace( wp_basename( $attachment_url ), '', $attachment_url );
 
 	$response = array(
 		'id'          => $attachment->ID,
@@ -3170,9 +3171,6 @@ function wp_prepare_attachment_for_js( $attachment ) {
 					'orientation' => $downsize[2] > $downsize[1] ? 'portrait' : 'landscape',
 				);
 			} elseif ( isset( $meta['sizes'][ $size ] ) ) {
-				if ( ! isset( $base_url ) )
-					$base_url = str_replace( wp_basename( $attachment_url ), '', $attachment_url );
-
 				// Nothing from the filter, so consult image metadata if we have it.
 				$size_meta = $meta['sizes'][ $size ];
 
