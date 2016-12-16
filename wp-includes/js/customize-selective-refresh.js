@@ -121,12 +121,12 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 				return;
 			}
 			$shortcut = partial.createEditShortcut();
-			partial.addEditShortcutToPlacement( placement, $shortcut );
 			$shortcut.on( 'click', function( event ) {
 				event.preventDefault();
 				event.stopPropagation();
 				partial.showControl();
 			} );
+			partial.addEditShortcutToPlacement( placement, $shortcut );
 		},
 
 		/**
