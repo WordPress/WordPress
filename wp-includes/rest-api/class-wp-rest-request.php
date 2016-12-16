@@ -669,7 +669,12 @@ class WP_REST_Request implements ArrayAccess {
 			return true;
 		}
 
-		$params = json_decode( $this->get_body(), true );
+		$body = $this->get_body();
+		if ( empty( $body ) ) {
+			return true;
+		}
+
+		$params = json_decode( $body, true );
 
 		/*
 		 * Check for a parsing error.
