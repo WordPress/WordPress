@@ -1437,7 +1437,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param $params JSON Schema-formatted collection parameters.
+		 * @param array $query_params JSON Schema-formatted collection parameters.
 		 */
 		return apply_filters( 'rest_comment_collection_params', $query_params );
 	}
