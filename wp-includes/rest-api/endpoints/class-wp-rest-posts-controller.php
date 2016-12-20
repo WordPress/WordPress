@@ -1923,10 +1923,16 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 				case 'post-formats':
 					$supports_formats = get_theme_support( 'post-formats' );
+
+					// Force to an array. Supports formats can return true even if empty in some cases.
+					$supports_formats = is_array( $supports_formats ) ? array_values( $supports_formats[0] ) : array();
+
+					$supported_formats = array_merge( array( 'standard' ), $supports_formats );
+
 					$schema['properties']['format'] = array(
 						'description' => __( 'The format for the object.' ),
 						'type'        => 'string',
-						'enum'        => array_merge( array( 'standard' ), $supports_formats ? array_values( $supports_formats[0] ) : array() ),
+						'enum'        => $supported_formats,
 						'context'     => array( 'view', 'edit' ),
 					);
 					break;
