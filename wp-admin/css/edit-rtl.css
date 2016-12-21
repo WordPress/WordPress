@@ -1229,6 +1229,7 @@ table.links-table {
 }
 
 .focus-on .wrap > h1,
+.focus-on .page-title-action,
 .focus-on #wpfooter,
 .focus-on .postbox-container > *,
 .focus-on div.updated,
@@ -1252,6 +1253,7 @@ table.links-table {
 }
 
 .focus-off .wrap > h1,
+.focus-off .page-title-action,
 .focus-off #wpfooter,
 .focus-off .postbox-container > *,
 .focus-off div.updated,
