@@ -971,10 +971,10 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		 *
 		 * @since 4.7.0
 		 *
-		 * @param $params JSON Schema-formatted collection parameters.
-		 * @param WP_Taxonomy $taxonomy_obj Taxonomy object.
+		 * @param array       $query_params JSON Schema-formatted collection parameters.
+		 * @param WP_Taxonomy $taxonomy     Taxonomy object.
 		 */
-		return apply_filters( 'rest_{$this->taxonomy}_collection_params', $query_params, $taxonomy );
+		return apply_filters( "rest_{$this->taxonomy}_collection_params", $query_params, $taxonomy );
 	}
 
 	/**
