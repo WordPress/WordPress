@@ -690,12 +690,14 @@ class WP_Query {
 	 *                                                 passed. To use 'meta_value', or 'meta_value_num',
 	 *                                                 'meta_key=keyname' must be also be defined. To sort by a
 	 *                                                 specific `$meta_query` clause, use that clause's array key.
-	 *                                                 Default 'date'. Accepts 'none', 'name', 'author', 'date',
-	 *                                                 'title', 'modified', 'menu_order', 'parent', 'ID', 'rand',
-	 *                                                 'RAND(x)' (where 'x' is an integer seed value),
+	 *                                                 Accepts 'none', 'name', 'author', 'date', 'title',
+	 *                                                 'modified', 'menu_order', 'parent', 'ID', 'rand',
+	 *                                                 'relevance', 'RAND(x)' (where 'x' is an integer seed value),
 	 *                                                 'comment_count', 'meta_value', 'meta_value_num', 'post__in',
 	 *                                                 'post_name__in', 'post_parent__in', and the array keys
-	 *                                                 of `$meta_query`.
+	 *                                                 of `$meta_query`. Default is 'date', except when a search
+	 *                                                 is being performed, when the default is 'relevance'.
+	 *
 	 *     @type int          $p                       Post ID.
 	 *     @type int          $page                    Show the number of posts that would show up on page X of a
 	 *                                                 static front page.
