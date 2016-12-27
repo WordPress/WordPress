@@ -718,7 +718,7 @@ function wp_tag_cloud( $args = '' ) {
 }
 
 /**
- * Default topic count scaling for tag links
+ * Default topic count scaling for tag links.
  *
  * @since 2.9.0
  *

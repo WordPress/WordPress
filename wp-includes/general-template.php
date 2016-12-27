@@ -3545,9 +3545,9 @@ function wp_admin_css( $file = 'wp-admin', $force_echo = false ) {
 	 * will be used instead.
 	 *
 	 * @since 2.3.0
-	 *
-	 * @param string $file Style handle name or filename (without ".css" extension)
-	 *                     relative to wp-admin/. Defaults to 'wp-admin'.
+	 * @param string $stylesheet_link HTML link element for the stylesheet.
+	 * @param string $file            Style handle name or filename (without ".css" extension)
+	 *                                relative to wp-admin/. Defaults to 'wp-admin'.
 	 */
 	echo apply_filters( 'wp_admin_css', "<link rel='stylesheet' href='" . esc_url( wp_admin_css_uri( $file ) ) . "' type='text/css' />\n", $file );
 

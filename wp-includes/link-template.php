@@ -846,7 +846,7 @@ function get_term_feed_link( $term_id, $taxonomy = 'category', $feed = '' ) {
 		 *
 		 * @param string $link The taxonomy feed link.
 		 * @param string $feed Feed type.
-		 * @param string $feed The taxonomy name.
+		 * @param string $taxonomy The taxonomy name.
 		 */
 		$link = apply_filters( 'taxonomy_feed_link', $link, $feed, $taxonomy );
 	}
@@ -3583,8 +3583,8 @@ function wp_get_canonical_url( $post = null ) {
 	 *
 	 * @since 4.6.0
 	 *
-	 * @param string  $string The post's canonical URL.
-	 * @param WP_Post $post   Post object.
+	 * @param string  $canonical_url The post's canonical URL.
+	 * @param WP_Post $post          Post object.
 	 */
 	return apply_filters( 'get_canonical_url', $canonical_url, $post );
 }

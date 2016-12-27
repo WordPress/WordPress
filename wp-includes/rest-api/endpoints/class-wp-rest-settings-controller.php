@@ -306,6 +306,7 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * provide a wrapper sanitizer to whitelist the use of `null`.
 	 *
 	 * @since 4.7.0
+	 * @access public
 	 *
 	 * @param  mixed           $value   The value for the setting.
 	 * @param  WP_REST_Request $request The request object.

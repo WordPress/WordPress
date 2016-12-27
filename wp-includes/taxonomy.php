@@ -2943,7 +2943,7 @@ function clean_object_term_cache($object_ids, $object_type) {
 	 * @since 2.5.0
 	 *
 	 * @param array  $object_ids An array of object IDs.
-	 * @param string $objet_type Object type.
+	 * @param string $object_type Object type.
 	 */
 	do_action( 'clean_object_term_cache', $object_ids, $object_type );
 }

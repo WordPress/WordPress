@@ -142,6 +142,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * The value can be an integer, 'false', false, or ''.
 	 *
 	 * @since 4.7.0
+	 * @access public
 	 *
 	 * @param int|bool        $value   The value passed to the reassign parameter.
 	 * @param WP_REST_Request $request Full details about the request.
@@ -1054,6 +1055,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * Performs a couple of checks like edit_user() in wp-admin/includes/user.php.
 	 *
 	 * @since 4.7.0
+	 * @access public
 	 *
 	 * @param  mixed            $value   The username submitted in the request.
 	 * @param  WP_REST_Request  $request Full details about the request.
@@ -1083,6 +1085,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 	 * Performs a couple of checks like edit_user() in wp-admin/includes/user.php.
 	 *
 	 * @since 4.7.0
+	 * @access public
 	 *
 	 * @param  mixed            $value   The password submitted in the request.
 	 * @param  WP_REST_Request  $request Full details about the request.

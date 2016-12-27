@@ -2412,8 +2412,10 @@ function get_avatar( $id_or_email, $size = 96, $default = '', $alt = '', $args =
 	 * @param mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
 	 *                            user email, WP_User object, WP_Post object, or WP_Comment object.
 	 * @param int    $size        Square avatar width and height in pixels to retrieve.
-	 * @param string $alt         Alternative text to use in the avatar image tag.
-	 *                                       Default empty.
+	 * @param string $default     URL for the default image or a default type. Accepts '404', 'retro', 'monsterid',
+	 *                            'wavatar', 'indenticon','mystery' (or 'mm', or 'mysteryman'), 'blank', or 'gravatar_default'.
+	 *                            Default is the value of the 'avatar_default' option, with a fallback of 'mystery'.
+	 * @param string $alt         Alternative text to use in the avatar image tag. Default empty.
 	 * @param array  $args        Arguments passed to get_avatar_data(), after processing.
 	 */
 	return apply_filters( 'get_avatar', $avatar, $id_or_email, $args['size'], $args['default'], $args['alt'], $args );

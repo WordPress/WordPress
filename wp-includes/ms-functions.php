@@ -2240,7 +2240,7 @@ function wp_schedule_update_network_counts() {
 }
 
 /**
- *  Update the network-wide counts for the current network.
+ * Update the network-wide counts for the current network.
  *
  * @since 3.1.0
  */

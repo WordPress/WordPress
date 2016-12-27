@@ -1593,6 +1593,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 	 * string is allowed when a comment is being updated.
 	 *
 	 * @since 4.7.0
+	 * @access public
 	 *
 	 * @param string          $value   Author email value submitted.
 	 * @param WP_REST_Request $request Full details about the request.

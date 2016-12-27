@@ -5392,7 +5392,7 @@ function wp_delete_file( $file ) {
 	 *
 	 * @since 2.1.0
 	 *
-	 * @param string $medium Path to the file to delete.
+	 * @param string $file Path to the file to delete.
 	 */
 	$delete = apply_filters( 'wp_delete_file', $file );
 	if ( ! empty( $delete ) ) {
