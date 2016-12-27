@@ -183,6 +183,8 @@ function the_author_meta( $field = '', $user_id = false ) {
  * If the author has a home page set, return an HTML link, otherwise just return the
  * author's name.
  *
+ * @since 3.0.0
+ *
  * @return string|null An HTML link if the author's url exist in user meta,
  *                     else the result of get_the_author().
  */
@@ -501,6 +503,8 @@ function is_multi_author() {
 
 /**
  * Helper function to clear the cache for number of authors.
+ *
+ * @since 3.2.0
  *
  * @private
  */

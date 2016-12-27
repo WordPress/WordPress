@@ -720,8 +720,10 @@ function wp_tag_cloud( $args = '' ) {
 /**
  * Default topic count scaling for tag links
  *
- * @param int $count number of posts with that tag
- * @return int scaled count
+ * @since 2.9.0
+ *
+ * @param int $count Number of posts with that tag.
+ * @return int Scaled count.
  */
 function default_topic_count_scale( $count ) {
 	return round(log10($count + 1) * 100);

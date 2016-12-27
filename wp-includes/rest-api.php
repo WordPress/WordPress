@@ -988,6 +988,8 @@ function rest_get_avatar_sizes() {
 /**
  * Validate a value based on a schema.
  *
+ * @since 4.7.0
+ *
  * @param mixed  $value The value to validate.
  * @param array  $args  Schema array to use for validation.
  * @param string $param The parameter name, used in error messages.
@@ -1109,6 +1111,8 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 
 /**
  * Sanitize a value based on a schema.
+ *
+ * @since 4.7.0
  *
  * @param mixed $value The value to sanitize.
  * @param array $args  Schema array to use for sanitization.

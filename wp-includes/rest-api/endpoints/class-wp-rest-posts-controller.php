@@ -1518,6 +1518,8 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 	 * "Protected: %s", as the REST API communicates the protected status of a post
 	 * in a machine readable format, we remove the "Protected: " prefix.
 	 *
+	 * @since 4.7.0
+	 *
 	 * @return string Protected title format.
 	 */
 	public function protected_title_format() {

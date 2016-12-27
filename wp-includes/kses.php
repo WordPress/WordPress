@@ -1449,6 +1449,7 @@ function wp_kses_normalize_entities2($matches) {
  * This function helps wp_kses_normalize_entities() to only accept valid Unicode
  * numeric entities in hex form.
  *
+ * @since 2.7.0
  * @access private
  *
  * @param array $matches preg_replace_callback() matches array
@@ -1464,6 +1465,8 @@ function wp_kses_normalize_entities3($matches) {
 
 /**
  * Helper function to determine if a Unicode value is valid.
+ *
+ * @since 2.7.0
  *
  * @param int $i Unicode value
  * @return bool True if the value was a valid Unicode number
@@ -1497,6 +1500,8 @@ function wp_kses_decode_entities($string) {
 /**
  * Regex callback for wp_kses_decode_entities()
  *
+ * @since 2.9.0
+ *
  * @param array $match preg match
  * @return string
  */
@@ -1506,6 +1511,8 @@ function _wp_kses_decode_entities_chr( $match ) {
 
 /**
  * Regex callback for wp_kses_decode_entities()
+ *
+ * @since 2.9.0
  *
  * @param array $match preg match
  * @return string

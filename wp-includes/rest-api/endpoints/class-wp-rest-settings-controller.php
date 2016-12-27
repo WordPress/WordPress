@@ -305,6 +305,8 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * `null` as it's not a valid value for something like "type => string". We
 	 * provide a wrapper sanitizer to whitelist the use of `null`.
 	 *
+	 * @since 4.7.0
+	 *
 	 * @param  mixed           $value   The value for the setting.
 	 * @param  WP_REST_Request $request The request object.
 	 * @param  string          $param   The parameter name.

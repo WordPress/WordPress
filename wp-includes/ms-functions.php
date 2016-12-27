@@ -2242,7 +2242,7 @@ function wp_schedule_update_network_counts() {
 /**
  *  Update the network-wide counts for the current network.
  *
- *  @since 3.1.0
+ * @since 3.1.0
  */
 function wp_update_network_counts() {
 	wp_update_network_user_counts();
