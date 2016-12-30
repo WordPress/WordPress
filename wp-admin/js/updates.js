@@ -1516,11 +1516,9 @@
 	 * @param {string} message Error message.
 	 */
 	wp.updates.showErrorInCredentialsForm = function( message ) {
-		var $modal = $( '#request-filesystem-credentials-form' );
-
 		// Remove any existing error.
-		$modal.find( '.notice' ).remove();
-		$modal.find( '#request-filesystem-credentials-title' ).after( '<div class="notice notice-alt notice-error"><p>' + message + '</p></div>' );
+		$filesystemForm.find( '.notice' ).remove();
+		$filesystemForm.find( '#request-filesystem-credentials-title' ).after( '<div class="notice notice-alt notice-error"><p>' + message + '</p></div>' );
 	};
 
 	/**
@@ -1670,6 +1668,7 @@
 	$( function() {
 		var $pluginFilter        = $( '#plugin-filter' ),
 			$bulkActionForm      = $( '#bulk-action-form' ),
+			$filesystemForm      = $( '#request-filesystem-credentials-form' ),
 			$filesystemModal     = $( '#request-filesystem-credentials-dialog' ),
 			$pluginSearch        = $( '.plugins-php .wp-filter-search' ),
 			$pluginInstallSearch = $( '.plugin-install-php .wp-filter-search' );
@@ -1725,7 +1724,7 @@
 		 *
 		 * @since 4.2.0
 		 */
-		$filesystemModal.on( 'change', 'input[name="connection_type"]', function() {
+		$filesystemForm.on( 'change', 'input[name="connection_type"]', function() {
 			$( '#ssh-keys' ).toggleClass( 'hidden', ( 'ssh' !== $( this ).val() ) );
 		} ).change();
 
