@@ -5365,16 +5365,20 @@
 
 		// Focus on the control that is associated with the given setting.
 		api.previewer.bind( 'focus-control-for-setting', function( settingId ) {
-			var matchedControl;
+			var matchedControls = [];
 			api.control.each( function( control ) {
 				var settingIds = _.pluck( control.settings, 'id' );
 				if ( -1 !== _.indexOf( settingIds, settingId ) ) {
-					matchedControl = control;
+					matchedControls.push( control );
 				}
 			} );
 
-			if ( matchedControl ) {
-				matchedControl.focus();
+			// Focus on the matched control with the lowest priority (appearing higher).
+			if ( matchedControls.length ) {
+				matchedControls.sort( function( a, b ) {
+					return a.priority() - b.priority();
+				} );
+				matchedControls[0].focus();
 			}
 		} );
 
