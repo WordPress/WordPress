@@ -1239,7 +1239,7 @@ if ( isset( $types['ssh'] ) ) {
 		$hidden_class = ' class="hidden"';
 	}
 ?>
-<fieldset id="ssh-keys"<?php echo $hidden_class; ?>">
+<fieldset id="ssh-keys"<?php echo $hidden_class; ?>>
 <legend><?php _e( 'Authentication Keys' ); ?></legend>
 <label for="public_key">
 	<span class="field-title"><?php _e('Public Key:') ?></span>
