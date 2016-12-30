@@ -187,6 +187,10 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 		$to = $atts['to'];
 	}
 
+	if ( !is_array( $to ) ) {
+		$to = explode( ',', $to );
+	}
+
 	if ( isset( $atts['subject'] ) ) {
 		$subject = $atts['subject'];
 	}
@@ -349,17 +353,23 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	 */
 	$from_name = apply_filters( 'wp_mail_from_name', $from_name );
 
-	$phpmailer->setFrom( $from_email, $from_name, false );
+	try {
+		$phpmailer->setFrom( $from_email, $from_name, false );
+	} catch ( phpmailerException $e ) {
+		$mail_error_data = compact( 'to', 'subject', 'message', 'headers', 'attachments' );
+		$mail_error_data['phpmailer_exception_code'] = $e->getCode();
 
-	// Set destination addresses
-	if ( !is_array( $to ) )
-		$to = explode( ',', $to );
+		/** This filter is documented in wp-includes/pluggable.php */
+		do_action( 'wp_mail_failed', new WP_Error( 'wp_mail_failed', $e->getMessage(), $mail_error_data ) );
+
+		return false;
+	}
 
 	// Set mail's subject and body
 	$phpmailer->Subject = $subject;
 	$phpmailer->Body    = $message;
 
-	// Use appropriate methods for handling addresses, rather than treating them as generic headers
+	// Set destination addresses, using appropriate methods for handling addresses
 	$address_headers = compact( 'to', 'cc', 'bcc', 'reply_to' );
 
 	foreach ( $address_headers as $address_header => $addresses ) {
