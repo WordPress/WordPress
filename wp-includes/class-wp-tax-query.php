@@ -623,7 +623,12 @@ class WP_Tax_Query {
 					 * matter because `sanitize_term_field()` ignores the $term_id param when the
 					 * context is 'db'.
 					 */
-					$term = "'" . esc_sql( sanitize_term_field( $query['field'], $term, 0, $query['taxonomy'], 'db' ) ) . "'";
+					$clean_term = sanitize_term_field( $query['field'], $term, 0, $query['taxonomy'], 'db' );
+
+					// Match sanitization in wp_insert_term().
+					$clean_term = wp_unslash( $clean_term );
+
+					$term = "'" . esc_sql( $clean_term ) . "'";
 				}
 
 				$terms = implode( ",", $query['terms'] );
