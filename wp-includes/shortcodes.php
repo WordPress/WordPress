@@ -331,9 +331,9 @@ function do_shortcode_tag( $m ) {
 	 * @since 4.7.0
 	 *
 	 * @param bool|string $return      Short-circuit return value. Either false or the value to replace the shortcode with.
-	 * @param string      $tag         Shortcode name.
-	 * @param array       $attr        Shortcode attributes array,
-	 * @param array       $m           Regular expression match array.
+	 * @param string       $tag         Shortcode name.
+	 * @param array|string $attr        Shortcode attributes array or empty string.
+	 * @param array        $m           Regular expression match array.
 	 */
 	$return = apply_filters( 'pre_do_shortcode_tag', false, $tag, $attr, $m );
 	if ( false !== $return ) {
@@ -350,9 +350,9 @@ function do_shortcode_tag( $m ) {
 	 * @since 4.7.0
 	 *
 	 * @param string $output Shortcode output.
-	 * @param string $tag    Shortcode name.
-	 * @param array  $attr   Shortcode attributes array,
-	 * @param array  $m      Regular expression match array.
+	 * @param string       $tag    Shortcode name.
+	 * @param array|string $attr   Shortcode attributes array or empty string.
+	 * @param array        $m      Regular expression match array.
 	 */
 	return apply_filters( 'do_shortcode_tag', $output, $tag, $attr, $m );
 }
