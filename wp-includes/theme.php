@@ -1325,13 +1325,14 @@ function has_header_video() {
 	return (bool) get_header_video_url();
 }
 
-/* Retrieve header video URL for custom header.
+/**
+ * Retrieve header video URL for custom header.
  *
- * Uses a local video if present, or falls back to an external video. Returns false if there is no video.
+ * Uses a local video if present, or falls back to an external video.
  *
  * @since 4.7.0
  *
- * @return string|false
+ * @return string|false Header video URL or false if there is no video.
  */
 function get_header_video_url() {
 	$id = absint( get_theme_mod( 'header_video' ) );
