@@ -251,6 +251,9 @@ class WP_Date_Query {
 	 * Checks to see if the current clause has any time-related keys.
 	 * If so, it's first-order.
 	 *
+	 * @since 4.1.0
+	 * @access protected
+	 *
 	 * @param  array $query Query clause.
 	 * @return bool True if this is a first-order clause.
 	 */
