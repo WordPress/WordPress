@@ -27,6 +27,9 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 	/**
 	 * Gather control params for exporting to JavaScript.
 	 *
+	 * @since 3.9.0
+	 * @access public
+	 *
 	 * @global array $wp_registered_widgets
 	 */
 	public function to_json() {
@@ -60,6 +63,9 @@ class WP_Widget_Form_Customize_Control extends WP_Customize_Control {
 
 	/**
 	 * Override render_content to be no-op since content is exported via to_json for deferred embedding.
+	 *
+	 * @since 3.9.0
+	 * @access public
 	 */
 	public function render_content() {}
 
