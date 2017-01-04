@@ -500,7 +500,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		$term = get_term( (int) $request['id'], $this->taxonomy );
 
-		/* This action is documented in lib/endpoints/class-wp-rest-terms-controller.php */
+		/** This action is documented in wp-includes/rest-api/endpoints/class-wp-rest-terms-controller.php */
 		do_action( "rest_insert_{$this->taxonomy}", $term, $request, false );
 
 		$schema = $this->get_item_schema();
