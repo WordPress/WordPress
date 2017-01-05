@@ -1516,6 +1516,8 @@
 	 * @param {string} message Error message.
 	 */
 	wp.updates.showErrorInCredentialsForm = function( message ) {
+		var $filesystemForm = $( '#request-filesystem-credentials-form' );
+
 		// Remove any existing error.
 		$filesystemForm.find( '.notice' ).remove();
 		$filesystemForm.find( '#request-filesystem-credentials-title' ).after( '<div class="notice notice-alt notice-error"><p>' + message + '</p></div>' );
