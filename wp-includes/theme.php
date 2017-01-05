@@ -1644,7 +1644,8 @@ function wp_get_custom_css_post( $stylesheet = '' ) {
 		'no_found_rows'          => true,
 		'cache_results'          => true,
 		'update_post_meta_cache' => false,
-		'update_term_meta_cache' => false,
+		'update_post_term_cache' => false,
+		'lazy_load_term_meta'    => false,
 	);
 
 	$post = null;
