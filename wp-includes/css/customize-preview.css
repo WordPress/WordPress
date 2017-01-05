@@ -252,14 +252,6 @@ body.customize-partial-edit-shortcuts-hidden .customize-partial-edit-shortcut bu
 }
 
 @media screen and (max-width:320px) {
-	body.customize-partial-edit-shortcuts-shown .site-title {
-		padding-left: 10px;
-	}
-
-	body.customize-partial-edit-shortcuts-shown .widget-area .widget {
-		padding-left: 10px;
-	}
-
 	.widget .customize-partial-edit-shortcut button,
 	.customize-partial-edit-shortcut button {
 		left: -30px;
