@@ -811,7 +811,6 @@ li.assigned-to-menu-location .add-new-menu-item {
 .menu-delete:hover,
 .menu-delete:focus {
 	color: #f00;
-	text-decoration: none;
 }
 
 .menu-item-handle {
