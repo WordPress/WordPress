@@ -507,7 +507,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'wp-api', "/wp-includes/js/wp-api$suffix.js", array( 'jquery', 'backbone', 'underscore' ), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'wp-api', 'wpApiSettings', array(
 		'root'          => esc_url_raw( get_rest_url() ),
-		'nonce'         => wp_create_nonce( 'wp_rest' ),
+		'nonce'         => ( wp_installing() && ! is_multisite() ) ? '' : wp_create_nonce( 'wp_rest' ),
 		'versionString' => 'wp/v2/',
 	) );
 
