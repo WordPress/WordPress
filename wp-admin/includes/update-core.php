@@ -835,16 +835,12 @@ function update_core($from, $to) {
 	}
 
 
-	/**
-	 * Import $wp_version, $required_php_version, and $required_mysql_version from the new version
-	 * $wp_filesystem->wp_content_dir() returned unslashed pre-2.8
+	/*
+	 * Import $wp_version, $required_php_version, and $required_mysql_version from the new version.
+	 * DO NOT globalise any variables imported from `version-current.php` in this function. 
 	 *
-	 * @global string $wp_version
-	 * @global string $required_php_version
-	 * @global string $required_mysql_version
+	 * BC Note: $wp_filesystem->wp_content_dir() returned unslashed pre-2.8
 	 */
-	global $wp_version, $required_php_version, $required_mysql_version;
-
 	$versions_file = trailingslashit( $wp_filesystem->wp_content_dir() ) . 'upgrade/version-current.php';
 	if ( ! $wp_filesystem->copy( $from . $distro . 'wp-includes/version.php', $versions_file ) ) {
 		$wp_filesystem->delete( $from, true );
@@ -857,7 +853,7 @@ function update_core($from, $to) {
 
 	$php_version    = phpversion();
 	$mysql_version  = $wpdb->db_version();
-	$old_wp_version = $wp_version; // The version of WordPress we're updating from
+	$old_wp_version = $GLOBALS['wp_version']; // The version of WordPress we're updating from
 	$development_build = ( false !== strpos( $old_wp_version . $wp_version, '-' )  ); // a dash in the version indicates a Development release
 	$php_compat     = version_compare( $php_version, $required_php_version, '>=' );
 	if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) )
