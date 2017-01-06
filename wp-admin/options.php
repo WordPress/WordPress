@@ -140,7 +140,7 @@ if ( !is_multisite() ) {
  *
  * @since 2.7.0
  *
- * @param array White list options.
+ * @param array $whitelist_options White list options.
  */
 $whitelist_options = apply_filters( 'whitelist_options', $whitelist_options );
 
