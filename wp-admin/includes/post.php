@@ -1516,6 +1516,7 @@ function _admin_notice_post_locked() {
 		 * @since 3.6.0
 		 *
 		 * @param bool         $display Whether to display the dialog. Default true.
+		 * @param WP_Post      $post    Post object.
 		 * @param WP_User|bool $user    WP_User object on success, false otherwise.
 		 */
 		if ( ! apply_filters( 'show_post_locked_dialog', true, $post, $user ) )
