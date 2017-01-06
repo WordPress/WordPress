@@ -1,6 +1,6 @@
 === Twenty Seventeen ===
 Contributors: the WordPress team
-Requires at least: WordPress 4.8-trunk
+Requires at least: WordPress 4.7
 Tested up to: WordPress 4.7
 Version: 1.1
 License: GPLv2 or later
@@ -66,7 +66,7 @@ Source: https://unsplash.com/@englr?photo=bIhpiQA009k
 - Fix incorrect $content_width value in theme
 - Ensure functions in customize-controls.js don't count on Customizer sections always being present
 - Deprecate page_home nav menu item starter content
-- Introduce a theme-specific filter
+- Introduce a theme-specific filter twentyseventeen_starter_content for customizing the starter content array
 
 = 1.0 =
 * Released: December 6, 2016
