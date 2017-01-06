@@ -43,7 +43,7 @@ final class WP_Customize_Selective_Refresh {
 	 * Log of errors triggered when partials are rendered.
 	 *
 	 * @since 4.5.0
-	 * @access private
+	 * @access protected
 	 * @var array
 	 */
 	protected $triggered_errors = array();
@@ -52,7 +52,7 @@ final class WP_Customize_Selective_Refresh {
 	 * Keep track of the current partial being rendered.
 	 *
 	 * @since 4.5.0
-	 * @access private
+	 * @access protected
 	 * @var string
 	 */
 	protected $current_partial_id;
@@ -100,10 +100,10 @@ final class WP_Customize_Selective_Refresh {
 		} else {
 			$class = 'WP_Customize_Partial';
 
-			/** This filter (will be) documented in wp-includes/class-wp-customize-manager.php */
+			/** This filter is documented in wp-includes/customize/class-wp-customize-selective-refresh.php */
 			$args = apply_filters( 'customize_dynamic_partial_args', $args, $id );
 
-			/** This filter (will be) documented in wp-includes/class-wp-customize-manager.php */
+			/** This filter is documented in wp-includes/customize/class-wp-customize-selective-refresh.php */
 			$class = apply_filters( 'customize_dynamic_partial_class', $class, $id, $args );
 
 			$partial = new $class( $this, $id, $args );
@@ -287,7 +287,7 @@ final class WP_Customize_Selective_Refresh {
 	 * These errors will be relayed back to the client in the Ajax response.
 	 *
 	 * @since 4.5.0
-	 * @access private
+	 * @access public
 	 *
 	 * @param int    $errno   Error number.
 	 * @param string $errstr  Error string.
