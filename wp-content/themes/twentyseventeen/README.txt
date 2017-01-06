@@ -2,7 +2,7 @@
 Contributors: the WordPress team
 Requires at least: WordPress 4.8-trunk
 Tested up to: WordPress 4.7
-Version: 1.0
+Version: 1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: one-column, two-columns, right-sidebar, flexible-header, accessibility-ready, custom-colors, custom-header, custom-menu, custom-logo, editor-style, featured-images, footer-widgets, post-formats, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready
@@ -59,6 +59,14 @@ License: CC0 1.0 Universal (CC0 1.0)
 Source: https://unsplash.com/@englr?photo=bIhpiQA009k
 
 == Changelog ==
+
+= 1.1 =
+* Released: January 6, 2017
+
+- Fix incorrect $content_width value in theme
+- Ensure functions in customize-controls.js don't count on Customizer sections always being present
+- Deprecate page_home nav menu item starter content
+- Introduce a theme-specific filter
 
 = 1.0 =
 * Released: December 6, 2016
