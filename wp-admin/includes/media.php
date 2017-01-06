@@ -286,7 +286,7 @@ function media_handle_upload($file_id, $post_id, $post_data = array(), $override
 	$url = $file['url'];
 	$type = $file['type'];
 	$file = $file['file'];
-	$title = sanitize_title( $name );
+	$title = sanitize_text_field( $name );
 	$content = '';
 	$excerpt = '';
 
