@@ -18,7 +18,7 @@ function twentyseventeen_custom_colors_css() {
 	 *
 	 * @since Twenty Seventeen 1.0
 	 *
-	 * @param $saturation integer
+	 * @param int $saturation Color saturation level.
 	 */
 	$saturation = absint( apply_filters( 'twentyseventeen_custom_colors_saturation', 50 ) );
 	$reduced_saturation = ( .8 * $saturation ) . '%';

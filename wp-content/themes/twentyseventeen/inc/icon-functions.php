@@ -212,7 +212,7 @@ function twentyseventeen_social_links_icons() {
 	 *
 	 * @since Twenty Seventeen 1.0
 	 *
-	 * @param array $social_links_icons
+	 * @param array $social_links_icons Array of social links icons.
 	 */
 	return apply_filters( 'twentyseventeen_social_links_icons', $social_links_icons );
 }
