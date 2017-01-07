@@ -1977,7 +1977,7 @@ function get_theme_starter_content() {
 				'title' => _x( 'Home', 'Theme starter content' ),
 				'url' => home_url(),
 			),
-			'page_home' => array( // Deprecated in favor of home_link.
+			'page_home' => array( // Deprecated in favor of link_home.
 				'type' => 'post_type',
 				'object' => 'page',
 				'object_id' => '{{home}}',
