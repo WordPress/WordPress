@@ -65,7 +65,7 @@ Source: https://unsplash.com/@englr?photo=bIhpiQA009k
 
 - Fix incorrect $content_width value in theme
 - Ensure functions in customize-controls.js don't count on Customizer sections always being present
-- Deprecate page_home nav menu item starter content
+- Deprecate page_home nav menu item starter content in favor of link_home
 - Introduce a theme-specific filter twentyseventeen_starter_content for customizing the starter content array
 
 = 1.0 =
