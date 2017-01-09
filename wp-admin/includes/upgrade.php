@@ -2860,6 +2860,7 @@ function pre_schema_upgrade() {
 	}
 }
 
+if ( !function_exists( 'install_global_terms' ) ) :
 /**
  * Install global terms.
  *
@@ -2868,7 +2869,6 @@ function pre_schema_upgrade() {
  * @global wpdb   $wpdb
  * @global string $charset_collate
  */
-if ( !function_exists( 'install_global_terms' ) ) :
 function install_global_terms() {
 	global $wpdb, $charset_collate;
 	$ms_queries = "
