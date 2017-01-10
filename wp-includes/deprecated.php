@@ -3788,7 +3788,7 @@ function get_paged_template() {
  * input to the return.
  *
  * @since 1.0.0
- * @deprecated deprecated since 4.7
+ * @deprecated 4.7.0 Officially dropped security support for Netscape 4.
  *
  * @param string $string
  * @return string
