@@ -787,7 +787,7 @@ final class WP_Customize_Nav_Menus {
 	 */
 	public function insert_auto_draft_post( $postarr ) {
 		if ( ! isset( $postarr['post_type'] ) || ! post_type_exists( $postarr['post_type'] )  ) {
-			return new WP_Error( 'unknown_post_type', __( 'Unknown post type' ) );
+			return new WP_Error( 'unknown_post_type', __( 'Invalid post type.' ) );
 		}
 		if ( empty( $postarr['post_title'] ) ) {
 			return new WP_Error( 'empty_title', __( 'Empty title' ) );
