@@ -372,11 +372,11 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since 4.4.0 The `$role` parameter was deprecated.
 	 * @access public
 	 *
-	 * @param object $user_object The current user object.
-	 * @param string $style       Deprecated. Not used.
-	 * @param string $role        Deprecated. Not used.
-	 * @param int    $numposts    Optional. Post count to display for this user. Defaults
-	 *                            to zero, as in, a new user has made zero posts.
+	 * @param WP_User $user_object The current user object.
+	 * @param string  $style       Deprecated. Not used.
+	 * @param string  $role        Deprecated. Not used.
+	 * @param int     $numposts    Optional. Post count to display for this user. Defaults
+	 *                             to zero, as in, a new user has made zero posts.
 	 * @return string Output for a single row.
 	 */
 	public function single_row( $user_object, $style = '', $role = '', $numposts = 0 ) {
