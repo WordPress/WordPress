@@ -718,8 +718,9 @@ final class WP_Theme implements ArrayAccess {
 	private function markup_header( $header, $value, $translate ) {
 		switch ( $header ) {
 			case 'Name' :
-				if ( empty( $value ) )
-					$value = $this->get_stylesheet();
+				if ( empty( $value ) ) {
+					$value = esc_html( $this->get_stylesheet() );
+				}
 				break;
 			case 'Description' :
 				$value = wptexturize( $value );
