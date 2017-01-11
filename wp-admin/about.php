@@ -108,12 +108,17 @@ $tech_features = array(
 		</h2>
 
 		<div class="changelog point-releases">
-			<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 6 ); ?></h3>
+			<h3><?php echo _n( 'Maintenance and Security Release', 'Maintenance and Security Releases', 7 ); ?></h3>
+			<p><?php printf( _n( '<strong>Version %1$s</strong> addressed a security issue.',
+					'<strong>Version %1$s</strong> addressed some security issues.', 8 ), '4.3.7' ); ?>
+				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.3.7' ); ?>
+			</p>
 			<p><?php printf( _n( '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
 		         '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.', 1 ), '4.3.6', number_format_i18n( 1 ) ); ?>
 				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.3.6' ); ?>
 			</p>
-			<p><?php printf( __( '<strong>Version %1$s</strong> addressed some security issues.' ), '4.3.5' ); ?>
+			<p><?php printf( _n( '<strong>Version %1$s</strong> addressed a security issue.',
+		         '<strong>Version %1$s</strong> addressed some security issues.', 7 ), '4.3.5' ); ?>
 				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.3.5' ); ?>
 			</p>
 			<p><?php printf( _n( '<strong>Version %1$s</strong> addressed a security issue.',
