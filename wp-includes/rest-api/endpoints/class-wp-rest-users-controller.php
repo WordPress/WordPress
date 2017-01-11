@@ -249,7 +249,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! current_user_can( 'list_users' ) ) {
-			$prepared_args['has_published_posts'] = true;
+			$prepared_args['has_published_posts'] = get_post_types( array( 'show_in_rest' => true ), 'names' );
 		}
 
 		if ( ! empty( $prepared_args['search'] ) ) {
