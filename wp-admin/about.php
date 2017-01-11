@@ -43,6 +43,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<a href="freedoms.php" class="nav-tab"><?php _e( 'Freedoms' ); ?></a>
 		</h2>
 
+		<div class="changelog point-releases">
+			<h3><?php _e( 'Maintenance and Security Release' ); ?></h3>
+			<p><?php printf( _n( '<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bug.',
+					'<strong>Version %1$s</strong> addressed some security issues and fixed %2$s bugs.', 62 ), '4.7.1', number_format_i18n( 62 ) ); ?>
+				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.7.1' ); ?>
+			</p>
+		</div>
+
 		<div class="headline-feature feature-video">
 			<iframe width="1050" height="591" src="<?php echo esc_url( $video_url ); ?>" frameborder="0" allowfullscreen></iframe>
 			<script src="https://videopress.com/videopress-iframe.js"></script>
