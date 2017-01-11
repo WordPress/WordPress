@@ -234,6 +234,8 @@ function list_plugin_updates() {
 	<tbody class="plugins">
 <?php
 	foreach ( (array) $plugins as $plugin_file => $plugin_data) {
+		$plugin_data = (object) _get_plugin_data_markup_translate( $plugin_file, (array) $plugin_data, false, true );
+
 		$info = plugins_api('plugin_information', array('slug' => $plugin_data->update->slug ));
 		if ( is_wp_error( $info ) ) {
 			$info = false;
