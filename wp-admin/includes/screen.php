@@ -970,7 +970,8 @@ final class WP_Screen {
 
 		switch ( $this->base ) {
 			case 'widgets':
-				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off">' . __('Disable accessibility mode') . "</a></p>\n";
+				$nonce = wp_create_nonce( 'widgets-access' );
+				$this->_screen_settings = '<p><a id="access-on" href="widgets.php?widgets-access=on&_wpnonce=' . urlencode( $nonce ) . '">' . __('Enable accessibility mode') . '</a><a id="access-off" href="widgets.php?widgets-access=off&_wpnonce=' . urlencode( $nonce ) . '">' . __('Disable accessibility mode') . "</a></p>\n";
 				break;
 			case 'post' :
 				$expand = '<div class="editor-expand hidden"><label for="editor-expand-toggle">';
