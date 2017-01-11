@@ -2365,7 +2365,7 @@ function wp_get_image_mime( $file ) {
 	 * we assume the file could not be validated.
 	 */
 	try {
-		if ( ! is_callable( 'exif_imagetype' ) ) {
+		if ( is_callable( 'exif_imagetype' ) ) {
 			$mime = image_type_to_mime_type( exif_imagetype( $file ) );
 		} elseif ( function_exists( 'getimagesize' ) ) {
 			$imagesize = getimagesize( $file );
