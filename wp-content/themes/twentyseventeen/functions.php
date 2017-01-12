@@ -261,7 +261,7 @@ add_action( 'template_redirect', 'twentyseventeen_content_width', 0 );
 function twentyseventeen_fonts_url() {
 	$fonts_url = '';
 
-	/**
+	/*
 	 * Translators: If there are characters in your language that are not
 	 * supported by Libre Franklin, translate this to 'off'. Do not translate
 	 * into your own language.
