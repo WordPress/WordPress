@@ -664,13 +664,12 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
  * @param string $title      The requested site title.
  * @param string $user       The user's requested login name.
  * @param string $user_email The user's email address.
- * @param array  $meta       By default, contains the requested privacy setting and lang_id.
+ * @param array  $meta       Optional. Signup meta data. By default, contains the requested privacy setting and lang_id.
  */
 function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = array() )  {
 	global $wpdb;
 
 	$key = substr( md5( time() . wp_rand() . $domain ), 0, 16 );
-	$meta = serialize($meta);
 
 	$wpdb->insert( $wpdb->signups, array(
 		'domain' => $domain,
@@ -680,7 +679,7 @@ function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = a
 		'user_email' => $user_email,
 		'registered' => current_time('mysql', true),
 		'activation_key' => $key,
-		'meta' => $meta
+		'meta' => serialize( $meta )
 	) );
 
 	/**
@@ -693,8 +692,8 @@ function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = a
 	 * @param string $title      The requested site title.
 	 * @param string $user       The user's requested login name.
 	 * @param string $user_email The user's email address.
-	 * @param string $key        The user's activation key
-	 * @param array  $meta       By default, contains the requested privacy setting and lang_id.
+	 * @param string $key        The user's activation key.
+	 * @param array  $meta       Signup meta data. By default, contains the requested privacy setting and lang_id.
 	 */
 	do_action( 'after_signup_site', $domain, $path, $title, $user, $user_email, $key, $meta );
 }
@@ -711,7 +710,7 @@ function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = a
  *
  * @param string $user       The user's requested login name.
  * @param string $user_email The user's email address.
- * @param array  $meta       By default, this is an empty array.
+ * @param array  $meta       Optional. Signup meta data. Default empty array.
  */
 function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 	global $wpdb;
@@ -720,7 +719,6 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 	$user = preg_replace( '/\s+/', '', sanitize_user( $user, true ) );
 	$user_email = sanitize_email( $user_email );
 	$key = substr( md5( time() . wp_rand() . $user_email ), 0, 16 );
-	$meta = serialize($meta);
 
 	$wpdb->insert( $wpdb->signups, array(
 		'domain' => '',
@@ -730,7 +728,7 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 		'user_email' => $user_email,
 		'registered' => current_time('mysql', true),
 		'activation_key' => $key,
-		'meta' => $meta
+		'meta' => serialize( $meta )
 	) );
 
 	/**
@@ -740,8 +738,8 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 	 *
 	 * @param string $user       The user's requested login name.
 	 * @param string $user_email The user's email address.
-	 * @param string $key        The user's activation key
-	 * @param array  $meta       Additional signup meta. By default, this is an empty array.
+	 * @param string $key        The user's activation key.
+	 * @param array  $meta       Signup meta data. Default empty array.
 	 */
 	do_action( 'after_signup_user', $user, $user_email, $key, $meta );
 }
