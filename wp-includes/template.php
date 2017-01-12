@@ -418,10 +418,10 @@ function get_page_template() {
 		if ( $pagename_decoded !== $pagename ) {
 			$templates[] = "page-{$pagename_decoded}.php";
 		}
-		$templates[] = "page-$pagename.php";
+		$templates[] = "page-{$pagename}.php";
 	}
 	if ( $id )
-		$templates[] = "page-$id.php";
+		$templates[] = "page-{$id}.php";
 	$templates[] = 'page.php';
 
 	return get_query_template( 'page', $templates );
