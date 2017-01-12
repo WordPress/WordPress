@@ -47,7 +47,7 @@
  *
  * @since 1.5.0
  *
- * @param string $plugin_file Path to the plugin file
+ * @param string $plugin_file Path to the main plugin file.
  * @param bool   $markup      Optional. If the returned data should have HTML markup applied.
  *                            Default true.
  * @param bool   $translate   Optional. If the returned data should be translated. Default true.
@@ -187,7 +187,7 @@ function _get_plugin_data_markup_translate( $plugin_file, $plugin_data, $markup 
  *
  * @since 2.8.0
  *
- * @param string $plugin Plugin ID
+ * @param string $plugin Path to the main plugin file from plugins directory.
  * @return array List of files relative to the plugin root.
  */
 function get_plugin_files($plugin) {
@@ -444,7 +444,7 @@ function _get_dropins() {
  *
  * @since 2.5.0
  *
- * @param string $plugin Base plugin path from plugins directory.
+ * @param string $plugin Path to the main plugin file from plugins directory.
  * @return bool True, if in the active plugins list. False, not in the list.
  */
 function is_plugin_active( $plugin ) {
@@ -459,7 +459,7 @@ function is_plugin_active( $plugin ) {
  * @since 3.1.0
  * @see is_plugin_active()
  *
- * @param string $plugin Base plugin path from plugins directory.
+ * @param string $plugin Path to the main plugin file from plugins directory.
  * @return bool True if inactive. False if active.
  */
 function is_plugin_inactive( $plugin ) {
@@ -476,7 +476,7 @@ function is_plugin_inactive( $plugin ) {
  *
  * @since 3.0.0
  *
- * @param string $plugin Base plugin path from plugins directory.
+ * @param string $plugin Path to the main plugin file from plugins directory.
  * @return bool True, if active for the network, otherwise false.
  */
 function is_plugin_active_for_network( $plugin ) {
@@ -499,7 +499,7 @@ function is_plugin_active_for_network( $plugin ) {
  *
  * @since 3.0.0
  *
- * @param string $plugin Plugin to check
+ * @param string $plugin Path to the main plugin file from plugins directory.
  * @return bool True if plugin is network only, false otherwise.
  */
 function is_network_only_plugin( $plugin ) {
@@ -529,7 +529,7 @@ function is_network_only_plugin( $plugin ) {
  *
  * @since 2.5.0
  *
- * @param string $plugin       Plugin path to main plugin file with plugin data.
+ * @param string $plugin       Path to the main plugin file from plugins directory.
  * @param string $redirect     Optional. URL to redirect to.
  * @param bool   $network_wide Optional. Whether to enable the plugin for all sites in the network
  *                             or just the current site. Multisite only. Default false.
@@ -569,7 +569,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param string $plugin       Plugin path to main plugin file with plugin data.
+			 * @param string $plugin       Path to the main plugin file from plugins directory.
 			 * @param bool   $network_wide Whether to enable the plugin for all sites in the network
 			 *                             or just the current site. Multisite only. Default is false.
 			 */
@@ -611,7 +611,7 @@ function activate_plugin( $plugin, $redirect = '', $network_wide = false, $silen
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param string $plugin       Plugin path to main plugin file with plugin data.
+			 * @param string $plugin       Path to the main plugin file from plugins directory.
 			 * @param bool   $network_wide Whether to enable the plugin for all sites in the network
 			 *                             or just the current site. Multisite only. Default is false.
 			 */
@@ -663,7 +663,7 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param string $plugin               Plugin path to main plugin file with plugin data.
+			 * @param string $plugin               Path to the main plugin file from plugins directory.
 			 * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network
 			 *                                     or just the current site. Multisite only. Default is false.
 			 */
@@ -711,8 +711,8 @@ function deactivate_plugins( $plugins, $silent = false, $network_wide = null ) {
 			 *
 			 * @since 2.9.0
 			 *
-			 * @param string $plugin               Plugin basename.
-			 * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network
+			 * @param string $plugin               Path to the main plugin file from plugins directory.
+			 * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network.
 			 *                                     or just the current site. Multisite only. Default false.
 			 */
 			do_action( 'deactivated_plugin', $plugin, $network_deactivating );
@@ -964,7 +964,7 @@ function validate_plugin($plugin) {
  *
  * @since 2.7.0
  *
- * @param string $plugin Plugin path to check.
+ * @param string $plugin Path to the main plugin file from plugins directory.
  * @return bool Whether plugin can be uninstalled.
  */
 function is_uninstallable_plugin($plugin) {
@@ -984,7 +984,7 @@ function is_uninstallable_plugin($plugin) {
  *
  * @since 2.7.0
  *
- * @param string $plugin Relative plugin path from Plugin Directory.
+ * @param string $plugin Path to the main plugin file from plugins directory.
  * @return true True if a plugin's uninstall.php file has been found and included.
  */
 function uninstall_plugin($plugin) {
@@ -997,7 +997,7 @@ function uninstall_plugin($plugin) {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @param string $plugin                Relative plugin path from plugin directory.
+	 * @param string $plugin                Path to the main plugin file from plugins directory.
 	 * @param array  $uninstallable_plugins Uninstallable plugins.
 	 */
 	do_action( 'pre_uninstall_plugin', $plugin, $uninstallable_plugins );
