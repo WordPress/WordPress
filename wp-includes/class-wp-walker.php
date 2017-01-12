@@ -48,6 +48,14 @@ class Walker {
 	public $has_children;
 
 	/**
+	 * Current elements number of children.
+	 *
+	 * @since
+	 * @var int
+	 */
+	public $total_children;
+	
+	/**
 	 * Starts the list before the elements are added.
 	 *
 	 * The $args parameter holds additional values that may be used with the child
@@ -142,6 +150,11 @@ class Walker {
 			$args[0]['has_children'] = $this->has_children; // Back-compat.
 		}
 
+		$this->total_children = 0;
+		if ( $this->has_children ) {
+			$this->total_children = count( $children_elements[ $id ] );
+		}
+		
 		$cb_args = array_merge( array(&$output, $element, $depth), $args);
 		call_user_func_array(array($this, 'start_el'), $cb_args);
 
