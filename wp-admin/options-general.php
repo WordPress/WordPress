@@ -120,7 +120,50 @@ if ( $new_admin_email && $new_admin_email != get_option('admin_email') ) : ?>
 <?php endif; ?>
 </td>
 </tr>
-<?php } ?>
+<?php }
+
+$languages = get_available_languages();
+$translations = wp_get_available_translations();
+if ( ! is_multisite() && defined( 'WPLANG' ) && '' !== WPLANG && 'en_US' !== WPLANG && ! in_array( WPLANG, $languages ) ) {
+	$languages[] = WPLANG;
+}
+if ( ! empty( $languages ) || ! empty( $translations ) ) {
+	?>
+	<tr>
+		<th width="33%" scope="row"><label for="WPLANG"><?php _e( 'Site Language' ); ?></label></th>
+		<td>
+			<?php
+			$locale = get_locale();
+			if ( ! in_array( $locale, $languages ) ) {
+				$locale = '';
+			}
+
+			wp_dropdown_languages( array(
+				'name'         => 'WPLANG',
+				'id'           => 'WPLANG',
+				'selected'     => $locale,
+				'languages'    => $languages,
+				'translations' => $translations,
+				'show_available_translations' => ( ! is_multisite() || is_super_admin() ) && wp_can_install_language_pack(),
+			) );
+
+			// Add note about deprecated WPLANG constant.
+			if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && $locale !== WPLANG ) {
+				if ( is_super_admin() ) {
+					?>
+					<p class="description">
+						<strong><?php _e( 'Note:' ); ?></strong> <?php printf( __( 'The %s constant in your %s file is no longer needed.' ), '<code>WPLANG</code>', '<code>wp-config.php</code>' ); ?>
+					</p>
+					<?php
+				}
+				_deprecated_argument( 'define()', '4.0.0', sprintf( __( 'The %s constant in your %s file is no longer needed.' ), 'WPLANG', 'wp-config.php' ) );
+			}
+			?>
+		</td>
+	</tr>
+	<?php
+}
+?>
 <tr>
 <?php
 $current_offset = get_option('gmt_offset');
@@ -317,50 +360,6 @@ endfor;
 </select></td>
 </tr>
 <?php do_settings_fields('general', 'default'); ?>
-
-<?php
-$languages = get_available_languages();
-$translations = wp_get_available_translations();
-if ( ! is_multisite() && defined( 'WPLANG' ) && '' !== WPLANG && 'en_US' !== WPLANG && ! in_array( WPLANG, $languages ) ) {
-	$languages[] = WPLANG;
-}
-if ( ! empty( $languages ) || ! empty( $translations ) ) {
-	?>
-	<tr>
-		<th width="33%" scope="row"><label for="WPLANG"><?php _e( 'Site Language' ); ?></label></th>
-		<td>
-			<?php
-			$locale = get_locale();
-			if ( ! in_array( $locale, $languages ) ) {
-				$locale = '';
-			}
-
-			wp_dropdown_languages( array(
-				'name'         => 'WPLANG',
-				'id'           => 'WPLANG',
-				'selected'     => $locale,
-				'languages'    => $languages,
-				'translations' => $translations,
-				'show_available_translations' => ( ! is_multisite() || is_super_admin() ) && wp_can_install_language_pack(),
-			) );
-
-			// Add note about deprecated WPLANG constant.
-			if ( defined( 'WPLANG' ) && ( '' !== WPLANG ) && $locale !== WPLANG ) {
-				if ( is_super_admin() ) {
-					?>
-					<p class="description">
-						<strong><?php _e( 'Note:' ); ?></strong> <?php printf( __( 'The %s constant in your %s file is no longer needed.' ), '<code>WPLANG</code>', '<code>wp-config.php</code>' ); ?>
-					</p>
-					<?php
-				}
-				_deprecated_argument( 'define()', '4.0.0', sprintf( __( 'The %s constant in your %s file is no longer needed.' ), 'WPLANG', 'wp-config.php' ) );
-			}
-			?>
-		</td>
-	</tr>
-	<?php
-}
-?>
 </table>
 
 <?php do_settings_sections('general'); ?>
