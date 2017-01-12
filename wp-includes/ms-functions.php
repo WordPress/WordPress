@@ -765,7 +765,7 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
  * @param string $user_login The user's login name.
  * @param string $user_email The user's email address.
  * @param string $key        The activation key created in wpmu_signup_blog()
- * @param array  $meta       By default, contains the requested privacy setting and lang_id.
+ * @param array  $meta       Optional. Signup meta data. By default, contains the requested privacy setting and lang_id.
  * @return bool
  */
 function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $user_email, $key, $meta = array() ) {
@@ -780,7 +780,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 	 * @param string      $user_login User login name.
 	 * @param string      $user_email User email address.
 	 * @param string      $key        Activation key created in wpmu_signup_blog().
-	 * @param array       $meta       By default, contains the requested privacy setting and lang_id.
+	 * @param array       $meta       Signup meta data. By default, contains the requested privacy setting and lang_id.
 	 */
 	if ( ! apply_filters( 'wpmu_signup_blog_notification', $domain, $path, $title, $user_login, $user_email, $key, $meta ) ) {
 		return false;
@@ -817,7 +817,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		 * @param string $user_login User login name.
 		 * @param string $user_email User email address.
 		 * @param string $key        Activation key created in wpmu_signup_blog().
-		 * @param array  $meta       By default, contains the requested privacy setting and lang_id.
+		 * @param array  $meta       Signup meta data. By default, contains the requested privacy setting and lang_id.
 		 */
 		apply_filters( 'wpmu_signup_blog_notification_email',
 			__( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your site here:\n\n%s" ),
@@ -841,7 +841,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 		 * @param string $user_login User login name.
 		 * @param string $user_email User email address.
 		 * @param string $key        Activation key created in wpmu_signup_blog().
-		 * @param array  $meta       By default, contains the requested privacy setting and lang_id.
+		 * @param array  $meta       Signup meta data. By default, contains the requested privacy setting and lang_id.
 		 */
 		apply_filters( 'wpmu_signup_blog_notification_subject',
 			/* translators: New site notification email subject. 1: Network name, 2: New site URL */
@@ -878,7 +878,7 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
  * @param string $user_login The user's login name.
  * @param string $user_email The user's email address.
  * @param string $key        The activation key created in wpmu_signup_user()
- * @param array  $meta       By default, an empty array.
+ * @param array  $meta       Optional. Signup meta data. Default empty array.
  * @return bool
  */
 function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = array() ) {
@@ -890,7 +890,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 	 * @param string $user_login User login name.
 	 * @param string $user_email User email address.
 	 * @param string $key        Activation key created in wpmu_signup_user().
-	 * @param array  $meta       Signup meta data.
+	 * @param array  $meta       Signup meta data. Default empty array.
 	 */
 	if ( ! apply_filters( 'wpmu_signup_user_notification', $user_login, $user_email, $key, $meta ) )
 		return false;
@@ -916,7 +916,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		 * @param string $user_login User login name.
 		 * @param string $user_email User email address.
 		 * @param string $key        Activation key created in wpmu_signup_user().
-		 * @param array  $meta       Signup meta data.
+		 * @param array  $meta       Signup meta data. Default empty array.
 		 */
 		apply_filters( 'wpmu_signup_user_notification_email',
 			__( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login." ),
@@ -935,7 +935,7 @@ function wpmu_signup_user_notification( $user_login, $user_email, $key, $meta = 
 		 * @param string $user_login User login name.
 		 * @param string $user_email User email address.
 		 * @param string $key        Activation key created in wpmu_signup_user().
-		 * @param array  $meta       Signup meta data.
+		 * @param array  $meta       Signup meta data. Default empty array.
 		 */
 		apply_filters( 'wpmu_signup_user_notification_subject',
 			/* translators: New user notification email subject. 1: Network name, 2: New user login */
@@ -1041,7 +1041,7 @@ function wpmu_activate_signup($key) {
 	 * @param int    $user_id       User ID.
 	 * @param int    $password      User password.
 	 * @param string $signup_title  Site title.
-	 * @param array  $meta          Signup meta data.
+	 * @param array  $meta          Signup meta data. By default, contains the requested privacy setting and lang_id.
 	 */
 	do_action( 'wpmu_activate_blog', $blog_id, $user_id, $password, $signup->title, $meta );
 
@@ -1441,11 +1441,11 @@ function install_blog_defaults($blog_id, $user_id) {
  *
  * @since MU
  *
- * @param int    $blog_id
- * @param int    $user_id
- * @param string $password
- * @param string $title    The new blog's title
- * @param array  $meta     Optional. Not used in the default function, but is passed along to hooks for customization.
+ * @param int    $blog_id  Blog ID.
+ * @param int    $user_id  User ID.
+ * @param string $password User password.
+ * @param string $title    Site title.
+ * @param array  $meta     Optional. Signup meta data. By default, contains the requested privacy setting and lang_id.
  * @return bool
  */
 function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta = array() ) {
@@ -1462,7 +1462,7 @@ function wpmu_welcome_notification( $blog_id, $user_id, $password, $title, $meta
 	 * @param int      $user_id  User ID.
 	 * @param string   $password User password.
 	 * @param string   $title    Site title.
-	 * @param array    $meta     Signup meta data.
+	 * @param array    $meta     Signup meta data. By default, contains the requested privacy setting and lang_id.
 	 */
 	if ( ! apply_filters( 'wpmu_welcome_notification', $blog_id, $user_id, $password, $title, $meta ) )
 		return false;
@@ -1510,7 +1510,7 @@ We hope you enjoy your new site. Thanks!
 	 * @param int    $user_id       User ID.
 	 * @param string $password      User password.
 	 * @param string $title         Site title.
-	 * @param array  $meta          Signup meta data.
+	 * @param array  $meta          Signup meta data. By default, contains the requested privacy setting and lang_id.
 	 */
 	$welcome_email = apply_filters( 'update_welcome_email', $welcome_email, $blog_id, $user_id, $password, $title, $meta );
 	$admin_email = get_site_option( 'admin_email' );
@@ -1555,9 +1555,9 @@ We hope you enjoy your new site. Thanks!
  *
  * @since MU
  *
- * @param int    $user_id
- * @param string $password
- * @param array  $meta     Optional. Not used in the default function, but is passed along to hooks for customization.
+ * @param int    $user_id  User ID.
+ * @param string $password User password.
+ * @param array  $meta     Optional. Signup meta data. Default empty array.
  * @return bool
  */
 function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) {
@@ -1572,7 +1572,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	 *
 	 * @param int    $user_id  User ID.
 	 * @param string $password User password.
-	 * @param array  $meta     Signup meta data.
+	 * @param array  $meta     Signup meta data. Default empty array.
 	 */
 	if ( ! apply_filters( 'wpmu_welcome_user_notification', $user_id, $password, $meta ) )
 		return false;
@@ -1593,7 +1593,7 @@ function wpmu_welcome_user_notification( $user_id, $password, $meta = array() ) 
 	 * @param string $welcome_email The message body of the account activation success email.
 	 * @param int    $user_id       User ID.
 	 * @param string $password      User password.
-	 * @param array  $meta          Signup meta data.
+	 * @param array  $meta          Signup meta data. Default empty array.
 	 */
 	$welcome_email = apply_filters( 'update_welcome_user_email', $welcome_email, $user_id, $password, $meta );
 	$welcome_email = str_replace( 'SITE_NAME', $current_network->site_name, $welcome_email );
