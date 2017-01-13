@@ -321,6 +321,7 @@ input[type="radio"].disabled:checked:before {
 	padding: 2px;
 	line-height: 28px;
 	height: 28px;
+	width: 100%;
 	vertical-align: middle;
 }
 
