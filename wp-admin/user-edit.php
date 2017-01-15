@@ -25,7 +25,13 @@ elseif ( ! get_userdata( $user_id ) )
 
 wp_enqueue_script('user-profile');
 
-$title = IS_PROFILE_PAGE ? __('Profile') : __('Edit User');
+if ( IS_PROFILE_PAGE ) {
+	$title = __( 'Profile' );
+} else {
+	/* translators: %s: user's display name */
+	$title = __( 'Edit User %s' );
+}
+
 if ( current_user_can('edit_users') && !IS_PROFILE_PAGE )
 	$submenu_file = 'users.php';
 else
@@ -166,6 +172,7 @@ $profileuser = get_user_to_edit($user_id);
 if ( !current_user_can('edit_user', $user_id) )
 	wp_die(__('Sorry, you are not allowed to edit this user.'));
 
+$title = sprintf( $title, $profileuser->display_name );
 $sessions = WP_Session_Tokens::get_instance( $profileuser->ID );
 
 include(ABSPATH . 'wp-admin/admin-header.php');
