@@ -3114,7 +3114,7 @@ function wp_ajax_destroy_sessions() {
 		$message = __( 'You are now logged out everywhere else.' );
 	} else {
 		$sessions->destroy_all();
-		/* translators: 1: User's display name. */
+		/* translators: %s: User's display name. */
 		$message = sprintf( __( '%s has been logged out.' ), $user->display_name );
 	}
 
