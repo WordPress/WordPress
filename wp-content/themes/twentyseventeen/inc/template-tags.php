@@ -141,7 +141,6 @@ function twentyseventeen_front_page_section( $partial = null, $id = 0 ) {
 
 	global $post; // Modify the global post object before setting up post data.
 	if ( get_theme_mod( 'panel_' . $id ) ) {
-		global $post;
 		$post = get_post( get_theme_mod( 'panel_' . $id ) );
 		setup_postdata( $post );
 		set_query_var( 'panel', $id );
