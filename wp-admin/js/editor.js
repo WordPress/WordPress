@@ -167,7 +167,7 @@
 		 * @return {string} The content with stripped paragraph tags.
 		 */
 		function removep( html ) {
-			var blocklist = 'blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset',
+			var blocklist = 'blockquote|ul|ol|li|dl|dt|dd|table|thead|tbody|tfoot|tr|th|td|h[1-6]|fieldset|figure',
 				blocklist1 = blocklist + '|div|p',
 				blocklist2 = blocklist + '|pre',
 				preserve_linebreaks = false,
@@ -329,6 +329,11 @@
 				text = text.replace( /<(pre|script)[^>]*>[\s\S]*?<\/\1>/g, function( a ) {
 					return a.replace( /\n/g, '<wp-line-break>' );
 				});
+			}
+
+			if ( text.indexOf( '<figcaption' ) !== -1 ) {
+				text = text.replace( /\s*(<figcaption[^>]*>)/g, '$1' );
+				text = text.replace( /<\/figcaption>\s*/g, '</figcaption>' );
 			}
 
 			// Keep <br> tags inside captions.
