@@ -966,11 +966,12 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			}
 
 			if ( args.toolbar ) {
-				if ( activeToolbar !== args.toolbar ) {
-					activeToolbar = args.toolbar;
-					activeToolbar.show();
-				} else {
+				activeToolbar = args.toolbar;
+
+				if ( activeToolbar.visible() ) {
 					activeToolbar.reposition();
+				} else {
+					activeToolbar.show();
 				}
 			} else {
 				activeToolbar = false;
