@@ -612,7 +612,7 @@ class WP_User_Query {
 		 * @param string $sql The SELECT FOUND_ROWS() query for the current WP_User_Query.
 		 */
 		if ( isset( $qv['count_total'] ) && $qv['count_total'] )
-			$this->total_users = $wpdb->get_var( apply_filters( 'found_users_query', 'SELECT FOUND_ROWS()' ) );
+			$this->total_users = (int) $wpdb->get_var( apply_filters( 'found_users_query', 'SELECT FOUND_ROWS()' ) );
 
 		if ( !$this->results )
 			return;
