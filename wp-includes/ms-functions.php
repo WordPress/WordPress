@@ -671,6 +671,23 @@ function wpmu_signup_blog( $domain, $path, $title, $user, $user_email, $meta = a
 
 	$key = substr( md5( time() . wp_rand() . $domain ), 0, 16 );
 
+	/**
+	 * Filters the metadata for a site signup.
+	 *
+	 * The metadata will be serialized prior to storing it in the database.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param array  $meta       Signup meta data. Default empty array.
+	 * @param string $domain     The requested domain.
+	 * @param string $path       The requested path.
+	 * @param string $title      The requested site title.
+	 * @param string $user       The user's requested login name.
+	 * @param string $user_email The user's email address.
+	 * @param string $key        The user's activation key.
+	 */
+	$meta = apply_filters( 'signup_site_meta', $meta, $domain, $path, $title, $user, $user_email, $key );
+
 	$wpdb->insert( $wpdb->signups, array(
 		'domain' => $domain,
 		'path' => $path,
@@ -719,6 +736,20 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 	$user = preg_replace( '/\s+/', '', sanitize_user( $user, true ) );
 	$user_email = sanitize_email( $user_email );
 	$key = substr( md5( time() . wp_rand() . $user_email ), 0, 16 );
+
+	/**
+	 * Filters the metadata for a user signup.
+	 *
+	 * The metadata will be serialized prior to storing it in the database.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param array  $meta       Signup meta data. Default empty array.
+	 * @param string $user       The user's requested login name.
+	 * @param string $user_email The user's email address.
+	 * @param string $key        The user's activation key.
+	 */
+	$meta = apply_filters( 'signup_user_meta', $meta, $user, $user_email, $key );
 
 	$wpdb->insert( $wpdb->signups, array(
 		'domain' => '',
