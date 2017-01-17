@@ -2216,7 +2216,7 @@ function dbDelta( $queries = '', $execute = true ) {
 			continue;
 
 		// Clear the field and index arrays.
-		$cfields = $indices = array();
+		$cfields = $indices = $indices_without_subparts = array();
 
 		// Get all of the field names in the query from between the parentheses.
 		preg_match("|\((.*)\)|ms", $qry, $match2);
@@ -2289,10 +2289,10 @@ function dbDelta( $queries = '', $execute = true ) {
 					$index_name = ( 'PRIMARY KEY' === $index_type ) ? '' : '`' . strtolower( $index_matches['index_name'] ) . '`';
 
 					// Parse the columns. Multiple columns are separated by a comma.
-					$index_columns = array_map( 'trim', explode( ',', $index_matches['index_columns'] ) );
+					$index_columns = $index_columns_without_subparts = array_map( 'trim', explode( ',', $index_matches['index_columns'] ) );
 
 					// Normalize columns.
-					foreach ( $index_columns as &$index_column ) {
+					foreach ( $index_columns as $id => &$index_column ) {
 						// Extract column name and number of indexed characters (sub_part).
 						preg_match(
 							  '/'
@@ -2319,6 +2319,9 @@ function dbDelta( $queries = '', $execute = true ) {
 						// Escape the column name with backticks.
 						$index_column = '`' . $index_column_matches['column_name'] . '`';
 
+						// We don't need to add the subpart to $index_columns_without_subparts
+						$index_columns_without_subparts[ $id ] = $index_column;
+
 						// Append the optional sup part with the number of indexed characters.
 						if ( isset( $index_column_matches['sub_part'] ) ) {
 							$index_column .= '(' . $index_column_matches['sub_part'] . ')';
@@ -2327,9 +2330,10 @@ function dbDelta( $queries = '', $execute = true ) {
 
 					// Build the normalized index definition and add it to the list of indices.
 					$indices[] = "{$index_type} {$index_name} (" . implode( ',', $index_columns ) . ")";
+					$indices_without_subparts[] = "{$index_type} {$index_name} (" . implode( ',', $index_columns_without_subparts ) . ")";
 
 					// Destroy no longer needed variables.
-					unset( $index_column, $index_column_matches, $index_matches, $index_type, $index_name, $index_columns );
+					unset( $index_column, $index_column_matches, $index_matches, $index_type, $index_name, $index_columns, $index_columns_without_subparts );
 
 					break;
 			}
@@ -2446,25 +2450,16 @@ function dbDelta( $queries = '', $execute = true ) {
 
 					// Add the field to the column list string.
 					$index_columns .= '`' . $column_data['fieldname'] . '`';
-					if ($column_data['subpart'] != '') {
-						$index_columns .= '('.$column_data['subpart'].')';
-					}
 				}
 
-				// The alternative index string doesn't care about subparts
-				$alt_index_columns = preg_replace( '/\([^)]*\)/', '', $index_columns );
-
 				// Add the column list to the index create string.
-				$index_strings = array(
-					"$index_string ($index_columns)",
-					"$index_string ($alt_index_columns)",
-				);
+				$index_string .= " ($index_columns)";
 
-				foreach ( $index_strings as $index_string ) {
-					if ( ! ( ( $aindex = array_search( $index_string, $indices ) ) === false ) ) {
-						unset( $indices[ $aindex ] );
-						break;
-					}
+				// Check if the index definition exists, ignoring subparts.
+				if ( ! ( ( $aindex = array_search( $index_string, $indices_without_subparts ) ) === false ) ) {
+					// If the index already exists (even with different subparts), we don't need to create it.
+					unset( $indices_without_subparts[ $aindex ] );
+					unset( $indices[ $aindex ] );
 				}
 			}
 		}
