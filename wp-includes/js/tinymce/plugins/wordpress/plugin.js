@@ -543,11 +543,17 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 			editor.on( 'PastePostProcess', function( event ) {
 				// Remove empty paragraphs
-				each( dom.select( 'p', event.node ), function( node ) {
+				editor.$( 'p', event.node ).each( function( i, node ) {
 					if ( dom.isEmpty( node ) ) {
 						dom.remove( node );
 					}
 				});
+
+				if ( tinymce.isIE ) {
+					editor.$( 'a', event.node ).find( 'font, u' ).each( function( i, node ) {
+						dom.remove( node, true );
+					});
+				}
 			});
 		}
 
