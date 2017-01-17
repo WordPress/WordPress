@@ -552,13 +552,19 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 		 * Filters a comment before it is inserted via the REST API.
 		 *
 		 * Allows modification of the comment right before it is inserted via wp_insert_comment().
+		 * Returning a WP_Error value from the filter will shortcircuit insertion and allow
+		 * skipping further processing.
 		 *
 		 * @since 4.7.0
+		 * @since 4.8.0 $prepared_comment can now be a WP_Error to shortcircuit insertion.
 		 *
-		 * @param array           $prepared_comment The prepared comment data for wp_insert_comment().
+		 * @param array|WP_Error  $prepared_comment The prepared comment data for wp_insert_comment().
 		 * @param WP_REST_Request $request          Request used to insert the comment.
 		 */
 		$prepared_comment = apply_filters( 'rest_pre_insert_comment', $prepared_comment, $request );
+		if ( is_wp_error( $prepared_comment ) ) {
+			return $prepared_comment;
+		}
 
 		$comment_id = wp_insert_comment( wp_filter_comment( wp_slash( (array) $prepared_comment ) ) );
 
