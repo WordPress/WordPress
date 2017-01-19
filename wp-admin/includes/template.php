@@ -1794,7 +1794,7 @@ function _media_states( $post ) {
 		$media_states[] = __( 'Site Icon' );
 	}
 
-	if ( $post->ID == get_theme_mod( 'site_logo' ) ) {
+	if ( $post->ID == get_theme_mod( 'custom_logo' ) ) {
 		$media_states[] = __( 'Logo' );
 	}
 
