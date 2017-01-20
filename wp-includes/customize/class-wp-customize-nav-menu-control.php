@@ -52,8 +52,8 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 			<?php _e( 'Add Items' ); ?>
 		</button>
 		<button type="button" class="button-link reorder-toggle" aria-label="<?php esc_attr_e( 'Reorder menu items' ); ?>" aria-describedby="reorder-items-desc-{{ data.menu_id }}">
-			<span class="reorder"><?php _ex( 'Reorder', 'Reorder menu items in Customizer' ); ?></span>
-			<span class="reorder-done"><?php _ex( 'Done', 'Cancel reordering menu items in Customizer' ); ?></span>
+			<span class="reorder"><?php _e( 'Reorder' ); ?></span>
+			<span class="reorder-done"><?php _e( 'Done' ); ?></span>
 		</button>
 		<p class="screen-reader-text" id="reorder-items-desc-{{ data.menu_id }}"><?php _e( 'When in reorder mode, additional controls to reorder menu items will be available in the items list above.' ); ?></p>
 		<span class="menu-delete-item">
