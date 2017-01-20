@@ -37,7 +37,7 @@ if ( isset($_REQUEST['action']) && 'adduser' == $_REQUEST['action'] ) {
 	if ( false !== strpos( $user_email, '@' ) ) {
 		$user_details = get_user_by( 'email', $user_email );
 	} else {
-		if ( is_super_admin() ) {
+		if ( current_user_can( 'manage_network_users' ) ) {
 			$user_details = get_user_by( 'login', $user_email );
 		} else {
 			wp_redirect( add_query_arg( array('update' => 'enter_email'), 'user-new.php' ) );
@@ -313,7 +313,7 @@ if ( ! empty( $messages ) ) {
 if ( is_multisite() ) {
 	if ( $do_both )
 		echo '<h2 id="add-existing-user">' . __( 'Add Existing User' ) . '</h2>';
-	if ( !is_super_admin() ) {
+	if ( ! current_user_can( 'manage_network_users' ) ) {
 		echo '<p>' . __( 'Enter the email address of an existing user on this network to invite them to this site. That person will be sent an email asking them to confirm the invite.' ) . '</p>';
 		$label = __('Email');
 		$type  = 'email';
