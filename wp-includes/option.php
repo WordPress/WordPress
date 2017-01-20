@@ -808,7 +808,7 @@ function wp_user_settings() {
 		return;
 	}
 
-	if ( is_super_admin() && ! is_user_member_of_blog() ) {
+	if ( ! is_user_member_of_blog() ) {
 		return;
 	}
 
@@ -972,7 +972,7 @@ function wp_set_all_user_settings( $user_settings ) {
 		return false;
 	}
 
-	if ( is_super_admin() && ! is_user_member_of_blog() ) {
+	if ( ! is_user_member_of_blog() ) {
 		return;
 	}
 
