@@ -225,7 +225,7 @@ wp_enqueue_script( 'user-profile' );
  * @param bool $enable Whether to enable auto-complete for non-super admins. Default false.
  */
 if ( is_multisite() && current_user_can( 'promote_users' ) && ! wp_is_large_network( 'users' )
-	&& ( is_super_admin() || apply_filters( 'autocomplete_users_for_site_admins', false ) )
+	&& ( current_user_can( 'manage_network_users' ) || apply_filters( 'autocomplete_users_for_site_admins', false ) )
 ) {
 	wp_enqueue_script( 'user-suggest' );
 }

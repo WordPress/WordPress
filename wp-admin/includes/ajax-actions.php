@@ -246,7 +246,7 @@ function wp_ajax_autocomplete_user() {
 		wp_die( -1 );
 
 	/** This filter is documented in wp-admin/user-new.php */
-	if ( ! is_super_admin() && ! apply_filters( 'autocomplete_users_for_site_admins', false ) )
+	if ( ! current_user_can( 'manage_network_users' ) && ! apply_filters( 'autocomplete_users_for_site_admins', false ) )
 		wp_die( -1 );
 
 	$return = array();
