@@ -816,15 +816,31 @@ $active_signup = get_site_option( 'registration', 'none' );
  */
 $active_signup = apply_filters( 'wpmu_active_signup', $active_signup );
 
-// Make the signup type translatable.
-$i18n_signup['all'] = _x('all', 'Multisite active signup type');
-$i18n_signup['none'] = _x('none', 'Multisite active signup type');
-$i18n_signup['blog'] = _x('blog', 'Multisite active signup type');
-$i18n_signup['user'] = _x('user', 'Multisite active signup type');
-
 if ( is_super_admin() ) {
-	/* translators: 1: type of site sign-up; 2: network settings URL */
-	echo '<div class="mu_alert">' . sprintf( __( 'Greetings Site Administrator! You are currently allowing &#8220;%s&#8221; registrations. To change or disable registration go to your <a href="%s">Options page</a>.' ), $i18n_signup[$active_signup], esc_url( network_admin_url( 'settings.php' ) ) ) . '</div>';
+	echo '<div class="mu_alert">';
+	_e( 'Greetings Network Administrator!' );
+	echo ' ';
+
+	switch ( $active_signup ) {
+		case 'none':
+			_e( 'The network currently disallows registrations.' );
+			break;
+		case 'blog':
+			_e( 'The network currently allows site registrations.' );
+			break;
+		case 'user':
+			_e( 'The network currently allows user registrations.' );
+			break;
+		default:
+			_e( 'The network currently allows both site and user registrations.' );
+			break;
+	}
+
+	echo ' ';
+
+	/* translators: %s: network settings URL */
+	printf( __( 'To change or disable registration go to your <a href="%s">Options page</a>.' ), esc_url( network_admin_url( 'settings.php' ) ) );
+	echo '</div>';
 }
 
 $newblogname = isset($_GET['new']) ? strtolower(preg_replace('/^-|-$|[^-a-zA-Z0-9]/', '', $_GET['new'])) : null;
