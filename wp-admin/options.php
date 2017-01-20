@@ -74,7 +74,7 @@ if ( is_multisite() ) {
 	}
 }
 
-if ( is_multisite() && ! is_super_admin() && 'update' != $action ) {
+if ( is_multisite() && ! current_user_can( 'manage_network_options' ) && 'update' != $action ) {
 	wp_die(
 		'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
 		'<p>' . __( 'Sorry, you are not allowed to delete these items.' ) . '</p>',
@@ -160,8 +160,9 @@ if ( 'update' == $action ) {
 		wp_die( __( '<strong>ERROR</strong>: options page not found.' ) );
 
 	if ( 'options' == $option_page ) {
-		if ( is_multisite() && ! is_super_admin() )
+		if ( is_multisite() && ! current_user_can( 'manage_network_options' ) ) {
 			wp_die( __( 'Sorry, you are not allowed to modify unregistered settings for this site.' ) );
+		}
 		$options = explode( ',', wp_unslash( $_POST[ 'page_options' ] ) );
 	} else {
 		$options = $whitelist_options[ $option_page ];
