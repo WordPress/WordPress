@@ -350,6 +350,11 @@ $_SERVER['REQUEST_URI'] = remove_query_arg( array( 'locked', 'skipped', 'updated
 
 <input type="hidden" name="post_status" class="post_status_page" value="<?php echo !empty($_REQUEST['post_status']) ? esc_attr($_REQUEST['post_status']) : 'all'; ?>" />
 <input type="hidden" name="post_type" class="post_type_page" value="<?php echo $post_type; ?>" />
+
+<?php if ( ! empty( $_REQUEST['author'] ) ) { ?>
+<input type="hidden" name="author" value="<?php echo esc_attr( $_REQUEST['author'] ); ?>" />
+<?php } ?>
+
 <?php if ( ! empty( $_REQUEST['show_sticky'] ) ) { ?>
 <input type="hidden" name="show_sticky" value="1" />
 <?php } ?>
