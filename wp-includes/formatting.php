@@ -1496,7 +1496,7 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
  * | -------- | ----- | ----------- | --------------------------------------- |
  * | U+00B7   | l·l   | ll          | Flown dot (between two Ls)              |
  *
- * Serbian (`sr_RS`) and Bosnian (`bs_BA`) locale:
+ * Serbian (`sr_RS`) and Bosnian (`bs_BA`) locales:
  *
  * |   Code   | Glyph | Replacement |               Description               |
  * | -------- | ----- | ----------- | --------------------------------------- |
