@@ -53,7 +53,7 @@ class Walker_Page extends Walker {
 	 *                       Default empty array.
 	 */
 	public function start_lvl( &$output, $depth = 0, $args = array() ) {
-		if ( 'preserve' === $args['item_spacing'] ) {
+		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
 			$t = "\t";
 			$n = "\n";
 		} else {
@@ -78,7 +78,7 @@ class Walker_Page extends Walker {
 	 *                       Default empty array.
 	 */
 	public function end_lvl( &$output, $depth = 0, $args = array() ) {
-		if ( 'preserve' === $args['item_spacing'] ) {
+		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
 			$t = "\t";
 			$n = "\n";
 		} else {
@@ -103,7 +103,7 @@ class Walker_Page extends Walker {
 	 * @param int     $current_page Optional. Page ID. Default 0.
 	 */
 	public function start_el( &$output, $page, $depth = 0, $args = array(), $current_page = 0 ) {
-		if ( 'preserve' === $args['item_spacing'] ) {
+		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
 			$t = "\t";
 			$n = "\n";
 		} else {
@@ -196,7 +196,7 @@ class Walker_Page extends Walker {
 	 * @param array   $args   Optional. Array of arguments. Default empty array.
 	 */
 	public function end_el( &$output, $page, $depth = 0, $args = array() ) {
-		if ( 'preserve' === $args['item_spacing'] ) {
+		if ( isset( $args['item_spacing'] ) && 'preserve' === $args['item_spacing'] ) {
 			$t = "\t";
 			$n = "\n";
 		} else {
