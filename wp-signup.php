@@ -816,7 +816,7 @@ $active_signup = get_site_option( 'registration', 'none' );
  */
 $active_signup = apply_filters( 'wpmu_active_signup', $active_signup );
 
-if ( is_super_admin() ) {
+if ( current_user_can( 'manage_network' ) ) {
 	echo '<div class="mu_alert">';
 	_e( 'Greetings Network Administrator!' );
 	echo ' ';
