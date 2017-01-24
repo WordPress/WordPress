@@ -451,36 +451,51 @@ function wp_admin_bar_my_sites_menu( $wp_admin_bar ) {
 			'title'  => __( 'Dashboard' ),
 			'href'   => network_admin_url(),
 		) );
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'network-admin',
-			'id'     => 'network-admin-s',
-			'title'  => __( 'Sites' ),
-			'href'   => network_admin_url( 'sites.php' ),
-		) );
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'network-admin',
-			'id'     => 'network-admin-u',
-			'title'  => __( 'Users' ),
-			'href'   => network_admin_url( 'users.php' ),
-		) );
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'network-admin',
-			'id'     => 'network-admin-t',
-			'title'  => __( 'Themes' ),
-			'href'   => network_admin_url( 'themes.php' ),
-		) );
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'network-admin',
-			'id'     => 'network-admin-p',
-			'title'  => __( 'Plugins' ),
-			'href'   => network_admin_url( 'plugins.php' ),
-		) );
-		$wp_admin_bar->add_menu( array(
-			'parent' => 'network-admin',
-			'id'     => 'network-admin-o',
-			'title'  => __( 'Settings' ),
-			'href'   => network_admin_url( 'settings.php' ),
-		) );
+
+		if ( current_user_can( 'manage_sites' ) ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'network-admin',
+				'id'     => 'network-admin-s',
+				'title'  => __( 'Sites' ),
+				'href'   => network_admin_url( 'sites.php' ),
+			) );
+		}
+
+		if ( current_user_can( 'manage_network_users' ) ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'network-admin',
+				'id'     => 'network-admin-u',
+				'title'  => __( 'Users' ),
+				'href'   => network_admin_url( 'users.php' ),
+			) );
+		}
+
+		if ( current_user_can( 'manage_network_themes' ) ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'network-admin',
+				'id'     => 'network-admin-t',
+				'title'  => __( 'Themes' ),
+				'href'   => network_admin_url( 'themes.php' ),
+			) );
+		}
+
+		if ( current_user_can( 'manage_network_plugins' ) ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'network-admin',
+				'id'     => 'network-admin-p',
+				'title'  => __( 'Plugins' ),
+				'href'   => network_admin_url( 'plugins.php' ),
+			) );
+		}
+
+		if ( current_user_can( 'manage_network_options' ) ) {
+			$wp_admin_bar->add_menu( array(
+				'parent' => 'network-admin',
+				'id'     => 'network-admin-o',
+				'title'  => __( 'Settings' ),
+				'href'   => network_admin_url( 'settings.php' ),
+			) );
+		}
 	}
 
 	// Add site links
