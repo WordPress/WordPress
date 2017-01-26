@@ -48,6 +48,12 @@ class WP_REST_Taxonomies_Controller extends WP_REST_Controller {
 		) );
 
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<taxonomy>[\w-]+)', array(
+			'args' => array(
+				'taxonomy' => array(
+					'description'  => __( 'An alphanumeric identifier for the taxonomy.' ),
+					'type'         => 'string',
+				),
+			),
 			array(
 				'methods'         => WP_REST_Server::READABLE,
 				'callback'        => array( $this, 'get_item' ),

@@ -46,6 +46,13 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 		return false;
 	}
 
+	if ( isset( $args['args'] ) ) {
+		$common_args = $args['args'];
+		unset( $args['args'] );
+	} else {
+		$common_args = array();
+	}
+
 	if ( isset( $args['callback'] ) ) {
 		// Upgrade a single set to multiple.
 		$args = array( $args );
@@ -57,12 +64,13 @@ function register_rest_route( $namespace, $route, $args = array(), $override = f
 		'args'            => array(),
 	);
 	foreach ( $args as $key => &$arg_group ) {
-		if ( ! is_numeric( $arg_group ) ) {
+		if ( ! is_numeric( $key ) ) {
 			// Route option, skip here.
 			continue;
 		}
 
 		$arg_group = array_merge( $defaults, $arg_group );
+		$arg_group['args'] = array_merge( $common_args, $arg_group['args'] );
 	}
 
 	$full_route = '/' . trim( $namespace, '/' ) . '/' . trim( $route, '/' );
