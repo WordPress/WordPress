@@ -327,6 +327,11 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		$max_pages = ceil( $total_posts / (int) $posts_query->query_vars['posts_per_page'] );
+
+		if ( $page > $max_pages && $total_posts > 0 ) {
+			return new WP_Error( 'rest_post_invalid_page_number', __( 'The page number requested is larger than the number of pages available.' ), array( 'status' => 400 ) );
+		}
+
 		$response  = rest_ensure_response( $posts );
 
 		$response->header( 'X-WP-Total', (int) $total_posts );
