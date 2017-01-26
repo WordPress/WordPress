@@ -1086,7 +1086,6 @@ final class WP_Customize_Widgets {
 	 */
 	public function customize_preview_enqueue() {
 		wp_enqueue_script( 'customize-preview-widgets' );
-		wp_enqueue_style( 'customize-preview' );
 	}
 
 	/**
