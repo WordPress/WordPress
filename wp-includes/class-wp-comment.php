@@ -191,11 +191,10 @@ final class WP_Comment {
 	public static function get_instance( $id ) {
 		global $wpdb;
 
-		if ( ! is_numeric( $id ) || $id != floor( $id ) || ! $id ) {
+		$comment_id = (int) $id;
+		if ( ! $comment_id ) {
 			return false;
 		}
-
-		$comment_id = (int) $id;
 
 		$_comment = wp_cache_get( $comment_id, 'comment' );
 
