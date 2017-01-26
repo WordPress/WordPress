@@ -125,11 +125,10 @@ final class WP_Term {
 	public static function get_instance( $term_id, $taxonomy = null ) {
 		global $wpdb;
 
-		if ( ! is_numeric( $term_id ) || $term_id != floor( $term_id ) || ! $term_id ) {
+		$term_id = (int) $term_id;
+		if ( ! $term_id ) {
 			return false;
 		}
-
-		$term_id = (int) $term_id;
 
 		$_term = wp_cache_get( $term_id, 'terms' );
 
