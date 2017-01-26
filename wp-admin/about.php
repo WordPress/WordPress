@@ -60,6 +60,9 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="changelog point-releases">
 			<h3><?php _e( 'Maintenance and Security Releases' ); ?></h3>
+			<p><?php printf( __( '<strong>Version %s</strong> addressed some security issues.' ), '4.6.3' ); ?>
+				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.6.3' ); ?>
+			</p>
 			<p><?php printf( __( '<strong>Version %s</strong> addressed some security issues.' ), '4.6.2' ); ?>
 				<?php printf( __( 'For more information, see <a href="%s">the release notes</a>.' ), 'https://codex.wordpress.org/Version_4.6.2' ); ?>
 			</p>
