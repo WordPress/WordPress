@@ -96,6 +96,12 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		) );
 
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<id>[\d]+)', array(
+			'args' => array(
+				'id' => array(
+					'description' => __( 'Unique identifier for the term.' ),
+					'type'        => 'integer',
+				),
+			),
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_item' ),
@@ -108,7 +114,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 				'methods'             => WP_REST_Server::EDITABLE,
 				'callback'            => array( $this, 'update_item' ),
 				'permission_callback' => array( $this, 'update_item_permissions_check' ),
-				'args'                 => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
+				'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
 			),
 			array(
 				'methods'             => WP_REST_Server::DELETABLE,
@@ -288,6 +294,33 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Get the term, if the ID is valid.
+	 *
+	 * @since 4.7.2
+	 *
+	 * @param int $id Supplied ID.
+	 * @return WP_Term|WP_Error Term object if ID is valid, WP_Error otherwise.
+	 */
+	protected function get_term( $id ) {
+		$error = new WP_Error( 'rest_term_invalid', __( 'Term does not exist.' ), array( 'status' => 404 ) );
+
+		if ( ! $this->check_is_taxonomy_allowed( $this->taxonomy ) ) {
+			return $error;
+		}
+
+		if ( (int) $id <= 0 ) {
+			return $error;
+		}
+
+		$term = get_term( (int) $id, $this->taxonomy );
+		if ( empty( $term ) || $term->taxonomy !== $this->taxonomy ) {
+			return $error;
+		}
+
+		return $term;
+	}
+
+	/**
 	 * Checks if a request has access to read or edit the specified term.
 	 *
 	 * @since 4.7.0
@@ -297,11 +330,12 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @return bool|WP_Error True if the request has read access for the item, otherwise false or WP_Error object.
 	 */
 	public function get_item_permissions_check( $request ) {
-		$tax_obj = get_taxonomy( $this->taxonomy );
-		if ( ! $tax_obj || ! $this->check_is_taxonomy_allowed( $this->taxonomy ) ) {
-			return false;
+		$term = $this->get_term( $request['id'] );
+		if ( is_wp_error( $term ) ) {
+			return $term;
 		}
-		if ( 'edit' === $request['context'] && ! current_user_can( 'edit_term', (int) $request['id'] ) ) {
+
+		if ( 'edit' === $request['context'] && ! current_user_can( 'edit_term', $term->term_id ) ) {
 			return new WP_Error( 'rest_forbidden_context', __( 'Sorry, you are not allowed to edit this term.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 		return true;
@@ -317,12 +351,7 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
-
-		$term = get_term( (int) $request['id'], $this->taxonomy );
-
-		if ( ! $term || $term->taxonomy !== $this->taxonomy ) {
-			return new WP_Error( 'rest_term_invalid', __( "Term doesn't exist." ), array( 'status' => 404 ) );
-		}
+		$term = $this->get_term( $request['id'] );
 
 		if ( is_wp_error( $term ) ) {
 			return $term;
@@ -445,15 +474,9 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @return bool|WP_Error True if the request has access to update the item, false or WP_Error object otherwise.
 	 */
 	public function update_item_permissions_check( $request ) {
-
-		if ( ! $this->check_is_taxonomy_allowed( $this->taxonomy ) ) {
-			return false;
-		}
-
-		$term = get_term( (int) $request['id'], $this->taxonomy );
-
-		if ( ! $term ) {
-			return new WP_Error( 'rest_term_invalid', __( "Term doesn't exist." ), array( 'status' => 404 ) );
+		$term = $this->get_term( $request['id'] );
+		if ( is_wp_error( $term ) ) {
+			return $term;
 		}
 
 		if ( ! current_user_can( 'edit_term', $term->term_id ) ) {
@@ -473,6 +496,11 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function update_item( $request ) {
+		$term = $this->get_term( $request['id'] );
+		if ( is_wp_error( $term ) ) {
+			return $term;
+		}
+
 		if ( isset( $request['parent'] ) ) {
 			if ( ! is_taxonomy_hierarchical( $this->taxonomy ) ) {
 				return new WP_Error( 'rest_taxonomy_not_hierarchical', __( 'Can not set parent term, taxonomy is not hierarchical.' ), array( 'status' => 400 ) );
@@ -487,8 +515,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		$prepared_term = $this->prepare_item_for_database( $request );
 
-		$term = get_term( (int) $request['id'], $this->taxonomy );
-
 		// Only update the term if we haz something to update.
 		if ( ! empty( $prepared_term ) ) {
 			$update = wp_update_term( $term->term_id, $term->taxonomy, wp_slash( (array) $prepared_term ) );
@@ -498,14 +524,14 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 			}
 		}
 
-		$term = get_term( (int) $request['id'], $this->taxonomy );
+		$term = get_term( $term->term_id, $this->taxonomy );
 
 		/* This action is documented in lib/endpoints/class-wp-rest-terms-controller.php */
 		do_action( "rest_insert_{$this->taxonomy}", $term, $request, false );
 
 		$schema = $this->get_item_schema();
 		if ( ! empty( $schema['properties']['meta'] ) && isset( $request['meta'] ) ) {
-			$meta_update = $this->meta->update_value( $request['meta'], (int) $request['id'] );
+			$meta_update = $this->meta->update_value( $request['meta'], $term->term_id );
 
 			if ( is_wp_error( $meta_update ) ) {
 				return $meta_update;
@@ -535,14 +561,9 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @return bool|WP_Error True if the request has access to delete the item, otherwise false or WP_Error object.
 	 */
 	public function delete_item_permissions_check( $request ) {
-		if ( ! $this->check_is_taxonomy_allowed( $this->taxonomy ) ) {
-			return false;
-		}
-
-		$term = get_term( (int) $request['id'], $this->taxonomy );
-
-		if ( ! $term ) {
-			return new WP_Error( 'rest_term_invalid', __( "Term doesn't exist." ), array( 'status' => 404 ) );
+		$term = $this->get_term( $request['id'] );
+		if ( is_wp_error( $term ) ) {
+			return $term;
 		}
 
 		if ( ! current_user_can( 'delete_term', $term->term_id ) ) {
@@ -562,6 +583,10 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function delete_item( $request ) {
+		$term = $this->get_term( $request['id'] );
+		if ( is_wp_error( $term ) ) {
+			return $term;
+		}
 
 		$force = isset( $request['force'] ) ? (bool) $request['force'] : false;
 
@@ -569,8 +594,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 		if ( ! $force ) {
 			return new WP_Error( 'rest_trash_not_supported', __( 'Terms do not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
 		}
-
-		$term = get_term( (int) $request['id'], $this->taxonomy );
 
 		$request->set_param( 'context', 'view' );
 

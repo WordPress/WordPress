@@ -48,6 +48,12 @@ class WP_REST_Post_Types_Controller extends WP_REST_Controller {
 		) );
 
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<type>[\w-]+)', array(
+			'args' => array(
+				'type' => array(
+					'description' => __( 'An alphanumeric identifier for the post type.' ),
+					'type'        => 'string',
+				),
+			),
 			array(
 				'methods'  => WP_REST_Server::READABLE,
 				'callback' => array( $this, 'get_item' ),

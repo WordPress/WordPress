@@ -71,6 +71,12 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	public function register_routes() {
 
 		register_rest_route( $this->namespace, '/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base, array(
+			'args' => array(
+				'parent' => array(
+					'description' => __( 'The ID for the parent of the object.' ),
+					'type'        => 'integer',
+				),
+			),
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_items' ),
@@ -81,6 +87,16 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		) );
 
 		register_rest_route( $this->namespace, '/' . $this->parent_base . '/(?P<parent>[\d]+)/' . $this->rest_base . '/(?P<id>[\d]+)', array(
+			'args' => array(
+				'parent' => array(
+					'description' => __( 'The ID for the parent of the object.' ),
+					'type'        => 'integer',
+				),
+				'id' => array(
+					'description' => __( 'Unique identifier for the object.' ),
+					'type'        => 'integer',
+				),
+			),
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_item' ),
@@ -107,6 +123,28 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	}
 
 	/**
+	 * Get the parent post, if the ID is valid.
+	 *
+	 * @since 4.7.2
+	 *
+	 * @param int $id Supplied ID.
+	 * @return WP_Post|WP_Error Post object if ID is valid, WP_Error otherwise.
+	 */
+	protected function get_parent( $parent ) {
+		$error = new WP_Error( 'rest_post_invalid_parent', __( 'Invalid post parent ID.' ), array( 'status' => 404 ) );
+		if ( (int) $parent <= 0 ) {
+			return $error;
+		}
+
+		$parent = get_post( (int) $parent );
+		if ( empty( $parent ) || empty( $parent->ID ) || $this->parent_post_type !== $parent->post_type ) {
+			return $error;
+		}
+
+		return $parent;
+	}
+
+	/**
 	 * Checks if a given request has access to get revisions.
 	 *
 	 * @since 4.7.0
@@ -116,17 +154,39 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
 	 */
 	public function get_items_permissions_check( $request ) {
-
-		$parent = get_post( $request['parent'] );
-		if ( ! $parent ) {
-			return true;
+		$parent = $this->get_parent( $request['parent'] );
+		if ( is_wp_error( $parent ) ) {
+			return $parent;
 		}
+
 		$parent_post_type_obj = get_post_type_object( $parent->post_type );
 		if ( ! current_user_can( $parent_post_type_obj->cap->edit_post, $parent->ID ) ) {
 			return new WP_Error( 'rest_cannot_read', __( 'Sorry, you are not allowed to view revisions of this post.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get the revision, if the ID is valid.
+	 *
+	 * @since 4.7.2
+	 *
+	 * @param int $id Supplied ID.
+	 * @return WP_Post|WP_Error Revision post object if ID is valid, WP_Error otherwise.
+	 */
+	protected function get_revision( $id ) {
+		$error = new WP_Error( 'rest_post_invalid_id', __( 'Invalid revision ID.' ), array( 'status' => 404 ) );
+		if ( (int) $id <= 0 ) {
+			return $error;
+		}
+
+		$revision = get_post( (int) $id );
+		if ( empty( $revision ) || empty( $revision->ID ) || 'revision' !== $revision->post_type ) {
+			return $error;
+		}
+
+		return $revision;
 	}
 
 	/**
@@ -139,9 +199,9 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_items( $request ) {
-		$parent = get_post( $request['parent'] );
-		if ( ! $request['parent'] || ! $parent || $this->parent_post_type !== $parent->post_type ) {
-			return new WP_Error( 'rest_post_invalid_parent', __( 'Invalid post parent ID.' ), array( 'status' => 404 ) );
+		$parent = $this->get_parent( $request['parent'] );
+		if ( is_wp_error( $parent ) ) {
+			return $parent;
 		}
 
 		$revisions = wp_get_post_revisions( $request['parent'] );
@@ -177,14 +237,14 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
 	 */
 	public function get_item( $request ) {
-		$parent = get_post( $request['parent'] );
-		if ( ! $request['parent'] || ! $parent || $this->parent_post_type !== $parent->post_type ) {
-			return new WP_Error( 'rest_post_invalid_parent', __( 'Invalid post parent ID.' ), array( 'status' => 404 ) );
+		$parent = $this->get_parent( $request['parent'] );
+		if ( is_wp_error( $parent ) ) {
+			return $parent;
 		}
 
-		$revision = get_post( $request['id'] );
-		if ( ! $revision || 'revision' !== $revision->post_type ) {
-			return new WP_Error( 'rest_post_invalid_id', __( 'Invalid revision ID.' ), array( 'status' => 404 ) );
+		$revision = $this->get_revision( $request['id'] );
+		if ( is_wp_error( $revision ) ) {
+			return $revision;
 		}
 
 		$response = $this->prepare_item_for_response( $revision, $request );
@@ -201,18 +261,23 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return bool|WP_Error True if the request has access to delete the item, WP_Error object otherwise.
 	 */
 	public function delete_item_permissions_check( $request ) {
+		$parent = $this->get_parent( $request['parent'] );
+		if ( is_wp_error( $parent ) ) {
+			return $parent;
+		}
+
+		$revision = $this->get_revision( $request['id'] );
+		if ( is_wp_error( $revision ) ) {
+			return $revision;
+		}
 
 		$response = $this->get_items_permissions_check( $request );
 		if ( ! $response || is_wp_error( $response ) ) {
 			return $response;
 		}
 
-		$post = get_post( $request['id'] );
-		if ( ! $post ) {
-			return new WP_Error( 'rest_post_invalid_id', __( 'Invalid revision ID.' ), array( 'status' => 404 ) );
-		}
 		$post_type = get_post_type_object( 'revision' );
-		return current_user_can( $post_type->cap->delete_post, $post->ID );
+		return current_user_can( $post_type->cap->delete_post, $revision->ID );
 	}
 
 	/**
@@ -225,6 +290,11 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return true|WP_Error True on success, or WP_Error object on failure.
 	 */
 	public function delete_item( $request ) {
+		$revision = $this->get_revision( $request['id'] );
+		if ( is_wp_error( $revision ) ) {
+			return $revision;
+		}
+
 		$force = isset( $request['force'] ) ? (bool) $request['force'] : false;
 
 		// We don't support trashing for revisions.
@@ -232,7 +302,6 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_trash_not_supported', __( 'Revisions do not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
 		}
 
-		$revision = get_post( $request['id'] );
 		$previous = $this->prepare_item_for_response( $revision, $request );
 
 		$result = wp_delete_post( $request['id'], true );
