@@ -417,7 +417,6 @@ final class _WP_Editors {
 						'wpdialogs',
 						'wptextpattern',
 						'wpview',
-						'wpembed',
 					);
 
 					if ( ! self::$has_medialib ) {
