@@ -177,6 +177,11 @@ function twentyseventeen_categorized_blog() {
 		set_transient( 'twentyseventeen_categories', $category_count );
 	}
 
+	// Allow viewing case of 0 or 1 categories in post preview.
+	if ( is_preview() ) {
+		return true;
+	}
+
 	return $category_count > 1;
 }
 

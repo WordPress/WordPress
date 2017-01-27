@@ -140,7 +140,7 @@ function twentyfourteen_categorized_blog() {
 		set_transient( 'twentyfourteen_category_count', $all_the_cool_cats );
 	}
 
-	if ( 1 !== (int) $all_the_cool_cats ) {
+	if ( $all_the_cool_cats > 1 || is_preview() ) {
 		// This blog has more than 1 category so twentyfourteen_categorized_blog should return true
 		return true;
 	} else {
