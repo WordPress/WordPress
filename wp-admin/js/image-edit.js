@@ -573,6 +573,11 @@
 	imgLoaded : function(postid) {
 		var img = $('#image-preview-' + postid), parent = $('#imgedit-crop-' + postid);
 
+		// Ensure init has run even when directly loaded.
+		if ( 'undefined' === typeof this.hold.sizer ) {
+			this.init( postid );
+		}
+
 		this.initCrop(postid, img, parent);
 		this.setCropSelection(postid, 0);
 		this.toggleEditor(postid, 0);
