@@ -319,6 +319,7 @@
 			$( '.subsubsub .upgrade .count' ).text( '(' + itemCount + ')' );
 		} else {
 			$( '.subsubsub .upgrade' ).remove();
+			$( '.subsubsub li:last' ).html( function() { return $( this ).children(); } );
 		}
 	};
 
