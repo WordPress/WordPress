@@ -44,7 +44,7 @@ class WP_oEmbed {
 	 * @access private
 	 * @var array
 	 */
-	private $compat_methods = array( '_fetch_with_format', '_parse_json', '_parse_xml', '_parse_body' );
+	private $compat_methods = array( '_fetch_with_format', '_parse_json', '_parse_xml', '_parse_xml_body' );
 
 	/**
 	 * Constructor.
