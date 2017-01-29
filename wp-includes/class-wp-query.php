@@ -1713,9 +1713,17 @@ class WP_Query {
 		$page = 1;
 
 		if ( isset( $q['caller_get_posts'] ) ) {
-			_deprecated_argument( 'WP_Query', '3.1.0', __( '"caller_get_posts" is deprecated. Use "ignore_sticky_posts" instead.' ) );
-			if ( !isset( $q['ignore_sticky_posts'] ) )
+			_deprecated_argument( 'WP_Query', '3.1.0',
+				/* translators: 1: caller_get_posts, 2: ignore_sticky_posts */
+				sprintf( __( '%1$s is deprecated. Use %2$s instead.' ),
+					'<code>caller_get_posts</code>',
+					'<code>ignore_sticky_posts</code>'
+				)
+			);
+
+			if ( ! isset( $q['ignore_sticky_posts'] ) ) {
 				$q['ignore_sticky_posts'] = $q['caller_get_posts'];
+			}
 		}
 
 		if ( !isset( $q['ignore_sticky_posts'] ) )
