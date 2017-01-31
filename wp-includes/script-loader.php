@@ -637,20 +637,21 @@ function wp_default_scripts( &$scripts ) {
 				'noPlugins'                  => __( 'You do not appear to have any plugins available at this time.' ),
 				'noItemsSelected'            => __( 'Please select at least one item to perform this action on.' ),
 				'updating'                   => __( 'Updating...' ), // No ellipsis.
-				'updated'                    => __( 'Updated!' ),
+				'pluginUpdated'              => _x( 'Updated!', 'plugin' ),
+				'themeUpdated'               => _x( 'Updated!', 'theme' ),
 				'update'                     => __( 'Update' ),
 				'updateNow'                  => __( 'Update Now' ),
 				/* translators: %s: Plugin name and version */
-				'updateNowLabel'             => __( 'Update %s now' ),
+				'pluginUpdateNowLabel'       => _x( 'Update %s now', 'plugin' ),
 				'updateFailedShort'          => __( 'Update Failed!' ),
 				/* translators: %s: Error string for a failed update */
 				'updateFailed'               => __( 'Update Failed: %s' ),
 				/* translators: %s: Plugin name and version */
-				'updatingLabel'              => __( 'Updating %s...' ), // No ellipsis.
+				'pluginUpdatingLabel'        => _x( 'Updating %s...', 'plugin' ), // No ellipsis.
 				/* translators: %s: Plugin name and version */
-				'updatedLabel'               => __( '%s updated!' ),
+				'pluginUpdatedLabel'         => _x( '%s updated!', 'plugin' ),
 				/* translators: %s: Plugin name and version */
-				'updateFailedLabel'          => __( '%s update failed' ),
+				'pluginUpdateFailedLabel'    => _x( '%s update failed', 'plugin' ),
 				/* translators: Accessibility text */
 				'updatingMsg'                => __( 'Updating... please wait.' ), // No ellipsis.
 				/* translators: Accessibility text */
@@ -660,9 +661,10 @@ function wp_default_scripts( &$scripts ) {
 				'beforeunload'               => __( 'Updates may not complete if you navigate away from this page.' ),
 				'installNow'                 => __( 'Install Now' ),
 				/* translators: %s: Plugin name */
-				'installNowLabel'            => __( 'Install %s now' ),
+				'pluginInstallNowLabel'      => _x( 'Install %s now', 'plugin' ),
 				'installing'                 => __( 'Installing...' ),
-				'installed'                  => __( 'Installed!' ),
+				'pluginInstalled'            => _x( 'Installed!', 'plugin' ),
+				'themeInstalled'             => _x( 'Installed!', 'theme' ),
 				'installFailedShort'         => __( 'Install Failed!' ),
 				/* translators: %s: Error string for a failed installation */
 				'installFailed'              => __( 'Installation failed: %s' ),
