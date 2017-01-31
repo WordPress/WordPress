@@ -651,11 +651,11 @@ function wp_default_scripts( &$scripts ) {
 				'updatedLabel'               => __( '%s updated!' ),
 				/* translators: %s: Plugin name and version */
 				'updateFailedLabel'          => __( '%s update failed' ),
-				/* translators: JavaScript accessible string */
+				/* translators: Accessibility text */
 				'updatingMsg'                => __( 'Updating... please wait.' ), // No ellipsis.
-				/* translators: JavaScript accessible string */
+				/* translators: Accessibility text */
 				'updatedMsg'                 => __( 'Update completed successfully.' ),
-				/* translators: JavaScript accessible string */
+				/* translators: Accessibility text */
 				'updateCancel'               => __( 'Update canceled.' ),
 				'beforeunload'               => __( 'Updates may not complete if you navigate away from this page.' ),
 				'installNow'                 => __( 'Install Now' ),

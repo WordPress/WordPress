@@ -57,7 +57,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
 		'noThemesFound'       => __( 'No themes found. Try a different search.' ),
 		'collapseSidebar'     => __( 'Collapse Sidebar' ),
 		'expandSidebar'       => __( 'Expand Sidebar' ),
-		/* translators: hidden accessibility text */
+		/* translators: accessibility text */
 		'selectFeatureFilter' => __( 'Select one or more Theme features to filter by' ),
 	),
 	'installedThemes' => array_keys( $installed_themes ),
