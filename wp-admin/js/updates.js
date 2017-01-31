@@ -841,7 +841,7 @@
 			}
 		} );
 
-		wp.a11y.speak( wp.updates.l10n.deleted, 'polite' );
+		wp.a11y.speak( wp.updates.l10n.pluginDeleted, 'polite' );
 
 		$document.trigger( 'wp-plugin-delete-success', response );
 	};
@@ -1273,7 +1273,7 @@
 			} );
 		}
 
-		wp.a11y.speak( wp.updates.l10n.deleted, 'polite' );
+		wp.a11y.speak( wp.updates.l10n.themeDeleted, 'polite' );
 
 		$document.trigger( 'wp-theme-delete-success', response );
 	};

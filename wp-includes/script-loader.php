@@ -693,7 +693,8 @@ function wp_default_scripts( &$scripts ) {
 				'deleting'                   => __( 'Deleting...' ),
 				/* translators: %s: Error string for a failed deletion */
 				'deleteFailed'               => __( 'Deletion failed: %s' ),
-				'deleted'                    => __( 'Deleted!' ),
+				'pluginDeleted'              => _x( 'Deleted!', 'plugin' ),
+				'themeDeleted'               => _x( 'Deleted!', 'theme' ),
 				'livePreview'                => __( 'Live Preview' ),
 				'activatePlugin'             => is_network_admin() ? __( 'Network Activate' ) : __( 'Activate' ),
 				'activateTheme'              => is_network_admin() ? __( 'Network Enable' ) : __( 'Activate' ),
