@@ -449,7 +449,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 
 	// Set custom headers
 	if ( false !== stripos( $content_type, 'multipart' ) && !empty( $boundary ) )
-		$phpmailer->AddCustomHeader( sprintf( "Content-Type: %s;\n\t boundary=\"%s\"", $content_type, $boundary ) );
+		$phpmailer->AddCustomHeader( sprintf( "Content-Type: %s; boundary=\"%s\"", $content_type, $boundary ) );
 
 	if ( !empty( $headers ) ) {
 		foreach ( (array) $headers as $name => $content ) {
