@@ -2063,7 +2063,7 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 
 			// Check for both lower and upper case extension or image sub-sizes may be overwritten.
 			while ( file_exists($dir . "/$filename") || file_exists($dir . "/$filename2") ) {
-				$new_number = $number + 1;
+				$new_number = (int) $number + 1;
 				$filename = str_replace( array( "-$number$ext", "$number$ext" ), "-$new_number$ext", $filename );
 				$filename2 = str_replace( array( "-$number$ext2", "$number$ext2" ), "-$new_number$ext2", $filename2 );
 				$number = $new_number;
@@ -2083,11 +2083,13 @@ function wp_unique_filename( $dir, $filename, $unique_filename_callback = null )
 		}
 
 		while ( file_exists( $dir . "/$filename" ) ) {
+			$new_number = (int) $number + 1;
 			if ( '' == "$number$ext" ) {
-				$filename = "$filename-" . ++$number;
+				$filename = "$filename-" . $new_number;
 			} else {
-				$filename = str_replace( array( "-$number$ext", "$number$ext" ), "-" . ++$number . $ext, $filename );
+				$filename = str_replace( array( "-$number$ext", "$number$ext" ), "-" . $new_number . $ext, $filename );
 			}
+			$number = $new_number;
 		}
 	}
 
