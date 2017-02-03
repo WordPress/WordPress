@@ -185,7 +185,7 @@
 					} else {
 
 						// We already have args, merge these new args in.
-						modelInstance.prototype.args = _.union( routeEndpoint.args, modelInstance.prototype.defaults );
+						modelInstance.prototype.args = _.extend( modelInstance.prototype.args, routeEndpoint.args );
 					}
 				}
 			} else {
@@ -202,7 +202,7 @@
 						} else {
 
 							// We already have options, merge these new args in.
-							modelInstance.prototype.options = _.union( routeEndpoint.args, modelInstance.prototype.options );
+							modelInstance.prototype.options = _.extend( modelInstance.prototype.options, routeEndpoint.args );
 						}
 					}
 
