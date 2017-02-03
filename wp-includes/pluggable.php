@@ -433,7 +433,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 		$phpmailer->IsHTML( true );
 
 	// If we don't have a charset from the input headers
-	if ( !isset( $charset ) )
+	if ( empty( $charset ) )
 		$charset = get_bloginfo( 'charset' );
 
 	// Set the content-type and charset
@@ -448,13 +448,13 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	$phpmailer->CharSet = apply_filters( 'wp_mail_charset', $charset );
 
 	// Set custom headers
+	if ( false !== stripos( $content_type, 'multipart' ) && !empty( $boundary ) )
+		$phpmailer->AddCustomHeader( sprintf( "Content-Type: %s;\n\t boundary=\"%s\"", $content_type, $boundary ) );
+
 	if ( !empty( $headers ) ) {
 		foreach ( (array) $headers as $name => $content ) {
 			$phpmailer->AddCustomHeader( sprintf( '%1$s: %2$s', $name, $content ) );
 		}
-
-		if ( false !== stripos( $content_type, 'multipart' ) && ! empty($boundary) )
-			$phpmailer->AddCustomHeader( sprintf( "Content-Type: %s;\n\t boundary=\"%s\"", $content_type, $boundary ) );
 	}
 
 	if ( !empty( $attachments ) ) {
