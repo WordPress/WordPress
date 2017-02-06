@@ -984,7 +984,7 @@ function rest_get_avatar_urls( $email ) {
  */
 function rest_get_avatar_sizes() {
 	/**
-	 * Filter the REST avatar sizes.
+	 * Filters the REST avatar sizes.
 	 *
 	 * Use this filter to adjust the array of sizes returned by the
 	 * `rest_get_avatar_sizes` function.
