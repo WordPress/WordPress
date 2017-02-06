@@ -333,6 +333,8 @@ final class WP_Taxonomy {
 			}
 		}
 
+		$args['name'] = $this->name;
+
 		foreach ( $args as $property_name => $property_value ) {
 			$this->$property_name = $property_value;
 		}
