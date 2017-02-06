@@ -358,6 +358,8 @@ function retrieve_password() {
 
 	/**
 	 * Filters the message body of the password reset mail.
+	 * 
+	 * If the filtered message is empty, the password reset email will not be sent.
 	 *
 	 * @since 2.8.0
 	 * @since 4.1.0 Added `$user_login` and `$user_data` parameters.
