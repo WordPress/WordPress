@@ -7724,9 +7724,11 @@ Toolbar = View.extend({
 				disabled = false;
 
 			// Prevent insertion of attachments if any of them are still uploading
-			disabled = _.some( selection.models, function( attachment ) {
-				return attachment.get('uploading') === true;
-			});
+			if ( selection && selection.models ) {
+				disabled = _.some( selection.models, function( attachment ) {
+					return attachment.get('uploading') === true;
+				});
+			}
 
 			if ( requires.selection && selection && ! selection.length ) {
 				disabled = true;
