@@ -3956,7 +3956,9 @@ AttachmentsBrowser = View.extend({
 					controller: this.controller,
 					priority: -55,
 					click: function() {
-						var removed = [], selection = this.controller.state().get( 'selection' );
+						var removed = [],
+							destroy = [],
+							selection = this.controller.state().get( 'selection' );
 
 						if ( ! selection.length || ! window.confirm( l10n.warnBulkDelete ) ) {
 							return;
@@ -3968,11 +3970,20 @@ AttachmentsBrowser = View.extend({
 								return;
 							}
 
-							model.destroy();
+							destroy.push( model );
 						} );
 
-						selection.remove( removed );
-						this.controller.trigger( 'selection:action:done' );
+						if ( removed.length ) {
+							selection.remove( removed );
+						}
+
+						if ( destroy.length ) {
+							$.when.apply( null, destroy.map( function (item) {
+								return item.destroy();
+							} ) ).then( _.bind( function() {
+								this.controller.trigger( 'selection:action:done' );
+							}, this ) );
+						}
 					}
 				}).render() );
 			}
