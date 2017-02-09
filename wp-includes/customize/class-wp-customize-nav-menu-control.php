@@ -57,7 +57,7 @@ class WP_Customize_Nav_Menu_Control extends WP_Customize_Control {
 		</button>
 		<p class="screen-reader-text" id="reorder-items-desc-{{ data.menu_id }}"><?php _e( 'When in reorder mode, additional controls to reorder menu items will be available in the items list above.' ); ?></p>
 		<span class="menu-delete-item">
-			<button type="button" class="button-link menu-delete">
+			<button type="button" class="button-link button-link-delete">
 				<?php _e( 'Delete Menu' ); ?>
 			</button>
 		</span>

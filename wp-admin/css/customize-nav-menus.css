@@ -25,17 +25,6 @@
 	margin-left: 6px;
 	vertical-align: middle;
 	line-height: 28px;
-	color: #0073aa;
-	text-decoration: underline;
-}
-
-.customize-control-nav_menu_location .edit-menu:hover,
-.customize-control-nav_menu_location .edit-menu:active {
-	color: #00a0d2;
-}
-
-.customize-control-nav_menu_location .edit-menu:focus {
-	color: #124964;
 }
 
 .wp-customizer .menu-item-bar .menu-item-handle,
@@ -804,17 +793,6 @@ li.assigned-to-menu-location .menu-delete-item {
 
 li.assigned-to-menu-location .add-new-menu-item {
 	margin-bottom: 1em;
-}
-
-.menu-delete {
-	color: #a00;
-	cursor: pointer;
-	text-decoration: underline;
-}
-
-.menu-delete:hover,
-.menu-delete:focus {
-	color: #f00;
 }
 
 .menu-item-handle {

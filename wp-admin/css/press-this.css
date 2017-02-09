@@ -393,8 +393,20 @@ strong {
 	padding: 5px 15px;
 	margin: 0;
 	width: 100%;
+	border: 0;
 	text-align: left;
 	line-height: 2;
+	background: none;
+	color: inherit;
+	text-decoration: none;
+	outline: none;
+	-webkit-transition: none;
+	transition: none;
+}
+
+.split-button-body .split-button-option:hover,
+.split-button-body .split-button-option:active {
+	color: inherit;
 }
 
 .is-open .split-button-body {
@@ -860,6 +872,12 @@ dd {
 	padding: 0;
 	text-decoration: none;
 	outline: 0;
+	color: inherit;
+}
+
+.press-this .tagcloud-link:hover,
+.press-this .tagcloud-link:active {
+	color: inherit;
 }
 
 .tagcloud-link:focus {
@@ -930,10 +948,12 @@ input[type="search"].categories-search,
 	line-height: 20px;
 	padding: 12px 10px 8px;
 	color: #0073aa;
+	text-decoration: none;
+	-webkit-transition: none;
+	transition: none;
 }
 
 .press-this .add-cat-toggle:focus {
-	text-decoration: none;
 	color: #00a0d2;
 }
 
@@ -1202,6 +1222,9 @@ html {
 	margin-top: -13px;
 	padding: 0 10px 1px;
 	font-size: 13px;
+	text-decoration: none;
+	-webkit-transition: none;
+	transition: none;
 }
 
 @media (max-width: 320px) {
@@ -1764,7 +1787,6 @@ html {
 	margin: 0;
 	padding: 0;
 	border: 0;
-	border-right: 1px solid #e5e5e5;
 	-webkit-border-radius: 0;
 	border-radius: 0;
 	background: none;
@@ -1776,9 +1798,6 @@ html {
 .insert-media:hover,
 .insert-media:focus,
 .insert-media:active {
-	margin: 0;
-	background: none;
-	border-color: #e5e5e5;
 	color: #23282d;
 }
 
@@ -1786,7 +1805,12 @@ html {
 .insert-media:active {
 	outline: 0;
 	color: #00a0d2;
-	text-decoration: none;
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .insert-media .dashicons {
@@ -2012,10 +2036,13 @@ html {
 .post-options .post-option {
 	display: block;
 	width: 100%;
+	margin: 0;
 	padding: 13px 37px 13px 14px;
+	border: 0;
 	border-bottom: 1px solid #e5e5e5;
 	text-decoration: none;
 	text-align: left;
+	background: none;
 	color: #9ea7af;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -2091,7 +2118,9 @@ html {
 	display: block;
 	width: 100%;
 	padding: 13px 14px;
+	border: 0;
 	border-bottom: 1px solid #e5e5e5;
+	background: none;
 	color: #00a0d2;
 	text-decoration: none;
 	text-align: left;

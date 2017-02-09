@@ -149,8 +149,7 @@ TABLE OF CONTENTS:
 
 .wp-core-ui .button.focus,
 .wp-core-ui .button:focus,
-.wp-core-ui .button-secondary:focus,
-.wp-core-ui .button-link:focus {
+.wp-core-ui .button-secondary:focus {
 	border-color: #5b9dd9;
 	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
@@ -210,9 +209,42 @@ TABLE OF CONTENTS:
 	background: none;
 	outline: none;
 	cursor: pointer;
+	/* Mimics the default link style in common.css */
+	color: #0073aa;
+	text-decoration: underline;
+	-webkit-transition-property: border, background, color;
+	transition-property: border, background, color;
+	-webkit-transition-duration: .05s;
+	transition-duration: .05s;
+	-webkit-transition-timing-function: ease-in-out;
+	transition-timing-function: ease-in-out;
+}
+
+.wp-core-ui .button-link:hover,
+.wp-core-ui .button-link:active {
+	color: #00a0d2;
 }
 
 .wp-core-ui .button-link:focus {
+	color: #124964;
+	-webkit-box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+	box-shadow:
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+}
+
+.wp-core-ui .button-link-delete {
+	color: #a00;
+}
+
+.wp-core-ui .button-link-delete:hover,
+.wp-core-ui .button-link-delete:focus {
+	color: #f00;
+}
+
+.ie8 .wp-core-ui .button-link:focus {
 	outline: #5b9dd9 solid 1px;
 }
 

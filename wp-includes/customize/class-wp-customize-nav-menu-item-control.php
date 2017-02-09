@@ -141,7 +141,7 @@ class WP_Customize_Nav_Menu_Item_Control extends WP_Customize_Control {
 				</p>
 				<# } #>
 
-				<button type="button" class="button-link item-delete submitdelete deletion"><?php _e( 'Remove' ); ?></button>
+				<button type="button" class="button-link button-link-delete item-delete submitdelete deletion"><?php _e( 'Remove' ); ?></button>
 				<span class="spinner"></span>
 			</div>
 			<input type="hidden" name="menu-item-db-id[{{ data.menu_item_id }}]" class="menu-item-data-db-id" value="{{ data.menu_item_id }}" />

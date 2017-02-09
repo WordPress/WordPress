@@ -100,8 +100,6 @@ input#link_url {
 	margin-right: 10px;
 	padding: 0;
 	font-size: 11px;
-	text-decoration: underline;
-	color: #0073aa;
 }
 
 #comment-link-box {
@@ -1033,25 +1031,6 @@ span.description,
 	margin: 0 auto;
 	overflow: auto;
 	width: 260px;
-}
-
-.tagcloud-link.button-link {
-	color: #0073aa;
-	text-decoration: underline;
-}
-
-.tagcloud-link.button-link:hover {
-	color: #00a0d2;
-}
-
-.tagcloud-link.button-link:focus {
-	color: #124964;
-	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 #post-body-content .tagsdiv .the-tags {

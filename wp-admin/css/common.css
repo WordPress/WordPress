@@ -244,6 +244,7 @@ td {
 	line-height: inherit;
 }
 
+/* Any change to the default link style must be applied to button-link too. */
 a {
 	color: #0073aa;
 	-webkit-transition-property: border, background, color;
@@ -464,7 +465,8 @@ code {
 	word-wrap: break-word;
 }
 
-.widefat a {
+.widefat a,
+.widefat button.button-link {
 	text-decoration: none;
 }
 
@@ -1242,18 +1244,8 @@ th.action-links {
 }
 
 .wp-filter .button-link.edit-filters {
-	color: #0073aa;
-	text-decoration: underline;
 	padding: 0 5px;
 	line-height: 28px;
-}
-
-.wp-filter .button-link.edit-filters:hover {
-	color: #00a0d2;
-}
-
-.wp-filter .button-link.edit-filters:focus {
-	color: #124964;
 }
 
 .filtered-by {
@@ -1607,23 +1599,13 @@ form.upgrade .hint {
 	color: #66c6e4;
 }
 
-.button.updated-message,
-.notice .button-link {
+.button.updated-message {
 	-webkit-transition-property: border, background, color;
 	transition-property: border, background, color;
 	-webkit-transition-duration: .05s;
 	transition-duration: .05s;
 	-webkit-transition-timing-function: ease-in-out;
 	transition-timing-function: ease-in-out;
-}
-
-.notice .button-link {
-	color: #0073aa;
-}
-
-.notice .button-link:hover,
-.notice .button-link:active {
-	color: #00a0d2;
 }
 
 @media aural {
@@ -3278,6 +3260,7 @@ img {
 }
 
 .handlediv,
+.postbox .handlediv.button-link,
 .item-edit,
 .sidebar-name-arrow,
 .accordion-section-title:after {
@@ -3292,6 +3275,8 @@ img {
 .widget-action:focus,
 .handlediv:hover,
 .handlediv:focus,
+.postbox .handlediv.button-link:hover,
+.postbox .handlediv.button-link:focus,
 .item-edit:hover,
 .item-edit:focus,
 .sidebar-name:hover .sidebar-name-arrow,

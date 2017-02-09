@@ -664,24 +664,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 .menu-item-settings .field-move .button-link {
 	display: none;
 	margin: 0 2px;
-	color: #0073aa;
 	font-style: italic;
-	text-decoration: underline;
-}
-
-.menu-item-settings .field-move .button-link:hover,
-.menu-item-settings .field-move .button-link:active {
-	color: #00a0d2;
-}
-
-.menu-item-settings .field-move .button-link:focus {
-	color: #124964;
-	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
-	box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
 .menu-item-edit-active .menu-item-settings {

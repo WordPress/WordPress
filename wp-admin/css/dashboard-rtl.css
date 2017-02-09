@@ -771,7 +771,8 @@ form.initial-form.quickpress-open input#title {
 	min-width: 0;
 }
 
-#dashboard-widgets a {
+#dashboard-widgets a,
+#dashboard-widgets .button-link {
 	text-decoration: none;
 }
 

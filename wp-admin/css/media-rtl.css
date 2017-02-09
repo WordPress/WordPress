@@ -1066,9 +1066,9 @@ border color while dragging a file over the uploader drop area */
 	line-height: 1.4;
 }
 
-.imgedit-group-top h3 a, /* Back-compat for pre-4.4 */
-.imgedit-group-top h2 a {
+#poststuff .imgedit-group-top .button-link {
 	text-decoration: none;
+	color: #23282d;
 }
 
 .imgedit-applyto .imgedit-label {
