@@ -1077,9 +1077,12 @@ function get_term_to_edit( $id, $taxonomy ) {
  *     @type array        $meta_query             Meta query clauses to limit retrieved terms by.
  *                                                See `WP_Meta_Query`. Default empty.
  *     @type string       $meta_key               Limit terms to those matching a specific metadata key. Can be used in
- *                                                conjunction with `$meta_value`.
+ *                                                conjunction with `$meta_value`. Default empty.
  *     @type string       $meta_value             Limit terms to those matching a specific metadata value. Usually used
- *                                                in conjunction with `$meta_key`.
+ *                                                in conjunction with `$meta_key`. Default empty.
+ *     @type string       $meta_type              Type of object metadata is for (e.g., comment, post, or user).
+ *                                                Default empty.
+ *     @type string       $meta_compare           Comparison operator to test the 'meta_value'. Default empty.
  * }
  * @param array $deprecated Argument array, when using the legacy function parameter format. If present, this
  *                          parameter will be interpreted as `$args`, and the first function parameter will
