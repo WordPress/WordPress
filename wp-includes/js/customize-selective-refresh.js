@@ -849,7 +849,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			containerElements = containerElements.add( rootElement );
 		}
 		containerElements.each( function() {
-			var containerElement = $( this ), partial, id, Constructor, partialOptions, containerContext;
+			var containerElement = $( this ), partial, placement, id, Constructor, partialOptions, containerContext;
 			id = containerElement.data( 'customize-partial-id' );
 			if ( ! id ) {
 				return;
@@ -874,14 +874,19 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			 */
 			if ( options.triggerRendered && ! containerElement.data( 'customize-partial-content-rendered' ) ) {
 
-				/**
-				 * Announce when a partial's nested placement has been re-rendered.
-				 */
-				self.trigger( 'partial-content-rendered', new Placement( {
+				placement = new Placement( {
 					partial: partial,
 					context: containerContext,
 					container: containerElement
-				} ) );
+				} );
+
+				$( placement.container ).attr( 'title', self.data.l10n.shiftClickToEdit );
+				partial.createEditShortcutForPlacement( placement );
+
+				/**
+				 * Announce when a partial's nested placement has been re-rendered.
+				 */
+				self.trigger( 'partial-content-rendered', placement );
 			}
 			containerElement.data( 'customize-partial-content-rendered', true );
 		} );
