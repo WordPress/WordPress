@@ -1038,7 +1038,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 							unset( $box[ 'args' ][ '__widget_basename' ] );
 						}
 
-						echo '<button type="button" class="handlediv button-link" aria-expanded="true">';
+						echo '<button type="button" class="handlediv" aria-expanded="true">';
 						echo '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s' ), $widget_title ) . '</span>';
 						echo '<span class="toggle-indicator" aria-hidden="true"></span>';
 						echo '</button>';

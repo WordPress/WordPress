@@ -1462,24 +1462,11 @@ body.cheatin p {
 
 /* Reordering */
 .reorder-toggle {
-	color: #0073aa;
 	float: right;
 	padding: 5px 8px;
 	text-decoration: none;
 	cursor: pointer;
 	outline: none;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-.reorder-toggle:hover {
-	color: #00a0d2;
-}
-
-.reorder-toggle:focus {
-	outline: 1px dotted;
 }
 
 .reorder,
@@ -1491,13 +1478,6 @@ body.cheatin p {
 .reorder-done,
 .reordering .reorder {
 	display: none;
-	color: #0073aa;
-}
-
-.reorder-toggle:hover .reorder-done,
-.reorder-toggle:active .reorder-done,
-.reorder-toggle:focus .reorder-done {
-	color: #00a0d2;
 }
 
 .widget-reorder-nav span,

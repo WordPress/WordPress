@@ -209,6 +209,7 @@ TABLE OF CONTENTS:
 	background: none;
 	outline: none;
 	cursor: pointer;
+	text-align: left;
 	/* Mimics the default link style in common.css */
 	color: #0073aa;
 	text-decoration: underline;

@@ -2046,7 +2046,11 @@ html.wp-toolbar {
 	float: right;
 	width: 36px;
 	height: 36px;
+	margin: 0;
 	padding: 0;
+	border: 0;
+	background: none;
+	cursor: pointer;
 }
 
 .js .postbox .handlediv {
