@@ -43,7 +43,7 @@ require_once ABSPATH . WPINC . '/class-walker-nav-menu.php';
  *                                               Uses printf() format with numbered placeholders.
  *     @type string             $item_spacing    Whether to preserve whitespace within the menu's HTML. Accepts 'preserve' or 'discard'. Default 'preserve'.
  * }
- * @return object|false|void Menu output if $echo is false, false if there are no items or no menu was found.
+ * @return string|false|void Menu output if $echo is false, false if there are no items or no menu was found.
  */
 function wp_nav_menu( $args = array() ) {
 	static $menu_id_slugs = array();
