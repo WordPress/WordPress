@@ -344,7 +344,7 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 		$data = array();
 
 		if ( ! empty( $schema['properties']['author'] ) ) {
-			$data['author'] = $post->post_author;
+			$data['author'] = (int) $post->post_author;
 		}
 
 		if ( ! empty( $schema['properties']['date'] ) ) {
