@@ -145,10 +145,9 @@
 				return;
 			}
 
+			// Allow internal jump links and JS links to behave normally without preventing default.
 			isInternalJumpLink = ( '#' === link.attr( 'href' ).substr( 0, 1 ) );
-
-			// Allow internal jump links to behave normally without preventing default.
-			if ( isInternalJumpLink ) {
+			if ( isInternalJumpLink || ! /^https?:$/.test( link.prop( 'protocol' ) ) ) {
 				return;
 			}
 
@@ -334,8 +333,8 @@
 			return;
 		}
 
-		// Ignore links with href="#" or href="#id".
-		if ( '#' === $( element ).attr( 'href' ).substr( 0, 1 ) ) {
+		// Ignore links with href="#", href="#id", or non-HTTP protocols (e.g. javascript: and mailto:).
+		if ( '#' === $( element ).attr( 'href' ).substr( 0, 1 ) || ! /^https?:$/.test( element.protocol ) ) {
 			return;
 		}
 
