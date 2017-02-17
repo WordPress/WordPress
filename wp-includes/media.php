@@ -3679,19 +3679,33 @@ function get_post_galleries( $post, $html = true ) {
 			if ( 'gallery' === $shortcode[2] ) {
 				$srcs = array();
 
+				$shortcode_attrs = shortcode_parse_atts( $shortcode[3] ); 
+				if ( ! is_array( $shortcode_attrs ) ) {
+					$shortcode_attrs = array();
+				}
+
+				// Specify the post id of the gallery we're viewing if the shortcode doesn't reference another post already.
+				if ( ! isset( $shortcode_attrs['id'] ) ) {
+					$shortcode[3] .= ' id="' . intval( $post->ID ) . '"';
+				}
+
 				$gallery = do_shortcode_tag( $shortcode );
 				if ( $html ) {
 					$galleries[] = $gallery;
 				} else {
 					preg_match_all( '#src=([\'"])(.+?)\1#is', $gallery, $src, PREG_SET_ORDER );
 					if ( ! empty( $src ) ) {
-						foreach ( $src as $s )
+						foreach ( $src as $s ) {
 							$srcs[] = $s[2];
+						}
 					}
 
-					$data = shortcode_parse_atts( $shortcode[3] );
-					$data['src'] = array_values( array_unique( $srcs ) );
-					$galleries[] = $data;
+					$galleries[] = array_merge(
+						$shortcode_attrs,
+						array(
+							'src' => array_values( array_unique( $srcs ) )
+						)
+					);
 				}
 			}
 		}
