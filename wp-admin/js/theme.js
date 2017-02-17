@@ -1431,6 +1431,9 @@ themes.Run = {
 		this.view.render();
 		this.routes();
 
+		if ( Backbone.History.started ) {
+			Backbone.history.stop();
+		}
 		Backbone.history.start({
 			root: themes.data.settings.adminUrl,
 			pushState: true,
@@ -1884,6 +1887,9 @@ themes.RunInstaller = {
 		this.view.render();
 		this.routes();
 
+		if ( Backbone.History.started ) {
+			Backbone.history.stop();
+		}
 		Backbone.history.start({
 			root: themes.data.settings.adminUrl,
 			pushState: true,

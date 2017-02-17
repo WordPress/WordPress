@@ -411,6 +411,9 @@ window.wp = window.wp || {};
 			// Start the router if browser supports History API
 			if ( window.history && window.history.pushState ) {
 				this.router = new revisions.Router({ model: this });
+				if ( Backbone.History.started ) {
+					Backbone.history.stop();
+				}
 				Backbone.history.start({ pushState: true });
 			}
 		},
