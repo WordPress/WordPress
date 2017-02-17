@@ -54,7 +54,7 @@ class WP_HTTP_Requests_Hooks extends Requests_Hooks {
 		switch ( $hook ) {
 			case 'curl.before_send':
 				/** This action is documented in wp-includes/class-wp-http-curl.php */
-				do_action_ref_array( 'http_api_curl', array( $parameters[0], $this->request, $this->url ) );
+				do_action_ref_array( 'http_api_curl', array( &$parameters[0], $this->request, $this->url ) );
 				break;
 		}
 
