@@ -213,7 +213,7 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 		if ( ! $this->validate_equal_characters( '"', $css ) ) {
 			$validity->add( 'unequal_double_quotes', sprintf(
 				/* translators: %s: " */
-				__( 'Your double quotes %s are uneven. Make sure there is a closing %s for every opening %s.' ),
+				__( 'Your double quotes %1$s are uneven. Make sure there is a closing %1$s for every opening %1$s.' ),
 				'<code>"</code>'
 			) );
 			$imbalanced = true;
