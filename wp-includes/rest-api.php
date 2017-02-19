@@ -264,7 +264,11 @@ function rest_api_loaded() {
 	$server = rest_get_server();
 
 	// Fire off the request.
-	$server->serve_request( untrailingslashit( $GLOBALS['wp']->query_vars['rest_route'] ) );
+	$route = untrailingslashit( $GLOBALS['wp']->query_vars['rest_route'] );
+	if ( empty( $route ) ) {
+		$route = '/';
+	}
+	$server->serve_request( $route );
 
 	// We're done.
 	die();
