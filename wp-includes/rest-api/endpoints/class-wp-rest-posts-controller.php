@@ -1767,7 +1767,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					'description' => __( 'A named status for the object.' ),
 					'type'        => 'string',
 					'enum'        => array_keys( get_post_stati( array( 'internal' => false ) ) ),
-					'context'     => array( 'edit' ),
+					'context'     => array( 'view', 'edit' ),
 				),
 				'type'            => array(
 					'description' => __( 'Type of Post for the object.' ),
