@@ -1346,7 +1346,7 @@ function get_header_video_url() {
 	/**
 	 * Filters the header video URL.
 	 *
-	 * @since 4.8.0
+	 * @since 4.7.3
 	 *
 	 * @param string $url Header video URL, if available.
 	 */
