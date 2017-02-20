@@ -78,8 +78,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				echo wp_video_shortcode( array(
 					'mp4'      => 'https://s.w.org/images/core/4.7/starter-content-v1.mp4',
 					'poster'   => 'https://s.w.org/images/core/4.7/starter-content.jpg?v2',
-					'loop'     => true,
-					'autoplay' => true,
 					'width'    => 1140,
 					'height'   => 624,
 					// 'class'    => 'wp-video-shortcode feature-video',
@@ -95,8 +93,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				echo wp_video_shortcode( array(
 					'mp4'      => 'https://s.w.org/images/core/4.7/edit-shortcuts-v1.mp4',
 					'poster'   => 'https://s.w.org/images/core/4.7/edit-shortcuts.jpg?v2',
-					'loop'     => true,
-					'autoplay' => true,
 					'width'    => 2520,
 					'height'   => 1454,
 					// 'class'    => 'wp-video-shortcode feature-video',
@@ -110,8 +106,6 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				echo wp_video_shortcode( array(
 					'mp4'      => 'https://s.w.org/images/core/4.7/header-video-v1.mp4',
 					'poster'   => 'https://s.w.org/images/core/4.7/header-video.jpg?v2',
-					'loop'     => true,
-					'autoplay' => true,
 					'width'    => 2520,
 					'height'   => 1454,
 					// 'class'    => 'wp-video-shortcode feature-video',
