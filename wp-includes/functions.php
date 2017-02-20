@@ -1213,18 +1213,6 @@ function bool_from_yn( $yn ) {
 function do_feed() {
 	global $wp_query;
 
-	// Determine if we are looking at the main comment feed
-	$is_main_comments_feed = ( $wp_query->is_comment_feed() && ! $wp_query->is_singular() );
-
-	/*
-	 * Check the queried object for the existence of posts if it is not a feed for an archive,
-	 * search result, or main comments. By checking for the absense of posts we can prevent rendering the feed
-	 * templates at invalid endpoints. e.g.) /wp-content/plugins/feed/
-	 */
-	if ( ! $wp_query->have_posts() && ! ( $wp_query->is_archive() || $wp_query->is_search() || $is_main_comments_feed ) ) {
-		wp_die( __( 'ERROR: This is not a valid feed.' ), '', array( 'response' => 404 ) );
-	}
-
 	$feed = get_query_var( 'feed' );
 
 	// Remove the pad, if present.
