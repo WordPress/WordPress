@@ -585,7 +585,7 @@ class WP_Customize_Setting {
 		$id_base = $this->id_data['base'];
 		if ( 'option' === $this->type ) {
 			return get_option( $id_base, $default );
-		} else if ( 'theme_mod' ) {
+		} elseif ( 'theme_mod' === $this->type ) {
 			return get_theme_mod( $id_base, $default );
 		} else {
 			/*
@@ -614,7 +614,7 @@ class WP_Customize_Setting {
 				$autoload = self::$aggregated_multidimensionals[ $this->type ][ $this->id_data['base'] ]['autoload'];
 			}
 			return update_option( $id_base, $value, $autoload );
-		} else if ( 'theme_mod' ) {
+		} elseif ( 'theme_mod' === $this->type ) {
 			set_theme_mod( $id_base, $value );
 			return true;
 		} else {
