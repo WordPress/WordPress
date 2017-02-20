@@ -1337,13 +1337,22 @@ function get_header_video_url() {
 	$id = absint( get_theme_mod( 'header_video' ) );
 	$url = esc_url( get_theme_mod( 'external_header_video' ) );
 
-	if ( ! $id && ! $url ) {
-		return false;
-	}
-
 	if ( $id ) {
 		// Get the file URL from the attachment ID.
 		$url = wp_get_attachment_url( $id );
+	}
+
+	/**
+	 * Filters the header video URL.
+	 *
+	 * @since 4.7.3
+	 *
+	 * @param string $url Header video URL, if available.
+	 */
+	$url = apply_filters( 'get_header_video_url', $url );
+
+	if ( ! $id && ! $url ) {
+		return false;
 	}
 
 	return esc_url_raw( set_url_scheme( $url ) );
