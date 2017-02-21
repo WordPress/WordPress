@@ -1327,7 +1327,6 @@ final class WP_Customize_Nav_Menus {
 	 */
 	public function customize_preview_enqueue_deps() {
 		wp_enqueue_script( 'customize-preview-nav-menus' ); // Note that we have overridden this.
-		wp_enqueue_style( 'customize-preview' );
 	}
 
 	/**
