@@ -24,46 +24,8 @@
 
 		render: function() {
 			this.$el.html(this.template(this.model.toJSON()));
-			this.setPlaceholder();
 			this.setButtons();
 			return this;
-		},
-
-		getHeight: function() {
-			var image = this.$el.find('img'),
-				saved, height, headerImageData;
-
-			if (image.length) {
-				this.$el.find('.inner').hide();
-			} else {
-				this.$el.find('.inner').show();
-				return 40;
-			}
-
-			saved = this.model.get('savedHeight');
-			height = image.height() || saved;
-
-			// happens at ready
-			if (!height) {
-				headerImageData = api.get().header_image_data;
-
-				if (headerImageData && headerImageData.width && headerImageData.height) {
-					// hardcoded container width
-					height = 260 / headerImageData.width * headerImageData.height;
-				}
-				else {
-					// fallback for when no image is set
-					height = 40;
-				}
-			}
-
-			return height;
-		},
-
-		setPlaceholder: function(_height) {
-			var height = _height || this.getHeight();
-			this.model.set('savedHeight', height);
-			this.$el.height(height);
 		},
 
 		setButtons: function() {
@@ -131,10 +93,6 @@
 				type: c.type
 			});
 		},
-
-		getHeight: api.HeaderTool.CurrentView.prototype.getHeight,
-
-		setPlaceholder: api.HeaderTool.CurrentView.prototype.setPlaceholder,
 
 		select: function() {
 			this.preventJump();
