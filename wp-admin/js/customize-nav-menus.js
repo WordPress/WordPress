@@ -1509,22 +1509,29 @@
 		 * Update item handle title when changed.
 		 */
 		_setupTitleUI: function() {
-			var control = this;
+			var control = this, titleEl;
 
+			// Ensure that whitespace is trimmed on blur so placeholder can be shown.
+			control.container.find( '.edit-menu-item-title' ).on( 'blur', function() {
+				$( this ).val( $.trim( $( this ).val() ) );
+			} );
+
+			titleEl = control.container.find( '.menu-item-title' );
 			control.setting.bind( function( item ) {
+				var trimmedTitle, titleText;
 				if ( ! item ) {
 					return;
 				}
+				trimmedTitle = $.trim( item.title );
 
-				var titleEl = control.container.find( '.menu-item-title' ),
-				    titleText = item.title || item.original_title || api.Menus.data.l10n.untitled;
+				titleText = trimmedTitle || item.original_title || api.Menus.data.l10n.untitled;
 
 				if ( item._invalid ) {
 					titleText = api.Menus.data.l10n.invalidTitleTpl.replace( '%s', titleText );
 				}
 
 				// Don't update to an empty title.
-				if ( item.title || item.original_title ) {
+				if ( trimmedTitle || item.original_title ) {
 					titleEl
 						.text( titleText )
 						.removeClass( 'no-title' );
