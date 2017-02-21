@@ -506,6 +506,12 @@ function wpautop( $pee, $br = true ) {
 		$pee = preg_replace( '%\s*(<(?:source|track)[^>]*>)\s*%', '$1', $pee );
 	}
 
+	// Collapse line breaks before and after <figcaption> elements.
+	if ( strpos( $pee, '<figcaption' ) !== false ) {
+		$pee = preg_replace( '|\s*(<figcaption[^>]*>)|', '$1', $pee );
+		$pee = preg_replace( '|</figcaption>\s*|', '</figcaption>', $pee );
+	}
+
 	// Remove more than two contiguous line breaks.
 	$pee = preg_replace("/\n\n+/", "\n\n", $pee);
 
