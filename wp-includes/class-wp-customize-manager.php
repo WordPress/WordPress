@@ -2494,6 +2494,14 @@ final class WP_Customize_Manager {
 		} elseif ( $args['date_gmt'] ) {
 			$post_array['post_date_gmt'] = $args['date_gmt'];
 			$post_array['post_date'] = get_date_from_gmt( $args['date_gmt'] );
+		} elseif ( $changeset_post_id && 'auto-draft' === get_post_status( $changeset_post_id ) ) {
+			/*
+			 * Keep bumping the date for the auto-draft whenever it is modified;
+			 * this extends its life, preserving it from garbage-collection via
+			 * wp_delete_auto_drafts().
+			 */
+			$post_array['post_date'] = current_time( 'mysql' );
+			$post_array['post_date_gmt'] = '';
 		}
 
 		$this->store_changeset_revision = $allow_revision;
