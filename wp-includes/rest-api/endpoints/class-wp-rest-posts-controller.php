@@ -1004,12 +1004,14 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 			if ( ! empty( $date_data ) ) {
 				list( $prepared_post->post_date, $prepared_post->post_date_gmt ) = $date_data;
+				$prepared_post->edit_date = true;
 			}
 		} elseif ( ! empty( $schema['properties']['date_gmt'] ) && ! empty( $request['date_gmt'] ) ) {
 			$date_data = rest_get_date_with_gmt( $request['date_gmt'], true );
 
 			if ( ! empty( $date_data ) ) {
 				list( $prepared_post->post_date, $prepared_post->post_date_gmt ) = $date_data;
+				$prepared_post->edit_date = true;
 			}
 		}
 
