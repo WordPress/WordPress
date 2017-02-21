@@ -997,13 +997,19 @@ final class WP_Customize_Manager {
 			wp_list_pluck( $posts, 'post_name' )
 		);
 
+		/*
+		 * Obtain all post types referenced in starter content to use in query.
+		 * This is needed because 'any' will not account for post types not yet registered.
+		 */
+		$post_types = array_filter( array_merge( array( 'attachment' ), wp_list_pluck( $posts, 'post_type' ) ) );
+
 		// Re-use auto-draft starter content posts referenced in the current customized state.
 		$existing_starter_content_posts = array();
 		if ( ! empty( $starter_content_auto_draft_post_ids ) ) {
 			$existing_posts_query = new WP_Query( array(
 				'post__in' => $starter_content_auto_draft_post_ids,
 				'post_status' => 'auto-draft',
-				'post_type' => 'any',
+				'post_type' => $post_types,
 				'posts_per_page' => -1,
 			) );
 			foreach ( $existing_posts_query->posts as $existing_post ) {
