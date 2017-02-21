@@ -4696,7 +4696,10 @@
 			editShortcutVisibility( 'visible' );
 
 			api.bind( 'change', function() {
-				state('saved').set( false );
+				if ( state( 'saved' ).get() ) {
+					state( 'saved' ).set( false );
+					populateChangesetUuidParam( true );
+				}
 			});
 
 			saving.bind( function( isSaving ) {
