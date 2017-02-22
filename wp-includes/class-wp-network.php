@@ -267,8 +267,6 @@ class WP_Network {
 	 * @return WP_Network|bool Network object if successful. False when no network is found.
 	 */
 	public static function get_by_path( $domain = '', $path = '', $segments = null ) {
-		global $wpdb;
-
 		$domains = array( $domain );
 		$pieces  = explode( '.', $domain );
 
@@ -295,7 +293,11 @@ class WP_Network {
 		if ( wp_using_ext_object_cache() ) {
 			$using_paths = wp_cache_get( 'networks_have_paths', 'site-options' );
 			if ( false === $using_paths ) {
-				$using_paths = (int) $wpdb->get_var( "SELECT id FROM {$wpdb->site} WHERE path <> '/' LIMIT 1" );
+				$using_paths = get_networks( array(
+					'number'       => 1,
+					'count'        => true,
+					'path__not_in' => '/',
+				) );
 				wp_cache_add( 'networks_have_paths', $using_paths, 'site-options'  );
 			}
 		}
@@ -353,34 +355,30 @@ class WP_Network {
 			return $pre;
 		}
 
-		// @todo Consider additional optimization routes, perhaps as an opt-in for plugins.
-		// We already have paths covered. What about how far domains should be drilled down (including www)?
-
-		$search_domains = "'" . implode( "', '", $wpdb->_escape( $domains ) ) . "'";
-
 		if ( ! $using_paths ) {
-			$network = $wpdb->get_row( "
-				SELECT * FROM {$wpdb->site}
-				WHERE domain IN ({$search_domains})
-				ORDER BY CHAR_LENGTH(domain)
-				DESC LIMIT 1
-			" );
+			$networks = get_networks( array(
+				'number'     => 1,
+				'orderby'    => array(
+					'domain_length' => 'DESC',
+				),
+				'domain__in' => $domains,
+			) );
 
-			if ( ! empty( $network ) && ! is_wp_error( $network ) ) {
-				return new WP_Network( $network );
+			if ( ! empty( $networks ) ) {
+				return array_shift( $networks );
 			}
 
 			return false;
-
-		} else {
-			$search_paths = "'" . implode( "', '", $wpdb->_escape( $paths ) ) . "'";
-			$networks = $wpdb->get_results( "
-				SELECT * FROM {$wpdb->site}
-				WHERE domain IN ({$search_domains})
-				AND path IN ({$search_paths})
-				ORDER BY CHAR_LENGTH(domain) DESC, CHAR_LENGTH(path) DESC
-			" );
 		}
+
+		$networks = get_networks( array(
+			'orderby'    => array(
+				'domain_length' => 'DESC',
+				'path_length'   => 'DESC',
+			),
+			'domain__in' => $domains,
+			'path__in'   => $paths,
+		) );
 
 		/*
 		 * Domains are sorted by length of domain, then by length of path.
@@ -402,7 +400,7 @@ class WP_Network {
 		}
 
 		if ( true === $found ) {
-			return new WP_Network( $network );
+			return $network;
 		}
 
 		return false;
