@@ -597,7 +597,8 @@ function is_single( $post = '' ) {
 }
 
 /**
- * Is the query for an existing single post of any post type (post, attachment, page, ... )?
+ * Is the query for an existing single post of any post type (post, attachment, page,
+ * custom post types)?
  *
  * If the $post_types parameter is specified, this function will additionally
  * check if the query is for one of the Posts Types specified.
