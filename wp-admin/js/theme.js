@@ -1928,7 +1928,7 @@ themes.RunInstaller = {
 				// Open the theme preview.
 				self.view.collection.once( 'query:success', function() {
 					$( 'div[data-slug="' + slug + '"]' ).trigger( 'click' );
-				})
+				});
 
 			}
 		});
