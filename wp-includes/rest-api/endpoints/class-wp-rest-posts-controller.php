@@ -1391,7 +1391,16 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! empty( $schema['properties']['date_gmt'] ) ) {
-			$data['date_gmt'] = $this->prepare_date_response( $post->post_date_gmt );
+			// For drafts, `post_date_gmt` may not be set, indicating that the
+			// date of the draft should be updated each time it is saved (see
+			// #38883).  In this case, shim the value based on the `post_date`
+			// field with the site's timezone offset applied.
+			if ( '0000-00-00 00:00:00' === $post->post_date_gmt ) {
+				$post_date_gmt = date( 'Y-m-d H:i:s', strtotime( $post->post_date ) - ( get_option( 'gmt_offset' ) * 3600 ) );
+			} else {
+				$post_date_gmt = $post->post_date_gmt;
+			}
+			$data['date_gmt'] = $this->prepare_date_response( $post_date_gmt );
 		}
 
 		if ( ! empty( $schema['properties']['guid'] ) ) {
@@ -1407,7 +1416,16 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! empty( $schema['properties']['modified_gmt'] ) ) {
-			$data['modified_gmt'] = $this->prepare_date_response( $post->post_modified_gmt );
+			// For drafts, `post_modified_gmt` may not be set (see
+			// `post_date_gmt` comments above).  In this case, shim the value
+			// based on the `post_modified` field with the site's timezone
+			// offset applied.
+			if ( '0000-00-00 00:00:00' === $post->post_modified_gmt ) {
+				$post_modified_gmt = date( 'Y-m-d H:i:s', strtotime( $post->post_modified ) - ( get_option( 'gmt_offset' ) * 3600 ) );
+			} else {
+				$post_modified_gmt = $post->post_modified_gmt;
+			}
+			$data['modified_gmt'] = $this->prepare_date_response( $post_modified_gmt );
 		}
 
 		if ( ! empty( $schema['properties']['password'] ) ) {
