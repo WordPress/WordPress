@@ -492,7 +492,7 @@ themes.view.Theme = wp.Backbone.View.extend({
 		themes.focusedTheme = this.$el;
 
 		// Construct a new Preview view.
-		preview = new themes.view.Preview({
+		themes.currentPreview = preview = new themes.view.Preview({
 			model: this.model
 		});
 
@@ -571,6 +571,11 @@ themes.view.Theme = wp.Backbone.View.extend({
 
 		this.listenTo( preview, 'preview:close', function() {
 			self.current = self.model;
+		});
+
+		// Listen for closepreview events, closing the preview.
+		this.listenTo( preview, 'closepreview', function() {
+			preview.close();
 		});
 	},
 
@@ -885,7 +890,7 @@ themes.view.Preview = themes.view.Details.extend({
 			self.tooglePreviewDeviceButtons( currentPreviewDevice );
 		}
 
-		themes.router.navigate( themes.router.baseUrl( themes.router.themePath + this.model.get( 'id' ) ), { replace: true } );
+		themes.router.navigate( themes.router.baseUrl( themes.router.themePath + this.model.get( 'id' ) ), { replace: false } );
 
 		this.$el.fadeIn( 200, function() {
 			$body.addClass( 'theme-installer-active full-overlay-active' );
@@ -1908,11 +1913,24 @@ themes.RunInstaller = {
 		// Handles `theme` route event
 		// Queries the API for the passed theme slug
 		themes.router.on( 'route:preview', function( slug ) {
-			request.theme = slug;
-			self.view.collection.query( request );
-			self.view.collection.once( 'update', function() {
+
+			// If the theme preview is active, set the current theme.
+			if ( self.view.view.theme && self.view.view.theme.preview ) {
+				self.view.view.theme.model = self.view.collection.findWhere( { 'slug': slug } );
 				self.view.view.theme.preview();
-			});
+			} else {
+
+				// Select the theme by slug.
+				request.theme = slug;
+				self.view.collection.query( request );
+				self.view.collection.trigger( 'update' );
+
+				// Open the theme preview.
+				self.view.collection.once( 'query:success', function() {
+					$( 'div[data-slug="' + slug + '"]' ).trigger( 'click' );
+				})
+
+			}
 		});
 
 		// Handles sorting / browsing routes
@@ -1923,7 +1941,11 @@ themes.RunInstaller = {
 				sort = 'featured';
 			}
 			self.view.sort( sort );
-			self.view.trigger( 'theme:close' );
+
+			// Close the preview if open.
+			if ( themes.currentPreview ) {
+				themes.currentPreview.trigger( 'closepreview' );
+			}
 		});
 
 		// The `search` route event. The router populates the input field.
