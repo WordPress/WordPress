@@ -2269,15 +2269,15 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 		return compact( 'ext', 'type', 'proper_filename' );
 	}
 
+	$real_mime = false;
+
 	// Validate image types.
 	if ( $type && 0 === strpos( $type, 'image/' ) ) {
 
 		// Attempt to figure out what type of image it actually is
 		$real_mime = wp_get_image_mime( $file );
 
-		if ( ! $real_mime ) {
-			$type = $ext = false;
-		} elseif ( $real_mime != $type ) {
+		if ( $real_mime && $real_mime != $type ) {
 			/**
 			 * Filters the list mapping image mime types to their respective extensions.
 			 *
@@ -2308,18 +2308,29 @@ function wp_check_filetype_and_ext( $file, $filename, $mimes = null ) {
 				$ext = $wp_filetype['ext'];
 				$type = $wp_filetype['type'];
 			} else {
-				$type = $ext = false;
+				// Reset $real_mime and try validating again.
+				$real_mime = false;
 			}
 		}
-	} elseif ( function_exists( 'finfo_file' ) ) {
-		// Use finfo_file if available to validate non-image files.
+	}
+
+	// Validate files that didn't get validated during previous checks.
+	if ( $type && ! $real_mime && extension_loaded( 'fileinfo' ) ) {
 		$finfo = finfo_open( FILEINFO_MIME_TYPE );
 		$real_mime = finfo_file( $finfo, $file );
 		finfo_close( $finfo );
 
-		// If the extension does not match the file's real type, return false.
-		if ( $real_mime !== $type ) {
-			$type = $ext = false;
+		/*
+		 * If $real_mime doesn't match what we're expecting, we need to do some extra
+		 * vetting of application mime types to make sure this type of file is allowed.
+		 * Other mime types are assumed to be safe, but should be considered unverified.
+		 */
+		if ( $real_mime && ( $real_mime !== $type ) && ( 0 === strpos( $real_mime, 'application' ) ) ) {
+			$allowed = get_allowed_mime_types();
+
+			if ( ! in_array( $real_mime, $allowed ) ) {
+				$type = $ext = false;
+			}
 		}
 	}
 
