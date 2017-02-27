@@ -220,7 +220,10 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( isset( $registered['sticky'], $request['sticky'] ) ) {
 			$sticky_posts = get_option( 'sticky_posts', array() );
-			if ( $sticky_posts && $request['sticky'] ) {
+			if ( ! is_array( $sticky_posts ) ) {
+				$sticky_posts = array();
+			}
+			if ( $request['sticky'] ) {
 				/*
 				 * As post__in will be used to only get sticky posts,
 				 * we have to support the case where post__in was already
@@ -234,7 +237,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 				 * so we have to fake it a bit.
 				 */
 				if ( ! $args['post__in'] ) {
-					$args['post__in'] = array( -1 );
+					$args['post__in'] = array( 0 );
 				}
 			} elseif ( $sticky_posts ) {
 				/*
