@@ -2040,6 +2040,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$name_matches = get_terms( $taxonomy, array(
 		'name' => $name,
 		'hide_empty' => false,
+		'parent' => $args['parent'],
 	) );
 
 	/*
