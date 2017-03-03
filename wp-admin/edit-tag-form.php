@@ -146,7 +146,7 @@ do_action( "{$taxonomy}_term_edit_form_top", $tag, $taxonomy );
 <?php } ?>
 <?php if ( is_taxonomy_hierarchical($taxonomy) ) : ?>
 		<tr class="form-field term-parent-wrap">
-			<th scope="row"><label for="parent"><?php _ex( 'Parent', 'term parent' ); ?></label></th>
+			<th scope="row"><label for="parent"><?php echo esc_html( $tax->labels->parent_item ); ?></label></th>
 			<td>
 				<?php
 				$dropdown_args = array(
