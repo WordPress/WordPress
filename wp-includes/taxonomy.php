@@ -2063,7 +2063,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 				$siblings = get_terms( $taxonomy, array( 'get' => 'all', 'parent' => $parent ) );
 
 				$existing_term = null;
-				if ( $name_match->slug === $slug && in_array( $name, wp_list_pluck( $siblings, 'name' ) ) ) {
+				if ( ( ! $slug_provided || $name_match->slug === $slug ) && in_array( $name, wp_list_pluck( $siblings, 'name' ) ) ) {
 					$existing_term = $name_match;
 				} elseif ( $slug_match && in_array( $slug, wp_list_pluck( $siblings, 'slug' ) ) ) {
 					$existing_term = $slug_match;
