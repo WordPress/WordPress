@@ -323,7 +323,7 @@ class WP_Term_Query {
 		 */
 		do_action( 'pre_get_terms', $this );
 
-		$taxonomies = $args['taxonomy'];
+		$taxonomies = (array) $args['taxonomy'];
 
 		// Save queries by not crawling the tree in the case of multiple taxes or a flat tax.
 		$has_hierarchical_tax = false;
