@@ -231,6 +231,14 @@ if ( $action ) {
 				exit;
 			}
 
+			// Bail on all if any paths are invalid.
+			// validate_file() returns truthy for invalid files
+			$invalid_plugin_files = array_filter( $plugins, 'validate_file' );
+			if ( $invalid_plugin_files ) {
+				wp_redirect( self_admin_url("plugins.php?plugin_status=$status&paged=$page&s=$s") );
+				exit;
+			}
+
 			include(ABSPATH . 'wp-admin/update.php');
 
 			$parent_file = 'plugins.php';
