@@ -1012,13 +1012,15 @@ class WP_REST_Server {
 	public function get_index( $request ) {
 		// General site data.
 		$available = array(
-			'name'           => get_option( 'blogname' ),
-			'description'    => get_option( 'blogdescription' ),
-			'url'            => get_option( 'siteurl' ),
-			'home'           => home_url(),
-			'namespaces'     => array_keys( $this->namespaces ),
-			'authentication' => array(),
-			'routes'         => $this->get_data_for_routes( $this->get_routes(), $request['context'] ),
+			'name'            => get_option( 'blogname' ),
+			'description'     => get_option( 'blogdescription' ),
+			'url'             => get_option( 'siteurl' ),
+			'home'            => home_url(),
+			'gmt_offset'      => get_option( 'gmt_offset' ),
+			'timezone_string' => get_option( 'timezone_string' ),
+			'namespaces'      => array_keys( $this->namespaces ),
+			'authentication'  => array(),
+			'routes'          => $this->get_data_for_routes( $this->get_routes(), $request['context'] ),
 		);
 
 		$response = new WP_REST_Response( $available );
