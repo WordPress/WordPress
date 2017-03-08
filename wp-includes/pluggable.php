@@ -900,17 +900,6 @@ function wp_set_auth_cookie( $user_id, $remember = false, $secure = '', $token =
 	 */
 	do_action( 'set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user_id, 'logged_in' );
 
-	/**
-	 * Allows preventing auth cookies from actually being sent to the client.
-	 *
-	 * @since 4.7.4
-	 *
-	 * @param bool $send Whether to send auth cookies to the client.
-	 */
-	if ( ! apply_filters( 'send_auth_cookies', true ) ) {
-		return;
-	}
-
 	setcookie($auth_cookie_name, $auth_cookie, $expire, PLUGINS_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
 	setcookie($auth_cookie_name, $auth_cookie, $expire, ADMIN_COOKIE_PATH, COOKIE_DOMAIN, $secure, true);
 	setcookie(LOGGED_IN_COOKIE, $logged_in_cookie, $expire, COOKIEPATH, COOKIE_DOMAIN, $secure_logged_in_cookie, true);
@@ -932,17 +921,6 @@ function wp_clear_auth_cookie() {
 	 * @since 2.7.0
 	 */
 	do_action( 'clear_auth_cookie' );
-
-	/**
-	 * Allows preventing auth cookies from actually being sent to the client.
-	 *
-	 * @since 4.7.4
-	 *
-	 * @param bool $send Whether to send auth cookies to the client.
-	 */
-	if ( ! apply_filters( 'send_auth_cookies', true ) ) {
-		return;
-	}
 
 	setcookie( AUTH_COOKIE,        ' ', time() - YEAR_IN_SECONDS, ADMIN_COOKIE_PATH,   COOKIE_DOMAIN );
 	setcookie( SECURE_AUTH_COOKIE, ' ', time() - YEAR_IN_SECONDS, ADMIN_COOKIE_PATH,   COOKIE_DOMAIN );
