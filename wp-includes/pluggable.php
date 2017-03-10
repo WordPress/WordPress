@@ -933,13 +933,7 @@ function wp_clear_auth_cookie() {
 	 */
 	do_action( 'clear_auth_cookie' );
 
-	/**
-	 * Allows preventing auth cookies from actually being sent to the client.
-	 *
-	 * @since 4.7.4
-	 *
-	 * @param bool $send Whether to send auth cookies to the client.
-	 */
+	/** This filter is documented in wp-includes/pluggable.php */
 	if ( ! apply_filters( 'send_auth_cookies', true ) ) {
 		return;
 	}
