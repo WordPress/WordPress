@@ -849,6 +849,7 @@ function get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filter 
 		'taxonomy'               => $taxonomy,
 		'update_term_meta_cache' => false,
 		'orderby'                => 'none',
+		'suppress_filter'        => true,
 	);
 
 	switch ( $field ) {
@@ -1012,6 +1013,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  *              a list of WP_Term objects.
  * @since 4.5.0 Changed the function signature so that the `$args` array can be provided as the first parameter.
  *              Introduced 'meta_key' and 'meta_value' parameters. Introduced the ability to order results by metadata.
+ * @since 4.8.0 Introduced 'suppress_filter' parameter.
  *
  * @internal The `$deprecated` parameter is parsed for backward compatibility only.
  *
@@ -1083,6 +1085,7 @@ function get_term_to_edit( $id, $taxonomy ) {
  *     @type string       $meta_type              Type of object metadata is for (e.g., comment, post, or user).
  *                                                Default empty.
  *     @type string       $meta_compare           Comparison operator to test the 'meta_value'. Default empty.
+ *     @type bool         $suppress_filter        Whether to suppress the {@see 'get_terms'} filter. Default false.
  * }
  * @param array $deprecated Argument array, when using the legacy function parameter format. If present, this
  *                          parameter will be interpreted as `$args`, and the first function parameter will
@@ -1094,6 +1097,10 @@ function get_terms( $args = array(), $deprecated = '' ) {
 	global $wpdb;
 
 	$term_query = new WP_Term_Query();
+
+	$defaults = array(
+		'suppress_filter' => false,
+	);
 
 	/*
 	 * Legacy argument format ($taxonomy, $args) takes precedence.
@@ -1108,10 +1115,10 @@ function get_terms( $args = array(), $deprecated = '' ) {
 
 	if ( $do_legacy_args ) {
 		$taxonomies = (array) $args;
-		$args = wp_parse_args( $deprecated );
+		$args = wp_parse_args( $deprecated, $defaults );
 		$args['taxonomy'] = $taxonomies;
 	} else {
-		$args = wp_parse_args( $args );
+		$args = wp_parse_args( $args, $defaults );
 		if ( isset( $args['taxonomy'] ) && null !== $args['taxonomy'] ) {
 			$args['taxonomy'] = (array) $args['taxonomy'];
 		}
@@ -1125,10 +1132,18 @@ function get_terms( $args = array(), $deprecated = '' ) {
 		}
 	}
 
+	// Don't pass suppress_filter to WP_Term_Query.
+	$suppress_filter = $args['suppress_filter'];
+	unset( $args['suppress_filter'] );
+
 	$terms = $term_query->query( $args );
 
 	// Count queries are not filtered, for legacy reasons.
 	if ( ! is_array( $terms ) ) {
+		return $terms;
+	}
+
+	if ( $suppress_filter ) {
 		return $terms;
 	}
 
