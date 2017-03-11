@@ -1178,7 +1178,7 @@
 	};
 
 	/**
-	 * Sends an Ajax request to the server to install a theme.
+	 * Sends an Ajax request to the server to delete a theme.
 	 *
 	 * @since 4.6.0
 	 *
