@@ -1892,7 +1892,7 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 	$terms = apply_filters( 'get_object_terms', $terms, $object_ids, $taxonomies, $args );
 
 	$object_ids = implode( ',', $object_ids );
-	$taxonomies = implode( ',', $taxonomies );
+	$taxonomies = "'" . implode( "', '", array_map( 'esc_sql', $taxonomies ) ) . "'";
 
 	/**
 	 * Filters the terms for a given object or objects.
