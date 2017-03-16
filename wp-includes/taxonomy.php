@@ -835,6 +835,15 @@ function get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filter 
 		return false;
 	}
 
+	// No need to perform a query for empty 'slug' or 'name'.
+	if ( 'slug' === $field || 'name' === $field ) {
+		$value = (string) $value;
+
+		if ( 0 === strlen( $value ) ) {
+			return false;
+		}
+	}
+
 	if ( 'id' === $field || 'term_id' === $field ) {
 		$term = get_term( (int) $value, $taxonomy, $output, $filter );
 		if ( is_wp_error( $term ) || null === $term ) {
