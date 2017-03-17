@@ -177,7 +177,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 		}
 
-		if ( $this->is_trash && current_user_can( 'edit_others_posts' ) ) {
+		if ( $this->is_trash && current_user_can( 'edit_others_posts' ) && $this->has_items() ) {
 			submit_button( __( 'Empty Trash' ), 'apply', 'delete_all', false );
 		} ?>
 		</div>
