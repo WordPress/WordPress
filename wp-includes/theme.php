@@ -1984,7 +1984,7 @@ function get_theme_starter_content() {
 			'link_home' => array(
 				'type' => 'custom',
 				'title' => _x( 'Home', 'Theme starter content' ),
-				'url' => home_url(),
+				'url' => home_url( '/' ),
 			),
 			'page_home' => array( // Deprecated in favor of link_home.
 				'type' => 'post_type',
