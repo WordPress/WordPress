@@ -56,7 +56,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 
 	public function floated_admin_avatar( $name, $comment_ID ) {
 		$comment = get_comment( $comment_ID );
-		$avatar = get_avatar( $comment, 32, 'mystery' );
+		$avatar = get_avatar( $comment, 32 );
 		return "$avatar $name";
 	}
 
