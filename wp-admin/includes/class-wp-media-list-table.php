@@ -219,7 +219,7 @@ class WP_Media_List_Table extends WP_List_Table {
 	/**
 	 * Override parent views so we can use the filter bar display.
 	 *
-	 * @global string $mode
+	 * @global string $mode List table view mode.
 	 */
 	public function views() {
 		global $mode;

@@ -871,7 +871,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @since 4.3.0
 	 * @access public
 	 *
-	 * @global string $mode
+	 * @global string $mode List table view mode.
 	 *
 	 * @param WP_Post $post The current WP_Post object.
 	 */
@@ -968,7 +968,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 * @since 4.3.0
 	 * @access public
 	 *
-	 * @global string $mode
+	 * @global string $mode List table view mode.
 	 *
 	 * @param WP_Post $post The current WP_Post object.
 	 */
@@ -1330,7 +1330,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 	 *
 	 * @since 3.1.0
 	 *
-	 * @global string $mode
+	 * @global string $mode List table view mode.
 	 */
 	public function inline_edit() {
 		global $mode;
