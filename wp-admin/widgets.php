@@ -357,7 +357,7 @@ if ( current_user_can( 'customize' ) ) {
 		esc_url( add_query_arg(
 			array(
 				array( 'autofocus' => array( 'panel' => 'widgets' ) ),
-				'return' => urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) )
+				'return' => urlencode( remove_query_arg( wp_removable_query_args(), wp_unslash( $_SERVER['REQUEST_URI'] ) ) )
 			),
 			admin_url( 'customize.php' )
 		) ),
