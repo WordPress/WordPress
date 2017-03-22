@@ -1193,6 +1193,8 @@ final class WP_Screen {
 	 * Render the list table view mode preferences.
 	 *
 	 * @since 4.4.0
+	 *
+	 * @global string $mode List table view mode.
 	 */
 	public function render_view_mode() {
 		$screen = get_current_screen();
