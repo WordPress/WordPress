@@ -145,7 +145,8 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global string $mode
+	 * @global string $mode List table view mode.
+	 *
 	 * @param string $which
 	 */
 	protected function pagination( $which ) {
@@ -278,7 +279,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 	 * @since 4.3.0
 	 * @access public
 	 *
-	 * @global string $mode
+	 * @global string $mode List table view mode.
 	 *
 	 * @param WP_User $user The current WP_User object.
 	 */

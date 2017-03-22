@@ -207,7 +207,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @global string $mode
+	 * @global string $mode List table view mode.
 	 *
 	 * @param string $which
 	 */
@@ -295,7 +295,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * @since 4.3.0
 	 * @access public
 	 *
-	 * @global string $mode
+	 * @global string $mode List table view mode.
 	 *
 	 * @param array $blog Current site.
 	 */
@@ -346,6 +346,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * @since 4.3.0
 	 * @access public
 	 *
+	 * @global string $mode List table view mode.
+	 *
 	 * @param array $blog Current site.
 	 */
 	public function column_lastupdated( $blog ) {
@@ -365,6 +367,8 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 *
 	 * @since 4.3.0
 	 * @access public
+	 *
+	 * @global string $mode List table view mode.
 	 *
 	 * @param array $blog Current site.
 	 */
