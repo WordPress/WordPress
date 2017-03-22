@@ -163,6 +163,15 @@ body {
 #customize-controls .customize-info .customize-panel-description.open + .no-widget-areas-rendered-notice {
 	border-top: none;
 }
+.no-widget-areas-rendered-notice {
+	font-style: italic;
+}
+.no-widget-areas-rendered-notice p:first-child {
+	margin-top: 0;
+}
+.no-widget-areas-rendered-notice p:last-child {
+	margin-bottom: 0;
+}
 
 #customize-controls .customize-info .customize-section-description {
 	margin-bottom: 15px;

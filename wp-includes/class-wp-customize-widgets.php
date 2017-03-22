@@ -732,10 +732,27 @@ final class WP_Customize_Widgets {
 				'error'            => __( 'An error has occurred. Please reload the page and try again.' ),
 				'widgetMovedUp'    => __( 'Widget moved up' ),
 				'widgetMovedDown'  => __( 'Widget moved down' ),
-				'noAreasRendered'  => __( 'There are no widget areas on the page shown, however other pages in this theme do have them.' ),
+				'navigatePreview'  => __( 'You can navigate to other pages on your site while using the Customizer to view and edit the widgets displayed on those pages.' ),
+				'someAreasShown'   => wp_array_slice_assoc(
+					/* translators: placeholder is the number of other widget areas registered */
+					_n_noop(
+						'Your theme has %d other widget area, but this particular page doesn\'t display it.',
+						'Your theme has %d other widget areas, but this particular page doesn\'t display them.'
+					),
+					array( 'singular', 'plural' )
+				),
+				'noAreasShown'    => wp_array_slice_assoc(
+					/* translators: placeholder is the total number of widget areas registered */
+					_n_noop(
+						'Your theme has %d widget area, but this particular page doesn\'t display it.',
+						'Your theme has %d widget areas, but this particular page doesn\'t display them.'
+					),
+					array( 'singular', 'plural' )
+				),
 				'reorderModeOn'    => __( 'Reorder mode enabled' ),
 				'reorderModeOff'   => __( 'Reorder mode closed' ),
 				'reorderLabelOn'   => esc_attr__( 'Reorder widgets' ),
+				/* translators: placeholder is the count for the number of widgets found */
 				'widgetsFound'     => __( 'Number of widgets found: %d' ),
 				'noWidgetsFound'   => __( 'No widgets found.' ),
 			),
