@@ -334,6 +334,7 @@ switch($step) {
 
 		$scripts_to_print[] = 'user-profile';
 
+		display_header();
 		// Fill in the data we gathered
 		$weblog_title = isset( $_POST['weblog_title'] ) ? trim( wp_unslash( $_POST['weblog_title'] ) ) : '';
 		$user_name = isset($_POST['user_name']) ? trim( wp_unslash( $_POST['user_name'] ) ) : '';
@@ -346,26 +347,21 @@ switch($step) {
 		$error = false;
 		if ( empty( $user_name ) ) {
 			// TODO: poka-yoke
-			display_header();
 			display_setup_form( __( 'Please provide a valid username.' ) );
 			$error = true;
 		} elseif ( $user_name != sanitize_user( $user_name, true ) ) {
-			display_header();
 			display_setup_form( __( 'The username you provided has invalid characters.' ) );
 			$error = true;
 		} elseif ( $admin_password != $admin_password_check ) {
 			// TODO: poka-yoke
-			display_header();
 			display_setup_form( __( 'Your passwords do not match. Please try again.' ) );
 			$error = true;
 		} elseif ( empty( $admin_email ) ) {
 			// TODO: poka-yoke
-			display_header();
 			display_setup_form( __( 'You must provide an email address.' ) );
 			$error = true;
 		} elseif ( ! is_email( $admin_email ) ) {
 			// TODO: poka-yoke
-			display_header();
 			display_setup_form( __( 'Sorry, that isn&#8217;t a valid email address. Email addresses look like <code>username@example.com</code>.' ) );
 			$error = true;
 		}
@@ -373,16 +369,6 @@ switch($step) {
 		if ( $error === false ) {
 			$wpdb->show_errors();
 			$result = wp_install( $weblog_title, $user_name, $admin_email, $public, '', wp_slash( $admin_password ), $loaded_language );
-
-			// Log the user in and send them to wp-admin:
-			if ( ! headers_sent() ) {
-				wp_set_auth_cookie( $result['user_id'], true, is_ssl() );
-				wp_redirect( admin_url() );
-				exit;
-			}
-
-			// If headers have already been sent, fall back to a "Success!" message:
-			display_header();
 ?>
 
 <h1><?php _e( 'Success!' ); ?></h1>
