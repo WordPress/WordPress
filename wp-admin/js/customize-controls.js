@@ -4123,7 +4123,7 @@
 
 				// Remove notification errors that are no longer valid.
 				setting.notifications.each( function( notification ) {
-					if ( 'error' === notification.type && ( true === validity || ! validity[ notification.code ] ) ) {
+					if ( notification.fromServer && 'error' === notification.type && ( true === validity || ! validity[ notification.code ] ) ) {
 						setting.notifications.remove( notification.code );
 					}
 				} );
