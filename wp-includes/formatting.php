@@ -3377,7 +3377,7 @@ function wp_trim_words( $text, $num_words = 55, $more = null ) {
 	 * @since 3.3.0
 	 *
 	 * @param string $text          The trimmed text.
-	 * @param int    $num_words     The number of words to trim the text to. Default 5.
+	 * @param int    $num_words     The number of words to trim the text to. Default 55.
 	 * @param string $more          An optional string to append to the end of the trimmed text, e.g. &hellip;.
 	 * @param string $original_text The text before it was trimmed.
 	 */
