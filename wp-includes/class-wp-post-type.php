@@ -334,6 +334,38 @@ final class WP_Post_Type {
 	public $supports;
 
 	/**
+	 * Whether this post type should appear in the REST API.
+	 *
+	 * Default false. If true, standard endpoints will be registered with
+	 * respect to $rest_base and $rest_controller_class.
+	 *
+	 * @since 4.7.4
+	 * @access public
+	 * @var bool $show_in_rest
+	 */
+	public $show_in_rest;
+
+	/**
+	 * The base path for this post type's REST API endpoints.
+	 *
+	 * @since 4.7.4
+	 * @access public
+	 * @var string|bool $rest_base
+	 */
+	public $rest_base;
+
+	/**
+	 * The controller for this post type's REST API endpoints.
+	 *
+	 * Custom controllers must extend WP_REST_Controller.
+	 *
+	 * @since 4.7.4
+	 * @access public
+	 * @var string|bool $rest_controller_class
+	 */
+	public $rest_controller_class;
+
+	/**
 	 * Constructor.
 	 *
 	 * Will populate object properties from the provided arguments and assign other
@@ -379,31 +411,34 @@ final class WP_Post_Type {
 
 		// Args prefixed with an underscore are reserved for internal use.
 		$defaults = array(
-			'labels'               => array(),
-			'description'          => '',
-			'public'               => false,
-			'hierarchical'         => false,
-			'exclude_from_search'  => null,
-			'publicly_queryable'   => null,
-			'show_ui'              => null,
-			'show_in_menu'         => null,
-			'show_in_nav_menus'    => null,
-			'show_in_admin_bar'    => null,
-			'menu_position'        => null,
-			'menu_icon'            => null,
-			'capability_type'      => 'post',
-			'capabilities'         => array(),
-			'map_meta_cap'         => null,
-			'supports'             => array(),
-			'register_meta_box_cb' => null,
-			'taxonomies'           => array(),
-			'has_archive'          => false,
-			'rewrite'              => true,
-			'query_var'            => true,
-			'can_export'           => true,
-			'delete_with_user'     => null,
-			'_builtin'             => false,
-			'_edit_link'           => 'post.php?post=%d',
+			'labels'                => array(),
+			'description'           => '',
+			'public'                => false,
+			'hierarchical'          => false,
+			'exclude_from_search'   => null,
+			'publicly_queryable'    => null,
+			'show_ui'               => null,
+			'show_in_menu'          => null,
+			'show_in_nav_menus'     => null,
+			'show_in_admin_bar'     => null,
+			'menu_position'         => null,
+			'menu_icon'             => null,
+			'capability_type'       => 'post',
+			'capabilities'          => array(),
+			'map_meta_cap'          => null,
+			'supports'              => array(),
+			'register_meta_box_cb'  => null,
+			'taxonomies'            => array(),
+			'has_archive'           => false,
+			'rewrite'               => true,
+			'query_var'             => true,
+			'can_export'            => true,
+			'delete_with_user'      => null,
+			'show_in_rest'          => false,
+			'rest_base'             => false,
+			'rest_controller_class' => false,
+			'_builtin'              => false,
+			'_edit_link'            => 'post.php?post=%d',
 		);
 
 		$args = array_merge( $defaults, $args );
