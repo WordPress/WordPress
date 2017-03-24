@@ -1616,7 +1616,7 @@
 				 * @returns {void}
 				 */
 				updateNotice = function() {
-					var activeSectionCount = getActiveSectionCount(), message, nonRenderedAreaCount, registeredAreaCount;
+					var activeSectionCount = getActiveSectionCount(), someRenderedMessage, nonRenderedAreaCount, registeredAreaCount;
 					noticeContainer.empty();
 
 					registeredAreaCount = api.Widgets.data.registeredSidebars.length;
@@ -1624,14 +1624,16 @@
 
 						if ( 0 !== activeSectionCount ) {
 							nonRenderedAreaCount = registeredAreaCount - activeSectionCount;
-							message = ( 1 === nonRenderedAreaCount ? l10n.someAreasShown.singular : l10n.someAreasShown.plural ).replace( '%d', nonRenderedAreaCount );
+							someRenderedMessage = l10n.someAreasShown[ nonRenderedAreaCount ];
 						} else {
-							message = ( 1 === registeredAreaCount ? l10n.noAreasShown.singular : l10n.noAreasShown.plural ).replace( '%d', registeredAreaCount );
+							someRenderedMessage = l10n.noAreasShown;
+						}
+						if ( someRenderedMessage ) {
+							noticeContainer.append( $( '<p></p>', {
+								text: someRenderedMessage
+							} ) );
 						}
 
-						noticeContainer.append( $( '<p></p>', {
-							text: message
-						} ) );
 						noticeContainer.append( $( '<p></p>', {
 							text: l10n.navigatePreview
 						} ) );
