@@ -505,8 +505,7 @@ function is_multi_author() {
  * Helper function to clear the cache for number of authors.
  *
  * @since 3.2.0
- *
- * @private
+ * @access private
  */
 function __clear_multi_author_cache() {
 	delete_transient( 'is_multi_author' );
