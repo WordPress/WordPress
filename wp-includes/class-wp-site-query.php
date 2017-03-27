@@ -99,6 +99,7 @@ class WP_Site_Query {
 	 * Sets up the site query, based on the query vars passed.
 	 *
 	 * @since 4.6.0
+	 * @since 4.8.0 Introduced the 'lang_id', 'lang__in', and 'lang__not_in' parameters.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -138,6 +139,9 @@ class WP_Site_Query {
 	 *     @type int          $mature            Limit results to mature sites. Accepts '1' or '0'. Default empty.
 	 *     @type int          $spam              Limit results to spam sites. Accepts '1' or '0'. Default empty.
 	 *     @type int          $deleted           Limit results to deleted sites. Accepts '1' or '0'. Default empty.
+	 *     @type int          $lang_id           Limit results to a language ID. Default empty.
+	 *     @type array        $lang__in          Array of language IDs to include affiliated sites for. Default empty.
+	 *     @type array        $lang__not_in      Array of language IDs to exclude affiliated sites for. Default empty.
 	 *     @type string       $search            Search term(s) to retrieve matching sites for. Default empty.
 	 *     @type array        $search_columns    Array of column names to be searched. Accepts 'domain' and 'path'.
 	 *                                           Default empty array.
@@ -169,6 +173,9 @@ class WP_Site_Query {
 			'mature'            => null,
 			'spam'              => null,
 			'deleted'           => null,
+			'lang_id'           => null,
+			'lang__in'          => '',
+			'lang__not_in'      => '',
 			'search'            => '',
 			'search_columns'    => array(),
 			'count'             => false,
@@ -469,6 +476,21 @@ class WP_Site_Query {
 		if ( is_numeric( $this->query_vars['public'] ) ) {
 			$public = absint( $this->query_vars['public'] );
 			$this->sql_clauses['where']['public'] = $wpdb->prepare( "public = %d ", $public );
+		}
+
+		if ( is_numeric( $this->query_vars['lang_id'] ) ) {
+			$lang_id = absint( $this->query_vars['lang_id'] );
+			$this->sql_clauses['where']['lang_id'] = $wpdb->prepare( "lang_id = %d ", $lang_id );
+		}
+
+		// Parse site language IDs for an IN clause.
+		if ( ! empty( $this->query_vars['lang__in'] ) ) {
+			$this->sql_clauses['where']['lang__in'] = 'lang_id IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['lang__in'] ) ) . ' )';
+		}
+
+		// Parse site language IDs for a NOT IN clause.
+		if ( ! empty( $this->query_vars['lang__not_in'] ) ) {
+			$this->sql_clauses['where']['lang__not_in'] = 'lang_id NOT IN ( ' . implode( ',', wp_parse_id_list( $this->query_vars['lang__not_in'] ) ) . ' )';
 		}
 
 		// Falsey search strings are ignored.

@@ -573,6 +573,7 @@ function update_site_cache( $sites ) {
  * Retrieves a list of sites matching requested arguments.
  *
  * @since 4.6.0
+ * @since 4.8.0 Introduced the 'lang_id', 'lang__in', and 'lang__not_in' parameters.
  *
  * @see WP_Site_Query::parse_query()
  *
@@ -613,6 +614,9 @@ function update_site_cache( $sites ) {
  *     @type int          $mature            Limit results to mature sites. Accepts '1' or '0'. Default empty.
  *     @type int          $spam              Limit results to spam sites. Accepts '1' or '0'. Default empty.
  *     @type int          $deleted           Limit results to deleted sites. Accepts '1' or '0'. Default empty.
+ *     @type int          $lang_id           Limit results to a language ID. Default empty.
+ *     @type array        $lang__in          Array of language IDs to include affiliated sites for. Default empty.
+ *     @type array        $lang__not_in      Array of language IDs to exclude affiliated sites for. Default empty.
  *     @type string       $search            Search term(s) to retrieve matching sites for. Default empty.
  *     @type array        $search_columns    Array of column names to be searched. Accepts 'domain' and 'path'.
  *                                           Default empty array.
