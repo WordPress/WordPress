@@ -443,20 +443,28 @@ function update_blog_details( $blog_id, $details = array() ) {
  *
  * @since 3.5.0
  *
+ * @global bool $_wp_suspend_cache_invalidation
+ *
  * @param WP_Site $blog The site object to be cleared from cache.
  */
 function clean_blog_cache( $blog ) {
+	global $_wp_suspend_cache_invalidation;
+
+	if ( ! empty( $_wp_suspend_cache_invalidation ) ) {
+		return;
+	}
+
 	$blog_id = $blog->blog_id;
 	$domain_path_key = md5( $blog->domain . $blog->path );
 
 	wp_cache_delete( $blog_id, 'sites' );
 	wp_cache_delete( $blog_id, 'site-details' );
-	wp_cache_delete( $blog_id , 'blog-details' );
+	wp_cache_delete( $blog_id, 'blog-details' );
 	wp_cache_delete( $blog_id . 'short' , 'blog-details' );
-	wp_cache_delete(  $domain_path_key, 'blog-lookup' );
+	wp_cache_delete( $domain_path_key, 'blog-lookup' );
+	wp_cache_delete( $domain_path_key, 'blog-id-cache' );
 	wp_cache_delete( 'current_blog_' . $blog->domain, 'site-options' );
 	wp_cache_delete( 'current_blog_' . $blog->domain . $blog->path, 'site-options' );
-	wp_cache_delete( $domain_path_key, 'blog-id-cache' );
 
 	/**
 	 * Fires immediately after a site has been removed from the object cache.
@@ -1149,9 +1157,17 @@ function get_network( $network = null ) {
  *
  * @since 4.6.0
  *
+ * @global bool $_wp_suspend_cache_invalidation
+ *
  * @param int|array $ids Network ID or an array of network IDs to remove from cache.
  */
 function clean_network_cache( $ids ) {
+	global $_wp_suspend_cache_invalidation;
+
+	if ( ! empty( $_wp_suspend_cache_invalidation ) ) {
+		return;
+	}
+
 	foreach ( (array) $ids as $id ) {
 		wp_cache_delete( $id, 'networks' );
 
