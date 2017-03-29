@@ -462,6 +462,8 @@ final class WP_Customize_Manager {
 	 * Check if customize query variable exist. Init filters to filter the current theme.
 	 *
 	 * @since 3.4.0
+	 *
+	 * @global string $pagenow
 	 */
 	public function setup_theme() {
 		global $pagenow;
