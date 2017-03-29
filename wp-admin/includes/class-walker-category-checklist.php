@@ -84,18 +84,18 @@ class Walker_Category_Checklist extends Walker {
 		$args['selected_cats'] = empty( $args['selected_cats'] ) ? array() : $args['selected_cats'];
 
 		if ( ! empty( $args['list_only'] ) ) {
-			$aria_cheched = 'false';
+			$aria_checked = 'false';
 			$inner_class = 'category';
 
 			if ( in_array( $category->term_id, $args['selected_cats'] ) ) {
 				$inner_class .= ' selected';
-				$aria_cheched = 'true';
+				$aria_checked = 'true';
 			}
 
 			/** This filter is documented in wp-includes/category-template.php */
 			$output .= "\n" . '<li' . $class . '>' .
 				'<div class="' . $inner_class . '" data-term-id=' . $category->term_id .
-				' tabindex="0" role="checkbox" aria-checked="' . $aria_cheched . '">' .
+				' tabindex="0" role="checkbox" aria-checked="' . $aria_checked . '">' .
 				esc_html( apply_filters( 'the_category', $category->name ) ) . '</div>';
 		} else {
 			/** This filter is documented in wp-includes/category-template.php */
