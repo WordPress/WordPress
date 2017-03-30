@@ -2312,6 +2312,7 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 	}
 
 	wp_cache_delete( $object_id, $taxonomy . '_relationships' );
+	wp_cache_delete( 'last_changed', 'terms' );
 
 	/**
 	 * Fires after an object's terms have been set.
@@ -2406,6 +2407,7 @@ function wp_remove_object_terms( $object_id, $terms, $taxonomy ) {
 		$deleted = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->term_relationships WHERE object_id = %d AND term_taxonomy_id IN ($in_tt_ids)", $object_id ) );
 
 		wp_cache_delete( $object_id, $taxonomy . '_relationships' );
+		wp_cache_delete( 'last_changed', 'terms' );
 
 		/**
 		 * Fires immediately after an object-term relationship is deleted.
