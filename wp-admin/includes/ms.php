@@ -173,6 +173,16 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		clean_blog_cache( $blog );
 	}
 
+	/**
+	 * Fires after the site is deleted from the network.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param int  $blog_id The site ID.
+	 * @param bool $drop    True if site's tables should be dropped. Default is false.
+	 */
+	do_action( 'deleted_blog', $blog_id, $drop );
+
 	if ( $switch )
 		restore_current_blog();
 }
