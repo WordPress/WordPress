@@ -339,7 +339,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 	if ( $details['spam'] != $current_details['spam'] ) {
 		if ( $details['spam'] == 1 ) {
 			/**
-			 * Fires when the blog status is changed to 'spam'.
+			 * Fires when the 'spam' status is added to a blog.
 			 *
 			 * @since MU
 			 *
@@ -348,7 +348,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 			do_action( 'make_spam_blog', $blog_id );
 		} else {
 			/**
-			 * Fires when the blog status is changed to 'ham'.
+			 * Fires when the 'spam' status is removed from a blog.
 			 *
 			 * @since MU
 			 *
@@ -362,7 +362,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 	if ( $details['mature'] != $current_details['mature'] ) {
 		if ( $details['mature'] == 1 ) {
 			/**
-			 * Fires when the blog status is changed to 'mature'.
+			 * Fires when the 'mature' status is added to a blog.
 			 *
 			 * @since 3.1.0
 			 *
@@ -371,7 +371,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 			do_action( 'mature_blog', $blog_id );
 		} else {
 			/**
-			 * Fires when the blog status is changed to 'unmature'.
+			 * Fires when the 'mature' status is removed from a blog.
 			 *
 			 * @since 3.1.0
 			 *
@@ -385,7 +385,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 	if ( $details['archived'] != $current_details['archived'] ) {
 		if ( $details['archived'] == 1 ) {
 			/**
-			 * Fires when the blog status is changed to 'archived'.
+			 * Fires when the 'archived' status is added to a blog.
 			 *
 			 * @since MU
 			 *
@@ -394,7 +394,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 			do_action( 'archive_blog', $blog_id );
 		} else {
 			/**
-			 * Fires when the blog status is changed to 'unarchived'.
+			 * Fires when the 'archived' status is removed from a blog.
 			 *
 			 * @since MU
 			 *
@@ -408,7 +408,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 	if ( $details['deleted'] != $current_details['deleted'] ) {
 		if ( $details['deleted'] == 1 ) {
 			/**
-			 * Fires when the blog status is changed to 'deleted'.
+			 * Fires when the 'deleted' status is added to a blog.
 			 *
 			 * @since 3.5.0
 			 *
@@ -417,7 +417,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 			do_action( 'make_delete_blog', $blog_id );
 		} else {
 			/**
-			 * Fires when the blog status is changed to 'undeleted'.
+			 * Fires when the 'deleted' status is removed from a blog.
 			 *
 			 * @since 3.5.0
 			 *
