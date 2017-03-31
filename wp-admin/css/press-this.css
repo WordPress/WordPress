@@ -705,16 +705,16 @@ dd {
 	content: "\f125";
 }
 
+.post-format-gallery:before {
+	content: "\f161";
+}
+
+.post-format-link:before {
+	content: "\f103";
+}
+
 .post-format-image:before {
 	content: "\f128";
-}
-
-.post-format-video:before {
-	content: "\f126";
-}
-
-.post-format-audio:before {
-	content: "\f127";
 }
 
 .post-format-quote:before {
@@ -725,12 +725,12 @@ dd {
 	content: "\f130";
 }
 
-.post-format-link:before {
-	content: "\f103";
+.post-format-video:before {
+	content: "\f126";
 }
 
-.post-format-gallery:before {
-	content: "\f161";
+.post-format-audio:before {
+	content: "\f127";
 }
 
 
