@@ -701,6 +701,10 @@ dd {
 	content: "\f123";
 }
 
+.post-format-chat:before {
+	content: "\f125";
+}
+
 .post-format-image:before {
 	content: "\f128";
 }
@@ -715,6 +719,10 @@ dd {
 
 .post-format-quote:before {
 	content: "\f122";
+}
+
+.post-format-status:before {
+	content: "\f130";
 }
 
 .post-format-link:before {
