@@ -3771,17 +3771,33 @@ AttachmentsBrowser = View.extend({
 
 		this.controller.on( 'toggle:upload:attachment', this.toggleUploader, this );
 		this.controller.on( 'edit:selection', this.editSelection );
-		this.createToolbar();
+
 		// In the Media Library, the sidebar is used to display errors before the attachments grid.
 		if ( this.options.sidebar && 'errors' === this.options.sidebar ) {
 			this.createSidebar();
 		}
+
+		/*
+		 * For accessibility reasons, place the Inline Uploader before other sections.
+		 * This way, in the Media Library, it's right after the Add New button, see ticket #37188.
+		 */
 		this.createUploader();
+
+		/*
+		 * Create a multi-purpose toolbar. Used as main toolbar in the Media Library
+		 * and also for other things, for example the "Drag and drop to reorder" and
+		 * "Suggested dimensions" info in the media modal.
+		 */
+		this.createToolbar();
+
+		// Create the list of attachments.
 		this.createAttachments();
+
 		// For accessibility reasons, place the normal sidebar after the attachments, see ticket #36909.
 		if ( this.options.sidebar && 'errors' !== this.options.sidebar ) {
 			this.createSidebar();
 		}
+
 		this.updateContent();
 
 		if ( ! this.options.sidebar || 'errors' === this.options.sidebar ) {
@@ -4074,7 +4090,7 @@ AttachmentsBrowser = View.extend({
 			canClose:   this.controller.isModeActive( 'grid' )
 		});
 
-		this.uploader.hide();
+		this.uploader.$el.addClass( 'hidden' );
 		this.views.add( this.uploader );
 	},
 
@@ -8210,9 +8226,18 @@ UploaderInline = View.extend({
 	},
 	show: function() {
 		this.$el.removeClass( 'hidden' );
+		if ( this.controller.$uploaderToggler.length ) {
+			this.controller.$uploaderToggler.attr( 'aria-expanded', 'true' );
+		}
 	},
 	hide: function() {
 		this.$el.addClass( 'hidden' );
+		if ( this.controller.$uploaderToggler.length ) {
+			this.controller.$uploaderToggler
+				.attr( 'aria-expanded', 'false' )
+				// Move focus back to the toggle button when closing the uploader.
+				.focus();
+		}
 	}
 
 });

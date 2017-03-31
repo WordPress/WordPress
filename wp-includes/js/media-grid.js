@@ -623,8 +623,12 @@ Manage = MediaFrame.extend({
 		this.$body = $( document.body );
 		this.$window = $( window );
 		this.$adminBar = $( '#wpadminbar' );
+		// Store the Add New button for later reuse in wp.media.view.UploaderInline.
+		this.$uploaderToggler = $( '.page-title-action' )
+			.attr( 'aria-expanded', 'false' )
+			.on( 'click', _.bind( this.addNewClickHandler, this ) );
+
 		this.$window.on( 'scroll resize', _.debounce( _.bind( this.fixPosition, this ), 15 ) );
-		$( document ).on( 'click', '.page-title-action', _.bind( this.addNewClickHandler, this ) );
 
 		// Ensure core and media grid view UI is enabled.
 		this.$el.addClass('wp-core-ui');

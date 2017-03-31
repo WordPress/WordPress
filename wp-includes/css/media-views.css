@@ -1133,20 +1133,29 @@
 	border: 0;
 	cursor: pointer;
 	height: 48px;
+	outline: none;
+	padding: 0;
 	position: absolute;
-	right: 0;
+	right: 2px;
 	text-align: center;
-	top: 0;
-	width: 50px;
+	top: 2px;
+	width: 48px;
 	z-index: 1;
 }
 
 .uploader-inline .close:before {
-	font: normal 30px/50px dashicons !important;
-	color: #72777c;
+	font: normal 30px/1 dashicons !important;
+	color: #555d66;
 	display: inline-block;
 	content: "\f335";
 	font-weight: 300;
+	margin-top: 1px;
+}
+
+.uploader-inline .close:focus {
+	outline: 1px solid  #5b9dd9;
+	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
+	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 
 .attachments-browser.hide-sidebar .attachments,

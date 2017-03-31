@@ -469,7 +469,7 @@ border color while dragging a file over the uploader drop area */
 .upload-php .mode-grid .media-sidebar {
 	position: relative;
 	width: auto;
-	margin-bottom: 16px;
+	margin-top: 12px;
 	padding: 0 16px;
 	border-right: 4px solid #dd3d36;
  	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
@@ -526,7 +526,7 @@ border color while dragging a file over the uploader drop area */
 	right: auto;
 	bottom: auto;
 	padding-top: 0;
-	margin-top: 0;
+	margin-top: 20px;
 	border: 4px dashed #b4b9be;
 }
 
