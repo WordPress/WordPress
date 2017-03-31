@@ -150,6 +150,7 @@
 	outline: none;
 	overflow: hidden;
 	cursor: pointer;
+	text-align: center;
 }
 
 .wp-customizer .menu-item.menu-item-edit-active .item-edit .toggle-indicator:after {
@@ -521,6 +522,7 @@
 	box-shadow: none;
 	outline: none;
 	cursor: pointer;
+	text-align: center;
 }
 
 #available-menu-items .accordion-section-title .no-items,
@@ -612,6 +614,7 @@
 	box-shadow: none;
 	outline: none;
 	cursor: pointer;
+	text-align: center;
 }
 
 #available-menu-items .menu-item-handle .item-add:focus {
