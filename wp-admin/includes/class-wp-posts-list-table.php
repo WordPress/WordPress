@@ -993,17 +993,33 @@ class WP_Posts_List_Table extends WP_List_Table {
 		}
 
 		if ( 'publish' === $post->post_status ) {
-			_e( 'Published' );
+			$status = __( 'Published' );
 		} elseif ( 'future' === $post->post_status ) {
 			if ( $time_diff > 0 ) {
-				echo '<strong class="error-message">' . __( 'Missed schedule' ) . '</strong>';
+				$status = '<strong class="error-message">' . __( 'Missed schedule' ) . '</strong>';
 			} else {
-				_e( 'Scheduled' );
+				$status = __( 'Scheduled' );
 			}
 		} else {
-			_e( 'Last Modified' );
+			$status = __( 'Last Modified' );
 		}
-		echo '<br />';
+
+		/**
+		 * Filters the status text of the post.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @param string  $status      The status text.
+		 * @param WP_Post $post        Post object.
+		 * @param string  $column_name The column name.
+		 * @param string  $mode        The list display mode ('excerpt' or 'list').
+		 */
+		$status = apply_filters( 'post_date_column_status', $status, $post, 'date', $mode );
+
+		if ( $status ) {
+			echo $status . '<br />';
+		}
+
 		if ( 'excerpt' === $mode ) {
 			/**
 			 * Filters the published time of the post.
