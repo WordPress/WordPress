@@ -115,6 +115,15 @@ inlineEditPost = {
 		// enable autocomplete for tags
 		if ( 'post' === type ) {
 			$( 'tr.inline-editor textarea[data-wp-taxonomy]' ).each( function ( i, element ) {
+				/*
+				 * While Quick Edit clones the form each time, Bulk Edit always re-uses
+				 * the same form. Let's check if an autocomplete instance already exists.
+				 */
+				if ( $( element ).autocomplete( 'instance' ) ) {
+					// jQuery equivalent of `continue` within an `each()` loop.
+					return;
+				}
+
 				$( element ).wpTagsSuggest();
 			} );
 		}
