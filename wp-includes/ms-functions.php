@@ -96,11 +96,13 @@ function get_active_blog_for_user( $user_id ) {
  * The count is cached and updated twice daily. This is not a live count.
  *
  * @since MU 2.7
+ * @since 4.8.0 The $network_id parameter has been added.
  *
- * @return int
+ * @param int|null $network_id ID of the network. Default is the current network.
+ * @return int Number of active users on the network.
  */
-function get_user_count() {
-	return get_site_option( 'user_count' );
+function get_user_count( $network_id = null ) {
+	return get_network_option( $network_id, 'user_count' );
 }
 
 /**
