@@ -102,7 +102,7 @@ if ( $wp_customize->is_ios() ) {
 if ( is_rtl() ) {
 	$body_class .= ' rtl';
 }
-$body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
+$body_class .= ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_user_locale() ) ) );
 
 $admin_title = sprintf( $wp_customize->get_document_title_template(), __( 'Loading&hellip;' ) );
 
