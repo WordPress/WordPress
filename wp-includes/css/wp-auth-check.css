@@ -92,6 +92,7 @@
 	height: 22px;
 	width: 22px;
 	color: #72777c;
+	text-align: center;
 }
 
 #wp-auth-check-wrap .wp-auth-check-close:before {

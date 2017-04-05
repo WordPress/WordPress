@@ -163,7 +163,7 @@ function wp_print_media_templates() {
 
 	<script type="text/html" id="tmpl-media-modal">
 		<div class="<?php echo $class; ?>">
-			<button type="button" class="button-link media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php _e( 'Close media panel' ); ?></span></span></button>
+			<button type="button" class="media-modal-close"><span class="media-modal-icon"><span class="screen-reader-text"><?php _e( 'Close media panel' ); ?></span></span></button>
 			<div class="media-modal-content"></div>
 		</div>
 		<div class="media-modal-backdrop"></div>
