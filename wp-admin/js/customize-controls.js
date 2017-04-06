@@ -2267,9 +2267,9 @@
 				availableItem = new api.Menus.AvailableItemModel( {
 					'id': 'post-' + data.post_id, // Used for available menu item Backbone models.
 					'title': title,
-					'type': 'page',
+					'type': 'post_type',
 					'type_label': api.Menus.data.l10n.page_label,
-					'object': 'post_type',
+					'object': 'page',
 					'object_id': data.post_id,
 					'url': data.url
 				} );
