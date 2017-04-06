@@ -84,10 +84,11 @@ add_filter( 'force_filtered_html_on_import', '__return_true' );
 remove_filter( 'option_siteurl', '_config_wp_siteurl' );
 remove_filter( 'option_home',    '_config_wp_home'    );
 
-// Some options changes should trigger blog details refresh.
-add_action( 'update_option_blogname',   'refresh_blog_details', 10, 0 );
-add_action( 'update_option_siteurl',    'refresh_blog_details', 10, 0 );
-add_action( 'update_option_post_count', 'refresh_blog_details', 10, 0 );
+// Some options changes should trigger site details refresh.
+add_action( 'update_option_blogname',   'clean_site_details_cache', 10, 0 );
+add_action( 'update_option_siteurl',    'clean_site_details_cache', 10, 0 );
+add_action( 'update_option_post_count', 'clean_site_details_cache', 10, 0 );
+add_action( 'update_option_home',       'clean_site_details_cache', 10, 0 );
 
 // If the network upgrade hasn't run yet, assume ms-files.php rewriting is used.
 add_filter( 'default_site_option_ms_files_rewriting', '__return_true' );

@@ -473,6 +473,23 @@ function clean_blog_cache( $blog ) {
 }
 
 /**
+ * Cleans the site details cache for a site.
+ *
+ * @since 4.7.4
+ *
+ * @param int $site_id Optional. Site ID. Default is the current site ID.
+ */
+function clean_site_details_cache( $site_id = 0 ) {
+	$site_id = (int) $site_id;
+	if ( ! $site_id ) {
+		$site_id = get_current_blog_id();
+	}
+
+	wp_cache_delete( $site_id, 'site-details' );
+	wp_cache_delete( $site_id, 'blog-details' );
+}
+
+/**
  * Retrieves site data given a site ID or site object.
  *
  * Site data will be cached and returned after being passed through a filter.
@@ -735,8 +752,6 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
 	switch_to_blog( $id );
 	$return = update_option( $option, $value );
 	restore_current_blog();
-
-	refresh_blog_details( $id );
 
 	return $return;
 }
