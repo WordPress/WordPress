@@ -655,7 +655,7 @@ window.wp = window.wp || {};
 				var urlParser = document.createElement( 'a' );
 				urlParser.href = to;
 				// Port stripping needed by IE since it adds to host but not to event.origin.
-				return urlParser.protocol + '//' + urlParser.host.replace( /:80$/, '' );
+				return urlParser.protocol + '//' + urlParser.host.replace( /:(80|443)$/, '' );
 			});
 
 			// first add with no value
