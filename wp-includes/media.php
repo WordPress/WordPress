@@ -3321,26 +3321,81 @@ function wp_enqueue_media( $args = array() ) {
 		}
 	}
 
-	$has_audio = $wpdb->get_var( "
-		SELECT ID
-		FROM $wpdb->posts
-		WHERE post_type = 'attachment'
-		AND post_mime_type LIKE 'audio%'
-		LIMIT 1
-	" );
-	$has_video = $wpdb->get_var( "
-		SELECT ID
-		FROM $wpdb->posts
-		WHERE post_type = 'attachment'
-		AND post_mime_type LIKE 'video%'
-		LIMIT 1
-	" );
-	$months = $wpdb->get_results( $wpdb->prepare( "
-		SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
-		FROM $wpdb->posts
-		WHERE post_type = %s
-		ORDER BY post_date DESC
-	", 'attachment' ) );
+	/**
+	 * Allows showing or hiding the "Create Audio Playlist" button in the media library.
+	 *
+	 * By default (if this filter returns `null`), a query will be run to
+	 * determine whether the media library contains any audio items.  This
+	 * query is expensive for large media libraries, so it may be desirable for
+	 * sites to override this behavior.
+	 *
+	 * @since 4.7.4
+	 *
+	 * @link https://core.trac.wordpress.org/ticket/31071
+	 *
+	 * @return bool|null Whether to show the button, or `null` for default behavior.
+	 */
+	$has_audio = apply_filters( 'media_has_audio', null );
+	if ( is_null( $has_audio ) ) {
+		$has_audio = $wpdb->get_var( "
+			SELECT ID
+			FROM $wpdb->posts
+			WHERE post_type = 'attachment'
+			AND post_mime_type LIKE 'audio%'
+			LIMIT 1
+		" );
+	}
+
+	/**
+	 * Allows showing or hiding the "Create Video Playlist" button in the media library.
+	 *
+	 * By default (if this filter returns `null`), a query will be run to
+	 * determine whether the media library contains any video items.  This
+	 * query is expensive for large media libraries, so it may be desirable for
+	 * sites to override this behavior.
+	 *
+	 * @since 4.7.4
+	 *
+	 * @link https://core.trac.wordpress.org/ticket/31071
+	 *
+	 * @return bool|null Whether to show the button, or `null` for default behavior.
+	 */
+	$has_video = apply_filters( 'media_has_video', null );
+	if ( is_null( $has_video ) ) {
+		$has_video = $wpdb->get_var( "
+			SELECT ID
+			FROM $wpdb->posts
+			WHERE post_type = 'attachment'
+			AND post_mime_type LIKE 'video%'
+			LIMIT 1
+		" );
+	}
+
+	/**
+	 * Allows overriding the list of months displayed in the media library.
+	 *
+	 * By default (if this filter does not return an array), a query will be
+	 * run to determine the months that have media items.  This query can be
+	 * expensive for large media libraries, so it may be desirable for sites to
+	 * override this behavior.
+	 *
+	 * @since 4.7.4
+	 *
+	 * @link https://core.trac.wordpress.org/ticket/31071
+	 *
+	 * @return array|null An array of objects with `month` and `year`
+	 *                    properties, or `null` (or any other non-array value)
+	 *                    for default behavior.
+	 */
+	$months = apply_filters( 'media_months', null );
+	if ( ! is_array( $months ) ) {
+		$months = $wpdb->get_results( $wpdb->prepare( "
+			SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
+			FROM $wpdb->posts
+			WHERE post_type = %s
+			ORDER BY post_date DESC
+		", 'attachment' ) );
+	}
 	foreach ( $months as $month_year ) {
 		$month_year->text = sprintf( __( '%1$s %2$d' ), $wp_locale->get_month( $month_year->month ), $month_year->year );
 	}
