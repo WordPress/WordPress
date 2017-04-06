@@ -3957,7 +3957,7 @@ final class WP_Customize_Manager {
 			'type'           => 'url',
 			'description'    => __( 'Or, enter a YouTube URL:' ),
 			'section'        => 'header_image',
-			'active_callback'=> 'is_front_page',
+			'active_callback' => 'is_header_video_active',
 		) );
 
 		$this->add_control( new WP_Customize_Header_Image_Control( $this ) );
