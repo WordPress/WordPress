@@ -577,6 +577,10 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	if ( in_array( $blogname, $illegal_names ) )
 		$errors->add('blogname',  __( 'That name is not allowed.' ) );
 
+	if ( strlen( $blogname ) < 4 ) {
+		$errors->add('blogname',  __( 'Site name must be at least 4 characters.' ) );
+	}
+
 	// do not allow users to create a blog that conflicts with a page on the main blog.
 	if ( !is_subdomain_install() && $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM " . $wpdb->get_blog_prefix( $current_network->site_id ) . "posts WHERE post_type = 'page' AND post_name = %s", $blogname ) ) )
 		$errors->add( 'blogname', __( 'Sorry, you may not use that site name.' ) );
