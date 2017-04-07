@@ -315,7 +315,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		if ( ! empty( $blog_states ) ) {
 			$state_count = count( $blog_states );
 			$i = 0;
-			$blog_state .= ' - ';
+			$blog_state .= ' &mdash; ';
 			foreach ( $blog_states as $state ) {
 				++$i;
 				$sep = ( $i == $state_count ) ? '' : ', ';
@@ -324,7 +324,10 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		}
 
 		?>
-		<a href="<?php echo esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname . $blog_state; ?></a>
+		<strong>
+			<a href="<?php echo esc_url( network_admin_url( 'site-info.php?id=' . $blog['blog_id'] ) ); ?>" class="edit"><?php echo $blogname; ?></a>
+			<?php echo $blog_state; ?>
+		</strong>
 		<?php
 		if ( 'list' !== $mode ) {
 			switch_to_blog( $blog['blog_id'] );
