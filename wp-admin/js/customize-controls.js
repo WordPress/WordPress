@@ -711,11 +711,19 @@
 			var construct = this,
 				content = construct.contentContainer,
 				overlay = content.closest( '.wp-full-overlay' ),
-				elements, transitionEndCallback;
+				elements, transitionEndCallback, transitionParentPane;
 
 			// Determine set of elements that are affected by the animation.
 			elements = overlay.add( content );
-			if ( _.isUndefined( construct.panel ) || '' === construct.panel() ) {
+
+			if ( ! construct.panel || '' === construct.panel() ) {
+				transitionParentPane = true;
+			} else if ( api.panel( construct.panel() ).contentContainer.hasClass( 'skip-transition' ) ) {
+				transitionParentPane = true;
+			} else {
+				transitionParentPane = false;
+			}
+			if ( transitionParentPane ) {
 				elements = elements.add( '#customize-info, .customize-pane-parent' );
 			}
 
@@ -996,7 +1004,7 @@
 				overlay = section.headContainer.closest( '.wp-full-overlay' ),
 				backBtn = content.find( '.customize-section-back' ),
 				sectionTitle = section.headContainer.find( '.accordion-section-title' ).first(),
-				expand;
+				expand, panel;
 
 			if ( expanded && ! content.hasClass( 'open' ) ) {
 
@@ -1044,6 +1052,12 @@
 				}
 
 			} else if ( ! expanded && content.hasClass( 'open' ) ) {
+				if ( section.panel() ) {
+					panel = api.panel( section.panel() );
+					if ( panel.contentContainer.hasClass( 'skip-transition' ) ) {
+						panel.collapse();
+					}
+				}
 				section._animateChangeExpanded( function() {
 					backBtn.attr( 'tabindex', '-1' );
 					sectionTitle.attr( 'tabindex', '0' );
@@ -1722,7 +1736,9 @@
 				overlay = accordionSection.closest( '.wp-full-overlay' ),
 				container = accordionSection.closest( '.wp-full-overlay-sidebar-content' ),
 				topPanel = panel.headContainer.find( '.accordion-section-title' ),
-				backBtn = accordionSection.find( '.customize-panel-back' );
+				backBtn = accordionSection.find( '.customize-panel-back' ),
+				childSections = panel.sections(),
+				skipTransition;
 
 			if ( expanded && ! accordionSection.hasClass( 'current-panel' ) ) {
 				// Collapse any sibling sections/panels
@@ -1737,35 +1753,50 @@
 					}
 				});
 
-				panel._animateChangeExpanded( function() {
-					topPanel.attr( 'tabindex', '-1' );
-					backBtn.attr( 'tabindex', '0' );
+				if ( panel.params.autoExpandSoleSection && 1 === childSections.length && childSections[0].active.get() ) {
+					accordionSection.addClass( 'current-panel skip-transition' );
+					overlay.addClass( 'in-sub-panel' );
 
-					backBtn.focus();
-					accordionSection.css( 'top', '' );
-					container.scrollTop( 0 );
+					childSections[0].expand( {
+						completeCallback: args.completeCallback
+					} );
+				} else {
+					panel._animateChangeExpanded( function() {
+						topPanel.attr( 'tabindex', '-1' );
+						backBtn.attr( 'tabindex', '0' );
 
-					if ( args.completeCallback ) {
-						args.completeCallback();
-					}
-				} );
+						backBtn.focus();
+						accordionSection.css( 'top', '' );
+						container.scrollTop( 0 );
 
-				overlay.addClass( 'in-sub-panel' );
-				accordionSection.addClass( 'current-panel' );
+						if ( args.completeCallback ) {
+							args.completeCallback();
+						}
+					} );
+
+					accordionSection.addClass( 'current-panel' );
+					overlay.addClass( 'in-sub-panel' );
+				}
+
 				api.state( 'expandedPanel' ).set( panel );
 
 			} else if ( ! expanded && accordionSection.hasClass( 'current-panel' ) ) {
-				panel._animateChangeExpanded( function() {
-					topPanel.attr( 'tabindex', '0' );
-					backBtn.attr( 'tabindex', '-1' );
+				skipTransition = accordionSection.hasClass( 'skip-transition' );
+				if ( ! skipTransition ) {
+					panel._animateChangeExpanded( function() {
+						topPanel.attr( 'tabindex', '0' );
+						backBtn.attr( 'tabindex', '-1' );
 
-					topPanel.focus();
-					accordionSection.css( 'top', '' );
+						topPanel.focus();
+						accordionSection.css( 'top', '' );
 
-					if ( args.completeCallback ) {
-						args.completeCallback();
-					}
-				} );
+						if ( args.completeCallback ) {
+							args.completeCallback();
+						}
+					} );
+				} else {
+					accordionSection.removeClass( 'skip-transition' );
+				}
 
 				overlay.removeClass( 'in-sub-panel' );
 				accordionSection.removeClass( 'current-panel' );
