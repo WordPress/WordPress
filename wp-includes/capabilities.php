@@ -480,6 +480,13 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'manage_network_options':
 		$caps[] = $cap;
 		break;
+	case 'setup_network':
+		if ( is_multisite() ) {
+			$caps[] = 'manage_network_options';
+		} else {
+			$caps[] = 'manage_options';
+		}
+		break;
 	default:
 		// Handle meta capabilities for custom post types.
 		global $post_type_meta_caps;
