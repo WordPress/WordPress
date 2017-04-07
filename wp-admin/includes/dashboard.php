@@ -1152,7 +1152,7 @@ function wp_dashboard_primary() {
 		)
 	);
 
-	if ( ( ! defined( 'DISALLOW_FILE_MODS' ) || ! DISALLOW_FILE_MODS ) && ( ! is_multisite() && is_blog_admin() && current_user_can( 'install_plugins' ) ) || ( is_network_admin() && current_user_can( 'manage_network_plugins' ) && current_user_can( 'install_plugins' ) ) ) {
+	if ( ( ! wp_disallow_file_mods( 'dashboard_widget' ) ) && ( ! is_multisite() && is_blog_admin() && current_user_can( 'install_plugins' ) ) || ( is_network_admin() && current_user_can( 'manage_network_plugins' ) && current_user_can( 'install_plugins' ) ) ) {
 		$feeds['plugins'] = array(
 			'link'         => '',
 			'url'          => array(

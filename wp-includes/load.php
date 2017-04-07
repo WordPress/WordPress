@@ -1072,3 +1072,23 @@ function wp_doing_ajax() {
 function is_wp_error( $thing ) {
 	return ( $thing instanceof WP_Error );
 }
+
+/**
+ * Determines whether file modifications are disallowed.
+ *
+ * @since 4.8.0
+ *
+ * @param string $context The usage context.
+ * @return bool True if file modification is disallowed, false otherwise.
+ */
+function wp_disallow_file_mods( $context ) {
+	/**
+	 * Filters whether file modifications are disallowed.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param bool   $disllow_file_mods Whether file modifications are disallowed.
+	 * @param string $context           The usage context.
+	 */
+	return apply_filters( 'disallow_file_mods' , defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS, $context );
+}

@@ -362,7 +362,7 @@ function map_meta_cap( $cap, $user_id ) {
 		// Disallow the file editors.
 		if ( defined( 'DISALLOW_FILE_EDIT' ) && DISALLOW_FILE_EDIT )
 			$caps[] = 'do_not_allow';
-		elseif ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS )
+		elseif ( wp_disallow_file_mods( 'capability_edit_themes' ) )
 			$caps[] = 'do_not_allow';
 		elseif ( is_multisite() && ! is_super_admin( $user_id ) )
 			$caps[] = 'do_not_allow';
@@ -380,7 +380,7 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'update_core':
 		// Disallow anything that creates, deletes, or updates core, plugin, or theme files.
 		// Files in uploads are excepted.
-		if ( defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS ) {
+		if ( wp_disallow_file_mods( 'capability_update_core' ) ) {
 			$caps[] = 'do_not_allow';
 		} elseif ( is_multisite() && ! is_super_admin( $user_id ) ) {
 			$caps[] = 'do_not_allow';
