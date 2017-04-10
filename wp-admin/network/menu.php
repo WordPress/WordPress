@@ -19,7 +19,7 @@ if ( $update_data['counts']['total'] ) {
 	$submenu['index.php'][10] = array( __( 'Updates' ), 'update_core', 'update-core.php' );
 }
 
-$submenu['index.php'][15] = array( __( 'Upgrade Network' ), 'manage_network', 'upgrade.php' );
+$submenu['index.php'][15] = array( __( 'Upgrade Network' ), 'upgrade_network', 'upgrade.php' );
 
 $menu[4] = array( '', 'read', 'separator1', '', 'wp-menu-separator' );
 

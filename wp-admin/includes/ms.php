@@ -785,7 +785,7 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 function site_admin_notice() {
 	global $wp_db_version, $pagenow;
 
-	if ( ! is_super_admin() ) {
+	if ( ! current_user_can( 'upgrade_network' ) ) {
 		return false;
 	}
 

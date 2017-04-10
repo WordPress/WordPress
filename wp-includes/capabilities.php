@@ -478,6 +478,7 @@ function map_meta_cap( $cap, $user_id ) {
 	case 'manage_network_plugins':
 	case 'manage_network_themes':
 	case 'manage_network_options':
+	case 'upgrade_network':
 		$caps[] = $cap;
 		break;
 	case 'setup_network':
