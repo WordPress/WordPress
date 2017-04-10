@@ -294,6 +294,11 @@ body {
 	transition: 0.18s transform cubic-bezier(0.645, 0.045, 0.355, 1), 0.18s -webkit-transform cubic-bezier(0.645, 0.045, 0.355, 1); /* easeInOutCubic */
 }
 
+#customize-theme-controls .customize-pane-child.skip-transition {
+	-webkit-transition: none;
+	transition: none;
+}
+
 #customize-info,
 #customize-theme-controls .customize-pane-parent {
 	position: relative;
