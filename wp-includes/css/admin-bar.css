@@ -624,12 +624,16 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+/* The admin bar search field needs to reset many styles that might be inherited from the active Theme CSS. See ticket #40313. */
 #wpadminbar > #wp-toolbar > #wp-admin-bar-top-secondary > #wp-admin-bar-search #adminbarsearch input.adminbar-input {
+	display: inline-block;
+	float: none;
 	position: relative;
 	z-index: 30;
 	font-size: 13px;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	line-height: 24px;
+	text-indent: 0;
 	height: 24px;
 	width: 24px;
 	max-width: none;
