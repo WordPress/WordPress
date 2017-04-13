@@ -306,6 +306,10 @@ tinymce.PluginManager.add('image', function(editor) {
 			}
 		}
 
+		function onBeforeCall(e) {
+			e.meta = win.toJSON();
+		}
+
 		imgElm = editor.selection.getNode();
 		figureElm = dom.getParent(imgElm, 'figure.image');
 		if (figureElm) {
@@ -388,7 +392,8 @@ tinymce.PluginManager.add('image', function(editor) {
 				filetype: 'image',
 				label: 'Source',
 				autofocus: true,
-				onchange: srcChange
+				onchange: srcChange,
+				onbeforecall: onBeforeCall
 			},
 			imageListCtrl
 		];
@@ -640,7 +645,7 @@ tinymce.PluginManager.add('image', function(editor) {
 
 	editor.addMenuItem('image', {
 		icon: 'image',
-		text: 'Insert/edit image',
+		text: 'Image',
 		onclick: createImageList(showDialog),
 		context: 'insert',
 		prependToContext: true
