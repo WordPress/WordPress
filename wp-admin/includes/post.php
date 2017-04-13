@@ -1450,7 +1450,7 @@ function _wp_post_thumbnail_html( $thumbnail_id = null, $post = null ) {
  *
  * @param int $post_id ID of the post to check for editing.
  * @return int|false ID of the user with lock. False if the post does not exist, post is not locked,
- *                   or post is locked by current user.
+ *                   the user with lock does not exist, or the post is locked by current user.
  */
 function wp_check_post_lock( $post_id ) {
 	if ( ! $post = get_post( $post_id ) ) {
@@ -1464,6 +1464,10 @@ function wp_check_post_lock( $post_id ) {
 	$lock = explode( ':', $lock );
 	$time = $lock[0];
 	$user = isset( $lock[1] ) ? $lock[1] : get_post_meta( $post->ID, '_edit_last', true );
+
+	if ( ! get_userdata( $user ) ) {
+		return false;
+	}
 
 	/** This filter is documented in wp-admin/includes/ajax-actions.php */
 	$time_window = apply_filters( 'wp_check_post_lock_window', 150 );
@@ -1481,8 +1485,8 @@ function wp_check_post_lock( $post_id ) {
  * @since 2.5.0
  *
  * @param int $post_id ID of the post being edited.
- * @return array|false Array of the lock time and user ID. False if the post does not exist or there
- *                     is no current user.
+ * @return array|false Array of the lock time and user ID. False if the post does not exist, or
+ *                     there is no current user.
  */
 function wp_set_post_lock( $post_id ) {
 	if ( ! $post = get_post( $post_id ) ) {
