@@ -3333,11 +3333,11 @@ function wp_enqueue_media( $args = array() ) {
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
-	 * @return bool|null Whether to show the button, or `null` for default behavior.
+	 * @param bool|null Whether to show the button, or `null` for default behavior.
 	 */
-	$has_audio = apply_filters( 'media_has_audio', null );
-	if ( is_null( $has_audio ) ) {
-		$has_audio = $wpdb->get_var( "
+	$show_audio_playlist = apply_filters( 'media_library_show_audio_playlist', null );
+	if ( null === $show_audio_playlist ) {
+		$show_audio_playlist = $wpdb->get_var( "
 			SELECT ID
 			FROM $wpdb->posts
 			WHERE post_type = 'attachment'
@@ -3358,11 +3358,11 @@ function wp_enqueue_media( $args = array() ) {
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
-	 * @return bool|null Whether to show the button, or `null` for default behavior.
+	 * @param bool|null Whether to show the button, or `null` for default behavior.
 	 */
-	$has_video = apply_filters( 'media_has_video', null );
-	if ( is_null( $has_video ) ) {
-		$has_video = $wpdb->get_var( "
+	$show_video_playlist = apply_filters( 'media_library_show_video_playlist', null );
+	if ( null === $show_video_playlist ) {
+		$show_video_playlist = $wpdb->get_var( "
 			SELECT ID
 			FROM $wpdb->posts
 			WHERE post_type = 'attachment'
@@ -3383,11 +3383,11 @@ function wp_enqueue_media( $args = array() ) {
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
-	 * @return array|null An array of objects with `month` and `year`
-	 *                    properties, or `null` (or any other non-array value)
-	 *                    for default behavior.
+	 * @param array|null An array of objects with `month` and `year`
+	 *                   properties, or `null` (or any other non-array value)
+	 *                   for default behavior.
 	 */
-	$months = apply_filters( 'media_months', null );
+	$months = apply_filters( 'media_library_months_with_files', null );
 	if ( ! is_array( $months ) ) {
 		$months = $wpdb->get_results( $wpdb->prepare( "
 			SELECT DISTINCT YEAR( post_date ) AS year, MONTH( post_date ) AS month
@@ -3414,14 +3414,14 @@ function wp_enqueue_media( $args = array() ) {
 		),
 		'defaultProps' => $props,
 		'attachmentCounts' => array(
-			'audio' => ( $has_audio ) ? 1 : 0,
-			'video' => ( $has_video ) ? 1 : 0
+			'audio' => ( $show_audio_playlist ) ? 1 : 0,
+			'video' => ( $show_video_playlist ) ? 1 : 0,
 		),
 		'embedExts'    => $exts,
 		'embedMimes'   => $ext_mimes,
 		'contentWidth' => $content_width,
 		'months'       => $months,
-		'mediaTrash'   => MEDIA_TRASH ? 1 : 0
+		'mediaTrash'   => MEDIA_TRASH ? 1 : 0,
 	);
 
 	$post = null;
