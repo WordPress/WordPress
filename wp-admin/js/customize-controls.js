@@ -4762,6 +4762,12 @@
 			 */
 			populateChangesetUuidParam = function( isIncluded ) {
 				var urlParser, queryParams;
+
+				// Abort on IE9 which doesn't support history management.
+				if ( ! history.replaceState ) {
+					return;
+				}
+
 				urlParser = document.createElement( 'a' );
 				urlParser.href = location.href;
 				queryParams = api.utils.parseQueryString( urlParser.search.substr( 1 ) );
@@ -4780,11 +4786,9 @@
 				history.replaceState( {}, document.title, urlParser.href );
 			};
 
-			if ( history.replaceState ) {
-				changesetStatus.bind( function( newStatus ) {
-					populateChangesetUuidParam( '' !== newStatus && 'publish' !== newStatus );
-				} );
-			}
+			changesetStatus.bind( function( newStatus ) {
+				populateChangesetUuidParam( '' !== newStatus && 'publish' !== newStatus );
+			} );
 
 			// Expose states to the API.
 			api.state = state;
