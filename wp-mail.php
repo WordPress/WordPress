@@ -12,12 +12,12 @@ require(dirname(__FILE__) . '/wp-load.php');
 
 /** This filter is documented in wp-admin/options.php */
 if ( ! apply_filters( 'enable_post_by_email_configuration', true ) )
-	wp_die( __( 'This action has been disabled by the administrator.' ), 403 );
+	wp_die( __( 'This action has been disabled by the administrator' ), 403 );
 
 $mailserver_url = get_option( 'mailserver_url' );
 
 if ( 'mail.example.com' === $mailserver_url || empty( $mailserver_url ) ) {
-	wp_die( __( 'This action has been disabled by the administrator.' ), 403 );
+	wp_die( __( 'This action has been disabled by the administrator' ), 403 );
 }
 
 /**
