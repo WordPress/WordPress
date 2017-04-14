@@ -3324,18 +3324,21 @@ function wp_enqueue_media( $args = array() ) {
 	/**
 	 * Allows showing or hiding the "Create Audio Playlist" button in the media library.
 	 *
-	 * By default (if this filter returns `null`), a query will be run to
-	 * determine whether the media library contains any audio items.  This
-	 * query is expensive for large media libraries, so it may be desirable for
-	 * sites to override this behavior.
+	 * By default, the "Create Audio Playlist" button will always be shown in
+	 * the media library.  If this filter returns `null`, a query will be run
+	 * to determine whether the media library contains any audio items.  This
+	 * was the default behavior prior to version 4.8.0, but this query is
+	 * expensive for large media libraries.
 	 *
 	 * @since 4.7.4
+	 * @since 4.8.0 The filter's default value is `true` rather than `null`.
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
-	 * @param bool|null Whether to show the button, or `null` for default behavior.
+	 * @param bool|null Whether to show the button, or `null` to decide based
+	 *                  on whether any audio files exist in the media library.
 	 */
-	$show_audio_playlist = apply_filters( 'media_library_show_audio_playlist', null );
+	$show_audio_playlist = apply_filters( 'media_library_show_audio_playlist', true );
 	if ( null === $show_audio_playlist ) {
 		$show_audio_playlist = $wpdb->get_var( "
 			SELECT ID
@@ -3349,18 +3352,21 @@ function wp_enqueue_media( $args = array() ) {
 	/**
 	 * Allows showing or hiding the "Create Video Playlist" button in the media library.
 	 *
-	 * By default (if this filter returns `null`), a query will be run to
-	 * determine whether the media library contains any video items.  This
-	 * query is expensive for large media libraries, so it may be desirable for
-	 * sites to override this behavior.
+	 * By default, the "Create Video Playlist" button will always be shown in
+	 * the media library.  If this filter returns `null`, a query will be run
+	 * to determine whether the media library contains any video items.  This
+	 * was the default behavior prior to version 4.8.0, but this query is
+	 * expensive for large media libraries.
 	 *
 	 * @since 4.7.4
+	 * @since 4.8.0 The filter's default value is `true` rather than `null`.
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/31071
 	 *
-	 * @param bool|null Whether to show the button, or `null` for default behavior.
+	 * @param bool|null Whether to show the button, or `null` to decide based
+	 *                  on whether any video files exist in the media library.
 	 */
-	$show_video_playlist = apply_filters( 'media_library_show_video_playlist', null );
+	$show_video_playlist = apply_filters( 'media_library_show_video_playlist', true );
 	if ( null === $show_video_playlist ) {
 		$show_video_playlist = $wpdb->get_var( "
 			SELECT ID
