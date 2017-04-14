@@ -378,6 +378,11 @@ TABLE OF CONTENTS:
 		vertical-align: inherit;
 	}
 
+	.media-modal-content .media-toolbar-primary .media-button {
+		margin-top: 10px;
+		margin-left: 5px;
+	}
+
 	/* Reset responsive styles on Log in button on iframed login form */
 
 	.interim-login .button.button-large {
