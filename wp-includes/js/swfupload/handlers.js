@@ -356,7 +356,7 @@ function cancelUpload() {
 
 // remember the last used image size, alignment and url
 jQuery(document).ready(function($){
-	$('input[type="radio"]', '#media-items').live('click', function(){
+	$( 'input[type="radio"]', '#media-items' ).on( 'click', function(){
 		var tr = $(this).closest('tr');
 
 		if ( $(tr).hasClass('align') )
@@ -365,7 +365,7 @@ jQuery(document).ready(function($){
 			setUserSetting('imgsize', $(this).val());
 	});
 
-	$('button.button', '#media-items').live('click', function(){
+	$( 'button.button', '#media-items' ).on( 'click', function(){
 		var c = this.className || '';
 		c = c.match(/url([^ '"]+)/);
 		if ( c && c[1] ) {
