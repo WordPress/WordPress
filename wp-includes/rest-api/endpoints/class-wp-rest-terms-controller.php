@@ -979,7 +979,10 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 
 		$query_params['slug'] = array(
 			'description'       => __( 'Limit result set to terms with a specific slug.' ),
-			'type'              => 'string',
+			'type'              => 'array',
+			'items'             => array(
+				'type'          => 'string'
+			),
 		);
 
 		/**
