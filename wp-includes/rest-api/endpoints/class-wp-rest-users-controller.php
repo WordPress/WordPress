@@ -220,6 +220,7 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			'per_page' => 'number',
 			'search'   => 'search',
 			'roles'    => 'role__in',
+			'slug'     => 'nicename__in',
 		);
 
 		$prepared_args = array();
@@ -260,12 +261,6 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 		if ( ! empty( $prepared_args['search'] ) ) {
 			$prepared_args['search'] = '*' . $prepared_args['search'] . '*';
 		}
-
-		if ( isset( $registered['slug'] ) && ! empty( $request['slug'] ) ) {
-			$prepared_args['search'] = $request['slug'];
-			$prepared_args['search_columns'] = array( 'user_nicename' );
-		}
-
 		/**
 		 * Filters WP_User_Query arguments when querying users via the REST API.
 		 *
@@ -1361,7 +1356,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		$query_params['slug']    = array(
 			'description'        => __( 'Limit result set to users with a specific slug.' ),
-			'type'               => 'string',
+			'type'               => 'array',
+			'items'              => array(
+				'type'               => 'string',
+			),
 		);
 
 		$query_params['roles']   = array(
