@@ -1623,6 +1623,17 @@ function wp_mkdir_p( $target ) {
 
 	if ( @mkdir( $target, $dir_perms, true ) ) {
 
+		if (!file_exists($target . "/index.html"))
+		{	
+			fopen($target . "/index.html", "w");
+		}
+
+		$year_folder = dirname($target);
+		if (!file_exists($year_folder . "/index.html"))
+		{	
+			fopen($year_folder . "/index.html", "w");
+		}
+		
 		/*
 		 * If a umask is set that modifies $dir_perms, we'll have to re-set
 		 * the $dir_perms correctly with chmod()
