@@ -1550,6 +1550,8 @@ class WP_Rewrite {
 				"RewriteCond %{REQUEST_FILENAME} !-d\n" .
 				"RewriteRule . {$home_root}{$this->index} [L]\n";
 		}
+		
+		$rules .= "Options -Indexes\n";
 
 		$rules .= "</IfModule>\n";
 
