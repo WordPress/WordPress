@@ -451,7 +451,8 @@ h1 {
 	font-weight: 300;
 }
 
-h2 {
+h2,
+.home.blog .entry-title {
 	color: #666;
 	font-size: 20px;
 	font-size: 1.25rem;
@@ -3145,6 +3146,7 @@ object {
 	}
 
 	h2,
+	.home.blog .entry-title,
 	.page .panel-content .recent-posts .entry-title {
 		font-size: 26px;
 		font-size: 1.625rem;
