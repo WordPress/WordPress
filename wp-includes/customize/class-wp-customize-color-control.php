@@ -92,7 +92,7 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 	 */
 	public function content_template() {
 		?>
-		<# var defaultValue = '',
+		<# var defaultValue = '#RRGGBB', defaultValueAttr = '',
 			isHueSlider = data.mode === 'hue';
 
 		if ( data.defaultValue && ! isHueSlider ) {
@@ -101,7 +101,7 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 			} else {
 				defaultValue = data.defaultValue;
 			}
-			defaultValue = ' data-default-color=' + defaultValue; // Quotes added automatically.
+			defaultValueAttr = ' data-default-color=' + defaultValue; // Quotes added automatically.
 		} #>
 		<label>
 			<# if ( data.label ) { #>
@@ -114,7 +114,7 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 				<# if ( isHueSlider ) { #>
 					<input class="color-picker-hue" type="text" data-type="hue" />
 				<# } else { #>
-					<input class="color-picker-hex" type="text" maxlength="7" placeholder="<?php esc_attr_e( 'Hex Value' ); ?>" {{ defaultValue }} />
+					<input class="color-picker-hex" type="text" maxlength="7" placeholder="{{ defaultValue }}" {{ defaultValueAttr }} />
 				<# } #>
 			</div>
 		</label>

@@ -134,3 +134,10 @@
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
+
+@media screen and ( max-width: 782px ) {
+	.wp-picker-container input[type="text"].wp-color-picker {
+		margin-right: 6px;
+		padding: 3px 5px;
+	}
+}
