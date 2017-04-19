@@ -952,7 +952,7 @@
 			var self = this, $removeBtn, replaceDeleteWithRemove;
 
 			// Configure remove button
-			$removeBtn = this.container.find( 'a.widget-control-remove' );
+			$removeBtn = this.container.find( '.widget-control-remove' );
 			$removeBtn.on( 'click', function( e ) {
 				e.preventDefault();
 
@@ -988,7 +988,7 @@
 			} );
 
 			replaceDeleteWithRemove = function() {
-				$removeBtn.text( l10n.removeBtnLabel ); // wp_widget_control() outputs the link as "Delete"
+				$removeBtn.text( l10n.removeBtnLabel ); // wp_widget_control() outputs the button as "Delete"
 				$removeBtn.attr( 'title', l10n.removeBtnTooltip );
 			};
 
@@ -1367,7 +1367,7 @@
 		 * @param {Object} args  merged on top of this.defaultActiveArguments
 		 */
 		onChangeExpanded: function ( expanded, args ) {
-			var self = this, $widget, $inside, complete, prevComplete, expandControl;
+			var self = this, $widget, $inside, complete, prevComplete, expandControl, $toggleBtn;
 
 			self.embedWidgetControl(); // Make sure the outer form is embedded so that the expanded state can be set in the UI.
 			if ( expanded ) {
@@ -1386,6 +1386,7 @@
 
 			$widget = this.container.find( 'div.widget:first' );
 			$inside = $widget.find( '.widget-inside:first' );
+			$toggleBtn = this.container.find( '.widget-top button.widget-action' );
 
 			expandControl = function() {
 
@@ -1399,6 +1400,7 @@
 				complete = function() {
 					self.container.removeClass( 'expanding' );
 					self.container.addClass( 'expanded' );
+					$toggleBtn.attr( 'aria-expanded', 'true' );
 					self.container.trigger( 'expanded' );
 				};
 				if ( args.completeCallback ) {
@@ -1428,10 +1430,10 @@
 					expandControl();
 				}
 			} else {
-
 				complete = function() {
 					self.container.removeClass( 'collapsing' );
 					self.container.removeClass( 'expanded' );
+					$toggleBtn.attr( 'aria-expanded', 'false' );
 					self.container.trigger( 'collapsed' );
 				};
 				if ( args.completeCallback ) {

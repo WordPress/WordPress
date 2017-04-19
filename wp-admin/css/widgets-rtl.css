@@ -14,12 +14,13 @@
 	background: #f7f7f7;
 }
 
-.widget-top a.widget-action,
-.widget-top a.widget-action:hover {
-	-webkit-box-shadow: none;
-	box-shadow: none;
+.widget-top .widget-action {
+	border: 0;
+	margin: 0;
+	padding: 10px;
+	background: none;
+	cursor: pointer;
 	outline: none;
-	text-decoration: none;
 }
 
 .widget-title h3,
@@ -50,7 +51,7 @@
 }
 
 .deleting .widget-title,
-.deleting .widget-top a.widget-action:after {
+.deleting .widget-top .widget-action .toggle-indicator:before {
 	color: #a0a5aa;
 }
 

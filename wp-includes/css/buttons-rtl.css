@@ -242,7 +242,7 @@ TABLE OF CONTENTS:
 
 .wp-core-ui .button-link-delete:hover,
 .wp-core-ui .button-link-delete:focus {
-	color: #f00;
+	color: #dc3232;
 }
 
 .ie8 .wp-core-ui .button-link:focus {

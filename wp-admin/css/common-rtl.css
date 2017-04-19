@@ -865,8 +865,6 @@ hr {
 	border-bottom: 1px solid #fafafa;
 }
 
-.widget-control-remove,
-.widget-control-remove:focus,
 .row-actions span.delete a,
 .row-actions span.trash a,
 .row-actions span.spam a,
@@ -893,12 +891,8 @@ span.required,
 #media-items a.delete:hover,
 #media-items a.delete-permanently:hover,
 #nav-menu-footer .menu-delete:hover {
-	color: #f00;
+	color: #dc3232;
 	border: none;
-}
-
-.widget-control-remove:hover {
-	color: #f00;
 }
 
 /*------------------------------------------------------------------------------
@@ -3244,23 +3238,22 @@ img {
 
 /* @todo: can we use a common class for these? */
 .nav-menus-php .item-edit:before,
-.widget-top a.widget-action:after,
+.widget-top .widget-action .toggle-indicator:before,
 .control-section .accordion-section-title:after,
 .accordion-section-title:after {
-	left: 0;
 	content: "\f140";
-	border: none;
-	background: none;
 	font: normal 20px/1 dashicons;
 	speak: none;
 	display: block;
-	padding: 0;
-	text-indent: 0;
-	text-align: center;
-	position: relative;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	text-decoration: none !important;
+}
+
+.widget-top .widget-action .toggle-indicator:before {
+	padding: 1px 0px 1px 2px;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
 }
 
 .handlediv,
@@ -3288,15 +3281,7 @@ img {
 	color: #23282d;
 }
 
-.widget-top a.widget-action:after {
-	padding: 1px 0px 1px 2px;
-	margin-top: 10px;
-	margin-left: 10px;
-	-webkit-border-radius: 50%;
-	border-radius: 50%;
-}
-
-.widget-top a.widget-action:focus:after {
+.widget-top .widget-action:focus .toggle-indicator:before {
 	-webkit-box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30,140,190,.8);
@@ -3315,7 +3300,7 @@ img {
 .control-section.open .accordion-section-title:after,
 #customize-info.open .accordion-section-title:after,
 .nav-menus-php .menu-item-edit-active .item-edit:before,
-.widget.open .widget-top a.widget-action:after {
+.widget.open .widget-top .widget-action .toggle-indicator:before {
 	content: "\f142";
 }
 
@@ -3594,8 +3579,8 @@ img {
 	/* @todo: evaluate - most of these were likely replaced by dashicons */
 	.curtime #timestamp,
 	#screen-meta-links a.show-settings,
-	.widget-top a.widget-action,
-	.widget-top a.widget-action:hover,
+	.widget-top .widget-action,
+	.widget-top .widget-action:hover,
 	.sidebar-name-arrow,
 	.sidebar-name:hover .sidebar-name-arrow,
 	.meta-box-sortables .postbox:hover .handlediv,
