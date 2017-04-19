@@ -1331,6 +1331,7 @@ final class _WP_Editors {
 			script_concat_settings();
 		}
 
+		$suffix = SCRIPT_DEBUG ? '' : '.min';
 		$version = 'ver=' . $tinymce_version;
 		$baseurl = self::get_baseurl();
 
