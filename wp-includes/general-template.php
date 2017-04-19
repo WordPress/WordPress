@@ -3057,6 +3057,23 @@ function wp_editor( $content, $editor_id, $settings = array() ) {
 }
 
 /**
+ * Outputs the editor scripts, stylesheets, and default settings.
+ *
+ * The editor can be initialized when needed after page load.
+ * See wp.editor.initialize() in wp-admin/js/editor.js for initialization options.
+ *
+ * @uses _WP_Editors
+ * @since 4.8.0
+ */
+function wp_enqueue_editor() {
+	if ( ! class_exists( '_WP_Editors', false ) ) {
+		require( ABSPATH . WPINC . '/class-wp-editor.php' );
+	}
+
+	_WP_Editors::enqueue_default_editor();
+}
+
+/**
  * Retrieves the contents of the search WordPress query variable.
  *
  * The search query string is passed through esc_attr() to ensure that it is safe

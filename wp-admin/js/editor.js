@@ -1,5 +1,8 @@
+window.wp = window.wp || {};
 
-( function( $ ) {
+( function( $, wp ) {
+	wp.editor = wp.editor || {};
+
 	/**
 	 * @summary Utility functions for the editor.
 	 *
@@ -484,10 +487,8 @@
 			} );
 		}
 
-		window.wp = window.wp || {};
-		window.wp.editor = window.wp.editor || {};
-		window.wp.editor.autop = wpautop;
-		window.wp.editor.removep = pre_wpautop;
+		wp.editor.autop = wpautop;
+		wp.editor.removep = pre_wpautop;
 
 		exports = {
 			go: switchEditor,
@@ -505,4 +506,143 @@
 	 * Expose the switch editors to be used globally.
 	 */
 	window.switchEditors = new SwitchEditors();
-}( window.jQuery ));
+
+	/**
+	 * Initialize TinyMCE and/or Quicktags. For use with wp_enqueue_editor() (PHP).
+	 *
+	 * Intended for use with an existing textarea that will become the Text editor tab.
+	 * The editor width will be the width of the textarea container, height will be adjustable.
+	 *
+	 * Settings for both TinyMCE and Quicktags can be passed on initialization, and are "filtered"
+	 * with custom jQuery events on the document element, wp-before-tinymce-init and wp-before-quicktags-init.
+	 *
+	 * @since 4.8
+	 *
+	 * @param {string} id The HTML id of the textarea that is used for the editor.
+	 *                    Has to be jQuery compliant. No brackets, special chars, etc.
+	 * @param {object} settings Example:
+	 * settings = {
+	 *    // See https://www.tinymce.com/docs/configure/integration-and-setup/.
+	 *    // Alternatively set to `true` to use the defaults.
+	 *    tinymce: {
+	 *        setup: function( editor ) {
+	 *            console.log( 'Editor initialized', editor );
+	 *        }
+	 *    }
+	 *
+	 *    // Alternatively set to `true` to use the defaults.
+	 *	  quicktags: {
+	 *        buttons: 'strong,em,link'
+	 *    }
+	 * }
+	 */
+	wp.editor.initialize = function( id, settings ) {
+		var init;
+		var defaults;
+
+		if ( ! $ || ! id || ! wp.editor.getDefaultSettings ) {
+			return;
+		}
+
+		defaults = wp.editor.getDefaultSettings();
+
+		// Initialize TinyMCE by default
+		if ( ! settings ) {
+			settings = {
+				tinymce: true
+			};
+		}
+
+		// Add wrap and the Visual|Text tabs.
+		if ( settings.tinymce && settings.quicktags ) {
+			var $textarea = $( '#' + id );
+			var $wrap = $( '<div>' ).attr( {
+					'class': 'wp-core-ui wp-editor-wrap tmce-active',
+					id: 'wp-' + id + '-wrap'
+				} );
+			var $editorContainer = $( '<div class="wp-editor-container">' );
+			var $button = $( '<button>' ).attr( {
+					type: 'button',
+					'data-wp-editor-id': id
+				} );
+
+			$wrap.append(
+				$( '<div class="wp-editor-tools">' )
+					.append( $( '<div class="wp-editor-tabs">' )
+						.append( $button.clone().attr({
+							id: id + '-tmce',
+							'class': 'wp-switch-editor switch-tmce'
+						}).text( window.tinymce.translate( 'Visual' ) ) )
+						.append( $button.attr({
+							id: id + '-html',
+							'class': 'wp-switch-editor switch-html'
+						}).text( window.tinymce.translate( 'Text' ) ) )
+					).append( $editorContainer )
+			);
+
+			$textarea.after( $wrap );
+			$editorContainer.append( $textarea );
+		}
+
+		if ( window.tinymce && settings.tinymce ) {
+			if ( typeof settings.tinymce !== 'object' ) {
+				settings.tinymce = {};
+			}
+
+			init = $.extend( {}, defaults.tinymce, settings.tinymce );
+			init.selector = '#' + id;
+
+			$( document ).trigger( 'wp-before-tinymce-init', init );
+			window.tinymce.init( init );
+
+			if ( ! window.wpActiveEditor ) {
+				window.wpActiveEditor = id;
+			}
+		}
+
+		if ( window.quicktags && settings.quicktags ) {
+			if ( typeof settings.quicktags !== 'object' ) {
+				settings.quicktags = {};
+			}
+
+			init = $.extend( {}, defaults.quicktags, settings.quicktags );
+			init.id = id;
+
+			$( document ).trigger( 'wp-before-quicktags-init', init );
+			window.quicktags( init );
+
+			if ( ! window.wpActiveEditor ) {
+				window.wpActiveEditor = init.id;
+			}
+		}
+	};
+
+	/**
+	 * Get the editor content.
+	 *
+	 * Intended for use with editors that were initialized with wp.editor.initialize().
+	 *
+	 * @since 4.8
+	 *
+	 * @param {string} id The HTML id of the editor textarea.
+	 * @return The editor content.
+	 */
+	wp.editor.getContent = function( id ) {
+		var editor;
+
+		if ( ! $ || ! id ) {
+			return;
+		}
+
+		if ( window.tinymce ) {
+			editor = window.tinymce.get( id );
+
+			if ( editor && ! editor.isHidden() ) {
+				editor.save();
+			}
+		}
+
+		return $( '#' + id ).val();
+	};
+
+}( window.jQuery, window.wp ));
