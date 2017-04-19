@@ -240,11 +240,15 @@ final class WP_Site {
 			case 'siteurl':
 			case 'post_count':
 			case 'home':
+			default: // Custom properties added by 'site_details' filter.
 				if ( ! did_action( 'ms_loaded' ) ) {
 					return null;
 				}
+
 				$details = $this->get_details();
-				return $details->$key;
+				if ( isset( $details->$key ) ) {
+					return $details->$key;
+				}
 		}
 
 		return null;
@@ -275,6 +279,15 @@ final class WP_Site {
 					return false;
 				}
 				return true;
+			default: // Custom properties added by 'site_details' filter.
+				if ( ! did_action( 'ms_loaded' ) ) {
+					return false;
+				}
+
+				$details = $this->get_details();
+				if ( isset( $details->$key ) ) {
+					return true;
+				}
 		}
 
 		return false;
