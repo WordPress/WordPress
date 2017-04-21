@@ -1332,7 +1332,9 @@ body.full-overlay-active {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	position: fixed;
-	width: 300px;
+	min-width: 300px;
+	max-width: 600px;
+	width: 18%;
 	height: 100%;
 	top: 0;
 	bottom: 0;
@@ -1359,6 +1361,26 @@ body.full-overlay-active {
 
 .wp-full-overlay.collapsed .wp-full-overlay-sidebar {
 	margin-right: -300px;
+}
+
+@media screen and (min-width: 1667px) {
+	.wp-full-overlay.expanded {
+		margin-right: 18%;
+	}
+
+	.wp-full-overlay.collapsed .wp-full-overlay-sidebar {
+		margin-right: -18%;
+	}
+}
+
+@media screen and (min-width: 3333px) {
+	.wp-full-overlay.expanded {
+		margin-right: 600px;
+	}
+
+	.wp-full-overlay.collapsed .wp-full-overlay-sidebar {
+		margin-right: -600px;
+	}
 }
 
 .wp-full-overlay-sidebar:after {
@@ -1615,7 +1637,9 @@ body.full-overlay-active {
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	width: 299px;
+	min-width: 299px;
+	max-width: 599px;
+	width: 18%;
 	height: 45px;
 	border-top: 1px solid #ddd;
 	background: #eee;
