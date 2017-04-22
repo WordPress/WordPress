@@ -1357,6 +1357,8 @@ final class _WP_Editors {
 	 * @static
 	 */
 	public static function editor_js() {
+		global $tinymce_version;
+
 		$tmce_on = ! empty( self::$mce_settings );
 		$mceInit = $qtInit = '';
 
@@ -1388,6 +1390,7 @@ final class _WP_Editors {
 
 		$suffix = SCRIPT_DEBUG ? '' : '.min';
 		$baseurl = self::get_baseurl();
+		$version = 'ver=' . $tinymce_version;
 
 		/**
 		 * Fires immediately before the TinyMCE settings are printed.
