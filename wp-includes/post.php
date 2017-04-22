@@ -815,7 +815,7 @@ function register_post_status( $post_status, $args = array() ) {
 		$args->label = $post_status;
 
 	if ( false === $args->label_count )
-		$args->label_count = array( $args->label, $args->label );
+		$args->label_count = _n_noop( $args->label, $args->label );
 
 	$wp_post_statuses[$post_status] = $args;
 
