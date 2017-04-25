@@ -308,19 +308,21 @@
 	padding: 0;
 }
 
-#dashboard_primary .widget-loading,
-#dashboard_primary .dashboard-widget-control-form {
+#dashboard_primary .widget-loading {
 	padding: 12px 12px 0;
+	margin-bottom: 1em !important; /* Needs to override `.postbox .inside > p:last-child` in common.css */
+}
+
+/* Notice when JS is off. */
+#dashboard_primary .inside .notice {
+	margin: 0;
 }
 
 body #dashboard-widgets .postbox form .submit {
 	margin: 0;
 }
 
-.dashboard-widget-control-form {
-	overflow: hidden;
-}
-
+/* Used only for configurable widgets. */
 .dashboard-widget-control-form p {
 	margin-top: 0;
 }
