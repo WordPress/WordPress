@@ -201,12 +201,12 @@ class Gettext_Translations extends Translations {
 	 * @param string $expression
 	 */
 	function make_plural_form_function($nplurals, $expression) {
-		$expression = str_replace('n', '$n', $expression);
-		$func_body = "
+                str_replace(array('n', '< =', '> ='), array('$n', '<=', '>='), $expression);
+                $func_body = "
 			\$index = (int)($expression);
 			return (\$index < $nplurals)? \$index : $nplurals - 1;";
 		return create_function('$n', $func_body);
-	}
+        }
 
 	/**
 	 * Adds parentheses to the inner parts of ternary operators in
