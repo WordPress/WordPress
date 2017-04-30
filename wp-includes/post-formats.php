@@ -98,7 +98,7 @@ function get_post_format_strings() {
 		'video'    => _x( 'Video',    'Post format' ),
 		'audio'    => _x( 'Audio',    'Post format' ),
 	);
-	return $strings;
+	return apply_filters('get_post_format', $strings);
 }
 
 /**
