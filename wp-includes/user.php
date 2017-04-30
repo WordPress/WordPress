@@ -857,7 +857,12 @@ function count_users($strategy = 'time') {
 		$select_count = implode(', ', $select_count);
 
 		// Add the meta_value index to the selection list, then run the query.
-		$row = $wpdb->get_row( "SELECT $select_count, COUNT(*) FROM $wpdb->usermeta WHERE meta_key = '{$blog_prefix}capabilities'", ARRAY_N );
+		$row = $wpdb->get_row( "
+			SELECT {$select_count}, COUNT(*)
+			FROM {$wpdb->usermeta}
+			INNER JOIN {$wpdb->users} ON user_id = ID
+			WHERE meta_key = '{$blog_prefix}capabilities'
+		", ARRAY_N );
 
 		// Run the previous loop again to associate results with role names.
 		$col = 0;
@@ -881,7 +886,12 @@ function count_users($strategy = 'time') {
 			'none' => 0,
 		);
 
-		$users_of_blog = $wpdb->get_col( "SELECT meta_value FROM $wpdb->usermeta WHERE meta_key = '{$blog_prefix}capabilities'" );
+		$users_of_blog = $wpdb->get_col( "
+			SELECT meta_value
+			FROM {$wpdb->usermeta}
+			INNER JOIN {$wpdb->users} ON user_id = ID
+			WHERE meta_key = '{$blog_prefix}capabilities'
+		" );
 
 		foreach ( $users_of_blog as $caps_meta ) {
 			$b_roles = maybe_unserialize($caps_meta);
