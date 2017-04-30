@@ -8,6 +8,15 @@
  *
  * @package WordPress
  */
+if(defined('DISABLE_WP_CRON')) {
+	if(DISABLE_WP_CRON === TRUE){
+		if ( function_exists('php_sapi_name') ) {
+			if ( strpos( php_sapi_name(),'cli' ) === false ) {
+				die;
+			}
+		}
+	}
+}
 
 ignore_user_abort(true);
 
