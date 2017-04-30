@@ -1,0 +1,45 @@
+.sc_player_container1 {
+display: inline;
+}
+.sc_player_container1 .myButton_play {
+background: transparent url(../image/round-play-putton-black.png) no-repeat !important;
+cursor: pointer !important;
+width: 32px !important;
+height: 32px !important;
+border: none !important;
+position: relative;
+margin: 0 !important;
+padding: 0 !important;
+}
+.sc_player_container1 .myButton_stop {
+background: transparent url(../image/round-pause-button-black.png) no-repeat !important;
+cursor: pointer !important;
+width: 32px !important;
+height: 32px !important;
+border: none !important;
+position: relative;
+margin: 0 !important;
+padding: 0 !important;
+}
+
+.sc_player_container2 {
+max-width:56em;
+}
+.sc_player_container2 .myButton_play {
+background:url(../image/stop-play.jpg) no-repeat;
+background-position: -30px -30px;
+cursor:pointer;
+width: 40px;
+height: 30px;
+border: none;
+position:relative;
+}
+.sc_player_container2 .myButton_stop {
+background:url(../image/stop-play.jpg) no-repeat;
+background-position: -31px -90px;
+cursor:pointer;
+width: 40px;
+height: 30px;
+border: none;
+position:relative;
+}

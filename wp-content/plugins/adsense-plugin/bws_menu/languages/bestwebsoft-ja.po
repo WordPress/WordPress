@@ -1,0 +1,891 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: bestwebsoft\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-17 12:13+0300\n"
+"PO-Revision-Date: 2014-01-17 12:13+0300\n"
+"Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
+"Language-Team: foken <foken@gmx.com>\n"
+"Language: ja_JP\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: bws_menu.php:339
+msgid "Not set"
+msgstr "未設定"
+
+#: bws_menu.php:341
+#: bws_menu.php:345
+msgid "On"
+msgstr "On"
+
+#: bws_menu.php:343
+#: bws_menu.php:347
+msgid "Off"
+msgstr "Off"
+
+#: bws_menu.php:351
+#: bws_menu.php:355
+#: bws_menu.php:359
+#: bws_menu.php:363
+#: bws_menu.php:367
+#: bws_menu.php:393
+msgid "N/A"
+msgstr "該当なし"
+
+#: bws_menu.php:365
+msgid " Mb"
+msgstr " Mb"
+
+#: bws_menu.php:369
+#: bws_menu.php:373
+#: bws_menu.php:377
+#: bws_menu.php:388
+msgid "Yes"
+msgstr "はい"
+
+#: bws_menu.php:371
+#: bws_menu.php:375
+#: bws_menu.php:379
+#: bws_menu.php:390
+msgid "No"
+msgstr "いいえ"
+
+#: bws_menu.php:404
+msgid "Operating System"
+msgstr "オペレーション・システム"
+
+#: bws_menu.php:405
+msgid "Server"
+msgstr "サーバ"
+
+#: bws_menu.php:406
+msgid "Memory usage"
+msgstr "メモリー使用"
+
+#: bws_menu.php:407
+msgid "MYSQL Version"
+msgstr "MYSQL バージョン"
+
+#: bws_menu.php:408
+msgid "SQL Mode"
+msgstr "SQLモード"
+
+#: bws_menu.php:409
+msgid "PHP Version"
+msgstr "PHP バージョン"
+
+#: bws_menu.php:410
+msgid "PHP Safe Mode"
+msgstr "PHP Safe Mode"
+
+#: bws_menu.php:411
+msgid "PHP Allow URL fopen"
+msgstr "PHP Allow URL fopen"
+
+#: bws_menu.php:412
+msgid "PHP Memory Limit"
+msgstr "PHP Memory Limit"
+
+#: bws_menu.php:413
+msgid "PHP Max Upload Size"
+msgstr "PHP Max Upload Size"
+
+#: bws_menu.php:414
+msgid "PHP Max Post Size"
+msgstr "PHP Max Post Size"
+
+#: bws_menu.php:415
+msgid "PHP Max Script Execute Time"
+msgstr "PHP Max Script Execute Time"
+
+#: bws_menu.php:416
+msgid "PHP Exif support"
+msgstr "PHP Exif サポート"
+
+#: bws_menu.php:417
+msgid "PHP IPTC support"
+msgstr "PHP IPTC サポート"
+
+#: bws_menu.php:418
+msgid "PHP XML support"
+msgstr "PHP XML サポート"
+
+#: bws_menu.php:419
+msgid "Site URL"
+msgstr "サイトURL"
+
+#: bws_menu.php:420
+msgid "Home URL"
+msgstr "ホームURL"
+
+#: bws_menu.php:421
+msgid "WordPress Version"
+msgstr "WordPress バージョン"
+
+#: bws_menu.php:422
+msgid "WordPress DB Version"
+msgstr "WordPress データベース バージョン"
+
+#: bws_menu.php:423
+msgid "Multisite"
+msgstr "複数サイト"
+
+#: bws_menu.php:424
+msgid "Active Theme"
+msgstr "有効なテーマ"
+
+#: bws_menu.php:440
+msgid "Please enter a valid email address."
+msgstr "正確なEメール・アドレスを入力して下さい。"
+
+#: bws_menu.php:444
+msgid "Email with system info is sent to "
+msgstr "システム情報をメールで送信:"
+
+#: bws_menu.php:448
+msgid "Thank you for contacting us."
+msgstr "ご連絡ありがとうございます"
+
+#: bws_menu.php:476
+msgid "Sorry, email message could not be delivered."
+msgstr "申し訳ございませんが、貴方のemailは配信できませんでした。"
+
+#: bws_menu.php:488
+msgid "Switch to new interface"
+msgstr ""
+
+#: bws_menu.php:495
+msgid "Pro plugins"
+msgstr "Pro Plugins"
+
+#: bws_menu.php:498
+#: bws_menu.php:524
+msgid "Activated plugins"
+msgstr "有効なプラグイン"
+
+#: bws_menu.php:500
+#: bws_menu.php:508
+#: bws_menu.php:516
+#: bws_menu.php:526
+#: bws_menu.php:534
+#: bws_menu.php:542
+#: bws_menu.php:552
+#: bws_menu.php:559
+#: bws_menu.php:567
+msgid "Read more"
+msgstr "もっと読む"
+
+#: bws_menu.php:500
+#: bws_menu.php:526
+#: bws_menu.php:678
+#: bws_menu.php:706
+msgid "Settings"
+msgstr "設定"
+
+#: bws_menu.php:506
+#: bws_menu.php:532
+#: bws_menu.php:658
+msgid "Installed plugins"
+msgstr "導入済みプラグイン"
+
+#: bws_menu.php:514
+#: bws_menu.php:540
+#: bws_menu.php:765
+msgid "Recommended plugins"
+msgstr "推奨プラグイン"
+
+#: bws_menu.php:516
+msgid "Purchase"
+msgstr "購入"
+
+#: bws_menu.php:521
+msgid "Free plugins"
+msgstr "無料プラグイン"
+
+#: bws_menu.php:542
+#: bws_menu.php:567
+msgid "Download"
+msgstr "ダウンロード"
+
+#: bws_menu.php:542
+#: bws_menu.php:567
+#: bws_menu.php:867
+#, php-format
+msgid "Install %s"
+msgstr "%s 導入"
+
+#: bws_menu.php:542
+#: bws_menu.php:567
+msgid "Install now from wordpress.org"
+msgstr "wordpress.org から直ぐに導入"
+
+#: bws_menu.php:548
+msgid "Free themes"
+msgstr ""
+
+#: bws_menu.php:551
+#, fuzzy
+msgid "Activated theme"
+msgstr "有効なテーマ"
+
+#: bws_menu.php:552
+#, php-format
+msgid "Customize &#8220;%s&#8221;"
+msgstr ""
+
+#: bws_menu.php:552
+msgid "Customize"
+msgstr ""
+
+#: bws_menu.php:557
+#, fuzzy
+msgid "Installed themes"
+msgstr "%s 導入"
+
+#: bws_menu.php:565
+#, fuzzy
+msgid "Recommended themes"
+msgstr "推奨プラグイン"
+
+#: bws_menu.php:573
+msgid "If you have any questions, please contact us via"
+msgstr "もそご質問がある場合は、以下の方法でご連絡下さい:"
+
+#: bws_menu.php:580
+#: bws_menu.php:648
+#: bws_menu.php:903
+msgid "System status"
+msgstr "システム状況"
+
+#: bws_menu.php:584
+#: bws_menu.php:906
+msgid "Environment"
+msgstr "環境"
+
+#: bws_menu.php:595
+#: bws_menu.php:917
+msgid "Active Plugins"
+msgstr "有効なプラグイン"
+
+#: bws_menu.php:606
+#: bws_menu.php:928
+msgid "Inactive Plugins"
+msgstr "無効なプラグイン"
+
+#: bws_menu.php:620
+#: bws_menu.php:942
+msgid "Send to support"
+msgstr "サポートに送信"
+
+#: bws_menu.php:627
+#: bws_menu.php:949
+msgid "Send to custom email &#187;"
+msgstr "カスタムEメールに送信&#187;"
+
+#: bws_menu.php:638
+msgid "Switch to old interface"
+msgstr ""
+
+#: bws_menu.php:644
+#, fuzzy
+msgid "Plugins"
+msgstr "Pro Plugins"
+
+#: bws_menu.php:646
+msgid "Themes"
+msgstr ""
+
+#: bws_menu.php:652
+msgid "All"
+msgstr ""
+
+#: bws_menu.php:653
+#, fuzzy
+msgid "Installed"
+msgstr "%s 導入"
+
+#: bws_menu.php:654
+#, fuzzy
+msgid "Recommended"
+msgstr "推奨プラグイン"
+
+#: bws_menu.php:676
+#: bws_menu.php:704
+#: bws_menu.php:726
+#: bws_menu.php:754
+#: bws_menu.php:795
+#, fuzzy
+msgid "Learn more"
+msgstr "もっと読む"
+
+#: bws_menu.php:694
+#: bws_menu.php:744
+#: bws_menu.php:785
+msgid "Go"
+msgstr ""
+
+#: bws_menu.php:698
+#: bws_menu.php:748
+#: bws_menu.php:789
+msgid "DONATE"
+msgstr ""
+
+#: bws_menu.php:728
+#: bws_menu.php:756
+#, fuzzy
+msgid "Activate this plugin"
+msgstr "有効なプラグイン"
+
+#: bws_menu.php:728
+#: bws_menu.php:756
+#, fuzzy
+msgid "Activate"
+msgstr "有効なcaptcha"
+
+#: bws_menu.php:797
+#, fuzzy
+msgid "Install now"
+msgstr "Installa Ora"
+
+#: bws_menu.php:819
+msgid "Try again"
+msgstr ""
+
+#: bws_menu.php:836
+#, php-format
+msgid "Preview &#8220;%s&#8221;"
+msgstr ""
+
+#: bws_menu.php:867
+msgid "Install Now"
+msgstr "Installa Ora"
+
+#: bws_menu.php:870
+#, php-format
+msgid "Update to version %s"
+msgstr ""
+
+#: bws_menu.php:870
+msgid "Update"
+msgstr ""
+
+#: bws_menu.php:877
+#, php-format
+msgid "Preview %s"
+msgstr ""
+
+#: bws_menu.php:877
+msgid "Preview"
+msgstr ""
+
+#: bws_menu.php:884
+#, php-format
+msgid "By %s"
+msgstr ""
+
+#: bws_menu.php:890
+msgid "Details"
+msgstr ""
+
+#, fuzzy
+#~ msgid "installed"
+#~ msgstr "%s 導入"
+
+#~ msgid "Contact Form Settings"
+#~ msgstr "コンタクトフォーム設定"
+
+#~ msgid "Contact Form"
+#~ msgstr "コンタクトフォーム"
+
+#~ msgid "Contact Form Pro Extra Settings"
+#~ msgstr "Contact Form Pro 用設定"
+
+#~ msgid "Contact Form Pro"
+#~ msgstr "Contact Form Pro"
+
+#~ msgid "Name:"
+#~ msgstr "名前:"
+
+#~ msgid "Address:"
+#~ msgstr "住所:"
+
+#~ msgid "Email Address:"
+#~ msgstr "Eメール:"
+
+#~ msgid "Phone number:"
+#~ msgstr "電話番号:"
+
+#~ msgid "Subject:"
+#~ msgstr "件名:"
+
+#~ msgid "Message:"
+#~ msgstr "メッセージ:"
+
+#~ msgid "Attachment:"
+#~ msgstr "添付:"
+
+#~ msgid "Send me a copy"
+#~ msgstr "コピーを自分に送る"
+
+#~ msgid "Submit"
+#~ msgstr "送信"
+
+#~ msgid "Your name is required."
+#~ msgstr "名前は必須です。"
+
+#~ msgid "Address is required."
+#~ msgstr "住所が必要です。"
+
+#~ msgid "A valid email address is required."
+#~ msgstr "有効なEメールアドレスlが必須です。"
+
+#~ msgid "Phone number is required."
+#~ msgstr "電話番号は必須です。"
+
+#~ msgid "Subject is required."
+#~ msgstr "件名は必須です。"
+
+#~ msgid "Message text is required."
+#~ msgstr "メッセージ本文は必須です。"
+
+#~ msgid "File format is not valid."
+#~ msgstr "添付が壊れています。"
+
+#~ msgid "File upload error."
+#~ msgstr "ファイル・アップロード・エラー。"
+
+#~ msgid "The file could not be uploaded."
+#~ msgstr "ファイルは、アップロード出来ませんでした。"
+
+#~ msgid "This file is too large."
+#~ msgstr "このファイルは大きすぎます。"
+
+#~ msgid "Please fill out the CAPTCHA."
+#~ msgstr "CAPTCHAを入力して下さい。"
+
+#~ msgid "Please make corrections below and try again."
+#~ msgstr "以下を修正し、再度試して下さい。"
+
+#~ msgid ""
+#~ "If the 'Redirect to page' option is selected then the URL field should be "
+#~ "in the following format"
+#~ msgstr ""
+#~ "’ページに転送’オプションを選択した場合は、URLフィールドが、以下の形式にな"
+#~ "ります"
+
+#~ msgid "Such user does not exist. Settings are not saved."
+#~ msgstr "このようなユーザは存在しません。設定は保存されません。"
+
+#~ msgid ""
+#~ "Please enter a valid email address in the 'FROM' field. Settings are not "
+#~ "saved."
+#~ msgstr ""
+#~ "'送信者'フィールドに正確なEメール・アドレスを入力して下さい。設定は保存さ"
+#~ "れません。"
+
+#~ msgid "Settings saved."
+#~ msgstr "設定保存."
+
+#~ msgid "Extra settings"
+#~ msgstr "追加設定"
+
+#~ msgid ""
+#~ "If you would like to add the Contact Form to your website, just copy and "
+#~ "paste this shortcode to your post or page or widget:"
+#~ msgstr ""
+#~ "コンタクトフォームをあなたのサイトに追加したい場合は、このショートカットを"
+#~ "投稿、ページ又はウェジットにコピーして貼り付けるだけです:"
+
+#~ msgid "or"
+#~ msgstr "又は"
+
+#~ msgid ""
+#~ "If have any problems with the standard shortcode [contact_form], you "
+#~ "should use the shortcode"
+#~ msgstr ""
+#~ "標準的な短いコード [contact_form]に問題がある場合は、この短いコードをご利"
+#~ "用下さい"
+
+#~ msgid "They work the same way."
+#~ msgstr "同様に動作します。"
+
+#~ msgid ""
+#~ "If you leave the fields empty, the messages will be sent to the email "
+#~ "address specified during registration."
+#~ msgstr ""
+#~ "以下の項目の情報が空欄の場合、登録の際に記述したアドレスにメッセージが送ら"
+#~ "れます。"
+
+#~ msgid "The user's email address:"
+#~ msgstr "wordpressユーザのemailを利用r:"
+
+#~ msgid "Create a username"
+#~ msgstr "ユーザ名の選択"
+
+#~ msgid ""
+#~ "Enter a username of the person who should get the messages from the "
+#~ "contact form."
+#~ msgstr "コンタクトフォームからメッセージを受け取る方のユーザ名を入力。"
+
+#~ msgid "Use this email address:"
+#~ msgstr "このemailを利用:"
+
+#~ msgid "Enter the email address you want the messages forwarded to."
+#~ msgstr "メッセージ受信用のemailを設定。"
+
+#~ msgid "Additional options"
+#~ msgstr "追加オプション"
+
+#~ msgid "What to use?"
+#~ msgstr "何用途？"
+
+#~ msgid "Wp-mail"
+#~ msgstr "WPメール"
+
+#~ msgid "You can use the wp_mail function for mailing"
+#~ msgstr "メールにwp_mali機能が利用できます"
+
+#~ msgid "Mail"
+#~ msgstr "メール"
+
+#~ msgid "To send mail you can use the php mail function"
+#~ msgstr "メールを送信するには、phpメール機能が利用できます"
+
+#~ msgid "Change text of the 'FROM' field"
+#~ msgstr "'送信者' フィールドのテキストを変更"
+
+#~ msgid "Enter the email address in the 'From' field"
+#~ msgstr "'送信者' フィールドにメールアドレスを入力して下さい"
+
+#~ msgid "User email"
+#~ msgstr "ユーザ・Eメール"
+
+#~ msgid ""
+#~ "The email address of the user who fills the form will be used in the "
+#~ "field 'From'."
+#~ msgstr ""
+#~ "フォームを入力したユーザのEメール・アドレスは、'送信者'フィールドに使用さ"
+#~ "れます。"
+
+#~ msgid "This email address will be used in the 'From' field."
+#~ msgstr "このEメール・アドレスは、'送信者'フィールドに使用されます。"
+
+#~ msgid "Display fields"
+#~ msgstr "フィールドを表示"
+
+#~ msgid "Address"
+#~ msgstr "住所"
+
+#~ msgid "Phone"
+#~ msgstr "電話"
+
+#~ msgid "Attachment block"
+#~ msgstr "添付ブロック"
+
+#~ msgid "Users can attach the following file formats"
+#~ msgstr "ユーザは、以下のタイプのファイルを添付できる"
+
+#~ msgid "Captcha"
+#~ msgstr "Captcha"
+
+#~ msgid "(powered by bestwebsoft.com)"
+#~ msgstr "(powered by bestwebsoft.com)"
+
+#~ msgid "Download captcha"
+#~ msgstr "captchaをダウンロード"
+
+#, fuzzy
+#~ msgid "Display tips below the Attachment block"
+#~ msgstr "添付ブロックの下のチップス"
+
+#, fuzzy
+#~ msgid "Display 'Send me a copy' block"
+#~ msgstr "コピーブロックを自分に送る"
+
+#~ msgid "Required fields"
+#~ msgstr "必須フィールド"
+
+#~ msgid "Name"
+#~ msgstr "名前"
+
+#~ msgid "Email Address"
+#~ msgstr "Eメール・アドレス"
+
+#~ msgid "Subject"
+#~ msgstr "件名"
+
+#~ msgid "Message"
+#~ msgstr "メッセージ"
+
+#~ msgid "Display additional info in the email"
+#~ msgstr "メール中に追加情報を表示"
+
+#~ msgid "Sent from (ip address)"
+#~ msgstr "(IP-Adresse)から送られた"
+
+#, fuzzy
+#~ msgid "Example: Sent from (IP address):\t127.0.0.1"
+#~ msgstr "(IP-Adresse)から送られた"
+
+#~ msgid "Date/Time"
+#~ msgstr "日時"
+
+#~ msgid "Sent from (referer)"
+#~ msgstr "(referer)から送られている"
+
+#~ msgid "Using (user agent)"
+#~ msgstr "(user agent)使用"
+
+#~ msgid "Language settings for the field names in the form"
+#~ msgstr "フォームのフィールド名用の言語設定"
+
+#~ msgid "Add a language"
+#~ msgstr "言語の追加"
+
+#~ msgid "Change the names of the contact form fields and error messages"
+#~ msgstr "コンタクト・フォームのフィールドの名前及びエラーメッセージを変更"
+
+#~ msgid "English"
+#~ msgstr "英語"
+
+#~ msgid "Error message for the Name field"
+#~ msgstr "名前フィールド用のエラーメッセージ"
+
+#~ msgid "Error message for the Address field"
+#~ msgstr "住所フィールド用のエラーメッセージ"
+
+#~ msgid "Error message for the Email field"
+#~ msgstr "Eメール・フィールド用のエラーメッセージ"
+
+#~ msgid "Error message for the Phone field"
+#~ msgstr "電話フィールド用のエラーメッセージ"
+
+#~ msgid "Error message for the Subject field"
+#~ msgstr "件名フィールド用のエラーメッセージ"
+
+#~ msgid "Error message for the Message field"
+#~ msgstr "メッセージ・フィールド用のエラーメッセージ"
+
+#~ msgid "Error message about the file type for the Attachment field"
+#~ msgstr "添付フィールド用の拡張子タイプに関するエラーメッセージ"
+
+#~ msgid ""
+#~ "Error message while uploading a file for the Attachment field to the "
+#~ "server"
+#~ msgstr ""
+#~ "添付フィールド用のファイルをサーバにアップロード中のエラーメッセージ"
+
+#~ msgid "Error message while moving the file for the Attachment field"
+#~ msgstr "添付フィールド用のファイルを移動中のエラーメッセージ"
+
+#~ msgid ""
+#~ "Error message when file size limit for the Attachment field is exceeded"
+#~ msgstr "添付フィールド用のファイルサイズ制限を超した場合のエラーメッセージ"
+
+#~ msgid "Error message for the Captcha field"
+#~ msgstr "Captcha フィールド用のエラーメッセージ"
+
+#~ msgid "Error message for the whole form"
+#~ msgstr "全体フォーム用のエラーメッセージ"
+
+#~ msgid "Use shortcode"
+#~ msgstr "短いコードの利用"
+
+#~ msgid "for this language"
+#~ msgstr "この言語用"
+
+#~ msgid "Action after email is sent"
+#~ msgstr "メール送信後の行動"
+
+#~ msgid "Display text"
+#~ msgstr "テキストを表示"
+
+#~ msgid "Text"
+#~ msgstr "文字"
+
+#~ msgid "Redirect to the page"
+#~ msgstr "ページに転送"
+
+#~ msgid "Url"
+#~ msgstr "Url"
+
+#~ msgid "Save Changes"
+#~ msgstr "変更を保存"
+
+#~ msgid "Contact Form Pro | Extra Settings"
+#~ msgstr "Contact Form Pro | 追加設定"
+
+#~ msgid ""
+#~ "This functionality is available in the Pro version of the plugin. For "
+#~ "more details, please follow the link"
+#~ msgstr ""
+#~ "この機能は、プラグインのProバージョンで利用できます。詳細は、リンクを参照"
+#~ "して下さい。"
+
+#~ msgid "Errors output"
+#~ msgstr "エラー出力"
+
+#~ msgid "Display error messages"
+#~ msgstr "エラーメッセージの表示"
+
+#~ msgid "Color of the input field errors."
+#~ msgstr "入力フィールド・エラーの色"
+
+#~ msgid "Display error messages & color of the input field errors"
+#~ msgstr "エラーメッセージと入力フィールド・エラーの色を表示"
+
+#~ msgid "Add placeholder to the input blocks"
+#~ msgstr "プレースホルダーを入力ブロックに追加"
+
+#~ msgid "Add tooltips"
+#~ msgstr "ツールチップの追加"
+
+#~ msgid "Email address"
+#~ msgstr "Eメール・アドレス"
+
+#~ msgid "Phone Number"
+#~ msgstr "電話番号"
+
+#~ msgid "Attachment"
+#~ msgstr "添付"
+
+#~ msgid "Style options"
+#~ msgstr "スタイル・オプション"
+
+#~ msgid "Text color"
+#~ msgstr "文字色"
+
+#~ msgid "Default"
+#~ msgstr "標準"
+
+#~ msgid "Label text color"
+#~ msgstr "ラベル文字色"
+
+#~ msgid "Placeholder color"
+#~ msgstr "プレースホルダ色"
+
+#~ msgid "Errors color"
+#~ msgstr "エラーの色"
+
+#~ msgid "Error text color"
+#~ msgstr "エラーテキストの色"
+
+#~ msgid "Background color of the input field errors"
+#~ msgstr "入力フィールド・エラーの背景色"
+
+#~ msgid "Border color of the input field errors"
+#~ msgstr "入力フィールド・エラーの罫線色"
+
+#~ msgid "Placeholder color of the input field errors"
+#~ msgstr "入力フィールド・エラー用のプレースホルダ色"
+
+#~ msgid "Input fields"
+#~ msgstr "フィールドを入力"
+
+#~ msgid "Input fields background color"
+#~ msgstr "フィールドの背景色の入力"
+
+#~ msgid "Text fields color"
+#~ msgstr "文字フィールド色"
+
+#~ msgid "Border width in px, numbers only"
+#~ msgstr "罫線幅(px単位)、数値のみ"
+
+#~ msgid "Border color"
+#~ msgstr "罫線色"
+
+#~ msgid "Submit button"
+#~ msgstr "送信ボタン"
+
+#~ msgid "Width in px, numbers only"
+#~ msgstr "px単位の幅、数字のみ"
+
+#~ msgid "Button color"
+#~ msgstr "ボタンの色"
+
+#~ msgid "Button text color"
+#~ msgstr "ボタン文字の色"
+
+#~ msgid "Contact Form Pro | Preview"
+#~ msgstr "Contact Form Pro | プレビュー"
+
+#~ msgid "Show with errors"
+#~ msgstr "エラーで表示"
+
+#~ msgid "Please enter your full name..."
+#~ msgstr "貴方の氏名を入力して下さい..."
+
+#~ msgid "Please enter your address..."
+#~ msgstr "貴方の住所を入力して下さい..."
+
+#~ msgid "Please enter your email address..."
+#~ msgstr "貴方のEメール・アドレスを入力して下さい..."
+
+#~ msgid "Please enter your phone number..."
+#~ msgstr "貴方の電話番号を入力して下さい..."
+
+#~ msgid "Please enter subject..."
+#~ msgstr "件名を入力して下さい..."
+
+#~ msgid "Please enter your message..."
+#~ msgstr "メッセージを入力して下さい..."
+
+#~ msgid ""
+#~ "Supported file types: HTML, TXT, CSS, GIF, PNG, JPEG, JPG, TIFF, BMP, AI, "
+#~ "EPS, PS, RTF, PDF, DOC, DOCX, XLS, ZIP, RAR, WAV, MP3, PPT. Max file "
+#~ "size: 2MB"
+#~ msgstr ""
+#~ "サポートしてるファイル形式: HTML, TXT, CSS, GIF, PNG, JPEG, JPG, TIFF, "
+#~ "BMP, AI, EPS, PS, RTF, PDF, DOC, DOCX, XLS, ZIP, RAR, WAV, MP3, PPT. 最大"
+#~ "ファイルサイズ: 2MB"
+
+#~ msgid "You can attach the following file formats"
+#~ msgstr "貴方は、以下のタイプのファイルを添付できます"
+
+#~ msgid "Contact from"
+#~ msgstr "コンタクトフォーム"
+
+#~ msgid "Email"
+#~ msgstr "Eメール"
+
+#~ msgid "Site"
+#~ msgstr "サイト"
+
+#~ msgid ""
+#~ "If you can see this MIME, it means that the MIME type is not supported by "
+#~ "your email client!"
+#~ msgstr ""
+#~ "このMIMEを見ている場合は、貴方のクライアントはMIMEタイプを読めません。"
+
+#~ msgid "FAQ"
+#~ msgstr "FAQ"
+
+#~ msgid "Support"
+#~ msgstr "サポート"
+
+#~ msgid "Are you sure that you want to delete this language data?"
+#~ msgstr "本当に、この言語データを削除しますか?"
+
+#~ msgid "Contact Form Options"
+#~ msgstr "コンタクトフォーム オプション"
+
+#, fuzzy
+#~ msgid "Display Attachment tips"
+#~ msgstr "添付ブロックを表示"
+
+#~ msgid "Please enter a valid email address. Settings are not saved."
+#~ msgstr "正確なemailを入力して下さい。設定は保存されません。"
+
+#, fuzzy
+#~ msgid "E-Mail Address"
+#~ msgstr "E-Mail:"
+
+#~ msgid "E-Mail Addresse:"
+#~ msgstr "Indirizzo e-mail:"

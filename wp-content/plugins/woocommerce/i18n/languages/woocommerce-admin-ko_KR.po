@@ -1,0 +1,5456 @@
+# 
+# Translators:
+# Eugine Kim <martian36@naver.com>, 2014
+# Eugine Kim <martian36@naver.com>, 2013
+# Eugine Kim <martian36@naver.com>, 2013
+# Eugine Kim <martian36@naver.com>, 2013
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce\n"
+"Report-Msgid-Bugs-To: https://github.com/woothemes/woocommerce/issues\n"
+"POT-Creation-Date: 2014-06-30 14:28:36+00:00\n"
+"PO-Revision-Date: 2014-07-01 03:10+0000\n"
+"Last-Translator: Eugine Kim <martian36@naver.com>\n"
+"Language-Team: Korean (Korea) (http://www.transifex.com/projects/p/woocommerce/language/ko_KR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko_KR\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: includes/admin/class-wc-admin-assets.php:65
+#: includes/admin/class-wc-admin-menus.php:48
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:49
+#: includes/admin/wc-admin-functions.php:19
+msgid "WooCommerce"
+msgstr "우커머스"
+
+#: includes/admin/class-wc-admin-assets.php:108
+msgid "Please enter in decimal (%s) format without thousand separators."
+msgstr "천 단위 기호 없이 십진수 (%s) 형식으로 입력하세요."
+
+#: includes/admin/class-wc-admin-assets.php:109
+msgid ""
+"Please enter in monetary decimal (%s) format without thousand separators and"
+" currency symbols."
+msgstr "천 단위 기호 및 통화 기호 없이 십진수 통화(%s) 형식으로 입력해주세요."
+
+#: includes/admin/class-wc-admin-assets.php:136
+msgid ""
+"Are you sure you want to remove the selected items? If you have previously "
+"reduced this item's stock, or this order was submitted by a customer, you "
+"will need to manually restore the item's stock."
+msgstr "선택된 아이템을 제거하기를 원하시나요? 이전에 이 아이템의 재고를 감소한 적이 있거나 이 주문이 고객에 의해 제출된 것이라면 해당 아이템의 재고를 수동으로 복구할 필요가 있습니다."
+
+#: includes/admin/class-wc-admin-assets.php:137
+msgid "Please select some items."
+msgstr "몇개의 아이템을 선택해주세요."
+
+#: includes/admin/class-wc-admin-assets.php:138
+msgid "Remove this item meta?"
+msgstr "이 아이템의 메타를 제거하시겠습니까?"
+
+#: includes/admin/class-wc-admin-assets.php:139
+msgid "Remove this attribute?"
+msgstr "이 속성을 제거하시겠습니까?"
+
+#: includes/admin/class-wc-admin-assets.php:140
+#: includes/admin/class-wc-admin-attributes.php:239
+#: includes/admin/class-wc-admin-attributes.php:275
+#: includes/admin/class-wc-admin-attributes.php:307
+#: includes/admin/class-wc-admin-attributes.php:330
+#: includes/admin/class-wc-admin-attributes.php:374
+#: includes/admin/class-wc-admin-attributes.php:399
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:259
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:186
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:442
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:536
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:148
+#: includes/admin/settings/class-wc-settings-shipping.php:203
+msgid "Name"
+msgstr "이름"
+
+#: includes/admin/class-wc-admin-assets.php:141
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:434
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:528
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:6
+msgid "Remove"
+msgstr "제거하기"
+
+#: includes/admin/class-wc-admin-assets.php:142
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:435
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:529
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:7
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:7
+msgid "Click to toggle"
+msgstr "토글하려면 클릭하세요"
+
+#: includes/admin/class-wc-admin-assets.php:143
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:450
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:542
+msgid "Value(s)"
+msgstr "값"
+
+#: includes/admin/class-wc-admin-assets.php:144
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:543
+msgid "Enter some text, or some attributes by pipe (|) separating values."
+msgstr "몇개의 텍스트를 입력하거나 파이프(|) 분리 값으로 몇개의 속성을 입력하세요."
+
+#: includes/admin/class-wc-admin-assets.php:145
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:493
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:548
+msgid "Visible on the product page"
+msgstr "상품 페이지에 보임"
+
+#: includes/admin/class-wc-admin-assets.php:146
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:506
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:554
+msgid "Used for variations"
+msgstr "옵션에 사용됨"
+
+#: includes/admin/class-wc-admin-assets.php:147
+msgid "Enter a name for the new attribute term:"
+msgstr "새로운 속성 용어의 이름을 입력하세요:"
+
+#: includes/admin/class-wc-admin-assets.php:148
+msgid "Calculate totals based on order items, discounts, and shipping?"
+msgstr "주문 아이템, 할인, 배송 기준으로 총계를 계산하시겠습니까?"
+
+#: includes/admin/class-wc-admin-assets.php:149
+msgid ""
+"Calculate line taxes? This will calculate taxes based on the customers "
+"country. If no billing/shipping is set it will use the store base country."
+msgstr "행 세금을 계산할까요? 이것은 고객 국가 기준으로 세금을 계산합니다. 청구/배송이 설정되지 않으면 상점 기준 국가를 사용할 것입니다."
+
+#: includes/admin/class-wc-admin-assets.php:150
+msgid ""
+"Copy billing information to shipping information? This will remove any "
+"currently entered shipping information."
+msgstr "청구 정보를 배송 정보에 복사할까요? 이것은 현재의 모든 입력된 배송 정보를 제거합니다."
+
+#: includes/admin/class-wc-admin-assets.php:151
+msgid ""
+"Load the customer's billing information? This will remove any currently "
+"entered billing information."
+msgstr "고객의 배송 정보를 로드할까요? 이것은 현재 입력된 모든 청구 정보를 제거합니다."
+
+#: includes/admin/class-wc-admin-assets.php:152
+msgid ""
+"Load the customer's shipping information? This will remove any currently "
+"entered shipping information."
+msgstr "고객의 배송 정보를 로드할까요? 이것은 현재 입력된 모든 배송 정보를 제거합니다."
+
+#: includes/admin/class-wc-admin-assets.php:153
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:173
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:273
+#: includes/admin/views/html-bulk-edit-product.php:170
+#: includes/admin/views/html-quick-edit-product.php:128
+msgid "Featured"
+msgstr "특성"
+
+#: includes/admin/class-wc-admin-assets.php:156
+msgid "No customer selected"
+msgstr "고객이 선택되지 않았습니다"
+
+#: includes/admin/class-wc-admin-assets.php:182
+msgid ""
+"Could not grant access - the user may already have permission for this file "
+"or billing email is not set. Ensure the billing email is set, and the order "
+"has been saved."
+msgstr "접근을 허용할 수 없습니다 - 사용자가 이 파일에 대해 이미 허용이 돼있을 수도 있거나 청구지 이메일이 설정돼있지 않습니다. 청구지 이메일이 설정돼있는지, 주문이 저장됐는지 확인하세요. "
+
+#: includes/admin/class-wc-admin-assets.php:183
+msgid "Are you sure you want to revoke access to this download?"
+msgstr "정말로 이 다운로드 접근 폐기를 원하시나요?"
+
+#: includes/admin/class-wc-admin-assets.php:203
+msgid ""
+"Are you sure you want to link all variations? This will create a new "
+"variation for each and every possible combination of variation attributes "
+"(max 50 per run)."
+msgstr "정말로 모든 옵션 링크를 원하시나요? 이것은 모든 가능한 옵션 속성 조합에 대해서 새로운 옵션을 생성합니다 (운행당 최대 50)."
+
+#: includes/admin/class-wc-admin-assets.php:204
+msgid "Enter a value"
+msgstr "값을 입력하세요"
+
+#: includes/admin/class-wc-admin-assets.php:205
+msgid "Enter a value (fixed or %)"
+msgstr "값을 입력하세요 (고정 또는 %)"
+
+#: includes/admin/class-wc-admin-assets.php:206
+msgid "Are you sure you want to delete all variations? This cannot be undone."
+msgstr "정말로 모든 옵션 제거를 원하시나요? 복구할 수 없습니다."
+
+#: includes/admin/class-wc-admin-assets.php:207
+msgid "Last warning, are you sure?"
+msgstr "마지막 경고입니다. 정말인가요?"
+
+#: includes/admin/class-wc-admin-assets.php:208
+#: includes/admin/class-wc-admin-taxonomies.php:123
+#: includes/admin/class-wc-admin-taxonomies.php:210
+msgid "Choose an image"
+msgstr "이미지를 선택하세요"
+
+#: includes/admin/class-wc-admin-assets.php:209
+msgid "Set variation image"
+msgstr "옵션 이미지 설정"
+
+#: includes/admin/class-wc-admin-assets.php:210
+msgid "variation added"
+msgstr "옵션 추가됨"
+
+#: includes/admin/class-wc-admin-assets.php:211
+msgid "variations added"
+msgstr "옵션 추가됨"
+
+#: includes/admin/class-wc-admin-assets.php:212
+msgid "No variations added"
+msgstr "옵션이 추가되지 않았습니다"
+
+#: includes/admin/class-wc-admin-assets.php:213
+msgid "Are you sure you want to remove this variation?"
+msgstr "정말로 이 옵션 제거를 원하시나요?"
+
+#: includes/admin/class-wc-admin-attributes.php:82
+msgid "Please, provide an attribute name, slug and type."
+msgstr "속성 이름, 슬러그, 형식을 입력해주세요."
+
+#: includes/admin/class-wc-admin-attributes.php:84
+msgid "Slug “%s” is too long (28 characters max). Shorten it, please."
+msgstr "슬러그 \"%s\"는 너무 깁니다 (최대 28 글자). 짧게 해주세요."
+
+#: includes/admin/class-wc-admin-attributes.php:86
+msgid ""
+"Slug “%s” is not allowed because it is a reserved term. Change it, please."
+msgstr "슬러그 \"%s\"는 유보된 용어이므로 허용되지 않습니다. 변경해주세요."
+
+#: includes/admin/class-wc-admin-attributes.php:91
+#: includes/admin/class-wc-admin-attributes.php:96
+msgid "Slug “%s” is already in use. Change it, please."
+msgstr "슬러그 \"%s\"는 이미 사용 중입니다. 변경해주세요."
+
+#: includes/admin/class-wc-admin-attributes.php:233
+msgid "Edit Attribute"
+msgstr "속성 편집하기"
+
+#: includes/admin/class-wc-admin-attributes.php:243
+#: includes/admin/class-wc-admin-attributes.php:376
+msgid "Name for the attribute (shown on the front-end)."
+msgstr "속성에 대한 이름 (프론트 엔드에 보임)"
+
+#: includes/admin/class-wc-admin-attributes.php:248
+#: includes/admin/class-wc-admin-attributes.php:308
+#: includes/admin/class-wc-admin-attributes.php:380
+msgid "Slug"
+msgstr "슬러그"
+
+#: includes/admin/class-wc-admin-attributes.php:252
+#: includes/admin/class-wc-admin-attributes.php:382
+msgid ""
+"Unique slug/reference for the attribute; must be shorter than 28 characters."
+msgstr "속성에 대한 독특한 슬러그/참조; 28 글자보다 짧아야 합니다."
+
+#: includes/admin/class-wc-admin-attributes.php:257
+#: includes/admin/class-wc-admin-attributes.php:309
+#: includes/admin/class-wc-admin-attributes.php:386
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:274
+msgid "Type"
+msgstr "형식"
+
+#: includes/admin/class-wc-admin-attributes.php:261
+#: includes/admin/class-wc-admin-attributes.php:388
+msgid "Select"
+msgstr "Select"
+
+#: includes/admin/class-wc-admin-attributes.php:262
+#: includes/admin/class-wc-admin-attributes.php:389
+msgid "Text"
+msgstr "Text"
+
+#: includes/admin/class-wc-admin-attributes.php:265
+#: includes/admin/class-wc-admin-attributes.php:392
+msgid ""
+"Determines how you select attributes for products. Under admin panel -> "
+"products -> product data -> attributes -> values, <strong>Text</strong> "
+"allows manual entry whereas <strong>select</strong> allows pre-configured "
+"terms in a drop-down list."
+msgstr "상품의 속성을 선택하는 방식을 결정합니다. 관리자 화면 -> 상품 -> 상품 데이터 -> 속성 -> 값에서 <strong>텍스트</strong>는 수동 입력을 허용하고 <strong>선택</strong>은 드롭다운 목록에서 미리 설정된 용어를 허용합니다."
+
+#: includes/admin/class-wc-admin-attributes.php:270
+#: includes/admin/class-wc-admin-attributes.php:396
+msgid "Default sort order"
+msgstr "기본 분류 순서"
+
+#: includes/admin/class-wc-admin-attributes.php:274
+#: includes/admin/class-wc-admin-attributes.php:336
+#: includes/admin/class-wc-admin-attributes.php:398
+msgid "Custom ordering"
+msgstr "사용자 정의 순서"
+
+#: includes/admin/class-wc-admin-attributes.php:276
+#: includes/admin/class-wc-admin-attributes.php:333
+#: includes/admin/class-wc-admin-attributes.php:400
+msgid "Term ID"
+msgstr "용어 ID"
+
+#: includes/admin/class-wc-admin-attributes.php:278
+#: includes/admin/class-wc-admin-attributes.php:402
+msgid ""
+"Determines the sort order of the terms on the frontend shop product pages. "
+"If using custom ordering, you can drag and drop the terms in this attribute."
+msgstr "전면 페이지 상점 상품 페이지에서 용어의 분류 순서를 결정합니다. 사용자 정의 순서를 사용하려면 이 속성의 용어를 끌어놓기로 할 수 있습니다."
+
+#: includes/admin/class-wc-admin-attributes.php:283
+msgid "Update"
+msgstr "업데이트"
+
+#: includes/admin/class-wc-admin-attributes.php:299
+#: includes/admin/class-wc-admin-menus.php:50
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:105
+msgid "Attributes"
+msgstr "속성"
+
+#: includes/admin/class-wc-admin-attributes.php:310
+msgid "Order by"
+msgstr "순서"
+
+#: includes/admin/class-wc-admin-attributes.php:311
+msgid "Terms"
+msgstr "용어"
+
+#: includes/admin/class-wc-admin-attributes.php:323
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:177
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:322
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:82
+#: includes/admin/reports/class-wc-report-customer-list.php:192
+#: includes/admin/reports/class-wc-report-stock.php:112
+msgid "Edit"
+msgstr "편집"
+
+#: includes/admin/class-wc-admin-attributes.php:323
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:44
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:6
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:5
+msgid "Delete"
+msgstr "제거하기"
+
+#: includes/admin/class-wc-admin-attributes.php:356
+msgid "Configure terms"
+msgstr "용어 환경 설정"
+
+#: includes/admin/class-wc-admin-attributes.php:360
+msgid "No attributes currently exist."
+msgstr "현재 존재하는 속성이 없습니다."
+
+#: includes/admin/class-wc-admin-attributes.php:370
+msgid "Add New Attribute"
+msgstr "새 속성 추가하기"
+
+#: includes/admin/class-wc-admin-attributes.php:371
+msgid ""
+"Attributes let you define extra product data, such as size or colour. You "
+"can use these attributes in the shop sidebar using the \"layered nav\" "
+"widgets. Please note: you cannot rename an attribute later on."
+msgstr "속성은 사이즈나 컬러와 같은 추가적인 상품 데이터를 정의할 수 있습니다. \"레이어 nav\" 위젯을 사용해서 상점 사이드바에서 이들 속성을 사용할 수 있습니다. 주의하세요: 나중에 속성의 이름을 변경할 수 없습니다."
+
+#: includes/admin/class-wc-admin-attributes.php:405
+msgid "Add Attribute"
+msgstr "속성 추가하기"
+
+#: includes/admin/class-wc-admin-attributes.php:416
+msgid "Are you sure you want to delete this attribute?"
+msgstr "이 속성을 제거하시겠습니까?"
+
+#: includes/admin/class-wc-admin-dashboard.php:35
+msgid "WooCommerce Recent Reviews"
+msgstr "우커머스 최근 리뷰"
+
+#: includes/admin/class-wc-admin-dashboard.php:38
+#: includes/admin/class-wc-admin-menus.php:81
+msgid "WooCommerce Status"
+msgstr "우커머스 상태"
+
+#: includes/admin/class-wc-admin-dashboard.php:132
+msgid "<strong>%s</strong> sales this month"
+msgstr "<strong>%s</strong> 이달의 판매"
+
+#: includes/admin/class-wc-admin-dashboard.php:139
+msgid "%s top seller this month (sold %d)"
+msgstr "%s 이달의 최상위 판매 상품 (판매 %d)"
+
+#: includes/admin/class-wc-admin-dashboard.php:145
+msgid "<strong>%s order</strong> awaiting processing"
+msgid_plural "<strong>%s orders</strong> awaiting processing"
+msgstr[0] "<strong>%s 주문</strong> 처리 대기중"
+
+#: includes/admin/class-wc-admin-dashboard.php:150
+msgid "<strong>%s order</strong> on-hold"
+msgid_plural "<strong>%s orders</strong> on-hold"
+msgstr[0] "<strong>%s 주문</strong> 대기 중"
+
+#: includes/admin/class-wc-admin-dashboard.php:155
+msgid "<strong>%s product</strong> low in stock"
+msgid_plural "<strong>%s products</strong> low in stock"
+msgstr[0] "<strong>%s 상품</strong> 재고 부족"
+
+#: includes/admin/class-wc-admin-dashboard.php:160
+msgid "<strong>%s product</strong> out of stock"
+msgid_plural "<strong>%s products</strong> out of stock"
+msgstr[0] "<strong>%s 상품</strong> 품절"
+
+#: includes/admin/class-wc-admin-dashboard.php:193
+msgid "out of 5"
+msgstr "5개 중에"
+
+#: includes/admin/class-wc-admin-dashboard.php:195
+msgid "reviewed by"
+msgstr "리뷰"
+
+#: includes/admin/class-wc-admin-dashboard.php:201
+msgid "There are no product reviews yet."
+msgstr "아직 상품 리뷰가 없습니다."
+
+#: includes/admin/class-wc-admin-duplicate-product.php:43
+msgid "Make a duplicate from this product"
+msgstr "이 상품에서 복사본 만들기"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:44
+msgid "Duplicate"
+msgstr "복사"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:67
+msgid "Copy to a new draft"
+msgstr "복사해서 새 임시글 만들기"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:77
+msgid "No product to duplicate has been supplied!"
+msgstr "복사할 상품이 제공되지 않았습니다!"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:99
+msgid "Product creation failed, could not find original product:"
+msgstr "상품 생성이 실패했습니다. 원본 상품을 찾을 수 없습니다:"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:126
+msgid "(Copy)"
+msgstr "(복사본)"
+
+#: includes/admin/class-wc-admin-help.php:38
+msgid "Documentation"
+msgstr "문서"
+
+#: includes/admin/class-wc-admin-help.php:41
+msgid ""
+"Thank you for using WooCommerce :) Should you need help using or extending "
+"WooCommerce please read the documentation."
+msgstr "우커머스를 사용해주셔서 감사합니다 :) 우커머스 사용이나 확장에 도움이 필요하면 문서를 읽으세요."
+
+#: includes/admin/class-wc-admin-help.php:43
+msgid "WooCommerce Documentation"
+msgstr "우커머스 문서"
+
+#: includes/admin/class-wc-admin-help.php:43
+msgid "Developer API Docs"
+msgstr "개발자 API 문서"
+
+#: includes/admin/class-wc-admin-help.php:49
+msgid "Support"
+msgstr "지원"
+
+#: includes/admin/class-wc-admin-help.php:52
+msgid ""
+"After <a href=\"%s\">reading the documentation</a>, for further assistance "
+"you can use the <a href=\"%s\">community forum</a>, or if you have access as"
+" a WooThemes customer, <a href=\"%s\">our support desk</a>."
+msgstr "<a href=\"%s\">문서를 읽은 후</a>, 도움이 더 필요하시면 <a href=\"%s\">커뮤니티 포럼</a>을 이용할 수 있습니다. 또는 우커머스 고객으로 접근이 가능하면 <a href=\"%s\">지원 데스크</a>로."
+
+#: includes/admin/class-wc-admin-help.php:54
+msgid ""
+"Before asking for help we recommend checking the status page to identify any"
+" problems with your configuration."
+msgstr "도움을 위한 질문을 하기 전에 환경 설정에 있는 문제를 확인하기 위해 상태 페이지를 점검할 것을 권장합니다."
+
+#: includes/admin/class-wc-admin-help.php:56
+#: includes/admin/class-wc-admin-help.php:67
+#: includes/admin/class-wc-admin-menus.php:81
+#: includes/admin/views/html-admin-page-status.php:5
+#: includes/admin/views/html-notice-template-check.php:6
+msgid "System Status"
+msgstr "시스템 상태"
+
+#: includes/admin/class-wc-admin-help.php:56
+msgid "Community Support"
+msgstr "커뮤니티 지원"
+
+#: includes/admin/class-wc-admin-help.php:56
+msgid "Customer Support"
+msgstr "고객 지원"
+
+#: includes/admin/class-wc-admin-help.php:62
+msgid "Found a bug?"
+msgstr "버그를 발견하셨나요?"
+
+#: includes/admin/class-wc-admin-help.php:65
+msgid ""
+"If you find a bug within WooCommerce core you can create a ticket via <a "
+"href=\"%s\">Github issues</a>. Ensure you read the <a "
+"href=\"%s\">contribution guide</a> prior to submitting your report. Be as "
+"descriptive as possible and please include your <a href=\"%s\">system status"
+" report</a>."
+msgstr "우커머스 코어에서 버그를 발견하신다면 <a href=\"%s\">깃허브 문제 발생</a>을 통해 티켓을 생성할 수 있습니다. 보고서를 제출하기 전에 <a href=\"%s\">기여 가이드</a>를 꼭 읽으세요. 가능한 한 충분한 설명과 <a href=\"%s\">시스템 상태 보고서</a>를 포함해주세요."
+
+#: includes/admin/class-wc-admin-help.php:67
+msgid "Report a bug"
+msgstr "버그 보고하기"
+
+#: includes/admin/class-wc-admin-help.php:73
+msgid "For more information:"
+msgstr "더 많은 정보:"
+
+#: includes/admin/class-wc-admin-help.php:74
+#: includes/admin/class-wc-admin-welcome.php:49
+msgid "About WooCommerce"
+msgstr "우커머스에 관해서"
+
+#: includes/admin/class-wc-admin-help.php:75
+msgid "Project on WordPress.org"
+msgstr "WordPress.org 프로젝트"
+
+#: includes/admin/class-wc-admin-help.php:76
+msgid "Project on Github"
+msgstr "Github 프로젝트"
+
+#: includes/admin/class-wc-admin-help.php:77
+msgid "Official Extensions"
+msgstr "공식 확장 프로그램"
+
+#: includes/admin/class-wc-admin-help.php:78
+msgid "Official Themes"
+msgstr "공식 테마"
+
+#: includes/admin/class-wc-admin-importers.php:32
+msgid "WooCommerce Tax Rates (CSV)"
+msgstr "우커머스 세율 (CSV)"
+
+#: includes/admin/class-wc-admin-importers.php:32
+msgid "Import <strong>tax rates</strong> to your store via a csv file."
+msgstr "csv 파일을 통해 내 상점에 <strong>세율</strong> 가져오기"
+
+#: includes/admin/class-wc-admin-menus.php:57
+msgid "Reports"
+msgstr "보고서"
+
+#: includes/admin/class-wc-admin-menus.php:64
+msgid "WooCommerce Settings"
+msgstr "우커머스 설정"
+
+#: includes/admin/class-wc-admin-menus.php:64
+#: includes/admin/class-wc-admin-welcome.php:219
+#: includes/admin/settings/class-wc-settings-checkout.php:277
+#: includes/admin/settings/class-wc-settings-shipping.php:243
+#: includes/admin/views/html-admin-page-status-report.php:275
+msgid "Settings"
+msgstr "설정"
+
+#: includes/admin/class-wc-admin-menus.php:89
+#: includes/admin/views/html-admin-page-addons.php:4
+msgid "WooCommerce Add-ons/Extensions"
+msgstr "우커머스 애드온/확장 플러그인"
+
+#: includes/admin/class-wc-admin-menus.php:89
+msgid "Add-ons"
+msgstr "애드온"
+
+#: includes/admin/class-wc-admin-menus.php:127
+#: includes/admin/class-wc-admin-menus.php:129
+msgctxt "Admin menu name"
+msgid "Orders"
+msgstr "주문"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:33
+msgid "Product permalink base"
+msgstr "상품 고유주소 기준"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:38
+msgid "Product category base"
+msgstr "상품 카테고리 기준"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:45
+msgid "Product tag base"
+msgstr "상품 태그 기준"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:52
+msgid "Product attribute base"
+msgstr "상품 속성 기준"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:65
+msgctxt "slug"
+msgid "product-category"
+msgstr "상품-카테고리"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:75
+msgctxt "slug"
+msgid "product-tag"
+msgstr "상품-태그"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:93
+msgid ""
+"These settings control the permalinks used for products. These settings only"
+" apply when <strong>not using \"default\" permalinks above</strong>."
+msgstr "이 설정은 상품에 사용된 고유주소를 제어합니다. 이 설정은 <strong>위의 \"기본\" 고유주소를 사용하지 않을 경우</strong>에만 적용됩니다."
+
+#: includes/admin/class-wc-admin-permalink-settings.php:100
+msgctxt "default-slug"
+msgid "shop"
+msgstr "상점"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:101
+msgctxt "default-slug"
+msgid "product"
+msgstr "상품"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:113
+#: includes/admin/class-wc-admin-taxonomies.php:88
+#: includes/admin/class-wc-admin-taxonomies.php:177
+#: includes/admin/settings/class-wc-settings-checkout.php:226
+#: includes/admin/settings/class-wc-settings-shipping.php:202
+#: includes/admin/views/html-admin-page-status-report.php:76
+msgid "Default"
+msgstr "기본"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:117
+#: includes/admin/reports/class-wc-report-stock.php:141
+msgid "Product"
+msgstr "상품"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:122
+msgid "Shop base"
+msgstr "상점 기준"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:126
+msgid "Shop base with category"
+msgstr "카테고리가 있는 상점 기준"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:132
+msgid "Custom Base"
+msgstr "사용자 정의 기준"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:134
+msgid ""
+"Enter a custom base to use. A base <strong>must</strong> be set or WordPress"
+" will use default instead."
+msgstr "사용할 사용자 정의 기준을 입력하세요. 기준은 설정 <strong>돼야하며</strong> 그렇지 않으면 워드프레스가 기본 설정을 사용할 것입니다. "
+
+#: includes/admin/class-wc-admin-permalink-settings.php:184
+msgctxt "slug"
+msgid "product"
+msgstr "상품"
+
+#: includes/admin/class-wc-admin-post-types.php:58
+msgid "Product updated. <a href=\"%s\">View Product</a>"
+msgstr "상품 업데이트됨. <a href=\"%s\">상품 보기</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:59
+#: includes/admin/class-wc-admin-post-types.php:74
+#: includes/admin/class-wc-admin-post-types.php:89
+msgid "Custom field updated."
+msgstr "사용자 정의 필드 업데이트됨."
+
+#: includes/admin/class-wc-admin-post-types.php:60
+#: includes/admin/class-wc-admin-post-types.php:75
+#: includes/admin/class-wc-admin-post-types.php:90
+msgid "Custom field deleted."
+msgstr "사용자정의 필드 삭제됨."
+
+#: includes/admin/class-wc-admin-post-types.php:61
+msgid "Product updated."
+msgstr "상품 업데이트됨."
+
+#: includes/admin/class-wc-admin-post-types.php:62
+msgid "Product restored to revision from %s"
+msgstr "상품이 %s에서 리비전으로 복구됐습니다"
+
+#: includes/admin/class-wc-admin-post-types.php:63
+msgid "Product published. <a href=\"%s\">View Product</a>"
+msgstr "상품 발행됨. <a href=\"%s\">상품 보기</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:64
+msgid "Product saved."
+msgstr "상품 저장됨."
+
+#: includes/admin/class-wc-admin-post-types.php:65
+msgid "Product submitted. <a target=\"_blank\" href=\"%s\">Preview Product</a>"
+msgstr "상품 제출됨. <a target=\"_blank\" href=\"%s\">상품 미리보기</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:66
+msgid ""
+"Product scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" "
+"href=\"%2$s\">Preview Product</a>"
+msgstr "상품 예약됨: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">상품 미리보기</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:67
+#: includes/admin/class-wc-admin-post-types.php:82
+#: includes/admin/class-wc-admin-post-types.php:97
+msgid "M j, Y @ G:i"
+msgstr "Y M j, @ G:i"
+
+#: includes/admin/class-wc-admin-post-types.php:68
+msgid "Product draft updated. <a target=\"_blank\" href=\"%s\">Preview Product</a>"
+msgstr "상품 임시글 업데이트됨. <a target=\"_blank\" href=\"%s\">상품 미리보기</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:73
+#: includes/admin/class-wc-admin-post-types.php:76
+#: includes/admin/class-wc-admin-post-types.php:78
+msgid "Order updated."
+msgstr "주문 업데이트됨."
+
+#: includes/admin/class-wc-admin-post-types.php:77
+msgid "Order restored to revision from %s"
+msgstr "주문이 %s에서 리비전으로 복구됐습니다"
+
+#: includes/admin/class-wc-admin-post-types.php:79
+msgid "Order saved."
+msgstr "주문이 저장됐습니다."
+
+#: includes/admin/class-wc-admin-post-types.php:80
+msgid "Order submitted."
+msgstr "주문이 제출됐습니다."
+
+#: includes/admin/class-wc-admin-post-types.php:81
+msgid "Order scheduled for: <strong>%1$s</strong>."
+msgstr "주문 예약됨: <strong>%1$s</strong>."
+
+#: includes/admin/class-wc-admin-post-types.php:83
+msgid "Order draft updated."
+msgstr "주문 임시글이 업데이트됐습니다."
+
+#: includes/admin/class-wc-admin-post-types.php:88
+#: includes/admin/class-wc-admin-post-types.php:91
+#: includes/admin/class-wc-admin-post-types.php:93
+msgid "Coupon updated."
+msgstr "쿠폰이 업데이트됐습니다."
+
+#: includes/admin/class-wc-admin-post-types.php:92
+msgid "Coupon restored to revision from %s"
+msgstr "쿠폰이 %s에서 리비전으로 복구됐습니다"
+
+#: includes/admin/class-wc-admin-post-types.php:94
+msgid "Coupon saved."
+msgstr "쿠폰이 저장됐습니다."
+
+#: includes/admin/class-wc-admin-post-types.php:95
+msgid "Coupon submitted."
+msgstr "쿠폰이 제출됐습니다."
+
+#: includes/admin/class-wc-admin-post-types.php:96
+msgid "Coupon scheduled for: <strong>%1$s</strong>."
+msgstr "쿠폰 예약됨: <strong>%1$s</strong>."
+
+#: includes/admin/class-wc-admin-post-types.php:98
+msgid "Coupon draft updated."
+msgstr "쿠폰 임시글이 업데이트됐습니다."
+
+#: includes/admin/class-wc-admin-profile.php:45
+msgid "Customer Billing Address"
+msgstr "고객 청구 주소"
+
+#: includes/admin/class-wc-admin-profile.php:48
+#: includes/admin/class-wc-admin-profile.php:97
+msgid "First name"
+msgstr "이름"
+
+#: includes/admin/class-wc-admin-profile.php:52
+#: includes/admin/class-wc-admin-profile.php:101
+msgid "Last name"
+msgstr "성"
+
+#: includes/admin/class-wc-admin-profile.php:56
+#: includes/admin/class-wc-admin-profile.php:105
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:37
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:84
+msgid "Company"
+msgstr "회사"
+
+#: includes/admin/class-wc-admin-profile.php:60
+#: includes/admin/class-wc-admin-profile.php:109
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:41
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:88
+msgid "Address 1"
+msgstr "주소 1"
+
+#: includes/admin/class-wc-admin-profile.php:64
+#: includes/admin/class-wc-admin-profile.php:113
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:45
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:92
+msgid "Address 2"
+msgstr "주소 2"
+
+#: includes/admin/class-wc-admin-profile.php:68
+#: includes/admin/class-wc-admin-profile.php:117
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:49
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:96
+#: includes/admin/settings/class-wc-settings-tax.php:256
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "City"
+msgstr "도시"
+
+#: includes/admin/class-wc-admin-profile.php:72
+#: includes/admin/class-wc-admin-profile.php:121
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:53
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:100
+msgid "Postcode"
+msgstr "우편 번호"
+
+#: includes/admin/class-wc-admin-profile.php:76
+#: includes/admin/class-wc-admin-profile.php:125
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:63
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:110
+msgid "State/County"
+msgstr "주/군"
+
+#: includes/admin/class-wc-admin-profile.php:77
+#: includes/admin/class-wc-admin-profile.php:126
+msgid "State/County or state code"
+msgstr "주/군 또는 주 코드"
+
+#: includes/admin/class-wc-admin-profile.php:80
+#: includes/admin/class-wc-admin-profile.php:129
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:57
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:104
+msgid "Country"
+msgstr "국가"
+
+#: includes/admin/class-wc-admin-profile.php:81
+#: includes/admin/class-wc-admin-profile.php:130
+msgid "2 letter Country code"
+msgstr "2 글자 국가 코드"
+
+#: includes/admin/class-wc-admin-profile.php:84
+msgid "Telephone"
+msgstr "전화번호"
+
+#: includes/admin/class-wc-admin-profile.php:88
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:67
+#: includes/admin/reports/class-wc-report-customer-list.php:249
+msgid "Email"
+msgstr "이메일"
+
+#: includes/admin/class-wc-admin-profile.php:94
+msgid "Customer Shipping Address"
+msgstr "고객 배송 주소"
+
+#: includes/admin/class-wc-admin-profile.php:197
+msgid "Read"
+msgstr "읽기"
+
+#: includes/admin/class-wc-admin-profile.php:198
+msgid "Write"
+msgstr "쓰기"
+
+#: includes/admin/class-wc-admin-profile.php:199
+msgid "Read/Write"
+msgstr "읽기/쓰기"
+
+#: includes/admin/class-wc-admin-profile.php:207
+msgid "WooCommerce API Keys"
+msgstr "우커머스 API 키"
+
+#: includes/admin/class-wc-admin-profile.php:211
+msgid "Generate API Key"
+msgstr "API 키 생성하기"
+
+#: includes/admin/class-wc-admin-profile.php:213
+msgid "Consumer Key:"
+msgstr "고객 키:"
+
+#: includes/admin/class-wc-admin-profile.php:214
+msgid "Consumer Secret:"
+msgstr "고객 비밀번호:"
+
+#: includes/admin/class-wc-admin-profile.php:215
+msgid "Permissions:"
+msgstr "권한:"
+
+#: includes/admin/class-wc-admin-profile.php:219
+msgid "Revoke API Key"
+msgstr "API 키 취소하기"
+
+#: includes/admin/class-wc-admin-reports.php:43
+#: includes/admin/reports/class-wc-report-customer-list.php:251
+msgid "Orders"
+msgstr "주문"
+
+#: includes/admin/class-wc-admin-reports.php:46
+msgid "Sales by date"
+msgstr "일자별 판매"
+
+#: includes/admin/class-wc-admin-reports.php:52
+msgid "Sales by product"
+msgstr "상품별 판매"
+
+#: includes/admin/class-wc-admin-reports.php:58
+msgid "Sales by category"
+msgstr "카테고리별 판매"
+
+#: includes/admin/class-wc-admin-reports.php:64
+msgid "Coupons by date"
+msgstr "일자별 쿠폰"
+
+#: includes/admin/class-wc-admin-reports.php:72
+#: includes/admin/reports/class-wc-report-customer-list.php:30
+msgid "Customers"
+msgstr "고객"
+
+#: includes/admin/class-wc-admin-reports.php:75
+msgid "Customers vs. Guests"
+msgstr "고객과 비회원"
+
+#: includes/admin/class-wc-admin-reports.php:81
+msgid "Customer List"
+msgstr "고객 목록"
+
+#: includes/admin/class-wc-admin-reports.php:89
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:266
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:773
+#: includes/admin/reports/class-wc-report-stock.php:25
+#: includes/admin/reports/class-wc-report-stock.php:26
+msgid "Stock"
+msgstr "재고"
+
+#: includes/admin/class-wc-admin-reports.php:92
+msgid "Low in stock"
+msgstr "재고 부족"
+
+#: includes/admin/class-wc-admin-reports.php:98
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:441
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:303
+#: includes/admin/reports/class-wc-report-stock.php:98
+#: includes/admin/views/html-bulk-edit-product.php:195
+#: includes/admin/views/html-quick-edit-product.php:138
+msgid "Out of stock"
+msgstr "품절"
+
+#: includes/admin/class-wc-admin-reports.php:104
+msgid "Most Stocked"
+msgstr "가장 많은 재고"
+
+#: includes/admin/class-wc-admin-reports.php:115
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:75
+msgid "Taxes"
+msgstr "세금"
+
+#: includes/admin/class-wc-admin-reports.php:118
+msgid "Taxes by code"
+msgstr "코드에 의한 세금"
+
+#: includes/admin/class-wc-admin-reports.php:124
+msgid "Taxes by date"
+msgstr "날짜에 의한 세금"
+
+#: includes/admin/class-wc-admin-settings.php:54
+msgid "Action failed. Please refresh the page and retry."
+msgstr "작업이 실패했습니다. 페이지를 새로고침하고 다시 해보세요."
+
+#: includes/admin/class-wc-admin-settings.php:65
+msgid "Your settings have been saved."
+msgstr "설정이 저장됐습니다."
+
+#: includes/admin/class-wc-admin-settings.php:121
+msgid "The changes you made will be lost if you navigate away from this page."
+msgstr "이 페이지를 떠나면 변경사항을 잃게 됩니다."
+
+#: includes/admin/class-wc-admin-settings.php:490
+msgid "Hard Crop?"
+msgstr "원본 비율 무시"
+
+#: includes/admin/class-wc-admin-settings.php:515
+msgid "Select a page&hellip;"
+msgstr "페이지를 선택하세요&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:538
+msgid "Choose a country&hellip;"
+msgstr "국가를 선택하세요&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:562
+msgid "Choose countries&hellip;"
+msgstr "국가를 선택하세요&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:568
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:464
+msgid "Select all"
+msgstr "모두 선택"
+
+#: includes/admin/class-wc-admin-settings.php:568
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:464
+msgid "Select none"
+msgstr "아무것도 선택하지 않음"
+
+#: includes/admin/class-wc-admin-status.php:52
+msgid "Product Transients Cleared"
+msgstr "상품 과도 상태 제거됨"
+
+#: includes/admin/class-wc-admin-status.php:93
+msgid "%d Transients Rows Cleared"
+msgstr "%d 과도 상태 행 제거됨"
+
+#: includes/admin/class-wc-admin-status.php:102
+msgid "Roles successfully reset"
+msgstr "역할이 성공적으로 초기화됐습니다"
+
+#: includes/admin/class-wc-admin-status.php:116
+msgid "Terms successfully recounted"
+msgstr "용어가 성공적으로 재계산 되었습니다"
+
+#: includes/admin/class-wc-admin-status.php:127
+msgid "Sessions successfully cleared"
+msgstr "세션이 성공적으로 제거됐습니다"
+
+#: includes/admin/class-wc-admin-status.php:131
+msgid "All missing WooCommerce pages was installed successfully."
+msgstr "모든 사라진 우커머스 페이지가 성공적으로 설치됐습니다."
+
+#: includes/admin/class-wc-admin-status.php:139
+msgid "Tax rates successfully deleted"
+msgstr "세율 삭제 성공"
+
+#: includes/admin/class-wc-admin-status.php:148
+msgid "There was an error calling %s::%s"
+msgstr "%s를 부르는데 에러가 발생했습니다: %s"
+
+#: includes/admin/class-wc-admin-status.php:151
+msgid "There was an error calling %s"
+msgstr "%s를 부르는데 에러가 발생했습니다"
+
+#: includes/admin/class-wc-admin-status.php:161
+msgid "Your changes have been saved."
+msgstr "변경 사항이 저장됐습니다."
+
+#: includes/admin/class-wc-admin-status.php:175
+msgid "WC Transients"
+msgstr "우커머스 과도 상태"
+
+#: includes/admin/class-wc-admin-status.php:176
+msgid "Clear transients"
+msgstr "과도 상태 제거하기"
+
+#: includes/admin/class-wc-admin-status.php:177
+msgid "This tool will clear the product/shop transients cache."
+msgstr "이 도구는 상품/상점 과도 상태 캐시를 제거합니다."
+
+#: includes/admin/class-wc-admin-status.php:180
+msgid "Expired Transients"
+msgstr "만료된 과도 상태"
+
+#: includes/admin/class-wc-admin-status.php:181
+msgid "Clear expired transients"
+msgstr "만료된 과도 상태 제거하기"
+
+#: includes/admin/class-wc-admin-status.php:182
+msgid "This tool will clear ALL expired transients from WordPress."
+msgstr "이 도구는 워드프레스의 만료된 모든 트랜젼트를 제거합니다."
+
+#: includes/admin/class-wc-admin-status.php:185
+msgid "Term counts"
+msgstr "용어 계산"
+
+#: includes/admin/class-wc-admin-status.php:186
+msgid "Recount terms"
+msgstr "용어 재계산"
+
+#: includes/admin/class-wc-admin-status.php:187
+msgid ""
+"This tool will recount product terms - useful when changing your settings in"
+" a way which hides products from the catalog."
+msgstr "이 도구는 상품 용어를 재계산합니다 - 카탈로그에서 상품을 감추는 식으로 설정을 변경할 때 유용합니다."
+
+#: includes/admin/class-wc-admin-status.php:190
+msgid "Capabilities"
+msgstr "권한"
+
+#: includes/admin/class-wc-admin-status.php:191
+msgid "Reset capabilities"
+msgstr "권한 초기화"
+
+#: includes/admin/class-wc-admin-status.php:192
+msgid ""
+"This tool will reset the admin, customer and shop_manager roles to default. "
+"Use this if your users cannot access all of the WooCommerce admin pages."
+msgstr "이 툴은 관리자, 고객, 상점 관리자 역할을 기본으로 초기화합니다. 사용자가 우커머스 관리자 페이지의 모든 것에 접근이 안될 경우 이것을 사용하세요."
+
+#: includes/admin/class-wc-admin-status.php:195
+msgid "Customer Sessions"
+msgstr "고객 세션"
+
+#: includes/admin/class-wc-admin-status.php:196
+msgid "Clear all sessions"
+msgstr "모든 세션 제거하기"
+
+#: includes/admin/class-wc-admin-status.php:197
+msgid ""
+"<strong class=\"red\">Warning:</strong> This tool will delete all customer "
+"session data from the database, including any current live carts."
+msgstr "<strong class=\"red\">경고</strong> 이 도구는 현재 남아있는 카트를 포함하여 데이터베이스에서 고객의 모든 세션 데이터를 제거합니다."
+
+#: includes/admin/class-wc-admin-status.php:200
+#: includes/admin/views/html-notice-install.php:6
+msgid "Install WooCommerce Pages"
+msgstr "우커머스 페이지 설치하기"
+
+#: includes/admin/class-wc-admin-status.php:201
+msgid "Install pages"
+msgstr "페이지 설치"
+
+#: includes/admin/class-wc-admin-status.php:202
+msgid ""
+"<strong class=\"red\">Note:</strong> This tool will install all the missing "
+"WooCommerce pages. Pages already defined and set up will not be replaced."
+msgstr "<strong class=\"red\">주의</strong> 이 도구는 모든 사라진 우커머스 페이지를 설치합니다. 페이지는 이미 정의돼있고 설정은 교체되지 않습니다."
+
+#: includes/admin/class-wc-admin-status.php:205
+msgid "Delete all WooCommerce tax rates"
+msgstr "모든 우커머스 세율 삭제하기"
+
+#: includes/admin/class-wc-admin-status.php:206
+msgid "Delete ALL tax rates"
+msgstr "모든 세율 삭제하기"
+
+#: includes/admin/class-wc-admin-status.php:207
+msgid ""
+"<strong class=\"red\">Note:</strong> This option will delete ALL of your tax"
+" rates, use with caution."
+msgstr "<strong class=\"red\">주의</strong> 이 옵션은 모든 세율을 삭제하니 주의하세요."
+
+#: includes/admin/class-wc-admin-taxonomies.php:86
+#: includes/admin/class-wc-admin-taxonomies.php:174
+msgid "Display type"
+msgstr "보이기 형식"
+
+#: includes/admin/class-wc-admin-taxonomies.php:89
+#: includes/admin/class-wc-admin-taxonomies.php:178
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:97
+#: includes/admin/settings/class-wc-settings-products.php:25
+#: includes/admin/views/html-admin-page-addons.php:16
+msgid "Products"
+msgstr "상품"
+
+#: includes/admin/class-wc-admin-taxonomies.php:90
+#: includes/admin/class-wc-admin-taxonomies.php:179
+msgid "Subcategories"
+msgstr "하위 카테고리"
+
+#: includes/admin/class-wc-admin-taxonomies.php:91
+#: includes/admin/class-wc-admin-taxonomies.php:180
+msgid "Both"
+msgstr "둘다"
+
+#: includes/admin/class-wc-admin-taxonomies.php:95
+#: includes/admin/class-wc-admin-taxonomies.php:185
+msgid "Thumbnail"
+msgstr "썸네일"
+
+#: includes/admin/class-wc-admin-taxonomies.php:99
+#: includes/admin/class-wc-admin-taxonomies.php:190
+msgid "Upload/Add image"
+msgstr "업로드/ 이미지 추가"
+
+#: includes/admin/class-wc-admin-taxonomies.php:100
+#: includes/admin/class-wc-admin-taxonomies.php:191
+msgid "Remove image"
+msgstr "이미지 제거"
+
+#: includes/admin/class-wc-admin-taxonomies.php:125
+#: includes/admin/class-wc-admin-taxonomies.php:212
+msgid "Use image"
+msgstr "이미지 사용하기"
+
+#: includes/admin/class-wc-admin-taxonomies.php:270
+msgid ""
+"Product categories for your store can be managed here. To change the order "
+"of categories on the front-end you can drag and drop to sort them. To see "
+"more categories listed click the \"screen options\" link at the top of the "
+"page."
+msgstr "상점의 상품 카테고리는 이곳에서 관리할 수 있습니다. 사이트의 카테고리 순서를 변경하려면 분류하기 위해 끌어놓기 할 수 있습니다. 카테고리 목록을 더 보려면 페이지 상단의 \"화면 옵션\" 링크를 클릭하세요."
+
+#: includes/admin/class-wc-admin-taxonomies.php:280
+msgid ""
+"Shipping classes can be used to group products of similar type. These groups"
+" can then be used by certain shipping methods to provide different rates to "
+"different products."
+msgstr "배송 클래스는 비슷한 형태의 상품을 그룹화하는데 사용될 수 있습니다. 이 그룹은 다른 상품에 다른 세율을 제공하기 위해서 특정한 배송 방법에 의해 사용될 수 있습니다."
+
+#: includes/admin/class-wc-admin-taxonomies.php:293
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:257
+msgid "Image"
+msgstr "이미지"
+
+#: includes/admin/class-wc-admin-welcome.php:50
+msgid "Welcome to WooCommerce"
+msgstr "우커머스에 오신 것을 환영합니다"
+
+#: includes/admin/class-wc-admin-welcome.php:201
+msgid "Welcome to WooCommerce %s"
+msgstr "우커머스 %s에 오신 것을 환영합니다"
+
+#: includes/admin/class-wc-admin-welcome.php:206
+msgid "Thanks, all done!"
+msgstr "감사합니다, 모두 완료됐습니다!"
+
+#: includes/admin/class-wc-admin-welcome.php:208
+msgid "Thank you for updating to the latest version!"
+msgstr "최신 버전 업데이트를 감사드립니다!"
+
+#: includes/admin/class-wc-admin-welcome.php:210
+msgid "Thanks for installing!"
+msgstr "설치해주셔서 감사합니다!"
+
+#: includes/admin/class-wc-admin-welcome.php:212
+msgid ""
+"%s WooCommerce %s is more powerful, stable, and secure than ever before. We "
+"hope you enjoy it."
+msgstr "%s 우커머스 %s는 이전보다 더 강력하고 안정적이며 안전합니다. 즐길 수 있기를 바랍니다."
+
+#: includes/admin/class-wc-admin-welcome.php:216
+msgid "Version %s"
+msgstr "버전 %s"
+
+#: includes/admin/class-wc-admin-welcome.php:220
+msgid "Docs"
+msgstr "문서"
+
+#: includes/admin/class-wc-admin-welcome.php:227
+msgid "What's New"
+msgstr "새로운 것"
+
+#: includes/admin/class-wc-admin-welcome.php:229
+msgid "Credits"
+msgstr "크레딧"
+
+#: includes/admin/class-wc-admin-welcome.php:231
+msgid "Translators"
+msgstr "번역자"
+
+#: includes/admin/class-wc-admin-welcome.php:249
+msgid "A new RESTful API developers will &#10084;"
+msgstr "새로운 RESTful API 개발자 &#10084;"
+
+#: includes/admin/class-wc-admin-welcome.php:252
+msgid "Access your data from 3rd party applications"
+msgstr "제3자 애플리케이션으로부터 데이터 접근"
+
+#: includes/admin/class-wc-admin-welcome.php:253
+msgid ""
+"Built on top of the WooCommerce API, and targeted directly at developers, "
+"the new REST API allows you to get data for <strong>Orders</strong>, "
+"<strong>Coupons</strong>, <strong>Customers</strong>, "
+"<strong>Products</strong> and <strong>Reports</strong> in both "
+"<code>XML</code> and <code>JSON</code> formats."
+msgstr "우커머스 API 상위에 설치되어 직접 개발자를 대상으로 하며 새로운 REST API는 <code>XML</code>과 <code>JSON</code> 형식으로 <strong>주문</strong>, <strong>쿠폰</strong>, <strong>고객</strong>, <strong>상품</strong>, <strong>보고서</strong>의 데이터를 가져오도록 허용합니다. "
+
+#: includes/admin/class-wc-admin-welcome.php:257
+msgid "Authentication to keep data secure"
+msgstr "데이터를 안전하게 유지하도록 인증"
+
+#: includes/admin/class-wc-admin-welcome.php:258
+msgid ""
+"Authentication for the REST API is performed using HTTP Basic Auth if you "
+"have SSL enabled, or signed according to the <a "
+"href=\"http://tools.ietf.org/html/rfc5849\">OAuth 1.0a</a> specification if "
+"you don't have SSL. Data is only available to authenticated users."
+msgstr "REST API 인증은 SSL이 활성화됐을 경우 HTTP Basic Auth를 사용해 실행되거나 또는 SSl이 없을 경우 <a href=\"http://tools.ietf.org/html/rfc5849\">OAuth 1.0a</a> 사양에 따라 서명됩니다. 데이터는 인증된 사용자만 가능합니다."
+
+#: includes/admin/class-wc-admin-welcome.php:263
+msgid "UI and reporting improvements"
+msgstr "UI와 보고서 개선"
+
+#: includes/admin/class-wc-admin-welcome.php:266
+msgid "WordPress 3.8 admin UI compatibility"
+msgstr "워드프레스 3.8 관리자 UI 호환성"
+
+#: includes/admin/class-wc-admin-welcome.php:267
+msgid ""
+"WooCommerce 2.1 has had its UI restyled to work with the new admin design in"
+" WordPress 3.8. All bitmap icons have been replaced with a custom, "
+"lightweight icon font for razor sharp clarity on retina devices as well as "
+"improved performance."
+msgstr "우커머스 2.1은 워드프레스 3.8의 새로운 관리자 디자인과 작동하도록 UI를 다시 스타일 했습니다. 모든 비트맵 아이콘은 가벼운 사용자 정의 아이콘 폰트로 교체 됐습니다. 이는 레티나 기기에서 선명하고 깨끗하며 개선된 성능을 보여줍니다."
+
+#: includes/admin/class-wc-admin-welcome.php:270
+msgid "Simplified order UI"
+msgstr "단순화된 주문 UI"
+
+#: includes/admin/class-wc-admin-welcome.php:271
+msgid ""
+"The orders panel has seen significant improvement to both the totals panel, "
+"and line item display making editing new and existing orders a breeze."
+msgstr "주문 패널은 특별히 개선 됐으며 총계 패널과 라인 아이템은 새 주문과 기존의 주문을 산뜻하게 표시되도록 만들었습니다."
+
+#: includes/admin/class-wc-admin-welcome.php:272
+msgid ""
+"Item meta has also been optimised and can now be viewed as HTML rather than "
+"stuck in a text input."
+msgstr "아이템 메타 또한 최적화 됐으며 텍스트 입력이 아닌 HTML로 볼 수 있도록 됐습니다."
+
+#: includes/admin/class-wc-admin-welcome.php:275
+msgid "Improved Reporting"
+msgstr "개선된 보고 기능"
+
+#: includes/admin/class-wc-admin-welcome.php:276
+msgid ""
+"Reports have been redesigned with new <strong>filtering</strong> "
+"capabilities, a new <strong>customer report</strong> showing "
+"orders/spending, and the ability to <strong>export CSVs</strong>."
+msgstr "보고 기능은 재디자인됐으며 새로운 <strong>필터링</strong> 기능, 새로운 <strong>고객 보고서</strong>는 주문/지출을 보여줍니다. 또한 <strong>CSV 내보내기</strong> 기능도 있습니다.  "
+
+#: includes/admin/class-wc-admin-welcome.php:277
+msgid ""
+"The dashboard also has a new widget showing you an overview of current "
+"orders complete with sparklines for quick at-a-glance stats."
+msgstr "대시보드는 새 위젯이 설치됐으며 빠른 통계보기를 위해 스파크라인을 이용 현재 주문의 전체 보기를 보여줍니다."
+
+#: includes/admin/class-wc-admin-welcome.php:282
+msgid "Separated integrations"
+msgstr "분리된 결합"
+
+#: includes/admin/class-wc-admin-welcome.php:285
+msgid "New separate plugins"
+msgstr "새로운 분리된 플러그인"
+
+#: includes/admin/class-wc-admin-welcome.php:286
+msgid ""
+"To make core more lean, some integrations have been removed and turned into "
+"dedicated plugins which you can install as and when you need them."
+msgstr "코어를 보다 가볍게 하기 위해 일부 결합은 제거되고 단일 플러그인으로 전환돼 필요에 따라 별도로 설치할 수 있습니다."
+
+#: includes/admin/class-wc-admin-welcome.php:289
+msgid "Google Analytics"
+msgstr "구글 애널리틱스"
+
+#: includes/admin/class-wc-admin-welcome.php:290
+msgid "Add Google Analytics eCommerce tracking to your WooCommerce store."
+msgstr "구글 애널리틱스 이커머스 추적을 우커머스 상점에 추가하세요."
+
+#: includes/admin/class-wc-admin-welcome.php:291
+#: includes/admin/class-wc-admin-welcome.php:296
+#: includes/admin/class-wc-admin-welcome.php:301
+#: includes/admin/class-wc-admin-welcome.php:306
+#: includes/admin/class-wc-admin-welcome.php:311
+msgid "Download"
+msgstr "내려받기"
+
+#: includes/admin/class-wc-admin-welcome.php:294
+msgid "Piwik"
+msgstr "Piwik"
+
+#: includes/admin/class-wc-admin-welcome.php:295
+msgid "Integrate WooCommerce with Piwik and the WP-Piwik plugin."
+msgstr "Piwik와 WP-Piwik 플러그인으로 우커머스를 결합하세요."
+
+#: includes/admin/class-wc-admin-welcome.php:299
+msgid "ShareThis"
+msgstr "ShareThis"
+
+#: includes/admin/class-wc-admin-welcome.php:300
+msgid "Add social network sharing buttons to products using ShareThis."
+msgstr "ShareThis를 이용해 상품에 소셜 네트워크 공유 버튼을 추가하세요."
+
+#: includes/admin/class-wc-admin-welcome.php:304
+msgid "Sharedaddy"
+msgstr "Sharedaddy"
+
+#: includes/admin/class-wc-admin-welcome.php:305
+msgid "Add social network sharing buttons to products using Sharedaddy."
+msgstr "Sharedaddy를 이용해 상품에 소셜 네트워크 공유 버튼을 추가하세요."
+
+#: includes/admin/class-wc-admin-welcome.php:309
+msgid "ShareYourCart"
+msgstr "ShareYourCart"
+
+#: includes/admin/class-wc-admin-welcome.php:310
+msgid ""
+"Let users share their carts for a discount using the ShareYourCart service."
+msgstr "ShareYourCart 서비스를 이용해 사용자가 장바구니 할인을 받도록 하세요."
+
+#: includes/admin/class-wc-admin-welcome.php:316
+msgid "Under the Hood"
+msgstr "세부 내용"
+
+#: includes/admin/class-wc-admin-welcome.php:320
+msgid "PayPal PDT support"
+msgstr "PayPal PDT 지원"
+
+#: includes/admin/class-wc-admin-welcome.php:321
+msgid ""
+"PayPal Data Transfer (PDT) is an alternative for PayPal IPN which sends back"
+" the status of an order when a customer returns from PayPal."
+msgstr "PayPal Data Transfer (PDT)는 PayPal IPN의 대체 수단으로 고객이 PayPal에서 되돌아올 때 주문 상태를 돌려보냅니다."
+
+#: includes/admin/class-wc-admin-welcome.php:325
+msgid "Stylesheet separation"
+msgstr "스타일시트 분리"
+
+#: includes/admin/class-wc-admin-welcome.php:326
+msgid ""
+"Frontend styles have been split into separate appearance/layout/smallscreen "
+"stylesheets to help with selective customisation."
+msgstr "전면 사이트 스타일시트는 모양/레이아웃/작은 화면 스타일시트로 분리돼 선택적으로 사용자 정의 할 수 있도록 돕고 있습니다."
+
+#: includes/admin/class-wc-admin-welcome.php:330
+msgid "New endpoints"
+msgstr "새로운 최종점"
+
+#: includes/admin/class-wc-admin-welcome.php:331
+msgid ""
+"Certain pages such as \"Pay\", \"Order Received\" and some account pages are"
+" now endpoints rather than pages to make checkout more reliable."
+msgstr "\"지불\", \"주문 접수됨\", 일부 계정 페이지와 같은 특정 페이지는 결제를 더 신뢰할 수 있도록 이제 페이지가 아닌 최종점입니다."
+
+#: includes/admin/class-wc-admin-welcome.php:337
+msgid "Default credit card form for gateways"
+msgstr "게이트웨이 기본 신용카드 폼"
+
+#: includes/admin/class-wc-admin-welcome.php:338
+msgid ""
+"We've added a standardized, default credit card form for gateways to use if "
+"they support <code>default_credit_card_form</code>."
+msgstr "<code>default_credit_card_form</code>을 지원할 경우 표준화된 기본 신용카드 폼을 게이트웨이에 추가했습니다."
+
+#: includes/admin/class-wc-admin-welcome.php:342
+msgid "Coupon limits per customer"
+msgstr "고객별 쿠폰 한도"
+
+#: includes/admin/class-wc-admin-welcome.php:343
+msgid ""
+"Coupon usage limits can now be set per user (using email + ID) rather than "
+"global."
+msgstr "쿠폰 사용 한도는 이제 전체가 아닌 사용자별로 설정될 수 있습니다(이메일 + ID 이용)."
+
+#: includes/admin/class-wc-admin-welcome.php:347
+msgid "Streamlined new-account process"
+msgstr "유연한 새 계정 프로세스"
+
+#: includes/admin/class-wc-admin-welcome.php:348
+msgid ""
+"During checkout, username and passwords are optional and can be "
+"automatically generated by WooCommerce."
+msgstr "결제 중 사용자명과 비밀번호는 선택적이며 우커머스에 의해 자동으로 생성될 수 있습니다."
+
+#: includes/admin/class-wc-admin-welcome.php:355
+msgid "Additional price display options"
+msgstr "추가적인 가격 표시 옵션"
+
+#: includes/admin/class-wc-admin-welcome.php:356
+msgid ""
+"Define whether prices should be shown incl. or excl. of tax on the frontend,"
+" and add an optional suffix."
+msgstr "사이트 전면에서 가격에 세금의 포함 또는 제외를 보여주도록 정의하고 선택적으로 접미어를 추가합니다."
+
+#: includes/admin/class-wc-admin-welcome.php:360
+msgid "Past order linking"
+msgstr "과거 주문 링크"
+
+#: includes/admin/class-wc-admin-welcome.php:361
+msgid ""
+"Admins now have the ability to link past orders to a customer (before they "
+"registered) by email address."
+msgstr "관리자는 이제 이메일 주소로 고객에게(회원가입하기 전에) 과거 주문을 링크할 수 있는 기능이 있습니다. "
+
+#: includes/admin/class-wc-admin-welcome.php:365
+msgid "Review improvements"
+msgstr "리뷰 개선"
+
+#: includes/admin/class-wc-admin-welcome.php:366
+msgid ""
+"We've added a new option to restrict reviews to logged in purchasers, and "
+"made ratings editable from the backend."
+msgstr "로그인 구매자에게 리뷰를 제한할 수 있는 새로운 옵션을 추가했으며 관리자 화면에서 평가를 편집할 수 있습니다."
+
+#: includes/admin/class-wc-admin-welcome.php:373
+msgid "Go to WooCommerce Settings"
+msgstr "우커머스 설정으로 가기"
+
+#: includes/admin/class-wc-admin-welcome.php:388
+msgid ""
+"WooCommerce is developed and maintained by a worldwide team of passionate "
+"individuals and backed by an awesome developer community. Want to see your "
+"name? <a "
+"href=\"https://github.com/woothemes/woocommerce/blob/master/CONTRIBUTING.md\">Contribute"
+" to WooCommerce</a>."
+msgstr "우커머스는 열정적인 개인으로 이루어진 범세계적 팀에 의해 개발되고 유지되며 굉장한 개발자 커뮤니티가 지원하고 있습니다. 당신의 이름이 보이기를 원하시나요?  <a href=\"https://github.com/woothemes/woocommerce/blob/master/CONTRIBUTING.md\">우커머스에 기여하기</a>."
+
+#: includes/admin/class-wc-admin-welcome.php:404
+msgid ""
+"WooCommerce has been kindly translated into several other languages thanks "
+"to our translation team. Want to see your name? <a "
+"href=\"https://www.transifex.com/projects/p/woocommerce/\">Translate "
+"WooCommerce</a>."
+msgstr "우커머스는 번역 팀 덕분에 여러 가지 언어로 번역됐습니다. 당신의 이름을 보길 원하시나요? <a href=\"https://www.transifex.com/projects/p/woocommerce/\">우커머스 번역하기</a>."
+
+#: includes/admin/class-wc-admin-welcome.php:429
+msgid "View %s"
+msgstr "%s 보기"
+
+#: includes/admin/class-wc-admin.php:114
+msgid "HTML Email Template"
+msgstr "HTML 이메일 템플릿"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:103
+#: includes/admin/importers/class-wc-tax-rate-importer.php:190
+#: includes/admin/importers/class-wc-tax-rate-importer.php:230
+#: includes/admin/importers/class-wc-tax-rate-importer.php:245
+msgid "Sorry, there has been an error."
+msgstr "죄송합니다. 에러가 발생했습니다."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:104
+msgid "The file does not exist, please try again."
+msgstr "파일이 존재하지 않습니다. 다시 해주세요."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:191
+msgid "The CSV is invalid."
+msgstr "CSV 파일이 유효하지 않습니다."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:202
+msgid ""
+"Import complete - imported <strong>%s</strong> tax rates and skipped "
+"<strong>%s</strong>."
+msgstr "가져오기가 완료됐습니다 - <strong>%s</strong> 세율을 가져오면서 <strong>%s</strong>를 제외했습니다."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:212
+msgid "All done!"
+msgstr "완료됐습니다!"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:212
+msgid "View Tax Rates"
+msgstr "세율 보기"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:263
+msgid "Import Tax Rates"
+msgstr "세율 가져오기"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:285
+msgid ""
+"Hi there! Upload a CSV file containing tax rates to import the contents into"
+" your shop. Choose a .csv file to upload, then click \"Upload file and "
+"import\"."
+msgstr "안녕하세요! 상점에 콘텐츠를 가져오려면 세율을 포함한 CSV 파일을 업로드하세요. 업로드하려면 .csv 파일을 선택하고 \"파일 업로드 및 가져오기\"를 클릭하세요."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:287
+msgid ""
+"Tax rates need to be defined with columns in a specific order (10 columns). "
+"<a href=\"%s\">Click here to download a sample</a>."
+msgstr "세율은 특정한 순서의 컬럼으로 정의돼야합니다 (10 컬럼). <a href=\"%s\">샘플을 내려받으려면 여기를 클릭하세요</a>."
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:295
+msgid ""
+"Before you can upload your import file, you will need to fix the following "
+"error:"
+msgstr "가져오기 파일을 업로드 하기 전에 다음 에러를 수정해야합니다:"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:304
+msgid "Choose a file from your computer:"
+msgstr "컴퓨터에서 파일을 선택하세요:"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:310
+msgid "Maximum size: %s"
+msgstr "최대 사이즈: %s"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:315
+msgid "OR enter path to file:"
+msgstr "또는 파일 경로를 입력하세요:"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:322
+msgid "Delimiter"
+msgstr "분리자"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:328
+msgid "Upload file and import"
+msgstr "파일 업로드 및 가져오기"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:106
+msgid "Product Image"
+msgstr "상품 이미지"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:108
+msgid "Remove product image"
+msgstr "상품 이미지 제거"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:110
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:124
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:125
+msgid "Set product image"
+msgstr "상품 이미지 설정"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:139
+msgid "Product name"
+msgstr "상품 이름"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:162
+msgid "Catalog/search"
+msgstr "카탈로그/검색"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:163
+#: includes/admin/views/html-bulk-edit-product.php:158
+#: includes/admin/views/html-quick-edit-product.php:115
+msgid "Catalog"
+msgstr "카탈로그"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:164
+#: includes/admin/views/html-bulk-edit-product.php:159
+#: includes/admin/views/html-quick-edit-product.php:116
+msgid "Search"
+msgstr "검색"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:165
+#: includes/admin/views/html-bulk-edit-product.php:160
+#: includes/admin/views/html-quick-edit-product.php:117
+msgid "Hidden"
+msgstr "숨겨짐"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:169
+msgid "Catalog visibility:"
+msgstr "카탈로그 가시성:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:185
+msgid ""
+"Define the loops this product should be visible in. The product will still "
+"be accessible directly."
+msgstr "이 상품이 보이게 될 페이지를 정하세요. 상품은 직접 접근이 가능하기도 합니다."
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:191
+msgid "Enable this option to feature this product."
+msgstr "이 상품에 특성화하기 위해 이 옵션을 활성화"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:193
+msgid "Featured Product"
+msgstr "특성 상품"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:196
+msgid "OK"
+msgstr "OK"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:197
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:170
+msgid "Cancel"
+msgstr "취소"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:262
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:53
+#: includes/admin/views/html-quick-edit-product.php:11
+msgid "SKU"
+msgstr "SKU"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:269
+#: includes/admin/views/html-bulk-edit-product.php:10
+#: includes/admin/views/html-quick-edit-product.php:22
+msgid "Price"
+msgstr "가격"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:271
+#: includes/admin/reports/class-wc-report-sales-by-category.php:155
+msgid "Categories"
+msgstr "카테고리"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:272
+msgid "Tags"
+msgstr "태그"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:275
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:98
+#: includes/admin/reports/class-wc-report-coupon-usage.php:321
+#: includes/admin/reports/class-wc-report-customers.php:206
+#: includes/admin/reports/class-wc-report-sales-by-category.php:227
+#: includes/admin/reports/class-wc-report-sales-by-date.php:165
+#: includes/admin/reports/class-wc-report-sales-by-product.php:319
+msgid "Date"
+msgstr "날짜"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:322
+msgid "Edit this item"
+msgstr "이 아이템 편집하기"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:323
+msgid "Edit this item inline"
+msgstr "이 아이템을 인라인으로 편집"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:323
+msgid "Quick&nbsp;Edit"
+msgstr "빠른&nbsp;편집"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:327
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:111
+msgid "Restore this item from the Trash"
+msgstr "이 아이템을 휴지통에서 복구"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:327
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:111
+msgid "Restore"
+msgstr "복구"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:329
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:113
+msgid "Move this item to the Trash"
+msgstr "이 아이템을 휴지통으로 이동"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:329
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:113
+msgid "Trash"
+msgstr "휴지통"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:333
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:115
+msgid "Delete this item permanently"
+msgstr "이 아이템을 영구적으로 삭제"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:333
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:115
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:64
+msgid "Delete Permanently"
+msgstr "영구적으로 삭제"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:339
+msgid "Preview &#8220;%s&#8221;"
+msgstr "미리보기 &#8220;%s&#8221;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:339
+msgid "Preview"
+msgstr "미리보기"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:341
+msgid "View &#8220;%s&#8221;"
+msgstr "보기 &#8220;%s&#8221;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:341
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:300
+#: includes/admin/reports/class-wc-report-stock.php:119
+msgid "View"
+msgstr "보기"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:391
+msgid "Grouped"
+msgstr "그룹"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:393
+msgid "External/Affiliate"
+msgstr "외부/연계"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:397
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:596
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:51
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:214
+msgid "Virtual"
+msgstr "가상"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:399
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:588
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:58
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:212
+msgid "Downloadable"
+msgstr "다운로드 가능"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:401
+msgid "Simple"
+msgstr "단순"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:405
+msgid "Variable"
+msgstr "옵션"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:428
+msgid "Toggle featured"
+msgstr "특성 토글"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:430
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:139
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:208
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:212
+#: includes/admin/views/html-admin-page-status-report.php:38
+#: includes/admin/views/html-admin-page-status-report.php:72
+#: includes/admin/views/html-admin-page-status-report.php:97
+#: includes/admin/views/html-admin-page-status-report.php:282
+#: includes/admin/views/html-bulk-edit-product.php:176
+#: includes/admin/views/html-bulk-edit-product.php:213
+msgid "Yes"
+msgstr "예"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:432
+#: includes/admin/views/html-admin-page-status-report.php:38
+#: includes/admin/views/html-admin-page-status-report.php:72
+#: includes/admin/views/html-admin-page-status-report.php:97
+#: includes/admin/views/html-admin-page-status-report.php:282
+#: includes/admin/views/html-bulk-edit-product.php:177
+#: includes/admin/views/html-bulk-edit-product.php:214
+msgid "No"
+msgstr "아니오"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:439
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:302
+#: includes/admin/reports/class-wc-report-stock.php:96
+#: includes/admin/views/html-bulk-edit-product.php:194
+#: includes/admin/views/html-quick-edit-product.php:137
+msgid "In stock"
+msgstr "재고있음"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:527
+msgid "Sort Products"
+msgstr "상품 정렬"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:548
+msgid "Show all product types"
+msgstr "모든 상품 형식 보기"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:561
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:37
+msgid "Grouped product"
+msgstr "그룹 상품"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:564
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:38
+msgid "External/Affiliate product"
+msgstr "외부/연계 상품"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:567
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:39
+msgid "Variable product"
+msgstr "옵션 상품"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:570
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:36
+msgid "Simple product"
+msgstr "단순 상품"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:53
+msgid "Coupon code"
+msgstr "쿠폰 코드"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:66
+msgid "Description (optional)"
+msgstr "설명 (선택적)"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:77
+msgid "Code"
+msgstr "코드"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:78
+msgid "Coupon type"
+msgstr "쿠폰 형식"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:79
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:66
+#: includes/admin/reports/class-wc-report-sales-by-date.php:327
+msgid "Coupon amount"
+msgstr "쿠폰 금액 또는 퍼센트"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:80
+msgid "Description"
+msgstr "설명"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:81
+msgid "Product IDs"
+msgstr "상품 아이디"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:82
+msgid "Usage / Limit"
+msgstr "사용 / 한도"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:83
+msgid "Expiry date"
+msgstr "만료 일자"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:102
+msgid "Edit coupon"
+msgstr "쿠폰 편집"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:160
+msgid "%s / %s"
+msgstr "%s / %s"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:162
+msgid "%s / &infin;"
+msgstr "%s / &infin;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:208
+msgid "Show all types"
+msgstr "모든 형태 보이기"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:91
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:758
+#: includes/admin/settings/class-wc-settings-checkout.php:229
+#: includes/admin/settings/class-wc-settings-shipping.php:205
+msgid "Status"
+msgstr "상태"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:92
+msgid "Order"
+msgstr "주문"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:93
+msgid "Purchased"
+msgstr "구매함"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:94
+msgid "Ship to"
+msgstr "배송지"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:96
+msgid "Customer Message"
+msgstr "고객 메시지"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:97
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:110
+msgid "Order Notes"
+msgstr "주문 메모"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:99
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:43
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:62
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:175
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:127
+msgid "Total"
+msgstr "총계"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:100
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:34
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:81
+#: includes/admin/reports/class-wc-report-customer-list.php:254
+#: includes/admin/reports/class-wc-report-stock.php:145
+msgid "Actions"
+msgstr "작업"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:125
+msgid "Unpublished"
+msgstr "미발행"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:127
+msgid "Y/m/d g:i:s A"
+msgstr "Y/m/d g:i:s A"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:130
+msgid "Y/m/d"
+msgstr "Y/m/d"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:151
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:189
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:224
+msgid "Via"
+msgstr "결제 방법"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:155
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d 아이템"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:210
+msgid "plus %d other note"
+msgid_plural "plus %d other notes"
+msgstr[0] "플러스 %d 기타 메모"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:210
+msgid "%d note"
+msgid_plural "%d notes"
+msgstr[0] "%d 메모"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:232
+msgid "Billing:"
+msgstr "청구:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:236
+msgid "Tel:"
+msgstr "전화번호:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:261
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:169
+msgid "Guest"
+msgstr "고객"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:265
+msgid "%s by %s"
+msgstr "%s %s"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:285
+msgid "Processing"
+msgstr "처리중"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:293
+msgid "Complete"
+msgstr "완료"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:388
+msgid "Show all statuses"
+msgstr "모든 상태 보이기"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:408
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:433
+msgid "Show all customers"
+msgstr "모든 고객 보기"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:667
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:668
+msgid "Mark processing"
+msgstr "표시 처리 중"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:670
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:671
+msgid "Mark on-hold"
+msgstr "대기중으로 표시"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:673
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:674
+msgid "Mark completed"
+msgstr "표시 완료됨"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:715
+msgid "Order status changed by bulk edit:"
+msgstr "주문 상태가 일괄 편집에 의해 변경됐습니다:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:737
+msgid "Order status changed."
+msgid_plural "%s order statuses changed."
+msgstr[0] "%s 주문 상태 변경됨."
+
+#: includes/admin/post-types/class-wc-admin-cpt.php:42
+msgid "Insert into %s"
+msgstr "%s에 삽입하기"
+
+#: includes/admin/post-types/class-wc-admin-cpt.php:43
+msgid "Uploaded to this %s"
+msgstr "이 %s로 업로드 됨"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:102
+msgid "Product Short Description"
+msgstr "상품 설명 요약"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:103
+#: includes/admin/settings/class-wc-settings-products.php:283
+#: includes/admin/views/html-bulk-edit-product.php:4
+#: includes/admin/views/html-quick-edit-product.php:4
+msgid "Product Data"
+msgstr "상품 데이터"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:104
+msgid "Product Gallery"
+msgstr "상품 갤러리"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:107
+msgid "Order Data"
+msgstr "주문 데이터"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:108
+msgid "Order Items"
+msgstr "주문 아이템"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:109
+msgid "Order Totals"
+msgstr "주문 총계"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
+msgid "Downloadable Product Permissions"
+msgstr "내려받기 가능한 상품 허용"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
+msgid ""
+"Note: Permissions for order items will automatically be granted when the "
+"order status changes to processing/completed."
+msgstr "주의: 주문 상태가 처리중/완료됨으로 변경되면 주문 아이템의 접근 허용이 자동으로 부여됩니다."
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:112
+msgid "Order Actions"
+msgstr "주문 작업"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:115
+msgid "Coupon Data"
+msgstr "쿠폰 데이터"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:120
+msgid "Rating"
+msgstr "평가"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:153
+msgid "Reviews"
+msgstr "리뷰"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:37
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:85
+#: includes/admin/settings/class-wc-settings-general.php:27
+msgid "General"
+msgstr "일반"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:42
+msgid "Usage Restriction"
+msgstr "사용법 제한"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:47
+msgid "Usage Limits"
+msgstr "사용 한도"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:63
+msgid "Discount type"
+msgstr "할인 형식"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:66
+msgid "Value of the coupon."
+msgstr "쿠폰 값, <strong>위에서 적용한 것이 금액인지 퍼센트인지 확인하고 입력하세요.</strong>"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:69
+msgid "Allow free shipping"
+msgstr "무료 배송 허용"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:69
+msgid ""
+"Check this box if the coupon grants free shipping. The <a href=\"%s\">free "
+"shipping method</a> must be enabled with the \"must use coupon\" setting."
+msgstr "쿠폰이 무료 배송을 허용하면 이 박스에 체크하세요. <a href=\"%s\">무료 배송 방법</a>은 \"쿠폰을 사용해야 함\" 설정과 함께 활성화 돼야 합니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:72
+msgid "Apply before tax"
+msgstr "세금전 적용"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:72
+msgid ""
+"Check this box if the coupon should be applied before calculating cart tax."
+msgstr "쿠폰이 장바구니 세금을 계산하기 전에 적용되도록 하려면 이 박스에 체크하세요"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:75
+msgid "Coupon expiry date"
+msgstr "쿠폰 만료일"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:75
+msgctxt "placeholder"
+msgid "YYYY-MM-DD"
+msgstr "YYYY-MM-DD"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid "Minimum spend"
+msgstr "최소 금액"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid "No minimum"
+msgstr "최소 없음"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid ""
+"This field allows you to set the minimum subtotal needed to use the coupon."
+msgstr "이 란은 쿠폰 사용시 필요한 최소 소계를 설정합니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:88
+msgid "Individual use only"
+msgstr "개별 사용"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:88
+msgid ""
+"Check this box if the coupon cannot be used in conjunction with other "
+"coupons."
+msgstr "이 쿠폰이 다른 쿠폰과 연계해서 사용할 수 없도록 하려면 이 박스에 체크하세요"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:91
+msgid "Exclude sale items"
+msgstr "세일 아이템 제외"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:91
+msgid ""
+"Check this box if the coupon should not apply to items on sale. Per-item "
+"coupons will only work if the item is not on sale. Per-cart coupons will "
+"only work if there are no sale items in the cart."
+msgstr "쿠폰이 세일 아이템에 적용되지 않도록 하려면 이 박스에 체크하세요. 아이템당 쿠폰은 아이템이 세일이 아닐 경우에만 작동합니다. 장바구니당 쿠폰은 장바구니에 세일 아이템이 없을 경우에만 작동합니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:98
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:95
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:589
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:606
+#: includes/admin/reports/class-wc-report-sales-by-product.php:173
+msgid "Search for a product&hellip;"
+msgstr "상품 검색&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:111
+msgid ""
+"Products which need to be in the cart to use this coupon or, for \"Product "
+"Discounts\", which products are discounted."
+msgstr "이 쿠폰을 사용하기 위해서 장바구니에 있어야할 상품 또는 \"상품 할인\"의 경우 상품이 할인됩니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:116
+msgid "Exclude products"
+msgstr "상품 제외"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:117
+msgid "Search for a product…"
+msgstr "상품 검색..."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:130
+msgid ""
+"Products which must not be in the cart to use this coupon or, for \"Product "
+"Discounts\", which products are not discounted."
+msgstr "이 쿠폰을 사용하기 위해서 장바구니에 있어서는 안될 상품 또는 \"상품 할인\"의 경우 상품이 할인되지 않습니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:137
+msgid "Product categories"
+msgstr "상품 카테고리"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:138
+msgid "Any category"
+msgstr "모든 카테고리"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:147
+msgid ""
+"A product must be in this category for the coupon to remain valid or, for "
+"\"Product Discounts\", products in these categories will be discounted."
+msgstr "상품이 쿠폰의 유효성을 유지하기 위해서 이 카테고리에 있어야 합니다, 또는 \"상품 할인\"의 경우 이 카테고리에 있는 상품이 할인됩니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:152
+msgid "Exclude categories"
+msgstr "카테고리 제외"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:153
+msgid "No categories"
+msgstr "카테고리 없음"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:162
+msgid ""
+"Product must not be in this category for the coupon to remain valid or, for "
+"\"Product Discounts\", products in these categories will not be discounted."
+msgstr "상품이 쿠폰의 유효성을 유지하기 위해서 이 카테고리에 있어서는 안됩니다, 또는 \"상품 할인\"의 경우 이 카테고리에 있는 상품은 할인되지 않습니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid "Email restrictions"
+msgstr "이메일 제한"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid "No restrictions"
+msgstr "제한 없음"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid ""
+"List of emails to check against the customer's billing email when an order "
+"is placed. Separate email addresses with commas."
+msgstr "주문이 실행될 경우 고객의 청구 이메일을 점검하기 위한 이메일 목록. 이메일 주소를 콤마로 분리하세요."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+msgid "Usage limit per coupon"
+msgstr "쿠폰당 사용 한도"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgctxt "placeholder"
+msgid "Unlimited usage"
+msgstr "무제한 사용"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+msgid "How many times this coupon can be used before it is void."
+msgstr "이 쿠폰이 무효로 되기까지 사용 가능한 횟수"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgid "Limit usage to X items"
+msgstr "X 아이템에 사용 제한"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgctxt "placeholder"
+msgid "Apply to all qualifying items in cart"
+msgstr "장바구니의 모든 합당한 아이템에 적용하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgid ""
+"The maximum number of individual items this coupon can apply to when using "
+"product discounts. Leave blank to apply to all qualifying items in cart."
+msgstr "상품 할인을 이용할 때 이 쿠폰이 적용될 수 있는 개별 아이템의 최대 수. 장바구니의 모든 합당한 아이템에 적용하려면 비워두세요."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgid "Usage limit per user"
+msgstr "사용자별 사용 한도"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgid ""
+"How many times this coupon can be used by an invidual user. Uses billing "
+"email for guests, and user ID for logged in users."
+msgstr "이 쿠폰이 개별 사용자에게 사용될 수 있는 횟수. 비회원에 대해서는 청주 이메일을 사용하고 로그인 사용자에게는 사용자 ID를 사용합니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:231
+msgid ""
+"Coupon code already exists - customers will use the latest coupon with this "
+"code."
+msgstr "쿠폰 코드가 이미 존재합니다 - 고객은 이 코드가 있는 최근의 쿠폰을 사용할 것입니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:35
+msgid "Resend order emails"
+msgstr "주문 이메일 다시 보내기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:51
+msgid "Generate Download Permissions"
+msgstr "내려받기 권한 생성하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:57
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:91
+msgid "Apply"
+msgstr "적용하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:66
+msgid "Move to Trash"
+msgstr "휴지통으로 이동하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:71
+msgid "Save Order"
+msgstr "주문 저장하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:71
+msgid "Save/update the order"
+msgstr "주문 저장하기/업데이트하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:29
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:76
+msgid "First Name"
+msgstr "이름"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:33
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:80
+msgid "Last Name"
+msgstr "성"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:60
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:107
+msgid "Select a country&hellip;"
+msgstr "국가를 선택하세요&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:70
+msgid "Phone"
+msgstr "전화번호"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:139
+msgid "Order Details"
+msgstr "주문 상세"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:142
+msgid "Order number"
+msgstr "주문 번호"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:145
+msgid "Customer IP:"
+msgstr "고객 IP:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:150
+msgid "General Details"
+msgstr "일반 상세"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:152
+msgid "Order date:"
+msgstr "주문 일자:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:153
+msgid "h"
+msgstr "h"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:153
+#: includes/admin/settings/class-wc-settings-products.php:311
+msgid "m"
+msgstr "m"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:156
+msgid "Order status:"
+msgstr "주문 상태:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:167
+msgid "Customer:"
+msgstr "고객:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:182
+msgid "Billing Details"
+msgstr "청구 상세"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:188
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:190
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:267
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:269
+msgid "Address"
+msgstr "주소"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:190
+msgid "No billing address set."
+msgstr "청구 주소가 설정되지 않았습니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:208
+msgid "Payment Method"
+msgstr "지불 방법"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:213
+msgid "Load billing address"
+msgstr "청구 주소 가져오기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:230
+msgid "Payment Method:"
+msgstr "지불 방법:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:232
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:33
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:12
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:8
+msgid "N/A"
+msgstr "N/A"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:245
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:247
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:30
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:32
+msgid "Other"
+msgstr "기타"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:261
+msgid "Shipping Details"
+msgstr "배송 상세"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:269
+msgid "No shipping address set."
+msgstr "배송 주소가 설정되지 않았습니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:282
+msgid "Customer Note"
+msgstr "고객 메모"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:287
+msgid "Load shipping address"
+msgstr "배송 주소 가져오기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:287
+msgid "Copy from billing"
+msgstr "청구에서 복사하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:304
+msgid "Customer Note:"
+msgstr "고객 메모"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:305
+msgid "Customer's notes about the order"
+msgstr "주문에 대한 고객 메모"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:51
+msgid "File %d"
+msgstr "파일 %d"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:64
+msgid "Search for a downloadable product&hellip;"
+msgstr "다운로드 가능한 상품 검색&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:65
+msgid "Grant Access"
+msgstr "접근 부여"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:33
+msgid "Item"
+msgstr "아이템"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:38
+msgid "Tax&nbsp;Class"
+msgstr "세금 클래스"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:41
+msgid "Qty"
+msgstr "수량"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:46
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:116
+#: includes/admin/settings/class-wc-settings-tax.php:25
+#: includes/admin/settings/class-wc-settings-tax.php:550
+#: includes/admin/settings/class-wc-settings-tax.php:647
+msgid "Tax"
+msgstr "세금"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:83
+msgid "Delete Lines"
+msgstr "줄 제거"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:85
+msgid "Stock Actions"
+msgstr "재고 작업"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:86
+msgid "Reduce Line Stock"
+msgstr "라인 재고 줄이기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:87
+msgid "Increase Line Stock"
+msgstr "라인 재고 늘리기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:97
+msgid "Add item(s)"
+msgstr "아이템 추가하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:98
+msgid "Add fee"
+msgstr "수수료 추가"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:48
+msgid "added %s ago"
+msgstr "%s 전에 추가됨"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:49
+msgid "by %s"
+msgstr "%s"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:50
+msgid "Delete note"
+msgstr "메모 삭제"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:56
+msgid "There are no notes for this order yet."
+msgstr "이 주문에 아직 메모가 없습니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:62
+msgid "Add note"
+msgstr "메모 추가"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:62
+msgid ""
+"Add a note for your reference, or add a customer note (the user will be "
+"notified)."
+msgstr "참고를 위해 메모를 추가하기 또는 고객 메모 추가하기 (사용자에게 알림)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:68
+msgid "Customer note"
+msgstr "고객 메모"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:69
+msgid "Private note"
+msgstr "개인용 메모"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:71
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:567
+msgid "Add"
+msgstr "추가하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:31
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:62
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:95
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:775
+#: includes/admin/settings/class-wc-settings-shipping.php:25
+#: includes/admin/settings/class-wc-settings-tax.php:266
+#: includes/admin/settings/class-wc-settings-tax.php:383
+#: includes/admin/views/html-admin-page-addons.php:14
+msgid "Shipping"
+msgstr "배송"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:66
+msgid "+ Add shipping cost"
+msgstr "+ 배송 비용 추가"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:66
+msgid "These are the shipping and handling costs for the order."
+msgstr "이것은 주문에 대한 배송 및 처리 비용입니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:106
+msgid "+ Add tax row"
+msgstr "+세금 행 추가하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:106
+msgid ""
+"These rows contain taxes for this order. This allows you to display multiple"
+" or compound taxes rather than a single total."
+msgstr "이 행은 이 주문의 세금을 포함합니다. 이것은 단일 총계가 아닌 다중 또는 복합 세금을 표시하도록 합니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:113
+msgid "Order Discount"
+msgstr "주문 할인"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:113
+msgid "This is the total discount applied after tax."
+msgstr "이것은 세후 적용된 총 할인 금액입니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:120
+msgid "Order Total"
+msgstr "주문 총계"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:148
+msgid "Calculate Tax"
+msgstr "세금 계산하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:150
+msgid "Calculate Total"
+msgstr "총계 계산하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:42
+msgid "Product Type"
+msgstr "상품 형식"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:52
+msgid "Virtual products are intangible and aren't shipped."
+msgstr "가상 상품은 형태가 없고 배송되는 것이 아닙니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:59
+msgid "Downloadable products give access to a file upon purchase."
+msgstr "다운로드 가능 상품은 구매시 파일에 접근을 부여합니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:90
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:772
+#: includes/admin/settings/class-wc-settings-products.php:41
+msgid "Inventory"
+msgstr "저장소"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:100
+msgid "Linked Products"
+msgstr "연결된 상품"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:110
+msgid "Variations"
+msgstr "옵션"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:115
+msgid "Advanced"
+msgstr "고급"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+msgid "Stock Keeping Unit"
+msgstr "재고 관리 단위"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+msgid ""
+"SKU refers to a Stock-keeping unit, a unique identifier for each distinct "
+"product and service that can be purchased."
+msgstr "SKU는 재고 관리 단위를 말합니다. 구매할 수 있는 각 구별 상품과 서비스에 대한 독특한 식별자입니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:147
+msgid "Product URL"
+msgstr "상품 URL"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:147
+msgid "Enter the external URL to the product."
+msgstr "상품에 외부 URL을 입력하세요."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgid "Button text"
+msgstr "버튼 텍스트"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgctxt "placeholder"
+msgid "Buy product"
+msgstr "상품 구매하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgid "This text will be shown on the button linking to the external product."
+msgstr "이 텍스트는 외부 상품을 링크하는 버튼에 보이게 됩니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:157
+msgid "Regular Price"
+msgstr "정상 가격"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:160
+msgid "Sale Price"
+msgstr "세일 가격"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:160
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Schedule"
+msgstr "스케쥴"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:167
+msgid "Sale Price Dates"
+msgstr "세일 가격 일자"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:168
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:85
+msgctxt "placeholder"
+msgid "From&hellip;"
+msgstr "시작&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:169
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:89
+msgctxt "placeholder"
+msgid "To&hellip;"
+msgstr "종료&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:181
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:144
+msgid "Downloadable Files"
+msgstr "내려받기 가능한 파일"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:186
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:148
+msgid "This is the name of the download shown to the customer."
+msgstr "이것은 고객에게 보여질 내려받기 이름입니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:187
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:149
+msgid "File URL"
+msgstr "파일 URL"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:187
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:149
+msgid ""
+"This is the URL or absolute path to the file which customers will get access"
+" to."
+msgstr "이것은 고객이 접근할 파일의 URL 또는 절대 경로입니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:202
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:164
+msgid "Add File"
+msgstr "파일 추가하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+msgid "Download Limit"
+msgstr "내려받기 한도"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:19
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:191
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:197
+msgid "Unlimited"
+msgstr "무제한"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:190
+msgid "Leave blank for unlimited re-downloads."
+msgstr "무제한 다시 내려받기를 가능하게 하려면 비워두세요."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:783
+msgid "Download Expiry"
+msgstr "내려받기 만료"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:23
+msgid "Never"
+msgstr "없음"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:196
+msgid ""
+"Enter the number of days before a download link expires, or leave blank."
+msgstr "내려받기 링크가 만료되는 날짜의 수를 입력하거나 비워두세요."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:234
+msgid "Download Type"
+msgstr "내려받기 형식"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:234
+msgid "Choose a download type - this controls the <a href=\"%s\">schema</a>."
+msgstr "내려받기 형식을 선택하세요 - 이것은 <a href=\"%s\">스키마</a>를 제어합니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:235
+msgid "Standard Product"
+msgstr "표준 상품"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:236
+msgid "Application/Software"
+msgstr "애플리케이션/소프트웨어"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:237
+msgid "Music"
+msgstr "음악"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:249
+#: includes/admin/views/html-bulk-edit-product.php:58
+#: includes/admin/views/html-quick-edit-product.php:38
+msgid "Tax Status"
+msgstr "세금 상태"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:250
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:34
+#: includes/admin/views/html-bulk-edit-product.php:64
+#: includes/admin/views/html-quick-edit-product.php:43
+msgid "Taxable"
+msgstr "과세 가능"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:251
+#: includes/admin/views/html-bulk-edit-product.php:65
+#: includes/admin/views/html-quick-edit-product.php:44
+msgid "Shipping only"
+msgstr "배송만"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:252
+#: includes/admin/views/html-bulk-edit-product.php:66
+#: includes/admin/views/html-quick-edit-product.php:45
+msgctxt "Tax status"
+msgid "None"
+msgstr "없음"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:257
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:737
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:27
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:39
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:126
+#: includes/admin/settings/class-wc-settings-tax.php:122
+#: includes/admin/settings/class-wc-settings-tax.php:243
+#: includes/admin/views/html-bulk-edit-product.php:83
+#: includes/admin/views/html-quick-edit-product.php:61
+msgid "Standard"
+msgstr "표준"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:262
+#: includes/admin/settings/class-wc-settings-tax.php:383
+#: includes/admin/views/html-bulk-edit-product.php:77
+#: includes/admin/views/html-quick-edit-product.php:56
+msgid "Tax Class"
+msgstr "세금 클래스"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:283
+#: includes/admin/views/html-bulk-edit-product.php:207
+#: includes/admin/views/html-quick-edit-product.php:153
+msgid "Manage stock?"
+msgstr "재고를 관리하나요?"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:283
+msgid ""
+"Enable stock management at product level (not needed if managing stock at "
+"variation level)"
+msgstr "상품 단계에서 재고 관리 활성화 (옵션 단계에서 재고를 관리하면 필요 없음)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:290
+#: includes/admin/views/html-bulk-edit-product.php:226
+#: includes/admin/views/html-bulk-edit-product.php:242
+#: includes/admin/views/html-quick-edit-product.php:157
+msgid "Stock Qty"
+msgstr "재고 수량"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:290
+msgid ""
+"Stock quantity. If this is a variable product this value will be used to "
+"control stock for all variations, unless you define stock at variation "
+"level."
+msgstr "재고 수량. "
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:301
+#: includes/admin/reports/class-wc-report-stock.php:144
+msgid "Stock status"
+msgstr "재고 상태"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:304
+msgid ""
+"Controls whether or not the product is listed as \"in stock\" or \"out of "
+"stock\" on the frontend."
+msgstr "상품이 사이트 전면에서 \"재고 있음\" 이나 \"품절\" 표시된 목록으로 나타나도록 제어합니다. "
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:311
+msgid "Allow Backorders?"
+msgstr "미재고 주문을 허용하나요?"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:312
+#: includes/admin/views/html-bulk-edit-product.php:253
+#: includes/admin/views/html-quick-edit-product.php:172
+msgid "Do not allow"
+msgstr "허용하지 않음"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:313
+#: includes/admin/views/html-bulk-edit-product.php:254
+#: includes/admin/views/html-quick-edit-product.php:173
+msgid "Allow, but notify customer"
+msgstr "허용하지만 고객에게 알림"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:314
+#: includes/admin/views/html-bulk-edit-product.php:255
+#: includes/admin/views/html-quick-edit-product.php:174
+msgid "Allow"
+msgstr "허용함"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:315
+msgid ""
+"If managing stock, this controls whether or not backorders are allowed for "
+"this product and variations. If enabled, stock quantity can go below 0."
+msgstr "재고 관리의 경우 이것은 상품이나 옵션에 대해 미재고 주문이 허용되는지 여부를 제어합니다. 활성화인 경우 재고 수량은 0 이하로 갈 수도 있습니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:328
+msgid "Sold Individually"
+msgstr "개별 판매"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:328
+msgid ""
+"Enable this to only allow one of this item to be bought in a single order"
+msgstr "단일 주문에서 이 아이템 중 하나가 구매되도록 하려면 이것을 활성화하세요"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:347
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:779
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:97
+#: includes/admin/views/html-bulk-edit-product.php:103
+#: includes/admin/views/html-quick-edit-product.php:84
+msgid "Weight"
+msgstr "무게"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:347
+msgid "Weight in decimal form"
+msgstr "십진법에 의한 무게"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:352
+msgid "Dimensions"
+msgstr "규격"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:354
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:776
+#: includes/admin/views/html-bulk-edit-product.php:143
+#: includes/admin/views/html-quick-edit-product.php:97
+msgid "Length"
+msgstr "길이"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:355
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:777
+#: includes/admin/views/html-bulk-edit-product.php:144
+#: includes/admin/views/html-quick-edit-product.php:98
+msgid "Width"
+msgstr "넓이"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:356
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:778
+#: includes/admin/views/html-bulk-edit-product.php:145
+#: includes/admin/views/html-quick-edit-product.php:99
+msgid "Height"
+msgstr "높이"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:358
+msgid "LxWxH in decimal form"
+msgstr "십진법에 의한 길이x넓이x높이"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:375
+msgid "No shipping class"
+msgstr "배송 클래스 없음"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:381
+msgid "Shipping class"
+msgstr "배송 클래스"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:381
+msgid ""
+"Shipping classes are used by certain shipping methods to group similar "
+"products."
+msgstr "배송 클래스는 비슷한 상품을 그룹화해서 일정한 배송 방법에 사용됩니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:393
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:755
+msgid "Close all"
+msgstr "모두 닫기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:393
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:755
+msgid "Expand all"
+msgstr "모두 확장하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:452
+msgid "Select terms"
+msgstr "용어를 선택하세요"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:466
+msgid "Add new"
+msgstr "새로 추가"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:479
+msgid "Pipe (|) separate terms"
+msgstr "파이프 (|) 분리 용어"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:569
+msgid "Custom product attribute"
+msgstr "사용자 정의 상품 속성"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:581
+msgid "Save attributes"
+msgstr "속성 저장하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:588
+msgid "Up-Sells"
+msgstr "업셀"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:603
+msgid ""
+"Up-sells are products which you recommend instead of the currently viewed "
+"product, for example, products that are more profitable or better quality or"
+" more expensive."
+msgstr "업셀은 고객이 현재 보고 있는 상품 대신에 추천하는, 예를들면 더 수익이 있거나 더 좋은 품질, 더 비싼 상품을 말합니다. "
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:605
+msgid "Cross-Sells"
+msgstr "크로스셀"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:620
+msgid ""
+"Cross-sells are products which you promote in the cart, based on the current"
+" product."
+msgstr "크로스셀은 현재 상품을 기준으로 장바구니에 추가하도록 유도하는 상품입니다. "
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:630
+msgid "Choose a grouped product&hellip;"
+msgstr "그룹 상품을 선택하세요&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:660
+msgid "Grouping"
+msgstr "그룹화하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:660
+msgid "Set this option to make this product part of a grouped product."
+msgstr "이 상품을 그룹 상품의 일부로 만들기 위해 이 옵션을 설정하기."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:680
+msgid "Purchase Note"
+msgstr "구매 메모"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:680
+msgid "Enter an optional note to send the customer after purchase."
+msgstr "구매 후 고객에게 보낼 옵션 메모를 입력하세요."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:687
+msgid "Menu order"
+msgstr "메뉴 순서"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:687
+msgid "Custom ordering position."
+msgstr "사용자 정의 순서 위치"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:695
+msgid "Enable reviews"
+msgstr "리뷰 활성화"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:747
+msgid ""
+"Before adding variations, add and save some attributes on the "
+"<strong>Attributes</strong> tab."
+msgstr "옵션을 추가하기 전에 <strong>속성</strong> 탭에서 몇 개의 속성을 추가하고 저장하세요."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:749
+msgid "Learn more"
+msgstr "더 배우기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:757
+msgid "Choose a field to bulk edit&hellip;"
+msgstr "일괄 편집할 필드를 선택하세요&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:759
+msgid "Toggle &quot;Enabled&quot;"
+msgstr "토글 &quot;활성화&quot;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:760
+msgid "Toggle &quot;Downloadable&quot;"
+msgstr "토글 &quot;내려받기 가능&quot;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:761
+msgid "Toggle &quot;Virtual&quot;"
+msgstr "토글 &quot;가상상품&quot;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:762
+msgid "Delete all variations"
+msgstr "모든 옵션 제거하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:764
+msgid "Pricing"
+msgstr "가격"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:765
+msgid "Prices"
+msgstr "가격"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:766
+msgid "Prices increase by (fixed amount or %)"
+msgstr "가격 증액 (고정 양 또는 %)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:767
+msgid "Prices decrease by (fixed amount or %)"
+msgstr "가격 감액 (고정 양 또는 %)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:768
+msgid "Sale prices"
+msgstr "세일 가격"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:769
+msgid "Sale prices increase by (fixed amount or %)"
+msgstr "세일 가격 증액 (고정 양 또는 %)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:770
+msgid "Sale prices decrease by (fixed amount or %)"
+msgstr "세일 가격 감액 (고정 양 또는 %)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:781
+msgid "Downloadable products"
+msgstr "내려받기 가능한 상품"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:782
+msgid "Download limit"
+msgstr "내려받기 한도"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:787
+#: includes/admin/views/html-report-by-date.php:31
+msgid "Go"
+msgstr "가기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:882
+msgid "Add Variation"
+msgstr "옵션 추가하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:884
+msgid "Link all variations"
+msgstr "모든 옵션 링크하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:886
+msgid "Defaults"
+msgstr "기본"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:886
+msgid "These are the attributes that will be pre-selected on the frontend."
+msgstr "이것은 사이트 전면에서 미리 선택돼 보여질 속성입니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:899
+msgid "No default"
+msgstr "기본 없음"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:1003
+msgid "Product SKU must be unique."
+msgstr "상품 SKU는 독특해야합니다."
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:1373
+msgid "Variation #%s of %s"
+msgstr "옵션 %s 중 #%s"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:44
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Delete image"
+msgstr "이미지 제거하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add Images to Product Gallery"
+msgstr "이미지를 상품 갤러리에 추가하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add to gallery"
+msgstr "갤러리에 추가하기"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add product gallery images"
+msgstr "상품 갤러리 이미지 추가하기"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:6
+msgid "Revoke Access"
+msgstr "접근 취소하기"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:9
+msgid "%s: %s"
+msgstr "%s: %s"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:9
+msgid "Downloaded %s time"
+msgid_plural "Downloaded %s times"
+msgstr[0] "%s회 내려받음"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:16
+msgid "Downloads Remaining"
+msgstr "잔여 다운로드"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:22
+msgid "Access Expires"
+msgstr "접근이 만료됐습니다"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:12
+msgid "Fee"
+msgstr "수수료"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:16
+msgid "Fee Name"
+msgstr "비용 이름"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:31
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:140
+msgid "Tax class"
+msgstr "세금 클래스"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:10
+msgid "Product ID:"
+msgstr "상품 ID"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:13
+msgid "Variation ID:"
+msgstr "옵션 ID:"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:16
+msgid "Product SKU:"
+msgstr "상품 SKU:"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:75
+msgid "Add&nbsp;meta"
+msgstr "메타 추가하기"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:173
+msgid "Subtotal"
+msgstr "소계"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:173
+msgid "Before pre-tax discounts."
+msgstr "세전 할인 이전"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:175
+msgid "After pre-tax discounts."
+msgstr "세전 할인 이후"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:6
+msgid "Label"
+msgstr "레이블"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:11
+msgid "Shipping Method"
+msgstr "배송 방법"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:7
+msgid "Tax Rate"
+msgstr "세율"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:17
+msgid "Sales Tax"
+msgstr "판매 세금"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:21
+msgid "Shipping Tax"
+msgstr "배송 세금"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:3
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:2
+msgid "File Name"
+msgstr "파일 이름"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:4
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:3
+msgid "http://"
+msgstr "http://"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:5
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:4
+msgid "Choose file"
+msgstr "파일을 선택하세요"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:5
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:4
+msgid "Insert file URL"
+msgstr "파일 URL을 삽입하세요"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:21
+msgid "Any"
+msgstr "모든"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:53
+msgid ""
+"Enter a SKU for this variation or leave blank to use the parent product SKU."
+msgstr "이 옵션에 대해 SKU를 입력하거나 상위 상품 SKU를 사용하려면 비워두세요."
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:64
+msgid "Stock Qty:"
+msgstr "재고량:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:64
+msgid ""
+"Enter a quantity to enable stock management at variation level, or leave "
+"blank to use the parent product's options."
+msgstr "옵션 레벨에서 재고 관리를 활성화하려면 수량을 입력하세요. 또는 상위 상품 옵션을 사용하려면 비워두세요."
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:73
+msgid "Regular Price:"
+msgstr "정상가격:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:74
+msgid "Variation price (required)"
+msgstr "옵션 가격 (필수)"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Sale Price:"
+msgstr "세일 가격:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Cancel schedule"
+msgstr "스케쥴 취소"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:84
+msgid "Sale start date:"
+msgstr "판매 시작 일자:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:88
+msgid "Sale end date:"
+msgstr "판매 종료 일자:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:97
+msgid ""
+"Enter a weight for this variation or leave blank to use the parent product "
+"weight."
+msgstr "이 옵션에 대해 무게를 입력하거나 상위 상품 무게를 사용하려면 비워두세요."
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:105
+msgid "Dimensions (L&times;W&times;H)"
+msgstr "규격 (L&times;W&times;H)"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:116
+msgid "Shipping class:"
+msgstr "배송 클래스:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:120
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:133
+msgid "Same as parent"
+msgstr "상위와 같음"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:131
+msgid "Tax class:"
+msgstr "세금 클래스:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:190
+msgid "Download Limit:"
+msgstr "다운로드 한도:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:196
+msgid "Download Expiry:"
+msgstr "다운로드 만료:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:210
+#: includes/admin/settings/class-wc-settings-checkout.php:269
+#: includes/admin/settings/class-wc-settings-shipping.php:235
+#: includes/admin/views/html-admin-page-status-tools.php:26
+#: includes/admin/views/html-admin-page-status-tools.php:37
+#: includes/admin/views/html-admin-page-status-tools.php:48
+msgid "Enabled"
+msgstr "활성화"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:212
+msgid ""
+"Enable this option if access is given to a downloadable file upon purchase "
+"of a product"
+msgstr "상품의 구매시 내려받기 가능한 파일에 접근하도록 하려면 이 옵션을 활성화하세요"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:214
+msgid ""
+"Enable this option if a product is not shipped or there is no shipping cost"
+msgstr "상품이 배송되지 않거나 배송 비용이 없는 경우 이 옵션을 활성화하세요."
+
+#: includes/admin/reports/class-wc-admin-report.php:384
+msgid "Sold %s worth in the last %d days"
+msgstr "최근 %d 일 %s 만큼 판매됨"
+
+#: includes/admin/reports/class-wc-admin-report.php:386
+msgid "Sold 1 item in the last %d days"
+msgid_plural "Sold %d items in the last %d days"
+msgstr[0] "최근 %d 일 %s 아이템 판매됨"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:76
+msgid "%s discounts in total"
+msgstr "총 %s 할인"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:82
+msgid "%s coupons used in total"
+msgstr "총 %s 쿠폰 사용됨"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:95
+#: includes/admin/reports/class-wc-report-customers.php:145
+#: includes/admin/reports/class-wc-report-sales-by-category.php:81
+#: includes/admin/reports/class-wc-report-sales-by-date.php:129
+#: includes/admin/reports/class-wc-report-sales-by-product.php:99
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:46
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:46
+msgid "Year"
+msgstr "년"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:96
+#: includes/admin/reports/class-wc-report-customers.php:146
+#: includes/admin/reports/class-wc-report-sales-by-category.php:82
+#: includes/admin/reports/class-wc-report-sales-by-date.php:130
+#: includes/admin/reports/class-wc-report-sales-by-product.php:100
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:47
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:47
+msgid "Last Month"
+msgstr "지난 달"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:97
+#: includes/admin/reports/class-wc-report-customers.php:147
+#: includes/admin/reports/class-wc-report-sales-by-category.php:83
+#: includes/admin/reports/class-wc-report-sales-by-date.php:131
+#: includes/admin/reports/class-wc-report-sales-by-product.php:101
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:48
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:48
+msgid "This Month"
+msgstr "이번 달"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:98
+#: includes/admin/reports/class-wc-report-customers.php:148
+#: includes/admin/reports/class-wc-report-sales-by-category.php:84
+#: includes/admin/reports/class-wc-report-sales-by-date.php:132
+#: includes/admin/reports/class-wc-report-sales-by-product.php:102
+msgid "Last 7 Days"
+msgstr "지난 7일간"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:138
+msgid "Filter by coupon"
+msgstr "쿠폰별 필터"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:166
+msgid "Choose coupons&hellip;"
+msgstr "쿠폰 선택&hellip;"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:167
+msgid "All coupons"
+msgstr "모든 쿠폰"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:174
+#: includes/admin/reports/class-wc-report-sales-by-category.php:186
+#: includes/admin/reports/class-wc-report-sales-by-product.php:174
+msgid "Show"
+msgstr "보이기"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:187
+msgid "No used coupons found"
+msgstr "사용된 쿠폰을 찾을 수 없습니다"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:192
+msgid "Most Popular"
+msgstr "가장 인기 있는"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:234
+#: includes/admin/reports/class-wc-report-coupon-usage.php:281
+msgid "No coupons found in range"
+msgstr "범위에서 쿠폰을 찾을 수 없습니다"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:239
+msgid "Most Discount"
+msgstr "가장 많은 할인"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:324
+#: includes/admin/reports/class-wc-report-customers.php:209
+#: includes/admin/reports/class-wc-report-sales-by-category.php:230
+#: includes/admin/reports/class-wc-report-sales-by-date.php:169
+#: includes/admin/reports/class-wc-report-sales-by-product.php:322
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:34
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:34
+#: includes/admin/settings/class-wc-settings-tax.php:289
+msgid "Export CSV"
+msgstr "CSV 내보내기"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:415
+msgid "Number of coupons used"
+msgstr "사용된 쿠폰 수"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:423
+msgid "Discount amount"
+msgstr "할인 금액"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:29
+msgid "Customer"
+msgstr "고객"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:39
+msgid "No customers found."
+msgstr "고객을 찾을 수 없습니다."
+
+#: includes/admin/reports/class-wc-report-customer-list.php:53
+msgid "%s previous order linked"
+msgid_plural "%s previous orders linked"
+msgstr[0] "링크된 %s 이전 주문"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:58
+msgid "Search customers"
+msgstr "고객 검색"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:198
+msgid "View orders"
+msgstr "주문 보기"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:222
+msgid "Link previous orders"
+msgstr "이전 주문 링크"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:247
+msgid "Name (Last, First)"
+msgstr "이름 (성, 이름)"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:248
+msgid "Username"
+msgstr "사용자 ID"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:250
+msgid "Location"
+msgstr "위치"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:252
+msgid "Spent"
+msgstr "사용"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:253
+msgid "Last order"
+msgstr "지난 주문"
+
+#: includes/admin/reports/class-wc-report-customers.php:22
+msgid "%s signups in this period"
+msgstr "이 기간 %s 회원 등록"
+
+#: includes/admin/reports/class-wc-report-customers.php:90
+msgid "Customer Sales"
+msgstr "회원 판매"
+
+#: includes/admin/reports/class-wc-report-customers.php:91
+msgid "Guest Sales"
+msgstr "비회원 판매"
+
+#: includes/admin/reports/class-wc-report-customers.php:100
+#: includes/admin/reports/class-wc-report-customers.php:296
+msgid "Customer Orders"
+msgstr "회원 주문"
+
+#: includes/admin/reports/class-wc-report-customers.php:105
+#: includes/admin/reports/class-wc-report-customers.php:306
+msgid "Guest Orders"
+msgstr "비회원 주문"
+
+#: includes/admin/reports/class-wc-report-customers.php:124
+msgid "orders"
+msgstr "주문"
+
+#: includes/admin/reports/class-wc-report-customers.php:302
+msgid "customer orders"
+msgstr "회원 주문"
+
+#: includes/admin/reports/class-wc-report-customers.php:312
+msgid "guest orders"
+msgstr "비회원 주문"
+
+#: includes/admin/reports/class-wc-report-customers.php:316
+msgid "Signups"
+msgstr "회원 가입"
+
+#: includes/admin/reports/class-wc-report-customers.php:323
+msgid "new users"
+msgstr "새 사용자"
+
+#: includes/admin/reports/class-wc-report-low-in-stock.php:22
+msgid "No low in stock products found."
+msgstr "상품 재고 부족을 찾을 수 없습니다. "
+
+#: includes/admin/reports/class-wc-report-out-of-stock.php:22
+msgid "No out of stock products found."
+msgstr "상품 품절을 찾을 수 없습니다."
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:63
+msgid "%s sales in %s"
+msgstr "%s 판매 %s에서"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:170
+msgid "Select categories&hellip;"
+msgstr "카테고리 선택&hellip;"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:184
+msgid "None"
+msgstr "없음"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:185
+msgid "All"
+msgstr "모두"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:245
+msgid "&larr; Choose a category to view stats"
+msgstr "&larr; 통계를 보려면 카테고리를 선택하세요"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:81
+msgid "%s average daily sales"
+msgstr "%s 평균 일일 판매"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:84
+msgid "%s average monthly sales"
+msgstr "%s 평균 월별 판매"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:89
+msgid "%s sales in this period"
+msgstr "이 기간 %s 판매 "
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:99
+msgid "%s orders placed"
+msgstr "%s 주문 확정됨"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:104
+msgid "%s items purchased"
+msgstr "%s 아이템 구매됨"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:109
+msgid "%s charged for shipping"
+msgstr "%s 배송 부과됨"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:114
+msgid "%s worth of coupons used"
+msgstr "%s 만큼 쿠폰 사용됨"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:301
+#: includes/admin/reports/class-wc-report-sales-by-product.php:435
+msgid "Number of items sold"
+msgstr "판매된 아이템 수"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:309
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:118
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:114
+msgid "Number of orders"
+msgstr "주문 수"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:317
+msgid "Average sales amount"
+msgstr "평균 판매량"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:337
+msgid "Shipping amount"
+msgstr "배송 금액"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:347
+#: includes/admin/reports/class-wc-report-sales-by-product.php:443
+msgid "Sales amount"
+msgstr "판매 금액"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:79
+msgid "%s sales for the selected items"
+msgstr "선택된 아이템의 %s 판매 "
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:84
+msgid "%s purchases for the selected items"
+msgstr "선택된 아이템의 %s 구매"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:130
+msgid "Showing reports for:"
+msgstr "보고서 보이기:"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:160
+msgid "Reset"
+msgstr "리셋"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:169
+msgid "Product Search"
+msgstr "상품 검색"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:206
+msgid "Top Sellers"
+msgstr "최상위 판매 상품"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:241
+#: includes/admin/reports/class-wc-report-sales-by-product.php:281
+msgid "No products found in range"
+msgstr "범위에 상품을 찾을 수 없습니다"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:246
+msgid "Top Earners"
+msgstr "최상위 수익 상품"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:337
+msgid "&larr; Choose a product to view stats"
+msgstr "&larr; 통계를 보려면 상품을 선택하세요"
+
+#: includes/admin/reports/class-wc-report-stock.php:35
+msgid "No products found."
+msgstr "상품을 찾을 수 없습니다."
+
+#: includes/admin/reports/class-wc-report-stock.php:126
+msgid "product"
+msgstr "상품"
+
+#: includes/admin/reports/class-wc-report-stock.php:142
+msgid "Parent"
+msgstr "상위"
+
+#: includes/admin/reports/class-wc-report-stock.php:143
+msgid "Units in stock"
+msgstr "재고 단위"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:117
+msgid "Rate"
+msgstr "비율"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:119
+msgid "Tax Amount"
+msgstr "세금 금액"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:119
+msgid "This is the sum of the \"Tax Rows\" tax amount within your orders."
+msgstr "이것은 고객님의 주문에 있는 \"세금 행\" 세금 금액의 총계입니다."
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:120
+msgid "Shipping Tax Amount"
+msgstr "배송 세금 금액"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:120
+msgid ""
+"This is the sum of the \"Tax Rows\" shipping tax amount within your orders."
+msgstr "이것은 고객님의 주문에 있는 \"세금 행\" 배송 세금의 총계입니다."
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:121
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:117
+msgid "Total Tax"
+msgstr "세금 총계"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:121
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:117
+msgid "This is the total tax for the rate (shipping tax + product tax)."
+msgstr "이것은 총 세율입니다 (배송 세금 + 상품 세금)."
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:170
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:161
+msgid "No taxes found in this period"
+msgstr "이 기간에 세금을 찾을 수 없습니다"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:113
+msgid "Period"
+msgstr "기간"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:115
+msgid "Total Sales"
+msgstr "총 판매"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:115
+msgid "This is the sum of the 'Order Total' field within your orders."
+msgstr "이것은 고객님의 주문에서 '주문 총계' 란의 합계입니다."
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:116
+msgid "Total Shipping"
+msgstr "총 배송"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:116
+msgid "This is the sum of the 'Shipping Total' field within your orders."
+msgstr "이것은 고객님의 주문에서 '배송 총계' 란의 합계입니다."
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:118
+msgid "Net profit"
+msgstr "순 수익"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:118
+msgid "Total sales minus shipping and tax."
+msgstr "배송 및 세금 제외한 총 판매"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:127
+msgid "Totals"
+msgstr "총계"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:25
+msgid "Accounts"
+msgstr "계정"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:41
+msgid "Account Pages"
+msgstr "계정 페이지"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:41
+msgid ""
+"These pages need to be set so that WooCommerce knows where to send users to "
+"access account related functionality."
+msgstr "이 페이지는 사용자가 계정 관련 기능에 접근하도록 보낼 곳을 우커머스가 알도록 설정 해야 합니다."
+
+#: includes/admin/settings/class-wc-settings-accounts.php:44
+msgid "My Account Page"
+msgstr "나의 계정 페이지"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:45
+#: includes/admin/settings/class-wc-settings-checkout.php:113
+#: includes/admin/settings/class-wc-settings-checkout.php:124
+msgid "Page contents:"
+msgstr "페이지 콘텐츠:"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:56
+msgid "My Account Endpoints"
+msgstr "나의 계정 최종점"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:56
+msgid ""
+"Endpoints are appended to your page URLs to handle specific actions on the "
+"accounts pages. They should be unique."
+msgstr "최종점은 계정 페이지에서 특정 작업을 처리하도록 페이지 URL에 추가됩니다. 이들은 독특해야 합니다."
+
+#: includes/admin/settings/class-wc-settings-accounts.php:59
+msgid "View Order"
+msgstr "주문 보기"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:60
+msgid "Endpoint for the My Account &rarr; View Order page"
+msgstr "나의 계정 최종점 &rarr; 주문 페이지 보기"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:68
+msgid "Edit Account"
+msgstr "계정 편집"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:69
+msgid "Endpoint for the My Account &rarr; Edit Account page"
+msgstr "나의 계정 최종점 &rarr; 계정 페이지 편집"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:77
+msgid "Edit Address"
+msgstr "주소 편집하기"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:78
+msgid "Endpoint for the My Account &rarr; Edit Address page"
+msgstr "나의 계정 최종점 &rarr; 주소 페이지 편집"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:86
+msgid "Lost Password"
+msgstr "비밀번호 분실"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:87
+msgid "Endpoint for the My Account &rarr; Lost Password page"
+msgstr "나의 계정 최종점 &rarr;  비밀번호 분실 페이지"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:95
+msgid "Logout"
+msgstr "로그아웃"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:96
+msgid ""
+"Endpoint for the triggering logout. You can add this to your menus via a "
+"custom link: yoursite.com/?customer-logout=true"
+msgstr "로그아웃을 작동시키는 최종점. 이것을 사용자 정의 링크를 통해서 메뉴에 추가할 수 있습니다: yoursite.com/?customer-logout=true"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:105
+msgid "Registration Options"
+msgstr "회원 가입 옵션"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:108
+msgid "Enable Registration"
+msgstr "회원가입 활성화"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:109
+msgid "Enable registration on the \"Checkout\" page"
+msgstr "\"결제\" 페이지에서 회원 가입 활성화"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:118
+msgid "Enable registration on the \"My Account\" page"
+msgstr "\"나의 계정\" 페이지에서 회원가입 활성화"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:127
+msgid "Display returning customer login reminder on the \"Checkout\" page"
+msgstr "\"결제\" 페이지에서 재방문 고객이 로그인시 알림 메시지 표시하기"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:136
+msgid "Account Creation"
+msgstr "계정 생성"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:137
+msgid "Automatically generate username from customer email"
+msgstr "고객 이메일에서 사용자명을 자동으로 생성하기"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:146
+msgid "Automatically generate customer password"
+msgstr "고객 비밀번호를 자동으로 생성하기"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:25
+msgctxt "Settings tab label"
+msgid "Checkout"
+msgstr "결제"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:41
+msgid "Checkout Options"
+msgstr "결제 옵션"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:65
+msgid "Checkout Process"
+msgstr "결제 과정"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:68
+msgid "Coupons"
+msgstr "쿠폰"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:69
+msgid "Enable the use of coupons"
+msgstr "쿠폰 사용 활성화"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:73
+msgid "Coupons can be applied from the cart and checkout pages."
+msgstr "쿠폰은 장바구니와 결제 페이지에서 적용이 가능합니다."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:78
+msgctxt "Settings group label"
+msgid "Checkout"
+msgstr "결제"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:79
+msgid "Enable guest checkout"
+msgstr "비회원 결제 활성화"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:80
+msgid "Allows customers to checkout without creating an account."
+msgstr "계정을 만들지 않고 고객이 결제 허용"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:89
+msgid "Force secure checkout"
+msgstr "안전 결제 필수 사용하기"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:95
+msgid ""
+"Force SSL (HTTPS) on the checkout pages (an SSL Certificate is required)."
+msgstr "결제 페이지에서 SSL (HTTPS) 강제 (SSL 증명서 필수)"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:99
+msgid "Un-force HTTPS when leaving the checkout"
+msgstr "결제 퇴장시 HTTPS 해제"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:109
+msgid "Checkout Pages"
+msgstr "결제 페이지"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:109
+msgid ""
+"These pages need to be set so that WooCommerce knows where to send users to "
+"checkout."
+msgstr "이 페이지는 사용자가 결제하기 위해 보낼 곳을 우커머스가 알도록 설정해야 합니다."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:112
+msgid "Cart Page"
+msgstr "장바구니 페이지"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:123
+msgid "Checkout Page"
+msgstr "결제 페이지"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:134
+msgid "Terms and Conditions"
+msgstr "이용약관"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:135
+msgid ""
+"If you define a \"Terms\" page the customer will be asked if they accept "
+"them when checking out."
+msgstr "\"이용 약관\" 페이지를 정의하면 고객은 결제시 수락할지 질문을 받게 됩니다."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:147
+msgid "Checkout Endpoints"
+msgstr "결제 최종점"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:147
+msgid ""
+"Endpoints are appended to your page URLs to handle specific actions during "
+"the checkout process. They should be unique."
+msgstr "최종점은 결제 과정 동안 특정 작업을 처리하기 위해 페이지 URL에 추가됩니다. 이들은 독특해야 합니다."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:150
+msgid "Pay"
+msgstr "지불"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:151
+msgid "Endpoint for the Checkout &rarr; Pay page"
+msgstr "결제 최종점 &rarr; 지불 페이지 "
+
+#: includes/admin/settings/class-wc-settings-checkout.php:159
+msgid "Order Received"
+msgstr "주문이 접수됐습니다"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:160
+msgid "Endpoint for the Checkout &rarr; Order Received page"
+msgstr "결제 최종점 &rarr; 주문 접수 페이지 "
+
+#: includes/admin/settings/class-wc-settings-checkout.php:168
+msgid "Add Payment Method"
+msgstr "지불 방법 추가하기"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:169
+msgid "Endpoint for the Checkout &rarr; Add Payment Method page"
+msgstr "결제의 최종점 &rarr; 지불 방법 페이지 추가"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:178
+msgid "Payment Gateways"
+msgstr "지불 게이트웨이"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:178
+msgid ""
+"Installed gateways are listed below. Drag and drop gateways to control their"
+" display order on the frontend."
+msgstr "설치된 게이트웨이는 아래 목록에 있습니다. 사이트 전면에서 순서를 표시하기 위해 끌어놓기 하세요."
+
+#: includes/admin/settings/class-wc-settings-checkout.php:219
+msgid "Gateway Display"
+msgstr "게이트웨이 표시"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:227
+msgid "Gateway"
+msgstr "게이트웨이"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:228
+msgid "Gateway ID"
+msgstr "게이트웨이 아이디"
+
+#: includes/admin/settings/class-wc-settings-emails.php:25
+msgid "Emails"
+msgstr "이메일"
+
+#: includes/admin/settings/class-wc-settings-emails.php:40
+msgid "Email Options"
+msgstr "이메일 옵션"
+
+#: includes/admin/settings/class-wc-settings-emails.php:66
+msgid "Email Sender Options"
+msgstr "이메일 송신자 옵션"
+
+#: includes/admin/settings/class-wc-settings-emails.php:66
+msgid ""
+"The following options affect the sender (email address and name) used in "
+"WooCommerce emails."
+msgstr "다음 옵션은 WooCommerce 이메일에 사용되는 송신인 ( 이메일 주소 및 이름)에 영향을 줍니다."
+
+#: includes/admin/settings/class-wc-settings-emails.php:69
+msgid "\"From\" Name"
+msgstr "\"발신자\" 이름"
+
+#: includes/admin/settings/class-wc-settings-emails.php:79
+msgid "\"From\" Email Address"
+msgstr "\"발신자\" 이메일 주소"
+
+#: includes/admin/settings/class-wc-settings-emails.php:93
+msgid "Email Template"
+msgstr "이메일 템플릿"
+
+#: includes/admin/settings/class-wc-settings-emails.php:93
+msgid ""
+"This section lets you customise the WooCommerce emails. <a href=\"%s\" "
+"target=\"_blank\">Click here to preview your email template</a>. For more "
+"advanced control copy <code>woocommerce/templates/emails/</code> to "
+"<code>yourtheme/woocommerce/emails/</code>."
+msgstr "이 영역은 WooCommerce 이메일을 사용자 정의할 수 있습니다. <a href=\"%s\" target=\"_blank\">이메일 템플릿을 미리 보려면 여기를 클릭하세요</a>. 더 나은 제어를 하려면 <code>woocommerce/templates/emails/</code>을 <code>yourtheme/woocommerce/emails/</code>에 복사하세요."
+
+#: includes/admin/settings/class-wc-settings-emails.php:96
+msgid "Header Image"
+msgstr "헤더 이미지"
+
+#: includes/admin/settings/class-wc-settings-emails.php:97
+msgid ""
+"Enter a URL to an image you want to show in the email's header. Upload your "
+"image using the <a href=\"%s\">media uploader</a>."
+msgstr "이메일 헤더에 보이기를 원하는 이미지의 URL을 입력하세요. 이미지는 <a href=\"%s\">미디어 업로더</a>를 이용해서 업로드하세요."
+
+#: includes/admin/settings/class-wc-settings-emails.php:106
+msgid "Email Footer Text"
+msgstr "이메일 푸터 텍스트"
+
+#: includes/admin/settings/class-wc-settings-emails.php:107
+msgid "The text to appear in the footer of WooCommerce emails."
+msgstr "WooCommerce 이메일 푸터에 나타날 텍스트"
+
+#: includes/admin/settings/class-wc-settings-emails.php:111
+msgid "Powered by WooCommerce"
+msgstr "Powered by WooCommerce"
+
+#: includes/admin/settings/class-wc-settings-emails.php:116
+msgid "Base Colour"
+msgstr "기본 색상"
+
+#: includes/admin/settings/class-wc-settings-emails.php:117
+msgid ""
+"The base colour for WooCommerce email templates. Default "
+"<code>#557da1</code>."
+msgstr "WooCommerce 이메일 템플릿 기본 색상. 기본 <code>#557da1</code>."
+
+#: includes/admin/settings/class-wc-settings-emails.php:126
+msgid "Background Colour"
+msgstr "배경 색상"
+
+#: includes/admin/settings/class-wc-settings-emails.php:127
+msgid ""
+"The background colour for WooCommerce email templates. Default "
+"<code>#f5f5f5</code>."
+msgstr "WooCommerce 이메일 템플릿 배경 색상. 기본 <code>#f5f5f5</code>."
+
+#: includes/admin/settings/class-wc-settings-emails.php:136
+msgid "Email Body Background Colour"
+msgstr "이메일 바디 배경 색상"
+
+#: includes/admin/settings/class-wc-settings-emails.php:137
+msgid "The main body background colour. Default <code>#fdfdfd</code>."
+msgstr "메인 바디 배경 색상. 기본 <code>#fdfdfd</code>."
+
+#: includes/admin/settings/class-wc-settings-emails.php:146
+msgid "Email Body Text Colour"
+msgstr "이메일 바디 텍스트 색상"
+
+#: includes/admin/settings/class-wc-settings-emails.php:147
+msgid "The main body text colour. Default <code>#505050</code>."
+msgstr "메인 바디 텍스트 색상. 기본 <code>#505050</code>."
+
+#: includes/admin/settings/class-wc-settings-general.php:52
+msgid "General Options"
+msgstr "일반 옵션"
+
+#: includes/admin/settings/class-wc-settings-general.php:55
+msgid "Base Location"
+msgstr "기준 위치"
+
+#: includes/admin/settings/class-wc-settings-general.php:56
+msgid ""
+"This is the base location for your business. Tax rates will be based on this"
+" country."
+msgstr "이것은 영업의 기준 장소입니다. 세율은 이 국가를 기준으로 합니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:65
+msgid "Selling Location(s)"
+msgstr "판매 지역"
+
+#: includes/admin/settings/class-wc-settings-general.php:66
+msgid "This option lets you limit which countries you are willing to sell to."
+msgstr "이 옵션은 판매를 원하는 국가를 제한할 수 있도록 합니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:74
+msgid "Sell to all countries"
+msgstr "모든 국가 판매"
+
+#: includes/admin/settings/class-wc-settings-general.php:75
+msgid "Sell to specific countries only"
+msgstr "특정 국가만 판매"
+
+#: includes/admin/settings/class-wc-settings-general.php:80
+#: includes/admin/settings/class-wc-settings-shipping.php:147
+msgid "Specific Countries"
+msgstr "특정 국가"
+
+#: includes/admin/settings/class-wc-settings-general.php:89
+msgid "Store Notice"
+msgstr "상점 공지"
+
+#: includes/admin/settings/class-wc-settings-general.php:90
+msgid "Enable site-wide store notice text"
+msgstr "사이트 전체 상점 공지 글 활성화"
+
+#: includes/admin/settings/class-wc-settings-general.php:97
+msgid "Store Notice Text"
+msgstr "상점 공지 글 "
+
+#: includes/admin/settings/class-wc-settings-general.php:100
+msgid ""
+"This is a demo store for testing purposes &mdash; no orders shall be "
+"fulfilled."
+msgstr "실험 목적의 데모 상점입니다 &mdash; 주문을 가능하지 않습니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:107
+msgid "API"
+msgstr "API"
+
+#: includes/admin/settings/class-wc-settings-general.php:108
+msgid "Enable the REST API"
+msgstr "REST API 활성화"
+
+#: includes/admin/settings/class-wc-settings-general.php:116
+msgid "Currency Options"
+msgstr "통화 옵션"
+
+#: includes/admin/settings/class-wc-settings-general.php:116
+msgid "The following options affect how prices are displayed on the frontend."
+msgstr "다음 옵션은 가격이 사이트에서 표시되는 방법에 영향을 줍니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:119
+msgid "Currency"
+msgstr "통화"
+
+#: includes/admin/settings/class-wc-settings-general.php:120
+msgid ""
+"This controls what currency prices are listed at in the catalog and which "
+"currency gateways will take payments in."
+msgstr "이것은 카탈로그에 가격이 어떤 통화로 나타나는지, 게이트웨이가 어떤 통화로 지불을 받을 것이지 결정합니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:131
+msgid "Currency Position"
+msgstr "통화 기호 위치"
+
+#: includes/admin/settings/class-wc-settings-general.php:132
+msgid "This controls the position of the currency symbol."
+msgstr "이것은 통화 기호의 위치를 제어합니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:139
+msgid "Left"
+msgstr "왼쪽"
+
+#: includes/admin/settings/class-wc-settings-general.php:140
+msgid "Right"
+msgstr "오른쪽"
+
+#: includes/admin/settings/class-wc-settings-general.php:141
+msgid "Left with space"
+msgstr "스페이스 포함 왼쪽"
+
+#: includes/admin/settings/class-wc-settings-general.php:142
+msgid "Right with space"
+msgstr "스페이스 포함 오른쪽"
+
+#: includes/admin/settings/class-wc-settings-general.php:148
+msgid "Thousand Separator"
+msgstr "천단위 구분 기호"
+
+#: includes/admin/settings/class-wc-settings-general.php:149
+msgid "This sets the thousand separator of displayed prices."
+msgstr "이것은 표시된 가격에 천단위 표시를 설정합니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:158
+msgid "Decimal Separator"
+msgstr "소수 구분 기호"
+
+#: includes/admin/settings/class-wc-settings-general.php:159
+msgid "This sets the decimal separator of displayed prices."
+msgstr "이것은 표시된 가격에 소수를 설정합니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:168
+msgid "Number of Decimals"
+msgstr "소수 갯수"
+
+#: includes/admin/settings/class-wc-settings-general.php:169
+msgid "This sets the number of decimal points shown in displayed prices."
+msgstr "이것은 표시된 가격에 소수점이 나타나는 수를 설정합니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:183
+msgid "Styles and Scripts"
+msgstr "스타일시트 및 자바스크립트"
+
+#: includes/admin/settings/class-wc-settings-general.php:188
+msgid "Scripts"
+msgstr "스크립트"
+
+#: includes/admin/settings/class-wc-settings-general.php:189
+msgid "Enable Lightbox"
+msgstr "라이트박스 활성화"
+
+#: includes/admin/settings/class-wc-settings-general.php:192
+msgid ""
+"Include WooCommerce's lightbox. Product gallery images will open in a "
+"lightbox."
+msgstr "우커머스 라이트박스 포함. 상품 갤러리 이미지는 라이트박스에 열립니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:198
+msgid "Enable enhanced country select boxes"
+msgstr "고급 국가 선택 박스 활성화"
+
+#: includes/admin/settings/class-wc-settings-general.php:203
+msgid ""
+"This will enable a script allowing the country fields to be searchable."
+msgstr "이것은 국가 선택 박스에서 검색이 가능하도록 스크립트를 활성화합니다."
+
+#: includes/admin/settings/class-wc-settings-general.php:221
+msgid "Frontend Styles"
+msgstr "사이트 전면 스타일"
+
+#: includes/admin/settings/class-wc-settings-general.php:251
+msgid "Primary"
+msgstr "주"
+
+#: includes/admin/settings/class-wc-settings-general.php:251
+msgid "Call to action buttons/price slider/layered nav UI"
+msgstr "작업 버튼/가격 슬라이더/레이어 냅 UI 부르기"
+
+#: includes/admin/settings/class-wc-settings-general.php:252
+msgid "Secondary"
+msgstr "부"
+
+#: includes/admin/settings/class-wc-settings-general.php:252
+msgid "Buttons and tabs"
+msgstr "버튼과 탭"
+
+#: includes/admin/settings/class-wc-settings-general.php:253
+msgid "Highlight"
+msgstr "하이라이트"
+
+#: includes/admin/settings/class-wc-settings-general.php:253
+msgid "Price labels and Sale Flashes"
+msgstr "가격 레이블과 판매 플래시"
+
+#: includes/admin/settings/class-wc-settings-general.php:254
+msgid "Content"
+msgstr "컨텐트"
+
+#: includes/admin/settings/class-wc-settings-general.php:254
+msgid "Your themes page background - used for tab active states"
+msgstr "테마 페이지 배경 - 탭 활성 상태에 사용됨"
+
+#: includes/admin/settings/class-wc-settings-general.php:255
+msgid "Subtext"
+msgstr "부텍스트"
+
+#: includes/admin/settings/class-wc-settings-general.php:255
+msgid "Used for certain text and asides - breadcrumbs, small text etc."
+msgstr "특정 텍스트와 추가정보에 사용됨 - 브레드크럼, 작은 텍스트 등."
+
+#: includes/admin/settings/class-wc-settings-general.php:258
+msgid ""
+"To edit colours <code>woocommerce/assets/css/woocommerce-base.less</code> "
+"and <code>woocommerce.css</code> need to be writable. See <a "
+"href=\"http://codex.wordpress.org/Changing_File_Permissions\">the Codex</a> "
+"for more information."
+msgstr "색상을 편집하려면 <code>woocommerce/assets/css/woocommerce-base.less</code>와<code>woocommerce.css</code>가 쓰기 가능해야합니다.  <a href=\"http://codex.wordpress.org/Changing_File_Permissions\">the Codex</a> 에서 더 많은 정보를 참고하세요."
+
+#: includes/admin/settings/class-wc-settings-general.php:311
+msgid ""
+"Error saving the Frontend Styles, %s is not a valid color, please use only "
+"valid colors code."
+msgstr "전면 사이트 스타일 저장 에러 %s는 유효하지 않은 색상입니다. 유효한 색상 코드만을 사용해주세요."
+
+#: includes/admin/settings/class-wc-settings-integrations.php:25
+msgid "Integration"
+msgstr "결합"
+
+#: includes/admin/settings/class-wc-settings-products.php:40
+msgid "Product Options"
+msgstr "상품 옵션"
+
+#: includes/admin/settings/class-wc-settings-products.php:79
+msgid "Inventory Options"
+msgstr "저장소 옵션"
+
+#: includes/admin/settings/class-wc-settings-products.php:82
+msgid "Manage Stock"
+msgstr "재고 관리"
+
+#: includes/admin/settings/class-wc-settings-products.php:83
+msgid "Enable stock management"
+msgstr "재고 관리 활성화"
+
+#: includes/admin/settings/class-wc-settings-products.php:90
+msgid "Hold Stock (minutes)"
+msgstr "재고 보류(분)"
+
+#: includes/admin/settings/class-wc-settings-products.php:91
+msgid ""
+"Hold stock (for unpaid orders) for x minutes. When this limit is reached, "
+"the pending order will be cancelled. Leave blank to disable."
+msgstr "분 동안 재고 보류 (미지불 주문). 이 제한에 이르면 대기중인 주문은 취소됩니다. 비활성화하려면 비워두세요."
+
+#: includes/admin/settings/class-wc-settings-products.php:104
+msgid "Notifications"
+msgstr "알림"
+
+#: includes/admin/settings/class-wc-settings-products.php:105
+msgid "Enable low stock notifications"
+msgstr "재고 부족 알림 활성화"
+
+#: includes/admin/settings/class-wc-settings-products.php:114
+msgid "Enable out of stock notifications"
+msgstr "품절 알림 활성화"
+
+#: includes/admin/settings/class-wc-settings-products.php:123
+msgid "Notification Recipient"
+msgstr "알림 수신자"
+
+#: includes/admin/settings/class-wc-settings-products.php:132
+msgid "Low Stock Threshold"
+msgstr "재고 부족 한계"
+
+#: includes/admin/settings/class-wc-settings-products.php:146
+msgid "Out Of Stock Threshold"
+msgstr "품절 한계"
+
+#: includes/admin/settings/class-wc-settings-products.php:160
+msgid "Out Of Stock Visibility"
+msgstr "품절 가시성"
+
+#: includes/admin/settings/class-wc-settings-products.php:161
+msgid "Hide out of stock items from the catalog"
+msgstr "카탈로그에서 품절 아이템 감추기"
+
+#: includes/admin/settings/class-wc-settings-products.php:168
+msgid "Stock Display Format"
+msgstr "재고 표시 형식"
+
+#: includes/admin/settings/class-wc-settings-products.php:169
+msgid "This controls how stock is displayed on the frontend."
+msgstr "이것은 재고가 사이트에서 표시되는 방법을 제어합니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:175
+msgid "Always show stock e.g. \"12 in stock\""
+msgstr "항상 재고 보이기 예: \"12 재고 있음\""
+
+#: includes/admin/settings/class-wc-settings-products.php:176
+msgid "Only show stock when low e.g. \"Only 2 left in stock\" vs. \"In Stock\""
+msgstr "부족할 경우에만 재고 보이기. 예: \"재고가 2개 밖에 없음\" vs. \"재고 있음\""
+
+#: includes/admin/settings/class-wc-settings-products.php:177
+msgid "Never show stock amount"
+msgstr "재고 수량 보이지 않기"
+
+#: includes/admin/settings/class-wc-settings-products.php:196
+msgid ""
+"Note: The shop page has children - child pages will not work if you enable "
+"this option."
+msgstr "주의: 상점 페이지는 하위가 있습니다. 하위 페이지는 이 옵션을 활성화하면 작동하지 않습니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:200
+msgid "Product Listings"
+msgstr "상품 목록"
+
+#: includes/admin/settings/class-wc-settings-products.php:203
+msgid "Product Archive / Shop Page"
+msgstr "상품 보관함 / 상점 페이지"
+
+#: includes/admin/settings/class-wc-settings-products.php:204
+msgid ""
+"The base page can also be used in your <a href=\"%s\">product "
+"permalinks</a>."
+msgstr "기본 페이지는 <a href=\"%s\">상품 고유주소</a>에도 사용될 수 있습니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:210
+msgid ""
+"This sets the base page of your shop - this is where your product archive "
+"will be."
+msgstr "이것은 상점의 기본 페이지를 설정합니다. - 이것은 상품 보관물이 존재하는 곳입니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:214
+msgid "Shop Page Display"
+msgstr "상점 페이지 표시"
+
+#: includes/admin/settings/class-wc-settings-products.php:215
+msgid "This controls what is shown on the product archive."
+msgstr "이것은 상품 페이지에서 보이는 것을 제어합니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:222
+#: includes/admin/settings/class-wc-settings-products.php:238
+msgid "Show products"
+msgstr "상품 표시"
+
+#: includes/admin/settings/class-wc-settings-products.php:223
+#: includes/admin/settings/class-wc-settings-products.php:239
+msgid "Show subcategories"
+msgstr "하위 카테고리 표시"
+
+#: includes/admin/settings/class-wc-settings-products.php:224
+#: includes/admin/settings/class-wc-settings-products.php:240
+msgid "Show both"
+msgstr "둘다 표시"
+
+#: includes/admin/settings/class-wc-settings-products.php:230
+msgid "Default Category Display"
+msgstr "기본 카테고리 표시"
+
+#: includes/admin/settings/class-wc-settings-products.php:231
+msgid "This controls what is shown on category archives."
+msgstr "이것은 카테고리 페이지에서 보이는 것을 제어합니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:246
+msgid "Default Product Sorting"
+msgstr "기본 상품 분류"
+
+#: includes/admin/settings/class-wc-settings-products.php:247
+msgid "This controls the default sort order of the catalog."
+msgstr "이것은 카탈로그의 기본 분류 순서를 제어합니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:254
+msgid "Default sorting (custom ordering + name)"
+msgstr "기본순 (사용자 정의 순서 + 상품명)"
+
+#: includes/admin/settings/class-wc-settings-products.php:255
+msgid "Popularity (sales)"
+msgstr "인기순 (판매)"
+
+#: includes/admin/settings/class-wc-settings-products.php:256
+msgid "Average Rating"
+msgstr "평점순"
+
+#: includes/admin/settings/class-wc-settings-products.php:257
+msgid "Sort by most recent"
+msgstr "최신순"
+
+#: includes/admin/settings/class-wc-settings-products.php:258
+msgid "Sort by price (asc)"
+msgstr "낮은가격순"
+
+#: includes/admin/settings/class-wc-settings-products.php:259
+msgid "Sort by price (desc)"
+msgstr "높은가격순"
+
+#: includes/admin/settings/class-wc-settings-products.php:265
+msgid "Add to cart"
+msgstr "장바구니에 추가하기"
+
+#: includes/admin/settings/class-wc-settings-products.php:266
+msgid "Redirect to the cart page after successful addition"
+msgstr "추가 성공후 장바구니 페이지로 가기"
+
+#: includes/admin/settings/class-wc-settings-products.php:274
+msgid "Enable AJAX add to cart buttons on archives"
+msgstr "상점 페이지에서 AJAX 장바구니 추가하기 버튼 활성화하기"
+
+#: includes/admin/settings/class-wc-settings-products.php:286
+msgid "Weight Unit"
+msgstr "무게 단위"
+
+#: includes/admin/settings/class-wc-settings-products.php:287
+msgid "This controls what unit you will define weights in."
+msgstr "이것은 무게를 정의할 경우 단위를 제어합니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:294
+msgid "kg"
+msgstr "kg"
+
+#: includes/admin/settings/class-wc-settings-products.php:295
+msgid "g"
+msgstr "g"
+
+#: includes/admin/settings/class-wc-settings-products.php:296
+msgid "lbs"
+msgstr "lbs"
+
+#: includes/admin/settings/class-wc-settings-products.php:297
+msgid "oz"
+msgstr "oz"
+
+#: includes/admin/settings/class-wc-settings-products.php:303
+msgid "Dimensions Unit"
+msgstr "규격 단위"
+
+#: includes/admin/settings/class-wc-settings-products.php:304
+msgid "This controls what unit you will define lengths in."
+msgstr "이것은 길이를 정의할 경우의 단위를 제어합니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:312
+msgid "cm"
+msgstr "cm"
+
+#: includes/admin/settings/class-wc-settings-products.php:313
+msgid "mm"
+msgstr "mm"
+
+#: includes/admin/settings/class-wc-settings-products.php:314
+msgid "in"
+msgstr "in"
+
+#: includes/admin/settings/class-wc-settings-products.php:315
+msgid "yd"
+msgstr "yd"
+
+#: includes/admin/settings/class-wc-settings-products.php:321
+msgid "Product Ratings"
+msgstr "상품 평가"
+
+#: includes/admin/settings/class-wc-settings-products.php:322
+msgid "Enable ratings on reviews"
+msgstr "리뷰에서 평가 활성화"
+
+#: includes/admin/settings/class-wc-settings-products.php:332
+msgid "Ratings are required to leave a review"
+msgstr "평가는 리뷰 남기기에 필수입니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:342
+msgid "Show \"verified owner\" label for customer reviews"
+msgstr "고객 리뷰에 \"인증된 구매자\" 레이블 보이기"
+
+#: includes/admin/settings/class-wc-settings-products.php:352
+msgid "Only allow reviews from \"verified owners\""
+msgstr "\"인증된 구매자\"에게만 리뷰 허용"
+
+#: includes/admin/settings/class-wc-settings-products.php:363
+msgid "Product Image Sizes"
+msgstr "상품 이미지 크기"
+
+#: includes/admin/settings/class-wc-settings-products.php:363
+msgid ""
+"These settings affect the actual dimensions of images in your catalog - the "
+"display on the front-end will still be affected by CSS styles. After "
+"changing these settings you may need to <a href=\"%s\">regenerate your "
+"thumbnails</a>."
+msgstr "이 설정은 카탈로그의 실제 이미지 규격에 영향을 줍니다. - 사이트 표시는 CSS 스타일에 영향을 받습니다. 이 설정을 변경한 후에 <a href=\"%s\">썸네일 재생성</a>을 해야할 수도 있습니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:366
+msgid "Catalog Images"
+msgstr "카탈로그 이미지"
+
+#: includes/admin/settings/class-wc-settings-products.php:367
+msgid "This size is usually used in product listings"
+msgstr "이 사이즈는 상품 목록에 보통 사용됩니다"
+
+#: includes/admin/settings/class-wc-settings-products.php:380
+msgid "Single Product Image"
+msgstr "단일 상품 이미지"
+
+#: includes/admin/settings/class-wc-settings-products.php:381
+msgid "This is the size used by the main image on the product page."
+msgstr "이것은 상품 페이지의 주 이미지에 사용되는 사이즈입니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:394
+msgid "Product Thumbnails"
+msgstr "상품 썸네일"
+
+#: includes/admin/settings/class-wc-settings-products.php:395
+msgid ""
+"This size is usually used for the gallery of images on the product page."
+msgstr "이 사이즈는 보통 상품 페이지의 이미지 갤러리에 사용됩니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:409
+msgid "Downloadable Products"
+msgstr "내려받기 가능한 상품"
+
+#: includes/admin/settings/class-wc-settings-products.php:412
+msgid "File Download Method"
+msgstr "파일 다운로드 방법"
+
+#: includes/admin/settings/class-wc-settings-products.php:413
+msgid ""
+"Forcing downloads will keep URLs hidden, but some servers may serve large "
+"files unreliably. If supported, <code>X-Accel-Redirect</code>/ "
+"<code>X-Sendfile</code> can be used to serve downloads instead (server "
+"requires <code>mod_xsendfile</code>)."
+msgstr "다운로드 필수 사용은 URL을 감춥니다. 하지만 어떤 서버는 큰 파일을 신뢰할 수 없도록 서비스할 수도 있습니다. 대신에 지원할 경우  <code>X-Accel-Redirect</code>/ <code>X-Sendfile</code>가 다운로드에 사용될 수 있습니다 (서버에 <code>mod_xsendfile</code>가 필수임 ).  "
+
+#: includes/admin/settings/class-wc-settings-products.php:421
+msgid "Force Downloads"
+msgstr "다운로드 필수 사용"
+
+#: includes/admin/settings/class-wc-settings-products.php:422
+msgid "X-Accel-Redirect/X-Sendfile"
+msgstr "X-Accel-Redirect/X-Sendfile"
+
+#: includes/admin/settings/class-wc-settings-products.php:423
+msgid "Redirect only"
+msgstr "리다이렉트 전용"
+
+#: includes/admin/settings/class-wc-settings-products.php:429
+msgid "Access Restriction"
+msgstr "접근 제한"
+
+#: includes/admin/settings/class-wc-settings-products.php:430
+msgid "Downloads require login"
+msgstr "내려받기는 로그인이 필요합니다"
+
+#: includes/admin/settings/class-wc-settings-products.php:434
+msgid "This setting does not apply to guest purchases."
+msgstr "이 설정은 비회원 구매 시에는 적용되지 않습니다."
+
+#: includes/admin/settings/class-wc-settings-products.php:440
+msgid "Grant access to downloadable products after payment"
+msgstr "지불 후에 다운로드 가능 상품에 접근 부여"
+
+#: includes/admin/settings/class-wc-settings-products.php:444
+msgid ""
+"Enable this option to grant access to downloads when orders are "
+"\"processing\", rather than \"completed\"."
+msgstr "주문이 \"완료됨\"이 아닌 \"처리중\"인 경우 내려받기에 접근 허용하려면 이 옵션을 활성화하세요."
+
+#: includes/admin/settings/class-wc-settings-shipping.php:41
+#: includes/admin/settings/class-wc-settings-shipping.php:67
+msgid "Shipping Options"
+msgstr "배송 옵션"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:70
+msgid "Shipping Calculations"
+msgstr "배송 계산"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:71
+msgid "Enable shipping"
+msgstr "배송 활성화"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:79
+msgid "Enable the shipping calculator on the cart page"
+msgstr "장바구니 페이지에 배송 계산기 활성화"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:88
+msgid "Hide shipping costs until an address is entered"
+msgstr "주소가 입력될 때까지 배송 비용 감추기"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:97
+msgid "Shipping Display Mode"
+msgstr "배송 표시 모드"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:98
+msgid ""
+"This controls how multiple shipping methods are displayed on the frontend."
+msgstr "이것은 다수의 배송 방법이 사이트에서 표시되는 방법을 제어합니다."
+
+#: includes/admin/settings/class-wc-settings-shipping.php:103
+msgid "Display shipping methods with \"radio\" buttons"
+msgstr "배송 방법을 \"라디오\" 버튼으로 표시"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:104
+msgid "Display shipping methods in a dropdown"
+msgstr "배송 방법을 드롭다운으로 표시"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:111
+msgid "Shipping Destination"
+msgstr "배송 목적지"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:112
+msgid "Ship to billing address by default"
+msgstr "기본으로 청구지 주소로 배송"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:122
+msgid "Only ship to the users billing address"
+msgstr "사용자 청구지 주소로만 배송"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:132
+msgid "Restrict shipping to Location(s)"
+msgstr "배송을 특정 지역에 제한"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:133
+msgid ""
+"Choose which countries you want to ship to, or choose to ship to all <a "
+"href=\"%s\">locations you sell to</a>."
+msgstr "배송을 원하는 국가를 선택하세요. 또는 모든 <a href=\"%s\">판매하는 국가</a>로 배송하기를 선택하세요."
+
+#: includes/admin/settings/class-wc-settings-shipping.php:140
+msgid "Ship to all countries you sell to"
+msgstr "판매하는 모든 국가에 배송"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:141
+msgid "Ship to all countries"
+msgstr "모든 국가에 배송"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:142
+msgid "Ship to specific countries only"
+msgstr "특정 국가만 배송"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:197
+msgid "Shipping Methods"
+msgstr "배송 방법"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:204
+msgid "ID"
+msgstr "ID"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:214
+msgid "Automatic"
+msgstr "자동"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:214
+msgid "The cheapest available shipping method will be selected by default."
+msgstr "가능한 가장 낮은 가격의 배송 방법이 기본으로 선택됩니다."
+
+#: includes/admin/settings/class-wc-settings-shipping.php:215
+msgid ""
+"Drag and drop the above shipping methods to control their display order."
+msgstr "표시 순서를 제어하기 위해 위 배송 방법을 끌어놓기 하세요."
+
+#: includes/admin/settings/class-wc-settings-tax.php:40
+#: includes/admin/settings/class-wc-settings-tax.php:68
+msgid "Tax Options"
+msgstr "세금 옵션"
+
+#: includes/admin/settings/class-wc-settings-tax.php:41
+msgid "Standard Rates"
+msgstr "표준 세율"
+
+#: includes/admin/settings/class-wc-settings-tax.php:49
+msgid "%s Rates"
+msgstr "%s 세율"
+
+#: includes/admin/settings/class-wc-settings-tax.php:71
+msgid "Enable Taxes"
+msgstr "세금 활성화"
+
+#: includes/admin/settings/class-wc-settings-tax.php:72
+msgid "Enable taxes and tax calculations"
+msgstr "세금 및 세금 계산 활성화"
+
+#: includes/admin/settings/class-wc-settings-tax.php:79
+msgid "Prices Entered With Tax"
+msgstr "세금과 함께 입력된 가격"
+
+#: includes/admin/settings/class-wc-settings-tax.php:83
+msgid ""
+"This option is important as it will affect how you input prices. Changing it"
+" will not update existing products."
+msgstr "이 옵션은 가격을 입력하는 방법에 영향을 주기 때문에 중요합니다. 변경하면 기존의 상품을 업데이트하지 않습니다."
+
+#: includes/admin/settings/class-wc-settings-tax.php:85
+msgid "Yes, I will enter prices inclusive of tax"
+msgstr "네, 세금을 포함한 가격을 입력합니다"
+
+#: includes/admin/settings/class-wc-settings-tax.php:86
+msgid "No, I will enter prices exclusive of tax"
+msgstr "아니오, 세금을 제외한 가격을 입력합니다"
+
+#: includes/admin/settings/class-wc-settings-tax.php:91
+msgid "Calculate Tax Based On:"
+msgstr "세금 계산 기준:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:93
+msgid "This option determines which address is used to calculate tax."
+msgstr "이 옵션은 세금을 계산할 때 사용하는 주소를 결정합니다."
+
+#: includes/admin/settings/class-wc-settings-tax.php:97
+msgid "Customer shipping address"
+msgstr "고객 배송 주소"
+
+#: includes/admin/settings/class-wc-settings-tax.php:98
+msgid "Customer billing address"
+msgstr "고객 청구 주소"
+
+#: includes/admin/settings/class-wc-settings-tax.php:99
+#: includes/admin/settings/class-wc-settings-tax.php:111
+msgid "Shop base address"
+msgstr "상점 기준 주소"
+
+#: includes/admin/settings/class-wc-settings-tax.php:104
+msgid "Default Customer Address:"
+msgstr "기본 고객 주소:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:106
+msgid ""
+"This option determines the customers default address (before they input "
+"their own)."
+msgstr "이 옵션은 고객의 기본 주소를 결정합니다 (고객이 자신의 주소를 입력하기 전에)"
+
+#: includes/admin/settings/class-wc-settings-tax.php:110
+msgid "No address"
+msgstr "주소 없음"
+
+#: includes/admin/settings/class-wc-settings-tax.php:116
+msgid "Shipping Tax Class:"
+msgstr "배송 세금 클래스:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:117
+msgid ""
+"Optionally control which tax class shipping gets, or leave it so shipping "
+"tax is based on the cart items themselves."
+msgstr "선택적으로 배송이 취하는 세금 클래스를 제어합니다. 또는 배송 세금이 장바구니 아이템에 기준으로 하려면 그대로 두세요."
+
+#: includes/admin/settings/class-wc-settings-tax.php:122
+msgid "Shipping tax class based on cart items"
+msgstr "장바구니 아이템 기준 배송 세금 클래스"
+
+#: includes/admin/settings/class-wc-settings-tax.php:127
+msgid "Rounding"
+msgstr "반올림"
+
+#: includes/admin/settings/class-wc-settings-tax.php:128
+msgid "Round tax at subtotal level, instead of rounding per line"
+msgstr "라인당 반올림이 아닌 소계 단계에서 세금 반올림"
+
+#: includes/admin/settings/class-wc-settings-tax.php:135
+msgid "Additional Tax Classes"
+msgstr "추가 세금 클래스"
+
+#: includes/admin/settings/class-wc-settings-tax.php:136
+msgid ""
+"List additional tax classes below (1 per line). This is in addition to the "
+"default <code>Standard Rate</code>. Tax classes can be assigned to products."
+msgstr "아래에 추가 세금 클래스를 나열하세요 (라인당 1). 이것은 기본 <code>표준율</code>에 추가됩니다. 세금 클래스는 상품에 배정될 수 있습니다. "
+
+#: includes/admin/settings/class-wc-settings-tax.php:140
+msgid "Reduced Rate%sZero Rate"
+msgstr "감세율%s영세율"
+
+#: includes/admin/settings/class-wc-settings-tax.php:144
+msgid "Display prices in the shop:"
+msgstr "상점에 가격 표시"
+
+#: includes/admin/settings/class-wc-settings-tax.php:149
+#: includes/admin/settings/class-wc-settings-tax.php:168
+msgid "Including tax"
+msgstr "세금 포함"
+
+#: includes/admin/settings/class-wc-settings-tax.php:150
+#: includes/admin/settings/class-wc-settings-tax.php:169
+msgid "Excluding tax"
+msgstr "세금 제외"
+
+#: includes/admin/settings/class-wc-settings-tax.php:155
+msgid "Price display suffix:"
+msgstr "가격 표시 접미어"
+
+#: includes/admin/settings/class-wc-settings-tax.php:159
+msgid ""
+"Define text to show after your product prices. This could be, for example, "
+"\"inc. Vat\" to explain your pricing. You can also have prices substituted "
+"here using one of the following: <code>{price_including_tax}, "
+"{price_excluding_tax}</code>."
+msgstr "상품 가격 다음에 보일 텍스트를 정의하세요. 이것은 예를들면 \"inc. Vat\"처럼 가격을 설명하는 것일 수 있습니다. 다음 중 하나을 사용해서 이곳을 대신하는 가격을 입력할 수도 있습니다: <code>{price_including_tax}, {price_excluding_tax}</code>."
+
+#: includes/admin/settings/class-wc-settings-tax.php:163
+msgid "Display prices during cart/checkout:"
+msgstr "장바구니/결제 중에 가격 보이기:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:175
+msgid "Display tax totals:"
+msgstr "세금 총계 표시:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:180
+msgid "As a single total"
+msgstr "단일 총계로"
+
+#: includes/admin/settings/class-wc-settings-tax.php:181
+msgid "Itemized"
+msgstr "아이템화"
+
+#: includes/admin/settings/class-wc-settings-tax.php:243
+msgid "Tax Rates for the \"%s\" Class"
+msgstr "\"%s\" 클래스에 대한 세율"
+
+#: includes/admin/settings/class-wc-settings-tax.php:244
+msgid ""
+"Define tax rates for countries and states below. <a href=\"%s\">See here</a>"
+" for available alpha-2 country codes."
+msgstr "아래에서 국가와 주에 대한 세율을 정의하세요. 가능한 알파-2 국가 코드는 <a href=\"%s\">여기를 보세요</a>."
+
+#: includes/admin/settings/class-wc-settings-tax.php:250
+msgid "Country&nbsp;Code"
+msgstr "국가&nbsp;코드"
+
+#: includes/admin/settings/class-wc-settings-tax.php:250
+msgid "A 2 digit country code, e.g. US. Leave blank to apply to all."
+msgstr "두자리 숫자의 국가 코드, 예: US. 모두에 적용하려면 비워두세요."
+
+#: includes/admin/settings/class-wc-settings-tax.php:252
+msgid "State&nbsp;Code"
+msgstr "주&nbsp;코드"
+
+#: includes/admin/settings/class-wc-settings-tax.php:252
+msgid "A 2 digit state code, e.g. AL. Leave blank to apply to all."
+msgstr "두자리의 주 코드. 예: AL. 모두에 적용하려면 비워두세요."
+
+#: includes/admin/settings/class-wc-settings-tax.php:254
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "ZIP/Postcode"
+msgstr "우편 번호"
+
+#: includes/admin/settings/class-wc-settings-tax.php:254
+msgid ""
+"Postcode for this rule. Semi-colon (;) separate multiple values. Leave blank"
+" to apply to all areas. Wildcards (*) can be used. Ranges for numeric "
+"postcodes (e.g. 12345-12350) will be expanded into individual postcodes."
+msgstr "이 규칙에 대한 우편 코드. 다중 값은 세미콜론(;)으로 분리. 모든 지역에 적용하려면 비워두세요. 와일드카드(*)를 사용할 수 있습니다. 숫자 우편 코드 범위 (예 12345-12350)는 개별 우편 코드로 확장됩니다."
+
+#: includes/admin/settings/class-wc-settings-tax.php:256
+msgid ""
+"Cities for this rule. Semi-colon (;) separate multiple values. Leave blank "
+"to apply to all cities."
+msgstr "이 규칙에 대한 도시. 다중 값은 세미콜론(;)으로 분리. 모든 도시에 적용하려면 비워두세요."
+
+#: includes/admin/settings/class-wc-settings-tax.php:258
+msgid "Rate&nbsp;%"
+msgstr "비율&nbsp;%"
+
+#: includes/admin/settings/class-wc-settings-tax.php:258
+msgid "Enter a tax rate (percentage) to 4 decimal places."
+msgstr "세율(퍼센트)을 입력하세요. (소숫점 4자리까지 가능)"
+
+#: includes/admin/settings/class-wc-settings-tax.php:260
+msgid "Tax&nbsp;Name"
+msgstr "세금&nbsp;이름"
+
+#: includes/admin/settings/class-wc-settings-tax.php:260
+msgid "Enter a name for this tax rate."
+msgstr "이 세율의 이름을 입력하세요."
+
+#: includes/admin/settings/class-wc-settings-tax.php:262
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Priority"
+msgstr "우선순위"
+
+#: includes/admin/settings/class-wc-settings-tax.php:262
+msgid ""
+"Choose a priority for this tax rate. Only 1 matching rate per priority will "
+"be used. To define multiple tax rates for a single area you need to specify "
+"a different priority per rate."
+msgstr "이 세율에 대해 우선 순위를 선택하세요. 우선 순위당 하나의 일치하는 세율만 사용됩니다. 단일 영역에 대해 다중 세율을 정의하려면 세율당 다른 우선 순위를 특정해야합니다."
+
+#: includes/admin/settings/class-wc-settings-tax.php:264
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Compound"
+msgstr "복합"
+
+#: includes/admin/settings/class-wc-settings-tax.php:264
+msgid ""
+"Choose whether or not this is a compound rate. Compound tax rates are "
+"applied on top of other tax rates."
+msgstr "이것이 복합 세율인지 선택하세요. 복합 세율은 다른 세율의 상위에 적용됩니다."
+
+#: includes/admin/settings/class-wc-settings-tax.php:266
+msgid "Choose whether or not this tax rate also gets applied to shipping."
+msgstr "이 세율이 배송에도 적용되는지 선택하세요."
+
+#: includes/admin/settings/class-wc-settings-tax.php:273
+msgid "Insert row"
+msgstr "행 추가하기"
+
+#: includes/admin/settings/class-wc-settings-tax.php:274
+msgid "Remove selected row(s)"
+msgstr "선택한 행 제거하기"
+
+#: includes/admin/settings/class-wc-settings-tax.php:290
+msgid "Import CSV"
+msgstr "CSV 가져오기"
+
+#: includes/admin/settings/class-wc-settings-tax.php:376
+msgid "No row(s) selected"
+msgstr "행이 선택되지 않았습니다"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Country Code"
+msgstr "국가 코드"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "State Code"
+msgstr "주 코드"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Rate %"
+msgstr "비율 %"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Tax Name"
+msgstr "세금 이름"
+
+#: includes/admin/views/html-admin-page-addons.php:5
+msgid "Browse all extensions"
+msgstr "모든 확장 플러그인 둘러보기"
+
+#: includes/admin/views/html-admin-page-addons.php:6
+msgid "Browse themes"
+msgstr "테마 둘러보기"
+
+#: includes/admin/views/html-admin-page-addons.php:12
+msgid "Popular"
+msgstr "인기있는"
+
+#: includes/admin/views/html-admin-page-addons.php:13
+msgid "Gateways"
+msgstr "게이트웨이"
+
+#: includes/admin/views/html-admin-page-addons.php:15
+msgid "Import/export"
+msgstr "가져오기/내보내기"
+
+#: includes/admin/views/html-admin-page-addons.php:17
+msgid "Marketing"
+msgstr "마켓팅"
+
+#: includes/admin/views/html-admin-page-addons.php:18
+msgid "Acounting"
+msgstr "회계"
+
+#: includes/admin/views/html-admin-page-addons.php:19
+msgid "Free"
+msgstr "무료"
+
+#: includes/admin/views/html-admin-page-addons.php:20
+msgid "Third-party"
+msgstr "제3자"
+
+#: includes/admin/views/html-admin-page-addons.php:81
+msgid ""
+"Our catalog of WooCommerce Extensions can be found on WooThemes.com here: <a"
+" href=\"%s\">WooCommerce Extensions Catalog</a>"
+msgstr "우커머스 확장 플러그인 카탈로그는 WooThemes.com에서 찾을 수 있습니다: <a href=\"%s\">우커머스 확장 플러그인 카탈로그</a>"
+
+#: includes/admin/views/html-admin-page-status-report.php:2
+msgid "Please include this information when requesting support:"
+msgstr "지원을 요청할 경우 이 정보를 포함해주세요:"
+
+#: includes/admin/views/html-admin-page-status-report.php:3
+msgid "Get System Report"
+msgstr "시스템 보고서 받기"
+
+#: includes/admin/views/html-admin-page-status-report.php:11
+msgid "Environment"
+msgstr "환경"
+
+#: includes/admin/views/html-admin-page-status-report.php:17
+msgid "Home URL"
+msgstr "홈 URL"
+
+#: includes/admin/views/html-admin-page-status-report.php:21
+msgid "Site URL"
+msgstr "사이트 URL"
+
+#: includes/admin/views/html-admin-page-status-report.php:25
+msgid "WC Version"
+msgstr "우커머스 버전"
+
+#: includes/admin/views/html-admin-page-status-report.php:29
+msgid "WC Database Version"
+msgstr "우커머스 데이터베이스 버전"
+
+#: includes/admin/views/html-admin-page-status-report.php:33
+msgid "WP Version"
+msgstr "워드프레스 버전"
+
+#: includes/admin/views/html-admin-page-status-report.php:37
+msgid "WP Multisite Enabled"
+msgstr "워드프레스 다중 사이트 활성화됨"
+
+#: includes/admin/views/html-admin-page-status-report.php:41
+msgid "Web Server Info"
+msgstr "웹서버 정보"
+
+#: includes/admin/views/html-admin-page-status-report.php:45
+msgid "PHP Version"
+msgstr "PHP 버전"
+
+#: includes/admin/views/html-admin-page-status-report.php:49
+msgid "MySQL Version"
+msgstr "MySQL 버전"
+
+#: includes/admin/views/html-admin-page-status-report.php:59
+msgid "WP Memory Limit"
+msgstr "WP 메모리 한도"
+
+#: includes/admin/views/html-admin-page-status-report.php:64
+msgid ""
+"%s - We recommend setting memory to at least 64MB. See: <a "
+"href=\"%s\">Increasing memory allocated to PHP</a>"
+msgstr "%s - 최소 64MB의 설정 메모리를 추천합니다. 참고: <a href=\"%s\">PHP 메모리 할당 늘리기</a>"
+
+#: includes/admin/views/html-admin-page-status-report.php:71
+msgid "WP Debug Mode"
+msgstr "WP 디버그 모드"
+
+#: includes/admin/views/html-admin-page-status-report.php:75
+msgid "WP Language"
+msgstr "워드프레스 언어"
+
+#: includes/admin/views/html-admin-page-status-report.php:79
+msgid "WP Max Upload Size"
+msgstr "워드프레스 최대 업로드 사이즈"
+
+#: includes/admin/views/html-admin-page-status-report.php:84
+msgid "PHP Post Max Size"
+msgstr "PHP 포스트 최대 사이즈"
+
+#: includes/admin/views/html-admin-page-status-report.php:88
+msgid "PHP Time Limit"
+msgstr "PHP 시간 한도"
+
+#: includes/admin/views/html-admin-page-status-report.php:92
+msgid "PHP Max Input Vars"
+msgstr "PHP Max Input Vars"
+
+#: includes/admin/views/html-admin-page-status-report.php:96
+msgid "SUHOSIN Installed"
+msgstr "수호신 설치됨"
+
+#: includes/admin/views/html-admin-page-status-report.php:101
+msgid "WC Logging"
+msgstr "WC 로깅"
+
+#: includes/admin/views/html-admin-page-status-report.php:104
+msgid "Log directory is writable."
+msgstr "로그 디렉토리가 쓰기 가능합니다."
+
+#: includes/admin/views/html-admin-page-status-report.php:106
+msgid ""
+"Log directory (<code>woocommerce/logs/</code>) is not writable. Logging will"
+" not be possible."
+msgstr "로그 디렉토리 (<code>woocommerce/logs/</code>)가 쓰기 불가능합니다. 로깅이 불가능할 것입니다."
+
+#: includes/admin/views/html-admin-page-status-report.php:110
+msgid "Default Timezone"
+msgstr "기본 타임존"
+
+#: includes/admin/views/html-admin-page-status-report.php:114
+msgid "Default timezone is %s - it should be UTC"
+msgstr "기본 타임존은 %s입니다 - UTC이어야 합니다"
+
+#: includes/admin/views/html-admin-page-status-report.php:116
+msgid "Default timezone is %s"
+msgstr "기본 타임존은 %s입니다."
+
+#: includes/admin/views/html-admin-page-status-report.php:124
+msgid "fsockopen/cURL"
+msgstr "fsockopen/cURL"
+
+#: includes/admin/views/html-admin-page-status-report.php:127
+msgid "Your server has fsockopen and cURL enabled."
+msgstr "서버가 fsockopen와 cURL가 활성화되어 있습니다."
+
+#: includes/admin/views/html-admin-page-status-report.php:129
+msgid "Your server has fsockopen enabled, cURL is disabled."
+msgstr "fsockopen가 활성화돼있고, cURL가 비활성화돼있습니다."
+
+#: includes/admin/views/html-admin-page-status-report.php:131
+msgid "Your server has cURL enabled, fsockopen is disabled."
+msgstr "cURL가 활성화돼있고, fsockopen가 비활성화돼있습니다."
+
+#: includes/admin/views/html-admin-page-status-report.php:135
+msgid ""
+"Your server does not have fsockopen or cURL enabled - PayPal IPN and other "
+"scripts which communicate with other servers will not work. Contact your "
+"hosting provider."
+msgstr "서버가 fsockopen이나 cURL가 가능하지 않습니다 - 다른 서버와 통신하는 PayPal IPN과 다른 스크립트가 작동하지 않을 것입니다. 호스팅 서비스에 연락하세요."
+
+#: includes/admin/views/html-admin-page-status-report.php:140
+msgid "SOAP Client"
+msgstr "SOAP 클라이언트"
+
+#: includes/admin/views/html-admin-page-status-report.php:142
+msgid "Your server has the SOAP Client class enabled."
+msgstr "서버가 SOAP 클라이언트 클래스가 활성화되어 있습니다."
+
+#: includes/admin/views/html-admin-page-status-report.php:145
+msgid ""
+"Your server does not have the <a href=\"%s\">SOAP Client</a> class enabled -"
+" some gateway plugins which use SOAP may not work as expected."
+msgstr "서버가 <a href=\"%s\">SOAP 클라이언트</a> 클래스가 활성화되어 있지 않습니다 - SOAP를 사용하는 게이트웨이 플러그인이 예상대로 작동하지 않는 것 같습니다."
+
+#: includes/admin/views/html-admin-page-status-report.php:150
+msgid "WP Remote Post"
+msgstr "워드프레스 원격 포스트"
+
+#: includes/admin/views/html-admin-page-status-report.php:161
+msgid "wp_remote_post() was successful - PayPal IPN is working."
+msgstr "wp_remote_post() 가 성공했습니다 - PayPal IPN이 작동합니다."
+
+#: includes/admin/views/html-admin-page-status-report.php:164
+msgid ""
+"wp_remote_post() failed. PayPal IPN won't work with your server. Contact "
+"your hosting provider. Error:"
+msgstr "wp_remote_post() 가 실패했습니다. PayPal IPN 가 서버와 작동하지 않을 것입니다. 호스트에 연락하세요. 에러:"
+
+#: includes/admin/views/html-admin-page-status-report.php:167
+msgid "wp_remote_post() failed. PayPal IPN may not work with your server."
+msgstr "wp_remote_post() 가 실패했습니다. PayPal IPN 가 서버와 작동하지 않을 수도 있습니다."
+
+#: includes/admin/views/html-admin-page-status-report.php:190
+msgid "Locale"
+msgstr "로컬"
+
+#: includes/admin/views/html-admin-page-status-report.php:206
+msgid "Plugins"
+msgstr "플러그인"
+
+#: includes/admin/views/html-admin-page-status-report.php:212
+msgid "Installed Plugins"
+msgstr "설치된 플러그인"
+
+#: includes/admin/views/html-admin-page-status-report.php:232
+msgid "Visit plugin homepage"
+msgstr "플러그인 홈페이지 방문"
+
+#: includes/admin/views/html-admin-page-status-report.php:256
+#: includes/admin/views/html-admin-page-status-report.php:438
+msgid "is available"
+msgstr "가능합니다"
+
+#: includes/admin/views/html-admin-page-status-report.php:259
+msgid "by"
+msgstr "올린이"
+
+#: includes/admin/views/html-admin-page-status-report.php:259
+msgid "version"
+msgstr "버전"
+
+#: includes/admin/views/html-admin-page-status-report.php:281
+msgid "Force SSL"
+msgstr "SSL 강제 사용하기"
+
+#: includes/admin/views/html-admin-page-status-report.php:288
+msgid "WC Pages"
+msgstr "우커머스 페이지"
+
+#: includes/admin/views/html-admin-page-status-report.php:295
+msgctxt "Page setting"
+msgid "Shop Base"
+msgstr "상점 기준"
+
+#: includes/admin/views/html-admin-page-status-report.php:299
+msgctxt "Page setting"
+msgid "Cart"
+msgstr "장바구니"
+
+#: includes/admin/views/html-admin-page-status-report.php:303
+msgctxt "Page setting"
+msgid "Checkout"
+msgstr "결제"
+
+#: includes/admin/views/html-admin-page-status-report.php:307
+msgctxt "Page setting"
+msgid "My Account"
+msgstr "나의 계정"
+
+#: includes/admin/views/html-admin-page-status-report.php:327
+msgid "Page not set"
+msgstr "페이지가 설정되지 않았습니다"
+
+#: includes/admin/views/html-admin-page-status-report.php:337
+msgid "Page does not exist"
+msgstr "페이지가 존재하지 않습니다"
+
+#: includes/admin/views/html-admin-page-status-report.php:342
+msgid "Page does not contain the shortcode: %s"
+msgstr "페이지가 숏코드를 포함하지 않습니다: %s"
+
+#: includes/admin/views/html-admin-page-status-report.php:361
+msgid "WC Taxonomies"
+msgstr "우커머스 택소노미"
+
+#: includes/admin/views/html-admin-page-status-report.php:367
+msgid "Order Statuses"
+msgstr "주문 상태"
+
+#: includes/admin/views/html-admin-page-status-report.php:377
+msgid "Product Types"
+msgstr "상품 타입"
+
+#: includes/admin/views/html-admin-page-status-report.php:390
+msgid "Theme"
+msgstr "테마"
+
+#: includes/admin/views/html-admin-page-status-report.php:427
+msgid "Theme Name"
+msgstr "테마 이름"
+
+#: includes/admin/views/html-admin-page-status-report.php:433
+msgid "Theme Version"
+msgstr "테마 버전"
+
+#: includes/admin/views/html-admin-page-status-report.php:442
+msgid "Author URL"
+msgstr "제작자 URL"
+
+#: includes/admin/views/html-admin-page-status-report.php:451
+msgid "Templates"
+msgstr "템플릿"
+
+#: includes/admin/views/html-admin-page-status-report.php:486
+msgid ""
+"<code>%s</code> version <strong style=\"color:red\">%s</strong> is out of "
+"date. The core version is %s"
+msgstr "<code>%s</code> 버전 <strong style=\"color:red\">%s</strong>는 이전 버전입니다. 코어 버전은 %s입니다"
+
+#: includes/admin/views/html-admin-page-status-report.php:497
+#: includes/admin/views/html-admin-page-status-report.php:503
+msgid "Template Overrides"
+msgstr "템플릿 덮어쓰기"
+
+#: includes/admin/views/html-admin-page-status-report.php:504
+msgid "No overrides present in theme."
+msgstr "테마에 덮어쓰기가 없습니다."
+
+#: includes/admin/views/html-admin-page-status-tools.php:7
+#: includes/admin/views/html-admin-page-status.php:6
+msgid "Tools"
+msgstr "도구"
+
+#: includes/admin/views/html-admin-page-status-tools.php:23
+msgid "Shipping Debug Mode"
+msgstr "배송 디버그 모드"
+
+#: includes/admin/views/html-admin-page-status-tools.php:29
+msgid "This tool will disable shipping rate caching."
+msgstr "이 도구는 배송 세율 캐싱을 비활성화 합니다."
+
+#: includes/admin/views/html-admin-page-status-tools.php:34
+msgid "Template Debug Mode"
+msgstr "템플릿 디버그 모드"
+
+#: includes/admin/views/html-admin-page-status-tools.php:40
+msgid ""
+"This tool will disable template overrides for logged-in administrators for "
+"debugging purposes."
+msgstr "이 도구는 로그인 관리자의 디버그 목적을 위해 템플릿 덮어쓰기를 비활성화 합니다."
+
+#: includes/admin/views/html-admin-page-status-tools.php:45
+msgid "Remove post types on uninstall"
+msgstr "설치 제거시 글 형식 제거"
+
+#: includes/admin/views/html-admin-page-status-tools.php:51
+msgid ""
+"This tool will delete all product and order post data when uninstalling via "
+"Plugins > Delete."
+msgstr "이 도구는 플러그인 > 제거를 통해 설치 제거할 경우 모든 상품을 제거하고 글 데이터를 정렬합니다."
+
+#: includes/admin/views/html-admin-page-status-tools.php:58
+msgid "Save Changes"
+msgstr "변경 사항 저장"
+
+#: includes/admin/views/html-admin-settings.php:20
+msgid "Save changes"
+msgstr "변경 사항 저장"
+
+#: includes/admin/views/html-bulk-edit-product.php:15
+#: includes/admin/views/html-bulk-edit-product.php:39
+#: includes/admin/views/html-bulk-edit-product.php:63
+#: includes/admin/views/html-bulk-edit-product.php:82
+#: includes/admin/views/html-bulk-edit-product.php:108
+#: includes/admin/views/html-bulk-edit-product.php:132
+#: includes/admin/views/html-bulk-edit-product.php:156
+#: includes/admin/views/html-bulk-edit-product.php:175
+#: includes/admin/views/html-bulk-edit-product.php:193
+#: includes/admin/views/html-bulk-edit-product.php:212
+#: includes/admin/views/html-bulk-edit-product.php:231
+#: includes/admin/views/html-bulk-edit-product.php:252
+msgid "— No Change —"
+msgstr "— 변경 없음 —"
+
+#: includes/admin/views/html-bulk-edit-product.php:16
+#: includes/admin/views/html-bulk-edit-product.php:40
+#: includes/admin/views/html-bulk-edit-product.php:109
+#: includes/admin/views/html-bulk-edit-product.php:133
+#: includes/admin/views/html-bulk-edit-product.php:232
+msgid "Change to:"
+msgstr "변경:"
+
+#: includes/admin/views/html-bulk-edit-product.php:17
+#: includes/admin/views/html-bulk-edit-product.php:41
+msgid "Increase by (fixed amount or %):"
+msgstr "증가 (고정 양 또는 %)"
+
+#: includes/admin/views/html-bulk-edit-product.php:18
+#: includes/admin/views/html-bulk-edit-product.php:42
+msgid "Decrease by (fixed amount or %):"
+msgstr "감소 (고정 양 또는 %)"
+
+#: includes/admin/views/html-bulk-edit-product.php:28
+#: includes/admin/views/html-bulk-edit-product.php:53
+msgid "Enter price"
+msgstr "가격을 입력하세요"
+
+#: includes/admin/views/html-bulk-edit-product.php:34
+#: includes/admin/views/html-quick-edit-product.php:29
+msgid "Sale"
+msgstr "세일"
+
+#: includes/admin/views/html-bulk-edit-product.php:43
+msgid "Decrease regular price by (fixed amount or %):"
+msgstr "정상 가격 감소하기 (고정 금액 또는 %):"
+
+#: includes/admin/views/html-bulk-edit-product.php:127
+#: includes/admin/views/html-quick-edit-product.php:95
+msgid "L/W/H"
+msgstr "L/W/H"
+
+#: includes/admin/views/html-bulk-edit-product.php:151
+#: includes/admin/views/html-quick-edit-product.php:109
+msgid "Visibility"
+msgstr "가시성"
+
+#: includes/admin/views/html-bulk-edit-product.php:157
+#: includes/admin/views/html-quick-edit-product.php:114
+msgid "Catalog &amp; search"
+msgstr "카탈로그 &amp; 검색"
+
+#: includes/admin/views/html-bulk-edit-product.php:188
+#: includes/admin/views/html-quick-edit-product.php:132
+msgid "In stock?"
+msgstr "재고가 있나요?"
+
+#: includes/admin/views/html-bulk-edit-product.php:247
+#: includes/admin/views/html-quick-edit-product.php:167
+msgid "Backorders?"
+msgstr "백오더?"
+
+#: includes/admin/views/html-notice-install.php:5
+msgid ""
+"<strong>Welcome to WooCommerce</strong> &#8211; You're almost ready to start"
+" selling :)"
+msgstr "<strong>우커머스에 오신 것을 환영합니다</strong> &#8211; 판매할 준비가 거의 다 됐습니다 :)"
+
+#: includes/admin/views/html-notice-install.php:6
+msgid "Skip setup"
+msgstr "설정 생략하기"
+
+#: includes/admin/views/html-notice-template-check.php:5
+msgid ""
+"<strong>Your theme has bundled outdated copies of WooCommerce template "
+"files</strong> &#8211; if you encounter functionality issues on the frontend"
+" this could the reason. Ensure you update or remove them (in general we "
+"recommend only bundling the template files you actually need to customize). "
+"See the system report for full details."
+msgstr "<strong>테마가 이전 버전의 우커머스 템플릿 파일을 번들로 사용하고 있습니다 </strong>&#8211;  사이트 전면에서 기능상의 문제가 발생하면 업데이트 하거나 제거하세요(일반적으로 우리는 사용자 정의에 필요한 템플릿 파일만을 번들하도록 추천하고 있습니다). 상세한 내용은 시스템 보고서를 참고하세요."
+
+#: includes/admin/views/html-notice-template-check.php:6
+#: includes/admin/views/html-notice-theme-support.php:6
+msgid "Hide this notice"
+msgstr "이 공지 감추기"
+
+#: includes/admin/views/html-notice-theme-support.php:5
+msgid ""
+"<strong>Your theme does not declare WooCommerce support</strong> &#8211; if "
+"you encounter layout issues please read our integration guide or choose a "
+"WooCommerce theme :)"
+msgstr "<strong>테마가 우커머스 지원을 선언하지 않고 있습니다.</strong> &#8211; 레이아웃 문제가 발생하면 우커머스 결합 가이드를 읽으시거나 우커머스 테마를 선택하세요 :)"
+
+#: includes/admin/views/html-notice-theme-support.php:6
+msgid "Theme Integration Guide"
+msgstr "테마 결합 가이드"
+
+#: includes/admin/views/html-notice-update.php:5
+msgid ""
+"<strong>WooCommerce Data Update Required</strong> &#8211; We just need to "
+"update your install to the latest version"
+msgstr "<strong>우커머스 데이터 업데이트 필요</strong> &#8211; 설치를 최신 버전으로 업데이트 해야 합니다."
+
+#: includes/admin/views/html-notice-update.php:6
+msgid "Run the updater"
+msgstr "업데이터 실행하기"
+
+#: includes/admin/views/html-notice-update.php:10
+msgid ""
+"It is strongly recommended that you backup your database before proceeding. "
+"Are you sure you wish to run the updater now?"
+msgstr "계속 진행하기 전에 데이터베이스를 백업할 것을 강력히 추천합니다. 지금 업데이터를 실행하기 원하시나요?"
+
+#: includes/admin/views/html-quick-edit-product.php:24
+msgid "Regular price"
+msgstr "정상 가격"
+
+#: includes/admin/views/html-quick-edit-product.php:31
+msgid "Sale price"
+msgstr "세일 가격"
+
+#: includes/admin/views/html-report-by-date.php:16
+msgid "Custom:"
+msgstr "사용자 정의:"
+
+#: includes/admin/wc-admin-functions.php:192
+msgid "Could not compile woocommerce.less:"
+msgstr "woocommerce.less를 컴파일 할 수 없습니다:"

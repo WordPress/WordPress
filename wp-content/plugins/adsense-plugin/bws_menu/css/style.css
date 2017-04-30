@@ -1,0 +1,158 @@
+.bws_system_info_meta_box {
+    max-width: 850px;
+}
+.bws_system_info_meta_box .hndle {
+    cursor: pointer !important;
+}
+.bws_system_info {
+    float: left;
+    margin-right: 10px;
+    max-width: 400px;
+}
+.bws_system_info th {
+    padding: 10px 0;
+    text-align: left;
+    width: 50%;
+}
+.bws_system_info tbody td {
+    border-bottom: 1px solid #DFDFDF;
+}
+.clear {
+    clear: both;
+}
+.bws_main.title {
+    float: left;
+    margin-right: 30px;
+}
+h4.bws_installed,
+h4.bws_recommended {
+    color: #999;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 14px;    
+}
+h4.bws_installed:before,
+h4.bws_recommended:before {
+    border-radius: 9px;
+    content: "";
+    display: inline-block;
+    height: 8px;
+    position: relative;
+    top: -1px;
+    width: 8px;
+    margin-right: 7px;
+}
+h4.bws_recommended:before {
+    background: #0074a2;
+}
+h4.bws_installed:before {
+    background: #00a22e;
+}
+.bws_product_box {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CACACA;
+    float: left;
+    margin: 0 9px 10px 0;
+    text-align: center;
+    width: 182px;
+    border-radius: 3px;
+}
+.bws_product_box a {
+    text-decoration: none;
+}
+.bws_product {
+    border-bottom: 1px solid #fff;
+    min-height: 203px;
+}
+.bws_product_content {
+    min-height: 93px;
+}
+.bws_activate {
+    color: #F14B21;
+}
+.bws_activate:hover {
+    color: #f26e50;
+}
+.bws_product_title {
+    font-weight: bold;
+    padding: 16px 10px 28px;
+    font-size: 14px;
+    height: 18px;
+}
+.bws_product_deactivated .bws_product_title {
+    color: #7e7e7e;
+}
+.bws_product_pro .bws_product_title {
+    color: #fff;
+}
+.bws_product_icon_pro {
+    background: #F26E50;
+    border-radius: 4px;
+    color: #FFF;
+    font-size: 15px;
+    font-weight: bold;
+    height: 20px;
+    margin: -9px auto -10px;
+    position: relative;
+    width: 46px;
+}
+.bws_product_description {
+    padding: 0 10px;
+    color: #a7a7a7;
+    display: none;
+    font-size: 12px;
+}
+.bws_product_links {
+    padding: 10px 6px 12px;
+}
+.bws_product_links span {
+    color: #c2c2c2;
+}
+.bws_product_deactivated .bws_product {
+    background: #EEE;
+    border-bottom: 1px solid #CACACA;
+}
+.bws_product.bws_product_pro {
+    background: #222;
+    border-bottom: 1px solid #222;
+    color: #fff;
+}
+.bws_product a,
+.bws_product a:hover {
+    color: #fff;
+}
+.bws_product_button {
+    background: #00A22E;
+    border-radius: 2px;
+    margin: 3px auto;
+    padding: 7px 5px 8px;
+    font-size: 14px;
+    min-width: 103px;
+    display: none;
+}
+.bws_product_button:hover{
+    background: #008726; 
+}
+.bws_product_deactivated.bws_product_free .bws_product_button {
+    background: #0074a2;
+}
+.bws_product_deactivated.bws_product_free .bws_product_button:hover {
+    background: #006187;
+}
+.bws_product_free .bws_product_button {
+    background: #dd5738;
+}
+.bws_product_free .bws_product_button:hover {
+    background: #dd4825;
+}
+.bws_product_button.bws_donate_button {
+    background: #E89D09 !important;
+}
+.bws_product_button.bws_donate_button:hover {
+    background: #D69108 !important;
+}
+
+/* theme page after WP 3.9 */
+.toplevel_page_bws_plugins #availablethemes .theme-browser {
+    margin-top: 25px;
+}

@@ -1,0 +1,2922 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Profile Builder Pro v1.3.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-06-18 12:08+0200\n"
+"PO-Revision-Date: 2013-06-18 12:08+0200\n"
+"Last-Translator: Gabriel Barina <barinagabriel2007@yahoo.com>\n"
+"Language-Team: Reflection Media, Gabriel Barina, wpplugintrans "
+"<webmaster@wpplugintrans.com.br>\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../..\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-SearchPath-0: C:\\Users\\Gabriel\\Desktop\\test\\profile-builder-"
+"pro\n"
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:115
+msgid "View or Edit"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:120
+#, fuzzy
+msgid "delete this user?"
+msgstr "não aprovado"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:120
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:226
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:106
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:200
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:40
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:73
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:206
+msgid "Delete"
+msgstr "Excluir"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:123
+#, fuzzy
+msgid "unapprove this user?"
+msgstr "não aprovado"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:123
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:225
+msgid "Unapprove"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:125
+msgid "approve this user?"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:125
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:224
+msgid "Approve"
+msgstr "Aprovar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:173
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:153
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:899
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:162
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1078
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:27
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:79
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:70
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:356
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:568
+msgid "Username"
+msgstr "Usuário"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:174
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:154
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1032
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1066
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1180
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:98
+msgid "E-mail"
+msgstr "Email"
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:175
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:225
+msgid "Role"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:176
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:155
+#, fuzzy
+msgid "Registered"
+msgstr "Registrar"
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:177
+msgid "User-status"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:252
+msgid "Do you want to bulk approve the selected users?"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:260
+msgid "Do you want to bulk unapprove the selected users?"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:266
+msgid "Do you want to bulk delete the selected users?"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:274
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:263
+msgid "Sorry, but you don't have permission to do that!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:307
+msgid "Approved"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:309
+msgid "Unapproved"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:479
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:8
+msgid "Admin Approval"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.bulk.approve.unapprove.php:482
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:456
+#, fuzzy
+msgid "All Users"
+msgstr "Adicionar usuario"
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:106
+msgid "delete this user from the _signups table?"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:107
+msgid "confirm this email yourself?"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:107
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:201
+msgid "Confirm Email"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:228
+msgid "couldn't be deleted."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:239
+#, fuzzy
+msgid "All users have been successfully deleted."
+msgstr "As modificações foram salvas corretamente."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:254
+#, fuzzy
+msgid "The selected users have been activated."
+msgstr "A conta do usuário foi ativada com sucesso."
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/classes/class.email.confirmation.php:453
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:48
+msgid "Users with Unconfirmed Email Address"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:83
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:322
+#, php-format
+msgid ""
+"The information size you were trying to submit was larger than %1$sb!<br/"
+">This is usually caused by a large file(s) trying to be uploaded.<br/>Since "
+"it was also larger than %2$sb no additional information is available.<br/"
+">The user was NOT created!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:779
+msgid "You must be logged in to edit your profile."
+msgstr "Você deve estar conectado para editar seu perfil."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:787
+msgid "The avatar was successfully deleted."
+msgstr "O seu avatar foi eliminada."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:792
+#, php-format
+msgid "The attachment \"%1$s\" was successfully deleted."
+msgstr "O anexo \"%1$s\" foi excluído com sucesso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:805
+msgid "The changes have been successfully saved."
+msgstr "As modificações foram salvas corretamente."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:809
+#, fuzzy, php-format
+msgid ""
+"The email address you entered is already registered to a different user."
+"%1$sThe email address was %2$sNOT%3$s updated along with the rest of the "
+"information."
+msgstr ""
+"O endereço de e-mail que você digitou já está registrado com um usuário "
+"diferente."
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:814
+#, php-format
+msgid ""
+"The email address you entered is invalid.%1$sThe email address was %2$sNOT"
+"%3$s updated along with the rest of the information."
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:819
+#, php-format
+msgid ""
+"The passwords you entered do not match.%1$sThe password was %2$sNOT%3$s "
+"updated along with the rest of the information."
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:824
+#, php-format
+msgid ""
+"You didn't complete both password fields.%1$sThe password was %2$sNOT%3$s "
+"updated along with the rest of the information."
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:829
+msgid ""
+"Your profile was NOT updated, since not all required fields were completed!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:838
+msgid "There was an error while trying to upload the following attachments:"
+msgstr "Ocorreu um erro ao carregar os seguintes arquivos anexos:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:846
+#, php-format
+msgid ""
+"Possible cause: the size was bigger than %1$sb. The listed attachements were "
+"%2$sNOT%3$s updated along with the rest of the information."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:853
+msgid "There was an error while trying to upload your avatar picture."
+msgstr "Ocorreu um erro ao carregar a sua imagem do avatar:<br/>"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:853
+msgid "Possible cause: size/incorrect file-type."
+msgstr "Possível causa: tamanho / tipo de arquivo Incorreto."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:853
+msgid "The avatar was"
+msgstr "o avatar foi"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:853
+msgid "NOT"
+msgstr "NÃO"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:853
+msgid "updated along with the rest of the information."
+msgstr "atualizado junto com o resto da informação."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:861
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:648
+msgid "There was an error while trying to upload the following attachment(s)"
+msgstr "Ocorreu um erro ao carregar os seguintes arquivos anexos:<br/>"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:868
+#, php-format
+msgid ""
+"Only files with the following extension(s) can be uploaded: %1$s<br/>This "
+"file was %2$sNOT%3$s updated along with the rest of the information."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:883
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1031
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:351
+msgid "Name"
+msgstr "Informações do Usuário"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:890
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:160
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:80
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:71
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:580
+msgid "Email"
+msgstr "E-mail"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:891
+#, fuzzy
+msgid "The email cannot be changed."
+msgstr "Nomes de usuários não podem ser modificados."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:900
+#, fuzzy
+msgid "The usernames cannot be changed."
+msgstr "Nomes de usuários não podem ser modificados."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:910
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:930
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:950
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:970
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1022
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1044
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1062
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1080
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1098
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1119
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:68
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:174
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:243
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:311
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:378
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:446
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:501
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:551
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:616
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:727
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:774
+msgid "This field is marked as required by the administrator."
+msgstr "Este campo é marcado como obrigatório pelo administrador."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:913
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:933
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:953
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:973
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1025
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1046
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1064
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1082
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1100
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1121
+msgid ""
+"This field wasn't updated because you entered and empty string (It was "
+"marked as required by the administrator."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:920
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1103
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:40
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:364
+msgid "First Name"
+msgstr "Nome"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:940
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1127
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:53
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:372
+msgid "Last Name"
+msgstr "Sobrenomes"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:960
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1151
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:66
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:380
+msgid "Nickname"
+msgstr "Apelido (usuário)"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:981
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:388
+msgid "Display name publicly as"
+msgstr "Mostrar nome público como"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1013
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1157
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:396
+msgid "Contact Info"
+msgstr "Informação de contato"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1034
+msgid "(required)"
+msgstr "(obrigatorio)"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1052
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1205
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:111
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:72
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:401
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:610
+msgid "Website"
+msgstr "Página Web"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1070
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1229
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:127
+msgid "AIM"
+msgstr "AIM"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1088
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1253
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:140
+msgid "Yahoo IM"
+msgstr "Yahoo IM"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1106
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1277
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:153
+msgid "Jabber / Google Talk"
+msgstr "Jabber/Google Talk"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1112
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1283
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:409
+msgid "About Yourself"
+msgstr "Sobre você"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1127
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1304
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:172
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:73
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:414
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:616
+msgid "Biographical Info"
+msgstr "Informação Biográfica"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1137
+msgid "New Password"
+msgstr "Nova Senha"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1142
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:328
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:358
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1343
+msgid "Repeat Password"
+msgstr "Repetir a Senha"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.edit.profile.php:1173
+msgid "Update"
+msgstr "Atualizar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:67
+#, php-format
+msgid "You are currently logged in as %1$s. %2$s"
+msgstr "Você está conectado no momento como %1$s. %2$s"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:67
+msgid "Log out of this account"
+msgstr "Fechar a sessão"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:67
+msgid "Log out"
+msgstr "Sair &raquo;"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:78
+#, php-format
+msgid "You have successfully logged in as %1$s"
+msgstr "Você efetuou login como sucesso como %1$s"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:97
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:106
+#, php-format
+msgid ""
+"You will soon be redirected automatically. If you see this page for more "
+"than 1 second, please click %1$s"
+msgstr ""
+"Você sera redirecionado automaticamente brevemente. Se você ver esta página "
+"por mais de 1 segundo, por favor clique %1$s"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:97
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:106
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:945
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:975
+msgid "here"
+msgstr "aqui"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:122
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:126
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:133
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:382
+msgid "ERROR:"
+msgstr "ERRO:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:122
+#, fuzzy
+msgid "The email field is empty"
+msgstr "O campo do usuário esta vazio"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:126
+msgid "The username field is empty"
+msgstr "O campo do usuário esta vazio"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:133
+#, fuzzy
+msgid "The password field is empty"
+msgstr "O campo do usuário esta vazio"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:174
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:323
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:353
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1338
+msgid "Password"
+msgstr "Senha"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:182
+msgid "Log in"
+msgstr "Conectar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:186
+msgid "Remember me"
+msgstr "Lembrar-me"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.login.php:201
+msgid "Lost password?"
+msgstr "Esqueceu a sua senha?"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:113
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:177
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:224
+msgid "ERROR"
+msgstr "ERRO"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:113
+msgid ""
+"Your account has to be confirmed by an administrator before you can use the "
+"\"Password Reset\" feature."
+msgstr ""
+"Sua conta tem que ser confirmada por um administrador antes você possa usar "
+"o recurso de \"Redefinir Senha\"."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:153
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:200
+#, fuzzy, php-format
+msgid ""
+"A password reset email has been sent to %1$s.<br/>Following the link sent in "
+"the email address will reset the password."
+msgstr "Seguindo o link enviado no endereço de e-mail irá redefinir a senha."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:165
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:212
+#, php-format
+msgid ""
+"Someone requested that the password be reset for the following account: <b>"
+"%1$s</b><br/>If this was a mistake, just ignore this email and nothing will "
+"happen.<br/>To reset your password, visit the following link:%2$s"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:168
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:215
+#, php-format
+msgid "Password Reset Feature from \"%1$s\""
+msgstr "Recurso de Redefinição de Senha do site \"%1$s\""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:177
+#, php-format
+msgid "There was an error while trying to send the activation link to %1$s!"
+msgstr "Houve um erro ao tentar enviar o link de ativação para %1$s!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:187
+msgid "The email address entered wasn't found in the database!"
+msgstr "O endereço de e-mail digitado não foi encontrado no sistema!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:187
+msgid "Please check that you entered the correct email address."
+msgstr "Por favor, verifique que você digitou um e-mail  corretamente."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:224
+msgid "There was an error while trying to send the activation link to "
+msgstr "Houve um erro ao tentar enviar o link de ativação para "
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:232
+msgid "The username entered wasn't found in the database!"
+msgstr "O nome de usuário não foi encontrado no nosso sistema!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:232
+msgid "Please check that you entered the correct username."
+msgstr ""
+"Por favor, verifique que você digitou um e-mail ou nome de usuário "
+"corretamnete."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:243
+msgid "Your password has been successfully changed!"
+msgstr "A sua senha foi redefinida com sucesso!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:257
+#, php-format
+msgid "You have successfully reset your password to: %1$s"
+msgstr "Você foi bem sucedido na redefinição de sua senha para: %1$s"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:260
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:273
+#, php-format
+msgid "Password Successfully Reset for %1$s on \"%2$s\""
+msgstr "A senha foi redefinida com sucesso para %1$s no \"%2$s\""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:270
+#, fuzzy, php-format
+msgid ""
+"%1$s has requested a password change via the password reset feature.<br/>His/"
+"her new password is:%2$s"
+msgstr ""
+"solicitou uma mudança de senha por meio do recurso de redefinição de senha."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:288
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:645
+msgid "The entered passwords don't match!"
+msgstr "As senham não coincidem"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:335
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:365
+msgid "Reset Password"
+msgstr "Redefinir Senha"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:382
+msgid "Invalid key!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:397
+msgid "Please enter your username or email address."
+msgstr "Digite seu nome de usuário ou endereço de e-mail válido."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:397
+msgid "You will receive a link to create a new password via email."
+msgstr "Você receberá um link como criar uma nova senha por e-mail."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:405
+msgid "Username or E-mail"
+msgstr "Usuário ou E-mail"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.recover.password.php:414
+msgid "Get New Password"
+msgstr "Obter Nova Senha"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:219
+msgid "Invalid activation key!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:223
+msgid "The user is already active!"
+msgstr "O usuário já esta ativado!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:241
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:381
+msgid "Could not create user!"
+msgstr "Não foi possível criar o usuário!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:244
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:384
+msgid "That username is already activated!"
+msgstr "Desculpe, este nome de usuário já existe!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:270
+msgid "The user was successfully activated."
+msgstr "A conta do usuário foi ativada com sucesso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:272
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:410
+msgid "There was an error while trying to activate the user."
+msgstr "Houve um erro ao tentar ativar o usuário."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:632
+msgid "A username is required for registration."
+msgstr "O nome de usuário é obrigatório para a inscrição."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:636
+msgid "Sorry, that username already exists!"
+msgstr "Desculpe, este nome de usuário já existe!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:638
+msgid "You must enter a valid email address."
+msgstr "Você precisa digitar um endereço de e-mail válido."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:640
+msgid "Sorry, that email address is already used!"
+msgstr "Desculpe, mais este email já está sendo usado!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:643
+msgid "You didn't complete one of the password-fields!"
+msgstr "Você não completou os campos da senha!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:655
+msgid "Only files with the following extension(s) can be uploaded:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:655
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:661
+msgid "The account was NOT created!"
+msgstr "A conta NÃO foi creada!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:659
+msgid "You must agree to the terms and conditions before registering!"
+msgstr "Você deve concordar com os termos e condições antes de se registar!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:661
+msgid "(Several required fields were left uncompleted)"
+msgstr "(Vários campos obrigatórios foram deixados incompletos)"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:679
+msgid "This username is already reserved to be used soon."
+msgstr ""
+"Este nome de usuário já exite ou esta reservado para ser usado em breve."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:679
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:683
+msgid "Please try a different one!"
+msgstr "Por favor tente outro usuário!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:683
+msgid "This email address is already reserved to be used soon."
+msgstr ""
+"Desculpe, mais este endereço de e-mail já está reservado para ser usado em "
+"breve"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:913
+msgid "You are logged in as"
+msgstr "Você esta conectado como "
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:913
+msgid "You don't need another account."
+msgstr "Você não precisa de outra conta."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:913
+msgid "Log out of this account."
+msgstr "Desconectar desta conta."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:913
+msgid "Logout"
+msgstr "Sair &raquo;"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:921
+#, fuzzy, php-format
+msgid ""
+"An email has been sent to %1$s with information on how to activate his/her "
+"account."
+msgstr ""
+"Um email foi enviado para você com informações sobre como ativar a sua conta"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:925
+#, php-format
+msgid "A user account has been created for %1$s."
+msgstr "Foi criada a conta de usuário para %1$s."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:945
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:975
+#, fuzzy, php-format
+msgid ""
+"You will soon be redirected automatically. If you see this page for more "
+"than 3 seconds, please click %1$s.%2$s"
+msgstr ""
+"Você vai em breve ser redirecionado automaticamente. Se você ver esta página "
+"por mais de 3 segundos, por favor clique"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:951
+#, fuzzy
+msgid ""
+"An email has been sent to you with information on how to activate your "
+"account."
+msgstr ""
+"Um email foi enviado para você com informações sobre como ativar a sua conta"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:955
+#, php-format
+msgid "Thank you for registering %1$s."
+msgstr "Obrigado por registrar-se no nosso site, %1$s."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:982
+msgid "An error occured while trying to send the notification email."
+msgstr "Ocorreu um erro ao tentar enviar o e-mail de notificação."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:987
+msgid "An email containing activation instructions was successfully sent."
+msgstr "Um e-mail contendo as instruções de ativação foi enviada com sucesso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:992
+msgid "An email containing the username and password was successfully sent."
+msgstr "Um e-mail contendo o nome de usuário e senha foi enviada com sucesso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1008
+msgid "Users can register themselves or you can manually create users here."
+msgstr ""
+"Os usuários podem se registrar, mais você podes criar os usuário manualmente "
+"aqui."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1013
+msgid ""
+"Users cannot currently register themselves, but you can manually create "
+"users here."
+msgstr ""
+"Os usuários não podem se registrar, mais você pode criar manualmente os "
+"usuários aqui."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1018
+msgid "Only an administrator can add new users."
+msgstr "Somente o administrador pode criar novos usuários."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1041
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1092
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1116
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1140
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1194
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1218
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1242
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1266
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1293
+msgid ""
+"This field must be filled out before registering (It was marked as required "
+"by the administrator)"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1052
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1089
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1113
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1137
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1166
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1191
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1215
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1239
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1263
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1290
+msgid "This field is marked as required by the administrator"
+msgstr "Este campo é marcado como obrigatório pelo administrador"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1366
+msgid "Anti-Spam"
+msgstr "Anti-Spam"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1387
+msgid "Send these credentials via email."
+msgstr "Enviar essas credenciais via e-mail."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1401
+msgid "Add User"
+msgstr "Adicionar usuario"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/front-end/wppb.register.php:1401
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:41
+msgid "Register"
+msgstr "Registrar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/admin.bar.php:13
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/admin.bar.php:14
+msgid "Show/Hide the Admin Bar on Front End"
+msgstr "Mostrar/Ocultar a bara de admin no site"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/admin.bar.php:18
+msgid "User-group"
+msgstr "Grupo do usuário"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/admin.bar.php:19
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:15
+msgid "Visibility"
+msgstr "Visibilidade"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/admin.bar.php:30
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:14
+msgid "Default"
+msgstr "Padrão"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/admin.bar.php:31
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:30
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:43
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:56
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:69
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:82
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:101
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:114
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:130
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:143
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:156
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:175
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:189
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:33
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:415
+msgid "Show"
+msgstr "Mostrar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/admin.bar.php:32
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:31
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:44
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:57
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:70
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:83
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:102
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:115
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:131
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:144
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:157
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:176
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:190
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:34
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:416
+msgid "Hide"
+msgstr "Ocultar"
+
+# @ default
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/admin.bar.php:43
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:202
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:89
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:59
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:147
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:377
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:650
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:284
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:440
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:35
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:76
+msgid "Save Changes"
+msgstr "Salvar Modificações"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:5
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:8
+msgid "Profile Builder"
+msgstr "Gerador de Perfis"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:6
+msgid "Welcome to Profile Builder!"
+msgstr "Seja bem vindo ao Profile Builder"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:8
+msgid ""
+" lets you customize your website by adding a front-end menu for all your "
+"users, giving them a more flexible way to modify their user-information or "
+"to register new users."
+msgstr ""
+"permite personalizar o seu web site adicionando campos de preenchimento para "
+"usuários do front-end. Uma forma mais flexível para registrar ou modificar "
+"novos usuários."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:9
+msgid ""
+"Also, grants users with administrator rights to customize basic fields or to "
+"add new ones."
+msgstr ""
+"Além do mais, permite a usuários com direitos de administrador, a "
+"personalização de campos básicos bem como adicionar novos campos."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:10
+msgid ""
+"To achieve this, just create a new page, and give it an intuitive name(e.g. "
+"Edit Profile)."
+msgstr ""
+"Para conseguir isso apenas crie uma nova página com um nome intuitivo (por "
+"exemplo, Editar perfil).v"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:11
+msgid ""
+"Now all you need to do is add the following shortcode(for the previous "
+"example): "
+msgstr ""
+"Agora tudo o que necessitas fazer é adicionar o shortcode seguinte (para o "
+"exemplo anterior):"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:12
+msgid "Publish your page and you are ready to go!"
+msgstr "Publique seu site e já estará pronto para usar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:13
+msgid "You can use the following shortcodes:"
+msgstr "Você poderá usar os seguintes shortcodes:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:14
+msgid "for a log-in form."
+msgstr "para un formulario de acceso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:15
+msgid "to add a registration form."
+msgstr "para adicionar um formulário de inscrição."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:16
+msgid ""
+"to grant users a front-end acces to their personal information(requires user "
+"to be logged in)."
+msgstr ""
+"para permitir aos usuários acesso a sua informação desde a parte pública "
+"(front-end) do site (é necessário que o usuário esteja conectado)"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:17
+msgid "to add a password recovery form."
+msgstr "para adicionar um formulário de inscrição."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:19
+#, fuzzy
+msgid ""
+"With the <strong>Pro</strong> version, users with administrator rights have "
+"access to the following features:"
+msgstr ""
+"Os usuários com direitos de administrador tem acesso as seguintes "
+"características:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:20
+msgid ""
+"add a custom stylesheet/inherit values from the current theme or use one of "
+"the following built into this plugin: default, white or black."
+msgstr ""
+"adicionar uma folha de estilos (CSS) personalizada/herdar os valores do tema "
+"atual ou usar uma das seguintes: padrão, branco ou preto."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:21
+msgid ""
+"select whether to display or not the admin bar in the front end for a "
+"specific user-group registered to the site."
+msgstr ""
+"escolher se deseja ou não mostrar a barra de administração no site para um "
+"determinado grupo de usuários registrados no site."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:22
+msgid ""
+"select which information-field can users see/modify. The hidden fields' "
+"values remain unmodified."
+msgstr ""
+"selecionar quais campos podem ser vistos/modificados pelos usuários. Os "
+"valores de campos ocultos não de modificarão."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:23
+msgid ""
+"add custom fields to the existing ones, with several types to choose from: "
+"heading, text, textarea, select, checkbox, radio, and/or upload."
+msgstr ""
+"adicionar campos personalizados aos já existentes com vários tipos de "
+"escolha:  título, texto, textarea, select, checkbox, radio, e/ou subir "
+"arquivo."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:24
+msgid "add an avatar field."
+msgstr "adicionar um campo de avatar."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:25
+msgid "create custom redirects."
+msgstr "criar redirecionamentos personalizados."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:26
+msgid "front-end userlisting using the"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:26
+msgid "shortcode."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:29
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:49
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:65
+msgid "NOTE:"
+msgstr "OBS:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:30
+msgid "this plugin only adds/removes fields in the front-end."
+msgstr "este plugin somente adiciona/elimina campos da parte pública do site."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:31
+msgid ""
+"The default information-fields will still be visible(and thus modifiable)"
+msgstr ""
+"Os campos de informação por padrão seguirão sendo visíveis (e portanto "
+"editáveis)"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/basic.info.php:32
+msgid ""
+"from the back-end, while custom fields will only be visible in the front-end."
+msgstr ""
+"através da administração, enquanto os campos personalizados somente serão "
+"visíveis na parte pública (front end)."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:9
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:10
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/options.php:89
+msgid "Default Profile Fields"
+msgstr "Padrões do Campo do Perfil"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:14
+msgid "Input Field Name"
+msgstr "Etiqueta do Campo"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:16
+msgid "Required"
+msgstr "(obrigatorio)"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:21
+msgid "Name:"
+msgstr "Nome:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:34
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:47
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:60
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:73
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:86
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:105
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:118
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:134
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:147
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:160
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:179
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:193
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:31
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:41
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:49
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:57
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:67
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:96
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:108
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:120
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:132
+msgid "Yes"
+msgstr "Sim"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:35
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:48
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:61
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:74
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:87
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:106
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:119
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:135
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:148
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:161
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:180
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:194
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:32
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:42
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:50
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:58
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:68
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:97
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:109
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:121
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:133
+msgid "No"
+msgstr "Não"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:79
+msgid "Display name publicly as..."
+msgstr "Mostrar publicamente como..."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:92
+msgid "Contact Info:"
+msgstr "Informação de contato:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:166
+msgid "About Yourself:"
+msgstr "Sobre Você:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/default.settings.php:186
+msgid "(New) Password"
+msgstr "(Nova) Senha"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:60
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:24
+msgid "Do you want to"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:112
+msgid "The selected user couldn't be deleted."
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:129
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:90
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:155
+msgid "You either don't have permission for that action or there was an error!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:342
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:14
+#, php-format
+msgid "[%1$s] Activate %2$s"
+msgstr "O site [%1$s], quer ativar a conta do %2$s"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:343
+#, fuzzy, php-format
+msgid ""
+"To activate your user, please click the following link:\n"
+"\n"
+"%s%s%s\n"
+"\n"
+"After you activate, you will receive *another email* with your login.\n"
+"\n"
+msgstr ""
+"Para ativar a sua conta de usuário, por favor clique no link abaixo:\n"
+"\n"
+"%s\n"
+"\n"
+"Após a sua ativação, você receberá * outro email * com as informações do seu "
+"login.\n"
+"\n"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:443
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:19
+#, php-format
+msgid "New subscriber on %1$s.<br/><br/>Username:%2$s<br/>E-mail:%3$s<br/>"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:445
+msgid ""
+"The \"Admin Approval\" feature was activated at the time of registration, so "
+"please remember that you need to approve this user before he/she can log in!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:448
+msgid "A new subscriber has (been) registered!"
+msgstr "Um novo assinante foi registrado!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:462
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:8
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:10
+msgid "A new account has been created for you."
+msgstr "Uma nova conta foi criada para você"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:465
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:9
+#, php-format
+msgid "Welcome to %1$s!<br/><br/> Your username is:%2$s and password:%3$s"
+msgstr ""
+"Bem-vindo a %1$s! <br/><br /> Seu nome de usuário é: %2$s e a sua senha é: "
+"%3$s"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/email.confirmation.php:467
+msgid ""
+"Before you can access your account, an administrator needs to approve it. "
+"You will be notified via email."
+msgstr ""
+"Antes que você possa acessar sua conta, um administrador precisa aprovar. "
+"Você será notificado via e-mail."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:10
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:11
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/options.php:87
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:40
+msgid "General Settings"
+msgstr "Configurações Gerais"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:12
+msgid "Stylesheet Used on the Front-End:"
+msgstr "Folha de estilos usada:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:18
+msgid "White"
+msgstr "Branco"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:19
+msgid "Black"
+msgstr "Preto"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:23
+msgid "None"
+msgstr "Nenhum"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:29
+msgid "\"Email Confirmation\" Feature Activated:"
+msgstr "\"Confirmação de e-mail \" Recurso Ativado:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:39
+msgid "\"Admin Approval\" Feature Activated:"
+msgstr "\"Aprovação de Administrador \" Recurso Ativado:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:50
+msgid ""
+"The black stylesheet is intended for sites/blogs with a dark background."
+msgstr ""
+"A folha de estilo preto é destinado para sites / blogs com um fundo escuro."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:51
+msgid ""
+"The white stylesheet is intended for a sites/blogs with a light background "
+"color."
+msgstr ""
+"A folha de estilo branco destina-se a uma série de sites / blogs com uma cor "
+"de fundo."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:52
+msgid ""
+"On single-site installations the \"Email Confirmation\" feature only works "
+"in the front-end, so make sure you also use the \"Custom Redirects\" feature."
+msgstr ""
+"Em instalações único site o \"Confirmação de e-mail \" recurso só funciona "
+"no front-end, assim certifique-se também usar as característica "
+"\"Redirecionamento Personalizado \"."
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:53
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:67
+msgid ""
+"The \"Email Confirmation\" feature is active (by default) on WPMU "
+"installations."
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:55
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:69
+#, php-format
+msgid "You can find a list of unconfirmed email addresses %1$shere%2$s."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:66
+#, fuzzy
+msgid ""
+"On single-site installations the \"Email Confirmation\" feature only works "
+"in the front-end."
+msgstr ""
+"Em instalações único site o \"Confirmação de e-mail \" recurso só funciona "
+"no front-end, assim certifique-se também usar as característica "
+"\"Redirecionamento Personalizado \"."
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/general.settings.php:77
+msgid "Allow Users to Log in With:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/options.php:64
+#, php-format
+msgid ""
+"Your <strong>Profile Builder</strong> serial number is invalid or missing. "
+"Please %1$sregister your copy%2$s of <b>Profile Builder</b> to receive "
+"access to automatic updates and support. Need a license key? %3$sPurchase "
+"one now%4$s"
+msgstr ""
+"O seu número de série do <strong>Profile Builder Pro</ strong> esta inválido "
+"ou em faltando. Por favor, %1$sRegistre a sua cópia %2$s do <b> Profile "
+"Builder </ b> para receber acesso a atualizações automáticas e suporte. "
+"Precisa de uma chave de licença? %3$s Compra uma agora %4$s"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/options.php:66
+#, php-format
+msgid ""
+"Your <strong>Profile Builder</strong> 1 year licence has expired. Please "
+"%1$sRenew Your Licence%2$s to receive access to automatic updates and "
+"priority support. %3$sPurchase one now%4$s"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/options.php:86
+msgid "Basic Information"
+msgstr "Informação Básica"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/options.php:88
+msgid "Show/Hide the Admin Bar on Front-end"
+msgstr "Mostrar/ocultar a barra de administração no Front-end"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/options.php:95
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:5
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:6
+msgid "Extra Profile Fields"
+msgstr "Campos extras para o perfil"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/options.php:98
+msgid "Addons"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/functions/options.php:101
+msgid "Register Your Version"
+msgstr "Registrar sua versão"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:9
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:10
+msgid "Activate/Deactivate Addons"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:14
+msgid "Name/Description"
+msgstr "Nome/Descrição"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:15
+msgid "Status"
+msgstr "Status"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:20
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:32
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:33
+msgid "User-Listing"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:22
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:29
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:36
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:43
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:50
+msgid "Active"
+msgstr "Ativo"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:23
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:30
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:37
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:44
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:51
+msgid "Inactive"
+msgstr "Inativo"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:27
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:30
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:31
+msgid "Custom Redirects"
+msgstr "Redirecionamento"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:34
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:255
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:256
+msgid "reCAPTCHA"
+msgstr "reCAPTCHA"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:41
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:42
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:43
+msgid "User Email Customizer"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/addon.php:48
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:424
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:425
+msgid "Admin Email Customizer"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:35
+msgid "Redirects on custom page requests:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:41
+msgid "Action"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:42
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:87
+msgid "Redirect"
+msgstr "Redirecionar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:43
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:88
+msgid "URL"
+msgstr "URL"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:47
+msgid "After Registration:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:55
+msgid "After Login:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:64
+msgid "Recover Password (*)"
+msgstr "Recuperar Senha (*)"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:75
+msgid ""
+"When activated this feature will redirect the user on both the default "
+"Wordpress password recovery page and the \"Lost password?\" link used by "
+"Profile Builder on the front-end login page."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:80
+msgid "Redirects on default WordPress page requests:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:86
+msgid "Requested WP Page"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:93
+msgid "Default WP Login Page (*)"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:105
+msgid "Default WP Logout Page (**)"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:117
+msgid "Default WP Register Page"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:129
+msgid "Default WP Dashboard (***)"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:140
+msgid "Before login. Works best if used in conjuction with \"After logout\"."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:141
+msgid "After logout. Works best if used in conjuction with \"Before login\"."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/custom.redirects.php:142
+msgid ""
+"Redirects every user-role EXCEPT the ones with administrator privilages (can "
+"manage options)."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:11
+#, fuzzy, php-format
+msgid ""
+"Welcome to %1$s!<br/><br/> Your username is:%2$s and password:%3$s<br/"
+">Before you can access your account, an administrator needs to approve it. "
+"You will be notified via email."
+msgstr ""
+"Antes que você possa acessar sua conta, um administrador precisa aprovar. "
+"Você será notificado via e-mail."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:12
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:168
+#, php-format
+msgid "Your account on %1$s has been approved!"
+msgstr "A sua conta no %1$s foi aprovada!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:13
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:169
+#, php-format
+msgid "An administrator has just approved your account on %1$s (%2$s)."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:15
+#, php-format
+msgid ""
+"To activate your user, please click the following link:\n"
+"\n"
+"%s\n"
+"\n"
+"After you activate, you will receive *another email* with your login.\n"
+"\n"
+msgstr ""
+"Para ativar a sua conta de usuário, por favor clique no link abaixo:\n"
+"\n"
+"%s\n"
+"\n"
+"Após a sua ativação, você receberá * outro email * com as informações do seu "
+"login.\n"
+"\n"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:16
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:175
+#, php-format
+msgid "Your account on %1$s has been unapproved!"
+msgstr "Sua conta no %1$s foi revogada!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:17
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:176
+#, php-format
+msgid "An administrator has just unapproved your account on %1$s (%2$s)."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:18
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:20
+#, php-format
+msgid "[%1$s] A new subscriber has (been) registered!"
+msgstr "[%1$s]  Um novo assinante foi registrado!"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:21
+#, php-format
+msgid ""
+"New subscriber on %1$s.<br/><br/>Username:%2$s<br/>E-mail:%3$s<br/><br/>The "
+"\"Admin Approval\" feature was activated at the time of registration, so "
+"please remember that you need to approve this user before he/she can log in!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:46
+msgid "Here you can customize all the emails sent the users."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:49
+msgid ""
+"Common Settings: <span style=\"color:gray; font-size:11px;\">These settings "
+"are also replicated in the \"Admin Email Customizer\" settings-page upon "
+"save.</span>"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:52
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:434
+msgid "From (name): "
+msgstr "De (nome): "
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:60
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:76
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:119
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:175
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:231
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:291
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:336
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:442
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:458
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:502
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:555
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:609
+msgid "Available Merge Tags"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:68
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:450
+msgid "From (reply-to email): "
+msgstr "De (resposta para e-mail): "
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:92
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:475
+msgid "Default Registration"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:100
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:156
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:212
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:272
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:317
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:483
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:536
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:590
+msgid "Email Subject: "
+msgstr "Assunto do E-mail: "
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:108
+msgid ""
+"Email Content: <span style=\"color:gray\">This is the email sent to the "
+"<span style=\"color:red\">user</span> upon registration.</span>"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:147
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:528
+msgid "Registration with Email Confirmation"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:164
+msgid ""
+"Email Content: <span style=\"color:gray\">This is the email sent to the "
+"<span style=\"color:red\">user</span> upon registration with email "
+"confirmation.</span>"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:203
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:582
+msgid "Registration with Admin Approval"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:220
+msgid ""
+"Email Content: <span style=\"color:gray\">This is the email sent to the "
+"<span style=\"color:red\">user</span> upon registration with admin approval."
+"</span>"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:259
+msgid "Admin Approval Notifications (on status change)"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:267
+msgid "Message Sent to the User Upon Approval"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:280
+msgid ""
+"Email Content: <span style=\"color:gray\">This is the email sent to the "
+"<span style=\"color:red\">user</span> upon approval.</span>"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:312
+msgid "Message Sent to the User Upon Unapproval"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:325
+msgid ""
+"Email Content: <span style=\"color:gray\">This is the email sent to the "
+"<span style=\"color:red\">user</span> upon unapproval.</span>"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:428
+msgid "Here you can customize all the emails sent the administrator."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:431
+msgid ""
+"Common Settings: <span style=\"color:gray; font-size:11px;\">These settings "
+"are also replicated in the \"User Email Customizer\" settings-page upon save."
+"</span>"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:491
+msgid ""
+"Email Content: <span style=\"color:gray\">This is the email sent to the "
+"<span style=\"color:red\">administrator</span> upon user registration.</span>"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:544
+msgid ""
+"Email Content: <span style=\"color:gray\">This is the email sent to the "
+"<span style=\"color:red\">administrator</span> upon user registration with "
+"email confirmation.</span>"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:598
+msgid ""
+"Email Content: <span style=\"color:gray\">This is the email sent to the "
+"<span style=\"color:red\">administrator</span> upon user registration with "
+"admin approval.</span>"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:752
+msgid "approved"
+msgstr "aprovado"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/email.customizer.php:761
+msgid "unapproved"
+msgstr "não aprovado"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:49
+msgid "Could not open socket!"
+msgstr ""
+
+# @ profilebuilder:
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:76
+msgid "To use reCAPTCHA you must get an API key from"
+msgstr "Para usar o reCAPTCHA você deve obter uma chave de API do"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:123
+msgid "For security reasons, you must pass the remote ip to reCAPTCHA!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:180
+msgid ""
+"To use reCAPTCHA Mailhide, you need to have the mcrypt php module installed!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:196
+msgid ""
+"To use reCAPTCHA Mailhide, you have to sign up for a public and private key; "
+"you can do so at"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:260
+msgid ""
+"Adds a reCAPTCHA form on the registration page created in the front-end "
+"(only)."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:261
+msgid "For this you must get a public and private key from Google:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:267
+msgid "Key"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:268
+msgid "Code"
+msgstr "Código"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:272
+msgid "Public Key:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:276
+msgid "Private Key:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/recaptcha.php:312
+msgid "The reCAPTCHA wasn't entered correctly. Go back and try it again!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:35
+msgid ""
+"To create a page containing the users registered to this current site/blog, "
+"insert the following shortcode in a (blank) page: "
+msgstr ""
+"Para criar uma página que contém os usuários registrados para este site/blog "
+"atual, insira o seguinte código curto em uma página (em branco): "
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:36
+msgid ""
+"For instance, to create a userlisting shortcode listing only the editors and "
+"authors, visible to only the users currently logged in, you would use:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:37
+msgid ""
+"You can also create a userlisting page that displays users having a certain "
+"meta-value within a certain (extra) meta-field like so:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:37
+msgid ""
+"Remember though, that the field-value combination must exist in the database."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:42
+msgid "These settings are applied to the front-end userlisting."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:48
+msgid "Number of Users/Page: "
+msgstr "Número de Usuários/Página: "
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:65
+msgid "Default Sorting Criteria: "
+msgstr "Ordem Padrão da classificação: "
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:74
+msgid "Registration Date"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:75
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:592
+msgid "Firstname"
+msgstr "Nome"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:76
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:598
+msgid "Lastname"
+msgstr "Sobrenome"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:77
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:604
+msgid "Display Name"
+msgstr "Exibir Nome"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:78
+#, fuzzy
+msgid "Number of Posts"
+msgstr "Número de Usuários/Página: "
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:79
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:627
+msgid "Aim"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:80
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:632
+msgid "Yim"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:81
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:637
+msgid "Jabber"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:83
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:152
+#, fuzzy
+msgid "Custom Fields"
+msgstr "Redirecionamento"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:99
+msgid "Default Sorting Order: "
+msgstr "Ordem Padrão da classificação: "
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:102
+msgid "Ascending"
+msgstr ""
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:103
+msgid "Descending"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:110
+msgid "\"All-Userlisting\" Template"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:112
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:264
+msgid ""
+"With the userlisting templates you can customize the look, feel and "
+"information listed by the shortcode."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:113
+msgid ""
+"The \"All Users Listing\" template is used to list all users. It's displayed "
+"on each page access where the shortcode is present."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:117
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:270
+#, fuzzy
+msgid "Avatar/Gravatar Size: "
+msgstr "Tamanho do Avatar: "
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:133
+msgid "Insert \"Sort By\" Field:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:138
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:292
+#, fuzzy
+msgid "Default WordPress Fields"
+msgstr "Padrões do Campo do Perfil"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:164
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:287
+msgid "Insert \"User-Meta\" Field:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:202
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:332
+msgid "Insert Extra Functions:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:217
+msgid "Show/Hide Default \"All-Userlisting\" Code"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:219
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:346
+msgid ""
+"If you wish to use a default userlisting, just copy the following code and "
+"paste it in the textarea below:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:228
+#, fuzzy
+msgid "More"
+msgstr "Mais..."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:262
+msgid "\"Single-Userlisting\" Template"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:265
+msgid ""
+"The \"Single User Listing\" template is used to list an individual user. "
+"It's displayed when clickin on the \"more info\" link."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:344
+msgid "Show/Hide Default \"Single-Userlisting\" Code"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:450
+msgid ""
+"You need to activate the User-Listing feature from within the \"Addons\" tab!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:450
+msgid "You can find it in Profile Builder's menu."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:480
+msgid "You need to be logged in to view the userlisting!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:519
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:534
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1747
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1782
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/userlisting.class.php:419
+msgid "Search Users by All Fields"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:556
+msgid "Leave Blank and Press Search to List All Users"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:560
+msgid "Search"
+msgstr "Pesquisa"
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:561
+msgid "Clear Results"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:574
+msgid "First/Lastname"
+msgstr "Nome/Sobrenome"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:586
+msgid "Sign-up Date"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:622
+msgid "Posts"
+msgstr "Publicações"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:687
+msgid "Click here to see more information about this user"
+msgstr "Clique aqui para ver mais informações sobre este usuário"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:687
+msgid "More..."
+msgstr "Mais..."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:689
+msgid "Click here to see more information about this user."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:912
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1022
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1385
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1551
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:600
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:633
+msgid "No uploaded attachment"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:914
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1024
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1387
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1443
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1553
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1609
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:604
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:637
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:640
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:715
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:747
+msgid "Click to see the current attachment"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1166
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1168
+msgid "Click here to go back"
+msgstr "Clique aqui para voltar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1166
+msgid "Back"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1385
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1387
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1551
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1553
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:600
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:604
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:633
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:637
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:640
+msgid "Current file"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1441
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1607
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:712
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:744
+msgid "Avatar"
+msgstr "Avatar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1666
+msgid "No results found!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1769
+msgid "&laquo;&laquo; First"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1770
+msgid "&laquo; Prev"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1771
+msgid "Next &raquo; "
+msgstr "Seguinte &raquo; "
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/addons/userlisting.php:1772
+msgid "Last &raquo;&raquo;"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:302
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:455
+msgid "You must give your option a title."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:306
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:459
+msgid "You have entered an invalid meta-key format!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:310
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:463
+msgid "You must enter a valid meta-key."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:316
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:326
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:473
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:485
+msgid "That meta-key is already in use."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:333
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:493
+msgid ""
+"There is already an avatar input-type. You can only have one avatar present."
+msgstr "Já existe um avatar em uso. Você só pode ter um avatar presente ."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:340
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:500
+msgid ""
+"There is already an \"Agree to Terms and Conditions\" checkbox. You can only "
+"have one present."
+msgstr ""
+"Já existe à caixa de seleção \"Concordo com os Termos e Condições\". Você só "
+"pode ter um presente."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:345
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:505
+msgid "The textarea row value must be numeric."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:349
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:509
+msgid "The maxlength attribute must be numeric."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:356
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:516
+msgid "The value must be between 20 and 200!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:361
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:521
+msgid "The width component of the entered value must be numeric!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:363
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:523
+msgid "The height component of the entered value must be numeric!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:365
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:525
+msgid "The width component of the entered value must be between 20 and 200!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:367
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:527
+msgid "The height component of the entered value must be between 20 and 200!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:369
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:529
+msgid "The pair of values entered didn't have the right format (width,height)!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:372
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:532
+msgid "The entered avatar size must be numeric!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:416
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/classes/premium.class.admin.php:602
+msgid "There was an error, please try again."
+msgstr "Houve um erro, por favor tente novamente."
+
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:60
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:102
+msgid "Your session has expired! Please refresh the page and try again."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:71
+#, fuzzy
+msgid "User successfully approved!"
+msgstr "A conta do usuário foi ativada com sucesso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:79
+#, fuzzy
+msgid "User successfully unapproved!"
+msgstr "A conta do usuário foi ativada com sucesso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:85
+#, fuzzy
+msgid "User successfully deleted!"
+msgstr "A conta do usuário foi ativada com sucesso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:122
+#, fuzzy
+msgid "Users successfully approved!"
+msgstr "A conta do usuário foi ativada com sucesso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:137
+#, fuzzy
+msgid "Users successfully unapproved!"
+msgstr "A conta do usuário foi ativada com sucesso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:150
+#, fuzzy
+msgid "Users successfully deleted!"
+msgstr "A conta do usuário foi ativada com sucesso."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:197
+msgid ""
+"<strong>ERROR</strong>: Your account has to be confirmed by an administrator "
+"before you can log in."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/admin.approval.php:209
+#, fuzzy
+msgid ""
+"Your account has to be confirmed by an administrator before you can use the "
+"\"Password Recovery\" feature."
+msgstr ""
+"Sua conta tem que ser confirmada por um administrador antes você possa usar "
+"o recurso de \"Redefinir Senha\"."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:7
+msgid ""
+"You can create as many extra fields as your project requires. To break your "
+"custom fields into sections (on the front-end), add a \""
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:7
+msgid "heading"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:7
+msgid "\" custom field."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:8
+msgid "All of the fields can be sorted and rearranged to your liking with"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:8
+msgid "Drag"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:8
+msgid "Drop"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:8
+msgid ""
+"Don't worry about the order in which you create your custom fields, you can "
+"always reorder them."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:12
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:22
+msgid "Title"
+msgstr "Título"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:13
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:23
+msgid "Type"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:14
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:24
+msgid "Meta-Key"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:15
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:25
+msgid "ID"
+msgstr "ID"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:16
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:26
+msgid "Req'd"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:17
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:27
+msgid "Add Option"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:39
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:72
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:205
+msgid "Edit"
+msgstr "Editar"
+
+# @ profilebuilder
+# @ hybrid
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:100
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:82
+msgid "Title:"
+msgstr "Título:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:100
+msgid "The title of the item."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:110
+msgid "Meta-Key:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:110
+msgid ""
+"Use this in conjuction with WordPress functions to display the value in the "
+"page of your choosing. Auto-completed but editable - in this case it must be "
+"uniqe.<br/>Changing this might take long in case of a very big user-count."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:143
+msgid "Option Type:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:143
+msgid "Choose one of the supported option types."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:153
+msgid "Description:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:153
+msgid ""
+"Enter a detailed description of the option for end users to read(optional)."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:154
+msgid "You can only insert links using standard HTML syntax:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:154
+msgid "address"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:154
+msgid "name"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:164
+msgid "Options:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:164
+msgid ""
+"Enter a comma separated list of options. For example, you could have \"One,"
+"Two,Three\" or just a single value like \"Yes\" for a checkbox."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:175
+msgid "ID:"
+msgstr "ID:"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:175
+msgid ""
+"This is the internal ID for this input. You can use this in conjuction with "
+"filters to target this element if needed.<br/>Can't be edited."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:186
+msgid "Required:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:186
+msgid "Check this box to make this field required."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:193
+msgid "Cancel"
+msgstr "Cancelar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/custom.fields.php:194
+msgid "Save"
+msgstr "Salvar"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:71
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:177
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:246
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:314
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:381
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:449
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:504
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:554
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:619
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:730
+msgid ""
+"This field wasn't updated because you entered and empty string (It was "
+"marked as required by the administrator)"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:597
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:629
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:705
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:736
+msgid "max upload size"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:603
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:639
+msgid "Are you sure you want to delete this attachment?"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:604
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:640
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:715
+msgid "Click to delete the current attachment"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:637
+msgid ""
+"The attachment can't be deleted (It was marked as required by the "
+"administrator)"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:708
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:740
+msgid "Current avatar"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:708
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:740
+msgid "No uploaded avatar"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:714
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:749
+msgid "Are you sure you want to delete this avatar?"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:747
+msgid ""
+"The avatar image can't be deleted (It was marked as required by the "
+"administrator)."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:750
+msgid "Click to see the current avatar"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/extra.fields.php:750
+msgid "Click to delete the avatar"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:10
+msgid "This login widget lets you add a login form in the sidebar."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:15
+msgid "Profile Builder Login Widget"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:42
+msgid "Don't have an account?"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:49
+msgid "Lost Password"
+msgstr "Perdeu a sua senha?"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:49
+msgid "Lost Your Password?"
+msgstr "Perdeu sua Senha?"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:78
+msgid "Login"
+msgstr "Lofin"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:87
+msgid "After login redirect URL (optional):"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:92
+msgid "Register page URL (optional):"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/login.widget.php:97
+msgid "Password Recovery page URL (optional):"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/premium.functions.load.php:14
+msgid "The user-validation has failed - the avatar was not deleted!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/premium.functions.load.php:25
+msgid "The user-validation has failed - the attachment was not deleted!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/premium.functions.load.php:354
+#, php-format
+msgid ""
+"Your <strong>Profile Builder</strong> serial number is invalid or missing. "
+"Please %1$sregister your copy%2$s of Profile Builder to receive access to "
+"automatic updates and support. Need a license key? %3$sPurchase one now%4$s "
+"%5$sDismiss%6$s"
+msgstr ""
+"O seu número de série do <strong>Profile Builder Pro</ strong> esta inválido "
+"ou em faltando. Por favor, %1$sRegistre a sua cópia %2$s do <b> Perfil "
+"Builder </ b> para receber acesso a atualizações automáticas e suporte. "
+"Precisa de uma chave de licença? %3$s Compra uma agora %4$s %5$sDescartar%6$s"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/premium.functions.load.php:358
+#, php-format
+msgid ""
+"Your <strong>Profile Builder</strong> 1 year licence has expired. Please "
+"%1$sRenew Your Licence%2$s to receive access to automatic updates and "
+"priority support. %3$sPurchase one now%4$s %5$sDismiss%6$s"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:9
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:10
+msgid "Register your version of Profile Builder Pro"
+msgstr "Registre a sua versão do Perfil Builder Pro"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:11
+msgid ""
+"Now that you acquired a copy of Profile Builder Pro, you should take the "
+"time and register it with the serial number you received in the e-mail."
+msgstr ""
+"Agora que você adquiriu uma cópia do perfil Builder Pro, você deve tomar o "
+"tempo e registrá-lo com o número de série que você recebeu no e-mail."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:12
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:53
+msgid ""
+"If you register this version of Profile Builder, you'll receive information "
+"regarding eventual upgrades, patches, and - if needed - technical support."
+msgstr ""
+"Se você registrar esta versão do Profile Builder Pro, você receberá "
+"informações sobre eventuais atualizações, patches e - se necessário - "
+"suporte técnico."
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:13
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:54
+msgid "Serial Number:"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:17
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:58
+msgid "The serial number was successfully validated!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:19
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:60
+msgid "The serial number entered couldn't be validated!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:21
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:62
+msgid "The serial number couldn't be validated because it is no longer valid!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:23
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:64
+msgid ""
+"The serial number couldn't be validated because process timed out. This is "
+"possible due to the server being down. Please try again later!"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:29
+msgid "(e.g. RMPB-15-SN-253a55baa4fbe7bf595b2aabb8d72985)"
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:50
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:51
+msgid "Register your version of Profile Builder Hobbyist"
+msgstr "Registre a sua versão do Perfil Builder Hobbyist"
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:52
+msgid ""
+"Now that you acquired a copy of Profile Builder Hobbyist, you should take "
+"the time and register it with the serial number you received in the e-mail."
+msgstr ""
+
+# @ profilebuilder
+#: C:\Users\Gabriel\Desktop\test\profile-builder-pro/premium/functions/register.version.php:70
+msgid "(e.g. RMPBH-15-SN-253a55baa4fbe7bf595b2aabb8d72985)"
+msgstr ""

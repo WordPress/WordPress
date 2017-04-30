@@ -1,0 +1,378 @@
+/*
+NOTES:
+The global Profile Builder class is: wppb_holder
+The id for the individual sections are: wppb_modify for [wppb-profile-info] 
+										wppb_login for [wppb-registered-login]
+										wppb_register for [wppb-register-new]
+
+*/
+/*    WPPB_MODIFY, WPPB_REGISTER, WPPB_LOGIN    */
+
+#wppb_modify p, #wppb_register p, #wppb_login p, #wppb_recover_password p{
+	clear:both;
+}
+
+.wppb-rc-value{
+	font-size:12px;
+	margin-right:10px;
+	vertical-align:middle;
+}
+
+.wppb-max-upload{
+	font-size:11px;
+	display: block;
+    text-align: right;
+}
+
+.wppb-description-delimiter{
+	display:block;
+	font-size:12px;
+	font-weight:normal;
+	font-style:italic;
+	padding-left:15px;
+	margin-left:30%;
+}
+
+.wppb-description-delimiter2{
+	display:block;
+	font-size:12px;
+	font-weight:normal;
+	font-style:italic;
+}
+
+.agreeToTerms{
+	display:block;
+	font-size:12px;
+	font-weight:normal;
+	font-style:italic;
+	padding-left:15px;
+	margin-left:30%;
+	margin-top: -23px;
+    padding-left: 45px;
+}
+
+#wppb_modify p label, #wppb_register p label, #wppb_login p label, #wppb_recover_password p label{
+	width:30%;
+	float:left;
+	clear:left;
+	padding-right:15px;
+}
+#wppb_modify input[type=text], #wppb_modify input[type=password], #wppb_modify select, #wppb_modify textarea, #wppb_register input[type=text], #wppb_recover_password input[type=text], #wppb_register input[type=password], #wppb_register select, #wppb_register textarea, #wppb_login input[type=text], #wppb_login input[type=password], #wppb_login select, #wppb_login textarea{
+	width:60%;
+	margin-bottom:5px;	
+}
+
+#wppb_modify input[type="checkbox"], #wppb_modify input[type="radio"], #wppb_register input[type="checkbox"], #wppb_register input[type="radio"], #wppb_login input[type="checkbox"], #wppb_login input[type="radio"]{
+	vertical-align:middle;
+	margin:5px;
+}
+
+#wppb_recover_password input[type=text], #wppb_recover_password input[type="password"]{
+	width:60%;
+	margin-bottom:5px;	
+}
+
+#wppb_register .send-confirmation-email label{
+	width:auto;
+	float:none;
+}
+
+.changes-saved, .success{
+	color:green;
+}
+.semi-saved{
+	color:orange;
+}
+
+.warning, .error{
+	color:red;
+}
+
+.wppb-cattachment, .wppb-dattachment{
+	margin:0 5px;
+}
+
+.send-confirmation-email .wppb-description-delimiter{
+	display:inline;
+	margin:0;
+	padding:0;
+}
+
+#wppb_login .login-form-submit label{
+	float:none;
+}
+
+/*
+.avatar-border span{
+    background: none repeat scroll 0 0 #F1F1F1;
+    border: 5px solid #6EAB1D;
+    color: black;
+    display: inline-block;
+    padding: 5px;
+}*/
+
+#wppb_modify, #wppb_register, #wppb_login, #wppb_recover_password{
+	font-family:Arial,sans-serif;
+	color:#f4f4f4;
+}
+
+#wppb_modify p label, #wppb_register p label, #wppb_login p label{
+	font-size:12px;
+	font-weight:normal;
+	font-family:Arial,sans-serif;
+}
+
+
+#wppb_modify input[type=text], #wppb_modify input[type=password], #wppb_modify select, #wppb_modify textarea, #wppb_modify [type="file"],  #wppb_register input[type=text], #wppb_register input[type=password], #wppb_register select, #wppb_register textarea, #wppb_register [type="file"], #wppb_login input[type=text], #wppb_recover_password input[type=text], #wppb_login input[type=password], #wppb_login select, #wppb_login textarea, #wppb_login [type="file"]{
+	-webkit-box-shadow: inset 1px 1px 1px #000;
+	-moz-box-shadow: inset 1px 1px 1px #000;
+	box-shadow: inset 1px 1px 1px #000; 
+	background:#262626;
+	border:1px solid #979797;
+	font-family:Arial, sans-serif;
+	color:#f4f4f4;
+	font-size:14px;		
+    line-height: 18px;
+    padding: 6px 3px 4px 5px;
+	font-weight:normal;
+}
+
+#wppb_modify input[type=text], #wppb_modify input[type=password], #wppb_register input[type=text], #wppb_register input[type=password], #wppb_login input[type=text], #wppb_login input[type=password], #wppb_recover_password input[type=text]{
+	height: 18px;
+}
+
+.wppb-description-delimiter{
+	font-style:italic;
+	color: #ffffff;
+}
+
+.wppb-max-upload{
+	color:#ffffff;
+}
+
+/* userListingTable */
+.avatarColumn{
+	width:4px;
+}
+
+.moreInfoColumn{
+	width:8px;
+}
+
+.signUpColumn{
+	width:80px;
+}
+
+.postsColumn{
+	width:40px;
+}
+
+
+#userListingTable{
+	border-collapse: separate;
+	width:100%;
+	text-align: left;
+}
+
+#userListingTable thead th{
+	background-color: #444;	
+}
+
+#userListingTable tbody td, #userListingTable thead th{
+	line-height: 14px;
+	font-size:12px;
+	padding: 5px;
+	font-weight:normal;	
+	color:#f4f4f4;
+}
+
+#userListingTable .avatarColumn{
+	padding-right: 2px !important;
+}
+
+#userListingTable .loginNameColumn{
+	text-align: left;
+	padding-left: 2px !important;
+}
+
+/* userListingTable */
+
+/* userListingDisplayTable */
+#userListingDisplayTable{
+	border:none !important;
+	border-collapse: separate;
+}
+
+#userListingDisplayTable tbody td{
+	border: none;
+	text-align:left;
+}
+
+#userListingDisplayTable tbody td span{
+	color: #f4f4f4;
+}
+
+#userListingDisplayTable tbody td strong{
+	color: #fff;
+}
+
+
+#userListingDisplayTableEmptyHeaderCell1{
+	height:20px;
+}
+
+#userListingDisplayTableCell1{
+	width:5%;
+}
+
+#userListingDisplayTableCell2{
+	width:30%;
+	padding-left:30px !important;
+}
+/* userListingDisplayTable */
+
+
+#wppb_modify p.errorHolder{
+	background-color: #FFDFDF;
+    border: 1px dotted #C89797;
+    margin-bottom: 6px !important;
+    padding: 6px 6px 4px !important;
+}
+
+#userListingForm{
+	font-size:11px;
+	margin-bottom:15px;
+	color:#f4f4f4;
+}
+
+#userListingForm > *{
+	vertical-align:middle;
+}
+
+
+#userListingForm select{
+	font-size:11px;
+	margin:0;
+}
+
+#userListingForm .button-primary-reorder{
+	font-size:12px;
+	margin:0 3px;
+}
+#searchAllFields{
+	background-color:#F0F0F0;
+	-moz-box-sizing: content-box;
+    border-style: solid;
+    border-width: 1px;
+	width:160px;
+    font-size: 12px !important;
+    line-height: 13px;
+    padding: 3px 8px;
+    text-decoration: none;
+}
+#searchTable{
+	width:100%;
+	border:none !important;
+}
+#tableRow{
+	width:100%;
+	height:15px !important;
+}
+#searchTableDataCell1{
+	padding:0px !important;
+	width:190px;
+	height:15px !important;
+	border-top:none !important;
+	vertical-align:middle;
+}
+#searchTableDataCell2{
+	padding:0px !important;
+	height:15px !important;
+	border-top:none !important;
+	vertical-align:middle;
+}
+#content .searchAllButton{
+	background-color:#F0F0F0;
+    text-shadow: 0 1px 0 #FFFFFF;
+	-moz-box-sizing: content-box;
+    border-radius: 11px 11px 11px 11px;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    font-size: 12px !important;
+    line-height: 13px;
+    padding: 3px 8px;
+    text-decoration: none;
+	border-color: #BBBBBB;
+}
+#content .clearResults{
+    font-size: 12px !important;
+    line-height: 13px;
+    padding: 3px 8px;
+    text-decoration: none;
+	color:#000;
+	opacity:0.5;
+}
+#content .clearResults:hover{
+	text-decoration:underline;
+	opacity:1;
+}
+#userListingForm{
+	height:30px;
+}
+#sortLink{
+	text-decoration:none;
+}
+#postNumberLink{
+	text-decoration:none;
+}
+#pageNumberDisplay a:link {
+text-decoration:none;
+}
+
+#pageNumberDisplay a:visited {
+text-decoration:none;
+}
+#pageNumberDisplay a:active {
+text-decoration:none;
+}
+#pageNumberDisplay a:hover{
+	text-decoration:underline;
+}
+#searchTableRow{
+	width:100%;
+	border: none;
+}
+#wppb-back-span a:link {
+text-decoration:none;
+}
+#wppb-back-span a:visited {
+text-decoration:none;
+}
+#wppb-back-span a:active {
+text-decoration:none;
+}
+#wppb-back-span a:hover{
+	text-decoration:underline;
+}
+#wppb-more-span a:link {
+text-decoration:none;
+}
+#wppb-more-span a:visited {
+text-decoration:none;
+}
+#wppb-more-span a:active {
+text-decoration:none;
+}
+#wppb-more-span a:hover{
+	text-decoration:underline;
+}
+#recaptcha_widget_div{
+	display: inline-block;
+}
+#adduser .form-reCAPTCHA label.form-reCAPTCHA-label{
+	clear: left;
+    float: left;
+    padding-right: 15px;
+    width: 30%;
+}

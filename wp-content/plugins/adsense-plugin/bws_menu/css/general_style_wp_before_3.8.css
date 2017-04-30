@@ -1,0 +1,252 @@
+#adminmenu #toplevel_page_bws_plugins div.wp-menu-image {
+    background: url("../images/icon_16.png") no-repeat scroll center center transparent;
+}
+#wpadminbar li#wp-admin-bar-pdfprnt-bar-menu a:hover span.admin-bar-menu-bws-icon {
+    background: url("../images/icon_16_c.png") no-repeat scroll center center transparent;
+}
+#adminmenu #toplevel_page_bws_plugins:hover div.wp-menu-image,
+#adminmenu #toplevel_page_bws_plugins.wp-has-current-submenu div.wp-menu-image {
+    background: url("../images/icon_16_c.png") no-repeat scroll center center transparent;
+}
+.wrap #icon-options-general.icon32-bws {
+    background: url("../images/icon_36.png") no-repeat scroll left top transparent;
+}
+#toplevel_page_bws_plugins .wp-submenu .wp-first-item {
+    display: none;
+}
+/*
+* styles for rate-support div on the settings page
+*/
+.bws-plugin-reviews {
+    background: none repeat scroll 0 0 #BEE1F1;
+    border: 1px solid #70A8C2;
+    border-radius: 3px;
+    max-width: 700px;
+}
+.bws-plugin-reviews-rate {
+    padding: 10px;
+    border-bottom: 1px dashed #70A8C2;
+}
+.bws-plugin-reviews-support {
+    padding: 10px;
+}
+/*
+* styles for Go PRO tab
+*/
+.bws_go_pro_tab {
+    background-color: #2A95C5;
+    border-color: #11688F;
+    color: #FFFFFF;
+    font-weight: normal !important;
+    text-shadow: none;
+}
+.bws_go_pro_tab:hover {
+    background-color: #2080AB;
+    color: #FFFFFF;
+    border-color: #11688F;
+}
+/*
+* styles for pro_version settings and tooltip 
+*/
+td.bws_pro_version,
+tr.bws_pro_version,
+.nav-tab.bws_plugin_menu_pro_version,
+.nav-tab.bws_plugin_menu_pro_version:hover {
+    background: rgba(248, 226, 104, 0.11) url("../images/pattern_bg.png");
+    border: 1px solid #AAA;
+}
+.nav-tab.bws_plugin_menu_pro_version:hover {
+    color: #AAAAAA;
+}
+td.bws_pro_version_tooltip {
+    border: 1px solid #AAA;
+    position: inherit;
+}
+.bws_pro_version_bloc {
+    position: relative;
+    margin: 5px 0;
+    border: 1px solid #AAAAAA;
+    max-width: 800px;
+}
+.bws_table_bg { 
+    background: #f8e268 url("../images/pattern.png");
+    opacity: 0.11;
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=11); /* IE 5.5+*/
+    -moz-opacity: 0.11; /* Mozilla 1.6 и ниже */
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+}
+.bws_pro_version_table_bloc table.bws_pro_version { 
+    background: transparent;
+    margin: 0;
+    border: none;
+    width: 100%;
+}
+table.bws_pro_version { 
+    background: #E0E0E0;
+    border: 1px solid #AAA;
+    margin-bottom: 5px;
+    width: auto;
+}
+table.bws_pro_version tbody {
+    display: block;
+}
+table.bws_pro_version th,
+table.bws_pro_version td {
+    padding-left: 10px;
+}
+.bws_pro_version_tooltip {
+    background: #FFF;
+    border-top: 1px solid #AAA;
+    position: relative;
+    z-index: 2; 
+    padding: 10px; 
+    font-size: 14px;
+}
+.bws_pro_version_tooltip .bws_button {
+    background: #dd5738;
+    border: none;
+    text-decoration: none;
+    color: #fff;
+    padding: 5px 17px;
+    border-radius: 2px;
+    margin: 5px 10px;
+    float: right;
+}
+.bws_pro_version_tooltip .bws_info {
+    float: left;
+    padding-top: 10px;
+}
+div.bws_pro_version {
+    padding: 5px 10px;
+}
+a.bws_plugin_pro_version {
+    display: block;
+    background: rgba(248, 226, 104, 0.11) url("../images/pattern_bg.png");
+    border: 1px solid #AAA;
+    padding: 5px;
+    text-decoration: none;
+    color: #666;
+}
+.bws_pro_version_single_link,
+.bws_pro_version_single_link:hover {
+    text-decoration: none;
+    color: #666;
+}
+/* style for mini-block (ex. google map) */
+.bws_pro_version_bloc_mini .bws_pro_version_table_bloc table.bws_pro_version { 
+    width: auto;
+}
+.bws_pro_version_bloc_mini .bws_pro_version_tooltip {
+    padding: 10px 61px;
+    text-align: center;
+    width: 200px;
+}
+.bws_pro_version_bloc_mini .bws_pro_version_tooltip a {    
+    display: inline-block;
+    line-height: 1.5;
+}
+.bws_pro_version_bloc_mini .bws_pro_version_tooltip .bws_button {
+    margin: 10px 10px 5px;
+    padding: 5px 50px;
+    float: none;
+}
+/* #### Mobile Phones Portrait or Landscape #### */
+@media screen and (max-device-width: 640px) {
+    .bws_pro_version_tooltip {
+        padding: 10px;
+        text-align: center;
+    }
+    .bws_pro_version_tooltip .bws_info {
+        float: none;
+        text-align: center;
+    }
+    .bws_pro_version_tooltip a {   
+        display: inline-block;
+        line-height: 1.5;
+    }
+    .bws_pro_version_tooltip .bws_info a {
+        display: block;
+    }
+    .bws_pro_version_tooltip .bws_button {
+        margin: 10px 10px 5px;
+        padding: 5px 50px;
+        float: none;
+    }
+}
+/*
+* styles for banner 
+*/
+.bws_banner_on_plugin_page {
+    border: 1px solid #d4d4d4;
+    background: #FFF;
+    position: relative;
+    overflow: hidden;
+    margin: 12px 0;
+    background: #ECECEC;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+}
+.bws_banner_on_plugin_page .text {
+    color: #000;
+    font-size: 15px;
+    line-height: 26px;
+    margin: 18px 18px 14px;
+    float: left;
+    width: auto;
+    max-width: 80%;
+}
+.bws_banner_on_plugin_page .text span {
+    font-size: 12px;
+    opacity: 0.7;
+}
+.bws_banner_on_plugin_page .button {
+    float: left;
+    border: none; 
+    font-size: 14px;
+    margin: 18px 0 18px 16px;
+    padding: 14px 0;
+    color: #FFF;
+    text-shadow: none;
+    font-weight: bold;
+    background: #0074A2;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    text-decoration: none;
+    height: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    width: 147px;
+    box-shadow: none;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.bws_banner_on_plugin_page .button:hover,
+.bws_banner_on_plugin_page .button:focus {    
+    background: #222;
+    color: #FFF;
+}
+.bws_banner_on_plugin_page .icon {
+    float: right;
+    margin: 12px 8px 8px 0;
+}
+.bws_banner_on_plugin_page .close_icon {
+    float: right;
+    margin: 8px;
+    cursor: pointer;
+}
+/* #### Mobile Phones Portrait or Landscape #### */
+@media screen and (max-device-width: 640px) {
+    .bws_banner_on_plugin_page .text,
+    .bws_banner_on_plugin_page .icon, 
+    .bws_banner_on_plugin_page .button_div,
+    .bws_banner_on_plugin_page .button {
+        float: none;
+        text-align: center;
+    }
+}

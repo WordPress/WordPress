@@ -1,0 +1,48 @@
+/*th {border-bottom:2px solid #000;font-size:smaller;}*/
+#default-options td{border-bottom:1px solid #000;}
+#manage-ads {}
+#manage-ads td {padding: 2px 5px; vertical-align:middle;}
+
+.advman_label {width:100px;}
+.advman_field {white-space:nowrap;}
+
+.network_blanking {height:20px;}
+.network_header td {border-top:1px solid #000;font-weight:bold;background-color:#ddd;}
+.network_admin * {font-weight:normal; text-align:center;}
+.adrow td { border-bottom:1px dotted #888 }
+.adrow_name { padding-left:25px;}
+
+.disabled { background-color:#e5e5e5;}
+
+.shade_0 {background-color:#eee;}
+.shade_1 {background-color:#f5f5f5;}
+
+.network_header a {border-bottom:none;text-decoration:underline;}
+
+.ox_plugin_adbrite {padding-left: 25px; background: transparent url(http://files.adbrite.com/mb/images/favicon.ico) no-repeat center left; }
+.ox_plugin_adgridwork {padding-left: 25px; background: transparent url(http://www.adgridwork.com/favicon.ico) no-repeat center left; }
+.ox_plugin_adify {padding-left: 25px; background: transparent url(http://www.adify.com/favicon.ico) no-repeat center left; }
+.ox_plugin_adpinion {padding-left:25px;background:url(http://www.adpinion.com/static/images/logo_small.gif) left no-repeat;}
+.ox_plugin_adroll {padding-left:25px;background:url(http://www.adroll.com/i/favicon.ico) left no-repeat;}
+.ox_plugin_adsense {padding-left:25px;background:url(http://www.google.com/favicon.ico) left no-repeat;}
+.ox_plugin_chitika {padding-left: 25px; background: transparent url(http://chitika.com/favicon.ico) no-repeat center left; }
+.ox_plugin_cj {padding-left:25px;background:url(http://www.cj.com/favicon.ico) left no-repeat;}
+.ox_ad_html {padding-left:25px;background:url(../images/code.png) left no-repeat;}
+.ox_plugin_crispads {padding-left:25px;background:url(http://www.crispads.com/favicon.ico) left no-repeat;}
+.ox_plugin_openx {padding-left:25px;background:url(http://www.openx.org/favicon.ico) left no-repeat;}
+.ox_plugin_widgetbucks {padding-left:25px;background:url(http://www.widgetbucks.com/favicon.ico) left no-repeat;}
+.ox_plugin_shoppingads {padding-left:25px;background:url(../images/shoppingads.png) left no-repeat;}
+.ox_plugin_ypn {padding-left:25px;background:url(http://www.yahoo.com/favicon.ico) left no-repeat;}
+
+.default_note {background:url(../images/default.png) left no-repeat;width:16px;height:16px;}
+
+.fixed .column-advman-active,
+.fixed .column-advman-default,
+.fixed .column-advman-format,
+.fixed .column-advman-stats,
+.fixed .column-advman-type {
+	width: 10%;
+}
+.fixed .column-advman-notes {
+	width: 15%;
+}

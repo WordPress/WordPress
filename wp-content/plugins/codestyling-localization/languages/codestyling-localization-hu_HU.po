@@ -1,0 +1,1030 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: CodeStyling Localization v1.99.7\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-03-24 19:17+0100\n"
+"PO-Revision-Date: 2011-06-13 11:03+0100\n"
+"Last-Translator: Szemcse <szemcse@freemail.hu>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: Hungarian\n"
+"X-Poedit-Country: HUNGARY\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: codestyling-localization.php:135
+#@ codestyling-localization
+msgid "required"
+msgstr "szükséges"
+
+#: codestyling-localization.php:135
+#@ codestyling-localization
+msgid "actual"
+msgstr "aktuális"
+
+#: codestyling-localization.php:320
+#@ codestyling-localization
+msgid "You do not have permission to manage translation files."
+msgstr "Önnek nincs engedélye a fájl kezelésére."
+
+#: codestyling-localization.php:342
+#: codestyling-localization.php:1851
+#@ codestyling-localization
+msgid "WordPress"
+msgstr "WordPress"
+
+#: codestyling-localization.php:348
+#: codestyling-localization.php:398
+#: codestyling-localization.php:587
+#: codestyling-localization.php:676
+#: codestyling-localization.php:835
+#: codestyling-localization.php:876
+#: codestyling-localization.php:1903
+#: codestyling-localization.php:1904
+#@ codestyling-localization
+msgid "activated"
+msgstr "aktív"
+
+#: codestyling-localization.php:370
+#: codestyling-localization.php:502
+#: codestyling-localization.php:517
+#: codestyling-localization.php:528
+#: codestyling-localization.php:543
+#: codestyling-localization.php:643
+#: codestyling-localization.php:741
+#: codestyling-localization.php:856
+#: codestyling-localization.php:900
+#: codestyling-localization.php:1467
+#: codestyling-localization.php:1548
+#: codestyling-localization.php:1587
+#: codestyling-localization.php:1726
+#: includes/class-translationfile.php:789
+#@ codestyling-localization
+msgid "m/d/Y H:i:s"
+msgstr "Hónap/Nap/Év Óra:perc:másodperc"
+
+#: codestyling-localization.php:389
+#@ codestyling-localization
+msgid "Plugin"
+msgstr "Plugin"
+
+#: codestyling-localization.php:398
+#: codestyling-localization.php:676
+#: codestyling-localization.php:835
+#: codestyling-localization.php:876
+#@ codestyling-localization
+msgid "deactivated"
+msgstr "kikapcsolva"
+
+#: codestyling-localization.php:431
+#@ codestyling-localization
+msgid "<strong>Loading Issue: </strong>Author is using <em>load_textdomain</em> instead of <em>load_plugin_textdomain</em> function. This may break behavior of WordPress, because some filters and actions won't be executed anymore. Please contact the Author about that."
+msgstr "<strong> Keresési eredmény: </strong> Szerző használja a <em> load_textdomain</em> helyett és a <em>load_plugin_textdomain</em> funkció helyett. Ez szünet befolyásolhatja a WordPress viselkedését, mert néhány szűrő és intézkedés nem fognak teljesíteni többé. Kérjük, forduljon a szerzőhöz ilyenkor."
+
+#: codestyling-localization.php:480
+#@ codestyling-localization
+msgid "<strong>Full Encryped PHP Code: </strong>This plugin consists out of encryped code will be <strong>eval</strong>'d at runtime! It can't be checked against exploitable code pieces. That's why it will become potential target of hidden intrusion."
+msgstr "<strong>Teljesen Titkosított PHP kód: </strong>Ez a modul nem tartalmaz futtatáskor értékelhető titkosított kódot. Nem lehet átvizsgálni kiaknázható kód darabkák ellen. Ezért válik a rejtett behatolások potenciális célpontjává."
+
+#: codestyling-localization.php:485
+#@ codestyling-localization
+msgid "<strong>Textdomain definition: </strong>This plugin provides a textdomain definition at plugin header fields but seems not to load any translation file. If it doesn't show your translation, please contact the plugin Author."
+msgstr "<strong>Szövegterület meghatározása: </strong>Ez a modul felelős egy szövegterület definíciójáért a  modul fejléc mezőben, de úgy tűnik, hogy nem tölt be semmilyen funkciót a fordítás fájlban. Ha nem jeleníti meg a fordítást, kérjük, forduljon a modul szerzőjéhez."
+
+#: codestyling-localization.php:578
+#@ codestyling-localization
+msgid "μ Plugin"
+msgstr "μ Plugin"
+
+#: codestyling-localization.php:671
+#@ codestyling-localization
+msgid "Childtheme"
+msgstr "Gyermek Téma"
+
+#: codestyling-localization.php:671
+#@ codestyling-localization
+msgid "Theme"
+msgstr "Téma"
+
+#: codestyling-localization.php:678
+#@ codestyling-localization
+msgid "child theme of"
+msgstr "gyeremek témája"
+
+#: codestyling-localization.php:700
+#@ codestyling-localization
+msgid "<strong>Loading Issue: </strong>Author is using <em>load_textdomain</em> instead of <em>load_theme_textdomain</em> or <em>load_child_theme_textdomain</em> function. This may break behavior of WordPress, because some filters and actions won't be executed anymore. Please contact the Author about that."
+msgstr "<strong>Betöltési hiba:</strong>A szerző által használt <em>load_textdomain</em> <em>load_theme_textdomain</em> vagy <em>load_child_theme_textdomain</em> függvények miatt, a WordPress néhány szűrői és intézkedései nem fognak teljesülni többé. Kérjük, forduljon a szerzőhöz a problémával kapcsolatban."
+
+#: codestyling-localization.php:751
+#, php-format
+#@ codestyling-localization
+msgid "<strong>Naming Issue: </strong>Author uses unsupported language file naming convention! Instead of example <em>de_DE.po</em> the non theme standard version <em>%s</em> has been used. If you translate this Theme, only renamed language files will be working!"
+msgstr "<strong>Elnevezés probléma: </strong>Szerző nem támogatott nyelvi fájlt használ a elnevezési szabályban! Ahelyett, hogy például a \\\"de_DE.po\\\"-t, nem a téma standard verzióját használja. Ennek a témának a lefordítása esetén, csak az átnevezett nyelvi fájlok fognak működni!"
+
+#: codestyling-localization.php:812
+#@ codestyling-localization
+msgid "<strong>WooThemes Issue: </strong>The Author is known for not supporting a translatable backend. Please expect only translations for frontend or contact the Author for support!"
+msgstr "<strong>WooTéma probléma: </strong>A szerző nem támogatja a visszafele fordíthatóságot. Kérjük, csak az eleje-vége irányú fordításokat várják, vagy lépjen kapcsolatba a szerzővel!"
+
+#: codestyling-localization.php:826
+#@ codestyling-localization
+msgid "BuddyPress"
+msgstr "BuddyPress"
+
+#: codestyling-localization.php:871
+#@ codestyling-localization
+msgid "bbPress"
+msgstr "bbPress"
+
+#: codestyling-localization.php:1085
+#: codestyling-localization.php:1219
+#@ codestyling-localization
+msgid "Project-Id-Version"
+msgstr "Projekt ID-je és verziója"
+
+#: codestyling-localization.php:1089
+#@ codestyling-localization
+msgid "Creation-Date"
+msgstr "Készítés dátuma"
+
+#: codestyling-localization.php:1093
+#@ codestyling-localization
+msgid "Last-Translator"
+msgstr "Utolsó fordító"
+
+#: codestyling-localization.php:1132
+#@ codestyling-localization
+msgid "create po-file"
+msgstr "po-fájl létrehozása"
+
+#: codestyling-localization.php:1143
+#, php-format
+#@ codestyling-localization
+msgid "You are about to delete <strong>%s</strong> from \"<strong>%s</strong>\" permanently.<br/>Are you sure you wish to delete these files?"
+msgstr "Arra készül, hogy törölni fogja a <strong>%s</strong> nyelvi fájljait a \"<strong>%s</strong>\" bővítményből véglegesen.<br/>Biztosan szeretné törölni ezeket a fájlokat?"
+
+#: codestyling-localization.php:1144
+#@ codestyling-localization
+msgid "delete files"
+msgstr "fájl törlése"
+
+#: codestyling-localization.php:1223
+#@ codestyling-localization
+msgid "Language Target"
+msgstr "Nyelvi fájl meghatározása"
+
+#: codestyling-localization.php:1228
+#@ codestyling-localization
+msgid "Affected Total Files"
+msgstr "Érintett összes fájl"
+
+#: codestyling-localization.php:1233
+#@ codestyling-localization
+msgid "Scanning Progress"
+msgstr "Haladás jelző"
+
+#: codestyling-localization.php:1241
+#@ codestyling-localization
+msgid "scan now"
+msgstr "vizsgálat most"
+
+#: codestyling-localization.php:1241
+#@ codestyling-localization
+msgid "Please standby, files presently being scanned ..."
+msgstr "Kérjük, várjon, a fájlok jelenleg vizsgálat alatt vannak ..."
+
+#: codestyling-localization.php:1450
+#, php-format
+#@ codestyling-localization
+msgid "You do not have the permission to create the file '%s'."
+msgstr "Önnek nincs engedélye a '%s' fájl létrehozásához."
+
+#: codestyling-localization.php:1458
+#: codestyling-localization.php:1494
+#: codestyling-localization.php:2016
+#, php-format
+#@ codestyling-localization
+msgid "<strong>%d</strong> Language"
+msgid_plural "<strong>%d</strong> Languages"
+msgstr[0] "<strong>%d</strong> Nyelv"
+msgstr[1] "<strong>%d</strong> Nyelv"
+
+#: codestyling-localization.php:1481
+#: codestyling-localization.php:1482
+#, php-format
+#@ codestyling-localization
+msgid "You do not have the permission to delete the file '%s'."
+msgstr "Önnek nincs engedélye a '%s' fájl törléséhez."
+
+#: codestyling-localization.php:1553
+#: codestyling-localization.php:1651
+#: codestyling-localization.php:1719
+#, php-format
+#@ codestyling-localization
+msgid "You do not have the permission to write to the file '%s'."
+msgstr "Önnek nincs engedélye a '%s' fájl szerkesztéséhez."
+
+#: codestyling-localization.php:1559
+#: codestyling-localization.php:1664
+#: codestyling-localization.php:1679
+#, php-format
+#@ codestyling-localization
+msgid "You do not have the permission to read the file '%s'."
+msgstr "Önnek nincs engedélye a '%s' fájl olvasásához."
+
+#: codestyling-localization.php:1576
+#@ codestyling-localization
+msgid "Server Restrictions: Changing file rights is not permitted."
+msgstr "Szerver korlátozások: A fájlok jogainak változtatása nem megengedett."
+
+#: codestyling-localization.php:1579
+#, php-format
+#@ codestyling-localization
+msgid "You do not have the permission to modify the file rights for a not existing file '%s'."
+msgstr "Nincs engedélye, hogy módosítsa a fájl jogokat egy nem létező fájlon '%s'."
+
+#: codestyling-localization.php:1612
+#@ codestyling-localization
+msgid "Your translation file doesn't support the <em>multiple textdomains in one translation file</em> extension.<br/>Please re-scan the related source files at the overview page to enable this feature."
+msgstr "Az Ön fordítási fájl nem támogatja a <em> több megjegyzést egy fordítási fájlban</em> kiterjesztést. <br/> vizsgálja meg újra a kapcsolódó forrás fájlokat az áttekintő oldalon, hogy ezt a funkciót engedélyezze."
+
+#: codestyling-localization.php:1634
+#@ codestyling-localization
+msgid "Sorry, Google Translation is not available."
+msgstr "Sajnálom, a Google fordító nem elérhető."
+
+#: codestyling-localization.php:1712
+#@ codestyling-localization
+msgid "You are trying to create an empty mo-file without any translations. This is not possible, please translate at least one entry."
+msgstr "Egy üres mo-fájlt készül létrehozni fordítás nélkül. Ez nem lehetséges, kérem fordítson le legalább egy bejegyzést."
+
+#: codestyling-localization.php:1739
+#@ codestyling-localization
+msgid "You do not have the permission to create a new Language File Path.<br/>Please create the appropriated path using your FTP access."
+msgstr "Nincs engedélye, hogy a nyelvi fájl elérési útvonalán hozzon létre egy új nyelvi fájlt. <br/>Kérjük, hozza létre FTP elérésen keresztül."
+
+#: codestyling-localization.php:1759
+#@ codestyling-localization
+msgid "You do not have the permission to choose the translation file directory<br/>Please upload at least one language file (*.mo|*.po) or an empty template file (*.pot) at the appropriated folder using FTP."
+msgstr "Önnek nincs engedélye, hogy megválasszák a fordítási fájl könyvtárát<br/> Kérjük, töltsön fel legalább egy nyelvi fájlt (*.mo|*.po), vagy egy üres sablon fájlt (*.pot) az erre elkülönített mappába FTP használatával."
+
+#: codestyling-localization.php:1824
+#@ codestyling-localization
+msgid "WordPress Localization"
+msgstr "WordPress Honosítás"
+
+#: codestyling-localization.php:1824
+#@ codestyling-localization
+msgid "Localization"
+msgstr "Honosító"
+
+#: codestyling-localization.php:1836
+#@ codestyling-localization
+msgid "Manage Language Files"
+msgstr "Nyelvi fájlok menedzselése"
+
+#: codestyling-localization.php:1838
+#@ codestyling-localization
+msgid "enable low memory mode"
+msgstr "kevés memória mód bekapcsolása"
+
+#: codestyling-localization.php:1839
+#@ codestyling-localization
+msgid "If your Installation is running under low remaining memory conditions, you will face the memory limit error during scan process or opening catalog content. If you hitting your limit, you can enable this special mode. This will try to perform the actions in a slightly different way but that will lead to a considerably slower response times but nevertheless gives no warranty, that it will solve your memory related problems at all cases."
+msgstr "Ha kis memória feltételekkel rendelkezik, akkor memória korlát hiba lehetséges a beolvasási folyamat vagy kinyíló katalógus megjelenésekor. Ha ez bekövetkezik, akkor engedélyezze ezt a speciális módot. Ez megpróbálja végrehajtani a tevékenységet egy kicsit másképpen, de ez lassabb reakcióidőt igényel a program számára. Ennek ellenére nincs garancia arra, hogy ez megoldja a memóriával kapcsolatos problémákat minden esetben."
+
+#: codestyling-localization.php:1848
+#@ codestyling-localization
+msgid "All Translations"
+msgstr "Összes Fordítható"
+
+#: codestyling-localization.php:1855
+#@ codestyling-localization
+msgid "μ Plugins"
+msgstr "μ Bővítmények"
+
+#: codestyling-localization.php:1859
+#@ codestyling-localization
+msgid "Plugins"
+msgstr "Bővítmények"
+
+#: codestyling-localization.php:1862
+#@ codestyling-localization
+msgid "Themes"
+msgstr "Témák"
+
+#: codestyling-localization.php:1865
+#: codestyling-localization.php:1931
+#@ codestyling-localization
+msgid "Compatibility"
+msgstr "Kampatibilitás"
+
+#: codestyling-localization.php:1868
+#: codestyling-localization.php:1938
+#@ codestyling-localization
+msgid "Security Risk"
+msgstr "Biztonsági információk"
+
+#: codestyling-localization.php:1872
+#@ codestyling-localization
+msgid "You like it?"
+msgstr "Ha tetszik a bővítmény..."
+
+#: codestyling-localization.php:1892
+#@ codestyling-localization
+msgid "Type"
+msgstr "Típus"
+
+#: codestyling-localization.php:1893
+#: codestyling-localization.php:1925
+#: codestyling-localization.php:1970
+#@ codestyling-localization
+msgid "Description"
+msgstr "Leírás"
+
+#: codestyling-localization.php:1894
+#@ codestyling-localization
+msgid "Languages"
+msgstr "Nyelvek"
+
+#: codestyling-localization.php:1910
+#@ codestyling-localization
+msgid "Textdomain"
+msgstr "Megjegzés"
+
+#: codestyling-localization.php:1911
+#@ codestyling-localization
+msgid "defined by constant"
+msgstr "Állandó minőségtényező"
+
+#: codestyling-localization.php:1917
+#: codestyling-localization.php:1962
+#@ codestyling-localization
+msgid "Version"
+msgstr "Verzió"
+
+#: codestyling-localization.php:1921
+#: codestyling-localization.php:1966
+#@ codestyling-localization
+msgid "State"
+msgstr " Állapot"
+
+#: codestyling-localization.php:1945
+#@ codestyling-localization
+msgid "Memory Warning"
+msgstr "Memória Veszély"
+
+#: codestyling-localization.php:1946
+#@ codestyling-localization
+msgid "Since WordPress 3.x version it may require at least <strong>58MB</strong> PHP memory_limit! The reason is still unclear but it doesn't freeze anymore. Instead a error message will be shown and the scanning process aborts while reaching your limits."
+msgstr "Mivel a WordPress 3.x verzió előírhatja, hogy legalább <strong>58 MB</strong> legyen a PHP-ban a  memory_limit! Az ok még nem tisztázott, de ez már nem fagy le. Ehelyett egy hibaüzenet jelenik meg, a beolvasási folyamatot megszakítja és értesítést küld."
+
+#: codestyling-localization.php:1952
+#@ codestyling-localization
+msgid "Language Folder"
+msgstr "Nyelv mappája"
+
+#: codestyling-localization.php:1953
+#@ codestyling-localization
+msgid "The translation file folder is ambiguous, please select by clicking the appropriated language file folder or ask the Author about!"
+msgstr "A fordítási fájl mappája nem egyértelmű, kérjük, válassza ki rákattintva a nyelvi mappát vagy kérje a szerző segítségét a meghatározásában!"
+
+#: codestyling-localization.php:1959
+#@ codestyling-localization
+msgid "by"
+msgstr "Készítette"
+
+#: codestyling-localization.php:1979
+#@ codestyling-localization
+msgid "The original US version doesn't contain the language directory."
+msgstr "Az eredeti US verzió nem tartalmaz nyelvi könyvtárt."
+
+#: codestyling-localization.php:1981
+#@ codestyling-localization
+msgid "try to create the WordPress language directory"
+msgstr "próbálja meg létrehozni a WordPress nyelvi könyvtárt"
+
+#: codestyling-localization.php:1984
+#: codestyling-localization.php:2005
+#@ codestyling-localization
+msgid "or create the missing directory using FTP Access as:"
+msgstr "vagy hozza létre a könyvtárt FTP hozzáférésen keresztül:"
+
+#: codestyling-localization.php:1989
+#@ codestyling-localization
+msgid "Available Directories:"
+msgstr "Elérhető könyvtárak:"
+
+#: codestyling-localization.php:2000
+#@ codestyling-localization
+msgid "The original bbPress component doesn't contain a language directory."
+msgstr "Az eredeti bbPress komponens nem tartalmaz nyelvi könyvtárat."
+
+#: codestyling-localization.php:2002
+#@ codestyling-localization
+msgid "try to create the bbPress language directory"
+msgstr "próbálja meg létrehozni a bbPress nyelvi könyvtárt"
+
+#: codestyling-localization.php:2014
+#: codestyling-localization.php:2241
+#@ codestyling-localization
+msgid "Add New Language"
+msgstr "Új nyelv hozzáadása"
+
+#: codestyling-localization.php:2019
+#@ codestyling-localization
+msgid "Language"
+msgstr "Nyelv"
+
+#: codestyling-localization.php:2020
+#@ codestyling-localization
+msgid "Permissions"
+msgstr "Jogosultságok"
+
+#: codestyling-localization.php:2021
+#: codestyling-localization.php:2155
+#@ codestyling-localization
+msgid "Actions"
+msgstr "Lehetőségek"
+
+#: codestyling-localization.php:2029
+#: codestyling-localization.php:2280
+#@ codestyling-localization
+msgid "Locale"
+msgstr "Ország"
+
+#: codestyling-localization.php:2035
+#: codestyling-localization.php:2040
+#: codestyling-localization.php:2288
+#@ codestyling-localization
+msgid "-n.a.-"
+msgstr "-n.a.-"
+
+#: codestyling-localization.php:2045
+#: codestyling-localization.php:2292
+#: codestyling-localization.php:2723
+#@ codestyling-localization
+msgid "Edit"
+msgstr "Szerkesztés"
+
+#: codestyling-localization.php:2048
+#: codestyling-localization.php:2051
+#: codestyling-localization.php:2294
+#: codestyling-localization.php:2297
+#@ codestyling-localization
+msgid "Rescan"
+msgstr "Újraellenőrzés"
+
+#: codestyling-localization.php:2054
+#: codestyling-localization.php:2300
+#@ codestyling-localization
+msgid "Delete"
+msgstr "Törlés"
+
+#: codestyling-localization.php:2068
+#@ codestyling-localization
+msgid "Translate Language File"
+msgstr "Nyelvi fájl fordítása"
+
+#: codestyling-localization.php:2068
+#@ codestyling-localization
+msgid "back to overview page &raquo;"
+msgstr "irány az áttekintés oldal &raquo;"
+
+#: codestyling-localization.php:2070
+#: codestyling-localization.php:2467
+#: codestyling-localization.php:3137
+#@ codestyling-localization
+msgid "File:"
+msgstr "Fájl"
+
+#: codestyling-localization.php:2070
+#: codestyling-localization.php:2083
+#: includes/class-translationfile.php:789
+#@ codestyling-localization
+msgid "unknown"
+msgstr "Ismeretlen"
+
+#: codestyling-localization.php:2075
+#@ codestyling-localization
+msgid "<b>Hint:</b> The extended feature for textdomain separation shows at dropdown box <i>Textdomain</i> the pre-selected primary textdomain."
+msgstr "<b>Tipp:</b> Kibővített szolgáltatásként szétválaszthatjuk legördülő listából a fordítani való mondatokat, szavakat megjegyzésük szerint a <i>Megjegyzés</i> nevű legördülő listából."
+
+#: codestyling-localization.php:2076
+#@ codestyling-localization
+msgid "All other additional contained textdomains occur at the source but will not be used, if not explicitely supported by this component!"
+msgstr "Egyéb kiegészítő, zárt megjegyzéskor a forrásnál fordul elő, de nem használható, ha nem támogatott a komponens által!"
+
+#: codestyling-localization.php:2077
+#@ codestyling-localization
+msgid "Please contact the author, if some of the non primary textdomain based phrases will not show up translated at the required position!"
+msgstr "Kérjük vegye fel a kapcsolatot a szerzővel, ha van ilyen, mert a nem elsődleges megjegyzés alapú mondatok nem fognak megjelenni a kívánt helyzetben!"
+
+#: codestyling-localization.php:2078
+#@ codestyling-localization
+msgid "The Textdomain <i><b>default</b></i> always stands for the WordPress main language file, this could be either intentionally or accidentally!"
+msgstr "A megjegyzés mindíg<i><b>default</b></i> (alapértelmezett) a WordPress fő nyelvi fájljaiban, ez lehet akár szándékosan, akár véletlen!"
+
+#: codestyling-localization.php:2081
+#@ codestyling-localization
+msgid "Textdomain:"
+msgstr "Megjegyzés:"
+
+#: codestyling-localization.php:2082
+#@ codestyling-localization
+msgid "generate mo-file"
+msgstr "mo-fájl készítése"
+
+#: codestyling-localization.php:2083
+#@ codestyling-localization
+msgid "last written:"
+msgstr "Utolsó módosítás ideje"
+
+#: codestyling-localization.php:2087
+#@ codestyling-localization
+msgid "Total"
+msgstr "Összes"
+
+#: codestyling-localization.php:2088
+#@ codestyling-localization
+msgid "Plural"
+msgstr "Többesszám:"
+
+#: codestyling-localization.php:2089
+#: codestyling-localization.php:2700
+#@ codestyling-localization
+msgid "Context"
+msgstr "Kombinált"
+
+#: codestyling-localization.php:2090
+#@ codestyling-localization
+msgid "Not translated"
+msgstr "Nem fordított"
+
+#: codestyling-localization.php:2091
+#@ codestyling-localization
+msgid "Comments"
+msgstr "Megjegyzések"
+
+#: codestyling-localization.php:2092
+#: codestyling-localization.php:2682
+#@ codestyling-localization
+msgid "Code Hint"
+msgstr "Tippek"
+
+#: codestyling-localization.php:2093
+#@ codestyling-localization
+msgid "Trailing Space"
+msgstr "Záró szóköz"
+
+#: codestyling-localization.php:2094
+#@ codestyling-localization
+msgid "Search Result"
+msgstr "Keresési eredmény"
+
+#: codestyling-localization.php:2095
+#@ codestyling-localization
+msgid "Expression Result"
+msgstr "Kifejezés eredménye"
+
+#: codestyling-localization.php:2099
+#@ codestyling-localization
+msgid "Page Size"
+msgstr "Oldal méret"
+
+#: codestyling-localization.php:2111
+#: codestyling-localization.php:2165
+#: codestyling-localization.php:2664
+#@ codestyling-localization
+msgid "&laquo; Previous"
+msgstr "&laquo; Előző"
+
+#: codestyling-localization.php:2116
+#: codestyling-localization.php:2170
+#: codestyling-localization.php:2671
+#@ codestyling-localization
+msgid "Next &raquo;"
+msgstr "Következő &raquo;"
+
+#: codestyling-localization.php:2124
+#@ codestyling-localization
+msgid "Infos"
+msgstr "Információk"
+
+#: codestyling-localization.php:2128
+#: codestyling-localization.php:3088
+#@ codestyling-localization
+msgid "Original:"
+msgstr "Eredeti:"
+
+#: codestyling-localization.php:2132
+#: codestyling-localization.php:2147
+#@ codestyling-localization
+msgid "non case-sensitive"
+msgstr "nincs kis- és nagybetűk között különbség"
+
+#: codestyling-localization.php:2143
+#: codestyling-localization.php:3091
+#: codestyling-localization.php:3093
+#@ codestyling-localization
+msgid "Translation:"
+msgstr "Fordítás:"
+
+#: codestyling-localization.php:2159
+#@ codestyling-localization
+msgid "Please wait, file content presently being loaded ..."
+msgstr "Kérem várjon, a fájl tartalma jelenleg betöltés alatt van ..."
+
+#: codestyling-localization.php:2163
+#@ codestyling-localization
+msgid "scroll to top"
+msgstr "Görgetés Fel"
+
+#: codestyling-localization.php:2180
+#: codestyling-localization.php:3043
+#@ codestyling-localization
+msgid "Edit Catalog Entry"
+msgstr "Katalógus bejegyzés szerkesztése"
+
+#: codestyling-localization.php:2181
+#@ codestyling-localization
+msgid "close"
+msgstr "bezárás"
+
+#: codestyling-localization.php:2335
+#@ codestyling-localization
+msgid "Confirm Delete Language"
+msgstr "Nyelvi fájl törlésének megerősítése"
+
+#: codestyling-localization.php:2404
+#@ codestyling-localization
+msgid "Rescanning PHP Source Files"
+msgstr "PHP forrásfájlok újraellenőrzése"
+
+#: codestyling-localization.php:2430
+#: codestyling-localization.php:2455
+#: codestyling-localization.php:2472
+#@ codestyling-localization
+msgid "finished"
+msgstr "befejezés"
+
+#: codestyling-localization.php:2460
+#, php-format
+#@ codestyling-localization
+msgid "You are trying to rescan files which expands above your PHP Memory Limit at %s MB during the analysis.<br/>Please enable the <em>low memory mode</em> for scanning this component."
+msgstr "Olyan fordítási katalógust próbál megnyitni, amely túllépi a PHP %s MB memória limitet. <br/> Kérjük engedélyezze az <em>alacsony memória módot</em> az áttekintés oldalon."
+
+#: codestyling-localization.php:2588
+#@ codestyling-localization
+msgid "Access Error"
+msgstr "Hozzáférési hiba"
+
+#: codestyling-localization.php:2621
+#, php-format
+#@ codestyling-localization
+msgid "You are trying to open a translation catalog which expands above your PHP Memory Limit at %s MB during read.<br/>Please enable the <em>low memory mode</em> for opening this components catalog."
+msgstr "Egy olyan fordítási katalógust próbál megnyitni, amely túllépi a PHP %s MB memória limitet. <br/> Kérjük engedélyezze az <em>alacsony memória módot</em> az áttekintés oldalon."
+
+#: codestyling-localization.php:2681
+#@ codestyling-localization
+msgid "Comment"
+msgstr "Hozzászólás"
+
+#: codestyling-localization.php:2690
+#@ codestyling-localization
+msgid "Files:"
+msgstr "Fájlok:"
+
+#: codestyling-localization.php:2704
+#: codestyling-localization.php:3073
+#@ codestyling-localization
+msgid "Singular:"
+msgstr "Egyes szám:"
+
+#: codestyling-localization.php:2704
+#: codestyling-localization.php:3075
+#@ codestyling-localization
+msgid "Plural:"
+msgstr "Többes szám"
+
+#: codestyling-localization.php:2708
+#: codestyling-localization.php:2711
+#: codestyling-localization.php:3050
+#: codestyling-localization.php:3053
+#: codestyling-localization.php:3056
+#: codestyling-localization.php:3061
+#@ codestyling-localization
+msgid "Plural Index Result ="
+msgstr "Többes szám Index Eredménye"
+
+#: codestyling-localization.php:2724
+#@ codestyling-localization
+msgid "Copy"
+msgstr "Másol"
+
+#: codestyling-localization.php:2855
+#@ codestyling-localization
+msgid "Extended Expression Search"
+msgstr "Bővitett keresés"
+
+#: codestyling-localization.php:2857
+#@ codestyling-localization
+msgid "Expression:"
+msgstr "Bővített:"
+
+#: codestyling-localization.php:2859
+#@ codestyling-localization
+msgid "Examples: <small>Please refer to official Perl regular expression descriptions</small>"
+msgstr "Például: <small>Kérjük, nézze meg a hivatalos Perl reguláris kifejezések leírásokat </small>"
+
+#: codestyling-localization.php:2864
+#@ codestyling-localization
+msgid "Search"
+msgstr "Keresés"
+
+#: codestyling-localization.php:3050
+#: codestyling-localization.php:3053
+#: codestyling-localization.php:3093
+#@ codestyling-localization
+msgid "translate with Google API"
+msgstr "fordítás a Google API-val"
+
+#: codestyling-localization.php:3072
+#: codestyling-localization.php:3087
+#@ codestyling-localization
+msgid "Access Keys:"
+msgstr "Hozzáférési kulcsok:"
+
+#: codestyling-localization.php:3077
+#@ codestyling-localization
+msgid "Plural Index Calculation:"
+msgstr "Többesszám indexek számolása:"
+
+#: codestyling-localization.php:3080
+#: codestyling-localization.php:3097
+#@ codestyling-localization
+msgid "« Save & Previous"
+msgstr "« Mentés és előző"
+
+#: codestyling-localization.php:3081
+#: codestyling-localization.php:3098
+#@ codestyling-localization
+msgid "Save"
+msgstr "Mentés"
+
+#: codestyling-localization.php:3082
+#: codestyling-localization.php:3099
+#@ codestyling-localization
+msgid "Save & Next »"
+msgstr "Mentés és következő »"
+
+#: includes/js-help-perlreg.php:4
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "Component"
+msgstr "Alkotóelem"
+
+#: includes/js-help-perlreg.php:5
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "Example"
+msgstr "Például"
+
+#: includes/js-help-perlreg.php:6
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "Description"
+msgstr "Leírás"
+
+#: includes/js-help-perlreg.php:12
+#: includes/js-help-perlreg.php:17
+#: includes/js-help-perlreg.php:22
+#: includes/js-help-perlreg.php:27
+#: includes/js-help-perlreg.php:32
+#: includes/js-help-perlreg.php:37
+#: includes/js-help-perlreg.php:42
+#: includes/js-help-perlreg.php:47
+#: includes/js-help-perlreg.php:52
+#: includes/js-help-perlreg.php:112
+#: includes/js-help-perlreg.php:117
+#: includes/js-help-perlreg.php:122
+#: includes/js-help-perlreg.php:127
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "out"
+msgstr "ki"
+
+#: includes/js-help-perlreg.php:13
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\", but also \"timeout\", \"outbreak\", \"Route\" and \"gouty\"."
+msgstr " \"out\", hanem \"timeout\", \"outbreak\", \"Route\" és \"gouty\" beillesztése."
+
+#: includes/js-help-perlreg.php:18
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\" at start of string like \"out\", \"outbreak\", as long as this are the first words at string."
+msgstr "hozzáadhat \"out\" elején \"out\", \"outbreak\", amennyiben ez az első szó a szöveg"
+
+#: includes/js-help-perlreg.php:23
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\" at end of string like \"out\", \"timeout\" and \"burnout\" as long as this are the last words at string."
+msgstr "hozzáadhat \"out\" a szöveg végén \"out\", \"timeout\" és \"burnout\" amíg ez az utolsó szó."
+
+#: includes/js-help-perlreg.php:28
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"ou\", \"out\", \"outt\" and \"outttttt\", the char prior to asterisk can be repeated 0 to unlimited times."
+msgstr "hozzáadhat \"ou\", \"out\", \"outt\" és \"outttttt\"  kifejezéseket,ha  a karakter előtt csillaggal jelöli. Ismételn korlátlan alkalommal lehet."
+
+#: includes/js-help-perlreg.php:33
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"outt\" and \"outttt\", the char prior to plus char have to be repeated at least one time or more often."
+msgstr "hozzáadhat \"outt\" és \"outttt\"  karakter előtt plusz karaktert csak meg kell ismételni legalább egyszer vagy gyakrabban."
+
+#: includes/js-help-perlreg.php:38
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"rout\" and \"gout\", any char can be placed at this position."
+msgstr "hozzáadhat \"rout\" és \"gout\" ezekben a pozícióban mindenféle karakter elhelyezhető."
+
+#: includes/js-help-perlreg.php:43
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"timeout\" and \"Fallout\", any char sequence at this position. Is a combination of any char and 1 but upto many times."
+msgstr "\"timeout\" és \"Fallout\" beillesztése során, minden karakter sorozat elfogadható ebben a pozícióban. Kombinálhat olyan karaktereket amelyek egyszer vagy akár többször is előfordulnak."
+
+#: includes/js-help-perlreg.php:48
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\" as single word. \\b means word break."
+msgstr "\"out\" használata szót jelent. A \\b pedig szóhatárt jelent."
+
+#: includes/js-help-perlreg.php:53
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\" only inside words, like \"Route\" or \"gouty\". \\B means not word break."
+msgstr "\"out\" belül szeretne használni \"Route\" vagy \"gouty\". \\B nem szóhatárt jelöl."
+
+#: includes/js-help-perlreg.php:58
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches any number. \\d means a numerical digit (0 to 9)"
+msgstr "Bármely szám beillesztése. \\d csak numerikus lehet (0-9)"
+
+#: includes/js-help-perlreg.php:63
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"-out\" at \"3-out\", any non number."
+msgstr "\"-kívül\" és a \"3-on kívül\", minden nem szám."
+
+#: includes/js-help-perlreg.php:68
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches form feed char."
+msgstr "lapdobás karakter beillesztése."
+
+#: includes/js-help-perlreg.php:73
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches line feed char."
+msgstr "soemelés karakter beillesztése."
+
+#: includes/js-help-perlreg.php:78
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches carriage return char."
+msgstr "új sor karakter beillesztése."
+
+#: includes/js-help-perlreg.php:83
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches tabulator char."
+msgstr "tabulátor karakter beillesztése"
+
+#: includes/js-help-perlreg.php:88
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches vertical tabulator char."
+msgstr "függőleges tabulátor karakter beillesztése."
+
+#: includes/js-help-perlreg.php:93
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches any kind of whitespace and space char."
+msgstr "bármilyen elválasztó karakter és a szóköz karakter beillesztése."
+
+#: includes/js-help-perlreg.php:98
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches any char, that is not a whitespace char."
+msgstr "bármely karakter beillesztése, amely nem a szóköz karakter."
+
+#: includes/js-help-perlreg.php:103
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches any alphanumerical char and underscore (typical for programming syntax)."
+msgstr "bármely alfanumerikus karakter és aláhúzás (tipikus programozási szintaxis) beillesztése."
+
+#: includes/js-help-perlreg.php:108
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches any char, that is not alphanumerical char and underscore (typical for illegal char detection at programming)."
+msgstr "illeszkedik bármely karakterre, ami nem alfanumerikus karakter, és aláhúzás (jellemző az illegális karakter kimutatására a programozásnál)."
+
+#: includes/js-help-perlreg.php:113
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\" and remembers matches internally. Upto 9 brackets are allowed per expression."
+msgstr "\"out\" beillesztésekor emlékezik a hozzáadásra belsőleg. Akár 9 zárójelben is megengedett a kifejezés"
+
+#: includes/js-help-perlreg.php:118
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"aus\" as often it is contained at string. The match positions will be stored internally as array."
+msgstr "illeszkedik a  \"aus\" mivel gyakran tartalmazhatja a szöveg. Az llesuztési pozíció tárolásra kerül a belső tömbben."
+
+#: includes/js-help-perlreg.php:123
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\", \"Out\" and \"OUT\", not case-sensitive match."
+msgstr "\"out\", \"Out\" and \"OUT\" beillesztésekor, a kis- és nagybetűk nem egyeznek meg."
+
+#: includes/js-help-perlreg.php:128
+#@ codestyling-localization
+msgctxt "pcre"
+msgid "matches \"out\", as ofter occurs (g) and also non case-sensitive."
+msgstr "\"out\" beillesztésekor gyakran előfordulhat (g) valamint nem kis- és nagybetűk."
+
+#. translators: plugin header field 'Name'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "CodeStyling Localization"
+msgstr "Honosító"
+
+#. translators: plugin header field 'PluginURI'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "http://www.code-styling.de/english/development/wordpress-plugin-codestyling-localization-en"
+msgstr "http://www.code-styling.de/english/development/wordpress-plugin-codestyling-localization-en"
+
+#. translators: plugin header field 'Description'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "Now you can freely manage, edit and modify your WordPress language translation files (*.po / *.mo) as usual. You won't need any additional editor have been installed. Also supports WPMU plugins, if WPMU versions has been detected."
+msgstr "Most már szabadon kezelheti, szerkesztheti és módosíthatja a WordPress nyelvi fordítás fájljait (*. po / *. mo). Önnek nem kell semmilyen külső program már a kiegészítő beépítésre került a honlapjába. Ami támogatja a WPMU kiegészítőt, ha a WPMU változást mutat."
+
+#. translators: plugin header field 'Author'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "Heiko Rabe"
+msgstr "Heiko Rabe"
+
+#. translators: plugin header field 'AuthorURI'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "http://www.code-styling.de/english/"
+msgstr "http://www.code-styling.de/english/"
+
+#: codestyling-localization.php:513
+#: codestyling-localization.php:539
+#@ codestyling-localization
+msgid "<strong>Textdomain definition: </strong>There are problems to find the used textdomain. It has been taken from existing translation files. If it doesn't work with your install, please contact the Author of this plugin."
+msgstr "<strong>Megjegyzés definíció: </strong>Probléma merült fel a használt megjegyzés megtalálásával. Meglévő fordítási fájl létrehozásakor. Ha a telepítés nem működik, vegye fel a kapcsolatot a bővítmény szerzőjével."
+
+#: codestyling-localization.php:1843
+#@ codestyling-localization
+msgid "Attention:"
+msgstr "Figyelem:"
+
+#: codestyling-localization.php:1843
+#@ codestyling-localization
+msgid "You have a running version of WP e-Commerce and it has been programmed to deactivate the javascript library prototype.js at each WordPress backend page! I did a work arround that, in case of issues read my article: <a href=\"http://www.code-styling.de/english/wp-e-commerce-breaks-intentionally-other-plugins-or-themes\">WP e-Commerce breaks intentionally other Plugins or Themes</a>"
+msgstr "Amennyiben használja a WP e-Commerce legyen tisztában vele, hogy úgy van programozva, hogy kikapcsolása,törlése után deaktiválja a javascript könyvtárban a prototype.js a WordPress hátterében! A problémáról bővebben itt olvashat: <a href=\"http://www.code-styling.de/english/wp-e-commerce-breaks-intentionally-other-plugins-or-themes\"> WP  e-Commerce szándékosan leállíthat más bővítményeket vagy Témákat ezzel</a>"
+
+#: codestyling-localization.php:706
+#@ codestyling-localization
+msgid "<strong>Textdomain Naming Issue: </strong>Author uses a variable to load the textdomain. It will be assumed to be equal to theme name now."
+msgstr ""
+
+#: codestyling-localization.php:805
+#@ codestyling-localization
+msgid "<strong>Textdomain Naming Issue: </strong>Author uses a variable to define the textdomain constant. It will be assumed to be equal to theme name now."
+msgstr ""
+
+#. translators: plugin header field 'Version'
+#: codestyling-localization.php:0
+#@ codestyling-localization
+msgid "1.99.16"
+msgstr "1.99.16"
+

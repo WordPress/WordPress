@@ -1,0 +1,363 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Retina 2x\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2013-08-12 16:42+0200\n"
+"PO-Revision-Date: 2013-08-12 16:51+0200\n"
+"Last-Translator: Marcus Forsberg <info@marcusforsberg.net>\n"
+"Language-Team: Jordy Meow <work@meow.fr>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: wr2x_ajax.php:39
+msgid "Done. Please <a href='javascript:history.go(0)'>refresh</a> this page."
+msgstr ""
+"Färdigt. Vänligen <a href='javascript:history.go(0)'>ladda om</a> denna sida."
+
+#: wr2x_ajax.php:42
+msgid ""
+"Done. You might want to <a href='?page=wp-"
+"retina-2x&view=issues&refresh=true'>refresh</a> the issues."
+msgstr ""
+"Färdigt. Du kanske vill <a href='?page=wp-"
+"retina-2x&view=issues&refresh=true'>ladda om</a> problemen."
+
+#: wr2x_ajax.php:52 wr2x_ajax.php:103
+msgid "Please wait..."
+msgstr "Var god vänta..."
+
+#: wr2x_ajax.php:60
+msgid "Nothing to do ;)"
+msgstr "Inget att göra ;)"
+
+#: wr2x_ajax.php:110 wr2x_retina-dashboard.php:247
+msgid "GENERATE"
+msgstr "GENERERA"
+
+#: wr2x_ajax.php:258 wr2x_ajax.php:287
+msgid "The attachment ID is missing."
+msgstr "ID för den bifogade filen saknas."
+
+#: wr2x_ajax.php:275
+msgid "Retina files deleted."
+msgstr "Retinafilder raderade."
+
+#: wr2x_ajax.php:305
+msgid "Retina files generated."
+msgstr "Retinafiler genererade."
+
+#: wr2x_ajax.php:316
+msgid "You do not have permission to upload files."
+msgstr "Du har inte rätt att ladda upp filer."
+
+#: wr2x_ajax.php:332
+msgid "You don't have the rights to use a temporary directory."
+msgstr "Du har inte rättigheterna som krävs för att använda en temporär mapp."
+
+#: wr2x_ajax.php:337
+msgid "The temporary directory could not be created."
+msgstr "Den temporära mappen kunde inte skapas."
+
+#: wr2x_ajax.php:352
+msgid "The file is not an image or the upload went wrong."
+msgstr "Filen är inte en bild eller så gick uppladdningen fel."
+
+#: wr2x_ajax.php:362
+msgid "You cannot use this file (wrong extension? wrong type?)."
+msgstr "Du kan inte använda den här filen (fel filtyp?)."
+
+#: wr2x_ajax.php:411
+msgid "Replaced successfully."
+msgstr "Ersattes uttan problem."
+
+#: wr2x_retina-dashboard.php:19
+msgid "Retina images"
+msgstr "Retinabilder"
+
+#: wr2x_retina-dashboard.php:20
+#, php-format
+msgid "Retina %s"
+msgstr "Retina %s"
+
+#: wr2x_retina-dashboard.php:132
+msgid "Generate"
+msgstr "Generera"
+
+#: wr2x_retina-dashboard.php:146
+msgid "Delete all @2x"
+msgstr "Radera alla @2x"
+
+#: wr2x_retina-dashboard.php:149
+msgid "Refresh issues"
+msgstr "Ladda om problem"
+
+#: wr2x_retina-dashboard.php:159
+msgid "Issues has been refreshed."
+msgstr "Problemen har laddats om."
+
+#: wr2x_retina-dashboard.php:164
+msgid ""
+"This screen allows you to check the media for which the retina files are "
+"missing. You can then create the files independently for each media or for "
+"all of them. You can also upload and replace the images by drag & drop them "
+"on the grid."
+msgstr ""
+"Den här sidan låter dig undersöka vilka mediafiler som saknar retinaversion. "
+"Du kan sedan skapa retinafiler för individuella objekt eller för alla på en "
+"gång. Du kan också ladda upp och ersätta bilderna genom att dra och släppa "
+"dem på rutnätet."
+
+#: wr2x_retina-dashboard.php:179
+msgid "All"
+msgstr "Alla"
+
+#: wr2x_retina-dashboard.php:180
+msgid "Issues"
+msgstr "Problem"
+
+#: wr2x_retina-dashboard.php:181
+msgid "Ignored"
+msgstr "Ignorerade"
+
+#: wr2x_retina-dashboard.php:187
+msgid "Title"
+msgstr "Titel"
+
+#: wr2x_retina-dashboard.php:195
+msgid "Actions"
+msgstr "Handlingar"
+
+#: wr2x_retina-dashboard.php:250
+msgid "IGNORE"
+msgstr "IGNORERA"
+
+#: wr2x_settings.php:18 wr2x_settings.php:21
+msgid "Current method:"
+msgstr "Nuvarande metod:"
+
+#: wr2x_settings.php:18 wr2x_settings.php:106
+msgid "Client side"
+msgstr "Klientmetod"
+
+#: wr2x_settings.php:21 wr2x_settings.php:107
+msgid "Server side"
+msgstr "Servermetod"
+
+#: wr2x_settings.php:26
+msgid ""
+"By the way, you are using a <b>WordPress Multi-Site installation</b>! You "
+"must edit your .htaccess manually and add '<b>RewriteRule ^files/(.+) wp-"
+"content/plugins/wp-retina-2x/wr2x_image.php?ms=true&file=$1 [L]</b>' as the "
+"first RewriteRule if you want the server-side to work."
+msgstr ""
+"Förresten, du använder en <b>WordPress Multi-Site-installation</b! Du måste "
+"manuellt ändra din .htaccess-fil och lägga till '<b>RewriteRule ^files/(.+) "
+"wp-content/plugins/wp-retina-2x/wr2x_image.php?ms=true&file=$1 [L]</b>' som "
+"första RewriteRule om du vill att servermetoden ska fungera."
+
+#: wr2x_settings.php:29
+msgid ""
+"By the way, you are using a <b>WordPress Multi-Site installation</b>! You "
+"must edit your .htaccess manually and add '<b>RewriteRule ^(wp-content/.+\\."
+"(png|gif|jpg|jpeg|bmp|PNG|GIF|JPG|JPEG|BMP)) wp-content/plugins/wp-retina-2x/"
+"wr2x_image.php?ms=true&file=$1 [L]</b>' as the first RewriteRule if you want "
+"the server-side to work."
+msgstr ""
+"Förresten, du använder en <b>WordPress Multi-Site-installation</b! Du måste "
+"manuellt ändra din .htaccess-fil och lägga till '<b>RewriteRule ^(wp-"
+"content/.+\\.(png|gif|jpg|jpeg|bmp|PNG|GIF|JPG|JPEG|BMP)) wp-content/plugins/"
+"wp-retina-2x/wr2x_image.php?ms=true&file=$1 [L]</b>' som första RewriteRule "
+"om du vill att servermetoden ska fungera."
+
+#: wr2x_settings.php:33
+msgid ""
+"The permalinks are not enabled. They need to be enabled in order to use the "
+"server-side method."
+msgstr ""
+"Permalänkarna är inte aktiverade. De måste vara aktiva för att servermetoden "
+"ska fungera."
+
+#: wr2x_settings.php:62
+msgid "Basics"
+msgstr "Grundläggande"
+
+#: wr2x_settings.php:66
+msgid "Advanced"
+msgstr "Avancerat"
+
+#: wr2x_settings.php:79
+msgid "Disabled Sizes"
+msgstr "Inaktiverade storlekar"
+
+#: wr2x_settings.php:80
+msgid "The checked sizes will not be generated for Retina displays."
+msgstr "De markerade storlekarna kommer inte att generera retinabilder."
+
+#: wr2x_settings.php:86
+msgid "Auto Generate"
+msgstr "Generera automatiskt"
+
+#: wr2x_settings.php:87
+msgid ""
+"Generate Retina images automatically when images are uploaded to the Media "
+"Library."
+msgstr ""
+"Generera retinabilder automatiskt när bilder laddas upp till "
+"mediabiblioteket."
+
+#: wr2x_settings.php:95
+msgid "Method"
+msgstr "Metod"
+
+#: wr2x_settings.php:97
+msgid ""
+"<br />\n"
+"                \t\tThe <b>HTML Rewrite method</b> is probably the best, "
+"especially when used with Cloudflare or Google PageSpeed Service! You cannot "
+"use a basic HTML caching plugin with it (or you have to hack the options "
+"properly). <br /><br />\n"
+"                \t\tThe <b>Server-side method</b> is very fast and "
+"efficient. However, depending on the hosting and cache system you are using "
+"(including services like Cloudflare) you might encounter issues.<br /><br /"
+">\n"
+"                \t\tThe <b>Client-side method</b> is fail-safe and only uses "
+"a JavaScript file. When a Retina Display is detected, requests for every "
+"images on the page will be sent to the server and a high resolution image "
+"will be retrieved if available. It requires more bandwidth.\n"
+"                \t"
+msgstr ""
+"<br />\n"
+"                \t\tMetoden <b>Skriv om HTML</b> är troligen bäst, speciellt "
+"om du använder den tillsammans med Cloudflare eller Google PageSpeed "
+"Service! Du kan inte använda något grundläggande HTML-cache-tillägg med "
+"denna metod (om du inte ändrar inställningarna rätt). <br /><br />\n"
+"                \t\t<b>Servermetoden</b> är väldigt snabb och effektiv. Men "
+"beroende på ditt webbhotell och cachesystem (inklusive tjänster som "
+"Cloudflare) kan du komma att råka på problem.<br /><br />\n"
+"                \t\t<b>Klientmetoden</b> är felsäker och använder bara en "
+"JavaScript-fil. När en Retinaskärm upptäcks skickas en förfrågan för varje "
+"bild på sidan till servern och en högupplöst bild hämtas om någon finns "
+"tillgänglig. Detta kräver högre bandbredd.\n"
+"                \t"
+
+#: wr2x_settings.php:105
+msgid "HTML Rewrite"
+msgstr "Skriv om HTML"
+
+#: wr2x_settings.php:108
+msgid "None"
+msgstr "Ingen"
+
+#: wr2x_settings.php:113
+msgid "Quality"
+msgstr "Kvalitet"
+
+#: wr2x_settings.php:114
+msgid "Image Compression quality (between 0 and 100)."
+msgstr "Kvalitet på bildkomprimering (mellan 0 och 100)"
+
+#: wr2x_settings.php:120
+msgid "Debug Mode"
+msgstr "Felsökningsläge"
+
+#: wr2x_settings.php:121
+msgid ""
+"If checked, the client will be always served Retina images. Convenient for "
+"testing."
+msgstr ""
+"När detta är markerat skickas alltid retinabilder till klienten. Användbart "
+"för att testa."
+
+#: wr2x_settings.php:127
+msgid "Hide 'Retina' column"
+msgstr "Dölj \"Retina\"-kolumn"
+
+#: wr2x_settings.php:128
+msgid "Will hide the 'Retina Column' from the Media Library."
+msgstr "Döljer 'retinakolumnen' från mediabiblioteket."
+
+#: wr2x_settings.php:134
+msgid "Hide Retina Dashboard"
+msgstr "Dölj retinapanel"
+
+#: wr2x_settings.php:135
+msgid "Doesn't show the Retina Dashboard menu and tools."
+msgstr "Visar inte retinapanelen eller verktygen."
+
+#: wr2x_settings.php:141
+msgid "Ignore Mobile"
+msgstr "Ignorera mobiler"
+
+#: wr2x_settings.php:142
+msgid "Doesn't deliver Retina images to mobiles."
+msgstr "Leverar inte retinabilder till mobiler."
+
+#~ msgid "Titre"
+#~ msgstr "Titre"
+
+#~ msgid ""
+#~ "Current method: <u>Server-side</u>.</span> Oh, and don't forget to check "
+#~ "the tutorial of this plugin on <a href='http://www.totorotimes.com/news/"
+#~ "retina-display-wordpress-plugin'>Totoro Times</a>."
+#~ msgstr ""
+#~ "Méthode sélectionnée: <u>Server-side</u>.</span> Oh, n'oubliez pas de "
+#~ "lire mon tutoriel sur ce plugin sur <a href='http://www.totorotimes.com/"
+#~ "news/retina-display-wordpress-plugin'>Totoro Times</a>."
+
+#~ msgid "Done."
+#~ msgstr "Terminé."
+
+#~ msgid "ERROR"
+#~ msgstr "ERREUR"
+
+#~ msgid "Not created yet."
+#~ msgstr "Pas encore créé."
+
+#~ msgid "Generate for all files"
+#~ msgstr "Générer tous les fichiers"
+
+#~ msgid ""
+#~ "By the way, you are also using a <b>WordPress Network installation</b>. "
+#~ "The server-side might not work for you, so <b>please try the client-side "
+#~ "method instead</b>. If you really want to use this method, you will have "
+#~ "to work on your .htaccess manually."
+#~ msgstr ""
+#~ "Vous utilisez une version de WordPress <b>Multisite</b>. Il est possible "
+#~ "que la méthode côté serveur ne fonctionne pas, alors dans ce cas essayé "
+#~ "la méthode <b>côté client</b>. Si vous voulez vraiment utiliser cette "
+#~ "méthode, vous aurez peut-être besoin de bidouiller votre .htaccess "
+#~ "manuellement."
+
+#~ msgid ""
+#~ "This plugin supports and uses the <a href='http://wordpress.org/extend/"
+#~ "plugins/enable-media-replace/'>Enable Media Replace</a> plugin if "
+#~ "available. A 'Replace' button will appear in case your images are too "
+#~ "small. It is strongly recommended to install it."
+#~ msgstr ""
+#~ "WP Retina 2x peut automatiquement utiliser le plugin <a href='http://"
+#~ "wordpress.org/extend/plugins/enable-media-replace/'>Enable Media Replace</"
+#~ "a> si il est installé. Un bouton 'Réuploader' apparaîtra alors lorsque "
+#~ "l'image originale est trop petite."
+
+#~ msgid ""
+#~ "This plugin is actively developped and maintained by <a href='https://"
+#~ "plus.google.com/106075761239802324012'>Jordy Meow</a>.<br />Please visit "
+#~ "me at <a href='http://www.totorotimes.com'>Totoro Times</a>, a website "
+#~ "about Japan, photography and abandoned places.<br />And thanks for "
+#~ "linking us on <a href='https://www.facebook.com/totorotimes'>Facebook</a> "
+#~ "and <a href='https://plus.google.com/106832157268594698217'>Google+</a> :)"
+#~ msgstr ""
+#~ "Ce plugin est activement développé et maintenu par <a href='https://plus."
+#~ "google.com/106075761239802324012'>Jordy Meow</a>.<br />Merci de me "
+#~ "visiter sur <a href='http://www.totorotimes.fr'>Totoro Times</a>, un site "
+#~ "sur le Japan, la photographie et les endroits abandonnés.<br />Et merci "
+#~ "de nous adorer sur <a href='https://www.facebook.com/"
+#~ "totorotimes'>Facebook</a> et <a href='https://plus.google."
+#~ "com/106832157268594698217'>Google+</a> :)"

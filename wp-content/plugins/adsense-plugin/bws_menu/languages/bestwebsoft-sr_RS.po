@@ -1,0 +1,778 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: bestwebsoft\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-01-17 12:13+0300\n"
+"PO-Revision-Date: 2014-01-17 12:13+0300\n"
+"Last-Translator: bestwebsoft.com <plugins@bestwebsoft.com>\n"
+"Language-Team: Andrijana Nikolic <andrijanan@webhostinggeeks.com>\n"
+"Language: fr_FR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: bws_menu.php:339
+msgid "Not set"
+msgstr "Nije podešeno"
+
+#: bws_menu.php:341
+#: bws_menu.php:345
+msgid "On"
+msgstr "Uključeno"
+
+#: bws_menu.php:343
+#: bws_menu.php:347
+msgid "Off"
+msgstr "Isključeno"
+
+#: bws_menu.php:351
+#: bws_menu.php:355
+#: bws_menu.php:359
+#: bws_menu.php:363
+#: bws_menu.php:367
+#: bws_menu.php:393
+msgid "N/A"
+msgstr "N/A"
+
+#: bws_menu.php:365
+msgid " Mb"
+msgstr " Mb"
+
+#: bws_menu.php:369
+#: bws_menu.php:373
+#: bws_menu.php:377
+#: bws_menu.php:388
+msgid "Yes"
+msgstr "Da"
+
+#: bws_menu.php:371
+#: bws_menu.php:375
+#: bws_menu.php:379
+#: bws_menu.php:390
+msgid "No"
+msgstr "Ne"
+
+#: bws_menu.php:404
+msgid "Operating System"
+msgstr "Operativni Sistem"
+
+#: bws_menu.php:405
+msgid "Server"
+msgstr "Server"
+
+#: bws_menu.php:406
+msgid "Memory usage"
+msgstr "Upotreba memorije"
+
+#: bws_menu.php:407
+msgid "MYSQL Version"
+msgstr "MYSQL Verzija"
+
+#: bws_menu.php:408
+msgid "SQL Mode"
+msgstr "SQL način"
+
+#: bws_menu.php:409
+msgid "PHP Version"
+msgstr "PHP Verzija"
+
+#: bws_menu.php:410
+msgid "PHP Safe Mode"
+msgstr "PHP Sigurni način"
+
+#: bws_menu.php:411
+msgid "PHP Allow URL fopen"
+msgstr "PHP Dozvoli URL fopen"
+
+#: bws_menu.php:412
+msgid "PHP Memory Limit"
+msgstr "PHP Ograničenje memorije"
+
+#: bws_menu.php:413
+#, fuzzy
+msgid "PHP Max Upload Size"
+msgstr "Envoi de fichier"
+
+#: bws_menu.php:414
+msgid "PHP Max Post Size"
+msgstr "PHP Max veličina za učitavanje"
+
+#: bws_menu.php:415
+msgid "PHP Max Script Execute Time"
+msgstr "PHP Max veličina posta"
+
+#: bws_menu.php:416
+msgid "PHP Exif support"
+msgstr "PHP Exif podrška"
+
+#: bws_menu.php:417
+msgid "PHP IPTC support"
+msgstr "PHP IPTC podrška"
+
+#: bws_menu.php:418
+msgid "PHP XML support"
+msgstr "PHP XML podrška"
+
+#: bws_menu.php:419
+#, fuzzy
+msgid "Site URL"
+msgstr "URL du lien"
+
+#: bws_menu.php:420
+msgid "Home URL"
+msgstr "URL naslovne"
+
+#: bws_menu.php:421
+msgid "WordPress Version"
+msgstr "WordPress Verzija"
+
+#: bws_menu.php:422
+msgid "WordPress DB Version"
+msgstr "WordPress DB Verzija"
+
+#: bws_menu.php:423
+msgid "Multisite"
+msgstr "Višenamenski sajt"
+
+#: bws_menu.php:424
+msgid "Active Theme"
+msgstr "Aktivna tema"
+
+#: bws_menu.php:440
+msgid "Please enter a valid email address."
+msgstr "Molimo unesite važeću mejl adresu"
+
+#: bws_menu.php:444
+msgid "Email with system info is sent to "
+msgstr "Mejl sa sistemskim informacijama je poslat na"
+
+#: bws_menu.php:448
+msgid "Thank you for contacting us."
+msgstr "Hvala što ste nas kontaktirali"
+
+#: bws_menu.php:476
+msgid "Sorry, email message could not be delivered."
+msgstr "Nažalost mejl poruka nije prosleđena"
+
+#: bws_menu.php:488
+msgid "Switch to new interface"
+msgstr ""
+
+#: bws_menu.php:495
+msgid "Pro plugins"
+msgstr "Pro moduli"
+
+#: bws_menu.php:498
+#: bws_menu.php:524
+msgid "Activated plugins"
+msgstr "Aktivirani moduli"
+
+#: bws_menu.php:500
+#: bws_menu.php:508
+#: bws_menu.php:516
+#: bws_menu.php:526
+#: bws_menu.php:534
+#: bws_menu.php:542
+#: bws_menu.php:552
+#: bws_menu.php:559
+#: bws_menu.php:567
+msgid "Read more"
+msgstr "Pročitaj više"
+
+#: bws_menu.php:500
+#: bws_menu.php:526
+#: bws_menu.php:678
+#: bws_menu.php:706
+msgid "Settings"
+msgstr "Podešavanja"
+
+#: bws_menu.php:506
+#: bws_menu.php:532
+#: bws_menu.php:658
+msgid "Installed plugins"
+msgstr "Instalirani moduli"
+
+#: bws_menu.php:514
+#: bws_menu.php:540
+#: bws_menu.php:765
+msgid "Recommended plugins"
+msgstr "Preporučeni moduli"
+
+#: bws_menu.php:516
+msgid "Purchase"
+msgstr "Kupovina"
+
+#: bws_menu.php:521
+msgid "Free plugins"
+msgstr "Besplatni moduli"
+
+#: bws_menu.php:542
+#: bws_menu.php:567
+msgid "Download"
+msgstr "Prezimanje"
+
+#: bws_menu.php:542
+#: bws_menu.php:567
+#: bws_menu.php:867
+#, php-format
+msgid "Install %s"
+msgstr "Instalacija %s"
+
+#: bws_menu.php:542
+#: bws_menu.php:567
+msgid "Install now from wordpress.org"
+msgstr "Instaliraj sada sa wordpress.org"
+
+#: bws_menu.php:548
+msgid "Free themes"
+msgstr ""
+
+#: bws_menu.php:551
+#, fuzzy
+msgid "Activated theme"
+msgstr "Aktivna tema"
+
+#: bws_menu.php:552
+#, php-format
+msgid "Customize &#8220;%s&#8221;"
+msgstr ""
+
+#: bws_menu.php:552
+msgid "Customize"
+msgstr ""
+
+#: bws_menu.php:557
+#, fuzzy
+msgid "Installed themes"
+msgstr "Instalacija %s"
+
+#: bws_menu.php:565
+#, fuzzy
+msgid "Recommended themes"
+msgstr "Preporučeni moduli"
+
+#: bws_menu.php:573
+msgid "If you have any questions, please contact us via"
+msgstr "Ako imate pitanja molimo da nas kontaktirate preko"
+
+#: bws_menu.php:580
+#: bws_menu.php:648
+#: bws_menu.php:903
+msgid "System status"
+msgstr "Sistemski status"
+
+#: bws_menu.php:584
+#: bws_menu.php:906
+msgid "Environment"
+msgstr "Okruženje"
+
+#: bws_menu.php:595
+#: bws_menu.php:917
+#, fuzzy
+msgid "Active Plugins"
+msgstr "Extensions activées"
+
+#: bws_menu.php:606
+#: bws_menu.php:928
+#, fuzzy
+msgid "Inactive Plugins"
+msgstr "Extensions activées"
+
+#: bws_menu.php:620
+#: bws_menu.php:942
+#, fuzzy
+msgid "Send to support"
+msgstr "Soutien"
+
+#: bws_menu.php:627
+#: bws_menu.php:949
+msgid "Send to custom email &#187;"
+msgstr "Pošalji na korisnički mejl &#187;"
+
+#: bws_menu.php:638
+msgid "Switch to old interface"
+msgstr ""
+
+#: bws_menu.php:644
+#, fuzzy
+msgid "Plugins"
+msgstr "Pro moduli"
+
+#: bws_menu.php:646
+msgid "Themes"
+msgstr ""
+
+#: bws_menu.php:652
+msgid "All"
+msgstr ""
+
+#: bws_menu.php:653
+#, fuzzy
+msgid "Installed"
+msgstr "Instalacija %s"
+
+#: bws_menu.php:654
+#, fuzzy
+msgid "Recommended"
+msgstr "Preporučeni moduli"
+
+#: bws_menu.php:676
+#: bws_menu.php:704
+#: bws_menu.php:726
+#: bws_menu.php:754
+#: bws_menu.php:795
+#, fuzzy
+msgid "Learn more"
+msgstr "Pročitaj više"
+
+#: bws_menu.php:694
+#: bws_menu.php:744
+#: bws_menu.php:785
+msgid "Go"
+msgstr ""
+
+#: bws_menu.php:698
+#: bws_menu.php:748
+#: bws_menu.php:789
+msgid "DONATE"
+msgstr ""
+
+#: bws_menu.php:728
+#: bws_menu.php:756
+#, fuzzy
+msgid "Activate this plugin"
+msgstr "Aktivirani moduli"
+
+#: bws_menu.php:728
+#: bws_menu.php:756
+#, fuzzy
+msgid "Activate"
+msgstr "Aktivirani moduli"
+
+#: bws_menu.php:797
+#, fuzzy
+msgid "Install now"
+msgstr "Instalacija %s"
+
+#: bws_menu.php:819
+msgid "Try again"
+msgstr ""
+
+#: bws_menu.php:836
+#, php-format
+msgid "Preview &#8220;%s&#8221;"
+msgstr ""
+
+#: bws_menu.php:867
+#, fuzzy
+msgid "Install Now"
+msgstr "Instalacija %s"
+
+#: bws_menu.php:870
+#, php-format
+msgid "Update to version %s"
+msgstr ""
+
+#: bws_menu.php:870
+#, fuzzy
+msgid "Update"
+msgstr "date"
+
+#: bws_menu.php:877
+#, php-format
+msgid "Preview %s"
+msgstr ""
+
+#: bws_menu.php:877
+msgid "Preview"
+msgstr ""
+
+#: bws_menu.php:884
+#, php-format
+msgid "By %s"
+msgstr ""
+
+#: bws_menu.php:890
+msgid "Details"
+msgstr ""
+
+#, fuzzy
+#~ msgid "installed"
+#~ msgstr "Instalacija %s"
+
+#~ msgid ""
+#~ "The following files \"gallery-template.php\" and \"gallery-single-"
+#~ "template.php\" were not found in the directory of your theme. Please copy "
+#~ "them from the directory `/wp-content/plugins/gallery-plugin/template/` to "
+#~ "the directory of your theme for the correct work of the Gallery plugin"
+#~ msgstr ""
+#~ "Sledeći fajlovi \"gallery-template.php\" i \"gallery-single-template.php"
+#~ "\" nisu pronađeni u direktorijumu vaše teme. Molimo vas da ih kopirate iz "
+#~ "direktorijuma `/wp-content/plugins/gallery-plugin/template/` u "
+#~ "direktorijum vaše teme za ispravan rad modula Galerija"
+
+#~ msgid "Galleries"
+#~ msgstr "Galerije"
+
+#~ msgid "Gallery"
+#~ msgstr "Galerija"
+
+#~ msgid "Add a Gallery"
+#~ msgstr "Dodaj Galeriju"
+
+#~ msgid "Add New Gallery"
+#~ msgstr "Dodaj novu Galeriju"
+
+#~ msgid "Edit Gallery"
+#~ msgstr "Uredi Galeriju"
+
+#~ msgid "New Gallery"
+#~ msgstr "Nova Galerija"
+
+#~ msgid "View Gallery"
+#~ msgstr "Pregled Galerije"
+
+#~ msgid "Find a Gallery"
+#~ msgstr "Pronađi Galeriju"
+
+#~ msgid "No Gallery found"
+#~ msgstr "Nije pronađena Galerija"
+
+#~ msgid "Upload File"
+#~ msgstr "Učitaj fajl"
+
+#~ msgid "Gallery Shortcode"
+#~ msgstr "Kratak kod za Galeriju"
+
+#~ msgid ""
+#~ "The gallery temp directory (gallery-plugin/upload/files) is not available "
+#~ "for record on your webserver. Please use the standard WP functionality to "
+#~ "upload images (media library)"
+#~ msgstr ""
+#~ "Privremeni direktorijum galerije (gallery-plugin/upload/files) nije "
+#~ "dostupan za arhiviranje na vašem web serveru. Molimo vas da koristite "
+#~ "standardne WP funkcije za učitavanje slika (biblioteka medija)"
+
+#~ msgid "Choose an image for upload:"
+#~ msgstr "Izaberi sliku za učitavanje:"
+
+#~ msgid "Please enable JavaScript to use the file uploader."
+#~ msgstr ""
+#~ "Molimo vas omogućite da JavaScript koristi program za učitavanje fajlova."
+
+#~ msgid "Allow the download link for all images in this gallery"
+#~ msgstr "Dozvoli link za preuzimanje za sve slike u ovoj galeriji"
+
+#~ msgid ""
+#~ "Please use the drag and drop function to change an order of the images "
+#~ "displaying and do not forget to save the post."
+#~ msgstr ""
+#~ "Molimo vas da koristite funkciju prevlačenja da biste izmenili redosled "
+#~ "prikazanih slika i ne zaboravite da sačuvate post."
+
+#~ msgid "Please make a choice"
+#~ msgstr "Molimo vas izaberite"
+
+#~ msgid "Sort images by"
+#~ msgstr "Poređaj slike po"
+
+#~ msgid "sort images"
+#~ msgstr "poređaj slike"
+
+#~ msgid "on the plugin settings page ("
+#~ msgstr "na stranici za podešavanje modula ("
+
+#~ msgid "Title"
+#~ msgstr "Naslov"
+
+#~ msgid "URL"
+#~ msgstr "URL"
+
+#~ msgid "(by click on image opens a link in a new window)"
+#~ msgstr "(klikom na sliku otvara se link u novom prozoru)"
+
+#~ msgid "This setting is available in Pro version"
+#~ msgstr "Ovo podešavanje je dostupno u Pro verziji"
+
+#~ msgid "Open the link"
+#~ msgstr "Otvori link"
+
+#~ msgid "Current window"
+#~ msgstr "Trenutni prozor"
+
+#~ msgid "New window"
+#~ msgstr "Novi prozor"
+
+#~ msgid "Delete"
+#~ msgstr "Obriši"
+
+#~ msgid ""
+#~ "You can add a Single Gallery to the page or post by inserting this "
+#~ "shortcode into the content"
+#~ msgstr ""
+#~ "Možete dodati Jedinstvenu galeriju na stranicu ili post ubacivanjem ovog "
+#~ "kratkog koda u sadržaj."
+
+#~ msgid ""
+#~ "If you want to display a short description containing a screenshot and "
+#~ "the link to the Single Gallery Page"
+#~ msgstr ""
+#~ "Ako želite da prikažete kratak opis koji sadrži snimak ekrana i link ka "
+#~ "stranici sa Jedinstvenom galerijom."
+
+#~ msgid "Author"
+#~ msgstr "Autor"
+
+#~ msgid "Photo"
+#~ msgstr "Foto"
+
+#~ msgid "Publishing"
+#~ msgstr "Izdanje"
+
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgid "See images &raquo;"
+#~ msgstr "Pogledaj sliku &raquo;"
+
+#~ msgid "Settings are saved"
+#~ msgstr "Podešavanja su sačuvana"
+
+#~ msgid "Gallery Settings"
+#~ msgstr "Podešavanja Galerije"
+
+#~ msgid ""
+#~ "If you would like to add a Single Gallery to your page or post, just copy "
+#~ "and paste this shortcode into your post or page:"
+#~ msgstr ""
+#~ "Ako želite da dodate Jedinstvenu Galeriju na vašu stranicu ili post, samo "
+#~ "kopirajte i prelepite ovaj kratki kod na vaš post ili stranicu:"
+
+#~ msgid "Image size for the album cover"
+#~ msgstr "Veličina slike za naslovnu stranicu albuma"
+
+#~ msgid "Image size"
+#~ msgstr "Veličina slike"
+
+#~ msgid "Width (in px)"
+#~ msgstr "Širina (u pikselima)"
+
+#~ msgid "Height (in px)"
+#~ msgstr "Visina (u pikselima)"
+
+#~ msgid "Gallery image size"
+#~ msgstr "Veličina slika u galeriji"
+
+#~ msgid ""
+#~ "WordPress will create a new thumbnail with the specified dimensions when "
+#~ "you upload a new photo."
+#~ msgstr ""
+#~ "WordPress će kreirati novi umanjeni prikaz sa navedenim dimenzijama kada "
+#~ "učitate novu sliku."
+
+#~ msgid "Gallery image size in the lightbox"
+#~ msgstr "Veličina slika u galeriji u lightbox skriptu"
+
+#~ msgid "Max width (in px)"
+#~ msgstr "Max širina (u pikselima)"
+
+#~ msgid "Max height (in px)"
+#~ msgstr "Max visina (u pikselima)"
+
+#~ msgid "Display a full size image in the lightbox"
+#~ msgstr "Prikaži sliku u punoj veličini u lightbox-u"
+
+#~ msgid "Crop position"
+#~ msgstr "Pozicija za kropovanje"
+
+#~ msgid "Horizontal"
+#~ msgstr "Horizontalno"
+
+#~ msgid "left"
+#~ msgstr "levo"
+
+#~ msgid "center"
+#~ msgstr "centar"
+
+#~ msgid "right"
+#~ msgstr "desno"
+
+#~ msgid "Vertical"
+#~ msgstr "Vertikalno"
+
+#~ msgid "top"
+#~ msgstr "vrh"
+
+#~ msgid "bottom"
+#~ msgstr "dno"
+
+#~ msgid "Lightbox background"
+#~ msgstr "Lightbox pozadina"
+
+#~ msgid "Default"
+#~ msgstr "Podrazumevano"
+
+#~ msgid "Background transparency (from 0 to 1)"
+#~ msgstr "Pozadinska transparentnost (od 0 do 1)"
+
+#~ msgid "Select a background color"
+#~ msgstr "Izaberi pozadinsku boju"
+
+#~ msgid "Background color"
+#~ msgstr "Pozadinska boja"
+
+#~ msgid ""
+#~ "This functionality is available in the Pro version of the plugin. For "
+#~ "more details, please follow the link"
+#~ msgstr ""
+#~ "Ova funkcija je dostupna u Pro verziji modula. Za više detalja pratite "
+#~ "ovaj link"
+
+#~ msgid "Images with border"
+#~ msgstr "Slike sa okvirima"
+
+#~ msgid "Border width in px, just numbers"
+#~ msgstr "Širina okvira u pikselima, samo brojevi"
+
+#~ msgid "Select a border color"
+#~ msgstr "Izaberite boju okvira"
+
+#~ msgid "Number of images in the row"
+#~ msgstr "Broj slika u redu"
+
+#~ msgid "Start slideshow"
+#~ msgstr "Započni projekciju slajdova"
+
+#~ msgid "Slideshow interval"
+#~ msgstr "Interval projekcije slajdova"
+
+#~ msgid "Attachment ID"
+#~ msgstr "ID priloga"
+
+#~ msgid "Image Name"
+#~ msgstr "Ime slike"
+
+#~ msgid ""
+#~ "Sorting order (the input field for sorting order in the Insert / Upload "
+#~ "Media Gallery dialog)"
+#~ msgstr ""
+#~ "Raspoređivanje (polje za unos za sortiranje u dijalogu Insert / Upload "
+#~ "Media Gallery)"
+
+#~ msgid "Random"
+#~ msgstr "Nasumično"
+
+#~ msgid "Sort images"
+#~ msgstr "Sortiraj slike"
+
+#~ msgid ""
+#~ "ASC (ascending order from lowest to highest values - 1, 2, 3; a, b, c)"
+#~ msgstr ""
+#~ "ASC (rastući redosled od najnižih do najviših vrednosti - 1, 2, 3; a, b, "
+#~ "c)"
+
+#~ msgid ""
+#~ "DESC (descending order from highest to lowest values - 3, 2, 1; c, b, a)"
+#~ msgstr ""
+#~ "DESC (opadajući redosled od najviših do najnižih vrednosti  - 3, 2, 1; c, "
+#~ "b, a)"
+
+#~ msgid "Display text above the image"
+#~ msgstr "Prikaži tekst iznad slike"
+
+#, fuzzy
+#~ msgid ""
+#~ "Turn off the checkbox, if you want to display text just in a lightbox"
+#~ msgstr "Ako želite da prikažete tekst samo u lightbox-u"
+
+#~ msgid "Display the Back link"
+#~ msgstr "Prikaži povratni link"
+
+#~ msgid "Display the Back link in the shortcode"
+#~ msgstr "Prikaži povratni link u kratkom kodu"
+
+#~ msgid "The Back link text"
+#~ msgstr "Tekst u povratnom linku"
+
+#~ msgid "The Back link URL"
+#~ msgstr "URL povratnog linka"
+
+#~ msgid "Gallery page (Page with Gallery Template)"
+#~ msgstr "Stranica galerije (Stranica sa šablonom galerije)"
+
+#~ msgid "(Full URL to custom page)"
+#~ msgstr "(Puni URL ka korisničkoj stranici)"
+
+#~ msgid "The Read More link text"
+#~ msgstr "Tekst u linku Pročitaj više"
+
+#, fuzzy
+#~ msgid "Display Like buttons in the lightbox"
+#~ msgstr "Afficher une image en taille normale dans le boite"
+
+#~ msgid "FaceBook"
+#~ msgstr "FaceBook"
+
+#, fuzzy
+#~ msgid "Twitter"
+#~ msgstr "Titre"
+
+#~ msgid "Pinterest"
+#~ msgstr "Pinterest"
+
+#~ msgid "Google +1"
+#~ msgstr "Google +1"
+
+#~ msgid "Save Changes"
+#~ msgstr "Sačuvaj izmene"
+
+#~ msgid "FAQ"
+#~ msgstr "FAQ"
+
+#~ msgid "Support"
+#~ msgstr "Podrška"
+
+#~ msgid "Sorry, nothing found."
+#~ msgstr "Nažalost nije pronađeno"
+
+#~ msgid "Download high resolution image"
+#~ msgstr "Preuzmi sliku u visokoj rezoluciji"
+
+#~ msgid "Image"
+#~ msgstr "Slika"
+
+#~ msgid "Add New"
+#~ msgstr "Ajouter"
+
+#~ msgid "Search Galleries"
+#~ msgstr "Rechercher une galerie"
+
+#~ msgid "Please do not forget to select "
+#~ msgstr "Merci de ne pas oublier de sélectionner"
+
+#~ msgid "Attachments order by"
+#~ msgstr "Fichiers trier par"
+
+#~ msgid "attachments order"
+#~ msgstr "ordre des fichiers"
+
+#~ msgid "Size for gallery image"
+#~ msgstr "Taille de la vignette de la galerie"
+
+#~ msgid "attachment title"
+#~ msgstr "titre du fichier"
+
+#~ msgid "Attachments order"
+#~ msgstr "Ordre des fichiers"
+
+#~ msgid "Label for Return link"
+#~ msgstr "Texte du lien de retour"
+
+#~ msgid "URL for Return link"
+#~ msgstr "URL du lien de retour"

@@ -1,0 +1,32 @@
+Plugin Name: WPMU Dev code library
+Author:      Philipp Stracker
+
+Change Log:
+----------------------------------------------------------------------
+
+1.0.5 - 2014-07-11
+----------------------------------------------------------------------
+- Fix buddypress warning caused by calling get_current_user_id too early.
+- Add new parameter to ajax().load_http() to specify the target frame.
+- Change function name "load_textlang" to "translate_plugin"
+- Fix issues with url translation (css_url / js_url)
+
+1.0.4 - 2014-07-10
+----------------------------------------------------------------------
+- Fix warning about static functions.
+
+1.0.3 - 2014-07-09
+----------------------------------------------------------------------
+- Support for Windows server (fixes javascript errors)
+
+1.0.2 - 2014-07-09
+----------------------------------------------------------------------
+- Correct the "pointer" function to dismis pointers correctly.
+
+1.0.1 - 2014-07-09
+----------------------------------------------------------------------
+- PHP 5.2 compatibility
+
+1.0 - 2014-07-01
+----------------------------------------------------------------------
+- First version.

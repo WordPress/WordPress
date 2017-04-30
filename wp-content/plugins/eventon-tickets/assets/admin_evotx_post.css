@@ -1,0 +1,74 @@
+/*
+	EventON event post only styles
+*/
+
+
+	.evo_dark_metabox_darker{
+		margin: 15px -25px -15px;
+	}
+	.evotx_tickets{
+		margin:0 -25px;
+	}
+	.evotx_tickets h4{
+		padding: 0 25px; margin: 0;
+		font-style: italic;
+		font-size: 18px;
+	}
+	.evotx_tickets table{border-top: 1px solid #999; margin-top: 10px;}
+	.evotx_tickets table td{
+		border-bottom: 1px solid #858484;
+		padding: 5px;
+	}
+	.evotx_tickets table td:first-child{
+		padding-left: 25px;
+	}
+
+	.evotx_tickets .actions{padding: 10px 25px}
+	
+	.evotx_tickets .actions a.attendees:before{content: "\f307";padding-right: 5px;}
+	.evotx_tickets .actions a.edit:before{content: "\f107";}
+	.evotx_tickets .actions a.download:before{content: "\f491";padding-right: 5px;}
+
+	.evotx_tickets table p.yesno_leg_line {padding: 3px 0 5px 0;}
+	
+	.evotx_lightbox .eventon_popup_text .evotx p.attendee:hover{
+		background-color:#F7F7F7;
+	}
+	.evotx_lightbox .eventon_popup_text .evotx p.attendee{
+		border-bottom: 1px solid #E6E6E6;
+		margin: 0;
+		padding: 8px 5px;
+	}
+	.evotx_lightbox .eventon_popup_text .evotx p.attendee span.txcount, 
+	.evotx_lightbox .eventon_popup_text .evotx p.header span.txcount, .evotx_lightbox .eventon_popup_text .evotx p.attendee span.checkin{float: right;}
+	.evotx_lightbox .eventon_popup_text .evotx p.attendee span.txcount{
+		font-size: 16px;padding-left: 10px;
+	}
+	.evotx_lightbox .eventon_popup_text .evotx p.attendee span.checkin.checked{background-color: #A3C56F;}
+	.evotx_lightbox .eventon_popup_text .evotx p.attendee span.checkin:hover{opacity: 0.6}
+	.evotx_lightbox .eventon_popup_text .evotx p.attendee span.checkin{
+		background: #dfa872;
+		color: #fff;
+		font-size: 11px;
+		border-radius: 4px;
+		padding: 2px 5px;
+		text-transform: uppercase;
+		margin-top: 3px;
+		cursor: pointer;
+	}
+	.evotx_lightbox .eventon_popup_text .evotx p.attendee b{font-style: italic; text-transform: uppercase;}
+	.evotx_lightbox .eventon_popup_text .evotx p.attendee span.tixid{font-style: italic;opacity:0.6;}
+
+	.evotx_lightbox .eventon_popup_text .evotx p.header.nada{border-bottom: none;}
+	.evotx_lightbox .eventon_popup_text .evotx p.header{
+		font-size: 18px; font-style: italic; 
+		border-bottom: 1px solid #E6E6E6;
+		padding-bottom: 5px;
+	}
+
+/* lightbox styling */
+	
+
+	@media (max-width: 600px){
+		
+	}

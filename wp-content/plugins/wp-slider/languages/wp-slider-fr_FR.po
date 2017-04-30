@@ -1,0 +1,203 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Slider v0.3\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2011-07-16 17:31+0000\n"
+"Last-Translator: jcchavezs <jcchavezs@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-Country: FRANCE\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: admin.php:14
+#@ wp-slider
+msgid "Select one"
+msgstr "Sélectionnez un"
+
+#: admin.php:50
+#: admin.php:242
+#@ default
+#@ wp-slider
+msgid "Options saved"
+msgstr "Les options enregistrées"
+
+#: admin.php:61
+#@ wp-slider
+msgid "Slider example"
+msgstr "Par exemple Curseur"
+
+#: admin.php:93
+#: admin.php:270
+#: admin.php:281
+#@ wp-slider
+msgid "Name"
+msgstr "Nom"
+
+#: admin.php:97
+#@ wp-slider
+msgid "Width"
+msgstr "Largeur"
+
+#: admin.php:101
+#@ wp-slider
+msgid "Height"
+msgstr "Hauteur"
+
+#: admin.php:105
+#@ wp-slider
+msgid "Effect"
+msgstr "Effet"
+
+#: admin.php:109
+#@ wp-slider
+msgid "Easing"
+msgstr "Alléger"
+
+#: admin.php:113
+#@ wp-slider
+msgid "Frecuency"
+msgstr "Frecuency"
+
+#: admin.php:114
+#: admin.php:118
+#@ wp-slider
+msgid "seconds"
+msgstr "secondes"
+
+#: admin.php:117
+#@ wp-slider
+msgid "Delay"
+msgstr "Délai"
+
+#: admin.php:121
+#@ wp-slider
+msgid "onBefore function name"
+msgstr "nom de la fonction onBefore"
+
+#: admin.php:126
+#@ wp-slider
+msgid "onAfter function name"
+msgstr "nom de la fonction onAfter"
+
+#: admin.php:143
+#@ wp-slider
+msgid "No action"
+msgstr "Aucune action"
+
+#: admin.php:144
+#@ wp-slider
+msgid "Delete all"
+msgstr "Supprimer tous"
+
+#: admin.php:156
+#: admin.php:167
+#@ wp-slider
+msgid "Filename"
+msgstr "Filename"
+
+#: admin.php:157
+#: admin.php:168
+#@ wp-slider
+msgid "Title"
+msgstr "Titre"
+
+#: admin.php:157
+#: admin.php:168
+#@ wp-slider
+msgid "Content"
+msgstr "Contenu"
+
+#: admin.php:158
+#: admin.php:169
+#@ wp-slider
+msgid "URL"
+msgstr "URL"
+
+#: admin.php:159
+#: admin.php:170
+#@ wp-slider
+msgid "Order"
+msgstr "Ordre"
+
+#: admin.php:160
+#: admin.php:171
+#@ wp-slider
+msgid "Status"
+msgstr "Statut"
+
+#: admin.php:161
+#: admin.php:172
+#: admin.php:272
+#: admin.php:283
+#@ wp-slider
+msgid "Action"
+msgstr "Action"
+
+#: admin.php:180
+#: admin.php:199
+#@ wp-slider
+msgid "Target"
+msgstr "Target"
+
+#: admin.php:190
+#@ default
+msgid "Cancel"
+msgstr ""
+
+#: admin.php:197
+#@ default
+msgid "change"
+msgstr ""
+
+#: admin.php:215
+#: admin.php:297
+#@ wp-slider
+msgid "Delete this slider?"
+msgstr "Supprimer ce curseur?"
+
+#: admin.php:215
+#: admin.php:297
+#@ wp-slider
+msgid "Delete"
+msgstr "Supprimer"
+
+#: admin.php:219
+#@ wp-slider
+msgid "There are no slides yet"
+msgstr "Il ny a pas encore diapositives"
+
+#: admin.php:224
+#@ wp-slider
+msgid "Save Changes"
+msgstr "Enregistrer les modifications"
+
+#: admin.php:258
+#@ wp-slider
+msgid "Add new slider"
+msgstr "Ajouter nouveau curseur"
+
+#: admin.php:302
+#@ wp-slider
+msgid "There are not sliders yet"
+msgstr "Il n&#39;ya pas encore curseurs"
+
+#: admin.php:73
+#@ wp-slider
+msgid "Slider code"
+msgstr "Code Curseur"
+
+#: admin.php:75
+#@ wp-slider
+msgid "Use the following code to insert this slider in your template:"
+msgstr "Utilisez le code suivant pour insérer le curseur dans votre modèle:"
+

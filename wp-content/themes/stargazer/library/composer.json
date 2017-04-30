@@ -1,0 +1,21 @@
+{
+	"name"       : "justintadlock/hybrid-core",
+	"description": "Hybrid Core WordPress theme framework",
+	"keywords"   : ["wordpress"],
+	"homepage"   : "http://themehybrid.com/hybrid-core",
+	"license"    : "GPL-2.0+",
+	"authors"    : [
+		{
+			"name"    : "Justin Tadlock",
+			"email"   : "justin@justintadlock.com",
+			"homepage": "http://justintadlock.com"
+		}
+	],
+	"support"    : {
+		"issues": "https://github.com/justintadlock/hybrid-core/issues",
+		"forum" : "http://themehybrid.com/support/forum/hybrid-core"
+	},
+	"autoload"   : {
+		"classmap": ["hybrid.php"]
+	}
+}

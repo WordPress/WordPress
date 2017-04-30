@@ -1,0 +1,52 @@
+.div-clear{
+	clear:both;
+}
+
+.div-left{
+	float:left;
+}
+
+.slide-opt-left{
+	float:left;
+	padding:10px;
+}
+
+.slide-opt-left ul li{	
+	margin-bottom:10px;
+	border-bottom:1px solid #EEEBEB;
+	height:75px;
+}
+
+.slide-opt-left .post_date{
+	height:220px;
+}
+
+.slide-opt-left .post_date span{
+	margin-bottom:15px;
+}
+
+.slide-opt-left label{
+	display:block;
+	font-weight:bold;
+	margin-bottom:2px;
+}
+
+.slide-opt-left span{	
+	display:block;
+}
+
+.wd1{
+	width:370px;
+}
+
+.wd2{
+	width:460px;
+}
+
+.space{
+	padding:10px;
+}
+
+.slide-opt-left  .iris-picker{
+	z-index:1;
+}

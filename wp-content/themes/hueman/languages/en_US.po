@@ -1,0 +1,157 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Hueman\n"
+"POT-Creation-Date: 2013-12-27 14:39+0100\n"
+"PO-Revision-Date: 2013-12-27 14:39+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+#: ../404.php:14
+msgid ""
+"The page you are trying to reach does not exist, or has been moved. Please "
+"use the menus or the search box to find what you are looking for."
+msgstr ""
+
+#: ../comments.php:7
+msgid "No Responses"
+msgstr ""
+
+#: ../comments.php:7
+msgid "1 Response"
+msgstr ""
+
+#: ../comments.php:7
+msgid "% Responses"
+msgstr ""
+
+#: ../comments.php:10
+msgid "Comments"
+msgstr ""
+
+#: ../comments.php:11
+msgid "Pingbacks"
+msgstr ""
+
+#: ../footer.php:67
+msgid "All Rights Reserved."
+msgstr ""
+
+#: ../footer.php:73
+msgid "Powered by"
+msgstr ""
+
+#: ../footer.php:73
+msgid "Theme by"
+msgstr ""
+
+#: ../search.php:10
+msgid "For the term"
+msgstr ""
+
+#: ../search.php:12
+msgid "Please try another search:"
+msgstr ""
+
+#: ../searchform.php:3
+msgid "To search type and hit enter"
+msgstr ""
+
+#: ../sidebar-2.php:5 ../sidebar.php:9
+msgid "Expand Sidebar"
+msgstr ""
+
+#: ../sidebar-2.php:10
+msgid "More"
+msgstr ""
+
+#: ../sidebar.php:14
+msgid "Follow:"
+msgstr ""
+
+#: ../single.php:14
+msgid "by"
+msgstr ""
+
+#: ../single.php:23
+msgid "Pages:"
+msgstr ""
+
+#: ../single.php:34
+msgid "Tags:"
+msgstr ""
+
+#: ../functions/widgets/alx-tabs.php:27
+msgid "Recent Posts"
+msgstr ""
+
+#: ../functions/widgets/alx-tabs.php:28
+msgid "Popular Posts"
+msgstr ""
+
+#: ../functions/widgets/alx-tabs.php:29
+msgid "Recent Comments"
+msgstr ""
+
+#: ../functions/widgets/alx-tabs.php:30
+msgid "Tags"
+msgstr ""
+
+#: ../functions/widgets/alx-tabs.php:185
+msgid "says:"
+msgstr ""
+
+#: ../inc/page-title.php:19
+msgid "Search results"
+msgstr ""
+
+#: ../inc/page-title.php:22
+msgid "Error 404."
+msgstr ""
+
+#: ../inc/page-title.php:22
+msgid "Page not found!"
+msgstr ""
+
+#: ../inc/page-title.php:26
+msgid "Author:"
+msgstr ""
+
+#: ../inc/page-title.php:29
+msgid "Category:"
+msgstr ""
+
+#: ../inc/page-title.php:32
+msgid "Tagged:"
+msgstr ""
+
+#: ../inc/page-title.php:35
+msgid "Daily Archive:"
+msgstr ""
+
+#: ../inc/page-title.php:38
+msgid "Monthly Archive:"
+msgstr ""
+
+#: ../inc/page-title.php:41
+msgid "Yearly Archive:"
+msgstr ""
+
+#: ../inc/post-nav.php:3
+msgid "Next story"
+msgstr ""
+
+#: ../inc/post-nav.php:4
+msgid "Previous story"
+msgstr ""
+
+#: ../inc/related-posts.php:6
+msgid "You may also like..."
+msgstr ""

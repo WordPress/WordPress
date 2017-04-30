@@ -1,0 +1,59 @@
+Single Event for EventON Plugin
+====================================
+v0.12 (2014-6-1)
+ADDED: User interaction open as single event for global calendar setting to shortcode generator
+ADDED: Single event pages to support language translations based off calendar
+UPDATED: Compatibility with eventON 2.2.12
+FIXED: Other minor bugs
+
+v0.11(2014-5-20)
+UPDATED: Slowness on wp-admin pages
+
+v0.10(2014-2-18)
+FIXED: event box open by default not working has been solved
+FIXED: social icons hover height issue
+
+v0.9 (2014-2-13)
+FIXED: EventON auto update error caused by addons and compatibility to eventON 2.2.7
+
+v0.8 (2014-1-27)
+ADDED: Ability to show social share icons only on single event pages or everywhere
+ADDED: Ability to open single event box as popup lightbox
+ADDED: Improvement to single event box shortcode to allow expanded eventCard adding via shortcode
+ADDED: pluggable filter evo_se_social_media and evo_se_setting_fields to allow social media additions
+ADDED: Facebook share button
+UPDATED: Sidebar functionality
+FIXED: event type name not appearing
+FIXED: undefined constant eventon error
+FIXED: Multiple URLs on twitter share
+FIXED: facebook script loading multiple times
+
+v0.7 (2013-12-3)
+FIXED: single event template error
+
+v0.6(2013-11-30)
+FIXED: removed error on double comment boxes and sidebar
+
+v0.5 (201311-21)
+ADDED: Comments on single event page
+ADDED: Event excerpt box. For single event box, now you can add your own custom event excerpt details or have the excerpt auto generate from full event details.
+ADDED: Event start month and year to the header of single event page
+UPDATED: compatibility with eventON 2.2
+UPDATED: moved single event template php files inside "templates" folder
+FIXED: Facebook social share button code updated
+FIXED: JQuery delegate()=>on()
+FIXED: incorrect guide instructions
+
+v0.4 (2013-8-6)
+TWEAKED: Compatibilty to eventON 2.1.14
+ADDED: Shortcode to add one event detail box linking to event page -- [add_single_eventon]
+ADDED: Single event box can also be set to a short excerpt of details
+
+v0.3 (2013-6-26)
+FIXED: Minor tweaks and bugs fixed
+
+v0.2
+UPDATED: to work with changed pluggable function in eventon
+
+v0.1 (2013-5-7)
+Initial Release

@@ -1,0 +1,13 @@
+@import url( '//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic|Open+Sans:300,400,600,700' );
+@import url( '../library/css/one-five.min.css' );
+@import url( '../library/css/gallery.min.css' );
+@import url( 'mediaelement/mediaelement.min.css' );
+@import url( '../style.min.css' );
+
+/* Styles specific to the editor. */
+
+body#tinymce {
+	margin:    0 auto;
+	padding:   1.5rem 1.5rem 0;
+	border:    none;
+}

@@ -1,0 +1,4 @@
+.po-header-toggle { margin: 10px 0 0 0; padding-right:20px; cursor: pointer; background: transparent url('../images/expand.gif') right 3px no-repeat; }
+.po-header-collapse { background: transparent url('../images/collapse.gif') right 3px no-repeat; margin-bottom: 3px;}
+.csp-ta-right { text-align: left; }
+#csp-dialog-msgid, #csp-dialog-msgid-plural { direction: ltr; }
