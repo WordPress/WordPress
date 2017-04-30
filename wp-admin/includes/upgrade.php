@@ -2396,6 +2396,7 @@ function dbDelta( $queries = '', $execute = true ) {
 				unset( $cfields[ $tablefield_field_lowercased ] );
 			} else {
 				// This field exists in the table, but not in the creation queries?
+				$cqueries[] = "ALTER TABLE {$table} DROP COLUMN {$tablefield->Field}";
 			}
 		}
 
