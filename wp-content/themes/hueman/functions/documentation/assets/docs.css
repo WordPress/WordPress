@@ -1,0 +1,56 @@
+/* sticky sidebar */
+.sidebar { width: 180px; float: right; position: fixed; margin-left: 700px; margin-top: -1px; z-index: 9999; }
+.sidebar .well { padding: 8px 0; -moz-border-radius: 0 0 4px 4px; -webkit-border-radius: 0 0 4px 4px; border-radius: 0 0 4px 4px; }
+.nav span { float: left; margin-right: 6px; padding-top: 3px; }
+.nav { color: #999; }
+.nav > li { border-bottom: 1px solid #ddd; }
+.nav > li > a { padding: 8px; }
+.nav > li > ul { padding-bottom: 8px; padding-left: 38px; }
+
+/* base */
+.jumbotron { margin-bottom: 0; padding: 0; }
+.jumbotron h1 { color: #000; font-weight: bold; letter-spacing: -1px; }
+
+.container { width: 920px; }
+header .container { padding: 40px 260px 50px 60px; }
+footer .container { padding: 40px 60px 50px 60px; }
+section .container { padding: 50px 260px 60px 60px; }
+section { background: none!important; position: relative; border-bottom: 10px solid #f1f1f1; }
+
+/* sections */
+.color-01 { background-color: #35ae37; }
+section.color-01 { border-left: 10px solid #35ae37; }
+.color-02 { background-color: #308fbe; }
+section.color-02 { border-left: 10px solid #308fbe; }
+.color-03 { background-color: #c63f3d; }
+section.color-03 { border-left: 10px solid #c63f3d; }
+.color-04 { background-color: #f89406; }
+section.color-04 { border-left: 10px solid #f89406; }
+.color-05 { background-color: #32c2b3; }
+section.color-05 { border-left: 10px solid #32c2b3; }
+.color-06 { background-color: #c232c0; }
+section.color-06 { border-left: 10px solid #c232c0; }
+.color-07 { background-color: #6347aa; }
+section.color-07 { border-left: 10px solid #6347aa; }
+
+/* text */
+h1 { font-weight: bold; }
+h1 span { padding: 10px 12px; }
+section .label { position: absolute; left: -6px; top: 78px; font-size: 17px; }
+section p { margin-bottom: 20px; }
+section p,
+section li { font-size: 15px; line-height: 24px; }
+section > ul,
+section > ol { margin-bottom: 20px; }
+section img { border: 1px solid #ddd; -webkit-box-shadow: 0 0 10px rgba(0,0,0,0.1); box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+section dt,
+section dd { font-size: 15px; line-height: 24px; }
+section dd { margin-left: 0; }
+section h3 {}
+section h5 { font-size: 15px; }
+pre, code { overflow: auto; white-space: pre!important; }
+hr { margin: 40px 0; }
+
+/* elements */
+.alert { margin-top: 20px; }
+.alert ul { margin-top: 10px; }

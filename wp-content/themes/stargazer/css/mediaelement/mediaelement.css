@@ -1,0 +1,1019 @@
+/**
+ * WordPress Theme Mediaelement.js Stylesheet
+ *
+ * A base stylesheet to allow theme developers to more easily overwrite the styles for the WordPress media 
+ * player, which is mediaelement.js.  Theme developers are expected to handle colors, fonts, backgrounds, 
+ * and other stylistic elements.  This stylesheet exists as a base for layout and positioning.  However, 
+ * themes can also overwrite these things.
+ *
+ * This is a modified version of the default stylesheet provided by the MediaElement.js project.
+ *
+ * @version   20140416
+ * @license   http://opensource.org/licenses/MIT
+ * @author    John Dyer
+ * @author    Justin Tadlock <justin@justintadlock.com>
+ * @copyright Copyright (c) 2013
+ * @link      https://github.com/justintadlock/theme-mediaelement
+ * @link      http://mediaelementjs.com
+ */
+
+/**
+ * Table of Contents:
+ * 01: Structure
+ * 02: Media Element
+ * 03: Layers
+ * 04: Controls
+ * 05: Clear
+ * 06: Todo
+ */
+
+/**
+ * 01: Structure - Layout of the major structural elements.
+ * --------------------------------------------------------------------------- */
+
+/* ====== Container ====== */
+
+.mejs-container {
+	display:         block;
+	position:        relative;
+	margin:          0;
+	padding:         0;
+	vertical-align:  baseline;
+	outline:         none;
+	font-size:       100%;
+	background:      transparent;
+	border:          none;
+	text-decoration: none;
+}
+
+/* Alternatives to .mejs-container. Note that these classses are given to the <audio> and <video> elements. */
+.wp-audio-shortcode {}
+.mejs-container.wp-audio-shortcode {}
+
+.wp-video-shortcode {}
+.mejs-container.wp-video-shortcode {}
+
+	/* === Fullscreen view === */
+
+	.mejs-fullscreen {
+		overflow: hidden!important;
+	}
+
+		.mejs-container-fullscreen {
+			overflow: hidden;
+			position: fixed;
+			left:     0;
+			top:      0;
+			right:    0;
+			bottom:   0;
+			z-index:  1000;
+		}
+
+	/* === Inner wrapper === */
+
+	.mejs-inner {}
+
+		/* Inside structural wrappers. */
+
+		.mejs-mediaelement {}
+		.mejs-layers {}
+		.mejs-controls {}
+		.mejs-clear {}
+
+/**
+ * 02: Media Element - Wrapper for the actual media HTML (<audio>, <video>).
+ * --------------------------------------------------------------------------- */
+
+.mejs-mediaelement {
+	position: absolute;
+	top:      0;
+	left:     0;
+	width:    100%;
+	height:   100%;
+}
+
+	/* Audio and video elements */
+	.mejs-mediaelement audio {}
+	audio.wp-audio-shortcode {}
+
+	.mejs-mediaelement video {}
+	video.wp-video-shortcode {}
+
+	/* Fullscreen */
+	.mejs-container-fullscreen .mejs-mediaelement, 
+	.mejs-container-fullscreen video {
+		width:  100%;
+		height: 100%;
+	}
+
+	/* ?? */
+	.me-plugin {
+		position: absolute;
+	}
+
+	/* Embedding youtube.com, etc.??? */
+	.mejs-embed, 
+	.mejs-embed body {
+		overflow: hidden;
+		width:    100%;
+		height:   100%;
+		margin:   0;
+		padding:  0;
+	}
+
+	/* === Background ?? === */
+
+	.mejs-background {
+		position: absolute;
+		top:      0;
+		left:     0;
+	}
+
+	/* === Cannot play file link === */
+
+	.me-cannotplay a {
+		color: #fff;
+	}
+
+	.me-cannotplay span {
+		display: block;
+		padding: 15px;
+	}
+
+/**
+ * 03: Layers - Overlays and other layers to place over the media player.
+ * --------------------------------------------------------------------------- */
+
+.mejs-layers {}
+
+	/* === Poster - <video poster="example.png"> - default video image. === */
+
+	.mejs-poster {
+		position:            absolute;
+		top:                 0;
+		left:                0;
+		background-size:     contain;
+		background-position: 50% 50%;
+		background-repeat:   no-repeat;
+	}
+
+		:root .mejs-poster img {
+			display: none;
+		}
+
+		.mejs-poster img {
+			margin:  0;
+			padding: 0;
+			border:  none;
+		}
+
+	/* === Overlay === */
+
+	.mejs-overlay {
+	    position: absolute;
+	    top:      0;
+	    left:     0;
+	}
+
+		/* === Overlay play button === */
+
+		.mejs-overlay-play {
+		    cursor: pointer;
+		}
+
+			/**
+			 * Play button.  Assumes a 100px x 100px image.  Adjust top/left margins if using a different 
+			 * size.  Adjust by 1/2 of the height/width.
+			 */
+			.mejs-overlay-button {
+				position: absolute;
+				top:      50%;
+				left:     50%;
+				width:    100px;
+				height:   100px;
+				margin:   -50px 0 0 -50px;
+				/*background: url( 'images/bigplay.png' ) no-repeat;*/
+			}
+
+				/* Only needed if you use an .svg file for your normal background. */
+				.no-svg .mejs-overlay-button {
+				}
+
+				/* Adjust background position or other items when play button is hovered. */
+				.mejs-overlay:hover .mejs-overlay-button {
+					background-position: 0 -100px;
+				}
+
+		/* === Overlay loading === */
+
+		/**
+		 * Loading image is expected to be 80px by 80px.  You'll need to adjust the width, height, 
+		 * and margin values (1/2 of size) for a different size.
+		 */
+		.mejs-overlay-loading {
+			position:   absolute;
+			width:      100%;
+			height:     100%;
+			background: #333;
+			background: rgba( 51, 51, 51, 0.75 );
+		}
+
+			.mejs-overlay-loading span {
+				position:   absolute;
+				display:    block;
+				top:        50%;
+				left:       50%;
+				width:      80px;
+				height:     80px;
+				margin:     -40px 0 0 -40px;
+				/*background: transparent url( 'images/loading.gif' ) 50% 50% no-repeat;*/
+			}
+
+	/* === Captions Layer (not supported in WP core as of 3.6). === */
+
+	/* Example: http://mediaelementjs.com/examples/?name=translation */
+
+	.mejs-captions-layer {
+		position:   absolute;
+		bottom:     0;
+		left:       0;
+		text-align: center;
+		color:      #fff;
+	}
+
+		.mejs-captions-layer a {
+			color:           #fff;
+			text-decoration: underline;
+		}
+
+		.mejs-captions-position {
+			position: absolute;
+			width:    100%;
+			bottom:   15px;
+			left:     0;
+		}
+
+		.mejs-captions-position-hover {
+			bottom: 45px;
+		}
+
+			.mejs-captions-text {
+				padding:    3px 5px;
+				background: #141414;
+				background: rgba(20, 20, 20, 0.8);
+			}
+
+	/* ====== Chapters Layer (not supported in WP core as of 3.6). ====== */
+
+	/* Example: http://mediaelementjs.com/examples/?name=chapters */
+
+	.mejs-chapters {
+		position: absolute;
+		top:      0;
+		left:     0;
+		width:    10000px;
+		z-index:  1;
+
+			-xborder-right: solid 1px #fff;
+	}
+
+		.mejs-chapter {
+			overflow:   hidden;
+			position:   absolute;
+			float:      left;
+			background: #222;
+			border:     none;
+		}
+
+			.mejs-chapter-block {
+				display:       block;
+				padding:       5px;
+				color:         #fff;
+				border-right:  solid 1px #333;
+				border-bottom: solid 1px #333;
+				cursor:        pointer;
+			}
+
+				.mejs-chapter-block-last {
+				    border-right: none;
+				}
+
+				.mejs-chapter-block:hover {
+				    background: #666;
+				}
+
+				.mejs-chapter-block .ch-title {
+					display:       block;
+					white-space:   nowrap;
+					text-overflow: ellipsis;
+					margin:        0 0 3px;
+				}
+
+					.mejs-chapter-block .ch-timespan {
+						display:       block;
+						white-space:   nowrap;
+						text-overflow: ellipsis;
+						margin:        3px 0 4px;
+					}
+
+	/* === Postroll Layer === */
+
+	.mejs-postroll-layer {
+		overflow:   hidden;
+		position:   absolute;
+		bottom:     0;
+		left:       0;
+		width:      100%;
+		height:     100%;
+		background: #323232;
+		background: rgba( 50, 50, 50, 0.7 );
+		z-index:    1000;
+	}
+
+		.mejs-postroll-layer-content {
+			width:  100%;
+			height: 100%;
+		}
+
+		.mejs-postroll-close {
+			position:   absolute;
+			right:      0;
+			top:        0;
+			padding:    4px;
+			color:      #fff;
+			background: #323232;
+			background: rgba( 50, 50, 50, 0.7 );
+			cursor:     pointer;
+			z-index:    100;
+		}
+
+/**
+ * 04: Controls - The media player control panel.
+ * --------------------------------------------------------------------------- */
+
+.mejs-controls {
+	position:        absolute;
+	list-style-type: none;
+	margin:          0;
+	padding:         0;
+	bottom:          0;
+	left:            0;
+	width:           100%;
+	height:          30px;
+	background:      #323232;
+	background:      rgba( 50, 50, 50, 0.7 );
+}
+
+	/* Individual control sections. */
+	.mejs-controls div {
+		display:     block;
+		float:       left;
+		margin:      0;
+		padding:     0;
+		width:       26px;
+		height:      26px;
+		border:      none;
+		font-size:   11px;
+		line-height: 11px;
+	}
+
+	/* Individual buttons. */
+	.mejs-button button {
+		display:  block;
+		position: absolute;
+		width:    16px;
+		height:   16px;
+		margin:   7px 5px;
+		padding:  0;
+		cursor:   pointer;
+
+		border:          none;
+		font-size:       0;
+		line-height:     0;
+		text-decoration: none;
+
+		/*background: transparent url( 'images/controls.png' ) no-repeat;*/
+	}
+
+		.no-svg .mejs-button button {}
+
+		.mejs-button button:focus {
+			outline: solid 1px yellow;
+		}
+
+	/* === Play/Pause === */
+
+	.mejs-playpause-button {}
+	.mejs-play {} /* Class when playing. */
+	.mejs-play {} /* Class when paused. */
+	.mejs-stop {} /* Stop button. */
+
+		.mejs-playpause-button button {}
+
+		.mejs-play button {
+			background-position: 0 0;
+		}
+
+		.mejs-pause button {
+			background-position: 0 -16px;
+		}
+
+		.mejs-stop button {
+			background-position: -112px 0;
+		}
+
+	/* === Media Time (current time) === */
+
+	.mejs-controls .mejs-time {
+		overflow:   hidden;
+		display:    block;
+		width:      auto;
+		height:     17px;
+		padding:    8px 3px 0;
+		color:      #fff;
+		text-align: center;
+
+			-moz-box-sizing:    content-box;
+			-webkit-box-sizing: content-box;
+		box-sizing: content-box;
+	}
+
+		/* Individual elements within the time wrapper. */
+		.mejs-time span {
+			display: block;
+			float:   left;
+			width:   auto;
+			margin:  1px 2px 0 0;
+			color:   #fff;
+		}
+
+		.mejs-time .mejs-currenttime {}
+
+	/* Wrapper div for the time rail. */
+
+	.mejs-controls .mejs-time-rail {
+		direction:   ltr;
+		width:       200px;
+		padding-top: 5px;
+	}
+
+		/* Individual elements within the time rail */
+		.mejs-time-rail span {
+			display:  block;
+			position: absolute;
+			width:    180px;
+			height:   10px;
+			cursor:   pointer;
+		}
+
+		/* Total time. */
+		.mejs-time-rail .mejs-time-total {
+			margin:     5px;
+			background: #222;
+		}
+
+		/* Buffering */
+		.mejs-time-rail .mejs-time-buffering {
+			width: 100%;
+
+			/* Theme authors: Overwrite just this portion for custom colors. */
+				background-image: -o-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+				background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
+				background-image: -webkit-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+				background-image: -moz-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+				background-image: -ms-linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+			background-image:        linear-gradient(-45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
+			/* === */
+
+				-webkit-background-size: 15px 15px;
+				-moz-background-size:    15px 15px;
+				-o-background-size:        15px 15px;
+			background-size:                15px 15px;
+
+				-webkit-animation: buffering-stripes 2s linear infinite;
+				-moz-animation:    buffering-stripes 2s linear infinite;
+				-ms-animation:      buffering-stripes 2s linear infinite;
+				-o-animation:       buffering-stripes 2s linear infinite;
+			animation:                buffering-stripes 2s linear infinite;
+		}
+
+			/* Keyframes */
+				@-webkit-keyframes buffering-stripes {
+					from { background-position: 0 0;    }
+					to   { background-position: 30px 0; }
+				}
+				@-moz-keyframes buffering-stripes {
+					from { background-position: 0 0;    }
+					to   { background-position: 30px 0; }
+				}
+				@-ms-keyframes buffering-stripes {
+					from { background-position: 0 0;    }
+					to   { background-position: 30px 0; }
+				}
+				@-o-keyframes buffering-stripes {
+					from { background-position: 0 0;    }
+					to   { background-position: 30px 0; }
+				}
+			@keyframes buffering-stripes {
+				from { background-position: 0 0;    }
+				to   { background-position: 30px 0; }
+			}
+
+		/* Time loaded */
+		.mejs-time-rail .mejs-time-loaded {
+			width:      0;       /* Don't overwrite. Mediaelement will adjust the width. */
+			background: #3caac8;
+		}
+
+		/* Current time. */
+		.mejs-time-rail .mejs-time-current {
+			width:      0;       /* Don't overwrite. Mediaelement will adjust the width. */
+			background: #fff;
+		}
+
+		/* Handle for adjusting current time. */
+		.mejs-time-rail .mejs-time-handle {
+			display:    none;
+			position:   absolute;
+			top:        -2px;
+			width:      10px;
+			margin:     0;
+			background: #fff;
+			cursor:     pointer;
+			text-align: center;
+		}
+
+		/* Time float (Displays time when hovering cursor over time rail). */
+		.mejs-time-rail .mejs-time-float {
+			display:     none;
+			position:    absolute;
+			top:         -26px;
+			width:       36px;
+			height:      17px;
+			margin-left: -18px;
+			color:       #111;
+			background:  #eee;
+			border:      solid 1px #333;
+			text-align:  center;
+		}
+
+			.mejs-long-video .mejs-time-rail .mejs-time-float {
+				width: 48px;
+			}
+
+			/* Current time position hovering. */
+			.mejs-time-rail .mejs-time-float-current {
+				display:    block;
+				left:       0;
+				margin:     2px;
+				width:      30px;
+				text-align: center;
+			}
+
+				.mejs-long-video .mejs-time-rail .mejs-time-float-current {
+					width: 44px;
+				}
+
+			/* Pointer at the botton of the time float. */
+			.mejs-time-rail .mejs-time-float-corner {
+				display:      block;
+				position:     absolute;
+				top:          15px;
+				left:         13px;
+				width:        0;
+				height:       0;
+				line-height:  0;
+				border:       solid 5px #eee;
+				border-color: #eee transparent transparent transparent;
+
+					-webkit-border-radius: 0;
+					-moz-border-radius:    0;
+				border-radius: 0;
+			}
+
+				.mejs-long-video .mejs-time-rail .mejs-time-float-corner {
+					left: 18px;
+				}
+
+	/* === Fullscreen === */
+
+	/* Fullscreen button */
+	.mejs-fullscreen-button button {
+		background-position: -32px 0;
+	}
+	.mejs-unfullscreen button {
+		background-position: -32px -16px;
+	}
+
+	/* === Volume === */
+
+	/* Volume button */
+	.mejs-controls .mejs-volume-button {
+		position: relative;
+	}
+	.mejs-mute {}
+	.mejs-unmute {}
+
+		.mejs-volume-button:hover {}
+
+		.mejs-volume-button button {}
+
+		.mejs-volume-button .mejs-mute button {
+			background-position: -16px -16px;
+		}
+
+		.mejs-volume-button .mejs-unmute button {
+			background-position: -16px 0;
+		}
+
+		/* Vertical volume slider (wrapper). */
+		.mejs-volume-button .mejs-volume-slider {
+			display:    none;
+			position:   absolute;
+			top:        -115px;
+			left:       0;
+			width:      25px;
+			height:     115px;
+			margin:     0;
+			background: #323232;
+			background: rgba( 50, 50, 50, 0.7 );
+			z-index:    1;
+		}
+
+		/* Volume total. */
+		.mejs-volume-button .mejs-volume-slider .mejs-volume-total {
+			position:   absolute;
+			top:        8px;
+			left:       11px;
+			width:      2px;
+			height:     100px;
+			margin:     0;
+			background: #ddd;
+		}
+
+		/* Volume current */
+		.mejs-volume-button .mejs-volume-slider .mejs-volume-current {
+			position:   absolute;
+			top:        8px;
+			left:       11px;
+			width:      2px;
+			height:     100px;
+			margin:     0;
+			background: #ddd;
+		}
+
+		/* Volume slider handle */
+		.mejs-volume-button .mejs-volume-slider .mejs-volume-handle {
+			position:   absolute;
+			top:        -3px;
+			left:       4px;
+			width:      16px;
+			height:     6px;
+			margin:     0;
+			background: #ddd;
+			cursor:     N-resize;
+		}
+
+	/* === Horizontal volume slider (audio) === */
+	.mejs-controls .mejs-horizontal-volume-slider {
+		height:   26px;
+		width:    60px;
+		position: relative;
+	}
+
+		/* Volume total. */
+		.mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
+			position:   absolute;
+			top:        11px;
+			left:       0;
+			width:      50px;
+			height:     8px;
+			margin:     0;
+			padding:    0;
+			font-size:  1px;
+			background: #333;
+		}
+
+		/* Volume current. */
+		.mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
+			position:   absolute;
+			top:        11px;
+			left:       0;
+			width:      50px;
+			height:     8px;
+			margin:     0;
+			padding:    0;
+			font-size:  1px;
+			background: #fff;
+		}
+
+		/* Volume handle. */
+		.mejs-horizontal-volume-slider .mejs-horizontal-volume-handle {
+		    display: none;
+		}
+
+	/* === Loop Button === */
+
+	.mejs-controls .mejs-loop-off {}
+	.mejs-controls .mejs-loop-on {}
+
+		.mejs-loop-off button {
+			background-position: -64px -16px;
+		}
+
+		.mejs-loop-on button {
+			background-position: -64px 0;
+		}
+
+	/* === Backlight button === */
+
+	.mejs-controls .mejs-backlight-off {}
+	.mejs-controls .mejs-backlight-on {}
+
+		.mejs-backlight-off button {
+			background-position: -80px -16px;
+		}
+		.mejs-backlight-on button {
+		    background-position: -80px 0;
+		}
+
+	/* === Picture controls button === */
+
+	.mejs-controls .mejs-picturecontrols-button {
+		background-position: -96px 0;
+	}
+
+	/* === Captions (note that WP core doesn't support these as of 3.6). === */
+
+	/* Example: http://mediaelementjs.com/examples/?name=translation */
+
+	/* Captions button wrapper */
+	.mejs-controls .mejs-captions-button {
+		position: relative;
+	}
+
+		.mejs-captions-button button {
+			background-position: -48px 0;
+		}
+
+		.mejs-captions-button .mejs-captions-selector {
+			overflow:   hidden;
+			visibility: hidden;
+			position:   absolute;
+			bottom:     26px;
+			right:      -10px;
+			width:      130px;
+			height:     100px;
+			padding:    10px;
+			background: #323232;
+			background: rgba( 50, 50, 50, 0.7 );
+		}
+
+			.mejs-captions-button .mejs-captions-selector ul {
+				list-style-type: none;
+				overflow:        hidden;
+				display:         block;
+				margin:          0;
+				padding:         0;
+			}
+
+				.mejs-captions-button .mejs-captions-selector li {
+					list-style-type: none;
+					overflow:        hidden;
+					display:         block;
+					margin:          0 0 6px;
+					padding:         0;
+					color:           #fff;
+				}
+
+					.mejs-captions-button .mejs-captions-selector input {
+						clear:  both;
+						float:  left;
+						margin: 3px 3px 0 5px;
+					}
+
+					.mejs-captions-button .mejs-captions-selector label {
+						float:   left;
+						width:   100px;
+						padding: 4px 0 0;
+					}
+
+		.mejs-captions-button .mejs-captions-translations {
+			margin: 0 0 5px;
+		}
+
+	/* === Source Chooser === */
+
+	.mejs-controls .mejs-sourcechooser-button {
+		position: relative;
+	}
+
+		.mejs-sourcechooser-button button {
+			background-position: -128px 0;
+		}
+
+		.mejs-sourcechooser-selector {
+			overflow:   hidden;
+			visibility: hidden;
+			position:   absolute;
+			bottom:     26px;
+			right:      -10px;
+			width:      130px;
+			height:     100px;
+			padding:    10px;
+			background: #323232;
+			background: rgba( 50, 50, 50, 0.7 );
+			border:     solid 1px transparent;
+		}
+
+			.mejs-sourcechooser-selector ul {
+				list-style-type: none;
+				overflow:        hidden;
+				display:         block;
+				margin:          0;
+				padding:         0;
+			}
+
+				.mejs-sourcechooser-selector li {
+					list-style-type: none;
+					overflow:        hidden;
+					display:         block;
+					margin:          0 0 6px;
+					padding:         0;
+					color:           #fff;
+				}
+
+					.mejs-sourcechooser-selector li input {
+						clear:  both;
+						float:  left;
+						margin: 3px 3px 0 5px;
+					}
+
+					.mejs-sourcechooser-selector li label {
+						float:       left;
+						width:       100px;
+						padding:     4px 0 0;
+						font-size:   10px;
+						line-height: 15px;
+					}
+
+/**
+ * 05: Clear - Clears any floated elements at the end of the container.
+ * --------------------------------------------------------------------------- */
+
+.mejs-clear,
+.wp-playlist-item {
+    clear: both;
+}
+
+/**
+ * 06: Playlists - WordPress-created playlists.
+ * --------------------------------------------------------------------------- */
+
+.wp-playlist {
+	margin:      0 0 1.5rem;
+	padding:     1.5rem;
+	border:      1px solid #999;
+}
+
+	.wp-playlist-light {
+		/**
+		background: #fff;
+		color:      #000;
+		/**/
+	}
+
+	.wp-playlist-dark {
+		/**
+		color:      #fff;
+		background: #000;
+		/**/
+	}
+
+	.wp-playlist video {
+		display:   inline-block;
+		max-width: 100%;
+	}
+
+	.wp-playlist audio {
+		display:   none;
+		max-width: 100%;
+		width:     100%;
+	}
+
+	.wp-playlist .mejs-container {
+		margin: 0;
+		width:  100%;
+	}
+
+		.wp-playlist .mejs-controls .mejs-button button {
+			outline: 0;
+		}
+
+	/* All captions. */
+	.wp-playlist-caption {
+		max-width:     88%;
+		overflow:      hidden;
+		text-overflow: ellipsis;
+	}
+
+		.wp-playlist-item-title {}
+
+		.wp-playlist-item-artist {}
+
+	/* Currently playing. */
+	.wp-playlist-current-item {
+		margin-bottom: 1.5rem;
+	}
+
+		.wp-playlist-current-item img {
+			max-width:    60px;
+			height:       auto;
+		}
+			.ltr .wp-playlist-current-item img {
+				float:        left;
+				margin-right: 1.5rem;
+			}
+			.rtl .wp-playlist-current-item img {
+				float:        right;
+				margin-left:  1.5rem;
+			}
+
+		.wp-playlist-item-meta {
+			display: block;
+		}
+
+		.wp-playlist-item-album {}
+
+	/* Track list after the current item. */
+	.wp-playlist-tracks {
+		margin-top: 1.5rem;
+	}
+
+		/* Playlist items in the list (not currently playing). */
+		.wp-playlist-item {
+			overflow:      hidden;
+			cursor:        pointer;
+			margin-bottom: 0.75rem;
+		}
+
+			.wp-playlist-item:last-child {
+				margin-bottom: 0;
+				border-bottom: none;
+			}
+
+		.wp-playlist-light .wp-playlist-item {}
+
+		.wp-playlist-dark .wp-playlist-item {}
+
+		/* Currently-playing item in the track list. */
+		.wp-playlist-playing { font-weight: bold; }
+
+			.wp-playlist-light .wp-playlist-playing {}
+
+			.wp-playlist-dark .wp-playlist-playing {}
+
+			/* Captions in the list. */
+			.wp-playlist-item .wp-playlist-caption {}
+
+				.ltr .wp-playlist-item .wp-playlist-caption { float: left;  }
+				.rtl .wp-playlist-item .wp-playlist-caption { float: right; }
+
+				.ltr .wp-playlist-item .wp-playlist-item-length { float: right; }
+				.rtl .wp-playlist-item .wp-playlist-item-length { float: left;  }
+
+/**
+ * 07: Todo - Items that need to be worked on.
+ * --------------------------------------------------------------------------- */
+
+/* === Context menu ??? === */
+
+.mejs-contextmenu {
+	position:   absolute;
+	top:        0;
+	left:       0;
+	width:      150px;
+	padding:    10px;
+	background: #fff;
+	border:     solid 1px #999;
+	z-index:    1001;
+}
+
+	.mejs-contextmenu .mejs-contextmenu-separator {
+		height:     1px;
+		margin:     5px 6px;
+		font-size:  0;
+		background: #333;
+	}
+
+	.mejs-contextmenu .mejs-contextmenu-item {
+		padding:   4px 6px;
+		font-size: 12px;
+		color:     #333;
+		cursor:    pointer;
+	}
+
+		.mejs-contextmenu .mejs-contextmenu-item:hover {
+			color:      #fff;
+			background: #2C7C91;
+		}

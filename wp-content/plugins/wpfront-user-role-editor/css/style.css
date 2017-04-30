@@ -1,0 +1,98 @@
+/*
+  WPFront User Role Editor Plugin
+  Copyright (C) 2014, WPFront.com
+  Website: wpfront.com
+  Contact: syam@wpfront.com
+
+  WPFront User Role Editor Plugin is distributed under the GNU General Public License, Version 3,
+  June 2007. Copyright (C) 2007 Free Software Foundation, Inc., 51 Franklin
+  St, Fifth Floor, Boston, MA 02110, USA
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+  ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+  ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+div.wrap div.footer {
+    text-align: center;
+}
+
+div.list-roles td.column-userdefault img.user-default {
+    width: 16px;
+    height: 16px;
+}
+
+div.list-roles table div.row-actions {
+    white-space: nowrap;
+}
+
+div.role-add-new form#createuser table.sub-head {
+    width: 100%;
+}
+
+div.role-add-new form#createuser table.sub-head th.sub-head {
+    text-align: left;
+    padding: 0px;
+}
+
+div.role-add-new form#createuser table.sub-head th.sub-head h3 {
+}
+
+div.role-add-new form#createuser table.sub-head td.sub-head-controls {
+    text-align: right;
+    padding: 0px;
+}
+
+div.role-add-new form#createuser table.sub-head td.sub-head-controls div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+div.role-add-new form#createuser table.sub-head td.sub-head-controls div.spacer {
+    width: 10px;
+    height: 0px;
+}
+
+div.role-add-new form#createuser table.sub-head td.sub-head-controls input.select-all, div.role-add-new form#createuser table.sub-head td.sub-head-controls input.select-none {
+    width: 100px;
+}
+
+div.role-add-new div.metabox-holder div.postbox {
+    margin-bottom: 8px;
+}
+
+div.role-add-new div.metabox-holder div.postbox.deprecated {
+    filter: alpha(opacity=80);
+    opacity: 0.8;
+}
+
+div.role-add-new div.metabox-holder div.postbox h3.hndle {
+    cursor: default;
+}
+
+div.role-add-new div.metabox-holder div.postbox div.inside div.main div {
+    padding: 2px 0px;
+    display: inline-block;
+    width: 250px;
+}
+
+div.role-add-new div.metabox-holder div.postbox label {
+    vertical-align: top;
+}
+
+div.role-add-new div.metabox-holder div.postbox div.main img.help {
+    width: 12px;
+    height: 12px;
+    opacity: 0.8;
+}
+
+div.role-add-new div.footer {
+    text-align: center;
+}

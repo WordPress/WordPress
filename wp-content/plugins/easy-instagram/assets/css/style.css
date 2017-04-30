@@ -1,0 +1,102 @@
+.easy-instagram-thumbnail-caption {
+	font-size: 80%;
+	font-weight: bold;
+}
+
+.easy-instagram-thumbnail-time {
+	font-size: 80%;
+	font-weight: bold;
+	color: #999;	
+}
+
+.easy-instagram-error {
+	color: #f00;
+}
+
+.easy-instagram-container.horizontal {
+	width: 100%;
+	float: left;
+}
+
+.easy-instagram-thumbnail-wrapper {
+	position: relative;
+	overflow: hidden;
+	text-align: center;
+}
+
+.easy-instagram-thumbnail-wrapper.horizontal {
+	float: left;
+	margin: 10px 0 0 20px;
+	width: 33%;
+	height: auto;
+}
+
+.easy-instagram-thumbnail-wrapper a {
+	max-width: 100%
+	}
+
+.easy-instagram-thumbnail-wrapper img {
+	max-width: 100%
+	}
+
+.clear {
+	clear: both;
+}
+
+#TB_ajaxContent {
+	padding: 0 !important;
+	margin: 15px auto;
+}
+
+a.easy-instagram-original,
+a.thickbox.video,
+a.colorbox-video {
+	position: relative;
+	display: inline-block;
+	height: 100%;
+}
+	
+.video-icon {
+	display: block;
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 38%;
+	left: 38%;
+	width: 25%;
+	height: 25%;
+}
+
+.easy-instagram-container.grid {
+	width: 100%;
+	float: left;
+	overflow: hidden;
+}
+
+.easy-instagram-container.grid .easy-instagram-thumbnail-wrapper {
+	float: left;
+}
+
+.easy-instagram-container.grid .easy-instagram-thumbnail-wrapper img {
+	margin: 0;
+}
+
+
+.easy-instagram-columns-container {
+	width: 100%;
+	overflow: hidden;
+}
+
+.easy-instagram-thumbnail-wrapper.columns {
+	float: left;
+	margin-right: 5%;
+}
+
+.easy-instagram-thumbnail-wrapper.columns.last {
+	margin-right: 0;
+}
+
+.easy-instagram-hid-video-wrapper {
+	display: none;
+	padding: 0;
+}

@@ -1,0 +1,216 @@
+OFL FAQ - Frequently Asked Questions about the SIL Open Font License (OFL)
+Version 1.1 - 1 February 2007
+(See http://scripts.sil.org/OFL for updates)
+
+
+1  ABOUT USING AND DISTRIBUTING FONTS LICENSED UNDER THE OFL
+
+1.1  Can I use the fonts in any publication, even embedded in the file?
+Yes. You may use them like most other fonts, but unlike some fonts you may include an embedded subset of the fonts in your document. Such use does not require you to include this license or other files (listed in OFL condition 2), nor does it require any type of acknowledgement within the publication. Some mention of the font name within the publication information (such as in a colophon) is usually appreciated. If you wish to include the complete font as a separate file, you should distribute the full font package, including all existing acknowledgements, and comply with the OFL conditions. Of course, referencing or embedding an OFL font in any document does not change the license of the document itself. The requirement for fonts to remain under the OFL does not apply to any document created using the fonts and their derivatives. Similarly, creating any kind of graphic using a font under OFL does not make the resulting artwork subject to the OFL.
+
+1.2  Can I make web pages using these fonts?
+Yes! Go ahead! Using CSS (Cascading Style Sheets) is recommended.
+
+1.3  Can I make the fonts available to others from my web site?
+Yes, as long as you meet the conditions of the license (do not sell by itself, include the necessary files, rename Modified Versions, do not abuse the Author(s)' name(s) and do not sublicense).
+
+1.4  Can the fonts be included with Free/Libre and Open Source Software collections such as GNU/Linux and BSD distributions?
+Yes! Fonts licensed under the OFL can be freely agreggated with software under FLOSS (Free/Libre and Open Source Software) licenses. Since fonts are much more useful aggregated to than merged with existing software, possible incompatibility with existing software licenses is not a problem. You can also repackage the fonts and the accompanying components in a .rpm or .deb package and include them in distro CD/DVDs and online repositories.
+
+1.5  I want to distribute the fonts with my program. Does this mean my program also has to be free and open source software?
+No. Only the portions based on the font software are required to be released under the OFL. The intent of the license is to allow aggregation or bundling with software under restricted licensing as well.
+
+1.6  Can I include the fonts on a CD of freeware or commercial fonts?
+Yes, as long some other font or software is also on the disk, so the OFL font is not sold by itself.
+
+1.7  Can I sell a software package that includes these fonts?
+Yes, you can do this with both the Original Version and a Modified Version. Examples of bundling made possible by the OFL would include: word processors, design and publishing applications, training and educational software, edutainment software, etc.
+                                                                                                                                                  
+1.8  Why won't the OFL let me sell the fonts alone?
+The intent is to keep people from making money by simply redistributing the fonts. The only people who ought to profit directly from the fonts should be the original authors, and those authors have kindly given up potential direct income to distribute their fonts under the OFL. Please honor and respect their contribution!
+
+1.9  I've come across a font released under the OFL. How can I easily get more information about the Original Version? How can I know where it stands compared to the Original Version or other Modified Versions?
+Consult the copyright statement in the license for ways to contact the original authors. Consult the FONTLOG for information on how the font differs from the Original Version, and get in touch with the various contributors via the information in the acknowledgment section. Please consider using the Original Versions of the fonts whenever possible.
+
+1.10  What do you mean in condition 4? Can you provide examples of abusive promotion / endorsement / advertisement vs. normal acknowledgement?
+The intent is that the goodwill and reputation of the author(s) should not be used in a way that makes it sound like the original author(s) endorse or approve of a specific Modified Version or software bundle. For example, it would not be right to advertise a word processor by naming the author(s) in a listing of software features, or to promote a Modified Version on a web site by saying "designed by ...". However, it would be appropriate to acknowledge the author(s) if your software package has a list of people who deserve thanks. We realize that this can seem to be a gray area, but the standard used to judge an acknowledgement is that if the acknowledgement benefits the author(s) it is allowed, but if it primarily benefits other parties, or could reflect poorly on the author(s), then it is not.
+
+
+2  ABOUT MODIFYING OFL LICENSED FONTS
+
+2.1  Can I change the fonts? Are there any limitations to what things I can and cannot change?
+You are allowed to change anything, as long as such changes do not violate the terms of the license. In other words, you are not allowed to remove the copyright statement(s) from the font, but you could add additional information into it that covers your contribution.
+
+2.2  I have a font that needs a few extra glyphs - can I take them from an OFL licensed font and copy them into mine?
+Yes, but if you distribute that font to others it must be under the OFL, and include the information mentioned in condition 2 of the license.
+
+2.3  Can I charge people for my additional work? In other words, if I add a bunch of special glyphs and/or OpenType/Graphite code, can I sell the enhanced font?
+Not by itself. Derivative fonts must be released under the OFL and cannot be sold by themselves. It is permitted, however, to include them in a larger software package (such as text editors, office suites or operating systems), even if the larger package is sold. In that case, you are strongly encouraged, but not required, to also make that derived font easily and freely available outside of the larger package.
+
+2.4  Can I pay someone to enhance the fonts for my use and distribution?
+Yes. This is a good way to fund the further development of the fonts. Keep in mind, however, that if the font is distributed to others it must be under the OFL. You won't be able to recover your investment by exclusively selling the font, but you will be making a valuable contribution to the community. Please remember how you have benefitted from the contributions of others.
+
+2.5  I need to make substantial revisions to the font to make it work with my program. It will be a lot of work, and a big investment, and I want to be sure that it can only be distributed with my program. Can I restrict its use?
+No. If you redistribute a Modified Version of the font it must be under the OFL. You may not restrict it in any way. This is intended to ensure that all released improvements to the fonts become available to everyone. But you will likely get an edge over competitors by being the first to distribute a bundle with the enhancements. Again, please remember how you have benefitted from the contributions of others.
+
+2.6  Do I have to make any derivative fonts (including source files, build scripts, documentation, etc.) publicly available?
+No, but please do share your improvements with others. You may find that you receive more than what you gave in return.
+
+2.7  Why can't I use the Reserved Font Name(s) in my derivative font names? I'd like people to know where the design came from.
+The best way to acknowledge the source of the design is to thank the original authors and any other contributors in the files that are distributed with your revised font (although no acknowledgement is required). The FONTLOG is a natural place to do this. Reserved Font Name(s) ensure that the only fonts that have the original names are the unmodified Original Versions. This allows designers to maintain artistic integrity while allowing collaboration to happen. It eliminates potential confusion and name conflicts. When choosing a name be creative and avoid names that reuse almost all the same letters in the same order or sound like the original. Keep in mind that the Copyright Holder(s) can allow a specific trusted partner to use Reserved Font Name(s) through a separate written agreement.
+
+2.8  What do you mean by "primary name as presented to the user"? Are you are referring to the font menu name?
+Yes, the requirement to change the visible name used to differentiate the font from others applies to the font menu name and other mechanisms to specify a font in a document. It would be fine, for example, to keep a text reference to the original fonts in the description field, in your modified source file or in documentation provided alongside your derivative as long as no one could be confused that your modified source is the original. But you cannot use the Reserved Font Names in any way to identify the font to the user (unless the Copyright Holder(s) allow(s) it through a separate agreement, see section 2.7). Users who install derivatives ("Modified Versions") on their systems should not see any of the original names ("Reserved Font Names") in their font menus, for example. Again, this is to ensure that users are not confused and do not mistake a font for another and so expect features only another derivative or the Original Version can actually offer. Ultimately, creating name conflicts will cause many problems for the users as well as for the designer of both the Original and Modified versions, so please think ahead and find a good name for your own derivative. Font substitution systems like fontconfig, or application-level font fallback configuration within OpenOffice.org or Scribus, will also get very confused if the name of the font they are configured to substitute to actually refers to another physical font on the user's hard drive. It will help everyone if Original Versions and Modified Versions can easily be distinguished from one another and from other derivatives. The substitution mechanism itself is outside the scope of the license. Users can always manually change a font reference in a document or set up some kind of substitution at a higher level but at the lower level the fonts themselves have to respect the Reserved Font Name(s) requirement to prevent ambiguity. If a substitution is currently active the user should be aware of it.
+
+2.9  Am I not allowed to use any part of the Reserved Font Names?
+You may not use the words of the font names, but you would be allowed to use parts of words, as long as you do not use any word from the Reserved Font Names entirely. We do not recommend using parts of words because of potential confusion, but it is allowed. For example, if "Foobar" was a Reserved Font Name, you would be allowed to use "Foo" or "bar", although we would not recommend it. Such an unfortunate choice would confuse the users of your fonts as well as make it harder for other designers to contribute.
+
+2.10  So what should I, as an author, identify as Reserved Font Names?
+Original authors are encouraged to name their fonts using clear, distinct names, and only declare the unique parts of the name as Reserved Font Names. For example, the author of a font called "Foobar Sans" would declare "Foobar" as a Reserved Font Name, but not "Sans", as that is a common typographical term, and may be a useful word to use in a derivative font name. Reserved Font Names should also be single words. A font called "Flowing River" should have Reserved Font Names "Flowing" and "River", not "Flowing River".
+
+2.11  Do I, as an author, have to identify and Reserved Font Names?
+No, but we strongly encourage you to do so. This is to avoid confusion between your work and Modified versions. You may, however, give certain trusted parties the right to use any of your Reserved Font Names through separate written agreements. For example, even if "Foobar" is a RFN, you could write up an agreement to give company "XYZ" the right to distribute a modified version with a name that includes "Foobar". This allows for freedom without confusion.
+
+2.12  Are any names (such as the main font name) reserved by default?
+No. That is a change to the license as of version 1.1. If you want any names to be Reserved Font Names, they must be specified after the copyright statement.
+
+2.13  What is this FONTLOG thing exactly?
+It has three purposes: 1) to provide basic information on the font to users and other developers, 2) to document changes that have been made to the font or accompanying files, either by the original authors or others, and 3) to provide a place to acknowledge the authors and other contributors. Please use it! See below for details on how changes should be noted.
+
+2.14  Am I required to update the FONTLOG?
+No, but users, designers and other developers might get very frustrated at you if you don't! People need to know how derivative fonts differ from the originals, and how to take advantage of the changes, or build on them.
+
+
+3  ABOUT THE FONTLOG
+
+The FONTLOG can take a variety of formats, but should include these four sections:
+
+3.1  FONTLOG for <FontFamilyName>
+This file provides detailed information on the <FontFamilyName> font software. This information should be distributed along with the <FontFamilyName> fonts and any derivative works.
+
+3.2  Basic Font Information
+(Here is where you would describe the purpose and brief specifications for the font project, and where users can find more detailed documentation. It can also include references to how changes can be contributed back to the Original Version. You may also wish to include a short guide to the design, or a reference to such a document.)
+
+3.3  ChangeLog
+(This should list both major and minor changes, most recent first. Here are some examples:)
+
+1 Feb 2005 (Jane Doe) <NewFontFamilyName> Version 1.1
+- Improved build script performance and verbosity
+- Extended the smart code documentation
+- Corrected minor typos in the documentation
+- Fixed position of combining inverted breve below (U+032F)
+- Added OpenType/Graphite smart code for Armenian
+- Added Armenian glyphs (U+0531 -> U+0587) 
+- Released as "<NewFontFamilyName>"
+
+1 Jan 2005 (Joe Smith) <FontFamilyName> Version 1.0
+- Initial release of font "<FontFamilyName>"
+
+3.4  Acknowledgements
+(Here is where contributors can be acknowledged. 
+
+If you make modifications be sure to add your name (N), email (E), web-address (W) and description (D). This list is sorted by last name in alphabetical order.)
+
+N: Jane Doe
+E: jane@university.edu
+W: http://art.university.edu/projects/fonts
+D: Contributor - Armenian glyphs and code
+
+N: Fred Foobar
+E: fred@foobar.org
+W: http://foobar.org
+D: Contributor - misc Graphite fixes
+
+N: Pat Johnson
+E: pat@fontstudio.org
+W: http://pat.fontstudio.org
+D: Designer - Greek & Cyrillic glyphs based on Roman design
+
+N: Tom Parker
+E: tom@company.com
+W: http://www.company.com/tom/projects/fonts
+D: Engineer - original smart font code
+
+N: Joe Smith
+E: joe@fontstudio.org
+W: http://joe.fontstudio.org
+D: Designer - original Roman glyphs
+
+(Original authors can also include information here about their organization.)
+
+
+4  ABOUT MAKING CONTRIBUTIONS
+
+4.1  Why should I contribute my changes back to the original authors?
+It would benefit many people if you contributed back to what you've received. Providing your contributions and improvements to the fonts and other components (data files, source code, build scripts, documentation, etc.) could be a tremendous help and would encourage others to contribute as well and 'give back', which means you will have an opportunity to benefit from other people's contributions as well. Sometimes maintaining your own separate version takes more effort than merging back with the original. Be aware that any contributions, however, must be either your own original creation or work that you own, and you may be asked to affirm that clearly when you contribute.
+
+4.2  I've made some very nice improvements to the font, will you consider adopting them and putting them into future Original Versions?
+Most authors would be very happy to receive such contributions. Keep in mind that it is unlikely that they would want to incorporate major changes that would require additional work on their end. Any contributions would likely need to be made for all the fonts in a family and match the overall design and style. Authors are encouraged to include a guide to the design with the fonts. It would also help to have contributions submitted as patches or clearly marked changes (the use of smart source revision control systems like subversion, svk or bzr is a good idea). Examples of useful contributions are bug fixes, additional glyphs, stylistic alternates (and the smart font code to access them) or improved hinting.
+
+4.3  How can I financially support the development of OFL fonts?
+It is likely that most authors of OFL fonts would accept financial contributions - contact them for instructions on how to do this. Such contributions would support future development. You can also pay for others to enhance the fonts and contribute the results back to the original authors for inclusion in the Original Version.
+
+
+5  ABOUT THE LICENSE
+
+5.1  I see that this is version 1.1 of the license. Will there be later changes?
+Version 1.1 is the first minor revision of the OFL. We are confident that version 1.1 will meet most needs, but are open to future improvements. Any revisions would be for future font releases, and previously existing licenses would remain in effect. No retroactive changes are possible, although the Copyright Holder(s) can re-release the font under a revised OFL. All versions will be available on our web site: http://scripts.sil.org/OFL.
+
+5.2  Can I use the SIL Open Font License for my own fonts?
+Yes! We heartily encourage anyone to use the OFL to distribute their own original fonts. It is a carefully constructed license that allows great freedom along with enough artistic integrity protection for the work of the authors as well as clear rules for other contributors and those who redistribute the fonts. Some additional information about using the OFL is included at the end of this FAQ.
+
+5.3  Does this license restrict the rights of the Copyright Holder(s)?
+No. The Copyright Holder(s) still retains all the rights to their creation; they are only releasing a portion of it for use in a specific way. For example, the Copyright Holder(s) may choose to release a 'basic' version of their font under the OFL, but sell a restricted 'enhanced' version. Only the Copyright Holder(s) can do this.
+
+5.4 Is the OFL a contract or a license?
+The OFL is a license and not a contract and so does not require you to sign it to have legal validity. By using, modifying and redistributing components under the OFL you indicate that you accept the license.
+
+5.5 How about translating the license and the FAQ into other languages?
+SIL certainly recognises the need for people who are not familiar with English to be able to understand the OFL and this FAQ better in their own language. Making the license very clear and readable is a key goal of the OFL.
+
+If you are an experienced translator, you are very welcome to help translating the OFL and its FAQ so that designers and users in your language community can understand the license better. But only the original English version of the license has legal value and has been approved by the community. Translations do not count as legal substitutes and should only serve as a way to explain the original license. SIL - as the author and steward of the license for the community at large - does not approve any translation of the OFL as legally valid because even small translations ambiguities could be abused and create problems.
+
+We give permission to publish unofficial translations into other languages provided that they comply with the following guidelines:
+
+- put the following disclaimer in both English and the target language stating clearly that the translation is unofficial:
+
+"This is an unofficial translation of the SIL Open Font License into $language. It was not published by SIL International, and does not legally state the distribution terms for fonts that use the OFL. A release under the OFL is only valid when using the original English text.
+
+However, we recognize that this unofficial translation will help users and designers not familiar with English to understand the SIL OFL better and make it easier to use and release font families under this collaborative font design model. We encourage designers who consider releasing their creation under the OFL to read the FAQ in their own language if it is available.
+ 
+Please go to http://scripts.sil.org/OFL for the official version of the license and the accompanying FAQ."
+"
+
+- keep your unofficial translation current and update it at our request if needed, for example if there is any ambiguity which could lead to confusion.  
+
+If you start such a unofficial translation effort of the OFL and its accompanying FAQ please let us know, thank you.
+
+
+6  ABOUT SIL INTERNATIONAL
+
+6.1  Who is SIL International and what does it do?
+SIL International is a worldwide faith-based education and development organization (NGO) that studies, documents, and assists in developing the world's lesser-known languages through literacy, linguistics, translation, and other academic disciplines. SIL makes its services available to all without regard to religious belief, political ideology, gender, race, or ethnic background. SIL's members and volunteers share a Christian commitment.
+
+6.2  What does this have to do with font licensing?
+The ability to read, write, type and publish in one's own language is one of the most critical needs for millions of people around the world. This requires fonts that are widely available and support lesser-known languages. SIL develops - and encourages others to develop - a complete stack of writing systems implementation components available under open licenses. This open stack includes input methods, smart fonts, smart rendering libraries and smart applications. There has been a need for a common open license that is specifically applicable to fonts and related software (a crucial component of this stack) so SIL developed the SIL Open Font License with the help of the FLOSS community.
+
+6.3  How can I contact SIL?
+Our main web site is: http://www.sil.org/
+Our site about complex scripts is: http://scripts.sil.org/
+Information about this license (including contact email information) is at: http://scripts.sil.org/OFL
+
+
+7  ABOUT USING THE OFL FOR YOUR ORIGINAL FONTS
+
+If you want to release your fonts under the OFL, you only need to do the following:
+
+7.1  Put your copyright and reserved font names information in the beginning of the main OFL file.
+7.2  Put your copyright and the OFL references in your various font files (such as in the copyright, license and description fields) and in your other components (build scripts, glyph databases, documentation, rendering samples, etc).
+7.3  Write an initial FONTLOG for your font and include it in the release package.
+7.4  Include the OFL in your release package.
+7.5  We also highly recommend you include the relevant practical documentation on the license by putting the OFL-FAQ in your package.
+
+
+That's all. If you have any more questions please get in touch with us.
+
+

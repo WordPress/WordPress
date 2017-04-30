@@ -1,0 +1,67 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Recent Posts FlexSlider\n"
+"POT-Creation-Date: 2013-03-26 13:52-0500\n"
+"PO-Revision-Date: 2013-03-26 13:54-0500\n"
+"Last-Translator: \n"
+"Language-Team: David Laietta <plugins@davidlaietta.com>\n"
+"Language: English\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+# Name of Widget
+#: ../recent-posts-flexslider.php:53
+msgid "Recent Posts FlexSlider"
+msgstr "Recent Posts FlexSlider"
+
+# Description of Widget
+#: ../recent-posts-flexslider.php:56
+msgid "A responsive slider of recent posts."
+msgstr "A responsive slider of recent posts."
+
+# Widget display title
+#: ../views/admin.php:2
+msgid "Title"
+msgstr "Title"
+
+#: ../views/admin.php:7
+msgid "Filter by Category"
+msgstr "Filter by Category"
+
+#: ../views/admin.php:16
+msgid "Filter by Post Type"
+msgstr "Filter by Post Type"
+
+#: ../views/admin.php:28
+msgid ""
+"Slider Duration - Length of time to change slides <em>(In milliseconds)</em>"
+msgstr ""
+"Slider Duration - Length of time to change slides <em>(In milliseconds)</em>"
+
+#: ../views/admin.php:33
+msgid ""
+"Slider Pause - Length of time to pause on a slide <em>(In milliseconds)</em>"
+msgstr ""
+"Slider Pause - Length of time to pause on a slide <em>(In milliseconds)</em>"
+
+#: ../views/admin.php:38
+msgid "Number of slides to display"
+msgstr "Number of slides to display"
+
+#: ../views/admin.php:43
+msgid "Slider Height <em>(In pixels)</em>"
+msgstr "Slider Height <em>(In pixels)</em>"
+
+#: ../views/admin.php:49
+msgid "Show Post Title"
+msgstr "Show Post Title"
+
+#: ../views/admin.php:54
+msgid "Post Excerpt &nbsp;&nbsp;&nbsp; Length<em>(words)</em>:"
+msgstr "Post Excerpt &nbsp;&nbsp;&nbsp; Length<em>(words)</em>:"

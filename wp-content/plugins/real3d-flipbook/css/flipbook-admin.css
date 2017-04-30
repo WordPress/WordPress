@@ -1,0 +1,211 @@
+
+#real3dflipbook-admin .actions-holder {
+    padding: 10px;
+}
+#real3dflipbook-admin .submit {
+    clear: both;
+}
+#real3dflipbook-admin .float-left {
+    float:left;
+}
+#real3dflipbook-admin .float-right {
+    float:right;
+}
+#real3dflipbook-admin .column-left {
+    position: relative;
+    float: left;
+	width:50%;
+}
+#real3dflipbook-admin .column-right {
+    position: relative;
+	width:50%;
+    float: right;
+}
+#real3dflipbook-admin .back-to-list-link {
+    text-decoration: none;
+    margin-top: 11px;
+    display: block;
+    width: 180px;
+}
+
+#real3dflipbook-admin #add-new-page-button {
+    margin-bottom:20px;
+	float:right;
+}
+
+#real3dflipbook-admin #delete-all-pages-button {
+    margin-bottom:20px;
+	margin-right:10px;
+	margin-left:10px;
+	float:right;
+}
+
+#real3dflipbook-admin .button80 {
+    min-width: 80px;
+    text-align: center;
+}
+
+#real3dflipbook-admin .page{
+	margin-bottom:30px;
+}
+#real3dflipbook-admin .page .tabs{
+	background:#EBEBEB
+}
+
+#real3dflipbook-admin .share .tabs{
+	background:#EBEBEB
+}
+
+#real3dflipbook-admin .page img{
+	float:left;
+	height:100px;
+	margin:10px;
+}
+
+#real3dflipbook-admin .page .deletediv,
+#real3dflipbook-admin .page .duplicatediv {
+    /*float:right;*/
+    position:absolute;
+    top: 10px;
+    right: 10px;
+    cursor:pointer;
+}
+
+#real3dflipbook-admin .share .deletediv,
+#real3dflipbook-admin .share .duplicatediv {
+    /*float:right;*/
+    position:absolute;
+    top: 10px;
+    right: 10px;
+    cursor:pointer;
+}
+
+#real3dflipbook-admin .page .page-link .field-row{
+    clear: both;
+    margin-bottom: 10px;
+    height: 20px;
+    position: relative;
+}
+
+#real3dflipbook-admin .page .page-link{
+    position: relative;
+    background: rgba(255, 255, 255, 0.75);
+    margin-bottom: 15px;
+    border-radius: 2px;
+}
+#real3dflipbook-admin .page .page-link label{
+    /*width: 115px;*/
+    /*text-align: right;*/
+    /*display: block;*/
+    /*float: left;*/
+
+    display: block;
+    float: left;
+    width: 115px;
+    text-align: right;
+    margin: 6px 5px 0 0;
+}
+#real3dflipbook-admin .page .page-link input{
+    /*width: 65px;*/
+}
+
+
+#real3dflipbook-admin .page .delete-link{
+    position:absolute;
+    right: 0;
+    top: 0;
+    cursor:pointer;
+}
+
+#real3dflipbook-admin .page .deletediv {
+    background-position: -27px 0;
+}
+#real3dflipbook-admin .page .deletediv:hover {
+    background-position: -27px -30px;
+}
+
+#real3dflipbook-admin .page .duplicatediv {
+    top:30px;
+    background-position: 0 0;
+}
+#real3dflipbook-admin .page .duplicatediv:hover {
+    background-position: 0 -30px;
+}
+
+#real3dflipbook-admin .widget-top, .postbox {
+    margin-right: 10px;
+}
+#real3dflipbook-admin .widget-top, .postbox .inside{
+    margin-bottom: 30px;
+}
+
+#real3dflipbook-admin .page .settings-area {
+    width: 100%;
+}
+
+#real3dflipbook-admin .page .settings-area input,
+#real3dflipbook-admin .page .settings-area textarea {
+    /*float: left;*/
+    /*width: 60px;*/
+}
+#real3dflipbook-admin .page .content-editor-button {
+    margin-top:10px;
+}
+#real3dflipbook-admin a.button-primary {
+    color:#FFF !important;
+}
+
+#real3dflipbook-admin .options-sidebar .field-row {
+    clear: both;
+    margin-bottom: 10px;
+    height: 20px;
+    position: relative;
+}
+#real3dflipbook-admin .hidden {
+    display:none !important;
+}
+
+#real3dflipbook-admin .real3dflipbooks-table tr {
+    height:45px;
+}
+#real3dflipbook-admin .ui-widget-content{
+	border:none;
+}
+#real3dflipbook-admin .ui-tabs{
+	padding:0;
+}
+/* tabs */
+#real3dflipbook-admin .settings-area .ui-tabs-nav {
+    padding:10px;
+	padding-right:150px;
+}
+#real3dflipbook-admin .settings-area .ui-tabs-panel {
+    /*padding: 0.5em 0;*/
+}
+#real3dflipbook-admin .settings-area .ui-tabs-panel  input{
+    width:70%;
+	
+}
+#real3dflipbook-admin .settings-area .ui-tabs-panel  textarea{
+    width:100%;
+	height:300px;
+}
+#real3dflipbook-admin .settings-area .ui-widget-content {
+    background: none;
+    border: none;
+}
+#real3dflipbook-admin .settings-area .ui-state-active {
+    background: #aaa;
+    border-color: #aaa;
+}
+#real3dflipbook-admin .settings-area .ui-widget-header {
+    border: none;
+}
+#real3dflipbook-admin .settings-area .ui-tabs-nav {
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    /*border-bottom: 1px solid #dfdfdf;*/
+    background: none;
+
+}

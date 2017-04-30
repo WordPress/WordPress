@@ -1,0 +1,6 @@
+.users_page_unconfirmed_emails #separatorID, .users_page_unconfirmed_emails .unconfirmedEmailUsers, .users_page_unconfirmed_emails #unconfirmedEmailNo{
+	display:none;
+}
+.users_page_admin_approval #separatorID2, .users_page_admin_approval .bulkActionUsers, .users_page_admin_approval #bulkUsersNo{
+	display:none;
+}

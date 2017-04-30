@@ -1,0 +1,64 @@
+/* =Mixins
+-------------------------------------------------------------- */
+@import "mixins.less";
+
+/* Icon Font */
+@font-face {
+	font-family: 'WooCommerce';
+	src:url('../fonts/WooCommerce.eot');
+	src:url('../fonts/WooCommerce.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/WooCommerce.woff') format('woff'),
+		url('../fonts/WooCommerce.ttf') format('truetype'),
+		url('../fonts/WooCommerce.svg#WooCommerce') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+/* Menu Icons */
+#adminmenu #toplevel_page_woocommerce .menu-icon-generic div.wp-menu-image:before {
+	font-family: 'WooCommerce' !important;
+	content: "\e03d";
+	font-size: 1.3em !important;
+}
+#adminmenu #menu-posts-product .menu-icon-post div.wp-menu-image:before {
+	font-family: 'WooCommerce' !important;
+	content: "\e01d";
+	font-size: 1.3em !important;
+}
+
+span.mce_wc_shortcodes_button,
+i.mce-i-wc_shortcodes_button {
+	background-image: none !important;
+	.ir;
+	&:before {
+		.icon( "\e01d" );
+		font-size:.9em;
+		line-height: 1.2;
+	}
+}
+
+i.mce-i-wc_shortcodes_button {
+	display: inline-block;
+}
+
+.wc_plugin_upgrade_notice {
+	font-weight: normal;
+	color: #fff;
+	background: #d54d21;
+	padding: 1em;
+	margin: 9px 0;
+	a {
+		color: #fff;
+		text-decoration: underline;
+	}
+	&:before {
+		content: "\f348";
+		display: inline-block;
+		font: 400 18px/1 dashicons;
+		speak: none;
+		margin: 0 8px 0 -2px;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		vertical-align: top;
+	}
+}

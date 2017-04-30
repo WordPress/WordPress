@@ -1,0 +1,749 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Custom Sidebars Pro v2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-07 15:11+0100\n"
+"PO-Revision-Date: 2014-07-07 16:31:19+0000\n"
+"Last-Translator: Philipp Stracker <philipp@stracker.net>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-Bookmarks: \n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Textdomain-Support: yes"
+
+#: inc/class-custom-sidebars-cloning.php:195
+#@ custom-sidebars
+msgid "Clone"
+msgstr "Clonar"
+
+#  custom-sidebars
+#: inc/class-custom-sidebars-editor.php:89
+#: inc/class-custom-sidebars-export.php:97
+#@ custom-sidebars
+msgid "You do not have permission for this"
+msgstr "No tiene permisos para hacer esto"
+
+#: inc/class-custom-sidebars-editor.php:159
+#@ custom-sidebars
+msgid "Sidebar-name cannot be empty"
+msgstr "El nombre de la barra lateral no puede ser vacío"
+
+#: inc/class-custom-sidebars-editor.php:183
+#: inc/class-custom-sidebars-editor.php:251
+#, fuzzy
+#@ custom-sidebars
+msgid "The sidebar does not exist"
+msgstr "La barra lateral no existe"
+
+#: inc/class-custom-sidebars-editor.php:203
+#, php-format
+#@ custom-sidebars
+msgid "Created new sidebar <strong>%1$s</strong>"
+msgstr "Creada la barra <strong>%1$s</strong>"
+
+#: inc/class-custom-sidebars-editor.php:211
+#, php-format
+#@ custom-sidebars
+msgid "Updated sidebar <strong>%1$s</strong>"
+msgstr "Barra <strong>%1$s</strong> actualizada"
+
+#: inc/class-custom-sidebars-editor.php:222
+#: inc/class-custom-sidebars-editor.php:271
+#, fuzzy
+#@ custom-sidebars
+msgid "The sidebar was not found"
+msgstr "La barra no se encuentra"
+
+#: inc/class-custom-sidebars-editor.php:260
+#, php-format
+#@ custom-sidebars
+msgid "Deleted sidebar <strong>%1$s</strong>"
+msgstr "Barra <strong>%1$s</strong> borrada"
+
+#: inc/class-custom-sidebars-editor.php:328
+#, fuzzy
+#@ custom-sidebars
+msgid "Front Page"
+msgstr "Página principal del Blog"
+
+#: inc/class-custom-sidebars-editor.php:329
+#, fuzzy
+#@ custom-sidebars
+msgid "Search Results"
+msgstr "Página de resultados de búsqueda"
+
+#: inc/class-custom-sidebars-editor.php:330
+#, fuzzy
+#@ custom-sidebars
+msgid "Author Archives"
+msgstr "Archivos de autores"
+
+#: inc/class-custom-sidebars-editor.php:331
+#, fuzzy
+#@ custom-sidebars
+msgid "Tag Archives"
+msgstr "Archivos de etiquetas"
+
+#: inc/class-custom-sidebars-editor.php:332
+#, fuzzy
+#@ custom-sidebars
+msgid "Date Archives"
+msgstr "Archivos por fecha"
+
+#: inc/class-custom-sidebars-editor.php:366
+#, fuzzy, php-format, php-format
+#@ custom-sidebars
+msgid "%1$s Archives"
+msgstr "Archivos %1$s"
+
+#: inc/class-custom-sidebars-editor.php:495
+#, php-format
+#@ custom-sidebars
+msgid "Updated sidebar <strong>%1$s</strong> settings."
+msgstr "Actualizadas las opciones para la barra <strong>%1$s</strong>."
+
+#: inc/class-custom-sidebars-editor.php:531
+#: views/widgets.php:17
+#@ custom-sidebars
+msgid "Sidebars"
+msgstr "Barras Laterales"
+
+#: inc/class-custom-sidebars-export.php:61
+#: views/widgets.php:23
+#: views/widgets.php:41
+#, fuzzy
+#@ custom-sidebars
+msgid "Import / Export Sidebars"
+msgstr "Importar / Exportar barras"
+
+#: inc/class-custom-sidebars-export.php:255
+#: inc/class-custom-sidebars-export.php:297
+#@ custom-sidebars
+msgid "No file was uploaded"
+msgstr "No fue cargado ningún archivo"
+
+#: inc/class-custom-sidebars-export.php:262
+#@ custom-sidebars
+msgid "Import file is too big"
+msgstr "El archivo a importar es demasiado grande."
+
+#: inc/class-custom-sidebars-export.php:268
+#@ custom-sidebars
+msgid "Something went wrong"
+msgstr "Algo ha ido mal."
+
+#: inc/class-custom-sidebars-export.php:291
+#@ custom-sidebars
+msgid "Unexpected import format"
+msgstr "Formato de importación incorrecto."
+
+#: inc/class-custom-sidebars-export.php:362
+#@ custom-sidebars
+msgid "Something unexpected happened and we could not finish the import. Please try again."
+msgstr "Ha ocurrido un error inesperado y no se ha podido importar el archivo. Inténtelo de nuevo."
+
+#: inc/class-custom-sidebars-export.php:557
+#, php-format
+#@ custom-sidebars
+msgid "Imported %d custom sidebar(s)!"
+msgstr "%d barras laterales importadas!"
+
+#: inc/class-custom-sidebars-export.php:567
+#@ custom-sidebars
+msgid "Plugin options were imported!"
+msgstr "Las opciones del plugin fueron importadas."
+
+#: inc/class-custom-sidebars-export.php:618
+#, php-format
+#@ custom-sidebars
+msgid "Imported %d widget(s)!"
+msgstr "Importados %d widget(s)!"
+
+#: inc/class-custom-sidebars-visibility.php:164
+#@ custom-sidebars
+msgid "Visibility"
+msgstr "Visibilidad"
+
+#: inc/class-custom-sidebars-visibility.php:173
+#@ custom-sidebars
+msgid "<b>Show</b> widget if:"
+msgstr "<b>Mostrar</b> widget si:"
+
+#: inc/class-custom-sidebars-visibility.php:174
+#@ custom-sidebars
+msgid "<b>Hide</b> widget if:"
+msgstr "<b>Ocultar</b> widget si:"
+
+#: inc/class-custom-sidebars-visibility.php:202
+#@ custom-sidebars
+msgid "Always"
+msgstr "Siempre"
+
+#: inc/class-custom-sidebars-visibility.php:207
+#: inc/class-custom-sidebars-visibility.php:214
+#: inc/class-custom-sidebars-visibility.php:230
+#: inc/class-custom-sidebars-visibility.php:246
+#: inc/class-custom-sidebars-visibility.php:260
+#: inc/class-custom-sidebars-visibility.php:274
+#: inc/class-custom-sidebars-visibility.php:326
+#@ custom-sidebars
+msgid "AND"
+msgstr "Y"
+
+#: inc/class-custom-sidebars-visibility.php:207
+#@ custom-sidebars
+msgid "On these dates"
+msgstr "En estas fechas"
+
+#: inc/class-custom-sidebars-visibility.php:214
+#@ custom-sidebars
+msgid "User has role"
+msgstr "El usuario tiene el rol"
+
+#: inc/class-custom-sidebars-visibility.php:230
+#@ custom-sidebars
+msgid "User has Membership Level"
+msgstr "El usuario tiene el nivel de miembro"
+
+#: inc/class-custom-sidebars-visibility.php:237
+#@ custom-sidebars
+msgid "(inactive)"
+msgstr "(inactivo)"
+
+#: inc/class-custom-sidebars-visibility.php:246
+#@ custom-sidebars
+msgid "Pro Sites Level"
+msgstr "Nivel de Pro Sites"
+
+#: inc/class-custom-sidebars-visibility.php:260
+#@ custom-sidebars
+msgid "On these special pages"
+msgstr "En estas páginas en especial"
+
+#: inc/class-custom-sidebars-visibility.php:274
+#, fuzzy
+#@ custom-sidebars
+msgid "On any page of these types"
+msgstr "En cualquier página de estos tipos"
+
+#: inc/class-custom-sidebars-visibility.php:288
+#, php-format
+#@ custom-sidebars
+msgid "Only for specific %s"
+msgstr "Solo para %s específicos"
+
+#: inc/class-custom-sidebars-visibility.php:289
+#, php-format
+#@ custom-sidebars
+msgid "Only these %s:"
+msgstr "Solo estos %s"
+
+#: inc/class-custom-sidebars.php:71
+#, fuzzy
+#@ custom-sidebars
+msgid "Custom Sidebars Pro"
+msgstr "Custom Sidebars Pro"
+
+#: inc/class-custom-sidebars.php:75
+#, php-format
+#@ custom-sidebars
+msgid "Now you can create and edit custom sidebars in your <a href=\"%1$s\">Widgets screen</a>!"
+msgstr "Ahora puedes crear y editar barras laterales en tu <a href=\"%1$s\">pantalla de Widgets</a>!"
+
+#: inc/class-custom-sidebars.php:738
+#, php-format
+#@ custom-sidebars
+msgid "Import / Export functionality is available<br />in the <b>PRO</b> version of this plugin.<br /><a href=\"%1$s\" target=\"_blank\">Learn more</a>"
+msgstr "La función Importar / Exportar está disponible<br /> en la versión <b>PRO</b> del plugin.<br /><a href=\"%1$s\" target=\"_blank\">Leer más</a>"
+
+#: inc/class-custom-sidebars.php:740
+#@ custom-sidebars
+msgid "Pro Version Features"
+msgstr "Características PRO"
+
+#: views/import.php:61
+#: views/widgets-export.php:31
+#@ custom-sidebars
+msgid "Import"
+msgstr "Importar"
+
+#: views/import.php:68
+#@ custom-sidebars
+msgid "Filename"
+msgstr "Nombre del archivo"
+
+#: views/import.php:72
+#@ custom-sidebars
+msgid "Exported on"
+msgstr "Exportado"
+
+#: views/import.php:78
+#@ custom-sidebars
+msgid "WordPress settings"
+msgstr "Opciones de WordPress"
+
+#: views/import.php:89
+#@ custom-sidebars
+msgid "WordPress version"
+msgstr "Versión de WordPress"
+
+#: views/import.php:94
+#@ custom-sidebars
+msgid "Plugin version"
+msgstr "Versión del plugin"
+
+#: views/import.php:99
+#@ custom-sidebars
+msgid "Theme"
+msgstr "Tema"
+
+#: views/import.php:125
+#: views/widgets.php:42
+#@ custom-sidebars
+msgid "Custom Sidebars"
+msgstr "Barras Laterales"
+
+#: views/import.php:127
+#@ custom-sidebars
+msgid "Mark the sidebars that you want to import."
+msgstr "Marque las barras que quiera importar."
+
+#: views/import.php:132
+#@ custom-sidebars
+msgid "Also import all widgets of the selected sidebars."
+msgstr "Importar también los widgets de las barras seleccionadas."
+
+#: views/import.php:139
+#: views/widgets-editor.php:15
+#@ custom-sidebars
+msgid "Name"
+msgstr "Nombre"
+
+#: views/import.php:140
+#: views/widgets-editor.php:20
+#@ custom-sidebars
+msgid "Description"
+msgstr "Descripción"
+
+#: views/import.php:141
+#@ custom-sidebars
+msgid "Note"
+msgstr "Nota"
+
+#: views/import.php:142
+#@ custom-sidebars
+msgid "Widgets"
+msgstr "Widgets"
+
+#: views/import.php:150
+#, fuzzy
+#@ custom-sidebars
+msgid "Existing sidebar will be replaced!"
+msgstr "La barra actual será reemplazada!"
+
+#: views/import.php:152
+#, fuzzy
+#@ custom-sidebars
+msgid "New sidebar will be created"
+msgstr "Una nueva barra será creada"
+
+#: views/import.php:206
+#, fuzzy
+#@ custom-sidebars
+msgid "(Theme sidebar)"
+msgstr "(Barra del tema)"
+
+#: views/import.php:232
+#@ custom-sidebars
+msgid "Configuration"
+msgstr "Configuración"
+
+#: views/import.php:236
+#, fuzzy
+#@ custom-sidebars
+msgid "Replaceable sidebars"
+msgstr "Barras reemplazables"
+
+#: views/import.php:239
+#@ custom-sidebars
+msgid "Replaceable Sidebars"
+msgstr "Barras reemplazables"
+
+#: views/import.php:249
+#@ custom-sidebars
+msgid "By post type"
+msgstr "Por tipo de entrada"
+
+#: views/import.php:262
+#@ custom-sidebars
+msgid "Post-type archives"
+msgstr "Archivos de tipos de entrada"
+
+#: views/import.php:275
+#@ custom-sidebars
+msgid "By category"
+msgstr "Por categorías"
+
+#: views/import.php:288
+#@ custom-sidebars
+msgid "Category archives"
+msgstr "Archivos de categorías"
+
+#: views/import.php:301
+#@ custom-sidebars
+msgid "Special pages"
+msgstr "Páginas especiales"
+
+#: views/import.php:304
+#@ custom-sidebars
+msgid "Main blog page"
+msgstr "Página principal del Blog"
+
+#: views/import.php:305
+#@ custom-sidebars
+msgid "Date archives"
+msgstr "Archivos por fecha"
+
+#: views/import.php:306
+#@ custom-sidebars
+msgid "Author archives"
+msgstr "Archivos de autores"
+
+#: views/import.php:307
+#@ custom-sidebars
+msgid "Tag archives"
+msgstr "Archivos de etiquetas"
+
+#: views/import.php:308
+#@ custom-sidebars
+msgid "Search results page"
+msgstr "Página de resultados de búsqueda"
+
+#: views/import.php:318
+#@ custom-sidebars
+msgid "Replace the current plugin configuration with the imported configuration."
+msgstr "Reemplaza la configuración actual del plugin con la configuración importada."
+
+#: views/metabox.php:16
+#@ custom-sidebars
+msgid "Here you can replace the default sidebars. Simply select what sidebar you want to show for this post!"
+msgstr "Aquí puede reemplazar las barras por defecto. Simplemente seleccione qué barra quiere mostrar para esta entrada."
+
+#: views/metabox.php:42
+#@ custom-sidebars
+msgid "All sidebars have been locked, you cannot replace them. Go to <a href=\"widgets.php\">the widgets page</a> to unlock a sidebar"
+msgstr "Todas las barras están bloqueadas y no puede reemplazarlas. Configure las barras en la <a href=\"widgets.php\">página de widgets</a>."
+
+#: views/widgets-delete.php:12
+#@ custom-sidebars
+msgid "Please confirm that you want to delete the sidebar <strong class=\"name\"></strong>."
+msgstr "Por favor, confirme que quiere borrar la barra lateral."
+
+#: views/widgets-delete.php:16
+#: views/widgets-editor.php:63
+#: views/widgets-location.php:173
+#@ custom-sidebars
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: views/widgets-delete.php:17
+#@ custom-sidebars
+msgid "Yes, delete it"
+msgstr "Si, borrar."
+
+#: views/widgets-editor.php:16
+#, fuzzy
+#@ custom-sidebars
+msgid "Sidebar name here..."
+msgstr "Nombre aquí"
+
+#: views/widgets-editor.php:17
+#, fuzzy
+#@ custom-sidebars
+msgid "The name must be unique."
+msgstr "Ya usó este nombre para otra barra."
+
+#: views/widgets-editor.php:21
+#, fuzzy
+#@ custom-sidebars
+msgid "Sidebar description here..."
+msgstr "Descripción aquí"
+
+#: views/widgets-editor.php:27
+#@ custom-sidebars
+msgid "Caution:"
+msgstr "Precaución:"
+
+#: views/widgets-editor.php:33
+#@ custom-sidebars
+msgid "Before-after title-widget properties define the html code that will wrap the widgets and their titles in the sidebars, more info about them on the <a href=\"http://justintadlock.com/archives/2010/11/08/sidebars-in-wordpress\" target=\"_blank\">Justin Tadlock Blog</a>. Do not use these fields if you are not sure what you are doing, it can break the design of your site. Leave these fields blank to use the theme sidebars design."
+msgstr "Las propiedades Before/After title/widget definen el código HTML que envuelve las partes de las barras laterales. No use estos campos si no está seguro de lo que hace, <b>puede romper el diseño de su sitio</b>. Para usar los valores de su tema actual, deje estos campos en blanco. Más información en <a href=\"http://justintadlock.com/archives/2010/11/08/sidebars-in-wordpress\" target=\"_blank\">este artículo</a>"
+
+#: views/widgets-editor.php:39
+#@ custom-sidebars
+msgid "Before Title"
+msgstr "Before Title"
+
+#: views/widgets-editor.php:43
+#@ custom-sidebars
+msgid "After Title"
+msgstr "After Title"
+
+#: views/widgets-editor.php:49
+#@ custom-sidebars
+msgid "Before Widget"
+msgstr "Before Widget"
+
+#: views/widgets-editor.php:53
+#@ custom-sidebars
+msgid "After Widget"
+msgstr "After Widget"
+
+#: views/widgets-editor.php:60
+#@ custom-sidebars
+msgid "Advanced - Edit custom wrapper code"
+msgstr "Avanzado - Personalice el HTML"
+
+#: views/widgets-editor.php:64
+#: views/widgets.php:38
+#@ custom-sidebars
+msgid "Create Sidebar"
+msgstr "Crear una barra"
+
+#: views/widgets-export.php:10
+#: views/widgets-export.php:26
+#@ custom-sidebars
+msgid "Export"
+msgstr "Exportar"
+
+#: views/widgets-export.php:17
+#@ custom-sidebars
+msgid "This will generate a complete export file containing all your sidebars and the current sidebar configuration."
+msgstr "Generación de un archivo que contiene todas las barras laterales y la configuración actual del plugin."
+
+#: views/widgets-export.php:21
+#@ default
+msgid "Optional description for the export file:"
+msgstr ""
+
+#: views/widgets-export.php:35
+#@ custom-sidebars
+msgid "Export file"
+msgstr "Exportar archivo"
+
+#: views/widgets-export.php:40
+#@ custom-sidebars
+msgid "Preview"
+msgstr "Vista previa"
+
+#: views/widgets-location.php:30
+#, fuzzy
+#@ custom-sidebars
+msgid "Replaced by another sidebar:"
+msgstr "Reemplazada por:"
+
+#: views/widgets-location.php:38
+#, php-format
+#@ custom-sidebars
+msgid "As <strong>%1$s</strong> for selected %2$s"
+msgstr "Como <strong>%1$s</strong> por la seleccionada %2$s"
+
+#: views/widgets-location.php:50
+#, php-format
+#@ custom-sidebars
+msgid "Click here to pick available %1$s"
+msgstr "Click aquí para seleccionar %1$s"
+
+#: views/widgets-location.php:79
+#, php-format
+#@ custom-sidebars
+msgid "To attach this sidebar to a unique Post or Page please visit that <a href=\"%1$s\">Post</a> or <a href=\"%2$s\">Page</a> & set it up via the sidebars metabox."
+msgstr "Para asignar esta barra a una entrada particular edite ese <a href=\"%1$s\">Post</a> o <a href=\"%2$s\">Página</a> y selecciónela en la caja 'Barra Laterales'."
+
+#: views/widgets-location.php:94
+#: views/widgets-location.php:135
+#@ default
+msgid "Click to toggle"
+msgstr ""
+
+#: views/widgets-location.php:95
+#@ custom-sidebars
+msgid "For all Single Entries matching selected criteria"
+msgstr "Para todas entradas que cumplan con..."
+
+#: views/widgets-location.php:98
+#@ custom-sidebars
+msgid "These replacements will be applied to every single post that matches a certain post type or category."
+msgstr "Las barras seleccionadas se mostrarán en las entradas individuales que pertenezcan a el tipo de entrada o categoría particular."
+
+#: views/widgets-location.php:106
+#@ custom-sidebars
+msgid "categories"
+msgstr "categorías"
+
+#: views/widgets-location.php:118
+#, fuzzy
+#@ custom-sidebars
+msgid "Post Types"
+msgstr "Por tipo de entrada"
+
+#: views/widgets-location.php:136
+#, fuzzy
+#@ custom-sidebars
+msgid "For Archives"
+msgstr "Archivos de categorías"
+
+#: views/widgets-location.php:139
+#@ custom-sidebars
+msgid "These replacements will be applied to Archive Type posts and pages."
+msgstr "Estos barras serán mostradas en los archivos de entradas y páginas."
+
+#: views/widgets-location.php:142
+#: views/widgets-location.php:152
+#@ custom-sidebars
+msgid "Archive Types"
+msgstr "Tipos de archivo"
+
+#: views/widgets-location.php:143
+#: views/widgets-location.php:163
+#, fuzzy
+#@ custom-sidebars
+msgid "Category Archives"
+msgstr "Archivos de categorías"
+
+#: views/widgets-location.php:174
+#: views/widgets.php:37
+#@ custom-sidebars
+msgid "Save Changes"
+msgstr "Guardar Cambios"
+
+#: views/widgets.php:21
+#@ custom-sidebars
+msgid "Create a new sidebar"
+msgstr "Crear una nueva lateral"
+
+#: views/widgets.php:35
+#, fuzzy
+#@ custom-sidebars
+msgid "Edit [Sidebar]"
+msgstr "Editar"
+
+#: views/widgets.php:36
+#, fuzzy
+#@ custom-sidebars
+msgid "New Custom Sidebar"
+msgstr "Crear una nueva lateral"
+
+#: views/widgets.php:39
+#, fuzzy
+#@ custom-sidebars
+msgid "Delete Sidebar"
+msgstr "Borrar barra"
+
+#: views/widgets.php:40
+#@ custom-sidebars
+msgid "Define where you want this sidebar to appear."
+msgstr "Defina donde quiere que aparezca esta barra."
+
+#: views/widgets.php:43
+#, fuzzy
+#@ custom-sidebars
+msgid "Theme Sidebars"
+msgstr "Barras del Tema"
+
+#: views/widgets.php:44
+#@ custom-sidebars
+msgid "Couldn't load data from WordPress..."
+msgstr "No se pudo cargar datos de WordPress..."
+
+#: views/widgets.php:45
+#: views/widgets.php:98
+#@ custom-sidebars
+msgid "This sidebar can be replaced on certain pages"
+msgstr "Esta barra puede ser reemplazada"
+
+#: views/widgets.php:46
+#@ custom-sidebars
+msgid "Activate this option to replace the sidebar with one of your custom sidebars."
+msgstr "Activa esta opción para reemplazar la barra con una de las barras personalizadas."
+
+#: views/widgets.php:62
+#, fuzzy
+#@ custom-sidebars
+msgid "Delete this sidebar."
+msgstr "Borrar esta barra."
+
+#: views/widgets.php:71
+#, fuzzy
+#@ custom-sidebars
+msgid "Edit this sidebar."
+msgstr "Editar esta barra."
+
+#: views/widgets.php:73
+#@ custom-sidebars
+msgid "Edit"
+msgstr "Editar"
+
+#: views/widgets.php:80
+#: views/widgets.php:117
+#@ custom-sidebars
+msgid "Where do you want to show the sidebar?"
+msgstr "Dónde quiere mostrar esta barra?"
+
+#: views/widgets.php:82
+#: views/widgets.php:119
+#, fuzzy
+#@ custom-sidebars
+msgid "Sidebar Location"
+msgstr "Posición de la barra."
+
+#: views/widgets.php:99
+#@ custom-sidebars
+msgid "This sidebar will always be same on all pages"
+msgstr "Esta barra permanecerá en todas las páginas."
+
+#: views/widgets.php:108
+#, fuzzy
+#@ custom-sidebars
+msgid "Allow this sidebar to be replaced"
+msgstr "Barra lateral reemplazable."
+
+#: inc/class-custom-sidebars-replacer.php:64
+#@ custom-sidebars
+msgid "name"
+msgstr "name"
+
+#: inc/class-custom-sidebars-replacer.php:65
+#@ custom-sidebars
+msgid "description"
+msgstr "description"
+
+#: inc/class-custom-sidebars-replacer.php:66
+#@ custom-sidebars
+msgid "before_widget"
+msgstr "before_widget"
+
+#: inc/class-custom-sidebars-replacer.php:67
+#@ custom-sidebars
+msgid "after_widget"
+msgstr "after_widget"
+
+#: inc/class-custom-sidebars-replacer.php:68
+#@ custom-sidebars
+msgid "before_title"
+msgstr "before_title"
+
+#: inc/class-custom-sidebars-replacer.php:69
+#@ custom-sidebars
+msgid "after_title"
+msgstr "after_title"
+

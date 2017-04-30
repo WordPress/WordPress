@@ -1,0 +1,1704 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: author-advertising-pro\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-02-07 22:27+0100\n"
+"PO-Revision-Date: 2014-02-09 11:54+0100\n"
+"Last-Translator: Gianluca Marzaro <giangel84@gmail.com>\n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.6.3\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: admin-ads.php:183 admin-ads.php:235
+msgid "Dimensioni dell'Annuncio:"
+msgstr "Ad size:"
+
+#: admin-ads.php:197
+#, fuzzy
+msgid "Consigliato"
+msgstr "Recommended"
+
+#: admin-ads.php:198
+#, fuzzy
+msgid "Rettangolo medio"
+msgstr "Medium Rectangle"
+
+#: admin-ads.php:199
+#, fuzzy
+msgid "Rettangolo grande"
+msgstr "Big Rectangle"
+
+#: admin-ads.php:200
+#, fuzzy
+msgid "Leaderboard"
+msgstr "Leaderboard"
+
+#: admin-ads.php:201
+#, fuzzy
+msgid "Skyscraper largo"
+msgstr "Large Skyscraper"
+
+#: admin-ads.php:202
+#, fuzzy
+msgid "Banner mobile"
+msgstr "Vertical Banner"
+
+#: admin-ads.php:205
+#, fuzzy
+msgid "Altro: orizzontale"
+msgstr "Other: Horizontal"
+
+#: admin-ads.php:206
+#, fuzzy
+msgid "Leaderboard grande"
+msgstr "Leaderboard"
+
+#: admin-ads.php:207
+msgid "Banner grande per dispositivi mobili"
+msgstr "Big banner for mobile devices"
+
+#: admin-ads.php:208
+#, fuzzy
+msgid "Banner"
+msgstr "Banner"
+
+#: admin-ads.php:209
+#, fuzzy
+msgid "Mezzo banner"
+msgstr "Half Banner"
+
+#: admin-ads.php:212
+#, fuzzy
+msgid "Altro: verticale"
+msgstr "Other: Vertical"
+
+#: admin-ads.php:213
+#, fuzzy
+msgid "Skyscraper"
+msgstr "Skyscraper"
+
+#: admin-ads.php:214
+#, fuzzy
+msgid "Banner verticale"
+msgstr "Vertical Banner"
+
+#: admin-ads.php:215
+#, fuzzy
+msgid "Skyscraper grande"
+msgstr "Skyscraper"
+
+#: admin-ads.php:218
+#, fuzzy
+msgid "Altro: quadrato"
+msgstr "Other: Square"
+
+#: admin-ads.php:219
+#, fuzzy
+msgid "Quadrato"
+msgstr "Square"
+
+#: admin-ads.php:220
+#, fuzzy
+msgid "Quadrato piccolo"
+msgstr "Small Square"
+
+#: admin-ads.php:221
+#, fuzzy
+msgid "Rettangolo piccolo"
+msgstr "Small Rectangle"
+
+#: admin-ads.php:222
+#, fuzzy
+msgid "Button"
+msgstr "Button"
+
+#: admin-ads.php:249 admin-ads.php:783
+msgid "Unit&agrave; di Link"
+msgstr "Links Unit"
+
+#: admin-ads.php:310
+msgid "Author Advertising Pro - Gestione Annunci Google"
+msgstr "Author Advertising Pro - Google Ads Manager"
+
+#: admin-ads.php:318
+msgid ""
+"In questa sezione potrai gestire, creare o eliminare i tuoi annunci Adsense"
+msgstr ""
+"In this section you're able to manage, create or delete your Adsense Ads"
+
+#: admin-ads.php:319 admin-adv.php:30
+msgid ""
+"Scegli il tipo di annuncio che desideri, poi compila tutti i campi necessari "
+"a farlo funzionare correttamente sul sito;<br/>In questa nuova versione di "
+"Author Advertising Pro, potrai decidere direttamente dove posizionare gli "
+"annunci all'interno delle pagine senza dover mettere mano al codice del tuo "
+"template."
+msgstr ""
+"Select the type of ad you need, then fill all the fields in order to make it "
+"work fine on your website;<br/>In this new version of Author Advertising "
+"Pro, you're able to decide where put your ads into the pages without need to "
+"edit your template source code."
+
+#: admin-ads.php:343
+#, fuzzy
+msgid "Annuncio eliminato correttamente."
+msgstr "Ad deleted successfully."
+
+#: admin-ads.php:347
+msgid "Errore durante l'eliminazione dell'annuncio."
+msgstr "Error while deleting ad."
+
+#: admin-ads.php:356
+msgid ""
+"Tutti gli annunci sono stati eliminati, il contatore degli ID &egrave; stato "
+"quindi resettato e ripartir&agrave; da 1"
+msgstr ""
+"All Ads are deleted, the IDs counter was resetted and it'll restart from 1"
+
+#: admin-ads.php:374
+msgid ""
+"E' stato creato un nuovo ID annuncio! Ora puoi modificarlo impostando i "
+"campi sottostanti!"
+msgstr "New Ad ID is created! Now you can modify it by fill the fields below!"
+
+#: admin-ads.php:380
+msgid "Errore durante la creazione del nuovo ID annuncio"
+msgstr "Error while making new Ad ID."
+
+#: admin-ads.php:396
+msgid "Non ci sono annunci salvati nel database"
+msgstr "There aren't ads stored on your database"
+
+#: admin-ads.php:400 admin-ads.php:414
+#, fuzzy
+msgid "Crea un nuovo annuncio"
+msgstr "Create a new Ad"
+
+#: admin-ads.php:405
+#, fuzzy
+msgid "Mostrami gli annunci che avevo nella precedente versione."
+msgstr "Show me ads that I had in the previous version."
+
+#: admin-ads.php:716
+#, fuzzy
+msgid "Scegli l'ID dell'annuncio che vuoi modificare:"
+msgstr "Choose the Ad ID you want to edit:"
+
+#: admin-ads.php:717 widget.php:163
+msgid "ID Annuncio:"
+msgstr "Announce ID:"
+
+#: admin-ads.php:721 widget.php:167
+msgid "Seleziona ID Annuncio"
+msgstr "Select Announce ID:"
+
+#: admin-ads.php:750
+msgid "Spunta la casella se desideri che l'annuncio sia attivo:"
+msgstr "Tick the box if you want your ad will active:"
+
+#: admin-ads.php:755
+#, fuzzy
+msgid "Annuncio Attivo:"
+msgstr "Active Ad:"
+
+#: admin-ads.php:761
+msgid "Scegli il tipo di annuncio Adsense (Link/Banner):"
+msgstr "Choose your Adsense announce type (Link/Banner):"
+
+#: admin-ads.php:784
+#, fuzzy
+msgid "Annuncio Illustrato/Testo"
+msgstr "Ad Illustrated/Text"
+
+#: admin-ads.php:792
+#, fuzzy
+msgid "Scegli il tipo di annuncio che desideri creare:"
+msgstr "Choose the type of ad you want to create:"
+
+#: admin-ads.php:814
+#, fuzzy
+msgid "Nuovo codice Adsense (ad_slot)"
+msgstr "New Adsense code (ad_slot)"
+
+#: admin-ads.php:815
+#, fuzzy
+msgid "Vecchio codice Adsense"
+msgstr "Old Adsense code"
+
+#: admin-ads.php:832
+#, fuzzy
+msgid "Codice AD_SLOT (formato annuncio):"
+msgstr "AD_SLOT code (Ad format):"
+
+#: admin-ads.php:850
+msgid "Usa il codice AD_SLOT relativo al pub-id dell'Autore"
+msgstr "Use the AD_SLOT code, relating to author pub-id"
+
+#: admin-ads.php:851
+#, fuzzy
+msgid "Usa un codice AD_SLOT personale"
+msgstr "Use a custom AD_SLOT"
+
+#: admin-ads.php:856
+#, fuzzy
+msgid "Ad_slot:"
+msgstr "Ad_slot:"
+
+#: admin-ads.php:858
+msgid ""
+"Inserisci il codice Ad_Slot di 10 cifre, altrimenti l'annuncio non "
+"funzioner&agrave;!"
+msgstr ""
+"Insert the Ad_Slot code consisting on 10 figures, else this Ad will not work!"
+
+#: admin-ads.php:858
+msgid "Codice Ad_Slot formalmente valido!"
+msgstr "Ad_Slot formally valid code!"
+
+#: admin-ads.php:859
+msgid "Codice Ad_Slot non valido: Deve contenere solo numeri!"
+msgstr "Invalid Ad_Slot code: It must contain only numbers!"
+
+#: admin-ads.php:935
+msgid ""
+"Puoi selezionare solo gli Ad_Slot che hai attivato nelle Impostazioni "
+"generali del plugin."
+msgstr ""
+"You can choose only the Ad_Slots which you have activated by the general "
+"plugin settings page."
+
+#: admin-ads.php:946
+#, fuzzy
+msgid "Scegli lo stile dell'annuncio Adsense:"
+msgstr "Choose Adsense Ad style:"
+
+#: admin-ads.php:969
+#, fuzzy
+msgid "Solo Immagini"
+msgstr "Images only"
+
+#: admin-ads.php:973
+#, fuzzy
+msgid "Solo Testo"
+msgstr "Text only"
+
+#: admin-ads.php:976
+#, fuzzy
+msgid "Immagini e Testo"
+msgstr "Text and Images"
+
+#: admin-ads.php:984
+#, fuzzy
+msgid "Numero di links:"
+msgstr "Links number:"
+
+#: admin-ads.php:1005
+#, fuzzy
+msgid "Seleziona lo stile degli angoli dell'annuncio:"
+msgstr "Choose the Ad corners style:"
+
+#: admin-ads.php:1022
+#, fuzzy
+msgid "Nessuno (squadrato)"
+msgstr "None (squared)"
+
+#: admin-ads.php:1023
+#, fuzzy
+msgid "Leggermente arrotondati"
+msgstr "Slightly rounded"
+
+#: admin-ads.php:1024
+#, fuzzy
+msgid "Molto arrotondati"
+msgstr "Very rounded"
+
+#: admin-ads.php:1030
+msgid "Seleziona i colori dell'annuncio:"
+msgstr "Select Ad colours:"
+
+#: admin-ads.php:1030
+msgid ""
+"Inserisci un valore esadecimale o clicca sulla casella del colore per "
+"selezionarne uno."
+msgstr "Type an hex color value or click on the color field to choose one."
+
+#: admin-ads.php:1034
+#, fuzzy
+msgid "Bordo"
+msgstr "Border"
+
+#: admin-ads.php:1041
+#, fuzzy
+msgid "Titolo"
+msgstr "Title"
+
+#: admin-ads.php:1048
+#, fuzzy
+msgid "Sfondo"
+msgstr "Background"
+
+#: admin-ads.php:1055
+#, fuzzy
+msgid "Testo"
+msgstr "Text"
+
+#: admin-ads.php:1064
+#, fuzzy
+msgid "URL"
+msgstr "URL"
+
+#: admin-ads.php:1072
+msgid "Link"
+msgstr "Link"
+
+#: admin-ads.php:1085
+msgid "Personalizza Pub-id:"
+msgstr "Customize Pub-id:"
+
+#: admin-ads.php:1092
+msgid ""
+"Inserisci un codice pub-id personale se desideri fare in modo che questo "
+"annuncio visualizzi sempre uno specifico pub-id.<br/><b>Lascialo vuoto se "
+"desideri che appaia il codice pub-id dell'autore!</b>"
+msgstr ""
+"Type a personal pub-id code if you wish to this announce will show always a "
+"specific pub-id.<br/><b>Leave it blank if you want that Ad will show the "
+"Post's Author Pub-id."
+
+#: admin-ads.php:1095
+msgid "Codice Pub-id:"
+msgstr "Pub-id code:"
+
+#: admin-ads.php:1105 admin-ads.php:1111 user-adsense.php:75
+#: user-adsense.php:81
+msgid "Manca il suffisso \"pub-\" all'inizio del codice numerico"
+msgstr "Prefix \"pub-\" at begin of numerical code is missing!"
+
+#: admin-ads.php:1116 user-adsense.php:86
+msgid "Il codice pub-id inserito sembra corretto"
+msgstr "The Pub-id saved seem correct"
+
+#: admin-ads.php:1120 user-adsense.php:90
+msgid ""
+"Il codice pub-id dovrebbe essere di 4 caratteri + 16 cifre (es.: "
+"pub-0123456789012345)!"
+msgstr ""
+"Pub-id code should be 4 characters + 16 numbers (es.:  pub-0123456789012345)!"
+
+#: admin-ads.php:1126
+msgid "Inserire il codice pub-id utente!"
+msgstr "Insert the user pub-id code!"
+
+#: admin-ads.php:1138
+msgid "Canale di monitoraggio per questo annuncio:"
+msgstr "Monitoring channel for this announce:"
+
+#: admin-ads.php:1139
+#, fuzzy
+msgid "Nome canale:"
+msgstr "Channel name's:"
+
+#: admin-ads.php:1146
+msgid "Commento per questo annuncio:"
+msgstr "Comment for this Ad:"
+
+#: admin-ads.php:1147
+#, fuzzy
+msgid "Testo del commento:"
+msgstr "Link titel"
+
+#: admin-ads.php:1153
+#, fuzzy
+msgid "Posizionamento Automatico:"
+msgstr "Automatic positioning:"
+
+#: admin-ads.php:1154
+#, fuzzy
+msgid ""
+"Ti permette di scegliere dove inserire questo annuncio, automaticamente, "
+"senza dover mettere mano al codice del template."
+msgstr ""
+"Allows you to choose where to place this ad, <br/> automatically, without "
+"having to hand manipulate the template code."
+
+#: admin-ads.php:1161
+#, fuzzy
+msgid "All'inizio dell'articolo:"
+msgstr "At the beginning of the Post:"
+
+#: admin-ads.php:1162
+#, fuzzy
+msgid "Alla fine dell'articolo:"
+msgstr "At the end of the Post:"
+
+#: admin-ads.php:1163
+#, fuzzy
+msgid "Al centro dell'articolo:"
+msgstr "In the middle of Post:"
+
+#: admin-ads.php:1164
+msgid ""
+"Attenzione: Il posizionamento automatico al centro viene ignorato se "
+"nell'articolo inserisci anche il TAG manuale o se non sono presenti ALMENO 2 "
+"paragrafi (Es.: &lsaquo;p&rsaquo;Primo paragrafo&lsaquo;/p&rsaquo;&lsaquo;"
+"p&rsaquo;Secondo paragrafo&lsaquo;/p&rsaquo;)"
+msgstr ""
+
+#: admin-ads.php:1172
+#, fuzzy
+msgid "Posizionamento Manuale:"
+msgstr "Manual positioning:"
+
+#: admin-ads.php:1173
+#, fuzzy
+msgid ""
+"Scegli il TAG, ovvero la parola che inserita nell'articolo, verr&agrave "
+"sostituita con questo annuncio.<br/>Oppure copia il codice template ed "
+"inseriscilo dove preferisci nel codice php del tuo tema."
+msgstr ""
+"Type the TAG (word) which is present into a Post, will be replaced by this "
+"Ad.<br/>Or copy the template code and insert it wherever you want into php "
+"template code."
+
+#: admin-ads.php:1174
+#, fuzzy
+msgid "TAG:"
+msgstr "TAG:"
+
+#: admin-ads.php:1195
+#, fuzzy
+msgid "PHP Template tag:"
+msgstr "PHP Template tag:"
+
+#: admin-ads.php:1204
+#, fuzzy
+msgid ""
+"Seleziona le categorie abilitate alla visualizzazione di questo annuncio:"
+msgstr "Choose the categories which will be able to show this Ad:"
+
+#: admin-ads.php:1208
+msgid ""
+"Inserisci l' ID della categoria degli articoli che vuoi includere/escludere "
+"- se pi&ugrave; di una separati da virgola (es.: 1,34,23,28). - <br/>Se "
+"escludi l'id di una categoria, e lo stesso id lo inserisci tra le categorie "
+"abilitate, l'annuncio non verr&agrave; visualizzato!"
+msgstr ""
+"Type the IDs of the post's category which you want to include or exclude - "
+"multiple categories accepted if typed comma separated (eg.: 1,34,23,28). - "
+"<br/>If you exclude an category id, and the same id is typed into allowed "
+"categories, the ad will not displayed!"
+
+#: admin-ads.php:1208
+msgid ""
+"Lascia vuota la casella se non desideri utilizzare la relativa funzione. Per "
+"le modalit&agrave; di funzionamento di questa opzione consulta la <a href="
+"\"http://author-adv-pro.org/guides?lang=it\" target=\"_blank\">guida</a>."
+msgstr "Leave blank the field if you won't use the relative function."
+
+#: admin-ads.php:1212
+msgid "Disabilita per queste categorie:"
+msgstr "Disable for these categories:"
+
+#: admin-ads.php:1213
+msgid "Abilita per queste categorie:"
+msgstr "Allow for these categories:"
+
+#: admin-ads.php:1218
+#, fuzzy
+msgid "Personalizza Annuncio:"
+msgstr "Customize Ad:"
+
+#: admin-ads.php:1221
+msgid ""
+"Gli annunci vengono visualizzati sul sito all'interno di un DIV, utilizza "
+"questo campo per scrivere delle regole CSS personalizzate."
+msgstr ""
+"The ads are displayed into a div, use this field to write some customized "
+"CSS rules."
+
+#: admin-ads.php:1221
+#, fuzzy
+msgid "(es.: \"float:left;height:280px;width:336px;overflow:hidden;\")"
+msgstr "(eg.: \"float:left;height:280px;width:336px;overflow:hidden;\")"
+
+#: admin-ads.php:1224
+msgid "Css personalizzato:"
+msgstr "Custom CSS:"
+
+#: admin-ads.php:1231
+msgid "Codice Adsense generato per l'annuncio"
+msgstr "Adsense code generated for the Ad"
+
+#: admin-ads.php:1237
+#, fuzzy
+msgid "Salva questo annuncio"
+msgstr "Save this Ad"
+
+#: admin-ads.php:1240
+#, fuzzy
+msgid "Sei sicuro di voler eliminare questo annuncio defenitivamente?"
+msgstr "Do you want to delete this Ad permanently?"
+
+#: admin-ads.php:1240
+#, fuzzy
+msgid "Elimina questo annuncio"
+msgstr "Delete this Ad"
+
+#: admin-adv.php:21
+msgid "Author Advertising Pro - Gestione Ad Rotator"
+msgstr "Author Advertising pro - Ad Rotator Manager"
+
+#: admin-adv.php:29
+msgid ""
+"In questa sezione potrai gestire, creare o eliminare gli annunci di altre "
+"campagne NON-ADSENSE (Zanox, Tradedoubler ecc...).</b><br/><br/>Copia e "
+"Incolla direttamente qui sotto il codice completo dell'annuncio fornito dal "
+"tuo Advertiser. "
+msgstr ""
+"In this section you're able to create, manage or delete the announce of NOT-"
+"ADSENSE other companies (like Zanox, Tradedoubler ecc...).</b><br/><br/>Copy "
+"and Paste below the complete announce code provided by your Advertising "
+"company."
+
+#: admin-mode.php:155
+msgid "Author Advertising Pro - Admin Mode"
+msgstr "Author Advertising Pro - Admin Mode"
+
+#: admin-mode.php:163
+#, fuzzy
+msgid "Scegli la modalit&agrave; di funzionamento di Auhtor Advertising Pro."
+msgstr "Choose the operating mode of Pro Advertising Auhtor"
+
+#: admin-mode.php:164
+msgid ""
+"Questa funzione ti permette di scegliere se vuoi suddividere la percentuale "
+"di impression dell'Amministratore con altri utenti specifici (ad esempio dei "
+"soci): Essi non dovranno per forza avere il ruolo di amministratore nel "
+"sito, sar&agrave; sufficiente che siano registrati e che abbiano inserito i "
+"propri dati adsense nel loro pannello di controllo."
+msgstr ""
+"This function allow to choose if you want divide the Admin impressions "
+"between other admin users (e.g: business members): They shouldn't are users "
+"with admin role; just registered user that they've saved their adsense codes "
+"on the panel."
+
+#: admin-mode.php:167
+msgid "Modalit&agrave; singolo/multi Admin."
+msgstr "Single/Multi Admin mode."
+
+#: admin-mode.php:178
+msgid "Un solo Admin"
+msgstr "Just One Admin"
+
+#: admin-mode.php:179
+msgid "Multi Admin"
+msgstr "Multi Admin"
+
+#: admin-mode.php:198
+msgid "Scegli il numero di utenti con i quali condividere le impression."
+msgstr "Choose the users number with which you wish divide impressions."
+
+#: admin-mode.php:199
+msgid "Numero di Admin"
+msgstr "Number of Admins"
+
+#: admin-mode.php:213
+msgid ""
+"Ogni volta che <b>diminuisci</b> il numero di admin selezionati, le "
+"percentuali si resettano automaticamente."
+msgstr ""
+"For each time you <b>decrease</b> the admins number, percentage will reset "
+"automatically."
+
+#: admin-mode.php:217
+msgid ""
+"Scegli gli utenti dalla lista ed imposta, per ciascuno di essi, la "
+"percentuale di impression da condividere."
+msgstr ""
+"Choose the users from the list and set, for each one, the impression "
+"percentage."
+
+#: admin-mode.php:228
+msgid "Admin"
+msgstr "Admin"
+
+#: admin-mode.php:245
+#, fuzzy
+msgid "Percentuale totale:"
+msgstr "Total percentage:"
+
+#: admin-mode.php:246
+msgid ""
+"Ricordati che devi impostare le percentuali di ogni utente in modo che il "
+"totale sia 100/100, altrimenti avrai perdite di impression."
+msgstr ""
+"Remember to setup the percentual of each user in order to obtain a total of "
+"100/100, otherwise you could obtain impressions losses."
+
+#: admin-mode.php:249 referral-mode.php:559 user-admin.php:89 widget.php:85
+#, fuzzy
+msgid "Salva"
+msgstr "Save"
+
+#: admin-options.php:134
+msgid ""
+"Poich&egrave; la percentuale dell'admin &egrave; stata diminutita rispetto "
+"alla percentuale del Referral, di conseguenza &egrave; stato corretto anche "
+"il valore percentuale del Referral. Verifica le impostazioni del Referral "
+"Mode se vuoi modificare il suo valore."
+msgstr ""
+"As the percentage of the admin was decreased compared to the referrals "
+"percentage, so it was auto-correct also the percentual Referral share value. "
+"Check the Referral Mode settings if you want to change its value."
+
+#: admin-options.php:149
+msgid ""
+"Il Reset comporta la perdita permanente delle impostazioni di base del "
+"plugin. (I dati dei singoli utenti e delle altre funzioni non subiranno "
+"variazioni"
+msgstr ""
+"Reset imply the permanently delete of plugin's settings . (However users "
+"data and other functions doesn't lose any setting"
+
+#: admin-options.php:167
+msgid "Author Advertising Pro - Impostazioni"
+msgstr "Author Advertising Pro - Settings"
+
+#: admin-options.php:173
+#, fuzzy
+msgid "Lingua in uso:"
+msgstr "Language in use:"
+
+#: admin-options.php:195
+msgid ""
+"Al momento le impression degli annunci Google sul tuo sito vengono suddivise "
+"con queste percentuali:"
+msgstr ""
+"For the moment Google Ads impressions are splitted with these percentual:"
+
+#: admin-options.php:198
+#, fuzzy
+msgid "Amministratore:"
+msgstr "Administrator:"
+
+#: admin-options.php:199
+msgid ""
+" con Referral mode attiva e <u>solo quando</u> si visualizzano gli articoli "
+"di autori sub-affiliati ad altri utenti."
+msgstr ""
+"with Referral mode active and <u>only while</u> is showed the users sub-"
+"affilied Author Posts."
+
+#: admin-options.php:201
+#, fuzzy
+msgid "Editori:"
+msgstr "Editors:"
+
+#: admin-options.php:202
+#, fuzzy
+msgid "Autori:"
+msgstr "Authors:"
+
+#: admin-options.php:207
+#, fuzzy
+msgid "Referral:"
+msgstr "Referral:"
+
+#: admin-options.php:217 admin-options.php:368 widget.php:203
+#, fuzzy
+msgid "Salva le modifiche"
+msgstr "Save the changes"
+
+#: admin-options.php:223
+#, fuzzy
+msgid "Modalit&agrave; di funzionamento:"
+msgstr "Plugin operation mode:"
+
+#: admin-options.php:239
+msgid "Un solo Pub-id"
+msgstr "Single Pub-id"
+
+#: admin-options.php:240
+msgid "Multi Pub-id"
+msgstr "Multi Pub-id:"
+
+#: admin-options.php:245
+msgid ""
+"Seleziona il metodo di funzionamento del Plugin. Come stabilito recentemente "
+"dal <a target=\"_blank\" href=\"http://adsense.blogspot.com/2008/07/sharing-"
+"your-ad-space.html\" >regolamento di Google Adsense</a> nel tuo sito puoi "
+"far apparire uno o pi&ugrave; Pub-id per ogni singola pagina. Leggi la guida "
+"per maggiori informazioni."
+msgstr ""
+"Choose the Plugin operation mode. As the newly <a target=\"_blank\" href="
+"\"http://adsense.blogspot.com/2008/07/sharing-your-ad-space.html\" >Adsense "
+"rule</a>  established, you can showing a single, or also more Pub-id per "
+"page. Read the guide by clicking the icon above for more information."
+
+#: admin-options.php:249
+#, fuzzy
+msgid "Amministratore"
+msgstr "Administrator"
+
+#: admin-options.php:253
+msgid ""
+"Seleziona l' amministratore del sito. Se un autore non specifica il proprio "
+"pub-id nel suo profilo verranno visualizzati gli annunci adsense con il pub-"
+"id dell'amministratore all'interno del suo articolo."
+msgstr ""
+"Choose the website's admin. Note: If an user didn't set its proper pub-id, "
+"the plugin will display only admin adsense code, in his posts."
+
+#: admin-options.php:257
+msgid "Percentuale di visualizzazione Ads Admin"
+msgstr "Admin Ads views percentage."
+
+#: admin-options.php:261
+msgid ""
+"Inserisci la percentuale di visualizzazioni che desideri ottenere come "
+"Amministratore. Impostando 20, i tuoi ads verranno visualizzati 20 volte su "
+"100, mentre l'Ads dell'autore 80 su 100."
+msgstr ""
+"Type the views percentage that you wish to obtain as Administrator. By "
+"typing 20, your Ads will display 20 times on 100, while Author's Ads will "
+"displayed 80 times on 100."
+
+#: admin-options.php:265
+#, fuzzy
+msgid "Percentuale di visualizzazione Ads Editori"
+msgstr "Ads Editor percentage display"
+
+#: admin-options.php:272 admin-options.php:289
+msgid "Registra il plugin per attivare questa funzione"
+msgstr "Register plugin to activate this functions"
+
+#: admin-options.php:279
+msgid ""
+"Inserisci la percentuale di visualizzazioni che desideri offrire ai "
+"moderatori/editori degli articoli. Impostando 20% admin e 10% editori, i "
+"tuoi ads verranno visualizzati 20 volte su 100, quello dell'editore 10 volte "
+"su 100, mentre l'Ads dell'autore 70 su 100."
+msgstr ""
+"Type the views percentage that you wish to offer to moderator/editor of "
+"posts. By typing 20% Admin and 10% Editors, your admin ads will display 20 "
+"times on 100, while those of editors will displayed 10 times on 100, so "
+"post's Author will obtain 70 views on 100 views."
+
+#: admin-options.php:283
+#, fuzzy
+msgid "Incentivo Editore"
+msgstr "Editor Incentive"
+
+#: admin-options.php:293
+#, fuzzy, php-format
+msgid ""
+"Attivando questa opzione, verr&agrave; dato il 100% delle impression agli "
+"articoli scritti dagli utenti con ruolo di Editore."
+msgstr ""
+"By Activating this option, Editor users will get always 100% of impression "
+"while his Posts are showed."
+
+#: admin-options.php:296
+#, fuzzy
+msgid "Ruoli permessi"
+msgstr "Allowed Roles"
+
+#: admin-options.php:308
+msgid ""
+"<b>Nota bene:</b> Qui puoi abilitare i ruoli degli utenti che potranno "
+"visualizzare il link per inserire i propri dati di Adsense in Bacheca.<br/>A "
+"causa delle impostazioni di Wordpress, una volta selezionate le caselle ed "
+"aver salvato la configurazione le modifiche saranno effettive per tutti gli "
+"utenti, <b>tuttavia dovrai aggiornare nuovamente la pagina (F5) per "
+"visualizzare subito le voci nel men&ugrave;.</b>"
+msgstr ""
+"<b>Note:</b> Here you can set the user's role permissions which they're able "
+"to type and save their adsense data.</br>"
+
+#: admin-options.php:316
+#, fuzzy
+msgid "Opzioni utente in Bacheca"
+msgstr "User Options in the Dashboard"
+
+#: admin-options.php:317
+msgid ""
+"Qui puoi modificare il testo che gli utenti visualizzaranno nelle opzioni "
+"Author Advertising della propria Bacheca, ovvero la pagina che permette agli "
+"iscritti di inserire il loro codice pub-id, ad-slot ecc..."
+msgstr ""
+"Here you can edit the text that users will display on the Google Adsense "
+"Code page in Dashboard menu."
+
+#: admin-options.php:320
+msgid "Titolo del link"
+msgstr "Link's title"
+
+#: admin-options.php:321
+msgid "es.: 'I miei codici Adsense'"
+msgstr "eg.: My Google Adsense code."
+
+#: admin-options.php:323
+#, fuzzy
+msgid "Contenuto della pagina"
+msgstr "Page Content"
+
+#: admin-options.php:324
+msgid ""
+"Il testo di introduzione che dovrebbe guidare gli utenti ad inserire i loro "
+"codici nei campi corrispondenti"
+msgstr ""
+"The introduction text which should to drive users to type their codes on the "
+"relative fields."
+
+#: admin-options.php:327
+#, fuzzy
+msgid "Ad_slot utenti"
+msgstr "Users Ad_slot"
+
+#: admin-options.php:328
+msgid "Ad_Slot 1 Attivo"
+msgstr "Ad_Slot 1 Active"
+
+#: admin-options.php:330
+msgid "Descrizione Ad_Slot 1:"
+msgstr "Ad_Slot 1 Description:"
+
+#: admin-options.php:332
+#, fuzzy
+msgid "Ad_slot 2 Attivo"
+msgstr "Ad_slot 2 Active"
+
+#: admin-options.php:334
+#, fuzzy
+msgid "Descrizione Ad_Slot 2:"
+msgstr "Description Ad_Slot 2:"
+
+#: admin-options.php:336
+#, fuzzy
+msgid "Ad_Slot 3 Attivo"
+msgstr "Ad_Slot 3 Active"
+
+#: admin-options.php:338
+#, fuzzy
+msgid "Descrizione Ad_Slot 3:"
+msgstr "Description Ad_Slot 3:"
+
+#: admin-options.php:340
+#, fuzzy
+msgid "Ad_slot 4 Attivo"
+msgstr "Ad_slot 4 Active"
+
+#: admin-options.php:342
+#, fuzzy
+msgid "Descrizione Ad_Slot 4:"
+msgstr "Description Ad_Slot 4:"
+
+#: admin-options.php:344
+#, fuzzy
+msgid "Ad_Slot 5 Attivo"
+msgstr "Ad_Slot 5 Active"
+
+#: admin-options.php:346
+#, fuzzy
+msgid "Descrizione Ad_Slot 5:"
+msgstr "Description Ad_Slot 5:"
+
+#: admin-options.php:348
+#, fuzzy
+msgid "Ad_slot 6 Attivo"
+msgstr "Ad_slot 6 Active"
+
+#: admin-options.php:350
+#, fuzzy
+msgid "Descrizione Ad_Slot 6:"
+msgstr "Description Ad_Slot 6:"
+
+#: admin-options.php:357
+#, fuzzy
+msgid "Attiva modalita' di debug"
+msgstr "Debug mode Active"
+
+#: admin-options.php:361
+msgid ""
+"Se selezionato visualizzerai sotto all'annuncio le informazioni relative al "
+"pub-id ed ai codici dell'annuncio stesso.<br/>Solo gli utenti admin potranno "
+"visualizzare il debug sul sito.<br/>E' una funzione utile per risolvere "
+"eventuali problemi senza dover aprire il sorgente HTML della pagina."
+msgstr ""
+"If selected you're able to view the debug informations under the Ads.<br/"
+">Only admin users will be able to view debug informations by browsing the "
+"blog.<br/>It's an useful feature to manage some issues without opening the "
+"HTML source code every time."
+
+#: admin-options.php:372
+#, fuzzy
+msgid "Reset Impostazioni"
+msgstr "Reset Settings"
+
+#: author-advertising-pro.php:227
+msgid "Guida alla configurazione"
+msgstr "Plugin configuration tutorial"
+
+#: author-advertising-pro.php:229
+msgid "Pagina Facebook ufficiale"
+msgstr "Official Facebook Page"
+
+#: author-advertising-pro.php:231
+msgid "Supporto via Skype"
+msgstr "Support by Skype Chat"
+
+#: author-advertising-pro.php:236 author-advertising-pro.php:281
+#, fuzzy
+msgid "Impostazioni"
+msgstr "Settings"
+
+#: author-advertising-pro.php:238
+msgid "Crea nuovo Annuncio Adsense"
+msgstr "Create a new Adsense Ad"
+
+#: author-advertising-pro.php:240
+msgid "Impostazioni Admin Mode"
+msgstr "Admin Mode Settings"
+
+#: author-advertising-pro.php:242
+msgid "Gestione Codici Utenti"
+msgstr "Manage Users codes"
+
+#: author-advertising-pro.php:244
+msgid "Gestione Widget"
+msgstr "Manage Widget"
+
+#: author-advertising-pro.php:283
+msgid "Annunci Google"
+msgstr "Google Ads"
+
+#: author-advertising-pro.php:285
+msgid "Admin Mode"
+msgstr "Admin Mode"
+
+#: author-advertising-pro.php:287
+msgid "Widget"
+msgstr "Widget"
+
+#: author-advertising-pro.php:289
+#, fuzzy
+msgid "Gestione Utenti"
+msgstr "Manage Users"
+
+#: check-installation.php:111 updater.php:90
+msgid "Error code: #01_array"
+msgstr "Error code: #01_array"
+
+#: install-function.php:36 install-function.php:90 install-function.php:120
+#, fuzzy
+msgid "Creazione TABELLA"
+msgstr "TABLE Creation"
+
+#: install-function.php:141
+#, fuzzy
+msgid "Codici Adsense"
+msgstr "Adsense Codes"
+
+#: install-function.php:142
+msgid ""
+"<p>In questa pagina puoi inserire il tuo codice personale Adsense \"pub-id\" "
+"ed i codici Ad_slot che avrai creato seguendo le <a href=\"http://www.your-"
+"site-name.ext/guides\" target=\"_blank\">nostre guide!</a></p>"
+msgstr ""
+"<p>In this page you can type and save your personal Google Adsense code pub-"
+"id, and Ad_Slot code that you just made by following our<a href=\"http://www."
+"your-site-name.ext/guides\" target=\"_blank\">tutorial!</a></p>"
+
+#: install-function.php:144
+#, fuzzy
+msgid "Esempio: Annuncio 336x280 solo testo"
+msgstr "E.g.: Ads 336x280 text only"
+
+#: installer.php:19 installer.php:42 installer.php:54
+msgid "Author Advertising Pro - Installazione Automatica"
+msgstr "Author Advertising Pro - Automatic Installation"
+
+#: installer.php:22
+#, fuzzy
+msgid ""
+"Inizializzazione procedura di installazione automatica...attendere prego."
+msgstr "Initializing automatic installer procedure...wait please."
+
+#: installer.php:29
+#, fuzzy
+msgid "La creazione della tabella dedicata, &egrave; avvenuta con successo!"
+msgstr "Dedicated table creation succesfully completed!"
+
+#: installer.php:30
+msgid "Author Advertising Pro ora &egrave; pronto per funzionare."
+msgstr "Author Advertising Pro is now ready to work!"
+
+#: installer.php:31 installer.php:46
+msgid "Vai alla configurazione del plugin"
+msgstr "Go to Plugin's configuration."
+
+#: installer.php:45
+msgid "La tabella esiste gi&agrave; all'interno del database."
+msgstr "Table already exist into database."
+
+#: installer.php:57
+#, fuzzy
+msgid ""
+"ERRORE: La procedura di installazione automatica non &egrave; andata a buon "
+"fine."
+msgstr "ERROR: The automatic installer procedure is not succesful."
+
+#: installer.php:58 installer.php:75
+#, fuzzy
+msgid "Torna indietro"
+msgstr "Go Back"
+
+#: installer.php:58
+#, fuzzy
+msgid ""
+"e prova con l'installazione manuale (cos&igrave potrai visualizzare gli "
+"eventuali errori delle singole query MySQL)."
+msgstr ""
+"and try with the manual installation (so you can see any errors for each "
+"MySQL queries)."
+
+#: installer.php:71
+msgid "Author Advertising Pro - Installazione Manuale"
+msgstr "Author Advertising Pro - Manual Installation"
+
+#: installer.php:75
+msgid "per selezionare la modalit&agrave; di installazione automatica."
+msgstr "to select the automatic installation mode."
+
+#: installer.php:77
+msgid "Per procedere con l'installazione manuale segui queste istruzioni:"
+msgstr "to proceed with manual installation follow these instructions."
+
+#: installer.php:78
+msgid ""
+"1) Accedi al tuo pannello di controllo PhpMyAdmin del tuo database MySQL."
+msgstr ""
+"1) Give access to your PhpMyAdmin control panel, about your WP MySQL "
+"database."
+
+#: installer.php:79
+msgid ""
+"2) Clicca sulla 'linguetta' SQL (troverai la scritta: Esegui la/e query SQL "
+"sul database...)"
+msgstr ""
+"2) Click on the SQL label (you can show: 'Execute the SQL query on "
+"database...)"
+
+#: installer.php:80
+msgid ""
+"3) Quindi copia il codice sottostante ed incollalo nel campo di testo della "
+"Query MySQL da eseguire sul tuo database."
+msgstr ""
+"3) Then copy and paste the code below to the text field area of MySQL query, "
+"to execute on your database."
+
+#: installer.php:81
+#, fuzzy
+msgid "4) Clicca su ESEGUI."
+msgstr "4) Click Go."
+
+#: installer.php:147 installer.php:151 installer.php:155
+#, fuzzy
+msgid "CODICE Query SQL:"
+msgstr "SQL Query code:"
+
+#: installer.php:149 installer.php:153
+msgid ""
+"Ripeti l'operazione (seguendo di nuovo i punti precedenti, dal n.1 al n.4) "
+"anche per la query sottostante"
+msgstr ""
+"Repeat the operation (by following again last points, from n.1 to n.4) for "
+"the below query!"
+
+#: installer.php:157
+#, fuzzy
+msgid "5) Fine. Esci da PhpMyAdmin e aggiorna questa pagina (F5)."
+msgstr "5) End. Exit from PhpMyAdmin and refresh this page (F5)."
+
+#: installer.php:166
+msgid "Author Advertising Pro - Installazione"
+msgstr "Author Advertising Pro - Installation"
+
+#: installer.php:169
+msgid ""
+"Per funzionare correttamente Author Advertising Pro ha bisogno di creare una "
+"nuova tabella all'interno del database."
+msgstr ""
+"In order to work fine, Author Advertising Pro need to create a new table "
+"into database."
+
+#: installer.php:170
+msgid ""
+"Per continuare, scegli tra la modalit&agrave; di installazione che "
+"preferisci:"
+msgstr ""
+"To continue setup, choose between installation modes that you like more:"
+
+#: installer.php:173
+#, fuzzy
+msgid "Installazione Automatica"
+msgstr "Automatic Installation"
+
+#: installer.php:174
+#, fuzzy
+msgid "Installazione Manuale"
+msgstr "Manual Installation"
+
+#: installer.php:176
+#, fuzzy
+msgid "Vai"
+msgstr "Go"
+
+#: quick-guide.php:8
+msgid "Author Advertising Pro - Guide"
+msgstr "Author Advertising Pro - Guide"
+
+#: quick-guide.php:11
+#, fuzzy
+msgid "Guida rapida alla configurazione:"
+msgstr "Quick Guides:"
+
+#: quick-guide.php:12
+msgid ""
+"Questa sezione ti permette di capire come configurare il plugin per ottenere "
+"la modalit&agrave; di funzionamento che desideri"
+msgstr ""
+"This area allow to you to understand how setup the plugin in order to obtain "
+"your preferred work mode. "
+
+#: referral-mode.php:99
+msgid "Referral ID"
+msgstr "Referral ID"
+
+#: referral-mode.php:180
+#, fuzzy
+msgid "referred by"
+msgstr "referred by"
+
+#: referral-mode.php:181
+#, fuzzy
+msgid "referred"
+msgstr "referred"
+
+#: referral-mode.php:261 referral-mode.php:339 user-admin.php:146
+#, fuzzy
+msgid "Referral"
+msgstr "Referral"
+
+#: referral-mode.php:264 referral-mode.php:342
+#, fuzzy
+msgid "Ti sei iscritto tramite"
+msgstr "You're joined by"
+
+#: referral-mode.php:268 referral-mode.php:346
+msgid "Numero di utenti che si sono iscritti con il tuo Link"
+msgstr "Number of users which are registered by your referral link"
+
+#: referral-mode.php:272 referral-mode.php:350
+#, fuzzy
+msgid "Lista degli utenti"
+msgstr "List of users"
+
+#: referral-mode.php:272 referral-mode.php:350
+#, fuzzy
+msgid "Nome Utente"
+msgstr "Username"
+
+#: referral-mode.php:272 referral-mode.php:350
+#, fuzzy
+msgid "Numero Articoli Pubblicati"
+msgstr "Numbers of published Posts"
+
+#: referral-mode.php:288 referral-mode.php:366
+msgid "Il tuo Link-Referral"
+msgstr "Your Referral link"
+
+#: referral-mode.php:290 referral-mode.php:368
+msgid ""
+"Invita persone ad iscriversi tramite il tuo link! Potrai guadagnare una "
+"percentuale sulle impression Adsense visualizzate tramite i loro articoli."
+"<br/>Le impression vengono ripartite sottraendo la percentuale che "
+"guadagnerai da quella che invece andrebbe allo staff. Gli utenti che si "
+"iscrivono tramite il tuo link guadagnano sempre la stessa percentuale fissa "
+"di impression per ogni articolo scritto, anche se si registrano senza "
+"referral."
+msgstr ""
+"Invite people to join by your referral link! You're able to gain a "
+"percentage on the Adsense announce impression that will displayed in their "
+"articles.<br/>Impression are subdivided by cutting your gain percentage from "
+"admin percentage. Users which join by your link gain always the same fixed "
+"percentage for each post wrote, even if they join without link."
+
+#: referral-mode.php:395
+msgid "Devi eseguire il login per visualizzare questa pagina"
+msgstr "You must login to show this page"
+
+#: referral-mode.php:440
+msgid "Author Advertising Pro - Referral Mode"
+msgstr "Author Advertising Pro - Referral Mode"
+
+#: referral-mode.php:448
+#, fuzzy
+msgid "In questa sezione potrai attivare e configurare la funzione Referral."
+msgstr "In this section you can enable and setup the Referral function."
+
+#: referral-mode.php:449
+msgid ""
+"<b>Come funziona?</b> La funzione Referral mode permette ai tuoi utenti/"
+"autori di invitare altre persone ad iscriversi a questo sito. Funziona in "
+"modo molto semplice: ogni utente trover&agrave; nel proprio <a href=\"/wp-"
+"admin/profile.php\" target=\"blank\">profilo</a> un link personale, da "
+"copiare ed inviare agli amici. In questo modo gli utenti che si iscriveranno "
+"tramite quel link diventeranno sub-affiliati dell'utente che li ha invitati. "
+"<br/><br/><i>Quest'ultimo, se desideri incentivare gli inviti, "
+"otterr&agrave; quindi una percentuale (che decidi tu) sulle impression "
+"generate dagli articoli scritti dagli amici invitati!</i><br/><br/><b>Ad "
+"esempio:</b> Se Luca invita due amici, Diego e Silvia, e questi scrivono 3 "
+"articoli ciascuno, il Pub_id di Luca verr&agrave; visualizzato in questi 6 "
+"articoli secondo la percentuale che imposterai qui sotto!<br/><br/>Tale "
+"percentuale viene sottratta all'admin, infatti come puoi vedere, per evitare "
+"errori di calcolo, puoi impostare una percentuale massima, uguale o "
+"inferiore a quella che hai salvato nelle Impostazioni generali del plugin."
+msgstr ""
+"<b>How it works?</ b> The Referral function mode allows your users/authors "
+"invite others to join this site. It works very simple: each user will find "
+"in your <a href=\"/wp-admin/profile.php\" target=\"blank\">profile</ a> a "
+"personal Link to copy and send to friends. In this way, users who sign up "
+"through that link will become sub-affiliates user who invited them.<br/><i> "
+"So if you want to encourage the invitations, then get a percentage (which "
+"you decide) on the impressions generated by articles written by friends "
+"invited!</ i><br/><br /><b>for example: </ b> If Luke invites two friends, "
+"John and Mike, and write these 3 items each, pub_id Luke will appear in "
+"these 6 items according to the percentage that will set below!<br /><br/> "
+"This percentage is subtracted from the admin, because as you can see, to "
+"avoid errors in calculations, you can set a maximum percentage, equal to or "
+"less than what you saved in the general settings of the plugin."
+
+#: referral-mode.php:458
+msgid "Attiva Referral Mode"
+msgstr "Activate Referral Mode"
+
+#: referral-mode.php:462
+#, fuzzy
+msgid "Seleziona se desideri attivare la funzione Referral Mode."
+msgstr "Check it if you want to enable Referral Mode function."
+
+#: referral-mode.php:497
+#, fuzzy
+msgid "Impression Referral"
+msgstr "Referral Impression"
+
+#: referral-mode.php:501
+msgid ""
+"Seleziona la percentuale di condivisione per gli utenti che fanno iscrivere "
+"nuovi autori."
+msgstr ""
+"Choose the share percentage to users which does join new author members."
+
+#: referral-mode.php:506
+msgid "Annulla Cookie"
+msgstr "Undo Cookie"
+
+#: referral-mode.php:510
+msgid ""
+"Seleziona se desideri che il cookie gi&agrave esistente non venga sostituito "
+"da nuovi link-referral."
+msgstr ""
+"Select if you want that already cookie presence will not replaced by new "
+"clicked referral-link."
+
+#: referral-mode.php:513
+#, fuzzy
+msgid "Validit&agrave del cookie"
+msgstr "Cookie time validity"
+
+#: referral-mode.php:515
+msgid ""
+"Numero di giorni di validit&agrave del cookie. Imposta 0 se vuoi che venga "
+"eliminato alla chiusura del browser."
+msgstr ""
+"Validity cookie (days). Set to 0 if you want that will be deleted when "
+"browser is closed."
+
+#: referral-mode.php:519
+msgid "Redirect URL"
+msgstr "Redirect URL"
+
+#: referral-mode.php:521
+msgid ""
+"URL per il redirect degli utenti che eseguono il login (tranne gli utenti "
+"con ruolo di amministratore)."
+msgstr "Redirect URL for users that they do the Login (not admin users)."
+
+#: referral-mode.php:525
+#, fuzzy
+msgid "Landingpage URL"
+msgstr "Landingpage URL"
+
+#: referral-mode.php:527
+msgid ""
+"Puoi inserire un URL dove redirezionare un utente che arriva sul sito da un "
+"referral-link."
+msgstr ""
+"You can type and URL to redirect users which landing to your blog by a "
+"referral link."
+
+#: referral-mode.php:531
+#, fuzzy
+msgid "Visualizza il campo referral"
+msgstr "Display referral field"
+
+#: referral-mode.php:536
+msgid "Seleziona per mostrare il campo referral nella pagina di registrazione."
+msgstr "Select to display referral field while registration page."
+
+#: referral-mode.php:539
+#, fuzzy
+msgid "Visualizza informazioni sul Referral nella pagina profilo degli utenti."
+msgstr "Display referral information into users profile page."
+
+#: referral-mode.php:544
+msgid ""
+"Visualizza informazioni come l'utente tramite il quale ci si &egrave "
+"registrati, il numero di utenti che si sono iscritti tramite il nostro link, "
+"ed il numero di articoli scritti da ciascuno di essi."
+msgstr ""
+"Display informations like users which by you're joined, the users's number "
+"which join by your link and the post's number wrote by each one."
+
+#: referral-mode.php:546
+#, fuzzy
+msgid "Shortcode"
+msgstr "Shortcode"
+
+#: referral-mode.php:548
+msgid ""
+"Copia e incolla questo TAG nel contenuto di una pagina o di un articolo per "
+"visualizzare le informazioni sul referral."
+msgstr ""
+"Copy and Paste this TAG into a page or post content to show referral "
+"informations."
+
+#: referral-mode.php:550
+#, fuzzy
+msgid "Codice Template"
+msgstr "Template code"
+
+#: referral-mode.php:554
+msgid ""
+"Copia e incolla questo script nel contenuto php di una pagina (page.php) o "
+"di un articolo(single.php) per visualizzare le informazioni sul referral."
+msgstr ""
+"Copy and paste this script into php code of any page (like page.php) or post "
+"(like single.php), in order to show referral informations."
+
+#: updater.php:16
+msgid "Author Advertising Pro - Aggiornamento"
+msgstr "Author Advertising Pro - Update"
+
+#: updater.php:17
+msgid ""
+"Per funzionare correttamente Author Advertising Pro ha bisogno di aggiornare "
+"la tabella correntemente utilizzata nel database."
+msgstr ""
+"In order to work properly Author Advertising Pro need to upgrade its current "
+"table on database."
+
+#: updater.php:18
+msgid ""
+"****** I dati che si trovano nelle tabelle non subiranno modifiche o "
+"variazioni. Procedendo NON perderai la tua configurazione attuale. ******"
+msgstr ""
+"******  All Data already saved into your tables will not lose out of "
+"changes. By Proceeding You NOT lose the current plugin configuration. ******"
+
+#: updater.php:20
+msgid ""
+"Prima di continuare &egrave; consigliato effettuare il backup del database "
+"attuale. Per procedere clicca sul pulsante OK."
+msgstr ""
+"Before continue the process, a backup of your actual database is advised. To "
+"continue click OK button."
+
+#: updater.php:32
+msgid "Author Advertising Pro - Aggiornamento in corso"
+msgstr "Author Advertising Pro - Updating..."
+
+#: updater.php:58
+msgid "UPDATE TABLE"
+msgstr "UPDATE TABLE"
+
+#: updater.php:78 updater.php:82
+#, fuzzy
+msgid "Aggiornamento #"
+msgstr "Update #"
+
+#: updater.php:78
+#, fuzzy
+msgid "eseguito con successo."
+msgstr "succesfully completed."
+
+#: updater.php:80
+#, fuzzy
+msgid "ERRORE: Aggiornamento #"
+msgstr "ERROR: Update #"
+
+#: updater.php:80
+#, fuzzy
+msgid "non eseguito."
+msgstr "not performed."
+
+#: updater.php:82
+#, fuzzy
+msgid "non necessario."
+msgstr "unnecessary"
+
+#: updater.php:97
+#, fuzzy
+msgid ""
+"Aggiornamento completato, se hai ricevuto degli errori consulta la guida o "
+"visita il"
+msgstr "Update completed, if you get any errors see the guide or visit the"
+
+#: user-admin.php:23
+#, fuzzy
+msgid "Sicuro di voler eliminare questo utente?"
+msgstr "Do you want to delete this Ad permanently?"
+
+#: user-admin.php:32
+msgid "Author Advertising Pro - Modifica Utente"
+msgstr "Author Advertising Pro - Modify User"
+
+#: user-admin.php:40
+msgid "User ID"
+msgstr "User ID"
+
+#: user-admin.php:43 user-admin.php:145
+#, fuzzy
+msgid "Username"
+msgstr "Username"
+
+#: user-admin.php:46
+msgid "Referral id"
+msgstr "Referral id"
+
+#: user-admin.php:54
+#, fuzzy
+msgid "Rimuovi il Referral"
+msgstr "Your Referral-Link"
+
+#: user-admin.php:60 user-admin.php:147
+msgid "Pub-id"
+msgstr "Pub-id"
+
+#: user-admin.php:63 user-admin.php:148
+msgid "AdSlot 1"
+msgstr "AdSlot 1"
+
+#: user-admin.php:66 user-admin.php:149
+#, fuzzy
+msgid "AdSlot 2"
+msgstr "AdSlot 2"
+
+#: user-admin.php:69 user-admin.php:150
+#, fuzzy
+msgid "AdSlot 3"
+msgstr "AdSlot 3"
+
+#: user-admin.php:72 user-admin.php:151
+#, fuzzy
+msgid "AdSlot 4"
+msgstr "AdSlot 4"
+
+#: user-admin.php:75 user-admin.php:152
+#, fuzzy
+msgid "AdSlot 5"
+msgstr "AdSlot 5"
+
+#: user-admin.php:78 user-admin.php:153
+#, fuzzy
+msgid "AdSlot 6"
+msgstr "AdSlot 6"
+
+#: user-admin.php:81
+#, fuzzy
+msgid "Incentivo Autore (100%)"
+msgstr "Editor Incentive"
+
+#: user-admin.php:136
+msgid "Author Advertising Pro - Gestione Utenti"
+msgstr "Author Advertising Pro - Manage users"
+
+#: user-admin.php:144
+#, fuzzy
+msgid "UID"
+msgstr "UID"
+
+#: user-admin.php:154
+#, fuzzy
+msgid "Incentivo Autore"
+msgstr "Auteur stimulans"
+
+#: user-admin.php:155
+#, fuzzy
+msgid "Azioni"
+msgstr "Action"
+
+#: user-admin.php:172
+#, fuzzy
+msgid "Elimina"
+msgstr "Delete"
+
+#: user-admin.php:172
+#, fuzzy
+msgid "Modifica"
+msgstr "Modify"
+
+#: user-adsense.php:64
+msgid "Il tuo pub-id Adsense"
+msgstr "Your Adsense pub-id"
+
+#: user-adsense.php:107 user-adsense.php:121 user-adsense.php:135
+#: user-adsense.php:150 user-adsense.php:165 user-adsense.php:180
+#, fuzzy
+msgid "Il codice inserito sembra corretto"
+msgstr "The typed code seems correct"
+
+#: user-adsense.php:111 user-adsense.php:125 user-adsense.php:139
+#: user-adsense.php:154 user-adsense.php:169 user-adsense.php:184
+#, fuzzy
+msgid "Il codice inserito NON sembra corretto"
+msgstr "The typed code does not seems correct"
+
+#: user-adsense.php:111 user-adsense.php:125 user-adsense.php:139
+#: user-adsense.php:154 user-adsense.php:169 user-adsense.php:184
+#, fuzzy
+msgid ""
+"Il codice inserito non sembra corretto (deve essere numerico, di 10 cifre, "
+"senza caratteri e senza spazi)"
+msgstr ""
+"The typed code does not seems correct (must be numerical, of 10 figures, "
+"character and spaces free)"
+
+#: widget.php:52
+#, fuzzy
+msgid "Titolo:"
+msgstr "Title:"
+
+#: widget.php:80
+msgid "Author Advertising Pro Widgets"
+msgstr "Author Advertising Pro Widgets"
+
+#: widget.php:81
+msgid "Di quanti Widget hai bisogno?"
+msgstr "How many widget you need?"
+
+#: widget.php:98
+#, php-format
+msgid "Author Advertising Pro %d"
+msgstr "Author Advertising Pro %d"
+
+#: widget.php:147
+msgid "Author Advertising Pro - Widget"
+msgstr "Author Advertising Pro - Widget"
+
+#: widget.php:155
+msgid ""
+"In questa sezione potrai selezionare l'id dell'annuncio Adsense che desideri "
+"utilizzare come widget."
+msgstr ""
+"By this section you're able to choose the Adsense Announce ID which you wish "
+"to use as widget."
+
+#: widget.php:162
+msgid "Scegli l'ID dell'annuncio Adsense che vuoi usare come Widget:"
+msgstr "Choose the Announce ID which you want use as Widget:"
+
+#: widget.php:197
+#, fuzzy
+msgid "Nascondi in Home:"
+msgstr "Hide in Home:"
+
+#: widget.php:198
+#, fuzzy
+msgid "Nascondi in Archivi:"
+msgstr "Hide in Archive:"
+
+#: widget.php:199
+#, fuzzy
+msgid "Nascondi in Categorie:"
+msgstr "Hide in Category:"
+
+#: widget.php:200
+#, fuzzy
+msgid "Nascondi in Pagine:"
+msgstr "Hide in Pages:"
+
+#: widget.php:201
+#, fuzzy
+msgid "Nascondi in Articoli:"
+msgstr "Hide in Post:"
+
+#, fuzzy
+#~ msgid ""
+#~ "Attenzione: Il posizionamento automatico al centro viene ignorato se "
+#~ "nell'articolo inserisci anche il TAG manuale"
+#~ msgstr ""
+#~ "Warning: Automatic middle positioning will be ignored if there is any "
+#~ "manual TAG like this"
+
+#, fuzzy
+#~ msgid "Status Plugin:"
+#~ msgstr "Plugin Status:"
+
+#, fuzzy
+#~ msgid "Registrato"
+#~ msgstr "Registered"
+
+#, fuzzy
+#~ msgid "Non Registrato"
+#~ msgstr "Not Registered"
+
+#, fuzzy
+#~ msgid "Registra il tuo plugin"
+#~ msgstr "Register your plugin"
+
+#~ msgid "Impostazioni Referral Mode"
+#~ msgstr "Referral Mode Settings"
+
+#, fuzzy
+#~ msgid "Referral Mode"
+#~ msgstr "Referral Mode"
+
+#, fuzzy
+#~ msgid "Ad Rotator"
+#~ msgstr "Ad Rotator"
+
+#, fuzzy
+#~ msgid "(Codice Installazione:"
+#~ msgstr "(Installation code:"
+
+#, fuzzy
+#~ msgid ""
+#~ "Nelle prossime versioni del plugin tale funzione otterr&agrave; notevoli "
+#~ "miglioramenti."
+#~ msgstr "With the next version of plugin this function will be optimized."
+
+#, fuzzy
+#~ msgid "Versione Plugin:"
+#~ msgstr "Plugin Version:"
+
+#, fuzzy
+#~ msgid "Sito Web:"
+#~ msgstr "Website:"

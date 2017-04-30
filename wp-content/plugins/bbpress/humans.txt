@@ -1,0 +1,54 @@
+                ..=OO$,
+            ~OO=. . . . .Z88
+        .78..  .,OOOOOOO    .7O
+       IO.  7OOOOOOOOOOOOOOO.   8..
+      O. .OOOOOOOOOOOOOOOOOOOOO   O.
+    7O  OOOOOOOOOOOOOOOOOOOOOOOO8  O.
+   ,O.      OOOOOOO..     OOOOOOOO. O,
+  IO  OO    OOOOOOOOO.   OOOOOOOOOO..O
+ .O .8OO    OOOOOOOOO.   OOOOOOOOOOO  O
+ O  OOOO   8OOOOOOOOO.   OOOOOOOOOOOZ ,O
+ O .OOO.  .OOOOOOOOOO   OOOOOOOOOOOOO .8
+.Z 7OOO   .OOOOOOOOO   .OOOOOOOOOOOOO  8.
+.O OOOO.  OOO~..ZOOO.  .OOO. +OOOOOOO: O.
+.O OOO.     .OI.  .$   Z..7O.  .OOOOO~ O.
+.Z $OO   .ZOOOOOO     ..OOOOOO   OOOO  O.
+ O  O7   OOOOOOOO     .OOOOOOO   IOOO  O
+ O  8   .OOOOOOOO     OOOOOOOO   OOOZ .O
+  8     .OOOOOOOO     OOOOOOOO   OOO .O.
+  ?O    OOOOOOOO      OOOOOOO.  .OO..O.
+   O+   OOOOOOO      +OOOOOO? ..OO  O,
+    78   OOOOI .,O8   OOOO8. .OO8 .O
+      O.  . . OOOOOO7..  ..OOOO  .8
+      .?O  .7OOOOOOOOOOOOOOO.. .8.
+         78    .,OOOOOOO.    7O..
+            :OO+.       .ZO8.
+                ..=OO$,
+
+    We are the humans behind bbPress
+
+/* TEAM */
+Name: Matt Mullenweg
+Title: Founding Developer
+Twitter: photomatt
+Favorite Food: BBQ
+
+Name: John James Jacoby
+Title: Lead Developer
+Twitter: jjj
+Favorite Food: Truffle Lasagna
+
+Name: Jennifer M. Dodd
+Title: Core Contributor
+Twitter: jmdodd
+
+Name: Stephen Edgar
+Title: Core Contributor
+Twitter: netweb
+
+/* THANKS */
+Mike Adams, Gautam Gupta, Ben L, Justin Tadlock, cnorris23, anointed, andy, nacin
+
+/* META */
+Updated: 2013/11/25
+See: http://humanstxt.org/

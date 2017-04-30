@@ -1,0 +1,10 @@
+Event Lists (EL) addon for EventON Plugin
+====================================
+v0.3 (2014-6-1)
+UPDATED: Compatibility with eventON 2.2.12
+
+v0.2 (2014-5-20)
+FIXED: slowness in wp-admin
+
+v 0.1 (2014-2-13)
+Initial release

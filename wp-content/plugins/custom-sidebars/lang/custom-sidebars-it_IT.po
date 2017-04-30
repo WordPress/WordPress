@@ -1,0 +1,760 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: customsidebars\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-07-07 15:10+0100\n"
+"PO-Revision-Date: 2014-07-07 15:10+0100\n"
+"Last-Translator: Philipp Stracker <philipp@stracker.net>\n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;gettext;gettext_noop;_e\n"
+"X-Poedit-Basepath: ..\n"
+"X-Generator: Poedit 1.6.5\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: inc/class-custom-sidebars-cloning.php:195
+msgid "Clone"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:89
+#: inc/class-custom-sidebars-export.php:97
+msgid "You do not have permission for this"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:159
+msgid "Sidebar-name cannot be empty"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:183
+#: inc/class-custom-sidebars-editor.php:251
+#, fuzzy
+msgid "The sidebar does not exist"
+msgstr "Crea una sidebar"
+
+#: inc/class-custom-sidebars-editor.php:203
+#, php-format
+msgid "Created new sidebar <strong>%1$s</strong>"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:211
+#, php-format
+msgid "Updated sidebar <strong>%1$s</strong>"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:222
+#: inc/class-custom-sidebars-editor.php:271
+#, fuzzy
+msgid "The sidebar was not found"
+msgstr "Crea una sidebar"
+
+#: inc/class-custom-sidebars-editor.php:260
+#, php-format
+msgid "Deleted sidebar <strong>%1$s</strong>"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:328
+msgid "Front Page"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:329
+msgid "Search Results"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:330
+msgid "Author Archives"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:331
+msgid "Tag Archives"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:332
+msgid "Date Archives"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:366
+#, php-format
+msgid "%1$s Archives"
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:495
+#, php-format
+msgid "Updated sidebar <strong>%1$s</strong> settings."
+msgstr ""
+
+#: inc/class-custom-sidebars-editor.php:531 views/widgets.php:17
+#, fuzzy
+msgid "Sidebars"
+msgstr "Sidebar personalizzate"
+
+#: inc/class-custom-sidebars-export.php:61 views/widgets.php:23
+#: views/widgets.php:41
+#, fuzzy
+msgid "Import / Export Sidebars"
+msgstr "Sidebar personalizzate"
+
+#: inc/class-custom-sidebars-export.php:255
+#: inc/class-custom-sidebars-export.php:297
+msgid "No file was uploaded"
+msgstr ""
+
+#: inc/class-custom-sidebars-export.php:262
+msgid "Import file is too big"
+msgstr ""
+
+#: inc/class-custom-sidebars-export.php:268
+msgid "Something went wrong"
+msgstr ""
+
+#: inc/class-custom-sidebars-export.php:291
+msgid "Unexpected import format"
+msgstr ""
+
+#: inc/class-custom-sidebars-export.php:361
+msgid ""
+"Something unexpected happened and we could not finish the import. Please try "
+"again."
+msgstr ""
+
+#: inc/class-custom-sidebars-export.php:557
+#, php-format
+msgid "Imported %d custom sidebar(s)!"
+msgstr ""
+
+#: inc/class-custom-sidebars-export.php:567
+msgid "Plugin options were imported!"
+msgstr ""
+
+#: inc/class-custom-sidebars-export.php:618
+#, php-format
+msgid "Imported %d widget(s)!"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:164
+msgid "Visibility"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:173
+msgid "<b>Show</b> widget if:"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:174
+msgid "<b>Hide</b> widget if:"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:202
+msgid "Always"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:207
+#: inc/class-custom-sidebars-visibility.php:214
+#: inc/class-custom-sidebars-visibility.php:230
+#: inc/class-custom-sidebars-visibility.php:246
+#: inc/class-custom-sidebars-visibility.php:260
+#: inc/class-custom-sidebars-visibility.php:274
+#: inc/class-custom-sidebars-visibility.php:326
+msgid "AND"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:207
+msgid "On these dates"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:214
+msgid "User has role"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:230
+msgid "User has Membership Level"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:237
+msgid "(inactive)"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:246
+msgid "Pro Sites Level"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:260
+msgid "On these special pages"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:274
+msgid "On any page of these types"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:288
+#, php-format
+msgid "Only for specific %s"
+msgstr ""
+
+#: inc/class-custom-sidebars-visibility.php:289
+#, php-format
+msgid "Only these %s:"
+msgstr ""
+
+#: inc/class-custom-sidebars.php:71
+#, fuzzy
+msgid "Custom Sidebars Pro"
+msgstr "Sidebar personalizzate"
+
+#: inc/class-custom-sidebars.php:74
+#, php-format
+msgid ""
+"Now you can create and edit custom sidebars in your <a href=\"%1$s\">Widgets "
+"screen</a>!"
+msgstr ""
+
+#: inc/class-custom-sidebars.php:736
+#, php-format
+msgid ""
+"Import / Export functionality is available<br />in the <b>PRO</b> version of "
+"this plugin.<br /><a href=\"%1$s\" target=\"_blank\">Learn more</a>"
+msgstr ""
+
+#: inc/class-custom-sidebars.php:740
+msgid "Pro Version Features"
+msgstr ""
+
+#: views/import.php:61 views/widgets-export.php:31
+msgid "Import"
+msgstr ""
+
+#: views/import.php:68
+msgid "Filename"
+msgstr ""
+
+#: views/import.php:72
+msgid "Exported on"
+msgstr ""
+
+#: views/import.php:78
+msgid "WordPress settings"
+msgstr ""
+
+#: views/import.php:89
+msgid "WordPress version"
+msgstr ""
+
+#: views/import.php:94
+msgid "Plugin version"
+msgstr ""
+
+#: views/import.php:99
+msgid "Theme"
+msgstr ""
+
+#: views/import.php:125 views/widgets.php:42
+msgid "Custom Sidebars"
+msgstr "Sidebar personalizzate"
+
+#: views/import.php:127
+msgid "Mark the sidebars that you want to import."
+msgstr ""
+
+#: views/import.php:132
+msgid "Also import all widgets of the selected sidebars."
+msgstr ""
+
+#: views/import.php:139 views/widgets-editor.php:15
+msgid "Name"
+msgstr "Nome"
+
+#: views/import.php:140 views/widgets-editor.php:20
+msgid "Description"
+msgstr "Descrizione"
+
+#: views/import.php:141
+msgid "Note"
+msgstr ""
+
+#: views/import.php:142
+msgid "Widgets"
+msgstr ""
+
+#: views/import.php:150
+#, fuzzy
+msgid "Existing sidebar will be replaced!"
+msgstr "Crea una sidebar"
+
+#: views/import.php:152
+#, fuzzy
+msgid "New sidebar will be created"
+msgstr "Crea una nuova sidebar"
+
+#: views/import.php:206
+#, fuzzy
+msgid "(Theme sidebar)"
+msgstr "Crea una sidebar"
+
+#: views/import.php:232
+msgid "Configuration"
+msgstr ""
+
+#: views/import.php:236
+#, fuzzy
+msgid "Replaceable sidebars"
+msgstr "Sidebar sostituibili"
+
+#: views/import.php:239
+msgid "Replaceable Sidebars"
+msgstr "Sidebar sostituibili"
+
+#: views/import.php:249
+msgid "By post type"
+msgstr "Per tipo di articolo"
+
+#: views/import.php:262
+#, fuzzy
+msgid "Post-type archives"
+msgstr "Per tipo di articolo"
+
+#: views/import.php:275
+msgid "By category"
+msgstr "Per categoria"
+
+#: views/import.php:288
+#, fuzzy
+msgid "Category archives"
+msgstr "Per categoria"
+
+#: views/import.php:301
+msgid "Special pages"
+msgstr ""
+
+#: views/import.php:304
+msgid "Main blog page"
+msgstr ""
+
+#: views/import.php:305
+msgid "Date archives"
+msgstr ""
+
+#: views/import.php:306
+msgid "Author archives"
+msgstr ""
+
+#: views/import.php:307
+msgid "Tag archives"
+msgstr ""
+
+#: views/import.php:308
+msgid "Search results page"
+msgstr ""
+
+#: views/import.php:318
+msgid ""
+"Replace the current plugin configuration with the imported configuration."
+msgstr ""
+
+#: views/metabox.php:15
+msgid ""
+"Here you can replace the default sidebars. Simply select what sidebar you "
+"want to show for this post!"
+msgstr ""
+
+#: views/metabox.php:40
+msgid ""
+"All sidebars have been locked, you cannot replace them. Go to <a href="
+"\"widgets.php\">the widgets page</a> to unlock a sidebar"
+msgstr ""
+
+#: views/widgets-delete.php:12
+msgid ""
+"Please confirm that you want to delete the sidebar <strong class=\"name\"></"
+"strong>."
+msgstr ""
+
+#: views/widgets-delete.php:16 views/widgets-editor.php:63
+#: views/widgets-location.php:173
+msgid "Cancel"
+msgstr ""
+
+#: views/widgets-delete.php:17
+msgid "Yes, delete it"
+msgstr ""
+
+#: views/widgets-editor.php:16
+#, fuzzy
+msgid "Sidebar name here..."
+msgstr "Nome"
+
+#: views/widgets-editor.php:17
+#, fuzzy
+msgid "The name must be unique."
+msgstr "Nome"
+
+#: views/widgets-editor.php:21
+#, fuzzy
+msgid "Sidebar description here..."
+msgstr "Descrizione"
+
+#: views/widgets-editor.php:27
+msgid "Caution:"
+msgstr ""
+
+#: views/widgets-editor.php:29
+msgid ""
+"Before-after title-widget properties define the html code that will wrap the "
+"widgets and their titles in the sidebars, more info about them on the <a "
+"href=\"http://justintadlock.com/archives/2010/11/08/sidebars-in-wordpress\" "
+"target=\"_blank\">Justin Tadlock Blog</a>. Do not use these fields if you "
+"are not sure what you are doing, it can break the design of your site. Leave "
+"these fields blank to use the theme sidebars design."
+msgstr ""
+
+#: views/widgets-editor.php:39
+msgid "Before Title"
+msgstr "Prima del titolo"
+
+#: views/widgets-editor.php:43
+msgid "After Title"
+msgstr "Dopo il titolo"
+
+#: views/widgets-editor.php:49
+msgid "Before Widget"
+msgstr "Prima del Widget"
+
+#: views/widgets-editor.php:53
+msgid "After Widget"
+msgstr "Dopo il Widget"
+
+#: views/widgets-editor.php:60
+msgid "Advanced - Edit custom wrapper code"
+msgstr ""
+
+#: views/widgets-editor.php:64 views/widgets.php:38
+msgid "Create Sidebar"
+msgstr "Crea una sidebar"
+
+#: views/widgets-export.php:10 views/widgets-export.php:26
+msgid "Export"
+msgstr ""
+
+#: views/widgets-export.php:16
+msgid ""
+"This will generate a complete export file containing all your sidebars and "
+"the current sidebar configuration."
+msgstr ""
+
+#: views/widgets-export.php:21
+msgid "Optional description for the export file:"
+msgstr ""
+
+#: views/widgets-export.php:35
+msgid "Export file"
+msgstr ""
+
+#: views/widgets-export.php:40
+msgid "Preview"
+msgstr ""
+
+#: views/widgets-location.php:30
+#, fuzzy
+msgid "Replaced by another sidebar:"
+msgstr "Crea una sidebar"
+
+#: views/widgets-location.php:38
+#, php-format
+msgid "As <strong>%1$s</strong> for selected %2$s"
+msgstr ""
+
+#: views/widgets-location.php:50
+#, php-format
+msgid "Click here to pick available %1$s"
+msgstr ""
+
+#: views/widgets-location.php:77
+#, php-format
+msgid ""
+"To attach this sidebar to a unique Post or Page please visit that <a href="
+"\"%1$s\">Post</a> or <a href=\"%2$s\">Page</a> & set it up via the sidebars "
+"metabox."
+msgstr ""
+
+#: views/widgets-location.php:94 views/widgets-location.php:135
+msgid "Click to toggle"
+msgstr ""
+
+#: views/widgets-location.php:95
+msgid "For all Single Entries matching selected criteria"
+msgstr ""
+
+#: views/widgets-location.php:98
+msgid ""
+"These replacements will be applied to every single post that matches a "
+"certain post type or category."
+msgstr ""
+"Queste sostituzioni saranno applicate ad ogni articolo che corrisponde ad "
+"uno specifico tipo di articolo o categoria."
+
+#: views/widgets-location.php:106
+msgid "categories"
+msgstr ""
+
+#: views/widgets-location.php:118
+#, fuzzy
+msgid "Post Types"
+msgstr "Per tipo di articolo"
+
+#: views/widgets-location.php:136
+msgid "For Archives"
+msgstr ""
+
+#: views/widgets-location.php:139
+msgid "These replacements will be applied to Archive Type posts and pages."
+msgstr ""
+
+#: views/widgets-location.php:142 views/widgets-location.php:152
+msgid "Archive Types"
+msgstr ""
+
+#: views/widgets-location.php:143 views/widgets-location.php:163
+#, fuzzy
+msgid "Category Archives"
+msgstr "Per categoria"
+
+#: views/widgets-location.php:174 views/widgets.php:37
+msgid "Save Changes"
+msgstr "Registra le modifiche"
+
+#: views/widgets.php:21
+msgid "Create a new sidebar"
+msgstr "Crea una nuova sidebar"
+
+#: views/widgets.php:35
+#, fuzzy
+msgid "Edit [Sidebar]"
+msgstr "Modifica"
+
+#: views/widgets.php:36
+#, fuzzy
+msgid "New Custom Sidebar"
+msgstr "Crea una nuova sidebar"
+
+#: views/widgets.php:39
+#, fuzzy
+msgid "Delete Sidebar"
+msgstr "Crea una sidebar"
+
+#: views/widgets.php:40
+msgid "Define where you want this sidebar to appear."
+msgstr ""
+
+#: views/widgets.php:43
+#, fuzzy
+msgid "Theme Sidebars"
+msgstr "Sidebar personalizzate"
+
+#: views/widgets.php:44
+msgid "Couldn't load data from WordPress..."
+msgstr ""
+
+#: views/widgets.php:45 views/widgets.php:98
+msgid "This sidebar can be replaced on certain pages"
+msgstr ""
+
+#: views/widgets.php:46
+msgid ""
+"Activate this option to replace the sidebar with one of your custom sidebars."
+msgstr ""
+
+#: views/widgets.php:62
+#, fuzzy
+msgid "Delete this sidebar."
+msgstr "Crea una sidebar"
+
+#: views/widgets.php:71
+#, fuzzy
+msgid "Edit this sidebar."
+msgstr "Modifica"
+
+#: views/widgets.php:73
+msgid "Edit"
+msgstr "Modifica"
+
+#: views/widgets.php:80 views/widgets.php:117
+msgid "Where do you want to show the sidebar?"
+msgstr ""
+
+#: views/widgets.php:82 views/widgets.php:119
+#, fuzzy
+msgid "Sidebar Location"
+msgstr "Crea una sidebar"
+
+#: views/widgets.php:99
+msgid "This sidebar will always be same on all pages"
+msgstr ""
+
+#: views/widgets.php:108
+#, fuzzy
+msgid "Allow this sidebar to be replaced"
+msgstr "Crea una sidebar"
+
+#, fuzzy
+#~ msgid "Static sidebar"
+#~ msgstr "Crea una sidebar"
+
+#~ msgid ""
+#~ "There was not any sidebar called \"%s\" and it could not been deleted."
+#~ msgstr ""
+#~ "Non c'era nessuna sidebar chiamata \"%s\" e potrebbe non essere stata "
+#~ "cancellata."
+
+#~ msgid "The custom sidebars settings has been updated successfully."
+#~ msgstr ""
+#~ "Le impostazioni personali delle sidebar sono state aggiornate con "
+#~ "successo."
+
+#~ msgid "The default sidebars have been updated successfully."
+#~ msgstr "Le sidebar predefinite sono state aggiornate con successo."
+
+#~ msgid "You have to fill all the fields to create a new sidebar."
+#~ msgstr "Devi riempire tutti i campi per creare una nuova sidebar."
+
+#~ msgid ""
+#~ "There is already a sidebar registered with that name, please choose a "
+#~ "different one."
+#~ msgstr "C'è già una sidebar con lo stesso nome: usane uno diverso."
+
+#~ msgid "The operation is not secure and it cannot be completed."
+#~ msgstr "L'operazione non è sicura e non può essere completata."
+
+#~ msgid "The sidebar \"%s\" has been updated successfully."
+#~ msgstr "La sidebar \"%s\" è stata aggiornata con successo."
+
+#~ msgid "The Custom Sidebars data has been removed successfully,"
+#~ msgstr "Le sidebar personalizzate sono state rimosse con successo,"
+
+#~ msgid ""
+#~ "You can assign specific sidebars to this post, just select a sidebar and "
+#~ "the default one will be replaced, if it is available on your template."
+#~ msgstr ""
+#~ "Puoi assegnare a questo articolo delle sidebar specifiche, seleziona una "
+#~ "sidebar per sostituire quella predefinita, solo se il tuo tema lo "
+#~ "consente."
+
+#~ msgid ""
+#~ "There are not replaceable sidebars selected. You can define what sidebar "
+#~ "will be able for replacement in the <a href=\"themes.php?"
+#~ "page=customsidebars\">Custom Sidebars config page</a>."
+#~ msgstr ""
+#~ "Non ci sono sidebar sostituibili tra quelle selezionate. Puoi indicare "
+#~ "quale sidebar è sostituibile nella <a href=\"themes.php?"
+#~ "page=customsidebars\">Pagina di personalizzazione delle sidebar</a>."
+
+#~ msgid "Default sidebars for posts"
+#~ msgstr "Sidebar standard per gli articoli"
+
+#~ msgid ""
+#~ "The sidebars by categories work in a hierarchycal way, if a post belongs "
+#~ "to a parent and a child category it will show the child category sidebars "
+#~ "if they are defined, otherwise it will show the parent ones. If no "
+#~ "category sidebar for post are defined, the post will show the post post-"
+#~ "type sidebar. If none of those sidebars are defined, the theme default "
+#~ "sidebar is shown."
+#~ msgstr ""
+#~ "Le sidebar per le categorie funzionano in modo gerarichico: se ad un "
+#~ "articolo viene assegnata una categoria e una sotto-categoria, sarà "
+#~ "mostrata la sidebar della sotto-categoria (se indicata), altrimenti verrà "
+#~ "visualizzata la sola categoria. Se nessuna sidebar per le categorie degli "
+#~ "articoli è indicata, l'articolo mostrerà solo la sidebar degli articoli. "
+#~ "Se nessuna di queste sidebar è indicata, sarà mostrata quella predefinita "
+#~ "del tema in uso."
+
+#~ msgid ""
+#~ "There are no replaceable sidebars selected. You must select some of them "
+#~ "in the form above to be able for replacing them in all the post type "
+#~ "entries."
+#~ msgstr ""
+#~ "Non ci sono sidebar sostituibili. Devi selezionarne qualcuna nel modulo "
+#~ "qui sopra per sostituirle in tutte le voci degli articoli."
+
+#~ msgid "There are no categories available."
+#~ msgstr "Non ci sono categorie disponibili."
+
+#~ msgid "Default sidebars for pages"
+#~ msgstr "Sidebar predefinite per le pagine"
+
+#~ msgid ""
+#~ "You can define specific sidebars for the different Wordpress pages. "
+#~ "Sidebars for lists of posts pages work in the same hierarchycal way than "
+#~ "the one for single posts."
+#~ msgstr ""
+#~ "Puoi indicare sidebar specifiche per le pagine di Wordpress. Le sidebar "
+#~ "per le pagine con elenchi di articoli funzionano nello stesso modo "
+#~ "gerarchico di quelle con articolo singolo."
+
+#~ msgid "Do you like this plugin? Support its development with a donation :)"
+#~ msgstr ""
+#~ "Ti piace questo plugin? Contribuisci al suo sviluppo futuro con una "
+#~ "donazione :-)"
+
+#~ msgid ""
+#~ "When a custom sidebar is created, it is shown in the widgets page. There "
+#~ "you will be able to configure it."
+#~ msgstr ""
+#~ "Quando una sidebar personalizzata viene creata è visibile nella pagina "
+#~ "dei Widget. Puoi configurarla da lì."
+
+#~ msgid ""
+#~ "Select here the sidebars available for replacing. They will appear for "
+#~ "replace when a post or page is edited or created. They will be also "
+#~ "available in the default sidebars page. You can select several bars "
+#~ "holding the SHIFT key when clicking on them."
+#~ msgstr ""
+#~ "Seleziona le sidebar disponibili per la sostituzione. Appariranno quando "
+#~ "un articolo o una pagina vengono create o modificate. Saranno disponibili "
+#~ "anche nella pagina predefinita dell sidebar. Puoi fare selezioni multiple "
+#~ "tenedo premuto il tasto SHIFT + clic del mouse."
+
+#~ msgid "Select the boxes available for substitution"
+#~ msgstr "Selezionare le caselle disponibili per la sostituzione"
+
+#~ msgid "All the Custom Sidebars"
+#~ msgstr "Tutte le sidebar personalizzate"
+
+#~ msgid ""
+#~ "If a sidebar is deleted and is currently on use, the posts and pages "
+#~ "which uses it will show the default sidebar instead."
+#~ msgstr ""
+#~ "Se una sidebar viene cancellata quando è ancora in uso, le pagine e gli "
+#~ "articoli che la usano mostreranno al suo posto quella predefinita."
+
+#~ msgid "Delete"
+#~ msgstr "Cancella"
+
+#~ msgid ""
+#~ "There are no custom sidebars available. You can create a new one using "
+#~ "the left form."
+#~ msgstr ""
+#~ "Non ci sono sidebar personalizzate. Puoi crearne una nuova usando il "
+#~ "modulo sulla sinistra."
+
+#~ msgid ""
+#~ "Click on the button below to delete all the Custom Sidebars data from the "
+#~ "database. Keep in mind that once the button is clicked you will have to "
+#~ "create new sidebars and customize them to restore your current sidebars "
+#~ "configuration.</p><p>If you are going to uninstall the plugin "
+#~ "permanently, you should use this button before, so there will be no track "
+#~ "about the plugin left in the database."
+#~ msgstr ""
+#~ "Clicca sul tasto qui sotto per cancellare tutti i dati dal database delle "
+#~ "sidebar personalizzate. Ricorda che una volta cliccato il tasto dovrai "
+#~ "ricreare nuove sidebar e personalizzarle per ripristinare la tua "
+#~ "configurazione attuale</p><p>Se stai per disinstallare il plugin "
+#~ "permanentemente, dovresti prima usare questo tasto per eliminare "
+#~ "completamente le tracce lasciate dal plugin nel database."
+
+#~ msgid ""
+#~ "When a custom sidebar is created, it is shown in the widgets view and you "
+#~ "can define what the new sidebar will contain. Once the sidebar is setted "
+#~ "up, it is possible to select it for displaying in any post or page."
+#~ msgstr ""
+#~ "When a custom sidebar is created, it is shown in the widgets view and you "
+#~ "can define what the new sidebar will contain. Once the sidebar is setted "
+#~ "up, it is possible to select it for displaying in any post or page."

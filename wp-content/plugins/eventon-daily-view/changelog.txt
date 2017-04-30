@@ -1,0 +1,83 @@
+Daily View (DV) addon for EventON Plugin
+====================================
+v0.21 (2014-7-9)
+ADDED: New current date section for the dailyview
+ADDED: color customization for the dailyview calendar
+UPDATED: Days stripe arrows and faded corners
+UPDATED: Front-end UI for the dailyView look
+
+v0.20 (2014-6-1)
+ADDED: Event time to be highlighted instead of date on dailyview calendar
+UPDATED: Compatibility with eventON 2.2.12
+
+v0.19 (2014-5-20)
+UPDATED: Slowness on wp-admin pages
+
+v0.18 (2014-4-10)
+FIXED: language switching for L2 not working correct
+
+v0.17 (2014-4-4)
+FIXED: Languages other than L1 not working
+
+v0.16 (2014-3-26)
+UPDATED: compatibility with eventon 2.2.9
+
+v0.15 (2014-3-13)
+UPDATED: Compatibility with eventon 2.2.8
+
+v0.14 (2014-2-13)
+FIXED: EventON auto update error caused by addons and compatibility to eventON 2.2.7
+
+v0.13 (2014-1-30)
+FIXED: events panning across multiple months not showing correct on days strip
+FIXED: days strip width corrections - to avoid hiding days
+FIXED: days focus correctly when switching months
+
+v0.12(2014-1-27)
+FIXED: fixed month, and month incre variable errors
+FIXED: end days of a month getting dropped to a new line and dissappearring issue
+FIXED: last day of month with events not showing as days with events
+
+v0.11 (2013-12-6)
+FIXED: fixed_day shortcode variable malfunctionability
+FIXED: fixed_day value actually focusing on the day strip of calendar
+UPDATED: to use date_i18n() instead date() for better localized timing
+
+v 0.10 (2013-11-25)
+FIXED: php template code error
+
+v0.9 (2013-11-21)
+FIXED: JQuery delegate() => on()
+FIXED: interferance of code with full cal addon
+UPDATED: compatibility with eventon 2.2
+
+v0.8 (2013-8-6)
+FIXED: Multi filters are working again to filter those events
+TWEAKED: compatibility with eventON 2.1.14
+TWEAKED: javascript files are now loaded only when DV is active
+
+v0.7 (2013-6-26)
+ADDED: days can now be scrolled across with mouse wheel
+FIXED: multiday events starting in previous month now get shown correctly
+UPDATED: month switching animation
+
+v0.6
+FIXED: minor bugs
+
+v0.5
+FIXED: days with events highlight error on multi-day events
+TWEAK: this addon can now be installed as a regular WP plugin
+
+v0.4
+FIXED: compatibility with other addons
+
+v 0.3
+FIXED: sort bar for event type categories
+FIXED: styling for event list
+UPDATED: to match the new element class names on eventon version 2.1.5
+
+v 0.2
+FIXED: custom languages on date names
+
+v 0.1
+Initial release

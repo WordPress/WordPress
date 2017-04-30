@@ -1,0 +1,3 @@
+ul.wp-slider-elements{list-style:none;margin:0;padding:0; overflow:hidden;}
+ul.wp-slider-elements li{list-style:none;margin:0;padding:0;overflow:hidden;background-color:transparent !important;}
+ul.wp-slider-elements li div{overflow: hidden;}

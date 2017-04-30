@@ -1,0 +1,500 @@
+.yesno_leg_line .evcal_yn_btn{
+	display:inline-block;
+	position:absolute;
+	margin-top:-3px
+}
+.yesno_leg_line label{
+	padding-left:80px;
+}
+.yesno_leg_line{padding-top:10px}
+.yesno_leg_line label{padding-top: 4px;}
+.yesno_leg_line span.evo_yn_btn {position: absolute;}
+
+
+/* buttons within black boxes */
+	.eventon_mb .actions a.button_evo{
+		background: none;
+		border:none;
+		cursor: pointer;
+		display: inline-block;
+		color: #fff;
+		border:1px solid #A5A5A5;
+		border-radius:4px;
+		padding: 6px 8px 6px 6px;
+		margin-right: 5px;
+		text-decoration: none;
+	}
+	.eventon_mb .actions a.button_evo:before{		
+		display: inline-block;
+		min-width: 20px;
+		height: 20px;
+		font-size: 20px;
+		line-height: 1;
+		font-family: dashicons;
+		text-decoration: inherit;
+		font-weight: 400;
+		font-style: normal;
+		vertical-align: top;
+		text-align: center;
+		-webkit-transition: color .1s ease-in 0;
+		transition: color .1s ease-in 0;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		color:#fff;	
+		text-decoration: none;
+	}
+	.eventon_mb .actions a.button_evo:hover{	background-color:#919191;}	
+
+
+/** EVENT COLOR **/
+	.evcal_color_box{
+		cursor:pointer;height:20px; 
+		width:20px; 
+		margin:3px 6px 3px 0; 
+		float:left;border:2px solid #f6f6f6;
+		border-radius:50%;
+	}
+	.evcal_color_box:hover{border:2px solid #8f8f8f}
+
+
+	#evColor{
+		display:block;
+		position:absolute;
+		height:35px; width:35px;
+		top:13px; left:13px;
+		border-radius:50%;
+	}
+	#color_selector .evselectedColor{
+		padding-left:40px;
+		margin:0;
+	}
+	#color_selector span{
+		display:block;color:#545454}
+	.evcal_color_hex{padding:15px 20px 0;font-size:20px; text-transform:uppercase}
+	.evcal_color_selector_text{padding:0 20px 15px ; font:italic 12px arial;}
+	#color_selector:hover{opacity:0.7}
+	#color_selector{
+		position:relative;
+		margin:-23px -22px 15px -22px;
+		cursor:pointer;
+		background-color:#e6e6e6;
+	}
+
+
+	.evcal_yn_btn{
+		background:url(../images/yes_no_btn.png) left top no-repeat;
+		height:26px;
+		width:68px;
+		display:block; cursor:pointer;
+		outline:none;
+	}
+	.evcal_yn_btn:focus{outline:none}
+	.evcal_yn_btn.btn_at_no:hover{opacity:1;}
+	.evcal_yn_btn.btn_at_no{
+		opacity:0.6;
+		background-position: 0 -26px;
+	}
+
+	#meta_tb .div_bar.div_bar_sm{
+		border-top: 1px dashed #e5e5e5;
+	}
+	#meta_tb .div_bar{
+		height:9px;
+		position:relative;
+		margin:0 -10px
+	}
+	#meta_tb.evoThirdparty_meta td .evcal_row_dark {margin-top: 0;}
+	#meta_tb.evoThirdparty_meta .divide td{padding: 0px;}
+	#meta_tb.evoThirdparty_meta td{padding: 0 10px 10px;}
+	.evo_thirdparty_section_header .evcal_db_data{
+		margin-top: 0;font-style: italic;		
+	}
+	.evo_thirdparty_section_header{
+		margin: 0 -22px;padding: 5px 8px;
+		background-color: #E9E9E9;
+		border-bottom: 1px solid #D5D5D5;
+	}
+	.evo_thirdparty_table_td p.evo_thirdparty label{
+		font-style: italic;	
+		font-size: 13px;	
+	}
+
+/* event start end dates */
+	#ui-datepicker-div{
+		border-radius: 0px;
+		border: none;
+	}
+	.ui-datepicker-group .ui-corner-right, .ui-datepicker-group .ui-corner-left{
+		border-radius: 0
+	}
+	.ui-datepicker-calendar .ui-state-default{background: #e6e6e6;	}
+	.ui-datepicker-calendar .ui-state-default.ui-state-highlight{background: #fbf9ee;	}
+
+	.evo_datetimes p, .evd p{color:white}
+	.evo_datetimes p{margin-bottom:4px;}
+	.evo_datetimes span{
+		font-style:italic; color:#b4b0b0}
+	#evcal_dates, .evcal_row_dark{
+		background-color:#7b7a7a;
+		padding:20px;
+		position:relative;
+		margin:-15px -22px
+	}
+
+	input.evcal_data_picker, .evcalr_2_p input, #evcal_eventb_ev_id{
+		-moz-box-shadow: 0px 2px #686767;
+		-webkit-box-shadow: 0px 2px #686767;
+		box-shadow: 0px 2px #686767;
+		background-color:#fff;
+		border:none; border-radius:0;
+		height:30px;
+		width:165px;
+		font-size:14px;
+		padding:0 8px 3px; margin:0;
+		display:block;
+		cursor:pointer;
+		color:#7a7a7a
+	}
+	.evcalr_2_p input{
+		display:inline-block;
+		width:auto; margin-left:10px;
+	}
+	input.evcal_data_picker:hover{
+		color:black
+	}
+	.evo_date{
+		float:left;
+		width:180px;
+	}
+	.evcal_date_time{
+		padding-top:15px;
+		float:left; width:175px;
+	}
+	.evcal_date_time .evcal_select{
+		background:#fff;
+		-moz-box-shadow: 0px 2px #686767;
+		-webkit-box-shadow: 0px 2px #686767;
+		box-shadow: 0px 2px #686767;
+		display:inline-block;
+		border-radius: 4px
+
+	}
+
+	.evcal_date_time .evcal_select:hover{
+		-moz-box-shadow: 0px 1px 0px #363636;
+		-webkit-box-shadow: 0px 1px 0px #363636;
+		box-shadow: 0px 1px 0px #363636;
+	}
+	.evcal_date_time .evcal_select select{
+		height:30px;
+		font-size:20px;
+		line-height:26px;
+		color:#afafaf;
+		cursor:pointer;
+		margin:0;
+		border:none;
+		background:transparent;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		padding:0 5px;
+	}
+	.evcal_date_time .evcal_select.evcal_ampm_sel select{color:#585858;}
+	.evcal_date_time .evcal_select select:hover{
+		color:black
+	}
+	.evcal_date_time .evcal_select.evcal_ampm_sel{
+		background-color:#b5b5b5;
+		background-image:none
+	}
+
+
+	.evcal_data_block_style1{
+		position:relative;
+	}
+	.evcal_data_block_style1 .edb_icon{position:absolute;margin-top:0}
+	.evcal_data_block_style1 .evcal_db_data{
+		position:relative;
+	}
+	.evcal_data_block_style1 .evcal_edb_useri{
+		background:url(../images/backend_post/useri_icon.png) top left no-repeat;
+		height:40px; width:48px;
+	}
+	.evcal_data_block_style1 .evcal_edb_exlink{
+		background:url(../images/icons.png) 0 -153px no-repeat;
+		height:30px; width:31px; margin-top:6px;
+	}
+	.evcal_data_block_style1 .evcal_edb_organizer{
+		background:url(../images/icons.png) 0 -30px no-repeat;
+		height:30px; width:31px; margin-top:6px;
+	}
+
+	.evcal_data_block_style1 .evcal_edb_paypal{
+		background:url(../images/backend_post/evcal_pp.png) top left no-repeat;
+		height:20px; width:64px; margin-top:18px;
+	}
+	.evcal_data_block_style1 .evcal_metaf_icon{height:36px; width:28px; margin-top:6px;}
+
+/* event post specific settngs */
+	.evo_event_opts label{
+		padding-top: 4px;
+		padding-left: 80px;
+	}
+	.evo_event_opts p.yesno_leg_line{padding-top: 0; margin-top: 0;}
+
+/** User interaction **/
+	#evo_new_window_io span:hover{opacity:1}
+	#evo_new_window_io.selected span{background-position:0 -21px}
+	#evo_new_window_io span{
+		opacity:0.5;
+		cursor:pointer;
+		background:url(../images/backend_post/new_window.png) top left no-repeat;
+		height:21px; width:28px;
+		display:block; float:left; margin:0 5px 0 0;
+	}
+	.evcal_db_uis{margin-bottom:-15px;}
+	.evcal_db_ui_1{	background-image:url(../images/backend_post/useri_001.png);}
+	.evcal_db_ui_2{	background-image:url(../images/backend_post/useri_002.png);}
+	.evcal_db_ui_3{	background-image:url(../images/backend_post/useri_003.png);}
+	.evcal_db_uis .evcal_db_ui.selected{border-color:#dfa872}
+	.evcal_db_ui:hover{border-color:#f2d7bc}
+	.evcal_db_ui:focus{outline:none;}
+	.evcal_db_ui{	
+		cursor:pointer;outline:none;
+		margin-bottom:0; padding-bottom:0;
+		background-position: center center;
+		background-repeat:no-repeat;
+		height:100px; width:90px;
+		border-bottom:3px solid transparent;
+		display:block; float:left;
+	}
+
+	.col50{width:50%; float:left}
+	.padl20{padding-left:20px}
+	.evcal_row_dark p.divider{
+		border-top:1px dotted #939393;
+		margin:8px -20px
+	}
+	.evcal_row_dark p{color:#fff; margin-bottom:3px}
+	.evcal_row_dark h5{color:#fff; font-size:15px; font-weight:normal; margin:2px 0}
+	.evcal_row_dark .legend_mf{font-style: italic;color: #B4B0B0;}
+	.evcal_row_dark input{border-color:#6c6c6c!important}
+	.evcal_row_dark input.button:hover{border-color:#2f2f2f!important;
+		background-color:#e5e5e5;
+		background-image:none
+	}
+
+	.evcal_row_dark .evcal_data_row {clear:both;min-height:20px ;
+		border-bottom:1px dotted #939393;
+		padding:4px 0 4px 25px; margin:0; cursor:pointer;
+	}
+	.evcal_row_dark .evcal_data_row:hover{
+		background-color:#848383
+	}
+	.evcal_row_dark .evcal_data_row.evcal_checked_row {	
+		background-image:url(../images/backend_post/checkmark.png);
+		background-position:4px 7px;
+		background-repeat:no-repeat ;
+	}	
+	.evcal_row_dark .evcal_data_row p{
+		margin:0;
+		padding-right:10px; display:block;
+		color:#cccccc;
+	}
+	.evcal_row_dark .evcal_data_row p.value{font-style:italic; color:#fff}
+	#meta_tb .event_api_msg{
+		background-color:#c99e54;
+		padding:5px 20px;
+		margin:-10px -20px 10px
+	}	
+
+/*-- recurring events --*/
+	#evcal_rep, .evcal_rep, .evo_dark_metabox_darker{
+		border-top: 3px solid #666565;
+		background: #706f6f;
+		margin:15px -22px -20px;
+	}
+	.evcalr_1 .yesno_leg_line label{
+		text-transform:uppercase;
+	}
+	.evcalr_1{padding:10px 20px 5px;}
+	.evcalr_2{padding:10px 20px;}
+	.evomb_body .eventon_ev_post_set_line{
+		margin:0;
+		padding:0;
+		border-top:1px solid #626161;
+	}
+
+	
+	#evcal_rep .evcalr_2_p input{margin-left: 0;}
+	#evcal_rep .evcalr_2_p select option{color:#000; padding:5px 3px;}
+	#evcal_rep .evcalr_2_p #evcal_re{
+		color:#bdbdbd;
+		font-style:italic; text-transform:none;
+	}
+	#evcal_rep .evcalr_2_p{
+		margin:15px 0;
+		color:#ebebeb;
+		font:12px arial;
+	}
+	.evcalr_2_p em{
+		margin-right:7px;
+		display:block;
+		float:left;
+		width:32px;
+		height:26px;
+		background:url(../images/backend_post/repeat_icons.png) left 4px no-repeat;
+	}
+	.evcalr_2_rep em{background-position: 0 -19px;}
+	.evcalr_2_numr em{background-position: 0 -43px;}
+		
+	/* weekly */
+		.evcalr_2_by_W span{display: inline-block; padding-top: 4px;}
+		.evcalr_2_by_W span input{margin-left: 0; height: 16px; vertical-align: top;}
+		#evo_mb .evcalr_2_by_W span label{display: inline-block; margin-left: 4px; margin-right: 4px;}
+	
+	
+	.evo_days_list em{display: inline-block;}
+	.evo_days_list label{text-align: center; margin-right: 4px;}
+	
+	.evo_form_label{width:220px;display: inline-block;}
+
+	.evcalr_2 select, .evcalr_2 input{border-radius:4px;}
+
+
+/* eventon only settings table style */
+	.evo_negative_25{margin:0 -25px;}
+	.eventon_settings_table{
+		border-top: 1px solid #999;
+		margin-top: 10px;
+	}	
+	.evo_negative_25 .eventon_settings_table td{padding-left: 25px; padding-right: 25px;}
+	.eventon_settings_table td{
+		border-bottom: 1px solid #858484;
+		padding: 5px;
+	}
+	.eventon_settings_table .yesno_leg_line{padding-top: 5px;padding-bottom: 8px;}
+	.eventon_settings_table input{width: 100%;}
+
+/*------------------ */
+/* ui v3 */
+	.fcw{color:#fff}
+	#evo_mb, .eventon_mb{margin:-6px -12px -12px -12px;}
+	.evomb_section{
+		border-bottom:1px solid #dfdfdf;
+	}
+	.evomb_header:hover{background:#f9f4ee;}
+	.evomb_header:hover:after{
+		content: "";
+		background: url(../images/backend_post/arrows.png) right 0px;
+		height: 20px;
+		width: 14px;
+		display: block;
+		float: right;
+		position: absolute;
+		right: 10px;
+		top: 13px;
+	}
+	.evomb_header:hover .evomb_icon{opacity:1}
+	.evomb_header{
+		padding:10px;
+		position:relative;
+		border-bottom:1px solid #dfdfdf;
+		height:25px;
+		cursor:pointer;
+	}
+	.evomb_icon{
+		display:block;
+		position:absolute;
+		height:30px; width:30px;
+		background-repeat:no-repeat;
+		margin-top:-2px;
+	}
+	.evomb_icon.evII{background-position:top center;}
+	.evomb_icon.evII i{
+		color: #8C8C8C;
+		font-size: 26px;
+	}
+	.evomb_icon.evIcons{
+		background-image:url(../images/icons.png);
+	}
+	.evomb_header p{
+		padding-left:40px;
+		margin:0;
+		padding-top:3px;
+		color:#4e4d4d;
+		font:13px 'open sans'
+	}
+	.evomb_header p span{
+		font-style:italic;
+		color:#a3a3a3;
+		padding-left:15px;
+	}	
+	.evomb_body{
+		background-color:#7b7a7a;
+		color:#fff;
+		padding:15px 25px;
+		font:13px 'open sans';
+		border-top:2px solid #666565
+	}
+	.evomb_body.closed{
+		display:none
+	}
+	.evomb_body p{
+		margin:0; padding-bottom:5px;
+	}
+	#evo_mb input{
+		border-radius: 4px;
+		padding:3px 6px 4px;
+		font-style: italic;
+	}
+
+	.evomb_body input, #evcal_location_field{
+		-webkit-box-shadow: 0px 2px #686767;
+		box-shadow: 0px 2px #686767;
+		border:none;
+		border-radius: 4px
+	}
+	#evo_mb label{
+		font-style:italic;
+		font-size:12px;
+		margin-bottom: 10px;
+		display: block;
+		cursor: default;
+		color: #b4b0b0;
+	}
+
+
+	.evMB_end{
+		height:10px;width:100%;
+	}
+
+/*-- third party meta fields */
+
+.evoThirdparty_meta .evcal_db_data{
+	padding-left:75px;
+}	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

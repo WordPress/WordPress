@@ -1,0 +1,263 @@
+#icon-wpcf7 {
+	background: transparent url(../images/screen-icon.png) no-repeat 2px 1px;
+}
+
+div.wrap div.cf7com-links {
+	text-align: right;
+	font-size: .9em;
+	margin: -20px 1em 1em 0;
+}
+
+div.wrap div.cf7com-links a {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#titlediv {
+	margin-bottom: 20px;
+	position: relative;
+	border: 1px solid #c7c7c7;
+	padding: 6px;
+	background-color: #fff;
+}
+
+div.save-contact-form {
+	padding: 1.4em 0 0 0;
+	text-align: right;
+}
+
+div.actions-link {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 6px;
+}
+
+div.actions-link input {
+	padding: 0;
+	margin: 0;
+	border: none;
+	font-size: 11px;
+	cursor: pointer;
+	background: inherit;
+}
+
+div.actions-link input.copy {
+	color: #006505;
+}
+
+div.actions-link input.delete {
+	color: #bc0b0b;
+}
+
+input#wpcf7-title {
+	color: #5f5f5f;
+	border: none;
+	font-weight: bold;
+	font-size: 1.5em;
+	cursor: pointer;
+	background-color: transparent;
+	box-shadow: none;
+	width: 80%;
+}
+
+input#wpcf7-title.focus {
+	color: #3f3f3f;
+	border: 1px solid #aaa;
+	cursor: text;
+	background-color: transparent;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.07);
+}
+
+input#wpcf7-title.mouseover {
+	background-color: #ffffdd;
+}
+
+p.tagcode {
+	color: #333;
+	margin: 2ex 0 1ex 0;
+}
+
+input#contact-form-anchor-text, input#contact-form-anchor-text-old {
+	width: 100%;
+}
+
+.postbox .half, .postbox .half-left, .postbox .half-right {
+	float: left;
+	width: 50%;
+}
+
+.postbox .half-right > * {
+	margin-left: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+	.postbox .half, .postbox .half-left, .postbox .half-right {
+		width: 100%;
+	}
+
+	.postbox .half-right {
+		margin-top: 1em;
+	}
+
+	.postbox .half-right > * {
+		margin-left: inherit;
+	}
+}
+
+.postbox .mail-field, .postbox .message-field {
+	margin-top: 6px;
+	margin-bottom: 8px;
+}
+
+.postbox .mail-field label, .postbox .message-field label {
+	line-height: 1.4em;
+}
+
+div.pseudo-hr {
+	border-bottom: 1px solid transparent;
+	margin: 8px 0;
+}
+
+input, textarea {
+	border: 1px solid #dfdfdf;
+}
+
+input.wide {
+	width: 100%;
+}
+
+textarea {
+	width: 100%;
+}
+
+label.disabled {
+	color: #777;
+}
+
+#messagesdiv div.inside {
+	height: 28em;
+	overflow: auto;
+}
+
+div.tag-generator {
+	position: relative;
+	background: transparent;
+	padding: 0 0 5px 1px;
+}
+
+div.tg-pane {
+    border: 1px solid #e1e1e1;
+    background: #f7f7f7;
+    margin: 1ex 0 0 0;
+    padding: 10px;
+	line-height: 140%;
+}
+
+div.tg-pane table {
+	width: 100%;
+	margin: 0 0 0.7em 0;
+}
+
+div.tg-pane table caption {
+	text-align: left;
+	padding: 0 0 0.2em 0;
+	font-weight: bolder;
+	color: #777;
+}
+
+div.tg-pane table code {
+	background-color: inherit;
+}
+
+div.tg-pane table td {
+	vertical-align: top;
+	width: 50%;
+	border: none;
+	padding: 2px 0;
+}
+
+div.tg-pane input.tag, div.tg-pane input.mail-tag {
+	width: 100%;
+	font-size: 90%;
+}
+
+div.tg-pane input.mail-tag {
+	width: 65%;
+}
+
+div.tg-mail-tag {
+	margin-top: 2.4em;
+	text-align: right;
+}
+
+div.tg-pane input.tg-name {
+	border-color: #555;
+}
+
+div.tg-pane input.oneline {
+	width: 94%;
+	font-size: smaller;
+	-moz-box-sizing: border-box;
+}
+
+div.tg-pane textarea {
+	width: 94%;
+	height: 100px;
+	font-size: smaller;
+}
+
+div.tg-pane div.tg-tag {
+	margin: .4em 0;
+}
+
+div.tg-dropdown {
+    position: absolute;
+    top: 26px;
+	left: 0;
+    z-index: 10;
+    border: 1px solid #ddd;
+}
+
+span.tg-closebutton {
+    color: #777;
+    font: bold 18px monospace;
+    padding: 1px 4px;
+    cursor: pointer;
+}
+
+div.tg-panetitle {
+	font-weight: bold;
+	font-size: 1.5em;
+    margin: 0 0 .5em;
+    color: #5f5f5f;
+}
+
+.fixed .column-title {
+	width: 32%;
+}
+
+input.shortcode-in-list-table {
+	width: 100%;
+	font-size: 90%;
+}
+
+input[readonly].code {
+	background: #f3f3f3;
+	color: #3f3f3f;
+}
+
+/* welcome panel */
+.welcome-panel p.message {
+	line-height: 1.4em;
+	margin-right: 25px;
+}
+
+.welcome-panel li {
+	margin-bottom: 12px;
+}
+
+.welcome-panel-close {
+	z-index: 2;
+}

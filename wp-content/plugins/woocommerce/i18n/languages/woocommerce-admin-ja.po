@@ -1,0 +1,5455 @@
+# 
+# Translators:
+# ideodora <ideodora@gmail.com>, 2013
+# 田中　昌平 <shohei.tanaka@artisanworkshop.biz>, 2013
+# 田中　昌平 <shohei.tanaka@artisanworkshop.biz>, 2013-2014
+msgid ""
+msgstr ""
+"Project-Id-Version: WooCommerce\n"
+"Report-Msgid-Bugs-To: https://github.com/woothemes/woocommerce/issues\n"
+"POT-Creation-Date: 2014-06-30 14:28:36+00:00\n"
+"PO-Revision-Date: 2014-07-01 08:31+0000\n"
+"Last-Translator: 田中　昌平 <shohei.tanaka@artisanworkshop.biz>\n"
+"Language-Team: Japanese (http://www.transifex.com/projects/p/woocommerce/language/ja/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: includes/admin/class-wc-admin-assets.php:65
+#: includes/admin/class-wc-admin-menus.php:48
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:49
+#: includes/admin/wc-admin-functions.php:19
+msgid "WooCommerce"
+msgstr "WooCommerce"
+
+#: includes/admin/class-wc-admin-assets.php:108
+msgid "Please enter in decimal (%s) format without thousand separators."
+msgstr "桁区切りなしで小数点(%s)の形式で入力してください。"
+
+#: includes/admin/class-wc-admin-assets.php:109
+msgid ""
+"Please enter in monetary decimal (%s) format without thousand separators and"
+" currency symbols."
+msgstr "桁区切りや通貨記号なしで金銭を(％s)形式で入力してください。"
+
+#: includes/admin/class-wc-admin-assets.php:136
+msgid ""
+"Are you sure you want to remove the selected items? If you have previously "
+"reduced this item's stock, or this order was submitted by a customer, you "
+"will need to manually restore the item's stock."
+msgstr "あなたが選択した項目を削除してもよろしいですか？以前にこのアイテムの在庫を減らしている、またはこの注文が顧客による注文の場合は、手動でアイテムの在庫を復元する必要があります。"
+
+#: includes/admin/class-wc-admin-assets.php:137
+msgid "Please select some items."
+msgstr "いくつかの項目を選択してください"
+
+#: includes/admin/class-wc-admin-assets.php:138
+msgid "Remove this item meta?"
+msgstr "この商品metaを削除しますか？"
+
+#: includes/admin/class-wc-admin-assets.php:139
+msgid "Remove this attribute?"
+msgstr "この属性を削除しますか?"
+
+#: includes/admin/class-wc-admin-assets.php:140
+#: includes/admin/class-wc-admin-attributes.php:239
+#: includes/admin/class-wc-admin-attributes.php:275
+#: includes/admin/class-wc-admin-attributes.php:307
+#: includes/admin/class-wc-admin-attributes.php:330
+#: includes/admin/class-wc-admin-attributes.php:374
+#: includes/admin/class-wc-admin-attributes.php:399
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:259
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:186
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:442
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:536
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:148
+#: includes/admin/settings/class-wc-settings-shipping.php:203
+msgid "Name"
+msgstr "名前"
+
+#: includes/admin/class-wc-admin-assets.php:141
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:434
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:528
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:6
+msgid "Remove"
+msgstr "削除"
+
+#: includes/admin/class-wc-admin-assets.php:142
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:435
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:529
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:7
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:7
+msgid "Click to toggle"
+msgstr "クリックで切替"
+
+#: includes/admin/class-wc-admin-assets.php:143
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:450
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:542
+msgid "Value(s)"
+msgstr "値(s)"
+
+#: includes/admin/class-wc-admin-assets.php:144
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:543
+msgid "Enter some text, or some attributes by pipe (|) separating values."
+msgstr "テキストを入力してください。いくつか属性がある場合は、（ | ）で区切って下さい。"
+
+#: includes/admin/class-wc-admin-assets.php:145
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:493
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:548
+msgid "Visible on the product page"
+msgstr "商品ページ上に表示される"
+
+#: includes/admin/class-wc-admin-assets.php:146
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:506
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:554
+msgid "Used for variations"
+msgstr "バリエーションのために使用"
+
+#: includes/admin/class-wc-admin-assets.php:147
+msgid "Enter a name for the new attribute term:"
+msgstr "新しい属性の用語の名前を入力します:"
+
+#: includes/admin/class-wc-admin-assets.php:148
+msgid "Calculate totals based on order items, discounts, and shipping?"
+msgstr "注文された商品を、割引および配送料に基づいて合計を計算する？"
+
+#: includes/admin/class-wc-admin-assets.php:149
+msgid ""
+"Calculate line taxes? This will calculate taxes based on the customers "
+"country. If no billing/shipping is set it will use the store base country."
+msgstr "税明細を計算しますか? これにより、お客様の国に基づいて税金を計算します。請求と配送が設定されていない場合は、ショップ所在地を基本の国に使用します。"
+
+#: includes/admin/class-wc-admin-assets.php:150
+msgid ""
+"Copy billing information to shipping information? This will remove any "
+"currently entered shipping information."
+msgstr "コピーの請求情報は配送情報に？ここでは、現在入力お届け先情報を削除します。"
+
+#: includes/admin/class-wc-admin-assets.php:151
+msgid ""
+"Load the customer's billing information? This will remove any currently "
+"entered billing information."
+msgstr "お客様情報を読み込みますか? （注意）現在入力してあるお客様情報は削除されます。"
+
+#: includes/admin/class-wc-admin-assets.php:152
+msgid ""
+"Load the customer's shipping information? This will remove any currently "
+"entered shipping information."
+msgstr "お客様の配送先住所を読み込みますか? （注意）現在入力してある配送先住所は削除されます。"
+
+#: includes/admin/class-wc-admin-assets.php:153
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:173
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:273
+#: includes/admin/views/html-bulk-edit-product.php:170
+#: includes/admin/views/html-quick-edit-product.php:128
+msgid "Featured"
+msgstr "特色"
+
+#: includes/admin/class-wc-admin-assets.php:156
+msgid "No customer selected"
+msgstr "選択したお客様はいませ"
+
+#: includes/admin/class-wc-admin-assets.php:182
+msgid ""
+"Could not grant access - the user may already have permission for this file "
+"or billing email is not set. Ensure the billing email is set, and the order "
+"has been saved."
+msgstr "アクセスを与えることができませんでした。- ユーザーにはこのファイルの許可が既に持っているか、請求メールがセットされていません。請求メールがセットされオーダーが保存されたことを確認して下さい。"
+
+#: includes/admin/class-wc-admin-assets.php:183
+msgid "Are you sure you want to revoke access to this download?"
+msgstr "このダウンロードへのアクセスを取り消すしてもよろしいですか？"
+
+#: includes/admin/class-wc-admin-assets.php:203
+msgid ""
+"Are you sure you want to link all variations? This will create a new "
+"variation for each and every possible combination of variation attributes "
+"(max 50 per run)."
+msgstr "全てのバリエーションをリンクさせますか？　ここではは、各バリエーション属性を組合せて、新しいバリエーションを作成します（1つに最大50）。"
+
+#: includes/admin/class-wc-admin-assets.php:204
+msgid "Enter a value"
+msgstr "値を入力してください"
+
+#: includes/admin/class-wc-admin-assets.php:205
+msgid "Enter a value (fixed or %)"
+msgstr "値を入力(固定または％)"
+
+#: includes/admin/class-wc-admin-assets.php:206
+msgid "Are you sure you want to delete all variations? This cannot be undone."
+msgstr "全てのバリエーションを削除してもよろしいですか? 削除すると元には戻せません。"
+
+#: includes/admin/class-wc-admin-assets.php:207
+msgid "Last warning, are you sure?"
+msgstr "最後の警告です。よろしいですか?"
+
+#: includes/admin/class-wc-admin-assets.php:208
+#: includes/admin/class-wc-admin-taxonomies.php:123
+#: includes/admin/class-wc-admin-taxonomies.php:210
+msgid "Choose an image"
+msgstr "画像を選択してください"
+
+#: includes/admin/class-wc-admin-assets.php:209
+msgid "Set variation image"
+msgstr "バリエーション画像を設定"
+
+#: includes/admin/class-wc-admin-assets.php:210
+msgid "variation added"
+msgstr "バリエーションが追加されました"
+
+#: includes/admin/class-wc-admin-assets.php:211
+msgid "variations added"
+msgstr "バリエーションが追加されました"
+
+#: includes/admin/class-wc-admin-assets.php:212
+msgid "No variations added"
+msgstr "バリエーションは追加されませんでした"
+
+#: includes/admin/class-wc-admin-assets.php:213
+msgid "Are you sure you want to remove this variation?"
+msgstr "このバリエーションを削除してもよろしいですか？"
+
+#: includes/admin/class-wc-admin-attributes.php:82
+msgid "Please, provide an attribute name, slug and type."
+msgstr "属性名・スラッグおよびタイプを提供します"
+
+#: includes/admin/class-wc-admin-attributes.php:84
+msgid "Slug “%s” is too long (28 characters max). Shorten it, please."
+msgstr "スラッグ“%s”が長すぎます（28文字以内）。"
+
+#: includes/admin/class-wc-admin-attributes.php:86
+msgid ""
+"Slug “%s” is not allowed because it is a reserved term. Change it, please."
+msgstr "予約済み識別子の為、“%s”は許可されません。変更して下さい。"
+
+#: includes/admin/class-wc-admin-attributes.php:91
+#: includes/admin/class-wc-admin-attributes.php:96
+msgid "Slug “%s” is already in use. Change it, please."
+msgstr "“%s” は既に使用されています。変更して下さい。"
+
+#: includes/admin/class-wc-admin-attributes.php:233
+msgid "Edit Attribute"
+msgstr "属性を編集"
+
+#: includes/admin/class-wc-admin-attributes.php:243
+#: includes/admin/class-wc-admin-attributes.php:376
+msgid "Name for the attribute (shown on the front-end)."
+msgstr "属性(フロント・エンド上で示される)の名前。"
+
+#: includes/admin/class-wc-admin-attributes.php:248
+#: includes/admin/class-wc-admin-attributes.php:308
+#: includes/admin/class-wc-admin-attributes.php:380
+msgid "Slug"
+msgstr "スラッグ"
+
+#: includes/admin/class-wc-admin-attributes.php:252
+#: includes/admin/class-wc-admin-attributes.php:382
+msgid ""
+"Unique slug/reference for the attribute; must be shorter than 28 characters."
+msgstr "固有スラッグ / 属性のための参照：28文字より短くする必要があります。"
+
+#: includes/admin/class-wc-admin-attributes.php:257
+#: includes/admin/class-wc-admin-attributes.php:309
+#: includes/admin/class-wc-admin-attributes.php:386
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:274
+msgid "Type"
+msgstr "タイプ"
+
+#: includes/admin/class-wc-admin-attributes.php:261
+#: includes/admin/class-wc-admin-attributes.php:388
+msgid "Select"
+msgstr "選択"
+
+#: includes/admin/class-wc-admin-attributes.php:262
+#: includes/admin/class-wc-admin-attributes.php:389
+msgid "Text"
+msgstr "テキスト"
+
+#: includes/admin/class-wc-admin-attributes.php:265
+#: includes/admin/class-wc-admin-attributes.php:392
+msgid ""
+"Determines how you select attributes for products. Under admin panel -> "
+"products -> product data -> attributes -> values, <strong>Text</strong> "
+"allows manual entry whereas <strong>select</strong> allows pre-configured "
+"terms in a drop-down list."
+msgstr "商品の属性を選択する方法を選びます。場所は管理画面から商品->商品詳細->属性->入力欄。<strong>テキスト</strong>を選んだ場合は自由に入力でき、 <strong>選択</strong>を選んだ場合はドロップダウンで選ぶ形になります。"
+
+#: includes/admin/class-wc-admin-attributes.php:270
+#: includes/admin/class-wc-admin-attributes.php:396
+msgid "Default sort order"
+msgstr "デフォルトの注文並び変え"
+
+#: includes/admin/class-wc-admin-attributes.php:274
+#: includes/admin/class-wc-admin-attributes.php:336
+#: includes/admin/class-wc-admin-attributes.php:398
+msgid "Custom ordering"
+msgstr "標準の順番"
+
+#: includes/admin/class-wc-admin-attributes.php:276
+#: includes/admin/class-wc-admin-attributes.php:333
+#: includes/admin/class-wc-admin-attributes.php:400
+msgid "Term ID"
+msgstr "条件 ID"
+
+#: includes/admin/class-wc-admin-attributes.php:278
+#: includes/admin/class-wc-admin-attributes.php:402
+msgid ""
+"Determines the sort order of the terms on the frontend shop product pages. "
+"If using custom ordering, you can drag and drop the terms in this attribute."
+msgstr "商品ページ上での表示並びを決めます。もし、標準の順番を選ぶと管理画面でドラッグアンドドロップで順番を入れ替える事が出来ます。"
+
+#: includes/admin/class-wc-admin-attributes.php:283
+msgid "Update"
+msgstr "アップデート"
+
+#: includes/admin/class-wc-admin-attributes.php:299
+#: includes/admin/class-wc-admin-menus.php:50
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:105
+msgid "Attributes"
+msgstr "属性"
+
+#: includes/admin/class-wc-admin-attributes.php:310
+msgid "Order by"
+msgstr "注文による"
+
+#: includes/admin/class-wc-admin-attributes.php:311
+msgid "Terms"
+msgstr "条件"
+
+#: includes/admin/class-wc-admin-attributes.php:323
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:177
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:322
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:82
+#: includes/admin/reports/class-wc-report-customer-list.php:192
+#: includes/admin/reports/class-wc-report-stock.php:112
+msgid "Edit"
+msgstr "編集"
+
+#: includes/admin/class-wc-admin-attributes.php:323
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:44
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:6
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:5
+msgid "Delete"
+msgstr "削除"
+
+#: includes/admin/class-wc-admin-attributes.php:356
+msgid "Configure terms"
+msgstr "条件設定"
+
+#: includes/admin/class-wc-admin-attributes.php:360
+msgid "No attributes currently exist."
+msgstr "その属性は存在しません"
+
+#: includes/admin/class-wc-admin-attributes.php:370
+msgid "Add New Attribute"
+msgstr "新しい属性を追加"
+
+#: includes/admin/class-wc-admin-attributes.php:371
+msgid ""
+"Attributes let you define extra product data, such as size or colour. You "
+"can use these attributes in the shop sidebar using the \"layered nav\" "
+"widgets. Please note: you cannot rename an attribute later on."
+msgstr "属性を使用して、大きさ・色などの製品データを登録しましょう。あなたは、 \"ウィジェットの\"レイヤードナビ\"を使用して、ショップのサイドバーに、これらの属性を使用することができます。（注意）属性の名前を後で変更することはできません"
+
+#: includes/admin/class-wc-admin-attributes.php:405
+msgid "Add Attribute"
+msgstr "属性を追加"
+
+#: includes/admin/class-wc-admin-attributes.php:416
+msgid "Are you sure you want to delete this attribute?"
+msgstr "この属性を削除してもよろしいですか？"
+
+#: includes/admin/class-wc-admin-dashboard.php:35
+msgid "WooCommerce Recent Reviews"
+msgstr "WooCommerce 新着レビューリスト"
+
+#: includes/admin/class-wc-admin-dashboard.php:38
+#: includes/admin/class-wc-admin-menus.php:81
+msgid "WooCommerce Status"
+msgstr "WooCommerce ステータス"
+
+#: includes/admin/class-wc-admin-dashboard.php:132
+msgid "<strong>%s</strong> sales this month"
+msgstr "<strong>%s</strong> 今月の売上"
+
+#: includes/admin/class-wc-admin-dashboard.php:139
+msgid "%s top seller this month (sold %d)"
+msgstr "%s 今月の上位売上( %d)"
+
+#: includes/admin/class-wc-admin-dashboard.php:145
+msgid "<strong>%s order</strong> awaiting processing"
+msgid_plural "<strong>%s orders</strong> awaiting processing"
+msgstr[0] "<strong>%s 注文</strong>は処理待ち"
+
+#: includes/admin/class-wc-admin-dashboard.php:150
+msgid "<strong>%s order</strong> on-hold"
+msgid_plural "<strong>%s orders</strong> on-hold"
+msgstr[0] "<strong>%s 注文</strong> 保留"
+
+#: includes/admin/class-wc-admin-dashboard.php:155
+msgid "<strong>%s product</strong> low in stock"
+msgid_plural "<strong>%s products</strong> low in stock"
+msgstr[0] "<strong>%s 商品</strong>在庫が少ない"
+
+#: includes/admin/class-wc-admin-dashboard.php:160
+msgid "<strong>%s product</strong> out of stock"
+msgid_plural "<strong>%s products</strong> out of stock"
+msgstr[0] "<strong>%s商品</strong>在庫切れ"
+
+#: includes/admin/class-wc-admin-dashboard.php:193
+msgid "out of 5"
+msgstr "5点満点"
+
+#: includes/admin/class-wc-admin-dashboard.php:195
+msgid "reviewed by"
+msgstr "レビュー者　"
+
+#: includes/admin/class-wc-admin-dashboard.php:201
+msgid "There are no product reviews yet."
+msgstr "商品のレビューはまだありません。"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:43
+msgid "Make a duplicate from this product"
+msgstr "この商品から複製する"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:44
+msgid "Duplicate"
+msgstr "複製"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:67
+msgid "Copy to a new draft"
+msgstr "下書きにコピー"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:77
+msgid "No product to duplicate has been supplied!"
+msgstr "複製する製品が存在しません"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:99
+msgid "Product creation failed, could not find original product:"
+msgstr "商品の作成に失敗しました。元の商品を見つけることができませんでした:"
+
+#: includes/admin/class-wc-admin-duplicate-product.php:126
+msgid "(Copy)"
+msgstr "(コピー)"
+
+#: includes/admin/class-wc-admin-help.php:38
+msgid "Documentation"
+msgstr "マニュアル"
+
+#: includes/admin/class-wc-admin-help.php:41
+msgid ""
+"Thank you for using WooCommerce :) Should you need help using or extending "
+"WooCommerce please read the documentation."
+msgstr "WooCommerceを使って頂いてありがとうございます。 :) WooCommereceを使ったり拡張するならマニュアルをご覧ください。"
+
+#: includes/admin/class-wc-admin-help.php:43
+msgid "WooCommerce Documentation"
+msgstr "WooCommerceマニュアル"
+
+#: includes/admin/class-wc-admin-help.php:43
+msgid "Developer API Docs"
+msgstr "開発者向けAPIドキュメント"
+
+#: includes/admin/class-wc-admin-help.php:49
+msgid "Support"
+msgstr "サポート"
+
+#: includes/admin/class-wc-admin-help.php:52
+msgid ""
+"After <a href=\"%s\">reading the documentation</a>, for further assistance "
+"you can use the <a href=\"%s\">community forum</a>, or if you have access as"
+" a WooThemes customer, <a href=\"%s\">our support desk</a>."
+msgstr "<a href=\"%s\">説明（英語）を読んだ後</a>、必要があれば <a href=\"%s\">コミュニティーフォラム（英語）</a>を利用出来ます。 また、WooThemeのお客様であれば<a href=\"%s\">サポートデスク（英語）</a>も利用出来ます。"
+
+#: includes/admin/class-wc-admin-help.php:54
+msgid ""
+"Before asking for help we recommend checking the status page to identify any"
+" problems with your configuration."
+msgstr "質問等をする前に、環境設定の問題が無いかステータスページで確認する事をお勧めします。"
+
+#: includes/admin/class-wc-admin-help.php:56
+#: includes/admin/class-wc-admin-help.php:67
+#: includes/admin/class-wc-admin-menus.php:81
+#: includes/admin/views/html-admin-page-status.php:5
+#: includes/admin/views/html-notice-template-check.php:6
+msgid "System Status"
+msgstr "システム状態"
+
+#: includes/admin/class-wc-admin-help.php:56
+msgid "Community Support"
+msgstr "コミュニティーサポート"
+
+#: includes/admin/class-wc-admin-help.php:56
+msgid "Customer Support"
+msgstr "カスタマーサポート"
+
+#: includes/admin/class-wc-admin-help.php:62
+msgid "Found a bug?"
+msgstr "バグを見つけた？"
+
+#: includes/admin/class-wc-admin-help.php:65
+msgid ""
+"If you find a bug within WooCommerce core you can create a ticket via <a "
+"href=\"%s\">Github issues</a>. Ensure you read the <a "
+"href=\"%s\">contribution guide</a> prior to submitting your report. Be as "
+"descriptive as possible and please include your <a href=\"%s\">system status"
+" report</a>."
+msgstr "WooCommerceコア内のバグを見つけた場合には、<a href=\"%s\">GitHub</a>を経由して修正依頼のチケットを作成することができます。レポートを提出する前に<a href=\"%s\">貢献ガイド</a>を読んで確認してください。できるだけ<a href=\"%s\">システムステータスレポート</a>を添付して、説明してください。（英語対応）"
+
+#: includes/admin/class-wc-admin-help.php:67
+msgid "Report a bug"
+msgstr "バグを報告"
+
+#: includes/admin/class-wc-admin-help.php:73
+msgid "For more information:"
+msgstr "詳細について:"
+
+#: includes/admin/class-wc-admin-help.php:74
+#: includes/admin/class-wc-admin-welcome.php:49
+msgid "About WooCommerce"
+msgstr "WooCommerceについて"
+
+#: includes/admin/class-wc-admin-help.php:75
+msgid "Project on WordPress.org"
+msgstr "WordPress.orgのプロジェクト"
+
+#: includes/admin/class-wc-admin-help.php:76
+msgid "Project on Github"
+msgstr "Githubのプロジェクト"
+
+#: includes/admin/class-wc-admin-help.php:77
+msgid "Official Extensions"
+msgstr "公式拡張機能"
+
+#: includes/admin/class-wc-admin-help.php:78
+msgid "Official Themes"
+msgstr "公式テーマ"
+
+#: includes/admin/class-wc-admin-importers.php:32
+msgid "WooCommerce Tax Rates (CSV)"
+msgstr "WooCommerce Tax Rates (CSV)"
+
+#: includes/admin/class-wc-admin-importers.php:32
+msgid "Import <strong>tax rates</strong> to your store via a csv file."
+msgstr "csvファイルで<strong>税率</strong>をインポート"
+
+#: includes/admin/class-wc-admin-menus.php:57
+msgid "Reports"
+msgstr "レポート"
+
+#: includes/admin/class-wc-admin-menus.php:64
+msgid "WooCommerce Settings"
+msgstr "WooCommerce 設定"
+
+#: includes/admin/class-wc-admin-menus.php:64
+#: includes/admin/class-wc-admin-welcome.php:219
+#: includes/admin/settings/class-wc-settings-checkout.php:277
+#: includes/admin/settings/class-wc-settings-shipping.php:243
+#: includes/admin/views/html-admin-page-status-report.php:275
+msgid "Settings"
+msgstr "設定"
+
+#: includes/admin/class-wc-admin-menus.php:89
+#: includes/admin/views/html-admin-page-addons.php:4
+msgid "WooCommerce Add-ons/Extensions"
+msgstr "WooCommerce アドオン／機能拡張"
+
+#: includes/admin/class-wc-admin-menus.php:89
+msgid "Add-ons"
+msgstr "アドオン"
+
+#: includes/admin/class-wc-admin-menus.php:127
+#: includes/admin/class-wc-admin-menus.php:129
+msgctxt "Admin menu name"
+msgid "Orders"
+msgstr "受注"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:33
+msgid "Product permalink base"
+msgstr "商品パーマリンクベース"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:38
+msgid "Product category base"
+msgstr "商品カテゴリーベース"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:45
+msgid "Product tag base"
+msgstr "商品タグベース"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:52
+msgid "Product attribute base"
+msgstr "商品属性ベース"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:65
+msgctxt "slug"
+msgid "product-category"
+msgstr "商品カテゴリー"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:75
+msgctxt "slug"
+msgid "product-tag"
+msgstr "商品タグ"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:93
+msgid ""
+"These settings control the permalinks used for products. These settings only"
+" apply when <strong>not using \"default\" permalinks above</strong>."
+msgstr "これらの設定は、商品に使用するパーマリンクを制御します。<strong>上記の\"デフォルト\"のパーマリンクを使用していないと</strong>、これらの設定にのみ適用されます。"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:100
+msgctxt "default-slug"
+msgid "shop"
+msgstr "停止"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:101
+msgctxt "default-slug"
+msgid "product"
+msgstr "商品"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:113
+#: includes/admin/class-wc-admin-taxonomies.php:88
+#: includes/admin/class-wc-admin-taxonomies.php:177
+#: includes/admin/settings/class-wc-settings-checkout.php:226
+#: includes/admin/settings/class-wc-settings-shipping.php:202
+#: includes/admin/views/html-admin-page-status-report.php:76
+msgid "Default"
+msgstr "デフォルト"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:117
+#: includes/admin/reports/class-wc-report-stock.php:141
+msgid "Product"
+msgstr "商品"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:122
+msgid "Shop base"
+msgstr "ショップ名ベース"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:126
+msgid "Shop base with category"
+msgstr "ショップ名とカテゴリベース"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:132
+msgid "Custom Base"
+msgstr "カスタムベース"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:134
+msgid ""
+"Enter a custom base to use. A base <strong>must</strong> be set or WordPress"
+" will use default instead."
+msgstr "使用するカスタムベースを入力します。ベースを設定する必要があります、または、WordPressはその代わりにデフォルトを使います。"
+
+#: includes/admin/class-wc-admin-permalink-settings.php:184
+msgctxt "slug"
+msgid "product"
+msgstr "商品"
+
+#: includes/admin/class-wc-admin-post-types.php:58
+msgid "Product updated. <a href=\"%s\">View Product</a>"
+msgstr "商品を更新しました。 <a href=\"%s\">商品を見る</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:59
+#: includes/admin/class-wc-admin-post-types.php:74
+#: includes/admin/class-wc-admin-post-types.php:89
+msgid "Custom field updated."
+msgstr "カスタムフィールドを更新しました"
+
+#: includes/admin/class-wc-admin-post-types.php:60
+#: includes/admin/class-wc-admin-post-types.php:75
+#: includes/admin/class-wc-admin-post-types.php:90
+msgid "Custom field deleted."
+msgstr "カスタムフィールドを削除しました"
+
+#: includes/admin/class-wc-admin-post-types.php:61
+msgid "Product updated."
+msgstr "商品を更新"
+
+#: includes/admin/class-wc-admin-post-types.php:62
+msgid "Product restored to revision from %s"
+msgstr "%sでの修正を復元しました"
+
+#: includes/admin/class-wc-admin-post-types.php:63
+msgid "Product published. <a href=\"%s\">View Product</a>"
+msgstr "公開しました。<a href=\"%s\">表示ページ</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:64
+msgid "Product saved."
+msgstr "商品を保存しました"
+
+#: includes/admin/class-wc-admin-post-types.php:65
+msgid "Product submitted. <a target=\"_blank\" href=\"%s\">Preview Product</a>"
+msgstr "商品登録完了. <a target=\"_blank\" href=\"%s\">商品プレビュー</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:66
+msgid ""
+"Product scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" "
+"href=\"%2$s\">Preview Product</a>"
+msgstr "Product scheduled for: <strong>%1$s</strong>. <a target=\"_blank\" href=\"%2$s\">商品プレビュー</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:67
+#: includes/admin/class-wc-admin-post-types.php:82
+#: includes/admin/class-wc-admin-post-types.php:97
+msgid "M j, Y @ G:i"
+msgstr "Y年 M月 j日 @ G:i"
+
+#: includes/admin/class-wc-admin-post-types.php:68
+msgid "Product draft updated. <a target=\"_blank\" href=\"%s\">Preview Product</a>"
+msgstr "下書きとして保存 <a target=\"_blank\" href=\"%s\">商品プレビュー</a>"
+
+#: includes/admin/class-wc-admin-post-types.php:73
+#: includes/admin/class-wc-admin-post-types.php:76
+#: includes/admin/class-wc-admin-post-types.php:78
+msgid "Order updated."
+msgstr "注文を更新"
+
+#: includes/admin/class-wc-admin-post-types.php:77
+msgid "Order restored to revision from %s"
+msgstr "%sでの修正を復元しました"
+
+#: includes/admin/class-wc-admin-post-types.php:79
+msgid "Order saved."
+msgstr "注文を保存"
+
+#: includes/admin/class-wc-admin-post-types.php:80
+msgid "Order submitted."
+msgstr "注文を提出"
+
+#: includes/admin/class-wc-admin-post-types.php:81
+msgid "Order scheduled for: <strong>%1$s</strong>."
+msgstr "注文スケジュール： <strong>%1$s</strong>."
+
+#: includes/admin/class-wc-admin-post-types.php:83
+msgid "Order draft updated."
+msgstr "下書きとして保存"
+
+#: includes/admin/class-wc-admin-post-types.php:88
+#: includes/admin/class-wc-admin-post-types.php:91
+#: includes/admin/class-wc-admin-post-types.php:93
+msgid "Coupon updated."
+msgstr "クーポンを更新"
+
+#: includes/admin/class-wc-admin-post-types.php:92
+msgid "Coupon restored to revision from %s"
+msgstr "%sでの修正を復元しました"
+
+#: includes/admin/class-wc-admin-post-types.php:94
+msgid "Coupon saved."
+msgstr "クーポンを保存"
+
+#: includes/admin/class-wc-admin-post-types.php:95
+msgid "Coupon submitted."
+msgstr "クーポンを削除"
+
+#: includes/admin/class-wc-admin-post-types.php:96
+msgid "Coupon scheduled for: <strong>%1$s</strong>."
+msgstr "クーポンスケジュール：<strong>%1$s</strong>."
+
+#: includes/admin/class-wc-admin-post-types.php:98
+msgid "Coupon draft updated."
+msgstr "クーポンを下書きとして保存"
+
+#: includes/admin/class-wc-admin-profile.php:45
+msgid "Customer Billing Address"
+msgstr "お客様住所"
+
+#: includes/admin/class-wc-admin-profile.php:48
+#: includes/admin/class-wc-admin-profile.php:97
+msgid "First name"
+msgstr "名"
+
+#: includes/admin/class-wc-admin-profile.php:52
+#: includes/admin/class-wc-admin-profile.php:101
+msgid "Last name"
+msgstr "姓"
+
+#: includes/admin/class-wc-admin-profile.php:56
+#: includes/admin/class-wc-admin-profile.php:105
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:37
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:84
+msgid "Company"
+msgstr "勤め先"
+
+#: includes/admin/class-wc-admin-profile.php:60
+#: includes/admin/class-wc-admin-profile.php:109
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:41
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:88
+msgid "Address 1"
+msgstr "住所 1（丁目、番地、号）"
+
+#: includes/admin/class-wc-admin-profile.php:64
+#: includes/admin/class-wc-admin-profile.php:113
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:45
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:92
+msgid "Address 2"
+msgstr "住所 2（建物名,部屋番号など）"
+
+#: includes/admin/class-wc-admin-profile.php:68
+#: includes/admin/class-wc-admin-profile.php:117
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:49
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:96
+#: includes/admin/settings/class-wc-settings-tax.php:256
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "City"
+msgstr "市/町"
+
+#: includes/admin/class-wc-admin-profile.php:72
+#: includes/admin/class-wc-admin-profile.php:121
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:53
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:100
+msgid "Postcode"
+msgstr "郵便番号"
+
+#: includes/admin/class-wc-admin-profile.php:76
+#: includes/admin/class-wc-admin-profile.php:125
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:63
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:110
+msgid "State/County"
+msgstr "都道府県"
+
+#: includes/admin/class-wc-admin-profile.php:77
+#: includes/admin/class-wc-admin-profile.php:126
+msgid "State/County or state code"
+msgstr "都道府県/国または都道府県のコード"
+
+#: includes/admin/class-wc-admin-profile.php:80
+#: includes/admin/class-wc-admin-profile.php:129
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:57
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:104
+msgid "Country"
+msgstr "国"
+
+#: includes/admin/class-wc-admin-profile.php:81
+#: includes/admin/class-wc-admin-profile.php:130
+msgid "2 letter Country code"
+msgstr "国コード（2文字）"
+
+#: includes/admin/class-wc-admin-profile.php:84
+msgid "Telephone"
+msgstr "電話番号"
+
+#: includes/admin/class-wc-admin-profile.php:88
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:67
+#: includes/admin/reports/class-wc-report-customer-list.php:249
+msgid "Email"
+msgstr "Eメール"
+
+#: includes/admin/class-wc-admin-profile.php:94
+msgid "Customer Shipping Address"
+msgstr "顧客の配送先住所"
+
+#: includes/admin/class-wc-admin-profile.php:197
+msgid "Read"
+msgstr "Read"
+
+#: includes/admin/class-wc-admin-profile.php:198
+msgid "Write"
+msgstr "Write"
+
+#: includes/admin/class-wc-admin-profile.php:199
+msgid "Read/Write"
+msgstr "Read/Write"
+
+#: includes/admin/class-wc-admin-profile.php:207
+msgid "WooCommerce API Keys"
+msgstr "WooCommerce API Keys"
+
+#: includes/admin/class-wc-admin-profile.php:211
+msgid "Generate API Key"
+msgstr "APIキーを生成"
+
+#: includes/admin/class-wc-admin-profile.php:213
+msgid "Consumer Key:"
+msgstr "Consumer Key:"
+
+#: includes/admin/class-wc-admin-profile.php:214
+msgid "Consumer Secret:"
+msgstr "Consumer Secret:"
+
+#: includes/admin/class-wc-admin-profile.php:215
+msgid "Permissions:"
+msgstr "許可:"
+
+#: includes/admin/class-wc-admin-profile.php:219
+msgid "Revoke API Key"
+msgstr "APIキーを取り消す"
+
+#: includes/admin/class-wc-admin-reports.php:43
+#: includes/admin/reports/class-wc-report-customer-list.php:251
+msgid "Orders"
+msgstr "受注"
+
+#: includes/admin/class-wc-admin-reports.php:46
+msgid "Sales by date"
+msgstr "日別売上"
+
+#: includes/admin/class-wc-admin-reports.php:52
+msgid "Sales by product"
+msgstr "商品ごとの売上"
+
+#: includes/admin/class-wc-admin-reports.php:58
+msgid "Sales by category"
+msgstr "カテゴリ別売上高"
+
+#: includes/admin/class-wc-admin-reports.php:64
+msgid "Coupons by date"
+msgstr "日別クーポン"
+
+#: includes/admin/class-wc-admin-reports.php:72
+#: includes/admin/reports/class-wc-report-customer-list.php:30
+msgid "Customers"
+msgstr "お客様"
+
+#: includes/admin/class-wc-admin-reports.php:75
+msgid "Customers vs. Guests"
+msgstr "会員 対 非会員"
+
+#: includes/admin/class-wc-admin-reports.php:81
+msgid "Customer List"
+msgstr "顧客リスト"
+
+#: includes/admin/class-wc-admin-reports.php:89
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:266
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:773
+#: includes/admin/reports/class-wc-report-stock.php:25
+#: includes/admin/reports/class-wc-report-stock.php:26
+msgid "Stock"
+msgstr "在庫"
+
+#: includes/admin/class-wc-admin-reports.php:92
+msgid "Low in stock"
+msgstr "在庫が少ない"
+
+#: includes/admin/class-wc-admin-reports.php:98
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:441
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:303
+#: includes/admin/reports/class-wc-report-stock.php:98
+#: includes/admin/views/html-bulk-edit-product.php:195
+#: includes/admin/views/html-quick-edit-product.php:138
+msgid "Out of stock"
+msgstr "在庫切れ"
+
+#: includes/admin/class-wc-admin-reports.php:104
+msgid "Most Stocked"
+msgstr "在庫状況"
+
+#: includes/admin/class-wc-admin-reports.php:115
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:75
+msgid "Taxes"
+msgstr "税金"
+
+#: includes/admin/class-wc-admin-reports.php:118
+msgid "Taxes by code"
+msgstr "区分別税額"
+
+#: includes/admin/class-wc-admin-reports.php:124
+msgid "Taxes by date"
+msgstr "日別税額"
+
+#: includes/admin/class-wc-admin-settings.php:54
+msgid "Action failed. Please refresh the page and retry."
+msgstr "アクションは失敗しました。ページをリフレッシュし、再試行してください。"
+
+#: includes/admin/class-wc-admin-settings.php:65
+msgid "Your settings have been saved."
+msgstr "設定が保存されました"
+
+#: includes/admin/class-wc-admin-settings.php:121
+msgid "The changes you made will be lost if you navigate away from this page."
+msgstr "ページから移動した場合、変更内容は保存されません"
+
+#: includes/admin/class-wc-admin-settings.php:490
+msgid "Hard Crop?"
+msgstr "切り抜きますか？"
+
+#: includes/admin/class-wc-admin-settings.php:515
+msgid "Select a page&hellip;"
+msgstr "ページを選択&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:538
+msgid "Choose a country&hellip;"
+msgstr "国を選択&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:562
+msgid "Choose countries&hellip;"
+msgstr "国を選択&hellip;"
+
+#: includes/admin/class-wc-admin-settings.php:568
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:464
+msgid "Select all"
+msgstr "全てを選択"
+
+#: includes/admin/class-wc-admin-settings.php:568
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:464
+msgid "Select none"
+msgstr "選択しない"
+
+#: includes/admin/class-wc-admin-status.php:52
+msgid "Product Transients Cleared"
+msgstr "商品トランジェントをクリア"
+
+#: includes/admin/class-wc-admin-status.php:93
+msgid "%d Transients Rows Cleared"
+msgstr "%d Transientsの行がクリアされます。"
+
+#: includes/admin/class-wc-admin-status.php:102
+msgid "Roles successfully reset"
+msgstr "ロールが正常にリセット"
+
+#: includes/admin/class-wc-admin-status.php:116
+msgid "Terms successfully recounted"
+msgstr "条件の再集計に成功しました"
+
+#: includes/admin/class-wc-admin-status.php:127
+msgid "Sessions successfully cleared"
+msgstr "セッションのクリアに成功"
+
+#: includes/admin/class-wc-admin-status.php:131
+msgid "All missing WooCommerce pages was installed successfully."
+msgstr "無くなっていた全てのWooCommerceページのインストールが成功しました。"
+
+#: includes/admin/class-wc-admin-status.php:139
+msgid "Tax rates successfully deleted"
+msgstr "税率の削除が成功しました。"
+
+#: includes/admin/class-wc-admin-status.php:148
+msgid "There was an error calling %s::%s"
+msgstr "呼び出し中にエラーが発生 %s::%st"
+
+#: includes/admin/class-wc-admin-status.php:151
+msgid "There was an error calling %s"
+msgstr " %s 呼び出し中にエラーが発生"
+
+#: includes/admin/class-wc-admin-status.php:161
+msgid "Your changes have been saved."
+msgstr "変更が保存されました。"
+
+#: includes/admin/class-wc-admin-status.php:175
+msgid "WC Transients"
+msgstr "WCトランジェント"
+
+#: includes/admin/class-wc-admin-status.php:176
+msgid "Clear transients"
+msgstr "トランジェントをクリア"
+
+#: includes/admin/class-wc-admin-status.php:177
+msgid "This tool will clear the product/shop transients cache."
+msgstr "このツールは、「商品」と「ショップ」のトランジェットのキャッシュをクリアします。"
+
+#: includes/admin/class-wc-admin-status.php:180
+msgid "Expired Transients"
+msgstr "期限切れのトランジェント"
+
+#: includes/admin/class-wc-admin-status.php:181
+msgid "Clear expired transients"
+msgstr "期限切れのトランジェントをクリア"
+
+#: includes/admin/class-wc-admin-status.php:182
+msgid "This tool will clear ALL expired transients from WordPress."
+msgstr "このツールはすべての期限切れのトランジェントをWordPressからクリアします。"
+
+#: includes/admin/class-wc-admin-status.php:185
+msgid "Term counts"
+msgstr "条件を集計"
+
+#: includes/admin/class-wc-admin-status.php:186
+msgid "Recount terms"
+msgstr "条件を再計算"
+
+#: includes/admin/class-wc-admin-status.php:187
+msgid ""
+"This tool will recount product terms - useful when changing your settings in"
+" a way which hides products from the catalog."
+msgstr "このツールは、製品項目を再集計します。- カタログから商品を隠す設定に変更したとき役立ちます。"
+
+#: includes/admin/class-wc-admin-status.php:190
+msgid "Capabilities"
+msgstr "機能"
+
+#: includes/admin/class-wc-admin-status.php:191
+msgid "Reset capabilities"
+msgstr "機能をリセット"
+
+#: includes/admin/class-wc-admin-status.php:192
+msgid ""
+"This tool will reset the admin, customer and shop_manager roles to default. "
+"Use this if your users cannot access all of the WooCommerce admin pages."
+msgstr "このツールはデフォルトで、「顧客」と「shop_manager」の権限を管理者がリセット出来るようになっています。ユーザーが全てのWooCommerce管理ページにアクセスできない場合に使用します。"
+
+#: includes/admin/class-wc-admin-status.php:195
+msgid "Customer Sessions"
+msgstr "会員のセッション"
+
+#: includes/admin/class-wc-admin-status.php:196
+msgid "Clear all sessions"
+msgstr "セッションを全て消去"
+
+#: includes/admin/class-wc-admin-status.php:197
+msgid ""
+"<strong class=\"red\">Warning:</strong> This tool will delete all customer "
+"session data from the database, including any current live carts."
+msgstr "<strong class=\"red\"> 警告:</strong>このツールは全てのお客様のセッションを現在動いている物も含めて、データベースから削除します。"
+
+#: includes/admin/class-wc-admin-status.php:200
+#: includes/admin/views/html-notice-install.php:6
+msgid "Install WooCommerce Pages"
+msgstr "WooCommerceページをインストール"
+
+#: includes/admin/class-wc-admin-status.php:201
+msgid "Install pages"
+msgstr "インストールページ"
+
+#: includes/admin/class-wc-admin-status.php:202
+msgid ""
+"<strong class=\"red\">Note:</strong> This tool will install all the missing "
+"WooCommerce pages. Pages already defined and set up will not be replaced."
+msgstr "<strong class=\"red\">注意:</strong>このツールは無くなった全てのWooCommerceページをインストールします。既にあるページは上書きされません。"
+
+#: includes/admin/class-wc-admin-status.php:205
+msgid "Delete all WooCommerce tax rates"
+msgstr "WooCommerce税率を全て削除する"
+
+#: includes/admin/class-wc-admin-status.php:206
+msgid "Delete ALL tax rates"
+msgstr "全ての税率を削除する"
+
+#: includes/admin/class-wc-admin-status.php:207
+msgid ""
+"<strong class=\"red\">Note:</strong> This option will delete ALL of your tax"
+" rates, use with caution."
+msgstr "<strong class=\"red\">注意:</strong>このオプションは全ての税金情報を削除しますので、注意してください。"
+
+#: includes/admin/class-wc-admin-taxonomies.php:86
+#: includes/admin/class-wc-admin-taxonomies.php:174
+msgid "Display type"
+msgstr "表示タイプ"
+
+#: includes/admin/class-wc-admin-taxonomies.php:89
+#: includes/admin/class-wc-admin-taxonomies.php:178
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:97
+#: includes/admin/settings/class-wc-settings-products.php:25
+#: includes/admin/views/html-admin-page-addons.php:16
+msgid "Products"
+msgstr "商品"
+
+#: includes/admin/class-wc-admin-taxonomies.php:90
+#: includes/admin/class-wc-admin-taxonomies.php:179
+msgid "Subcategories"
+msgstr "サブカテゴリ"
+
+#: includes/admin/class-wc-admin-taxonomies.php:91
+#: includes/admin/class-wc-admin-taxonomies.php:180
+msgid "Both"
+msgstr "両方"
+
+#: includes/admin/class-wc-admin-taxonomies.php:95
+#: includes/admin/class-wc-admin-taxonomies.php:185
+msgid "Thumbnail"
+msgstr "サムネイル"
+
+#: includes/admin/class-wc-admin-taxonomies.php:99
+#: includes/admin/class-wc-admin-taxonomies.php:190
+msgid "Upload/Add image"
+msgstr "アップロード/画像を追加"
+
+#: includes/admin/class-wc-admin-taxonomies.php:100
+#: includes/admin/class-wc-admin-taxonomies.php:191
+msgid "Remove image"
+msgstr "画像を削除"
+
+#: includes/admin/class-wc-admin-taxonomies.php:125
+#: includes/admin/class-wc-admin-taxonomies.php:212
+msgid "Use image"
+msgstr "使用している画像"
+
+#: includes/admin/class-wc-admin-taxonomies.php:270
+msgid ""
+"Product categories for your store can be managed here. To change the order "
+"of categories on the front-end you can drag and drop to sort them. To see "
+"more categories listed click the \"screen options\" link at the top of the "
+"page."
+msgstr "商品カテゴリーはここで管理することができます。フロントエンドでカテゴリの順序を変更するには、ドラッグアンドドロップでの並べ替えが可能です。ページの上部にある表示オプションをクリックしてカテゴリーを参照下さい。"
+
+#: includes/admin/class-wc-admin-taxonomies.php:280
+msgid ""
+"Shipping classes can be used to group products of similar type. These groups"
+" can then be used by certain shipping methods to provide different rates to "
+"different products."
+msgstr "配送クラスは類似のグループ商品に使用できます。またその後、特定の配送方法によって異なる商品に異なるレートを使用することができます。"
+
+#: includes/admin/class-wc-admin-taxonomies.php:293
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:257
+msgid "Image"
+msgstr "画像"
+
+#: includes/admin/class-wc-admin-welcome.php:50
+msgid "Welcome to WooCommerce"
+msgstr "Welcome to WooCommerce"
+
+#: includes/admin/class-wc-admin-welcome.php:201
+msgid "Welcome to WooCommerce %s"
+msgstr "Welcome to WooCommerce %s"
+
+#: includes/admin/class-wc-admin-welcome.php:206
+msgid "Thanks, all done!"
+msgstr "Thanks, all done!"
+
+#: includes/admin/class-wc-admin-welcome.php:208
+msgid "Thank you for updating to the latest version!"
+msgstr "最新のバージョンにアップデートしていただきありがとうございます！"
+
+#: includes/admin/class-wc-admin-welcome.php:210
+msgid "Thanks for installing!"
+msgstr "インストールしていただき、ありがとうございます！"
+
+#: includes/admin/class-wc-admin-welcome.php:212
+msgid ""
+"%s WooCommerce %s is more powerful, stable, and secure than ever before. We "
+"hope you enjoy it."
+msgstr "%s WooCommerce %s はより強力で、安定的で、より安全です。是非楽しんで、ご使用ください。"
+
+#: includes/admin/class-wc-admin-welcome.php:216
+msgid "Version %s"
+msgstr "Version %s"
+
+#: includes/admin/class-wc-admin-welcome.php:220
+msgid "Docs"
+msgstr "ドキュメント"
+
+#: includes/admin/class-wc-admin-welcome.php:227
+msgid "What's New"
+msgstr "新着情報"
+
+#: includes/admin/class-wc-admin-welcome.php:229
+msgid "Credits"
+msgstr "クレジット"
+
+#: includes/admin/class-wc-admin-welcome.php:231
+msgid "Translators"
+msgstr "翻訳者"
+
+#: includes/admin/class-wc-admin-welcome.php:249
+msgid "A new RESTful API developers will &#10084;"
+msgstr "新しいRESTful APIの開発者は&#10084;"
+
+#: includes/admin/class-wc-admin-welcome.php:252
+msgid "Access your data from 3rd party applications"
+msgstr "サードパーティーのアプリケーションからデータにアクセスします"
+
+#: includes/admin/class-wc-admin-welcome.php:253
+msgid ""
+"Built on top of the WooCommerce API, and targeted directly at developers, "
+"the new REST API allows you to get data for <strong>Orders</strong>, "
+"<strong>Coupons</strong>, <strong>Customers</strong>, "
+"<strong>Products</strong> and <strong>Reports</strong> in both "
+"<code>XML</code> and <code>JSON</code> formats."
+msgstr "WooCommerceのAPI上で直接開発者を対象に構築され、新しいREST APIを使用し、<strong>注文</strong>, <strong>クーポン</strong>, <strong>顧客</strong>, <strong>商品</strong> and <strong>レポート</strong>を <code>XML</code> と <code>JSON</code>の両方のフォーマットでデータを取得することができます。"
+
+#: includes/admin/class-wc-admin-welcome.php:257
+msgid "Authentication to keep data secure"
+msgstr "データを安全に保持するための認証"
+
+#: includes/admin/class-wc-admin-welcome.php:258
+msgid ""
+"Authentication for the REST API is performed using HTTP Basic Auth if you "
+"have SSL enabled, or signed according to the <a "
+"href=\"http://tools.ietf.org/html/rfc5849\">OAuth 1.0a</a> specification if "
+"you don't have SSL. Data is only available to authenticated users."
+msgstr "REST APIの認証は、もしSSLを使っているのであればHTTP基本認証を使用して実行し、SSLが無いのであれば<a href=\"http://tools.ietf.org/html/rfc5849\">OAuth 1.0a</a>の仕様に従って署名されます。"
+
+#: includes/admin/class-wc-admin-welcome.php:263
+msgid "UI and reporting improvements"
+msgstr "UIと改善報告"
+
+#: includes/admin/class-wc-admin-welcome.php:266
+msgid "WordPress 3.8 admin UI compatibility"
+msgstr "WordPress 3.8最新管理画面に適応"
+
+#: includes/admin/class-wc-admin-welcome.php:267
+msgid ""
+"WooCommerce 2.1 has had its UI restyled to work with the new admin design in"
+" WordPress 3.8. All bitmap icons have been replaced with a custom, "
+"lightweight icon font for razor sharp clarity on retina devices as well as "
+"improved performance."
+msgstr "WooCommerce 2.1はWordPress 3.8の新しい管理画面に最適化されています。全てのビットマップアイコンはリテインデバイスでも美しく見え、軽いアイコンで快適なパフォーマンスを実現できるようになっています。"
+
+#: includes/admin/class-wc-admin-welcome.php:270
+msgid "Simplified order UI"
+msgstr "単純化された受注UI"
+
+#: includes/admin/class-wc-admin-welcome.php:271
+msgid ""
+"The orders panel has seen significant improvement to both the totals panel, "
+"and line item display making editing new and existing orders a breeze."
+msgstr "受注管理画面の大幅な改善を全体の表示から各商品毎の新規や既存の注文に対して行っています。"
+
+#: includes/admin/class-wc-admin-welcome.php:272
+msgid ""
+"Item meta has also been optimised and can now be viewed as HTML rather than "
+"stuck in a text input."
+msgstr "商品メタ情報も最適化されており、HTMLではなくテキスト情報として表示されます。"
+
+#: includes/admin/class-wc-admin-welcome.php:275
+msgid "Improved Reporting"
+msgstr "改良されたレポート"
+
+#: includes/admin/class-wc-admin-welcome.php:276
+msgid ""
+"Reports have been redesigned with new <strong>filtering</strong> "
+"capabilities, a new <strong>customer report</strong> showing "
+"orders/spending, and the ability to <strong>export CSVs</strong>."
+msgstr "レポートは新しい<strong>フィルタリング</strong>機能や新しい売上や経過に関する<strong>顧客レポート</strong>が再設計されており、<strong>CSVsエクスポート</strong>機能も出来ました。"
+
+#: includes/admin/class-wc-admin-welcome.php:277
+msgid ""
+"The dashboard also has a new widget showing you an overview of current "
+"orders complete with sparklines for quick at-a-glance stats."
+msgstr "ダッシュボードに、一目で今の注文状況がグラフ等で分かるような新しいウィジェットがあります。"
+
+#: includes/admin/class-wc-admin-welcome.php:282
+msgid "Separated integrations"
+msgstr "分離と統合"
+
+#: includes/admin/class-wc-admin-welcome.php:285
+msgid "New separate plugins"
+msgstr "新しく分けられたプラグイン"
+
+#: includes/admin/class-wc-admin-welcome.php:286
+msgid ""
+"To make core more lean, some integrations have been removed and turned into "
+"dedicated plugins which you can install as and when you need them."
+msgstr "コアをより簡素にして、いくつかの統合を除去しました。プラグインのインストール等で必要な機能は対応してください。"
+
+#: includes/admin/class-wc-admin-welcome.php:289
+msgid "Google Analytics"
+msgstr "Google Analytics"
+
+#: includes/admin/class-wc-admin-welcome.php:290
+msgid "Add Google Analytics eCommerce tracking to your WooCommerce store."
+msgstr "Google Analytics eCommerceトラッキングをWooCommerceストアに設定します。"
+
+#: includes/admin/class-wc-admin-welcome.php:291
+#: includes/admin/class-wc-admin-welcome.php:296
+#: includes/admin/class-wc-admin-welcome.php:301
+#: includes/admin/class-wc-admin-welcome.php:306
+#: includes/admin/class-wc-admin-welcome.php:311
+msgid "Download"
+msgstr "ダウンロード"
+
+#: includes/admin/class-wc-admin-welcome.php:294
+msgid "Piwik"
+msgstr "Piwik"
+
+#: includes/admin/class-wc-admin-welcome.php:295
+msgid "Integrate WooCommerce with Piwik and the WP-Piwik plugin."
+msgstr "PiwikとWP-PiwikのプラグインでWooCommerceを統合します。"
+
+#: includes/admin/class-wc-admin-welcome.php:299
+msgid "ShareThis"
+msgstr "ShareThis"
+
+#: includes/admin/class-wc-admin-welcome.php:300
+msgid "Add social network sharing buttons to products using ShareThis."
+msgstr "ShareThisを使っている商品にソーシャルネットワークのシェアボタンを追加する。"
+
+#: includes/admin/class-wc-admin-welcome.php:304
+msgid "Sharedaddy"
+msgstr "Sharedaddy"
+
+#: includes/admin/class-wc-admin-welcome.php:305
+msgid "Add social network sharing buttons to products using Sharedaddy."
+msgstr "Sharedaddyを使っている商品にソーシャルネットワークのシェアボタンを追加する。"
+
+#: includes/admin/class-wc-admin-welcome.php:309
+msgid "ShareYourCart"
+msgstr "ShareYourCart"
+
+#: includes/admin/class-wc-admin-welcome.php:310
+msgid ""
+"Let users share their carts for a discount using the ShareYourCart service."
+msgstr "ShareYourCartサービスを使って値引きのするためにカートをシェアしましょう。"
+
+#: includes/admin/class-wc-admin-welcome.php:316
+msgid "Under the Hood"
+msgstr "基本管理機能"
+
+#: includes/admin/class-wc-admin-welcome.php:320
+msgid "PayPal PDT support"
+msgstr "PayPal PDTサポート"
+
+#: includes/admin/class-wc-admin-welcome.php:321
+msgid ""
+"PayPal Data Transfer (PDT) is an alternative for PayPal IPN which sends back"
+" the status of an order when a customer returns from PayPal."
+msgstr "PayPal Data Transfer (PDT)は、顧客がPayPalから戻ったときに注文ステータスを返送するPayPal IPNの代替手段です。"
+
+#: includes/admin/class-wc-admin-welcome.php:325
+msgid "Stylesheet separation"
+msgstr "スタイルシートの分割"
+
+#: includes/admin/class-wc-admin-welcome.php:326
+msgid ""
+"Frontend styles have been split into separate appearance/layout/smallscreen "
+"stylesheets to help with selective customisation."
+msgstr "フロントスタイルは、スタイルシートがappearance/layout/smallscreenに分割されており、様々なカスタマイズに対応出来ます。"
+
+#: includes/admin/class-wc-admin-welcome.php:330
+msgid "New endpoints"
+msgstr "新しいエンドポイント"
+
+#: includes/admin/class-wc-admin-welcome.php:331
+msgid ""
+"Certain pages such as \"Pay\", \"Order Received\" and some account pages are"
+" now endpoints rather than pages to make checkout more reliable."
+msgstr "支払いの信頼性を上げるためではなく、「支払い」「受注」やアカウントページ等の特定のページがエンドポイントです。"
+
+#: includes/admin/class-wc-admin-welcome.php:337
+msgid "Default credit card form for gateways"
+msgstr "支払い方法で使用するクレジットカードの基本入力フォーム"
+
+#: includes/admin/class-wc-admin-welcome.php:338
+msgid ""
+"We've added a standardized, default credit card form for gateways to use if "
+"they support <code>default_credit_card_form</code>."
+msgstr "<code>default_credit_card_form</code>がサポートされていれば、標準化された基本のクレジットカード入力フォームが追加されます。"
+
+#: includes/admin/class-wc-admin-welcome.php:342
+msgid "Coupon limits per customer"
+msgstr "顧客ごとに限定されたクーポン"
+
+#: includes/admin/class-wc-admin-welcome.php:343
+msgid ""
+"Coupon usage limits can now be set per user (using email + ID) rather than "
+"global."
+msgstr "クーポンの制限を全体ではなく、ユーザー毎(使用email + ID)で設定出来ます。"
+
+#: includes/admin/class-wc-admin-welcome.php:347
+msgid "Streamlined new-account process"
+msgstr "合理化された新規アカウント処理"
+
+#: includes/admin/class-wc-admin-welcome.php:348
+msgid ""
+"During checkout, username and passwords are optional and can be "
+"automatically generated by WooCommerce."
+msgstr "チェックアウト時に、ユーザー名とパスワードはオプションであり、自動的にWooCommerceによって生成することができます。"
+
+#: includes/admin/class-wc-admin-welcome.php:355
+msgid "Additional price display options"
+msgstr "価格表示オプション"
+
+#: includes/admin/class-wc-admin-welcome.php:356
+msgid ""
+"Define whether prices should be shown incl. or excl. of tax on the frontend,"
+" and add an optional suffix."
+msgstr "フロントエンドでの価格に税込か税抜きを表示するか、オプションの接尾辞追加にするかを定義します。"
+
+#: includes/admin/class-wc-admin-welcome.php:360
+msgid "Past order linking"
+msgstr "過去の注文リンク"
+
+#: includes/admin/class-wc-admin-welcome.php:361
+msgid ""
+"Admins now have the ability to link past orders to a customer (before they "
+"registered) by email address."
+msgstr "管理者はメールアドレスによる(登録されている)顧客の過去の注文へのリンクを使う事が出来ます。"
+
+#: includes/admin/class-wc-admin-welcome.php:365
+msgid "Review improvements"
+msgstr "レビュー機能の改善"
+
+#: includes/admin/class-wc-admin-welcome.php:366
+msgid ""
+"We've added a new option to restrict reviews to logged in purchasers, and "
+"made ratings editable from the backend."
+msgstr "購入した人しかレビューが出来ないようにしたり、管理者が評価の編集が出来る機能を追加しました。"
+
+#: includes/admin/class-wc-admin-welcome.php:373
+msgid "Go to WooCommerce Settings"
+msgstr "WooCommerce設定を行いましょう！"
+
+#: includes/admin/class-wc-admin-welcome.php:388
+msgid ""
+"WooCommerce is developed and maintained by a worldwide team of passionate "
+"individuals and backed by an awesome developer community. Want to see your "
+"name? <a "
+"href=\"https://github.com/woothemes/woocommerce/blob/master/CONTRIBUTING.md\">Contribute"
+" to WooCommerce</a>."
+msgstr "WooCommerceが開発され、情熱的な個人の、世界的なチームによって素晴らしい開発者コミュニティに支えられています。自分の名前を見たいですか？<a href=\"https://github.com/woothemes/woocommerce/blob/master/CONTRIBUTING.md\">WooCommerceに貢献</a>を参照してください。"
+
+#: includes/admin/class-wc-admin-welcome.php:404
+msgid ""
+"WooCommerce has been kindly translated into several other languages thanks "
+"to our translation team. Want to see your name? <a "
+"href=\"https://www.transifex.com/projects/p/woocommerce/\">Translate "
+"WooCommerce</a>."
+msgstr "WooCommerceは各国の協力者によって各国の言語に翻訳されています。ご協力頂けたら、こちらに表示されます。<a href=\"https://www.transifex.com/projects/p/woocommerce/\">WooCommerce翻訳関連</a>"
+
+#: includes/admin/class-wc-admin-welcome.php:429
+msgid "View %s"
+msgstr "表示 %s"
+
+#: includes/admin/class-wc-admin.php:114
+msgid "HTML Email Template"
+msgstr "HTMLメールテンプレート"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:103
+#: includes/admin/importers/class-wc-tax-rate-importer.php:190
+#: includes/admin/importers/class-wc-tax-rate-importer.php:230
+#: includes/admin/importers/class-wc-tax-rate-importer.php:245
+msgid "Sorry, there has been an error."
+msgstr "エラーがありました"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:104
+msgid "The file does not exist, please try again."
+msgstr "ファイルが存在しません。もう一度お試しください。"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:191
+msgid "The CSV is invalid."
+msgstr "CSV形式は無効です"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:202
+msgid ""
+"Import complete - imported <strong>%s</strong> tax rates and skipped "
+"<strong>%s</strong>."
+msgstr "完全なインポート - <strong>%s</strong>の税率をインポートし、<strong>%s</strong>をスキップ"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:212
+msgid "All done!"
+msgstr "完了！"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:212
+msgid "View Tax Rates"
+msgstr "税率を見る"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:263
+msgid "Import Tax Rates"
+msgstr "税率をインポート"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:285
+msgid ""
+"Hi there! Upload a CSV file containing tax rates to import the contents into"
+" your shop. Choose a .csv file to upload, then click \"Upload file and "
+"import\"."
+msgstr "CSVファイルをアップロードして税率を登録する場合は「ファイルをアップロードしてインポート」をクリックし、アップロードするCSVファイルを選択して下さい。"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:287
+msgid ""
+"Tax rates need to be defined with columns in a specific order (10 columns). "
+"<a href=\"%s\">Click here to download a sample</a>."
+msgstr "税率は、特定の列（10列）で定義する必要があります。<a href=\"%s\">ここをクリックして、サンプルをダウンロード</a>"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:295
+msgid ""
+"Before you can upload your import file, you will need to fix the following "
+"error:"
+msgstr "インポートファイルをアップロードする前に、次を修正する必要があります:"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:304
+msgid "Choose a file from your computer:"
+msgstr "お使いのコンピュータからファイルを選択してください："
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:310
+msgid "Maximum size: %s"
+msgstr "最大サイズ: %s"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:315
+msgid "OR enter path to file:"
+msgstr "またはファイルへのパスを入力:"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:322
+msgid "Delimiter"
+msgstr "区切り文字"
+
+#: includes/admin/importers/class-wc-tax-rate-importer.php:328
+msgid "Upload file and import"
+msgstr "ファイルをアップロードしてインポート"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:106
+msgid "Product Image"
+msgstr "商品画像"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:108
+msgid "Remove product image"
+msgstr "商品画像の削除"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:110
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:124
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:125
+msgid "Set product image"
+msgstr "商品画像の登録"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:139
+msgid "Product name"
+msgstr "商品名"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:162
+msgid "Catalog/search"
+msgstr "カタログ/検索"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:163
+#: includes/admin/views/html-bulk-edit-product.php:158
+#: includes/admin/views/html-quick-edit-product.php:115
+msgid "Catalog"
+msgstr "カタログ"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:164
+#: includes/admin/views/html-bulk-edit-product.php:159
+#: includes/admin/views/html-quick-edit-product.php:116
+msgid "Search"
+msgstr "検索"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:165
+#: includes/admin/views/html-bulk-edit-product.php:160
+#: includes/admin/views/html-quick-edit-product.php:117
+msgid "Hidden"
+msgstr "不明"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:169
+msgid "Catalog visibility:"
+msgstr "カタログの見え方:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:185
+msgid ""
+"Define the loops this product should be visible in. The product will still "
+"be accessible directly."
+msgstr "この商品に表示させるループを定義して下さい。商品にはまだ直接アクセスできます。"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:191
+msgid "Enable this option to feature this product."
+msgstr "このオプションをオススメ商品に適用する"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:193
+msgid "Featured Product"
+msgstr "特集商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:196
+msgid "OK"
+msgstr "OK"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:197
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:170
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:262
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:53
+#: includes/admin/views/html-quick-edit-product.php:11
+msgid "SKU"
+msgstr "SKU"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:269
+#: includes/admin/views/html-bulk-edit-product.php:10
+#: includes/admin/views/html-quick-edit-product.php:22
+msgid "Price"
+msgstr "金額"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:271
+#: includes/admin/reports/class-wc-report-sales-by-category.php:155
+msgid "Categories"
+msgstr "カテゴリー"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:272
+msgid "Tags"
+msgstr "タグ"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:275
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:98
+#: includes/admin/reports/class-wc-report-coupon-usage.php:321
+#: includes/admin/reports/class-wc-report-customers.php:206
+#: includes/admin/reports/class-wc-report-sales-by-category.php:227
+#: includes/admin/reports/class-wc-report-sales-by-date.php:165
+#: includes/admin/reports/class-wc-report-sales-by-product.php:319
+msgid "Date"
+msgstr "日付"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:322
+msgid "Edit this item"
+msgstr "このアイテムをで編集"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:323
+msgid "Edit this item inline"
+msgstr "このアイテムをインラインで編集"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:323
+msgid "Quick&nbsp;Edit"
+msgstr "クイック編集"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:327
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:111
+msgid "Restore this item from the Trash"
+msgstr "ゴミ箱からこのアイテムを復元する"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:327
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:111
+msgid "Restore"
+msgstr "復元"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:329
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:113
+msgid "Move this item to the Trash"
+msgstr "ゴミ箱にこの項目を移動する"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:329
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:113
+msgid "Trash"
+msgstr "ゴミ箱"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:333
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:115
+msgid "Delete this item permanently"
+msgstr "永久にこの項目を削除します"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:333
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:115
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:64
+msgid "Delete Permanently"
+msgstr "永久削除"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:339
+msgid "Preview &#8220;%s&#8221;"
+msgstr "プレビュー &#8220;%s&#8221;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:339
+msgid "Preview"
+msgstr "プレビュー"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:341
+msgid "View &#8220;%s&#8221;"
+msgstr "表示 &#8220;%s&#8221;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:341
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:300
+#: includes/admin/reports/class-wc-report-stock.php:119
+msgid "View"
+msgstr "表示"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:391
+msgid "Grouped"
+msgstr "グループ化"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:393
+msgid "External/Affiliate"
+msgstr "外部/アフィリエイト"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:397
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:596
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:51
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:214
+msgid "Virtual"
+msgstr "バーチャル"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:399
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:588
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:58
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:212
+msgid "Downloadable"
+msgstr "ダウンロード可能"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:401
+msgid "Simple"
+msgstr "シンプル"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:405
+msgid "Variable"
+msgstr "変数"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:428
+msgid "Toggle featured"
+msgstr "Featureに切り替える"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:430
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:139
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:208
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:212
+#: includes/admin/views/html-admin-page-status-report.php:38
+#: includes/admin/views/html-admin-page-status-report.php:72
+#: includes/admin/views/html-admin-page-status-report.php:97
+#: includes/admin/views/html-admin-page-status-report.php:282
+#: includes/admin/views/html-bulk-edit-product.php:176
+#: includes/admin/views/html-bulk-edit-product.php:213
+msgid "Yes"
+msgstr "あり"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:432
+#: includes/admin/views/html-admin-page-status-report.php:38
+#: includes/admin/views/html-admin-page-status-report.php:72
+#: includes/admin/views/html-admin-page-status-report.php:97
+#: includes/admin/views/html-admin-page-status-report.php:282
+#: includes/admin/views/html-bulk-edit-product.php:177
+#: includes/admin/views/html-bulk-edit-product.php:214
+msgid "No"
+msgstr "なし"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:439
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:302
+#: includes/admin/reports/class-wc-report-stock.php:96
+#: includes/admin/views/html-bulk-edit-product.php:194
+#: includes/admin/views/html-quick-edit-product.php:137
+msgid "In stock"
+msgstr "在庫あり"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:527
+msgid "Sort Products"
+msgstr "並べ替え商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:548
+msgid "Show all product types"
+msgstr "全ての商品タイプを表示"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:561
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:37
+msgid "Grouped product"
+msgstr "グループ化された商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:564
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:38
+msgid "External/Affiliate product"
+msgstr "外部/アフィリエイト商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:567
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:39
+msgid "Variable product"
+msgstr "バリエーションのある商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-product.php:570
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:36
+msgid "Simple product"
+msgstr "基本的な商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:53
+msgid "Coupon code"
+msgstr "クーポンコード"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:66
+msgid "Description (optional)"
+msgstr "詳細説明(オプション)"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:77
+msgid "Code"
+msgstr "コード"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:78
+msgid "Coupon type"
+msgstr "クーポンの種類"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:79
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:66
+#: includes/admin/reports/class-wc-report-sales-by-date.php:327
+msgid "Coupon amount"
+msgstr "クーポン金額"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:80
+msgid "Description"
+msgstr "説明"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:81
+msgid "Product IDs"
+msgstr "商品 ID"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:82
+msgid "Usage / Limit"
+msgstr "使用/制限"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:83
+msgid "Expiry date"
+msgstr "有効期限"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:102
+msgid "Edit coupon"
+msgstr "クーポンを編集"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:160
+msgid "%s / %s"
+msgstr "%s / %s"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:162
+msgid "%s / &infin;"
+msgstr "%s / &infin;"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_coupon.php:208
+msgid "Show all types"
+msgstr "すべてのタイプを表示"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:91
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:758
+#: includes/admin/settings/class-wc-settings-checkout.php:229
+#: includes/admin/settings/class-wc-settings-shipping.php:205
+msgid "Status"
+msgstr "ステータス"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:92
+msgid "Order"
+msgstr "注文"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:93
+msgid "Purchased"
+msgstr "購入商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:94
+msgid "Ship to"
+msgstr "配送先"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:96
+msgid "Customer Message"
+msgstr "顧客メッセージ"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:97
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:110
+msgid "Order Notes"
+msgstr "備考欄"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:99
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:43
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:62
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:175
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:127
+msgid "Total"
+msgstr "合計"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:100
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:34
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:81
+#: includes/admin/reports/class-wc-report-customer-list.php:254
+#: includes/admin/reports/class-wc-report-stock.php:145
+msgid "Actions"
+msgstr "アクション"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:125
+msgid "Unpublished"
+msgstr "未発表"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:127
+msgid "Y/m/d g:i:s A"
+msgstr "Y年m月d日g時i分s秒 A"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:130
+msgid "Y/m/d"
+msgstr "Y年m月d日"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:151
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:189
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:224
+msgid "Via"
+msgstr "-"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:155
+msgid "%d item"
+msgid_plural "%d items"
+msgstr[0] "%d商品"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:210
+msgid "plus %d other note"
+msgid_plural "plus %d other notes"
+msgstr[0] "あと%d件の他のメモがあります。"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:210
+msgid "%d note"
+msgid_plural "%d notes"
+msgstr[0] "%d メモ"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:232
+msgid "Billing:"
+msgstr "請求:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:236
+msgid "Tel:"
+msgstr "電話番号:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:261
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:169
+msgid "Guest"
+msgstr "ゲスト"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:265
+msgid "%s by %s"
+msgstr "%s 注文者：%s"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:285
+msgid "Processing"
+msgstr "処理中"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:293
+msgid "Complete"
+msgstr "完成"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:388
+msgid "Show all statuses"
+msgstr "すべてのステータスを表示"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:408
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:433
+msgid "Show all customers"
+msgstr "すべての顧客を表示"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:667
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:668
+msgid "Mark processing"
+msgstr "マーク処理"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:670
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:671
+msgid "Mark on-hold"
+msgstr "保留をマークする"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:673
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:674
+msgid "Mark completed"
+msgstr "マーク完成"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:715
+msgid "Order status changed by bulk edit:"
+msgstr "一括編集で注文ステータスが変更されました:"
+
+#: includes/admin/post-types/class-wc-admin-cpt-shop_order.php:737
+msgid "Order status changed."
+msgid_plural "%s order statuses changed."
+msgstr[0] "%s 注文ステータスが変更されました"
+
+#: includes/admin/post-types/class-wc-admin-cpt.php:42
+msgid "Insert into %s"
+msgstr "%sに挿入"
+
+#: includes/admin/post-types/class-wc-admin-cpt.php:43
+msgid "Uploaded to this %s"
+msgstr "%sのアップロードが完了しました。"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:102
+msgid "Product Short Description"
+msgstr "商品の簡単な説明"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:103
+#: includes/admin/settings/class-wc-settings-products.php:283
+#: includes/admin/views/html-bulk-edit-product.php:4
+#: includes/admin/views/html-quick-edit-product.php:4
+msgid "Product Data"
+msgstr "商品データ"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:104
+msgid "Product Gallery"
+msgstr "商品ギャラリー"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:107
+msgid "Order Data"
+msgstr "注文データ"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:108
+msgid "Order Items"
+msgstr "注文商品"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:109
+msgid "Order Totals"
+msgstr "注文総数"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
+msgid "Downloadable Product Permissions"
+msgstr "ダウンロード可能な製品のパーミッション"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:111
+msgid ""
+"Note: Permissions for order items will automatically be granted when the "
+"order status changes to processing/completed."
+msgstr "注意：注文ステータスを「処理中/完了」に変更した時、注文項目に対する権限が自動的に与えられます。"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:112
+msgid "Order Actions"
+msgstr "オーダーアクション"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:115
+msgid "Coupon Data"
+msgstr "クーポンデータ"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:120
+msgid "Rating"
+msgstr "評価"
+
+#: includes/admin/post-types/class-wc-admin-meta-boxes.php:153
+msgid "Reviews"
+msgstr "レビュー"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:37
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:85
+#: includes/admin/settings/class-wc-settings-general.php:27
+msgid "General"
+msgstr "一般"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:42
+msgid "Usage Restriction"
+msgstr "利用制限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:47
+msgid "Usage Limits"
+msgstr "使用数制限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:63
+msgid "Discount type"
+msgstr "割引の種類"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:66
+msgid "Value of the coupon."
+msgstr "クーポンの金額"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:69
+msgid "Allow free shipping"
+msgstr "送料無料"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:69
+msgid ""
+"Check this box if the coupon grants free shipping. The <a href=\"%s\">free "
+"shipping method</a> must be enabled with the \"must use coupon\" setting."
+msgstr "送料無料のクーポンの場合はこれをチェックしてください。<a href=\"%s\">無料配送設定</a>の\"有効な送料無料クーポン\"の設定が必要です。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:72
+msgid "Apply before tax"
+msgstr "税込"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:72
+msgid ""
+"Check this box if the coupon should be applied before calculating cart tax."
+msgstr "クーポンがカート税を計算する前に適用する必要がある場合は、このチェックボックスをオンにします。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:75
+msgid "Coupon expiry date"
+msgstr "クーポン有効期限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:75
+msgctxt "placeholder"
+msgid "YYYY-MM-DD"
+msgstr "YYYY-MM-DD"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid "Minimum spend"
+msgstr "最小額"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid "No minimum"
+msgstr "最小限度額なし"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:85
+msgid ""
+"This field allows you to set the minimum subtotal needed to use the coupon."
+msgstr "このフィールドでは、クーポンを使用するために必要な最小限度額を設定することができます。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:88
+msgid "Individual use only"
+msgstr "併用不可"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:88
+msgid ""
+"Check this box if the coupon cannot be used in conjunction with other "
+"coupons."
+msgstr "クーポンが他のクーポンとの併用ができない場合は、このチェックボックスをオンにします。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:91
+msgid "Exclude sale items"
+msgstr "セール品を除外する"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:91
+msgid ""
+"Check this box if the coupon should not apply to items on sale. Per-item "
+"coupons will only work if the item is not on sale. Per-cart coupons will "
+"only work if there are no sale items in the cart."
+msgstr "クーポンがセール商品に適用すべきでない場合は、このチェックボックスをオンにします。セール商品がカートの中に無い場合、カートにクーポンが機能します。 "
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:98
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:95
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:589
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:606
+#: includes/admin/reports/class-wc-report-sales-by-product.php:173
+msgid "Search for a product&hellip;"
+msgstr "商品検索&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:111
+msgid ""
+"Products which need to be in the cart to use this coupon or, for \"Product "
+"Discounts\", which products are discounted."
+msgstr "「商品割引」でクーポンを使うためには、カートの中にある必要がある商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:116
+msgid "Exclude products"
+msgstr "商品を除外"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:117
+msgid "Search for a product…"
+msgstr "商品を検索…"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:130
+msgid ""
+"Products which must not be in the cart to use this coupon or, for \"Product "
+"Discounts\", which products are not discounted."
+msgstr "「商品割引」でクーポンを使うためには、カートの外にある必要がある商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:137
+msgid "Product categories"
+msgstr "商品カテゴリ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:138
+msgid "Any category"
+msgstr "任意のカテゴリー"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:147
+msgid ""
+"A product must be in this category for the coupon to remain valid or, for "
+"\"Product Discounts\", products in these categories will be discounted."
+msgstr "このカテゴリーでクーポンが有効"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:152
+msgid "Exclude categories"
+msgstr "カテゴリを除外"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:153
+msgid "No categories"
+msgstr "カテゴリーなし"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:162
+msgid ""
+"Product must not be in this category for the coupon to remain valid or, for "
+"\"Product Discounts\", products in these categories will not be discounted."
+msgstr "このカテゴリーでクーポンが無効"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid "Email restrictions"
+msgstr "メールアドレスでの制限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid "No restrictions"
+msgstr "制限なし"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:168
+msgid ""
+"List of emails to check against the customer's billing email when an order "
+"is placed. Separate email addresses with commas."
+msgstr "注文が出されたとき、顧客の料金請求メールチェック対象の電子メールのリスト。電子メールアドレスをカンマで区切ります。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+msgid "Usage limit per coupon"
+msgstr "クーポン毎の利用制限数"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgctxt "placeholder"
+msgid "Unlimited usage"
+msgstr "無制限の使用"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:182
+msgid "How many times this coupon can be used before it is void."
+msgstr "このクーポンが何度使用できるか。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgid "Limit usage to X items"
+msgstr "X商品に利用を制限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgctxt "placeholder"
+msgid "Apply to all qualifying items in cart"
+msgstr "カート内のすべての対応商品に適用されます"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:188
+msgid ""
+"The maximum number of individual items this coupon can apply to when using "
+"product discounts. Leave blank to apply to all qualifying items in cart."
+msgstr "クーポンの割引に対応出来る製品の最大数。全ての対応製品に適応する場合は空欄にしてください。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgid "Usage limit per user"
+msgstr "ユーザー毎の利用数制限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:194
+msgid ""
+"How many times this coupon can be used by an invidual user. Uses billing "
+"email for guests, and user ID for logged in users."
+msgstr "一人のお客様がクーポンが使える回数。ゲストはメールアドレス、ユーザーはユーザーIDを利用します。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-coupon-data.php:231
+msgid ""
+"Coupon code already exists - customers will use the latest coupon with this "
+"code."
+msgstr "クーポンコードは既に存在します - お客様は、このコードを使用して最新のクーポンを使用します。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:35
+msgid "Resend order emails"
+msgstr "注文メールを再送する"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:51
+msgid "Generate Download Permissions"
+msgstr "ダウンロード権限を生成"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:57
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:91
+msgid "Apply"
+msgstr "適用"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:66
+msgid "Move to Trash"
+msgstr "ゴミ箱に移動"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:71
+msgid "Save Order"
+msgstr "上書き保存"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-actions.php:71
+msgid "Save/update the order"
+msgstr "保存/注文を更新"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:29
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:76
+msgid "First Name"
+msgstr "姓"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:33
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:80
+msgid "Last Name"
+msgstr "名"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:60
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:107
+msgid "Select a country&hellip;"
+msgstr "国を選択&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:70
+msgid "Phone"
+msgstr "電話番号"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:139
+msgid "Order Details"
+msgstr "注文の詳細"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:142
+msgid "Order number"
+msgstr "注文番号"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:145
+msgid "Customer IP:"
+msgstr "お客様 IP:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:150
+msgid "General Details"
+msgstr "一般詳細"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:152
+msgid "Order date:"
+msgstr "注文日時:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:153
+msgid "h"
+msgstr "h"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:153
+#: includes/admin/settings/class-wc-settings-products.php:311
+msgid "m"
+msgstr "m"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:156
+msgid "Order status:"
+msgstr "注文状況:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:167
+msgid "Customer:"
+msgstr "顧客:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:182
+msgid "Billing Details"
+msgstr "支払明細"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:188
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:190
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:267
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:269
+msgid "Address"
+msgstr "丁目,番地,号<font size=\"small\" color=\"gray\">（上段：必須*）</font> / 建物名,部屋番号など<font size=\"small\" color=\"gray\">（下段：オプション）</font>"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:190
+msgid "No billing address set."
+msgstr "お客様情報が設定されていません"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:208
+msgid "Payment Method"
+msgstr "お支払方法"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:213
+msgid "Load billing address"
+msgstr "お客様情報を呼び込む"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:230
+msgid "Payment Method:"
+msgstr "お支払方法:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:232
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:33
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:12
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:8
+msgid "N/A"
+msgstr "N/A"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:245
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:247
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:30
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:32
+msgid "Other"
+msgstr "その他"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:261
+msgid "Shipping Details"
+msgstr "出荷明細"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:269
+msgid "No shipping address set."
+msgstr "配送先住所が設定されていません"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:282
+msgid "Customer Note"
+msgstr "お客様備考"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:287
+msgid "Load shipping address"
+msgstr "配送先住所を呼び込む"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:287
+msgid "Copy from billing"
+msgstr "請求先からコピー"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:304
+msgid "Customer Note:"
+msgstr "メモ:"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-data.php:305
+msgid "Customer's notes about the order"
+msgstr "注文に関するメモ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:51
+msgid "File %d"
+msgstr "ファイル %d"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:64
+msgid "Search for a downloadable product&hellip;"
+msgstr "ダウンロード商品検索&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-downloads.php:65
+msgid "Grant Access"
+msgstr "アクセスを許可"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:33
+msgid "Item"
+msgstr "アイテム"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:38
+msgid "Tax&nbsp;Class"
+msgstr "税&nbsp;クラス"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:41
+msgid "Qty"
+msgstr "数量"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:46
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:116
+#: includes/admin/settings/class-wc-settings-tax.php:25
+#: includes/admin/settings/class-wc-settings-tax.php:550
+#: includes/admin/settings/class-wc-settings-tax.php:647
+msgid "Tax"
+msgstr "税"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:83
+msgid "Delete Lines"
+msgstr "行を削除する"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:85
+msgid "Stock Actions"
+msgstr "在庫アクション"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:86
+msgid "Reduce Line Stock"
+msgstr "在庫行を削減"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:87
+msgid "Increase Line Stock"
+msgstr "在庫行を増やす"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:97
+msgid "Add item(s)"
+msgstr "追加アイテム"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-items.php:98
+msgid "Add fee"
+msgstr "手数料を追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:48
+msgid "added %s ago"
+msgstr "%s 前に追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:49
+msgid "by %s"
+msgstr "更新者 %s"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:50
+msgid "Delete note"
+msgstr "メモを削除"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:56
+msgid "There are no notes for this order yet."
+msgstr "この注文にはまだメモはありません"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:62
+msgid "Add note"
+msgstr "メモを追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:62
+msgid ""
+"Add a note for your reference, or add a customer note (the user will be "
+"notified)."
+msgstr "参考のためにメモを追加：または顧客用メモ（ユーザーに通知されます）を追加します。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:68
+msgid "Customer note"
+msgstr "顧客メモ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:69
+msgid "Private note"
+msgstr "プライベートメモ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-notes.php:71
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:567
+msgid "Add"
+msgstr "追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:31
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:62
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:95
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:775
+#: includes/admin/settings/class-wc-settings-shipping.php:25
+#: includes/admin/settings/class-wc-settings-tax.php:266
+#: includes/admin/settings/class-wc-settings-tax.php:383
+#: includes/admin/views/html-admin-page-addons.php:14
+msgid "Shipping"
+msgstr "配送料"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:66
+msgid "+ Add shipping cost"
+msgstr "+ 配送費用を追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:66
+msgid "These are the shipping and handling costs for the order."
+msgstr "これらは、注文の送料と手数料の費用である。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:106
+msgid "+ Add tax row"
+msgstr "+ 税を追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:106
+msgid ""
+"These rows contain taxes for this order. This allows you to display multiple"
+" or compound taxes rather than a single total."
+msgstr "この欄には、注文に対する税金が含まれています。これらを「複数の税」もしくは「単一の複合税」として表示させます。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:113
+msgid "Order Discount"
+msgstr "注文割引"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:113
+msgid "This is the total discount applied after tax."
+msgstr "これは税の後に適用合計値引きです。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:120
+msgid "Order Total"
+msgstr "注文合計"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:148
+msgid "Calculate Tax"
+msgstr "税金を計算"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-order-totals.php:150
+msgid "Calculate Total"
+msgstr "合計を計算"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:42
+msgid "Product Type"
+msgstr "商品タイプ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:52
+msgid "Virtual products are intangible and aren't shipped."
+msgstr "バーチャル商品は無形のため、出荷されません"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:59
+msgid "Downloadable products give access to a file upon purchase."
+msgstr "ダウンロード可能商品は、購入時にファイルへのアクセス権を与える"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:90
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:772
+#: includes/admin/settings/class-wc-settings-products.php:41
+msgid "Inventory"
+msgstr "在庫"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:100
+msgid "Linked Products"
+msgstr "リンクされている商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:110
+msgid "Variations"
+msgstr "バリエーション"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:115
+msgid "Advanced"
+msgstr "高度"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+msgid "Stock Keeping Unit"
+msgstr "在庫管理単位"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:136
+msgid ""
+"SKU refers to a Stock-keeping unit, a unique identifier for each distinct "
+"product and service that can be purchased."
+msgstr "SKUは在庫保管単位を指し、固有識別子により、それぞれ個別の商品やサービスを購入することができます。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:147
+msgid "Product URL"
+msgstr "商品 URL"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:147
+msgid "Enter the external URL to the product."
+msgstr "商品の外部URLを入力"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgid "Button text"
+msgstr "ボタンテキスト"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgctxt "placeholder"
+msgid "Buy product"
+msgstr "商品購入"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:150
+msgid "This text will be shown on the button linking to the external product."
+msgstr "このテキストは外部商品のリンクボタンに表示されます"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:157
+msgid "Regular Price"
+msgstr "定価"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:160
+msgid "Sale Price"
+msgstr "セール価格"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:160
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Schedule"
+msgstr "スケジュール"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:167
+msgid "Sale Price Dates"
+msgstr "セール期間"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:168
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:85
+msgctxt "placeholder"
+msgid "From&hellip;"
+msgstr "From&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:169
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:89
+msgctxt "placeholder"
+msgid "To&hellip;"
+msgstr "To&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:181
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:144
+msgid "Downloadable Files"
+msgstr "ダウンロード可能なファイル"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:186
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:148
+msgid "This is the name of the download shown to the customer."
+msgstr "顧客向けのダウンロードの名前です。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:187
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:149
+msgid "File URL"
+msgstr "ファイルURL"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:187
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:149
+msgid ""
+"This is the URL or absolute path to the file which customers will get access"
+" to."
+msgstr "お客様がアクセス権を取得するファイルへのURLまたは絶対パスです。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:202
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:164
+msgid "Add File"
+msgstr "ファイル追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+msgid "Download Limit"
+msgstr "ダウンロード制限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:19
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:191
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:197
+msgid "Unlimited"
+msgstr "無制限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:222
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:190
+msgid "Leave blank for unlimited re-downloads."
+msgstr "再ダウンロード無制限の為、空欄にしておく"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:783
+msgid "Download Expiry"
+msgstr "ダウンロード有効期限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:23
+msgid "Never"
+msgstr "何時でも"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:228
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:196
+msgid ""
+"Enter the number of days before a download link expires, or leave blank."
+msgstr "ダウンロードリンクの有効期限日数を入力するか、空白のままにします。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:234
+msgid "Download Type"
+msgstr "ダウンロードタイプ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:234
+msgid "Choose a download type - this controls the <a href=\"%s\">schema</a>."
+msgstr "ダウンロードタイプを選んでください。- これは<a href=\"%s\">スキーマ</a>をコントロールします。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:235
+msgid "Standard Product"
+msgstr "一般商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:236
+msgid "Application/Software"
+msgstr "アプリケーション／ソフトウェア"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:237
+msgid "Music"
+msgstr "音楽"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:249
+#: includes/admin/views/html-bulk-edit-product.php:58
+#: includes/admin/views/html-quick-edit-product.php:38
+msgid "Tax Status"
+msgstr "税ステータス"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:250
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:34
+#: includes/admin/views/html-bulk-edit-product.php:64
+#: includes/admin/views/html-quick-edit-product.php:43
+msgid "Taxable"
+msgstr "課税"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:251
+#: includes/admin/views/html-bulk-edit-product.php:65
+#: includes/admin/views/html-quick-edit-product.php:44
+msgid "Shipping only"
+msgstr "送料のみ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:252
+#: includes/admin/views/html-bulk-edit-product.php:66
+#: includes/admin/views/html-quick-edit-product.php:45
+msgctxt "Tax status"
+msgid "None"
+msgstr "なし"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:257
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:737
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:27
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:39
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:126
+#: includes/admin/settings/class-wc-settings-tax.php:122
+#: includes/admin/settings/class-wc-settings-tax.php:243
+#: includes/admin/views/html-bulk-edit-product.php:83
+#: includes/admin/views/html-quick-edit-product.php:61
+msgid "Standard"
+msgstr "標準"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:262
+#: includes/admin/settings/class-wc-settings-tax.php:383
+#: includes/admin/views/html-bulk-edit-product.php:77
+#: includes/admin/views/html-quick-edit-product.php:56
+msgid "Tax Class"
+msgstr "税区分"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:283
+#: includes/admin/views/html-bulk-edit-product.php:207
+#: includes/admin/views/html-quick-edit-product.php:153
+msgid "Manage stock?"
+msgstr "在庫を管理しますか?"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:283
+msgid ""
+"Enable stock management at product level (not needed if managing stock at "
+"variation level)"
+msgstr "商品単位で在庫管理する場合はチェックを入れてください。(バリエーション毎に在庫管理する場合は選ぶ必要はありません。)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:290
+#: includes/admin/views/html-bulk-edit-product.php:226
+#: includes/admin/views/html-bulk-edit-product.php:242
+#: includes/admin/views/html-quick-edit-product.php:157
+msgid "Stock Qty"
+msgstr "在庫数量"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:290
+msgid ""
+"Stock quantity. If this is a variable product this value will be used to "
+"control stock for all variations, unless you define stock at variation "
+"level."
+msgstr "在庫数：これが変数商品ならば、在庫数を定義しない限り、この値が全バリエーションの在庫制御に使用されます"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:301
+#: includes/admin/reports/class-wc-report-stock.php:144
+msgid "Stock status"
+msgstr "在庫状況"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:304
+msgid ""
+"Controls whether or not the product is listed as \"in stock\" or \"out of "
+"stock\" on the frontend."
+msgstr "「在庫あり」か「在庫切れ」をリストするかどうかを、フロントエンド上で制御します。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:311
+msgid "Allow Backorders?"
+msgstr "取り寄せの注文(予約注文など)を受け付けますか?"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:312
+#: includes/admin/views/html-bulk-edit-product.php:253
+#: includes/admin/views/html-quick-edit-product.php:172
+msgid "Do not allow"
+msgstr "許可しない"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:313
+#: includes/admin/views/html-bulk-edit-product.php:254
+#: includes/admin/views/html-quick-edit-product.php:173
+msgid "Allow, but notify customer"
+msgstr "許可し、顧客に通知する"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:314
+#: includes/admin/views/html-bulk-edit-product.php:255
+#: includes/admin/views/html-quick-edit-product.php:174
+msgid "Allow"
+msgstr "許可する"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:315
+msgid ""
+"If managing stock, this controls whether or not backorders are allowed for "
+"this product and variations. If enabled, stock quantity can go below 0."
+msgstr "在庫管理する場合は、予約注文を許可するかどうかの指定をします。有効にした場合、在庫数の0以下が可能となります。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:328
+msgid "Sold Individually"
+msgstr "単品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:328
+msgid ""
+"Enable this to only allow one of this item to be bought in a single order"
+msgstr "1回の注文に対して1つしか購入できないようする場合これを選んで下さい。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:347
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:779
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:97
+#: includes/admin/views/html-bulk-edit-product.php:103
+#: includes/admin/views/html-quick-edit-product.php:84
+msgid "Weight"
+msgstr "重さ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:347
+msgid "Weight in decimal form"
+msgstr "10進表記の重量"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:352
+msgid "Dimensions"
+msgstr "大きさ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:354
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:776
+#: includes/admin/views/html-bulk-edit-product.php:143
+#: includes/admin/views/html-quick-edit-product.php:97
+msgid "Length"
+msgstr "長さ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:355
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:777
+#: includes/admin/views/html-bulk-edit-product.php:144
+#: includes/admin/views/html-quick-edit-product.php:98
+msgid "Width"
+msgstr "幅"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:356
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:778
+#: includes/admin/views/html-bulk-edit-product.php:145
+#: includes/admin/views/html-quick-edit-product.php:99
+msgid "Height"
+msgstr "高さ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:358
+msgid "LxWxH in decimal form"
+msgstr "10進表記の長さx幅x高さ"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:375
+msgid "No shipping class"
+msgstr "送料区分は無し"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:381
+msgid "Shipping class"
+msgstr "送料区分"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:381
+msgid ""
+"Shipping classes are used by certain shipping methods to group similar "
+"products."
+msgstr "送料区分は、類似した製品グループに特定の配送方法を使用します"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:393
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:755
+msgid "Close all"
+msgstr "全て閉じる"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:393
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:755
+msgid "Expand all"
+msgstr "全て展開"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:452
+msgid "Select terms"
+msgstr "用語を選"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:466
+msgid "Add new"
+msgstr "新しく追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:479
+msgid "Pipe (|) separate terms"
+msgstr "条件をパイプ(|)で分ける"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:569
+msgid "Custom product attribute"
+msgstr "カスタム商品属性"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:581
+msgid "Save attributes"
+msgstr "属性を保存"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:588
+msgid "Up-Sells"
+msgstr "アップセル"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:603
+msgid ""
+"Up-sells are products which you recommend instead of the currently viewed "
+"product, for example, products that are more profitable or better quality or"
+" more expensive."
+msgstr "アップセルとは現在閲覧している商品より高位商品をあなたの代わりに薦めることです。例えば、「高収益性」「高品質」「高額商品」など。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:605
+msgid "Cross-Sells"
+msgstr "クロスセル"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:620
+msgid ""
+"Cross-sells are products which you promote in the cart, based on the current"
+" product."
+msgstr "クロスセルとは現在の製品に基づいて、提携販売，抱き合わせ販売，併売，販売相互利用等を売り込むことをいいます。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:630
+msgid "Choose a grouped product&hellip;"
+msgstr "グループ化された商品を選んで下さい&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:660
+msgid "Grouping"
+msgstr "グループ分け"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:660
+msgid "Set this option to make this product part of a grouped product."
+msgstr "グループ商品を作るために、このオプションを設定します。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:680
+msgid "Purchase Note"
+msgstr "注意事項"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:680
+msgid "Enter an optional note to send the customer after purchase."
+msgstr "購入後、顧客に送信する任意メモを入力してください"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:687
+msgid "Menu order"
+msgstr "注文メニュー"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:687
+msgid "Custom ordering position."
+msgstr "カスタム発注の位置"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:695
+msgid "Enable reviews"
+msgstr "レビューを有効にする"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:747
+msgid ""
+"Before adding variations, add and save some attributes on the "
+"<strong>Attributes</strong> tab."
+msgstr "バリエーションを加える前に、<strong>属性</strong>タブに幾つかの属性を追加して保存します。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:749
+msgid "Learn more"
+msgstr "詳細はこちら"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:757
+msgid "Choose a field to bulk edit&hellip;"
+msgstr "一括編集するフィールドを選択してください&hellip;"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:759
+msgid "Toggle &quot;Enabled&quot;"
+msgstr "&quot;有効&quot;に切り替える"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:760
+msgid "Toggle &quot;Downloadable&quot;"
+msgstr "&quot;ダウンロード&quot;に切り替える"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:761
+msgid "Toggle &quot;Virtual&quot;"
+msgstr "&quot;バーチャル&quot;に切り替える"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:762
+msgid "Delete all variations"
+msgstr "すべてのバリエーションを削除"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:764
+msgid "Pricing"
+msgstr "価格設定"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:765
+msgid "Prices"
+msgstr "価格"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:766
+msgid "Prices increase by (fixed amount or %)"
+msgstr "割増価格(固定値もしくは%)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:767
+msgid "Prices decrease by (fixed amount or %)"
+msgstr "値引価格(固定値もしくは%)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:768
+msgid "Sale prices"
+msgstr "セール価格"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:769
+msgid "Sale prices increase by (fixed amount or %)"
+msgstr "割増販売価格(固定値もしくは%)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:770
+msgid "Sale prices decrease by (fixed amount or %)"
+msgstr "値引販売価格(固定値もしくは%)"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:781
+msgid "Downloadable products"
+msgstr "ダウンロード商品"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:782
+msgid "Download limit"
+msgstr "ダウンロード制限"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:787
+#: includes/admin/views/html-report-by-date.php:31
+msgid "Go"
+msgstr "Go"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:882
+msgid "Add Variation"
+msgstr "バリエーションを追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:884
+msgid "Link all variations"
+msgstr "全てのバリエーションをリンク"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:886
+msgid "Defaults"
+msgstr "デフォルト"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:886
+msgid "These are the attributes that will be pre-selected on the frontend."
+msgstr "これらはフロントエンドで事前に選択される属性です。"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:899
+msgid "No default"
+msgstr "デフォルトなし"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:1003
+msgid "Product SKU must be unique."
+msgstr "商品SKUは、固有の値でなければなりません"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-data.php:1373
+msgid "Variation #%s of %s"
+msgstr "%s のバリエーションは #%s"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:44
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Delete image"
+msgstr "画像を削除"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add Images to Product Gallery"
+msgstr "商品ギャラリーの画像を追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add to gallery"
+msgstr "ギャラリーに追加"
+
+#: includes/admin/post-types/meta-boxes/class-wc-meta-box-product-images.php:55
+msgid "Add product gallery images"
+msgstr "商品ギャラリーイメージを追加"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:6
+msgid "Revoke Access"
+msgstr "アクセス権を取り消す"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:9
+msgid "%s: %s"
+msgstr "%s時 %s分"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:9
+msgid "Downloaded %s time"
+msgid_plural "Downloaded %s times"
+msgstr[0] "ダウンロード %s 回"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:16
+msgid "Downloads Remaining"
+msgstr "残りのダウンロー"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-download-permission.php:22
+msgid "Access Expires"
+msgstr "アクセス有効期限"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:12
+msgid "Fee"
+msgstr "費用"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:16
+msgid "Fee Name"
+msgstr "料金名"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-fee.php:31
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:140
+msgid "Tax class"
+msgstr "税区分"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:10
+msgid "Product ID:"
+msgstr "商品 ID:"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:13
+msgid "Variation ID:"
+msgstr "バリエーション ID:"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:16
+msgid "Product SKU:"
+msgstr "商品 SKU:"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:75
+msgid "Add&nbsp;meta"
+msgstr "meta を追加"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:173
+msgid "Subtotal"
+msgstr "小計"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:173
+msgid "Before pre-tax discounts."
+msgstr "税込割引の前"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-item.php:175
+msgid "After pre-tax discounts."
+msgstr "税込割引の後"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:6
+msgid "Label"
+msgstr "ラベル"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-shipping.php:11
+msgid "Shipping Method"
+msgstr "配送方法"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:7
+msgid "Tax Rate"
+msgstr "税率"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:17
+msgid "Sales Tax"
+msgstr "消費税"
+
+#: includes/admin/post-types/meta-boxes/views/html-order-tax.php:21
+msgid "Shipping Tax"
+msgstr "配送料の税（出荷税）"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:3
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:2
+msgid "File Name"
+msgstr "ファイル名"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:4
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:3
+msgid "http://"
+msgstr "http://"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:5
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:4
+msgid "Choose file"
+msgstr "ファイルを選択"
+
+#: includes/admin/post-types/meta-boxes/views/html-product-download.php:5
+#: includes/admin/post-types/meta-boxes/views/html-product-variation-download.php:4
+msgid "Insert file URL"
+msgstr "ファイルのURLを挿入"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:21
+msgid "Any"
+msgstr "任意"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:53
+msgid ""
+"Enter a SKU for this variation or leave blank to use the parent product SKU."
+msgstr "このバリエーションのSKUを入力して下さい。または、親商品のSKUを使用するには、空白のままにしておきます。"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:64
+msgid "Stock Qty:"
+msgstr "在庫数量:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:64
+msgid ""
+"Enter a quantity to enable stock management at variation level, or leave "
+"blank to use the parent product's options."
+msgstr "変動レベルで在庫管理を有効にするために、量を入力してください。または、親商品のオプションを使用する場合は空欄のままにしてして下さい。"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:73
+msgid "Regular Price:"
+msgstr "定価:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:74
+msgid "Variation price (required)"
+msgstr "変動価格（必須）"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Sale Price:"
+msgstr "セール価格 :"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:77
+msgid "Cancel schedule"
+msgstr "スケジュールのキャンセル"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:84
+msgid "Sale start date:"
+msgstr "セール開始日："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:88
+msgid "Sale end date:"
+msgstr "販売終了日："
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:97
+msgid ""
+"Enter a weight for this variation or leave blank to use the parent product "
+"weight."
+msgstr "このバリエーションの重量を入力して下さい。または、親商品の重量を使用するには、空白のままにしておきます。"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:105
+msgid "Dimensions (L&times;W&times;H)"
+msgstr "寸法 (長さ&times;幅&times;高さ)"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:116
+msgid "Shipping class:"
+msgstr "配送クラス :"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:120
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:133
+msgid "Same as parent"
+msgstr "フォルダと同じ"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:131
+msgid "Tax class:"
+msgstr "税区分 :"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:190
+msgid "Download Limit:"
+msgstr "ダウンロード制限 :"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:196
+msgid "Download Expiry:"
+msgstr "ダウンロード有効期限:"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:210
+#: includes/admin/settings/class-wc-settings-checkout.php:269
+#: includes/admin/settings/class-wc-settings-shipping.php:235
+#: includes/admin/views/html-admin-page-status-tools.php:26
+#: includes/admin/views/html-admin-page-status-tools.php:37
+#: includes/admin/views/html-admin-page-status-tools.php:48
+msgid "Enabled"
+msgstr "使用可能"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:212
+msgid ""
+"Enable this option if access is given to a downloadable file upon purchase "
+"of a product"
+msgstr "ダウンロード可能なファイルにした場合、このオプションを有効にします"
+
+#: includes/admin/post-types/meta-boxes/views/html-variation-admin.php:214
+msgid ""
+"Enable this option if a product is not shipped or there is no shipping cost"
+msgstr "製品が出荷されていない場合、運送費が掛らない場合、このオプションを有効にします。"
+
+#: includes/admin/reports/class-wc-admin-report.php:384
+msgid "Sold %s worth in the last %d days"
+msgstr "売上%s 過去%d日間 "
+
+#: includes/admin/reports/class-wc-admin-report.php:386
+msgid "Sold 1 item in the last %d days"
+msgid_plural "Sold %d items in the last %d days"
+msgstr[0] "売上個数%s 過去%d日間 "
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:76
+msgid "%s discounts in total"
+msgstr "%s 値引合計"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:82
+msgid "%s coupons used in total"
+msgstr "%s クーポン利用合計"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:95
+#: includes/admin/reports/class-wc-report-customers.php:145
+#: includes/admin/reports/class-wc-report-sales-by-category.php:81
+#: includes/admin/reports/class-wc-report-sales-by-date.php:129
+#: includes/admin/reports/class-wc-report-sales-by-product.php:99
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:46
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:46
+msgid "Year"
+msgstr "年間"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:96
+#: includes/admin/reports/class-wc-report-customers.php:146
+#: includes/admin/reports/class-wc-report-sales-by-category.php:82
+#: includes/admin/reports/class-wc-report-sales-by-date.php:130
+#: includes/admin/reports/class-wc-report-sales-by-product.php:100
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:47
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:47
+msgid "Last Month"
+msgstr "先月"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:97
+#: includes/admin/reports/class-wc-report-customers.php:147
+#: includes/admin/reports/class-wc-report-sales-by-category.php:83
+#: includes/admin/reports/class-wc-report-sales-by-date.php:131
+#: includes/admin/reports/class-wc-report-sales-by-product.php:101
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:48
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:48
+msgid "This Month"
+msgstr "今月"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:98
+#: includes/admin/reports/class-wc-report-customers.php:148
+#: includes/admin/reports/class-wc-report-sales-by-category.php:84
+#: includes/admin/reports/class-wc-report-sales-by-date.php:132
+#: includes/admin/reports/class-wc-report-sales-by-product.php:102
+msgid "Last 7 Days"
+msgstr "過去１週間"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:138
+msgid "Filter by coupon"
+msgstr "クーポンによるフィルター"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:166
+msgid "Choose coupons&hellip;"
+msgstr "クーポンを選択&hellip;"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:167
+msgid "All coupons"
+msgstr "すべてのクーポン"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:174
+#: includes/admin/reports/class-wc-report-sales-by-category.php:186
+#: includes/admin/reports/class-wc-report-sales-by-product.php:174
+msgid "Show"
+msgstr "表示する"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:187
+msgid "No used coupons found"
+msgstr "クーポンが使われていません"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:192
+msgid "Most Popular"
+msgstr "人気順"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:234
+#: includes/admin/reports/class-wc-report-coupon-usage.php:281
+msgid "No coupons found in range"
+msgstr "この範囲ではクーポンは見つかりませんでした"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:239
+msgid "Most Discount"
+msgstr "値引き順"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:324
+#: includes/admin/reports/class-wc-report-customers.php:209
+#: includes/admin/reports/class-wc-report-sales-by-category.php:230
+#: includes/admin/reports/class-wc-report-sales-by-date.php:169
+#: includes/admin/reports/class-wc-report-sales-by-product.php:322
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:34
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:34
+#: includes/admin/settings/class-wc-settings-tax.php:289
+msgid "Export CSV"
+msgstr "CSVのエクスポート"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:415
+msgid "Number of coupons used"
+msgstr "クーポンの利用数"
+
+#: includes/admin/reports/class-wc-report-coupon-usage.php:423
+msgid "Discount amount"
+msgstr "割引合計"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:29
+msgid "Customer"
+msgstr "お客様"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:39
+msgid "No customers found."
+msgstr "会員が見つかりません。"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:53
+msgid "%s previous order linked"
+msgid_plural "%s previous orders linked"
+msgstr[0] "%s 以前の注文をリンクしました"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:58
+msgid "Search customers"
+msgstr "お客様検索"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:198
+msgid "View orders"
+msgstr "注文を表示"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:222
+msgid "Link previous orders"
+msgstr "以前の注文へのリンク"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:247
+msgid "Name (Last, First)"
+msgstr "名前(姓、名)"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:248
+msgid "Username"
+msgstr "ユーザー名"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:250
+msgid "Location"
+msgstr "地域"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:252
+msgid "Spent"
+msgstr "注文額"
+
+#: includes/admin/reports/class-wc-report-customer-list.php:253
+msgid "Last order"
+msgstr "最終注文"
+
+#: includes/admin/reports/class-wc-report-customers.php:22
+msgid "%s signups in this period"
+msgstr "%s この期間のサインアップ数"
+
+#: includes/admin/reports/class-wc-report-customers.php:90
+msgid "Customer Sales"
+msgstr "顧客売上"
+
+#: includes/admin/reports/class-wc-report-customers.php:91
+msgid "Guest Sales"
+msgstr "非会員売上"
+
+#: includes/admin/reports/class-wc-report-customers.php:100
+#: includes/admin/reports/class-wc-report-customers.php:296
+msgid "Customer Orders"
+msgstr "会員注文"
+
+#: includes/admin/reports/class-wc-report-customers.php:105
+#: includes/admin/reports/class-wc-report-customers.php:306
+msgid "Guest Orders"
+msgstr "非会員注文"
+
+#: includes/admin/reports/class-wc-report-customers.php:124
+msgid "orders"
+msgstr "注文"
+
+#: includes/admin/reports/class-wc-report-customers.php:302
+msgid "customer orders"
+msgstr "会員注文"
+
+#: includes/admin/reports/class-wc-report-customers.php:312
+msgid "guest orders"
+msgstr "非会員注文"
+
+#: includes/admin/reports/class-wc-report-customers.php:316
+msgid "Signups"
+msgstr "Signups"
+
+#: includes/admin/reports/class-wc-report-customers.php:323
+msgid "new users"
+msgstr "新規ユーザー"
+
+#: includes/admin/reports/class-wc-report-low-in-stock.php:22
+msgid "No low in stock products found."
+msgstr "在庫の少ない商品はありません。"
+
+#: includes/admin/reports/class-wc-report-out-of-stock.php:22
+msgid "No out of stock products found."
+msgstr "在庫切れ商品がありません。"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:63
+msgid "%s sales in %s"
+msgstr "%s sales in %s"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:170
+msgid "Select categories&hellip;"
+msgstr "カテゴリーを選択&hellip;"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:184
+msgid "None"
+msgstr "なし"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:185
+msgid "All"
+msgstr "すべて"
+
+#: includes/admin/reports/class-wc-report-sales-by-category.php:245
+msgid "&larr; Choose a category to view stats"
+msgstr "&larr; データを表示するには、カテゴリを選択してください"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:81
+msgid "%s average daily sales"
+msgstr "%s １日平均売上"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:84
+msgid "%s average monthly sales"
+msgstr "%s 月間平均売上"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:89
+msgid "%s sales in this period"
+msgstr "%s この期間の売上"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:99
+msgid "%s orders placed"
+msgstr "%s 注文数"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:104
+msgid "%s items purchased"
+msgstr "%s 販売商品数"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:109
+msgid "%s charged for shipping"
+msgstr "%s 配送料"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:114
+msgid "%s worth of coupons used"
+msgstr "%s クーポンの利用額"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:301
+#: includes/admin/reports/class-wc-report-sales-by-product.php:435
+msgid "Number of items sold"
+msgstr "売れた商品数"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:309
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:118
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:114
+msgid "Number of orders"
+msgstr "受注数"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:317
+msgid "Average sales amount"
+msgstr "平均売上額"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:337
+msgid "Shipping amount"
+msgstr "配送料合計"
+
+#: includes/admin/reports/class-wc-report-sales-by-date.php:347
+#: includes/admin/reports/class-wc-report-sales-by-product.php:443
+msgid "Sales amount"
+msgstr "売上高"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:79
+msgid "%s sales for the selected items"
+msgstr "%s 選択商品の売上"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:84
+msgid "%s purchases for the selected items"
+msgstr "選択商品の販売数"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:130
+msgid "Showing reports for:"
+msgstr "現在表示中のレポート:"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:160
+msgid "Reset"
+msgstr "リセット"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:169
+msgid "Product Search"
+msgstr "商品検索"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:206
+msgid "Top Sellers"
+msgstr "売れ筋商品"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:241
+#: includes/admin/reports/class-wc-report-sales-by-product.php:281
+msgid "No products found in range"
+msgstr "この期間に対応する商品はありません"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:246
+msgid "Top Earners"
+msgstr "売上額上位"
+
+#: includes/admin/reports/class-wc-report-sales-by-product.php:337
+msgid "&larr; Choose a product to view stats"
+msgstr "&larr; 商品を選んでレポートを表示ください"
+
+#: includes/admin/reports/class-wc-report-stock.php:35
+msgid "No products found."
+msgstr "該当商品がありません。"
+
+#: includes/admin/reports/class-wc-report-stock.php:126
+msgid "product"
+msgstr "商品"
+
+#: includes/admin/reports/class-wc-report-stock.php:142
+msgid "Parent"
+msgstr "Parent"
+
+#: includes/admin/reports/class-wc-report-stock.php:143
+msgid "Units in stock"
+msgstr "在庫単位"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:117
+msgid "Rate"
+msgstr "率"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:119
+msgid "Tax Amount"
+msgstr "税額合計"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:119
+msgid "This is the sum of the \"Tax Rows\" tax amount within your orders."
+msgstr "これはご注文内の「税行」税額の合計です。"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:120
+msgid "Shipping Tax Amount"
+msgstr "配送料の（出荷）税額"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:120
+msgid ""
+"This is the sum of the \"Tax Rows\" shipping tax amount within your orders."
+msgstr "これはご注文内の「税行」送料税額の合計です。"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:121
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:117
+msgid "Total Tax"
+msgstr "税金合計"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:121
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:117
+msgid "This is the total tax for the rate (shipping tax + product tax)."
+msgstr "これは税金の合計です。(配送料税＋商品代金税)"
+
+#: includes/admin/reports/class-wc-report-taxes-by-code.php:170
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:161
+msgid "No taxes found in this period"
+msgstr "この期間内の税額はありません。"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:113
+msgid "Period"
+msgstr "期間"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:115
+msgid "Total Sales"
+msgstr "総売上高"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:115
+msgid "This is the sum of the 'Order Total' field within your orders."
+msgstr "これは受注フィールド内の総注文合計です"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:116
+msgid "Total Shipping"
+msgstr "総送料合計"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:116
+msgid "This is the sum of the 'Shipping Total' field within your orders."
+msgstr "これは受注フィールド内の総送料合計です"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:118
+msgid "Net profit"
+msgstr "純利益"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:118
+msgid "Total sales minus shipping and tax."
+msgstr "総売上高から「配送料と税金」を差し引く"
+
+#: includes/admin/reports/class-wc-report-taxes-by-date.php:127
+msgid "Totals"
+msgstr "合計"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:25
+msgid "Accounts"
+msgstr "アカウント"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:41
+msgid "Account Pages"
+msgstr "アカウントページ"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:41
+msgid ""
+"These pages need to be set so that WooCommerce knows where to send users to "
+"access account related functionality."
+msgstr "WooCommerceがアカウント関連の機能にアクセスし、ユーザーの送信先を認識できるように、これらのページを設定する必要があります。"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:44
+msgid "My Account Page"
+msgstr "マイ・アカウントページ"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:45
+#: includes/admin/settings/class-wc-settings-checkout.php:113
+#: includes/admin/settings/class-wc-settings-checkout.php:124
+msgid "Page contents:"
+msgstr "ページコンテンツ:"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:56
+msgid "My Account Endpoints"
+msgstr "マイアカウントエンドポイント（URL表記）"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:56
+msgid ""
+"Endpoints are appended to your page URLs to handle specific actions on the "
+"accounts pages. They should be unique."
+msgstr "エンドポイントはアカウントページで特定のアクションを処理するために、ページのURLに利用されます。これらは、一意（ユニーク）である必要があります。"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:59
+msgid "View Order"
+msgstr "注文を見る"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:60
+msgid "Endpoint for the My Account &rarr; View Order page"
+msgstr "マイアカウント用のエンドポイント&rarr; 注文ページを表示"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:68
+msgid "Edit Account"
+msgstr "アカウント編集"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:69
+msgid "Endpoint for the My Account &rarr; Edit Account page"
+msgstr "マイアカウント用のエンドポイント&rarr; アカウントページを編集"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:77
+msgid "Edit Address"
+msgstr "住所の編集"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:78
+msgid "Endpoint for the My Account &rarr; Edit Address page"
+msgstr "マイアカウント用のエンドポイント&rarr; 住所ページの編集"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:86
+msgid "Lost Password"
+msgstr "パスワードを忘れた"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:87
+msgid "Endpoint for the My Account &rarr; Lost Password page"
+msgstr "マイアカウント用のエンドポイント&rarr; パスワードを失った際のページ"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:95
+msgid "Logout"
+msgstr "ログアウト"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:96
+msgid ""
+"Endpoint for the triggering logout. You can add this to your menus via a "
+"custom link: yoursite.com/?customer-logout=true"
+msgstr "　ログアウトを引き起こすエンドポイント。カスタムリンクを経由してメニューに追加可能です。例:yoursite.com/?customer-logout=true"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:105
+msgid "Registration Options"
+msgstr "登録オプション"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:108
+msgid "Enable Registration"
+msgstr "登録設定"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:109
+msgid "Enable registration on the \"Checkout\" page"
+msgstr "「チェックアウト」ページでの登録を可能にする"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:118
+msgid "Enable registration on the \"My Account\" page"
+msgstr "「マイアカウント」ページでの登録を可能にする"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:127
+msgid "Display returning customer login reminder on the \"Checkout\" page"
+msgstr "「チェックアウト」のページでお客様ログインリマインダーを表示"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:136
+msgid "Account Creation"
+msgstr "アカウント作成"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:137
+msgid "Automatically generate username from customer email"
+msgstr "お客様の電子メールからのユーザー名を自動的に生成する"
+
+#: includes/admin/settings/class-wc-settings-accounts.php:146
+msgid "Automatically generate customer password"
+msgstr "自動的に顧客のパスワードを生成する"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:25
+msgctxt "Settings tab label"
+msgid "Checkout"
+msgstr "支払い方法"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:41
+msgid "Checkout Options"
+msgstr "支払いオプション"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:65
+msgid "Checkout Process"
+msgstr "精算手続き"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:68
+msgid "Coupons"
+msgstr "クーポン"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:69
+msgid "Enable the use of coupons"
+msgstr "クーポンの使用を有効にします"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:73
+msgid "Coupons can be applied from the cart and checkout pages."
+msgstr "クーポンはカートおよびお支払いのページから適用することができます。"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:78
+msgctxt "Settings group label"
+msgid "Checkout"
+msgstr "支払い方法"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:79
+msgid "Enable guest checkout"
+msgstr "未登録ユーザーの購入許可"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:80
+msgid "Allows customers to checkout without creating an account."
+msgstr "アカウント登録しなくても商品購入を許可します。"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:89
+msgid "Force secure checkout"
+msgstr "強制SSL (HTTPS)支払い処理"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:95
+msgid ""
+"Force SSL (HTTPS) on the checkout pages (an SSL Certificate is required)."
+msgstr "強制的にお支払い（checkout ）ページにSSL (HTTPS)を設定 （SSL証明書が必要となります。）"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:99
+msgid "Un-force HTTPS when leaving the checkout"
+msgstr "支払いページを離れる時にHTTPSを外します。"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:109
+msgid "Checkout Pages"
+msgstr "購入ページ"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:109
+msgid ""
+"These pages need to be set so that WooCommerce knows where to send users to "
+"checkout."
+msgstr "WooCommerceはユーザーを支払い方法へ誘導するためには、これらのページを設定する必要があります。"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:112
+msgid "Cart Page"
+msgstr "買い物カゴページ"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:123
+msgid "Checkout Page"
+msgstr "支払いページ"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:134
+msgid "Terms and Conditions"
+msgstr "取引条件"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:135
+msgid ""
+"If you define a \"Terms\" page the customer will be asked if they accept "
+"them when checking out."
+msgstr "「規約ページ」を定義した場合、チェックアウト時にお客様に受け入れるかどうかを尋ねることができます。"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:147
+msgid "Checkout Endpoints"
+msgstr "支払いエンドポイント（URL表記）"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:147
+msgid ""
+"Endpoints are appended to your page URLs to handle specific actions during "
+"the checkout process. They should be unique."
+msgstr "エンドポイントは、支払いプロセスの間、特定のアクションを処理するために、ページのURLに表記されます。これらは、一意（ユニーク）である必要があります。"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:150
+msgid "Pay"
+msgstr "支払い(pay)"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:151
+msgid "Endpoint for the Checkout &rarr; Pay page"
+msgstr "支払いのエンドポイント&rarr;支払いページ"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:159
+msgid "Order Received"
+msgstr "注文受付"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:160
+msgid "Endpoint for the Checkout &rarr; Order Received page"
+msgstr "支払い &rarr; 注文完了ページのエンドポイント"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:168
+msgid "Add Payment Method"
+msgstr "支払い方法を追加"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:169
+msgid "Endpoint for the Checkout &rarr; Add Payment Method page"
+msgstr "支払いのエンドポイント&rarr;支払い方法追加ページ"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:178
+msgid "Payment Gateways"
+msgstr "支払ゲートウェイ"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:178
+msgid ""
+"Installed gateways are listed below. Drag and drop gateways to control their"
+" display order on the frontend."
+msgstr "設定された支払い方法を以下に示します。ドラッグアンドドロップでフロントエンドでの順番を変える事ができます。"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:219
+msgid "Gateway Display"
+msgstr "支払い方法表示"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:227
+msgid "Gateway"
+msgstr "支払い方法"
+
+#: includes/admin/settings/class-wc-settings-checkout.php:228
+msgid "Gateway ID"
+msgstr "支払い方法ID"
+
+#: includes/admin/settings/class-wc-settings-emails.php:25
+msgid "Emails"
+msgstr "Eメール"
+
+#: includes/admin/settings/class-wc-settings-emails.php:40
+msgid "Email Options"
+msgstr "Eメールオプション"
+
+#: includes/admin/settings/class-wc-settings-emails.php:66
+msgid "Email Sender Options"
+msgstr "Eメール送信オプション"
+
+#: includes/admin/settings/class-wc-settings-emails.php:66
+msgid ""
+"The following options affect the sender (email address and name) used in "
+"WooCommerce emails."
+msgstr "次のオプションが「WooCommerce Eメール」で使用される送信元（メールアドレスと名前）に反映します。"
+
+#: includes/admin/settings/class-wc-settings-emails.php:69
+msgid "\"From\" Name"
+msgstr "\"From\" 名前"
+
+#: includes/admin/settings/class-wc-settings-emails.php:79
+msgid "\"From\" Email Address"
+msgstr "\"From\" Eメールアドレス"
+
+#: includes/admin/settings/class-wc-settings-emails.php:93
+msgid "Email Template"
+msgstr "Eメール テンプレート"
+
+#: includes/admin/settings/class-wc-settings-emails.php:93
+msgid ""
+"This section lets you customise the WooCommerce emails. <a href=\"%s\" "
+"target=\"_blank\">Click here to preview your email template</a>. For more "
+"advanced control copy <code>woocommerce/templates/emails/</code> to "
+"<code>yourtheme/woocommerce/emails/</code>."
+msgstr "このセクションでは、WooCommerceメールをカスタマイズすることができます。あなたのEメールテンプレートをプレビューするには<a href=\"%s\" target=\"_blank\">ここをクリック</a>してください。<code>woocommerce/templates/emails/</code> から <code>yourtheme/woocommerce/emails/</code>に高度な設定を複製。"
+
+#: includes/admin/settings/class-wc-settings-emails.php:96
+msgid "Header Image"
+msgstr "ヘッダー画像"
+
+#: includes/admin/settings/class-wc-settings-emails.php:97
+msgid ""
+"Enter a URL to an image you want to show in the email's header. Upload your "
+"image using the <a href=\"%s\">media uploader</a>."
+msgstr "Eメールのヘッダーに表示したい画像のURLを入力します。 <a href=\"%s\">メディアアップローダーを使用して画像をアップロードする</a>を参照下さい。"
+
+#: includes/admin/settings/class-wc-settings-emails.php:106
+msgid "Email Footer Text"
+msgstr "Eメール フッターテキスト"
+
+#: includes/admin/settings/class-wc-settings-emails.php:107
+msgid "The text to appear in the footer of WooCommerce emails."
+msgstr "テキストはWooCommerceメールのフッターに表示されます。"
+
+#: includes/admin/settings/class-wc-settings-emails.php:111
+msgid "Powered by WooCommerce"
+msgstr "Powered by WooCommerce"
+
+#: includes/admin/settings/class-wc-settings-emails.php:116
+msgid "Base Colour"
+msgstr "ベースカラー"
+
+#: includes/admin/settings/class-wc-settings-emails.php:117
+msgid ""
+"The base colour for WooCommerce email templates. Default "
+"<code>#557da1</code>."
+msgstr "WooCommerceのEメールテンプレートの基本色。デフォルトは<code>#557da1</code>です。"
+
+#: includes/admin/settings/class-wc-settings-emails.php:126
+msgid "Background Colour"
+msgstr "背景色"
+
+#: includes/admin/settings/class-wc-settings-emails.php:127
+msgid ""
+"The background colour for WooCommerce email templates. Default "
+"<code>#f5f5f5</code>."
+msgstr "WooCommerceのEメールテンプレートの背景色。デフォルトは<code>#f5f5f5</code>です。"
+
+#: includes/admin/settings/class-wc-settings-emails.php:136
+msgid "Email Body Background Colour"
+msgstr "Eメール本文の背景色"
+
+#: includes/admin/settings/class-wc-settings-emails.php:137
+msgid "The main body background colour. Default <code>#fdfdfd</code>."
+msgstr "WooCommerceのEメール本文の背景色。デフォルトは<code>#fdfdfd</code>です。"
+
+#: includes/admin/settings/class-wc-settings-emails.php:146
+msgid "Email Body Text Colour"
+msgstr "Eメール本文テキストの色"
+
+#: includes/admin/settings/class-wc-settings-emails.php:147
+msgid "The main body text colour. Default <code>#505050</code>."
+msgstr "WooCommerceのEメール本文のテキストの色。デフォルトは<code>#505050</code>です"
+
+#: includes/admin/settings/class-wc-settings-general.php:52
+msgid "General Options"
+msgstr "基本設定"
+
+#: includes/admin/settings/class-wc-settings-general.php:55
+msgid "Base Location"
+msgstr "販売拠点"
+
+#: includes/admin/settings/class-wc-settings-general.php:56
+msgid ""
+"This is the base location for your business. Tax rates will be based on this"
+" country."
+msgstr "ビジネスのベースとなる販売拠点です。税率はここで指定した国の設定に基づいて計算されます。"
+
+#: includes/admin/settings/class-wc-settings-general.php:65
+msgid "Selling Location(s)"
+msgstr "販売を展開する国"
+
+#: includes/admin/settings/class-wc-settings-general.php:66
+msgid "This option lets you limit which countries you are willing to sell to."
+msgstr "このオプションでは、あなたが販売したい国を制限することができます。"
+
+#: includes/admin/settings/class-wc-settings-general.php:74
+msgid "Sell to all countries"
+msgstr "すべての国に向けて販売をする"
+
+#: includes/admin/settings/class-wc-settings-general.php:75
+msgid "Sell to specific countries only"
+msgstr "販売する国を限定する"
+
+#: includes/admin/settings/class-wc-settings-general.php:80
+#: includes/admin/settings/class-wc-settings-shipping.php:147
+msgid "Specific Countries"
+msgstr "特定の国"
+
+#: includes/admin/settings/class-wc-settings-general.php:89
+msgid "Store Notice"
+msgstr "通知テキスト"
+
+#: includes/admin/settings/class-wc-settings-general.php:90
+msgid "Enable site-wide store notice text"
+msgstr "サイト全体で表示される通知テキストを有効にします"
+
+#: includes/admin/settings/class-wc-settings-general.php:97
+msgid "Store Notice Text"
+msgstr "通知テキストの内容"
+
+#: includes/admin/settings/class-wc-settings-general.php:100
+msgid ""
+"This is a demo store for testing purposes &mdash; no orders shall be "
+"fulfilled."
+msgstr "これはデモストアです &mdash; 注文は出来ません。"
+
+#: includes/admin/settings/class-wc-settings-general.php:107
+msgid "API"
+msgstr "API"
+
+#: includes/admin/settings/class-wc-settings-general.php:108
+msgid "Enable the REST API"
+msgstr "REST API を有効にする"
+
+#: includes/admin/settings/class-wc-settings-general.php:116
+msgid "Currency Options"
+msgstr "通貨オプション"
+
+#: includes/admin/settings/class-wc-settings-general.php:116
+msgid "The following options affect how prices are displayed on the frontend."
+msgstr "次のオプションは、価格がフロントエンドでどのように表示されるかに影響します。"
+
+#: includes/admin/settings/class-wc-settings-general.php:119
+msgid "Currency"
+msgstr "通貨"
+
+#: includes/admin/settings/class-wc-settings-general.php:120
+msgid ""
+"This controls what currency prices are listed at in the catalog and which "
+"currency gateways will take payments in."
+msgstr "どの通貨価格をカタログに適用するか、また、どの通貨を支払いに取り入れるかを設定します。"
+
+#: includes/admin/settings/class-wc-settings-general.php:131
+msgid "Currency Position"
+msgstr "貨幣記号の表示位置"
+
+#: includes/admin/settings/class-wc-settings-general.php:132
+msgid "This controls the position of the currency symbol."
+msgstr "貨幣記号を表示する位置を設定します"
+
+#: includes/admin/settings/class-wc-settings-general.php:139
+msgid "Left"
+msgstr "左"
+
+#: includes/admin/settings/class-wc-settings-general.php:140
+msgid "Right"
+msgstr "右"
+
+#: includes/admin/settings/class-wc-settings-general.php:141
+msgid "Left with space"
+msgstr "左側スペース（空白）"
+
+#: includes/admin/settings/class-wc-settings-general.php:142
+msgid "Right with space"
+msgstr "右側スペース（空白）"
+
+#: includes/admin/settings/class-wc-settings-general.php:148
+msgid "Thousand Separator"
+msgstr "3桁ごとの区切り文字"
+
+#: includes/admin/settings/class-wc-settings-general.php:149
+msgid "This sets the thousand separator of displayed prices."
+msgstr "表示価格の桁区切りを設定します"
+
+#: includes/admin/settings/class-wc-settings-general.php:158
+msgid "Decimal Separator"
+msgstr "小数点の区切り文字"
+
+#: includes/admin/settings/class-wc-settings-general.php:159
+msgid "This sets the decimal separator of displayed prices."
+msgstr "表示価格の小数点の切り文字を設定します"
+
+#: includes/admin/settings/class-wc-settings-general.php:168
+msgid "Number of Decimals"
+msgstr "小数点以下の桁数"
+
+#: includes/admin/settings/class-wc-settings-general.php:169
+msgid "This sets the number of decimal points shown in displayed prices."
+msgstr "表示価格の小数点以下の桁数を設定します"
+
+#: includes/admin/settings/class-wc-settings-general.php:183
+msgid "Styles and Scripts"
+msgstr "スタイルシートとスクリプト"
+
+#: includes/admin/settings/class-wc-settings-general.php:188
+msgid "Scripts"
+msgstr "スクリプト"
+
+#: includes/admin/settings/class-wc-settings-general.php:189
+msgid "Enable Lightbox"
+msgstr "Lightbox を有効にする"
+
+#: includes/admin/settings/class-wc-settings-general.php:192
+msgid ""
+"Include WooCommerce's lightbox. Product gallery images will open in a "
+"lightbox."
+msgstr "WooCommerce デフォルトの Lightbox をインクルードします。ギャラリーイメージが Lightbox で開かれるようになります。"
+
+#: includes/admin/settings/class-wc-settings-general.php:198
+msgid "Enable enhanced country select boxes"
+msgstr "国の選択フィールドに拡張セレクトボックスを利用する"
+
+#: includes/admin/settings/class-wc-settings-general.php:203
+msgid ""
+"This will enable a script allowing the country fields to be searchable."
+msgstr "国のフィールド選択時に、検索機能が利用可能になるスクリプトを有効にします。"
+
+#: includes/admin/settings/class-wc-settings-general.php:221
+msgid "Frontend Styles"
+msgstr "フロントエンドのスタイルシート"
+
+#: includes/admin/settings/class-wc-settings-general.php:251
+msgid "Primary"
+msgstr "プライマリー"
+
+#: includes/admin/settings/class-wc-settings-general.php:251
+msgid "Call to action buttons/price slider/layered nav UI"
+msgstr "アクションボタン、価格スライダー、レイヤーナビUI、を呼び出す。"
+
+#: includes/admin/settings/class-wc-settings-general.php:252
+msgid "Secondary"
+msgstr "セカンダリー"
+
+#: includes/admin/settings/class-wc-settings-general.php:252
+msgid "Buttons and tabs"
+msgstr "ボタンとタブ"
+
+#: includes/admin/settings/class-wc-settings-general.php:253
+msgid "Highlight"
+msgstr "ハイライト"
+
+#: includes/admin/settings/class-wc-settings-general.php:253
+msgid "Price labels and Sale Flashes"
+msgstr "価格ラベルと販売に点滅"
+
+#: includes/admin/settings/class-wc-settings-general.php:254
+msgid "Content"
+msgstr "コンテンツ"
+
+#: includes/admin/settings/class-wc-settings-general.php:254
+msgid "Your themes page background - used for tab active states"
+msgstr "テーマのページの背景 - タブをアクティブ状態に使用"
+
+#: includes/admin/settings/class-wc-settings-general.php:255
+msgid "Subtext"
+msgstr "サブテキスト"
+
+#: includes/admin/settings/class-wc-settings-general.php:255
+msgid "Used for certain text and asides - breadcrumbs, small text etc."
+msgstr "特定テキストに使用 - パン屑リスト・ミニテキスト等"
+
+#: includes/admin/settings/class-wc-settings-general.php:258
+msgid ""
+"To edit colours <code>woocommerce/assets/css/woocommerce-base.less</code> "
+"and <code>woocommerce.css</code> need to be writable. See <a "
+"href=\"http://codex.wordpress.org/Changing_File_Permissions\">the Codex</a> "
+"for more information."
+msgstr "色を編集するには <code>woocommerce/assets/css/woocommerce-base.less</code> と <code>woocommerce.css</code> を書き込み可能にする必要があります。詳細は<a href=\"http://codex.wordpress.org/Changing_File_Permissions\">the Codex</a>を参照して下さい。"
+
+#: includes/admin/settings/class-wc-settings-general.php:311
+msgid ""
+"Error saving the Frontend Styles, %s is not a valid color, please use only "
+"valid colors code."
+msgstr "フロントエンドのスタイルのエラーを保存、％sは有効な色ではありません。有効な色コードのみをご利用ください。"
+
+#: includes/admin/settings/class-wc-settings-integrations.php:25
+msgid "Integration"
+msgstr "ソーシャル ウィジェット"
+
+#: includes/admin/settings/class-wc-settings-products.php:40
+msgid "Product Options"
+msgstr "商品オプション"
+
+#: includes/admin/settings/class-wc-settings-products.php:79
+msgid "Inventory Options"
+msgstr "在庫管理オプション"
+
+#: includes/admin/settings/class-wc-settings-products.php:82
+msgid "Manage Stock"
+msgstr "在庫管理"
+
+#: includes/admin/settings/class-wc-settings-products.php:83
+msgid "Enable stock management"
+msgstr "在庫管理を有効にする"
+
+#: includes/admin/settings/class-wc-settings-products.php:90
+msgid "Hold Stock (minutes)"
+msgstr "在庫保持 (分単位の設定）"
+
+#: includes/admin/settings/class-wc-settings-products.php:91
+msgid ""
+"Hold stock (for unpaid orders) for x minutes. When this limit is reached, "
+"the pending order will be cancelled. Leave blank to disable."
+msgstr "未払い注文の在庫保持（分単位の設定）。この制限に達すると保留中の注文はキャンセルされます。無効にするには空白のままにしておきます。"
+
+#: includes/admin/settings/class-wc-settings-products.php:104
+msgid "Notifications"
+msgstr "在庫通知"
+
+#: includes/admin/settings/class-wc-settings-products.php:105
+msgid "Enable low stock notifications"
+msgstr "在庫低下の通知を有効にする"
+
+#: includes/admin/settings/class-wc-settings-products.php:114
+msgid "Enable out of stock notifications"
+msgstr "在庫切れの通知を有効にする"
+
+#: includes/admin/settings/class-wc-settings-products.php:123
+msgid "Notification Recipient"
+msgstr "通知受信者"
+
+#: includes/admin/settings/class-wc-settings-products.php:132
+msgid "Low Stock Threshold"
+msgstr "在庫低下を知らせる数値"
+
+#: includes/admin/settings/class-wc-settings-products.php:146
+msgid "Out Of Stock Threshold"
+msgstr "在庫切れを知らせる数値"
+
+#: includes/admin/settings/class-wc-settings-products.php:160
+msgid "Out Of Stock Visibility"
+msgstr "在庫の表示"
+
+#: includes/admin/settings/class-wc-settings-products.php:161
+msgid "Hide out of stock items from the catalog"
+msgstr "カタログから在庫のない商品は表示しない"
+
+#: includes/admin/settings/class-wc-settings-products.php:168
+msgid "Stock Display Format"
+msgstr "ストック表示形式"
+
+#: includes/admin/settings/class-wc-settings-products.php:169
+msgid "This controls how stock is displayed on the frontend."
+msgstr "在庫がフロントエンドにどのように表示されるかをコントロールします"
+
+#: includes/admin/settings/class-wc-settings-products.php:175
+msgid "Always show stock e.g. \"12 in stock\""
+msgstr "常に在庫を表示。例えば \"在庫数 12\""
+
+#: includes/admin/settings/class-wc-settings-products.php:176
+msgid "Only show stock when low e.g. \"Only 2 left in stock\" vs. \"In Stock\""
+msgstr "在庫が低下した時のみ表示。例えば \"在庫あり\" や \"残り在庫数 2\""
+
+#: includes/admin/settings/class-wc-settings-products.php:177
+msgid "Never show stock amount"
+msgstr "在庫量を表示しない"
+
+#: includes/admin/settings/class-wc-settings-products.php:196
+msgid ""
+"Note: The shop page has children - child pages will not work if you enable "
+"this option."
+msgstr "注意: ショップページには子ページがあります。このオプションを有効にすると、子ページが動作しません。"
+
+#: includes/admin/settings/class-wc-settings-products.php:200
+msgid "Product Listings"
+msgstr "商品リスト"
+
+#: includes/admin/settings/class-wc-settings-products.php:203
+msgid "Product Archive / Shop Page"
+msgstr "商品アーカイブ/ショップページ"
+
+#: includes/admin/settings/class-wc-settings-products.php:204
+msgid ""
+"The base page can also be used in your <a href=\"%s\">product "
+"permalinks</a>."
+msgstr "ベースページは<a href=\"%s\">商品パーマリンク</a>に使う事が出来ます。"
+
+#: includes/admin/settings/class-wc-settings-products.php:210
+msgid ""
+"This sets the base page of your shop - this is where your product archive "
+"will be."
+msgstr "ショップ基本ページを設定します。商品が保存される場所です。"
+
+#: includes/admin/settings/class-wc-settings-products.php:214
+msgid "Shop Page Display"
+msgstr "ショップページ表示"
+
+#: includes/admin/settings/class-wc-settings-products.php:215
+msgid "This controls what is shown on the product archive."
+msgstr "商品アーカイブでの表示を制御"
+
+#: includes/admin/settings/class-wc-settings-products.php:222
+#: includes/admin/settings/class-wc-settings-products.php:238
+msgid "Show products"
+msgstr "商品を表示する"
+
+#: includes/admin/settings/class-wc-settings-products.php:223
+#: includes/admin/settings/class-wc-settings-products.php:239
+msgid "Show subcategories"
+msgstr "サブカテゴリを表示"
+
+#: includes/admin/settings/class-wc-settings-products.php:224
+#: includes/admin/settings/class-wc-settings-products.php:240
+msgid "Show both"
+msgstr "両方を表示"
+
+#: includes/admin/settings/class-wc-settings-products.php:230
+msgid "Default Category Display"
+msgstr "デフォルトのカテゴリ表示"
+
+#: includes/admin/settings/class-wc-settings-products.php:231
+msgid "This controls what is shown on category archives."
+msgstr "カテゴリアーカイブでの表示を制御"
+
+#: includes/admin/settings/class-wc-settings-products.php:246
+msgid "Default Product Sorting"
+msgstr "デフォルトの商品順"
+
+#: includes/admin/settings/class-wc-settings-products.php:247
+msgid "This controls the default sort order of the catalog."
+msgstr "カタログのデフォルト表示順序をコントロールします"
+
+#: includes/admin/settings/class-wc-settings-products.php:254
+msgid "Default sorting (custom ordering + name)"
+msgstr "デフォルト （カスタムの注文+名前）"
+
+#: includes/admin/settings/class-wc-settings-products.php:255
+msgid "Popularity (sales)"
+msgstr "人気（売上高）"
+
+#: includes/admin/settings/class-wc-settings-products.php:256
+msgid "Average Rating"
+msgstr "平均評価"
+
+#: includes/admin/settings/class-wc-settings-products.php:257
+msgid "Sort by most recent"
+msgstr "最新に並べ替え"
+
+#: includes/admin/settings/class-wc-settings-products.php:258
+msgid "Sort by price (asc)"
+msgstr "価格順え（昇順）"
+
+#: includes/admin/settings/class-wc-settings-products.php:259
+msgid "Sort by price (desc)"
+msgstr "価格順（降順）"
+
+#: includes/admin/settings/class-wc-settings-products.php:265
+msgid "Add to cart"
+msgstr "カートに追加"
+
+#: includes/admin/settings/class-wc-settings-products.php:266
+msgid "Redirect to the cart page after successful addition"
+msgstr "正常に追加された後、カートのページにリダイレクトします。"
+
+#: includes/admin/settings/class-wc-settings-products.php:274
+msgid "Enable AJAX add to cart buttons on archives"
+msgstr "AJAXはアーカイブの「カートに追加」ボタンを有効にします。"
+
+#: includes/admin/settings/class-wc-settings-products.php:286
+msgid "Weight Unit"
+msgstr "重量単位"
+
+#: includes/admin/settings/class-wc-settings-products.php:287
+msgid "This controls what unit you will define weights in."
+msgstr "単位設定"
+
+#: includes/admin/settings/class-wc-settings-products.php:294
+msgid "kg"
+msgstr "kg"
+
+#: includes/admin/settings/class-wc-settings-products.php:295
+msgid "g"
+msgstr "g"
+
+#: includes/admin/settings/class-wc-settings-products.php:296
+msgid "lbs"
+msgstr "lbs（ポンド）"
+
+#: includes/admin/settings/class-wc-settings-products.php:297
+msgid "oz"
+msgstr "oz（オンス）"
+
+#: includes/admin/settings/class-wc-settings-products.php:303
+msgid "Dimensions Unit"
+msgstr "寸法単位"
+
+#: includes/admin/settings/class-wc-settings-products.php:304
+msgid "This controls what unit you will define lengths in."
+msgstr "長さの定義"
+
+#: includes/admin/settings/class-wc-settings-products.php:312
+msgid "cm"
+msgstr "cm"
+
+#: includes/admin/settings/class-wc-settings-products.php:313
+msgid "mm"
+msgstr "mm"
+
+#: includes/admin/settings/class-wc-settings-products.php:314
+msgid "in"
+msgstr "in（インチ）"
+
+#: includes/admin/settings/class-wc-settings-products.php:315
+msgid "yd"
+msgstr "yd（ヤード）"
+
+#: includes/admin/settings/class-wc-settings-products.php:321
+msgid "Product Ratings"
+msgstr "商品の評価"
+
+#: includes/admin/settings/class-wc-settings-products.php:322
+msgid "Enable ratings on reviews"
+msgstr "レビューでの評価を有効"
+
+#: includes/admin/settings/class-wc-settings-products.php:332
+msgid "Ratings are required to leave a review"
+msgstr "評価は、レビューを残すことを要求"
+
+#: includes/admin/settings/class-wc-settings-products.php:342
+msgid "Show \"verified owner\" label for customer reviews"
+msgstr "カスタマーレビューのために「承認」のラベルを表示する"
+
+#: includes/admin/settings/class-wc-settings-products.php:352
+msgid "Only allow reviews from \"verified owners\""
+msgstr "購入者からのみレビューを許可"
+
+#: includes/admin/settings/class-wc-settings-products.php:363
+msgid "Product Image Sizes"
+msgstr "商品画像サイズ"
+
+#: includes/admin/settings/class-wc-settings-products.php:363
+msgid ""
+"These settings affect the actual dimensions of images in your catalog - the "
+"display on the front-end will still be affected by CSS styles. After "
+"changing these settings you may need to <a href=\"%s\">regenerate your "
+"thumbnails</a>."
+msgstr "カタログ内の画像サイズの設定です。フロントエンドの表示はまだCSSに影響されます。設定を変更した後、<a href=\"%s\">サムネイルを再生成する必要があるかもしれません</a>。"
+
+#: includes/admin/settings/class-wc-settings-products.php:366
+msgid "Catalog Images"
+msgstr "カタログ画像"
+
+#: includes/admin/settings/class-wc-settings-products.php:367
+msgid "This size is usually used in product listings"
+msgstr "商品リストで通常使用されているサイズ"
+
+#: includes/admin/settings/class-wc-settings-products.php:380
+msgid "Single Product Image"
+msgstr "シングル商品画像"
+
+#: includes/admin/settings/class-wc-settings-products.php:381
+msgid "This is the size used by the main image on the product page."
+msgstr "商品ページのメイン画像サイズ"
+
+#: includes/admin/settings/class-wc-settings-products.php:394
+msgid "Product Thumbnails"
+msgstr "商品のサムネイル"
+
+#: includes/admin/settings/class-wc-settings-products.php:395
+msgid ""
+"This size is usually used for the gallery of images on the product page."
+msgstr "商品ページの画像ギャラリーに使用されるサイズ"
+
+#: includes/admin/settings/class-wc-settings-products.php:409
+msgid "Downloadable Products"
+msgstr "ダウンロード可能な製品"
+
+#: includes/admin/settings/class-wc-settings-products.php:412
+msgid "File Download Method"
+msgstr "ファイルダウンロード方法"
+
+#: includes/admin/settings/class-wc-settings-products.php:413
+msgid ""
+"Forcing downloads will keep URLs hidden, but some servers may serve large "
+"files unreliably. If supported, <code>X-Accel-Redirect</code>/ "
+"<code>X-Sendfile</code> can be used to serve downloads instead (server "
+"requires <code>mod_xsendfile</code>)."
+msgstr "強制ダウンロードの場合URLは隠されていますが、サーバーによっては大きなデータは対応出来ない場合があります。もし以下がサポートされている場合、<code>X-Accel-Redirect</code>/ <code>X-Sendfile</code>でダウンロード機能を使う事ができます(<code>mod_xsendfile</code>設定が必要です)。"
+
+#: includes/admin/settings/class-wc-settings-products.php:421
+msgid "Force Downloads"
+msgstr "自動ダウンロード"
+
+#: includes/admin/settings/class-wc-settings-products.php:422
+msgid "X-Accel-Redirect/X-Sendfile"
+msgstr "X-Accel-Redirect/X-Sendfile"
+
+#: includes/admin/settings/class-wc-settings-products.php:423
+msgid "Redirect only"
+msgstr "リダイレクトのみ"
+
+#: includes/admin/settings/class-wc-settings-products.php:429
+msgid "Access Restriction"
+msgstr "アクセス制限"
+
+#: includes/admin/settings/class-wc-settings-products.php:430
+msgid "Downloads require login"
+msgstr "ダウンロードには、ログインが必要です"
+
+#: includes/admin/settings/class-wc-settings-products.php:434
+msgid "This setting does not apply to guest purchases."
+msgstr "この設定は、ゲストでの購入には適用されません。"
+
+#: includes/admin/settings/class-wc-settings-products.php:440
+msgid "Grant access to downloadable products after payment"
+msgstr "支払後のダウンロード可能商品へのアクセス権を付与"
+
+#: includes/admin/settings/class-wc-settings-products.php:444
+msgid ""
+"Enable this option to grant access to downloads when orders are "
+"\"processing\", rather than \"completed\"."
+msgstr "注文が\"処理中\"はなく、\"完成\"でダウンロードへのアクセスを許可する場合に、このオプションを有効にします。"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:41
+#: includes/admin/settings/class-wc-settings-shipping.php:67
+msgid "Shipping Options"
+msgstr "配送オプション"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:70
+msgid "Shipping Calculations"
+msgstr "配送料の計算"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:71
+msgid "Enable shipping"
+msgstr "配送を有効"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:79
+msgid "Enable the shipping calculator on the cart page"
+msgstr "カートページの送料計算機を有効にする"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:88
+msgid "Hide shipping costs until an address is entered"
+msgstr "住所が入力されるまで、送料を隠す"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:97
+msgid "Shipping Display Mode"
+msgstr "配送方法表示モード"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:98
+msgid ""
+"This controls how multiple shipping methods are displayed on the frontend."
+msgstr "これは、複数の配送方法がフロントエンドに表示される方法をコントロールします。"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:103
+msgid "Display shipping methods with \"radio\" buttons"
+msgstr "ラジオボタンで配送方法を表示する"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:104
+msgid "Display shipping methods in a dropdown"
+msgstr "ドロップダウンで配送方法を表示する"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:111
+msgid "Shipping Destination"
+msgstr "配送先"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:112
+msgid "Ship to billing address by default"
+msgstr "デフォルトでは、請求書送付先住所にだけ出荷"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:122
+msgid "Only ship to the users billing address"
+msgstr "お客様住所のみに出荷する"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:132
+msgid "Restrict shipping to Location(s)"
+msgstr "出荷先を制限する"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:133
+msgid ""
+"Choose which countries you want to ship to, or choose to ship to all <a "
+"href=\"%s\">locations you sell to</a>."
+msgstr "配送及び<a href=\"%s\">販売したい国</a>を選んでください。"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:140
+msgid "Ship to all countries you sell to"
+msgstr "販売可能な国に配送する"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:141
+msgid "Ship to all countries"
+msgstr "全ての国に配送する"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:142
+msgid "Ship to specific countries only"
+msgstr "特定の国にのみ配送する"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:197
+msgid "Shipping Methods"
+msgstr "配送方法"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:204
+msgid "ID"
+msgstr "ID"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:214
+msgid "Automatic"
+msgstr "自動並び替え"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:214
+msgid "The cheapest available shipping method will be selected by default."
+msgstr "最も安い利用可能な配送方法がデフォルトで選択されます。"
+
+#: includes/admin/settings/class-wc-settings-shipping.php:215
+msgid ""
+"Drag and drop the above shipping methods to control their display order."
+msgstr "上記の配送方法をドラッグアンドドロップで順番を変える事が出来ます。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:40
+#: includes/admin/settings/class-wc-settings-tax.php:68
+msgid "Tax Options"
+msgstr "税オプション"
+
+#: includes/admin/settings/class-wc-settings-tax.php:41
+msgid "Standard Rates"
+msgstr "標準税率"
+
+#: includes/admin/settings/class-wc-settings-tax.php:49
+msgid "%s Rates"
+msgstr "%s 率"
+
+#: includes/admin/settings/class-wc-settings-tax.php:71
+msgid "Enable Taxes"
+msgstr "税金を有効にする"
+
+#: includes/admin/settings/class-wc-settings-tax.php:72
+msgid "Enable taxes and tax calculations"
+msgstr "税金と税額計算を有効にする"
+
+#: includes/admin/settings/class-wc-settings-tax.php:79
+msgid "Prices Entered With Tax"
+msgstr "税込み金額を入力"
+
+#: includes/admin/settings/class-wc-settings-tax.php:83
+msgid ""
+"This option is important as it will affect how you input prices. Changing it"
+" will not update existing products."
+msgstr "このオプションは重要です。あなたがどのように価格を入力するかに影響します。変更すると、既存商品を更新しません。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:85
+msgid "Yes, I will enter prices inclusive of tax"
+msgstr "はい、税込み価格を入力します。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:86
+msgid "No, I will enter prices exclusive of tax"
+msgstr "いいえ、税抜きの価格を入力します。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:91
+msgid "Calculate Tax Based On:"
+msgstr "以下に基づく税の計算:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:93
+msgid "This option determines which address is used to calculate tax."
+msgstr "このオプションは、税計算を適用する場所（住所）を決定します。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:97
+msgid "Customer shipping address"
+msgstr "顧客の配送先住所"
+
+#: includes/admin/settings/class-wc-settings-tax.php:98
+msgid "Customer billing address"
+msgstr "お客様住所"
+
+#: includes/admin/settings/class-wc-settings-tax.php:99
+#: includes/admin/settings/class-wc-settings-tax.php:111
+msgid "Shop base address"
+msgstr "お店の本拠地"
+
+#: includes/admin/settings/class-wc-settings-tax.php:104
+msgid "Default Customer Address:"
+msgstr "デフォルトの顧客住所："
+
+#: includes/admin/settings/class-wc-settings-tax.php:106
+msgid ""
+"This option determines the customers default address (before they input "
+"their own)."
+msgstr "このオプションは、顧客デフォルトのアドレス（彼らが彼ら自身のものを入力する前に）を決定します。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:110
+msgid "No address"
+msgstr "住所がありません"
+
+#: includes/admin/settings/class-wc-settings-tax.php:116
+msgid "Shipping Tax Class:"
+msgstr "送料税クラス："
+
+#: includes/admin/settings/class-wc-settings-tax.php:117
+msgid ""
+"Optionally control which tax class shipping gets, or leave it so shipping "
+"tax is based on the cart items themselves."
+msgstr "必要に応じて配送税クラスを取得するかを制御する、または配送税はカートアイテム自体に基づいて行われるように、それを残します。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:122
+msgid "Shipping tax class based on cart items"
+msgstr "配送税クラスはカートのアイテムに基づいています。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:127
+msgid "Rounding"
+msgstr "税の丸め計算"
+
+#: includes/admin/settings/class-wc-settings-tax.php:128
+msgid "Round tax at subtotal level, instead of rounding per line"
+msgstr "1行に小計レベルで税をまとめる"
+
+#: includes/admin/settings/class-wc-settings-tax.php:135
+msgid "Additional Tax Classes"
+msgstr "追加の税金クラス"
+
+#: includes/admin/settings/class-wc-settings-tax.php:136
+msgid ""
+"List additional tax classes below (1 per line). This is in addition to the "
+"default <code>Standard Rate</code>. Tax classes can be assigned to products."
+msgstr "以下のリストは追加の税金クラスです(1行に1つ)。これは、デフォルトの<code>標準税率</code>に追加されます。税金のクラスは製品に割り当てることができます。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:140
+msgid "Reduced Rate%sZero Rate"
+msgstr "軽減税%s免税"
+
+#: includes/admin/settings/class-wc-settings-tax.php:144
+msgid "Display prices in the shop:"
+msgstr "ショップ上での価格表示:"
+
+#: includes/admin/settings/class-wc-settings-tax.php:149
+#: includes/admin/settings/class-wc-settings-tax.php:168
+msgid "Including tax"
+msgstr "税込"
+
+#: includes/admin/settings/class-wc-settings-tax.php:150
+#: includes/admin/settings/class-wc-settings-tax.php:169
+msgid "Excluding tax"
+msgstr "税別"
+
+#: includes/admin/settings/class-wc-settings-tax.php:155
+msgid "Price display suffix:"
+msgstr "価格表示接尾辞（後）："
+
+#: includes/admin/settings/class-wc-settings-tax.php:159
+msgid ""
+"Define text to show after your product prices. This could be, for example, "
+"\"inc. Vat\" to explain your pricing. You can also have prices substituted "
+"here using one of the following: <code>{price_including_tax}, "
+"{price_excluding_tax}</code>."
+msgstr "製品価格の後に表示するテキストを定義します。例えば、商品価格を説明するために、\"inc. Vat\"などがあります。また、価格は次のいずれかを使用して、置換されます： <code>{price_including_tax}, {price_excluding_tax}</code>."
+
+#: includes/admin/settings/class-wc-settings-tax.php:163
+msgid "Display prices during cart/checkout:"
+msgstr "カート/お支払い に価格を表示する："
+
+#: includes/admin/settings/class-wc-settings-tax.php:175
+msgid "Display tax totals:"
+msgstr "税合計の表示"
+
+#: includes/admin/settings/class-wc-settings-tax.php:180
+msgid "As a single total"
+msgstr "単一の合計"
+
+#: includes/admin/settings/class-wc-settings-tax.php:181
+msgid "Itemized"
+msgstr "項目別"
+
+#: includes/admin/settings/class-wc-settings-tax.php:243
+msgid "Tax Rates for the \"%s\" Class"
+msgstr "\"%s\" クラスの税率"
+
+#: includes/admin/settings/class-wc-settings-tax.php:244
+msgid ""
+"Define tax rates for countries and states below. <a href=\"%s\">See here</a>"
+" for available alpha-2 country codes."
+msgstr "国や都道府県・州・地域などの税率を定義します。利用可能なalpha-2 国コードは<a href=\"%s\">こちらをご覧下さい</a>。日本はJPとなります。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:250
+msgid "Country&nbsp;Code"
+msgstr "国コード"
+
+#: includes/admin/settings/class-wc-settings-tax.php:250
+msgid "A 2 digit country code, e.g. US. Leave blank to apply to all."
+msgstr "2桁の国コード（例 US）。すべてに適用する場合は、空白のままにしておきます。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:252
+msgid "State&nbsp;Code"
+msgstr "都道府県コード"
+
+#: includes/admin/settings/class-wc-settings-tax.php:252
+msgid "A 2 digit state code, e.g. AL. Leave blank to apply to all."
+msgstr "2桁の州コード（例 AL）。すべてに適用する場合は、空白のままにしておきます。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:254
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "ZIP/Postcode"
+msgstr "郵便番号"
+
+#: includes/admin/settings/class-wc-settings-tax.php:254
+msgid ""
+"Postcode for this rule. Semi-colon (;) separate multiple values. Leave blank"
+" to apply to all areas. Wildcards (*) can be used. Ranges for numeric "
+"postcodes (e.g. 12345-12350) will be expanded into individual postcodes."
+msgstr "このルールの郵便番号。セミコロン（ ; )で複数の値を区切ります。すべての領域に適用する場合は、空白のままにしておきます。ワイルドカード（*）を使用することができます。数値の郵便番号（例 12345-12350）の範囲で、個々の郵便番号に拡大されます。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:256
+msgid ""
+"Cities for this rule. Semi-colon (;) separate multiple values. Leave blank "
+"to apply to all cities."
+msgstr "このルールの都市。セミコロン（;)で複数の値を区切ります。すべての都市に適用する場合は、空白のままにしておきます。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:258
+msgid "Rate&nbsp;%"
+msgstr "率&nbsp;%"
+
+#: includes/admin/settings/class-wc-settings-tax.php:258
+msgid "Enter a tax rate (percentage) to 4 decimal places."
+msgstr "小数点以下4桁まで税率（パーセンテージ）を入力します"
+
+#: includes/admin/settings/class-wc-settings-tax.php:260
+msgid "Tax&nbsp;Name"
+msgstr "税率名称"
+
+#: includes/admin/settings/class-wc-settings-tax.php:260
+msgid "Enter a name for this tax rate."
+msgstr "この税率の名前を入力します"
+
+#: includes/admin/settings/class-wc-settings-tax.php:262
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Priority"
+msgstr "優先順位"
+
+#: includes/admin/settings/class-wc-settings-tax.php:262
+msgid ""
+"Choose a priority for this tax rate. Only 1 matching rate per priority will "
+"be used. To define multiple tax rates for a single area you need to specify "
+"a different priority per rate."
+msgstr "この税率のための優先順位を選択します。優先された1つの適合税率だけが使用されます。単一の領域に対して複数の税率を定義するには、税率ごとに異なる??優先順位を指定する必要があります。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:264
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Compound"
+msgstr "複合"
+
+#: includes/admin/settings/class-wc-settings-tax.php:264
+msgid ""
+"Choose whether or not this is a compound rate. Compound tax rates are "
+"applied on top of other tax rates."
+msgstr "これが複合レートであるかどうかを選択します。複合税は他の税の上に適用されます。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:266
+msgid "Choose whether or not this tax rate also gets applied to shipping."
+msgstr "この税率が、出荷に適用されるかどうかを選択します。"
+
+#: includes/admin/settings/class-wc-settings-tax.php:273
+msgid "Insert row"
+msgstr "行を挿入"
+
+#: includes/admin/settings/class-wc-settings-tax.php:274
+msgid "Remove selected row(s)"
+msgstr "選択した行（複数可）を削除"
+
+#: includes/admin/settings/class-wc-settings-tax.php:290
+msgid "Import CSV"
+msgstr "CSVのインポート"
+
+#: includes/admin/settings/class-wc-settings-tax.php:376
+msgid "No row(s) selected"
+msgstr "行が選択されていません"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Country Code"
+msgstr "国コード"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "State Code"
+msgstr "都道府県コード"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Rate %"
+msgstr "率 %"
+
+#: includes/admin/settings/class-wc-settings-tax.php:383
+msgid "Tax Name"
+msgstr "税率名称"
+
+#: includes/admin/views/html-admin-page-addons.php:5
+msgid "Browse all extensions"
+msgstr "すべての拡張機能を参照"
+
+#: includes/admin/views/html-admin-page-addons.php:6
+msgid "Browse themes"
+msgstr "テーマをブラウズ"
+
+#: includes/admin/views/html-admin-page-addons.php:12
+msgid "Popular"
+msgstr "人気のある"
+
+#: includes/admin/views/html-admin-page-addons.php:13
+msgid "Gateways"
+msgstr "Gateways"
+
+#: includes/admin/views/html-admin-page-addons.php:15
+msgid "Import/export"
+msgstr "インポート/エクスポート"
+
+#: includes/admin/views/html-admin-page-addons.php:17
+msgid "Marketing"
+msgstr "マーケティング"
+
+#: includes/admin/views/html-admin-page-addons.php:18
+msgid "Acounting"
+msgstr ""
+
+#: includes/admin/views/html-admin-page-addons.php:19
+msgid "Free"
+msgstr "無料"
+
+#: includes/admin/views/html-admin-page-addons.php:20
+msgid "Third-party"
+msgstr "サードパーティー"
+
+#: includes/admin/views/html-admin-page-addons.php:81
+msgid ""
+"Our catalog of WooCommerce Extensions can be found on WooThemes.com here: <a"
+" href=\"%s\">WooCommerce Extensions Catalog</a>"
+msgstr "WooCommerce ExtensionsのカタログはWooThemes.comにあります：<a href=\"%s\">WooCommerce Extensions カタログ</a>"
+
+#: includes/admin/views/html-admin-page-status-report.php:2
+msgid "Please include this information when requesting support:"
+msgstr "サポートを依頼する際に、この情報を含めるようにしてください:"
+
+#: includes/admin/views/html-admin-page-status-report.php:3
+msgid "Get System Report"
+msgstr "システムレポートを見る"
+
+#: includes/admin/views/html-admin-page-status-report.php:11
+msgid "Environment"
+msgstr "環境"
+
+#: includes/admin/views/html-admin-page-status-report.php:17
+msgid "Home URL"
+msgstr "ホームURL"
+
+#: includes/admin/views/html-admin-page-status-report.php:21
+msgid "Site URL"
+msgstr "サイトURL"
+
+#: includes/admin/views/html-admin-page-status-report.php:25
+msgid "WC Version"
+msgstr "WC バージョン"
+
+#: includes/admin/views/html-admin-page-status-report.php:29
+msgid "WC Database Version"
+msgstr "WC データベースのバージョン"
+
+#: includes/admin/views/html-admin-page-status-report.php:33
+msgid "WP Version"
+msgstr "WP バージョン"
+
+#: includes/admin/views/html-admin-page-status-report.php:37
+msgid "WP Multisite Enabled"
+msgstr "WPマルチサイト利用"
+
+#: includes/admin/views/html-admin-page-status-report.php:41
+msgid "Web Server Info"
+msgstr "Webサーバ情報"
+
+#: includes/admin/views/html-admin-page-status-report.php:45
+msgid "PHP Version"
+msgstr "PHPバージョン"
+
+#: includes/admin/views/html-admin-page-status-report.php:49
+msgid "MySQL Version"
+msgstr "MySQL バージョン"
+
+#: includes/admin/views/html-admin-page-status-report.php:59
+msgid "WP Memory Limit"
+msgstr "WPメモリー制限"
+
+#: includes/admin/views/html-admin-page-status-report.php:64
+msgid ""
+"%s - We recommend setting memory to at least 64MB. See: <a "
+"href=\"%s\">Increasing memory allocated to PHP</a>"
+msgstr "%s - 少なくとも64MBまでメモリを設定することをお勧めします。 参照: <a href=\"%s\">PHPに割り当てられたメモリ使用量を増やす</a>。"
+
+#: includes/admin/views/html-admin-page-status-report.php:71
+msgid "WP Debug Mode"
+msgstr "WP デバッグモード"
+
+#: includes/admin/views/html-admin-page-status-report.php:75
+msgid "WP Language"
+msgstr "WP言語"
+
+#: includes/admin/views/html-admin-page-status-report.php:79
+msgid "WP Max Upload Size"
+msgstr "WP 最大アップロードサイズ"
+
+#: includes/admin/views/html-admin-page-status-report.php:84
+msgid "PHP Post Max Size"
+msgstr "PHP Post Max Size"
+
+#: includes/admin/views/html-admin-page-status-report.php:88
+msgid "PHP Time Limit"
+msgstr "PHP Time Limit"
+
+#: includes/admin/views/html-admin-page-status-report.php:92
+msgid "PHP Max Input Vars"
+msgstr "PHP Max Input Vars"
+
+#: includes/admin/views/html-admin-page-status-report.php:96
+msgid "SUHOSIN Installed"
+msgstr "SUHOSINをインストールしました"
+
+#: includes/admin/views/html-admin-page-status-report.php:101
+msgid "WC Logging"
+msgstr "WCログ記録"
+
+#: includes/admin/views/html-admin-page-status-report.php:104
+msgid "Log directory is writable."
+msgstr "ログディレクトリは書き込み可能です"
+
+#: includes/admin/views/html-admin-page-status-report.php:106
+msgid ""
+"Log directory (<code>woocommerce/logs/</code>) is not writable. Logging will"
+" not be possible."
+msgstr "ログディレクトリ (<code>woocommerce/logs/</code>)が書き込み可能ではありません。Loggingが可能にならないでしょう。"
+
+#: includes/admin/views/html-admin-page-status-report.php:110
+msgid "Default Timezone"
+msgstr "デフォルトタイムゾーン"
+
+#: includes/admin/views/html-admin-page-status-report.php:114
+msgid "Default timezone is %s - it should be UTC"
+msgstr "デフォルトのタイムゾーンは%s - UTCの必要があります"
+
+#: includes/admin/views/html-admin-page-status-report.php:116
+msgid "Default timezone is %s"
+msgstr "デフォルトのタイムゾーンは%s"
+
+#: includes/admin/views/html-admin-page-status-report.php:124
+msgid "fsockopen/cURL"
+msgstr "fsockopen/cURL"
+
+#: includes/admin/views/html-admin-page-status-report.php:127
+msgid "Your server has fsockopen and cURL enabled."
+msgstr "ご使用のサーバーは、fsockopen と cURLが有効になっています。"
+
+#: includes/admin/views/html-admin-page-status-report.php:129
+msgid "Your server has fsockopen enabled, cURL is disabled."
+msgstr "ご使用のサーバーは、fsockopenが有効になっています。cURLは無効になっています。"
+
+#: includes/admin/views/html-admin-page-status-report.php:131
+msgid "Your server has cURL enabled, fsockopen is disabled."
+msgstr "ご使用のサーバーはcURLが有効になっています。fsockopenは無効になっています。"
+
+#: includes/admin/views/html-admin-page-status-report.php:135
+msgid ""
+"Your server does not have fsockopen or cURL enabled - PayPal IPN and other "
+"scripts which communicate with other servers will not work. Contact your "
+"hosting provider."
+msgstr "ご使用のサーバーには、fsockopenが無いか、cURLが有効になっていません。- PayPal IPN および他のサーバと通信する他のスクリプトが動作しません。ホスティングプロバイダにお問い合わせください。"
+
+#: includes/admin/views/html-admin-page-status-report.php:140
+msgid "SOAP Client"
+msgstr "SOAPクライアント"
+
+#: includes/admin/views/html-admin-page-status-report.php:142
+msgid "Your server has the SOAP Client class enabled."
+msgstr "ご使用のサーバーには、SOAP Client classが有効になっている。"
+
+#: includes/admin/views/html-admin-page-status-report.php:145
+msgid ""
+"Your server does not have the <a href=\"%s\">SOAP Client</a> class enabled -"
+" some gateway plugins which use SOAP may not work as expected."
+msgstr "ご使用のサーバーは、<a href=\"%s\">SOAP Client</a> classが有効になっていません。- SOAPを使用するいくつかの支払いプラグインが予期せぬ動作をする可能性があります。"
+
+#: includes/admin/views/html-admin-page-status-report.php:150
+msgid "WP Remote Post"
+msgstr "WP遠隔投稿"
+
+#: includes/admin/views/html-admin-page-status-report.php:161
+msgid "wp_remote_post() was successful - PayPal IPN is working."
+msgstr "wp_remote_post() が成功しました - PayPal IPN が動作しています"
+
+#: includes/admin/views/html-admin-page-status-report.php:164
+msgid ""
+"wp_remote_post() failed. PayPal IPN won't work with your server. Contact "
+"your hosting provider. Error:"
+msgstr "wp_remote_post() が失敗しました。PayPal IPN はご使用のサーバーでは動作していません。ホスティングプロバイダにお問い合わせください。Error:"
+
+#: includes/admin/views/html-admin-page-status-report.php:167
+msgid "wp_remote_post() failed. PayPal IPN may not work with your server."
+msgstr "wp_remote_post() が失敗しました。PayPal IPN はご使用のサーバーでは動作しない場合があります。"
+
+#: includes/admin/views/html-admin-page-status-report.php:190
+msgid "Locale"
+msgstr "ロケール"
+
+#: includes/admin/views/html-admin-page-status-report.php:206
+msgid "Plugins"
+msgstr "プラグイン"
+
+#: includes/admin/views/html-admin-page-status-report.php:212
+msgid "Installed Plugins"
+msgstr "インストールされたプラグイン"
+
+#: includes/admin/views/html-admin-page-status-report.php:232
+msgid "Visit plugin homepage"
+msgstr "プラグインのホームページへ行く"
+
+#: includes/admin/views/html-admin-page-status-report.php:256
+#: includes/admin/views/html-admin-page-status-report.php:438
+msgid "is available"
+msgstr "利用可能"
+
+#: includes/admin/views/html-admin-page-status-report.php:259
+msgid "by"
+msgstr "by"
+
+#: includes/admin/views/html-admin-page-status-report.php:259
+msgid "version"
+msgstr "バージョン"
+
+#: includes/admin/views/html-admin-page-status-report.php:281
+msgid "Force SSL"
+msgstr "強制（自動）SSL"
+
+#: includes/admin/views/html-admin-page-status-report.php:288
+msgid "WC Pages"
+msgstr "WC ページ"
+
+#: includes/admin/views/html-admin-page-status-report.php:295
+msgctxt "Page setting"
+msgid "Shop Base"
+msgstr "ショップベース"
+
+#: includes/admin/views/html-admin-page-status-report.php:299
+msgctxt "Page setting"
+msgid "Cart"
+msgstr "カート"
+
+#: includes/admin/views/html-admin-page-status-report.php:303
+msgctxt "Page setting"
+msgid "Checkout"
+msgstr "支払い方法"
+
+#: includes/admin/views/html-admin-page-status-report.php:307
+msgctxt "Page setting"
+msgid "My Account"
+msgstr "マイアカウント"
+
+#: includes/admin/views/html-admin-page-status-report.php:327
+msgid "Page not set"
+msgstr "ページ設定されていません"
+
+#: includes/admin/views/html-admin-page-status-report.php:337
+msgid "Page does not exist"
+msgstr "ページが存在しません"
+
+#: includes/admin/views/html-admin-page-status-report.php:342
+msgid "Page does not contain the shortcode: %s"
+msgstr "ページには、ショートコードが含まれていません: %s"
+
+#: includes/admin/views/html-admin-page-status-report.php:361
+msgid "WC Taxonomies"
+msgstr "WC タクソノミー"
+
+#: includes/admin/views/html-admin-page-status-report.php:367
+msgid "Order Statuses"
+msgstr "受注ステータス"
+
+#: includes/admin/views/html-admin-page-status-report.php:377
+msgid "Product Types"
+msgstr "商品タイプ"
+
+#: includes/admin/views/html-admin-page-status-report.php:390
+msgid "Theme"
+msgstr "テーマ"
+
+#: includes/admin/views/html-admin-page-status-report.php:427
+msgid "Theme Name"
+msgstr "テーマ名"
+
+#: includes/admin/views/html-admin-page-status-report.php:433
+msgid "Theme Version"
+msgstr "テーマバージョン"
+
+#: includes/admin/views/html-admin-page-status-report.php:442
+msgid "Author URL"
+msgstr "制作者URL"
+
+#: includes/admin/views/html-admin-page-status-report.php:451
+msgid "Templates"
+msgstr "テンプレート"
+
+#: includes/admin/views/html-admin-page-status-report.php:486
+msgid ""
+"<code>%s</code> version <strong style=\"color:red\">%s</strong> is out of "
+"date. The core version is %s"
+msgstr "<code>%s</code> version <strong style=\"color:red\">%s</strong>は古くなっています。現在のバージョンは%sです。"
+
+#: includes/admin/views/html-admin-page-status-report.php:497
+#: includes/admin/views/html-admin-page-status-report.php:503
+msgid "Template Overrides"
+msgstr "テンプレート無効化"
+
+#: includes/admin/views/html-admin-page-status-report.php:504
+msgid "No overrides present in theme."
+msgstr "上書きできるテーマは現在ありません。"
+
+#: includes/admin/views/html-admin-page-status-tools.php:7
+#: includes/admin/views/html-admin-page-status.php:6
+msgid "Tools"
+msgstr "ツール"
+
+#: includes/admin/views/html-admin-page-status-tools.php:23
+msgid "Shipping Debug Mode"
+msgstr "配送デバッグモード"
+
+#: includes/admin/views/html-admin-page-status-tools.php:29
+msgid "This tool will disable shipping rate caching."
+msgstr "このツールは、出荷量のキャッシュを無効にします。"
+
+#: includes/admin/views/html-admin-page-status-tools.php:34
+msgid "Template Debug Mode"
+msgstr "テンプレートデバッグモード"
+
+#: includes/admin/views/html-admin-page-status-tools.php:40
+msgid ""
+"This tool will disable template overrides for logged-in administrators for "
+"debugging purposes."
+msgstr "このツールは、デバッグのために、ログインした管理者のテンプレートの上書きが無効になります。"
+
+#: includes/admin/views/html-admin-page-status-tools.php:45
+msgid "Remove post types on uninstall"
+msgstr "アンインストール時に投稿タイプを削除"
+
+#: includes/admin/views/html-admin-page-status-tools.php:51
+msgid ""
+"This tool will delete all product and order post data when uninstalling via "
+"Plugins > Delete."
+msgstr "このツールはプラグイン->削除経由でプラグインをアンインストールする時に全ての商品や注文データを削除します。"
+
+#: includes/admin/views/html-admin-page-status-tools.php:58
+msgid "Save Changes"
+msgstr "変更を保存"
+
+#: includes/admin/views/html-admin-settings.php:20
+msgid "Save changes"
+msgstr "変更を保存"
+
+#: includes/admin/views/html-bulk-edit-product.php:15
+#: includes/admin/views/html-bulk-edit-product.php:39
+#: includes/admin/views/html-bulk-edit-product.php:63
+#: includes/admin/views/html-bulk-edit-product.php:82
+#: includes/admin/views/html-bulk-edit-product.php:108
+#: includes/admin/views/html-bulk-edit-product.php:132
+#: includes/admin/views/html-bulk-edit-product.php:156
+#: includes/admin/views/html-bulk-edit-product.php:175
+#: includes/admin/views/html-bulk-edit-product.php:193
+#: includes/admin/views/html-bulk-edit-product.php:212
+#: includes/admin/views/html-bulk-edit-product.php:231
+#: includes/admin/views/html-bulk-edit-product.php:252
+msgid "— No Change —"
+msgstr "— 変更なし —"
+
+#: includes/admin/views/html-bulk-edit-product.php:16
+#: includes/admin/views/html-bulk-edit-product.php:40
+#: includes/admin/views/html-bulk-edit-product.php:109
+#: includes/admin/views/html-bulk-edit-product.php:133
+#: includes/admin/views/html-bulk-edit-product.php:232
+msgid "Change to:"
+msgstr "変更:"
+
+#: includes/admin/views/html-bulk-edit-product.php:17
+#: includes/admin/views/html-bulk-edit-product.php:41
+msgid "Increase by (fixed amount or %):"
+msgstr "増加（固定金額または%）:"
+
+#: includes/admin/views/html-bulk-edit-product.php:18
+#: includes/admin/views/html-bulk-edit-product.php:42
+msgid "Decrease by (fixed amount or %):"
+msgstr "低減 (固定金額または%):"
+
+#: includes/admin/views/html-bulk-edit-product.php:28
+#: includes/admin/views/html-bulk-edit-product.php:53
+msgid "Enter price"
+msgstr "価格を入力"
+
+#: includes/admin/views/html-bulk-edit-product.php:34
+#: includes/admin/views/html-quick-edit-product.php:29
+msgid "Sale"
+msgstr "セール"
+
+#: includes/admin/views/html-bulk-edit-product.php:43
+msgid "Decrease regular price by (fixed amount or %):"
+msgstr "定価の低減 (固定金額または%):"
+
+#: includes/admin/views/html-bulk-edit-product.php:127
+#: includes/admin/views/html-quick-edit-product.php:95
+msgid "L/W/H"
+msgstr "長さ/幅/高さ"
+
+#: includes/admin/views/html-bulk-edit-product.php:151
+#: includes/admin/views/html-quick-edit-product.php:109
+msgid "Visibility"
+msgstr "確認"
+
+#: includes/admin/views/html-bulk-edit-product.php:157
+#: includes/admin/views/html-quick-edit-product.php:114
+msgid "Catalog &amp; search"
+msgstr "カタログ検索"
+
+#: includes/admin/views/html-bulk-edit-product.php:188
+#: includes/admin/views/html-quick-edit-product.php:132
+msgid "In stock?"
+msgstr "在庫あり?"
+
+#: includes/admin/views/html-bulk-edit-product.php:247
+#: includes/admin/views/html-quick-edit-product.php:167
+msgid "Backorders?"
+msgstr "入荷待ち？"
+
+#: includes/admin/views/html-notice-install.php:5
+msgid ""
+"<strong>Welcome to WooCommerce</strong> &#8211; You're almost ready to start"
+" selling :)"
+msgstr "<strong>WooCommerceへ ようこそ</strong> &#8211; 販売の準備がほぼ整いました"
+
+#: includes/admin/views/html-notice-install.php:6
+msgid "Skip setup"
+msgstr "セットアップをスキップ"
+
+#: includes/admin/views/html-notice-template-check.php:5
+msgid ""
+"<strong>Your theme has bundled outdated copies of WooCommerce template "
+"files</strong> &#8211; if you encounter functionality issues on the frontend"
+" this could the reason. Ensure you update or remove them (in general we "
+"recommend only bundling the template files you actually need to customize). "
+"See the system report for full details."
+msgstr "<strong>テーマがWooCommerceテンプレートファイルの期限切れの物が利用されています。</strong>&#8211;フロントエンドで機能性の問題が発生した場合は、これが原因と思われます。(また、カスタマイズしていたらそのファイルを更新したり、削除して確認してください。)詳細については、システムのレポートを参照してください。"
+
+#: includes/admin/views/html-notice-template-check.php:6
+#: includes/admin/views/html-notice-theme-support.php:6
+msgid "Hide this notice"
+msgstr "このお知らせを隠す"
+
+#: includes/admin/views/html-notice-theme-support.php:5
+msgid ""
+"<strong>Your theme does not declare WooCommerce support</strong> &#8211; if "
+"you encounter layout issues please read our integration guide or choose a "
+"WooCommerce theme :)"
+msgstr "<strong>あなたのテーマはWooCommerceのサポートを宣言していません</strong> &#8211; あなたがレイアウトの問題に遭遇している場合は、我々の統合ガイドを読むか、WooCommerceテーマを選んでください :)"
+
+#: includes/admin/views/html-notice-theme-support.php:6
+msgid "Theme Integration Guide"
+msgstr "テーマの統合ガイド"
+
+#: includes/admin/views/html-notice-update.php:5
+msgid ""
+"<strong>WooCommerce Data Update Required</strong> &#8211; We just need to "
+"update your install to the latest version"
+msgstr "<strong>WooCommerce のアップデートが必要です。</strong> &#8211;最新版のアップデートが必要です。"
+
+#: includes/admin/views/html-notice-update.php:6
+msgid "Run the updater"
+msgstr "アップデートを実行"
+
+#: includes/admin/views/html-notice-update.php:10
+msgid ""
+"It is strongly recommended that you backup your database before proceeding. "
+"Are you sure you wish to run the updater now?"
+msgstr "先に進む前に、データベースをバックアップすることを強くお勧めします。ップデータを実行してもよろしいですか？"
+
+#: includes/admin/views/html-quick-edit-product.php:24
+msgid "Regular price"
+msgstr "定価"
+
+#: includes/admin/views/html-quick-edit-product.php:31
+msgid "Sale price"
+msgstr "セール価格"
+
+#: includes/admin/views/html-report-by-date.php:16
+msgid "Custom:"
+msgstr "カスタム期間:"
+
+#: includes/admin/wc-admin-functions.php:192
+msgid "Could not compile woocommerce.less:"
+msgstr "woocommerce.less を編集できませんでした"

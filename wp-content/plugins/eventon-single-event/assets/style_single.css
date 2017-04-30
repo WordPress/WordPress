@@ -1,0 +1,32 @@
+	
+/* single event box */
+
+.eventon_event .eventon_events_list{
+	border-top:1px solid #e5e5e5;
+}
+
+
+.eventon_event .evcal_list_a .evo_month{
+	display:block;
+	font-style:normal;
+	font-size:13px;
+	font-weight:300;
+	text-transform:uppercase;
+	line-height:130%;
+}
+
+.eventon_event .event_excerpt_in{
+	padding:15px;
+	border-left:1px solid #e5e5e5;
+	background-color:#f9f9f9;
+}
+.eventon_event .event_excerpt_in h3{
+	font:500 16px oswald, 'arial narrow';
+	color:#6B6B6B;
+	text-transform:uppercase;
+	margin: 0;
+}
+.eventon_event .event_excerpt_in p{
+	font-size:12px;
+	color:#a0a0a0
+}
