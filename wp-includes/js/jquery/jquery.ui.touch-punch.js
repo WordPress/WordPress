@@ -1,11 +1,11 @@
 /*!
- * jQuery UI Touch Punch 0.2.2
+ * jQuery UI Touch Punch 0.2.3
  *
- * Copyright 2011, Dave Furfero
+ * Copyright 2011–2014, Dave Furfero
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  * Depends:
  *  jquery.ui.widget.js
  *  jquery.ui.mouse.js
  */
-(function(b){b.support.touch="ontouchend" in document;if(!b.support.touch){return}var c=b.ui.mouse.prototype,e=c._mouseInit,a;function d(g,h){if(g.originalEvent.touches.length>1){return}g.preventDefault();var i=g.originalEvent.changedTouches[0],f=document.createEvent("MouseEvents");f.initMouseEvent(h,true,true,window,1,i.screenX,i.screenY,i.clientX,i.clientY,false,false,false,false,0,null);g.target.dispatchEvent(f)}c._touchStart=function(g){var f=this;if(a||!f._mouseCapture(g.originalEvent.changedTouches[0])){return}a=true;f._touchMoved=false;d(g,"mouseover");d(g,"mousemove");d(g,"mousedown")};c._touchMove=function(f){if(!a){return}this._touchMoved=true;d(f,"mousemove")};c._touchEnd=function(f){if(!a){return}d(f,"mouseup");d(f,"mouseout");if(!this._touchMoved){d(f,"click")}a=false};c._mouseInit=function(){var f=this;f.element.bind("touchstart",b.proxy(f,"_touchStart")).bind("touchmove",b.proxy(f,"_touchMove")).bind("touchend",b.proxy(f,"_touchEnd"));e.call(f)}})(jQuery);
+(function(e){function s(e,t){if(e.originalEvent.touches.length>1){return}e.preventDefault();var n=e.originalEvent.changedTouches[0],r=document.createEvent("MouseEvents");r.initMouseEvent(t,true,true,window,1,n.screenX,n.screenY,n.clientX,n.clientY,false,false,false,false,0,null);e.target.dispatchEvent(r)}e.support.touch="ontouchend"in document;if(!e.support.touch){return}var t=e.ui.mouse.prototype,n=t._mouseInit,r=t._mouseDestroy,i;t._touchStart=function(e){var t=this;if(i||!t._mouseCapture(e.originalEvent.changedTouches[0])){return}i=true;t._touchMoved=false;s(e,"mouseover");s(e,"mousemove");s(e,"mousedown")};t._touchMove=function(e){if(!i){return}this._touchMoved=true;s(e,"mousemove")};t._touchEnd=function(e){if(!i){return}s(e,"mouseup");s(e,"mouseout");if(!this._touchMoved){s(e,"click")}i=false};t._mouseInit=function(){var t=this;t.element.bind({touchstart:e.proxy(t,"_touchStart"),touchmove:e.proxy(t,"_touchMove"),touchend:e.proxy(t,"_touchEnd")});n.call(t)};t._mouseDestroy=function(){var t=this;t.element.unbind({touchstart:e.proxy(t,"_touchStart"),touchmove:e.proxy(t,"_touchMove"),touchend:e.proxy(t,"_touchEnd")});r.call(t)}})(jQuery)
