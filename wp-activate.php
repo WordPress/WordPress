@@ -131,7 +131,7 @@ get_header( 'wp-activate' );
 			<h2><?php _e('Your account is now active!'); ?></h2>
 
 			<div id="signup-welcome">
-				<p><span class="h3"><?php _e('Username:'); ?></span> <?php echo $user->user_login ?></p>
+				<p><span class="h3"><?php _e('Username:'); ?></span> <?php echo $user->user_login; ?></p>
 				<p><span class="h3"><?php _e('Password:'); ?></span> <?php echo $result['password']; ?></p>
 			</div>
 
