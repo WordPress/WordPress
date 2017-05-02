@@ -617,7 +617,6 @@ p.customize-section-description {
 
 .customize-control select {
 	width: 100%;
-	max-width: 300px;
 	height: 28px;
 	line-height: 28px;
 }
@@ -744,7 +743,6 @@ p.customize-section-description {
 
 .customize-control-dropdown-pages .new-content-item {
 	width: 100%;
-	max-width: 300px;
 	padding: 5px 0 5px 1px;
 	position: relative;
 }
