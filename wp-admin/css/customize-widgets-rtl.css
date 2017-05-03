@@ -18,6 +18,7 @@
 	overflow: visible;
 }
 
+/* Note: widget-tops are more compact when (max-height: 700px) and (min-width: 981px). */
 .customize-control-widget_form .widget-top {
 	background: #fff;
 	-webkit-transition: opacity 0.5s;
@@ -423,37 +424,47 @@ body.adding-widget #customize-preview {
 #available-widgets [class*="twitter"] .widget-title:before { content: "\f301"; }
 
 @media screen and (max-height: 700px) and (min-width: 981px) {
-	.customize-control-widget {
+	/* Compact widget-tops on smaller laptops, but not tablets. See ticket #27112#comment:4 */
+	.customize-control-widget_form {
 		margin-bottom: 0;
 	}
+
 	.widget-top {
 		-webkit-box-shadow: none;
 		box-shadow: none;
 		margin-top: -1px;
 	}
+
 	.widget-top:hover {
 		position: relative;
 		z-index: 1;
 	}
+
 	.last-widget {
 		margin-bottom: 15px;
 	}
-	/* This rule reduces the widgets titles height. */
+
 	.widget-title h3 {
 		padding: 13px 15px;
 	}
+
 	.widget-top .widget-action {
-		padding-bottom: 8px;
+		padding: 8px 10px;
 	}
+
 	.widget-reorder-nav span {
 		height: 39px;
 	}
+
 	.widget-reorder-nav span:before {
 		line-height: 39px;
 	}
+
+	/* Compact the move widget areas. */
 	#customize-theme-controls .widget-area-select li {
 		padding: 9px 42px 11px 15px;
 	}
+
 	#customize-theme-controls .widget-area-select li:before {
 		top: 8px;
 	}
