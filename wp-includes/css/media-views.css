@@ -1272,10 +1272,23 @@
 
 .media-sidebar .media-uploader-status .upload-dismiss-errors {
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: -10px;
+	right: -10px;
+	padding: 10px;
 	-webkit-transition: none;
 	transition: none;
+}
+
+.media-sidebar .media-uploader-status .upload-dismiss-errors:before {
+	content: "\f153";
+	display: block;
+	font: normal 16px/1 dashicons;
+	color: #72777c;
+}
+
+.media-sidebar .media-uploader-status .upload-dismiss-errors:hover:before,
+.media-sidebar .media-uploader-status .upload-dismiss-errors:focus:before {
+	color: #c00;
 }
 
 .upload-errors .upload-error {

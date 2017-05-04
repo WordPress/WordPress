@@ -779,7 +779,7 @@ img.emoji {
 #bulk-titles div a:before,
 .notice-dismiss:before {
 	background: none;
-	color: #b4b9be;
+	color: #72777c;
 	content: "\f153";
 	display: block;
 	font: normal 16px/20px dashicons;
@@ -1417,7 +1417,7 @@ div.error p,
 	margin: 0;
 	padding: 9px;
 	background: none;
-	color: #b4b9be;
+	color: #72777c;
 	cursor: pointer;
 }
 
