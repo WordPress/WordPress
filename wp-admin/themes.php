@@ -160,7 +160,7 @@ require_once( ABSPATH . 'wp-admin/admin-header.php' );
 		<a href="<?php echo admin_url( 'theme-install.php' ); ?>" class="hide-if-no-js page-title-action"><?php echo esc_html_x( 'Add New', 'Add new theme' ); ?></a>
 	<?php endif; ?>
 
-	<span class="search-form"></span>
+	<form class="wp-filter-search-form"></form>
 
 	<hr class="wp-header-end">
 <?php

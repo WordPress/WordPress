@@ -20,6 +20,10 @@
 }
 
 /* Search form */
+.themes-php .wp-filter-search-form {
+	display: inline;
+}
+
 .themes-php .wp-filter-search {
 	position: relative;
 	top: -2px;
