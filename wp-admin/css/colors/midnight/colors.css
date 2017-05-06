@@ -430,8 +430,8 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 .media-selection .attachment.selection.details .thumbnail {
-  -webkit-box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 3px #e14d43;
-  box-shadow: 0px 0px 0px 1px #fff, 0px 0px 0px 3px #e14d43;
+  -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 3px #e14d43;
+  box-shadow: 0 0 0 1px #fff, 0 0 0 3px #e14d43;
 }
 
 /* Themes */
