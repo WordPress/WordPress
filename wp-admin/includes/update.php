@@ -107,7 +107,7 @@ function get_core_checksums( $version, $locale ) {
 		$url = set_url_scheme( $url, 'https' );
 
 	$options = array(
-		'timeout' => ( ( defined('DOING_CRON') && DOING_CRON ) ? 30 : 3 ),
+		'timeout' => wp_doing_cron() ? 30 : 3,
 	);
 
 	$response = wp_remote_get( $url, $options );
