@@ -108,6 +108,7 @@ class WP_oEmbed {
 			'#https?://www\.facebook\.com/notes/.*#i'                  => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
 			'#https?://www\.facebook\.com/.*/videos/.*#i'              => array( 'https://www.facebook.com/plugins/video/oembed.json/',       true  ),
 			'#https?://www\.facebook\.com/video\.php.*#i'              => array( 'https://www.facebook.com/plugins/video/oembed.json/',       true  ),
+			'#https?://(www\.)?screencast\.com/.*#i'                   => array( 'https://api.screencast.com/external/oembed',                true  ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
@@ -181,6 +182,7 @@ class WP_oEmbed {
 		 * | Twitter      | twitter.com/user      |      Yes       | 4.7.0     |
 		 * | Twitter      | twitter.com/likes     |      Yes       | 4.7.0     |
 		 * | Twitter      | twitter.com/lists     |      Yes       | 4.7.0     |
+		 * | Screencast   | screencast.com        |      Yes       | 4.8.0     |
 		 *
 		 * No longer supported providers:
 		 *
