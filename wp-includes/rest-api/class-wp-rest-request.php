@@ -286,6 +286,7 @@ class WP_REST_Request implements ArrayAccess {
 	 * @param string $key Header name.
 	 */
 	public function remove_header( $key ) {
+		$key = $this->canonicalize_header_name( $key );
 		unset( $this->headers[ $key ] );
 	}
 
