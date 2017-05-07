@@ -718,8 +718,9 @@ function wp_admin_bar_new_content_menu( $wp_admin_bar ) {
 	if ( isset( $actions['post-new.php?post_type=content'] ) )
 		$actions['post-new.php?post_type=content'][1] = 'add-new-content';
 
-	if ( current_user_can( 'create_users' ) || current_user_can( 'promote_users' ) )
+	if ( current_user_can( 'create_users' ) || ( is_multisite() && current_user_can( 'promote_users' ) ) ) {
 		$actions[ 'user-new.php' ] = array( _x( 'User', 'add new from admin bar' ), 'new-user' );
+	}
 
 	if ( ! $actions )
 		return;
