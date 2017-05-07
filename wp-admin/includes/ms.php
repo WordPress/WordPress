@@ -1050,7 +1050,7 @@ jQuery(document).ready( function($) {
 		// Don't show a spinner for English and installed languages,
 		// as there is nothing to download.
 		if ( ! languageSelect.find( 'option:selected' ).data( 'installed' ) ) {
-			$( '#submit', this ).after( '<span class="spinner language-install-spinner" />' );
+			$( '#submit', this ).after( '<span class="spinner language-install-spinner is-active" />' );
 		}
 	});
 });
