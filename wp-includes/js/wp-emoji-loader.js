@@ -39,20 +39,24 @@
 		switch ( type ) {
 			case 'flag':
 				/*
-				 * This works because the image will be one of three things:
-				 * - Two empty squares, if the browser doesn't render emoji
-				 * - Two squares with 'U' and 'N' in them, if the browser doesn't render flag emoji
-				 * - The United Nations flag
+				 * Test for UN flag compatibility. This is the least supported of the letter locale flags,
+				 * so gives us an easy test for full support.
 				 *
-				 * The first two will encode to small images (1-2KB data URLs), the third will encode
-				 * to a larger image (4-5KB data URL).
+				 * To test for support, we try to render it, and compare the rendering to how it would look if
+				 * the browser doesn't render it correctly ([U] + [N]).
 				 */
 				context.fillText( stringFromCharCode( 55356, 56826, 55356, 56819 ), 0, 0 );
-				if ( canvas.toDataURL().length < 3000 ) {
-					return false;
-				}
+				flag = canvas.toDataURL();
 
 				context.clearRect( 0, 0, canvas.width, canvas.height );
+
+				// Add a zero width space between the characters, to force rendering as characters.
+				context.fillText( stringFromCharCode( 55356, 57331, 8203, 55356, 57096 ), 0, 0 );
+				flag2 = canvas.toDataURL();
+
+				if ( flag !== flag2 ) {
+					return false;
+				}
 
 				/*
 				 * Test for rainbow flag compatibility. As the rainbow flag was added out of sequence with
