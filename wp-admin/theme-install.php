@@ -164,7 +164,7 @@ include(ABSPATH . 'wp-admin/admin-header.php');
 
 		<button type="button" class="button drawer-toggle" aria-expanded="false"><?php _e( 'Feature Filter' ); ?></button>
 
-		<div class="search-form"></div>
+		<form class="search-form"></form>
 
 		<div class="favorites-form">
 			<?php
