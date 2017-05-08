@@ -705,6 +705,12 @@ $_old_files = array(
 'wp-includes/theme-compat/comments-popup.php',
 // 4.6
 'wp-admin/includes/class-wp-automatic-upgrader.php', // Wrong file name, see #37628.
+// 4.8
+'wp-includes/js/tinymce/plugins/media/moxieplayer.swf',
+'wp-includes/js/tinymce/skins/lightgray/fonts/readme.md',
+'wp-includes/js/tinymce/skins/lightgray/fonts/tinymce-small.json',
+'wp-includes/js/tinymce/skins/lightgray/fonts/tinymce.json',
+'wp-includes/js/tinymce/skins/lightgray/skin.ie7.min.css',
 );
 
 /**

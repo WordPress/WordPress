@@ -947,6 +947,7 @@ final class _WP_Editors {
 			'cache_suffix' => 'wp-mce-' . $tinymce_version,
 			'resize' => 'vertical',
 			'menubar' => false,
+			'branding' => false,
 
 			// Limit the preview styles in the menu/toolbar
 			'preview_styles' => 'font-family font-size font-weight font-style text-decoration text-transform',
@@ -1039,6 +1040,9 @@ final class _WP_Editors {
 			'Name' => _x( 'Name', 'Name of link anchor (TinyMCE)' ),
 			'Anchor' => _x( 'Anchor', 'Link anchor (TinyMCE)' ),
 			'Anchors' => _x( 'Anchors', 'Link anchors (TinyMCE)' ),
+			'Id should start with a letter, followed only by letters, numbers, dashes, dots, colons or underscores.' =>
+				__( 'Id should start with a letter, followed only by letters, numbers, dashes, dots, colons or underscores.' ),
+			'Id' => _x( 'Id', 'Id for link anchor (TinyMCE)' ),
 
 			// Fullpage plugin
 			'Document properties' => __( 'Document properties' ),
@@ -1050,6 +1054,7 @@ final class _WP_Editors {
 			'Author' => __( 'Author' ),
 
 			// Media, image plugins
+			'Image' => __( 'Image' ),
 			'Insert/edit image' => array( __( 'Insert/edit image' ), 'accessM' ),
 			'General' => __( 'General' ),
 			'Advanced' => __( 'Advanced' ),
@@ -1061,8 +1066,13 @@ final class _WP_Editors {
 			'Style' => __( 'Style' ),
 			'Dimensions' => __( 'Dimensions' ),
 			'Insert image' => __( 'Insert image' ),
+			'Date/time' => __( 'Date/time' ),
 			'Insert date/time' => __( 'Insert date/time' ),
-			'Insert/edit video' => __( 'Insert/edit video' ),
+			'Table of Contents' => __( 'Table of Contents' ),
+			'Insert/Edit code sample' => __( 'Insert/edit code sample' ),
+			'Language' => __( 'Language' ),
+			'Media' => __( 'Media' ),
+			'Insert/edit media' => __( 'Insert/edit media' ),
 			'Poster' => __( 'Poster' ),
 			'Alternative source' => __( 'Alternative source' ),
 			'Paste your embed code below:' => __( 'Paste your embed code below:' ),
@@ -1087,10 +1097,26 @@ final class _WP_Editors {
 			'Insert/edit link' => array( __( 'Insert/edit link' ), 'metaK' ),
 			'Remove link' => array( __( 'Remove link' ), 'accessS' ),
 
+			// Link plugin
+			'Link' => __( 'Link' ),
+			'Insert link' => __( 'Insert link' ),
+			'Insert/edit link' => __( 'Insert/edit link' ),
+			'Target' => __( 'Target' ),
+			'New window' => __( 'New window' ),
+			'Text to display' => __( 'Text to display' ),
+			'Url' => __( 'URL' ),
+			'The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?' =>
+				__( 'The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?' ),
+			'The URL you entered seems to be an external link. Do you want to add the required http:// prefix?' =>
+				__( 'The URL you entered seems to be an external link. Do you want to add the required http:// prefix?' ),
+
 			'Color' => __( 'Color' ),
 			'Custom color' => __( 'Custom color' ),
 			'Custom...' => _x( 'Custom...', 'label for custom color' ), // no ellipsis
 			'No color' => __( 'No color' ),
+			'R' => _x( 'R', 'Short for red in RGB' ),
+			'G' => _x( 'G', 'Short for green in RGB' ),
+			'B' => _x( 'B', 'Short for blue in RGB' ),
 
 			// Spelling, search/replace plugins
 			'Could not find the specified string.' => __( 'Could not find the specified string.' ),
@@ -1235,16 +1261,27 @@ final class _WP_Editors {
 			);
 		}
 
-		/**
-		 * Link plugin (not included):
-		 *	Insert link
-		 *	Target
-		 *	New window
-		 *	Text to display
-		 *	The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?
-		 *	The URL you entered seems to be an external link. Do you want to add the required http:\/\/ prefix?
-		 *	Url
-		 */
+		/*
+		Imagetools plugin (not included):
+			'Edit image' => __( 'Edit image' ),
+			'Image options' => __( 'Image options' ),
+			'Back' => __( 'Back' ),
+			'Invert' => __( 'Invert' ),
+			'Flip horizontally' => __( 'Flip horizontally' ),
+			'Flip vertically' => __( 'Flip vertically' ),
+			'Crop' => __( 'Crop' ),
+			'Orientation' => __( 'Orientation' ),
+			'Resize' => __( 'Resize' ),
+			'Rotate clockwise' => __( 'Rotate clockwise' ),
+			'Rotate counterclockwise' => __( 'Rotate counterclockwise' ),
+			'Sharpen' => __( 'Sharpen' ),
+			'Brightness' => __( 'Brightness' ),
+			'Color levels' => __( 'Color levels' ),
+			'Contrast' => __( 'Contrast' ),
+			'Gamma' => __( 'Gamma' ),
+			'Zoom in' => __( 'Zoom in' ),
+			'Zoom out' => __( 'Zoom out' ),
+		*/
 
 		return self::$translation;
 	}
@@ -1456,6 +1493,11 @@ final class _WP_Editors {
 			var init, id, $wrap;
 
 			if ( typeof tinymce !== 'undefined' ) {
+				if ( tinymce.Env.ie && tinymce.Env.ie < 11 ) {
+					tinymce.$( '.wp-editor-wrap ' ).removeClass( 'tmce-active' ).addClass( 'html-active' );
+					return;
+				}
+
 				for ( id in tinyMCEPreInit.mceInit ) {
 					init = tinyMCEPreInit.mceInit[id];
 					$wrap = tinymce.$( '#wp-' + id + '-wrap' );
