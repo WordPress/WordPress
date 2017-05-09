@@ -577,8 +577,18 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	if ( in_array( $blogname, $illegal_names ) )
 		$errors->add('blogname',  __( 'That name is not allowed.' ) );
 
-	if ( strlen( $blogname ) < 4 ) {
-		$errors->add('blogname',  __( 'Site name must be at least 4 characters.' ) );
+	/**
+	 * Filters the minimum site name length required when validating a site signup.
+	 *
+	 * @since 4.8.0
+	 *
+	 * @param int $length The minimum site name length. Default 4.
+	 */
+	$minimum_site_name_length = apply_filters( 'minimum_site_name_length', 4 );
+
+	if ( strlen( $blogname ) < $minimum_site_name_length ) {
+		/* translators: %s: minimum site name length */
+		$errors->add( 'blogname', sprintf( _n( 'Site name must be at least %s character.', 'Site name must be at least %s characters.', $minimum_site_name_length ), number_format_i18n( $minimum_site_name_length ) ) );
 	}
 
 	// do not allow users to create a blog that conflicts with a page on the main blog.
