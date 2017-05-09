@@ -442,8 +442,11 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 		$errors->add( 'user_name',  __( 'Sorry, that username is not allowed.' ) );
 	}
 
-	if ( is_email_address_unsafe( $user_email ) )
-		$errors->add('user_email',  __('You cannot use that email address to signup. We are having problems with them blocking some of our email. Please use another email provider.'));
+	if ( ! is_email( $user_email ) ) {
+		$errors->add( 'user_email', __( 'Please enter a valid email address.' ) );
+	} elseif ( is_email_address_unsafe( $user_email ) ) {
+		$errors->add( 'user_email', __( 'You cannot use that email address to signup. We are having problems with them blocking some of our email. Please use another email provider.' ) );
+	}
 
 	if ( strlen( $user_name ) < 4 )
 		$errors->add('user_name',  __( 'Username must be at least 4 characters.' ) );
@@ -455,9 +458,6 @@ function wpmu_validate_user_signup($user_name, $user_email) {
 	// all numeric?
 	if ( preg_match( '/^[0-9]*$/', $user_name ) )
 		$errors->add('user_name', __('Sorry, usernames must have letters too!'));
-
-	if ( !is_email( $user_email ) )
-		$errors->add('user_email', __( 'Please enter a valid email address.' ) );
 
 	$limited_email_domains = get_site_option( 'limited_email_domains' );
 	if ( is_array( $limited_email_domains ) && ! empty( $limited_email_domains ) ) {
