@@ -354,7 +354,7 @@ function is_email_address_unsafe( $user_email ) {
 
 	$is_email_address_unsafe = false;
 
-	if ( $banned_names && is_array( $banned_names ) ) {
+	if ( $banned_names && is_array( $banned_names ) && false !== strpos( $user_email, '@', 1 ) ) {
 		$banned_names = array_map( 'strtolower', $banned_names );
 		$normalized_email = strtolower( $user_email );
 
