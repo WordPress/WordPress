@@ -618,6 +618,48 @@ window.wp = window.wp || {};
 	};
 
 	/**
+	 * Remove one editor instance.
+	 *
+	 * Intended for use with editors that were initialized with wp.editor.initialize().
+	 *
+	 * @since 4.8
+	 *
+	 * @param {string} id The HTML id of the editor textarea.
+	 */
+	wp.editor.remove = function( id ) {
+		var mceInstance, qtInstance,
+			$wrap = $( '#wp-' + id + '-wrap' );
+
+		if ( window.tinymce ) {
+			mceInstance = window.tinymce.get( id );
+
+			if ( mceInstance ) {
+				if ( ! mceInstance.isHidden() ) {
+					mceInstance.save();
+				}
+
+				mceInstance.remove();
+			}
+		}
+
+		if ( window.quicktags ) {
+			qtInstance = window.QTags.getInstance( id );
+
+			if ( qtInstance ) {
+				$( qtInstance.toolbar ).remove();
+
+				delete window.QTags.instances[ id ];
+				delete window.QTags.instances[ 0 ];
+			}
+		}
+
+		if ( $wrap.length ) {
+			$wrap.after( $( '#' + id ) );
+			$wrap.remove();
+		}
+	};
+
+	/**
 	 * Get the editor content.
 	 *
 	 * Intended for use with editors that were initialized with wp.editor.initialize().
