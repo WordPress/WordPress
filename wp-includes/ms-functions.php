@@ -2490,27 +2490,37 @@ function upload_size_limit_filter( $size ) {
  * Plugins can alter this criteria using the {@see 'wp_is_large_network'} filter.
  *
  * @since 3.3.0
- * @param string $using 'sites or 'users'. Default is 'sites'.
+ * @since 4.8.0 The $network_id parameter has been added.
+ *
+ * @param string   $using      'sites or 'users'. Default is 'sites'.
+ * @param int|null $network_id ID of the network. Default is the current network.
  * @return bool True if the network meets the criteria for large. False otherwise.
  */
-function wp_is_large_network( $using = 'sites' ) {
+function wp_is_large_network( $using = 'sites', $network_id = null ) {
+	$network_id = (int) $network_id;
+	if ( ! $network_id ) {
+		$network_id = get_current_network_id();
+	}
+
 	if ( 'users' == $using ) {
-		$count = get_user_count();
+		$count = get_user_count( $network_id );
 		/**
 		 * Filters whether the network is considered large.
 		 *
 		 * @since 3.3.0
+		 * @since 4.8.0 The $network_id parameter has been added.
 		 *
 		 * @param bool   $is_large_network Whether the network has more than 10000 users or sites.
 		 * @param string $component        The component to count. Accepts 'users', or 'sites'.
 		 * @param int    $count            The count of items for the component.
+		 * @param int    $network_id       The ID of the network being checked.
 		 */
-		return apply_filters( 'wp_is_large_network', $count > 10000, 'users', $count );
+		return apply_filters( 'wp_is_large_network', $count > 10000, 'users', $count, $network_id );
 	}
 
-	$count = get_blog_count();
+	$count = get_blog_count( $network_id );
 	/** This filter is documented in wp-includes/ms-functions.php */
-	return apply_filters( 'wp_is_large_network', $count > 10000, 'sites', $count );
+	return apply_filters( 'wp_is_large_network', $count > 10000, 'sites', $count, $network_id );
 }
 
 /**
