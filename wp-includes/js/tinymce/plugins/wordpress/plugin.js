@@ -682,7 +682,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			mceIframe = document.getElementById( editor.id + '_ifr' ),
 			mceToolbar,
 			mceStatusbar,
-			namesAdded,
 			wpStatusbar;
 
 			if ( container ) {
@@ -700,7 +699,7 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 				buttonGroup;
 
 			each( buttons, function( item ) {
-				var itemName, ui, name;
+				var itemName;
 
 				function bindSelectorChanged() {
 					var selection = editor.selection;
@@ -768,19 +767,6 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 						buttonGroup = null;
 					} else {
-						// Add the new WP* types to the factory
-						if ( ! namesAdded ) {
-							ui = tinymce.ui;
-
-							for ( name in ui ) {
-								if ( name.toLowerCase().indexOf( 'wp' ) === 0 ) {
-									Factory.add( name, ui[name] );
-								}
-							}
-
-							namesAdded = true;
-						}
-
 						if ( ! buttonGroup ) {
 							buttonGroup = {
 								type: 'buttongroup',

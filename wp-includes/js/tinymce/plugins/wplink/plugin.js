@@ -1,5 +1,5 @@
 ( function( tinymce ) {
-	tinymce.ui.WPLinkPreview = tinymce.ui.Control.extend( {
+	tinymce.ui.Factory.add( 'WPLinkPreview', tinymce.ui.Control.extend( {
 		url: '#',
 		renderHtml: function() {
 			return (
@@ -50,9 +50,9 @@
 				tinymce.$( this.getEl().firstChild ).attr( 'href', this.url ).text( url );
 			}
 		}
-	} );
+	} ) );
 
-	tinymce.ui.WPLinkInput = tinymce.ui.Control.extend( {
+	tinymce.ui.Factory.add( 'WPLinkInput', tinymce.ui.Control.extend( {
 		renderHtml: function() {
 			return (
 				'<div id="' + this._id + '" class="wp-link-input">' +
@@ -82,7 +82,7 @@
 			urlInput.value = '';
 			urlInput.nextSibling.value = '';
 		}
-	} );
+	} ) );
 
 	tinymce.PluginManager.add( 'wplink', function( editor ) {
 		var toolbar;
