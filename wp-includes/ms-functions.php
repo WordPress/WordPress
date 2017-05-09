@@ -2300,9 +2300,10 @@ function wp_update_network_counts( $network_id = null ) {
  * on a network when a site is created or its status is updated.
  *
  * @since 3.7.0
+ * @since 4.8.0 The $network_id parameter has been added.
  */
-function wp_maybe_update_network_site_counts() {
-	$is_small_network = ! wp_is_large_network( 'sites' );
+function wp_maybe_update_network_site_counts( $network_id = null ) {
+	$is_small_network = ! wp_is_large_network( 'sites', $network_id );
 
 	/**
 	 * Filters whether to update network site or user counts when a new site is created.
@@ -2317,7 +2318,7 @@ function wp_maybe_update_network_site_counts() {
 	if ( ! apply_filters( 'enable_live_network_counts', $is_small_network, 'sites' ) )
 		return;
 
-	wp_update_network_site_counts();
+	wp_update_network_site_counts( $network_id );
 }
 
 /**
