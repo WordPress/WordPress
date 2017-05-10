@@ -525,7 +525,11 @@ function rest_send_cors_headers( $value ) {
 	$origin = get_http_origin();
 
 	if ( $origin ) {
-		header( 'Access-Control-Allow-Origin: ' . esc_url_raw( $origin ) );
+		// Requests from file:// and data: URLs send "Origin: null"
+		if ( 'null' !== $origin ) {
+			$origin = esc_url_raw( $origin );
+		}
+		header( 'Access-Control-Allow-Origin: ' . $origin );
 		header( 'Access-Control-Allow-Methods: OPTIONS, GET, POST, PUT, PATCH, DELETE' );
 		header( 'Access-Control-Allow-Credentials: true' );
 		header( 'Vary: Origin' );
