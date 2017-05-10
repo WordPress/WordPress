@@ -1,5 +1,6 @@
 /* global pagenow, ajaxurl, postboxes, wpActiveEditor:true */
 var ajaxWidgets, ajaxPopulateWidgets, quickPressLoad;
+window.wp = window.wp || {};
 
 jQuery(document).ready( function($) {
 	var welcomePanel = $( '#welcome-panel' ),
@@ -187,3 +188,262 @@ jQuery(document).ready( function($) {
 	}
 
 } );
+
+jQuery( function( $ ) {
+	'use strict';
+	
+	var communityEventsData = window.communityEventsData || {};
+
+	var app = window.wp.communityEvents = {
+		initialized: false,
+		model: null,
+
+		/**
+		 * Initializes the wp.communityEvents object.
+		 *
+		 * @since 4.8.0
+		 */
+		init: function() {
+			if ( app.initialized ) {
+				return;
+			}
+
+			var $container = $( '#community-events' );
+
+			/*
+			 * When JavaScript is disabled, the errors container is shown, so
+			 * that "This widget requires Javascript" message can be seen.
+			 *
+			 * When JS is enabled, the container is hidden at first, and then
+			 * revealed during the template rendering, if there actually are
+			 * errors to show.
+			 *
+			 * The display indicator switches from `hide-if-js` to `aria-hidden`
+			 * here in order to maintain consistency with all the other fields
+			 * that key off of `aria-hidden` to determine their visibility.
+			 * `aria-hidden` can't be used initially, because there would be no
+			 * way to set it to false when JavaScript is disabled, which would
+			 * prevent people from seeing the "This widget requires JavaScript"
+			 * message.
+			 */
+			$( '.community-events-errors' )
+				.attr( 'aria-hidden', true )
+				.removeClass( 'hide-if-js' );
+
+			$container.on( 'click', '.community-events-toggle-location, .community-events-cancel', app.toggleLocationForm );
+
+			$container.on( 'submit', '.community-events-form', function( event ) {
+				event.preventDefault();
+
+				app.getEvents( {
+					location: $( '#community-events-location' ).val()
+				});
+			});
+
+			if ( communityEventsData && communityEventsData.cache && communityEventsData.cache.location && communityEventsData.cache.events ) {
+				app.renderEventsTemplate( communityEventsData.cache, 'app' );
+			} else {
+				app.getEvents();
+			}
+
+			app.initialized = true;
+		},
+
+		/**
+		 * Toggles the visibility of the Edit Location form.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @param {event|string} action 'show' or 'hide' to specify a state;
+		 *                              Or an event object to flip between states
+		 */
+		toggleLocationForm: function( action ) {
+			var $toggleButton = $( '.community-events-toggle-location' ),
+			    $cancelButton = $( '.community-events-cancel' ),
+			    $form         = $( '.community-events-form' );
+
+			if ( 'object' === typeof action ) {
+				// Strict comparison doesn't work in this case.
+				action = 'true' == $toggleButton.attr( 'aria-expanded' ) ? 'hide' : 'show';
+			}
+
+			if ( 'hide' === action ) {
+				$toggleButton.attr( 'aria-expanded', false );
+				$cancelButton.attr( 'aria-expanded', false );
+				$form.attr( 'aria-hidden', true );
+			} else {
+				$toggleButton.attr( 'aria-expanded', true );
+				$cancelButton.attr( 'aria-expanded', true );
+				$form.attr( 'aria-hidden', false );
+			}
+		},
+
+		/**
+		 * Sends REST API requests to fetch events for the widget.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @param {object} requestParams
+		 */
+		getEvents: function( requestParams ) {
+			var initiatedBy,
+			    app = this,
+			    $spinner = $( '.community-events-form' ).children( '.spinner' );
+
+			requestParams          = requestParams || {};
+			requestParams._wpnonce = communityEventsData.nonce;
+			requestParams.timezone = window.Intl ? window.Intl.DateTimeFormat().resolvedOptions().timeZone : '';
+
+			initiatedBy = requestParams.location ? 'user' : 'app';
+
+			$spinner.addClass( 'is-active' );
+
+			wp.ajax.post( 'get-community-events', requestParams )
+				.always( function() {
+					$spinner.removeClass( 'is-active' );
+				})
+
+				.done( function( response ) {
+					if ( 'no_location_available' === response.error ) {
+						if ( requestParams.location ) {
+							response.unknownCity = requestParams.location;
+						} else {
+							/*
+							 * No location was passed, which means that this was an automatic query
+							 * based on IP, locale, and timezone. Since the user didn't initiate it,
+							 * it should fail silently. Otherwise, the error could confuse and/or
+							 * annoy them.
+							 */
+
+							delete response.error;
+						}
+					}
+					app.renderEventsTemplate( response, initiatedBy );
+				})
+
+				.fail( function() {
+					app.renderEventsTemplate( {
+						'location' : false,
+						'error'    : true
+					}, initiatedBy );
+				});
+		},
+
+		/**
+		 * Renders the template for the Events section of the Events & News widget.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @param {Object} templateParams The various parameters that will get passed to wp.template
+		 * @param {string} initiatedBy    'user' to indicate that this was triggered manually by the user;
+		 *                                'app' to indicate it was triggered automatically by the app itself.
+		 */
+		renderEventsTemplate: function( templateParams, initiatedBy ) {
+			var template,
+			    elementVisibility,
+			    l10nPlaceholder  = /%(?:\d\$)?s/g, // Match `%s`, `%1$s`, `%2$s`, etc.
+			    $locationMessage = $( '#community-events-location-message' ),
+			    $results         = $( '.community-events-results' );
+
+			/*
+			 * Hide all toggleable elements by default, to keep the logic simple.
+			 * Otherwise, each block below would have to turn hide everything that
+			 * could have been shown at an earlier point.
+			 *
+			 * The exception to that is that the .community-events container. It's hidden
+			 * when the page is first loaded, because the content isn't ready yet,
+			 * but once we've reached this point, it should always be shown.
+			 */
+			elementVisibility = {
+				'.community-events'                  : true,
+				'.community-events-loading'          : false,
+				'.community-events-errors'           : false,
+				'.community-events-error-occurred'   : false,
+				'.community-events-could-not-locate' : false,
+				'#community-events-location-message' : false,
+				'.community-events-toggle-location'  : false,
+				'.community-events-results'          : false
+			};
+
+			/*
+			 * Determine which templates should be rendered and which elements
+			 * should be displayed.
+			 */
+			if ( templateParams.location ) {
+				template = wp.template( 'community-events-attend-event-near' );
+				$locationMessage.html( template( templateParams ) );
+
+				if ( templateParams.events.length ) {
+					template = wp.template( 'community-events-event-list' );
+					$results.html( template( templateParams ) );
+				} else {
+					template = wp.template( 'community-events-no-upcoming-events' );
+					$results.html( template( templateParams ) );
+				}
+				wp.a11y.speak( communityEventsData.l10n.city_updated.replace( l10nPlaceholder, templateParams.location ) );
+
+				elementVisibility['#community-events-location-message'] = true;
+				elementVisibility['.community-events-toggle-location']  = true;
+				elementVisibility['.community-events-results']          = true;
+
+			} else if ( templateParams.unknownCity ) {
+				template = wp.template( 'community-events-could-not-locate' );
+				$( '.community-events-could-not-locate' ).html( template( templateParams ) );
+				wp.a11y.speak( communityEventsData.l10n.could_not_locate_city.replace( l10nPlaceholder, templateParams.unknownCity ) );
+
+				elementVisibility['.community-events-errors']           = true;
+				elementVisibility['.community-events-could-not-locate'] = true;
+
+			} else if ( templateParams.error && 'user' === initiatedBy ) {
+				/*
+				 * Errors messages are only shown for requests that were initiated
+				 * by the user, not for ones that were initiated by the app itself.
+				 * Showing error messages for an event that user isn't aware of
+				 * could be confusing or unnecessarily distracting.
+				 */
+				wp.a11y.speak( communityEventsData.l10n.error_occurred_please_try_again );
+
+				elementVisibility['.community-events-errors']         = true;
+				elementVisibility['.community-events-error-occurred'] = true;
+
+			} else {
+				$locationMessage.text( communityEventsData.l10n.enter_closest_city );
+
+				elementVisibility['#community-events-location-message'] = true;
+				elementVisibility['.community-events-toggle-location']  = true;
+			}
+
+			// Set the visibility of toggleable elements.
+			_.each( elementVisibility, function( isVisible, element ) {
+				$( element ).attr( 'aria-hidden', ! isVisible );
+			});
+
+			$( '.community-events-toggle-location' ).attr( 'aria-expanded', elementVisibility['.community-events-toggle-location'] );
+
+			/*
+			 * During the initial page load, the location form should be hidden
+			 * by default if the user has saved a valid location during a previous
+			 * session. It's safe to assume that they want to continue using that
+			 * location, and displaying the form would unnecessarily clutter the
+			 * widget.
+			 */
+			if ( 'app' === initiatedBy && templateParams.location ) {
+				app.toggleLocationForm( 'hide' );
+			} else {
+				app.toggleLocationForm( 'show' );
+			}
+		}
+	};
+
+	if ( $( '#dashboard_primary' ).is( ':visible' ) ) {
+		app.init();
+	} else {
+		$( document ).on( 'postbox-toggled', function( event, postbox ) {
+			var $postbox = $( postbox );
+
+			if ( 'dashboard_primary' === $postbox.attr( 'id' ) && $postbox.is( ':visible' ) ) {
+				app.init();
+			}
+		});
+	}
+});

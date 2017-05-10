@@ -52,8 +52,8 @@ function wp_dashboard_setup() {
 		wp_add_dashboard_widget( 'dashboard_quick_press', $quick_draft_title, 'wp_dashboard_quick_press' );
 	}
 
-	// WordPress News
-	wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress News' ), 'wp_dashboard_primary' );
+	// WordPress Events and News
+	wp_add_dashboard_widget( 'dashboard_primary', __( 'WordPress Events and News' ), 'wp_dashboard_events_news' );
 
 	if ( is_network_admin() ) {
 
@@ -127,6 +127,46 @@ function wp_dashboard_setup() {
 
 	/** This action is documented in wp-admin/edit-form-advanced.php */
 	do_action( 'do_meta_boxes', $screen->id, 'side', '' );
+}
+
+/**
+ * Gets the community events data that needs to be passed to dashboard.js.
+ *
+ * @since 4.8.0
+ *
+ * @return array The script data.
+ */
+function wp_get_community_events_script_data() {
+	require_once( ABSPATH . 'wp-admin/includes/class-wp-community-events.php' );
+
+	$user_id       = get_current_user_id();
+	$user_location = get_user_option( 'community-events-location', $user_id );
+	$events_client = new WP_Community_Events( $user_id, $user_location );
+
+	$script_data = array(
+		'nonce' => wp_create_nonce( 'community_events' ),
+		'cache' => $events_client->get_cached_events(),
+
+		'l10n' => array(
+			'enter_closest_city' => __( 'Enter your closest city to find nearby events.' ),
+			'error_occurred_please_try_again' => __( 'An error occured. Please try again.' ),
+
+			/*
+			 * These specific examples were chosen to highlight the fact that a
+			 * state is not needed, even for cities whose name is not unique.
+			 * It would be too cumbersome to include that in the instructions
+			 * to the user, so it's left as an implication.
+			 */
+			/* translators: %s is the name of the city we couldn't locate. Replace the examples with cities in your locale, but test that they match the expected location before including them. Use endonyms (native locale names) whenever possible. */
+			'could_not_locate_city' => __( "We couldn't locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland." ),
+
+			// This one is only used with wp.a11y.speak(), so it can/should be more brief.
+			/* translators: %s is the name of a city. */
+			'city_updated' => __( 'City updated. Listing events near %s.' ),
+		)
+	);
+
+	return $script_data;
 }
 
 /**
@@ -1069,10 +1109,173 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 	wp_widget_rss_form( $widget_options[$widget_id], $form_inputs );
 }
 
+
+/**
+ * Renders the Events and News dashboard widget.
+ *
+ * @since 4.8.0
+ */
+function wp_dashboard_events_news() {
+	wp_print_community_events_markup();
+
+	?>
+
+	<div class="wordpress-news hide-if-no-js">
+		<?php wp_dashboard_primary(); ?>
+	</div>
+
+	<p class="community-events-footer">
+		<a href="https://make.wordpress.org/community/meetups-landing-page" target="_blank">
+			<?php _e( 'Meetups' ); ?> <span class="dashicons dashicons-external"></span>
+		</a>
+
+		|
+
+		<a href="https://central.wordcamp.org/schedule/" target="_blank">
+			<?php _e( 'WordCamps' ); ?> <span class="dashicons dashicons-external"></span>
+		</a>
+
+		|
+
+		<?php // translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. ?>
+		<a href="<?php _e( 'https://wordpress.org/news/' ); ?>" target="_blank">
+			<?php _e( 'News' ); ?> <span class="dashicons dashicons-external"></span>
+		</a>
+	</p>
+
+	<?php
+}
+
+/**
+ * Prints the markup for the Community Events section of the Events and News Dashboard widget.
+ *
+ * @since 4.8.0
+ */
+function wp_print_community_events_markup() {
+	$script_data = wp_get_community_events_script_data();
+
+	?>
+
+	<div class="community-events-errors notice notice-error inline hide-if-js">
+		<p class="hide-if-js">
+			<?php _e( 'This widget requires JavaScript.'); ?>
+		</p>
+
+		<p class="community-events-error-occurred" aria-hidden="true">
+			<?php echo $script_data['l10n']['error_occurred_please_try_again']; ?>
+		</p>
+
+		<p class="community-events-could-not-locate" aria-hidden="true"></p>
+	</div>
+
+	<div class="community-events-loading hide-if-no-js">
+		<?php _e( 'Loading&hellip;'); ?>
+	</div>
+
+	<?php
+	/*
+	 * Hide the main element when the page first loads, because the content
+	 * won't be ready until wp.communityEvents.renderEventsTemplate() has run.
+	 */
+	?>
+	<div id="community-events" class="community-events" aria-hidden="true">
+		<div class="activity-block">
+			<p>
+				<span id="community-events-location-message"></span>
+
+				<button class="button-link community-events-toggle-location" aria-label="<?php _e( 'Edit city'); ?>" aria-expanded="false">
+					<span class="dashicons dashicons-edit"></span>
+				</button>
+			</p>
+
+			<form class="community-events-form" aria-hidden="true" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post">
+				<label for="community-events-location">
+					<?php _e( 'City:' ); ?>
+				</label>
+				<?php /* translators: Replace with the name of a city in your locale that shows events. Use only the city name itself, without any region or country. Use the endonym instead of the English name. */ ?>
+				<input id="community-events-location" class="regular-text" type="text" name="community-events-location" placeholder="<?php _e( 'Cincinnati' ); ?>" />
+
+				<?php submit_button( __( 'Submit' ), 'secondary', 'community-events-submit', false ); ?>
+
+				<button class="community-events-cancel button button-link" type="button" aria-expanded="false">
+					<?php _e( 'Cancel' ); ?>
+				</button>
+
+				<span class="spinner"></span>
+			</form>
+		</div>
+
+		<ul class="community-events-results activity-block last"></ul>
+	</div>
+
+	<?php
+}
+
+/**
+ * Renders the events templates for the Event and News widget.
+ *
+ * @since 4.8.0
+ */
+function wp_print_community_events_templates() {
+	$script_data = wp_get_community_events_script_data();
+
+	?>
+
+	<script id="tmpl-community-events-attend-event-near" type="text/template">
+		<?php printf(
+			/* translators: %s is a placeholder for the name of a city. */
+			__( 'Attend an upcoming event near %s.' ),
+			'<strong>{{ data.location }}</strong>'
+		); ?>
+	</script>
+
+	<script id="tmpl-community-events-could-not-locate" type="text/template">
+		<?php printf(
+			$script_data['l10n']['could_not_locate_city'],
+			'<em>{{data.unknownCity}}</em>'
+		); ?>
+	</script>
+
+	<script id="tmpl-community-events-event-list" type="text/template">
+		<# _.each( data.events, function( event ) { #>
+			<li class="event event-{{ event.type }} wp-clearfix">
+				<div class="event-info">
+					<div class="dashicons event-icon" aria-hidden="true"></div>
+					<div class="event-info-inner">
+						<a class="event-title" href="{{ event.url }}">{{ event.title }}</a>
+						<span class="event-city">{{ event.location.location }}</span>
+					</div>
+				</div>
+
+				<div class="event-date-time">
+					<span class="event-date">{{ event.formatted_date }}</span>
+					<# if ( 'meetup' === event.type ) { #>
+						<span class="event-time">{{ event.formatted_time }}</span>
+					<# } #>
+				</div>
+			</li>
+		<# } ) #>
+	</script>
+
+	<script id="tmpl-community-events-no-upcoming-events" type="text/template">
+		<li class="event-none">
+			<?php printf(
+				/* translators: 1: the city the user searched for, 2: meetup organization documentation URL */
+				__( 'There aren&#8217;t any events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize one</a>?' ),
+				'{{data.location}}',
+				__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
+			); ?>
+		</li>
+	</script>
+
+	<?php
+}
+
 /**
  * WordPress News dashboard widget.
  *
  * @since 2.7.0
+ * @since 4.8.0 Removed popular plugins feed.
  */
 function wp_dashboard_primary() {
 	$feeds = array(
@@ -1105,9 +1308,9 @@ function wp_dashboard_primary() {
 			 */
 			'title'        => apply_filters( 'dashboard_primary_title', __( 'WordPress Blog' ) ),
 			'items'        => 1,
-			'show_summary' => 1,
+			'show_summary' => 0,
 			'show_author'  => 0,
-			'show_date'    => 1,
+			'show_date'    => 0,
 		),
 		'planet' => array(
 
@@ -1152,20 +1355,6 @@ function wp_dashboard_primary() {
 		)
 	);
 
-	if ( ( ! wp_disallow_file_mods( 'dashboard_widget' ) ) && ( ! is_multisite() && is_blog_admin() && current_user_can( 'install_plugins' ) ) || ( is_network_admin() && current_user_can( 'manage_network_plugins' ) && current_user_can( 'install_plugins' ) ) ) {
-		$feeds['plugins'] = array(
-			'link'         => '',
-			'url'          => array(
-				'popular' => 'http://wordpress.org/plugins/rss/browse/popular/',
-			),
-			'title'        => '',
-			'items'        => 1,
-			'show_summary' => 0,
-			'show_author'  => 0,
-			'show_date'    => 0,
-		);
-	}
-
 	wp_dashboard_cached_rss_widget( 'dashboard_primary', 'wp_dashboard_primary_output', $feeds );
 }
 
@@ -1173,6 +1362,7 @@ function wp_dashboard_primary() {
  * Display the WordPress news feeds.
  *
  * @since 3.8.0
+ * @since 4.8.0 Removed popular plugins feed.
  *
  * @param string $widget_id Widget ID.
  * @param array  $feeds     Array of RSS feeds.
@@ -1181,92 +1371,9 @@ function wp_dashboard_primary_output( $widget_id, $feeds ) {
 	foreach ( $feeds as $type => $args ) {
 		$args['type'] = $type;
 		echo '<div class="rss-widget">';
-		if ( $type === 'plugins' ) {
-			wp_dashboard_plugins_output( $args['url'], $args );
-		} else {
 			wp_widget_rss_output( $args['url'], $args );
-		}
 		echo "</div>";
 	}
-}
-
-/**
- * Display plugins text for the WordPress news widget.
- *
- * @since 2.5.0
- *
- * @param string $rss  The RSS feed URL.
- * @param array  $args Array of arguments for this RSS feed.
- */
-function wp_dashboard_plugins_output( $rss, $args = array() ) {
-	// Plugin feeds plus link to install them
-	$popular = fetch_feed( $args['url']['popular'] );
-
-	if ( false === $plugin_slugs = get_transient( 'plugin_slugs' ) ) {
-		$plugin_slugs = array_keys( get_plugins() );
-		set_transient( 'plugin_slugs', $plugin_slugs, DAY_IN_SECONDS );
-	}
-
-	echo '<ul>';
-
-	foreach ( array( $popular ) as $feed ) {
-		if ( is_wp_error( $feed ) || ! $feed->get_item_quantity() )
-			continue;
-
-		$items = $feed->get_items(0, 5);
-
-		// Pick a random, non-installed plugin
-		while ( true ) {
-			// Abort this foreach loop iteration if there's no plugins left of this type
-			if ( 0 == count($items) )
-				continue 2;
-
-			$item_key = array_rand($items);
-			$item = $items[$item_key];
-
-			list($link, $frag) = explode( '#', $item->get_link() );
-
-			$link = esc_url($link);
-			if ( preg_match( '|/([^/]+?)/?$|', $link, $matches ) )
-				$slug = $matches[1];
-			else {
-				unset( $items[$item_key] );
-				continue;
-			}
-
-			// Is this random plugin's slug already installed? If so, try again.
-			reset( $plugin_slugs );
-			foreach ( $plugin_slugs as $plugin_slug ) {
-				if ( $slug == substr( $plugin_slug, 0, strlen( $slug ) ) ) {
-					unset( $items[$item_key] );
-					continue 2;
-				}
-			}
-
-			// If we get to this point, then the random plugin isn't installed and we can stop the while().
-			break;
-		}
-
-		// Eliminate some common badly formed plugin descriptions
-		while ( ( null !== $item_key = array_rand($items) ) && false !== strpos( $items[$item_key]->get_description(), 'Plugin Name:' ) )
-			unset($items[$item_key]);
-
-		if ( !isset($items[$item_key]) )
-			continue;
-
-		$raw_title = $item->get_title();
-
-		$ilink = wp_nonce_url('plugin-install.php?tab=plugin-information&plugin=' . $slug, 'install-plugin_' . $slug) . '&amp;TB_iframe=true&amp;width=600&amp;height=800';
-		echo '<li class="dashboard-news-plugin"><span>' . __( 'Popular Plugin' ) . ':</span> ' . esc_html( $raw_title ) .
-			'&nbsp;<a href="' . $ilink . '" class="thickbox open-plugin-details-modal" aria-label="' .
-			/* translators: %s: plugin name */
-			esc_attr( sprintf( __( 'Install %s' ), $raw_title ) ) . '">(' . __( 'Install' ) . ')</a></li>';
-
-		$feed->__destruct();
-		unset( $feed );
-	}
-
-	echo '</ul>';
 }
 
 /**
