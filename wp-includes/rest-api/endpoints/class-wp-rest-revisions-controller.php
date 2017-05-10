@@ -338,6 +338,9 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 	 * @return WP_REST_Response Response object.
 	 */
 	public function prepare_item_for_response( $post, $request ) {
+		$GLOBALS['post'] = $post;
+
+		setup_postdata( $post );
 
 		$schema = $this->get_item_schema();
 
