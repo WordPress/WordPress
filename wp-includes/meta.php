@@ -974,6 +974,7 @@ function sanitize_meta( $meta_key, $meta_value, $object_type ) {
  *     Data used to describe the meta key when registered.
  *
  *     @type string $type              The type of data associated with this meta key.
+ *                                     Valid values are 'string', 'boolean', 'integer', and 'number'.
  *     @type string $description       A description of the data attached to this meta key.
  *     @type bool   $single            Whether the meta key has one value per object, or an array of values per object.
  *     @type string $sanitize_callback A function or method to call when sanitizing `$meta_key` data.
