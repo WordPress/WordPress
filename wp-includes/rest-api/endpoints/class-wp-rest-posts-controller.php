@@ -1966,7 +1966,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 					$schema['properties']['featured_media'] = array(
 						'description' => __( 'The ID of the featured media for the object.' ),
 						'type'        => 'integer',
-						'context'     => array( 'view', 'edit' ),
+						'context'     => array( 'view', 'edit', 'embed' ),
 					);
 					break;
 
