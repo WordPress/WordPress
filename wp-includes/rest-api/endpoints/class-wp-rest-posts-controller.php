@@ -2150,7 +2150,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( $post_type->hierarchical || 'attachment' === $this->post_type ) {
 			$query_params['parent'] = array(
-				'description'       => __( 'Limit result set to those of particular parent IDs.' ),
+				'description'       => __( 'Limit result set to items with particular parent IDs.' ),
 				'type'              => 'array',
 				'items'             => array(
 					'type'          => 'integer',

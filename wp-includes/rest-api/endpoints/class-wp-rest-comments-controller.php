@@ -76,7 +76,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 				'args'     => array(
 					'context'          => $this->get_context_param( array( 'default' => 'view' ) ),
 					'password' => array(
-						'description' => __( 'The password for the post if it is password protected.' ),
+						'description' => __( 'The password for the parent post of the comment (if the post is password protected).' ),
 						'type'        => 'string',
 					),
 				),
@@ -98,7 +98,7 @@ class WP_REST_Comments_Controller extends WP_REST_Controller {
 						'description' => __( 'Whether to bypass trash and force deletion.' ),
 					),
 					'password' => array(
-						'description' => __( 'The password for the post if it is password protected.' ),
+						'description' => __( 'The password for the parent post of the comment (if the post is password protected).' ),
 						'type'        => 'string',
 					),
 				),
