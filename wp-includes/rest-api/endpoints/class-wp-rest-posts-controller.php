@@ -2130,12 +2130,15 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 			'type'               => 'string',
 			'default'            => 'date',
 			'enum'               => array(
+				'author',
 				'date',
-				'relevance',
 				'id',
 				'include',
-				'title',
+				'modified',
+				'parent',
+				'relevance',
 				'slug',
+				'title',
 			),
 		);
 
