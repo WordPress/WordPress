@@ -646,10 +646,7 @@ window.wp = window.wp || {};
 			qtInstance = window.QTags.getInstance( id );
 
 			if ( qtInstance ) {
-				$( qtInstance.toolbar ).remove();
-
-				delete window.QTags.instances[ id ];
-				delete window.QTags.instances[ 0 ];
+				qtInstance.remove();
 			}
 		}
 
