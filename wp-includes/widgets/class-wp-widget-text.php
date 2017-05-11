@@ -28,8 +28,28 @@ class WP_Widget_Text extends WP_Widget {
 			'description' => __( 'Arbitrary text or HTML.' ),
 			'customize_selective_refresh' => true,
 		);
-		$control_ops = array( 'width' => 400, 'height' => 350 );
+		$control_ops = array(
+			'width' => 400,
+			'height' => 350,
+		);
 		parent::__construct( 'text', __( 'Text' ), $widget_ops, $control_ops );
+	}
+
+	/**
+	 * Add hooks for enqueueing assets when registering all widget instances of this widget class.
+	 *
+	 * @since 4.8.0
+	 * @access public
+	 */
+	public function _register() {
+
+		// Note that the widgets component in the customizer will also do the 'admin_print_scripts-widgets.php' action in WP_Customize_Widgets::print_scripts().
+		add_action( 'admin_print_scripts-widgets.php', array( $this, 'enqueue_admin_scripts' ) );
+
+		// Note that the widgets component in the customizer will also do the 'admin_footer-widgets.php' action in WP_Customize_Widgets::print_footer_scripts().
+		add_action( 'admin_footer-widgets.php', array( $this, 'render_control_template_scripts' ) );
+
+		parent::_register();
 	}
 
 	/**
@@ -61,11 +81,34 @@ class WP_Widget_Text extends WP_Widget {
 		 */
 		$text = apply_filters( 'widget_text', $widget_text, $instance, $this );
 
+		if ( isset( $instance['filter'] ) ) {
+			if ( 'content' === $instance['filter'] ) {
+
+				/**
+				 * Filters the content of the Text widget to apply changes expected from the visual (TinyMCE) editor.
+				 *
+				 * By default a subset of the_content filters are applied, including wpautop and wptexturize.
+				 *
+				 * @since 4.8.0
+				 *
+				 * @param string         $widget_text The widget content.
+				 * @param array          $instance    Array of settings for the current widget.
+				 * @param WP_Widget_Text $this        Current Text widget instance.
+				 */
+				$text = apply_filters( 'widget_text_content', $widget_text, $instance, $this );
+
+			} elseif ( $instance['filter'] ) {
+				$text = wpautop( $text ); // Back-compat for instances prior to 4.8.
+			}
+		}
+
 		echo $args['before_widget'];
 		if ( ! empty( $title ) ) {
 			echo $args['before_title'] . $title . $args['after_title'];
-		} ?>
-			<div class="textwidget"><?php echo !empty( $instance['filter'] ) ? wpautop( $text ) : $text; ?></div>
+		}
+
+		?>
+			<div class="textwidget"><?php echo $text; ?></div>
 		<?php
 		echo $args['after_widget'];
 	}
@@ -89,30 +132,73 @@ class WP_Widget_Text extends WP_Widget {
 		} else {
 			$instance['text'] = wp_kses_post( $new_instance['text'] );
 		}
-		$instance['filter'] = ! empty( $new_instance['filter'] );
+
+		/*
+		 * Re-use legacy 'filter' (wpautop) property to now indicate content filters will always apply.
+		 * Prior to 4.8, this is a boolean value used to indicate whether or not wpautop should be
+		 * applied. By re-using this property, downgrading WordPress from 4.8 to 4.7 will ensure
+		 * that the content for Text widgets created with TinyMCE will continue to get wpautop.
+		 */
+		$instance['filter'] = 'content';
+
 		return $instance;
+	}
+
+	/**
+	 * Loads the required scripts and styles for the widget control.
+	 *
+	 * @since 4.8.0
+	 * @access public
+	 */
+	public function enqueue_admin_scripts() {
+		wp_enqueue_editor();
+		wp_enqueue_script( 'text-widgets' );
 	}
 
 	/**
 	 * Outputs the Text widget settings form.
 	 *
 	 * @since 2.8.0
+	 * @since 4.8.0 Form only contains hidden inputs which are synced with JS template.
 	 * @access public
+	 * @see WP_Widget_Visual_Text::render_control_template_scripts()
 	 *
 	 * @param array $instance Current settings.
+	 * @return void
 	 */
 	public function form( $instance ) {
-		$instance = wp_parse_args( (array) $instance, array( 'title' => '', 'text' => '' ) );
-		$filter = isset( $instance['filter'] ) ? $instance['filter'] : 0;
-		$title = sanitize_text_field( $instance['title'] );
+		$instance = wp_parse_args(
+			(array) $instance,
+			array(
+				'title' => '',
+				'text' => '',
+			)
+		);
 		?>
-		<p><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
-		<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" type="text" value="<?php echo esc_attr($title); ?>" /></p>
+		<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" class="title" type="hidden" value="<?php echo esc_attr( $instance['title'] ); ?>">
+		<input id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>" class="text" type="hidden" value="<?php echo esc_attr( $instance['text'] ); ?>">
+		<?php
+	}
 
-		<p><label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Content:' ); ?></label>
-		<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id('text'); ?>" name="<?php echo $this->get_field_name('text'); ?>"><?php echo esc_textarea( $instance['text'] ); ?></textarea></p>
-
-		<p><input id="<?php echo $this->get_field_id('filter'); ?>" name="<?php echo $this->get_field_name('filter'); ?>" type="checkbox"<?php checked( $filter ); ?> />&nbsp;<label for="<?php echo $this->get_field_id('filter'); ?>"><?php _e('Automatically add paragraphs'); ?></label></p>
+	/**
+	 * Render form template scripts.
+	 *
+	 * @since 4.8.0
+	 * @access public
+	 */
+	public function render_control_template_scripts() {
+		?>
+		<script type="text/html" id="tmpl-widget-text-control-fields">
+			<# var elementIdPrefix = 'el' + String( Math.random() ).replace( /\D/g, '' ) + '_' #>
+			<p>
+				<label for="{{ elementIdPrefix }}title"><?php esc_html_e( 'Title:' ); ?></label>
+				<input id="{{ elementIdPrefix }}title" type="text" class="widefat title">
+			</p>
+			<p>
+				<label for="{{ elementIdPrefix }}text" class="screen-reader-text"><?php esc_html_e( 'Content:' ); ?></label>
+				<textarea id="{{ elementIdPrefix }}text" class="widefat text" style="height: 200px" rows="16" cols="20"></textarea>
+			</p>
+		</script>
 		<?php
 	}
 }

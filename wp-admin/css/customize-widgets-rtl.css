@@ -213,6 +213,21 @@
 	display: block;
 }
 
+/* Text Widget */
+.wp-customizer div.mce-inline-toolbar-grp,
+.wp-customizer div.mce-tooltip {
+	z-index: 500100 !important;
+}
+.wp-customizer .ui-autocomplete.wplink-autocomplete {
+	z-index: 500110; /* originally 100110, but z-index of .wp-full-overlay is 500000 */
+}
+.wp-customizer #wp-link-backdrop {
+	z-index: 500100; /* originally 100100, but z-index of .wp-full-overlay is 500000 */
+}
+.wp-customizer #wp-link-wrap {
+	z-index: 500105; /* originally 100105, but z-index of .wp-full-overlay is 500000 */
+}
+
 /**
  * Styles for new widget addition panel
  */
