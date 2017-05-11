@@ -406,7 +406,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 	};
 
 	qt.insertContent = function(content) {
-		var sel, startPos, endPos, scrollTop, text, canvas = document.getElementById(wpActiveEditor);
+		var sel, startPos, endPos, scrollTop, text, canvas = document.getElementById(wpActiveEditor), event;
 
 		if ( !canvas ) {
 			return false;
@@ -433,6 +433,15 @@ function edButton(id, display, tagStart, tagEnd, access) {
 			canvas.value += content;
 			canvas.focus();
 		}
+
+		if ( document.createEvent ) {
+			event = document.createEvent( 'HTMLEvents' );
+			event.initEvent( 'change', false, true );
+			canvas.dispatchEvent( event );
+		} else if ( canvas.fireEvent ) {
+			canvas.fireEvent( 'onchange' );
+		}
+
 		return true;
 	};
 
@@ -515,7 +524,7 @@ function edButton(id, display, tagStart, tagEnd, access) {
 		return ret;
 	};
 	qt.TagButton.prototype.callback = function(element, canvas, ed) {
-		var t = this, startPos, endPos, cursorPos, scrollTop, v = canvas.value, l, r, i, sel, endTag = v ? t.tagEnd : '';
+		var t = this, startPos, endPos, cursorPos, scrollTop, v = canvas.value, l, r, i, sel, endTag = v ? t.tagEnd : '', event;
 
 		if ( document.selection ) { // IE
 			canvas.focus();
@@ -589,6 +598,14 @@ function edButton(id, display, tagStart, tagEnd, access) {
 				t.closeTag(element, ed);
 			}
 			canvas.focus();
+		}
+
+		if ( document.createEvent ) {
+			event = document.createEvent( 'HTMLEvents' );
+			event.initEvent( 'change', false, true );
+			canvas.dispatchEvent( event );
+		} else if ( canvas.fireEvent ) {
+			canvas.fireEvent( 'onchange' );
 		}
 	};
 
