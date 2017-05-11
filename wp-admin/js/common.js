@@ -79,9 +79,9 @@ $document.ready(function(){columns.init();});
 validateForm = function( form ) {
 	return !$( form )
 		.find( '.form-required' )
-		.filter( function() { return $( 'input:visible', this ).val() === ''; } )
+		.filter( function() { return $( ':input:visible', this ).val() === ''; } )
 		.addClass( 'form-invalid' )
-		.find( 'input:visible' )
+		.find( ':input:visible' )
 		.change( function() { $( this ).closest( '.form-invalid' ).removeClass( 'form-invalid' ); } )
 		.length;
 };
