@@ -1092,21 +1092,21 @@ function is_wp_error( $thing ) {
 }
 
 /**
- * Determines whether file modifications are disallowed.
+ * Determines whether file modifications are allowed.
  *
  * @since 4.8.0
  *
  * @param string $context The usage context.
- * @return bool True if file modification is disallowed, false otherwise.
+ * @return bool True if file modification is allowed, false otherwise.
  */
 function wp_is_file_mod_allowed( $context ) {
 	/**
-	 * Filters whether file modifications are disallowed.
+	 * Filters whether file modifications are allowed.
 	 *
 	 * @since 4.8.0
 	 *
-	 * @param bool   $disallow_file_mods Whether file modifications are disallowed.
-	 * @param string $context            The usage context.
+	 * @param bool   $file_mod_allowed Whether file modifications are allowed.
+	 * @param string $context          The usage context.
 	 */
-	return apply_filters( 'disallow_file_mods', defined( 'DISALLOW_FILE_MODS' ) && DISALLOW_FILE_MODS, $context );
+	return apply_filters( 'file_mod_allowed', ! defined( 'DISALLOW_FILE_MODS' ) || ! DISALLOW_FILE_MODS, $context );
 }
