@@ -2817,6 +2817,14 @@ div.action-links {
 	border: 1px solid #ccc;
 }
 
+#plugin-information blockquote {
+	border-left: 2px solid #ddd;
+	color: #666;
+	font-style: italic;
+	margin: 1em 0;
+	padding: 0 0 0 1em;
+}
+
 /* rtl:ignore */
 #plugin-information .review {
 	overflow: hidden; /* clearfix */
