@@ -28,7 +28,7 @@ if ( ! is_network_admin() ) {
 }
 
 $installed_themes = search_theme_directories();
-foreach ( $installed_themes as $k => $v ) {
+foreach ( ( Array ) $installed_themes as $k => $v ) {
 	if ( false !== strpos( $k, '/' ) ) {
 		unset( $installed_themes[ $k ] );
 	}
