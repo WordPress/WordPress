@@ -111,15 +111,17 @@
 			}
 
 			control.fetchEmbedDfd = jQuery.ajax({
-				url: 'https://noembed.com/embed',
+				url: wp.media.view.settings.oEmbedProxyUrl,
 				data: {
 					url: control.model.get( 'url' ),
 					maxwidth: control.model.get( 'width' ),
-					maxheight: control.model.get( 'height' )
+					maxheight: control.model.get( 'height' ),
+					_wpnonce: wp.media.view.settings.nonce.wpRestApi,
+					discover: false
 				},
 				type: 'GET',
-				crossDomain: true,
-				dataType: 'json'
+				dataType: 'json',
+				context: control
 			});
 
 			control.fetchEmbedDfd.done( function( response ) {

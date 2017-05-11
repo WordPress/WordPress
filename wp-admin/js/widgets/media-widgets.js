@@ -182,15 +182,17 @@ wp.mediaWidgets = ( function( $ ) {
 						}
 
 						embedLinkView.dfd = $.ajax({
-							url: 'https://noembed.com/embed', // @todo Replace with core proxy endpoint once committed.
+							url: wp.media.view.settings.oEmbedProxyUrl,
 							data: {
 								url: embedLinkView.model.get( 'url' ),
 								maxwidth: embedLinkView.model.get( 'width' ),
-								maxheight: embedLinkView.model.get( 'height' )
+								maxheight: embedLinkView.model.get( 'height' ),
+								_wpnonce: wp.media.view.settings.nonce.wpRestApi,
+								discover: false
 							},
 							type: 'GET',
-							crossDomain: true,
-							dataType: 'json'
+							dataType: 'json',
+							context: embedLinkView
 						});
 
 						embedLinkView.dfd.done( function( response ) {
