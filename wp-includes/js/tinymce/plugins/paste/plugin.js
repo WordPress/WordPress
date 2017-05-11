@@ -2136,7 +2136,8 @@ define(
           var dom = editor.dom, node = editor.selection.getNode();
 
           content = content.replace(/(<[^>]+) style="([^"]*)"([^>]*>)/gi, function (all, before, value, after) {
-            var inputStyles = dom.parseStyle(value, 'span'), outputStyles = {};
+            var inputStyles = dom.parseStyle(dom.decode(value), 'span');
+            var outputStyles = {};
 
             if (webKitStyles === "none") {
               return before + after;

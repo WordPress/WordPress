@@ -308,6 +308,7 @@ define(
         var poweredByElm = DOM.create('div', { 'class': 'mce-branding-powered-by' });
         editor.getContainer().appendChild(poweredByElm);
         DOM.bind(poweredByElm, 'click', hide(poweredByElm));
+        reposition(editor, poweredByElm)();
         editor.on('NodeChange ResizeEditor', reposition(editor, poweredByElm));
       });
     };
