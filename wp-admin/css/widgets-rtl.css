@@ -55,6 +55,110 @@
 	color: #a0a5aa;
 }
 
+/* Media Widgets */
+.wp-core-ui .media-widget-control.selected .placeholder,
+.wp-core-ui .media-widget-control.selected .not-selected,
+.wp-core-ui .media-widget-control .selected {
+	display: none;
+}
+
+.media-widget-control.selected .selected {
+	display: inline-block;
+}
+
+.media-widget-buttons {
+	text-align: right;
+	margin-bottom: 10px;
+}
+
+.media-widget-control .media-widget-buttons .button {
+	margin-right: 8px;
+	width: auto;
+}
+.media-widget-control:not(.selected) .media-widget-buttons .button,
+.media-widget-buttons .button:first-child {
+	margin-right: 0;
+}
+
+.media-widget-control .placeholder {
+	border: 1px dashed #b4b9be;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	cursor: default;
+	line-height: 20px;
+	padding: 9px 0;
+	position: relative;
+	text-align: center;
+	width: 100%;
+}
+
+.media-widget-control .media-widget-preview {
+	text-align: center;
+}
+.media-widget-control .media-widget-preview .notice {
+	text-align: initial;
+}
+.media-frame .media-widget-embed-notice p code,
+.media-widget-control .notice p code {
+	padding: 0 0 0 3px;
+}
+.media-frame .media-widget-embed-notice {
+	margin-top: 16px;
+}
+.media-widget-control .media-widget-preview img {
+	max-width: 100%;
+}
+.media-widget-control .media-widget-preview .wp-video-shortcode {
+	background: #000;
+}
+
+.media-frame.media-widget .media-toolbar-secondary {
+	min-width: 300px;
+}
+
+.media-frame.media-widget .image-details .embed-media-settings .setting.align,
+.media-frame.media-widget .attachment-display-settings .setting.align,
+.media-frame.media-widget .embed-media-settings .setting.align,
+.media-frame.media-widget .embed-link-settings .setting.link-text,
+.media-frame.media-widget .replace-attachment,
+.media-frame.media-widget .checkbox-setting.autoplay {
+	display: none;
+}
+
+.media-widget-video-preview {
+	width: 100%;
+}
+
+.media-widget-video-link {
+	display: inline-block;
+	min-height: 132px;
+	width: 100%;
+	background: black;
+}
+
+.media-widget-video-link .dashicons {
+	font: normal 60px/1 'dashicons';
+	position: relative;
+	width: 100%;
+	top: -90px;
+	color: white;
+	text-decoration: none;
+}
+
+.media-widget-video-link.no-poster .dashicons {
+	top: 30px;
+}
+
+.media-frame #embed-url-field.invalid {
+	border: 1px solid #f00;
+}
+
+.wp-customizer .mejs-controls a:focus > .mejs-offscreen,
+.widgets-php .mejs-controls a:focus > .mejs-offscreen {
+	z-index: 2;
+}
+
 /* Widget Dragging Helpers */
 .widget.ui-draggable-dragging {
 	min-width: 100%;

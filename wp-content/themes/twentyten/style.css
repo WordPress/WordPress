@@ -841,6 +841,9 @@ img.aligncenter {
 	padding: 4px;
 	text-align: center;
 }
+.widget-container .wp-caption {
+	max-width: 100% !important;
+}
 .wp-caption img {
 	margin: 5px 5px 0;
 	max-width: 622px; /* caption width - 10px */
