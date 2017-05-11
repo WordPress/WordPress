@@ -4144,7 +4144,8 @@ final class WP_Customize_Manager {
 				__( 'CSS allows you to customize the appearance and layout of your site with code. Separate CSS is saved for each of your themes. In the editing area the Tab key enters a tab character. To move below this area by pressing Tab, press the Esc key followed by the Tab key.' ),
 				esc_url( __( 'https://codex.wordpress.org/CSS' ) ),
 				__( 'Learn more about CSS' ),
-				__( '(link opens in a new window)' )
+				/* translators: accessibility text */
+				__( '(opens in a new window)' )
 			),
 		) );
 

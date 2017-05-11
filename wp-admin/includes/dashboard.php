@@ -1125,22 +1125,40 @@ function wp_dashboard_events_news() {
 	</div>
 
 	<p class="community-events-footer">
-		<a href="https://make.wordpress.org/community/meetups-landing-page" target="_blank">
-			<?php _e( 'Meetups' ); ?> <span class="dashicons dashicons-external"></span>
-		</a>
+		<?php
+			printf(
+				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+				'https://make.wordpress.org/community/meetups-landing-page',
+				__( 'Meetups' ),
+				/* translators: accessibility text */
+				__( '(opens in a new window)' )
+			);
+		?>
 
 		|
 
-		<a href="https://central.wordcamp.org/schedule/" target="_blank">
-			<?php _e( 'WordCamps' ); ?> <span class="dashicons dashicons-external"></span>
-		</a>
+		<?php
+			printf(
+				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+				'https://central.wordcamp.org/schedule/',
+				__( 'WordCamps' ),
+				/* translators: accessibility text */
+				__( '(opens in a new window)' )
+			);
+		?>
 
 		|
 
-		<?php // translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. ?>
-		<a href="<?php _e( 'https://wordpress.org/news/' ); ?>" target="_blank">
-			<?php _e( 'News' ); ?> <span class="dashicons dashicons-external"></span>
-		</a>
+		<?php
+			printf(
+				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+				/* translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. */
+				esc_url( __( 'https://wordpress.org/news/' ) ),
+				__( 'News' ),
+				/* translators: accessibility text */
+				__( '(opens in a new window)' )
+			);
+		?>
 	</p>
 
 	<?php

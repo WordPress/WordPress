@@ -440,6 +440,12 @@
 	color: #ddd;
 }
 
+/* Safari 10 + VoiceOver specific: without this, the hidden text gets read out before the link. */
+.community-events-footer .screen-reader-text {
+	height: inherit;
+	white-space: nowrap;
+}
+
 /* Dashboard WordPress news */
 
 #dashboard_primary .inside {

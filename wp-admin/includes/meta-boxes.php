@@ -58,7 +58,7 @@ if ( 'publish' == $post->post_status ) {
 $preview_button = sprintf( '%1$s<span class="screen-reader-text"> %2$s</span>',
 	$preview_button_text,
 	/* translators: accessibility text */
-	__( '(link opens in a new window)' )
+	__( '(opens in a new window)' )
 );
 ?>
 <a class="preview button" href="<?php echo $preview_link; ?>" target="wp-preview-<?php echo (int) $post->ID; ?>" id="post-preview"><?php echo $preview_button; ?></a>
