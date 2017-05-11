@@ -19,7 +19,7 @@
 	 */
 	function browserSupportsEmoji( type ) {
 		var stringFromCharCode = String.fromCharCode,
-			flag, flag2, technologist, technologist2;
+			flag, flag2, emoji41, emoji42;
 
 		if ( ! context || ! context.fillText ) {
 			return false;
@@ -80,21 +80,44 @@
 				return flag !== flag2;
 			case 'emoji4':
 				/*
+				 * Emoji 4 support was implemented gradually, multiple tests are used to
+				 * confirm support.
+				 *
+				 * In this test we try rendering man shrugging, light skin tone and compare
+				 * it to how it would look if the browser does not render it correctly
+				 * (person shrugging: light skin town + male sign).
+				 */
+				context.fillText( stringFromCharCode( 55358, 56631, 55356, 57339, 8205, 9794, 65039 ), 0, 0 );
+				emoji41 = canvas.toDataURL();
+
+				context.clearRect( 0, 0, canvas.width, canvas.height );
+
+				context.fillText( stringFromCharCode( 55358, 56631, 55356, 57339, 9794, 65039 ), 0, 0 );
+				emoji42 = canvas.toDataURL();
+
+				if ( emoji41 !== emoji42 ) {
+					return false;
+				}
+
+				/*
 				 * Emoji 4 has the best technologists. So does WordPress!
 				 *
 				 * To test for support, try to render a new emoji (woman technologist: medium skin tone),
 				 * then compare it to how it would look if the browser doesn't render it correctly
 				 * (woman technologist: medium skin tone + personal computer).
 				 */
+				// Cleanup from previous test.
+				context.clearRect( 0, 0, canvas.width, canvas.height );
+
 				context.fillText( stringFromCharCode( 55357, 56425, 55356, 57341, 8205, 55357, 56507), 0, 0 );
-				technologist = canvas.toDataURL();
+				emoji41 = canvas.toDataURL();
 
 				context.clearRect( 0, 0, canvas.width, canvas.height );
 
 				context.fillText( stringFromCharCode( 55357, 56425, 55356, 57341, 55357, 56507), 0, 0 );
-				technologist2 = canvas.toDataURL();
+				emoji42 = canvas.toDataURL();
 
-				return technologist !== technologist2;
+				return emoji41 !== emoji42;
 		}
 
 		return false;
