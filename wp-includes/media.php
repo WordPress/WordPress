@@ -3414,6 +3414,7 @@ function wp_enqueue_media( $args = array() ) {
 		'captions'  => ! apply_filters( 'disable_captions', '' ),
 		'nonce'     => array(
 			'sendToEditor' => wp_create_nonce( 'media-send-to-editor' ),
+			'wpRestApi'    => wp_create_nonce( 'wp_rest' ),
 		),
 		'post'    => array(
 			'id' => 0,
@@ -3423,6 +3424,7 @@ function wp_enqueue_media( $args = array() ) {
 			'audio' => ( $show_audio_playlist ) ? 1 : 0,
 			'video' => ( $show_video_playlist ) ? 1 : 0,
 		),
+		'oEmbedProxyUrl' => rest_url( 'oembed/1.0/proxy' ),
 		'embedExts'    => $exts,
 		'embedMimes'   => $ext_mimes,
 		'contentWidth' => $content_width,
