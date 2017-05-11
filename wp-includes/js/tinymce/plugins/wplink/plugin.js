@@ -587,9 +587,9 @@
 						editor.focus(); // Needed for IE
 					}
 
+					editToolbar.tempHide = true;
 					window.wpLink.open( editor.id, url, text, linkNode );
 
-					editToolbar.tempHide = true;
 					inputInstance.reset();
 				}
 			}
