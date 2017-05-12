@@ -1065,6 +1065,7 @@ wp.mediaWidgets = ( function( $ ) {
 				widgetControl.render();
 			}
 		};
+		renderWhenAnimationDone();
 
 		/*
 		 * Note that the model and control currently won't ever get garbage-collected
