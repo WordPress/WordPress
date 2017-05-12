@@ -358,7 +358,7 @@ function retrieve_password() {
 
 	/**
 	 * Filters the message body of the password reset mail.
-	 * 
+	 *
 	 * If the filtered message is empty, the password reset email will not be sent.
 	 *
 	 * @since 2.8.0
@@ -964,7 +964,14 @@ d.select();
 }, 200);
 }
 
-<?php if ( !$error ) { ?>
+/**
+ * Filters whether to print the call to `wp_attempt_focus()` on the login screen.
+ *
+ * @since 4.8.0
+ *
+ * @param bool $print Whether to print the function call. Default true.
+ */
+<?php if ( apply_filters( 'enable_login_autofocus', true ) && ! $error ) { ?>
 wp_attempt_focus();
 <?php } ?>
 if(typeof wpOnload=='function')wpOnload();
