@@ -154,11 +154,6 @@
 	border: 1px solid #f00;
 }
 
-.wp-customizer .mejs-controls a:focus > .mejs-offscreen,
-.widgets-php .mejs-controls a:focus > .mejs-offscreen {
-	z-index: 2;
-}
-
 /* Widget Dragging Helpers */
 .widget.ui-draggable-dragging {
 	min-width: 100%;
