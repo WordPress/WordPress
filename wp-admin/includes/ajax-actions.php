@@ -319,9 +319,6 @@ function wp_ajax_get_community_events() {
 		) );
 	} else {
 		if ( isset( $events['location'] ) ) {
-			// Send only the data that the client will use.
-			$events['location'] = $events['location']['description'];
-
 			// Store the location network-wide, so the user doesn't have to set it on each site.
 			update_user_option( $user_id, 'community-events-location', $events['location'], true );
 		}

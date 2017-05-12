@@ -1243,7 +1243,7 @@ function wp_print_community_events_templates() {
 		<?php printf(
 			/* translators: %s is a placeholder for the name of a city. */
 			__( 'Attend an upcoming event near %s.' ),
-			'<strong>{{ data.location }}</strong>'
+			'<strong>{{ data.location.description }}</strong>'
 		); ?>
 	</script>
 
@@ -1280,7 +1280,7 @@ function wp_print_community_events_templates() {
 			<?php printf(
 				/* translators: 1: the city the user searched for, 2: meetup organization documentation URL */
 				__( 'There aren&#8217;t any events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize one</a>?' ),
-				'{{data.location}}',
+				'{{ data.location.description }}',
 				__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
 			); ?>
 		</li>
