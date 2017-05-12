@@ -710,7 +710,9 @@ p.customize-section-description {
 	padding-top: 7px;
 }
 
-.customize-control .thumbnail-image {
+.customize-control .thumbnail-image,
+.customize-control-header .current,
+.customize-control .wp-media-wrapper.wp-video {
 	line-height: 0;
 }
 
@@ -932,12 +934,8 @@ p.customize-section-description {
 
 /* Media controls */
 
-.customize-control .attachment-media-view .actions {
-	margin-top: 8px;
-}
-
-.customize-control-header .current {
-	margin-bottom: 8px;
+.customize-control .actions .button {
+	margin-top: 12px;
 }
 
 .customize-control-header .actions,
@@ -965,9 +963,9 @@ p.customize-section-description {
 .customize-control .attachment-media-view .upload-button,
 .customize-control-header button.new,
 .customize-control-header button.remove {
-	white-space: normal;
-	width: 48%;
+	width: auto;
 	height: auto;
+	white-space: normal;
 }
 
 .customize-control .attachment-media-view .thumbnail,
@@ -1013,7 +1011,7 @@ p.customize-section-description {
 .customize-control-header .header-view {
 	position: relative;
 	width: 100%;
-	margin-bottom: 5px;
+	margin-bottom: 12px;
 }
 
 .customize-control-header .header-view:last-child {
@@ -1137,13 +1135,7 @@ p.customize-section-description {
 .customize-control .attachment-media-view .remove-button,
 .customize-control .attachment-media-view .default-button,
 .customize-control-header .remove {
-	float: left;
-	margin-right: 3px;
-}
-
-.customize-control .attachment-media-view .upload-button,
-.customize-control-header .new {
-	float: right;
+	margin-right: 8px;
 }
 
 /* Background position control */
