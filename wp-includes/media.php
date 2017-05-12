@@ -3497,8 +3497,8 @@ function wp_enqueue_media( $args = array() ) {
 		'unattached'             => __( 'Unattached' ),
 		'trash'                  => _x( 'Trash', 'noun' ),
 		'uploadedToThisPost'     => $post_type_object->labels->uploaded_to_this_item,
-		'warnDelete'             => __( "You are about to permanently delete this item.\nThis will remove it from your site.\n 'Cancel' to stop, 'OK' to delete." ),
-		'warnBulkDelete'         => __( "You are about to permanently delete these items.\nThis will remove them from your site.\n 'Cancel' to stop, 'OK' to delete." ),
+		'warnDelete'             => __( "You are about to permanently delete this item from your site.\nThis action cannot be undone.\n 'Cancel' to stop, 'OK' to delete." ),
+		'warnBulkDelete'         => __( "You are about to permanently delete these items from your site.\nThis action cannot be undone.\n 'Cancel' to stop, 'OK' to delete." ),
 		'warnBulkTrash'          => __( "You are about to trash these items.\n  'Cancel' to stop, 'OK' to delete." ),
 		'bulkSelect'             => __( 'Bulk Select' ),
 		'cancelSelection'        => __( 'Cancel Selection' ),
@@ -3745,7 +3745,7 @@ function get_post_galleries( $post, $html = true ) {
 			if ( 'gallery' === $shortcode[2] ) {
 				$srcs = array();
 
-				$shortcode_attrs = shortcode_parse_atts( $shortcode[3] ); 
+				$shortcode_attrs = shortcode_parse_atts( $shortcode[3] );
 				if ( ! is_array( $shortcode_attrs ) ) {
 					$shortcode_attrs = array();
 				}

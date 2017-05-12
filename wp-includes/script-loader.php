@@ -77,7 +77,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'common', "/wp-admin/js/common$suffix.js", array('jquery', 'hoverIntent', 'utils'), false, 1 );
 	did_action( 'init' ) && $scripts->localize( 'common', 'commonL10n', array(
-		'warnDelete'   => __( "You are about to permanently delete these items.\nThis will remove them from your site.\n 'Cancel' to stop, 'OK' to delete." ),
+		'warnDelete'   => __( "You are about to permanently delete these items from your site.\nThis action cannot be undone.\n 'Cancel' to stop, 'OK' to delete." ),
 		'dismiss'      => __( 'Dismiss this notice.' ),
 		'collapseMenu' => __( 'Collapse Main menu' ),
 		'expandMenu'   => __( 'Expand Main menu' ),
