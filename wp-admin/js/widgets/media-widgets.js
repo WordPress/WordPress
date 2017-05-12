@@ -1000,7 +1000,7 @@ wp.mediaWidgets = ( function( $ ) {
 	 * @returns {void}
 	 */
 	component.handleWidgetAdded = function handleWidgetAdded( event, widgetContainer ) {
-		var widgetContent, controlContainer, widgetForm, idBase, ControlConstructor, ModelConstructor, modelAttributes, widgetControl, widgetModel, widgetId;
+		var widgetContent, controlContainer, widgetForm, idBase, ControlConstructor, ModelConstructor, modelAttributes, widgetControl, widgetModel, widgetId, widgetInside, animatedCheckDelay = 50, renderWhenAnimationDone;
 		widgetForm = widgetContainer.find( '> .widget-inside > .form, > .widget-inside > form' ); // Note: '.form' appears in the customizer, whereas 'form' on the widgets admin screen.
 		widgetContent = widgetForm.find( '> .widget-content' );
 		idBase = widgetForm.find( '> .id_base' ).val();
@@ -1050,7 +1050,21 @@ wp.mediaWidgets = ( function( $ ) {
 			el: controlContainer,
 			model: widgetModel
 		});
-		widgetControl.render();
+
+		/*
+		 * Render the widget once the widget parent's container finishes animating,
+		 * as the widget-added event fires with a slideDown of the container.
+		 * This ensures that the container's dimensions are fixed so that ME.js
+		 * can initialize with the proper dimensions.
+		 */
+		widgetInside = widgetContainer.parent();
+		renderWhenAnimationDone = function() {
+			if ( widgetInside.is( ':animated' ) ) {
+				setTimeout( renderWhenAnimationDone, animatedCheckDelay );
+			} else {
+				widgetControl.render();
+			}
+		};
 
 		/*
 		 * Note that the model and control currently won't ever get garbage-collected

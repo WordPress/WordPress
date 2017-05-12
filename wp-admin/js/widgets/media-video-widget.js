@@ -180,6 +180,7 @@
 				is_hosted_embed: isHostedEmbed,
 				error: error
 			} ) );
+			wp.mediaelement.initialize();
 		},
 
 		/**
