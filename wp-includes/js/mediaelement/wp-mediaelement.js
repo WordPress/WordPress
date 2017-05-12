@@ -44,7 +44,7 @@
 			$( '.wp-audio-shortcode, .wp-video-shortcode' )
 				.not( '.mejs-container' )
 				.filter(function () {
-					return ! $( this ).parent().hasClass( '.mejs-mediaelement' );
+					return ! $( this ).parent().hasClass( 'mejs-mediaelement' );
 				})
 				.mediaelementplayer( settings );
 		}
