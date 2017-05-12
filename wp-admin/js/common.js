@@ -995,8 +995,8 @@ $document.ready( function() {
 		// Toggle the progress div visibility.
 		$progressDiv.toggle();
 		// Toggle the Show Details button expanded state.
-		$( this ).attr( 'aria-expanded', $progressDiv.is( ':visible' ) )
-	})
+		$( this ).attr( 'aria-expanded', $progressDiv.is( ':visible' ) );
+	});
 });
 
 // Fire a custom jQuery event at the end of window resize
