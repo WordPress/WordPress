@@ -1092,6 +1092,17 @@ p.popular-tags a {
 	text-decoration: underline;
 }
 
+#edittag {
+	max-width: 800px;
+}
+
+.edit-tag-actions {
+	margin-top: 20px;
+	overflow: hidden;
+	padding: 10px;
+	margin-right: 10px;
+}
+
 /* Comments */
 
 .comment-php .wp-editor-area {
@@ -1348,6 +1359,10 @@ table.links-table {
 }
 
 @media screen and ( max-width: 782px ) {
+	.wp-core-ui .edit-tag-actions .button-primary {
+		margin-bottom: 0;
+	}
+
 	#post-body-content {
 		min-width: 0;
 	}

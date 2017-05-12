@@ -874,7 +874,8 @@ hr {
 .submitbox .submitdelete,
 #media-items a.delete,
 #media-items a.delete-permanently,
-#nav-menu-footer .menu-delete {
+#nav-menu-footer .menu-delete,
+#delete-link a.delete  {
 	color: #a00;
 }
 
@@ -890,7 +891,8 @@ span.required,
 .submitbox .submitdelete:hover,
 #media-items a.delete:hover,
 #media-items a.delete-permanently:hover,
-#nav-menu-footer .menu-delete:hover {
+#nav-menu-footer .menu-delete:hover,
+#delete-link a.delete:hover {
 	color: #dc3232;
 	border: none;
 }
@@ -909,6 +911,17 @@ span.required,
 #delete-action {
 	float: left;
 	line-height: 28px;
+}
+
+#delete-link {
+	line-height: 28px;
+	vertical-align: middle;
+	text-align: left;
+	margin-left: 8px;
+}
+
+#delete-link a {
+	text-decoration: none;
 }
 
 #publishing-action {

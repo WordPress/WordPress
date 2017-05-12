@@ -65,7 +65,6 @@ if ( ! $referer ) { // For POST requests.
 	$referer = wp_unslash( $_SERVER['REQUEST_URI'] );
 }
 $referer = remove_query_arg( array( '_wp_http_referer', '_wpnonce', 'error', 'message', 'paged' ), $referer );
-
 switch ( $wp_list_table->current_action() ) {
 
 case 'add-tag':
@@ -106,6 +105,9 @@ case 'delete':
 	wp_delete_term( $tag_ID, $taxonomy );
 
 	$location = add_query_arg( 'message', 2, $referer );
+
+	// When deleting a term, prevent the action from redirecting back to a term that no longer exists.
+	$location = remove_query_arg( array( 'tag_ID', 'action' ), $location );
 
 	break;
 

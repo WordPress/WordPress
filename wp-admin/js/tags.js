@@ -28,6 +28,17 @@ jQuery(document).ready(function($) {
 		return false;
 	});
 
+	$( '#edittag' ).on( 'click', '.delete', function( e ) {
+		if ( 'undefined' === typeof showNotice ) {
+			return true;
+		}
+
+		var response = showNotice.warn();
+		if ( ! response ) {
+			e.preventDefault();
+		}
+	});
+
 	$('#submit').click(function(){
 		var form = $(this).parents('form');
 

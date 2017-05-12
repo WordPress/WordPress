@@ -254,9 +254,20 @@ if ( 'category' == $taxonomy ) {
  * @param string $taxonomy Current taxonomy slug.
  */
 do_action( "{$taxonomy}_edit_form", $tag, $taxonomy );
-
-submit_button( __('Update') );
 ?>
+
+<div class="edit-tag-actions">
+
+	<?php submit_button( __( 'Update' ), 'primary', null, false ); ?>
+
+	<?php if ( current_user_can( 'delete_term', $tag->term_id ) ) : ?>
+		<span id="delete-link">
+			<a class="delete" href="<?php echo admin_url( wp_nonce_url( "edit-tags.php?action=delete&taxonomy=$taxonomy&tag_ID=$tag->term_id", 'delete-tag_' . $tag->term_id ) ) ?>"'><?php _e( 'Delete' ); ?></a>
+		</span>
+	<?php endif; ?>
+
+</div>
+
 </form>
 </div>
 
