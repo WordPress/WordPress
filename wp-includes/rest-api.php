@@ -1077,11 +1077,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 				break;
 
 			case 'email' :
-				// is_email() checks for 3 characters (a@b), but
-				// wp_handle_comment_submission() requires 6 characters (a@b.co)
-				//
-				// https://core.trac.wordpress.org/ticket/38506
-				if ( ! is_email( $value ) || strlen( $value ) < 6 ) {
+				if ( ! is_email( $value ) ) {
 					return new WP_Error( 'rest_invalid_email', __( 'Invalid email address.' ) );
 				}
 				break;

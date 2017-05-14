@@ -2872,7 +2872,7 @@ function is_email( $email, $deprecated = false ) {
 		_deprecated_argument( __FUNCTION__, '3.0.0' );
 
 	// Test for the minimum length the email can be
-	if ( strlen( $email ) < 3 ) {
+	if ( strlen( $email ) < 6 ) {
 		/**
 		 * Filters whether an email address is valid.
 		 *
@@ -3109,7 +3109,7 @@ function iso8601_to_datetime( $date_string, $timezone = 'user' ) {
  */
 function sanitize_email( $email ) {
 	// Test for the minimum length the email can be
-	if ( strlen( $email ) < 3 ) {
+	if ( strlen( $email ) < 6 ) {
 		/**
 		 * Filters a sanitized email address.
 		 *
