@@ -239,7 +239,7 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param  string      $address The IP address that should be anonymized.
+	 * @param  string $address The IP address that should be anonymized.
 	 * @return bool|string The anonymized address on success; the given address
 	 *                     or false on failure.
 	 */
@@ -269,7 +269,7 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param  array       $location Should contain 'latitude' and 'longitude' indexes.
+	 * @param  array $location Should contain 'latitude' and 'longitude' indexes.
 	 * @return bool|string false on failure, or a string on success.
 	 */
 	protected function get_events_transient_key( $location ) {
@@ -288,7 +288,7 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param array    $events               Response body from the API request.
+	 * @param array    $events     Response body from the API request.
 	 * @param int|bool $expiration Optional. Amount of time to cache the events. Defaults to false.
 	 * @return bool true if events were cached; false if not.
 	 */
@@ -364,7 +364,7 @@ class WP_Community_Events {
 	 */
 	protected function trim_events( $response_body ) {
 		if ( isset( $response_body['events'] ) ) {
-			$current_timestamp = current_time('timestamp' );
+			$current_timestamp = current_time( 'timestamp' );
 
 			foreach ( $response_body['events'] as $key => $event ) {
 				// Skip WordCamps, because they might be multi-day events.
@@ -400,9 +400,9 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param string $message        A description of what occurred.
-	 * @param array  $debugging_info Details that provide more context for the
-	 *                               log entry.
+	 * @param string $message A description of what occurred.
+	 * @param array  $details Details that provide more context for the
+	 *                        log entry.
 	 */
 	protected function maybe_log_events_response( $message, $details ) {
 		if ( ! WP_DEBUG_LOG ) {
