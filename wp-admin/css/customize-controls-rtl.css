@@ -710,10 +710,16 @@ p.customize-section-description {
 	padding-top: 7px;
 }
 
+/* Remove descender space. */
 .customize-control .thumbnail-image,
 .customize-control-header .current,
 .customize-control .wp-media-wrapper.wp-video {
 	line-height: 0;
+}
+
+/* Remove descender space. */
+.customize-control-site_icon .favicon-preview .browser-preview {
+	vertical-align: top;
 }
 
 .customize-control .thumbnail-image img {
