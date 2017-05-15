@@ -109,6 +109,22 @@
 		},
 
 		/**
+		 * Get the instance props from the media selection frame.
+		 *
+		 * Prevent the image_title attribute from being initially set when adding an image from the media library.
+		 *
+		 * @param {wp.media.view.MediaFrame.Select} mediaFrame - Select frame.
+		 * @returns {Object} Props.
+		 */
+		getModelPropsFromMediaFrame: function getModelPropsFromMediaFrame( mediaFrame ) {
+			var control = this;
+			return _.omit(
+				component.MediaWidgetControl.prototype.getModelPropsFromMediaFrame.call( control, mediaFrame ),
+				'image_title'
+			);
+		},
+
+		/**
 		 * Map model props to preview template props.
 		 *
 		 * @returns {Object} Preview template props.
