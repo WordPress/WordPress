@@ -306,6 +306,11 @@ class WP_Http {
 		// Ensure redirects follow browser behaviour.
 		$options['hooks']->register( 'requests.before_redirect', array( get_class(), 'browser_redirect_compatibility' ) );
 
+		// Validate redirected URLs.
+		if ( function_exists( 'wp_kses_bad_protocol' ) && $r['reject_unsafe_urls'] ) {
+			$options['hooks']->register( 'requests.before_redirect', array( get_class(), 'validate_redirects' ) );
+		}
+
 		if ( $r['stream'] ) {
 			$options['filename'] = $r['filename'];
 		}
@@ -463,6 +468,20 @@ class WP_Http {
 		// Browser compat
 		if ( $original->status_code === 302 ) {
 			$options['type'] = Requests::GET;
+		}
+	}
+
+	/**
+	 * Validate redirected URLs.
+	 *
+	 * @since 4.7.5
+	 *
+	 * @throws Requests_Exception On unsuccessful URL validation
+	 * @param string $location URL to redirect to.
+	 */
+	public static function validate_redirects( $location ) {
+		if ( ! wp_http_validate_url( $location ) ) {
+			throw new Requests_Exception( __('A valid URL was not provided.'), 'wp_http.redirect_failed_validation' );
 		}
 	}
 
