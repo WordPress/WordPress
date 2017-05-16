@@ -3396,6 +3396,16 @@
 			}
 		});
 
+		// Ensure preview nonce is included with every customized request, to allow post data to be read.
+		$.ajaxPrefilter( function injectPreviewNonce( options ) {
+			if ( ! /wp_customize=on/.test( options.data ) ) {
+				return;
+			}
+			options.data += '&' + $.param({
+				customize_preview_nonce: api.settings.nonce.preview
+			});
+		});
+
 		// Refresh the nonces if the preview sends updated nonces over.
 		api.previewer.bind( 'nonce', function( nonce ) {
 			$.extend( this.nonce, nonce );
