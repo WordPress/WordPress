@@ -92,6 +92,7 @@
 	 * @type {object} filesystemCredentials.ssh                Holds SSH credentials.
 	 * @type {string} filesystemCredentials.ssh.publicKey      The public key. Default empty string.
 	 * @type {string} filesystemCredentials.ssh.privateKey     The private key. Default empty string.
+	 * @type {string} filesystemCredentials.fsNonce            Filesystem credentials form nonce.
 	 * @type {bool}   filesystemCredentials.available          Whether filesystem credentials have been provided.
 	 *                                                         Default 'false'.
 	 */
@@ -106,6 +107,7 @@
 			publicKey:  '',
 			privateKey: ''
 		},
+		fsNonce: '',
 		available: false
 	};
 
@@ -223,6 +225,7 @@
 		options.data = _.extend( data, {
 			action:          action,
 			_ajax_nonce:     wp.updates.ajaxNonce,
+			_fs_nonce:       wp.updates.filesystemCredentials.fsNonce,
 			username:        wp.updates.filesystemCredentials.ftp.username,
 			password:        wp.updates.filesystemCredentials.ftp.password,
 			hostname:        wp.updates.filesystemCredentials.ftp.hostname,
@@ -1679,6 +1682,7 @@
 			wp.updates.filesystemCredentials.ftp.connectionType = $( 'input[name="connection_type"]:checked' ).val();
 			wp.updates.filesystemCredentials.ssh.publicKey      = $( '#public_key' ).val();
 			wp.updates.filesystemCredentials.ssh.privateKey     = $( '#private_key' ).val();
+			wp.updates.filesystemCredentials.fsNonce            = $( '#_fs_nonce' ).val();
 			wp.updates.filesystemCredentials.available          = true;
 
 			// Unlock and invoke the queue.
