@@ -1050,10 +1050,31 @@ class wp_xmlrpc_server extends IXR_Server {
 	 * @param array $content_struct Post data to insert.
 	 */
 	protected function _insert_post( $user, $content_struct ) {
-		$defaults = array( 'post_status' => 'draft', 'post_type' => 'post', 'post_author' => 0,
-			'post_password' => '', 'post_excerpt' => '', 'post_content' => '', 'post_title' => '' );
+		$defaults = array(
+			'post_status'    => 'draft',
+			'post_type'      => 'post',
+			'post_author'    => null,
+			'post_password'  => null,
+			'post_excerpt'   => null,
+			'post_content'   => null,
+			'post_title'     => null,
+			'post_date'      => null,
+			'post_date_gmt'  => null,
+			'post_format'    => null,
+			'post_name'      => null,
+			'post_thumbnail' => null,
+			'post_parent'    => null,
+			'ping_status'    => null,
+			'comment_status' => null,
+			'custom_fields'  => null,
+			'terms_names'    => null,
+			'terms'          => null,
+			'sticky'         => null,
+			'enclosure'      => null,
+			'ID'             => null,
+		);
 
-		$post_data = wp_parse_args( $content_struct, $defaults );
+		$post_data = wp_parse_args( array_intersect_key( $content_struct, $defaults ), $defaults );
 
 		$post_type = get_post_type_object( $post_data['post_type'] );
 		if ( ! $post_type )
@@ -1233,9 +1254,6 @@ class wp_xmlrpc_server extends IXR_Server {
 
 			$post_data['tax_input'] = $terms;
 			unset( $post_data['terms'], $post_data['terms_names'] );
-		} else {
-			// do not allow direct submission of 'tax_input', clients must use 'terms' and/or 'terms_names'
-			unset( $post_data['tax_input'], $post_data['post_category'], $post_data['tags_input'] );
 		}
 
 		if ( isset( $post_data['post_format'] ) ) {
