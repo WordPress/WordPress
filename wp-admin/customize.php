@@ -149,7 +149,7 @@ do_action( 'customize_controls_print_scripts' );
 							echo sprintf( __( 'You are previewing %s' ), '<strong class="theme-name">' . $wp_customize->theme()->display('Name') . '</strong>' );
 						} else {
 							/* translators: %s is the site/panel title in the Customize pane */
-							echo sprintf( __( 'You are customizing %s' ), '<strong class="theme-name site-title">' . get_bloginfo( 'name' ) . '</strong>' );
+							echo sprintf( __( 'You are customizing %s' ), '<strong class="theme-name site-title">' . get_bloginfo( 'name', 'display' ) . '</strong>' );
 						}
 					?></span>
 				</div>

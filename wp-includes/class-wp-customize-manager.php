@@ -175,6 +175,24 @@ final class WP_Customize_Manager {
 
 		$this->theme = wp_get_theme( isset( $_REQUEST['theme'] ) ? $_REQUEST['theme'] : null );
 
+		/*
+		 * Clear incoming post data if the user lacks a CSRF token (nonce). Note that the customizer
+		 * application will inject the customize_preview_nonce query parameter into all Ajax requests.
+		 * For similar behavior elsewhere in WordPress, see rest_cookie_check_errors() which logs out
+		 * a user when a valid nonce isn't present.
+		 */
+		$has_post_data_nonce = (
+			check_ajax_referer( 'preview-customize_' . $this->get_stylesheet(), 'nonce', false )
+			||
+			check_ajax_referer( 'save-customize_' . $this->get_stylesheet(), 'nonce', false )
+			||
+			check_ajax_referer( 'preview-customize_' . $this->get_stylesheet(), 'customize_preview_nonce', false )
+		);
+		if ( ! $has_post_data_nonce ) {
+			unset( $_POST['customized'] );
+			unset( $_REQUEST['customized'] );
+		}
+
 		if ( $this->is_theme_active() ) {
 			// Once the theme is loaded, we'll validate it.
 			add_action( 'after_setup_theme', array( $this, 'after_setup_theme' ) );
