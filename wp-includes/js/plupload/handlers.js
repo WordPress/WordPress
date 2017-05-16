@@ -328,15 +328,24 @@ function uploadError(fileObj, errorCode, message, uploader) {
 	}
 }
 
-function uploadSizeError( up, file, over100mb ) {
-	var message;
+function uploadSizeError( up, file ) {
+	var message, errorDiv;
 
-	if ( over100mb )
-		message = pluploadL10n.big_upload_queued.replace('%s', file.name) + ' ' + pluploadL10n.big_upload_failed.replace('%1$s', '<a class="uploader-html" href="#">').replace('%2$s', '</a>');
-	else
-		message = pluploadL10n.file_exceeds_size_limit.replace('%s', file.name);
+	message = pluploadL10n.file_exceeds_size_limit.replace('%s', file.name);
 
-	jQuery('#media-items').append('<div id="media-item-' + file.id + '" class="media-item error"><p>' + message + '</p></div>');
+	// Construct the error div.
+	errorDiv = jQuery( '<div />' )
+		.attr( {
+			'id':    'media-item-' + file.id,
+			'class': 'media-item error'
+		} )
+		.append(
+			jQuery( '<p />' )
+				.text( message )
+		);
+
+	// Append the error.
+	jQuery('#media-items').append( errorDiv );
 	up.removeFile(file);
 }
 
