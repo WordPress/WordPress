@@ -565,7 +565,7 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 37965 )
 		upgrade_460();
 
-	if ( $wp_current_db_version < 40500 ) { //todo update to commit for #40702
+	if ( $wp_current_db_version < 40607 ) {
 		upgrade_480();
 	}
 
@@ -1747,7 +1747,7 @@ function upgrade_460() {
 function upgrade_480() {
 	global $wp_current_db_version;
 
-	if ( $wp_current_db_version < 40500 ) { // todo update to commit for #40702
+	if ( $wp_current_db_version < 40607 ) {
 		// This feature plugin was merged for #40702, so the plugin itself is no longer needed
 		deactivate_plugins( array( 'nearby-wp-events/nearby-wordpress-events.php' ), true );
 
