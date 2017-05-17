@@ -142,9 +142,6 @@ wp.mediaWidgets = ( function( $ ) {
 					/**
 					 * Fetch media.
 					 *
-					 * This is a TEMPORARY measure until the WP API supports an oEmbed proxy endpoint. See #40450.
-					 *
-					 * @see https://core.trac.wordpress.org/ticket/40450
 					 * @returns {void}
 					 */
 					fetch: function() {
@@ -152,6 +149,12 @@ wp.mediaWidgets = ( function( $ ) {
 
 						if ( embedLinkView.dfd && 'pending' === embedLinkView.dfd.state() ) {
 							embedLinkView.dfd.abort();
+						}
+
+						// Abort if the URL field was emptied out.
+						if ( ! embedLinkView.model.get( 'url' ) ) {
+							embedLinkView.setErrorNotice( '' );
+							return;
 						}
 
 						fetchSuccess = function( response ) {

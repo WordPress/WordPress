@@ -4739,7 +4739,7 @@ EmbedUrl = View.extend({
 	},
 
 	url: function( event ) {
-		this.model.set( 'url', event.target.value );
+		this.model.set( 'url', $.trim( event.target.value ) );
 	},
 
 	/**
