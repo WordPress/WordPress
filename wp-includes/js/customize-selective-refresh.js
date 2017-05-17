@@ -457,6 +457,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 				if ( 'undefined' !== typeof console && console.error ) {
 					console.error( partial.id, error );
 				}
+				partial.fallback( error, [ placement ] );
 			}
 			/* jshint ignore:start */
 			document.write = self.orginalDocumentWrite;
