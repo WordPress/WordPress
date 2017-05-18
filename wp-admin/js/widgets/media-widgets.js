@@ -483,7 +483,7 @@ wp.mediaWidgets = ( function( $ ) {
 			control.listenTo( control.model, 'change', control.render );
 
 			// Update the title.
-			control.$el.on( 'input', '.title', function updateTitle() {
+			control.$el.on( 'input change', '.title', function updateTitle() {
 				control.model.set({
 					title: $.trim( $( this ).val() )
 				});
