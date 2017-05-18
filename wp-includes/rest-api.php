@@ -481,6 +481,9 @@ function rest_ensure_response( $response ) {
  * @param string $version     Version.
  */
 function rest_handle_deprecated_function( $function, $replacement, $version ) {
+	if ( ! WP_DEBUG || headers_sent() ) {
+		return;
+	}
 	if ( ! empty( $replacement ) ) {
 		/* translators: 1: function name, 2: WordPress version number, 3: new function name */
 		$string = sprintf( __( '%1$s (since %2$s; use %3$s instead)' ), $function, $version, $replacement );
@@ -502,6 +505,9 @@ function rest_handle_deprecated_function( $function, $replacement, $version ) {
  * @param string $version     Version.
  */
 function rest_handle_deprecated_argument( $function, $message, $version ) {
+	if ( ! WP_DEBUG || headers_sent() ) {
+		return;
+	}
 	if ( ! empty( $message ) ) {
 		/* translators: 1: function name, 2: WordPress version number, 3: error message */
 		$string = sprintf( __( '%1$s (since %2$s; %3$s)' ), $function, $version, $message );
