@@ -171,6 +171,27 @@ img[data-mce-selected]::selection {
     background: transparent url( images/pagebreak.png ) repeat-y scroll center center;
 }
 
+/* Styles for formatting the boundaries of anchors and code elements */
+.mce-content-body a[data-mce-selected] {
+	padding: 0 2px;
+	margin: 0 -2px;
+	border-radius: 2px;
+	box-shadow: 0 0 0 1px #bfe6ff;
+	background: #bfe6ff;
+}
+
+.mce-content-body code {
+	padding: 2px 4px;
+	margin: 0;
+	border-radius: 2px;
+	color: #222;
+	background: #f2f4f5;
+}
+
+.mce-content-body code[data-mce-selected] {
+	background: #e9ebec;
+}
+
 /* Gallery, audio, video placeholders */
 .mce-content-body img.wp-media {
 	border: 1px solid #aaa;
