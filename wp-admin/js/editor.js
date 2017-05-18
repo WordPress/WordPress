@@ -224,8 +224,14 @@ window.wp = window.wp || {};
 			// Normalize white space chars and remove multiple line breaks.
 			html = html.replace( /\n[\s\u00a0]+\n/g, '\n\n' );
 
-			// Rrplace <br> tags with a line break.
-			html = html.replace( /\s*<br ?\/?>\s*/gi, '\n' );
+			// Replace <br> tags with line breaks.
+			html = html.replace( /(\s*)<br ?\/?>\s*/gi, function( match, space ) {
+				if ( space && space.indexOf( '\n' ) !== -1 ) {
+					return '\n\n';
+				}
+
+				return '\n';
+			});
 
 			// Fix line breaks around <div>.
 			html = html.replace( /\s*<div/g, '\n<div' );
