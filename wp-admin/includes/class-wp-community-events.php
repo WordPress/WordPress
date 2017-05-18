@@ -156,7 +156,7 @@ class WP_Community_Events {
 		$api_url = 'https://api.wordpress.org/events/1.0/';
 		$args    = array(
 			'number' => 5, // Get more than three in case some get trimmed out.
-			'ip'     => $this->maybe_anonymize_ip_address( $this->get_unsafe_client_ip() ),
+			'ip'     => $this->get_client_ip(),
 		);
 
 		/*
@@ -182,7 +182,11 @@ class WP_Community_Events {
 	}
 
 	/**
-	 * Determines the user's actual IP address, if possible.
+	 * Determines the user's actual IP address and attempts to partially
+	 * anonymize an IP address by converting it to a network ID.
+	 *
+	 * Geolocating the network ID usually returns a similar location as the
+	 * actual IP, but provides some privacy for the user.
 	 *
 	 * $_SERVER['REMOTE_ADDR'] cannot be used in all cases, such as when the user
 	 * is making their request through a proxy, or when the web server is behind
@@ -190,6 +194,7 @@ class WP_Community_Events {
 	 * than the user's actual address.
 	 *
 	 * Modified from http://stackoverflow.com/a/2031935/450127, MIT license.
+	 * Modified from https://github.com/geertw/php-ip-anonymizer, MIT license.
 	 *
 	 * SECURITY WARNING: This function is _NOT_ intended to be used in
 	 * circumstances where the authenticity of the IP address matters. This does
@@ -199,9 +204,10 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @return false|string false on failure, the string address on success.
+	 * @return false|string The anonymized address on success; the given address
+	 *                      or false on failure.
 	 */
-	protected function get_unsafe_client_ip() {
+	protected function get_client_ip() {
 		$client_ip = false;
 
 		// In order of preference, with the best ones for this purpose first.
@@ -229,37 +235,18 @@ class WP_Community_Events {
 			}
 		}
 
-		return $client_ip;
-	}
-
-	/**
-	 * Attempts to partially anonymize an IP address by converting it to a network ID.
-	 *
-	 * Geolocating the network ID usually returns a similar location as the
-	 * actual IP, but provides some privacy for the user.
-	 *
-	 * Modified from https://github.com/geertw/php-ip-anonymizer, MIT license.
-	 *
-	 * @access protected
-	 * @since 4.8.0
-	 *
-	 * @param  string $address The IP address that should be anonymized.
-	 * @return bool|string The anonymized address on success; the given address
-	 *                     or false on failure.
-	 */
-	protected function maybe_anonymize_ip_address( $address ) {
 		// These functions are not available on Windows until PHP 5.3.
-		if ( ! function_exists( 'inet_pton' ) || ! function_exists( 'inet_ntop' ) ) {
-			return $address;
+		if ( function_exists( 'inet_pton' ) && function_exists( 'inet_ntop' ) ) {
+			if ( 4 === strlen( inet_pton( $client_ip ) ) ) {
+				$netmask = '255.255.255.0'; // ipv4.
+			} else {
+				$netmask = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000'; // ipv6.
+			}
+
+			$client_ip = inet_ntop( inet_pton( $client_ip ) & inet_pton( $netmask ) );
 		}
 
-		if ( 4 === strlen( inet_pton( $address ) ) ) {
-			$netmask = '255.255.255.0'; // ipv4.
-		} else {
-			$netmask = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000'; // ipv6.
-		}
-
-		return inet_ntop( inet_pton( $address ) & inet_pton( $netmask ) );
+		return $client_ip;
 	}
 
 	/**
