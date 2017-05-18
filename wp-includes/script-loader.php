@@ -357,7 +357,7 @@ function wp_default_scripts( &$scripts ) {
 			'Play'                    => __( 'Play' ),
 			'Pause'                   => __( 'Pause' ),
 			'Captions/Subtitles'      => __( 'Captions/Subtitles' ),
-			'None'                    => __( 'None', 'no captions/subtitles' ),
+			'None'                    => _x( 'None', 'no captions/subtitles' ),
 			'Time Slider'             => __( 'Time Slider' ),
 			/* translators: %1: number of seconds (30 by default) */
 			'Skip back %1 seconds'    => __( 'Skip back %1 seconds' ),
