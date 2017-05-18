@@ -137,13 +137,16 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param  string $search   City search string. Default empty string.
-	 * @param  string $timezone Timezone string. Default empty string.
+	 * @param  string $search   Optional. City search string. Default empty string.
+	 * @param  string $timezone Optional. Timezone string. Default empty string.
 	 * @return string The request URL.
 	 */
 	protected function get_request_url( $search = '', $timezone = '' ) {
 		$api_url = 'https://api.wordpress.org/events/1.0/';
-		$args    = array( 'number' => 5 ); // Get more than three in case some get trimmed out.
+		$args    = array(
+			'number' => 5, // Get more than three in case some get trimmed out.
+			'ip'     => $this->maybe_anonymize_ip_address( $this->get_unsafe_client_ip() ),
+		);
 
 		/*
 		 * Send the minimal set of necessary arguments, in order to increase the
@@ -161,16 +164,6 @@ class WP_Community_Events {
 
 			if ( $search ) {
 				$args['location'] = $search;
-			} else {
-				/*
-				 * Protect the user's privacy by anonymizing their IP before sending
-				 * it to w.org, and only send it when necessary.
-				 *
-				 * The w.org API endpoint only uses the IP address when a location
-				 * query is not provided, so we can safely avoid sending it when
-				 * there is a query.
-				 */
-				$args['ip'] = $this->maybe_anonymize_ip_address( $this->get_unsafe_client_ip() );
 			}
 		}
 
