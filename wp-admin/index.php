@@ -15,7 +15,6 @@ require_once(ABSPATH . 'wp-admin/includes/dashboard.php');
 wp_dashboard_setup();
 
 wp_enqueue_script( 'dashboard' );
-wp_localize_script( 'dashboard', 'communityEventsData', wp_get_community_events_script_data() );
 
 if ( current_user_can( 'edit_theme_options' ) )
 	wp_enqueue_script( 'customize-loader' );

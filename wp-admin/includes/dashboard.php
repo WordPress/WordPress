@@ -130,46 +130,6 @@ function wp_dashboard_setup() {
 }
 
 /**
- * Gets the community events data that needs to be passed to dashboard.js.
- *
- * @since 4.8.0
- *
- * @return array The script data.
- */
-function wp_get_community_events_script_data() {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-community-events.php' );
-
-	$user_id       = get_current_user_id();
-	$user_location = get_user_option( 'community-events-location', $user_id );
-	$events_client = new WP_Community_Events( $user_id, $user_location );
-
-	$script_data = array(
-		'nonce' => wp_create_nonce( 'community_events' ),
-		'cache' => $events_client->get_cached_events(),
-
-		'l10n' => array(
-			'enter_closest_city' => __( 'Enter your closest city to find nearby events.' ),
-			'error_occurred_please_try_again' => __( 'An error occured. Please try again.' ),
-
-			/*
-			 * These specific examples were chosen to highlight the fact that a
-			 * state is not needed, even for cities whose name is not unique.
-			 * It would be too cumbersome to include that in the instructions
-			 * to the user, so it's left as an implication.
-			 */
-			/* translators: %s is the name of the city we couldn't locate. Replace the examples with cities in your locale, but test that they match the expected location before including them. Use endonyms (native locale names) whenever possible. */
-			'could_not_locate_city' => __( "We couldn't locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland." ),
-
-			// This one is only used with wp.a11y.speak(), so it can/should be more brief.
-			/* translators: %s is the name of a city. */
-			'city_updated' => __( 'City updated. Listing events near %s.' ),
-		)
-	);
-
-	return $script_data;
-}
-
-/**
  * Adds a new dashboard widget.
  *
  * @since 2.7.0
@@ -1170,24 +1130,22 @@ function wp_dashboard_events_news() {
  * @since 4.8.0
  */
 function wp_print_community_events_markup() {
-	$script_data = wp_get_community_events_script_data();
-
 	?>
 
 	<div class="community-events-errors notice notice-error inline hide-if-js">
 		<p class="hide-if-js">
-			<?php _e( 'This widget requires JavaScript.'); ?>
+			<?php _e( 'This widget requires JavaScript.' ); ?>
 		</p>
 
 		<p class="community-events-error-occurred" aria-hidden="true">
-			<?php echo $script_data['l10n']['error_occurred_please_try_again']; ?>
+			<?php _e( 'An error occurred. Please try again.' ); ?>
 		</p>
 
 		<p class="community-events-could-not-locate" aria-hidden="true"></p>
 	</div>
 
 	<div class="community-events-loading hide-if-no-js">
-		<?php _e( 'Loading&hellip;'); ?>
+		<?php _e( 'Loading&hellip;' ); ?>
 	</div>
 
 	<?php
@@ -1201,7 +1159,7 @@ function wp_print_community_events_markup() {
 			<p>
 				<span id="community-events-location-message"></span>
 
-				<button class="button-link community-events-toggle-location" aria-label="<?php _e( 'Edit city'); ?>" aria-expanded="false">
+				<button class="button-link community-events-toggle-location" aria-label="<?php esc_attr_e( 'Edit city' ); ?>" aria-expanded="false">
 					<span class="dashicons dashicons-edit"></span>
 				</button>
 			</p>
@@ -1211,7 +1169,7 @@ function wp_print_community_events_markup() {
 					<?php _e( 'City:' ); ?>
 				</label>
 				<?php /* translators: Replace with the name of a city in your locale that shows events. Use only the city name itself, without any region or country. Use the endonym instead of the English name. */ ?>
-				<input id="community-events-location" class="regular-text" type="text" name="community-events-location" placeholder="<?php _e( 'Cincinnati' ); ?>" />
+				<input id="community-events-location" class="regular-text" type="text" name="community-events-location" placeholder="<?php esc_attr_e( 'Cincinnati' ); ?>" />
 
 				<?php submit_button( __( 'Submit' ), 'secondary', 'community-events-submit', false ); ?>
 
@@ -1235,8 +1193,6 @@ function wp_print_community_events_markup() {
  * @since 4.8.0
  */
 function wp_print_community_events_templates() {
-	$script_data = wp_get_community_events_script_data();
-
 	?>
 
 	<script id="tmpl-community-events-attend-event-near" type="text/template">
@@ -1249,7 +1205,8 @@ function wp_print_community_events_templates() {
 
 	<script id="tmpl-community-events-could-not-locate" type="text/template">
 		<?php printf(
-			$script_data['l10n']['could_not_locate_city'],
+			/* translators: %s is the name of the city we couldn't locate. Replace the examples with cities in your locale, but test that they match the expected location before including them. Use endonyms (native locale names) whenever possible. */
+			__( 'We couldn&#8217;t locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland.' ),
 			'<em>{{data.unknownCity}}</em>'
 		); ?>
 	</script>
