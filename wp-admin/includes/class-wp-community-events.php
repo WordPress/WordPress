@@ -67,11 +67,22 @@ class WP_Community_Events {
 	 * data. The API will send back a recognized location based on the data, along
 	 * with nearby events.
 	 *
+	 * The browser's request for events is proxied with this method, rather
+	 * than having the browser make the request directly to api.wordpress.org,
+	 * because it allows results to be cached server-side and shared with other
+	 * users and sites in the network. This makes the process more efficient,
+	 * since increasing the number of visits that get cached data means users
+	 * don't have to wait as often; if the user's browser made the request
+	 * directly, it would also need to make a second request to WP in order to
+	 * pass the data for caching. Having WP make the request also introduces
+	 * the opportunity to anonymize the IP before sending it to w.org, which
+	 * mitigates possible privacy concerns.
+	 *
 	 * @since 4.8.0
 	 *
-	 * @param string $location_search Optional city name to help determine the location.
+	 * @param string $location_search Optional. City name to help determine the location.
 	 *                                e.g., "Seattle". Default empty string.
-	 * @param string $timezone        Optional timezone to help determine the location.
+	 * @param string $timezone        Optional. Timezone to help determine the location.
 	 *                                Default empty string.
 	 * @return array|WP_Error A WP_Error on failure; an array with location and events on
 	 *                        success.
