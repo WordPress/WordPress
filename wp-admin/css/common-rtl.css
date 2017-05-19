@@ -1142,32 +1142,19 @@ th.action-links {
 	color: #fff;
 }
 
+.filter-drawer,
 .wp-filter .favorites-form {
 	display: none;
-	margin: 0 -20px;
+	margin: 0 -20px 0 -10px;
 	padding: 20px;
 	border-top: 1px solid #eee;
 	background: #fafafa;
 	overflow: hidden;
-	width: 100%;
 }
 
+.show-filters .filter-drawer,
 .show-favorites-form .favorites-form {
 	display: block;
-}
-
-.filter-drawer {
-	display: none;
-	margin: 0 -20px;
-	padding: 20px;
-	border-top: 1px solid #eee;
-	background: #fafafa;
-}
-
-.show-filters .filter-drawer {
-	display: block;
-	overflow: hidden;
-	width: 100%;
 }
 
 .show-filters .filter-links a.current {
