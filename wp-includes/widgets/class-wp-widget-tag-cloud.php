@@ -120,7 +120,7 @@ class WP_Widget_Tag_Cloud extends WP_Widget {
 		$instance['title'] = ! empty( $instance['title'] ) ? esc_attr( $instance['title'] ) : '';
 
 		echo '<p><label for="' . $title_id .'">' . __( 'Title:' ) . '</label>
-			<input type="text" class="widefat" id="' . $title_id .'" name="' . $this->get_field_name( 'title' ) .'" value="' . $instance['title'] .'" placeholder="' . esc_attr__( '(Selected taxonomy name)' ) . '" />
+			<input type="text" class="widefat" id="' . $title_id .'" name="' . $this->get_field_name( 'title' ) .'" value="' . $instance['title'] .'" />
 		</p>';
 
 		$taxonomies = get_taxonomies( array( 'show_tagcloud' => true ), 'object' );
