@@ -252,7 +252,11 @@ class WP_REST_Server {
 		$send_no_cache_headers = apply_filters( 'rest_send_nocache_headers', is_user_logged_in() );
 		if ( $send_no_cache_headers ) {
 			foreach ( wp_get_nocache_headers() as $header => $header_value ) {
-				$this->send_header( $header, $header_value );
+				if ( empty( $header_value ) ) {
+					$this->remove_header( $header );
+				} else {
+					$this->send_header( $header, $header_value );
+				}
 			}
 		}
 
@@ -1259,6 +1263,30 @@ class WP_REST_Server {
 	public function send_headers( $headers ) {
 		foreach ( $headers as $key => $value ) {
 			$this->send_header( $key, $value );
+		}
+	}
+
+	/**
+	 * Removes an HTTP header from the current response.
+	 *
+	 * @since 4.8.0
+	 * @access public
+	 *
+	 * @param string $key Header key.
+	 */
+	public function remove_header( $key ) {
+		if ( function_exists( 'header_remove' ) ) {
+			// In PHP 5.3+ there is a way to remove an already set header.
+			header_remove( $key );
+		} else {
+			// In PHP 5.2, send an empty header, but only as a last resort to
+			// override a header already sent.
+			foreach ( headers_list() as $header ) {
+				if ( 0 === stripos( $header, "$key:" ) ) {
+					$this->send_header( $key, '' );
+					break;
+				}
+			}
 		}
 	}
 
