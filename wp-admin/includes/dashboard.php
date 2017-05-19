@@ -981,7 +981,7 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 	}
 
 	$locale = get_user_locale();
-	$cache_key = 'dash_' . md5( $widget_id . '_' . $locale );
+	$cache_key = 'dash_v2_' . md5( $widget_id . '_' . $locale );
 	if ( false !== ( $output = get_transient( $cache_key ) ) ) {
 		echo $output;
 		return true;
@@ -1063,7 +1063,7 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 		}
 		update_option( 'dashboard_widget_options', $widget_options );
 		$locale = get_user_locale();
-		$cache_key = 'dash_' . md5( $widget_id . '_' . $locale );
+		$cache_key = 'dash_v2_' . md5( $widget_id . '_' . $locale );
 		delete_transient( $cache_key );
 	}
 

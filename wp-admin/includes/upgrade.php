@@ -565,10 +565,6 @@ function upgrade_all() {
 	if ( $wp_current_db_version < 37965 )
 		upgrade_460();
 
-	if ( $wp_current_db_version < 40607 ) {
-		upgrade_480();
-	}
-
 	maybe_disable_link_manager();
 
 	maybe_disable_automattic_widgets();
@@ -1733,26 +1729,6 @@ function upgrade_460() {
 
 			update_option( 'uninstall_plugins', $uninstall_plugins );
 		}
-	}
-}
-
-/**
- * Executes changes made in WordPress 4.8.0.
- *
- * @ignore
- * @since 4.8.0
- *
- * @global int $wp_current_db_version Current database version.
- */
-function upgrade_480() {
-	global $wp_current_db_version;
-
-	if ( $wp_current_db_version < 40607 ) {
-		// This feature plugin was merged for #40702, so the plugin itself is no longer needed
-		deactivate_plugins( array( 'nearby-wp-events/nearby-wordpress-events.php' ), true );
-
-		// The markup stored in this transient changed for #40702
-		delete_transient( 'dash_' . md5( 'dashboard_primary' . '_' . get_locale() ) );
 	}
 }
 
