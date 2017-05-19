@@ -1074,7 +1074,7 @@ th.action-links {
 .wp-filter .search-form input[type="search"] {
 	margin: 0;
 	padding: 3px 5px;
-	width: 280px;
+	width: 100%;
 	max-width: 100%;
 	font-size: 16px;
 	font-weight: 300;
