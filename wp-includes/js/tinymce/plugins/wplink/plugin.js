@@ -101,7 +101,7 @@
 
 		function getSelectedLink() {
 			var href, html,
-				node = editor.selection.getNode(),
+				node = editor.selection.getStart(),
 				link = editor.dom.getParent( node, 'a[href]' );
 
 			if ( ! link ) {
