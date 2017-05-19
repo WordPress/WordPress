@@ -94,12 +94,13 @@ class WP_Community_Events {
 			return $cached_events;
 		}
 
-		$request_url    = $this->get_request_url( $location_search, $timezone );
-		$response       = wp_remote_get( $request_url );
+		$api_url        = 'https://api.wordpress.org/events/1.0/';
+		$request_args   = $this->get_request_args( $location_search, $timezone );
+		$response       = wp_remote_get( $api_url, $request_args );
 		$response_code  = wp_remote_retrieve_response_code( $response );
 		$response_body  = json_decode( wp_remote_retrieve_body( $response ), true );
 		$response_error = null;
-		$debugging_info = compact( 'request_url', 'response_code', 'response_body' );
+		$debugging_info = compact( 'api_url', 'request_args', 'response_code', 'response_body' );
 
 		if ( is_wp_error( $response ) ) {
 			$response_error = $response;
@@ -128,6 +129,31 @@ class WP_Community_Events {
 				unset( $response_body['ttl'] );
 			}
 
+			/*
+			 * The IP in the response is usually the same as the one that was sent
+			 * in the request, but in some cases it is different. In those cases,
+			 * it's important to reset it back to the IP from the request.
+			 *
+			 * For example, if the IP sent in the request is private (e.g., 192.168.1.100),
+			 * then the API will ignore that and use the corresponding public IP instead,
+			 * and the public IP will get returned. If the public IP were saved, though,
+			 * then get_cached_events() would always return `false`, because the transient
+			 * would be generated based on the public IP when saving the cache, but generated
+			 * based on the private IP when retrieving the cache.
+			 */
+			if ( ! empty( $response_body['location']['ip'] ) ) {
+				$response_body['location']['ip'] = $request_args['body']['ip'];
+			}
+
+			/*
+			 * The API doesn't return a description for latitude/longitude requests,
+			 * but the description is already saved in the user location, so that
+			 * one can be used instead.
+			 */
+			if ( $this->coordinates_match( $request_args['body'], $response_body['location'] ) && empty( $response_body['location']['description'] ) ) {
+				$response_body['location']['description'] = $this->user_location['description'];
+			}
+
 			$this->cache_events( $response_body, $expiration );
 
 			$response_body = $this->trim_events( $response_body );
@@ -143,24 +169,23 @@ class WP_Community_Events {
 	}
 
 	/**
-	 * Builds a URL for requests to the w.org Events API.
+	 * Builds an array of args to use in an HTTP request to the w.org Events API.
 	 *
 	 * @access protected
 	 * @since 4.8.0
 	 *
 	 * @param  string $search   Optional. City search string. Default empty string.
 	 * @param  string $timezone Optional. Timezone string. Default empty string.
-	 * @return string The request URL.
+	 * @return @return array The request args.
 	 */
-	protected function get_request_url( $search = '', $timezone = '' ) {
-		$api_url = 'https://api.wordpress.org/events/1.0/';
-		$args    = array(
+	protected function get_request_args( $search = '', $timezone = '' ) {
+		$args = array(
 			'number' => 5, // Get more than three in case some get trimmed out.
-			'ip'     => $this->get_client_ip(),
+			'ip'     => self::get_unsafe_client_ip(),
 		);
 
 		/*
-		 * Send the minimal set of necessary arguments, in order to increase the
+		 * Include the minimal set of necessary arguments, in order to increase the
 		 * chances of a cache-hit on the API side.
 		 */
 		if ( empty( $search ) && isset( $this->user_location['latitude'], $this->user_location['longitude'] ) ) {
@@ -178,7 +203,10 @@ class WP_Community_Events {
 			}
 		}
 
-		return add_query_arg( $args, $api_url );
+		// Wrap the args in an array compatible with the second parameter of `wp_remote_get()`.
+		return array(
+			'body' => $args
+		);
 	}
 
 	/**
@@ -207,7 +235,7 @@ class WP_Community_Events {
 	 * @return false|string The anonymized address on success; the given address
 	 *                      or false on failure.
 	 */
-	protected function get_client_ip() {
+	public static function get_unsafe_client_ip() {
 		$client_ip = false;
 
 		// In order of preference, with the best ones for this purpose first.
@@ -250,6 +278,24 @@ class WP_Community_Events {
 	}
 
 	/**
+	 * Test if two pairs of latitude/longitude coordinates match each other.
+	 *
+	 * @since 4.8.0
+	 * @access protected
+	 *
+	 * @param array $a The first pair, with indexes 'latitude' and 'longitude'.
+	 * @param array $b The second pair, with indexes 'latitude' and 'longitude'.
+	 * @return bool True if they match, false if they don't.
+	 */
+	protected function coordinates_match( $a, $b ) {
+		if ( ! isset( $a['latitude'], $a['longitude'], $b['latitude'], $b['longitude'] ) ) {
+			return false;
+		}
+
+		return $a['latitude'] === $b['latitude'] && $a['longitude'] === $b['longitude'];
+	}
+
+	/**
 	 * Generates a transient key based on user location.
 	 *
 	 * This could be reduced to a one-liner in the calling functions, but it's
@@ -266,7 +312,9 @@ class WP_Community_Events {
 	protected function get_events_transient_key( $location ) {
 		$key = false;
 
-		if ( isset( $location['latitude'], $location['longitude'] ) ) {
+		if ( isset( $location['ip'] ) ) {
+			$key = 'community-events-' . md5( $location['ip'] );
+		} else if ( isset( $location['latitude'], $location['longitude'] ) ) {
 			$key = 'community-events-' . md5( $location['latitude'] . $location['longitude'] );
 		}
 

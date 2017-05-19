@@ -1234,15 +1234,23 @@ function wp_print_community_events_templates() {
 
 	<script id="tmpl-community-events-no-upcoming-events" type="text/template">
 		<li class="event-none">
-			<?php printf(
-				/* translators: 1: the city the user searched for, 2: meetup organization documentation URL */
-				__( 'There aren&#8217;t any events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize one</a>?' ),
-				'{{ data.location.description }}',
-				__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
-			); ?>
+			<# if ( data.location.description ) { #>
+				<?php printf(
+					/* translators: 1: the city the user searched for, 2: meetup organization documentation URL */
+					__( 'There aren&#8217;t any events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize one</a>?' ),
+					'{{ data.location.description }}',
+					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
+				); ?>
+
+			<# } else { #>
+				<?php printf(
+					/* translators: meetup organization documentation URL. */
+					__( 'There aren&#8217;t any events scheduled near you at the moment. Would you like to <a href="%s">organize one</a>?' ),
+					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
+				); ?>
+			<# } #>
 		</li>
 	</script>
-
 	<?php
 }
 

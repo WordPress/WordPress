@@ -1012,9 +1012,24 @@ function wp_localize_community_events() {
 
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-community-events.php' );
 
-	$user_id       = get_current_user_id();
-	$user_location = get_user_option( 'community-events-location', $user_id );
-	$events_client = new WP_Community_Events( $user_id, $user_location );
+	$user_id            = get_current_user_id();
+	$saved_location     = get_user_option( 'community-events-location', $user_id );
+	$saved_ip_address   = isset( $saved_location['ip'] ) ? $saved_location['ip'] : false;
+	$current_ip_address = WP_Community_Events::get_unsafe_client_ip();
+
+	/*
+	 * If the user's location is based on their IP address, then update their
+	 * location when their IP address changes. This allows them to see events
+	 * in their current city when travelling. Otherwise, they would always be
+	 * shown events in the city where they were when they first loaded the
+	 * Dashboard, which could have been months or years ago.
+	 */
+	if ( $saved_ip_address && $current_ip_address && $current_ip_address !== $saved_ip_address ) {
+		$saved_location['ip'] = $current_ip_address;
+		update_user_option( $user_id, 'community-events-location', $saved_location, true );
+	}
+
+	$events_client = new WP_Community_Events( $user_id, $saved_location );
 
 	wp_localize_script( 'dashboard', 'communityEventsData', array(
 		'nonce' => wp_create_nonce( 'community_events' ),
@@ -1023,6 +1038,7 @@ function wp_localize_community_events() {
 		'l10n' => array(
 			'enter_closest_city' => __( 'Enter your closest city to find nearby events.' ),
 			'error_occurred_please_try_again' => __( 'An error occurred. Please try again.' ),
+			'attend_event_near_generic' => __( 'Attend an upcoming event near you.' ),
 
 			/*
 			 * These specific examples were chosen to highlight the fact that a

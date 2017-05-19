@@ -385,7 +385,26 @@ jQuery( function( $ ) {
 			 * Determine which templates should be rendered and which elements
 			 * should be displayed.
 			 */
-			if ( templateParams.location ) {
+			if ( templateParams.location.ip ) {
+				/*
+				 * If the API determined the location by geolocating an IP, it will
+				 * provide events, but not a specific location.
+				 */
+				$locationMessage.text( communityEventsData.l10n.attend_event_near_generic );
+
+				if ( templateParams.events.length ) {
+					template = wp.template( 'community-events-event-list' );
+					$results.html( template( templateParams ) );
+				} else {
+					template = wp.template( 'community-events-no-upcoming-events' );
+					$results.html( template( templateParams ) );
+				}
+
+				elementVisibility['#community-events-location-message'] = true;
+				elementVisibility['.community-events-toggle-location']  = true;
+				elementVisibility['.community-events-results']          = true;
+
+			} else if ( templateParams.location.description ) {
 				template = wp.template( 'community-events-attend-event-near' );
 				$locationMessage.html( template( templateParams ) );
 
@@ -435,7 +454,7 @@ jQuery( function( $ ) {
 
 			$toggleButton.attr( 'aria-expanded', elementVisibility['.community-events-toggle-location'] );
 
-			if ( templateParams.location ) {
+			if ( templateParams.location && ( templateParams.location.ip || templateParams.location.latitude ) ) {
 				// Hide the form when there's a valid location.
 				app.toggleLocationForm( 'hide' );
 
