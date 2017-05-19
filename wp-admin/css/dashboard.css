@@ -318,8 +318,8 @@
 
 .community-events .spinner {
 	float: none;
-	margin: 0;
-	padding-bottom: 3px;
+	margin: 5px 2px 0;
+	vertical-align: top;
 }
 
 .community-events-errors[aria-hidden="true"],
@@ -1251,6 +1251,8 @@ a.rsswidget {
 
 	#community-events-submit {
 		margin-bottom: 0;
+		/* Override .wp-core-ui .button */
+		vertical-align: top;
 	}
 
 	.community-events-form label,
@@ -1261,6 +1263,10 @@ a.rsswidget {
 		height: auto;
 		padding: 6px 0;
 		border: 1px solid transparent;
+	}
+
+	.community-events .spinner {
+		margin-top: 7px;
 	}
 }
 
