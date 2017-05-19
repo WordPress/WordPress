@@ -191,10 +191,11 @@ jQuery(document).ready( function($) {
 
 jQuery( function( $ ) {
 	'use strict';
-	
-	var communityEventsData = window.communityEventsData || {};
 
-	var app = window.wp.communityEvents = {
+	var communityEventsData = window.communityEventsData || {},
+		app;
+
+	app = window.wp.communityEvents = {
 		initialized: false,
 		model: null,
 
@@ -212,7 +213,7 @@ jQuery( function( $ ) {
 
 			/*
 			 * When JavaScript is disabled, the errors container is shown, so
-			 * that "This widget requires Javascript" message can be seen.
+			 * that "This widget requires JavaScript" message can be seen.
 			 *
 			 * When JS is enabled, the container is hidden at first, and then
 			 * revealed during the template rendering, if there actually are
@@ -227,7 +228,7 @@ jQuery( function( $ ) {
 			 * message.
 			 */
 			$( '.community-events-errors' )
-				.attr( 'aria-hidden', true )
+				.attr( 'aria-hidden', 'true' )
 				.removeClass( 'hide-if-js' );
 
 			$container.on( 'click', '.community-events-toggle-location, .community-events-cancel', app.toggleLocationForm );
@@ -235,7 +236,7 @@ jQuery( function( $ ) {
 			$container.on( 'submit', '.community-events-form', function( event ) {
 				event.preventDefault();
 
-				app.getEvents( {
+				app.getEvents({
 					location: $( '#community-events-location' ).val()
 				});
 			});
@@ -255,26 +256,41 @@ jQuery( function( $ ) {
 		 * @since 4.8.0
 		 *
 		 * @param {event|string} action 'show' or 'hide' to specify a state;
-		 *                              Or an event object to flip between states
+		 *                              or an event object to flip between states.
 		 */
 		toggleLocationForm: function( action ) {
 			var $toggleButton = $( '.community-events-toggle-location' ),
-			    $cancelButton = $( '.community-events-cancel' ),
-			    $form         = $( '.community-events-form' );
+				$cancelButton = $( '.community-events-cancel' ),
+				$form         = $( '.community-events-form' ),
+				$target       = $();
 
 			if ( 'object' === typeof action ) {
-				// Strict comparison doesn't work in this case.
+				// The action is the event object: get the clicked element.
+				$target = $( action.target );
+				/*
+				 * Strict comparison doesn't work in this case because sometimes
+				 * we explicitly pass a string as value of aria-expanded and
+				 * sometimes a boolean as the result of an evaluation.
+				 */
 				action = 'true' == $toggleButton.attr( 'aria-expanded' ) ? 'hide' : 'show';
 			}
 
 			if ( 'hide' === action ) {
-				$toggleButton.attr( 'aria-expanded', false );
-				$cancelButton.attr( 'aria-expanded', false );
-				$form.attr( 'aria-hidden', true );
+				$toggleButton.attr( 'aria-expanded', 'false' );
+				$cancelButton.attr( 'aria-expanded', 'false' );
+				$form.attr( 'aria-hidden', 'true' );
+				/*
+				 * If the Cancel button has been clicked, bring the focus back
+				 * to the toggle button so users relying on screen readers don't
+				 * lose their place.
+				 */
+				if ( $target.hasClass( 'community-events-cancel' ) ) {
+					$toggleButton.focus();
+				}
 			} else {
-				$toggleButton.attr( 'aria-expanded', true );
-				$cancelButton.attr( 'aria-expanded', true );
-				$form.attr( 'aria-hidden', false );
+				$toggleButton.attr( 'aria-expanded', 'true' );
+				$cancelButton.attr( 'aria-expanded', 'true' );
+				$form.attr( 'aria-hidden', 'false' );
 			}
 		},
 
@@ -287,8 +303,8 @@ jQuery( function( $ ) {
 		 */
 		getEvents: function( requestParams ) {
 			var initiatedBy,
-			    app = this,
-			    $spinner = $( '.community-events-form' ).children( '.spinner' );
+				app = this,
+				$spinner = $( '.community-events-form' ).children( '.spinner' );
 
 			requestParams          = requestParams || {};
 			requestParams._wpnonce = communityEventsData.nonce;
@@ -314,7 +330,6 @@ jQuery( function( $ ) {
 							 * it should fail silently. Otherwise, the error could confuse and/or
 							 * annoy them.
 							 */
-
 							delete response.error;
 						}
 					}
@@ -322,7 +337,7 @@ jQuery( function( $ ) {
 				})
 
 				.fail( function() {
-					app.renderEventsTemplate( {
+					app.renderEventsTemplate({
 						'location' : false,
 						'error'    : true
 					}, initiatedBy );
@@ -334,23 +349,24 @@ jQuery( function( $ ) {
 		 *
 		 * @since 4.8.0
 		 *
-		 * @param {Object} templateParams The various parameters that will get passed to wp.template
+		 * @param {Object} templateParams The various parameters that will get passed to wp.template.
 		 * @param {string} initiatedBy    'user' to indicate that this was triggered manually by the user;
 		 *                                'app' to indicate it was triggered automatically by the app itself.
 		 */
 		renderEventsTemplate: function( templateParams, initiatedBy ) {
 			var template,
-			    elementVisibility,
-			    l10nPlaceholder  = /%(?:\d\$)?s/g, // Match `%s`, `%1$s`, `%2$s`, etc.
-			    $locationMessage = $( '#community-events-location-message' ),
-			    $results         = $( '.community-events-results' );
+				elementVisibility,
+				l10nPlaceholder  = /%(?:\d\$)?s/g, // Match `%s`, `%1$s`, `%2$s`, etc.
+				$toggleButton    = $( '.community-events-toggle-location' ),
+				$locationMessage = $( '#community-events-location-message' ),
+				$results         = $( '.community-events-results' );
 
 			/*
 			 * Hide all toggleable elements by default, to keep the logic simple.
 			 * Otherwise, each block below would have to turn hide everything that
 			 * could have been shown at an earlier point.
 			 *
-			 * The exception to that is that the .community-events container. It's hidden
+			 * The exception to that is that the .community-events container is hidden
 			 * when the page is first loaded, because the content isn't ready yet,
 			 * but once we've reached this point, it should always be shown.
 			 */
@@ -380,7 +396,7 @@ jQuery( function( $ ) {
 					template = wp.template( 'community-events-no-upcoming-events' );
 					$results.html( template( templateParams ) );
 				}
-				wp.a11y.speak( communityEventsData.l10n.city_updated.replace( l10nPlaceholder, templateParams.location ) );
+				wp.a11y.speak( communityEventsData.l10n.city_updated.replace( l10nPlaceholder, templateParams.location.description ), 'assertive' );
 
 				elementVisibility['#community-events-location-message'] = true;
 				elementVisibility['.community-events-toggle-location']  = true;
@@ -405,7 +421,6 @@ jQuery( function( $ ) {
 
 				elementVisibility['.community-events-errors']         = true;
 				elementVisibility['.community-events-error-occurred'] = true;
-
 			} else {
 				$locationMessage.text( communityEventsData.l10n.enter_closest_city );
 
@@ -418,17 +433,20 @@ jQuery( function( $ ) {
 				$( element ).attr( 'aria-hidden', ! isVisible );
 			});
 
-			$( '.community-events-toggle-location' ).attr( 'aria-expanded', elementVisibility['.community-events-toggle-location'] );
+			$toggleButton.attr( 'aria-expanded', elementVisibility['.community-events-toggle-location'] );
 
-			/*
-			 * During the initial page load, the location form should be hidden
-			 * by default if the user has saved a valid location during a previous
-			 * session. It's safe to assume that they want to continue using that
-			 * location, and displaying the form would unnecessarily clutter the
-			 * widget.
-			 */
-			if ( 'app' === initiatedBy && templateParams.location ) {
+			if ( templateParams.location ) {
+				// Hide the form when there's a valid location.
 				app.toggleLocationForm( 'hide' );
+
+				if ( 'user' === initiatedBy ) {
+					/*
+					 * When the form is programmatically hidden after a user search,
+					 * bring the focus back to the toggle button so users relying
+					 * on screen readers don't lose their place.
+					 */
+					$toggleButton.focus();
+				}
 			} else {
 				app.toggleLocationForm( 'show' );
 			}
