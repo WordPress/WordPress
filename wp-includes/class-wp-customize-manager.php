@@ -2810,11 +2810,27 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 3.4.0
 	 * @since 4.5.0 Return added WP_Customize_Setting instance.
-	 * @access public
 	 *
 	 * @param WP_Customize_Setting|string $id   Customize Setting object, or ID.
-	 * @param array                       $args Setting arguments; passed to WP_Customize_Setting
-	 *                                          constructor.
+	 * @param array                       $args {
+	 *  Optional. Array of properties for the new WP_Customize_Setting. Default empty array.
+	 *
+	 *  @type string       $type                  Type of the setting. Default 'theme_mod'.
+	 *                                            Default 160.
+	 *  @type string       $capability            Capability required for the setting. Default 'edit_theme_options'
+	 *  @type string|array $theme_supports        Theme features required to support the panel. Default is none.
+	 *  @type string       $default               Default value for the setting. Default is empty string.
+	 *  @type string       $transport             Options for rendering the live preview of changes in Theme Customizer.
+	 *                                            Using 'refresh' makes the change visible by reloading the whole preview.
+	 *                                            Using 'postMessage' allows a custom JavaScript to handle live changes.
+	 *                                            @link https://developer.wordpress.org/themes/customize-api
+	 *                                            Default is 'refresh'
+	 *  @type callable     $validate_callback     Server-side validation callback for the setting's value.
+	 *  @type callable     $sanitize_callback     Callback to filter a Customize setting value in un-slashed form.
+	 *  @type callable     $sanitize_js_callback  Callback to convert a Customize PHP setting value to a value that is
+	 *                                            JSON serializable.
+	 *  @type bool         $dirty                 Whether or not the setting is initially dirty when created.
+	 * }
 	 * @return WP_Customize_Setting             The instance of the setting that was added.
 	 */
 	public function add_setting( $id, $args = array() ) {
@@ -2928,11 +2944,19 @@ final class WP_Customize_Manager {
 	 *
 	 * @since 4.0.0
 	 * @since 4.5.0 Return added WP_Customize_Panel instance.
-	 * @access public
 	 *
 	 * @param WP_Customize_Panel|string $id   Customize Panel object, or Panel ID.
-	 * @param array                     $args Optional. Panel arguments. Default empty array.
-	 *
+	 * @param array                     $args {
+	 *  Optional. Array of properties for the new Panel object. Default empty array.
+	 *  @type int          $priority              Priority of the panel, defining the display order of panels and sections.
+	 *                                            Default 160.
+	 *  @type string       $capability            Capability required for the panel. Default `edit_theme_options`
+	 *  @type string|array $theme_supports        Theme features required to support the panel.
+	 *  @type string       $title                 Title of the panel to show in UI.
+	 *  @type string       $description           Description to show in the UI.
+	 *  @type string       $type                  Type of the panel.
+	 *  @type callable     $active_callback       Active callback.
+	 * }
 	 * @return WP_Customize_Panel             The instance of the panel that was added.
 	 */
 	public function add_panel( $id, $args = array() ) {
@@ -3020,8 +3044,19 @@ final class WP_Customize_Manager {
 	 * @access public
 	 *
 	 * @param WP_Customize_Section|string $id   Customize Section object, or Section ID.
-	 * @param array                       $args Section arguments.
-	 *
+	 * @param array                     $args {
+	 *  Optional. Array of properties for the new Panel object. Default empty array.
+	 *  @type int          $priority              Priority of the panel, defining the display order of panels and sections.
+	 *                                            Default 160.
+	 *  @type string       $panel                 Priority of the panel, defining the display order of panels and sections.
+	 *  @type string       $capability            Capability required for the panel. Default 'edit_theme_options'
+	 *  @type string|array $theme_supports        Theme features required to support the panel.
+	 *  @type string       $title                 Title of the panel to show in UI.
+	 *  @type string       $description           Description to show in the UI.
+	 *  @type string       $type                  Type of the panel.
+	 *  @type callable     $active_callback       Active callback.
+	 *  @type bool         $description_hidden    Hide the description behind a help icon, instead of . Default false.
+	 * }
 	 * @return WP_Customize_Section             The instance of the section that was added.
 	 */
 	public function add_section( $id, $args = array() ) {
@@ -3096,8 +3131,26 @@ final class WP_Customize_Manager {
 	 * @access public
 	 *
 	 * @param WP_Customize_Control|string $id   Customize Control object, or ID.
-	 * @param array                       $args Control arguments; passed to WP_Customize_Control
-	 *                                          constructor.
+	 * @param array                       $args {
+	 *  Optional. Array of properties for the new Control object. Default empty array.
+	 *
+	 *  @type array        $settings              All settings tied to the control. If undefined, defaults to `$setting`.
+	 *                                            IDs in the array correspond to the ID of a registered `WP_Customize_Setting`.
+	 *  @type string       $setting               The primary setting for the control (if there is one). Default is 'default'.
+	 *  @type string       $capability            Capability required to use this control. Normally derived from `$settings`.
+	 *  @type int          $priority              Order priority to load the control. Default 10.
+	 *  @type string       $section               The section this control belongs to. Default empty.
+	 *  @type string       $label                 Label for the control. Default empty.
+	 *  @type string       $description           Description for the control. Default empty.
+	 *  @type array        $choices               List of choices for 'radio' or 'select' type controls, where values
+	 *                                            are the keys, and labels are the values. Default empty array.
+	 *  @type array        $input_attrs           List of custom input attributes for control output, where attribute
+	 *                                            names are the keys and values are the values. Default empty array.
+	 *  @type bool         $allow_addition        Show UI for adding new content, currently only used for the
+	 *                                            dropdown-pages control. Default false.
+	 *  @type string       $type                  The type of the control. Default 'text'.
+	 *  @type callback     $active_callback       Active callback.
+	 * }
 	 * @return WP_Customize_Control             The instance of the control that was added.
 	 */
 	public function add_control( $id, $args = array() ) {
@@ -3496,6 +3549,7 @@ final class WP_Customize_Manager {
 	 * Get nonces for the Customizer.
 	 *
 	 * @since 4.5.0
+	 *
 	 * @return array Nonces.
 	 */
 	public function get_nonces() {
@@ -3636,7 +3690,6 @@ final class WP_Customize_Manager {
 	/**
 	 * Returns a list of devices to allow previewing.
 	 *
-	 * @access public
 	 * @since 4.5.0
 	 *
 	 * @return array List of devices with labels and default setting.
@@ -4188,7 +4241,6 @@ final class WP_Customize_Manager {
 	 *
 	 * Used as active callback for static front page section and controls.
 	 *
-	 * @access private
 	 * @since 4.7.0
 	 *
 	 * @returns bool Whether there are published (or to be published) pages.
@@ -4245,7 +4297,6 @@ final class WP_Customize_Manager {
 	 * Callback for validating a background setting value.
 	 *
 	 * @since 4.7.0
-	 * @access private
 	 *
 	 * @param string $value Repeat value.
 	 * @param WP_Customize_Setting $setting Setting.
@@ -4379,7 +4430,6 @@ final class WP_Customize_Manager {
 	 * @see WP_Customize_Manager::register_controls()
 	 *
 	 * @since 4.5.0
-	 * @access private
 	 *
 	 * @return string Custom logo.
 	 */
