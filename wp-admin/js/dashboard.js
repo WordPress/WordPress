@@ -234,10 +234,20 @@ jQuery( function( $ ) {
 			$container.on( 'click', '.community-events-toggle-location, .community-events-cancel', app.toggleLocationForm );
 
 			$container.on( 'submit', '.community-events-form', function( event ) {
+				var location = $.trim( $( '#community-events-location' ).val() );
+
 				event.preventDefault();
 
+				/*
+				 * Don't trigger a search if the search field is empty or the
+				 * search term was made of only spaces before being trimmed.
+				 */
+				if ( ! location ) {
+					return;
+				}
+
 				app.getEvents({
-					location: $( '#community-events-location' ).val()
+					location: location
 				});
 			});
 
