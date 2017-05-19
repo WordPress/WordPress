@@ -1062,7 +1062,8 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 			}
 		}
 		update_option( 'dashboard_widget_options', $widget_options );
-		$cache_key = 'dash_' . md5( $widget_id );
+		$locale = get_user_locale();
+		$cache_key = 'dash_' . md5( $widget_id . '_' . $locale );
 		delete_transient( $cache_key );
 	}
 
