@@ -34,7 +34,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 	<div class="wrap about-wrap">
 		<h1><?php printf( __( 'Welcome to WordPress&nbsp;%s' ), $display_version ); ?></h1>
 
-		<p class="about-text"><?php printf( __( 'Thank you for updating to the latest version! WordPress %s helps you get your site set up the way you want it.' ), $display_version ); ?></p>
+		<p class="about-text"><?php printf( __( 'Thank you for updating to the latest version! WordPress %s is a user-focused release with updates that will give you peace of mind.' ), $display_version ); ?></p>
 		<div class="wp-badge"><?php printf( __( 'Version %s' ), $display_version ); ?></div>
 
 		<h2 class="nav-tab-wrapper wp-clearfix">
@@ -51,27 +51,22 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<hr />
 
 		<div class="feature-section one-col">
-			<h2><?php _e( 'Presenting Twenty Seventeen' ); ?></h2>
-			<p class="lead-description"><?php _e( 'A brand new default theme brings your site to life with immersive featured images and video headers.' ); ?></p>
-			<picture>
-				<source media="(min-width: 450px)" srcset="https://s.w.org/images/core/4.7/twenty-seventeen-1600.jpg?v2 1600w, https://s.w.org/images/core/4.7/twenty-seventeen-493.jpg?v2 493w, https://s.w.org/images/core/4.7/twenty-seventeen-663.jpg?v2 663w, https://s.w.org/images/core/4.7/twenty-seventeen-804.jpg?v2 804w, https://s.w.org/images/core/4.7/twenty-seventeen-928.jpg?v2 928w, https://s.w.org/images/core/4.7/twenty-seventeen-1058.jpg?v2 1058w, https://s.w.org/images/core/4.7/twenty-seventeen-1173.jpg?v2 1173w, https://s.w.org/images/core/4.7/twenty-seventeen-1299.jpg?v2 1299w, https://s.w.org/images/core/4.7/twenty-seventeen-1410.jpg?v2 1410w, https://s.w.org/images/core/4.7/twenty-seventeen-1513.jpg?v2 1513w, https://s.w.org/images/core/4.7/twenty-seventeen-1595.jpg?v2 1595w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px">
-				<source srcset="https://s.w.org/images/core/4.7/twenty-seventeen-mobile-564.jpg?v2 564w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-280.jpg?v2 280w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-372.jpg?v2 372w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-454.jpg?v2 454w, https://s.w.org/images/core/4.7/twenty-seventeen-mobile-541.jpg?v2 541w" sizes="calc(100vw - 40px)">
-				<img src="https://s.w.org/images/core/4.7/twenty-seventeen-1600.jpg?v2" srcset="https://s.w.org/images/core/4.7/twenty-seventeen-1600.jpg?v2 1600w, https://s.w.org/images/core/4.7/twenty-seventeen-280.jpg?v2 280w, https://s.w.org/images/core/4.7/twenty-seventeen-493.jpg?v2 493w, https://s.w.org/images/core/4.7/twenty-seventeen-663.jpg?v2 663w, https://s.w.org/images/core/4.7/twenty-seventeen-804.jpg?v2 804w, https://s.w.org/images/core/4.7/twenty-seventeen-928.jpg?v2 928w, https://s.w.org/images/core/4.7/twenty-seventeen-1058.jpg?v2 1058w, https://s.w.org/images/core/4.7/twenty-seventeen-1173.jpg?v2 1173w, https://s.w.org/images/core/4.7/twenty-seventeen-1299.jpg?v2 1299w, https://s.w.org/images/core/4.7/twenty-seventeen-1410.jpg?v2 1410w, https://s.w.org/images/core/4.7/twenty-seventeen-1513.jpg?v2 1513w, https://s.w.org/images/core/4.7/twenty-seventeen-1595.jpg?v2 1595w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px" alt="" />
-			</picture>
-			<p><?php _e( 'Twenty Seventeen focuses on business sites and features a customizable front page with multiple sections. Personalize it with widgets, navigation, social menus, a logo, custom colors, and more. Our default theme for 2017 works great in many languages, on any device, and for a wide range of users.' ); ?></p>
+			<h2><?php _e( 'An Update with End Users in Mind!' ); ?></h2>
+			<p class="lead-description"><?php _e( 'WordPress 4.8 adds new some great new features: gear up for a more intuitive WordPress! Though some updates are tiny (TinyMCE, that is &mdash; see what we did there?) they’ve been developed with you in mind by hundreds of Core Contributors and Committers.' ); ?></p>
+			<p><?php _e( 'Get ready for new features you’ll welcome like an old friend: link improvements, three new media widgets, an updated text widget, and an upgraded news section in your dashboard. Navigate with purpose, intuitively in and out of text links. Embrace several new media widgets covering images, audio, and video, and an enhancement to the text widget which supports visual editing.' ); ?></p>
+			<blockquote>
+				<p><?php _e( '“The last time a new widget was introduced, Vuvuzelas were a thing, Angry Birds started taking over phones, and WordPress stopped shipping with Kubrick. Seven years and 17 releases without new widgets were enough. Time to spice up your sidebar!”' ); ?></p>
+				<p><cite><?php _e( 'The WordPress Team' ); ?></cite></p>
+			</blockquote>
+			<p><?php _e( 'A revamp of the dashboard news widget brings in nearby and upcoming events including Meetups and WordCamps. Never miss a WordPress Meetup or Camp near you again! ' ); ?></p>
 		</div>
 
 		<hr />
 
-		<div class="feature-section one-col">
-			<h2><?php _e( 'Your Site, Your Way' ); ?></h2>
-			<p class="lead-description"><?php _e( 'WordPress 4.7 adds new features to the customizer to help take you through the initial setup of a theme, with non-destructive live previews of all your changes in one uninterrupted workflow.' ); ?></p>
-		</div>
-
 		<div class="feature-section two-col">
 			<div class="col">
-				<h3><?php _e( 'Theme Starter Content' ); ?></h3>
-				<p><?php _e( 'To help give you a solid base to build from, individual themes can provide starter content that appears when you go to customize your brand new site. This can range from placing a business information widget in the best location to providing a sample menu with social icon links to a static front page complete with beautiful images. Don&#8217;t worry - nothing new will appear on the live site until you&#8217;re ready to save and publish your initial theme setup.' ); ?></p>
+				<h3><?php _e( 'Link Boundaries' ); ?></h3>
+				<p><?php _e( 'Have you ever tried updating a link or the text around a link, but you can&#8217;t seem to edit it correctly? You try to add a word after the link, and your new text also ends up linked. You try to add more words to a link but they end up outside the link. Frustrating! It was an annoying, confusing experience. This new feature streamlines that process. You’ll be happier. We promise.' ); ?></p>
 			</div>
 			<div class="col">
 				<?php
@@ -88,7 +83,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="feature-section two-col">
 			<div class="col">
-				<h3><?php _e( 'Edit Shortcuts' ); ?></h3>
+				<h3><?php _e( 'Image Widget' ); ?></h3>
 				<?php
 				echo wp_video_shortcode( array(
 					'mp4'      => 'https://s.w.org/images/core/4.7/edit-shortcuts-v1.mp4',
@@ -98,10 +93,10 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					// 'class'    => 'wp-video-shortcode feature-video',
 				) );
 				?>
-				<p><?php _e( 'Visible icons appear to show you which parts of your site can be customized while live previewing. Click on a shortcut and get straight to editing. Paired with starter content, getting started with customizing your site is faster than ever.' );?></p>
+				<p><?php _e( 'Adding an image to a widget used to be a multistep process requiring visits to multiple screens. Now, adding an image is achievable for any WordPress user without hiring a developer. (Don’t tell them we told you that.) Simply insert your image right within the widget settings &mdash; try adding a headshot and brief bio &mdash; and see it appear&hellip; automatically.' );?></p>
 			</div>
 			<div class="col">
-				<h3><?php _e( 'Video Headers' ); ?></h3>
+				<h3><?php _e( 'Video Widget' ); ?></h3>
 				<?php
 				echo wp_video_shortcode( array(
 					'mp4'      => 'https://s.w.org/images/core/4.7/header-video-v1.mp4',
@@ -111,51 +106,35 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					// 'class'    => 'wp-video-shortcode feature-video',
 				) );
 				?>
-				<p><?php _e( 'Sometimes a big atmospheric video as a moving header image is just what you need to showcase your wares; go ahead and try it out with Twenty Seventeen. Need some video inspiration? Try searching for sites with video headers available for download and use.' ); ?></p>
+				<p><?php _e( 'A welcome video in a sidebar widget is a great way to humanize the branding of your website. People follow blogs from people they know and like and buy from brands they trust. Add a video to your media library and include it in your sidebar lickety-split; and you, too, can be liked and trusted instantly.' ); ?></p>
 			</div>
 		</div>
 
 		<div class="feature-section two-col">
 			<div class="col">
-				<h3><?php _e( 'Smoother Menu Building' ); ?></h3>
+				<h3><?php _e( 'Audio Widget' ); ?></h3>
 				<img src="https://s.w.org/images/core/4.7/nav-menus-760.jpg?v2" srcset="https://s.w.org/images/core/4.7/nav-menus-760.jpg?v2 760w, https://s.w.org/images/core/4.7/nav-menus-280.jpg?v2 280w, https://s.w.org/images/core/4.7/nav-menus-536.jpg?v2 536w, https://s.w.org/images/core/4.7/nav-menus-745.jpg?v2 745w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
-				<p><?php _e( 'Many menus for sites contain links to the pages of your site, but what happens when you don&#8217;t have any pages yet? Now you can add new pages while building menus instead of leaving the customizer and abandoning your changes. Once you&#8217;ve published your customizations, you&#8217;ll have new pages ready for you to fill with content.' );?></p>
+				<p><?php _e( 'Are you a podcaster or musician? Adding a widget with your audio file has never been easier. Upload your audio file to the media library, go to the widget settings, select your file, and you’re done. This would be a great way to add a more intimate welcome message, too!' );?></p>
 			</div>
 			<div class="col">
-				<h3><?php _e( 'Custom CSS' ); ?></h3>
+				<h3><?php _e( 'Rich Text Widget' ); ?></h3>
 				<img src="https://s.w.org/images/core/4.7/css-760.jpg?v2" srcset="https://s.w.org/images/core/4.7/css-760.jpg?v2 760w, https://s.w.org/images/core/4.7/css-280.jpg?v2 280w, https://s.w.org/images/core/4.7/css-547.jpg?v2 547w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
-				<p><?php _e( 'Sometimes you just need a few visual tweaks to make your site perfect. WordPress 4.7 allows you to add custom CSS and instantly see how your changes affect your site. The live preview allows you to work quickly without page refreshes slowing you down.' ); ?></p>
+				<p><?php _e( 'This feature deserves a ticker-tape parade down Main Street &mdash; no more Googling to remember how to bold text! This user-friendly feature adds rich-text editing capabilities to text widgets, just like the Visual Editor that we’re all familiar with. Add a widget anywhere, and format away. Create lists, add emphasis with bold or italics, and easily insert links, no HTML necessary. Have fun with your new-found formatting powers &mdash; try to use them for good!' ); ?></p>
 			</div>
 		</div>
 
-		<hr />
-
-		<div class="feature-section no-heading two-col">
+		<div class="feature-section one-col">
 			<div class="col">
-				<h3><?php _e( 'PDF Thumbnail Previews' ); ?></h3>
-				<img src="https://s.w.org/images/core/4.7/pdf-760.jpg?v2" srcset="https://s.w.org/images/core/4.7/pdf-760.jpg?v2 760w, https://s.w.org/images/core/4.7/pdf-280.jpg?v2 280w, https://s.w.org/images/core/4.7/pdf-412.jpg?v2 412w, https://s.w.org/images/core/4.7/pdf-516.jpg?v2 516w, https://s.w.org/images/core/4.7/pdf-615.jpg?v2 615w, https://s.w.org/images/core/4.7/pdf-716.jpg?v2 716w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
-				<p><?php _e( 'Managing your document collection is easier with WordPress 4.7. Uploading PDFs will generate thumbnail images so you can more easily distinguish between all your documents.' ); ?></p>
+				<h3><?php _e( 'Nearby WordPress Events' ); ?></h3>
+				<p><?php _e( 'This is one of our favorite features. While you are in your dashboard (because you’re running updates and writing posts, right?) you can see all upcoming WordCamps and WordPress Meetups &mdash; localized to you.' ); ?></p>
+				<p><?php
+					printf(
+						__( 'Not everyone has the time to go to <a href="%1$s">Meetup.com/pro/wordpress</a> or <a href="%2$s">central.wordcamp.org/schedule</a> to find the next WordCamp. Many randomly discover WordPress events on Twitter. WordPress now brings you the events you need to continue improving your WordPress skills, meet friends, and, of course, publish!' ),
+						'https://meetup.com/pro/wordpress',
+						'https://central.wordcamp.org/schedule'
+					);
+				?></p>
 			</div>
-			<div class="col">
-				<h3><?php _e( 'Dashboard in your language' ); ?></h3>
-				<img src="https://s.w.org/images/core/4.7/language-760.jpg?v2" srcset="https://s.w.org/images/core/4.7/language-760.jpg?v2 760w, https://s.w.org/images/core/4.7/language-280.jpg?v2 280w, https://s.w.org/images/core/4.7/language-568.jpg?v2 568w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
-				<p><?php _e( 'Just because your site is in one language doesn&#8217;t mean that everybody helping manage it prefers that language for their admin. Add more languages to your site and a user language option will show up in your user&#8217;s profiles.' );?></p>
-			</div>
-		</div>
-
-		<hr />
-
-		<div class="rest-api feature-section one-col">
-			<h2><?php _e( 'Introducing REST API Content Endpoints' ); ?></h2>
-			<p class="lead-description"><?php _e( 'WordPress 4.7 comes with REST API endpoints for posts, comments, terms, users, meta, and settings.' ); ?></p>
-			<img src="https://s.w.org/images/core/4.7/api-1559.jpg?v2" srcset="https://s.w.org/images/core/4.7/api-2100.jpg?v2 2100w, https://s.w.org/images/core/4.7/api-280.jpg?v2 280w, https://s.w.org/images/core/4.7/api-1034.jpg?v2 1034w, https://s.w.org/images/core/4.7/api-1559.jpg?v2 1559w, https://s.w.org/images/core/4.7/api-2032.jpg?v2 2032w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 782px) calc(100vw - 70px), (max-width: 959px) calc(100vw - 116px), (max-width: 1290px) calc(100vw - 240px), 1050px" alt="" />
-			<p><?php
-				printf(
-					/* translators: %s: https://developer.wordpress.org/rest-api/  */
-					__( 'Content endpoints provide machine-readable external access to your WordPress site with a clear, standards-driven interface, paving the way for new and innovative methods of interacting with sites through plugins, themes, apps, and beyond. Ready to get started with development? <a href="%s">Check out the REST API reference.</a>' ),
-					'https://developer.wordpress.org/rest-api/reference/'
-				);
-			?></p>
 		</div>
 
 		<hr />
