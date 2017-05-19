@@ -52,10 +52,10 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 
 		<div class="feature-section one-col">
 			<h2><?php _e( 'An Update with End Users in Mind!' ); ?></h2>
-			<p class="lead-description"><?php _e( 'WordPress 4.8 adds new some great new features: gear up for a more intuitive WordPress! Though some updates are tiny (TinyMCE, that is &mdash; see what we did there?) they’ve been developed with you in mind by hundreds of Core Contributors and Committers.' ); ?></p>
-			<p><?php _e( 'Get ready for new features you’ll welcome like an old friend: link improvements, three new media widgets, an updated text widget, and an upgraded news section in your dashboard. Navigate with purpose, intuitively in and out of text links. Embrace several new media widgets covering images, audio, and video, and an enhancement to the text widget which supports visual editing.' ); ?></p>
+			<p class="lead-description"><?php _e( 'WordPress 4.8 adds new some great new features: gear up for a more intuitive WordPress! Though some updates are tiny (TinyMCE, that is &mdash; see what we did there?) they&#8217;ve been developed with you in mind by hundreds of Core Contributors and Committers.' ); ?></p>
+			<p><?php _e( 'Get ready for new features you&#8217;ll welcome like an old friend: link improvements, three new media widgets, an updated text widget, and an upgraded news section in your dashboard. Navigate with purpose, intuitively in and out of text links. Embrace several new media widgets covering images, audio, and video, and an enhancement to the text widget which supports visual editing.' ); ?></p>
 			<blockquote>
-				<p><?php _e( '“The last time a new widget was introduced, Vuvuzelas were a thing, Angry Birds started taking over phones, and WordPress stopped shipping with Kubrick. Seven years and 17 releases without new widgets were enough. Time to spice up your sidebar!”' ); ?></p>
+				<p><?php _e( '&#8220;The last time a new widget was introduced, Vuvuzelas were a thing, Angry Birds started taking over phones, and WordPress stopped shipping with Kubrick. Seven years and 17 releases without new widgets were enough. Time to spice up your sidebar!&#8221;' ); ?></p>
 				<p><cite><?php _e( 'The WordPress Team' ); ?></cite></p>
 			</blockquote>
 			<p><?php _e( 'A revamp of the dashboard news widget brings in nearby and upcoming events including Meetups and WordCamps. Never miss a WordPress Meetup or Camp near you again! ' ); ?></p>
@@ -66,7 +66,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<div class="col">
 				<h3><?php _e( 'Link Boundaries' ); ?></h3>
-				<p><?php _e( 'Have you ever tried updating a link or the text around a link, but you can&#8217;t seem to edit it correctly? You try to add a word after the link, and your new text also ends up linked. You try to add more words to a link but they end up outside the link. Frustrating! It was an annoying, confusing experience. This new feature streamlines that process. You’ll be happier. We promise.' ); ?></p>
+				<p><?php _e( 'Have you ever tried updating a link or the text around a link, but you can&#8217;t seem to edit it correctly? You try to add a word after the link, and your new text also ends up linked. You try to add more words to a link but they end up outside the link. Frustrating! It was an annoying, confusing experience. This new feature streamlines that process. You&#8217;ll be happier. We promise.' ); ?></p>
 			</div>
 			<div class="col">
 				<?php
@@ -93,7 +93,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					// 'class'    => 'wp-video-shortcode feature-video',
 				) );
 				?>
-				<p><?php _e( 'Adding an image to a widget used to be a multistep process requiring visits to multiple screens. Now, adding an image is achievable for any WordPress user without hiring a developer. (Don’t tell them we told you that.) Simply insert your image right within the widget settings &mdash; try adding a headshot and brief bio &mdash; and see it appear&hellip; automatically.' );?></p>
+				<p><?php _e( 'Adding an image to a widget used to be a multistep process requiring visits to multiple screens. Now, adding an image is achievable for any WordPress user without hiring a developer. (Don&#8217;t tell them we told you that.) Simply insert your image right within the widget settings &mdash; try adding a headshot and brief bio &mdash; and see it appear&hellip; automatically.' );?></p>
 			</div>
 			<div class="col">
 				<h3><?php _e( 'Video Widget' ); ?></h3>
@@ -114,24 +114,25 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="col">
 				<h3><?php _e( 'Audio Widget' ); ?></h3>
 				<img src="https://s.w.org/images/core/4.7/nav-menus-760.jpg?v2" srcset="https://s.w.org/images/core/4.7/nav-menus-760.jpg?v2 760w, https://s.w.org/images/core/4.7/nav-menus-280.jpg?v2 280w, https://s.w.org/images/core/4.7/nav-menus-536.jpg?v2 536w, https://s.w.org/images/core/4.7/nav-menus-745.jpg?v2 745w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
-				<p><?php _e( 'Are you a podcaster or musician? Adding a widget with your audio file has never been easier. Upload your audio file to the media library, go to the widget settings, select your file, and you’re done. This would be a great way to add a more intimate welcome message, too!' );?></p>
+				<p><?php _e( 'Are you a podcaster or musician? Adding a widget with your audio file has never been easier. Upload your audio file to the media library, go to the widget settings, select your file, and you&#8217;re done. This would be a great way to add a more intimate welcome message, too!' );?></p>
 			</div>
 			<div class="col">
 				<h3><?php _e( 'Rich Text Widget' ); ?></h3>
 				<img src="https://s.w.org/images/core/4.7/css-760.jpg?v2" srcset="https://s.w.org/images/core/4.7/css-760.jpg?v2 760w, https://s.w.org/images/core/4.7/css-280.jpg?v2 280w, https://s.w.org/images/core/4.7/css-547.jpg?v2 547w" sizes="(max-width: 500px) calc(100vw - 40px), (max-width: 781px) calc((100vw - 70px) * .466), (max-width: 959px) calc((100vw - 116px) * .469), (max-width: 1290px) calc((100vw - 240px) * .472), 496px" alt="" />
-				<p><?php _e( 'This feature deserves a ticker-tape parade down Main Street &mdash; no more Googling to remember how to bold text! This user-friendly feature adds rich-text editing capabilities to text widgets, just like the Visual Editor that we’re all familiar with. Add a widget anywhere, and format away. Create lists, add emphasis with bold or italics, and easily insert links, no HTML necessary. Have fun with your new-found formatting powers &mdash; try to use them for good!' ); ?></p>
+				<p><?php _e( 'This feature deserves a ticker-tape parade down Main Street &mdash; no more Googling to remember how to bold text! This user-friendly feature adds rich-text editing capabilities to text widgets, just like the Visual Editor that we&#8217;re all familiar with. Add a widget anywhere, and format away. Create lists, add emphasis with bold or italics, and easily insert links, no HTML necessary. Have fun with your new-found formatting powers &mdash; try to use them for good!' ); ?></p>
 			</div>
 		</div>
 
 		<div class="feature-section one-col">
 			<div class="col">
 				<h3><?php _e( 'Nearby WordPress Events' ); ?></h3>
-				<p><?php _e( 'This is one of our favorite features. While you are in your dashboard (because you’re running updates and writing posts, right?) you can see all upcoming WordCamps and WordPress Meetups &mdash; localized to you.' ); ?></p>
+				<p><?php _e( 'This is one of our favorite features. While you are in your dashboard (because you&#8217;re running updates and writing posts, right?) you can see all upcoming WordCamps and WordPress Meetups &mdash; localized to you.' ); ?></p>
 				<p><?php
 					printf(
-						__( 'Not everyone has the time to go to <a href="%1$s">Meetup.com/pro/wordpress</a> or <a href="%2$s">central.wordcamp.org/schedule</a> to find the next WordCamp. Many randomly discover WordPress events on Twitter. WordPress now brings you the events you need to continue improving your WordPress skills, meet friends, and, of course, publish!' ),
-						'https://meetup.com/pro/wordpress',
-						'https://central.wordcamp.org/schedule'
+						/* translators: 1: Link to meetup.com, 2: Link to central.wordcamp.org */
+						__( 'Not everyone has the time to go to %1$s or "%2$s to find the next WordCamp. Many randomly discover WordPress events on Twitter. WordPress now brings you the events you need to continue improving your WordPress skills, meet friends, and, of course, publish!' ),
+						'<a href="https://meetup.com/pro/wordpress">meetup.com/pro/wordpress</a>',
+						'<a href="https://central.wordcamp.org/schedule">central.wordcamp.org/schedule</a>'
 					);
 				?></p>
 			</div>
