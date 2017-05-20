@@ -152,7 +152,7 @@
 		 * @returns {void}
 		 */
 		renderPreview: function renderPreview() {
-			var control = this, previewContainer, previewTemplate, attachmentId, attachmentUrl, poster, isHostedEmbed = false, parsedUrl, mime, error;
+			var control = this, previewContainer, previewTemplate, attachmentId, attachmentUrl, poster, isHostedEmbed = false, mime, error;
 			attachmentId = control.model.get( 'attachment_id' );
 			attachmentUrl = control.model.get( 'url' );
 			error = control.model.get( 'error' );
