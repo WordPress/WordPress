@@ -3098,7 +3098,11 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	);
 
 	$author = new WP_User( $attachment->post_author );
-	$response['authorName'] = $author->display_name;
+	if ( $author->exists() ) {
+		$response['authorName'] = html_entity_decode( $author->display_name, ENT_QUOTES, get_bloginfo( 'charset' ) );
+	} else {
+		$response['authorName'] = __( '(no author)' );
+	}
 
 	if ( $attachment->post_parent ) {
 		$post_parent = get_post( $attachment->post_parent );
