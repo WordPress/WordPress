@@ -354,7 +354,11 @@ class WP_REST_Request implements ArrayAccess {
 	 */
 	protected function get_parameter_order() {
 		$order = array();
-		$order[] = 'JSON';
+
+		$content_type = $this->get_content_type();
+		if ( $content_type['value'] === 'application/json' ) {
+			$order[] = 'JSON';
+		}
 
 		$this->parse_json_params();
 
@@ -424,15 +428,8 @@ class WP_REST_Request implements ArrayAccess {
 	 * @param mixed  $value Parameter value.
 	 */
 	public function set_param( $key, $value ) {
-		switch ( $this->method ) {
-			case 'POST':
-				$this->params['POST'][ $key ] = $value;
-				break;
-
-			default:
-				$this->params['GET'][ $key ] = $value;
-				break;
-		}
+		$order = $this->get_parameter_order();
+		$this->params[ $order[0] ][ $key ] = $value;
 	}
 
 	/**
