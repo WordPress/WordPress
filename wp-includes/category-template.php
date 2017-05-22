@@ -659,10 +659,10 @@ function wp_list_categories( $args = '' ) {
  * be to return the top 45 tags in the tag cloud list.
  *
  * The 'topic_count_text' argument is a nooped plural from _n_noop() to generate the
- * text for the tooltip of the tag link.
+ * text for the tag link count.
  *
  * The 'topic_count_text_callback' argument is a function, which given the count
- * of the posts with that tag returns a text for the tooltip of the tag link.
+ * of the posts with that tag returns a text for the tag link count.
  *
  * The 'post_type' argument is used only when 'link' is set to 'edit'. It determines the post_type
  * passed to edit.php for the popular tags edit links.
@@ -671,6 +671,7 @@ function wp_list_categories( $args = '' ) {
  * should be used, because only one will be used and the other ignored, if they are both set.
  *
  * @since 2.3.0
+ * @since 4.8.0 Added the `show_count` argument.
  *
  * @param array|string|null $args Optional. Override default arguments.
  * @return void|array Generated tag cloud, only if no failures and 'array' is set for the 'format' argument.
@@ -680,7 +681,8 @@ function wp_tag_cloud( $args = '' ) {
 	$defaults = array(
 		'smallest' => 8, 'largest' => 22, 'unit' => 'pt', 'number' => 45,
 		'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
-		'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag', 'post_type' => '', 'echo' => true
+		'exclude' => '', 'include' => '', 'link' => 'view', 'taxonomy' => 'post_tag', 'post_type' => '', 'echo' => true,
+		'show_count' => 0,
 	);
 	$args = wp_parse_args( $args, $defaults );
 
@@ -736,6 +738,7 @@ function default_topic_count_scale( $count ) {
  *
  * @todo Complete functionality.
  * @since 2.3.0
+ * @since 4.8.0 Added the `show_count` argument.
  *
  * @param array $tags List of tags.
  * @param string|array $args {
@@ -766,11 +769,13 @@ function default_topic_count_scale( $count ) {
  *     @type int|bool $filter                     Whether to enable filtering of the final output
  *                                                via {@see 'wp_generate_tag_cloud'}. Default 1|true.
  *     @type string   $topic_count_text           Nooped plural text from _n_noop() to supply to
- *                                                tag tooltips. Default null.
+ *                                                tag counts. Default null.
  *     @type callable $topic_count_text_callback  Callback used to generate nooped plural text for
- *                                                tag tooltips based on the count. Default null.
+ *                                                tag counts based on the count. Default null.
  *     @type callable $topic_count_scale_callback Callback used to determine the tag count scaling
  *                                                value. Default default_topic_count_scale().
+ *     @type bool|int $show_count                 Whether to display the tag counts. Default 0. Accepts
+ *                                                0, 1, or their bool equivalents.
  * }
  * @return string|array Tag cloud as a string or an array, depending on 'format' argument.
  */
@@ -780,6 +785,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		'format' => 'flat', 'separator' => "\n", 'orderby' => 'name', 'order' => 'ASC',
 		'topic_count_text' => null, 'topic_count_text_callback' => null,
 		'topic_count_scale_callback' => 'default_topic_count_scale', 'filter' => 1,
+		'show_count' => 0,
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -790,14 +796,14 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		return $return;
 	}
 
-	// Juggle topic count tooltips:
+	// Juggle topic counts.
 	if ( isset( $args['topic_count_text'] ) ) {
 		// First look for nooped plural support via topic_count_text.
 		$translate_nooped_plural = $args['topic_count_text'];
 	} elseif ( ! empty( $args['topic_count_text_callback'] ) ) {
 		// Look for the alternative callback style. Ignore the previous default.
 		if ( $args['topic_count_text_callback'] === 'default_topic_count_text' ) {
-			$translate_nooped_plural = _n_noop( '%s topic', '%s topics' );
+			$translate_nooped_plural = _n_noop( '%s item', '%s items' );
 		} else {
 			$translate_nooped_plural = false;
 		}
@@ -806,7 +812,7 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$translate_nooped_plural = _n_noop( $args['single_text'], $args['multiple_text'] );
 	} else {
 		// This is the default for when no callback, plural, or argument is passed in.
-		$translate_nooped_plural = _n_noop( '%s topic', '%s topics' );
+		$translate_nooped_plural = _n_noop( '%s item', '%s items' );
 	}
 
 	/**
@@ -861,6 +867,22 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$font_spread = 1;
 	$font_step = $font_spread / $spread;
 
+	$aria_label = false;
+	/*
+	 * Determine whether to output an 'aria-label' attribute with the tag name and count.
+	 * When tags have a different font size, they visually convey an important information
+	 * that should be available to assistive technologies too. On the other hand, sometimes
+	 * themes set up the Tag Cloud to display all tags with the same font size (setting
+	 * the 'smallest' and 'largest' arguments to the same value).
+	 * In order to always serve the same content to all users, the 'aria-label' gets printed out:
+	 * - when tags have a different size
+	 * - when the tag count is displayed (for example when users check the checkbox in the
+	 *   Tag Cloud widget), regardless of the tags font size
+	 */
+	if ( $args['show_count'] || 0 !== $font_spread ) {
+		$aria_label = true;
+	}
+
 	// Assemble the data that will be used to generate the tag cloud markup.
 	$tags_data = array();
 	foreach ( $tags as $key => $tag ) {
@@ -870,21 +892,23 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 		$real_count = $real_counts[ $key ];
 
 		if ( $translate_nooped_plural ) {
-			$title = sprintf( translate_nooped_plural( $translate_nooped_plural, $real_count ), number_format_i18n( $real_count ) );
+			$formatted_count = sprintf( translate_nooped_plural( $translate_nooped_plural, $real_count ), number_format_i18n( $real_count ) );
 		} else {
-			$title = call_user_func( $args['topic_count_text_callback'], $real_count, $tag, $args );
+			$formatted_count = call_user_func( $args['topic_count_text_callback'], $real_count, $tag, $args );
 		}
 
 		$tags_data[] = array(
-			'id'         => $tag_id,
-			'url'        => '#' != $tag->link ? $tag->link : '#',
-			'role'       => '#' != $tag->link ? '' : ' role="button"',
-			'name'	     => $tag->name,
-			'title'      => $title,
-			'slug'       => $tag->slug,
-			'real_count' => $real_count,
-			'class'	     => 'tag-link-' . $tag_id,
-			'font_size'  => $args['smallest'] + ( $count - $min_count ) * $font_step,
+			'id'              => $tag_id,
+			'url'             => '#' != $tag->link ? $tag->link : '#',
+			'role'            => '#' != $tag->link ? '' : ' role="button"',
+			'name'            => $tag->name,
+			'formatted_count' => $formatted_count,
+			'slug'            => $tag->slug,
+			'real_count'      => $real_count,
+			'class'           => 'tag-cloud-link tag-link-' . $tag_id,
+			'font_size'       => $args['smallest'] + ( $count - $min_count ) * $font_step,
+			'aria_label'      => $aria_label ? sprintf( ' aria-label="%1$s (%2$s)"', esc_attr( $tag->name ), esc_attr( $formatted_count ) ) : '',
+			'show_count'      => $args['show_count'] ? '<span class="tag-link-count"> (' . $real_count . ')</span>' : '',
 		);
 	}
 
@@ -899,10 +923,19 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 
 	$a = array();
 
-	// generate the output links array
+	// Generate the output links array.
 	foreach ( $tags_data as $key => $tag_data ) {
 		$class = $tag_data['class'] . ' tag-link-position-' . ( $key + 1 );
-		$a[] = "<a href='" . esc_url( $tag_data['url'] ) . "'" . $tag_data['role'] . " class='" . esc_attr( $class ) . "' title='" . esc_attr( $tag_data['title'] ) . "' style='font-size: " . esc_attr( str_replace( ',', '.', $tag_data['font_size'] ) . $args['unit'] ) . ";'>" . esc_html( $tag_data['name'] ) . "</a>";
+		$a[] = sprintf(
+			'<a href="%1$s"%2$s class="%3$s" style="font-size: %4$s;"%5$s>%6$s%7$s</a>',
+			esc_url( $tag_data['url'] ),
+			$tag_data['role'],
+			esc_attr( $class ),
+			esc_attr( str_replace( ',', '.', $tag_data['font_size'] ) . $args['unit'] ),
+			$tag_data['aria_label'],
+			esc_html( $tag_data['name'] ),
+			$tag_data['show_count']
+		);
 	}
 
 	switch ( $args['format'] ) {
@@ -910,7 +943,12 @@ function wp_generate_tag_cloud( $tags, $args = '' ) {
 			$return =& $a;
 			break;
 		case 'list' :
-			$return = "<ul class='wp-tag-cloud'>\n\t<li>";
+			/*
+			 * Force role="list", as some browsers (sic: Safari 10) don't expose to assistive
+			 * technologies the default role when the list is styled with `list-style: none`.
+			 * Note: this is redundant but doesn't harm.
+			 */
+			$return = "<ul class='wp-tag-cloud' role='list'>\n\t<li>";
 			$return .= join( "</li>\n\t<li>", $a );
 			$return .= "</li>\n</ul>\n";
 			break;
