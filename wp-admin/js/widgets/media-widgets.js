@@ -134,7 +134,7 @@ wp.mediaWidgets = ( function( $ ) {
 							noticeContainer.empty();
 							noticeContainer.append( $( '<p>', {
 								html: notice
-							} ) );
+							}));
 							noticeContainer.slideDown( 'fast' );
 						}
 					},
@@ -217,7 +217,7 @@ wp.mediaWidgets = ( function( $ ) {
 					 *
 					 * @returns {void}
 					 */
-					renderFail: function renderFail(  ) {
+					renderFail: function renderFail() {
 						var embedLinkView = this; // eslint-disable-line consistent-this
 						$( '#embed-url-field' ).addClass( 'invalid' );
 						embedLinkView.setErrorNotice( embedLinkView.controller.options.invalidEmbedTypeError || 'ERROR' );
@@ -230,7 +230,7 @@ wp.mediaWidgets = ( function( $ ) {
 				controller: this.controller,
 				model:      this.model.props,
 				priority:   40
-			}) );
+			}));
 		}
 	});
 
@@ -258,7 +258,7 @@ wp.mediaWidgets = ( function( $ ) {
 				mime = specificMimes.join( ',' );
 			}
 
-			this.states.add( [
+			this.states.add([
 
 				// Main states.
 				new component.PersistentDisplaySettingsLibrary({
@@ -287,7 +287,7 @@ wp.mediaWidgets = ( function( $ ) {
 					type: 'image' === this.options.mimeType ? 'image' : 'link',
 					invalidEmbedTypeError: this.options.invalidEmbedTypeError
 				})
-			] );
+			]);
 		},
 
 		/**
@@ -643,7 +643,7 @@ wp.mediaWidgets = ( function( $ ) {
 			var control = this, selection, mediaFrame, defaultSync, mediaFrameProps;
 
 			if ( control.isSelected() && 0 !== control.model.get( 'attachment_id' ) ) {
-				selection = new wp.media.model.Selection( [ control.selectedAttachment ] );
+				selection = new wp.media.model.Selection([ control.selectedAttachment ]);
 			} else {
 				selection = null;
 			}
@@ -745,7 +745,7 @@ wp.mediaWidgets = ( function( $ ) {
 					{ attachment_id: 0 }, // Because some media frames use `attachment_id` not `id`.
 					control.model.getEmbedResetProps()
 				);
-			}  else {
+			} else {
 				throw new Error( 'Unexpected state: ' + state.get( 'id' ) );
 			}
 
@@ -760,7 +760,7 @@ wp.mediaWidgets = ( function( $ ) {
 				if ( ext in control.model.schema && modelProps.url !== modelProps[ ext ] ) {
 					modelProps[ ext ] = '';
 				}
-			} );
+			});
 
 			return modelProps;
 		},

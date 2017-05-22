@@ -19,18 +19,18 @@
 		 */
 		createStates: function createStates() {
 			this.states.add([
-				new wp.media.controller.AudioDetails( {
+				new wp.media.controller.AudioDetails({
 					media: this.media
-				} ),
+				}),
 
-				new wp.media.controller.MediaLibrary( {
+				new wp.media.controller.MediaLibrary({
 					type: 'audio',
 					id: 'add-audio-source',
 					title: wp.media.view.l10n.audioAddSourceTitle,
 					toolbar: 'add-audio-source',
 					media: this.media,
 					menu: false
-				} )
+				})
 			]);
 		}
 	});
@@ -43,7 +43,7 @@
 	 * @class AudioWidgetModel
 	 * @constructor
 	 */
-	AudioWidgetModel = component.MediaWidgetModel.extend( {} );
+	AudioWidgetModel = component.MediaWidgetModel.extend({});
 
 	/**
 	 * Audio widget control.
@@ -53,7 +53,7 @@
 	 * @class AudioWidgetModel
 	 * @constructor
 	 */
-	AudioWidgetControl = component.MediaWidgetControl.extend( {
+	AudioWidgetControl = component.MediaWidgetControl.extend({
 
 		/**
 		 * Show display settings.
@@ -92,13 +92,13 @@
 			previewContainer = control.$el.find( '.media-widget-preview' );
 			previewTemplate = wp.template( 'wp-media-widget-audio-preview' );
 
-			previewContainer.html( previewTemplate( {
+			previewContainer.html( previewTemplate({
 				model: {
 					attachment_id: control.model.get( 'attachment_id' ),
 					src: attachmentUrl
 				},
 				error: control.model.get( 'error' )
-			} ) );
+			}));
 			wp.mediaelement.initialize();
 		},
 
@@ -117,7 +117,7 @@
 				frame: 'audio',
 				state: 'audio-details',
 				metadata: metadata
-			} );
+			});
 			wp.media.frame = mediaFrame;
 			mediaFrame.$el.addClass( 'media-widget' );
 
@@ -141,7 +141,7 @@
 
 			mediaFrame.open();
 		}
-	} );
+	});
 
 	// Exports.
 	component.controlConstructors.media_audio = AudioWidgetControl;

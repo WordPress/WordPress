@@ -23,23 +23,23 @@
 					media: this.media
 				}),
 
-				new wp.media.controller.MediaLibrary( {
+				new wp.media.controller.MediaLibrary({
 					type: 'video',
 					id: 'add-video-source',
 					title: wp.media.view.l10n.videoAddSourceTitle,
 					toolbar: 'add-video-source',
 					media: this.media,
 					menu: false
-				} ),
+				}),
 
-				new wp.media.controller.MediaLibrary( {
+				new wp.media.controller.MediaLibrary({
 					type: 'text',
 					id: 'add-track',
 					title: wp.media.view.l10n.videoAddTrackTitle,
 					toolbar: 'add-track',
 					media: this.media,
 					menu: 'video-details'
-				} )
+				})
 			]);
 		}
 	});
@@ -52,7 +52,7 @@
 	 * @class VideoWidgetModel
 	 * @constructor
 	 */
-	VideoWidgetModel = component.MediaWidgetModel.extend( {} );
+	VideoWidgetModel = component.MediaWidgetModel.extend({});
 
 	/**
 	 * Video widget control.
@@ -62,7 +62,7 @@
 	 * @class VideoWidgetControl
 	 * @constructor
 	 */
-	VideoWidgetControl = component.MediaWidgetControl.extend( {
+	VideoWidgetControl = component.MediaWidgetControl.extend({
 
 		/**
 		 * Show display settings.
@@ -181,7 +181,7 @@
 			previewContainer = control.$el.find( '.media-widget-preview' );
 			previewTemplate = wp.template( 'wp-media-widget-video-preview' );
 
-			previewContainer.html( previewTemplate( {
+			previewContainer.html( previewTemplate({
 				model: {
 					attachment_id: control.model.get( 'attachment_id' ),
 					src: attachmentUrl,
@@ -189,7 +189,7 @@
 				},
 				is_hosted_embed: isHostedEmbed,
 				error: error
-			} ) );
+			}));
 			wp.mediaelement.initialize();
 		},
 
@@ -232,7 +232,7 @@
 
 			mediaFrame.open();
 		}
-	} );
+	});
 
 	// Exports.
 	component.controlConstructors.media_video = VideoWidgetControl;

@@ -125,7 +125,7 @@ wp.textWidgets = ( function( $ ) {
 				}
 
 				// Destroy any existing editor so that it can be re-initialized after a widget-updated event.
-				if ( tinymce.get( id ) )    {
+				if ( tinymce.get( id ) ) {
 					restoreTextMode = tinymce.get( id ).isHidden();
 					wp.editor.remove( id );
 				}
@@ -135,7 +135,7 @@ wp.textWidgets = ( function( $ ) {
 						wpautop: true
 					},
 					quicktags: true
-				} );
+				});
 
 				editor = window.tinymce.get( id );
 				if ( ! editor ) {
@@ -190,12 +190,12 @@ wp.textWidgets = ( function( $ ) {
 				};
 				editor.on( 'focus', function() {
 					control.editorFocused = true;
-				} );
+				});
 				editor.on( 'NodeChange', _.debounce( triggerChangeIfDirty, changeDebounceDelay ) );
 				editor.on( 'blur', function() {
 					control.editorFocused = false;
 					triggerChangeIfDirty();
-				} );
+				});
 
 				control.editor = editor;
 			}
