@@ -130,7 +130,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p><?php
 					printf(
 						/* translators: 1: Link to meetup.com, 2: Link to central.wordcamp.org */
-						__( 'Not everyone has the time to go to %1$s or "%2$s to find the next WordCamp. Many randomly discover WordPress events on Twitter. WordPress now brings you the events you need to continue improving your WordPress skills, meet friends, and, of course, publish!' ),
+						__( 'Not everyone has the time to go to %1$s or %2$s to find the next WordCamp. Many randomly discover WordPress events on Twitter. WordPress now brings you the events you need to continue improving your WordPress skills, meet friends, and, of course, publish!' ),
 						'<a href="https://meetup.com/pro/wordpress">meetup.com/pro/wordpress</a>',
 						'<a href="https://central.wordcamp.org/schedule">central.wordcamp.org/schedule</a>'
 					);
