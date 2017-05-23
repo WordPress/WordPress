@@ -1508,12 +1508,13 @@ function wp_check_browser_version() {
 
 		/**
 		 * Response should be an array with:
-		 *  'name' - string - A user friendly browser name
+		 *  'platform' - string - A user-friendly platform name, if it can be determined
+		 *  'name' - string - A user-friendly browser name
 		 *  'version' - string - The version of the browser the user is using
 		 *  'current_version' - string - The most recent version of the browser
 		 *  'upgrade' - boolean - Whether the browser needs an upgrade
 		 *  'insecure' - boolean - Whether the browser is deemed insecure
-		 *  'upgrade_url' - string - The url to visit to upgrade
+		 *  'update_url' - string - The url to visit to upgrade
 		 *  'img_src' - string - An image representing the browser
 		 *  'img_src_ssl' - string - An image (over SSL) representing the browser
 		 */
