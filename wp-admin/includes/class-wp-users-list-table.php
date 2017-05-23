@@ -258,6 +258,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 */
 	protected function extra_tablenav( $which ) {
 		$id = 'bottom' === $which ? 'new_role2' : 'new_role';
+		$button_id = 'bottom' === $which ? 'changeit2' : 'changeit';
 	?>
 	<div class="alignleft actions">
 		<?php if ( current_user_can( 'promote_users' ) && $this->has_items() ) : ?>
@@ -267,7 +268,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			<?php wp_dropdown_roles(); ?>
 		</select>
 	<?php
-			submit_button( __( 'Change' ), '', 'changeit', false );
+			submit_button( __( 'Change' ), '', $button_id, false );
 		endif;
 
 		/**
@@ -295,7 +296,7 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @return string The bulk action required.
 	 */
 	public function current_action() {
-		if ( isset( $_REQUEST['changeit'] ) &&
+		if ( ( isset( $_REQUEST['changeit'] ) || isset( $_REQUEST['changeit2'] ) ) &&
 			( ! empty( $_REQUEST['new_role'] ) || ! empty( $_REQUEST['new_role2'] ) ) ) {
 			return 'promote';
 		}
