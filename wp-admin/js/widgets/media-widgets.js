@@ -640,13 +640,13 @@ wp.mediaWidgets = ( function( $ ) {
 		 * @returns {void}
 		 */
 		selectMedia: function selectMedia() {
-			var control = this, selection, mediaFrame, defaultSync, mediaFrameProps;
+			var control = this, selection, mediaFrame, defaultSync, mediaFrameProps, selectionModels = [];
 
 			if ( control.isSelected() && 0 !== control.model.get( 'attachment_id' ) ) {
-				selection = new wp.media.model.Selection([ control.selectedAttachment ]);
-			} else {
-				selection = null;
+				selectionModels.push( control.selectedAttachment );
 			}
+
+			selection = new wp.media.model.Selection( selectionModels, { multiple: false } );
 
 			mediaFrameProps = control.mapModelToMediaFrameProps( control.model.toJSON() );
 			if ( mediaFrameProps.size ) {
