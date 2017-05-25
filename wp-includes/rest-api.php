@@ -337,6 +337,14 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 		}
 	}
 
+	if ( is_admin() && force_ssl_admin() ) {
+		// In this situation the home URL may be http:, and `is_ssl()` may be
+		// false, but the admin is served over https: (one way or another), so
+		// REST API usage will be blocked by browsers unless it is also served
+		// over HTTPS.
+		$url = set_url_scheme( $url, 'https' );
+	}
+
 	/**
 	 * Filters the REST URL.
 	 *
