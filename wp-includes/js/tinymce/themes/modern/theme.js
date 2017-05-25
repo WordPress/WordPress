@@ -283,17 +283,17 @@ define(
   function (DOMUtils) {
     var DOM = DOMUtils.DOM;
 
-    var reposition = function (editor, poweredByElm) {
+    var reposition = function (editor, poweredByElm, hasStatusbar) {
       return function () {
         var iframeWidth = editor.getContentAreaContainer().querySelector('iframe').offsetWidth;
         var scrollbarWidth = Math.max(iframeWidth - editor.getDoc().documentElement.offsetWidth, 0);
-        var statusbarElm = editor.getContainer().querySelector('.mce-statusbar');
-        var statusbarHeight = statusbarElm ? statusbarElm.offsetHeight : 1;
 
-        DOM.setStyles(poweredByElm, {
-          right: scrollbarWidth + 'px',
-          bottom: statusbarHeight + 'px'
-        });
+        DOM.setStyle(poweredByElm, 'right', scrollbarWidth + 'px');
+        if (hasStatusbar) {
+          DOM.setStyle(poweredByElm, 'top', '-16px');
+        } else {
+          DOM.setStyle(poweredByElm, 'bottom', '1px');
+        }
       };
     };
 
@@ -303,13 +303,33 @@ define(
       };
     };
 
+    var setupReposition = function (editor, poweredByElm, hasStatusbar) {
+      reposition(editor, poweredByElm, hasStatusbar)();
+      editor.on('NodeChange ResizeEditor', reposition(editor, poweredByElm, hasStatusbar));
+    };
+
+    var appendToStatusbar = function (editor, poweredByElm, statusbarElm) {
+      statusbarElm.appendChild(poweredByElm);
+      setupReposition(editor, poweredByElm, true);
+    };
+
+    var appendToContainer = function (editor, poweredByElm) {
+      editor.getContainer().appendChild(poweredByElm);
+      setupReposition(editor, poweredByElm, false);
+    };
+
     var setupEventListeners = function (editor) {
       editor.on('SkinLoaded', function () {
         var poweredByElm = DOM.create('div', { 'class': 'mce-branding-powered-by' });
-        editor.getContainer().appendChild(poweredByElm);
+        var statusbarElm = editor.getContainer().querySelector('.mce-statusbar');
+
+        if (statusbarElm) {
+          appendToStatusbar(editor, poweredByElm, statusbarElm);
+        } else {
+          appendToContainer(editor, poweredByElm);
+        }
+
         DOM.bind(poweredByElm, 'click', hide(poweredByElm));
-        reposition(editor, poweredByElm)();
-        editor.on('NodeChange ResizeEditor', reposition(editor, poweredByElm));
       });
     };
 
