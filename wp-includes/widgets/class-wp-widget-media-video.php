@@ -65,11 +65,13 @@ class WP_Widget_Media_Video extends WP_Widget_Media {
 					'type' => 'string',
 					'enum' => array( 'none', 'auto', 'metadata' ),
 					'default' => 'metadata',
+					'description' => __( 'Preload' ),
 					'should_preview_update' => false,
 				),
 				'loop' => array(
 					'type' => 'boolean',
 					'default' => false,
+					'description' => __( 'Loop' ),
 					'should_preview_update' => false,
 				),
 				'content' => array(

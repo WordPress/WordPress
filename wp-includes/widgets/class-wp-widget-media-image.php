@@ -63,34 +63,40 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 					'type' => 'string',
 					'enum' => array_merge( get_intermediate_image_sizes(), array( 'full', 'custom' ) ),
 					'default' => 'medium',
+					'description' => __( 'Size' ),
 				),
 				'width' => array( // Via 'customWidth', only when size=custom; otherwise via 'width'.
 					'type' => 'integer',
 					'minimum' => 0,
 					'default' => 0,
+					'description' => __( 'Width' ),
 				),
 				'height' => array( // Via 'customHeight', only when size=custom; otherwise via 'height'.
 					'type' => 'integer',
 					'minimum' => 0,
 					'default' => 0,
+					'description' => __( 'Height' ),
 				),
 
 				'caption' => array(
 					'type' => 'string',
 					'default' => '',
 					'sanitize_callback' => 'wp_kses_post',
+					'description' => __( 'Caption' ),
 					'should_preview_update' => false,
 				),
 				'alt' => array(
 					'type' => 'string',
 					'default' => '',
 					'sanitize_callback' => 'sanitize_text_field',
+					'description' => __( 'Alternative Text' ),
 				),
 				'link_type' => array(
 					'type' => 'string',
 					'enum' => array( 'none', 'file', 'post', 'custom' ),
 					'default' => 'none',
 					'media_prop' => 'link',
+					'description' => __( 'Link To' ),
 					'should_preview_update' => false,
 				),
 				'link_url' => array(
@@ -98,6 +104,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 					'default' => '',
 					'format' => 'uri',
 					'media_prop' => 'linkUrl',
+					'description' => __( 'URL' ),
 					'should_preview_update' => false,
 				),
 				'image_classes' => array(
@@ -105,6 +112,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 					'default' => '',
 					'sanitize_callback' => array( $this, 'sanitize_token_list' ),
 					'media_prop' => 'extraClasses',
+					'description' => __( 'Image CSS Class' ),
 					'should_preview_update' => false,
 				),
 				'link_classes' => array(
@@ -113,18 +121,21 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 					'sanitize_callback' => array( $this, 'sanitize_token_list' ),
 					'media_prop' => 'linkClassName',
 					'should_preview_update' => false,
+					'description' => __( 'Link CSS Class' ),
 				),
 				'link_rel' => array(
 					'type' => 'string',
 					'default' => '',
 					'sanitize_callback' => array( $this, 'sanitize_token_list' ),
 					'media_prop' => 'linkRel',
+					'description' => __( 'Link Rel' ),
 					'should_preview_update' => false,
 				),
-				'link_target_blank' => array( // Via 'linkTargetBlank' property.
+				'link_target_blank' => array(
 					'type' => 'boolean',
 					'default' => false,
 					'media_prop' => 'linkTargetBlank',
+					'description' => __( 'Open link in a new tab' ),
 					'should_preview_update' => false,
 				),
 				'image_title' => array(
@@ -132,6 +143,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 					'default' => '',
 					'sanitize_callback' => 'sanitize_text_field',
 					'media_prop' => 'title',
+					'description' => __( 'Image Title Attribute' ),
 					'should_preview_update' => false,
 				),
 
