@@ -242,6 +242,14 @@ input[type="checkbox"] {
 	padding-right: 1.5rem;
 }
 
+.widget_text ul {
+	margin: 0 1.5em 1.5em 0;
+}
+
+.widget_text ul li ul {
+	margin: 0 1.5em 0 0;
+}
+
 /* Footer */
 
 .social-navigation a {

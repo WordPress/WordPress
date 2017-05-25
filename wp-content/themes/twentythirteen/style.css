@@ -1228,27 +1228,37 @@ footer.entry-meta {
 
 /* Mediaelements */
 .hentry .mejs-mediaelement,
-.hentry .mejs-container .mejs-controls {
+.widget .mejs-mediaelement,
+.hentry .mejs-container .mejs-controls,
+.widget .mejs-container .mejs-controls {
 	background: #220e10;
 }
 
 .hentry .mejs-controls .mejs-time-rail .mejs-time-loaded,
-.hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
+.widget .mejs-controls .mejs-time-rail .mejs-time-loaded,
+.hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current,
+.widget .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
 	background: #fff;
 }
 
-.hentry .mejs-controls .mejs-time-rail .mejs-time-current {
+.hentry .mejs-controls .mejs-time-rail .mejs-time-current,
+.widget .mejs-controls .mejs-time-rail .mejs-time-current {
 	background: #ea9629;
 }
 
 .hentry .mejs-controls .mejs-time-rail .mejs-time-total,
-.hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
+.widget .mejs-controls .mejs-time-rail .mejs-time-total,
+.hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total,
+.widget .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total {
 	background: #595959;
 }
 
 .hentry .mejs-controls .mejs-time-rail span,
+.widget .mejs-controls .mejs-time-rail span,
 .hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total,
-.hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
+.widget .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-total,
+.hentry .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current,
+.widget .mejs-controls .mejs-horizontal-volume-slider .mejs-horizontal-volume-current {
 	border-radius: 0;
 }
 
@@ -2551,6 +2561,30 @@ footer.entry-meta {
 	background-color: transparent;
 }
 
+/* Text widget */
+
+.widget_text ul,
+.widget_text ol {
+	padding-left: 20px;
+	margin-bottom: 16px;
+}
+
+.widget_text li:last-child {
+	padding-bottom: 0;
+}
+
+.widget_text li > ul,
+.widget_text li > ol {
+	margin-bottom: 0;
+}
+
+.widget_text ul {
+	list-style: square;
+}
+
+.widget_text ol {
+	list-style: decimal;
+}
 
 /**
  * 7.0 Footer

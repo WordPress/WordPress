@@ -1908,11 +1908,17 @@ section.ephemera .entry-title a span {
 }
 
 /* Widget Image */
-.widget_image img {
+.widget_image img,
+.widget_media_image img {
 	border: 0;
 	padding: 0;
 	height: auto;
 	max-width: 100%;
+}
+@media (min-width: 1024px) {
+	.widget_media_image .size-thumbnail {
+		padding: 6px;
+	}
 }
 
 /* Calendar Widget */
@@ -1945,6 +1951,18 @@ section.ephemera .entry-title a span {
 	border-bottom: 1px solid #ccc;
 }
 
+/* Text Widget */
+
+.widget_text ul,
+.widget_text ol {
+	margin: 0 0 1.625em 2.5em;
+}
+.widget_text ul ul,
+.widget_text ol ol,
+.widget_text ul ol,
+.widget_text ol ul {
+	margin-bottom: 0;
+}
 
 /* =Comments
 ----------------------------------------------- */

@@ -642,10 +642,18 @@ section[role="banner"] {
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
 }
-.widget-area .textwidget ul {
+.widget-area .textwidget ul,
+.widget-area .textwidget ol {
 	list-style: disc outside;
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
+}
+.widget-area .textwidget li > ul,
+.widget-area .textwidget li > ol {
+	margin-bottom: 0;
+}
+.widget-area .textwidget ol {
+	list-style: decimal;
 }
 .widget-area .textwidget li {
 	margin-left: 36px;
@@ -1442,7 +1450,6 @@ a.comment-edit-link:hover {
 	display: block;
 	text-align: right;
 }
-
 
 /* =Plugins
 ----------------------------------------------- */

@@ -1222,6 +1222,22 @@ h3#reply-title {
 	width: 11px;
 	height: 11px;
 }
+.widget_text ul,
+.widget_text ol {
+	margin-bottom: 1.5em;
+}
+.widget_text ol {
+	margin-left: 1.3em;
+}
+.widget_text ul ul,
+.widget_text ol ol,
+.widget_text ul ol,
+.widget_text ol ul {
+	margin-bottom: 0;
+}
+.widget_media_video video {
+	max-width: 100%;
+}
 
 /* Main sidebars */
 #main .widget-area ul {

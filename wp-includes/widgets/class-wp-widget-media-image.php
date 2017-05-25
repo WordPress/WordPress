@@ -201,6 +201,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 			if ( 'custom' === $size || ! in_array( $size, array_merge( get_intermediate_image_sizes(), array( 'full' ) ), true ) ) {
 				$size = array( $instance['width'], $instance['height'] );
 			}
+			$image_attributes['class'] .= sprintf( ' attachment-%1$s size-%1$s', is_array( $size ) ? join( 'x', $size ) : $size );
 
 			$image = wp_get_attachment_image( $attachment->ID, $size, false, $image_attributes );
 

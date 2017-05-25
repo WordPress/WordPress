@@ -1554,6 +1554,11 @@ img.aligncenter {
 	border-bottom: 0;
 }
 
+.textwidget ul,
+.textwidget ol {
+	margin-left: 1.6em;
+}
+
 
 /**
  * 12.0 Content

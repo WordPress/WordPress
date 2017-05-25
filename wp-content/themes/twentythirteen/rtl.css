@@ -535,6 +535,12 @@ div.nav-menu > ul {
 	margin-right: 20px;
 }
 
+.widget_text ul,
+.widget_text ol {
+	padding-left: auto;
+	padding-right: 20px;
+}
+
 /**
  * 7.0 Footer
  * ----------------------------------------------------------------------------
