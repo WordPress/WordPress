@@ -144,8 +144,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					<p><?php _e( 'With the addition of TinyMCE to the text widget in 4.8 comes a new JavaScript API for instantiating the editor after page load. This can be used to add an editor instance to any textarea and customize it with buttons and functions.' ); ?></p>
 				</div>
 				<div class="col">
-					<h3><?php _e( 'Media Widgets for Images, Audio, and Video' ); ?></h3>
-					<p><?php _e( 'A new base media widget was added in 4.8. It is used by the three new media widgets. These widgets utilize the REST API to interact with the media library and pave the way for more media widgets to come.' ); ?></p>
+					<h3><?php _e( 'Media Widgets API' ); ?></h3>
+					<p><?php _e( 'The introduction of a new base media widget REST API schema to 4.8 opens up possibilities for more media widgets (such as galleries or playlists) in the future. The three new media widgets are powered by a shared base class that covers most of the interactions with the media modal. That class also makes it easier to create new media widgets and paves the way for more to come.' ); ?></p>
 				</div>
 				<div class="col">
 					<h3><a href="https://make.wordpress.org/core/2017/05/16/customizer-sidebar-width-is-now-variable/"><?php _e( 'Customizer Width Variable' ); ?></a></h3>
