@@ -255,7 +255,7 @@ wp.mediaWidgets = ( function( $ ) {
 				}
 			});
 			if ( specificMimes.length > 0 ) {
-				mime = specificMimes.join( ',' );
+				mime = specificMimes;
 			}
 
 			this.states.add([
