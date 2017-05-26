@@ -2546,6 +2546,20 @@ function wp_video_shortcode( $attr, $content = '' ) {
 		wp_enqueue_script( 'wp-mediaelement' );
 	}
 
+	// Mediaelement has issues with some URL formats for Vimeo and YouTube, so
+	// update the URL to prevent the ME.js player from breaking.
+	if ( 'mediaelement' === $library ) {
+		if ( $is_youtube ) {
+			// Remove `feature` query arg and force SSL - see #40866.
+			$atts['src'] = remove_query_arg( 'feature', $atts['src'] );
+			$atts['src'] = set_url_scheme( $atts['src'], 'https' );
+		} elseif ( $is_vimeo ) {
+			// Remove all query arguments and force SSL - see #40866.
+			$parsed_vimeo_url = wp_parse_url( $atts['src'] );
+			$atts['src'] = 'https://' . $parsed_vimeo_url['host'] . $parsed_vimeo_url['path'];
+		}
+	}
+
 	/**
 	 * Filters the class attribute for the video shortcode output container.
 	 *
