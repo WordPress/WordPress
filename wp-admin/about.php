@@ -44,36 +44,45 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		</h2>
 
 		<div class="feature-section one-col">
-			<h2><?php _e( 'An Update with You in Mind' ); ?></h2>
-			<p class="lead-description"><?php _e( 'WordPress 4.8 adds some great new features &mdash; gear up for a more intuitive WordPress!' ); ?></p>
-			<p><?php _e( 'Though some updates are tiny (TinyMCE, that is &mdash; see what we did there?) they&#8217;ve been developed by hundreds of Core Contributors and Committers with <em>you</em> in mind.' ); ?></p>
-			<p><?php _e( 'Get ready for new features you&#8217;ll welcome like an old friend: link improvements, <em>three</em> new media widgets covering images, audio, and video, an updated text widget that supports visual editing, and an upgraded news section in your dashboard which brings in nearby and upcoming WordPress events.' ); ?></p>
+			<div class="col">
+				<h2><?php _e( 'An Update with You in Mind' ); ?></h2>
+				<p class="lead-description"><?php _e( 'WordPress 4.8 adds some great new features &mdash; gear up for a more intuitive WordPress!' ); ?></p>
+				<p><?php _e( 'Though some updates are tiny (TinyMCE, that is &mdash; see what we did there?) they&#8217;ve been developed by hundreds of Core Contributors and Committers with <em>you</em> in mind.' ); ?></p>
+				<p><?php _e( 'Get ready for new features you&#8217;ll welcome like an old friend: link improvements, <em>three</em> new media widgets covering images, audio, and video, an updated text widget that supports visual editing, and an upgraded news section in your dashboard which brings in nearby and upcoming WordPress events.' ); ?></p>
+			</div>
 		</div>
 
 		<hr />
 
 		<h2><?php _e( 'Exciting Widget Updates' ); ?></h2>
-		<div class="feature-section two-col">
+
+		<div class="headline-feature one-col">
 			<div class="col">
-				<div style="height:254px;width:480px;background:black;"></div>
-				<h3><?php _e( 'Image Widget' ); ?></h3>
-				<p><?php _e( 'Adding an image to a widget is now a simple task that is achievable for any WordPress user without hiring a developer. (Don&#8217;t tell them we told you that.) Simply insert your image right within the widget settings &mdash; try adding a headshot and brief bio &mdash; and see it appear, automatically.' );?></p>
-			</div>
-			<div class="col">
-				<div style="height:254px;width:480px;background:black;"></div>
-				<h3><?php _e( 'Video Widget' ); ?></h3>
-				<p><?php _e( 'A welcome video is a great way to humanize the branding of your website. It creates trust and empathy in your visitors. You can now add any video from your Media Library to a sidebar on your site with the new Video Widget. So, you, too, can be liked and trusted instantly.' ); ?></p>
+				<picture>
+					<!-- Large image -->
+					<source media="(min-width: 1050px)" srcset="https://cldup.com/-951havc3C.png" />
+					<!-- Medium image -->
+					<source media="(min-width: 601px)" srcset="https://cldup.com/60ktdYzv0l.png" />
+					<!-- Small image -->
+					<img src="https://cldup.com/mwvU0Zi5wW.png" alt="" />
+				</picture>
 			</div>
 		</div>
 
 		<div class="feature-section two-col">
 			<div class="col">
-				<div style="height:254px;width:480px;background:black;"></div>
+				<h3><?php _e( 'Image Widget' ); ?></h3>
+				<p><?php _e( 'Adding an image to a widget is now a simple task that is achievable for any WordPress user without hiring a developer. (Don&#8217;t tell them we told you that.) Simply insert your image right within the widget settings &mdash; try adding a headshot and brief bio &mdash; and see it appear, automatically.' );?></p>
+			</div>
+			<div class="col">
+				<h3><?php _e( 'Video Widget' ); ?></h3>
+				<p><?php _e( 'A welcome video is a great way to humanize the branding of your website. It creates trust and empathy in your visitors. You can now add any video from your Media Library to a sidebar on your site with the new Video Widget. So, you, too, can be liked and trusted instantly.' ); ?></p>
+			</div>
+			<div class="col">
 				<h3><?php _e( 'Audio Widget' ); ?></h3>
 				<p><?php _e( 'Are you a podcaster or musician? Adding a widget with your audio file has never been easier. Upload your audio file to the media library, go to the widget settings, select your file, and you&#8217;re done. This would be a great way to add a more intimate welcome message, too!' );?></p>
 			</div>
 			<div class="col">
-				<div style="height:254px;width:480px;background:black;"></div>
 				<h3><?php _e( 'Rich Text Widget' ); ?></h3>
 				<p><?php _e( 'This feature deserves a ticker-tape parade down Main Street. Rich-text editing capabilities are now native for text widgets. Simply, add a widget anywhere and format away. Create lists, add emphasis with bold or italics, and easily insert links. Have fun with your new-found formatting powers, but try to use them for good!' ); ?></p>
 			</div>
@@ -90,7 +99,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<?php
 				echo wp_video_shortcode( array(
 					'mp4'      => 'https://s.w.org/images/core/4.7/starter-content-v1.mp4',
-					'poster'   => 'https://s.w.org/images/core/4.7/starter-content.jpg?v2',
+					'poster'   => 'https://cldup.com/ZS8FEi0AE9.png',
 					'width'    => 1140,
 					'height'   => 624,
 					// 'class'    => 'wp-video-shortcode feature-video',
@@ -102,13 +111,15 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<hr />
 
 		<div class="feature-section two-col">
-			<div class="col" style="height:254px;width:480px;background:black;"></div>
 			<div class="col">
 				<h3><?php _e( 'Nearby WordPress Events' ); ?></h3>
 
 				<p><?php _e( 'Did you know that WordPress has a thriving offline community with groups meeting regularly in more than 400 cities around the world?' ); ?></p>
 
 				<p><?php _e( 'Being part of the community can help you improve your WordPress skills and network with people you wouldn&#8217;t otherwise meet. Now you can easily find your local events just by logging in to your dashboard.' ); ?>
+			</div>
+			<div class="col">
+				<img src="https://cldup.com/GuISab3_X1.png" alt="" />
 			</div>
 		</div>
 
@@ -136,15 +147,12 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 					<h3><a href="https://make.wordpress.org/core/2017/05/22/multisite-focused-changes-in-4-8/"><?php _e( 'Multisite Updates' ); ?></a></h3>
 					<p><?php _e( 'New capabilities checks have been added to 4.8 with an eye towards removing calls to <code>is_super_admin()</code>. Additionally, new hooks, network-specific site functions, and user count controls have been added.' ); ?></p>
 				</div>
-			</div>
-
-			<div class="under-the-hood three-col">
 				<div class="col">
 					<h3><a href="https://make.wordpress.org/core/2017/05/23/addition-of-tinymce-to-the-text-widget/"><?php _e( 'Text-Editor JavaScript API' ); ?></a></h3>
 					<p><?php _e( 'With the addition of TinyMCE to the text widget in 4.8 comes a new JavaScript API for instantiating the editor after page load. This can be used to add an editor instance to any textarea and customize it with buttons and functions.' ); ?></p>
 				</div>
 				<div class="col">
-					<h3><?php _e( 'Media Widgets API' ); ?></h3>
+					<h3><a href="https://make.wordpress.org/core/2017/05/26/media-widgets-for-images-video-and-audio/"><?php _e( 'Media Widgets API' ); ?></a></h3>
 					<p><?php _e( 'The introduction of a new base media widget REST API schema to 4.8 opens up possibilities for more media widgets (such as galleries or playlists) in the future. The three new media widgets are powered by a shared base class that covers most of the interactions with the media modal. That class also makes it easier to create new media widgets and paves the way for more to come.' ); ?></p>
 				</div>
 				<div class="col">
