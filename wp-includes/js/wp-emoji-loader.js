@@ -51,7 +51,7 @@
 				context.clearRect( 0, 0, canvas.width, canvas.height );
 
 				// Add a zero width space between the characters, to force rendering as characters.
-				context.fillText( stringFromCharCode( 55356, 57331, 8203, 55356, 57096 ), 0, 0 );
+				context.fillText( stringFromCharCode( 55356, 56826, 8203, 55356, 56819 ), 0, 0 );
 				flag2 = canvas.toDataURL();
 
 				if ( flag !== flag2 ) {
@@ -79,18 +79,18 @@
 				return flag !== flag2;
 			case 'emoji4':
 				/*
-				 * Emoji 5 has the bushiest beards. So does WordPress!
+				 * Emoji 5 has faries of all genders.
 				 *
-				 * To test for support, try to render a new emoji (bearded person: light skin tone),
-				 * then compare it to how it would look if the browser doesn't render it correctly
-				 * (bearded person + Fitzpatrick modifier).
+				 * To test for support, try to render a new emoji (fairy, male), then compares
+				 * it to how it would look if the browser doesn't render it correctly
+				 * (fairy + male sign).
 				 */
-				context.fillText( stringFromCharCode( 55358, 56788, 55356, 57339 ), 0, 0 );
+				context.fillText( stringFromCharCode( 55358, 56794, 8205, 9794, 65039 ), 0, 0 );
 				emoji41 = canvas.toDataURL();
 
 				context.clearRect( 0, 0, canvas.width, canvas.height );
 
-				context.fillText( stringFromCharCode( 55358, 56788, 8203, 55356, 57339 ), 0, 0 );
+				context.fillText( stringFromCharCode( 55358, 56794, 8203, 9794, 65039 ), 0, 0 );
 				emoji42 = canvas.toDataURL();
 
 				return emoji41 !== emoji42;
