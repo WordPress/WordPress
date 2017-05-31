@@ -98,8 +98,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="col">
 				<?php
 				echo wp_video_shortcode( array(
-					'mp4'      => 'https://s.w.org/images/core/4.7/starter-content-v1.mp4',
-					'poster'   => 'https://cldup.com/ZS8FEi0AE9.png',
+					'mp4'      => 'https://cldup.com/LHwC1lL_jC.mp4',
+					'poster'   => 'https://cldup.com/wx7uMMXJor.png',
 					'width'    => 1140,
 					'height'   => 624,
 					// 'class'    => 'wp-video-shortcode feature-video',
