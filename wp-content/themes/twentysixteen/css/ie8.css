@@ -1,0 +1,222 @@
+/*
+Theme Name: Twenty Sixteen
+Description: IE8 specific style.
+*/
+
+code {
+	background-color: transparent;
+	padding: 0;
+}
+
+.entry-content a,
+.entry-summary a,
+.taxonomy-description a,
+.logged-in-as a,
+.comment-content a,
+.pingback .comment-body > a,
+.textwidget a,
+.entry-footer a:hover,
+.site-info a:hover {
+	text-decoration: underline;
+}
+
+.entry-content a:hover,
+.entry-content a:focus,
+.entry-summary a:hover,
+.entry-summary a:focus,
+.taxonomy-description a:hover,
+.taxonomy-description a:focus,
+.logged-in-as a:hover,
+.logged-in-as a:focus,
+.comment-content a:hover,
+.comment-content a:focus,
+.pingback .comment-body > a:hover,
+.pingback .comment-body > a:focus,
+.textwidget a:hover,
+.textwidget a:focus,
+.entry-content .wp-audio-shortcode a,
+.entry-content .wp-playlist a,
+.page-links a {
+	text-decoration: none;
+}
+
+.site {
+	margin: 21px;
+}
+
+.site-inner {
+	max-width: 710px;
+}
+
+.site-header {
+	padding-top: 3.9375em;
+	padding-bottom: 3.9375em;
+}
+
+.site-branding {
+	float: left;
+	margin-top: 1.3125em;
+	margin-bottom: 1.3125em;
+}
+
+.site-title {
+	font-size: 28px;
+	line-height: 1.25;
+}
+
+.site-description {
+	display: block;
+}
+
+.menu-toggle {
+	float: right;
+	font-size: 16px;
+	margin: 1.3125em 0;
+	padding: 0.8125em 0.875em 0.6875em;
+}
+
+.site-header-menu {
+	clear: both;
+	margin: 0;
+	padding: 1.3125em 0;
+}
+
+.site-header .main-navigation + .social-navigation {
+	margin-top: 2.625em;
+}
+
+.header-image {
+	margin: 1.3125em 0;
+}
+
+.site-main {
+	margin-bottom: 5.25em;
+}
+
+.post-navigation {
+	margin-bottom: 5.25em;
+}
+
+.post-navigation .post-title {
+	font-size: 28px;
+	line-height: 1.25;
+}
+
+.pagination {
+	margin: 0 7.6923% 4.421052632em;
+}
+
+.pagination .nav-links:before,
+.pagination .nav-links:after {
+	display: none;
+}
+
+/* restore screen-reader-text */
+.pagination .current .screen-reader-text {
+	position: absolute !important;
+}
+
+.pagination .page-numbers {
+	display: inline-block;
+	font-weight: 400;
+}
+
+.image-navigation .nav-previous,
+.image-navigation .nav-next,
+.comment-navigation .nav-previous,
+.comment-navigation .nav-next {
+	display: inline-block;
+}
+
+.image-navigation .nav-previous + .nav-next:before,
+.comment-navigation .nav-previous + .nav-next:before {
+	content: "\002f";
+	display: inline-block;
+	filter: alpha(opacity=70);
+	padding: 0 0.538461538em;
+}
+
+.site-main > article {
+	margin-bottom: 5.25em;
+}
+
+.entry-title {
+	font-size: 33px;
+	line-height: 1.2727272727;
+	margin-bottom: 0.8484848485em;
+}
+
+.entry-content blockquote.alignleft,
+.entry-content blockquote.alignright {
+	border-width: 4px 0 0 0;
+	padding: 0.9473684211em 0 0;
+	width: 50%;
+}
+
+.entry-footer > span:after {
+	content: "\002f";
+	display: inline-block;
+	filter: alpha(opacity=70);
+	padding: 0 0.538461538em;
+}
+
+.updated {
+	display: none;
+}
+
+.updated.published {
+	display: inline;
+}
+
+.comment-author {
+	margin-bottom: 0;
+}
+
+.comment-author .avatar {
+	height: 42px;
+	position: relative;
+	top: 0.25em;
+	width: 42px;
+}
+
+.comment-list .children > li {
+	padding-left: 1.75em;
+}
+
+.comment-list + .comment-respond,
+.comment-navigation + .comment-respond {
+	padding-top: 3.5em;
+}
+
+.comment-reply-link {
+	margin-top: 0;
+}
+
+.comments-area,
+.widget,
+.content-bottom-widgets .widget-area {
+	margin-bottom: 5.25em;
+}
+
+.sidebar,
+.widecolumn {
+	margin-bottom: 5.25em;
+}
+
+.site-footer .main-navigation,
+.site-footer .social-navigation {
+	display: none;
+}
+
+.rtl .site-branding {
+	float: right;
+}
+
+.rtl .menu-toggle {
+	float: left;
+}
+
+.rtl .comment-list .children > li {
+	padding-right: 1.75em;
+	padding-left: 0;
+}
