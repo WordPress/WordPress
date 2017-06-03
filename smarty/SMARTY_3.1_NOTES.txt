@@ -1,0 +1,306 @@
+Smarty 3.1 Notes
+================
+
+Smarty 3.1 is a departure from 2.0 compatibility. Most notably, all
+backward compatibility has been moved to a separate class file named
+SmartyBC.class.php. If you require compatibility with 2.0, you will
+need to use this class.
+
+Some differences from 3.0 are also present. 3.1 begins the journey of
+requiring setters/getters for property access. So far this is only
+implemented on the five directory properties: template_dir,
+plugins_dir, configs_dir, compile_dir and cache_dir. These properties
+are now protected, it is required to use the setters/getters instead.
+That said, direct property access will still work, however slightly
+slower since they will now fall through __set() and __get() and in
+turn passed through the setter/getter methods. 3.2 will exhibit a full
+list of setter/getter methods for all (currently) public properties,
+so code-completion in your IDE will work as expected.
+
+There is absolutely no PHP allowed in templates any more. All
+deprecated features of Smarty 2.0 are gone. Again, use the SmartyBC
+class if you need any backward compatibility.
+
+Internal Changes
+
+  Full UTF-8 Compatibility
+
+The plugins shipped with Smarty 3.1 have been rewritten to fully
+support UTF-8 strings if Multibyte String is available. Without
+MBString UTF-8 cannot be handled properly. For those rare cases where
+templates themselves have to juggle encodings, the new modifiers
+to_charset and from_charset may come in handy.
+
+  Plugin API and Performance
+
+All Plugins (modifiers, functions, blocks, resources,
+default_template_handlers, etc) are now receiving the
+Smarty_Internal_Template instance, where they were supplied with the
+Smarty instance in Smarty 3.0. *. As The Smarty_Internal_Template
+mimics the behavior of Smarty, this API simplification should not
+require any changes to custom plugins.
+
+The plugins shipped with Smarty 3.1 have been rewritten for better
+performance. Most notably {html_select_date} and {html_select_time}
+have been improved vastly. Performance aside, plugins have also been
+reviewed and generalized in their API. {html_select_date} and
+{html_select_time} now share almost all available options.
+
+The escape modifier now knows the $double_encode option, which will
+prevent entities from being encoded again.
+
+The capitalize modifier now know the $lc_rest option, which makes sure
+all letters following a captial letter are lower-cased.
+
+The count_sentences modifier now accepts (.?!) as
+legitimate endings of a sentence - previously only (.) was
+accepted
+
+The new unescape modifier is there to reverse the effects of the
+escape modifier. This applies to the escape formats html, htmlall and
+entity.
+
+  default_template_handler_func
+
+The invocation of $smarty->$default_template_handler_func had to be 
+altered. Instead of a Smarty_Internal_Template, the fifth argument is
+now provided with the Smarty instance. New footprint:
+
+
+/**
+ * Default Template Handler
+ *
+ * called when Smarty's file: resource is unable to load a requested file
+ * 
+ * @param string   $type     resource type (e.g. "file", "string", "eval", "resource")
+ * @param string   $name     resource name (e.g. "foo/bar.tpl")
+ * @param string  &$content  template's content
+ * @param integer &$modified template's modification time
+ * @param Smarty   $smarty   Smarty instance
+ * @return string|boolean   path to file or boolean true if $content and $modified 
+ *                          have been filled, boolean false if no default template 
+ *                          could be loaded
+ */
+function default_template_handler_func($type, $name, &$content, &$modified, Smarty $smarty) {
+    if (false) {
+        // return corrected filepath
+        return "/tmp/some/foobar.tpl";
+    } elseif (false) {
+        // return a template directly
+        $content = "the template source";
+        $modified = time();
+        return true;
+    } else {
+        // tell smarty that we failed
+        return false;
+    }
+}
+
+  Stuff done to the compiler
+
+Many performance improvements have happened internally. One notable
+improvement is that all compiled templates are now handled as PHP
+functions. This speeds up repeated templates tremendously, as each one
+calls an (in-memory) PHP function instead of performing another file
+include/scan.
+
+New Features
+
+  Template syntax
+
+ {block}..{/block}
+
+The {block} tag has a new hide option flag. It does suppress the block
+content if no corresponding child block exists.
+EXAMPLE:
+parent.tpl
+{block name=body hide} child content "{$smarty.block.child}" was
+inserted {block}
+In the above example the whole block will be suppressed if no child
+block "body" is existing.
+
+ {setfilter}..{/setfilter}
+
+The new {setfilter} block tag allows the definition of filters which
+run on variable output.
+SYNTAX:
+{setfilter filter1|filter2|filter3....}
+Smarty3 will lookup up matching filters in the following search order:
+1. varibale filter plugin in plugins_dir.
+2. a valid modifier. A modifier specification will also accept
+additional parameter like filter2:'foo'
+3. a PHP function
+{/setfilter} will turn previous filter setting off again.
+{setfilter} tags can be nested.
+EXAMPLE:
+{setfilter filter1}
+  {$foo}
+  {setfilter filter2}
+    {$bar}
+  {/setfilter}
+  {$buh}
+{/setfilter}
+{$blar}
+In the above example filter1 will run on the output of $foo, filter2
+on $bar, filter1 again on $buh and no filter on $blar.
+NOTES:
+- {$foo nofilter} will suppress the filters
+- These filters will run in addition to filters defined by
+registerFilter('variable',...), autoLoadFilter('variable',...) and
+defined default modifier.
+- {setfilter} will effect only the current template, not included
+subtemplates.
+
+  Resource API
+
+Smarty 3.1 features a new approach to resource management. The
+Smarty_Resource API allows simple, yet powerful integration of custom
+resources for templates and configuration files. It offers simple
+functions for loading data from a custom resource (e.g. database) as
+well as define new template types adhering to the special
+non-compiling (e,g, plain php) and non-compile-caching (e.g. eval:
+resource type) resources.
+
+See demo/plugins/resource.mysql.php for an example custom database
+resource.
+
+Note that old-fashioned registration of callbacks for resource
+management has been deprecated but is still possible with SmartyBC.
+
+  CacheResource API
+
+In line with the Resource API, the CacheResource API offers a more
+comfortable handling of output-cache data. With the
+Smarty_CacheResource_Custom accessing databases is made simple. With
+the introduction of Smarty_CacheResource_KeyValueStore the
+implementation of resources like memcache or APC became a no-brainer;
+simple hash-based storage systems are now supporting hierarchical
+output-caches.
+
+See demo/plugins/cacheresource.mysql.php for an example custom
+database CacheResource.
+See demo/plugins/cacheresource.memcache.php for an example custom
+memcache CacheResource using the KeyValueStore helper.
+
+Note that old-fashioned registration of $cache_handler is not possible
+anymore. As the functionality had not been ported to Smarty 3.0.x
+properly, it has been dropped from 3.1 completely.
+
+Locking facilities have been implemented to avoid concurrent cache 
+generation. Enable cache locking by setting 
+$smarty->cache_locking = true;
+
+  Relative Paths in Templates (File-Resource)
+
+As of Smarty 3.1 {include file="../foo.tpl"} and {include
+file="./foo.tpl"} will resolve relative to the template they're in.
+Relative paths are available with {include file="..."} and
+{extends file="..."}. As $smarty->fetch('../foo.tpl') and
+$smarty->fetch('./foo.tpl') cannot be relative to a template, an
+exception is thrown.
+
+  Addressing a specific $template_dir
+
+Smarty 3.1 introduces the $template_dir index notation.
+$smarty->fetch('[foo]bar.tpl') and {include file="[foo]bar.tpl"}
+require the template bar.tpl to be loaded from $template_dir['foo'];
+Smarty::setTemplateDir() and Smarty::addTemplateDir() offer ways to
+define indexes along with the actual directories.
+
+  Mixing Resources in extends-Resource
+
+Taking the php extends: template resource one step further, it is now
+possible to mix resources within an extends: call like
+$smarty->fetch("extends:file:foo.tpl|db:bar.tpl");
+
+To make eval: and string: resources available to the inheritance
+chain, eval:base64:TPL_STRING and eval:urlencode:TPL_STRING have been
+introduced. Supplying the base64 or urlencode flags will trigger
+decoding the TPL_STRING in with either base64_decode() or urldecode().
+
+  extends-Resource in template inheritance
+
+Template based inheritance may now inherit from php's extends:
+resource like {extends file="extends:foo.tpl|db:bar.tpl"}.
+
+  New Smarty property escape_html
+
+$smarty->escape_html = true will autoescape all template variable
+output by calling htmlspecialchars({$output}, ENT_QUOTES,
+SMARTY_RESOURCE_CHAR_SET).
+NOTE:
+This is a compile time option. If you change the setting you must make
+sure that the templates get recompiled.
+
+  New option at Smarty property compile_check
+
+The automatic recompilation of modified templates can now be
+controlled by the following settings:
+$smarty->compile_check = COMPILECHECK_OFF (false) - template files
+will not be checked
+$smarty->compile_check = COMPILECHECK_ON (true) - template files will
+always be checked
+$smarty->compile_check = COMPILECHECK_CACHEMISS - template files will
+be checked if caching is enabled and there is no existing cache file
+or it has expired
+
+  Automatic recompilation on Smarty version change
+
+Templates will now be automatically recompiled on Smarty version
+changes to avoide incompatibillities in the compiled code. Compiled
+template checked against the current setting of the SMARTY_VERSION
+constant.
+
+  default_config_handler_func()
+
+Analogous to the default_template_handler_func()
+default_config_handler_func() has been introduced.
+
+  default_plugin_handler_func()
+
+An optional default_plugin_handler_func() can be defined which gets called 
+by the compiler on tags which can't be resolved internally or by plugins.
+The default_plugin_handler() can map tags to plugins on the fly.
+
+New getters/setters
+
+The following setters/getters will be part of the official
+documentation, and will be strongly recommended. Direct property
+access will still work for the foreseeable future... it will be
+transparently routed through the setters/getters, and consequently a
+bit slower.
+
+array|string getTemplateDir( [string $index] )
+replaces $smarty->template_dir; and $smarty->template_dir[$index];
+Smarty setTemplateDir( array|string $path )
+replaces $smarty->template_dir = "foo"; and $smarty->template_dir =
+array("foo", "bar");
+Smarty addTemplateDir( array|string $path, [string $index])
+replaces $smarty->template_dir[] = "bar"; and
+$smarty->template_dir[$index] = "bar";
+
+array|string getConfigDir( [string $index] )
+replaces $smarty->config_dir; and $smarty->config_dir[$index];
+Smarty setConfigDir( array|string $path )
+replaces $smarty->config_dir = "foo"; and $smarty->config_dir =
+array("foo", "bar");
+Smarty addConfigDir( array|string $path, [string $index])
+replaces $smarty->config_dir[] = "bar"; and
+$smarty->config_dir[$index] = "bar";
+
+array getPluginsDir()
+replaces $smarty->plugins_dir;
+Smarty setPluginsDir( array|string $path )
+replaces $smarty->plugins_dir = "foo";
+Smarty addPluginsDir( array|string $path )
+replaces $smarty->plugins_dir[] = "bar";
+
+string getCompileDir()
+replaces $smarty->compile_dir;
+Smarty setCompileDir( string $path )
+replaces $smarty->compile_dir = "foo";
+
+string getCacheDir()
+replaces $smarty->cache_dir;
+Smarty setCacheDir( string $path )
+replaces $smarty->cache_dir;

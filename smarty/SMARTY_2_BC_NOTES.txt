@@ -1,0 +1,109 @@
+= Known incompatibilities with Smarty 2 =
+
+== Syntax ==
+
+Smarty 3 API has a new syntax. Much of the Smarty 2 syntax is supported 
+by a wrapper but deprecated. See the README that comes with Smarty 3 for more 
+information.
+
+The {$array|@mod} syntax has always been a bit confusing, where an "@" is required
+to apply a modifier to an array instead of the individual elements. Normally you
+always want the modifier to apply to the variable regardless of its type. In Smarty 3,
+{$array|mod} and {$array|@mod} behave identical. It is safe to drop the "@" and the
+modifier will still apply to the array. If you really want the modifier to apply to
+each array element, you must loop the array in-template, or use a custom modifier that
+supports array iteration. Most smarty functions already escape values where necessary
+such as {html_options}
+
+== PHP Version ==
+Smarty 3 is PHP 5 only. It will not work with PHP 4.
+
+== {php} Tag ==
+The {php} tag is disabled by default. The use of {php} tags is
+deprecated. It can be enabled with $smarty->allow_php_tag=true.
+
+But if you scatter PHP code which belongs together into several
+{php} tags it may not work any longer.
+
+== Delimiters and whitespace ==
+Delimiters surrounded by whitespace are no longer treated as Smarty tags.
+Therefore, { foo } will not compile as a tag, you must use {foo}. This change
+Makes Javascript/CSS easier to work with, eliminating the need for {literal}.
+This can be disabled by setting $smarty->auto_literal = false;
+
+== Unquoted Strings ==
+Smarty 2 was a bit more forgiving (and ambiguous) when it comes to unquoted strings 
+in parameters. Smarty3 is more restrictive. You can still pass strings without quotes 
+so long as they contain no special characters. (anything outside of A-Za-z0-9_) 
+
+For example filename strings must be quoted
+<source lang="smarty">
+{include file='path/foo.tpl'}
+</source>
+
+== Extending the Smarty class ==
+Smarty 3 makes use of the __construct method for initialization. If you are extending 
+the Smarty class, its constructor is not called implicitly if the your child class defines 
+its own constructor. In order to run Smarty's constructor, a call to parent::__construct() 
+within your child constructor is required. 
+
+<source lang="php">
+class MySmarty extends Smarty {
+   function __construct() {
+       parent::__construct();
+    
+       // your initialization code goes here
+
+   }
+}
+</source>
+
+== Autoloader ==
+Smarty 3 does register its own autoloader with spl_autoload_register. If your code has 
+an existing __autoload function then this function must be explicitly registered on 
+the __autoload stack. See http://us3.php.net/manual/en/function.spl-autoload-register.php 
+for further details.
+
+== Plugin Filenames ==
+Smarty 3 optionally supports the PHP spl_autoloader. The autoloader requires filenames 
+to be lower case. Because of this, Smarty plugin file names must also be lowercase. 
+In Smarty 2, mixed case file names did work.
+
+== Scope of Special Smarty Variables ==
+In Smarty 2 the special Smarty variables $smarty.section... and $smarty.foreach... 
+had global scope. If you had loops with the same name in subtemplates you could accidentally 
+overwrite values of parent template.
+
+In Smarty 3 these special Smarty variable have only local scope in the template which 
+is defining the loop. If you need their value in a subtemplate you have to pass them 
+as parameter.
+<source lang="smarty">
+{include file='path/foo.tpl' index=$smarty.section.foo.index}
+</source>
+
+== SMARTY_RESOURCE_CHAR_SET ==
+Smarty 3 sets the constant SMARTY_RESOURCE_CHAR_SET to utf-8 as default template charset. 
+This is now used also on modifiers like escape as default charset. If your templates use 
+other charsets make sure that you define the constant accordingly. Otherwise you may not 
+get any output.
+
+== newline at {if} tags ==
+A \n was added to the compiled code of the {if},{else},{elseif},{/if} tags to get output of newlines as expected by the template source. 
+If one of the {if} tags is at the line end you will now get a newline in the HTML output.
+
+== trigger_error() ==
+The API function trigger_error() has been removed because it did just map to PHP trigger_error.
+However it's still included in the Smarty2 API wrapper.
+
+== Smarty constants ==
+The constants 
+SMARTY_PHP_PASSTHRU
+SMARTY_PHP_QUOTE
+SMARTY_PHP_REMOVE
+SMARTY_PHP_ALLOW
+have been replaced with class constants
+Smarty::PHP_PASSTHRU
+Smarty::PHP_QUOTE
+Smarty::PHP_REMOVE
+Smarty::PHP_ALLOW
+

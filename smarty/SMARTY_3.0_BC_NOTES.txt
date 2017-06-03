@@ -1,0 +1,24 @@
+== Smarty2 backward compatibility ==
+All Smarty2 specific API functions and deprecated functionallity has been moved
+to the SmartyBC class.
+
+== {php} Tag ==
+The {php} tag is no longer available in the standard Smarty calls. 
+The use of {php} tags is deprecated and only available in the SmartyBC class. 
+
+== {include_php} Tag ==
+The {include_php} tag is no longer available in the standard Smarty calls. 
+The use of {include_php} tags is deprecated and only available in the SmartyBC class. 
+
+== php template resource ==
+The support of the php template resource is removed.
+
+== $cache_dir, $compile_dir, $config_dir, $template_dir access ==
+The mentioned properties can't be accessed directly any longer. You must use
+corresponding getter/setters like addConfigDir(), setConfigDir(), getConfigDir()
+
+== obsolete Smarty class properties ==
+The following no longer used properties are removed:
+$allow_php_tag
+$allow_php_template
+$deprecation_notices
