@@ -42,6 +42,8 @@ function get_header( $name = null ) {
 
 	$templates[] = 'header.php';
 
+    $templates = apply_filters('replace_header_template', $templates);
+
 	locate_template( $templates, true );
 }
 
@@ -81,6 +83,8 @@ function get_footer( $name = null ) {
 
 	$templates[]    = 'footer.php';
 
+    $templates = apply_filters('replace_footer_template', $templates);
+
 	locate_template( $templates, true );
 }
 
@@ -118,6 +122,8 @@ function get_sidebar( $name = null ) {
 		$templates[] = "sidebar-{$name}.php";
 
 	$templates[] = 'sidebar.php';
+
+    $templates = apply_filters('replace_sidebar_template', $templates);
 
 	locate_template( $templates, true );
 }
