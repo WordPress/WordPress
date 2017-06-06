@@ -10,7 +10,7 @@ if ( ! defined( 'IFRAME_REQUEST' ) && isset( $_GET['action'] ) && in_array( $_GE
 	define( 'IFRAME_REQUEST', true );
 
 /** WordPress Administration Bootstrap */
-require_once( dirname( __FILE__ ) . '/admin.php' );
+require_once( dirname( $_SERVER['SCRIPT_FILENAME'] ) . '/admin.php' );
 
 include_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
