@@ -1985,6 +1985,8 @@ function _wp_upload_dir( $time = null ) {
 			else
 				$dir = ABSPATH . UPLOADS;
 			$url = trailingslashit( $siteurl ) . 'files';
+        } elseif (defined( 'BLOGUPLOADDIR' )) {
+			$dir = untrailingslashit( BLOGUPLOADDIR );
 		}
 	}
 
