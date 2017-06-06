@@ -770,6 +770,31 @@ function dynamic_sidebar( $index = 1 ) {
 }
 
 /**
+ *  Gets the dynamic sidebar.
+ * 
+ * By default this returns the default sidebar or 'sidebar-1'. If your theme specifies the 'id' or
+ * 'name' parameter for its registered sidebars you can pass an id or name as the $index parameter.
+ * Otherwise, you can pass in a numerical index to return the sidebar at that index.
+ * 
+ * @since 2.2.0
+ * 
+ * @param int|string $index Optional, default is 1. Index, name or ID of dynamic sidebar.
+ * @return string "", The sidebar code.
+ */
+function get_dynamic_sidebar($index = 1){
+	if ( is_active_sidebar($index) ) :
+		ob_start();
+		dynamic_sidebar($index);
+		$output = ob_get_contents();
+		ob_end_clean();
+	else:
+		return "";
+	endif;
+    
+	return $output;
+}
+
+/**
  * Whether widget is displayed on the front end.
  *
  * Either $callback or $id_base can be used
