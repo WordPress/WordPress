@@ -1891,7 +1891,7 @@ class WP_Query {
 	 */
 	public function parse_tax_query( &$q ) {
 		if ( ! empty( $q['tax_query'] ) && is_array( $q['tax_query'] ) ) {
-			$tax_query = $q['tax_query'];
+			$tax_query[] = $q['tax_query'];
 		} else {
 			$tax_query = array();
 		}
