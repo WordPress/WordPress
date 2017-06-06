@@ -1,0 +1,190 @@
+/*
+ * Body
+ */
+body.wp-autoresize,
+body {
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 14px;
+    color: #666;
+    background-color: #fff;
+    line-height: 1.7em;
+    font-weight: 500;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding: 10px 20px !important;
+}
+
+/*
+ * Links
+ */
+a {
+    text-decoration: none;
+    color: #2EA3F2;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/*
+ * Inline Elements
+ */
+p {
+    padding-bottom: 1em;
+}
+
+p:last-of-type {
+    padding-bottom: 0;
+}
+
+strong {
+    font-weight: bold;
+}
+
+cite,
+em,
+i {
+    font-style: italic;
+}
+
+pre,
+code {
+    font-family: Courier New, monospace;
+    margin-bottom: 10px;
+}
+
+ins {
+    text-decoration: none;
+}
+
+sup,
+sub {
+    height: 0;
+    line-height: 1;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sup {
+    bottom: 0.8em;
+}
+
+sub {
+    top: 0.3em;
+}
+
+dl {
+    margin: 0 0 1.5em 0;
+}
+
+dl dt {
+    font-weight: bold;
+}
+
+dd {
+    margin-left: 1.5em;
+}
+
+blockquote {
+    margin: 20px 0 30px;
+    border-left: #2EA3F2 5px solid;
+    padding-left: 20px;
+}
+
+blockquote p {
+    padding-bottom: 0px;
+}
+
+embed,
+iframe,
+object,
+video {
+    max-width: 100%;
+}
+
+/*
+ * Headers
+ */
+h1, h2, h3,
+h4, h5, h6 {
+    color: #333;
+    padding-bottom: 10px;
+    line-height: 1em;
+    font-weight: 500;
+}
+
+h1 a, h2 a, h3 a,
+h4 a, h5 a, h6 a {
+    color: inherit;
+}
+
+h1 {
+    font-size: 30px;
+}
+
+h2 {
+    font-size: 26px;
+}
+
+h3 {
+    font-size: 22px;
+}
+
+h4 {
+    font-size: 18px;
+}
+
+h5 {
+    font-size: 16px;
+}
+
+h6 {
+    font-size: 14px;
+}
+
+/*
+ * Forms
+ */
+input {
+    -webkit-appearance: none;
+}
+
+input[type=checkbox] {
+    -webkit-appearance: checkbox;
+}
+
+input[type=radio] {
+    -webkit-appearance: radio;
+}
+
+input[type=text],
+input.text,
+input.title,
+textarea,
+select {
+    background-color: #fff;
+    border: 1px solid #bbb;
+    padding: 2px;
+    color: #4e4e4e;
+}
+
+input[type=text]:focus,
+input.text:focus,
+input.title:focus,
+textarea:focus,
+select:focus {
+    border-color: #2D3940;
+    color: #3e3e3e;
+}
+
+input[type=text],
+input.text,
+input.title,
+textarea,
+select {
+    margin: 0;
+}
+
+textarea {
+    padding: 4px;
+}

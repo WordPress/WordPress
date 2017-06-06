@@ -1,0 +1,2928 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Divi 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/style\n"
+"POT-Creation-Date: 2016-03-30 15:17:43+00:00\n"
+"PO-Revision-Date: 2016-03-30 01:04+0300\n"
+"Last-Translator: \n"
+"Language-Team: Elegant Themes\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.6\n"
+"X-Poedit-KeywordsList: __;_e;_x:1,2c;_ex:1,2c;_n:1,2;_nx:1,2,4c;_n_noop:1,2;"
+"_nx_noop:1,2,3c;esc_attr__;esc_html__;esc_attr_e;esc_html_e;esc_attr_x:1,2c;"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+"X-Poedit-SearchPathExcluded-0: ../includes/builder\n"
+"X-Poedit-SearchPathExcluded-1: ../node_modules\n"
+"X-Poedit-SearchPathExcluded-2: ../core\n"
+
+#: comments.php:4
+msgid "This post is password protected. Enter the password to view comments."
+msgstr ""
+"Tento príspevok je chránený heslom. Zadajte heslo, aby sa Vám zobrazili "
+"komentáre."
+
+#: comments.php:13
+msgid "0 Comments"
+msgstr "0 Komentárov"
+
+#: comments.php:13
+msgid "1 Comment"
+msgstr "1 Komentár"
+
+#: comments.php:13 epanel/core_functions.php:514
+msgid "Comments"
+msgstr "Komentáre"
+
+#: comments.php:18 comments.php:31
+msgid "<span class=\"meta-nav\">&larr;</span> Older Comments"
+msgstr "<span class=\"meta-nav\">&larr;</span> Staršie komentáre"
+
+#: comments.php:19 comments.php:32
+msgid "Newer Comments <span class=\"meta-nav\">&rarr;</span>"
+msgstr "Novšie komentáre <span class=\"meta-nav\">&rarr;</span>"
+
+#: comments.php:38
+msgid "Trackbacks/Pingbacks"
+msgstr "Spätné odkazy"
+
+#: comments.php:56
+msgid "Submit Comment"
+msgstr "Odoslať komentár"
+
+#: comments.php:56
+msgid "Submit a Comment"
+msgstr "Odoslať komentár"
+
+#: comments.php:56
+msgid "Leave a Reply to %s"
+msgstr "Odpovedať na komentár %s"
+
+#: epanel/core_functions.php:31
+msgid "Help"
+msgstr "Pomocník"
+
+#: epanel/core_functions.php:108
+msgid "Options"
+msgstr "Možnosti"
+
+#: epanel/core_functions.php:108 functions.php:8237
+msgid "Theme Options"
+msgstr "Možnosti témy"
+
+#: epanel/core_functions.php:127
+msgid "settings saved."
+msgstr "Nastavenia uložené."
+
+#: epanel/core_functions.php:130
+msgid "settings reset."
+msgstr "Nastavenia resetované."
+
+#: epanel/core_functions.php:139 epanel/core_functions.php:462
+msgid "Save Changes"
+msgstr "Uloži zmeny"
+
+#: epanel/core_functions.php:148 epanel/core_functions.php:733
+msgid "%s Theme Options"
+msgstr "Možnosti motívu %s"
+
+#: epanel/core_functions.php:155
+msgid "Reset to Defaults"
+msgstr "Obnovi predvolené nastavenie"
+
+#: epanel/core_functions.php:160 options_divi.php:38
+msgid "General"
+msgstr "Všeobecné nastavenia"
+
+#: epanel/core_functions.php:163
+msgid "Navigation"
+msgstr "Navigácia"
+
+#: epanel/core_functions.php:166 functions.php:671
+msgid "Layout"
+msgstr "Šablóna"
+
+#: epanel/core_functions.php:169
+msgid "Ads"
+msgstr "Reklamy"
+
+#: epanel/core_functions.php:172
+msgid "Colorization"
+msgstr "Farba"
+
+#: epanel/core_functions.php:175
+msgid "SEO"
+msgstr "SEO"
+
+#: epanel/core_functions.php:178
+msgid "Integration"
+msgstr "Začlenenie"
+
+#: epanel/core_functions.php:264 epanel/core_functions.php:471
+msgid "Reset"
+msgstr "Resetovať"
+
+#: epanel/core_functions.php:265
+msgid "Upload"
+msgstr "Presunúť"
+
+#: epanel/core_functions.php:292
+msgid "You don't have pages"
+msgstr "Nemáte žiadne stránky"
+
+#: epanel/core_functions.php:476 includes/functions/choices.php:92
+msgid "Yes"
+msgstr "Áno"
+
+#: epanel/core_functions.php:479 includes/functions/choices.php:93
+msgid "No"
+msgstr "Nie"
+
+#: epanel/core_functions.php:493
+msgid "Enable"
+msgstr "Zapnú"
+
+#: epanel/core_functions.php:495
+msgid "Disable"
+msgstr "Vypnú"
+
+#: epanel/core_functions.php:502
+msgid "Author"
+msgstr "Autor"
+
+#: epanel/core_functions.php:506
+msgid "Date"
+msgstr "Dátum"
+
+#: epanel/core_functions.php:510 options_divi.php:316
+msgid "Categories"
+msgstr "Kategórie"
+
+#: epanel/core_functions.php:691
+msgid "Choose an Image"
+msgstr "Vyberte obrázok"
+
+#: epanel/custom_functions.php:199
+msgid "&hellip;"
+msgstr "&hellip;"
+
+#: epanel/custom_functions.php:503 header.php:188 header.php:231
+msgid "Home"
+msgstr "Domovská stránka"
+
+#: epanel/custom_functions.php:800
+msgid "Archives"
+msgstr "Archívy"
+
+#: epanel/custom_functions.php:802
+msgid "Search results for \"%s\""
+msgstr "Výsledky hľadania pre \"%s\""
+
+#: epanel/custom_functions.php:804
+msgid "404 Not Found"
+msgstr "chyba 404, stránka sa nenašla"
+
+#: epanel/custom_functions.php:874
+msgid "Currently viewing archives from %1$s"
+msgstr "Teraz prezeráte archívy z %1$s"
+
+#: epanel/custom_functions.php:887
+msgid "Search Results for: %s"
+msgstr "Výsledky vyhľadávania pre: %s"
+
+#: epanel/custom_functions.php:1128
+msgid "Image doesn't exist"
+msgstr "Obrázok neexistuje"
+
+#: epanel/custom_functions.php:1347
+msgid ""
+"<div class=\"updated\"><p>This is a fresh installation of %1$s theme. Don't "
+"forget to go to <a href=\"%2$s\">ePanel</a> to set it up. This message will "
+"disappear once you have clicked the Save button within the <a href=\"%2$s"
+"\">theme's options page</a>.</p></div>"
+msgstr ""
+"<div class=\"updated\"><p>Toto je nová inštalácia témy%1$s. Nezabudnite ísť "
+"do <a href=\"%2$s\">ePanel-u</a>, aby ste ju nastavili. Táto správa zmizne, "
+"ked kliknete na tlačidlo Uložiť na <a href=\"%2$s\">stránke možnosti témy</"
+"a>.</p></div>"
+
+#: epanel/custom_functions.php:1361
+msgid ""
+"There is a new version of %1$s available. <a href=\"%2$s\" class=\"thickbox"
+"\" title=\"%1$s\">View version %3$s details</a>. <em>Before you can update "
+"your Elegant Themes, you must first install the <a href=\"https://www."
+"elegantthemes.com/members-area/documentation.html#updater\" target=\"_blank"
+"\">Elegant Updater Plugin</a> to authenticate your subscription.</em>"
+msgstr ""
+"Nová verzia %1$s je dostupná. <a href=\"%2$s\"class=\"thickbox\"title=\"%1$s"
+"\">Zobraziť verziu %3$sdetails</a>.<em> Aby ste mohli aktualizovať Elegantné "
+"témy, musíte najprv nainštalovať <a href=\"https://www.elegantthemes.com/"
+"members-area/documentation.html#updater\" target=\"_blank\">Elegant Updater "
+"Plugin</a> na overenie vášho predplatného.</em>"
+
+#: epanel/custom_functions.php:1365
+msgid ""
+"Before you can update your Elegant Themes, you must first install the <a "
+"href=\"https://www.elegantthemes.com/members-area/documentation.html#updater"
+"\" target=\"_blank\">Elegant Updater Plugin</a> to authenticate your "
+"subscription."
+msgstr ""
+"Aby ste mohli aktualizovať Elegantné témy, najprv musíte nainštalovať <a "
+"href=\"https://www.elegantthemes.com/members-area/documentation.html#updater"
+"\"target=\"_blank\">Elegant Updater Plugin</a> na overenie vášho "
+"predplatného."
+
+#: epanel/shortcodes/shortcodes.php:15 epanel/shortcodes/shortcodes.php:518
+msgid "Previous"
+msgstr "Predchádzajúci"
+
+#: epanel/shortcodes/shortcodes.php:15 epanel/shortcodes/shortcodes.php:519
+msgid "Next"
+msgstr "Ďalšia strana"
+
+#: epanel/shortcodes/shortcodes.php:273
+msgid "Tweet"
+msgstr "Pridaj tweet"
+
+#: epanel/shortcodes/shortcodes.php:289
+msgid "Member Login"
+msgstr "Prihlásenie člena"
+
+#: epanel/shortcodes/shortcodes.php:292
+msgid "Username: "
+msgstr "Užívateľské meno: "
+
+#: epanel/shortcodes/shortcodes.php:293
+msgid "Password: "
+msgstr "Heslo: "
+
+#: epanel/shortcodes/shortcodes.php:294 functions.php:3786
+msgid "Login"
+msgstr "Prihlásenie"
+
+#: epanel/shortcodes/shortcodes.php:330
+msgid "Add a Tooltip Text"
+msgstr "Pridajte popisok k textu"
+
+#: epanel/shortcodes/shortcodes.php:352
+msgid "Click here to learn more"
+msgstr "Tu Kliknite pre viac informácií"
+
+#: epanel/shortcodes/shortcodes.php:732
+msgid "Join Now"
+msgstr "Prihlás sa!"
+
+#: epanel/shortcodes/shortcodes.php:967
+msgid "Add ET Learn more block"
+msgstr "Pridať blok spínača"
+
+#: epanel/shortcodes/shortcodes.php:968
+msgid "Add ET Box"
+msgstr "Pridaj rámček"
+
+#: epanel/shortcodes/shortcodes.php:969
+msgid "Add ET Button"
+msgstr "Pridať tlačidlo"
+
+#: epanel/shortcodes/shortcodes.php:970
+msgid "Add ET Tabs"
+msgstr "Pridať záložky"
+
+#: epanel/shortcodes/shortcodes.php:971
+msgid "Add Author Bio"
+msgstr "Pridať údaje o autorovi"
+
+#: epanel/shortcodes/shortcodes.php:972
+msgid "Shortcodes"
+msgstr "Balíčky kódov"
+
+#: epanel/shortcodes/shortcodes.php:977
+msgid "Caption"
+msgstr "Titulok"
+
+#: epanel/shortcodes/shortcodes.php:978
+msgid "Caption goes here"
+msgstr "Titulok sa uvádza tu"
+
+#: epanel/shortcodes/shortcodes.php:979
+msgid "Caption title goes here"
+msgstr "Záhlavie textu sa uvádza tu"
+
+#: epanel/shortcodes/shortcodes.php:983
+msgid "State"
+msgstr "Stav"
+
+#: epanel/shortcodes/shortcodes.php:985
+msgid "Select between expanded and closed state"
+msgstr "Vyberte si medzi rozšíreným a uzavretým stavom"
+
+#: epanel/shortcodes/shortcodes.php:990 epanel/shortcodes/shortcodes.php:1006
+#: epanel/shortcodes/shortcodes.php:1035 epanel/shortcodes/shortcodes.php:1115
+msgid "Content"
+msgstr "Obsah"
+
+#: epanel/shortcodes/shortcodes.php:991 epanel/shortcodes/shortcodes.php:1007
+#: epanel/shortcodes/shortcodes.php:1093 epanel/shortcodes/shortcodes.php:1116
+msgid "Content goes here"
+msgstr "Obsah sa uvádza tu"
+
+#: epanel/shortcodes/shortcodes.php:992 epanel/shortcodes/shortcodes.php:1008
+#: epanel/shortcodes/shortcodes.php:1037
+msgid "Content text or html"
+msgstr "Obsah textu alebo HTML"
+
+#: epanel/shortcodes/shortcodes.php:999 epanel/shortcodes/shortcodes.php:1021
+msgid "Type"
+msgstr "Typ"
+
+#: epanel/shortcodes/shortcodes.php:1001
+msgid "Type of the box"
+msgstr "Typ políčka"
+
+#: epanel/shortcodes/shortcodes.php:1015
+msgid "Link"
+msgstr "Odkaz"
+
+#: epanel/shortcodes/shortcodes.php:1017
+msgid "URL"
+msgstr "URL"
+
+#: epanel/shortcodes/shortcodes.php:1023
+msgid "Choose button type"
+msgstr "Vyberte typ tlačidla"
+
+#: epanel/shortcodes/shortcodes.php:1028
+msgid "Color"
+msgstr "Farba"
+
+#: epanel/shortcodes/shortcodes.php:1030
+msgid "Choose button color"
+msgstr "Vyberte farbu tlačidla"
+
+#: epanel/shortcodes/shortcodes.php:1036
+msgid "Link text"
+msgstr "Text odkazu"
+
+#: epanel/shortcodes/shortcodes.php:1041
+msgid "Icon"
+msgstr "Ikona"
+
+#: epanel/shortcodes/shortcodes.php:1043
+msgid "Used for icon button type"
+msgstr "Používa sa pre tlačidlo typu ikony"
+
+#: epanel/shortcodes/shortcodes.php:1048
+msgid "Open link in new window"
+msgstr "Otvorte odkaz v novom okne"
+
+#: epanel/shortcodes/shortcodes.php:1050
+msgid "Select yes if the link should be opened in a new window"
+msgstr "Zvoľte Áno, ak by mal by  odkaz otvorený v novom okne"
+
+#: epanel/shortcodes/shortcodes.php:1058
+msgid "Slider Type"
+msgstr "Typ posuvníka"
+
+#: epanel/shortcodes/shortcodes.php:1060
+msgid "Select Slider Type here"
+msgstr "Tu vyberte typ posuvníka"
+
+#: epanel/shortcodes/shortcodes.php:1065
+msgid "Effect"
+msgstr "Efekt"
+
+#: epanel/shortcodes/shortcodes.php:1067
+msgid "Select Animation Effect"
+msgstr "Vyberte efekt animácie"
+
+#: epanel/shortcodes/shortcodes.php:1072
+msgid "Auto"
+msgstr "Automatická"
+
+#: epanel/shortcodes/shortcodes.php:1074
+msgid "Choose yes if you want for automatic slider animation"
+msgstr "Zvoľte Áno, ak chcete povoliť automatické prepínanie snímkov"
+
+#: epanel/shortcodes/shortcodes.php:1079
+msgid "Auto Speed"
+msgstr "Automatická rýchlosť"
+
+#: epanel/shortcodes/shortcodes.php:1081
+msgid "Automattic slider speed (works only if Auto is set to yes)"
+msgstr ""
+"Automatická rýchlosť prepínania (funguje iba v prípade, ak je automatické "
+"prepínanie nastavené na áno)"
+
+#: epanel/shortcodes/shortcodes.php:1085
+msgid "Tab Text"
+msgstr "Text kariet na internetovej stránke"
+
+#: epanel/shortcodes/shortcodes.php:1092
+msgid "Tab Content"
+msgstr "Obsah kariet na internetovej stránke"
+
+#: epanel/shortcodes/shortcodes.php:1094
+msgid "Paste image url here, if you chose \"images\" slider type"
+msgstr ""
+"Ak ste si vybrali typ posuvníka pre \"images\", tu vložte URL adresu obrázka"
+
+#: epanel/shortcodes/shortcodes.php:1102
+msgid "Image Url"
+msgstr "URL adresa obrázka"
+
+#: epanel/shortcodes/shortcodes.php:1104
+msgid "Author Image URL"
+msgstr "URL adresa obrázku autora"
+
+#: epanel/shortcodes/shortcodes.php:1108
+msgid "Use resizing"
+msgstr "Použitie možnosti prispôsobenia veľkosti"
+
+#: epanel/shortcodes/shortcodes.php:1185
+msgid "+ Add One More Tab"
+msgstr "+ Pridať ďalšiu kartu"
+
+#: epanel/shortcodes/shortcodes.php:1335 functions.php:3452
+msgid "Image Height"
+msgstr "Výška obrázka"
+
+#: epanel/shortcodes/shortcodes.php:1336 functions.php:3432
+msgid "Image Width"
+msgstr "Šírka obrázka"
+
+#: footer.php:40
+msgid "Designed by %1$s | Powered by %2$s"
+msgstr "Navrhol/Navrhla %1$s | Aktivované od %2$s"
+
+#: functions.php:40
+msgid "Primary Menu"
+msgstr "Základný zoznam možností"
+
+#: functions.php:41
+msgid "Secondary Menu"
+msgstr "Dodatočný zoznam možností"
+
+#: functions.php:42 functions.php:686
+msgid "Footer Menu"
+msgstr "Zoznam odkazov"
+
+#: functions.php:89
+msgid ""
+"Welcome to Divi! Before diving in to your new theme, please visit the <a "
+"style=\"color: #fff; font-weight: bold;\" href=\"%1$s\" target=\"_blank"
+"\">Divi Documentation</a> page for access to dozens of in-depth tutorials."
+msgstr ""
+"Vítajte v Divi! Skôr, než sa ponoríte do vlastnej témy, navštívte, prosím, "
+"stránku <a style=\"color: #fff; font-weight: bold;\" href=\"%1$s\" target="
+"\"_blank\">Divi Documentation</a>, na ktorej získate prístup k návodom."
+
+#: functions.php:214
+msgid "Select Page"
+msgstr "Vyberte stranu"
+
+#: functions.php:255
+msgid "Divi Page Settings"
+msgstr "Nastavenia stránky v Divi"
+
+#: functions.php:257
+msgid "Divi Post Settings"
+msgstr "Nastavenia blogu v Divi"
+
+#: functions.php:258
+msgid "Divi Product Settings"
+msgstr "Nastavenia produktov v Divi"
+
+#: functions.php:259
+msgid "Divi Project Settings"
+msgstr "Nastavenia projektov v Divi"
+
+#: functions.php:266
+msgid "Skills"
+msgstr "Znalosti"
+
+#: functions.php:269
+msgid "Posted on"
+msgstr "Publikované"
+
+#: functions.php:293 options_divi.php:103
+msgid "Right Sidebar"
+msgstr "Pravý bočný panel"
+
+#: functions.php:294 options_divi.php:104
+msgid "Left Sidebar"
+msgstr "Ľavý bočný panel"
+
+#: functions.php:295 options_divi.php:105
+msgid "Full Width"
+msgstr "Celková šírka"
+
+#: functions.php:299
+msgid "Light"
+msgstr "Farba"
+
+#: functions.php:300
+msgid "Dark"
+msgstr "Tmavá"
+
+#: functions.php:313
+msgid "Page Layout"
+msgstr "Náčrt stránky"
+
+#: functions.php:327
+msgid "Dot Navigation"
+msgstr "Bodová navigácia"
+
+#: functions.php:330 functions.php:339
+msgid "Off"
+msgstr "Vypnúť"
+
+#: functions.php:331 functions.php:340
+msgid "On"
+msgstr "Zapnúť"
+
+#: functions.php:335
+msgid "Hide Nav Before Scroll"
+msgstr "Ukryť navigáciu až po spodok"
+
+#: functions.php:338 functions.php:5625 includes/functions/choices.php:24
+#: includes/functions/choices.php:40
+msgid "Default"
+msgstr "Predvolené"
+
+#: functions.php:346
+msgid "Post Title"
+msgstr "Nadpis príspevku"
+
+#: functions.php:349 functions.php:384
+msgid "Show"
+msgstr "Zobraziť"
+
+#: functions.php:350 functions.php:383
+msgid "Hide"
+msgstr "Skryť"
+
+#: functions.php:355
+msgid "Use Background Color"
+msgstr "Použiť farbu pozadia"
+
+#: functions.php:360 functions.php:5661
+msgid "Hex Value"
+msgstr "Farebná paleta"
+
+#: functions.php:364 functions.php:1984 functions.php:2011 functions.php:2138
+#: functions.php:2660 functions.php:2760 functions.php:2965
+msgid "Text Color"
+msgstr "Farba textu"
+
+#: functions.php:380
+msgid "Project Navigation"
+msgstr "Navigácia v projekte"
+
+#: functions.php:526 functions.php:538 functions.php:8316
+msgid "you don't have sufficient permissions to access this page"
+msgstr "nemáte dostatočné oprávnenia k prístupu na túto stránku"
+
+#: functions.php:586 options_divi.php:321 options_divi.php:461
+msgid "General Settings"
+msgstr "Všeobecné nastavenia"
+
+#: functions.php:591
+msgid "Site Identity"
+msgstr "Identita stránky"
+
+#: functions.php:596
+msgid "Layout Settings"
+msgstr "Nastavenie rozvrhnutia stránky"
+
+#: functions.php:601
+msgid "Typography"
+msgstr "Typografia"
+
+#: functions.php:606
+msgid "Mobile Styles"
+msgstr "Mobilné štýly"
+
+#: functions.php:611
+msgid "Tablet"
+msgstr "Tablet"
+
+#: functions.php:616
+msgid "Phone"
+msgstr "Mobil"
+
+#: functions.php:621
+msgid "Mobile Menu"
+msgstr "Mobilné menu"
+
+#: functions.php:626
+msgid "Background"
+msgstr "Pozadie"
+
+#: functions.php:631
+msgid "Header & Navigation"
+msgstr "Hlavička a navigácia"
+
+#: functions.php:636
+msgid "Header Format"
+msgstr "Formát hlavičky"
+
+#: functions.php:641
+msgid "Primary Menu Bar"
+msgstr "Lišta primárneho menu"
+
+#: functions.php:646
+msgid "Secondary Menu Bar"
+msgstr "Lišta sekundárneho menu"
+
+#: functions.php:651
+msgid "Slide In & Fullscreen Header Settings"
+msgstr ""
+"Nastavenia zasúvacieho záhlavia a záhlavia k zobrazeniu na celú obrazovku"
+
+#: functions.php:656
+msgid "Fixed Navigation Settings"
+msgstr "Nastavenia pevnej navigácie"
+
+#: functions.php:661
+msgid "Header Elements"
+msgstr "Prvky hlavičky"
+
+#: functions.php:666
+msgid "Footer"
+msgstr "Päta"
+
+#: functions.php:676
+msgid "Widgets"
+msgstr "Mini aplikácie"
+
+#: functions.php:681
+msgid "Footer Elements"
+msgstr "Prvky päty"
+
+#: functions.php:691
+msgid "Bottom Bar"
+msgstr "Spodná lišta"
+
+#: functions.php:696 functions.php:1417
+msgid "Color Schemes"
+msgstr "Farebné schémy"
+
+#: functions.php:698
+msgid ""
+"Note: Color settings set above should be applied to the Default color scheme."
+msgstr ""
+"Poznámka: Vyššie uvedené nastavenie farieb byť malo by použité na predvolenú "
+"farebnú schému."
+
+#: functions.php:702
+msgid "Buttons"
+msgstr "Tlačidlá"
+
+#: functions.php:707
+msgid "Buttons Style"
+msgstr "Štýly tlačidiel"
+
+#: functions.php:712
+msgid "Buttons Hover Style"
+msgstr "Štýly tlačidiel prekrytých kurzorom"
+
+#: functions.php:717 functions.php:4965
+msgid "Blog"
+msgstr "Blog"
+
+#: functions.php:722
+msgid "Post"
+msgstr "Príspevok"
+
+#: functions.php:739
+msgid "Meta Text Size"
+msgstr "Veľkosť textu metadát"
+
+#: functions.php:758
+msgid "Meta Line Height"
+msgstr "Výška riadku metadát"
+
+#: functions.php:777
+msgid "Meta Letter Spacing"
+msgstr "Odstup písma metadát"
+
+#: functions.php:796 functions.php:5034 functions.php:5113
+msgid "Meta Font Style"
+msgstr "Štýl písma metadát"
+
+#: functions.php:811 functions.php:1217 functions.php:1289 functions.php:1308
+#: functions.php:2406
+msgid "Header Text Size"
+msgstr "Veľkosť textu hlavičky"
+
+#: functions.php:830 functions.php:1255
+msgid "Header Line Height"
+msgstr "Veľkosť riadku hlavičky"
+
+#: functions.php:849 functions.php:1236
+msgid "Header Letter Spacing"
+msgstr "Odstup písma hlavičky"
+
+#: functions.php:868 functions.php:1274 functions.php:2425 functions.php:3321
+#: functions.php:3499 functions.php:3614 functions.php:3677 functions.php:3756
+#: functions.php:3820 functions.php:4611 functions.php:5307 functions.php:5413
+msgid "Header Font Style"
+msgstr "Štýl písma hlavičky"
+
+#: functions.php:882
+msgid "Enable Boxed Layout"
+msgstr "Povoliť vzhľad s ohraničením"
+
+#: functions.php:896
+msgid "Website Content Width"
+msgstr "Šírka obsahu webovej stránky"
+
+#: functions.php:915
+msgid "Website Gutter Width"
+msgstr "Odstupy stĺpcov webovej stránky"
+
+#: functions.php:933
+msgid "Use Custom Sidebar Width"
+msgstr "Použiť vlastné bočného panela Šírka"
+
+#: functions.php:947
+msgid "Sidebar Width"
+msgstr "Šírka bočnej lišty"
+
+#: functions.php:966 functions.php:985 functions.php:1004
+msgid "Section Height"
+msgstr "Výška sekcie"
+
+#: functions.php:1023 functions.php:1042 functions.php:1061
+msgid "Row Height"
+msgstr "Výška riadku"
+
+#: functions.php:1080
+msgid "Stretch Background Image"
+msgstr "Roztiahnú obrázok na pozadí"
+
+#: functions.php:1087 functions.php:1681 functions.php:2039 functions.php:2110
+#: functions.php:2124 functions.php:2646 functions.php:2774 functions.php:2979
+msgid "Background Color"
+msgstr "Farba pozadia"
+
+#: functions.php:1094
+msgid "Background Image"
+msgstr "Obrázok pozadia:"
+
+#: functions.php:1100
+msgid "Background Repeat"
+msgstr "Opakovanie pozadia"
+
+#: functions.php:1104
+msgid "No Repeat"
+msgstr "Neopakovať"
+
+#: functions.php:1105
+msgid "Tile"
+msgstr "Dlažba"
+
+#: functions.php:1106
+msgid "Tile Horizontally"
+msgstr "Horizontálna dlažba"
+
+#: functions.php:1107
+msgid "Tile Vertically"
+msgstr "Vertikálna dlažba"
+
+#: functions.php:1112 functions.php:1123
+msgid "Background Position"
+msgstr "Poloha pozadia"
+
+#: functions.php:1116 includes/functions/choices.php:106
+msgid "Left"
+msgstr "Vľavo"
+
+#: functions.php:1117
+msgid "Center"
+msgstr "Do stredu"
+
+#: functions.php:1118 includes/functions/choices.php:105
+msgid "Right"
+msgstr "Vpravo"
+
+#: functions.php:1127
+msgid "Scroll"
+msgstr "Rozvinúť"
+
+#: functions.php:1128
+msgid "Fixed"
+msgstr "Fixné"
+
+#: functions.php:1141 functions.php:1179 functions.php:1198
+msgid "Body Text Size"
+msgstr "Veľkosť textu tela"
+
+#: functions.php:1160
+msgid "Body Line Height"
+msgstr "Veľkosť riadku v tele tela"
+
+#: functions.php:1328
+msgid "Header Font"
+msgstr "Typ písma v hlavičke"
+
+#: functions.php:1344
+msgid "Body Font"
+msgstr "Typ písma hlavného textu"
+
+#: functions.php:1361
+msgid "Body Link Color"
+msgstr "Farba riadka tela"
+
+#: functions.php:1375
+msgid "Body Text Color"
+msgstr "Farba písma textu tela"
+
+#: functions.php:1389
+msgid "Header Text Color"
+msgstr "Farba textu hlavičky"
+
+#: functions.php:1403
+msgid "Theme Accent Color"
+msgstr "Ťažisková farba témy"
+
+#: functions.php:1433
+msgid "Header Style"
+msgstr "Štýl hlavičky"
+
+#: functions.php:1447
+msgid "Enable Vertical Navigation"
+msgstr "Umožniť vertikálnu navigáciu"
+
+#: functions.php:1461
+msgid "Vertical Menu Orientation"
+msgstr "Zvislá orientácia menu"
+
+#: functions.php:1477
+msgid "Hide Navigation Until Scroll"
+msgstr "Ukryť navigáciu až naspodok"
+
+#: functions.php:1492 functions.php:2362
+msgid "Show Social Icons"
+msgstr "Zobraziť ikony sociálnych sietí"
+
+#: functions.php:1506
+msgid "Show Search Icon"
+msgstr "Ukázať ikonu vyhľadávania"
+
+#: functions.php:1520
+msgid "Show Top Bar"
+msgstr "Zobrazi horný panel"
+
+#: functions.php:1534
+msgid "Menu Width"
+msgstr "Šírka menu"
+
+#: functions.php:1553 functions.php:1591
+msgid "Menu Text Size"
+msgstr "Veľkos textu v menu"
+
+#: functions.php:1572 functions.php:1610
+msgid "Top Bar Text Size"
+msgstr "Veľkos textu v hornom paneli"
+
+#: functions.php:1629 functions.php:1848 functions.php:1932 functions.php:2592
+#: functions.php:2840 functions.php:3026
+msgid "Letter Spacing"
+msgstr "Odstupy písmen"
+
+#: functions.php:1649 functions.php:1868 functions.php:1952
+msgid "Font"
+msgstr "Typ písma"
+
+#: functions.php:1666 functions.php:1885 functions.php:1969 functions.php:2611
+#: functions.php:2674
+msgid "Font Style"
+msgstr "Štýl písma"
+
+#: functions.php:1695
+msgid "Menu Link Color"
+msgstr "Farba odkazov v menu"
+
+#: functions.php:1709 functions.php:2025
+msgid "Active Link Color"
+msgstr "Farba aktívneho odkazu"
+
+#: functions.php:1723
+msgid "Top Bar Text Color"
+msgstr "Farba textu v hornom paneli"
+
+#: functions.php:1737
+msgid "Search Bar Text Color"
+msgstr "Farba textu v paneli vyhľadávania"
+
+#: functions.php:1751
+msgid "Search Bar Background Color"
+msgstr "Farba pozadia v paneli vyhľadávania"
+
+#: functions.php:1764 functions.php:1907
+msgid "Make Full Width"
+msgstr "Nastaviť na celú šírku"
+
+#: functions.php:1777 functions.php:1997 functions.php:2213
+msgid "Hide Logo Image"
+msgstr "Ukryť obrázok loga"
+
+#: functions.php:1791
+msgid "Menu Height"
+msgstr "menu Výška"
+
+#: functions.php:1810
+msgid "Logo Max Height"
+msgstr "Logo Max Výška"
+
+#: functions.php:1829 functions.php:1913 functions.php:2246 functions.php:2741
+msgid "Text Size"
+msgstr "Veľkosť textu"
+
+#: functions.php:2053 functions.php:2152
+msgid "Dropdown Menu Background Color"
+msgstr "Farba pozadia rozvíjacieho loga"
+
+#: functions.php:2067
+msgid "Dropdown Menu Line Color"
+msgstr "Farba riadka rozvíjacieho loga"
+
+#: functions.php:2081 functions.php:2166
+msgid "Dropdown Menu Text Color"
+msgstr "Farba textu rozvíjacieho loga"
+
+#: functions.php:2095 functions.php:2180
+msgid "Dropdown Menu Animation"
+msgstr "Animácia rozvíjacieho loga"
+
+#: functions.php:2227
+msgid "Fixed Menu Height"
+msgstr "Pevná Menu Výška"
+
+#: functions.php:2265
+msgid "Primary Menu Background Color"
+msgstr "Farba pozadia primárneho menu"
+
+#: functions.php:2279
+msgid "Secondary Menu Background Color"
+msgstr "Farba pozadia sekundárneho menu"
+
+#: functions.php:2293
+msgid "Primary Menu Link Color"
+msgstr "Primárne Menu Farba odkazu"
+
+#: functions.php:2307
+msgid "Secondary Menu Link Color"
+msgstr "Druhá ponuka Farba odkazu"
+
+#: functions.php:2321
+msgid "Active Primary Menu Link Color"
+msgstr "Aktívne Primary Menu Farba odkazu"
+
+#: functions.php:2335
+msgid "Phone Number"
+msgstr "Telefónne číslo"
+
+#: functions.php:2348
+msgid "Email"
+msgstr "E-mail"
+
+#: functions.php:2376
+msgid "Column Layout"
+msgstr "Vzhľad stĺpca"
+
+#: functions.php:2392
+msgid "Footer Background Color"
+msgstr "Farba pozadia na konci päte stránky"
+
+#: functions.php:2440
+msgid "Body/Link Text Size"
+msgstr "Veľkosť linky textu tela"
+
+#: functions.php:2459
+msgid "Body/Link Line Height"
+msgstr "Výška linky textu tela"
+
+#: functions.php:2478
+msgid "Body Font Style"
+msgstr "Štýl písma tela"
+
+#: functions.php:2493
+msgid "Widget Text Color"
+msgstr "Farba textu mini aplikácií"
+
+#: functions.php:2507
+msgid "Widget Link Color"
+msgstr "Farba linky mini aplikácií"
+
+#: functions.php:2521
+msgid "Widget Header Color"
+msgstr "Farba hlavičky mini aplikácií"
+
+#: functions.php:2535
+msgid "Widget Bullet Color"
+msgstr "Farba bodov mini aplikácií"
+
+#: functions.php:2550
+msgid "Footer Menu Background Color"
+msgstr "Farba pozadia menu päty"
+
+#: functions.php:2564
+msgid "Footer Menu Text Color"
+msgstr "Farba textu menu päty"
+
+#: functions.php:2578
+msgid "Footer Menu Active Link Color"
+msgstr "Farba linky aktívneho menu päty"
+
+#: functions.php:2626 functions.php:2689
+msgid "Font Size"
+msgstr "Veľkosť písma"
+
+#: functions.php:2708
+msgid "Social Icon Size"
+msgstr "Veľkosť ikoniek sociálnych sietí"
+
+#: functions.php:2727
+msgid "Social Icon Color"
+msgstr "Farba ikoniek sociálnych sietí"
+
+#: functions.php:2788
+msgid "Border Width"
+msgstr "Šírka rámčeka"
+
+#: functions.php:2807 functions.php:2993
+msgid "Border Color"
+msgstr "Farba rámčeka"
+
+#: functions.php:2821 functions.php:3007
+msgid "Border Radius"
+msgstr "Zaoblenie okrajov"
+
+#: functions.php:2859 functions.php:5350
+msgid "Button Font Style"
+msgstr "Štýl písma tlačidiel"
+
+#: functions.php:2875
+msgid "Buttons Font"
+msgstr "Typ písma tlačidiel"
+
+#: functions.php:2892
+msgid "Add Button Icon"
+msgstr "Pridaj ikonku tlačidiel"
+
+#: functions.php:2907
+msgid "Select Icon"
+msgstr "Vybrať ikonku"
+
+#: functions.php:2921
+msgid "Icon Color"
+msgstr "Farba ikony"
+
+#: functions.php:2935
+msgid "Icon Placement"
+msgstr "Umiestnenie ikonky"
+
+#: functions.php:2950
+msgid "Only Show Icon on Hover"
+msgstr "Ukázať ikonku len pri prekrytí kurzorom"
+
+#: functions.php:3044 includes/widgets/widget-about.php:50
+#: includes/widgets/widget-ads.php:180 includes/widgets/widget-ads.php:188
+#: includes/widgets/widget-ads.php:196 includes/widgets/widget-ads.php:204
+#: includes/widgets/widget-ads.php:212 includes/widgets/widget-ads.php:220
+#: includes/widgets/widget-ads.php:228 includes/widgets/widget-ads.php:236
+msgid "Image"
+msgstr "Obrázok"
+
+#: functions.php:3045
+msgid "Image Module Settings"
+msgstr "Nastavenia obrázkového modulu"
+
+#: functions.php:3056
+msgid "Animation"
+msgstr "Animácia"
+
+#: functions.php:3057
+msgid "This controls default direction of the lazy-loading animation."
+msgstr ""
+"Toto ovláda štandardné nastavenie smerovania pomaly naťahovaných animácií"
+
+#: functions.php:3067
+msgid "Gallery"
+msgstr "Gallery"
+
+#: functions.php:3080 functions.php:3863 functions.php:3972
+msgid "Zoom Icon Color"
+msgstr "Farba ikonky zväčšenia"
+
+#: functions.php:3095 functions.php:3878 functions.php:3987
+msgid "Hover Overlay Color"
+msgstr "Farba pri prekrytí kurzorom"
+
+#: functions.php:3110 functions.php:3216 functions.php:3893 functions.php:4002
+#: functions.php:4271 functions.php:4350 functions.php:4392 functions.php:4492
+msgid "Title Font Size"
+msgstr "Veľkosť písma názvu"
+
+#: functions.php:3130 functions.php:3236 functions.php:3913 functions.php:4022
+#: functions.php:4291 functions.php:4370 functions.php:4998 functions.php:5077
+msgid "Title Font Style"
+msgstr "Štýl písma názvu"
+
+#: functions.php:3146 functions.php:3929 functions.php:4038
+msgid "Caption Font Size"
+msgstr "Veľkosť písma popisu"
+
+#: functions.php:3166 functions.php:3949 functions.php:4058
+msgid "Caption Font Style"
+msgstr "Štýl písma nadpisu"
+
+#: functions.php:3176
+msgid "Blurb"
+msgstr "Krátky text"
+
+#: functions.php:3189 functions.php:3301 functions.php:3479 functions.php:3594
+#: functions.php:3657 functions.php:3736 functions.php:3800 functions.php:4591
+#: functions.php:5287 functions.php:5393
+msgid "Header Font Size"
+msgstr "Veľkosť písma hlavičky"
+
+#: functions.php:3203
+msgid "Tabs"
+msgstr "Záložka"
+
+#: functions.php:3253 functions.php:3630 functions.php:3772 functions.php:3836
+msgid "Padding"
+msgstr "Vzdialenosť od okraja"
+
+#: functions.php:3267
+msgid "Slider"
+msgstr "Posúvanie"
+
+#: functions.php:3281 functions.php:5373
+msgid "Top & Bottom Padding"
+msgstr "Medzery zhora a zospodu"
+
+#: functions.php:3337 functions.php:5429
+msgid "Content Font Size"
+msgstr "Veľkosť písma obsahu"
+
+#: functions.php:3357 functions.php:5449
+msgid "Content Font Style"
+msgstr "Štýl písma obsahu"
+
+#: functions.php:3367
+msgid "Testimonial"
+msgstr "Odporúčania"
+
+#: functions.php:3380 functions.php:4899
+msgid "Name Font Style"
+msgstr "Štýl písma mena"
+
+#: functions.php:3396
+msgid "Details Font Style"
+msgstr "Štýl písma detailov"
+
+#: functions.php:3412
+msgid "Portrait Border Radius"
+msgstr "Zaoblenie okraja portrétu"
+
+#: functions.php:3466
+msgid "Pricing Table"
+msgstr "Cenová tabuľka"
+
+#: functions.php:3515 functions.php:3693 functions.php:4915
+msgid "Subheader Font Size"
+msgstr "Veľkosť písma podnadpisu"
+
+#: functions.php:3535 functions.php:3713 functions.php:4935
+msgid "Subheader Font Style"
+msgstr "Štýl písma podnadpisu hlavičky"
+
+#: functions.php:3551 functions.php:5208
+msgid "Price Font Size"
+msgstr "Veľkosť písma cenníka"
+
+#: functions.php:3571
+msgid "Pricing Font Style"
+msgstr "Veľkosť písma oceňovania"
+
+#: functions.php:3581
+msgid "Call To Action"
+msgstr "Výzva k akcii"
+
+#: functions.php:3644
+msgid "Audio"
+msgstr "Zvuk"
+
+#: functions.php:3723
+msgid "Email Optin"
+msgstr "email OptIn"
+
+#: functions.php:3850
+msgid "Portfolio"
+msgstr "Portfólio"
+
+#: functions.php:3959
+msgid "Filterable Portfolio"
+msgstr "Filtrovateľné portfólio"
+
+#: functions.php:4074
+msgid "Filters Font Size"
+msgstr "Veľkosť písma filtrov"
+
+#: functions.php:4094
+msgid "Filters Font Style"
+msgstr "Štýl písma filtrov"
+
+#: functions.php:4104
+msgid "Bar Counter"
+msgstr "Stĺpcový graf"
+
+#: functions.php:4117
+msgid "Label Font Size"
+msgstr "Veľkosť písma značiek"
+
+#: functions.php:4137
+msgid "Label Font Style"
+msgstr "Štýl písma značiek"
+
+#: functions.php:4153
+msgid "Percent Font Size"
+msgstr "Veľkosť symbolu percenta"
+
+#: functions.php:4173
+msgid "Percent Font Style"
+msgstr "Štýl symbolu percenta"
+
+#: functions.php:4189
+msgid "Bar Padding"
+msgstr "Medzery líšt"
+
+#: functions.php:4209
+msgid "Bar Border Radius"
+msgstr "Zaoblenie okraja lišty"
+
+#: functions.php:4223
+msgid "Circle Counter"
+msgstr "Kruhové počítadlá"
+
+#: functions.php:4235 functions.php:4314
+msgid "Number Font Size"
+msgstr "Veľkosť číslic"
+
+#: functions.php:4255 functions.php:4334
+msgid "Number Font Style"
+msgstr "Štýl číslic"
+
+#: functions.php:4301
+msgid "Number Counter"
+msgstr "Ciferné počítadlá"
+
+#: functions.php:4380
+msgid "Accordion"
+msgstr "Harmonika"
+
+#: functions.php:4412 functions.php:4512
+msgid "Opened Title Font Style"
+msgstr "Štýl písma nadpisu otvorených prvkov"
+
+#: functions.php:4428 functions.php:4528
+msgid "Closed Title Font Style"
+msgstr "Štýl písma nadpisu zatvorených prvkov"
+
+#: functions.php:4444 functions.php:4544
+msgid "Toggle Icon Size"
+msgstr "Veľkosť ikoniek prepínania"
+
+#: functions.php:4465 functions.php:4564
+msgid "Toggle Padding"
+msgstr "Medzery prepínačov"
+
+#: functions.php:4479
+msgid "Toggle"
+msgstr "Spínač"
+
+#: functions.php:4578
+msgid "Contact Form"
+msgstr "Kontaktný formulár"
+
+#: functions.php:4627
+msgid "Input Font Size"
+msgstr "Veľkosť písma pri vypĺňaní formulárov"
+
+#: functions.php:4647
+msgid "Input Font Style"
+msgstr "Štýl písma pri vypĺňaní formulárov"
+
+#: functions.php:4663
+msgid "Input Field Padding"
+msgstr "Medzery polí pre vypĺňanie formulárov"
+
+#: functions.php:4683
+msgid "Captcha Font Size"
+msgstr "Veľkosť písma nadpisov"
+
+#: functions.php:4703
+msgid "Captcha Font Style"
+msgstr "Štýl písma nadpisov"
+
+#: functions.php:4713 includes/functions/sidebars.php:4
+msgid "Sidebar"
+msgstr "Bočný panel"
+
+#: functions.php:4726
+msgid "Widget Header Font Size"
+msgstr "Veľkosť písma mini aplikácií hlavičky"
+
+#: functions.php:4746
+msgid "Widget Header Font Style"
+msgstr "Štýl písma mini aplikácií hlavičky"
+
+#: functions.php:4762
+msgid "Remove Vertical Divider"
+msgstr "Odstrániť vertikálny oddeľovač"
+
+#: functions.php:4771
+msgid "Divider"
+msgstr "Oddeľovač"
+
+#: functions.php:4783
+msgid "Show Divider"
+msgstr "Zobraziť oddeľovač"
+
+#: functions.php:4798
+msgid "Divider Style"
+msgstr "Štýl deliaceho prvku"
+
+#: functions.php:4815
+msgid "Divider Weight"
+msgstr "Výška deliaceho prvku"
+
+#: functions.php:4835
+msgid "Divider Height"
+msgstr "Výška oddeľovača"
+
+#: functions.php:4855
+msgid "Divider Position"
+msgstr "Umiestnenie deliaceho prvku"
+
+#: functions.php:4866
+msgid "Person"
+msgstr "Osoba"
+
+#: functions.php:4879
+msgid "Name Font Size"
+msgstr "Veľkosť písma mena"
+
+#: functions.php:4951
+msgid "Social Network Icon Size"
+msgstr "Veľkosť ikoniek sociálnych sietí"
+
+#: functions.php:4978 functions.php:5057
+msgid "Post Title Font Size"
+msgstr "Veľkosť písma nadpisov príspevkov"
+
+#: functions.php:5014 functions.php:5093
+msgid "Meta Font Size"
+msgstr "Veľkosť písma metadát"
+
+#: functions.php:5044
+msgid "Blog Grid"
+msgstr "Mriežka blogu"
+
+#: functions.php:5123
+msgid "Shop"
+msgstr "Obchod"
+
+#: functions.php:5136
+msgid "Product Name Font Size"
+msgstr "Veľkosť písma názvu produktu"
+
+#: functions.php:5156
+msgid "Product Name Font Style"
+msgstr "Štýl písma názvu produktu"
+
+#: functions.php:5172
+msgid "Sale Badge Font Size"
+msgstr "Veľkosť písma visačky výpredaja"
+
+#: functions.php:5192
+msgid "Sale Badge Font Style"
+msgstr "Štýl písma visačky výpredaja"
+
+#: functions.php:5228
+msgid "Price Font Style"
+msgstr "Štýl písma ceny"
+
+#: functions.php:5244
+msgid "Sale Price Font Size"
+msgstr "Veľkosť písma výpredaja"
+
+#: functions.php:5264
+msgid "Sale Price Font Style"
+msgstr "Štýl písma výpredaja"
+
+#: functions.php:5274
+msgid "Countdown"
+msgstr "Odpočítavanie"
+
+#: functions.php:5317
+msgid "Social Follow"
+msgstr "Sledovanie na sociálnych sieťach"
+
+#: functions.php:5330
+msgid "Follow Font & Icon Size"
+msgstr "Veľkosť písma a ikoniek sledovania sociálnych sietí"
+
+#: functions.php:5360
+msgid "Fullwidth Slider"
+msgstr "Tučný Slider"
+
+#: functions.php:7753
+msgid "0 comments"
+msgstr "0 komentárov"
+
+#: functions.php:7753
+msgid "1 comment"
+msgstr "1 komentár"
+
+#: functions.php:7753
+msgid "comments"
+msgstr "komentáre"
+
+#: functions.php:7836
+msgid "Password Protected"
+msgstr "Chránené heslom"
+
+#: functions.php:7837
+msgid "To view this protected post, enter the password below"
+msgstr "Pre prezeranie tohto príspevku musíte zadať heslo"
+
+#: functions.php:7840
+msgid "Password"
+msgstr "Heslo"
+
+#: functions.php:7841
+msgid "Submit"
+msgstr "Poslať"
+
+#: functions.php:8241 functions.php:8277
+msgid "Theme Customizer"
+msgstr "Prispôsobenie témy"
+
+#: functions.php:8245 functions.php:8290
+msgid "Module Customizer"
+msgstr "Prispôsobenie modulu"
+
+#: functions.php:8247
+msgid "Role Editor"
+msgstr "editor Role"
+
+#: functions.php:8250
+msgid "Divi Library"
+msgstr "Divi Knižnica"
+
+#: functions.php:8428
+msgid "Divi Customizer Settings"
+msgstr "Nastavenia prispôsobovacieho rozhrania Divi"
+
+#: header.php:143 header.php:271
+msgid "Search &hellip;"
+msgstr "Vyhľadávanie &hellip;"
+
+#: header.php:145 header.php:273
+msgid "Search for:"
+msgstr "Hľadať:"
+
+#: includes/functions/choices.php:9
+msgid "Bold"
+msgstr "Hrubé"
+
+#: includes/functions/choices.php:10
+msgid "Italic"
+msgstr "Kurzíva"
+
+#: includes/functions/choices.php:11
+msgid "Uppercase"
+msgstr "Veľké písmo"
+
+#: includes/functions/choices.php:12
+msgid "Underline"
+msgstr "Podčiarknuť"
+
+#: includes/functions/choices.php:25
+msgid "Green"
+msgstr "Zelená"
+
+#: includes/functions/choices.php:26
+msgid "Orange"
+msgstr "Oranžová"
+
+#: includes/functions/choices.php:27
+msgid "Pink"
+msgstr "Ružová"
+
+#: includes/functions/choices.php:28
+msgid "Red"
+msgstr "Červená"
+
+#: includes/functions/choices.php:41
+msgid "Centered"
+msgstr "Vycentrovaný text"
+
+#: includes/functions/choices.php:42
+msgid "Centered Inline Logo"
+msgstr "Logo vycentrované do riadka"
+
+#: includes/functions/choices.php:43
+msgid "Slide In"
+msgstr "Zasúvanie"
+
+#: includes/functions/choices.php:44
+msgid "Fullscreen"
+msgstr "Na celú obrazovku"
+
+#: includes/functions/choices.php:56
+msgid "Fade"
+msgstr "Dostratena"
+
+#: includes/functions/choices.php:57
+msgid "Expand"
+msgstr "Roztiahnuť"
+
+#: includes/functions/choices.php:58
+msgid "Slide"
+msgstr "List prezentácie"
+
+#: includes/functions/choices.php:59
+msgid "Flip"
+msgstr "Preklopiť"
+
+#: includes/functions/choices.php:71 includes/functions/choices.php:72
+#: includes/functions/choices.php:73 includes/functions/choices.php:75
+#: includes/functions/choices.php:76 includes/functions/choices.php:77
+#: includes/functions/choices.php:78 includes/functions/choices.php:79
+#: includes/functions/choices.php:80
+msgid "%1$s Columns"
+msgstr "%1$s stĺpce"
+
+#: includes/functions/choices.php:74
+msgid "1 Column"
+msgstr "1 stĺpec"
+
+#: includes/functions/choices.php:118
+msgid "Left to Right"
+msgstr "Zľava doprava"
+
+#: includes/functions/choices.php:119
+msgid "Right to Left"
+msgstr "Sprava doľava"
+
+#: includes/functions/choices.php:120
+msgid "Top to Bottom"
+msgstr "Zhora dole"
+
+#: includes/functions/choices.php:121
+msgid "Bottom to Top"
+msgstr "Zdola nahor"
+
+#: includes/functions/choices.php:122
+msgid "Fade In"
+msgstr "Postupné zosilňovanie"
+
+#: includes/functions/choices.php:123
+msgid "No Animation"
+msgstr "Bez animácie"
+
+#: includes/functions/choices.php:135
+msgid "Solid"
+msgstr "Spojitý"
+
+#: includes/functions/choices.php:136
+msgid "Dotted"
+msgstr "Bodkovaný"
+
+#: includes/functions/choices.php:137
+msgid "Dashed"
+msgstr "Prerušovaná čiara"
+
+#: includes/functions/choices.php:138
+msgid "Double"
+msgstr "Dvojitý"
+
+#: includes/functions/choices.php:139
+msgid "Groove"
+msgstr "Ryhovanie"
+
+#: includes/functions/choices.php:140
+msgid "Ridge"
+msgstr "Vrúbkovanie"
+
+#: includes/functions/choices.php:141
+msgid "Inset"
+msgstr "Zvnútra"
+
+#: includes/functions/choices.php:142
+msgid "Outset"
+msgstr "Zvonka"
+
+#: includes/functions/choices.php:154
+msgid "Top"
+msgstr "Hore"
+
+#: includes/functions/choices.php:155
+msgid "Vertically Centered"
+msgstr "Vertikálne zarovnané"
+
+#: includes/functions/choices.php:156
+msgid "Bottom"
+msgstr "Spodok"
+
+#: includes/functions/installation.php:1
+msgid "Read Divi Documentation"
+msgstr "Prečítať Divi dokumentáciu"
+
+#: includes/functions/sidebars.php:13 includes/functions/sidebars.php:22
+#: includes/functions/sidebars.php:31 includes/functions/sidebars.php:40
+msgid "Footer Area"
+msgstr "Päta stránky"
+
+#: includes/functions/tutorials.php:1
+msgid "Watch video tutorials"
+msgstr "Pozri video návody"
+
+#: includes/navigation.php:2
+msgid "&laquo; Older Entries"
+msgstr "&laquo; Staršie záznamy"
+
+#: includes/navigation.php:3
+msgid "Next Entries &raquo;"
+msgstr "Ďalšie položky &raquo;"
+
+#: includes/no-results.php:3
+msgid "No Results Found"
+msgstr "Neboli nájdené žiadne výsledky"
+
+#: includes/no-results.php:4
+msgid ""
+"The page you requested could not be found. Try refining your search, or use "
+"the navigation above to locate the post."
+msgstr ""
+"Požadovaná stránka nebola nájdená. Skúste spresniť vaše hľadanie, alebo "
+"použite navigáciu na vrchu stránky."
+
+#: includes/social_icons.php:6
+msgid "Facebook"
+msgstr "Facebook"
+
+#: includes/social_icons.php:13
+msgid "Twitter"
+msgstr "Twitter"
+
+#: includes/social_icons.php:20
+msgid "Google"
+msgstr "Google"
+
+#: includes/social_icons.php:32
+msgid "RSS"
+msgstr "RSS"
+
+#: includes/widgets/widget-about.php:4
+msgid "Displays About Me Information"
+msgstr "Zobrazí informáciu o mne"
+
+#: includes/widgets/widget-about.php:6
+msgid "ET About Me Widget"
+msgstr "Nástroj \"O mne\""
+
+#: includes/widgets/widget-about.php:12 includes/widgets/widget-about.php:41
+msgid "About Me"
+msgstr "O mne"
+
+#: includes/widgets/widget-about.php:48 includes/widgets/widget-ads.php:172
+#: includes/widgets/widget-ads.php:184 includes/widgets/widget-ads.php:192
+#: includes/widgets/widget-ads.php:200 includes/widgets/widget-ads.php:208
+#: includes/widgets/widget-ads.php:216 includes/widgets/widget-ads.php:224
+#: includes/widgets/widget-ads.php:232 includes/widgets/widget-ads.php:240
+#: includes/widgets/widget-adsense.php:46
+msgid "Title"
+msgstr "Názov"
+
+#: includes/widgets/widget-about.php:52
+msgid "Text"
+msgstr "Text"
+
+#: includes/widgets/widget-ads.php:4
+msgid "Displays Advertisements"
+msgstr "Zobrazí reklamu"
+
+#: includes/widgets/widget-ads.php:6
+msgid "ET Advertisement"
+msgstr "Reklama"
+
+#: includes/widgets/widget-ads.php:12 includes/widgets/widget-ads.php:128
+msgid "Advertisement"
+msgstr "Reklama"
+
+#: includes/widgets/widget-ads.php:175
+msgid "Use Relative Image Paths"
+msgstr "Použiť relatívnu cestu obrázka"
+
+#: includes/widgets/widget-ads.php:177
+msgid "Open in a new window"
+msgstr "Otvoriť v novom okne"
+
+#: includes/widgets/widget-ads.php:180 includes/widgets/widget-ads.php:182
+#: includes/widgets/widget-ads.php:184 includes/widgets/widget-ads.php:186
+#: includes/widgets/widget-ads.php:188 includes/widgets/widget-ads.php:190
+#: includes/widgets/widget-ads.php:192 includes/widgets/widget-ads.php:194
+#: includes/widgets/widget-ads.php:196 includes/widgets/widget-ads.php:198
+#: includes/widgets/widget-ads.php:200 includes/widgets/widget-ads.php:202
+#: includes/widgets/widget-ads.php:204 includes/widgets/widget-ads.php:206
+#: includes/widgets/widget-ads.php:208 includes/widgets/widget-ads.php:210
+#: includes/widgets/widget-ads.php:212 includes/widgets/widget-ads.php:214
+#: includes/widgets/widget-ads.php:216 includes/widgets/widget-ads.php:218
+#: includes/widgets/widget-ads.php:220 includes/widgets/widget-ads.php:222
+#: includes/widgets/widget-ads.php:224 includes/widgets/widget-ads.php:226
+#: includes/widgets/widget-ads.php:228 includes/widgets/widget-ads.php:230
+#: includes/widgets/widget-ads.php:232 includes/widgets/widget-ads.php:234
+#: includes/widgets/widget-ads.php:236 includes/widgets/widget-ads.php:238
+#: includes/widgets/widget-ads.php:240 includes/widgets/widget-ads.php:242
+msgid "Banner"
+msgstr "Banner"
+
+#: includes/widgets/widget-ads.php:182 includes/widgets/widget-ads.php:190
+#: includes/widgets/widget-ads.php:198 includes/widgets/widget-ads.php:206
+#: includes/widgets/widget-ads.php:214 includes/widgets/widget-ads.php:222
+#: includes/widgets/widget-ads.php:230 includes/widgets/widget-ads.php:238
+msgid "Url"
+msgstr "URL"
+
+#: includes/widgets/widget-ads.php:186 includes/widgets/widget-ads.php:194
+#: includes/widgets/widget-ads.php:202 includes/widgets/widget-ads.php:210
+#: includes/widgets/widget-ads.php:218 includes/widgets/widget-ads.php:226
+#: includes/widgets/widget-ads.php:234 includes/widgets/widget-ads.php:242
+msgid "Alt"
+msgstr "Alternatívny text"
+
+#: includes/widgets/widget-ads.php:243
+msgid ""
+"If you don't want to display some banners - leave approptiate fields blank"
+msgstr ""
+"Ak nechcete zobraziť niektoré tlačidlá, ponechajte príslušné políčka prázdne"
+
+#: includes/widgets/widget-adsense.php:4
+msgid "Displays Adsense Ads"
+msgstr "Zobrazí reklamy Adsense"
+
+#: includes/widgets/widget-adsense.php:6
+msgid "ET Adsense Widget"
+msgstr "Nástroj Adsense"
+
+#: includes/widgets/widget-adsense.php:12
+#: includes/widgets/widget-adsense.php:40
+msgid "Adsense"
+msgstr "Adsense"
+
+#: includes/widgets/widget-adsense.php:48
+msgid "Adsense Code"
+msgstr "Adsense kód"
+
+#: options_divi.php:45
+msgid "Logo"
+msgstr "Logo webstránky"
+
+#: options_divi.php:48
+msgid "Set As Logo"
+msgstr "Nastaviť ako Logo"
+
+#: options_divi.php:50
+msgid ""
+"If you would like to use your own custom logo image click the Upload Image "
+"button."
+msgstr ""
+"Ak by ste chceli použiť Váš vlastný obrázok loga, kliknite na tlačidlo "
+"\"Nahrať obrázok\"."
+
+#: options_divi.php:53
+msgid "Favicon"
+msgstr "Favicon"
+
+#: options_divi.php:56
+msgid "Set As Favicon"
+msgstr "Nastaviť ako Favicon"
+
+#: options_divi.php:58
+msgid ""
+"If you would like to use your own custom favicon image click the Upload "
+"Image button."
+msgstr ""
+"Ak by ste chceli použiť váš vlastný užívateľský obrázok favicon (malá ikona, "
+"ktorá je v záložke prehliadača alebo na lište záložiek), kliknite na "
+"tlačidlo Nahrať obrázok."
+
+#: options_divi.php:61
+msgid "Fixed Navigation Bar"
+msgstr "Pevná navigačná lišta"
+
+#: options_divi.php:65
+msgid ""
+"By default the navigation bar stays on top of the screen at all times. We "
+"suggest to disable this option, if you need to use a logo taller than the "
+"default one."
+msgstr ""
+"Podľa predvoleného nastavenia navigačná lišta vždy zostane v hornej časti "
+"obrazovky. Odporúčame túto možnosť zakázať, ak potrebujete použiť veľký "
+"obrázok loga."
+
+#: options_divi.php:68
+msgid "Enable Divi Gallery"
+msgstr "Zapnú galériu Divi"
+
+#: options_divi.php:72
+msgid ""
+"Enable this if you want to replace the WordPress default gallery with the "
+"Divi-style gallery."
+msgstr ""
+"Zapnite túto možnos, ak chcete prednastavenú galériu WordPress nahradi "
+"galériou s motívom Divi."
+
+#: options_divi.php:75
+msgid "Color Pickers Default Palette"
+msgstr "Základná paleta rozhrania na výber farieb"
+
+#: options_divi.php:80
+msgid "Define the default color palette for color pickers in the Divi Builder."
+msgstr ""
+"Definujte základnú farebnú paletu do rozhrania na výber farieb v aplikácii "
+"Divi Builder."
+
+#: options_divi.php:85
+msgid "Grab the first post image"
+msgstr "Zobraziť prvý obrázok príspevku"
+
+#: options_divi.php:89
+msgid ""
+"By default thumbnail images are created using custom fields. However, if you "
+"would rather use the images that are already in your post for your thumbnail "
+"(and bypass using custom fields) you can activate this option. Once "
+"activcated thumbnail images will be generated automatically using the first "
+"image in your post. The image must be hosted on your own server."
+msgstr ""
+"Podľa predvoleného nastavenia sú náhľady obrázkov vytvorené pomocou "
+"vlastných polí. Ak by ste však radšej použili obrázky, ktoré sú už v "
+"príspevku pre vaše náhľady obrázkov(aby ste sa vyhli vlastným poliam), môžte "
+"aktivovať túto možnosť. Po aktivácii, budú náhľady generované automaticky "
+"pomocou prvého obrázku vo vašom príspevku. Obrázok musí byť umiestnený na "
+"vašom vlastnom serveri."
+
+#: options_divi.php:92
+msgid "Blog Style Mode"
+msgstr "Typ štýlu blogu"
+
+#: options_divi.php:96
+msgid ""
+"By default the theme truncates your posts on index/homepages automatically "
+"to create post previews. If you would rather show your posts in full on "
+"index pages like a traditional blog then you can activate this feature."
+msgstr ""
+"V predvolenom nastavení téma automaticky skráti úryvky príspevkov, aby sa "
+"vytvorili náhľady príspevkov. Ak by ste radšej ukázali svoje príspevky v "
+"plnom rozsahu ako v tradičnom blogu, potom aktivujte túto funkciu."
+
+#: options_divi.php:99
+msgid "Shop Page & Category Page Layout for WooCommerce"
+msgstr "Stránka obchodu a rozloženie kategórií stránky pre WooCommerce"
+
+#: options_divi.php:108
+msgid "Here you can choose Shop Page & Category Page Layout for WooCommerce."
+msgstr ""
+"Tu si môžete vybrať stránku obchodu rozloženie kategórií stránky pre "
+"WooCommerce."
+
+#: options_divi.php:112
+msgid "MailChimp API Key"
+msgstr "MailChimp API kľúč (tajný kód)"
+
+#: options_divi.php:117
+msgid ""
+"Enter your MailChimp API key. You can create an api key <a target=\"_blank\" "
+"href=\"%1$s\">here</a>"
+msgstr ""
+"Zadajte svoj MailChimp API kľúč. Môžete si vytvori API kľúč (tajný kód) <a "
+"target=\"_blank\" href=\"%1$s\">here</a>"
+
+#: options_divi.php:120
+msgid "Aweber Authorization"
+msgstr "Povolenie Aweber"
+
+#: options_divi.php:122
+msgid "Authorize your Aweber account here."
+msgstr "Potvrďte váš účet Aweber tu."
+
+#: options_divi.php:126
+msgid "Regenerate MailChimp Lists"
+msgstr "Obnoviť zoznamy MailChimp"
+
+#: options_divi.php:130
+msgid ""
+"By default, MailChimp lists are cached for one day. If you added new list, "
+"but it doesn't appear within the Email Optin module settings, activate this "
+"option. Don't forget to disable it once the list has been regenerated."
+msgstr ""
+"V predvolenom nastavení, zoznamy MailChimp sú ukladané do vyrovnávacej "
+"pamäte na jeden deň. Ak ste pridali nový zoznam, ale neobjavil sa v "
+"nastavení e-mailového OptIn modulu, aktivujte túto možnosťť. Nezabudnite ju "
+"zakázať, akonáhle sa zoznam objaví."
+
+#: options_divi.php:132
+msgid "Regenerate Aweber Lists"
+msgstr "Obnoviť zoznamy Aweber"
+
+#: options_divi.php:136
+msgid ""
+"By default, Aweber lists are cached for one day. If you added new list, but "
+"it doesn't appear within the Email Optin module settings, activate this "
+"option. Don't forget to disable it once the list has been regenerated."
+msgstr ""
+"V predvolenom nastavení, zoznamy AWeber sú ukladané do vyrovnávacej pamäte "
+"na jeden deň. Ak ste pridali nový zoznam, ale neobjavil sa v nastavení e-"
+"mailového OptIn modulu, aktivujte túto možnosťť. Nezabudnite ju zakázať, "
+"akonáhle sa zoznam objaví."
+
+#: options_divi.php:138
+msgid "Show Facebook Icon"
+msgstr "Ukázať ikonu Facebook"
+
+#: options_divi.php:142
+msgid "Here you can choose to display the Facebook Icon on your homepage. "
+msgstr "Tu si môžete zvoliť zobrazenie ikony Facebook na domovskej stránke."
+
+#: options_divi.php:144
+msgid "Show Twitter Icon"
+msgstr "Ukázať ikonu Twitter"
+
+#: options_divi.php:148
+msgid "Here you can choose to display the Twitter Icon. "
+msgstr "Tu si môžete zvoliť zobrazenie ikony Twitter. "
+
+#: options_divi.php:150
+msgid "Show Google+ Icon"
+msgstr "Ukázať ikonu Google+"
+
+#: options_divi.php:154
+msgid "Here you can choose to display the Google+ Icon on your homepage. "
+msgstr "Tu si môžete zvoliť zobrazenie ikonu Google+ na domovskej stránke. "
+
+#: options_divi.php:156
+msgid "Show RSS Icon"
+msgstr "Ukázať ikonu RSS"
+
+#: options_divi.php:160
+msgid "Here you can choose to display the RSS Icon. "
+msgstr "Tu si môžete zvoliť zobrazenie ikony RSS. "
+
+#: options_divi.php:162
+msgid "Facebook Profile Url"
+msgstr "URL adresa profilu na Facebook"
+
+#: options_divi.php:167
+msgid "Enter the URL of your Facebook Profile. "
+msgstr "Zadajte URL adresu vášho profilu na Facebook. "
+
+#: options_divi.php:169
+msgid "Twitter Profile Url"
+msgstr "URL adresa profilu na Twitter"
+
+#: options_divi.php:174
+msgid "Enter the URL of your Twitter Profile."
+msgstr "Zadajte URL adresu vášho profilu na Twitter."
+
+#: options_divi.php:176
+msgid "Google+ Profile Url"
+msgstr "URL adresa profilu na  Google+"
+
+#: options_divi.php:181
+msgid "Enter the URL of your Google+ Profile. "
+msgstr "Zadajte URL adresu vášho profilu na Google+. "
+
+#: options_divi.php:183
+msgid "RSS Icon Url"
+msgstr "Ikona URL adresy RSS (formátu súboru)"
+
+#: options_divi.php:188
+msgid "Enter the URL of your RSS feed. "
+msgstr "Zadajte URL adresu vášho RSS (formátu súboru). "
+
+#: options_divi.php:190
+msgid "Number of Products displayed on WooCommerce archive pages"
+msgstr "Poèet výrobkov zobrazovaných na stránkach archívu WooCommerce"
+
+#: options_divi.php:194
+msgid ""
+"Here you can designate how many WooCommerce products are displayed on the "
+"archive page. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"Tu môžete nastavi, koľko výrobkov WooCommerce sa má zobrazova na stránke "
+"archívu. Táto možnos funguje nezávisle od možností v sekcii Nastavenia > "
+"Èítanie vo wp-admin."
+
+#: options_divi.php:198
+msgid "Number of Posts displayed on Category page"
+msgstr "Počet príspevkov zobrazených na stránke Kategórie"
+
+#: options_divi.php:202
+msgid ""
+"Here you can designate how many recent articles are displayed on the "
+"Category page. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"Tu môžete určiť, koľko nedávnych článkov je zobrazených na stránke "
+"Kategória. Táto voľba funguje nezávisle od nastavení čítania vo WordPres "
+"nastaveniach."
+
+#: options_divi.php:206
+msgid "Number of Posts displayed on Archive pages"
+msgstr "Počet príspevkov zobrazených v Archíve"
+
+#: options_divi.php:210
+msgid ""
+"Here you can designate how many recent articles are displayed on the Archive "
+"pages. This option works independently from the Settings > Reading options "
+"in wp-admin."
+msgstr ""
+"Tu môžete určiť, koľko nedávnych článkov je zobrazených v Archíve. Táto "
+"voľba funguje nezávisle od nastavení čítania vo WordPres nastaveniach."
+
+#: options_divi.php:214
+msgid "Number of Posts displayed on Search pages"
+msgstr "Počet príspevkov zobrazených na hľadaných stránkach"
+
+#: options_divi.php:218
+msgid ""
+"Here you can designate how many recent articles are displayed on the Search "
+"results pages. This option works independently from the Settings > Reading "
+"options in wp-admin."
+msgstr ""
+"Tu môžete určiť, koľko nedávnych článkov je zobrazených na stránkach "
+"výsledkov vyhľadávania. TTáto voľba funguje nezávisle od nastavení čítania "
+"vo WordPres nastaveniach."
+
+#: options_divi.php:222
+msgid "Number of Posts displayed on Tag pages"
+msgstr "Počet príspevkov zobrazujú na stránkach s citátmi."
+
+#: options_divi.php:226
+msgid ""
+"Here you can designate how many recent articles are displayed on the Tag "
+"pages. This option works independently from the Settings > Reading options "
+"in wp-admin."
+msgstr ""
+"Tu môžete určiť, koľko nedávnych článkov je zobrazených na stránkach s "
+"citátmi. Táto voľba funguje nezávisle od nastavení čítania vo WordPres "
+"nastaveniach."
+
+#: options_divi.php:230
+msgid "Date format"
+msgstr "Formát dátumu"
+
+#: options_divi.php:234
+msgid ""
+"This option allows you to change how your dates are displayed. For more "
+"information please refer to the WordPress codex here:<a href='http://codex."
+"wordpress.org/Formatting_Date_and_Time' target='_blank'>Formatting Date and "
+"Time</a>"
+msgstr ""
+"Táto voľba Vám umožňuje zmeniť spôsob, akým sa zobraza dátumy. Viac "
+"informácií nájdete v kodéxe WordPress tu:<a href='http://codex.wordpress.org/"
+"Formatting_Date_and_Time' target='_blank'>Formatting Date and Time</a>"
+
+#: options_divi.php:238
+msgid "Use excerpts when defined"
+msgstr "Využívať urývky, keď je to určené."
+
+#: options_divi.php:242
+msgid "This will enable the use of excerpts in posts or pages."
+msgstr "Toto umožní použiť úryvky v príspevkoch alebo na stránkach."
+
+#: options_divi.php:245
+msgid "Responsive shortcodes"
+msgstr "Vnímavé shortcodes"
+
+#: options_divi.php:249
+msgid "Enable this option to make shortcodes respond to various screen sizes"
+msgstr ""
+"Povoľte túto možnosť, aby shortcodes reagovali na rôzne veľkosti obrazovky."
+
+#: options_divi.php:252
+msgid "Google Fonts subsets"
+msgstr "Podmnožiny Google Fonts"
+
+#: options_divi.php:256
+msgid "This will enable Google Fonts for Non-English languages."
+msgstr ""
+"Toto umožní, aby sa Google Fonts využívalo aj v iných jazykoch ako v "
+"anglickom."
+
+#: options_divi.php:259
+msgid "Back To Top Button"
+msgstr "Späť na začiatok"
+
+#: options_divi.php:263
+msgid "Enable this option to display Back To Top Button while scrolling"
+msgstr ""
+"Túto možnosť povoľte, aby sa zobrazilo tlačidlo Späť na začiatok pri "
+"posúvaní."
+
+#: options_divi.php:266
+msgid "Smooth Scrolling"
+msgstr "Plynulé posúvanie stránky nadol"
+
+#: options_divi.php:270
+msgid "Enable this option to get the smooth scrolling effect with mouse wheel"
+msgstr ""
+"Povoľte túto možnosť, aby ste dosiahli efekt plynulého posúvania kolieskom "
+"myši."
+
+#: options_divi.php:273
+msgid "Disable Translations"
+msgstr "Vypnú preklady"
+
+#: options_divi.php:277
+msgid ""
+"Disable translations if you don't want to display translated theme strings "
+"on your site."
+msgstr ""
+"Vypnite preklady, ak na svojej stránke nechcete zobrazova preložené textové "
+"reazce k motívu."
+
+#: options_divi.php:280
+msgid "Custom CSS"
+msgstr ""
+"Voliteľný kódovací jazyk CSS (prispôsobuje vzhľad internetových stránok)"
+
+#: options_divi.php:284
+msgid "Here you can add custom css to override or extend default styles."
+msgstr ""
+"Tu môžete pridať voliteľný kódovací jazyk CSS, aby ste prepísali alebo "
+"rozšírili predvolené štýly."
+
+#: options_divi.php:289
+msgid "Memory Limit Increase"
+msgstr "Zvýšenie pamäťového limitu"
+
+#: options_divi.php:291
+msgid "Here you can disable automatic memory limit increase."
+msgstr "Tu môžete vypnúť automatické zvyšovanie pamäťového limitu."
+
+#: options_divi.php:311
+msgid "Pages"
+msgstr "Stránky"
+
+#: options_divi.php:329
+msgid "Exclude pages from the navigation bar"
+msgstr "Vylúčiť stránky z navigačnej lišty"
+
+#: options_divi.php:333
+msgid ""
+"Here you can choose to remove certain pages from the navigation menu. All "
+"pages marked with an X will not appear in your navigation bar. "
+msgstr ""
+"Tu si môžete vybrať, určité stránky, ktoré odoberiete z Menu navigácie. "
+"Všetky stránky označené X sa nezobrazia v navigačnej lište. "
+
+#: options_divi.php:337 options_divi.php:387
+msgid "Show dropdown menus"
+msgstr "Ukázať rozbaľovacie menu"
+
+#: options_divi.php:341
+msgid ""
+"If you would like to remove the dropdown menus from the pages navigation bar "
+"disable this feature."
+msgstr ""
+"Ak chcete odstrániť rozbaľovacie menu na stránkach navigačnej lišty, zakážte "
+"túto funkciu."
+
+#: options_divi.php:344
+msgid "Display Home link"
+msgstr "Zobrazenie odkazu na domovskú stránku"
+
+#: options_divi.php:348
+msgid ""
+"By default the theme creates a Home link that, when clicked, leads back to "
+"your blog's homepage. If, however, you are using a static homepage and have "
+"already created a page called Home to use, this will result in a duplicate "
+"link. In this case you should disable this feature to remove the link."
+msgstr ""
+"V predvolenom nastavení téma vytvorí odkaz na domovskú stránku tak, že po "
+"kliknutí Vás prevedie späť na domovskú stránku vášho blogu. Ak však "
+"používate statickú domovskú stránku a už ste vytvorili stránku s názvom "
+"Domov na používanie, bude to viesť k zdvojeniu odkazu. Na odstránenie odkazu "
+"by ste v tomto prípade mali zakázať túto funkciu."
+
+#: options_divi.php:351
+msgid "Sort Pages Links"
+msgstr "Zoradiť Odkazy"
+
+#: options_divi.php:355
+msgid "Here you can choose to sort your pages links."
+msgstr "Tu si môžete vybrať ako zoradiť odkazy stránok."
+
+#: options_divi.php:358
+msgid "Order Pages Links by Ascending/Descending"
+msgstr "Poradie odkazov stránok vzostupne/zostupne"
+
+#: options_divi.php:362
+msgid ""
+"Here you can choose to reverse the order that your pages links are "
+"displayed. You can choose between ascending and descending."
+msgstr ""
+"Tu môžete vybrať zmenu poradia, v ktorom sa zobrazujú odkazy na vaše "
+"stránky. Môžete si vybrať medzi vzostupným a zostupným."
+
+#: options_divi.php:365 options_divi.php:401
+msgid "Number of dropdown tiers shown"
+msgstr "Počet zobrazených stupňov rozbaľovania"
+
+#: options_divi.php:369 options_divi.php:405
+msgid ""
+"This options allows you to control how many teirs your pages dropdown menu "
+"has. Increasing the number allows for additional menu items to be shown."
+msgstr ""
+"Táto voľba umožňuje kontrolovať, koľko úrovní má rozbaľovacie menu vašej "
+"stránky. Zvýšenie počtu umožňuje zobrazenie ďalších položiek menu."
+
+#: options_divi.php:379
+msgid "Exclude categories from the navigation bar"
+msgstr "Vylúčiť kategórie z navigačnej lišty"
+
+#: options_divi.php:383
+msgid ""
+"Here you can choose to remove certain categories from the navigation menu. "
+"All categories marked with an X will not appear in your navigation bar. "
+msgstr ""
+"Tu si môžete vybrať určité kategórie, ktoré odstránite z navigačného menu. "
+"Všetky kategórie označené X sa nezobrazia v navigačnej lište. "
+
+#: options_divi.php:391
+msgid ""
+"If you would like to remove the dropdown menus from the categories "
+"navigation bar disable this feature."
+msgstr ""
+"Ak by ste chceli, aby sa odstránili rozbaľovacie ponuky z navigačnej lišty "
+"kategórii, zablokujte túto funkciu."
+
+#: options_divi.php:394
+msgid "Hide empty categories"
+msgstr "Skryť prázdne kategórie"
+
+#: options_divi.php:398
+msgid ""
+"If you would like categories to be displayed in your navigationbar that "
+"don't have any posts in them then disable this option. By default empty "
+"categories are hidden"
+msgstr ""
+"Ak by ste chceli, aby sa kategórie, ktoré neobsahujú žiadne príspevky, "
+"zobrazili v navigačnej lište, zablokujte túto možnosť. V predvolenom "
+"nastavení sú prázdne kategórie skryté."
+
+#: options_divi.php:409
+msgid "Sort Categories Links by Name/ID/Slug/Count/Term Group"
+msgstr "Druhy odkazov kategórií v štýle skupiny Name/ID/Slug/Count/Term"
+
+#: options_divi.php:413
+msgid ""
+"By default pages are sorted by name. However if you would rather have them "
+"sorted by ID you can adjust this setting."
+msgstr ""
+"V predvolenom nastavení sú stránky zoradené podľa názvu. Ak by ste ich "
+"radšej chceli zoradiť podľa ID, zvoľte toto nastavenie."
+
+#: options_divi.php:416
+msgid "Order Category Links by Ascending/Descending"
+msgstr "Poradie odkazov kategórií vzostupne alebo zostupne"
+
+#: options_divi.php:420
+msgid ""
+"Here you can choose to reverse the order that your categories links are "
+"displayed. You can choose between ascending and descending."
+msgstr ""
+"Tu si môžete zmeniť poradie, v ktorom sa zobrazujú odkazy na vaše kategórie. "
+"Môžete si vybrať medzi vzostupným a zostupným."
+
+#: options_divi.php:429
+msgid "Disable top tier dropdown menu links"
+msgstr "Zablokovať rozbaľovacie odkazy horného menu"
+
+#: options_divi.php:433
+msgid ""
+"In some cases users will want to create parent categories or links as "
+"placeholders to hold a list of child links or categories. In this case it is "
+"not desirable to have the parent links lead anywhere, but instead merely "
+"serve an organizational function. Enabling this options will remove the "
+"links from all parent pages/categories so that they don't lead anywhere when "
+"clicked."
+msgstr ""
+"V niektorých prípadoch používatelia chcú vytvoriť nadradené kategórie alebo "
+"odkazy ako zástupné symboly, ktoré obsahujú zoznam podradených odkazov alebo "
+"kategórií. V tomto prípade nie je žiaduce, aby nadradené odkazy niekde "
+"odkazovali, ale namiesto toho majú len organizačnú funkciu. Po povolení "
+"tejto možnosti sa odoberajú odkazy zo všetkých nadradených stránok/kategórií "
+"tak, aby nepresmerovali po kliknutí na žiadnu stránku."
+
+#: options_divi.php:451
+msgid "Single Post Layout"
+msgstr "Rozvrhnutie jedného článku"
+
+#: options_divi.php:456
+msgid "Single Page Layout"
+msgstr "Rozvrhnutie strany na internetovej stránke"
+
+#: options_divi.php:469
+msgid "Choose which items to display in the postinfo section"
+msgstr ""
+"Vyberte, ktoré položky sa zobrazia ako metaúdaje v spodnej časti názvu článku"
+
+#: options_divi.php:473
+msgid ""
+"Here you can choose which items appear in the postinfo section on single "
+"post pages. This is the area, usually below the post title, which displays "
+"basic information about your post. The highlighted itmes shown below will "
+"appear. "
+msgstr ""
+"Tu si môžete vybrať, ktoré položky sa zobrazia ako metaúdaje v spodnej časti "
+"názvu článku jednotlivých príspevkov. To je oblasť, zvyčajne pod názvom "
+"príspevku, ktorá prináša základné informácie o vašom príspevku. Objavia sa "
+"nižšie uvedené zvýraznené položky. "
+
+#: options_divi.php:477
+msgid "Show comments on posts"
+msgstr "Zobraziť komentáre k príspevkom"
+
+#: options_divi.php:481
+msgid ""
+"You can disable this option if you want to remove the comments and comment "
+"form from single post pages. "
+msgstr ""
+"Ak chcete odstrániť komentáre a formulár komentárov k príspevkom, zablokujte "
+"túto možnosť. "
+
+#: options_divi.php:484
+msgid "Place Thumbs on Posts"
+msgstr "Miesto pre hlavné obrázky v príspevkoch"
+
+#: options_divi.php:488
+msgid ""
+"By default thumbnails are placed at the beginning of your post on single "
+"post pages. If you would like to remove this initial thumbnail image to "
+"avoid repetition simply disable this option. "
+msgstr ""
+"Podľa predvoleného nastavenia sú hlavné obrázky umiestnené na začiatku "
+"vašich jednotlivých príspevkov. Ak chcete odstrániť tento hlavný obrázok, "
+"aby ste zabránili opakovaniu, jednoducho túto možnosť zakážte. "
+
+#: options_divi.php:497
+msgid "Place Thumbs on Pages"
+msgstr "Umiesniť miniatúry na stránkach"
+
+#: options_divi.php:501
+msgid ""
+"By default thumbnails are not placed on pages (they are only used on posts). "
+"However, if you want to use thumbnails on pages you can! Just enable this "
+"option. "
+msgstr ""
+"V pôvodných nastaveniach miniatúry nie sú umiestnené na stránku (využívajú "
+"sa len pri príspevkoch). Ak ich však chcete, môžete ich tam umiestniť. Stačí "
+"povoliť túto možnosť."
+
+#: options_divi.php:504
+msgid "Show comments on pages"
+msgstr "Zobraziť komentáre na internetových stránkach"
+
+#: options_divi.php:508
+msgid ""
+"By default comments are not placed on pages, however, if you would like to "
+"allow people to comment on your pages simply enable this option. "
+msgstr ""
+"Podľa predvoleného nastavenia nie sú komentáre umiestnené na stránkach. Ak "
+"však chcete, aby vám ľudia pridávali komentáre na vaše stránky, povoľte túto "
+"možnosť. "
+
+#: options_divi.php:517
+msgid "Post info section"
+msgstr "Informačná časť článku pod názvom článku"
+
+#: options_divi.php:521
+msgid ""
+"Here you can choose which items appear in the postinfo section on pages. "
+"This is the area, usually below the post title, which displays basic "
+"information about your post. The highlighted itmes shown below will appear. "
+msgstr ""
+"Tu si môžete vybrať, ktoré položky sa zobrazia v informačnej časti článku "
+"pod názvom článku. Toto je oblasť, zvyčajne pod názvom príspevku, kde sú "
+"zobrazené základné informácie o vašom príspevku. Objavia sa nižšie uvedené "
+"zvýraznené položky. "
+
+#: options_divi.php:524
+msgid "Show Thumbs on Index pages"
+msgstr "Ukázať miniatúry v na hlavných stránkach"
+
+#: options_divi.php:528
+msgid "Enable this option to show thumbnails on Index Pages."
+msgstr ""
+"Povoliť možnosť zobrazenia miniatúr na hlavných stránkach (Index pages)."
+
+#: options_divi.php:545
+msgid "Homepage SEO"
+msgstr "Domovská stránka SEO"
+
+#: options_divi.php:550
+msgid "Single Post Page SEO"
+msgstr "Príspevok SEO"
+
+#: options_divi.php:555
+msgid "Index Page SEO"
+msgstr "Základná časť internetovej stránky SEO"
+
+#: options_divi.php:563
+msgid " Enable custom title "
+msgstr "Povoliť vlastný názov "
+
+#: options_divi.php:567
+msgid ""
+"By default the theme uses a combination of your blog name and your blog "
+"description, as defined when you created your blog, to create your homepage "
+"titles. However if you want to create a custom title then simply enable this "
+"option and fill in the custom title field below. "
+msgstr ""
+"Podľa predvoleného nastavenia téma využíva kombináciu názvu a popisu vášho "
+"blogu, ako je definovaná pri vytváraní blogu a názvov domovských stránok. Ak "
+"však chcete vytvori vlastný titul, potom stačí len zaškrtnú túto voľbu a "
+"vyplniť vlastný názov poľa nižšie. "
+
+#: options_divi.php:570
+msgid " Enable meta description"
+msgstr ""
+"Povoliť metaúdaje, ktoré poskytujú informácie o obsahu webových stránok."
+
+#: options_divi.php:574
+msgid ""
+"By default the theme uses your blog description, as defined when you created "
+"your blog, to fill in the meta description field. If you would like to use a "
+"different description then enable this option and fill in the custom "
+"description field below. "
+msgstr ""
+"Na základe predvoleného nastavenia  téma používa opis blogu, ako je "
+"definované pri vytváraní blogu, vyplnení poľa metaúdajov. Ak by ste chceli "
+"použiť iný opis, povoľte túto voľbu a nižšie vyplňte vlastné typy polí. "
+
+#: options_divi.php:577
+msgid " Enable meta keywords"
+msgstr "Povoliť meta kľúčové slová"
+
+#: options_divi.php:581
+msgid ""
+"By default the theme does not add keywords to your header. Most search "
+"engines don't use keywords to rank your site anymore, but some people define "
+"them anyway just in case. If you want to add meta keywords to your header "
+"then enable this option and fill in the custom keywords field below. "
+msgstr ""
+"Podľa predvoleného nastavenia téma nepridá kľúčové slová do hlavičky. "
+"Väčšina vyhľadávačov nepoužíva kľúčové slová, aby ohodnotili vašu webovú "
+"stránku, ale niektorí ľudia ich len pre prípad vymedzujú. Ak chcete pridať "
+"meta kľúčové slová, potom povoľte túto voľbu a nižšie vyplňte pole vlastných "
+"kľúčových slov. "
+
+#: options_divi.php:584 options_divi.php:711
+msgid " Enable canonical URL's"
+msgstr "Povoliť kanonické URL"
+
+#: options_divi.php:588 options_divi.php:662 options_divi.php:715
+msgid ""
+"Canonicalization helps to prevent the indexing of duplicate content by "
+"search engines, and as a result, may help avoid duplicate content penalties "
+"and pagerank degradation. Some pages may have different URLs all leading to "
+"the same place. For example domain.com, domain.com/index.html, and www."
+"domain.com are all different URLs leading to your homepage. From a search "
+"engine's perspective these duplicate URLs, which also occur often due to "
+"custom permalinks, may be treated individually instead of as a single "
+"destination. Defining a canonical URL tells the search engine which URL you "
+"would like to use officially. The theme bases its canonical URLs off your "
+"permalinks and the domain name defined in the settings tab of wp-admin."
+msgstr ""
+"Použitie kanonizácie pomôže internetovým vyhľadávačom predísť zaznamenávaniu "
+"duplicitného obsahu, čo v konečnom dôsledku pomôže vyhnúť sa sankciám za "
+"duplicitný obsah a degradácii hodnotenia stránky. Niektoré stránky môžu mať "
+"rozličné URLs adresy, ktoré smerujú na to isté miesto. Napríklad domain.com, "
+"domain.com/index.html, a www.domain.com sú rozličné URLs adresy vedúce k "
+"vašej domovskej stránke. Z pohľadu internetového vyhľadávača môžu byť tieto "
+"duplicitné URLs adresy, ktoré sa často vyskytnú aj v kvôli klientským "
+"odkazom, vyhodnocované individuálne a nie ako jedna destinácia. Určenie "
+"kanonickej URL adresy internetovému vyhľadávaču povedia, ktorú URL adresu "
+"chcete využívať oficiálne. Téma ukladá kanonické URLs adresy vašich odkazov "
+"a názov domény definovaný v záložke nastavení wp-admina."
+
+#: options_divi.php:591
+msgid "Homepage custom title (if enabled)"
+msgstr "Vlastný názov domovskej stránky (ak je povolený)"
+
+#: options_divi.php:595
+msgid ""
+"If you have enabled custom titles you can add your custom title here. "
+"Whatever you type here will be placed between the < title >< /title > tags "
+"in header.php"
+msgstr ""
+"Ak ste povolili vlastné nadpisy, môžete pridať svoj vlastný nadpis tu. "
+"Všetko čo napíšete, tu bude umiestnený medzi tagy <title></title> v súbore "
+"header.php"
+
+#: options_divi.php:599
+msgid "Homepage meta description (if enabled)"
+msgstr "Opis domovskej stránky (ak je povolený)"
+
+#: options_divi.php:603
+msgid ""
+"If you have enabled meta descriptions you can add your custom description "
+"here."
+msgstr "Ak ste povolili meta popisy, tu môžete pridať svoj vlastný popis."
+
+#: options_divi.php:607
+msgid "Homepage meta keywords (if enabled)"
+msgstr "Meta klúčové slová domovskej stránky (ak sú povolené)"
+
+#: options_divi.php:611
+msgid ""
+"If you have enabled meta keywords you can add your custom keywords here. "
+"Keywords should be separated by comas. For example: wordpress,themes,"
+"templates,elegant"
+msgstr ""
+"Ak ste povolili meta kľúčové slová, môžete pridať svoje vlastné kľúčové "
+"slová. Kľúčové slová by mali by oddelené čiarkou. Napríklad: wordpress,"
+"themes,templates,elegant"
+
+#: options_divi.php:615 options_divi.php:689
+msgid "If custom titles are disabled, choose autogeneration method"
+msgstr ""
+"Ak sú vlastné tituly zablokované, vyberte metódu automatické generovanie"
+
+#: options_divi.php:620
+msgid ""
+"If you are not using cutsom post titles you can still have control over how "
+"your titles are generated. Here you can choose which order you would like "
+"your post title and blog name to be displayed, or you can remove the blog "
+"name from the title completely."
+msgstr ""
+"Ak nepoužívate vlastné tituly príspevkov, stále môžete ma kontrolu nad tým, "
+"ako sú vaše tituly generované.Tu si môžete vybrať, v akom poradí by mal by "
+"zobrazený váš názov príspevku a blogu alebo môžete úplne odstráni názov "
+"blogu z titulu."
+
+#: options_divi.php:623 options_divi.php:697 options_divi.php:733
+msgid "Define a character to separate BlogName and Post title"
+msgstr ""
+"Definujte charakter vlastného Mena internetovej stránky a Názvu príspevku."
+
+#: options_divi.php:627 options_divi.php:701
+msgid ""
+"Here you can change which character separates your blog title and post name "
+"when using autogenerated post titles. Common values are | or -"
+msgstr ""
+"Tu si môžete zmeniť znak, ktorý oddeľuje názov vášho blogu a názov príspevku "
+"pri použití automaticky generované titulov príspevkov. Bežné hodnoty sú | "
+"alebo -"
+
+#: options_divi.php:637
+msgid "Enable custom titles"
+msgstr "Povoliť vlastné nadpisy"
+
+#: options_divi.php:641
+msgid ""
+"By default the theme creates post titles based on the title of your post and "
+"your blog name. If you would like to make your meta title different than "
+"your actual post title you can define a custom title for each post using "
+"custom fields. This option must be enabled for custom titles to work, and "
+"you must choose a custom field name for your title below."
+msgstr ""
+"Podľa predvoleného nastavenia vytvára téma názvy príspevkov založené na "
+"názve vášho príspevku a blogu. Ak by ste chceli odlíši váš titulok od "
+"aktuálneho názvu príspevku, môžete definova vlastný názov pre každý "
+"príspevok pomocou vlastných polí. Táto možnosť musí by povolená pre prácu s "
+"vlastnými titulkami a nižšie si musíte zvoli názov vlastného poľa pre "
+"titulok."
+
+#: options_divi.php:644
+msgid "Enable custom description"
+msgstr "Povoliť vlastný popis"
+
+#: options_divi.php:648
+msgid ""
+"If you would like to add a meta description to your post you can do so using "
+"custom fields. This option must be enabled for descriptions to be displayed "
+"on post pages. You can add your meta description using custom fields based "
+"off the custom field name you define below."
+msgstr ""
+"Ak chcete pridať meta popis na váš príspevok, môžete tak urobi pomocou "
+"vlastných polí.Táto možnosť musí by povolená pre popis, ktorý je zobrazený v "
+"príspevkoch. Meta popis môžete prida pomocou vlastných polí  založenýchna "
+"názve vlastného poľa, ktorý vymedzíte nižšie."
+
+#: options_divi.php:651
+msgid "Enable custom keywords"
+msgstr "Povoliť vlastné kľúčové slová"
+
+#: options_divi.php:655
+msgid ""
+"If you would like to add meta keywords to your post you can do so using "
+"custom fields. This option must be enabled for keywords to be displayed on "
+"post pages. You can add your meta keywords using custom fields based off the "
+"custom field name you define below."
+msgstr ""
+"Ak chcete pridať meta kľúčové slová do vašich príspevkov, môžete tak urobi "
+"pomocou vlastných polí. Táto možnosť musí by povolená pre kľúčové slová "
+"zobrazené v príspevkoch. Môžete prida svoje meta kľúčové slová pomocou "
+"vlastných polí založených na názve vlastného poľa, ktoré definujú nižšie."
+
+#: options_divi.php:658
+msgid "Enable canonical URL's"
+msgstr "Povoliť kanonickú URL"
+
+#: options_divi.php:665
+msgid "Custom field Name to be used for title"
+msgstr "Meno vlastného poľa, ktoré bude použité na názov"
+
+#: options_divi.php:669
+msgid ""
+"When you define your title using custom fields you should use this value for "
+"the custom field Name. The Value of your custom field should be the custom "
+"title you would like to use."
+msgstr ""
+"Keď pri definovaní názvu používate vlastné polia, mali by ste tento význam "
+"použiť pre názov vlastného poľa. Význam vlastného poľa by mal byť názvom, "
+"ktorý chcete použiť."
+
+#: options_divi.php:673
+msgid "Custom field Name to be used for description"
+msgstr "Názov vlastného poľa použitý pre opis"
+
+#: options_divi.php:677
+msgid ""
+"When you define your meta description using custom fields you should use "
+"this value for the custom field Name. The Value of your custom field should "
+"be the custom description you would like to use."
+msgstr ""
+"Keď definujete meta popis pomocou vlastných polí, mali by ste použiť tento "
+"význam pre názov vlastného poľa. Význam vlastného poľa by mala by názvom, "
+"ktorý chcete použi."
+
+#: options_divi.php:681
+msgid "Custom field Name to be used for keywords"
+msgstr "Názov vlastného poľa použitý pre kľúčové slová"
+
+#: options_divi.php:685
+msgid ""
+"When you define your keywords using custom fields you should use this value "
+"for the custom field Name. The Value of your custom field should be the meta "
+"keywords you would like to use, separated by comas."
+msgstr ""
+"Keď pri definovaní kľúčových slov používate vlastné polia, mali by ste "
+"použiť tento význam pre názov vlastného poľa. Význam názvu vlastného poľa by "
+"mal by meta kľúčovými slovami, ktoré chcete použi, oddelené čiarkami."
+
+#: options_divi.php:694
+msgid ""
+"If you are not using cutsom post titles you can still have control over hw "
+"your titles are generated. Here you can choose which order you would like "
+"your post title and blog name to be displayed, or you can remove the blog "
+"name from the title completely."
+msgstr ""
+"Ak  nepoužívate vlastné názvy príspevkov, stále môžete ma kontrolu nad tým, "
+"ako sú vaše nadpisy generované. Tu si môžete vybrať, v akom poradí bude "
+"zobrazený nadpis vášho príspevku a blogu alebo môžte odstráni názov blogu z "
+"nadpisu úplne."
+
+#: options_divi.php:718
+msgid "Enable meta descriptions"
+msgstr "Povoliť meta popisy"
+
+#: options_divi.php:722
+msgid ""
+"Check this box if you want to display meta descriptions on category/archive "
+"pages. The description is based off the category description you choose when "
+"creating/edit your category in wp-admin."
+msgstr ""
+"Začiarknite toto políčko, ak chcete zobrazi meta popisy na stránkach "
+"Kategórií a Archívov. Opis je založený na opise kategórie pri vytváraní/"
+"upravovaní kategórii v wp-admin."
+
+#: options_divi.php:725
+msgid "Choose title autogeneration method"
+msgstr "Zvoli metódu výberu nadpisu"
+
+#: options_divi.php:730
+msgid ""
+"Here you can choose how your titles on index pages are generated. You can "
+"change which order your blog name and index title are displayed, or you can "
+"remove the blog name from the title completely."
+msgstr ""
+"Tu si môžete vybrať, ako sa budú vaše nadpisy na hlavných stránkach "
+"generovať. Môžte zmeniť poradie, v akom budú zobrazené názov blogu a titulku "
+"alebo môžte z nadpisu úplne odstrániť názov blogu."
+
+#: options_divi.php:737
+msgid ""
+"Here you can change which character separates your blog title and index page "
+"name when using autogenerated post titles. Common values are | or -"
+msgstr ""
+"Tu si môžete zmeniť, ktorý znak oddeľuje nadpis blogu a názov hlavnej "
+"stránky s použitím automaticky generovaných nadpisov príspevkov. Bežné "
+"hodnoty sú | alebo -"
+
+#: options_divi.php:756
+msgid "Code Integration"
+msgstr "Integrovanie kódov"
+
+#: options_divi.php:764
+msgid "Enable header code"
+msgstr "Povoliť kód hlavičky"
+
+#: options_divi.php:768
+msgid ""
+"Disabling this option will remove the header code below from your blog. This "
+"allows you to remove the code while saving it for later use."
+msgstr ""
+"Vypnutím tejto voľby sa odstráni kód, ktorý je nižšie uvedený, z hlavičky "
+"vášho blogu. To vám umožní odstrániť dočasne kód, a zachovať ho pre "
+"neskoršie použitie."
+
+#: options_divi.php:771
+msgid "Enable body code"
+msgstr "Povoliť <body> kód."
+
+#: options_divi.php:775
+msgid ""
+"Disabling this option will remove the body code below from your blog. This "
+"allows you to remove the code while saving it for later use."
+msgstr ""
+"Vypnutím tejto voľby sa odstráni kód, ktorý je nižšie uvedený, v elemente "
+"<body>. To vám umožní odstrániť dočasne kód, a zachovať ho pre neskoršie "
+"použitie."
+
+#: options_divi.php:778
+msgid "Enable single top code"
+msgstr "Povoliť kód na vrchu stránky"
+
+#: options_divi.php:782
+msgid ""
+"Disabling this option will remove the single top code below from your blog. "
+"This allows you to remove the code while saving it for later use."
+msgstr ""
+"Vypnutím tejto voľby sa odstráni kód, ktorý je nižšie uvedený, z vrchu "
+"stránky vášho blogu. To vám umožní odstrániť dočasne kód, a zachovať ho pre "
+"neskoršie použitie."
+
+#: options_divi.php:785
+msgid "Enable single bottom code"
+msgstr "Povoliť kód na konci stránky"
+
+#: options_divi.php:789
+msgid ""
+"Disabling this option will remove the single bottom code below from your "
+"blog. This allows you to remove the code while saving it for later use."
+msgstr ""
+"Vypnutím tejto voľby sa odstráni kód, ktorý je nižšie uvedený, z konca "
+"stránky vášho blogu. To vám umožní odstrániť dočasne kód, a zachovať ho pre "
+"neskoršie použitie."
+
+#: options_divi.php:792
+msgid "Add code to the < head > of your blog"
+msgstr "Pridať kód <head> z vášho blogu."
+
+#: options_divi.php:796
+msgid ""
+"Any code you place here will appear in the head section of every page of "
+"your blog. This is useful when you need to add javascript or css to all "
+"pages."
+msgstr ""
+"Akýkoľvek kód, ktorý tu umiestnite, sa objaví v záhlaví každého príspevku "
+"vášho blogu. To je užitočné, keď potrebujete pridať Javascript alebo CSS do "
+"všetkých príspevkov."
+
+#: options_divi.php:799
+msgid ""
+"Add code to the < body > (good for tracking codes such as google analytics)"
+msgstr ""
+"Pridať kód do časti <body> (vhodné pre sledovanie kódov, ako sú Google "
+"Analytics)"
+
+#: options_divi.php:803
+msgid ""
+"Any code you place here will appear in body section of all pages of your "
+"blog. This is usefull if you need to input a tracking pixel for a state "
+"counter such as Google Analytics."
+msgstr ""
+"Akýkoľvek kód, ktorý tu umiestnite, sa objaví v jadre všetkých príspevkov "
+"vášho blogu. To je užitočné, ak potrebujete zada sledovací obrazový prvok "
+"počítadlá, ako je Google Analytics."
+
+#: options_divi.php:806
+msgid "Add code to the top of your posts"
+msgstr "Pridať kód  na začiatok vašich príspevkov."
+
+#: options_divi.php:810 options_divi.php:817
+msgid ""
+"Any code you place here will be placed at the top of all single posts. This "
+"is useful if you are looking to integrating things such as social "
+"bookmarking links."
+msgstr ""
+"Akýkoľvek kód, ktorý tu umiestnite, sa objaví v hornej časti všetkých "
+"príspevkov. To je užitočné, ak sa snažíte začleni veci, ako sú napríklad "
+"odkazy na založenie účtu na sociálnych sietiach."
+
+#: options_divi.php:813
+msgid "Add code to the bottom of your posts, before the comments"
+msgstr "Pridať kód na koniec príspevkov, pred komentáre."
+
+#: options_divi.php:835
+msgid "Manage Un-widgetized Advertisements"
+msgstr "Spravovanie reklám"
+
+#: options_divi.php:843
+msgid "Enable Single Post 468x60 banner"
+msgstr "Povoliť  banner vo veľkosti 468x60 v príspevku."
+
+#: options_divi.php:847
+msgid ""
+"Enabling this option will display a 468x60 banner ad on the bottom of your "
+"post pages below the single post content. If enabled you must fill in the "
+"banner image and destination url below."
+msgstr ""
+"Zapnutím tejto voľby sa zobrazí banerová reklama s veľkostou 468x60 v "
+"spodnej časti príspevkov pod obsahom príspevku. Ak máte povolenie, je nutné "
+"vyplni obrázok banneru a nižšie cieľovú URL adresu."
+
+#: options_divi.php:850
+msgid "Input 468x60 advertisement banner image"
+msgstr "Vložte obrázok na reklamu formou banera s rozmermi 468x60"
+
+#: options_divi.php:854
+msgid "Here you can provide 468x60 banner image url"
+msgstr ""
+"Na tejto URL adrese si môžete zaisti obrázok na baner s rozmermi 468x60"
+
+#: options_divi.php:858
+msgid "Input 468x60 advertisement destination url"
+msgstr "Vložte cieľovú URL adresu banerovej reklamy  s rozmermi 468x60"
+
+#: options_divi.php:862
+msgid "Here you can provide 468x60 banner destination url"
+msgstr ""
+"Tu si môžete zabezpeči cieľovú URL adresu banerového obrázku s rozmermi "
+"468x60"
+
+#: options_divi.php:866
+msgid "Input 468x60 adsense code"
+msgstr "Vložte kód Google Adsense s rozmermi 468x60"
+
+#: options_divi.php:870
+msgid "Place your adsense code here."
+msgstr "Tu umiestnite kód Google Adsense"
+
+#: page-template-blank.php:49 page.php:48 single-project.php:55 single.php:112
+msgid "Pages:"
+msgstr "Strany:"
+
+#. Translators: If there are characters in your language that are not supported
+#. by Open Sans, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:113
+msgctxt "Open Sans font: on or off"
+msgid "on"
+msgstr " "
+
+#: functions.php:8044
+msgctxt "WooCommerce items number"
+msgid "1 Item"
+msgid_plural "%1$s Items"
+msgstr[0] " "
+msgstr[1] " "
+msgstr[2] " "
+
+#: single-project.php:68
+msgctxt "Previous post link"
+msgid "&larr;"
+msgstr " "
+
+#: single-project.php:69
+msgctxt "Next post link"
+msgid "&rarr;"
+msgstr " "

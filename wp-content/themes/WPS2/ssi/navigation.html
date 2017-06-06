@@ -1,0 +1,31 @@
+
+<nav id="top-menu-nav" class="main-navigation megadropdown auto-highlight">
+
+    <ul id="nav_list" class="top-level-nav nav">
+<?php //Initialize Menu Variables
+	$menu_name = 'primary-menu';
+	$locations = get_nav_menu_locations();	$menu = wp_get_nav_menu_object( $locations[ $menu_name ] );	$menuitems = wp_get_nav_menu_items( $menu->term_id, array( 'order' => 'DESC' ) );
+	foreach ( $menuitems as $item ){
+		$icon = '';
+		if($item->menu_item_parent == 0){					
+			if($item->attr_title != "")
+				$icon = 'class="ca-gov-icon-' . $item->attr_title . '" ';			$link = $item->url;						if($item->type_label == 'Category')				$link = '#';				
+			$tmp = get_nav_menu_item_children($item->ID, $menuitems);
+			$childCount = count($tmp);
+			print '<li class="menu-item nav-item">';							print '<a href="' . $link . '" class="first-level-link">';
+			print '<span ' . $icon . 'aria-hidden="true"';
+			print '></span>' . $item->title .  '</a>';
+			if ($childCount == 0) {				print '</li>';
+			}else{								print '<ul>';				foreach ( $tmp as $t ){					
+					$subicon = '';
+					if($t->attr_title != "")						$subicon = 'class="ca-gov-icon-' . $t->attr_title . '" ';					print '<li class="unit1">';					$tlink = $t->url;								if($t->object == 'category')						$tlink = '#';						
+					print '<a href="' . $tlink .'" class="second-level-link"><span '. $subicon;
+					print 'aria-hidden="true"></span>' . $t->title . '</a></li>';	
+				}
+				print '</ul>';
+				print '</li>';
+			}		}	}?>
+
+</ul>
+
+</nav>

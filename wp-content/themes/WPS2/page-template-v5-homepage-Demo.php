@@ -1,0 +1,133 @@
+<?php
+
+
+
+
+
+/*
+
+
+
+
+
+Template Name: State v5 Demo
+
+
+
+
+
+*/
+
+
+
+
+
+get_header();
+
+
+
+
+
+
+
+
+$is_page_builder_used = et_pb_is_pagebuilder_used( get_the_ID() );
+
+
+
+
+
+?>
+
+
+
+
+
+
+
+
+<body <?php body_class('primary'); ?>>
+
+
+<?php get_template_part('partials/content', 'header') ?>
+
+
+
+
+
+<!------------------------------------------------------
+
+
+ This is the structural build for Divi Page Builder
+
+
+------------------------------------------------------->
+
+
+<div id="page-container">
+
+
+<div id="et-main-area">	
+
+
+
+
+
+<div id="main" >
+
+
+		<?php
+
+
+				require_once(get_stylesheet_directory() . '/ssi/section-open-data.html');
+
+
+				require_once(get_stylesheet_directory() . '/ssi/section-green-buildings.html');
+
+
+				require_once(get_stylesheet_directory() . '/ssi/section-green-stats.html');
+
+
+				require_once(get_stylesheet_directory() . '/ssi/section-mobile-gallery.html');
+
+
+				require_once(get_stylesheet_directory() . '/ssi/section-footer2.html');
+
+
+			
+
+
+		?>
+
+
+
+
+
+
+
+
+</div> <!-- #main-content --> 
+
+
+
+
+
+</div> <!-- #et-main-area --> 
+
+
+
+
+
+</div> <!-- page-container -->
+
+
+
+
+
+<?php get_footer(); ?>
+
+
+
+
+
+</body>
