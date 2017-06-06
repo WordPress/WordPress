@@ -12,6 +12,12 @@ Version: 1.6
 Author URI: http://ma.tt/
 */
 
+// Make sure we don't expose any info if called directly
+if ( !function_exists( 'add_action' ) ) {
+	echo 'No monkey business!!.';
+	exit;
+}
+
 function hello_dolly_get_lyric() {
 	/** These are the lyrics to Hello Dolly */
 	$lyrics = "Hello, Dolly
