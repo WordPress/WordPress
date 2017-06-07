@@ -883,6 +883,11 @@ function media_sideload_image( $file, $post_id, $desc = null, $return = 'html' )
 		// Do the validation and storage stuff.
 		$id = media_handle_sideload( $file_array, $post_id, $desc );
 
+		// If we want a simple out to get to the image ID, make it available here.
+		if ( $return === 'id' ) {
+			return $id;
+		}
+
 		// If error storing permanently, unlink.
 		if ( is_wp_error( $id ) ) {
 			@unlink( $file_array['tmp_name'] );
