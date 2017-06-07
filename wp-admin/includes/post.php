@@ -1856,6 +1856,7 @@ function redirect_post($post_id = '') {
 	} else {
 		$location = add_query_arg( 'message', 4, get_edit_post_link( $post_id, 'url' ) );
 	}
+	$url = apply_filters( 'preview_post_link', $url );
 
 	/**
 	 * Filters the post redirect destination URL.
