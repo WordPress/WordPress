@@ -71,7 +71,7 @@ function dolly_css() {
 		padding-$x: 15px;
 		padding-top: 5px;		
 		margin: 0;
-		font-size: 11px;
+		font-size: 12px;
 	}
 	</style>
 	";
