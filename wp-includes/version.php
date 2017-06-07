@@ -1,6 +1,6 @@
 <?php
 /**
- * The WordPress version string
+ * The WordPress version string file
  *
  * @global string $wp_version
  */
