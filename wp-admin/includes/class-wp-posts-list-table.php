@@ -1316,7 +1316,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			 * @since 2.8.0
 			 *
 			 * @param array $actions An array of row action links. Defaults are
-			 *                         'Edit', 'Quick Edit', 'Restore', 'Trash',
+			 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
 			 *                         'Delete Permanently', 'Preview', and 'View'.
 			 * @param WP_Post $post The post object.
 			 */
@@ -1331,7 +1331,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			 * @since 2.8.0
 			 *
 			 * @param array $actions An array of row action links. Defaults are
-			 *                         'Edit', 'Quick Edit', 'Restore', 'Trash',
+			 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
 			 *                         'Delete Permanently', 'Preview', and 'View'.
 			 * @param WP_Post $post The post object.
 			 */
