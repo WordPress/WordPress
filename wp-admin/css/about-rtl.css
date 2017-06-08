@@ -40,7 +40,6 @@
 	max-width: 100%;
 	height: auto;
 	vertical-align: middle;
-	border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .about-wrap .jetpack-video-wrapper {
@@ -308,10 +307,6 @@
 
 .about-wrap .feature-section.no-heading {
 	padding-top: 35px;
-}
-
-.about-wrap .headline-feature img {
-	border: none;
 }
 
 .about-wrap .feature-section .media-container {

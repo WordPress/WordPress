@@ -59,11 +59,42 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="col">
 				<picture>
 					<!-- Large image -->
-					<source media="(min-width: 1050px)" srcset="https://cldup.com/-951havc3C.png" />
+					<source media="( min-width: 1050px )"
+						srcset="
+							https://s.w.org/images/core/4.8/widgets-with-all-four-widescreen_w_810.png 810w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-widescreen_w_1054.png 1054w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-widescreen_w_1266.png 1266w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-widescreen_w_1458.png 1458w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-widescreen_w_1633.png 1633w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-widescreen_w_1797.png 1797w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-widescreen_w_1955.png 1955w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-widescreen_w_2100.png 2100w"
+						sizes="( max-width: 1290px ) calc( 100vw - 240px ), 1050px" />
 					<!-- Medium image -->
-					<source media="(min-width: 601px)" srcset="https://cldup.com/60ktdYzv0l.png" />
+					<source media="( min-width: 601px )"
+						srcset="
+							https://s.w.org/images/core/4.8/widgets-with-all-four_w_531.png 531w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four_w_745.png 745w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four_w_927.png 927w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four_w_1089.png 1089w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four_w_1236.png 1236w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four_w_1370.png 1370w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four_w_1498.png 1498w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four_w_1620.png 1620w"
+						sizes="( max-width: 782px ) calc( 100vw - 70px ), ( max-width: 960px ) calc( 100vw - 116px ), calc( 100vw - 240px )" />
 					<!-- Small image -->
-					<img src="https://cldup.com/mwvU0Zi5wW.png" alt="" />
+					<img src="https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_685.png"
+						srcset="
+							https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_300.png 300w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_451.png 451w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_575.png 575w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_685.png 685w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_784.png 784w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_873.png 873w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_959.png 959w,
+							https://s.w.org/images/core/4.8/widgets-with-all-four-mobile_w_1040.png 1040w"
+						sizes="( max-width: 500px ) calc( 100vw - 40px ), calc( 100vw - 70px )"
+						alt="" />
 				</picture>
 			</div>
 		</div>
@@ -71,7 +102,7 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 		<div class="feature-section two-col">
 			<div class="col">
 				<h3><?php _e( 'Image Widget' ); ?></h3>
-				<p><?php _e( 'Adding an image to a widget is now a simple task that is achievable for any WordPress user without needing to know code. Simply insert your image right within the widget settings. Try adding something like a headshot or a photo of your latest weekend adventure &mdash; and see it appear automatically.' );?></p>
+				<p><?php _e( 'Adding an image to a widget is now a simple task that is achievable for any WordPress user without needing to know code. Simply insert your image right within the widget settings. Try adding something like a headshot or a photo of your latest weekend adventure &mdash; and see it appear automatically.' ); ?></p>
 			</div>
 			<div class="col">
 				<h3><?php _e( 'Video Widget' ); ?></h3>
@@ -97,8 +128,8 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 			<div class="col">
 				<?php
 				echo wp_video_shortcode( array(
-					'mp4'      => 'https://cldup.com/LHwC1lL_jC.mp4',
-					'poster'   => 'https://cldup.com/wx7uMMXJor.png',
+					'mp4'      => 'https://s.w.org/images/core/4.8/link-boundaries.mp4',
+					'poster'   => 'https://s.w.org/images/core/4.8/link-boundaries.png',
 					'width'    => 1140,
 					'height'   => 624,
 					// 'class'    => 'wp-video-shortcode feature-video',
@@ -120,7 +151,23 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 				<p><?php _e( 'Being part of the community can help you improve your WordPress skills and network with people you wouldn&#8217;t otherwise meet. Now you can easily find your local events just by logging in to your dashboard and looking at the new Events and News dashboard widget.' ); ?>
 			</div>
 			<div class="col">
-				<img src="https://cldup.com/GuISab3_X1.png" alt="" />
+				<img
+					src="https://s.w.org/images/core/4.8/events-widget_w_732.png"
+					srcset="
+						https://s.w.org/images/core/4.8/events-widget_w_280.png 280w,
+						https://s.w.org/images/core/4.8/events-widget_w_420.png 420w,
+						https://s.w.org/images/core/4.8/events-widget_w_529.png 529w,
+						https://s.w.org/images/core/4.8/events-widget_w_638.png 638w,
+						https://s.w.org/images/core/4.8/events-widget_w_732.png 732w,
+						https://s.w.org/images/core/4.8/events-widget_w_827.png 827w,
+						https://s.w.org/images/core/4.8/events-widget_w_992.png 992w"
+					sizes="
+						( max-width: 500px ) calc( 100vw - 40px ),
+						( max-width: 782px ) calc( 48vw - 33px ),
+						( max-width: 960px ) calc( 47vw - 54px ),
+						( max-width: 1290px ) calc( 47vw - 112px ),
+						496px"
+					alt="" />
 			</div>
 		</div>
 
