@@ -1,8 +1,8 @@
 === Twenty Eleven ===
 Contributors: the WordPress team
 Requires at least: WordPress 3.2
-Tested up to: WordPress 4.7-trunk
-Stable tag: 2.5
+Tested up to: WordPress 4.9-trunk
+Stable tag: 2.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, left-sidebar, right-sidebar, custom-background, custom-colors, custom-header, custom-menu, editor-style, featured-image-header, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
@@ -22,7 +22,7 @@ For more information about Twenty Eleven please go to https://codex.wordpress.or
 
 == Copyright ==
 
-Twenty Eleven WordPress Theme, Copyright 2011-2016 WordPress.org & Automattic.com
+Twenty Eleven WordPress Theme, Copyright 2011-2017 WordPress.org & Automattic.com
 Twenty Eleven is Distributed under the terms of the GNU GPL
 
 This program is free software: you can redistribute it and/or modify
@@ -42,6 +42,11 @@ Licenses: MIT/GPL2
 Source: https://github.com/aFarkas/html5shiv
 
 == Changelog ==
+
+= 2.6 =
+* Released: June 8, 2017
+
+https://codex.wordpress.org/Twenty_Eleven_Theme_Changelog#Version_2.6
 
 = 2.5 =
 * Released: August 15, 2016
