@@ -69,7 +69,7 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 * @access public
 	 *
 	 * @param string   $tag             The name of the filter to hook the $function_to_add callback to.
-	 * @param callable $function_to_add The callback to be run when the filter is applied.
+	 * @param string|array $function_to_add The callback to be run when the filter is applied.
 	 * @param int      $priority        The order in which the functions associated with a
 	 *                                  particular action are executed. Lower numbers correspond with
 	 *                                  earlier execution, and functions with the same priority are executed
@@ -77,7 +77,50 @@ final class WP_Hook implements Iterator, ArrayAccess {
 	 * @param int      $accepted_args   The number of arguments the function accepts.
 	 */
 	public function add_filter( $tag, $function_to_add, $priority, $accepted_args ) {
+		if ( is_array($function_to_add) ) {
+			foreach ( $function_to_add as $func ) {
+				$this->add_filter_delegator($tag, $func, $priority, $accepted_args);
+			}
+		} else {
+			$this->add_filter_delegator($tag, $function_to_add, $priority, $accepted_args);
+		}
+	}
+
+	/**
+	 * Hooks a function or method to a specific filter action.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param string   $tag             The name of the filter to hook the $function_to_add callback to.
+	 * @param string $function_to_add The callback to be run when the filter is applied.
+	 * @param int      $priority        The order in which the functions associated with a
+	 *                                  particular action are executed. Lower numbers correspond with
+	 *                                  earlier execution, and functions with the same priority are executed
+	 *                                  in the order in which they were added to the action.
+	 * @param int      $accepted_args   The number of arguments the function accepts.
+	 */
+	private function add_filter_delegator($tag, $function_to_add, $priority, $accepted_args) {
 		$idx = _wp_filter_build_unique_id( $tag, $function_to_add, $priority );
+		
+		return $this->add_filter_core($idx, $function_to_add, $priority, $accepted_args);
+	}
+
+	/**
+	 * Hooks a function or method to a specific filter action.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param string   $idx             The name of the filter to hook the $function_to_add callback to.
+	 * @param callable $function_to_add The callback to be run when the filter is applied.
+	 * @param int      $priority        The order in which the functions associated with a
+	 *                                  particular action are executed. Lower numbers correspond with
+	 *                                  earlier execution, and functions with the same priority are executed
+	 *                                  in the order in which they were added to the action.
+	 * @param int      $accepted_args   The number of arguments the function accepts.
+	 */
+	private function add_filter_core($idx, $function_to_add, $priority, $accepted_args) {
 		$priority_existed = isset( $this->callbacks[ $priority ] );
 
 		$this->callbacks[ $priority ][ $idx ] = array(
