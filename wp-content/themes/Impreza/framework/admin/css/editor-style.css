@@ -1,0 +1,91 @@
+/* Custom theme styles for the editor */
+
+body {
+	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+	margin: 20px;
+	}
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+	line-height: 1.4;
+	margin: 0 0 1.5rem;
+	padding: 1rem 0 0;
+	}
+h1:first-child,
+h2:first-child,
+h3:first-child,
+h4:first-child,
+h5:first-child,
+h6:first-child,
+h1 + h2, h1 + h3, h1 + h4, h1 + h5, h1 + h6,
+h2 + h3, h2 + h4, h2 + h5, h2 + h6,
+h3 + h4, h3 + h5, h3 + h6,
+h4 + h5, h4 + h6,
+h5 + h6 {
+	padding-top: 0;
+	}
+p, ul, ol, dl, address, pre, table, blockquote, fieldset {
+	margin: 0 0 1.5rem;
+	}
+ul {
+	list-style-type: disc;
+	padding-left: 2.5rem;
+	}
+ol {
+	list-style-type: decimal;
+	padding-left: 2.5rem;
+	}
+ul li,
+ol li {
+	margin: 0 0 0.5rem;
+	}
+ul > li ul,
+ul > li ol,
+ol > li ul,
+ol > li ol {
+	margin-bottom: 0.5rem;
+	margin-top: 0.5rem;
+	}
+blockquote {
+	font-style: italic;
+	padding-left: 2rem;
+	border-left: 5px solid;
+	}
+blockquote q,
+blockquote p {
+	font: inherit;
+	margin: 0 0 0.5rem;
+	}
+blockquote cite {
+	display: block;
+	font-size: 80%;
+	}
+.alignleft {
+	margin: 0 2.5em 2.5em 0;
+	}
+.alignright {
+	margin: 0 0 2.5em 2.5em;
+	}
+
+body.rtl {
+	font-family: Tahoma,Arial,sans-serif;
+	}
+body.rtl ul,
+body.rtl ol {
+	padding-left: 0;
+	padding-right: 2.5rem;
+	}
+body.rtl blockquote {
+	padding-left: 0;
+	padding-right: 2rem;
+	border-left: none;
+	border-right-width: 5px;
+	border-right-style: solid;
+	}
+	
+/* TODO: replace font-size by Theme Options values */
+h1 { font-size: 36px; }
+h2 { font-size: 32px; }
+h3 { font-size: 28px; }
+h4 { font-size: 24px; }
+h5 { font-size: 20px; }
+h6 { font-size: 18px; }

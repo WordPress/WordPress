@@ -1,0 +1,137 @@
+<wpml-config>
+	<custom-types>
+		<custom-type translate="1">us_portfolio</custom-type>
+	</custom-types>
+	<taxonomies>
+		<taxonomy translate="1">us_portfolio_category</taxonomy>
+	</taxonomies>
+	<custom-fields>
+		<custom-field action="copy">us_sidebar</custom-field>
+		<custom-field action="copy">us_sidebar_id</custom-field>
+		<custom-field action="copy">us_header_remove</custom-field>
+		<custom-field action="copy">us_header_show</custom-field>
+		<custom-field action="copy">us_header_pos</custom-field>
+		<custom-field action="copy">us_header_bg</custom-field>
+		<custom-field action="copy">us_titlebar_content</custom-field>
+		<custom-field action="translate">us_titlebar_subtitle</custom-field>
+		<custom-field action="copy">us_titlebar_size</custom-field>
+		<custom-field action="copy">us_titlebar_color</custom-field>
+		<custom-field action="copy">us_titlebar_image</custom-field>
+		<custom-field action="copy">us_titlebar_image_size</custom-field>
+		<custom-field action="copy">us_titlebar_image_parallax</custom-field>
+		<custom-field action="copy">us_titlebar_overlay_color</custom-field>
+		<custom-field action="copy">us_footer_show_top</custom-field>
+		<custom-field action="copy">us_footer_show_bottom</custom-field>
+		<custom-field action="copy">us_tile_action</custom-field>
+		<custom-field action="translate">us_tile_link</custom-field>
+		<custom-field action="translate">us_tile_description</custom-field>
+		<custom-field action="copy">us_tile_size</custom-field>
+		<custom-field action="copy">us_tile_bg_color</custom-field>
+		<custom-field action="copy">us_tile_text_color</custom-field>
+		<custom-field action="copy">us_tile_additional_image</custom-field>
+		<custom-field action="copy">us_post_preview_layout</custom-field>
+	</custom-fields>
+	<admin-texts>
+		<key name="usof_options_Impreza">
+			<key name="footer_copyright"/>
+			<key name="header">
+				<key name="data">
+					<key name="image:1">
+						<key name="img"/>
+						<key name="link"/>
+					</key>
+					<key name="image:2">
+						<key name="img"/>
+						<key name="link"/>
+					</key>
+					<key name="image:3">
+						<key name="img"/>
+						<key name="link"/>
+					</key>
+					<key name="image:4">
+						<key name="img"/>
+						<key name="link"/>
+					</key>
+					<key name="image:5">
+						<key name="img"/>
+						<key name="link"/>
+					</key>
+					<key name="text:1">
+						<key name="text"/>
+						<key name="link"/>
+					</key>
+					<key name="text:2">
+						<key name="text"/>
+						<key name="link"/>
+					</key>
+					<key name="text:3">
+						<key name="text"/>
+						<key name="link"/>
+					</key>
+					<key name="text:4">
+						<key name="text"/>
+						<key name="link"/>
+					</key>
+					<key name="text:5">
+						<key name="text"/>
+						<key name="link"/>
+					</key>
+					<key name="text:6">
+						<key name="text"/>
+						<key name="link"/>
+					</key>
+					<key name="text:7">
+						<key name="text"/>
+						<key name="link"/>
+					</key>
+					<key name="text:8">
+						<key name="text"/>
+						<key name="link"/>
+					</key>
+					<key name="text:9">
+						<key name="text"/>
+						<key name="link"/>
+					</key>
+					<key name="search:1">
+						<key name="text"/>
+					</key>
+					<key name="btn:1">
+						<key name="label"/>
+					</key>
+					<key name="btn:2">
+						<key name="label"/>
+					</key>
+					<key name="btn:3">
+						<key name="label"/>
+					</key>
+					<key name="dropdown:1">
+						<key name="link_title"/>
+						<key name="link_1_label"/>
+						<key name="link_1_url"/>
+						<key name="link_2_label"/>
+						<key name="link_2_url"/>
+						<key name="link_3_label"/>
+						<key name="link_3_url"/>
+						<key name="link_4_label"/>
+						<key name="link_4_url"/>
+						<key name="link_5_label"/>
+						<key name="link_5_url"/>
+					</key>
+					<key name="dropdown:2">
+						<key name="link_title"/>
+						<key name="link_1_label"/>
+						<key name="link_1_url"/>
+						<key name="link_2_label"/>
+						<key name="link_2_url"/>
+						<key name="link_3_label"/>
+						<key name="link_3_url"/>
+						<key name="link_4_label"/>
+						<key name="link_4_url"/>
+						<key name="link_5_label"/>
+						<key name="link_5_url"/>
+					</key>
+				</key>
+			</key>
+		</key>
+	</admin-texts>
+</wpml-config>
