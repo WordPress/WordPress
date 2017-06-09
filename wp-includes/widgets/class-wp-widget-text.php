@@ -25,7 +25,7 @@ class WP_Widget_Text extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
 			'classname' => 'widget_text',
-			'description' => __( 'Arbitrary text or HTML.' ),
+			'description' => __( 'Arbitrary text.' ),
 			'customize_selective_refresh' => true,
 		);
 		$control_ops = array(
