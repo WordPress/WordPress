@@ -174,9 +174,9 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param  string $search   Optional. City search string. Default empty string.
-	 * @param  string $timezone Optional. Timezone string. Default empty string.
-	 * @return @return array The request args.
+	 * @param string $search   Optional. City search string. Default empty string.
+	 * @param string $timezone Optional. Timezone string. Default empty string.
+	 * @return array The request args.
 	 */
 	protected function get_request_args( $search = '', $timezone = '' ) {
 		$args = array(
