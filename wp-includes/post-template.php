@@ -1267,7 +1267,7 @@ function wp_list_pages( $args = '' ) {
  * @param array|string $args {
  *     Optional. Arguments to generate a page menu. See wp_list_pages() for additional arguments.
  *
- *     @type string          $sort_column  How to short the list of pages. Accepts post column names.
+ *     @type string          $sort_column  How to sort the list of pages. Accepts post column names.
  *                                         Default 'menu_order, post_title'.
  *     @type string          $menu_id      ID for the div containing the page list. Default is empty string.
  *     @type string          $menu_class   Class to use for the element containing the page list. Default 'menu'.
