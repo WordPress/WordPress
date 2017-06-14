@@ -265,6 +265,10 @@ div.menu li{
 	margin-right: 1.3em;
 	margin-left: 0;
 }
+.widget_text ol {
+	margin-left: auto;
+	margin-right: 1.3em;
+}
 
 /* =Footer
 -------------------------------------------------------------- */

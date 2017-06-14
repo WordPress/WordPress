@@ -874,7 +874,8 @@ hr {
 .submitbox .submitdelete,
 #media-items a.delete,
 #media-items a.delete-permanently,
-#nav-menu-footer .menu-delete {
+#nav-menu-footer .menu-delete,
+#delete-link a.delete  {
 	color: #a00;
 }
 
@@ -890,7 +891,8 @@ span.required,
 .submitbox .submitdelete:hover,
 #media-items a.delete:hover,
 #media-items a.delete-permanently:hover,
-#nav-menu-footer .menu-delete:hover {
+#nav-menu-footer .menu-delete:hover,
+#delete-link a.delete:hover {
 	color: #dc3232;
 	border: none;
 }
@@ -909,6 +911,17 @@ span.required,
 #delete-action {
 	float: left;
 	line-height: 28px;
+}
+
+#delete-link {
+	line-height: 28px;
+	vertical-align: middle;
+	text-align: left;
+	margin-left: 8px;
+}
+
+#delete-link a {
+	text-decoration: none;
 }
 
 #publishing-action {
@@ -1129,32 +1142,19 @@ th.action-links {
 	color: #fff;
 }
 
+.filter-drawer,
 .wp-filter .favorites-form {
 	display: none;
-	margin: 0 -20px;
+	margin: 0 -10px 0 -20px;
 	padding: 20px;
 	border-top: 1px solid #eee;
 	background: #fafafa;
 	overflow: hidden;
-	width: 100%;
 }
 
+.show-filters .filter-drawer,
 .show-favorites-form .favorites-form {
 	display: block;
-}
-
-.filter-drawer {
-	display: none;
-	margin: 0 -20px;
-	padding: 20px;
-	border-top: 1px solid #eee;
-	background: #fafafa;
-}
-
-.show-filters .filter-drawer {
-	display: block;
-	overflow: hidden;
-	width: 100%;
 }
 
 .show-filters .filter-links a.current {
@@ -2522,25 +2522,18 @@ div.action-links {
 }
 
 #plugin-information-title {
-	padding: 0 20px;
+	padding: 0 26px;
 	background: #f5f5f5;
 	font-size: 22px;
 	font-weight: 600;
 	line-height: 56px;
 	position: relative;
-	top: 0;
-	right: 0;
-	left: 0;
 	height: 56px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
 
 #plugin-information-title.with-banner {
 	margin-right: 0;
 	height: 250px;
-	bottom: 250px;
 	-webkit-background-size: cover;
 	background-size: cover;
 }
@@ -2550,19 +2543,23 @@ div.action-links {
 	font-weight: 600;
 	padding: 0;
 	margin: 0;
-	max-width: 680px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
 #plugin-information-title.with-banner h2 {
+	position: relative;
 	font-family: "Helvetica Neue", sans-serif;
 	display: inline-block;
 	font-size: 30px;
 	line-height: 50px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	max-width: 100%;
 	padding: 0 15px;
-	margin: 174px 0 0 10px;
+	margin-top: 174px;
 	color: #fff;
 	background: rgba( 30, 30, 30, 0.9 );
 	text-shadow: 0 1px 3px rgba( 0, 0, 0, 0.4 );
@@ -2577,12 +2574,12 @@ div.action-links {
 }
 
 #plugin-information-title.with-banner div.vignette {
+	position: absolute;
 	display: block;
-	float: right;
 	top: 0;
+	left: 0;
 	height: 250px;
-	width: 772px;
-	margin: 0 -20px;
+	width: 100%;
 	background: transparent;
 	-webkit-box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
 	box-shadow: inset 0 0 50px 4px rgba( 0, 0, 0, 0.2 ), inset 0 -1px 0 rgba( 0, 0, 0, 0.1 );
@@ -2817,6 +2814,14 @@ div.action-links {
 	border: 1px solid #ccc;
 }
 
+#plugin-information blockquote {
+	border-left: 2px solid #ddd;
+	color: #666;
+	font-style: italic;
+	margin: 1em 0;
+	padding: 0 0 0 1em;
+}
+
 /* rtl:ignore */
 #plugin-information .review {
 	overflow: hidden; /* clearfix */
@@ -2877,7 +2882,6 @@ div.action-links {
 @media screen and ( max-width: 771px ) {
 	#plugin-information-title.with-banner {
 		height: 100px;
-		bottom: 100px;
 	}
 
 	#plugin-information-title.with-banner h2 {
@@ -2889,8 +2893,6 @@ div.action-links {
 
 	#plugin-information-title.with-banner div.vignette {
 		height: 100px;
-		bottom: 100px;
-		width: 800%;
 	}
 
 	#plugin-information-tabs {

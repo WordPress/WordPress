@@ -48,7 +48,7 @@ function wp_dashboard_setup() {
 
 	// QuickPress Widget
 	if ( is_blog_admin() && current_user_can( get_post_type_object( 'post' )->cap->create_posts ) ) {
-		$quick_draft_title = sprintf( '<span class="hide-if-no-js">%1$s</span> <span class="hide-if-js">%2$s</span>', __( 'Quick Draft' ), __( 'Drafts' ) );
+		$quick_draft_title = sprintf( '<span class="hide-if-no-js">%1$s</span> <span class="hide-if-js">%2$s</span>', __( 'Quick Draft' ), __( 'Your Recent Drafts' ) );
 		wp_add_dashboard_widget( 'dashboard_quick_press', $quick_draft_title, 'wp_dashboard_quick_press' );
 	}
 
@@ -127,46 +127,6 @@ function wp_dashboard_setup() {
 
 	/** This action is documented in wp-admin/edit-form-advanced.php */
 	do_action( 'do_meta_boxes', $screen->id, 'side', '' );
-}
-
-/**
- * Gets the community events data that needs to be passed to dashboard.js.
- *
- * @since 4.8.0
- *
- * @return array The script data.
- */
-function wp_get_community_events_script_data() {
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-community-events.php' );
-
-	$user_id       = get_current_user_id();
-	$user_location = get_user_option( 'community-events-location', $user_id );
-	$events_client = new WP_Community_Events( $user_id, $user_location );
-
-	$script_data = array(
-		'nonce' => wp_create_nonce( 'community_events' ),
-		'cache' => $events_client->get_cached_events(),
-
-		'l10n' => array(
-			'enter_closest_city' => __( 'Enter your closest city to find nearby events.' ),
-			'error_occurred_please_try_again' => __( 'An error occured. Please try again.' ),
-
-			/*
-			 * These specific examples were chosen to highlight the fact that a
-			 * state is not needed, even for cities whose name is not unique.
-			 * It would be too cumbersome to include that in the instructions
-			 * to the user, so it's left as an implication.
-			 */
-			/* translators: %s is the name of the city we couldn't locate. Replace the examples with cities in your locale, but test that they match the expected location before including them. Use endonyms (native locale names) whenever possible. */
-			'could_not_locate_city' => __( "We couldn't locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland." ),
-
-			// This one is only used with wp.a11y.speak(), so it can/should be more brief.
-			/* translators: %s is the name of a city. */
-			'city_updated' => __( 'City updated. Listing events near %s.' ),
-		)
-	);
-
-	return $script_data;
 }
 
 /**
@@ -605,9 +565,9 @@ function wp_dashboard_recent_drafts( $drafts = false ) {
 
 	echo '<div class="drafts">';
 	if ( count( $drafts ) > 3 ) {
-		echo '<p class="view-all"><a href="' . esc_url( admin_url( 'edit.php?post_status=draft' ) ) . '" aria-label="' . __( 'View all drafts' ) . '">' . _x( 'View all', 'drafts' ) . "</a></p>\n";
+		echo '<p class="view-all"><a href="' . esc_url( admin_url( 'edit.php?post_status=draft' ) ) . '">' . __( 'View all drafts' ) . "</a></p>\n";
  	}
-	echo '<h2 class="hide-if-no-js">' . __( 'Drafts' ) . "</h2>\n<ul>";
+	echo '<h2 class="hide-if-no-js">' . __( 'Your Recent Drafts' ) . "</h2>\n<ul>";
 
 	$drafts = array_slice( $drafts, 0, 3 );
 	foreach ( $drafts as $draft ) {
@@ -1020,8 +980,8 @@ function wp_dashboard_cached_rss_widget( $widget_id, $callback, $check_urls = ar
 		$check_urls = array( $widgets[$widget_id]['url'] );
 	}
 
-	$locale = get_locale();
-	$cache_key = 'dash_' . md5( $widget_id . '_' . $locale );
+	$locale = get_user_locale();
+	$cache_key = 'dash_v2_' . md5( $widget_id . '_' . $locale );
 	if ( false !== ( $output = get_transient( $cache_key ) ) ) {
 		echo $output;
 		return true;
@@ -1102,7 +1062,8 @@ function wp_dashboard_rss_control( $widget_id, $form_inputs = array() ) {
 			}
 		}
 		update_option( 'dashboard_widget_options', $widget_options );
-		$cache_key = 'dash_' . md5( $widget_id );
+		$locale = get_user_locale();
+		$cache_key = 'dash_v2_' . md5( $widget_id . '_' . $locale );
 		delete_transient( $cache_key );
 	}
 
@@ -1125,22 +1086,40 @@ function wp_dashboard_events_news() {
 	</div>
 
 	<p class="community-events-footer">
-		<a href="https://make.wordpress.org/community/meetups-landing-page" target="_blank">
-			<?php _e( 'Meetups' ); ?> <span class="dashicons dashicons-external"></span>
-		</a>
+		<?php
+			printf(
+				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+				'https://make.wordpress.org/community/meetups-landing-page',
+				__( 'Meetups' ),
+				/* translators: accessibility text */
+				__( '(opens in a new window)' )
+			);
+		?>
 
 		|
 
-		<a href="https://central.wordcamp.org/schedule/" target="_blank">
-			<?php _e( 'WordCamps' ); ?> <span class="dashicons dashicons-external"></span>
-		</a>
+		<?php
+			printf(
+				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+				'https://central.wordcamp.org/schedule/',
+				__( 'WordCamps' ),
+				/* translators: accessibility text */
+				__( '(opens in a new window)' )
+			);
+		?>
 
 		|
 
-		<?php // translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. ?>
-		<a href="<?php _e( 'https://wordpress.org/news/' ); ?>" target="_blank">
-			<?php _e( 'News' ); ?> <span class="dashicons dashicons-external"></span>
-		</a>
+		<?php
+			printf(
+				'<a href="%1$s" target="_blank">%2$s <span class="screen-reader-text">%3$s</span><span aria-hidden="true" class="dashicons dashicons-external"></span></a>',
+				/* translators: If a Rosetta site exists (e.g. https://es.wordpress.org/news/), then use that. Otherwise, leave untranslated. */
+				esc_url( __( 'https://wordpress.org/news/' ) ),
+				__( 'News' ),
+				/* translators: accessibility text */
+				__( '(opens in a new window)' )
+			);
+		?>
 	</p>
 
 	<?php
@@ -1152,24 +1131,22 @@ function wp_dashboard_events_news() {
  * @since 4.8.0
  */
 function wp_print_community_events_markup() {
-	$script_data = wp_get_community_events_script_data();
-
 	?>
 
 	<div class="community-events-errors notice notice-error inline hide-if-js">
 		<p class="hide-if-js">
-			<?php _e( 'This widget requires JavaScript.'); ?>
+			<?php _e( 'This widget requires JavaScript.' ); ?>
 		</p>
 
 		<p class="community-events-error-occurred" aria-hidden="true">
-			<?php echo $script_data['l10n']['error_occurred_please_try_again']; ?>
+			<?php _e( 'An error occurred. Please try again.' ); ?>
 		</p>
 
 		<p class="community-events-could-not-locate" aria-hidden="true"></p>
 	</div>
 
 	<div class="community-events-loading hide-if-no-js">
-		<?php _e( 'Loading&hellip;'); ?>
+		<?php _e( 'Loading&hellip;' ); ?>
 	</div>
 
 	<?php
@@ -1183,7 +1160,7 @@ function wp_print_community_events_markup() {
 			<p>
 				<span id="community-events-location-message"></span>
 
-				<button class="button-link community-events-toggle-location" aria-label="<?php _e( 'Edit city'); ?>" aria-expanded="false">
+				<button class="button-link community-events-toggle-location" aria-label="<?php esc_attr_e( 'Edit city' ); ?>" aria-expanded="false">
 					<span class="dashicons dashicons-edit"></span>
 				</button>
 			</p>
@@ -1192,12 +1169,21 @@ function wp_print_community_events_markup() {
 				<label for="community-events-location">
 					<?php _e( 'City:' ); ?>
 				</label>
-				<?php /* translators: Replace with the name of a city in your locale that shows events. Use only the city name itself, without any region or country. Use the endonym instead of the English name. */ ?>
-				<input id="community-events-location" class="regular-text" type="text" name="community-events-location" placeholder="<?php _e( 'Cincinnati' ); ?>" />
+				<?php
+				/* translators: Replace with a city related to your locale.
+				 * Test that it matches the expected location and has upcoming
+				 * events before including it. If no cities related to your
+				 * locale have events, then use a city related to your locale
+				 * that would be recognizable to most users. Use only the city
+				 * name itself, without any region or country. Use the endonym
+				 * (native locale name) instead of the English name if possible.
+				 */
+				?>
+				<input id="community-events-location" class="regular-text" type="text" name="community-events-location" placeholder="<?php esc_attr_e( 'Cincinnati' ); ?>" />
 
 				<?php submit_button( __( 'Submit' ), 'secondary', 'community-events-submit', false ); ?>
 
-				<button class="community-events-cancel button button-link" type="button" aria-expanded="false">
+				<button class="community-events-cancel button-link" type="button" aria-expanded="false">
 					<?php _e( 'Cancel' ); ?>
 				</button>
 
@@ -1217,21 +1203,24 @@ function wp_print_community_events_markup() {
  * @since 4.8.0
  */
 function wp_print_community_events_templates() {
-	$script_data = wp_get_community_events_script_data();
-
 	?>
 
 	<script id="tmpl-community-events-attend-event-near" type="text/template">
 		<?php printf(
 			/* translators: %s is a placeholder for the name of a city. */
 			__( 'Attend an upcoming event near %s.' ),
-			'<strong>{{ data.location }}</strong>'
+			'<strong>{{ data.location.description }}</strong>'
 		); ?>
 	</script>
 
 	<script id="tmpl-community-events-could-not-locate" type="text/template">
 		<?php printf(
-			$script_data['l10n']['could_not_locate_city'],
+			/* translators: %s is the name of the city we couldn't locate.
+			 * Replace the examples with cities in your locale, but test
+			 * that they match the expected location before including them.
+			 * Use endonyms (native locale names) whenever possible.
+			 */
+			__( 'We couldn&#8217;t locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland.' ),
 			'<em>{{data.unknownCity}}</em>'
 		); ?>
 	</script>
@@ -1259,15 +1248,23 @@ function wp_print_community_events_templates() {
 
 	<script id="tmpl-community-events-no-upcoming-events" type="text/template">
 		<li class="event-none">
-			<?php printf(
-				/* translators: 1: the city the user searched for, 2: meetup organization documentation URL */
-				__( 'There aren&#8217;t any events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize one</a>?' ),
-				'{{data.location}}',
-				__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
-			); ?>
+			<# if ( data.location.description ) { #>
+				<?php printf(
+					/* translators: 1: the city the user searched for, 2: meetup organization documentation URL */
+					__( 'There aren&#8217;t any events scheduled near %1$s at the moment. Would you like to <a href="%2$s">organize one</a>?' ),
+					'{{ data.location.description }}',
+					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
+				); ?>
+
+			<# } else { #>
+				<?php printf(
+					/* translators: meetup organization documentation URL. */
+					__( 'There aren&#8217;t any events scheduled near you at the moment. Would you like to <a href="%s">organize one</a>?' ),
+					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
+				); ?>
+			<# } #>
 		</li>
 	</script>
-
 	<?php
 }
 
@@ -1524,12 +1521,13 @@ function wp_check_browser_version() {
 
 		/**
 		 * Response should be an array with:
-		 *  'name' - string - A user friendly browser name
+		 *  'platform' - string - A user-friendly platform name, if it can be determined
+		 *  'name' - string - A user-friendly browser name
 		 *  'version' - string - The version of the browser the user is using
 		 *  'current_version' - string - The most recent version of the browser
 		 *  'upgrade' - boolean - Whether the browser needs an upgrade
 		 *  'insecure' - boolean - Whether the browser is deemed insecure
-		 *  'upgrade_url' - string - The url to visit to upgrade
+		 *  'update_url' - string - The url to visit to upgrade
 		 *  'img_src' - string - An image representing the browser
 		 *  'img_src_ssl' - string - An image (over SSL) representing the browser
 		 */

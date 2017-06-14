@@ -37,31 +37,6 @@
 	border-radius: 0;
 }
 
-.mejs-controls .mejs-offscreen {
-	clip: rect(1px, 1px, 1px, 1px);
-	position: absolute;
-}
-
-.mejs-controls a:focus > .mejs-offscreen {
-	background-color: #f1f1f1;
-	border-radius: 3px;
-	box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.6);
-	clip: auto;
-	color: #0073aa;
-	display: block;
-	font-size: 14px;
-	font-weight: bold;
-	height: auto;
-	line-height: normal;
-	padding: 15px 23px 14px;
-	position: absolute;
-	left: 0;
-	top: 15px;
-	text-decoration: none;
-	text-transform: none;
-	width: auto;
-}
-
 .mejs-overlay-loading {
 	background: transparent;
 }

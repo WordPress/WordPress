@@ -2159,9 +2159,9 @@ function wp_get_audio_extensions() {
 	 * @since 3.6.0
 	 *
 	 * @param array $extensions An array of support audio formats. Defaults are
-	 *                          'mp3', 'ogg', 'wma', 'm4a', 'wav'.
+	 *                          'mp3', 'ogg', 'm4a', 'wav'.
 	 */
-	return apply_filters( 'wp_audio_extensions', array( 'mp3', 'ogg', 'wma', 'm4a', 'wav' ) );
+	return apply_filters( 'wp_audio_extensions', array( 'mp3', 'ogg', 'm4a', 'wav' ) );
 }
 
 /**
@@ -2392,9 +2392,9 @@ function wp_get_video_extensions() {
 	 * @since 3.6.0
 	 *
 	 * @param array $extensions An array of support video formats. Defaults are
-	 *                          'mp4', 'm4v', 'webm', 'ogv', 'wmv', 'flv'.
+	 *                          'mp4', 'm4v', 'webm', 'ogv', 'flv'.
 	 */
-	return apply_filters( 'wp_video_extensions', array( 'mp4', 'm4v', 'webm', 'ogv', 'wmv', 'flv' ) );
+	return apply_filters( 'wp_video_extensions', array( 'mp4', 'm4v', 'webm', 'ogv', 'flv' ) );
 }
 
 /**
@@ -2544,6 +2544,24 @@ function wp_video_shortcode( $attr, $content = '' ) {
 	if ( 'mediaelement' === $library && did_action( 'init' ) ) {
 		wp_enqueue_style( 'wp-mediaelement' );
 		wp_enqueue_script( 'wp-mediaelement' );
+	}
+
+	// Mediaelement has issues with some URL formats for Vimeo and YouTube, so
+	// update the URL to prevent the ME.js player from breaking.
+	if ( 'mediaelement' === $library ) {
+		if ( $is_youtube ) {
+			// Remove `feature` query arg and force SSL - see #40866.
+			$atts['src'] = remove_query_arg( 'feature', $atts['src'] );
+			$atts['src'] = set_url_scheme( $atts['src'], 'https' );
+		} elseif ( $is_vimeo ) {
+			// Remove all query arguments and force SSL - see #40866.
+			$parsed_vimeo_url = wp_parse_url( $atts['src'] );
+			$vimeo_src = 'https://' . $parsed_vimeo_url['host'] . $parsed_vimeo_url['path'];
+
+			// Add loop param for mejs bug - see #40977, not needed after #39686.
+			$loop = $atts['loop'] ? '1' : '0';
+			$atts['src'] = add_query_arg( 'loop', $loop, $vimeo_src );
+		}
 	}
 
 	/**
@@ -3098,7 +3116,11 @@ function wp_prepare_attachment_for_js( $attachment ) {
 	);
 
 	$author = new WP_User( $attachment->post_author );
-	$response['authorName'] = $author->display_name;
+	if ( $author->exists() ) {
+		$response['authorName'] = html_entity_decode( $author->display_name, ENT_QUOTES, get_bloginfo( 'charset' ) );
+	} else {
+		$response['authorName'] = __( '(no author)' );
+	}
 
 	if ( $attachment->post_parent ) {
 		$post_parent = get_post( $attachment->post_parent );
@@ -3414,6 +3436,7 @@ function wp_enqueue_media( $args = array() ) {
 		'captions'  => ! apply_filters( 'disable_captions', '' ),
 		'nonce'     => array(
 			'sendToEditor' => wp_create_nonce( 'media-send-to-editor' ),
+			'wpRestApi'    => wp_create_nonce( 'wp_rest' ),
 		),
 		'post'    => array(
 			'id' => 0,
@@ -3423,6 +3446,7 @@ function wp_enqueue_media( $args = array() ) {
 			'audio' => ( $show_audio_playlist ) ? 1 : 0,
 			'video' => ( $show_video_playlist ) ? 1 : 0,
 		),
+		'oEmbedProxyUrl' => rest_url( 'oembed/1.0/proxy' ),
 		'embedExts'    => $exts,
 		'embedMimes'   => $ext_mimes,
 		'contentWidth' => $content_width,
@@ -3495,8 +3519,8 @@ function wp_enqueue_media( $args = array() ) {
 		'unattached'             => __( 'Unattached' ),
 		'trash'                  => _x( 'Trash', 'noun' ),
 		'uploadedToThisPost'     => $post_type_object->labels->uploaded_to_this_item,
-		'warnDelete'             => __( "You are about to permanently delete this item.\nThis will remove it from your site.\n 'Cancel' to stop, 'OK' to delete." ),
-		'warnBulkDelete'         => __( "You are about to permanently delete these items.\nThis will remove them from your site.\n 'Cancel' to stop, 'OK' to delete." ),
+		'warnDelete'             => __( "You are about to permanently delete this item from your site.\nThis action cannot be undone.\n 'Cancel' to stop, 'OK' to delete." ),
+		'warnBulkDelete'         => __( "You are about to permanently delete these items from your site.\nThis action cannot be undone.\n 'Cancel' to stop, 'OK' to delete." ),
 		'warnBulkTrash'          => __( "You are about to trash these items.\n  'Cancel' to stop, 'OK' to delete." ),
 		'bulkSelect'             => __( 'Bulk Select' ),
 		'cancelSelection'        => __( 'Cancel Selection' ),
@@ -3743,7 +3767,7 @@ function get_post_galleries( $post, $html = true ) {
 			if ( 'gallery' === $shortcode[2] ) {
 				$srcs = array();
 
-				$shortcode_attrs = shortcode_parse_atts( $shortcode[3] ); 
+				$shortcode_attrs = shortcode_parse_atts( $shortcode[3] );
 				if ( ! is_array( $shortcode_attrs ) ) {
 					$shortcode_attrs = array();
 				}

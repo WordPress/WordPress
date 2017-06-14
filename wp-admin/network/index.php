@@ -54,7 +54,6 @@ get_current_screen()->set_help_sidebar(
 wp_dashboard_setup();
 
 wp_enqueue_script( 'dashboard' );
-wp_localize_script( 'dashboard', 'communityEventsData', wp_get_community_events_script_data() );
 wp_enqueue_script( 'plugin-install' );
 add_thickbox();
 

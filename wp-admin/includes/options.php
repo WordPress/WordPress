@@ -100,8 +100,8 @@ jQuery(document).ready(function() {
 			return;
 		jQuery('#permalink_structure').val( this.value );
 	});
-	jQuery('#permalink_structure').focus(function() {
-		jQuery("#custom_selection").attr('checked', 'checked');
+	jQuery( '#permalink_structure' ).on( 'click input', function() {
+		jQuery( '#custom_selection' ).prop( 'checked', true );
 	});
 });
 </script>

@@ -32,7 +32,7 @@ function get_query_template( $type, $templates = array() ) {
 	 * The last element in the array should always be the fallback template for this query type.
 	 *
 	 * Possible values for `$type` include: 'index', '404', 'archive', 'author', 'category', 'tag', 'taxonomy', 'date',
-	 * 'embed', home', 'frontpage', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
+	 * 'embed', 'home', 'frontpage', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
 	 *
 	 * @since 4.7.0
 	 *
@@ -50,7 +50,7 @@ function get_query_template( $type, $templates = array() ) {
 	 * This hook also applies to various types of files loaded as part of the Template Hierarchy.
 	 *
 	 * Possible values for `$type` include: 'index', '404', 'archive', 'author', 'category', 'tag', 'taxonomy', 'date',
-	 * 'embed', home', 'frontpage', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
+	 * 'embed', 'home', 'frontpage', 'page', 'paged', 'search', 'single', 'singular', and 'attachment'.
 	 *
 	 * @since 1.5.0
 	 * @since 4.8.0 The `$type` and `$templates` parameters were added.

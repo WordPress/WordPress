@@ -214,7 +214,7 @@ function wp_admin_bar_my_account_item( $wp_admin_bar ) {
 
 	$avatar = get_avatar( $user_id, 26 );
 	/* translators: %s: current user's display name */
-	$howdy  = sprintf( __( 'Howdy, %s' ), $current_user->display_name );
+	$howdy  = sprintf( __( 'Howdy, %s' ), '<span class="display-name">' . $current_user->display_name . '</span>' );
 	$class  = empty( $avatar ) ? '' : 'with-avatar';
 
 	$wp_admin_bar->add_menu( array(

@@ -67,11 +67,22 @@ class WP_Community_Events {
 	 * data. The API will send back a recognized location based on the data, along
 	 * with nearby events.
 	 *
+	 * The browser's request for events is proxied with this method, rather
+	 * than having the browser make the request directly to api.wordpress.org,
+	 * because it allows results to be cached server-side and shared with other
+	 * users and sites in the network. This makes the process more efficient,
+	 * since increasing the number of visits that get cached data means users
+	 * don't have to wait as often; if the user's browser made the request
+	 * directly, it would also need to make a second request to WP in order to
+	 * pass the data for caching. Having WP make the request also introduces
+	 * the opportunity to anonymize the IP before sending it to w.org, which
+	 * mitigates possible privacy concerns.
+	 *
 	 * @since 4.8.0
 	 *
-	 * @param string $location_search Optional city name to help determine the location.
+	 * @param string $location_search Optional. City name to help determine the location.
 	 *                                e.g., "Seattle". Default empty string.
-	 * @param string $timezone        Optional timezone to help determine the location.
+	 * @param string $timezone        Optional. Timezone to help determine the location.
 	 *                                Default empty string.
 	 * @return array|WP_Error A WP_Error on failure; an array with location and events on
 	 *                        success.
@@ -83,12 +94,13 @@ class WP_Community_Events {
 			return $cached_events;
 		}
 
-		$request_url    = $this->get_request_url( $location_search, $timezone );
-		$response       = wp_remote_get( $request_url );
+		$api_url        = 'https://api.wordpress.org/events/1.0/';
+		$request_args   = $this->get_request_args( $location_search, $timezone );
+		$response       = wp_remote_get( $api_url, $request_args );
 		$response_code  = wp_remote_retrieve_response_code( $response );
 		$response_body  = json_decode( wp_remote_retrieve_body( $response ), true );
 		$response_error = null;
-		$debugging_info = compact( 'request_url', 'response_code', 'response_body' );
+		$debugging_info = compact( 'api_url', 'request_args', 'response_code', 'response_body' );
 
 		if ( is_wp_error( $response ) ) {
 			$response_error = $response;
@@ -117,6 +129,31 @@ class WP_Community_Events {
 				unset( $response_body['ttl'] );
 			}
 
+			/*
+			 * The IP in the response is usually the same as the one that was sent
+			 * in the request, but in some cases it is different. In those cases,
+			 * it's important to reset it back to the IP from the request.
+			 *
+			 * For example, if the IP sent in the request is private (e.g., 192.168.1.100),
+			 * then the API will ignore that and use the corresponding public IP instead,
+			 * and the public IP will get returned. If the public IP were saved, though,
+			 * then get_cached_events() would always return `false`, because the transient
+			 * would be generated based on the public IP when saving the cache, but generated
+			 * based on the private IP when retrieving the cache.
+			 */
+			if ( ! empty( $response_body['location']['ip'] ) ) {
+				$response_body['location']['ip'] = $request_args['body']['ip'];
+			}
+
+			/*
+			 * The API doesn't return a description for latitude/longitude requests,
+			 * but the description is already saved in the user location, so that
+			 * one can be used instead.
+			 */
+			if ( $this->coordinates_match( $request_args['body'], $response_body['location'] ) && empty( $response_body['location']['description'] ) ) {
+				$response_body['location']['description'] = $this->user_location['description'];
+			}
+
 			$this->cache_events( $response_body, $expiration );
 
 			$response_body = $this->trim_events( $response_body );
@@ -132,21 +169,23 @@ class WP_Community_Events {
 	}
 
 	/**
-	 * Builds a URL for requests to the w.org Events API.
+	 * Builds an array of args to use in an HTTP request to the w.org Events API.
 	 *
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param  string $search   City search string. Default empty string.
-	 * @param  string $timezone Timezone string. Default empty string.
-	 * @return string The request URL.
+	 * @param string $search   Optional. City search string. Default empty string.
+	 * @param string $timezone Optional. Timezone string. Default empty string.
+	 * @return array The request args.
 	 */
-	protected function get_request_url( $search = '', $timezone = '' ) {
-		$api_url = 'https://api.wordpress.org/events/1.0/';
-		$args    = array( 'number' => 5 ); // Get more than three in case some get trimmed out.
+	protected function get_request_args( $search = '', $timezone = '' ) {
+		$args = array(
+			'number' => 5, // Get more than three in case some get trimmed out.
+			'ip'     => self::get_unsafe_client_ip(),
+		);
 
 		/*
-		 * Send the minimal set of necessary arguments, in order to increase the
+		 * Include the minimal set of necessary arguments, in order to increase the
 		 * chances of a cache-hit on the API side.
 		 */
 		if ( empty( $search ) && isset( $this->user_location['latitude'], $this->user_location['longitude'] ) ) {
@@ -161,24 +200,21 @@ class WP_Community_Events {
 
 			if ( $search ) {
 				$args['location'] = $search;
-			} else {
-				/*
-				 * Protect the user's privacy by anonymizing their IP before sending
-				 * it to w.org, and only send it when necessary.
-				 *
-				 * The w.org API endpoint only uses the IP address when a location
-				 * query is not provided, so we can safely avoid sending it when
-				 * there is a query.
-				 */
-				$args['ip'] = $this->maybe_anonymize_ip_address( $this->get_unsafe_client_ip() );
 			}
 		}
 
-		return add_query_arg( $args, $api_url );
+		// Wrap the args in an array compatible with the second parameter of `wp_remote_get()`.
+		return array(
+			'body' => $args
+		);
 	}
 
 	/**
-	 * Determines the user's actual IP address, if possible.
+	 * Determines the user's actual IP address and attempts to partially
+	 * anonymize an IP address by converting it to a network ID.
+	 *
+	 * Geolocating the network ID usually returns a similar location as the
+	 * actual IP, but provides some privacy for the user.
 	 *
 	 * $_SERVER['REMOTE_ADDR'] cannot be used in all cases, such as when the user
 	 * is making their request through a proxy, or when the web server is behind
@@ -186,6 +222,7 @@ class WP_Community_Events {
 	 * than the user's actual address.
 	 *
 	 * Modified from http://stackoverflow.com/a/2031935/450127, MIT license.
+	 * Modified from https://github.com/geertw/php-ip-anonymizer, MIT license.
 	 *
 	 * SECURITY WARNING: This function is _NOT_ intended to be used in
 	 * circumstances where the authenticity of the IP address matters. This does
@@ -195,9 +232,10 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @return false|string false on failure, the string address on success.
+	 * @return false|string The anonymized address on success; the given address
+	 *                      or false on failure.
 	 */
-	protected function get_unsafe_client_ip() {
+	public static function get_unsafe_client_ip() {
 		$client_ip = false;
 
 		// In order of preference, with the best ones for this purpose first.
@@ -225,37 +263,36 @@ class WP_Community_Events {
 			}
 		}
 
+		// These functions are not available on Windows until PHP 5.3.
+		if ( function_exists( 'inet_pton' ) && function_exists( 'inet_ntop' ) ) {
+			if ( 4 === strlen( inet_pton( $client_ip ) ) ) {
+				$netmask = '255.255.255.0'; // ipv4.
+			} else {
+				$netmask = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000'; // ipv6.
+			}
+
+			$client_ip = inet_ntop( inet_pton( $client_ip ) & inet_pton( $netmask ) );
+		}
+
 		return $client_ip;
 	}
 
 	/**
-	 * Attempts to partially anonymize an IP address by converting it to a network ID.
+	 * Test if two pairs of latitude/longitude coordinates match each other.
 	 *
-	 * Geolocating the network ID usually returns a similar location as the
-	 * actual IP, but provides some privacy for the user.
-	 *
-	 * Modified from https://github.com/geertw/php-ip-anonymizer, MIT license.
-	 *
-	 * @access protected
 	 * @since 4.8.0
+	 * @access protected
 	 *
-	 * @param  string      $address The IP address that should be anonymized.
-	 * @return bool|string The anonymized address on success; the given address
-	 *                     or false on failure.
+	 * @param array $a The first pair, with indexes 'latitude' and 'longitude'.
+	 * @param array $b The second pair, with indexes 'latitude' and 'longitude'.
+	 * @return bool True if they match, false if they don't.
 	 */
-	protected function maybe_anonymize_ip_address( $address ) {
-		// These functions are not available on Windows until PHP 5.3.
-		if ( ! function_exists( 'inet_pton' ) || ! function_exists( 'inet_ntop' ) ) {
-			return $address;
+	protected function coordinates_match( $a, $b ) {
+		if ( ! isset( $a['latitude'], $a['longitude'], $b['latitude'], $b['longitude'] ) ) {
+			return false;
 		}
 
-		if ( 4 === strlen( inet_pton( $address ) ) ) {
-			$netmask = '255.255.255.0'; // ipv4.
-		} else {
-			$netmask = 'ffff:ffff:ffff:ffff:0000:0000:0000:0000'; // ipv6.
-		}
-
-		return inet_ntop( inet_pton( $address ) & inet_pton( $netmask ) );
+		return $a['latitude'] === $b['latitude'] && $a['longitude'] === $b['longitude'];
 	}
 
 	/**
@@ -269,13 +306,15 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param  array       $location Should contain 'latitude' and 'longitude' indexes.
+	 * @param  array $location Should contain 'latitude' and 'longitude' indexes.
 	 * @return bool|string false on failure, or a string on success.
 	 */
 	protected function get_events_transient_key( $location ) {
 		$key = false;
 
-		if ( isset( $location['latitude'], $location['longitude'] ) ) {
+		if ( isset( $location['ip'] ) ) {
+			$key = 'community-events-' . md5( $location['ip'] );
+		} else if ( isset( $location['latitude'], $location['longitude'] ) ) {
 			$key = 'community-events-' . md5( $location['latitude'] . $location['longitude'] );
 		}
 
@@ -288,7 +327,7 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param array    $events               Response body from the API request.
+	 * @param array    $events     Response body from the API request.
 	 * @param int|bool $expiration Optional. Amount of time to cache the events. Defaults to false.
 	 * @return bool true if events were cached; false if not.
 	 */
@@ -364,7 +403,7 @@ class WP_Community_Events {
 	 */
 	protected function trim_events( $response_body ) {
 		if ( isset( $response_body['events'] ) ) {
-			$current_timestamp = current_time('timestamp' );
+			$current_timestamp = current_time( 'timestamp' );
 
 			foreach ( $response_body['events'] as $key => $event ) {
 				// Skip WordCamps, because they might be multi-day events.
@@ -400,9 +439,9 @@ class WP_Community_Events {
 	 * @access protected
 	 * @since 4.8.0
 	 *
-	 * @param string $message        A description of what occurred.
-	 * @param array  $debugging_info Details that provide more context for the
-	 *                               log entry.
+	 * @param string $message A description of what occurred.
+	 * @param array  $details Details that provide more context for the
+	 *                        log entry.
 	 */
 	protected function maybe_log_events_response( $message, $details ) {
 		if ( ! WP_DEBUG_LOG ) {

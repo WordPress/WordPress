@@ -480,9 +480,10 @@ function install_plugin_information() {
 		'abbr' => array( 'title' => array() ), 'acronym' => array( 'title' => array() ),
 		'code' => array(), 'pre' => array(), 'em' => array(), 'strong' => array(),
 		'div' => array( 'class' => array() ), 'span' => array( 'class' => array() ),
-		'p' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
+		'p' => array(), 'br' => array(), 'ul' => array(), 'ol' => array(), 'li' => array(),
 		'h1' => array(), 'h2' => array(), 'h3' => array(), 'h4' => array(), 'h5' => array(), 'h6' => array(),
-		'img' => array( 'src' => array(), 'class' => array(), 'alt' => array() )
+		'img' => array( 'src' => array(), 'class' => array(), 'alt' => array() ),
+		'blockquote' => array( 'cite' => true ),
 	);
 
 	$plugins_section_titles = array(

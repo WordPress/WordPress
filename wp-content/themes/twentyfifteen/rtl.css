@@ -288,6 +288,11 @@ img.alignleft {
 	margin: 0.7667em 0.8em 0 0;
 }
 
+.textwidget ul,
+.textwidget ol {
+	margin-left: 0;
+	margin-right: 1.6em;
+}
 
 /**
  * 10.0 Content

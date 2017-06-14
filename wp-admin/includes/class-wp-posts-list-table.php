@@ -1288,7 +1288,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				if ( $can_edit_post ) {
 					$preview_link = get_preview_post_link( $post );
 					$actions['view'] = sprintf(
-						'<a href="%s" rel="permalink" aria-label="%s">%s</a>',
+						'<a href="%s" rel="bookmark" aria-label="%s">%s</a>',
 						esc_url( $preview_link ),
 						/* translators: %s: post title */
 						esc_attr( sprintf( __( 'Preview &#8220;%s&#8221;' ), $title ) ),
@@ -1297,7 +1297,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 				}
 			} elseif ( 'trash' != $post->post_status ) {
 				$actions['view'] = sprintf(
-					'<a href="%s" rel="permalink" aria-label="%s">%s</a>',
+					'<a href="%s" rel="bookmark" aria-label="%s">%s</a>',
 					get_permalink( $post->ID ),
 					/* translators: %s: post title */
 					esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $title ) ),
@@ -1316,7 +1316,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			 * @since 2.8.0
 			 *
 			 * @param array $actions An array of row action links. Defaults are
-			 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
+			 *                         'Edit', 'Quick Edit', 'Restore', 'Trash',
 			 *                         'Delete Permanently', 'Preview', and 'View'.
 			 * @param WP_Post $post The post object.
 			 */
@@ -1331,7 +1331,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 			 * @since 2.8.0
 			 *
 			 * @param array $actions An array of row action links. Defaults are
-			 *                         'Edit', 'Quick Edit', 'Restore, 'Trash',
+			 *                         'Edit', 'Quick Edit', 'Restore', 'Trash',
 			 *                         'Delete Permanently', 'Preview', and 'View'.
 			 * @param WP_Post $post The post object.
 			 */

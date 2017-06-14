@@ -4,7 +4,7 @@ Theme URI: https://wordpress.org/themes/twentytwelve/
 Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: The 2012 theme for WordPress is a fully responsive theme that looks great on any device. Features include a front page template with its own widgets, an optional display font, styling for post formats on both index and single views, and an optional no-sidebar page template. Make it yours with a custom menu, header image, and background.
-Version: 2.2
+Version: 2.3
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: blog, one-column, two-columns, right-sidebar, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, footer-widgets, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready
@@ -642,10 +642,18 @@ section[role="banner"] {
 	margin-bottom: 24px;
 	margin-bottom: 1.714285714rem;
 }
-.widget-area .textwidget ul {
+.widget-area .textwidget ul,
+.widget-area .textwidget ol {
 	list-style: disc outside;
 	margin: 0 0 24px;
 	margin: 0 0 1.714285714rem;
+}
+.widget-area .textwidget li > ul,
+.widget-area .textwidget li > ol {
+	margin-bottom: 0;
+}
+.widget-area .textwidget ol {
+	list-style: decimal;
 }
 .widget-area .textwidget li {
 	margin-left: 36px;
@@ -1442,7 +1450,6 @@ a.comment-edit-link:hover {
 	display: block;
 	text-align: right;
 }
-
 
 /* =Plugins
 ----------------------------------------------- */

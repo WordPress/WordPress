@@ -706,6 +706,7 @@ $_old_files = array(
 // 4.6
 'wp-admin/includes/class-wp-automatic-upgrader.php', // Wrong file name, see #37628.
 // 4.8
+'wp-includes/js/tinymce/plugins/wpembed',
 'wp-includes/js/tinymce/plugins/media/moxieplayer.swf',
 'wp-includes/js/tinymce/skins/lightgray/fonts/readme.md',
 'wp-includes/js/tinymce/skins/lightgray/fonts/tinymce-small.json',

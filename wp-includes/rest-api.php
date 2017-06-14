@@ -337,6 +337,14 @@ function get_rest_url( $blog_id = null, $path = '/', $scheme = 'rest' ) {
 		}
 	}
 
+	if ( is_admin() && force_ssl_admin() ) {
+		// In this situation the home URL may be http:, and `is_ssl()` may be
+		// false, but the admin is served over https: (one way or another), so
+		// REST API usage will be blocked by browsers unless it is also served
+		// over HTTPS.
+		$url = set_url_scheme( $url, 'https' );
+	}
+
 	/**
 	 * Filters the REST URL.
 	 *
@@ -481,6 +489,9 @@ function rest_ensure_response( $response ) {
  * @param string $version     Version.
  */
 function rest_handle_deprecated_function( $function, $replacement, $version ) {
+	if ( ! WP_DEBUG || headers_sent() ) {
+		return;
+	}
 	if ( ! empty( $replacement ) ) {
 		/* translators: 1: function name, 2: WordPress version number, 3: new function name */
 		$string = sprintf( __( '%1$s (since %2$s; use %3$s instead)' ), $function, $version, $replacement );
@@ -502,6 +513,9 @@ function rest_handle_deprecated_function( $function, $replacement, $version ) {
  * @param string $version     Version.
  */
 function rest_handle_deprecated_argument( $function, $message, $version ) {
+	if ( ! WP_DEBUG || headers_sent() ) {
+		return;
+	}
 	if ( ! empty( $message ) ) {
 		/* translators: 1: function name, 2: WordPress version number, 3: error message */
 		$string = sprintf( __( '%1$s (since %2$s; %3$s)' ), $function, $version, $message );
@@ -1077,11 +1091,7 @@ function rest_validate_value_from_schema( $value, $args, $param = '' ) {
 				break;
 
 			case 'email' :
-				// is_email() checks for 3 characters (a@b), but
-				// wp_handle_comment_submission() requires 6 characters (a@b.co)
-				//
-				// https://core.trac.wordpress.org/ticket/38506
-				if ( ! is_email( $value ) || strlen( $value ) < 6 ) {
+				if ( ! is_email( $value ) ) {
 					return new WP_Error( 'rest_invalid_email', __( 'Invalid email address.' ) );
 				}
 				break;

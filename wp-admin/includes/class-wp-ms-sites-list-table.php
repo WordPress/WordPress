@@ -549,7 +549,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			}
 		}
 
-		$actions['visit']	= "<a href='" . esc_url( get_home_url( $blog['blog_id'], '/' ) ) . "' rel='permalink'>" . __( 'Visit' ) . '</a>';
+		$actions['visit']	= "<a href='" . esc_url( get_home_url( $blog['blog_id'], '/' ) ) . "' rel='bookmark'>" . __( 'Visit' ) . '</a>';
 
 		/**
 		 * Filters the action links displayed for each site in the Sites list table.

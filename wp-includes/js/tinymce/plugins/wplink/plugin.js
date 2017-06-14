@@ -101,7 +101,7 @@
 
 		function getSelectedLink() {
 			var href, html,
-				node = editor.selection.getNode(),
+				node = editor.selection.getStart(),
 				link = editor.dom.getParent( node, 'a[href]' );
 
 			if ( ! link ) {
@@ -587,9 +587,9 @@
 						editor.focus(); // Needed for IE
 					}
 
+					editToolbar.tempHide = true;
 					window.wpLink.open( editor.id, url, text, linkNode );
 
-					editToolbar.tempHide = true;
 					inputInstance.reset();
 				}
 			}

@@ -888,12 +888,27 @@ function get_custom_logo( $blog_id = 0 ) {
 
 	// We have a logo. Logo is go.
 	if ( $custom_logo_id ) {
+		$custom_logo_attr = array(
+			'class'    => 'custom-logo',
+			'itemprop' => 'logo',
+		);
+
+		/*
+		 * If the logo alt attribute is empty, get the site title and explicitly
+		 * pass it to the attributes used by wp_get_attachment_image().
+		 */
+		$image_alt = get_post_meta( $custom_logo_id, '_wp_attachment_image_alt', true );
+		if ( empty( $image_alt ) ) {
+			$custom_logo_attr['alt'] = get_bloginfo( 'name', 'display' );
+		}
+
+		/*
+		 * If the alt attribute is not empty, there's no need to explicitly pass
+		 * it because wp_get_attachment_image() already adds the alt attribute.
+		 */
 		$html = sprintf( '<a href="%1$s" class="custom-logo-link" rel="home" itemprop="url">%2$s</a>',
 			esc_url( home_url( '/' ) ),
-			wp_get_attachment_image( $custom_logo_id, 'full', false, array(
-				'class'    => 'custom-logo',
-				'itemprop' => 'logo',
-			) )
+			wp_get_attachment_image( $custom_logo_id, 'full', false, $custom_logo_attr )
 		);
 	}
 
@@ -2845,7 +2860,7 @@ function wp_resource_hints() {
 	 * The path is removed in the foreach loop below.
 	 */
 	/** This filter is documented in wp-includes/formatting.php */
-	$hints['dns-prefetch'][] = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2.2.5/svg/' );
+	$hints['dns-prefetch'][] = apply_filters( 'emoji_svg_url', 'https://s.w.org/images/core/emoji/2.3/svg/' );
 
 	foreach ( $hints as $relation_type => $urls ) {
 		$unique_urls = array();

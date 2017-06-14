@@ -608,7 +608,7 @@ function wp_print_media_templates() {
 		<h2><?php _e( 'Attachment Display Settings' ); ?></h2>
 
 		<# if ( 'image' === data.type ) { #>
-			<label class="setting">
+			<label class="setting align">
 				<span><?php _e('Alignment'); ?></span>
 				<select class="alignment"
 					data-setting="align"
@@ -1087,7 +1087,7 @@ function wp_print_media_templates() {
 					</div>
 				</div>
 
-				<label class="setting checkbox-setting">
+				<label class="setting checkbox-setting autoplay">
 					<input type="checkbox" data-setting="autoplay" />
 					<span><?php _e( 'Autoplay' ); ?></span>
 				</label>
@@ -1176,7 +1176,7 @@ function wp_print_media_templates() {
 					</div>
 				</div>
 
-				<label class="setting checkbox-setting">
+				<label class="setting checkbox-setting autoplay">
 					<input type="checkbox" data-setting="autoplay" />
 					<span><?php _e( 'Autoplay' ); ?></span>
 				</label>

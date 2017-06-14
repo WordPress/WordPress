@@ -52,10 +52,51 @@ final class WP_oEmbed_Controller {
 				),
 			),
 		) );
+
+		register_rest_route( 'oembed/1.0', '/proxy', array(
+			array(
+				'methods'  => WP_REST_Server::READABLE,
+				'callback' => array( $this, 'get_proxy_item' ),
+				'permission_callback' => array( $this, 'get_proxy_item_permissions_check' ),
+				'args'     => array(
+					'url'      => array(
+						'description'       => __( 'The URL of the resource for which to fetch oEmbed data.' ),
+						'type'              => 'string',
+						'required'          => true,
+						'sanitize_callback' => 'esc_url_raw',
+					),
+					'format'   => array(
+						'description'       => __( 'The oEmbed format to use.' ),
+						'type'              => 'string',
+						'default'           => 'json',
+						'enum'              => array(
+							'json',
+							'xml',
+						),
+					),
+					'maxwidth' => array(
+						'description'       => __( 'The maximum width of the embed frame in pixels.' ),
+						'type'              => 'integer',
+						'default'           => $maxwidth,
+						'sanitize_callback' => 'absint',
+					),
+					'maxheight' => array(
+						'description'       => __( 'The maximum height of the embed frame in pixels.' ),
+						'type'              => 'integer',
+						'sanitize_callback' => 'absint',
+					),
+					'discover' => array(
+						'description'       => __( 'Whether to perform an oEmbed discovery request for non-whitelisted providers.' ),
+						'type'              => 'boolean',
+						'default'           => true,
+					),
+				),
+			),
+		) );
 	}
 
 	/**
-	 * Callback for the API endpoint.
+	 * Callback for the embed API endpoint.
 	 *
 	 * Returns the JSON object for the post.
 	 *
@@ -83,6 +124,71 @@ final class WP_oEmbed_Controller {
 		if ( ! $data ) {
 			return new WP_Error( 'oembed_invalid_url', get_status_header_desc( 404 ), array( 'status' => 404 ) );
 		}
+
+		return $data;
+	}
+
+	/**
+	 * Checks if current user can make a proxy oEmbed request.
+	 *
+	 * @since 4.8.0
+	 * @access public
+	 *
+	 * @return true|WP_Error True if the request has read access, WP_Error object otherwise.
+	 */
+	public function get_proxy_item_permissions_check() {
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return new WP_Error( 'rest_forbidden', __( 'Sorry, you are not allowed to make proxied oEmbed requests.' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+		return true;
+	}
+
+	/**
+	 * Callback for the proxy API endpoint.
+	 *
+	 * Returns the JSON object for the proxied item.
+	 *
+	 * @since 4.8.0
+	 * @access public
+	 *
+	 * @see WP_oEmbed::get_html()
+	 * @param WP_REST_Request $request Full data about the request.
+	 * @return WP_Error|array oEmbed response data or WP_Error on failure.
+	 */
+	public function get_proxy_item( $request ) {
+		$args = $request->get_params();
+
+		// Serve oEmbed data from cache if set.
+		$cache_key = 'oembed_' . md5( serialize( $args ) );
+		$data = get_transient( $cache_key );
+		if ( ! empty( $data ) ) {
+			return $data;
+		}
+
+		$url = $request['url'];
+		unset( $args['url'] );
+
+		$data = _wp_oembed_get_object()->get_data( $url, $args );
+
+		if ( false === $data ) {
+			return new WP_Error( 'oembed_invalid_url', get_status_header_desc( 404 ), array( 'status' => 404 ) );
+		}
+
+		/**
+		 * Filters the oEmbed TTL value (time to live).
+		 *
+		 * Similar to the {@see 'oembed_ttl'} filter, but for the REST API
+		 * oEmbed proxy endpoint.
+		 *
+		 * @since 4.8.0
+		 *
+		 * @param int    $time    Time to live (in seconds).
+		 * @param string $url     The attempted embed URL.
+		 * @param array  $args    An array of embed request arguments.
+		 */
+		$ttl = apply_filters( 'rest_oembed_ttl', DAY_IN_SECONDS, $url, $args );
+
+		set_transient( $cache_key, $data, $ttl );
 
 		return $data;
 	}

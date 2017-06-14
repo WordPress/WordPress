@@ -457,6 +457,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 				if ( 'undefined' !== typeof console && console.error ) {
 					console.error( partial.id, error );
 				}
+				partial.fallback( error, [ placement ] );
 			}
 			/* jshint ignore:start */
 			document.write = self.orginalDocumentWrite;
@@ -468,6 +469,15 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 
 			// Prevent placement container from being being re-triggered as being rendered among nested partials.
 			placement.container.data( 'customize-partial-content-rendered', true );
+
+			/*
+			 * Note that the 'wp_audio_shortcode_library' and 'wp_video_shortcode_library' filters
+			 * will determine whether or not wp.mediaelement is loaded and whether it will
+			 * initialize audio and video respectively. See also https://core.trac.wordpress.org/ticket/40144
+			 */
+			if ( wp.mediaelement ) {
+				wp.mediaelement.initialize();
+			}
 
 			/**
 			 * Announce when a partial's placement has been rendered so that dynamic elements can be re-built.

@@ -527,6 +527,13 @@ final class _WP_Editors {
 				$editor_styles = get_editor_stylesheets();
 
 				if ( ! empty( $editor_styles ) ) {
+					// Force urlencoding of commas.
+					foreach ( $editor_styles as $key => $url ) {
+						if ( strpos( $url, ',' ) !== false ) {
+							$editor_styles[ $key ] = str_replace( ',', '%2C', $url );
+						}
+					}
+
 					$mce_css .= ',' . implode( ',', $editor_styles );
 				}
 

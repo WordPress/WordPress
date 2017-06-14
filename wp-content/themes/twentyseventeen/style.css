@@ -4,7 +4,7 @@ Theme URI: https://wordpress.org/themes/twentyseventeen/
 Author: the WordPress team
 Author URI: https://wordpress.org/
 Description: Twenty Seventeen brings your site to life with header video and immersive featured images. With a focus on business sites, it features multiple sections on the front page as well as widgets, navigation and social menus, a logo, and more. Personalize its asymmetrical grid with a custom color scheme and showcase your multimedia content with post formats. Our default theme for 2017 works great in many languages, for any abilities, and on any device.
-Version: 1.2
+Version: 1.3
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: twentyseventeen
@@ -2533,7 +2533,8 @@ h2.widget-title {
 	margin: 0;
 }
 
-.widget ul li {
+.widget ul li,
+.widget ol li {
 	border-bottom: 1px solid #ddd;
 	border-top: 1px solid #ddd;
 	padding: 0.5em 0;
@@ -2592,6 +2593,42 @@ h2.widget-title {
 
 .widget_text {
 	word-wrap: break-word;
+}
+
+.widget_text ul {
+	list-style: disc;
+	margin: 0 0 1.5em 1.5em;
+}
+
+.widget_text ol {
+	list-style: decimal;
+}
+
+.widget_text ul li,
+.widget_text ol li {
+	border: none;
+}
+
+.widget_text ul li:last-child,
+.widget_text ol li:last-child {
+	padding-bottom: 0;
+}
+
+.widget_text ul li ul {
+	margin: 0 0 0 1.5em;
+}
+
+.widget_text ul li li {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.widget_text ol li {
+	list-style-position: inside;
+}
+
+.widget_text ol li + li {
+	margin-top: -1px;
 }
 
 /* RSS Widget */

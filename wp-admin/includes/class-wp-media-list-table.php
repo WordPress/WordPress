@@ -678,7 +678,7 @@ class WP_Media_List_Table extends WP_List_Table {
 				}
 			}
 			$actions['view'] = sprintf(
-				'<a href="%s" aria-label="%s" rel="permalink">%s</a>',
+				'<a href="%s" aria-label="%s" rel="bookmark">%s</a>',
 				get_permalink( $post->ID ),
 				/* translators: %s: attachment title */
 				esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $att_title ) ),
@@ -737,7 +737,7 @@ class WP_Media_List_Table extends WP_List_Table {
 			}
 			if ( ! $this->is_trash ) {
 				$actions['view'] = sprintf(
-					'<a href="%s" aria-label="%s" rel="permalink">%s</a>',
+					'<a href="%s" aria-label="%s" rel="bookmark">%s</a>',
 					get_permalink( $post->ID ),
 					/* translators: %s: attachment title */
 					esc_attr( sprintf( __( 'View &#8220;%s&#8221;' ), $att_title ) ),

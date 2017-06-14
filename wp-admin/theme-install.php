@@ -28,6 +28,11 @@ if ( ! is_network_admin() ) {
 }
 
 $installed_themes = search_theme_directories();
+
+if ( false === $installed_themes ) {
+	$installed_themes = array();
+}
+
 foreach ( $installed_themes as $k => $v ) {
 	if ( false !== strpos( $k, '/' ) ) {
 		unset( $installed_themes[ $k ] );

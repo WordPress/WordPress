@@ -222,14 +222,14 @@ Commenter avatars come from <a href="https://gravatar.com">Gravatar</a>.' );
 		$first_page = get_site_option( 'first_page' );
 
 	$first_page = ! empty( $first_page ) ? $first_page : sprintf( __( "This is an example page. It's different from a blog post because it will stay in one place and will show up in your site navigation (in most themes). Most people start with an About page that introduces them to potential site visitors. It might say something like this:
-		
-		<blockquote>Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my website. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)</blockquote>
-		
-		...or something like this:
-		
-		<blockquote>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</blockquote>
-		
-		As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to delete this page and create new pages for your content. Have fun!" ), admin_url() );
+
+<blockquote>Hi there! I'm a bike messenger by day, aspiring actor by night, and this is my website. I live in Los Angeles, have a great dog named Jack, and I like pi&#241;a coladas. (And gettin' caught in the rain.)</blockquote>
+
+...or something like this:
+
+<blockquote>The XYZ Doohickey Company was founded in 1971, and has been providing quality doohickeys to the public ever since. Located in Gotham City, XYZ employs over 2,000 people and does all kinds of awesome things for the Gotham community.</blockquote>
+
+As a new WordPress user, you should go to <a href=\"%s\">your dashboard</a> to delete this page and create new pages for your content. Have fun!" ), admin_url() );
 
 	$first_post_guid = get_option('home') . '/?page_id=2';
 	$wpdb->insert( $wpdb->posts, array(
@@ -564,10 +564,6 @@ function upgrade_all() {
 
 	if ( $wp_current_db_version < 37965 )
 		upgrade_460();
-
-	if ( $wp_current_db_version < 40500 ) { //todo update to commit for #40702
-		upgrade_480();
-	}
 
 	maybe_disable_link_manager();
 
@@ -1733,26 +1729,6 @@ function upgrade_460() {
 
 			update_option( 'uninstall_plugins', $uninstall_plugins );
 		}
-	}
-}
-
-/**
- * Executes changes made in WordPress 4.8.0.
- *
- * @ignore
- * @since 4.8.0
- *
- * @global int $wp_current_db_version Current database version.
- */
-function upgrade_480() {
-	global $wp_current_db_version;
-
-	if ( $wp_current_db_version < 40500 ) { // todo update to commit for #40702
-		// This feature plugin was merged for #40702, so the plugin itself is no longer needed
-		deactivate_plugins( array( 'nearby-wp-events/nearby-wordpress-events.php' ), true );
-
-		// The markup stored in this transient changed for #40702
-		delete_transient( 'dash_' . md5( 'dashboard_primary' . '_' . get_locale() ) );
 	}
 }
 

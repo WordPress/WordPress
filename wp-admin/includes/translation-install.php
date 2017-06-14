@@ -202,7 +202,7 @@ function wp_download_language_pack( $download ) {
 		return $download;
 	}
 
-	if ( wp_disallow_file_mods( 'download_language_pack' ) ) {
+	if ( ! wp_is_file_mod_allowed( 'download_language_pack' ) ) {
 		return false;
 	}
 
@@ -245,7 +245,7 @@ function wp_download_language_pack( $download ) {
  * @return bool Returns true on success, false on failure.
  */
 function wp_can_install_language_pack() {
-	if ( wp_disallow_file_mods( 'can_install_language_pack' ) ) {
+	if ( ! wp_is_file_mod_allowed( 'can_install_language_pack' ) ) {
 		return false;
 	}
 

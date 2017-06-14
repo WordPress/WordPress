@@ -988,9 +988,9 @@ function comment_text( $comment_ID = 0, $args = array() ) {
 	 *
 	 * @see Walker_Comment::comment()
 	 *
-	 * @param string     $comment_text Text of the current comment.
-	 * @param WP_Comment $comment      The comment object.
-	 * @param array      $args         An array of arguments.
+	 * @param string          $comment_text Text of the current comment.
+	 * @param WP_Comment|null $comment      The comment object.
+	 * @param array           $args         An array of arguments.
 	 */
 	echo apply_filters( 'comment_text', $comment_text, $comment, $args );
 }
@@ -1191,6 +1191,7 @@ function comments_open( $post_id = null ) {
 
 	$_post = get_post($post_id);
 
+	$post_id = $_post ? $_post->ID : 0;
 	$open = ( 'open' == $_post->comment_status );
 
 	/**
@@ -1198,8 +1199,8 @@ function comments_open( $post_id = null ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param bool        $open    Whether the current post is open for comments.
-	 * @param int|WP_Post $post_id The post ID or WP_Post object.
+	 * @param bool $open    Whether the current post is open for comments.
+	 * @param int  $post_id The post ID.
 	 */
 	return apply_filters( 'comments_open', $open, $post_id );
 }
@@ -1216,6 +1217,7 @@ function pings_open( $post_id = null ) {
 
 	$_post = get_post($post_id);
 
+	$post_id = $_post ? $_post->ID : 0;
 	$open = ( 'open' == $_post->ping_status );
 
 	/**
@@ -1223,8 +1225,8 @@ function pings_open( $post_id = null ) {
 	 *
 	 * @since 2.5.0
 	 *
-	 * @param bool        $open    Whether the current post is open for pings.
-	 * @param int|WP_Post $post_id The post ID or WP_Post object.
+	 * @param bool $open    Whether the current post is open for pings.
+	 * @param int  $post_id The post ID.
 	 */
 	return apply_filters( 'pings_open', $open, $post_id );
 }

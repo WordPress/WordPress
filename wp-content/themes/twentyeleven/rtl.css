@@ -377,6 +377,10 @@ section.recent-posts .other-recent-posts .comments-link > span {
 	margin-left: -10px;
 	text-align: left;
 }
+.widget_text ul,
+.widget_text ol {
+	margin: 0 2.5em 1.625em 0;
+}
 
 /* =Comments
 ----------------------------------------------- */
