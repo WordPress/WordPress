@@ -1,4 +1,12 @@
 /* global postboxes, commentL10n */
+
+/**
+ * @summary Binds to the document ready event.
+ *
+ * @since 2.5.0
+ *
+ * @param {jQuery} $ The jQuery object.
+ */
 jQuery(document).ready( function($) {
 
 	postboxes.add_postbox_toggles('comment');
@@ -9,8 +17,17 @@ jQuery(document).ready( function($) {
 		$timestampwrap = $timestampdiv.find( '.timestamp-wrap' ),
 		$edittimestamp = $timestampdiv.siblings( 'a.edit-timestamp' );
 
+	/**
+	 * @summary Adds event that opens the time stamp form if the form is hidden.
+	 *
+	 * @listens $edittimestamp:click
+	 *
+	 * @param {Event} event The event object.
+	 * @returns {void}
+	 */
 	$edittimestamp.click( function( event ) {
 		if ( $timestampdiv.is( ':hidden' ) ) {
+			// Slide down the form and set focus on the first field.
 			$timestampdiv.slideDown( 'fast', function() {
 				$( 'input, select', $timestampwrap ).first().focus();
 			} );
@@ -18,6 +35,15 @@ jQuery(document).ready( function($) {
 		}
 		event.preventDefault();
 	});
+
+	/**
+	 * @summary Resets the time stamp values when the cancel button is clicked.
+	 *
+	 * @listens .cancel-timestamp:click
+	 *
+	 * @param {Event} event The event object.
+	 * @returns {void}
+	 */
 
 	$timestampdiv.find('.cancel-timestamp').click( function( event ) {
 		// Move focus back to the Edit link.
@@ -32,6 +58,14 @@ jQuery(document).ready( function($) {
 		event.preventDefault();
 	});
 
+	/**
+	 * @summary Sets the time stamp values when the ok button is clicked.
+	 *
+	 * @listens .save-timestamp:click
+	 *
+	 * @param {Event} event The event object.
+	 * @returns {void}
+	 */
 	$timestampdiv.find('.save-timestamp').click( function( event ) { // crazyhorse - multiple ok cancels
 		var aa = $('#aa').val(), mm = $('#mm').val(), jj = $('#jj').val(), hh = $('#hh').val(), mn = $('#mn').val(),
 			newD = new Date( aa, mm - 1, jj, hh, mn );
