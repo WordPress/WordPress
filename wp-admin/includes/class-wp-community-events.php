@@ -107,7 +107,7 @@ class WP_Community_Events {
 		} elseif ( 200 !== $response_code ) {
 			$response_error = new WP_Error(
 				'api-error',
-				/* translators: %s is a numeric HTTP status code; e.g., 400, 403, 500, 504, etc. */
+				/* translators: %d: numeric HTTP status code, e.g. 400, 403, 500, 504, etc. */
 				sprintf( __( 'Invalid API response code (%d)' ), $response_code )
 			);
 		} elseif ( ! isset( $response_body['location'], $response_body['events'] ) ) {
