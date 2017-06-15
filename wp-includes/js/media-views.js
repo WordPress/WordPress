@@ -5116,6 +5116,7 @@ ImageDetails = Select.extend({
 					style:    'primary',
 					text:     l10n.replace,
 					priority: 80,
+					requires: { selection: true },
 
 					click: function() {
 						var controller = this.controller,
