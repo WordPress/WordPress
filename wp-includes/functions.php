@@ -158,6 +158,8 @@ function date_i18n( $dateformatstring, $unixtimestamp = false, $gmt = false ) {
  *
  * @since 4.4.0
  *
+ * @global WP_Locale $wp_locale
+ *
  * @param string $date Formatted date string.
  * @return string The date, declined if locale specifies it.
  */
