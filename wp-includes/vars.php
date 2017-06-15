@@ -139,5 +139,12 @@ function wp_is_mobile() {
 		$is_mobile = false;
 	}
 
-	return $is_mobile;
+	/**
+	 * Filters whether the request should be treated as coming from a mobile device or not.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param bool $is_mobile Whether the request is from a mobile device or not.
+	 */
+	return apply_filters( 'wp_is_mobile', $is_mobile );
 }
