@@ -2405,7 +2405,7 @@ class WP_Query {
 			 *
 			 * @since 1.5.0
 			 *
-			 * @param string   $where The JOIN clause of the query.
+			 * @param string   $join  The JOIN clause of the query.
 			 * @param WP_Query &$this The WP_Query instance (passed by reference).
 			 */
 			$join = apply_filters_ref_array( 'posts_join', array( $join, &$this ) );
