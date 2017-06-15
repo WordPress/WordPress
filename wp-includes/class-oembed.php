@@ -95,7 +95,7 @@ class WP_oEmbed {
 			'#https?://kck\.st/.*#i'                                   => array( 'https://www.kickstarter.com/services/oembed',               true  ),
 			'#https?://cloudup\.com/.*#i'                              => array( 'https://cloudup.com/oembed',                                true  ),
 			'#https?://(www\.)?reverbnation\.com/.*#i'                 => array( 'https://www.reverbnation.com/oembed',                       true  ),
-			'#https?://videopress\.com/v/.*#'                          => array( 'https://public-api.wordpress.com/oembed/1.0/?for=' . $host, true  ),
+			'#https?://videopress\.com/v/.*#'                          => array( 'https://public-api.wordpress.com/oembed/?for=' . $host,     true  ),
 			'#https?://(www\.)?reddit\.com/r/[^/]+/comments/.*#i'      => array( 'https://www.reddit.com/oembed',                             true  ),
 			'#https?://(www\.)?speakerdeck\.com/.*#i'                  => array( 'https://speakerdeck.com/oembed.{format}',                   true  ),
 			'#https?://www\.facebook\.com/.*/posts/.*#i'               => array( 'https://www.facebook.com/plugins/post/oembed.json/',        true  ),
