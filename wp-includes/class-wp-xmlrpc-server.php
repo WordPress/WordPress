@@ -404,6 +404,68 @@ class wp_xmlrpc_server extends IXR_Server {
 	}
 
 	/**
+	 * Retrieve custom fields for a term.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param int $post_id Post ID.
+	 * @return array Array of custom fields, if they exist.
+	 */
+	public function get_term_custom_fields( $term_id ) {
+		$term_id = (int) $term_id;
+
+		$custom_fields = array();
+
+		foreach ( (array) has_term_meta( $term_id ) as $meta ) {
+
+			if ( ! current_user_can( 'edit_term_meta', $term_id ) ) {
+				continue;
+			}
+
+			$custom_fields[] = array(
+				'id'    => $meta['meta_id'],
+				'key'   => $meta['meta_key'],
+				'value' => $meta['meta_value'],
+			);
+		}
+
+		return $custom_fields;
+	}
+
+	/**
+	 * Set custom fields for a term.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param int $post_id Post ID.
+	 * @param array $fields Custom fields.
+	 */
+	public function set_term_custom_fields( $term_id, $fields ) {
+		$term_id = (int) $term_id;
+
+		foreach ( (array) $fields as $meta ) {
+			if ( isset( $meta['id'] ) ) {
+				$meta['id'] = (int) $meta['id'];
+				$pmeta = get_metadata_by_mid( 'term', $meta['id'] );
+				if ( isset( $meta['key'] ) ) {
+					$meta['key'] = wp_unslash( $meta['key'] );
+					if ( $meta['key'] !== $pmeta->meta_key ) {
+						continue;
+					}
+					$meta['value'] = wp_unslash( $meta['value'] );
+					if ( current_user_can( 'edit_term_meta', $term_id ) ) {
+						update_metadata_by_mid( 'term', $meta['id'], $meta['value'] );
+					}
+				} elseif ( current_user_can( 'delete_term_meta', $term_id ) ) {
+					delete_metadata_by_mid( 'term', $meta['id'] );
+				}
+			} elseif ( current_user_can( 'add_term_meta', $term_id ) ) {
+				add_term_meta( $term_id, $meta['key'], $meta['value'] );
+			}
+		}
+	}
+
+	/**
 	 * Set up blog options property.
 	 *
 	 * Passes property through {@see 'xmlrpc_blog_options'} filter.
@@ -741,6 +803,9 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		// Count we are happy to return as an integer because people really shouldn't use terms that much.
 		$_term['count'] = intval( $_term['count'] );
+
+		// Get term meta.
+		$_term['custom_fields'] = $this->get_term_custom_fields( $_term['term_id'] );
 
 		/**
 		 * Filters XML-RPC-prepared data for the given term.
@@ -1943,6 +2008,11 @@ class wp_xmlrpc_server extends IXR_Server {
 		if ( ! $term )
 			return new IXR_Error( 500, __( 'Sorry, your term could not be created.' ) );
 
+		// Add term meta.
+		if ( isset( $content_struct['custom_fields'] ) ) {
+			$this->set_term_custom_fields( $term['term_id'], $content_struct['custom_fields'] );
+		}
+
 		return strval( $term['term_id'] );
 	}
 
@@ -2041,6 +2111,11 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( ! $term )
 			return new IXR_Error( 500, __( 'Sorry, editing the term failed.' ) );
+
+		// Update term meta.
+		if ( isset( $content_struct['custom_fields'] ) ) {
+			$this->set_term_custom_fields( $term_id, $content_struct['custom_fields'] );
+		}
 
 		return true;
 	}

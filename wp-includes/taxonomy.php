@@ -1241,6 +1241,27 @@ function update_termmeta_cache( $term_ids ) {
 }
 
 /**
+ * Get all meta data, including meta IDs, for the given term ID.
+ *
+ * @since 4.9.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param int $term_id
+ * @return array|false
+ */
+function has_term_meta( $term_id ) {
+	// Bail if term meta table is not installed.
+	if ( get_option( 'db_version' ) < 34370 ) {
+		return false;
+	}
+
+	global $wpdb;
+
+	return $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value, meta_id, term_id FROM $wpdb->termmeta WHERE term_id = %d ORDER BY meta_key,meta_id", $term_id ), ARRAY_A );
+}
+
+/**
  * Check if Term exists.
  *
  * Formerly is_term(), introduced in 2.3.0.
