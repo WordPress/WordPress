@@ -1247,8 +1247,8 @@ function update_termmeta_cache( $term_ids ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int $term_id
- * @return array|false
+ * @param int $term_id Term ID.
+ * @return array|false Array with meta data, or false when the meta table is not installed.
  */
 function has_term_meta( $term_id ) {
 	// Bail if term meta table is not installed.
@@ -1816,7 +1816,7 @@ function wp_delete_term( $term, $taxonomy, $args = array() ) {
  *
  * @since 2.0.0
  *
- * @param int $cat_ID
+ * @param int $cat_ID Category term ID.
  * @return bool|int|WP_Error Returns true if completes delete action; false if term doesn't exist;
  * 	Zero on attempted deletion of default Category; WP_Error object is also a possibility.
  */
@@ -3820,8 +3820,9 @@ function wp_get_split_term( $old_term_id, $taxonomy ) {
  *
  * @since 4.4.0
  *
- * @param int $term_id
- * @return bool
+ * @param int $term_id Term ID.
+ * @return bool Returns false if a term is not shared between multiple taxonomies or
+ *              if splittng shared taxonomy terms is finished. 
  */
 function wp_term_is_shared( $term_id ) {
 	global $wpdb;
