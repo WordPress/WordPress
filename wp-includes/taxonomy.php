@@ -3003,11 +3003,7 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 
 	foreach ( $taxonomies as $taxonomy ) {
 		if ( $clean_taxonomy ) {
-			wp_cache_delete('all_ids', $taxonomy);
-			wp_cache_delete('get', $taxonomy);
-			delete_option("{$taxonomy}_children");
-			// Regenerate {$taxonomy}_children
-			_get_term_hierarchy($taxonomy);
+			clean_taxonomy_cache( $taxonomy );
 		}
 
 		/**
@@ -3024,6 +3020,31 @@ function clean_term_cache($ids, $taxonomy = '', $clean_taxonomy = true) {
 	}
 
 	wp_cache_set( 'last_changed', microtime(), 'terms' );
+}
+
+/**
+ * Clean the caches for a taxonomy.
+ *
+ * @since 4.9.0
+ *
+ * @param string $taxonomy Taxonomy slug.
+ */
+function clean_taxonomy_cache( $taxonomy ) {
+	wp_cache_delete( 'all_ids', $taxonomy );
+	wp_cache_delete( 'get', $taxonomy );
+
+	// Regenerate cached hierarchy.
+	delete_option( "{$taxonomy}_children" );
+	_get_term_hierarchy( $taxonomy );
+
+	/**
+	 * Fires after a taxonomy's caches have been cleaned.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string $taxonomy Taxonomy slug.
+	 */
+	do_action( 'clean_taxonomy_cache', $taxonomy );
 }
 
 /**
