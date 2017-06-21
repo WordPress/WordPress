@@ -595,6 +595,9 @@ class WP_Tax_Query {
 	/**
 	 * Transforms a single query, from one field to another.
 	 *
+	 * Operates on the `$query` object by reference. In the case of error,
+	 * `$query` is converted to a WP_Error object.
+	 *
 	 * @since 3.2.0
 	 *
 	 * @global wpdb $wpdb The WordPress database abstraction object.
@@ -604,8 +607,6 @@ class WP_Tax_Query {
 	 *                                or 'term_id'. Default 'term_id'.
 	 */
 	public function transform_query( &$query, $resulting_field ) {
-		global $wpdb;
-
 		if ( empty( $query['terms'] ) )
 			return;
 
@@ -614,57 +615,52 @@ class WP_Tax_Query {
 
 		$resulting_field = sanitize_key( $resulting_field );
 
-		switch ( $query['field'] ) {
-			case 'slug':
-			case 'name':
-				foreach ( $query['terms'] as &$term ) {
-					/*
-					 * 0 is the $term_id parameter. We don't have a term ID yet, but it doesn't
-					 * matter because `sanitize_term_field()` ignores the $term_id param when the
-					 * context is 'db'.
-					 */
-					$clean_term = sanitize_term_field( $query['field'], $term, 0, $query['taxonomy'], 'db' );
-
-					// Match sanitization in wp_insert_term().
-					$clean_term = wp_unslash( $clean_term );
-
-					$term = "'" . esc_sql( $clean_term ) . "'";
-				}
-
-				$terms = implode( ",", $query['terms'] );
-
-				$terms = $wpdb->get_col( "
-					SELECT $wpdb->term_taxonomy.$resulting_field
-					FROM $wpdb->term_taxonomy
-					INNER JOIN $wpdb->terms USING (term_id)
-					WHERE taxonomy = '{$query['taxonomy']}'
-					AND $wpdb->terms.{$query['field']} IN ($terms)
-				" );
-				break;
-			case 'term_taxonomy_id':
-				$terms = implode( ',', array_map( 'intval', $query['terms'] ) );
-				$terms = $wpdb->get_col( "
-					SELECT $resulting_field
-					FROM $wpdb->term_taxonomy
-					WHERE term_taxonomy_id IN ($terms)
-				" );
-				break;
-			default:
-				$terms = implode( ',', array_map( 'intval', $query['terms'] ) );
-				$terms = $wpdb->get_col( "
-					SELECT $resulting_field
-					FROM $wpdb->term_taxonomy
-					WHERE taxonomy = '{$query['taxonomy']}'
-					AND term_id IN ($terms)
-				" );
+		// Empty 'terms' always results in a null transformation.
+		$terms = array_filter( $query['terms'] );
+		if ( empty( $terms ) ) {
+			$query['terms'] = array();
+			$query['field'] = $resulting_field;
+			return;
 		}
 
-		if ( 'AND' == $query['operator'] && count( $terms ) < count( $query['terms'] ) ) {
+		$args = array(
+			'get'                    => 'all',
+			'number'                 => 0,
+			'taxonomy'               => $query['taxonomy'],
+			'update_term_meta_cache' => false,
+			'orderby'                => 'none',
+		);
+
+		// Term query parameter name depends on the 'field' being searched on.
+		switch ( $query['field'] ) {
+			case 'slug':
+				$args['slug'] = $terms;
+				break;
+			case 'name':
+				$args['name'] = $terms;
+				break;
+			case 'term_taxonomy_id':
+				$args['term_taxonomy_id'] = $terms;
+				break;
+			default:
+				$args['include'] = wp_parse_id_list( $terms );
+				break;
+		}
+
+		$term_query = new WP_Term_Query();
+		$term_list  = $term_query->query( $args );
+
+		if ( is_wp_error( $term_list ) ) {
+			$query = $term_list;
+			return;
+		}
+
+		if ( 'AND' == $query['operator'] && count( $term_list ) < count( $query['terms'] ) ) {
 			$query = new WP_Error( 'inexistent_terms', __( 'Inexistent terms.' ) );
 			return;
 		}
 
-		$query['terms'] = $terms;
+		$query['terms'] = wp_list_pluck( $term_list, $resulting_field );
 		$query['field'] = $resulting_field;
 	}
 }
