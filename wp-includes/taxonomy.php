@@ -650,7 +650,17 @@ function get_objects_in_term( $term_ids, $taxonomies, $args = array() ) {
 	$taxonomies = "'" . implode( "', '", array_map( 'esc_sql', $taxonomies ) ) . "'";
 	$term_ids = "'" . implode( "', '", $term_ids ) . "'";
 
-	$object_ids = $wpdb->get_col("SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($term_ids) ORDER BY tr.object_id $order");
+	$sql = "SELECT tr.object_id FROM $wpdb->term_relationships AS tr INNER JOIN $wpdb->term_taxonomy AS tt ON tr.term_taxonomy_id = tt.term_taxonomy_id WHERE tt.taxonomy IN ($taxonomies) AND tt.term_id IN ($term_ids) ORDER BY tr.object_id $order";
+
+	$last_changed = wp_cache_get_last_changed( 'terms' );
+	$cache_key = 'get_objects_in_term:' . md5( $sql ) . ":$last_changed";
+	$cache = wp_cache_get( $cache_key, 'terms' );
+	if ( false === $cache ) {
+		$object_ids = $wpdb->get_col( $sql );
+		wp_cache_set( $cache_key, $object_ids, 'terms' );
+	} else {
+		$object_ids = (array) $cache;
+	}
 
 	if ( ! $object_ids ){
 		return array();
