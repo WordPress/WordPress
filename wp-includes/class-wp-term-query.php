@@ -429,7 +429,7 @@ class WP_Term_Query {
 			foreach ( $exclude_tree as $extrunk ) {
 				$excluded_children = array_merge(
 					$excluded_children,
-					(array) get_terms( $taxonomies[0], array(
+					(array) get_terms( reset( $taxonomies ), array(
 						'child_of' => intval( $extrunk ),
 						'fields' => 'ids',
 						'hide_empty' => 0
