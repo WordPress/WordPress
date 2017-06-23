@@ -2964,6 +2964,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *     @type string $guid                  Global Unique ID for referencing the post. Default empty.
  *     @type array  $post_category         Array of category names, slugs, or IDs.
  *                                         Defaults to value of the 'default_category' option.
+ *     @type array  $tags_input            Array of tag names, slugs, or IDs. Default empty. 
  *     @type array  $tax_input             Array of taxonomy terms keyed by their taxonomy name. Default empty.
  *     @type array  $meta_input            Array of post meta values keyed by their post meta key. Default empty.
  * }
