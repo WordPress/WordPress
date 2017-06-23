@@ -3144,6 +3144,15 @@ class WP_Query {
 			do_action_ref_array( 'loop_end', array( &$this ) );
 			// Do some cleaning up after the loop
 			$this->rewind_posts();
+		} elseif ( 0 === $this->post_count ) {
+			/**
+			 * Fires if no results are found in a post query.
+			 *
+			 * @since 4.9.0
+			 *
+			 * @param WP_Query $this The WP_Query instance.
+			 */
+			do_action( 'loop_no_results', $this );
 		}
 
 		$this->in_the_loop = false;
