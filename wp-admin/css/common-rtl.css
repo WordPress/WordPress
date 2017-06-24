@@ -2358,12 +2358,8 @@ body.iframe {
 
 .importer-action {
 	line-height: 20px; /* Same as with .updating-message */
-	color: #ddd;
-	margin-bottom: 1em;
-}
-
-.not-installed-main-site .importer-action {
 	color: #555;
+	margin-bottom: 1em;
 }
 
 #post-body #post-body-content #namediv h3, /* Back-compat for pre-4.4 */
