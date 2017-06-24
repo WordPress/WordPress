@@ -1474,7 +1474,7 @@ function wp_widgets_init() {
 
 	register_widget( 'WP_Nav_Menu_Widget' );
 
-	register_widget( 'WP_Widget_HTML_Code' );
+	register_widget( 'WP_Widget_Custom_HTML' );
 
 	/**
 	 * Fires after all default WordPress widgets have been registered.

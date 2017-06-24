@@ -1,6 +1,6 @@
 <?php
 /**
- * Widget API: WP_Widget_HTML_Code class
+ * Widget API: WP_Widget_Custom_HTML class
  *
  * @package WordPress
  * @subpackage Widgets
@@ -8,13 +8,13 @@
  */
 
 /**
- * Core class used to implement a HTML Code widget.
+ * Core class used to implement a Custom HTML widget.
  *
  * @since 4.8.1
  *
  * @see WP_Widget
  */
-class WP_Widget_HTML_Code extends WP_Widget {
+class WP_Widget_Custom_HTML extends WP_Widget {
 
 	/**
 	 * Default instance.
@@ -28,28 +28,28 @@ class WP_Widget_HTML_Code extends WP_Widget {
 	);
 
 	/**
-	 * Sets up a new HTML Code widget instance.
+	 * Sets up a new Custom HTML widget instance.
 	 *
 	 * @since 4.8.1
 	 */
 	public function __construct() {
 		$widget_ops = array(
-			'classname' => 'widget_html_code',
+			'classname' => 'widget_custom_html',
 			'description' => __( 'Arbitrary HTML code.' ),
 			'customize_selective_refresh' => true,
 		);
 		$control_ops = array();
-		parent::__construct( 'html_code', __( 'HTML Code' ), $widget_ops, $control_ops );
+		parent::__construct( 'custom_html', __( 'Custom HTML' ), $widget_ops, $control_ops );
 	}
 
 	/**
-	 * Outputs the content for the current HTML Code widget instance.
+	 * Outputs the content for the current Custom HTML widget instance.
 	 *
 	 * @since 4.8.1
 	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
-	 * @param array $instance Settings for the current HTML Code widget instance.
+	 * @param array $instance Settings for the current Custom HTML widget instance.
 	 */
 	public function widget( $args, $instance ) {
 
@@ -61,15 +61,15 @@ class WP_Widget_HTML_Code extends WP_Widget {
 		$content = $instance['content'];
 
 		/**
-		 * Filters the content of the HTML Code widget.
+		 * Filters the content of the Custom HTML widget.
 		 *
 		 * @since 4.8.1
 		 *
-		 * @param string              $content  The widget content.
-		 * @param array               $instance Array of settings for the current widget.
-		 * @param WP_Widget_HTML_Code $this     Current HTML Code widget instance.
+		 * @param string                $content  The widget content.
+		 * @param array                 $instance Array of settings for the current widget.
+		 * @param WP_Widget_Custom_HTML $this     Current Custom HTML widget instance.
 		 */
-		$content = apply_filters( 'widget_html_code_content', $content, $instance, $this );
+		$content = apply_filters( 'widget_custom_html_content', $content, $instance, $this );
 
 		echo $args['before_widget'];
 		if ( ! empty( $title ) ) {
@@ -80,7 +80,7 @@ class WP_Widget_HTML_Code extends WP_Widget {
 	}
 
 	/**
-	 * Handles updating settings for the current HTML Code widget instance.
+	 * Handles updating settings for the current Custom HTML widget instance.
 	 *
 	 * @since 4.8.1
 	 *
@@ -101,7 +101,7 @@ class WP_Widget_HTML_Code extends WP_Widget {
 	}
 
 	/**
-	 * Outputs the HTML Code widget settings form.
+	 * Outputs the Custom HTML widget settings form.
 	 *
 	 * @since 4.8.1
 	 *
