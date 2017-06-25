@@ -123,10 +123,10 @@ function get_sidebar( $name = null ) {
 }
 
 /**
- * Load a template part into a template
+ * Loads a template part into a template.
  *
- * Makes it easy for a theme to reuse sections of code in a easy to overload way
- * for child themes.
+ * Provides a simple mechanism for child themes to overload reusable sections of code
+ * in the theme.
  *
  * Includes the named template part for a theme or if a name is specified then a
  * specialised part will be included. If the theme contains no {slug}.php file
