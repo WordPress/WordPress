@@ -2313,10 +2313,10 @@ function get_the_modified_date( $d = '', $post = null ) {
 	 * @since 2.1.0
 	 * @since 4.6.0 Added the `$post` parameter.
 	 *
-	 * @param string  $the_time The formatted date.
-	 * @param string  $d        PHP date format. Defaults to value specified in
-	 *                          'date_format' option.
-	 * @param WP_Post $post     WP_Post object.
+	 * @param string|bool  $the_time The formatted date or false if no post is found.
+	 * @param string       $d        PHP date format. Defaults to value specified in
+	 *                               'date_format' option.
+	 * @param WP_Post|null $post     WP_Post object or null if no post is found.
 	 */
 	return apply_filters( 'get_the_modified_date', $the_time, $d, $post );
 }
@@ -2468,11 +2468,11 @@ function get_the_modified_time( $d = '', $post = null ) {
 	 * @since 2.0.0
 	 * @since 4.6.0 Added the `$post` parameter.
 	 *
-	 * @param string $the_time The formatted time.
-	 * @param string $d        Format to use for retrieving the time the post was
-	 *                         written. Accepts 'G', 'U', or php date format. Defaults
-	 *                         to value specified in 'time_format' option.
-	 * @param WP_Post $post    WP_Post object.
+	 * @param string|bool  $the_time The formatted time or false if no post is found.
+	 * @param string       $d        Format to use for retrieving the time the post was
+	 *                               written. Accepts 'G', 'U', or php date format. Defaults
+	 *                               to value specified in 'time_format' option.
+	 * @param WP_Post|null $post     WP_Post object or null if no post is found.
 	 */
 	return apply_filters( 'get_the_modified_time', $the_time, $d, $post );
 }
