@@ -1650,7 +1650,7 @@ function the_author_ID() {
  * @param int $encode_html Optional. How to encode the content.
  */
 function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
-	_deprecated_function( __FUNCTION__, '2.9.0', 'the_content_feed' );
+	_deprecated_function( __FUNCTION__, '2.9.0', 'the_content_feed()' );
 	$content = get_the_content($more_link_text, $stripteaser);
 	$content = apply_filters('the_content_rss', $content);
 	if ( $cut && !$encode_html )
@@ -3814,7 +3814,7 @@ function wp_kses_js_entities( $string ) {
  * @return int
  */
 function _usort_terms_by_ID( $a, $b ) {
-	_deprecated_function( __FUNCTION__, '4.7.0', 'wp_list_sort' );
+	_deprecated_function( __FUNCTION__, '4.7.0', 'wp_list_sort()' );
 
 	if ( $a->term_id > $b->term_id )
 		return 1;
@@ -3839,7 +3839,7 @@ function _usort_terms_by_ID( $a, $b ) {
  * @return int
  */
 function _usort_terms_by_name( $a, $b ) {
-	_deprecated_function( __FUNCTION__, '4.7.0', 'wp_list_sort' );
+	_deprecated_function( __FUNCTION__, '4.7.0', 'wp_list_sort()' );
 
 	return strcmp( $a->name, $b->name );
 }
@@ -3860,7 +3860,7 @@ function _usort_terms_by_name( $a, $b ) {
 function _sort_nav_menu_items( $a, $b ) {
 	global $_menu_item_sort_prop;
 
-	_deprecated_function( __FUNCTION__, '4.7.0', 'wp_list_sort' );
+	_deprecated_function( __FUNCTION__, '4.7.0', 'wp_list_sort()' );
 
 	if ( empty( $_menu_item_sort_prop ) )
 		return 0;

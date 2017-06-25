@@ -24,7 +24,7 @@
  * @return WP_Site Current site object.
  */
 function get_dashboard_blog() {
-    _deprecated_function( __FUNCTION__, '3.1.0' );
+    _deprecated_function( __FUNCTION__, '3.1.0', 'get_site()' );
     if ( $blog = get_site_option( 'dashboard_blog' ) ) {
 	    return get_site( $blog );
     }
@@ -268,7 +268,7 @@ function get_most_active_blogs( $num = 10, $display = true ) {
  * @param string $url Optional. Redirect URL. Default empty.
  */
 function wpmu_admin_do_redirect( $url = '' ) {
-	_deprecated_function( __FUNCTION__, '3.3.0' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'wp_redirect()' );
 
 	$ref = '';
 	if ( isset( $_GET['ref'] ) )
@@ -308,7 +308,7 @@ function wpmu_admin_do_redirect( $url = '' ) {
  * @return string
  */
 function wpmu_admin_redirect_add_updated_param( $url = '' ) {
-	_deprecated_function( __FUNCTION__, '3.3.0' );
+	_deprecated_function( __FUNCTION__, '3.3.0', 'add_query_arg()' );
 
 	if ( strpos( $url, 'updated=true' ) === false ) {
 		if ( strpos( $url, '?' ) === false )
