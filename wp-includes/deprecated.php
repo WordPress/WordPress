@@ -3533,7 +3533,8 @@ function preview_theme_ob_filter_callback( $matches ) {
  * be applied to an empty string.
  *
  * @since 2.0.0
- * @deprecated 4.3.0
+ * @deprecated 4.3.0 Use format_for_editor()
+ * @see format_for_editor()
  *
  * @param string $text The text to be formatted.
  * @return string The formatted text after filter is applied.
