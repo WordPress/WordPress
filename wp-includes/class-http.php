@@ -114,7 +114,7 @@ class WP_Http {
 	 *     @type string       $httpversion         Version of the HTTP protocol to use. Accepts '1.0' and '1.1'.
 	 *                                             Default '1.0'.
 	 *     @type string       $user-agent          User-agent value sent.
-	 *                                             Default WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ).
+	 *                                             Default 'WordPress/' . get_bloginfo( 'version' ) . '; ' . get_bloginfo( 'url' ).
 	 *     @type bool         $reject_unsafe_urls  Whether to pass URLs through wp_http_validate_url().
 	 *                                             Default false.
 	 *     @type bool         $blocking            Whether the calling code requires the result of the request.
