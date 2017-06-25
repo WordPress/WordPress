@@ -476,7 +476,7 @@ JS;
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param string  $output The default HTML.
+	 * @param string  $output The default iframe tag to display embedded content.
 	 * @param WP_Post $post   Current post object.
 	 * @param int     $width  Width of the response.
 	 * @param int     $height Height of the response.
