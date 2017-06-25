@@ -1147,7 +1147,11 @@ function wpmu_create_user( $user_name, $password, $email ) {
  * @param string $path    The new site's path.
  * @param string $title   The new site's title.
  * @param int    $user_id The user ID of the new site's admin.
- * @param array  $meta    Optional. Used to set initial site options.
+ * @param array  $meta    Optional. Array of key=>value pairs used to set initial site options.
+ *                        If valid status keys are included ('public', 'archived', 'mature',
+ *                        'spam', 'deleted', or 'lang_id') the given site status(es) will be
+ *                        updated. Otherwise, keys and values will be used to set options for
+ *                        the new site. Default empty array.
  * @param int    $site_id Optional. Only relevant on multi-network installs.
  * @return int|WP_Error Returns WP_Error object on failure, int $blog_id on success
  */
