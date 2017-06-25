@@ -17,6 +17,11 @@
  * set for a longer period depending on if the 'remember' credential is set to
  * true.
  *
+ * Note: wp_signon() doesn't handle setting the current user. This means that if the
+ * function is called before the {@see 'init'} hook is fired, is_user_logged_in() will
+ * evaluate as false until that point. If is_user_logged_in() is needed in conjunction
+ * with wp_signon(), wp_set_current_user() should be called explicitly.
+ *
  * @since 2.5.0
  *
  * @global string $auth_secure_cookie
