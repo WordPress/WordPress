@@ -184,6 +184,12 @@ wp.mediaWidgets = ( function( $ ) {
 							return;
 						}
 
+						// If video, test for Vimeo and YouTube, otherwise, renderFail(). This should be removed once #34115 is resolved.
+						if ( 'video' === this.controller.options.mimeType && ! /vimeo|youtu\.?be/.test( urlParser.host ) ) {
+							embedLinkView.renderFail();
+							return;
+						}
+
 						embedLinkView.dfd = $.ajax({
 							url: wp.media.view.settings.oEmbedProxyUrl,
 							data: {
