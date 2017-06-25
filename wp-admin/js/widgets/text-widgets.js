@@ -24,9 +24,9 @@ wp.textWidgets = ( function( $ ) {
 		/**
 		 * Initialize.
 		 *
-		 * @param {Object}         options - Options.
-		 * @param {Backbone.Model} options.model - Model.
-		 * @param {jQuery}         options.el - Control container element.
+		 * @param {Object} options - Options.
+		 * @param {jQuery} options.el - Control field container element.
+		 * @param {jQuery} options.syncContainer - Container element where fields are synced for the server.
 		 * @returns {void}
 		 */
 		initialize: function initialize( options ) {
@@ -35,34 +35,25 @@ wp.textWidgets = ( function( $ ) {
 			if ( ! options.el ) {
 				throw new Error( 'Missing options.el' );
 			}
+			if ( ! options.syncContainer ) {
+				throw new Error( 'Missing options.syncContainer' );
+			}
 
 			Backbone.View.prototype.initialize.call( control, options );
+			control.syncContainer = options.syncContainer;
 
-			/*
-			 * Create a container element for the widget control fields.
-			 * This is inserted into the DOM immediately before the the .widget-content
-			 * element because the contents of this element are essentially "managed"
-			 * by PHP, where each widget update cause the entire element to be emptied
-			 * and replaced with the rendered output of WP_Widget::form() which is
-			 * sent back in Ajax request made to save/update the widget instance.
-			 * To prevent a "flash of replaced DOM elements and re-initialized JS
-			 * components", the JS template is rendered outside of the normal form
-			 * container.
-			 */
-			control.fieldContainer = $( '<div class="text-widget-fields"></div>' );
-			control.fieldContainer.html( wp.template( 'widget-text-control-fields' ) );
-			control.widgetContentContainer = control.$el.find( '.widget-content:first' );
-			control.widgetContentContainer.before( control.fieldContainer );
+			control.$el.addClass( 'text-widget-fields' );
+			control.$el.html( wp.template( 'widget-text-control-fields' ) );
 
 			control.fields = {
-				title: control.fieldContainer.find( '.title' ),
-				text: control.fieldContainer.find( '.text' )
+				title: control.$el.find( '.title' ),
+				text: control.$el.find( '.text' )
 			};
 
 			// Sync input fields to hidden sync fields which actually get sent to the server.
 			_.each( control.fields, function( fieldInput, fieldName ) {
 				fieldInput.on( 'input change', function updateSyncField() {
-					var syncInput = control.widgetContentContainer.find( 'input[type=hidden].' + fieldName );
+					var syncInput = control.syncContainer.find( 'input[type=hidden].' + fieldName );
 					if ( syncInput.val() !== $( this ).val() ) {
 						syncInput.val( $( this ).val() );
 						syncInput.trigger( 'change' );
@@ -70,7 +61,7 @@ wp.textWidgets = ( function( $ ) {
 				});
 
 				// Note that syncInput cannot be re-used because it will be destroyed with each widget-updated event.
-				fieldInput.val( control.widgetContentContainer.find( 'input[type=hidden].' + fieldName ).val() );
+				fieldInput.val( control.syncContainer.find( 'input[type=hidden].' + fieldName ).val() );
 			});
 		},
 
@@ -87,11 +78,11 @@ wp.textWidgets = ( function( $ ) {
 			var control = this, syncInput;
 
 			if ( ! control.fields.title.is( document.activeElement ) ) {
-				syncInput = control.widgetContentContainer.find( 'input[type=hidden].title' );
+				syncInput = control.syncContainer.find( 'input[type=hidden].title' );
 				control.fields.title.val( syncInput.val() );
 			}
 
-			syncInput = control.widgetContentContainer.find( 'input[type=hidden].text' );
+			syncInput = control.syncContainer.find( 'input[type=hidden].text' );
 			if ( control.fields.text.is( ':visible' ) ) {
 				if ( ! control.fields.text.is( document.activeElement ) ) {
 					control.fields.text.val( syncInput.val() );
@@ -219,7 +210,7 @@ wp.textWidgets = ( function( $ ) {
 	 * @returns {void}
 	 */
 	component.handleWidgetAdded = function handleWidgetAdded( event, widgetContainer ) {
-		var widgetForm, idBase, widgetControl, widgetId, animatedCheckDelay = 50, widgetInside, renderWhenAnimationDone;
+		var widgetForm, idBase, widgetControl, widgetId, animatedCheckDelay = 50, widgetInside, renderWhenAnimationDone, fieldContainer, syncContainer;
 		widgetForm = widgetContainer.find( '> .widget-inside > .form, > .widget-inside > form' ); // Note: '.form' appears in the customizer, whereas 'form' on the widgets admin screen.
 
 		idBase = widgetForm.find( '> .id_base' ).val();
@@ -228,13 +219,29 @@ wp.textWidgets = ( function( $ ) {
 		}
 
 		// Prevent initializing already-added widgets.
-		widgetId = widgetForm.find( '> .widget-id' ).val();
+		widgetId = widgetForm.find( '.widget-id' ).val();
 		if ( component.widgetControls[ widgetId ] ) {
 			return;
 		}
 
+		/*
+		 * Create a container element for the widget control fields.
+		 * This is inserted into the DOM immediately before the the .widget-content
+		 * element because the contents of this element are essentially "managed"
+		 * by PHP, where each widget update cause the entire element to be emptied
+		 * and replaced with the rendered output of WP_Widget::form() which is
+		 * sent back in Ajax request made to save/update the widget instance.
+		 * To prevent a "flash of replaced DOM elements and re-initialized JS
+		 * components", the JS template is rendered outside of the normal form
+		 * container.
+		 */
+		fieldContainer = $( '<div></div>' );
+		syncContainer = widgetContainer.find( '.widget-content:first' );
+		syncContainer.before( fieldContainer );
+
 		widgetControl = new component.TextWidgetControl({
-			el: widgetContainer
+			el: fieldContainer,
+			syncContainer: syncContainer
 		});
 
 		component.widgetControls[ widgetId ] = widgetControl;
@@ -254,6 +261,35 @@ wp.textWidgets = ( function( $ ) {
 			}
 		};
 		renderWhenAnimationDone();
+	};
+
+	/**
+	 * Setup widget in accessibility mode.
+	 *
+	 * @returns {void}
+	 */
+	component.setupAccessibleMode = function setupAccessibleMode() {
+		var widgetForm, idBase, widgetControl, fieldContainer, syncContainer;
+		widgetForm = $( '.editwidget > form' );
+		if ( 0 === widgetForm.length ) {
+			return;
+		}
+
+		idBase = widgetForm.find( '> .widget-control-actions > .id_base' ).val();
+		if ( 'text' !== idBase ) {
+			return;
+		}
+
+		fieldContainer = $( '<div></div>' );
+		syncContainer = widgetForm.find( '> .widget-inside' );
+		syncContainer.before( fieldContainer );
+
+		widgetControl = new component.TextWidgetControl({
+			el: fieldContainer,
+			syncContainer: syncContainer
+		});
+
+		widgetControl.initializeEditor();
 	};
 
 	/**
@@ -318,6 +354,11 @@ wp.textWidgets = ( function( $ ) {
 			widgetContainers.one( 'click.toggle-widget-expanded', function toggleWidgetExpanded() {
 				var widgetContainer = $( this );
 				component.handleWidgetAdded( new jQuery.Event( 'widget-added' ), widgetContainer );
+			});
+
+			// Accessibility mode.
+			$( window ).on( 'load', function() {
+				component.setupAccessibleMode();
 			});
 		});
 	};
