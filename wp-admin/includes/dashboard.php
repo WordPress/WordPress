@@ -1459,7 +1459,7 @@ function wp_dashboard_browser_nag() {
 		}
 		$notice .= "<p class='browser-update-nag{$browser_nag_class}'>{$msg}</p>";
 
-		$browsehappy = 'http://browsehappy.com/';
+		$browsehappy = 'https://browsehappy.com/';
 		$locale = get_user_locale();
 		if ( 'en_US' !== $locale )
 			$browsehappy = add_query_arg( 'locale', $locale, $browsehappy );

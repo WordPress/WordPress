@@ -643,11 +643,12 @@ function ms_allowed_http_request_hosts( $is_external, $host ) {
  * @since 4.4.0
  * @since 4.7.0 The $component parameter was added for parity with PHP's parse_url().
  *
+ * @link https://secure.php.net/manual/en/function.parse-url.php
+ *
  * @param string $url       The URL to parse.
  * @param int    $component The specific component to retrieve. Use one of the PHP
  *                          predefined constants to specify which one.
  *                          Defaults to -1 (= return all parts as an array).
- *                          @see http://php.net/manual/en/function.parse-url.php
  * @return mixed False on parse failure; Array of URL components on success;
  *               When a specific component has been requested: null if the component
  *               doesn't exist in the given URL; a string or - in the case of
@@ -688,11 +689,12 @@ function wp_parse_url( $url, $component = -1 ) {
  *
  * @since 4.7.0
  *
+ * @link https://secure.php.net/manual/en/function.parse-url.php
+ *
  * @param array|false $url_parts The parsed URL. Can be false if the URL failed to parse.
  * @param int    $component The specific component to retrieve. Use one of the PHP
  *                          predefined constants to specify which one.
  *                          Defaults to -1 (= return all parts as an array).
- *                          @see http://php.net/manual/en/function.parse-url.php
  * @return mixed False on parse failure; Array of URL components on success;
  *               When a specific component has been requested: null if the component
  *               doesn't exist in the given URL; a string or - in the case of
@@ -718,7 +720,7 @@ function _get_component_from_parsed_url_array( $url_parts, $component = -1 ) {
  *
  * @since 4.7.0
  *
- * @see   http://php.net/manual/en/url.constants.php
+ * @link https://secure.php.net/manual/en/url.constants.php
  *
  * @param int $constant PHP_URL_* constant.
  * @return string|bool The named key or false.
