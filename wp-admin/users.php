@@ -94,7 +94,7 @@ case 'promote':
 	check_admin_referer('bulk-users');
 
 	if ( ! current_user_can( 'promote_users' ) )
-		wp_die( __( 'Sorry, you are not allowed to edit this user.' ) );
+		wp_die( __( 'Sorry, you are not allowed to edit this user.' ), 403 );
 
 	if ( empty($_REQUEST['users']) ) {
 		wp_redirect($redirect);
@@ -110,7 +110,7 @@ case 'promote':
 	}
 
 	if ( ! $role || empty( $editable_roles[ $role ] ) ) {
-		wp_die( __( 'Sorry, you are not allowed to give users that role.' ) );
+		wp_die( __( 'Sorry, you are not allowed to give users that role.' ), 403 );
 	}
 
 	$userids = $_REQUEST['users'];
@@ -119,7 +119,7 @@ case 'promote':
 		$id = (int) $id;
 
 		if ( ! current_user_can('promote_user', $id) )
-			wp_die(__('Sorry, you are not allowed to edit this user.'));
+			wp_die( __( 'Sorry, you are not allowed to edit this user.' ), 403 );
 		// The new role of the current user must also have the promote_users cap or be a multisite super admin
 		if ( $id == $current_user->ID && ! $wp_roles->role_objects[ $role ]->has_cap('promote_users')
 			&& ! ( is_multisite() && current_user_can( 'manage_network_users' ) ) ) {
@@ -145,7 +145,7 @@ case 'promote':
 
 case 'dodelete':
 	if ( is_multisite() )
-		wp_die( __('User deletion is not allowed from this screen.') );
+		wp_die( __('User deletion is not allowed from this screen.'), 400 );
 
 	check_admin_referer('delete-users');
 
@@ -164,14 +164,14 @@ case 'dodelete':
 	}
 
 	if ( ! current_user_can( 'delete_users' ) )
-		wp_die(__('Sorry, you are not allowed to delete users.'));
+		wp_die( __( 'Sorry, you are not allowed to delete users.' ), 403 );
 
 	$update = 'del';
 	$delete_count = 0;
 
 	foreach ( $userids as $id ) {
 		if ( ! current_user_can( 'delete_user', $id ) )
-			wp_die(__( 'Sorry, you are not allowed to delete that user.' ) );
+			wp_die( __( 'Sorry, you are not allowed to delete that user.' ), 403 );
 
 		if ( $id == $current_user->ID ) {
 			$update = 'err_admin_del';
@@ -194,7 +194,7 @@ case 'dodelete':
 
 case 'delete':
 	if ( is_multisite() )
-		wp_die( __('User deletion is not allowed from this screen.') );
+		wp_die( __('User deletion is not allowed from this screen.'), 400 );
 
 	check_admin_referer('bulk-users');
 
@@ -306,7 +306,7 @@ case 'doremove':
 	check_admin_referer('remove-users');
 
 	if ( ! is_multisite() )
-		wp_die( __( 'You can&#8217;t remove users.' ) );
+		wp_die( __( 'You can&#8217;t remove users.' ), 400 );
 
 	if ( empty($_REQUEST['users']) ) {
 		wp_redirect($redirect);
@@ -314,7 +314,7 @@ case 'doremove':
 	}
 
 	if ( ! current_user_can( 'remove_users' ) )
-		wp_die( __( 'Sorry, you are not allowed to remove users.' ) );
+		wp_die( __( 'Sorry, you are not allowed to remove users.' ), 403 );
 
 	$userids = $_REQUEST['users'];
 
@@ -337,7 +337,7 @@ case 'remove':
 	check_admin_referer('bulk-users');
 
 	if ( ! is_multisite() )
-		wp_die( __( 'You can&#8217;t remove users.' ) );
+		wp_die( __( 'You can&#8217;t remove users.' ), 400 );
 
 	if ( empty($_REQUEST['users']) && empty($_REQUEST['user']) ) {
 		wp_redirect($redirect);

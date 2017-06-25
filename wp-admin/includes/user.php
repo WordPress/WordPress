@@ -59,7 +59,7 @@ function edit_user( $user_id = 0 ) {
 		// If the new role isn't editable by the logged-in user die with error
 		$editable_roles = get_editable_roles();
 		if ( ! empty( $new_role ) && empty( $editable_roles[$new_role] ) )
-			wp_die(__('You can&#8217;t give users that role.'));
+			wp_die( __( 'Sorry, you are not allowed to give users that role.' ), 403 );
 	}
 
 	if ( isset( $_POST['email'] ))
