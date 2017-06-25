@@ -1932,7 +1932,7 @@ function get_boundary_post( $in_same_term = false, $excluded_terms = '', $start 
  * @since 3.7.0
  *
  * @param string       $format         Optional. Link anchor format. Default '&laquo; %link'.
- * @param string       $link           Optional. Link permalink format. Default '%title%'.
+ * @param string       $link           Optional. Link permalink format. Default '%title'.
  * @param bool         $in_same_term   Optional. Whether link should be in a same taxonomy term. Default false.
  * @param array|string $excluded_terms Optional. Array or comma-separated list of excluded term IDs. Default empty.
  * @param string       $taxonomy       Optional. Taxonomy, if $in_same_term is true. Default 'category'.
