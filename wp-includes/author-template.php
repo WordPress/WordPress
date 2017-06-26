@@ -111,14 +111,43 @@ function the_modified_author() {
 }
 
 /**
- * Retrieve the requested data of the author of the current post.
- * @link https://codex.wordpress.org/Template_Tags/the_author_meta
+ * Retrieves the requested data of the author of the current post.
+ *
+ * Valid values for the `$field` parameter include:
+ *
+ * - admin_color
+ * - aim
+ * - comment_shortcuts
+ * - description
+ * - display_name
+ * - first_name
+ * - ID
+ * - jabber
+ * - last_name
+ * - nickname
+ * - plugins_last_view
+ * - plugins_per_page
+ * - rich_editing
+ * - user_activation_key
+ * - user_description
+ * - user_email
+ * - user_firstname
+ * - user_lastname
+ * - user_level
+ * - user_login
+ * - user_nicename
+ * - user_pass
+ * - user_registered
+ * - user_status
+ * - user_url
+ * - yim
+ *
  * @since 2.8.0
  *
  * @global object $authordata The current author's DB object.
  *
- * @param string $field selects the field of the users record.
- * @param int $user_id Optional. User ID.
+ * @param string $field   Optional. The user field to retrieve. Default empty.
+ * @param int    $user_id Optional. User ID.
  * @return string The author's field from the current author's DB object, otherwise an empty string.
  */
 function get_the_author_meta( $field = '', $user_id = false ) {
@@ -154,12 +183,13 @@ function get_the_author_meta( $field = '', $user_id = false ) {
 /**
  * Outputs the field from the user's DB object. Defaults to current post's author.
  *
- * @link https://codex.wordpress.org/Template_Tags/the_author_meta
- *
  * @since 2.8.0
  *
- * @param string $field selects the field of the users record.
- * @param int $user_id Optional. User ID.
+ * @param string $field   Selects the field of the users record. See get_the_author_meta()
+ *                        for the list of possible fields.
+ * @param int    $user_id Optional. User ID.
+ *
+ * @see get_the_author_meta()
  */
 function the_author_meta( $field = '', $user_id = false ) {
 	$author_meta = get_the_author_meta( $field, $user_id );
