@@ -1864,7 +1864,7 @@ function update_posts_count( $deprecated = '' ) {
 }
 
 /**
- * Logs user registrations.
+ * Logs the user email, IP, and registration date of a new site.
  *
  * @since MU
  *
