@@ -964,6 +964,7 @@ d.select();
 }, 200);
 }
 
+<?php
 /**
  * Filters whether to print the call to `wp_attempt_focus()` on the login screen.
  *
@@ -971,7 +972,7 @@ d.select();
  *
  * @param bool $print Whether to print the function call. Default true.
  */
-<?php if ( apply_filters( 'enable_login_autofocus', true ) && ! $error ) { ?>
+if ( apply_filters( 'enable_login_autofocus', true ) && ! $error ) { ?>
 wp_attempt_focus();
 <?php } ?>
 if(typeof wpOnload=='function')wpOnload();
