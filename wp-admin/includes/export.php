@@ -40,7 +40,7 @@ define( 'WXR_VERSION', '1.2' );
  *     @type string $author         Author to export content for. Only used when `$content` is 'post', 'page', or
  *                                  'attachment'. Accepts false (all) or a specific author ID. Default false (all).
  *     @type string $category       Category (slug) to export content for. Used only when `$content` is 'post'. If
- *                                  set, only post content assigned to `$category will be exported. Accepts false
+ *                                  set, only post content assigned to `$category` will be exported. Accepts false
  *                                  or a specific category slug. Default is false (all categories).
  *     @type string $start_date     Start date to export content from. Expected date format is 'Y-m-d'. Used only
  *                                  when `$content` is 'post', 'page' or 'attachment'. Default false (since the
