@@ -5455,6 +5455,8 @@ function wp_delete_file( $file ) {
  * This prevents reusing the same tab for a preview when the user has navigated away.
  *
  * @since 4.3.0
+ *
+ * @global WP_Post $post
  */
 function wp_post_preview_js() {
 	global $post;
