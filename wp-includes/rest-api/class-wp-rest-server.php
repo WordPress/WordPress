@@ -387,6 +387,20 @@ class WP_REST_Server {
 			// Embed links inside the request.
 			$result = $this->response_to_data( $result, isset( $_GET['_embed'] ) );
 
+			/**
+			 * Filters the API response.
+			 *
+			 * Allows modification of the response data after inserting
+			 * embedded data (if any) and before echoing the response data.
+			 *
+			 * @since 4.8.1
+			 *
+			 * @param array            $result  Response data to send to the client.
+			 * @param WP_REST_Server   $this    Server instance.
+			 * @param WP_REST_Request  $request Request used to generate the response.
+			 */
+			$result = apply_filters( 'rest_pre_echo_response', $result, $this, $request );
+
 			$result = wp_json_encode( $result );
 
 			$json_error_message = $this->get_json_last_error();
