@@ -123,8 +123,8 @@ function get_archive_template() {
 /**
  * Retrieve path of post type archive template in current or parent template.
  *
- * The template hierarchy is filterable via the {@see 'archive_template_hierarchy'} hook.
- * The template path is filterable via the {@see 'archive_template'} hook.
+ * The template hierarchy and template path are filterable via the {@see '{$type}_template_hierarchy'}
+ * and {@see '{$type}_template'} dynamic hooks, where `$type` is 'archive'.
  *
  * @since 3.7.0
  *
