@@ -892,7 +892,10 @@ function wp_import_upload_form( $action ) {
  * @param string|array|WP_Screen $screen        Optional. The screen or screens on which to show the box
  *                                              (such as a post type, 'link', or 'comment'). Accepts a single
  *                                              screen ID, WP_Screen object, or array of screen IDs. Default
- *                                              is the current screen.
+ *                                              is the current screen.  If you have used add_menu_page() or 
+ *                                              add_submenu_page() to create a new screen (and hence screen_id),
+ *                                              make sure your menu slug conforms to the limits of sanitize_key()
+ *                                              otherwise the 'screen' menu may not correctly render on your page.
  * @param string                 $context       Optional. The context within the screen where the boxes
  *                                              should display. Available contexts vary from screen to
  *                                              screen. Post edit screen contexts include 'normal', 'side',
@@ -987,7 +990,11 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
  * @global array $wp_meta_boxes
  *
  * @staticvar bool $already_sorted
- * @param string|WP_Screen $screen  Screen identifier
+ *
+ * @param string|WP_Screen $screen  Screen identifier. If you have used add_menu_page() or
+ *                                  add_submenu_page() to create a new screen (and hence screen_id)
+ *                                  make sure your menu slug conforms to the limits of sanitize_key()
+ *                                  otherwise the 'screen' menu may not correctly render on your page.
  * @param string           $context box context
  * @param mixed            $object  gets passed to the box callback function as first parameter
  * @return int number of meta_boxes

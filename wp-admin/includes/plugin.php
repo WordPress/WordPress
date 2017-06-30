@@ -1060,7 +1060,9 @@ function uninstall_plugin($plugin) {
  * @param string   $page_title The text to be displayed in the title tags of the page when the menu is selected.
  * @param string   $menu_title The text to be used for the menu.
  * @param string   $capability The capability required for this menu to be displayed to the user.
- * @param string   $menu_slug  The slug name to refer to this menu by (should be unique for this menu).
+ * @param string   $menu_slug  The slug name to refer to this menu by. Should be unique for this menu page and only
+ *                             include lowercase alphanumeric, dashes, and underscores characters to be compatible
+ *                             with sanitize_key().
  * @param callable $function   The function to be called to output the content for this page.
  * @param string   $icon_url   The URL to the icon to be used for this menu.
  *                             * Pass a base64-encoded SVG using a data URI, which will be colored to match
@@ -1126,11 +1128,15 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
  * @global array $_registered_pages
  * @global array $_parent_pages
  *
- * @param string   $parent_slug The slug name for the parent menu (or the file name of a standard WordPress admin page).
- * @param string   $page_title  The text to be displayed in the title tags of the page when the menu is selected.
+ * @param string   $parent_slug The slug name for the parent menu (or the file name of a standard
+ *                              WordPress admin page).
+ * @param string   $page_title  The text to be displayed in the title tags of the page when the menu
+ *                              is selected.
  * @param string   $menu_title  The text to be used for the menu.
  * @param string   $capability  The capability required for this menu to be displayed to the user.
- * @param string   $menu_slug   The slug name to refer to this menu by (should be unique for this menu).
+ * @param string   $menu_slug   The slug name to refer to this menu by. Should be unique for this menu
+ *                              and only include lowercase alphanumeric, dashes, and underscores characters
+ *                              to be compatible with sanitize_key().
  * @param callable $function    The function to be called to output the content for this page.
  * @return false|string The resulting page's hook_suffix, or false if the user does not have the capability required.
  */
