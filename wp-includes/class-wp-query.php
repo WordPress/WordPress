@@ -1441,7 +1441,12 @@ class WP_Query {
 	}
 
 	/**
-	 * Generate SQL for the ORDER BY condition based on passed search terms.
+	 * Generates SQL for the ORDER BY condition based on passed search terms.
+	 *
+	 * @since 3.7.0
+	 * @access protected
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param array $q Query variables.
 	 * @return string ORDER BY clause.
