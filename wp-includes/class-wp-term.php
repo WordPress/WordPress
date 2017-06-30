@@ -11,6 +11,8 @@
  * Core class used to implement the WP_Term object.
  *
  * @since 4.4.0
+ *
+ * @property-read object $data Sanitized term data.
  */
 final class WP_Term {
 
