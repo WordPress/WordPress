@@ -202,7 +202,7 @@ class WP_Query {
 	public $max_num_comment_pages = 0;
 
 	/**
-	 * Set if query is single post.
+	 * Signifies whether the current query is for a single post.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -211,7 +211,7 @@ class WP_Query {
 	public $is_single = false;
 
 	/**
-	 * Set if query is preview of blog.
+	 * Signifies whether the current query is for a preview.
 	 *
 	 * @since 2.0.0
 	 * @access public
@@ -220,7 +220,7 @@ class WP_Query {
 	public $is_preview = false;
 
 	/**
-	 * Set if query returns a page.
+	 * Signifies whether the current query is for a page.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -229,7 +229,7 @@ class WP_Query {
 	public $is_page = false;
 
 	/**
-	 * Set if query is an archive list.
+	 * Signifies whether the current query is for an archive.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -238,7 +238,7 @@ class WP_Query {
 	public $is_archive = false;
 
 	/**
-	 * Set if query is part of a date.
+	 * Signifies whether the current query is for a date archive.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -247,7 +247,7 @@ class WP_Query {
 	public $is_date = false;
 
 	/**
-	 * Set if query contains a year.
+	 * Signifies whether the current query is for a year archive.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -256,7 +256,7 @@ class WP_Query {
 	public $is_year = false;
 
 	/**
-	 * Set if query contains a month.
+	 * Signifies whether the current query is for a month archive.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -265,7 +265,7 @@ class WP_Query {
 	public $is_month = false;
 
 	/**
-	 * Set if query contains a day.
+	 * Signifies whether the current query is for a day archive.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -274,7 +274,7 @@ class WP_Query {
 	public $is_day = false;
 
 	/**
-	 * Set if query contains time.
+	 * Signifies whether the current query is for a specific time.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -283,7 +283,7 @@ class WP_Query {
 	public $is_time = false;
 
 	/**
-	 * Set if query contains an author.
+	 * Signifies whether the current query is for an author archive.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -292,7 +292,7 @@ class WP_Query {
 	public $is_author = false;
 
 	/**
-	 * Set if query contains category.
+	 * Signifies whether the current query is for a category archive.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -301,7 +301,7 @@ class WP_Query {
 	public $is_category = false;
 
 	/**
-	 * Set if query contains tag.
+	 * Signifies whether the current query is for a tag archive.
 	 *
 	 * @since 2.3.0
 	 * @access public
@@ -310,7 +310,7 @@ class WP_Query {
 	public $is_tag = false;
 
 	/**
-	 * Set if query contains taxonomy.
+	 * Signifies whether the current query is for a taxonomy archive.
 	 *
 	 * @since 2.5.0
 	 * @access public
@@ -319,7 +319,7 @@ class WP_Query {
 	public $is_tax = false;
 
 	/**
-	 * Set if query was part of a search result.
+	 * Signifies whether the current query is for a search.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -328,7 +328,7 @@ class WP_Query {
 	public $is_search = false;
 
 	/**
-	 * Set if query is feed display.
+	 * Signifies whether the current query is for a feed.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -337,7 +337,7 @@ class WP_Query {
 	public $is_feed = false;
 
 	/**
-	 * Set if query is comment feed display.
+	 * Signifies whether the current query is for a comment feed.
 	 *
 	 * @since 2.2.0
 	 * @access public
@@ -346,7 +346,7 @@ class WP_Query {
 	public $is_comment_feed = false;
 
 	/**
-	 * Set if query is trackback.
+	 * Signifies whether the current query is for trackback endpoint call.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -355,7 +355,7 @@ class WP_Query {
 	public $is_trackback = false;
 
 	/**
-	 * Set if query is blog homepage.
+	 * Signifies whether the current query is for the site homepage.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -364,7 +364,7 @@ class WP_Query {
 	public $is_home = false;
 
 	/**
-	 * Set if query couldn't found anything.
+	 * Signifies whether the current query couldn't find anything.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -373,7 +373,7 @@ class WP_Query {
 	public $is_404 = false;
 
 	/**
-	 * Set if query is embed.
+	 * Signifies whether the current query is for an embed.
 	 *
 	 * @since 4.4.0
 	 * @access public
@@ -382,7 +382,7 @@ class WP_Query {
 	public $is_embed = false;
 
 	/**
-	 * Set if query is paged
+	 * Signifies whether the current query is for a paged result and not for the first page.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -391,7 +391,7 @@ class WP_Query {
 	public $is_paged = false;
 
 	/**
-	 * Set if query is part of administration page.
+	 * Signifies whether the current query is for an administrative interface page.
 	 *
 	 * @since 1.5.0
 	 * @access public
@@ -400,7 +400,7 @@ class WP_Query {
 	public $is_admin = false;
 
 	/**
-	 * Set if query is an attachment.
+	 * Signifies whether the current query is for an attachment page.
 	 *
 	 * @since 2.0.0
 	 * @access public
@@ -409,7 +409,8 @@ class WP_Query {
 	public $is_attachment = false;
 
 	/**
-	 * Set if is single, is a page, or is an attachment.
+	 * Signifies whether the current query is for an existing single post of any post type
+	 * (post, attachment, page, custom post types).
 	 *
 	 * @since 2.1.0
 	 * @access public
@@ -418,7 +419,7 @@ class WP_Query {
 	public $is_singular = false;
 
 	/**
-	 * Set if query is for robots.
+	 * Signifies whether the current query is for the robots.txt file.
 	 *
 	 * @since 2.1.0
 	 * @access public
@@ -427,7 +428,7 @@ class WP_Query {
 	public $is_robots = false;
 
 	/**
-	 * Set if query contains posts.
+	 * Signifies whether the current query is for the page_for_posts page.
 	 *
 	 * Basically, the homepage if the option isn't set for the static homepage.
 	 *
@@ -438,7 +439,7 @@ class WP_Query {
 	public $is_posts_page = false;
 
 	/**
-	 * Set if query is for a post type archive.
+	 * Signifies whether the current query is for a post type archive.
 	 *
 	 * @since 3.1.0
 	 * @access public
