@@ -191,7 +191,7 @@ function wp_unschedule_event( $timestamp, $hook, $args = array() ) {
 }
 
 /**
- * Unschedule all events attached to the specified hook.
+ * Unschedule all events attached to the hook with the specified arguments.
  *
  * @since 2.1.0
  *
@@ -219,6 +219,29 @@ function wp_clear_scheduled_hook( $hook, $args = array() ) {
 			wp_unschedule_event( $timestamp, $hook, $args );
 		}
 	}
+}
+
+/**
+ * Unschedule all events attached to the hook.
+ *
+ * Can be useful for plugins when deactivating to clean up the cron queue.
+ *
+ * @since 4.9.0
+ *
+ * @param string $hook Action hook, the execution of which will be unscheduled.
+ */
+function wp_unschedule_hook( $hook ) {
+	$crons = _get_cron_array();
+
+	foreach( $crons as $timestamp => $args ) {
+		unset( $crons[ $timestamp ][ $hook ] );
+
+		if ( empty( $crons[ $timestamp ] ) ) {
+			unset( $crons[ $timestamp ] );
+		}
+	}
+
+	_set_cron_array( $crons );
 }
 
 /**
