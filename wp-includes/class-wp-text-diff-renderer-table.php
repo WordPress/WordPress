@@ -319,16 +319,31 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	/**
 	 * Takes changed blocks and matches which rows in orig turned into which rows in final.
 	 *
-	 * Returns
-	 *	*_matches ( which rows match with which )
-	 *	*_rows ( order of rows in each column interleaved with blank rows as
-	 *		necessary )
-	 *
 	 * @since 2.6.0
+	 * @access public
 	 *
-	 * @param array $orig
-	 * @param array $final
-	 * @return array
+	 * @param array $orig  Lines of the original version of the text.
+	 * @param array $final Lines of the final version of the text.
+	 * @return array {
+	 *    Array containing results of comparing the original text to the final text.
+	 *
+	 *    @type array $orig_matches  Associative array of original matches. Index == row
+	 *                               number of `$orig`, value == corresponding row number
+	 *                               of that same line in `$final` or 'x' if there is no
+	 *                               corresponding row (indicating it is a deleted line).
+	 *    @type array $final_matches Associative array of final matches. Index == row
+	 *                               number of `$final`, value == corresponding row number
+	 *                               of that same line in `$orig` or 'x' if there is no
+	 *                               corresponding row (indicating it is a new line).
+	 *    @type array $orig_rows     Associative array of interleaved rows of `$orig` with
+	 *                               blanks to keep matches aligned with side-by-side diff
+	 *                               of `$final`. A value >= 0 corresponds to index of `$orig`.
+	 *                               Value < 0 indicates a blank row.
+	 *    @type array $final_rows    Associative array of interleaved rows of `$final` with
+	 *                               blanks to keep matches aligned with side-by-side diff
+	 *                               of `$orig`. A value >= 0 corresponds to index of `$final`.
+	 *                               Value < 0 indicates a blank row.
+	 * }
 	 */
 	public function interleave_changed_lines( $orig, $final ) {
 
