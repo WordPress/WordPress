@@ -121,6 +121,9 @@ wp.textWidgets = ( function( $ ) {
 					wp.editor.remove( id );
 				}
 
+				// Adjust z-index for the customizer.
+				window.tinymce.ui.FloatPanel.zIndex = 500001;
+
 				wp.editor.initialize( id, {
 					tinymce: {
 						wpautop: true
