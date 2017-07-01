@@ -12,7 +12,8 @@
  *
  * @package WordPress
  * @since 3.0.0
- * @uses Walker_Nav_Menu
+ *
+ * @see Walker_Nav_Menu
  */
 class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	/**
