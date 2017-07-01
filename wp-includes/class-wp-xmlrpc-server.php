@@ -16,9 +16,9 @@
  * As of WordPress 3.5.0, XML-RPC is enabled by default. It can be disabled
  * via the {@see 'xmlrpc_enabled'} filter found in wp_xmlrpc_server::login().
  *
- * @package WordPress
- * @subpackage Publishing
  * @since 1.5.0
+ *
+ * @see IXR_Server
  */
 class wp_xmlrpc_server extends IXR_Server {
 	/**

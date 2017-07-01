@@ -15,7 +15,6 @@
  * core WordPress functions pass this class in the event of an error and
  * if not handled properly will result in code errors.
  *
- * @package WordPress
  * @since 2.1.0
  */
 class WP_Error {

@@ -11,9 +11,9 @@
 /**
  * Core class used to register scripts.
  *
- * @package WordPress
- * @uses WP_Dependencies
  * @since 2.1.0
+ *
+ * @see WP_Dependencies
  */
 class WP_Scripts extends WP_Dependencies {
 	/**

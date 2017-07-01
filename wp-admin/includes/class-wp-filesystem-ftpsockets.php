@@ -10,9 +10,8 @@
  * WordPress Filesystem Class for implementing FTP Sockets.
  *
  * @since 2.5.0
- * @package WordPress
- * @subpackage Filesystem
- * @uses WP_Filesystem_Base Extends class
+ *
+ * @see WP_Filesystem_Base
  */
 class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	/**

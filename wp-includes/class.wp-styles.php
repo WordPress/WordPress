@@ -11,9 +11,9 @@
 /**
  * Core class used to register styles.
  *
- * @package WordPress
- * @uses WP_Dependencies
  * @since 2.6.0
+ *
+ * @see WP_Dependencies
  */
 class WP_Styles extends WP_Dependencies {
 	/**

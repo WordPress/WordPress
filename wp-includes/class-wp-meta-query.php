@@ -18,8 +18,6 @@
  * to the primary SQL query string.
  *
  * @since 3.2.0
- * @package WordPress
- * @subpackage Meta
  */
 class WP_Meta_Query {
 	/**

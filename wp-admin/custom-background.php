@@ -10,8 +10,6 @@
  * The custom background class.
  *
  * @since 3.0.0
- * @package WordPress
- * @subpackage Administration
  */
 class Custom_Background {
 
