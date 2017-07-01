@@ -1540,18 +1540,34 @@ function the_archive_description( $before = '', $after = '' ) {
 }
 
 /**
- * Retrieve category, tag, term, or author description.
+ * Retrieves the description for an author, post type, or term archive.
  *
  * @since 4.1.0
  * @since 4.7.0 Added support for author archives.
+ * @since 4.9.0 Added support for post type archives.
  *
  * @see term_description()
  *
  * @return string Archive description.
  */
 function get_the_archive_description() {
+	$description = '';
+
 	if ( is_author() ) {
 		$description = get_the_author_meta( 'description' );
+	} elseif ( is_post_type_archive() ) {
+		$post_type = get_query_var( 'post_type' );
+
+		if ( is_array( $post_type ) ) {
+			$post_type = reset( $post_type );
+		}
+
+		$post_type_obj = get_post_type_object( $post_type );
+
+		// Check if a description is set.
+		if ( isset( $post_type_obj->description ) ) {
+			$description = $post_type_obj->description;
+		}
 	} else {
 		$description = term_description();
 	}
