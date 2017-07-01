@@ -1565,6 +1565,8 @@ function get_the_archive_description() {
 		// Check if a description is set.
 		if ( isset( $post_type_obj->description ) ) {
 			$description = $post_type_obj->description;
+		} else {
+			$description = '';
 		}
 	} else {
 		$description = term_description();
