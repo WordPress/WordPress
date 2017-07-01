@@ -136,6 +136,9 @@ final class WP_Term {
 
 		// If there isn't a cached version, hit the database.
 		if ( ! $_term || ( $taxonomy && $taxonomy !== $_term->taxonomy ) ) {
+			// Any term found in the cache is not a match, so don't use it.
+			$_term = false;
+
 			// Grab all matching terms, in case any are shared between taxonomies.
 			$terms = $wpdb->get_results( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE t.term_id = %d", $term_id ) );
 			if ( ! $terms ) {
