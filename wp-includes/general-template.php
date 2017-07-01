@@ -1551,8 +1551,6 @@ function the_archive_description( $before = '', $after = '' ) {
  * @return string Archive description.
  */
 function get_the_archive_description() {
-	$description = '';
-
 	if ( is_author() ) {
 		$description = get_the_author_meta( 'description' );
 	} elseif ( is_post_type_archive() ) {
