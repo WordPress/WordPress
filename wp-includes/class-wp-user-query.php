@@ -522,8 +522,9 @@ class WP_User_Query {
 				$search = trim($search, '*');
 
 			$search_columns = array();
-			if ( $qv['search_columns'] )
-				$search_columns = array_intersect( $qv['search_columns'], array( 'ID', 'user_login', 'user_email', 'user_url', 'user_nicename' ) );
+			if ( $qv['search_columns'] ) {
+				$search_columns = array_intersect( $qv['search_columns'], array( 'ID', 'user_login', 'user_email', 'user_url', 'user_nicename', 'display_name' ) );
+			}
 			if ( ! $search_columns ) {
 				if ( false !== strpos( $search, '@') )
 					$search_columns = array('user_email');
