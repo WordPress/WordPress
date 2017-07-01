@@ -11,7 +11,6 @@
  *
  * Manipulates $_POST directly.
  *
- * @package WordPress
  * @since 2.6.0
  *
  * @param bool $update Are we updating a pre-existing post?
@@ -1660,8 +1659,6 @@ function _admin_notice_post_locked() {
 /**
  * Creates autosave data for the specified post from $_POST data.
  *
- * @package WordPress
- * @subpackage Post_Revisions
  * @since 2.6.0
  *
  * @param mixed $post_data Associative array containing the post data or int post ID.

@@ -45,8 +45,6 @@ define( 'ARRAY_N', 'ARRAY_N' );
  *
  * @link https://codex.wordpress.org/Function_Reference/wpdb_Class
  *
- * @package WordPress
- * @subpackage Database
  * @since 0.71
  */
 class wpdb {
