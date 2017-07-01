@@ -1722,12 +1722,12 @@ function wp_create_post_autosave( $post_data ) {
 }
 
 /**
- * Save draft or manually autosave for showing preview.
+ * Saves a draft or manually autosaves for the purpose of showing a post preview.
  *
  * @package WordPress
  * @since 2.7.0
  *
- * @return str URL to redirect to show the preview
+ * @return string URL to redirect to show the preview.
  */
 function post_preview() {
 
