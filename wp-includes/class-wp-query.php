@@ -641,6 +641,7 @@ class WP_Query {
 	 *              Introduced the `$comment_status` and `$ping_status` parameters.
 	 *              Introduced `RAND(x)` syntax for `$orderby`, which allows an integer seed value to random sorts.
 	 * @since 4.6.0 Added 'post_name__in' support for `$orderby`. Introduced the `$lazy_load_term_meta` argument.
+	 * @since 4.9.0 Introduced the `$comment_count` parameter.
 	 * @access public
 	 *
 	 * @param string|array $query {
@@ -657,6 +658,10 @@ class WP_Query {
 	 *     @type array        $category__in            An array of category IDs (OR in, no children).
 	 *     @type array        $category__not_in        An array of category IDs (NOT in).
 	 *     @type string       $category_name           Use category slug (not name, this or any children).
+	 *     @type array|int    $comment_count           Filter results by comment count. Provide an integer to match
+	 *                                                 comment count exactly. Provide an array with integer 'value'
+	 *                                                 and 'compare' operator ('=', '!=', '>', '>=', '<', '<=' ) to
+	 *                                                 compare against comment_count in a specific way.
 	 *     @type string       $comment_status          Comment status.
 	 *     @type int          $comments_per_page       The number of comments to return per page.
 	 *                                                 Default 'comments_per_page' option.
@@ -2138,6 +2143,30 @@ class WP_Query {
 			if ( $q['author'] )
 				$q['author'] = $q['author']->ID;
 			$whichauthor .= " AND ({$wpdb->posts}.post_author = " . absint($q['author']) . ')';
+		}
+
+		// Matching by comment count.
+		if ( isset( $q['comment_count'] ) ) {
+			// Numeric comment count is converted to array format.
+			if ( is_numeric( $q['comment_count'] ) ) {
+				$q['comment_count'] = array(
+					'value' => intval( $q['comment_count'] ),
+				);
+			}
+
+			if ( isset( $q['comment_count']['value'] ) ) {
+				$q['comment_count'] = array_merge( array(
+					'compare' => '=',
+				), $q['comment_count'] );
+
+				// Fallback for invalid compare operators is '='.
+				$compare_operators = array( '=', '!=', '>', '>=', '<', '<=' );
+				if ( ! in_array( $q['comment_count']['compare'], $compare_operators, true ) ) {
+					$q['comment_count']['compare'] = '=';
+				}
+
+				$where .= $wpdb->prepare( " AND {$wpdb->posts}.comment_count {$q['comment_count']['compare']} %d", $q['comment_count']['value'] );
+			}
 		}
 
 		// MIME-Type stuff for attachment browsing
