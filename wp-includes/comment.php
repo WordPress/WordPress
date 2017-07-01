@@ -2126,6 +2126,7 @@ function wp_set_comment_status($comment_id, $comment_status, $wp_error = false) 
  * Filters the comment and makes sure certain fields are valid before updating.
  *
  * @since 2.0.0
+ * @since 4.9.0 Add updating comment meta during comment update.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -2198,6 +2199,13 @@ function wp_update_comment($commentarr) {
 	$data = wp_array_slice_assoc( $data, $keys );
 
 	$rval = $wpdb->update( $wpdb->comments, $data, compact( 'comment_ID' ) );
+
+	// If metadata is provided, store it.
+	if ( isset( $commentarr['comment_meta'] ) && is_array( $commentarr['comment_meta'] ) ) {
+		foreach ( $commentarr['comment_meta'] as $meta_key => $meta_value ) {
+			update_comment_meta( $comment_ID, $meta_key, $meta_value );
+		}
+	}
 
 	clean_comment_cache( $comment_ID );
 	wp_update_comment_count( $comment_post_ID );
