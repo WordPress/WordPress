@@ -452,6 +452,7 @@ function unregister_taxonomy( $taxonomy ) {
  * @since 3.0.0
  * @since 4.3.0 Added the `no_terms` label.
  * @since 4.4.0 Added the `items_list_navigation` and `items_list` labels.
+ * @since 4.9.0 Added the `most_used` label.
  *
  * @param WP_Taxonomy $tax Taxonomy object.
  * @return object {
@@ -486,6 +487,8 @@ function unregister_taxonomy( $taxonomy ) {
  *                                              list tables.
  *     @type string $items_list_navigation      Label for the table pagination hidden heading.
  *     @type string $items_list                 Label for the table hidden heading.
+ *     @type string $most_used                  Title used for the Most Used panel. Not used for non-hierarchical
+ *                                              taxonomies. Default 'Most Used'.
  * }
  */
 function get_taxonomy_labels( $tax ) {
@@ -517,6 +520,7 @@ function get_taxonomy_labels( $tax ) {
 		'no_terms' => array( __( 'No tags' ), __( 'No categories' ) ),
 		'items_list_navigation' => array( __( 'Tags list navigation' ), __( 'Categories list navigation' ) ),
 		'items_list' => array( __( 'Tags list' ), __( 'Categories list' ) ),
+		'most_used' => array( null, __( 'Most Used' ) ),
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 
