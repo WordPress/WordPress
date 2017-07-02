@@ -748,6 +748,9 @@ class WP_User {
 		// Everyone is allowed to exist.
 		$capabilities['exist'] = true;
 
+		// Nobody is allowed to do things they are not allowed to do.
+		unset( $capabilities['do_not_allow'] );
+
 		// Must have ALL requested caps.
 		foreach ( (array) $caps as $cap ) {
 			if ( empty( $capabilities[ $cap ] ) )
