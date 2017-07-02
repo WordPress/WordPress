@@ -1882,6 +1882,18 @@ function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
 
 	$args = wp_parse_args( $args );
 
+	/**
+	 * Filter arguments for retrieving object terms.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array        $args       An array of arguments for retrieving terms for the given object(s).
+	 *                                 See {@see wp_get_object_terms()} for details.
+	 * @param int|array    $object_ids Object ID or array of IDs.
+	 * @param string|array $taxonomies The taxonomies to retrieve terms from.
+	 */
+	$args = apply_filters( 'wp_get_object_terms_args', $args, $object_ids, $taxonomies );
+
 	/*
 	 * When one or more queried taxonomies is registered with an 'args' array,
 	 * those params override the `$args` passed to this function.
