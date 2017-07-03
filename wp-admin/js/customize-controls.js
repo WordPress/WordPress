@@ -5507,6 +5507,13 @@
 			} );
 		} ());
 
+		// Make sure TinyMCE dialogs appear above Customizer UI.
+		$( document ).one( 'wp-before-tinymce-init', function() {
+			if ( ! window.tinymce.ui.FloatPanel.zIndex || window.tinymce.ui.FloatPanel.zIndex < 500001 ) {
+				window.tinymce.ui.FloatPanel.zIndex = 500001;
+			}
+		} );
+
 		api.trigger( 'ready' );
 	});
 
