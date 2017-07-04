@@ -35,16 +35,17 @@ abstract class WP_Session_Tokens {
 	}
 
 	/**
-	 * Get a session token manager instance for a user.
+	 * Retrieves a session token manager instance for a user.
 	 *
-	 * This method contains a filter that allows a plugin to swap out
-	 * the session manager for a subclass of WP_Session_Tokens.
+	 * This method contains a {@see 'session_token_manager'} filter, allowing a plugin to swap out
+	 * the session manager for a subclass of `WP_Session_Tokens`.
 	 *
 	 * @since 4.0.0
 	 * @access public
 	 * @static
 	 *
 	 * @param int $user_id User whose session to manage.
+	 * @return WP_User_Meta_Session_Tokens WP_User_Meta_Session_Tokens class instance by default.
 	 */
 	final public static function get_instance( $user_id ) {
 		/**
