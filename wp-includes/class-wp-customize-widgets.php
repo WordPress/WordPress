@@ -35,9 +35,23 @@ final class WP_Customize_Widgets {
 	 * @var array
 	 */
 	protected $core_widget_id_bases = array(
-		'archives', 'calendar', 'categories', 'links', 'meta',
-		'nav_menu', 'pages', 'recent-comments', 'recent-posts',
-		'rss', 'search', 'tag_cloud', 'text',
+		'archives',
+		'calendar',
+		'categories',
+		'custom_html',
+		'links',
+		'media_audio',
+		'media_image',
+		'media_video',
+		'meta',
+		'nav_menu',
+		'pages',
+		'recent-comments',
+		'recent-posts',
+		'rss',
+		'search',
+		'tag_cloud',
+		'text',
 	);
 
 	/**
