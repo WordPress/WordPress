@@ -154,7 +154,7 @@ class WP_Network {
 	 */
 	public function __get( $key ) {
 		switch ( $key ) {
-			case 'id';
+			case 'id':
 				return (int) $this->id;
 			case 'blog_id':
 				return $this->blog_id;

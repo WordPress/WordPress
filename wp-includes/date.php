@@ -845,7 +845,7 @@ class WP_Date_Query {
 
 				return $value[0] . ' AND ' . $value[1];
 
-			default;
+			default:
 				if ( ! is_numeric( $value ) ) {
 					return false;
 				}
