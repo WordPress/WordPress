@@ -280,7 +280,7 @@ function map_meta_cap( $cap, $user_id ) {
 
 			case 'term':
 				$term = get_term( $object_id );
-				if ( ! $term ) {
+				if ( ! $term instanceof WP_Term ) {
 					break;
 				}
 
