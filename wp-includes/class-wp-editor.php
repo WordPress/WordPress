@@ -928,6 +928,8 @@ final class _WP_Editors {
 	 * Returns the default TinyMCE settings.
 	 * Doesn't include plugins, buttons, editor selector.
 	 *
+	 * @global string $tinymce_version
+	 *
 	 * @return array
 	 */
 	private static function default_settings() {
