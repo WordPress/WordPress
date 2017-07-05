@@ -281,6 +281,8 @@ class WP_Network_Query {
 	 * @since 4.6.0
 	 * @access protected
 	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
 	 * @return int|array A single count of network IDs if a count query. An array of network IDs if a full query.
 	 */
 	protected function get_network_ids() {
