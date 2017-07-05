@@ -145,6 +145,8 @@ final class WP_Customize_Widgets {
 	 * @since 4.5.0
 	 * @access public
 	 *
+	 * @global WP_Widget_Factory $wp_widget_factory
+	 *
 	 * @return array Mapping of id_base to support. If theme doesn't support
 	 *               selective refresh, an empty array is returned.
 	 */
