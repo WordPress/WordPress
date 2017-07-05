@@ -394,6 +394,17 @@ function _wp_menu_item_classes_by_context( &$menu_items ) {
 		) {
 			$classes[] = 'current-menu-item';
 			$menu_items[$key]->current = true;
+			$_anc_id = (int) $menu_item->db_id;
+
+			while(
+				( $_anc_id = get_post_meta( $_anc_id, '_menu_item_menu_item_parent', true ) ) &&
+				! in_array( $_anc_id, $active_ancestor_item_ids )
+			) {
+				$active_ancestor_item_ids[] = $_anc_id;
+			}
+
+			$active_parent_item_ids[] = (int) $menu_item->menu_item_parent;
+
 		// if the menu item corresponds to the currently-requested URL
 		} elseif ( 'custom' == $menu_item->object && isset( $_SERVER['HTTP_HOST'] ) ) {
 			$_root_relative_current = untrailingslashit( $_SERVER['REQUEST_URI'] );
