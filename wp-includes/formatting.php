@@ -26,13 +26,23 @@
  *
  * @global array $wp_cockneyreplace Array of formatted entities for certain common phrases
  * @global array $shortcode_tags
- * @staticvar array $static_characters
- * @staticvar array $static_replacements
- * @staticvar array $dynamic_characters
- * @staticvar array $dynamic_replacements
- * @staticvar array $default_no_texturize_tags
- * @staticvar array $default_no_texturize_shortcodes
- * @staticvar bool  $run_texturize
+ * @staticvar array  $static_characters
+ * @staticvar array  $static_replacements
+ * @staticvar array  $dynamic_characters
+ * @staticvar array  $dynamic_replacements
+ * @staticvar array  $default_no_texturize_tags
+ * @staticvar array  $default_no_texturize_shortcodes
+ * @staticvar bool   $run_texturize
+ * @staticvar string $apos
+ * @staticvar string $prime
+ * @staticvar string $double_prime
+ * @staticvar string $opening_quote
+ * @staticvar string $closing_quote
+ * @staticvar string $opening_single_quote
+ * @staticvar string $closing_single_quote
+ * @staticvar string $open_q_flag
+ * @staticvar string $open_sq_flag
+ * @staticvar string $apos_flag
  *
  * @param string $text The text to be formatted
  * @param bool   $reset Set to true for unit testing. Translated patterns will reset.
