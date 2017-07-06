@@ -1566,9 +1566,12 @@ final class _WP_Editors {
 	}
 
 	/**
+	 * Outputs the HTML for distraction-free writing mode.
+	 *
+	 * @since 3.2.0
+	 * @deprecated 4.3.0
 	 *
 	 * @static
-	 * @global int $content_width
 	 */
 	public static function wp_fullscreen_html() {
 		_deprecated_function( __FUNCTION__, '4.3.0' );
