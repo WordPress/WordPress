@@ -845,7 +845,7 @@ class WP_List_Table {
 
 		$pagination_links_class = 'pagination-links';
 		if ( ! empty( $infinite_scroll ) ) {
-			$pagination_links_class = ' hide-if-js';
+			$pagination_links_class .= ' hide-if-js';
 		}
 		$output .= "\n<span class='$pagination_links_class'>" . join( "\n", $page_links ) . '</span>';
 
