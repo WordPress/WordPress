@@ -319,6 +319,11 @@ class WP_Comments_List_Table extends WP_List_Table {
 	 */
 	protected function extra_tablenav( $which ) {
 		global $comment_status, $comment_type;
+		static $has_items;
+
+		if ( ! isset( $has_items ) ) {
+			$has_items = $this->has_items();
+		}
 ?>
 		<div class="alignleft actions">
 <?php
@@ -354,7 +359,7 @@ class WP_Comments_List_Table extends WP_List_Table {
 			submit_button( __( 'Filter' ), '', 'filter_action', false, array( 'id' => 'post-query-submit' ) );
 		}
 
-		if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_user_can( 'moderate_comments' ) && $this->has_items() ) {
+		if ( ( 'spam' === $comment_status || 'trash' === $comment_status ) && current_user_can( 'moderate_comments' ) && $has_items ) {
 			wp_nonce_field( 'bulk-destroy', '_destroy_nonce' );
 			$title = ( 'spam' === $comment_status ) ? esc_attr__( 'Empty Spam' ) : esc_attr__( 'Empty Trash' );
 			submit_button( $title, 'apply', 'delete_all', false );
