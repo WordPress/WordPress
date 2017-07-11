@@ -425,6 +425,17 @@ class WP_Users_List_Table extends WP_List_Table {
 			if ( is_multisite() && get_current_user_id() != $user_object->ID && current_user_can( 'remove_user', $user_object->ID ) )
 				$actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url( $url."action=remove&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Remove' ) . "</a>";
 
+			// Add a link to the user's author archive, if not empty.
+			if ( $author_posts_url = get_author_posts_url( $user_object->ID ) ) {
+				$actions['view'] = sprintf(
+					'<a href="%s" aria-label="%s">%s</a>',
+					esc_url( $author_posts_url ),
+					/* translators: %s: author's display name */
+					esc_attr( sprintf( __( 'View posts by %s' ), $user_object->display_name ) ),
+					__( 'View' )
+				);
+			}
+
 			/**
 			 * Filters the action links displayed under each user in the Users list table.
 			 *
