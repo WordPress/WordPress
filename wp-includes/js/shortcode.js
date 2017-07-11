@@ -134,8 +134,9 @@ window.wp = window.wp || {};
 			// 5. An attribute name, that corresponds to...
 			// 6. an unquoted value.
 			// 7. A numeric attribute in double quotes.
-			// 8. An unquoted numeric attribute.
-			pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/g;
+			// 8. A numeric attribute in single quotes.
+			// 9. An unquoted numeric attribute.
+			pattern = /([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*'([^']*)'(?:\s|$)|([\w-]+)\s*=\s*([^\s'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|'([^']*)'(?:\s|$)|(\S+)(?:\s|$)/g;
 
 			// Map zero-width spaces to actual spaces.
 			text = text.replace( /[\u00a0\u200b]/g, ' ' );
@@ -152,6 +153,8 @@ window.wp = window.wp || {};
 					numeric.push( match[7] );
 				} else if ( match[8] ) {
 					numeric.push( match[8] );
+				} else if ( match[9] ) {
+					numeric.push( match[9] );
 				}
 			}
 

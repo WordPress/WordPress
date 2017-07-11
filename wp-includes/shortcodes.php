@@ -487,7 +487,7 @@ function unescape_invalid_shortcodes( $content ) {
  * @return string The shortcode attribute regular expression
  */
 function get_shortcode_atts_regex() {
-	return '/([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*\'([^\']*)\'(?:\s|$)|([\w-]+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|(\S+)(?:\s|$)/';
+	return '/([\w-]+)\s*=\s*"([^"]*)"(?:\s|$)|([\w-]+)\s*=\s*\'([^\']*)\'(?:\s|$)|([\w-]+)\s*=\s*([^\s\'"]+)(?:\s|$)|"([^"]*)"(?:\s|$)|\'([^\']*)\'(?:\s|$)|(\S+)(?:\s|$)/';
 }
 
 /**
@@ -519,8 +519,10 @@ function shortcode_parse_atts($text) {
 				$atts[strtolower($m[5])] = stripcslashes($m[6]);
 			elseif (isset($m[7]) && strlen($m[7]))
 				$atts[] = stripcslashes($m[7]);
-			elseif (isset($m[8]))
+			elseif (isset($m[8]) && strlen($m[8]))
 				$atts[] = stripcslashes($m[8]);
+			elseif (isset($m[9]))
+				$atts[] = stripcslashes($m[9]);
 		}
 
 		// Reject any unclosed HTML elements
