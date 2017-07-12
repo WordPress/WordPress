@@ -471,7 +471,7 @@ function wp_dropdown_categories( $args = '' ) {
  *                                               See get_terms(). Default true.
  *     @type string       $order                 Which direction to order categories. Accepts 'ASC' or 'DESC'.
  *                                               Default 'ASC'.
- *     @type string       $orderby               The column to use for ordering categories. Default 'ID'.
+ *     @type string       $orderby               The column to use for ordering categories. Default 'name'.
  *     @type string       $separator             Separator between links. Default '<br />'.
  *     @type bool|int     $show_count            Whether to show how many posts are in the category. Default 0.
  *     @type string       $show_option_all       Text to display for showing all categories. Default empty string.
