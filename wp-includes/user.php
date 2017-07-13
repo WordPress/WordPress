@@ -694,6 +694,8 @@ function get_blogs_of_user( $user_id, $all = false ) {
  *
  * @since MU 1.1
  *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @param int $user_id Optional. The unique ID of the user. Defaults to the current user.
  * @param int $blog_id Optional. ID of the blog to check. Defaults to the current site.
  * @return bool
