@@ -24,6 +24,8 @@ final class WP_Post {
 	/**
 	 * Post ID.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var int
 	 */
 	public $ID;
@@ -33,6 +35,8 @@ final class WP_Post {
 	 *
 	 * A numeric string, for compatibility reasons.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_author = 0;
@@ -40,6 +44,8 @@ final class WP_Post {
 	/**
 	 * The post's local publication time.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_date = '0000-00-00 00:00:00';
@@ -47,6 +53,8 @@ final class WP_Post {
 	/**
 	 * The post's GMT publication time.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_date_gmt = '0000-00-00 00:00:00';
@@ -54,6 +62,8 @@ final class WP_Post {
 	/**
 	 * The post's content.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_content = '';
@@ -61,6 +71,8 @@ final class WP_Post {
 	/**
 	 * The post's title.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_title = '';
@@ -68,6 +80,8 @@ final class WP_Post {
 	/**
 	 * The post's excerpt.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_excerpt = '';
@@ -75,6 +89,8 @@ final class WP_Post {
 	/**
 	 * The post's status.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_status = 'publish';
@@ -82,6 +98,8 @@ final class WP_Post {
 	/**
 	 * Whether comments are allowed.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $comment_status = 'open';
@@ -89,6 +107,8 @@ final class WP_Post {
 	/**
 	 * Whether pings are allowed.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $ping_status = 'open';
@@ -96,6 +116,8 @@ final class WP_Post {
 	/**
 	 * The post's password in plain text.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_password = '';
@@ -103,6 +125,8 @@ final class WP_Post {
 	/**
 	 * The post's slug.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_name = '';
@@ -110,6 +134,8 @@ final class WP_Post {
 	/**
 	 * URLs queued to be pinged.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $to_ping = '';
@@ -117,6 +143,8 @@ final class WP_Post {
 	/**
 	 * URLs that have been pinged.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $pinged = '';
@@ -124,6 +152,8 @@ final class WP_Post {
 	/**
 	 * The post's local modified time.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_modified = '0000-00-00 00:00:00';
@@ -131,6 +161,8 @@ final class WP_Post {
 	/**
 	 * The post's GMT modified time.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_modified_gmt = '0000-00-00 00:00:00';
@@ -138,7 +170,8 @@ final class WP_Post {
 	/**
 	 * A utility DB field for post content.
 	 *
-	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_content_filtered = '';
@@ -146,6 +179,8 @@ final class WP_Post {
 	/**
 	 * ID of a post's parent post.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var int
 	 */
 	public $post_parent = 0;
@@ -153,6 +188,8 @@ final class WP_Post {
 	/**
 	 * The unique identifier for a post, not necessarily a URL, used as the feed GUID.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $guid = '';
@@ -160,6 +197,8 @@ final class WP_Post {
 	/**
 	 * A field used for ordering posts.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var int
 	 */
 	public $menu_order = 0;
@@ -167,6 +206,8 @@ final class WP_Post {
 	/**
 	 * The post's type, like post or page.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_type = 'post';
@@ -174,6 +215,8 @@ final class WP_Post {
 	/**
 	 * An attachment's mime type.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $post_mime_type = '';
@@ -183,6 +226,8 @@ final class WP_Post {
 	 *
 	 * A numeric string, for compatibility reasons.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $comment_count = 0;
@@ -192,6 +237,8 @@ final class WP_Post {
 	 *
 	 * Does not correspond to a DB field.
 	 *
+	 * @since 3.5.0
+	 * @access public
 	 * @var string
 	 */
 	public $filter;
@@ -199,6 +246,7 @@ final class WP_Post {
 	/**
 	 * Retrieve WP_Post instance.
 	 *
+	 * @since 3.5.0
 	 * @static
 	 * @access public
 	 *
@@ -235,6 +283,8 @@ final class WP_Post {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.5.0
+	 *
 	 * @param WP_Post|object $post Post object.
 	 */
 	public function __construct( $post ) {
@@ -244,6 +294,8 @@ final class WP_Post {
 
 	/**
 	 * Isset-er.
+	 *
+	 * @since 3.5.0
 	 *
 	 * @param string $key Property to check if set.
 	 * @return bool
@@ -266,6 +318,8 @@ final class WP_Post {
 
 	/**
 	 * Getter.
+	 *
+	 * @since 3.5.0
 	 *
 	 * @param string $key Key to get.
 	 * @return mixed
@@ -310,6 +364,8 @@ final class WP_Post {
 	/**
 	 * {@Missing Summary}
 	 *
+	 * @since 3.5.0
+	 *
 	 * @param string $filter Filter.
 	 * @return self|array|bool|object|WP_Post
 	 */
@@ -325,6 +381,8 @@ final class WP_Post {
 
 	/**
 	 * Convert object to array.
+	 *
+	 * @since 3.5.0
 	 *
 	 * @return array Object as array.
 	 */
