@@ -1506,8 +1506,7 @@ class WP_Query {
 	}
 
 	/**
-	 * If the passed orderby value is allowed, convert the alias to a
-	 * properly-prefixed orderby value.
+	 * Converts the given orderby alias (if allowed) to a properly-prefixed value.
 	 *
 	 * @since 4.0.0
 	 * @access protected
