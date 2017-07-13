@@ -1292,9 +1292,12 @@ class WP_Query {
 	}
 
 	/**
-	 * Generate SQL for the WHERE clause based on passed search terms.
+	 * Generates SQL for the WHERE clause based on passed search terms.
 	 *
 	 * @since 3.7.0
+	 * @access protected
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param array $q Query variables.
 	 * @return string WHERE clause.
@@ -1508,6 +1511,8 @@ class WP_Query {
 	 *
 	 * @since 4.0.0
 	 * @access protected
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param string $orderby Alias for the field to order by.
 	 * @return string|false Table-prefixed value to used in the ORDER clause. False otherwise.
