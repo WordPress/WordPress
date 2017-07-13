@@ -1418,6 +1418,7 @@ final class _WP_Editors {
 	 * Print (output) the TinyMCE configuration and initialization scripts.
 	 *
 	 * @static
+	 * @global string $tinymce_version
 	 */
 	public static function editor_js() {
 		global $tinymce_version;
