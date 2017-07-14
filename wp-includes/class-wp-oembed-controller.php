@@ -159,6 +159,7 @@ final class WP_oEmbed_Controller {
 		$args = $request->get_params();
 
 		// Serve oEmbed data from cache if set.
+		unset( $args['_wpnonce'] );
 		$cache_key = 'oembed_' . md5( serialize( $args ) );
 		$data = get_transient( $cache_key );
 		if ( ! empty( $data ) ) {
