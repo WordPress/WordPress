@@ -5192,15 +5192,25 @@ function wp_staticize_emoji( $text ) {
  * @since 4.8.1
  * @access private
  *
+ * @see wp_staticize_emoji()
+ * @staticvar string $cdn_url The CDN url returned by the {@see 'emoji_url'} filter.
+ * @staticvar string $ext     The file extension returned by the {@see 'emoji_ext'} filter.
+ *
  * @param  array $matches The matched data.
  * @return string HTML for the static emoji image.
  */
 function _wp_staticize_emoji( $matches ) {
-	/** This filter is documented in wp-includes/formatting.php */
-	$cdn_url = apply_filters( 'emoji_url', 'https://s.w.org/images/core/emoji/2.3/72x72/' );
+	static $cdn_url;
+	if ( ! $cdn_url ) {
+		/** This filter is documented in wp-includes/formatting.php */
+		$cdn_url = apply_filters( 'emoji_url', 'https://s.w.org/images/core/emoji/2.3/72x72/' );
+	}
 
-	/** This filter is documented in wp-includes/formatting.php */
-	$ext = apply_filters( 'emoji_ext', '.png' );
+	static $ext;
+	if ( ! $ext ) {
+		/** This filter is documented in wp-includes/formatting.php */
+		$ext = apply_filters( 'emoji_ext', '.png' );
+	}
 
 	$char = str_replace( ';&#x', '-', $matches[1] );
 	$char = str_replace( array( '&#x', ';'), '', $char );
