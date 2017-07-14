@@ -1152,13 +1152,13 @@ function wpmu_create_user( $user_name, $password, $email ) {
  *                        'spam', 'deleted', or 'lang_id') the given site status(es) will be
  *                        updated. Otherwise, keys and values will be used to set options for
  *                        the new site. Default empty array.
- * @param int    $site_id Optional. Only relevant on multi-network installs.
- * @return int|WP_Error Returns WP_Error object on failure, int $blog_id on success
+ * @param int    $site_id Optional. Network ID. Only relevant on multi-network installs.
+ * @return int|WP_Error Returns WP_Error object on failure, the new site ID on success.
  */
 function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $site_id = 1 ) {
 	$defaults = array(
 		'public' => 0,
-		'WPLANG' => get_site_option( 'WPLANG' ),
+		'WPLANG' => get_network_option( $site_id, 'WPLANG' ),
 	);
 	$meta = wp_parse_args( $meta, $defaults );
 
@@ -1208,11 +1208,11 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $s
 	 *
 	 * @since MU
 	 *
-	 * @param int    $blog_id Blog ID.
+	 * @param int    $blog_id Site ID.
 	 * @param int    $user_id User ID.
 	 * @param string $domain  Site domain.
 	 * @param string $path    Site path.
-	 * @param int    $site_id Site ID. Only relevant on multi-network installs.
+	 * @param int    $site_id Network ID. Only relevant on multi-network installs.
 	 * @param array  $meta    Meta data. Used to set initial site options.
 	 */
 	do_action( 'wpmu_new_blog', $blog_id, $user_id, $domain, $path, $site_id, $meta );
