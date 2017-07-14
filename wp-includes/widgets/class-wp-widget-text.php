@@ -17,6 +17,14 @@
 class WP_Widget_Text extends WP_Widget {
 
 	/**
+	 * Whether or not the widget has been registered yet.
+	 *
+	 * @since 4.8.1
+	 * @var bool
+	 */
+	protected $registered = false;
+
+	/**
 	 * Sets up a new Text widget instance.
 	 *
 	 * @since 2.8.0
@@ -38,18 +46,21 @@ class WP_Widget_Text extends WP_Widget {
 	/**
 	 * Add hooks for enqueueing assets when registering all widget instances of this widget class.
 	 *
-	 * @since 4.8.0
-	 * @access public
+	 * @param integer $number Optional. The unique order number of this widget instance
+	 *                        compared to other instances of the same class. Default -1.
 	 */
-	public function _register() {
+	public function _register_one( $number = -1 ) {
+		parent::_register_one( $number );
+		if ( $this->registered ) {
+			return;
+		}
+		$this->registered = true;
 
 		// Note that the widgets component in the customizer will also do the 'admin_print_scripts-widgets.php' action in WP_Customize_Widgets::print_scripts().
 		add_action( 'admin_print_scripts-widgets.php', array( $this, 'enqueue_admin_scripts' ) );
 
 		// Note that the widgets component in the customizer will also do the 'admin_footer-widgets.php' action in WP_Customize_Widgets::print_footer_scripts().
 		add_action( 'admin_footer-widgets.php', array( $this, 'render_control_template_scripts' ) );
-
-		parent::_register();
 	}
 
 	/**
