@@ -153,7 +153,7 @@ final class WP_oEmbed_Controller {
 	 *
 	 * @see WP_oEmbed::get_html()
 	 * @param WP_REST_Request $request Full data about the request.
-	 * @return WP_Error|array oEmbed response data or WP_Error on failure.
+	 * @return object|WP_Error oEmbed response data or WP_Error on failure.
 	 */
 	public function get_proxy_item( $request ) {
 		$args = $request->get_params();
@@ -168,6 +168,14 @@ final class WP_oEmbed_Controller {
 
 		$url = $request['url'];
 		unset( $args['url'] );
+
+		// Copy maxwidth/maxheight to width/height since WP_oEmbed::fetch() uses these arg names.
+		if ( isset( $args['maxwidth'] ) ) {
+			$args['width'] = $args['maxwidth'];
+		}
+		if ( isset( $args['maxheight'] ) ) {
+			$args['height'] = $args['maxheight'];
+		}
 
 		$data = _wp_oembed_get_object()->get_data( $url, $args );
 
