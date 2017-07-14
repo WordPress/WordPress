@@ -2229,8 +2229,7 @@
 				}
 			} );
 
-			control.container.find( '.menu-delete-item' ).on( 'click', function( event ) {
-				event.stopPropagation();
+			control.container.find( '.menu-delete-item .button-link-delete' ).on( 'click', function( event ) {
 				event.preventDefault();
 				control.setting.set( false );
 			});
