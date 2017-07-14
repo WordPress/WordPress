@@ -251,7 +251,12 @@ class WP_Site_Query {
 		do_action_ref_array( 'pre_get_sites', array( &$this ) );
 
 		// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
-		$key = md5( serialize( wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) ) ) );
+		$_args = wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) );
+
+		// Ignore the $fields argument as the queried result will be the same regardless.
+		unset( $_args['fields'] );
+
+		$key = md5( serialize( $_args ) );
 		$last_changed = wp_cache_get_last_changed( 'sites' );
 
 		$cache_key = "get_sites:$key:$last_changed";
