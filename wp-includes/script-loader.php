@@ -608,7 +608,7 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'media-audio-widget', "/wp-admin/js/widgets/media-audio-widget$suffix.js", array( 'media-widgets', 'media-audiovideo' ) );
 		$scripts->add( 'media-image-widget', "/wp-admin/js/widgets/media-image-widget$suffix.js", array( 'media-widgets' ) );
 		$scripts->add( 'media-video-widget', "/wp-admin/js/widgets/media-video-widget$suffix.js", array( 'media-widgets', 'media-audiovideo' ) );
-		$scripts->add( 'text-widgets', "/wp-admin/js/widgets/text-widgets$suffix.js", array( 'jquery', 'backbone', 'editor', 'wp-util' ) );
+		$scripts->add( 'text-widgets', "/wp-admin/js/widgets/text-widgets$suffix.js", array( 'jquery', 'backbone', 'editor', 'wp-util', 'wp-a11y' ) );
 		$scripts->add_inline_script( 'text-widgets', 'wp.textWidgets.init();', 'after' );
 
 		$scripts->add( 'theme', "/wp-admin/js/theme$suffix.js", array( 'wp-backbone', 'wp-a11y' ), false, 1 );
@@ -845,7 +845,7 @@ function wp_default_styles( &$styles ) {
 	$styles->add( 'themes',              "/wp-admin/css/themes$suffix.css" );
 	$styles->add( 'about',               "/wp-admin/css/about$suffix.css" );
 	$styles->add( 'nav-menus',           "/wp-admin/css/nav-menus$suffix.css" );
-	$styles->add( 'widgets',             "/wp-admin/css/widgets$suffix.css" );
+	$styles->add( 'widgets',             "/wp-admin/css/widgets$suffix.css", array( 'wp-pointer' ) );
 	$styles->add( 'site-icon',           "/wp-admin/css/site-icon$suffix.css" );
 	$styles->add( 'l10n',                "/wp-admin/css/l10n$suffix.css" );
 

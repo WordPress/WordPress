@@ -619,6 +619,29 @@ div#widgets-right .widget-top:hover,
 	cursor: move;
 }
 
+/* =Specific widget styling
+-------------------------------------------------------------- */
+.text-widget-fields {
+	position: relative;
+}
+.text-widget-fields [hidden] {
+	display: none;
+}
+.text-widget-fields .wp-pointer.wp-pointer-top {
+	position: absolute;
+	z-index: 3;
+	top: 100px;
+	left: 10px;
+	right: 10px;
+}
+.text-widget-fields .wp-pointer .wp-pointer-arrow {
+	right: auto;
+	left: 15px;
+}
+.text-widget-fields .wp-pointer .wp-pointer-buttons {
+	line-height: 1.4em;
+}
+
 /* =Media Queries
 -------------------------------------------------------------- */
 
