@@ -5290,9 +5290,7 @@ function wp_emoji_regex( $type = 'codepoints' ) {
 	// If we're using a PCRE version that doesn't support Unicode, return a loose match regex.
 	if ( 'codepoints' === $type && ( ! defined( 'PCRE_VERSION' ) || version_compare( PCRE_VERSION, '8.32', '<=' ) ) ) {
 		return '/(
-		     \xE2\x98[\x80-\xFF]            # Symbols
-		   | \xE2\x99[\x00-\xFF]
-		   | [\xE3-\xED][\x00-\xFF]{2}
+		     \xE2\x99[\x80-\x82]            # Male and female symbols
 		   | [\x23\x30-\x39]\xE2\x83\xA3    # Digits
 		   | \xF0\x9F[\x85-\x88][\xA6-\xBF] # Enclosed characters
 		   | \xF0\x9F[\x8C-\x97][\x80-\xBF] # Misc
