@@ -195,3 +195,4 @@ function getAllUserSettings() {
 
 	return wpCookies.getHash( 'wp-settings-' + userSettings.uid ) || {};
 }
+
