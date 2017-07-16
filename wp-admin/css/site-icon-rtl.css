@@ -30,7 +30,6 @@
 
 .site-icon-preview .app-icon-preview {
 	background-color: #000;
-	-webkit-border-radius: 16px;
 	border-radius: 16px;
 	height: 64px;
 	overflow: hidden;

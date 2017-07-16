@@ -104,7 +104,6 @@
 	margin: 16px 0;
 	padding: 23px 10px 0;
 	border: 1px solid #e5e5e5;
-	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	background: #fff;
 	font-size: 13px;
@@ -154,7 +153,6 @@
 	position: absolute;
 	top: 8px;
 	left: 0;
-	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
 }
 
@@ -617,8 +615,6 @@ form.initial-form.quickpress-open input#title {
 
 #dashboard_quick_press input,
 #dashboard_quick_press textarea {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	margin: 0;
 }
@@ -952,7 +948,6 @@ form.initial-form.quickpress-open input#title {
 
 #activity-widget #the-comment-list .comment,
 #activity-widget #the-comment-list .pingback {
-	-webkit-box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.06);
 	box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.06);
 }
 
@@ -1085,7 +1080,6 @@ a.rsswidget {
 	background-image: none;
 	border-color: #edc048;
 	color: #fff;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -1098,7 +1092,6 @@ a.rsswidget {
 	border-bottom-color: #f6e2ac;
 	background: transparent none;
 	color: #fff;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 

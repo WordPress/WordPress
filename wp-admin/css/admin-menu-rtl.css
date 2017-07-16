@@ -47,7 +47,6 @@
 	display: inline-block;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
 }
 
@@ -203,7 +202,6 @@
 	padding: 7px 0 8px;
 	z-index: 9999;
 	background-color: #32373c;
-	-webkit-box-shadow: 0 3px 5px rgba(0,0,0,0.2);
 	box-shadow: 0 3px 5px rgba(0,0,0,0.2);
 }
 
@@ -227,7 +225,6 @@
 	bottom: auto;
 	border: 0 none;
 	margin-top: 0;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	background-color: #32373c;
 }
@@ -301,7 +298,6 @@
 .folded #adminmenu .wp-has-current-submenu li > a {
 	padding-left: 16px;
 	padding-right: 14px;
-	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
 }
 
@@ -358,7 +354,6 @@
 #adminmenu div.wp-menu-image.svg {
 	background-repeat: no-repeat;
 	background-position: center;
-	-webkit-background-size: 20px auto;
 	background-size: 20px auto;
 }
 
@@ -366,7 +361,6 @@ div.wp-menu-image:before {
 	color: #a0a5aa;
 	color: rgba(240,245,250,0.6);
 	padding: 7px 0;
-	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
 }
 
@@ -526,7 +520,6 @@ ul#adminmenu > li.current > a.current:after {
 	font-weight: 600;
 	margin: 1px 2px 0 0;
 	vertical-align: top;
-	-webkit-border-radius: 10px;
 	border-radius: 10px;
 	z-index: 26;
 }
@@ -607,19 +600,16 @@ ul#adminmenu > li.current > a.current:after {
 .folded #collapse-button .collapse-button-icon:after,
 .rtl #collapse-button .collapse-button-icon:after {
 	-webkit-transform: rotate(180deg);
-	-ms-transform: rotate(180deg);
 	transform: rotate(180deg);
 }
 
 .rtl.folded #collapse-button .collapse-button-icon:after {
 	-webkit-transform: none;
-	-ms-transform: none;
 	transform: none;
 }
 
 #collapse-button .collapse-button-icon:after,
 #collapse-button .collapse-button-label {
-	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
 }
 
@@ -741,13 +731,11 @@ li#wp-admin-bar-menu-toggle {
 	/* rtl:ignore */
 	.auto-fold #collapse-button .collapse-button-icon:after {
 		-webkit-transform: rotate(180deg);
-		-ms-transform: rotate(180deg);
 		transform: rotate(180deg);
 	}
 
 	.rtl.auto-fold #collapse-button .collapse-button-icon:after {
 		-webkit-transform: none;
-		-ms-transform: none;
 		transform: none;
 	}
 
@@ -828,7 +816,6 @@ li#wp-admin-bar-menu-toggle {
 		display: block;
 		top: 0;
 		right: -1px;
-		-webkit-box-shadow: none;
 		box-shadow: none;
 	}
 
@@ -870,8 +857,6 @@ li#wp-admin-bar-menu-toggle {
 		padding-left: 10px;
 		z-index: 99999;
 		border: none;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 	}
 
@@ -915,8 +900,6 @@ li#wp-admin-bar-menu-toggle {
 		border: none;
 		text-align: center;
 		text-decoration: none;
-		-webkit-box-sizing: border-box;
-		-moz-box-sizing: border-box;
 		box-sizing: border-box;
 	}
 

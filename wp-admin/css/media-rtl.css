@@ -124,7 +124,6 @@
 
 .media-upload-form .media-item,
 .media-upload-form .media-item .error {
-	-webkit-box-shadow: 0 1px 0 #ddd;
 	box-shadow: 0 1px 0 #ddd;
 }
 
@@ -163,10 +162,8 @@
 	line-height: 2em;
 	padding: 0;
 	overflow: hidden;
-	-webkit-border-radius: 22px;
 	border-radius: 22px;
 	background: #ddd;
-	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }
 
@@ -175,10 +172,8 @@
 	width: 0;
 	height: 100%;
 	margin-top: -22px;
-	-webkit-border-radius: 22px;
 	border-radius: 22px;
 	background-color: #0073aa;
-	-webkit-box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
 	box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
 }
 
@@ -228,7 +223,6 @@
 
 .find-box {
 	background-color: #fff;
-	-webkit-box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 	width: 600px;
 	overflow: hidden;
@@ -263,8 +257,6 @@
 	bottom: 45px;
 	overflow-y: scroll;
 	width: 100%;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -320,9 +312,6 @@
 
 #find-posts-close:focus {
 	outline: none;
-	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
 	box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
@@ -472,7 +461,6 @@ border color while dragging a file over the uploader drop area */
 	margin-top: 12px;
 	padding: 0 16px;
 	border-right: 4px solid #dd3d36;
- 	-webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
  	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
 	background-color: #fff;
 }
@@ -491,7 +479,6 @@ border color while dragging a file over the uploader drop area */
 	margin: 12px 0;
 	padding: 4px 0 0;
 	border: none;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	background: none;
 }
@@ -539,9 +526,6 @@ border color while dragging a file over the uploader drop area */
 .media-frame.mode-grid .attachment:focus,
 .media-frame.mode-grid .selected.attachment:focus,
 .media-frame.mode-grid .attachment.details:focus {
-	-webkit-box-shadow:
-		inset 0 0 2px 3px #f1f1f1,
-		inset 0 0 0 7px #5b9dd9;
 	box-shadow:
 		inset 0 0 2px 3px #f1f1f1,
 		inset 0 0 0 7px #5b9dd9;
@@ -549,18 +533,12 @@ border color while dragging a file over the uploader drop area */
 }
 
 .media-frame.mode-grid .selected.attachment {
-	-webkit-box-shadow:
-		inset 0 0 0 5px #f1f1f1,
-		inset 0 0 0 7px #ccc;
 	box-shadow:
 		inset 0 0 0 5px #f1f1f1,
 		inset 0 0 0 7px #ccc;
 }
 
 .media-frame.mode-grid .attachment.details {
-	-webkit-box-shadow:
-		inset 0 0 0 3px #f1f1f1,
-		inset 0 0 0 7px #1e8cbe;
 	box-shadow:
 		inset 0 0 0 3px #f1f1f1,
 		inset 0 0 0 7px #1e8cbe;
@@ -663,7 +641,6 @@ border color while dragging a file over the uploader drop area */
 	text-align: center;
 	border: 0;
 	border-right: 1px solid #ddd;
-	-webkit-transition: color .1s ease-in-out, background .1s ease-in-out;
 	transition: color .1s ease-in-out, background .1s ease-in-out;
 }
 
@@ -702,7 +679,6 @@ border color while dragging a file over the uploader drop area */
 	border-color: #ccc;
 	color: #000;
 	outline: none;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -749,7 +725,6 @@ border color while dragging a file over the uploader drop area */
 	bottom: 0;
 	left: 0;
 	right: 0;
-	-webkit-box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
 	box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
 }
 
@@ -760,8 +735,6 @@ border color while dragging a file over the uploader drop area */
 }
 
 .edit-attachment-frame .attachment-media-view .thumbnail {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	padding: 16px;
 	height: 100%;
@@ -772,7 +745,6 @@ border color while dragging a file over the uploader drop area */
 	margin: 0 auto 16px;
 	max-width: 100%;
 	max-height: 90%;
-	max-height: -webkit-calc( 100% - 42px );
 	max-height: calc( 100% - 42px ); /* leave space for actions underneath */
 }
 
@@ -792,14 +764,11 @@ border color while dragging a file over the uploader drop area */
 
 .edit-attachment-frame .attachment-info {
 	overflow: auto;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	margin-bottom: 0;
 	padding: 12px 16px 0;
 	width: 35%;
 	height: 100%;
-	-webkit-box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
 	box-shadow: inset 0px 4px 4px -4px rgba(0, 0, 0, 0.1);
 	border-bottom: 0;
 	border-right: 1px solid #ddd;
@@ -915,7 +884,6 @@ border color while dragging a file over the uploader drop area */
 	top: 50%;
 	margin: -10px -10px 0 0;
 	background: transparent url(../images/spinner.gif) no-repeat center;
-	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
 	-webkit-transform: translateZ(0);
 	transform: translateZ(0);
@@ -1093,10 +1061,7 @@ border color while dragging a file over the uploader drop area */
 	font-size: 20px;
 	line-height: 1;
 	cursor: pointer;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
 	box-sizing: content-box;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -1104,7 +1069,6 @@ border color while dragging a file over the uploader drop area */
 	color: #0074a2;
 	border-color: #5b9dd9;
 	outline: none;
-	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 

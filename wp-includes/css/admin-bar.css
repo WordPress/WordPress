@@ -11,12 +11,8 @@
 	font-weight: 400;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	line-height: 32px;
-	-webkit-border-radius: 0;
 	border-radius: 0;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content-box;
 	box-sizing: content-box;
-	-webkit-transition: none;
 	transition: none;
 	-webkit-font-smoothing: subpixel-antialiased; /* Prevent Safari from switching to standard antialiasing on hover */
 	-moz-osx-font-smoothing: auto; /* Prevent Firefox from inheriting from themes that use other values */
@@ -74,7 +70,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar select,
 #wpadminbar textarea,
 #wpadminbar div {
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	outline: none;
 }
@@ -146,7 +141,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar .shortlink-input {
 	margin: 0;
 	padding: 0;
-	-webkit-box-shadow: 0 3px 5px rgba(0,0,0,0.2);
 	box-shadow: 0 3px 5px rgba(0,0,0,0.2);
 	background: #32373c;
 	display: none;
@@ -257,7 +251,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 #wpadminbar .ab-item:before,
 #wpadminbar #adminbarsearch:before {
 	position: relative;
-	-webkit-transition: all .1s ease-in-out;
 	transition: all .1s ease-in-out;
 }
 
@@ -349,7 +342,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	position: relative;
 	right: auto;
 	margin: 0;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -370,7 +362,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	padding: 2px 5px;
 	font-size: 10px;
 	font-weight: 600;
-	-webkit-border-radius: 10px;
 	border-radius: 10px;
 }
 
@@ -385,7 +376,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 #wpadminbar ul li:last-child,
 #wpadminbar ul li:last-child .ab-item {
-	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -644,16 +634,10 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	border: none;
 	outline: none;
 	cursor: pointer;
-	-webkit-box-shadow: none;
 	box-shadow: none;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	-webkit-transition-duration: 400ms;
 	transition-duration: 400ms;
-	-webkit-transition-property: width, background;
 	transition-property: width, background;
-	-webkit-transition-timing-function: ease;
 	transition-timing-function: ease;
 }
 
@@ -734,7 +718,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 	z-index: 100000;
 	line-height: normal;
 	text-decoration: none;
-	-webkit-box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
 	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
 }
 
@@ -1141,7 +1124,6 @@ html:lang(he-il) .rtl #wpadminbar *  {
 
 	#wpadminbar .ab-top-menu > .menupop li > .ab-sub-wrapper {
 		position: static;
-		-webkit-box-shadow: none;
 		box-shadow: none;
 	}
 }

@@ -30,8 +30,6 @@
 .wp-customizer .menu-item-bar .menu-item-handle,
 .wp-customizer .menu-item-settings,
 .wp-customizer .menu-item-settings .description-thin {
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -145,7 +143,6 @@
 	width: 30px;
 	height: 38px;
 	margin-right: 0 !important;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	outline: none;
 	overflow: hidden;
@@ -249,7 +246,6 @@
 
 .customize-screen-options-toggle:focus:before,
 #customize-controls .customize-info .customize-help-toggle:focus:before {
-	-webkit-border-radius: 100%;
 	border-radius: 100%;
 }
 
@@ -283,7 +279,6 @@
 	display: block;
 	padding: 1px 2px 1px 0px;
 	speak: none;
-	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	color: #72777c;
 	font: normal 20px/1 dashicons;
@@ -388,7 +383,6 @@
 .control-section-nav_menu.menu .sortable-placeholder {
 	margin-top: 0;
 	margin-bottom: 1px;
-	max-width: -webkit-calc(100% - 2px);
 	max-width: calc(100% - 2px);
 	float: left;
 	display: list-item;
@@ -432,7 +426,6 @@
 	position: absolute;
 	top: 9px;
 	left: 5px;
-	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	font: normal 20px/1 dashicons;
 	-webkit-font-smoothing: antialiased;
@@ -445,7 +438,6 @@
 
 .menu-item-bar .item-delete:hover,
 .menu-item-bar .item-delete:focus {
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	outline: none;
 	color: #f00;
@@ -476,7 +468,6 @@
 	border-left: none;
 	border-right: none;
 	background: #fff;
-	-webkit-transition: background-color 0.15s;
 	transition: background-color 0.15s;
 	/* Reset the value inherited from the base .accordion-section-title style. Ticket #37589. */
 	-webkit-user-select: auto;
@@ -519,7 +510,6 @@
 	position: absolute;
 	top: 5px;
 	right: 5px;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	outline: none;
 	cursor: pointer;
@@ -590,7 +580,6 @@
 }
 
 #available-menu-items .menu-item-handle {
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	margin-top: -1px;
 }
@@ -611,7 +600,6 @@
 	color: #82878c;
 	width: 30px;
 	height: 38px;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	outline: none;
 	cursor: pointer;
@@ -629,7 +617,6 @@
 	top: 3px;
 	display: inline-block;
 	height: 20px;
-	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	font: normal 20px/1.05 dashicons; /* line height is to account for the dashicon's vertical alignment */
 }
@@ -667,8 +654,6 @@
 	max-height: none;
 	width: 100%;
 	padding: 1px 15px 15px;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -695,7 +680,6 @@
 }
 
 #customize-preview {
-	-webkit-transition: all 0.2s;
 	transition: all 0.2s;
 }
 
@@ -740,11 +724,8 @@ body.adding-menu-items #customize-preview iframe {
 }
 
 .added-menu-item .menu-item-handle {
-	-webkit-transition-property: opacity, background, color;
 	transition-property: opacity, background, color;
-	-webkit-transition-duration: 1.25s;
 	transition-duration: 1.25s;
-	-webkit-transition-timing-function: cubic-bezier( .25, -2.5, .75, 8 );
 	transition-timing-function: cubic-bezier( .25, -2.5, .75, 8 ); /* Replacement for .hide().fadeIn('slow') in JS to add emphasis when it's loaded. */
 }
 
@@ -842,9 +823,6 @@ li.assigned-to-menu-location .add-new-menu-item {
 .menu-delete:focus,
 .menu-item-bar .item-delete:focus:before,
 #available-menu-items .item-add:focus:before {
-	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
 	box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);

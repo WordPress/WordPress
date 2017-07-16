@@ -41,7 +41,6 @@ input[type=radio]:checked:before {
   background: #e14d43;
   border-color: #d02c21 #ba281e #ba281e;
   color: #fff;
-  -webkit-box-shadow: 0 1px 0 #ba281e;
   box-shadow: 0 1px 0 #ba281e;
   text-shadow: 0 -1px 1px #ba281e, 1px 0 1px #ba281e, 0 1px 1px #ba281e, -1px 0 1px #ba281e;
 }
@@ -50,19 +49,16 @@ input[type=radio]:checked:before {
   background: #e35950;
   border-color: #ba281e;
   color: #fff;
-  -webkit-box-shadow: 0 1px 0 #ba281e;
   box-shadow: 0 1px 0 #ba281e;
 }
 
 .wp-core-ui .button-primary:focus {
-  -webkit-box-shadow: inset 0 1px 0 #d02c21, 0 0 2px 1px #33b3db;
   box-shadow: inset 0 1px 0 #d02c21, 0 0 2px 1px #33b3db;
 }
 
 .wp-core-ui .button-primary:active {
   background: #d02c21;
   border-color: #ba281e;
-  -webkit-box-shadow: inset 0 2px 0 #ba281e;
   box-shadow: inset 0 2px 0 #ba281e;
 }
 
@@ -74,12 +70,10 @@ input[type=radio]:checked:before {
 }
 
 .wp-core-ui .button-primary.button-hero {
-  -webkit-box-shadow: 0 2px 0 #ba281e !important;
   box-shadow: 0 2px 0 #ba281e !important;
 }
 
 .wp-core-ui .button-primary.button-hero:active {
-  -webkit-box-shadow: inset 0 3px 0 #ba281e !important;
   box-shadow: inset 0 3px 0 #ba281e !important;
 }
 
@@ -419,18 +413,15 @@ ul#adminmenu > li.current > a.current:after {
 }
 
 .details.attachment {
-  -webkit-box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px #e14d43;
   box-shadow: inset 0 0 0 3px #fff, inset 0 0 0 7px #e14d43;
 }
 
 .attachment.details .check {
   background-color: #e14d43;
-  -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 2px #e14d43;
   box-shadow: 0 0 0 1px #fff, 0 0 0 2px #e14d43;
 }
 
 .media-selection .attachment.selection.details .thumbnail {
-  -webkit-box-shadow: 0 0 0 1px #fff, 0 0 0 3px #e14d43;
   box-shadow: 0 0 0 1px #fff, 0 0 0 3px #e14d43;
 }
 

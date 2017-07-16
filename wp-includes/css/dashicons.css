@@ -25,7 +25,6 @@
 	font-style: normal;
 	vertical-align: top;
 	text-align: center;
-	-webkit-transition: color .1s ease-in 0;
 	transition: color .1s ease-in 0;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;

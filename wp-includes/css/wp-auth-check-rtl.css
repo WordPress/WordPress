@@ -30,7 +30,6 @@
 	padding: 30px 0 0;
 	background-color: #f1f1f1;
 	z-index: 1000011; /* needs to appear above #wp-auth-check-bg */
-	-webkit-box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 }
 
@@ -64,7 +63,6 @@
 	top: 50%;
 	margin: -10px -10px 0 0;
 	background: url(../images/spinner.gif) no-repeat center;
-	-webkit-background-size: 20px 20px;
 	background-size: 20px 20px;
 	-webkit-transform: translateZ(0);
 	transform: translateZ(0);

@@ -107,7 +107,6 @@
 	position: absolute;
 	font-size: 0.1px;
 	display: block;
-	-ms-touch-action: none;
 	touch-action: none;
 }
 .ui-resizable-disabled .ui-resizable-handle,
@@ -191,16 +190,12 @@
 	border-width: 1px;
 	border-style: solid;
 	-webkit-appearance: none;
-	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	white-space: nowrap;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	color: #555;
 	border-color: #cccccc;
 	background: #f7f7f7;
-	-webkit-box-shadow: 0 1px 0 #cccccc;
 	box-shadow: 0 1px 0 #cccccc;
  	vertical-align: top;
 }
@@ -226,17 +221,14 @@
 
 .ui-button:focus {
 	border-color: #5b9dd9;
-	-webkit-box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 
 .ui-button:active {
 	background: #eee;
 	border-color: #999;
-	-webkit-box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 	box-shadow: inset 0 2px 5px -3px rgba( 0, 0, 0, 0.5 );
 	-webkit-transform: translateY(1px);
-	-ms-transform: translateY(1px);
 	transform: translateY(1px);
 }
 
@@ -245,12 +237,10 @@
 	color: #a0a5aa !important;
 	border-color: #ddd !important;
 	background: #f7f7f7 !important;
-	-webkit-box-shadow: none !important;
 	box-shadow: none !important;
 	text-shadow: 0 1px 0 #fff !important;
 	cursor: default;
 	-webkit-transform: none !important;
-	-ms-transform: none !important;
 	transform: none !important;
 }
 
@@ -275,7 +265,6 @@
 	right: 0;
 	z-index: 100102;
 	background-color: #fff;
-	-webkit-box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 	box-shadow: 0 3px 6px rgba( 0, 0, 0, 0.3 );
 }
 
@@ -292,7 +281,6 @@
 .ui-button.ui-dialog-titlebar-close {
 	background: none;
 	border: none;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	color: #666;
 	cursor: pointer;

@@ -606,7 +606,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	margin-top: 10px;
 	margin-left: 4px;
 	width: 20px;
-	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	text-indent: -1px; /* account for the dashicon alignment */
 }
@@ -620,14 +619,10 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 }
 
 .nav-menus-php .item-edit:focus {
-	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
 .nav-menus-php .item-edit:focus:before {
-	-webkit-box-shadow:
-		0 0 0 1px #5b9dd9,
-		0 0 2px 1px rgba(30, 140, 190, .8);
 	box-shadow:
 		0 0 0 1px #5b9dd9,
 		0 0 2px 1px rgba(30, 140, 190, .8);
@@ -646,7 +641,6 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	z-index: 10; /* Keep .item-title's shadow from appearing on top of .menu-item-settings */
 	border: 1px solid #e5e5e5;
 	border-top: none;
-	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 	box-shadow: 0 1px 1px rgba(0,0,0,0.04);
 }
 

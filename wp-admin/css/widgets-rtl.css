@@ -3,8 +3,6 @@
 .widget {
 	margin: 0 auto 10px;
 	position: relative;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -84,8 +82,6 @@
 
 .media-widget-control .placeholder {
 	border: 1px dashed #b4b9be;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	cursor: default;
 	line-height: 20px;
@@ -170,8 +166,6 @@
 	margin: 0 auto 10px;
 	height: 45px;
 	width: 100%;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -188,8 +182,6 @@
 /* Widget Sidebars */
 .sidebar-name {
 	position: relative;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
 
@@ -270,7 +262,6 @@ div#widgets-left .widget-holder {
 
 #widgets-left .widgets-holder-wrap {
 	border: none;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -304,7 +295,6 @@ div#widgets-left .widget-holder {
 	padding: 0;
 	margin: 0 0 20px 0;
 	border: none;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -382,7 +372,6 @@ div#widgets-right .closed .widgets-sortables {
 /* Dragging a widget over a closed sidebar */
 #widgets-right .widgets-holder-wrap.widget-hover {
 	border-color: #72777c;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 	box-shadow: 0 1px 2px rgba(0,0,0,0.3);
 }
 
@@ -510,7 +499,6 @@ div#widgets-right .closed .widgets-sortables {
 /* Widgets Area Chooser */
 .widget-liquid-left #widgets-left.chooser #available-widgets .widget,
 .widget-liquid-left #widgets-left.chooser .inactive-sidebar {
-	-webkit-transition: opacity 0.1s linear;
 	transition: opacity 0.1s linear;
 }
 
@@ -533,7 +521,6 @@ div#widgets-right .closed .widgets-sortables {
 div#widgets-right .widget-top:hover,
 #widgets-left .widget-top:hover {
 	border-color: #999;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 	box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
 
@@ -560,7 +547,6 @@ div#widgets-right .widget-top:hover,
 	cursor: pointer;
 	outline: none;
 	position: relative;
-	-webkit-transition: background 0.2s ease-in-out;
 	transition: background 0.2s ease-in-out;
 }
 

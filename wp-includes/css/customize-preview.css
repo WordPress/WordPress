@@ -1,13 +1,11 @@
 .customize-partial-refreshing {
 	opacity: 0.25;
-	-webkit-transition: opacity 0.25s;
 	transition: opacity 0.25s;
 	cursor: progress;
 }
 
 /* Override highlight when refreshing */
 .customize-partial-refreshing.widget-customizer-highlighted-widget {
-	-webkit-box-shadow: none;
 	box-shadow: none;
 }
 
@@ -23,7 +21,6 @@
 	border: 0;
 	background: transparent;
 	color: transparent;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	outline: none;
 	z-index: 5;
@@ -48,15 +45,11 @@
 	font-size: 18px;
 	z-index: 5;
 	background: #0085ba !important;
-	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	border: 2px solid #fff;
-	-webkit-box-shadow: 0 2px 1px rgba(46,68,83,0.15);
 	box-shadow: 0 2px 1px rgba(46,68,83,0.15);
 	text-align: center;
 	cursor: pointer;
-	-webkit-box-sizing: border-box;
-	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	padding: 3px;
 	-webkit-animation-fill-mode: both;
@@ -88,7 +81,6 @@
 }
 
 .customize-partial-edit-shortcut button:focus {
-	-webkit-box-shadow: 0 0 0 2px #008ec2;
 	box-shadow: 0 0 0 2px #008ec2;
 }
 

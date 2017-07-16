@@ -4,7 +4,6 @@
 	font-size: 13px;
 	background: #fff;
 	border: 1px solid #ddd;
-	-webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.075);
 	box-shadow: 0 3px 6px rgba(0,0,0,0.075);
 }
 
@@ -22,7 +21,6 @@
 
 .wp-pointer-content h3:before {
 	background: #fff;
-	-webkit-border-radius: 50%;
 	border-radius: 50%;
 	color: #00a0d2;
 	content: "\f227";
