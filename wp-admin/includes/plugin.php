@@ -1078,7 +1078,7 @@ function add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $func
 
 	$menu_slug = plugin_basename( $menu_slug );
 
-	$admin_page_hooks[$menu_slug] = sanitize_title( $menu_slug );
+	$admin_page_hooks[$menu_slug] = $menu_slug;
 
 	$hookname = get_plugin_page_hookname( $menu_slug, '' );
 
