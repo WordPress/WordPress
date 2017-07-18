@@ -285,7 +285,7 @@ wp.textWidgets = ( function( $ ) {
 						 * having to make server round-trips to call the respective WP_Widget::update()
 						 * callbacks. See <https://core.trac.wordpress.org/ticket/33507>.
 						 */
-						if ( wp.customize ) {
+						if ( wp.customize && wp.customize.state ) {
 							wp.customize.state( 'processing' ).set( wp.customize.state( 'processing' ).get() + 1 );
 							_.delay( function() {
 								wp.customize.state( 'processing' ).set( wp.customize.state( 'processing' ).get() - 1 );
