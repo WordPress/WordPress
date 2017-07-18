@@ -95,7 +95,7 @@ class WP_Widget_Text extends WP_Widget {
 		}
 
 		$wpautop = ! empty( $instance['filter'] );
-		$has_line_breaks = ( false !== strpos( $instance['text'], "\n" ) );
+		$has_line_breaks = ( false !== strpos( trim( $instance['text'] ), "\n" ) );
 
 		// If auto-paragraphs are not enabled and there are line breaks, then ensure legacy mode.
 		if ( ! $wpautop && $has_line_breaks ) {
@@ -104,15 +104,6 @@ class WP_Widget_Text extends WP_Widget {
 
 		// If an HTML comment is present, assume legacy mode.
 		if ( false !== strpos( $instance['text'], '<!--' ) ) {
-			return true;
-		}
-
-		/*
-		 * If a shortcode is present (with support added by a plugin), assume legacy mode
-		 * since shortcodes would apply at the widget_text filter and thus be applied
-		 * before wpautop runs at the widget_text_content filter.
-		 */
-		if ( preg_match( '/' . get_shortcode_regex() . '/', $instance['text'] ) ) {
 			return true;
 		}
 
@@ -348,7 +339,7 @@ class WP_Widget_Text extends WP_Widget {
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>"/>
 			</p>
 			<div class="notice inline notice-info notice-alt">
-				<p><?php _e( 'This widget contains code that may work better in the new &#8220;Custom HTML&#8221; widget. How about trying that widget instead?' ); ?></p>
+				<p><?php _e( 'This widget may contain code that may work better in the new &#8220;Custom HTML&#8221; widget. How about trying that widget instead?' ); ?></p>
 			</div>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'text' ); ?>"><?php _e( 'Content:' ); ?></label>
