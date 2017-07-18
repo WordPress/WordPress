@@ -826,6 +826,10 @@ final class _WP_Editors {
 		$settings['indent'] = true;
 		$settings['elementpath'] = false;
 
+		if ( is_rtl() ) {
+			$settings['directionality'] = 'rtl';
+		}
+
 		// In production all plugins are loaded (they are in wp-editor.js.gz)
 		// but only these will be initialized by default.
 		$settings['plugins'] = implode( ',', array(
