@@ -170,8 +170,6 @@ add_filter( 'widget_text_content', 'wptexturize'          );
 add_filter( 'widget_text_content', 'convert_smilies',  20 );
 add_filter( 'widget_text_content', 'wpautop'              );
 
-add_filter( 'widget_custom_html_content', 'balanceTags' );
-
 add_filter( 'date_i18n', 'wp_maybe_decline_date' );
 
 // RSS filters

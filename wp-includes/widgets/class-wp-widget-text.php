@@ -213,10 +213,11 @@ class WP_Widget_Text extends WP_Widget {
 		 *
 		 * @since 2.3.0
 		 * @since 4.4.0 Added the `$this` parameter.
+		 * @since 4.8.1 The `$this` param may now be a `WP_Widget_Custom_HTML` object in addition to a `WP_Widget_Text` object.
 		 *
-		 * @param string         $text     The widget content.
-		 * @param array          $instance Array of settings for the current widget.
-		 * @param WP_Widget_Text $this     Current Text widget instance.
+		 * @param string                               $text     The widget content.
+		 * @param array                                $instance Array of settings for the current widget.
+		 * @param WP_Widget_Text|WP_Widget_Custom_HTML $this     Current Text widget instance.
 		 */
 		$text = apply_filters( 'widget_text', $text, $instance, $this );
 
