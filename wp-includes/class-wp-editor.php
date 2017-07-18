@@ -819,44 +819,45 @@ final class _WP_Editors {
 	 *
 	 */
 	public static function print_default_editor_scripts() {
-		$settings = self::default_settings();
+		$user_can_richedit = user_can_richedit();
 
-		$settings['toolbar1'] = 'bold,italic,bullist,numlist,link';
-		$settings['wpautop'] = false;
-		$settings['indent'] = true;
-		$settings['elementpath'] = false;
+		if ( $user_can_richedit ) {
+			$settings = self::default_settings();
 
-		if ( is_rtl() ) {
-			$settings['directionality'] = 'rtl';
+			$settings['toolbar1'] = 'bold,italic,bullist,numlist,link';
+			$settings['wpautop'] = false;
+			$settings['indent'] = true;
+			$settings['elementpath'] = false;
+
+			if ( is_rtl() ) {
+				$settings['directionality'] = 'rtl';
+			}
+
+			// In production all plugins are loaded (they are in wp-editor.js.gz).
+			// The 'wpview', 'wpdialogs', and 'media' TinyMCE plugins are not initialized by default.
+			// Can be added from js by using the 'wp-before-tinymce-init' event.
+			$settings['plugins'] = implode( ',', array(
+				'charmap',
+				'colorpicker',
+				'hr',
+				'lists',
+				'paste',
+				'tabfocus',
+				'textcolor',
+				'fullscreen',
+				'wordpress',
+				'wpautoresize',
+				'wpeditimage',
+				'wpemoji',
+				'wpgallery',
+				'wplink',
+				'wptextpattern',
+			) );
+
+			$settings = self::_parse_init( $settings );
+		} else {
+			$settings = '{}';
 		}
-
-		// In production all plugins are loaded (they are in wp-editor.js.gz)
-		// but only these will be initialized by default.
-		$settings['plugins'] = implode( ',', array(
-			'charmap',
-			'colorpicker',
-			'hr',
-			'lists',
-	//		'media',
-			'paste',
-			'tabfocus',
-			'textcolor',
-			'fullscreen',
-			'wordpress',
-			'wpautoresize',
-			'wpeditimage',
-			'wpemoji',
-			'wpgallery',
-			'wplink',
-	//		'wpdialogs',
-			'wptextpattern',
-	//		'wpview',
-		) );
-
-		$settings = self::_parse_init( $settings );
-
-		$suffix = SCRIPT_DEBUG ? '' : '.min';
-		$baseurl = self::get_baseurl();
 
 		?>
 		<script type="text/javascript">
@@ -871,17 +872,29 @@ final class _WP_Editors {
 			};
 		};
 
-		var tinyMCEPreInit = {
-			baseURL: "<?php echo $baseurl; ?>",
-			suffix: "<?php echo $suffix; ?>",
-			mceInit: {},
-			qtInit: {},
-			load_ext: function(url,lang){var sl=tinymce.ScriptLoader;sl.markDone(url+'/langs/'+lang+'.js');sl.markDone(url+'/langs/'+lang+'_dlg.js');}
-		};
+		<?php
+
+		if ( $user_can_richedit ) {
+			$suffix = SCRIPT_DEBUG ? '' : '.min';
+			$baseurl = self::get_baseurl();
+
+			?>
+			var tinyMCEPreInit = {
+				baseURL: "<?php echo $baseurl; ?>",
+				suffix: "<?php echo $suffix; ?>",
+				mceInit: {},
+				qtInit: {},
+				load_ext: function(url,lang){var sl=tinymce.ScriptLoader;sl.markDone(url+'/langs/'+lang+'.js');sl.markDone(url+'/langs/'+lang+'_dlg.js');}
+			};
+			<?php
+		}
+		?>
 		</script>
 		<?php
 
-		self::print_tinymce_scripts();
+		if ( $user_can_richedit ) {
+			self::print_tinymce_scripts();
+		}
 
 		/**
 		 * Fires when the editor scripts are loaded for later initialization,

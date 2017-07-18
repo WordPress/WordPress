@@ -181,6 +181,15 @@ wp.textWidgets = ( function( $ ) {
 					return;
 				}
 
+				// The user has disabled TinyMCE.
+				if ( typeof window.tinymce === 'undefined' ) {
+					wp.editor.initialize( id, {
+						quicktags: true
+					});
+
+					return;
+				}
+
 				// Destroy any existing editor so that it can be re-initialized after a widget-updated event.
 				if ( tinymce.get( id ) ) {
 					restoreTextMode = tinymce.get( id ).isHidden();
