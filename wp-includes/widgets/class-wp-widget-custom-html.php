@@ -61,7 +61,8 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
-		$content = $instance['content'];
+		/** This filter is documented in wp-includes/widgets/class-wp-widget-text.php */
+		$content = apply_filters( 'widget_text', $instance['content'], $instance, $this );
 
 		/**
 		 * Filters the content of the Custom HTML widget.
