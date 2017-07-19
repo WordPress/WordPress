@@ -81,8 +81,8 @@ wp.textWidgets = ( function( $ ) {
 			_.each( control.fields, function( fieldInput, fieldName ) {
 				fieldInput.on( 'input change', function updateSyncField() {
 					var syncInput = control.syncContainer.find( 'input[type=hidden].' + fieldName );
-					if ( syncInput.val() !== $( this ).val() ) {
-						syncInput.val( $( this ).val() );
+					if ( syncInput.val() !== fieldInput.val() ) {
+						syncInput.val( fieldInput.val() );
 						syncInput.trigger( 'change' );
 					}
 				});
@@ -164,9 +164,54 @@ wp.textWidgets = ( function( $ ) {
 		 * @returns {void}
 		 */
 		initializeEditor: function initializeEditor() {
-			var control = this, changeDebounceDelay = 1000, id, textarea, restoreTextMode = false;
+			var control = this, changeDebounceDelay = 1000, id, textarea, triggerChangeIfDirty, restoreTextMode = false, needsTextareaChangeTrigger = false;
 			textarea = control.fields.text;
 			id = textarea.attr( 'id' );
+
+			/**
+			 * Trigger change if dirty.
+			 *
+			 * @returns {void}
+			 */
+			triggerChangeIfDirty = function() {
+				var updateWidgetBuffer = 300; // See wp.customize.Widgets.WidgetControl._setupUpdateUI() which uses 250ms for updateWidgetDebounced.
+				if ( control.editor.isDirty() ) {
+
+					/*
+					 * Account for race condition in customizer where user clicks Save & Publish while
+					 * focus was just previously given to to the editor. Since updates to the editor
+					 * are debounced at 1 second and since widget input changes are only synced to
+					 * settings after 250ms, the customizer needs to be put into the processing
+					 * state during the time between the change event is triggered and updateWidget
+					 * logic starts. Note that the debounced update-widget request should be able
+					 * to be removed with the removal of the update-widget request entirely once
+					 * widgets are able to mutate their own instance props directly in JS without
+					 * having to make server round-trips to call the respective WP_Widget::update()
+					 * callbacks. See <https://core.trac.wordpress.org/ticket/33507>.
+					 */
+					if ( wp.customize && wp.customize.state ) {
+						wp.customize.state( 'processing' ).set( wp.customize.state( 'processing' ).get() + 1 );
+						_.delay( function() {
+							wp.customize.state( 'processing' ).set( wp.customize.state( 'processing' ).get() - 1 );
+						}, updateWidgetBuffer );
+					}
+
+					if ( ! control.editor.isHidden() ) {
+						control.editor.save();
+					}
+				}
+
+				// Trigger change on textarea when it is dirty for sake of widgets in the Customizer needing to sync form inputs to setting models.
+				if ( needsTextareaChangeTrigger ) {
+					textarea.trigger( 'change' );
+					needsTextareaChangeTrigger = false;
+				}
+			};
+
+			// Just-in-time force-update the hidden input fields.
+			control.syncContainer.closest( '.widget' ).find( '[name=savewidget]:first' ).on( 'click', function onClickSaveButton() {
+				triggerChangeIfDirty();
+			});
 
 			/**
 			 * Build (or re-build) the visual editor.
@@ -174,7 +219,7 @@ wp.textWidgets = ( function( $ ) {
 			 * @returns {void}
 			 */
 			function buildEditor() {
-				var editor, triggerChangeIfDirty, onInit, showPointerElement;
+				var editor, onInit, showPointerElement;
 
 				// Abort building if the textarea is gone, likely due to the widget having been deleted entirely.
 				if ( ! document.getElementById( id ) ) {
@@ -230,7 +275,7 @@ wp.textWidgets = ( function( $ ) {
 
 					// If a prior mce instance was replaced, and it was in text mode, toggle to text mode.
 					if ( restoreTextMode ) {
-						switchEditors.go( id, 'toggle' );
+						switchEditors.go( id, 'html' );
 					}
 
 					// Show the pointer.
@@ -269,38 +314,19 @@ wp.textWidgets = ( function( $ ) {
 				}
 
 				control.editorFocused = false;
-				triggerChangeIfDirty = function() {
-					var updateWidgetBuffer = 300; // See wp.customize.Widgets.WidgetControl._setupUpdateUI() which uses 250ms for updateWidgetDebounced.
-					if ( editor.isDirty() ) {
 
-						/*
-						 * Account for race condition in customizer where user clicks Save & Publish while
-						 * focus was just previously given to to the editor. Since updates to the editor
-						 * are debounced at 1 second and since widget input changes are only synced to
-						 * settings after 250ms, the customizer needs to be put into the processing
-						 * state during the time between the change event is triggered and updateWidget
-						 * logic starts. Note that the debounced update-widget request should be able
-						 * to be removed with the removal of the update-widget request entirely once
-						 * widgets are able to mutate their own instance props directly in JS without
-						 * having to make server round-trips to call the respective WP_Widget::update()
-						 * callbacks. See <https://core.trac.wordpress.org/ticket/33507>.
-						 */
-						if ( wp.customize && wp.customize.state ) {
-							wp.customize.state( 'processing' ).set( wp.customize.state( 'processing' ).get() + 1 );
-							_.delay( function() {
-								wp.customize.state( 'processing' ).set( wp.customize.state( 'processing' ).get() - 1 );
-							}, updateWidgetBuffer );
-						}
-
-						editor.save();
-						textarea.trigger( 'change' );
-					}
-				};
-				editor.on( 'focus', function() {
+				editor.on( 'focus', function onEditorFocus() {
 					control.editorFocused = true;
 				});
+				editor.on( 'paste', function onEditorPaste() {
+					editor.setDirty( true ); // Because pasting doesn't currently set the dirty state.
+					triggerChangeIfDirty();
+				});
+				editor.on( 'NodeChange', function onNodeChange() {
+					needsTextareaChangeTrigger = true;
+				});
 				editor.on( 'NodeChange', _.debounce( triggerChangeIfDirty, changeDebounceDelay ) );
-				editor.on( 'blur', function() {
+				editor.on( 'blur hide', function onEditorBlur() {
 					control.editorFocused = false;
 					triggerChangeIfDirty();
 				});
