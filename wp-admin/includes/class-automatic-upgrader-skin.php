@@ -59,6 +59,8 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string|array|WP_Error $data
 	 */
 	public function feedback( $data ) {
