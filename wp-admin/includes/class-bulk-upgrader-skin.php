@@ -125,6 +125,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @param string $title
 	 */
@@ -138,6 +139,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @param string $title
 	 */
