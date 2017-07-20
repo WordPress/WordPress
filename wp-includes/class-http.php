@@ -731,7 +731,7 @@ class WP_Http {
 	 * Edits the array by reference.
 	 *
 	 * @access public
-	 * @version 2.8.0
+	 * @since 2.8.0
 	 * @static
 	 *
 	 * @param array $r Full array of args passed into ::request()
