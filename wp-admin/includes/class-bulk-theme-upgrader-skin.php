@@ -24,6 +24,7 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @param string $title
 	 */
@@ -32,6 +33,7 @@ class Bulk_Theme_Upgrader_Skin extends Bulk_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @param string $title
 	 */
