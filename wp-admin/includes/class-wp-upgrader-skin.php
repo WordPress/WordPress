@@ -30,6 +30,7 @@ class WP_Upgrader_Skin {
 	public $options = array();
 
 	/**
+	 * @access public
 	 *
 	 * @param array $args
 	 */

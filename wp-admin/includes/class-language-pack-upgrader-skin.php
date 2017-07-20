@@ -22,6 +22,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	public $display_footer_actions = true;
 
 	/**
+	 * @access public
 	 *
 	 * @param array $args
 	 */
