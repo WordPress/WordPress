@@ -119,6 +119,7 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @param string|WP_Error $errors
 	 */
@@ -138,6 +139,7 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @param string $string
 	 */

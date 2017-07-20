@@ -48,6 +48,7 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @param string|WP_Error $error
 	 */

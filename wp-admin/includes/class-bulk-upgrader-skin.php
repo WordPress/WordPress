@@ -48,6 +48,8 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param string $string
 	 */
 	public function feedback($string) {
@@ -86,6 +88,7 @@ class Bulk_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
 	 *
 	 * @param string|WP_Error $error
 	 */
