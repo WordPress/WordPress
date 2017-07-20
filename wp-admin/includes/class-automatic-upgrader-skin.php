@@ -27,6 +27,7 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	 *
 	 * @since 3.7.0
 	 * @since 4.6.0 The `$context` parameter default changed from `false` to an empty string.
+	 * @access public
 	 *
 	 * @see request_filesystem_credentials()
 	 *
