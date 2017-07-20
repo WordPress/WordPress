@@ -34,7 +34,7 @@ class Custom_Image_Header {
 	 *
 	 * @var array
 	 * @since 3.0.0
-	 * @access private
+	 * @access public
 	 */
 	public $default_headers = array();
 
