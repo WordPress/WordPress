@@ -811,6 +811,7 @@ class WP_Http {
 	 * are supported, eg *.wordpress.org will allow for all subdomains of wordpress.org to be contacted.
 	 *
 	 * @since 2.8.0
+	 * @access public
 	 * @link https://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
 	 * @link https://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_ACCESSIBLE_HOSTS
 	 *
@@ -962,7 +963,7 @@ class WP_Http {
 	 * Handles HTTP Redirects and follows them if appropriate.
 	 *
 	 * @since 3.7.0
-	 *
+	 * @access public
 	 * @static
 	 *
 	 * @param string $url The URL which was requested.
@@ -1019,6 +1020,7 @@ class WP_Http {
 	 * @link http://home.deds.nl/~aeron/regex/ for IPv6 regex
 	 *
 	 * @since 3.7.0
+	 * @access public
 	 * @static
 	 *
 	 * @param string $maybe_ip A suspected IP address
