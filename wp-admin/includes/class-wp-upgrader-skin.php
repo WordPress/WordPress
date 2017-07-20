@@ -40,6 +40,8 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
+	 * @access public
+	 *
 	 * @param WP_Upgrader $upgrader
 	 */
 	public function set_upgrader(&$upgrader) {
@@ -72,6 +74,7 @@ class WP_Upgrader_Skin {
 	 *
 	 * @since 2.8.0
 	 * @since 4.6.0 The `$context` parameter default changed from `false` to an empty string.
+	 * @access public
 	 *
 	 * @see request_filesystem_credentials()
 	 *
@@ -176,6 +179,7 @@ class WP_Upgrader_Skin {
 	 * Output JavaScript that calls function to decrement the update counts.
 	 *
 	 * @since 3.9.0
+	 * @access protected
 	 *
 	 * @param string $type Type of update count to decrement. Likely values include 'plugin',
 	 *                     'theme', 'translation', etc.
