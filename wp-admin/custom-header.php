@@ -18,6 +18,7 @@ class Custom_Image_Header {
 	 *
 	 * @var callable
 	 * @since 2.1.0
+	 * @access public
 	 */
 	public $admin_header_callback;
 
@@ -26,6 +27,7 @@ class Custom_Image_Header {
 	 *
 	 * @var callable
 	 * @since 3.0.0
+	 * @access public
 	 */
 	public $admin_image_div_callback;
 
