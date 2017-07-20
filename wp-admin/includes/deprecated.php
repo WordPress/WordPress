@@ -222,6 +222,8 @@ function use_codepress() {
  *
  * @deprecated 3.1.0 Use get_users()
  *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
  * @return array List of user IDs.
  */
 function get_author_user_ids() {
@@ -240,6 +242,8 @@ function get_author_user_ids() {
  * Gets author users who can edit posts.
  *
  * @deprecated 3.1.0 Use get_users()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int $user_id User ID.
  * @return array|bool List of editable authors. False if no editable users.
@@ -265,6 +269,8 @@ function get_editable_authors( $user_id ) {
  * Gets the IDs of any users who can edit posts.
  *
  * @deprecated 3.1.0 Use get_users()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int  $user_id       User ID.
  * @param bool $exclude_zeros Optional. Whether to exclude zeroes. Default true.
@@ -302,6 +308,8 @@ function get_editable_user_ids( $user_id, $exclude_zeros = true, $post_type = 'p
  * Gets all users who are not authors.
  *
  * @deprecated 3.1.0 Use get_users()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  */
 function get_nonauthor_user_ids() {
 	_deprecated_function( __FUNCTION__, '3.1.0', 'get_users()' );
@@ -663,6 +671,8 @@ endif;
  * @since 2.3.0
  * @deprecated 3.1.0 Use get_posts()
  * @see get_posts()
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param int    $user_id User ID to not retrieve posts from.
  * @param string $type    Optional. Post type to retrieve. Accepts 'draft', 'pending' or 'any' (all).
