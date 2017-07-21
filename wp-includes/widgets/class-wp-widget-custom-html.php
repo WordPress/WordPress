@@ -75,6 +75,9 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 		 */
 		$content = apply_filters( 'widget_custom_html_content', $content, $instance, $this );
 
+		// Inject the Text widget's container class name alongside this widget's class name for theme styling compatibility.
+		$args['before_widget'] = preg_replace( '/(?<=\sclass=["\'])/', 'widget_text ', $args['before_widget'] );
+
 		echo $args['before_widget'];
 		if ( ! empty( $title ) ) {
 			echo $args['before_title'] . $title . $args['after_title'];
