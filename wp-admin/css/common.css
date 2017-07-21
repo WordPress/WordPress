@@ -2490,7 +2490,7 @@ div.action-links {
 }
 
 #plugin-information-title.with-banner h2 {
-	position: relative;
+	position: absolute;
 	font-family: "Helvetica Neue", sans-serif;
 	display: inline-block;
 	font-size: 30px;
