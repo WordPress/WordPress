@@ -492,7 +492,7 @@ function wp_login_form( $args = array() ) {
 function wp_lostpassword_url( $redirect = '' ) {
 	$args = array( 'action' => 'lostpassword' );
 	if ( !empty($redirect) ) {
-		$args['redirect_to'] = $redirect;
+		$args['redirect_to'] = urlencode( $redirect );
 	}
 
 	$lostpassword_url = add_query_arg( $args, network_site_url('wp-login.php', 'login') );
