@@ -935,6 +935,8 @@ class WP_Comment_Query {
 	 * the descendant trees for all matched top-level comments.
 	 *
 	 * @since 4.4.0
+	 * 
+	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param array $comments Array of top-level comments whose descendants should be filled in.
 	 * @return array
