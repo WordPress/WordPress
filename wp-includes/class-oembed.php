@@ -221,6 +221,7 @@ class WP_oEmbed {
 	 * @return false|string False on failure, otherwise the oEmbed provider URL.
 	 */
 	public function get_provider( $url, $args = '' ) {
+		$args = wp_parse_args( $args );
 
 		$provider = false;
 
@@ -315,6 +316,8 @@ class WP_oEmbed {
 	 * @return false|string False on failure, otherwise the UNSANITIZED (and potentially unsafe) HTML that should be used to embed.
 	 */
 	public function get_html( $url, $args = '' ) {
+		$args = wp_parse_args( $args );
+
 		/**
 		 * Filters the oEmbed result before any HTTP requests are made.
 		 *
