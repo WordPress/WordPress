@@ -132,6 +132,28 @@ if ( isset( $_GET['action'] ) ) {
 			}
 		break;
 
+		case 'delete_sites':
+			check_admin_referer( 'ms-delete-sites' );
+
+			foreach ( (array) $_POST['site_ids'] as $site_id ) {
+				$site_id = (int) $site_id;
+
+				if ( $site_id == get_network()->site_id ) {
+					continue;
+				}
+
+				if ( ! current_user_can( 'delete_site', $site_id ) ) {
+					$site = get_site( $site_id );
+					$site_address = untrailingslashit( $site->domain . $site->path );
+
+					wp_die( sprintf( __( 'Sorry, you are not allowed to delete the site %s.' ), $site_address ), 403 );
+				}
+
+				$updated_action = 'all_delete';
+				wpmu_delete_blog( $site_id, true );
+			}
+			break;
+
 		case 'allblogs':
 			if ( ( isset( $_POST['action'] ) || isset( $_POST['action2'] ) ) && isset( $_POST['allblogs'] ) ) {
 				$doaction = $_POST['action'] != -1 ? $_POST['action'] : $_POST['action2'];
@@ -140,11 +162,32 @@ if ( isset( $_GET['action'] ) ) {
 					if ( $val != '0' && $val != get_network()->site_id ) {
 						switch ( $doaction ) {
 							case 'delete':
-								if ( ! current_user_can( 'delete_site', $val ) )
-									wp_die( __( 'Sorry, you are not allowed to delete the site.' ) );
-
-								$updated_action = 'all_delete';
-								wpmu_delete_blog( $val, true );
+								require_once( ABSPATH . 'wp-admin/admin-header.php' );
+								?>
+								<div class="wrap">
+									<h1><?php _e( 'Confirm your action' ); ?></h1>
+									<form action="sites.php?action=delete_sites" method="post">
+										<input type="hidden" name="action" value="delete_sites" />
+										<input type="hidden" name="_wp_http_referer" value="<?php echo esc_attr( wp_get_referer() ); ?>" />
+										<?php wp_nonce_field( 'ms-delete-sites', '_wpnonce', false ); ?>
+										<p><?php _e( 'You are about to delete the following sites:' ); ?></p>
+										<ul class="ul-disc">
+											<?php foreach ( $_POST['allblogs'] as $site_id ) :
+												$site = get_site( $site_id );
+												$site_address = untrailingslashit( $site->domain . $site->path );
+												?>
+												<li>
+													<?php echo $site_address; ?>
+													<input type="hidden" name="site_ids[]" value="<?php echo (int) $site_id; ?>" />
+												</li>
+											<?php endforeach; ?>
+										</ul>
+										<?php submit_button( __( 'Confirm' ), 'primary' ); ?>
+									</form>
+								</div>
+								<?php
+								require_once( ABSPATH . 'wp-admin/admin-footer.php' );
+								exit();
 							break;
 
 							case 'spam':
