@@ -79,12 +79,12 @@ class WP_Widget_Text extends WP_Widget {
 	 */
 	public function is_legacy_instance( $instance ) {
 
-		// If the widget has been updated while in legacy mode, it stays in legacy mode.
-		if ( ! empty( $instance['legacy'] ) ) {
-			return true;
+		// Legacy mode when not in visual mode.
+		if ( isset( $instance['visual'] ) ) {
+			return ! $instance['visual'];
 		}
 
-		// If the widget has been added/updated in 4.8 then filter prop is 'content' and it is no longer legacy.
+		// Or, the widget has been added/updated in 4.8.0 then filter prop is 'content' and it is no longer legacy.
 		if ( isset( $instance['filter'] ) && 'content' === $instance['filter'] ) {
 			return false;
 		}
@@ -193,7 +193,16 @@ class WP_Widget_Text extends WP_Widget {
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
 
 		$text = ! empty( $instance['text'] ) ? $instance['text'] : '';
-		$is_visual_text_widget = ( isset( $instance['filter'] ) && 'content' === $instance['filter'] );
+		$is_visual_text_widget = ( ! empty( $instance['visual'] ) && ! empty( $instance['filter'] ) );
+
+		// In 4.8.0 only, visual Text widgets get filter=content, without visual prop; upgrade instance props just-in-time.
+		if ( ! $is_visual_text_widget ) {
+			$is_visual_text_widget = ( isset( $instance['filter'] ) && 'content' === $instance['filter'] );
+		}
+		if ( $is_visual_text_widget ) {
+			$instance['filter'] = true;
+			$instance['visual'] = true;
+		}
 
 		/*
 		 * Just-in-time temporarily upgrade Visual Text widget shortcode handling
@@ -221,25 +230,23 @@ class WP_Widget_Text extends WP_Widget {
 		 */
 		$text = apply_filters( 'widget_text', $text, $instance, $this );
 
-		if ( isset( $instance['filter'] ) ) {
-			if ( 'content' === $instance['filter'] ) {
+		if ( $is_visual_text_widget ) {
 
-				/**
-				 * Filters the content of the Text widget to apply changes expected from the visual (TinyMCE) editor.
-				 *
-				 * By default a subset of the_content filters are applied, including wpautop and wptexturize.
-				 *
-				 * @since 4.8.0
-				 *
-				 * @param string         $text     The widget content.
-				 * @param array          $instance Array of settings for the current widget.
-				 * @param WP_Widget_Text $this     Current Text widget instance.
-				 */
-				$text = apply_filters( 'widget_text_content', $text, $instance, $this );
+			/**
+			 * Filters the content of the Text widget to apply changes expected from the visual (TinyMCE) editor.
+			 *
+			 * By default a subset of the_content filters are applied, including wpautop and wptexturize.
+			 *
+			 * @since 4.8.0
+			 *
+			 * @param string         $text     The widget content.
+			 * @param array          $instance Array of settings for the current widget.
+			 * @param WP_Widget_Text $this     Current Text widget instance.
+			 */
+			$text = apply_filters( 'widget_text_content', $text, $instance, $this );
 
-			} elseif ( $instance['filter'] ) {
-				$text = wpautop( $text ); // Back-compat for instances prior to 4.8.
-			}
+		} elseif ( ! empty( $instance['filter'] ) ) {
+			$text = wpautop( $text ); // Back-compat for instances prior to 4.8.
 		}
 
 		// Undo temporary upgrade of the plugin-supplied shortcode handling.
@@ -271,7 +278,15 @@ class WP_Widget_Text extends WP_Widget {
 	 * @return array Settings to save or bool false to cancel saving.
 	 */
 	public function update( $new_instance, $old_instance ) {
+		$new_instance = wp_parse_args( $new_instance, array(
+			'title' => '',
+			'text' => '',
+			'filter' => false, // For back-compat.
+			'visual' => null, // Must be explicitly defined.
+		) );
+
 		$instance = $old_instance;
+
 		$instance['title'] = sanitize_text_field( $new_instance['title'] );
 		if ( current_user_can( 'unfiltered_html' ) ) {
 			$instance['text'] = $new_instance['text'];
@@ -279,20 +294,23 @@ class WP_Widget_Text extends WP_Widget {
 			$instance['text'] = wp_kses_post( $new_instance['text'] );
 		}
 
-		/*
-		 * If the Text widget is in legacy mode, then a hidden input will indicate this
-		 * and the new content value for the filter prop will by bypassed. Otherwise,
-		 * re-use legacy 'filter' (wpautop) property to now indicate content filters will always apply.
-		 * Prior to 4.8, this is a boolean value used to indicate whether or not wpautop should be
-		 * applied. By re-using this property, downgrading WordPress from 4.8 to 4.7 will ensure
-		 * that the content for Text widgets created with TinyMCE will continue to get wpautop.
-		 */
-		if ( isset( $new_instance['legacy'] ) || isset( $old_instance['legacy'] ) || ( isset( $new_instance['filter'] ) && 'content' !== $new_instance['filter'] ) ) {
-			$instance['filter'] = ! empty( $new_instance['filter'] );
-			$instance['legacy'] = true;
-		} else {
-			$instance['filter'] = 'content';
-			unset( $instance['legacy'] );
+		$instance['filter'] = ! empty( $new_instance['filter'] );
+
+		// Upgrade 4.8.0 format.
+		if ( isset( $old_instance['filter'] ) && 'content' === $old_instance['filter'] ) {
+			$instance['visual'] = true;
+		}
+		if ( 'content' === $new_instance['filter'] ) {
+			$instance['visual'] = true;
+		}
+
+		if ( isset( $new_instance['visual'] ) ) {
+			$instance['visual'] = ! empty( $new_instance['visual'] );
+		}
+
+		// Filter is always true in visual mode.
+		if ( ! empty( $instance['visual'] ) ) {
+			$instance['filter'] = true;
 		}
 
 		return $instance;
@@ -333,8 +351,10 @@ class WP_Widget_Text extends WP_Widget {
 		<?php if ( ! $this->is_legacy_instance( $instance ) ) : ?>
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" class="title" type="hidden" value="<?php echo esc_attr( $instance['title'] ); ?>">
 			<input id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>" class="text" type="hidden" value="<?php echo esc_attr( $instance['text'] ); ?>">
+			<input id="<?php echo $this->get_field_id( 'filter' ); ?>" name="<?php echo $this->get_field_name( 'filter' ); ?>" class="filter" type="hidden" value="on">
+			<input id="<?php echo $this->get_field_id( 'visual' ); ?>" name="<?php echo $this->get_field_name( 'visual' ); ?>" class="visual" type="hidden" value="on">
 		<?php else : ?>
-			<input name="<?php echo $this->get_field_name( 'legacy' ); ?>" type="hidden" class="legacy" value="true">
+			<input id="<?php echo $this->get_field_id( 'visual' ); ?>" name="<?php echo $this->get_field_name( 'visual' ); ?>" class="visual" type="hidden" value="">
 			<p>
 				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
 				<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $instance['title'] ); ?>"/>

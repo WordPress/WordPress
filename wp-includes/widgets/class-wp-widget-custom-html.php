@@ -61,8 +61,16 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
 
+		// Prepare instance data that looks like a normal Text widget.
+		$simulated_text_widget_instance = array_merge( $instance, array(
+			'text' => isset( $instance['content'] ) ? $instance['content'] : '',
+			'filter' => false, // Because wpautop is not applied.
+			'visual' => false, // Because it wasn't created in TinyMCE.
+		) );
+		unset( $simulated_text_widget_instance['content'] ); // Was moved to 'text' prop.
+
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-text.php */
-		$content = apply_filters( 'widget_text', $instance['content'], $instance, $this );
+		$content = apply_filters( 'widget_text', $instance['content'], $simulated_text_widget_instance, $this );
 
 		/**
 		 * Filters the content of the Custom HTML widget.
