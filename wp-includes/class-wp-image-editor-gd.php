@@ -84,7 +84,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 * Loads image from $this->file into new GD Resource.
 	 *
 	 * @since 3.5.0
-	 * @access protected
+	 * @access public
 	 *
 	 * @return bool|WP_Error True if loaded successfully; WP_Error on failure.
 	 */

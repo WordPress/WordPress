@@ -66,7 +66,7 @@ abstract class WP_Image_Editor {
 	 * Loads image from $this->file into editor.
 	 *
 	 * @since 3.5.0
-	 * @access protected
+	 * @access public
 	 * @abstract
 	 *
 	 * @return bool|WP_Error True if loaded; WP_Error on failure.

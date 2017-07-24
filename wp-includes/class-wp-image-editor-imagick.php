@@ -126,7 +126,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 * Loads image from $this->file into new Imagick Object.
 	 *
 	 * @since 3.5.0
-	 * @access protected
+	 * @access public
 	 *
 	 * @return true|WP_Error True if loaded; WP_Error on failure.
 	 */
