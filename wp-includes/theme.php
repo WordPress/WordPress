@@ -1948,15 +1948,19 @@ function get_theme_starter_content() {
 			'text_business_info' => array( 'text', array(
 				'title' => _x( 'Find Us', 'Theme starter content' ),
 				'text' => join( '', array(
-					'<p><strong>' . _x( 'Address', 'Theme starter content' ) . '</strong><br />',
-					_x( '123 Main Street', 'Theme starter content' ) . '<br />' . _x( 'New York, NY 10001', 'Theme starter content' ) . '</p>',
-					'<p><strong>' . _x( 'Hours', 'Theme starter content' ) . '</strong><br />',
-					_x( 'Monday&mdash;Friday: 9:00AM&ndash;5:00PM', 'Theme starter content' ) . '<br />' . _x( 'Saturday &amp; Sunday: 11:00AM&ndash;3:00PM', 'Theme starter content' ) . '</p>'
+					'<strong>' . _x( 'Address', 'Theme starter content' ) . "</strong>\n",
+					_x( '123 Main Street', 'Theme starter content' ) . "\n" . _x( 'New York, NY 10001', 'Theme starter content' ) . "\n\n",
+					'<strong>' . _x( 'Hours', 'Theme starter content' ) . "</strong>\n",
+					_x( 'Monday&mdash;Friday: 9:00AM&ndash;5:00PM', 'Theme starter content' ) . "\n" . _x( 'Saturday &amp; Sunday: 11:00AM&ndash;3:00PM', 'Theme starter content' )
 				) ),
+				'filter' => true,
+				'visual' => true,
 			) ),
 			'text_about' => array( 'text', array(
 				'title' => _x( 'About This Site', 'Theme starter content' ),
 				'text' => _x( 'This may be a good place to introduce yourself and your site or include some credits.', 'Theme starter content' ),
+				'filter' => true,
+				'visual' => true,
 			) ),
 			'archives' => array( 'archives', array(
 				'title' => _x( 'Archives', 'Theme starter content' ),
