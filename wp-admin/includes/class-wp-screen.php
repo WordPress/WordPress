@@ -1085,9 +1085,12 @@ final class WP_Screen {
 				continue;
 			}
 
-			if ( 'comments' == $column ) {
-				$title = __( 'Comments' );
-			}
+			/*
+			 * The Comments column uses HTML in the display name with some screen
+			 * reader text. Make sure to strip tags from the Comments column
+			 * title and any other custom column title plugins might add.
+			 */
+			$title = wp_strip_all_tags( $title );
 
 			$id = "$column-hide";
 			echo '<label>';
