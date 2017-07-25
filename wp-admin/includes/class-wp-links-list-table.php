@@ -211,7 +211,7 @@ class WP_Links_List_Table extends WP_List_Table {
 	 * @since 4.3.0
 	 * @access public
 	 *
-	 * @global $cat_id
+	 * @global int $cat_id
 	 *
 	 * @param object $link The current link object.
 	 */
