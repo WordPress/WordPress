@@ -101,8 +101,9 @@ img {
 	width: auto !important;
 }
 
-.wp-caption img {
-	display: block;
+dl.wp-caption dt.wp-caption-dt img {
+	display: inline-block;
+	margin-bottom: -1ex;
 }
 
 div.mceTemp {
@@ -178,6 +179,14 @@ img[data-mce-selected]::selection {
 	border-radius: 2px;
 	box-shadow: 0 0 0 1px #bfe6ff;
 	background: #bfe6ff;
+}
+
+.mce-content-body .wp-caption-dt a[data-mce-selected] {
+	outline: none;
+	padding: 0;
+	margin: 0;
+	box-shadow: none;
+	background: transparent;
 }
 
 .mce-content-body code {
