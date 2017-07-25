@@ -98,7 +98,7 @@ class WP_Users_List_Table extends WP_List_Table {
 			$args = array(
 				'number' => $users_per_page,
 				'offset' => ( $paged-1 ) * $users_per_page,
-				'include' => wp_get_users_with_no_role(),
+				'include' => wp_get_users_with_no_role( $this->site_id ),
 				'search' => $usersearch,
 				'fields' => 'all_with_meta'
 			);
@@ -177,7 +177,7 @@ class WP_Users_List_Table extends WP_List_Table {
 		if ( $this->is_site_users ) {
 			$url = 'site-users.php?id=' . $this->site_id;
 			switch_to_blog( $this->site_id );
-			$users_of_blog = count_users();
+			$users_of_blog = count_users( 'time', $this->site_id );
 			restore_current_blog();
 		} else {
 			$url = 'users.php';
@@ -369,9 +369,6 @@ class WP_Users_List_Table extends WP_List_Table {
 			$post_counts = count_many_users_posts( array_keys( $this->items ) );
 
 		foreach ( $this->items as $userid => $user_object ) {
-			if ( is_multisite() && empty( $user_object->allcaps ) )
-				continue;
-
 			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 		}
 	}

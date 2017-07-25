@@ -838,18 +838,23 @@ function update_user_meta($user_id, $meta_key, $meta_value, $prev_value = '') {
  *
  * @since 3.0.0
  * @since 4.4.0 The number of users with no role is now included in the `none` element.
+ * @since 4.9.0 The `$site_id` parameter was added to support multisite.
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $strategy 'time' or 'memory'
+ * @param string   $strategy Optional. The computational strategy to use when counting the users.
+ *                           Accepts either 'time' or 'memory'. Default 'time'.
+ * @param int|null $site_id  Optional. The site ID to count users for. Defaults to the current site.
  * @return array Includes a grand total and an array of counts indexed by role strings.
  */
-function count_users($strategy = 'time') {
+function count_users( $strategy = 'time', $site_id = null ) {
 	global $wpdb;
 
 	// Initialize
-	$id = get_current_blog_id();
-	$blog_prefix = $wpdb->get_blog_prefix($id);
+	if ( ! $site_id ) {
+		$site_id = get_current_blog_id();
+	}
+	$blog_prefix = $wpdb->get_blog_prefix( $site_id );
 	$result = array();
 
 	if ( 'time' == $strategy ) {
@@ -918,10 +923,6 @@ function count_users($strategy = 'time') {
 
 		$result['total_users'] = count( $users_of_blog );
 		$result['avail_roles'] =& $avail_roles;
-	}
-
-	if ( is_multisite() ) {
-		$result['avail_roles']['none'] = 0;
 	}
 
 	return $result;
@@ -2483,20 +2484,20 @@ function wp_destroy_all_sessions() {
 /**
  * Get the user IDs of all users with no role on this site.
  *
- * This function returns an empty array when used on Multisite.
- *
  * @since 4.4.0
+ * @since 4.9.0 The `$site_id` parameter was added to support multisite.
  *
+ * @param int|null $site_id Optional. The site ID to get users with no role for. Defaults to the current site.
  * @return array Array of user IDs.
  */
-function wp_get_users_with_no_role() {
+function wp_get_users_with_no_role( $site_id = null ) {
 	global $wpdb;
 
-	if ( is_multisite() ) {
-		return array();
+	if ( ! $site_id ) {
+		$site_id = get_current_blog_id();
 	}
 
-	$prefix = $wpdb->get_blog_prefix();
+	$prefix = $wpdb->get_blog_prefix( $site_id );
 	$regex  = implode( '|', array_keys( wp_roles()->get_names() ) );
 	$regex  = preg_replace( '/[^a-zA-Z_\|-]/', '', $regex );
 	$users  = $wpdb->get_col( $wpdb->prepare( "
