@@ -935,6 +935,7 @@ class WP_Comment_Query {
 	 * the descendant trees for all matched top-level comments.
 	 *
 	 * @since 4.4.0
+	 * @access protected
 	 * 
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
