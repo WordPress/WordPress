@@ -179,7 +179,7 @@ final class _WP_Editors {
 				}
 
 				$buttons .= '<button type="button" id="' . $editor_id_attr . '-tmce" class="wp-switch-editor switch-tmce"' .
-					' data-wp-editor-id="' . $editor_id_attr . '">' . __('Visual') . "</button>\n";
+					' data-wp-editor-id="' . $editor_id_attr . '">' . _x( 'Visual', 'Name for the Visual editor tab' ) . "</button>\n";
 				$buttons .= '<button type="button" id="' . $editor_id_attr . '-html" class="wp-switch-editor switch-html"' .
 					' data-wp-editor-id="' . $editor_id_attr . '">' . _x( 'Text', 'Name for the Text editor tab (formerly HTML)' ) . "</button>\n";
 			} else {
@@ -1257,8 +1257,8 @@ final class _WP_Editors {
 			'Paste URL or type to search' => __( 'Paste URL or type to search' ), // Placeholder for the inline link dialog
 			'Apply'  => __( 'Apply' ), // Tooltip for the 'apply' button in the inline link dialog
 			'Link options'  => __( 'Link options' ), // Tooltip for the 'link options' button in the inline link dialog
-			'Visual' => __( 'Visual' ), // Editor switch tab label
-			'Text' => __( 'Text' ), // Editor switch tab label
+			'Visual' => _x( 'Visual', 'Name for the Visual editor tab' ), // Editor switch tab label
+			'Text' => _x( 'Text', 'Name for the Text editor tab (formerly HTML)' ), // Editor switch tab label
 
 			// Shortcuts help modal
 			'Keyboard Shortcuts' => array( __( 'Keyboard Shortcuts' ), 'accessH' ),
