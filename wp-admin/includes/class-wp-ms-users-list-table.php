@@ -243,7 +243,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 
 		?><strong><a href="<?php echo $edit_link; ?>" class="edit"><?php echo $user->user_login; ?></a><?php
 		if ( in_array( $user->user_login, $super_admins ) ) {
-			echo ' - ' . __( 'Super Admin' );
+			echo ' &mdash; ' . __( 'Super Admin' );
 		}
 		?></strong>
 	<?php

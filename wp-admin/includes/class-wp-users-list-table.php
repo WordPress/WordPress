@@ -405,16 +405,24 @@ class WP_Users_List_Table extends WP_List_Table {
 		// Set up the hover actions for this user
 		$actions = array();
 		$checkbox = '';
+		$super_admin = '';
+
+		if ( is_multisite() && current_user_can( 'manage_network_users' ) ) {
+			if ( in_array( $user_object->user_login, get_super_admins(), true ) ) {
+				$super_admin = ' &mdash; ' . __( 'Super Admin' );
+			}
+		}
+
 		// Check if the user for this row is editable
 		if ( current_user_can( 'list_users' ) ) {
 			// Set up the user editing link
 			$edit_link = esc_url( add_query_arg( 'wp_http_referer', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), get_edit_user_link( $user_object->ID ) ) );
 
 			if ( current_user_can( 'edit_user',  $user_object->ID ) ) {
-				$edit = "<strong><a href=\"$edit_link\">$user_object->user_login</a></strong><br />";
+				$edit = "<strong><a href=\"{$edit_link}\">{$user_object->user_login}</a>{$super_admin}</strong><br />";
 				$actions['edit'] = '<a href="' . $edit_link . '">' . __( 'Edit' ) . '</a>';
 			} else {
-				$edit = "<strong>$user_object->user_login</strong><br />";
+				$edit = "<strong>{$user_object->user_login}{$super_admin}</strong><br />";
 			}
 
 			if ( !is_multisite() && get_current_user_id() != $user_object->ID && current_user_can( 'delete_user', $user_object->ID ) )
@@ -453,7 +461,7 @@ class WP_Users_List_Table extends WP_List_Table {
 						. "<input type='checkbox' name='users[]' id='user_{$user_object->ID}' class='{$role_classes}' value='{$user_object->ID}' />";
 
 		} else {
-			$edit = '<strong>' . $user_object->user_login . '</strong>';
+			$edit = "<strong>{$user_object->user_login}{$super_admin}</strong>";
 		}
 		$avatar = get_avatar( $user_object->ID, 32 );
 
