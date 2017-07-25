@@ -1374,7 +1374,7 @@ final class _WP_Editors {
 	/**
 	 * Print (output) the main TinyMCE scripts.
 	 *
-	 * @since 4.8
+	 * @since 4.8.0
 	 *
 	 * @static
 	 * @global string $tinymce_version

@@ -522,7 +522,7 @@ window.wp = window.wp || {};
 	 * Settings for both TinyMCE and Quicktags can be passed on initialization, and are "filtered"
 	 * with custom jQuery events on the document element, wp-before-tinymce-init and wp-before-quicktags-init.
 	 *
-	 * @since 4.8
+	 * @since 4.8.0
 	 *
 	 * @param {string} id The HTML id of the textarea that is used for the editor.
 	 *                    Has to be jQuery compliant. No brackets, special chars, etc.
@@ -628,7 +628,7 @@ window.wp = window.wp || {};
 	 *
 	 * Intended for use with editors that were initialized with wp.editor.initialize().
 	 *
-	 * @since 4.8
+	 * @since 4.8.0
 	 *
 	 * @param {string} id The HTML id of the editor textarea.
 	 */
@@ -667,7 +667,7 @@ window.wp = window.wp || {};
 	 *
 	 * Intended for use with editors that were initialized with wp.editor.initialize().
 	 *
-	 * @since 4.8
+	 * @since 4.8.0
 	 *
 	 * @param {string} id The HTML id of the editor textarea.
 	 * @return The editor content.
