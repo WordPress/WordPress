@@ -1320,9 +1320,20 @@ function clean_user_cache( $user ) {
  */
 function username_exists( $username ) {
 	if ( $user = get_user_by( 'login', $username ) ) {
-		return $user->ID;
+		$user_id = $user->ID;
+	} else {
+		$user_id = false;
 	}
-	return false;
+
+	/**
+	 * Filters whether the given username exists or not.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param int|false $user_id  The user's ID on success, and false on failure.
+	 * @param string    $username Username to check.
+	 */
+	return apply_filters( 'username_exists', $user_id, $username );
 }
 
 /**
