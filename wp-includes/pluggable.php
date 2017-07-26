@@ -1747,8 +1747,42 @@ function wp_password_change_notification( $user ) {
 		// The blogname option is escaped with esc_html on the way into the database in sanitize_option
 		// we want to reverse this for the plain text arena of emails.
 		$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+
 		/* translators: %s: site title */
-		wp_mail( get_option( 'admin_email' ), sprintf( __( '[%s] Password Changed' ), $blogname ), $message );
+		$subject = sprintf( __( '[%s] Password Changed' ), $blogname );
+
+		/**
+		 * Filters the subject of the password change notification email sent to the site admin.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param string  $subject  Email subject.
+		 * @param WP_User $user     User object for user whose password was changed.
+		 * @param string  $blogname The site title.
+		 */
+		$subject = apply_filters( 'wp_password_change_notification_subject', $subject, $user, $blogname );
+
+		/**
+		 * Filters the message body of the password change notification email sent to the site admin.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param string  $message Email message.
+		 * @param WP_User $user    User object for user whose password was changed.
+		 */
+		$message = apply_filters( 'wp_password_change_notification_message', $message, $user );
+
+		/**
+		 * Filters the email headers of the password change notification admin email sent to the site admin.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param string  $headers Email headers.
+		 * @param WP_User $user    User object for user whose password was changed.
+		 */
+		$headers = apply_filters( 'wp_password_change_notification_headers', '', $user );
+
+		wp_mail( get_option( 'admin_email' ), wp_specialchars_decode( $subject ), $message, $headers );
 	}
 }
 endif;
@@ -1786,11 +1820,48 @@ function wp_new_user_notification( $user_id, $deprecated = null, $notify = '' ) 
 
 	if ( 'user' !== $notify ) {
 		$switched_locale = switch_to_locale( get_locale() );
+
+		/* translators: %s: site title */
+		$subject  = sprintf( __( '[%s] New User Registration' ), $blogname );
+		/* translators: %s: site title */
 		$message  = sprintf( __( 'New user registration on your site %s:' ), $blogname ) . "\r\n\r\n";
+		/* translators: %s: user login */
 		$message .= sprintf( __( 'Username: %s' ), $user->user_login ) . "\r\n\r\n";
+		/* translators: %s: user email address */
 		$message .= sprintf( __( 'Email: %s' ), $user->user_email ) . "\r\n";
 
-		@wp_mail( get_option( 'admin_email' ), sprintf( __( '[%s] New User Registration' ), $blogname ), $message );
+		/**
+		 * Filters the subject of the new user notification email sent to the site admin.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param string  $subject  Email subject.
+		 * @param WP_User $user     User object for newly registered user.
+		 * @param string  $blogname The site title.
+		 */
+		$subject = apply_filters( 'wp_new_user_notification_admin_subject', $subject, $user, $blogname );
+
+		/**
+		 * Filters the message body of the new user notification email sent to the site admin.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param string  $message Email message.
+		 * @param WP_User $user    User object for newly registered user.
+		 */
+		$message = apply_filters( 'wp_new_user_notification_admin_message', $message, $user );
+
+		/**
+		 * Filters the email headers of the new user notification email sent to the site admin.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param string  $headers Email headers.
+		 * @param WP_User $user    User object for newly registered user.
+		 */
+		$headers = apply_filters( 'wp_new_user_notification_admin_headers', '', $user );
+
+		@wp_mail( get_option( 'admin_email' ), wp_specialchars_decode( $subject ), $message, $headers );
 
 		if ( $switched_locale ) {
 			restore_previous_locale();
@@ -1818,13 +1889,48 @@ function wp_new_user_notification( $user_id, $deprecated = null, $notify = '' ) 
 
 	$switched_locale = switch_to_locale( get_user_locale( $user ) );
 
+	/* translators: %s: site title */
+	$subject = sprintf( __( '[%s] Your username and password info' ), $blogname );
+	/* translators: %s: user login */
 	$message = sprintf(__('Username: %s'), $user->user_login) . "\r\n\r\n";
 	$message .= __('To set your password, visit the following address:') . "\r\n\r\n";
 	$message .= '<' . network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user->user_login), 'login') . ">\r\n\r\n";
 
 	$message .= wp_login_url() . "\r\n";
 
-	wp_mail($user->user_email, sprintf(__('[%s] Your username and password info'), $blogname), $message);
+	/**
+	 * Filters the subject of the new user email sent to the new user.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string  $subject  Email subject.
+	 * @param WP_User $user     User object for newly registered user.
+	 * @param string  $blogname The site title.
+	 */
+	$subject = apply_filters( 'wp_new_user_notification_subject', $subject, $user, $blogname );
+
+	/**
+	 * Filters the message body of the new user email sent to the new user.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string  $message Email message.
+	 * @param WP_User $user    User object for newly registered user.
+	 * @param string  $key     User activation key.
+	 */
+	$message = apply_filters( 'wp_new_user_notification_message', $message, $user, $key );
+
+	/**
+	 * Filters the email headers of the new user email sent to the new user.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string  $headers Email headers.
+	 * @param WP_User $user    User object for newly registered user.
+	 */
+	$headers = apply_filters( 'wp_new_user_notification_headers', '', $user );
+
+	wp_mail( $user->user_email, wp_specialchars_decode( $subject ), $message, $headers );
 
 	if ( $switched_locale ) {
 		restore_previous_locale();
