@@ -245,7 +245,6 @@ class WP_Upgrader {
 		 * Filters whether to return the package.
 		 *
 		 * @since 3.7.0
-		 * @access public
 		 *
 		 * @param bool        $reply   Whether to bail without returning the package.
 		 *                             Default false.
@@ -812,7 +811,6 @@ class WP_Upgrader {
  	 * Creates a lock using WordPress options.
  	 *
  	 * @since 4.5.0
- 	 * @access public
  	 * @static
  	 *
  	 * @param string $lock_name       The name of this unique lock.
@@ -859,7 +857,6 @@ class WP_Upgrader {
  	 * Releases an upgrader lock.
  	 *
  	 * @since 4.5.0
- 	 * @access public
  	 * @static
 	 *
 	 * @see WP_Upgrader::create_lock()

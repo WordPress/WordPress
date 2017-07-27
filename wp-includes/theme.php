@@ -1540,7 +1540,6 @@ function background_color() {
  * Default custom background callback.
  *
  * @since 3.0.0
- * @access protected
  */
 function _custom_background_cb() {
 	// $background is the saved custom image, or the default image.
@@ -1620,7 +1619,6 @@ body.custom-background { <?php echo trim( $style ); ?> }
  * Render the Custom CSS style element.
  *
  * @since 4.7.0
- * @access public
  */
 function wp_custom_css_cb() {
 	$styles = wp_get_custom_css();
@@ -1635,7 +1633,6 @@ function wp_custom_css_cb() {
  * Fetch the `custom_css` post for a given theme.
  *
  * @since 4.7.0
- * @access public
  *
  * @param string $stylesheet Optional. A theme object stylesheet name. Defaults to the current theme.
  * @return WP_Post|null The custom_css post or null if none exists.
@@ -1687,7 +1684,6 @@ function wp_get_custom_css_post( $stylesheet = '' ) {
  * Fetch the saved Custom CSS content for rendering.
  *
  * @since 4.7.0
- * @access public
  *
  * @param string $stylesheet Optional. A theme object stylesheet name. Defaults to the current theme.
  * @return string The Custom CSS Post content.
@@ -1723,7 +1719,6 @@ function wp_get_custom_css( $stylesheet = '' ) {
  * Inserts a `custom_css` post when one doesn't yet exist.
  *
  * @since 4.7.0
- * @access public
  *
  * @param string $css CSS, stored in `post_content`.
  * @param array  $args {

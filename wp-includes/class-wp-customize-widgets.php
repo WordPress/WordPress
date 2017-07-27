@@ -1134,7 +1134,6 @@ final class WP_Customize_Widgets {
 	 * and at the very end of the wp_footer,
 	 *
 	 * @since 3.9.0
-	 * @access public
      *
 	 * @global array $wp_registered_sidebars
 	 * @global array $wp_registered_widgets

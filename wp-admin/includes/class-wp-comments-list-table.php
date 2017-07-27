@@ -507,7 +507,6 @@ class WP_Comments_List_Table extends WP_List_Table {
  	 * Generate and display row actions links.
  	 *
  	 * @since 4.3.0
- 	 * @access protected
  	 *
  	 * @global string $comment_status Status for the current listed comments.
  	 *
