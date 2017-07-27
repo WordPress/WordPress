@@ -2675,7 +2675,7 @@ All at ###SITENAME###
 		$content = str_replace( '###USERNAME###', $current_user->user_login, $content );
 		$content = str_replace( '###ADMIN_URL###', esc_url( admin_url( 'profile.php?newuseremail=' . $hash ) ), $content );
 		$content = str_replace( '###EMAIL###', $_POST['email'], $content );
-		$content = str_replace( '###SITENAME###', get_site_option( 'site_name' ), $content );
+		$content = str_replace( '###SITENAME###', wp_specialchars_decode( get_site_option( 'site_name' ), ENT_QUOTES ), $content );
 		$content = str_replace( '###SITEURL###', network_home_url(), $content );
 
 		wp_mail( $_POST['email'], sprintf( __( '[%s] New Email Address' ), wp_specialchars_decode( get_option( 'blogname' ) ) ), $content );
