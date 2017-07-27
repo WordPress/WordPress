@@ -39,7 +39,6 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	 * within get_plugins().
 	 *
 	 * @since 4.0.0
-	 * @access protected
 	 *
 	 * @return array
 	 */
@@ -228,7 +227,6 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function no_items() {
 		if ( isset( $this->error ) ) {

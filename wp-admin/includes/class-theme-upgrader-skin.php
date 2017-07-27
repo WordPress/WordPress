@@ -19,7 +19,6 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 	public $theme = '';
 
 	/**
-	 * @access public
 	 *
 	 * @param array $args
 	 */
@@ -33,7 +32,6 @@ class Theme_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function after() {
 		$this->decrement_update_count( 'theme' );

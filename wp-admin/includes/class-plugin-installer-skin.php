@@ -34,7 +34,6 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function before() {
 		if ( !empty($this->api) )
@@ -42,7 +41,6 @@ class Plugin_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function after() {
 		$plugin_file = $this->upgrader->plugin_info();

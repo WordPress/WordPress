@@ -24,7 +24,6 @@ class Core_Upgrader extends WP_Upgrader {
 	 * Initialize the upgrade strings.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 */
 	public function upgrade_strings() {
 		$this->strings['up_to_date'] = __('WordPress is at the latest version.');
@@ -42,7 +41,6 @@ class Core_Upgrader extends WP_Upgrader {
 	 * Upgrade WordPress core.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 * @global callable           $_wp_filesystem_direct_method
@@ -228,7 +226,6 @@ class Core_Upgrader extends WP_Upgrader {
 	 * Determines if this WordPress Core version should update to an offered version or not.
 	 *
 	 * @since 3.7.0
-	 * @access public
 	 *
 	 * @static
 	 *
@@ -337,7 +334,6 @@ class Core_Upgrader extends WP_Upgrader {
 	 * Compare the disk file checksums against the expected checksums.
 	 *
 	 * @since 3.7.0
-	 * @access public
 	 *
 	 * @global string $wp_version
 	 * @global string $wp_local_package

@@ -24,7 +24,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Result of the theme upgrade offer.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 * @var array|WP_Error $result
 	 * @see WP_Upgrader::$result
 	 */
@@ -34,7 +33,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Whether multiple themes are being upgraded/installed in bulk.
 	 *
 	 * @since 2.9.0
-	 * @access public
 	 * @var bool $bulk
 	 */
 	public $bulk = false;
@@ -43,7 +41,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Initialize the upgrade strings.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 */
 	public function upgrade_strings() {
 		$this->strings['up_to_date'] = __('The theme is at the latest version.');
@@ -60,7 +57,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Initialize the install strings.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 */
 	public function install_strings() {
 		$this->strings['no_package'] = __('Install package not available.');
@@ -88,7 +84,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Hooked to the {@see 'upgrader_post_install'} filter by Theme_Upgrader::install().
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 *
 	 * @param bool  $install_result
 	 * @param array $hook_extra
@@ -162,7 +157,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * a child theme and installing the parent theme fails.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 *
 	 * @param array $actions Preview actions.
 	 * @return array
@@ -177,7 +171,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
-	 * @access public
 	 *
 	 * @param string $package The full local path or URI of the package.
 	 * @param array  $args {
@@ -235,7 +228,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
-	 * @access public
 	 *
 	 * @param string $theme The theme slug.
 	 * @param array  $args {
@@ -306,7 +298,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.0 The `$args` parameter was added, making clearing the update cache optional.
-	 * @access public
 	 *
 	 * @param array $themes The theme slugs.
 	 * @param array $args {
@@ -427,7 +418,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * files.
 	 *
 	 * @since 3.3.0
-	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -486,7 +476,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * Theme_Upgrader::bulk_upgrade().
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 *
 	 * @param bool|WP_Error  $return
 	 * @param array          $theme
@@ -514,7 +503,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * and Theme_Upgrader::bulk_upgrade().
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 *
 	 * @param bool|WP_Error  $return
 	 * @param array          $theme
@@ -549,7 +537,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 * and Theme_Upgrader::bulk_upgrade().
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 *
 	 * @global WP_Filesystem_Base $wp_filesystem Subclass
 	 *
@@ -583,7 +570,6 @@ class Theme_Upgrader extends WP_Upgrader {
 	 *
 	 * @since 2.8.0
 	 * @since 3.0.0 The `$theme` argument was added.
-	 * @access public
 	 *
 	 * @param string $theme The directory name of the theme. This is optional, and if not supplied,
 	 *                      the directory name from the last result will be used.

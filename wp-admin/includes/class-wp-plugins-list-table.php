@@ -21,7 +21,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 * Constructor.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
@@ -346,7 +345,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 * Displays the search box.
 	 *
 	 * @since 4.6.0
-	 * @access public
 	 *
 	 * @param string $text     The 'submit' button label.
 	 * @param string $input_id ID attribute value for the search input field.
@@ -864,7 +862,6 @@ class WP_Plugins_List_Table extends WP_List_Table {
 	 * Gets the name of the primary column for this specific list table.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @return string Unalterable name for the primary column, in this case, 'name'.
 	 */

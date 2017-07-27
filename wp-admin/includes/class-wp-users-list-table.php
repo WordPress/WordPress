@@ -21,7 +21,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Site ID to generate the Users list table for.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 * @var int
 	 */
 	public $site_id;
@@ -30,7 +29,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Whether or not the current Users list table is for Multisite.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 * @var bool
 	 */
 	public $is_site_users;
@@ -39,7 +37,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Constructor.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
@@ -62,7 +59,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Check the current user's permissions.
 	 *
  	 * @since 3.1.0
-	 * @access public
 	 *
 	 * @return bool
 	 */
@@ -77,7 +73,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Prepare the users list for display.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 *
 	 * @global string $role
 	 * @global string $usersearch
@@ -149,7 +144,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Output 'no users' message.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 */
 	public function no_items() {
 		_e( 'No users found.' );
@@ -163,7 +157,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Filtersing of the user table.
 	 *
 	 * @since  3.1.0
-	 * @access protected
 	 *
 	 * @global string $role
 	 *
@@ -229,7 +222,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Retrieve an associative array of bulk actions available on this table.
 	 *
 	 * @since  3.1.0
-	 * @access protected
 	 *
 	 * @return array Array of bulk actions.
 	 */
@@ -251,7 +243,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Output the controls to allow user roles to be changed in bulk.
 	 *
 	 * @since 3.1.0
-	 * @access protected
 	 *
 	 * @param string $which Whether this is being invoked above ("top")
 	 *                      or below the table ("bottom").
@@ -302,7 +293,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * the role change drop-down.
 	 *
 	 * @since  3.1.0
-	 * @access public
 	 *
 	 * @return string The bulk action required.
 	 */
@@ -319,7 +309,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Get a list of columns for the list table.
 	 *
 	 * @since  3.1.0
-	 * @access public
 	 *
 	 * @return array Array in which the key is the ID of the column,
 	 *               and the value is the description.
@@ -344,7 +333,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Get a list of sortable columns for the list table.
 	 *
 	 * @since 3.1.0
-	 * @access protected
 	 *
 	 * @return array Array of sortable columns.
 	 */
@@ -361,7 +349,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Generate the list table rows.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 */
 	public function display_rows() {
 		// Query the post counts for this page
@@ -379,7 +366,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * @since 3.1.0
 	 * @since 4.2.0 The `$style` parameter was deprecated.
 	 * @since 4.4.0 The `$role` parameter was deprecated.
-	 * @access public
 	 *
 	 * @param WP_User $user_object The current user object.
 	 * @param string  $style       Deprecated. Not used.
@@ -548,7 +534,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Gets the name of the default primary column.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @return string Name of the default primary column, in this case, 'username'.
 	 */
@@ -560,7 +545,6 @@ class WP_Users_List_Table extends WP_List_Table {
 	 * Returns an array of user roles for a given user object.
 	 *
 	 * @since 4.4.0
-	 * @access protected
 	 *
 	 * @param WP_User $user_object The WP_User object.
 	 * @return array An array of user roles.

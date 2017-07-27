@@ -25,7 +25,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * Constructor.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
@@ -72,7 +71,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function prepare_items() {
 		$tags_per_page = $this->get_items_per_page( 'edit_' . $this->screen->taxonomy . '_per_page' );
@@ -139,7 +137,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function no_items() {
 		echo get_taxonomy( $this->screen->taxonomy )->labels->not_found;
@@ -206,7 +203,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function display_rows_or_placeholder() {
 		$taxonomy = $this->screen->taxonomy;
@@ -399,7 +395,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * Gets the name of the default primary column.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @return string Name of the default primary column, in this case, 'name'.
 	 */
@@ -411,7 +406,6 @@ class WP_Terms_List_Table extends WP_List_Table {
 	 * Generates and displays row action links.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @param WP_Term $tag         Tag being acted upon.
 	 * @param string  $column_name Current column name.

@@ -27,7 +27,6 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	 *
 	 * @since 3.7.0
 	 * @since 4.6.0 The `$context` parameter default changed from `false` to an empty string.
-	 * @access public
 	 *
 	 * @see request_filesystem_credentials()
 	 *
@@ -51,7 +50,6 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 *
 	 * @return array
 	 */
@@ -60,7 +58,6 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 *
 	 * @param string|array|WP_Error $data
 	 */
@@ -101,14 +98,12 @@ class Automatic_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function header() {
 		ob_start();
 	}
 
 	/**
-	 * @access public
 	 */
 	public function footer() {
 		$output = ob_get_clean();

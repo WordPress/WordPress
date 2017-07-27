@@ -18,7 +18,6 @@ class Custom_Image_Header {
 	 *
 	 * @var callable
 	 * @since 2.1.0
-	 * @access public
 	 */
 	public $admin_header_callback;
 
@@ -27,7 +26,6 @@ class Custom_Image_Header {
 	 *
 	 * @var callable
 	 * @since 3.0.0
-	 * @access public
 	 */
 	public $admin_image_div_callback;
 
@@ -36,7 +34,6 @@ class Custom_Image_Header {
 	 *
 	 * @var array
 	 * @since 3.0.0
-	 * @access public
 	 */
 	public $default_headers = array();
 
@@ -44,7 +41,6 @@ class Custom_Image_Header {
 	 * Used to trigger a success message when settings updated and set to true.
 	 *
 	 * @since 3.0.0
-	 * @access private
 	 * @var bool
 	 */
 	private $updated;

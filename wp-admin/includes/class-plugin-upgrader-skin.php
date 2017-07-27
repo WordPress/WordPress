@@ -21,7 +21,6 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	public $plugin_network_active = false;
 
 	/**
-	 * @access public
 	 *
 	 * @param array $args
 	 */
@@ -38,7 +37,6 @@ class Plugin_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function after() {
 		$this->plugin = $this->upgrader->plugin_info();

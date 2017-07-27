@@ -23,14 +23,12 @@ class WP_Upgrader_Skin {
 	 * Holds the result of an upgrade.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 * @var string|bool|WP_Error
 	 */
 	public $result = false;
 	public $options = array();
 
 	/**
-	 * @access public
 	 *
 	 * @param array $args
 	 */
@@ -40,7 +38,6 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 *
 	 * @param WP_Upgrader $upgrader
 	 */
@@ -51,7 +48,6 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function add_strings() {
 	}
@@ -60,7 +56,6 @@ class WP_Upgrader_Skin {
 	 * Sets the result of an upgrade.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 *
 	 * @param string|bool|WP_Error $result The result of an upgrade.
 	 */
@@ -74,7 +69,6 @@ class WP_Upgrader_Skin {
 	 *
 	 * @since 2.8.0
 	 * @since 4.6.0 The `$context` parameter default changed from `false` to an empty string.
-	 * @access public
 	 *
 	 * @see request_filesystem_credentials()
 	 *
@@ -100,7 +94,6 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function header() {
 		if ( $this->done_header ) {
@@ -112,7 +105,6 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function footer() {
 		if ( $this->done_footer ) {
@@ -123,7 +115,6 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 *
 	 * @param string|WP_Error $errors
 	 */
@@ -143,7 +134,6 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 *
 	 * @param string $string
 	 */
@@ -166,12 +156,10 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function before() {}
 
 	/**
-	 * @access public
 	 */
 	public function after() {}
 
@@ -179,7 +167,6 @@ class WP_Upgrader_Skin {
 	 * Output JavaScript that calls function to decrement the update counts.
 	 *
 	 * @since 3.9.0
-	 * @access protected
 	 *
 	 * @param string $type Type of update count to decrement. Likely values include 'plugin',
 	 *                     'theme', 'translation', etc.
@@ -207,12 +194,10 @@ class WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function bulk_header() {}
 
 	/**
-	 * @access public
 	 */
 	public function bulk_footer() {}
 }

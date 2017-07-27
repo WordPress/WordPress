@@ -34,7 +34,6 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function before() {
 		if ( !empty($this->api) )
@@ -42,7 +41,6 @@ class Theme_Installer_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function after() {
 		if ( empty($this->upgrader->result['destination_name']) )

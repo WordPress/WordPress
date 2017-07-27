@@ -18,7 +18,6 @@ class WP_Community_Events {
 	/**
 	 * ID for a WordPress user account.
 	 *
-	 * @access protected
 	 * @since 4.8.0
 	 *
 	 * @var int
@@ -28,7 +27,6 @@ class WP_Community_Events {
 	/**
 	 * Stores location data for the user.
 	 *
-	 * @access protected
 	 * @since 4.8.0
 	 *
 	 * @var bool|array
@@ -171,7 +169,6 @@ class WP_Community_Events {
 	/**
 	 * Builds an array of args to use in an HTTP request to the w.org Events API.
 	 *
-	 * @access protected
 	 * @since 4.8.0
 	 *
 	 * @param string $search   Optional. City search string. Default empty string.
@@ -229,7 +226,6 @@ class WP_Community_Events {
 	 * _NOT_ guarantee that the returned address is valid or accurate, and it can
 	 * be easily spoofed.
 	 *
-	 * @access protected
 	 * @since 4.8.0
 	 *
 	 * @return false|string The anonymized address on success; the given address
@@ -281,7 +277,6 @@ class WP_Community_Events {
 	 * Test if two pairs of latitude/longitude coordinates match each other.
 	 *
 	 * @since 4.8.0
-	 * @access protected
 	 *
 	 * @param array $a The first pair, with indexes 'latitude' and 'longitude'.
 	 * @param array $b The second pair, with indexes 'latitude' and 'longitude'.
@@ -303,7 +298,6 @@ class WP_Community_Events {
 	 * functions, and having it abstracted keeps the logic consistent and DRY,
 	 * which is less prone to errors.
 	 *
-	 * @access protected
 	 * @since 4.8.0
 	 *
 	 * @param  array $location Should contain 'latitude' and 'longitude' indexes.
@@ -324,7 +318,6 @@ class WP_Community_Events {
 	/**
 	 * Caches an array of events data from the Events API.
 	 *
-	 * @access protected
 	 * @since 4.8.0
 	 *
 	 * @param array    $events     Response body from the API request.
@@ -366,7 +359,6 @@ class WP_Community_Events {
 	 * the cache, then all users would see the events in the localized data/time
 	 * of the user who triggered the cache refresh, rather than their own.
 	 *
-	 * @access protected
 	 * @since 4.8.0
 	 *
 	 * @param  array $response_body The response which contains the events.
@@ -395,7 +387,6 @@ class WP_Community_Events {
 	/**
 	 * Discards expired events, and reduces the remaining list.
 	 *
-	 * @access protected
 	 * @since 4.8.0
 	 *
 	 * @param  array $response_body The response body which contains the events.
@@ -436,7 +427,6 @@ class WP_Community_Events {
 	 * Errors are logged instead of being triggered, to avoid breaking the JSON
 	 * response when called from AJAX handlers and `display_errors` is enabled.
 	 *
-	 * @access protected
 	 * @since 4.8.0
 	 *
 	 * @param string $message A description of what occurred.

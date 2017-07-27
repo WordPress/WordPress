@@ -22,7 +22,6 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	public $display_footer_actions = true;
 
 	/**
-	 * @access public
 	 *
 	 * @param array $args
 	 */
@@ -38,7 +37,6 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function before() {
 		$name = $this->upgrader->get_name_for_update( $this->language_update );
@@ -49,7 +47,6 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 *
 	 * @param string|WP_Error $error
 	 */
@@ -60,14 +57,12 @@ class Language_Pack_Upgrader_Skin extends WP_Upgrader_Skin {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function after() {
 		echo '</div>';
 	}
 
 	/**
-	 * @access public
 	 */
 	public function bulk_footer() {
 		$this->decrement_update_count( 'translation' );

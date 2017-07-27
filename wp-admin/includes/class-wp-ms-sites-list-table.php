@@ -21,7 +21,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Site status list.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var array
 	 */
 	public $status_list;
@@ -30,7 +29,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Constructor.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 *
 	 * @see WP_List_Table::__construct() for more information on default arguments.
 	 *
@@ -186,7 +184,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	}
 
 	/**
-	 * @access public
 	 */
 	public function no_items() {
 		_e( 'No sites found.' );
@@ -262,7 +259,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Handles the checkbox column output.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param array $blog Current site.
 	 */
@@ -281,7 +277,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Handles the ID column output.
 	 *
 	 * @since 4.4.0
-	 * @access public
 	 *
 	 * @param array $blog Current site.
 	 */
@@ -293,7 +288,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Handles the site name column output.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @global string $mode List table view mode.
 	 *
@@ -347,7 +341,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Handles the lastupdated column output.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @global string $mode List table view mode.
 	 *
@@ -369,7 +362,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Handles the registered column output.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @global string $mode List table view mode.
 	 *
@@ -395,7 +387,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Handles the users column output.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param array $blog Current site.
 	 */
@@ -419,7 +410,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Handles the plugins column output.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param array $blog Current site.
 	 */
@@ -442,7 +432,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Handles output for the default column.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param array  $blog        Current site.
 	 * @param string $column_name Current column name.
@@ -487,7 +476,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Gets the name of the default primary column.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @return string Name of the default primary column, in this case, 'blogname'.
 	 */
@@ -499,7 +487,6 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 	 * Generates and displays row action links.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @param object $blog        Site being acted upon.
 	 * @param string $column_name Current column name.

@@ -19,7 +19,6 @@ class WP_Automatic_Updater {
 	 * Tracks update results during processing.
 	 *
 	 * @var array
-	 * @access protected
 	 */
 	protected $update_results = array();
 
@@ -27,7 +26,6 @@ class WP_Automatic_Updater {
 	 * Whether the entire automatic updater is disabled.
 	 *
 	 * @since 3.7.0
-	 * @access public
 	 */
 	public function is_disabled() {
 		// Background updates are disabled if you don't want file changes.
@@ -68,7 +66,6 @@ class WP_Automatic_Updater {
 	 * how things get updated.
 	 *
 	 * @since 3.7.0
-	 * @access public
 	 *
 	 * @param string $context The filesystem path to check, in addition to ABSPATH.
 	 */
@@ -121,7 +118,6 @@ class WP_Automatic_Updater {
 	 * Tests to see if we can and should update a specific item.
 	 *
 	 * @since 3.7.0
-	 * @access public
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
@@ -205,7 +201,6 @@ class WP_Automatic_Updater {
 	 * Notifies an administrator of a core update.
 	 *
 	 * @since 3.7.0
-	 * @access protected
 	 *
 	 * @param object $item The update offer.
 	 */
@@ -249,7 +244,6 @@ class WP_Automatic_Updater {
 	 * Update an item, if appropriate.
 	 *
 	 * @since 3.7.0
-	 * @access public
 	 *
 	 * @param string $type The type of update being checked: 'core', 'theme', 'plugin', 'translation'.
 	 * @param object $item The update offer.
@@ -370,7 +364,6 @@ class WP_Automatic_Updater {
 	 * Kicks off the background update process, looping through all pending updates.
 	 *
 	 * @since 3.7.0
-	 * @access public
 	 */
 	public function run() {
 		if ( $this->is_disabled() )
@@ -487,7 +480,6 @@ class WP_Automatic_Updater {
 	 * and if we need to avoid processing future updates.
 	 *
 	 * @since Unknown
-	 * @access protected
 	 *
 	 * @param object $update_result The result of the core update. Includes the update offer and result.
 	 */
@@ -575,7 +567,6 @@ class WP_Automatic_Updater {
 	 * Sends an email upon the completion or failure of a background core update.
 	 *
 	 * @since 3.7.0
-	 * @access protected
 	 *
 	 * @param string $type        The type of email to send. Can be one of 'success', 'fail', 'manual', 'critical'.
 	 * @param object $core_update The update offer that was attempted.
@@ -773,7 +764,6 @@ class WP_Automatic_Updater {
 	 * Prepares and sends an email of a full log of background update results, useful for debugging and geekery.
 	 *
 	 * @since 3.7.0
-	 * @access protected
 	 */
 	protected function send_debug_email() {
 		$update_count = 0;
