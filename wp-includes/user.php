@@ -1899,7 +1899,7 @@ All at ###SITENAME###
 			 *                The following strings have a special meaning and will get replaced dynamically:
 			 *                - ###USERNAME###    The current user's username.
 			 *                - ###ADMIN_EMAIL### The admin email in case this was unexpected.
-			 *                - ###EMAIL###       The old email.
+			 *                - ###EMAIL###       The user's email address.
 			 *                - ###SITENAME###    The name of the site.
 			 *                - ###SITEURL###     The URL to the site.
 			 *            @type string $headers Headers. Add headers in a newline (\r\n) separated string.
@@ -1920,10 +1920,10 @@ All at ###SITENAME###
 		}
 
 		if ( ! empty( $send_email_change_email ) ) {
-			/* translators: Do not translate USERNAME, ADMIN_EMAIL, EMAIL, SITENAME, SITEURL: those are placeholders. */
+			/* translators: Do not translate USERNAME, ADMIN_EMAIL, NEW_EMAIL, EMAIL, SITENAME, SITEURL: those are placeholders. */
 			$email_change_text = __( 'Hi ###USERNAME###,
 
-This notice confirms that your email was changed on ###SITENAME###.
+This notice confirms that your email address on ###SITENAME### was changed to ###NEW_EMAIL###.
 
 If you did not change your email, please contact the Site Administrator at
 ###ADMIN_EMAIL###
@@ -1955,7 +1955,8 @@ All at ###SITENAME###
 			 *                The following strings have a special meaning and will get replaced dynamically:
 			 *                - ###USERNAME###    The current user's username.
 			 *                - ###ADMIN_EMAIL### The admin email in case this was unexpected.
-			 *                - ###EMAIL###       The old email.
+			 *                - ###NEW_EMAIL###   The new email address.
+			 *                - ###EMAIL###       The old email address.
 			 *                - ###SITENAME###    The name of the site.
 			 *                - ###SITEURL###     The URL to the site.
 			 *            @type string $headers Headers.
@@ -1967,6 +1968,7 @@ All at ###SITENAME###
 
 			$email_change_email['message'] = str_replace( '###USERNAME###', $user['user_login'], $email_change_email['message'] );
 			$email_change_email['message'] = str_replace( '###ADMIN_EMAIL###', get_option( 'admin_email' ), $email_change_email['message'] );
+			$email_change_email['message'] = str_replace( '###NEW_EMAIL###', $userdata['user_email'], $email_change_email['message'] );
 			$email_change_email['message'] = str_replace( '###EMAIL###', $user['user_email'], $email_change_email['message'] );
 			$email_change_email['message'] = str_replace( '###SITENAME###', $blog_name, $email_change_email['message'] );
 			$email_change_email['message'] = str_replace( '###SITEURL###', home_url(), $email_change_email['message'] );
