@@ -5728,6 +5728,6 @@ All at ###SITENAME###
 
 	wp_mail( $email_change_email['to'], sprintf(
 		$email_change_email['subject'],
-		$blog_name
+		$site_name
 	), $email_change_email['message'], $email_change_email['headers'] );
 }
