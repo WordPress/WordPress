@@ -35,7 +35,7 @@ function wp_get_themes( $args = array() ) {
 
 	$theme_directories = search_theme_directories();
 
-	if ( count( $wp_theme_directories ) > 1 ) {
+	if ( is_array( $wp_theme_directories ) && count( $wp_theme_directories ) > 1 ) {
 		// Make sure the current theme wins out, in case search_theme_directories() picks the wrong
 		// one in the case of a conflict. (Normally, last registered theme root wins.)
 		$current_theme = get_stylesheet();
@@ -627,8 +627,9 @@ function get_theme_root_uri( $stylesheet_or_template = false, $theme_root = fals
 function get_raw_theme_root( $stylesheet_or_template, $skip_cache = false ) {
 	global $wp_theme_directories;
 
-	if ( count($wp_theme_directories) <= 1 )
+	if ( ! is_array( $wp_theme_directories ) || count( $wp_theme_directories ) <= 1 ) {
 		return '/themes';
+	}
 
 	$theme_root = false;
 
