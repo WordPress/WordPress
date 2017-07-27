@@ -22,7 +22,6 @@ class WP_Customize_Partial {
 	 * Component.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 * @var WP_Customize_Selective_Refresh
 	 */
 	public $component;
@@ -34,7 +33,6 @@ class WP_Customize_Partial {
 	 * be the same as the associated setting's ID.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 * @var string
 	 */
 	public $id;
@@ -43,7 +41,6 @@ class WP_Customize_Partial {
 	 * Parsed ID.
 	 *
 	 * @since 4.5.0
-	 * @access protected
 	 * @var array {
 	 *     @type string $base ID base.
 	 *     @type array  $keys Keys for multidimensional.
@@ -55,7 +52,6 @@ class WP_Customize_Partial {
 	 * Type of this partial.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = 'default';
@@ -64,7 +60,6 @@ class WP_Customize_Partial {
 	 * The jQuery selector to find the container element for the partial.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 * @var string
 	 */
 	public $selector;
@@ -72,7 +67,6 @@ class WP_Customize_Partial {
 	/**
 	 * IDs for settings tied to the partial.
 	 *
-	 * @access public
 	 * @since 4.5.0
 	 * @var array
 	 */
@@ -84,7 +78,6 @@ class WP_Customize_Partial {
 	 * If not supplied, it will default to the ID of the first setting.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 * @var string
 	 */
 	public $primary_setting;
@@ -96,7 +89,6 @@ class WP_Customize_Partial {
 	 * of the associated `$settings`.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 * @var string
 	 */
 	public $capability;
@@ -105,7 +97,6 @@ class WP_Customize_Partial {
 	 * Render callback.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 * @see WP_Customize_Partial::render()
 	 * @var callable Callback is called with one argument, the instance of
 	 *                 WP_Customize_Partial. The callback can either echo the
@@ -117,7 +108,6 @@ class WP_Customize_Partial {
 	 * Whether the container element is included in the partial, or if only the contents are rendered.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 * @var bool
 	 */
 	public $container_inclusive = false;
@@ -128,7 +118,6 @@ class WP_Customize_Partial {
 	 * A partial render is considered a failure if the render_callback returns false.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 * @var bool
 	 */
 	public $fallback_refresh = true;
@@ -141,7 +130,6 @@ class WP_Customize_Partial {
 	 * If `$args['settings']` is not defined, use the $id as the setting ID.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 *
 	 * @param WP_Customize_Selective_Refresh $component Customize Partial Refresh plugin instance.
 	 * @param string                         $id        Control ID.
@@ -184,7 +172,6 @@ class WP_Customize_Partial {
 	 * Retrieves parsed ID data for multidimensional setting.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 *
 	 * @return array {
 	 *     ID data for multidimensional partial.
@@ -201,7 +188,6 @@ class WP_Customize_Partial {
 	 * Renders the template partial involving the associated settings.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 *
 	 * @param array $container_context Optional. Array of context data associated with the target container (placement).
 	 *                                 Default empty array.
@@ -270,7 +256,6 @@ class WP_Customize_Partial {
 	 * applying to client-side templating.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 *
 	 * @param WP_Customize_Partial $partial Partial.
 	 * @param array                $context Context.
@@ -285,7 +270,6 @@ class WP_Customize_Partial {
 	 * Retrieves the data to export to the client via JSON.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 *
 	 * @return array Array of parameters passed to the JavaScript.
 	 */
@@ -308,7 +292,6 @@ class WP_Customize_Partial {
 	 * or if one of the associated settings does not exist.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 *
 	 * @return bool False if user can't edit one one of the related settings,
 	 *                    or if one of the associated settings does not exist.

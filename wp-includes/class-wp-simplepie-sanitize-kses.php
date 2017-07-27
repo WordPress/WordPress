@@ -25,7 +25,6 @@ class WP_SimplePie_Sanitize_KSES extends SimplePie_Sanitize {
 	 * Sanitizes the incoming data, to ensure that it matches the type of data expected, using KSES.
 	 *
 	 * @since 3.5.0
-	 * @access public
 	 *
 	 * @param mixed   $data The data that needs to be sanitized.
 	 * @param integer $type The type of data that it's supposed to be.

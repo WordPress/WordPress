@@ -20,7 +20,6 @@ class WP_REST_Comment_Meta_Fields extends WP_REST_Meta_Fields {
 	 * Retrieves the object type for comment meta.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 *
 	 * @return string The meta type.
 	 */
@@ -32,7 +31,6 @@ class WP_REST_Comment_Meta_Fields extends WP_REST_Meta_Fields {
 	 * Retrieves the type for register_rest_field() in the context of comments.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @return string The REST field type.
 	 */

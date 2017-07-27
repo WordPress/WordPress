@@ -22,7 +22,6 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = 'nav_menus';
@@ -31,7 +30,6 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 	 * Render screen options for Menus.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 */
 	public function render_screen_options() {
 		// Adds the screen options.
@@ -64,7 +62,6 @@ class WP_Customize_Nav_Menus_Panel extends WP_Customize_Panel {
 	 * export custom variables by overriding WP_Customize_Panel::json().
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @see WP_Customize_Panel::print_template()
 	 */

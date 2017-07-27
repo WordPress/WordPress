@@ -45,7 +45,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Constructor.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 *
 	 * @param string $id_base         Base ID for the widget, lowercase and unique.
 	 * @param string $name            Name for the widget displayed on the configuration page.
@@ -93,7 +92,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Add hooks while registering all widget instances of this widget class.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 *
 	 * @param integer $number Optional. The unique order number of this widget instance
 	 *                        compared to other instances of the same class. Default -1.
@@ -122,7 +120,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Get schema for properties of a widget instance (item).
 	 *
 	 * @since  4.8.0
-	 * @access public
 	 *
 	 * @see WP_REST_Controller::get_item_schema()
 	 * @see WP_REST_Controller::get_additional_fields()
@@ -158,7 +155,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Determine if the supplied attachment is for a valid attachment post with the specified MIME type.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 *
 	 * @param int|WP_Post $attachment Attachment post ID or object.
 	 * @param string      $mime_type  MIME type.
@@ -182,7 +178,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Sanitize a token list string, such as used in HTML rel and class attributes.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 *
 	 * @link http://w3c.github.io/html/infrastructure.html#space-separated-tokens
 	 * @link https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList
@@ -202,7 +197,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Displays the widget on the front-end.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 *
 	 * @see WP_Widget::widget()
 	 *
@@ -246,7 +240,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Sanitizes the widget form values as they are saved.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 *
 	 * @see WP_Widget::update()
 	 * @see WP_REST_Request::has_valid_params()
@@ -292,7 +285,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Render the media on the frontend.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 *
 	 * @param array $instance Widget instance props.
 	 * @return string
@@ -305,7 +297,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Note that the widget UI itself is rendered with JavaScript via `MediaWidgetControl#render()`.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 *
 	 * @see \WP_Widget_Media::render_control_template_scripts() Where the JS template is located.
 	 * @param array $instance Current settings.
@@ -335,7 +326,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Filters the default media display states for items in the Media list table.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 *
 	 * @param array   $states An array of media states.
 	 * @param WP_Post $post   The current attachment object.
@@ -372,7 +362,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * case a widget does get added.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 */
 	public function enqueue_preview_scripts() {}
 
@@ -380,7 +369,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Loads the required scripts and styles for the widget control.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 */
 	public function enqueue_admin_scripts() {
 		wp_enqueue_media();
@@ -391,7 +379,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Render form template scripts.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 */
 	public function render_control_template_scripts() {
 		?>
@@ -425,7 +412,6 @@ abstract class WP_Widget_Media extends WP_Widget {
 	 * Whether the widget has content to show.
 	 *
 	 * @since 4.8.0
-	 * @access protected
 	 *
 	 * @param array $instance Widget instance props.
 	 * @return bool Whether widget has content.

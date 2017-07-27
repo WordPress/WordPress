@@ -30,7 +30,6 @@ class WP_Network {
 	 * @since 4.6.0 Converted from public to private to explicitly enable more intuitive
 	 *              access via magic methods. As part of the access change, the type was
 	 *              also changed from `string` to `int`.
-	 * @access private
 	 * @var int
 	 */
 	private $id;
@@ -39,7 +38,6 @@ class WP_Network {
 	 * Domain of the network.
 	 *
 	 * @since 4.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $domain = '';
@@ -48,7 +46,6 @@ class WP_Network {
 	 * Path of the network.
 	 *
 	 * @since 4.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $path = '';
@@ -62,7 +59,6 @@ class WP_Network {
 	 * A numeric string, for compatibility reasons.
 	 *
 	 * @since 4.4.0
-	 * @access private
 	 * @var string
 	 */
 	private $blog_id = '0';
@@ -71,7 +67,6 @@ class WP_Network {
 	 * Domain used to set cookies for this network.
 	 *
 	 * @since 4.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $cookie_domain = '';
@@ -82,7 +77,6 @@ class WP_Network {
 	 * Named "site" vs. "network" for legacy reasons.
 	 *
 	 * @since 4.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $site_name = '';
@@ -91,7 +85,6 @@ class WP_Network {
 	 * Retrieve a network from the database by its ID.
 	 *
 	 * @since 4.4.0
-	 * @access public
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
@@ -128,7 +121,6 @@ class WP_Network {
 	 * default properties based on that information.
 	 *
 	 * @since 4.4.0
-	 * @access public
 	 *
 	 * @param WP_Network|object $network A network object.
 	 */
@@ -147,7 +139,6 @@ class WP_Network {
 	 * Allows current multisite naming conventions when getting properties.
 	 *
 	 * @since 4.6.0
-	 * @access public
 	 *
 	 * @param string $key Property to get.
 	 * @return mixed Value of the property. Null if not available.
@@ -171,7 +162,6 @@ class WP_Network {
 	 * Allows current multisite naming conventions when checking for properties.
 	 *
 	 * @since 4.6.0
-	 * @access public
 	 *
 	 * @param string $key Property to check if set.
 	 * @return bool Whether the property is set.
@@ -193,7 +183,6 @@ class WP_Network {
 	 * Allows current multisite naming conventions while setting properties.
 	 *
 	 * @since 4.6.0
-	 * @access public
 	 *
 	 * @param string $key   Property to set.
 	 * @param mixed  $value Value to assign to the property.
@@ -216,7 +205,6 @@ class WP_Network {
 	 * Set the site name assigned to the network if one has not been populated.
 	 *
 	 * @since 4.4.0
-	 * @access private
 	 */
 	private function _set_site_name() {
 		if ( ! empty( $this->site_name ) ) {
@@ -234,7 +222,6 @@ class WP_Network {
 	 * @todo What if the domain of the network doesn't match the current site?
 	 *
 	 * @since 4.4.0
-	 * @access private
 	 */
 	private function _set_cookie_domain() {
 		if ( ! empty( $this->cookie_domain ) ) {
@@ -258,7 +245,6 @@ class WP_Network {
 	 * requested site address.
 	 *
 	 * @since 4.4.0
-	 * @access public
 	 * @static
 	 *
 	 * @param string   $domain   Domain to check.

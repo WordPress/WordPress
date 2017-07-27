@@ -22,7 +22,6 @@ class WP_Customize_Control {
 	 * @since 4.1.0
 	 *
 	 * @static
-	 * @access protected
 	 * @var int
 	 */
 	protected static $instance_count = 0;
@@ -31,7 +30,6 @@ class WP_Customize_Control {
 	 * Order in which this instance was created in relation to other instances.
 	 *
 	 * @since 4.1.0
-	 * @access public
 	 * @var int
 	 */
 	public $instance_number;
@@ -40,7 +38,6 @@ class WP_Customize_Control {
 	 * Customizer manager.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var WP_Customize_Manager
 	 */
 	public $manager;
@@ -49,7 +46,6 @@ class WP_Customize_Control {
 	 * Control ID.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $id;
@@ -58,7 +54,6 @@ class WP_Customize_Control {
 	 * All settings tied to the control.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var array
 	 */
 	public $settings;
@@ -67,7 +62,6 @@ class WP_Customize_Control {
 	 * The primary setting for the control (if there is one).
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $setting = 'default';
@@ -79,7 +73,6 @@ class WP_Customize_Control {
 	 * of the associated `$settings`.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 * @var string
 	 */
 	public $capability;
@@ -88,7 +81,6 @@ class WP_Customize_Control {
 	 * Order priority to load the control in Customizer.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var int
 	 */
 	public $priority = 10;
@@ -97,7 +89,6 @@ class WP_Customize_Control {
 	 * Section the control belongs to.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $section = '';
@@ -106,7 +97,6 @@ class WP_Customize_Control {
 	 * Label for the control.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $label = '';
@@ -115,7 +105,6 @@ class WP_Customize_Control {
 	 * Description for the control.
 	 *
 	 * @since 4.0.0
-	 * @access public
 	 * @var string
 	 */
 	public $description = '';
@@ -124,7 +113,6 @@ class WP_Customize_Control {
 	 * List of choices for 'radio' or 'select' type controls, where values are the keys, and labels are the values.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var array
 	 */
 	public $choices = array();
@@ -135,7 +123,6 @@ class WP_Customize_Control {
 	 * Not used for 'checkbox', 'radio', 'select', 'textarea', or 'dropdown-pages' control types.
 	 *
 	 * @since 4.0.0
-	 * @access public
 	 * @var array
 	 */
 	public $input_attrs = array();
@@ -144,7 +131,6 @@ class WP_Customize_Control {
 	 * Show UI for adding new content, currently only used for the dropdown-pages control.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var bool
 	 */
 	public $allow_addition = false;
@@ -152,7 +138,6 @@ class WP_Customize_Control {
 	/**
 	 * @deprecated It is better to just call the json() method
 	 * @since 3.4.0
-	 * @access public
 	 * @var array
 	 */
 	public $json = array();
@@ -161,7 +146,6 @@ class WP_Customize_Control {
 	 * Control's Type.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = 'text';
@@ -170,7 +154,6 @@ class WP_Customize_Control {
 	 * Callback.
 	 *
 	 * @since 4.0.0
-	 * @access public
 	 *
 	 * @see WP_Customize_Control::active()
 	 *

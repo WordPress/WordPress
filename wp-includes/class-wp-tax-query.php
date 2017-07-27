@@ -27,7 +27,6 @@ class WP_Tax_Query {
 	 * See WP_Tax_Query::__construct() for information on tax query arguments.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 * @var array
 	 */
 	public $queries = array();
@@ -36,7 +35,6 @@ class WP_Tax_Query {
 	 * The relation between the queries. Can be one of 'AND' or 'OR'.
 	 *
 	 * @since 3.1.0
-	 * @access public
 	 * @var string
 	 */
 	public $relation;
@@ -47,7 +45,6 @@ class WP_Tax_Query {
 	 * @since 3.2.0
 	 *
 	 * @static
-	 * @access private
 	 * @var string
 	 */
 	private static $no_results = array( 'join' => array( '' ), 'where' => array( '0 = 1' ) );
@@ -56,7 +53,6 @@ class WP_Tax_Query {
 	 * A flat list of table aliases used in the JOIN clauses.
 	 *
 	 * @since 4.1.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $table_aliases = array();
@@ -68,7 +64,6 @@ class WP_Tax_Query {
 	 * number of places by WP_Query.
 	 *
 	 * @since 4.1.0
-	 * @access public
 	 * @var array
 	 */
 	public $queried_terms = array();
@@ -77,7 +72,6 @@ class WP_Tax_Query {
 	 * Database table that where the metadata's objects are stored (eg $wpdb->users).
 	 *
 	 * @since 4.1.0
-	 * @access public
 	 * @var string
 	 */
 	public $primary_table;
@@ -86,7 +80,6 @@ class WP_Tax_Query {
 	 * Column in 'primary_table' that represents the ID of the object.
 	 *
 	 * @since 4.1.0
-	 * @access public
 	 * @var string
 	 */
 	public $primary_id_column;
@@ -96,7 +89,6 @@ class WP_Tax_Query {
 	 *
 	 * @since 3.1.0
 	 * @since 4.1.0 Added support for `$operator` 'NOT EXISTS' and 'EXISTS' values.
-	 * @access public
 	 *
 	 * @param array $tax_query {
 	 *     Array of taxonomy query clauses.
@@ -135,7 +127,6 @@ class WP_Tax_Query {
 	 * each first-order clause contains all the necessary keys from `$defaults`.
 	 *
 	 * @since 4.1.0
-	 * @access public
 	 *
 	 * @param array $queries Array of queries clauses.
 	 * @return array Sanitized array of query clauses.
@@ -207,7 +198,6 @@ class WP_Tax_Query {
 	 * Sanitize a 'relation' operator.
 	 *
 	 * @since 4.1.0
-	 * @access public
 	 *
 	 * @param string $relation Raw relation key from the query argument.
 	 * @return string Sanitized relation ('AND' or 'OR').
@@ -232,7 +222,6 @@ class WP_Tax_Query {
 	 * @since 4.1.0
 	 *
 	 * @static
-	 * @access protected
 	 *
 	 * @param array $query Tax query arguments.
 	 * @return bool Whether the query clause is a first-order clause.
@@ -247,7 +236,6 @@ class WP_Tax_Query {
 	 * @since 3.1.0
 	 *
 	 * @static
-	 * @access public
 	 *
 	 * @param string $primary_table     Database table where the object being filtered is stored (eg wp_users).
 	 * @param string $primary_id_column ID column for the filtered object in $primary_table.
@@ -272,7 +260,6 @@ class WP_Tax_Query {
 	 * is abstracted out to maintain parity with the other Query classes.
 	 *
 	 * @since 4.1.0
-	 * @access protected
 	 *
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to the main query.
@@ -303,7 +290,6 @@ class WP_Tax_Query {
 	 * produce the properly nested SQL.
 	 *
 	 * @since 4.1.0
-	 * @access protected
 	 *
 	 * @param array $query Query to parse, passed by reference.
 	 * @param int   $depth Optional. Number of tree levels deep we currently are.
@@ -385,7 +371,6 @@ class WP_Tax_Query {
 	 * Generate SQL JOIN and WHERE clauses for a "first-order" query clause.
 	 *
 	 * @since 4.1.0
-	 * @access public
 	 *
 	 * @global wpdb $wpdb The WordPress database abstraction object.
 	 *
@@ -511,7 +496,6 @@ class WP_Tax_Query {
 	 * clauses that are connected by the relation 'OR'.
 	 *
 	 * @since 4.1.0
-	 * @access protected
 	 *
 	 * @param array       $clause       Query clause.
 	 * @param array       $parent_query Parent query of $clause.
@@ -555,7 +539,6 @@ class WP_Tax_Query {
 	 * Validates a single query.
 	 *
 	 * @since 3.2.0
-	 * @access private
 	 *
 	 * @param array $query The single query. Passed by reference.
 	 */

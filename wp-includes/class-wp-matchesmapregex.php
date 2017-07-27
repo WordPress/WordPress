@@ -15,7 +15,6 @@ class WP_MatchesMapRegex {
 	/**
 	 * store for matches
 	 *
-	 * @access private
 	 * @var array
 	 */
 	private $_matches;
@@ -23,7 +22,6 @@ class WP_MatchesMapRegex {
 	/**
 	 * store for mapping result
 	 *
-	 * @access public
 	 * @var string
 	 */
 	public $output;
@@ -31,7 +29,6 @@ class WP_MatchesMapRegex {
 	/**
 	 * subject to perform mapping on (query string containing $matches[] references
 	 *
-	 * @access private
 	 * @var string
 	 */
 	private $_subject;
@@ -61,7 +58,6 @@ class WP_MatchesMapRegex {
 	 * static helper function to ease use
 	 *
 	 * @static
-	 * @access public
 	 *
 	 * @param string $subject subject
 	 * @param array  $matches data used for substitution
@@ -75,7 +71,6 @@ class WP_MatchesMapRegex {
 	/**
 	 * do the actual mapping
 	 *
-	 * @access private
 	 * @return string
 	 */
 	private function _map() {
@@ -86,7 +81,6 @@ class WP_MatchesMapRegex {
 	/**
 	 * preg_replace_callback hook
 	 *
-	 * @access public
 	 * @param  array $matches preg_replace regexp matches
 	 * @return string
 	 */

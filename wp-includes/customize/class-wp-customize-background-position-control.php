@@ -20,7 +20,6 @@ class WP_Customize_Background_Position_Control extends WP_Customize_Control {
 	 * Type.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = 'background_position';
@@ -29,7 +28,6 @@ class WP_Customize_Background_Position_Control extends WP_Customize_Control {
 	 * Don't render the control content from PHP, as it's rendered via JS on load.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 */
 	public function render_content() {}
 
@@ -37,7 +35,6 @@ class WP_Customize_Background_Position_Control extends WP_Customize_Control {
 	 * Render a JS template for the content of the position control.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 */
 	public function content_template() {
 		$options = array(

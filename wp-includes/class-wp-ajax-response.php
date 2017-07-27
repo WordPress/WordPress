@@ -39,7 +39,6 @@ class WP_Ajax_Response {
 	 *     </response>
 	 *
 	 * @since 2.1.0
-	 * @access public
 	 *
 	 * @param string|array $args {
 	 *     Optional. An array or string of XML response arguments.

@@ -22,7 +22,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * The setting type.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = 'custom_css';
@@ -31,7 +30,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * Setting Transport
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var string
 	 */
 	public $transport = 'postMessage';
@@ -40,7 +38,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * Capability required to edit this setting.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var string
 	 */
 	public $capability = 'edit_css';
@@ -49,7 +46,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * Stylesheet
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @var string
 	 */
 	public $stylesheet = '';
@@ -58,7 +54,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * WP_Customize_Custom_CSS_Setting constructor.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @throws Exception If the setting ID does not match the pattern `custom_css[$stylesheet]`.
 	 *
@@ -82,7 +77,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * Add filter to preview post value.
 	 *
 	 * @since 4.7.9
-	 * @access public
 	 *
 	 * @return bool False when preview short-circuits due no change needing to be previewed.
 	 */
@@ -101,7 +95,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * This is used in the preview when `wp_get_custom_css()` is called for rendering the styles.
 	 *
 	 * @since 4.7.0
-	 * @access private
 	 * @see wp_get_custom_css()
 	 *
 	 * @param string $css        Original CSS.
@@ -122,7 +115,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * Fetch the value of the setting. Will return the previewed value when `preview()` is called.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 * @see WP_Customize_Setting::value()
 	 *
 	 * @return string
@@ -159,7 +151,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * @todo There are cases where valid CSS can be incorrectly marked as invalid when strings or comments include balancing characters. To fix, CSS tokenization needs to be used.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param string $css The input string.
 	 * @return true|WP_Error True if the input was validated, otherwise WP_Error.
@@ -269,7 +260,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * Store the CSS setting value in the custom_css custom post type for the stylesheet.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param string $css The input value.
 	 * @return int|false The post ID or false if the value could not be saved.
@@ -306,7 +296,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * in the CSS.
 	 *
 	 * @since 4.7.0
-	 * @access private
 	 *
 	 * @param string $opening_char The opening character.
 	 * @param string $closing_char The closing character.
@@ -328,7 +317,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * in the CSS.
 	 *
 	 * @since 4.7.0
-	 * @access private
 	 *
 	 * @param string $char A character.
 	 * @param string $css The CSS input string.
@@ -347,7 +335,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * @see self::validate()
 	 *
 	 * @since 4.7.0
-	 * @access private
 	 *
 	 * @param string $css The CSS input string.
 	 * @return int Count.
@@ -392,7 +379,6 @@ final class WP_Customize_Custom_CSS_Setting extends WP_Customize_Setting {
 	 * using a strict "false === strpos()" comparison.
 	 *
 	 * @since 4.7.0
-	 * @access private
 	 *
 	 * @param string $css The CSS input string.
 	 * @return bool

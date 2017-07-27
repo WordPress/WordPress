@@ -22,7 +22,6 @@ class WP_Http_Streams {
 	 * @since 2.7.0
 	 * @since 3.7.0 Combined with the fsockopen transport and switched to stream_socket_client().
 	 *
-	 * @access public
 	 * @param string $url The request URL.
 	 * @param string|array $args Optional. Override the defaults.
 	 * @return array|WP_Error Array containing 'headers', 'body', 'response', 'cookies', 'filename'. A WP_Error instance upon error
@@ -380,7 +379,6 @@ class WP_Http_Streams {
 	 * Determines whether this class can be used for retrieving a URL.
 	 *
 	 * @static
-	 * @access public
 	 * @since 2.7.0
 	 * @since 3.7.0 Combined with the fsockopen transport and switched to stream_socket_client().
 	 *

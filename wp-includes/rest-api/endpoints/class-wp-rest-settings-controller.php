@@ -20,7 +20,6 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * Constructor.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 */
 	public function __construct() {
 		$this->namespace = 'wp/v2';
@@ -31,7 +30,6 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * Registers the routes for the objects of the controller.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @see register_rest_route()
 	 */
@@ -59,7 +57,6 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * Checks if a given request has access to read and manage settings.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return bool True if the request has read access for the item, otherwise false.
@@ -72,7 +69,6 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * Retrieves the settings.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return array|WP_Error Array on success, or WP_Error object on failure.
@@ -117,7 +113,6 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * Prepares a value for output based off a schema array.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 *
 	 * @param mixed $value  Value to prepare.
 	 * @param array $schema Schema to match.
@@ -147,7 +142,6 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * Updates settings for the settings object.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return array|WP_Error Array on success, or error object on failure.
@@ -217,7 +211,6 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * Retrieves all of the registered options for the Settings API.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 *
 	 * @return array Array of registered options.
 	 */
@@ -274,7 +267,6 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * Retrieves the site setting schema, conforming to JSON Schema.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @return array Item schema data.
 	 */
@@ -306,7 +298,6 @@ class WP_REST_Settings_Controller extends WP_REST_Controller {
 	 * provide a wrapper sanitizer to whitelist the use of `null`.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param  mixed           $value   The value for the setting.
 	 * @param  WP_REST_Request $request The request object.

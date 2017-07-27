@@ -20,7 +20,6 @@ class WP_Customize_New_Menu_Control extends WP_Customize_Control {
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = 'new_menu';
@@ -29,7 +28,6 @@ class WP_Customize_New_Menu_Control extends WP_Customize_Control {
 	 * Render the control's content.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 */
 	public function render_content() {
 		?>

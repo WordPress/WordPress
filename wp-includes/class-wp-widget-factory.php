@@ -19,7 +19,6 @@ class WP_Widget_Factory {
 	 * Widgets array.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 * @var array
 	 */
 	public $widgets = array();
@@ -28,7 +27,6 @@ class WP_Widget_Factory {
 	 * PHP5 constructor.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 */
 	public function __construct() {
 		add_action( 'widgets_init', array( $this, '_register_widgets' ), 100 );
@@ -38,7 +36,6 @@ class WP_Widget_Factory {
 	 * PHP4 constructor.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 */
 	public function WP_Widget_Factory() {
 		_deprecated_constructor( 'WP_Widget_Factory', '4.2.0' );
@@ -52,7 +49,6 @@ class WP_Widget_Factory {
 	 * is the minimum requirement for PHP.
 	 *
 	 * @since 4.6.0
-	 * @access private
 	 * @var array
 	 *
 	 * @see WP_Widget_Factory::hash_object()
@@ -66,7 +62,6 @@ class WP_Widget_Factory {
 	 * is the minimum requirement for PHP.
 	 *
 	 * @since 4.6.0
-	 * @access private
 	 *
 	 * @param WP_Widget $widget Widget.
 	 * @return string Object hash.
@@ -95,7 +90,6 @@ class WP_Widget_Factory {
 	 * @since 2.8.0
 	 * @since 4.6.0 Updated the `$widget` parameter to also accept a WP_Widget instance object
 	 *              instead of simply a `WP_Widget` subclass name.
-	 * @access public
 	 *
 	 * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
 	 */
@@ -113,7 +107,6 @@ class WP_Widget_Factory {
 	 * @since 2.8.0
 	 * @since 4.6.0 Updated the `$widget` parameter to also accept a WP_Widget instance object
 	 *              instead of simply a `WP_Widget` subclass name.
-	 * @access public
 	 *
 	 * @param string|WP_Widget $widget Either the name of a `WP_Widget` subclass or an instance of a `WP_Widget` subclass.
 	 */
@@ -129,7 +122,6 @@ class WP_Widget_Factory {
 	 * Serves as a utility method for adding widgets to the registered widgets global.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 *
 	 * @global array $wp_registered_widgets
 	 */

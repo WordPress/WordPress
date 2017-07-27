@@ -18,7 +18,6 @@ class WP_List_Util {
 	 * The input array.
 	 *
 	 * @since 4.7.0
-	 * @access private
 	 * @var array
 	 */
 	private $input = array();
@@ -27,7 +26,6 @@ class WP_List_Util {
 	 * The output array.
 	 *
 	 * @since 4.7.0
-	 * @access private
 	 * @var array
 	 */
 	private $output = array();
@@ -36,7 +34,6 @@ class WP_List_Util {
 	 * Temporary arguments for sorting.
 	 *
 	 * @since 4.7.0
-	 * @access private
 	 * @var array
 	 */
 	private $orderby = array();
@@ -58,7 +55,6 @@ class WP_List_Util {
 	 * Returns the original input array.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @return array The input array.
 	 */
@@ -70,7 +66,6 @@ class WP_List_Util {
 	 * Returns the output array.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @return array The output array.
 	 */
@@ -228,7 +223,6 @@ class WP_List_Util {
 	 * Callback to sort the list by specific fields.
 	 *
 	 * @since 4.7.0
-	 * @access private
 	 *
 	 * @see WP_List_Util::sort()
 	 *

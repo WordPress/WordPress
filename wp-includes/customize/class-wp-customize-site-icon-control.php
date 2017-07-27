@@ -22,7 +22,6 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 	 * Control type.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = 'site_icon';
@@ -31,7 +30,6 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 	 * Constructor.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param WP_Customize_Manager $manager Customizer bootstrap instance.
 	 * @param string               $id      Control ID.
@@ -46,7 +44,6 @@ class WP_Customize_Site_Icon_Control extends WP_Customize_Cropped_Image_Control 
 	 * Renders a JS template for the content of the site icon control.
 	 *
 	 * @since 4.5.0
-	 * @access public
 	 */
 	public function content_template() {
 		?>

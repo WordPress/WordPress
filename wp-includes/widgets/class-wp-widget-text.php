@@ -28,7 +28,6 @@ class WP_Widget_Text extends WP_Widget {
 	 * Sets up a new Text widget instance.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 */
 	public function __construct() {
 		$widget_ops = array(
@@ -181,7 +180,6 @@ class WP_Widget_Text extends WP_Widget {
 	 * Outputs the content for the current Text widget instance.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
@@ -270,7 +268,6 @@ class WP_Widget_Text extends WP_Widget {
 	 * Handles updating settings for the current Text widget instance.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 *
 	 * @param array $new_instance New settings for this instance as input by the user via
 	 *                            WP_Widget::form().
@@ -320,7 +317,6 @@ class WP_Widget_Text extends WP_Widget {
 	 * Loads the required scripts and styles for the widget control.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 */
 	public function enqueue_admin_scripts() {
 		wp_enqueue_editor();
@@ -333,7 +329,6 @@ class WP_Widget_Text extends WP_Widget {
 	 * @since 2.8.0
 	 * @since 4.8.0 Form only contains hidden inputs which are synced with JS template.
 	 * @since 4.8.1 Restored original form to be displayed when in legacy mode.
-	 * @access public
 	 * @see WP_Widget_Visual_Text::render_control_template_scripts()
 	 *
 	 * @param array $instance Current settings.
@@ -381,7 +376,6 @@ class WP_Widget_Text extends WP_Widget {
 	 * Render form template scripts.
 	 *
 	 * @since 4.8.0
-	 * @access public
 	 */
 	public function render_control_template_scripts() {
 		$dismissed_pointers = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );

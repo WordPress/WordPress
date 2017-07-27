@@ -29,7 +29,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Setting type.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = self::TYPE;
@@ -38,7 +37,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Default setting value.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var array
 	 *
 	 * @see wp_setup_nav_menu_item()
@@ -68,7 +66,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 *
 	 * @since 4.3.0
 	 * @since 4.5.0 Default changed to 'refresh'
-	 * @access public
 	 * @var string
 	 */
 	public $transport = 'refresh';
@@ -79,7 +76,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * A negative value represents a placeholder ID for a new menu not yet saved.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var int
 	 */
 	public $post_id;
@@ -88,7 +84,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Storage of pre-setup menu item to prevent wasted calls to wp_setup_nav_menu_item().
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $value;
@@ -102,7 +97,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * a real post.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var int
 	 *
 	 * @see WP_Customize_Nav_Menu_Item_Setting::update()
@@ -115,7 +109,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * which ensures that we can apply the proper filters.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var int
 	 */
 	public $original_nav_menu_term_id;
@@ -124,7 +117,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Whether or not update() was called.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 * @var bool
 	 */
 	protected $is_updated = false;
@@ -138,7 +130,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * When status is error, the error is stored in $update_error.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var string updated|inserted|deleted|error
 	 *
 	 * @see WP_Customize_Nav_Menu_Item_Setting::update()
@@ -150,7 +141,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Any error object returned by wp_update_nav_menu_item() when setting is updated.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @var WP_Error
 	 *
 	 * @see WP_Customize_Nav_Menu_Item_Setting::update()
@@ -164,7 +154,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Any supplied $args override class property defaults.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param WP_Customize_Manager $manager Bootstrap Customizer instance.
 	 * @param string               $id      An specific ID of the setting. Can be a
@@ -201,7 +190,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Clear the cached value when this nav menu item is updated.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param int $menu_id       The term ID for the menu.
 	 * @param int $menu_item_id  The post ID for the menu item.
@@ -217,7 +205,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Get the instance data for a given nav_menu_item setting.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @see wp_setup_nav_menu_item()
 	 *
@@ -274,7 +261,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Get original title.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 *
 	 * @param object $item Nav menu item.
 	 * @return string The original title.
@@ -311,7 +297,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Get type label.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 *
 	 * @param object $item Nav menu item.
 	 * @returns string The type label.
@@ -345,7 +330,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Translates some properties added by wp_setup_nav_menu_item() and removes others.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @see WP_Customize_Nav_Menu_Item_Setting::value()
 	 */
@@ -441,7 +425,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 *
 	 * @since 4.3.0
 	 * @since 4.4.0 Added boolean return value.
-	 * @access public
 	 *
 	 * @see WP_Customize_Manager::post_value()
 	 *
@@ -480,7 +463,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Filters the wp_get_nav_menu_items() result to supply the previewed menu items.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @see wp_get_nav_menu_items()
 	 *
@@ -554,7 +536,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Re-apply the tail logic also applied on $items by wp_get_nav_menu_items().
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 * @static
 	 *
 	 * @see wp_get_nav_menu_items()
@@ -591,7 +572,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Get the value emulated into a WP_Post and set up as a nav_menu_item.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @return WP_Post With wp_setup_nav_menu_item() applied.
 	 */
@@ -659,7 +639,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * we remove that in this override.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @param array $menu_item_value The value to sanitize.
 	 * @return array|false|null Null if an input isn't valid. False if it is marked for deletion.
@@ -743,7 +722,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * To delete a menu, the client can send false as the value.
 	 *
 	 * @since 4.3.0
-	 * @access protected
 	 *
 	 * @see wp_update_nav_menu_item()
 	 *
@@ -878,7 +856,6 @@ class WP_Customize_Nav_Menu_Item_Setting extends WP_Customize_Setting {
 	 * Export data for the JS client.
 	 *
 	 * @since 4.3.0
-	 * @access public
 	 *
 	 * @see WP_Customize_Nav_Menu_Item_Setting::update()
 	 *

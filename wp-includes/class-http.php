@@ -98,7 +98,6 @@ class WP_Http {
 	 * Please note: The only URI that are supported in the HTTP Transport implementation
 	 * are the HTTP and HTTPS protocols.
 	 *
-	 * @access public
 	 * @since 2.7.0
 	 *
 	 * @param string       $url  The request URL.
@@ -428,7 +427,6 @@ class WP_Http {
 	 * Normalizes cookies for using in Requests.
 	 *
 	 * @since 4.6.0
-	 * @access public
 	 * @static
 	 *
 	 * @param array $cookies List of cookies to send with the request.
@@ -456,7 +454,6 @@ class WP_Http {
 	 * specification for compatibility purposes.
 	 *
 	 * @since 4.6.0
-	 * @access public
 	 * @static
 	 *
 	 * @param string            $location URL to redirect to.
@@ -489,7 +486,6 @@ class WP_Http {
 	 * Tests which transports are capable of supporting the request.
 	 *
 	 * @since 3.2.0
-	 * @access public
 	 *
 	 * @param array $args Request arguments
 	 * @param string $url URL to Request
@@ -539,7 +535,6 @@ class WP_Http {
 	 * @since 3.2.0
 	 *
 	 * @static
-	 * @access private
 	 *
 	 * @param string $url URL to Request
 	 * @param array $args Request arguments
@@ -581,7 +576,6 @@ class WP_Http {
 	 *
 	 * Used for sending data that is expected to be in the body.
 	 *
-	 * @access public
 	 * @since 2.7.0
 	 *
 	 * @param string       $url  The request URL.
@@ -599,7 +593,6 @@ class WP_Http {
 	 *
 	 * Used for sending data that is expected to be in the body.
 	 *
-	 * @access public
 	 * @since 2.7.0
 	 *
 	 * @param string $url The request URL.
@@ -617,7 +610,6 @@ class WP_Http {
 	 *
 	 * Used for sending data that is expected to be in the body.
 	 *
-	 * @access public
 	 * @since 2.7.0
 	 *
 	 * @param string $url The request URL.
@@ -633,7 +625,6 @@ class WP_Http {
 	/**
 	 * Parses the responses and splits the parts into headers and body.
 	 *
-	 * @access public
 	 * @static
 	 * @since 2.7.0
 	 *
@@ -652,7 +643,6 @@ class WP_Http {
 	 * If an array is given then it is assumed to be raw header data with numeric keys with the
 	 * headers as the values. No headers must be passed that were already processed.
 	 *
-	 * @access public
 	 * @static
 	 * @since 2.7.0
 	 *
@@ -730,7 +720,6 @@ class WP_Http {
 	 * which are each parsed into strings and added to the Cookie: header (within the arguments array).
 	 * Edits the array by reference.
 	 *
-	 * @access public
 	 * @since 2.8.0
 	 * @static
 	 *
@@ -761,7 +750,6 @@ class WP_Http {
 	 *
 	 * @link https://tools.ietf.org/html/rfc2616#section-19.4.6 Process for chunked decoding.
 	 *
-	 * @access public
 	 * @since 2.7.0
 	 * @static
 	 *
@@ -811,7 +799,6 @@ class WP_Http {
 	 * are supported, eg *.wordpress.org will allow for all subdomains of wordpress.org to be contacted.
 	 *
 	 * @since 2.8.0
-	 * @access public
 	 * @link https://core.trac.wordpress.org/ticket/8927 Allow preventing external requests.
 	 * @link https://core.trac.wordpress.org/ticket/14636 Allow wildcard domains in WP_ACCESSIBLE_HOSTS
 	 *
@@ -871,7 +858,6 @@ class WP_Http {
 	/**
 	 * Used as a wrapper for PHP's parse_url() function that handles edgecases in < PHP 5.4.7.
 	 *
-	 * @access protected
 	 * @deprecated 4.4.0 Use wp_parse_url()
 	 * @see wp_parse_url()
 	 *
@@ -892,7 +878,6 @@ class WP_Http {
 	 * @since 3.4.0
 	 *
 	 * @static
-	 * @access public
 	 *
 	 * @param string $maybe_relative_path The URL which might be relative
 	 * @param string $url                 The URL which $maybe_relative_path is relative to
@@ -963,7 +948,6 @@ class WP_Http {
 	 * Handles HTTP Redirects and follows them if appropriate.
 	 *
 	 * @since 3.7.0
-	 * @access public
 	 * @static
 	 *
 	 * @param string $url The URL which was requested.
@@ -1020,7 +1004,6 @@ class WP_Http {
 	 * @link http://home.deds.nl/~aeron/regex/ for IPv6 regex
 	 *
 	 * @since 3.7.0
-	 * @access public
 	 * @static
 	 *
 	 * @param string $maybe_ip A suspected IP address

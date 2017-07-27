@@ -18,7 +18,6 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	 * Get all sessions of a user.
 	 *
 	 * @since 4.0.0
-	 * @access protected
 	 *
 	 * @return array Sessions of a user.
 	 */
@@ -51,7 +50,6 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	 * Retrieve a session by its verifier (token hash).
 	 *
 	 * @since 4.0.0
-	 * @access protected
 	 *
 	 * @param string $verifier Verifier of the session to retrieve.
 	 * @return array|null The session, or null if it does not exist
@@ -70,7 +68,6 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	 * Update a session by its verifier.
 	 *
 	 * @since 4.0.0
-	 * @access protected
 	 *
 	 * @param string $verifier Verifier of the session to update.
 	 * @param array  $session  Optional. Session. Omitting this argument destroys the session.
@@ -91,7 +88,6 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	 * Update a user's sessions in the usermeta table.
 	 *
 	 * @since 4.0.0
-	 * @access protected
 	 *
 	 * @param array $sessions Sessions.
 	 */
@@ -107,7 +103,6 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	 * Destroy all session tokens for a user, except a single session passed.
 	 *
 	 * @since 4.0.0
-	 * @access protected
 	 *
 	 * @param string $verifier Verifier of the session to keep.
 	 */
@@ -120,7 +115,6 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	 * Destroy all session tokens for a user.
 	 *
 	 * @since 4.0.0
-	 * @access protected
 	 */
 	protected function destroy_all_sessions() {
 		$this->update_sessions( array() );
@@ -130,7 +124,6 @@ class WP_User_Meta_Session_Tokens extends WP_Session_Tokens {
 	 * Destroy all session tokens for all users.
 	 *
 	 * @since 4.0.0
-	 * @access public
 	 * @static
 	 */
 	public static function drop_sessions() {

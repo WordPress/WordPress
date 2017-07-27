@@ -20,7 +20,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Taxonomy key.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $taxonomy;
@@ -29,7 +28,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Instance of a term meta fields object.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 * @var WP_REST_Term_Meta_Fields
 	 */
 	protected $meta;
@@ -38,7 +36,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Column to have the terms be sorted by.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 * @var string
 	 */
 	protected $sort_column;
@@ -47,7 +44,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Number of terms that were found.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $total_terms;
@@ -56,7 +52,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Constructor.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param string $taxonomy Taxonomy key.
 	 */
@@ -73,7 +68,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Registers the routes for the objects of the controller.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @see register_rest_route()
 	 */
@@ -136,7 +130,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Checks if a request has access to read terms in the specified taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return bool|WP_Error True if the request has read access, otherwise false or WP_Error object.
@@ -156,7 +149,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Retrieves terms associated with a taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -324,7 +316,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Checks if a request has access to read or edit the specified term.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return bool|WP_Error True if the request has read access for the item, otherwise false or WP_Error object.
@@ -345,7 +336,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Gets a single term from a taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -365,7 +355,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Checks if a request has access to create a term.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return bool|WP_Error True if the request has access to create items, false or WP_Error object otherwise.
@@ -388,7 +377,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Creates a single term in a taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -467,7 +455,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Checks if a request has access to update the specified term.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return bool|WP_Error True if the request has access to update the item, false or WP_Error object otherwise.
@@ -489,7 +476,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Updates a single term from a taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -554,7 +540,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Checks if a request has access to delete the specified term.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return bool|WP_Error True if the request has access to delete the item, otherwise false or WP_Error object.
@@ -576,7 +561,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Deletes a single term from a taxonomy.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return WP_REST_Response|WP_Error Response object on success, or WP_Error object on failure.
@@ -627,7 +611,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Prepares a single term for create or update.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param WP_REST_Request $request Request object.
 	 * @return object $prepared_term Term object.
@@ -680,7 +663,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Prepares a single term output for response.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @param obj             $item    Term object.
 	 * @param WP_REST_Request $request Request object.
@@ -755,7 +737,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Prepares links for the request.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 *
 	 * @param object $term Term object.
 	 * @return array Links for the given term.
@@ -817,7 +798,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Retrieves the term's schema, conforming to JSON Schema.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @return array Item schema data.
 	 */
@@ -897,7 +877,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Retrieves the query params for collections.
 	 *
 	 * @since 4.7.0
-	 * @access public
 	 *
 	 * @return array Collection parameters.
 	 */
@@ -1006,7 +985,6 @@ class WP_REST_Terms_Controller extends WP_REST_Controller {
 	 * Checks that the taxonomy is valid.
 	 *
 	 * @since 4.7.0
-	 * @access protected
 	 *
 	 * @param string $taxonomy Taxonomy to check.
 	 * @return bool Whether the taxonomy is allowed for REST management.

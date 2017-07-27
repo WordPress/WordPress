@@ -21,7 +21,6 @@ class WP_Customize_Setting {
 	 * Customizer bootstrap instance.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var WP_Customize_Manager
 	 */
 	public $manager;
@@ -30,7 +29,6 @@ class WP_Customize_Setting {
 	 * Unique string identifier for the setting.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $id;
@@ -39,7 +37,6 @@ class WP_Customize_Setting {
 	 * Type of customize settings.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = 'theme_mod';
@@ -48,7 +45,6 @@ class WP_Customize_Setting {
 	 * Capability required to edit this setting.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string|array
 	 */
 	public $capability = 'edit_theme_options';
@@ -57,7 +53,6 @@ class WP_Customize_Setting {
 	 * Feature a theme is required to support to enable this setting.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $theme_supports = '';
@@ -66,7 +61,6 @@ class WP_Customize_Setting {
 	 * The default value for the setting.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $default = '';
@@ -80,7 +74,6 @@ class WP_Customize_Setting {
 	 * @link https://developer.wordpress.org/themes/customize-api
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $transport = 'refresh';
@@ -89,7 +82,6 @@ class WP_Customize_Setting {
 	 * Server-side validation callback for the setting's value.
 	 *
 	 * @since 4.6.0
-	 * @access public
 	 * @var callable
 	 */
 	public $validate_callback = '';
@@ -98,7 +90,6 @@ class WP_Customize_Setting {
 	 * Callback to filter a Customize setting value in un-slashed form.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var callable
 	 */
 	public $sanitize_callback = '';
@@ -107,7 +98,6 @@ class WP_Customize_Setting {
 	 * Callback to convert a Customize PHP setting value to a value that is JSON serializable.
 	 *
 	 * @since 3.4.0
-	 * @access public
 	 * @var string
 	 */
 	public $sanitize_js_callback = '';
@@ -121,7 +111,6 @@ class WP_Customize_Setting {
 	 * from the start.
 	 *
 	 * @since 4.2.0
-	 * @access public
 	 * @var bool
 	 */
 	public $dirty = false;
@@ -130,7 +119,6 @@ class WP_Customize_Setting {
 	 * ID Data.
 	 *
 	 * @since 3.4.0
-	 * @access protected
 	 * @var array
 	 */
 	protected $id_data = array();
@@ -139,7 +127,6 @@ class WP_Customize_Setting {
 	 * Whether or not preview() was called.
 	 *
 	 * @since 4.4.0
-	 * @access protected
 	 * @var bool
 	 */
 	protected $is_previewed = false;
@@ -149,7 +136,6 @@ class WP_Customize_Setting {
 	 *
 	 * @since 4.4.0
 	 * @static
-	 * @access protected
 	 * @var array
 	 */
 	protected static $aggregated_multidimensionals = array();
@@ -158,7 +144,6 @@ class WP_Customize_Setting {
 	 * Whether the multidimensional setting is aggregated.
 	 *
 	 * @since 4.4.0
-	 * @access protected
 	 * @var bool
 	 */
 	protected $is_multidimensional_aggregated = false;
@@ -277,7 +262,6 @@ class WP_Customize_Setting {
 	 * The ID for the current site when the preview() method was called.
 	 *
 	 * @since 4.2.0
-	 * @access protected
 	 * @var int
 	 */
 	protected $_previewed_blog_id;
@@ -301,7 +285,6 @@ class WP_Customize_Setting {
 	 *
 	 * @see WP_Customize_Setting::preview()
 	 * @since 4.1.1
-	 * @access protected
 	 * @var mixed
 	 */
 	protected $_original_value;

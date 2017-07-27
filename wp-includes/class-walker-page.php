@@ -20,7 +20,6 @@ class Walker_Page extends Walker {
 	 * What the class handles.
 	 *
 	 * @since 2.1.0
-	 * @access public
 	 * @var string
 	 *
 	 * @see Walker::$tree_type
@@ -31,7 +30,6 @@ class Walker_Page extends Walker {
 	 * Database fields to use.
 	 *
 	 * @since 2.1.0
-	 * @access private
 	 * @var array
 	 *
 	 * @see Walker::$db_fields
@@ -43,7 +41,6 @@ class Walker_Page extends Walker {
 	 * Outputs the beginning of the current level in the tree before elements are output.
 	 *
 	 * @since 2.1.0
-	 * @access public
 	 *
 	 * @see Walker::start_lvl()
 	 *
@@ -68,7 +65,6 @@ class Walker_Page extends Walker {
 	 * Outputs the end of the current level in the tree after elements are output.
 	 *
 	 * @since 2.1.0
-	 * @access public
 	 *
 	 * @see Walker::end_lvl()
 	 *
@@ -94,7 +90,6 @@ class Walker_Page extends Walker {
 	 *
 	 * @see Walker::start_el()
 	 * @since 2.1.0
-	 * @access public
 	 *
 	 * @param string  $output       Used to append additional content. Passed by reference.
 	 * @param WP_Post $page         Page data object.
@@ -214,7 +209,6 @@ class Walker_Page extends Walker {
 	 * Outputs the end of the current element in the tree.
 	 *
 	 * @since 2.1.0
-	 * @access public
 	 *
 	 * @see Walker::end_el()
 	 *

@@ -20,7 +20,6 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 	 * Customize control type.
 	 *
 	 * @since 3.9.0
-	 * @access public
 	 * @var string
 	 */
 	public $type = 'sidebar_widgets';
@@ -29,7 +28,6 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 	 * Sidebar ID.
 	 *
 	 * @since 3.9.0
-	 * @access public
 	 * @var int|string
 	 */
 	public $sidebar_id;
@@ -38,7 +36,6 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 	 * Refreshes the parameters passed to the JavaScript via JSON.
 	 *
 	 * @since 3.9.0
-	 * @access public
 	 */
 	public function to_json() {
 		parent::to_json();
@@ -52,7 +49,6 @@ class WP_Widget_Area_Customize_Control extends WP_Customize_Control {
 	 * Renders the control's content.
 	 *
 	 * @since 3.9.0
-	 * @access public
 	 */
 	public function render_content() {
 		$id = 'reorder-widgets-desc-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );

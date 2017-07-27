@@ -18,7 +18,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	/**
 	 * @see Text_Diff_Renderer::_leading_context_lines
 	 * @var int
-	 * @access public
 	 * @since 2.6.0
 	 */
 	public $_leading_context_lines  = 10000;
@@ -26,7 +25,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	/**
 	 * @see Text_Diff_Renderer::_trailing_context_lines
 	 * @var int
-	 * @access public
 	 * @since 2.6.0
 	 */
 	public $_trailing_context_lines = 10000;
@@ -35,7 +33,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * Threshold for when a diff should be saved or omitted.
 	 *
 	 * @var float
-	 * @access protected
 	 * @since 2.6.0
 	 */
 	protected $_diff_threshold = 0.6;
@@ -44,7 +41,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * Inline display helper object name.
 	 *
 	 * @var string
-	 * @access protected
 	 * @since 2.6.0
 	 */
 	protected $inline_diff_renderer = 'WP_Text_Diff_Renderer_inline';
@@ -53,7 +49,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * Should we show the split view or not
 	 *
 	 * @var string
-	 * @access protected
 	 * @since 3.6.0
 	 */
 	protected $_show_split_view = true;
@@ -136,7 +131,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 
 	/**
 	 * @ignore
-	 * @access public
 	 *
 	 * @param array $lines
 	 * @param bool $encode
@@ -175,7 +169,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 
 	/**
 	 * @ignore
-	 * @access public
 	 *
 	 * @param array $lines
 	 * @param bool $encode
@@ -202,7 +195,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 
 	/**
 	 * @ignore
-	 * @access public
 	 *
 	 * @param array $lines
 	 * @param bool $encode
@@ -232,7 +224,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * (TRAC style) sometimes these lines can actually be deleted or added rows.
 	 * We do additional processing to figure that out
 	 *
-	 * @access public
 	 * @since 2.6.0
 	 *
 	 * @param array $orig
@@ -320,7 +311,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * Takes changed blocks and matches which rows in orig turned into which rows in final.
 	 *
 	 * @since 2.6.0
-	 * @access public
 	 *
 	 * @param array $orig  Lines of the original version of the text.
 	 * @param array $final Lines of the final version of the text.
@@ -466,7 +456,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * Make private properties readable for backward compatibility.
 	 *
 	 * @since 4.0.0
-	 * @access public
 	 *
 	 * @param string $name Property to get.
 	 * @return mixed Property.
@@ -481,7 +470,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * Make private properties settable for backward compatibility.
 	 *
 	 * @since 4.0.0
-	 * @access public
 	 *
 	 * @param string $name  Property to check if set.
 	 * @param mixed  $value Property value.
@@ -497,7 +485,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * Make private properties checkable for backward compatibility.
 	 *
 	 * @since 4.0.0
-	 * @access public
 	 *
 	 * @param string $name Property to check if set.
 	 * @return bool Whether the property is set.
@@ -512,7 +499,6 @@ class WP_Text_Diff_Renderer_Table extends Text_Diff_Renderer {
 	 * Make private properties un-settable for backward compatibility.
 	 *
 	 * @since 4.0.0
-	 * @access public
 	 *
 	 * @param string $name Property to unset.
 	 */
