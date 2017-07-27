@@ -99,8 +99,11 @@ add_action( 'install_themes_pre_theme-information', 'install_theme_information' 
 add_action( 'admin_init', 'default_password_nag_handler' );
 
 add_action( 'admin_notices', 'default_password_nag' );
+add_action( 'admin_notices', 'new_user_email_admin_notice' );
 
 add_action( 'profile_update', 'default_password_nag_edit_user', 10, 2 );
+
+add_action( 'personal_options_update', 'send_confirmation_on_profile_email' );
 
 // Update hooks.
 add_action( 'load-plugins.php', 'wp_plugin_update_rows', 20 ); // After wp_update_plugins() is called.

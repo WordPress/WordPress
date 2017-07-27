@@ -88,13 +88,13 @@ if ( is_multisite()
 }
 
 // Execute confirmed email change. See send_confirmation_on_profile_email().
-if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
+if ( IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $current_user->ID ) {
 	$new_email = get_user_meta( $current_user->ID, '_new_email', true );
 	if ( $new_email && hash_equals( $new_email[ 'hash' ], $_GET[ 'newuseremail' ] ) ) {
 		$user = new stdClass;
 		$user->ID = $current_user->ID;
 		$user->user_email = esc_html( trim( $new_email[ 'newemail' ] ) );
-		if ( $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) ) {
+		if ( is_multisite() && $wpdb->get_var( $wpdb->prepare( "SELECT user_login FROM {$wpdb->signups} WHERE user_login = %s", $current_user->user_login ) ) ) {
 			$wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->signups} SET user_email = %s WHERE user_login = %s", $user->user_email, $current_user->user_login ) );
 		}
 		wp_update_user( $user );
@@ -104,7 +104,7 @@ if ( is_multisite() && IS_PROFILE_PAGE && isset( $_GET[ 'newuseremail' ] ) && $c
 	} else {
 		wp_redirect( add_query_arg( array( 'error' => 'new-email' ), self_admin_url( 'profile.php' ) ) );
 	}
-} elseif ( is_multisite() && IS_PROFILE_PAGE && !empty( $_GET['dismiss'] ) && $current_user->ID . '_new_email' === $_GET['dismiss'] ) {
+} elseif ( IS_PROFILE_PAGE && ! empty( $_GET['dismiss'] ) && $current_user->ID . '_new_email' === $_GET['dismiss'] ) {
 	check_admin_referer( 'dismiss-' . $current_user->ID . '_new_email' );
 	delete_user_meta( $current_user->ID, '_new_email' );
 	wp_redirect( add_query_arg( array('updated' => 'true'), self_admin_url( 'profile.php' ) ) );
