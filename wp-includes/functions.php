@@ -5649,3 +5649,85 @@ function wp_cache_get_last_changed( $group ) {
 
 	return $last_changed;
 }
+
+/**
+ * Send an email to the old site admin email address when the site admin email address changes.
+ *
+ * @since 4.9.0
+ *
+ * @param string $old_email   The old site admin email address.
+ * @param string $new_email   The new site admin email address.
+ * @param string $option_name The relevant database option name.
+ */
+function wp_site_admin_email_change_notification( $old_email, $new_email, $option_name ) {
+	/**
+	 * Filters whether to send the site admin email change notification email.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param bool   $send      Whether to send the email notification.
+	 * @param string $old_email The old site admin email address.
+	 * @param string $new_email The new site admin email address.
+	 */
+	$send = apply_filters( 'send_site_admin_email_change_email', true, $old_email, $new_email );
+
+	if ( ! $send ) {
+		return;
+	}
+
+	/* translators: Do not translate OLD_EMAIL, NEW_EMAIL, SITENAME, SITEURL: those are placeholders. */
+	$email_change_text = __( 'Hi,
+
+This notice confirms that the admin email address was changed on ###SITENAME###.
+
+The new admin email address is ###NEW_EMAIL###.
+
+This email has been sent to ###OLD_EMAIL###
+
+Regards,
+All at ###SITENAME###
+###SITEURL###' );
+
+	$email_change_email = array(
+		'to'      => $old_email,
+		/* translators: Site admin email change notification email subject. %s: Site title */
+		'subject' => __( '[%s] Notice of Admin Email Change' ),
+		'message' => $email_change_text,
+		'headers' => '',
+	);
+	// get site name
+	$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
+
+	/**
+	 * Filters the contents of the email notification sent when the site admin email address is changed.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param array $email_change_email {
+	 *            Used to build wp_mail().
+	 *
+	 *            @type string $to      The intended recipient.
+	 *            @type string $subject The subject of the email.
+	 *            @type string $message The content of the email.
+	 *                The following strings have a special meaning and will get replaced dynamically:
+	 *                - ###OLD_EMAIL### The old site admin email address.
+	 *                - ###NEW_EMAIL### The new site admin email address.
+	 *                - ###SITENAME###  The name of the site.
+	 *                - ###SITEURL###   The URL to the site.
+	 *            @type string $headers Headers.
+	 *        }
+	 * @param string $old_email The old site admin email address.
+	 * @param string $new_email The new site admin email address.
+	 */
+	$email_change_email = apply_filters( 'site_admin_email_change_email', $email_change_email, $old_email, $new_email );
+
+	$email_change_email['message'] = str_replace( '###OLD_EMAIL###', $old_email, $email_change_email['message'] );
+	$email_change_email['message'] = str_replace( '###NEW_EMAIL###', $new_email, $email_change_email['message'] );
+	$email_change_email['message'] = str_replace( '###SITENAME###',  $site_name, $email_change_email['message'] );
+	$email_change_email['message'] = str_replace( '###SITEURL###',   home_url(), $email_change_email['message'] );
+
+	wp_mail( $email_change_email['to'], sprintf(
+		$email_change_email['subject'],
+		$blog_name
+	), $email_change_email['message'], $email_change_email['headers'] );
+}

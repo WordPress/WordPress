@@ -22,6 +22,9 @@ add_action( 'update_option_new_admin_email', 'update_option_new_admin_email', 10
 // Site Hooks.
 add_action( 'wpmueditblogaction', 'upload_space_setting' );
 
+// Network hooks
+add_action( 'update_site_option_admin_email', 'wp_network_admin_email_change_notification', 10, 4 );
+
 // Taxonomy Hooks
 add_filter( 'get_term', 'sync_category_tag_slugs', 10, 2 );
 
