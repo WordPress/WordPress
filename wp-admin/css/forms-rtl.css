@@ -908,6 +908,11 @@ table.form-table td .updated p {
 	vertical-align: middle;
 }
 
+.form-table.permalink-structure .available-structure-tags li {
+	float: right;
+	margin-left: 5px;
+}
+
 /*------------------------------------------------------------------------------
   21.0 - Network Admin
 ------------------------------------------------------------------------------*/

@@ -175,6 +175,101 @@ $('.contextual-help-tabs').delegate('a', 'click', function(e) {
 	panel.addClass('active').show();
 });
 
+/**
+ * Update custom permalink structure via buttons.
+ */
+
+var permalinkStructureFocused = false,
+    $permalinkStructure       = $( '#permalink_structure' ),
+    $availableStructureTags   = $( '.form-table.permalink-structure .available-structure-tags button' );
+
+// Check if the permalink structure input field has had focus at least once.
+$permalinkStructure.on( 'focus', function( event ) {
+	permalinkStructureFocused = true;
+	$( this ).off( event );
+} );
+
+/**
+ * Enables or disables a structure tag button depending on its usage.
+ *
+ * If the structure is already used in the custom permalink structure,
+ * it will be disabled.
+ *
+ * @param {object} button Button jQuery object.
+ */
+function changeStructureTagButtonState( button ) {
+	if ( -1 !== $permalinkStructure.val().indexOf( button.text().trim() ) ) {
+		button.attr( 'data-label', button.attr( 'aria-label' ) );
+		button.attr( 'aria-label', button.attr( 'data-used' ) );
+		button.attr( 'aria-pressed', true );
+		button.addClass( 'active' );
+	} else if ( button.attr( 'data-label' ) ) {
+		button.attr( 'aria-label', button.attr( 'data-label' ) );
+		button.attr( 'aria-pressed', false );
+		button.removeClass( 'active' );
+	}
+};
+
+// Check initial button state.
+$availableStructureTags.each( function() {
+	changeStructureTagButtonState( $( this ) );
+} );
+
+// Observe permalink structure field and disable buttons of tags that are already present.
+$permalinkStructure.on( 'change', function() {
+	$availableStructureTags.each( function() {
+		changeStructureTagButtonState( $( this ) );
+	} );
+} );
+
+$availableStructureTags.on( 'click', function() {
+	var permalinkStructureValue = $permalinkStructure.val(),
+	    selectionStart          = $permalinkStructure[ 0 ].selectionStart,
+	    selectionEnd            = $permalinkStructure[ 0 ].selectionEnd,
+	    textToAppend            = $( this ).text().trim(),
+	    textToAnnounce          = $( this ).attr( 'data-added' );
+
+	// Remove structure tag if already part of the structure.
+	if ( -1 !== permalinkStructureValue.indexOf( textToAppend ) ) {
+		permalinkStructureValue = permalinkStructureValue.replace( textToAppend + '/', '' );
+
+		$permalinkStructure.val( '/' === permalinkStructureValue ? '' : permalinkStructureValue );
+
+		// Announce change to screen readers.
+		$( '#custom_selection_updated' ).text( textToAnnounce );
+
+		// Disable button.
+		changeStructureTagButtonState( $( this ) );
+
+		return;
+	}
+
+	// Input field never had focus, move selection to end of input.
+	if ( ! permalinkStructureFocused && 0 === selectionStart && 0 === selectionEnd ) {
+		selectionStart = selectionEnd = permalinkStructureValue.length;
+	}
+
+	$( '#custom_selection' ).prop( 'checked', true );
+
+	// Prepend and append slashes if necessary.
+	if ( '/' !== permalinkStructureValue.substr( 0, selectionStart ).substr( -1 ) ) {
+		textToAppend = '/' + textToAppend;
+	}
+
+	if ( '/' !== permalinkStructureValue.substr( selectionEnd, 1 ) ) {
+		textToAppend = textToAppend + '/';
+	}
+
+	// Insert structure tag at the specified position.
+	$permalinkStructure.val( permalinkStructureValue.substr( 0, selectionStart ) + textToAppend + permalinkStructureValue.substr( selectionEnd ) );
+
+	// Announce change to screen readers.
+	$( '#custom_selection_updated' ).text( textToAnnounce );
+
+	// Disable button.
+	changeStructureTagButtonState( $( this ) );
+} );
+
 $document.ready( function() {
 	var checks, first, last, checked, sliced, mobileEvent, transitionTimeout, focusedRowActions,
 		lastClicked = false,
