@@ -35,6 +35,8 @@ class WP_Widget_Categories extends WP_Widget {
 	 *
 	 * @since 2.8.0
 	 *
+	 * @staticvar bool $first_dropdown
+	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance Settings for the current Categories widget instance.
