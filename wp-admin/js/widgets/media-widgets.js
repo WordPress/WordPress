@@ -145,7 +145,7 @@ wp.mediaWidgets = ( function( $ ) {
 					 * @returns {void}
 					 */
 					fetch: function() {
-						var embedLinkView = this, fetchSuccess, matches, fileExt, urlParser; // eslint-disable-line consistent-this
+						var embedLinkView = this, fetchSuccess, matches, fileExt, urlParser, url, re, youTubeEmbedMatch; // eslint-disable-line consistent-this
 
 						if ( embedLinkView.dfd && 'pending' === embedLinkView.dfd.state() ) {
 							embedLinkView.dfd.abort();
@@ -190,10 +190,20 @@ wp.mediaWidgets = ( function( $ ) {
 							return;
 						}
 
+						// Support YouTube embed links.
+						url = embedLinkView.model.get( 'url' );
+						re = /https?:\/\/www\.youtube\.com\/embed\/([^/]+)/;
+						youTubeEmbedMatch = re.exec( url );
+						if ( youTubeEmbedMatch ) {
+							url = 'https://www.youtube.com/watch?v=' + youTubeEmbedMatch[ 1 ];
+							// silently change url to proper oembed-able version.
+							embedLinkView.model.attributes.url = url;
+						}
+
 						embedLinkView.dfd = $.ajax({
 							url: wp.media.view.settings.oEmbedProxyUrl,
 							data: {
-								url: embedLinkView.model.get( 'url' ),
+								url: url,
 								maxwidth: embedLinkView.model.get( 'width' ),
 								maxheight: embedLinkView.model.get( 'height' ),
 								_wpnonce: wp.media.view.settings.nonce.wpRestApi,

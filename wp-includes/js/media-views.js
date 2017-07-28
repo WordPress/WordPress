@@ -4624,9 +4624,10 @@ EmbedLink = wp.media.view.Settings.extend({
 	}, wp.media.controller.Embed.sensitivity ),
 
 	fetch: function() {
+		var url = this.model.get( 'url' ), re, youTubeEmbedMatch;
 
 		// check if they haven't typed in 500 ms
-		if ( $('#embed-url-field').val() !== this.model.get('url') ) {
+		if ( $('#embed-url-field').val() !== url ) {
 			return;
 		}
 
@@ -4634,10 +4635,17 @@ EmbedLink = wp.media.view.Settings.extend({
 			this.dfd.abort();
 		}
 
+		// Support YouTube embed urls, since they work once in the editor.
+		re = /https?:\/\/www\.youtube\.com\/embed\/([^/]+)/;
+		youTubeEmbedMatch = re.exec( url );
+		if ( youTubeEmbedMatch ) {
+			url = 'https://www.youtube.com/watch?v=' + youTubeEmbedMatch[ 1 ];
+		}
+
 		this.dfd = $.ajax({
 			url: wp.media.view.settings.oEmbedProxyUrl,
 			data: {
-				url: this.model.get( 'url' ),
+				url: url,
 				maxwidth: this.model.get( 'width' ),
 				maxheight: this.model.get( 'height' ),
 				_wpnonce: wp.media.view.settings.nonce.wpRestApi
