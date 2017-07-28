@@ -208,7 +208,7 @@ function changeStructureTagButtonState( button ) {
 		button.attr( 'aria-pressed', false );
 		button.removeClass( 'active' );
 	}
-};
+}
 
 // Check initial button state.
 $availableStructureTags.each( function() {
