@@ -417,7 +417,8 @@ class WP_Users_List_Table extends WP_List_Table {
 				$actions['remove'] = "<a class='submitdelete' href='" . wp_nonce_url( $url."action=remove&amp;user=$user_object->ID", 'bulk-users' ) . "'>" . __( 'Remove' ) . "</a>";
 
 			// Add a link to the user's author archive, if not empty.
-			if ( $author_posts_url = get_author_posts_url( $user_object->ID ) ) {
+			$author_posts_url = get_author_posts_url( $user_object->ID );
+			if ( $author_posts_url ) {
 				$actions['view'] = sprintf(
 					'<a href="%s" aria-label="%s">%s</a>',
 					esc_url( $author_posts_url ),
