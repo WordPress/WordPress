@@ -2094,14 +2094,15 @@ function _local_storage_notice() {
  * @param array $args {
  *     Optional. Array of star ratings arguments.
  *
- *     @type int    $rating The rating to display, expressed in either a 0.5 rating increment,
- *                          or percentage. Default 0.
- *     @type string $type   Format that the $rating is in. Valid values are 'rating' (default),
- *                          or, 'percent'. Default 'rating'.
- *     @type int    $number The number of ratings that makes up this rating. Default 0.
- *     @type bool   $echo   Whether to echo the generated markup. False to return the markup instead
- *                          of echoing it. Default true.
+ *     @type int|float $rating The rating to display, expressed in either a 0.5 rating increment,
+ *                             or percentage. Default 0.
+ *     @type string    $type   Format that the $rating is in. Valid values are 'rating' (default),
+ *                             or, 'percent'. Default 'rating'.
+ *     @type int       $number The number of ratings that makes up this rating. Default 0.
+ *     @type bool      $echo   Whether to echo the generated markup. False to return the markup instead
+ *                             of echoing it. Default true.
  * }
+ * @return string Star rating HTML.
  */
 function wp_star_rating( $args = array() ) {
 	$defaults = array(
@@ -2112,11 +2113,11 @@ function wp_star_rating( $args = array() ) {
 	);
 	$r = wp_parse_args( $args, $defaults );
 
-	// Non-english decimal places when the $rating is coming from a string
-	$rating = str_replace( ',', '.', $r['rating'] );
+	// Non-English decimal places when the $rating is coming from a string
+	$rating = (float) str_replace( ',', '.', $r['rating'] );
 
 	// Convert Percentage to star rating, 0..5 in .5 increments
-	if ( 'percent' == $r['type'] ) {
+	if ( 'percent' === $r['type'] ) {
 		$rating = round( $rating / 10, 0 ) / 2;
 	}
 
