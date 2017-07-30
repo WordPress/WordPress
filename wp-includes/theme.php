@@ -2823,6 +2823,9 @@ function _wp_customize_include() {
 /**
  * Publish a snapshot's changes.
  *
+ * @global wpdb                 $wpdb         WordPress database abstraction object.
+ * @global WP_Customize_Manager $wp_customize Customizer instance.
+ *
  * @param string  $new_status     New post status.
  * @param string  $old_status     Old post status.
  * @param WP_Post $changeset_post Changeset post object.
