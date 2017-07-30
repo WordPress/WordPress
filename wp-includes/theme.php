@@ -2821,7 +2821,10 @@ function _wp_customize_include() {
 }
 
 /**
- * Publish a snapshot's changes.
+ * Publishes a snapshot's changes.
+ *
+ * @since 4.7.0
+ * @access private
  *
  * @global wpdb                 $wpdb         WordPress database abstraction object.
  * @global WP_Customize_Manager $wp_customize Customizer instance.
