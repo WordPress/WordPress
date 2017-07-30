@@ -218,7 +218,7 @@ class WP_Community_Events {
 	 * a proxy. In those cases, $_SERVER['REMOTE_ADDR'] is set to the proxy address rather
 	 * than the user's actual address.
 	 *
-	 * Modified from http://stackoverflow.com/a/2031935/450127, MIT license.
+	 * Modified from https://stackoverflow.com/a/2031935/450127, MIT license.
 	 * Modified from https://github.com/geertw/php-ip-anonymizer, MIT license.
 	 *
 	 * SECURITY WARNING: This function is _NOT_ intended to be used in
