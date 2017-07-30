@@ -250,7 +250,7 @@ class WP_Importer {
 	/**
 	 * Reset global variables that grow out of control during imports
 	 *
-	 * @global wpdb  $wpdb
+	 * @global wpdb  $wpdb       WordPress database abstraction object.
 	 * @global array $wp_actions
 	 */
 	public function stop_the_insanity() {
