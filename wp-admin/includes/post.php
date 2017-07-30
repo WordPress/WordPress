@@ -564,6 +564,11 @@ function bulk_edit_posts( $post_data = null ) {
 			continue;
 		}
 
+		if ( isset( $post_data['post_format'] ) ) {
+			set_post_format( $post_ID, $post_data['post_format'] );
+			unset( $post_data['tax_input']['post_format'] );
+		}
+
 		$updated[] = wp_update_post( $post_data );
 
 		if ( isset( $post_data['sticky'] ) && current_user_can( $ptype->cap->edit_others_posts ) ) {
@@ -572,9 +577,6 @@ function bulk_edit_posts( $post_data = null ) {
 			else
 				unstick_post( $post_ID );
 		}
-
-		if ( isset( $post_data['post_format'] ) )
-			set_post_format( $post_ID, $post_data['post_format'] );
 	}
 
 	return array( 'updated' => $updated, 'skipped' => $skipped, 'locked' => $locked );
