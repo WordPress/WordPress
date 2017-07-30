@@ -375,10 +375,15 @@ class WP_Comment_Query {
 			$this->meta_query_clauses = $this->meta_query->get_sql( 'comment', $wpdb->comments, 'comment_ID', $this );
 		}
 
-		// $args can include anything. Only use the args defined in the query_var_defaults to compute the key.
-		$key = md5( serialize( wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) ) ) );
-		$last_changed = wp_cache_get_last_changed( 'comment' );
+		/*
+		 * Only use the args defined in the query_var_defaults to compute the key,
+		 * but ignore 'fields', which does not affect query results.
+		 */
+		$_args = wp_array_slice_assoc( $this->query_vars, array_keys( $this->query_var_defaults ) );
+		unset( $_args['fields'] );
 
+		$key = md5( serialize( $_args ) );
+		$last_changed = wp_cache_get_last_changed( 'comment' );
 
 		$cache_key   = "get_comments:$key:$last_changed";
 		$cache_value = wp_cache_get( $cache_key, 'comment' );
