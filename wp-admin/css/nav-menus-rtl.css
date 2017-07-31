@@ -826,8 +826,12 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 		margin-top: 13px
 	}
 
-	.menu-name-label #menu-name {
-		margin-top: 4px;
+	#menu-name {
+		width: 100%;
+	}
+
+	.nav-menus-php .major-publishing-actions .publishing-action {
+		padding-top: 1em;
 	}
 
 	.nav-menus-php .delete-action {
@@ -876,7 +880,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 	}
 
 	.menu-edit .checkbox-input {
-	    margin-top: 0;
+		margin-top: 0;
 	}
 
 	.manage-menus select {
