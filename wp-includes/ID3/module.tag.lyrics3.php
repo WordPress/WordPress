@@ -24,7 +24,7 @@ class getid3_lyrics3 extends getid3_handler
 		// http://www.volweb.cz/str/tags.htm
 
 		if (!getid3_lib::intValueSupported($info['filesize'])) {
-			$info['warning'][] = 'Unable to check for Lyrics3 because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB';
+			$this->warning('Unable to check for Lyrics3 because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB');
 			return false;
 		}
 
@@ -80,7 +80,7 @@ class getid3_lyrics3 extends getid3_handler
 					$lyrics3offset  = $info['ape']['tag_offset_start'] - $lyrics3size;
 					$info['avdataend'] = $lyrics3offset;
 					$lyrics3version = 1;
-					$info['warning'][] = 'APE tag located after Lyrics3, will probably break Lyrics3 compatability';
+					$this->warning('APE tag located after Lyrics3, will probably break Lyrics3 compatability');
 
 				} elseif ($lyrics3end == 'LYRICS200') {
 					// Lyrics3v2, APE, maybe ID3v1
@@ -88,7 +88,7 @@ class getid3_lyrics3 extends getid3_handler
 					$lyrics3size    = $lyrics3lsz + 6 + strlen('LYRICS200'); // LSZ = lyrics + 'LYRICSBEGIN'; add 6-byte size field; add 'LYRICS200'
 					$lyrics3offset  = $info['ape']['tag_offset_start'] - $lyrics3size;
 					$lyrics3version = 2;
-					$info['warning'][] = 'APE tag located after Lyrics3, will probably break Lyrics3 compatability';
+					$this->warning('APE tag located after Lyrics3, will probably break Lyrics3 compatability');
 
 				}
 
@@ -117,7 +117,7 @@ class getid3_lyrics3 extends getid3_handler
 					}
 					unset($getid3_temp, $getid3_apetag);
 				} else {
-					$info['warning'][] = 'Lyrics3 and APE tags appear to have become entangled (most likely due to updating the APE tags with a non-Lyrics3-aware tagger)';
+					$this->warning('Lyrics3 and APE tags appear to have become entangled (most likely due to updating the APE tags with a non-Lyrics3-aware tagger)');
 				}
 			}
 
@@ -132,7 +132,7 @@ class getid3_lyrics3 extends getid3_handler
 		$info = &$this->getid3->info;
 
 		if (!getid3_lib::intValueSupported($endoffset)) {
-			$info['warning'][] = 'Unable to check for Lyrics3 because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB';
+			$this->warning('Unable to check for Lyrics3 because file is larger than '.round(PHP_INT_MAX / 1073741824).'GB');
 			return false;
 		}
 
@@ -150,7 +150,7 @@ class getid3_lyrics3 extends getid3_handler
 		if (substr($rawdata, 0, 11) != 'LYRICSBEGIN') {
 			if (strpos($rawdata, 'LYRICSBEGIN') !== false) {
 
-				$info['warning'][] = '"LYRICSBEGIN" expected at '.$endoffset.' but actually found at '.($endoffset + strpos($rawdata, 'LYRICSBEGIN')).' - this is invalid for Lyrics3 v'.$version;
+				$this->warning('"LYRICSBEGIN" expected at '.$endoffset.' but actually found at '.($endoffset + strpos($rawdata, 'LYRICSBEGIN')).' - this is invalid for Lyrics3 v'.$version);
 				$info['avdataend'] = $endoffset + strpos($rawdata, 'LYRICSBEGIN');
 				$rawdata = substr($rawdata, strpos($rawdata, 'LYRICSBEGIN'));
 				$length = strlen($rawdata);
@@ -159,7 +159,7 @@ class getid3_lyrics3 extends getid3_handler
 
 			} else {
 
-				$info['error'][] = '"LYRICSBEGIN" expected at '.$endoffset.' but found "'.substr($rawdata, 0, 11).'" instead';
+				$this->error('"LYRICSBEGIN" expected at '.$endoffset.' but found "'.substr($rawdata, 0, 11).'" instead');
 				return false;
 
 			}
@@ -173,7 +173,7 @@ class getid3_lyrics3 extends getid3_handler
 					$ParsedLyrics3['raw']['LYR'] = trim(substr($rawdata, 11, strlen($rawdata) - 11 - 9));
 					$this->Lyrics3LyricsTimestampParse($ParsedLyrics3);
 				} else {
-					$info['error'][] = '"LYRICSEND" expected at '.($this->ftell() - 11 + $length - 9).' but found "'.substr($rawdata, strlen($rawdata) - 9, 9).'" instead';
+					$this->error('"LYRICSEND" expected at '.($this->ftell() - 11 + $length - 9).' but found "'.substr($rawdata, strlen($rawdata) - 9, 9).'" instead');
 					return false;
 				}
 				break;
@@ -221,20 +221,20 @@ class getid3_lyrics3 extends getid3_handler
 						$this->Lyrics3LyricsTimestampParse($ParsedLyrics3);
 					}
 				} else {
-					$info['error'][] = '"LYRICS200" expected at '.($this->ftell() - 11 + $length - 9).' but found "'.substr($rawdata, strlen($rawdata) - 9, 9).'" instead';
+					$this->error('"LYRICS200" expected at '.($this->ftell() - 11 + $length - 9).' but found "'.substr($rawdata, strlen($rawdata) - 9, 9).'" instead');
 					return false;
 				}
 				break;
 
 			default:
-				$info['error'][] = 'Cannot process Lyrics3 version '.$version.' (only v1 and v2)';
+				$this->error('Cannot process Lyrics3 version '.$version.' (only v1 and v2)');
 				return false;
 				break;
 		}
 
 
 		if (isset($info['id3v1']['tag_offset_start']) && ($info['id3v1']['tag_offset_start'] <= $ParsedLyrics3['tag_offset_end'])) {
-			$info['warning'][] = 'ID3v1 tag information ignored since it appears to be a false synch in Lyrics3 tag data';
+			$this->warning('ID3v1 tag information ignored since it appears to be a false synch in Lyrics3 tag data');
 			unset($info['id3v1']);
 			foreach ($info['warning'] as $key => $value) {
 				if ($value == 'Some ID3v1 fields do not use NULL characters for padding') {
