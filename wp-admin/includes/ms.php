@@ -72,7 +72,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 	/**
 	 * Fires before a site is deleted.
 	 *
-	 * @since MU
+	 * @since MU (3.0.0)
 	 *
 	 * @param int  $blog_id The site ID.
 	 * @param bool $drop    True if site's table should be dropped. Default is false.
@@ -116,7 +116,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		/**
 		 * Filters the tables to drop when the site is deleted.
 		 *
-		 * @since MU
+		 * @since MU (3.0.0)
 		 *
 		 * @param array $tables  The site tables to be dropped.
 		 * @param int   $blog_id The ID of the site to drop tables for.
@@ -132,7 +132,7 @@ function wpmu_delete_blog( $blog_id, $drop = false ) {
 		/**
 		 * Filters the upload base directory to delete when the site is deleted.
 		 *
-		 * @since MU
+		 * @since MU (3.0.0)
 		 *
 		 * @param string $uploads['basedir'] Uploads path without subdirectory. @see wp_upload_dir()
 		 * @param int    $blog_id            The site ID.
@@ -221,7 +221,7 @@ function wpmu_delete_user( $id ) {
 	/**
 	 * Fires before a user is deleted from the network.
 	 *
-	 * @since MU
+	 * @since MU (3.0.0)
 	 *
 	 * @param int $id ID of the user about to be deleted from the network.
 	 */
@@ -314,7 +314,7 @@ All at ###SITENAME###
 	 * ###SITENAME###  The name of the site.
 	 * ###SITEURL###   The URL to the site.
 	 *
-	 * @since MU
+	 * @since MU (3.0.0)
 	 *
 	 * @param string $email_text      Text in the email.
 	 * @param string $new_admin_email New admin email that the current administration email was changed to.
@@ -338,7 +338,7 @@ All at ###SITENAME###
 /**
  * Check whether a site has used its allotted upload space.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param bool $echo Optional. If $echo is set and the quota is exceeded, a warning message is echoed. Default is true.
  * @return bool True if user is over upload space quota, otherwise false.
@@ -365,7 +365,7 @@ function upload_is_user_over_quota( $echo = true ) {
 /**
  * Displays the amount of disk space used by the current site. Not used in core.
  *
- * @since MU
+ * @since MU (3.0.0)
  */
 function display_space_usage() {
 	$space_allowed = get_space_allowed();
@@ -393,7 +393,7 @@ function display_space_usage() {
 /**
  * Get the remaining upload space for this site.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param int $size Current max size in bytes
  * @return int Max size in bytes
@@ -530,7 +530,7 @@ function format_code_lang( $code = '' ) {
 	/**
 	 * Filters the language codes.
 	 *
-	 * @since MU
+	 * @since MU (3.0.0)
 	 *
 	 * @param array  $lang_codes Key/value pair of language codes where key is the short version.
 	 * @param string $code       A two-letter designation of the language.
@@ -658,7 +658,7 @@ function mu_dropdown_languages( $lang_files = array(), $current = '' ) {
 	/**
 	 * Filters the languages available in the dropdown.
 	 *
-	 * @since MU
+	 * @since MU (3.0.0)
 	 *
 	 * @param array $output     HTML output of the dropdown.
 	 * @param array $lang_files Available language files.

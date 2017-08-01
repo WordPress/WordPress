@@ -229,7 +229,7 @@ if ( isset( $_GET['action'] ) ) {
 			/**
 			 * Fires after a network site is activated.
 			 *
-			 * @since MU
+			 * @since MU (3.0.0)
 			 *
 			 * @param string $id The ID of the activated site.
 			 */
@@ -240,7 +240,7 @@ if ( isset( $_GET['action'] ) ) {
 			/**
 			 * Fires before a network site is deactivated.
 			 *
-			 * @since MU
+			 * @since MU (3.0.0)
 			 *
 			 * @param string $id The ID of the site being deactivated.
 			 */

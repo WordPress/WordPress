@@ -94,7 +94,7 @@ switch ( $action ) {
 			/**
 			 * Fires after the Multisite DB upgrade for each site is complete.
 			 *
-			 * @since MU
+			 * @since MU (3.0.0)
 			 *
 			 * @param array|WP_Error $response The upgrade response array or WP_Error on failure.
 			 */
@@ -102,7 +102,7 @@ switch ( $action ) {
 			/**
 			 * Fires after each site has been upgraded.
 			 *
-			 * @since MU
+			 * @since MU (3.0.0)
 			 *
 			 * @param int $site_id The Site ID.
 			 */
@@ -133,7 +133,7 @@ switch ( $action ) {
 		/**
 		 * Fires before the footer on the network upgrade screen.
 		 *
-		 * @since MU
+		 * @since MU (3.0.0)
 		 */
 		do_action( 'wpmu_upgrade_page' );
 	break;

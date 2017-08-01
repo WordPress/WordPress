@@ -1270,7 +1270,7 @@ final class WP_Theme implements ArrayAccess {
 		/**
 		 * Filters the array of themes allowed on the network.
 		 *
-		 * @since MU
+		 * @since MU (3.0.0)
 		 *
 		 * @param array $allowed_themes An array of theme stylesheet names.
 		 */

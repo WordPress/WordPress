@@ -419,7 +419,7 @@ function wp_network_dashboard_right_now() {
 		 * Fires in the Network Admin 'Right Now' dashboard widget
 		 * just before the user and site search form fields.
 		 *
-		 * @since MU
+		 * @since MU (3.0.0)
 		 *
 		 * @param null $unused
 		 */
@@ -445,14 +445,14 @@ function wp_network_dashboard_right_now() {
 	/**
 	 * Fires at the end of the 'Right Now' widget in the Network Admin dashboard.
 	 *
-	 * @since MU
+	 * @since MU (3.0.0)
 	 */
 	do_action( 'mu_rightnow_end' );
 
 	/**
 	 * Fires at the end of the 'Right Now' widget in the Network Admin dashboard.
 	 *
-	 * @since MU
+	 * @since MU (3.0.0)
 	 */
 	do_action( 'mu_activity_box_end' );
 }

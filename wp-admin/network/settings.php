@@ -80,7 +80,7 @@ if ( $_POST ) {
 	/**
 	 * Fires after the network options are updated.
 	 *
-	 * @since MU
+	 * @since MU (3.0.0)
 	 */
 	do_action( 'update_wpmu_options' );
 
@@ -370,7 +370,7 @@ if ( isset( $_GET['updated'] ) ) {
 			 * default option, 'plugins' is enabled, site administrators are granted access to the Plugins
 			 * screen in their individual sites' dashboards.
 			 *
-			 * @since MU
+			 * @since MU (3.0.0)
 			 *
 			 * @param array $admin_menus The menu items available.
 			 */
@@ -393,7 +393,7 @@ if ( isset( $_GET['updated'] ) ) {
 		/**
 		 * Fires at the end of the Network Settings form, before the submit button.
 		 *
-		 * @since MU
+		 * @since MU (3.0.0)
 		 */
 		do_action( 'wpmu_options' ); ?>
 		<?php submit_button(); ?>

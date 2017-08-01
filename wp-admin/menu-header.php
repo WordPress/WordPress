@@ -31,7 +31,7 @@ global $menu, $submenu, $parent_file, $submenu_file;
  *
  * Allows plugins to move sub-menu items around.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param string $parent_file The parent file.
  */

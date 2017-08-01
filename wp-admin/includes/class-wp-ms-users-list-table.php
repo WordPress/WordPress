@@ -174,7 +174,7 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		/**
 		 * Filters the columns displayed in the Network Admin Users list table.
 		 *
-		 * @since MU
+		 * @since MU (3.0.0)
 		 *
 		 * @param array $users_columns An array of user columns. Default 'cb', 'username',
 		 *                             'name', 'email', 'registered', 'blogs'.

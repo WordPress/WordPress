@@ -17,7 +17,7 @@
  * Get the "dashboard blog", the blog where users without a blog edit their profile data.
  * Dashboard blog functionality was removed in WordPress 3.1, replaced by the user admin.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.1.0 Use get_site()
  * @see get_site()
  *
@@ -35,7 +35,7 @@ function get_dashboard_blog() {
 /**
  * Generates a random password.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.0.0 Use wp_generate_password()
  * @see wp_generate_password()
  *
@@ -55,7 +55,7 @@ function generate_random_password( $len = 8 ) {
  * This function must reside in a file included only if is_multisite() due to
  * legacy function_exists() checks to determine if multisite is enabled.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.0.0 Use is_super_admin()
  * @see is_super_admin()
  *
@@ -82,7 +82,7 @@ if ( !function_exists( 'graceful_fail' ) ) :
 /**
  * Deprecated functionality to gracefully fail.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.0.0 Use wp_die()
  * @see wp_die()
  */
@@ -120,7 +120,7 @@ endif;
 /**
  * Deprecated functionality to retrieve user information.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.0.0 Use get_user_by()
  * @see get_user_by()
  *
@@ -134,7 +134,7 @@ function get_user_details( $username ) {
 /**
  * Deprecated functionality to clear the global post cache.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.0.0 Use clean_post_cache()
  * @see clean_post_cache()
  *
@@ -147,7 +147,7 @@ function clear_global_post_cache( $post_id ) {
 /**
  * Deprecated functionality to determin if the current site is the main site.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.0.0 Use is_main_site()
  * @see is_main_site()
  */
@@ -159,7 +159,7 @@ function is_main_blog() {
 /**
  * Deprecated functionality to validate an email address.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.0.0 Use is_email()
  * @see is_email()
  *
@@ -175,7 +175,7 @@ function validate_email( $email, $check_domain = true) {
 /**
  * Deprecated functionality to retrieve a list of all sites.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.0.0 Use wp_get_sites()
  * @see wp_get_sites()
  *
@@ -209,7 +209,7 @@ function get_blog_list( $start = 0, $num = 10, $deprecated = '' ) {
 /**
  * Deprecated functionality to retrieve a list of the most active sites.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.0.0
  *
  * @param int  $num     Optional. Number of activate blogs to retrieve. Default 10.
@@ -261,7 +261,7 @@ function get_most_active_blogs( $num = 10, $display = true ) {
  * 5) $_POST['redirect']
  * 6) $url
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.3.0 Use wp_redirect()
  * @see wp_redirect()
  *
@@ -300,7 +300,7 @@ function wpmu_admin_do_redirect( $url = '' ) {
 /**
  * Adds an 'updated=true' argument to a URL.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.3.0 Use add_query_arg()
  * @see add_query_arg()
  *
@@ -325,7 +325,7 @@ function wpmu_admin_redirect_add_updated_param( $url = '' ) {
  * A numeric string is considered to be an existing user ID
  * and is simply returned as such.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.6.0 Use get_user_by()
  * @see get_user_by()
  *
@@ -350,7 +350,7 @@ function get_user_id_from_string( $string ) {
 /**
  * Get a full blog URL, given a domain and a path.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.7.0
  *
  * @param string $domain
@@ -379,7 +379,7 @@ function get_blogaddress_by_domain( $domain, $path ) {
 /**
  * Create an empty blog.
  *
- * @since MU 1.0
+ * @since MU (3.0.0) 1.0
  * @deprecated 4.4.0
  *
  * @param string $domain       The new blog's domain.
@@ -415,7 +415,7 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
 /**
  * Get the admin for a domain/path combination.
  *
- * @since MU 1.0
+ * @since MU (3.0.0) 1.0
  * @deprecated 4.4.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.

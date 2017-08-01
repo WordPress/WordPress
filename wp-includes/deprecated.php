@@ -2798,7 +2798,7 @@ function wp_admin_bar_dashboard_view_site_menu( $wp_admin_bar ) {
 /**
  * Checks if the current user belong to a given site.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @deprecated 3.3.0 Use is_user_member_of_blog()
  * @see is_user_member_of_blog()
  *

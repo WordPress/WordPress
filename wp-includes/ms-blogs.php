@@ -5,13 +5,13 @@
  *
  * @package WordPress
  * @subpackage Multisite
- * @since MU
+ * @since MU (3.0.0)
  */
 
 /**
  * Update the last_updated field for the current site.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  */
@@ -22,7 +22,7 @@ function wpmu_update_blogs_date() {
 	/**
 	 * Fires after the blog details are updated.
 	 *
-	 * @since MU
+	 * @since MU (3.0.0)
 	 *
 	 * @param int $blog_id Site ID.
 	 */
@@ -32,7 +32,7 @@ function wpmu_update_blogs_date() {
 /**
  * Get a full blog URL, given a blog id.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param int $blog_id Blog ID
  * @return string Full URL of the blog if found. Empty string if not.
@@ -53,7 +53,7 @@ function get_blogaddress_by_id( $blog_id ) {
 /**
  * Get a full blog URL, given a blog name.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param string $blogname The (subdomain or directory) name
  * @return string
@@ -74,7 +74,7 @@ function get_blogaddress_by_name( $blogname ) {
 /**
  * Retrieves a sites ID given its (subdomain or directory) slug.
  *
- * @since MU
+ * @since MU (3.0.0)
  * @since 4.7.0 Converted to use get_sites().
  *
  * @param string $slug A site's slug.
@@ -109,7 +109,7 @@ function get_id_from_blogname( $slug ) {
 /**
  * Retrieve the details for a blog from the blogs table and blog options.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -239,7 +239,7 @@ function get_blog_details( $fields = null, $get_all = true ) {
 	/**
 	 * Filters a blog's details.
 	 *
-	 * @since MU
+	 * @since MU (3.0.0)
 	 * @deprecated 4.7.0 Use site_details
 	 *
 	 * @param object $details The blog details.
@@ -257,7 +257,7 @@ function get_blog_details( $fields = null, $get_all = true ) {
 /**
  * Clear the blog details cache.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param int $blog_id Optional. Blog ID. Defaults to current blog.
  */
@@ -294,7 +294,7 @@ function refresh_blog_details( $blog_id = 0 ) {
 /**
  * Update the details for a blog. Updates the blogs table for a given blog id.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -341,7 +341,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 			/**
 			 * Fires when the 'spam' status is added to a blog.
 			 *
-			 * @since MU
+			 * @since MU (3.0.0)
 			 *
 			 * @param int $blog_id Blog ID.
 			 */
@@ -350,7 +350,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 			/**
 			 * Fires when the 'spam' status is removed from a blog.
 			 *
-			 * @since MU
+			 * @since MU (3.0.0)
 			 *
 			 * @param int $blog_id Blog ID.
 			 */
@@ -387,7 +387,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 			/**
 			 * Fires when the 'archived' status is added to a blog.
 			 *
-			 * @since MU
+			 * @since MU (3.0.0)
 			 *
 			 * @param int $blog_id Blog ID.
 			 */
@@ -396,7 +396,7 @@ function update_blog_details( $blog_id, $details = array() ) {
 			/**
 			 * Fires when the 'archived' status is removed from a blog.
 			 *
-			 * @since MU
+			 * @since MU (3.0.0)
 			 *
 			 * @param int $blog_id Blog ID.
 			 */
@@ -648,7 +648,7 @@ function get_sites( $args = array() ) {
  *
  * If the option was serialized then it will be unserialized when it is returned.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param int    $id      A blog ID. Can be null to refer to the current blog.
  * @param string $option  Name of option to retrieve. Expected to not be SQL-escaped.
@@ -693,7 +693,7 @@ function get_blog_option( $id, $option, $default = false ) {
  * aren't adding a protected WordPress option. Care should be taken to not name
  * options the same as the ones which are protected.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param int    $id     A blog ID. Can be null to refer to the current blog.
  * @param string $option Name of option to add. Expected to not be SQL-escaped.
@@ -719,7 +719,7 @@ function add_blog_option( $id, $option, $value ) {
 /**
  * Removes option by name for a given blog id. Prevents removal of protected WordPress options.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param int    $id     A blog ID. Can be null to refer to the current blog.
  * @param string $option Name of option to remove. Expected to not be SQL-escaped.
@@ -744,7 +744,7 @@ function delete_blog_option( $id, $option ) {
 /**
  * Update an option for a particular blog.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param int    $id         The blog id.
  * @param string $option     The option key.
@@ -779,7 +779,7 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
  *  - plugins. See #14941
  *
  * @see restore_current_blog()
- * @since MU
+ * @since MU (3.0.0)
  *
  * @global wpdb            $wpdb
  * @global int             $blog_id
@@ -811,7 +811,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 		/**
 		 * Fires when the blog is switched.
 		 *
-		 * @since MU
+		 * @since MU (3.0.0)
 		 *
 		 * @param int $new_blog New blog ID.
 		 * @param int $new_blog Blog ID.
@@ -865,7 +865,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
  * Restore the current blog, after calling switch_to_blog()
  *
  * @see switch_to_blog()
- * @since MU
+ * @since MU (3.0.0)
  *
  * @global wpdb            $wpdb
  * @global array           $_wp_switched_stack
@@ -953,7 +953,7 @@ function ms_is_switched() {
 /**
  * Check if a particular blog is archived.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param int $id The blog id
  * @return string Whether the blog is archived or not
@@ -965,7 +965,7 @@ function is_archived( $id ) {
 /**
  * Update the 'archived' status of a particular blog.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @param int    $id       The blog id
  * @param string $archived The new status
@@ -979,7 +979,7 @@ function update_archived( $id, $archived ) {
 /**
  * Update a blog details field.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1041,7 +1041,7 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 		/**
 		 * Fires after the current blog's 'public' setting is updated.
 		 *
-		 * @since MU
+		 * @since MU (3.0.0)
 		 *
 		 * @param int    $blog_id Blog ID.
 		 * @param string $value   The value of blog status.
@@ -1055,7 +1055,7 @@ function update_blog_status( $blog_id, $pref, $value, $deprecated = null ) {
 /**
  * Get a blog details field.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
@@ -1076,7 +1076,7 @@ function get_blog_status( $id, $pref ) {
 /**
  * Get a list of most recently updated blogs.
  *
- * @since MU
+ * @since MU (3.0.0)
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *

@@ -236,7 +236,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		/**
 		 * Filters the displayed site columns in Sites list table.
 		 *
-		 * @since MU
+		 * @since MU (3.0.0)
 		 *
 		 * @param array $sites_columns An array of displayed site columns. Default 'cb',
 		 *                             'blogname', 'lastupdated', 'registered', 'users'.
@@ -420,7 +420,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 			 *
 			 * By default this column is hidden unless something is hooked to the action.
 			 *
-			 * @since MU
+			 * @since MU (3.0.0)
 			 *
 			 * @param int $blog_id The site ID.
 			 */
