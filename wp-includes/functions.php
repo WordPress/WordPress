@@ -226,11 +226,14 @@ function number_format_i18n( $number, $decimals = 0 ) {
 	/**
 	 * Filters the number formatted based on the locale.
 	 *
-	 * @since  2.8.0
+	 * @since 2.8.0
+	 * @since 4.9.0 The `$number` and `$decimals` arguments were added.
 	 *
 	 * @param string $formatted Converted number in string format.
+	 * @param float  $number    The number to convert based on locale.
+	 * @param int    $decimals  Precision of the number of decimal places.
 	 */
-	return apply_filters( 'number_format_i18n', $formatted );
+	return apply_filters( 'number_format_i18n', $formatted, $number, $decimals );
 }
 
 /**
