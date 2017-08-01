@@ -11,9 +11,12 @@ require_once( dirname( __FILE__ ) . '/admin.php' );
 
 if ( ! wp_is_mobile() ) {
 	wp_enqueue_style( 'wp-mediaelement' );
+	wp_enqueue_script( 'mediaelement-vimeo' );
 	wp_enqueue_script( 'wp-mediaelement' );
 	wp_localize_script( 'mediaelement', '_wpmejsSettings', array(
 		'pluginPath'        => includes_url( 'js/mediaelement/', 'relative' ),
+		'classPrefix'       => 'mejs-',
+		'stretching'        => 'responsive',
 		'pauseOtherPlayers' => '',
 	) );
 }

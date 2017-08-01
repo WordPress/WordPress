@@ -346,38 +346,104 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'imgareaselect', "/wp-includes/js/imgareaselect/jquery.imgareaselect$suffix.js", array('jquery'), false, 1 );
 
-	$scripts->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelement-and-player.min.js", array('jquery'), '2.22.0', 1 );
+	$scripts->add( 'mediaelement', "/wp-includes/js/mediaelement/mediaelement-and-player.min.js", array('jquery'), '4.2.3', 1 );
 	did_action( 'init' ) && $scripts->localize( 'mediaelement', 'mejsL10n', array(
 		'language' => get_bloginfo( 'language' ),
 		'strings'  => array(
-			'Close'                   => __( 'Close' ),
-			'Fullscreen'              => __( 'Fullscreen' ),
-			'Turn off Fullscreen'     => __( 'Turn off Fullscreen' ),
-			'Go Fullscreen'           => __( 'Go Fullscreen' ),
-			'Download File'           => __( 'Download File' ),
-			'Download Video'          => __( 'Download Video' ),
-			'Play'                    => __( 'Play' ),
-			'Pause'                   => __( 'Pause' ),
-			'Captions/Subtitles'      => __( 'Captions/Subtitles' ),
-			'None'                    => _x( 'None', 'no captions/subtitles' ),
-			'Time Slider'             => __( 'Time Slider' ),
-			/* translators: %1: number of seconds (30 by default) */
-			'Skip back %1 seconds'    => __( 'Skip back %1 seconds' ),
-			'Video Player'            => __( 'Video Player' ),
-			'Audio Player'            => __( 'Audio Player' ),
-			'Volume Slider'           => __( 'Volume Slider' ),
-			'Mute Toggle'             => __( 'Mute Toggle' ),
-			'Unmute'                  => __( 'Unmute' ),
-			'Mute'                    => __( 'Mute' ),
-			'Use Up/Down Arrow keys to increase or decrease volume.' => __( 'Use Up/Down Arrow keys to increase or decrease volume.' ),
-			'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.' => __( 'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.' ),
-		),
-	) );
+			'mejs.install-flash'       => __( 'You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https://get.adobe.com/flashplayer/' ),
+			'mejs.fullscreen-off'      => __( 'Turn off Fullscreen' ),
+			'mejs.fullscreen-on'       => __( 'Go Fullscreen' ),
+			'mejs.download-video'      => __( 'Download Video' ),
+			'mejs.fullscreen'          => __( 'Fullscreen' ),
+			'mejs.time-jump-forward'   => array( __( 'Jump forward 1 second' ), __( 'Jump forward %1 seconds' ) ),
+			'mejs.loop'                => __( 'Toggle Loop' ),
+			'mejs.play'                => __( 'Play' ),
+			'mejs.pause'               => __( 'Pause' ),
+			'mejs.close'               => __( 'Close' ),
+			'mejs.time-slider'         => __( 'Time Slider' ),
+			'mejs.time-help-text'      => __( 'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.' ),
+			'mejs.time-skip-back'      => array( __( 'Skip back 1 second' ), __( 'Skip back %1 seconds' ) ),
+			'mejs.captions-subtitles'  => __( 'Captions/Subtitles' ),
+			'mejs.captions-chapters'   => __( 'Chapters' ),
+			'mejs.none'                => __( 'None' ),
+			'mejs.mute-toggle'         => __( 'Mute Toggle' ),
+			'mejs.volume-help-text'    => __( 'Use Up/Down Arrow keys to increase or decrease volume.' ),
+			'mejs.unmute'              => __( 'Unmute' ),
+			'mejs.mute'                => __( 'Mute' ),
+			'mejs.volume-slider'       => __( 'Volume Slider' ),
+			'mejs.video-player'        => __( 'Video Player' ),
+			'mejs.audio-player'        => __( 'Audio Player' ),
+			'mejs.ad-skip'             => __( 'Skip ad' ),
+			'mejs.ad-skip-info'        => array( __( 'Skip in 1 second' ), __( 'Skip in %1 seconds' ) ),
+			'mejs.source-chooser'      => __( 'Source Chooser' ),
+			'mejs.stop'                => __( 'Stop' ),
+			'mejs.speed-rate'          => __( 'Speed Rate' ),
+			'mejs.live-broadcast'      => __( 'Live Broadcast' ),
+			'mejs.afrikaans'           => __( 'Afrikaans' ),
+			'mejs.albanian'            => __( 'Albanian' ),
+			'mejs.arabic'              => __( 'Arabic' ),
+			'mejs.belarusian'          => __( 'Belarusian' ),
+			'mejs.bulgarian'           => __( 'Bulgarian' ),
+			'mejs.catalan'             => __( 'Catalan' ),
+			'mejs.chinese'             => __( 'Chinese' ),
+			'mejs.chinese-simplified'  => __( 'Chinese (Simplified)' ),
+			'mejs.chinese-traditional' => __( 'Chinese (Traditional)' ),
+			'mejs.croatian'            => __( 'Croatian' ),
+			'mejs.czech'               => __( 'Czech' ),
+			'mejs.danish'              => __( 'Danish' ),
+			'mejs.dutch'               => __( 'Dutch' ),
+			'mejs.english'             => __( 'English' ),
+			'mejs.estonian'            => __( 'Estonian' ),
+			'mejs.filipino'            => __( 'Filipino' ),
+			'mejs.finnish'             => __( 'Finnish' ),
+			'mejs.french'              => __( 'French' ),
+			'mejs.galician'            => __( 'Galician' ),
+			'mejs.german'              => __( 'German' ),
+			'mejs.greek'               => __( 'Greek' ),
+			'mejs.haitian-creole'      => __( 'Haitian Creole' ),
+			'mejs.hebrew'              => __( 'Hebrew' ),
+			'mejs.hindi'               => __( 'Hindi' ),
+			'mejs.hungarian'           => __( 'Hungarian' ),
+			'mejs.icelandic'           => __( 'Icelandic' ),
+			'mejs.indonesian'          => __( 'Indonesian' ),
+			'mejs.irish'               => __( 'Irish' ),
+			'mejs.italian'             => __( 'Italian' ),
+			'mejs.japanese'            => __( 'Japanese' ),
+			'mejs.korean'              => __( 'Korean' ),
+			'mejs.latvian'             => __( 'Latvian' ),
+			'mejs.lithuanian'          => __( 'Lithuanian' ),
+			'mejs.macedonian'          => __( 'Macedonian' ),
+			'mejs.malay'               => __( 'Malay' ),
+			'mejs.maltese'             => __( 'Maltese' ),
+			'mejs.norwegian'           => __( 'Norwegian' ),
+			'mejs.persian'             => __( 'Persian' ),
+			'mejs.polish'              => __( 'Polish' ),
+			'mejs.portuguese'          => __( 'Portuguese' ),
+			'mejs.romanian'            => __( 'Romanian' ),
+			'mejs.russian'             => __( 'Russian' ),
+			'mejs.serbian'             => __( 'Serbian' ),
+			'mejs.slovak'              => __( 'Slovak' ),
+			'mejs.slovenian'           => __( 'Slovenian' ),
+			'mejs.spanish'             => __( 'Spanish' ),
+			'mejs.swahili'             => __( 'Swahili' ),
+			'mejs.swedish'             => __( 'Swedish' ),
+			'mejs.tagalog'             => __( 'Tagalog' ),
+			'mejs.thai'                => __( 'Thai' ),
+			'mejs.turkish'             => __( 'Turkish' ),
+			'mejs.ukrainian'           => __( 'Ukrainian' ),
+			'mejs.vietnamese'          => __( 'Vietnamese' ),
+			'mejs.welsh'               => __( 'Welsh' ),
+			'mejs.yiddish'             => __( 'Yiddish' ),
+			),
+		) );
 
 
+	$scripts->add( 'mediaelement-vimeo', "/wp-includes/js/mediaelement/renderers/vimeo.min.js", array('mediaelement'), '4.2.3', 1 );
 	$scripts->add( 'wp-mediaelement', "/wp-includes/js/mediaelement/wp-mediaelement$suffix.js", array('mediaelement'), false, 1 );
 	$mejs_settings = array(
-		'pluginPath' => includes_url( 'js/mediaelement/', 'relative' ),
+		'pluginPath'    => includes_url( 'js/mediaelement/', 'relative' ),
+		'classPrefix'   => 'mejs-',
+		'stretching'    => 'responsive',
 	);
 	did_action( 'init' ) && $scripts->localize( 'mediaelement', '_wpmejsSettings',
 		/**
@@ -390,7 +456,6 @@ function wp_default_scripts( &$scripts ) {
 		apply_filters( 'mejs_settings', $mejs_settings )
 	);
 
-	$scripts->add( 'froogaloop',  "/wp-includes/js/mediaelement/froogaloop.min.js", array(), '2.0' );
 	$scripts->add( 'wp-playlist', "/wp-includes/js/mediaelement/wp-playlist$suffix.js", array( 'wp-util', 'backbone', 'mediaelement' ), false, 1 );
 
 	$scripts->add( 'zxcvbn-async', "/wp-includes/js/zxcvbn-async$suffix.js", array(), '1.0' );
@@ -881,7 +946,7 @@ function wp_default_styles( &$styles ) {
 	// External libraries and friends
 	$styles->add( 'imgareaselect',       '/wp-includes/js/imgareaselect/imgareaselect.css', array(), '0.9.8' );
 	$styles->add( 'wp-jquery-ui-dialog', "/wp-includes/css/jquery-ui-dialog$suffix.css", array( 'dashicons' ) );
-	$styles->add( 'mediaelement',        "/wp-includes/js/mediaelement/mediaelementplayer.min.css", array(), '2.22.0' );
+	$styles->add( 'mediaelement',        "/wp-includes/js/mediaelement/mediaelementplayer-legacy.min.css", array(), '4.2.3' );
 	$styles->add( 'wp-mediaelement',     "/wp-includes/js/mediaelement/wp-mediaelement$suffix.css", array( 'mediaelement' ) );
 	$styles->add( 'thickbox',            '/wp-includes/js/thickbox/thickbox.css', array( 'dashicons' ) );
 

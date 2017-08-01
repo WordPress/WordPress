@@ -1,11 +1,7 @@
-/* global mejs, _wpmejsSettings */
+/* global _wpmejsSettings */
 (function( window, $ ) {
 
 	window.wp = window.wp || {};
-
-	// add mime-type aliases to MediaElement plugin support
-	mejs.plugins.silverlight[0].types.push('video/x-ms-wmv');
-	mejs.plugins.silverlight[0].types.push('audio/x-ms-wma');
 
 	function wpMediaElement() {
 		var settings = {};
@@ -17,26 +13,32 @@
 		 * processed again.
 		 *
 		 * @since 4.4.0
+		 *
+		 * @returns {void}
 		 */
 		function initialize() {
 			if ( typeof _wpmejsSettings !== 'undefined' ) {
 				settings = $.extend( true, {}, _wpmejsSettings );
 			}
-
+			settings.classPrefix = 'mejs-';
 			settings.success = settings.success || function (mejs) {
 				var autoplay, loop;
 
-				if ( 'flash' === mejs.pluginType ) {
+				if ( mejs.rendererName && -1 !== mejs.rendererName.indexOf( 'flash' ) ) {
 					autoplay = mejs.attributes.autoplay && 'false' !== mejs.attributes.autoplay;
 					loop = mejs.attributes.loop && 'false' !== mejs.attributes.loop;
 
-					autoplay && mejs.addEventListener( 'canplay', function () {
-						mejs.play();
-					}, false );
+					if ( autoplay ) {
+						mejs.addEventListener( 'canplay', function() {
+							mejs.play();
+						}, false );
+					}
 
-					loop && mejs.addEventListener( 'ended', function () {
-						mejs.play();
-					}, false );
+					if ( loop ) {
+						mejs.addEventListener( 'ended', function() {
+							mejs.play();
+						}, false );
+					}
 				}
 			};
 

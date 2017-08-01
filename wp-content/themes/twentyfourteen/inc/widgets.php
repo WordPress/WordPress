@@ -54,6 +54,7 @@ class Twenty_Fourteen_Ephemera_Widget extends WP_Widget {
 		$video_library = apply_filters( 'wp_video_shortcode_library', 'mediaelement' );
 		if ( in_array( 'mediaelement', array( $video_library, $audio_library ), true ) ) {
 			wp_enqueue_style( 'wp-mediaelement' );
+			wp_enqueue_script( 'mediaelement-vimeo' );
 			wp_enqueue_script( 'wp-mediaelement' );
 		}
 	}
