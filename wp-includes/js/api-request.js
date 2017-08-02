@@ -18,7 +18,7 @@
 	function apiRequest( options ) {
 		options = apiRequest.buildAjaxOptions( options );
 		return apiRequest.transport( options );
-	};
+	}
 
 	apiRequest.buildAjaxOptions = function( options ) {
 		var url = options.url;
