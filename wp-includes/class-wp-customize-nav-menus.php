@@ -1265,14 +1265,14 @@ final class WP_Customize_Nav_Menus {
 	 *
 	 * @param string $nav_menu_content The HTML content for the navigation menu.
 	 * @param object $args             An object containing wp_nav_menu() arguments.
-	 * @return null
+	 * @return string Nav menu HTML with selective refresh attributes added if partial can be refreshed.
 	 */
 	public function filter_wp_nav_menu( $nav_menu_content, $args ) {
 		if ( isset( $args->customize_preview_nav_menus_args['can_partial_refresh'] ) && $args->customize_preview_nav_menus_args['can_partial_refresh'] ) {
 			$attributes = sprintf( ' data-customize-partial-id="%s"', esc_attr( 'nav_menu_instance[' . $args->customize_preview_nav_menus_args['args_hmac'] . ']' ) );
 			$attributes .= ' data-customize-partial-type="nav_menu_instance"';
 			$attributes .= sprintf( ' data-customize-partial-placement-context="%s"', esc_attr( wp_json_encode( $args->customize_preview_nav_menus_args ) ) );
-			$nav_menu_content = preg_replace( '#^(<\w+)#', '$1 ' . $attributes, $nav_menu_content, 1 );
+			$nav_menu_content = preg_replace( '#^(<\w+)#', '$1 ' . str_replace( '\\', '\\\\', $attributes ), $nav_menu_content, 1 );
 		}
 		return $nav_menu_content;
 	}
