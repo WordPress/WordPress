@@ -2816,8 +2816,24 @@ function _wp_customize_include() {
 		$messenger_channel = sanitize_key( $input_vars['customize_messenger_channel'] );
 	}
 
+	/*
+	 * Note that settings must be previewed even outside the customizer preview
+	 * and also in the customizer pane itself. This is to enable loading an existing
+	 * changeset into the customizer. Previewing the settings only has to be prevented
+	 * here in the case of a customize_save action because this will cause WP to think
+	 * there is nothing changed that needs to be saved.
+	 */
+	$is_customize_save_action = (
+		wp_doing_ajax()
+		&&
+		isset( $_REQUEST['action'] )
+		&&
+		'customize_save' === wp_unslash( $_REQUEST['action'] )
+	);
+	$settings_previewed = ! $is_customize_save_action;
+
 	require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
-	$GLOBALS['wp_customize'] = new WP_Customize_Manager( compact( 'changeset_uuid', 'theme', 'messenger_channel' ) );
+	$GLOBALS['wp_customize'] = new WP_Customize_Manager( compact( 'changeset_uuid', 'theme', 'messenger_channel', 'settings_previewed' ) );
 }
 
 /**
@@ -2849,7 +2865,10 @@ function _wp_customize_publish_changeset( $new_status, $old_status, $changeset_p
 
 	if ( empty( $wp_customize ) ) {
 		require_once ABSPATH . WPINC . '/class-wp-customize-manager.php';
-		$wp_customize = new WP_Customize_Manager( array( 'changeset_uuid' => $changeset_post->post_name ) );
+		$wp_customize = new WP_Customize_Manager( array(
+			'changeset_uuid' => $changeset_post->post_name,
+			'settings_previewed' => false,
+		) );
 	}
 
 	if ( ! did_action( 'customize_register' ) ) {

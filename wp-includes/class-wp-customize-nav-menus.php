@@ -526,13 +526,10 @@ final class WP_Customize_Nav_Menus {
 				$nav_menus_setting_ids[] = $setting_id;
 			}
 		}
-		$this->manager->add_dynamic_settings( $nav_menus_setting_ids );
-		if ( ! $this->manager->doing_ajax( 'customize_save' ) ) {
-			foreach ( $nav_menus_setting_ids as $setting_id ) {
-				$setting = $this->manager->get_setting( $setting_id );
-				if ( $setting ) {
-					$setting->preview();
-				}
+		$settings = $this->manager->add_dynamic_settings( $nav_menus_setting_ids );
+		if ( $this->manager->settings_previewed() ) {
+			foreach ( $settings as $setting ) {
+				$setting->preview();
 			}
 		}
 

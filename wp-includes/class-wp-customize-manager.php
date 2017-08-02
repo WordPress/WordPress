@@ -174,6 +174,14 @@ final class WP_Customize_Manager {
 	protected $messenger_channel;
 
 	/**
+	 * Whether settings should be previewed.
+	 *
+	 * @since 4.9.0
+	 * @var bool
+	 */
+	protected $settings_previewed;
+
+	/**
 	 * Unsanitized values for Customize Settings parsed from $_POST['customized'].
 	 *
 	 * @var array
@@ -213,15 +221,16 @@ final class WP_Customize_Manager {
 	 * @param array $args {
 	 *     Args.
 	 *
-	 *     @type string $changeset_uuid    Changeset UUID, the post_name for the customize_changeset post containing the customized state. Defaults to new UUID.
-	 *     @type string $theme             Theme to be previewed (for theme switch). Defaults to customize_theme or theme query params.
-	 *     @type string $messenger_channel Messenger channel. Defaults to customize_messenger_channel query param.
+	 *     @type string $changeset_uuid     Changeset UUID, the post_name for the customize_changeset post containing the customized state. Defaults to new UUID.
+	 *     @type string $theme              Theme to be previewed (for theme switch). Defaults to customize_theme or theme query params.
+	 *     @type string $messenger_channel  Messenger channel. Defaults to customize_messenger_channel query param.
+	 *     @type bool   $settings_previewed If settings should be previewed. Defaults to true.
 	 * }
 	 */
 	public function __construct( $args = array() ) {
 
 		$args = array_merge(
-			array_fill_keys( array( 'changeset_uuid', 'theme', 'messenger_channel' ), null ),
+			array_fill_keys( array( 'changeset_uuid', 'theme', 'messenger_channel', 'settings_previewed' ), null ),
 			$args
 		);
 
@@ -242,9 +251,14 @@ final class WP_Customize_Manager {
 			$args['messenger_channel'] = sanitize_key( wp_unslash( $_REQUEST['customize_messenger_channel'] ) );
 		}
 
+		if ( ! isset( $args['settings_previewed'] ) ) {
+			$args['settings_previewed'] = true;
+		}
+
 		$this->original_stylesheet = get_stylesheet();
 		$this->theme = wp_get_theme( $args['theme'] );
 		$this->messenger_channel = $args['messenger_channel'];
+		$this->settings_previewed = ! empty( $args['settings_previewed'] );
 		$this->_changeset_uuid = $args['changeset_uuid'];
 
 		require_once( ABSPATH . WPINC . '/class-wp-customize-setting.php' );
@@ -622,6 +636,18 @@ final class WP_Customize_Manager {
 	}
 
 	/**
+	 * Gets whether settings are or will be previewed.
+	 *
+	 * @since 4.9.0
+	 * @see WP_Customize_Setting::preview()
+	 *
+	 * @return bool
+	 */
+	public function settings_previewed() {
+		return $this->settings_previewed;
+	}
+
+	/**
 	 * Get the changeset UUID.
 	 *
 	 * @since 4.7.0
@@ -728,15 +754,7 @@ final class WP_Customize_Manager {
 		 */
 		do_action( 'customize_register', $this );
 
-		/*
-		 * Note that settings must be previewed here even outside the customizer preview
-		 * and also in the customizer pane itself. This is to enable loading an existing
-		 * changeset into the customizer. Previewing the settings only has to be prevented
-		 * in the case of a customize_save action because then update_option()
-		 * may short-circuit because it will detect that there are no changes to
-		 * make.
-		 */
-		if ( ! $this->doing_ajax( 'customize_save' ) ) {
+		if ( $this->settings_previewed() ) {
 			foreach ( $this->settings as $setting ) {
 				$setting->preview();
 			}

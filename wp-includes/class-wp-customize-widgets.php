@@ -211,12 +211,7 @@ final class WP_Customize_Widgets {
 
 		$settings = $this->manager->add_dynamic_settings( array_unique( $widget_setting_ids ) );
 
-		/*
-		 * Preview settings right away so that widgets and sidebars will get registered properly.
-		 * But don't do this if a customize_save because this will cause WP to think there is nothing
-		 * changed that needs to be saved.
-		 */
-		if ( ! $this->manager->doing_ajax( 'customize_save' ) ) {
+		if ( $this->manager->settings_previewed() ) {
 			foreach ( $settings as $setting ) {
 				$setting->preview();
 			}
@@ -506,7 +501,7 @@ final class WP_Customize_Widgets {
 			}
 		}
 
-		if ( ! $this->manager->doing_ajax( 'customize_save' ) ) {
+		if ( $this->manager->settings_previewed() ) {
 			foreach ( $new_setting_ids as $new_setting_id ) {
 				$this->manager->get_setting( $new_setting_id )->preview();
 			}
