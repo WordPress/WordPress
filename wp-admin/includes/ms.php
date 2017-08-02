@@ -266,12 +266,14 @@ function wpmu_delete_user( $id ) {
 }
 
 /**
- * Sends an email when a site administrator email address is changed.
+ * Send a confirmation request email when a change of site admin email address is attempted.
+ *
+ * The new site admin address will not become active until confirmed.
  *
  * @since 3.0.0
  *
- * @param string $old_value The old email address. Not currently used.
- * @param string $value     The new email address.
+ * @param string $old_value The old site admin email address.
+ * @param string $value     The proposed new site admin email address.
  */
 function update_option_new_admin_email( $old_value, $value ) {
 	if ( $value == get_option( 'admin_email' ) || !is_email( $value ) )
@@ -305,19 +307,24 @@ All at ###SITENAME###
 ###SITEURL###' );
 
 	/**
-	 * Filters the email text sent when the site admin email is changed.
+	 * Filters the text of the email sent when a change of site admin email address is attempted.
 	 *
 	 * The following strings have a special meaning and will get replaced dynamically:
 	 * ###USERNAME###  The current user's username.
 	 * ###ADMIN_URL### The link to click on to confirm the email change.
-	 * ###EMAIL###     The new email.
+	 * ###EMAIL###     The proposed new site admin email address.
 	 * ###SITENAME###  The name of the site.
 	 * ###SITEURL###   The URL to the site.
 	 *
 	 * @since MU (3.0.0)
 	 *
 	 * @param string $email_text      Text in the email.
-	 * @param string $new_admin_email New admin email that the current administration email was changed to.
+	 * @param array  $new_admin_email {
+	 *     Data relating to the new site admin email address.
+	 *
+	 *     @type string $hash     The secure hash used in the confirmation link URL.
+	 *     @type string $newemail The proposed new site admin email address.
+	 * }
 	 */
 	$content = apply_filters( 'new_admin_email_content', $email_text, $new_admin_email );
 
