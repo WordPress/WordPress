@@ -370,6 +370,16 @@ function retrieve_password() {
 	 * @param WP_User $user_data  WP_User object.
 	 */
 	$message = apply_filters( 'retrieve_password_message', $message, $key, $user_login, $user_data );
+        
+        /**
+	 * Fires before send email of retrieve password.
+	 *
+	 * @since 4.7.3
+	 *
+	 * @param string  $key        The activation key.
+	 * @param WP_User $user_data  WP_User object.
+	 */
+	do_action( 'before_send_mail_retrieve_password', $key, $user_data );
 
 	if ( $message && !wp_mail( $user_email, wp_specialchars_decode( $title ), $message ) )
 		wp_die( __('The email could not be sent.') . "<br />\n" . __('Possible reason: your host may have disabled the mail() function.') );
