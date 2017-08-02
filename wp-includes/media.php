@@ -3437,7 +3437,6 @@ function wp_enqueue_media( $args = array() ) {
 		'captions'  => ! apply_filters( 'disable_captions', '' ),
 		'nonce'     => array(
 			'sendToEditor' => wp_create_nonce( 'media-send-to-editor' ),
-			'wpRestApi'    => wp_create_nonce( 'wp_rest' ),
 		),
 		'post'    => array(
 			'id' => 0,

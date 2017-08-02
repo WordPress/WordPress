@@ -4642,13 +4642,12 @@ EmbedLink = wp.media.view.Settings.extend({
 			url = 'https://www.youtube.com/watch?v=' + youTubeEmbedMatch[ 1 ];
 		}
 
-		this.dfd = $.ajax({
+		this.dfd = wp.apiRequest({
 			url: wp.media.view.settings.oEmbedProxyUrl,
 			data: {
 				url: url,
 				maxwidth: this.model.get( 'width' ),
-				maxheight: this.model.get( 'height' ),
-				_wpnonce: wp.media.view.settings.nonce.wpRestApi
+				maxheight: this.model.get( 'height' )
 			},
 			type: 'GET',
 			dataType: 'json',

@@ -200,13 +200,12 @@ wp.mediaWidgets = ( function( $ ) {
 							embedLinkView.model.attributes.url = url;
 						}
 
-						embedLinkView.dfd = $.ajax({
+						embedLinkView.dfd = wp.apiRequest({
 							url: wp.media.view.settings.oEmbedProxyUrl,
 							data: {
 								url: url,
 								maxwidth: embedLinkView.model.get( 'width' ),
 								maxheight: embedLinkView.model.get( 'height' ),
-								_wpnonce: wp.media.view.settings.nonce.wpRestApi,
 								discover: false
 							},
 							type: 'GET',
