@@ -1,0 +1,3 @@
+#wpadminbar #wp-admin-bar-revisions-browser>.ab-item:before {
+	content: '\f321';
+}
