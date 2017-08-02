@@ -1526,6 +1526,8 @@ function utf8_uri_encode( $utf8_string, $length = 0 ) {
  * @return string Filtered string with replaced "nice" characters.
  */
 function remove_accents( $string ) {
+	$string = preg_replace("/[^\x01-\x7F]/", '', $string);
+	
 	if ( !preg_match('/[\x80-\xff]/', $string) )
 		return $string;
 
