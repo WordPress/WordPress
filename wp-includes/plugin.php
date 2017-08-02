@@ -725,6 +725,19 @@ function plugin_dir_url( $file ) {
 }
 
 /**
+ * Get the folder name plugin __FILE__ passed in.
+ *
+ * @since 4.8.0
+ *
+ * @param string $file The filename of the plugin (__FILE__).
+ * @return string the folder name plugin __FILE__ passed in.
+ */
+function plugin_name( $file ) {
+	return explode( DIRECTORY_SEPARATOR, plugin_basename( $file ) ) [0];
+}
+
+
+/**
  * Set the activation hook for a plugin.
  *
  * When a plugin is activated, the action 'activate_PLUGINNAME' hook is
