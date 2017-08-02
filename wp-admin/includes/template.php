@@ -986,6 +986,7 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
  * Meta-Box template function
  *
  * @since 2.5.0
+ * @since 4.6.0 Added the $args parameter with support for the $heading_level arg.
  *
  * @global array $wp_meta_boxes
  *
@@ -997,11 +998,22 @@ function add_meta_box( $id, $title, $callback, $screen = null, $context = 'advan
  *                                  otherwise the 'screen' menu may not correctly render on your page.
  * @param string           $context box context
  * @param mixed            $object  gets passed to the box callback function as first parameter
+ * @param array            $args    {
+ *        Other args.
+ * 
+ *        @param int $heading_level What level heading to use for the meta box titles. Default is 2 (h2).
+ * }
  * @return int number of meta_boxes
  */
-function do_meta_boxes( $screen, $context, $object ) {
+function do_meta_boxes( $screen, $context, $object, $args = array() ) {
 	global $wp_meta_boxes;
 	static $already_sorted = false;
+
+	$args = array_merge( array( 'heading_level' => 2 ), $args );
+
+	if ( $args['heading_level'] < 1 || $args['heading_level'] > 6 ) {
+		$args['heading_level'] = 2;
+	}
 
 	if ( empty( $screen ) )
 		$screen = get_current_screen();
@@ -1052,7 +1064,7 @@ function do_meta_boxes( $screen, $context, $object ) {
 						echo '<span class="toggle-indicator" aria-hidden="true"></span>';
 						echo '</button>';
 					}
-					echo "<h2 class='hndle'><span>{$box['title']}</span></h2>\n";
+					echo "<h{$args['heading_level']} class='hndle'><span>{$box['title']}</span></h{$args['heading_level']}>\n";
 					echo '<div class="inside">' . "\n";
 					call_user_func($box['callback'], $object, $box);
 					echo "</div>\n";
