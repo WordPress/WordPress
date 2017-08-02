@@ -4205,11 +4205,16 @@
       // ----- Do the extraction (if not a folder)
       if (!(($p_entry['external']&0x00000010)==0x00000010)) {
         // ----- Look for not compressed file
-  //      if ($p_entry['compressed_size'] == $p_entry['size'])
         if ($p_entry['compression'] == 0) {
-
-          // ----- Reading the file
-          $p_string = @fread($this->zip_fd, $p_entry['compressed_size']);
+            if ($p_entry['compressed_size'] == 0){
+                // ----- Fread requires a non zero length parameter
+                // ----- Reading the file
+                $p_string = @fread($this->zip_fd, filesize($this->zipname));
+             }
+             else{
+                 // ----- Reading the file
+                 $p_string = @fread($this->zip_fd, $p_entry['compressed_size']);
+             }
         }
         else {
 
