@@ -561,12 +561,22 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 			return $user;
 		}
 
-		if ( ! current_user_can( 'edit_user', $user->ID ) ) {
-			return new WP_Error( 'rest_cannot_edit', __( 'Sorry, you are not allowed to edit this user.' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( ! empty( $request['roles'] ) ) {
+			if ( ! current_user_can( 'promote_user', $user->ID ) ) {
+				return new WP_Error( 'rest_cannot_edit_roles', __( 'Sorry, you are not allowed to edit roles of this user.' ), array( 'status' => rest_authorization_required_code() ) );
+			}
+
+			$request_params = array_keys( $request->get_params() );
+			sort( $request_params );
+			// If only 'id' and 'roles' are specified (we are only trying to
+			// edit roles), then only the 'promote_user' cap is required.
+			if ( $request_params === array( 'id', 'roles' ) ) {
+				return true;
+			}
 		}
 
-		if ( ! empty( $request['roles'] ) && ! current_user_can( 'edit_users' ) ) {
-			return new WP_Error( 'rest_cannot_edit_roles', __( 'Sorry, you are not allowed to edit roles of this user.' ), array( 'status' => rest_authorization_required_code() ) );
+		if ( ! current_user_can( 'edit_user', $user->ID ) ) {
+			return new WP_Error( 'rest_cannot_edit', __( 'Sorry, you are not allowed to edit this user.' ), array( 'status' => rest_authorization_required_code() ) );
 		}
 
 		return true;
