@@ -302,8 +302,8 @@ class WP_Site_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param array         $results An array of sites.
-		 * @param WP_Site_Query &$this   Current instance of WP_Site_Query, passed by reference.
+		 * @param array         $_sites An array of WP_Site objects.
+		 * @param WP_Site_Query &$this  Current instance of WP_Site_Query, passed by reference.
 		 */
 		$_sites = apply_filters_ref_array( 'the_sites', array( $_sites, &$this ) );
 

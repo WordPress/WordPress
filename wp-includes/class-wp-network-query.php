@@ -258,8 +258,8 @@ class WP_Network_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param array            $results  An array of networks.
-		 * @param WP_Network_Query &$this    Current instance of WP_Network_Query, passed by reference.
+		 * @param array            $_networks An array of WP_Network objects.
+		 * @param WP_Network_Query &$this     Current instance of WP_Network_Query, passed by reference.
 		 */
 		$_networks = apply_filters_ref_array( 'the_networks', array( $_networks, &$this ) );
 
