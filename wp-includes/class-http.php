@@ -458,6 +458,7 @@ class WP_Http {
 	 *
 	 * @param string            $location URL to redirect to.
 	 * @param array             $headers  Headers for the redirect.
+	 * @param mixed             $data     The data to add to the cache.
 	 * @param array             $options  Redirect request options.
 	 * @param Requests_Response $original Response object.
 	 */
