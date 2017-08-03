@@ -824,10 +824,17 @@ class WP_REST_Server {
 		$path   = $request->get_route();
 
 		foreach ( $this->get_routes() as $route => $handlers ) {
-			$match = preg_match( '@^' . $route . '$@i', $path, $args );
+			$match = preg_match( '@^' . $route . '$@i', $path, $matches );
 
 			if ( ! $match ) {
 				continue;
+			}
+
+			$args = array();
+			foreach ( $matches as $param => $value ) {
+				if ( ! is_int( $param ) ) {
+					$args[ $param ] = $value;
+				}
 			}
 
 			foreach ( $handlers as $handler ) {
