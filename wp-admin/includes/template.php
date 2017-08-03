@@ -214,7 +214,7 @@ function wp_popular_terms_checklist( $taxonomy, $default = 0, $number = 10, $ech
 				<input id="in-<?php echo $id; ?>" type="checkbox" <?php echo $checked; ?> value="<?php echo (int) $term->term_id; ?>" <?php disabled( ! current_user_can( $tax->cap->assign_terms ) ); ?> />
 				<?php
 				/** This filter is documented in wp-includes/category-template.php */
-				echo esc_html( apply_filters( 'the_category', $term->name ) );
+				echo esc_html( apply_filters( 'the_category', $term->name, '', '' ) );
 				?>
 			</label>
 		</li>
@@ -255,7 +255,7 @@ function wp_link_category_checklist( $link_id = 0 ) {
 		$cat_id = $category->term_id;
 
 		/** This filter is documented in wp-includes/category-template.php */
-		$name = esc_html( apply_filters( 'the_category', $category->name ) );
+		$name = esc_html( apply_filters( 'the_category', $category->name, '', '' ) );
 		$checked = in_array( $cat_id, $checked_categories ) ? ' checked="checked"' : '';
 		echo '<li id="link-category-', $cat_id, '"><label for="in-link-category-', $cat_id, '" class="selectit"><input value="', $cat_id, '" type="checkbox" name="link_category[]" id="in-link-category-', $cat_id, '"', $checked, '/> ', $name, "</label></li>";
 	}

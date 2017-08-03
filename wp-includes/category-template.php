@@ -386,9 +386,10 @@ function wp_dropdown_categories( $args = '' ) {
 		 *
 		 * @see wp_dropdown_categories()
 		 *
-		 * @param string $element Taxonomy element to list.
+		 * @param string       $element  Category name.
+		 * @param WP_Term|null $category The category object, or null if there's no corresponding category.
 		 */
-		$show_option_none = apply_filters( 'list_cats', $r['show_option_none'] );
+		$show_option_none = apply_filters( 'list_cats', $r['show_option_none'], null );
 		$output .= "\t<option value='" . esc_attr( $option_none_value ) . "' selected='selected'>$show_option_none</option>\n";
 	}
 
@@ -397,7 +398,7 @@ function wp_dropdown_categories( $args = '' ) {
 		if ( $r['show_option_all'] ) {
 
 			/** This filter is documented in wp-includes/category-template.php */
-			$show_option_all = apply_filters( 'list_cats', $r['show_option_all'] );
+			$show_option_all = apply_filters( 'list_cats', $r['show_option_all'], null );
 			$selected = ( '0' === strval($r['selected']) ) ? " selected='selected'" : '';
 			$output .= "\t<option value='0'$selected>$show_option_all</option>\n";
 		}
@@ -405,7 +406,7 @@ function wp_dropdown_categories( $args = '' ) {
 		if ( $r['show_option_none'] ) {
 
 			/** This filter is documented in wp-includes/category-template.php */
-			$show_option_none = apply_filters( 'list_cats', $r['show_option_none'] );
+			$show_option_none = apply_filters( 'list_cats', $r['show_option_none'], null );
 			$selected = selected( $option_none_value, $r['selected'], false );
 			$output .= "\t<option value='" . esc_attr( $option_none_value ) . "'$selected>$show_option_none</option>\n";
 		}
