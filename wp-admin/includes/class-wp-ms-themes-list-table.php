@@ -618,7 +618,26 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 					break;
 
 				case 'name':
-					echo "<td class='theme-title column-primary{$extra_classes}'><strong>" . $item->display('Name') . "</strong>";
+
+					$active_theme_label = '';
+
+					/* The presence of the site_id property means that this is a subsite view and a label for the active theme needs to be added */
+					if ( ! empty( $this->site_id ) ) {
+						$stylesheet = get_blog_option( $this->site_id, 'stylesheet' );
+						$template   = get_blog_option( $this->site_id, 'template' );
+
+						/* Add a label for the active template */
+						if ( $item->get_template() === $template ) {
+							$active_theme_label = ' &mdash; ' . __( 'Active Theme' );
+						}
+
+						/* In case this is a child theme, label it properly */
+						if ( $stylesheet !== $template && $item->get_stylesheet() === $stylesheet) {
+							$active_theme_label = ' &mdash; ' . __( 'Active Child Theme' );
+						}
+					}
+
+					echo "<td class='theme-title column-primary{$extra_classes}'><strong>" . $item->display( 'Name' ) . $active_theme_label . '</strong>';
 
 					$this->column_name( $item );
 
