@@ -59,9 +59,12 @@ function get_active_blog_for_user( $user_id ) {
 		}
 	} else {
 		//TODO Review this call to add_user_to_blog too - to get here the user must have a role on this blog?
-		add_user_to_blog( $first_blog->userblog_id, $user_id, 'subscriber' );
-		update_user_meta( $user_id, 'primary_blog', $first_blog->userblog_id );
-		$primary = $first_blog;
+		$result = add_user_to_blog( $first_blog->userblog_id, $user_id, 'subscriber' );
+
+		if ( ! is_wp_error( $result ) ) {
+			update_user_meta( $user_id, 'primary_blog', $first_blog->userblog_id );
+			$primary = $first_blog;
+		}
 	}
 
 	if ( ( ! is_object( $primary ) ) || ( $primary->archived == 1 || $primary->spam == 1 || $primary->deleted == 1 ) ) {
@@ -158,6 +161,29 @@ function add_user_to_blog( $blog_id, $user_id, $role ) {
 	if ( ! $user ) {
 		restore_current_blog();
 		return new WP_Error( 'user_does_not_exist', __( 'The requested user does not exist.' ) );
+	}
+
+	/**
+	 * Filters whether a user should be added to a site.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param bool|WP_Error $retval  True if the user should be added to the site, false
+	 *                               or error object otherwise.
+	 * @param int           $user_id User ID.
+	 * @param string        $role    User role.
+	 * @param int           $blog_id Site ID.
+	 */
+	$can_add_user = apply_filters( 'can_add_user_to_blog', true, $user_id, $role, $blog_id );
+
+	if ( true !== $can_add_user ) {
+		restore_current_blog();
+
+		if ( is_wp_error( $can_add_user ) ) {
+			return $can_add_user;
+		}
+
+		return new WP_Error( 'user_cannot_be_added', __( 'User cannot be added to this site.' ) );
 	}
 
 	if ( !get_user_meta($user_id, 'primary_blog', true) ) {
@@ -2081,15 +2107,19 @@ function add_existing_user_to_blog( $details = false ) {
 	if ( is_array( $details ) ) {
 		$blog_id = get_current_blog_id();
 		$result = add_user_to_blog( $blog_id, $details[ 'user_id' ], $details[ 'role' ] );
-		/**
-		 * Fires immediately after an existing user is added to a site.
-		 *
-		 * @since MU (3.0.0)
-		 *
-		 * @param int   $user_id User ID.
-		 * @param mixed $result  True on success or a WP_Error object if the user doesn't exist.
-		 */
-		do_action( 'added_existing_user', $details['user_id'], $result );
+
+		if ( ! is_wp_error( $result ) ) {
+			/**
+			 * Fires immediately after an existing user is added to a site.
+			 *
+			 * @since MU (3.0.0)
+			 *
+			 * @param int   $user_id User ID.
+			 * @param mixed $result  True on success or a WP_Error object if the user doesn't exist.
+			 */
+			do_action( 'added_existing_user', $details['user_id'], $result );
+		}
+
 		return $result;
 	}
 }
@@ -2111,9 +2141,13 @@ function add_new_user_to_blog( $user_id, $password, $meta ) {
 	if ( !empty( $meta[ 'add_to_blog' ] ) ) {
 		$blog_id = $meta[ 'add_to_blog' ];
 		$role = $meta[ 'new_role' ];
-		remove_user_from_blog($user_id, get_network()->site_id); // remove user from main blog.
-		add_user_to_blog( $blog_id, $user_id, $role );
-		update_user_meta( $user_id, 'primary_blog', $blog_id );
+		remove_user_from_blog( $user_id, get_network()->site_id ); // remove user from main blog.
+
+		$result = add_user_to_blog( $blog_id, $user_id, $role );
+
+		if ( ! is_wp_error( $result ) ) {
+			update_user_meta( $user_id, 'primary_blog', $blog_id );
+		}
 	}
 }
 

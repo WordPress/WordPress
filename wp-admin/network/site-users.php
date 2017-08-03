@@ -66,16 +66,21 @@ if ( $action ) {
 				if ( false === $user_id ) {
 		 			$update = 'err_new_dup';
 				} else {
-					add_user_to_blog( $id, $user_id, $_POST['new_role'] );
-					$update = 'newuser';
-					/**
-					  * Fires after a user has been created via the network site-users.php page.
-					  *
-					  * @since 4.4.0
-					  *
-					  * @param int $user_id ID of the newly created user.
-					  */
-					do_action( 'network_site_users_created_user', $user_id );
+					$result = add_user_to_blog( $id, $user_id, $_POST['new_role'] );
+
+					if ( is_wp_error( $result ) ) {
+						$update = 'err_add_fail';
+					} else {
+						$update = 'newuser';
+						/**
+						  * Fires after a user has been created via the network site-users.php page.
+						  *
+						  * @since 4.4.0
+						  *
+						  * @param int $user_id ID of the newly created user.
+						  */
+						do_action( 'network_site_users_created_user', $user_id );
+					}
 				}
 			}
 			break;
@@ -87,10 +92,15 @@ if ( $action ) {
 				$newuser = $_POST['newuser'];
 				$user = get_user_by( 'login', $newuser );
 				if ( $user && $user->exists() ) {
-					if ( ! is_user_member_of_blog( $user->ID, $id ) )
-						add_user_to_blog( $id, $user->ID, $_POST['new_role'] );
-					else
+					if ( ! is_user_member_of_blog( $user->ID, $id ) ) {
+						$result = add_user_to_blog( $id, $user->ID, $_POST['new_role'] );
+
+						if ( is_wp_error( $result ) ) {
+							$update = 'err_add_fail';
+						}
+					} else {
 						$update = 'err_add_member';
+					}
 				} else {
 					$update = 'err_add_notfound';
 				}
@@ -222,6 +232,9 @@ if ( isset($_GET['update']) ) :
 		break;
 	case 'err_add_member':
 		echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'User is already a member of this site.' ) . '</p></div>';
+		break;
+	case 'err_add_fail':
+		echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'User could not be added to this site.' ) . '</p></div>';
 		break;
 	case 'err_add_notfound':
 		echo '<div id="message" class="error notice is-dismissible"><p>' . __( 'Enter the username of an existing user.' ) . '</p></div>';

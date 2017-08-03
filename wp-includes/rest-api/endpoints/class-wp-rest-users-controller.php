@@ -492,7 +492,10 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 				return $user_id;
 			}
 
-			add_user_to_blog( get_site()->id, $user_id, '' );
+			$result= add_user_to_blog( get_site()->id, $user_id, '' );
+			if ( is_wp_error( $result ) ) {
+				return $result;
+			}
 		} else {
 			$user_id = wp_insert_user( wp_slash( (array) $user ) );
 
