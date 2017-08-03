@@ -1652,6 +1652,14 @@ function the_author_ID() {
 function the_content_rss($more_link_text='(more...)', $stripteaser=0, $more_file='', $cut = 0, $encode_html = 0) {
 	_deprecated_function( __FUNCTION__, '2.9.0', 'the_content_feed()' );
 	$content = get_the_content($more_link_text, $stripteaser);
+
+	/**
+	 * Filters the post content in the context of an RSS feed.
+	 *
+	 * @since 0.71
+	 *
+	 * @param string $content Content of the current post.
+	 */
 	$content = apply_filters('the_content_rss', $content);
 	if ( $cut && !$encode_html )
 		$encode_html = 2;
