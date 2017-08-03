@@ -2749,7 +2749,7 @@ function check_theme_switched() {
 			do_action( 'after_switch_theme', $old_theme->get( 'Name' ), $old_theme );
 		} else {
 			/** This action is documented in wp-includes/theme.php */
-			do_action( 'after_switch_theme', $stylesheet );
+			do_action( 'after_switch_theme', $stylesheet, $old_theme );
 		}
 		flush_rewrite_rules();
 

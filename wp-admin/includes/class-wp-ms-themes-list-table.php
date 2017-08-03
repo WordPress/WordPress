@@ -479,7 +479,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		 *
 		 * @param array    $actions An array of action links.
 		 * @param WP_Theme $theme   The current WP_Theme object.
-		 * @param string   $context Status of the theme.
+		 * @param string   $context Status of the theme, one of all', 'enabled', or 'disabled'.
 		 */
 		$actions = apply_filters( 'theme_action_links', array_filter( $actions ), $theme, $context );
 
@@ -495,7 +495,7 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 		 *
 		 * @param array    $actions An array of action links.
 		 * @param WP_Theme $theme   The current WP_Theme object.
-		 * @param string   $context Status of the theme.
+		 * @param string   $context Status of the theme, one of all', 'enabled', or 'disabled'.
 		 */
 		$actions = apply_filters( "theme_action_links_{$stylesheet}", $actions, $theme, $context );
 
