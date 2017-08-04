@@ -814,7 +814,8 @@ function wpmu_signup_user( $user, $user_email, $meta = array() ) {
 }
 
 /**
- * Notify user of signup success.
+ * Send a confirmation request email to a user when they sign up for a new site. The new site will not become active
+ * until the confirmation link is clicked.
  *
  * This is the notification function used when site registration
  * is enabled.
@@ -930,7 +931,8 @@ function wpmu_signup_blog_notification( $domain, $path, $title, $user_login, $us
 }
 
 /**
- * Notify user of signup success.
+ * Send a confirmation request email to a user when they sign up for a new user account (without signing up for a site
+ * at the same time). The user account will not become active until the confirmation link is clicked.
  *
  * This is the notification function used when no new site has
  * been requested.
