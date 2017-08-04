@@ -643,34 +643,31 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			/**
 			 * Filters the action links displayed for each plugin in the Network Admin Plugins list table.
 			 *
-			 * The default action links for the Network plugins list table include
-			 * 'Network Activate', 'Network Deactivate', and 'Delete'.
-			 *
 			 * @since 3.1.0
 			 *
-			 * @param array  $actions     An array of plugin action links.
+			 * @param array  $actions     An array of plugin action links. By default this can include 'activate',
+			 *                            'deactivate', and 'delete'.
 			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-			 * @param array  $plugin_data An array of plugin data.
-			 * @param string $context     The plugin context. Defaults are 'All', 'Active',
-			 *                            'Inactive', 'Recently Activated', 'Upgrade',
-			 *                            'Must-Use', 'Drop-ins', 'Search'.
+			 * @param array  $plugin_data An array of plugin data. See `get_plugin_data()`.
+			 * @param string $context     The plugin context. By default this can include 'all', 'active', 'inactive',
+			 *                            'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
 			 */
 			$actions = apply_filters( 'network_admin_plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
 
 			/**
 			 * Filters the list of action links displayed for a specific plugin in the Network Admin Plugins list table.
 			 *
-			 * The dynamic portion of the hook name, $plugin_file, refers to the path
+			 * The dynamic portion of the hook name, `$plugin_file`, refers to the path
 			 * to the plugin file, relative to the plugins directory.
 			 *
 			 * @since 3.1.0
 			 *
-			 * @param array  $actions     An array of plugin action links.
+			 * @param array  $actions     An array of plugin action links. By default this can include 'activate',
+			 *                            'deactivate', and 'delete'.
 			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-			 * @param array  $plugin_data An array of plugin data.
-			 * @param string $context     The plugin context. Defaults are 'All', 'Active',
-			 *                            'Inactive', 'Recently Activated', 'Upgrade',
-			 *                            'Must-Use', 'Drop-ins', 'Search'.
+			 * @param array  $plugin_data An array of plugin data. See `get_plugin_data()`.
+			 * @param string $context     The plugin context. By default this can include 'all', 'active', 'inactive',
+			 *                            'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
 			 */
 			$actions = apply_filters( "network_admin_plugin_action_links_{$plugin_file}", $actions, $plugin_file, $plugin_data, $context );
 
@@ -679,36 +676,36 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			/**
 			 * Filters the action links displayed for each plugin in the Plugins list table.
 			 *
-			 * The default action links for the site plugins list table include
-			 * 'Activate', and 'Deactivate', for a network site, and
-			 * 'Activate', 'Deactivate', and 'Delete' for a single site.
-			 *
 			 * @since 2.5.0
 			 * @since 2.6.0 The `$context` parameter was added.
+			 * @since 4.9.0 The 'Edit' link was removed from the list of action links.
 			 *
-			 * @param array  $actions     An array of plugin action links.
+			 * @param array  $actions     An array of plugin action links. By default this can include 'activate',
+			 *                            'deactivate', and 'delete'. With Multisite active this can also include
+			 *                            'network_active' and 'network_only' items.
 			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-			 * @param array  $plugin_data An array of plugin data.
-			 * @param string $context     The plugin context. Defaults are 'All', 'Active',
-			 *                            'Inactive', 'Recently Activated', 'Upgrade',
-			 *                            'Must-Use', 'Drop-ins', 'Search'.
+			 * @param array  $plugin_data An array of plugin data. See `get_plugin_data()`.
+			 * @param string $context     The plugin context. By default this can include 'all', 'active', 'inactive',
+			 *                            'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
 			 */
 			$actions = apply_filters( 'plugin_action_links', $actions, $plugin_file, $plugin_data, $context );
 
 			/**
 			 * Filters the list of action links displayed for a specific plugin in the Plugins list table.
 			 *
-			 * The dynamic portion of the hook name, $plugin_file, refers to the path
+			 * The dynamic portion of the hook name, `$plugin_file`, refers to the path
 			 * to the plugin file, relative to the plugins directory.
 			 *
 			 * @since 2.7.0
+			 * @since 4.9.0 The 'Edit' link was removed from the list of action links.
 			 *
-			 * @param array  $actions     An array of plugin action links.
+			 * @param array  $actions     An array of plugin action links. By default this can include 'activate',
+			 *                            'deactivate', and 'delete'. With Multisite active this can also include
+			 *                            'network_active' and 'network_only' items.
 			 * @param string $plugin_file Path to the plugin file relative to the plugins directory.
-			 * @param array  $plugin_data An array of plugin data.
-			 * @param string $context     The plugin context. Defaults are 'All', 'Active',
-			 *                            'Inactive', 'Recently Activated', 'Upgrade',
-			 *                            'Must-Use', 'Drop-ins', 'Search'.
+			 * @param array  $plugin_data An array of plugin data. See `get_plugin_data()`.
+			 * @param string $context     The plugin context. By default this can include 'all', 'active', 'inactive',
+			 *                            'recently_activated', 'upgrade', 'mustuse', 'dropins', and 'search'.
 			 */
 			$actions = apply_filters( "plugin_action_links_{$plugin_file}", $actions, $plugin_file, $plugin_data, $context );
 
