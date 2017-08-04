@@ -1554,20 +1554,7 @@ function get_the_archive_description() {
 	if ( is_author() ) {
 		$description = get_the_author_meta( 'description' );
 	} elseif ( is_post_type_archive() ) {
-		$post_type = get_query_var( 'post_type' );
-
-		if ( is_array( $post_type ) ) {
-			$post_type = reset( $post_type );
-		}
-
-		$post_type_obj = get_post_type_object( $post_type );
-
-		// Check if a description is set.
-		if ( isset( $post_type_obj->description ) ) {
-			$description = $post_type_obj->description;
-		} else {
-			$description = '';
-		}
+		$description = get_the_post_type_description();
 	} else {
 		$description = term_description();
 	}
@@ -1580,6 +1567,40 @@ function get_the_archive_description() {
 	 * @param string $description Archive description to be displayed.
 	 */
 	return apply_filters( 'get_the_archive_description', $description );
+}
+
+/**
+ * Retrieves the description for a post type archive.
+ *
+ * @since 4.9.0
+ *
+ * @return string The post type description.
+ */
+function get_the_post_type_description() {
+	$post_type = get_query_var( 'post_type' );
+
+	if ( is_array( $post_type ) ) {
+		$post_type = reset( $post_type );
+	}
+
+	$post_type_obj = get_post_type_object( $post_type );
+
+	// Check if a description is set.
+	if ( isset( $post_type_obj->description ) ) {
+		$description = $post_type_obj->description;
+	} else {
+		$description = '';
+	}
+
+	/**
+	 * Filters the description for a post type archive.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string       $description   The post type description.
+	 * @param WP_Post_Type $post_type_obj The post type object.
+	 */
+	return apply_filters( 'get_the_post_type_description', $description, $post_type_obj );
 }
 
 /**
