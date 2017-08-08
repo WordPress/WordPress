@@ -921,7 +921,7 @@ function get_term_by( $field, $value, $taxonomy = '', $output = OBJECT, $filter 
  *
  * @since 2.3.0
  *
- * @param string $term_id  ID of Term to get children.
+ * @param int    $term_id  ID of Term to get children.
  * @param string $taxonomy Taxonomy Name.
  * @return array|WP_Error List of Term IDs. WP_Error returned if `$taxonomy` does not exist.
  */
