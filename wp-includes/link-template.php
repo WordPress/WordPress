@@ -2872,8 +2872,10 @@ function get_the_comments_pagination( $args = array() ) {
 	) );
 	$args['echo'] = false;
 
-	// Make sure we get plain links, so we get a string we can work with.
-	$args['type'] = 'plain';
+	// Make sure we get a string back. Plain is the next best thing.
+	if ( isset( $args['type'] ) && 'array' == $args['type'] ) {
+		$args['type'] = 'plain';
+	}
 
 	$links = paginate_comments_links( $args );
 
