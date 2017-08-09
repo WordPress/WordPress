@@ -691,6 +691,7 @@ function switch_theme( $stylesheet ) {
 	}
 
 	$nav_menu_locations = get_theme_mod( 'nav_menu_locations' );
+	add_option( 'theme_switch_menu_locations', $nav_menu_locations );
 
 	if ( func_num_args() > 1 ) {
 		$stylesheet = func_get_arg( 1 );
@@ -730,13 +731,6 @@ function switch_theme( $stylesheet ) {
 		 */
 		if ( 'wp_ajax_customize_save' === current_action() ) {
 			remove_theme_mod( 'sidebars_widgets' );
-		}
-
-		if ( ! empty( $nav_menu_locations ) ) {
-			$nav_mods = get_theme_mod( 'nav_menu_locations' );
-			if ( empty( $nav_mods ) ) {
-				set_theme_mod( 'nav_menu_locations', $nav_menu_locations );
-			}
 		}
 	}
 

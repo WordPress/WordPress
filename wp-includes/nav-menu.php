@@ -1026,3 +1026,111 @@ function _wp_delete_customize_changeset_dependent_auto_drafts( $post_id ) {
 	}
 	add_action( 'delete_post', '_wp_delete_customize_changeset_dependent_auto_drafts' );
 }
+
+/**
+ * Handle menu config after theme change.
+ *
+ * @access private
+ * @since 4.9.0
+ */
+function _wp_menus_changed() {
+	$old_nav_menu_locations    = get_option( 'theme_switch_menu_locations', array() );
+	$new_nav_menu_locations    = get_nav_menu_locations();
+	$mapped_nav_menu_locations = wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locations );
+
+	set_theme_mod( 'nav_menu_locations', $mapped_nav_menu_locations );
+	delete_option( 'theme_switch_menu_locations' );
+}
+
+/**
+ * Maps nav menu locations according to assignments in previously active theme.
+ *
+ * @since 4.9.0
+ *
+ * @param array $new_nav_menu_locations New nav menu locations assignments.
+ * @param array $old_nav_menu_locations Old nav menu locations assignments.
+ * @return array Nav menus mapped to new nav menu locations.
+ */
+function wp_map_nav_menu_locations( $new_nav_menu_locations, $old_nav_menu_locations ) {
+	$registered_nav_menus = get_registered_nav_menus();
+
+	// Short-circuit if there are no old nav menu location assignments to map.
+	if ( empty( $old_nav_menu_locations ) ) {
+		return $new_nav_menu_locations;
+	}
+
+	// If old and new theme have just one location, map it and we're done.
+	if ( 1 === count( $old_nav_menu_locations ) && 1 === count( $registered_nav_menus ) ) {
+		$new_nav_menu_locations[ key( $registered_nav_menus ) ] = array_pop( $old_nav_menu_locations );
+		return $new_nav_menu_locations;
+	}
+
+	$old_locations = array_keys( $old_nav_menu_locations );
+
+	// Map locations with the same slug.
+	foreach ( $registered_nav_menus as $location => $name ) {
+		if ( in_array( $location, $old_locations, true ) ) {
+			$new_nav_menu_locations[ $location ] = $old_nav_menu_locations[ $location ];
+			unset( $old_nav_menu_locations[ $location ] );
+		}
+	}
+
+	// If there are no old nav menu locations left, then we're done.
+	if ( empty( $old_nav_menu_locations ) ) {
+		return $new_nav_menu_locations;
+	}
+
+	/*
+	 * If old and new theme both have locations that contain phrases
+	 * from within the same group, make an educated guess and map it.
+	 */
+	$common_slug_groups = array(
+		array( 'header', 'main', 'navigation', 'primary', 'top' ),
+		array( 'bottom', 'footer', 'secondary', 'subsidiary' ),
+	);
+
+	// Go through each group...
+	foreach ( $common_slug_groups as $slug_group ) {
+
+		// ...and see if any of these slugs...
+		foreach ( $slug_group as $slug ) {
+
+			// ...and any of the new menu locations...
+			foreach ( $registered_nav_menus as $new_location => $name ) {
+
+				// ...actually match!
+				if ( false === stripos( $new_location, $slug ) && false === stripos( $slug, $new_location ) ) {
+					continue;
+				}
+
+				// Then see if any of the old locations...
+				foreach ( $old_nav_menu_locations as $location => $menu_id ) {
+
+					// ...and any slug in the same group...
+					foreach ( $slug_group as $slug ) {
+
+						// ... have a match as well.
+						if ( false === stripos( $location, $slug ) && false === stripos( $slug, $location ) ) {
+							continue;
+						}
+
+						// Make sure this location wasn't mapped and removed previously.
+						if ( ! empty( $old_nav_menu_locations[ $location ] ) ) {
+
+							// We have a match that can be mapped!
+							$new_nav_menu_locations[ $new_location ] = $old_nav_menu_locations[ $location ];
+
+							// Remove the mapped location so it can't be mapped again.
+							unset( $old_nav_menu_locations[ $location ] );
+
+							// Go back and check the next new menu location.
+							continue 3;
+						}
+					} // endforeach ( $slug_group as $slug )
+				} // endforeach ( $old_nav_menu_locations as $location => $menu_id )
+			} // endforeach foreach ( $registered_nav_menus as $new_location => $name )
+		} // endforeach ( $slug_group as $slug )
+	} // endforeach ( $common_slug_groups as $slug_group )
+
+	return $new_nav_menu_locations;
+}
