@@ -2278,7 +2278,7 @@ final class WP_Customize_Manager {
 
 		// Amend post values with any supplied data.
 		foreach ( $args['data'] as $setting_id => $setting_params ) {
-			if ( array_key_exists( 'value', $setting_params ) ) {
+			if ( is_array( $setting_params ) && array_key_exists( 'value', $setting_params ) ) {
 				$this->set_post_value( $setting_id, $setting_params['value'] ); // Add to post values so that they can be validated and sanitized.
 			}
 		}
