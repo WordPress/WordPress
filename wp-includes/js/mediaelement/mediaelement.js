@@ -6,7 +6,6 @@
  * using a variety of technologies (pure JavaScript, Flash, iframe)
  *
  * Copyright 2010-2017, John Dyer (http://j.hn/)
- * Maintained by, Rafael Miranda (rafa8626@gmail.com)
  * License: MIT
  *
  */(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
@@ -864,26 +863,12 @@ var MediaElement = function MediaElement(idOrNode, options, sources) {
 	},
 	    triggerAction = function triggerAction(methodName, args) {
 		try {
-			var response = t.mediaElement.renderer[methodName](args);
-			if (response && typeof response.then === 'function') {
-				response.catch(function (e) {
-					if (methodName === 'play') {
-						if (t.mediaElement.paused) {
-							setTimeout(function () {
-								var tmpResponse = t.mediaElement.renderer.play();
-								if (tmpResponse !== undefined) {
-									tmpResponse.catch(function () {
-										if (!t.mediaElement.renderer.paused) {
-											t.mediaElement.renderer.pause();
-										}
-									});
-								}
-							}, 150);
-						}
-					} else {
-						return t.mediaElement.generateError(e, mediaFiles);
-					}
-				});
+			if (methodName === 'play' && t.mediaElement.rendererName === 'native_dash') {
+				setTimeout(function () {
+					t.mediaElement.renderer[methodName](args);
+				}, 100);
+			} else {
+				t.mediaElement.renderer[methodName](args);
 			}
 		} catch (e) {
 			t.mediaElement.generateError(e, mediaFiles);
@@ -1008,7 +993,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var mejs = {};
 
-mejs.version = '4.2.3';
+mejs.version = '4.2.5';
 
 mejs.html5media = {
 	properties: ['volume', 'src', 'currentTime', 'muted', 'duration', 'paused', 'ended', 'buffered', 'error', 'networkState', 'readyState', 'seeking', 'seekable', 'currentSrc', 'preload', 'bufferedBytes', 'bufferedTime', 'initialTime', 'startOffsetTime', 'defaultPlaybackRate', 'playbackRate', 'played', 'autoplay', 'loop', 'controls'],
@@ -1146,87 +1131,87 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 var EN = exports.EN = {
-	"mejs.plural-form": 1,
+	'mejs.plural-form': 1,
 
-	"mejs.download-file": "Download File",
+	'mejs.download-file': 'Download File',
 
-	"mejs.install-flash": "You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https://get.adobe.com/flashplayer/",
+	'mejs.install-flash': 'You are using a browser that does not have Flash player enabled or installed. Please turn on your Flash player plugin or download the latest version from https://get.adobe.com/flashplayer/',
 
-	"mejs.fullscreen": "Fullscreen",
+	'mejs.fullscreen': 'Fullscreen',
 
-	"mejs.play": "Play",
-	"mejs.pause": "Pause",
+	'mejs.play': 'Play',
+	'mejs.pause': 'Pause',
 
-	"mejs.time-slider": "Time Slider",
-	"mejs.time-help-text": "Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.",
-	"mejs.live-broadcast": "Live Broadcast",
+	'mejs.time-slider': 'Time Slider',
+	'mejs.time-help-text': 'Use Left/Right Arrow keys to advance one second, Up/Down arrows to advance ten seconds.',
+	'mejs.live-broadcast': 'Live Broadcast',
 
-	"mejs.volume-help-text": "Use Up/Down Arrow keys to increase or decrease volume.",
-	"mejs.unmute": "Unmute",
-	"mejs.mute": "Mute",
-	"mejs.volume-slider": "Volume Slider",
+	'mejs.volume-help-text': 'Use Up/Down Arrow keys to increase or decrease volume.',
+	'mejs.unmute': 'Unmute',
+	'mejs.mute': 'Mute',
+	'mejs.volume-slider': 'Volume Slider',
 
-	"mejs.video-player": "Video Player",
-	"mejs.audio-player": "Audio Player",
+	'mejs.video-player': 'Video Player',
+	'mejs.audio-player': 'Audio Player',
 
-	"mejs.captions-subtitles": "Captions/Subtitles",
-	"mejs.captions-chapters": "Chapters",
-	"mejs.none": "None",
-	"mejs.afrikaans": "Afrikaans",
-	"mejs.albanian": "Albanian",
-	"mejs.arabic": "Arabic",
-	"mejs.belarusian": "Belarusian",
-	"mejs.bulgarian": "Bulgarian",
-	"mejs.catalan": "Catalan",
-	"mejs.chinese": "Chinese",
-	"mejs.chinese-simplified": "Chinese (Simplified)",
-	"mejs.chinese-traditional": "Chinese (Traditional)",
-	"mejs.croatian": "Croatian",
-	"mejs.czech": "Czech",
-	"mejs.danish": "Danish",
-	"mejs.dutch": "Dutch",
-	"mejs.english": "English",
-	"mejs.estonian": "Estonian",
-	"mejs.filipino": "Filipino",
-	"mejs.finnish": "Finnish",
-	"mejs.french": "French",
-	"mejs.galician": "Galician",
-	"mejs.german": "German",
-	"mejs.greek": "Greek",
-	"mejs.haitian-creole": "Haitian Creole",
-	"mejs.hebrew": "Hebrew",
-	"mejs.hindi": "Hindi",
-	"mejs.hungarian": "Hungarian",
-	"mejs.icelandic": "Icelandic",
-	"mejs.indonesian": "Indonesian",
-	"mejs.irish": "Irish",
-	"mejs.italian": "Italian",
-	"mejs.japanese": "Japanese",
-	"mejs.korean": "Korean",
-	"mejs.latvian": "Latvian",
-	"mejs.lithuanian": "Lithuanian",
-	"mejs.macedonian": "Macedonian",
-	"mejs.malay": "Malay",
-	"mejs.maltese": "Maltese",
-	"mejs.norwegian": "Norwegian",
-	"mejs.persian": "Persian",
-	"mejs.polish": "Polish",
-	"mejs.portuguese": "Portuguese",
-	"mejs.romanian": "Romanian",
-	"mejs.russian": "Russian",
-	"mejs.serbian": "Serbian",
-	"mejs.slovak": "Slovak",
-	"mejs.slovenian": "Slovenian",
-	"mejs.spanish": "Spanish",
-	"mejs.swahili": "Swahili",
-	"mejs.swedish": "Swedish",
-	"mejs.tagalog": "Tagalog",
-	"mejs.thai": "Thai",
-	"mejs.turkish": "Turkish",
-	"mejs.ukrainian": "Ukrainian",
-	"mejs.vietnamese": "Vietnamese",
-	"mejs.welsh": "Welsh",
-	"mejs.yiddish": "Yiddish"
+	'mejs.captions-subtitles': 'Captions/Subtitles',
+	'mejs.captions-chapters': 'Chapters',
+	'mejs.none': 'None',
+	'mejs.afrikaans': 'Afrikaans',
+	'mejs.albanian': 'Albanian',
+	'mejs.arabic': 'Arabic',
+	'mejs.belarusian': 'Belarusian',
+	'mejs.bulgarian': 'Bulgarian',
+	'mejs.catalan': 'Catalan',
+	'mejs.chinese': 'Chinese',
+	'mejs.chinese-simplified': 'Chinese (Simplified)',
+	'mejs.chinese-traditional': 'Chinese (Traditional)',
+	'mejs.croatian': 'Croatian',
+	'mejs.czech': 'Czech',
+	'mejs.danish': 'Danish',
+	'mejs.dutch': 'Dutch',
+	'mejs.english': 'English',
+	'mejs.estonian': 'Estonian',
+	'mejs.filipino': 'Filipino',
+	'mejs.finnish': 'Finnish',
+	'mejs.french': 'French',
+	'mejs.galician': 'Galician',
+	'mejs.german': 'German',
+	'mejs.greek': 'Greek',
+	'mejs.haitian-creole': 'Haitian Creole',
+	'mejs.hebrew': 'Hebrew',
+	'mejs.hindi': 'Hindi',
+	'mejs.hungarian': 'Hungarian',
+	'mejs.icelandic': 'Icelandic',
+	'mejs.indonesian': 'Indonesian',
+	'mejs.irish': 'Irish',
+	'mejs.italian': 'Italian',
+	'mejs.japanese': 'Japanese',
+	'mejs.korean': 'Korean',
+	'mejs.latvian': 'Latvian',
+	'mejs.lithuanian': 'Lithuanian',
+	'mejs.macedonian': 'Macedonian',
+	'mejs.malay': 'Malay',
+	'mejs.maltese': 'Maltese',
+	'mejs.norwegian': 'Norwegian',
+	'mejs.persian': 'Persian',
+	'mejs.polish': 'Polish',
+	'mejs.portuguese': 'Portuguese',
+	'mejs.romanian': 'Romanian',
+	'mejs.russian': 'Russian',
+	'mejs.serbian': 'Serbian',
+	'mejs.slovak': 'Slovak',
+	'mejs.slovenian': 'Slovenian',
+	'mejs.spanish': 'Spanish',
+	'mejs.swahili': 'Swahili',
+	'mejs.swedish': 'Swedish',
+	'mejs.tagalog': 'Tagalog',
+	'mejs.thai': 'Thai',
+	'mejs.turkish': 'Turkish',
+	'mejs.ukrainian': 'Ukrainian',
+	'mejs.vietnamese': 'Vietnamese',
+	'mejs.welsh': 'Welsh',
+	'mejs.yiddish': 'Yiddish'
 };
 
 },{}],10:[function(_dereq_,module,exports){
@@ -1322,8 +1307,10 @@ var DashNativeRenderer = {
 		var props = _mejs2.default.html5media.properties,
 		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
 		    attachNativeEvents = function attachNativeEvents(e) {
-			var event = (0, _general.createEvent)(e.type, mediaElement);
-			mediaElement.dispatchEvent(event);
+			if (e.type !== 'error') {
+				var _event = (0, _general.createEvent)(e.type, mediaElement);
+				mediaElement.dispatchEvent(_event);
+			}
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
@@ -1398,19 +1385,26 @@ var DashNativeRenderer = {
 				assignEvents(events[_i3]);
 			}
 
-			var assignMdashEvents = function assignMdashEvents(e) {
-				var event = (0, _general.createEvent)(e.type, node);
-				event.data = e;
-				mediaElement.dispatchEvent(event);
-
-				if (e.type.toLowerCase() === 'error') {
-					console.error(e);
+			var assignMdashEvents = function assignMdashEvents(name, data) {
+				if (name.toLowerCase() === 'error') {
+					mediaElement.generateError(data.message, node.src);
+					console.error(data);
+				} else {
+					var _event2 = (0, _general.createEvent)(name, mediaElement);
+					_event2.data = data;
+					mediaElement.dispatchEvent(_event2);
 				}
 			};
 
 			for (var eventType in dashEvents) {
 				if (dashEvents.hasOwnProperty(eventType)) {
-					dashPlayer.on(dashEvents[eventType], assignMdashEvents);
+					dashPlayer.on(dashEvents[eventType], function (e) {
+						for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+							args[_key - 1] = arguments[_key];
+						}
+
+						return assignMdashEvents(e.type, args);
+					});
 				}
 			}
 		};
@@ -1839,7 +1833,7 @@ if (hasFlash) {
 		},
 
 		canPlayType: function canPlayType(type) {
-			return ~['application/x-mpegurl', 'vnd.apple.mpegurl', 'audio/mpegurl', 'audio/hls', 'video/hls'].indexOf(type.toLowerCase());
+			return ~['application/x-mpegurl', 'application/vnd.apple.mpegurl', 'audio/mpegurl', 'audio/hls', 'video/hls'].indexOf(type.toLowerCase());
 		},
 
 		create: FlashMediaElementRenderer.create
@@ -1979,8 +1973,10 @@ var FlvNativeRenderer = {
 		var props = _mejs2.default.html5media.properties,
 		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
 		    attachNativeEvents = function attachNativeEvents(e) {
-			var event = (0, _general.createEvent)(e.type, mediaElement);
-			mediaElement.dispatchEvent(event);
+			if (e.type !== 'error') {
+				var _event = (0, _general.createEvent)(e.type, mediaElement);
+				mediaElement.dispatchEvent(_event);
+			}
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
@@ -2042,16 +2038,25 @@ var FlvNativeRenderer = {
 				assignEvents(events[_i]);
 			}
 
-			var assignFlvEvents = function assignFlvEvents(name, e) {
-				var event = (0, _general.createEvent)(name, node);
-				event.data = e;
-				mediaElement.dispatchEvent(event);
+			var assignFlvEvents = function assignFlvEvents(name, data) {
+				if (name === 'error') {
+					var message = data[0] + ': ' + data[1] + ' ' + data[2].msg;
+					mediaElement.generateError(message, node.src);
+				} else {
+					var _event2 = (0, _general.createEvent)(name, mediaElement);
+					_event2.data = data;
+					mediaElement.dispatchEvent(_event2);
+				}
 			};
 
 			var _loop = function _loop(eventType) {
 				if (flvEvents.hasOwnProperty(eventType)) {
-					flvPlayer.on(flvEvents[eventType], function (e) {
-						assignFlvEvents(flvEvents[eventType], e);
+					flvPlayer.on(flvEvents[eventType], function () {
+						for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+							args[_key] = arguments[_key];
+						}
+
+						return assignFlvEvents(flvEvents[eventType], args);
 					});
 				}
 			};
@@ -2186,7 +2191,7 @@ var HlsNativeRenderer = {
 	options: {
 		prefix: 'native_hls',
 		hls: {
-			path: 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.7.10/hls.min.js',
+			path: 'https://cdnjs.cloudflare.com/ajax/libs/hls.js/0.7.11/hls.min.js',
 
 			autoStartLoad: false,
 			debug: false
@@ -2194,7 +2199,7 @@ var HlsNativeRenderer = {
 	},
 
 	canPlayType: function canPlayType(type) {
-		return _constants.HAS_MSE && ['application/x-mpegurl', 'vnd.apple.mpegurl', 'audio/mpegurl', 'audio/hls', 'video/hls'].indexOf(type.toLowerCase()) > -1;
+		return _constants.HAS_MSE && ['application/x-mpegurl', 'application/vnd.apple.mpegurl', 'audio/mpegurl', 'audio/hls', 'video/hls'].indexOf(type.toLowerCase()) > -1;
 	},
 
 	create: function create(mediaElement, options, mediaFiles) {
@@ -2214,8 +2219,10 @@ var HlsNativeRenderer = {
 		var props = _mejs2.default.html5media.properties,
 		    events = _mejs2.default.html5media.events.concat(['click', 'mouseover', 'mouseout']),
 		    attachNativeEvents = function attachNativeEvents(e) {
-			var event = (0, _general.createEvent)(e.type, mediaElement);
-			mediaElement.dispatchEvent(event);
+			if (e.type !== 'error') {
+				var _event = (0, _general.createEvent)(e.type, mediaElement);
+				mediaElement.dispatchEvent(_event);
+			}
 		},
 		    assignGettersSetters = function assignGettersSetters(propName) {
 			var capName = '' + propName.substring(0, 1).toUpperCase() + propName.substring(1);
@@ -2271,13 +2278,9 @@ var HlsNativeRenderer = {
 
 			var recoverDecodingErrorDate = void 0,
 			    recoverSwapAudioCodecDate = void 0;
-			var assignHlsEvents = function assignHlsEvents(e, data) {
-				var event = (0, _general.createEvent)(e, node);
-				event.data = data;
-				mediaElement.dispatchEvent(event);
-
-				if (e === 'hlsError') {
-					console.warn(e, data);
+			var assignHlsEvents = function assignHlsEvents(name, data) {
+				if (name === 'hlsError') {
+					console.warn(name, data);
 
 					if (data.fatal) {
 						switch (data.type) {
@@ -2292,24 +2295,42 @@ var HlsNativeRenderer = {
 									hlsPlayer.swapAudioCodec();
 									hlsPlayer.recoverMediaError();
 								} else {
-									console.error('Cannot recover, last media error recovery failed');
+									var _message = 'Cannot recover, last media error recovery failed';
+									mediaElement.generateError(_message, node.src);
+									console.error(_message);
 								}
 								break;
 							case 'networkError':
-								console.error('Network error');
+								var message = 'Network error';
+								mediaElement.generateError(message, node.src);
+								console.error(message);
 								break;
 							default:
 								hlsPlayer.destroy();
 								break;
 						}
 					}
+				} else {
+					var _event2 = (0, _general.createEvent)(name, mediaElement);
+					_event2.data = data;
+					mediaElement.dispatchEvent(_event2);
+				}
+			};
+
+			var _loop = function _loop(eventType) {
+				if (hlsEvents.hasOwnProperty(eventType)) {
+					hlsPlayer.on(hlsEvents[eventType], function () {
+						for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+							args[_key] = arguments[_key];
+						}
+
+						return assignHlsEvents(hlsEvents[eventType], args);
+					});
 				}
 			};
 
 			for (var eventType in hlsEvents) {
-				if (hlsEvents.hasOwnProperty(eventType)) {
-					hlsPlayer.on(hlsEvents[eventType], assignHlsEvents);
-				}
+				_loop(eventType);
 			}
 		};
 
@@ -3586,7 +3607,7 @@ function absolutizeUrl(url) {
 function formatType(url) {
 	var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
 
-	return url && !type ? getTypeFromFile(url) : getMimeFromType(type);
+	return url && !type ? getTypeFromFile(url) : type;
 }
 
 function getMimeFromType(type) {

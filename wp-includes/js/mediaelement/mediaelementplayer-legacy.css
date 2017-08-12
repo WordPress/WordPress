@@ -743,10 +743,23 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
 /* End: Track (Captions and Chapters) */
 
 /* Start: Error */
+.mejs-overlay-error {
+    position: relative;
+}
+.mejs-overlay-error > img {
+    left: 0;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
 .mejs-cannotplay,
 .mejs-cannotplay a {
     color: #fff;
     font-size: 0.8em;
+}
+
+.mejs-cannotplay {
+    position: relative;
 }
 
 .mejs-cannotplay p,

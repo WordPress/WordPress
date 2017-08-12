@@ -6,7 +6,6 @@
  * using a variety of technologies (pure JavaScript, Flash, iframe)
  *
  * Copyright 2010-2017, John Dyer (http://j.hn/)
- * Maintained by, Rafael Miranda (rafa8626@gmail.com)
  * License: MIT
  *
  */
