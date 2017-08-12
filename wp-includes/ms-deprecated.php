@@ -420,22 +420,22 @@ function create_empty_blog( $domain, $path, $weblog_title, $site_id = 1 ) {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param string $sitedomain Optional. Site domain.
- * @param string $path       Optional. Site path.
- * @return array|false The network admins
+ * @param string $domain Optional. Network domain.
+ * @param string $path   Optional. Network path.
+ * @return array|false The network admins.
  */
-function get_admin_users_for_domain( $sitedomain = '', $path = '' ) {
+function get_admin_users_for_domain( $domain = '', $path = '' ) {
 	_deprecated_function( __FUNCTION__, '4.4.0' );
 
 	global $wpdb;
 
-	if ( ! $sitedomain )
-		$site_id = $wpdb->siteid;
+	if ( ! $domain )
+		$network_id = $wpdb->siteid;
 	else
-		$site_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $sitedomain, $path ) );
+		$network_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $domain, $path ) );
 
-	if ( $site_id )
-		return $wpdb->get_results( $wpdb->prepare( "SELECT u.ID, u.user_login, u.user_pass FROM $wpdb->users AS u, $wpdb->sitemeta AS sm WHERE sm.meta_key = 'admin_user_id' AND u.ID = sm.meta_value AND sm.site_id = %d", $site_id ), ARRAY_A );
+	if ( $network_id )
+		return $wpdb->get_results( $wpdb->prepare( "SELECT u.ID, u.user_login, u.user_pass FROM $wpdb->users AS u, $wpdb->sitemeta AS sm WHERE sm.meta_key = 'admin_user_id' AND u.ID = sm.meta_value AND sm.site_id = %d", $network_id ), ARRAY_A );
 
 	return false;
 }

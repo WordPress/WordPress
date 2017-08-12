@@ -214,25 +214,25 @@ function wp_load_alloptions() {
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @param int $site_id Optional site ID for which to query the options. Defaults to the current site.
+ * @param int $network_id Optional site ID for which to query the options. Defaults to the current site.
  */
-function wp_load_core_site_options( $site_id = null ) {
+function wp_load_core_site_options( $network_id = null ) {
 	global $wpdb;
 
 	if ( ! is_multisite() || wp_using_ext_object_cache() || wp_installing() )
 		return;
 
-	if ( empty($site_id) )
-		$site_id = $wpdb->siteid;
+	if ( empty($network_id) )
+		$network_id = $wpdb->siteid;
 
 	$core_options = array('site_name', 'siteurl', 'active_sitewide_plugins', '_site_transient_timeout_theme_roots', '_site_transient_theme_roots', 'site_admins', 'can_compress_scripts', 'global_terms_enabled', 'ms_files_rewriting' );
 
 	$core_options_in = "'" . implode("', '", $core_options) . "'";
-	$options = $wpdb->get_results( $wpdb->prepare("SELECT meta_key, meta_value FROM $wpdb->sitemeta WHERE meta_key IN ($core_options_in) AND site_id = %d", $site_id) );
+	$options = $wpdb->get_results( $wpdb->prepare( "SELECT meta_key, meta_value FROM $wpdb->sitemeta WHERE meta_key IN ($core_options_in) AND site_id = %d", $network_id ) );
 
 	foreach ( $options as $option ) {
 		$key = $option->meta_key;
-		$cache_key = "{$site_id}:$key";
+		$cache_key = "{$network_id}:$key";
 		$option->meta_value = maybe_unserialize( $option->meta_value );
 
 		wp_cache_set( $cache_key, $option->meta_value, 'site-options' );

@@ -893,12 +893,13 @@ class wpdb {
 	 * @since 3.0.0
 	 *
 	 * @param int $blog_id
-	 * @param int $site_id Optional.
+	 * @param int $network_id Optional.
 	 * @return int previous blog id
 	 */
-	public function set_blog_id( $blog_id, $site_id = 0 ) {
-		if ( ! empty( $site_id ) )
-			$this->siteid = $site_id;
+	public function set_blog_id( $blog_id, $network_id = 0 ) {
+		if ( ! empty( $network_id ) ) {
+			$this->siteid = $network_id;
+		}
 
 		$old_blog_id  = $this->blogid;
 		$this->blogid = $blog_id;
