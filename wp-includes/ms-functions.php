@@ -72,7 +72,7 @@ function get_active_blog_for_user( $user_id ) {
 		$ret = false;
 		if ( is_array( $blogs ) && count( $blogs ) > 0 ) {
 			foreach ( (array) $blogs as $blog_id => $blog ) {
-				if ( $blog->site_id != $wpdb->siteid )
+				if ( $blog->site_id != get_current_network_id() )
 					continue;
 				$details = get_site( $blog_id );
 				if ( is_object( $details ) && $details->archived == 0 && $details->spam == 0 && $details->deleted == 0 ) {
@@ -1089,7 +1089,7 @@ function wpmu_activate_signup($key) {
 		return array( 'user_id' => $user_id, 'password' => $password, 'meta' => $meta );
 	}
 
-	$blog_id = wpmu_create_blog( $signup->domain, $signup->path, $signup->title, $user_id, $meta, $wpdb->siteid );
+	$blog_id = wpmu_create_blog( $signup->domain, $signup->path, $signup->title, $user_id, $meta, get_current_network_id() );
 
 	// TODO: What to do if we create a user but cannot create a blog?
 	if ( is_wp_error($blog_id) ) {

@@ -354,7 +354,7 @@ function signup_another_blog( $blogname = '', $blog_title = '', $errors = '' ) {
  *                   The function halts all execution if the user is not logged in.
  */
 function validate_another_blog_signup() {
-	global $wpdb, $blogname, $blog_title, $errors, $domain, $path;
+	global $blogname, $blog_title, $errors, $domain, $path;
 	$current_user = wp_get_current_user();
 	if ( ! is_user_logged_in() ) {
 		die();
@@ -422,7 +422,7 @@ function validate_another_blog_signup() {
 	 */
 	$meta = apply_filters( 'add_signup_meta', $meta_defaults );
 
-	$blog_id = wpmu_create_blog( $domain, $path, $blog_title, $current_user->ID, $meta, $wpdb->siteid );
+	$blog_id = wpmu_create_blog( $domain, $path, $blog_title, $current_user->ID, $meta, get_current_network_id() );
 
 	if ( is_wp_error( $blog_id ) ) {
 		return false;

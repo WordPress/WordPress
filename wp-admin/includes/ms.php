@@ -792,15 +792,11 @@ function choose_primary_blog() {
  *
  * @since 3.1.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
  * @param int $network_id The network ID to check.
  * @return bool True if network can be edited, otherwise false.
  */
 function can_edit_network( $network_id ) {
-	global $wpdb;
-
-	if ( $network_id == $wpdb->siteid )
+	if ( $network_id == get_current_network_id() )
 		$result = true;
 	else
 		$result = false;

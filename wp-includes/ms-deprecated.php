@@ -187,7 +187,7 @@ function get_blog_list( $start = 0, $num = 10, $deprecated = '' ) {
 	_deprecated_function( __FUNCTION__, '3.0.0', 'wp_get_sites()' );
 
 	global $wpdb;
-	$blogs = $wpdb->get_results( $wpdb->prepare("SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ORDER BY registered DESC", $wpdb->siteid), ARRAY_A );
+	$blogs = $wpdb->get_results( $wpdb->prepare( "SELECT blog_id, domain, path FROM $wpdb->blogs WHERE site_id = %d AND public = '1' AND archived = '0' AND mature = '0' AND spam = '0' AND deleted = '0' ORDER BY registered DESC", get_current_network_id() ), ARRAY_A );
 
 	$blog_list = array();
 	foreach ( (array) $blogs as $details ) {
@@ -430,7 +430,7 @@ function get_admin_users_for_domain( $domain = '', $path = '' ) {
 	global $wpdb;
 
 	if ( ! $domain )
-		$network_id = $wpdb->siteid;
+		$network_id = get_current_network_id();
 	else
 		$network_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $domain, $path ) );
 
@@ -446,8 +446,6 @@ function get_admin_users_for_domain( $domain = '', $path = '' ) {
  * @since 3.7.0
  * @deprecated 4.6.0 Use get_sites()
  * @see get_sites()
- *
- * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param array $args {
  *     Array of default arguments. Optional.
@@ -468,15 +466,13 @@ function get_admin_users_for_domain( $domain = '', $path = '' ) {
  *               values for whether the site is public, archived, mature, spam, and/or deleted.
  */
 function wp_get_sites( $args = array() ) {
-	global $wpdb;
-
 	_deprecated_function( __FUNCTION__, '4.6.0', 'get_sites()' );
 
 	if ( wp_is_large_network() )
 		return array();
 
 	$defaults = array(
-		'network_id' => $wpdb->siteid,
+		'network_id' => get_current_network_id(),
 		'public'     => null,
 		'archived'   => null,
 		'mature'     => null,
