@@ -708,10 +708,14 @@ wp.mediaWidgets = ( function( $ ) {
 				control.model.set( control.getModelPropsFromMediaFrame( mediaFrame ) );
 			});
 
-			// Disable syncing of attachment changes back to server. See <https://core.trac.wordpress.org/ticket/40403>.
+			// Disable syncing of attachment changes back to server (except for deletions). See <https://core.trac.wordpress.org/ticket/40403>.
 			defaultSync = wp.media.model.Attachment.prototype.sync;
-			wp.media.model.Attachment.prototype.sync = function rejectedSync() {
-				return $.Deferred().rejectWith( this ).promise();
+			wp.media.model.Attachment.prototype.sync = function( method ) {
+				if ( 'delete' === method ) {
+					return defaultSync.apply( this, arguments );
+				} else {
+					return $.Deferred().rejectWith( this ).promise();
+				}
 			};
 			mediaFrame.on( 'close', function onClose() {
 				wp.media.model.Attachment.prototype.sync = defaultSync;
