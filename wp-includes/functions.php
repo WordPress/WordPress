@@ -3303,7 +3303,7 @@ function _config_wp_siteurl( $url = '' ) {
  * @access private
  */
 function _delete_option_fresh_site() {
-	update_option( 'fresh_site', 0 );
+	update_option( 'fresh_site', '0' );
 }
 
 /**
