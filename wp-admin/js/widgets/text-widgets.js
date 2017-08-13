@@ -4,7 +4,8 @@ wp.textWidgets = ( function( $ ) {
 	'use strict';
 
 	var component = {
-		dismissedPointers: []
+		dismissedPointers: [],
+		idBases: [ 'text' ]
 	};
 
 	/**
@@ -357,7 +358,7 @@ wp.textWidgets = ( function( $ ) {
 		widgetForm = widgetContainer.find( '> .widget-inside > .form, > .widget-inside > form' ); // Note: '.form' appears in the customizer, whereas 'form' on the widgets admin screen.
 
 		idBase = widgetForm.find( '> .id_base' ).val();
-		if ( 'text' !== idBase ) {
+		if ( -1 === component.idBases.indexOf( idBase ) ) {
 			return;
 		}
 
@@ -424,7 +425,7 @@ wp.textWidgets = ( function( $ ) {
 		}
 
 		idBase = widgetForm.find( '> .widget-control-actions > .id_base' ).val();
-		if ( 'text' !== idBase ) {
+		if ( -1 === component.idBases.indexOf( idBase ) ) {
 			return;
 		}
 
@@ -461,7 +462,7 @@ wp.textWidgets = ( function( $ ) {
 		widgetForm = widgetContainer.find( '> .widget-inside > .form, > .widget-inside > form' );
 
 		idBase = widgetForm.find( '> .id_base' ).val();
-		if ( 'text' !== idBase ) {
+		if ( -1 === component.idBases.indexOf( idBase ) ) {
 			return;
 		}
 
