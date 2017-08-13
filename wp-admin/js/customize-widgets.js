@@ -602,7 +602,7 @@
 			$customizeSidebar = $( '.wp-full-overlay-sidebar-content:first' );
 			this.container.addClass( 'wide-widget-control' );
 
-			this.container.find( '.widget-content:first' ).css( {
+			this.container.find( '.form:first' ).css( {
 				'max-width': this.params.width,
 				'min-height': this.params.height
 			} );
