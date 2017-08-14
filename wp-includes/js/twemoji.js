@@ -88,7 +88,7 @@ var twemoji = (function (
        */
       onerror: function onerror() {
         if (this.parentNode) {
-          this.parentNode.replaceChild(createText(this.alt), this);
+          this.parentNode.replaceChild(createText(this.alt, false), this);
         }
       },
 
@@ -159,13 +159,13 @@ var twemoji = (function (
        * @example
        *
        *  twemoji.parse("I \u2764\uFE0F emoji!");
-       *  // I <img class="emoji" draggable="false" alt="❤️" src="/assets/2764.gif"> emoji!
+       *  // I <img class="emoji" draggable="false" alt="❤️" src="/assets/2764.gif"/> emoji!
        *
        *
        *  twemoji.parse("I \u2764\uFE0F emoji!", function(iconId, options) {
        *    return '/assets/' + iconId + '.gif';
        *  });
-       *  // I <img class="emoji" draggable="false" alt="❤️" src="/assets/2764.gif"> emoji!
+       *  // I <img class="emoji" draggable="false" alt="❤️" src="/assets/2764.gif"/> emoji!
        *
        *
        * twemoji.parse("I \u2764\uFE0F emoji!", {
@@ -174,7 +174,7 @@ var twemoji = (function (
        *     return '/assets/' + options.size + '/' + iconId + options.ext;
        *   }
        * });
-       *  // I <img class="emoji" draggable="false" alt="❤️" src="/assets/72x72/2764.png"> emoji!
+       *  // I <img class="emoji" draggable="false" alt="❤️" src="/assets/72x72/2764.png"/> emoji!
        *
        */
       parse: parse,
@@ -237,8 +237,8 @@ var twemoji = (function (
     // used to find HTML special chars in attributes
     rescaper = /[&<>'"]/g,
 
-    // nodes with type 1 which should **not** be parsed (including lower case svg)
-    shouldntBeParsed = /IFRAME|NOFRAMES|NOSCRIPT|SCRIPT|SELECT|STYLE|TEXTAREA|[a-z]/,
+    // nodes with type 1 which should **not** be parsed
+    shouldntBeParsed = /^(?:iframe|noframes|noscript|script|select|style|textarea)$/,
 
     // just a private shortcut
     fromCharCode = String.fromCharCode;
@@ -256,8 +256,8 @@ var twemoji = (function (
    * @param   string  text used to create DOM text node
    * @return  Node  a DOM node with that text
    */
-  function createText(text) {
-    return document.createTextNode(text);
+  function createText(text, clean) {
+    return document.createTextNode(clean ? text.replace(UFE0Fg, '') : text);
   }
 
   /**
@@ -301,9 +301,10 @@ var twemoji = (function (
         // collect them to process emoji later
         allText.push(subnode);
       }
-      // ignore all nodes that are not type 1 or that
+      // ignore all nodes that are not type 1, that are svg, or that
       // should not be parsed as script, style, and others
-      else if (nodeType === 1 && !shouldntBeParsed.test(subnode.nodeName)) {
+      else if (nodeType === 1 && !('ownerSVGElement' in subnode) &&
+          !shouldntBeParsed.test(subnode.nodeName.toLowerCase())) {
         grabAllTextNodes(subnode, allText);
       }
     }
@@ -365,7 +366,7 @@ var twemoji = (function (
         index = match.index;
         if (index !== i) {
           fragment.appendChild(
-            createText(text.slice(i, index))
+            createText(text.slice(i, index), true)
           );
         }
         rawText = match[0];
@@ -393,7 +394,7 @@ var twemoji = (function (
           modified = true;
           fragment.appendChild(img);
         }
-        if (!img) fragment.appendChild(createText(rawText));
+        if (!img) fragment.appendChild(createText(rawText, false));
         img = null;
       }
       // is there actually anything to replace in here ?
@@ -401,7 +402,7 @@ var twemoji = (function (
         // any text left to be added ?
         if (i < text.length) {
           fragment.appendChild(
-            createText(text.slice(i))
+            createText(text.slice(i), true)
           );
         }
         // replace the text node only, leave intact
@@ -459,7 +460,7 @@ var twemoji = (function (
             ret = ret.concat(' ', attrname, '="', escapeHTML(attrib[attrname]), '"');
           }
         }
-        ret = ret.concat('>');
+        ret = ret.concat('/>');
       }
       return ret;
     });
