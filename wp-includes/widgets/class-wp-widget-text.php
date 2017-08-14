@@ -116,8 +116,8 @@ class WP_Widget_Text extends WP_Widget {
 		}
 
 		$doc = new DOMDocument();
-		$doc->loadHTML( sprintf(
-			'<html><head><meta charset="%s"></head><body>%s</body></html>',
+		@$doc->loadHTML( sprintf(
+			'<!DOCTYPE html><html><head><meta charset="%s"></head><body>%s</body></html>',
 			esc_attr( get_bloginfo( 'charset' ) ),
 			$instance['text']
 		) );
