@@ -512,6 +512,26 @@ wp.mediaWidgets = ( function( $ ) {
 				});
 			});
 
+			// Update link_url attribute.
+			control.$el.on( 'input change', '.link', function updateLinkUrl() {
+				var linkUrl = $.trim( $( this ).val() ), linkType = 'custom';
+				if ( control.selectedAttachment.get( 'linkUrl' ) === linkUrl || control.selectedAttachment.get( 'link' ) === linkUrl ) {
+					linkType = 'post';
+				} else if ( control.selectedAttachment.get( 'url' ) === linkUrl ) {
+					linkType = 'file';
+				}
+				control.model.set( {
+					link_url: linkUrl,
+					link_type: linkType
+				});
+
+				// Update display settings for the next time the user opens to select from the media library.
+				control.displaySettings.set( {
+					link: linkType,
+					linkUrl: linkUrl
+				});
+			});
+
 			/*
 			 * Copy current display settings from the widget model to serve as basis
 			 * of customized display settings for the current media frame session.
@@ -822,7 +842,7 @@ wp.mediaWidgets = ( function( $ ) {
 			}
 
 			if ( 'post' === mediaFrameProps.link ) {
-				modelProps.link_url = mediaFrameProps.postUrl;
+				modelProps.link_url = mediaFrameProps.postUrl || mediaFrameProps.linkUrl;
 			} else if ( 'file' === mediaFrameProps.link ) {
 				modelProps.link_url = mediaFrameProps.url;
 			}

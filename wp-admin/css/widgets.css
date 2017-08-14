@@ -152,6 +152,10 @@
 	border: 1px solid #f00;
 }
 
+.media-widget-image-link {
+	margin: 1em 0;
+}
+
 /* Widget Dragging Helpers */
 .widget.ui-draggable-dragging {
 	min-width: 100%;
