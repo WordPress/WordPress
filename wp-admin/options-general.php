@@ -56,20 +56,25 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <?php settings_fields('general'); ?>
 
 <table class="form-table">
+
 <tr>
 <th scope="row"><label for="blogname"><?php _e('Site Title') ?></label></th>
 <td><input name="blogname" type="text" id="blogname" value="<?php form_option('blogname'); ?>" class="regular-text" /></td>
 </tr>
+
 <tr>
 <th scope="row"><label for="blogdescription"><?php _e('Tagline') ?></label></th>
 <td><input name="blogdescription" type="text" id="blogdescription" aria-describedby="tagline-description" value="<?php form_option('blogdescription'); ?>" class="regular-text" />
 <p class="description" id="tagline-description"><?php _e( 'In a few words, explain what this site is about.' ) ?></p></td>
 </tr>
+
 <?php if ( !is_multisite() ) { ?>
+
 <tr>
 <th scope="row"><label for="siteurl"><?php _e('WordPress Address (URL)') ?></label></th>
 <td><input name="siteurl" type="url" id="siteurl" value="<?php form_option( 'siteurl' ); ?>"<?php disabled( defined( 'WP_SITEURL' ) ); ?> class="regular-text code<?php if ( defined( 'WP_SITEURL' ) ) echo ' disabled' ?>" /></td>
 </tr>
+
 <tr>
 <th scope="row"><label for="home"><?php _e('Site Address (URL)') ?></label></th>
 <td><input name="home" type="url" id="home" aria-describedby="home-description" value="<?php form_option( 'home' ); ?>"<?php disabled( defined( 'WP_HOME' ) ); ?> class="regular-text code<?php if ( defined( 'WP_HOME' ) ) echo ' disabled' ?>" />
@@ -77,11 +82,36 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <p class="description" id="home-description"><?php _e( 'Enter the address here if you <a href="https://codex.wordpress.org/Giving_WordPress_Its_Own_Directory">want your site home page to be different from your WordPress installation directory.</a>' ); ?></p></td>
 <?php endif; ?>
 </tr>
+
+<?php } ?>
+
 <tr>
-<th scope="row"><label for="admin_email"><?php _e('Email Address') ?> </label></th>
-<td><input name="admin_email" type="email" id="admin_email" aria-describedby="admin-email-description" value="<?php form_option( 'admin_email' ); ?>" class="regular-text ltr" />
-<p class="description" id="admin-email-description"><?php _e( 'This address is used for admin purposes, like new user notification.' ) ?></p></td>
+<th scope="row"><label for="new_admin_email"><?php _e( 'Email Address' ); ?></label></th>
+<td><input name="new_admin_email" type="email" id="new_admin_email" aria-describedby="new-admin-email-description" value="<?php form_option( 'admin_email' ); ?>" class="regular-text ltr" />
+<p class="description" id="new-admin-email-description"><?php _e( 'This address is used for admin purposes. If you change this we will send you an email at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ); ?></p>
+<?php
+$new_admin_email = get_option( 'new_admin_email' );
+if ( $new_admin_email && $new_admin_email != get_option( 'admin_email' ) ) : ?>
+	<div class="updated inline">
+	<p><?php
+		printf(
+			/* translators: %s: new admin email */
+			__( 'There is a pending change of the admin email to %s.' ),
+			'<code>' . esc_html( $new_admin_email ) . '</code>'
+		);
+		printf(
+			' <a href="%1$s">%2$s</a>',
+			esc_url( wp_nonce_url( admin_url( 'options.php?dismiss=new_admin_email' ), 'dismiss-' . get_current_blog_id() . '-new_admin_email' ) ),
+			__( 'Cancel' )
+		);
+	?></p>
+	</div>
+<?php endif; ?>
+</td>
 </tr>
+
+<?php if ( ! is_multisite() ) { ?>
+
 <tr>
 <th scope="row"><?php _e('Membership') ?></th>
 <td> <fieldset><legend class="screen-reader-text"><span><?php _e('Membership') ?></span></legend><label for="users_can_register">
@@ -89,37 +119,14 @@ include( ABSPATH . 'wp-admin/admin-header.php' );
 <?php _e('Anyone can register') ?></label>
 </fieldset></td>
 </tr>
+
 <tr>
 <th scope="row"><label for="default_role"><?php _e('New User Default Role') ?></label></th>
 <td>
 <select name="default_role" id="default_role"><?php wp_dropdown_roles( get_option('default_role') ); ?></select>
 </td>
 </tr>
-<?php } else { ?>
-<tr>
-<th scope="row"><label for="new_admin_email"><?php _e('Email Address') ?> </label></th>
-<td><input name="new_admin_email" type="email" id="new_admin_email" aria-describedby="new-admin-email-description" value="<?php form_option( 'admin_email' ); ?>" class="regular-text ltr" />
-<p class="description" id="new-admin-email-description"><?php _e( 'This address is used for admin purposes. If you change this we will send you an email at your new address to confirm it. <strong>The new address will not become active until confirmed.</strong>' ) ?></p>
-<?php
-$new_admin_email = get_option( 'new_admin_email' );
-if ( $new_admin_email && $new_admin_email != get_option('admin_email') ) : ?>
-<div class="updated inline">
-<p><?php
-	printf(
-		/* translators: %s: new admin email */
-		__( 'There is a pending change of the admin email to %s.' ),
-		'<code>' . esc_html( $new_admin_email ) . '</code>'
-	);
-	printf(
-		' <a href="%1$s">%2$s</a>',
-		esc_url( wp_nonce_url( admin_url( 'options.php?dismiss=new_admin_email' ), 'dismiss-' . get_current_blog_id() . '-new_admin_email' ) ),
-		__( 'Cancel' )
-	);
-?></p>
-</div>
-<?php endif; ?>
-</td>
-</tr>
+
 <?php }
 
 $languages = get_available_languages();

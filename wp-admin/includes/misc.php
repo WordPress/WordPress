@@ -936,3 +936,83 @@ function wp_page_reload_on_back_button_js() {
 	</script>
 	<?php
 }
+
+/**
+ * Send a confirmation request email when a change of site admin email address is attempted.
+ *
+ * The new site admin address will not become active until confirmed.
+ *
+ * @since 3.0.0
+ * @since 4.9.0 This function was moved from wp-admin/includes/ms.php so it's no longer Multisite specific.
+ *
+ * @param string $old_value The old site admin email address.
+ * @param string $value     The proposed new site admin email address.
+ */
+function update_option_new_admin_email( $old_value, $value ) {
+	if ( $value == get_option( 'admin_email' ) || ! is_email( $value ) ) {
+		return;
+	}
+
+	$hash = md5( $value . time() . mt_rand() );
+	$new_admin_email = array(
+		'hash'     => $hash,
+		'newemail' => $value,
+	);
+	update_option( 'adminhash', $new_admin_email );
+
+	$switched_locale = switch_to_locale( get_user_locale() );
+
+	/* translators: Do not translate USERNAME, ADMIN_URL, EMAIL, SITENAME, SITEURL: those are placeholders. */
+	$email_text = __( 'Howdy ###USERNAME###,
+
+You recently requested to have the administration email address on
+your site changed.
+
+If this is correct, please click on the following link to change it:
+###ADMIN_URL###
+
+You can safely ignore and delete this email if you do not want to
+take this action.
+
+This email has been sent to ###EMAIL###
+
+Regards,
+All at ###SITENAME###
+###SITEURL###' );
+
+	/**
+	 * Filters the text of the email sent when a change of site admin email address is attempted.
+	 *
+	 * The following strings have a special meaning and will get replaced dynamically:
+	 * ###USERNAME###  The current user's username.
+	 * ###ADMIN_URL### The link to click on to confirm the email change.
+	 * ###EMAIL###     The proposed new site admin email address.
+	 * ###SITENAME###  The name of the site.
+	 * ###SITEURL###   The URL to the site.
+	 *
+	 * @since MU (3.0.0)
+	 * @since 4.9.0 This filter is no longer Multisite specific.
+	 *
+	 * @param string $email_text      Text in the email.
+	 * @param array  $new_admin_email {
+	 *     Data relating to the new site admin email address.
+	 *
+	 *     @type string $hash     The secure hash used in the confirmation link URL.
+	 *     @type string $newemail The proposed new site admin email address.
+	 * }
+	 */
+	$content = apply_filters( 'new_admin_email_content', $email_text, $new_admin_email );
+
+	$current_user = wp_get_current_user();
+	$content = str_replace( '###USERNAME###', $current_user->user_login, $content );
+	$content = str_replace( '###ADMIN_URL###', esc_url( self_admin_url( 'options.php?adminhash=' . $hash ) ), $content );
+	$content = str_replace( '###EMAIL###', $value, $content );
+	$content = str_replace( '###SITENAME###', wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ), $content );
+	$content = str_replace( '###SITEURL###', home_url(), $content );
+
+	wp_mail( $value, sprintf( __( '[%s] New Admin Email Address' ), wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ) ), $content );
+
+	if ( $switched_locale ) {
+		restore_previous_locale();
+	}
+}

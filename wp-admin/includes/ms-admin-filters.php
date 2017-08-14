@@ -16,10 +16,6 @@ add_action( 'network_admin_notices', 'new_user_email_admin_notice' );
 
 add_action( 'admin_page_access_denied', '_access_denied_splash', 99 );
 
-add_action( 'add_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
-
-add_action( 'update_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
-
 // Site Hooks.
 add_action( 'wpmueditblogaction', 'upload_space_setting' );
 

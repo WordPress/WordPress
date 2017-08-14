@@ -56,6 +56,9 @@ add_action( 'update_option_siteurl',       'update_home_siteurl', 10, 2 );
 add_action( 'update_option_page_on_front', 'update_home_siteurl', 10, 2 );
 add_action( 'update_option_admin_email',   'wp_site_admin_email_change_notification', 10, 3 );
 
+add_action( 'add_option_new_admin_email',    'update_option_new_admin_email', 10, 2 );
+add_action( 'update_option_new_admin_email', 'update_option_new_admin_email', 10, 2 );
+
 add_filter( 'heartbeat_received', 'wp_check_locked_posts',  10,  3 );
 add_filter( 'heartbeat_received', 'wp_refresh_post_lock',   10,  3 );
 add_filter( 'wp_refresh_nonces', 'wp_refresh_post_nonces', 10,  3 );
