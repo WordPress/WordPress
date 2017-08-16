@@ -224,12 +224,41 @@ function login_footer($input_id = '') {
 	global $interim_login;
 
 	// Don't allow interim logins to navigate away from the page.
-	if ( ! $interim_login ): ?>
-	<p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php
+	if ( ! $interim_login ) {
+		$url = esc_url( home_url( '/' );
+		
+		/**
+		 * Filters the url what is used for the back to blog link in the footer.
+		 *
+		 * @since 4.8.2
+		 *
+		 * @param string $url The back to blog url.
+		 */
+		$backtoblog_url =  apply_filters( 'login_backtologin_url', $url );
+
 		/* translators: %s: site title */
-		printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
-	?></a></p>
-	<?php endif; ?>
+		$text = sprintf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
+
+		/**
+		 * Filters the text of the back to blog link in the footer.
+		 *
+		 * @since 4.8.2
+		 *
+		 * @param string $text The text inside back to blog link.
+		 */
+		$backtoblog_text = apply_filters( 'backtoblog_text', $text );
+
+		$html = '<p id="backtoblog"><a href="'. $backtoblog_url .'">' $backtoblog_text . '</a></p>';
+
+		/**
+		 * Filters the HTML of the back to blog link in the footer.
+		 *
+		 * @since 4.8.2
+		 *
+		 * @param string $html The back to blog html.
+		 */
+		echo apply_filters( 'login_backtologin', $html );
+	}
 
 	</div>
 
