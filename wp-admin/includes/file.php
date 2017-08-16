@@ -371,21 +371,39 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 
 	// Move the file to the uploads dir.
 	$new_file = $uploads['path'] . "/$filename";
-	if ( 'wp_handle_upload' === $action ) {
-		$move_new_file = @ move_uploaded_file( $file['tmp_name'], $new_file );
-	} else {
-		// use copy and unlink because rename breaks streams.
-		$move_new_file = @ copy( $file['tmp_name'], $new_file );
-		unlink( $file['tmp_name'] );
-	}
 
-	if ( false === $move_new_file ) {
-		if ( 0 === strpos( $uploads['basedir'], ABSPATH ) ) {
-			$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
+ 	/**
+	 * Filters whether to short-circuit moving the uploaded file after passing all checks.
+	 *
+	 * If a non-null value is passed to the filter, moving the file and any related error
+	 * reporting will be completely skipped.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string $move_new_file If null (default) move the file after the upload.
+	 * @param string $file          An array of data for a single file.
+	 * @param string $new_file      Filename of the newly-uploaded file.
+	 * @param string $type          File type.
+	 */
+	$move_new_file = apply_filters( 'pre_move_uploaded_file', null, $file, $new_file, $type );
+
+	if ( null === $move_new_file ) {
+		if ( 'wp_handle_upload' === $action ) {
+			$move_new_file = @ move_uploaded_file( $file['tmp_name'], $new_file );
 		} else {
-			$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
+			// use copy and unlink because rename breaks streams.
+			$move_new_file = @ copy( $file['tmp_name'], $new_file );
+			unlink( $file['tmp_name'] );
 		}
-		return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $error_path ) );
+
+		if ( false === $move_new_file ) {
+			if ( 0 === strpos( $uploads['basedir'], ABSPATH ) ) {
+				$error_path = str_replace( ABSPATH, '', $uploads['basedir'] ) . $uploads['subdir'];
+			} else {
+				$error_path = basename( $uploads['basedir'] ) . $uploads['subdir'];
+			}
+			return $upload_error_handler( $file, sprintf( __('The uploaded file could not be moved to %s.' ), $error_path ) );
+		}
 	}
 
 	// Set correct file permissions.
