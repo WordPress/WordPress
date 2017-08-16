@@ -568,7 +568,11 @@ function strip_fragment_from_url( $url ) {
 		if ( ! empty( $parsed_url['port'] ) ) {
 			$url .= ':' . $parsed_url['port'];
 		}
-		$url .= $parsed_url['path'];
+
+		if ( ! empty( $parsed_url['path'] ) ) {
+			$url .= $parsed_url['path'];
+		}
+
 		if ( ! empty( $parsed_url['query'] ) ) {
 			$url .= '?' . $parsed_url['query'];
 		}
