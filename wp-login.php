@@ -246,7 +246,7 @@ function login_footer($input_id = '') {
 		 *
 		 * @param string $text The text inside back to blog link.
 		 */
-		$backtoblog_text = apply_filters( 'backtoblog_text', $text );
+		$backtoblog_text = apply_filters( 'login_backtoblog_text', $text );
 
 		$html = '<p id="backtoblog"><a href="'. $backtoblog_url .'">' $backtoblog_text . '</a></p>';
 
@@ -260,7 +260,7 @@ function login_footer($input_id = '') {
 		echo apply_filters( 'login_backtologin', $html );
 	}
 
-	</div>
+	?></div>
 
 	<?php if ( !empty($input_id) ) : ?>
 	<script type="text/javascript">
