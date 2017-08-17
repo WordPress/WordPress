@@ -332,6 +332,7 @@ class WP_Widget_Text extends WP_Widget {
 	 * @since 4.8.0 Form only contains hidden inputs which are synced with JS template.
 	 * @since 4.8.1 Restored original form to be displayed when in legacy mode.
 	 * @see WP_Widget_Visual_Text::render_control_template_scripts()
+	 * @see _WP_Editors::editor()
 	 *
 	 * @param array $instance Current settings.
 	 * @return void
@@ -346,10 +347,31 @@ class WP_Widget_Text extends WP_Widget {
 		);
 		?>
 		<?php if ( ! $this->is_legacy_instance( $instance ) ) : ?>
-			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" class="title" type="hidden" value="<?php echo esc_attr( $instance['title'] ); ?>">
-			<input id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>" class="text" type="hidden" value="<?php echo esc_attr( $instance['text'] ); ?>">
-			<input id="<?php echo $this->get_field_id( 'filter' ); ?>" name="<?php echo $this->get_field_name( 'filter' ); ?>" class="filter" type="hidden" value="on">
-			<input id="<?php echo $this->get_field_id( 'visual' ); ?>" name="<?php echo $this->get_field_name( 'visual' ); ?>" class="visual" type="hidden" value="on">
+			<?php
+
+			if ( user_can_richedit() ) {
+				add_filter( 'the_editor_content', 'format_for_editor', 10, 2 );
+				$default_editor = 'tinymce';
+			} else {
+				$default_editor = 'html';
+			}
+
+			/** This filter is documented in wp-includes/class-wp-editor.php */
+			$text = apply_filters( 'the_editor_content', $instance['text'], $default_editor );
+
+			// Reset filter addition.
+			if ( user_can_richedit() ) {
+				remove_filter( 'the_editor_content', 'format_for_editor' );
+			}
+
+			// Prevent premature closing of textarea in case format_for_editor() didn't apply or the_editor_content filter did a wrong thing.
+			$escaped_text = preg_replace( '#</textarea#i', '&lt;/textarea', $text );
+
+			?>
+			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" class="title sync-input" type="hidden" value="<?php echo esc_attr( $instance['title'] ); ?>">
+			<textarea id="<?php echo $this->get_field_id( 'text' ); ?>" name="<?php echo $this->get_field_name( 'text' ); ?>" class="text sync-input" hidden><?php echo $escaped_text; ?></textarea>
+			<input id="<?php echo $this->get_field_id( 'filter' ); ?>" name="<?php echo $this->get_field_name( 'filter' ); ?>" class="filter sync-input" type="hidden" value="on">
+			<input id="<?php echo $this->get_field_id( 'visual' ); ?>" name="<?php echo $this->get_field_name( 'visual' ); ?>" class="visual sync-input" type="hidden" value="on">
 		<?php else : ?>
 			<input id="<?php echo $this->get_field_id( 'visual' ); ?>" name="<?php echo $this->get_field_name( 'visual' ); ?>" class="visual" type="hidden" value="">
 			<p>
