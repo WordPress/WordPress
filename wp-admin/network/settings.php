@@ -63,7 +63,7 @@ if ( $_POST ) {
 	);
 
 	// Handle translation install.
-	if ( ! empty( $_POST['WPLANG'] ) && wp_can_install_language_pack() ) {  // @todo: Skip if already installed
+	if ( ! empty( $_POST['WPLANG'] ) && current_user_can( 'install_languages' ) ) {
 		$language = wp_download_language_pack( $_POST['WPLANG'] );
 		if ( $language ) {
 			$_POST['WPLANG'] = $language;
@@ -342,7 +342,7 @@ if ( isset( $_GET['updated'] ) ) {
 							'selected'     => $lang,
 							'languages'    => $languages,
 							'translations' => $translations,
-							'show_available_translations' => wp_can_install_language_pack(),
+							'show_available_translations' => current_user_can( 'install_languages' ),
 						) );
 						?>
 					</td>

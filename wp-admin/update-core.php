@@ -19,7 +19,7 @@ if ( is_multisite() && ! is_network_admin() ) {
 	exit();
 }
 
-if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' ) && ! current_user_can( 'update_plugins' ) )
+if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_themes' ) && ! current_user_can( 'update_plugins' ) && ! current_user_can( 'update_languages' ) )
 	wp_die( __( 'Sorry, you are not allowed to update this site.' ) );
 
 /**
@@ -608,15 +608,19 @@ if ( 'upgrade-core' == $action ) {
 	echo ' &nbsp; <a class="button" href="' . esc_url( self_admin_url('update-core.php?force-check=1') ) . '">' . __( 'Check Again' ) . '</a>';
 	echo '</p>';
 
-	if ( $core = current_user_can( 'update_core' ) )
+	if ( current_user_can( 'update_core' ) ) {
 		core_upgrade_preamble();
-	if ( $plugins = current_user_can( 'update_plugins' ) )
+	}
+	if ( current_user_can( 'update_plugins' ) ) {
 		list_plugin_updates();
-	if ( $themes = current_user_can( 'update_themes' ) )
+	}
+	if ( current_user_can( 'update_themes' ) ) {
 		list_theme_updates();
-	if ( $core || $plugins || $themes )
+	}
+	if ( current_user_can( 'update_languages' ) ) {
 		list_translation_updates();
-	unset( $core, $plugins, $themes );
+	}
+
 	/**
 	 * Fires after the core, plugin, and theme update tables.
 	 *
@@ -729,7 +733,7 @@ if ( 'upgrade-core' == $action ) {
 
 } elseif ( 'do-translation-upgrade' == $action ) {
 
-	if ( ! current_user_can( 'update_core' ) && ! current_user_can( 'update_plugins' ) && ! current_user_can( 'update_themes' ) )
+	if ( ! current_user_can( 'update_languages' ) )
 		wp_die( __( 'Sorry, you are not allowed to update this site.' ) );
 
 	check_admin_referer( 'upgrade-translations' );
