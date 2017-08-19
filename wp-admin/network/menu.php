@@ -12,12 +12,24 @@ $menu[2] = array(__('Dashboard'), 'manage_network', 'index.php', '', 'menu-top m
 
 $submenu['index.php'][0] = array( __( 'Home' ), 'read', 'index.php' );
 
+if ( current_user_can( 'update_core' ) ) {
+	$cap = 'update_core';
+} elseif ( current_user_can( 'update_plugins' ) ) {
+	$cap = 'update_plugins';
+} elseif ( current_user_can( 'update_themes' ) ) {
+	$cap = 'update_themes';
+} else {
+	$cap = 'update_languages';
+}
+
 $update_data = wp_get_update_data();
 if ( $update_data['counts']['total'] ) {
-	$submenu['index.php'][10] = array( sprintf( __( 'Updates %s' ), "<span class='update-plugins count-{$update_data['counts']['total']}'><span class='update-count'>" . number_format_i18n( $update_data['counts']['total'] ) . "</span></span>" ), 'update_core', 'update-core.php' );
+	$submenu['index.php'][10] = array( sprintf( __( 'Updates %s' ), "<span class='update-plugins count-{$update_data['counts']['total']}'><span class='update-count'>" . number_format_i18n( $update_data['counts']['total'] ) . "</span></span>" ), $cap, 'update-core.php' );
 } else {
-	$submenu['index.php'][10] = array( __( 'Updates' ), 'update_core', 'update-core.php' );
+	$submenu['index.php'][10] = array( __( 'Updates' ), $cap, 'update-core.php' );
 }
+
+unset( $cap );
 
 $submenu['index.php'][15] = array( __( 'Upgrade Network' ), 'upgrade_network', 'upgrade.php' );
 
