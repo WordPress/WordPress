@@ -936,13 +936,13 @@ function count_users( $strategy = 'time', $site_id = null ) {
  *
  * @since 2.0.4
  *
- * @global string $user_login    The user username for logging in
- * @global object $userdata      User data.
- * @global int    $user_level    The level of the user
- * @global int    $user_ID       The ID of the user
- * @global string $user_email    The email address of the user
- * @global string $user_url      The url in the user's profile
- * @global string $user_identity The display name of the user
+ * @global string  $user_login    The user username for logging in
+ * @global WP_User $userdata      User data.
+ * @global int     $user_level    The level of the user
+ * @global int     $user_ID       The ID of the user
+ * @global string  $user_email    The email address of the user
+ * @global string  $user_url      The url in the user's profile
+ * @global string  $user_identity The display name of the user
  *
  * @param int $for_user_id Optional. User ID to set up global data.
  */
@@ -1258,7 +1258,7 @@ function sanitize_user_field($field, $value, $user_id, $context) {
  *
  * @since 3.0.0
  *
- * @param object|WP_User $user User object to be cached
+ * @param WP_User $user User object to be cached
  * @return bool|null Returns false on failure.
  */
 function update_user_caches( $user ) {
@@ -1746,8 +1746,8 @@ function wp_insert_user( $userdata ) {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param int    $user_id       User ID.
-		 * @param object $old_user_data Object containing user's data prior to update.
+		 * @param int     $user_id       User ID.
+		 * @param WP_User $old_user_data Object containing user's data prior to update.
 		 */
 		do_action( 'profile_update', $user_id, $old_user_data );
 	} else {
@@ -1777,7 +1777,7 @@ function wp_insert_user( $userdata ) {
  *
  * @see wp_insert_user() For what fields can be set in $userdata.
  *
- * @param mixed $userdata An array of user data or a user object of type stdClass or WP_User.
+ * @param object|WP_User $userdata An array of user data or a user object of type stdClass or WP_User.
  * @return int|WP_Error The updated user's ID or a WP_Error object if the user could not be updated.
  */
 function wp_update_user($userdata) {
@@ -2282,7 +2282,7 @@ function check_password_reset_key($key, $login) {
  *
  * @since 2.5.0
  *
- * @param object $user     The user
+ * @param WP_User $user     The user
  * @param string $new_pass New password for the user in plaintext
  */
 function reset_password( $user, $new_pass ) {
@@ -2304,8 +2304,8 @@ function reset_password( $user, $new_pass ) {
 	 *
 	 * @since 4.4.0
 	 *
-	 * @param object $user     The user.
-	 * @param string $new_pass New user password.
+	 * @param WP_User $user     The user.
+	 * @param string  $new_pass New user password.
 	 */
 	do_action( 'after_password_reset', $user, $new_pass );
 }
