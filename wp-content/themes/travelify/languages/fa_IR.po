@@ -1,0 +1,731 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Travelify\n"
+"POT-Creation-Date: 2015-10-02 12:34+0300\n"
+"PO-Revision-Date: 2015-10-02 12:34+0300\n"
+"Last-Translator: Aigars Silkalns <a.silkalns@gmail.com>\n"
+"Language-Team: Colorlib <info@colrolib.com>\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-KeywordsList: __;esc_attr_e;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../404.php:11
+msgid "Error 404 - Page NOT Found"
+msgstr "‎خطای 404 ‫-‬ صفحه مورد نظر پیدا نشد"
+
+#: ../404.php:14
+msgid "It seems we can't find what you're looking for."
+msgstr "‎به نظر میرسه چیزی که به دنبال آن هستید پیدا نشد‫.‬"
+
+#: ../404.php:15
+msgid "This might be because:"
+msgstr "‎ممکن است به دلیل این باشد که‫:‬"
+
+#: ../404.php:17
+msgid "You have typed the web address incorrectly"
+msgstr "‎آدرس اینترنتی را اشتباه تایپ کرده‌اید"
+
+#: ../404.php:18
+msgid "The page you were looking for may have been moved, updated or deleted."
+msgstr "‎امکان دارد آدرس صفحه‌ای که به دنبال آن هستید تغییر یافته و یا حذف شده باشد‫.‬"
+
+#: ../404.php:20
+msgid "Please try the following:"
+msgstr "‎لطفاً اینها را امتحان کنید‫:‬"
+
+#: ../404.php:22
+msgid "Check for a mis-typed URL error"
+msgstr "‎آدرس URL را اشتباه وارد نکرده‌اید؟"
+
+#: ../404.php:23
+msgid "Press the refresh button on your browser."
+msgstr "‎لطفاً کلید Refresh مرورگر خود را بزنید‫.‬"
+
+#: ../404.php:24
+msgid "Go back to"
+msgstr "‎بازگشت به"
+
+#: ../404.php:24
+msgid "Homepage"
+msgstr "‎صفحه اصلی"
+
+#: ../comments.php:24
+#, php-format
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgstr "یک دیدگاه در نوشته‌ی &ldquo;%2$s&rdquo;"
+
+#: ../comments.php:27
+#, php-format
+msgid "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr "‏%1$s دیدگاه در نوشته‌ی &ldquo;%2$s&rdquo;"
+
+#: ../comments.php:38
+msgid "Comment navigation"
+msgstr "مسیر دیدگاه"
+
+#: ../comments.php:39
+msgid "&larr; Older Comments"
+msgstr "‏&larr; دیدگاه های قدیمی"
+
+#: ../comments.php:40
+msgid "Newer Comments &rarr;"
+msgstr "دیدگاه های جدید &rarr;"
+
+#: ../comments.php:47
+msgid "Comments are closed."
+msgstr "ارسال دیدگاه برای این مطلب امکان پذیر نیست."
+
+#: ../functions.php:75
+msgid "Primary Menu"
+msgstr "منوی اصلی"
+
+#: ../library/functions/customizer.php:17
+#, fuzzy
+msgid "Travelify Main Options"
+msgstr "تنظیمات اصلی"
+
+#: ../library/functions/customizer.php:18 ../library/functions/customizer.php:338
+msgid "Panel to update travelify theme options"
+msgstr ""
+
+#: ../library/functions/customizer.php:24
+msgid "Travelify Header Area"
+msgstr "تنظیمات سرفصل"
+
+#: ../library/functions/customizer.php:25
+msgid "Use the following settings change color for menu and website title"
+msgstr "برای تغییر رنگ منو و عنوان سایت از تنظیمات زیر استفاده کنید"
+
+#: ../library/functions/customizer.php:34
+msgid "Website Title Color"
+msgstr "رنگ عنوان سایت"
+
+#: ../library/functions/customizer.php:45
+msgid "Website Title Hover Color"
+msgstr "رنگ عنوان سایت (هنگامی که ماوس بروی آن است)"
+
+#: ../library/functions/customizer.php:56
+msgid "Menu Bar Color"
+msgstr "رنگ نوار منو"
+
+#: ../library/functions/customizer.php:66
+msgid "Menu Bar Hover Color"
+msgstr "رنگ نوار منو (هنگامی که ماوس بروی آن است)"
+
+#: ../library/functions/customizer.php:76
+msgid "Menu Item Text Color"
+msgstr "رنگ نوشته‌ی منو"
+
+#: ../library/functions/customizer.php:87
+msgid "Social Icon Color"
+msgstr "آیکون شبکه‌های اجتماعی"
+
+#: ../library/functions/customizer.php:95
+msgid "Travelify Element Color"
+msgstr "رنگ اِلِمان و دگمه‌های Travelify"
+
+#: ../library/functions/customizer.php:96
+msgid "Use the following settings change color for website elements"
+msgstr "برای تغییر رنگ اِلِمان و دگمه‌های سایت از تنظیمات زیر استفاده کنید"
+
+#: ../library/functions/customizer.php:105
+msgid "Element Color"
+msgstr "رنگ اِلِمان و دگمه‌ها"
+
+#: ../library/functions/customizer.php:116
+msgid "Element Hover Color"
+msgstr "رنگ اِلِمان و دگمه‌ها (هنگامی که ماوس بروی آن است)"
+
+#: ../library/functions/customizer.php:127
+msgid "Wrapper Color"
+msgstr "رنگ زمینه"
+
+#: ../library/functions/customizer.php:138
+msgid "Content Background Color"
+msgstr "رنگ پشت زمینه مطالب"
+
+#: ../library/functions/customizer.php:146
+msgid "Travelify Typography Color"
+msgstr "رنگ فونت ها و تایپوگرافی"
+
+#: ../library/functions/customizer.php:147
+msgid ""
+"Use the following settings change color for typography such as links, headings and "
+"content"
+msgstr ""
+"برای تغییر رنگ فونت و تایپوگرافی‌ها (مانند لینک، سرفصل ها و مطالب) سایت از تنظیمات زیر "
+"استفاده کنید"
+
+#: ../library/functions/customizer.php:156
+msgid "Entry Content Color"
+msgstr "رنگ مطالب را وارد کنید"
+
+#: ../library/functions/customizer.php:166
+msgid "Header/Title Color"
+msgstr "رنگ عنوان و سرفصل"
+
+#: ../library/functions/customizer.php:177
+msgid "Link Color"
+msgstr "رنگ لینک‌ها"
+
+#: ../library/functions/customizer.php:188
+msgid "Link Hover Color"
+msgstr "رنگ لینک‌ها (هنگامی که ماوس بروی آن است)"
+
+#: ../library/functions/customizer.php:196
+msgid "Travelify Footer"
+msgstr "پانوشت (فوتر) Travelify"
+
+#: ../library/functions/customizer.php:197
+msgid "Use the following settings customize Footer"
+msgstr "برای اعمال تغییرات در بخش پانوشت (فوتر) از تنظیمات زیر استفاده کنید"
+
+#: ../library/functions/customizer.php:206
+msgid "Copyright text"
+msgstr "متن کپی رایت"
+
+#: ../library/functions/customizer.php:216
+msgid "Header Options"
+msgstr "تنظیمات سرفصل"
+
+#: ../library/functions/customizer.php:217
+msgid "Section to update theme options for header"
+msgstr ""
+
+#: ../library/functions/customizer.php:227
+msgid "Header Logo"
+msgstr "لوگوی سرفصل"
+
+#: ../library/functions/customizer.php:240
+msgid "Show"
+msgstr "نمایش"
+
+#: ../library/functions/customizer.php:243
+msgid "Header Logo Only"
+msgstr "فقط لوگوی سرفصل"
+
+#: ../library/functions/customizer.php:244
+msgid "Header Text Only"
+msgstr "فقط نوشته‌ی سرفصل"
+
+#: ../library/functions/customizer.php:245
+msgid "Disable"
+msgstr "غیرفعال"
+
+#: ../library/functions/customizer.php:254
+msgid "Layout Options"
+msgstr "تنظیمات چیدمان (Layout)"
+
+#: ../library/functions/customizer.php:264
+msgid ""
+"This will set the default layout style. However, you can choose different layout for "
+"each page via editor"
+msgstr ""
+"در اینجا یک نوع چیدمان پیشفرض انتخاب میکنید، اما در هر صورت امکان انتخاب چیدمان‌های "
+"مختلف را در هنگام اضافه کردن صفحه دارید."
+
+#: ../library/functions/customizer.php:269
+msgid "No Sidebar"
+msgstr "بدون ستون کناری"
+
+#: ../library/functions/customizer.php:270
+msgid "No Sidebar, Full Width"
+msgstr "بدون ستون کناری و تمام صفحه"
+
+#: ../library/functions/customizer.php:271 ../library/panel/metaboxes.php:53
+msgid "No Sidebar, One Column"
+msgstr "بدون ستون کناری و یک ستونه"
+
+#: ../library/functions/customizer.php:272 ../library/functions/functions.php:327
+msgid "Left Sidebar"
+msgstr "ستون چپ (سایدبار)"
+
+#: ../library/functions/customizer.php:273 ../library/functions/functions.php:338
+msgid "Right Sidebar"
+msgstr "ستون راست (سایدبار)"
+
+#: ../library/functions/customizer.php:285
+#, fuzzy
+msgid "Check to reset Layout"
+msgstr "انتخاب برای بازنشانی"
+
+#: ../library/functions/customizer.php:296
+msgid "RSS URL"
+msgstr "لینک خبرخوان (RSS)"
+
+#: ../library/functions/customizer.php:297
+msgid "Enter your preferred RSS URL. (Feedburner or other)"
+msgstr "آدرس خبرخوان (RSS URL) مرجع خود را وارد کنید (مانند فیدبرنر یا دیگر خبرخوان‌ها)"
+
+#: ../library/functions/customizer.php:307
+msgid "Feed Redirect URL"
+msgstr "آدرس بازخوانی خبرخوان"
+
+#: ../library/functions/customizer.php:316
+msgid "Homepage Post Options"
+msgstr "تنظیمات مطالب در صفحه اصلی"
+
+#: ../library/functions/customizer.php:327
+msgid ""
+"You may select multiple categories by holding down the CTRL (Windows) or cmd (Mac)."
+msgstr ""
+"برای انتخاب چند دسته‌بندی به صورت همزمان کلید CTRL در (ویندوز) و cmd در (مک) را گرفته "
+"و دسته‌بندی‌ها را انتخاب کنید."
+
+#: ../library/functions/customizer.php:337
+#, fuzzy
+msgid "Travelify Featured Slider"
+msgstr "اسلایدر مطالب ویژه"
+
+#: ../library/functions/customizer.php:345
+msgid "Featured Post/Page Slider Options"
+msgstr "تنظیمات نوشته‪/‬برگه ویژه نمایش در اسلایدر"
+
+#: ../library/functions/customizer.php:355
+#, fuzzy
+msgid "Check to exclude slider post from Homepage posts"
+msgstr "حذف (محروم کردن) اسلایدر از نمایش نوشته‌ها در صفحه اصلی؟"
+
+#: ../library/functions/customizer.php:372
+#, fuzzy
+msgid "Number of slides"
+msgstr "تعداد اسلایدها"
+
+#: ../library/functions/customizer.php:383
+msgid "Slider Options"
+msgstr "تنظیمات اسلایدر"
+
+#: ../library/functions/customizer.php:393
+#, fuzzy
+msgid "Check to disable Slider"
+msgstr "انتخاب برای غیرفعال کردن"
+
+#: ../library/functions/customizer.php:406
+#, fuzzy
+msgid "Transition Effect"
+msgstr "افکت انتقال"
+
+#: ../library/functions/customizer.php:431
+#, fuzzy
+msgid "Transition delay( in second(s) )"
+msgstr "تاخیر برای انتقال"
+
+#: ../library/functions/customizer.php:442
+#, fuzzy
+msgid "Transition length (in second(s))"
+msgstr "مدت انتقال"
+
+#: ../library/functions/customizer.php:451
+#, fuzzy
+msgid "Travelify Social Links"
+msgstr "لینک شبکه‌های اجتماعی"
+
+#: ../library/functions/customizer.php:452
+msgid "Enter URLs for your social networks e.g."
+msgstr "لینک (آدرس) شبکه‌های مجازی خود را وارد کنید. برای مثال:"
+
+#: ../library/functions/customizer.php:466
+#, fuzzy, php-format
+msgid "%s"
+msgstr "نویسنده: %s"
+
+#: ../library/functions/customizer.php:478
+#, fuzzy
+msgid "Travelify Other Options"
+msgstr "پانوشت (فوتر) Travelify"
+
+#: ../library/functions/customizer.php:479
+msgid "Enter your custom CSS styles."
+msgstr "‏CSS دلخواه خود را وارد کنید."
+
+#: ../library/functions/customizer.php:488
+msgid "This CSS will overwrite the CSS of style.css file."
+msgstr "این CSS بر روی CSS قالب اصلی در style‪.‬css باز نشر خواهد شد."
+
+#: ../library/functions/customizer.php:498
+msgid "Travelify Important Links"
+msgstr ""
+
+#: ../library/functions/functions.php:275
+msgid "Navigation"
+msgstr "ناوبری (Navigation)"
+
+#: ../library/functions/functions.php:329
+msgid "Shows widgets at Left side."
+msgstr "نمایش ابزارک‌ها در سمت چپ."
+
+#: ../library/functions/functions.php:340
+msgid "Shows widgets at Right side."
+msgstr "نمایش ابزارک‌ها در سمت راست."
+
+#: ../library/functions/functions.php:349
+msgid "Footer"
+msgstr "پانوشت (فوتر)"
+
+#: ../library/functions/functions.php:351
+msgid "Shows widgets at footer."
+msgstr "نمایش ابزارک‌ها در پانوشت (فوتر)"
+
+#: ../library/functions/shortcodes.php:18
+msgid "WordPress"
+msgstr "وردپرس"
+
+#: ../library/functions/shortcodes.php:27
+msgid "Colorlib"
+msgstr ""
+
+#: ../library/panel/metaboxes.php:16
+msgid ""
+"Select layout for this specific Page only ( Note: This setting only reflects if page "
+"Template is set as Default Template and Blog Type Templates.)"
+msgstr ""
+"انتخاب این چیدمان (layout) فقط برای یک صفحه‌ی مشخص. (توجه: این مورد تنها زمانی "
+"تاثیرگذار خواهد بود که پوسته بر روی ‪\"‬پوسته‌ی پیشفرض‪\"‬ و ‪\"‬حالت وبلاگ‪\"‬ تنظیم شده "
+"باشد.)"
+
+#: ../library/panel/metaboxes.php:22
+msgid "Select layout for this specific Post only"
+msgstr "انتخاب چیدمان (layout) فقط برای این مطلب"
+
+#: ../library/panel/metaboxes.php:35
+msgid "Default Layout Set in"
+msgstr "چیدمان (layout) پیشفرض تنظیم شده بر روی"
+
+#: ../library/panel/metaboxes.php:35
+msgid "Theme Settings"
+msgstr "تنظیمات قالب"
+
+#: ../library/panel/metaboxes.php:41
+msgid "No sidebar"
+msgstr "بدون ستون کناری (سایدبار)"
+
+#: ../library/panel/metaboxes.php:47
+msgid "No sidebar, Full Width"
+msgstr "بدون ستون کناری و تمام صفحه"
+
+#: ../library/panel/metaboxes.php:59
+msgid "Left sidebar"
+msgstr "ستون کناری سمت چپ"
+
+#: ../library/panel/metaboxes.php:65
+msgid "Right sidebar"
+msgstr "ستون کناری سمت راست"
+
+#: ../library/panel/travelify-custom-control.php:19
+msgid "Change theme background"
+msgstr "تغییر پیش زمینه‌ی پوسته"
+
+#: ../library/panel/travelify-custom-control.php:20
+#, fuzzy
+msgid "Click Here"
+msgstr "برای ویرایش اینجا کلیک کنید"
+
+#: ../library/panel/travelify-custom-control.php:48
+msgid "Homepage posts categories:"
+msgstr "دسته بندی‌های صفحه اصلی:"
+
+#: ../library/panel/travelify-custom-control.php:49
+msgid ""
+"Only posts that belong to the categories selected here will be displayed on the front "
+"page."
+msgstr "تنها مطالب موجود در دسته‌بندی‌های انتخاب شده در صفحه اصلی نمایش داده خواهند شد."
+
+#: ../library/panel/travelify-custom-control.php:54
+msgid "--Disabled--"
+msgstr "--غیرفعال--"
+
+#: ../library/panel/travelify-custom-control.php:147
+msgid "Featured Slider"
+msgstr "اسلایدر مطالب ویژه"
+
+#: ../library/panel/travelify-custom-control.php:154
+#, fuzzy
+msgid "Slide #"
+msgstr "تعداد اسلایدها"
+
+#: ../library/panel/travelify-custom-control.php:156
+#: ../library/structure/content-extensions.php:840
+msgid "Edit"
+msgstr "ویرایش"
+
+#: ../library/panel/travelify-custom-control.php:166
+msgid "How to use the featured slider?"
+msgstr "چگونه از اسلایدر مطالب ویژه استفاده کنم؟"
+
+#: ../library/panel/travelify-custom-control.php:168
+msgid "Create Post or Page and add featured image to it."
+msgstr "یک نوشته یا برگه بسازید و عکس شاخصی (featured image) برای آن انتخاب کنید."
+
+#: ../library/panel/travelify-custom-control.php:169
+msgid ""
+"Add all the Post ID that you want to use in the featured slider. Post ID can be found "
+"at All Posts table in last column"
+msgstr "شناسه‌ی تمامی مطالبی را که میخواهید در اسلایدر ویژه نمایش داده شود را وارد کنید."
+
+#: ../library/panel/travelify-custom-control.php:170
+msgid ""
+"Featured Slider will show featured images, Title and excerpt of the respected added "
+"post IDs."
+msgstr "اسلایدر ویژه عکس‌های شاخص و چکیده‌ای از شناسه‌ی مطلب ‪(‬Post ID‪)‬ را نمایش میدهد‪.‬"
+
+#: ../library/panel/travelify-custom-control.php:171
+msgid "The recommended image size is"
+msgstr "سایز عکسی که پیشنهاد میکنیم"
+
+#: ../library/panel/travelify-custom-control.php:190
+msgid "Other Themes"
+msgstr "دیگر پوسته‌ها"
+
+#: ../library/panel/travelify-custom-control.php:194
+msgid "Rate this Theme"
+msgstr "به این پوسته امتیاز دهید"
+
+#: ../library/panel/travelify-custom-control.php:198
+msgid "Theme Instructions"
+msgstr "راهنمای پوسته‌ها"
+
+#: ../library/panel/travelify-custom-control.php:202
+#, fuzzy
+msgid "Rate This Theme"
+msgstr "امتیاز دهید"
+
+#: ../library/panel/travelify-custom-control.php:206
+msgid "Support"
+msgstr "پشتیبانی"
+
+#: ../library/panel/travelify-custom-control.php:210
+msgid "Facebook"
+msgstr "فیسبوک"
+
+#: ../library/panel/travelify-custom-control.php:214
+msgid "Twitter"
+msgstr "توییتر"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "No Comments"
+msgstr "بدون دیدگاه"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "1 Comment"
+msgstr "۱ دیدگاه"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "% Comments"
+msgstr "% دیدگاه"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "Comments Off"
+msgstr "دیدگاه‌ها غیرفعال است"
+
+#: ../library/structure/content-extensions.php:151
+#: ../library/structure/content-extensions.php:467
+#: ../library/structure/content-extensions.php:578
+#: ../library/structure/content-extensions.php:663
+msgid "Read more"
+msgstr "بیشتر بخوانید"
+
+#: ../library/structure/content-extensions.php:166
+#: ../library/structure/content-extensions.php:237
+#: ../library/structure/content-extensions.php:335
+#: ../library/structure/content-extensions.php:386
+#: ../library/structure/content-extensions.php:495
+#: ../library/structure/content-extensions.php:605
+#: ../library/structure/content-extensions.php:716
+msgid "No Posts Found."
+msgstr "مطلبی یافت نشد."
+
+#: ../library/structure/content-extensions.php:206
+#: ../library/structure/content-extensions.php:304
+#: ../library/structure/content-extensions.php:666
+msgid "Pages:"
+msgstr "صفحه‌ها:"
+
+#: ../library/structure/content-extensions.php:292
+msgid ", "
+msgstr "، "
+
+#: ../library/structure/content-extensions.php:486
+#: ../library/structure/content-extensions.php:596
+#: ../library/structure/content-extensions.php:707
+#: ../library/structure/content-extensions.php:743
+#: ../library/structure/content-extensions.php:763
+msgid "&laquo; Previous"
+msgstr "‏&laquo; قبلی"
+
+#: ../library/structure/content-extensions.php:487
+#: ../library/structure/content-extensions.php:597
+#: ../library/structure/content-extensions.php:708
+#: ../library/structure/content-extensions.php:744
+#: ../library/structure/content-extensions.php:764
+msgid "Next &raquo;"
+msgstr "بعدی &raquo;"
+
+#: ../library/structure/content-extensions.php:808
+msgid "Pingback:"
+msgstr "اشتراک ها:"
+
+#: ../library/structure/content-extensions.php:808
+msgid "(Edit)"
+msgstr "(ویرایش)"
+
+#: ../library/structure/content-extensions.php:823
+msgid "Post author"
+msgstr "نویسنده"
+
+#: ../library/structure/content-extensions.php:829
+#, php-format
+msgid "%1$s at %2$s"
+msgstr "‏%1$s در %2$s"
+
+#: ../library/structure/content-extensions.php:835
+msgid "Your comment is awaiting moderation."
+msgstr "دیدگاه شما در انتظار بررسی است."
+
+#: ../library/structure/content-extensions.php:844
+msgid "Reply"
+msgstr "پاسخ"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Copyright &copy;"
+msgstr "کپی رایت &copy;"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Theme by"
+msgstr "پوسته توسط"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Powered by"
+msgstr "طراحی شده توسط"
+
+#: ../library/structure/header-extensions.php:44
+#, php-format
+msgid "Page %s"
+msgstr "صفحه %s"
+
+#: ../library/structure/header-extensions.php:353
+msgid "Search Results"
+msgstr "نتایج جستجو"
+
+#: ../searchform.php:7 ../searchform.php:8
+msgid "Search"
+msgstr "جستجو"
+
+#~ msgid "Theme Options"
+#~ msgstr "تنظیمات پوسته"
+
+#~ msgid "Theme Options by"
+#~ msgstr "تنظیمات پوسته توسط"
+
+#~ msgid "Theme Instruction"
+#~ msgstr "راهنمای پوسته"
+
+#~ msgid "Support Forum"
+#~ msgstr "انجمن پشتیبانی"
+
+#~ msgid "Settings saved."
+#~ msgstr "تنظیمات ذخیره شد."
+
+#~ msgid "Other"
+#~ msgstr "دیگر"
+
+#~ msgid "Upload Logo"
+#~ msgstr "آپلود لوگو"
+
+#~ msgid "Preview"
+#~ msgstr "پیشنمایش"
+
+#~ msgid "Save All Changes"
+#~ msgstr "ذخیره‌ی تمامی تغییرات"
+
+#~ msgid "Favicon Options"
+#~ msgstr "تنظیمات آیکون سایت (Favicon)"
+
+#~ msgid "Disable Favicon"
+#~ msgstr "غیرفعال کردن (Favicon)"
+
+#~ msgid "Favicon URL"
+#~ msgstr "لینک (نشانی) آیکون (Favicon)"
+
+#~ msgid "Upload Favicon"
+#~ msgstr "آپلود آیکون (Favicon)"
+
+#~ msgid "Favicon is this tiny icon you see beside URL in your browser address bar"
+#~ msgstr ""
+#~ "‏Favicon همان آیکون و عکس کوچکی است که در کنار آدرس (لینک) سایت بر روی پنجره‌ی "
+#~ "مرورگر خود میبینید."
+
+#, fuzzy
+#~ msgid "favicon"
+#~ msgstr "فاویکن دلخواه"
+
+#~ msgid "Web Clip Icon Options"
+#~ msgstr "تنظیمات Web Clip Icon"
+
+#~ msgid "Disable Web Clip Icon"
+#~ msgstr "غیرفعال کردن Web Clip Icon"
+
+#~ msgid "Web Clip Icon URL"
+#~ msgstr "آدرس (لینک، نشانی) Web Clip Icon"
+
+#~ msgid "Upload Web Clip Icon"
+#~ msgstr "آپلود (بارگذاری) Web Clip Icon"
+
+#~ msgid "Web Clip works as shortcut to website on iOS devices home screen"
+#~ msgstr ""
+#~ "‏Web Clip Icon به صورت یک آیکون یا همان Shortcut از وب سایت شما بر روی دستگاه‌ها و "
+#~ "موبایل‌های iOS نمایش داده میشود"
+
+#~ msgid "webpage icon"
+#~ msgstr "آیکون صفحه"
+
+#~ msgid "Default Layout"
+#~ msgstr "چیدمان پیشفرض"
+
+#~ msgid "Reset Layout"
+#~ msgstr "بازنشانی چیدمان"
+
+#~ msgid "Custom Background"
+#~ msgstr "پیش زمینه"
+
+#~ msgid "<a class=\"button\" href=\"%s\">Click here</a>"
+#~ msgstr "‏<a class=\"button\" href=\"%s\">اینجا کلیک کنید</a>"
+
+#~ msgid "Check to exclude"
+#~ msgstr "انتخاب برای حذف (محروم کردن)"
+
+#~ msgid "Disable Slider"
+#~ msgstr "غیرفعال کردن اسلایدر"
+
+#~ msgid "second(s)"
+#~ msgstr "ثانیه"
+
+#~ msgid "Custom CSS (Advanced)"
+#~ msgstr "‏CSS سفارشی (پیشرفته)"
+
+#~ msgid "Make sure you know what you are doing."
+#~ msgstr ""
+#~ "‏&raquo; قبل از ذخیره دقت لازم را در نوشتن کد‌ها داشته باشید و کاملاً مطمئن شوید که "
+#~ "چه‌کار میکنید ‪‏&laquo;‬"

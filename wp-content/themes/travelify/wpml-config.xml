@@ -1,0 +1,10 @@
+<wpml-config>
+    <admin-texts>
+        <key name="theme_mods_travelify">
+            <key name="travelify_footer_textbox"/>
+        </key>
+    </admin-texts>
+    <language-switcher-settings>
+        <key name="icl_additional_css">#widgets ul li a { display:block; }</key>
+    </language-switcher-settings>
+</wpml-config>

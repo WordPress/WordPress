@@ -1,0 +1,772 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Travelify\n"
+"POT-Creation-Date: 2015-10-02 12:34+0300\n"
+"PO-Revision-Date: 2015-10-02 12:34+0300\n"
+"Last-Translator: Aigars Silkalns <a.silkalns@gmail.com>\n"
+"Language-Team: Color Awesomeness <info@colorawesomeness.com>\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.4\n"
+"X-Poedit-KeywordsList: __;esc_attr_e;_e\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../404.php:11
+msgid "Error 404 - Page NOT Found"
+msgstr "Fout 404 - Pagina NIET Gevonden"
+
+#: ../404.php:14
+msgid "It seems we can't find what you're looking for."
+msgstr "Het lijkt er op dat we niet kunnen vinden wat u zocht."
+
+#: ../404.php:15
+msgid "This might be because:"
+msgstr "Dit kan vanwege:"
+
+#: ../404.php:17
+msgid "You have typed the web address incorrectly"
+msgstr "U heeft het webadres incorrect ingevoerd"
+
+#: ../404.php:18
+msgid "The page you were looking for may have been moved, updated or deleted."
+msgstr "De pagina waar u om zocht kan zijn verplaatst, upgedate of verwijderd."
+
+#: ../404.php:20
+msgid "Please try the following:"
+msgstr "Probeert u het volgende:"
+
+#: ../404.php:22
+msgid "Check for a mis-typed URL error"
+msgstr "Kijk voor een mis getypede URL fout"
+
+#: ../404.php:23
+msgid "Press the refresh button on your browser."
+msgstr "Klik op de vernieuwen knop in uw Browser"
+
+#: ../404.php:24
+msgid "Go back to"
+msgstr "Ga terug naar"
+
+#: ../404.php:24
+msgid "Homepage"
+msgstr "Homepage"
+
+#: ../comments.php:24
+#, php-format
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgstr "Een gedachte aan &ldquo;%2$s&rdquo;"
+
+#: ../comments.php:27
+#, php-format
+msgid "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr "%1$s gedachtes aan &ldquo;%2$s&rdquo;"
+
+#: ../comments.php:38
+msgid "Comment navigation"
+msgstr "Reactie navigatie"
+
+#: ../comments.php:39
+msgid "&larr; Older Comments"
+msgstr "&larr; Oudere reacties"
+
+#: ../comments.php:40
+msgid "Newer Comments &rarr;"
+msgstr "Nieuwe reacties &rarr;"
+
+#: ../comments.php:47
+msgid "Comments are closed."
+msgstr "Reacties zijn gesloten."
+
+#: ../functions.php:75
+msgid "Primary Menu"
+msgstr "Hoofd Menu"
+
+#: ../library/functions/customizer.php:17
+#, fuzzy
+msgid "Travelify Main Options"
+msgstr "Voornamelijkste opties"
+
+#: ../library/functions/customizer.php:18
+#: ../library/functions/customizer.php:338
+msgid "Panel to update travelify theme options"
+msgstr ""
+
+#: ../library/functions/customizer.php:24
+#, fuzzy
+msgid "Travelify Header Area"
+msgstr "Alleen hoofd logo"
+
+#: ../library/functions/customizer.php:25
+msgid "Use the following settings change color for menu and website title"
+msgstr ""
+
+#: ../library/functions/customizer.php:34
+msgid "Website Title Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:45
+msgid "Website Title Hover Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:56
+#, fuzzy
+msgid "Menu Bar Color"
+msgstr "Hoofd Menu"
+
+#: ../library/functions/customizer.php:66
+msgid "Menu Bar Hover Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:76
+msgid "Menu Item Text Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:87
+#, fuzzy
+msgid "Social Icon Color"
+msgstr "Social Icoon Kleur"
+
+#: ../library/functions/customizer.php:95
+msgid "Travelify Element Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:96
+msgid "Use the following settings change color for website elements"
+msgstr ""
+
+#: ../library/functions/customizer.php:105
+#, fuzzy
+msgid "Element Color"
+msgstr "Elementkleur"
+
+#: ../library/functions/customizer.php:116
+msgid "Element Hover Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:127
+#, fuzzy
+msgid "Wrapper Color"
+msgstr "Elementkleur"
+
+#: ../library/functions/customizer.php:138
+#, fuzzy
+msgid "Content Background Color"
+msgstr "Verander thema achtergrond"
+
+#: ../library/functions/customizer.php:146
+msgid "Travelify Typography Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:147
+msgid ""
+"Use the following settings change color for typography such as links, "
+"headings and content"
+msgstr ""
+
+#: ../library/functions/customizer.php:156
+msgid "Entry Content Color"
+msgstr ""
+
+#: ../library/functions/customizer.php:166
+#, fuzzy
+msgid "Header/Title Color"
+msgstr "Alleen hoofd logo"
+
+#: ../library/functions/customizer.php:177
+#, fuzzy
+msgid "Link Color"
+msgstr "Link Kleur"
+
+#: ../library/functions/customizer.php:188
+#, fuzzy
+msgid "Link Hover Color"
+msgstr "Link:hover Kleur"
+
+#: ../library/functions/customizer.php:196
+#, fuzzy
+msgid "Travelify Footer"
+msgstr "Voettekst"
+
+#: ../library/functions/customizer.php:197
+msgid "Use the following settings customize Footer"
+msgstr ""
+
+#: ../library/functions/customizer.php:206
+#, fuzzy
+msgid "Copyright text"
+msgstr "Copyright tekst in footer"
+
+#: ../library/functions/customizer.php:216
+msgid "Header Options"
+msgstr "Hoofd opties"
+
+#: ../library/functions/customizer.php:217
+msgid "Section to update theme options for header"
+msgstr ""
+
+#: ../library/functions/customizer.php:227
+msgid "Header Logo"
+msgstr "Hoofd logo"
+
+#: ../library/functions/customizer.php:240
+msgid "Show"
+msgstr "Show"
+
+#: ../library/functions/customizer.php:243
+msgid "Header Logo Only"
+msgstr "Alleen hoofd logo"
+
+#: ../library/functions/customizer.php:244
+msgid "Header Text Only"
+msgstr "Alleen hoofd tekst"
+
+#: ../library/functions/customizer.php:245
+msgid "Disable"
+msgstr "Onbruikbaar maken"
+
+#: ../library/functions/customizer.php:254
+msgid "Layout Options"
+msgstr "Layout opties"
+
+#: ../library/functions/customizer.php:264
+msgid ""
+"This will set the default layout style. However, you can choose different "
+"layout for each page via editor"
+msgstr ""
+"Deze optie set de standaard layout stijl. Echter kunt u nog steeds een "
+"verschillende layout kiezen per pagina via editor."
+
+#: ../library/functions/customizer.php:269
+msgid "No Sidebar"
+msgstr "Geen Sidebar"
+
+#: ../library/functions/customizer.php:270
+msgid "No Sidebar, Full Width"
+msgstr "Geen Sidebar, volle breedte"
+
+#: ../library/functions/customizer.php:271 ../library/panel/metaboxes.php:53
+msgid "No Sidebar, One Column"
+msgstr "Geen Sidebar, één kolom"
+
+#: ../library/functions/customizer.php:272
+#: ../library/functions/functions.php:327
+msgid "Left Sidebar"
+msgstr "Linker Sidebar"
+
+#: ../library/functions/customizer.php:273
+#: ../library/functions/functions.php:338
+msgid "Right Sidebar"
+msgstr "Rechter Sidebar"
+
+#: ../library/functions/customizer.php:285
+#, fuzzy
+msgid "Check to reset Layout"
+msgstr "Vink aan om te resetten"
+
+#: ../library/functions/customizer.php:296
+msgid "RSS URL"
+msgstr "RSS URL"
+
+#: ../library/functions/customizer.php:297
+msgid "Enter your preferred RSS URL. (Feedburner or other)"
+msgstr "Voer hier uw voorkeur RSS URL. (Feedburner of een andere)"
+
+#: ../library/functions/customizer.php:307
+msgid "Feed Redirect URL"
+msgstr "Feed Redirect URL"
+
+#: ../library/functions/customizer.php:316
+msgid "Homepage Post Options"
+msgstr "Homepage berichten opties"
+
+#: ../library/functions/customizer.php:327
+msgid ""
+"You may select multiple categories by holding down the CTRL (Windows) or cmd "
+"(Mac)."
+msgstr ""
+"U kunt meedere categorieen selecteren door de CTRL knop (Windows) of de cmd "
+"knop (CMD) in te houden"
+
+#: ../library/functions/customizer.php:337
+#, fuzzy
+msgid "Travelify Featured Slider"
+msgstr "Home pageslide Show"
+
+#: ../library/functions/customizer.php:345
+msgid "Featured Post/Page Slider Options"
+msgstr "Uitgelicht bericht/Pagina keuze opties"
+
+#: ../library/functions/customizer.php:355
+#, fuzzy
+msgid "Check to exclude slider post from Homepage posts"
+msgstr "De Slider berichten van de Homepage berichten weghouden"
+
+#: ../library/functions/customizer.php:372
+#, fuzzy
+msgid "Number of slides"
+msgstr "Aantal Slides"
+
+#: ../library/functions/customizer.php:383
+msgid "Slider Options"
+msgstr "Slider Opties"
+
+#: ../library/functions/customizer.php:393
+#, fuzzy
+msgid "Check to disable Slider"
+msgstr "Controle voor onbruikbaar maken"
+
+#: ../library/functions/customizer.php:406
+#, fuzzy
+msgid "Transition Effect"
+msgstr "Transitie effect"
+
+#: ../library/functions/customizer.php:431
+#, fuzzy
+msgid "Transition delay( in second(s) )"
+msgstr "Transitie vertraging"
+
+#: ../library/functions/customizer.php:442
+#, fuzzy
+msgid "Transition length (in second(s))"
+msgstr "Transitie lengte"
+
+#: ../library/functions/customizer.php:451
+#, fuzzy
+msgid "Travelify Social Links"
+msgstr "Sociale links"
+
+#: ../library/functions/customizer.php:452
+msgid "Enter URLs for your social networks e.g."
+msgstr "Voer hier de URLs in voor uw sociale netwerken e.d."
+
+#: ../library/functions/customizer.php:466
+#, fuzzy, php-format
+msgid "%s"
+msgstr "Seconde(n)"
+
+#: ../library/functions/customizer.php:478
+#, fuzzy
+msgid "Travelify Other Options"
+msgstr "Voettekst"
+
+#: ../library/functions/customizer.php:479
+msgid "Enter your custom CSS styles."
+msgstr "Voer uw aangepaste CSS stijlen in"
+
+#: ../library/functions/customizer.php:488
+msgid "This CSS will overwrite the CSS of style.css file."
+msgstr "Deze CSS zal de CSS van het bestand style.css overschrijven"
+
+#: ../library/functions/customizer.php:498
+msgid "Travelify Important Links"
+msgstr ""
+
+#: ../library/functions/functions.php:275
+msgid "Navigation"
+msgstr "Navigatie"
+
+#: ../library/functions/functions.php:329
+msgid "Shows widgets at Left side."
+msgstr "Laat de Widgets aan de linkerkant zien."
+
+#: ../library/functions/functions.php:340
+msgid "Shows widgets at Right side."
+msgstr "Laat de Widgets aan de rechterkant zien."
+
+#: ../library/functions/functions.php:349
+msgid "Footer"
+msgstr "Voettekst"
+
+#: ../library/functions/functions.php:351
+msgid "Shows widgets at footer."
+msgstr "Laat de widgets in de voettekst zien."
+
+#: ../library/functions/shortcodes.php:18
+msgid "WordPress"
+msgstr ""
+
+#: ../library/functions/shortcodes.php:27
+msgid "Colorlib"
+msgstr ""
+
+#: ../library/panel/metaboxes.php:16
+msgid ""
+"Select layout for this specific Page only ( Note: This setting only reflects "
+"if page Template is set as Default Template and Blog Type Templates.)"
+msgstr ""
+"Selecteer een layout voor deze specifieke pagina. (Let op: Deze instelling "
+"heeft alleen effect als de pagina template is gezet als standaard template "
+"en blog type templates.)"
+
+#: ../library/panel/metaboxes.php:22
+msgid "Select layout for this specific Post only"
+msgstr "Selecteer een layout voor dit specifieke bericht."
+
+#: ../library/panel/metaboxes.php:35
+msgid "Default Layout Set in"
+msgstr "Standaard Layout instelling"
+
+#: ../library/panel/metaboxes.php:35
+msgid "Theme Settings"
+msgstr "Thema instellingen"
+
+#: ../library/panel/metaboxes.php:41
+msgid "No sidebar"
+msgstr "Geen Sidebar"
+
+#: ../library/panel/metaboxes.php:47
+msgid "No sidebar, Full Width"
+msgstr "Geen Sidebar, volle breedte"
+
+#: ../library/panel/metaboxes.php:59
+msgid "Left sidebar"
+msgstr "Linker Sidebar"
+
+#: ../library/panel/metaboxes.php:65
+msgid "Right sidebar"
+msgstr "Rechter Sidebar"
+
+#: ../library/panel/travelify-custom-control.php:19
+msgid "Change theme background"
+msgstr "Verander thema achtergrond"
+
+#: ../library/panel/travelify-custom-control.php:20
+#, fuzzy
+msgid "Click Here"
+msgstr "<a class=\"button\" href=\"%s\">klik hier</a>"
+
+#: ../library/panel/travelify-custom-control.php:48
+msgid "Homepage posts categories:"
+msgstr "Home page berichten categorieën"
+
+#: ../library/panel/travelify-custom-control.php:49
+msgid ""
+"Only posts that belong to the categories selected here will be displayed on "
+"the front page."
+msgstr ""
+"Alleen de berichten die tot de gekozen categorien behoren zullen worden "
+"weergeven op de voorpagina."
+
+#: ../library/panel/travelify-custom-control.php:54
+msgid "--Disabled--"
+msgstr "--Uitgeschakeld--"
+
+#: ../library/panel/travelify-custom-control.php:147
+msgid "Featured Slider"
+msgstr "Home pageslide Show"
+
+#: ../library/panel/travelify-custom-control.php:154
+#, fuzzy
+msgid "Slide #"
+msgstr "Uitgelichte Slide #"
+
+#: ../library/panel/travelify-custom-control.php:156
+#: ../library/structure/content-extensions.php:840
+msgid "Edit"
+msgstr "Publiceren"
+
+#: ../library/panel/travelify-custom-control.php:166
+msgid "How to use the featured slider?"
+msgstr "Hoe gebruik ik de uitgelichte slider?"
+
+#: ../library/panel/travelify-custom-control.php:168
+msgid "Create Post or Page and add featured image to it."
+msgstr "Maak een bericht of pagina en voeg er een uitgelichte afbeelding bij"
+
+#: ../library/panel/travelify-custom-control.php:169
+msgid ""
+"Add all the Post ID that you want to use in the featured slider. Post ID can "
+"be found at All Posts table in last column"
+msgstr ""
+"Voeg het bericht ID dat je wilt gebruiken in de uitgelichte Slider. Het "
+"bericht ID kan worden gevonden bij de alle berichten tabel in de laatste "
+"kolom."
+
+#: ../library/panel/travelify-custom-control.php:170
+msgid ""
+"Featured Slider will show featured images, Title and excerpt of the "
+"respected added post IDs."
+msgstr ""
+"De uitgelichte slider laat de uitgelichte afbeeldingen zien, Titel en een "
+"aantal woorden van het geselecteerde bericht."
+
+#: ../library/panel/travelify-custom-control.php:171
+msgid "The recommended image size is"
+msgstr "De aanbevolen afbeelding grootte is"
+
+#: ../library/panel/travelify-custom-control.php:190
+#, fuzzy
+msgid "Other Themes"
+msgstr "Andere"
+
+#: ../library/panel/travelify-custom-control.php:194
+msgid "Rate this Theme"
+msgstr "Geef een waardering aan dit thema"
+
+#: ../library/panel/travelify-custom-control.php:198
+msgid "Theme Instructions"
+msgstr "Thema instructies"
+
+#: ../library/panel/travelify-custom-control.php:202
+#, fuzzy
+msgid "Rate This Theme"
+msgstr "Geef een waardering aan dit thema"
+
+#: ../library/panel/travelify-custom-control.php:206
+msgid "Support"
+msgstr "Ondersteuning"
+
+#: ../library/panel/travelify-custom-control.php:210
+#, fuzzy
+msgid "Facebook"
+msgstr "Facebook"
+
+#: ../library/panel/travelify-custom-control.php:214
+#, fuzzy
+msgid "Twitter"
+msgstr "Twitter"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "No Comments"
+msgstr "Geen reacties"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "1 Comment"
+msgstr "1 reactie"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "% Comments"
+msgstr "% Reacties"
+
+#: ../library/structure/content-extensions.php:147
+#: ../library/structure/content-extensions.php:280
+#: ../library/structure/content-extensions.php:463
+#: ../library/structure/content-extensions.php:574
+#: ../library/structure/content-extensions.php:687
+msgid "Comments Off"
+msgstr "Reacties uit"
+
+#: ../library/structure/content-extensions.php:151
+#: ../library/structure/content-extensions.php:467
+#: ../library/structure/content-extensions.php:578
+#: ../library/structure/content-extensions.php:663
+msgid "Read more"
+msgstr "Lees meer"
+
+#: ../library/structure/content-extensions.php:166
+#: ../library/structure/content-extensions.php:237
+#: ../library/structure/content-extensions.php:335
+#: ../library/structure/content-extensions.php:386
+#: ../library/structure/content-extensions.php:495
+#: ../library/structure/content-extensions.php:605
+#: ../library/structure/content-extensions.php:716
+msgid "No Posts Found."
+msgstr "Geen berichten gevonden"
+
+#: ../library/structure/content-extensions.php:206
+#: ../library/structure/content-extensions.php:304
+#: ../library/structure/content-extensions.php:666
+msgid "Pages:"
+msgstr "Pagina's:"
+
+#: ../library/structure/content-extensions.php:292
+msgid ", "
+msgstr ""
+
+#: ../library/structure/content-extensions.php:486
+#: ../library/structure/content-extensions.php:596
+#: ../library/structure/content-extensions.php:707
+#: ../library/structure/content-extensions.php:743
+#: ../library/structure/content-extensions.php:763
+msgid "&laquo; Previous"
+msgstr "&laquo; Vorige"
+
+#: ../library/structure/content-extensions.php:487
+#: ../library/structure/content-extensions.php:597
+#: ../library/structure/content-extensions.php:708
+#: ../library/structure/content-extensions.php:744
+#: ../library/structure/content-extensions.php:764
+msgid "Next &raquo;"
+msgstr "Volgende &raquo;"
+
+#: ../library/structure/content-extensions.php:808
+msgid "Pingback:"
+msgstr "Pingback:"
+
+#: ../library/structure/content-extensions.php:808
+msgid "(Edit)"
+msgstr "(aanpassen)"
+
+#: ../library/structure/content-extensions.php:823
+msgid "Post author"
+msgstr "Bericht auteur"
+
+#: ../library/structure/content-extensions.php:829
+#, php-format
+msgid "%1$s at %2$s"
+msgstr "%1$s bij %2$s"
+
+#: ../library/structure/content-extensions.php:835
+msgid "Your comment is awaiting moderation."
+msgstr "Uw reactie wacht op goedkeuring"
+
+#: ../library/structure/content-extensions.php:844
+msgid "Reply"
+msgstr "Herhalen"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Copyright &copy;"
+msgstr "Copyright &copy;"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Theme by"
+msgstr "Thema bij"
+
+#: ../library/structure/footer-extensions.php:35
+msgid "Powered by"
+msgstr "Mede mogelijk gemaakt door"
+
+#: ../library/structure/header-extensions.php:44
+#, php-format
+msgid "Page %s"
+msgstr "Pagina %s"
+
+#: ../library/structure/header-extensions.php:353
+msgid "Search Results"
+msgstr "Zoekresultaten"
+
+#: ../searchform.php:7 ../searchform.php:8
+msgid "Search"
+msgstr "Zoeken"
+
+#~ msgid "Theme Options"
+#~ msgstr "Thema opties"
+
+#~ msgid "Theme Options by"
+#~ msgstr "Thema opties bij"
+
+#, fuzzy
+#~ msgid "Theme Instruction"
+#~ msgstr "Thema bij"
+
+#, fuzzy
+#~ msgid "Support Forum"
+#~ msgstr "Colorlib support forum"
+
+#~ msgid "Settings saved."
+#~ msgstr "Instellingen bewaard"
+
+#~ msgid "Other"
+#~ msgstr "Andere"
+
+#, fuzzy
+#~ msgid "Upload Logo"
+#~ msgstr "Hoofd logo"
+
+#~ msgid "Preview"
+#~ msgstr "Voorvertoning"
+
+#~ msgid "Save All Changes"
+#~ msgstr "Bewaar alle veranderingen"
+
+#~ msgid "Favicon Options"
+#~ msgstr "Favicon Opties"
+
+#~ msgid "Disable Favicon"
+#~ msgstr "Favicon uitschakelen"
+
+#~ msgid "Favicon URL"
+#~ msgstr "Favicon URL"
+
+#, fuzzy
+#~ msgid "Upload Favicon"
+#~ msgstr "Favicon"
+
+#~ msgid ""
+#~ "Favicon is this tiny icon you see beside URL in your browser address bar"
+#~ msgstr ""
+#~ "Favicon is het kleine icoontje wat je naast de URL zit in de Adresbalk"
+
+#~ msgid "favicon"
+#~ msgstr "Favicon"
+
+#~ msgid "Web Clip Icon Options"
+#~ msgstr "Web clip icoon opties"
+
+#~ msgid "Disable Web Clip Icon"
+#~ msgstr "Schakel web clip icoon uit"
+
+#~ msgid "Web Clip Icon URL"
+#~ msgstr "Web clip icoon URL"
+
+#, fuzzy
+#~ msgid "Upload Web Clip Icon"
+#~ msgstr "Web clip icoon URL"
+
+#~ msgid "Web Clip works as shortcut to website on iOS devices home screen"
+#~ msgstr ""
+#~ "Web Clip werkt als een snelkoppeling naar een website op een iOS apparaat "
+#~ "hoofdscherm"
+
+#~ msgid "webpage icon"
+#~ msgstr "Webpagina icoon"
+
+#~ msgid "Default Layout"
+#~ msgstr "Standaard Layout"
+
+#~ msgid "Reset Layout"
+#~ msgstr "Reset Lay-out"
+
+#~ msgid "Custom Background"
+#~ msgstr "Aangepaste achtergrond"
+
+#~ msgid "<a class=\"button\" href=\"%s\">Click here</a>"
+#~ msgstr "<a class=\"button\" href=\"%s\">klik hier</a>"
+
+#~ msgid "Check to exclude"
+#~ msgstr "Vink aan om uit te sluiten"
+
+#~ msgid "Disable Slider"
+#~ msgstr "Silder utischakelen"
+
+#~ msgid "second(s)"
+#~ msgstr "Seconde(n)"
+
+#~ msgid "Custom CSS (Advanced)"
+#~ msgstr "Aangepaste CSS (gevorderd"
+
+#~ msgid "Make sure you know what you are doing."
+#~ msgstr "Weet zeker wat u aan het doen bent"
+
+#~ msgid "Custom Scripts"
+#~ msgstr "Aangepaste scripts"
+
+#~ msgid "Code to display on Header"
+#~ msgstr "Code om te laten zien op de header"
+
+#~ msgid ""
+#~ "Note: Enter your custom header script (i.e., analytics, social button "
+#~ "scripts). "
+#~ msgstr ""
+#~ "Let op: Voer je aangepaste header script in (zoals, analytics, sociale "
+#~ "media knoppen)"
+
+#~ msgid "Code to display on Footer"
+#~ msgstr "Code om de footer te laten zien"
