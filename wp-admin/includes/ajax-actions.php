@@ -3219,7 +3219,7 @@ function wp_ajax_crop_image() {
 	$attachment_id = absint( $_POST['id'] );
 
 	check_ajax_referer( 'image_editor-' . $attachment_id, 'nonce' );
-	if ( ! current_user_can( 'customize' ) ) {
+	if ( empty( $attachment_id ) || ! current_user_can( 'edit_post', $attachment_id ) ) {
 		wp_send_json_error();
 	}
 
