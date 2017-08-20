@@ -53,14 +53,14 @@ $shortcode_tags = array();
  *
  * @global array $shortcode_tags
  *
- * @param string   $tag  Shortcode tag to be searched in post content.
- * @param callable $func The callback function to run when the shortcode is found.
- *                       Every shortcode callback is passed three parameters by default,
- *                       including an array of attributes (`$atts`), the content
- *                       the shortcode was found in (`$content`), and finally
- *                       the shortcode tag itself (`$shortcode_tag`), in that order.
+ * @param string   $tag      Shortcode tag to be searched in post content.
+ * @param callable $callback The callback function to run when the shortcode is found.
+ *                           Every shortcode callback is passed three parameters by default,
+ *                           including an array of attributes (`$atts`), the content
+ *                           the shortcode was found in (`$content`), and finally
+ *                           the shortcode tag itself (`$shortcode_tag`), in that order.
  */
-function add_shortcode($tag, $func) {
+function add_shortcode( $tag, $callback ) {
 	global $shortcode_tags;
 
 	if ( '' == trim( $tag ) ) {
@@ -76,7 +76,7 @@ function add_shortcode($tag, $func) {
 		return;
 	}
 
-	$shortcode_tags[ $tag ] = $func;
+	$shortcode_tags[ $tag ] = $callback;
 }
 
 /**
