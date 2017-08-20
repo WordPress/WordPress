@@ -284,10 +284,10 @@ function is_taxonomy_hierarchical($taxonomy) {
  *
  * Note: Do not use before the {@see 'init'} hook.
  *
- * A simple function for creating or modifying a taxonomy object based on the
- * parameters given. The function will accept an array (third optional
- * parameter), along with strings for the taxonomy name and another string for
- * the object type.
+ * A simple function for creating or modifying a taxonomy object based on
+ * the parameters given. If modifying an existing taxonomy object, note
+ * that the `$object_type` value from the original registration will be
+ * overwritten.
  *
  * @since 2.3.0
  * @since 4.2.0 Introduced `show_in_quick_edit` argument.
