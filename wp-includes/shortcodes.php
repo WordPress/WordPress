@@ -44,10 +44,10 @@ $shortcode_tags = array();
 /**
  * Adds a new shortcode.
  *
- * Care should be taken, either through prefixing or other means,to ensure
- * that the shortcode tag being added is unique and will not conflict with
- * other, already-added shortcode tags. In the event of a duplicated tag, the
- * tag loaded last will take precedence.
+ * Care should be taken through prefixing or other means to ensure that the
+ * shortcode tag being added is unique and will not conflict with other,
+ * already-added shortcode tags. In the event of a duplicated tag, the tag
+ * loaded last will take precedence.
  *
  * @since 2.5.0
  *
