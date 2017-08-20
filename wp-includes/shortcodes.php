@@ -42,49 +42,23 @@
 $shortcode_tags = array();
 
 /**
- * Add hook for shortcode tag.
+ * Adds a new shortcode.
  *
- * There can only be one hook for each shortcode. Which means that if another
- * plugin has a similar shortcode, it will override yours or yours will override
- * theirs depending on which order the plugins are included and/or ran.
- *
- * Simplest example of a shortcode tag using the API:
- *
- *     // [footag foo="bar"]
- *     function footag_func( $atts ) {
- *         return "foo = {
- *             $atts[foo]
- *         }";
- *     }
- *     add_shortcode( 'footag', 'footag_func' );
- *
- * Example with nice attribute defaults:
- *
- *     // [bartag foo="bar"]
- *     function bartag_func( $atts ) {
- *         $args = shortcode_atts( array(
- *             'foo' => 'no foo',
- *             'baz' => 'default baz',
- *         ), $atts );
- *
- *         return "foo = {$args['foo']}";
- *     }
- *     add_shortcode( 'bartag', 'bartag_func' );
- *
- * Example with enclosed content:
- *
- *     // [baztag]content[/baztag]
- *     function baztag_func( $atts, $content = '' ) {
- *         return "content = $content";
- *     }
- *     add_shortcode( 'baztag', 'baztag_func' );
+ * Care should be taken, either through prefixing or other means,to ensure
+ * that the shortcode tag being added is unique and will not conflict with
+ * other, already-added shortcode tags. In the event of a duplicated tag, the
+ * tag loaded last will take precedence.
  *
  * @since 2.5.0
  *
  * @global array $shortcode_tags
  *
  * @param string   $tag  Shortcode tag to be searched in post content.
- * @param callable $func Hook to run when shortcode is found.
+ * @param callable $func The callback function to run when the shortcode is found.
+ *                       Every shortcode callback is passed three parameters by default,
+ *                       including an array of attributes (`$atts`), the content
+ *                       the shortcode was found in (`$content`), and finally
+ *                       the shortcode tag itself (`$shortcode_tag`), in that order.
  */
 function add_shortcode($tag, $func) {
 	global $shortcode_tags;
