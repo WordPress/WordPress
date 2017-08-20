@@ -56,9 +56,9 @@ $shortcode_tags = array();
  * @param string   $tag      Shortcode tag to be searched in post content.
  * @param callable $callback The callback function to run when the shortcode is found.
  *                           Every shortcode callback is passed three parameters by default,
- *                           including an array of attributes (`$atts`), the content
- *                           the shortcode was found in (`$content`), and finally
- *                           the shortcode tag itself (`$shortcode_tag`), in that order.
+ *                           including an array of attributes (`$atts`), the shortcode content
+ *                           or null if not set (`$content`), and finally the shortcode tag
+ *                           itself (`$shortcode_tag`), in that order.
  */
 function add_shortcode( $tag, $callback ) {
 	global $shortcode_tags;
