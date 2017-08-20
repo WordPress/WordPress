@@ -1220,22 +1220,23 @@ function the_attachment_links( $id = false ) {
  * Displays a screen icon.
  *
  * @since 2.7.0
- * @since 3.8.0 Screen icons are no longer used in WordPress. This function no longer produces output.
- * @deprecated 3.8.0 Use get_screen_icon()
- * @see get_screen_icon()
+ * @deprecated 3.8.0
  */
 function screen_icon() {
+	_deprecated_function( __FUNCTION__, '3.8.0' );
 	echo get_screen_icon();
 }
 
 /**
  * Retrieves the screen icon (no longer used in 3.8+).
  *
+ * @since 3.2.0
  * @deprecated 3.8.0
  *
  * @return string
  */
 function get_screen_icon() {
+	_deprecated_function( __FUNCTION__, '3.8.0' );
 	return '<!-- Screen icons are no longer used as of WordPress 3.8. -->';
 }
 
