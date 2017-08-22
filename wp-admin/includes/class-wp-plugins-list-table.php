@@ -620,11 +620,15 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						'network_only' => __( 'Network Only' ),
 					);
 				} elseif ( $is_active ) {
-					/* translators: %s: plugin name */
-					$actions['deactivate'] = '<a href="' . wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file ) . '" aria-label="' . esc_attr( sprintf( _x( 'Deactivate %s', 'plugin' ), $plugin_data['Name'] ) ) . '">' . __( 'Deactivate' ) . '</a>';
+					if ( current_user_can( 'deactivate_plugin', $plugin_file ) ) {
+						/* translators: %s: plugin name */
+						$actions['deactivate'] = '<a href="' . wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'deactivate-plugin_' . $plugin_file ) . '" aria-label="' . esc_attr( sprintf( _x( 'Deactivate %s', 'plugin' ), $plugin_data['Name'] ) ) . '">' . __( 'Deactivate' ) . '</a>';
+					}
 				} else {
-					/* translators: %s: plugin name */
-					$actions['activate'] = '<a href="' . wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file ) . '" class="edit" aria-label="' . esc_attr( sprintf( _x( 'Activate %s', 'plugin' ), $plugin_data['Name'] ) ) . '">' . __( 'Activate' ) . '</a>';
+					if ( current_user_can( 'activate_plugin', $plugin_file ) ) {
+						/* translators: %s: plugin name */
+						$actions['activate'] = '<a href="' . wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file ) . '" class="edit" aria-label="' . esc_attr( sprintf( _x( 'Activate %s', 'plugin' ), $plugin_data['Name'] ) ) . '">' . __( 'Activate' ) . '</a>';
+					}
 
 					if ( ! is_multisite() && current_user_can( 'delete_plugins' ) ) {
 						/* translators: %s: plugin name */

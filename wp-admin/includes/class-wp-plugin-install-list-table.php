@@ -468,7 +468,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 					case 'newer_installed':
 						if ( is_plugin_active( $status['file'] ) ) {
 							$action_links[] = '<button type="button" class="button button-disabled" disabled="disabled">' . _x( 'Active', 'plugin' ) . '</button>';
-						} elseif ( current_user_can( 'activate_plugins' ) ) {
+						} elseif ( current_user_can( 'activate_plugin', $status['file'] ) ) {
 							$button_text  = __( 'Activate' );
 							/* translators: %s: Plugin name */
 							$button_label = _x( 'Activate %s', 'plugin' );

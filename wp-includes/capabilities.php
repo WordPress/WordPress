@@ -407,7 +407,10 @@ function map_meta_cap( $cap, $user_id ) {
 		}
 		break;
 	case 'activate_plugins':
-		$caps[] = $cap;
+	case 'deactivate_plugins':
+	case 'activate_plugin':
+	case 'deactivate_plugin':
+		$caps[] = 'activate_plugins';
 		if ( is_multisite() ) {
 			// update_, install_, and delete_ are handled above with is_super_admin().
 			$menu_perms = get_site_option( 'menu_items', array() );

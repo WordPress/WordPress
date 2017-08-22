@@ -3704,7 +3704,7 @@ function wp_ajax_install_plugin() {
 	// If installation request is coming from import page, do not return network activation link.
 	$plugins_url = ( 'import' === $pagenow ) ? admin_url( 'plugins.php' ) : network_admin_url( 'plugins.php' );
 
-	if ( current_user_can( 'activate_plugins' ) && is_plugin_inactive( $install_status['file'] ) ) {
+	if ( current_user_can( 'activate_plugin', $install_status['file'] ) && is_plugin_inactive( $install_status['file'] ) ) {
 		$status['activateUrl'] = add_query_arg( array(
 			'_wpnonce' => wp_create_nonce( 'activate-plugin_' . $install_status['file'] ),
 			'action'   => 'activate',
