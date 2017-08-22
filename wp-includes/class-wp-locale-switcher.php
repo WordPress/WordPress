@@ -158,11 +158,11 @@ class WP_Locale_Switcher {
 	}
 
 	/**
-	 * Filters the WordPress install's locale.
+	 * Filters the locale of the WordPress installation.
 	 *
 	 * @since 4.7.0
 	 *
-	 * @param string $locale The WordPress install's locale.
+	 * @param string $locale The locale of the WordPress installation.
 	 * @return string The locale currently being switched to.
 	 */
 	public function filter_locale( $locale ) {

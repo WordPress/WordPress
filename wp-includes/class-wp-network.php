@@ -273,7 +273,7 @@ class WP_Network {
 		 * only domains, thus meaning paths never need to be considered.
 		 *
 		 * This is a very basic optimization; anything further could have
-		 * drawbacks depending on the setup, so this is best done per-install.
+		 * drawbacks depending on the setup, so this is best done per-installation.
 		 */
 		$using_paths = true;
 		if ( wp_using_ext_object_cache() ) {

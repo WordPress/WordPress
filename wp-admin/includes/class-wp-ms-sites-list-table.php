@@ -551,7 +551,7 @@ class WP_MS_Sites_List_Table extends WP_List_Table {
 		 * @param array  $actions  An array of action links to be displayed.
 		 * @param int    $blog_id  The site ID.
 		 * @param string $blogname Site path, formatted depending on whether it is a sub-domain
-		 *                         or subdirectory multisite install.
+		 *                         or subdirectory multisite installation.
 		 */
 		$actions = apply_filters( 'manage_sites_action_links', array_filter( $actions ), $blog['blog_id'], $blogname );
 		return $this->row_actions( $actions );

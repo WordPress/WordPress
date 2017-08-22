@@ -28,7 +28,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 	public $result;
 
 	/**
-	 * Whether a bulk upgrade/install is being performed.
+	 * Whether a bulk upgrade/installation is being performed.
 	 *
 	 * @since 3.7.0
 	 * @var bool $bulk
@@ -60,7 +60,7 @@ class Language_Pack_Upgrader extends WP_Upgrader {
 		}
 
 		/*
-		 * Avoid messing with VCS installs, at least for now.
+		 * Avoid messing with VCS installations, at least for now.
 		 * Noted: this is not the ideal way to accomplish this.
 		 */
 		$check_vcs = new WP_Automatic_Updater;

@@ -308,8 +308,8 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
 
 	} elseif ( ! $subdomain ) {
 		/*
-		 * A "subdomain" install can be re-interpreted to mean "can support any domain".
-		 * If we're not dealing with one of these installs, then the important part is determining
+		 * A "subdomain" installation can be re-interpreted to mean "can support any domain".
+		 * If we're not dealing with one of these installations, then the important part is determining
 		 * the network first, because we need the network's path to identify any sites.
 		 */
 		if ( ! $current_site = wp_cache_get( 'current_network', 'site-options' ) ) {
@@ -401,10 +401,10 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
 		do_action( 'ms_site_not_found', $current_site, $domain, $path );
 
 		if ( $subdomain && ! defined( 'NOBLOGREDIRECT' ) ) {
-			// For a "subdomain" install, redirect to the signup form specifically.
+			// For a "subdomain" installation, redirect to the signup form specifically.
 			$destination .= 'wp-signup.php?new=' . str_replace( '.' . $current_site->domain, '', $domain );
 		} elseif ( $subdomain ) {
-			// For a "subdomain" install, the NOBLOGREDIRECT constant
+			// For a "subdomain" installation, the NOBLOGREDIRECT constant
 			// can be used to avoid a redirect to the signup form.
 			// Using the ms_site_not_found action is preferred to the constant.
 			if ( '%siteurl%' !== NOBLOGREDIRECT ) {

@@ -419,7 +419,7 @@ function _get_dropins() {
 		'advanced-cache.php' => array( __( 'Advanced caching plugin.'       ), 'WP_CACHE' ), // WP_CACHE
 		'db.php'             => array( __( 'Custom database class.'         ), true ), // auto on load
 		'db-error.php'       => array( __( 'Custom database error message.' ), true ), // auto on error
-		'install.php'        => array( __( 'Custom install script.'         ), true ), // auto on install
+		'install.php'        => array( __( 'Custom installation script.'    ), true ), // auto on installation
 		'maintenance.php'    => array( __( 'Custom maintenance message.'    ), true ), // auto on maintenance
 		'object-cache.php'   => array( __( 'External object cache.'         ), true ), // auto on load
 	);

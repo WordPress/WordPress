@@ -1197,7 +1197,7 @@ function _copy_dir($from, $to, $skip_list = array() ) {
 /**
  * Redirect to the About WordPress page after a successful upgrade.
  *
- * This function is only needed when the existing install is older than 3.4.0.
+ * This function is only needed when the existing installation is older than 3.4.0.
  *
  * @since 3.3.0
  *

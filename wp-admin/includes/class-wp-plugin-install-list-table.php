@@ -559,13 +559,13 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 				<div class="column-downloaded">
 					<?php
 					if ( $plugin['active_installs'] >= 1000000 ) {
-						$active_installs_text = _x( '1+ Million', 'Active plugin installs' );
+						$active_installs_text = _x( '1+ Million', 'Active plugin installations' );
 					} elseif ( 0 == $plugin['active_installs'] ) {
-						$active_installs_text = _x( 'Less Than 10', 'Active plugin installs' );
+						$active_installs_text = _x( 'Less Than 10', 'Active plugin installations' );
 					} else {
 						$active_installs_text = number_format_i18n( $plugin['active_installs'] ) . '+';
 					}
-					printf( __( '%s Active Installs' ), $active_installs_text );
+					printf( __( '%s Active Installations' ), $active_installs_text );
 					?>
 				</div>
 				<div class="column-compatibility">

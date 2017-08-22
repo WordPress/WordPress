@@ -79,7 +79,7 @@ class WP_Upgrader {
 	 * @var WP_Error|array $result {
 	 *      @type string $source             The full path to the source the files were installed from.
 	 *      @type string $source_files       List of all the files in the source directory.
-	 *      @type string $destination        The full path to the install destination folder.
+	 *      @type string $destination        The full path to the installation destination folder.
 	 *      @type string $destination_name   The name of the destination folder, or empty if `$destination`
 	 *                                       and `$local_destination` are the same.
 	 *      @type string $local_destination  The full local path to the destination folder. This is usually
@@ -570,11 +570,11 @@ class WP_Upgrader {
 		$this->result = compact( 'source', 'source_files', 'destination', 'destination_name', 'local_destination', 'remote_destination', 'clear_destination' );
 
 		/**
-		 * Filters the install response after the installation has finished.
+		 * Filters the installation response after the installation has finished.
 		 *
 		 * @since 2.8.0
 		 *
-		 * @param bool  $response   Install response.
+		 * @param bool  $response   Installation response.
 		 * @param array $hook_extra Extra arguments passed to hooked filters.
 		 * @param array $result     Installation result data.
 		 */
@@ -590,7 +590,7 @@ class WP_Upgrader {
 	}
 
 	/**
-	 * Run an upgrade/install.
+	 * Run an upgrade/installation.
 	 *
 	 * Attempts to download the package (if it is not a local file), unpack it, and
 	 * install it in the destination folder.
@@ -612,7 +612,7 @@ class WP_Upgrader {
 	 *     @type bool   $abort_if_destination_exists Whether to abort the installation if the destination
 	 *                                               folder already exists. When true, `$clear_destination`
 	 *                                               should be false. Default true.
-	 *     @type bool   $is_multi                    Whether this run is one of multiple upgrade/install
+	 *     @type bool   $is_multi                    Whether this run is one of multiple upgrade/installation
 	 *                                               actions being performed in bulk. When true, the skin
 	 *                                               WP_Upgrader::header() and WP_Upgrader::footer()
 	 *                                               aren't called. Default false.
@@ -735,7 +735,7 @@ class WP_Upgrader {
 			$this->skin->error($result);
 			$this->skin->feedback('process_failed');
 		} else {
-			// Install succeeded.
+			// Installation succeeded.
 			$this->skin->feedback('process_success');
 		}
 

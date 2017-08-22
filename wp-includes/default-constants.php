@@ -349,7 +349,7 @@ function wp_templating_constants() {
 	define('STYLESHEETPATH', get_stylesheet_directory());
 
 	/**
-	 * Slug of the default theme for this install.
+	 * Slug of the default theme for this installation.
 	 * Used as the default theme when installing new sites.
 	 * It will be used as the fallback if the current theme doesn't exist.
 	 *

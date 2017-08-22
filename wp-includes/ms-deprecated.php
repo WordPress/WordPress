@@ -460,7 +460,7 @@ function get_admin_users_for_domain( $domain = '', $path = '' ) {
  *     @type int       $limit      Number of sites to limit the query to. Default 100.
  *     @type int       $offset     Exclude the first x sites. Used in combination with the $limit parameter. Default 0.
  * }
- * @return array An empty array if the install is considered "large" via wp_is_large_network(). Otherwise,
+ * @return array An empty array if the installation is considered "large" via wp_is_large_network(). Otherwise,
  *               an associative array of site data arrays, each containing the site (network) ID, blog ID,
  *               site domain and path, dates registered and modified, and the language ID. Also, boolean
  *               values for whether the site is public, archived, mature, spam, and/or deleted.

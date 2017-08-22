@@ -1388,13 +1388,13 @@ function is_blog_installed() {
 	$suppress = $wpdb->suppress_errors();
 
 	/*
-	 * Loop over the WP tables. If none exist, then scratch install is allowed.
+	 * Loop over the WP tables. If none exist, then scratch installation is allowed.
 	 * If one or more exist, suggest table repair since we got here because the
 	 * options table could not be accessed.
 	 */
 	$wp_tables = $wpdb->tables();
 	foreach ( $wp_tables as $table ) {
-		// The existence of custom user tables shouldn't suggest an insane state or prevent a clean install.
+		// The existence of custom user tables shouldn't suggest an insane state or prevent a clean installation.
 		if ( defined( 'CUSTOM_USER_TABLE' ) && CUSTOM_USER_TABLE == $table )
 			continue;
 		if ( defined( 'CUSTOM_USER_META_TABLE' ) && CUSTOM_USER_META_TABLE == $table )
@@ -4326,7 +4326,7 @@ function wp_guess_url() {
 			} elseif ( false !== strpos( $abspath_fix, $script_filename_dir ) ) {
 				// Request is hitting a file above ABSPATH
 				$subdirectory = substr( $abspath_fix, strpos( $abspath_fix, $script_filename_dir ) + strlen( $script_filename_dir ) );
-				// Strip off any file/query params from the path, appending the sub directory to the install
+				// Strip off any file/query params from the path, appending the sub directory to the installation
 				$path = preg_replace( '#/[^/]*$#i', '' , $_SERVER['REQUEST_URI'] ) . $subdirectory;
 			} else {
 				$path = $_SERVER['REQUEST_URI'];
@@ -4408,7 +4408,7 @@ function is_main_site( $site_id = null ) {
 }
 
 /**
- * Determine whether a network is the main network of the Multisite install.
+ * Determine whether a network is the main network of the Multisite installation.
  *
  * @since 3.7.0
  *

@@ -176,7 +176,7 @@ if ( 'update' == $action ) {
 			$_POST['timezone_string'] = '';
 		}
 
-		// Handle translation install.
+		// Handle translation installation.
 		if ( ! empty( $_POST['WPLANG'] ) && current_user_can( 'install_languages' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
 

@@ -67,7 +67,7 @@ wp_enqueue_script( 'updates' );
 do_action( "install_plugins_pre_{$tab}" );
 
 /*
- * Call the pre upload action on every non-upload plugin install screen
+ * Call the pre upload action on every non-upload plugin installation screen
  * because the form is always displayed on these screens.
  */
 if ( 'upload' !== $tab ) {
@@ -129,7 +129,7 @@ if ( ! empty( $tabs['upload'] ) && current_user_can( 'upload_plugins' ) ) {
 
 <?php
 /*
- * Output the upload plugin form on every non-upload plugin install screen, so it can be
+ * Output the upload plugin form on every non-upload plugin installation screen, so it can be
  * displayed via JavaScript rather then opening up the devoted upload plugin page.
  */
 if ( 'upload' !== $tab ) {

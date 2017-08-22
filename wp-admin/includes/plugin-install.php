@@ -19,7 +19,7 @@
  * an object is returned.
  *
  * The second filter, {@see 'plugins_api'}, allows a plugin to override the WordPress.org
- * Plugin Install API entirely. If `$action` is 'query_plugins' or 'plugin_information',
+ * Plugin Installation API entirely. If `$action` is 'query_plugins' or 'plugin_information',
  * an object MUST be passed. If `$action` is 'hot_tags' or 'hot_categories', an array MUST
  * be passed.
  *
@@ -89,7 +89,7 @@
  *         @type bool $reviews           Whether to return the plugin reviews. Default false.
  *         @type bool $banners           Whether to return the banner images links. Default false.
  *         @type bool $icons             Whether to return the icon links. Default false.
- *         @type bool $active_installs   Whether to return the number of active installs. Default false.
+ *         @type bool $active_installs   Whether to return the number of active installations. Default false.
  *         @type bool $group             Whether to return the assigned group. Default false.
  *         @type bool $contributors      Whether to return the list of contributors. Default false.
  *     }
@@ -113,19 +113,19 @@ function plugins_api( $action, $args = array() ) {
 	}
 
 	/**
-	 * Filters the WordPress.org Plugin Install API arguments.
+	 * Filters the WordPress.org Plugin Installation API arguments.
 	 *
 	 * Important: An object MUST be returned to this filter.
 	 *
 	 * @since 2.7.0
 	 *
 	 * @param object $args   Plugin API arguments.
-	 * @param string $action The type of information being requested from the Plugin Install API.
+	 * @param string $action The type of information being requested from the Plugin Installation API.
 	 */
 	$args = apply_filters( 'plugins_api_args', $args, $action );
 
 	/**
-	 * Filters the response for the current WordPress.org Plugin Install API request.
+	 * Filters the response for the current WordPress.org Plugin Installation API request.
 	 *
 	 * Passing a non-false value will effectively short-circuit the WordPress.org API request.
 	 *
@@ -135,7 +135,7 @@ function plugins_api( $action, $args = array() ) {
 	 * @since 2.7.0
 	 *
 	 * @param false|object|array $result The result object or array. Default false.
-	 * @param string             $action The type of information being requested from the Plugin Install API.
+	 * @param string             $action The type of information being requested from the Plugin Installation API.
 	 * @param object             $args   Plugin API arguments.
 	 */
 	$res = apply_filters( 'plugins_api', false, $action, $args );
@@ -193,12 +193,12 @@ function plugins_api( $action, $args = array() ) {
 	}
 
 	/**
-	 * Filters the Plugin Install API response results.
+	 * Filters the Plugin Installation API response results.
 	 *
 	 * @since 2.7.0
 	 *
 	 * @param object|WP_Error $res    Response object or WP_Error.
-	 * @param string          $action The type of information being requested from the Plugin Install API.
+	 * @param string          $action The type of information being requested from the Plugin Installation API.
 	 * @param object          $args   Plugin API arguments.
 	 */
 	return apply_filters( 'plugins_api_result', $res, $action, $args );
@@ -515,7 +515,7 @@ function install_plugin_information() {
 		$section = reset( $section_titles );
 	}
 
-	iframe_header( __( 'Plugin Install' ) );
+	iframe_header( __( 'Plugin Installation' ) );
 
 	$_with_banner = '';
 
@@ -587,11 +587,11 @@ function install_plugin_information() {
 			<?php } if ( ! empty( $api->tested ) ) { ?>
 				<li><strong><?php _e( 'Compatible up to:' ); ?></strong> <?php echo $api->tested; ?></li>
 			<?php } if ( isset( $api->active_installs ) ) { ?>
-				<li><strong><?php _e( 'Active Installs:' ); ?></strong> <?php
+				<li><strong><?php _e( 'Active Installations:' ); ?></strong> <?php
 					if ( $api->active_installs >= 1000000 ) {
-						_ex( '1+ Million', 'Active plugin installs' );
+						_ex( '1+ Million', 'Active plugin installations' );
 					} elseif ( 0 == $api->active_installs ) {
-						_ex( 'Less Than 10', 'Active plugin installs' );
+						_ex( 'Less Than 10', 'Active plugin installations' );
 					} else {
 						echo number_format_i18n( $api->active_installs ) . '+';
 					}

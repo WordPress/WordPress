@@ -27,10 +27,10 @@ function network_domain_check() {
 }
 
 /**
- * Allow subdomain install
+ * Allow subdomain installation
  *
  * @since 3.0.0
- * @return bool Whether subdomain install is allowed
+ * @return bool Whether subdomain installation is allowed
  */
 function allow_subdomain_install() {
 	$domain = preg_replace( '|https?://([^/]+)|', '$1', get_option( 'home' ) );
@@ -41,22 +41,22 @@ function allow_subdomain_install() {
 }
 
 /**
- * Allow subdirectory install.
+ * Allow subdirectory installation.
  *
  * @since 3.0.0
  *
  * @global wpdb $wpdb WordPress database abstraction object.
  *
- * @return bool Whether subdirectory install is allowed
+ * @return bool Whether subdirectory installation is allowed
  */
 function allow_subdirectory_install() {
 	global $wpdb;
         /**
-         * Filters whether to enable the subdirectory install feature in Multisite.
+         * Filters whether to enable the subdirectory installation feature in Multisite.
          *
          * @since 3.0.0
          *
-         * @param bool $allow Whether to enable the subdirectory install feature in Multisite. Default is false.
+         * @param bool $allow Whether to enable the subdirectory installation feature in Multisite. Default is false.
          */
 	if ( apply_filters( 'allow_subdirectory_install', false ) )
 		return true;
@@ -257,7 +257,7 @@ function network_step1( $errors = false ) {
 		<table class="form-table">
 		<?php if ( 'localhost' == $hostname ) : ?>
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Sub-directory Install' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Sub-directory Installation' ); ?></th>
 				<td><?php
 					printf(
 						/* translators: 1: localhost 2: localhost.localdomain */
@@ -267,24 +267,24 @@ function network_step1( $errors = false ) {
 					);
 					// Uh oh:
 					if ( !allow_subdirectory_install() )
-						echo ' <strong>' . __( 'Warning!' ) . ' ' . __( 'The main site in a sub-directory install will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';
+						echo ' <strong>' . __( 'Warning!' ) . ' ' . __( 'The main site in a sub-directory installation will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';
 				?></td>
 			</tr>
 		<?php elseif ( !allow_subdomain_install() ) : ?>
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Sub-directory Install' ); ?></th>
+				<th scope="row"><?php esc_html_e( 'Sub-directory Installation' ); ?></th>
 				<td><?php
-					_e( 'Because your install is in a directory, the sites in your WordPress network must use sub-directories.' );
+					_e( 'Because your installation is in a directory, the sites in your WordPress network must use sub-directories.' );
 					// Uh oh:
 					if ( !allow_subdirectory_install() )
-						echo ' <strong>' . __( 'Warning!' ) . ' ' . __( 'The main site in a sub-directory install will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';
+						echo ' <strong>' . __( 'Warning!' ) . ' ' . __( 'The main site in a sub-directory installation will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';
 				?></td>
 			</tr>
 		<?php elseif ( !allow_subdirectory_install() ) : ?>
 			<tr>
-				<th scope="row"><?php esc_html_e( 'Sub-domain Install' ); ?></th>
-				<td><?php _e( 'Because your install is not new, the sites in your WordPress network must use sub-domains.' );
-					echo ' <strong>' . __( 'The main site in a sub-directory install will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';
+				<th scope="row"><?php esc_html_e( 'Sub-domain Installation' ); ?></th>
+				<td><?php _e( 'Because your installation is not new, the sites in your WordPress network must use sub-domains.' );
+					echo ' <strong>' . __( 'The main site in a sub-directory installation will need to use a modified permalink structure, potentially breaking existing links.' ) . '</strong>';
 				?></td>
 			</tr>
 		<?php endif; ?>

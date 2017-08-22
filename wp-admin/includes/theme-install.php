@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Theme Install Administration API
+ * WordPress Theme Installation Administration API
  *
  * @package WordPress
  * @subpackage Administration
@@ -202,7 +202,7 @@ function install_theme_information() {
 	if ( is_wp_error( $theme ) )
 		wp_die( $theme );
 
-	iframe_header( __('Theme Install') );
+	iframe_header( __('Theme Installation') );
 	if ( ! isset( $wp_list_table ) ) {
 		$wp_list_table = _get_list_table('WP_Theme_Install_List_Table');
 	}

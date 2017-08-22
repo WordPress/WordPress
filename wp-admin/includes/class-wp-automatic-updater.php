@@ -443,7 +443,7 @@ class WP_Automatic_Updater {
 			wp_update_plugins(); // Check for Plugin updates
 		}
 
-		// Send debugging email to all development installs.
+		// Send debugging email to admin for all development installations.
 		if ( ! empty( $this->update_results ) ) {
 			$development_version = false !== strpos( get_bloginfo( 'version' ), '-' );
 

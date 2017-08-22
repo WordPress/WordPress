@@ -628,7 +628,7 @@ function site_admin_notice() {
 /**
  * Avoids a collision between a site slug and a permalink slug.
  *
- * In a subdirectory install this will make sure that a site and a post do not use the
+ * In a subdirectory installation this will make sure that a site and a post do not use the
  * same subdirectory by checking for a site with the same name as a new post.
  *
  * @since 3.0.0

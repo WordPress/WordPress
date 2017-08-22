@@ -63,7 +63,7 @@ function get_core_updates( $options = array() ) {
 /**
  * Gets the best available (and enabled) Auto-Update for WordPress Core.
  *
- * If there's 1.2.3 and 1.3 on offer, it'll choose 1.3 if the install allows it, else, 1.2.3
+ * If there's 1.2.3 and 1.3 on offer, it'll choose 1.3 if the installation allows it, else, 1.2.3
  *
  * @since 3.7.0
  *
@@ -596,7 +596,7 @@ function maintenance_nag() {
 		$failed = get_site_option( 'auto_core_update_failed' );
 		/*
 		 * If an update failed critically, we may have copied over version.php but not other files.
-		 * In that case, if the install claims we're running the version we attempted, nag.
+		 * In that case, if the installation claims we're running the version we attempted, nag.
 		 * This is serious enough to err on the side of nagging.
 		 *
 		 * If we simply failed to update before we tried to copy any files, then assume things are

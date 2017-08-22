@@ -3456,7 +3456,7 @@ function wp_ajax_install_theme() {
 
 	/*
 	 * See WP_Theme_Install_List_Table::_get_theme_status() if we wanted to check
-	 * on post-install status.
+	 * on post-installation status.
 	 */
 	wp_send_json_success( $status );
 }
@@ -3701,7 +3701,7 @@ function wp_ajax_install_plugin() {
 	$install_status = install_plugin_install_status( $api );
 	$pagenow = isset( $_POST['pagenow'] ) ? sanitize_key( $_POST['pagenow'] ) : '';
 
-	// If install request is coming from import page, do not return network activation link.
+	// If installation request is coming from import page, do not return network activation link.
 	$plugins_url = ( 'import' === $pagenow ) ? admin_url( 'plugins.php' ) : network_admin_url( 'plugins.php' );
 
 	if ( current_user_can( 'activate_plugins' ) && is_plugin_inactive( $install_status['file'] ) ) {

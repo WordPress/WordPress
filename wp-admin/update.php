@@ -120,7 +120,7 @@ if ( isset($_GET['action']) ) {
 	 		wp_die( $api );
 		}
 
-		$title = __('Plugin Install');
+		$title = __('Plugin Installation');
 		$parent_file = 'plugins.php';
 		$submenu_file = 'plugin-install.php';
 		require_once(ABSPATH . 'wp-admin/admin-header.php');

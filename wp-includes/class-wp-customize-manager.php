@@ -535,7 +535,7 @@ final class WP_Customize_Manager {
 		}
 
 		/*
-		 * Import theme starter content for fresh installs when landing in the customizer.
+		 * Import theme starter content for fresh installations when landing in the customizer.
 		 * Import starter content at after_setup_theme:100 so that any
 		 * add_theme_support( 'starter-content' ) calls will have been made.
 		 */
@@ -1760,7 +1760,7 @@ final class WP_Customize_Manager {
 		$setting_validities = $this->validate_setting_values( $post_values );
 		$exported_setting_validities = array_map( array( $this, 'prepare_setting_validity_for_js' ), $setting_validities );
 
-		// Note that the REQUEST_URI is not passed into home_url() since this breaks subdirectory installs.
+		// Note that the REQUEST_URI is not passed into home_url() since this breaks subdirectory installations.
 		$self_url = empty( $_SERVER['REQUEST_URI'] ) ? home_url( '/' ) : esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) );
 		$state_query_params = array(
 			'customize_theme',

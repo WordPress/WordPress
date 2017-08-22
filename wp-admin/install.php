@@ -49,7 +49,7 @@ nocache_headers();
 $step = isset( $_GET['step'] ) ? (int) $_GET['step'] : 0;
 
 /**
- * Display install header.
+ * Display installation header.
  *
  * @since 2.5.0
  *

@@ -31,7 +31,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	public $result;
 
 	/**
-	 * Whether a bulk upgrade/install is being performed.
+	 * Whether a bulk upgrade/installation is being performed.
 	 *
 	 * @since 2.9.0
 	 * @var bool $bulk
@@ -56,17 +56,17 @@ class Plugin_Upgrader extends WP_Upgrader {
 	}
 
 	/**
-	 * Initialize the install strings.
+	 * Initialize the installation strings.
 	 *
 	 * @since 2.8.0
 	 */
 	public function install_strings() {
-		$this->strings['no_package'] = __('Install package not available.');
-		$this->strings['downloading_package'] = __('Downloading install package from <span class="code">%s</span>&#8230;');
+		$this->strings['no_package'] = __('Installation package not available.');
+		$this->strings['downloading_package'] = __('Downloading installation package from <span class="code">%s</span>&#8230;');
 		$this->strings['unpack_package'] = __('Unpacking the package&#8230;');
 		$this->strings['installing_package'] = __('Installing the plugin&#8230;');
 		$this->strings['no_files'] = __('The plugin contains no files.');
-		$this->strings['process_failed'] = __('Plugin install failed.');
+		$this->strings['process_failed'] = __('Plugin installation failed.');
 		$this->strings['process_success'] = __('Plugin installed successfully.');
 	}
 
@@ -83,7 +83,7 @@ class Plugin_Upgrader extends WP_Upgrader {
 	 *     @type bool $clear_update_cache Whether to clear the plugin updates cache if successful.
 	 *                                    Default true.
 	 * }
-	 * @return bool|WP_Error True if the install was successful, false or a WP_Error otherwise.
+	 * @return bool|WP_Error True if the installation was successful, false or a WP_Error otherwise.
 	 */
 	public function install( $package, $args = array() ) {
 

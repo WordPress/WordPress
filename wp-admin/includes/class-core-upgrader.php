@@ -95,7 +95,7 @@ class Core_Upgrader extends WP_Upgrader {
 
 		/*
 		 * If partial update is returned from the API, use that, unless we're doing
-		 * a reinstall. If we cross the new_bundled version number, then use
+		 * a reinstallation. If we cross the new_bundled version number, then use
 		 * the new_bundled zip. Don't though if the constant is set to skip bundled items.
 		 * If the API returns a no_content zip, go with it. Finally, default to the full zip.
 		 */

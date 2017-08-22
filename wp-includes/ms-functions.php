@@ -586,7 +586,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	}
 
 	/*
-	 * On sub dir installs, some names are so illegal, only a filter can
+	 * On sub dir installations, some names are so illegal, only a filter can
 	 * spring them from jail.
 	 */
 	if ( ! is_subdomain_install() ) {
@@ -680,7 +680,7 @@ function wpmu_validate_blog_signup( $blogname, $blog_title, $user = '' ) {
 	 *     Array of domain, path, blog name, blog title, user and error messages.
 	 *
 	 *     @type string         $domain     Domain for the site.
-	 *     @type string         $path       Path for the site. Used in subdirectory installs.
+	 *     @type string         $path       Path for the site. Used in subdirectory installations.
 	 *     @type string         $blogname   The unique site name (slug).
 	 *     @type string         $blog_title Blog title.
 	 *     @type string|WP_User $user       By default, an empty string. A user object if provided.
@@ -1164,9 +1164,9 @@ function wpmu_create_user( $user_name, $password, $email ) {
  * as when a Super Admin creates a new site. Hook to {@see 'wpmu_new_blog'}
  * for events that should affect all new sites.
  *
- * On subdirectory installs, $domain is the same as the main site's
+ * On subdirectory installations, $domain is the same as the main site's
  * domain, and the path is the subdirectory name (eg 'example.com'
- * and '/blog1/'). On subdomain installs, $domain is the new subdomain +
+ * and '/blog1/'). On subdomain installations, $domain is the new subdomain +
  * root domain (eg 'blog1.example.com'), and $path is '/'.
  *
  * @since MU (3.0.0)
@@ -1180,7 +1180,7 @@ function wpmu_create_user( $user_name, $password, $email ) {
  *                           'spam', 'deleted', or 'lang_id') the given site status(es) will be
  *                           updated. Otherwise, keys and values will be used to set options for
  *                           the new site. Default empty array.
- * @param int    $network_id Optional. Network ID. Only relevant on multi-network installs.
+ * @param int    $network_id Optional. Network ID. Only relevant on multi-network installations.
  * @return int|WP_Error Returns WP_Error object on failure, the new site ID on success.
  */
 function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $network_id = 1 ) {
@@ -1240,7 +1240,7 @@ function wpmu_create_blog( $domain, $path, $title, $user_id, $meta = array(), $n
 	 * @param int    $user_id    User ID.
 	 * @param string $domain     Site domain.
 	 * @param string $path       Site path.
-	 * @param int    $network_id Network ID. Only relevant on multi-network installs.
+	 * @param int    $network_id Network ID. Only relevant on multi-network installations.
 	 * @param array  $meta       Meta data. Used to set initial site options.
 	 */
 	do_action( 'wpmu_new_blog', $blog_id, $user_id, $domain, $path, $network_id, $meta );
@@ -1352,7 +1352,7 @@ Disable these notifications: %3$s'), $user->user_login, wp_unslash( $_SERVER['RE
  *
  * @param string $domain     The domain to be checked.
  * @param string $path       The path to be checked.
- * @param int    $network_id Optional. Network ID. Relevant only on multi-network installs.
+ * @param int    $network_id Optional. Network ID. Relevant only on multi-network installations.
  * @return int
  */
 function domain_exists( $domain, $path, $network_id = 1 ) {
@@ -1374,7 +1374,7 @@ function domain_exists( $domain, $path, $network_id = 1 ) {
 	 * @param int|null $result     The blog_id if the blogname exists, null otherwise.
 	 * @param string   $domain     Domain to be checked.
 	 * @param string   $path       Path to be checked.
-	 * @param int      $network_id Network ID. Relevant only on multi-network installs.
+	 * @param int      $network_id Network ID. Relevant only on multi-network installations.
 	 */
 	return apply_filters( 'domain_exists', $result, $domain, $path, $network_id );
 }
@@ -1391,7 +1391,7 @@ function domain_exists( $domain, $path, $network_id = 1 ) {
  *
  * @param string $domain     The domain of the new site.
  * @param string $path       The path of the new site.
- * @param int    $network_id Unless you're running a multi-network install, be sure to set this value to 1.
+ * @param int    $network_id Unless you're running a multi-network installation, be sure to set this value to 1.
  * @return int|false The ID of the new row
  */
 function insert_blog($domain, $path, $network_id) {
@@ -2570,7 +2570,7 @@ function wp_is_large_network( $using = 'sites', $network_id = null ) {
 }
 
 /**
- * Retrieves a list of reserved site on a sub-directory Multisite install.
+ * Retrieves a list of reserved site on a sub-directory Multisite installation.
  *
  * @since 4.4.0
  *
@@ -2583,7 +2583,7 @@ function get_subdirectory_reserved_names() {
 	);
 
 	/**
-	 * Filters reserved site names on a sub-directory Multisite install.
+	 * Filters reserved site names on a sub-directory Multisite installation.
 	 *
 	 * @since 3.0.0
 	 * @since 4.4.0 'wp-admin', 'wp-content', 'wp-includes', 'wp-json', and 'embed' were added

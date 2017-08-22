@@ -743,7 +743,7 @@ function wp_default_scripts( &$scripts ) {
 				'installing'                 => __( 'Installing...' ),
 				'pluginInstalled'            => _x( 'Installed!', 'plugin' ),
 				'themeInstalled'             => _x( 'Installed!', 'theme' ),
-				'installFailedShort'         => __( 'Install Failed!' ),
+				'installFailedShort'         => __( 'Installation Failed!' ),
 				/* translators: %s: Error string for a failed installation */
 				'installFailed'              => __( 'Installation failed: %s' ),
 				/* translators: %s: Plugin name and version */
