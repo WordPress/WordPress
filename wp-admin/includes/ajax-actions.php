@@ -1879,7 +1879,7 @@ function wp_ajax_widgets_order() {
 	// Save widgets order for all sidebars.
 	if ( is_array($_POST['sidebars']) ) {
 		$sidebars = array();
-		foreach ( $_POST['sidebars'] as $key => $val ) {
+		foreach ( wp_unslash( $_POST['sidebars'] ) as $key => $val ) {
 			$sb = array();
 			if ( !empty($val) ) {
 				$val = explode(',', $val);
@@ -1935,8 +1935,8 @@ function wp_ajax_save_widget() {
 	/** This action is documented in wp-admin/widgets.php */
 	do_action( 'sidebar_admin_setup' );
 
-	$id_base = $_POST['id_base'];
-	$widget_id = $_POST['widget-id'];
+	$id_base = wp_unslash( $_POST['id_base'] );
+	$widget_id = wp_unslash( $_POST['widget-id'] );
 	$sidebar_id = $_POST['sidebar'];
 	$multi_number = !empty($_POST['multi_number']) ? (int) $_POST['multi_number'] : 0;
 	$settings = isset($_POST['widget-' . $id_base]) && is_array($_POST['widget-' . $id_base]) ? $_POST['widget-' . $id_base] : false;
