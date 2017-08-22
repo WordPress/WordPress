@@ -429,8 +429,8 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param string $mime_type
-	 * @return bool
+	 * @param string $mime_type The mime type of the image.
+	 * @return bool True on success, false on failure.
 	 */
 	public function stream( $mime_type = null ) {
 		list( $filename, $extension, $mime_type ) = $this->get_output_format( null, $mime_type );

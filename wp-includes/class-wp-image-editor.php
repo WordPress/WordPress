@@ -164,8 +164,8 @@ abstract class WP_Image_Editor {
 	 * @since 3.5.0
 	 * @abstract
 	 *
-	 * @param string $mime_type
-	 * @return bool|WP_Error
+	 * @param string $mime_type The mime type of the image.
+	 * @return bool|WP_Error True on success, WP_Error object or false on failure.
 	 */
 	abstract public function stream( $mime_type = null );
 

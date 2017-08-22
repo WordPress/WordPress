@@ -231,14 +231,13 @@ function wp_image_editor($post_id, $msg = false) {
 
 /**
  * Streams image in WP_Image_Editor to browser.
- * Provided for backcompat reasons
  *
- * @param WP_Image_Editor $image
- * @param string $mime_type
- * @param int $post_id
- * @return bool
+ * @param WP_Image_Editor $image         The image editor instance.
+ * @param string          $mime_type     The mime type of the image.
+ * @param int             $attachment_id The image's attachment post ID.
+ * @return bool True on success, false on failure.
  */
-function wp_stream_image( $image, $mime_type, $post_id ) {
+function wp_stream_image( $image, $mime_type, $attachment_id ) {
 	if ( $image instanceof WP_Image_Editor ) {
 
 		/**
@@ -246,10 +245,10 @@ function wp_stream_image( $image, $mime_type, $post_id ) {
 		 *
 		 * @since 3.5.0
 		 *
-		 * @param WP_Image_Editor $image   WP_Image_Editor instance.
-		 * @param int             $post_id Post ID.
+		 * @param WP_Image_Editor $image         The image editor instance.
+		 * @param int             $attachment_id The attachment post ID.
 		 */
-		$image = apply_filters( 'image_editor_save_pre', $image, $post_id );
+		$image = apply_filters( 'image_editor_save_pre', $image, $attachment_id );
 
 		if ( is_wp_error( $image->stream( $mime_type ) ) )
 			return false;
@@ -264,10 +263,10 @@ function wp_stream_image( $image, $mime_type, $post_id ) {
 		 * @since 2.9.0
 		 * @deprecated 3.5.0 Use image_editor_save_pre instead.
 		 *
-		 * @param resource $image   Image resource to be streamed.
-		 * @param int      $post_id Post ID.
+		 * @param resource $image         Image resource to be streamed.
+		 * @param int      $attachment_id The attachment post ID.
 		 */
-		$image = apply_filters( 'image_save_pre', $image, $post_id );
+		$image = apply_filters( 'image_save_pre', $image, $attachment_id );
 
 		switch ( $mime_type ) {
 			case 'image/jpeg':

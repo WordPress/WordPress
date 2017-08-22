@@ -652,8 +652,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param string $mime_type
-	 * @return true|WP_Error
+	 * @param string $mime_type The mime type of the image.
+	 * @return bool|WP_Error True on success, WP_Error object on failure.
 	 */
 	public function stream( $mime_type = null ) {
 		list( $filename, $extension, $mime_type ) = $this->get_output_format( null, $mime_type );
