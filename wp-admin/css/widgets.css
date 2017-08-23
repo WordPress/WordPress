@@ -92,6 +92,7 @@
 }
 
 .media-widget-control .media-widget-preview {
+	background: #f1f1f1;
 	text-align: center;
 }
 .media-widget-control .media-widget-preview .notice {
@@ -106,6 +107,7 @@
 }
 .media-widget-control .media-widget-preview img {
 	max-width: 100%;
+	vertical-align: middle;
 }
 .media-widget-control .media-widget-preview .wp-video-shortcode {
 	background: #000;
