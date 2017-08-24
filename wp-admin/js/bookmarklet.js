@@ -1,3 +1,15 @@
+/**
+ * @summary Creates a form with a URL, title, and content based on the current opened URL and the content of the associated web page.
+ *
+ * @since 4.2.0
+ *
+ * @param {window} window The window.
+ * @param {document} document The document.
+ * @param {string} href The current opened URL.
+ * @param {string} pt_url The URL to post the content to.
+ *
+ * @returns {void}
+ */
 ( function( window, document, href, pt_url ) {
 	var encURI = window.encodeURIComponent,
 		form = document.createElement( 'form' ),
@@ -13,6 +25,7 @@
 
 	if ( href.match( /^https?:/ ) ) {
 		pt_url += '&u=' + encURI( href );
+		// Check whether the unencoded url and the encoded url use the same protocol.
 		if ( href.match( /^https:/ ) && pt_url.match( /^http:/ ) ) {
 			canPost = false;
 		}
@@ -52,6 +65,16 @@
 		return;
 	}
 
+	/**
+	 * @summary Creates a hidden input field and sets its name and value.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param name The input field name.
+	 * @param value The input field value.
+	 *
+	 * @returns {void}
+	 */
 	function add( name, value ) {
 		if ( typeof value === 'undefined' ) {
 			return;
