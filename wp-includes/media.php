@@ -1335,12 +1335,10 @@ function wp_make_content_images_responsive( $content ) {
 
 	if ( count( $attachment_ids ) > 1 ) {
 		/*
-		 * Warm object cache for use with 'get_post_meta()'.
-		 *
-		 * To avoid making a database call for each image, a single query
-		 * warms the object cache with the meta information for all images.
+		 * Warm the object cache with post and meta information for all found
+		 * images to avoid making individual database calls.
 		 */
-		update_meta_cache( 'post', array_keys( $attachment_ids ) );
+		_prime_post_caches( array_keys( $attachment_ids ), false, true );
 	}
 
 	foreach ( $selected_images as $image => $attachment_id ) {
