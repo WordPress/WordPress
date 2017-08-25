@@ -2000,6 +2000,8 @@ function sanitize_title_with_dashes( $title, $raw_title = '', $context = 'displa
 		$title = str_replace( array( '%c2%a0', '%e2%80%93', '%e2%80%94' ), '-', $title );
 		// Convert nbsp, ndash and mdash HTML entities to hyphens
 		$title = str_replace( array( '&nbsp;', '&#160;', '&ndash;', '&#8211;', '&mdash;', '&#8212;' ), '-', $title );
+		// Convert forward slash to hyphen
+		$title = str_replace( '/', '-', $title );
 
 		// Strip these characters entirely
 		$title = str_replace( array(
