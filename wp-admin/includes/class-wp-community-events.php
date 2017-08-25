@@ -98,7 +98,6 @@ class WP_Community_Events {
 		$response_code  = wp_remote_retrieve_response_code( $response );
 		$response_body  = json_decode( wp_remote_retrieve_body( $response ), true );
 		$response_error = null;
-		$debugging_info = compact( 'api_url', 'request_args', 'response_code', 'response_body' );
 
 		if ( is_wp_error( $response ) ) {
 			$response_error = $response;
@@ -116,8 +115,6 @@ class WP_Community_Events {
 		}
 
 		if ( is_wp_error( $response_error ) ) {
-			$this->maybe_log_events_response( $response_error->get_error_message(), $debugging_info );
-
 			return $response_error;
 		} else {
 			$expiration = false;
@@ -156,11 +153,6 @@ class WP_Community_Events {
 
 			$response_body = $this->trim_events( $response_body );
 			$response_body = $this->format_event_data_time( $response_body );
-
-			// Avoid bloating the log with all the event data, but keep the count.
-			$debugging_info['response_body']['events'] = count( $debugging_info['response_body']['events'] ) . ' events trimmed.';
-
-			$this->maybe_log_events_response( 'Valid response received', $debugging_info );
 
 			return $response_body;
 		}
@@ -418,22 +410,16 @@ class WP_Community_Events {
 	/**
 	 * Logs responses to Events API requests.
 	 *
-	 * All responses are logged when debugging, even if they're not WP_Errors.
-	 * Debugging info is still needed for "successful" responses, because
-	 * the API might have returned a different location than the one the user
-	 * intended to receive. In those cases, knowing the exact `request_url` is
-	 * critical.
-	 *
-	 * Errors are logged instead of being triggered, to avoid breaking the JSON
-	 * response when called from AJAX handlers and `display_errors` is enabled.
-	 *
 	 * @since 4.8.0
+	 * @deprecated 4.9.0 Use a plugin instead. See #41217 for an example.
 	 *
 	 * @param string $message A description of what occurred.
 	 * @param array  $details Details that provide more context for the
 	 *                        log entry.
 	 */
 	protected function maybe_log_events_response( $message, $details ) {
+		_deprecated_function( __METHOD__, '4.9.0' );
+
 		if ( ! WP_DEBUG_LOG ) {
 			return;
 		}
