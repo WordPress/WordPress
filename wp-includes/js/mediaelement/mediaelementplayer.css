@@ -517,6 +517,7 @@ Reference: http://blog.rrwd.nl/2015/04/04/the-screen-reader-text-class-why-and-h
 }
 
 .mejs__volume-button > .mejs__volume-slider {
+    -webkit-backface-visibility: hidden;
     background: rgba(50, 50, 50, 0.7);
     border-radius: 0;
     bottom: 100%;
