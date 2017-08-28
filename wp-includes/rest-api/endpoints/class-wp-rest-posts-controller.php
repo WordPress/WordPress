@@ -1600,7 +1600,7 @@ class WP_REST_Posts_Controller extends WP_REST_Controller {
 
 		if ( in_array( $post->post_type, array( 'post', 'page' ), true ) || post_type_supports( $post->post_type, 'comments' ) ) {
 			$replies_url = rest_url( 'wp/v2/comments' );
-			$replies_url = add_query_arg( 'post', $post->ID, $replies_url );
+			$replies_url = add_query_arg( $post->post_type', $post->ID, $replies_url );
 
 			$links['replies'] = array(
 				'href'       => $replies_url,
