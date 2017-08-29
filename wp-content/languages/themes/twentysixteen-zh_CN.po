@@ -1,0 +1,329 @@
+# Translation of Themes - Twenty Sixteen in Chinese (China)
+# This file is distributed under the same license as the Themes - Twenty Sixteen package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2015-12-12 22:56:24+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: GlotPress/2.4.0-alpha\n"
+"Language: zh_CN\n"
+"Project-Id-Version: Themes - Twenty Sixteen\n"
+
+#. Theme Name of the plugin/theme
+msgid "Twenty Sixteen"
+msgstr "Twenty Sixteen"
+
+#. Description of the plugin/theme
+msgid "Twenty Sixteen is a modernized take on an ever-popular WordPress layout — the horizontal masthead with an optional right sidebar that works perfectly for blogs and websites. It has custom color options with beautiful default color schemes, a harmonious fluid grid using a mobile-first approach, and impeccable polish in every detail. Twenty Sixteen will make your WordPress look beautiful everywhere."
+msgstr "Twenty Sixteen是一个流行的WordPress布局的现代化实现——横式页首以及一个可选用的右侧边栏，完全适用于博客及网站。它有美丽的预设色彩调色盘、和谐的流动式网格设计、以移动设备为优先的设计，每个细节都极尽完美。Twenty Sixteen将使您的WordPress大放异彩。"
+
+#. translators: %s: Name of current post
+#: inc/template-tags.php:184 template-parts/content.php:28
+msgid "Continue reading<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr "继续阅读<span class=\"screen-reader-text\">“%s”</span>"
+
+#. translators: %s: Name of current post
+#: image.php:84 template-parts/content-page.php:37
+#: template-parts/content-search.php:28 template-parts/content-search.php:43
+#: template-parts/content-single.php:45 template-parts/content.php:49
+msgid "Edit<span class=\"screen-reader-text\"> \"%s\"</span>"
+msgstr "编辑<span class=\"screen-reader-text\">“%s”</span>"
+
+#: inc/customizer.php:283
+msgid "Red"
+msgstr "红"
+
+#. translators: %s: post title
+#: comments.php:31
+msgctxt "comments title"
+msgid "One thought on &ldquo;%s&rdquo;"
+msgstr "《%s》有一个想法"
+
+#: searchform.php:16
+msgctxt "submit button"
+msgid "Search"
+msgstr "搜索"
+
+#: searchform.php:14
+msgctxt "placeholder"
+msgid "Search &hellip;"
+msgstr "搜索…"
+
+#: searchform.php:13
+msgctxt "label"
+msgid "Search for:"
+msgstr "搜索："
+
+#: footer.php:28
+msgid "Footer Social Links Menu"
+msgstr "页脚社交链接菜单"
+
+#: footer.php:17
+msgid "Footer Primary Menu"
+msgstr "页脚主菜单"
+
+#: functions.php:158
+msgid "Add widgets here to appear in your sidebar."
+msgstr "将挂件加入此处来在侧边栏中显示。"
+
+#: template-parts/content.php:14
+msgid "Featured"
+msgstr "特色"
+
+#: template-parts/content-none.php:28
+msgid "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps searching can help."
+msgstr "我们可能无法找到您需要的内容。或许搜索功能可以帮到您。"
+
+#: template-parts/content-none.php:23
+msgid "Sorry, but nothing matched your search terms. Please try again with some different keywords."
+msgstr "抱歉，没有符合您搜索条件的结果。请换其它关键词再试。"
+
+#: template-parts/content-none.php:19
+msgid "Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr "准备好发布第一篇文章了？<a href=\"%1$s\">从这里开始</a>。"
+
+#: template-parts/content-none.php:13
+msgid "Nothing Found"
+msgstr "未找到"
+
+#: template-parts/biography.php:33
+msgid "View all posts by %s"
+msgstr "查看%s的所有文章"
+
+#: template-parts/biography.php:28
+msgid "Author:"
+msgstr "作者："
+
+#: single.php:38
+msgid "Previous post:"
+msgstr "上篇文章："
+
+#: single.php:37
+msgid "Previous"
+msgstr "上一"
+
+#: single.php:35
+msgid "Next post:"
+msgstr "下篇文章："
+
+#: single.php:34
+msgid "Next"
+msgstr "下一"
+
+#: search.php:18
+msgid "Search Results for: %s"
+msgstr "%s的搜索结果"
+
+#: inc/template-tags.php:106
+msgctxt "Used before tag names."
+msgid "Tags"
+msgstr "标签"
+
+#: inc/template-tags.php:98
+msgctxt "Used before category names."
+msgid "Categories"
+msgstr "分类"
+
+#: inc/template-tags.php:95 inc/template-tags.php:103
+msgctxt "Used between list items, there is a space after the comma."
+msgid ", "
+msgstr "、"
+
+#: inc/template-tags.php:79
+msgctxt "Used before publish date."
+msgid "Posted on"
+msgstr "发布于"
+
+#: inc/template-tags.php:38
+msgctxt "Used before post format."
+msgid "Format"
+msgstr "格式"
+
+#: inc/template-tags.php:50
+msgid "Leave a comment<span class=\"screen-reader-text\"> on %s</span>"
+msgstr "<span class=\"screen-reader-text\">于%s</span>留下评论"
+
+#: inc/template-tags.php:25
+msgctxt "Used before post author name."
+msgid "Author"
+msgstr "作者"
+
+#: inc/customizer.php:293
+msgid "Yellow"
+msgstr "黄色"
+
+#: inc/customizer.php:273
+msgid "Gray"
+msgstr "灰"
+
+#: inc/customizer.php:263
+msgid "Dark"
+msgstr "暗色"
+
+#: inc/customizer.php:172
+msgid "Main Text Color"
+msgstr "主文字颜色"
+
+#: inc/customizer.php:253
+msgid "Default"
+msgstr "默认"
+
+#: inc/customizer.php:184
+msgid "Secondary Text Color"
+msgstr "副文字颜色"
+
+#: inc/customizer.php:160
+msgid "Link Color"
+msgstr "链接颜色"
+
+#: inc/customizer.php:145
+msgid "Page Background Color"
+msgstr "页面背景颜色"
+
+#: image.php:102 single.php:29
+msgctxt "Parent post link"
+msgid "<span class=\"meta-nav\">Published in</span><span class=\"post-title\">%title</span>"
+msgstr "<span class=\"meta-nav\">发布于</span><span class=\"post-title\">%title</span>"
+
+#: inc/back-compat.php:41 inc/back-compat.php:53 inc/back-compat.php:68
+msgid "Twenty Sixteen requires at least WordPress version 4.4. You are running version %s. Please upgrade and try again."
+msgstr "Twenty Sixteen要求WordPress 4.4版或以上，您在运行%s版。请升级并重试。"
+
+#: inc/customizer.php:130
+msgid "Base Color Scheme"
+msgstr "基础配色方案"
+
+#: image.php:73
+msgctxt "Used before full size attachment link."
+msgid "Full size"
+msgstr "原始尺寸"
+
+#: image.php:56 template-parts/content-page.php:23
+#: template-parts/content-single.php:25 template-parts/content.php:33
+msgid "Pages:"
+msgstr "页码："
+
+#: image.php:25
+msgid "Next Image"
+msgstr "下一图片"
+
+#: image.php:24
+msgid "Previous Image"
+msgstr "上一图片"
+
+#: header.php:47
+msgid "Menu"
+msgstr "菜单"
+
+#: header.php:27
+msgid "Skip to content"
+msgstr "跳至内容"
+
+#: functions.php:284
+msgid "expand child menu"
+msgstr "展开子菜单"
+
+#: functions.php:285
+msgid "collapse child menu"
+msgstr "折叠子菜单"
+
+#. translators: If there are characters in your language that are not supported
+#. by Inconsolata, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:213
+msgctxt "Inconsolata font: on or off"
+msgid "on"
+msgstr "off"
+
+#: functions.php:166
+msgid "Content Bottom 1"
+msgstr "底部内容1"
+
+#: functions.php:168 functions.php:178
+msgid "Appears at the bottom of the content on posts and pages."
+msgstr "在页面与文章内容的底部出现。"
+
+#: functions.php:176
+msgid "Content Bottom 2"
+msgstr "底部内容2"
+
+#. translators: If there are characters in your language that are not supported
+#. by Merriweather, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:203
+msgctxt "Merriweather font: on or off"
+msgid "on"
+msgstr "off"
+
+#. translators: If there are characters in your language that are not supported
+#. by Montserrat, translate this to 'off'. Do not translate into your own
+#. language.
+#: functions.php:208
+msgctxt "Montserrat font: on or off"
+msgid "on"
+msgstr "off"
+
+#: functions.php:156
+msgid "Sidebar"
+msgstr "侧边栏"
+
+#: functions.php:89 header.php:62
+msgid "Social Links Menu"
+msgstr "社交网络链接菜单"
+
+#: functions.php:88 header.php:51
+msgid "Primary Menu"
+msgstr "主菜单"
+
+#: footer.php:51
+msgid "Proudly powered by %s"
+msgstr "自豪地采用%s"
+
+#: comments.php:69
+msgid "Comments are closed."
+msgstr "评论已关闭。"
+
+#. translators: 1: number of comments, 2: post title
+#: comments.php:35
+msgctxt "comments title"
+msgid "%1$s thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] "《%2$s》有%1$s个想法"
+
+#: archive.php:51 image.php:60 index.php:48 search.php:39
+#: template-parts/content-page.php:27 template-parts/content-single.php:29
+#: template-parts/content.php:37
+msgid "Page"
+msgstr "页"
+
+#: archive.php:50 index.php:47 search.php:38
+msgid "Next page"
+msgstr "下一页"
+
+#: archive.php:49 index.php:46 search.php:37
+msgid "Previous page"
+msgstr "上一页"
+
+#: 404.php:21
+msgid "It looks like nothing was found at this location. Maybe try a search?"
+msgstr "这儿似乎什么都没有，试试搜索？"
+
+#: 404.php:17
+msgid "Oops! That page can&rsquo;t be found."
+msgstr "有点尴尬诶！该页无法显示。"
+
+#. Theme URI of the plugin/theme
+msgid "https://wordpress.org/themes/twentysixteen/"
+msgstr "https://wordpress.org/themes/twentysixteen/"
+
+#. Author of the plugin/theme
+msgid "the WordPress team"
+msgstr "WordPress团队"
+
+#. #-#-#-#-#  twentysixteen.pot (Twenty Sixteen 1.3)  #-#-#-#-#
+#. Author URI of the plugin/theme
+#: footer.php:51
+msgid "https://wordpress.org/"
+msgstr "https://cn.wordpress.org/"
