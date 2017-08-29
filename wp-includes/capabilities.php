@@ -565,13 +565,13 @@ function current_user_can( $capability ) {
 }
 
 /**
- * Whether current user has a capability or role for a given site.
+ * Whether the current user has a specific capability for a given site.
  *
  * @since 3.0.0
  *
  * @param int    $blog_id    Site ID.
- * @param string $capability Capability or role name.
- * @return bool
+ * @param string $capability Capability name.
+ * @return bool Whether the user has the given capability.
  */
 function current_user_can_for_blog( $blog_id, $capability ) {
 	$switched = is_multisite() ? switch_to_blog( $blog_id ) : false;
@@ -598,13 +598,13 @@ function current_user_can_for_blog( $blog_id, $capability ) {
 }
 
 /**
- * Whether author of supplied post has capability or role.
+ * Whether the author of the supplied post has a specific capability.
  *
  * @since 2.9.0
  *
- * @param int|object $post Post ID or post object.
- * @param string $capability Capability or role name.
- * @return bool
+ * @param int|WP_Post $post       Post ID or post object.
+ * @param string      $capability Capability name.
+ * @return bool Whether the post author has the given capability.
  */
 function author_can( $post, $capability ) {
 	if ( !$post = get_post($post) )
@@ -622,13 +622,13 @@ function author_can( $post, $capability ) {
 }
 
 /**
- * Whether a particular user has capability or role.
+ * Whether a particular user has a specific capability.
  *
  * @since 3.1.0
  *
- * @param int|object $user User ID or object.
- * @param string $capability Capability or role name.
- * @return bool
+ * @param int|WP_User $user       User ID or object.
+ * @param string      $capability Capability name.
+ * @return bool Whether the user has the given capability.
  */
 function user_can( $user, $capability ) {
 	if ( ! is_object( $user ) )
