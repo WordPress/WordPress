@@ -1,0 +1,190 @@
+/*
+Theme Name: noteblog
+Please browse readme.txt for credits and forking information
+
+Adding support for language written in a Right To Left (RTL) direction is easy -
+it's just a matter of overwriting all the horizontal positioning attributes
+of your CSS stylesheet in a separate stylesheet file named rtl.css.
+
+http://codex.wordpress.org/Right_to_Left_Language_Support
+
+*/
+
+body {
+    direction: rtl;
+    unicode-bidi: embed;
+}
+
+
+/**
+ * 1.0 Reset
+  * -----------------------------------------------------------------------------
+ */
+
+blockquote {
+    border-right: 5px solid #455A64;
+    border-left: none;
+    margin-right: 0.5em;
+}
+
+th, td {
+  text-align: right;
+}
+
+
+/**
+ * 2.0 Repeatable Patterns
+ * ----------------------------------------------------------------------------
+ */
+
+
+/* Text meant only for screen readers. */
+.screen-reader-text {
+    clip: rect(1px, 1px, 1px, 1px);
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+}
+
+.screen-reader-text:hover,
+.screen-reader-text:active,
+.screen-reader-text:focus {
+    right: 5px;
+    padding: 15px 23px 14px;
+}
+
+
+.alignnone {
+    margin: 5px 0px 20px 20px;
+}
+
+.aligncenter,
+div.aligncenter {
+    margin: 5px auto 5px auto;
+}
+
+.alignright {
+    float:left;
+    margin: 5px 20px 20px 0px;
+}
+
+.alignleft {
+    float: right;
+    margin: 5px 0px 20px 20px;
+}
+
+a img.alignright {
+    float: left;
+    margin: 5px 20px 20px 0px;
+}
+
+a img.alignnone {
+    margin: 5px 0px 20px 20px;
+}
+
+a img.alignleft {
+    float: right;
+    margin: 5px 0px 20px 20px;
+}
+
+
+.wp-caption {
+    background: #fff;
+    max-width: 96%; /* Image does not overflow the content area */
+    padding: 5px 3px 10px;
+    text-align: center;
+}
+
+.wp-caption.aligncenter,
+.wp-caption.alignnone{
+        margin: 5px auto 20px;
+}
+
+.wp-caption.alignleft{
+    margin: 5px 0px 20px 20px;
+}
+.wp-caption.alignright{
+    margin: 5px 20px 20px 0px;
+}
+
+/**
+ * 3.0 Header
+ * ----------------------------------------------------------------------------
+ */
+
+/**
+ * 3.1 Site Navigation Bar
+ * ----------------------------------------------------------------------------
+ */
+ 
+.navbar-nav{
+    float: left;
+}
+
+
+/**
+ * 4.0 Main Content
+ * ----------------------------------------------------------------------------
+ */
+
+ /* 4.1 Post-Content
+ * ----------------------------------------------------------------------------
+ */
+
+.sticky-post{
+    right: 15;
+    padding: 5px 15px;
+}
+
+
+/*
+* 4.4 Gallery
+* -----------------------------------------
+*/
+.widget th, td {
+  text-align: right;
+}
+
+
+
+/*
+* 7.0 Media Queries
+* --------------------------------------------------------------------
+*/
+
+@media (max-width: 900px){
+    blockquote{
+        margin-right: 0.3em;
+    }
+   
+    .comment-list ol{
+        padding-right: 10px;
+    }
+
+    th, td {
+      text-align: right;
+    }
+
+  }
+
+
+
+/**
+ * 8.0 Print
+ * ----------------------------------------------------------------------------
+ */
+
+
+@media print {   
+    .entry-content img.alignleft,
+    .entry-content .wp-caption.alignleft {
+        margin-right: 0;
+    }
+    .entry-content img.alignright,
+    .entry-content .wp-caption.alignright {
+        margin-left: 0;
+    }
+}
+
+
