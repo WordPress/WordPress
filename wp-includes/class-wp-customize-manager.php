@@ -816,7 +816,7 @@ final class WP_Customize_Manager {
 		if ( ! empty( $changeset_post_query->posts ) ) {
 			// Note: 'fields'=>'ids' is not being used in order to cache the post object as it will be needed.
 			$changeset_post_id = $changeset_post_query->posts[0]->ID;
-			wp_cache_set( $this->_changeset_uuid, $changeset_post_id, $cache_group );
+			wp_cache_set( $uuid, $changeset_post_id, $cache_group );
 			return $changeset_post_id;
 		}
 
