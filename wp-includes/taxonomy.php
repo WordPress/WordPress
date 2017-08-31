@@ -726,7 +726,6 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
  * @since 4.4.0 Converted to return a WP_Term object if `$output` is `OBJECT`.
  *              The `$taxonomy` parameter was made optional.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
  * @see sanitize_term_field() The $context param lists the available values for get_term_by() $filter param.
  *
  * @param int|WP_Term|object $term If integer, term data will be fetched from the database, or from the cache if
@@ -836,7 +835,6 @@ function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
  * @since 4.4.0 `$taxonomy` is optional if `$field` is 'term_taxonomy_id'. Converted to return
  *              a WP_Term object if `$output` is `OBJECT`.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
  * @see sanitize_term_field() The $context param lists the available values for get_term_by() $filter param.
  *
  * @param string     $field    Either 'slug', 'name', 'id' (term_id), or 'term_taxonomy_id'
@@ -1046,9 +1044,6 @@ function get_term_to_edit( $id, $taxonomy ) {
  *
  * @internal The `$deprecated` parameter is parsed for backward compatibility only.
  *
- * @global wpdb  $wpdb WordPress database abstraction object.
- * @global array $wp_filter
- *
  * @param string|array $args       Optional. Array or string of arguments. See WP_Term_Query::__construct()
  *                                 for information on accepted arguments. Default empty.
  * @param array        $deprecated Argument array, when using the legacy function parameter format. If present, this
@@ -1058,8 +1053,6 @@ function get_term_to_edit( $id, $taxonomy ) {
  *                            do not exist.
  */
 function get_terms( $args = array(), $deprecated = '' ) {
-	global $wpdb;
-
 	$term_query = new WP_Term_Query();
 
 	$defaults = array(
@@ -1854,8 +1847,6 @@ function wp_delete_category( $cat_ID ) {
  *              'all_with_object_id', an array of `WP_Term` objects will be returned.
  * @since 4.7.0 Refactored to use WP_Term_Query, and to support any WP_Term_Query arguments.
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
  * @param int|array    $object_ids The ID(s) of the object(s) to retrieve.
  * @param string|array $taxonomies The taxonomies to retrieve terms from.
  * @param array|string $args       See WP_Term_Query::__construct() for supported arguments.
@@ -1863,8 +1854,6 @@ function wp_delete_category( $cat_ID ) {
  *                        WP_Error if any of the $taxonomies don't exist.
  */
 function wp_get_object_terms($object_ids, $taxonomies, $args = array()) {
-	global $wpdb;
-
 	if ( empty( $object_ids ) || empty( $taxonomies ) )
 		return array();
 
@@ -3886,7 +3875,7 @@ function wp_get_split_term( $old_term_id, $taxonomy ) {
  *
  * @param int $term_id Term ID.
  * @return bool Returns false if a term is not shared between multiple taxonomies or
- *              if splittng shared taxonomy terms is finished. 
+ *              if splittng shared taxonomy terms is finished.
  */
 function wp_term_is_shared( $term_id ) {
 	global $wpdb;
