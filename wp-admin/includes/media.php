@@ -1868,15 +1868,16 @@ $post_params = array(
  */
 $post_params = apply_filters( 'upload_post_params', $post_params );
 
+/*
+ * Since 4.9 the `runtimes` setting is hardcoded in our version of Plupload to `html5,html4`,
+ * and the `flash_swf_url` and `silverlight_xap_url` are not used.
+ */
 $plupload_init = array(
-	'runtimes'            => 'html5,flash,silverlight,html4',
 	'browse_button'       => 'plupload-browse-button',
 	'container'           => 'plupload-upload-ui',
 	'drop_element'        => 'drag-drop-area',
 	'file_data_name'      => 'async-upload',
 	'url'                 => $upload_action_url,
-	'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
-	'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
 	'filters' => array(
 		'max_file_size'   => $max_upload_size . 'b',
 	),

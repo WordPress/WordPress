@@ -3002,12 +3002,13 @@ function wp_plupload_default_settings() {
 		$extensions = array_merge( $extensions, explode( '|', $extension ) );
 	}
 
+	/*
+	 * Since 4.9 the `runtimes` setting is hardcoded in our version of Plupload to `html5,html4`,
+	 * and the `flash_swf_url` and `silverlight_xap_url` are not used.
+	 */
 	$defaults = array(
-		'runtimes'            => 'html5,flash,silverlight,html4',
 		'file_data_name'      => 'async-upload', // key passed to $_FILE.
 		'url'                 => admin_url( 'async-upload.php', 'relative' ),
-		'flash_swf_url'       => includes_url( 'js/plupload/plupload.flash.swf' ),
-		'silverlight_xap_url' => includes_url( 'js/plupload/plupload.silverlight.xap' ),
 		'filters' => array(
 			'max_file_size'   => $max_upload_size . 'b',
 			'mime_types'      => array( array( 'extensions' => implode( ',', $extensions ) ) ),

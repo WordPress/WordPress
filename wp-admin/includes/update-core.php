@@ -712,6 +712,9 @@ $_old_files = array(
 'wp-includes/js/tinymce/skins/lightgray/fonts/tinymce-small.json',
 'wp-includes/js/tinymce/skins/lightgray/fonts/tinymce.json',
 'wp-includes/js/tinymce/skins/lightgray/skin.ie7.min.css',
+// 4.9
+'wp-includes/js/plupload/plupload.flash.swf',
+'wp-includes/js/plupload/plupload.silverlight.xap',
 );
 
 /**
