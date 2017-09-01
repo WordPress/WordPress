@@ -1036,6 +1036,11 @@ function wp_convert_widget_settings($base_name, $option_name, $settings) {
 function the_widget( $widget, $instance = array(), $args = array() ) {
 	global $wp_widget_factory;
 
+	if ( ! isset( $wp_widget_factory->widgets[ $widget ] ) ) {
+		_doing_it_wrong( __FUNCTION__, __( 'Widgets need to be registered before they can be displayed.' ), '4.9.0' );
+		return;
+	}
+
 	$widget_obj = $wp_widget_factory->widgets[$widget];
 	if ( ! ( $widget_obj instanceof WP_Widget ) ) {
 		return;
