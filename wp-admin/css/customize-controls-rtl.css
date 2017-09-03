@@ -858,15 +858,6 @@ p.customize-section-description {
 	max-width: 112px;
 }
 
-/* Color Picker */
-.customize-control-color .color-picker-hex {
-	display: none;
-}
-
-.customize-control-color.open .color-picker-hex {
-	display: block;
-}
-
 .customize-control-color .dropdown {
 	margin-left: 5px;
 	margin-bottom: 5px;

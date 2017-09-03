@@ -3578,17 +3578,6 @@ img {
 		white-space: nowrap;
 	}
 
-	.wp-color-result {
-		height: auto;
-		padding-left: 45px;
-	}
-
-	.wp-color-result:after {
-		font-size: 14px;
-		height: auto;
-		padding: 6px 14px;
-	}
-
 	/* Feedback Messages */
 	.notice,
 	.wrap div.updated,

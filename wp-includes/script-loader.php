@@ -796,10 +796,12 @@ function wp_default_scripts( &$scripts ) {
 		$scripts->add( 'iris', '/wp-admin/js/iris.min.js', array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), '1.0.7', 1 );
 		$scripts->add( 'wp-color-picker', "/wp-admin/js/color-picker$suffix.js", array( 'iris' ), false, 1 );
 		did_action( 'init' ) && $scripts->localize( 'wp-color-picker', 'wpColorPickerL10n', array(
-			'clear' => __( 'Clear' ),
-			'defaultString' => __( 'Default' ),
-			'pick' => __( 'Select Color' ),
-			'current' => __( 'Current Color' ),
+			'clear'            => __( 'Clear' ),
+			'clearAriaLabel'   => __( 'Clear color' ),
+			'defaultString'    => __( 'Default' ),
+			'defaultAriaLabel' => __( 'Select default color' ),
+			'pick'             => __( 'Select Color' ),
+			'defaultLabel'     => __( 'Color value' ),
 		) );
 
 		$scripts->add( 'dashboard', "/wp-admin/js/dashboard$suffix.js", array( 'jquery', 'admin-comments', 'postbox', 'wp-util', 'wp-a11y' ), false, 1 );

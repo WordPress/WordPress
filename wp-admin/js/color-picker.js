@@ -1,11 +1,13 @@
 /* global wpColorPickerL10n */
-( function( $, undef ){
+( function( $, undef ) {
 
 	var ColorPicker,
-		_before = '<a tabindex="0" class="wp-color-result" />',
+		_before = '<button type="button" class="button wp-color-result" aria-expanded="false"><span class="wp-color-result-text"></span></button>',
 		_after = '<div class="wp-picker-holder" />',
 		_wrap = '<div class="wp-picker-container" />',
-		_button = '<input type="button" class="button button-small hidden" />';
+		_button = '<input type="button" class="button button-small" />',
+		_wrappingLabel = '<label></label>',
+		_wrappingLabelText = '<span class="screen-reader-text"></span>';
 
 	/**
 	 * @summary Creates a jQuery UI color picker.
@@ -101,20 +103,67 @@
 
 			self.initialValue = el.val();
 
-			// Set up HTML structure and hide the color picker.
-			el.addClass( 'wp-color-picker' ).hide().wrap( _wrap );
-			self.wrap = el.parent();
-			self.toggler = $( _before ).insertBefore( el ).css( { backgroundColor: self.initialValue } ).attr( 'title', wpColorPickerL10n.pick ).attr( 'data-current', wpColorPickerL10n.current );
-			self.pickerContainer = $( _after ).insertAfter( el );
-			self.button = $( _button );
+			// Add a CSS class to the input field.
+			el.addClass( 'wp-color-picker' );
 
-			if ( self.options.defaultColor ) {
-				self.button.addClass( 'wp-picker-default' ).val( wpColorPickerL10n.defaultString );
-			} else {
-				self.button.addClass( 'wp-picker-clear' ).val( wpColorPickerL10n.clear );
+			/*
+			 * Check if there's already a wrapping label, e.g. in the Customizer.
+			 * If there's no label, add a default one to match the Customizer template.
+			 */
+			if ( ! el.parent( 'label' ).length ) {
+				// Wrap the input field in the default label.
+				el.wrap( _wrappingLabel );
+				// Insert the default label text.
+				self.wrappingLabelText = $( _wrappingLabelText )
+					.insertBefore( el )
+					.text( wpColorPickerL10n.defaultLabel );
 			}
 
-			el.wrap( '<span class="wp-picker-input-wrap" />' ).after( self.button );
+			/*
+			 * At this point, either it's the standalone version or the Customizer
+			 * one, we have a wrapping label to use as hook in the DOM, let's store it.
+			 */
+			self.wrappingLabel = el.parent();
+
+			// Wrap the label in the main wrapper.
+			self.wrappingLabel.wrap( _wrap );
+			// Store a reference to the main wrapper.
+			self.wrap = self.wrappingLabel.parent();
+			// Set up the toggle button and insert it before the wrapping label.
+			self.toggler = $( _before )
+				.insertBefore( self.wrappingLabel )
+				.css( { backgroundColor: self.initialValue } );
+			// Set the toggle button span element text.
+			self.toggler.find( '.wp-color-result-text' ).text( wpColorPickerL10n.pick );
+			// Set up the Iris container and insert it after the wrapping label.
+			self.pickerContainer = $( _after ).insertAfter( self.wrappingLabel );
+			// Store a reference to the Clear/Default button.
+			self.button = $( _button );
+
+			// Set up the Clear/Default button.
+			if ( self.options.defaultColor ) {
+				self.button
+					.addClass( 'wp-picker-default' )
+					.val( wpColorPickerL10n.defaultString )
+					.attr( 'aria-label', wpColorPickerL10n.defaultAriaLabel );
+			} else {
+				self.button
+					.addClass( 'wp-picker-clear' )
+					.val( wpColorPickerL10n.clear )
+					.attr( 'aria-label', wpColorPickerL10n.clearAriaLabel );
+			}
+
+			// Wrap the wrapping label in its wrapper and append the Clear/Default button.
+			self.wrappingLabel
+				.wrap( '<span class="wp-picker-input-wrap hidden" />' )
+				.after( self.button );
+
+			/*
+			 * The input wrapper now contains the label+input+Clear/Default button.
+			 * Store a reference to the input wrapper: we'll use this to toggle
+			 * the controls visibility.
+			 */
+			self.inputWrapper = el.closest( '.wp-picker-input-wrap' );
 
 			el.iris( {
 				target: self.pickerContainer,
@@ -216,25 +265,6 @@
 			});
 
 			/**
-			 * @summary Enables the user to open the color picker with their keyboard.
-			 *
-			 * Enables the user to open the color picker with their keyboard.
-			 * This is possible by using the space or enter key.
-			 *
-			 * @since 3.5.0
-			 *
-			 * @param {Event} event The event that's being called.
-			 *
-			 * @returns {void}
-			 */
-			self.toggler.on( 'keyup', function( event ) {
-				if ( event.keyCode === 13 || event.keyCode === 32 ) {
-					event.preventDefault();
-					self.toggler.trigger( 'click' ).next().focus();
-				}
-			});
-
-			/**
 			 * @summary Enables the user to clear or revert the color in the color picker.
 			 *
 			 * Enables the user to either clear the color in the color picker or revert back to the default color.
@@ -266,10 +296,12 @@
 		 * @returns {void}
 		 */
 		open: function() {
-			this.element.show().iris( 'toggle' ).focus();
-			this.button.removeClass( 'hidden' );
+			this.element.iris( 'toggle' );
+			this.inputWrapper.removeClass( 'hidden' );
 			this.wrap.addClass( 'wp-picker-active' );
-			this.toggler.addClass( 'wp-picker-open' );
+			this.toggler
+				.addClass( 'wp-picker-open' )
+				.attr( 'aria-expanded', 'true' );
 			$( 'body' ).trigger( 'click.wpcolorpicker' ).on( 'click.wpcolorpicker', this.close );
 		},
 		/**
@@ -280,10 +312,12 @@
 		 * @returns {void}
 		 */
 		close: function() {
-			this.element.hide().iris( 'toggle' );
-			this.button.addClass( 'hidden' );
+			this.element.iris( 'toggle' );
+			this.inputWrapper.addClass( 'hidden' );
 			this.wrap.removeClass( 'wp-picker-active' );
-			this.toggler.removeClass( 'wp-picker-open' );
+			this.toggler
+				.removeClass( 'wp-picker-open' )
+				.attr( 'aria-expanded', 'false' );
 			$( 'body' ).off( 'click.wpcolorpicker', this.close );
 		},
 		/**

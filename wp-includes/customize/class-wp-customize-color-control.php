@@ -99,21 +99,21 @@ class WP_Customize_Color_Control extends WP_Customize_Control {
 			}
 			defaultValueAttr = ' data-default-color=' + defaultValue; // Quotes added automatically.
 		} #>
-		<label>
-			<# if ( data.label ) { #>
-				<span class="customize-control-title">{{{ data.label }}}</span>
-			<# } #>
-			<# if ( data.description ) { #>
-				<span class="description customize-control-description">{{{ data.description }}}</span>
-			<# } #>
-			<div class="customize-control-content">
-				<# if ( isHueSlider ) { #>
-					<input class="color-picker-hue" type="text" data-type="hue" />
-				<# } else { #>
-					<input class="color-picker-hex" type="text" maxlength="7" placeholder="{{ defaultValue }}" {{ defaultValueAttr }} />
-				<# } #>
-			</div>
-		</label>
+		<# if ( data.label ) { #>
+			<span class="customize-control-title">{{{ data.label }}}</span>
+		<# } #>
+		<# if ( data.description ) { #>
+			<span class="description customize-control-description">{{{ data.description }}}</span>
+		<# } #>
+		<div class="customize-control-content">
+			<label><span class="screen-reader-text">{{{ data.label }}}</span>
+			<# if ( isHueSlider ) { #>
+				<input class="color-picker-hue" type="text" data-type="hue" />
+			<# } else { #>
+				<input class="color-picker-hex" type="text" maxlength="7" placeholder="{{ defaultValue }}" {{ defaultValueAttr }} />
+ 			<# } #>
+			</label>
+		</div>
 		<?php
 	}
 }

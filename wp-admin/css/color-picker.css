@@ -6,40 +6,23 @@
 	display: none;
 }
 
-.wp-color-result {
-	background-color: #f7f7f7;
-	border: 1px solid #ccc;
-	border-radius: 3px;
-	cursor: pointer;
-	display: inline-block;
-	height: 22px;
+/* Needs higher specificiity. */
+.wp-picker-container .wp-color-result.button {
+	height: 24px;
 	margin: 0 6px 6px 0px;
-	position: relative;
-	top: 1px;
-	-webkit-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	vertical-align: bottom;
-	display: inline-block;
-	padding-left: 30px;
-	box-shadow: 0 1px 0 #ccc;
+	padding: 0 0 0 30px;
+	font-size: 11px;
 }
 
-.wp-color-result:after {
+.wp-color-result-text {
 	background: #f7f7f7;
 	border-radius: 0 2px 2px 0;
 	border-left: 1px solid #ccc;
 	color: #555;
-	content: attr( title );
 	display: block;
-	font-size: 11px;
 	line-height: 22px;
 	padding: 0 6px;
-	position: relative;
-	right: 0;
 	text-align: center;
-	top: 0;
 }
 
 .wp-color-result:hover,
@@ -56,17 +39,8 @@
 	border-left: 1px solid #999;
 }
 
-.wp-color-result {
-	top: 0;
-}
-
-.wp-color-result.wp-picker-open:after {
-	content: attr( data-current );
-}
-
-.wp-picker-container, .wp-picker-container:active {
+.wp-picker-containers {
 	display: inline-block;
-	outline: 0;
 }
 
 .wp-color-result:focus {
@@ -74,13 +48,29 @@
 	box-shadow: 0 0 3px rgba( 0, 115, 170, .8 );
 }
 
+.wp-color-result:active {
+	/* See Trac ticket #39662 */
+	transform: none !important;
+}
+
 .wp-picker-open + .wp-picker-input-wrap {
 	display: inline-block;
 	vertical-align: top;
 }
 
-.wp-picker-container .button {
-	margin-left: 6px;
+.wp-picker-input-wrap label {
+	display: inline-block;
+	vertical-align: top;
+}
+
+/* For the old `custom-background` page, to override the inline-block and margins from `.form-table td fieldset label`. */
+.form-table .wp-picker-input-wrap label {
+	margin: 0 !important;
+}
+
+.wp-picker-input-wrap .button,
+.wp-customizer .wp-picker-input-wrap .button {
+ 	margin-left: 6px;
 }
 
 .wp-picker-container .iris-square-slider .ui-slider-handle:focus {
@@ -99,6 +89,7 @@
 	font-family: monospace;
 	line-height: 16px;
 	margin: 0;
+	vertical-align: top;
 }
 
 .wp-color-picker::-webkit-input-placeholder {
@@ -127,9 +118,55 @@
 		0 0 2px 1px rgba(30, 140, 190, .8);
 }
 
+.iris-picker .iris-palette:focus {
+	box-shadow:
+		inset 0 0 5px rgba(0,0,0,.4),
+		0 0 0 1px #5b9dd9,
+		0 0 2px 1px rgba(30, 140, 190, .8);
+}
+
 @media screen and ( max-width: 782px ) {
 	.wp-picker-container input[type="text"].wp-color-picker {
-		margin-right: 6px;
-		padding: 3px 5px;
+		width: 80px;
+		padding: 6px 5px 5px;
+		font-size: 16px;
+		line-height: 18px;
+	}
+
+	.wp-customizer .wp-picker-container input[type="text"].wp-color-picker {
+		padding: 5px 5px 4px;
+	}
+
+	.wp-picker-container .wp-color-result.button {
+		height: auto;
+		padding: 0 0 0 40px;
+		font-size: 14px;
+		line-height: 29px;
+	}
+
+	.wp-customizer .wp-picker-container .wp-color-result.button {
+		font-size: 13px;
+		line-height: 26px;
+	}
+
+	.wp-picker-container .wp-color-result-text {
+		padding: 0 14px;
+		font-size: inherit;
+		line-height: inherit;
+	}
+
+	.wp-customizer .wp-picker-container .wp-color-result-text {
+		padding: 0 10px;
+	}
+}
+
+@media screen and ( max-width: 640px ) {
+	.wp-customizer .wp-picker-container .wp-color-result.button {
+		font-size: 14px;
+		line-height: 29px;
+	}
+
+	.wp-customizer .wp-picker-container input[type="text"].wp-color-picker {
+		padding: 6px 5px;
 	}
 }
