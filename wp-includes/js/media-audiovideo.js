@@ -4,11 +4,23 @@ var media = wp.media,
 	l10n = window._wpMediaViewsL10n || {};
 
 /**
+ *
+ * @summary Defines the wp.media.mixin object.
+ *
  * @mixin
+ *
+ * @since 4.2.0
  */
 wp.media.mixin = {
 	mejsSettings: baseSettings,
 
+	/**
+	 * @summary Pauses and removes all players.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @return {void}
+	 */
 	removeAllPlayers: function() {
 		var p;
 
@@ -21,9 +33,15 @@ wp.media.mixin = {
 	},
 
 	/**
+	 * @summary Removes the player.
+	 *
 	 * Override the MediaElement method for removing a player.
-	 *	MediaElement tries to pull the audio/video tag out of
-	 *	its container and re-add it to the DOM.
+	 * MediaElement tries to pull the audio/video tag out of
+	 * its container and re-add it to the DOM.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @return {void}
 	 */
 	removePlayer: function(t) {
 		var featureIndex, feature;
@@ -58,10 +76,15 @@ wp.media.mixin = {
 	},
 
 	/**
-	 * Allows any class that has set 'player' to a MediaElementPlayer
-	 *  instance to remove the player when listening to events.
 	 *
-	 *  Examples: modal closes, shortcode properties are removed, etc.
+	 * @summary Removes and resets all players.
+	 *
+	 * Allows any class that has set 'player' to a MediaElementPlayer
+	 * instance to remove the player when listening to events.
+	 *
+	 * Examples: modal closes, shortcode properties are removed, etc.
+	 *
+	 * @since 4.2.0
 	 */
 	unsetPlayers : function() {
 		if ( this.players && this.players.length ) {
@@ -75,7 +98,9 @@ wp.media.mixin = {
 };
 
 /**
- * Autowire "collection"-type shortcodes
+ * @summary Shortcode modeling for playlists.
+ *
+ * @since 4.2.0
  */
 wp.media.playlist = new wp.media.collection({
 	tag: 'playlist',
@@ -92,11 +117,14 @@ wp.media.playlist = new wp.media.collection({
 });
 
 /**
- * Shortcode modeling for audio
- *  `edit()` prepares the shortcode for the media modal
- *  `shortcode()` builds the new shortcode after update
+ * @summary Shortcode modeling for audio.
+ *
+ * `edit()` prepares the shortcode for the media modal.
+ * `shortcode()` builds the new shortcode after an update.
  *
  * @namespace
+ *
+ * @since 4.2.0
  */
 wp.media.audio = {
 	coerce : wp.media.coerce,
@@ -110,6 +138,14 @@ wp.media.audio = {
 		width : 400
 	},
 
+	/**
+	 * @summary Instantiates a new media object with the next matching shortcode.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param {string} data The text to apply the shortcode on.
+	 * @returns {wp.media} The media object.
+	 */
 	edit : function( data ) {
 		var frame, shortcode = wp.shortcode.next( 'audio', data ).shortcode;
 
@@ -122,6 +158,14 @@ wp.media.audio = {
 		return frame;
 	},
 
+	/**
+	 * @summary Generates an audio shortcode.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param {Array} model Array with attributes for the shortcode.
+	 * @returns {wp.shortcode} The audio shortcode object.
+	 */
 	shortcode : function( model ) {
 		var content;
 
@@ -145,9 +189,12 @@ wp.media.audio = {
 };
 
 /**
- * Shortcode modeling for video
- *  `edit()` prepares the shortcode for the media modal
- *  `shortcode()` builds the new shortcode after update
+ * @summary Shortcode modeling for video.
+ *
+ *  `edit()` prepares the shortcode for the media modal.
+ *  `shortcode()` builds the new shortcode after update.
+ *
+ * @since 4.2.0
  *
  * @namespace
  */
@@ -166,6 +213,14 @@ wp.media.video = {
 		height : 360
 	},
 
+	/**
+	 * @summary Instantiates a new media object with the next matching shortcode.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param {string} data The text to apply the shortcode on.
+	 * @returns {wp.media} The media object.
+	 */
 	edit : function( data ) {
 		var frame,
 			shortcode = wp.shortcode.next( 'video', data ).shortcode,
@@ -183,6 +238,14 @@ wp.media.video = {
 		return frame;
 	},
 
+	/**
+	 * @summary Generates an video shortcode.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param {Array} model Array with attributes for the shortcode.
+	 * @returns {wp.shortcode} The video shortcode object.
+	 */
 	shortcode : function( model ) {
 		var content;
 
