@@ -613,7 +613,8 @@ $_old_files = array(
 'wp-includes/js/plupload/changelog.txt',
 'wp-includes/js/plupload/plupload.silverlight.js',
 'wp-includes/js/plupload/plupload.flash.js',
-'wp-includes/js/plupload/plupload.js',
+// Added back in 4.9 [41328], see #41755
+// 'wp-includes/js/plupload/plupload.js',
 'wp-includes/js/tinymce/plugins/spellchecker',
 'wp-includes/js/tinymce/plugins/inlinepopups',
 'wp-includes/js/tinymce/plugins/media/js',
