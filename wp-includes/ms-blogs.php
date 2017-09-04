@@ -630,7 +630,7 @@ function update_site_cache( $sites ) {
  *                                           Default empty array.
  *     @type bool         $update_site_cache Whether to prime the cache for found sites. Default false.
  * }
- * @return array List of sites.
+ * @return array|int List of sites, or number of sites when 'count' is passed as a query var.
  */
 function get_sites( $args = array() ) {
 	$query = new WP_Site_Query();
