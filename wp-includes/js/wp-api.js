@@ -33,6 +33,33 @@
 	wp.api.utils = wp.api.utils || {};
 
 	/**
+	 * Determine model based on API route.
+	 *
+	 * @param {string} route    The API route.
+	 *
+	 * @return {Backbone Model} The model found at given route. Undefined if not found.
+	 */
+	wp.api.getModelByRoute = function( route ) {
+		return _.find( wp.api.models, function( model ) {
+			return model.prototype.route && route === model.prototype.route.index;
+		} );
+	};
+
+	/**
+	 * Determine collection based on API route.
+	 *
+	 * @param {string} route    The API route.
+	 *
+	 * @return {Backbone Model} The collection found at given route. Undefined if not found.
+	 */
+	wp.api.getCollectionByRoute = function( route ) {
+		return _.find( wp.api.collections, function( collection ) {
+			return collection.prototype.route && route === collection.prototype.route.index;
+		} );
+	};
+
+
+	/**
 	 * ECMAScript 5 shim, adapted from MDN.
 	 * @link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
 	 */
