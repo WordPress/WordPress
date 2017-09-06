@@ -287,6 +287,13 @@ div#widgets-left .widget-holder {
 	display: block;
 	padding: 10px 15px;
 	font-size: 12px;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	-ms-word-break: break-all;
+	word-break: break-word;
+	-ms-hyphens: auto;
+	-webkit-hyphens: auto;
+	hyphens: auto;
 }
 
 #available-widgets #widget-list {
