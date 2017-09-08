@@ -490,11 +490,13 @@ class WP_oEmbed {
 		$provider = add_query_arg( 'maxwidth', (int) $args['width'], $provider );
 		$provider = add_query_arg( 'maxheight', (int) $args['height'], $provider );
 		$provider = add_query_arg( 'url', urlencode($url), $provider );
+		$provider = add_query_arg( 'dnt', 1, $provider );
 
 		/**
 		 * Filters the oEmbed URL to be fetched.
 		 *
 		 * @since 2.9.0
+		 * @since 4.9.0 The `dnt` (Do Not Track) query parameter was added to all oEmbed provider URLs.
 		 *
 		 * @param string $provider URL of the oEmbed provider.
 		 * @param string $url      URL of the content to be embedded.
