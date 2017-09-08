@@ -19,6 +19,7 @@
 			}
 		}
 
+	/** @namespace wp */
 	window.wp = window.wp || {};
 
 	if ( !! window.wp.receiveEmbedMessage ) {

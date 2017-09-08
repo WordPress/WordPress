@@ -1,3 +1,4 @@
+/** @namespace wp */
 window.wp = window.wp || {};
 
 (function( exports, $ ){
@@ -165,9 +166,12 @@ window.wp = window.wp || {};
 	/**
 	 * Observable values that support two-way binding.
 	 *
+	 * @memberOf wp.customize
+	 * @alias wp.customize.Value
+	 *
 	 * @constructor
 	 */
-	api.Value = api.Class.extend({
+	api.Value = api.Class.extend(/** @lends wp.customize.Value.prototype */{
 		/**
 		 * @param {mixed}  initial The initial value.
 		 * @param {object} options
@@ -304,11 +308,14 @@ window.wp = window.wp || {};
 	/**
 	 * A collection of observable values.
 	 *
+	 * @memberOf wp.customize
+	 * @alias wp.customize.Values
+	 *
 	 * @constructor
 	 * @augments wp.customize.Class
 	 * @mixes wp.customize.Events
 	 */
-	api.Values = api.Class.extend({
+	api.Values = api.Class.extend(/** @lends wp.customize.Values.prototype */{
 
 		/**
 		 * The default constructor for items of the collection.
@@ -520,11 +527,14 @@ window.wp = window.wp || {};
 	 *
 	 * Handles inputs, selects, and textareas by default.
 	 *
+	 * @memberOf wp.customize
+	 * @alias wp.customize.Element
+	 *
 	 * @constructor
 	 * @augments wp.customize.Value
 	 * @augments wp.customize.Class
 	 */
-	api.Element = api.Value.extend({
+	api.Element = api.Value.extend(/** @lends wp.customize.Element */{
 		initialize: function( element, options ) {
 			var self = this,
 				synchronizer = api.Element.synchronizer.html,
@@ -617,11 +627,14 @@ window.wp = window.wp || {};
 	/**
 	 * A communicator for sending data from one window to another over postMessage.
 	 *
+	 * @memberOf wp.customize
+	 * @alias wp.customize.Messenger
+	 *
 	 * @constructor
 	 * @augments wp.customize.Class
 	 * @mixes wp.customize.Events
 	 */
-	api.Messenger = api.Class.extend({
+	api.Messenger = api.Class.extend(/** @lends wp.customize.Messenger.prototype */{
 		/**
 		 * Create a new Value.
 		 *
@@ -765,6 +778,9 @@ window.wp = window.wp || {};
 	 * @augments wp.customize.Class
 	 * @since 4.6.0
 	 *
+	 * @memberOf wp.customize
+	 * @alias wp.customize.Notification
+	 *
 	 * @param {string}  code - The error code.
 	 * @param {object}  params - Params.
 	 * @param {string}  params.message=null - The error message.
@@ -773,7 +789,7 @@ window.wp = window.wp || {};
 	 * @param {string}  [params.setting=null] - The setting ID that the notification is related to.
 	 * @param {*}       [params.data=null] - Any additional data.
 	 */
-	api.Notification = api.Class.extend({
+	api.Notification = api.Class.extend(/** @lends wp.customize.Notification.prototype */{
 		initialize: function( code, params ) {
 			var _params;
 			this.code = code;
@@ -798,6 +814,8 @@ window.wp = window.wp || {};
 	/**
 	 * Get all customize settings.
 	 *
+	 * @memberOf wp.customize
+	 *
 	 * @return {object}
 	 */
 	api.get = function() {
@@ -812,6 +830,8 @@ window.wp = window.wp || {};
 
 	/**
 	 * Utility function namespace
+	 *
+	 * @namespace wp.customize.utils
 	 */
 	api.utils = {};
 
@@ -820,6 +840,7 @@ window.wp = window.wp || {};
 	 *
 	 * @since 4.7.0
 	 * @access public
+	 * @memberOf wp.customize.utils
 	 *
 	 * @param {string} queryString Query string.
 	 * @returns {object} Parsed query string.
@@ -844,6 +865,10 @@ window.wp = window.wp || {};
 		return queryParams;
 	};
 
-	// Expose the API publicly on window.wp.customize
+	/**
+	 * Expose the API publicly on window.wp.customize
+	 *
+	 * @namespace wp.customize
+	 */
 	exports.customize = api;
 })( wp, jQuery );

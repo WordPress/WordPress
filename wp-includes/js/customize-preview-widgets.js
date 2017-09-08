@@ -1,4 +1,6 @@
 /* global _wpWidgetCustomizerPreviewSettings */
+
+/** @namespace wp.customize.widgetsPreview */
 wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( $, _, wp, api ) {
 
 	var self;
@@ -42,11 +44,14 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 	/**
 	 * Partial representing a widget instance.
 	 *
+	 * @memberOf wp.customize.widgetsPreview
+	 * @alias wp.customize.widgetsPreview.WidgetPartial
+	 *
 	 * @class
 	 * @augments wp.customize.selectiveRefresh.Partial
 	 * @since 4.5.0
 	 */
-	self.WidgetPartial = api.selectiveRefresh.Partial.extend({
+	self.WidgetPartial = api.selectiveRefresh.Partial.extend(/** @lends wp.customize.widgetsPreview.WidgetPartial.prototype */{
 
 		/**
 		 * Constructor.
@@ -112,11 +117,14 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 	/**
 	 * Partial representing a widget area.
 	 *
+	 * @memberOf wp.customize.widgetsPreview
+	 * @alias wp.customize.widgetsPreview.SidebarPartial
+	 *
 	 * @class
 	 * @augments wp.customize.selectiveRefresh.Partial
 	 * @since 4.5.0
 	 */
-	self.SidebarPartial = api.selectiveRefresh.Partial.extend({
+	self.SidebarPartial = api.selectiveRefresh.Partial.extend(/** @lends wp.customize.widgetsPreview.SidebarPartial.prototype */{
 
 		/**
 		 * Constructor.
@@ -510,6 +518,8 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 	/**
 	 * Calculate the selector for the sidebar's widgets based on the registered sidebar's info.
 	 *
+	 * @memberOf wp.customize.widgetsPreview
+	 *
 	 * @since 3.9.0
 	 */
 	self.buildWidgetSelectors = function() {
@@ -548,6 +558,8 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 	/**
 	 * Highlight the widget on widget updates or widget control mouse overs.
 	 *
+	 * @memberOf wp.customize.widgetsPreview
+	 *
 	 * @since 3.9.0
 	 * @param  {string} widgetId ID of the widget.
 	 */
@@ -566,6 +578,8 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 	/**
 	 * Show a title and highlight widgets on hover. On shift+clicking
 	 * focus the widget control.
+	 *
+	 * @memberOf wp.customize.widgetsPreview
 	 *
 	 * @since 3.9.0
 	 */
@@ -598,6 +612,8 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 	/**
 	 * Parse a widget ID.
 	 *
+	 * @memberOf wp.customize.widgetsPreview
+	 *
 	 * @since 4.5.0
 	 *
 	 * @param {string} widgetId Widget ID.
@@ -623,6 +639,8 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 	/**
 	 * Parse a widget setting ID.
 	 *
+	 * @memberOf wp.customize.widgetsPreview
+	 *
 	 * @since 4.5.0
 	 *
 	 * @param {string} settingId Widget setting ID.
@@ -647,6 +665,8 @@ wp.customize.widgetsPreview = wp.customize.WidgetCustomizerPreview = (function( 
 
 	/**
 	 * Convert a widget ID into a Customizer setting ID.
+	 *
+	 * @memberOf wp.customize.widgetsPreview
 	 *
 	 * @since 4.5.0
 	 *

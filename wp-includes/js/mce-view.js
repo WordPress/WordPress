@@ -280,7 +280,7 @@
 
 	wp.mce.View.extend = Backbone.View.extend;
 
-	_.extend( wp.mce.View.prototype, {
+	_.extend( wp.mce.View.prototype, /** @lends wp.mce.View.prototype */{
 
 		/**
 		 * The content.

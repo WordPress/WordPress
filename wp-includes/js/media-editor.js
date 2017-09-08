@@ -30,18 +30,12 @@
 		return attrs[ key ];
 	};
 
-	/**
-	 * wp.media.string
-	 * @namespace
-	 */
+	/** @namespace wp.media.string */
 	wp.media.string = {
 		/**
 		 * Joins the `props` and `attachment` objects,
 		 * outputting the proper object format based on the
 		 * attachment's type.
-		 *
-		 * @global wp.media.view.settings
-		 * @global getUserSetting()
 		 *
 		 * @param {Object} [props={}] Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
@@ -109,8 +103,6 @@
 		/**
 		 * Create link markup that is suitable for passing to the editor
 		 *
-		 * @global wp.html.string
-		 *
 		 * @param {Object} props Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
 		 * @returns {string} The link markup
@@ -159,9 +151,6 @@
 		 *
 		 * @access private
 		 *
-		 * @global wp.shortcode
-		 * @global wp.media.view.settings
-		 *
 		 * @param {string} type The shortcode tag name: 'audio' or 'video'.
 		 * @param {Object} props Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
@@ -209,9 +198,6 @@
 		/**
 		 * Create image markup, optionally with a link and/or wrapped in a caption shortcode,
 		 *  that is suitable for passing to the editor
-		 *
-		 * @global wp.html
-		 * @global wp.shortcode
 		 *
 		 * @param {Object} props Attachment details (align, link, size, etc).
 		 * @param {Object} attachment The attachment object, media version of Post.
@@ -341,15 +327,18 @@
 		}
 	};
 
+	/**
+	 * @class wp.media.collection
+	 *
+	 * @param {Object} attributes
+	 */
 	wp.media.collection = function(attributes) {
 		var collections = {};
 
-		return _.extend( {
+		return _.extend(/** @lends wp.media.collection.prototype */{
 			coerce : wp.media.coerce,
 			/**
 			 * Retrieve attachments based on the properties of the passed shortcode
-			 *
-			 * @global wp.media.query
 			 *
 			 * @param {wp.shortcode} shortcode An instance of wp.shortcode().
 			 * @returns {wp.media.model.Attachments} A Backbone.Collection containing
@@ -416,9 +405,6 @@
 			},
 			/**
 			 * Triggered when clicking 'Insert {label}' or 'Update {label}'
-			 *
-			 * @global wp.shortcode
-			 * @global wp.media.model.Attachments
 			 *
 			 * @param {wp.media.model.Attachments} attachments A Backbone.Collection containing
 			 *      the media items belonging to a collection.
@@ -487,10 +473,6 @@
 			/**
 			 * Triggered when double-clicking a collection shortcode placeholder
 			 *   in the editor
-			 *
-			 * @global wp.shortcode
-			 * @global wp.media.model.Selection
-			 * @global wp.media.view.l10n
 			 *
 			 * @param {string} content Content that is searched for possible
 			 *    shortcode markup matching the passed tag name,
@@ -610,14 +592,12 @@
 	});
 
 	/**
-	 * wp.media.featuredImage
-	 * @namespace
+	 * @namespace wp.media.featuredImage
+	 * @memberOf wp.media
 	 */
 	wp.media.featuredImage = {
 		/**
 		 * Get the featured image post ID
-		 *
-		 * @global wp.media.view.settings
 		 *
 		 * @returns {wp.media.view.settings.post.featuredImageId|number}
 		 */
@@ -627,9 +607,6 @@
 		/**
 		 * Set the featured image id, save the post thumbnail data and
 		 * set the HTML in the post meta box to the new featured image.
-		 *
-		 * @global wp.media.view.settings
-		 * @global wp.media.post
 		 *
 		 * @param {number} id The post ID of the featured image, or -1 to unset it.
 		 */
@@ -659,9 +636,6 @@
 		},
 		/**
 		 * The Featured Image workflow
-		 *
-		 * @global wp.media.controller.FeaturedImage
-		 * @global wp.media.view.l10n
 		 *
 		 * @this wp.media.featuredImage
 		 *
@@ -705,8 +679,6 @@
 		 * 'select' callback for Featured Image workflow, triggered when
 		 *  the 'Set Featured Image' button is clicked in the media modal.
 		 *
-		 * @global wp.media.view.settings
-		 *
 		 * @this wp.media.controller.FeaturedImage
 		 */
 		select: function() {
@@ -723,8 +695,6 @@
 		 * the post thumbnail is clicked.
 		 *
 		 * Update the featured image id when the 'remove' link is clicked.
-		 *
-		 * @global wp.media.view.settings
 		 */
 		init: function() {
 			$('#postimagediv').on( 'click', '#set-post-thumbnail', function( event ) {
@@ -742,18 +712,10 @@
 
 	$( wp.media.featuredImage.init );
 
-	/**
-	 * wp.media.editor
-	 * @namespace
-	 */
+	/** @namespace wp.media.editor */
 	wp.media.editor = {
 		/**
 		 * Send content to the editor
-		 *
-		 * @global tinymce
-		 * @global QTags
-		 * @global wpActiveEditor
-		 * @global tb_remove() - Possibly overloaded by legacy plugins
 		 *
 		 * @param {string} html Content to send to the editor
 		 */
@@ -804,8 +766,6 @@
 		/**
 		 * Setup 'workflow' and add to the 'workflows' cache. 'open' can
 		 *  subsequently be called upon it.
-		 *
-		 * @global wp.media.view.l10n
 		 *
 		 * @param {string} id A slug used to identify the workflow.
 		 * @param {Object} [options={}]
@@ -914,9 +874,6 @@
 		/**
 		 * Determines the proper current workflow id
 		 *
-		 * @global wpActiveEditor
-		 * @global tinymce
-		 *
 		 * @param {string} [id=''] A slug used to identify the workflow.
 		 *
 		 * @returns {wpActiveEditor|string|tinymce.activeEditor.id}
@@ -962,16 +919,11 @@
 			id = this.id( id );
 			delete workflows[ id ];
 		},
-		/**
-		 * @namespace
-		 */
+		/** @namespace wp.media.editor.send */
 		send: {
 			/**
 			 * Called when sending an attachment to the editor
 			 *   from the medial modal.
-			 *
-			 * @global wp.media.view.settings
-			 * @global wp.media.post
 			 *
 			 * @param {Object} props Attachment details (align, link, size, etc).
 			 * @param {Object} attachment The attachment object, media version of Post.
@@ -1028,8 +980,6 @@
 			/**
 			 * Called when 'Insert From URL' source is not an image. Example: YouTube url.
 			 *
-			 * @global wp.media.view.settings
-			 *
 			 * @param {Object} embed
 			 * @returns {Promise}
 			 */
@@ -1075,8 +1025,6 @@
 
 		/**
 		 * Bind click event for .insert-media using event delegation
-		 *
-		 * @global wp.media.view.l10n
 		 */
 		init: function() {
 			$(document.body)

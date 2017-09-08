@@ -6,7 +6,10 @@
 	var identifier = 0,
 		zindex = 9999;
 
-	$.widget('wp.pointer', {
+	/**
+	 * @class $.widget.wp.pointer
+	 */
+	$.widget('wp.pointer',/** @lends $.widget.wp.pointer.prototype */{
 		options: {
 			pointerClass: 'wp-pointer',
 			pointerWidth: 320,

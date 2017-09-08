@@ -6,12 +6,17 @@
 	 * Initialise the WP_API.
 	 */
 	function WP_API() {
+		/** @namespace wp.api.models */
 		this.models = {};
+		/** @namespace wp.api.collections */
 		this.collections = {};
+		/** @namespace wp.api.views */
 		this.views = {};
 	}
 
+	/** @namespace wp */
 	window.wp            = window.wp || {};
+	/** @namespace wp.api */
 	wp.api               = wp.api || new WP_API();
 	wp.api.versionString = wp.api.versionString || 'wp/v2/';
 
@@ -28,8 +33,11 @@
 
 	var pad, r;
 
+	/** @namespace wp */
 	window.wp = window.wp || {};
+	/** @namespace wp.api */
 	wp.api = wp.api || {};
+	/** @namespace wp.api.utils */
 	wp.api.utils = wp.api.utils || {};
 
 	/**
@@ -1024,7 +1032,11 @@
 
 	var Endpoint, initializedDeferreds = {},
 		wpApiSettings = window.wpApiSettings || {};
+
+	/** @namespace wp */
 	window.wp = window.wp || {};
+
+	/** @namespace wp.api */
 	wp.api    = wp.api || {};
 
 	// If wpApiSettings is unavailable, try the default.
@@ -1032,7 +1044,7 @@
 		wpApiSettings.root = window.location.origin + '/wp-json/';
 	}
 
-	Endpoint = Backbone.Model.extend( {
+	Endpoint = Backbone.Model.extend(/** @lends Endpoint.prototype */{
 		defaults: {
 			apiRoot: wpApiSettings.root,
 			versionString: wp.api.versionString,
@@ -1081,6 +1093,8 @@
 					 * When the server returns the schema model data, store the data in a sessionCache so we don't
 					 * have to retrieve it again for this session. Then, construct the models and collections based
 					 * on the schema model data.
+					 *
+					 * @callback
 					 */
 					success: function( newSchemaModel ) {
 

@@ -8,7 +8,6 @@
  * - Sends the REST API nonce as a request header.
  * - Allows specifying only an endpoint namespace/path instead of a full URL.
  *
- * @namespace wp.apiRequest
  * @since     4.9.0
  */
 
@@ -82,6 +81,7 @@
 
 	apiRequest.transport = $.ajax;
 
+	/** @namespace wp */
 	window.wp = window.wp || {};
 	window.wp.apiRequest = apiRequest;
 } )( jQuery );

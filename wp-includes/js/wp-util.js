@@ -1,4 +1,6 @@
 /* global _wpUtilSettings */
+
+/** @namespace wp */
 window.wp = window.wp || {};
 
 (function ($) {

@@ -2,12 +2,16 @@
 var $ = jQuery,
 	Attachment, Attachments, l10n, media;
 
+/** @namespace wp */
 window.wp = window.wp || {};
 
 /**
  * Create and return a media frame.
  *
  * Handles the default media experience.
+ *
+ * @alias wp.media
+ * @memberOf wp
  *
  * @param  {object} attributes The properties passed to the main media controller.
  * @return {wp.media.view.MediaFrame} A media workflow.
@@ -47,6 +51,11 @@ media = wp.media = function( attributes ) {
 	return frame;
 };
 
+/** @namespace wp.media */
+/** @namespace wp.media.model */
+/** @namespace wp.media.view */
+/** @namespace wp.media.controller */
+/** @namespace wp.media.frames */
 _.extend( media, { model: {}, view: {}, controller: {}, frames: {} });
 
 // Link any localized strings.
@@ -90,7 +99,7 @@ media.compare = function( a, b, ac, bc ) {
 	}
 };
 
-_.extend( media, {
+_.extend( media, /** @lends wp.media */{
 	/**
 	 * media.template( id )
 	 *
@@ -230,16 +239,18 @@ $(window).on('unload', function(){
 });
 
 },{"./models/attachment.js":2,"./models/attachments.js":3,"./models/post-image.js":4,"./models/query.js":5,"./models/selection.js":6}],2:[function(require,module,exports){
+var $ = Backbone.$,
+	Attachment;
+
 /**
  * wp.media.model.Attachment
+ *
+ * @memberOf wp.media.model
  *
  * @class
  * @augments Backbone.Model
  */
-var $ = Backbone.$,
-	Attachment;
-
-Attachment = Backbone.Model.extend({
+Attachment = Backbone.Model.extend(/** @lends wp.media.model.Attachment.prototype */{
 	/**
 	 * Triggered when attachment details change
 	 * Overrides Backbone.Model.sync
@@ -366,11 +377,12 @@ Attachment = Backbone.Model.extend({
 			model.set( model.parse( resp, xhr ), options );
 		});
 	}
-}, {
+},/** @lends wp.media.model.Attachment */{
 	/**
 	 * Create a new model on the static 'all' attachments collection and return it.
 	 *
 	 * @static
+	 *
 	 * @param {Object} attrs
 	 * @returns {wp.media.model.Attachment}
 	 */
@@ -407,6 +419,8 @@ module.exports = Attachment;
  * 'options.props.query = true', which will mirror the collection
  * to an Attachments Query collection - @see wp.media.model.Attachments.mirror().
  *
+ * @memberOf wp.media.model
+ *
  * @class
  * @augments Backbone.Collection
  *
@@ -420,7 +434,7 @@ module.exports = Attachment;
  * @param {string} [options.filters]
  *
  */
-var Attachments = Backbone.Collection.extend({
+var Attachments = Backbone.Collection.extend(/** @lends wp.media.model.Attachments.prototype */{
 	/**
 	 * @type {wp.media.model.Attachment}
 	 */
@@ -818,14 +832,12 @@ var Attachments = Backbone.Collection.extend({
 			attachments: attachments
 		});
 	}
-}, {
+},/** @lends wp.media.model.Attachments */{
 	/**
 	 * A function to compare two attachment models in an attachments collection.
 	 *
 	 * Used as the default comparator for instances of wp.media.model.Attachments
 	 * and its subclasses. @see wp.media.model.Attachments._changeOrderby().
-	 *
-	 * @static
 	 *
 	 * @param {Backbone.Model} a
 	 * @param {Backbone.Model} b
@@ -855,9 +867,7 @@ var Attachments = Backbone.Collection.extend({
 
 		return ( 'DESC' === order ) ? wp.media.compare( a, b, ac, bc ) : wp.media.compare( b, a, bc, ac );
 	},
-	/**
-	 * @namespace
-	 */
+	/** @namespace wp.media.model.Attachments.filters */
 	filters: {
 		/**
 		 * @static
@@ -952,13 +962,15 @@ module.exports = Attachments;
  *
  * Used in the embedded image attachment display settings modal - @see wp.media.view.MediaFrame.ImageDetails.
  *
+ * @memberOf wp.media.model
+ *
  * @class
  * @augments Backbone.Model
  *
  * @param {int} [attributes]               Initial model attributes.
  * @param {int} [attributes.attachment_id] ID of the attachment.
  **/
-var PostImage = Backbone.Model.extend({
+var PostImage = Backbone.Model.extend(/** @lends wp.media.model.PostImage.prototype */{
 
 	initialize: function( attributes ) {
 		var Attachment = wp.media.model.Attachment;
@@ -1099,6 +1111,9 @@ var PostImage = Backbone.Model.extend({
 module.exports = PostImage;
 
 },{}],5:[function(require,module,exports){
+var Attachments = wp.media.model.Attachments,
+	Query;
+
 /**
  * wp.media.model.Query
  *
@@ -1106,6 +1121,8 @@ module.exports = PostImage;
  *
  * Note: Do NOT change this.args after the query has been initialized.
  *       Things will break.
+ *
+ * @memberOf wp.media.model
  *
  * @class
  * @augments wp.media.model.Attachments
@@ -1116,13 +1133,8 @@ module.exports = PostImage;
  * @param {object} [options.args]                Attachments query arguments.
  * @param {object} [options.args.posts_per_page]
  */
-var Attachments = wp.media.model.Attachments,
-	Query;
-
-Query = Attachments.extend({
+Query = Attachments.extend(/** @lends wp.media.model.Query.prototype */{
 	/**
-	 * @global wp.Uploader
-	 *
 	 * @param {array}  [models=[]]  Array of initial models to populate the collection.
 	 * @param {object} [options={}]
 	 */
@@ -1254,7 +1266,7 @@ Query = Attachments.extend({
 			return fallback.sync.apply( this, arguments );
 		}
 	}
-}, {
+}, /** @lends wp.media.model.Query */{
 	/**
 	 * @readonly
 	 */
@@ -1407,19 +1419,21 @@ Query = Attachments.extend({
 module.exports = Query;
 
 },{}],6:[function(require,module,exports){
+var Attachments = wp.media.model.Attachments,
+	Selection;
+
 /**
  * wp.media.model.Selection
  *
  * A selection of attachments.
  *
+ * @memberOf wp.media.model
+ *
  * @class
  * @augments wp.media.model.Attachments
  * @augments Backbone.Collection
  */
-var Attachments = wp.media.model.Attachments,
-	Selection;
-
-Selection = Attachments.extend({
+Selection = Attachments.extend(/** @lends wp.media.model.Selection.prototype */{
 	/**
 	 * Refresh the `single` model whenever the selection changes.
 	 * Binds `single` instead of using the context argument to ensure

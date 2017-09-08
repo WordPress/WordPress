@@ -87,12 +87,15 @@
 	};
 
 	/**
+	 * @memberOf wp.customize
+	 * @alias wp.customize.Preview
+	 *
 	 * @constructor
 	 * @augments wp.customize.Messenger
 	 * @augments wp.customize.Class
 	 * @mixes wp.customize.Events
 	 */
-	api.Preview = api.Messenger.extend({
+	api.Preview = api.Messenger.extend(/** @lends wp.customize.Preview.prototype */{
 		/**
 		 * @param {object} params  - Parameters to configure the messenger.
 		 * @param {object} options - Extend any instance parameter or method with this object.

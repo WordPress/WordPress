@@ -198,7 +198,6 @@ window.wp = window.wp || {};
 		/**
 		 * After files were filtered and added to the queue, create a model for each.
 		 *
-		 * @event FilesAdded
 		 * @param {plupload.Uploader} uploader Uploader instance.
 		 * @param {Array}             files    Array of file objects that were added to queue by the user.
 		 */
@@ -340,7 +339,7 @@ window.wp = window.wp || {};
 		}
 	};
 
-	$.extend( Uploader.prototype, {
+	$.extend( Uploader.prototype, /** @lends wp.Uploader.prototype */{
 		/**
 		 * Acts as a shortcut to extending the uploader's multipart_params object.
 		 *

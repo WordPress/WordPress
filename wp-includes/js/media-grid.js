@@ -1,17 +1,19 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+var l10n = wp.media.view.l10n,
+	EditAttachmentMetadata;
+
 /**
  * wp.media.controller.EditAttachmentMetadata
  *
  * A state for editing an attachment's metadata.
  *
+ * @memberOf wp.media.controller
+ *
  * @class
  * @augments wp.media.controller.State
  * @augments Backbone.Model
  */
-var l10n = wp.media.view.l10n,
-	EditAttachmentMetadata;
-
-EditAttachmentMetadata = wp.media.controller.State.extend({
+EditAttachmentMetadata = wp.media.controller.State.extend(/** @lends wp.media.controller.EditAttachmentMetadata.prototype */{
 	defaults: {
 		id:      'edit-attachment',
 		// Title string passed to the frame's title region view.
@@ -45,10 +47,12 @@ media.view.DeleteSelectedPermanentlyButton = require( './views/button/delete-sel
  *
  * A router for handling the browser history and application state.
  *
+ * @memberOf wp.media.view.MediaFrame.Manage
+ *
  * @class
  * @augments Backbone.Router
  */
-var Router = Backbone.Router.extend({
+var Router = Backbone.Router.extend(/** @lends wp.media.view.MediaFrame.Manage.Router.prototype */{
 	routes: {
 		'upload.php?item=:slug&mode=edit': 'editItem',
 		'upload.php?item=:slug':           'showItem',
@@ -107,11 +111,16 @@ var Router = Backbone.Router.extend({
 module.exports = Router;
 
 },{}],4:[function(require,module,exports){
+var Details = wp.media.view.Attachment.Details,
+	TwoColumn;
+
 /**
  * wp.media.view.Attachment.Details.TwoColumn
  *
  * A similar view to media.view.Attachment.Details
  * for use in the Edit Attachment modal.
+ *
+ * @memberOf wp.media.view.Attachment.Details
  *
  * @class
  * @augments wp.media.view.Attachment.Details
@@ -120,10 +129,7 @@ module.exports = Router;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Details = wp.media.view.Attachment.Details,
-	TwoColumn;
-
-TwoColumn = Details.extend({
+TwoColumn = Details.extend(/** @lends wp.media.view.Attachment.Details.TowColumn.prototype */{
 	template: wp.template( 'attachment-details-two-column' ),
 
 	initialize: function() {
@@ -158,10 +164,16 @@ TwoColumn = Details.extend({
 module.exports = TwoColumn;
 
 },{}],5:[function(require,module,exports){
+var Button = wp.media.view.Button,
+	DeleteSelected = wp.media.view.DeleteSelectedButton,
+	DeleteSelectedPermanently;
+
 /**
  * wp.media.view.DeleteSelectedPermanentlyButton
  *
  * When MEDIA_TRASH is true, a button that handles bulk Delete Permanently logic
+ *
+ * @memberOf wp.media.view
  *
  * @class
  * @augments wp.media.view.DeleteSelectedButton
@@ -170,11 +182,7 @@ module.exports = TwoColumn;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Button = wp.media.view.Button,
-	DeleteSelected = wp.media.view.DeleteSelectedButton,
-	DeleteSelectedPermanently;
-
-DeleteSelectedPermanently = DeleteSelected.extend({
+DeleteSelectedPermanently = DeleteSelected.extend(/** @lends wp.media.view.DeleteSelectedPermanentlyButton.prototype */{
 	initialize: function() {
 		DeleteSelected.prototype.initialize.apply( this, arguments );
 		this.controller.on( 'select:activate', this.selectActivate, this );
@@ -205,10 +213,16 @@ DeleteSelectedPermanently = DeleteSelected.extend({
 module.exports = DeleteSelectedPermanently;
 
 },{}],6:[function(require,module,exports){
+var Button = wp.media.view.Button,
+	l10n = wp.media.view.l10n,
+	DeleteSelected;
+
 /**
  * wp.media.view.DeleteSelectedButton
  *
  * A button that handles bulk Delete/Trash logic
+ *
+ * @memberOf wp.media.view
  *
  * @class
  * @augments wp.media.view.Button
@@ -216,11 +230,7 @@ module.exports = DeleteSelectedPermanently;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Button = wp.media.view.Button,
-	l10n = wp.media.view.l10n,
-	DeleteSelected;
-
-DeleteSelected = Button.extend({
+DeleteSelected = Button.extend(/** @lends wp.media.view.DeleteSelectedButton.prototype */{
 	initialize: function() {
 		Button.prototype.initialize.apply( this, arguments );
 		if ( this.options.filters ) {
@@ -258,8 +268,15 @@ DeleteSelected = Button.extend({
 module.exports = DeleteSelected;
 
 },{}],7:[function(require,module,exports){
+
+var Button = wp.media.view.Button,
+	l10n = wp.media.view.l10n,
+	SelectModeToggle;
+
 /**
  * wp.media.view.SelectModeToggleButton
+ *
+ * @memberOf wp.media.view
  *
  * @class
  * @augments wp.media.view.Button
@@ -267,11 +284,7 @@ module.exports = DeleteSelected;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var Button = wp.media.view.Button,
-	l10n = wp.media.view.l10n,
-	SelectModeToggle;
-
-SelectModeToggle = Button.extend({
+SelectModeToggle = Button.extend(/** @lends wp.media.view.SelectModeToggle.prototype */{
 	initialize: function() {
 		_.defaults( this.options, {
 			size : ''
@@ -332,8 +345,14 @@ SelectModeToggle = Button.extend({
 module.exports = SelectModeToggle;
 
 },{}],8:[function(require,module,exports){
+var View = wp.media.View,
+	EditImage = wp.media.view.EditImage,
+	Details;
+
 /**
  * wp.media.view.EditImage.Details
+ *
+ * @memberOf wp.media.view.EditImage
  *
  * @class
  * @augments wp.media.view.EditImage
@@ -341,11 +360,7 @@ module.exports = SelectModeToggle;
  * @augments wp.Backbone.View
  * @augments Backbone.View
  */
-var View = wp.media.View,
-	EditImage = wp.media.view.EditImage,
-	Details;
-
-Details = EditImage.extend({
+Details = EditImage.extend(/** @lends wp.media.view.EditImage.Details.prototype */{
 	initialize: function( options ) {
 		this.editor = window.imageEdit;
 		this.frame = options.frame;
@@ -367,6 +382,12 @@ Details = EditImage.extend({
 module.exports = Details;
 
 },{}],9:[function(require,module,exports){
+var Frame = wp.media.view.Frame,
+	MediaFrame = wp.media.view.MediaFrame,
+
+	$ = jQuery,
+	EditAttachments;
+
 /**
  * wp.media.view.MediaFrame.EditAttachments
  *
@@ -376,6 +397,8 @@ module.exports = Details;
  *
  * Requires an attachment model to be passed in the options hash under `model`.
  *
+ * @memberOf wp.media.view.MediaFrame
+ *
  * @class
  * @augments wp.media.view.Frame
  * @augments wp.media.View
@@ -383,13 +406,7 @@ module.exports = Details;
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var Frame = wp.media.view.Frame,
-	MediaFrame = wp.media.view.MediaFrame,
-
-	$ = jQuery,
-	EditAttachments;
-
-EditAttachments = MediaFrame.extend({
+EditAttachments = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.EditAttachments.prototype */{
 
 	className: 'edit-attachment-frame',
 	template:  wp.template( 'edit-attachment-frame' ),
@@ -627,12 +644,20 @@ EditAttachments = MediaFrame.extend({
 module.exports = EditAttachments;
 
 },{}],10:[function(require,module,exports){
+var MediaFrame = wp.media.view.MediaFrame,
+	Library = wp.media.controller.Library,
+
+	$ = Backbone.$,
+	Manage;
+
 /**
  * wp.media.view.MediaFrame.Manage
  *
  * A generic management frame workflow.
  *
  * Used in the media grid view.
+ *
+ * @memberOf wp.media.view.MediaFrame
  *
  * @class
  * @augments wp.media.view.MediaFrame
@@ -642,15 +667,9 @@ module.exports = EditAttachments;
  * @augments Backbone.View
  * @mixes wp.media.controller.StateMachine
  */
-var MediaFrame = wp.media.view.MediaFrame,
-	Library = wp.media.controller.Library,
-
-	$ = Backbone.$,
-	Manage;
-
-Manage = MediaFrame.extend({
+Manage = MediaFrame.extend(/** @lends wp.media.view.MediaFrame.Manage.prototype */{
 	/**
-	 * @global wp.Uploader
+	 * @constructs
 	 */
 	initialize: function() {
 		_.defaults( this.options, {

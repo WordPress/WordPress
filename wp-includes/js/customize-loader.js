@@ -1,7 +1,9 @@
 /* global _wpCustomizeLoaderSettings, confirm */
-/*
+/**
  * Expose a public API that allows the customizer to be
  * loaded on any page.
+ *
+ * @namespace wp
  */
 window.wp = window.wp || {};
 
@@ -22,9 +24,12 @@ window.wp = window.wp || {};
 	 *
 	 *     e.g. <a class="load-customize" href="<?php echo wp_customize_url(); ?>">Open Customizer</a>
 	 *
+	 * @memberOf wp.customize
+	 *
+	 * @class
 	 * @augments wp.customize.Events
 	 */
-	Loader = $.extend( {}, api.Events, {
+	Loader = $.extend( {}, api.Events,/** @lends wp.customize.Loader.prototype */{
 		/**
 		 * Setup the Loader; triggered on document#ready.
 		 */

@@ -850,6 +850,7 @@ window.autosave = function() {
 		};
 	}
 
+	/** @namespace wp */
 	window.wp = window.wp || {};
 	window.wp.autosave = autosave();
 
