@@ -1623,9 +1623,6 @@ final class _WP_Editors {
 		// Do main query.
 		$get_posts = new WP_Query;
 		$posts = $get_posts->query( $query );
-		// Check if any posts were found.
-		if ( ! $get_posts->post_count )
-			return false;
 
 		// Build results.
 		$results = array();
@@ -1665,7 +1662,9 @@ final class _WP_Editors {
 		 * }
 		 * @param array $query  An array of WP_Query arguments.
 		 */
-		return apply_filters( 'wp_link_query', $results, $query );
+		$results = apply_filters( 'wp_link_query', $results, $query );
+
+		return ! empty( $results ) ? $results : false;
 	}
 
 	/**
