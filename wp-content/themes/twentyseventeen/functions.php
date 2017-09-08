@@ -514,7 +514,7 @@ add_filter( 'get_header_image_tag', 'twentyseventeen_header_image_tag', 10, 3 );
  * @param array $attr       Attributes for the image markup.
  * @param int   $attachment Image attachment ID.
  * @param array $size       Registered image size or flat array of height and width dimensions.
- * @return string A source size value for use in a post thumbnail 'sizes' attribute.
+ * @return array The filtered attributes for the image markup.
  */
 function twentyseventeen_post_thumbnail_sizes_attr( $attr, $attachment, $size ) {
 	if ( is_archive() || is_search() || is_home() ) {
