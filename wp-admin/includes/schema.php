@@ -905,8 +905,16 @@ function populate_network( $network_id = 1, $domain = '', $email = '', $site_nam
 		$errors->add( 'empty_sitename', __( 'You must provide a name for your network of sites.' ) );
 
 	// Check for network collision.
-	if ( $network_id == $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id ) ) )
-		$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
+	$network_exists = false;
+	if ( is_multisite() ) {
+		if ( get_network( (int) $network_id ) ) {
+			$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
+		}
+	} else {
+		if ( $network_id == $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE id = %d", $network_id ) ) ) {
+			$errors->add( 'siteid_exists', __( 'The network already exists.' ) );
+		}
+	}
 
 	if ( ! is_email( $email ) )
 		$errors->add( 'invalid_email', __( 'You must provide a valid email address.' ) );
