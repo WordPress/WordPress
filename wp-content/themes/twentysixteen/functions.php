@@ -393,7 +393,7 @@ add_filter( 'wp_calculate_image_sizes', 'twentysixteen_content_image_sizes_attr'
  * @param array $attr Attributes for the image markup.
  * @param int   $attachment Image attachment ID.
  * @param array $size Registered image size or flat array of height and width dimensions.
- * @return string A source size value for use in a post thumbnail 'sizes' attribute.
+ * @return array The filtered attributes for the image markup.
  */
 function twentysixteen_post_thumbnail_sizes_attr( $attr, $attachment, $size ) {
 	if ( 'post-thumbnail' === $size ) {
