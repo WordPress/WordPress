@@ -230,7 +230,8 @@ wp.textWidgets = ( function( $ ) {
 				// The user has disabled TinyMCE.
 				if ( typeof window.tinymce === 'undefined' ) {
 					wp.editor.initialize( id, {
-						quicktags: true
+						quicktags: true,
+						mediaButtons: true
 					});
 
 					return;
@@ -242,11 +243,23 @@ wp.textWidgets = ( function( $ ) {
 					wp.editor.remove( id );
 				}
 
+				// Add or enable the `wpview` plugin.
+				$( document ).one( 'wp-before-tinymce-init.text-widget-init', function( event, init ) {
+					// If somebody has removed all plugins, they must have a good reason.
+					// Keep it that way.
+					if ( ! init.plugins ) {
+						return;
+					} else if ( ! /\bwpview\b/.test( init.plugins ) ) {
+						init.plugins += ',wpview';
+					}
+				} );
+
 				wp.editor.initialize( id, {
 					tinymce: {
 						wpautop: true
 					},
-					quicktags: true
+					quicktags: true,
+					mediaButtons: true
 				});
 
 				/**
