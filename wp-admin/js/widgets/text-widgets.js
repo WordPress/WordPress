@@ -165,9 +165,10 @@ wp.textWidgets = ( function( $ ) {
 		 * @returns {void}
 		 */
 		initializeEditor: function initializeEditor() {
-			var control = this, changeDebounceDelay = 1000, id, textarea, triggerChangeIfDirty, restoreTextMode = false, needsTextareaChangeTrigger = false;
+			var control = this, changeDebounceDelay = 1000, id, textarea, triggerChangeIfDirty, restoreTextMode = false, needsTextareaChangeTrigger = false, previousValue;
 			textarea = control.fields.text;
 			id = textarea.attr( 'id' );
+			previousValue = textarea.val();
 
 			/**
 			 * Trigger change if dirty.
@@ -202,10 +203,11 @@ wp.textWidgets = ( function( $ ) {
 					}
 				}
 
-				// Trigger change on textarea when it is dirty for sake of widgets in the Customizer needing to sync form inputs to setting models.
-				if ( needsTextareaChangeTrigger ) {
+				// Trigger change on textarea when it has changed so the widget can enter a dirty state.
+				if ( needsTextareaChangeTrigger && previousValue !== textarea.val() ) {
 					textarea.trigger( 'change' );
 					needsTextareaChangeTrigger = false;
+					previousValue = textarea.val();
 				}
 			};
 

@@ -42,6 +42,10 @@
 	line-height: 16px;
 }
 
+.widget.widget-dirty .widget-control-close-wrapper {
+	display: none;
+}
+
 .in-widget-title,
 #widgets-right a.widget-control-edit,
 #available-widgets .widget-description {

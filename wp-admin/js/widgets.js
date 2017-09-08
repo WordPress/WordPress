@@ -7,9 +7,29 @@ wpWidgets = {
 	/**
 	 * A closed Sidebar that gets a Widget dragged over it.
 	 *
-	 * @var element|null
+	 * @var {element|null}
 	 */
 	hoveredSidebar: null,
+
+	/**
+	 * Translations.
+	 *
+	 * Exported from PHP in wp_default_scripts().
+	 *
+	 * @var {object}
+	 */
+	l10n: {
+		save: '{save}',
+		saved: '{saved}',
+		saveAlert: '{saveAlert}'
+	},
+
+	/**
+	 * Lookup of which widgets have had change events triggered.
+	 *
+	 * @var {object}
+	 */
+	dirtyWidgets: {},
 
 	init : function() {
 		var rem, the_id,
@@ -33,6 +53,39 @@ wpWidgets = {
 			$document.triggerHandler( 'wp-pin-menu' );
 		});
 
+		// Show AYS dialog when there are unsaved widget changes.
+		$( window ).on( 'beforeunload.widgets', function( event ) {
+			var dirtyWidgetIds = [], unsavedWidgetsElements;
+			$.each( self.dirtyWidgets, function( widgetId, dirty ) {
+				if ( dirty ) {
+					dirtyWidgetIds.push( widgetId );
+				}
+			});
+			if ( 0 !== dirtyWidgetIds.length ) {
+				unsavedWidgetsElements = $( '#widgets-right' ).find( '.widget' ).filter( function() {
+					return -1 !== dirtyWidgetIds.indexOf( $( this ).prop( 'id' ).replace( /^widget-\d+_/, '' ) );
+				});
+				unsavedWidgetsElements.each( function() {
+					if ( ! $( this ).hasClass( 'open' ) ) {
+						$( this ).find( '.widget-title-action:first' ).click();
+					}
+				});
+
+				// Bring the first unsaved widget into view and focus on the first tabbable field.
+				unsavedWidgetsElements.first().each( function() {
+					if ( this.scrollIntoViewIfNeeded ) {
+						this.scrollIntoViewIfNeeded();
+					} else {
+						this.scrollIntoView();
+					}
+					$( this ).find( '.widget-inside :tabbable:first' ).focus();
+				} );
+
+				event.returnValue = wpWidgets.l10n.saveAlert;
+				return event.returnValue;
+			}
+		});
+
 		$('#widgets-left .sidebar-name').click( function() {
 			$(this).closest('.widgets-holder-wrap').toggleClass('closed');
 			$document.triggerHandler( 'wp-pin-menu' );
@@ -41,14 +94,27 @@ wpWidgets = {
 		$(document.body).bind('click.widgets-toggle', function(e) {
 			var target = $(e.target),
 				css = { 'z-index': 100 },
-				widget, inside, targetWidth, widgetWidth, margin,
+				widget, inside, targetWidth, widgetWidth, margin, saveButton, widgetId,
 				toggleBtn = target.closest( '.widget' ).find( '.widget-top button.widget-action' );
 
 			if ( target.parents('.widget-top').length && ! target.parents('#available-widgets').length ) {
 				widget = target.closest('div.widget');
 				inside = widget.children('.widget-inside');
-				targetWidth = parseInt( widget.find('input.widget-width').val(), 10 ),
+				targetWidth = parseInt( widget.find('input.widget-width').val(), 10 );
 				widgetWidth = widget.parent().width();
+				widgetId = inside.find( '.widget-id' ).val();
+
+				// Save button is initially disabled, but is enabled when a field is changed.
+				if ( ! widget.data( 'dirty-state-initialized' ) ) {
+					saveButton = inside.find( '.widget-control-save' );
+					saveButton.prop( 'disabled', true ).val( wpWidgets.l10n.saved );
+					inside.on( 'input change', function() {
+						self.dirtyWidgets[ widgetId ] = true;
+						widget.addClass( 'widget-dirty' );
+						saveButton.prop( 'disabled', false ).val( wpWidgets.l10n.save );
+					});
+					widget.data( 'dirty-state-initialized', true );
+				}
 
 				if ( inside.is(':hidden') ) {
 					if ( targetWidth > 250 && ( targetWidth + 30 > widgetWidth ) && widget.closest('div.widgets-sortables').length ) {
@@ -410,8 +476,15 @@ wpWidgets = {
 	},
 
 	save : function( widget, del, animate, order ) {
-		var sidebarId = widget.closest('div.widgets-sortables').attr('id'),
-			data = widget.find('form').serialize(), a;
+		var self = this, data, a,
+			sidebarId = widget.closest( 'div.widgets-sortables' ).attr( 'id' ),
+			form = widget.find( 'form' );
+
+		if ( form.prop( 'checkValidity' ) && ! form[0].checkValidity() ) {
+			return;
+		}
+
+		data = form.serialize();
 
 		widget = $(widget);
 		$( '.spinner', widget ).addClass( 'is-active' );
@@ -429,11 +502,10 @@ wpWidgets = {
 		data += '&' + $.param(a);
 
 		$.post( ajaxurl, data, function(r) {
-			var id;
+			var id = $('input.widget-id', widget).val();
 
 			if ( del ) {
 				if ( ! $('input.widget_number', widget).val() ) {
-					id = $('input.widget-id', widget).val();
 					$('#available-widgets').find('input.widget-id').each(function(){
 						if ( $(this).val() === id ) {
 							$(this).closest('div.widget').show();
@@ -459,6 +531,15 @@ wpWidgets = {
 				if ( r && r.length > 2 ) {
 					$( 'div.widget-content', widget ).html( r );
 					wpWidgets.appendTitle( widget );
+
+					// Re-disable the save button.
+					widget.find( '.widget-control-save' ).prop( 'disabled', true ).val( wpWidgets.l10n.saved );
+
+					widget.removeClass( 'widget-dirty' );
+
+					// Clear the dirty flag from the widget.
+					delete self.dirtyWidgets[ id ];
+
 					$document.trigger( 'widget-updated', [ widget ] );
 
 					if ( sidebarId === 'wp_inactive_widgets' ) {

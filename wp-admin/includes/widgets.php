@@ -253,8 +253,11 @@ function wp_widget_control( $sidebar_args ) {
 
 	<div class="widget-control-actions">
 		<div class="alignleft">
-			<button type="button" class="button-link button-link-delete widget-control-remove"><?php _e( 'Delete' ); ?></button> |
-			<button type="button" class="button-link widget-control-close"><?php _e( 'Close' ); ?></button>
+			<button type="button" class="button-link button-link-delete widget-control-remove"><?php _e( 'Delete' ); ?></button>
+			<span class="widget-control-close-wrapper">
+				|
+				<button type="button" class="button-link widget-control-close"><?php _e( 'Done' ); ?></button>
+			</span>
 		</div>
 		<div class="alignright<?php if ( 'noform' === $has_form ) echo ' widget-control-noform'; ?>">
 			<?php submit_button( __( 'Save' ), 'primary widget-control-save right', 'savewidget', false, array( 'id' => 'widget-' . esc_attr( $id_format ) . '-savewidget' ) ); ?>
