@@ -459,7 +459,7 @@ class WP_Press_This {
 	 * Limit embed source URLs to specific providers.
 	 *
 	 * Not all core oEmbed providers are supported. Supported providers include YouTube, Vimeo,
-	 * Vine, Daily Motion, SoundCloud, and Twitter.
+	 * Daily Motion, SoundCloud, and Twitter.
 	 *
 	 * @ignore
 	 * @since 4.2.0
@@ -482,9 +482,6 @@ class WP_Press_This {
 		} else if ( preg_match( '!//vimeo\.com/moogaloop\.swf\?clip_id=([\d]+)$!i', $src, $src_matches ) ) {
 			// Embedded Vimeo Flash videos
 			$src = 'https://vimeo.com/' . (int) $src_matches[1];
-		} else if ( preg_match( '!//vine\.co/v/([^/]+)/embed!i', $src, $src_matches ) ) {
-			// Embedded Vine videos
-			$src = 'https://vine.co/v/' . $src_matches[1];
 		} else if ( preg_match( '!//(www\.)?dailymotion\.com/embed/video/([^/?]+)([/?].+)?!i', $src, $src_matches ) ) {
 			// Embedded Daily Motion videos
 			$src = 'https://www.dailymotion.com/video/' . $src_matches[2];
