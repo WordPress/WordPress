@@ -2864,33 +2864,12 @@ div.action-links {
 	}
 }
 
-/* Thickbox for Plugin Install screen */
-body.about-php #TB_window,
-body.plugin-install-php #TB_window,
-body.import-php #TB_window,
-body.plugins-php #TB_window,
-body.update-core-php #TB_window,
-body.index-php #TB_window {
+/* Thickbox for the Plugin details modal. */
+#TB_window.plugin-details-modal {
 	background: #fcfcfc;
 }
 
-/* IE 8 needs a change in the pseudo element content */
-.ie8 body.about-php #TB_window:before,
-.ie8 body.plugin-install-php #TB_window:before,
-.ie8 body.import-php #TB_window:before,
-.ie8 body.plugins-php #TB_window:before,
-.ie8 body.update-core-php #TB_window:before,
-.ie8 body.index-php #TB_window:before {
-	content: " ";
-	background: none;
-}
-
-body.about-php #TB_window.thickbox-loading:before,
-body.plugin-install-php #TB_window.thickbox-loading:before,
-body.import-php #TB_window.thickbox-loading:before,
-body.plugins-php #TB_window.thickbox-loading:before,
-body.update-core-php #TB_window.thickbox-loading:before,
-body.index-php #TB_window.thickbox-loading:before {
+#TB_window.plugin-details-modal.thickbox-loading:before {
 	content: "";
 	display: block;
 	width: 20px;
@@ -2910,80 +2889,38 @@ body.index-php #TB_window.thickbox-loading:before {
 	(-webkit-min-device-pixel-ratio: 1.25),
 	(min-resolution: 120dpi) {
 
-	body.about-php #TB_window.thickbox-loading:before,
-	body.plugin-install-php #TB_window.thickbox-loading:before,
-	body.import-php #TB_window.thickbox-loading:before,
-	body.plugins-php #TB_window.thickbox-loading:before,
-	body.update-core-php #TB_window.thickbox-loading:before,
-	body.index-php #TB_window.thickbox-loading:before {
+	#TB_window.plugin-details-modal.thickbox-loading:before {
 		background-image: url(../images/spinner-2x.gif);
 	}
 }
 
-body.about-php #TB_title,
-body.plugin-install-php #TB_title,
-body.import-php #TB_title,
-body.plugins-php #TB_title,
-body.update-core-php #TB_title,
-body.index-php #TB_title {
+.plugin-details-modal #TB_title {
 	float: left;
 	height: 1px;
 }
 
-body.about-php #TB_ajaxWindowTitle,
-body.plugin-install-php #TB_ajaxWindowTitle,
-body.import-php #TB_ajaxWindowTitle,
-body.plugins-php #TB_ajaxWindowTitle,
-body.update-core-php #TB_ajaxWindowTitle,
-body.index-php #TB_ajaxWindowTitle {
+.plugin-details-modal #TB_ajaxWindowTitle {
 	display: none;
 }
 
-/* only on these screens */
-.about-php #TB_closeWindowButton,
-.plugin-install-php #TB_closeWindowButton,
-.import-php #TB_closeWindowButton,
-.plugins-php #TB_closeWindowButton,
-.update-core-php #TB_closeWindowButton,
-.index-php #TB_closeWindowButton {
+.plugin-details-modal #TB_closeWindowButton {
 	left: auto;
 	right: -30px;
 	color: #eee;
 }
 
-
-body.about-php #TB_closeWindowButton:hover,
-body.about-php #TB_closeWindowButton:focus,
-body.plugin-install-php #TB_closeWindowButton:hover,
-body.plugin-install-php #TB_closeWindowButton:focus,
-body.import-php #TB_closeWindowButton:hover,
-body.import-php #TB_closeWindowButton:focus,
-body.plugins-php #TB_closeWindowButton:hover,
-body.plugins-php #TB_closeWindowButton:focus,
-body.update-core-php #TB_closeWindowButton:hover,
-body.update-core-php #TB_closeWindowButton:focus,
-body.index-php #TB_closeWindowButton:hover,
-body.index-php #TB_closeWindowButton:focus {
+.plugin-details-modal #TB_closeWindowButton:hover,
+.plugin-details-modal #TB_closeWindowButton:focus {
 	color: #00a0d2;
 	outline: none;
 	box-shadow: none;
 }
 
-body.about-php .tb-close-icon,
-body.plugin-install-php .tb-close-icon,
-body.import-php .tb-close-icon,
-body.plugins-php .tb-close-icon,
-body.update-core-php .tb-close-icon,
-body.index-php .tb-close-icon {
+.plugin-details-modal .tb-close-icon {
 	display: none;
 }
 
-body.about-php #TB_closeWindowButton:after,
-body.plugin-install-php #TB_closeWindowButton:after,
-body.import-php #TB_closeWindowButton:after,
-body.plugins-php #TB_closeWindowButton:after,
-body.update-core-php #TB_closeWindowButton:after,
-body.index-php #TB_closeWindowButton:after {
+.plugin-details-modal #TB_closeWindowButton:after {
 	content: "\f335";
 	font: normal 32px/29px 'dashicons';
 	speak: none;
@@ -2993,12 +2930,7 @@ body.index-php #TB_closeWindowButton:after {
 
 /* move plugin install close icon to top on narrow screens */
 @media screen and ( max-width: 830px ) {
-	body.about-php #TB_closeWindowButton,
-	body.plugin-install-php #TB_closeWindowButton,
-	body.import-php #TB_closeWindowButton,
-	body.plugins-php #TB_closeWindowButton,
-	body.update-core-php #TB_closeWindowButton,
-	body.index-php #TB_closeWindowButton {
+	.plugin-details-modal #TB_closeWindowButton {
 		right: 0;
 		top: -30px;
 	}

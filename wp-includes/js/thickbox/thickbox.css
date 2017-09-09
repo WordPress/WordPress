@@ -94,7 +94,7 @@
 #TB_load {
 	position: fixed;
 	display: none;
-	z-index: 103;
+	z-index: 100050;
 	top: 50%;
 	left: 50%;
 	background-color: #E8E8E8;
