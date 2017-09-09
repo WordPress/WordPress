@@ -181,7 +181,7 @@ wp.textWidgets = ( function( $ ) {
 
 					/*
 					 * Account for race condition in customizer where user clicks Save & Publish while
-					 * focus was just previously given to to the editor. Since updates to the editor
+					 * focus was just previously given to the editor. Since updates to the editor
 					 * are debounced at 1 second and since widget input changes are only synced to
 					 * settings after 250ms, the customizer needs to be put into the processing
 					 * state during the time between the change event is triggered and updateWidget
