@@ -470,7 +470,7 @@ wp.customize.selectiveRefresh = ( function( $, api ) {
 			partial.createEditShortcutForPlacement( placement );
 			placement.container.removeClass( 'customize-partial-refreshing' );
 
-			// Prevent placement container from being being re-triggered as being rendered among nested partials.
+			// Prevent placement container from being re-triggered as being rendered among nested partials.
 			placement.container.data( 'customize-partial-content-rendered', true );
 
 			/*
