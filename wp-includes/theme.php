@@ -3134,7 +3134,7 @@ function _wp_keep_alive_customize_changeset_dependent_auto_drafts( $new_status, 
 		}
 		$wpdb->update(
 			$wpdb->posts,
-			array( 'post_date' => $new_post_date ), // Note wp_delete_auto_drafts() only looks at this this date.
+			array( 'post_date' => $new_post_date ), // Note wp_delete_auto_drafts() only looks at this date.
 			array( 'ID' => $post_id )
 		);
 		clean_post_cache( $post_id );

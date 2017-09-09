@@ -247,7 +247,7 @@ function show_user_form($user_name = '', $user_email = '', $errors = '') {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param WP_Error $errors A WP_Error object containing containing 'user_name' or 'user_email' errors.
+	 * @param WP_Error $errors A WP_Error object containing 'user_name' or 'user_email' errors.
 	 */
 	do_action( 'signup_extra_fields', $errors );
 }
