@@ -89,7 +89,12 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 		}
 
 		if ( ( $parent_file && $item[2] == $parent_file ) || ( empty($typenow) && $self == $item[2] ) ) {
-			$class[] = ! empty( $submenu_items ) ? 'wp-has-current-submenu wp-menu-open' : 'current';
+			if ( ! empty( $submenu_items ) ) {
+				$class[] = 'wp-has-current-submenu wp-menu-open';
+			} else {
+				$class[] = 'current';
+				$aria_attributes .= 'aria-current="page"';
+			}
 		} else {
 			$class[] = 'wp-not-current-submenu';
 			if ( ! empty( $submenu_items ) )
@@ -178,6 +183,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					continue;
 
 				$class = array();
+				$aria_attributes = '';
 				if ( $first ) {
 					$class[] = 'wp-first-item';
 					$first = false;
@@ -192,8 +198,10 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 				$self_type = ! empty( $typenow ) ? $self . '?post_type=' . $typenow : 'nothing';
 
 				if ( isset( $submenu_file ) ) {
-					if ( $submenu_file == $sub_item[2] )
+					if ( $submenu_file == $sub_item[2] ) {
 						$class[] = 'current';
+						$aria_attributes .= ' aria-current="page"';
+					}
 				// If plugin_page is set the parent must either match the current page or not physically exist.
 				// This allows plugin pages with the same hook to exist under different parents.
 				} elseif (
@@ -201,6 +209,7 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 					( isset( $plugin_page ) && $plugin_page == $sub_item[2] && ( $item[2] == $self_type || $item[2] == $self || file_exists($menu_file) === false ) )
 				) {
 					$class[] = 'current';
+					$aria_attributes .= ' aria-current="page"';
 				}
 
 				if ( ! empty( $sub_item[4] ) ) {
@@ -224,9 +233,9 @@ function _wp_menu_output( $menu, $submenu, $submenu_as_parent = true ) {
 						$sub_item_url = add_query_arg( array( 'page' => $sub_item[2] ), 'admin.php' );
 
 					$sub_item_url = esc_url( $sub_item_url );
-					echo "<li$class><a href='$sub_item_url'$class>$title</a></li>";
+					echo "<li$class><a href='$sub_item_url'$class$aria_attributes>$title</a></li>";
 				} else {
-					echo "<li$class><a href='{$sub_item[2]}'$class>$title</a></li>";
+					echo "<li$class><a href='{$sub_item[2]}'$class$aria_attributes>$title</a></li>";
 				}
 			}
 			echo "</ul>";
