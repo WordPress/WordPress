@@ -1240,7 +1240,7 @@ function unregister_post_type( $post_type ) {
  * @see map_meta_cap()
  *
  * @param object $args Post type registration arguments.
- * @return object object with all the capabilities as member variables.
+ * @return object Object with all the capabilities as member variables.
  */
 function get_post_type_capabilities( $args ) {
 	if ( ! is_array( $args->capability_type ) )

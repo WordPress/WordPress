@@ -293,7 +293,7 @@ class WP_Customize_Partial {
 	 *
 	 * @since 4.5.0
 	 *
-	 * @return bool False if user can't edit one one of the related settings,
+	 * @return bool False if user can't edit one of the related settings,
 	 *                    or if one of the associated settings does not exist.
 	 */
 	final public function check_capabilities() {

@@ -2743,7 +2743,7 @@ final class WP_Customize_Manager {
 			$stashed_theme_mod_settings = array();
 		}
 
-		// Delete any stashed theme mods for the active theme since since they would have been loaded and saved upon activation.
+		// Delete any stashed theme mods for the active theme since they would have been loaded and saved upon activation.
 		unset( $stashed_theme_mod_settings[ $this->get_stylesheet() ] );
 
 		// Merge inactive theme mods with the stashed theme mod settings.
