@@ -4112,9 +4112,9 @@ final class WP_Customize_Manager {
 		 */
 
 		$this->add_section( 'static_front_page', array(
-			'title' => __( 'Static Front Page' ),
+			'title' => __( 'Homepage Settings' ),
 			'priority' => 120,
-			'description' => __( 'Your theme supports a static front page.' ),
+			'description' => __( 'Your theme supports a static homepage.' ),
 			'active_callback' => array( $this, 'has_published_pages' ),
 		) );
 
@@ -4125,7 +4125,7 @@ final class WP_Customize_Manager {
 		) );
 
 		$this->add_control( 'show_on_front', array(
-			'label' => __( 'Front page displays' ),
+			'label' => __( 'Your homepage displays' ),
 			'section' => 'static_front_page',
 			'type' => 'radio',
 			'choices' => array(
@@ -4140,7 +4140,7 @@ final class WP_Customize_Manager {
 		) );
 
 		$this->add_control( 'page_on_front', array(
-			'label' => __( 'Front page' ),
+			'label' => __( 'Homepage' ),
 			'section' => 'static_front_page',
 			'type' => 'dropdown-pages',
 			'allow_addition' => true,
