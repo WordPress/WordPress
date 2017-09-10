@@ -4114,7 +4114,7 @@ final class WP_Customize_Manager {
 		$this->add_section( 'static_front_page', array(
 			'title' => __( 'Homepage Settings' ),
 			'priority' => 120,
-			'description' => __( 'Your theme supports a static homepage.' ),
+			'description' => __( 'You can choose what&#8217;s displayed on the homepage of your site. It can be posts in reverse chronological order (classic blog), or a fixed/static page. To set a static homepage, you first need to create two Pages. One will become the homepage, and the other will be where your posts are displayed.' ),
 			'active_callback' => array( $this, 'has_published_pages' ),
 		) );
 

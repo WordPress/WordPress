@@ -35,7 +35,7 @@ $wp_file_descriptions = array(
 	'singular.php'          => __( 'Singular Template' ),
 	'single.php'            => __( 'Single Post' ),
 	'page.php'              => __( 'Single Page' ),
-	'front-page.php'        => __( 'Static Homepage' ),
+	'front-page.php'        => __( 'Homepage' ),
 	// Attachments
 	'attachment.php'        => __( 'Attachment Template' ),
 	'image.php'             => __( 'Image Attachment Template' ),
