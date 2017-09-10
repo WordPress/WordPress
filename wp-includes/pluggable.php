@@ -694,6 +694,7 @@ if ( !function_exists('wp_generate_auth_cookie') ) :
  * Generate authentication cookie contents.
  *
  * @since 2.5.0
+ * @since 4.0.0 The `$token` parameter was added.
  *
  * @param int    $user_id    User ID
  * @param int    $expiration The time the cookie expires as a UNIX timestamp.
@@ -726,6 +727,7 @@ function wp_generate_auth_cookie( $user_id, $expiration, $scheme = 'auth', $toke
 	 * Filters the authentication cookie.
 	 *
 	 * @since 2.5.0
+	 * @since 4.0.0 The `$token` parameter was added.
 	 *
 	 * @param string $cookie     Authentication cookie.
 	 * @param int    $user_id    User ID.
@@ -874,6 +876,7 @@ function wp_set_auth_cookie( $user_id, $remember = false, $secure = '', $token =
 	 * Fires immediately before the authentication cookie is set.
 	 *
 	 * @since 2.5.0
+	 * @since 4.9.0 The `$token` parameter was added.
 	 *
 	 * @param string $auth_cookie Authentication cookie.
 	 * @param int    $expire      The time the login grace period expires as a UNIX timestamp.
@@ -882,13 +885,15 @@ function wp_set_auth_cookie( $user_id, $remember = false, $secure = '', $token =
 	 *                            Default is 14 days from now.
 	 * @param int    $user_id     User ID.
 	 * @param string $scheme      Authentication scheme. Values include 'auth', 'secure_auth', or 'logged_in'.
+	 * @param string $token       User's session token to use for this cookie.
 	 */
-	do_action( 'set_auth_cookie', $auth_cookie, $expire, $expiration, $user_id, $scheme );
+	do_action( 'set_auth_cookie', $auth_cookie, $expire, $expiration, $user_id, $scheme, $token );
 
 	/**
 	 * Fires immediately before the logged-in authentication cookie is set.
 	 *
 	 * @since 2.6.0
+	 * @since 4.9.0 The `$token` parameter was added.
 	 *
 	 * @param string $logged_in_cookie The logged-in cookie.
 	 * @param int    $expire           The time the login grace period expires as a UNIX timestamp.
@@ -897,8 +902,9 @@ function wp_set_auth_cookie( $user_id, $remember = false, $secure = '', $token =
 	 *                                 Default is 14 days from now.
 	 * @param int    $user_id          User ID.
 	 * @param string $scheme           Authentication scheme. Default 'logged_in'.
+	 * @param string $token            User's session token to use for this cookie.
 	 */
-	do_action( 'set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user_id, 'logged_in' );
+	do_action( 'set_logged_in_cookie', $logged_in_cookie, $expire, $expiration, $user_id, 'logged_in', $token );
 
 	/**
 	 * Allows preventing auth cookies from actually being sent to the client.
