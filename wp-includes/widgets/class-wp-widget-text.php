@@ -183,11 +183,14 @@ class WP_Widget_Text extends WP_Widget {
 	 *
 	 * @since 2.8.0
 	 *
+	 * @global WP_Post $post
+	 *
 	 * @param array $args     Display arguments including 'before_title', 'after_title',
 	 *                        'before_widget', and 'after_widget'.
 	 * @param array $instance Settings for the current Text widget instance.
 	 */
 	public function widget( $args, $instance ) {
+		global $post;
 
 		/** This filter is documented in wp-includes/widgets/class-wp-widget-pages.php */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? '' : $instance['title'], $instance, $this->id_base );
@@ -205,16 +208,22 @@ class WP_Widget_Text extends WP_Widget {
 		}
 
 		/*
-		 * Just-in-time temporarily upgrade Visual Text widget shortcode handling
-		 * (with support added by plugin) from the widget_text filter to
-		 * widget_text_content:11 to prevent wpautop from corrupting HTML output
-		 * added by the shortcode.
+		 * Suspend legacy plugin-supplied do_shortcode() for 'widget_text' filter for the visual Text widget to prevent
+		 * shortcodes being processed twice. Now do_shortcode() is added to the 'widget_text_content' filter in core itself
+		 * and it applies after wpautop() to prevent corrupting HTML output added by the shortcode. When do_shortcode() is
+		 * added to 'widget_text_content' then do_shortcode() will be manually called when in legacy mode as well.
 		 */
 		$widget_text_do_shortcode_priority = has_filter( 'widget_text', 'do_shortcode' );
-		$should_upgrade_shortcode_handling = ( $is_visual_text_widget && false !== $widget_text_do_shortcode_priority );
-		if ( $should_upgrade_shortcode_handling ) {
+		$should_suspend_legacy_shortcode_support = ( $is_visual_text_widget && false !== $widget_text_do_shortcode_priority );
+		if ( $should_suspend_legacy_shortcode_support ) {
 			remove_filter( 'widget_text', 'do_shortcode', $widget_text_do_shortcode_priority );
-			add_filter( 'widget_text_content', 'do_shortcode', 11 );
+		}
+
+		// Nullify the $post global during widget rendering to prevent shortcodes from running with the unexpected context.
+		$suspended_post = null;
+		if ( isset( $post ) ) {
+			$suspended_post = $post;
+			$post = null;
 		}
 
 		/**
@@ -244,14 +253,35 @@ class WP_Widget_Text extends WP_Widget {
 			 * @param WP_Widget_Text $this     Current Text widget instance.
 			 */
 			$text = apply_filters( 'widget_text_content', $text, $instance, $this );
+		} else {
+			// Now in legacy mode, add paragraphs and line breaks when checkbox is checked.
+			if ( ! empty( $instance['filter'] ) ) {
+				$text = wpautop( $text );
+			}
 
-		} elseif ( ! empty( $instance['filter'] ) ) {
-			$text = wpautop( $text ); // Back-compat for instances prior to 4.8.
+			/*
+			 * Manually do shortcodes on the content when the core-added filter is present. It is added by default
+			 * in core by adding do_shortcode() to the 'widget_text_content' filter to apply after wpautop().
+			 * Since the legacy Text widget runs wpautop() after 'widget_text' filters are applied, the widget in
+			 * legacy mode here manually applies do_shortcode() on the content unless the default
+			 * core filter for 'widget_text_content' has been removed, or if do_shortcode() has already
+			 * been applied via a plugin adding do_shortcode() to 'widget_text' filters.
+			 */
+			if ( has_filter( 'widget_text_content', 'do_shortcode' ) && ! $widget_text_do_shortcode_priority ) {
+				if ( ! empty( $instance['filter'] ) ) {
+					$text = shortcode_unautop( $text );
+				}
+				$text = do_shortcode( $text );
+			}
 		}
 
-		// Undo temporary upgrade of the plugin-supplied shortcode handling.
-		if ( $should_upgrade_shortcode_handling ) {
-			remove_filter( 'widget_text_content', 'do_shortcode', 11 );
+		// Restore post global.
+		if ( isset( $suspended_post ) ) {
+			$post = $suspended_post;
+		}
+
+		// Undo suspension of legacy plugin-supplied shortcode handling.
+		if ( $should_suspend_legacy_shortcode_support ) {
 			add_filter( 'widget_text', 'do_shortcode', $widget_text_do_shortcode_priority );
 		}
 

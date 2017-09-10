@@ -169,6 +169,8 @@ add_filter( 'widget_text_content', 'capital_P_dangit', 11 );
 add_filter( 'widget_text_content', 'wptexturize'          );
 add_filter( 'widget_text_content', 'convert_smilies',  20 );
 add_filter( 'widget_text_content', 'wpautop'              );
+add_filter( 'widget_text_content', 'shortcode_unautop'    );
+add_filter( 'widget_text_content', 'do_shortcode',     11 ); // Runs after wpautop(); note that $post global will be null when shortcodes run.
 
 add_filter( 'date_i18n', 'wp_maybe_decline_date' );
 
