@@ -280,9 +280,9 @@
 
 #adminmenu .wp-submenu a {
 	font-size: 13px;
-	line-height: 1.2;
+	line-height: 18px;
 	margin: 0;
-	padding: 6px 0;
+	padding: 5px 0;
 }
 
 #adminmenu .wp-submenu li.current,
@@ -303,7 +303,7 @@
 
 #adminmenu .wp-has-current-submenu ul > li > a,
 .folded #adminmenu li.menu-top .wp-submenu > li > a {
-	padding: 6px 12px;
+	padding: 5px 12px;
 }
 
 #adminmenu a.menu-top,
@@ -510,28 +510,26 @@ ul#adminmenu > li.current > a.current:after {
 	border: 0 none;
 }
 
+/* @todo: consider to use a single rule for these counters and the list table comments counters. */
 #adminmenu .awaiting-mod,
 #adminmenu .update-plugins {
 	display: inline-block;
-	background-color: #d54e21;
+	vertical-align: top;
+	margin: 1px 2px 0 0;
+	padding: 0 5px;
+	min-width: 7px;
+	height: 17px;
+	border-radius: 11px;
+	background-color: #ca4a1f;
 	color: #fff;
 	font-size: 9px;
 	line-height: 17px;
-	font-weight: 600;
-	margin: 1px 2px 0 0;
-	vertical-align: top;
-	border-radius: 10px;
+	text-align: center;
 	z-index: 26;
 }
 
-#adminmenu li .awaiting-mod span,
-#adminmenu li span.update-plugins span {
-	display: block;
-	padding: 0 6px;
-}
-
 #adminmenu li.current a .awaiting-mod,
-#adminmenu	li a.wp-has-current-submenu .update-plugins {
+#adminmenu li a.wp-has-current-submenu .update-plugins {
 	background-color: #00b9eb;
 	color: #fff;
 }

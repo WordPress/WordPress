@@ -96,7 +96,7 @@
 	border-top-color: #0073aa;
 }
 
-/* comments bubble pending */
+/* @todo: consider to use a single rule for these counters and the admin menu counters. */
 .column-response .post-com-count-pending,
 .column-comments .post-com-count-pending {
 	position: relative;
