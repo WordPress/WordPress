@@ -2272,6 +2272,10 @@ final class WP_Customize_Manager {
 			}
 		}
 
+		if ( ! empty( $is_future_dated ) && 'publish' === $args['status'] ) {
+			$args['status'] = 'future';
+		}
+
 		// The request was made via wp.customize.previewer.save().
 		$update_transactionally = (bool) $args['status'];
 		$allow_revision = (bool) $args['status'];
