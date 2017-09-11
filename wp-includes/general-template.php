@@ -3261,6 +3261,7 @@ function language_attributes( $doctype = 'html' ) {
  * anchor tag.
  *
  * @since 2.1.0
+ * @since 4.9.0 Added the `aria_current` argument.
  *
  * @global WP_Query   $wp_query
  * @global WP_Rewrite $wp_rewrite
@@ -3273,6 +3274,8 @@ function language_attributes( $doctype = 'html' ) {
  *     @type int    $total              The total amount of pages. Default is the value WP_Query's
  *                                      `max_num_pages` or 1.
  *     @type int    $current            The current page number. Default is 'paged' query var or 1.
+ *     @type string $aria_current       The value for the aria-current attribute. Possible values are 'page',
+ *                                      'step', 'location', 'date', 'time', 'true', 'false'. Default is 'page'.
  *     @type bool   $show_all           Whether to show all pages. Default false.
  *     @type int    $end_size           How many numbers on either the start and the end list edges.
  *                                      Default 1.
@@ -3308,21 +3311,22 @@ function paginate_links( $args = '' ) {
 	$format .= $wp_rewrite->using_permalinks() ? user_trailingslashit( $wp_rewrite->pagination_base . '/%#%', 'paged' ) : '?paged=%#%';
 
 	$defaults = array(
-		'base' => $pagenum_link, // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
-		'format' => $format, // ?page=%#% : %#% is replaced by the page number
-		'total' => $total,
-		'current' => $current,
-		'show_all' => false,
-		'prev_next' => true,
-		'prev_text' => __('&laquo; Previous'),
-		'next_text' => __('Next &raquo;'),
-		'end_size' => 1,
-		'mid_size' => 2,
-		'type' => 'plain',
-		'add_args' => array(), // array of query args to add
-		'add_fragment' => '',
+		'base'               => $pagenum_link, // http://example.com/all_posts.php%_% : %_% is replaced by format (below)
+		'format'             => $format, // ?page=%#% : %#% is replaced by the page number
+		'total'              => $total,
+		'current'            => $current,
+		'aria_current'       => 'page',
+		'show_all'           => false,
+		'prev_next'          => true,
+		'prev_text'          => __( '&laquo; Previous' ),
+		'next_text'          => __( 'Next &raquo;' ),
+		'end_size'           => 1,
+		'mid_size'           => 2,
+		'type'               => 'plain',
+		'add_args'           => array(), // array of query args to add
+		'add_fragment'       => '',
 		'before_page_number' => '',
-		'after_page_number' => ''
+		'after_page_number'  => '',
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -3386,7 +3390,7 @@ function paginate_links( $args = '' ) {
 	endif;
 	for ( $n = 1; $n <= $total; $n++ ) :
 		if ( $n == $current ) :
-			$page_links[] = "<span class='page-numbers current'>" . $args['before_page_number'] . number_format_i18n( $n ) . $args['after_page_number'] . "</span>";
+			$page_links[] = "<span aria-current='" . esc_attr( $args['aria_current'] ) . "' class='page-numbers current'>" . $args['before_page_number'] . number_format_i18n( $n ) . $args['after_page_number'] . "</span>";
 			$dots = true;
 		else :
 			if ( $args['show_all'] || ( $n <= $end_size || ( $current && $n >= $current - $mid_size && $n <= $current + $mid_size ) || $n > $total - $end_size ) ) :
