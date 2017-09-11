@@ -1164,6 +1164,15 @@
 		attachEvents: function () {
 			var section = this;
 
+			// Expand/Collapse accordion sections on click.
+			section.container.find( '.customize-section-back' ).on( 'click keydown', function( event ) {
+				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {
+					return;
+				}
+				event.preventDefault(); // Keep this AFTER the key filter above
+				section.collapse();
+			});
+
 			// Expand/Collapse section/panel.
 			section.container.find( '.change-theme, .customize-theme' ).on( 'click keydown', function( event ) {
 				if ( api.utils.isKeydownButNotEnterEvent( event ) ) {

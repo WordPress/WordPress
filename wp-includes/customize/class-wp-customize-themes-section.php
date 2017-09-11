@@ -50,6 +50,7 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 			</h3>
 			<div class="customize-themes-panel control-panel-content themes-php">
 				<h3 class="accordion-section-title customize-section-title">
+					<button class="customize-section-back" tabindex="0" type="button"><span class="screen-reader-text"><?php _e( 'Back' ); ?></span></button>
 					<span class="customize-action"><?php _e( 'Customizing' ); ?></span>
 					<?php _e( 'Themes' ); ?>
 					<span class="title-count theme-count"><?php echo count( $this->controls ) + 1 /* Active theme */; ?></span>

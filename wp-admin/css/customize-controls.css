@@ -1168,6 +1168,21 @@ p.customize-section-description {
 	border-left: none;
 	margin-top: 0;
 }
+#customize-theme-controls .control-section-themes .customize-section-back {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 80px;
+	border-left: 1px solid #ddd;
+	border-right: 4px solid #fff;
+}
+#customize-theme-controls .control-section-themes .customize-section-back:before {
+	content: "\f345";
+}
+#customize-theme-controls .control-section-themes .customize-section-back:hover,
+#customize-theme-controls .control-section-themes .customize-section-back:focus {
+	border-right-color: #0073aa;
+}
 
 #customize-theme-controls .control-section-themes .customize-themes-panel .accordion-section-title:first-child:hover, /* Not a focusable element. */
 #customize-theme-controls .control-section-themes .customize-themes-panel .accordion-section-title:first-child {
