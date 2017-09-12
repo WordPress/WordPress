@@ -775,7 +775,6 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
  * from other blogs. You can switch back afterwards using restore_current_blog().
  *
  * Things that aren't switched:
- *  - autoloaded options. See #14992
  *  - plugins. See #14941
  *
  * @see restore_current_blog()
