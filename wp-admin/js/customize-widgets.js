@@ -550,6 +550,10 @@
 			}
 			control.widgetContentEmbedded = true;
 
+			// Update the notification container element now that the widget content has been embedded.
+			control.notifications.container = control.getNotificationsContainerElement();
+			control.notifications.render();
+
 			widgetContent = $( control.params.widget_content );
 			control.container.find( '.widget-content:first' ).append( widgetContent );
 

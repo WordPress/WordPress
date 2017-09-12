@@ -433,18 +433,26 @@ window.wp = window.wp || {};
 		 * @param  {string} id The ID of the item to remove.
 		 */
 		remove: function( id ) {
-			var value;
+			var value = this.value( id );
 
-			if ( this.has( id ) ) {
-				value = this.value( id );
+			if ( value ) {
+
+				// Trigger event right before the element is removed from the collection.
 				this.trigger( 'remove', value );
-				if ( value.extended( api.Value ) )
+
+				if ( value.extended( api.Value ) ) {
 					value.unbind( this._change );
+				}
 				delete value.parent;
 			}
 
 			delete this._value[ id ];
 			delete this._deferreds[ id ];
+
+			// Trigger removed event after the item has been eliminated from the collection.
+			if ( value ) {
+				this.trigger( 'removed', value );
+			}
 		},
 
 		/**
@@ -790,6 +798,39 @@ window.wp = window.wp || {};
 	 * @param {*}       [params.data=null] - Any additional data.
 	 */
 	api.Notification = api.Class.extend(/** @lends wp.customize.Notification.prototype */{
+
+		/**
+		 * Template function for rendering the notification.
+		 *
+		 * This will be populated with template option or else it will be populated with template from the ID.
+		 *
+		 * @since 4.9.0
+		 * @var {Function}
+		 */
+		template: null,
+
+		/**
+		 * ID for the template to render the notification.
+		 *
+		 * @since 4.9.0
+		 * @var {string}
+		 */
+		templateId: 'customize-notification',
+
+		/**
+		 * Initialize notification.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param {string}   code - Notification code.
+		 * @param {object}   params - Notification parameters.
+		 * @param {string}   params.message - Message.
+		 * @param {string}   [params.type=error] - Type.
+		 * @param {string}   [params.setting] - Related setting ID.
+		 * @param {Function} [params.template] - Function for rendering template. If not provided, this will come from templateId.
+		 * @param {string}   [params.templateId] - ID for template to render the notification.
+		 * @param {boolean}  [params.dismissible] - Whether the notification can be dismissed.
+		 */
 		initialize: function( code, params ) {
 			var _params;
 			this.code = code;
@@ -799,12 +840,44 @@ window.wp = window.wp || {};
 					type: 'error',
 					fromServer: false,
 					data: null,
-					setting: null
+					setting: null,
+					template: null,
+					dismissible: false
 				},
 				params
 			);
 			delete _params.code;
 			_.extend( this, _params );
+		},
+
+		/**
+		 * Render the notification.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @returns {jQuery} Notification container element.
+		 */
+		render: function() {
+			var notification = this, container, data;
+			if ( ! notification.template ) {
+				notification.template = wp.template( notification.templateId );
+			}
+			data = _.extend( {}, notification, {
+				alt: notification.parent && notification.parent.alt
+			} );
+			container = $( notification.template( data ) );
+
+			if ( notification.dismissible ) {
+				container.find( '.notice-dismiss' ).on( 'click', function() {
+					if ( notification.parent ) {
+						notification.parent.remove( notification.code );
+					} else {
+						container.remove();
+					}
+				});
+			}
+
+			return container;
 		}
 	});
 

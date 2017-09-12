@@ -546,6 +546,7 @@ function wp_default_scripts( &$scripts ) {
 		'collapseSidebar'    => _x( 'Hide Controls', 'label for hide controls button without length constraints' ),
 		'expandSidebar'      => _x( 'Show Controls', 'label for hide controls button without length constraints' ),
 		'untitledBlogName'   => __( '(Untitled)' ),
+		'serverSaveError'    => __( 'Failed connecting to the server. Please try saving again.' ),
 		// Used for overriding the file types allowed in plupload.
 		'allowedFiles'       => __( 'Allowed Files' ),
 	) );

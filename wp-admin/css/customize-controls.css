@@ -766,7 +766,6 @@ p.customize-section-description {
 #customize-controls .customize-control-notifications-container { /* Scoped to #customize-controls for specificity over notification styles in common.css. */
 	margin: 4px 0 8px 0;
 	padding: 0;
-	display: none;
 	cursor: default;
 }
 
@@ -796,6 +795,33 @@ p.customize-section-description {
 
 .customize-control-text.has-error input {
 	outline: 2px solid #dc3232;
+}
+
+#customize-controls #customize-notifications-area {
+	position: absolute;
+	top: 46px;
+	width: 100%;
+	max-height: 210px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	border-bottom: 1px solid #ddd;
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+
+#customize-controls #customize-notifications-area > ul,
+#customize-controls #customize-notifications-area .notice {
+	margin: 0;
+}
+#customize-controls #customize-notifications-area .notice {
+	padding: 9px 14px;
+}
+#customize-controls #customize-notifications-area .notice.is-dismissible {
+	padding-right: 38px;
+}
+#customize-controls #customize-notifications-area .notice + .notice {
+	margin-top: 1px;
 }
 
 /* Style for custom settings */
