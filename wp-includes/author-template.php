@@ -128,6 +128,7 @@ function the_modified_author() {
  * - plugins_last_view
  * - plugins_per_page
  * - rich_editing
+ * - syntax_highlighting
  * - user_activation_key
  * - user_description
  * - user_email

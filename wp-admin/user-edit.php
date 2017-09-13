@@ -247,6 +247,26 @@ if ( ! IS_PROFILE_PAGE ) {
 		<td><label for="rich_editing"><input name="rich_editing" type="checkbox" id="rich_editing" value="false" <?php if ( ! empty( $profileuser->rich_editing ) ) checked( 'false', $profileuser->rich_editing ); ?> /> <?php _e( 'Disable the visual editor when writing' ); ?></label></td>
 	</tr>
 <?php endif; ?>
+<?php
+$show_syntax_highlighting_preference = (
+	// For Custom HTML widget and Additional CSS in Customizer.
+	user_can( $profileuser, 'edit_theme_options' )
+	||
+	// Edit plugins.
+	user_can( $profileuser, 'edit_plugins' )
+	||
+	// Edit themes.
+	user_can( $profileuser, 'edit_themes' )
+);
+?>
+<?php if ( $show_syntax_highlighting_preference ) : ?>
+	<tr class="user-syntax-highlighting-wrap">
+		<th scope="row"><?php _e( 'Syntax Highlighting' ); ?></th>
+		<td>
+			<label for="syntax_highlighting"><input name="syntax_highlighting" type="checkbox" id="syntax_highlighting" value="false" <?php if ( ! empty( $profileuser->syntax_highlighting ) ) checked( 'false', $profileuser->syntax_highlighting ); ?> /> <?php _e( 'Disable syntax highlighting when editing code' ); ?></label>
+		</td>
+	</tr>
+<?php endif; ?>
 <?php if ( count($_wp_admin_css_colors) > 1 && has_action('admin_color_scheme_picker') ) : ?>
 <tr class="user-admin-color-wrap">
 <th scope="row"><?php _e('Admin Color Scheme')?></th>

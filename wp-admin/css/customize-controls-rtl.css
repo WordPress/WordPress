@@ -550,6 +550,20 @@ p.customize-section-description {
 	margin-top: 22px;
 	margin-bottom: 0;
 }
+.customize-section-description ul {
+	margin-right: 1em;
+}
+.customize-section-description ul > li {
+	list-style: disc;
+}
+.section-description-buttons {
+	text-align: left;
+}
+
+.section-description-buttons button.button-link {
+	color: #0073aa;
+	text-decoration: underline;
+}
 
 .customize-control {
 	width: 100%;
@@ -1152,6 +1166,19 @@ p.customize-section-description {
 	width: 299px;
 	width: calc( 100% + 24px );
 	margin-bottom: -12px;
+}
+
+.customize-section-description-container + #customize-control-custom_css:last-child .CodeMirror {
+	height: calc( 100vh - 185px );
+}
+.CodeMirror-lint-tooltip,
+.CodeMirror-hints {
+	z-index: 500000 !important;
+}
+
+.customize-section-description-container + #customize-control-custom_css:last-child .customize-control-notifications-container {
+	margin-right: 12px;
+	margin-left: 12px;
 }
 
 @media screen and ( max-width: 640px ) {

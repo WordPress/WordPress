@@ -2200,7 +2200,7 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 	visibility: visible;
 }
 
-#template div {
+#template > div {
 	margin-right: 190px;
 }
 
@@ -3015,11 +3015,16 @@ img {
 #template textarea {
 	font-family: Consolas, Monaco, monospace;
 	font-size: 13px;
-	width: 97%;
 	background: #f9f9f9;
 	-moz-tab-size: 4;
 	-o-tab-size: 4;
 	tab-size: 4;
+}
+
+#template textarea,
+#template .CodeMirror {
+	width: 97%;
+	height: calc( 100vh - 220px );
 }
 
 /* rtl:ignore */
@@ -3032,6 +3037,25 @@ img {
 	width: 97%;
 }
 
+#file-editor-linting-error {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+#file-editor-linting-error > .notice {
+	margin: 0;
+	display: inline-block;
+}
+#file-editor-linting-error > .notice > p {
+	width: auto;
+}
+#template .submit {
+	margin-top: 1em;
+	padding: 0;
+}
+
+#template .submit input[type=submit][disabled] {
+	cursor: not-allowed;
+}
 #templateside {
 	float: right;
 	width: 190px;
@@ -3585,12 +3609,13 @@ img {
 		margin-top: -5px;
 	}
 
-	#template div {
+	#template > div {
 		float: none;
 		margin: 0;
 		width: auto;
 	}
 
+	#template .CodeMirror,
 	#template textarea {
 		width: 100%;
 	}

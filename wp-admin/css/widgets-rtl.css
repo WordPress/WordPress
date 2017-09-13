@@ -645,6 +645,20 @@ div#widgets-right .widget-top:hover,
 	line-height: 1.4em;
 }
 
+.custom-html-widget-fields > p > .CodeMirror {
+	border: 1px solid #e5e5e5;
+}
+.custom-html-widget-fields code {
+	padding-top: 1px;
+	padding-bottom: 1px;
+}
+ul.CodeMirror-hints {
+	z-index: 101; /* Due to z-index 100 set on .widget.open */
+}
+.widget-control-actions .custom-html-widget-save-button.button.validation-blocked {
+	cursor: not-allowed;
+}
+
 /* =Media Queries
 -------------------------------------------------------------- */
 

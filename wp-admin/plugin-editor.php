@@ -115,7 +115,40 @@ if ( isset( $_REQUEST['action'] ) && 'update' === $_REQUEST['action'] ) {
 	}
 
 	// List of allowable extensions
-	$editable_extensions = array('php', 'txt', 'text', 'js', 'css', 'html', 'htm', 'xml', 'inc', 'include');
+	$editable_extensions = array(
+		'bash',
+		'conf',
+		'css',
+		'diff',
+		'htm',
+		'html',
+		'http',
+		'inc',
+		'include',
+		'js',
+		'json',
+		'jsx',
+		'less',
+		'md',
+		'patch',
+		'php',
+		'php3',
+		'php4',
+		'php5',
+		'php7',
+		'phps',
+		'phtml',
+		'sass',
+		'scss',
+		'sh',
+		'sql',
+		'svg',
+		'text',
+		'txt',
+		'xml',
+		'yaml',
+		'yml',
+	);
 
 	/**
 	 * Filters file type extensions editable in the plugin editor.
@@ -156,6 +189,12 @@ if ( isset( $_REQUEST['action'] ) && 'update' === $_REQUEST['action'] ) {
 		'<p>' . __('<a href="https://codex.wordpress.org/Writing_a_Plugin">Documentation on Writing Plugins</a>') . '</p>' .
 		'<p>' . __('<a href="https://wordpress.org/support/">Support Forums</a>') . '</p>'
 	);
+
+	$settings = wp_enqueue_code_editor( array( 'file' => $real_file ) );
+	if ( ! empty( $settings ) ) {
+		wp_enqueue_script( 'wp-theme-plugin-editor' );
+		wp_add_inline_script( 'wp-theme-plugin-editor', sprintf( 'jQuery( function() { wp.themePluginEditor.init( %s ); } )', wp_json_encode( $settings ) ) );
+	}
 
 	require_once(ABSPATH . 'wp-admin/admin-header.php');
 

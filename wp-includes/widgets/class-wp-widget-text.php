@@ -353,6 +353,7 @@ class WP_Widget_Text extends WP_Widget {
 	public function enqueue_admin_scripts() {
 		wp_enqueue_editor();
 		wp_enqueue_script( 'text-widgets' );
+		wp_add_inline_script( 'text-widgets', 'wp.textWidgets.init();', 'after' );
 	}
 
 	/**

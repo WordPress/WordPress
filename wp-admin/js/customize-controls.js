@@ -5631,50 +5631,212 @@
 			});
 		});
 
-		// Allow tabs to be entered in Custom CSS textarea.
-		api.control( 'custom_css', function setupCustomCssControl( control ) {
-			control.deferred.embedded.done( function allowTabs() {
-				var $textarea = control.container.find( 'textarea' ), textarea = $textarea[0];
+		// Add code editor for Custom CSS.
+		(function() {
+			var ready, sectionReady = $.Deferred(), controlReady = $.Deferred();
 
-				$textarea.on( 'blur', function onBlur() {
-					$textarea.data( 'next-tab-blurs', false );
-				} );
+			api.section( 'custom_css', function( section ) {
+				section.deferred.embedded.done( function() {
+					if ( section.expanded() ) {
+						sectionReady.resolve( section );
+					} else {
+						section.expanded.bind( function( isExpanded ) {
+							if ( isExpanded ) {
+								sectionReady.resolve( section );
+							}
+						} );
+					}
+				});
+			});
+			api.control( 'custom_css', function( control ) {
+				control.deferred.embedded.done( function() {
+					controlReady.resolve( control );
+				});
+			});
 
-				$textarea.on( 'keydown', function onKeydown( event ) {
-					var selectionStart, selectionEnd, value, tabKeyCode = 9, escKeyCode = 27;
+			ready = $.when( sectionReady, controlReady );
 
-					if ( escKeyCode === event.keyCode ) {
-						if ( ! $textarea.data( 'next-tab-blurs' ) ) {
-							$textarea.data( 'next-tab-blurs', true );
-							event.stopPropagation(); // Prevent collapsing the section.
+			// Set up the section desription behaviors.
+			ready.done( function setupSectionDescription( section, control ) {
+
+				// Close the section description when clicking the close button.
+				section.container.find( '.section-description-buttons .section-description-close' ).on( 'click', function() {
+					section.container.find( '.section-meta .customize-section-description:first' )
+						.removeClass( 'open' )
+						.slideUp()
+						.attr( 'aria-expanded', 'false' );
+				});
+
+				// Reveal help text if setting is empty.
+				if ( ! control.setting.get() ) {
+					section.container.find( '.section-meta .customize-section-description:first' )
+						.addClass( 'open' )
+						.show()
+						.attr( 'aria-expanded', 'true' );
+				}
+			});
+
+			// Set up the code editor itself.
+			if ( api.settings.customCss && api.settings.customCss.codeEditor ) {
+
+				// Set up the syntax highlighting editor.
+				ready.done( function setupSyntaxHighlightingEditor( section, control ) {
+					var $textarea = control.container.find( 'textarea' ), settings, suspendEditorUpdate = false;
+
+					// Make sure editor gets focused when control is focused.
+					control.focus = (function( originalFocus ) { // eslint-disable-line max-nested-callbacks
+						return function( params ) { // eslint-disable-line max-nested-callbacks
+							var extendedParams = _.extend( {}, params ), originalCompleteCallback;
+							originalCompleteCallback = extendedParams.completeCallback;
+							extendedParams.completeCallback = function() {
+								if ( originalCompleteCallback ) {
+									originalCompleteCallback();
+								}
+								if ( control.editor ) {
+									control.editor.codemirror.focus();
+								}
+							};
+							originalFocus.call( this, extendedParams );
+						};
+					})( control.focus );
+
+					settings = _.extend( {}, api.settings.customCss.codeEditor, {
+
+						/**
+						 * Handle tabbing to the field after the editor.
+						 *
+						 * @returns {void}
+						 */
+						onTabNext: function onTabNext() {
+							var controls, controlIndex;
+							controls = section.controls();
+							controlIndex = controls.indexOf( control );
+							if ( controls.length === controlIndex + 1 ) {
+								$( '#customize-footer-actions .collapse-sidebar' ).focus();
+							} else {
+								controls[ controlIndex + 1 ].container.find( ':focusable:first' ).focus();
+							}
+						},
+
+						/**
+						 * Handle tabbing to the field before the editor.
+						 *
+						 * @returns {void}
+						 */
+						onTabPrevious: function onTabPrevious() {
+							var controls, controlIndex;
+							controls = section.controls();
+							controlIndex = controls.indexOf( control );
+							if ( 0 === controlIndex ) {
+								section.contentContainer.find( '.customize-section-title .customize-help-toggle, .customize-section-title .customize-section-description.open .section-description-close' ).last().focus();
+							} else {
+								controls[ controlIndex - 1 ].contentContainer.find( ':focusable:first' ).focus();
+							}
+						},
+
+						/**
+						 * Update error notice.
+						 *
+						 * @param {Array} errorAnnotations - Error annotations.
+						 * @returns {void}
+						 */
+						onUpdateErrorNotice: function onUpdateErrorNotice( errorAnnotations ) {
+							var message;
+							control.setting.notifications.remove( 'csslint_error' );
+
+							if ( 0 !== errorAnnotations.length ) {
+								if ( 1 === errorAnnotations.length ) {
+									message = api.l10n.customCssError.singular.replace( '%d', '1' );
+								} else {
+									message = api.l10n.customCssError.plural.replace( '%d', String( errorAnnotations.length ) );
+								}
+								control.setting.notifications.add( 'csslint_error', new api.Notification( 'csslint_error', {
+									message: message,
+									type: 'error'
+								} ) );
+							}
 						}
-						return;
-					}
+					});
 
-					// Short-circuit if tab key is not being pressed or if a modifier key *is* being pressed.
-					if ( tabKeyCode !== event.keyCode || event.ctrlKey || event.altKey || event.shiftKey ) {
-						return;
-					}
+					control.editor = wp.codeEditor.initialize( $textarea, settings );
 
-					// Prevent capturing Tab characters if Esc was pressed.
-					if ( $textarea.data( 'next-tab-blurs' ) ) {
-						return;
-					}
+					// Refresh when receiving focus.
+					control.editor.codemirror.on( 'focus', function( codemirror ) {
+						codemirror.refresh();
+					});
 
-					selectionStart = textarea.selectionStart;
-					selectionEnd = textarea.selectionEnd;
-					value = textarea.value;
+					/*
+					 * When the CodeMirror instance changes, mirror to the textarea,
+					 * where we have our "true" change event handler bound.
+					 */
+					control.editor.codemirror.on( 'change', function( codemirror ) {
+						suspendEditorUpdate = true;
+						$textarea.val( codemirror.getValue() ).trigger( 'change' );
+						suspendEditorUpdate = false;
+					});
 
-					if ( selectionStart >= 0 ) {
-						textarea.value = value.substring( 0, selectionStart ).concat( '\t', value.substring( selectionEnd ) );
-						$textarea.selectionStart = textarea.selectionEnd = selectionStart + 1;
-					}
+					// Update CodeMirror when the setting is changed by another plugin.
+					control.setting.bind( function( value ) {
+						if ( ! suspendEditorUpdate ) {
+							control.editor.codemirror.setValue( value );
+						}
+					});
 
-					event.stopPropagation();
-					event.preventDefault();
-				} );
-			} );
-		} );
+					// Prevent collapsing section when hitting Esc to tab out of editor.
+					control.editor.codemirror.on( 'keydown', function onKeydown( codemirror, event ) {
+						var escKeyCode = 27;
+						if ( escKeyCode === event.keyCode ) {
+							event.stopPropagation();
+						}
+					});
+				});
+			} else {
+
+				// Allow tabs to be entered in Custom CSS textarea.
+				ready.done( function allowTabs( section, control ) {
+
+					var $textarea = control.container.find( 'textarea' ), textarea = $textarea[0];
+
+					$textarea.on( 'blur', function onBlur() {
+						$textarea.data( 'next-tab-blurs', false );
+					} );
+
+					$textarea.on( 'keydown', function onKeydown( event ) {
+						var selectionStart, selectionEnd, value, tabKeyCode = 9, escKeyCode = 27;
+
+						if ( escKeyCode === event.keyCode ) {
+							if ( ! $textarea.data( 'next-tab-blurs' ) ) {
+								$textarea.data( 'next-tab-blurs', true );
+								event.stopPropagation(); // Prevent collapsing the section.
+							}
+							return;
+						}
+
+						// Short-circuit if tab key is not being pressed or if a modifier key *is* being pressed.
+						if ( tabKeyCode !== event.keyCode || event.ctrlKey || event.altKey || event.shiftKey ) {
+							return;
+						}
+
+						// Prevent capturing Tab characters if Esc was pressed.
+						if ( $textarea.data( 'next-tab-blurs' ) ) {
+							return;
+						}
+
+						selectionStart = textarea.selectionStart;
+						selectionEnd = textarea.selectionEnd;
+						value = textarea.value;
+
+						if ( selectionStart >= 0 ) {
+							textarea.value = value.substring( 0, selectionStart ).concat( '\t', value.substring( selectionEnd ) );
+							$textarea.selectionStart = textarea.selectionEnd = selectionStart + 1;
+						}
+
+						event.stopPropagation();
+						event.preventDefault();
+					});
+				});
+			}
+		})();
 
 		// Toggle visibility of Header Video notice when active state change.
 		api.control( 'header_video', function( headerVideoControl ) {
