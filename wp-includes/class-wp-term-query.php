@@ -551,6 +551,16 @@ class WP_Term_Query {
 			$limits = '';
 		}
 
+		$do_distinct = false;
+
+		/*
+		 * Duplicate terms are generally removed when necessary after the database query.
+		 * But when a LIMIT clause is included in the query, we let MySQL enforce
+		 * distinctness so the count is correct.
+		 */
+		if ( ! empty( $limits ) && 'all_with_object_id' !== $args['fields'] ) {
+			$do_distinct = true;
+		}
 
 		if ( ! empty( $args['search'] ) ) {
 			$this->sql_clauses['where']['search'] = $this->get_search_sql( $args['search'] );
@@ -568,8 +578,7 @@ class WP_Term_Query {
 		if ( ! empty( $meta_clauses ) ) {
 			$join .= $mq_sql['join'];
 			$this->sql_clauses['where']['meta_query'] = preg_replace( '/^\s*AND\s*/', '', $mq_sql['where'] );
-			$distinct .= "DISTINCT";
-
+			$do_distinct = true;
 		}
 
 		$selects = array();
@@ -630,6 +639,8 @@ class WP_Term_Query {
 		}
 
 		$where = implode( ' AND ', $this->sql_clauses['where'] );
+
+		$distinct = $do_distinct ? 'DISTINCT' : '';
 
 		/**
 		 * Filters the terms query SQL clauses.
