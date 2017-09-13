@@ -527,6 +527,9 @@ do_action( "{$taxonomy}_add_form", $taxonomy );
 
 <div id="col-right">
 <div class="col-wrap">
+
+<?php $wp_list_table->views(); ?>
+
 <form id="posts-filter" method="post">
 <input type="hidden" name="taxonomy" value="<?php echo esc_attr( $taxonomy ); ?>" />
 <input type="hidden" name="post_type" value="<?php echo esc_attr( $post_type ); ?>" />
