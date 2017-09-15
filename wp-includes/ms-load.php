@@ -135,7 +135,7 @@ function get_network_by_path( $domain, $path, $segments = null ) {
 
 /**
  * Retrieves the closest matching site object by its domain and path.
- * 
+ *
  * This will not necessarily return an exact match for a domain and path. Instead, it
  * breaks the domain and path into pieces that are then used to match the closest
  * possibility from a query.
@@ -424,13 +424,7 @@ function ms_load_current_site_and_network( $domain, $path, $subdomain = false ) 
 
 	// Figure out the current network's main site.
 	if ( empty( $current_site->blog_id ) ) {
-		if ( $current_blog->domain === $current_site->domain && $current_blog->path === $current_site->path ) {
-			$current_site->blog_id = $current_blog->blog_id;
-		} elseif ( ! $current_site->blog_id = wp_cache_get( 'network:' . $current_site->id . ':main_site', 'site-options' ) ) {
-			$current_site->blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s",
-				$current_site->domain, $current_site->path ) );
-			wp_cache_add( 'network:' . $current_site->id . ':main_site', $current_site->blog_id, 'site-options' );
-		}
+		$current_site->blog_id = get_main_site_id( $current_site->id );
 	}
 
 	return true;

@@ -148,9 +148,9 @@ class WP_Network {
 			case 'id':
 				return (int) $this->id;
 			case 'blog_id':
-				return $this->blog_id;
+				return $this->get_main_site_id();
 			case 'site_id':
-				return (int) $this->blog_id;
+				return (int) $this->get_main_site_id();
 		}
 
 		return null;
@@ -199,6 +199,25 @@ class WP_Network {
 			default:
 				$this->$key = $value;
 		}
+	}
+
+	/**
+	 * Returns the main site ID for the network.
+	 *
+	 * Internal method used by the magic getter for the 'blog_id' and 'site_id'
+	 * properties.
+	 *
+	 * @since 4.9.0
+	 * @see get_main_site_id()
+	 *
+	 * @return string Main site ID as numeric string, for compatibility reasons.
+	 */
+	private function get_main_site_id() {
+		if ( empty( $this->blog_id ) ) {
+			$this->blog_id = (string) get_main_site_id( $this->id );
+		}
+
+		return $this->blog_id;
 	}
 
 	/**
