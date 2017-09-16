@@ -3510,7 +3510,7 @@ function wp_enqueue_media( $args = array() ) {
 
 		// Library
 		'mediaLibraryTitle'      => __( 'Media Library' ),
-		'insertMediaTitle'       => __( 'Insert Media' ),
+		'insertMediaTitle'       => __( 'Add Media' ),
 		'createNewGallery'       => __( 'Create a new gallery' ),
 		'createNewPlaylist'      => __( 'Create a new playlist' ),
 		'createNewVideoPlaylist' => __( 'Create a new video playlist' ),

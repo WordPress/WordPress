@@ -2149,7 +2149,7 @@ module.exports = State;
  *
  * Sync an attachments selection in a state with another state.
  *
- * Allows for selecting multiple images in the Insert Media workflow, and then
+ * Allows for selecting multiple images in the Add Media workflow, and then
  * switching to the Insert Gallery workflow while preserving the attachments selection.
  *
  * @memberOf wp.media
