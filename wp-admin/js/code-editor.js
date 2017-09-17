@@ -180,13 +180,6 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 		codemirror.on( 'blur', function() {
 			$textarea.data( 'next-tab-blurs', false );
 		});
-		codemirror.on( 'focus', function() {
-			if ( codemirror.display.cursorDiv.scrollIntoViewIfNeeded ) {
-				codemirror.display.cursorDiv.scrollIntoViewIfNeeded();
-			} else {
-				codemirror.display.cursorDiv.scrollIntoView();
-			}
-		});
 		codemirror.on( 'keydown', function onKeydown( editor, event ) {
 			var tabKeyCode = 9, escKeyCode = 27;
 
