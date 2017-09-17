@@ -12,6 +12,7 @@ window.wp = window.wp || {};
  *
  * @alias wp.media
  * @memberOf wp
+ * @namespace
  *
  * @param  {object} attributes The properties passed to the main media controller.
  * @return {wp.media.view.MediaFrame} A media workflow.
@@ -51,7 +52,6 @@ media = wp.media = function( attributes ) {
 	return frame;
 };
 
-/** @namespace wp.media */
 /** @namespace wp.media.model */
 /** @namespace wp.media.view */
 /** @namespace wp.media.controller */

@@ -54,7 +54,7 @@
 				context.fillText( stringFromCharCode( 55356, 56826, 8203, 55356, 56819 ), 0, 0 );
 				flag2 = canvas.toDataURL();
 
-				if ( flag !== flag2 ) {
+				if ( flag === flag2 ) {
 					return false;
 				}
 
