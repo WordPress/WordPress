@@ -181,10 +181,10 @@ if ( 'undefined' === typeof window.wp.codeEditor ) {
 			$textarea.data( 'next-tab-blurs', false );
 		});
 		codemirror.on( 'focus', function() {
-			if ( codemirror.display.wrapper.scrollIntoViewIfNeeded ) {
-				codemirror.display.wrapper.scrollIntoViewIfNeeded();
+			if ( codemirror.display.cursorDiv.scrollIntoViewIfNeeded ) {
+				codemirror.display.cursorDiv.scrollIntoViewIfNeeded();
 			} else {
-				codemirror.display.wrapper.scrollIntoView();
+				codemirror.display.cursorDiv.scrollIntoView();
 			}
 		});
 		codemirror.on( 'keydown', function onKeydown( editor, event ) {
