@@ -551,34 +551,26 @@ window.wp = window.wp || {};
 			this.element = api.ensure( element );
 			this.events = '';
 
-			if ( this.element.is('input, select, textarea') ) {
-				this.events += 'change';
+			if ( this.element.is( 'input, select, textarea' ) ) {
+				type = this.element.prop( 'type' );
+				this.events += ' change input';
 				synchronizer = api.Element.synchronizer.val;
 
-				if ( this.element.is('input') ) {
-					type = this.element.prop('type');
-					if ( api.Element.synchronizer[ type ] ) {
-						synchronizer = api.Element.synchronizer[ type ];
-					}
-					if ( 'text' === type || 'password' === type ) {
-						this.events += ' keyup';
-					} else if ( 'range' === type ) {
-						this.events += ' input propertychange';
-					}
-				} else if ( this.element.is('textarea') ) {
-					this.events += ' keyup';
+				if ( this.element.is( 'input' ) && api.Element.synchronizer[ type ] ) {
+					synchronizer = api.Element.synchronizer[ type ];
 				}
 			}
 
 			api.Value.prototype.initialize.call( this, null, $.extend( options || {}, synchronizer ) );
 			this._value = this.get();
 
-			update  = this.update;
+			update = this.update;
 			refresh = this.refresh;
 
 			this.update = function( to ) {
-				if ( to !== refresh.call( self ) )
+				if ( to !== refresh.call( self ) ) {
 					update.apply( this, arguments );
+				}
 			};
 			this.refresh = function() {
 				self.set( refresh.call( self ) );
