@@ -5705,6 +5705,34 @@ function wp_generate_uuid4() {
 }
 
 /**
+ * Validates that a UUID is valid.
+ *
+ * @since 4.9.0
+ *
+ * @param mixed $uuid    UUID to check.
+ * @param int   $version Specify which version of UUID to check against. Default is none, to accept any UUID version. Otherwise, only version allowed is `4`.
+ * @return bool The string is a valid UUID or false on failure.
+ */
+function wp_is_uuid( $uuid, $version = null ) {
+
+	if ( ! is_string( $uuid ) ) {
+		return false;
+	}
+
+	if ( is_numeric( $version ) ) {
+		if ( 4 !== (int) $version ) {
+			_doing_it_wrong( __FUNCTION__, __( 'Only UUID V4 is supported at this time.' ), '4.9.0' );
+			return false;
+		}
+		$regex = '/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/';
+	} else {
+		$regex = '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/';
+	}
+
+	return (bool) preg_match( $regex, $uuid );
+}
+
+/**
  * Get last changed date for the specified cache group.
  *
  * @since 4.7.0

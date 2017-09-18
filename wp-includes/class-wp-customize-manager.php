@@ -488,7 +488,7 @@ final class WP_Customize_Manager {
 			return;
 		}
 
-		if ( ! preg_match( '/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/', $this->_changeset_uuid ) ) {
+		if ( ! wp_is_uuid( $this->_changeset_uuid ) ) {
 			$this->wp_die( -1, __( 'Invalid changeset UUID' ) );
 		}
 
