@@ -706,7 +706,7 @@ function page_template_dropdown( $default = '' ) {
 			$selected = " selected='selected'";
 		else
 			$selected = '';
-	echo "\n\t<option value='".$templates[$template]."' $selected>$template</option>";
+	echo "\n\t<option value='" . esc_attr( $templates[$template] ) ."' $selected>" . esc_html( $template ) . "</option>";
 	endforeach;
 }
 
