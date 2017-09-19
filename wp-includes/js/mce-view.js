@@ -128,6 +128,14 @@ window.wp = window.wp || {};
 				importStyles = this.type === 'video' || this.type === 'audio' || this.type === 'playlist';
 
 			if ( head || body.indexOf( '<script' ) !== -1 ) {
+				if ( body.indexOf( '[' ) !== -1 && body.indexOf( ']' ) !== -1 ) {
+					var shortcodesRegExp = new RegExp( '\\[\\/?(?:' + window.mceViewL10n.shortcodes.join( '|' ) + ')[^\\]]*?\\]', 'g' );
+					// Escape tags inside shortcode previews.
+					body = body.replace( shortcodesRegExp, function( match ) {
+						return match.replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
+					} );
+				}
+
 				this.getNodes( function ( editor, node, content ) {
 					var dom = editor.dom,
 						styles = '',
