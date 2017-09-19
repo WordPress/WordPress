@@ -210,6 +210,13 @@ var wpLink;
 
 			attrs = wpLink.getAttrs();
 
+			var parser = document.createElement( 'a' );
+			parser.href = attrs.href;
+
+			if ( 'javascript:' === parser.protocol || 'data:' === parser.protocol ) { // jshint ignore:line
+				attrs.href = '';
+			}
+
 			// If there's no href, return.
 			if ( ! attrs.href || attrs.href == 'http://' )
 				return;
@@ -223,7 +230,7 @@ var wpLink;
 			}
 
 			if ( attrs.target ) {
-				html += ' target="' + attrs.target + '"';
+				html += ' rel="noopener" target="' + attrs.target + '"';
 			}
 
 			html += '>';
@@ -274,6 +281,13 @@ var wpLink;
 			}
 
 			link = editor.dom.getParent( editor.selection.getNode(), 'a[href]' );
+
+			var parser = document.createElement( 'a' );
+			parser.href = attrs.href;
+
+			if ( 'javascript:' === parser.protocol || 'data:' === parser.protocol ) { // jshint ignore:line
+				attrs.href = '';
+			}
 
 			// If the values are empty, unlink and return
 			if ( ! attrs.href || attrs.href == 'http://' ) {
