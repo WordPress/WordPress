@@ -1223,6 +1223,7 @@ class wpdb {
 		$query = str_replace( '"%s"', '%s', $query ); // doublequote unquoting
 		$query = preg_replace( '|(?<!%)%f|' , '%F', $query ); // Force floats to be locale unaware
 		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); // quote the strings, avoiding escaped strings like %%s
+		$query = preg_replace( '/%(?:%|$|([^dsF]))/', '%%\\1', $query ); // escape any unescaped percents 
 		array_walk( $args, array( $this, 'escape_by_ref' ) );
 		return @vsprintf( $query, $args );
 	}
