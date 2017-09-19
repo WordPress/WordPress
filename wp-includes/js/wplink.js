@@ -316,7 +316,7 @@ var wpLink;
 			var html = '<a href="' + attrs.href + '"';
 
 			if ( attrs.target ) {
-				html += ' target="' + attrs.target + '"';
+				html += ' rel="noopener" target="' + attrs.target + '"';
 			}
 
 			return html + '>';
@@ -340,6 +340,13 @@ var wpLink;
 
 			attrs = wpLink.getAttrs();
 			text = inputs.text.val();
+
+			var parser = document.createElement( 'a' );
+			parser.href = attrs.href;
+
+			if ( 'javascript:' === parser.protocol || 'data:' === parser.protocol ) { // jshint ignore:line
+				attrs.href = '';
+			}
 
 			// If there's no href, return.
 			if ( ! attrs.href ) {
@@ -396,6 +403,13 @@ var wpLink;
 			if ( window.tinymce.isIE && editor.windowManager.wplinkBookmark ) {
 				editor.selection.moveToBookmark( editor.windowManager.wplinkBookmark );
 				editor.windowManager.wplinkBookmark = null;
+			}
+
+			var parser = document.createElement( 'a' );
+			parser.href = attrs.href;
+
+			if ( 'javascript:' === parser.protocol || 'data:' === parser.protocol ) { // jshint ignore:line
+				attrs.href = '';
 			}
 
 			if ( ! attrs.href ) {
