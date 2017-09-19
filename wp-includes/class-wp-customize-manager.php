@@ -410,7 +410,7 @@ final class WP_Customize_Manager {
 
 		$this->original_stylesheet = get_stylesheet();
 
-		$this->theme = wp_get_theme( isset( $_REQUEST['theme'] ) ? $_REQUEST['theme'] : null );
+		$this->theme = wp_get_theme( isset( $_REQUEST['theme'] ) && 0 === validate_file( $_REQUEST['theme'] ) ? $_REQUEST['theme'] : null );
 
 		if ( $this->is_theme_active() ) {
 			// Once the theme is loaded, we'll validate it.
