@@ -789,10 +789,14 @@ p.customize-section-description {
 	transition: .15s box-shadow linear;
 }
 
-.customize-control-notifications-container li.notice {
+#customize-controls .customize-control-notifications-container li.notice {
 	list-style: none;
 	margin: 0 0 6px 0;
-	padding: 4px 8px;
+	padding: 9px 14px;
+	overflow: hidden;
+}
+#customize-controls .customize-control-notifications-container .notice.is-dismissible {
+	padding-right: 38px;
 }
 
 .customize-control-notifications-container li.notice:last-child {
@@ -815,26 +819,45 @@ p.customize-section-description {
 	position: absolute;
 	top: 46px;
 	width: 100%;
-	max-height: 210px;
-	overflow-x: hidden;
-	overflow-y: auto;
 	border-bottom: 1px solid #ddd;
 	display: block;
 	padding: 0;
 	margin: 0;
 }
 
+#customize-controls #customize-notifications-area,
+#customize-controls .customize-section-title > .customize-control-notifications-container,
+#customize-controls .panel-meta > .customize-control-notifications-container {
+	max-height: 210px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
 #customize-controls #customize-notifications-area > ul,
-#customize-controls #customize-notifications-area .notice {
+#customize-controls #customize-notifications-area .notice,
+#customize-controls .panel-meta > .customize-control-notifications-container,
+#customize-controls .panel-meta > .customize-control-notifications-container .notice,
+#customize-controls .customize-section-title > .customize-control-notifications-container,
+#customize-controls .customize-section-title > .customize-control-notifications-container .notice {
 	margin: 0;
 }
-#customize-controls #customize-notifications-area .notice {
+#customize-controls .panel-meta > .customize-control-notifications-container,
+#customize-controls .customize-section-title > .customize-control-notifications-container {
+	border-top: 1px solid #ddd;
+}
+#customize-controls #customize-notifications-area .notice,
+#customize-controls .panel-meta > .customize-control-notifications-container .notice,
+#customize-controls .customize-section-title > .customize-control-notifications-container .notice {
 	padding: 9px 14px;
 }
-#customize-controls #customize-notifications-area .notice.is-dismissible {
+#customize-controls #customize-notifications-area .notice.is-dismissible,
+#customize-controls .panel-meta > .customize-control-notifications-container .notice.is-dismissible,
+#customize-controls .customize-section-title > .customize-control-notifications-container .notice.is-dismissible {
 	padding-right: 38px;
 }
-#customize-controls #customize-notifications-area .notice + .notice {
+#customize-controls #customize-notifications-area .notice + .notice,
+#customize-controls .panel-meta > .customize-control-notifications-container .notice + .notice,
+#customize-controls .customize-section-title > .customize-control-notifications-container .notice + .notice {
 	margin-top: 1px;
 }
 

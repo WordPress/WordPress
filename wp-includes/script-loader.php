@@ -563,6 +563,7 @@ function wp_default_scripts( &$scripts ) {
 		'expandSidebar'      => _x( 'Show Controls', 'label for hide controls button without length constraints' ),
 		'untitledBlogName'   => __( '(Untitled)' ),
 		'serverSaveError'    => __( 'Failed connecting to the server. Please try saving again.' ),
+		'videoHeaderNotice'   => __( 'This theme doesn\'t support video headers on this page. Navigate to the front page or another page that supports video headers.' ),
 		// Used for overriding the file types allowed in plupload.
 		'allowedFiles'       => __( 'Allowed Files' ),
 		'customCssError'     => wp_array_slice_assoc(

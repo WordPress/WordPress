@@ -3928,10 +3928,6 @@ final class WP_Customize_Manager {
 			$title = __( 'Header Media' );
 			$description = '<p>' . __( 'If you add a video, the image will be used as a fallback while the video loads.' ) . '</p>';
 
-			// @todo Customizer sections should support having notifications just like controls do. See <https://core.trac.wordpress.org/ticket/38794>.
-			$description .= '<div class="customize-control-notifications-container header-video-not-currently-previewable" style="display: none"><ul>';
-			$description .= '<li class="notice notice-info">' . __( 'This theme doesn\'t support video headers on this page. Navigate to the front page or another page that supports video headers.' ) . '</li>';
-			$description .= '</ul></div>';
 			$width = absint( get_theme_support( 'custom-header', 'width' ) );
 			$height = absint( get_theme_support( 'custom-header', 'height' ) );
 			if ( $width && $height ) {

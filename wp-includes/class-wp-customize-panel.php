@@ -371,6 +371,8 @@ class WP_Customize_Panel {
 					{{{ data.description }}}
 				</div>
 			<# } #>
+
+			<div class="customize-control-notifications-container"></div>
 		</li>
 		<?php
 	}

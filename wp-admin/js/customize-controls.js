@@ -158,7 +158,7 @@
 			collection.container.toggle( 0 !== notifications.length );
 
 			// Short-circuit if there are no changes to the notifications.
-			if ( _.isEqual( notifications, collection.previousNotifications ) ) {
+			if ( collection.container.is( collection.previousContainer ) && _.isEqual( notifications, collection.previousNotifications ) ) {
 				return;
 			}
 
@@ -185,6 +185,7 @@
 			});
 
 			collection.previousNotifications = notifications;
+			collection.previousContainer = collection.container;
 			collection.trigger( 'rendered' );
 		}
 	});
@@ -626,6 +627,7 @@
 			);
 
 			$.extend( container, options );
+			container.notifications = new api.Notifications();
 			container.templateSelector = 'customize-' + container.containerType + '-' + container.params.type;
 			container.container = $( container.params.content );
 			if ( 0 === container.container.length ) {
@@ -657,6 +659,7 @@
 			});
 
 			container.deferred.embedded.done( function () {
+				container.setupNotifications();
 				container.attachEvents();
 			});
 
@@ -665,6 +668,39 @@
 			container.priority.set( container.params.priority );
 			container.active.set( container.params.active );
 			container.expanded.set( false );
+		},
+
+		/**
+		 * Get the element that will contain the notifications.
+		 *
+		 * @since 4.9.0
+		 * @returns {jQuery} Notification container element.
+		 * @this {wp.customize.Control}
+		 */
+		getNotificationsContainerElement: function() {
+			var container = this;
+			return container.contentContainer.find( '.customize-control-notifications-container:first' );
+		},
+
+		/**
+		 * Set up notifications.
+		 *
+		 * @since 4.9.0
+		 * @returns {void}
+		 */
+		setupNotifications: function() {
+			var container = this, renderNotifications;
+			container.notifications.container = container.getNotificationsContainerElement();
+
+			// Render notifications when they change and when the construct is expanded.
+			renderNotifications = function() {
+				if ( container.expanded.get() ) {
+					container.notifications.render();
+				}
+			};
+			container.expanded.bind( renderNotifications );
+			renderNotifications();
+			container.notifications.bind( 'change', _.debounce( renderNotifications ) );
 		},
 
 		/**
@@ -2162,17 +2198,7 @@
 
 			// After the control is embedded on the page, invoke the "ready" method.
 			control.deferred.embedded.done( function () {
-				var renderNotifications = function() {
-					control.notifications.render();
-				};
-				control.notifications.container = control.getNotificationsContainerElement();
-				control.notifications.bind( 'rendered', function() {
-					var notifications = control.notifications.get();
-					control.container.toggleClass( 'has-notifications', 0 !== notifications.length );
-					control.container.toggleClass( 'has-error', 0 !== _.where( notifications, { type: 'error' } ).length );
-				} );
-				renderNotifications();
-				control.notifications.bind( 'change', _.debounce( renderNotifications ) );
+				control.setupNotifications();
 				control.ready();
 			});
 		},
@@ -2267,6 +2293,47 @@
 				}
 			}
 			return notificationsContainer;
+		},
+
+		/**
+		 * Set up notifications.
+		 *
+		 * @since 4.9.0
+		 * @returns {void}
+		 */
+		setupNotifications: function() {
+			var control = this, renderNotificationsIfVisible, onSectionAssigned;
+
+			control.notifications.container = control.getNotificationsContainerElement();
+
+			renderNotificationsIfVisible = function() {
+				var sectionId = control.section();
+				if ( ! sectionId || ( api.section.has( sectionId ) && api.section( sectionId ).expanded() ) ) {
+					control.notifications.render();
+				}
+			};
+
+			control.notifications.bind( 'rendered', function() {
+				var notifications = control.notifications.get();
+				control.container.toggleClass( 'has-notifications', 0 !== notifications.length );
+				control.container.toggleClass( 'has-error', 0 !== _.where( notifications, { type: 'error' } ).length );
+			} );
+
+			onSectionAssigned = function( newSectionId, oldSectionId ) {
+				if ( oldSectionId && api.section.has( oldSectionId ) ) {
+					api.section( oldSectionId ).expanded.unbind( renderNotificationsIfVisible );
+				}
+				if ( newSectionId ) {
+					api.section( newSectionId, function( section ) {
+						section.expanded.bind( renderNotificationsIfVisible );
+						renderNotificationsIfVisible();
+					});
+				}
+			};
+
+			control.section.bind( onSectionAssigned );
+			onSectionAssigned( control.section.get() );
+			control.notifications.bind( 'change', _.debounce( renderNotificationsIfVisible ) );
 		},
 
 		/**
@@ -5854,15 +5921,17 @@
 		api.control( 'header_video', function( headerVideoControl ) {
 			headerVideoControl.deferred.embedded.done( function() {
 				var toggleNotice = function() {
-					var section = api.section( headerVideoControl.section() ), notice;
+					var section = api.section( headerVideoControl.section() ), noticeCode = 'video_header_not_available';
 					if ( ! section ) {
 						return;
 					}
-					notice = section.container.find( '.header-video-not-currently-previewable:first' );
 					if ( headerVideoControl.active.get() ) {
-						notice.stop().slideUp( 'fast' );
+						section.notifications.remove( noticeCode );
 					} else {
-						notice.stop().slideDown( 'fast' );
+						section.notifications.add( noticeCode, new api.Notification( noticeCode, {
+							type: 'info',
+							message: api.l10n.videoHeaderNotice
+						} ) );
 					}
 				};
 				toggleNotice();

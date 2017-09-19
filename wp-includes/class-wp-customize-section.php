@@ -361,6 +361,8 @@ class WP_Customize_Section {
 								{{{ data.description }}}
 							</div>
 						<# } #>
+
+						<div class="customize-control-notifications-container"></div>
 					</div>
 
 					<# if ( data.description && ! data.description_hidden ) { #>
