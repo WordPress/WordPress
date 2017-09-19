@@ -155,8 +155,6 @@
 				encodedText,
 				instance;
 
-			text = tinymce.DOM.decode( text );
-
 			if ( ! force ) {
 				instance = this.getInstance( text );
 
@@ -422,7 +420,7 @@
 			this.getMarkers( function( editor, node ) {
 				var $viewNode;
 
-				if ( ! this.loader && $( node ).text() !== this.text ) {
+				if ( ! this.loader && $( node ).text() !== tinymce.DOM.decode( this.text ) ) {
 					editor.dom.setAttrib( node, 'data-wpview-marker', null );
 					return;
 				}
@@ -485,6 +483,14 @@
 		 */
 		setIframes: function( head, body, callback, rendered ) {
 			var self = this;
+
+			if ( body.indexOf( '[' ) !== -1 && body.indexOf( ']' ) !== -1 ) {
+				var shortcodesRegExp = new RegExp( '\\[\\/?(?:' + window.mceViewL10n.shortcodes.join( '|' ) + ')[^\\]]*?\\]', 'g' );
+				// Escape tags inside shortcode previews.
+				body = body.replace( shortcodesRegExp, function( match ) {
+					return match.replace( /</g, '&lt;' ).replace( />/g, '&gt;' );
+				} );
+			}
 
 			this.getNodes( function( editor, node ) {
 				var dom = editor.dom,
