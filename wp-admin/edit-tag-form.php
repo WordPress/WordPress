@@ -74,12 +74,12 @@ do_action( "{$taxonomy}_pre_edit_form", $tag, $taxonomy ); ?>
 <div id="message" class="updated">
 	<p><strong><?php echo $message; ?></strong></p>
 	<?php if ( $wp_http_referer ) { ?>
-	<p><a href="<?php echo esc_url( wp_validate_redirect( wp_sanitize_redirect( $wp_http_referer ), admin_url( 'term.php?taxonomy=' . $taxonomy ) ) ); ?>"><?php
+	<p><a href="<?php echo esc_url( wp_validate_redirect( esc_url_raw( $wp_http_referer ), admin_url( 'term.php?taxonomy=' . $taxonomy ) ) ); ?>"><?php
 		/* translators: %s: taxonomy name */
 		printf( _x( '&larr; Back to %s', 'admin screen' ), $tax->labels->name );
 	?></a></p>
 	<?php } else { ?>
-	<p><a href="<?php echo esc_url( wp_get_referer() ); ?>"><?php
+	<p><a href="<?php echo esc_url( wp_validate_redirect( esc_url_raw( wp_get_referer() ) ) ); ?>"><?php
 		/* translators: %s: taxonomy name */
 		printf( _x( '&larr; Back to %s', 'admin screen' ), $tax->labels->name );
 	?></a></p>
