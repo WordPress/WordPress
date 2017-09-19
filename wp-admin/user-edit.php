@@ -168,7 +168,7 @@ include (ABSPATH . 'wp-admin/admin-header.php');
 	<p><strong><?php _e('User updated.') ?></strong></p>
 	<?php endif; ?>
 	<?php if ( $wp_http_referer && !IS_PROFILE_PAGE ) : ?>
-	<p><a href="<?php echo esc_url( wp_validate_redirect( wp_sanitize_redirect( $wp_http_referer ), self_admin_url( 'users.php' ) ) ); ?>"><?php _e('&larr; Back to Users'); ?></a></p>
+	<p><a href="<?php echo esc_url( wp_validate_redirect( esc_url_raw( $wp_http_referer ), self_admin_url( 'users.php' ) ) ); ?>"><?php _e('&larr; Back to Users'); ?></a></p>
 	<?php endif; ?>
 </div>
 <?php endif; ?>
