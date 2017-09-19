@@ -146,64 +146,45 @@
 		render: function() {
 			var collection = this,
 				notifications,
-				renderedNotificationContainers,
-				prevRenderedCodes,
-				nextRenderedCodes,
-				addedCodes,
-				removedCodes,
+				previousNotificationsByCode = {},
 				listElement;
 
 			// Short-circuit if there are no container to render into.
 			if ( ! collection.container || ! collection.container.length ) {
 				return;
 			}
+
+			notifications = collection.get( { sort: true } );
+			collection.container.toggle( 0 !== notifications.length );
+
+			// Short-circuit if there are no changes to the notifications.
+			if ( _.isEqual( notifications, collection.previousNotifications ) ) {
+				return;
+			}
+
+			// Make sure list is part of the container.
 			listElement = collection.container.children( 'ul' ).first();
 			if ( ! listElement.length ) {
 				listElement = $( '<ul></ul>' );
 				collection.container.append( listElement );
 			}
 
-			notifications = collection.get( { sort: true } );
+			// Remove all notifications prior to re-rendering.
+			listElement.find( '> [data-code]' ).remove();
 
-			renderedNotificationContainers = {};
-			listElement.find( '> [data-code]' ).each( function() {
-				renderedNotificationContainers[ $( this ).data( 'code' ) ] = $( this );
-			});
-
-			collection.container.toggle( 0 !== notifications.length );
-
-			nextRenderedCodes = _.pluck( notifications, 'code' );
-			prevRenderedCodes = _.keys( renderedNotificationContainers );
-
-			// Short-circuit if there are no notifications added.
-			if ( _.isEqual( nextRenderedCodes, prevRenderedCodes ) ) {
-				return;
-			}
-
-			addedCodes = _.difference( nextRenderedCodes, prevRenderedCodes );
-			removedCodes = _.difference( prevRenderedCodes, nextRenderedCodes );
-
-			// Remove notifications that have been removed.
-			_.each( renderedNotificationContainers, function( renderedContainer, code ) {
-				if ( -1 !== _.indexOf( removedCodes, code ) ) {
-					renderedContainer.remove(); // @todo Consider slideUp as enhancement.
-				}
+			_.each( collection.previousNotifications, function( notification ) {
+				previousNotificationsByCode[ notification.code ] = notification;
 			});
 
 			// Add all notifications in the sorted order.
 			_.each( notifications, function( notification ) {
-				var notificationContainer = renderedNotificationContainers[ notification.code ];
-				if ( notificationContainer ) {
-					listElement.append( notificationContainer );
-				} else {
-					notificationContainer = $( notification.render() );
-					listElement.append( notificationContainer ); // @todo Consider slideDown() as enhancement.
-					if ( wp.a11y ) {
-						wp.a11y.speak( notification.message, 'assertive' );
-					}
+				if ( wp.a11y && ( ! previousNotificationsByCode[ notification.code ] || ! _.isEqual( notification.message, previousNotificationsByCode[ notification.code ].message ) ) ) {
+					wp.a11y.speak( notification.message, 'assertive' );
 				}
+				listElement.append( $( notification.render() ) ); // @todo Consider slideDown() as enhancement.
 			});
 
+			collection.previousNotifications = notifications;
 			collection.trigger( 'rendered' );
 		}
 	});
@@ -4644,9 +4625,10 @@
 				}
 
 				submit = function () {
-					var request, query, settingInvalidities = {}, latestRevision = api._latestRevision;
+					var request, query, settingInvalidities = {}, latestRevision = api._latestRevision, errorCode = 'client_side_error';
 
 					api.bind( 'change', captureSettingModifiedDuringSave );
+					api.notifications.remove( errorCode );
 
 					/*
 					 * Block saving if there are any settings that are marked as
@@ -4668,6 +4650,14 @@
 					if ( ! _.isEmpty( invalidControls ) ) {
 						_.values( invalidControls )[0][0].focus();
 						api.unbind( 'change', captureSettingModifiedDuringSave );
+
+						api.notifications.add( errorCode, new api.Notification( errorCode, {
+							message: ( 1 === invalidSettings.length ? api.l10n.saveBlockedError.singular : api.l10n.saveBlockedError.plural ).replace( /%s/g, String( invalidSettings.length ) ),
+							type: 'error',
+							dismissible: true,
+							saveFailure: true
+						} ) );
+
 						deferred.rejectWith( previewer, [
 							{ setting_invalidities: settingInvalidities }
 						] );
@@ -5610,24 +5600,46 @@
 			});
 		});
 
-		// Change previewed URL to the homepage when changing the page_on_front.
-		api( 'show_on_front', 'page_on_front', function( showOnFront, pageOnFront ) {
-			var updatePreviewUrl = function() {
-				if ( showOnFront() === 'page' && parseInt( pageOnFront(), 10 ) > 0 ) {
-					api.previewer.previewUrl.set( api.settings.url.home );
+		// Add behaviors to the static front page controls.
+		api( 'show_on_front', 'page_on_front', 'page_for_posts', function( showOnFront, pageOnFront, pageForPosts ) {
+			var handleChange = function() {
+				var setting = this, pageOnFrontId, pageForPostsId, errorCode = 'show_on_front_page_collision';
+				pageOnFrontId = parseInt( pageOnFront(), 10 );
+				pageForPostsId = parseInt( pageForPosts(), 10 );
+
+				if ( 'page' === showOnFront() ) {
+
+					// Change previewed URL to the homepage when changing the page_on_front.
+					if ( setting === pageOnFront && pageOnFrontId > 0 ) {
+						api.previewer.previewUrl.set( api.settings.url.home );
+					}
+
+					// Change the previewed URL to the selected page when changing the page_for_posts.
+					if ( setting === pageForPosts && pageForPostsId > 0 ) {
+						api.previewer.previewUrl.set( api.settings.url.home + '?page_id=' + pageForPostsId );
+					}
+				}
+
+				// Toggle notification when the homepage and posts page are both set and the same.
+				if ( 'page' === showOnFront() && pageOnFrontId && pageForPostsId && pageOnFrontId === pageForPostsId ) {
+					showOnFront.notifications.add( errorCode, new api.Notification( errorCode, {
+						type: 'error',
+						message: api.l10n.pageOnFrontError
+					} ) );
+				} else {
+					showOnFront.notifications.remove( errorCode );
 				}
 			};
-			showOnFront.bind( updatePreviewUrl );
-			pageOnFront.bind( updatePreviewUrl );
-		});
+			showOnFront.bind( handleChange );
+			pageOnFront.bind( handleChange );
+			pageForPosts.bind( handleChange );
+			handleChange.call( showOnFront, showOnFront() ); // Make sure initial notification is added after loading existing changeset.
 
-		// Change the previewed URL to the selected page when changing the page_for_posts.
-		api( 'page_for_posts', function( setting ) {
-			setting.bind(function( pageId ) {
-				pageId = parseInt( pageId, 10 );
-				if ( pageId > 0 ) {
-					api.previewer.previewUrl.set( api.settings.url.home + '?page_id=' + pageId );
-				}
+			// Move notifications container to the bottom.
+			api.control( 'show_on_front', function( showOnFrontControl ) {
+				showOnFrontControl.deferred.embedded.done( function() {
+					showOnFrontControl.container.append( showOnFrontControl.getNotificationsContainerElement() );
+				});
 			});
 		});
 

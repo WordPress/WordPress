@@ -841,6 +841,17 @@ p.customize-section-description {
 /* Style for custom settings */
 
 /**
+ * Static front page
+ */
+
+#customize-control-show_on_front.has-error {
+	margin-bottom: 0;
+}
+#customize-control-show_on_front.has-error .customize-control-notifications-container {
+	margin-top:12px;
+}
+
+/**
  * Dropdowns
  */
 

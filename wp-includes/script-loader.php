@@ -570,6 +570,12 @@ function wp_default_scripts( &$scripts ) {
 			_n_noop( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.' ),
 			array( 'singular', 'plural' )
 		),
+		'pageOnFrontError' => __( 'Homepage and posts page must be different.' ),
+		'saveBlockedError' => wp_array_slice_assoc(
+			/* translators: placeholder is error count */
+			_n_noop( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.' ),
+			array( 'singular', 'plural' )
+		),
 	) );
 	$scripts->add( 'customize-selective-refresh', "/wp-includes/js/customize-selective-refresh$suffix.js", array( 'jquery', 'wp-util', 'customize-preview' ), false, 1 );
 
