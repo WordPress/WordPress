@@ -1212,7 +1212,7 @@ class wpdb {
 		}
 
 		foreach ( $args as $arg ) {
-			if ( ! is_scalar( $arg ) ) {
+			if ( ! is_scalar( $arg ) && ! is_null( $arg ) ) {
 				_doing_it_wrong( 'wpdb::prepare', sprintf( 'Unsupported value type (%s).', gettype( $arg ) ), '4.1.19' );
 			}
 		}
