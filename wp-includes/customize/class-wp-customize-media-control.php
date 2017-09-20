@@ -52,17 +52,7 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 	public function __construct( $manager, $id, $args = array() ) {
 		parent::__construct( $manager, $id, $args );
 
-		if ( ! ( $this instanceof WP_Customize_Image_Control ) ) {
-			$this->button_labels = wp_parse_args( $this->button_labels, array(
-				'select'       => __( 'Select File' ),
-				'change'       => __( 'Change File' ),
-				'default'      => __( 'Default' ),
-				'remove'       => __( 'Remove' ),
-				'placeholder'  => __( 'No file selected' ),
-				'frame_title'  => __( 'Select File' ),
-				'frame_button' => __( 'Choose File' ),
-			) );
-		}
+		$this->button_labels = wp_parse_args( $this->button_labels, $this->get_default_button_labels() );
 	}
 
 	/**
@@ -208,5 +198,62 @@ class WP_Customize_Media_Control extends WP_Customize_Control {
 			</div>
 		<# } #>
 		<?php
+	}
+
+	/**
+	 * Get default button labels.
+	 *
+	 * Provides an array of the default button labels based on the mime type of the current control.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @return array An associative array of default button labels.
+	 */
+	public function get_default_button_labels() {
+		// Get just the mime type and strip the mime subtype if present.
+		$mime_type = ! empty( $this->mime_type ) ? strtok( ltrim( $this->mime_type, '/' ), '/' ) : 'default';
+
+		switch ( $mime_type ) {
+			case 'video':
+				return array(
+					'select'       => __( 'Select video' ),
+					'change'       => __( 'Change video' ),
+					'default'      => __( 'Default' ),
+					'remove'       => __( 'Remove' ),
+					'placeholder'  => __( 'No video selected' ),
+					'frame_title'  => __( 'Select video' ),
+					'frame_button' => __( 'Choose video' ),
+				);
+			case 'audio':
+				return array(
+					'select'       => __( 'Select audio' ),
+					'change'       => __( 'Change audio' ),
+					'default'      => __( 'Default' ),
+					'remove'       => __( 'Remove' ),
+					'placeholder'  => __( 'No audio selected' ),
+					'frame_title'  => __( 'Select audio' ),
+					'frame_button' => __( 'Choose audio' ),
+				);
+			case 'image':
+				return array(
+					'select'       => __( 'Select image' ),
+					'change'       => __( 'Change image' ),
+					'default'      => __( 'Default' ),
+					'remove'       => __( 'Remove' ),
+					'placeholder'  => __( 'No image selected' ),
+					'frame_title'  => __( 'Select image' ),
+					'frame_button' => __( 'Choose image' ),
+				);
+			default:
+				return array(
+					'select'       => __( 'Select file' ),
+					'change'       => __( 'Change file' ),
+					'default'      => __( 'Default' ),
+					'remove'       => __( 'Remove' ),
+					'placeholder'  => __( 'No file selected' ),
+					'frame_title'  => __( 'Select file' ),
+					'frame_button' => __( 'Choose file' ),
+				);
+		} // End switch().
 	}
 }

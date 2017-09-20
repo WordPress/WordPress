@@ -4004,14 +4004,6 @@ final class WP_Customize_Manager {
 			'description'    => $control_description,
 			'section'        => 'header_image',
 			'mime_type'      => 'video',
-			// @todo These button_labels can be removed once WP_Customize_Media_Control provides mime_type-specific labels automatically. See <https://core.trac.wordpress.org/ticket/38796>.
-			'button_labels'  => array(
-				'select'       => __( 'Select Video' ),
-				'change'       => __( 'Change Video' ),
-				'placeholder'  => __( 'No video selected' ),
-				'frame_title'  => __( 'Select Video' ),
-				'frame_button' => __( 'Choose Video' ),
-			),
 			'active_callback' => 'is_header_video_active',
 		) ) );
 
