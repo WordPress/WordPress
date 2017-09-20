@@ -59,10 +59,11 @@ class WP_Widget_Categories extends WP_Widget {
 		$cat_args = array(
 			'orderby'      => 'name',
 			'show_count'   => $c,
-			'hierarchical' => $h
+			'hierarchical' => $h,
 		);
 
 		if ( $d ) {
+			echo sprintf( '<form action="%s" method="get">', esc_url( home_url() ) );
 			$dropdown_id = ( $first_dropdown ) ? 'cat' : "{$this->id_base}-dropdown-{$this->number}";
 			$first_dropdown = false;
 
@@ -81,6 +82,8 @@ class WP_Widget_Categories extends WP_Widget {
 			 * @param array $cat_args An array of Categories widget drop-down arguments.
 			 */
 			wp_dropdown_categories( apply_filters( 'widget_categories_dropdown_args', $cat_args ) );
+
+			echo '</form>';
 			?>
 
 <script type='text/javascript'>
@@ -89,7 +92,7 @@ class WP_Widget_Categories extends WP_Widget {
 	var dropdown = document.getElementById( "<?php echo esc_js( $dropdown_id ); ?>" );
 	function onCatChange() {
 		if ( dropdown.options[ dropdown.selectedIndex ].value > 0 ) {
-			location.href = "<?php echo home_url(); ?>/?cat=" + dropdown.options[ dropdown.selectedIndex ].value;
+			dropdown.parentNode.submit();
 		}
 	}
 	dropdown.onchange = onCatChange;
