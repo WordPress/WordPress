@@ -240,14 +240,20 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 		}
 
 		if ( $url ) {
-			$image = sprintf(
-				'<a href="%1$s" class="%2$s" rel="%3$s" target="%4$s">%5$s</a>',
-				esc_url( $url ),
-				esc_attr( $instance['link_classes'] ),
-				esc_attr( $instance['link_rel'] ),
-				! empty( $instance['link_target_blank'] ) ? '_blank' : '',
-				$image
-			);
+			$link = sprintf( '<a href="%s"', esc_url( $url ) );
+			if ( ! empty( $instance['link_classes'] ) ) {
+				$link .= sprintf( ' class="%s"', esc_attr( $instance['link_classes'] ) );
+			}
+			if ( ! empty( $instance['link_rel'] ) ) {
+				$link .= sprintf( ' rel="%s"', esc_attr( $instance['link_rel'] ) );
+			}
+			if ( ! empty( $instance['link_target_blank'] ) ) {
+				$link .= ' target="_blank"';
+			}
+			$link .= '>';
+			$link .= $image;
+			$link .= '</a>';
+			$image = $link;
 		}
 
 		if ( $caption ) {
