@@ -150,11 +150,48 @@ function wp_check_php_mysql_versions() {
  * @since 3.0.0
  */
 function wp_favicon_request() {
-	if ( '/favicon.ico' == $_SERVER['REQUEST_URI'] ) {
+	$isBad = wp_is_bad_request('ico');
+	if($isBad){
 		header('Content-Type: image/vnd.microsoft.icon');
 		exit;
 	}
 }
+
+
+/**
+ * Check if we have received a junk request, based on file extension.
+ * 
+ * Use the 'wp_is_bad_request_extensions' filter to add or remove allowed file extensions.
+ * Use the 'wp_is_bad_request' filter to return the boolean value of a custom evaluation.
+ * 
+ * As a 'best practice', plugin developers should utilize this function as a
+ * way to prevent running plugin code unnecessarily.
+ * 
+ * @author Robert D Payne <rpayne@rdptechsolutions.com>
+ *
+ * @param string $extension Extension of requested file
+ * @return bool True if the the HTTP request is considered junk, false otherwise 
+ */
+function wp_is_bad_request($extension) {
+	$isBad = false;
+    
+	if(!empty($extension)){
+		$ext = strtolower($extension);
+		$mimes = apply_filters('wp_is_bad_request_extensions', wp_get_mime_types()) ;
+
+		foreach($mimes as $key=>$value):
+			if(count(explode('|',$key)) > 1){
+				$isBad = (strpos($key, $ext) !== false);
+			} else {
+				$isBad = ($key === $ext);      
+			}
+			if($isBad)break;
+		endforeach;         
+	}
+
+	return apply_filters( 'wp_is_bad_request', $isBad);
+}//wp_is_bad_request
+
 
 /**
  * Die with a maintenance message when conditions are met.
