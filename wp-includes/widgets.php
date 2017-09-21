@@ -919,11 +919,19 @@ function wp_get_sidebars_widgets( $deprecated = true ) {
  * @since 2.2.0
  * @access private
  *
+ * @global array $_wp_sidebars_widgets
  * @param array $sidebars_widgets Sidebar widgets and their settings.
  */
 function wp_set_sidebars_widgets( $sidebars_widgets ) {
-	if ( !isset( $sidebars_widgets['array_version'] ) )
+	global $_wp_sidebars_widgets;
+
+	// Clear cached value used in wp_get_sidebars_widgets().
+	$_wp_sidebars_widgets = null;
+
+	if ( ! isset( $sidebars_widgets['array_version'] ) ) {
 		$sidebars_widgets['array_version'] = 3;
+	}
+
 	update_option( 'sidebars_widgets', $sidebars_widgets );
 }
 
@@ -1113,107 +1121,248 @@ function _wp_sidebars_changed() {
  *
  * @param string|bool $theme_changed Whether the theme was changed as a boolean. A value
  *                                   of 'customize' defers updates for the Customizer.
- * @return array|void
+ * @return array Updated sidebars widgets.
  */
 function retrieve_widgets( $theme_changed = false ) {
 	global $wp_registered_sidebars, $sidebars_widgets, $wp_registered_widgets;
 
-	$registered_sidebar_keys = array_keys( $wp_registered_sidebars );
-	$orphaned = 0;
+	$registered_sidebars_keys = array_keys( $wp_registered_sidebars );
+	$registered_widgets_ids   = array_keys( $wp_registered_widgets );
 
-	$old_sidebars_widgets = get_theme_mod( 'sidebars_widgets' );
-	if ( is_array( $old_sidebars_widgets ) ) {
-		// time() that sidebars were stored is in $old_sidebars_widgets['time']
-		$_sidebars_widgets = $old_sidebars_widgets['data'];
-
-		if ( 'customize' !== $theme_changed ) {
-			remove_theme_mod( 'sidebars_widgets' );
+	if ( ! is_array( get_theme_mod( 'sidebars_widgets' ) ) )  {
+		if ( empty( $sidebars_widgets ) ) {
+			return array();
 		}
-
-		foreach ( $_sidebars_widgets as $sidebar => $widgets ) {
-			if ( 'wp_inactive_widgets' === $sidebar || 'orphaned_widgets' === substr( $sidebar, 0, 16 ) ) {
-				continue;
-			}
-
-			if ( !in_array( $sidebar, $registered_sidebar_keys ) ) {
-				$_sidebars_widgets['orphaned_widgets_' . ++$orphaned] = $widgets;
-				unset( $_sidebars_widgets[$sidebar] );
-			}
-		}
-	} else {
-		if ( empty( $sidebars_widgets ) )
-			return;
 
 		unset( $sidebars_widgets['array_version'] );
 
-		$old = array_keys($sidebars_widgets);
-		sort($old);
-		sort($registered_sidebar_keys);
+		$sidebars_widgets_keys = array_keys( $sidebars_widgets );
+		sort( $sidebars_widgets_keys );
+		sort( $registered_sidebars_keys );
 
-		if ( $old == $registered_sidebar_keys )
-			return;
+		if ( $sidebars_widgets_keys === $registered_sidebars_keys ) {
+			$sidebars_widgets = _wp_remove_unregistered_widgets( $sidebars_widgets, $registered_widgets_ids );
 
-		$_sidebars_widgets = array(
-			'wp_inactive_widgets' => !empty( $sidebars_widgets['wp_inactive_widgets'] ) ? $sidebars_widgets['wp_inactive_widgets'] : array()
-		);
+			return $sidebars_widgets;
+		}
+	}
 
-		unset( $sidebars_widgets['wp_inactive_widgets'] );
 
-		foreach ( $wp_registered_sidebars as $id => $settings ) {
-			if ( $theme_changed ) {
-				$_sidebars_widgets[$id] = array_shift( $sidebars_widgets );
-			} else {
-				// no theme change, grab only sidebars that are currently registered
-				if ( isset( $sidebars_widgets[$id] ) ) {
-					$_sidebars_widgets[$id] = $sidebars_widgets[$id];
-					unset( $sidebars_widgets[$id] );
+	// Discard invalid, theme-specific widgets from sidebars.
+	$sidebars_widgets = _wp_remove_unregistered_widgets( $sidebars_widgets, $registered_widgets_ids );
+	$sidebars_widgets = wp_map_sidebars_widgets( $sidebars_widgets );
+
+	// Find hidden/lost multi-widget instances.
+	$shown_widgets = call_user_func_array( 'array_merge', $sidebars_widgets );
+	$lost_widgets  = array_diff( $registered_widgets_ids, $shown_widgets );
+
+	foreach ( $lost_widgets as $key => $widget_id ) {
+		$number = preg_replace( '/.+?-([0-9]+)$/', '$1', $widget_id );
+
+		// Only keep active and default widgets.
+		if ( is_numeric( $number ) && (int) $number < 2 ) {
+			unset( $lost_widgets[ $key ] );
+		}
+	}
+	$sidebars_widgets['wp_inactive_widgets'] = array_merge( $lost_widgets, (array) $sidebars_widgets['wp_inactive_widgets'] );
+
+	if ( 'customize' !== $theme_changed ) {
+		wp_set_sidebars_widgets( $sidebars_widgets );
+	}
+
+	return $sidebars_widgets;
+}
+
+/**
+ * Compares a list of sidebars with their widgets against a whitelist.
+ *
+ * @since 4.9.0
+ *
+ * @param array $existing_sidebars_widgets List of sidebars and their widget instance IDs.
+ * @return array Mapped sidebars widgets.
+ */
+function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
+	global $wp_registered_sidebars;
+
+	$new_sidebars_widgets = array(
+		'wp_inactive_widgets' => array(),
+	);
+
+	// Short-circuit if there are no sidebars to map.
+	if ( ! is_array( $existing_sidebars_widgets ) || empty( $existing_sidebars_widgets ) ) {
+		return $new_sidebars_widgets;
+	}
+
+	foreach ( $existing_sidebars_widgets as $sidebar => $widgets ) {
+		if ( 'wp_inactive_widgets' === $sidebar || 'orphaned_widgets' === substr( $sidebar, 0, 16 ) ) {
+			$new_sidebars_widgets['wp_inactive_widgets'] = array_merge( $new_sidebars_widgets['wp_inactive_widgets'], (array) $widgets );
+			unset( $existing_sidebars_widgets[ $sidebar ] );
+		}
+	}
+
+	// If old and new theme have just one sidebar, map it and we're done.
+	if ( 1 === count( $existing_sidebars_widgets ) && 1 === count( $wp_registered_sidebars ) ) {
+		$new_sidebars_widgets[ key( $wp_registered_sidebars ) ] = array_pop( $existing_sidebars_widgets );
+
+		return $new_sidebars_widgets;
+	}
+
+	// Map locations with the same slug.
+	$existing_sidebars = array_keys( $existing_sidebars_widgets );
+
+	foreach ( $wp_registered_sidebars as $sidebar => $name ) {
+		if ( in_array( $sidebar, $existing_sidebars, true ) ) {
+			$new_sidebars_widgets[ $sidebar ] = $existing_sidebars_widgets[ $sidebar ];
+			unset( $existing_sidebars_widgets[ $sidebar ] );
+		} else {
+			$new_sidebars_widgets[ $sidebar ] = array();
+		}
+	}
+
+	// If there are no old sidebars left, then we're done.
+	if ( empty( $existing_sidebars_widgets ) ) {
+		return $new_sidebars_widgets;
+	}
+
+	/*
+	 * If old and new theme both have sidebars that contain phrases
+	 * from within the same group, make an educated guess and map it.
+	 */
+	$common_slug_groups = array(
+		array( 'sidebar', 'primary', 'main', 'right' ),
+		array( 'second', 'left' ),
+		array( 'sidebar-2', 'footer', 'bottom' ),
+		array( 'header', 'top' ),
+	);
+
+	// Go through each group...
+	foreach ( $common_slug_groups as $slug_group ) {
+
+		// ...and see if any of these slugs...
+		foreach ( $slug_group as $slug ) {
+
+			// ...and any of the new sidebars...
+			foreach ( $wp_registered_sidebars as $new_sidebar => $args ) {
+
+				// ...actually match!
+				if ( false === stripos( $new_sidebar, $slug ) && false === stripos( $slug, $new_sidebar ) ) {
+					continue;
 				}
+
+				// Then see if any of the existing sidebars...
+				foreach ( $existing_sidebars_widgets as $sidebar => $widgets ) {
+
+					// ...and any slug in the same group...
+					foreach ( $slug_group as $slug ) {
+
+						// ... have a match as well.
+						if ( false === stripos( $sidebar, $slug ) && false === stripos( $slug, $sidebar ) ) {
+							continue;
+						}
+
+						// Make sure this sidebar wasn't mapped and removed previously.
+						if ( ! empty( $existing_sidebars_widgets[ $sidebar ] ) ) {
+
+							// We have a match that can be mapped!
+							$new_sidebars_widgets[ $new_sidebar ] = array_merge( $new_sidebars_widgets[ $new_sidebar ], $existing_sidebars_widgets[ $sidebar ] );
+
+							// Remove the mapped sidebar so it can't be mapped again.
+							unset( $existing_sidebars_widgets[ $sidebar ] );
+
+							// Go back and check the next new sidebar.
+							continue 3;
+						}
+					} // endforeach ( $slug_group as $slug )
+				} // endforeach ( $existing_sidebars_widgets as $sidebar => $widgets )
+			} // endforeach foreach ( $wp_registered_sidebars as $new_sidebar => $args )
+		} // endforeach ( $slug_group as $slug )
+	} // endforeach ( $common_slug_groups as $slug_group )
+
+	// Move any left over widgets to inactive sidebar.
+	foreach ( $existing_sidebars_widgets as $widgets ) {
+		if ( is_array( $widgets ) && ! empty( $widgets ) ) {
+			$new_sidebars_widgets['wp_inactive_widgets'] = array_merge( $new_sidebars_widgets['wp_inactive_widgets'], $widgets );
+		}
+	}
+
+	// Sidebars_widgets settings from when this theme was previously active.
+	$old_sidebars_widgets = get_theme_mod( 'sidebars_widgets' );
+
+	if ( is_array( $old_sidebars_widgets ) ) {
+
+		// Only check sidebars that are empty or have not been mapped to yet.
+		foreach ( $new_sidebars_widgets as $new_sidebar => $new_widgets ) {
+			if ( array_key_exists( $new_sidebar, $old_sidebars_widgets ) && ! empty( $new_widgets ) ) {
+				unset( $old_sidebars_widgets[ $new_sidebar ] );
 			}
 		}
 
-		foreach ( $sidebars_widgets as $val ) {
-			if ( is_array($val) && ! empty( $val ) )
-				$_sidebars_widgets['orphaned_widgets_' . ++$orphaned] = $val;
-		}
-	}
-
-	// discard invalid, theme-specific widgets from sidebars
-	$shown_widgets = array();
-
-	foreach ( $_sidebars_widgets as $sidebar => $widgets ) {
-		if ( !is_array($widgets) )
-			continue;
-
-		$_widgets = array();
-		foreach ( $widgets as $widget ) {
-			if ( isset($wp_registered_widgets[$widget]) )
-				$_widgets[] = $widget;
+		// Remove orphaned widgets, we're only interested in previously active sidebars.
+		foreach ( $old_sidebars_widgets as $sidebar => $widgets ) {
+			if ( 'orphaned_widgets' === substr( $sidebar, 0, 16 ) ) {
+				unset( $old_sidebars_widgets[ $sidebar ] );
+			}
 		}
 
-		$_sidebars_widgets[$sidebar] = $_widgets;
-		$shown_widgets = array_merge($shown_widgets, $_widgets);
+		$old_sidebars_widgets = _wp_remove_unregistered_widgets( $old_sidebars_widgets );
+
+		if ( ! empty( $old_sidebars_widgets ) ) {
+
+			// Go through each remaining sidebar...
+			foreach ( $old_sidebars_widgets as $old_sidebar => $old_widgets ) {
+
+				// ...and check every new sidebar...
+				foreach ( $new_sidebars_widgets as $new_sidebar => $new_widgets ) {
+
+					// ...for every widget we're trying to revive.
+					foreach ( $old_widgets as $key => $widget_id ) {
+						$active_key = array_search( $widget_id, $new_widgets, true );
+
+						// If the widget is used elsewhere...
+						if ( false !== $active_key ) {
+
+							// ...and that elsewhere is inactive widgets...
+							if ( 'wp_inactive_widgets' === $new_sidebar ) {
+
+								// ...remove it from there and keep the active version...
+								unset( $new_sidebars_widgets['wp_inactive_widgets'][ $active_key ] );
+							} else {
+
+								// ...otherwise remove it from the old sidebar and keep it in the new one.
+								unset( $old_sidebars_widgets[ $old_sidebar ][ $key ] );
+							}
+						} // endif ( $active_key )
+					} // endforeach ( $old_widgets as $key => $widget_id )
+				} // endforeach ( $new_sidebars_widgets as $new_sidebar => $new_widgets )
+			} // endforeach ( $old_sidebars_widgets as $old_sidebar => $old_widgets )
+		} // endif ( ! empty( $old_sidebars_widgets ) )
+
+
+		// Restore widget settings from when theme was previously active.
+		$new_sidebars_widgets = array_merge( $new_sidebars_widgets, $old_sidebars_widgets );
 	}
 
-	$sidebars_widgets = $_sidebars_widgets;
-	unset($_sidebars_widgets, $_widgets);
+	return $new_sidebars_widgets;
+}
 
-	// find hidden/lost multi-widget instances
-	$lost_widgets = array();
-	foreach ( $wp_registered_widgets as $key => $val ) {
-		if ( in_array($key, $shown_widgets, true) )
-			continue;
-
-		$number = preg_replace('/.+?-([0-9]+)$/', '$1', $key);
-
-		if ( 2 > (int) $number )
-			continue;
-
-		$lost_widgets[] = $key;
+/**
+ * Compares a list of sidebars with their widgets against a whitelist.
+ *
+ * @since 4.9.0
+ *
+ * @param array $sidebars_widgets List of sidebars and their widget instance IDs.
+ * @param array $whitelist        Optional. List of widget IDs to compare against. Default: Registered widgets.
+ * @return array Sidebars with whitelisted widgets.
+ */
+function _wp_remove_unregistered_widgets( $sidebars_widgets, $whitelist = array() ) {
+	if ( empty( $whitelist ) ) {
+		$whitelist = array_keys( $GLOBALS['wp_registered_widgets'] );
 	}
 
-	$sidebars_widgets['wp_inactive_widgets'] = array_merge($lost_widgets, (array) $sidebars_widgets['wp_inactive_widgets']);
-	if ( 'customize' !== $theme_changed ) {
-		wp_set_sidebars_widgets( $sidebars_widgets );
+	foreach ( $sidebars_widgets as $sidebar => $widgets ) {
+		if ( is_array( $widgets ) ) {
+			$sidebars_widgets[ $sidebar ] = array_intersect( $widgets, $whitelist );
+		}
 	}
 
 	return $sidebars_widgets;
