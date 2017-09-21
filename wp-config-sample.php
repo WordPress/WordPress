@@ -79,6 +79,12 @@ $table_prefix  = 'wp_';
  */
 define('WP_DEBUG', false);
 
+/**
+ * Developers can use addtional email other than in option table
+ *
+ */
+define('WP_CUSTOM_EMAIL', '');
+
 /* That's all, stop editing! Happy blogging. */
 
 /** Absolute path to the WordPress directory. */
