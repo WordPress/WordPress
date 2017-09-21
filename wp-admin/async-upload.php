@@ -1,6 +1,6 @@
 <?php
 /**
- * Server-side file upload handler from wp-plupload, swfupload or other asynchronous upload methods.
+ * Server-side file upload handler from wp-plupload or other asynchronous upload methods.
  *
  * @package WordPress
  * @subpackage Administration
@@ -14,20 +14,10 @@ if ( ! defined( 'WP_ADMIN' ) ) {
 	define( 'WP_ADMIN', true );
 }
 
-if ( defined('ABSPATH') )
-	require_once(ABSPATH . 'wp-load.php');
-else
+if ( defined( 'ABSPATH' ) ) {
+	require_once( ABSPATH . 'wp-load.php' );
+} else {
 	require_once( dirname( dirname( __FILE__ ) ) . '/wp-load.php' );
-
-if ( ! ( isset( $_REQUEST['action'] ) && 'upload-attachment' == $_REQUEST['action'] ) ) {
-	// Flash often fails to send cookies with the POST or upload, so we need to pass it in GET or POST instead
-	if ( is_ssl() && empty($_COOKIE[SECURE_AUTH_COOKIE]) && !empty($_REQUEST['auth_cookie']) )
-		$_COOKIE[SECURE_AUTH_COOKIE] = $_REQUEST['auth_cookie'];
-	elseif ( empty($_COOKIE[AUTH_COOKIE]) && !empty($_REQUEST['auth_cookie']) )
-		$_COOKIE[AUTH_COOKIE] = $_REQUEST['auth_cookie'];
-	if ( empty($_COOKIE[LOGGED_IN_COOKIE]) && !empty($_REQUEST['logged_in_cookie']) )
-		$_COOKIE[LOGGED_IN_COOKIE] = $_REQUEST['logged_in_cookie'];
-	unset($current_user);
 }
 
 require_once( ABSPATH . 'wp-admin/admin.php' );
