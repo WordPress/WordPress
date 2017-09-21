@@ -1164,11 +1164,25 @@ p.customize-section-description {
 }
 
 /**
- * Custom CSS Section
+ * Code Editor Control and Custom CSS Section
  *
  * Modifications to the Section Container to make the textarea full-width and
  * full-height, if the control is the only control in the section.
  */
+
+.customize-control-code_editor textarea {
+	width: 100%;
+	font-family: Consolas, Monaco, monospace;
+	font-size: 12px;
+	padding: 6px 8px;
+	-moz-tab-size: 2;
+	-o-tab-size: 2;
+	tab-size: 2;
+}
+.customize-control-code_editor textarea,
+.customize-control-code_editor .CodeMirror {
+	height: 14em;
+}
 
 #customize-controls .customize-section-description-container.section-meta.customize-info {
 	border-bottom: none;
@@ -1180,13 +1194,7 @@ p.customize-section-description {
 
 #customize-control-custom_css textarea {
 	display: block;
-	font-family: Consolas, Monaco, monospace;
-	font-size: 12px;
-	padding: 6px 8px;
 	height: 500px;
-	-moz-tab-size: 4;
-	-o-tab-size: 4;
-	tab-size: 4;
 }
 
 .customize-section-description-container + #customize-control-custom_css:last-child textarea {

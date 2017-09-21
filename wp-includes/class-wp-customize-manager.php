@@ -213,21 +213,6 @@ final class WP_Customize_Manager {
 	private $_changeset_data;
 
 	/**
-	 * Code Editor Settings for Custom CSS.
-	 *
-	 * This variable contains the settings returned by `wp_enqueue_code_editor()` which are then later output
-	 * to the client in `WP_Customize_Manager::customize_pane_settings()`. A value of false means that the
-	 * Custom CSS section or control was removed, or that the Syntax Highlighting user pref was turned off.
-	 *
-	 * @see wp_enqueue_code_editor()
-	 * @see WP_Customize_Manager::enqueue_control_scripts()
-	 * @see WP_Customize_Manager::customize_pane_settings()
-	 * @since 4.9.0
-	 * @var array|false
-	 */
-	private $_custom_css_code_editor_settings = false;
-
-	/**
 	 * Constructor.
 	 *
 	 * @since 3.4.0
@@ -291,6 +276,7 @@ final class WP_Customize_Manager {
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-site-icon-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-header-image-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-theme-control.php' );
+		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-code-editor-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-widget-area-customize-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-widget-form-customize-control.php' );
 		require_once( ABSPATH . WPINC . '/customize/class-wp-customize-nav-menu-control.php' );
@@ -3337,12 +3323,6 @@ final class WP_Customize_Manager {
 		foreach ( $this->controls as $control ) {
 			$control->enqueue();
 		}
-
-		if ( $this->get_section( 'custom_css' ) && $this->get_control( 'custom_css' ) ) {
-			$this->_custom_css_code_editor_settings = wp_enqueue_code_editor( array(
-				'type' => 'text/css',
-			) );
-		}
 	}
 
 	/**
@@ -3600,9 +3580,6 @@ final class WP_Customize_Manager {
 				'stylesheet' => $this->get_stylesheet(),
 				'active'     => $this->is_theme_active(),
 			),
-			'customCss' => array(
-				'codeEditor' => $this->_custom_css_code_editor_settings,
-			),
 			'url'      => array(
 				'preview'       => esc_url_raw( $this->get_preview_url() ),
 				'parent'        => esc_url_raw( admin_url() ),
@@ -3736,6 +3713,7 @@ final class WP_Customize_Manager {
 		$this->register_control_type( 'WP_Customize_Cropped_Image_Control' );
 		$this->register_control_type( 'WP_Customize_Site_Icon_Control' );
 		$this->register_control_type( 'WP_Customize_Theme_Control' );
+		$this->register_control_type( 'WP_Customize_Code_Editor_Control' );
 
 		/* Themes */
 
@@ -4239,14 +4217,11 @@ final class WP_Customize_Manager {
 		) );
 		$this->add_setting( $custom_css_setting );
 
-		$this->add_control( 'custom_css', array(
-			'type'     => 'textarea',
+		$this->add_control( new WP_Customize_Code_Editor_Control( $this, 'custom_css', array(
 			'section'  => 'custom_css',
 			'settings' => array( 'default' => $custom_css_setting->id ),
-			'input_attrs' => array(
-				'class' => 'code', // Ensures contents displayed as LTR instead of RTL.
-			),
-		) );
+			'code_type' => 'text/css',
+		) ) );
 	}
 
 	/**

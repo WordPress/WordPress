@@ -3125,11 +3125,14 @@ function wp_enqueue_editor() {
  * @param array $args {
  *     Args.
  *
- *     @type string   $type     The MIME type of the file to be edited.
- *     @type string   $file     Filename to be edited. Extension is used to sniff the type. Can be supplied as alternative to `$type` param.
- *     @type array    $settings Settings to merge on top of defaults which derive from `$type` or `$file` args.
- *     @type WP_Theme $theme    Theme being edited when on theme editor.
- *     @type string   $plugin   Plugin being edited when on plugin editor.
+ *     @type string   $type       The MIME type of the file to be edited.
+ *     @type string   $file       Filename to be edited. Extension is used to sniff the type. Can be supplied as alternative to `$type` param.
+ *     @type WP_Theme $theme      Theme being edited when on theme editor.
+ *     @type string   $plugin     Plugin being edited when on plugin editor.
+ *     @type array    $codemirror Additional CodeMirror setting overrides.
+ *     @type array    $csslint    CSSLint rule overrides.
+ *     @type array    $jshint     JSHint rule overrides.
+ *     @type array    $htmlhint   JSHint rule overrides.
  * }
  * @returns array|false Settings for the enqueued code editor, or false if the editor was not enqueued .
  */
@@ -3408,13 +3411,11 @@ function wp_enqueue_code_editor( $args ) {
 	}
 
 	// Let settings supplied via args override any defaults.
-	if ( isset( $args['settings'] ) ) {
-		foreach ( $args['settings'] as $key => $value ) {
-			$settings[ $key ] = array_merge(
-				$settings[ $key ],
-				$value
-			);
-		}
+	foreach ( wp_array_slice_assoc( $args, array( 'codemirror', 'csslint', 'jshint', 'htmlhint' ) ) as $key => $value ) {
+		$settings[ $key ] = array_merge(
+			$settings[ $key ],
+			$value
+		);
 	}
 
 	/**
@@ -3428,11 +3429,14 @@ function wp_enqueue_code_editor( $args ) {
 	 * @param array $args {
 	 *     Args passed when calling `wp_enqueue_code_editor()`.
 	 *
-	 *     @type string   $type     The MIME type of the file to be edited.
-	 *     @type string   $file     Filename being edited.
-	 *     @type array    $settings Settings to merge on top of defaults which derive from `$type` or `$file` args.
-	 *     @type WP_Theme $theme    Theme being edited when on theme editor.
-	 *     @type string   $plugin   Plugin being edited when on plugin editor.
+	 *     @type string   $type       The MIME type of the file to be edited.
+	 *     @type string   $file       Filename being edited.
+	 *     @type WP_Theme $theme      Theme being edited when on theme editor.
+	 *     @type string   $plugin     Plugin being edited when on plugin editor.
+	 *     @type array    $codemirror Additional CodeMirror setting overrides.
+	 *     @type array    $csslint    CSSLint rule overrides.
+	 *     @type array    $jshint     JSHint rule overrides.
+	 *     @type array    $htmlhint   JSHint rule overrides.
 	 * }
 	 */
 	$settings = apply_filters( 'wp_code_editor_settings', $settings, $args );
@@ -3443,9 +3447,6 @@ function wp_enqueue_code_editor( $args ) {
 
 	wp_enqueue_script( 'code-editor' );
 	wp_enqueue_style( 'code-editor' );
-
-	wp_enqueue_script( 'codemirror' );
-	wp_enqueue_style( 'codemirror' );
 
 	if ( isset( $settings['codemirror']['mode'] ) ) {
 		$mode = $settings['codemirror']['mode'];

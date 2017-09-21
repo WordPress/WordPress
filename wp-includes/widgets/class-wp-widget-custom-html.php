@@ -160,6 +160,10 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 	public function enqueue_admin_scripts() {
 		$settings = wp_enqueue_code_editor( array(
 			'type' => 'text/html',
+			'codemirror' => array(
+				'indentUnit' => 2,
+				'tabSize' => 2,
+			),
 		) );
 
 		wp_enqueue_script( 'custom-html-widgets' );
