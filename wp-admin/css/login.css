@@ -73,6 +73,25 @@ p {
 	padding: 0;
 }
 
+.login .password-input-wrapper {
+    display: table;
+}
+
+.login .input.password-input {
+    display: table-cell;
+    margin: 0;
+}
+
+.login .pw-weak {
+    margin-bottom: 15px;
+}
+
+.login .button.button-secondary {
+    display: table-cell;
+    border-radius: 0;
+    vertical-align: middle;
+}
+
 .login form {
 	margin-top: 20px;
 	margin-left: 0;

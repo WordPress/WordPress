@@ -161,7 +161,7 @@
 		// hide this
 		$('.user-pass2-wrap').hide();
 
-		$submitButton = $( '#submit' ).on( 'click', function () {
+		$submitButton = $( '#submit, #wp-submit' ).on( 'click', function () {
 			updateLock = false;
 		});
 
@@ -314,7 +314,7 @@
 
 		if ( passStrength.className ) {
 			$pass1.add( $pass1Text ).addClass( passStrength.className );
-			if ( 'short' === passStrength.className || 'bad' === passStrength.className ) {
+			if ( $( passStrength ).is( '.short, .bad' ) ) {
 				if ( ! $weakCheckbox.prop( 'checked' ) ) {
 					$submitButtons.prop( 'disabled', true );
 				}
