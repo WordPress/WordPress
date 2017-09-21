@@ -793,17 +793,27 @@
 					model.unset( 'slug' );
 				}
 
-				if ( ! _.isUndefined( wpApiSettings.nonce ) && ! _.isNull( wpApiSettings.nonce ) ) {
+				if ( _.isFunction( model.nonce ) && ! _.isUndefined( model.nonce() ) && ! _.isNull( model.nonce() ) ) {
 					beforeSend = options.beforeSend;
 
 					// @todo enable option for jsonp endpoints
 					// options.dataType = 'jsonp';
 
+					// Include the nonce with requests.
 					options.beforeSend = function( xhr ) {
-						xhr.setRequestHeader( 'X-WP-Nonce', wpApiSettings.nonce );
+						xhr.setRequestHeader( 'X-WP-Nonce', model.nonce() );
 
 						if ( beforeSend ) {
 							return beforeSend.apply( this, arguments );
+						}
+					};
+
+					// Update the nonce when a new nonce is returned with the response.
+					options.complete = function( xhr ) {
+						var returnedNonce = xhr.getResponseHeader( 'X-WP-Nonce' );
+
+						if ( returnedNonce && _.isFunction( model.nonce ) && model.nonce() !== returnedNonce ) {
+							model.endpointModel.set( 'nonce', returnedNonce );
 						}
 					};
 				}
@@ -1048,6 +1058,7 @@
 		defaults: {
 			apiRoot: wpApiSettings.root,
 			versionString: wp.api.versionString,
+			nonce: null,
 			schema: null,
 			models: {},
 			collections: {}
@@ -1065,8 +1076,9 @@
 			model.schemaConstructed = deferred.promise();
 
 			model.schemaModel = new wp.api.models.Schema( null, {
-				apiRoot: model.get( 'apiRoot' ),
-				versionString: model.get( 'versionString' )
+				apiRoot:       model.get( 'apiRoot' ),
+				versionString: model.get( 'versionString' ),
+				nonce:         model.get( 'nonce' )
 			} );
 
 			// When the model loads, resolve the promise.
@@ -1238,6 +1250,13 @@
 							return url;
 						},
 
+						// Track nonces on the Endpoint 'routeModel'.
+						nonce: function() {
+							return routeModel.get( 'nonce' );
+						},
+
+						endpointModel: routeModel,
+
 						// Include a reference to the original route object.
 						route: modelRoute,
 
@@ -1283,6 +1302,13 @@
 							}
 							return url;
 						},
+
+						// Track nonces at the Endpoint level.
+						nonce: function() {
+							return routeModel.get( 'nonce' );
+						},
+
+						endpointModel: routeModel,
 
 						// Include a reference to the original route object.
 						route: modelRoute,
@@ -1405,6 +1431,7 @@
 		var endpoint, attributes = {}, deferred, promise;
 
 		args                      = args || {};
+		attributes.nonce          = args.nonce || wpApiSettings.nonce || '';
 		attributes.apiRoot        = args.apiRoot || wpApiSettings.root || '/wp-json';
 		attributes.versionString  = args.versionString || wpApiSettings.versionString || 'wp/v2/';
 		attributes.schema         = args.schema || null;
