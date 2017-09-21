@@ -166,7 +166,7 @@ function wp_prepare_revisions_for_js( $post, $selected_revision_id, $from = null
 
 	foreach ( $revisions as $revision ) {
 		$modified = strtotime( $revision->post_modified );
-		$modified_gmt = strtotime( $revision->post_modified_gmt );
+		$modified_gmt = strtotime( $revision->post_modified_gmt . ' +0000' );
 		if ( $can_restore ) {
 			$restore_link = str_replace( '&amp;', '&', wp_nonce_url(
 				add_query_arg(
