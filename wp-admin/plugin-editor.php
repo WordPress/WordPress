@@ -46,7 +46,20 @@ if ( isset( $_REQUEST['plugin'] ) ) {
 
 if ( empty( $plugin ) ) {
 	if ( $file ) {
-		$plugin = $file;
+
+		// Locate the plugin for a given plugin file being edited.
+		$file_dirname = dirname( $file );
+		foreach ( array_keys( $plugins ) as $plugin_candidate ) {
+			if ( $plugin_candidate === $file || ( '.' !== $file_dirname && dirname( $plugin_candidate ) === $file_dirname ) ) {
+				$plugin = $plugin_candidate;
+				break;
+			}
+		}
+
+		// Fallback to the file as the plugin.
+		if ( empty( $plugin ) ) {
+			$plugin = $file;
+		}
 	} else {
 		$plugin = array_keys( $plugins );
 		$plugin = $plugin[0];
@@ -71,6 +84,10 @@ if ( isset( $_REQUEST['action'] ) && 'update' === $_REQUEST['action'] ) {
 		$f = fopen($real_file, 'w+');
 		fwrite($f, $newcontent);
 		fclose($f);
+
+		if ( preg_match( '/\.php$/', $real_file ) && function_exists( 'opcache_invalidate' ) ) {
+			opcache_invalidate( $real_file, true );
+		}
 
 		$network_wide = is_plugin_active_for_network( $file );
 
@@ -220,12 +237,12 @@ if ( isset( $_REQUEST['action'] ) && 'update' === $_REQUEST['action'] ) {
 <?php if (isset($_GET['a'])) : ?>
  <div id="message" class="updated notice is-dismissible"><p><?php _e('File edited successfully.') ?></p></div>
 <?php elseif (isset($_GET['phperror'])) : ?>
- <div id="message" class="updated"><p><?php _e('This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.') ?></p>
+ <div id="message" class="notice notice-error"><p><?php _e( 'This plugin has been deactivated because your changes resulted in a <strong>fatal error</strong>.' ); ?></p>
 	<?php
-		if ( wp_verify_nonce( $_GET['_error_nonce'], 'plugin-activation-error_' . $file ) ) {
+		if ( wp_verify_nonce( $_GET['_error_nonce'], 'plugin-activation-error_' . $plugin ) ) {
 			$iframe_url = add_query_arg( array(
 				'action'   => 'error_scrape',
-				'plugin'   => urlencode( $file ),
+				'plugin'   => urlencode( $plugin ),
 				'_wpnonce' => urlencode( $_GET['_error_nonce'] ),
 			), admin_url( 'plugins.php' ) );
 			?>
@@ -315,7 +332,9 @@ foreach ( $plugin_files as $plugin_file ) :
 		<?php endif; ?>
 <?php if ( is_writeable($real_file) ) : ?>
 	<?php if ( in_array( $plugin, (array) get_option( 'active_plugins', array() ) ) ) { ?>
-		<p><?php _e('<strong>Warning:</strong> Making changes to active plugins is not recommended. If your changes cause a fatal error, the plugin will be automatically deactivated.'); ?></p>
+		<div class="notice notice-warning inline active-plugin-edit-warning">
+			<p><?php _e('<strong>Warning:</strong> Making changes to active plugins is not recommended. If your changes cause a fatal error, the plugin will be automatically deactivated.'); ?></p>
+		</div>
 	<?php } ?>
 	<p class="submit">
 	<?php

@@ -2203,6 +2203,14 @@ h1.nav-tab-wrapper, /* Back-compat for pre-4.4 */
 #template > div {
 	margin-left: 190px;
 }
+#template .active-plugin-edit-warning {
+	margin-top: 1em;
+	margin-left: 30%;
+	margin-left: calc( 184px + 3% );
+}
+#template .active-plugin-edit-warning p {
+	width: auto;
+}
 
 .metabox-holder .stuffbox > h3, /* Back-compat for pre-4.4 */
 .metabox-holder .postbox > h3, /* Back-compat for pre-4.4 */
@@ -3609,9 +3617,10 @@ img {
 		margin-top: -5px;
 	}
 
-	#template > div {
+	#template > div,
+	#template  .active-plugin-edit-warning {
 		float: none;
-		margin: 0;
+		margin: 1em 0;
 		width: auto;
 	}
 
