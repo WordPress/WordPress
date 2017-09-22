@@ -3684,7 +3684,7 @@ class wp_xmlrpc_server extends IXR_Server {
 		}
 
 		if ( ! $comment_ID ) {
-			return new IXR_Error( 403, __( 'An unknown error occurred' ) );
+			return new IXR_Error( 403, __( 'An unidentified error has occurred.' ) );
 		}
 
 		/**
