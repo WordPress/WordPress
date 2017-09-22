@@ -1909,7 +1909,7 @@ function plugin_sandbox_scrape( $plugin ) {
 	$old_wp_actions = $wp_actions;
 	array_map( 'remove_all_actions', array_keys( $tested_actions ) );
 
-	include( WP_PLUGIN_DIR . '/' . $plugin );
+	include_once( WP_PLUGIN_DIR . '/' . $plugin );
 
 	// Trigger key actions that are done on the plugin editor to cause the relevant plugin hooks to fire and potentially cause errors.
 	foreach ( $tested_actions as $action => $args ) {
