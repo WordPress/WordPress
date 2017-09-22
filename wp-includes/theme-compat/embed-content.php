@@ -22,6 +22,15 @@
 			$thumbnail_id = get_the_ID();
 		}
 
+		/**
+		 * Filters the thumbnail image ID for use in the embed template.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param int $thumbnail_id Attachment ID.
+		 */
+		$thumbnail_id = apply_filters( 'embed_thumbnail_id', $thumbnail_id );
+
 		if ( $thumbnail_id ) {
 			$aspect_ratio = 1;
 			$measurements = array( 1, 1 );
