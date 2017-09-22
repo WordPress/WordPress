@@ -285,7 +285,7 @@ function wp_default_scripts( &$scripts ) {
 
 	$scripts->add( 'swfobject', "/wp-includes/js/swfobject.js", array(), '2.2-20120417');
 
-	// error message for both plupload and swfupload
+	// Error messages for Plupload.
 	$uploader_l10n = array(
 		'queue_limit_exceeded' => __('You have attempted to queue too many files.'),
 		'file_exceeds_size_limit' => __('%s exceeds the maximum upload size for this site.'),
@@ -312,7 +312,8 @@ function wp_default_scripts( &$scripts ) {
 		'error_uploading' => __('&#8220;%s&#8221; has failed to upload.')
 	);
 
-	$scripts->add( 'plupload', '/wp-includes/js/plupload/plupload.full.min.js', array(), '2.1.8' );
+	$scripts->add( 'moxiejs', "/wp-includes/js/plupload/moxie$suffix.js", array(), '1.3.5' );
+	$scripts->add( 'plupload', "/wp-includes/js/plupload/plupload$suffix.js", array( 'moxiejs' ), '2.1.9' );
 	// Back compat handles:
 	foreach ( array( 'all', 'html5', 'flash', 'silverlight', 'html4' ) as $handle ) {
 		$scripts->add( "plupload-$handle", false, array( 'plupload' ), '2.1.1' );
