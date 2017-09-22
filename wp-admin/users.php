@@ -34,8 +34,8 @@ get_current_screen()->add_help_tab( array(
 ) ) ;
 
 get_current_screen()->add_help_tab( array(
-	'id'      => 'screen-display',
-	'title'   => __('Screen Display'),
+	'id'      => 'screen-content',
+	'title'   => __('Screen Content'),
 	'content' => '<p>' . __('You can customize the display of this screen in a number of ways:') . '</p>' .
 					'<ul>' .
 					'<li>' . __('You can hide/display columns based on your needs and decide how many users to list per screen using the Screen Options tab.') . '</li>' .
@@ -46,18 +46,18 @@ get_current_screen()->add_help_tab( array(
 
 $help = '<p>' . __('Hovering over a row in the users list will display action links that allow you to manage users. You can perform the following actions:') . '</p>' .
 	'<ul>' .
-	'<li>' . __('Edit takes you to the editable profile screen for that user. You can also reach that screen by clicking on the username.') . '</li>';
+	'<li>' . __('<strong>Edit</strong> takes you to the editable profile screen for that user. You can also reach that screen by clicking on the username.') . '</li>';
 
 if ( is_multisite() )
-	$help .= '<li>' . __( 'Remove allows you to remove a user from your site. It does not delete their content. You can also remove multiple users at once by using Bulk Actions.' ) . '</li>';
+	$help .= '<li>' . __( '<strong>Remove</strong> allows you to remove a user from your site. It does not delete their content. You can also remove multiple users at once by using Bulk Actions.' ) . '</li>';
 else
-	$help .= '<li>' . __( 'Delete brings you to the Delete Users screen for confirmation, where you can permanently remove a user from your site and delete their content. You can also delete multiple users at once by using Bulk Actions.' ) . '</li>';
+	$help .= '<li>' . __( '<strong>Delete</strong> brings you to the Delete Users screen for confirmation, where you can permanently remove a user from your site and delete their content. You can also delete multiple users at once by using Bulk Actions.' ) . '</li>';
 
 $help .= '</ul>';
 
 get_current_screen()->add_help_tab( array(
-	'id'      => 'actions',
-	'title'   => __('Actions'),
+	'id'      => 'action-links',
+	'title'   => __('Available Actions'),
 	'content' => $help,
 ) );
 unset( $help );
