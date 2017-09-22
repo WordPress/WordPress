@@ -716,6 +716,7 @@ $_old_files = array(
 // 4.9
 'wp-includes/js/plupload/plupload.flash.swf',
 'wp-includes/js/plupload/plupload.silverlight.xap',
+'wp-includes/js/plupload/plupload.full.min.js',
 'wp-includes/js/swfupload/plugins',
 'wp-includes/js/swfupload/swfupload.swf',
 );
