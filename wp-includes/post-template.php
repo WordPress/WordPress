@@ -784,12 +784,12 @@ function post_password_required( $post = null ) {
 	$post = get_post($post);
 
 	if ( empty( $post->post_password ) ) {
-		/** This filter is documented in wp-includes/post.php */
+		/** This filter is documented in wp-includes/post-template.php */
 		return apply_filters( 'post_password_required', false, $post );
 	}
 
 	if ( ! isset( $_COOKIE[ 'wp-postpass_' . COOKIEHASH ] ) ) {
-		/** This filter is documented in wp-includes/post.php */
+		/** This filter is documented in wp-includes/post-template.php */
 		return apply_filters( 'post_password_required', true, $post );
 	}
 
