@@ -688,6 +688,7 @@ function wp_parse_url( $url, $component = -1 ) {
  * @internal
  *
  * @since 4.7.0
+ * @access private
  *
  * @link https://secure.php.net/manual/en/function.parse-url.php
  *
@@ -719,6 +720,7 @@ function _get_component_from_parsed_url_array( $url_parts, $component = -1 ) {
  * @internal
  *
  * @since 4.7.0
+ * @access private
  *
  * @link https://secure.php.net/manual/en/url.constants.php
  *
