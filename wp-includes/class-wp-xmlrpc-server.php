@@ -2065,7 +2065,7 @@ class wp_xmlrpc_server extends IXR_Server {
 
 		if ( ! empty( $content_struct['parent'] ) ) {
 			if ( ! $taxonomy['hierarchical'] )
-				return new IXR_Error( 403, __( "This taxonomy is not hierarchical so you can't set a parent." ) );
+				return new IXR_Error( 403, __( 'Cannot set parent term, taxonomy is not hierarchical.' ) );
 
 			$parent_term_id = (int) $content_struct['parent'];
 			$parent_term = get_term( $parent_term_id , $taxonomy['name'] );
