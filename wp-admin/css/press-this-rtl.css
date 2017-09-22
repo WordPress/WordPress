@@ -765,7 +765,9 @@ dd {
 
 /* Tags */
 .tagchecklist {
+	margin: 0;
 	padding: 16px 28px 5px;
+	list-style: none;
 }
 
 .tagchecklist:before,
@@ -778,7 +780,7 @@ dd {
 	clear: both;
 }
 
-.tagchecklist > span {
+.tagchecklist > li {
 	float: right;
 	margin-left: 25px;
 	font-size: 13px;
@@ -788,7 +790,7 @@ dd {
 }
 
 @media (max-width: 600px) {
-	.tagchecklist > span {
+	.tagchecklist > li {
 		margin-bottom: 15px;
 		font-size: 16px;
 		line-height: 1.3;
@@ -875,6 +877,16 @@ dd {
 .the-tagcloud {
 	margin: 0;
 	padding: 16px;
+}
+
+.the-tagcloud ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.the-tagcloud ul li {
+	display: inline-block;
 }
 
 .the-tagcloud a {

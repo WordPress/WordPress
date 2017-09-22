@@ -574,7 +574,7 @@ span.wp-media-buttons-icon:before {
 	position: absolute;
 }
 
-.tagchecklist > span {
+.tagchecklist > li {
 	float: left;
 	margin-right: 25px;
 	font-size: 13px;
@@ -1051,6 +1051,14 @@ p.popular-tags a {
 	margin: 2px 0 12px;
 }
 
+.the-tagcloud ul {
+	margin: 0;
+}
+
+.the-tagcloud ul li {
+	display: inline-block;
+}
+
 /* Suggest.js autocomplete, no more used by core. */
 .ac_results {
 	display: none;
@@ -1440,7 +1448,7 @@ table.links-table {
 		margin: 25px 10px;
 	}
 
-	.tagchecklist > span {
+	.tagchecklist > li {
 		font-size: 16px;
 		line-height: 1.4;
 	}

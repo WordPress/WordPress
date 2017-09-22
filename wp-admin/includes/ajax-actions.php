@@ -963,7 +963,7 @@ function wp_ajax_get_tagcloud() {
 	}
 
 	// We need raw tag names here, so don't filter the output
-	$return = wp_generate_tag_cloud( $tags, array('filter' => 0) );
+	$return = wp_generate_tag_cloud( $tags, array( 'filter' => 0, 'format' => 'list' ) );
 
 	if ( empty($return) )
 		wp_die( 0 );

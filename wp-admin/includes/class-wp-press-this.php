@@ -947,7 +947,7 @@ class WP_Press_This {
 
 			?>
 			</div>
-			<div class="tagchecklist"></div>
+			<ul class="tagchecklist" role="list"></ul>
 		</div>
 		<?php
 
