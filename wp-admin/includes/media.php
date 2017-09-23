@@ -2899,6 +2899,10 @@ function attachment_submitbox_metadata() {
 		endif;
 
 	if ( preg_match( '#^(audio|video)/#', $post->post_mime_type ) ) {
+		$fields = array(
+			'length_formatted' => __( 'Length:' ),
+			'bitrate'          => __( 'Bitrate:' ),
+		);
 
 		/**
 		 * Filters the audio and video metadata fields to be shown in the publish meta box.
@@ -2907,13 +2911,12 @@ function attachment_submitbox_metadata() {
 		 * metadata key, and the value should be the desired label.
 		 *
 		 * @since 3.7.0
+		 * @since 4.9.0 Added the `$post` parameter.
 		 *
-		 * @param array $fields An array of the attachment metadata keys and labels.
+		 * @param array   $fields An array of the attachment metadata keys and labels.
+		 * @param WP_Post $post   WP_Post object for the current attachment.
 		 */
-		$fields = apply_filters( 'media_submitbox_misc_sections', array(
-			'length_formatted' => __( 'Length:' ),
-			'bitrate'          => __( 'Bitrate:' ),
-		) );
+		$fields = apply_filters( 'media_submitbox_misc_sections', $fields, $post );
 
 		foreach ( $fields as $key => $label ) {
 			if ( empty( $meta[ $key ] ) ) {
@@ -2938,6 +2941,11 @@ function attachment_submitbox_metadata() {
 	<?php
 		}
 
+		$fields = array(
+			'dataformat' => __( 'Audio Format:' ),
+			'codec'      => __( 'Audio Codec:' )
+		);
+
 		/**
 		 * Filters the audio attachment metadata fields to be shown in the publish meta box.
 		 *
@@ -2945,13 +2953,12 @@ function attachment_submitbox_metadata() {
 		 * metadata key, and the value should be the desired label.
 		 *
 		 * @since 3.7.0
+		 * @since 4.9.0 Added the `$post` parameter.
 		 *
-		 * @param array $fields An array of the attachment metadata keys and labels.
+		 * @param array   $fields An array of the attachment metadata keys and labels.
+		 * @param WP_Post $post   WP_Post object for the current attachment.
 		 */
-		$audio_fields = apply_filters( 'audio_submitbox_misc_sections', array(
-			'dataformat' => __( 'Audio Format:' ),
-			'codec'      => __( 'Audio Codec:' )
-		) );
+		$audio_fields = apply_filters( 'audio_submitbox_misc_sections', $fields, $post );
 
 		foreach ( $audio_fields as $key => $label ) {
 			if ( empty( $meta['audio'][ $key ] ) ) {

@@ -244,8 +244,12 @@ do_action( 'post_submitbox_misc_actions', $post );
  * Fires at the beginning of the publishing actions section of the Publish meta box.
  *
  * @since 2.7.0
+ * @since 4.9.0 Added the `$post` parameter.
+ *
+ * @param WP_Post|null $post WP_Post object for the current post on Edit Post screen,
+ *                           null on Edit Link screen.
  */
-do_action( 'post_submitbox_start' );
+do_action( 'post_submitbox_start', $post );
 ?>
 <div id="delete-action">
 <?php
@@ -326,8 +330,11 @@ function attachment_submit_meta_box( $post ) {
 	 * in the attachment editing screen.
 	 *
 	 * @since 3.5.0
+	 * @since 4.9.0 Added the `$post` parameter.
+	 *
+	 * @param WP_Post $post WP_Post object for the current attachment. 
 	 */
-	do_action( 'attachment_submitbox_misc_actions' );
+	do_action( 'attachment_submitbox_misc_actions', $post );
 	?>
 </div><!-- #misc-publishing-actions -->
 <div class="clear"></div>
@@ -914,7 +921,7 @@ function link_submit_meta_box($link) {
 <div id="major-publishing-actions">
 <?php
 /** This action is documented in wp-admin/includes/meta-boxes.php */
-do_action( 'post_submitbox_start' );
+do_action( 'post_submitbox_start', null );
 ?>
 <div id="delete-action">
 <?php
