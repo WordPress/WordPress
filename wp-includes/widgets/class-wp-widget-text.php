@@ -448,9 +448,9 @@ class WP_Widget_Text extends WP_Widget {
 					<div class="wp-pointer-content">
 						<h3><?php _e( 'New Custom HTML Widget' ); ?></h3>
 						<?php if ( is_customize_preview() ) : ?>
-							<p><?php _e( 'Hey, did you hear we have a &#8220;Custom HTML&#8221; widget now? You can find it by pressing the &#8220;<a class="add-widget" href="#">Add a Widget</a>&#8221; button and searching for &#8220;HTML&#8221;. Check it out to add some custom code to your site!' ); ?></p>
+							<p><?php _e( 'Did you know there is a &#8220;Custom HTML&#8221; widget now? You can find it by pressing the &#8220;<a class="add-widget" href="#">Add a Widget</a>&#8221; button and searching for &#8220;HTML&#8221;. Check it out to add some custom code to your site!' ); ?></p>
 						<?php else : ?>
-							<p><?php _e( 'Hey, did you hear we have a &#8220;Custom HTML&#8221; widget now? You can find it by scanning the list of available widgets on this screen. Check it out to add some custom code to your site!' ); ?></p>
+							<p><?php _e( 'Did you know there is a &#8220;Custom HTML&#8221; widget now? You can find it by scanning the list of available widgets on this screen. Check it out to add some custom code to your site!' ); ?></p>
 						<?php endif; ?>
 						<div class="wp-pointer-buttons">
 							<a class="close" href="#"><?php _e( 'Dismiss' ); ?></a>
