@@ -324,25 +324,27 @@ function retrieve_password() {
 		return $key;
 	}
 
-	$message = __('Someone has requested a password reset for the following account:') . "\r\n\r\n";
-	$message .= network_home_url( '/' ) . "\r\n\r\n";
-	$message .= sprintf(__('Username: %s'), $user_login) . "\r\n\r\n";
-	$message .= __('If this was a mistake, just ignore this email and nothing will happen.') . "\r\n\r\n";
-	$message .= __('To reset your password, visit the following address:') . "\r\n\r\n";
-	$message .= '<' . network_site_url("wp-login.php?action=rp&key=$key&login=" . rawurlencode($user_login), 'login') . ">\r\n";
-
 	if ( is_multisite() ) {
-		$blogname = get_network()->site_name;
+		$site_name = get_network()->site_name;
 	} else {
 		/*
 		 * The blogname option is escaped with esc_html on the way into the database
 		 * in sanitize_option we want to reverse this for the plain text arena of emails.
 		 */
-		$blogname = wp_specialchars_decode(get_option('blogname'), ENT_QUOTES);
+		$site_name = wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	}
 
-	/* translators: Password reset email subject. 1: Site name */
-	$title = sprintf( __('[%s] Password Reset'), $blogname );
+	$message = __( 'Someone has requested a password reset for the following account:' ) . "\r\n\r\n";
+	/* translators: %s: site name */
+	$message .= sprintf( __( 'Site Name: %s'), $site_name ) . "\r\n\r\n";
+	/* translators: %s: user login */
+	$message .= sprintf( __( 'Username: %s'), $user_login ) . "\r\n\r\n";
+	$message .= __( 'If this was a mistake, just ignore this email and nothing will happen.' ) . "\r\n\r\n";
+	$message .= __( 'To reset your password, visit the following address:' ) . "\r\n\r\n";
+	$message .= '<' . network_site_url( "wp-login.php?action=rp&key=$key&login=" . rawurlencode( $user_login ), 'login' ) . ">\r\n";
+
+	/* translators: Password reset email subject. %s: Site name */
+	$title = sprintf( __( '[%s] Password Reset' ), $site_name );
 
 	/**
 	 * Filters the subject of the password reset email.
