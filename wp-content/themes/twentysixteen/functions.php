@@ -371,7 +371,7 @@ require get_template_directory() . '/inc/customizer.php';
 function twentysixteen_content_image_sizes_attr( $sizes, $size ) {
 	$width = $size[0];
 
-	if ( 840 <= $width ){
+	if ( 840 <= $width ) {
 		$sizes = '(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px';
 	}
 
