@@ -1018,11 +1018,19 @@ function the_meta() {
 	if ( $keys = get_post_custom_keys() ) {
 		echo "<ul class='post-meta'>\n";
 		foreach ( (array) $keys as $key ) {
-			$keyt = trim($key);
-			if ( is_protected_meta( $keyt, 'post' ) )
+			$keyt = trim( $key );
+			if ( is_protected_meta( $keyt, 'post' ) ) {
 				continue;
-			$values = array_map('trim', get_post_custom_values($key));
-			$value = implode($values,', ');
+			}
+
+			$values = array_map( 'trim', get_post_custom_values( $key ) );
+			$value = implode( $values, ', ' );
+
+			$html = sprintf( "<li><span class='post-meta-key'>%s</span> %s</li>\n",
+				/* translators: %s: Post custom field name */
+				sprintf( _x( '%s:', 'Post custom field name' ), $key ),
+				$value
+			);
 
 			/**
 			 * Filters the HTML output of the li element in the post custom fields list.
@@ -1033,7 +1041,7 @@ function the_meta() {
 			 * @param string $key   Meta key.
 			 * @param string $value Meta value.
 			 */
-			echo apply_filters( 'the_meta_key', "<li><span class='post-meta-key'>$key:</span> $value</li>\n", $key, $value );
+			echo apply_filters( 'the_meta_key', $html, $key, $value );
 		}
 		echo "</ul>\n";
 	}
