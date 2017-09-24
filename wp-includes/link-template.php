@@ -1707,10 +1707,10 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 * @since 2.5.0
 	 * @since 4.4.0 Added the `$taxonomy` and `$post` parameters.
 	 *
-	 * @param string $where          The `WHERE` clause in the SQL.
-	 * @param bool   $in_same_term   Whether post should be in a same taxonomy term.
-	 * @param array  $excluded_terms Array of excluded term IDs.
-	 * @param string $taxonomy       Taxonomy. Used to identify the term used when `$in_same_term` is true.
+	 * @param string  $where          The `WHERE` clause in the SQL.
+	 * @param bool    $in_same_term   Whether post should be in a same taxonomy term.
+	 * @param array   $excluded_terms Array of excluded term IDs.
+	 * @param string  $taxonomy       Taxonomy. Used to identify the term used when `$in_same_term` is true.
 	 * @param WP_Post $post           WP_Post object.
 	 */
 	$where = apply_filters( "get_{$adjacent}_post_where", $wpdb->prepare( "WHERE p.post_date $op %s AND p.post_type = %s $where", $current_post_date, $post->post_type ), $in_same_term, $excluded_terms, $taxonomy, $post );
@@ -1723,11 +1723,13 @@ function get_adjacent_post( $in_same_term = false, $excluded_terms = '', $previo
 	 *
 	 * @since 2.5.0
 	 * @since 4.4.0 Added the `$post` parameter.
+	 * @since 4.9.0 Added the `$order` parameter.
 	 *
 	 * @param string $order_by The `ORDER BY` clause in the SQL.
 	 * @param WP_Post $post    WP_Post object.
+	 * @param string  $order   Sort order. 'DESC' for previous post, 'ASC' for next.
 	 */
-	$sort  = apply_filters( "get_{$adjacent}_post_sort", "ORDER BY p.post_date $order LIMIT 1", $post );
+	$sort  = apply_filters( "get_{$adjacent}_post_sort", "ORDER BY p.post_date $order LIMIT 1", $post, $order );
 
 	$query = "SELECT p.ID FROM $wpdb->posts AS p $join $where $sort";
 	$query_key = 'adjacent_post_' . md5( $query );
