@@ -3887,3 +3887,60 @@ function _sort_nav_menu_items( $a, $b ) {
 	else
 		return strcmp( $a->$_menu_item_sort_prop, $b->$_menu_item_sort_prop );
 }
+
+/**
+ * Retrieves the Press This bookmarklet link.
+ *
+ * @since 2.6.0
+ * @deprecated 4.9.0
+ *
+ */
+function get_shortcut_link() {
+	_deprecated_function( __FUNCTION__, '4.9.0' );
+
+	$link = '';
+
+	/**
+	 * Filters the Press This bookmarklet link.
+	 *
+	 * @since 2.6.0
+	 * @deprecated 4.9.0
+	 *
+	 * @param string $link The Press This bookmarklet link.
+	 */
+	return apply_filters( 'shortcut_link', $link );
+}
+
+/**
+* Ajax handler for saving a post from Press This.
+*
+* @since 4.2.0
+* @deprecated 4.9.0
+*/
+function wp_ajax_press_this_save_post() {
+	_deprecated_function( __FUNCTION__, '4.9.0' );
+	if ( is_plugin_active( 'press-this/press-this-plugin.php' ) ) {
+		include( WP_PLUGIN_DIR . '/press-this/class-wp-press-this-plugin.php' );
+		$wp_press_this = new WP_Press_This_Plugin();
+		$wp_press_this->save_post();
+	} else {
+		wp_send_json_error( array( 'errorMessage' => __( 'The Press This plugin is required.' ) ) );
+	}
+}
+
+/**
+* Ajax handler for creating new category from Press This.
+*
+* @since 4.2.0
+* @deprecated 4.9.0
+*/
+function wp_ajax_press_this_add_category() {
+	_deprecated_function( __FUNCTION__, '4.9.0' );
+	if ( is_plugin_active( 'press-this/press-this-plugin.php' ) ) {
+		include( WP_PLUGIN_DIR . '/press-this/class-wp-press-this-plugin.php' );
+		$wp_press_this = new WP_Press_This_Plugin();
+		$wp_press_this->add_category();
+	} else {
+		wp_send_json_error( array( 'errorMessage' => __( 'The Press This plugin is required.' ) ) );
+	}
+}

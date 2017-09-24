@@ -3189,28 +3189,6 @@ function wp_ajax_destroy_sessions() {
 }
 
 /**
- * Ajax handler for saving a post from Press This.
- *
- * @since 4.2.0
- */
-function wp_ajax_press_this_save_post() {
-	include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
-	$wp_press_this = new WP_Press_This();
-	$wp_press_this->save_post();
-}
-
-/**
- * Ajax handler for creating new category from Press This.
- *
- * @since 4.2.0
- */
-function wp_ajax_press_this_add_category() {
-	include( ABSPATH . 'wp-admin/includes/class-wp-press-this.php' );
-	$wp_press_this = new WP_Press_This();
-	$wp_press_this->add_category();
-}
-
-/**
  * Ajax handler for cropping an image.
  *
  * @since 4.3.0
