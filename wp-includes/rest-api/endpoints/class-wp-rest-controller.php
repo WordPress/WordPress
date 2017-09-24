@@ -36,7 +36,7 @@ abstract class WP_REST_Controller {
 	 * @since 4.7.0
 	 */
 	public function register_routes() {
-		_doing_it_wrong( 'WP_REST_Controller::register_routes', __( 'The register_routes() method must be overridden' ), '4.7' );
+		_doing_it_wrong( 'WP_REST_Controller::register_routes', sprintf( __( "Method '%s' must be overridden." ), __METHOD__ ), '4.7' );
 	}
 
 	/**
