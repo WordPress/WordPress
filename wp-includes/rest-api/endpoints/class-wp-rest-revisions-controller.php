@@ -288,7 +288,8 @@ class WP_REST_Revisions_Controller extends WP_REST_Controller {
 
 		// We don't support trashing for revisions.
 		if ( ! $force ) {
-			return new WP_Error( 'rest_trash_not_supported', __( 'Revisions do not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
+			/* translators: %s: force=true */
+			return new WP_Error( 'rest_trash_not_supported', sprintf( __( "Revisions do not support trashing. Set '%s' to delete." ), 'force=true' ), array( 'status' => 501 ) );
 		}
 
 		$previous = $this->prepare_item_for_response( $revision, $request );

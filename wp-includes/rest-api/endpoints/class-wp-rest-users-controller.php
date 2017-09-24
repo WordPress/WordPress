@@ -740,7 +740,8 @@ class WP_REST_Users_Controller extends WP_REST_Controller {
 
 		// We don't support trashing for users.
 		if ( ! $force ) {
-			return new WP_Error( 'rest_trash_not_supported', __( 'Users do not support trashing. Set force=true to delete.' ), array( 'status' => 501 ) );
+			/* translators: %s: force=true */
+			return new WP_Error( 'rest_trash_not_supported', sprintf( __( "Users do not support trashing. Set '%s' to delete." ), 'force=true' ), array( 'status' => 501 ) );
 		}
 
 		if ( ! empty( $reassign ) ) {
