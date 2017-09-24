@@ -550,12 +550,15 @@ p.customize-section-description {
 	margin-top: 22px;
 	margin-bottom: 0;
 }
+
 .customize-section-description ul {
 	margin-right: 1em;
 }
+
 .customize-section-description ul > li {
 	list-style: disc;
 }
+
 .section-description-buttons {
 	text-align: left;
 }
@@ -1197,12 +1200,17 @@ p.customize-section-description {
 	height: 500px;
 }
 
+.customize-section-description-container + #customize-control-custom_css .customize-control-title {
+	margin-right: 12px;
+}
+
 .customize-section-description-container + #customize-control-custom_css:last-child textarea {
 	border-left: 0;
 	border-right: 0;
 	height: calc( 100vh - 185px );
 	resize: none;
 }
+
 .customize-section-description-container + #customize-control-custom_css:last-child {
 	margin-right: -12px;
 	width: 299px;
@@ -1213,6 +1221,7 @@ p.customize-section-description {
 .customize-section-description-container + #customize-control-custom_css:last-child .CodeMirror {
 	height: calc( 100vh - 185px );
 }
+
 .CodeMirror-lint-tooltip,
 .CodeMirror-hints {
 	z-index: 500000 !important;
@@ -1227,6 +1236,7 @@ p.customize-section-description {
 	.customize-section-description-container + #customize-control-custom_css:last-child {
 		margin-left: 0;
 	}
+
 	.customize-section-description-container + #customize-control-custom_css:last-child textarea {
 		height: calc( 100vh - 140px );
 	}

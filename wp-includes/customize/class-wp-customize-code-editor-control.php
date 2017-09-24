@@ -71,6 +71,7 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control {
 		$json = parent::json();
 		$json['code_type'] = $this->code_type;
 		$json['editor_settings'] = $this->editor_settings;
+		$json['input_attrs'] = $this->input_attrs;
 		return $json;
 	}
 
@@ -98,7 +99,11 @@ class WP_Customize_Code_Editor_Control extends WP_Customize_Control {
 			<span class="description customize-control-description">{{{ data.description }}}</span>
 		<# } #>
 		<div class="customize-control-notifications-container"></div>
-		<textarea id="{{ elementIdPrefix }}_editor" class="code"></textarea>
+		<textarea id="{{ elementIdPrefix }}_editor"
+			<# _.each( _.extend( { 'class': 'code' }, data.input_attrs ), function( value, key ) { #>
+				{{{ key }}}="{{ value }}"
+			<# }); #>
+			></textarea>
 		<?php
 	}
 }

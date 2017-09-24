@@ -3035,6 +3035,12 @@ img {
 	height: calc( 100vh - 220px );
 }
 
+#template label {
+	display: inline-block;
+	margin-bottom: 1em;
+	font-weight: 600;
+}
+
 /* rtl:ignore */
 #template textarea,
 #docs-list {

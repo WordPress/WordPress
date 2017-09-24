@@ -212,12 +212,12 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 		<script type="text/html" id="tmpl-widget-custom-html-control-fields">
 			<# var elementIdPrefix = 'el' + String( Math.random() ).replace( /\D/g, '' ) + '_' #>
 			<p>
-				<label for="{{ elementIdPrefix }}title"><?php esc_html_e( 'Title:', 'default' ); ?></label>
+				<label for="{{ elementIdPrefix }}title"><?php esc_html_e( 'Title:' ); ?></label>
 				<input id="{{ elementIdPrefix }}title" type="text" class="widefat title">
 			</p>
 
 			<p>
-				<label for="{{ elementIdPrefix }}content" class="screen-reader-text"><?php esc_html_e( 'Content:', 'default' ); ?></label>
+				<label for="{{ elementIdPrefix }}content" id="{{ elementIdPrefix }}content-label"><?php esc_html_e( 'Content:' ); ?></label>
 				<textarea id="{{ elementIdPrefix }}content" class="widefat code content" rows="16" cols="20"></textarea>
 			</p>
 
@@ -230,7 +230,7 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 				<?php if ( ! empty( $disallowed_html ) ) : ?>
 					<# if ( data.codeEditorDisabled ) { #>
 						<p>
-							<?php _e( 'Some HTML tags are not permitted, including:', 'default' ); ?>
+							<?php _e( 'Some HTML tags are not permitted, including:' ); ?>
 							<code><?php echo join( '</code>, <code>', $disallowed_html ); ?></code>
 						</p>
 					<# } #>
@@ -254,25 +254,28 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 		$content .= __( 'Use the Custom HTML widget to add arbitrary HTML code to your widget areas.' );
 		$content .= '</p>';
 
-		$content .= '<p>' . __( 'When using a keyboard to navigate:' ) . '</p>';
-		$content .= '<ul>';
-		$content .= '<li>' . __( 'In the HTML edit field, Tab enters a tab character.' ) . '</li>';
-		$content .= '<li>' . __( 'To move keyboard focus, press Esc then Tab for the next element, or Esc then Shift+Tab for the previous element.' ) . '</li>';
-		$content .= '</ul>';
+		if ( 'false' !== wp_get_current_user()->syntax_highlighting ) {
+			$content .= '<p>';
+			$content .= sprintf(
+				/* translators: placeholder is link to user profile */
+				__( 'The edit field automatically highlights code syntax. You can disable this in your %s to work in plain text mode.' ),
+				sprintf(
+					' <a href="%1$s" class="external-link" target="_blank">%2$s<span class="screen-reader-text">%3$s</span></a>',
+					esc_url( get_edit_profile_url() ),
+					__( 'user profile' ),
+					/* translators: accessibility text */
+					__( '(opens in a new window)' )
+				)
+			);
+			$content .= '</p>';
 
-		$content .= '<p>';
-		$content .= sprintf(
-			/* translators: placeholder is link to user profile */
-			__( 'The edit field automatically highlights code syntax. You can disable this in your %s to work in plan text mode.' ),
-			sprintf(
-				' <a href="%1$s" class="external-link" target="_blank">%2$s<span class="screen-reader-text">%3$s</span></a>',
-				esc_url( get_edit_profile_url() . '#syntax_highlighting' ),
-				__( 'user profile' ),
-				/* translators: accessibility text */
-				__( '(opens in a new window)', 'default' )
-			)
-		);
-		$content .= '</p>';
+			$content .= '<p id="editor-keyboard-trap-help-1">' . __( 'When using a keyboard to navigate:' ) . '</p>';
+			$content .= '<ul>';
+			$content .= '<li id="editor-keyboard-trap-help-2">' . __( 'In the editing area, the Tab key enters a tab character.' ) . '</li>';
+			$content .= '<li id="editor-keyboard-trap-help-3">' . __( 'To move away from this area, press the Esc key followed by the Tab key.' ) . '</li>';
+			$content .= '<li id="editor-keyboard-trap-help-4">' . __( 'Screen reader users: when in forms mode, you may need to press the Esc key twice.' ) . '</li>';
+			$content .= '</ul>';
+		}
 
 		$screen->add_help_tab( array(
 			'id' => 'custom_html_widget',

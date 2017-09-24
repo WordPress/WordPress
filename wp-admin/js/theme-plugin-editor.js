@@ -83,6 +83,20 @@ wp.themePluginEditor = (function( $ ) {
 
 		editor = wp.codeEditor.initialize( $( '#newcontent' ), codeEditorSettings );
 
+		// Improve the editor accessibility.
+		$( editor.codemirror.display.lineDiv )
+			.attr({
+				role: 'textbox',
+				'aria-multiline': 'true',
+				'aria-labelledby': 'theme-plugin-editor-label',
+				'aria-describedby': 'editor-keyboard-trap-help-1 editor-keyboard-trap-help-2 editor-keyboard-trap-help-3 editor-keyboard-trap-help-4'
+			});
+
+		// Focus the editor when clicking on its label.
+		$( '#theme-plugin-editor-label' ).on( 'click', function() {
+			editor.codemirror.focus();
+		});
+
 		component.instance = editor;
 	};
 

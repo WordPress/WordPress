@@ -4168,40 +4168,41 @@ final class WP_Customize_Manager {
 
 		/* Custom CSS */
 		$section_description = '<p>';
-		$section_description .= __( 'Add your own CSS code here to customize the appearance and layout of your site.', 'better-code-editing' );
+		$section_description .= __( 'Add your own CSS code here to customize the appearance and layout of your site.' );
 		$section_description .= sprintf(
 			' <a href="%1$s" class="external-link" target="_blank">%2$s<span class="screen-reader-text">%3$s</span></a>',
-			esc_url( __( 'https://codex.wordpress.org/CSS', 'default' ) ),
-			__( 'Learn more about CSS', 'default' ),
+			esc_url( __( 'https://codex.wordpress.org/CSS' ) ),
+			__( 'Learn more about CSS' ),
 			/* translators: accessibility text */
-			__( '(opens in a new window)', 'default' )
+			__( '(opens in a new window)' )
 		);
 		$section_description .= '</p>';
 
-		$section_description .= '<p>' . __( 'When using a keyboard to navigate:', 'better-code-editing' ) . '</p>';
+		$section_description .= '<p id="editor-keyboard-trap-help-1">' . __( 'When using a keyboard to navigate:' ) . '</p>';
 		$section_description .= '<ul>';
-		$section_description .= '<li>' . __( 'In the CSS edit field, Tab enters a tab character.', 'better-code-editing' ) . '</li>';
-		$section_description .= '<li>' . __( 'To move keyboard focus, press Esc then Tab for the next element, or Esc then Shift+Tab for the previous element.', 'better-code-editing' ) . '</li>';
+		$section_description .= '<li id="editor-keyboard-trap-help-2">' . __( 'In the editing area, the Tab key enters a tab character.' ) . '</li>';
+		$section_description .= '<li id="editor-keyboard-trap-help-3">' . __( 'To move away from this area, press the Esc key followed by the Tab key.' ) . '</li>';
+		$section_description .= '<li id="editor-keyboard-trap-help-4">' . __( 'Screen reader users: when in forms mode, you may need to press the Esc key twice.' ) . '</li>';
 		$section_description .= '</ul>';
 
 		if ( 'false' !== wp_get_current_user()->syntax_highlighting ) {
 			$section_description .= '<p>';
 			$section_description .= sprintf(
 				/* translators: placeholder is link to user profile */
-				__( 'The edit field automatically highlights code syntax. You can disable this in your %s to work in plain text mode.', 'better-code-editing' ),
+				__( 'The edit field automatically highlights code syntax. You can disable this in your %s to work in plain text mode.' ),
 				sprintf(
 					' <a href="%1$s" class="external-link" target="_blank">%2$s<span class="screen-reader-text">%3$s</span></a>',
-					esc_url( get_edit_profile_url() . '#syntax_highlighting' ),
-					__( 'user profile', 'better-code-editing' ),
+					esc_url( get_edit_profile_url() ),
+					__( 'user profile' ),
 					/* translators: accessibility text */
-					__( '(opens in a new window)', 'default' )
+					__( '(opens in a new window)' )
 				)
 			);
 			$section_description .= '</p>';
 		}
 
 		$section_description .= '<p class="section-description-buttons">';
-		$section_description .= '<button type="button" class="button-link section-description-close">' . __( 'Close', 'default' ) . '</button>';
+		$section_description .= '<button type="button" class="button-link section-description-close">' . __( 'Close' ) . '</button>';
 		$section_description .= '</p>';
 
 		$this->add_section( 'custom_css', array(
@@ -4218,9 +4219,13 @@ final class WP_Customize_Manager {
 		$this->add_setting( $custom_css_setting );
 
 		$this->add_control( new WP_Customize_Code_Editor_Control( $this, 'custom_css', array(
-			'section'  => 'custom_css',
-			'settings' => array( 'default' => $custom_css_setting->id ),
-			'code_type' => 'text/css',
+			'label'       => __( 'CSS code' ),
+			'section'     => 'custom_css',
+			'settings'    => array( 'default' => $custom_css_setting->id ),
+			'code_type'   => 'text/css',
+			'input_attrs' => array(
+				'aria-describedby' => 'editor-keyboard-trap-help-1 editor-keyboard-trap-help-2 editor-keyboard-trap-help-3 editor-keyboard-trap-help-4',
+			),
 		) ) );
 	}
 
