@@ -1609,6 +1609,8 @@ function wp_widgets_init() {
 
 	register_widget( 'WP_Widget_Media_Image' );
 
+	register_widget( 'WP_Widget_Media_Gallery' );
+
 	register_widget( 'WP_Widget_Media_Video' );
 
 	register_widget( 'WP_Widget_Meta' );

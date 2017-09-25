@@ -87,7 +87,7 @@
 .media-widget-control .placeholder {
 	border: 1px dashed #b4b9be;
 	box-sizing: border-box;
-	cursor: default;
+	cursor: pointer;
 	line-height: 20px;
 	padding: 9px 0;
 	position: relative;
@@ -161,6 +161,71 @@
 .media-widget-image-link {
 	margin: 1em 0;
 }
+
+.media-widget-gallery-preview {
+	display: -webkit-box;
+	display: flex;
+	-webkit-box-pack: start;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+}
+
+.media-widget-preview.media_gallery,
+.media-widget-preview.media_image {
+	cursor: pointer;
+}
+
+.media-widget-gallery-preview .gallery-item {
+	box-sizing: border-box;
+	width: 50%;
+	margin: 0;
+	padding: 1.79104477%;
+}
+
+/*
+ * Use targeted nth-last-child selectors to control the size of each image
+ * based on how many gallery items are present in the grid.
+ * See: https://alistapart.com/article/quantity-queries-for-css
+ */
+.media-widget-gallery-preview .gallery-item:nth-last-child(3):first-child,
+.media-widget-gallery-preview .gallery-item:nth-last-child(3):first-child ~ .gallery-item,
+.media-widget-gallery-preview .gallery-item:nth-last-child(n+5),
+.media-widget-gallery-preview .gallery-item:nth-last-child(n+5) ~ .gallery-item,
+.media-widget-gallery-preview .gallery-item:nth-last-child(n+6),
+.media-widget-gallery-preview .gallery-item:nth-last-child(n+6) ~ .gallery-item {
+	max-width: 33.33%;
+}
+
+.media-widget-gallery-preview .gallery-item img {
+	height: auto;
+	vertical-align: bottom;
+}
+
+.media-widget-gallery-preview .gallery-icon {
+	position: relative;
+}
+
+.media-widget-gallery-preview .gallery-icon-placeholder {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 100%;
+	box-sizing: border-box;
+	display: -webkit-box;
+	display: flex;
+	-webkit-box-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	justify-content: center;
+	background-color: rgba( 0, 0, 0, .5 );
+}
+
+.media-widget-gallery-preview .gallery-icon-placeholder-text {
+	font-weight: 600;
+	font-size: 2em;
+	color: white;
+}
+
 
 /* Widget Dragging Helpers */
 .widget.ui-draggable-dragging {

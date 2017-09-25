@@ -257,6 +257,12 @@ abstract class WP_Widget_Media extends WP_Widget {
 				continue;
 			}
 			$value = $new_instance[ $field ];
+
+			// Workaround for rest_validate_value_from_schema() due to the fact that rest_is_boolean( '' ) === false, while rest_is_boolean( '1' ) is true.
+			if ( 'boolean' === $field_schema['type'] && '' === $value ) {
+				$value = false;
+			}
+
 			if ( true !== rest_validate_value_from_schema( $value, $field_schema, $field ) ) {
 				continue;
 			}
@@ -316,7 +322,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 				class="media-widget-instance-property"
 				name="<?php echo esc_attr( $this->get_field_name( $name ) ); ?>"
 				id="<?php echo esc_attr( $this->get_field_id( $name ) ); // Needed specifically by wpWidgets.appendTitle(). ?>"
-				value="<?php echo esc_attr( strval( $value ) ); ?>"
+				value="<?php echo esc_attr( is_array( $value ) ? join( ',', $value ) : strval( $value ) ); ?>"
 			/>
 		<?php
 		endforeach;
@@ -388,7 +394,7 @@ abstract class WP_Widget_Media extends WP_Widget {
 				<label for="{{ elementIdPrefix }}title"><?php esc_html_e( 'Title:' ); ?></label>
 				<input id="{{ elementIdPrefix }}title" type="text" class="widefat title">
 			</p>
-			<div class="media-widget-preview">
+			<div class="media-widget-preview <?php echo esc_attr( $this->id_base ); ?>">
 				<div class="attachment-media-view">
 					<div class="placeholder"><?php echo esc_html( $this->l10n['no_media_selected'] ); ?></div>
 				</div>
