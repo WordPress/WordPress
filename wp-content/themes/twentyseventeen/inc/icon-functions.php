@@ -174,6 +174,7 @@ function twentyseventeen_social_links_icons() {
 		'codepen.io'      => 'codepen',
 		'deviantart.com'  => 'deviantart',
 		'digg.com'        => 'digg',
+		'docker.com'      => 'dockerhub',
 		'dribbble.com'    => 'dribbble',
 		'dropbox.com'     => 'dropbox',
 		'facebook.com'    => 'facebook',
