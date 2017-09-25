@@ -321,8 +321,8 @@ foreach ( $plugin_files as $plugin_file ) :
 		// No extension found
 		continue;
 	}
-?>
-		<li<?php echo $file == $plugin_file ? ' class="highlight"' : ''; ?>><a href="plugin-editor.php?file=<?php echo urlencode( $plugin_file ) ?>&amp;plugin=<?php echo urlencode( $plugin ) ?>"><?php echo esc_html( $plugin_file ); ?></a></li>
+	?>
+	<li class="<?php echo esc_attr( $file === $plugin_file ? 'notice notice-info' : '' ); ?>"><a href="plugin-editor.php?file=<?php echo urlencode( $plugin_file ); ?>&amp;plugin=<?php echo urlencode( $plugin ); ?>"><?php echo esc_html( $plugin_file ); ?></a></li>
 <?php endforeach; ?>
 	</ul>
 </div>

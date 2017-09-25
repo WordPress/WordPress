@@ -283,7 +283,7 @@ if ( $allowed_files ) :
 		}
 
 		if ( $absolute_filename === $file ) {
-			$file_description = '<span class="highlight">' . $file_description . '</span>';
+			$file_description = '<span class="notice notice-info">' . $file_description . '</span>';
 		}
 
 		$previous_file_type = $file_type;
