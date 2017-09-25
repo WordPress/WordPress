@@ -1147,7 +1147,6 @@ function retrieve_widgets( $theme_changed = false ) {
 		}
 	}
 
-
 	// Discard invalid, theme-specific widgets from sidebars.
 	$sidebars_widgets = _wp_remove_unregistered_widgets( $sidebars_widgets, $registered_widgets_ids );
 	$sidebars_widgets = wp_map_sidebars_widgets( $sidebars_widgets );
@@ -1214,7 +1213,7 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 		if ( in_array( $sidebar, $existing_sidebars, true ) ) {
 			$new_sidebars_widgets[ $sidebar ] = $existing_sidebars_widgets[ $sidebar ];
 			unset( $existing_sidebars_widgets[ $sidebar ] );
-		} else {
+		} else if ( ! array_key_exists( $sidebar, $new_sidebars_widgets ) ) {
 			$new_sidebars_widgets[ $sidebar ] = array();
 		}
 	}
