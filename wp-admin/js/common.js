@@ -181,7 +181,27 @@ $('.contextual-help-tabs').delegate('a', 'click', function(e) {
 
 var permalinkStructureFocused = false,
     $permalinkStructure       = $( '#permalink_structure' ),
+    $permalinkStructureInputs = $( '.permalink-structure input:radio' ),
+    $permalinkCustomSelection = $( '#custom_selection' ),
     $availableStructureTags   = $( '.form-table.permalink-structure .available-structure-tags button' );
+
+// Change permalink structure input when selecting one of the common structures.
+$permalinkStructureInputs.on( 'change', function() {
+	if ( 'custom' === this.value ) {
+		return;
+	}
+
+	$permalinkStructure.val( this.value );
+
+	// Update button states after selection.
+	$availableStructureTags.each( function() {
+		changeStructureTagButtonState( $( this ) );
+	} );
+} );
+
+$permalinkStructure.on( 'click input', function() {
+	$permalinkCustomSelection.prop( 'checked', true );
+} );
 
 // Check if the permalink structure input field has had focus at least once.
 $permalinkStructure.on( 'focus', function( event ) {
@@ -249,7 +269,7 @@ $availableStructureTags.on( 'click', function() {
 		selectionStart = selectionEnd = permalinkStructureValue.length;
 	}
 
-	$( '#custom_selection' ).prop( 'checked', true );
+	$permalinkCustomSelection.prop( 'checked', true );
 
 	// Prepend and append slashes if necessary.
 	if ( '/' !== permalinkStructureValue.substr( 0, selectionStart ).substr( -1 ) ) {
