@@ -78,7 +78,7 @@ class WP_oEmbed {
 			'#https?://(.+?\.)?slideshare\.net/.*#i'                   => array( 'https://www.slideshare.net/api/oembed/2',                   true  ),
 			'#https?://(www\.)?instagr(\.am|am\.com)/p/.*#i'           => array( 'https://api.instagram.com/oembed',                          true  ),
 			'#https?://(open|play)\.spotify\.com/.*#i'                 => array( 'https://embed.spotify.com/oembed/',                         true  ),
-			'#https?://(.+\.)?imgur\.com/.*#i'                         => array( 'http://api.imgur.com/oembed',                               true  ),
+			'#https?://(.+\.)?imgur\.com/.*#i'                         => array( 'https://api.imgur.com/oembed',                              true  ),
 			'#https?://(www\.)?meetu(\.ps|p\.com)/.*#i'                => array( 'https://api.meetup.com/oembed',                             true  ),
 			'#https?://(www\.)?issuu\.com/.+/docs/.+#i'                => array( 'https://issuu.com/oembed_wp',                               true  ),
 			'#https?://(www\.)?collegehumor\.com/video/.*#i'           => array( 'http://www.collegehumor.com/oembed.{format}',               true  ),
