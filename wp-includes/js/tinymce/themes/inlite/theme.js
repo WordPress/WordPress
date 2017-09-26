@@ -81,7 +81,7 @@ var defineGlobal = function (id, ref) {
   define(id, [], function () { return ref; });
 };
 /*jsc
-["tinymce.themes.inlite.Theme","tinymce.core.ThemeManager","tinymce.core.ui.Api","tinymce.core.util.Delay","tinymce.themes.inlite.alien.Arr","tinymce.themes.inlite.alien.EditorSettings","tinymce.themes.inlite.core.ElementMatcher","tinymce.themes.inlite.core.Matcher","tinymce.themes.inlite.core.PredicateId","tinymce.themes.inlite.core.SelectionMatcher","tinymce.themes.inlite.core.SkinLoader","tinymce.themes.inlite.ui.Buttons","tinymce.themes.inlite.ui.Panel","global!tinymce.util.Tools.resolve","tinymce.themes.inlite.alien.Type","tinymce.themes.inlite.core.Measure","tinymce.core.util.Tools","tinymce.core.EditorManager","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.themes.inlite.ui.Toolbar","tinymce.themes.inlite.ui.Forms","tinymce.themes.inlite.core.Layout","tinymce.themes.inlite.file.Conversions","tinymce.themes.inlite.file.Picker","tinymce.themes.inlite.core.Actions","tinymce.core.geom.Rect","tinymce.themes.inlite.core.Convert","tinymce.core.util.Promise","tinymce.themes.inlite.alien.Uuid","tinymce.themes.inlite.alien.Unlink","tinymce.themes.inlite.core.UrlType","tinymce.themes.inlite.alien.Bookmark","tinymce.core.dom.TreeWalker","tinymce.core.dom.RangeUtils"]
+["tinymce.themes.inlite.Theme","tinymce.core.ThemeManager","tinymce.core.ui.Api","tinymce.core.util.Delay","tinymce.themes.inlite.alien.Arr","tinymce.themes.inlite.alien.EditorSettings","tinymce.themes.inlite.core.ElementMatcher","tinymce.themes.inlite.core.Matcher","tinymce.themes.inlite.core.PredicateId","tinymce.themes.inlite.core.SelectionMatcher","tinymce.themes.inlite.core.SkinLoader","tinymce.themes.inlite.ui.Buttons","tinymce.themes.inlite.ui.Panel","global!tinymce.util.Tools.resolve","tinymce.themes.inlite.alien.Type","tinymce.themes.inlite.core.Measure","tinymce.core.util.Tools","tinymce.core.EditorManager","tinymce.core.dom.DOMUtils","tinymce.core.ui.Factory","tinymce.themes.inlite.ui.Toolbar","tinymce.themes.inlite.ui.Forms","tinymce.themes.inlite.core.Layout","tinymce.themes.inlite.file.Conversions","tinymce.themes.inlite.file.Picker","tinymce.themes.inlite.core.Actions","tinymce.themes.inlite.core.Convert","tinymce.core.util.Promise","tinymce.themes.inlite.alien.Uuid","tinymce.themes.inlite.alien.Unlink","tinymce.themes.inlite.core.UrlType","tinymce.core.geom.Rect","tinymce.themes.inlite.alien.Bookmark","tinymce.core.dom.TreeWalker","tinymce.core.dom.RangeUtils"]
 jsc*/
 defineGlobal("global!tinymce.util.Tools.resolve", tinymce.util.Tools.resolve);
 /**
@@ -360,26 +360,6 @@ define(
 );
 
 /**
- * ResolveGlobal.js
- *
- * Released under LGPL License.
- * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
- *
- * License: http://www.tinymce.com/license
- * Contributing: http://www.tinymce.com/contributing
- */
-
-define(
-  'tinymce.core.geom.Rect',
-  [
-    'global!tinymce.util.Tools.resolve'
-  ],
-  function (resolve) {
-    return resolve('tinymce.geom.Rect');
-  }
-);
-
-/**
  * Convert.js
  *
  * Released under LGPL License.
@@ -435,10 +415,9 @@ define(
   'tinymce.themes.inlite.core.Measure',
   [
     'tinymce.core.dom.DOMUtils',
-    'tinymce.core.geom.Rect',
     'tinymce.themes.inlite.core.Convert'
   ],
-  function (DOMUtils, Rect, Convert) {
+  function (DOMUtils, Convert) {
     var toAbsolute = function (rect) {
       var vp = DOMUtils.DOM.getViewPort();
 
@@ -1469,6 +1448,26 @@ define(
 );
 
 /**
+ * ResolveGlobal.js
+ *
+ * Released under LGPL License.
+ * Copyright (c) 1999-2017 Ephox Corp. All rights reserved
+ *
+ * License: http://www.tinymce.com/license
+ * Contributing: http://www.tinymce.com/contributing
+ */
+
+define(
+  'tinymce.core.geom.Rect',
+  [
+    'global!tinymce.util.Tools.resolve'
+  ],
+  function (resolve) {
+    return resolve('tinymce.geom.Rect');
+  }
+);
+
+/**
  * Layout.js
  *
  * Released under LGPL License.
@@ -1499,8 +1498,15 @@ define(
     var calcByPositions = function (testPositions1, testPositions2, targetRect, contentAreaRect, panelRect) {
       var relPos, relRect, outputPanelRect;
 
-      relPos = Rect.findBestRelativePosition(panelRect, targetRect, contentAreaRect, testPositions1);
-      targetRect = Rect.clamp(targetRect, contentAreaRect);
+      var paddedContentRect = {
+        x: contentAreaRect.x,
+        y: contentAreaRect.y,
+        w: contentAreaRect.w + (contentAreaRect.w < (panelRect.w + targetRect.w) ? panelRect.w : 0),
+        h: contentAreaRect.h + (contentAreaRect.h < (panelRect.h + targetRect.h) ? panelRect.h : 0)
+      };
+
+      relPos = Rect.findBestRelativePosition(panelRect, targetRect, paddedContentRect, testPositions1);
+      targetRect = Rect.clamp(targetRect, paddedContentRect);
 
       if (relPos) {
         relRect = Rect.relativePosition(panelRect, targetRect, relPos);
@@ -1508,9 +1514,10 @@ define(
         return result(outputPanelRect, relPos);
       }
 
-      targetRect = Rect.intersect(contentAreaRect, targetRect);
+      targetRect = Rect.intersect(paddedContentRect, targetRect);
       if (targetRect) {
-        relPos = Rect.findBestRelativePosition(panelRect, targetRect, contentAreaRect, testPositions2);
+        relPos = Rect.findBestRelativePosition(panelRect, targetRect, paddedContentRect, testPositions2);
+
         if (relPos) {
           relRect = Rect.relativePosition(panelRect, targetRect, relPos);
           outputPanelRect = moveTo(panelRect, relRect);
@@ -1536,8 +1543,8 @@ define(
 
     var calc = function (targetRect, contentAreaRect, panelRect) {
       return calcByPositions(
-        ['tc-bc', 'bc-tc', 'tl-bl', 'bl-tl', 'tr-br', 'br-tr'],
-        ['bc-tc', 'bl-tl', 'br-tr'],
+        ['tc-bc', 'bc-tc', 'tl-bl', 'bl-tl', 'tr-br', 'br-tr', 'cr-cl', 'cl-cr'],
+        ['bc-tc', 'bl-tl', 'br-tr', 'cr-cl'],
         targetRect,
         contentAreaRect,
         panelRect

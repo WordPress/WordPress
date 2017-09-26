@@ -286,22 +286,26 @@ define(
   function (Tools, Settings, RegExp) {
 
     var toggleTargetRules = function (rel, isUnsafe) {
-      var rules = 'noopener';
+      var rules = ['noopener'];
+      var newRel = rel ? rel.split(/\s+/) : [];
+
+      var toString = function (rel) {
+        return Tools.trim(rel.sort().join(' '));
+      };
 
       var addTargetRules = function (rel) {
         rel = removeTargetRules(rel);
-        return rel ? [rel, rules].join(' ') : rules;
+        return rel.length ? rel.concat(rules) : rules;
       };
 
       var removeTargetRules = function (rel) {
-        var regExp = new RegExp('(' + rules.replace(' ', '|') + ')', 'g');
-        if (rel) {
-          rel = Tools.trim(rel.replace(regExp, ''));
-        }
-        return rel ? rel : null;
+        return rel.filter(function (val) {
+          return Tools.inArray(rules, val) === -1;
+        });
       };
 
-      return isUnsafe ? addTargetRules(rel) : removeTargetRules(rel);
+      newRel = isUnsafe ? addTargetRules(newRel) : removeTargetRules(newRel);
+      return newRel.length ? toString(newRel) : null;
     };
 
 
@@ -365,7 +369,7 @@ define(
             title: data.title ? data.title : null
           };
 
-          if (Settings.allowUnsafeLinkTarget(editor.settings) === false) {
+          if (!Settings.hasRelList(editor.settings) && Settings.allowUnsafeLinkTarget(editor.settings) === false) {
             linkAttrs.rel = toggleTargetRules(linkAttrs.rel, linkAttrs.target == '_blank');
           }
 
@@ -447,7 +451,8 @@ define(
       hasLinks: hasLinks,
       isOnlyTextSelected: isOnlyTextSelected,
       getAnchorElement: getAnchorElement,
-      getAnchorText: getAnchorText
+      getAnchorText: getAnchorText,
+      toggleTargetRules: toggleTargetRules
     };
   }
 );
@@ -691,7 +696,14 @@ define(
           name: 'rel',
           type: 'listbox',
           label: 'Rel',
-          values: buildListItems(Settings.getRelList(editor.settings))
+          values: buildListItems(
+            Settings.getRelList(editor.settings),
+            function (item) {
+              if (Settings.allowUnsafeLinkTarget(editor.settings) === false) {
+                item.value = Utils.toggleTargetRules(item.value, data.target === '_blank');
+              }
+            }
+          )
         };
       }
 
