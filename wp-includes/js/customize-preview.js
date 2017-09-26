@@ -36,6 +36,9 @@
 			newQueryParams = api.utils.parseQueryString( urlParser.search.substr( 1 ) );
 
 			newQueryParams.customize_changeset_uuid = oldQueryParams.customize_changeset_uuid;
+			if ( api.settings.changeset.autosaved ) {
+				newQueryParams.customize_autosaved = 'on';
+			}
 			if ( oldQueryParams.customize_theme ) {
 				newQueryParams.customize_theme = oldQueryParams.customize_theme;
 			}
@@ -364,6 +367,9 @@
 
 		queryParams = api.utils.parseQueryString( element.search.substring( 1 ) );
 		queryParams.customize_changeset_uuid = api.settings.changeset.uuid;
+		if ( api.settings.changeset.autosaved ) {
+			queryParams.customize_autosaved = 'on';
+		}
 		if ( ! api.settings.theme.active ) {
 			queryParams.customize_theme = api.settings.theme.stylesheet;
 		}
@@ -439,6 +445,9 @@
 
 			// Include customized state query params in URL.
 			queryParams.customize_changeset_uuid = api.settings.changeset.uuid;
+			if ( api.settings.changeset.autosaved ) {
+				queryParams.customize_autosaved = 'on';
+			}
 			if ( ! api.settings.theme.active ) {
 				queryParams.customize_theme = api.settings.theme.stylesheet;
 			}
@@ -516,6 +525,9 @@
 		$( form ).removeClass( 'customize-unpreviewable' );
 
 		stateParams.customize_changeset_uuid = api.settings.changeset.uuid;
+		if ( api.settings.changeset.autosaved ) {
+			stateParams.customize_autosaved = 'on';
+		}
 		if ( ! api.settings.theme.active ) {
 			stateParams.customize_theme = api.settings.theme.stylesheet;
 		}
@@ -555,7 +567,7 @@
 		var previousPathName = location.pathname,
 			previousQueryString = location.search.substr( 1 ),
 			previousQueryParams = null,
-			stateQueryParams = [ 'customize_theme', 'customize_changeset_uuid', 'customize_messenger_channel' ];
+			stateQueryParams = [ 'customize_theme', 'customize_changeset_uuid', 'customize_messenger_channel', 'customize_autosaved' ];
 
 		return function keepAliveCurrentUrl() {
 			var urlParser, currentQueryParams;
@@ -754,7 +766,6 @@
 		});
 
 		api.preview.bind( 'saved', function( response ) {
-
 			if ( response.next_changeset_uuid ) {
 				api.settings.changeset.uuid = response.next_changeset_uuid;
 
@@ -777,6 +788,25 @@
 			}
 
 			api.trigger( 'saved', response );
+		} );
+
+		// Update the URLs to reflect the fact we've started autosaving.
+		api.preview.bind( 'autosaving', function() {
+			if ( api.settings.changeset.autosaved ) {
+				return;
+			}
+
+			api.settings.changeset.autosaved = true; // Start deferring to any autosave once changeset is updated.
+
+			$( document.body ).find( 'a[href], area' ).each( function() {
+				api.prepareLinkPreview( this );
+			} );
+			$( document.body ).find( 'form' ).each( function() {
+				api.prepareFormPreview( this );
+			} );
+			if ( history.replaceState ) {
+				history.replaceState( currentHistoryState, '', location.href );
+			}
 		} );
 
 		/*
