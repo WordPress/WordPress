@@ -753,7 +753,7 @@ ul.CodeMirror-hints {
 	}
 
 	div.widget {
-		margin: 0 auto 10px !important;
+		margin: 0 auto !important;
 		max-width: 480px;
 	}
 }

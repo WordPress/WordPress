@@ -1489,6 +1489,7 @@ body.cheatin p {
 #customize-theme-controls .add-new-menu-item {
 	cursor: pointer;
 	float: left;
+	margin: 0;
 	margin-right: 10px;
 	transition: all 0.2s;
 	-webkit-user-select: none;
@@ -1512,7 +1513,7 @@ body.cheatin p {
 	display: inline-block;
 	position: relative;
 	right: -2px;
-	top: -1px;
+	top: 0;
 	font: normal 20px/1 dashicons;
 	vertical-align: middle;
 	transition: all 0.2s;
@@ -1793,7 +1794,7 @@ body.adding-widget .add-new-widget:before,
 #available-widgets .widget-tpl,
 #available-menu-items .item-tpl {
 	position: relative;
-	padding: 20px 60px 20px 15px;
+	padding: 15px 60px 15px 15px;
 	background: #fff;
 	border-bottom: 1px solid #ddd;
 	border-right: 4px solid #fff;
@@ -1840,6 +1841,10 @@ body.adding-widget .add-new-widget:before,
 	.customize-control input[type="radio"] + label,
 	.customize-control input[type="checkbox"] + label {
 		line-height: 32px;
+	}
+
+	.wp-core-ui.wp-customizer .button {
+		margin-top: 12px;
 	}
 }
 
@@ -1923,6 +1928,7 @@ body.adding-widget .add-new-widget:before,
 		vertical-align: middle;
 		height: auto;
 		margin-bottom: 4px;
+		margin-top: 12px;
 	}
 
 	#customize-header-actions .button-primary {
@@ -1985,5 +1991,10 @@ body.adding-widget .add-new-widget:before,
 	#available-menu-items-search .clear-results,
 	#available-menu-items-search .search-icon {
 		top: 85px; /* 70 section title height + 13 container padding +1 input margin +1 input border */
+	}
+
+	.reorder,
+	.reordering .reorder-done {
+		padding: 8px;
 	}
 }
