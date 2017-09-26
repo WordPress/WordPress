@@ -250,6 +250,14 @@ final class WP_Theme implements ArrayAccess {
 			}
 		}
 
+		if ( ! $this->template && $this->stylesheet === $this->headers['Template'] ) {
+			/* translators: %s: Template */
+			$this->errors = new WP_Error( 'theme_child_invalid', sprintf( __( 'The theme defines itself as its parent theme. Please check the "%s" header.' ), 'Template' ) );
+			$this->cache_add( 'theme', array( 'headers' => $this->headers, 'errors' => $this->errors, 'stylesheet' => $this->stylesheet ) );
+
+			return;
+		}
+
 		// (If template is set from cache [and there are no errors], we know it's good.)
 		if ( ! $this->template && ! ( $this->template = $this->headers['Template'] ) ) {
 			$this->template = $this->stylesheet;
