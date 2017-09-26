@@ -1341,19 +1341,20 @@ Disable these notifications: %3$s'), $user->user_login, wp_unslash( $_SERVER['RE
 }
 
 /**
- * Check whether a blogname is already taken.
+ * Checks whether a site name is already taken.
+ *
+ * The name is the site's subdomain or the site's subdirectory
+ * path depending on the network settings.
  *
  * Used during the new site registration process to ensure
- * that each blogname is unique.
+ * that each site name is unique.
  *
  * @since MU (3.0.0)
- *
- * @global wpdb $wpdb WordPress database abstraction object.
  *
  * @param string $domain     The domain to be checked.
  * @param string $path       The path to be checked.
  * @param int    $network_id Optional. Network ID. Relevant only on multi-network installations.
- * @return int
+ * @return int|null The site ID if the site name exists, null otherwise.
  */
 function domain_exists( $domain, $path, $network_id = 1 ) {
 	$path = trailingslashit( $path );
@@ -1367,11 +1368,14 @@ function domain_exists( $domain, $path, $network_id = 1 ) {
 	$result = array_shift( $result );
 
 	/**
-	 * Filters whether a blogname is taken.
+	 * Filters whether a site name is taken.
+	 *
+	 * The name is the site's subdomain or the site's subdirectory
+	 * path depending on the network settings.
 	 *
 	 * @since 3.5.0
 	 *
-	 * @param int|null $result     The blog_id if the blogname exists, null otherwise.
+	 * @param int|null $result     The site ID if the site name exists, null otherwise.
 	 * @param string   $domain     Domain to be checked.
 	 * @param string   $path       Path to be checked.
 	 * @param int      $network_id Network ID. Relevant only on multi-network installations.
