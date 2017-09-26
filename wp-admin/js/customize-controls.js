@@ -5510,7 +5510,7 @@
 							wp.ajax.post( 'dismiss_customize_changeset_autosave', {
 								wp_customize: 'on',
 								customize_theme: api.settings.theme.stylesheet,
-								customize_changeset_uuid: api.settings.changeset.latestAutoDraftUuid || api.settings.changeset.uuid,
+								customize_changeset_uuid: api.settings.changeset.uuid,
 								nonce: api.settings.nonce.dismiss_autosave
 							} );
 						} );

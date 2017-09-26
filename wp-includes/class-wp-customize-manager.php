@@ -3054,15 +3054,26 @@ final class WP_Customize_Manager {
 		}
 
 		$changeset_post_id = $this->changeset_post_id();
-		if ( empty( $changeset_post_id ) ) {
-			wp_send_json_error( 'missing_changeset', 404 );
-		}
 
-		if ( 'auto-draft' === get_post_status( $changeset_post_id ) ) {
-			if ( ! update_post_meta( $changeset_post_id, '_customize_restore_dismissed', true ) ) {
-				wp_send_json_error( 'auto_draft_dismissal_failure', 500 );
-			} else {
+		if ( empty( $changeset_post_id ) || 'auto-draft' === get_post_status( $changeset_post_id ) ) {
+			$changeset_autodraft_posts = $this->get_changeset_posts( array(
+				'post_status' => 'auto-draft',
+				'exclude_restore_dismissed' => true,
+				'posts_per_page' => -1,
+			) );
+			$dismissed = 0;
+			foreach ( $changeset_autodraft_posts as $autosave_autodraft_post ) {
+				if ( $autosave_autodraft_post->ID === $changeset_post_id ) {
+					continue;
+				}
+				if ( update_post_meta( $autosave_autodraft_post->ID, '_customize_restore_dismissed', true ) ) {
+					$dismissed++;
+				}
+			}
+			if ( $dismissed > 0 ) {
 				wp_send_json_success( 'auto_draft_dismissed' );
+			} else {
+				wp_send_json_error( 'no_autosave_to_delete', 404 );
 			}
 		} else {
 			$revision = wp_get_post_autosave( $changeset_post_id );
