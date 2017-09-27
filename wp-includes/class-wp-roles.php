@@ -65,12 +65,29 @@ class WP_Roles {
 	public $use_db = true;
 
 	/**
+	 * The site ID the roles are initialized for.
+	 *
+	 * @since 4.9.0
+	 * @var int
+	 */
+	protected $site_id = 0;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 2.0.0
+	 * @since 4.9.0 The $site_id argument was added.
+	 *
+	 * @global array $wp_user_roles Used to set the 'roles' property value.
+	 *
+	 * @param int $site_id Site ID to initialize roles for. Default is the current site.
 	 */
-	public function __construct() {
-		$this->_init();
+	public function __construct( $site_id = null ) {
+		global $wp_user_roles;
+
+		$this->use_db = empty( $wp_user_roles );
+
+		$this->for_site( $site_id );
 	}
 
 	/**
@@ -97,38 +114,12 @@ class WP_Roles {
 	 * be used and the role option will not be updated or used.
 	 *
 	 * @since 2.1.0
-	 *
-	 * @global array $wp_user_roles Used to set the 'roles' property value.
+	 * @deprecated 4.9.0 Use WP_Roles::for_site()
 	 */
 	protected function _init() {
-		global $wp_user_roles, $wpdb;
+		_deprecated_function( __METHOD__, '4.9.0', 'WP_Roles::for_site()' );
 
-		$this->role_key = $wpdb->get_blog_prefix() . 'user_roles';
-		if ( ! empty( $wp_user_roles ) ) {
-			$this->roles = $wp_user_roles;
-			$this->use_db = false;
-		} else {
-			$this->roles = get_option( $this->role_key );
-		}
-
-		if ( empty( $this->roles ) )
-			return;
-
-		$this->role_objects = array();
-		$this->role_names =  array();
-		foreach ( array_keys( $this->roles ) as $role ) {
-			$this->role_objects[$role] = new WP_Role( $role, $this->roles[$role]['capabilities'] );
-			$this->role_names[$role] = $this->roles[$role]['name'];
-		}
-
-		/**
-		 * After the roles have been initialized, allow plugins to add their own roles.
-		 *
-		 * @since 4.7.0
-		 *
-		 * @param WP_Roles $this A reference to the WP_Roles object.
-		 */
-		do_action( 'wp_roles_init', $this );
+		$this->for_site();
 	}
 
 	/**
@@ -138,11 +129,12 @@ class WP_Roles {
 	 * after switching wpdb to a new site ID.
 	 *
 	 * @since 3.5.0
-	 * @deprecated 4.7.0 Use new WP_Roles()
+	 * @deprecated 4.7.0 Use WP_Roles::for_site()
 	 */
 	public function reinit() {
-		_deprecated_function( __METHOD__, '4.7.0', 'new WP_Roles()' );
-		$this->_init();
+		_deprecated_function( __METHOD__, '4.7.0', 'WP_Roles::for_site()' );
+
+		$this->for_site();
 	}
 
 	/**
@@ -269,5 +261,101 @@ class WP_Roles {
 	 */
 	public function is_role( $role ) {
 		return isset( $this->role_names[$role] );
+	}
+
+	/**
+	 * Initializes all of the available roles.
+	 *
+	 * @since 4.9.0
+	 */
+	public function init_roles() {
+		if ( empty( $this->roles ) ) {
+			return;
+		}
+
+		$this->role_objects = array();
+		$this->role_names =  array();
+		foreach ( array_keys( $this->roles ) as $role ) {
+			$this->role_objects[ $role ] = new WP_Role( $role, $this->roles[ $role ]['capabilities'] );
+			$this->role_names[ $role ] = $this->roles[ $role ]['name'];
+		}
+
+		/**
+		 * After the roles have been initialized, allow plugins to add their own roles.
+		 *
+		 * @since 4.7.0
+		 *
+		 * @param WP_Roles $this A reference to the WP_Roles object.
+		 */
+		do_action( 'wp_roles_init', $this );
+	}
+
+	/**
+	 * Sets the site to operate on. Defaults to the current site.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param int $site_id Site ID to initialize roles for. Default is the current site.
+	 */
+	public function for_site( $site_id = null ) {
+		global $wpdb;
+
+		if ( ! empty( $site_id ) ) {
+			$this->site_id = absint( $site_id );
+		} else {
+			$this->site_id = get_current_blog_id();
+		}
+
+		$this->role_key = $wpdb->get_blog_prefix( $this->site_id ) . 'user_roles';
+
+		if ( ! empty( $this->roles ) && ! $this->use_db ) {
+			return;
+		}
+
+		$this->roles = $this->get_roles_data();
+
+		$this->init_roles();
+	}
+
+	/**
+	 * Gets the ID of the site for which roles are currently initialized.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @return int Site ID.
+	 */
+	public function get_site_id() {
+		return $this->site_id;
+	}
+
+	/**
+	 * Gets the available roles data.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @global array $wp_user_roles Used to set the 'roles' property value.
+	 *
+	 * @return array Roles array.
+	 */
+	protected function get_roles_data() {
+		global $wp_user_roles;
+
+		if ( ! empty( $wp_user_roles ) ) {
+			return $wp_user_roles;
+		}
+
+		if ( is_multisite() && $this->site_id != get_current_blog_id() ) {
+			remove_action( 'switch_blog', 'wp_switch_roles_and_user', 1 );
+
+			$roles = get_blog_option( $this->site_id, $this->role_key, array() );
+
+			add_action( 'switch_blog', 'wp_switch_roles_and_user', 1, 2 );
+
+			return $roles;
+		}
+
+		return get_option( $this->role_key, array() );
 	}
 }

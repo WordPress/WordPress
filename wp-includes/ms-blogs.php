@@ -792,7 +792,7 @@ function update_blog_option( $id, $option, $value, $deprecated = null ) {
  * @return true Always returns True.
  */
 function switch_to_blog( $new_blog, $deprecated = null ) {
-	global $wpdb, $wp_roles;
+	global $wpdb;
 
 	$blog_id = get_current_blog_id();
 	if ( empty( $new_blog ) ) {
@@ -847,12 +847,6 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 		}
 	}
 
-	if ( did_action( 'init' ) ) {
-		$wp_roles = new WP_Roles();
-		$current_user = wp_get_current_user();
-		$current_user->for_site( $new_blog );
-	}
-
 	/** This filter is documented in wp-includes/ms-blogs.php */
 	do_action( 'switch_blog', $new_blog, $prev_blog_id );
 	$GLOBALS['switched'] = true;
@@ -876,7 +870,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
  * @return bool True on success, false if we're already on the current blog
  */
 function restore_current_blog() {
-	global $wpdb, $wp_roles;
+	global $wpdb;
 
 	if ( empty( $GLOBALS['_wp_switched_stack'] ) ) {
 		return false;
@@ -921,12 +915,6 @@ function restore_current_blog() {
 		}
 	}
 
-	if ( did_action( 'init' ) ) {
-		$wp_roles = new WP_Roles();
-		$current_user = wp_get_current_user();
-		$current_user->for_site( $blog );
-	}
-
 	/** This filter is documented in wp-includes/ms-blogs.php */
 	do_action( 'switch_blog', $blog, $prev_blog_id );
 
@@ -934,6 +922,27 @@ function restore_current_blog() {
 	$GLOBALS['switched'] = ! empty( $GLOBALS['_wp_switched_stack'] );
 
 	return true;
+}
+
+/**
+ * Switches the initialized roles and current user capabilities to another site.
+ *
+ * @since 4.9.0
+ *
+ * @param int $new_site_id New site ID.
+ * @param int $old_site_id Old site ID.
+ */
+function wp_switch_roles_and_user( $new_site_id, $old_site_id ) {
+	if ( $new_site_id == $old_site_id ) {
+		return;
+	}
+
+	if ( ! did_action( 'init' ) ) {
+		return;
+	}
+
+	wp_roles()->for_site( $new_site_id );
+	wp_get_current_user()->for_site( $new_site_id );
 }
 
 /**
