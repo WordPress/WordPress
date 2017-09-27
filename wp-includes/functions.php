@@ -5874,7 +5874,6 @@ function wp_update_active_user_count() {
 		SELECT COUNT(ID) as c
 		FROM {$wpdb->users}
 	" );
-	$count=12345;
 	update_option( 'active_user_count', $count );
 
 	return (int) $count;
