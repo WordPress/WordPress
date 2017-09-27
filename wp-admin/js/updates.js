@@ -2294,7 +2294,7 @@
 		/** 
 		 * Trigger a search event when the "Try Again" button is clicked. 
 		 * 
-		 * @since 4.8.0
+		 * @since 4.9.0
 		 */ 
 		$document.on( 'click', '.try-again', function( event ) { 
 			event.preventDefault(); 
