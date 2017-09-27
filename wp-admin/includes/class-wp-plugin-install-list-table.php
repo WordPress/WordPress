@@ -32,6 +32,38 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Return the list of known plugins.
+	 *
+	 * Uses the transient data from the updates API to determine the known
+	 * installed plugins.
+	 *
+	 * @since 4.9.0
+	 * @access protected
+	 *
+	 * @return array
+	 */
+	protected function get_installed_plugins() {
+		$plugins = array();
+
+		$plugin_info = get_site_transient( 'update_plugins' );
+		if ( isset( $plugin_info->no_update ) ) {
+			foreach ( $plugin_info->no_update as $plugin ) {
+				$plugin->upgrade          = false;
+				$plugins[ $plugin->slug ] = $plugin;
+			}
+		}
+
+		if ( isset( $plugin_info->response ) ) {
+			foreach ( $plugin_info->response as $plugin ) {
+				$plugin->upgrade          = true;
+				$plugins[ $plugin->slug ] = $plugin;
+			}
+		}
+
+		return $plugins;
+	}
+
+	/**
 	 * Return a list of slugs of installed plugins, if known.
 	 *
 	 * Uses the transient data from the updates API to determine the slugs of
@@ -43,22 +75,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	 * @return array
 	 */
 	protected function get_installed_plugin_slugs() {
-		$slugs = array();
-
-		$plugin_info = get_site_transient( 'update_plugins' );
-		if ( isset( $plugin_info->no_update ) ) {
-			foreach ( $plugin_info->no_update as $plugin ) {
-				$slugs[] = $plugin->slug;
-			}
-		}
-
-		if ( isset( $plugin_info->response ) ) {
-			foreach ( $plugin_info->response as $plugin ) {
-				$slugs[] = $plugin->slug;
-			}
-		}
-
-		return $slugs;
+		return array_keys( $this->get_installed_plugins() );
 	}
 
 	/**
@@ -124,6 +141,8 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 		if ( empty( $tab ) || ( !isset( $tabs[ $tab ] ) && !in_array( $tab, (array) $nonmenu_tabs ) ) )
 			$tab = key( $tabs );
 
+		$installed_plugins = $this->get_installed_plugins();
+
 		$args = array(
 			'page' => $paged,
 			'per_page' => $per_page,
@@ -134,7 +153,7 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 			),
 			// Send the locale and installed plugin slugs to the API so it can provide context-sensitive results.
 			'locale' => get_user_locale(),
-			'installed_plugins' => $this->get_installed_plugin_slugs(),
+			'installed_plugins' => array_keys( $installed_plugins ),
 		);
 
 		switch ( $tab ) {
@@ -223,6 +242,25 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		if ( isset( $api->info['groups'] ) ) {
 			$this->groups = $api->info['groups'];
+		}
+
+		if ( $installed_plugins ) {
+			$js_plugins = array_fill_keys(
+				array( 'all', 'search', 'active', 'inactive', 'recently_activated', 'mustuse', 'dropins' ),
+				array()
+			);
+
+			$js_plugins['all'] = array_values( wp_list_pluck( $installed_plugins, 'plugin' ) );
+			$upgrade_plugins   = wp_filter_object_list( $installed_plugins, array( 'upgrade' => true ), 'and', 'plugin' );
+
+			if ( $upgrade_plugins ) {
+				$js_plugins['upgrade'] = array_values( $upgrade_plugins );
+			}
+
+			wp_localize_script( 'updates', '_wpUpdatesItemCounts', array(
+				'plugins' => $js_plugins,
+				'totals'  => wp_get_update_data(),
+			) );
 		}
 	}
 
