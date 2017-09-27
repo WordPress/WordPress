@@ -120,6 +120,7 @@ function create_initial_taxonomies() {
 			'separate_items_with_commas' => null,
 			'add_or_remove_items' => null,
 			'choose_from_most_used' => null,
+			'back_to_items' => __( '&larr; Back to Link Categories' ),
 		),
 		'capabilities' => array(
 			'manage_terms' => 'manage_links',
@@ -452,7 +453,7 @@ function unregister_taxonomy( $taxonomy ) {
  * @since 3.0.0
  * @since 4.3.0 Added the `no_terms` label.
  * @since 4.4.0 Added the `items_list_navigation` and `items_list` labels.
- * @since 4.9.0 Added the `most_used` label.
+ * @since 4.9.0 Added the `most_used` and `back_to_items` labels.
  *
  * @param WP_Taxonomy $tax Taxonomy object.
  * @return object {
@@ -489,6 +490,7 @@ function unregister_taxonomy( $taxonomy ) {
  *     @type string $items_list                 Label for the table hidden heading.
  *     @type string $most_used                  Title used for the Most Used panel. Not used for non-hierarchical
  *                                              taxonomies. Default 'Most Used'.
+ *     @type string $back_to_items              Label displayed after a term has been updated.
  * }
  */
 function get_taxonomy_labels( $tax ) {
@@ -521,6 +523,7 @@ function get_taxonomy_labels( $tax ) {
 		'items_list_navigation' => array( __( 'Tags list navigation' ), __( 'Categories list navigation' ) ),
 		'items_list' => array( __( 'Tags list' ), __( 'Categories list' ) ),
 		'most_used' => array( null, __( 'Most Used' ) ),
+		'back_to_items' => array( __( '&larr; Back to Tags' ), __( '&larr; Back to Categories' ) ),
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
 
