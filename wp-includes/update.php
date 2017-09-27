@@ -78,8 +78,7 @@ function wp_version_check( $extra_stats = array(), $force_check = false ) {
 		$wp_install = network_site_url();
 		$multisite_enabled = 1;
 	} else {
-		$user_count = count_users();
-		$user_count = $user_count['total_users'];
+		$user_count = wp_get_active_user_count();
 		$multisite_enabled = 0;
 		$num_blogs = 1;
 		$wp_install = home_url( '/' );
