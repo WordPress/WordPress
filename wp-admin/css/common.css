@@ -121,14 +121,15 @@
 .screen-reader-text,
 .screen-reader-text span,
 .ui-helper-hidden-accessible {
-	position: absolute;
-	margin: -1px;
-	padding: 0;
-	height: 1px;
-	width: 1px;
-	overflow: hidden;
-	clip: rect(0 0 0 0);
 	border: 0;
+	clip: rect(1px, 1px, 1px, 1px);
+	clip-path: inset(50%);
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	width: 1px;
 	word-wrap: normal !important; /* many screen reader and browser combinations announce broken words as they would appear visually */
 }
 
@@ -1615,10 +1616,6 @@ form.upgrade .hint {
 #contextual-help-wrap {
 	overflow: auto;
 	margin-left: 0 !important;
-}
-
-#screen-meta .screen-reader-text {
-	visibility: hidden;
 }
 
 #screen-meta-links {
