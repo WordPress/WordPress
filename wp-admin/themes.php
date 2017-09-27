@@ -139,7 +139,7 @@ wp_localize_script( 'theme', '_wpThemeSettings', array(
  		'search'            => __( 'Search Installed Themes' ),
  		'searchPlaceholder' => __( 'Search installed themes...' ), // placeholder (no ellipsis)
 		'themesFound'       => __( 'Number of Themes found: %d' ),
-		'noThemesFound'     => __( 'No themes found. Try a different search.' ),
+		'noThemesFound'     => __( 'No themes found. Try a different search query.' ),
   	),
 ) );
 
@@ -303,7 +303,7 @@ foreach ( $themes as $theme ) :
 </div>
 <div class="theme-overlay"></div>
 
-<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
+<p class="no-themes"><?php _e( 'No themes found. Try a different search query.' ); ?></p>
 
 <?php
 // List broken themes, if any.

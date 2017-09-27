@@ -230,11 +230,10 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 	 */
 	public function no_items() {
 		if ( isset( $this->error ) ) {
-			$message = $this->error->get_error_message() . '<p class="hide-if-no-js"><a href="#" class="button" onclick="document.location.reload(); return false;">' . __( 'Try again' ) . '</a></p>';
+			echo '<div class="inline error"><p>' . $this->error->get_error_message() . '</p><p class="hide-if-no-js"><button class="button try-again">' . __( 'Try Again' ) . '</button></p></div>';
 		} else {
-			$message = __( 'No plugins match your request.' );
+			echo '<div class="no-plugin-results">' . __( 'No plugins found. Try a different search query.' ) . '</div>';
 		}
-		echo '<div class="no-plugin-results">' . $message . '</div>';
 	}
 
 	/**

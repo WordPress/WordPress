@@ -2291,6 +2291,16 @@
 			$( 'input.wp-filter-search' ).trigger( 'input' );
 		} );
 
+		/** 
+		 * Trigger a search event when the "Try Again" button is clicked. 
+		 * 
+		 * @since 4.8.0
+		 */ 
+		$document.on( 'click', '.try-again', function( event ) { 
+			event.preventDefault(); 
+			$pluginInstallSearch.trigger( 'input' ); 
+		} );
+
 		/**
 		 * Trigger a search event when the search type gets changed.
 		 *
