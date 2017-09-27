@@ -80,7 +80,10 @@ function wp_list_widget_controls( $sidebar, $sidebar_name = '' ) {
 	if ( $sidebar_name ) {
 		?>
 		<div class="sidebar-name">
-			<div class="sidebar-name-arrow"><br /></div>
+			<button type="button" class="handlediv hide-if-no-js" aria-expanded="true">
+				<span class="screen-reader-text"><?php echo esc_html( $sidebar_name ); ?></span>
+				<span class="toggle-indicator" aria-hidden="true"></span>
+			</button>
 			<h2><?php echo esc_html( $sidebar_name ); ?> <span class="spinner"></span></h2>
 		</div>
 		<?php

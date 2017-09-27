@@ -2966,7 +2966,7 @@ img {
 }
 
 /* Metabox collapse arrow indicators */
-.js .sidebar-name .sidebar-name-arrow:before,
+.sidebar-name .toggle-indicator:before,
 .js .meta-box-sortables .postbox .toggle-indicator:before,
 .bulk-action-notice .toggle-indicator:before {
 	content: "\f142";
@@ -2978,24 +2978,10 @@ img {
 	text-decoration: none !important;
 }
 
-.js .widgets-holder-wrap.closed .sidebar-name-arrow:before,
+.js .widgets-holder-wrap.closed .toggle-indicator:before,
 .js .meta-box-sortables .postbox.closed .handlediv .toggle-indicator:before,
 .bulk-action-notice .bulk-action-errors-collapsed .toggle-indicator:before {
 	content: "\f140";
-}
-
-.js .sidebar-name .sidebar-name-arrow:before {
-	padding: 10px;
-	right: 0;
-}
-
-.js #widgets-left .sidebar-name .sidebar-name-arrow {
-	display: none;
-}
-
-.js #widgets-left .widgets-holder-wrap.closed .sidebar-name .sidebar-name-arrow,
-.js #widgets-left .sidebar-name:hover .sidebar-name-arrow {
-	display: block;
 }
 
 .js .postbox .handlediv .toggle-indicator:before {
@@ -3171,7 +3157,7 @@ img {
 .handlediv,
 .postbox .handlediv.button-link,
 .item-edit,
-.sidebar-name-arrow,
+.toggle-indicator,
 .accordion-section-title:after {
 	color: #72777c;
 }
@@ -3188,7 +3174,7 @@ img {
 .postbox .handlediv.button-link:focus,
 .item-edit:hover,
 .item-edit:focus,
-.sidebar-name:hover .sidebar-name-arrow,
+.sidebar-name:hover .toggle-indicator,
 .accordion-section-title:hover:after {
 	color: #23282d;
 }
@@ -3488,8 +3474,8 @@ img {
 	#screen-meta-links a.show-settings,
 	.widget-top .widget-action,
 	.widget-top .widget-action:hover,
-	.sidebar-name-arrow,
-	.sidebar-name:hover .sidebar-name-arrow,
+	.sidebar-name .toggle-indicator,
+	.sidebar-name:hover .toggle-indicator,
 	.meta-box-sortables .postbox:hover .handlediv,
 	#bulk-titles div a,
 	#bulk-titles div a:hover {
