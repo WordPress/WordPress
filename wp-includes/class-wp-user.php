@@ -93,6 +93,14 @@ class WP_User {
 	public $filter = null;
 
 	/**
+	 * The site ID the capabilities of this user are initialized for.
+	 *
+	 * @since 4.9.0
+	 * @var int
+	 */
+	private $site_id = 0;
+
+	/**
 	 * @static
 	 * @since 3.3.0
 	 * @var array
@@ -110,9 +118,9 @@ class WP_User {
 	 *
 	 * @param int|string|stdClass|WP_User $id User's ID, a WP_User object, or a user object from the DB.
 	 * @param string $name Optional. User's username
-	 * @param int $blog_id Optional Site ID, defaults to current site.
+	 * @param int $site_id Optional Site ID, defaults to current site.
 	 */
-	public function __construct( $id = 0, $name = '', $blog_id = '' ) {
+	public function __construct( $id = 0, $name = '', $site_id = '' ) {
 		if ( ! isset( self::$back_compat_keys ) ) {
 			$prefix = $GLOBALS['wpdb']->prefix;
 			self::$back_compat_keys = array(
@@ -126,10 +134,10 @@ class WP_User {
 		}
 
 		if ( $id instanceof WP_User ) {
-			$this->init( $id->data, $blog_id );
+			$this->init( $id->data, $site_id );
 			return;
 		} elseif ( is_object( $id ) ) {
-			$this->init( $id, $blog_id );
+			$this->init( $id, $site_id );
 			return;
 		}
 
@@ -145,7 +153,7 @@ class WP_User {
 		}
 
 		if ( $data ) {
-			$this->init( $data, $blog_id );
+			$this->init( $data, $site_id );
 		} else {
 			$this->data = new stdClass;
 		}
@@ -157,13 +165,13 @@ class WP_User {
 	 * @since  3.3.0
 	 *
 	 * @param object $data    User DB row object.
-	 * @param int    $blog_id Optional. The site ID to initialize for.
+	 * @param int    $site_id Optional. The site ID to initialize for.
 	 */
-	public function init( $data, $blog_id = '' ) {
+	public function init( $data, $site_id = '' ) {
 		$this->data = $data;
 		$this->ID = (int) $data->ID;
 
-		$this->for_blog( $blog_id );
+		$this->for_site( $site_id );
 	}
 
 	/**
@@ -238,22 +246,6 @@ class WP_User {
 		update_user_caches( $user );
 
 		return $user;
-	}
-
-	/**
-	 * Makes private/protected methods readable for backward compatibility.
-	 *
-	 * @since 4.3.0
-	 *
-	 * @param callable $name      Method to call.
-	 * @param array    $arguments Arguments to pass when calling.
-	 * @return mixed|false Return value of the callback, false otherwise.
-	 */
-	public function __call( $name, $arguments ) {
-		if ( '_init_caps' === $name ) {
-			return call_user_func_array( array( $this, $name ), $arguments );
-		}
-		return false;
 	}
 
 	/**
@@ -425,6 +417,22 @@ class WP_User {
 	}
 
 	/**
+	 * Makes private/protected methods readable for backward compatibility.
+	 *
+	 * @since 4.3.0
+	 *
+	 * @param callable $name      Method to call.
+	 * @param array    $arguments Arguments to pass when calling.
+	 * @return mixed|false Return value of the callback, false otherwise.
+	 */
+	public function __call( $name, $arguments ) {
+		if ( '_init_caps' === $name ) {
+			return call_user_func_array( array( $this, $name ), $arguments );
+		}
+		return false;
+	}
+
+	/**
 	 * Set up capability object properties.
 	 *
 	 * Will set the value for the 'cap_key' property to current database table
@@ -433,6 +441,7 @@ class WP_User {
 	 * used.
 	 *
 	 * @since 2.1.0
+	 * @deprecated 4.9.0 Use WP_User::for_site()
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
@@ -441,15 +450,15 @@ class WP_User {
 	protected function _init_caps( $cap_key = '' ) {
 		global $wpdb;
 
-		if ( empty($cap_key) )
-			$this->cap_key = $wpdb->get_blog_prefix() . 'capabilities';
-		else
+		_deprecated_function( __METHOD__, '4.9.0', 'WP_User::for_site()' );
+
+		if ( empty( $cap_key ) ) {
+			$this->cap_key = $wpdb->get_blog_prefix( $this->site_id ) . 'capabilities';
+		} else {
 			$this->cap_key = $cap_key;
+		}
 
-		$this->caps = get_user_meta( $this->ID, $this->cap_key, true );
-
-		if ( ! is_array( $this->caps ) )
-			$this->caps = array();
+		$this->caps = $this->get_caps_data();
 
 		$this->get_role_caps();
 	}
@@ -467,6 +476,13 @@ class WP_User {
 	 * @return array List of all capabilities for the user.
 	 */
 	public function get_role_caps() {
+		$switch_site = false;
+		if ( is_multisite() && $this->site_id != get_current_blog_id() ) {
+			$switch_site = true;
+
+			switch_to_blog( $this->site_id );
+		}
+
 		$wp_roles = wp_roles();
 
 		//Filter out caps that are not role names and assign to $this->roles
@@ -480,6 +496,10 @@ class WP_User {
 			$this->allcaps = array_merge( (array) $this->allcaps, (array) $the_role->capabilities );
 		}
 		$this->allcaps = array_merge( (array) $this->allcaps, (array) $this->caps );
+
+		if ( $switch_site ) {
+			restore_current_blog();
+		}
 
 		return $this->allcaps;
 	}
@@ -754,17 +774,68 @@ class WP_User {
 	 * Set the site to operate on. Defaults to the current site.
 	 *
 	 * @since 3.0.0
+	 * @deprecated 4.9.0 Use WP_User::for_site()
 	 *
 	 * @global wpdb $wpdb WordPress database abstraction object.
 	 *
 	 * @param int $blog_id Optional. Site ID, defaults to current site.
 	 */
 	public function for_blog( $blog_id = '' ) {
+		_deprecated_function( __METHOD__, '4.9.0', 'WP_User::for_site()' );
+
+		$this->for_site( $blog_id );
+	}
+
+	/**
+	 * Sets the site to operate on. Defaults to the current site.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @global wpdb $wpdb WordPress database abstraction object.
+	 *
+	 * @param int $site_id Site ID to initialize user capabilities for. Default is the current site.
+	 */
+	public function for_site( $site_id = '' ) {
 		global $wpdb;
-		if ( ! empty( $blog_id ) )
-			$cap_key = $wpdb->get_blog_prefix( $blog_id ) . 'capabilities';
-		else
-			$cap_key = '';
-		$this->_init_caps( $cap_key );
+
+		if ( ! empty( $site_id ) ) {
+			$this->site_id = absint( $site_id );
+		} else {
+			$this->site_id = get_current_blog_id();
+		}
+
+		$this->cap_key = $wpdb->get_blog_prefix( $this->site_id ) . 'capabilities';
+
+		$this->caps = $this->get_caps_data();
+
+		$this->get_role_caps();
+	}
+
+	/**
+	 * Gets the ID of the site for which the user's capabilities are currently initialized.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @return int Site ID.
+	 */
+	public function get_site_id() {
+		return $this->site_id;
+	}
+
+	/**
+	 * Gets the available user capabilities data.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @return array User capabilities array.
+	 */
+	private function get_caps_data() {
+		$caps = get_user_meta( $this->ID, $this->cap_key, true );
+
+		if ( ! is_array( $caps ) ) {
+			return array();
+		}
+
+		return $caps;
 	}
 }

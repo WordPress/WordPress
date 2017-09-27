@@ -850,7 +850,7 @@ function switch_to_blog( $new_blog, $deprecated = null ) {
 	if ( did_action( 'init' ) ) {
 		$wp_roles = new WP_Roles();
 		$current_user = wp_get_current_user();
-		$current_user->for_blog( $new_blog );
+		$current_user->for_site( $new_blog );
 	}
 
 	/** This filter is documented in wp-includes/ms-blogs.php */
@@ -924,7 +924,7 @@ function restore_current_blog() {
 	if ( did_action( 'init' ) ) {
 		$wp_roles = new WP_Roles();
 		$current_user = wp_get_current_user();
-		$current_user->for_blog( $blog );
+		$current_user->for_site( $blog );
 	}
 
 	/** This filter is documented in wp-includes/ms-blogs.php */
