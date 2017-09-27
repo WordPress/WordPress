@@ -1071,6 +1071,8 @@ function the_embed_site_title() {
  *                     Null if the URL does not belong to the current site.
  */
 function wp_filter_pre_oembed_result( $result, $url, $args ) {
+	$switched_blog = false;
+
 	if ( is_multisite() ) {
 		$url_parts = wp_parse_args( wp_parse_url( $url ), array(
 			'host'   => '',
@@ -1094,6 +1096,7 @@ function wp_filter_pre_oembed_result( $result, $url, $args ) {
 
 		if ( $site && (int) $site->blog_id !== get_current_blog_id() ) {
 			switch_to_blog( $site->blog_id );
+			$switched_blog = true;
 		}
 	}
 
@@ -1111,7 +1114,7 @@ function wp_filter_pre_oembed_result( $result, $url, $args ) {
 	$data = get_oembed_response_data( $post_id, $width );
 	$data = _wp_oembed_get_object()->data2html( (object) $data, $url );
 
-	if ( is_multisite() && ms_is_switched() ) {
+	if ( $switched_blog ) {
 		restore_current_blog();
 	}
 
