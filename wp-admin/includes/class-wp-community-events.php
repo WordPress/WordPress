@@ -92,8 +92,17 @@ class WP_Community_Events {
 			return $cached_events;
 		}
 
-		$api_url        = 'https://api.wordpress.org/events/1.0/';
-		$request_args   = $this->get_request_args( $location_search, $timezone );
+		// include an unmodified $wp_version
+		include( ABSPATH . WPINC . '/version.php' );
+
+		$api_url      = 'http://api.wordpress.org/events/1.0/';
+		$request_args = $this->get_request_args( $location_search, $timezone );
+		$request_args['user-agent'] = 'WordPress/' . $wp_version . '; ' . home_url( '/' );
+
+		if ( wp_http_supports( array( 'ssl' ) ) ) {
+			$api_url = set_url_scheme( $api_url, 'https' );
+		}
+
 		$response       = wp_remote_get( $api_url, $request_args );
 		$response_code  = wp_remote_retrieve_response_code( $response );
 		$response_body  = json_decode( wp_remote_retrieve_body( $response ), true );

@@ -141,12 +141,16 @@ function plugins_api( $action, $args = array() ) {
 	$res = apply_filters( 'plugins_api', false, $action, $args );
 
 	if ( false === $res ) {
+		// include an unmodified $wp_version
+		include( ABSPATH . WPINC . '/version.php' );
+
 		$url = $http_url = 'http://api.wordpress.org/plugins/info/1.0/';
 		if ( $ssl = wp_http_supports( array( 'ssl' ) ) )
 			$url = set_url_scheme( $url, 'https' );
 
 		$http_args = array(
 			'timeout' => 15,
+			'user-agent' => 'WordPress/' . $wp_version . '; ' . home_url( '/' ),
 			'body' => array(
 				'action' => $action,
 				'request' => serialize( $args )
