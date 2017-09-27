@@ -596,38 +596,10 @@ final class WP_Customize_Manager {
 	 * @since 4.9.0
 	 */
 	public function establish_loaded_changeset() {
-
-		/**
-		 * Filters whether or not changeset branching is allowed.
-		 *
-		 * By default in core, when changeset branching is not allowed, changesets will operate
-		 * linearly in that only one saved changeset will exist at a time (with a 'draft' or
-		 * 'future' status). This makes the Customizer operate in a way that is similar to going to
-		 * "edit" to one existing post: all users will be making changes to the same post, and autosave
-		 * revisions will be made for that post.
-		 *
-		 * By contrast, when changeset branching is allowed, then the model is like users going
-		 * to "add new" for a page and each user makes changes independently of each other since
-		 * they are all operating on their own separate pages, each getting their own separate
-		 * initial auto-drafts and then once initially saved, autosave revisions on top of that
-		 * user's specific post.
-		 *
-		 * Since linear changesets are deemed to be more suitable for the majority of WordPress users,
-		 * they are the default. For WordPress sites that have heavy site management in the Customizer
-		 * by multiple users then branching changesets should be enabled by means of this filter.
-		 *
-		 * @since 4.9.0
-		 *
-		 * @param bool                 $allow_branching Whether branching is allowed. If `false`, the default,
-		 *                                              then only one saved changeset exists at a time.
-		 * @param WP_Customize_Manager $wp_customize    Manager instance.
-		 */
-		$this->branching = apply_filters( 'customize_changeset_branching', $this->branching, $this );
-
 		if ( empty( $this->_changeset_uuid ) ) {
 			$changeset_uuid = null;
 
-			if ( ! $this->branching ) {
+			if ( ! $this->branching() ) {
 				$unpublished_changeset_posts = $this->get_changeset_posts( array(
 					'post_status' => array_diff( get_post_stati(), array( 'auto-draft', 'publish', 'trash', 'inherit', 'private' ) ),
 					'exclude_restore_dismissed' => false,
@@ -752,6 +724,58 @@ final class WP_Customize_Manager {
 	}
 
 	/**
+	 * Gets whether data from a changeset's autosaved revision should be loaded if it exists.
+	 *
+	 * @since 4.9.0
+	 * @see WP_Customize_Manager::changeset_data()
+	 *
+	 * @return bool Is using autosaved changeset revision.
+	 */
+	public function autosaved() {
+		return $this->autosaved;
+	}
+
+	/**
+	 * Whether the changeset branching is allowed.
+	 *
+	 * @since 4.9.0
+	 * @see WP_Customize_Manager::establish_loaded_changeset()
+	 *
+	 * @return bool Is changeset branching.
+	 */
+	public function branching() {
+
+		/**
+		 * Filters whether or not changeset branching is allowed.
+		 *
+		 * By default in core, when changeset branching is not allowed, changesets will operate
+		 * linearly in that only one saved changeset will exist at a time (with a 'draft' or
+		 * 'future' status). This makes the Customizer operate in a way that is similar to going to
+		 * "edit" to one existing post: all users will be making changes to the same post, and autosave
+		 * revisions will be made for that post.
+		 *
+		 * By contrast, when changeset branching is allowed, then the model is like users going
+		 * to "add new" for a page and each user makes changes independently of each other since
+		 * they are all operating on their own separate pages, each getting their own separate
+		 * initial auto-drafts and then once initially saved, autosave revisions on top of that
+		 * user's specific post.
+		 *
+		 * Since linear changesets are deemed to be more suitable for the majority of WordPress users,
+		 * they are the default. For WordPress sites that have heavy site management in the Customizer
+		 * by multiple users then branching changesets should be enabled by means of this filter.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param bool                 $allow_branching Whether branching is allowed. If `false`, the default,
+		 *                                              then only one saved changeset exists at a time.
+		 * @param WP_Customize_Manager $wp_customize    Manager instance.
+		 */
+		$this->branching = apply_filters( 'customize_changeset_branching', $this->branching, $this );
+
+		return $this->branching;
+	}
+
+	/**
 	 * Get the changeset UUID.
 	 *
 	 * @since 4.7.0
@@ -763,7 +787,7 @@ final class WP_Customize_Manager {
 	 */
 	public function changeset_uuid() {
 		if ( empty( $this->_changeset_uuid ) ) {
-			throw new Exception( 'Changeset UUID has not been set.' ); // @todo Replace this with a call to `WP_Customize_Manager::establish_loaded_changeset()` during 4.9-beta2.
+			$this->establish_loaded_changeset();
 		}
 		return $this->_changeset_uuid;
 	}
@@ -981,6 +1005,30 @@ final class WP_Customize_Manager {
 	}
 
 	/**
+	 * Dismiss all of the current user's auto-drafts (other than the present one).
+	 *
+	 * @since 4.9.0
+	 * @return int The number of auto-drafts that were dismissed.
+	 */
+	protected function dismiss_user_auto_draft_changesets() {
+		$changeset_autodraft_posts = $this->get_changeset_posts( array(
+			'post_status' => 'auto-draft',
+			'exclude_restore_dismissed' => true,
+			'posts_per_page' => -1,
+		) );
+		$dismissed = 0;
+		foreach ( $changeset_autodraft_posts as $autosave_autodraft_post ) {
+			if ( $autosave_autodraft_post->ID === $this->changeset_post_id() ) {
+				continue;
+			}
+			if ( update_post_meta( $autosave_autodraft_post->ID, '_customize_restore_dismissed', true ) ) {
+				$dismissed++;
+			}
+		}
+		return $dismissed;
+	}
+
+	/**
 	 * Get the changeset post id for the loaded changeset.
 	 *
 	 * @since 4.7.0
@@ -1050,7 +1098,7 @@ final class WP_Customize_Manager {
 		if ( ! $changeset_post_id ) {
 			$this->_changeset_data = array();
 		} else {
-			if ( $this->autosaved ) {
+			if ( $this->autosaved() ) {
 				$autosave_post = wp_get_post_autosave( $changeset_post_id );
 				if ( $autosave_post ) {
 					$data = $this->get_changeset_post_data( $autosave_post->ID );
@@ -1972,7 +2020,7 @@ final class WP_Customize_Manager {
 		$settings = array(
 			'changeset' => array(
 				'uuid' => $this->changeset_uuid(),
-				'autosaved' => $this->autosaved,
+				'autosaved' => $this->autosaved(),
 			),
 			'timeouts' => array(
 				'selectiveRefresh' => 250,
@@ -2345,28 +2393,24 @@ final class WP_Customize_Manager {
 			}
 		} else {
 			$response = $r;
+			$changeset_post = get_post( $this->changeset_post_id() );
 
 			// Dismiss all other auto-draft changeset posts for this user (they serve like autosave revisions), as there should only be one.
 			if ( $is_new_changeset ) {
-				$changeset_autodraft_posts = $this->get_changeset_posts( array(
-					'post_status' => 'auto-draft',
-					'exclude_restore_dismissed' => true,
-					'posts_per_page' => -1,
-				) );
-				foreach ( $changeset_autodraft_posts as $autosave_autodraft_post ) {
-					if ( $autosave_autodraft_post->ID !== $this->changeset_post_id() ) {
-						update_post_meta( $autosave_autodraft_post->ID, '_customize_restore_dismissed', true );
-					}
-				}
+				$this->dismiss_user_auto_draft_changesets();
 			}
 
 			// Note that if the changeset status was publish, then it will get set to trash if revisions are not supported.
-			$response['changeset_status'] = get_post_status( $this->changeset_post_id() );
+			$response['changeset_status'] = $changeset_post->post_status;
 			if ( $is_publish && 'trash' === $response['changeset_status'] ) {
 				$response['changeset_status'] = 'publish';
 			}
 
-			if ( 'publish' === $response['changeset_status'] ) {
+			if ( 'future' === $response['changeset_status'] ) {
+				$response['changeset_date'] = $changeset_post->post_date;
+			}
+
+			if ( 'publish' === $response['changeset_status'] || 'trash' === $response['changeset_status'] ) {
 				$response['next_changeset_uuid'] = wp_generate_uuid4();
 			}
 		}
@@ -2434,7 +2478,13 @@ final class WP_Customize_Manager {
 		if ( $changeset_post_id ) {
 			$existing_status = get_post_status( $changeset_post_id );
 			if ( 'publish' === $existing_status || 'trash' === $existing_status ) {
-				return new WP_Error( 'changeset_already_published' );
+				return new WP_Error(
+					'changeset_already_published',
+					__( 'The previous set of changes already been published. Please try saving your current set of changes again.' ),
+					array(
+						'next_changeset_uuid' => wp_generate_uuid4(),
+					)
+				);
 			}
 
 			$existing_changeset_data = $this->get_changeset_post_data( $changeset_post_id );
@@ -2453,7 +2503,7 @@ final class WP_Customize_Manager {
 		if ( $args['date_gmt'] ) {
 			$is_future_dated = ( mysql2date( 'U', $args['date_gmt'], false ) > mysql2date( 'U', $now, false ) );
 			if ( ! $is_future_dated ) {
-				return new WP_Error( 'not_future_date' ); // Only future dates are allowed.
+				return new WP_Error( 'not_future_date', __( 'You must supply a future date to schedule.' ) ); // Only future dates are allowed.
 			}
 
 			if ( ! $this->is_theme_active() && ( 'future' === $args['status'] || $is_future_dated ) ) {
@@ -2468,7 +2518,7 @@ final class WP_Customize_Manager {
 			// Fail if the new status is future but the existing post's date is not in the future.
 			$changeset_post = get_post( $changeset_post_id );
 			if ( mysql2date( 'U', $changeset_post->post_date_gmt, false ) <= mysql2date( 'U', $now, false ) ) {
-				return new WP_Error( 'not_future_date' );
+				return new WP_Error( 'not_future_date', __( 'You must supply a future date to schedule.' ) );
 			}
 		}
 
@@ -3056,24 +3106,11 @@ final class WP_Customize_Manager {
 		$changeset_post_id = $this->changeset_post_id();
 
 		if ( empty( $changeset_post_id ) || 'auto-draft' === get_post_status( $changeset_post_id ) ) {
-			$changeset_autodraft_posts = $this->get_changeset_posts( array(
-				'post_status' => 'auto-draft',
-				'exclude_restore_dismissed' => true,
-				'posts_per_page' => -1,
-			) );
-			$dismissed = 0;
-			foreach ( $changeset_autodraft_posts as $autosave_autodraft_post ) {
-				if ( $autosave_autodraft_post->ID === $changeset_post_id ) {
-					continue;
-				}
-				if ( update_post_meta( $autosave_autodraft_post->ID, '_customize_restore_dismissed', true ) ) {
-					$dismissed++;
-				}
-			}
+			$dismissed = $this->dismiss_user_auto_draft_changesets();
 			if ( $dismissed > 0 ) {
 				wp_send_json_success( 'auto_draft_dismissed' );
 			} else {
-				wp_send_json_error( 'no_autosave_to_delete', 404 );
+				wp_send_json_error( 'no_auto_draft_to_delete', 404 );
 			}
 		} else {
 			$revision = wp_get_post_autosave( $changeset_post_id );
@@ -3089,7 +3126,7 @@ final class WP_Customize_Manager {
 					wp_send_json_success( 'autosave_revision_deleted' );
 				}
 			} else {
-				wp_send_json_error( 'no_autosave_to_delete', 404 );
+				wp_send_json_error( 'no_autosave_revision_to_delete', 404 );
 			}
 		}
 		wp_send_json_error( 'unknown_error', 500 );
@@ -3516,6 +3553,21 @@ final class WP_Customize_Manager {
 				<# } ); #>
 			</ul>
 		</script>
+		<script type="text/html" id="tmpl-customize-preview-link-control" >
+			<span class="customize-control-title">
+				<label><?php esc_html_e( 'Share Preview Link' ); ?></label>
+			</span>
+			<span class="description customize-control-description"><?php esc_html_e( 'See how changes would look live on your website, and share the preview with people who can\'t access the Customizer.' ); ?></span>
+			<div class="customize-control-notifications-container"></div>
+			<div class="preview-link-wrapper">
+				<label>
+					<span class="screen-reader-text"><?php esc_html_e( 'Preview Link' ); ?></span>
+					<a class="preview-control-element" data-component="link" href="" target=""></a>
+					<input readonly class="preview-control-element" data-component="input" value="test" >
+					<button class="customize-copy-preview-link preview-control-element button button-secondary" data-component="button" data-copy-text="<?php esc_attr_e( 'Copy' ); ?>" data-copied-text="<?php esc_attr_e( 'Copied' ); ?>" ><?php esc_html_e( 'Copy' ); ?></button>
+				</label>
+			</div>
+		</script>
 		<?php
 	}
 
@@ -3877,7 +3929,7 @@ final class WP_Customize_Manager {
 		$autosave_revision_post = null;
 		$autosave_autodraft_post = null;
 		$changeset_post_id = $this->changeset_post_id();
-		if ( ! $this->saved_starter_content_changeset && ! $this->autosaved ) {
+		if ( ! $this->saved_starter_content_changeset && ! $this->autosaved() ) {
 			if ( $changeset_post_id ) {
 				$autosave_revision_post = wp_get_post_autosave( $changeset_post_id );
 			} else {
@@ -3893,15 +3945,25 @@ final class WP_Customize_Manager {
 		}
 
 		// Prepare Customizer settings to pass to JavaScript.
+		$changeset_post = null;
+		if ( $changeset_post_id ) {
+			$changeset_post = get_post( $changeset_post_id );
+		}
+
 		$settings = array(
 			'changeset' => array(
 				'uuid' => $this->changeset_uuid(),
-				'branching' => $this->branching,
-				'autosaved' => $this->autosaved,
+				'branching' => $this->branching(),
+				'autosaved' => $this->autosaved(),
 				'hasAutosaveRevision' => ! empty( $autosave_revision_post ),
 				'latestAutoDraftUuid' => $autosave_autodraft_post ? $autosave_autodraft_post->post_name : null,
-				'status' => $changeset_post_id ? get_post_status( $changeset_post_id ) : '',
+				'status' => $changeset_post ? $changeset_post->post_status : '',
+				'currentUserCanPublish' => current_user_can( get_post_type_object( 'customize_changeset' )->cap->publish_posts ),
+				'publishDate' => $changeset_post ? $changeset_post->post_date : '', // @todo Only if future status? Rename to just date?
 			),
+			'initialServerDate' => current_time( 'mysql', false ),
+			'initialServerTimestamp' => floor( microtime( true ) * 1000 ),
+			'initialClientTimestamp' => -1, // To be set with JS below.
 			'timeouts' => array(
 				'windowRefresh' => 250,
 				'changesetAutoSave' => AUTOSAVE_INTERVAL * 1000,
@@ -3957,6 +4019,7 @@ final class WP_Customize_Manager {
 		?>
 		<script type="text/javascript">
 			var _wpCustomizeSettings = <?php echo wp_json_encode( $settings ); ?>;
+			_wpCustomizeSettings.initialClientTimestamp = _.now();
 			_wpCustomizeSettings.controls = {};
 			_wpCustomizeSettings.settings = {};
 			<?php
@@ -4047,6 +4110,54 @@ final class WP_Customize_Manager {
 		$this->register_control_type( 'WP_Customize_Site_Icon_Control' );
 		$this->register_control_type( 'WP_Customize_Theme_Control' );
 		$this->register_control_type( 'WP_Customize_Code_Editor_Control' );
+		$this->register_control_type( 'WP_Customize_Date_Time_Control' );
+
+		/* Publish Settings */
+
+		$this->add_section( 'publish_settings', array(
+			'title' => __( 'Publish Settings' ),
+			'priority' => 0,
+			'capability' => 'customize',
+			'type' => 'outer',
+			'active_callback' => array( $this, 'is_theme_active' ),
+		) );
+
+		/* Publish Settings Controls */
+		$status_choices = array(
+			'publish' => __( 'Publish' ),
+			'draft' => __( 'Save Draft' ),
+			'future' => __( 'Schedule' ),
+		);
+
+		if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->publish_posts ) ) {
+			unset( $status_choices['publish'] );
+		}
+
+		$this->add_control( 'changeset_status', array(
+			'section' => 'publish_settings',
+			'settings' => array(),
+			'type' => 'radio',
+			'label' => __( 'Action' ),
+			'choices' => $status_choices,
+			'capability' => 'customize',
+		) );
+
+		if ( $this->changeset_post_id() && 'future' === get_post_status( $this->changeset_post_id() ) ) {
+			$initial_date = get_the_time( 'Y-m-d H:i:s', $this->changeset_post_id() );
+		} else {
+			$initial_date = current_time( 'mysql', false );
+		}
+		$this->add_control( new WP_Customize_Date_Time_Control( $this, 'changeset_scheduled_date', array(
+			'section' => 'publish_settings',
+			'settings' => array(),
+			'type' => 'date_time',
+			'min_year' => date( 'Y' ),
+			'allow_past_date' => false,
+			'twelve_hour_format' => false !== stripos( get_option( 'time_format' ), 'a' ),
+			'description' => __( 'Schedule your customization changes to publish ("go live") at a future date.' ),
+			'capability' => 'customize',
+			'default_value' => $initial_date,
+		) ) );
 
 		/* Themes */
 

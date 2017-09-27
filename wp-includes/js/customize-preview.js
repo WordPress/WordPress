@@ -672,7 +672,7 @@
 	};
 
 	$( function() {
-		var bg, setValue;
+		var bg, setValue, handleUpdatedChangesetUuid;
 
 		api.settings = window._wpCustomizeSettings;
 		if ( ! api.settings ) {
@@ -765,28 +765,39 @@
 			api.preview.send( 'scroll', $( window ).scrollTop() );
 		});
 
+		/**
+		 * Handle update to changeset UUID.
+		 *
+		 * @param {string} uuid - UUID.
+		 * @returns {void}
+		 */
+		handleUpdatedChangesetUuid = function( uuid ) {
+			api.settings.changeset.uuid = uuid;
+
+			// Update UUIDs in links and forms.
+			$( document.body ).find( 'a[href], area' ).each( function() {
+				api.prepareLinkPreview( this );
+			} );
+			$( document.body ).find( 'form' ).each( function() {
+				api.prepareFormPreview( this );
+			} );
+
+			/*
+			 * Replace the UUID in the URL. Note that the wrapped history.replaceState()
+			 * will handle injecting the current api.settings.changeset.uuid into the URL,
+			 * so this is merely to trigger that logic.
+			 */
+			if ( history.replaceState ) {
+				history.replaceState( currentHistoryState, '', location.href );
+			}
+		};
+
+		api.preview.bind( 'changeset-uuid', handleUpdatedChangesetUuid );
+
 		api.preview.bind( 'saved', function( response ) {
 			if ( response.next_changeset_uuid ) {
-				api.settings.changeset.uuid = response.next_changeset_uuid;
-
-				// Update UUIDs in links and forms.
-				$( document.body ).find( 'a[href], area' ).each( function() {
-					api.prepareLinkPreview( this );
-				} );
-				$( document.body ).find( 'form' ).each( function() {
-					api.prepareFormPreview( this );
-				} );
-
-				/*
-				 * Replace the UUID in the URL. Note that the wrapped history.replaceState()
-				 * will handle injecting the current api.settings.changeset.uuid into the URL,
-				 * so this is merely to trigger that logic.
-				 */
-				if ( history.replaceState ) {
-					history.replaceState( currentHistoryState, '', location.href );
-				}
+				handleUpdatedChangesetUuid( response.next_changeset_uuid );
 			}
-
 			api.trigger( 'saved', response );
 		} );
 

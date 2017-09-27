@@ -27,14 +27,30 @@ if ( ! current_user_can( 'customize' ) ) {
 global $wp_scripts, $wp_customize;
 
 if ( $wp_customize->changeset_post_id() ) {
-	if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->edit_post, $wp_customize->changeset_post_id() ) ) {
+	$changeset_post = get_post( $wp_customize->changeset_post_id() );
+
+	if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->edit_post, $changeset_post->ID ) ) {
 		wp_die(
 			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
 			'<p>' . __( 'Sorry, you are not allowed to edit this changeset.' ) . '</p>',
 			403
 		);
 	}
-	if ( in_array( get_post_status( $wp_customize->changeset_post_id() ), array( 'publish', 'trash' ), true ) ) {
+
+	$missed_schedule = (
+		'future' === $changeset_post->post_status &&
+		get_post_time( 'G', true, $changeset_post ) < time()
+	);
+	if ( $missed_schedule ) {
+		wp_publish_post( $changeset_post->ID );
+		wp_die(
+			'<h1>' . __( 'Your scheduled changes just published' ) . '</h1>' .
+			'<p><a href="' . esc_url( remove_query_arg( 'changeset_uuid' ) ) . '">' . __( 'Customize New Changes' ) . '</a></p>',
+			200
+		);
+	}
+
+	if ( in_array( get_post_status( $changeset_post->ID ), array( 'publish', 'trash' ), true ) ) {
 		wp_die(
 			'<h1>' . __( 'Cheatin&#8217; uh?' ) . '</h1>' .
 			'<p>' . __( 'This changeset has already been published and cannot be further modified.' ) . '</p>' .
@@ -132,14 +148,11 @@ do_action( 'customize_controls_print_scripts' );
 <div class="wp-full-overlay expanded">
 	<form id="customize-controls" class="wrap wp-full-overlay-sidebar">
 		<div id="customize-header-actions" class="wp-full-overlay-header">
-			<?php
-			$save_text = $wp_customize->is_theme_active() ? __( 'Save &amp; Publish' ) : __( 'Save &amp; Activate' );
-			$save_attrs = array();
-			if ( ! current_user_can( get_post_type_object( 'customize_changeset' )->cap->publish_posts ) ) {
-				$save_attrs['style'] = 'display: none';
-			}
-			submit_button( $save_text, 'primary save', 'save', false, $save_attrs );
-			?>
+			<?php $save_text = $wp_customize->is_theme_active() ? __( 'Publish' ) : __( 'Activate &amp; Publish' ); ?>
+			<div id="customize-save-button-wrapper" class="customize-save-button-wrapper" >
+				<?php submit_button( $save_text, 'primary save', 'save', false ); ?>
+				<button id="publish-settings" class="publish-settings button-primary button dashicons dashicons-admin-generic" aria-label="<?php esc_attr_e( 'Publish Settings' ); ?>" aria-expanded="false" disabled></button>
+			</div>
 			<span class="spinner"></span>
 			<button type="button" class="customize-controls-preview-toggle">
 				<span class="controls"><?php _e( 'Customize' ); ?></span>
@@ -203,6 +216,13 @@ do_action( 'customize_controls_print_scripts' );
 		</div>
 	</form>
 	<div id="customize-preview" class="wp-full-overlay-main"></div>
+	<div id="customize-sidebar-outer-content">
+		<div id="customize-outer-theme-controls-wrapper">
+			<div id="customize-outer-theme-controls">
+				<ul class="customize-outer-pane-parent"><?php // Outer panel and sections are not implemented, but its here as a placeholder to avoid any side-effect in api.Section. ?></ul>
+			</div>
+		</div>
+	</div>
 	<?php
 
 	/**
