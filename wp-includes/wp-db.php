@@ -1460,24 +1460,23 @@ class wpdb {
 		if ( $this->use_mysqli ) {
 			$this->dbh = mysqli_init();
 
-			// mysqli_real_connect doesn't support the host param including a port or socket
-			// like mysql_connect does. This duplicates how mysql_connect detects a port and/or socket file.
-			$port = null;
-			$socket = null;
-			$host = $this->dbhost;
-			$port_or_socket = strstr( $host, ':' );
-			if ( ! empty( $port_or_socket ) ) {
-				$host = substr( $host, 0, strpos( $host, ':' ) );
-				$port_or_socket = substr( $port_or_socket, 1 );
-				if ( 0 !== strpos( $port_or_socket, '/' ) ) {
-					$port = intval( $port_or_socket );
-					$maybe_socket = strstr( $port_or_socket, ':' );
-					if ( ! empty( $maybe_socket ) ) {
-						$socket = substr( $maybe_socket, 1 );
-					}
-				} else {
-					$socket = $port_or_socket;
-				}
+			$host    = $this->dbhost;
+			$port    = null;
+			$socket  = null;
+			$is_ipv6 = false;
+			
+			if ( $host_data = $this->parse_db_host( $this->dbhost ) ) {
+				list( $host, $port, $socket, $is_ipv6 ) = $host_data;
+			}
+
+			/*
+			 * If using the `mysqlnd` library, the IPv6 address needs to be
+			 * enclosed in square brackets, whereas it doesn't while using the
+			 * `libmysqlclient` library.
+			 * @see https://bugs.php.net/bug.php?id=67563
+			 */
+			if ( $is_ipv6 && extension_loaded( 'mysqlnd' ) ) {
+				$host = "[$host]";
 			}
 
 			if ( WP_DEBUG ) {
@@ -1489,7 +1488,8 @@ class wpdb {
 			if ( $this->dbh->connect_errno ) {
 				$this->dbh = null;
 
-				/* It's possible ext/mysqli is misconfigured. Fall back to ext/mysql if:
+				/*
+				 * It's possible ext/mysqli is misconfigured. Fall back to ext/mysql if:
 		 		 *  - We haven't previously connected, and
 		 		 *  - WP_USE_EXT_MYSQL isn't set to false, and
 		 		 *  - ext/mysql is loaded.
@@ -1567,6 +1567,52 @@ class wpdb {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Parse the DB_HOST setting to interpret it for mysqli_real_connect.
+	 *
+	 * mysqli_real_connect doesn't support the host param including a port or
+	 * socket like mysql_connect does. This duplicates how mysql_connect detects
+	 * a port and/or socket file.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string $host The DB_HOST setting to parse.
+	 * @return array|bool Array containing the host, the port, the socket and whether
+	 *                    it is an IPv6 address, in that order. If $host couldn't be parsed,
+	 *                    returns false.
+	 */
+	public function parse_db_host( $host ) {
+		$port    = null;
+		$socket  = null;
+		$is_ipv6 = false;
+
+		// We need to check for an IPv6 address first.
+		// An IPv6 address will always contain at least two colons.
+		if ( substr_count( $host, ':' ) > 1 ) {
+			$pattern = '#^(?:\[)?(?<host>[0-9a-fA-F:]+)(?:\]:(?<port>[\d]+))?(?:/(?<socket>.+))?#';
+			$is_ipv6 = true;
+		} else {
+			// We seem to be dealing with an IPv4 address.
+			$pattern = '#^(?<host>[^:/]*)(?::(?<port>[\d]+))?(?::(?<socket>.+))?#';
+		}
+
+		$matches = array();
+		$result = preg_match( $pattern, $host, $matches );
+
+		if ( 1 !== $result ) {
+			// Couldn't parse the address, bail.
+			return false;
+		}
+
+		foreach ( array( 'host', 'port', 'socket' ) as $component ) {
+			if ( array_key_exists( $component, $matches ) ) {
+				$$component = $matches[$component];
+			}
+		}
+
+		return array( $host, $port, $socket, $is_ipv6 );
 	}
 
 	/**
