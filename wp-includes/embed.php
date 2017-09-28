@@ -1106,6 +1106,10 @@ function wp_filter_pre_oembed_result( $result, $url, $args ) {
 	$post_id = apply_filters( 'oembed_request_post_id', $post_id, $url );
 
 	if ( ! $post_id ) {
+		if ( $switched_blog ) {
+			restore_current_blog();
+		}
+
 		return $result;
 	}
 
