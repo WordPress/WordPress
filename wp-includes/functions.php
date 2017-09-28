@@ -4804,7 +4804,7 @@ function wp_scheduled_delete() {
 
 	$delete_timestamp = time() - ( DAY_IN_SECONDS * EMPTY_TRASH_DAYS );
 
-	$posts_to_delete = $wpdb->get_results($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_trash_meta_time' AND meta_value < '%d'", $delete_timestamp), ARRAY_A);
+	$posts_to_delete = $wpdb->get_results($wpdb->prepare("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_wp_trash_meta_time' AND meta_value < %d", $delete_timestamp), ARRAY_A);
 
 	foreach ( (array) $posts_to_delete as $post ) {
 		$post_id = (int) $post['post_id'];
@@ -4821,7 +4821,7 @@ function wp_scheduled_delete() {
 		}
 	}
 
-	$comments_to_delete = $wpdb->get_results($wpdb->prepare("SELECT comment_id FROM $wpdb->commentmeta WHERE meta_key = '_wp_trash_meta_time' AND meta_value < '%d'", $delete_timestamp), ARRAY_A);
+	$comments_to_delete = $wpdb->get_results($wpdb->prepare("SELECT comment_id FROM $wpdb->commentmeta WHERE meta_key = '_wp_trash_meta_time' AND meta_value < %d", $delete_timestamp), ARRAY_A);
 
 	foreach ( (array) $comments_to_delete as $comment ) {
 		$comment_id = (int) $comment['comment_id'];

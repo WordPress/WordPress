@@ -3788,7 +3788,7 @@ function _wp_check_split_terms_in_menus( $term_id, $new_term_id, $term_taxonomy_
 			INNER JOIN {$wpdb->postmeta} AS m2 ON ( m2.post_id = m1.post_id )
 			INNER JOIN {$wpdb->postmeta} AS m3 ON ( m3.post_id = m1.post_id )
 		WHERE ( m1.meta_key = '_menu_item_type' AND m1.meta_value = 'taxonomy' )
-			AND ( m2.meta_key = '_menu_item_object' AND m2.meta_value = '%s' )
+			AND ( m2.meta_key = '_menu_item_object' AND m2.meta_value = %s )
 			AND ( m3.meta_key = '_menu_item_object_id' AND m3.meta_value = %d )",
 		$taxonomy,
 		$term_id

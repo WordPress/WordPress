@@ -1267,7 +1267,7 @@ class wpdb {
 	 *     $wild = '%';
 	 *     $find = 'only 43% of planets';
 	 *     $like = $wild . $wpdb->esc_like( $find ) . $wild;
-	 *     $sql  = $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_content LIKE '%s'", $like );
+	 *     $sql  = $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_content LIKE %s", $like );
 	 *
 	 * Example Escape Chain:
 	 *
