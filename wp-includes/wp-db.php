@@ -1194,35 +1194,33 @@ class wpdb {
 	/**
 	 * Prepares a SQL query for safe execution. Uses sprintf()-like syntax.
 	 *
-	 * The following directives can be used in the query format string:
+	 * The following placeholders can be used in the query string:
 	 *   %d (integer)
 	 *   %f (float)
 	 *   %s (string)
-	 *   %% (literal percentage sign - no argument needed)
 	 *
-	 * All of %d, %f, and %s are to be left unquoted in the query string and they need an argument passed for them.
-	 * Literals (%) as parts of the query must be properly written as %%.
+	 * All placeholders MUST be left unquoted in the query string. A corresponding argument MUST be passed for each placeholder.
 	 *
-	 * This function only supports a small subset of the sprintf syntax; it only supports %d (integer), %f (float), and %s (string).
-	 * Does not support sign, padding, alignment, width or precision specifiers.
-	 * Does not support argument numbering/swapping.
+	 * Literal percentage signs (%) in the query string must be written as %%. Percentage wildcards (for example, to use in LIKE syntax)
+	 * must be passed in the string argument, it cannot be inserted in the query string.
 	 *
-	 * May be called like {@link https://secure.php.net/sprintf sprintf()} or like {@link https://secure.php.net/vsprintf vsprintf()}.
+	 * This method DOES NOT support sign, padding, alignment, width or precision specifiers.
+	 * This method DOES NOT support argument numbering or swapping.
 	 *
-	 * Both %d and %s should be left unquoted in the query string.
+	 * Arguments may be passed as individual arguments to the method, or as a single array containing all arguments. A combination 
+	 * of the two is not supported.
 	 *
-	 *     $wpdb->prepare( "SELECT * FROM `table` WHERE `column` = %s AND `field` = %d", 'foo', 1337 );
+	 * Examples:
+	 *     $wpdb->prepare( "SELECT * FROM `table` WHERE `column` = %s AND `field` = %d OR `other_field` LIKE %s", array( 'foo', 1337, '%bar' ) );
 	 *     $wpdb->prepare( "SELECT DATE_FORMAT(`field`, '%%c') FROM `table` WHERE `column` = %s", 'foo' );
 	 *
 	 * @link https://secure.php.net/sprintf Description of syntax.
 	 * @since 2.3.0
 	 *
 	 * @param string      $query    Query statement with sprintf()-like placeholders
-	 * @param array|mixed $args     The array of variables to substitute into the query's placeholders if being called like
-	 *                              {@link https://secure.php.net/vsprintf vsprintf()}, or the first variable to substitute into the query's placeholders if
-	 *                              being called like {@link https://secure.php.net/sprintf sprintf()}.
-	 * @param mixed       $args,... further variables to substitute into the query's placeholders if being called like
-	 *                              {@link https://secure.php.net/sprintf sprintf()}.
+	 * @param array|mixed $args     The array of variables to substitute into the query's placeholders if being called with an array of arguments,
+	 *                              or the first variable to substitute into the query's placeholders if being called with individual arguments.
+	 * @param mixed       $args,... further variables to substitute into the query's placeholders if being called wih individual arguments.
 	 * @return string|void Sanitized query string, if there is a query to prepare.
 	 */
 	public function prepare( $query, $args ) {
