@@ -276,7 +276,9 @@ switch($step) {
 	if ( ! empty( $wpdb->error ) )
 		wp_die( $wpdb->error->get_error_message() . $tryagain_link );
 
+	$errors = $wpdb->hide_errors();
 	$wpdb->query( "SELECT $prefix" );
+	$wpdb->show_errors( $errors );
 	if ( ! $wpdb->last_error ) {
 		// MySQL was able to parse the prefix as a value, which we don't want. Bail.
 		wp_die( __( '<strong>ERROR</strong>: "Table Prefix" is invalid.' ) );
