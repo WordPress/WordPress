@@ -1659,6 +1659,7 @@ p.customize-section-description {
 
 /* Animations for opening the themes panel */
 #customize-header-actions .save,
+#customize-header-actions #publish-settings,
 #customize-header-actions .spinner,
 #customize-header-actions .customize-controls-preview-toggle {
 	position: relative;
@@ -1686,6 +1687,7 @@ p.customize-section-description {
 }
 
 .in-themes-panel #customize-header-actions .save,
+.in-themes-panel #customize-header-actions #publish-settings,
 .in-themes-panel #customize-header-actions .spinner,
 .in-themes-panel #customize-header-actions .customize-controls-preview-toggle {
 	top: -45px;

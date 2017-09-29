@@ -1510,7 +1510,9 @@
 				}
 			});
 
-			_.bindAll( this, 'renderScreenshots', 'loadMore', 'checkTerm', 'filtersChecked' );
+			section.renderScreenshots = _.throttle( section.renderScreenshots, 100 );
+
+			_.bindAll( section, 'renderScreenshots', 'loadMore', 'checkTerm', 'filtersChecked' );
 		},
 
 		/**
@@ -1929,9 +1931,7 @@
 				section.container.find( noFilter ).hide();
 			}
 
-			renderScreenshots = _.throttle( _.bind( section.renderScreenshots, this ), 100 );
-
-			renderScreenshots();
+			section.renderScreenshots();
 
 			// Update theme count.
 			section.updateCount( count );
@@ -6283,7 +6283,7 @@
 		saveBtn.show();
 
 		api.section( 'publish_settings', function( section ) {
-			var updateButtonsState, previewLinkControl, previewLinkControlId = 'changeset_preview_link';
+			var updateButtonsState, previewLinkControl, previewLinkControlId = 'changeset_preview_link', updateSectionActive, isSectionActive;
 
 			previewLinkControl = new api.PreviewLinkControl( previewLinkControlId, {
 				params: {
@@ -6296,11 +6296,30 @@
 
 			api.control.add( previewLinkControlId, previewLinkControl );
 
-			// Make sure publish settings are not available until the theme has been activated.
-			if ( ! api.settings.theme.active ) {
-				section.active.set( false );
-				section.active.link( api.state( 'activated' ) );
-			}
+			/**
+			 * Return whether the pubish settings section should be active.
+			 *
+			 * @return {boolean} Is section active.
+			 */
+			isSectionActive = function() {
+				if ( ! api.state( 'activated' ) ) {
+					return false;
+				}
+				if ( '' === api.state( 'changesetStatus' ).get() && api.state( 'saved' ).get() ) {
+					return false;
+				}
+				return true;
+			};
+
+			// Make sure publish settings are not available while the theme is not active and the customizer is in a published state.
+			section.active.validate = isSectionActive;
+			updateSectionActive = function() {
+				section.active.set( isSectionActive() );
+			};
+			api.state( 'activated' ).bind( updateSectionActive );
+			api.state( 'saved' ).bind( updateSectionActive );
+			api.state( 'changesetStatus' ).bind( updateSectionActive );
+			updateSectionActive();
 
 			// Bind visibility of the publish settings button to whether the section is active.
 			updateButtonsState = function() {
@@ -6322,12 +6341,6 @@
 			section.expanded.bind( function( isExpanded ) {
 				publishSettingsBtn.attr( 'aria-expanded', String( isExpanded ) );
 				publishSettingsBtn.toggleClass( 'active', isExpanded );
-			} );
-
-			api.state( 'changesetStatus' ).bind( function( status ) {
-			    if ( 'publish' === status ) {
-					section.collapse();
-			    }
 			} );
 		} );
 
@@ -6996,18 +7009,21 @@
 			};
 
 			// Deactivate themes panel if changeset status is not auto-draft.
-			api.panel( 'themes', function( panel ) {
-				var canActivate;
+			api.panel( 'themes', function( themesPanel ) {
+				var isPanelActive, updatePanelActive;
 
-				canActivate = function() {
-					return ! changesetStatus() || 'auto-draft' === changesetStatus();
+				isPanelActive = function() {
+					return 'publish' === selectedChangesetStatus.get() && ( ! changesetStatus() || 'auto-draft' === changesetStatus() );
+				};
+				themesPanel.active.validate = isPanelActive;
+
+				updatePanelActive = function() {
+					themesPanel.active.set( isPanelActive() );
 				};
 
-				panel.active.validate = canActivate;
-				panel.active.set( canActivate() );
-				changesetStatus.bind( function() {
-					panel.active.set( canActivate() );
-				} );
+				updatePanelActive();
+				changesetStatus.bind( updatePanelActive );
+				selectedChangesetStatus.bind( updatePanelActive );
 			} );
 
 			// Show changeset UUID in URL when in branching mode and there is a saved changeset.
@@ -7215,10 +7231,10 @@
 					// Themes panel or section.
 					if ( body.hasClass( 'modal-open' ) ) {
 						collapsedObject.closeDetails();
-					} else {
+					} else if ( api.panel.has( 'themes' ) ) {
 
 						// If we're collapsing a section, collapse the panel also.
-						wp.customize.panel( 'themes' ).collapse();
+						api.panel( 'themes' ).collapse();
 					}
 					return;
 				}
@@ -7842,10 +7858,6 @@
 					var publishSettingsSection;
 
 					api.state( 'selectedChangesetStatus' ).set( 'publish' );
-					publishSettingsSection = api.section( 'publish_settings' );
-					if ( publishSettingsSection ) {
-						publishSettingsSection.collapse();
-					}
 					api.previewer.save();
 				};
 
