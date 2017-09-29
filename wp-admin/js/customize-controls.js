@@ -1910,8 +1910,7 @@
 				section = this,
 				noFilter = ( undefined !== api.section( 'wporg_themes' ) && 'wporg' !== section.params.action ) ? '.no-themes-local' : '.no-themes',
 				term = el.value.toLowerCase().trim().replace( '-', ' ' ),
-				controls = section.controls(),
-				renderScreenshots;
+				controls = section.controls();
 
 			if ( section.loading ) {
 				return;
@@ -7855,8 +7854,6 @@
 				} );
 
 				publishWhenTime = function() {
-					var publishSettingsSection;
-
 					api.state( 'selectedChangesetStatus' ).set( 'publish' );
 					api.previewer.save();
 				};
