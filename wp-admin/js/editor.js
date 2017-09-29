@@ -133,10 +133,10 @@ window.wp = window.wp || {};
 					 */
 					var tinyMCEConfig = $.extend(
 						{},
-						window.tinyMCEPreInit.mceInit[id],
+						window.tinyMCEPreInit.mceInit[ id ],
 						{
-							setup: function(editor) {
-								editor.on('init', function(event) {
+							setup: function( editor ) {
+								editor.on( 'init', function( event ) {
 									focusHTMLBookmarkInVisualEditor( event.target );
 								});
 							}
@@ -210,72 +210,156 @@ window.wp = window.wp || {};
 		 * @returns {(null|Object)} Null if cursor is not in a tag, Object if the cursor is inside a tag.
 		 */
 		function getContainingTagInfo( content, cursorPosition ) {
-			var lastLtPos = content.lastIndexOf( '<', cursorPosition ),
+			var lastLtPos = content.lastIndexOf( '<', cursorPosition - 1 ),
 				lastGtPos = content.lastIndexOf( '>', cursorPosition );
 
 			if ( lastLtPos > lastGtPos || content.substr( cursorPosition, 1 ) === '>' ) {
 				// find what the tag is
-				var tagContent = content.substr( lastLtPos );
-				var tagMatch = tagContent.match( /<\s*(\/)?(\w+)/ );
+				var tagContent = content.substr( lastLtPos ),
+					tagMatch = tagContent.match( /<\s*(\/)?(\w+)/ );
+
 				if ( ! tagMatch ) {
 					return null;
 				}
 
-				var tagType = tagMatch[ 2 ];
-				var closingGt = tagContent.indexOf( '>' );
-				var isClosingTag = ! ! tagMatch[ 1 ];
-				var shortcodeWrapperInfo = getShortcodeWrapperInfo( content, lastLtPos );
+				var tagType = tagMatch[2],
+					closingGt = tagContent.indexOf( '>' );
 
 				return {
 					ltPos: lastLtPos,
 					gtPos: lastLtPos + closingGt + 1, // offset by one to get the position _after_ the character,
 					tagType: tagType,
-					isClosingTag: isClosingTag,
-					shortcodeTagInfo: shortcodeWrapperInfo
+					isClosingTag: !! tagMatch[1]
 				};
 			}
 			return null;
 		}
 
 		/**
-		 * @summary Check if a given HTML tag is enclosed in a shortcode tag
+		 * @summary Check if the cursor is inside a shortcode
 		 *
 		 * If the cursor is inside a shortcode wrapping tag, e.g. `[caption]` it's better to
-		 * move the selection marker to before the short tag.
+		 * move the selection marker to before or after the shortcode.
 		 *
 		 * For example `[caption]` rewrites/removes anything that's between the `[caption]` tag and the
 		 * `<img/>` tag inside.
 		 *
-		 * 	`[caption]<span>ThisIsGone</span><img .../>[caption]`
+		 * `[caption]<span>ThisIsGone</span><img .../>[caption]`
 		 *
-		 * 	Moving the selection to before the short code is better, since it allows to select
-		 * 	something, instead of just losing focus and going to the start of the content.
+		 * Moving the selection to before or after the short code is better, since it allows to select
+		 * something, instead of just losing focus and going to the start of the content.
 		 *
-		 * 	@param {string} content The text content to check against
-		 * 	@param {number} cursorPosition 	The cursor position to check from. Usually this is the opening symbol of
-		 * 									an HTML tag.
+		 * @param {string} content The text content to check against.
+		 * @param {number} cursorPosition    The cursor position to check.
 		 *
-		 * @return {(null|Object)} 	Null if the oject is not wrapped in a shortcode tag.
-		 * 							Information about the wrapping shortcode tag if it's wrapped in one.
+		 * @return {(undefined|Object)} Undefined if the cursor is not wrapped in a shortcode tag.
+		 *                                Information about the wrapping shortcode tag if it's wrapped in one.
 		 */
 		function getShortcodeWrapperInfo( content, cursorPosition ) {
-			if ( content.substr( cursorPosition - 1, 1 ) === ']' ) {
-				var shortTagStart = content.lastIndexOf( '[', cursorPosition );
-				var shortTagContent = content.substr(shortTagStart, cursorPosition - shortTagStart);
-				var shortTag = content.match( /\[\s*(\/)?(\w+)/ );
-				var tagType = shortTag[ 2 ];
-				var closingGt = shortTagContent.indexOf( '>' );
-				var isClosingTag = ! ! shortTag[ 1 ];
+			var contentShortcodes = getShortCodePositionsInText( content );
 
-				return {
-					openingBracket: shortTagStart,
-					shortcode: tagType,
-					closingBracket: closingGt,
-					isClosingTag: isClosingTag
-				};
+			return _.find( contentShortcodes, function( element ) {
+				return cursorPosition >= element.startIndex && cursorPosition <= element.endIndex;
+			} );
+		}
+
+		/**
+		 * Gets a list of unique shortcodes or shortcode-look-alikes in the content.
+		 *
+		 * @param {string} content The content we want to scan for shortcodes.
+		 */
+		function getShortcodesInText( content ) {
+			var shortcodes = content.match( /\[+([\w_-])+/g );
+
+			return _.uniq(
+				_.map( shortcodes, function( element ) {
+					return element.replace( /^\[+/g, '' );
+				} )
+			);
+		}
+
+		/**
+		 * @summary Check if a shortcode has Live Preview enabled for it.
+		 *
+		 * Previewable shortcodes here refers to shortcodes that have Live Preview enabled.
+		 *
+		 * These shortcodes get rewritten when the editor is in Visual mode, which means that
+		 * we don't want to change anything inside them, i.e. inserting a selection marker
+		 * inside the shortcode will break it :(
+		 *
+		 * @link wp-includes/js/mce-view.js
+		 *
+		 * @param {string} shortcode The shortcode to check.
+		 * @return {boolean} If a shortcode has Live Preview or not
+		 */
+		function isShortcodePreviewable( shortcode ) {
+			var defaultPreviewableShortcodes = [ 'caption' ];
+
+			return (
+				defaultPreviewableShortcodes.indexOf( shortcode ) !== -1 ||
+				wp.mce.views.get( shortcode ) !== undefined
+			);
+
+		}
+
+		/**
+		 * @summary Get all shortcodes and their positions in the content
+		 *
+		 * This function returns all the shortcodes that could be found in the textarea content
+		 * along with their character positions and boundaries.
+		 *
+		 * This is used to check if the selection cursor is inside the boundaries of a shortcode
+		 * and move it accordingly, to avoid breakage.
+		 *
+		 * @link adjustTextAreaSelectionCursors
+		 *
+		 * The information can also be used in other cases when we need to lookup shortcode data,
+		 * as it's already structured!
+		 *
+		 * @param {string} content The content we want to scan for shortcodes
+		 */
+		function getShortCodePositionsInText( content ) {
+			var allShortcodes = getShortcodesInText( content );
+
+			if ( allShortcodes.length === 0 ) {
+				return [];
 			}
 
-			return null;
+			var shortcodeDetailsRegexp = wp.shortcode.regexp( allShortcodes.join( '|' ) ),
+				shortcodeMatch, // Define local scope for the variable to be used in the loop below.
+				shortcodesDetails = [];
+
+			while ( shortcodeMatch = shortcodeDetailsRegexp.exec( content ) ) {
+				/**
+				 * Check if the shortcode should be shown as plain text.
+				 *
+				 * This corresponds to the [[shortcode]] syntax, which doesn't parse the shortcode
+				 * and just shows it as text.
+				 */
+				var showAsPlainText = shortcodeMatch[1] === '[';
+
+				/**
+				 * For more context check the docs for:
+				 *
+				 * @link isShortcodePreviewable
+				 *
+				 * In addition, if the shortcode will get rendered as plain text ( see above ),
+				 * we can treat it as text and use the selection markers in it.
+				 */
+				var isPreviewable = ! showAsPlainText && isShortcodePreviewable( shortcodeMatch[2] ),
+					shortcodeInfo = {
+						shortcodeName: shortcodeMatch[2],
+						showAsPlainText: showAsPlainText,
+						startIndex: shortcodeMatch.index,
+						endIndex: shortcodeMatch.index + shortcodeMatch[0].length,
+						length: shortcodeMatch[0].length,
+						isPreviewable: isPreviewable
+					};
+
+				shortcodesDetails.push( shortcodeInfo );
+			}
+
+			return shortcodesDetails;
 		}
 
 		/**
@@ -299,27 +383,30 @@ window.wp = window.wp || {};
 		}
 
 		/**
-		 * @summary Adds text selection markers in the editor textarea.
+		 * @summary Get adjusted selection cursor positions according to HTML tags/shortcodes
 		 *
-		 * Adds selection markers in the content of the editor `textarea`.
-		 * The method directly manipulates the `textarea` content, to allow TinyMCE plugins
-		 * to run after the markers are added.
+		 * Shortcodes and HTML codes are a bit of a special case when selecting, since they may render
+		 * content in Visual mode. If we insert selection markers somewhere inside them, it's really possible
+		 * to break the syntax and render the HTML tag or shortcode broken.
 		 *
-		 * @param {object} $textarea TinyMCE's textarea wrapped as a DomQuery object
-		 * @param {object} jQuery A jQuery instance
+		 * @link getShortcodeWrapperInfo
+		 *
+		 * @param {string} content Textarea content that the cursors are in
+		 * @param {{cursorStart: number, cursorEnd: number}} cursorPositions Cursor start and end positions
+		 *
+		 * @return {{cursorStart: number, cursorEnd: number}}
 		 */
-		function addHTMLBookmarkInTextAreaContent( $textarea, jQuery ) {
-			var textArea = $textarea[ 0 ], // TODO add error checking
-				htmlModeCursorStartPosition = textArea.selectionStart,
-				htmlModeCursorEndPosition = textArea.selectionEnd;
-
+		function adjustTextAreaSelectionCursors( content, cursorPositions ) {
 			var voidElements = [
 				'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
 				'keygen', 'link', 'meta', 'param', 'source', 'track', 'wbr'
 			];
 
-			// check if the cursor is in a tag and if so, adjust it
-			var isCursorStartInTag = getContainingTagInfo( textArea.value, htmlModeCursorStartPosition );
+			var cursorStart = cursorPositions.cursorStart,
+				cursorEnd = cursorPositions.cursorEnd,
+				// check if the cursor is in a tag and if so, adjust it
+				isCursorStartInTag = getContainingTagInfo( content, cursorStart );
+
 			if ( isCursorStartInTag ) {
 				/**
 				 * Only move to the start of the HTML tag (to select the whole element) if the tag
@@ -334,78 +421,74 @@ window.wp = window.wp || {};
 				 * In cases where the tag is not a void element, the cursor is put to the end of the tag,
 				 * so it's either between the opening and closing tag elements or after the closing tag.
 				 */
-				if ( voidElements.indexOf( isCursorStartInTag.tagType ) !== - 1 ) {
-					htmlModeCursorStartPosition = isCursorStartInTag.ltPos;
+				if ( voidElements.indexOf( isCursorStartInTag.tagType ) !== -1 ) {
+					cursorStart = isCursorStartInTag.ltPos;
 				}
 				else {
-					htmlModeCursorStartPosition = isCursorStartInTag.gtPos;
+					cursorStart = isCursorStartInTag.gtPos;
 				}
 			}
 
-			var isCursorEndInTag = getContainingTagInfo( textArea.value, htmlModeCursorEndPosition );
+			var isCursorEndInTag = getContainingTagInfo( content, cursorEnd );
 			if ( isCursorEndInTag ) {
-				htmlModeCursorEndPosition = isCursorEndInTag.gtPos;
+				cursorEnd = isCursorEndInTag.gtPos;
 			}
 
-			var mode = htmlModeCursorStartPosition !== htmlModeCursorEndPosition ? 'range' : 'single';
+			var isCursorStartInShortcode = getShortcodeWrapperInfo( content, cursorStart );
+			if ( isCursorStartInShortcode && isCursorStartInShortcode.isPreviewable ) {
+				cursorStart = isCursorStartInShortcode.startIndex;
+			}
 
-			var selectedText = null;
-			var cursorMarkerSkeleton = getCursorMarkerSpan( { $: jQuery }, '&#65279;' );
+			var isCursorEndInShortcode = getShortcodeWrapperInfo( content, cursorEnd );
+			if ( isCursorEndInShortcode && isCursorEndInShortcode.isPreviewable ) {
+				cursorEnd = isCursorEndInShortcode.endIndex;
+			}
+
+			return {
+				cursorStart: cursorStart,
+				cursorEnd: cursorEnd
+			};
+		}
+
+		/**
+		 * @summary Adds text selection markers in the editor textarea.
+		 *
+		 * Adds selection markers in the content of the editor `textarea`.
+		 * The method directly manipulates the `textarea` content, to allow TinyMCE plugins
+		 * to run after the markers are added.
+		 *
+		 * @param {object} $textarea TinyMCE's textarea wrapped as a DomQuery object
+		 * @param {object} jQuery A jQuery instance
+		 */
+		function addHTMLBookmarkInTextAreaContent( $textarea, jQuery ) {
+			if ( ! $textarea || ! $textarea.length ) {
+				// If no valid $textarea object is provided, there's nothing we can do.
+				return;
+			}
+
+			var textArea = $textarea[0],
+				textAreaContent = textArea.value,
+
+				adjustedCursorPositions = adjustTextAreaSelectionCursors( textAreaContent, {
+					cursorStart: textArea.selectionStart,
+					cursorEnd: textArea.selectionEnd
+				} ),
+
+				htmlModeCursorStartPosition = adjustedCursorPositions.cursorStart,
+				htmlModeCursorEndPosition = adjustedCursorPositions.cursorEnd,
+
+				mode = htmlModeCursorStartPosition !== htmlModeCursorEndPosition ? 'range' : 'single',
+
+				selectedText = null,
+				cursorMarkerSkeleton = getCursorMarkerSpan( { $: jQuery }, '&#65279;' );
 
 			if ( mode === 'range' ) {
-				var markedText = textArea.value.slice( htmlModeCursorStartPosition, htmlModeCursorEndPosition );
-
-				/**
-				 * Since the shortcodes convert the tags in them a bit, we need to mark the tag itself,
-				 * and not rely on the cursor marker.
-				 *
-				 * @see getShortcodeWrapperInfo
-				 */
-				if ( isCursorStartInTag && isCursorStartInTag.shortcodeTagInfo ) {
-					// Get the tag on the cursor start
-					var tagEndPosition = isCursorStartInTag.gtPos - isCursorStartInTag.ltPos;
-					var tagContent = markedText.slice( 0, tagEndPosition );
-
-					// Check if the tag already has a `class` attribute.
-					var classMatch = /class=(['"])([^$1]*?)\1/;
-
-					/**
-					 * Add a marker class to the selected tag, to be used later.
-					 *
-					 * @see focusHTMLBookmarkInVisualEditor
-					 */
-					if ( tagContent.match( classMatch ) ) {
-						tagContent = tagContent.replace( classMatch, 'class=$1$2 mce_SELRES_start_target$1' );
-					}
-					else {
-						tagContent = tagContent.replace( /(<\w+)/, '$1 class="mce_SELRES_start_target" ' );
-					}
-
-					// Update the selected text content with the marked tag above
-					markedText = [
-						tagContent,
-						markedText.substr( tagEndPosition )
-					].join( '' );
-				}
-
-				var bookMarkEnd = cursorMarkerSkeleton.clone()
-					.addClass( 'mce_SELRES_end' )[ 0 ].outerHTML;
-
-				/**
-				 * A small workaround when selecting just a single HTML tag inside a shortcode.
-				 *
-				 * This removes the end selection marker, to make sure the HTML tag is the only selected
-				 * thing. This prevents the selection to appear like it contains multiple items in it (i.e.
-				 * all highlighted blue)
-				 */
-				if ( isCursorStartInTag && isCursorStartInTag.shortcodeTagInfo && isCursorEndInTag &&
-						isCursorStartInTag.ltPos === isCursorEndInTag.ltPos ) {
-					bookMarkEnd = '';
-				}
+				var markedText = textArea.value.slice( htmlModeCursorStartPosition, htmlModeCursorEndPosition ),
+					bookMarkEnd = cursorMarkerSkeleton.clone().addClass( 'mce_SELRES_end' );
 
 				selectedText = [
 					markedText,
-					bookMarkEnd
+					bookMarkEnd[0].outerHTML
 				].join( '' );
 			}
 
@@ -432,34 +515,66 @@ window.wp = window.wp || {};
 			var startNode = editor.$( '.mce_SELRES_start' ),
 				endNode = editor.$( '.mce_SELRES_end' );
 
-			if ( ! startNode.length ) {
-				startNode = editor.$( '.mce_SELRES_start_target' );
-			}
-
 			if ( startNode.length ) {
 				editor.focus();
 
 				if ( ! endNode.length ) {
-					editor.selection.select( startNode[ 0 ] );
+					editor.selection.select( startNode[0] );
 				} else {
 					var selection = editor.getDoc().createRange();
 
-					selection.setStartAfter( startNode[ 0 ] );
-					selection.setEndBefore( endNode[ 0 ] );
+					selection.setStartAfter( startNode[0] );
+					selection.setEndBefore( endNode[0] );
 
 					editor.selection.setRng( selection );
 				}
-
-				scrollVisualModeToStartElement( editor, startNode );
 			}
 
-			if ( startNode.hasClass( 'mce_SELRES_start_target' ) ) {
-				startNode.removeClass( 'mce_SELRES_start_target' );
+			scrollVisualModeToStartElement( editor, startNode );
+
+
+			removeSelectionMarker( editor, startNode );
+			removeSelectionMarker( editor, endNode );
+		}
+
+		/**
+		 * @summary Remove selection marker with optional `<p>` parent.
+		 *
+		 * By default TinyMCE puts every inline node at the main level in a `<p>` wrapping tag.
+		 *
+		 * In the case with selection markers, when removed they leave an empty `<p>` behind,
+		 * which adds an empty paragraph line with `&nbsp;` when switched to Text mode.
+		 *
+		 * In order to prevent that the wrapping `<p>` needs to be removed when removing the
+		 * selection marker.
+		 *
+		 * @param {object} editor The TinyMCE Editor instance
+		 * @param {object} marker The marker to be removed from the editor DOM
+		 */
+		function removeSelectionMarker( editor, marker ) {
+			var markerParent = editor.$( marker ).parent();
+
+			if (
+				! markerParent.length ||
+				markerParent.prop('tagName').toLowerCase() !== 'p' ||
+				markerParent[0].childNodes.length > 1 ||
+				! markerParent.prop('outerHTML').match(/^<p>/)
+			) {
+				/**
+				 * The selection marker is not self-contained in a <p>.
+				 * In this case only the selection marker is removed, since
+				 * it will affect the content.
+				 */
+				marker.remove();
 			}
 			else {
-				startNode.remove();
+				/**
+				 * The marker is self-contained in an blank `<p>` tag.
+				 *
+				 * This is usually inserted by TinyMCE
+				 */
+				markerParent.remove();
 			}
-			endNode.remove();
 		}
 
 		/**
@@ -476,23 +591,19 @@ window.wp = window.wp || {};
 		 * @param {Object} element HTMLElement that should be scrolled into view.
 		 */
 		function scrollVisualModeToStartElement( editor, element ) {
-			/**
-			 * TODO:
-			 *  * Decide if we should animate the transition or not ( motion sickness/accessibility )
-			 */
-			var elementTop = editor.$( element ).offset().top;
-			var TinyMCEContentAreaTop = editor.$( editor.getContentAreaContainer() ).offset().top;
+			var elementTop = editor.$( element ).offset().top,
+				TinyMCEContentAreaTop = editor.$( editor.getContentAreaContainer() ).offset().top,
 
-			var edTools = $('#wp-content-editor-tools');
-			var edToolsHeight = edTools.height();
-			var edToolsOffsetTop = edTools.offset().top;
+				edTools = $( '#wp-content-editor-tools' ),
+				edToolsHeight = edTools.height(),
+				edToolsOffsetTop = edTools.offset().top,
 
-			var toolbarHeight = getToolbarHeight( editor );
+				toolbarHeight = getToolbarHeight( editor ),
 
-			var windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+				windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
 
-			var selectionPosition = TinyMCEContentAreaTop + elementTop;
-			var visibleAreaHeight = windowHeight - ( edToolsHeight + toolbarHeight );
+				selectionPosition = TinyMCEContentAreaTop + elementTop,
+				visibleAreaHeight = windowHeight - ( edToolsHeight + toolbarHeight );
 
 			/**
 			 * The minimum scroll height should be to the top of the editor, to offer a consistent
@@ -502,10 +613,9 @@ window.wp = window.wp || {};
 			 * subtracting the height. This gives the scroll position where the top of the editor tools aligns with
 			 * the top of the viewport (under the Master Bar)
 			 */
-			var adjustedScroll = Math.max(selectionPosition - visibleAreaHeight / 2, edToolsOffsetTop - edToolsHeight);
+			var adjustedScroll = Math.max( selectionPosition - visibleAreaHeight / 2, edToolsOffsetTop - edToolsHeight );
 
-
-			$( 'body' ).animate( {
+			$( 'html,body' ).animate( {
 				scrollTop: parseInt( adjustedScroll, 10 )
 			}, 100 );
 		}
@@ -560,10 +670,9 @@ window.wp = window.wp || {};
 			 * The elements have hardcoded style that makes them invisible. This is done to avoid seeing
 			 * random content flickering in the editor when switching between modes.
 			 */
-			var spanSkeleton = getCursorMarkerSpan(editor, selectionID);
-
-			var startElement = spanSkeleton.clone().addClass('mce_SELRES_start');
-			var endElement = spanSkeleton.clone().addClass('mce_SELRES_end');
+			var spanSkeleton = getCursorMarkerSpan( editor, selectionID ),
+				startElement = spanSkeleton.clone().addClass( 'mce_SELRES_start' ),
+				endElement = spanSkeleton.clone().addClass( 'mce_SELRES_end' );
 
 			/**
 			 * Inspired by:
@@ -598,36 +707,39 @@ window.wp = window.wp || {};
 				startOffset = range.startOffset,
 				boundaryRange = range.cloneRange();
 
-			boundaryRange.collapse( false );
-			boundaryRange.insertNode( endElement[0] );
-
 			/**
-			 * Sometimes the selection starts at the `<img>` tag, which makes the
-			 * boundary range `insertNode` insert `startElement` inside the `<img>` tag itself, i.e.:
-			 *
-			 * `<img><span class="mce_SELRES_start"...>...</span></img>`
-			 *
-			 * As this is an invalid syntax, it breaks the selection.
-			 *
-			 * The conditional below checks if `startNode` is a tag that suffer from that and
-			 * manually inserts the selection start maker before it.
-			 *
-			 * In the future this will probably include a list of tags, not just `<img>`, depending on the needs.
+			 * If the selection is on a shortcode with Live View, TinyMCE creates a bogus markup,
+			 * which we have to account for.
 			 */
-			if ( startNode && startNode.tagName && startNode.tagName.toLowerCase() === 'img' ) {
-				editor.$( startNode ).before( startElement[ 0 ] );
+			if ( editor.$( startNode ).parents( '.mce-offscreen-selection' ).length > 0 ) {
+				startNode = editor.$( '[data-mce-selected]' )[0];
+
+				/**
+				 * Marking the start and end element with `data-mce-object-selection` helps
+				 * discern when the selected object is a Live Preview selection.
+				 *
+				 * This way we can adjust the selection to properly select only the content, ignoring
+				 * whitespace inserted around the selected object by the Editor.
+				 */
+				startElement.attr('data-mce-object-selection', 'true');
+				endElement.attr('data-mce-object-selection', 'true');
+
+				editor.$( startNode ).before( startElement[0] );
+				editor.$( startNode ).after( endElement[0] );
 			}
 			else {
+				boundaryRange.collapse( false );
+				boundaryRange.insertNode( endElement[0] );
+
 				boundaryRange.setStart( startNode, startOffset );
 				boundaryRange.collapse( true );
-				boundaryRange.insertNode( startElement[ 0 ] );
+				boundaryRange.insertNode( startElement[0] );
+
+				range.setStartAfter( startElement[0] );
+				range.setEndBefore( endElement[0] );
+				selection.removeAllRanges();
+				selection.addRange( range );
 			}
-
-
-			range.setStartAfter( startElement[0] );
-			range.setEndBefore( endElement[0] );
-			selection.removeAllRanges();
-			selection.addRange( range );
 
 			/**
 			 * Now the editor's content has the start/end nodes.
@@ -645,24 +757,47 @@ window.wp = window.wp || {};
 			endElement.remove();
 
 			var startRegex = new RegExp(
-				'<span[^>]*\\s*class="mce_SELRES_start"[^>]+>\\s*' + selectionID + '[^<]*<\\/span>'
+				'<span[^>]*\\s*class="mce_SELRES_start"[^>]+>\\s*' + selectionID + '[^<]*<\\/span>(\\s*)'
 			);
 
 			var endRegex = new RegExp(
-				'<span[^>]*\\s*class="mce_SELRES_end"[^>]+>\\s*' + selectionID + '[^<]*<\\/span>'
+				'(\\s*)<span[^>]*\\s*class="mce_SELRES_end"[^>]+>\\s*' + selectionID + '[^<]*<\\/span>'
 			);
 
-			var startMatch = content.match( startRegex );
-			var endMatch = content.match( endRegex );
+			var startMatch = content.match( startRegex ),
+				endMatch = content.match( endRegex );
+
 			if ( ! startMatch ) {
 				return null;
 			}
 
-			return {
-				start: startMatch.index,
+			var startIndex = startMatch.index,
+				startMatchLength = startMatch[0].length,
+				endIndex = null;
+
+			if (endMatch) {
+				/**
+				 * Adjust the selection index, if the selection contains a Live Preview object or not.
+				 *
+				 * Check where the `data-mce-object-selection` attribute is set above for more context.
+				 */
+				if ( startMatch[0].indexOf( 'data-mce-object-selection' ) !== -1 ) {
+					startMatchLength -= startMatch[1].length;
+				}
+
+				var endMatchIndex = endMatch.index;
+
+				if ( endMatch[0].indexOf( 'data-mce-object-selection' ) !== -1 ) {
+					endMatchIndex -= endMatch[1].length;
+				}
 
 				// We need to adjust the end position to discard the length of the range start marker
-				end: endMatch ? endMatch.index - startMatch[ 0 ].length : null
+				endIndex = endMatchIndex - startMatchLength;
+			}
+
+			return {
+				start: startIndex,
+				end: endIndex
 			};
 		}
 
@@ -672,7 +807,7 @@ window.wp = window.wp || {};
 		 * Selects the text in TinyMCE's textarea that's between `selection.start` and `selection.end`.
 		 *
 		 * For `selection` parameter:
-		 * @see findBookmarkedPosition
+		 * @link findBookmarkedPosition
 		 *
 		 * @param {Object} editor TinyMCE's editor instance.
 		 * @param {Object} selection Selection data.
