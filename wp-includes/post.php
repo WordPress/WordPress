@@ -2420,19 +2420,26 @@ function wp_post_mime_type_where( $post_mime_types, $table_alias = '' ) {
  * @param int  $postid       Optional. Post ID. Default 0.
  * @param bool $force_delete Optional. Whether to bypass trash and force deletion.
  *                           Default false.
- * @return array|false|WP_Post False on failure.
+ * @return WP_Post|false|null Post data on success, false or null on failure.
  */
 function wp_delete_post( $postid = 0, $force_delete = false ) {
 	global $wpdb;
 
-	if ( !$post = $wpdb->get_row($wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d", $postid)) )
+	$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID = %d", $postid ) );
+
+	if ( ! $post ) {
 		return $post;
+	}
 
-	if ( !$force_delete && ( $post->post_type == 'post' || $post->post_type == 'page') && get_post_status( $postid ) != 'trash' && EMPTY_TRASH_DAYS )
+	$post = get_post( $post );
+
+	if ( ! $force_delete && ( 'post' === $post->post_type || 'page' === $post->post_type ) && 'trash' !== get_post_status( $postid ) && EMPTY_TRASH_DAYS ) {
 		return wp_trash_post( $postid );
+	}
 
-	if ( $post->post_type == 'attachment' )
+	if ( 'attachment' === $post->post_type ) {
 		return wp_delete_attachment( $postid, $force_delete );
+	}
 
 	/**
 	 * Filters whether a post deletion should take place.
@@ -2583,17 +2590,22 @@ function _reset_front_page_settings_for_post( $post_id ) {
  *
  * @param int $post_id Optional. Post ID. Default is ID of the global $post
  *                     if EMPTY_TRASH_DAYS equals true.
- * @return false|array|WP_Post|null Post data array, otherwise false.
+ * @return WP_Post|false|null Post data on success, false or null on failure.
  */
 function wp_trash_post( $post_id = 0 ) {
-	if ( !EMPTY_TRASH_DAYS )
-		return wp_delete_post($post_id, true);
+	if ( ! EMPTY_TRASH_DAYS ) {
+		return wp_delete_post( $post_id, true );
+	}
 
-	if ( !$post = get_post($post_id, ARRAY_A) )
+	$post = get_post( $post_id );
+
+	if ( ! $post ) {
 		return $post;
+	}
 
-	if ( $post['post_status'] == 'trash' )
+	if ( 'trash' === $post->post_status ) {
 		return false;
+	}
 
 	/**
 	 * Filters whether a post trashing should take place.
@@ -2617,13 +2629,12 @@ function wp_trash_post( $post_id = 0 ) {
 	 */
 	do_action( 'wp_trash_post', $post_id );
 
-	add_post_meta($post_id,'_wp_trash_meta_status', $post['post_status']);
-	add_post_meta($post_id,'_wp_trash_meta_time', time());
+	add_post_meta( $post_id, '_wp_trash_meta_status', $post->post_status );
+	add_post_meta( $post_id, '_wp_trash_meta_time', time() );
 
-	$post['post_status'] = 'trash';
-	wp_insert_post( wp_slash( $post ) );
+	wp_update_post( array( 'ID' => $post_id, 'post_status' => 'trash' ) );
 
-	wp_trash_post_comments($post_id);
+	wp_trash_post_comments( $post_id );
 
 	/**
 	 * Fires after a post is sent to the trash.
@@ -2643,14 +2654,18 @@ function wp_trash_post( $post_id = 0 ) {
  * @since 2.9.0
  *
  * @param int $post_id Optional. Post ID. Default is ID of the global $post.
- * @return WP_Post|false WP_Post object. False on failure.
+ * @return WP_Post|false|null Post data on success, false or null on failure.
  */
 function wp_untrash_post( $post_id = 0 ) {
-	if ( !$post = get_post($post_id, ARRAY_A) )
-		return $post;
+	$post = get_post( $post_id );
 
-	if ( $post['post_status'] != 'trash' )
+	if ( ! $post ) {
+		return $post;
+	}
+
+	if ( 'trash' !== $post->post_status ) {
 		return false;
+	}
 
 	/**
 	 * Filters whether a post untrashing should take place.
@@ -2674,16 +2689,14 @@ function wp_untrash_post( $post_id = 0 ) {
 	 */
 	do_action( 'untrash_post', $post_id );
 
-	$post_status = get_post_meta($post_id, '_wp_trash_meta_status', true);
+	$post_status = get_post_meta( $post_id, '_wp_trash_meta_status', true );
 
-	$post['post_status'] = $post_status;
+	delete_post_meta( $post_id, '_wp_trash_meta_status' );
+	delete_post_meta( $post_id, '_wp_trash_meta_time' );
 
-	delete_post_meta($post_id, '_wp_trash_meta_status');
-	delete_post_meta($post_id, '_wp_trash_meta_time');
+	wp_update_post( array( 'ID' => $post_id, 'post_status' => $post_status ) );
 
-	wp_insert_post( wp_slash( $post ) );
-
-	wp_untrash_post_comments($post_id);
+	wp_untrash_post_comments( $post_id );
 
 	/**
 	 * Fires after a post is restored from the trash.
@@ -4885,19 +4898,26 @@ function wp_insert_attachment( $args, $file = false, $parent = 0, $wp_error = fa
  * @param int  $post_id      Attachment ID.
  * @param bool $force_delete Optional. Whether to bypass trash and force deletion.
  *                           Default false.
- * @return mixed False on failure. Post data on success.
+ * @return WP_Post|false|null Post data on success, false or null on failure.
  */
 function wp_delete_attachment( $post_id, $force_delete = false ) {
 	global $wpdb;
 
-	if ( !$post = $wpdb->get_row( $wpdb->prepare("SELECT * FROM $wpdb->posts WHERE ID = %d", $post_id) ) )
+	$post = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID = %d", $post_id ) );
+
+	if ( ! $post ) {
 		return $post;
+	}
 
-	if ( 'attachment' != $post->post_type )
+	$post = get_post( $post );
+
+	if ( 'attachment' !== $post->post_type ) {
 		return false;
+	}
 
-	if ( !$force_delete && EMPTY_TRASH_DAYS && MEDIA_TRASH && 'trash' != $post->post_status )
+	if ( ! $force_delete && EMPTY_TRASH_DAYS && MEDIA_TRASH && 'trash' !== $post->post_status ) {
 		return wp_trash_post( $post_id );
+	}
 
 	delete_post_meta($post_id, '_wp_trash_meta_status');
 	delete_post_meta($post_id, '_wp_trash_meta_time');
