@@ -119,31 +119,7 @@ window.wp = window.wp || {};
 					// Restore the selection
 					focusHTMLBookmarkInVisualEditor( editor );
 				} else {
-					/**
-					 * TinyMCE is still not loaded. In order to restore the selection
-					 * when the editor loads, a `on('init')` event is added, that will
-					 * do the restoration.
-					 *
-					 * To achieve that, the initialization config is cloned and extended
-					 * to include the `setup` method, which makes it possible to add the
-					 * `on('init')` event.
-					 *
-					 * Cloning is used to prevent modification of the original init config,
-					 * which may cause unwanted side effects.
-					 */
-					var tinyMCEConfig = $.extend(
-						{},
-						window.tinyMCEPreInit.mceInit[ id ],
-						{
-							setup: function( editor ) {
-								editor.on( 'init', function( event ) {
-									focusHTMLBookmarkInVisualEditor( event.target );
-								});
-							}
-						}
-					);
-
-					tinymce.init( tinyMCEConfig );
+					tinymce.init( window.tinyMCEPreInit.mceInit[ id ] );
 				}
 
 				wrap.removeClass( 'html-active' ).addClass( 'tmce-active' );
@@ -726,8 +702,7 @@ window.wp = window.wp || {};
 
 				editor.$( startNode ).before( startElement[0] );
 				editor.$( startNode ).after( endElement[0] );
-			}
-			else {
+			} else {
 				boundaryRange.collapse( false );
 				boundaryRange.insertNode( endElement[0] );
 
@@ -837,6 +812,13 @@ window.wp = window.wp || {};
 
 			textArea.setSelectionRange( start, end );
 		}
+
+		// Restore the selection when the editor is initialized. Needed when the Text editor is the default.
+		$( document ).on( 'tinymce-editor-init.keep-scroll-position', function( event, editor ) {
+			if ( editor.$( '.mce_SELRES_start' ).length ) {
+				focusHTMLBookmarkInVisualEditor( editor );
+			}
+		} );
 
 		/**
 		 * @summary Replaces <p> tags with two line breaks. "Opposite" of wpautop().
