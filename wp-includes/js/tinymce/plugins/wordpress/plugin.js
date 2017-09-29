@@ -685,7 +685,8 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 			mceIframe = document.getElementById( editor.id + '_ifr' ),
 			mceToolbar,
 			mceStatusbar,
-			wpStatusbar;
+			wpStatusbar,
+			isChromeRtl = ( editor.rtl && /Chrome/.test( navigator.userAgent ) );
 
 			if ( container ) {
 				mceToolbar = tinymce.$( '.mce-toolbar-grp', container )[0];
@@ -929,6 +930,16 @@ tinymce.PluginManager.add( 'wordpress', function( editor ) {
 
 			toolbar.on( 'show', function() {
 				this.reposition();
+
+				if ( isChromeRtl ) {
+					tinymce.$( '.mce-widget.mce-tooltip' ).addClass( 'wp-hide-mce-tooltip' );
+				}
+			} );
+
+			toolbar.on( 'hide', function() {
+				if ( isChromeRtl ) {
+					tinymce.$( '.mce-widget.mce-tooltip' ).removeClass( 'wp-hide-mce-tooltip' );
+				}
 			} );
 
 			toolbar.on( 'keydown', function( event ) {

@@ -762,6 +762,11 @@ div.mce-menu .mce-menu-item-sep,
 	margin-top: 2px;
 }
 
+/* Don't show the tooltip. Used in Chrome RTL, see #42018 */
+.rtl .mce-tooltip.wp-hide-mce-tooltip {
+	display: none !important;
+}
+
 .mce-tooltip-inner {
 	border-radius: 3px;
 	box-shadow: 0 3px 5px rgba( 0, 0, 0, 0.2 );
