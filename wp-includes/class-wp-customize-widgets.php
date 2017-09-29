@@ -710,7 +710,6 @@ final class WP_Customize_Widgets {
 		 */
 		$some_non_rendered_areas_messages = array();
 		$some_non_rendered_areas_messages[1] = html_entity_decode(
-			/* translators: placeholder is the number of other widget areas registered but not rendered */
 			__( 'Your theme has 1 other widget area, but this particular page doesn&#8217;t display it.' ),
 			ENT_QUOTES,
 			get_bloginfo( 'charset' )
@@ -718,7 +717,7 @@ final class WP_Customize_Widgets {
 		$registered_sidebar_count = count( $wp_registered_sidebars );
 		for ( $non_rendered_count = 2; $non_rendered_count < $registered_sidebar_count; $non_rendered_count++ ) {
 			$some_non_rendered_areas_messages[ $non_rendered_count ] = html_entity_decode( sprintf(
-				/* translators: placeholder is the number of other widget areas registered but not rendered */
+				/* translators: %s: the number of other widget areas registered but not rendered */
 				_n(
 					'Your theme has %s other widget area, but this particular page doesn&#8217;t display it.',
 					'Your theme has %s other widget areas, but this particular page doesn&#8217;t display them.',
@@ -730,12 +729,11 @@ final class WP_Customize_Widgets {
 
 		if ( 1 === $registered_sidebar_count ) {
 			$no_areas_shown_message = html_entity_decode( sprintf(
-				/* translators: placeholder is the total number of widget areas registered */
 				__( 'Your theme has 1 widget area, but this particular page doesn&#8217;t display it.' )
 			), ENT_QUOTES, get_bloginfo( 'charset' ) );
 		} else {
 			$no_areas_shown_message = html_entity_decode( sprintf(
-				/* translators: placeholder is the total number of widget areas registered */
+				/* translators: %s: the total number of widget areas registered */
 				_n(
 					'Your theme has %s widget area, but this particular page doesn&#8217;t display it.',
 					'Your theme has %s widget areas, but this particular page doesn&#8217;t display them.',
@@ -763,7 +761,7 @@ final class WP_Customize_Widgets {
 				'reorderModeOn'    => __( 'Reorder mode enabled' ),
 				'reorderModeOff'   => __( 'Reorder mode closed' ),
 				'reorderLabelOn'   => esc_attr__( 'Reorder widgets' ),
-				/* translators: placeholder is the count for the number of widgets found */
+				/* translators: %d: the number of widgets found */
 				'widgetsFound'     => __( 'Number of widgets found: %d' ),
 				'noWidgetsFound'   => __( 'No widgets found.' ),
 			),

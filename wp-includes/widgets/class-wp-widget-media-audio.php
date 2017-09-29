@@ -33,11 +33,11 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 			'replace_media' => _x( 'Replace Audio', 'label for button in the audio widget; should preferably not be longer than ~13 characters long' ),
 			'edit_media' => _x( 'Edit Audio', 'label for button in the audio widget; should preferably not be longer than ~13 characters long' ),
 			'missing_attachment' => sprintf(
-				/* translators: placeholder is URL to media library */
+				/* translators: %s: URL to media library */
 				__( 'We can&#8217;t find that audio file. Check your <a href="%s">media library</a> and make sure it wasn&#8217;t deleted.' ),
 				esc_url( admin_url( 'upload.php' ) )
 			),
-			/* translators: %d is widget count */
+			/* translators: %d: widget count */
 			'media_library_state_multi' => _n_noop( 'Audio Widget (%d)', 'Audio Widget (%d)' ),
 			'media_library_state_single' => __( 'Audio Widget' ),
 			'unsupported_file_type' => __( 'Looks like this isn&#8217;t the correct kind of file. Please link to an audio file instead.' ),
@@ -77,7 +77,7 @@ class WP_Widget_Media_Audio extends WP_Widget_Media {
 				'type' => 'string',
 				'default' => '',
 				'format' => 'uri',
-				/* translators: placeholder is audio extension */
+				/* translators: %s: audio extension */
 				'description' => sprintf( __( 'URL to the %s audio source file' ), $audio_extension ),
 			);
 		}

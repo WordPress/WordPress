@@ -473,7 +473,7 @@ function wp_default_scripts( &$scripts ) {
 	$scripts->add( 'code-editor', "/wp-admin/js/code-editor$suffix.js", array( 'jquery', 'wp-codemirror' ) );
 	$scripts->add( 'wp-theme-plugin-editor', "/wp-admin/js/theme-plugin-editor$suffix.js", array( 'code-editor', 'jquery', 'jquery-ui-core', 'wp-a11y', 'underscore' ) );
 	did_action( 'init' ) && $scripts->add_inline_script( 'wp-theme-plugin-editor', sprintf( 'wp.themePluginEditor.l10n = %s;', wp_json_encode( wp_array_slice_assoc(
-		/* translators: placeholder is error count */
+		/* translators: %d: error count */
 		_n_noop( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.' ),
 		array( 'singular', 'plural' )
 	) ) ) );
@@ -571,19 +571,19 @@ function wp_default_scripts( &$scripts ) {
 		'expandSidebar'      => _x( 'Show Controls', 'label for hide controls button without length constraints' ),
 		'untitledBlogName'   => __( '(Untitled)' ),
 		'serverSaveError'    => __( 'Failed connecting to the server. Please try saving again.' ),
-		/* translators: placeholder is URL to the Customizer to load the autosaved version */
+		/* translators: %s: URL to the Customizer to load the autosaved version */
 		'autosaveNotice'     => __( 'There is a more recent autosave of your changes than the one you are previewing. <a href="%s">Restore the autosave</a>' ),
 		'videoHeaderNotice'  => __( 'This theme doesn\'t support video headers on this page. Navigate to the front page or another page that supports video headers.' ),
 		// Used for overriding the file types allowed in plupload.
 		'allowedFiles'       => __( 'Allowed Files' ),
 		'customCssError'     => wp_array_slice_assoc(
-			/* translators: placeholder is error count */
+			/* translators: %d: error count */
 			_n_noop( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.' ),
 			array( 'singular', 'plural' )
 		),
 		'pageOnFrontError' => __( 'Homepage and posts page must be different.' ),
 		'saveBlockedError' => wp_array_slice_assoc(
-			/* translators: placeholder is error count */
+			/* translators: %s: error count */
 			_n_noop( 'Unable to save due to %s invalid setting.', 'Unable to save due to %s invalid settings.' ),
 			array( 'singular', 'plural' )
 		),
@@ -1170,7 +1170,7 @@ function wp_localize_community_events() {
 			'could_not_locate_city' => __( 'We couldn&#8217;t locate %s. Please try another nearby city. For example: Kansas City; Springfield; Portland.' ),
 
 			// This one is only used with wp.a11y.speak(), so it can/should be more brief.
-			/* translators: %s is the name of a city. */
+			/* translators: %s: the name of a city */
 			'city_updated' => __( 'City updated. Listing events near %s.' ),
 		)
 	) );

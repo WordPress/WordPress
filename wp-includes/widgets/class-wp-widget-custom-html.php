@@ -176,7 +176,7 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 
 		$l10n = array(
 			'errorNotice' => wp_array_slice_assoc(
-				/* translators: placeholder is error count */
+				/* translators: %d: error count */
 				_n_noop( 'There is %d error which must be fixed before you can save.', 'There are %d errors which must be fixed before you can save.' ),
 				array( 'singular', 'plural' )
 			),

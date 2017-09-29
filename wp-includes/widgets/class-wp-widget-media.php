@@ -69,11 +69,11 @@ abstract class WP_Widget_Media extends WP_Widget {
 			'edit_media' => _x( 'Edit Media', 'label for button in the media widget; should preferably not be longer than ~13 characters long' ),
 			'add_to_widget' => __( 'Add to Widget' ),
 			'missing_attachment' => sprintf(
-				/* translators: placeholder is URL to media library */
+				/* translators: %s: URL to media library */
 				__( 'We can&#8217;t find that file. Check your <a href="%s">media library</a> and make sure it wasn&#8217;t deleted.' ),
 				esc_url( admin_url( 'upload.php' ) )
 			),
-			/* translators: %d is widget count */
+			/* translators: %d: widget count */
 			'media_library_state_multi' => _n_noop( 'Media Widget (%d)', 'Media Widget (%d)' ),
 			'media_library_state_single' => __( 'Media Widget' ),
 			'unsupported_file_type' => __( 'Looks like this isn&#8217;t the correct kind of file. Please link to an appropriate file instead.' ),
