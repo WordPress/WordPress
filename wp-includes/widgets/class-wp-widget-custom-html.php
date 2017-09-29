@@ -257,12 +257,11 @@ class WP_Widget_Custom_HTML extends WP_Widget {
 		if ( 'false' !== wp_get_current_user()->syntax_highlighting ) {
 			$content .= '<p>';
 			$content .= sprintf(
-				/* translators: placeholder is link to user profile */
-				__( 'The edit field automatically highlights code syntax. You can disable this in your %s to work in plain text mode.' ),
-				sprintf(
-					' <a href="%1$s" class="external-link" target="_blank">%2$s<span class="screen-reader-text">%3$s</span></a>',
-					esc_url( get_edit_profile_url() ),
-					__( 'user profile' ),
+				/* translators: 1: link to user profile, 2: additional link attributes, 3: accessibility text */
+				__( 'The edit field automatically highlights code syntax. You can disable this in your <a href="%1$s" %2$s>user profile%3$s</a> to work in plain text mode.' ),
+				esc_url( get_edit_profile_url() ),
+				'class="external-link" target="_blank"',
+				sprintf( '<span class="screen-reader-text"> %s</span>',
 					/* translators: accessibility text */
 					__( '(opens in a new window)' )
 				)
