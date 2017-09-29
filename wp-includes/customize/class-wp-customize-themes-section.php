@@ -10,7 +10,7 @@
 /**
  * Customize Themes Section class.
  *
- * A UI container for theme controls, which behaves like a backwards Panel.
+ * A UI container for theme controls, which are displayed within sections.
  *
  * @since 4.2.0
  *
@@ -19,7 +19,7 @@
 class WP_Customize_Themes_Section extends WP_Customize_Section {
 
 	/**
-	 * Customize section type.
+	 * Section type.
 	 *
 	 * @since 4.2.0
 	 * @var string
@@ -27,59 +27,124 @@ class WP_Customize_Themes_Section extends WP_Customize_Section {
 	public $type = 'themes';
 
 	/**
-	 * Render the themes section, which behaves like a panel.
+	 * Theme section action.
 	 *
-	 * @since 4.2.0
+	 * Defines the type of themes to load (installed, wporg, etc.).
+	 *
+	 * @since 4.9.0
+	 * @var string
 	 */
-	protected function render() {
-		$classes = 'accordion-section control-section control-section-' . $this->type;
+	public $action = '';
+
+	/**
+	 * Get section parameters for JS.
+	 *
+	 * @since 4.9.0
+	 * @return array Exported parameters.
+	 */
+	public function json() {
+		$exported = parent::json();
+		$exported['action'] = $this->action;
+
+		return $exported;
+	}
+
+	/**
+	 * Render a themes section as a JS template.
+	 *
+	 * The template is only rendered by PHP once, so all actions are prepared at once on the server side.
+	 *
+	 * @since 4.9.0
+	 */
+	protected function render_template() {
 		?>
-		<li id="accordion-section-<?php echo esc_attr( $this->id ); ?>" class="<?php echo esc_attr( $classes ); ?>">
-			<h3 class="accordion-section-title">
-				<?php
-				if ( $this->manager->is_theme_active() ) {
-					echo '<span class="customize-action">' . __( 'Active theme' ) . '</span> ' . $this->title;
-				} else {
-					echo '<span class="customize-action">' . __( 'Previewing theme' ) . '</span> ' . $this->title;
-				}
-				?>
-
-				<?php if ( count( $this->controls ) > 0 ) : ?>
-					<button type="button" class="button change-theme" tabindex="0"><?php _ex( 'Change', 'theme' ); ?></button>
-				<?php endif; ?>
-			</h3>
-			<div class="customize-themes-panel control-panel-content themes-php">
-				<h3 class="accordion-section-title customize-section-title">
-					<button class="customize-section-back" tabindex="0" type="button"><span class="screen-reader-text"><?php _e( 'Back' ); ?></span></button>
-					<span class="customize-action"><?php _e( 'Customizing' ); ?></span>
-					<?php _e( 'Themes' ); ?>
-					<span class="title-count theme-count"><?php echo count( $this->controls ) + 1 /* Active theme */; ?></span>
-				</h3>
-				<h3 class="accordion-section-title customize-section-title">
-					<?php
-					if ( $this->manager->is_theme_active() ) {
-						echo '<span class="customize-action">' . __( 'Active theme' ) . '</span> ' . $this->title;
-					} else {
-						echo '<span class="customize-action">' . __( 'Previewing theme' ) . '</span> ' . $this->title;
-					}
-					?>
-					<button type="button" class="button customize-theme"><?php _e( 'Customize' ); ?></button>
-				</h3>
-
+		<li id="accordion-section-{{ data.id }}" class="theme-section">
+			<button type="button" class="customize-themes-section-title themes-section-{{ data.id }}">{{ data.title }}</button>
+			<?php if ( current_user_can( 'install_themes' ) || is_multisite() ) : // @todo: upload support ?>
+			<?php endif; ?>
+			<div class="customize-themes-section themes-section-{{ data.id }} control-section-content themes-php">
 				<div class="theme-overlay" tabindex="0" role="dialog" aria-label="<?php esc_attr_e( 'Theme Details' ); ?>"></div>
-
-				<div id="customize-container"></div>
-				<?php if ( count( $this->controls ) > 4 ) : ?>
-					<p><label for="themes-filter">
-						<span class="screen-reader-text"><?php _e( 'Search installed themes&hellip;' ); ?></span>
-						<input type="text" id="themes-filter" placeholder="<?php esc_attr_e( 'Search installed themes&hellip;' ); ?>" />
-					</label></p>
-				<?php endif; ?>
 				<div class="theme-browser rendered">
-					<ul class="themes accordion-section-content">
+					<div class="customize-preview-header themes-filter-bar">
+						<?php $this->filter_bar_content_template(); ?>
+					</div>
+					<div class="error unexpected-error" style="display: none; "><p><?php _e( 'An unexpected error occurred. Something may be wrong with WordPress.org or this server&#8217;s configuration. If you continue to have problems, please try the <a href="https://wordpress.org/support/">support forums</a>.' ); ?></p></div>
+					<ul class="themes">
 					</ul>
+					<p class="no-themes"><?php _e( 'No themes found. Try a different search.' ); ?></p>
+					<p class="no-themes-local">
+						<?php
+						/* translators: %s is the string, "search WordPress.org themes" */
+						printf( __( 'No themes found. Try a different search, or %s.' ),
+							sprintf( '<button type="button" class="button-link search-dotorg-themes">%s</button>', __( 'Search WordPress.org themes' ) )
+						);
+						?>
+					</p>
+					<p class="spinner"></p>
 				</div>
 			</div>
 		</li>
-<?php }
+		<?php
+	}
+
+	/**
+	 * Render the filter bar portion of a themes section as a JS template.
+	 *
+	 * The template is only rendered by PHP once, so all actions are prepared at once on the server side.
+	 * The filter bar container is rendered by @see `render_template()`.
+	 *
+	 * @since 4.9.0
+	 */
+	protected function filter_bar_content_template() {
+		?>
+		<button type="button" class="button button-primary customize-section-back customize-themes-mobile-back"><?php _e( 'Back to theme sources' ); ?></button>
+		<# if ( 'wporg' === data.action ) { #>
+			<div class="search-form">
+				<label class="screen-reader-text" for="wp-filter-search-input"><?php _e( 'Search themes&hellip;' ); ?></label>
+				<input placeholder="<?php _e( 'Search themes&hellip;' ); ?>" type="search" aria-describedby="live-search-desc" id="wp-filter-search-input" class="wp-filter-search">
+				<span id="live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
+			</div>
+			<button type="button" class="button feature-filter-toggle">
+				<span class="filter-count-0"><?php _e( 'Filter themes' ); ?></span><span class="filter-count-filters">
+				<?php
+				/* translators: %s: number of filters selected. */
+				printf( __( 'Filter themes (%s)' ), '<span class="theme-filter-count">0</span>' );
+				?>
+				</span>
+			</button>
+			<div class="filter-drawer filter-details">
+				<?php
+				$feature_list = get_theme_feature_list( false ); // @todo: Use the .org API instead of the local core feature list. The .org API is currently outdated and will be reconciled when the .org themes directory is next redesigned.
+				foreach ( $feature_list as $feature_name => $features ) {
+					echo '<fieldset class="filter-group">';
+					echo '<legend>' . esc_html( $feature_name ) . '</legend>';
+					echo '<div class="filter-group-feature">';
+					foreach ( $features as $feature => $feature_name ) {
+						echo '<input type="checkbox" id="filter-id-' . esc_attr( $feature ) . '" value="' . esc_attr( $feature ) . '" /> ';
+						echo '<label for="filter-id-' . esc_attr( $feature ) . '">' . esc_html( $feature_name ) . '</label><br>';
+					}
+					echo '</div>';
+					echo '</fieldset>';
+				}
+				?>
+			</div>
+		<# } else { #>
+			<p class="themes-filter-container">
+				<label for="themes-filter">
+					<span class="screen-reader-text"><?php _e( 'Search themes&hellip;' ); ?></span>
+					<input type="search" id="themes-filter" placeholder="<?php esc_attr_e( 'Search themes&hellip;' ); ?>" aria-describedby="live-search-desc" class="wp-filter-search wp-filter-search-themes" />
+					<span id="live-search-desc" class="screen-reader-text"><?php _e( 'The search results will be updated as you type.' ); ?></span>
+				</label>
+			</p>
+		<# } #>
+		<div class="filter-themes-count">
+			<span class="themes-displayed">
+				<?php
+				/* translators: %s: number of themes displayed. */
+				echo sprintf( __( '%s themes' ), '<span class="theme-count">0</span>' );
+				?>
+			</span>
+		</div>
+		<?php
+	}
 }

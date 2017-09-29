@@ -599,6 +599,7 @@ body.menu-max-depth-11 { min-width: 1280px !important; }
 
 .no-js.nav-menus-php .item-edit .screen-reader-text {
 	position: static;
+	-webkit-clip-path: none;
 	clip-path: none;
 	width: auto;
 	height: auto;

@@ -549,7 +549,7 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	float: left;
 	margin: 0 30px 0 0;
 	width: 55%;
-	max-width: 880px;
+	max-width: 1200px; /* Recommended theme screenshot width, set here to avoid stretching */
 	text-align: center;
 }
 
@@ -1049,7 +1049,8 @@ body.folded .theme-browser ~ .theme-overlay .theme-wrap {
 	text-align: center;
 }
 
-p.no-themes {
+p.no-themes,
+p.no-themes-local {
 	clear: both;
 	color: #666;
 	font-size: 18px;
@@ -1705,9 +1706,10 @@ body.full-overlay-active {
 	display: none;
 }
 
-#customize-container {
+#customize-container,
+#customize-themes-loading-container {
 	display: none;
-	background: #fff;
+	background: #eee;
 	z-index: 500000;
 	position: fixed;
 	overflow: visible;
@@ -1720,6 +1722,7 @@ body.full-overlay-active {
 
 /* Make the Customizer and Theme installer overlays the only available content. */
 #customize-container,
+#customize-themes-loading-container,
 .theme-install-overlay {
 	visibility: visible;
 }
@@ -1824,6 +1827,7 @@ body.full-overlay-active {
 
 #customize-preview.wp-full-overlay-main:before,
 .customize-loading #customize-container:before,
+.customize-loading #customize-themes-loading-container:before,
 .theme-install-overlay .wp-full-overlay-main:before {
 	content: "";
 	display: block;
@@ -1861,6 +1865,7 @@ body.full-overlay-active {
 
 	#customize-preview.wp-full-overlay-main:before,
 	.customize-loading #customize-container:before,
+	.customize-loading #customize-themes-loading-container:before,
 	.theme-install-overlay .wp-full-overlay-main:before {
 		background-image: url(../images/spinner-2x.gif);
 	}
