@@ -277,9 +277,9 @@ function wp_dashboard_right_now() {
 		<li class="comment-count"><a href="edit-comments.php"><?php echo $text; ?></a></li>
 		<?php
 		$moderated_comments_count_i18n = number_format_i18n( $num_comm->moderated );
-		/* translators: Number of comments in moderation */
+		/* translators: %s: number of comments in moderation */
 		$text = sprintf( _nx( '%s in moderation', '%s in moderation', $num_comm->moderated, 'comments' ), $moderated_comments_count_i18n );
-		/* translators: Number of comments in moderation */
+		/* translators: %s: number of comments in moderation */
 		$aria_label = sprintf( _nx( '%s comment in moderation', '%s comments in moderation', $num_comm->moderated, 'comments' ), $moderated_comments_count_i18n );
 		?>
 		<li class="comment-mod-count<?php
@@ -392,12 +392,12 @@ function wp_network_dashboard_right_now() {
 	$c_users = get_user_count();
 	$c_blogs = get_blog_count();
 
-	/* translators: 1: Number of users on the network */
+	/* translators: %s: number of users on the network */
 	$user_text = sprintf( _n( '%s user', '%s users', $c_users ), number_format_i18n( $c_users ) );
-	/* translators: 1: Number of sites on the network */
+	/* translators: %s: number of sites on the network */
 	$blog_text = sprintf( _n( '%s site', '%s sites', $c_blogs ), number_format_i18n( $c_blogs ) );
 
-	/* translators: 1: Text indicating the number of sites on the network, 2: Text indicating the number of users on the network */
+	/* translators: 1: text indicating the number of sites on the network, 2: text indicating the number of users on the network */
 	$sentence = sprintf( __( 'You have %1$s and %2$s.' ), $blog_text, $user_text );
 
 	if ( $actions ) {
@@ -1207,7 +1207,7 @@ function wp_print_community_events_templates() {
 
 	<script id="tmpl-community-events-attend-event-near" type="text/template">
 		<?php printf(
-			/* translators: %s is a placeholder for the name of a city. */
+			/* translators: %s: the name of a city */
 			__( 'Attend an upcoming event near %s.' ),
 			'<strong>{{ data.location.description }}</strong>'
 		); ?>
@@ -1258,7 +1258,7 @@ function wp_print_community_events_templates() {
 
 			<# } else { #>
 				<?php printf(
-					/* translators: meetup organization documentation URL. */
+					/* translators: %s: meetup organization documentation URL */
 					__( 'There aren&#8217;t any events scheduled near you at the moment. Would you like to <a href="%s">organize one</a>?' ),
 					__( 'https://make.wordpress.org/community/handbook/meetup-organizer/welcome/' )
 				); ?>
@@ -1403,7 +1403,7 @@ function wp_dashboard_quota() {
 	<ul>
 		<li class="storage-count">
 			<?php $text = sprintf(
-				/* translators: number of megabytes */
+				/* translators: %s: number of megabytes */
 				__( '%s MB Space Allowed' ),
 				number_format_i18n( $quota )
 			);
