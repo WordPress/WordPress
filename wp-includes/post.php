@@ -2596,6 +2596,19 @@ function wp_trash_post( $post_id = 0 ) {
 		return false;
 
 	/**
+	 * Filters whether a post trashing should take place.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param bool    $trash Whether to go forward with trashing.
+	 * @param WP_Post $post  Post object.
+	 */
+	$check = apply_filters( 'pre_trash_post', null, $post );
+	if ( null !== $check ) {
+		return $check;
+	}
+
+	/**
 	 * Fires before a post is sent to the trash.
 	 *
 	 * @since 3.3.0
@@ -2638,6 +2651,19 @@ function wp_untrash_post( $post_id = 0 ) {
 
 	if ( $post['post_status'] != 'trash' )
 		return false;
+
+	/**
+	 * Filters whether a post untrashing should take place.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param bool    $untrash Whether to go forward with untrashing.
+	 * @param WP_Post $post    Post object.
+	 */
+	$check = apply_filters( 'pre_untrash_post', null, $post );
+	if ( null !== $check ) {
+		return $check;
+	}
 
 	/**
 	 * Fires before a post is restored from the trash.
