@@ -195,6 +195,21 @@ function create_initial_post_types() {
 		),
 	) );
 
+	register_post_type( 'oembed_cache', array(
+		'labels' => array(
+			'name'          => __( 'oEmbed Responses' ),
+			'singular_name' => __( 'oEmbed Response' ),
+		),
+		'public'           => false,
+		'hierarchical'     => false,
+		'rewrite'          => false,
+		'query_var'        => false,
+		'delete_with_user' => false,
+		'can_export'       => false,
+		'_builtin'         => true, /* internal use only. don't use this when registering your own post type. */
+		'supports'         => array(),
+	) );
+
 	register_post_status( 'publish', array(
 		'label'       => _x( 'Published', 'post status' ),
 		'public'      => true,
@@ -3003,7 +3018,7 @@ function wp_get_recent_posts( $args = array(), $output = ARRAY_A ) {
  *     @type string $guid                  Global Unique ID for referencing the post. Default empty.
  *     @type array  $post_category         Array of category names, slugs, or IDs.
  *                                         Defaults to value of the 'default_category' option.
- *     @type array  $tags_input            Array of tag names, slugs, or IDs. Default empty. 
+ *     @type array  $tags_input            Array of tag names, slugs, or IDs. Default empty.
  *     @type array  $tax_input             Array of taxonomy terms keyed by their taxonomy name. Default empty.
  *     @type array  $meta_input            Array of post meta values keyed by their post meta key. Default empty.
  * }
