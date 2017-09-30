@@ -2520,7 +2520,16 @@ function wp_get_users_with_no_role( $site_id = null ) {
 	}
 
 	$prefix = $wpdb->get_blog_prefix( $site_id );
-	$regex  = implode( '|', array_keys( wp_roles()->get_names() ) );
+
+	if ( is_multisite() && $site_id != get_current_blog_id() ) {
+		switch_to_blog( $site_id );
+		$role_names = wp_roles()->get_names();
+		restore_current_blog();
+	} else {
+		$role_names = wp_roles()->get_names();
+	}
+
+	$regex  = implode( '|', array_keys( $role_names ) );
 	$regex  = preg_replace( '/[^a-zA-Z_\|-]/', '', $regex );
 	$users  = $wpdb->get_col( $wpdb->prepare( "
 		SELECT user_id
