@@ -855,7 +855,13 @@ function count_users( $strategy = 'time', $site_id = null ) {
 	$result = array();
 
 	if ( 'time' == $strategy ) {
-		$avail_roles = wp_roles()->get_names();
+		if ( is_multisite() && $site_id != get_current_blog_id() ) {
+			switch_to_blog( $site_id );
+			$avail_roles = wp_roles()->get_names();
+			restore_current_blog();
+		} else {
+			$avail_roles = wp_roles()->get_names();
+		}
 
 		// Build a CPU-intensive query that will return concise information.
 		$select_count = array();
