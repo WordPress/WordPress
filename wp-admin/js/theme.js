@@ -683,7 +683,7 @@ themes.view.Details = wp.Backbone.View.extend({
 
 		// Set initial focus on the primary action control.
 		_.delay( function() {
-			$( '.theme-wrap a.button-primary:visible' ).focus();
+			$( '.theme-overlay' ).focus();
 		}, 100 );
 
 		// Constrain tabbing within the modal.
@@ -1603,10 +1603,10 @@ themes.view.Installer = themes.view.Appearance.extend({
 		this.listenTo( this.collection, 'query:fail', function() {
 			$( 'body' ).removeClass( 'loading-content' );
 			$( '.theme-browser' ).find( 'div.error' ).remove();
-			$( '.theme-browser' ).find( 'div.themes' ).before( '<div class="error"><p>' + l10n.error + '</p><p><button class="button try-again">' + l10n.tryAgain + '</button></p></div>' ); 
-			$( '.theme-browser .error .try-again' ).on( 'click', function( e ) { 
-				e.preventDefault(); 
-				$( 'input.wp-filter-search' ).trigger( 'input' ); 
+			$( '.theme-browser' ).find( 'div.themes' ).before( '<div class="error"><p>' + l10n.error + '</p><p><button class="button try-again">' + l10n.tryAgain + '</button></p></div>' );
+			$( '.theme-browser .error .try-again' ).on( 'click', function( e ) {
+				e.preventDefault();
+				$( 'input.wp-filter-search' ).trigger( 'input' );
 			} );
 		});
 
