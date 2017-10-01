@@ -345,11 +345,11 @@ window.wp = window.wp || {};
 		 *
 		 * Using DomQuery syntax to create it, since it's used as both text and as a DOM element.
 		 *
-		 * @param {Object} editor The TinyMCE editor instance.
+		 * @param {Object} domLib DOM library instance.
 		 * @param {string} content The content to insert into the cusror marker element.
 		 */
-		function getCursorMarkerSpan( editor, content ) {
-			return editor.$( '<span>' ).css( {
+		function getCursorMarkerSpan( domLib, content ) {
+			return domLib( '<span>' ).css( {
 						display: 'inline-block',
 						width: 0,
 						overflow: 'hidden',
@@ -434,9 +434,8 @@ window.wp = window.wp || {};
 		 * to run after the markers are added.
 		 *
 		 * @param {object} $textarea TinyMCE's textarea wrapped as a DomQuery object
-		 * @param {object} jQuery A jQuery instance
 		 */
-		function addHTMLBookmarkInTextAreaContent( $textarea, jQuery ) {
+		function addHTMLBookmarkInTextAreaContent( $textarea ) {
 			if ( ! $textarea || ! $textarea.length ) {
 				// If no valid $textarea object is provided, there's nothing we can do.
 				return;
@@ -456,7 +455,7 @@ window.wp = window.wp || {};
 				mode = htmlModeCursorStartPosition !== htmlModeCursorEndPosition ? 'range' : 'single',
 
 				selectedText = null,
-				cursorMarkerSkeleton = getCursorMarkerSpan( { $: jQuery }, '&#65279;' );
+				cursorMarkerSkeleton = getCursorMarkerSpan( $$, '&#65279;' );
 
 			if ( mode === 'range' ) {
 				var markedText = textArea.value.slice( htmlModeCursorStartPosition, htmlModeCursorEndPosition ),
@@ -646,7 +645,7 @@ window.wp = window.wp || {};
 			 * The elements have hardcoded style that makes them invisible. This is done to avoid seeing
 			 * random content flickering in the editor when switching between modes.
 			 */
-			var spanSkeleton = getCursorMarkerSpan( editor, selectionID ),
+			var spanSkeleton = getCursorMarkerSpan( editor.$, selectionID ),
 				startElement = spanSkeleton.clone().addClass( 'mce_SELRES_start' ),
 				endElement = spanSkeleton.clone().addClass( 'mce_SELRES_end' );
 
