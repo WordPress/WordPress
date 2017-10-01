@@ -770,6 +770,36 @@
 	wp.api.WPApiBaseModel = Backbone.Model.extend(
 		/** @lends WPApiBaseModel.prototype  */
 		{
+			initialize: function( attributes, options ) {
+
+				/**
+				 * Determine if a model requires ?force=true to actually delete them.
+				 */
+				if (
+					! _.isEmpty(
+						_.filter(
+							this.endpoints,
+							function( endpoint ) {
+								return (
+
+									// Does the method support DELETE?
+									'DELETE' === endpoint.methods[0] &&
+
+									// Exclude models that support trash (Post, Page).
+									(
+										! _.isUndefined( endpoint.args.force ) &&
+										! _.isUndefined( endpoint.args.force.description ) &&
+										'Whether to bypass trash and force deletion.' !== endpoint.args.force.description
+									)
+								);
+							}
+						)
+					)
+				) {
+					this.requireForceForDelete = true;
+				}
+			},
+
 			/**
 			 * Set nonce header before every Backbone sync.
 			 *
@@ -1266,23 +1296,8 @@
 						// Include the array of route methods for easy reference.
 						methods: modelRoute.route.methods,
 
-						initialize: function( attributes, options ) {
-							wp.api.WPApiBaseModel.prototype.initialize.call( this, attributes, options );
-
-							/**
-							 * Posts and pages support trashing, other types don't support a trash
-							 * and require that you pass ?force=true to actually delete them.
-							 *
-							 * @todo we should be getting trashability from the Schema, not hard coding types here.
-							 */
-							if (
-								'Posts' !== this.name &&
-								'Pages' !== this.name &&
-								_.includes( this.methods, 'DELETE' )
-							) {
-								this.requireForceForDelete = true;
-							}
-						}
+						// Include the array of route endpoints for easy reference.
+						endpoints: modelRoute.route.endpoints
 					} );
 				} else {
 
@@ -1317,7 +1332,10 @@
 						name: modelClassName,
 
 						// Include the array of route methods for easy reference.
-						methods: modelRoute.route.methods
+						methods: modelRoute.route.methods,
+
+						// Include the array of route endpoints for easy reference.
+						endpoints: modelRoute.route.endpoints
 					} );
 				}
 
