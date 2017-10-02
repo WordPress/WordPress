@@ -810,6 +810,14 @@ window.wp = window.wp || {};
 		templateId: 'customize-notification',
 
 		/**
+		 * Additional class names to add to the notification container.
+		 *
+		 * @since 4.9.0
+		 * @var {string}
+		 */
+		classes: '',
+
+		/**
 		 * Initialize notification.
 		 *
 		 * @since 4.9.0
@@ -821,6 +829,7 @@ window.wp = window.wp || {};
 		 * @param {string}   [params.setting] - Related setting ID.
 		 * @param {Function} [params.template] - Function for rendering template. If not provided, this will come from templateId.
 		 * @param {string}   [params.templateId] - ID for template to render the notification.
+		 * @param {string}   [params.classes] - Additional class names to add to the notification container.
 		 * @param {boolean}  [params.dismissible] - Whether the notification can be dismissed.
 		 */
 		initialize: function( code, params ) {
@@ -834,7 +843,8 @@ window.wp = window.wp || {};
 					data: null,
 					setting: null,
 					template: null,
-					dismissible: false
+					dismissible: false,
+					classes: ''
 				},
 				params
 			);

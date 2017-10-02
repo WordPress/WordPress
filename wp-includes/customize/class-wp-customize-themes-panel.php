@@ -89,10 +89,6 @@ class WP_Customize_Themes_Panel extends WP_Customize_Panel {
 				<# } #>
 			<?php endif; ?>
 		</li>
-		<li id="customize-themes-loading-container">
-			<span class="customize-loading-text-installing-theme"><?php _e( 'Downloading your new theme&hellip;' ); ?></span>
-			<span class="customize-loading-text"><?php _e( 'Setting up your live preview. This may take a bit.' ); ?></span>
-		</li><?php // Used as a full-screen overlay transition after clicking to preview a theme. ?>
 		<li class="customize-themes-full-container-container">
 			<ul class="customize-themes-full-container">
 				<li class="customize-themes-notifications"></li>

@@ -29,11 +29,13 @@ body {
 	margin-top: 9px;
 }
 
+body:not(.ready) #customize-save-button-wrapper .save {
+	visibility: hidden;
+}
 #customize-save-button-wrapper .save {
 	float: right;
 	border-radius: 3px;
 	box-shadow: none; /* @todo Adjust box shadow based on the disable states of paired button. */
-	display: none; /* Shown when ready. */
 	margin-top: 0;
 }
 #customize-save-button-wrapper .save.has-next-sibling {
@@ -106,10 +108,15 @@ body.outer-section-open .wp-full-overlay.expanded .wp-full-overlay-main {
 	font-size: 14px;
 	width: 30px;
 	float: right;
-	display: none; /* Shown when ready. */
 	-webkit-transform: none;
 	transform: none;
 	margin-top: 0;
+}
+
+body:not(.ready) #publish-settings,
+body.trashing #customize-save-button-wrapper .save,
+body.trashing #publish-settings {
+	display: none;
 }
 
 #customize-header-actions .spinner {
@@ -117,7 +124,8 @@ body.outer-section-open .wp-full-overlay.expanded .wp-full-overlay-main {
 	margin-left: 4px;
 }
 
-.saving #customize-header-actions .spinner {
+.saving #customize-header-actions .spinner,
+.trashing #customize-header-actions .spinner {
 	visibility: visible;
 }
 
@@ -145,6 +153,23 @@ body.outer-section-open .wp-full-overlay.expanded .wp-full-overlay-main {
 	margin-right: -12px;
 	padding-right: 12px;
 	padding-left: 12px;
+}
+
+#customize-control-trash_changeset {
+	margin-top: 20px;
+}
+#customize-control-trash_changeset button {
+	position: relative;
+	padding-right: 24px;
+	display: inline-block;
+}
+#customize-control-trash_changeset button:before {
+	content: "\f182";
+	font: normal 22px dashicons;
+	text-decoration: none;
+	position: absolute;
+	right: 0;
+	top: -2px;
 }
 
 #customize-controls .date-input:invalid {
@@ -1126,6 +1151,43 @@ p.customize-section-description {
 	margin-top: 1px;
 }
 
+@-webkit-keyframes customize-fade-in {
+	0%   { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+@keyframes customize-fade-in {
+	0%   { opacity: 0; }
+	100% { opacity: 1; }
+}
+
+#customize-controls .notice.notification-overlay,
+#customize-controls #customize-notifications-area .notice.notification-overlay {
+	margin: 0;
+	border-right: 0; /* @todo Appropriate styles could be added for notice-error, notice-warning, notice-success, etc */
+}
+
+#customize-controls .customize-control-notifications-container.has-overlay-notifications {
+	-webkit-animation: customize-fade-in 0.5s;
+	animation: customize-fade-in 0.5s;
+	z-index: 30;
+}
+
+/* Note: Styles for this are also defined in themes.css */
+#customize-controls #customize-notifications-area .notice.notification-overlay .notification-message {
+	clear: both;
+	color: #191e23;
+	font-size: 18px;
+	font-style: normal;
+	margin: 0;
+	padding: 2em 0;
+	text-align: center;
+	width: 100%;
+	display: block;
+	top: 50%;
+	position: relative;
+}
+
 /* Style for custom settings */
 
 /**
@@ -1550,40 +1612,6 @@ p.customize-section-description {
  * Themes
  */
 
-@-webkit-keyframes customize-reload {
-	0%   { opacity: 0; }
-	100% { opacity: 1; }
-}
-
-@keyframes customize-reload {
-	0%   { opacity: 0; }
-	100% { opacity: 1; }
-}
-
-.wp-customizer .customize-loading #customize-themes-loading-container {
-	display: block;
-	-webkit-animation: customize-reload .5s; /* Can't use `transition` because `display` changes here. */
-	animation: customize-reload .5s;
-}
-
-.customize-loading #customize-themes-loading-container span {
-	clear: both;
-	color: #191e23;
-	font-size: 18px;
-	font-style: normal;
-	margin: 0;
-	padding: 2em 0;
-	text-align: center;
-	width: 100%;
-	display: block;
-	top: 50%;
-	position: relative;
-}
-
-.customize-loading #customize-themes-loading-container .customize-loading-text {
-	display: none;
-}
-
 #customize-theme-controls .control-panel-themes {
 	border-bottom: none;
 }
@@ -1673,8 +1701,6 @@ p.customize-section-description {
 	transition: .18s bottom ease-in-out;
 }
 
-.in-themes-panel:not(.animating) #customize-header-actions .save,
-.in-themes-panel:not(.animating) #customize-header-actions #publish-settings,
 .in-themes-panel:not(.animating) #customize-header-actions .spinner,
 .in-themes-panel:not(.animating) #customize-header-actions .customize-controls-preview-toggle,
 .in-themes-panel:not(.animating) #customize-preview,

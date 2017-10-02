@@ -3,6 +3,41 @@
 	var Container, focus, normalizedTransitionendEventName, api = wp.customize;
 
 	/**
+	 * A notification that is displayed in a full-screen overlay.
+	 *
+	 * @since 4.9.0
+	 * @class
+	 * @augments wp.customize.Notification
+	 */
+	api.OverlayNotification = api.Notification.extend({
+
+		/**
+		 * Whether the notification should show a loading spinner.
+		 *
+		 * @since 4.9.0
+		 * @var {boolean}
+		 */
+		loading: false,
+
+		/**
+		 * Initialize.
+		 *
+		 * @since 4.9.0
+		 *
+		 * @param {string} code - Code.
+		 * @param {object} params - Params.
+		 */
+		initialize: function( code, params ) {
+			var notification = this;
+			api.Notification.prototype.initialize.call( notification, code, params );
+			notification.classes += ' notification-overlay';
+			if ( notification.loading ) {
+				notification.classes += ' notification-loading';
+			}
+		}
+	});
+
+	/**
 	 * A collection of observable notifications.
 	 *
 	 * @since 4.9.0
@@ -145,7 +180,7 @@
 		 */
 		render: function() {
 			var collection = this,
-				notifications,
+				notifications, hadOverlayNotification = false, hasOverlayNotification,
 				previousNotificationsByCode = {},
 				listElement;
 
@@ -178,11 +213,29 @@
 
 			// Add all notifications in the sorted order.
 			_.each( notifications, function( notification ) {
+				var notificationContainer;
 				if ( wp.a11y && ( ! previousNotificationsByCode[ notification.code ] || ! _.isEqual( notification.message, previousNotificationsByCode[ notification.code ].message ) ) ) {
 					wp.a11y.speak( notification.message, 'assertive' );
 				}
-				listElement.append( $( notification.render() ) ); // @todo Consider slideDown() as enhancement.
+				notificationContainer = $( notification.render() );
+				listElement.append( notificationContainer ); // @todo Consider slideDown() as enhancement.
+
+				// @todo Constraing focus in notificationContainer if notification.extended( api.OverlayNotification ).
 			});
+
+			hasOverlayNotification = Boolean( _.find( notifications, function( notification ) {
+				return notification.extended( api.OverlayNotification );
+			} ) );
+			if ( collection.previousNotifications ) {
+				hadOverlayNotification = Boolean( _.find( collection.previousNotifications, function( notification ) {
+					return notification.extended( api.OverlayNotification );
+				} ) );
+			}
+
+			if ( hasOverlayNotification !== hadOverlayNotification ) {
+				$( document.body ).toggleClass( 'customize-loading', hasOverlayNotification );
+				collection.container.toggleClass( 'has-overlay-notifications', hasOverlayNotification );
+			}
 
 			collection.previousNotifications = notifications;
 			collection.previousContainer = collection.container;
@@ -367,6 +420,12 @@
 	api.requestChangesetUpdate = function requestChangesetUpdate( changes, args ) {
 		var deferred, request, submittedChanges = {}, data, submittedArgs;
 		deferred = new $.Deferred();
+
+		// Prevent attempting changeset update while request is being made.
+		if ( 0 !== api.state( 'processing' ).get() ) {
+			deferred.reject( 'already_processing' );
+			return deferred.promise();
+		}
 
 		submittedArgs = _.extend( {
 			title: null,
@@ -1572,12 +1631,7 @@
 
 			// Preview installed themes.
 			section.container.on( 'click', '.theme-actions .preview-theme', function() {
-				var themeId = $( this ).data( 'slug' );
-
-				$( '.wp-full-overlay' ).addClass( 'customize-loading' );
-				api.panel( 'themes' ).loadThemePreview( themeId ).fail( function() {
-					$( '.wp-full-overlay' ).removeClass( 'customize-loading' );
-				} );
+				api.panel( 'themes' ).loadThemePreview( $( this ).data( 'slug' ) );
 			});
 
 			// Theme navigation in details view.
@@ -1763,7 +1817,7 @@
 			// Parameters for every API query. Additional params are set in PHP.
 			page = Math.ceil( section.loaded / 100 ) + 1;
 			params = {
-				'switch-themes-nonce': api.settings.nonce['switch-themes'],
+				'nonce': api.settings.nonce.switch_themes,
 				'wp_customize': 'on',
 				'theme_action': section.params.action,
 				'customized_theme': api.settings.theme.stylesheet,
@@ -1780,7 +1834,7 @@
 			section.headContainer.closest( '.wp-full-overlay' ).addClass( 'loading' );
 			section.loading = true;
 			section.container.find( '.no-themes' ).hide();
-			request = wp.ajax.post( 'customize-load-themes', params );
+			request = wp.ajax.post( 'customize_load_themes', params );
 			request.done(function( data ) {
 				var themes = data.themes, themeControl, newThemeControls;
 
@@ -2213,58 +2267,12 @@
 		 * @since 4.7.0
 		 * @access public
 		 *
+		 * @deprecated
 		 * @param {string} themeId Theme ID.
 		 * @returns {jQuery.promise} Promise.
 		 */
 		loadThemePreview: function( themeId ) {
-			var deferred = $.Deferred(), onceProcessingComplete, overlay, urlParser;
-
-			urlParser = document.createElement( 'a' );
-			urlParser.href = location.href;
-			urlParser.search = $.param( _.extend(
-				api.utils.parseQueryString( urlParser.search.substr( 1 ) ),
-				{
-					theme: themeId,
-					changeset_uuid: api.settings.changeset.uuid
-				}
-			) );
-
-			overlay = $( '.wp-full-overlay' );
-			overlay.addClass( 'customize-loading' );
-
-			onceProcessingComplete = function() {
-				var request;
-				if ( api.state( 'processing' ).get() > 0 ) {
-					return;
-				}
-
-				api.state( 'processing' ).unbind( onceProcessingComplete );
-
-				request = api.requestChangesetUpdate( {}, { autosave: true } );
-				request.done( function() {
-					$( window ).off( 'beforeunload.customize-confirm' );
-
-					// Include autosaved param to load autosave revision without prompting user to restore it.
-					if ( ! api.state( 'saved' ).get() ) {
-						urlParser.search += '&customize_autosaved=on';
-					}
-
-					top.location.href = urlParser.href;
-					deferred.resolve();
-				} );
-				request.fail( function() {
-					overlay.removeClass( 'customize-loading' );
-					deferred.reject();
-				} );
-			};
-
-			if ( 0 === api.state( 'processing' ).get() ) {
-				onceProcessingComplete();
-			} else {
-				api.state( 'processing' ).bind( onceProcessingComplete );
-			}
-
-			return deferred.promise();
+			return api.ThemesPanel.prototype.loadThemePreview.call( this, themeId );
 		},
 
 		/**
@@ -2844,10 +2852,9 @@
 			$( document ).one( 'wp-theme-install-success', function( event, response ) {
 				var theme = false, customizeId, themeControl;
 				if ( preview ) {
+					api.notifications.remove( 'theme_installing' );
 
-					panel.loadThemePreview( slug ).fail( function() {
-						$( '.wp-full-overlay' ).removeClass( 'customize-loading' );
-					} );
+					panel.loadThemePreview( slug );
 
 				} else {
 					api.control.each( function( control ) {
@@ -2899,8 +2906,12 @@
 			// Also preview the theme as the event is triggered on Install & Preview.
 			if ( $( event.target ).hasClass( 'preview' ) ) {
 				preview = true;
-				$( '.wp-full-overlay' ).addClass( 'customize-loading' );
-				wp.a11y.speak( $( '#customize-themes-loading-container .customize-loading-text-installing-theme' ).text() );
+
+				api.notifications.add( 'theme_installing', new api.OverlayNotification( 'theme_installing', {
+					message: api.l10n.themeDownloading,
+					type: 'info',
+					loading: true
+				} ) );
 			}
 		},
 
@@ -2913,24 +2924,31 @@
 		 * @returns {jQuery.promise} Promise.
 		 */
 		loadThemePreview: function( themeId ) {
-			var deferred = $.Deferred(), onceProcessingComplete, overlay, urlParser;
+			var deferred = $.Deferred(), onceProcessingComplete, urlParser, queryParams;
 
 			urlParser = document.createElement( 'a' );
 			urlParser.href = location.href;
-			urlParser.search = $.param( _.extend(
+			queryParams = _.extend(
 				api.utils.parseQueryString( urlParser.search.substr( 1 ) ),
 				{
 					theme: themeId,
 					changeset_uuid: api.settings.changeset.uuid
 				}
-			) );
+			);
+
+			// Include autosaved param to load autosave revision without prompting user to restore it.
+			if ( ! api.state( 'saved' ).get() ) {
+				queryParams.customize_autosaved = 'on';
+			}
+
+			urlParser.search = $.param( queryParams );
 
 			// Update loading message. Everything else is handled by reloading the page.
-			$( '#customize-themes-loading-container span' ).hide();
-			$( '#customize-themes-loading-container .customize-loading-text' ).css( 'display', 'block' );
-			wp.a11y.speak( $( '#customize-themes-loading-container .customize-loading-text' ).text() );
-			overlay = $( '.wp-full-overlay' );
-			overlay.addClass( 'customize-loading' );
+			api.notifications.add( 'theme_previewing', new api.OverlayNotification( 'theme_previewing', {
+				message: api.l10n.themePreviewWait,
+				type: 'info',
+				loading: true
+			} ) );
 
 			onceProcessingComplete = function() {
 				var request;
@@ -2940,14 +2958,17 @@
 
 				api.state( 'processing' ).unbind( onceProcessingComplete );
 
-				request = api.requestChangesetUpdate();
+				request = api.requestChangesetUpdate( {}, { autosave: true } );
 				request.done( function() {
 					deferred.resolve();
 					$( window ).off( 'beforeunload.customize-confirm' );
-					window.location.href = urlParser.href;
+					window.location.href = urlParser.href; // @todo Use location.replace()?
 				} );
 				request.fail( function() {
-					overlay.removeClass( 'customize-loading' );
+
+					// @todo Show notification regarding failure.
+					api.notifications.remove( 'theme_previewing' );
+
 					deferred.reject();
 				} );
 			};
@@ -6230,8 +6251,8 @@
 	api.state = new api.Values();
 	_.each( [
 		'saved',
-		'autosaved',
 		'saving',
+		'trashing',
 		'activated',
 		'processing',
 		'paneVisible',
@@ -6279,8 +6300,6 @@
 			publishSettingsBtn = $( '#publish-settings' ),
 			footerActions = $( '#customize-footer-actions' );
 
-		saveBtn.show();
-
 		api.section( 'publish_settings', function( section ) {
 			var updateButtonsState, previewLinkControl, previewLinkControlId = 'changeset_preview_link', updateSectionActive, isSectionActive;
 
@@ -6301,7 +6320,10 @@
 			 * @return {boolean} Is section active.
 			 */
 			isSectionActive = function() {
-				if ( ! api.state( 'activated' ) ) {
+				if ( ! api.state( 'activated' ).get() ) {
+					return false;
+				}
+				if ( api.state( 'trashing' ).get() || 'trash' === api.state( 'changesetStatus' ).get() ) {
 					return false;
 				}
 				if ( '' === api.state( 'changesetStatus' ).get() && api.state( 'saved' ).get() ) {
@@ -6316,6 +6338,7 @@
 				section.active.set( isSectionActive() );
 			};
 			api.state( 'activated' ).bind( updateSectionActive );
+			api.state( 'trashing' ).bind( updateSectionActive );
 			api.state( 'saved' ).bind( updateSectionActive );
 			api.state( 'changesetStatus' ).bind( updateSectionActive );
 			updateSectionActive();
@@ -6551,15 +6574,13 @@
 					 * due to dependencies on other settings.
 					 */
 					request = wp.ajax.post( 'customize_save', query );
-
-					// Disable save button during the save request.
-					saveBtn.prop( 'disabled', true );
+					api.state( 'processing' ).set( api.state( 'processing' ).get() + 1 );
 
 					api.trigger( 'save', request );
 
 					request.always( function () {
+						api.state( 'processing' ).set( api.state( 'processing' ).get() - 1 );
 						api.state( 'saving' ).set( false );
-						saveBtn.prop( 'disabled', false );
 						api.unbind( 'change', captureSettingModifiedDuringSave );
 					} );
 
@@ -6636,7 +6657,9 @@
 						previewer.send( 'saved', response );
 
 						api.state( 'changesetStatus' ).set( response.changeset_status );
-						api.state( 'changesetDate' ).set( response.changeset_date );
+						if ( response.changeset_date ) {
+							api.state( 'changesetDate' ).set( response.changeset_date );
+						}
 
 						if ( 'publish' === response.changeset_status ) {
 
@@ -6691,6 +6714,74 @@
 				}
 
 				return deferred.promise();
+			},
+
+			/**
+			 * Trash the current changes.
+			 *
+			 * Revert the Customizer to it's previously-published state.
+			 *
+			 * @since 4.9.0
+			 *
+			 * @returns {jQuery.promise} Promise.
+			 */
+			trash: function trash() {
+				var request, success, fail;
+
+				api.state( 'trashing' ).set( true );
+				api.state( 'processing' ).set( api.state( 'processing' ).get() + 1 );
+
+				request = wp.ajax.post( 'customize_trash', {
+					customize_changeset_uuid: api.settings.changeset.uuid,
+					nonce: api.settings.nonce.trash
+				} );
+				api.notifications.add( 'changeset_trashing', new api.OverlayNotification( 'changeset_trashing', {
+					type: 'info',
+					message: api.l10n.revertingChanges,
+					loading: true
+				} ) );
+
+				success = function() {
+					var urlParser = document.createElement( 'a' ), queryParams;
+
+					api.state( 'changesetStatus' ).set( 'trash' );
+					api.each( function( setting ) {
+						setting._dirty = false;
+					} );
+					api.state( 'saved' ).set( true );
+
+					// Go back to Customizer without changeset.
+					urlParser.href = location.href;
+					queryParams = api.utils.parseQueryString( urlParser.search.substr( 1 ) );
+					delete queryParams.changeset_uuid;
+					urlParser.search = $.param( queryParams );
+					location.replace( urlParser.href );
+				};
+
+				fail = function( code, message ) {
+					var notificationCode = code || 'unknown_error';
+					api.state( 'processing' ).set( api.state( 'processing' ).get() - 1 );
+					api.state( 'trashing' ).set( false );
+					api.notifications.remove( 'changeset_trashing' );
+					api.notifications.add( notificationCode, new api.Notification( notificationCode, {
+						message: message || api.l10n.unknownError,
+						dismissible: true,
+						type: 'error'
+					} ) );
+				};
+
+				request.done( function( response ) {
+					success( response.message );
+				} );
+
+				request.fail( function( response ) {
+					var code = response.code || 'trashing_failed';
+					if ( response.success || 'non_existent_changeset' === code || 'changeset_already_trashed' === code ) {
+						success( response.message );
+					} else {
+						fail( code, response.message );
+					}
+				} );
 			},
 
 			/**
@@ -6842,6 +6933,7 @@
 		(function( state ) {
 			var saved = state.instance( 'saved' ),
 				saving = state.instance( 'saving' ),
+				trashing = state.instance( 'trashing' ),
 				activated = state.instance( 'activated' ),
 				processing = state.instance( 'processing' ),
 				paneVisible = state.instance( 'paneVisible' ),
@@ -6863,7 +6955,6 @@
 				if ( ! activated() ) {
 					saveBtn.val( api.l10n.activate );
 					closeBtn.find( '.screen-reader-text' ).text( api.l10n.cancel );
-					publishSettingsBtn.prop( 'disabled', false );
 
 				} else if ( '' === changesetStatus.get() && saved() ) {
 					if ( api.settings.changeset.currentUserCanPublish ) {
@@ -6871,7 +6962,6 @@
 					} else {
 						saveBtn.val( api.l10n.saved );
 					}
-					publishSettingsBtn.prop( 'disabled', true );
 					closeBtn.find( '.screen-reader-text' ).text( api.l10n.close );
 
 				} else {
@@ -6899,14 +6989,13 @@
 						saveBtn.val( api.l10n.publish );
 					}
 					closeBtn.find( '.screen-reader-text' ).text( api.l10n.cancel );
-					publishSettingsBtn.prop( 'disabled', false );
 				}
 
 				/*
 				 * Save (publish) button should be enabled if saving is not currently happening,
 				 * and if the theme is not active or the changeset exists but is not published.
 				 */
-				canSave = ! saving() && ( ! activated() || ! saved() || ( changesetStatus() !== selectedChangesetStatus() && '' !== changesetStatus() ) || ( 'future' === selectedChangesetStatus() && changesetDate.get() !== selectedChangesetDate.get() ) );
+				canSave = ! saving() && ! trashing() && ( ! activated() || ! saved() || ( changesetStatus() !== selectedChangesetStatus() && '' !== changesetStatus() ) || ( 'future' === selectedChangesetStatus() && changesetDate.get() !== selectedChangesetDate.get() ) );
 
 				saveBtn.prop( 'disabled', ! canSave );
 			});
@@ -6957,6 +7046,9 @@
 
 			saving.bind( function( isSaving ) {
 				body.toggleClass( 'saving', isSaving );
+			} );
+			trashing.bind( function( isTrashing ) {
+				body.toggleClass( 'trashing', isTrashing );
 			} );
 
 			api.bind( 'saved', function( response ) {
@@ -7028,7 +7120,7 @@
 			// Show changeset UUID in URL when in branching mode and there is a saved changeset.
 			if ( api.settings.changeset.branching ) {
 				changesetStatus.bind( function( newStatus ) {
-					populateChangesetUuidParam( '' !== newStatus && 'publish' !== newStatus );
+					populateChangesetUuidParam( '' !== newStatus && 'publish' !== newStatus && 'trash' !== newStatus );
 				} );
 			}
 		}( api.state ) );
@@ -7105,7 +7197,7 @@
 
 						// Handle dismissal of notice.
 						li.find( '.notice-dismiss' ).on( 'click', function() {
-							wp.ajax.post( 'dismiss_customize_changeset_autosave', {
+							wp.ajax.post( 'customize_dismiss_autosave', {
 								wp_customize: 'on',
 								customize_theme: api.settings.theme.stylesheet,
 								customize_changeset_uuid: api.settings.changeset.uuid,
@@ -7532,15 +7624,20 @@
 				isInsideIframe = true;
 			});
 
-			// Prompt user with AYS dialog if leaving the Customizer with unsaved changes
-			$( window ).on( 'beforeunload.customize-confirm', function() {
-				if ( ! isCleanState() ) {
-					setTimeout( function() {
-						overlay.removeClass( 'customize-loading' );
-					}, 1 );
-					return api.l10n.saveAlert;
-				}
-			});
+			function startPromptingBeforeUnload() {
+				api.unbind( 'change', startPromptingBeforeUnload );
+
+				// Prompt user with AYS dialog if leaving the Customizer with unsaved changes
+				$( window ).on( 'beforeunload.customize-confirm', function() {
+					if ( ! isCleanState() ) {
+						setTimeout( function() {
+							overlay.removeClass( 'customize-loading' );
+						}, 1 );
+						return api.l10n.saveAlert;
+					}
+				});
+			}
+			api.bind( 'change', startPromptingBeforeUnload );
 
 			closeBtn.on( 'click.customize-controls-close', function( event ) {
 				var clearedToClose = $.Deferred();
@@ -7566,7 +7663,7 @@
 					if ( '' === api.state( 'changesetStatus' ).get() ) {
 						clearedToClose.resolve();
 					} else {
-						wp.ajax.send( 'dismiss_customize_changeset_autosave', {
+						wp.ajax.send( 'customize_dismiss_autosave', {
 							timeout: 500, // Don't wait too long.
 							data: {
 								wp_customize: 'on',
@@ -7987,8 +8084,10 @@
 		} );
 
 		// Autosave changeset.
-		( function() {
+		function startAutosaving() {
 			var timeoutId, updateChangesetWithReschedule, scheduleChangesetUpdate, updatePending = false;
+
+			api.unbind( 'change', startAutosaving ); // Ensure startAutosaving only fires once.
 
 			api.state( 'saved' ).bind( function( isSaved ) {
 				if ( ! isSaved && ! api.settings.changeset.autosaved ) {
@@ -8040,7 +8139,8 @@
 			$( window ).on( 'beforeunload.wp-customize-changeset-update', function() {
 				updateChangesetWithReschedule();
 			} );
-		} ());
+		}
+		api.bind( 'change', startAutosaving );
 
 		// Make sure TinyMCE dialogs appear above Customizer UI.
 		$( document ).one( 'wp-before-tinymce-init', function() {
@@ -8049,6 +8149,7 @@
 			}
 		} );
 
+		body.addClass( 'ready' );
 		api.trigger( 'ready' );
 	});
 
