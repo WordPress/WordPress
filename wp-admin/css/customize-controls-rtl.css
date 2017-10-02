@@ -173,25 +173,7 @@ body.trashing #publish-settings {
 }
 
 #customize-controls .date-input:invalid {
-	border-color: red;
-}
-
-.date-time-fields .month-field {
-	width: 79px;
-}
-
-.date-time-fields .day-field,
-.date-time-fields .hour-field,
-.date-time-fields .minute-field {
-	width: 46px;
-}
-
-.date-time-fields .year-field {
-	width: 60px;
-}
-
-.date-time-fields .am-pm-field {
-	width: 53px;
+	border-color: #dc3232;
 }
 
 #customize-control-changeset_status label {
@@ -225,7 +207,7 @@ body.trashing #publish-settings {
 
 .customize-copy-preview-link:before,
 .customize-copy-preview-link:after {
-	content: '';
+	content: "";
 	height: 28px;
 	position: absolute;
 	background: #ffffff;
@@ -250,7 +232,7 @@ body.trashing #publish-settings {
 	border-right: none;
 	border-left: none;
 	text-indent: -999px;
-	color: white;
+	color: #fff;
 }
 
 #customize-control-changeset_preview_link label {
@@ -258,7 +240,7 @@ body.trashing #publish-settings {
 	display: block;
 }
 
-#customize-control-changeset_preview_link a.preview-control-element {
+#customize-control-changeset_preview_link a {
 	display: inline-block;
 	position: absolute;
 	white-space: nowrap;
@@ -269,10 +251,10 @@ body.trashing #publish-settings {
 	text-decoration: none;
 }
 
-#customize-control-changeset_preview_link a.preview-control-element.disabled,
-#customize-control-changeset_preview_link a.preview-control-element.disabled:active,
-#customize-control-changeset_preview_link a.preview-control-element.disabled:focus,
-#customize-control-changeset_preview_link a.preview-control-element.disabled:visited {
+#customize-control-changeset_preview_link a.disabled,
+#customize-control-changeset_preview_link a.disabled:active,
+#customize-control-changeset_preview_link a.disabled:focus,
+#customize-control-changeset_preview_link a.disabled:visited {
 	color: black;
 	opacity: 0.4;
 	cursor: default;
@@ -293,10 +275,30 @@ body.trashing #publish-settings {
 	padding-bottom:10px;
 }
 
-.date-time-fields label,
-.date-time-fields .date-time-separator {
+.customize-control.customize-control-date_time .date-time-fields .date-input,
+.customize-control.customize-control-date_time .date-time-fields .date-time-separator {
 	float: right;
-	margin-left:5px;
+	margin-left: 5px;
+}
+
+.date-time-fields .date-input.month {
+	width: auto;
+	margin: 0;
+}
+
+.date-time-fields .date-input.day,
+.date-time-fields .date-input.hour,
+.date-time-fields .date-input.minute {
+	width: 46px;
+}
+
+.date-time-fields .date-input.year {
+	width: 60px;
+}
+
+.date-time-fields .date-input.meridian {
+	width: auto;
+	margin: 0;
 }
 
 .date-time-fields .date-time-separator {
@@ -304,7 +306,7 @@ body.trashing #publish-settings {
 }
 
 .date-time-fields .time-row {
-	padding-top: 12px;
+	margin-top: 12px;
 }
 
 .date-time-fields .date-timezone {
@@ -1035,7 +1037,7 @@ p.customize-section-description {
 }
 
 .customize-control-dropdown-pages .new-content-item .create-item-input.invalid {
-	border: 1px solid #f00;
+	border: 1px solid #dc3232;
 }
 
 .customize-control-dropdown-pages .add-new-toggle {
@@ -1198,7 +1200,7 @@ p.customize-section-description {
 	margin-bottom: 0;
 }
 #customize-control-show_on_front.has-error .customize-control-notifications-container {
-	margin-top:12px;
+	margin-top: 12px;
 }
 
 /**
@@ -1383,7 +1385,10 @@ p.customize-section-description {
 	content: '';
 	position: absolute;
 	height: auto;
-	top: 0; right: 0; bottom: 0; left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
 	border: 4px solid #00a0d2;
 	border-radius: 2px;
 }
@@ -2685,23 +2690,25 @@ body.adding-widget .add-new-widget:before,
 		height: 39px;
 	}
 
-	.date-time-fields .month-field {
+	.date-time-fields .date-input.month {
 		width: 79px;
 	}
 
-	.date-time-fields .day-field,
-	.date-time-fields .hour-field,
-	.date-time-fields .minute-field {
+	.date-time-fields .date-input.day,
+	.date-time-fields .date-input.hour,
+	.date-time-fields .date-input.minute {
 		width: 55px;
 	}
 
-	.date-time-fields .year-field {
+	.date-time-fields .date-input.year {
 		width: 80px;
 	}
 
+	.date-time-fields .date-time-separator,
 	.date-time-fields .date-timezone {
 		line-height: 3.2;
 	}
+
 	.wp-core-ui.wp-customizer .button {
 		margin-top: 12px;
 	}

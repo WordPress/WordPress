@@ -132,7 +132,6 @@
 
 .customize-control input.menu-name-field {
 	width: 100%; /* Override the 98% default for customizer inputs, to align with the size of menu items. */
-	margin: 12px 0;
 }
 
 .wp-customizer .menu-item .item-edit {

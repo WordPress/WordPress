@@ -49,6 +49,14 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 	public $allow_past_date = true;
 
 	/**
+	 * Whether hours, minutes, and meridian should be shown.
+	 *
+	 * @since 4.9.0
+	 * @var boolean
+	 */
+	public $include_time = true;
+
+	/**
 	 * If set to false the control will appear in 24 hour format,
 	 * the value will still be saved in Y-m-d H:i:s format.
 	 *
@@ -83,8 +91,9 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 
 		$data['maxYear'] = intval( $this->max_year );
 		$data['minYear'] = intval( $this->min_year );
-		$data['allowPastDate'] = $this->allow_past_date ? true : false;
-		$data['twelveHourFormat'] = $this->twelve_hour_format ? true : false;
+		$data['allowPastDate'] = (bool) $this->allow_past_date;
+		$data['twelveHourFormat'] = (bool) $this->twelve_hour_format;
+		$data['includeTime'] = (bool) $this->include_time;
 		$data['defaultValue'] = $this->default_value;
 
 		return $data;
@@ -101,68 +110,58 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 		?>
 
 		<# _.defaults( data, <?php echo wp_json_encode( $data ); ?> ); #>
+		<# var idPrefix = _.uniqueId( 'el' ) + '-'; #>
 
 		<span class="customize-control-title">
-			<label>{{ data.label }}</label>
+			{{ data.label }}
 		</span>
 		<div class="customize-control-notifications-container"></div>
 		<span class="description customize-control-description">{{ data.description }}</span>
 		<div class="date-time-fields">
-			<div class="day-row">
-				<span class="title-day"><?php esc_html_e( 'Day' ); ?></span>
+			<fieldset class="day-row">
+				<legend class="title-day"><?php esc_html_e( 'Date' ); ?></legend>
 				<div class="day-fields clear">
-					<label class="month-field">
-						<span class="screen-reader-text"><?php esc_html_e( 'Month' ); ?></span>
-							<select class="date-input month" data-component="month">
-								<# _.each( data.month_choices, function( choice ) {
-									if ( _.isObject( choice ) && ! _.isUndefined( choice.text ) && ! _.isUndefined( choice.value ) ) {
-										text = choice.text;
-										value = choice.value;
-									}
-									#>
-									<option value="{{ value }}" >
-										{{ text }}
-									</option>
-								<# } ); #>
-							</select>
-					</label>
-					<label class="day-field">
-						<span class="screen-reader-text"><?php esc_html_e( 'Day' ); ?></span>
-						<input type="number" size="2" maxlength="2" autocomplete="off" class="date-input day" data-component="day" min="1" max="31"" />
-					</label>
+					<label for="{{ idPrefix }}date-time-month" class="screen-reader-text"><?php esc_html_e( 'Month' ); ?></label>
+					<select id="{{ idPrefix }}date-time-month" class="date-input month" data-component="month">
+						<# _.each( data.month_choices, function( choice ) {
+							if ( _.isObject( choice ) && ! _.isUndefined( choice.text ) && ! _.isUndefined( choice.value ) ) {
+								text = choice.text;
+								value = choice.value;
+							}
+							#>
+							<option value="{{ value }}" >
+								{{ text }}
+							</option>
+						<# } ); #>
+					</select>
+					<label for="{{ idPrefix }}date-time-day" class="screen-reader-text"><?php esc_html_e( 'Day' ); ?></label>
+					<input id="{{ idPrefix }}date-time-day" type="number" size="2" autocomplete="off" class="date-input day" data-component="day" min="1" max="31" />
 					<span class="time-special-char date-time-separator">,</span>
-					<label class="year-field">
-						<span class="screen-reader-text"><?php esc_html_e( 'Year' ); ?></span>
-						<# var maxYearLength = String( data.maxYear ).length; #>
-						<input type="number" size="4" maxlength="{{ maxYearLength }}" autocomplete="off" class="date-input year" data-component="year" min="{{ data.minYear }}" max="{{ data.maxYear }}" />
-					</label>
+					<label for="{{ idPrefix }}date-time-year" class="screen-reader-text"><?php esc_html_e( 'Year' ); ?></label>
+					<input id="{{ idPrefix }}date-time-year" type="number" size="4" autocomplete="off" class="date-input year" data-component="year" min="{{ data.minYear }}" max="{{ data.maxYear }}">
 				</div>
-			</div>
-			<div class="time-row clear">
-				<span class="title-time"><?php esc_html_e( 'Time' ); ?></span>
-				<div class="time-fields clear">
-					<label class="hour-field">
-						<span class="screen-reader-text"><?php esc_html_e( 'Hour' ); ?></span>
+			</fieldset>
+			<# if ( data.includeTime ) { #>
+				<fieldset class="time-row clear">
+					<legend class="title-time"><?php esc_html_e( 'Time' ); ?></legend>
+					<div class="time-fields clear">
+						<label for="{{ idPrefix }}date-time-hour" class="screen-reader-text"><?php esc_html_e( 'Hour' ); ?></label>
 						<# var maxHour = data.twelveHourFormat ? 12 : 24; #>
-						<input type="number" size="2" maxlength="2" autocomplete="off" class="date-input hour" data-component="hour" min="1" max="{{ maxHour }}"" />
-					</label>
-					<span class="time-special-char date-time-separator">:</span>
-					<label class="minute-field">
-						<span class="screen-reader-text"><?php esc_html_e( 'Minute' ); ?></span>
-						<input type="number" size="2" maxlength="2" autocomplete="off" class="date-input minute" data-component="minute" min="0" max="59" />
-					</label>
-					<# if ( data.twelveHourFormat ) { #>
-					<label class="am-pm-field">
-						<span class="screen-reader-text"><?php esc_html_e( 'AM / PM' ); ?></span>
-						<select class="date-input" data-component="ampm">
-							<option value="am"><?php esc_html_e( 'AM' ); ?></option>
-							<option value="pm"><?php esc_html_e( 'PM' ); ?></option>
-						</select>
-					</label>
-					<# } #>
-					<abbr class="date-timezone" aria-label="<?php esc_attr_e( 'Timezone' ); ?>" title="<?php echo esc_attr( $timezone_info['description'] ); ?>"><?php echo esc_html( $timezone_info['abbr'] ); ?></abbr>
-				</div>
-			</div>
+						<input id="{{ idPrefix }}date-time-hour" type="number" size="2" autocomplete="off" class="date-input hour" data-component="hour" min="1" max="{{ maxHour }}">
+						<span class="time-special-char date-time-separator">:</span>
+						<label for="{{ idPrefix }}date-time-minute" class="screen-reader-text"><?php esc_html_e( 'Minute' ); ?></label>
+						<input id="{{ idPrefix }}date-time-minute" type="number" size="2" autocomplete="off" class="date-input minute" data-component="minute" min="0" max="59">
+						<# if ( data.twelveHourFormat ) { #>
+							<label for="{{ idPrefix }}date-time-meridian" class="screen-reader-text"><?php esc_html_e( 'Meridian' ); ?></label>
+							<select id="{{ idPrefix }}date-time-meridian" class="date-input meridian" data-component="meridian">
+								<option value="am"><?php esc_html_e( 'AM' ); ?></option>
+								<option value="pm"><?php esc_html_e( 'PM' ); ?></option>
+							</select>
+						<# } #>
+						<abbr class="date-timezone" aria-label="<?php esc_attr_e( 'Timezone' ); ?>" title="<?php echo esc_attr( $timezone_info['description'] ); ?>"><?php echo esc_html( $timezone_info['abbr'] ); ?></abbr>
+					</div>
+				</fieldset>
+			<# } #>
 		</div>
 		<?php
 	}

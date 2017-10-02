@@ -674,13 +674,12 @@ final class WP_Customize_Nav_Menus {
 		) ) );
 
 		$this->manager->add_control( 'new_menu_name', array(
-			'label'       => '',
+			'label'       => __( 'New menu name' ),
 			'section'     => 'add_menu',
 			'type'        => 'text',
 			'settings'    => array(),
 			'input_attrs' => array(
 				'class'       => 'menu-name-field',
-				'placeholder' => __( 'New menu name' ),
 			),
 		) );
 
@@ -1017,7 +1016,8 @@ final class WP_Customize_Nav_Menus {
 					<?php $post_type_obj = get_post_type_object( $available_item_type['object'] ); ?>
 					<?php if ( current_user_can( $post_type_obj->cap->create_posts ) && current_user_can( $post_type_obj->cap->publish_posts ) ) : ?>
 						<div class="new-content-item">
-							<input type="text" class="create-item-input" placeholder="<?php echo esc_attr( $post_type_obj->labels->add_new_item ); ?>">
+							<label for="<?php echo esc_attr( 'create-item-input-' . $available_item_type['object'] ); ?>" class="screen-reader-text"><?php echo esc_html( $post_type_obj->labels->add_new_item ); ?></label>
+							<input type="text" id="<?php echo esc_attr( 'create-item-input-' . $available_item_type['object'] ); ?>" class="create-item-input" placeholder="<?php echo esc_attr( $post_type_obj->labels->add_new_item ); ?>">
 							<button type="button" class="button add-content"><?php _e( 'Add' ); ?></button>
 						</div>
 					<?php endif; ?>

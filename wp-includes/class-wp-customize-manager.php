@@ -3622,18 +3622,20 @@ final class WP_Customize_Manager {
 			</ul>
 		</script>
 		<script type="text/html" id="tmpl-customize-preview-link-control" >
-			<span class="customize-control-title">
-				<label><?php esc_html_e( 'Share Preview Link' ); ?></label>
-			</span>
-			<span class="description customize-control-description"><?php esc_html_e( 'See how changes would look live on your website, and share the preview with people who can\'t access the Customizer.' ); ?></span>
+			<# var elementPrefix = _.uniqueId( 'el' ) + '-' #>
+			<p class="customize-control-title">
+				<?php esc_html_e( 'Share Preview Link' ); ?>
+			</p>
+			<p class="description customize-control-description"><?php esc_html_e( 'See how changes would look live on your website, and share the preview with people who can\'t access the Customizer.' ); ?></p>
 			<div class="customize-control-notifications-container"></div>
 			<div class="preview-link-wrapper">
-				<label>
-					<span class="screen-reader-text"><?php esc_html_e( 'Preview Link' ); ?></span>
-					<a class="preview-control-element" data-component="link" href="" target=""></a>
-					<input readonly class="preview-control-element" data-component="input" value="test" >
-					<button class="customize-copy-preview-link preview-control-element button button-secondary" data-component="button" data-copy-text="<?php esc_attr_e( 'Copy' ); ?>" data-copied-text="<?php esc_attr_e( 'Copied' ); ?>" ><?php esc_html_e( 'Copy' ); ?></button>
-				</label>
+				<label for="{{ elementPrefix }}customize-preview-link-input" class="screen-reader-text"><?php esc_html_e( 'Preview Link' ); ?></label>
+				<a href="" target="">
+					<span class="preview-control-element" data-component="url"></span>
+					<span class="screen-reader-text"><?php _e( '(opens in a new window)' ); ?></span>
+				</a>
+				<input id="{{ elementPrefix }}customize-preview-link-input" readonly class="preview-control-element" data-component="input">
+				<button class="customize-copy-preview-link preview-control-element button button-secondary" data-component="button" data-copy-text="<?php esc_attr_e( 'Copy' ); ?>" data-copied-text="<?php esc_attr_e( 'Copied' ); ?>" ><?php esc_html_e( 'Copy' ); ?></button>
 			</div>
 		</script>
 		<script type="text/html" id="tmpl-customize-trash-changeset-control">
@@ -4236,6 +4238,7 @@ final class WP_Customize_Manager {
 		} else {
 			$initial_date = current_time( 'mysql', false );
 		}
+
 		$this->add_control( new WP_Customize_Date_Time_Control( $this, 'changeset_scheduled_date', array(
 			'section' => 'publish_settings',
 			'priority' => 20,
@@ -4243,6 +4246,7 @@ final class WP_Customize_Manager {
 			'type' => 'date_time',
 			'min_year' => date( 'Y' ),
 			'allow_past_date' => false,
+			'include_time' => true,
 			'twelve_hour_format' => false !== stripos( get_option( 'time_format' ), 'a' ),
 			'description' => __( 'Schedule your customization changes to publish ("go live") at a future date.' ),
 			'capability' => 'customize',

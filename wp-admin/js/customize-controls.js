@@ -4929,10 +4929,6 @@
 	 */
 	api.DateTimeControl = api.Control.extend({
 
-		dateInputs: {},
-		inputElements: {},
-		invalidDate: false,
-
 		/**
 		 * Initialize behaviors.
 		 *
@@ -4942,50 +4938,68 @@
 		ready: function ready() {
 			var control = this;
 
-			_.bindAll( control, 'populateSetting', 'updateDaysForMonth', 'updateMinutesForHour' );
+			control.inputElements = {};
+			control.invalidDate = false;
 
-			control.dateInputs = control.container.find( '.date-input' );
+			_.bindAll( control, 'populateSetting', 'updateDaysForMonth', 'updateMinutesForHour', 'populateDateInputs' );
 
 			// @todo This needs https://core.trac.wordpress.org/ticket/37964
 			if ( ! control.setting ) {
 				control.setting = new api.Value();
 			}
 
+			// @todo Should this be? Default should be on client. The default value should be in the setting itself.
 			if ( ! control.setting.get() && control.params.defaultValue ) {
 				control.setting.set( control.params.defaultValue );
 			}
 
-			control.dateInputs.each( function() {
+			control.container.find( '.date-input' ).each( function() {
 				var input = $( this ), component, element;
 				component = input.data( 'component' );
 				element = new api.Element( input );
-				element.validate = function( value ) {
-					return _.contains( [ 'am', 'pm' ], value ) ? value : parseInt( value, 10 );
-				};
+				if ( 'meridian' === component ) {
+					element.validate = function( value ) {
+						if ( 'am' !== value && 'pm' !== value ) {
+							return null;
+						}
+						return value;
+					};
+				} else {
+					element.validate = function( value ) {
+						var val = parseInt( value, 10 );
+						if ( isNaN( val ) ) {
+							return null;
+						}
+						return val;
+					};
+				}
+				element.bind( control.populateSetting );
 				control.inputElements[ component ] = element;
 				control.elements.push( element );
 			} );
 
-			control.dateInputs.on( 'input', control.populateSetting );
 			control.inputElements.month.bind( control.updateDaysForMonth );
 			control.inputElements.year.bind( control.updateDaysForMonth );
-			control.inputElements.hour.bind( control.updateMinutesForHour );
+			if ( control.params.includeTime ) {
+				control.inputElements.hour.bind( control.updateMinutesForHour );
+			}
 			control.populateDateInputs();
+			control.setting.bind( control.populateDateInputs );
 		},
 
 		/**
 		 * Parse datetime string.
 		 *
 		 * @since 4.9.0
-		 * @param {string} datetime Date/Time string. Accepts Y-m-d H:i:s format.
-		 * @param {boolean} twelveHourFormat If twelve hour format array is required.
+		 *
+		 * @param {string} datetime - Date/Time string. Accepts Y-m-d[ H:i[:s]] format.
 		 * @returns {object|null} Returns object containing date components or null if parse error.
 		 */
-		parseDateTime: function parseDateTime( datetime, twelveHourFormat ) {
-			var matches, date, midDayHour = 12;
+		parseDateTime: function parseDateTime( datetime ) {
+			var control = this, matches, date, midDayHour = 12;
 
 			if ( datetime ) {
-				matches = datetime.match( /^(\d\d\d\d)-(\d\d)-(\d\d) (\d\d):(\d\d):(\d\d)$/ );
+				matches = datetime.match( /^(\d\d\d\d)-(\d\d)-(\d\d)(?: (\d\d):(\d\d)(?::(\d\d))?)?$/ );
 			}
 
 			if ( ! matches ) {
@@ -4998,16 +5012,16 @@
 				year: matches.shift(),
 				month: matches.shift(),
 				day: matches.shift(),
-				hour: matches.shift(),
-				minute: matches.shift(),
-				second: matches.shift()
+				hour: matches.shift() || '00',
+				minute: matches.shift() || '00',
+				second: matches.shift() || '00'
 			};
 
-			if ( twelveHourFormat ) {
+			if ( control.params.includeTime && control.params.twelveHourFormat ) {
 				date.hour = parseInt( date.hour, 10 );
-				date.ampm = date.hour >= midDayHour ? 'pm' : 'am';
+				date.meridian = date.hour >= midDayHour ? 'pm' : 'am';
 				date.hour = date.hour % midDayHour ? String( date.hour % midDayHour ) : String( midDayHour );
-				delete date.second;
+				delete date.second; // @todo Why only if twelveHourFormat?
 			}
 
 			return date;
@@ -5020,25 +5034,31 @@
 		 * @return {boolean} If date input fields has error.
 		 */
 		validateInputs: function validateInputs() {
-			var control = this, errorMessage;
+			var control = this, errorMessage, components;
 
 			control.invalidDate = false;
 
-			_.each( [ 'day', 'hour', 'year', 'minute' ], function( component ) {
-				var element, el, max, min, maxLength, value;
+			components = [ 'year', 'day' ];
+			if ( control.params.includeTime ) {
+				components.push( 'hour', 'minute' );
+			}
+
+			_.each( components, function( component ) {
+				var element, el, max, min, value;
 
 				if ( ! control.invalidDate ) {
 					element = control.inputElements[ component ];
 					el = element.element.get( 0 );
 					max = parseInt( element.element.attr( 'max' ), 10 );
 					min = parseInt( element.element.attr( 'min' ), 10 );
-					maxLength = parseInt( element.element.attr( 'maxlength' ), 10 );
 					value = element();
-					control.invalidDate = value > max || value < min || String( value ).length > maxLength;
+					control.invalidDate = value > max || value < min;
 					errorMessage = control.invalidDate ? api.l10n.invalid + ' ' + component : '';
 
 					el.setCustomValidity( errorMessage );
-					_.result( el, 'reportValidity' );
+					if ( ! control.section() || api.section.has( control.section() ) && api.section( control.section() ).expanded() ) {
+						_.result( el, 'reportValidity' );
+					}
 				}
 			} );
 
@@ -5077,7 +5097,7 @@
 		updateMinutesForHour: function updateMinutesForHour() {
 			var control = this, maxHours = 24, minuteEl;
 
-			if ( control.inputElements.ampm ) {
+			if ( control.inputElements.meridian ) {
 				return;
 			}
 
@@ -5086,11 +5106,9 @@
 			if ( maxHours === control.inputElements.hour() ) {
 				control.inputElements.minute( 0 );
 				minuteEl.data( 'default-max', minuteEl.attr( 'max' ) );
-				minuteEl.data( 'default-maxlength', minuteEl.attr( 'maxlength' ) );
 				minuteEl.attr( 'max', '0' );
 			} else if ( minuteEl.data( 'default-max' ) ) {
 				minuteEl.attr( 'max', minuteEl.data( 'default-max' ) );
-				minuteEl.attr( 'maxlength', minuteEl.data( 'maxlength' ) );
 			}
 		},
 
@@ -5142,8 +5160,11 @@
 				return value;
 			};
 
-			hourInTwentyFourHourFormat = control.inputElements.ampm ? control.convertHourToTwentyFourHourFormat( control.inputElements.hour(), control.inputElements.ampm() ) : control.inputElements.hour();
-			dateFormat = [ 'year', '-', 'month', '-', 'day', ' ', pad( hourInTwentyFourHourFormat, 2 ), ':', 'minute', ':', '00' ];
+			dateFormat = [ 'year', '-', 'month', '-', 'day' ];
+			if ( control.params.includeTime ) {
+				hourInTwentyFourHourFormat = control.inputElements.meridian ? control.convertHourToTwentyFourHourFormat( control.inputElements.hour(), control.inputElements.meridian() ) : control.inputElements.hour();
+				dateFormat = dateFormat.concat( [ ' ', pad( hourInTwentyFourHourFormat, 2 ), ':', 'minute', ':', '00' ] );
+			}
 
 			_.each( dateFormat, function( component ) {
 				date += control.inputElements[ component ] ? getElementValue( component ) : component;
@@ -5167,18 +5188,21 @@
 		 * Convert hour in twelve hour format to twenty four hour format.
 		 *
 		 * @since 4.9.0
-		 * @param {string} hourInTwelveHourFormat Hour in twelve hour format.
-		 * @param {string} ampm am/pm
-		 * @return {string} Hour in twenty four hour format.
+		 * @param {string} hourInTwelveHourFormat - Hour in twelve hour format.
+		 * @param {string} meridian - Either 'am' or 'pm'.
+		 * @returns {string} Hour in twenty four hour format.
 		 */
-		convertHourToTwentyFourHourFormat: function convertHour( hourInTwelveHourFormat, ampm ) {
+		convertHourToTwentyFourHourFormat: function convertHour( hourInTwelveHourFormat, meridian ) {
 			var hourInTwentyFourHourFormat, hour, midDayHour = 12;
 
 			hour = parseInt( hourInTwelveHourFormat, 10 );
+			if ( isNaN( hour ) ) {
+				return '';
+			}
 
-			if ( 'pm' === ampm && hour < midDayHour ) {
+			if ( 'pm' === meridian && hour < midDayHour ) {
 				hourInTwentyFourHourFormat = hour + midDayHour;
-			} else if ( 'am' === ampm && midDayHour === hour ) {
+			} else if ( 'am' === meridian && midDayHour === hour ) {
 				hourInTwentyFourHourFormat = hour - midDayHour;
 			} else {
 				hourInTwentyFourHourFormat = hour;
@@ -5196,7 +5220,7 @@
 		populateDateInputs: function populateDateInputs() {
 			var control = this, parsed;
 
-			parsed = control.parseDateTime( control.setting.get(), control.params.twelveHourFormat );
+			parsed = control.parseDateTime( control.setting.get() );
 
 			if ( ! parsed ) {
 				return false;
@@ -5245,8 +5269,6 @@
 	 */
 	api.PreviewLinkControl = api.Control.extend({
 
-		previewElements: {},
-
 		/**
 		 * Override the templateSelector before embedding the control into the page.
 		 *
@@ -5266,13 +5288,15 @@
 		 * @returns {void}
 		 */
 		ready: function ready() {
-			var control = this, element, component, node, link, input, button;
+			var control = this, element, component, node, url, input, button;
 
 			_.bindAll( control, 'updatePreviewLink' );
 
 			if ( ! control.setting ) {
 			    control.setting = new api.Value();
 			}
+
+			control.previewElements = {};
 
 			control.container.find( '.preview-control-element' ).each( function() {
 				node = $( this );
@@ -5282,21 +5306,23 @@
 				control.elements.push( element );
 			} );
 
-			link = control.previewElements.link;
+			url = control.previewElements.url;
 			input = control.previewElements.input;
 			button = control.previewElements.button;
 
 			input.link( control.setting );
-			link.link( control.setting );
+			url.link( control.setting );
 
-			link.bind( function( value ) {
-				link.element.attr( 'href', value );
-				link.element.attr( 'target', api.settings.changeset.uuid );
+			url.bind( function( value ) {
+				url.element.parent().attr( {
+					href: value,
+					target: api.settings.changeset.uuid
+				} );
 			} );
 
 			api.bind( 'ready', control.updatePreviewLink );
-			api.bind( 'change', control.updatePreviewLink );
 			api.state( 'saved' ).bind( control.updatePreviewLink );
+			api.state( 'changesetStatus' ).bind( control.updatePreviewLink );
 
 			button.element.on( 'click', function( event ) {
 				event.preventDefault();
@@ -5307,8 +5333,8 @@
 				}
 			} );
 
-			link.element.on( 'click', function( event ) {
-				if ( link.element.hasClass( 'disabled' ) ) {
+			url.element.parent().on( 'click', function( event ) {
+				if ( $( this ).hasClass( 'disabled' ) ) {
 					event.preventDefault();
 				}
 			} );
@@ -5329,12 +5355,10 @@
 		updatePreviewLink: function updatePreviewLink() {
 			var control = this, unsavedDirtyValues;
 
-			unsavedDirtyValues = ! _.isEmpty( api.dirtyValues( {
-				unsaved: true
-			} ) );
+			unsavedDirtyValues = ! api.state( 'saved' ).get() || '' === api.state( 'changesetStatus' ).get() || 'auto-draft' === api.state( 'changesetStatus' ).get();
 
 			control.toggleSaveNotification( unsavedDirtyValues );
-			control.previewElements.link.element.toggleClass( 'disabled', unsavedDirtyValues );
+			control.previewElements.url.element.parent().toggleClass( 'disabled', unsavedDirtyValues );
 			control.previewElements.button.element.prop( 'disabled', unsavedDirtyValues );
 			control.setting.set( api.previewer.getFrontendPreviewUrl() );
 		},
@@ -6508,9 +6532,7 @@
 						} );
 					} );
 
-					/**
-					 * Find all invalid setting less controls with notification type error.
-					 */
+					// Find all invalid setting less controls with notification type error.
 					api.control.each( function( control ) {
 						if ( ! control.setting || ! control.setting.id && control.active.get() ) {
 							control.notifications.each( function( notification ) {
@@ -7930,9 +7952,7 @@
 			});
 		})();
 
-		/**
-		 * Publish settings section and controls.
-		 */
+		// Publish settings section and controls.
 		api.control( 'changeset_status', 'changeset_scheduled_date', function( statusControl, dateControl ) {
 			$.when( statusControl.deferred.embedded, dateControl.deferred.embedded ).done( function() {
 				var radioNodes, statusElement, toggleDateControl, publishWhenTime, pollInterval, updateTimeArrivedPoller, timeArrivedPollingInterval = 1000;
