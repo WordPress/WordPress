@@ -1230,6 +1230,7 @@ class wpdb {
 
 		// This is not meant to be foolproof -- but it will catch obviously incorrect usage.
 		if ( strpos( $query, '%' ) === false ) {
+			wp_load_translations_early();
 			_doing_it_wrong( 'wpdb::prepare', sprintf( __( 'The query argument of %s must have a placeholder.' ), 'wpdb::prepare()' ), '3.9.0' );
 		}
 
@@ -1243,6 +1244,7 @@ class wpdb {
 
 		foreach ( $args as $arg ) {
 			if ( ! is_scalar( $arg ) && ! is_null( $arg ) ) {
+				wp_load_translations_early();
 				_doing_it_wrong( 'wpdb::prepare', sprintf( __( 'Unsupported value type (%s).' ), gettype( $arg ) ), '4.8.2' );
 			}
 		}
@@ -1254,9 +1256,10 @@ class wpdb {
 		$query = preg_replace( '/%(?:%|$|([^dsF]))/', '%%\\1', $query ); // escape any unescaped percents
 
 		// Count the number of valid placeholders in the query
-		$placeholders = preg_match_all( '/(^|[^%]|(%%)+)%[sdF]/', $query );
+		$placeholders = preg_match_all( '/(^|[^%]|(%%)+)%[sdF]/', $query, $matches );
 
 		if ( count ( $args ) !== $placeholders ) {
+			wp_load_translations_early();
 			_doing_it_wrong( 'wpdb::prepare',
 				sprintf( __( 'The query does not contain the correct number of placeholders (%d) for the number of arguments passed (%d).' ),
 					$placeholders,
