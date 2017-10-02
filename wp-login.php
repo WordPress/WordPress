@@ -55,7 +55,20 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	if ( $shake_error_codes && $wp_error->get_error_code() && in_array( $wp_error->get_error_code(), $shake_error_codes ) )
 		add_action( 'login_head', 'wp_shake_js', 12 );
 
-	$separator = is_rtl() ? ' &rsaquo; ' : ' &lsaquo; ';
+	$login_title = get_bloginfo( 'name', 'display' );
+
+	/* translators: Login screen title. 1: Login screen name, 2: Network or site name */
+	$login_title = sprintf( __( '%1$s &lsaquo; %2$s &#8212; WordPress' ), $title, $login_title );
+
+	/**
+	 * Filters the title tag content for login page.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @param string $login_title The page title, with extra context added.
+	 * @param string $title       The original page title.
+	 */
+	$login_title = apply_filters( 'login_title', $login_title, $title );
 
 	?><!DOCTYPE html>
 	<!--[if IE 8]>
@@ -66,7 +79,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	<!--<![endif]-->
 	<head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-	<title><?php echo $title . $separator . get_bloginfo( 'name', 'display' ); ?></title>
+	<title><?php echo $login_title; ?></title>
 	<?php
 
 	wp_enqueue_style( 'login' );
