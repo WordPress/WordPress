@@ -112,14 +112,18 @@ class WP_Customize_Date_Time_Control extends WP_Customize_Control {
 		<# _.defaults( data, <?php echo wp_json_encode( $data ); ?> ); #>
 		<# var idPrefix = _.uniqueId( 'el' ) + '-'; #>
 
-		<span class="customize-control-title">
-			{{ data.label }}
-		</span>
+		<# if ( data.label ) { #>
+			<span class="customize-control-title">
+				{{ data.label }}
+			</span>
+		<# } #>
 		<div class="customize-control-notifications-container"></div>
-		<span class="description customize-control-description">{{ data.description }}</span>
-		<div class="date-time-fields">
+		<# if ( data.description ) { #>
+			<span class="description customize-control-description">{{ data.description }}</span>
+		<# } #>
+		<div class="date-time-fields {{ data.includeTime ? 'includes-time' : '' }}">
 			<fieldset class="day-row">
-				<legend class="title-day"><?php esc_html_e( 'Date' ); ?></legend>
+				<legend class="title-day {{ ! data.includeTime ? 'screen-reader-text' : '' }}"><?php esc_html_e( 'Date' ); ?></legend>
 				<div class="day-fields clear">
 					<label for="{{ idPrefix }}date-time-month" class="screen-reader-text"><?php esc_html_e( 'Month' ); ?></label>
 					<select id="{{ idPrefix }}date-time-month" class="date-input month" data-component="month">

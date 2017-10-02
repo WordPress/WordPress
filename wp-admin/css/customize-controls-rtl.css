@@ -270,15 +270,17 @@ body.trashing #publish-settings {
 	margin-bottom: 15px;
 }
 
-.date-time-fields {
-	padding-top: 10px;
-	padding-bottom:10px;
+.customize-control-date_time .customize-control-description + .date-time-fields.includes-time {
+	margin-top: 10px;
 }
 
 .customize-control.customize-control-date_time .date-time-fields .date-input,
 .customize-control.customize-control-date_time .date-time-fields .date-time-separator {
 	float: right;
 	margin-left: 5px;
+}
+.customize-control.customize-control-date_time .date-time-fields .date-input.day {
+	margin-left: 0;
 }
 
 .date-time-fields .date-input.month {
