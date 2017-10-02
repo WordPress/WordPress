@@ -1230,7 +1230,8 @@ function _prime_network_caches( $network_ids ) {
 }
 
 /**
- * Handler for updating the blog date when a post is published or an already published post is changed.
+ * Handler for updating the site's last updated date when a post is published or
+ * an already published post is changed.
  *
  * @since 3.3.0
  *
@@ -1254,7 +1255,8 @@ function _update_blog_date_on_post_publish( $new_status, $old_status, $post ) {
 }
 
 /**
- * Handler for updating the blog date when a published post is deleted.
+ * Handler for updating the current site's last updated date when a published
+ * post is deleted.
  *
  * @since 3.4.0
  *
@@ -1276,7 +1278,7 @@ function _update_blog_date_on_post_delete( $post_id ) {
 }
 
 /**
- * Handler for updating the blog posts count date when a post is deleted.
+ * Handler for updating the current site's posts count when a post is deleted.
  *
  * @since 4.0.0
  *
@@ -1293,7 +1295,7 @@ function _update_posts_count_on_delete( $post_id ) {
 }
 
 /**
- * Handler for updating the blog posts count date when a post status changes.
+ * Handler for updating the current site's posts count when a post status changes.
  *
  * @since 4.0.0
  * @since 4.9.0 Added the `$post` parameter.
