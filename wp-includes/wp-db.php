@@ -1201,8 +1201,9 @@ class wpdb {
 	 *
 	 * All placeholders MUST be left unquoted in the query string. A corresponding argument MUST be passed for each placeholder.
 	 *
-	 * Literal percentage signs (%) in the query string must be written as %%. Percentage wildcards (for example, to use in LIKE syntax)
-	 * must be passed in the string argument, it cannot be inserted in the query string.
+	 * Literal percentage signs (%) in the query string must be written as %%. Percentage wildcards (for example,
+	 * to use in LIKE syntax) must be passed via a substitution argument containing the complete LIKE string, these
+	 * cannot be inserted directly in the query string. Also see {@see esc_like()}.
 	 *
 	 * This method DOES NOT support sign, padding, alignment, width or precision specifiers.
 	 * This method DOES NOT support argument numbering or swapping.
