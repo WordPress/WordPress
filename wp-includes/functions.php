@@ -5342,8 +5342,12 @@ function wp_auth_check_html() {
 	<?php
 
 	if ( $same_domain ) {
+		$login_src = add_query_arg( array(
+			'interim-login' => '1',
+			'wp_lang'       => get_user_locale(),
+		), $login_url );
 		?>
-		<div id="wp-auth-check-form" class="loading" data-src="<?php echo esc_url( add_query_arg( array( 'interim-login' => 1 ), $login_url ) ); ?>"></div>
+		<div id="wp-auth-check-form" class="loading" data-src="<?php echo esc_url( $login_src ); ?>"></div>
 		<?php
 	}
 
