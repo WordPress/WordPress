@@ -690,7 +690,7 @@ function switch_theme( $stylesheet ) {
 	}
 
 	if ( is_array( $_sidebars_widgets ) ) {
-		set_theme_mod( 'sidebars_widgets', $_sidebars_widgets );
+		set_theme_mod( 'sidebars_widgets', array( 'time' => time(), 'data' => $_sidebars_widgets ) );
 	}
 
 	$nav_menu_locations = get_theme_mod( 'nav_menu_locations' );

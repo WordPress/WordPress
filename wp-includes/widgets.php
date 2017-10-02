@@ -1286,6 +1286,7 @@ function wp_map_sidebars_widgets( $existing_sidebars_widgets ) {
 
 	// Sidebars_widgets settings from when this theme was previously active.
 	$old_sidebars_widgets = get_theme_mod( 'sidebars_widgets' );
+	$old_sidebars_widgets = $old_sidebars_widgets['data'];
 
 	if ( is_array( $old_sidebars_widgets ) ) {
 
