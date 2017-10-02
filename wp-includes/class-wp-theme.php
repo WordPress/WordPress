@@ -1426,7 +1426,7 @@ final class WP_Theme implements ArrayAccess {
 	 *
 	 * @static
 	 *
-	 * @param array $themes Array of themes to sort, passed by reference.
+	 * @param array $themes Array of themes to sort (passed by reference).
 	 */
 	public static function sort_by_name( &$themes ) {
 		if ( 0 === strpos( get_user_locale(), 'en_' ) ) {

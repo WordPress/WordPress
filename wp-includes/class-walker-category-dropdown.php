@@ -44,7 +44,7 @@ class Walker_CategoryDropdown extends Walker {
 	 *
 	 * @see Walker::start_el()
 	 *
-	 * @param string $output   Passed by reference. Used to append additional content.
+	 * @param string $output   Used to append additional content (passed by reference).
 	 * @param object $category Category data object.
 	 * @param int    $depth    Depth of category. Used for padding.
 	 * @param array  $args     Uses 'selected', 'show_count', and 'value_field' keys, if they exist.

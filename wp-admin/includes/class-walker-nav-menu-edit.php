@@ -49,7 +49,7 @@ class Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 	 *
 	 * @global int $_wp_nav_menu_max_depth
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param string $output Used to append additional content (passed by reference).
 	 * @param object $item   Menu item data object.
 	 * @param int    $depth  Depth of menu item. Used for padding.
 	 * @param array  $args   Not used.

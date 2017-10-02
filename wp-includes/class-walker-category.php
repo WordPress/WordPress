@@ -84,7 +84,7 @@ class Walker_Category extends Walker {
 	 *
 	 * @see Walker::start_el()
 	 *
-	 * @param string $output   Passed by reference. Used to append additional content.
+	 * @param string $output   Used to append additional content (passed by reference).
 	 * @param object $category Category data object.
 	 * @param int    $depth    Optional. Depth of category in reference to parents. Default 0.
 	 * @param array  $args     Optional. An array of arguments. See wp_list_categories(). Default empty array.
@@ -213,7 +213,7 @@ class Walker_Category extends Walker {
 	 *
 	 * @see Walker::end_el()
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param string $output Used to append additional content (passed by reference).
 	 * @param object $page   Not used.
 	 * @param int    $depth  Optional. Depth of category. Not used.
 	 * @param array  $args   Optional. An array of arguments. Only uses 'list' for whether should append

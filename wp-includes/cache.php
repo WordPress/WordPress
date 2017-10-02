@@ -112,8 +112,8 @@ function wp_cache_flush() {
  * @param string      $group  Optional. Where the cache contents are grouped. Default empty.
  * @param bool        $force  Optional. Whether to force an update of the local cache from the persistent
  *                            cache. Default false.
- * @param bool        $found  Optional. Whether the key was found in the cache. Disambiguates a return of false,
- *                            a storable value. Passed by reference. Default null.
+ * @param bool        $found  Optional. Whether the key was found in the cache (passed by reference).
+ *                            Disambiguates a return of false, a storable value. Default null.
  * @return bool|mixed False on failure to retrieve contents or the cache
  *		              contents on success
  */
@@ -516,8 +516,8 @@ class WP_Object_Cache {
 	 * @param string     $group  Optional. Where the cache contents are grouped. Default 'default'.
 	 * @param string     $force  Optional. Unused. Whether to force a refetch rather than relying on the local
 	 *                           cache. Default false.
-	 * @param bool       $found  Optional. Whether the key was found in the cache. Disambiguates a return of
-	 *                           false, a storable value. Passed by reference. Default null.
+	 * @param bool        $found  Optional. Whether the key was found in the cache (passed by reference).
+	 *                            Disambiguates a return of false, a storable value. Default null.
 	 * @return false|mixed False on failure to retrieve contents or the cache contents on success.
 	 */
 	public function get( $key, $group = 'default', $force = false, &$found = null ) {

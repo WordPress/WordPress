@@ -4448,7 +4448,7 @@ function get_page_children( $page_id, $pages ) {
  *
  * @since 2.0.0
  *
- * @param array $pages   Posts array, passed by reference.
+ * @param array $pages   Posts array (passed by reference).
  * @param int   $page_id Optional. Parent page ID. Default 0.
  * @return array A list arranged by hierarchy. Children immediately follow their parents.
  */
@@ -4479,8 +4479,8 @@ function get_page_hierarchy( &$pages, $page_id = 0 ) {
  * @see _page_traverse_name()
  *
  * @param int   $page_id   Page ID.
- * @param array $children  Parent-children relations, passed by reference.
- * @param array $result    Result, passed by reference.
+ * @param array $children  Parent-children relations (passed by reference).
+ * @param array $result    Result (passed by reference).
  */
 function _page_traverse_name( $page_id, &$children, &$result ){
 	if ( isset( $children[ $page_id ] ) ){
@@ -5731,7 +5731,7 @@ function _get_last_post_time( $timezone, $field, $post_type = 'any' ) {
  *
  * @since 1.5.1
  *
- * @param array $posts Array of post objects, passed by reference.
+ * @param array $posts Array of post objects (passed by reference).
  */
 function update_post_cache( &$posts ) {
 	if ( ! $posts )

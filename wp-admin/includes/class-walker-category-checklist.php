@@ -27,7 +27,7 @@ class Walker_Category_Checklist extends Walker {
 	 *
 	 * @since 2.5.1
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param string $output Used to append additional content (passed by reference).
 	 * @param int    $depth  Depth of category. Used for tab indentation.
 	 * @param array  $args   An array of arguments. @see wp_terms_checklist()
 	 */
@@ -43,7 +43,7 @@ class Walker_Category_Checklist extends Walker {
 	 *
 	 * @since 2.5.1
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param string $output Used to append additional content (passed by reference).
 	 * @param int    $depth  Depth of category. Used for tab indentation.
 	 * @param array  $args   An array of arguments. @see wp_terms_checklist()
 	 */
@@ -59,7 +59,7 @@ class Walker_Category_Checklist extends Walker {
 	 *
 	 * @since 2.5.1
 	 *
-	 * @param string $output   Passed by reference. Used to append additional content.
+	 * @param string $output   Used to append additional content (passed by reference).
 	 * @param object $category The current term object.
 	 * @param int    $depth    Depth of the term in reference to parents. Default 0.
 	 * @param array  $args     An array of arguments. @see wp_terms_checklist()
@@ -114,7 +114,7 @@ class Walker_Category_Checklist extends Walker {
 	 *
 	 * @since 2.5.1
 	 *
-	 * @param string $output   Passed by reference. Used to append additional content.
+	 * @param string $output   Used to append additional content (passed by reference).
 	 * @param object $category The current term object.
 	 * @param int    $depth    Depth of the term in reference to parents. Default 0.
 	 * @param array  $args     An array of arguments. @see wp_terms_checklist()

@@ -2159,7 +2159,7 @@ function add_new_user_to_blog( $user_id, $password, $meta ) {
  *
  * @since MU (3.0.0)
  *
- * @param PHPMailer $phpmailer The PHPMailer instance, passed by reference.
+ * @param PHPMailer $phpmailer The PHPMailer instance (passed by reference).
  */
 function fix_phpmailer_messageid( $phpmailer ) {
 	$phpmailer->Hostname = get_network()->domain;

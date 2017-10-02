@@ -2751,7 +2751,7 @@ class WP_Query {
 		 *
 		 * @param array|null $posts Return an array of post data to short-circuit WP's query,
 		 *                          or null to allow WP to run its normal queries.
-		 * @param WP_Query   $this  The WP_Query instance, passed by reference.
+		 * @param WP_Query   $this  The WP_Query instance (passed by reference).
 		 */
 		$this->posts = apply_filters_ref_array( 'posts_pre_query', array( null, &$this ) );
 

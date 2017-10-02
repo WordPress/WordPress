@@ -45,7 +45,7 @@ class Walker_Comment extends Walker {
 	 * @see Walker::start_lvl()
 	 * @global int $comment_depth
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param string $output Used to append additional content (passed by reference).
 	 * @param int    $depth  Optional. Depth of the current comment. Default 0.
 	 * @param array  $args   Optional. Uses 'style' argument for type of HTML list. Default empty array.
 	 */
@@ -73,7 +73,7 @@ class Walker_Comment extends Walker {
 	 * @see Walker::end_lvl()
 	 * @global int $comment_depth
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param string $output Used to append additional content (passed by reference).
 	 * @param int    $depth  Optional. Depth of the current comment. Default 0.
 	 * @param array  $args   Optional. Will only append content if style argument value is 'ol' or 'ul'.
 	 *                       Default empty array.

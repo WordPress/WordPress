@@ -44,7 +44,7 @@ class Walker_Page extends Walker {
 	 *
 	 * @see Walker::start_lvl()
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param string $output Used to append additional content (passed by reference).
 	 * @param int    $depth  Optional. Depth of page. Used for padding. Default 0.
 	 * @param array  $args   Optional. Arguments for outputting the next level.
 	 *                       Default empty array.
@@ -68,7 +68,7 @@ class Walker_Page extends Walker {
 	 *
 	 * @see Walker::end_lvl()
 	 *
-	 * @param string $output Passed by reference. Used to append additional content.
+	 * @param string $output Used to append additional content (passed by reference).
 	 * @param int    $depth  Optional. Depth of page. Used for padding. Default 0.
 	 * @param array  $args   Optional. Arguments for outputting the end of the current level.
 	 *                       Default empty array.

@@ -291,7 +291,7 @@ class WP_Tax_Query {
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param array $query Query to parse, passed by reference.
+	 * @param array $query Query to parse (passed by reference).
 	 * @param int   $depth Optional. Number of tree levels deep we currently are.
 	 *                     Used to calculate indentation. Default 0.
 	 * @return array {
@@ -374,7 +374,7 @@ class WP_Tax_Query {
 	 *
 	 * @global wpdb $wpdb The WordPress database abstraction object.
 	 *
-	 * @param array $clause       Query clause, passed by reference.
+	 * @param array $clause       Query clause (passed by reference).
 	 * @param array $parent_query Parent query array.
 	 * @return array {
 	 *     Array containing JOIN and WHERE SQL clauses to append to a first-order query.

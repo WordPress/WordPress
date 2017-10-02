@@ -1392,7 +1392,7 @@ class WP_Rewrite {
 		 *
 		 * @since 1.5.0
 		 *
-		 * @param WP_Rewrite $this Current WP_Rewrite instance, passed by reference.
+		 * @param WP_Rewrite $this Current WP_Rewrite instance (passed by reference).
 		 */
 		do_action_ref_array( 'generate_rewrite_rules', array( &$this ) );
 

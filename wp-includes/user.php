@@ -57,8 +57,8 @@ function wp_signon( $credentials = array(), $secure_cookie = '' ) {
 	 *
 	 * @todo Decide whether to deprecate the wp_authenticate action.
 	 *
-	 * @param string $user_login    Username, passed by reference.
-	 * @param string $user_password User password, passed by reference.
+	 * @param string $user_login    Username (passed by reference).
+	 * @param string $user_password User password (passed by reference).
 	 */
 	do_action_ref_array( 'wp_authenticate', array( &$credentials['user_login'], &$credentials['user_password'] ) );
 
