@@ -9,24 +9,43 @@
 	var context = canvas.getContext && canvas.getContext( '2d' );
 
 	/**
+	 * Check if two sets of Emoji characters render the same.
+	 *
+	 * @param set1 array Set of Emoji characters.
+	 * @param set2 array Set of Emoji characters.
+	 * @returns {boolean} True if the two sets render the same.
+	 */
+	function emojiSetsRenderIdentically( set1, set2 ) {
+		var stringFromCharCode = String.fromCharCode;
+
+		// Cleanup from previous test.
+		context.clearRect( 0, 0, canvas.width, canvas.height );
+		context.fillText( stringFromCharCode.apply( this, set1 ), 0, 0 );
+		var rendered1 = canvas.toDataURL();
+
+		// Cleanup from previous test.
+		context.clearRect( 0, 0, canvas.width, canvas.height );
+		context.fillText( stringFromCharCode.apply( this, set2 ), 0, 0 );
+		var rendered2 = canvas.toDataURL();
+
+		return rendered1 === rendered2;
+	}
+
+	/**
 	 * Detect if the browser supports rendering emoji or flag emoji. Flag emoji are a single glyph
 	 * made of two characters, so some browsers (notably, Firefox OS X) don't support them.
 	 *
 	 * @since 4.2.0
 	 *
-	 * @param type {String} Whether to test for support of "flag" or "emoji4" emoji.
+	 * @param type {String} Whether to test for support of "flag" or "emoji".
 	 * @return {Boolean} True if the browser can render emoji, false if it cannot.
 	 */
 	function browserSupportsEmoji( type ) {
-		var stringFromCharCode = String.fromCharCode,
-			flag, flag2, emoji41, emoji42;
+		var isIdentical;
 
 		if ( ! context || ! context.fillText ) {
 			return false;
 		}
-
-		// Cleanup from previous test.
-		context.clearRect( 0, 0, canvas.width, canvas.height );
 
 		/*
 		 * Chrome on OS X added native emoji rendering in M41. Unfortunately,
@@ -45,16 +64,12 @@
 				 * To test for support, we try to render it, and compare the rendering to how it would look if
 				 * the browser doesn't render it correctly ([U] + [N]).
 				 */
-				context.fillText( stringFromCharCode( 55356, 56826, 55356, 56819 ), 0, 0 );
-				flag = canvas.toDataURL();
+				isIdentical = emojiSetsRenderIdentically(
+					[ 55356, 56826, 55356, 56819 ],
+					[ 55356, 56826, 8203, 55356, 56819 ]
+				);
 
-				context.clearRect( 0, 0, canvas.width, canvas.height );
-
-				// Add a zero width space between the characters, to force rendering as characters.
-				context.fillText( stringFromCharCode( 55356, 56826, 8203, 55356, 56819 ), 0, 0 );
-				flag2 = canvas.toDataURL();
-
-				if ( flag === flag2 ) {
+				if ( isIdentical ) {
 					return false;
 				}
 
@@ -65,19 +80,13 @@
 				 * To test for support, we try to render it, and compare the rendering to how it would look if
 				 * the browser doesn't render it correctly (black flag emoji + [G] + [B] + [E] + [N] + [G]).
 				 */
-				// Cleanup from previous test.
-				context.clearRect( 0, 0, canvas.width, canvas.height );
+				isIdentical = emojiSetsRenderIdentically(
+					[ 55356, 57332, 56128, 56423, 56128, 56418, 56128, 56421, 56128, 56430, 56128, 56423, 56128, 56447 ],
+					[ 55356, 57332, 8203, 56128, 56423, 8203, 56128, 56418, 8203, 56128, 56421, 8203, 56128, 56430, 8203, 56128, 56423, 8203, 56128, 56447 ]
+				);
 
-				context.fillText( stringFromCharCode( 55356, 57332, 56128, 56423, 56128, 56418, 56128, 56421, 56128, 56430, 56128, 56423, 56128, 56447 ), 0, 0 );
-				flag = canvas.toDataURL();
-
-				context.clearRect( 0, 0, canvas.width, canvas.height );
-
-				context.fillText( stringFromCharCode( 55356, 57332, 8203, 56128, 56423, 8203, 56128, 56418, 8203, 56128, 56421, 8203, 56128, 56430, 8203, 56128, 56423, 8203, 56128, 56447 ), 0, 0 );
-				flag2 = canvas.toDataURL();
-
-				return flag !== flag2;
-			case 'emoji4':
+				return ! isIdentical;
+			case 'emoji':
 				/*
 				 * Emoji 5 has fairies of all genders.
 				 *
@@ -85,15 +94,11 @@
 				 * it to how it would look if the browser doesn't render it correctly
 				 * (fairy + male sign).
 				 */
-				context.fillText( stringFromCharCode( 55358, 56794, 8205, 9794, 65039 ), 0, 0 );
-				emoji41 = canvas.toDataURL();
-
-				context.clearRect( 0, 0, canvas.width, canvas.height );
-
-				context.fillText( stringFromCharCode( 55358, 56794, 8203, 9794, 65039 ), 0, 0 );
-				emoji42 = canvas.toDataURL();
-
-				return emoji41 !== emoji42;
+				isIdentical = emojiSetsRenderIdentically(
+					[ 55358, 56794, 8205, 9794, 65039 ],
+					[ 55358, 56794, 8203, 9794, 65039 ]
+				);
+				return ! isIdentical;
 		}
 
 		return false;
@@ -107,7 +112,7 @@
 		document.getElementsByTagName( 'head' )[0].appendChild( script );
 	}
 
-	tests = Array( 'flag', 'emoji4' );
+	tests = Array( 'flag', 'emoji' );
 
 	settings.supports = {
 		everything: true,
