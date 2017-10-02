@@ -47,7 +47,7 @@ class WP_Widget_Pages extends WP_Widget {
 		 * @since 2.6.0
 		 *
 		 * @param string $title    The widget title. Default 'Pages'.
-		 * @param array  $instance An array of the widget's settings.
+		 * @param array  $instance Array of settings for the current widget.
 		 * @param mixed  $id_base  The widget ID.
 		 */
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Pages' ) : $instance['title'], $instance, $this->id_base );
@@ -62,17 +62,19 @@ class WP_Widget_Pages extends WP_Widget {
 		 * Filters the arguments for the Pages widget.
 		 *
 		 * @since 2.8.0
+		 * @since 4.9.0 Added the `$instance` parameter.
 		 *
 		 * @see wp_list_pages()
 		 *
-		 * @param array $args An array of arguments to retrieve the pages list.
+		 * @param array $args     An array of arguments to retrieve the pages list.
+		 * @param array $instance Array of settings for the current widget.
 		 */
 		$out = wp_list_pages( apply_filters( 'widget_pages_args', array(
 			'title_li'    => '',
 			'echo'        => 0,
 			'sort_column' => $sortby,
 			'exclude'     => $exclude
-		) ) );
+		), $instance ) );
 
 		if ( ! empty( $out ) ) {
 			echo $args['before_widget'];

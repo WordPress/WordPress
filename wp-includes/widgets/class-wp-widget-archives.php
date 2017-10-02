@@ -61,16 +61,18 @@ class WP_Widget_Archives extends WP_Widget {
 			 * Filters the arguments for the Archives widget drop-down.
 			 *
 			 * @since 2.8.0
+			 * @since 4.9.0 Added the `$instance` parameter.
 			 *
 			 * @see wp_get_archives()
 			 *
-			 * @param array $args An array of Archives widget drop-down arguments.
+			 * @param array $args     An array of Archives widget drop-down arguments.
+			 * @param array $instance Settings for the current Archives widget instance.
 			 */
 			$dropdown_args = apply_filters( 'widget_archives_dropdown_args', array(
 				'type'            => 'monthly',
 				'format'          => 'option',
 				'show_post_count' => $c
-			) );
+			), $instance );
 
 			switch ( $dropdown_args['type'] ) {
 				case 'yearly':
@@ -102,15 +104,17 @@ class WP_Widget_Archives extends WP_Widget {
 		 * Filters the arguments for the Archives widget.
 		 *
 		 * @since 2.8.0
+		 * @since 4.9.0 Added the `$instance` parameter.
 		 *
 		 * @see wp_get_archives()
 		 *
-		 * @param array $args An array of Archives option arguments.
+		 * @param array $args     An array of Archives option arguments.
+		 * @param array $instance Array of settings for the current widget.
 		 */
 		wp_get_archives( apply_filters( 'widget_archives_args', array(
 			'type'            => 'monthly',
 			'show_post_count' => $c
-		) ) );
+		), $instance ) );
 		?>
 		</ul>
 		<?php

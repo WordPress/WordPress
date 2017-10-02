@@ -60,14 +60,16 @@ class WP_Widget_Meta extends WP_Widget {
 			 * Filters the "Powered by WordPress" text in the Meta widget.
 			 *
 			 * @since 3.6.0
+			 * @since 4.9.0 Added the `$instance` parameter.
 			 *
 			 * @param string $title_text Default title text for the WordPress.org link.
+			 * @param array  $instance   Array of settings for the current widget.
 			 */
 			echo apply_filters( 'widget_meta_poweredby', sprintf( '<li><a href="%s" title="%s">%s</a></li>',
 				esc_url( __( 'https://wordpress.org/' ) ),
 				esc_attr__( 'Powered by WordPress, state-of-the-art semantic personal publishing platform.' ),
 				_x( 'WordPress.org', 'meta widget link text' )
-			) );
+			), $instance );
 
 			wp_meta();
 			?>
