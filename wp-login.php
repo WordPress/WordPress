@@ -66,7 +66,7 @@ function login_header( $title = 'Log In', $message = '', $wp_error = '' ) {
 	<!--<![endif]-->
 	<head>
 	<meta http-equiv="Content-Type" content="<?php bloginfo('html_type'); ?>; charset=<?php bloginfo('charset'); ?>" />
-	<title><?php echo get_bloginfo( 'name', 'display' ) . $separator . $title; ?></title>
+	<title><?php echo $title . $separator . get_bloginfo( 'name', 'display' ); ?></title>
 	<?php
 
 	wp_enqueue_style( 'login' );
