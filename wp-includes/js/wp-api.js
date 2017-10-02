@@ -501,8 +501,49 @@
 			 * Add a helper function to handle post Meta.
 			 */
 			MetaMixin = {
-				getMeta: function() {
-					return buildCollectionGetter( this, 'PostMeta', 'https://api.w.org/meta' );
+
+				/**
+				 * Get meta by key for a post.
+				 *
+				 * @param {string} key The meta key.
+				 *
+				 * @return {object} The post meta value.
+				 */
+				getMeta: function( key ) {
+					var metas = this.get( 'meta' );
+					return metas[ key ];
+				},
+
+				/**
+				 * Get all meta key/values for a post.
+				 *
+				 * @return {object} The post metas, as a key value pair object.
+				 */
+				getMetas: function() {
+					return this.get( 'meta' );
+				},
+
+				/**
+				 * Set a group of meta key/values for a post.
+				 *
+				 * @param {object} meta The post meta to set, as key/value pairs.
+				 */
+				setMetas: function( meta ) {
+					var metas = this.get( 'meta' );
+					_.extend( metas, meta );
+					this.set( 'meta', metas );
+				},
+
+				/**
+				 * Set a single meta value for a post, by key.
+				 *
+				 * @param {string} key   The meta key.
+				 * @param {object} value The meta value.
+				 */
+				setMeta: function( key, value ) {
+					var metas = this.get( 'meta' );
+					metas[ key ] = value;
+					this.set( 'meta', metas );
 				}
 			},
 
@@ -734,8 +775,8 @@
 			model = model.extend( CategoriesMixin );
 		}
 
-		// Add the MetaMixin for models that support meta collections.
-		if ( ! _.isUndefined( loadingObjects.collections[ modelClassName + 'Meta' ] ) ) {
+		// Add the MetaMixin for models that support meta.
+		if ( ! _.isUndefined( model.prototype.args.meta ) ) {
 			model = model.extend( MetaMixin );
 		}
 
