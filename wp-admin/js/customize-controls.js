@@ -1315,7 +1315,9 @@
 				}
 				content = meta.find( '.customize-section-description:first' );
 				content.toggleClass( 'open' );
-				content.slideToggle();
+				content.slideToggle( section.defaultExpandedArguments.duration, function() {
+					content.trigger( 'toggled' );
+				} );
 				$( this ).attr( 'aria-expanded', function( i, attr ) {
 					return 'true' === attr ? 'false' : 'true';
 				});
@@ -2558,10 +2560,14 @@
 				var content = meta.find( '.customize-panel-description:first' );
 				if ( meta.hasClass( 'open' ) ) {
 					meta.toggleClass( 'open' );
-					content.slideUp( panel.defaultExpandedArguments.duration );
+					content.slideUp( panel.defaultExpandedArguments.duration, function() {
+						content.trigger( 'toggled' );
+					} );
 					$( this ).attr( 'aria-expanded', false );
 				} else {
-					content.slideDown( panel.defaultExpandedArguments.duration );
+					content.slideDown( panel.defaultExpandedArguments.duration, function() {
+						content.trigger( 'toggled' );
+					} );
 					meta.toggleClass( 'open' );
 					$( this ).attr( 'aria-expanded', true );
 				}
@@ -6411,10 +6417,14 @@
 
 			if ( section.hasClass( 'open' ) ) {
 				section.toggleClass( 'open' );
-				content.slideUp( api.Panel.prototype.defaultExpandedArguments.duration );
+				content.slideUp( api.Panel.prototype.defaultExpandedArguments.duration, function() {
+					content.trigger( 'toggled' );
+				} );
 				$( this ).attr( 'aria-expanded', false );
 			} else {
-				content.slideDown( api.Panel.prototype.defaultExpandedArguments.duration );
+				content.slideDown( api.Panel.prototype.defaultExpandedArguments.duration, function() {
+					content.trigger( 'toggled' );
+				} );
 				section.toggleClass( 'open' );
 				$( this ).attr( 'aria-expanded', true );
 			}
@@ -7365,7 +7375,7 @@
 		 */
 		(function initStickyHeaders() {
 			var parentContainer = $( '.wp-full-overlay-sidebar-content' ),
-				changeContainer, getHeaderHeight, releaseStickyHeader, resetStickyHeader, positionStickyHeader,
+				changeContainer, updateHeaderHeight, releaseStickyHeader, resetStickyHeader, positionStickyHeader,
 				activeHeader, lastScrollTop;
 
 			/**
@@ -7383,9 +7393,12 @@
 					expandedPanel = api.state( 'expandedPanel' ).get(),
 					headerElement;
 
-				// Release previously active header element.
 				if ( activeHeader && activeHeader.element ) {
+					// Release previously active header element.
 					releaseStickyHeader( activeHeader.element );
+
+					// Remove event listener in the previous panel or section.
+					activeHeader.element.find( '.description' ).off( 'toggled', updateHeaderHeight );
 				}
 
 				if ( ! newInstance ) {
@@ -7405,8 +7418,12 @@
 						instance: newInstance,
 						element:  headerElement,
 						parent:   headerElement.closest( '.customize-pane-child' ),
-						height:   getHeaderHeight( headerElement )
+						height:   headerElement.outerHeight()
 					};
+
+					// Update header height whenever help text is expanded or collapsed.
+					activeHeader.element.find( '.description' ).on( 'toggled', updateHeaderHeight );
+
 					if ( expandedSection ) {
 						resetStickyHeader( activeHeader.element, activeHeader.parent );
 					}
@@ -7475,21 +7492,15 @@
 			};
 
 			/**
-			 * Get header height.
+			 * Update active header height.
 			 *
 			 * @since 4.7.0
 			 * @access private
 			 *
-			 * @param {jQuery} headerElement Header element.
-			 * @returns {number} Height.
+			 * @returns {void}
 			 */
-			getHeaderHeight = function( headerElement ) {
-				var height = headerElement.data( 'height' );
-				if ( ! height ) {
-					height = headerElement.outerHeight();
-					headerElement.data( 'height', height );
-				}
-				return height;
+			updateHeaderHeight = function() {
+				activeHeader.height = activeHeader.element.outerHeight();
 			};
 
 			/**
@@ -7945,7 +7956,8 @@
 				if ( control && ! control.setting.get() ) {
 					section.container.find( '.section-meta .customize-section-description:first' )
 						.addClass( 'open' )
-						.show();
+						.show()
+						.trigger( 'toggled' );
 
 					section.container.find( '.customize-help-toggle' ).attr( 'aria-expanded', 'true' );
 				}
