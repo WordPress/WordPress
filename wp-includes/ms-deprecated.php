@@ -429,10 +429,17 @@ function get_admin_users_for_domain( $domain = '', $path = '' ) {
 
 	global $wpdb;
 
-	if ( ! $domain )
+	if ( ! $domain ) {
 		$network_id = get_current_network_id();
-	else
-		$network_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $wpdb->site WHERE domain = %s AND path = %s", $domain, $path ) );
+	} else {
+		$_networks  = get_networks( array(
+			'fields' => 'ids',
+			'number' => 1,
+			'domain' => $domain,
+			'path'   => $path,
+		) );
+		$network_id = ! empty( $_networks ) ? array_shift( $_networks ) : 0;
+	}
 
 	if ( $network_id )
 		return $wpdb->get_results( $wpdb->prepare( "SELECT u.ID, u.user_login, u.user_pass FROM $wpdb->users AS u, $wpdb->sitemeta AS sm WHERE sm.meta_key = 'admin_user_id' AND u.ID = sm.meta_value AND sm.site_id = %d", $network_id ), ARRAY_A );
