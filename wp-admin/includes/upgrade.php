@@ -433,10 +433,13 @@ function wp_upgrade() {
 	wp_cache_flush();
 
 	if ( is_multisite() ) {
-		if ( $wpdb->get_row( "SELECT blog_id FROM {$wpdb->blog_versions} WHERE blog_id = '{$wpdb->blogid}'" ) )
-			$wpdb->query( "UPDATE {$wpdb->blog_versions} SET db_version = '{$wp_db_version}' WHERE blog_id = '{$wpdb->blogid}'" );
-		else
-			$wpdb->query( "INSERT INTO {$wpdb->blog_versions} ( `blog_id` , `db_version` , `last_updated` ) VALUES ( '{$wpdb->blogid}', '{$wp_db_version}', NOW());" );
+		$site_id = get_current_blog_id();
+
+		if ( $wpdb->get_row( $wpdb->prepare( 'SELECT blog_id FROM %s WHERE blog_id = %d', $wpdb->blog_versions, $site_id ) ) ) {
+			$wpdb->query( $wpdb->prepare( 'UPDATE %s SET db_version = %d WHERE blog_id = %d', $wpdb->blog_versions, $wp_db_version, $site_id ) );
+ 	    } else {
+			$wpdb->query( $wpdb->prepare( 'INSERT INTO %s ( `blog_id` , `db_version` , `last_updated` ) VALUES ( %d, %d, %s);', $wpdb->blog_versions, $site_id, $wp_db_version, NOW() ) );
+ 	    }
 	}
 
 	/**
@@ -1257,7 +1260,7 @@ function upgrade_280() {
 			}
 			$start += 20;
 		}
-		refresh_blog_details( $wpdb->blogid );
+		refresh_blog_details();
 	}
 }
 

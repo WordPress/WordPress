@@ -34,19 +34,17 @@ function get_sitestats() {
  *
  * @since MU (3.0.0) 1.0
  *
- * @global wpdb $wpdb WordPress database abstraction object.
- *
  * @param int $user_id The unique ID of the user
  * @return WP_Site|void The blog object
  */
 function get_active_blog_for_user( $user_id ) {
-	global $wpdb;
 	$blogs = get_blogs_of_user( $user_id );
 	if ( empty( $blogs ) )
 		return;
 
-	if ( !is_multisite() )
-		return $blogs[$wpdb->blogid];
+	if ( ! is_multisite() ) {
+		return $blogs[ get_current_blog_id() ];
+	}
 
 	$primary_blog = get_user_meta( $user_id, 'primary_blog', true );
 	$first_blog = current($blogs);
@@ -2219,7 +2217,7 @@ function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
 
 	$current_user = wp_get_current_user();
 	if ( $blog_id == 0 ) {
-		$blog_id = $wpdb->blogid;
+		$blog_id = get_current_blog_id();
 	}
 	$local_key = $wpdb->get_blog_prefix( $blog_id ) . $key;
 

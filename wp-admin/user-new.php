@@ -156,7 +156,7 @@ Please click the following link to confirm the invite:
 				add_filter( 'wpmu_signup_user_notification', '__return_false' ); // Disable confirmation email
 				add_filter( 'wpmu_welcome_user_notification', '__return_false' ); // Disable welcome email
 			}
-			wpmu_signup_user( $new_user_login, $new_user_email, array( 'add_to_blog' => $wpdb->blogid, 'new_role' => $_REQUEST['role'] ) );
+			wpmu_signup_user( $new_user_login, $new_user_email, array( 'add_to_blog' => get_current_blog_id(), 'new_role' => $_REQUEST['role'] ) );
 			if ( isset( $_POST[ 'noconfirmation' ] ) && current_user_can( 'manage_network_users' ) ) {
 				$key = $wpdb->get_var( $wpdb->prepare( "SELECT activation_key FROM {$wpdb->signups} WHERE user_login = %s AND user_email = %s", $new_user_login, $new_user_email ) );
 				$new_user = wpmu_activate_signup( $key );

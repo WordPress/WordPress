@@ -12,13 +12,11 @@
  * Update the last_updated field for the current site.
  *
  * @since MU (3.0.0)
- *
- * @global wpdb $wpdb WordPress database abstraction object.
  */
 function wpmu_update_blogs_date() {
-	global $wpdb;
+	$site_id = get_current_blog_id();
 
-	update_blog_details( $wpdb->blogid, array('last_updated' => current_time('mysql', true)) );
+	update_blog_details( $site_id, array( 'last_updated' => current_time( 'mysql', true ) ) );
 	/**
 	 * Fires after the blog details are updated.
 	 *
@@ -26,7 +24,7 @@ function wpmu_update_blogs_date() {
 	 *
 	 * @param int $blog_id Site ID.
 	 */
-	do_action( 'wpmu_blog_updated', $wpdb->blogid );
+	do_action( 'wpmu_blog_updated', $site_id );
 }
 
 /**
