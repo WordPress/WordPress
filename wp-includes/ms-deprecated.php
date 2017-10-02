@@ -519,3 +519,30 @@ function wp_get_sites( $args = array() ) {
 
 	return $results;
 }
+
+/**
+ * Check whether a usermeta key has to do with the current blog.
+ *
+ * @since MU (3.0.0)
+ * @deprecated 4.9.0
+ *
+ * @global wpdb $wpdb WordPress database abstraction object.
+ *
+ * @param string $key
+ * @param int    $user_id Optional. Defaults to current user.
+ * @param int    $blog_id Optional. Defaults to current blog.
+ * @return bool
+ */
+function is_user_option_local( $key, $user_id = 0, $blog_id = 0 ) {
+	global $wpdb;
+
+	_deprecated_function( __FUNCTION__, '4.9.0' );
+
+	$current_user = wp_get_current_user();
+	if ( $blog_id == 0 ) {
+		$blog_id = get_current_blog_id();
+	}
+	$local_key = $wpdb->get_blog_prefix( $blog_id ) . $key;
+
+	return isset( $current_user->$local_key );
+}
