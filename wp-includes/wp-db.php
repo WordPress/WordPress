@@ -1251,7 +1251,20 @@ class wpdb {
 		$query = str_replace( '"%s"', '%s', $query ); // doublequote unquoting
 		$query = preg_replace( '|(?<!%)%f|' , '%F', $query ); // Force floats to be locale unaware
 		$query = preg_replace( '|(?<!%)%s|', "'%s'", $query ); // quote the strings, avoiding escaped strings like %%s
-		$query = preg_replace( '/%(?:%|$|([^dsF]))/', '%%\\1', $query ); // escape any unescaped percents 
+		$query = preg_replace( '/%(?:%|$|([^dsF]))/', '%%\\1', $query ); // escape any unescaped percents
+
+		// Count the number of valid placeholders in the query
+		$placeholders = preg_match_all( '/(^|[^%]|(%%)+)%[sdF]/', $query );
+
+		if ( count ( $args ) !== $placeholders ) {
+			_doing_it_wrong( 'wpdb::prepare',
+				sprintf( __( 'The query does not contain the correct number of placeholders (%d) for the number of arguments passed (%d).' ),
+					$placeholders,
+					count( $args ) ),
+				'4.9.0'
+			);
+		}
+
 		array_walk( $args, array( $this, 'escape_by_ref' ) );
 		return @vsprintf( $query, $args );
 	}
@@ -2046,7 +2059,7 @@ class wpdb {
 		$conditions = implode( ' AND ', $conditions );
 
 		$sql = "UPDATE `$table` SET $fields WHERE $conditions";
-
+		
 		$this->check_current_query = false;
 		return $this->query( $this->prepare( $sql, $values ) );
 	}
