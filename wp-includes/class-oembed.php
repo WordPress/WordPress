@@ -114,6 +114,9 @@ class WP_oEmbed {
 			'#https?://(www\.)?amzn\.in/.*#i'                                     => array( 'https://read.amazon.in/kp/api/oembed',                  true  ),
 			'#https?://(www\.)?amzn\.asia/.*#i'                                   => array( 'https://read.amazon.com.au/kp/api/oembed',              true  ),
 			'#https?://(www\.)?z\.cn/.*#i'                                        => array( 'https://read.amazon.cn/kp/api/oembed',                  true  ),
+			'#https?://www\.someecards\.com/.+-cards/.+#i'                        => array( 'https://www.someecards.com/v2/oembed/',                 true  ),
+			'#https?://www\.someecards\.com/usercards/viewcard/.+#i'              => array( 'https://www.someecards.com/v2/oembed/',                 true  ),
+			'#https?://some\.ly\/.+#i'                                            => array( 'https://www.someecards.com/v2/oembed/',                 true  ),
 		);
 
 		if ( ! empty( self::$early_providers['add'] ) ) {
@@ -194,6 +197,8 @@ class WP_oEmbed {
 		 * | Amazon       | a.co                              |      Yes       | 4.9.0   |
 		 * | Amazon       | amzn.to|eu|in|asia                |      Yes       | 4.9.0   |
 		 * | Amazon       | z.cn                              |      Yes       | 4.9.0   |
+		 * | Someecards   | someecards.com                    |      Yes       | 4.9.0   |
+		 * | Someecards   | some.ly                           |      Yes       | 4.9.0   |
 		 *
 		 * No longer supported providers:
 		 *
