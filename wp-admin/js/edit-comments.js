@@ -653,7 +653,9 @@ commentReply = {
 		$('#com-reply').append( replyrow );
 		$('#replycontent').css('height', '').val('');
 		$('#edithead input').val('');
-		$('.error', replyrow).empty().hide();
+		$( '.notice-error', replyrow )
+			.addClass( 'hidden' )
+			.find( '.error' ).empty();
 		$( '.spinner', replyrow ).removeClass( 'is-active' );
 
 		this.cid = '';
@@ -754,9 +756,10 @@ commentReply = {
 	},
 
 	send : function() {
-		var post = {};
+		var post = {},
+			$errorNotice = $( '#replysubmit .error-notice' );
 
-		$('#replysubmit .error').hide();
+		$errorNotice.addClass( 'hidden' );
 		$( '#replysubmit .spinner' ).addClass( 'is-active' );
 
 		$('#replyrow input').not(':button').each(function() {
@@ -847,16 +850,19 @@ commentReply = {
 	},
 
 	error : function(r) {
-		var er = r.statusText;
+		var er = r.statusText,
+			$errorNotice = $( '#replysubmit .notice-error' ),
+			$error = $errorNotice.find( '.error' );
 
 		$( '#replysubmit .spinner' ).removeClass( 'is-active' );
 
 		if ( r.responseText )
 			er = r.responseText.replace( /<.[^<>]*?>/g, '' );
 
-		if ( er )
-			$('#replysubmit .error').html(er).show();
-
+		if ( er ) {
+			$errorNotice.removeClass( 'hidden' );
+			$error.html( er );
+		}
 	},
 
 	addcomment: function(post_id) {

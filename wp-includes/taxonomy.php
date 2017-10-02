@@ -424,7 +424,7 @@ function unregister_taxonomy( $taxonomy ) {
 
 	// Do not allow unregistering internal taxonomies.
 	if ( $taxonomy_object->_builtin ) {
-		return new WP_Error( 'invalid_taxonomy', __( 'Unregistering a built-in taxonomy is not allowed' ) );
+		return new WP_Error( 'invalid_taxonomy', __( 'Unregistering a built-in taxonomy is not allowed.' ) );
 	}
 
 	global $wp_taxonomies;
@@ -746,7 +746,7 @@ function get_tax_sql( $tax_query, $primary_table, $primary_id_column ) {
  */
 function get_term( $term, $taxonomy = '', $output = OBJECT, $filter = 'raw' ) {
 	if ( empty( $term ) ) {
-		return new WP_Error( 'invalid_term', __( 'Empty Term' ) );
+		return new WP_Error( 'invalid_term', __( 'Empty Term.' ) );
 	}
 
 	if ( $taxonomy && ! taxonomy_exists( $taxonomy ) ) {
@@ -2123,7 +2123,7 @@ function wp_insert_term( $term, $taxonomy, $args = array() ) {
 	$data = apply_filters( 'wp_insert_term_data', $data, $taxonomy, $args );
 
 	if ( false === $wpdb->insert( $wpdb->terms, $data ) ) {
-		return new WP_Error( 'db_insert_error', __( 'Could not insert term into the database' ), $wpdb->last_error );
+		return new WP_Error( 'db_insert_error', __( 'Could not insert term into the database.' ), $wpdb->last_error );
 	}
 
 	$term_id = (int) $wpdb->insert_id;
@@ -2347,7 +2347,7 @@ function wp_set_object_terms( $object_id, $terms, $taxonomy, $append = false ) {
 				$values[] = $wpdb->prepare( "(%d, %d, %d)", $object_id, $tt_id, ++$term_order);
 		if ( $values )
 			if ( false === $wpdb->query( "INSERT INTO $wpdb->term_relationships (object_id, term_taxonomy_id, term_order) VALUES " . join( ',', $values ) . " ON DUPLICATE KEY UPDATE term_order = VALUES(term_order)" ) )
-				return new WP_Error( 'db_insert_error', __( 'Could not insert term relationship into the database' ), $wpdb->last_error );
+				return new WP_Error( 'db_insert_error', __( 'Could not insert term relationship into the database.' ), $wpdb->last_error );
 	}
 
 	wp_cache_delete( $object_id, $taxonomy . '_relationships' );
@@ -2615,7 +2615,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 	}
 
 	if ( ! $term ) {
-		return new WP_Error( 'invalid_term', __( 'Empty Term' ) );
+		return new WP_Error( 'invalid_term', __( 'Empty Term.' ) );
 	}
 
 	$term = (array) $term->data;
@@ -2701,7 +2701,7 @@ function wp_update_term( $term_id, $taxonomy, $args = array() ) {
 			$slug = wp_unique_term_slug($slug, (object) $args);
 		} else {
 			/* translators: 1: Taxonomy term slug */
-			return new WP_Error('duplicate_term_slug', sprintf(__('The slug &#8220;%s&#8221; is already in use by another term'), $slug));
+			return new WP_Error( 'duplicate_term_slug', sprintf( __( 'The slug &#8220;%s&#8221; is already in use by another term.' ), $slug ) );
 		}
 	}
 
@@ -3916,7 +3916,7 @@ function get_term_link( $term, $taxonomy = '' ) {
 	}
 
 	if ( !is_object($term) )
-		$term = new WP_Error('invalid_term', __('Empty Term'));
+		$term = new WP_Error( 'invalid_term', __( 'Empty Term.' ) );
 
 	if ( is_wp_error( $term ) )
 		return $term;
@@ -4128,7 +4128,7 @@ function get_post_taxonomies( $post = 0 ) {
  */
 function is_object_in_term( $object_id, $taxonomy, $terms = null ) {
 	if ( !$object_id = (int) $object_id )
-		return new WP_Error( 'invalid_object', __( 'Invalid object ID' ) );
+		return new WP_Error( 'invalid_object', __( 'Invalid object ID.' ) );
 
 	$object_terms = get_object_term_cache( $object_id, $taxonomy );
 	if ( false === $object_terms ) {

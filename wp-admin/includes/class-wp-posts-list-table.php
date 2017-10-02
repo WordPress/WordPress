@@ -1737,7 +1737,7 @@ class WP_Posts_List_Table extends WP_List_Table {
 
 		}
 	?>
-		<p class="submit inline-edit-save">
+		<div class="submit inline-edit-save">
 			<button type="button" class="button cancel alignleft"><?php _e( 'Cancel' ); ?></button>
 			<?php if ( ! $bulk ) {
 				wp_nonce_field( 'inlineeditnonce', '_inline_edit', false );
@@ -1752,9 +1752,11 @@ class WP_Posts_List_Table extends WP_List_Table {
 			<?php if ( ! $bulk && ! post_type_supports( $screen->post_type, 'author' ) ) { ?>
 				<input type="hidden" name="post_author" value="<?php echo esc_attr( $post->post_author ); ?>" />
 			<?php } ?>
-			<span class="error" style="display:none"></span>
 			<br class="clear" />
-		</p>
+			<div class="notice notice-error notice-alt inline hidden">
+				<p class="error"></p>
+			</div>
+		</div>
 		</td></tr>
 	<?php
 		$bulk++;

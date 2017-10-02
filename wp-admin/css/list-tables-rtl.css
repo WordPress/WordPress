@@ -150,17 +150,10 @@
 	margin: 0;
 	padding: 5px 7px 10px;
 	overflow: hidden;
-	text-align: center;
 }
 
 #replysubmit .button {
 	margin-left: 5px;
-}
-
-#replysubmit .error {
-	color: red;
-	line-height: 21px;
-	text-align: center;
 }
 
 #replyrow.inline-edit-row fieldset.comment-reply {
@@ -957,16 +950,19 @@ tr.inline-edit-row td,
 	line-height: 2.5;
 }
 
-.inline-edit-row p.submit {
+.inline-edit-row .submit {
 	clear: both;
 	padding: 0.5em;
 	margin: 0.5em 0 0;
 }
 
-.inline-edit-row span.error {
-	line-height: 22px;
-	margin: 0 15px;
-	padding: 3px 5px;
+.inline-edit-row .notice-error {
+	margin-top: 1em;
+}
+
+.inline-edit-row .notice-error .error {
+	margin: 0.5em 0;
+	padding: 2px;
 }
 
 /*	Positioning */

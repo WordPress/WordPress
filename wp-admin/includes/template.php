@@ -423,15 +423,21 @@ function wp_comment_reply( $position = 1, $checkbox = false, $mode = 'single', $
 		</div>
 	</div>
 
-	<p id="replysubmit" class="submit">
-	<a href="#comments-form" class="save button button-primary alignright">
-	<span id="addbtn" style="display:none;"><?php _e('Add Comment'); ?></span>
-	<span id="savebtn" style="display:none;"><?php _e('Update Comment'); ?></span>
-	<span id="replybtn" style="display:none;"><?php _e('Submit Reply'); ?></span></a>
-	<a href="#comments-form" class="cancel button alignleft"><?php _e('Cancel'); ?></a>
-	<span class="waiting spinner"></span>
-	<span class="error" style="display:none;"></span>
-	</p>
+	<div id="replysubmit" class="submit">
+		<p>
+			<a href="#comments-form" class="save button button-primary alignright">
+				<span id="addbtn" style="display: none;"><?php _e( 'Add Comment' ); ?></span>
+				<span id="savebtn" style="display: none;"><?php _e( 'Update Comment' ); ?></span>
+				<span id="replybtn" style="display: none;"><?php _e( 'Submit Reply' ); ?></span>
+			</a>
+			<a href="#comments-form" class="cancel button alignleft"><?php _e( 'Cancel' ); ?></a>
+			<span class="waiting spinner"></span>
+		</p>
+		<br class="clear" />
+		<div class="notice notice-error notice-alt inline hidden">
+			<p class="error"></p>
+		</div>
+	</div>
 
 	<input type="hidden" name="action" id="action" value="" />
 	<input type="hidden" name="comment_ID" id="comment_ID" value="" />
@@ -892,7 +898,7 @@ function wp_import_upload_form( $action ) {
  * @param string|array|WP_Screen $screen        Optional. The screen or screens on which to show the box
  *                                              (such as a post type, 'link', or 'comment'). Accepts a single
  *                                              screen ID, WP_Screen object, or array of screen IDs. Default
- *                                              is the current screen.  If you have used add_menu_page() or 
+ *                                              is the current screen.  If you have used add_menu_page() or
  *                                              add_submenu_page() to create a new screen (and hence screen_id),
  *                                              make sure your menu slug conforms to the limits of sanitize_key()
  *                                              otherwise the 'screen' menu may not correctly render on your page.

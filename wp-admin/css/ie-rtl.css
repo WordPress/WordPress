@@ -285,7 +285,7 @@ table.fixed td {
 	width: 29%;
 }
 
-.inline-edit-row p.submit {
+.inline-edit-row .submit {
 	zoom: 100%;
 }
 

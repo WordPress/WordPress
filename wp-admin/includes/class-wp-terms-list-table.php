@@ -616,16 +616,18 @@ class WP_Terms_List_Table extends WP_List_Table {
 
 	?>
 
-		<p class="inline-edit-save submit">
+		<div class="inline-edit-save submit">
 			<button type="button" class="cancel button alignleft"><?php _e( 'Cancel' ); ?></button>
 			<button type="button" class="save button button-primary alignright"><?php echo $tax->labels->update_item; ?></button>
 			<span class="spinner"></span>
-			<span class="error" style="display:none;"></span>
 			<?php wp_nonce_field( 'taxinlineeditnonce', '_inline_edit', false ); ?>
 			<input type="hidden" name="taxonomy" value="<?php echo esc_attr( $this->screen->taxonomy ); ?>" />
 			<input type="hidden" name="post_type" value="<?php echo esc_attr( $this->screen->post_type ); ?>" />
 			<br class="clear" />
-		</p>
+			<div class="notice notice-error notice-alt inline hidden">
+				<p class="error"></p>
+			</div>
+		</div>
 		</td></tr>
 		</tbody></table></form>
 	<?php
