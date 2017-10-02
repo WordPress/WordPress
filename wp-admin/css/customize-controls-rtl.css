@@ -42,7 +42,7 @@ body:not(.ready) #customize-save-button-wrapper .save {
 	border-radius: 0 3px 3px 0;
 }
 
-#customize-outer-theme-controls-wrapper {
+#customize-sidebar-outer-content {
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -56,10 +56,7 @@ body:not(.ready) #customize-save-button-wrapper .save {
 	background: #eee;
 	transition: right .18s;
 	border-left: 1px solid #ddd;
-}
-
-.outer-section-open .wp-full-overlay.expanded {
-	margin-right: 300px;
+	height: 100%;
 }
 
 #customize-theme-controls .control-section-outer {
@@ -74,7 +71,7 @@ body:not(.ready) #customize-save-button-wrapper .save {
 	display: block;
 }
 
-.outer-section-open .wp-full-overlay.expanded #customize-outer-theme-controls-wrapper {
+.outer-section-open .wp-full-overlay.expanded #customize-sidebar-outer-content {
 	visibility: visible;
 	right: 0;
 	transition: right .18s;
@@ -85,11 +82,8 @@ body:not(.ready) #customize-save-button-wrapper .save {
 }
 
 .outer-section-open .wp-full-overlay.expanded #customize-preview {
-	opacity: 0.4;
-}
-
-body.outer-section-open .wp-full-overlay.expanded .wp-full-overlay-main {
 	right: 300px;
+	opacity: 0.4;
 }
 
 #customize-outer-theme-controls li.notice {
@@ -199,10 +193,15 @@ body.trashing #publish-settings {
 	display: block;
 }
 
-.customize-copy-preview-link {
+.preview-link-wrapper .customize-copy-preview-link.preview-control-element.button {
+	margin: 0;
 	position: absolute;
 	bottom: 9px;
 	left: 0;
+}
+
+.preview-link-wrapper {
+	position: relative;
 }
 
 .customize-copy-preview-link:before,
@@ -245,7 +244,7 @@ body.trashing #publish-settings {
 	position: absolute;
 	white-space: nowrap;
 	overflow: hidden;
-	width: 217px;
+	width: 90%;
 	bottom: 14px;
 	font-size: 14px;
 	text-decoration: none;
@@ -318,7 +317,7 @@ body.trashing #publish-settings {
 }
 
 #customize-control-changeset_preview_link {
-	margin-top: 20px;
+	margin-top: 6px;
 }
 
 #customize-control-changeset_status {
@@ -330,7 +329,7 @@ body.trashing #publish-settings {
 	box-sizing: content-box;
 	width: 100%;
 	margin-right: -12px;
-	padding: 12px 12px 18px;
+	padding: 12px 12px 10px;
 	background: #ffffff;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 0;
@@ -2711,6 +2710,14 @@ body.adding-widget .add-new-widget:before,
 		line-height: 3.2;
 	}
 
+	#customize-control-changeset_preview_link a {
+		bottom: 16px;
+	}
+
+	.preview-link-wrapper .customize-copy-preview-link.preview-control-element.button {
+		bottom: 10px;
+	}
+
 	.wp-core-ui.wp-customizer .button {
 		margin-top: 12px;
 	}
@@ -2810,7 +2817,7 @@ body.adding-widget .add-new-widget:before,
 
 	body.adding-widget div#available-widgets,
 	body.adding-menu-items div#available-menu-items,
-	body.outer-section-open div#customize-outer-theme-controls-wrapper {
+	body.outer-section-open div#customize-sidebar-outer-content {
 		top: 46px;
 		right: 0;
 		z-index: 10;
