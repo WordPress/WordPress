@@ -134,11 +134,11 @@ class WP_MS_Users_List_Table extends WP_List_Table {
 		$super_admins = get_super_admins();
 		$total_admins = count( $super_admins );
 
-		$class = $role != 'super' ? ' class="current"' : '';
+		$current_link_attributes = $role !== 'super' ? ' class="current" aria-current="page"' : '';
 		$role_links = array();
-		$role_links['all'] = "<a href='" . network_admin_url('users.php') . "'$class>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
-		$class = $role === 'super' ? ' class="current"' : '';
-		$role_links['super'] = "<a href='" . network_admin_url('users.php?role=super') . "'$class>" . sprintf( _n( 'Super Admin <span class="count">(%s)</span>', 'Super Admins <span class="count">(%s)</span>', $total_admins ), number_format_i18n( $total_admins ) ) . '</a>';
+		$role_links['all'] = "<a href='" . network_admin_url( 'users.php' ) . "'$current_link_attributes>" . sprintf( _nx( 'All <span class="count">(%s)</span>', 'All <span class="count">(%s)</span>', $total_users, 'users' ), number_format_i18n( $total_users ) ) . '</a>';
+		$current_link_attributes = $role === 'super' ? ' class="current" aria-current="page"' : '';
+		$role_links['super'] = "<a href='" . network_admin_url( 'users.php?role=super' ) . "'$current_link_attributes>" . sprintf( _n( 'Super Admin <span class="count">(%s)</span>', 'Super Admins <span class="count">(%s)</span>', $total_admins ), number_format_i18n( $total_admins ) ) . '</a>';
 
 		return $role_links;
 	}

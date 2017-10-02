@@ -286,9 +286,9 @@ class WP_Plugin_Install_List_Table extends WP_List_Table {
 
 		$display_tabs = array();
 		foreach ( (array) $tabs as $action => $text ) {
-			$class = ( $action === $tab ) ? ' current' : '';
+			$current_link_attributes = ( $action === $tab ) ? ' class="current" aria-current="page"' : '';
 			$href = self_admin_url('plugin-install.php?tab=' . $action);
-			$display_tabs['plugin-install-'.$action] = "<a href='$href' class='$class'>$text</a>";
+			$display_tabs['plugin-install-'.$action] = "<a href='$href'$current_link_attributes>$text</a>";
 		}
 		// No longer a real tab.
 		unset( $display_tabs['plugin-install-upload'] );

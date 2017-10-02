@@ -1539,7 +1539,10 @@ themes.view.InstallerSearch =  themes.view.Search.extend({
 			request.tag = [ value.slice( 4 ) ];
 		}
 
-		$( '.filter-links li > a.current' ).removeClass( 'current' );
+		$( '.filter-links li > a.current' )
+			.removeClass( 'current' )
+			.removeAttr( 'aria-current' );
+
 		$( 'body' ).removeClass( 'show-filters filters-applied show-favorites-form' );
 		$( '.drawer-toggle' ).attr( 'aria-expanded', 'false' );
 
@@ -1663,8 +1666,13 @@ themes.view.Installer = themes.view.Appearance.extend({
 		// Track sorting so we can restore the correct tab when closing preview.
 		themes.router.selectedTab = sort;
 
-		$( '.filter-links li > a, .theme-filter' ).removeClass( this.activeClass );
-		$( '[data-sort="' + sort + '"]' ).addClass( this.activeClass );
+		$( '.filter-links li > a, .theme-filter' )
+			.removeClass( this.activeClass )
+			.removeAttr( 'aria-current' );
+
+		$( '[data-sort="' + sort + '"]' )
+			.addClass( this.activeClass )
+			.attr( 'aria-current', 'page' );
 
 		if ( 'favorites' === sort ) {
 			$( 'body' ).addClass( 'show-favorites-form' );
@@ -1686,8 +1694,12 @@ themes.view.Installer = themes.view.Appearance.extend({
 			return;
 		}
 
-		$( '.filter-links li > a, .theme-section' ).removeClass( this.activeClass );
-		$el.addClass( this.activeClass );
+		$( '.filter-links li > a, .theme-section' )
+			.removeClass( this.activeClass )
+			.removeAttr( 'aria-current' );
+		$el
+			.addClass( this.activeClass )
+			.attr( 'aria-current', 'page' );
 
 		if ( ! filter ) {
 			return;
@@ -1725,7 +1737,10 @@ themes.view.Installer = themes.view.Appearance.extend({
 		}
 
 		$( 'body' ).addClass( 'filters-applied' );
-		$( '.filter-links li > a.current' ).removeClass( 'current' );
+		$( '.filter-links li > a.current' )
+			.removeClass( 'current' )
+			.removeAttr( 'aria-current' );
+
 		filteringBy.empty();
 
 		_.each( tags, function( tag ) {

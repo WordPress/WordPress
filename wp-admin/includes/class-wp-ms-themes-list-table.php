@@ -306,9 +306,9 @@ class WP_MS_Themes_List_Table extends WP_List_Table {
 				$url = 'themes.php';
 
 			if ( 'search' != $type ) {
-				$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
+				$status_links[$type] = sprintf( "<a href='%s'%s>%s</a>",
 					esc_url( add_query_arg('theme_status', $type, $url) ),
-					( $type === $status ) ? ' class="current"' : '',
+					( $type === $status ) ? ' class="current" aria-current="page"' : '',
 					sprintf( $text, number_format_i18n( $count ) )
 				);
 			}

@@ -231,18 +231,23 @@ class WP_Posts_List_Table extends WP_List_Table {
 	protected function get_edit_link( $args, $label, $class = '' ) {
 		$url = add_query_arg( $args, 'edit.php' );
 
-		$class_html = '';
+		$class_html = $aria_current = '';
 		if ( ! empty( $class ) ) {
 			 $class_html = sprintf(
 				' class="%s"',
 				esc_attr( $class )
 			);
+
+			if ( 'current' === $class ) {
+				$aria_current = ' aria-current="page"';
+			}
 		}
 
 		return sprintf(
-			'<a href="%s"%s>%s</a>',
+			'<a href="%s"%s%s>%s</a>',
 			esc_url( $url ),
 			$class_html,
+			$aria_current,
 			$label
 		);
 	}

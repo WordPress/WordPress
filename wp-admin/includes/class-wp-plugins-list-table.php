@@ -432,9 +432,9 @@ class WP_Plugins_List_Table extends WP_List_Table {
 			}
 
 			if ( 'search' !== $type ) {
-				$status_links[$type] = sprintf( "<a href='%s' %s>%s</a>",
+				$status_links[$type] = sprintf( "<a href='%s'%s>%s</a>",
 					add_query_arg('plugin_status', $type, 'plugins.php'),
-					( $type === $status ) ? ' class="current"' : '',
+					( $type === $status ) ? ' class="current" aria-current="page"' : '',
 					sprintf( $text, number_format_i18n( $count ) )
 					);
 			}
