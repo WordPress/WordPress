@@ -134,8 +134,8 @@ function edit_user( $user_id = 0 ) {
 	 * @since 1.5.1
 	 *
 	 * @param string $user_login The username.
-	 * @param string &$pass1     The password, passed by reference.
-	 * @param string &$pass2     The confirmed password, passed by reference.
+	 * @param string $pass1     The password (passed by reference).
+	 * @param string $pass2     The confirmed password (passed by reference).
 	 */
 	do_action_ref_array( 'check_passwords', array( $user->user_login, &$pass1, &$pass2 ) );
 
@@ -184,9 +184,9 @@ function edit_user( $user_id = 0 ) {
 	 *
 	 * @since 2.8.0
 	 *
-	 * @param WP_Error &$errors WP_Error object, passed by reference.
+	 * @param WP_Error $errors WP_Error object (passed by reference).
 	 * @param bool     $update  Whether this is a user update.
-	 * @param stdClass &$user   User object, passed by reference.
+	 * @param stdClass $user   User object (passed by reference).
 	 */
 	do_action_ref_array( 'user_profile_update_errors', array( &$errors, $update, &$user ) );
 

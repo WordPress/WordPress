@@ -201,7 +201,7 @@ class PO extends Gettext_Translations {
 	 * Builds a string from the entry for inclusion in PO file
 	 *
 	 * @static
-	 * @param Translation_Entry &$entry the entry to convert to po string
+	 * @param Translation_Entry $entry the entry to convert to po string (passed by reference).
 	 * @return false|string PO-style formatted string for the entry or
 	 * 	false if the entry is empty
 	 */

@@ -200,7 +200,7 @@ class WP_Site_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param WP_Site_Query &$this The WP_Site_Query instance (passed by reference).
+		 * @param WP_Site_Query $this The WP_Site_Query instance (passed by reference).
 		 */
 		do_action_ref_array( 'parse_site_query', array( &$this ) );
 	}
@@ -234,7 +234,7 @@ class WP_Site_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param WP_Site_Query &$this Current instance of WP_Site_Query, passed by reference.
+		 * @param WP_Site_Query $this Current instance of WP_Site_Query (passed by reference).
 		 */
 		do_action_ref_array( 'pre_get_sites', array( &$this ) );
 
@@ -303,7 +303,7 @@ class WP_Site_Query {
 		 * @since 4.6.0
 		 *
 		 * @param array         $_sites An array of WP_Site objects.
-		 * @param WP_Site_Query &$this  Current instance of WP_Site_Query, passed by reference.
+		 * @param WP_Site_Query $this   Current instance of WP_Site_Query (passed by reference).
 		 */
 		$_sites = apply_filters_ref_array( 'the_sites', array( $_sites, &$this ) );
 
@@ -530,8 +530,8 @@ class WP_Site_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param array $pieces A compacted array of site query clauses.
-		 * @param WP_Site_Query &$this Current instance of WP_Site_Query, passed by reference.
+		 * @param array         $pieces A compacted array of site query clauses.
+		 * @param WP_Site_Query $this   Current instance of WP_Site_Query (passed by reference).
 		 */
 		$clauses = apply_filters_ref_array( 'sites_clauses', array( compact( $pieces ), &$this ) );
 

@@ -159,7 +159,7 @@ class WP_Network_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param WP_Network_Query &$this The WP_Network_Query instance (passed by reference).
+		 * @param WP_Network_Query $this The WP_Network_Query instance (passed by reference).
 		 */
 		do_action_ref_array( 'parse_network_query', array( &$this ) );
 	}
@@ -192,7 +192,7 @@ class WP_Network_Query {
 		 *
 		 * @since 4.6.0
 		 *
-		 * @param WP_Network_Query &$this Current instance of WP_Network_Query, passed by reference.
+		 * @param WP_Network_Query $this Current instance of WP_Network_Query (passed by reference).
 		 */
 		do_action_ref_array( 'pre_get_networks', array( &$this ) );
 
@@ -259,7 +259,7 @@ class WP_Network_Query {
 		 * @since 4.6.0
 		 *
 		 * @param array            $_networks An array of WP_Network objects.
-		 * @param WP_Network_Query &$this     Current instance of WP_Network_Query, passed by reference.
+		 * @param WP_Network_Query $this      Current instance of WP_Network_Query (passed by reference).
 		 */
 		$_networks = apply_filters_ref_array( 'the_networks', array( $_networks, &$this ) );
 
@@ -399,7 +399,7 @@ class WP_Network_Query {
 		 * @since 4.6.0
 		 *
 		 * @param array            $pieces A compacted array of network query clauses.
-		 * @param WP_Network_Query &$this  Current instance of WP_Network_Query, passed by reference.
+		 * @param WP_Network_Query $this   Current instance of WP_Network_Query (passed by reference).
 		 */
 		$clauses = apply_filters_ref_array( 'networks_clauses', array( compact( $pieces ), &$this ) );
 

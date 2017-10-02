@@ -2600,9 +2600,9 @@ function pingback( $content, $post_id ) {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array &$post_links An array of post links to be checked, passed by reference.
-	 * @param array &$pung       Whether a link has already been pinged, passed by reference.
-	 * @param int   $post_ID     The post ID.
+	 * @param array $post_links An array of post links to be checked (passed by reference).
+	 * @param array $pung       Whether a link has already been pinged (passed by reference).
+	 * @param int   $post_ID    The post ID.
 	 */
 	do_action_ref_array( 'pre_ping', array( &$post_links, &$pung, $post->ID ) );
 

@@ -696,8 +696,8 @@ function fetch_feed( $url ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param object &$feed SimplePie feed object, passed by reference.
-	 * @param mixed  $url   URL of feed to retrieve. If an array of URLs, the feeds are merged.
+	 * @param object $feed SimplePie feed object (passed by reference).
+	 * @param mixed  $url  URL of feed to retrieve. If an array of URLs, the feeds are merged.
 	 */
 	do_action_ref_array( 'wp_feed_options', array( &$feed, $url ) );
 	$feed->init();

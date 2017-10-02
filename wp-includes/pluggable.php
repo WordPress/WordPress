@@ -472,7 +472,7 @@ function wp_mail( $to, $subject, $message, $headers = '', $attachments = array()
 	 *
 	 * @since 2.2.0
 	 *
-	 * @param PHPMailer &$phpmailer The PHPMailer instance, passed by reference.
+	 * @param PHPMailer $phpmailer The PHPMailer instance (passed by reference).
 	 */
 	do_action_ref_array( 'phpmailer_init', array( &$phpmailer ) );
 

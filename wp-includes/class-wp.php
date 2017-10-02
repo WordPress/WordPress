@@ -368,7 +368,7 @@ class WP {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param WP &$this Current WordPress environment instance (passed by reference).
+		 * @param WP $this Current WordPress environment instance (passed by reference).
 		 */
 		do_action_ref_array( 'parse_request', array( &$this ) );
 	}
@@ -499,7 +499,7 @@ class WP {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param WP &$this Current WordPress environment instance (passed by reference).
+		 * @param WP $this Current WordPress environment instance (passed by reference).
 		 */
 		do_action_ref_array( 'send_headers', array( &$this ) );
 	}
@@ -721,7 +721,7 @@ class WP {
 		 *
 		 * @since 2.1.0
 		 *
-		 * @param WP &$this Current WordPress environment instance (passed by reference).
+		 * @param WP $this Current WordPress environment instance (passed by reference).
 		 */
 		do_action_ref_array( 'wp', array( &$this ) );
 	}

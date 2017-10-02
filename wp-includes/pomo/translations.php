@@ -17,7 +17,7 @@ class Translations {
 	/**
 	 * Add entry to the PO structure
 	 *
-	 * @param array|Translation_Entry &$entry
+	 * @param array|Translation_Entry $entry
 	 * @return bool true on success, false if the entry doesn't have a key
 	 */
 	function add_entry($entry) {
@@ -140,7 +140,7 @@ class Translations {
 	/**
 	 * Merge $other in the current object.
 	 *
-	 * @param Object &$other Another Translation object, whose translations will be merged in this one
+	 * @param Object $other Another Translation object, whose translations will be merged in this one (passed by reference).
 	 * @return void
 	 **/
 	function merge_with(&$other) {
