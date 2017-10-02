@@ -522,7 +522,8 @@ function get_taxonomy_labels( $tax ) {
 		'no_terms' => array( __( 'No tags' ), __( 'No categories' ) ),
 		'items_list_navigation' => array( __( 'Tags list navigation' ), __( 'Categories list navigation' ) ),
 		'items_list' => array( __( 'Tags list' ), __( 'Categories list' ) ),
-		'most_used' => array( null, __( 'Most Used' ) ),
+		/* translators: Tab heading when selecting from the most used terms */
+		'most_used' => array( null, _x( 'Most Used', 'Most used categories' ) ),
 		'back_to_items' => array( __( '&larr; Back to Tags' ), __( '&larr; Back to Categories' ) ),
 	);
 	$nohier_vs_hier_defaults['menu_name'] = $nohier_vs_hier_defaults['name'];
