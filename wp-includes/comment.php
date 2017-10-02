@@ -1285,10 +1285,12 @@ function wp_delete_comment($comment_id, $force_delete = false) {
 	 * Fires immediately before a comment is deleted from the database.
 	 *
 	 * @since 1.2.0
+	 * @since 4.9.0 Added the `$comment` parameter.
 	 *
-	 * @param int $comment_id The comment ID.
+	 * @param int        $comment_id The comment ID.
+	 * @param WP_Comment $comment    The comment to be deleted.
 	 */
-	do_action( 'delete_comment', $comment->comment_ID );
+	do_action( 'delete_comment', $comment->comment_ID, $comment );
 
 	// Move children up a level.
 	$children = $wpdb->get_col( $wpdb->prepare("SELECT comment_ID FROM $wpdb->comments WHERE comment_parent = %d", $comment->comment_ID) );
@@ -1309,10 +1311,12 @@ function wp_delete_comment($comment_id, $force_delete = false) {
 	 * Fires immediately after a comment is deleted from the database.
 	 *
 	 * @since 2.9.0
+	 * @since 4.9.0 Added the `$comment` parameter.
 	 *
-	 * @param int $comment_id The comment ID.
+	 * @param int        $comment_id The comment ID.
+	 * @param WP_Comment $comment    The deleted comment.
 	 */
-	do_action( 'deleted_comment', $comment->comment_ID );
+	do_action( 'deleted_comment', $comment->comment_ID, $comment );
 
 	$post_id = $comment->comment_post_ID;
 	if ( $post_id && $comment->comment_approved == 1 )
@@ -1348,10 +1352,12 @@ function wp_trash_comment($comment_id) {
 	 * Fires immediately before a comment is sent to the Trash.
 	 *
 	 * @since 2.9.0
+	 * @since 4.9.0 Added the `$comment` parameter.
 	 *
-	 * @param int $comment_id The comment ID.
+	 * @param int        $comment_id The comment ID.
+	 * @param WP_Comment $comment    The comment to be trashed.
 	 */
-	do_action( 'trash_comment', $comment->comment_ID );
+	do_action( 'trash_comment', $comment->comment_ID, $comment );
 
 	if ( wp_set_comment_status( $comment, 'trash' ) ) {
 		delete_comment_meta( $comment->comment_ID, '_wp_trash_meta_status' );
@@ -1363,10 +1369,12 @@ function wp_trash_comment($comment_id) {
 		 * Fires immediately after a comment is sent to Trash.
 		 *
 		 * @since 2.9.0
+		 * @since 4.9.0 Added the `$comment` parameter.
 		 *
-		 * @param int $comment_id The comment ID.
+		 * @param int        $comment_id The comment ID.
+		 * @param WP_Comment $comment    The trashed comment.
 		 */
-		do_action( 'trashed_comment', $comment->comment_ID );
+		do_action( 'trashed_comment', $comment->comment_ID, $comment );
 		return true;
 	}
 
@@ -1391,10 +1399,12 @@ function wp_untrash_comment($comment_id) {
 	 * Fires immediately before a comment is restored from the Trash.
 	 *
 	 * @since 2.9.0
+	 * @since 4.9.0 Added the `$comment` parameter.
 	 *
-	 * @param int $comment_id The comment ID.
+	 * @param int        $comment_id The comment ID.
+	 * @param WP_Comment $comment    The comment to be untrashed.
 	 */
-	do_action( 'untrash_comment', $comment->comment_ID );
+	do_action( 'untrash_comment', $comment->comment_ID, $comment );
 
 	$status = (string) get_comment_meta( $comment->comment_ID, '_wp_trash_meta_status', true );
 	if ( empty($status) )
@@ -1407,10 +1417,12 @@ function wp_untrash_comment($comment_id) {
 		 * Fires immediately after a comment is restored from the Trash.
 		 *
 		 * @since 2.9.0
+		 * @since 4.9.0 Added the `$comment` parameter.
 		 *
-		 * @param int $comment_id The comment ID.
+		 * @param int        $comment_id The comment ID.
+		 * @param WP_Comment $comment    The untrashed comment.
 		 */
-		do_action( 'untrashed_comment', $comment->comment_ID );
+		do_action( 'untrashed_comment', $comment->comment_ID, $comment );
 		return true;
 	}
 
@@ -1435,10 +1447,12 @@ function wp_spam_comment( $comment_id ) {
 	 * Fires immediately before a comment is marked as Spam.
 	 *
 	 * @since 2.9.0
+	 * @since 4.9.0 Added the `$comment` parameter.
 	 *
-	 * @param int $comment_id The comment ID.
+	 * @param int        $comment_id The comment ID.
+	 * @param WP_Comment $comment    The comment to be marked as spam.
 	 */
-	do_action( 'spam_comment', $comment->comment_ID );
+	do_action( 'spam_comment', $comment->comment_ID, $comment );
 
 	if ( wp_set_comment_status( $comment, 'spam' ) ) {
 		delete_comment_meta( $comment->comment_ID, '_wp_trash_meta_status' );
@@ -1449,10 +1463,12 @@ function wp_spam_comment( $comment_id ) {
 		 * Fires immediately after a comment is marked as Spam.
 		 *
 		 * @since 2.9.0
+		 * @since 4.9.0 Added the `$comment` parameter.
 		 *
-		 * @param int $comment_id The comment ID.
+		 * @param int        $comment_id The comment ID.
+		 * @param WP_Comment $comment    The comment marked as spam.
 		 */
-		do_action( 'spammed_comment', $comment->comment_ID );
+		do_action( 'spammed_comment', $comment->comment_ID, $comment );
 		return true;
 	}
 
@@ -1477,10 +1493,12 @@ function wp_unspam_comment( $comment_id ) {
 	 * Fires immediately before a comment is unmarked as Spam.
 	 *
 	 * @since 2.9.0
+	 * @since 4.9.0 Added the `$comment` parameter.
 	 *
-	 * @param int $comment_id The comment ID.
+	 * @param int        $comment_id The comment ID.
+	 * @param WP_Comment $comment    The comment to be unmarked as spam.
 	 */
-	do_action( 'unspam_comment', $comment->comment_ID );
+	do_action( 'unspam_comment', $comment->comment_ID, $comment );
 
 	$status = (string) get_comment_meta( $comment->comment_ID, '_wp_trash_meta_status', true );
 	if ( empty($status) )
@@ -1493,10 +1511,12 @@ function wp_unspam_comment( $comment_id ) {
 		 * Fires immediately after a comment is unmarked as Spam.
 		 *
 		 * @since 2.9.0
+		 * @since 4.9.0 Added the `$comment` parameter.
 		 *
-		 * @param int $comment_id The comment ID.
+		 * @param int        $comment_id The comment ID.
+		 * @param WP_Comment $comment    The comment unmarked as spam.
 		 */
-		do_action( 'unspammed_comment', $comment->comment_ID );
+		do_action( 'unspammed_comment', $comment->comment_ID, $comment );
 		return true;
 	}
 
