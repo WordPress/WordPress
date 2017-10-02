@@ -81,7 +81,7 @@ class WP_oEmbed {
 			'#https?://(.+\.)?imgur\.com/.*#i'                                    => array( 'https://api.imgur.com/oembed',                          true  ),
 			'#https?://(www\.)?meetu(\.ps|p\.com)/.*#i'                           => array( 'https://api.meetup.com/oembed',                         true  ),
 			'#https?://(www\.)?issuu\.com/.+/docs/.+#i'                           => array( 'https://issuu.com/oembed_wp',                           true  ),
-			'#https?://(www\.)?collegehumor\.com/video/.*#i'                      => array( 'http://www.collegehumor.com/oembed.{format}',           true  ),
+			'#https?://(www\.)?collegehumor\.com/video/.*#i'                      => array( 'https://www.collegehumor.com/oembed.{format}',          true  ),
 			'#https?://(www\.)?mixcloud\.com/.*#i'                                => array( 'https://www.mixcloud.com/oembed',                       true  ),
 			'#https?://(www\.|embed\.)?ted\.com/talks/.*#i'                       => array( 'https://www.ted.com/services/v1/oembed.{format}',       true  ),
 			'#https?://(www\.)?(animoto|video214)\.com/play/.*#i'                 => array( 'https://animoto.com/oembeds/create',                    true  ),
