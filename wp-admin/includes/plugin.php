@@ -1899,7 +1899,6 @@ function plugin_sandbox_scrape( $plugin ) {
 	}
 
 	$tested_actions = array(
-		'plugins_loaded' => array(),
 		'setup_theme' => array(),
 		'after_setup_theme' => array(),
 		'init' => array(),
