@@ -92,7 +92,7 @@ class WP_Widget_Media_Image extends WP_Widget_Media {
 				'link_type' => array(
 					'type' => 'string',
 					'enum' => array( 'none', 'file', 'post', 'custom' ),
-					'default' => 'none',
+					'default' => 'custom',
 					'media_prop' => 'link',
 					'description' => __( 'Link To' ),
 					'should_preview_update' => true,
